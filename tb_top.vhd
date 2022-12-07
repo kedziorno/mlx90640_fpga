@@ -27,6 +27,7 @@
 --------------------------------------------------------------------------------
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
+USE work.p_package1.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -54,7 +55,6 @@ signal scl : std_logic := '1';
 signal clock : std_logic := '0';
 signal scl_clock : std_logic := '0';
 constant clock_period : time := 10 ns;
-constant scl_clock_period : time := clock_period / 4;
 
 signal idle : std_logic := '0';
 signal sda_data : std_logic := '0';
@@ -79,19 +79,25 @@ clock <= '0';
 wait for clock_period/2;
 clock <= '1';
 wait for clock_period/2;
-end process;
+end process clock_process;
 
 scl_clock_process : process
+	constant scl_clock_period : time := clock_period / 4;
 begin
-scl_clock <= '1';
-wait for scl_clock_period;
-scl_clock <= '1';
-wait for scl_clock_period;
-scl_clock <= '0';
-wait for scl_clock_period;
-scl_clock <= '0';
-wait for scl_clock_period;
-end process;
+	if (idle = '1') then
+		scl_clock <= '1';
+		wait for scl_clock_period * I2C_STRETCH;
+	elsif (idle = '0') then
+		scl_clock <= '0';
+		wait for scl_clock_period * I2C_STRETCH;
+		scl_clock <= '0';
+		wait for scl_clock_period * I2C_STRETCH;
+		scl_clock <= '1';
+		wait for scl_clock_period * I2C_STRETCH;
+		scl_clock <= '1';
+		wait for scl_clock_period * I2C_STRETCH;
+	end if;
+end process scl_clock_process;
 
 scl <= scl_clock when idle = '0' else '1' when idle = '1';
 sda <= sda_data when idle = '0' else '1' when idle = '1';
@@ -100,83 +106,37 @@ sda <= sda_data when idle = '0' else '1' when idle = '1';
 stim_proc : process
 begin
 
-idle <= '1';
-wait for 100 ns;
-idle <= '0';
-
 -- insert stimulus here
--- start
-sda_data <= '1'; wait for scl_clock_period;
-sda_data <= '0'; wait for 2*scl_clock_period;
 
--- 7bit address
-sda_data <= '0'; wait for clock_period;
-sda_data <= '1'; wait for clock_period;
-sda_data <= '1'; wait for clock_period;
-sda_data <= '0'; wait for clock_period;
-sda_data <= '0'; wait for clock_period;
-sda_data <= '1'; wait for clock_period;
-sda_data <= '1'; wait for clock_period;
--- 1bit write
-sda_data <= '0'; wait for clock_period;
--- 1bit ack
-sda_data <= '0'; wait for clock_period;
+wait_idle(idle, 5, clock_period);
 
--- 8bit data MSB
-sda_data <= '1'; wait for clock_period;
-sda_data <= '1'; wait for clock_period;
-sda_data <= '0'; wait for clock_period;
-sda_data <= '1'; wait for clock_period;
-sda_data <= '0'; wait for clock_period;
-sda_data <= '1'; wait for clock_period;
-sda_data <= '0'; wait for clock_period;
-sda_data <= '1'; wait for clock_period;
--- 1bit ack
-sda_data <= '0'; wait for clock_period;
+-- i2c write
+sda_start(sda_data, clock_period);
+sda_address_7bit(sda_data, "0110011", I2C_ADDRESS_WRITE, clock_period);
+sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
+sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
+sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
+sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
+sda_stop(sda_data, clock_period);
 
--- 8bit data LSB
-sda_data <= '1'; wait for clock_period;
-sda_data <= '1'; wait for clock_period;
-sda_data <= '1'; wait for clock_period;
-sda_data <= '1'; wait for clock_period;
-sda_data <= '1'; wait for clock_period;
-sda_data <= '1'; wait for clock_period;
-sda_data <= '1'; wait for clock_period;
-sda_data <= '1'; wait for clock_period;
--- 1bit ack
-sda_data <= '0'; wait for clock_period;
+wait_idle(idle, 1, clock_period);
 
--- 8bit data MSB
-sda_data <= '0'; wait for clock_period;
-sda_data <= '0'; wait for clock_period;
-sda_data <= '0'; wait for clock_period;
-sda_data <= '0'; wait for clock_period;
-sda_data <= '0'; wait for clock_period;
-sda_data <= '0'; wait for clock_period;
-sda_data <= '0'; wait for clock_period;
-sda_data <= '0'; wait for clock_period;
--- 1bit ack
-sda_data <= '0'; wait for clock_period;
+-- i2c read
+sda_start(sda_data, clock_period);
+sda_address_7bit(sda_data, "0110011", I2C_ADDRESS_WRITE, clock_period);
+sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
+sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
+sda_stop(sda_data, clock_period);
 
--- 8bit data LSB
-sda_data <= '0'; wait for clock_period;
-sda_data <= '0'; wait for clock_period;
-sda_data <= '1'; wait for clock_period;
-sda_data <= '0'; wait for clock_period;
-sda_data <= '1'; wait for clock_period;
-sda_data <= '0'; wait for clock_period;
-sda_data <= '1'; wait for clock_period;
-sda_data <= '0'; wait for clock_period;
--- 1bit ack
-sda_data <= '0'; wait for clock_period;
+wait_idle(idle, 3, clock_period);
 
--- stop
-sda_data <= '0'; wait for 2*scl_clock_period;
-sda_data <= '1'; wait for scl_clock_period;
+sda_start(sda_data, clock_period);
+sda_address_7bit(sda_data, "0110011", I2C_ADDRESS_READ, clock_period);
+sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
+sda_data_8bit(sda_data, "11111111", I2C_DATA_NAK, clock_period);
+sda_stop(sda_data, clock_period);
 
-idle <= '1';
-wait for 100 ns;
-idle <= '0';
+wait_idle(idle, 7, clock_period);
 
 report "done" severity failure;
 
