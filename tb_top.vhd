@@ -27,6 +27,7 @@
 --------------------------------------------------------------------------------
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
+USE work.p_package1_constants.all;
 USE work.p_package1.all;
 
 -- Uncomment the following library declaration if using
@@ -40,24 +41,34 @@ ARCHITECTURE behavior OF tb_top IS
 
 -- Component Declaration for the Unit Under Test (UUT)
 
-COMPONENT top
-PORT(
-sda : IN  std_logic;
-scl : IN  std_logic
+component top is
+generic (
+	constant g_board_frequency : natural := GLOBAL_BOARD_FREQUENCY;
+	constant g_i2c_frequency : natural := GLOBAL_I2C_FREQUENCY;
+	constant zero : natural := 0
 );
-END COMPONENT;
-
+port (
+	i_clock : in std_logic;
+	i_reset : in std_logic;
+	i_sda : in std_logic;
+	i_scl : in std_logic;
+	o_led1 : out std_logic
+);
+end component top;
 
 --Inputs
 signal sda : std_logic := '1';
 signal scl : std_logic := '1';
 
+signal reset : std_logic := '0';
 signal clock : std_logic := '0';
 signal scl_clock : std_logic := '0';
 constant clock_period : time := 10 ns;
 
 signal idle : std_logic := '0';
 signal sda_data : std_logic := '0';
+
+signal led1 : std_logic := '0';
 
 BEGIN
 
@@ -68,8 +79,11 @@ BEGIN
 
 -- Instantiate the Unit Under Test (UUT)
 uut: top PORT MAP (
-sda => sda,
-scl => scl
+i_clock => clock,
+i_reset => reset,
+i_sda => sda,
+i_scl => scl,
+o_led1 => led1
 );
 
 -- Clock process definitions
@@ -101,6 +115,9 @@ end process scl_clock_process;
 
 scl <= scl_clock when idle = '0' else '1' when idle = '1';
 sda <= sda_data when idle = '0' else '1' when idle = '1';
+
+-- reset
+reset <= '1','0' after clock_period;
 
 -- Stimulus process
 stim_proc : process
