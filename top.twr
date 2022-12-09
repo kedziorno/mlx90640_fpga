@@ -29,18 +29,35 @@ INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on
 
 Data Sheet report:
 -----------------
-No constraints were found to generate data for the Data Sheet Report section.
-Use the Advanced Analysis (-a) option or generate global constraints for each
-clock, its pad to setup and clock to pad paths, and a pad to pad constraint.
+All values displayed in nanoseconds (ns)
 
-Analysis completed Thu Dec  8 22:39:16 2022 
+Setup/Hold to clock i_clock
+------------+------------+------------+------------------+--------+
+            |Max Setup to|Max Hold to |                  | Clock  |
+Source      | clk (edge) | clk (edge) |Internal Clock(s) | Phase  |
+------------+------------+------------+------------------+--------+
+i_reset     |   -0.449(R)|    2.978(R)|i_clock_BUFGP     |   0.000|
+i_scl       |   -2.442(R)|    3.831(R)|i_clock_BUFGP     |   0.000|
+i_sda       |   -2.136(R)|    3.551(R)|i_clock_BUFGP     |   0.000|
+------------+------------+------------+------------------+--------+
+
+Clock to Setup on destination clock i_clock
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+i_clock        |    2.481|         |         |         |
+---------------+---------+---------+---------+---------+
+
+
+Analysis completed Fri Dec  9 21:26:14 2022 
 --------------------------------------------------------------------------------
 
 Trace Settings:
 -------------------------
 Trace Settings 
 
-Peak Memory Usage: 478 MB
+Peak Memory Usage: 480 MB
 
 
 

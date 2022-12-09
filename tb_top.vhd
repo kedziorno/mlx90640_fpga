@@ -52,7 +52,13 @@ port (
 	i_reset : in std_logic;
 	i_sda : in std_logic;
 	i_scl : in std_logic;
-	o_led1 : out std_logic
+	o_i2c_address : out std_logic_vector(I2C_ADDRESS_BITS - 1 downto 0);
+	o_i2c_address_rw : out std_logic;
+	o_i2c_address_ack : out std_logic;
+	o_i2c_data : out std_logic_vector(I2C_DATA_BITS - 1 downto 0);
+	o_i2c_data_ack : out std_logic;
+	o_done_data : out std_logic;
+	o_done_address : out std_logic
 );
 end component top;
 
@@ -68,7 +74,13 @@ constant clock_period : time := 10 ns;
 signal idle : std_logic := '0';
 signal sda_data : std_logic := '0';
 
-signal led1 : std_logic := '0';
+signal address : std_logic_vector(I2C_ADDRESS_BITS - 1 downto 0);
+signal address_rw : std_logic;
+signal address_ack : std_logic;
+signal data : std_logic_vector(I2C_DATA_BITS - 1 downto 0);
+signal data_ack : std_logic;
+signal done_data : std_logic;
+signal done_address : std_logic;
 
 BEGIN
 
@@ -83,7 +95,13 @@ i_clock => clock,
 i_reset => reset,
 i_sda => sda,
 i_scl => scl,
-o_led1 => led1
+o_i2c_address => address,
+o_i2c_address_rw => address_rw,
+o_i2c_address_ack => address_ack,
+o_i2c_data => data,
+o_i2c_data_ack => data_ack,
+o_done_data => done_data,
+o_done_address => done_address
 );
 
 -- Clock process definitions
@@ -129,7 +147,7 @@ wait_idle(idle, 5, clock_period);
 
 -- i2c write
 sda_start(sda_data, clock_period);
-sda_address_7bit(sda_data, "0110011", I2C_ADDRESS_WRITE, clock_period);
+sda_address_7bit(sda_data, "0110011", I2C_ADDRESS_READ, clock_period);
 sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
 sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
 sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
@@ -153,7 +171,53 @@ sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
 sda_data_8bit(sda_data, "11111111", I2C_DATA_NAK, clock_period);
 sda_stop(sda_data, clock_period);
 
-wait_idle(idle, 7, clock_period);
+wait_idle(idle, 17, clock_period);
+
+-- insert stimulus here
+
+wait_idle(idle, 15, clock_period);
+
+-- i2c write
+sda_start(sda_data, clock_period);
+sda_address_7bit(sda_data, "0110011", I2C_ADDRESS_WRITE, clock_period);
+sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
+sda_data_8bit(sda_data, "01010100", I2C_DATA_NAK, clock_period);
+sda_data_8bit(sda_data, "10101011", I2C_DATA_ACK, clock_period);
+sda_data_8bit(sda_data, "00101010", I2C_DATA_NAK, clock_period);
+sda_data_8bit(sda_data, "11010101", I2C_DATA_ACK, clock_period);
+sda_data_8bit(sda_data, "00000000", I2C_DATA_NAK, clock_period);
+sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
+sda_stop(sda_data, clock_period);
+
+wait_idle(idle, 11, clock_period);
+
+-- i2c read
+sda_start(sda_data, clock_period);
+sda_address_7bit(sda_data, "0110011", I2C_ADDRESS_READ, clock_period);
+sda_data_8bit(sda_data, "11111111", I2C_DATA_NAK, clock_period);
+sda_data_8bit(sda_data, "00110010", I2C_DATA_NAK, clock_period);
+sda_data_8bit(sda_data, "11001101", I2C_DATA_NAK, clock_period);
+sda_data_8bit(sda_data, "01010100", I2C_DATA_NAK, clock_period);
+sda_data_8bit(sda_data, "10101011", I2C_DATA_NAK, clock_period);
+sda_data_8bit(sda_data, "00101010", I2C_DATA_NAK, clock_period);
+sda_stop(sda_data, clock_period);
+
+wait_idle(idle, 13, clock_period);
+
+sda_start(sda_data, clock_period);
+sda_address_7bit(sda_data, "0110011", I2C_ADDRESS_READ, clock_period);
+sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
+sda_data_8bit(sda_data, "00000000", I2C_DATA_ACK, clock_period);
+sda_data_8bit(sda_data, "11010101", I2C_DATA_ACK, clock_period);
+sda_data_8bit(sda_data, "00101010", I2C_DATA_ACK, clock_period);
+sda_data_8bit(sda_data, "10101011", I2C_DATA_ACK, clock_period);
+sda_data_8bit(sda_data, "01010100", I2C_DATA_ACK, clock_period);
+sda_data_8bit(sda_data, "00000000", I2C_DATA_ACK, clock_period);
+sda_data_8bit(sda_data, "11111111", I2C_DATA_NAK, clock_period);
+sda_stop(sda_data, clock_period);
+
+wait_idle(idle, 13, clock_period);
+
 
 report "done" severity failure;
 

@@ -5,14 +5,14 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.06 secs
+Total CPU time to Xst completion: 0.08 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.06 secs
+Total CPU time to Xst completion: 0.08 secs
  
 --> 
 Reading design: top.prj
@@ -72,7 +72,7 @@ Automatic Register Balancing       : No
 ---- Target Options
 Add IO Buffers                     : YES
 Global Maximum Fanout              : 100000
-Add Generic Clock Buffer(BUFG)     : 32
+Add Generic Clock Buffer(BUFG)     : 16
 Number of Regional Clock Buffers   : 24
 Register Duplication               : YES
 Slice Packing                      : YES
@@ -143,52 +143,38 @@ Performing bidirectional port resolution...
 
 Synthesizing Unit <top>.
     Related source file is "/home/user/workspace/melexis_mlx90641/top.vhd".
-WARNING:Xst:646 - Signal <s_i2c_data_ack> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:646 - Signal <s_i2c_data> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:646 - Signal <s_i2c_address_rw> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:646 - Signal <s_i2c_address_ack> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:646 - Signal <s_i2c_address> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
-    Found finite state machine <FSM_0> for signal <state>.
-    -----------------------------------------------------------------------
-    | States             | 20                                             |
-    | Transitions        | 44                                             |
-    | Inputs             | 6                                              |
-    | Outputs            | 20                                             |
-    | Clock              | i_clock                   (rising_edge)        |
-    | Reset              | i_reset                   (positive)           |
-    | Reset type         | synchronous                                    |
-    | Reset State        | 00000                                          |
-    | Power Up State     | 00000                                          |
-    | Encoding           | automatic                                      |
-    | Implementation     | LUT                                            |
-    -----------------------------------------------------------------------
+    Found 7-bit register for signal <o_i2c_address>.
+    Found 1-bit register for signal <o_i2c_address_rw>.
+    Found 1-bit register for signal <o_i2c_address_ack>.
+    Found 8-bit register for signal <o_i2c_data>.
+    Found 1-bit register for signal <o_i2c_data_ack>.
+    Found 1-bit register for signal <counter_enable>.
+    Found 1-bit register for signal <done_address>.
+    Found 1-bit register for signal <done_data>.
     Found 7-bit up counter for signal <i2c_half_period_index>.
-    Found 8-bit register for signal <i2c_period_index>.
-    Found 8-bit adder for signal <i2c_period_index$addsub0000>.
-    Found 1-bit register for signal <pscl>.
-    Found 1-bit register for signal <psda>.
-    Found 7-bit register for signal <v_i2c_address>.
-    Found 8-bit register for signal <v_i2c_data>.
+    Found 1-bit register for signal <pscl1>.
+    Found 1-bit register for signal <psda1>.
+    Found 1-bit register for signal <s_sda_data_first_flag>.
+    Found 4-bit up counter for signal <s_sda_data_index>.
+    Found 9-bit register for signal <s_sda_data_register>.
+    Found 1-bit register for signal <scl_ping>.
+    Found 1-bit register for signal <v_state<0>>.
+    Found 1-bit register for signal <v_state0<0>>.
     Summary:
-	inferred   1 Finite State Machine(s).
-	inferred   1 Counter(s).
-	inferred  25 D-type flip-flop(s).
-	inferred   1 Adder/Subtractor(s).
+	inferred   2 Counter(s).
+	inferred  36 D-type flip-flop(s).
 Unit <top> synthesized.
 
-INFO:Xst:1767 - HDL ADVISOR - Resource sharing has identified that some arithmetic operations in this design can share the same physical resources for reduced device utilization. For improved clock frequency you may try to disable resource sharing.
 
 =========================================================================
 HDL Synthesis Report
 
 Macro Statistics
-# Adders/Subtractors                                   : 1
- 8-bit adder                                           : 1
-# Counters                                             : 1
+# Counters                                             : 2
+ 4-bit up counter                                      : 1
  7-bit up counter                                      : 1
-# Registers                                            : 18
- 1-bit register                                        : 17
- 8-bit register                                        : 1
+# Registers                                            : 36
+ 1-bit register                                        : 36
 
 =========================================================================
 
@@ -196,44 +182,23 @@ Macro Statistics
 *                       Advanced HDL Synthesis                          *
 =========================================================================
 
-Analyzing FSM <FSM_0> for best encoding.
-Optimizing FSM <state/FSM> on signal <state[1:5]> with user encoding.
--------------------
- State | Encoding
--------------------
- 00000 | 00000
- 00001 | 00001
- 00010 | 00010
- 00011 | 00011
- 00100 | 00100
- 00101 | 00101
- 00110 | 00110
- 00111 | 00111
- 01000 | 01000
- 01001 | 01001
- 01010 | 01010
- 01011 | 01011
- 01100 | 01100
- 01101 | 01101
- 01110 | 01110
- 01111 | 01111
- 10000 | 10000
- 10001 | 10001
- 10010 | 10010
- 10011 | 10011
--------------------
 
 =========================================================================
 Advanced HDL Synthesis Report
 
 Macro Statistics
-# FSMs                                                 : 1
+# Counters                                             : 2
+ 4-bit up counter                                      : 1
+ 7-bit up counter                                      : 1
+# Registers                                            : 36
+ Flip-Flops                                            : 36
 
 =========================================================================
 
 =========================================================================
 *                         Low Level Synthesis                           *
 =========================================================================
+INFO:Xst:2261 - The FF/Latch <v_state_0> in Unit <top> is equivalent to the following FF/Latch, which will be removed : <counter_enable> 
 
 Optimizing unit <top> ...
 
@@ -246,7 +211,10 @@ Final Macro Processing ...
 =========================================================================
 Final Register Report
 
-Found no macro
+Macro Statistics
+# Registers                                            : 46
+ Flip-Flops                                            : 46
+
 =========================================================================
 
 =========================================================================
@@ -271,13 +239,29 @@ Optimization Goal                  : Speed
 Keep Hierarchy                     : No
 
 Design Statistics
-# IOs                              : 5
+# IOs                              : 24
 
 Cell Usage :
-# BELS                             : 1
-#      GND                         : 1
-# IO Buffers                       : 1
-#      OBUF                        : 1
+# BELS                             : 56
+#      INV                         : 2
+#      LUT2                        : 7
+#      LUT3                        : 23
+#      LUT4                        : 21
+#      LUT4_D                      : 2
+#      VCC                         : 1
+# FlipFlops/Latches                : 46
+#      FD                          : 7
+#      FD_1                        : 20
+#      FDR                         : 7
+#      FDRE                        : 9
+#      FDS                         : 2
+#      FDSE                        : 1
+# Clock Buffers                    : 2
+#      BUFG                        : 1
+#      BUFGP                       : 1
+# IO Buffers                       : 23
+#      IBUF                        : 3
+#      OBUF                        : 20
 =========================================================================
 
 Device utilization summary:
@@ -285,9 +269,12 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                        0  out of  15360     0%  
- Number of IOs:                           5
- Number of bonded IOBs:                   1  out of    448     0%  
+ Number of Slices:                       31  out of  15360     0%  
+ Number of Slice Flip Flops:             46  out of  30720     0%  
+ Number of 4 input LUTs:                 55  out of  30720     0%  
+ Number of IOs:                          24
+ Number of bonded IOBs:                  24  out of    448     5%  
+ Number of GCLKs:                         2  out of     32     6%  
 
 ---------------------------
 Partition Resource Summary:
@@ -307,7 +294,12 @@ NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
 
 Clock Information:
 ------------------
-No clock signals found in this design
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+i_clock                            | BUFGP                  | 10    |
+scl_ping1                          | BUFG                   | 36    |
+-----------------------------------+------------------------+-------+
 
 Asynchronous Control Signals Information:
 ----------------------------------------
@@ -317,9 +309,9 @@ Timing Summary:
 ---------------
 Speed Grade: -10
 
-   Minimum period: No path found
-   Minimum input arrival time before clock: No path found
-   Maximum output required time after clock: No path found
+   Minimum period: 4.357ns (Maximum Frequency: 229.516MHz)
+   Minimum input arrival time before clock: 3.840ns
+   Maximum output required time after clock: 4.624ns
    Maximum combinational path delay: No path found
 
 Timing Detail:
@@ -327,17 +319,123 @@ Timing Detail:
 All values displayed in nanoseconds (ns)
 
 =========================================================================
+Timing constraint: Default period analysis for Clock 'i_clock'
+  Clock period: 3.116ns (frequency: 320.960MHz)
+  Total number of paths / destination ports: 85 / 9
+-------------------------------------------------------------------------
+Delay:               3.116ns (Levels of Logic = 2)
+  Source:            i2c_half_period_index_0 (FF)
+  Destination:       scl_ping (FF)
+  Source Clock:      i_clock rising
+  Destination Clock: i_clock rising
+
+  Data Path: i2c_half_period_index_0 to scl_ping
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FD:C->Q               6   0.360   0.778  i2c_half_period_index_0 (i2c_half_period_index_0)
+     LUT4_D:I0->O          1   0.195   0.688  scl_ping_cmp_eq0000_SW0 (N01)
+     LUT4:I1->O            1   0.195   0.360  scl_ping_cmp_eq0000 (scl_ping_cmp_eq0000)
+     FDSE:CE                   0.540          scl_ping
+    ----------------------------------------
+    Total                      3.116ns (1.290ns logic, 1.826ns route)
+                                       (41.4% logic, 58.6% route)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'scl_ping1'
+  Clock period: 4.357ns (frequency: 229.516MHz)
+  Total number of paths / destination ports: 130 / 49
+-------------------------------------------------------------------------
+Delay:               2.178ns (Levels of Logic = 2)
+  Source:            s_sda_data_index_3 (FF)
+  Destination:       done_address (FF)
+  Source Clock:      scl_ping1 rising
+  Destination Clock: scl_ping1 falling
+
+  Data Path: s_sda_data_index_3 to done_address
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDR:C->Q             10   0.360   0.869  s_sda_data_index_3 (s_sda_data_index_3)
+     LUT4:I0->O            3   0.195   0.538  s_sda_data_register_0_cmp_eq00001 (s_sda_data_register_0_not0001_inv)
+     LUT4:I3->O            1   0.195   0.000  done_data_rstpot1 (done_data_rstpot)
+     FD_1:D                    0.022          done_data
+    ----------------------------------------
+    Total                      2.178ns (0.772ns logic, 1.406ns route)
+                                       (35.4% logic, 64.6% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
+  Total number of paths / destination ports: 12 / 12
+-------------------------------------------------------------------------
+Offset:              3.097ns (Levels of Logic = 3)
+  Source:            i_reset (PAD)
+  Destination:       i2c_half_period_index_2 (FF)
+  Destination Clock: i_clock rising
+
+  Data Path: i_reset to i2c_half_period_index_2
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O            29   0.965   1.079  i_reset_IBUF (i_reset_IBUF)
+     LUT4:I3->O            7   0.195   0.641  i2c_half_period_index_or00001 (i2c_half_period_index_or0000)
+     LUT4:I2->O            1   0.195   0.000  i2c_half_period_index_2_rstpot (i2c_half_period_index_2_rstpot)
+     FD:D                      0.022          i2c_half_period_index_2
+    ----------------------------------------
+    Total                      3.097ns (1.377ns logic, 1.720ns route)
+                                       (44.5% logic, 55.5% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'scl_ping1'
+  Total number of paths / destination ports: 53 / 47
+-------------------------------------------------------------------------
+Offset:              3.840ns (Levels of Logic = 2)
+  Source:            i_reset (PAD)
+  Destination:       s_sda_data_index_0 (FF)
+  Destination Clock: scl_ping1 rising
+
+  Data Path: i_reset to s_sda_data_index_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O            29   0.965   1.244  i_reset_IBUF (i_reset_IBUF)
+     LUT3:I0->O            4   0.195   0.374  s_sda_data_index_or00001 (s_sda_data_index_or0000)
+     FDR:R                     1.062          s_sda_data_index_0
+    ----------------------------------------
+    Total                      3.840ns (2.222ns logic, 1.618ns route)
+                                       (57.9% logic, 42.1% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'scl_ping1'
+  Total number of paths / destination ports: 20 / 20
+-------------------------------------------------------------------------
+Offset:              4.624ns (Levels of Logic = 1)
+  Source:            done_address (FF)
+  Destination:       o_done_address (PAD)
+  Source Clock:      scl_ping1 falling
+
+  Data Path: done_address to o_done_address
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FD_1:C->Q             1   0.307   0.360  done_address (done_address)
+     OBUF:I->O                 3.957          o_done_address_OBUF (o_done_address)
+    ----------------------------------------
+    Total                      4.624ns (4.264ns logic, 0.360ns route)
+                                       (92.2% logic, 7.8% route)
+
+=========================================================================
 
 
-Total REAL time to Xst completion: 9.00 secs
-Total CPU time to Xst completion: 7.61 secs
+Total REAL time to Xst completion: 6.00 secs
+Total CPU time to Xst completion: 5.99 secs
  
 --> 
 
 
-Total memory usage is 535456 kilobytes
+Total memory usage is 526252 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :    5 (   0 filtered)
+Number of warnings :    0 (   0 filtered)
 Number of infos    :    1 (   0 filtered)
 
