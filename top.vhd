@@ -54,13 +54,16 @@ end top;
 architecture Behavioral of top is
 	signal psda1,pscl1 : std_logic;
 	signal sta_condition,sto_condition : std_logic;
-	signal counter_enable : std_logic;
 	signal scl_ping : std_logic;
 	signal s_sda_data_index : natural range 0 to I2C_BITS_LENGTH - 1;
 	signal s_sda_data_register : std_logic_vector(I2C_BITS_LENGTH - 1 downto 0);
-	signal s_sda_data_first_flag : std_logic;
 	signal done_data : std_logic;
 	signal done_address : std_logic;
+	type states is (a,b);
+	signal s_state_p4_c,s_state_p4_n : states;
+	signal counter_enable,counter_enable_internal : std_logic;
+	signal s_state_p6_c,s_state_p6_n : states;
+	signal s_sda_data_first_flag,s_sda_data_first_flag_internal : std_logic;
 begin
 
 o_done_data <= done_data;
@@ -122,36 +125,49 @@ begin
 	end if;
 end process p3;
 
-p4 : process (scl_ping,i_reset) is
-	type states is (a,b);
-	variable v_state : states;
+p4_sync_proc : process (i_clock,i_reset) is
 begin
-	if (rising_edge(scl_ping)) then
+	if (rising_edge(i_clock)) then
 		if (i_reset = '1') then
+			s_state_p4_c <= a;
 			counter_enable <= '0';
-			v_state := a;
 		else
-			case (v_state) is
-				when a =>
-					if (sta_condition = '1' and sto_condition = '0') then
-						v_state := b;
-						counter_enable <= '1';
-					else
-						v_state := a;
-						counter_enable <= '0';
-					end if;
-				when b =>
-					if (sta_condition = '0' and sto_condition = '1') then
-						v_state := a;
-						counter_enable <= '0';
-					else
-						v_state := b;
-						counter_enable <= '1';
-					end if;
-			end case;
+			s_state_p4_c <= s_state_p4_n;
+			counter_enable <= counter_enable_internal;
 		end if;
 	end if;
-end process p4;
+end process p4_sync_proc;
+
+p4_output_decode : process (s_state_p4_c) is
+begin
+	if s_state_p4_c = a then
+		counter_enable_internal <= '0';
+	else
+		counter_enable_internal <= '1';
+	end if;
+	if s_state_p4_c = b then
+		counter_enable_internal <= '1';
+	else
+		counter_enable_internal <= '0';
+	end if;
+end process p4_output_decode;
+
+p4_next_state_decode : process (s_state_p4_c,sta_condition,sto_condition) is
+begin
+	s_state_p4_n <= s_state_p4_c;
+	case (s_state_p4_c) is
+		when a =>
+			if (sta_condition = '1' and sto_condition = '0') then
+				s_state_p4_n <= b;
+			end if;
+		when b =>
+			if (sta_condition = '0' and sto_condition = '1') then
+				s_state_p4_n <= a;
+			end if;
+		when others =>
+			s_state_p4_n <= a;
+	end case;
+end process p4_next_state_decode;
 
 p5 : process (scl_ping,i_reset) is
 begin
@@ -187,38 +203,53 @@ begin
 	end if;
 end process p5;
 
-p6 : process (scl_ping,i_reset) is
-	type states is (a,b);
-	variable v_state : states;
+p6_sync_proc : process (scl_ping,i_reset) is
 begin
 	if (rising_edge(scl_ping)) then
 		if (i_reset = '1') then
+			s_state_p6_c <= a;
 			s_sda_data_first_flag <= '0';
-			v_state := a;
 		else
-			case (v_state) is
-				when a =>
-					s_sda_data_first_flag <= '1';
-					if (s_sda_data_index = I2C_BITS_LENGTH - 1) then
-						v_state := b;
-					else
-						v_state := a;
-					end if;
-				when b =>
-					s_sda_data_first_flag <= '0';
-					if (sta_condition = '0' and sto_condition = '1') then
-						v_state := a;
-					else
-						v_state := b;
-					end if;
-			end case;
+			s_state_p6_c <= s_state_p6_n;
+			s_sda_data_first_flag <= s_sda_data_first_flag_internal;
 		end if;
 	end if;
-end process p6;
+end process p6_sync_proc;
 
-p7 : process (scl_ping,i_reset) is
+p6_output_decode : process (s_state_p6_c) is
 begin
-	if (falling_edge(scl_ping)) then
+	if (s_state_p6_c = a) then
+		s_sda_data_first_flag_internal <= '1';
+	else
+		s_sda_data_first_flag_internal <= '0';
+	end if;
+	if (s_state_p6_c = b) then
+		s_sda_data_first_flag_internal <= '0';
+	else
+		s_sda_data_first_flag_internal <= '1';
+	end if;
+end process p6_output_decode;
+
+p6_next_state_decode : process (s_state_p6_c,s_sda_data_index,sta_condition,sto_condition) is
+begin
+	s_state_p6_n <= s_state_p6_c;
+	case (s_state_p6_c) is
+		when a =>
+			if (s_sda_data_index = I2C_BITS_LENGTH - 1) then
+				s_state_p6_n <= b;
+			end if;
+		when b =>
+			if (sta_condition = '0' and sto_condition = '1') then
+				s_state_p6_n <= a;
+			end if;
+		when others =>
+			s_state_p6_n <= a;
+	end case;
+end process p6_next_state_decode;
+
+p7 : process (i_clock,i_reset) is
+begin
+	if (rising_edge(i_clock)) then
 		if (i_reset = '1') then
 			done_address <= '0';
 		else
@@ -235,9 +266,9 @@ begin
 	end if;
 end process p7;
 
-p8 : process (scl_ping,i_reset) is
+p8 : process (i_clock,i_reset) is
 begin
-	if (falling_edge(scl_ping)) then
+	if (rising_edge(i_clock)) then
 		if (i_reset = '1') then
 			done_data <= '0';
 		else
@@ -254,9 +285,9 @@ begin
 	end if;
 end process p8;
 
-p9 : process (scl_ping,i_reset) is
+p9 : process (i_clock,i_reset) is
 begin
-	if (falling_edge(scl_ping)) then
+	if (rising_edge(i_clock)) then
 		if (i_reset = '1') then
 			o_i2c_address <= (others => '0');
 			o_i2c_address_rw <= '0';
@@ -281,9 +312,9 @@ begin
 	end if;
 end process p9;
 
-p10 : process (scl_ping,i_reset) is
+p10 : process (i_clock,i_reset) is
 begin
-	if (falling_edge(scl_ping)) then
+	if (rising_edge(i_clock)) then
 		if (i_reset = '1') then
 			o_i2c_data <= (others => '0');
 			o_i2c_data_ack <= '0';
