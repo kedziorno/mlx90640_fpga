@@ -27,12 +27,13 @@
 --------------------------------------------------------------------------------
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
+USE STD.TEXTIO.ALL;
 USE work.p_package1_constants.all;
 USE work.p_package1.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---USE ieee.numeric_std.ALL;
+USE ieee.numeric_std.ALL;
 
 ENTITY tb_top IS
 END tb_top;
@@ -67,9 +68,10 @@ signal sda : std_logic := '1';
 signal scl : std_logic := '1';
 
 signal reset : std_logic := '0';
-signal clock : std_logic := '0';
+signal clock : std_logic := '1';
 signal scl_clock : std_logic := '0';
 constant clock_period : time := 10 ns;
+constant scl_clock_period : time := clock_period / 4;
 
 signal idle : std_logic := '0';
 signal sda_data : std_logic := '0';
@@ -81,6 +83,16 @@ signal data : std_logic_vector(I2C_DATA_BITS - 1 downto 0);
 signal data_ack : std_logic;
 signal done_data : std_logic;
 signal done_address : std_logic;
+
+signal signal_idle_number : natural;
+signal signal_address_value : std_logic_vector(I2C_ADDRESS_BITS - 1 downto 0);
+signal signal_address_value_lo : std_logic_vector(3 downto 0);
+signal signal_address_value_hi : std_logic_vector(2 downto 0);
+signal signal_address_rw : boolean;
+signal signal_data_value : std_logic_vector(I2C_DATA_BITS - 1 downto 0);
+signal signal_data_value_lo : std_logic_vector(3 downto 0);
+signal signal_data_value_hi : std_logic_vector(3 downto 0);
+signal signal_data_ack : boolean;
 
 BEGIN
 
@@ -107,14 +119,11 @@ o_done_address => done_address
 -- Clock process definitions
 clock_process : process
 begin
-clock <= '0';
-wait for clock_period/2;
-clock <= '1';
+clock <= not clock;
 wait for clock_period/2;
 end process clock_process;
 
 scl_clock_process : process
-	constant scl_clock_period : time := clock_period / 4;
 begin
 	if (idle = '1') then
 		scl_clock <= '1';
@@ -138,89 +147,156 @@ sda <= sda_data when idle = '0' else '1' when idle = '1';
 reset <= '1','0' after clock_period;
 
 -- Stimulus process
-stim_proc : process
+stim_proc : process is
+
+file test_vector : text open read_mode is "tb_data.txt";
+variable row : line;
+
+variable string_separator : string(1 to 1) := ",";
+variable string_type : string(1 to 1) := "X";
+
+variable string_idle : string(1 to 1) := "I";
+variable string_address : string(1 to 1) := "A";
+variable string_data : string(1 to 1) := "D";
+
+variable string_idle_number : string(1 to 2) := "XX";
+variable string_address_value : string(1 to 2) := "XX";
+variable string_address_rw : string(1 to 1) := "X";
+variable string_data_value : string(1 to 2) := "XX";
+variable string_data_ack : string(1 to 1) := "X";
+
+variable variable_idle_number : natural;
+variable variable_address_value : std_logic_vector(I2C_ADDRESS_BITS - 1 downto 0);
+variable variable_address_value_lo : std_logic_vector(3 downto 0);
+variable variable_address_value_hi : std_logic_vector(2 downto 0);
+variable variable_address_rw : boolean;
+variable variable_data_value : std_logic_vector(I2C_DATA_BITS - 1 downto 0);
+variable variable_data_value_lo : std_logic_vector(3 downto 0);
+variable variable_data_value_hi : std_logic_vector(3 downto 0);
+variable variable_data_ack : boolean;
+
 begin
 
 -- insert stimulus here
+if (reset = '1') then
 
-wait_idle(idle, 5, clock_period);
+string_separator := ",";
+string_type := "X";
 
--- i2c write
-sda_start(sda_data, clock_period);
-sda_address_7bit(sda_data, "0110011", I2C_ADDRESS_READ, clock_period);
-sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
-sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
-sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
-sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
-sda_stop(sda_data, clock_period);
+string_idle := "I";
+string_address := "A";
+string_data := "D";
 
-wait_idle(idle, 1, clock_period);
+string_idle_number := "XX";
+string_address_value := "XX";
+string_address_rw := "X";
+string_data_value := "XX";
+string_data_ack := "X";
 
--- i2c read
-sda_start(sda_data, clock_period);
-sda_address_7bit(sda_data, "0110011", I2C_ADDRESS_WRITE, clock_period);
-sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
-sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
-sda_stop(sda_data, clock_period);
+else
 
-wait_idle(idle, 3, clock_period);
+	while (not endfile(test_vector)) loop
 
-sda_start(sda_data, clock_period);
-sda_address_7bit(sda_data, "0110011", I2C_ADDRESS_READ, clock_period);
-sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
-sda_data_8bit(sda_data, "11111111", I2C_DATA_NAK, clock_period);
-sda_stop(sda_data, clock_period);
+		readline (test_vector, row);
+		read (row, string_type);
 
-wait_idle(idle, 17, clock_period);
+		if (string_type = "I") then
 
--- insert stimulus here
+			read (row, string_separator);
+			read (row, string_idle_number);
 
-wait_idle(idle, 15, clock_period);
+			variable_idle_number := natural'value(string_idle_number);
 
--- i2c write
-sda_start(sda_data, clock_period);
-sda_address_7bit(sda_data, "0110011", I2C_ADDRESS_WRITE, clock_period);
-sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
-sda_data_8bit(sda_data, "01010100", I2C_DATA_NAK, clock_period);
-sda_data_8bit(sda_data, "10101011", I2C_DATA_ACK, clock_period);
-sda_data_8bit(sda_data, "00101010", I2C_DATA_NAK, clock_period);
-sda_data_8bit(sda_data, "11010101", I2C_DATA_ACK, clock_period);
-sda_data_8bit(sda_data, "00000000", I2C_DATA_NAK, clock_period);
-sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
-sda_stop(sda_data, clock_period);
+			report "idle " & natural'image(variable_idle_number);
 
-wait_idle(idle, 11, clock_period);
+			if variable_idle_number > 0 then
+				sda_stop(sda_data, clock_period);
+				wait_idle(idle,variable_idle_number,clock_period);
+				sda_start(sda_data, clock_period);
+			end if;
 
--- i2c read
-sda_start(sda_data, clock_period);
-sda_address_7bit(sda_data, "0110011", I2C_ADDRESS_READ, clock_period);
-sda_data_8bit(sda_data, "11111111", I2C_DATA_NAK, clock_period);
-sda_data_8bit(sda_data, "00110010", I2C_DATA_NAK, clock_period);
-sda_data_8bit(sda_data, "11001101", I2C_DATA_NAK, clock_period);
-sda_data_8bit(sda_data, "01010100", I2C_DATA_NAK, clock_period);
-sda_data_8bit(sda_data, "10101011", I2C_DATA_NAK, clock_period);
-sda_data_8bit(sda_data, "00101010", I2C_DATA_NAK, clock_period);
-sda_stop(sda_data, clock_period);
+		elsif (string_type = "A") then
 
-wait_idle(idle, 13, clock_period);
+			read (row, string_separator);
+			read (row, string_address_value);
+			read (row, string_separator);
+			read (row, string_address_rw);
 
-sda_start(sda_data, clock_period);
-sda_address_7bit(sda_data, "0110011", I2C_ADDRESS_READ, clock_period);
-sda_data_8bit(sda_data, "11111111", I2C_DATA_ACK, clock_period);
-sda_data_8bit(sda_data, "00000000", I2C_DATA_ACK, clock_period);
-sda_data_8bit(sda_data, "11010101", I2C_DATA_ACK, clock_period);
-sda_data_8bit(sda_data, "00101010", I2C_DATA_ACK, clock_period);
-sda_data_8bit(sda_data, "10101011", I2C_DATA_ACK, clock_period);
-sda_data_8bit(sda_data, "01010100", I2C_DATA_ACK, clock_period);
-sda_data_8bit(sda_data, "00000000", I2C_DATA_ACK, clock_period);
-sda_data_8bit(sda_data, "11111111", I2C_DATA_NAK, clock_period);
-sda_stop(sda_data, clock_period);
+			variable_address_value_lo := std_logic_vector(to_unsigned(int2hex(string_address_value(2)),4));
+			variable_address_value_hi := std_logic_vector(to_unsigned(int2hex(string_address_value(1)),3));
+			variable_address_value := variable_address_value_hi & variable_address_value_lo;
+			variable_address_rw := To_Std_Logic(string_address_rw(1));
 
-wait_idle(idle, 13, clock_period);
+			report "address " & string_address_value & " " & 
+			integer'image(to_integer(unsigned(variable_address_value_hi))) & " " &
+			integer'image(to_integer(unsigned(variable_address_value_lo)));
+
+			sda_address_7bit(sda_data, variable_address_value, variable_address_rw, clock_period);
+			signal_address_value <= variable_address_value;
+			assert (variable_address_value = address)
+			report
+			"fail address (1) : " &
+			integer'image(to_integer(unsigned(variable_address_value))) & " " &
+			integer'image(to_integer(unsigned(address)))
+			severity warning;
+
+		elsif (string_type = "D") then
+
+			read (row, string_separator);
+			read (row, string_data_value);
+			read (row, string_separator);
+			read (row, string_data_ack);
+
+			variable_data_value_lo := std_logic_vector(to_unsigned(int2hex(string_data_value(2)),4));
+			variable_data_value_hi := std_logic_vector(to_unsigned(int2hex(string_data_value(1)),4));
+			variable_data_value := variable_data_value_hi & variable_data_value_lo;
+			variable_data_ack := To_Std_Logic(string_data_ack(1));
+
+			report "data " & string_data_value & " " & 
+			integer'image(to_integer(unsigned(variable_data_value_hi))) & " " &
+			integer'image(to_integer(unsigned(variable_data_value_lo)));
+
+			sda_data_8bit(sda_data, variable_data_value, variable_data_ack, clock_period);
+			signal_data_value <= variable_data_value;
+			assert (variable_data_value = data)
+			report "fail data (1) : " &
+			integer'image(to_integer(unsigned(variable_data_value))) & " " &
+			integer'image(to_integer(unsigned(data)))
+			severity warning;
 
 
-report "done" severity failure;
+		end if;
+	end loop;
 
+	report "done" severity failure;
+end if;
 end process;
+
+p1 : process (scl_clock) is
+begin
+	if (rising_edge(scl_clock)) then
+		if (done_address = '1') then
+			assert (signal_address_value = address)
+			report
+			"fail address (2) : " &
+			integer'image(to_integer(unsigned(signal_address_value))) & " " &
+			integer'image(to_integer(unsigned(address)))
+			severity warning;
+		end if;
+	end if;
+end process p1;
+
+p2 : process (scl_clock) is
+begin
+	if (rising_edge(scl_clock)) then
+		if (done_data = '1') then
+			assert (signal_data_value = data)
+			report "fail data (2) : " &
+			integer'image(to_integer(unsigned(signal_data_value))) & " " &
+			integer'image(to_integer(unsigned(data)))
+			severity warning;
+		end if;
+	end if;
+end process p2;
 
 END;

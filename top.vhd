@@ -80,7 +80,7 @@ begin
 	if (rising_edge(i_clock)) then
 		if (i_reset = '1') then
 			i2c_half_period_index := 0;
-			scl_ping <= '1';
+			scl_ping <= '0'; -- xxx begining for phase 0/1
 		else
 			if (i2c_half_period_index = I2C_HALF_PERIOD - 1) then
 				i2c_half_period_index := 0;
