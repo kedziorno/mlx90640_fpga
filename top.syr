@@ -4,15 +4,15 @@ Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 Parameter TMPDIR set to xst/projnav.tmp
 
 
-Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.11 secs
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.10 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
-Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.11 secs
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.10 secs
  
 --> 
 Reading design: top.prj
@@ -104,6 +104,9 @@ Verilog 2001                       : YES
 Auto BRAM Packing                  : NO
 Slice Utilization Ratio Delta      : 5
 
+---- Other Options
+Cores Search Directories           : {"ipcore_dir"  }
+
 =========================================================================
 
 
@@ -113,13 +116,20 @@ Slice Utilization Ratio Delta      : 5
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/p_package1_constants.vhd" in Library work.
 Package <p_package1_constants> compiled.
 Package body <p_package1_constants> compiled.
+Compiling vhdl file "/home/user/workspace/melexis_mlx90641/i2c_r.vhd" in Library work.
+Architecture behavioral of Entity i2c_r is up to date.
+Compiling vhdl file "/home/user/workspace/melexis_mlx90641/ipcore_dir/i2c_mem.vhd" in Library work.
+Architecture i2c_mem_a of Entity i2c_mem is up to date.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/top.vhd" in Library work.
-Architecture behavioral of Entity top is up to date.
+Entity <top> compiled.
+Entity <top> (Architecture <behavioral>) compiled.
 
 =========================================================================
 *                     Design Hierarchy Analysis                         *
 =========================================================================
-Analyzing hierarchy for entity <top> in library <work> (architecture <behavioral>) with generics.
+Analyzing hierarchy for entity <top> in library <work> (architecture <behavioral>).
+
+Analyzing hierarchy for entity <i2c_r> in library <work> (architecture <behavioral>) with generics.
 	g_board_frequency = 100000000
 	g_i2c_frequency = 400000
 	zero = 0
@@ -128,11 +138,15 @@ Analyzing hierarchy for entity <top> in library <work> (architecture <behavioral
 =========================================================================
 *                            HDL Analysis                               *
 =========================================================================
-Analyzing generic Entity <top> in library <work> (Architecture <behavioral>).
+Analyzing Entity <top> in library <work> (Architecture <behavioral>).
+WARNING:Xst:2211 - "/home/user/workspace/melexis_mlx90641/top.vhd" line 152: Instantiating black box module <i2c_mem>.
+Entity <top> analyzed. Unit <top> generated.
+
+Analyzing generic Entity <i2c_r> in library <work> (Architecture <behavioral>).
 	g_board_frequency = 100000000
 	g_i2c_frequency = 400000
 	zero = 0
-Entity <top> analyzed. Unit <top> generated.
+Entity <i2c_r> analyzed. Unit <i2c_r> generated.
 
 
 =========================================================================
@@ -141,13 +155,13 @@ Entity <top> analyzed. Unit <top> generated.
 
 Performing bidirectional port resolution...
 
-Synthesizing Unit <top>.
-    Related source file is "/home/user/workspace/melexis_mlx90641/top.vhd".
+Synthesizing Unit <i2c_r>.
+    Related source file is "/home/user/workspace/melexis_mlx90641/i2c_r.vhd".
+    Found 8-bit register for signal <o_i2c_data>.
     Found 7-bit register for signal <o_i2c_address>.
+    Found 1-bit register for signal <o_i2c_data_ack>.
     Found 1-bit register for signal <o_i2c_address_rw>.
     Found 1-bit register for signal <o_i2c_address_ack>.
-    Found 8-bit register for signal <o_i2c_data>.
-    Found 1-bit register for signal <o_i2c_data_ack>.
     Found 1-bit register for signal <counter_enable>.
     Found 1-bit register for signal <done_address>.
     Found 1-bit register for signal <done_data>.
@@ -163,6 +177,28 @@ Synthesizing Unit <top>.
     Summary:
 	inferred   2 Counter(s).
 	inferred  36 D-type flip-flop(s).
+Unit <i2c_r> synthesized.
+
+
+Synthesizing Unit <top>.
+    Related source file is "/home/user/workspace/melexis_mlx90641/top.vhd".
+WARNING:Xst:646 - Signal <i2c_r_data_ack> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <i2c_r_address_rw> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <i2c_r_address_ack> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <i2c_r_address> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:653 - Signal <i2c_mem_web<0>> is used but never assigned. This sourceless signal will be automatically connected to value 0.
+WARNING:Xst:646 - Signal <i2c_mem_doutb> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:653 - Signal <i2c_mem_dinb> is used but never assigned. This sourceless signal will be automatically connected to value 00000000.
+WARNING:Xst:653 - Signal <i2c_mem_clkb> is used but never assigned. This sourceless signal will be automatically connected to value 0.
+WARNING:Xst:653 - Signal <i2c_mem_addrb> is used but never assigned. This sourceless signal will be automatically connected to value 00000000000.
+    Found 1-bit register for signal <i2c_r_done_address_prev>.
+    Found 1-bit register for signal <i2c_r_done_data_prev>.
+    Found 11-bit register for signal <signal_i2c_mem_addra_index>.
+    Found 11-bit register for signal <variable_i2c_mem_addra_index>.
+    Found 11-bit adder for signal <variable_i2c_mem_addra_index$addsub0000> created at line 138.
+    Summary:
+	inferred  24 D-type flip-flop(s).
+	inferred   1 Adder/Subtractor(s).
 Unit <top> synthesized.
 
 
@@ -170,11 +206,14 @@ Unit <top> synthesized.
 HDL Synthesis Report
 
 Macro Statistics
+# Adders/Subtractors                                   : 1
+ 11-bit adder                                          : 1
 # Counters                                             : 2
  4-bit up counter                                      : 1
  7-bit up counter                                      : 1
-# Registers                                            : 36
- 1-bit register                                        : 36
+# Registers                                            : 40
+ 1-bit register                                        : 38
+ 11-bit register                                       : 2
 
 =========================================================================
 
@@ -182,24 +221,52 @@ Macro Statistics
 *                       Advanced HDL Synthesis                          *
 =========================================================================
 
+Reading core <ipcore_dir/i2c_mem.ngc>.
+Loading core <i2c_mem> for timing and area information for instance <inst_i2c_mem>.
 
 =========================================================================
 Advanced HDL Synthesis Report
 
 Macro Statistics
+# Adders/Subtractors                                   : 1
+ 11-bit adder                                          : 1
 # Counters                                             : 2
  4-bit up counter                                      : 1
  7-bit up counter                                      : 1
-# Registers                                            : 36
- Flip-Flops                                            : 36
+# Registers                                            : 60
+ Flip-Flops                                            : 60
 
 =========================================================================
 
 =========================================================================
 *                         Low Level Synthesis                           *
 =========================================================================
+INFO:Xst:2261 - The FF/Latch <variable_i2c_mem_addra_index_0> in Unit <top> is equivalent to the following FF/Latch, which will be removed : <signal_i2c_mem_addra_index_0> 
+INFO:Xst:2261 - The FF/Latch <variable_i2c_mem_addra_index_1> in Unit <top> is equivalent to the following FF/Latch, which will be removed : <signal_i2c_mem_addra_index_1> 
+INFO:Xst:2261 - The FF/Latch <variable_i2c_mem_addra_index_2> in Unit <top> is equivalent to the following FF/Latch, which will be removed : <signal_i2c_mem_addra_index_2> 
+INFO:Xst:2261 - The FF/Latch <variable_i2c_mem_addra_index_3> in Unit <top> is equivalent to the following FF/Latch, which will be removed : <signal_i2c_mem_addra_index_3> 
+INFO:Xst:2261 - The FF/Latch <variable_i2c_mem_addra_index_4> in Unit <top> is equivalent to the following FF/Latch, which will be removed : <signal_i2c_mem_addra_index_4> 
+INFO:Xst:2261 - The FF/Latch <variable_i2c_mem_addra_index_5> in Unit <top> is equivalent to the following FF/Latch, which will be removed : <signal_i2c_mem_addra_index_5> 
+INFO:Xst:2261 - The FF/Latch <variable_i2c_mem_addra_index_6> in Unit <top> is equivalent to the following FF/Latch, which will be removed : <signal_i2c_mem_addra_index_6> 
+INFO:Xst:2261 - The FF/Latch <variable_i2c_mem_addra_index_7> in Unit <top> is equivalent to the following FF/Latch, which will be removed : <signal_i2c_mem_addra_index_7> 
+INFO:Xst:2261 - The FF/Latch <variable_i2c_mem_addra_index_8> in Unit <top> is equivalent to the following FF/Latch, which will be removed : <signal_i2c_mem_addra_index_8> 
+INFO:Xst:2261 - The FF/Latch <variable_i2c_mem_addra_index_9> in Unit <top> is equivalent to the following FF/Latch, which will be removed : <signal_i2c_mem_addra_index_9> 
+INFO:Xst:2261 - The FF/Latch <variable_i2c_mem_addra_index_10> in Unit <top> is equivalent to the following FF/Latch, which will be removed : <signal_i2c_mem_addra_index_10> 
 
 Optimizing unit <top> ...
+
+Optimizing unit <i2c_r> ...
+WARNING:Xst:2677 - Node <inst_i2c_r/o_i2c_address_6> of sequential type is unconnected in block <top>.
+WARNING:Xst:2677 - Node <inst_i2c_r/o_i2c_address_5> of sequential type is unconnected in block <top>.
+WARNING:Xst:2677 - Node <inst_i2c_r/o_i2c_address_4> of sequential type is unconnected in block <top>.
+WARNING:Xst:2677 - Node <inst_i2c_r/o_i2c_address_3> of sequential type is unconnected in block <top>.
+WARNING:Xst:2677 - Node <inst_i2c_r/o_i2c_address_2> of sequential type is unconnected in block <top>.
+WARNING:Xst:2677 - Node <inst_i2c_r/o_i2c_address_1> of sequential type is unconnected in block <top>.
+WARNING:Xst:2677 - Node <inst_i2c_r/o_i2c_address_0> of sequential type is unconnected in block <top>.
+WARNING:Xst:2677 - Node <inst_i2c_r/o_i2c_address_ack> of sequential type is unconnected in block <top>.
+WARNING:Xst:2677 - Node <inst_i2c_r/o_i2c_data_ack> of sequential type is unconnected in block <top>.
+WARNING:Xst:2677 - Node <inst_i2c_r/o_i2c_address_rw> of sequential type is unconnected in block <top>.
+WARNING:Xst:2677 - Node <inst_i2c_r/s_sda_data_register_8> of sequential type is unconnected in block <top>.
 
 Mapping all equations...
 Building and optimizing final netlist ...
@@ -211,8 +278,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 47
- Flip-Flops                                            : 47
+# Registers                                            : 49
+ Flip-Flops                                            : 49
 
 =========================================================================
 
@@ -238,30 +305,34 @@ Optimization Goal                  : Speed
 Keep Hierarchy                     : No
 
 Design Statistics
-# IOs                              : 24
+# IOs                              : 12
 
 Cell Usage :
-# BELS                             : 43
-#      INV                         : 1
-#      LUT2                        : 4
+# BELS                             : 97
+#      GND                         : 2
+#      INV                         : 2
+#      LUT2                        : 7
 #      LUT2_D                      : 1
-#      LUT2_L                      : 2
-#      LUT3                        : 3
-#      LUT3_L                      : 1
-#      LUT4                        : 24
-#      LUT4_D                      : 3
-#      LUT4_L                      : 3
-#      VCC                         : 1
-# FlipFlops/Latches                : 47
-#      FD                          : 11
-#      FDR                         : 25
+#      LUT3                        : 10
+#      LUT3_D                      : 3
+#      LUT3_L                      : 2
+#      LUT4                        : 51
+#      LUT4_D                      : 5
+#      LUT4_L                      : 6
+#      MUXF5                       : 6
+#      VCC                         : 2
+# FlipFlops/Latches                : 49
+#      FD                          : 24
+#      FDR                         : 14
 #      FDRE                        : 9
 #      FDS                         : 2
+# RAMS                             : 1
+#      RAMB16                      : 1
 # Clock Buffers                    : 1
 #      BUFGP                       : 1
-# IO Buffers                       : 23
+# IO Buffers                       : 11
 #      IBUF                        : 3
-#      OBUF                        : 20
+#      OBUF                        : 8
 =========================================================================
 
 Device utilization summary:
@@ -269,12 +340,13 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                       26  out of  15360     0%  
- Number of Slice Flip Flops:             29  out of  30720     0%  
- Number of 4 input LUTs:                 42  out of  30720     0%  
- Number of IOs:                          24
- Number of bonded IOBs:                  24  out of    448     5%  
-    IOB Flip Flops:                      18
+ Number of Slices:                       50  out of  15360     0%  
+ Number of Slice Flip Flops:             49  out of  30720     0%  
+ Number of 4 input LUTs:                 87  out of  30720     0%  
+ Number of IOs:                          12
+ Number of bonded IOBs:                  12  out of    448     2%  
+ Number of FIFO16/RAMB16s:                1  out of    192     0%  
+    Number used as RAMB16s:               1
  Number of GCLKs:                         1  out of     32     3%  
 
 ---------------------------
@@ -295,25 +367,31 @@ NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
 
 Clock Information:
 ------------------
------------------------------------+----------------------------+-------+
-Clock Signal                       | Clock buffer(FF name)      | Load  |
------------------------------------+----------------------------+-------+
-i_clock                            | BUFGP                      | 32    |
-scl_ping                           | NONE(s_sda_data_register_7)| 15    |
------------------------------------+----------------------------+-------+
+-----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)                                                                                                                      | Load  |
+-----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------+-------+
+inst_i2c_r/done_data               | NONE(inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP)| 1     |
+N0                                 | NONE(inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP)| 1     |
+i_clock                            | BUFGP                                                                                                                                      | 35    |
+inst_i2c_r/scl_ping                | NONE(inst_i2c_r/s_sda_data_register_6)                                                                                                     | 14    |
+-----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------+-------+
 INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
 
 Asynchronous Control Signals Information:
 ----------------------------------------
-No asynchronous control signals found in this design
+---------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------+-------+
+Control Signal                         | Buffer(FF name)                                                                                                                            | Load  |
+---------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------+-------+
+inst_i2c_mem/N1(inst_i2c_mem/XST_GND:G)| NONE(inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP)| 4     |
+---------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------+-------+
 
 Timing Summary:
 ---------------
 Speed Grade: -10
 
-   Minimum period: 2.714ns (Maximum Frequency: 368.473MHz)
-   Minimum input arrival time before clock: 3.564ns
-   Maximum output required time after clock: 4.677ns
+   Minimum period: 3.603ns (Maximum Frequency: 277.554MHz)
+   Minimum input arrival time before clock: 4.204ns
+   Maximum output required time after clock: 6.417ns
    Maximum combinational path delay: No path found
 
 Timing Detail:
@@ -322,121 +400,128 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 2.714ns (frequency: 368.473MHz)
-  Total number of paths / destination ports: 93 / 12
+  Clock period: 3.603ns (frequency: 277.554MHz)
+  Total number of paths / destination ports: 359 / 26
 -------------------------------------------------------------------------
-Delay:               2.714ns (Levels of Logic = 3)
-  Source:            i2c_half_period_index_5 (FF)
-  Destination:       i2c_half_period_index_4 (FF)
+Delay:               3.603ns (Levels of Logic = 4)
+  Source:            variable_i2c_mem_addra_index_3 (FF)
+  Destination:       variable_i2c_mem_addra_index_10 (FF)
   Source Clock:      i_clock rising
   Destination Clock: i_clock rising
 
-  Data Path: i2c_half_period_index_5 to i2c_half_period_index_4
+  Data Path: variable_i2c_mem_addra_index_3 to variable_i2c_mem_addra_index_10
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FD:C->Q               5   0.360   0.608  i2c_half_period_index_5 (i2c_half_period_index_5)
-     LUT2_D:I0->O          2   0.195   0.602  scl_ping_cmp_eq0000_SW1 (N2)
-     LUT4:I2->O            4   0.195   0.537  i2c_half_period_index_or00001 (i2c_half_period_index_or0000)
-     LUT2:I1->O            1   0.195   0.000  i2c_half_period_index_3_rstpot (i2c_half_period_index_3_rstpot)
-     FD:D                      0.022          i2c_half_period_index_3
+     FD:C->Q               5   0.360   0.764  variable_i2c_mem_addra_index_3 (variable_i2c_mem_addra_index_3)
+     LUT4_D:I0->O          8   0.195   0.608  variable_i2c_mem_addra_index_cmp_eq000011 (N14)
+     LUT4:I3->O            5   0.195   0.546  variable_i2c_mem_addra_index_cmp_eq0000 (variable_i2c_mem_addra_index_cmp_eq0000)
+     LUT4:I3->O            1   0.195   0.523  variable_i2c_mem_addra_index_mux0001<10>8 (variable_i2c_mem_addra_index_mux0001<10>8)
+     LUT4:I3->O            1   0.195   0.000  variable_i2c_mem_addra_index_10_rstpot (variable_i2c_mem_addra_index_10_rstpot)
+     FD:D                      0.022          variable_i2c_mem_addra_index_10
     ----------------------------------------
-    Total                      2.714ns (0.967ns logic, 1.747ns route)
-                                       (35.6% logic, 64.4% route)
+    Total                      3.603ns (1.162ns logic, 2.441ns route)
+                                       (32.3% logic, 67.7% route)
 
 =========================================================================
-Timing constraint: Default period analysis for Clock 'scl_ping'
-  Clock period: 2.339ns (frequency: 427.625MHz)
-  Total number of paths / destination ports: 60 / 15
+Timing constraint: Default period analysis for Clock 'inst_i2c_r/scl_ping'
+  Clock period: 2.578ns (frequency: 387.913MHz)
+  Total number of paths / destination ports: 64 / 14
 -------------------------------------------------------------------------
-Delay:               2.339ns (Levels of Logic = 1)
-  Source:            s_sda_data_index_3 (FF)
-  Destination:       s_sda_data_register_0 (FF)
-  Source Clock:      scl_ping rising
-  Destination Clock: scl_ping rising
+Delay:               2.578ns (Levels of Logic = 3)
+  Source:            inst_i2c_r/s_sda_data_index_3 (FF)
+  Destination:       inst_i2c_r/s_sda_data_index_2 (FF)
+  Source Clock:      inst_i2c_r/scl_ping rising
+  Destination Clock: inst_i2c_r/scl_ping rising
 
-  Data Path: s_sda_data_index_3 to s_sda_data_register_0
+  Data Path: inst_i2c_r/s_sda_data_index_3 to inst_i2c_r/s_sda_data_index_2
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FD:C->Q              10   0.360   0.869  s_sda_data_index_3 (s_sda_data_index_3)
-     LUT4:I0->O            3   0.195   0.375  s_sda_data_register_0_cmp_eq00001 (s_sda_data_register_0_not0001_inv)
-     FDRE:CE                   0.540          s_sda_data_register_0
+     FD:C->Q              13   0.360   0.908  inst_i2c_r/s_sda_data_index_3 (inst_i2c_r/s_sda_data_index_3)
+     LUT4_D:I0->LO         1   0.195   0.163  inst_i2c_r/s_state_p6_n_0_mux000031 (N86)
+     LUT3:I2->O            2   0.195   0.540  inst_i2c_r/s_sda_data_index_or00001 (inst_i2c_r/s_sda_data_index_or0000)
+     LUT3:I2->O            1   0.195   0.000  inst_i2c_r/s_sda_data_index_1_rstpot (inst_i2c_r/s_sda_data_index_1_rstpot)
+     FD:D                      0.022          inst_i2c_r/s_sda_data_index_1
     ----------------------------------------
-    Total                      2.339ns (1.095ns logic, 1.243ns route)
-                                       (46.8% logic, 53.2% route)
+    Total                      2.578ns (0.967ns logic, 1.611ns route)
+                                       (37.5% logic, 62.5% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 38 / 35
+  Total number of paths / destination ports: 46 / 38
 -------------------------------------------------------------------------
-Offset:              3.564ns (Levels of Logic = 2)
+Offset:              4.204ns (Levels of Logic = 5)
   Source:            i_reset (PAD)
-  Destination:       done_data (FF)
+  Destination:       variable_i2c_mem_addra_index_10 (FF)
   Destination Clock: i_clock rising
 
-  Data Path: i_reset to done_data
+  Data Path: i_reset to variable_i2c_mem_addra_index_10
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O            19   0.965   0.982  i_reset_IBUF (i_reset_IBUF)
-     LUT4:I0->O            1   0.195   0.360  done_data_or00001 (done_data_or0000)
-     FDR:R                     1.062          done_data
+     IBUF:I->O            22   0.965   1.040  i_reset_IBUF (i_reset_IBUF)
+     LUT3_D:I0->LO         1   0.195   0.163  variable_i2c_mem_addra_index_mux0001<10>41 (N87)
+     LUT3:I2->O            5   0.195   0.711  variable_i2c_mem_addra_index_mux0001<10>31 (N12)
+     LUT4:I1->O            1   0.195   0.523  variable_i2c_mem_addra_index_mux0001<10>8 (variable_i2c_mem_addra_index_mux0001<10>8)
+     LUT4:I3->O            1   0.195   0.000  variable_i2c_mem_addra_index_10_rstpot (variable_i2c_mem_addra_index_10_rstpot)
+     FD:D                      0.022          variable_i2c_mem_addra_index_10
     ----------------------------------------
-    Total                      3.564ns (2.222ns logic, 1.342ns route)
-                                       (62.3% logic, 37.7% route)
+    Total                      4.204ns (1.767ns logic, 2.437ns route)
+                                       (42.0% logic, 58.0% route)
 
 =========================================================================
-Timing constraint: Default OFFSET IN BEFORE for Clock 'scl_ping'
-  Total number of paths / destination ports: 28 / 25
+Timing constraint: Default OFFSET IN BEFORE for Clock 'inst_i2c_r/scl_ping'
+  Total number of paths / destination ports: 24 / 23
 -------------------------------------------------------------------------
-Offset:              3.474ns (Levels of Logic = 2)
+Offset:              3.542ns (Levels of Logic = 2)
   Source:            i_reset (PAD)
-  Destination:       s_sda_data_register_7 (FF)
-  Destination Clock: scl_ping rising
+  Destination:       inst_i2c_r/s_sda_data_register_6 (FF)
+  Destination Clock: inst_i2c_r/scl_ping rising
 
-  Data Path: i_reset to s_sda_data_register_7
+  Data Path: i_reset to inst_i2c_r/s_sda_data_register_6
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O            19   0.965   0.764  i_reset_IBUF (i_reset_IBUF)
-     LUT2:I1->O           10   0.195   0.488  s_sda_data_register_7_or00001 (s_sda_data_register_7_or0000)
-     FDRE:R                    1.062          s_sda_data_register_7
+     IBUF:I->O            22   0.965   0.875  i_reset_IBUF (i_reset_IBUF)
+     LUT2:I1->O            8   0.195   0.445  inst_i2c_r/s_sda_data_register_7_or00001 (inst_i2c_r/s_sda_data_register_7_or0000)
+     FDRE:R                    1.062          inst_i2c_r/s_sda_data_register_7
     ----------------------------------------
-    Total                      3.474ns (2.222ns logic, 1.252ns route)
-                                       (64.0% logic, 36.0% route)
+    Total                      3.542ns (2.222ns logic, 1.320ns route)
+                                       (62.7% logic, 37.3% route)
 
 =========================================================================
-Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
-  Total number of paths / destination ports: 20 / 20
+Timing constraint: Default OFFSET OUT AFTER for Clock 'inst_i2c_r/done_data'
+  Total number of paths / destination ports: 8 / 8
 -------------------------------------------------------------------------
-Offset:              4.677ns (Levels of Logic = 1)
-  Source:            done_address (FF)
-  Destination:       o_done_address (PAD)
-  Source Clock:      i_clock rising
+Offset:              6.417ns (Levels of Logic = 2)
+  Source:            inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP (RAM)
+  Destination:       o_data<7> (PAD)
+  Source Clock:      inst_i2c_r/done_data rising
 
-  Data Path: done_address to o_done_address
+  Data Path: inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP to o_data<7>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDR:C->Q              1   0.360   0.360  done_address (done_address)
-     OBUF:I->O                 3.957          o_done_address_OBUF (o_done_address)
+     RAMB16:CLKA->DOA7     1   2.100   0.360  U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP (douta<7>)
+     end scope: 'inst_i2c_mem'
+     OBUF:I->O                 3.957          o_data_7_OBUF (o_data<7>)
     ----------------------------------------
-    Total                      4.677ns (4.317ns logic, 0.360ns route)
-                                       (92.3% logic, 7.7% route)
+    Total                      6.417ns (6.057ns logic, 0.360ns route)
+                                       (94.4% logic, 5.6% route)
 
 =========================================================================
 
 
-Total REAL time to Xst completion: 8.00 secs
-Total CPU time to Xst completion: 8.43 secs
+Total REAL time to Xst completion: 11.00 secs
+Total CPU time to Xst completion: 10.03 secs
  
 --> 
 
 
-Total memory usage is 526488 kilobytes
+Total memory usage is 548360 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :    0 (   0 filtered)
-Number of infos    :    1 (   0 filtered)
+Number of warnings :   21 (   0 filtered)
+Number of infos    :   12 (   0 filtered)
 

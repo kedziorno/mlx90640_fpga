@@ -2,15 +2,15 @@
 -- Company: 
 -- Engineer:
 --
--- Create Date:   08:40:00 12/13/2022
+-- Create Date:   08:30:00 12/13/2022
 -- Design Name:   
--- Module Name:   /home/user/workspace/melexis_mlx90641/tb_top.vhd
+-- Module Name:   /home/user/workspace/melexis_mlx90641/tb_i2c_r.vhd
 -- Project Name:  melexis_mlx90641
 -- Target Device:  
 -- Tool versions:  
 -- Description:   
 -- 
--- VHDL Test Bench Created by ISE for module: top
+-- VHDL Test Bench Created by ISE for module: i2c_r
 -- 
 -- Dependencies:
 -- 
@@ -35,20 +35,33 @@ USE work.p_package1.all;
 -- arithmetic functions with Signed or Unsigned values
 USE ieee.numeric_std.ALL;
 
-ENTITY tb_top IS
-END tb_top;
+ENTITY tb_i2c_r IS
+END tb_i2c_r;
 
-ARCHITECTURE behavior OF tb_top IS
+ARCHITECTURE behavior OF tb_i2c_r IS
 
 -- Component Declaration for the Unit Under Test (UUT)
-component top is
+
+component i2c_r is
+generic (
+	constant g_board_frequency : natural := GLOBAL_BOARD_FREQUENCY;
+	constant g_i2c_frequency : natural := GLOBAL_I2C_FREQUENCY;
+	constant zero : natural := 0
+);
 port (
 	i_clock : in std_logic;
 	i_reset : in std_logic;
 	i_sda : in std_logic;
-	i_scl : in std_logic
+	i_scl : in std_logic;
+	o_i2c_address : out std_logic_vector(I2C_ADDRESS_BITS - 1 downto 0);
+	o_i2c_address_rw : out std_logic;
+	o_i2c_address_ack : out std_logic;
+	o_i2c_data : out std_logic_vector(I2C_DATA_BITS - 1 downto 0);
+	o_i2c_data_ack : out std_logic;
+	o_done_data : out std_logic;
+	o_done_address : out std_logic
 );
-end component top;
+end component i2c_r;
 
 --Inputs
 signal sda : std_logic := '1';
@@ -83,12 +96,24 @@ signal signal_data_ack : boolean;
 
 BEGIN
 
+-- MLX90641 16x12 IR array
+-- REVISION 3 - DECEMBER 9, 2019
+-- 3901090641
+-- page11 10.2.1.4. I2C command format
+
 -- Instantiate the Unit Under Test (UUT)
-uut_top : top PORT MAP (
+uut_i2c_r : i2c_r PORT MAP (
 i_clock => clock,
 i_reset => reset,
 i_sda => sda,
-i_scl => scl
+i_scl => scl,
+o_i2c_address => address,
+o_i2c_address_rw => address_rw,
+o_i2c_address_ack => address_ack,
+o_i2c_data => data,
+o_i2c_data_ack => data_ack,
+o_done_data => done_data,
+o_done_address => done_address
 );
 
 -- Clock process definitions
@@ -124,9 +149,8 @@ reset <= '1','0' after clock_period;
 -- Stimulus process
 stim_proc : process is
 
-file test_vector : text;
+file test_vector : text open read_mode is "tb_data.txt";
 variable row : line;
-variable fstatus : file_open_status;
 
 variable string_separator : string(1 to 1) := ",";
 variable string_type : string(1 to 1) := "X";
@@ -171,87 +195,78 @@ string_data_ack := "X";
 
 else
 
---	loop_main : for i in 0 to 1 loop
---		report "loop_main : " & integer'image(i);
+	while (not endfile(test_vector)) loop
 
-		file_open(fstatus, test_vector, "tb_data.txt",read_mode);
+		readline (test_vector, row);
+		read (row, string_type);
 
-		while (not endfile(test_vector)) loop
+		if (string_type = "I") then
 
-			readline (test_vector, row);
-			read (row, string_type);
+			read (row, string_separator);
+			read (row, string_idle_number);
 
-			if (string_type = "I") then
+			variable_idle_number := natural'value(string_idle_number);
 
-				read (row, string_separator);
-				read (row, string_idle_number);
+			report "idle " & natural'image(variable_idle_number);
 
-				variable_idle_number := natural'value(string_idle_number);
-
-				report "idle " & natural'image(variable_idle_number);
-
-				if variable_idle_number > 0 then
-					sda_stop(sda_data, clock_period);
-					wait_idle(idle,variable_idle_number,clock_period);
-					sda_start(sda_data, clock_period);
-				end if;
-
-			elsif (string_type = "A") then
-
-				read (row, string_separator);
-				read (row, string_address_value);
-				read (row, string_separator);
-				read (row, string_address_rw);
-
-				variable_address_value_lo := std_logic_vector(to_unsigned(int2hex(string_address_value(2)),4));
-				variable_address_value_hi := std_logic_vector(to_unsigned(int2hex(string_address_value(1)),3));
-				variable_address_value := variable_address_value_hi & variable_address_value_lo;
-				variable_address_rw := To_Std_Logic(string_address_rw(1));
-
-				report "address " & string_address_value & " " & 
-				integer'image(to_integer(unsigned(variable_address_value_hi))) & " " &
-				integer'image(to_integer(unsigned(variable_address_value_lo)));
-
-				sda_address_7bit(sda_data, variable_address_value, variable_address_rw, clock_period);
-				signal_address_value <= variable_address_value;
-	--			assert (variable_address_value = address)
-	--			report
-	--			"fail address (1) : " &
-	--			integer'image(to_integer(unsigned(variable_address_value))) & " " &
-	--			integer'image(to_integer(unsigned(address)))
-	--			severity warning;
-
-			elsif (string_type = "D") then
-
-				read (row, string_separator);
-				read (row, string_data_value);
-				read (row, string_separator);
-				read (row, string_data_ack);
-
-				variable_data_value_lo := std_logic_vector(to_unsigned(int2hex(string_data_value(2)),4));
-				variable_data_value_hi := std_logic_vector(to_unsigned(int2hex(string_data_value(1)),4));
-				variable_data_value := variable_data_value_hi & variable_data_value_lo;
-				variable_data_ack := To_Std_Logic(string_data_ack(1));
-
-				report "data " & string_data_value & " " & 
-				integer'image(to_integer(unsigned(variable_data_value_hi))) & " " &
-				integer'image(to_integer(unsigned(variable_data_value_lo)));
-
-				sda_data_8bit(sda_data, variable_data_value, variable_data_ack, clock_period);
-				signal_data_value <= variable_data_value;
-	--			assert (variable_data_value = data)
-	--			report "fail data (1) : " &
-	--			integer'image(to_integer(unsigned(variable_data_value))) & " " &
-	--			integer'image(to_integer(unsigned(data)))
-	--			severity warning;
-
-
+			if variable_idle_number > 0 then
+				sda_stop(sda_data, clock_period);
+				wait_idle(idle,variable_idle_number,clock_period);
+				sda_start(sda_data, clock_period);
 			end if;
-		end loop;
 
-		file_close(test_vector);
+		elsif (string_type = "A") then
 
---	end loop loop_main;
+			read (row, string_separator);
+			read (row, string_address_value);
+			read (row, string_separator);
+			read (row, string_address_rw);
+
+			variable_address_value_lo := std_logic_vector(to_unsigned(int2hex(string_address_value(2)),4));
+			variable_address_value_hi := std_logic_vector(to_unsigned(int2hex(string_address_value(1)),3));
+			variable_address_value := variable_address_value_hi & variable_address_value_lo;
+			variable_address_rw := To_Std_Logic(string_address_rw(1));
+
+			report "address " & string_address_value & " " & 
+			integer'image(to_integer(unsigned(variable_address_value_hi))) & " " &
+			integer'image(to_integer(unsigned(variable_address_value_lo)));
+
+			sda_address_7bit(sda_data, variable_address_value, variable_address_rw, clock_period);
+			signal_address_value <= variable_address_value;
+			assert (variable_address_value = address)
+			report
+			"fail address (1) : " &
+			integer'image(to_integer(unsigned(variable_address_value))) & " " &
+			integer'image(to_integer(unsigned(address)))
+			severity warning;
+
+		elsif (string_type = "D") then
+
+			read (row, string_separator);
+			read (row, string_data_value);
+			read (row, string_separator);
+			read (row, string_data_ack);
+
+			variable_data_value_lo := std_logic_vector(to_unsigned(int2hex(string_data_value(2)),4));
+			variable_data_value_hi := std_logic_vector(to_unsigned(int2hex(string_data_value(1)),4));
+			variable_data_value := variable_data_value_hi & variable_data_value_lo;
+			variable_data_ack := To_Std_Logic(string_data_ack(1));
+
+			report "data " & string_data_value & " " & 
+			integer'image(to_integer(unsigned(variable_data_value_hi))) & " " &
+			integer'image(to_integer(unsigned(variable_data_value_lo)));
+
+			sda_data_8bit(sda_data, variable_data_value, variable_data_ack, clock_period);
+			signal_data_value <= variable_data_value;
+			assert (variable_data_value = data)
+			report "fail data (1) : " &
+			integer'image(to_integer(unsigned(variable_data_value))) & " " &
+			integer'image(to_integer(unsigned(data)))
+			severity warning;
+
+
+		end if;
+	end loop;
 
 	report "done" severity failure;
 end if;

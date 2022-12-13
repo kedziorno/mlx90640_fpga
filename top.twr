@@ -15,7 +15,6 @@ Environment Variable      Effect
 NONE                      No environment variables were set
 --------------------------------------------------------------------------------
 
-INFO:Timing:2698 - No timing constraints found, doing default enumeration.
 INFO:Timing:3412 - To improve timing, see the Timing Closure User Guide (UG612).
 INFO:Timing:2752 - To get complete path coverage, use the unconstrained paths 
    option. All paths that are not constrained will be reported in the 
@@ -25,66 +24,465 @@ INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on
    and for more information on accounting for different loading conditions, 
    please see the device datasheet.
 
+================================================================================
+Timing constraint: NET "i_clock_BUFGP/IBUFG" PERIOD = 10 ns HIGH 50%;
+For more information, see Period Analysis in the Timing Closure User Guide (UG612).
+
+ 359 paths analyzed, 96 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 setup errors, 0 hold errors, 0 component switching limit errors)
+ Minimum period is   3.218ns.
+--------------------------------------------------------------------------------
+
+Paths for end point variable_i2c_mem_addra_index_10 (SLICE_X30Y86.F3), 26 paths
+--------------------------------------------------------------------------------
+Slack (setup path):     6.782ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               variable_i2c_mem_addra_index_3 (FF)
+  Destination:          variable_i2c_mem_addra_index_10 (FF)
+  Requirement:          10.000ns
+  Data Path Delay:      3.216ns (Levels of Logic = 4)
+  Clock Path Skew:      -0.002ns (0.834 - 0.836)
+  Source Clock:         i_clock_BUFGP rising at 0.000ns
+  Destination Clock:    i_clock_BUFGP rising at 10.000ns
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: variable_i2c_mem_addra_index_3 to variable_i2c_mem_addra_index_10
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X29Y80.XQ      Tcko                  0.340   variable_i2c_mem_addra_index<3>
+                                                       variable_i2c_mem_addra_index_3
+    SLICE_X28Y82.G1      net (fanout=5)        0.629   variable_i2c_mem_addra_index<3>
+    SLICE_X28Y82.Y       Tilo                  0.195   N48
+                                                       variable_i2c_mem_addra_index_cmp_eq000011
+    SLICE_X28Y85.F1      net (fanout=9)        0.615   N14
+    SLICE_X28Y85.X       Tilo                  0.195   variable_i2c_mem_addra_index_cmp_eq0000
+                                                       variable_i2c_mem_addra_index_cmp_eq0000
+    SLICE_X29Y84.F3      net (fanout=5)        0.245   variable_i2c_mem_addra_index_cmp_eq0000
+    SLICE_X29Y84.X       Tilo                  0.194   variable_i2c_mem_addra_index_mux0001<10>8
+                                                       variable_i2c_mem_addra_index_mux0001<10>8
+    SLICE_X30Y86.F3      net (fanout=1)        0.588   variable_i2c_mem_addra_index_mux0001<10>8
+    SLICE_X30Y86.CLK     Tfck                  0.215   variable_i2c_mem_addra_index<10>
+                                                       variable_i2c_mem_addra_index_10_rstpot
+                                                       variable_i2c_mem_addra_index_10
+    -------------------------------------------------  ---------------------------
+    Total                                      3.216ns (1.139ns logic, 2.077ns route)
+                                                       (35.4% logic, 64.6% route)
+
+--------------------------------------------------------------------------------
+Slack (setup path):     6.786ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               variable_i2c_mem_addra_index_4 (FF)
+  Destination:          variable_i2c_mem_addra_index_10 (FF)
+  Requirement:          10.000ns
+  Data Path Delay:      3.212ns (Levels of Logic = 4)
+  Clock Path Skew:      -0.002ns (0.834 - 0.836)
+  Source Clock:         i_clock_BUFGP rising at 0.000ns
+  Destination Clock:    i_clock_BUFGP rising at 10.000ns
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: variable_i2c_mem_addra_index_4 to variable_i2c_mem_addra_index_10
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X29Y81.XQ      Tcko                  0.340   variable_i2c_mem_addra_index<4>
+                                                       variable_i2c_mem_addra_index_4
+    SLICE_X30Y84.F3      net (fanout=11)       0.719   variable_i2c_mem_addra_index<4>
+    SLICE_X30Y84.X       Tilo                  0.195   N36
+                                                       variable_i2c_mem_addra_index_cmp_eq000021_SW0
+    SLICE_X28Y85.F2      net (fanout=3)        0.521   N36
+    SLICE_X28Y85.X       Tilo                  0.195   variable_i2c_mem_addra_index_cmp_eq0000
+                                                       variable_i2c_mem_addra_index_cmp_eq0000
+    SLICE_X29Y84.F3      net (fanout=5)        0.245   variable_i2c_mem_addra_index_cmp_eq0000
+    SLICE_X29Y84.X       Tilo                  0.194   variable_i2c_mem_addra_index_mux0001<10>8
+                                                       variable_i2c_mem_addra_index_mux0001<10>8
+    SLICE_X30Y86.F3      net (fanout=1)        0.588   variable_i2c_mem_addra_index_mux0001<10>8
+    SLICE_X30Y86.CLK     Tfck                  0.215   variable_i2c_mem_addra_index<10>
+                                                       variable_i2c_mem_addra_index_10_rstpot
+                                                       variable_i2c_mem_addra_index_10
+    -------------------------------------------------  ---------------------------
+    Total                                      3.212ns (1.139ns logic, 2.073ns route)
+                                                       (35.5% logic, 64.5% route)
+
+--------------------------------------------------------------------------------
+Slack (setup path):     6.803ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               inst_i2c_r/done_data (FF)
+  Destination:          variable_i2c_mem_addra_index_10 (FF)
+  Requirement:          10.000ns
+  Data Path Delay:      3.197ns (Levels of Logic = 3)
+  Clock Path Skew:      0.000ns
+  Source Clock:         i_clock_BUFGP rising at 0.000ns
+  Destination Clock:    i_clock_BUFGP rising at 10.000ns
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: inst_i2c_r/done_data to variable_i2c_mem_addra_index_10
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X33Y93.XQ      Tcko                  0.340   inst_i2c_r/done_data
+                                                       inst_i2c_r/done_data
+    SLICE_X31Y83.F2      net (fanout=13)       1.252   inst_i2c_r/done_data
+    SLICE_X31Y83.X       Tilo                  0.194   N12
+                                                       variable_i2c_mem_addra_index_mux0001<10>31
+    SLICE_X29Y84.F4      net (fanout=5)        0.414   N12
+    SLICE_X29Y84.X       Tilo                  0.194   variable_i2c_mem_addra_index_mux0001<10>8
+                                                       variable_i2c_mem_addra_index_mux0001<10>8
+    SLICE_X30Y86.F3      net (fanout=1)        0.588   variable_i2c_mem_addra_index_mux0001<10>8
+    SLICE_X30Y86.CLK     Tfck                  0.215   variable_i2c_mem_addra_index<10>
+                                                       variable_i2c_mem_addra_index_10_rstpot
+                                                       variable_i2c_mem_addra_index_10
+    -------------------------------------------------  ---------------------------
+    Total                                      3.197ns (0.943ns logic, 2.254ns route)
+                                                       (29.5% logic, 70.5% route)
+
+--------------------------------------------------------------------------------
+
+Paths for end point variable_i2c_mem_addra_index_7 (SLICE_X30Y87.G1), 4 paths
+--------------------------------------------------------------------------------
+Slack (setup path):     6.827ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               inst_i2c_r/done_data (FF)
+  Destination:          variable_i2c_mem_addra_index_7 (FF)
+  Requirement:          10.000ns
+  Data Path Delay:      3.173ns (Levels of Logic = 2)
+  Clock Path Skew:      0.000ns
+  Source Clock:         i_clock_BUFGP rising at 0.000ns
+  Destination Clock:    i_clock_BUFGP rising at 10.000ns
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: inst_i2c_r/done_data to variable_i2c_mem_addra_index_7
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X33Y93.XQ      Tcko                  0.340   inst_i2c_r/done_data
+                                                       inst_i2c_r/done_data
+    SLICE_X31Y83.F2      net (fanout=13)       1.252   inst_i2c_r/done_data
+    SLICE_X31Y83.X       Tilo                  0.194   N12
+                                                       variable_i2c_mem_addra_index_mux0001<10>31
+    SLICE_X30Y87.G1      net (fanout=5)        0.839   N12
+    SLICE_X30Y87.CLK     Tgck                  0.548   variable_i2c_mem_addra_index<7>
+                                                       variable_i2c_mem_addra_index_mux0001<7>2_F
+                                                       variable_i2c_mem_addra_index_mux0001<7>2
+                                                       variable_i2c_mem_addra_index_7
+    -------------------------------------------------  ---------------------------
+    Total                                      3.173ns (1.082ns logic, 2.091ns route)
+                                                       (34.1% logic, 65.9% route)
+
+--------------------------------------------------------------------------------
+Slack (setup path):     6.934ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               inst_i2c_r/done_address (FF)
+  Destination:          variable_i2c_mem_addra_index_7 (FF)
+  Requirement:          10.000ns
+  Data Path Delay:      3.060ns (Levels of Logic = 3)
+  Clock Path Skew:      -0.006ns (0.126 - 0.132)
+  Source Clock:         i_clock_BUFGP rising at 0.000ns
+  Destination Clock:    i_clock_BUFGP rising at 10.000ns
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: inst_i2c_r/done_address to variable_i2c_mem_addra_index_7
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X31Y92.XQ      Tcko                  0.340   inst_i2c_r/done_address
+                                                       inst_i2c_r/done_address
+    SLICE_X31Y83.G4      net (fanout=6)        0.774   inst_i2c_r/done_address
+    SLICE_X31Y83.Y       Tilo                  0.194   N12
+                                                       variable_i2c_mem_addra_index_mux0001<10>41
+    SLICE_X31Y83.F4      net (fanout=10)       0.171   N13
+    SLICE_X31Y83.X       Tilo                  0.194   N12
+                                                       variable_i2c_mem_addra_index_mux0001<10>31
+    SLICE_X30Y87.G1      net (fanout=5)        0.839   N12
+    SLICE_X30Y87.CLK     Tgck                  0.548   variable_i2c_mem_addra_index<7>
+                                                       variable_i2c_mem_addra_index_mux0001<7>2_F
+                                                       variable_i2c_mem_addra_index_mux0001<7>2
+                                                       variable_i2c_mem_addra_index_7
+    -------------------------------------------------  ---------------------------
+    Total                                      3.060ns (1.276ns logic, 1.784ns route)
+                                                       (41.7% logic, 58.3% route)
+
+--------------------------------------------------------------------------------
+Slack (setup path):     7.102ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               i2c_r_done_address_prev (FF)
+  Destination:          variable_i2c_mem_addra_index_7 (FF)
+  Requirement:          10.000ns
+  Data Path Delay:      2.898ns (Levels of Logic = 3)
+  Clock Path Skew:      0.000ns
+  Source Clock:         i_clock_BUFGP rising at 0.000ns
+  Destination Clock:    i_clock_BUFGP rising at 10.000ns
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: i2c_r_done_address_prev to variable_i2c_mem_addra_index_7
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X31Y82.YQ      Tcko                  0.340   i2c_r_done_address_prev
+                                                       i2c_r_done_address_prev
+    SLICE_X31Y83.G1      net (fanout=5)        0.612   i2c_r_done_address_prev
+    SLICE_X31Y83.Y       Tilo                  0.194   N12
+                                                       variable_i2c_mem_addra_index_mux0001<10>41
+    SLICE_X31Y83.F4      net (fanout=10)       0.171   N13
+    SLICE_X31Y83.X       Tilo                  0.194   N12
+                                                       variable_i2c_mem_addra_index_mux0001<10>31
+    SLICE_X30Y87.G1      net (fanout=5)        0.839   N12
+    SLICE_X30Y87.CLK     Tgck                  0.548   variable_i2c_mem_addra_index<7>
+                                                       variable_i2c_mem_addra_index_mux0001<7>2_F
+                                                       variable_i2c_mem_addra_index_mux0001<7>2
+                                                       variable_i2c_mem_addra_index_7
+    -------------------------------------------------  ---------------------------
+    Total                                      2.898ns (1.276ns logic, 1.622ns route)
+                                                       (44.0% logic, 56.0% route)
+
+--------------------------------------------------------------------------------
+
+Paths for end point variable_i2c_mem_addra_index_8 (SLICE_X28Y84.F1), 12 paths
+--------------------------------------------------------------------------------
+Slack (setup path):     6.892ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               inst_i2c_r/done_address (FF)
+  Destination:          variable_i2c_mem_addra_index_8 (FF)
+  Requirement:          10.000ns
+  Data Path Delay:      3.108ns (Levels of Logic = 3)
+  Clock Path Skew:      0.000ns
+  Source Clock:         i_clock_BUFGP rising at 0.000ns
+  Destination Clock:    i_clock_BUFGP rising at 10.000ns
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: inst_i2c_r/done_address to variable_i2c_mem_addra_index_8
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X31Y92.XQ      Tcko                  0.340   inst_i2c_r/done_address
+                                                       inst_i2c_r/done_address
+    SLICE_X31Y83.G4      net (fanout=6)        0.774   inst_i2c_r/done_address
+    SLICE_X31Y83.Y       Tilo                  0.194   N12
+                                                       variable_i2c_mem_addra_index_mux0001<10>41
+    SLICE_X29Y83.F2      net (fanout=10)       0.834   N13
+    SLICE_X29Y83.X       Tilo                  0.194   N21
+                                                       variable_i2c_mem_addra_index_mux0001<8>_SW0
+    SLICE_X28Y84.F1      net (fanout=1)        0.557   N21
+    SLICE_X28Y84.CLK     Tfck                  0.215   variable_i2c_mem_addra_index<8>
+                                                       variable_i2c_mem_addra_index_mux0001<8>
+                                                       variable_i2c_mem_addra_index_8
+    -------------------------------------------------  ---------------------------
+    Total                                      3.108ns (0.943ns logic, 2.165ns route)
+                                                       (30.3% logic, 69.7% route)
+
+--------------------------------------------------------------------------------
+Slack (setup path):     7.054ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               i2c_r_done_address_prev (FF)
+  Destination:          variable_i2c_mem_addra_index_8 (FF)
+  Requirement:          10.000ns
+  Data Path Delay:      2.946ns (Levels of Logic = 3)
+  Clock Path Skew:      0.000ns
+  Source Clock:         i_clock_BUFGP rising at 0.000ns
+  Destination Clock:    i_clock_BUFGP rising at 10.000ns
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: i2c_r_done_address_prev to variable_i2c_mem_addra_index_8
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X31Y82.YQ      Tcko                  0.340   i2c_r_done_address_prev
+                                                       i2c_r_done_address_prev
+    SLICE_X31Y83.G1      net (fanout=5)        0.612   i2c_r_done_address_prev
+    SLICE_X31Y83.Y       Tilo                  0.194   N12
+                                                       variable_i2c_mem_addra_index_mux0001<10>41
+    SLICE_X29Y83.F2      net (fanout=10)       0.834   N13
+    SLICE_X29Y83.X       Tilo                  0.194   N21
+                                                       variable_i2c_mem_addra_index_mux0001<8>_SW0
+    SLICE_X28Y84.F1      net (fanout=1)        0.557   N21
+    SLICE_X28Y84.CLK     Tfck                  0.215   variable_i2c_mem_addra_index<8>
+                                                       variable_i2c_mem_addra_index_mux0001<8>
+                                                       variable_i2c_mem_addra_index_8
+    -------------------------------------------------  ---------------------------
+    Total                                      2.946ns (0.943ns logic, 2.003ns route)
+                                                       (32.0% logic, 68.0% route)
+
+--------------------------------------------------------------------------------
+Slack (setup path):     7.070ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               inst_i2c_r/done_data (FF)
+  Destination:          variable_i2c_mem_addra_index_8 (FF)
+  Requirement:          10.000ns
+  Data Path Delay:      2.930ns (Levels of Logic = 3)
+  Clock Path Skew:      0.000ns
+  Source Clock:         i_clock_BUFGP rising at 0.000ns
+  Destination Clock:    i_clock_BUFGP rising at 10.000ns
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: inst_i2c_r/done_data to variable_i2c_mem_addra_index_8
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X33Y93.XQ      Tcko                  0.340   inst_i2c_r/done_data
+                                                       inst_i2c_r/done_data
+    SLICE_X29Y83.G2      net (fanout=13)       1.266   inst_i2c_r/done_data
+    SLICE_X29Y83.Y       Tilo                  0.194   N21
+                                                       variable_i2c_mem_addra_index_mux0001<0>11
+    SLICE_X29Y83.F4      net (fanout=2)        0.164   N111
+    SLICE_X29Y83.X       Tilo                  0.194   N21
+                                                       variable_i2c_mem_addra_index_mux0001<8>_SW0
+    SLICE_X28Y84.F1      net (fanout=1)        0.557   N21
+    SLICE_X28Y84.CLK     Tfck                  0.215   variable_i2c_mem_addra_index<8>
+                                                       variable_i2c_mem_addra_index_mux0001<8>
+                                                       variable_i2c_mem_addra_index_8
+    -------------------------------------------------  ---------------------------
+    Total                                      2.930ns (0.943ns logic, 1.987ns route)
+                                                       (32.2% logic, 67.8% route)
+
+--------------------------------------------------------------------------------
+
+Hold Paths: NET "i_clock_BUFGP/IBUFG" PERIOD = 10 ns HIGH 50%;
+--------------------------------------------------------------------------------
+
+Paths for end point inst_i2c_r/s_state_p4_c_0 (SLICE_X41Y116.F4), 1 path
+--------------------------------------------------------------------------------
+Slack (hold path):      0.517ns (requirement - (clock path skew + uncertainty - data path))
+  Source:               inst_i2c_r/s_state_p4_c_0 (FF)
+  Destination:          inst_i2c_r/s_state_p4_c_0 (FF)
+  Requirement:          0.000ns
+  Data Path Delay:      0.517ns (Levels of Logic = 1)
+  Clock Path Skew:      0.000ns
+  Source Clock:         i_clock_BUFGP rising at 10.000ns
+  Destination Clock:    i_clock_BUFGP rising at 10.000ns
+  Clock Uncertainty:    0.000ns
+
+  Minimum Data Path: inst_i2c_r/s_state_p4_c_0 to inst_i2c_r/s_state_p4_c_0
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X41Y116.XQ     Tcko                  0.313   inst_i2c_r/s_state_p4_c<0>
+                                                       inst_i2c_r/s_state_p4_c_0
+    SLICE_X41Y116.F4     net (fanout=2)        0.325   inst_i2c_r/s_state_p4_c<0>
+    SLICE_X41Y116.CLK    Tckf        (-Th)     0.121   inst_i2c_r/s_state_p4_c<0>
+                                                       inst_i2c_r/s_state_p4_n_0_mux0000
+                                                       inst_i2c_r/s_state_p4_c_0
+    -------------------------------------------------  ---------------------------
+    Total                                      0.517ns (0.192ns logic, 0.325ns route)
+                                                       (37.1% logic, 62.9% route)
+
+--------------------------------------------------------------------------------
+
+Paths for end point inst_i2c_r/i2c_half_period_index_2 (SLICE_X39Y99.G4), 1 path
+--------------------------------------------------------------------------------
+Slack (hold path):      0.553ns (requirement - (clock path skew + uncertainty - data path))
+  Source:               inst_i2c_r/i2c_half_period_index_1 (FF)
+  Destination:          inst_i2c_r/i2c_half_period_index_2 (FF)
+  Requirement:          0.000ns
+  Data Path Delay:      0.553ns (Levels of Logic = 1)
+  Clock Path Skew:      0.000ns
+  Source Clock:         i_clock_BUFGP rising at 10.000ns
+  Destination Clock:    i_clock_BUFGP rising at 10.000ns
+  Clock Uncertainty:    0.000ns
+
+  Minimum Data Path: inst_i2c_r/i2c_half_period_index_1 to inst_i2c_r/i2c_half_period_index_2
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X38Y98.XQ      Tcko                  0.331   inst_i2c_r/i2c_half_period_index<1>
+                                                       inst_i2c_r/i2c_half_period_index_1
+    SLICE_X39Y99.G4      net (fanout=5)        0.347   inst_i2c_r/i2c_half_period_index<1>
+    SLICE_X39Y99.CLK     Tckg        (-Th)     0.125   inst_i2c_r/i2c_half_period_index<3>
+                                                       inst_i2c_r/i2c_half_period_index_2_rstpot
+                                                       inst_i2c_r/i2c_half_period_index_2
+    -------------------------------------------------  ---------------------------
+    Total                                      0.553ns (0.206ns logic, 0.347ns route)
+                                                       (37.3% logic, 62.7% route)
+
+--------------------------------------------------------------------------------
+
+Paths for end point inst_i2c_r/i2c_half_period_index_4 (SLICE_X39Y97.G4), 1 path
+--------------------------------------------------------------------------------
+Slack (hold path):      0.567ns (requirement - (clock path skew + uncertainty - data path))
+  Source:               inst_i2c_r/i2c_half_period_index_3 (FF)
+  Destination:          inst_i2c_r/i2c_half_period_index_4 (FF)
+  Requirement:          0.000ns
+  Data Path Delay:      0.568ns (Levels of Logic = 1)
+  Clock Path Skew:      0.001ns (0.135 - 0.134)
+  Source Clock:         i_clock_BUFGP rising at 10.000ns
+  Destination Clock:    i_clock_BUFGP rising at 10.000ns
+  Clock Uncertainty:    0.000ns
+
+  Minimum Data Path: inst_i2c_r/i2c_half_period_index_3 to inst_i2c_r/i2c_half_period_index_4
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X39Y99.XQ      Tcko                  0.313   inst_i2c_r/i2c_half_period_index<3>
+                                                       inst_i2c_r/i2c_half_period_index_3
+    SLICE_X39Y97.G4      net (fanout=5)        0.380   inst_i2c_r/i2c_half_period_index<3>
+    SLICE_X39Y97.CLK     Tckg        (-Th)     0.125   inst_i2c_r/i2c_half_period_index<4>
+                                                       inst_i2c_r/i2c_half_period_index_4_rstpot
+                                                       inst_i2c_r/i2c_half_period_index_4
+    -------------------------------------------------  ---------------------------
+    Total                                      0.568ns (0.188ns logic, 0.380ns route)
+                                                       (33.1% logic, 66.9% route)
+
+--------------------------------------------------------------------------------
+
+Component Switching Limit Checks: NET "i_clock_BUFGP/IBUFG" PERIOD = 10 ns HIGH 50%;
+--------------------------------------------------------------------------------
+Slack: 8.942ns (period - (min low pulse limit / (low pulse / period)))
+  Period: 10.000ns
+  Low pulse: 5.000ns
+  Low pulse limit: 0.529ns (Tcl)
+  Physical resource: variable_i2c_mem_addra_index<6>/CLK
+  Logical resource: variable_i2c_mem_addra_index_6/CK
+  Location pin: SLICE_X29Y85.CLK
+  Clock network: i_clock_BUFGP
+--------------------------------------------------------------------------------
+Slack: 8.942ns (period - (min low pulse limit / (low pulse / period)))
+  Period: 10.000ns
+  Low pulse: 5.000ns
+  Low pulse limit: 0.529ns (Tcl)
+  Physical resource: variable_i2c_mem_addra_index<7>/CLK
+  Logical resource: variable_i2c_mem_addra_index_7/CK
+  Location pin: SLICE_X30Y87.CLK
+  Clock network: i_clock_BUFGP
+--------------------------------------------------------------------------------
+Slack: 8.942ns (period - (min low pulse limit / (low pulse / period)))
+  Period: 10.000ns
+  Low pulse: 5.000ns
+  Low pulse limit: 0.529ns (Tcl)
+  Physical resource: variable_i2c_mem_addra_index<3>/CLK
+  Logical resource: variable_i2c_mem_addra_index_3/CK
+  Location pin: SLICE_X29Y80.CLK
+  Clock network: i_clock_BUFGP
+--------------------------------------------------------------------------------
+
+
+All constraints were met.
 
 
 Data Sheet report:
 -----------------
 All values displayed in nanoseconds (ns)
 
-Setup/Hold to clock i_clock
-------------+------------+------------+------------------+--------+
-            |Max Setup to|Max Hold to |                  | Clock  |
-Source      | clk (edge) | clk (edge) |Internal Clock(s) | Phase  |
-------------+------------+------------+------------------+--------+
-i_reset     |    0.579(R)|    3.667(R)|i_clock_BUFGP     |   0.000|
-i_scl       |   -1.463(R)|    3.806(R)|i_clock_BUFGP     |   0.000|
-i_sda       |   -1.785(R)|    3.606(R)|i_clock_BUFGP     |   0.000|
-------------+------------+------------+------------------+--------+
-
-Clock i_clock to Pad
------------------+------------+------------------+--------+
-                 | clk (edge) |                  | Clock  |
-Destination      |   to PAD   |Internal Clock(s) | Phase  |
------------------+------------+------------------+--------+
-o_done_address   |   10.239(R)|i_clock_BUFGP     |   0.000|
-o_done_data      |   10.709(R)|i_clock_BUFGP     |   0.000|
-o_i2c_address<0> |    9.138(R)|i_clock_BUFGP     |   0.000|
-o_i2c_address<1> |    9.351(R)|i_clock_BUFGP     |   0.000|
-o_i2c_address<2> |    9.354(R)|i_clock_BUFGP     |   0.000|
-o_i2c_address<3> |    9.143(R)|i_clock_BUFGP     |   0.000|
-o_i2c_address<4> |    9.353(R)|i_clock_BUFGP     |   0.000|
-o_i2c_address<5> |    9.142(R)|i_clock_BUFGP     |   0.000|
-o_i2c_address<6> |    9.153(R)|i_clock_BUFGP     |   0.000|
-o_i2c_address_ack|    9.357(R)|i_clock_BUFGP     |   0.000|
-o_i2c_address_rw |    9.151(R)|i_clock_BUFGP     |   0.000|
-o_i2c_data<0>    |    9.147(R)|i_clock_BUFGP     |   0.000|
-o_i2c_data<1>    |    9.136(R)|i_clock_BUFGP     |   0.000|
-o_i2c_data<2>    |    9.346(R)|i_clock_BUFGP     |   0.000|
-o_i2c_data<3>    |    9.345(R)|i_clock_BUFGP     |   0.000|
-o_i2c_data<4>    |    9.155(R)|i_clock_BUFGP     |   0.000|
-o_i2c_data<5>    |    9.350(R)|i_clock_BUFGP     |   0.000|
-o_i2c_data<6>    |    9.147(R)|i_clock_BUFGP     |   0.000|
-o_i2c_data<7>    |    9.152(R)|i_clock_BUFGP     |   0.000|
-o_i2c_data_ack   |    9.357(R)|i_clock_BUFGP     |   0.000|
------------------+------------+------------------+--------+
-
 Clock to Setup on destination clock i_clock
 ---------------+---------+---------+---------+---------+
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-i_clock        |    2.301|         |         |         |
+i_clock        |    3.218|         |         |         |
 ---------------+---------+---------+---------+---------+
 
 
-Analysis completed Mon Dec 12 00:16:38 2022 
+Timing summary:
+---------------
+
+Timing errors: 0  Score: 0  (Setup/Max: 0, Hold: 0)
+
+Constraints cover 359 paths, 0 nets, and 253 connections
+
+Design statistics:
+   Minimum period:   3.218ns{1}   (Maximum frequency: 310.752MHz)
+
+
+------------------------------------Footnotes-----------------------------------
+1)  The minimum period statistic assumes all single cycle delays.
+
+Analysis completed Tue Dec 13 17:20:30 2022 
 --------------------------------------------------------------------------------
 
 Trace Settings:
 -------------------------
 Trace Settings 
 
-Peak Memory Usage: 480 MB
+Peak Memory Usage: 488 MB
 
 
 

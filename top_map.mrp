@@ -9,34 +9,35 @@ Target Device  : xc4vsx35
 Target Package : ff668
 Target Speed   : -10
 Mapper Version : virtex4 -- $Revision: 1.55 $
-Mapped Date    : Mon Dec 12 00:15:45 2022
+Mapped Date    : Tue Dec 13 17:19:53 2022
 
 Design Summary
 --------------
 Number of errors:      0
 Number of warnings:    0
 Logic Utilization:
-  Number of Slice Flip Flops:            29 out of  30,720    1%
-  Number of 4 input LUTs:                41 out of  30,720    1%
+  Number of Slice Flip Flops:            49 out of  30,720    1%
+  Number of 4 input LUTs:                85 out of  30,720    1%
 Logic Distribution:
-  Number of occupied Slices:             37 out of  15,360    1%
-    Number of Slices containing only related logic:      37 out of      37 100%
-    Number of Slices containing unrelated logic:          0 out of      37   0%
+  Number of occupied Slices:             64 out of  15,360    1%
+    Number of Slices containing only related logic:      64 out of      64 100%
+    Number of Slices containing unrelated logic:          0 out of      64   0%
       *See NOTES below for an explanation of the effects of unrelated logic.
-  Total Number of 4 input LUTs:          41 out of  30,720    1%
+  Total Number of 4 input LUTs:          85 out of  30,720    1%
 
   The Slice Logic Distribution report is not meaningful if the design is
   over-mapped for a non-slice resource or if Placement fails.
-  Number of bonded IOBs:                 24 out of     448    5%
-    IOB Flip Flops:                      18
+  Number of bonded IOBs:                 12 out of     448    2%
   Number of BUFG/BUFGCTRLs:               1 out of      32    3%
     Number used as BUFGs:                 1
+  Number of FIFO16/RAMB16s:               1 out of     192    1%
+    Number used as RAMB16s:               1
 
-Average Fanout of Non-Clock Nets:                2.79
+Average Fanout of Non-Clock Nets:                3.33
 
-Peak Memory Usage:  653 MB
+Peak Memory Usage:  656 MB
 Total REAL time to MAP completion:  7 secs 
-Total CPU time to MAP completion:   7 secs 
+Total CPU time to MAP completion:   6 secs 
 
 NOTES:
 
@@ -80,7 +81,18 @@ Section 2 - Warnings
 
 Section 3 - Informational
 -------------------------
+INFO:LIT:243 - Logical network inst_i2c_mem/doutb<7> has no load.
+INFO:LIT:395 - The above info message is repeated 7 more times for the following
+   (max. 5 shown):
+   inst_i2c_mem/doutb<6>,
+   inst_i2c_mem/doutb<5>,
+   inst_i2c_mem/doutb<4>,
+   inst_i2c_mem/doutb<3>,
+   inst_i2c_mem/doutb<2>
+   To see the details of these info messages, please use the -detail switch.
 INFO:MapLib:562 - No environment variables are currently set.
+INFO:MapLib:159 - Net Timing constraints on signal i_clock are pushed forward
+   through input buffer.
 INFO:MapLib:797 - Your design is targeting LX/SX Production Step 0/1/ES devices.
    Please note that there are new specifications for the DCMs to guarantee
    maximum frequency performance. If the DCM input clock might stop or if the
@@ -92,14 +104,37 @@ INFO:LIT:244 - All of the single ended outputs in this design are using slew
 
 Section 4 - Removed Logic Summary
 ---------------------------------
-   1 block(s) optimized away
+   4 block(s) optimized away
+   8 signal(s) removed
 
 Section 5 - Removed Logic
 -------------------------
 
+The trimmed logic report below shows the logic removed from your design due to
+sourceless or loadless signals, and VCC or ground connections.  If the removal
+of a signal or symbol results in the subsequent removal of an additional signal
+or symbol, the message explaining that second removal will be indented.  This
+indentation will be repeated as a chain of related logic is removed.
+
+To quickly locate the original cause for the removal of a chain of logic, look
+above the place where that logic is listed in the trimming report, then locate
+the lines that are least indented (begin at the leftmost edge).
+
+The signal "inst_i2c_mem/doutb<7>" is sourceless and has been removed.
+The signal "inst_i2c_mem/doutb<6>" is sourceless and has been removed.
+The signal "inst_i2c_mem/doutb<5>" is sourceless and has been removed.
+The signal "inst_i2c_mem/doutb<4>" is sourceless and has been removed.
+The signal "inst_i2c_mem/doutb<3>" is sourceless and has been removed.
+The signal "inst_i2c_mem/doutb<2>" is sourceless and has been removed.
+The signal "inst_i2c_mem/doutb<1>" is sourceless and has been removed.
+The signal "inst_i2c_mem/doutb<0>" is sourceless and has been removed.
+
 Optimized Block(s):
 TYPE 		BLOCK
+GND 		XST_GND
 VCC 		XST_VCC
+GND 		inst_i2c_mem/XST_GND
+VCC 		inst_i2c_mem/XST_VCC
 
 To enable printing of redundant blocks removed and signals merged, set the
 detailed map report option and rerun map.
@@ -115,26 +150,14 @@ Section 6 - IOB Properties
 | i_reset                            | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
 | i_scl                              | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
 | i_sda                              | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
-| o_done_address                     | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| o_done_data                        | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| o_i2c_address<0>                   | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          |          |
-| o_i2c_address<1>                   | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          |          |
-| o_i2c_address<2>                   | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          |          |
-| o_i2c_address<3>                   | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          |          |
-| o_i2c_address<4>                   | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          |          |
-| o_i2c_address<5>                   | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          |          |
-| o_i2c_address<6>                   | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          |          |
-| o_i2c_address_ack                  | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          |          |
-| o_i2c_address_rw                   | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          |          |
-| o_i2c_data<0>                      | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          |          |
-| o_i2c_data<1>                      | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          |          |
-| o_i2c_data<2>                      | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          |          |
-| o_i2c_data<3>                      | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          |          |
-| o_i2c_data<4>                      | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          |          |
-| o_i2c_data<5>                      | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          |          |
-| o_i2c_data<6>                      | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          |          |
-| o_i2c_data<7>                      | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          |          |
-| o_i2c_data_ack                     | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          |          |
+| o_data<0>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<1>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<2>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<3>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<4>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<5>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<6>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<7>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
 +---------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 Section 7 - RPMs
