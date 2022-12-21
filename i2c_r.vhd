@@ -52,7 +52,10 @@ port (
 	o_i2c_data : out std_logic_vector(I2C_DATA_BITS - 1 downto 0);
 	o_i2c_data_ack : out std_logic;
 	o_done_data : out std_logic;
-	o_done_address : out std_logic
+	o_done_address : out std_logic;
+	o_sta : out std_logic;
+	o_sto : out std_logic;
+	o_counter_enable : out std_logic
 );
 end entity i2c_r;
 
@@ -70,6 +73,10 @@ architecture Behavioral of i2c_r is
 	signal s_state_p6_c,s_state_p6_n : states;
 	signal s_sda_data_first_flag,s_sda_data_first_flag_internal : std_logic;
 begin
+
+o_sta <= sta_condition;
+o_sto <= sto_condition;
+o_counter_enable <= counter_enable;
 
 o_done_data <= done_data;
 o_done_address <= done_address;

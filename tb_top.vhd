@@ -188,7 +188,7 @@ else
 
 				variable_idle_number := natural'value(string_idle_number);
 
-				report "idle " & natural'image(variable_idle_number);
+--				report "idle " & natural'image(variable_idle_number);
 
 				if variable_idle_number > 0 then
 					sda_stop(sda_data, clock_period);
@@ -208,9 +208,9 @@ else
 				variable_address_value := variable_address_value_hi & variable_address_value_lo;
 				variable_address_rw := To_Std_Logic(string_address_rw(1));
 
-				report "address " & string_address_value & " " & 
-				integer'image(to_integer(unsigned(variable_address_value_hi))) & " " &
-				integer'image(to_integer(unsigned(variable_address_value_lo)));
+--				report "address " & string_address_value & " " & 
+--				integer'image(to_integer(unsigned(variable_address_value_hi))) & " " &
+--				integer'image(to_integer(unsigned(variable_address_value_lo)));
 
 				sda_address_7bit(sda_data, variable_address_value, variable_address_rw, clock_period);
 				signal_address_value <= variable_address_value;
@@ -233,9 +233,9 @@ else
 				variable_data_value := variable_data_value_hi & variable_data_value_lo;
 				variable_data_ack := To_Std_Logic(string_data_ack(1));
 
-				report "data " & string_data_value & " " & 
-				integer'image(to_integer(unsigned(variable_data_value_hi))) & " " &
-				integer'image(to_integer(unsigned(variable_data_value_lo)));
+--				report "data " & string_data_value & " " & 
+--				integer'image(to_integer(unsigned(variable_data_value_hi))) & " " &
+--				integer'image(to_integer(unsigned(variable_data_value_lo)));
 
 				sda_data_8bit(sda_data, variable_data_value, variable_data_ack, clock_period);
 				signal_data_value <= variable_data_value;
@@ -261,12 +261,12 @@ p1 : process (scl_clock) is
 begin
 	if (rising_edge(scl_clock)) then
 		if (done_address = '1') then
-			assert (signal_address_value = address)
-			report
-			"fail address (2) : " &
-			integer'image(to_integer(unsigned(signal_address_value))) & " " &
-			integer'image(to_integer(unsigned(address)))
-			severity warning;
+--			assert (signal_address_value = address)
+--			report
+--			"fail address (2) : " &
+--			integer'image(to_integer(unsigned(signal_address_value))) & " " &
+--			integer'image(to_integer(unsigned(address)))
+--			severity warning;
 		end if;
 	end if;
 end process p1;
@@ -275,11 +275,11 @@ p2 : process (scl_clock) is
 begin
 	if (rising_edge(scl_clock)) then
 		if (done_data = '1') then
-			assert (signal_data_value = data)
-			report "fail data (2) : " &
-			integer'image(to_integer(unsigned(signal_data_value))) & " " &
-			integer'image(to_integer(unsigned(data)))
-			severity warning;
+--			assert (signal_data_value = data)
+--			report "fail data (2) : " &
+--			integer'image(to_integer(unsigned(signal_data_value))) & " " &
+--			integer'image(to_integer(unsigned(data)))
+--			severity warning;
 		end if;
 	end if;
 end process p2;
