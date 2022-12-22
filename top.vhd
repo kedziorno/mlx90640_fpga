@@ -19,11 +19,11 @@
 ----------------------------------------------------------------------------------
 library IEEE,ieee_proposed;
 --use ieee.math_real.all;
-use ieee.std_logic_arith.all;
+--use ieee.std_logic_arith.all;
 use IEEE.STD_LOGIC_1164.ALL;
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 use ieee_proposed.fixed_float_types.all;
 use ieee_proposed.fixed_pkg.all;
@@ -175,6 +175,25 @@ signal aaa : std_logic; -- xxx
 
 signal return_sub : std_logic_vector(15 downto 0);
 
+function rev(a : std_logic_vector) return std_logic_vector is
+--	variable v,w : std_logic_vector(a'range);
+	variable v : std_logic_vector(a'range);
+	variable w : unsigned(a'range);
+begin
+	l0 : for i in 0 to a'length-1 loop
+		if (a(i) = '1') then
+			v(i) := '0';
+		end if;
+		if (a(i) = '0') then
+			v(i) := '1';
+		end if;
+	end loop l0;
+--	w := std_logic_vector(to_unsigned(to_integer(unsigned(v))+1,a'length));
+	w := unsigned(v)+x"1";
+	report "asd";
+	return std_logic_vector(w);
+end function;
+
 begin
 
 o_data <= fpu_div_output_o(7 downto 0);
@@ -218,7 +237,7 @@ i2c_mem_dina <= i2c_r_data;
 --i2c_mem_wea <= "1" when signal_i2c_mem_data_available = '0' else "0";
 i2c_mem_wea <= "1" when i2c_r_counter_enable = '1' else "0";
 --signal_i2c_mem_data_available <= '1' when (i2c_r_done_data_prev = '0' and i2c_r_done_data = '1' and to_integer(unsigned(signal_i2c_mem_addra_index)) = C_DATA_SIZE - 1) else '0';
-signal_i2c_mem_data_available <= '1' when (i2c_r_done_data_prev = '0' and i2c_r_done_data = '1' and (signal_i2c_mem_addra_index = std_logic_vector(conv_unsigned(C_DATA_SIZE - 1,11)))) else '0';
+signal_i2c_mem_data_available <= '1' when (i2c_r_done_data_prev = '0' and i2c_r_done_data = '1' and (signal_i2c_mem_addra_index = std_logic_vector(to_unsigned(C_DATA_SIZE - 1,11)))) else '0';
 --signal_i2c_mem_data_available <= '1' when (i2c_r_sto = '1') else '0';
 
 inst_mem_kvdd_vdd25 : mem_kvdd_vdd25
@@ -292,7 +311,7 @@ begin
 					end if;
 				when b =>
 					state := c;
-					i2c_mem_kvdd_vdd25_address <= std_logic_vector(conv_unsigned(70,11));
+					i2c_mem_kvdd_vdd25_address <= std_logic_vector(to_unsigned(70,11));
 				when c =>
 					if (v_wait1 = C_WAIT1 - 1) then
 						state := d;
@@ -304,7 +323,7 @@ begin
 					end if;
 				when d =>
 					state := e;
-					i2c_mem_kvdd_vdd25_address <= std_logic_vector(conv_unsigned(71,11));
+					i2c_mem_kvdd_vdd25_address <= std_logic_vector(to_unsigned(71,11));
 				when e =>
 					if (v_wait1 = C_WAIT1 - 1) then
 						state := f;
@@ -378,7 +397,7 @@ begin
 --				end if;
 			end if;
 		end if;
-		signal_i2c_mem_addra_index <= std_logic_vector(conv_unsigned(variable_i2c_mem_addra_index,11));
+		signal_i2c_mem_addra_index <= std_logic_vector(to_unsigned(variable_i2c_mem_addra_index,11));
 	end if;
 end process p0;
 
@@ -386,9 +405,9 @@ p0_fpu_sub : process (i_clock,i_reset) is
 	type states_fpu_sub is (fpu_sub_state_idle,fpu_sub_state_a,fpu_sub_state_b);
 	variable state_fpu_sub : states_fpu_sub;
 --	variable qwe : std_logic_vector(31 downto 0);
-	variable qwe : std_logic_vector(31 downto 0) := x"0000ccc5";
+	variable qwe : std_logic_vector(15 downto 0):=(others => '0');
 	variable asd : unsigned(31 downto 0) := x"0000ccc5";
-	variable zxc : signed(31 downto 0) := (others => '0');
+	variable zxc : unsigned(31 downto 0) := (others => '0');
 	variable rty : float32;
 begin
 	if (rising_edge(i_clock)) then
@@ -403,13 +422,18 @@ begin
 --					if (signal_i2c_mem_data_available = '1') then
 					if (aaa = '1') then
 						state_fpu_sub := fpu_sub_state_a;
-						asd := unsigned(qwe);
-						zxc := conv_signed(asd,32);
-						qwe := std_logic_vector(zxc);
-						rty := to_float(qwe,float32'high,-float32'low);
-						fpu_sub_opa_i <= x"8000" & to_slv(rty)(15 downto 0); -- xxx
-						fpu_sub_opb_i <= x"8000" & slv_data_vdd25(15 downto 0);
---						fpu_sub_opb_i <= mem_kvdd_vdd25_data_kvdd;
+--						asd := unsigned(qwe);
+--						zxc := to_unsigned(asd,32);
+						qwe := std_logic_vector'(x"ccc5");
+						rty := to_float(qwe,5,10);
+--						rty := resize(rty,5,10);
+--						fpu_sub_opa_i <= x"0001" & to_slv(rty)(15 downto 0); -- xxx
+						fpu_sub_opb_i <= x"0000"&to_slv(rty)(31 downto 16); -- xxx
+--						fpu_sub_opa_i <= to_slv(rty); -- xxx
+						fpu_sub_opa_i <= x"0000"&slv_data_vdd25(15 downto 0);
+--						fpu_sub_opb_i <= to_slv(resize(slv_data_vdd25,5,10));
+--						fpu_sub_opb_i <= x"ffff"&to_slv(f32_data_vdd25)(31 downto 16);
+--						fpu_sub_opb_i <= slv_data_vdd25;
 					else
 						state_fpu_sub := fpu_sub_state_idle;
 					end if;
@@ -447,7 +471,8 @@ begin
 					if (fpu_sub_ready_o = '1') then
 						state_fpu_div := fpu_div_state_a;
 						fpu_div_opa_i <= x"0000" & fpu_sub_output_o(15 downto 0);
-						fpu_div_opb_i <= x"ffff" & slv_data_kvdd(15 downto 0);
+--						fpu_div_opa_i <= x"0000" & to_slv(resize(to_float(x"ffff" & slv_data_kvdd(15 downto 0)),15,0));
+						fpu_div_opb_i <= x"0000" & to_slv(resize(to_float(slv_data_kvdd),15,0));
 --						fpu_div_opb_i <= mem_kvdd_vdd25_data_vdd25;
 					else
 						state_fpu_div := fpu_div_state_idle;

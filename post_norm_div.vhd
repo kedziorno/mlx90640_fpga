@@ -200,11 +200,11 @@ begin
 	s_round <= s_fraco1(1);
 	s_sticky <= s_fraco1(0) or or_reduce(s_rmndr_i);
 	
---	s_roundup <= s_guard and ((s_round or s_sticky)or s_fraco1(3)) when s_rmode_i="00" else -- round to nearset even
---				 ( s_guard or s_round or s_sticky) and (not s_sign_i) when s_rmode_i="10" else -- round up
---				 ( s_guard or s_round or s_sticky) and (s_sign_i) when s_rmode_i="11" else -- round down
---				 '0'; -- round to zero(truncate = no rounding)
-		s_roundup <= '0'; -- "01"
+	s_roundup <= s_guard and ((s_round or s_sticky)or s_fraco1(3)) when s_rmode_i="00" else -- round to nearset even
+				 ( s_guard or s_round or s_sticky) and (not s_sign_i) when s_rmode_i="10" else -- round up
+				 ( s_guard or s_round or s_sticky) and (s_sign_i) when s_rmode_i="11" else -- round down
+				 '0'; -- round to zero(truncate = no rounding)
+--		s_roundup <= '0'; -- "01"
 
 	s_frac_rnd <= ("0"&s_fraco1(26 downto 3)) + '1' when s_roundup='1' else "0"&s_fraco1(26 downto 3);
 	s_shr2 <= s_frac_rnd(24);
