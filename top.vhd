@@ -43,7 +43,7 @@ port (
 	i_reset : in std_logic;
 	i_sda : in std_logic;
 	i_scl : in std_logic;
-	o_data : out std_logic_vector(7 downto 0)
+	o_data : out float(5 downto -10)
 );
 end top;
 
@@ -155,10 +155,11 @@ signal mem_kvdd_vdd25_data_kvdd : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal mem_kvdd_vdd25_data_vdd25 : STD_LOGIC_VECTOR(15 DOWNTO 0);
 
 subtype sfixed16 is sfixed (7 downto -8);
+subtype float16 is float (6 downto -9);
 
-signal f32_data_kvdd,f32_data_vdd25 : float32;
+signal f32_data_kvdd,f32_data_vdd25 : float16;
 --signal f32_data_kvdd,f32_data_vdd25 : sfixed16;
-signal slv_data_kvdd,slv_data_vdd25 : std_logic_vector(31 downto 0);
+signal slv_data_kvdd,slv_data_vdd25 : std_logic_vector(15 downto 0);
 --signal slv_data_kvdd,slv_data_vdd25 : std_logic_vector(15 downto 0);
 
 signal signal_i2c_mem_addra_index : std_logic_vector(10 downto 0);
@@ -175,28 +176,13 @@ signal aaa : std_logic; -- xxx
 
 signal return_sub : std_logic_vector(15 downto 0);
 
-function rev(a : std_logic_vector) return std_logic_vector is
---	variable v,w : std_logic_vector(a'range);
-	variable v : std_logic_vector(a'range);
-	variable w : unsigned(a'range);
-begin
-	l0 : for i in 0 to a'length-1 loop
-		if (a(i) = '1') then
-			v(i) := '0';
-		end if;
-		if (a(i) = '0') then
-			v(i) := '1';
-		end if;
-	end loop l0;
---	w := std_logic_vector(to_unsigned(to_integer(unsigned(v))+1,a'length));
-	w := unsigned(v)+x"1";
-	report "asd";
-	return std_logic_vector(w);
-end function;
+signal nnn : float32;
+signal mmm: float16;
+signal rty : float16;
 
 begin
 
-o_data <= fpu_div_output_o(7 downto 0);
+--o_data <= nnn;
 
 inst_i2c_r : i2c_r
 port map (
@@ -253,34 +239,6 @@ o_data_vdd25 => mem_kvdd_vdd25_data_vdd25
 mem_kvdd_vdd25_clock <= i_clock;
 mem_kvdd_vdd25_reset <= i_reset;
 --mem_kvdd_vdd25_address <= x"68"; -- xxx datasheet p.33 0x2433-0x2410 = 0x23 * 2 = 0x70 -> kvdd/vdd25 = 0x9d68
-
-inst_fpu_sub : fpu_sub
-port map (
-clk_i => fpu_sub_clk_i,
-opa_i => fpu_sub_opa_i,
-opb_i => fpu_sub_opb_i,
-output_o => fpu_sub_output_o,  
-start_i => fpu_sub_start_i,
-ready_o => fpu_sub_ready_o
-);
-
-inst_fpu_div : fpu_div
-port map (
-clk_i => fpu_div_clk_i,
-opa_i => fpu_div_opa_i,
-opb_i => fpu_div_opb_i,
-output_o => fpu_div_output_o,  
-start_i => fpu_div_start_i,
-ready_o => fpu_div_ready_o
-);
-
---f32_data_kvdd <= to_float(x"0000" & mem_kvdd_vdd25_data_kvdd);
---f32_data_vdd25 <= to_float(x"0000" & mem_kvdd_vdd25_data_vdd25);
---slv_data_kvdd <= to_slv(f32_data_kvdd);
---slv_data_vdd25 <= to_slv(f32_data_vdd25);
-
-fpu_sub_clk_i <= i_clock;
-fpu_div_clk_i <= i_clock;
 
 -- xxx datasheet p.33 0x2433-0x2410 = 0x23 * 2 = 0x70 -> kvdd/vdd25 = 0x9d68
 p1 : process (i_clock, i_reset) is
@@ -344,11 +302,11 @@ begin
 					end if;
 				when g =>
 					state := h;
-					f32_data_kvdd <= to_float(x"0000" & mem_kvdd_vdd25_data_kvdd);
+					f32_data_kvdd <= to_float(mem_kvdd_vdd25_data_kvdd,f32_data_kvdd);
 --					f32_data_kvdd <= to_sfixed(mem_kvdd_vdd25_data_kvdd,sfixed16'high,sfixed16'low);
 				when h =>
 					state := i;
-					slv_data_kvdd <= to_slv(f32_data_kvdd); -- xxx 0xf3a0
+--					slv_data_kvdd <= to_slv(f32_data_kvdd); -- xxx 0xf3a0
 				when i =>
 					mem_kvdd_vdd25_address <= vdd25;
 					if (v_wait1 = C_WAIT1 - 1) then
@@ -360,13 +318,15 @@ begin
 					end if;
 				when j =>
 					state := k;
-					f32_data_vdd25 <= to_float(x"0000" & mem_kvdd_vdd25_data_vdd25);
+					f32_data_vdd25 <= to_float(mem_kvdd_vdd25_data_vdd25,f32_data_vdd25);
 --					f32_data_vdd25 <= to_sfixed(mem_kvdd_vdd25_data_vdd25,sfixed16'high,sfixed16'low);
 				when k =>
 					state := l;
-					slv_data_vdd25 <= to_slv(f32_data_vdd25); -- xxx 0xcd00
+--					slv_data_vdd25 <= to_slv(f32_data_vdd25); -- xxx 0xcd00
 				when l =>
 					state := m;
+					report "kvdd : " & real'image(to_real(f32_data_kvdd,denormalize=>false)) severity note;
+					report "vdd25 : " & real'image(to_real(f32_data_vdd25,denormalize=>false)) severity note;
 				when m =>
 					aaa <= '1';
 --					report "" severity failure;
@@ -408,7 +368,6 @@ p0_fpu_sub : process (i_clock,i_reset) is
 	variable qwe : std_logic_vector(15 downto 0):=(others => '0');
 	variable asd : unsigned(31 downto 0) := x"0000ccc5";
 	variable zxc : unsigned(31 downto 0) := (others => '0');
-	variable rty : float32;
 begin
 	if (rising_edge(i_clock)) then
 		if (i_reset = '1') then
@@ -416,21 +375,24 @@ begin
 			fpu_sub_opb_i <= (others => '0');
 			fpu_sub_start_i <= '0';
 			state_fpu_sub := fpu_sub_state_idle;
+--			mmm <= (others => '0');
+--			rty <= (others => '0');
 		else
 			case (state_fpu_sub) is
 				when fpu_sub_state_idle =>
 --					if (signal_i2c_mem_data_available = '1') then
+						fpu_sub_ready_o <= '0';
+
 					if (aaa = '1') then
 						state_fpu_sub := fpu_sub_state_a;
 --						asd := unsigned(qwe);
 --						zxc := to_unsigned(asd,32);
-						qwe := std_logic_vector'(x"ccc5");
-						rty := to_float(qwe,5,10);
+						rty <= to_float(std_logic_vector'(x"ccc5"),rty);
 --						rty := resize(rty,5,10);
 --						fpu_sub_opa_i <= x"0001" & to_slv(rty)(15 downto 0); -- xxx
-						fpu_sub_opb_i <= x"0000"&to_slv(rty)(31 downto 16); -- xxx
+--						fpu_sub_opb_i <= x"0000"&to_slv(rty)(31 downto 16); -- xxx
 --						fpu_sub_opa_i <= to_slv(rty); -- xxx
-						fpu_sub_opa_i <= x"0000"&slv_data_vdd25(15 downto 0);
+--						fpu_sub_opa_i <= x"0000"&slv_data_vdd25(15 downto 0);
 --						fpu_sub_opb_i <= to_slv(resize(slv_data_vdd25,5,10));
 --						fpu_sub_opb_i <= x"ffff"&to_slv(f32_data_vdd25)(31 downto 16);
 --						fpu_sub_opb_i <= slv_data_vdd25;
@@ -440,10 +402,12 @@ begin
 				when fpu_sub_state_a =>
 					state_fpu_sub := fpu_sub_state_b;
 					fpu_sub_start_i <= '1';
+										fpu_sub_ready_o <= '1';
+
 				when fpu_sub_state_b =>
 					fpu_sub_start_i <= '0';
 					if(fpu_sub_ready_o = '1') then
-						return_sub <= fpu_sub_output_o(15 downto 0);
+--						return_sub <= fpu_sub_output_o(15 downto 0);
 						state_fpu_sub := fpu_sub_state_idle;
 					else
 						state_fpu_sub := fpu_sub_state_b;
@@ -455,6 +419,18 @@ begin
 	end if;
 end process p0_fpu_sub;
 
+--mmm(-12 downto -23) <= rty(-12 downto -23) - f32_data_vdd25(-12 downto -23);
+--mmm <= to_float(to_slv(to_float(to_slv(rty),float16'high,-float16'low) - to_float(to_slv(f32_data_vdd25),float16'high,-float16'low)),float32'high,-float32'low);
+--nnn <= to_float(to_slv(to_float(to_slv(mmm),float16'high,-float16'low) / to_float(to_slv(f32_data_kvdd),float16'high,-float16'low)),float32'high,-float32'low);
+
+--mmm <= rty - f32_data_vdd25;
+--mmm <= subtract(l => rty,r => f32_data_vdd25,denormalize => true,check_error => true,round_style => round_nearest,guard => 32);
+
+--nnn <= mmm / f32_data_kvdd;
+
+mmm <= to_float(to_slv(to_float(to_slv(rty),float16'high,-float16'low) - to_float(to_slv(f32_data_vdd25),float16'high,-float16'low)),float16'high,-float16'low);
+--nnn <= to_float(to_slv(to_float(to_slv(mmm),float16'high,-float16'low) / to_float(to_slv(f32_data_kvdd),float16'high,-float16'low)),float32'high,-float32'low);
+
 p0_fpu_div : process (i_clock,i_reset) is
 	type states_fpu_div is (fpu_div_state_idle,fpu_div_state_a,fpu_div_state_b);
 	variable state_fpu_div : states_fpu_div;
@@ -465,6 +441,7 @@ begin
 			fpu_div_opb_i <= (others => '0');
 			fpu_div_start_i <= '0';
 			state_fpu_div := fpu_div_state_idle;
+--			nnn <= (others => '0');
 		else
 			case (state_fpu_div) is
 				when fpu_div_state_idle =>
@@ -482,12 +459,13 @@ begin
 					fpu_div_start_i <= '1';
 				when fpu_div_state_b =>
 					fpu_div_start_i <= '0';
-					if(fpu_div_ready_o = '1') then
+--					if(fpu_div_ready_o = '1') then
 						state_fpu_div := fpu_div_state_idle;
-						report "div : " & real'image(to_real(float32(fpu_div_output_o))) severity failure;
-					else
-						state_fpu_div := fpu_div_state_b;
-					end if;
+--						report "div : " & real'image(to_real(float32(fpu_div_output_o))) severity failure;
+						report "div : " & real'image(to_real(nnn)) severity failure;
+--					else
+--						state_fpu_div := fpu_div_state_b;
+--					end if;
 				when others =>
 					null;
 			end case;

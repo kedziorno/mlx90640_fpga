@@ -28,814 +28,336 @@ INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on
 Timing constraint: NET "i_clock_BUFGP/IBUFG" PERIOD = 10 ns HIGH 50%;
 For more information, see Period Analysis in the Timing Closure User Guide (UG612).
 
- 162882 paths analyzed, 2224 endpoints analyzed, 0 failing endpoints
+ 629 paths analyzed, 274 endpoints analyzed, 0 failing endpoints
  0 timing errors detected. (0 setup errors, 0 hold errors, 0 component switching limit errors)
- Minimum period is   9.377ns.
+ Minimum period is   5.594ns.
 --------------------------------------------------------------------------------
 
-Paths for end point inst_fpu_div/i_serial_div/s_qutnt_o_15 (SLICE_X1Y30.F1), 393 paths
+Paths for end point f32_data_kvdd_8 (SLICE_X42Y84.CE), 4 paths
 --------------------------------------------------------------------------------
-Slack (setup path):     0.623ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               inst_fpu_div/i_serial_div/s_count_4 (FF)
-  Destination:          inst_fpu_div/i_serial_div/s_qutnt_o_15 (FF)
+Slack (setup path):     4.406ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               p1.state_FSM_FFd4 (FF)
+  Destination:          f32_data_kvdd_8 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.377ns (Levels of Logic = 17)
-  Clock Path Skew:      0.000ns
+  Data Path Delay:      5.333ns (Levels of Logic = 2)
+  Clock Path Skew:      -0.261ns (1.534 - 1.795)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: inst_fpu_div/i_serial_div/s_count_4 to inst_fpu_div/i_serial_div/s_qutnt_o_15
+  Maximum Data Path: p1.state_FSM_FFd4 to f32_data_kvdd_8
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X4Y32.XQ       Tcko                  0.360   inst_fpu_div/i_serial_div/s_count<4>
-                                                       inst_fpu_div/i_serial_div/s_count_4
-    SLICE_X16Y50.G1      net (fanout=9)        2.445   inst_fpu_div/i_serial_div/s_count<4>
-    SLICE_X16Y50.Y       Tilo                  0.195   inst_fpu_div/i_serial_div/s_dvd<25>
-                                                       inst_fpu_div/i_serial_div/PWR_38_o_s_count[4]_equal_13_o3
-    SLICE_X17Y39.G1      net (fanout=74)       1.224   inst_fpu_div/i_serial_div/PWR_38_o_s_count[4]_equal_13_o
-    SLICE_X17Y39.Y       Tilo                  0.194   inst_fpu_div/i_serial_div/s_dvd<2>
-                                                       inst_fpu_div/i_serial_div/Mmux_s_dvd[26]_GND_113_o_mux_13_OUT121
-    SLICE_X19Y39.BY      net (fanout=3)        0.350   inst_fpu_div/i_serial_div/s_dvd[26]_GND_113_o_mux_13_OUT<1>
-    SLICE_X19Y39.COUT    Tbycy                 0.618   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<1>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<1>
-    SLICE_X19Y40.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<1>
-    SLICE_X19Y40.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<3>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<2>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<3>
-    SLICE_X19Y41.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<3>
-    SLICE_X19Y41.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<4>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-    SLICE_X19Y42.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-    SLICE_X19Y42.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<6>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-    SLICE_X19Y43.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-    SLICE_X19Y43.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<8>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-    SLICE_X19Y44.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-    SLICE_X19Y44.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<10>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-    SLICE_X19Y45.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-    SLICE_X19Y45.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<12>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-    SLICE_X19Y46.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-    SLICE_X19Y46.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<14>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-    SLICE_X19Y47.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-    SLICE_X19Y47.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<16>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-    SLICE_X19Y48.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-    SLICE_X19Y48.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<18>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-    SLICE_X19Y49.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-    SLICE_X19Y49.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<20>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-    SLICE_X19Y50.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-    SLICE_X19Y50.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<22>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-    SLICE_X19Y51.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-    SLICE_X19Y51.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<24>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-    SLICE_X19Y52.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-    SLICE_X19Y52.XB      Tcinxb                0.307   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-    SLICE_X1Y30.F1       net (fanout=51)       2.417   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-    SLICE_X1Y30.CLK      Tfck                  0.235   inst_fpu_div/i_serial_div/s_qutnt_o<15>
-                                                       inst_fpu_div/i_serial_div/Mmux_s_qutnt_o[26]_s_qutnt_o[26]_mux_18_OUT7
-                                                       inst_fpu_div/i_serial_div/s_qutnt_o_15
+    SLICE_X59Y127.XQ     Tcko                  0.340   p1.state_FSM_FFd4
+                                                       p1.state_FSM_FFd4
+    SLICE_X57Y118.G3     net (fanout=13)       1.116   p1.state_FSM_FFd4
+    SLICE_X57Y118.Y      Tilo                  0.194   _n2474_inv
+                                                       _n2474_inv1_SW0
+    SLICE_X57Y118.F3     net (fanout=1)        0.222   _n2474_inv1_SW0/O
+    SLICE_X57Y118.X      Tilo                  0.194   _n2474_inv
+                                                       _n2474_inv1
+    SLICE_X42Y84.CE      net (fanout=9)        2.713   _n2474_inv
+    SLICE_X42Y84.CLK     Tceck                 0.554   f32_data_kvdd<8>
+                                                       f32_data_kvdd_8
     -------------------------------------------------  ---------------------------
-    Total                                      9.377ns (2.941ns logic, 6.436ns route)
-                                                       (31.4% logic, 68.6% route)
+    Total                                      5.333ns (1.282ns logic, 4.051ns route)
+                                                       (24.0% logic, 76.0% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     0.647ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               inst_fpu_div/i_serial_div/s_count_4 (FF)
-  Destination:          inst_fpu_div/i_serial_div/s_qutnt_o_15 (FF)
+Slack (setup path):     5.012ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               p1.state_FSM_FFd3 (FF)
+  Destination:          f32_data_kvdd_8 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.353ns (Levels of Logic = 16)
-  Clock Path Skew:      0.000ns
+  Data Path Delay:      4.729ns (Levels of Logic = 1)
+  Clock Path Skew:      -0.259ns (1.534 - 1.793)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: inst_fpu_div/i_serial_div/s_count_4 to inst_fpu_div/i_serial_div/s_qutnt_o_15
+  Maximum Data Path: p1.state_FSM_FFd3 to f32_data_kvdd_8
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X4Y32.XQ       Tcko                  0.360   inst_fpu_div/i_serial_div/s_count<4>
-                                                       inst_fpu_div/i_serial_div/s_count_4
-    SLICE_X16Y50.G1      net (fanout=9)        2.445   inst_fpu_div/i_serial_div/s_count<4>
-    SLICE_X16Y50.Y       Tilo                  0.195   inst_fpu_div/i_serial_div/s_dvd<25>
-                                                       inst_fpu_div/i_serial_div/PWR_38_o_s_count[4]_equal_13_o3
-    SLICE_X16Y41.G4      net (fanout=74)       0.986   inst_fpu_div/i_serial_div/PWR_38_o_s_count[4]_equal_13_o
-    SLICE_X16Y41.Y       Tilo                  0.195   inst_fpu_div/i_serial_div/s_dvd<3>
-                                                       inst_fpu_div/i_serial_div/Mmux_s_dvd[26]_GND_113_o_mux_13_OUT201
-    SLICE_X19Y40.BX      net (fanout=3)        0.510   inst_fpu_div/i_serial_div/s_dvd[26]_GND_113_o_mux_13_OUT<2>
-    SLICE_X19Y40.COUT    Tbxcy                 0.757   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<3>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<2>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<3>
-    SLICE_X19Y41.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<3>
-    SLICE_X19Y41.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<4>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-    SLICE_X19Y42.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-    SLICE_X19Y42.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<6>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-    SLICE_X19Y43.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-    SLICE_X19Y43.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<8>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-    SLICE_X19Y44.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-    SLICE_X19Y44.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<10>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-    SLICE_X19Y45.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-    SLICE_X19Y45.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<12>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-    SLICE_X19Y46.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-    SLICE_X19Y46.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<14>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-    SLICE_X19Y47.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-    SLICE_X19Y47.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<16>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-    SLICE_X19Y48.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-    SLICE_X19Y48.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<18>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-    SLICE_X19Y49.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-    SLICE_X19Y49.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<20>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-    SLICE_X19Y50.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-    SLICE_X19Y50.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<22>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-    SLICE_X19Y51.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-    SLICE_X19Y51.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<24>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-    SLICE_X19Y52.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-    SLICE_X19Y52.XB      Tcinxb                0.307   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-    SLICE_X1Y30.F1       net (fanout=51)       2.417   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-    SLICE_X1Y30.CLK      Tfck                  0.235   inst_fpu_div/i_serial_div/s_qutnt_o<15>
-                                                       inst_fpu_div/i_serial_div/Mmux_s_qutnt_o[26]_s_qutnt_o[26]_mux_18_OUT7
-                                                       inst_fpu_div/i_serial_div/s_qutnt_o_15
+    SLICE_X58Y124.XQ     Tcko                  0.360   p1.state_FSM_FFd3
+                                                       p1.state_FSM_FFd3
+    SLICE_X57Y118.F1     net (fanout=15)       0.908   p1.state_FSM_FFd3
+    SLICE_X57Y118.X      Tilo                  0.194   _n2474_inv
+                                                       _n2474_inv1
+    SLICE_X42Y84.CE      net (fanout=9)        2.713   _n2474_inv
+    SLICE_X42Y84.CLK     Tceck                 0.554   f32_data_kvdd<8>
+                                                       f32_data_kvdd_8
     -------------------------------------------------  ---------------------------
-    Total                                      9.353ns (2.995ns logic, 6.358ns route)
-                                                       (32.0% logic, 68.0% route)
+    Total                                      4.729ns (1.108ns logic, 3.621ns route)
+                                                       (23.4% logic, 76.6% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     0.676ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               inst_fpu_div/i_serial_div/s_count_4 (FF)
-  Destination:          inst_fpu_div/i_serial_div/s_qutnt_o_15 (FF)
+Slack (setup path):     5.366ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               p1.state_FSM_FFd2 (FF)
+  Destination:          f32_data_kvdd_8 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.324ns (Levels of Logic = 15)
-  Clock Path Skew:      0.000ns
+  Data Path Delay:      4.391ns (Levels of Logic = 1)
+  Clock Path Skew:      -0.243ns (1.534 - 1.777)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: inst_fpu_div/i_serial_div/s_count_4 to inst_fpu_div/i_serial_div/s_qutnt_o_15
+  Maximum Data Path: p1.state_FSM_FFd2 to f32_data_kvdd_8
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X4Y32.XQ       Tcko                  0.360   inst_fpu_div/i_serial_div/s_count<4>
-                                                       inst_fpu_div/i_serial_div/s_count_4
-    SLICE_X16Y50.G1      net (fanout=9)        2.445   inst_fpu_div/i_serial_div/s_count<4>
-    SLICE_X16Y50.Y       Tilo                  0.195   inst_fpu_div/i_serial_div/s_dvd<25>
-                                                       inst_fpu_div/i_serial_div/PWR_38_o_s_count[4]_equal_13_o3
-    SLICE_X17Y40.G4      net (fanout=74)       0.992   inst_fpu_div/i_serial_div/PWR_38_o_s_count[4]_equal_13_o
-    SLICE_X17Y40.Y       Tilo                  0.194   inst_fpu_div/i_serial_div/s_dvd<6>
-                                                       inst_fpu_div/i_serial_div/Mmux_s_dvd[26]_GND_113_o_mux_13_OUT231
-    SLICE_X19Y41.BY      net (fanout=3)        0.701   inst_fpu_div/i_serial_div/s_dvd[26]_GND_113_o_mux_13_OUT<5>
-    SLICE_X19Y41.COUT    Tbycy                 0.618   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-    SLICE_X19Y42.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-    SLICE_X19Y42.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<6>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-    SLICE_X19Y43.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-    SLICE_X19Y43.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<8>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-    SLICE_X19Y44.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-    SLICE_X19Y44.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<10>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-    SLICE_X19Y45.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-    SLICE_X19Y45.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<12>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-    SLICE_X19Y46.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-    SLICE_X19Y46.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<14>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-    SLICE_X19Y47.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-    SLICE_X19Y47.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<16>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-    SLICE_X19Y48.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-    SLICE_X19Y48.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<18>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-    SLICE_X19Y49.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-    SLICE_X19Y49.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<20>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-    SLICE_X19Y50.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-    SLICE_X19Y50.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<22>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-    SLICE_X19Y51.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-    SLICE_X19Y51.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<24>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-    SLICE_X19Y52.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-    SLICE_X19Y52.XB      Tcinxb                0.307   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-    SLICE_X1Y30.F1       net (fanout=51)       2.417   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-    SLICE_X1Y30.CLK      Tfck                  0.235   inst_fpu_div/i_serial_div/s_qutnt_o<15>
-                                                       inst_fpu_div/i_serial_div/Mmux_s_qutnt_o[26]_s_qutnt_o[26]_mux_18_OUT7
-                                                       inst_fpu_div/i_serial_div/s_qutnt_o_15
+    SLICE_X57Y121.XQ     Tcko                  0.340   p1.state_FSM_FFd2
+                                                       p1.state_FSM_FFd2
+    SLICE_X57Y118.F2     net (fanout=15)       0.590   p1.state_FSM_FFd2
+    SLICE_X57Y118.X      Tilo                  0.194   _n2474_inv
+                                                       _n2474_inv1
+    SLICE_X42Y84.CE      net (fanout=9)        2.713   _n2474_inv
+    SLICE_X42Y84.CLK     Tceck                 0.554   f32_data_kvdd<8>
+                                                       f32_data_kvdd_8
     -------------------------------------------------  ---------------------------
-    Total                                      9.324ns (2.769ns logic, 6.555ns route)
-                                                       (29.7% logic, 70.3% route)
+    Total                                      4.391ns (1.088ns logic, 3.303ns route)
+                                                       (24.8% logic, 75.2% route)
 
 --------------------------------------------------------------------------------
 
-Paths for end point inst_fpu_div/i_serial_div/s_qutnt_o_11 (SLICE_X1Y28.F1), 393 paths
+Paths for end point f32_data_kvdd_3 (SLICE_X40Y85.CE), 4 paths
 --------------------------------------------------------------------------------
-Slack (setup path):     0.632ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               inst_fpu_div/i_serial_div/s_count_4 (FF)
-  Destination:          inst_fpu_div/i_serial_div/s_qutnt_o_11 (FF)
+Slack (setup path):     4.592ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               p1.state_FSM_FFd4 (FF)
+  Destination:          f32_data_kvdd_3 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.368ns (Levels of Logic = 17)
-  Clock Path Skew:      0.000ns
+  Data Path Delay:      5.136ns (Levels of Logic = 2)
+  Clock Path Skew:      -0.272ns (1.523 - 1.795)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: inst_fpu_div/i_serial_div/s_count_4 to inst_fpu_div/i_serial_div/s_qutnt_o_11
+  Maximum Data Path: p1.state_FSM_FFd4 to f32_data_kvdd_3
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X4Y32.XQ       Tcko                  0.360   inst_fpu_div/i_serial_div/s_count<4>
-                                                       inst_fpu_div/i_serial_div/s_count_4
-    SLICE_X16Y50.G1      net (fanout=9)        2.445   inst_fpu_div/i_serial_div/s_count<4>
-    SLICE_X16Y50.Y       Tilo                  0.195   inst_fpu_div/i_serial_div/s_dvd<25>
-                                                       inst_fpu_div/i_serial_div/PWR_38_o_s_count[4]_equal_13_o3
-    SLICE_X17Y39.G1      net (fanout=74)       1.224   inst_fpu_div/i_serial_div/PWR_38_o_s_count[4]_equal_13_o
-    SLICE_X17Y39.Y       Tilo                  0.194   inst_fpu_div/i_serial_div/s_dvd<2>
-                                                       inst_fpu_div/i_serial_div/Mmux_s_dvd[26]_GND_113_o_mux_13_OUT121
-    SLICE_X19Y39.BY      net (fanout=3)        0.350   inst_fpu_div/i_serial_div/s_dvd[26]_GND_113_o_mux_13_OUT<1>
-    SLICE_X19Y39.COUT    Tbycy                 0.618   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<1>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<1>
-    SLICE_X19Y40.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<1>
-    SLICE_X19Y40.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<3>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<2>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<3>
-    SLICE_X19Y41.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<3>
-    SLICE_X19Y41.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<4>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-    SLICE_X19Y42.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-    SLICE_X19Y42.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<6>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-    SLICE_X19Y43.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-    SLICE_X19Y43.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<8>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-    SLICE_X19Y44.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-    SLICE_X19Y44.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<10>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-    SLICE_X19Y45.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-    SLICE_X19Y45.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<12>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-    SLICE_X19Y46.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-    SLICE_X19Y46.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<14>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-    SLICE_X19Y47.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-    SLICE_X19Y47.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<16>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-    SLICE_X19Y48.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-    SLICE_X19Y48.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<18>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-    SLICE_X19Y49.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-    SLICE_X19Y49.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<20>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-    SLICE_X19Y50.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-    SLICE_X19Y50.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<22>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-    SLICE_X19Y51.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-    SLICE_X19Y51.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<24>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-    SLICE_X19Y52.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-    SLICE_X19Y52.XB      Tcinxb                0.307   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-    SLICE_X1Y28.F1       net (fanout=51)       2.408   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-    SLICE_X1Y28.CLK      Tfck                  0.235   inst_fpu_div/i_serial_div/s_qutnt_o<11>
-                                                       inst_fpu_div/i_serial_div/Mmux_s_qutnt_o[26]_s_qutnt_o[26]_mux_18_OUT3
-                                                       inst_fpu_div/i_serial_div/s_qutnt_o_11
+    SLICE_X59Y127.XQ     Tcko                  0.340   p1.state_FSM_FFd4
+                                                       p1.state_FSM_FFd4
+    SLICE_X57Y118.G3     net (fanout=13)       1.116   p1.state_FSM_FFd4
+    SLICE_X57Y118.Y      Tilo                  0.194   _n2474_inv
+                                                       _n2474_inv1_SW0
+    SLICE_X57Y118.F3     net (fanout=1)        0.222   _n2474_inv1_SW0/O
+    SLICE_X57Y118.X      Tilo                  0.194   _n2474_inv
+                                                       _n2474_inv1
+    SLICE_X40Y85.CE      net (fanout=9)        2.516   _n2474_inv
+    SLICE_X40Y85.CLK     Tceck                 0.554   f32_data_kvdd<3>
+                                                       f32_data_kvdd_3
     -------------------------------------------------  ---------------------------
-    Total                                      9.368ns (2.941ns logic, 6.427ns route)
-                                                       (31.4% logic, 68.6% route)
+    Total                                      5.136ns (1.282ns logic, 3.854ns route)
+                                                       (25.0% logic, 75.0% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     0.656ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               inst_fpu_div/i_serial_div/s_count_4 (FF)
-  Destination:          inst_fpu_div/i_serial_div/s_qutnt_o_11 (FF)
+Slack (setup path):     5.198ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               p1.state_FSM_FFd3 (FF)
+  Destination:          f32_data_kvdd_3 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.344ns (Levels of Logic = 16)
-  Clock Path Skew:      0.000ns
+  Data Path Delay:      4.532ns (Levels of Logic = 1)
+  Clock Path Skew:      -0.270ns (1.523 - 1.793)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: inst_fpu_div/i_serial_div/s_count_4 to inst_fpu_div/i_serial_div/s_qutnt_o_11
+  Maximum Data Path: p1.state_FSM_FFd3 to f32_data_kvdd_3
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X4Y32.XQ       Tcko                  0.360   inst_fpu_div/i_serial_div/s_count<4>
-                                                       inst_fpu_div/i_serial_div/s_count_4
-    SLICE_X16Y50.G1      net (fanout=9)        2.445   inst_fpu_div/i_serial_div/s_count<4>
-    SLICE_X16Y50.Y       Tilo                  0.195   inst_fpu_div/i_serial_div/s_dvd<25>
-                                                       inst_fpu_div/i_serial_div/PWR_38_o_s_count[4]_equal_13_o3
-    SLICE_X16Y41.G4      net (fanout=74)       0.986   inst_fpu_div/i_serial_div/PWR_38_o_s_count[4]_equal_13_o
-    SLICE_X16Y41.Y       Tilo                  0.195   inst_fpu_div/i_serial_div/s_dvd<3>
-                                                       inst_fpu_div/i_serial_div/Mmux_s_dvd[26]_GND_113_o_mux_13_OUT201
-    SLICE_X19Y40.BX      net (fanout=3)        0.510   inst_fpu_div/i_serial_div/s_dvd[26]_GND_113_o_mux_13_OUT<2>
-    SLICE_X19Y40.COUT    Tbxcy                 0.757   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<3>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<2>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<3>
-    SLICE_X19Y41.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<3>
-    SLICE_X19Y41.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<4>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-    SLICE_X19Y42.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-    SLICE_X19Y42.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<6>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-    SLICE_X19Y43.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-    SLICE_X19Y43.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<8>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-    SLICE_X19Y44.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-    SLICE_X19Y44.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<10>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-    SLICE_X19Y45.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-    SLICE_X19Y45.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<12>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-    SLICE_X19Y46.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-    SLICE_X19Y46.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<14>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-    SLICE_X19Y47.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-    SLICE_X19Y47.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<16>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-    SLICE_X19Y48.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-    SLICE_X19Y48.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<18>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-    SLICE_X19Y49.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-    SLICE_X19Y49.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<20>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-    SLICE_X19Y50.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-    SLICE_X19Y50.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<22>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-    SLICE_X19Y51.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-    SLICE_X19Y51.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<24>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-    SLICE_X19Y52.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-    SLICE_X19Y52.XB      Tcinxb                0.307   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-    SLICE_X1Y28.F1       net (fanout=51)       2.408   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-    SLICE_X1Y28.CLK      Tfck                  0.235   inst_fpu_div/i_serial_div/s_qutnt_o<11>
-                                                       inst_fpu_div/i_serial_div/Mmux_s_qutnt_o[26]_s_qutnt_o[26]_mux_18_OUT3
-                                                       inst_fpu_div/i_serial_div/s_qutnt_o_11
+    SLICE_X58Y124.XQ     Tcko                  0.360   p1.state_FSM_FFd3
+                                                       p1.state_FSM_FFd3
+    SLICE_X57Y118.F1     net (fanout=15)       0.908   p1.state_FSM_FFd3
+    SLICE_X57Y118.X      Tilo                  0.194   _n2474_inv
+                                                       _n2474_inv1
+    SLICE_X40Y85.CE      net (fanout=9)        2.516   _n2474_inv
+    SLICE_X40Y85.CLK     Tceck                 0.554   f32_data_kvdd<3>
+                                                       f32_data_kvdd_3
     -------------------------------------------------  ---------------------------
-    Total                                      9.344ns (2.995ns logic, 6.349ns route)
-                                                       (32.1% logic, 67.9% route)
+    Total                                      4.532ns (1.108ns logic, 3.424ns route)
+                                                       (24.4% logic, 75.6% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     0.685ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               inst_fpu_div/i_serial_div/s_count_4 (FF)
-  Destination:          inst_fpu_div/i_serial_div/s_qutnt_o_11 (FF)
+Slack (setup path):     5.552ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               p1.state_FSM_FFd2 (FF)
+  Destination:          f32_data_kvdd_3 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.315ns (Levels of Logic = 15)
-  Clock Path Skew:      0.000ns
+  Data Path Delay:      4.194ns (Levels of Logic = 1)
+  Clock Path Skew:      -0.254ns (1.523 - 1.777)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: inst_fpu_div/i_serial_div/s_count_4 to inst_fpu_div/i_serial_div/s_qutnt_o_11
+  Maximum Data Path: p1.state_FSM_FFd2 to f32_data_kvdd_3
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X4Y32.XQ       Tcko                  0.360   inst_fpu_div/i_serial_div/s_count<4>
-                                                       inst_fpu_div/i_serial_div/s_count_4
-    SLICE_X16Y50.G1      net (fanout=9)        2.445   inst_fpu_div/i_serial_div/s_count<4>
-    SLICE_X16Y50.Y       Tilo                  0.195   inst_fpu_div/i_serial_div/s_dvd<25>
-                                                       inst_fpu_div/i_serial_div/PWR_38_o_s_count[4]_equal_13_o3
-    SLICE_X17Y40.G4      net (fanout=74)       0.992   inst_fpu_div/i_serial_div/PWR_38_o_s_count[4]_equal_13_o
-    SLICE_X17Y40.Y       Tilo                  0.194   inst_fpu_div/i_serial_div/s_dvd<6>
-                                                       inst_fpu_div/i_serial_div/Mmux_s_dvd[26]_GND_113_o_mux_13_OUT231
-    SLICE_X19Y41.BY      net (fanout=3)        0.701   inst_fpu_div/i_serial_div/s_dvd[26]_GND_113_o_mux_13_OUT<5>
-    SLICE_X19Y41.COUT    Tbycy                 0.618   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-    SLICE_X19Y42.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-    SLICE_X19Y42.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<6>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-    SLICE_X19Y43.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-    SLICE_X19Y43.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<8>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-    SLICE_X19Y44.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-    SLICE_X19Y44.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<10>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-    SLICE_X19Y45.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-    SLICE_X19Y45.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<12>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-    SLICE_X19Y46.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-    SLICE_X19Y46.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<14>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-    SLICE_X19Y47.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-    SLICE_X19Y47.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<16>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-    SLICE_X19Y48.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-    SLICE_X19Y48.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<18>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-    SLICE_X19Y49.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-    SLICE_X19Y49.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<20>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-    SLICE_X19Y50.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-    SLICE_X19Y50.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<22>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-    SLICE_X19Y51.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-    SLICE_X19Y51.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<24>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-    SLICE_X19Y52.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-    SLICE_X19Y52.XB      Tcinxb                0.307   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-    SLICE_X1Y28.F1       net (fanout=51)       2.408   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-    SLICE_X1Y28.CLK      Tfck                  0.235   inst_fpu_div/i_serial_div/s_qutnt_o<11>
-                                                       inst_fpu_div/i_serial_div/Mmux_s_qutnt_o[26]_s_qutnt_o[26]_mux_18_OUT3
-                                                       inst_fpu_div/i_serial_div/s_qutnt_o_11
+    SLICE_X57Y121.XQ     Tcko                  0.340   p1.state_FSM_FFd2
+                                                       p1.state_FSM_FFd2
+    SLICE_X57Y118.F2     net (fanout=15)       0.590   p1.state_FSM_FFd2
+    SLICE_X57Y118.X      Tilo                  0.194   _n2474_inv
+                                                       _n2474_inv1
+    SLICE_X40Y85.CE      net (fanout=9)        2.516   _n2474_inv
+    SLICE_X40Y85.CLK     Tceck                 0.554   f32_data_kvdd<3>
+                                                       f32_data_kvdd_3
     -------------------------------------------------  ---------------------------
-    Total                                      9.315ns (2.769ns logic, 6.546ns route)
-                                                       (29.7% logic, 70.3% route)
+    Total                                      4.194ns (1.088ns logic, 3.106ns route)
+                                                       (25.9% logic, 74.1% route)
 
 --------------------------------------------------------------------------------
 
-Paths for end point inst_fpu_div/i_serial_div/s_qutnt_o_9 (SLICE_X1Y28.G1), 393 paths
+Paths for end point f32_data_kvdd_2 (SLICE_X40Y85.CE), 4 paths
 --------------------------------------------------------------------------------
-Slack (setup path):     0.636ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               inst_fpu_div/i_serial_div/s_count_4 (FF)
-  Destination:          inst_fpu_div/i_serial_div/s_qutnt_o_9 (FF)
+Slack (setup path):     4.592ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               p1.state_FSM_FFd4 (FF)
+  Destination:          f32_data_kvdd_2 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.364ns (Levels of Logic = 17)
-  Clock Path Skew:      0.000ns
+  Data Path Delay:      5.136ns (Levels of Logic = 2)
+  Clock Path Skew:      -0.272ns (1.523 - 1.795)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: inst_fpu_div/i_serial_div/s_count_4 to inst_fpu_div/i_serial_div/s_qutnt_o_9
+  Maximum Data Path: p1.state_FSM_FFd4 to f32_data_kvdd_2
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X4Y32.XQ       Tcko                  0.360   inst_fpu_div/i_serial_div/s_count<4>
-                                                       inst_fpu_div/i_serial_div/s_count_4
-    SLICE_X16Y50.G1      net (fanout=9)        2.445   inst_fpu_div/i_serial_div/s_count<4>
-    SLICE_X16Y50.Y       Tilo                  0.195   inst_fpu_div/i_serial_div/s_dvd<25>
-                                                       inst_fpu_div/i_serial_div/PWR_38_o_s_count[4]_equal_13_o3
-    SLICE_X17Y39.G1      net (fanout=74)       1.224   inst_fpu_div/i_serial_div/PWR_38_o_s_count[4]_equal_13_o
-    SLICE_X17Y39.Y       Tilo                  0.194   inst_fpu_div/i_serial_div/s_dvd<2>
-                                                       inst_fpu_div/i_serial_div/Mmux_s_dvd[26]_GND_113_o_mux_13_OUT121
-    SLICE_X19Y39.BY      net (fanout=3)        0.350   inst_fpu_div/i_serial_div/s_dvd[26]_GND_113_o_mux_13_OUT<1>
-    SLICE_X19Y39.COUT    Tbycy                 0.618   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<1>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<1>
-    SLICE_X19Y40.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<1>
-    SLICE_X19Y40.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<3>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<2>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<3>
-    SLICE_X19Y41.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<3>
-    SLICE_X19Y41.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<4>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-    SLICE_X19Y42.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-    SLICE_X19Y42.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<6>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-    SLICE_X19Y43.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-    SLICE_X19Y43.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<8>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-    SLICE_X19Y44.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-    SLICE_X19Y44.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<10>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-    SLICE_X19Y45.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-    SLICE_X19Y45.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<12>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-    SLICE_X19Y46.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-    SLICE_X19Y46.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<14>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-    SLICE_X19Y47.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-    SLICE_X19Y47.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<16>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-    SLICE_X19Y48.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-    SLICE_X19Y48.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<18>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-    SLICE_X19Y49.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-    SLICE_X19Y49.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<20>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-    SLICE_X19Y50.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-    SLICE_X19Y50.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<22>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-    SLICE_X19Y51.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-    SLICE_X19Y51.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<24>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-    SLICE_X19Y52.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-    SLICE_X19Y52.XB      Tcinxb                0.307   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-    SLICE_X1Y28.G1       net (fanout=51)       2.408   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-    SLICE_X1Y28.CLK      Tgck                  0.231   inst_fpu_div/i_serial_div/s_qutnt_o<11>
-                                                       inst_fpu_div/i_serial_div/Mmux_s_qutnt_o[26]_s_qutnt_o[26]_mux_18_OUT27
-                                                       inst_fpu_div/i_serial_div/s_qutnt_o_9
+    SLICE_X59Y127.XQ     Tcko                  0.340   p1.state_FSM_FFd4
+                                                       p1.state_FSM_FFd4
+    SLICE_X57Y118.G3     net (fanout=13)       1.116   p1.state_FSM_FFd4
+    SLICE_X57Y118.Y      Tilo                  0.194   _n2474_inv
+                                                       _n2474_inv1_SW0
+    SLICE_X57Y118.F3     net (fanout=1)        0.222   _n2474_inv1_SW0/O
+    SLICE_X57Y118.X      Tilo                  0.194   _n2474_inv
+                                                       _n2474_inv1
+    SLICE_X40Y85.CE      net (fanout=9)        2.516   _n2474_inv
+    SLICE_X40Y85.CLK     Tceck                 0.554   f32_data_kvdd<3>
+                                                       f32_data_kvdd_2
     -------------------------------------------------  ---------------------------
-    Total                                      9.364ns (2.937ns logic, 6.427ns route)
-                                                       (31.4% logic, 68.6% route)
+    Total                                      5.136ns (1.282ns logic, 3.854ns route)
+                                                       (25.0% logic, 75.0% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     0.660ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               inst_fpu_div/i_serial_div/s_count_4 (FF)
-  Destination:          inst_fpu_div/i_serial_div/s_qutnt_o_9 (FF)
+Slack (setup path):     5.198ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               p1.state_FSM_FFd3 (FF)
+  Destination:          f32_data_kvdd_2 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.340ns (Levels of Logic = 16)
-  Clock Path Skew:      0.000ns
+  Data Path Delay:      4.532ns (Levels of Logic = 1)
+  Clock Path Skew:      -0.270ns (1.523 - 1.793)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: inst_fpu_div/i_serial_div/s_count_4 to inst_fpu_div/i_serial_div/s_qutnt_o_9
+  Maximum Data Path: p1.state_FSM_FFd3 to f32_data_kvdd_2
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X4Y32.XQ       Tcko                  0.360   inst_fpu_div/i_serial_div/s_count<4>
-                                                       inst_fpu_div/i_serial_div/s_count_4
-    SLICE_X16Y50.G1      net (fanout=9)        2.445   inst_fpu_div/i_serial_div/s_count<4>
-    SLICE_X16Y50.Y       Tilo                  0.195   inst_fpu_div/i_serial_div/s_dvd<25>
-                                                       inst_fpu_div/i_serial_div/PWR_38_o_s_count[4]_equal_13_o3
-    SLICE_X16Y41.G4      net (fanout=74)       0.986   inst_fpu_div/i_serial_div/PWR_38_o_s_count[4]_equal_13_o
-    SLICE_X16Y41.Y       Tilo                  0.195   inst_fpu_div/i_serial_div/s_dvd<3>
-                                                       inst_fpu_div/i_serial_div/Mmux_s_dvd[26]_GND_113_o_mux_13_OUT201
-    SLICE_X19Y40.BX      net (fanout=3)        0.510   inst_fpu_div/i_serial_div/s_dvd[26]_GND_113_o_mux_13_OUT<2>
-    SLICE_X19Y40.COUT    Tbxcy                 0.757   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<3>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<2>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<3>
-    SLICE_X19Y41.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<3>
-    SLICE_X19Y41.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<4>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-    SLICE_X19Y42.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-    SLICE_X19Y42.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<6>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-    SLICE_X19Y43.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-    SLICE_X19Y43.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<8>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-    SLICE_X19Y44.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-    SLICE_X19Y44.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<10>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-    SLICE_X19Y45.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-    SLICE_X19Y45.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<12>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-    SLICE_X19Y46.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-    SLICE_X19Y46.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<14>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-    SLICE_X19Y47.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-    SLICE_X19Y47.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<16>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-    SLICE_X19Y48.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-    SLICE_X19Y48.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<18>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-    SLICE_X19Y49.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-    SLICE_X19Y49.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<20>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-    SLICE_X19Y50.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-    SLICE_X19Y50.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<22>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-    SLICE_X19Y51.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-    SLICE_X19Y51.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<24>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-    SLICE_X19Y52.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-    SLICE_X19Y52.XB      Tcinxb                0.307   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-    SLICE_X1Y28.G1       net (fanout=51)       2.408   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-    SLICE_X1Y28.CLK      Tgck                  0.231   inst_fpu_div/i_serial_div/s_qutnt_o<11>
-                                                       inst_fpu_div/i_serial_div/Mmux_s_qutnt_o[26]_s_qutnt_o[26]_mux_18_OUT27
-                                                       inst_fpu_div/i_serial_div/s_qutnt_o_9
+    SLICE_X58Y124.XQ     Tcko                  0.360   p1.state_FSM_FFd3
+                                                       p1.state_FSM_FFd3
+    SLICE_X57Y118.F1     net (fanout=15)       0.908   p1.state_FSM_FFd3
+    SLICE_X57Y118.X      Tilo                  0.194   _n2474_inv
+                                                       _n2474_inv1
+    SLICE_X40Y85.CE      net (fanout=9)        2.516   _n2474_inv
+    SLICE_X40Y85.CLK     Tceck                 0.554   f32_data_kvdd<3>
+                                                       f32_data_kvdd_2
     -------------------------------------------------  ---------------------------
-    Total                                      9.340ns (2.991ns logic, 6.349ns route)
-                                                       (32.0% logic, 68.0% route)
+    Total                                      4.532ns (1.108ns logic, 3.424ns route)
+                                                       (24.4% logic, 75.6% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     0.689ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               inst_fpu_div/i_serial_div/s_count_4 (FF)
-  Destination:          inst_fpu_div/i_serial_div/s_qutnt_o_9 (FF)
+Slack (setup path):     5.552ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               p1.state_FSM_FFd2 (FF)
+  Destination:          f32_data_kvdd_2 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.311ns (Levels of Logic = 15)
-  Clock Path Skew:      0.000ns
+  Data Path Delay:      4.194ns (Levels of Logic = 1)
+  Clock Path Skew:      -0.254ns (1.523 - 1.777)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: inst_fpu_div/i_serial_div/s_count_4 to inst_fpu_div/i_serial_div/s_qutnt_o_9
+  Maximum Data Path: p1.state_FSM_FFd2 to f32_data_kvdd_2
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X4Y32.XQ       Tcko                  0.360   inst_fpu_div/i_serial_div/s_count<4>
-                                                       inst_fpu_div/i_serial_div/s_count_4
-    SLICE_X16Y50.G1      net (fanout=9)        2.445   inst_fpu_div/i_serial_div/s_count<4>
-    SLICE_X16Y50.Y       Tilo                  0.195   inst_fpu_div/i_serial_div/s_dvd<25>
-                                                       inst_fpu_div/i_serial_div/PWR_38_o_s_count[4]_equal_13_o3
-    SLICE_X17Y40.G4      net (fanout=74)       0.992   inst_fpu_div/i_serial_div/PWR_38_o_s_count[4]_equal_13_o
-    SLICE_X17Y40.Y       Tilo                  0.194   inst_fpu_div/i_serial_div/s_dvd<6>
-                                                       inst_fpu_div/i_serial_div/Mmux_s_dvd[26]_GND_113_o_mux_13_OUT231
-    SLICE_X19Y41.BY      net (fanout=3)        0.701   inst_fpu_div/i_serial_div/s_dvd[26]_GND_113_o_mux_13_OUT<5>
-    SLICE_X19Y41.COUT    Tbycy                 0.618   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-    SLICE_X19Y42.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<5>
-    SLICE_X19Y42.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<6>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-    SLICE_X19Y43.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<7>
-    SLICE_X19Y43.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<8>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-    SLICE_X19Y44.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<9>
-    SLICE_X19Y44.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<10>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-    SLICE_X19Y45.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<11>
-    SLICE_X19Y45.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<12>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-    SLICE_X19Y46.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<13>
-    SLICE_X19Y46.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<14>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-    SLICE_X19Y47.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<15>
-    SLICE_X19Y47.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<16>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-    SLICE_X19Y48.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<17>
-    SLICE_X19Y48.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<18>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-    SLICE_X19Y49.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<19>
-    SLICE_X19Y49.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<20>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-    SLICE_X19Y50.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<21>
-    SLICE_X19Y50.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<22>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-    SLICE_X19Y51.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<23>
-    SLICE_X19Y51.COUT    Tbyp                  0.086   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<24>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-    SLICE_X19Y52.CIN     net (fanout=1)        0.000   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<25>
-    SLICE_X19Y52.XB      Tcinxb                0.307   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-                                                       inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-    SLICE_X1Y28.G1       net (fanout=51)       2.408   inst_fpu_div/i_serial_div/Mcompar_s_dvd[26]_s_dvsor_i[26]_LessThan_15_o_cy<26>
-    SLICE_X1Y28.CLK      Tgck                  0.231   inst_fpu_div/i_serial_div/s_qutnt_o<11>
-                                                       inst_fpu_div/i_serial_div/Mmux_s_qutnt_o[26]_s_qutnt_o[26]_mux_18_OUT27
-                                                       inst_fpu_div/i_serial_div/s_qutnt_o_9
+    SLICE_X57Y121.XQ     Tcko                  0.340   p1.state_FSM_FFd2
+                                                       p1.state_FSM_FFd2
+    SLICE_X57Y118.F2     net (fanout=15)       0.590   p1.state_FSM_FFd2
+    SLICE_X57Y118.X      Tilo                  0.194   _n2474_inv
+                                                       _n2474_inv1
+    SLICE_X40Y85.CE      net (fanout=9)        2.516   _n2474_inv
+    SLICE_X40Y85.CLK     Tceck                 0.554   f32_data_kvdd<3>
+                                                       f32_data_kvdd_2
     -------------------------------------------------  ---------------------------
-    Total                                      9.311ns (2.765ns logic, 6.546ns route)
-                                                       (29.7% logic, 70.3% route)
+    Total                                      4.194ns (1.088ns logic, 3.106ns route)
+                                                       (25.9% logic, 74.1% route)
 
 --------------------------------------------------------------------------------
 
 Hold Paths: NET "i_clock_BUFGP/IBUFG" PERIOD = 10 ns HIGH 50%;
 --------------------------------------------------------------------------------
 
-Paths for end point inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP (RAMB16_X4Y17.DIA2), 1 path
+Paths for end point mem_kvdd_vdd25_address_1 (SLICE_X56Y116.F4), 1 path
 --------------------------------------------------------------------------------
-Slack (hold path):      0.406ns (requirement - (clock path skew + uncertainty - data path))
-  Source:               inst_i2c_r/o_i2c_data_2 (FF)
-  Destination:          inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP (RAM)
+Slack (hold path):      0.480ns (requirement - (clock path skew + uncertainty - data path))
+  Source:               kvdd_1 (FF)
+  Destination:          mem_kvdd_vdd25_address_1 (FF)
   Requirement:          0.000ns
-  Data Path Delay:      0.359ns (Levels of Logic = 0)
-  Clock Path Skew:      -0.047ns (0.684 - 0.731)
+  Data Path Delay:      0.480ns (Levels of Logic = 1)
+  Clock Path Skew:      0.000ns
   Source Clock:         i_clock_BUFGP rising at 10.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Minimum Data Path: inst_i2c_r/o_i2c_data_2 to inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP
+  Minimum Data Path: kvdd_1 to mem_kvdd_vdd25_address_1
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X49Y138.YQ     Tcko                  0.313   inst_i2c_r/o_i2c_data<3>
-                                                       inst_i2c_r/o_i2c_data_2
-    RAMB16_X4Y17.DIA2    net (fanout=1)        0.368   inst_i2c_r/o_i2c_data<2>
-    RAMB16_X4Y17.CLKA    Trckd_DIA   (-Th)     0.322   inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP
-                                                       inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP
+    SLICE_X57Y117.XQ     Tcko                  0.313   kvdd<1>
+                                                       kvdd_1
+    SLICE_X56Y116.F4     net (fanout=1)        0.308   kvdd<1>
+    SLICE_X56Y116.CLK    Tckf        (-Th)     0.141   mem_kvdd_vdd25_address<1>
+                                                       Mmux_p1.state[3]_X_14_o_wide_mux_27_OUT21
+                                                       mem_kvdd_vdd25_address_1
     -------------------------------------------------  ---------------------------
-    Total                                      0.359ns (-0.009ns logic, 0.368ns route)
-                                                       (-2.5% logic, 102.5% route)
+    Total                                      0.480ns (0.172ns logic, 0.308ns route)
+                                                       (35.8% logic, 64.2% route)
 
 --------------------------------------------------------------------------------
 
-Paths for end point inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP (RAMB16_X4Y17.DIA3), 1 path
+Paths for end point mem_kvdd_vdd25_address_5 (SLICE_X56Y118.F4), 1 path
 --------------------------------------------------------------------------------
-Slack (hold path):      0.406ns (requirement - (clock path skew + uncertainty - data path))
-  Source:               inst_i2c_r/o_i2c_data_3 (FF)
-  Destination:          inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP (RAM)
+Slack (hold path):      0.480ns (requirement - (clock path skew + uncertainty - data path))
+  Source:               kvdd_5 (FF)
+  Destination:          mem_kvdd_vdd25_address_5 (FF)
   Requirement:          0.000ns
-  Data Path Delay:      0.359ns (Levels of Logic = 0)
-  Clock Path Skew:      -0.047ns (0.684 - 0.731)
+  Data Path Delay:      0.480ns (Levels of Logic = 1)
+  Clock Path Skew:      0.000ns
   Source Clock:         i_clock_BUFGP rising at 10.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Minimum Data Path: inst_i2c_r/o_i2c_data_3 to inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP
+  Minimum Data Path: kvdd_5 to mem_kvdd_vdd25_address_5
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X49Y138.XQ     Tcko                  0.313   inst_i2c_r/o_i2c_data<3>
-                                                       inst_i2c_r/o_i2c_data_3
-    RAMB16_X4Y17.DIA3    net (fanout=1)        0.368   inst_i2c_r/o_i2c_data<3>
-    RAMB16_X4Y17.CLKA    Trckd_DIA   (-Th)     0.322   inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP
-                                                       inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP
+    SLICE_X57Y119.XQ     Tcko                  0.313   kvdd<5>
+                                                       kvdd_5
+    SLICE_X56Y118.F4     net (fanout=1)        0.308   kvdd<5>
+    SLICE_X56Y118.CLK    Tckf        (-Th)     0.141   mem_kvdd_vdd25_address<5>
+                                                       Mmux_p1.state[3]_X_14_o_wide_mux_27_OUT61
+                                                       mem_kvdd_vdd25_address_5
     -------------------------------------------------  ---------------------------
-    Total                                      0.359ns (-0.009ns logic, 0.368ns route)
-                                                       (-2.5% logic, 102.5% route)
+    Total                                      0.480ns (0.172ns logic, 0.308ns route)
+                                                       (35.8% logic, 64.2% route)
 
 --------------------------------------------------------------------------------
 
-Paths for end point mem_kvdd_vdd25_address_4 (SLICE_X46Y129.G4), 1 path
+Paths for end point mem_kvdd_vdd25_address_6 (SLICE_X58Y121.G4), 1 path
 --------------------------------------------------------------------------------
 Slack (hold path):      0.490ns (requirement - (clock path skew + uncertainty - data path))
-  Source:               vdd25_4 (FF)
-  Destination:          mem_kvdd_vdd25_address_4 (FF)
+  Source:               kvdd_6 (FF)
+  Destination:          mem_kvdd_vdd25_address_6 (FF)
   Requirement:          0.000ns
   Data Path Delay:      0.490ns (Levels of Logic = 1)
   Clock Path Skew:      0.000ns
@@ -843,16 +365,16 @@ Slack (hold path):      0.490ns (requirement - (clock path skew + uncertainty - 
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Minimum Data Path: vdd25_4 to mem_kvdd_vdd25_address_4
+  Minimum Data Path: kvdd_6 to mem_kvdd_vdd25_address_6
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X47Y128.YQ     Tcko                  0.313   vdd25<5>
-                                                       vdd25_4
-    SLICE_X46Y129.G4     net (fanout=1)        0.320   vdd25<4>
-    SLICE_X46Y129.CLK    Tckg        (-Th)     0.143   mem_kvdd_vdd25_address<5>
-                                                       Mmux_p1.state[3]_X_14_o_wide_mux_27_OUT51
-                                                       mem_kvdd_vdd25_address_4
+    SLICE_X59Y121.YQ     Tcko                  0.313   kvdd<7>
+                                                       kvdd_6
+    SLICE_X58Y121.G4     net (fanout=1)        0.320   kvdd<6>
+    SLICE_X58Y121.CLK    Tckg        (-Th)     0.143   mem_kvdd_vdd25_address<7>
+                                                       Mmux_p1.state[3]_X_14_o_wide_mux_27_OUT71
+                                                       mem_kvdd_vdd25_address_6
     -------------------------------------------------  ---------------------------
     Total                                      0.490ns (0.170ns logic, 0.320ns route)
                                                        (34.7% logic, 65.3% route)
@@ -866,7 +388,7 @@ Slack: 7.500ns (period - min period limit)
   Min period limit: 2.500ns (400.000MHz) (Trper_CLKA)
   Physical resource: inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP/CLKA
   Logical resource: inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP/CLKA
-  Location pin: RAMB16_X4Y17.CLKA
+  Location pin: RAMB16_X6Y16.CLKA
   Clock network: i_clock_BUFGP
 --------------------------------------------------------------------------------
 Slack: 7.500ns (period - min period limit)
@@ -874,7 +396,7 @@ Slack: 7.500ns (period - min period limit)
   Min period limit: 2.500ns (400.000MHz) (Trper_CLKA)
   Physical resource: inst_mem_kvdd_vdd25/inst_mem_kvdd/CLKA
   Logical resource: inst_mem_kvdd_vdd25/inst_mem_kvdd/CLKA
-  Location pin: RAMB16_X4Y13.CLKA
+  Location pin: RAMB16_X4Y14.CLKA
   Clock network: i_clock_BUFGP
 --------------------------------------------------------------------------------
 Slack: 7.500ns (period - min period limit)
@@ -882,7 +404,7 @@ Slack: 7.500ns (period - min period limit)
   Min period limit: 2.500ns (400.000MHz) (Trper_CLKB)
   Physical resource: inst_mem_kvdd_vdd25/inst_mem_kvdd/CLKB
   Logical resource: inst_mem_kvdd_vdd25/inst_mem_kvdd/CLKB
-  Location pin: RAMB16_X4Y13.CLKB
+  Location pin: RAMB16_X4Y14.CLKB
   Clock network: i_clock_BUFGP
 --------------------------------------------------------------------------------
 
@@ -899,7 +421,7 @@ Clock to Setup on destination clock i_clock
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-i_clock        |    9.377|         |         |         |
+i_clock        |    5.594|         |         |         |
 ---------------+---------+---------+---------+---------+
 
 
@@ -908,23 +430,23 @@ Timing summary:
 
 Timing errors: 0  Score: 0  (Setup/Max: 0, Hold: 0)
 
-Constraints cover 162882 paths, 0 nets, and 5760 connections
+Constraints cover 629 paths, 0 nets, and 555 connections
 
 Design statistics:
-   Minimum period:   9.377ns{1}   (Maximum frequency: 106.644MHz)
+   Minimum period:   5.594ns{1}   (Maximum frequency: 178.763MHz)
 
 
 ------------------------------------Footnotes-----------------------------------
 1)  The minimum period statistic assumes all single cycle delays.
 
-Analysis completed Wed Dec 21 18:36:05 2022 
+Analysis completed Fri Dec 23 00:23:07 2022 
 --------------------------------------------------------------------------------
 
 Trace Settings:
 -------------------------
 Trace Settings 
 
-Peak Memory Usage: 504 MB
+Peak Memory Usage: 503 MB
 
 
 

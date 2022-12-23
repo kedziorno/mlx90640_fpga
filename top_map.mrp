@@ -9,37 +9,36 @@ Target Device  : xc4vsx35
 Target Package : ff668
 Target Speed   : -10
 Mapper Version : virtex4 -- $Revision: 1.55 $
-Mapped Date    : Wed Dec 21 18:35:14 2022
+Mapped Date    : Fri Dec 23 00:22:28 2022
 
 Design Summary
 --------------
 Number of errors:      0
-Number of warnings:    0
+Number of warnings:    1
 Logic Utilization:
-  Number of Slice Flip Flops:           732 out of  30,720    2%
-  Number of 4 input LUTs:             1,409 out of  30,720    4%
+  Number of Slice Flip Flops:           110 out of  30,720    1%
+  Number of 4 input LUTs:             2,606 out of  30,720    8%
 Logic Distribution:
-  Number of occupied Slices:            928 out of  15,360    6%
-    Number of Slices containing only related logic:     928 out of     928 100%
-    Number of Slices containing unrelated logic:          0 out of     928   0%
+  Number of occupied Slices:          1,364 out of  15,360    8%
+    Number of Slices containing only related logic:   1,364 out of   1,364 100%
+    Number of Slices containing unrelated logic:          0 out of   1,364   0%
       *See NOTES below for an explanation of the effects of unrelated logic.
-  Total Number of 4 input LUTs:       1,472 out of  30,720    4%
-    Number used as logic:             1,351
-    Number used as a route-thru:         63
-    Number used as Shift registers:      58
+  Total Number of 4 input LUTs:       2,621 out of  30,720    8%
+    Number used as logic:             2,606
+    Number used as a route-thru:         15
 
   The Slice Logic Distribution report is not meaningful if the design is
   over-mapped for a non-slice resource or if Placement fails.
-  Number of bonded IOBs:                 12 out of     448    2%
+  Number of bonded IOBs:                 36 out of     448    8%
   Number of BUFG/BUFGCTRLs:               1 out of      32    3%
     Number used as BUFGs:                 1
   Number of FIFO16/RAMB16s:               2 out of     192    1%
     Number used as RAMB16s:               2
 
-Average Fanout of Non-Clock Nets:                3.33
+Average Fanout of Non-Clock Nets:                3.25
 
-Peak Memory Usage:  667 MB
-Total REAL time to MAP completion:  10 secs 
+Peak Memory Usage:  672 MB
+Total REAL time to MAP completion:  8 secs 
 Total CPU time to MAP completion:   7 secs 
 
 NOTES:
@@ -81,6 +80,9 @@ Section 1 - Errors
 
 Section 2 - Warnings
 --------------------
+WARNING:Pack:266 - The function generator Mmux_PWR_14_o_PWR_14_o_mux_649_OUT311
+   failed to merge with F5 multiplexer Mmux_n20926101_f5.  There is more than
+   one F5MUX.  The design will exhibit suboptimal timing.
 
 Section 3 - Informational
 -------------------------
@@ -107,7 +109,7 @@ INFO:LIT:244 - All of the single ended outputs in this design are using slew
 
 Section 4 - Removed Logic Summary
 ---------------------------------
-  63 block(s) optimized away
+   4 block(s) optimized away
    8 signal(s) removed
 
 Section 5 - Removed Logic
@@ -138,9 +140,6 @@ GND 		XST_GND
 VCC 		XST_VCC
 GND 		inst_i2c_mem/XST_GND
 VCC 		inst_i2c_mem/XST_VCC
-MUXCY
-		inst_fpu_sub/i_prenorm_addsub/Mmux_s_mux_diff[1]_GND_103_o_wide_mux_23_OUT3_rs
-_cy<0>
 
 To enable printing of redundant blocks removed and signals merged, set the
 detailed map report option and rerun map.
@@ -164,6 +163,30 @@ Section 6 - IOB Properties
 | o_data<5>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
 | o_data<6>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
 | o_data<7>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<8>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-1>                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-2>                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-3>                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-4>                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-5>                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-6>                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-7>                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-8>                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-9>                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-10>                        | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-11>                        | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-12>                        | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-13>                        | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-14>                        | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-15>                        | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-16>                        | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-17>                        | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-18>                        | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-19>                        | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-20>                        | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-21>                        | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-22>                        | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_data<-23>                        | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
 +---------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 Section 7 - RPMs
