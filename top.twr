@@ -28,356 +28,211 @@ INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on
 Timing constraint: NET "i_clock_BUFGP/IBUFG" PERIOD = 10 ns HIGH 50%;
 For more information, see Period Analysis in the Timing Closure User Guide (UG612).
 
- 629 paths analyzed, 274 endpoints analyzed, 0 failing endpoints
+ 634 paths analyzed, 276 endpoints analyzed, 0 failing endpoints
  0 timing errors detected. (0 setup errors, 0 hold errors, 0 component switching limit errors)
- Minimum period is   5.594ns.
+ Minimum period is   3.915ns.
 --------------------------------------------------------------------------------
 
-Paths for end point f32_data_kvdd_8 (SLICE_X42Y84.CE), 4 paths
+Paths for end point p0.variable_i2c_mem_addra_index_4 (SLICE_X38Y181.F3), 2 paths
 --------------------------------------------------------------------------------
-Slack (setup path):     4.406ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               p1.state_FSM_FFd4 (FF)
-  Destination:          f32_data_kvdd_8 (FF)
+Slack (setup path):     6.085ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               inst_i2c_r/psda1 (FF)
+  Destination:          p0.variable_i2c_mem_addra_index_4 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      5.333ns (Levels of Logic = 2)
-  Clock Path Skew:      -0.261ns (1.534 - 1.795)
+  Data Path Delay:      3.915ns (Levels of Logic = 3)
+  Clock Path Skew:      0.000ns
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: p1.state_FSM_FFd4 to f32_data_kvdd_8
+  Maximum Data Path: inst_i2c_r/psda1 to p0.variable_i2c_mem_addra_index_4
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X59Y127.XQ     Tcko                  0.340   p1.state_FSM_FFd4
-                                                       p1.state_FSM_FFd4
-    SLICE_X57Y118.G3     net (fanout=13)       1.116   p1.state_FSM_FFd4
-    SLICE_X57Y118.Y      Tilo                  0.194   _n2474_inv
-                                                       _n2474_inv1_SW0
-    SLICE_X57Y118.F3     net (fanout=1)        0.222   _n2474_inv1_SW0/O
-    SLICE_X57Y118.X      Tilo                  0.194   _n2474_inv
-                                                       _n2474_inv1
-    SLICE_X42Y84.CE      net (fanout=9)        2.713   _n2474_inv
-    SLICE_X42Y84.CLK     Tceck                 0.554   f32_data_kvdd<8>
-                                                       f32_data_kvdd_8
+    SLICE_X42Y163.YQ     Tcko                  0.360   inst_i2c_r/psda1
+                                                       inst_i2c_r/psda1
+    SLICE_X43Y163.G1     net (fanout=2)        0.581   inst_i2c_r/psda1
+    SLICE_X43Y163.Y      Tilo                  0.194   i2c_mem_rw_flag
+                                                       inst_i2c_r/_n0131_inv11
+    SLICE_X38Y181.G2     net (fanout=9)        2.157   i2c_r_sto
+    SLICE_X38Y181.Y      Tilo                  0.195   p0.variable_i2c_mem_addra_index<4>
+                                                       p0.variable_i2c_mem_addra_index[10]_GND_14_o_mux_882_OUT<4>_SW0
+    SLICE_X38Y181.F3     net (fanout=1)        0.213   p0.variable_i2c_mem_addra_index[10]_GND_14_o_mux_882_OUT<4>_SW0/O
+    SLICE_X38Y181.CLK    Tfck                  0.215   p0.variable_i2c_mem_addra_index<4>
+                                                       p0.variable_i2c_mem_addra_index[10]_GND_14_o_mux_882_OUT<4>
+                                                       p0.variable_i2c_mem_addra_index_4
     -------------------------------------------------  ---------------------------
-    Total                                      5.333ns (1.282ns logic, 4.051ns route)
-                                                       (24.0% logic, 76.0% route)
+    Total                                      3.915ns (0.964ns logic, 2.951ns route)
+                                                       (24.6% logic, 75.4% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     5.012ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               p1.state_FSM_FFd3 (FF)
-  Destination:          f32_data_kvdd_8 (FF)
+Slack (setup path):     6.240ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               inst_i2c_r/pscl1 (FF)
+  Destination:          p0.variable_i2c_mem_addra_index_4 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      4.729ns (Levels of Logic = 1)
-  Clock Path Skew:      -0.259ns (1.534 - 1.793)
+  Data Path Delay:      3.760ns (Levels of Logic = 3)
+  Clock Path Skew:      0.000ns
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: p1.state_FSM_FFd3 to f32_data_kvdd_8
+  Maximum Data Path: inst_i2c_r/pscl1 to p0.variable_i2c_mem_addra_index_4
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X58Y124.XQ     Tcko                  0.360   p1.state_FSM_FFd3
-                                                       p1.state_FSM_FFd3
-    SLICE_X57Y118.F1     net (fanout=15)       0.908   p1.state_FSM_FFd3
-    SLICE_X57Y118.X      Tilo                  0.194   _n2474_inv
-                                                       _n2474_inv1
-    SLICE_X42Y84.CE      net (fanout=9)        2.713   _n2474_inv
-    SLICE_X42Y84.CLK     Tceck                 0.554   f32_data_kvdd<8>
-                                                       f32_data_kvdd_8
+    SLICE_X42Y162.YQ     Tcko                  0.360   inst_i2c_r/pscl1
+                                                       inst_i2c_r/pscl1
+    SLICE_X43Y163.G3     net (fanout=2)        0.426   inst_i2c_r/pscl1
+    SLICE_X43Y163.Y      Tilo                  0.194   i2c_mem_rw_flag
+                                                       inst_i2c_r/_n0131_inv11
+    SLICE_X38Y181.G2     net (fanout=9)        2.157   i2c_r_sto
+    SLICE_X38Y181.Y      Tilo                  0.195   p0.variable_i2c_mem_addra_index<4>
+                                                       p0.variable_i2c_mem_addra_index[10]_GND_14_o_mux_882_OUT<4>_SW0
+    SLICE_X38Y181.F3     net (fanout=1)        0.213   p0.variable_i2c_mem_addra_index[10]_GND_14_o_mux_882_OUT<4>_SW0/O
+    SLICE_X38Y181.CLK    Tfck                  0.215   p0.variable_i2c_mem_addra_index<4>
+                                                       p0.variable_i2c_mem_addra_index[10]_GND_14_o_mux_882_OUT<4>
+                                                       p0.variable_i2c_mem_addra_index_4
     -------------------------------------------------  ---------------------------
-    Total                                      4.729ns (1.108ns logic, 3.621ns route)
-                                                       (23.4% logic, 76.6% route)
+    Total                                      3.760ns (0.964ns logic, 2.796ns route)
+                                                       (25.6% logic, 74.4% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     5.366ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               p1.state_FSM_FFd2 (FF)
-  Destination:          f32_data_kvdd_8 (FF)
+
+Paths for end point kvdd_3 (SLICE_X46Y167.BX), 1 path
+--------------------------------------------------------------------------------
+Slack (setup path):     6.280ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP (RAM)
+  Destination:          kvdd_3 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      4.391ns (Levels of Logic = 1)
-  Clock Path Skew:      -0.243ns (1.534 - 1.777)
+  Data Path Delay:      3.720ns (Levels of Logic = 0)
+  Clock Path Skew:      0.000ns
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: p1.state_FSM_FFd2 to f32_data_kvdd_8
+  Maximum Data Path: inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP to kvdd_3
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X57Y121.XQ     Tcko                  0.340   p1.state_FSM_FFd2
-                                                       p1.state_FSM_FFd2
-    SLICE_X57Y118.F2     net (fanout=15)       0.590   p1.state_FSM_FFd2
-    SLICE_X57Y118.X      Tilo                  0.194   _n2474_inv
-                                                       _n2474_inv1
-    SLICE_X42Y84.CE      net (fanout=9)        2.713   _n2474_inv
-    SLICE_X42Y84.CLK     Tceck                 0.554   f32_data_kvdd<8>
-                                                       f32_data_kvdd_8
+    RAMB16_X4Y22.DOA3    Trcko_DOA_NC          2.100   inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP
+                                                       inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP
+    SLICE_X46Y167.BX     net (fanout=2)        1.341   i2c_mem_douta<3>
+    SLICE_X46Y167.CLK    Tdick                 0.279   kvdd<3>
+                                                       kvdd_3
     -------------------------------------------------  ---------------------------
-    Total                                      4.391ns (1.088ns logic, 3.303ns route)
-                                                       (24.8% logic, 75.2% route)
+    Total                                      3.720ns (2.379ns logic, 1.341ns route)
+                                                       (64.0% logic, 36.0% route)
 
 --------------------------------------------------------------------------------
 
-Paths for end point f32_data_kvdd_3 (SLICE_X40Y85.CE), 4 paths
+Paths for end point kvdd_6 (SLICE_X47Y169.BY), 1 path
 --------------------------------------------------------------------------------
-Slack (setup path):     4.592ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               p1.state_FSM_FFd4 (FF)
-  Destination:          f32_data_kvdd_3 (FF)
+Slack (setup path):     6.287ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP (RAM)
+  Destination:          kvdd_6 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      5.136ns (Levels of Logic = 2)
-  Clock Path Skew:      -0.272ns (1.523 - 1.795)
+  Data Path Delay:      3.713ns (Levels of Logic = 0)
+  Clock Path Skew:      0.000ns
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: p1.state_FSM_FFd4 to f32_data_kvdd_3
+  Maximum Data Path: inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP to kvdd_6
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X59Y127.XQ     Tcko                  0.340   p1.state_FSM_FFd4
-                                                       p1.state_FSM_FFd4
-    SLICE_X57Y118.G3     net (fanout=13)       1.116   p1.state_FSM_FFd4
-    SLICE_X57Y118.Y      Tilo                  0.194   _n2474_inv
-                                                       _n2474_inv1_SW0
-    SLICE_X57Y118.F3     net (fanout=1)        0.222   _n2474_inv1_SW0/O
-    SLICE_X57Y118.X      Tilo                  0.194   _n2474_inv
-                                                       _n2474_inv1
-    SLICE_X40Y85.CE      net (fanout=9)        2.516   _n2474_inv
-    SLICE_X40Y85.CLK     Tceck                 0.554   f32_data_kvdd<3>
-                                                       f32_data_kvdd_3
+    RAMB16_X4Y22.DOA6    Trcko_DOA_NC          2.100   inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP
+                                                       inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP
+    SLICE_X47Y169.BY     net (fanout=2)        1.321   i2c_mem_douta<6>
+    SLICE_X47Y169.CLK    Tdick                 0.292   kvdd<7>
+                                                       kvdd_6
     -------------------------------------------------  ---------------------------
-    Total                                      5.136ns (1.282ns logic, 3.854ns route)
-                                                       (25.0% logic, 75.0% route)
-
---------------------------------------------------------------------------------
-Slack (setup path):     5.198ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               p1.state_FSM_FFd3 (FF)
-  Destination:          f32_data_kvdd_3 (FF)
-  Requirement:          10.000ns
-  Data Path Delay:      4.532ns (Levels of Logic = 1)
-  Clock Path Skew:      -0.270ns (1.523 - 1.793)
-  Source Clock:         i_clock_BUFGP rising at 0.000ns
-  Destination Clock:    i_clock_BUFGP rising at 10.000ns
-  Clock Uncertainty:    0.000ns
-
-  Maximum Data Path: p1.state_FSM_FFd3 to f32_data_kvdd_3
-    Location             Delay type         Delay(ns)  Physical Resource
-                                                       Logical Resource(s)
-    -------------------------------------------------  -------------------
-    SLICE_X58Y124.XQ     Tcko                  0.360   p1.state_FSM_FFd3
-                                                       p1.state_FSM_FFd3
-    SLICE_X57Y118.F1     net (fanout=15)       0.908   p1.state_FSM_FFd3
-    SLICE_X57Y118.X      Tilo                  0.194   _n2474_inv
-                                                       _n2474_inv1
-    SLICE_X40Y85.CE      net (fanout=9)        2.516   _n2474_inv
-    SLICE_X40Y85.CLK     Tceck                 0.554   f32_data_kvdd<3>
-                                                       f32_data_kvdd_3
-    -------------------------------------------------  ---------------------------
-    Total                                      4.532ns (1.108ns logic, 3.424ns route)
-                                                       (24.4% logic, 75.6% route)
-
---------------------------------------------------------------------------------
-Slack (setup path):     5.552ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               p1.state_FSM_FFd2 (FF)
-  Destination:          f32_data_kvdd_3 (FF)
-  Requirement:          10.000ns
-  Data Path Delay:      4.194ns (Levels of Logic = 1)
-  Clock Path Skew:      -0.254ns (1.523 - 1.777)
-  Source Clock:         i_clock_BUFGP rising at 0.000ns
-  Destination Clock:    i_clock_BUFGP rising at 10.000ns
-  Clock Uncertainty:    0.000ns
-
-  Maximum Data Path: p1.state_FSM_FFd2 to f32_data_kvdd_3
-    Location             Delay type         Delay(ns)  Physical Resource
-                                                       Logical Resource(s)
-    -------------------------------------------------  -------------------
-    SLICE_X57Y121.XQ     Tcko                  0.340   p1.state_FSM_FFd2
-                                                       p1.state_FSM_FFd2
-    SLICE_X57Y118.F2     net (fanout=15)       0.590   p1.state_FSM_FFd2
-    SLICE_X57Y118.X      Tilo                  0.194   _n2474_inv
-                                                       _n2474_inv1
-    SLICE_X40Y85.CE      net (fanout=9)        2.516   _n2474_inv
-    SLICE_X40Y85.CLK     Tceck                 0.554   f32_data_kvdd<3>
-                                                       f32_data_kvdd_3
-    -------------------------------------------------  ---------------------------
-    Total                                      4.194ns (1.088ns logic, 3.106ns route)
-                                                       (25.9% logic, 74.1% route)
-
---------------------------------------------------------------------------------
-
-Paths for end point f32_data_kvdd_2 (SLICE_X40Y85.CE), 4 paths
---------------------------------------------------------------------------------
-Slack (setup path):     4.592ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               p1.state_FSM_FFd4 (FF)
-  Destination:          f32_data_kvdd_2 (FF)
-  Requirement:          10.000ns
-  Data Path Delay:      5.136ns (Levels of Logic = 2)
-  Clock Path Skew:      -0.272ns (1.523 - 1.795)
-  Source Clock:         i_clock_BUFGP rising at 0.000ns
-  Destination Clock:    i_clock_BUFGP rising at 10.000ns
-  Clock Uncertainty:    0.000ns
-
-  Maximum Data Path: p1.state_FSM_FFd4 to f32_data_kvdd_2
-    Location             Delay type         Delay(ns)  Physical Resource
-                                                       Logical Resource(s)
-    -------------------------------------------------  -------------------
-    SLICE_X59Y127.XQ     Tcko                  0.340   p1.state_FSM_FFd4
-                                                       p1.state_FSM_FFd4
-    SLICE_X57Y118.G3     net (fanout=13)       1.116   p1.state_FSM_FFd4
-    SLICE_X57Y118.Y      Tilo                  0.194   _n2474_inv
-                                                       _n2474_inv1_SW0
-    SLICE_X57Y118.F3     net (fanout=1)        0.222   _n2474_inv1_SW0/O
-    SLICE_X57Y118.X      Tilo                  0.194   _n2474_inv
-                                                       _n2474_inv1
-    SLICE_X40Y85.CE      net (fanout=9)        2.516   _n2474_inv
-    SLICE_X40Y85.CLK     Tceck                 0.554   f32_data_kvdd<3>
-                                                       f32_data_kvdd_2
-    -------------------------------------------------  ---------------------------
-    Total                                      5.136ns (1.282ns logic, 3.854ns route)
-                                                       (25.0% logic, 75.0% route)
-
---------------------------------------------------------------------------------
-Slack (setup path):     5.198ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               p1.state_FSM_FFd3 (FF)
-  Destination:          f32_data_kvdd_2 (FF)
-  Requirement:          10.000ns
-  Data Path Delay:      4.532ns (Levels of Logic = 1)
-  Clock Path Skew:      -0.270ns (1.523 - 1.793)
-  Source Clock:         i_clock_BUFGP rising at 0.000ns
-  Destination Clock:    i_clock_BUFGP rising at 10.000ns
-  Clock Uncertainty:    0.000ns
-
-  Maximum Data Path: p1.state_FSM_FFd3 to f32_data_kvdd_2
-    Location             Delay type         Delay(ns)  Physical Resource
-                                                       Logical Resource(s)
-    -------------------------------------------------  -------------------
-    SLICE_X58Y124.XQ     Tcko                  0.360   p1.state_FSM_FFd3
-                                                       p1.state_FSM_FFd3
-    SLICE_X57Y118.F1     net (fanout=15)       0.908   p1.state_FSM_FFd3
-    SLICE_X57Y118.X      Tilo                  0.194   _n2474_inv
-                                                       _n2474_inv1
-    SLICE_X40Y85.CE      net (fanout=9)        2.516   _n2474_inv
-    SLICE_X40Y85.CLK     Tceck                 0.554   f32_data_kvdd<3>
-                                                       f32_data_kvdd_2
-    -------------------------------------------------  ---------------------------
-    Total                                      4.532ns (1.108ns logic, 3.424ns route)
-                                                       (24.4% logic, 75.6% route)
-
---------------------------------------------------------------------------------
-Slack (setup path):     5.552ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               p1.state_FSM_FFd2 (FF)
-  Destination:          f32_data_kvdd_2 (FF)
-  Requirement:          10.000ns
-  Data Path Delay:      4.194ns (Levels of Logic = 1)
-  Clock Path Skew:      -0.254ns (1.523 - 1.777)
-  Source Clock:         i_clock_BUFGP rising at 0.000ns
-  Destination Clock:    i_clock_BUFGP rising at 10.000ns
-  Clock Uncertainty:    0.000ns
-
-  Maximum Data Path: p1.state_FSM_FFd2 to f32_data_kvdd_2
-    Location             Delay type         Delay(ns)  Physical Resource
-                                                       Logical Resource(s)
-    -------------------------------------------------  -------------------
-    SLICE_X57Y121.XQ     Tcko                  0.340   p1.state_FSM_FFd2
-                                                       p1.state_FSM_FFd2
-    SLICE_X57Y118.F2     net (fanout=15)       0.590   p1.state_FSM_FFd2
-    SLICE_X57Y118.X      Tilo                  0.194   _n2474_inv
-                                                       _n2474_inv1
-    SLICE_X40Y85.CE      net (fanout=9)        2.516   _n2474_inv
-    SLICE_X40Y85.CLK     Tceck                 0.554   f32_data_kvdd<3>
-                                                       f32_data_kvdd_2
-    -------------------------------------------------  ---------------------------
-    Total                                      4.194ns (1.088ns logic, 3.106ns route)
-                                                       (25.9% logic, 74.1% route)
+    Total                                      3.713ns (2.392ns logic, 1.321ns route)
+                                                       (64.4% logic, 35.6% route)
 
 --------------------------------------------------------------------------------
 
 Hold Paths: NET "i_clock_BUFGP/IBUFG" PERIOD = 10 ns HIGH 50%;
 --------------------------------------------------------------------------------
 
-Paths for end point mem_kvdd_vdd25_address_1 (SLICE_X56Y116.F4), 1 path
+Paths for end point inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP (RAMB16_X4Y22.DIA4), 1 path
 --------------------------------------------------------------------------------
-Slack (hold path):      0.480ns (requirement - (clock path skew + uncertainty - data path))
-  Source:               kvdd_1 (FF)
-  Destination:          mem_kvdd_vdd25_address_1 (FF)
+Slack (hold path):      0.332ns (requirement - (clock path skew + uncertainty - data path))
+  Source:               inst_i2c_r/o_i2c_data_4 (FF)
+  Destination:          inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP (RAM)
   Requirement:          0.000ns
-  Data Path Delay:      0.480ns (Levels of Logic = 1)
-  Clock Path Skew:      0.000ns
+  Data Path Delay:      0.299ns (Levels of Logic = 0)
+  Clock Path Skew:      -0.033ns (0.687 - 0.720)
   Source Clock:         i_clock_BUFGP rising at 10.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Minimum Data Path: kvdd_1 to mem_kvdd_vdd25_address_1
+  Minimum Data Path: inst_i2c_r/o_i2c_data_4 to inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X57Y117.XQ     Tcko                  0.313   kvdd<1>
-                                                       kvdd_1
-    SLICE_X56Y116.F4     net (fanout=1)        0.308   kvdd<1>
-    SLICE_X56Y116.CLK    Tckf        (-Th)     0.141   mem_kvdd_vdd25_address<1>
-                                                       Mmux_p1.state[3]_X_14_o_wide_mux_27_OUT21
-                                                       mem_kvdd_vdd25_address_1
+    SLICE_X47Y179.YQ     Tcko                  0.313   inst_i2c_r/o_i2c_data<5>
+                                                       inst_i2c_r/o_i2c_data_4
+    RAMB16_X4Y22.DIA4    net (fanout=1)        0.308   inst_i2c_r/o_i2c_data<4>
+    RAMB16_X4Y22.CLKA    Trckd_DIA   (-Th)     0.322   inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP
+                                                       inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP
     -------------------------------------------------  ---------------------------
-    Total                                      0.480ns (0.172ns logic, 0.308ns route)
-                                                       (35.8% logic, 64.2% route)
+    Total                                      0.299ns (-0.009ns logic, 0.308ns route)
+                                                       (-3.0% logic, 103.0% route)
 
 --------------------------------------------------------------------------------
 
-Paths for end point mem_kvdd_vdd25_address_5 (SLICE_X56Y118.F4), 1 path
+Paths for end point inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP (RAMB16_X4Y22.DIA5), 1 path
 --------------------------------------------------------------------------------
-Slack (hold path):      0.480ns (requirement - (clock path skew + uncertainty - data path))
-  Source:               kvdd_5 (FF)
-  Destination:          mem_kvdd_vdd25_address_5 (FF)
+Slack (hold path):      0.363ns (requirement - (clock path skew + uncertainty - data path))
+  Source:               inst_i2c_r/o_i2c_data_5 (FF)
+  Destination:          inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP (RAM)
   Requirement:          0.000ns
-  Data Path Delay:      0.480ns (Levels of Logic = 1)
-  Clock Path Skew:      0.000ns
+  Data Path Delay:      0.330ns (Levels of Logic = 0)
+  Clock Path Skew:      -0.033ns (0.687 - 0.720)
   Source Clock:         i_clock_BUFGP rising at 10.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Minimum Data Path: kvdd_5 to mem_kvdd_vdd25_address_5
+  Minimum Data Path: inst_i2c_r/o_i2c_data_5 to inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X57Y119.XQ     Tcko                  0.313   kvdd<5>
-                                                       kvdd_5
-    SLICE_X56Y118.F4     net (fanout=1)        0.308   kvdd<5>
-    SLICE_X56Y118.CLK    Tckf        (-Th)     0.141   mem_kvdd_vdd25_address<5>
-                                                       Mmux_p1.state[3]_X_14_o_wide_mux_27_OUT61
-                                                       mem_kvdd_vdd25_address_5
+    SLICE_X47Y179.XQ     Tcko                  0.313   inst_i2c_r/o_i2c_data<5>
+                                                       inst_i2c_r/o_i2c_data_5
+    RAMB16_X4Y22.DIA5    net (fanout=1)        0.339   inst_i2c_r/o_i2c_data<5>
+    RAMB16_X4Y22.CLKA    Trckd_DIA   (-Th)     0.322   inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP
+                                                       inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP
     -------------------------------------------------  ---------------------------
-    Total                                      0.480ns (0.172ns logic, 0.308ns route)
-                                                       (35.8% logic, 64.2% route)
+    Total                                      0.330ns (-0.009ns logic, 0.339ns route)
+                                                       (-2.7% logic, 102.7% route)
 
 --------------------------------------------------------------------------------
 
-Paths for end point mem_kvdd_vdd25_address_6 (SLICE_X58Y121.G4), 1 path
+Paths for end point inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP (RAMB16_X4Y22.DIA2), 1 path
 --------------------------------------------------------------------------------
-Slack (hold path):      0.490ns (requirement - (clock path skew + uncertainty - data path))
-  Source:               kvdd_6 (FF)
-  Destination:          mem_kvdd_vdd25_address_6 (FF)
+Slack (hold path):      0.366ns (requirement - (clock path skew + uncertainty - data path))
+  Source:               inst_i2c_r/o_i2c_data_2 (FF)
+  Destination:          inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP (RAM)
   Requirement:          0.000ns
-  Data Path Delay:      0.490ns (Levels of Logic = 1)
-  Clock Path Skew:      0.000ns
+  Data Path Delay:      0.320ns (Levels of Logic = 0)
+  Clock Path Skew:      -0.046ns (0.687 - 0.733)
   Source Clock:         i_clock_BUFGP rising at 10.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Minimum Data Path: kvdd_6 to mem_kvdd_vdd25_address_6
+  Minimum Data Path: inst_i2c_r/o_i2c_data_2 to inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X59Y121.YQ     Tcko                  0.313   kvdd<7>
-                                                       kvdd_6
-    SLICE_X58Y121.G4     net (fanout=1)        0.320   kvdd<6>
-    SLICE_X58Y121.CLK    Tckg        (-Th)     0.143   mem_kvdd_vdd25_address<7>
-                                                       Mmux_p1.state[3]_X_14_o_wide_mux_27_OUT71
-                                                       mem_kvdd_vdd25_address_6
+    SLICE_X49Y176.YQ     Tcko                  0.313   inst_i2c_r/o_i2c_data<3>
+                                                       inst_i2c_r/o_i2c_data_2
+    RAMB16_X4Y22.DIA2    net (fanout=1)        0.329   inst_i2c_r/o_i2c_data<2>
+    RAMB16_X4Y22.CLKA    Trckd_DIA   (-Th)     0.322   inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP
+                                                       inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP
     -------------------------------------------------  ---------------------------
-    Total                                      0.490ns (0.170ns logic, 0.320ns route)
-                                                       (34.7% logic, 65.3% route)
+    Total                                      0.320ns (-0.009ns logic, 0.329ns route)
+                                                       (-2.8% logic, 102.8% route)
 
 --------------------------------------------------------------------------------
 
@@ -388,7 +243,7 @@ Slack: 7.500ns (period - min period limit)
   Min period limit: 2.500ns (400.000MHz) (Trper_CLKA)
   Physical resource: inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP/CLKA
   Logical resource: inst_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/TRUE_DP.SINGLE_PRIM.TDP/CLKA
-  Location pin: RAMB16_X6Y16.CLKA
+  Location pin: RAMB16_X4Y22.CLKA
   Clock network: i_clock_BUFGP
 --------------------------------------------------------------------------------
 Slack: 7.500ns (period - min period limit)
@@ -396,7 +251,7 @@ Slack: 7.500ns (period - min period limit)
   Min period limit: 2.500ns (400.000MHz) (Trper_CLKA)
   Physical resource: inst_mem_kvdd_vdd25/inst_mem_kvdd/CLKA
   Logical resource: inst_mem_kvdd_vdd25/inst_mem_kvdd/CLKA
-  Location pin: RAMB16_X4Y14.CLKA
+  Location pin: RAMB16_X4Y20.CLKA
   Clock network: i_clock_BUFGP
 --------------------------------------------------------------------------------
 Slack: 7.500ns (period - min period limit)
@@ -404,7 +259,7 @@ Slack: 7.500ns (period - min period limit)
   Min period limit: 2.500ns (400.000MHz) (Trper_CLKB)
   Physical resource: inst_mem_kvdd_vdd25/inst_mem_kvdd/CLKB
   Logical resource: inst_mem_kvdd_vdd25/inst_mem_kvdd/CLKB
-  Location pin: RAMB16_X4Y14.CLKB
+  Location pin: RAMB16_X4Y20.CLKB
   Clock network: i_clock_BUFGP
 --------------------------------------------------------------------------------
 
@@ -421,7 +276,7 @@ Clock to Setup on destination clock i_clock
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-i_clock        |    5.594|         |         |         |
+i_clock        |    3.915|         |         |         |
 ---------------+---------+---------+---------+---------+
 
 
@@ -430,23 +285,23 @@ Timing summary:
 
 Timing errors: 0  Score: 0  (Setup/Max: 0, Hold: 0)
 
-Constraints cover 629 paths, 0 nets, and 555 connections
+Constraints cover 634 paths, 0 nets, and 562 connections
 
 Design statistics:
-   Minimum period:   5.594ns{1}   (Maximum frequency: 178.763MHz)
+   Minimum period:   3.915ns{1}   (Maximum frequency: 255.428MHz)
 
 
 ------------------------------------Footnotes-----------------------------------
 1)  The minimum period statistic assumes all single cycle delays.
 
-Analysis completed Fri Dec 23 00:23:07 2022 
+Analysis completed Fri Dec 23 22:02:59 2022 
 --------------------------------------------------------------------------------
 
 Trace Settings:
 -------------------------
 Trace Settings 
 
-Peak Memory Usage: 503 MB
+Peak Memory Usage: 509 MB
 
 
 

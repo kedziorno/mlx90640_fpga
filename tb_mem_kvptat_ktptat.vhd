@@ -45,7 +45,7 @@ COMPONENT mem_kvptat_ktptat
 PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
-i_address : IN  std_logic_vector(14 downto 0);
+i_address : IN  std_logic_vector(15 downto 0);
 o_data_kvptat : OUT  std_logic_vector(31 downto 0);
 o_data_ktptat : OUT  std_logic_vector(31 downto 0)
 );
@@ -54,7 +54,7 @@ END COMPONENT;
 --Inputs
 signal i_clock : std_logic := '0';
 signal i_reset : std_logic := '0';
-signal i_address : std_logic_vector(14 downto 0) := (others => '0');
+signal i_address : std_logic_vector(15 downto 0) := (others => '0');
 
 --Outputs
 signal o_data_kvptat : std_logic_vector(31 downto 0);
@@ -132,13 +132,13 @@ wait for 100 ns;
 i_reset <= '0';
 wait for i_clock_period*10;
 -- insert stimulus here
-l0 : for i in 0 to 63 loop
-i_address <= std_logic_vector(conv_unsigned(i,15));
+l0 : for i in 0 to 1031 loop
+i_address <= std_logic_vector(conv_unsigned(i,16));
 wait for i_clock_period;
 --assert ap_slv2fp(o_data_kvptat) = 0.0 report real'image(ap_slv2fp(o_data_kvptat)) severity note;
 assert ap_slv2fp(o_data_ktptat) = 0.0 report real'image(ap_slv2fp(o_data_ktptat)) severity note;
 end loop l0;
-i_address <= "000"& x"032";
+i_address <= "0000"& x"032";
 wait for i_clock_period;
 report "done" severity failure;
 end process;

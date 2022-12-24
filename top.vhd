@@ -43,7 +43,7 @@ port (
 	i_reset : in std_logic;
 	i_sda : in std_logic;
 	i_scl : in std_logic;
-	o_data : out float(5 downto -10)
+	o_data : out float32
 );
 end top;
 
@@ -110,34 +110,6 @@ signal i2c_r_sta : std_logic;
 signal i2c_r_sto : std_logic;
 signal i2c_r_counter_enable : std_logic;
 
-component fpu_sub
-port (
-clk_i       	: in std_logic;
-opa_i       	: in std_logic_vector(FP_WIDTH-1 downto 0);   
-opb_i       	: in std_logic_vector(FP_WIDTH-1 downto 0);
-output_o    	: out std_logic_vector(FP_WIDTH-1 downto 0);
-start_i	  		: in  std_logic;
-ready_o 		: out std_logic	
-);   
-end component;
-
-signal fpu_sub_clk_i,fpu_sub_start_i,fpu_sub_ready_o : std_logic;
-signal fpu_sub_opa_i,fpu_sub_opb_i,fpu_sub_output_o : std_logic_vector(FP_WIDTH-1 downto 0);
-
-component fpu_div
-port (
-clk_i       	: in std_logic;
-opa_i       	: in std_logic_vector(31 downto 0);   
-opb_i       	: in std_logic_vector(31 downto 0);
-output_o    	: out std_logic_vector(31 downto 0);
-start_i	  		: in  std_logic;
-ready_o 		: out std_logic	
-);   
-end component;
-
-signal fpu_div_clk_i,fpu_div_start_i,fpu_div_ready_o : std_logic;
-signal fpu_div_opa_i,fpu_div_opb_i,fpu_div_output_o : std_logic_vector(31 downto 0);
-
 COMPONENT mem_kvdd_vdd25
 PORT(
 i_clock : IN  std_logic;
@@ -154,13 +126,8 @@ signal mem_kvdd_vdd25_address : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal mem_kvdd_vdd25_data_kvdd : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal mem_kvdd_vdd25_data_vdd25 : STD_LOGIC_VECTOR(15 DOWNTO 0);
 
-subtype sfixed16 is sfixed (7 downto -8);
-subtype float16 is float (6 downto -9);
-
-signal f32_data_kvdd,f32_data_vdd25 : float16;
---signal f32_data_kvdd,f32_data_vdd25 : sfixed16;
-signal slv_data_kvdd,slv_data_vdd25 : std_logic_vector(15 downto 0);
---signal slv_data_kvdd,slv_data_vdd25 : std_logic_vector(15 downto 0);
+signal f32_data_kvdd,f32_data_vdd25 : float32;
+signal slv_data_kvdd,slv_data_vdd25 : std_logic_vector(31 downto 0);
 
 signal signal_i2c_mem_addra_index : std_logic_vector(10 downto 0);
 signal signal_i2c_mem_data_available : std_logic;
@@ -169,62 +136,27 @@ signal i2c_r_done_address_prev : std_logic;
 signal i2c_r_done_data_prev : std_logic;
 
 signal kvdd,vdd25 : std_logic_vector(I2C_DATA_BITS - 1 downto 0);
+
 signal i2c_mem_rw_flag : std_logic;
 signal i2c_mem_kvdd_vdd25_address : std_logic_vector(10 downto 0);
 
-signal aaa : std_logic; -- xxx
+signal done_kvdd_vdd25 : std_logic;
 
-signal return_sub : std_logic_vector(15 downto 0);
-
-signal nnn : float32;
-signal mmm: float16;
-signal rty : float16;
+signal return_vdd: float32;
 
 begin
 
---o_data <= nnn;
+o_data <= return_vdd;
 
-inst_i2c_r : i2c_r
-port map (
-i_clock => i_clock,
-i_reset => i_reset,
-i_sda => i_sda,
-i_scl => i_scl,
-o_i2c_address => i2c_r_address,
-o_i2c_address_rw => i2c_r_address_rw,
-o_i2c_address_ack => i2c_r_address_ack,
-o_i2c_data => i2c_r_data,
-o_i2c_data_ack => i2c_r_data_ack,
-o_done_data => i2c_r_done_data,
-o_done_address => i2c_r_done_address,
-o_sta => i2c_r_sta,
-o_sto => i2c_r_sto,
-o_counter_enable => i2c_r_counter_enable
-);
-
-inst_i2c_mem : i2c_mem
-port map (
-clka => i2c_mem_clka,
-wea => i2c_mem_wea,
-addra => i2c_mem_addra,
-dina => i2c_mem_dina,
-douta => i2c_mem_douta,
-clkb => i2c_mem_clkb,
-web => i2c_mem_web,
-addrb => i2c_mem_addrb,
-dinb => i2c_mem_dinb,
-doutb => i2c_mem_doutb
-);
-
---i2c_mem_clka <= i2c_r_done_data;
 i2c_mem_clka <= i_clock;
-i2c_mem_addra <= signal_i2c_mem_addra_index when i2c_mem_rw_flag = '0' else i2c_mem_kvdd_vdd25_address when i2c_mem_rw_flag = '1' else (others => '0');
+i2c_mem_addra <=
+i2c_mem_kvdd_vdd25_address when i2c_mem_kvdd_vdd25_flag = '1'
+else
+
+signal_i2c_mem_addra_index;
 i2c_mem_dina <= i2c_r_data;
---i2c_mem_wea <= "1" when signal_i2c_mem_data_available = '0' else "0";
 i2c_mem_wea <= "1" when i2c_r_counter_enable = '1' else "0";
---signal_i2c_mem_data_available <= '1' when (i2c_r_done_data_prev = '0' and i2c_r_done_data = '1' and to_integer(unsigned(signal_i2c_mem_addra_index)) = C_DATA_SIZE - 1) else '0';
 signal_i2c_mem_data_available <= '1' when (i2c_r_done_data_prev = '0' and i2c_r_done_data = '1' and (signal_i2c_mem_addra_index = std_logic_vector(to_unsigned(C_DATA_SIZE - 1,11)))) else '0';
---signal_i2c_mem_data_available <= '1' when (i2c_r_sto = '1') else '0';
 
 inst_mem_kvdd_vdd25 : mem_kvdd_vdd25
 port map (
@@ -235,12 +167,98 @@ o_data_kvdd => mem_kvdd_vdd25_data_kvdd,
 o_data_vdd25 => mem_kvdd_vdd25_data_vdd25
 );
 
---mem_kvdd_vdd25_clock <= i2c_r_done_data;
 mem_kvdd_vdd25_clock <= i_clock;
 mem_kvdd_vdd25_reset <= i_reset;
---mem_kvdd_vdd25_address <= x"68"; -- xxx datasheet p.33 0x2433-0x2410 = 0x23 * 2 = 0x70 -> kvdd/vdd25 = 0x9d68
 
--- xxx datasheet p.33 0x2433-0x2410 = 0x23 * 2 = 0x70 -> kvdd/vdd25 = 0x9d68
+-- xxx 11.2.2.3
+p2 : process (i_clock, i_reset) is
+	type states is (a,b,c,d,e,f,g,h,i,j,k,l,m);
+	variable state : states;
+	constant C_WAIT1 : integer := 2;
+	variable v_wait1 : integer range 0 to C_WAIT1 - 1;
+begin
+	if (rising_edge(i_clock)) then
+		if (i_reset = '1') then
+			state := a;
+			v_wait1 := 0;
+		else
+			case (state) is
+				when a =>
+					v_wait1 := 0;
+					if (done_kvdd_vdd25 = '1') then
+						state := b;
+						i2c_mem_kvdd_vdd25_flag <= '1';
+					else
+						state := a;
+						i2c_mem_kvdd_vdd25_flag <= '0';
+					end if;
+				when b =>
+					state := c;
+					i2c_mem_kvdd_vdd25_address <= std_logic_vector(to_unsigned(68,11));
+				when c =>
+					if (v_wait1 = C_WAIT1 - 1) then
+						state := d;
+						v_wait1 := 0;
+						kvdd <= i2c_mem_douta;
+					else
+						state := c;
+						v_wait1 := v_wait1 + 1;
+					end if;
+				when d =>
+					state := e;
+					i2c_mem_kvdd_vdd25_address <= std_logic_vector(to_unsigned(69,11));
+				when e =>
+					if (v_wait1 = C_WAIT1 - 1) then
+						state := f;
+						v_wait1 := 0;
+						vdd25 <= i2c_mem_douta;
+					else
+						state := e;
+						v_wait1 := v_wait1 + 1;
+					end if;
+				when f =>
+					mem_kvdd_vdd25_address <= kvdd;
+					if (v_wait1 = C_WAIT1 - 1) then
+						state := g;
+						v_wait1 := 0;
+					else
+						state := f;
+						v_wait1 := v_wait1 + 1;
+					end if;
+				when g =>
+					state := h;
+					f32_data_kvdd <= to_float(x"0000"&mem_kvdd_vdd25_data_kvdd,f32_data_kvdd);
+				when h =>
+					state := i;
+				when i =>
+					mem_kvdd_vdd25_address <= vdd25;
+					if (v_wait1 = C_WAIT1 - 1) then
+						state := j;
+						v_wait1 := 0;
+					else
+						state := i;
+						v_wait1 := v_wait1 + 1;
+					end if;
+				when j =>
+					state := k;
+					f32_data_vdd25 <= to_float(x"0000"&mem_kvdd_vdd25_data_vdd25,f32_data_vdd25);
+				when k =>
+					state := l;
+					done_kvdd_vdd25 <= '1';
+				when l =>
+					state := m;
+				when m =>
+					report "kvdd : " & real'image(to_real(f32_data_kvdd,denormalize=>false)) severity note;
+					report "vdd25 : " & real'image(to_real(f32_data_vdd25,denormalize=>false)) severity note;
+					report "return vdd : " & real'image(to_real(return_vdd,denormalize=>false)) severity note;
+					report "done" severity failure;
+				when others => null;
+			end case;
+		end if;
+	end if;
+end process p2;
+
+-- xxx 11.2.2.2 datasheet p.33 0x2433-0x2410 = 0x23 * 2 = 0x70 -> kvdd/vdd25 = 0x9d68
 p1 : process (i_clock, i_reset) is
 	type states is (a,b,c,d,e,f,g,h,i,j,k,l,m);
 	variable state : states;
@@ -254,18 +272,18 @@ begin
 			vdd25 <= (others => '0');
 			i2c_mem_rw_flag <= '0';
 			v_wait1 := 0;
-			aaa <= '0';
+			done_kvdd_vdd25 <= '0';
 		else
 			case (state) is
 				when a =>
-					aaa <= '0';
+					done_kvdd_vdd25 <= '0';
 					v_wait1 := 0;
 					if (i2c_r_sto = '1') then
 						state := b;
-						i2c_mem_rw_flag <= '1';
+						i2c_mem_kvdd_vdd25_flag <= '1';
 					else
 						state := a;
-						i2c_mem_rw_flag <= '0';
+						i2c_mem_kvdd_vdd25_flag <= '0';
 					end if;
 				when b =>
 					state := c;
@@ -302,11 +320,9 @@ begin
 					end if;
 				when g =>
 					state := h;
-					f32_data_kvdd <= to_float(mem_kvdd_vdd25_data_kvdd,f32_data_kvdd);
---					f32_data_kvdd <= to_sfixed(mem_kvdd_vdd25_data_kvdd,sfixed16'high,sfixed16'low);
+					f32_data_kvdd <= to_float(x"0000"&mem_kvdd_vdd25_data_kvdd,f32_data_kvdd);
 				when h =>
 					state := i;
---					slv_data_kvdd <= to_slv(f32_data_kvdd); -- xxx 0xf3a0
 				when i =>
 					mem_kvdd_vdd25_address <= vdd25;
 					if (v_wait1 = C_WAIT1 - 1) then
@@ -318,23 +334,24 @@ begin
 					end if;
 				when j =>
 					state := k;
-					f32_data_vdd25 <= to_float(mem_kvdd_vdd25_data_vdd25,f32_data_vdd25);
---					f32_data_vdd25 <= to_sfixed(mem_kvdd_vdd25_data_vdd25,sfixed16'high,sfixed16'low);
+					f32_data_vdd25 <= to_float(x"0000"&mem_kvdd_vdd25_data_vdd25,f32_data_vdd25);
 				when k =>
 					state := l;
---					slv_data_vdd25 <= to_slv(f32_data_vdd25); -- xxx 0xcd00
+					done_kvdd_vdd25 <= '1';
 				when l =>
 					state := m;
+				when m =>
 					report "kvdd : " & real'image(to_real(f32_data_kvdd,denormalize=>false)) severity note;
 					report "vdd25 : " & real'image(to_real(f32_data_vdd25,denormalize=>false)) severity note;
-				when m =>
-					aaa <= '1';
---					report "" severity failure;
+					report "return vdd : " & real'image(to_real(return_vdd,denormalize=>false)) severity note;
+					report "done" severity failure;
 				when others => null;
 			end case;
 		end if;
 	end if;
 end process p1;
+
+return_vdd <= ((to_float(std_logic_vector'(x"0000ccc5"),float32'high,-float32'low) - f32_data_vdd25) / f32_data_kvdd) + to_float(3.3,float32'high,-float32'low) when done_kvdd_vdd25 = '1' else to_float(0.0,float32'high,-float32'low);
 
 p0 : process (i_clock, i_reset) is
 	variable variable_i2c_mem_addra_index : integer range 0 to C_DATA_SIZE - 1;
@@ -343,134 +360,48 @@ begin
 		if (i_reset = '1') then
 			variable_i2c_mem_addra_index := 0;
 			i2c_r_done_data_prev <= '0';
---			i2c_r_done_address_prev <= '0';
 		else
 			i2c_r_done_data_prev <= i2c_r_done_data;
---			i2c_r_done_address_prev <= i2c_r_done_address;
 			if (i2c_r_sto = '1') then
 				variable_i2c_mem_addra_index := 0;
 			elsif (i2c_r_done_data_prev = '0' and i2c_r_done_data = '1') then
---				if (variable_i2c_mem_addra_index = C_DATA_SIZE - 1) then
---					variable_i2c_mem_addra_index := 0;
---				else
 					variable_i2c_mem_addra_index := variable_i2c_mem_addra_index + 1;
---				end if;
 			end if;
 		end if;
 		signal_i2c_mem_addra_index <= std_logic_vector(to_unsigned(variable_i2c_mem_addra_index,11));
 	end if;
 end process p0;
 
-p0_fpu_sub : process (i_clock,i_reset) is
-	type states_fpu_sub is (fpu_sub_state_idle,fpu_sub_state_a,fpu_sub_state_b);
-	variable state_fpu_sub : states_fpu_sub;
---	variable qwe : std_logic_vector(31 downto 0);
-	variable qwe : std_logic_vector(15 downto 0):=(others => '0');
-	variable asd : unsigned(31 downto 0) := x"0000ccc5";
-	variable zxc : unsigned(31 downto 0) := (others => '0');
-begin
-	if (rising_edge(i_clock)) then
-		if (i_reset = '1') then
-			fpu_sub_opa_i <= (others => '0');
-			fpu_sub_opb_i <= (others => '0');
-			fpu_sub_start_i <= '0';
-			state_fpu_sub := fpu_sub_state_idle;
---			mmm <= (others => '0');
---			rty <= (others => '0');
-		else
-			case (state_fpu_sub) is
-				when fpu_sub_state_idle =>
---					if (signal_i2c_mem_data_available = '1') then
-						fpu_sub_ready_o <= '0';
+inst_i2c_r : i2c_r
+port map (
+i_clock => i_clock,
+i_reset => i_reset,
+i_sda => i_sda,
+i_scl => i_scl,
+o_i2c_address => i2c_r_address,
+o_i2c_address_rw => i2c_r_address_rw,
+o_i2c_address_ack => i2c_r_address_ack,
+o_i2c_data => i2c_r_data,
+o_i2c_data_ack => i2c_r_data_ack,
+o_done_data => i2c_r_done_data,
+o_done_address => i2c_r_done_address,
+o_sta => i2c_r_sta,
+o_sto => i2c_r_sto,
+o_counter_enable => i2c_r_counter_enable
+);
 
-					if (aaa = '1') then
-						state_fpu_sub := fpu_sub_state_a;
---						asd := unsigned(qwe);
---						zxc := to_unsigned(asd,32);
-						rty <= to_float(std_logic_vector'(x"ccc5"),rty);
---						rty := resize(rty,5,10);
---						fpu_sub_opa_i <= x"0001" & to_slv(rty)(15 downto 0); -- xxx
---						fpu_sub_opb_i <= x"0000"&to_slv(rty)(31 downto 16); -- xxx
---						fpu_sub_opa_i <= to_slv(rty); -- xxx
---						fpu_sub_opa_i <= x"0000"&slv_data_vdd25(15 downto 0);
---						fpu_sub_opb_i <= to_slv(resize(slv_data_vdd25,5,10));
---						fpu_sub_opb_i <= x"ffff"&to_slv(f32_data_vdd25)(31 downto 16);
---						fpu_sub_opb_i <= slv_data_vdd25;
-					else
-						state_fpu_sub := fpu_sub_state_idle;
-					end if;
-				when fpu_sub_state_a =>
-					state_fpu_sub := fpu_sub_state_b;
-					fpu_sub_start_i <= '1';
-										fpu_sub_ready_o <= '1';
-
-				when fpu_sub_state_b =>
-					fpu_sub_start_i <= '0';
-					if(fpu_sub_ready_o = '1') then
---						return_sub <= fpu_sub_output_o(15 downto 0);
-						state_fpu_sub := fpu_sub_state_idle;
-					else
-						state_fpu_sub := fpu_sub_state_b;
-					end if;
-				when others =>
-					null;
-			end case;
-		end if;
-	end if;
-end process p0_fpu_sub;
-
---mmm(-12 downto -23) <= rty(-12 downto -23) - f32_data_vdd25(-12 downto -23);
---mmm <= to_float(to_slv(to_float(to_slv(rty),float16'high,-float16'low) - to_float(to_slv(f32_data_vdd25),float16'high,-float16'low)),float32'high,-float32'low);
---nnn <= to_float(to_slv(to_float(to_slv(mmm),float16'high,-float16'low) / to_float(to_slv(f32_data_kvdd),float16'high,-float16'low)),float32'high,-float32'low);
-
---mmm <= rty - f32_data_vdd25;
---mmm <= subtract(l => rty,r => f32_data_vdd25,denormalize => true,check_error => true,round_style => round_nearest,guard => 32);
-
---nnn <= mmm / f32_data_kvdd;
-
-mmm <= to_float(to_slv(to_float(to_slv(rty),float16'high,-float16'low) - to_float(to_slv(f32_data_vdd25),float16'high,-float16'low)),float16'high,-float16'low);
---nnn <= to_float(to_slv(to_float(to_slv(mmm),float16'high,-float16'low) / to_float(to_slv(f32_data_kvdd),float16'high,-float16'low)),float32'high,-float32'low);
-
-p0_fpu_div : process (i_clock,i_reset) is
-	type states_fpu_div is (fpu_div_state_idle,fpu_div_state_a,fpu_div_state_b);
-	variable state_fpu_div : states_fpu_div;
-begin
-	if (rising_edge(i_clock)) then
-		if (i_reset = '1') then
-			fpu_div_opa_i <= (others => '0');
-			fpu_div_opb_i <= (others => '0');
-			fpu_div_start_i <= '0';
-			state_fpu_div := fpu_div_state_idle;
---			nnn <= (others => '0');
-		else
-			case (state_fpu_div) is
-				when fpu_div_state_idle =>
-					if (fpu_sub_ready_o = '1') then
-						state_fpu_div := fpu_div_state_a;
-						fpu_div_opa_i <= x"0000" & fpu_sub_output_o(15 downto 0);
---						fpu_div_opa_i <= x"0000" & to_slv(resize(to_float(x"ffff" & slv_data_kvdd(15 downto 0)),15,0));
-						fpu_div_opb_i <= x"0000" & to_slv(resize(to_float(slv_data_kvdd),15,0));
---						fpu_div_opb_i <= mem_kvdd_vdd25_data_vdd25;
-					else
-						state_fpu_div := fpu_div_state_idle;
-					end if;
-				when fpu_div_state_a =>
-					state_fpu_div := fpu_div_state_b;
-					fpu_div_start_i <= '1';
-				when fpu_div_state_b =>
-					fpu_div_start_i <= '0';
---					if(fpu_div_ready_o = '1') then
-						state_fpu_div := fpu_div_state_idle;
---						report "div : " & real'image(to_real(float32(fpu_div_output_o))) severity failure;
-						report "div : " & real'image(to_real(nnn)) severity failure;
---					else
---						state_fpu_div := fpu_div_state_b;
---					end if;
-				when others =>
-					null;
-			end case;
-		end if;
-	end if;
-end process p0_fpu_div;
+inst_i2c_mem : i2c_mem
+port map (
+clka => i2c_mem_clka,
+wea => i2c_mem_wea,
+addra => i2c_mem_addra,
+dina => i2c_mem_dina,
+douta => i2c_mem_douta,
+clkb => i2c_mem_clkb,
+web => i2c_mem_web,
+addrb => i2c_mem_addrb,
+dinb => i2c_mem_dinb,
+doutb => i2c_mem_doutb
+);
 
 end Behavioral;
