@@ -180,47 +180,51 @@ signal A_reg : std_logic;
 begin
 
 -- XXX ramb16 two ports share the same x/16bit address
-p1 : process (I_CLK,I_SSR) is
-begin
-	if (rising_edge(I_CLK)) then
-		if (I_SSR = '1') then
-			A_reg <= '0';
-		else
-			A_reg <= I_ADDR(15);
-		end if;
-	end if;
-end process p1;
+--p1 : process (I_CLK,I_SSR) is
+--begin
+--	if (rising_edge(I_CLK)) then
+--		if (I_SSR = '1') then
+--			A_reg <= '0';
+--		else
+--			A_reg <= I_ADDR(15);
+--		end if;
+--	end if;
+--end process p1;
 
-mux <= '1' when (A_reg = '1') else '0' when (A_reg = '0') else '0';
+--mux <= '1' when (A_reg = '1') else '0' when (A_reg = '0') else '0';
+mux <= '1' when (I_ADDR(15) = '1') else '0' when (I_ADDR(15) = '0') else '0';
 
-p0 : process (I_CLK,I_SSR) is
-begin
-	if (rising_edge(I_CLK)) then
-		if (I_SSR = '1') then
-			O_DO <= (others => '0');
-			O_DOP <= (others => '0');
-		else
-			O_DO <= DO_reg;
-			O_DOP <= DOP_reg;
-		end if;
-	end if;
-end process p0;
+O_DO <= DOA_single when (ENA_single = '1' and ENB_single = '0') else DOB_single when (ENA_single = '0' and ENB_single = '1') else (others => '0');
+O_DOP <= DOPA_single when (ENA_single = '1' and ENB_single = '0') else DOPB_single when (ENA_single = '0' and ENB_single = '1') else (others => '0');
 
-p2 : process (I_CLK,I_SSR) is
-begin
-	if (rising_edge(I_CLK)) then
-		if (I_SSR = '1') then
-			DO_reg <= (others => '0');
-			DOP_reg <= (others => '0');
-		else
-			if (ENA_single = '1' and ENB_single = '0') then
-				DO_reg <= DOA_single;
-				DOP_reg <= DOPA_single;
-			end if;
-			if (ENA_single = '0' and ENB_single = '1') then
-				DO_reg <= DOB_single;
-				DOP_reg <= DOPB_single;
-			end if;
+--p0 : process (I_CLK,I_SSR) is
+--begin
+--	if (rising_edge(I_CLK)) then
+--		if (I_SSR = '1') then
+--			O_DO <= (others => '0');
+--			O_DOP <= (others => '0');
+--		else
+--			O_DO <= DO_reg;
+--			O_DOP <= DOP_reg;
+--		end if;
+--	end if;
+--end process p0;
+
+--p2 : process (I_CLK,I_SSR) is
+--begin
+--	if (rising_edge(I_CLK)) then
+--		if (I_SSR = '1') then
+--			DO_reg <= (others => '0');
+--			DOP_reg <= (others => '0');
+--		else
+--			if (ENA_single = '1' and ENB_single = '0') then
+--				DO_reg <= DOA_single;
+--				DOP_reg <= DOPA_single;
+--			end if;
+--			if (ENA_single = '0' and ENB_single = '1') then
+--				DO_reg <= DOB_single;
+--				DOP_reg <= DOPB_single;
+--			end if;
 --			if (ENA_single = '1' or ENB_single = '1') then
 --				if (mux = '0') then
 --					DO_reg <= DOA_single;
@@ -233,9 +237,9 @@ begin
 --				DO_reg <= DO_reg;
 --				DOP_reg <= DOP_reg;
 --			end if;
-		end if;
-	end if;
-end process p2;
+--		end if;
+--	end if;
+--end process p2;
 
 --DO_reg <= DOA_single when (mux = '0' and (ENA_single = '1' and ENB_single = '0')) else DOB_single when (mux = '1' and (ENA_single = '0' and ENB_single = '1')) else (others => '0');
 --DOP_reg <= DOPA_single when (mux = '0' and (ENA_single = '1' and ENB_single = '0')) else DOPB_single when (mux = '1' and (ENA_single = '0' and ENB_single = '1')) else (others => '0');
@@ -282,14 +286,14 @@ WRITE_MODE_A => "NO_CHANGE", -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
 WRITE_MODE_B => "NO_CHANGE", -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
 WRITE_WIDTH_A => 36, -- Valid values are 1,2,4,9,18 or 36
 WRITE_WIDTH_B => 36, -- Valid values are 1,2,4,9,18 or 36
-INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
-INIT_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
-INIT_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
-INIT_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
-INIT_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
-INIT_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
-INIT_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-INIT_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+INIT_00 => X"3ae000003ac000003aa000003a8000003a4000003a0000003980000000000000",
+INIT_01 => X"3b7000003b6000003b5000003b4000003b3000003b2000003b1000003b000000",
+INIT_02 => X"3bb800003bb000003ba800003ba000003b9800003b9000003b8800003b800000",
+INIT_03 => X"3bf800003bf000003be800003be000003bd800003bd000003bc800003bc00000",
+INIT_04 => X"bbc80000bbd00000bbd80000bbe00000bbe80000bbf00000bbf80000bc000000",
+INIT_05 => X"bb880000bb900000bb980000bba00000bba80000bbb00000bbb80000bbc00000",
+INIT_06 => X"bb100000bb200000bb300000bb400000bb500000bb600000bb700000bb800000",
+INIT_07 => X"b9800000ba000000ba400000ba800000baa00000bac00000bae00000bb000000",
 INIT_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
 INIT_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
 INIT_0A => X"0000000000000000000000000000000000000000000000000000000000000000",

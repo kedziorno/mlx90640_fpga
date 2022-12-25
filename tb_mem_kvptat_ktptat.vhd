@@ -135,10 +135,9 @@ wait for i_clock_period*10;
 l0 : for i in 0 to 1031 loop
 i_address <= std_logic_vector(conv_unsigned(i,16));
 wait for i_clock_period;
---assert ap_slv2fp(o_data_kvptat) = 0.0 report real'image(ap_slv2fp(o_data_kvptat)) severity note;
-assert ap_slv2fp(o_data_ktptat) = 0.0 report real'image(ap_slv2fp(o_data_ktptat)) severity note;
+assert ap_slv2fp(o_data_kvptat) = 0.0 report "i : " & integer'image(i) & " kvptat : " & real'image(ap_slv2fp(o_data_kvptat)) severity note;
+assert ap_slv2fp(o_data_ktptat) = 0.0 report "i : " & integer'image(i) & " ktptat : " & real'image(ap_slv2fp(o_data_ktptat)) severity note;
 end loop l0;
-i_address <= "0000"& x"032";
 wait for i_clock_period;
 report "done" severity failure;
 end process;

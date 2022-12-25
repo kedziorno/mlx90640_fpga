@@ -126,8 +126,24 @@ signal mem_kvdd_vdd25_address : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal mem_kvdd_vdd25_data_kvdd : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal mem_kvdd_vdd25_data_vdd25 : STD_LOGIC_VECTOR(15 DOWNTO 0);
 
+component mem_kvptat_ktptat is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_address : in std_logic_vector(15 downto 0);
+o_data_kvptat : out std_logic_vector(31 downto 0);
+o_data_ktptat : out std_logic_vector(31 downto 0)
+);
+end component mem_kvptat_ktptat;
+
+signal mem_kvptat_ktptat_clock : std_logic;
+signal mem_kvptat_ktptat_reset : std_logic;
+signal mem_kvptat_ktptat_address : std_logic_vector(15 downto 0);
+signal mem_kvptat_ktptat_data_kvptat : std_logic_vector(31 downto 0);
+signal mem_kvptat_ktptat_data_ktptat : std_logic_vector(31 downto 0);
+
 signal f32_data_kvdd,f32_data_vdd25 : float32;
-signal slv_data_kvdd,slv_data_vdd25 : std_logic_vector(31 downto 0);
+signal f32_data_kvptat,f32_data_ktptat : float32;
 
 signal signal_i2c_mem_addra_index : std_logic_vector(10 downto 0);
 signal signal_i2c_mem_data_available : std_logic;
@@ -135,37 +151,45 @@ signal signal_i2c_mem_data_available : std_logic;
 signal i2c_r_done_address_prev : std_logic;
 signal i2c_r_done_data_prev : std_logic;
 
-signal kvdd,vdd25 : std_logic_vector(I2C_DATA_BITS - 1 downto 0);
+signal kvdd_vdd25 : std_logic_vector(2*I2C_DATA_BITS - 1 downto 0); -- xxx 0xff/0xff
+signal kvptat_ktptat : std_logic_vector(2*I2C_DATA_BITS - 1 downto 0); -- xxx 0xfc/0x03ff
 
-signal i2c_mem_rw_flag : std_logic;
+signal i2c_mem_kvptat_ktptat_flag,i2c_mem_kvdd_vdd25_flag,mem_kvptat_ktptat_flag : std_logic;
 signal i2c_mem_kvdd_vdd25_address : std_logic_vector(10 downto 0);
+signal i2c_mem_kvptat_ktptat_address : std_logic_vector(10 downto 0);
+signal mem_kvdd_vdd25_flag : std_logic;
+signal done_kvdd_vdd25,done_kvptat_ktptat : std_logic;
 
-signal done_kvdd_vdd25 : std_logic;
-
+signal vdd: float32;
 signal return_vdd: float32;
 
 begin
 
 o_data <= return_vdd;
 
+mem_kvptat_ktptat_clock <= i_clock;
+mem_kvptat_ktptat_reset <= i_reset;
+
 i2c_mem_clka <= i_clock;
 i2c_mem_addra <=
-i2c_mem_kvdd_vdd25_address when i2c_mem_kvdd_vdd25_flag = '1'
-else
-
-signal_i2c_mem_addra_index;
+	i2c_mem_kvdd_vdd25_address when i2c_mem_kvdd_vdd25_flag = '1'
+	else
+	i2c_mem_kvptat_ktptat_address when i2c_mem_kvptat_ktptat_flag = '1'
+	else 
+	signal_i2c_mem_addra_index;
 i2c_mem_dina <= i2c_r_data;
-i2c_mem_wea <= "1" when i2c_r_counter_enable = '1' else "0";
-signal_i2c_mem_data_available <= '1' when (i2c_r_done_data_prev = '0' and i2c_r_done_data = '1' and (signal_i2c_mem_addra_index = std_logic_vector(to_unsigned(C_DATA_SIZE - 1,11)))) else '0';
-
-inst_mem_kvdd_vdd25 : mem_kvdd_vdd25
-port map (
-i_clock => mem_kvdd_vdd25_clock,
-i_reset => mem_kvdd_vdd25_reset,
-i_address => mem_kvdd_vdd25_address,
-o_data_kvdd => mem_kvdd_vdd25_data_kvdd,
-o_data_vdd25 => mem_kvdd_vdd25_data_vdd25
-);
+i2c_mem_wea <=
+	"1" when i2c_r_counter_enable = '1'
+	else
+	"0";
+signal_i2c_mem_data_available <=
+	'1' when (
+		i2c_r_done_data_prev = '0' and 
+		i2c_r_done_data = '1' and 
+		(signal_i2c_mem_addra_index = std_logic_vector(to_unsigned(C_DATA_SIZE - 1,11)))
+	)
+	else 
+	'0';
 
 mem_kvdd_vdd25_clock <= i_clock;
 mem_kvdd_vdd25_reset <= i_reset;
@@ -181,43 +205,49 @@ begin
 		if (i_reset = '1') then
 			state := a;
 			v_wait1 := 0;
+			mem_kvptat_ktptat_flag <= '0';
+			i2c_mem_kvptat_ktptat_flag <= '0';
+			kvptat_ktptat <= (others => '0');
+			done_kvptat_ktptat <= '0';
 		else
 			case (state) is
 				when a =>
 					v_wait1 := 0;
 					if (done_kvdd_vdd25 = '1') then
 						state := b;
-						i2c_mem_kvdd_vdd25_flag <= '1';
+						mem_kvptat_ktptat_flag <= '1';
+						i2c_mem_kvptat_ktptat_flag <= '1';
 					else
 						state := a;
-						i2c_mem_kvdd_vdd25_flag <= '0';
+						mem_kvptat_ktptat_flag <= '0';
+						i2c_mem_kvptat_ktptat_flag <= '0';
 					end if;
 				when b =>
 					state := c;
-					i2c_mem_kvdd_vdd25_address <= std_logic_vector(to_unsigned(68,11));
+					i2c_mem_kvptat_ktptat_address <= std_logic_vector(to_unsigned(68,11));
 				when c =>
 					if (v_wait1 = C_WAIT1 - 1) then
 						state := d;
 						v_wait1 := 0;
-						kvdd <= i2c_mem_douta;
+						kvptat_ktptat(15 downto 8) <= i2c_mem_douta;
 					else
 						state := c;
 						v_wait1 := v_wait1 + 1;
 					end if;
 				when d =>
 					state := e;
-					i2c_mem_kvdd_vdd25_address <= std_logic_vector(to_unsigned(69,11));
+					i2c_mem_kvptat_ktptat_address <= std_logic_vector(to_unsigned(69,11));
 				when e =>
 					if (v_wait1 = C_WAIT1 - 1) then
 						state := f;
 						v_wait1 := 0;
-						vdd25 <= i2c_mem_douta;
+						kvptat_ktptat(7 downto 0) <= i2c_mem_douta;
 					else
 						state := e;
 						v_wait1 := v_wait1 + 1;
 					end if;
 				when f =>
-					mem_kvdd_vdd25_address <= kvdd;
+					mem_kvptat_ktptat_address <= "0000000000" & kvptat_ktptat(15 downto 10); -- xxx kvptat 0xfc000 - 6bit
 					if (v_wait1 = C_WAIT1 - 1) then
 						state := g;
 						v_wait1 := 0;
@@ -227,11 +257,11 @@ begin
 					end if;
 				when g =>
 					state := h;
-					f32_data_kvdd <= to_float(x"0000"&mem_kvdd_vdd25_data_kvdd,f32_data_kvdd);
+					f32_data_kvptat <= to_float(mem_kvptat_ktptat_data_kvptat,f32_data_kvptat);
 				when h =>
 					state := i;
 				when i =>
-					mem_kvdd_vdd25_address <= vdd25;
+					mem_kvptat_ktptat_address <= "000000" & kvptat_ktptat(9 downto 0); -- xxx ktptat 0x03ff - 10bit
 					if (v_wait1 = C_WAIT1 - 1) then
 						state := j;
 						v_wait1 := 0;
@@ -241,22 +271,26 @@ begin
 					end if;
 				when j =>
 					state := k;
-					f32_data_vdd25 <= to_float(x"0000"&mem_kvdd_vdd25_data_vdd25,f32_data_vdd25);
+					f32_data_ktptat <= to_float(mem_kvptat_ktptat_data_ktptat,f32_data_ktptat);
 				when k =>
 					state := l;
-					done_kvdd_vdd25 <= '1';
+					done_kvptat_ktptat <= '1';
+					i2c_mem_kvptat_ktptat_flag <= '0';
 				when l =>
 					state := m;
 				when m =>
-					report "kvdd : " & real'image(to_real(f32_data_kvdd,denormalize=>false)) severity note;
-					report "vdd25 : " & real'image(to_real(f32_data_vdd25,denormalize=>false)) severity note;
-					report "return vdd : " & real'image(to_real(return_vdd,denormalize=>false)) severity note;
+					report "kvptat : " & real'image(to_real(f32_data_kvptat,denormalize=>false)) severity note;
+					report "ktptat : " & real'image(to_real(f32_data_ktptat,denormalize=>false)) severity note;
+--					report "return vdd : " & real'image(to_real(return_vdd,denormalize=>false)) severity note;
 					report "done" severity failure;
 				when others => null;
 			end case;
 		end if;
 	end if;
 end process p2;
+
+--vdd <= ((to_float(std_logic_vector'(x"0000ccc5"),float32'high,-float32'low) - f32_data_vdd25) / f32_data_kvdd) when done_kvdd_vdd25 = '1' else to_float(0.0,float32'high,-float32'low);
+--return_vdd <=  vdd + to_float(3.3,float32'high,-float32'low) when done_kvdd_vdd25 = '1' else to_float(0.0,float32'high,-float32'low);
 
 -- xxx 11.2.2.2 datasheet p.33 0x2433-0x2410 = 0x23 * 2 = 0x70 -> kvdd/vdd25 = 0x9d68
 p1 : process (i_clock, i_reset) is
@@ -268,11 +302,10 @@ begin
 	if (rising_edge(i_clock)) then
 		if (i_reset = '1') then
 			state := a;
-			kvdd <= (others => '0');
-			vdd25 <= (others => '0');
-			i2c_mem_rw_flag <= '0';
+			kvdd_vdd25 <= (others => '0');
 			v_wait1 := 0;
 			done_kvdd_vdd25 <= '0';
+			i2c_mem_kvdd_vdd25_flag <= '0';
 		else
 			case (state) is
 				when a =>
@@ -280,9 +313,11 @@ begin
 					v_wait1 := 0;
 					if (i2c_r_sto = '1') then
 						state := b;
+						mem_kvdd_vdd25_flag <= '1';
 						i2c_mem_kvdd_vdd25_flag <= '1';
 					else
 						state := a;
+						mem_kvdd_vdd25_flag <= '0';
 						i2c_mem_kvdd_vdd25_flag <= '0';
 					end if;
 				when b =>
@@ -292,7 +327,7 @@ begin
 					if (v_wait1 = C_WAIT1 - 1) then
 						state := d;
 						v_wait1 := 0;
-						kvdd <= i2c_mem_douta;
+						kvdd_vdd25(15 downto 8) <= i2c_mem_douta;
 					else
 						state := c;
 						v_wait1 := v_wait1 + 1;
@@ -304,13 +339,13 @@ begin
 					if (v_wait1 = C_WAIT1 - 1) then
 						state := f;
 						v_wait1 := 0;
-						vdd25 <= i2c_mem_douta;
+						kvdd_vdd25(7 downto 0) <= i2c_mem_douta;
 					else
 						state := e;
 						v_wait1 := v_wait1 + 1;
 					end if;
 				when f =>
-					mem_kvdd_vdd25_address <= kvdd;
+					mem_kvdd_vdd25_address <= kvdd_vdd25(15 downto 8);
 					if (v_wait1 = C_WAIT1 - 1) then
 						state := g;
 						v_wait1 := 0;
@@ -324,7 +359,7 @@ begin
 				when h =>
 					state := i;
 				when i =>
-					mem_kvdd_vdd25_address <= vdd25;
+					mem_kvdd_vdd25_address <= kvdd_vdd25(7 downto 0);
 					if (v_wait1 = C_WAIT1 - 1) then
 						state := j;
 						v_wait1 := 0;
@@ -340,18 +375,21 @@ begin
 					done_kvdd_vdd25 <= '1';
 				when l =>
 					state := m;
+					mem_kvdd_vdd25_flag <= '0';
+					i2c_mem_kvdd_vdd25_flag <= '0';
 				when m =>
 					report "kvdd : " & real'image(to_real(f32_data_kvdd,denormalize=>false)) severity note;
 					report "vdd25 : " & real'image(to_real(f32_data_vdd25,denormalize=>false)) severity note;
 					report "return vdd : " & real'image(to_real(return_vdd,denormalize=>false)) severity note;
-					report "done" severity failure;
+--					report "done" severity failure;
 				when others => null;
 			end case;
 		end if;
 	end if;
 end process p1;
 
-return_vdd <= ((to_float(std_logic_vector'(x"0000ccc5"),float32'high,-float32'low) - f32_data_vdd25) / f32_data_kvdd) + to_float(3.3,float32'high,-float32'low) when done_kvdd_vdd25 = '1' else to_float(0.0,float32'high,-float32'low);
+vdd <= ((to_float(std_logic_vector'(x"0000ccc5"),float32'high,-float32'low) - f32_data_vdd25) / f32_data_kvdd) when done_kvdd_vdd25 = '1' else to_float(0.0,float32'high,-float32'low);
+return_vdd <= vdd + to_float(3.3,float32'high,-float32'low) when done_kvdd_vdd25 = '1' else to_float(0.0,float32'high,-float32'low);
 
 p0 : process (i_clock, i_reset) is
 	variable variable_i2c_mem_addra_index : integer range 0 to C_DATA_SIZE - 1;
@@ -402,6 +440,24 @@ web => i2c_mem_web,
 addrb => i2c_mem_addrb,
 dinb => i2c_mem_dinb,
 doutb => i2c_mem_doutb
+);
+
+inst_mem_kvdd_vdd25 : mem_kvdd_vdd25
+port map (
+i_clock => mem_kvdd_vdd25_clock,
+i_reset => mem_kvdd_vdd25_reset,
+i_address => mem_kvdd_vdd25_address,
+o_data_kvdd => mem_kvdd_vdd25_data_kvdd,
+o_data_vdd25 => mem_kvdd_vdd25_data_vdd25
+);
+
+inst_mem_kvptat_ktptat : mem_kvptat_ktptat
+port map (
+i_clock => mem_kvptat_ktptat_clock,
+i_reset => mem_kvptat_ktptat_reset,
+i_address => mem_kvptat_ktptat_address,
+o_data_kvptat => mem_kvptat_ktptat_data_kvptat,
+o_data_ktptat => mem_kvptat_ktptat_data_ktptat
 );
 
 end Behavioral;
