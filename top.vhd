@@ -273,7 +273,7 @@ signal_i2c_mem_data_available <=
 	'0';
 
 vptatart <= (f32_data_vvptat / ((f32_data_vvptat * f32_data_valphaptat) + f32_data_vvbe)) * to_float(262144.0,float32'high,-float32'low);
-ta <= (((vptatart / (to_float(1.0,float32'high,-float32'low) + (f32_data_kvptat * vdd))) - f32_data_vvptat25) / f32_data_ktptat) + to_float(25.0,float32'high,-float32'low);
+ta <= (((vptatart / (1 + f32_data_kvptat * vdd)) - f32_data_vvptat25) / f32_data_ktptat) + to_float(25.0,float32'high,-float32'low);
 
 vdd <= ((to_float(std_logic_vector'(x"0000ccc5"),float32'high,-float32'low) - f32_data_vdd25) / f32_data_kvdd) when done_kvdd_vdd25 = '1' else to_float(0.0,float32'high,-float32'low);
 return_vdd <= vdd + to_float(3.3,float32'high,-float32'low) when done_kvdd_vdd25 = '1' else to_float(0.0,float32'high,-float32'low);
@@ -350,8 +350,21 @@ begin
 					state := j;
 					done_alphaptat <= '1';
 				when j =>
+					report "kvdd : " & real'image(to_real(f32_data_kvdd,denormalize=>false)) severity note;
+					report "vdd25 : " & real'image(to_real(f32_data_vdd25,denormalize=>false)) severity note;
+					report "return vdd : " & real'image(to_real(return_vdd,denormalize=>false)) severity note;
+					report "kvptat : " & real'image(to_real(f32_data_kvptat,denormalize=>false)) severity note;
+					report "ktptat : " & real'image(to_real(f32_data_ktptat,denormalize=>false)) severity note;
+					report "vvptat25 : " & real'image(to_real(f32_data_vvptat25,denormalize=>false)) severity note;
+					report "vptat25 : " & integer'image(to_integer(unsigned(vptat25))) severity note;
+					report "vvptat : " & real'image(to_real(f32_data_vvptat,denormalize=>false)) severity note;
+					report "vptat : " & integer'image(to_integer(unsigned(vptat))) severity note;
+					report "vvbe : " & real'image(to_real(f32_data_vvbe,denormalize=>false)) severity note;
+					report "vbe : " & integer'image(to_integer(unsigned(vbe))) severity note;
 					report "valphaptat : " & real'image(to_real(f32_data_valphaptat,denormalize=>false)) severity note;
-					report "alphaptat : " & integer'image(to_integer(unsigned(alphaptat)));
+					report "alphaptat : " & integer'image(to_integer(unsigned(alphaptat))) severity note;
+					report "vptatart : " & real'image(to_real(vptatart,denormalize=>false)) severity note;
+					report "ta : " & real'image(to_real(ta,denormalize=>false)) severity note;
 					report "done" severity failure;
 				when others => null;
 			end case;
@@ -413,7 +426,7 @@ begin
 					end if;
 				when f =>
 					state := g;
-					f32_data_vvbe <= to_float(vbe,f32_data_vvbe);
+					f32_data_vvbe <= to_float(x"0000" & vbe,f32_data_vvbe);
 				when g =>
 					state := h;
 					i2c_mem_vbe_flag <= '0';
@@ -422,8 +435,6 @@ begin
 					state := i;
 					done_vbe <= '1';
 				when i =>
-					report "vvbe : " & real'image(to_real(f32_data_vvbe,denormalize=>false)) severity note;
-					report "vbe : " & integer'image(to_integer(unsigned(vbe)));
 --					report "done" severity failure;
 				when others => null;
 			end case;
@@ -485,7 +496,7 @@ begin
 					end if;
 				when f =>
 					state := g;
-					f32_data_vvptat <= to_float(vptat,f32_data_vvptat);
+					f32_data_vvptat <= to_float(x"0000" & vptat,f32_data_vvptat);
 				when g =>
 					state := h;
 					i2c_mem_vptat_flag <= '0';
@@ -494,8 +505,6 @@ begin
 					state := i;
 					done_vptat <= '1';
 				when i =>
-					report "vvptat : " & real'image(to_real(f32_data_vvptat,denormalize=>false)) severity note;
-					report "vptat : " & integer'image(to_integer(unsigned(vptat)));
 --					report "done" severity failure;
 				when others => null;
 			end case;
@@ -556,7 +565,7 @@ begin
 					end if;
 				when f =>
 					state := g;
-					f32_data_vvptat25 <= to_float(vptat25,f32_data_vvptat25);
+					f32_data_vvptat25 <= to_float(x"0000" & vptat25,f32_data_vvptat25);
 				when g =>
 					state := h;
 					i2c_mem_vptat25_flag <= '0';
@@ -565,8 +574,6 @@ begin
 					state := i;
 					done_vptat25 <= '1';
 				when i =>
-					report "vvptat25 : " & real'image(to_real(f32_data_vvptat25,denormalize=>false)) severity note;
-					report "vptat25 : " & integer'image(to_integer(unsigned(vptat25)));
 --					report "done" severity failure;
 				when others => null;
 			end case;
@@ -660,8 +667,6 @@ begin
 					state := m;
 					done_kvptat_ktptat <= '1';
 				when m =>
-					report "kvptat : " & real'image(to_real(f32_data_kvptat,denormalize=>false)) severity note;
-					report "ktptat : " & real'image(to_real(f32_data_ktptat,denormalize=>false)) severity note;
 --					report "return vdd : " & real'image(to_real(return_vdd,denormalize=>false)) severity note;
 --					report "done" severity failure;
 				when others => null;
@@ -760,9 +765,6 @@ begin
 					state := m;
 					done_kvdd_vdd25 <= '1';
 				when m =>
-					report "kvdd : " & real'image(to_real(f32_data_kvdd,denormalize=>false)) severity note;
-					report "vdd25 : " & real'image(to_real(f32_data_vdd25,denormalize=>false)) severity note;
-					report "return vdd : " & real'image(to_real(return_vdd,denormalize=>false)) severity note;
 --					report "done" severity failure;
 				when others => null;
 			end case;
