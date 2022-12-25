@@ -168,6 +168,12 @@ signal done_vptat25 : std_logic;
 signal i2c_mem_vptat25_address : std_logic_vector(10 downto 0);
 signal f32_data_vvptat25 : float32;
 
+signal i2c_mem_vptat_flag : std_logic;
+signal vptat : std_logic_vector(15 downto 0);
+signal done_vptat : std_logic;
+signal i2c_mem_vptat_address : std_logic_vector(10 downto 0);
+signal f32_data_vvptat : float32;
+
 begin
 
 o_data <= return_vdd;
@@ -182,6 +188,8 @@ i2c_mem_addra <=
 	i2c_mem_kvptat_ktptat_address when i2c_mem_kvptat_ktptat_flag = '1'
 	else
 	i2c_mem_vptat25_address when i2c_mem_vptat25_flag = '1'
+	else
+	i2c_mem_vptat_address when i2c_mem_vptat_flag = '1'
 	else
 	signal_i2c_mem_addra_index;
 i2c_mem_dina <= i2c_r_data;
@@ -201,13 +209,84 @@ signal_i2c_mem_data_available <=
 mem_kvdd_vdd25_clock <= i_clock;
 mem_kvdd_vdd25_reset <= i_reset;
 
+-- xxx 11.2.2.3,11.1.2 vptat
+p4 : process (i_clock, i_reset) is
+	type states is (a,b,c,d,e,f,g,h,i,j,k,l,m);
+	variable state : states;
+	constant C_WAIT1 : integer := 2;
+	variable v_wait1 : integer range 0 to C_WAIT1 - 1;
+begin
+	if (rising_edge(i_clock)) then
+		if (i_reset = '1') then
+			state := a;
+			v_wait1 := 0;
+			i2c_mem_vptat_flag <= '0';
+			vptat <= (others => '0');
+			done_vptat <= '0';
+			f32_data_vvptat <= (others => '0');
+			i2c_mem_vptat_address <= (others => '0');
+		else
+			case (state) is
+				when a =>
+					v_wait1 := 0;
+					if (done_vptat25 = '1') then
+						state := b;
+						i2c_mem_vptat_flag <= '1';
+					else
+						state := a;
+						i2c_mem_vptat_flag <= '0';
+					end if;
+				when b =>
+					state := c;
+					i2c_mem_vptat_address <= std_logic_vector(to_unsigned(0,11)); -- xxx ram[0x0720]
+				when c =>
+					if (v_wait1 = C_WAIT1 - 1) then
+						state := d;
+						v_wait1 := 0;
+--						vptat(15 downto 8) <= i2c_mem_douta;
+					else
+						state := c;
+						v_wait1 := v_wait1 + 1;
+					end if;
+				when d =>
+					state := e;
+					i2c_mem_vptat_address <= std_logic_vector(to_unsigned(0,11)); -- xxx ram[0x0720]
+				when e =>
+					if (v_wait1 = C_WAIT1 - 1) then
+						state := f;
+						v_wait1 := 0;
+--						vptat(7 downto 0) <= i2c_mem_douta;
+						vptat <= x"06AF"; -- xxx p.37 ds
+					else
+						state := e;
+						v_wait1 := v_wait1 + 1;
+					end if;
+				when f =>
+					state := g;
+					f32_data_vvptat <= to_float(vptat,f32_data_vvptat);
+				when g =>
+					state := h;
+					i2c_mem_vptat_flag <= '0';
+--					f32_data_vvptat(-8 downto -23) <= (others => '0');
+				when h =>
+					state := i;
+					done_vptat <= '1';
+				when i =>
+					report "vvptat : " & real'image(to_real(f32_data_vvptat,denormalize=>false)) severity note;
+					report "vptat : " & integer'image(to_integer(unsigned(vptat)));
+					report "done" severity failure;
+				when others => null;
+			end case;
+		end if;
+	end if;
+end process p4;
+
 -- xxx 11.2.2.3,11.1.2 vptat25
 p3 : process (i_clock, i_reset) is
 	type states is (a,b,c,d,e,f,g,h,i,j,k,l,m);
 	variable state : states;
 	constant C_WAIT1 : integer := 2;
 	variable v_wait1 : integer range 0 to C_WAIT1 - 1;
-	variable vvptat25 : signed(15 downto 0);
 begin
 	if (rising_edge(i_clock)) then
 		if (i_reset = '1') then
@@ -216,14 +295,12 @@ begin
 			i2c_mem_vptat25_flag <= '0';
 			vptat25 <= (others => '0');
 			done_vptat25 <= '0';
-			vvptat25 := (others => '0');
 			f32_data_vvptat25 <= (others => '0');
 			i2c_mem_vptat25_address <= (others => '0');
 		else
 			case (state) is
 				when a =>
 					v_wait1 := 0;
-					vvptat25 := (others => '0');
 					if (done_kvptat_ktptat = '1') then
 						state := b;
 						i2c_mem_vptat25_flag <= '1';
@@ -268,7 +345,7 @@ begin
 				when i =>
 					report "vvptat25 : " & real'image(to_real(f32_data_vvptat25,denormalize=>false)) severity note;
 					report "vptat25 : " & integer'image(to_integer(unsigned(vptat25)));
-					report "done" severity failure;
+--					report "done" severity failure;
 				when others => null;
 			end case;
 		end if;
