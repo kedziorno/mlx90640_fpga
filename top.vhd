@@ -200,6 +200,9 @@ signal done_alphaptat : std_logic;
 signal i2c_mem_alphaptat_address : std_logic_vector(10 downto 0);
 signal f32_data_valphaptat : float32;
 
+signal vptatart : float32;
+signal ta : float32;
+
 begin
 
 o_data <= return_vdd;
@@ -268,6 +271,9 @@ signal_i2c_mem_data_available <=
 	)
 	else 
 	'0';
+
+vptatart <= (f32_data_vvptat / ((f32_data_vvptat * f32_data_valphaptat) + f32_data_vvbe)) * to_float(262144.0,float32'high,-float32'low);
+ta <= (((vptatart / (to_float(1.0,float32'high,-float32'low) + (f32_data_kvptat * vdd))) - f32_data_vvptat25) / f32_data_ktptat) + to_float(25.0,float32'high,-float32'low);
 
 vdd <= ((to_float(std_logic_vector'(x"0000ccc5"),float32'high,-float32'low) - f32_data_vdd25) / f32_data_kvdd) when done_kvdd_vdd25 = '1' else to_float(0.0,float32'high,-float32'low);
 return_vdd <= vdd + to_float(3.3,float32'high,-float32'low) when done_kvdd_vdd25 = '1' else to_float(0.0,float32'high,-float32'low);
