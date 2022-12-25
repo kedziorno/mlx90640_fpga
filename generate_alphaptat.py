@@ -10,9 +10,9 @@ def float_to_hex(f):
 
 str1 = list()
 str2 = ""
+str3 = list()
 
 a = 0
-n = 0xFC
 
 for i in range (0, 0xF+1):
 	col1 = i * 0x1000
@@ -28,6 +28,15 @@ for i in range (0, 0xF, 8):
 		c=a+j
 		str2 = str2 + str1[c][2:]
 	a = a + 8
-	str2 = str2 + "\n"
+	str3.append(str2)
+	str2 = ""
 
-print (str2)
+#print (str2)
+
+idx = 0
+for i in str3:
+	if (idx <= 15):
+		print ("INIT_0%1x"%idx+" => X\""+i+"\",")
+	else:
+		print ("INIT_%2x"%idx+" => X\""+i+"\",")
+	idx = idx + 1

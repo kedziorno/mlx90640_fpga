@@ -142,6 +142,20 @@ signal mem_kvptat_ktptat_address : std_logic_vector(15 downto 0);
 signal mem_kvptat_ktptat_data_kvptat : std_logic_vector(31 downto 0);
 signal mem_kvptat_ktptat_data_ktptat : std_logic_vector(31 downto 0);
 
+component mem_alphaptat is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_address : in std_logic_vector(15 downto 0);
+o_data_alphaptat : out std_logic_vector(31 downto 0)
+);
+end component mem_alphaptat;
+
+signal mem_alphaptat_clock : std_logic;
+signal mem_alphaptat_reset : std_logic;
+signal mem_alphaptat_address : std_logic_vector(15 downto 0);
+signal mem_alphaptat_data_alphaptat : std_logic_vector(31 downto 0);
+
 signal f32_data_kvdd,f32_data_vdd25 : float32;
 signal f32_data_kvptat,f32_data_ktptat : float32;
 
@@ -180,14 +194,25 @@ signal done_vbe : std_logic;
 signal i2c_mem_vbe_address : std_logic_vector(10 downto 0);
 signal f32_data_vvbe : float32;
 
+signal i2c_mem_alphaptat_flag : std_logic;
+signal alphaptat : std_logic_vector(15 downto 0);
+signal done_alphaptat : std_logic;
+signal i2c_mem_alphaptat_address : std_logic_vector(10 downto 0);
+signal f32_data_valphaptat : float32;
+
 begin
 
 o_data <= return_vdd;
 
+mem_kvdd_vdd25_clock <= i_clock;
+mem_kvdd_vdd25_reset <= i_reset;
 mem_kvptat_ktptat_clock <= i_clock;
 mem_kvptat_ktptat_reset <= i_reset;
+mem_alphaptat_clock <= i_clock;
+mem_alphaptat_reset <= i_reset;
 
 i2c_mem_clka <= i_clock;
+i2c_mem_dina <= i2c_r_data;
 i2c_mem_addra <=
 	i2c_mem_kvdd_vdd25_address when i2c_mem_kvdd_vdd25_flag = '1'
 	else
@@ -199,12 +224,42 @@ i2c_mem_addra <=
 	else
 	i2c_mem_vbe_address when i2c_mem_vbe_flag = '1'
 	else
-	signal_i2c_mem_addra_index;
-i2c_mem_dina <= i2c_r_data;
-i2c_mem_wea <=
-	"1" when i2c_r_counter_enable = '1'
+	i2c_mem_alphaptat_address when i2c_mem_alphaptat_flag = '1'
 	else
-	"0";
+	signal_i2c_mem_addra_index;
+
+p_i2c_mem_wr : process (i_clock,i_reset) is
+	type states is (a,b);
+	variable state : states;
+begin
+	if (rising_edge(i_clock)) then
+		if (i_reset = '1') then
+			state := a;
+		else
+			case (state) is
+				when a =>
+					if (i2c_r_sta = '1') then
+						state := b;
+						i2c_mem_wea <= "1";
+					else
+						state := a;
+						i2c_mem_wea <= "0";
+					end if;
+				when b =>
+					if (i2c_r_sto = '1') then
+						state := a;
+						i2c_mem_wea <= "0";
+					else
+						state := b;
+						i2c_mem_wea <= "1";
+					end if;
+				when others =>
+					null;
+			end case;
+		end if;
+	end if;
+end process p_i2c_mem_wr;
+
 signal_i2c_mem_data_available <=
 	'1' when (
 		i2c_r_done_data_prev = '0' and 
@@ -214,8 +269,89 @@ signal_i2c_mem_data_available <=
 	else 
 	'0';
 
-mem_kvdd_vdd25_clock <= i_clock;
-mem_kvdd_vdd25_reset <= i_reset;
+vdd <= ((to_float(std_logic_vector'(x"0000ccc5"),float32'high,-float32'low) - f32_data_vdd25) / f32_data_kvdd) when done_kvdd_vdd25 = '1' else to_float(0.0,float32'high,-float32'low);
+return_vdd <= vdd + to_float(3.3,float32'high,-float32'low) when done_kvdd_vdd25 = '1' else to_float(0.0,float32'high,-float32'low);
+
+-- xxx 11.2.2.3,11.1.2 alphaptat
+p6 : process (i_clock, i_reset) is
+	type states is (a,b,c,d,e,f,g,h,i,j,k,l,m);
+	variable state : states;
+	constant C_WAIT1 : integer := 2;
+	variable v_wait1 : integer range 0 to C_WAIT1 - 1;
+begin
+	if (rising_edge(i_clock)) then
+		if (i_reset = '1') then
+			state := a;
+			v_wait1 := 0;
+			i2c_mem_alphaptat_flag <= '0';
+			alphaptat <= (others => '0');
+			done_alphaptat <= '0';
+			f32_data_valphaptat <= (others => '0');
+			i2c_mem_alphaptat_address <= (others => '0');
+			mem_alphaptat_address <= (others => '0');
+		else
+			case (state) is
+				when a =>
+					v_wait1 := 0;
+					if (done_vbe = '1') then
+						state := b;
+						i2c_mem_alphaptat_flag <= '1';
+					else
+						state := a;
+						i2c_mem_alphaptat_flag <= '0';
+					end if;
+				when b =>
+					state := c;
+					i2c_mem_alphaptat_address <= std_logic_vector(to_unsigned(0,11)); -- xxx ee[0x2410]
+				when c =>
+					if (v_wait1 = C_WAIT1 - 1) then
+						state := d;
+						v_wait1 := 0;
+						alphaptat(15 downto 8) <= i2c_mem_douta;
+					else
+						state := c;
+						v_wait1 := v_wait1 + 1;
+					end if;
+				when d =>
+					state := e;
+					i2c_mem_alphaptat_address <= std_logic_vector(to_unsigned(1,11)); -- xxx ee[0x2410]
+				when e =>
+					if (v_wait1 = C_WAIT1 - 1) then
+						state := f;
+						v_wait1 := 0;
+						alphaptat(7 downto 0) <= i2c_mem_douta;
+					else
+						state := e;
+						v_wait1 := v_wait1 + 1;
+					end if;
+				when f =>
+					mem_alphaptat_address <= x"000" & alphaptat(15 downto 12); -- xxx alphaptat 0xf000 - 4bit
+					if (v_wait1 = C_WAIT1 - 1) then
+						state := g;
+						v_wait1 := 0;
+					else
+						state := f;
+						v_wait1 := v_wait1 + 1;
+					end if;
+				when g =>
+					state := h;
+					f32_data_valphaptat <= to_float(mem_alphaptat_data_alphaptat,f32_data_valphaptat);
+				when h =>
+					state := i;
+					i2c_mem_alphaptat_flag <= '0';
+--					f32_data_valphaptat(-8 downto -23) <= (others => '0');
+				when i =>
+					state := j;
+					done_alphaptat <= '1';
+				when j =>
+					report "valphaptat : " & real'image(to_real(f32_data_valphaptat,denormalize=>false)) severity note;
+					report "alphaptat : " & integer'image(to_integer(unsigned(alphaptat)));
+					report "done" severity failure;
+				when others => null;
+			end case;
+		end if;
+	end if;
+end process p6;
 
 -- xxx 11.2.2.3,11.1.2 vbe
 p5 : process (i_clock, i_reset) is
@@ -282,7 +418,7 @@ begin
 				when i =>
 					report "vvbe : " & real'image(to_real(f32_data_vvbe,denormalize=>false)) severity note;
 					report "vbe : " & integer'image(to_integer(unsigned(vbe)));
-					report "done" severity failure;
+--					report "done" severity failure;
 				when others => null;
 			end case;
 		end if;
@@ -628,9 +764,6 @@ begin
 	end if;
 end process p1;
 
-vdd <= ((to_float(std_logic_vector'(x"0000ccc5"),float32'high,-float32'low) - f32_data_vdd25) / f32_data_kvdd) when done_kvdd_vdd25 = '1' else to_float(0.0,float32'high,-float32'low);
-return_vdd <= vdd + to_float(3.3,float32'high,-float32'low) when done_kvdd_vdd25 = '1' else to_float(0.0,float32'high,-float32'low);
-
 p0 : process (i_clock, i_reset) is
 	variable variable_i2c_mem_addra_index : integer range 0 to C_DATA_SIZE - 1;
 begin
@@ -698,6 +831,14 @@ i_reset => mem_kvptat_ktptat_reset,
 i_address => mem_kvptat_ktptat_address,
 o_data_kvptat => mem_kvptat_ktptat_data_kvptat,
 o_data_ktptat => mem_kvptat_ktptat_data_ktptat
+);
+
+inst_mem_alphaptat : mem_alphaptat
+port map (
+i_clock => mem_alphaptat_clock,
+i_reset => mem_alphaptat_reset,
+i_address => mem_alphaptat_address,
+o_data_alphaptat => mem_alphaptat_data_alphaptat
 );
 
 end Behavioral;
