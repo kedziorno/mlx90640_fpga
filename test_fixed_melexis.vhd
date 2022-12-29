@@ -111,6 +111,8 @@ architecture testbench of test_fixed_melexis is
 	constant clock_period : time := 500 ns;
 --	subtype sfixed7 is sfixed (3 downto -3);
 	subtype sfixed7 is sfixed (11 downto 4);
+	subtype ufixed6 is ufixed (6 downto 0);
+	subtype sfixed6 is sfixed (6 downto 0);
 	subtype ufixed8 is ufixed (8 downto 0);
 	subtype sfixed8 is sfixed (8 downto 0);
 	subtype sfixed16 is sfixed (15 downto -16);
@@ -181,6 +183,8 @@ begin
 		variable pow2_18 : sfixed(18 downto 0);
 		variable f8tmp1 : ufixed8;
 		variable f8tmp2 : sfixed8;
+		variable f6tmp1 : ufixed6;
+		variable f6tmp2 : sfixed6;
 	begin
 		-- reset
 		tmp_slv16 := (others => '0');
@@ -224,7 +228,10 @@ begin
 		--f16tmp1 := resize(aaa,f16tmp1); -- -99
 --		report_fixed_value ("127", to_ufixed(127.0,f8tmp1'high,f8tmp1'low));
 --		report_fixed_value ("256", to_ufixed(256.0,f8tmp1'high,f8tmp1'low));
+		--f8tmp1 := to_ufixed(-77.0,f8tmp1);
 		--f8tmp1 := to_ufixed(77.0,f8tmp1);
+		--f8tmp1 := to_ufixed(-154.0,f8tmp1);
+		--f8tmp1 := to_ufixed(154.0,f8tmp1);
 		f8tmp1 := to_ufixed("0"&to_slv(f16out(7 downto 0)),f8tmp1);
 --		report_fixed_value ("f8tmp1", f8tmp1);
 		if (f8tmp1 > 127.0) then -- signed
@@ -236,8 +243,10 @@ begin
 ----			f8tmp2 := to_sfixed(to_slv(f16out(7 downto 0)),f8tmp2'high,f8tmp2'low) - to_sfixed(256.0,7,0);
 			--report_fixed_value ("-------------------", f8tmp2);
 --			f8tmp2 := to_sfixed(to_slv(f8tmp1),f8tmp2'high,f8tmp2'low);
+		else
+			f8tmp2 := to_sfixed(to_slv(f8tmp1),f8tmp2);
 		end if;
---		report_fixed_value ("sign8bit", f8tmp2); -- -99
+		--report_fixed_value ("sign8bit", f8tmp2); -- -99
 --		f16tmp1 := to_sfixed("0"&x"00"&to_slv(f8tmp2)&x"0000",f16tmp1'high,f16tmp1'low);
 		f16tmp1 := resize(f8tmp2,f16tmp1);
 --		report_fixed_value ("sign", f16tmp1); -- -99
@@ -319,15 +328,31 @@ begin
 		in1 <= f16tmp1;
 		in2 <= f16tmp2;
 		wait for clock_period*20;
-		--report_fixed_value ("kvptat", out1); -- 22
+		--report_fixed_value ("raw val", out1); -- 22
 		tmp_slv18 := to_slv (out1);
---		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
-f16out := to_sfixed (34.0, sfixed18'high, sfixed18'low);
-		if (f16out > 31.0) then -- signed
-			f16out := f16out - 64.0;
+		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		--f6tmp1 := to_ufixed(-44.0,f6tmp1);
+		--f6tmp1 := to_ufixed(44.0,f6tmp1);
+		--f6tmp1 := to_ufixed(-11.0,f6tmp1);
+		--f6tmp1 := to_ufixed(11.0,f6tmp1);
+		f6tmp1 := to_ufixed("0"&to_slv(f16out(5 downto 0)),f6tmp1);
+		--report_fixed_value ("f6tmp1", f6tmp1);
+		if (f6tmp1 > 31.0) then -- signed
+			f6tmp2 := to_sfixed(to_slv(resize(64.0-f6tmp1,f6tmp1)),f6tmp2);
+			f6tmp2 := -f6tmp2(5 downto 0);
+--			report_fixed_value ("kurwa", to_sfixed(to_slv(to_sfixed(f8tmp1) - to_sfixed(256.0,f8tmp2)),f8tmp2));
+--			f8tmp2 := to_sfixed(to_sfixed(to_slv(f8tmp1),7,0) - to_sfixed(256.0,7,0),7,0);
+--			f8tmp2 := to_sfixed(to_sfixed(to_slv(f16out(7 downto 0)),7,0) - to_sfixed(256.0,7,0),f8tmp2'high,f8tmp2'low);
+----			f8tmp2 := to_sfixed(to_slv(f16out(7 downto 0)),f8tmp2'high,f8tmp2'low) - to_sfixed(256.0,7,0);
+			--report_fixed_value ("-------------------", f8tmp2);
+--			f8tmp2 := to_sfixed(to_slv(f8tmp1),f8tmp2'high,f8tmp2'low);
+		else
+			f6tmp2 := to_sfixed(to_slv(f6tmp1),f6tmp2);
 		end if;
-		tmp_slv18 := to_slv (out1); -- 22
-		f16tmp1 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		--report_fixed_value ("sign6bit", f6tmp2); -- -99
+		--tmp_slv18 := to_slv (out1); -- 22
+		f16tmp1 := resize (f6tmp2, f16tmp1);
+		--f16tmp1 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		tmp_slv18 := "00"&"0001000000000000" & "0000000000000000"; -- 2**12
 		f16tmp2 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		in1 <= f16tmp1;
