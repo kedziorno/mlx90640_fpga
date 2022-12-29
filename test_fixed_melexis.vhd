@@ -582,19 +582,41 @@ begin
 		report_fixed_value ("vptat", vptat); -- 1711
 		report_error("fail vptat", vptat, to_sfixed(1711,vptat));
 
-report "done" severity failure;
---		--
---		-- vbe
---		tmp_slv := x"4bf2" and x"ffff"; -- 19422
---		f16out := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
-----		report_fixed_value ("ram[0x0700]", f16out); -- 19422
+		--
+		-- vbe
+		tmp_slv18 := "00"&x"0000"&x"4bf2" and "00"&x"0000"&x"ffff"; -- 19442
+		f16out := to_sfixed (tmp_slv18(sfixed18'high downto 0)&x"0000", sfixed18'high, sfixed18'low);
+		--report_fixed_value ("ram[0x0700]", f16out); -- 19442
 --		if (f16out > 32767.0) then -- signed
 --			f16out := 65536.0 - f16out;
 --			f16out := -f16out;
 --		end if;
---		report_fixed_value ("vbe", f16out); -- 19422
---		vbe := f16out;
---
+		--f15tmp1 := to_ufixed(-38000.0,f15tmp1);
+		--f15tmp1 := to_ufixed(38000.0,f15tmp1);
+		--f15tmp1 := to_ufixed(-26000.0,f15tmp1);
+		--f15tmp1 := to_ufixed(26000.0,f15tmp1);
+		f15tmp1 := to_ufixed("0"&to_slv(f16out(15 downto 0)),f15tmp1); -- xxx fix ufixed to sfixed and test above vals
+		--report_fixed_value ("f15tmp1", f15tmp1);
+		if (f15tmp1 > 32767.0) then -- signed
+			f15tmp2 := to_sfixed(to_slv(resize(65536.0-f15tmp1,f15tmp1)),f15tmp2);
+			f15tmp2 := -f15tmp2(15 downto 0);
+--			report_fixed_value ("kurwa", to_sfixed(to_slv(to_sfixed(f8tmp1) - to_sfixed(256.0,f8tmp2)),f8tmp2));
+--			f8tmp2 := to_sfixed(to_sfixed(to_slv(f8tmp1),7,0) - to_sfixed(256.0,7,0),7,0);
+--			f8tmp2 := to_sfixed(to_sfixed(to_slv(f16out(7 downto 0)),7,0) - to_sfixed(256.0,7,0),f8tmp2'high,f8tmp2'low);
+----			f8tmp2 := to_sfixed(to_slv(f16out(7 downto 0)),f8tmp2'high,f8tmp2'low) - to_sfixed(256.0,7,0);
+			--report_fixed_value ("-------------------", f8tmp2);
+--			f8tmp2 := to_sfixed(to_slv(f8tmp1),f8tmp2'high,f8tmp2'low);
+		else
+			f15tmp2 := to_sfixed(to_slv(f15tmp1),f15tmp2);
+		end if;
+		--report_fixed_value ("sign15bit", f15tmp2); --
+		f16tmp1 := resize(f15tmp2,f16tmp1);
+		--report_fixed_value ("sign", f16tmp1); --
+		vbe := resize(f16tmp1,vbe);
+		report_fixed_value ("vbe", f16out); -- 19442
+		report_error("fail vbe", vbe, to_sfixed(19442,vbe));
+
+report "done" severity failure;
 --		--
 --		-- alphaptatee
 --		tmp_slv := x"4210" and x"f000"; -- 16384
