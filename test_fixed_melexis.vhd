@@ -263,7 +263,7 @@ begin
 		--report_fixed_value ("raw val", f16tmp1); -- 104
 		tmp_slv18 := "00"&"0000000100000000" & "0000000000000000"; -- 2**8
 		f16tmp2 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
-		report_fixed_value ("sub2**8", f16tmp2); -- 256
+		--report_fixed_value ("sub2**8", f16tmp2); -- 256
 		cmd <= "0001"; -- -
 		in1 <= f16tmp1;
 		in2 <= f16tmp2;
@@ -298,7 +298,6 @@ begin
 		--vdd25 := f16out;
 		report_fixed_value ("vdd25", vdd25); -- -13056
 		report_error("fail vdd25", vdd25, to_sfixed(-13056.0,vdd25));
-report "done" severity failure;
 
 --
 --		-- 11.2.2.3
@@ -312,32 +311,35 @@ report "done" severity failure;
 
 		-- 
 		-- kvptat
-		tmp_slv16 := x"0000"&x"5952" and x"0000"&x"fc00"; -- 0x5800
-		f16tmp1 := to_sfixed ("00"&tmp_slv16, sfixed18'high, sfixed18'low);
-		tmp_slv16 := "0000010000000000" & "0000000000000000"; -- 2**10
-		f16tmp2 := to_sfixed ("00"&tmp_slv16, sfixed18'high, sfixed18'low);
+		tmp_slv18 := "00"&x"0000"&x"5952" and "00"&x"0000"&x"fc00"; -- 0x5800
+		f16tmp1 := to_sfixed (tmp_slv18(sfixed18'high downto 0)&x"0000", sfixed18'high, sfixed18'low);
+		tmp_slv18 := "00"&"0000010000000000" & "0000000000000000"; -- 2**10
+		f16tmp2 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		cmd <= "0011"; -- /
 		in1 <= f16tmp1;
 		in2 <= f16tmp2;
 		wait for clock_period*20;
---		report_fixed_value ("kvptat", out1); -- 22
-		tmp_slv16 := to_slv (out1(15 downto -16));
-		f16out := to_sfixed ("00"&tmp_slv16, sfixed18'high, sfixed18'low);
+		--report_fixed_value ("kvptat", out1); -- 22
+		tmp_slv18 := to_slv (out1);
+--		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+f16out := to_sfixed (34.0, sfixed18'high, sfixed18'low);
 		if (f16out > 31.0) then -- signed
 			f16out := f16out - 64.0;
 		end if;
-		tmp_slv16 := to_slv (out1(15 downto -16)); -- 22
-		f16tmp1 := to_sfixed ("00"&tmp_slv16, sfixed18'high, sfixed18'low);
-		tmp_slv16 := "0001000000000000" & "0000000000000000"; -- 2**12
-		f16tmp2 := to_sfixed ("00"&tmp_slv16, sfixed18'high, sfixed18'low);
+		tmp_slv18 := to_slv (out1); -- 22
+		f16tmp1 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		tmp_slv18 := "00"&"0001000000000000" & "0000000000000000"; -- 2**12
+		f16tmp2 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		in1 <= f16tmp1;
 		in2 <= f16tmp2;
 		wait for clock_period*20;
-		tmp_slv16 := to_slv (out1);
-		f16out := to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
+		tmp_slv18 := to_slv (out1);
+		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		--report_fixed_value ("aaaaaaaaa", f16out); --
 		kvptat := resize(f16out,kvptat);
 		report_fixed_value ("kvptat", kvptat); -- 5.371094e-03
 		report_error("fail kvptat", kvptat, to_sfixed(0.005371094,kvptat));
+report "done" severity failure;
 
 		-- 
 		-- ktptat
