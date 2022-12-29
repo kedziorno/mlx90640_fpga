@@ -115,6 +115,8 @@ architecture testbench of test_fixed_melexis is
 	subtype sfixed6 is sfixed (6 downto 0);
 	subtype ufixed8 is ufixed (8 downto 0);
 	subtype sfixed8 is sfixed (8 downto 0);
+	subtype ufixed9 is ufixed (9 downto 0);
+	subtype sfixed9 is sfixed (9 downto 0);
 	subtype sfixed16 is sfixed (15 downto -16);
 	subtype sfixed18 is sfixed (17 downto -16);
 	signal stop_clock : boolean := false;
@@ -185,6 +187,8 @@ begin
 		variable f8tmp2 : sfixed8;
 		variable f6tmp1 : ufixed6;
 		variable f6tmp2 : sfixed6;
+		variable f9tmp1 : ufixed9;
+		variable f9tmp2 : sfixed9;
 	begin
 		-- reset
 		tmp_slv16 := (others => '0');
@@ -364,26 +368,46 @@ begin
 		kvptat := resize(f16out,kvptat);
 		report_fixed_value ("kvptat", kvptat); -- 5.371094e-03
 		report_error("fail kvptat", kvptat, to_sfixed(0.005371094,kvptat));
-report "done" severity failure;
 
 		-- 
 		-- ktptat
 		cmd <= "0011"; -- /
-		tmp_slv16 := x"0000"&x"5952" and x"0000"&x"03ff"; -- 0x0152
---		f16out := to_sfixed ("00"&tmp_slv16, sfixed18'high, sfixed18'low);
-		f16out := "00"&to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
+		tmp_slv18 := "00"&x"0000"&x"5952" and "00"&x"0000"&x"03ff"; -- 0x0152
+		f16out := to_sfixed (tmp_slv18(sfixed18'high downto 0)&x"0000", sfixed18'high, sfixed18'low);
 		report_fixed_value ("raw val", f16out); -- 338
-		if (f16out > 511.0) then -- signed
-			f16out := f16out - 1024.0;
-		end if;
-		report_fixed_value ("sign", f16out); --
-		tmp_slv16 := to_slv (f16out); -- 338
+		--if (f16out > 511.0) then -- signed
+		--	f16out := f16out - 1024.0;
+		--end if;
+		--report_fixed_value ("sign", f16out); --
+		--tmp_slv16 := to_slv (f16out); -- 338
 --		f16tmp1 := to_sfixed ("00"&tmp_slv16, sfixed18'high, sfixed18'low);
-		f16tmp1 := to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
-		report_fixed_value ("aaaaaaaa", f16tmp1); --
-		tmp_slv16 := "0000000000001000" & "0000000000000000"; -- 2**3
+		--f16tmp1 := to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
+		--report_fixed_value ("aaaaaaaa", f16tmp1); --
+		--f9tmp1 := to_ufixed(-777.0,f8tmp1);
+		--f9tmp1 := to_ufixed(777.0,f8tmp1);
+		--f9tmp1 := to_ufixed(-154.0,f8tmp1);
+		--f9tmp1 := to_ufixed(154.0,f8tmp1);
+		f9tmp1 := to_ufixed("0"&to_slv(f16out(8 downto 0)),f9tmp1);
+		report_fixed_value ("f9tmp1", f9tmp1);
+		if (f9tmp1 > 511.0) then -- signed
+			f9tmp2 := to_sfixed(to_slv(resize(1024.0-f9tmp1,f9tmp1)),f9tmp2);
+			f9tmp2 := -f9tmp2(7 downto 0);
+--			report_fixed_value ("kurwa", to_sfixed(to_slv(to_sfixed(f8tmp1) - to_sfixed(256.0,f8tmp2)),f8tmp2));
+--			f8tmp2 := to_sfixed(to_sfixed(to_slv(f8tmp1),7,0) - to_sfixed(256.0,7,0),7,0);
+--			f8tmp2 := to_sfixed(to_sfixed(to_slv(f16out(7 downto 0)),7,0) - to_sfixed(256.0,7,0),f8tmp2'high,f8tmp2'low);
+----			f8tmp2 := to_sfixed(to_slv(f16out(7 downto 0)),f8tmp2'high,f8tmp2'low) - to_sfixed(256.0,7,0);
+			--report_fixed_value ("-------------------", f8tmp2);
+--			f8tmp2 := to_sfixed(to_slv(f8tmp1),f8tmp2'high,f8tmp2'low);
+		else
+			f9tmp2 := to_sfixed(to_slv(f9tmp1),f9tmp2);
+		end if;
+		report_fixed_value ("sign9bit", f9tmp2); --
+--		f16tmp1 := to_sfixed("0"&x"00"&to_slv(f8tmp2)&x"0000",f16tmp1'high,f16tmp1'low);
+		f16tmp1 := resize(f9tmp2,f16tmp1);
+--		report_fixed_value ("sign", f16tmp1); -- -99
+		tmp_slv18 := "00"&"0000000000001000" & "0000000000000000"; -- 2**3
 --		f16tmp2 := to_sfixed ("00"&tmp_slv16, sfixed18'high, sfixed18'low);
-		f16tmp2 := "00"&to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
+		f16tmp2 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		report_fixed_value ("bbbbbbbb", f16tmp2); --
 		in1 <= f16tmp1;
 		report_fixed_value ("f16tmp1", f16tmp1); --
@@ -392,13 +416,12 @@ report "done" severity failure;
 		wait for clock_period*20;
 		report_fixed_value ("return", out1); --
 
-		tmp_slv16 := to_slv (out1);
-		f16out := to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
+		tmp_slv18 := to_slv (out1);
+		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		ktptat := resize(f16out,ktptat);
 		report_fixed_value ("ktptat", ktptat); -- 42.25
 		report_error("fail ktptat", ktptat, to_sfixed(42.25,ktptat));
-
-report "" severity failure;
+report "done" severity failure;
 
 --		--
 --		-- deltaV = (ram[0x072a] - vdd25) / kvdd
