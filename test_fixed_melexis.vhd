@@ -639,47 +639,47 @@ begin
 		report_fixed_value ("alphaptatee", alphaptatee); -- 4
 		report_error("fail alphaptatee", alphaptatee, to_sfixed(4,alphaptatee));		
 		
+		--
+		-- alphaptat
+		tmp_slv18 := to_slv(resize (alphaptatee,f16out)); -- 4
+		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		--report_fixed_value ("raw val", f16out); -- 4
+		tmp_slv18 := to_slv (f16out);
+		f16tmp1 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		--report_fixed_value ("raw val", f16tmp1); -- 4
+		tmp_slv18 := "00"&"0000000000000100" & "0000000000000000"; -- 2**2
+		f16tmp2 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		--report_fixed_value ("pow2**2", f16tmp2); -- 4
+
+		cmd <= "0011"; -- /
+		in1 <= f16tmp1;
+		in2 <= f16tmp2;
+		wait for clock_period*20;
+
+		tmp_slv18 := to_slv (out1);
+		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		--report_fixed_value ("div ", f16out); -- 1
+
+		tmp_slv18 := to_slv (f16out); -- 1
+		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		--report_fixed_value ("div ", f16out); -- 1
+		f16tmp1 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		--report_fixed_value ("f16tmp1", f16tmp1); -- 1
+		tmp_slv18 := "00"&"0000000000001000" & "0000000000000000"; -- 2**3
+		f16tmp2 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		--report_fixed_value ("f16tmp2", f16tmp2); -- 8
+
+		cmd <= "0000"; -- +
+		in1 <= f16tmp1;
+		in2 <= f16tmp2;
+		wait for clock_period*20;
+
+		tmp_slv18 := to_slv (out1);
+		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		alphaptat := resize(f16out,alphaptat);
+		report_fixed_value ("alphaptat", alphaptat); -- 9
+		report_error("fail alphaptat", alphaptat, to_sfixed(9,alphaptat));
 report "done" severity failure;
---		--
---		-- alphaptat
---		tmp_slv := to_slv (alphaptatee); -- 4
---		f16out := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
-----		report_fixed_value (" ", f16out); -- 4
---		tmp_slv := to_slv (f16out);
---		f16tmp1 := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
-----		report_fixed_value (" ", f16tmp1); -- 4
---		tmp_slv := "00000000000000010" & "00000000000000000"; -- 2**2
---		f16tmp2 := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
-----		report_fixed_value (" ", f16tmp2); -- 4
---
---		cmd <= "0011"; -- /
---		in1 <= f16tmp1;
---		in2 <= f16tmp2;
---		wait for clock_period*20;
---
---		tmp_slv := to_slv (out1);
---		f16out := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
-----		report_fixed_value (" ", f16out); -- 1
---
---		tmp_slv := to_slv (f16out); -- 1
---		f16out := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
-----		report_fixed_value (" ", f16out); -- 1
---		f16tmp1 := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
-----		report_fixed_value (" ", f16tmp1); -- 1
---		tmp_slv := "00000000000000100" & "00000000000000000"; -- 2**3
---		f16tmp2 := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
-----		report_fixed_value (" ", f16tmp2); -- 8
---
---		cmd <= "0000"; -- +
---		in1 <= f16tmp1;
---		in2 <= f16tmp2;
---		wait for clock_period*20;
---
---		tmp_slv := to_slv (out1);
---		f16out := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
---		report_fixed_value ("alphaptat", f16out); -- 9
---		alphaptat := f16out;
---
 --		--
 --		-- vptatart
 --		
