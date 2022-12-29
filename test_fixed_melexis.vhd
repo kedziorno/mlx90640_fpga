@@ -383,11 +383,11 @@ begin
 --		f16tmp1 := to_sfixed ("00"&tmp_slv16, sfixed18'high, sfixed18'low);
 		--f16tmp1 := to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
 		--report_fixed_value ("aaaaaaaa", f16tmp1); --
-		--f9tmp1 := to_ufixed(-777.0,f8tmp1);
-		--f9tmp1 := to_ufixed(777.0,f8tmp1);
-		--f9tmp1 := to_ufixed(-154.0,f8tmp1);
-		--f9tmp1 := to_ufixed(154.0,f8tmp1);
-		f9tmp1 := to_ufixed("0"&to_slv(f16out(8 downto 0)),f9tmp1);
+		--f9tmp1 := to_ufixed(-777.0,f9tmp1);
+		--f9tmp1 := to_ufixed(777.0,f9tmp1);
+		--f9tmp1 := to_ufixed(-154.0,f9tmp1);
+		f9tmp1 := to_ufixed(154.0,f9tmp1);
+		--f9tmp1 := to_ufixed("0"&to_slv(f16out(8 downto 0)),f9tmp1);
 		report_fixed_value ("f9tmp1", f9tmp1);
 		if (f9tmp1 > 511.0) then -- signed
 			f9tmp2 := to_sfixed(to_slv(resize(1024.0-f9tmp1,f9tmp1)),f9tmp2);
