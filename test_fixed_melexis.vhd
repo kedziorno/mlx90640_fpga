@@ -21,11 +21,13 @@
 -- For fphdl vhdl-200x created by David Bishop (dbishop@vhdl.org)
 ----------------------------------------------------------------------------------
 
---library ieee, ieee_proposed;
-library ieee;
+library ieee, ieee_proposed;
+--library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use ieee.fixed_pkg.all;
+use ieee_proposed.fixed_pkg.all;
+--use ieee_proposed.fixed_synth.all;
+
 
 --library UNISIM;
 --use UNISIM.VComponents.all;
@@ -107,16 +109,19 @@ architecture testbench of test_fixed_melexis is
 		clk, rst_n : in  std_ulogic
 	);
 	end component fixed_synth;
+	for all : fixed_synth use entity work.fixed_synth(rtl);
 
 	constant clock_period : time := 500 ns;
 --	subtype sfixed7 is sfixed (3 downto -3);
 	subtype sfixed7 is sfixed (11 downto 4);
-	subtype ufixed6 is ufixed (6 downto 0);
-	subtype sfixed6 is sfixed (6 downto 0);
-	subtype ufixed8 is ufixed (8 downto 0);
-	subtype sfixed8 is sfixed (8 downto 0);
-	subtype ufixed9 is ufixed (9 downto 0);
-	subtype sfixed9 is sfixed (9 downto 0);
+	subtype ufixed6 is ufixed (6 downto 0); --32/64
+	subtype sfixed6 is sfixed (6 downto 0); --32/64
+	subtype ufixed8 is ufixed (8 downto 0); --128/256
+	subtype sfixed8 is sfixed (8 downto 0); --128/256
+	subtype ufixed9 is ufixed (9 downto 0); --512/1024
+	subtype sfixed9 is sfixed (9 downto 0); --512/1024
+	subtype ufixed15 is ufixed (16 downto 0); -- 
+	subtype sfixed15 is sfixed (16 downto 0); --
 	subtype sfixed16 is sfixed (15 downto -16);
 	subtype sfixed18 is sfixed (17 downto -16);
 	signal stop_clock : boolean := false;
@@ -176,7 +181,7 @@ begin
 		variable f16tmp1,f16tmp2,f16out : sfixed18;
 		variable kvdd,vdd25 : sfixed16;
 		variable kvptat,ktptat : sfixed16;
-		variable vdd,deltaV : sfixed16;
+		variable vdd,deltaV : sfixed18;
 		variable vptat,vbe : sfixed16;
 		variable vptat25 : sfixed16;
 		variable alphaptatee : sfixed16;
@@ -189,6 +194,8 @@ begin
 		variable f6tmp2 : sfixed6;
 		variable f9tmp1 : ufixed9;
 		variable f9tmp2 : sfixed9;
+		variable f15tmp1 : ufixed15;
+		variable f15tmp2 : sfixed15;
 	begin
 		-- reset
 		tmp_slv16 := (others => '0');
@@ -236,7 +243,7 @@ begin
 		--f8tmp1 := to_ufixed(77.0,f8tmp1);
 		--f8tmp1 := to_ufixed(-154.0,f8tmp1);
 		--f8tmp1 := to_ufixed(154.0,f8tmp1);
-		f8tmp1 := to_ufixed("0"&to_slv(f16out(7 downto 0)),f8tmp1);
+		f8tmp1 := to_ufixed("0"&to_slv(f16out(7 downto 0)),f8tmp1); -- xxx fix ufixed to sfixed and test above vals
 --		report_fixed_value ("f8tmp1", f8tmp1);
 		if (f8tmp1 > 127.0) then -- signed
 			f8tmp2 := to_sfixed(to_slv(resize(256.0-f8tmp1,f8tmp1)),f8tmp2);
@@ -339,7 +346,7 @@ begin
 		--f6tmp1 := to_ufixed(44.0,f6tmp1);
 		--f6tmp1 := to_ufixed(-11.0,f6tmp1);
 		--f6tmp1 := to_ufixed(11.0,f6tmp1);
-		f6tmp1 := to_ufixed("0"&to_slv(f16out(5 downto 0)),f6tmp1);
+		f6tmp1 := to_ufixed("0"&to_slv(f16out(5 downto 0)),f6tmp1); -- xxx fix ufixed to sfixed and test above vals
 		--report_fixed_value ("f6tmp1", f6tmp1);
 		if (f6tmp1 > 31.0) then -- signed
 			f6tmp2 := to_sfixed(to_slv(resize(64.0-f6tmp1,f6tmp1)),f6tmp2);
@@ -374,7 +381,7 @@ begin
 		cmd <= "0011"; -- /
 		tmp_slv18 := "00"&x"0000"&x"5952" and "00"&x"0000"&x"03ff"; -- 0x0152
 		f16out := to_sfixed (tmp_slv18(sfixed18'high downto 0)&x"0000", sfixed18'high, sfixed18'low);
-		report_fixed_value ("raw val", f16out); -- 338
+		--report_fixed_value ("raw val", f16out); -- 338
 		--if (f16out > 511.0) then -- signed
 		--	f16out := f16out - 1024.0;
 		--end if;
@@ -387,8 +394,8 @@ begin
 		--f9tmp1 := to_ufixed(777.0,f9tmp1);
 		--f9tmp1 := to_ufixed(-154.0,f9tmp1);
 		--f9tmp1 := to_ufixed(154.0,f9tmp1);
-		f9tmp1 := to_ufixed("0"&to_slv(f16out(8 downto 0)),f9tmp1);
-		report_fixed_value ("f9tmp1", f9tmp1);
+		f9tmp1 := to_ufixed("0"&to_slv(f16out(8 downto 0)),f9tmp1); -- xxx fix ufixed to sfixed and test above vals
+		--report_fixed_value ("f9tmp1", f9tmp1);
 		if (f9tmp1 > 511.0) then -- signed
 			f9tmp2 := to_sfixed(to_slv(resize(1024.0-f9tmp1,f9tmp1)),f9tmp2);
 			f9tmp2 := -f9tmp2(8 downto 0);
@@ -401,91 +408,113 @@ begin
 		else
 			f9tmp2 := to_sfixed(to_slv(f9tmp1),f9tmp2);
 		end if;
-		report_fixed_value ("sign9bit", f9tmp2); --
+		--report_fixed_value ("sign9bit", f9tmp2); --
 --		f16tmp1 := to_sfixed("0"&x"00"&to_slv(f8tmp2)&x"0000",f16tmp1'high,f16tmp1'low);
 		f16tmp1 := resize(f9tmp2,f16tmp1);
 --		report_fixed_value ("sign", f16tmp1); -- -99
 		tmp_slv18 := "00"&"0000000000001000" & "0000000000000000"; -- 2**3
 --		f16tmp2 := to_sfixed ("00"&tmp_slv16, sfixed18'high, sfixed18'low);
 		f16tmp2 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
-		report_fixed_value ("bbbbbbbb", f16tmp2); --
+		--report_fixed_value ("bbbbbbbb", f16tmp2); --
 		in1 <= f16tmp1;
-		report_fixed_value ("f16tmp1", f16tmp1); --
+		--report_fixed_value ("f16tmp1", f16tmp1); --
 		in2 <= f16tmp2;
-		report_fixed_value ("f16tmp2", f16tmp2); --
+		--report_fixed_value ("f16tmp2", f16tmp2); --
 		wait for clock_period*20;
-		report_fixed_value ("return", out1); --
-
+		--report_fixed_value ("return", out1); --
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		ktptat := resize(f16out,ktptat);
 		report_fixed_value ("ktptat", ktptat); -- 42.25
 		report_error("fail ktptat", ktptat, to_sfixed(42.25,ktptat));
-report "done" severity failure;
 
 --		--
 --		-- deltaV = (ram[0x072a] - vdd25) / kvdd
---		tmp_slv := x"ccc5" and x"ffff"; -- 52421
---		f16out := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
---		report_fixed_value ("ram[0x072a]", f16out); -- 52421
+		tmp_slv18 := "00"&x"0000"&x"ccc5" and "00"&x"0000"&x"ffff"; -- 52421
+		f16out := to_sfixed (tmp_slv18(sfixed18'high downto 0)&x"0000", sfixed18'high, sfixed18'low);
+		report_fixed_value ("ram[0x072a]", f16out); -- 52421
 --		if (f16out > 32767.0) then -- signed
 --			f16out := 65536.0 - f16out;
 --			f16out := -f16out;
 --		end if;
 --		report_fixed_value ("ram[0x072a]", f16out); -- -13115
---
---		tmp_slv := to_slv (f16out);
---		f16tmp1 := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
-----		report_fixed_value (" ", f16tmp1); -- -13115
---
---		tmp_slv := to_slv (vdd25);
---		f16tmp2 := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
-----		report_fixed_value (" ", f16tmp2); -- -13056
---
---		cmd <= "0001"; -- -
---		in1 <= f16tmp1;
---		in2 <= f16tmp2;
---		wait for clock_period*20;
---
---		tmp_slv := to_slv (out1);
---		f16out := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
-----		report_fixed_value (" ", f16out); -- -59
---
---		tmp_slv := to_slv (f16out);
---		f16tmp1 := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
-----		report_fixed_value (" ", f16tmp1); -- -59
---		tmp_slv := to_slv (kvdd);
---		f16tmp2 := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
-----		report_fixed_value (" ", f16tmp2); -- -3168
---
---		cmd <= "0011"; -- /
---		in1 <= f16tmp1;
---		in2 <= f16tmp2;
---		wait for clock_period*20;
---
---		tmp_slv := to_slv (out1);
---		f16out := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
---		report_fixed_value ("deltaV", f16out); -- 1.861572e-02
---		deltaV := f16out;
---
---		tmp_slv := to_slv (deltaV);
---		f16tmp1 := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
-----		report_fixed_value (" ", f16tmp1); -- 1.861572e-02
---		tmp_slv := "000000000000000011" & "0100110011001101"; -- 3.3
---		f16tmp2 := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
-----		report_fixed_value (" ", f16tmp2); -- 3.300003e+00
---
---		cmd <= "0000"; -- +
---		in1 <= f16tmp1;
---		in2 <= f16tmp2;
---		wait for clock_period*20;
---
---		tmp_slv := to_slv (out1);
---		f16out := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
---		report_fixed_value ("vdd", f16out); -- 3.318619e+00 ~3.319
---		vdd := f16out;
---
---		--
+		--f15tmp1 := to_ufixed(-38000.0,f15tmp1);
+		--f15tmp1 := to_ufixed(38000.0,f15tmp1);
+		--f15tmp1 := to_ufixed(-26000.0,f15tmp1);
+		--f15tmp1 := to_ufixed(26000.0,f15tmp1);
+		f15tmp1 := to_ufixed("0"&to_slv(f16out(15 downto 0)),f15tmp1); -- xxx fix ufixed to sfixed and test above vals
+		report_fixed_value ("f15tmp1", f15tmp1);
+		if (f15tmp1 > 32768.0) then -- signed
+			f15tmp2 := to_sfixed(to_slv(resize(65536.0-f15tmp1,f15tmp1)),f15tmp2);
+			f15tmp2 := -f15tmp2(15 downto 0);
+--			report_fixed_value ("kurwa", to_sfixed(to_slv(to_sfixed(f8tmp1) - to_sfixed(256.0,f8tmp2)),f8tmp2));
+--			f8tmp2 := to_sfixed(to_sfixed(to_slv(f8tmp1),7,0) - to_sfixed(256.0,7,0),7,0);
+--			f8tmp2 := to_sfixed(to_sfixed(to_slv(f16out(7 downto 0)),7,0) - to_sfixed(256.0,7,0),f8tmp2'high,f8tmp2'low);
+----			f8tmp2 := to_sfixed(to_slv(f16out(7 downto 0)),f8tmp2'high,f8tmp2'low) - to_sfixed(256.0,7,0);
+			--report_fixed_value ("-------------------", f8tmp2);
+--			f8tmp2 := to_sfixed(to_slv(f8tmp1),f8tmp2'high,f8tmp2'low);
+		else
+			f15tmp2 := to_sfixed(to_slv(f15tmp1),f15tmp2);
+		end if;
+		report_fixed_value ("sign15bit", f15tmp2); --
+--		f16tmp1 := to_sfixed("0"&x"00"&to_slv(f8tmp2)&x"0000",f16tmp1'high,f16tmp1'low);
+		f16tmp1 := resize(f15tmp2,f16tmp1);
+		report_fixed_value ("sign", f16tmp1); -- -13115
+
+		tmp_slv18 := to_slv (f16tmp1);
+		f16tmp1 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		report_fixed_value ("sign", f16tmp1); -- -13115
+
+		tmp_slv18 := to_slv(resize (vdd25,f16tmp2));
+		f16tmp2 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		report_fixed_value ("vdd25", f16tmp2); -- -13056
+
+		cmd <= "0001"; -- -
+		in1 <= f16tmp1;
+		in2 <= f16tmp2;
+		wait for clock_period*20;
+
+		tmp_slv18 := to_slv (out1);
+		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		report_fixed_value ("out1", f16out); -- -59
+
+		tmp_slv18 := to_slv (f16out);
+		f16tmp1 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		report_fixed_value ("f16tmp1", f16tmp1); -- -59
+		tmp_slv18 := to_slv (resize(kvdd,f16tmp2));
+		f16tmp2 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		report_fixed_value ("f16tmp2", f16tmp2); -- -3168
+
+		cmd <= "0011"; -- /
+		in1 <= f16tmp1;
+		in2 <= f16tmp2;
+		wait for clock_period*20;
+
+		tmp_slv18 := to_slv (out1);
+		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		report_fixed_value ("deltaV", f16out); -- 1.861572e-02
+		deltaV := f16out;
+
+		tmp_slv18 := to_slv (deltaV);
+		f16tmp1 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+--		report_fixed_value (" ", f16tmp1); -- 1.861572e-02
+		tmp_slv18 := "00"&"0000000000000011" & "0100110011001101"; -- 3.3
+		f16tmp2 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+--		report_fixed_value (" ", f16tmp2); -- 3.300003e+00
+
+		cmd <= "0000"; -- +
+		in1 <= f16tmp1;
+		in2 <= f16tmp2;
+		wait for clock_period*20;
+
+		tmp_slv18 := to_slv (out1);
+		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		report_fixed_value ("delatV", f16out); -- 3.318619e+00 ~3.319
+		vdd := f16out;
+		report_error("fail deltaV", vdd, to_sfixed(3.318619,ktptat));
+report "done" severity failure;
+
+		--
 --		-- vptat25
 --		tmp_slv := x"2ff1" and x"ffff"; -- 12273
 --		f16out := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);

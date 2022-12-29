@@ -7,14 +7,14 @@
 -- --------------------------------------------------------------------
 
 
---library ieee, ieee_proposed;
-library ieee;
+library ieee, ieee_proposed;
+--library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
---use ieee_proposed.fixed_float_types.all;
---use ieee_proposed.fixed_pkg.all;
-use ieee.fixed_float_types.all;
-use ieee.fixed_pkg.all;
+use ieee_proposed.fixed_float_types.all;
+use ieee_proposed.fixed_pkg.all;
+--use ieee.fixed_float_types.all;
+--use ieee.fixed_pkg.all;
 entity fixed_synth is
   
   port (
