@@ -544,23 +544,24 @@ begin
 --		f16tmp1 := to_sfixed("0"&x"00"&to_slv(f8tmp2)&x"0000",f16tmp1'high,f16tmp1'low);
 		f16tmp1 := resize(f15tmp2,f16tmp1);
 		--report_fixed_value ("sign", f16tmp1); --
-		vptat25 := resize(f16out,vptat25);
+		vptat25 := resize(f16tmp1,vptat25);
 		report_fixed_value ("vptat25", vptat25); -- 12273
 		report_error("fail vptat25", vptat25, to_sfixed(12273,vptat25));
-report "done" severity failure;
 
---		--
---		-- vptat
---		tmp_slv := x"06af" and x"ffff"; -- 1711
---		f16out := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
-----		report_fixed_value ("ram[0x0720]", f16out); -- 1711
---		if (f16out > 32767.0) then -- signed
---			f16out := 65536.0 - f16out;
---			f16out := -f16out;
---		end if;
---		report_fixed_value ("vptat", f16out); -- 1711
---		vptat := f16out;
---
+		--
+		-- vptat
+		--tmp_slv18 := "00"&x"0000"&x"06af" and "00"&x"0000"&x"ffff"; -- 1711
+		--f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		--report_fixed_value ("ram[0x0720]", f16out); -- 1711
+		--if (f16out > 32767.0) then -- signed
+		--	f16out := 65536.0 - f16out;
+		--	f16out := -f16out;
+		--end if;
+
+		--report_fixed_value ("vptat", f16out); -- 1711
+		--vptat := f16out;
+
+report "done" severity failure;
 --		--
 --		-- vbe
 --		tmp_slv := x"4bf2" and x"ffff"; -- 19422
