@@ -613,32 +613,33 @@ begin
 		f16tmp1 := resize(f15tmp2,f16tmp1);
 		--report_fixed_value ("sign", f16tmp1); --
 		vbe := resize(f16tmp1,vbe);
-		report_fixed_value ("vbe", f16out); -- 19442
+		report_fixed_value ("vbe", vbe); -- 19442
 		report_error("fail vbe", vbe, to_sfixed(19442,vbe));
 
+		--
+		-- alphaptatee
+		tmp_slv18 := "00"&x"0000"&x"4210" and "00"&x"0000"&x"f000"; -- 16384
+		f16out := to_sfixed (tmp_slv18(sfixed18'high downto 0)&x"0000", sfixed18'high, sfixed18'low);
+		--report_fixed_value ("ee[0x2410]", f16out); -- 16384
+		tmp_slv18 := to_slv (f16out);
+		f16tmp1 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		--report_fixed_value ("f16tmp1", f16tmp1); -- 16384
+		tmp_slv18 := "00"&"0001000000000000" & "0000000000000000"; -- 2**12
+		f16tmp2 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		--report_fixed_value ("f16tmp2", f16tmp2); -- 4096
+
+		cmd <= "0011"; -- /
+		in1 <= f16tmp1;
+		in2 <= f16tmp2;
+		wait for clock_period*20;
+
+		tmp_slv18 := to_slv (out1);
+		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		alphaptatee := resize(f16out,alphaptatee);
+		report_fixed_value ("alphaptatee", alphaptatee); -- 4
+		report_error("fail alphaptatee", alphaptatee, to_sfixed(4,alphaptatee));		
+		
 report "done" severity failure;
---		--
---		-- alphaptatee
---		tmp_slv := x"4210" and x"f000"; -- 16384
---		f16out := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
-----		report_fixed_value ("ee[0x2410]", f16out); -- 16384
---		tmp_slv := to_slv (f16out);
---		f16tmp1 := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
-----		report_fixed_value (" ", f16tmp1); -- 16384
---		tmp_slv := "00000100000000000" & "00000000000000000"; -- 2**12
---		f16tmp2 := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
-----		report_fixed_value (" ", f16tmp2); -- 4096
---
---		cmd <= "0011"; -- /
---		in1 <= f16tmp1;
---		in2 <= f16tmp2;
---		wait for clock_period*20;
---
---		tmp_slv := to_slv (out1);
---		f16out := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
---		report_fixed_value ("alphaptatee", f16out); -- 4.000076e+00
---		alphaptatee := f16out;
---
 --		--
 --		-- alphaptat
 --		tmp_slv := to_slv (alphaptatee); -- 4
