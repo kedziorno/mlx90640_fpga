@@ -386,12 +386,12 @@ begin
 		--f9tmp1 := to_ufixed(-777.0,f9tmp1);
 		--f9tmp1 := to_ufixed(777.0,f9tmp1);
 		--f9tmp1 := to_ufixed(-154.0,f9tmp1);
-		f9tmp1 := to_ufixed(154.0,f9tmp1);
-		--f9tmp1 := to_ufixed("0"&to_slv(f16out(8 downto 0)),f9tmp1);
+		--f9tmp1 := to_ufixed(154.0,f9tmp1);
+		f9tmp1 := to_ufixed("0"&to_slv(f16out(8 downto 0)),f9tmp1);
 		report_fixed_value ("f9tmp1", f9tmp1);
 		if (f9tmp1 > 511.0) then -- signed
 			f9tmp2 := to_sfixed(to_slv(resize(1024.0-f9tmp1,f9tmp1)),f9tmp2);
-			f9tmp2 := -f9tmp2(7 downto 0);
+			f9tmp2 := -f9tmp2(8 downto 0);
 --			report_fixed_value ("kurwa", to_sfixed(to_slv(to_sfixed(f8tmp1) - to_sfixed(256.0,f8tmp2)),f8tmp2));
 --			f8tmp2 := to_sfixed(to_sfixed(to_slv(f8tmp1),7,0) - to_sfixed(256.0,7,0),7,0);
 --			f8tmp2 := to_sfixed(to_sfixed(to_slv(f16out(7 downto 0)),7,0) - to_sfixed(256.0,7,0),f8tmp2'high,f8tmp2'low);
