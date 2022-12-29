@@ -203,9 +203,11 @@ signal f32_data_valphaptat : float32;
 signal vptatart : float32;
 signal ta : float32;
 
+signal kvdd16,vdd2516 : std_logic_vector(15 downto 0);
+
 begin
 
-o_data <= return_vdd;
+o_data <= ta;
 
 mem_kvdd_vdd25_clock <= i_clock;
 mem_kvdd_vdd25_reset <= i_reset;
@@ -350,8 +352,11 @@ begin
 					state := j;
 					done_alphaptat <= '1';
 				when j =>
+					report "kvdd : " & integer'image(to_integer(signed(kvdd16))) severity note;
+					report "vdd25 : " & integer'image(to_integer(signed(vdd2516))) severity note;
 					report "kvdd : " & real'image(to_real(f32_data_kvdd,denormalize=>false)) severity note;
 					report "vdd25 : " & real'image(to_real(f32_data_vdd25,denormalize=>false)) severity note;
+					report "vdd : " & real'image(to_real(vdd,denormalize=>false)) severity note;
 					report "return vdd : " & real'image(to_real(return_vdd,denormalize=>false)) severity note;
 					report "kvptat : " & real'image(to_real(f32_data_kvptat,denormalize=>false)) severity note;
 					report "ktptat : " & real'image(to_real(f32_data_ktptat,denormalize=>false)) severity note;
@@ -743,6 +748,7 @@ begin
 					end if;
 				when g =>
 					state := h;
+					kvdd16 <= mem_kvdd_vdd25_data_kvdd;
 					f32_data_kvdd <= to_float(x"0000"&mem_kvdd_vdd25_data_kvdd,f32_data_kvdd);
 				when h =>
 					state := i;
@@ -757,6 +763,7 @@ begin
 					end if;
 				when j =>
 					state := k;
+					vdd2516 <= mem_kvdd_vdd25_data_vdd25;
 					f32_data_vdd25 <= to_float(x"0000"&mem_kvdd_vdd25_data_vdd25,f32_data_vdd25);
 				when k =>
 					state := l;
