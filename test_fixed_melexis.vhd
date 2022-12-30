@@ -124,6 +124,7 @@ architecture testbench of test_fixed_melexis is
 	subtype sfixed15 is sfixed (16 downto 0); --
 	subtype sfixed16 is sfixed (15 downto -16);
 	subtype sfixed18 is sfixed (17 downto -16);
+	subtype sfixed18a is sfixed (18 downto -16);
 	subtype ufixed18 is ufixed (17 downto -16);
 	signal stop_clock : boolean := false;
 	signal clk, rst_n : std_ulogic;
@@ -197,7 +198,7 @@ begin
 		variable f9tmp2 : sfixed9;
 		variable f15tmp1 : ufixed15;
 		variable f15tmp2 : sfixed15;
-		variable pow2to18 : ufixed18;
+		variable pow2to18 : sfixed18;
 	begin
 		-- reset
 		tmp_slv16 := (others => '0');
@@ -686,7 +687,9 @@ begin
 		-- vptatart
 		
 		cmd <= "0010"; -- *
+		report_fixed_value ("vptat", resize(vptat,f16tmp1)); --
 		in1 <= resize(vptat,f16tmp1);
+		report_fixed_value ("alphaptat", resize(alphaptat,f16tmp2)); --
 		in2 <= resize(alphaptat,f16tmp2);
 		wait for clock_period*20;
 
@@ -696,7 +699,9 @@ begin
 
 		cmd <= "0000"; -- +
 		in1 <= out1;
+		report_fixed_value ("vptat*alphaptat", out1); --
 		in2 <= resize(vbe,f16tmp2);
+		report_fixed_value ("vbe", resize(vbe,f16tmp2)); --
 		wait for clock_period*20;
 
 		tmp_slv18 := to_slv (out1);
@@ -705,45 +710,53 @@ begin
 
 		cmd <= "0011"; -- /
 		in1 <= resize(vptat,f16tmp1);
+		report_fixed_value ("vptat", resize(vptat,f16tmp1)); --
 		in2 <= out1;
+		report_fixed_value ("vptat*alphaptat+vbe", out1); --
 		wait for clock_period*20;
 
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		report_fixed_value ("vptat/(vptat*alphaptat+vbe)", f16out); --
 
-		tmp_slv18 := "11"&x"ffff"&x"ffff"; -- 2**18
-		pow2to18 := to_ufixed (tmp_slv18, ufixed18'high, ufixed18'low);
+		tmp_slv18 := "01"&x"ffff"&x"0000"; -- 2**18
+		pow2to18 := to_sfixed (tmp_slv18, sfixed18'high,sfixed18'low);
 		report_fixed_value ("pow2**18", pow2to18); --
- 
+ 		--report_fixed_value ("pow2**18signed", to_sfixed(to_slv(pow2to18),f16tmp1)); --
+
 		cmd <= "0010"; -- *
-		in1 <= out1;
+		in1 <= pow2to18;
+		report_fixed_value ("pow2**18", pow2to18); --
 		in2 <= out1;
+		report_fixed_value ("vptat/(vptat*alphaptat+vbe)", out1); --
 		wait for clock_period*20;
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
-		report_fixed_value ("h1", f16out); --
+		report_fixed_value ("(vptat/(vptat*alphaptat+vbe))*pow2**18", f16out); --
 		--h1 := f16out;
 
---		tmp_slv := "000000000000010" & "00000000000000000"; -- 2**2
---		f16tmp2 := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
---		report_fixed_value (" ", f16tmp2); -- 
---		cmd <= "0010"; -- *
---		in1 <= out1;
---		in2 <= f16tmp2;
---		wait for clock_period*20;
---		tmp_slv := to_slv (out1);
---		f16out := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
---		report_fixed_value ("h2", f16out); --
---		h2 := f16out;
---
+		tmp_slv18 := "00"&"0000000000000010" & "0000000000000000"; -- 2**2
+		f16tmp2 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		report_fixed_value ("pow2**2", f16tmp2); -- 
+		cmd <= "0010"; -- *
+		in1 <= f16tmp2;
+		report_fixed_value ("pow2**2", f16tmp2); --
+		in2 <= f16out;
+		report_fixed_value ("(vptat/(vptat*alphaptat+vbe))*pow2**18", f16out); --
+		wait for clock_period*20;
+		tmp_slv18 := to_slv (out1);
+		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
+		report_fixed_value ("((vptat/(vptat*alphaptat+vbe))*pow2**18)*pow2**2", f16out); --
+		--h2 := f16out;
+		--report_fixed_value ("aaaaaaaaa", h2); -- 
+
 		--cmd <= "0000"; -- +
 		--in1 <= h1;
 		--in2 <= h2;
 
 		--pow2to18 := to_ufixed (262144.0, ufixed18'high,ufixed18'low);
 		--report_fixed_value ("2**18", pow2to18); -- 
-
+report_error("*************", f16out, to_sfixed(12873.57952,f16out));
 report "done" severity failure;
 --		cmd <= "0010"; -- *
 --		in1 <= out1;
