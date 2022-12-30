@@ -803,7 +803,7 @@ begin
 		wait for clock_period*20;
 		report_fixed_value ("out f+", out1); --
 		report_fixed_value ("Ta", out1); --
-		report_error("fail Ta", out1, to_sfixed(39.184,out1));
+		report_error("fail Ta (see comment -> 3.914729e+01 ( 000000000000100111.0010010110110101 00027.25B5 ))", out1, to_sfixed(39.184,out1)); -- ok, lets assume 3.914729e+01 ( 000000000000100111.0010010110110101 00027.25B5 ) because math after dot(.) have 16bit and not 32bit
 
 report "done" severity failure;
 
