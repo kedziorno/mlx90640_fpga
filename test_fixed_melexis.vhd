@@ -687,77 +687,127 @@ begin
 		-- vptatart
 		
 		cmd <= "0010"; -- *
-		report_fixed_value ("vptat", resize(vptat,f16tmp1)); --
+		--report_fixed_value ("vptat", resize(vptat,f16tmp1)); --
 		in1 <= resize(vptat,f16tmp1);
-		report_fixed_value ("alphaptat", resize(alphaptat,f16tmp2)); --
+		--report_fixed_value ("alphaptat", resize(alphaptat,f16tmp2)); --
 		in2 <= resize(alphaptat,f16tmp2);
 		wait for clock_period*20;
 
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
-		report_fixed_value ("vptat*alphaptat", f16out); --
+		--report_fixed_value ("vptat*alphaptat", f16out); --
 
 		cmd <= "0000"; -- +
 		in1 <= out1;
-		report_fixed_value ("vptat*alphaptat", out1); --
+		--report_fixed_value ("vptat*alphaptat", out1); --
 		in2 <= resize(vbe,f16tmp2);
-		report_fixed_value ("vbe", resize(vbe,f16tmp2)); --
+		--report_fixed_value ("vbe", resize(vbe,f16tmp2)); --
 		wait for clock_period*20;
 
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
-		report_fixed_value ("vptat*alphaptat+vbe", f16out); --
+		--report_fixed_value ("vptat*alphaptat+vbe", f16out); --
 
 		cmd <= "0011"; -- /
 		in1 <= resize(vptat,f16tmp1);
-		report_fixed_value ("vptat", resize(vptat,f16tmp1)); --
+		--report_fixed_value ("vptat", resize(vptat,f16tmp1)); --
 		in2 <= out1;
-		report_fixed_value ("vptat*alphaptat+vbe", out1); --
+		--report_fixed_value ("vptat*alphaptat+vbe", out1); --
 		wait for clock_period*20;
 
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
-		report_fixed_value ("vptat/(vptat*alphaptat+vbe)", f16out); --
+		--report_fixed_value ("vptat/(vptat*alphaptat+vbe)", f16out); --
 
 		tmp_slv18 := "01"&x"ffff"&x"0000"; -- 2**18
 		pow2to18 := to_sfixed (tmp_slv18, sfixed18'high,sfixed18'low);
-		report_fixed_value ("pow2**18", pow2to18); --
+		--report_fixed_value ("pow2**18", pow2to18); --
  		--report_fixed_value ("pow2**18signed", to_sfixed(to_slv(pow2to18),f16tmp1)); --
 
 		cmd <= "0010"; -- *
 		in1 <= pow2to18;
-		report_fixed_value ("pow2**18", pow2to18); --
+		--report_fixed_value ("pow2**18", pow2to18); --
 		in2 <= out1;
-		report_fixed_value ("vptat/(vptat*alphaptat+vbe)", out1); --
+		--report_fixed_value ("vptat/(vptat*alphaptat+vbe)", out1); --
 		wait for clock_period*20;
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
-		report_fixed_value ("(vptat/(vptat*alphaptat+vbe))*pow2**18", f16out); --
+		--report_fixed_value ("(vptat/(vptat*alphaptat+vbe))*pow2**18", f16out); --
 		--h1 := f16out;
 
 		tmp_slv18 := "00"&"0000000000000010" & "0000000000000000"; -- 2**2
 		f16tmp2 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
-		report_fixed_value ("pow2**2", f16tmp2); -- 
+		--report_fixed_value ("pow2**2", f16tmp2); -- 
 		cmd <= "0010"; -- *
 		in1 <= f16tmp2;
-		report_fixed_value ("pow2**2", f16tmp2); --
+		--report_fixed_value ("pow2**2", f16tmp2); --
 		in2 <= f16out;
-		report_fixed_value ("(vptat/(vptat*alphaptat+vbe))*pow2**18", f16out); --
+		--report_fixed_value ("(vptat/(vptat*alphaptat+vbe))*pow2**18", f16out); --
 		wait for clock_period*20;
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
-		report_fixed_value ("((vptat/(vptat*alphaptat+vbe))*pow2**18)*pow2**2", f16out); --
-		--h2 := f16out;
-		--report_fixed_value ("aaaaaaaaa", h2); -- 
-
-		--cmd <= "0000"; -- +
-		--in1 <= h1;
-		--in2 <= h2;
+		--report_fixed_value ("((vptat/(vptat*alphaptat+vbe))*pow2**18)*pow2**2", f16out); --
+		report_fixed_value ("vptatart", f16out); --
 
 		--pow2to18 := to_ufixed (262144.0, ufixed18'high,ufixed18'low);
 		--report_fixed_value ("2**18", pow2to18); -- 
-report_error("fail vptatart (see comment -> 1.287190e+04 ( 000011001001000111.1110011011011100 03247.E6DC ))", f16out, to_sfixed(12873.57952,f16out)); -- ok, lets assume 1.287190e+04 ( 000011001001000111.1110011011011100 03247.E6DC ) because math in "vptat/(vptat*alphaptat+vbe)" after dot(.) have 16bit and not 32bit
+		report_error("fail vptatart (see comment -> 1.287190e+04 ( 000011001001000111.1110011011011100 03247.E6DC ))", f16out, to_sfixed(12873.57952,f16out)); -- ok, lets assume 1.287190e+04 ( 000011001001000111.1110011011011100 03247.E6DC ) because math in "vptat/(vptat*alphaptat+vbe)" after dot(.) have 16bit and not 32bit
+
+		--
+		-- Ta
+		cmd <= "0000"; -- + a=1+kvptat
+		in1 <= to_sfixed(1.0,f16tmp1);
+		in2 <= resize(kvptat,f16tmp2);
+		report_fixed_value ("in1", to_sfixed(1.0,f16tmp1)); --
+		report_fixed_value ("in2", resize(kvptat,f16tmp2)); --
+		wait for clock_period*20;
+		report_fixed_value ("out a+", out1); --
+
+		cmd <= "0010"; -- * b=a*deltaV
+		in1 <= out1;
+		in2 <= resize(deltaV,f16tmp2);
+		report_fixed_value ("in1", out1); --
+		report_fixed_value ("in2", resize(deltaV,f16tmp2)); --
+		wait for clock_period*20;
+		report_fixed_value ("out b*", out1); --
+
+		cmd <= "0011"; -- / c=vptatart/b
+		in1 <= resize(f16out,f16tmp1); --vptatart
+		in2 <= out1;
+		report_fixed_value ("in1", resize(f16out,f16tmp1)); --
+		report_fixed_value ("in2", out1); --
+		wait for clock_period*20;
+		report_fixed_value ("out c/", out1); --
+
+		cmd <= "0001"; -- - d=c-vptat25
+		in1 <= out1;
+		in2 <= resize(vptat25,f16tmp2);
+		report_fixed_value ("in1", out1); --
+		report_fixed_value ("in2", resize(vptat25,f16tmp2)); --
+		wait for clock_period*20;
+		report_fixed_value ("out d-", out1); --
+
+		cmd <= "0011"; -- / e=d/ktptat
+		in1 <= out1;
+		in2 <= resize(ktptat,f16tmp2);
+		report_fixed_value ("in1", out1); --
+		report_fixed_value ("in2", resize(ktptat,f16tmp2)); --
+		wait for clock_period*20;
+		report_fixed_value ("out e/", out1); --
+
+		cmd <= "0000"; -- / f=e+25.0
+		in1 <= out1;
+		in2 <= to_sfixed(25.0,f16tmp2);
+		report_fixed_value ("in1", out1); --
+		report_fixed_value ("in2", to_sfixed(25.0,f16tmp2)); --
+		wait for clock_period*20;
+		report_fixed_value ("out f+", out1); --
+		report_fixed_value ("Ta", out1); --
+		report_error("fail Ta", out1, to_sfixed(39.184,out1));
+
 report "done" severity failure;
+
+
 --		cmd <= "0010"; -- *
 --		in1 <= out1;
 --		in2 <= pow2_18 & "000000000000000";
