@@ -755,21 +755,21 @@ begin
 
 		--
 		-- Ta
-		cmd <= "0000"; -- + a=1+kvptat
-		in1 <= to_sfixed(1.0,f16tmp1);
+		cmd <= "0010"; -- * a=deltaV*kvptat
+		in1 <= resize(deltaV,f16tmp1);
 		in2 <= resize(kvptat,f16tmp2);
-		report_fixed_value ("in1", to_sfixed(1.0,f16tmp1)); --
+		report_fixed_value ("in1", resize(deltaV,f16tmp1)); --
 		report_fixed_value ("in2", resize(kvptat,f16tmp2)); --
 		wait for clock_period*20;
-		report_fixed_value ("out a+", out1); --
+		report_fixed_value ("out a*", out1); --
 
-		cmd <= "0010"; -- * b=a*deltaV
+		cmd <= "0000"; -- + b=a+1
 		in1 <= out1;
-		in2 <= resize(deltaV,f16tmp2);
+		in2 <= to_sfixed(1.0,f16tmp2);
 		report_fixed_value ("in1", out1); --
-		report_fixed_value ("in2", resize(deltaV,f16tmp2)); --
+		report_fixed_value ("in2", to_sfixed(1.0,f16tmp2)); --
 		wait for clock_period*20;
-		report_fixed_value ("out b*", out1); --
+		report_fixed_value ("out b+", out1); --
 
 		cmd <= "0011"; -- / c=vptatart/b
 		in1 <= resize(f16out,f16tmp1); --vptatart
