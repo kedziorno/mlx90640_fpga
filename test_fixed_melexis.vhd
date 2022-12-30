@@ -756,7 +756,7 @@ begin
 
 		--pow2to18 := to_ufixed (262144.0, ufixed18'high,ufixed18'low);
 		--report_fixed_value ("2**18", pow2to18); -- 
-report_error("*************", f16out, to_sfixed(12873.57952,f16out));
+report_error("fail vptatart (see comment -> 1.287190e+04 ( 000011001001000111.1110011011011100 03247.E6DC ))", f16out, to_sfixed(12873.57952,f16out)); -- ok, lets assume 1.287190e+04 ( 000011001001000111.1110011011011100 03247.E6DC ) because math in "vptat/(vptat*alphaptat+vbe)" after dot(.) have 16bit and not 32bit
 report "done" severity failure;
 --		cmd <= "0010"; -- *
 --		in1 <= out1;
