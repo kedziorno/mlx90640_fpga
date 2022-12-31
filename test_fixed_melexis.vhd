@@ -33,6 +33,12 @@ use ieee_proposed.fixed_pkg.all;
 --use UNISIM.VComponents.all;
 
 entity test_fixed_melexis is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+o_out1 : out sfixed (17 downto -16)
+);
 end test_fixed_melexis;
 
 architecture testbench of test_fixed_melexis is
@@ -132,15 +138,17 @@ architecture testbench of test_fixed_melexis is
 	signal in1, in2 : sfixed18;
 	signal out1 : sfixed18;
 	signal cmd : std_logic_vector (3 downto 0);
-	signal in1r,in2r,out1r : real;
-
+--	signal in1r,in2r,out1r : real;
+	type states is (idle,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26);
+	signal state : states;
 begin
 
-	in1r <= to_real(in1);
-	in2r <= to_real(in2);
+--	in1r <= to_real(in1);
+--	in2r <= to_real(in2);
 
 	out1 <= to_sfixed(out1slv, sfixed18'high, sfixed18'low);
-	out1r <= to_real(out1);
+--	out1r <= to_real(out1);
+	o_out1 <= out1;
 
 	in1slv <= to_slv(in1);
 	in2slv <= to_slv(in2);
@@ -150,34 +158,34 @@ begin
 		in2 => in2slv,
 		out1 => out1slv,
 		cmd => cmd,
-		clk => clk,
-		rst_n => rst_n
+		clk => i_clock,
+		rst_n => i_reset
 	);
 
-	clkprc : process is
-	begin
-		if (not stop_clock) then
-			clk <= '0';
-			wait for clock_period/2.0;
-			clk <= '1';
-			wait for clock_period/2.0;
-		else
-			wait;
-		end if;
-	end process clkprc;
+--	clkprc : process is
+--	begin
+--		if (not stop_clock) then
+--			clk <= '0';
+--			-- wait for clock_period/2.0;
+--			clk <= '1';
+--			-- wait for clock_period/2.0;
+--		else
+--			wait;
+--		end if;
+--	end process clkprc;
 
-	reset_proc : process is
-	begin
-		rst_n <= '0';
-		wait for clock_period * 2.0;
-		rst_n <= '1';
-		report "sfixed16'high : " & integer'image(sfixed16'high);
-		report "sfixed16'low  : " & integer'image(sfixed16'low );
-		wait;
-	end process reset_proc;
+--	reset_proc : process is
+--	begin
+--		rst_n <= '0';
+--		-- wait for clock_period * 2.0;
+--		rst_n <= '1';
+--		report "sfixed16'high : " & integer'image(sfixed16'high);
+--		report "sfixed16'low  : " & integer'image(sfixed16'low );
+--		wait;
+--	end process reset_proc;
 
 	-- purpose: main test loop
-	tester : process is
+	tester : process (i_clock,i_reset) is
 		variable tmp_slv16 : std_logic_vector(31 downto 0);
 		variable tmp_slv18 : std_logic_vector(33 downto 0);
 		variable f16tmp1,f16tmp2,f16out : sfixed18;
@@ -199,7 +207,14 @@ begin
 		variable f15tmp1 : ufixed15;
 		variable f15tmp2 : sfixed15;
 		variable pow2to18 : sfixed18;
+		constant C_WAIT1 : integer := 2000;
+		variable v_wait1 : integer range 0 to C_WAIT1-1;
 	begin
+		if (rising_edge(i_clock)) then
+		if (i_reset = '1') then
+		v_wait1 := 0;
+		state <= idle;
+--		o_out1 <= (others => '0');
 		-- reset
 		tmp_slv16 := (others => '0');
 		tmp_slv18 := (others => '0');
@@ -209,13 +224,22 @@ begin
 		f16tmp1 := (others => '0');
 		f16tmp2 := (others => '0');
 		f16out := (others => '0');
-		wait for clock_period*20;
+		else
+--		-- wait for clock_period*20;
 
 		-- 11.2.2.2
 		-- kvdd,vdd25
 		-- ee[0x2433] = 0x9d68
 		-- ram[0x072a] = 0xccc5
-
+		case (state) is
+		when idle =>
+--			o_out1 <= (others => '0');
+			if (i_run = '1') then
+				state <= s1;
+			else
+				state <= idle;
+			end if;
+		when s1 =>
 		--
 		-- kvdd
 		tmp_slv18 := "00"&x"0000"&x"9d68" and "00"&x"0000"&x"ff00"; -- 0x9d00
@@ -227,7 +251,15 @@ begin
 		cmd <= "0011"; -- /
 		in1 <= f16tmp1;
 		in2 <= f16tmp2;
-		wait for clock_period*20;
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s2;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s1;
+		end if;
+		when s2 =>
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 --		report_fixed_value ("div out", f16out); -- -99/157/65437
@@ -270,7 +302,15 @@ begin
 		cmd <= "0010"; -- *
 		in1 <= f16tmp1;
 		in2 <= f16tmp2;
-		wait for clock_period*20;
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s3;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s2;
+		end if;
+		when s3 =>
 --		tmp_slv16 := to_slv (out1);
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
@@ -290,7 +330,15 @@ begin
 		cmd <= "0001"; -- -
 		in1 <= f16tmp1;
 		in2 <= f16tmp2;
-		wait for clock_period*20;
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s4;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s3;
+		end if;
+		when s4 =>
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		--report_fixed_value ("after sub2**8", f16out); -- -152
@@ -301,7 +349,15 @@ begin
 		cmd <= "0010"; -- *
 		in1 <= f16tmp1;
 		in2 <= f16tmp2;
-		wait for clock_period*20;
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s5;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s4;
+		end if;
+		when s5 =>
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		--report_fixed_value ("after mul2**5", f16out); -- -4864
@@ -314,7 +370,15 @@ begin
 		--report_fixed_value ("f16tmp1", f16tmp1); --
 		in2 <= f16tmp2;
 		--report_fixed_value ("f16tmp2", f16tmp2); --
-		wait for clock_period*20;
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s6;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s5;
+		end if;
+		when s6 =>
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		vdd25 := resize(f16out,vdd25);
@@ -341,7 +405,15 @@ begin
 		cmd <= "0011"; -- /
 		in1 <= f16tmp1;
 		in2 <= f16tmp2;
-		wait for clock_period*20;
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s7;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s6;
+		end if;
+		when s7 =>
 		--report_fixed_value ("raw val", out1); -- 22
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
@@ -371,7 +443,15 @@ begin
 		f16tmp2 := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		in1 <= f16tmp1;
 		in2 <= f16tmp2;
-		wait for clock_period*20;
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s8;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s7;
+		end if;
+		when s8 =>
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		--report_fixed_value ("aaaaaaaaa", f16out); --
@@ -423,7 +503,15 @@ begin
 		--report_fixed_value ("f16tmp1", f16tmp1); --
 		in2 <= f16tmp2;
 		--report_fixed_value ("f16tmp2", f16tmp2); --
-		wait for clock_period*20;
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s9;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s8;
+		end if;
+		when s9 =>
 		--report_fixed_value ("return", out1); --
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
@@ -475,8 +563,15 @@ begin
 		cmd <= "0001"; -- -
 		in1 <= f16tmp1;
 		in2 <= f16tmp2;
-		wait for clock_period*20;
-
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s10;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s9;
+		end if;
+		when s10 =>
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		--report_fixed_value ("out1", f16out); -- -59
@@ -491,8 +586,15 @@ begin
 		cmd <= "0011"; -- /
 		in1 <= f16tmp1;
 		in2 <= f16tmp2;
-		wait for clock_period*20;
-
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s11;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s10;
+		end if;
+		when s11 =>
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		--report_fixed_value ("deltaV", f16out); -- 1.861572e-02
@@ -508,8 +610,15 @@ begin
 		cmd <= "0000"; -- +
 		in1 <= f16tmp1;
 		in2 <= f16tmp2;
-		wait for clock_period*20;
-
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s12;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s11;
+		end if;
+		when s12 =>
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		vdd := f16out;
@@ -634,8 +743,15 @@ begin
 		cmd <= "0011"; -- /
 		in1 <= f16tmp1;
 		in2 <= f16tmp2;
-		wait for clock_period*20;
-
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s13;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s12;
+		end if;
+		when s13 =>
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		alphaptatee := resize(f16out,alphaptatee);
@@ -657,8 +773,15 @@ begin
 		cmd <= "0011"; -- /
 		in1 <= f16tmp1;
 		in2 <= f16tmp2;
-		wait for clock_period*20;
-
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s14;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s13;
+		end if;
+		when s14 =>
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		--report_fixed_value ("div ", f16out); -- 1
@@ -675,8 +798,15 @@ begin
 		cmd <= "0000"; -- +
 		in1 <= f16tmp1;
 		in2 <= f16tmp2;
-		wait for clock_period*20;
-
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s15;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s14;
+		end if;
+		when s15 =>
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		alphaptat := resize(f16out,alphaptat);
@@ -691,8 +821,15 @@ begin
 		in1 <= resize(vptat,f16tmp1);
 		--report_fixed_value ("alphaptat", resize(alphaptat,f16tmp2)); --
 		in2 <= resize(alphaptat,f16tmp2);
-		wait for clock_period*20;
-
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s16;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s15;
+		end if;
+		when s16 =>
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		--report_fixed_value ("vptat*alphaptat", f16out); --
@@ -702,8 +839,15 @@ begin
 		--report_fixed_value ("vptat*alphaptat", out1); --
 		in2 <= resize(vbe,f16tmp2);
 		--report_fixed_value ("vbe", resize(vbe,f16tmp2)); --
-		wait for clock_period*20;
-
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s17;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s16;
+		end if;
+		when s17 =>
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		--report_fixed_value ("vptat*alphaptat+vbe", f16out); --
@@ -713,8 +857,15 @@ begin
 		--report_fixed_value ("vptat", resize(vptat,f16tmp1)); --
 		in2 <= out1;
 		--report_fixed_value ("vptat*alphaptat+vbe", out1); --
-		wait for clock_period*20;
-
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s18;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s17;
+		end if;
+		when s18 =>
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		--report_fixed_value ("vptat/(vptat*alphaptat+vbe)", f16out); --
@@ -729,7 +880,15 @@ begin
 		--report_fixed_value ("pow2**18", pow2to18); --
 		in2 <= out1;
 		--report_fixed_value ("vptat/(vptat*alphaptat+vbe)", out1); --
-		wait for clock_period*20;
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s19;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s18;
+		end if;
+		when s19 =>
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		--report_fixed_value ("(vptat/(vptat*alphaptat+vbe))*pow2**18", f16out); --
@@ -743,7 +902,15 @@ begin
 		--report_fixed_value ("pow2**2", f16tmp2); --
 		in2 <= f16out;
 		--report_fixed_value ("(vptat/(vptat*alphaptat+vbe))*pow2**18", f16out); --
-		wait for clock_period*20;
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s20;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s19;
+		end if;
+		when s20 =>
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
 		--report_fixed_value ("((vptat/(vptat*alphaptat+vbe))*pow2**18)*pow2**2", f16out); --
@@ -760,7 +927,15 @@ begin
 		in2 <= resize(kvptat,f16tmp2);
 		report_fixed_value ("in1", resize(deltaV,f16tmp1)); --
 		report_fixed_value ("in2", resize(kvptat,f16tmp2)); --
-		wait for clock_period*20;
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s21;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s20;
+		end if;
+		when s21 =>
 		report_fixed_value ("out a*", out1); --
 
 		cmd <= "0000"; -- + b=a+1
@@ -768,7 +943,15 @@ begin
 		in2 <= to_sfixed(1.0,f16tmp2);
 		report_fixed_value ("in1", out1); --
 		report_fixed_value ("in2", to_sfixed(1.0,f16tmp2)); --
-		wait for clock_period*20;
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s22;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s21;
+		end if;
+		when s22 =>
 		report_fixed_value ("out b+", out1); --
 
 		cmd <= "0011"; -- / c=vptatart/b
@@ -776,7 +959,15 @@ begin
 		in2 <= out1;
 		report_fixed_value ("in1", resize(f16out,f16tmp1)); --
 		report_fixed_value ("in2", out1); --
-		wait for clock_period*20;
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s23;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s22;
+		end if;
+		when s23 =>
 		report_fixed_value ("out c/", out1); --
 
 		cmd <= "0001"; -- - d=c-vptat25
@@ -784,7 +975,15 @@ begin
 		in2 <= resize(vptat25,f16tmp2);
 		report_fixed_value ("in1", out1); --
 		report_fixed_value ("in2", resize(vptat25,f16tmp2)); --
-		wait for clock_period*20;
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s24;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s23;
+		end if;
+		when s24 =>
 		report_fixed_value ("out d-", out1); --
 
 		cmd <= "0011"; -- / e=d/ktptat
@@ -792,7 +991,15 @@ begin
 		in2 <= resize(ktptat,f16tmp2);
 		report_fixed_value ("in1", out1); --
 		report_fixed_value ("in2", resize(ktptat,f16tmp2)); --
-		wait for clock_period*20;
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s25;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s24;
+		end if;
+		when s25 =>
 		report_fixed_value ("out e/", out1); --
 
 		cmd <= "0000"; -- / f=e+25.0
@@ -800,12 +1007,27 @@ begin
 		in2 <= to_sfixed(25.0,f16tmp2);
 		report_fixed_value ("in1", out1); --
 		report_fixed_value ("in2", to_sfixed(25.0,f16tmp2)); --
-		wait for clock_period*20;
+		-- wait for clock_period*20;
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s26;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s25;
+		end if;
+		when s26 =>
 		report_fixed_value ("out f+", out1); --
 		report_fixed_value ("Ta", out1); --
 		report_error("fail Ta (see comment -> 3.914729e+01 ( 000000000000100111.0010010110110101 00027.25B5 ))", out1, to_sfixed(39.184,out1)); -- ok, lets assume 3.914729e+01 ( 000000000000100111.0010010110110101 00027.25B5 ) because math after dot(.) have 16bit and not 32bit
-
-report "done" severity failure;
+		if (v_wait1 = C_WAIT1-1) then
+--			o_out1 <= out1;
+			v_wait1 := 0;
+			state <= idle;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= s26;
+		end if;
+--report "done" severity failure;
 
 
 --		cmd <= "0010"; -- *
@@ -819,7 +1041,7 @@ report "done" severity failure;
 ----		cmd <= "0010"; -- *
 ----		in1 <= out1;
 ----		in2 <= vbe;
-----		wait for clock_period*20;
+----		-- wait for clock_period*20;
 --
 --
 --
@@ -834,7 +1056,7 @@ report "done" severity failure;
 ----		f16tmp2 := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
 ----		in1 <= f16tmp1;
 ----		in2 <= f16tmp2;
-----		wait for clock_period*20;
+----		-- wait for clock_period*20;
 ----		report_fixed_value ("ktptat", out1); -- 42.25
 ----		
 ----		cmd <= "0011"; -- /
@@ -850,7 +1072,7 @@ report "done" severity failure;
 ----		f16tmp2 := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
 ----		in1 <= f16tmp1;
 ----		in2 <= f16tmp2;
-----		wait for clock_period*20;
+----		-- wait for clock_period*20;
 ----		report_fixed_value ("ktptat", out1); -- 42.25
 --		
 --		
@@ -865,7 +1087,7 @@ report "done" severity failure;
 ----		f16tmp2 := to_sfixed (tmp_slv, sfixed16'high, sfixed16'low);
 ----		in1 <= f16tmp1;
 ----		in2 <= f16tmp2;
-----		wait for clock_period*20;
+----		-- wait for clock_period*20;
 ----		report_fixed_value ("kvptat", out1);
 --
 ----		-- kvptat - ee[0x2432] = 0x5952
@@ -881,7 +1103,11 @@ report "done" severity failure;
 ----    chks16 := to_sfixed (((-59.0)/(-3168.0)), sfixed16'high, sfixed16'low); -- deltaV = ((ram[0x072a] - vdd25) / kvdd)
 ----    report_error ( "div", out1, chks16);
 
-		report "done" severity failure;
+--		report "done" severity failure;
+	when others => null;
+	end case;
+	end if;
+	end if;
 	end process tester;
 
 end architecture testbench;

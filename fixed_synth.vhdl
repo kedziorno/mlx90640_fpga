@@ -52,7 +52,7 @@ begin  -- architecture rtl
 --    variable in1pin2 : sfixed (SFixed_high(15, -16, '+', 15, -16) downto
 --                               SFixed_low(15, -16, '+', 15, -16));
   begin  -- process cmd0reg
-    if rst_n = '0' then                      -- asynchronous reset (active low)
+    if rst_n = '1' then                      -- asynchronous reset (active low)
       outarray0 <= (others => '0');
       jrloop : for j in 0 to 4 loop
         outarray (j) := (others => '0');
@@ -97,7 +97,7 @@ begin  -- architecture rtl
 --    variable in1min2 : sfixed (SFixed_high(15, -16, '-', 15, -16) downto
 --                               SFixed_low(15, -16, '-', 15, -16));
   begin  -- process cmd0reg
-    if rst_n = '0' then                      -- asynchronous reset (active low)
+    if rst_n = '1' then                      -- asynchronous reset (active low)
       outarray1 <= (others => '0');
       jrloop : for j in 0 to 4 loop
         outarray (j) := (others => '0');
@@ -139,7 +139,7 @@ begin  -- architecture rtl
     variable outarray           : cry_type;  -- array for output
     variable in1array, in2array : cry_type;  -- array for input
   begin  -- process cmd0reg
-    if rst_n = '0' then                      -- asynchronous reset (active low)
+    if rst_n = '1' then                      -- asynchronous reset (active low)
       outarray2 <= (others => '0');
       jrloop : for j in 0 to 4 loop
         outarray (j) := (others => '0');
@@ -179,7 +179,7 @@ begin  -- architecture rtl
     variable outarray           : cry_type;  -- array for output
     variable in1array, in2array : cry_type;  -- array for input
   begin  -- process cmd3reg
-    if rst_n = '0' then                      -- asynchronous reset (active low)
+    if rst_n = '1' then                      -- asynchronous reset (active low)
       outarray3 <= (others => '0');
       jrloop : for j in 0 to 4 loop
         outarray (j) := (others => '0');
@@ -747,7 +747,7 @@ begin  -- architecture rtl
     variable in1reg, in2reg   : sfixed16;  -- register stages
     variable in1reg2, in2reg2 : sfixed16;  -- register stages
   begin  -- process mulreg
-    if rst_n = '0' then                    -- asynchronous reset (active low)
+    if rst_n = '1' then                    -- asynchronous reset (active low)
       in1reg  := (others => '0');
       in2reg  := (others => '0');
       in1reg2 := (others => '0');
