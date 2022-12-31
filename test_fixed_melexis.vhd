@@ -198,6 +198,7 @@ begin
 		variable vdd,deltaV : sfixed18;
 		variable vptat,vbe : sfixed16;
 		variable vptat25 : sfixed16;
+		variable vptatart : sfixed18;
 		variable alphaptatee : sfixed16;
 		variable alphaptat : sfixed16;
 		variable h1,h2 : sfixed16;
@@ -962,14 +963,14 @@ when w19 =>
 		end if;
 		tmp_slv18 := to_slv (out1);
 		f16out := to_sfixed (tmp_slv18, sfixed18'high, sfixed18'low);
-
+		vptatart := f16out;
 		when s20 =>
 		---- report_fixed_value ("((vptat/(vptat*alphaptat+vbe))*pow2**18)*pow2**2", f16out); --
 		-- report_fixed_value ("vptatart", f16out); --
 
 		--pow2to18 := to_ufixed (262144.0, ufixed18'high,ufixed18'low);
 		---- report_fixed_value ("2**18", pow2to18); -- 
-		report_error("fail vptatart (see comment -> 1.287190e+04 ( 000011001001000111.1110011011011100 03247.E6DC ))", f16out, to_sfixed(12873.57952,f16out)); -- ok, lets assume 1.287190e+04 ( 000011001001000111.1110011011011100 03247.E6DC ) because math in "vptat/(vptat*alphaptat+vbe)" after dot(.) have 16bit and not 32bit
+		report_error("fail vptatart (see comment -> 1.287190e+04 ( 000011001001000111.1110011011011100 03247.E6DC ))", vptatart, to_sfixed(12873.57952,vptatart)); -- ok, lets assume 1.287190e+04 ( 000011001001000111.1110011011011100 03247.E6DC ) because math in "vptat/(vptat*alphaptat+vbe)" after dot(.) have 16bit and not 32bit
 
 		--
 		-- Ta
@@ -1014,7 +1015,7 @@ when w21 =>
 		-- report_fixed_value ("out b+", out1); --
 
 		cmd <= "0011"; -- / c=vptatart/b
-		in1 <= resize(f16out,f16tmp1); --vptatart
+		in1 <= resize(vptatart,f16tmp1); --vptatart
 		in2 <= f16out;
 		-- report_fixed_value ("in1", resize(f16out,f16tmp1)); --
 		-- report_fixed_value ("in2", out1); --
@@ -1089,9 +1090,6 @@ when w25 =>
 			state <= w25;
 		end if;
 		when s26 =>
-		-- report_fixed_value ("out f+", out1); --
-		-- report_fixed_value ("Ta", out1); --
-		report_error("fail Ta (see comment -> 3.914729e+01 ( 000000000000100111.0010010110110101 00027.25B5 ))", out1, to_sfixed(39.184,out1)); -- ok, lets assume 3.914729e+01 ( 000000000000100111.0010010110110101 00027.25B5 ) because math after dot(.) have 16bit and not 32bit
 state <= w26;
 when w26 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1102,6 +1100,10 @@ when w26 =>
 			v_wait1 := v_wait1 + 1;
 			state <= w26;
 		end if;
+		-- report_fixed_value ("out f+", out1); --
+		-- report_fixed_value ("Ta", out1); --
+		report_error("fail Ta (see comment -> 3.914729e+01 ( 000000000000100111.0010010110110101 00027.25B5 ))", out1, to_sfixed(39.184,out1)); -- ok, lets assume 3.914729e+01 ( 000000000000100111.0010010110110101 00027.25B5 ) because math after dot(.) have 16bit and not 32bit
+
 --report "done" severity failure;
 
 
