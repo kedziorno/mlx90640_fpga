@@ -124,6 +124,7 @@ architecture testbench of test_fixed_melexis is
 --	subtype sfixed7 is sfixed (3 downto -3);
 	subtype sfixed4 is sfixed (3 downto -16);
 	subtype sfixed5 is sfixed (5 downto -16);
+	subtype sfixed7 is sfixed (7 downto -16);
 	subtype ufixed6 is ufixed (6 downto 0); --32/64
 	subtype sfixed6 is sfixed (6 downto 0); --32/64
 	subtype ufixed8 is ufixed (8 downto 0); --128/256
@@ -244,6 +245,8 @@ begin
 		variable tmps4 : sfixed4;
 		variable tmps5 : sfixed5;
 		variable tmps6 : sfixed6;
+		variable tmps7 : sfixed7;
+		variable tmps8 : sfixed8;
 		variable tmps9 : sfixed9;
 		variable occsro,occsc,occsre : sfixed18;
 		variable occsror,occscr,occsrer : sfixed18;
@@ -1955,6 +1958,36 @@ when w67 =>
 			v_wait1 := v_wait1 + 1;
 			state <= w67;
 		end if;
+when s68 =>
+		tmp_slv16 := x"0000"&x"044b" and x"0000"&x"00ff"; -- ee[0x24eb]
+		f16out := to_sfixed (tmp_slv16(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
+		tmp_slv16 := to_slv(f16out);
+		tmp_slv16 := "00000000"&tmp_slv16(23 downto 16)&x"0000";
+		kta_cp_ee := to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
+		tmps7 := resize(kta_cp_ee,tmps7);
+		kta_cp_ee := resize(tmps7,kta_cp_ee);
+--		report_fixed_value("kta_cp_ee",kta_cp_ee);
+		report_error("fail kta_cp_ee", kta_cp_ee, to_sfixed(75.0,kta_cp_ee));
+--		report_fixed_value("kta_scale_1",kta_scale_1);
+		cmd <= "0011"; -- / KTa_cp_ee/2^KTa_scale_1
+		in1 <= resize(kta_cp_ee,f16tmp1);
+		in2 <= resize(kta_scale_1,f16tmp2);
+		state <= w68;
+when w68 =>
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s69;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= w68;
+		end if;
+when s69 =>
+		tmp_slv16 := to_slv (out1);
+		f16out := to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
+		kta_cp := resize(f16out,kta_cp);
+		report_error("fail kta_cp (ok,almost)", kta_cp, to_sfixed(0.00457763671875,kta_cp)); -- ok,almost
+		state <= w69;
+when w69 =>
 report "" severity failure;
 
 when ending =>
