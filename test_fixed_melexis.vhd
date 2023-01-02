@@ -200,7 +200,7 @@ begin
 		variable f16tmp1,f16tmp2,f16out : sfixed18;
 		variable kvdd,vdd25 : sfixed16;
 		variable kvptat,ktptat : sfixed16;
-		variable vdd,deltaV : sfixed18;
+		variable vdd,vddv0,deltaV : sfixed18;
 		variable vptat,vbe : sfixed16;
 		variable vptat25 : sfixed16;
 		variable vptatart : sfixed18;
@@ -219,7 +219,7 @@ begin
 		variable pow2to18 : sfixed18;
 		constant C_WAIT1 : integer := G_C_WAIT1;
 		variable v_wait1 : integer range 0 to C_WAIT1-1;
-		variable Ta : sfixed16;
+		variable Ta,Ta0 : sfixed16;
 		variable Kgain : sfixed16;
 		variable pixgain12_16 : sfixed16; -- xxx for all pixels
 		variable offset12_16 : sfixed16; -- xxx for all pixels
@@ -239,6 +239,8 @@ begin
 		variable kta_rc_ee : sfixed16;
 		variable kta_scale_1 : sfixed16;
 		variable kta_scale_2 : sfixed16;
+		variable kvscale : sfixed16;
+		variable pixos12_16 : sfixed16;
 	begin
 		if (rising_edge(i_clock)) then
 		if (i_reset = '1') then
@@ -1488,6 +1490,43 @@ when s38 =>
 		report_error("fail kta12_16 (ok,almost)", kta12_16, to_sfixed(0.005126953125,kta12_16)); -- ok,almost
 		state <= w38;
 when w38 =>
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s39;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= w38;
+		end if;
+when s39 =>
+		tmp_slv16 := x"0000"&x"2363" and x"0000"&x"0f00"; -- ee[0x2438]
+		f16out := to_sfixed (tmp_slv16(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
+		tmp_slv16 := to_slv(f16out);
+		tmp_slv16 := "000000000000"&tmp_slv16(27 downto 24)&x"0000";
+		kvscale := to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
+		kvscale := resize(kvscale,kvscale);
+--		report_fixed_value("kv12_16",kv12_16);
+		report_error("fail kvscale", kvscale, to_sfixed(3.0,kv12_16));
+		kvscale := to_sfixed(1.0,kvscale) sll to_integer(kvscale);
+		report_error("fail 2^kvscale", kvscale, to_sfixed(8.0,kv12_16));
+		cmd <= "0011"; -- / kv12_16/2^kvscale
+		in1 <= resize(kv12_16,f16tmp1);
+		in2 <= resize(kvscale,f16tmp2); -- 2^kvscale
+		state <= w39;
+when w39 =>
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s40;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= w39;
+		end if;
+when s40 =>
+		tmp_slv16 := to_slv (out1);
+		f16out := to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
+		kv12_16 := resize(f16out,kv12_16);
+		report_error("fail kv12_16 (ok,almost)", kv12_16, to_sfixed(0.5,kv12_16)); -- ok,almost
+		state <= w40;
+when w40 =>
 report "" severity failure;
 
 when ending =>
