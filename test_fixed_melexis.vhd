@@ -123,6 +123,7 @@ architecture testbench of test_fixed_melexis is
 	constant clock_period : time := 500 ns;
 --	subtype sfixed7 is sfixed (3 downto -3);
 	subtype sfixed4 is sfixed (3 downto -16);
+	subtype sfixed5 is sfixed (5 downto -16);
 	subtype ufixed6 is ufixed (6 downto 0); --32/64
 	subtype sfixed6 is sfixed (6 downto 0); --32/64
 	subtype ufixed8 is ufixed (8 downto 0); --128/256
@@ -144,8 +145,18 @@ architecture testbench of test_fixed_melexis is
 --	signal in1r,in2r,out1r : real;
 	type states is (
 	idle,
-	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43,s44,s45,s46,s47,s48,s49,s50,s51,s52,s53,s54,s55,s56,s57,s58,s59,s60,s61,
-	w1,w2,w3,w4,w5,w6,w7,w8,w9,w10,w11,w12,w13,w14,w15,w16,w17,w18,w19,w20,w21,w22,w23,w24,w25,w26,w27,w28,w29,w30,w31,w32,w33,w34,w35,w36,w37,w38,w39,w40,w41,w42,w43,w44,w45,w46,w47,w48,w49,w50,w51,w52,w53,w54,w55,w56,w57,w58,w59,w60,w61,
+	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,
+	s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,
+	s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43,s44,s45,s46,s47,s48,
+	s49,s50,s51,s52,s53,s54,s55,s56,s57,s58,s59,s60,s61,s62,s63,s64,
+	s65,s66,s67,s68,s69,s70,s71,s72,s73,s74,s75,s76,s77,s78,s79,s80,
+	s81,s82,s83,s84,s85,s86,s87,s88,s89,s90,s91,s92,s93,s94,s95,s96,s97,s98,s99,s100,
+	w1,w2,w3,w4,w5,w6,w7,w8,w9,w10,w11,w12,w13,w14,w15,w16,
+	w17,w18,w19,w20,w21,w22,w23,w24,w25,w26,w27,w28,w29,w30,w31,w32,
+	w33,w34,w35,w36,w37,w38,w39,w40,w41,w42,w43,w44,w45,w46,w47,w48,
+	w49,w50,w51,w52,w53,w54,w55,w56,w57,w58,w59,w60,w61,w62,w63,w64,
+	w65,w66,w67,w68,w69,w70,w71,w72,w73,w74,w75,w76,w77,w78,w79,w80,
+	w81,w82,w83,w84,w85,w86,w87,w88,w89,w90,w91,w92,w93,w94,w95,w96,w97,w98,w99,w100,
 	ending
 	);
 	signal state : states;
@@ -231,7 +242,9 @@ begin
 		variable occcolumn16 : sfixed16;
 		variable occscaleremnant : sfixed16;
 		variable tmps4 : sfixed4;
+		variable tmps5 : sfixed5;
 		variable tmps6 : sfixed6;
+		variable tmps9 : sfixed9;
 		variable occsro,occsc,occsre : sfixed18;
 		variable occsror,occscr,occsrer : sfixed18;
 		variable pixosref12_16 : sfixed16;
@@ -242,6 +255,17 @@ begin
 		variable kvscale : sfixed16;
 		variable pixos12_16 : sfixed16;
 		variable tad,v0d : sfixed16;
+		variable vir12_16_emissitivy_componsated : sfixed16;
+		variable pixgain_cp_sp0 : sfixed16;
+		variable pixgain_cp_sp1 : sfixed16;
+		variable off_cpsubpage_0 : sfixed16;
+		variable off_cpsubpage_1 : sfixed16;
+		variable off_cpsubpage_1_delta : sfixed16;
+		variable kta_cp_ee : sfixed16;
+		variable kta_cp : sfixed16;
+		variable kv_scale : sfixed16;
+		variable kv_cp_ee : sfixed16;
+		variable kv_cp : sfixed16;
 	begin
 		if (rising_edge(i_clock)) then
 		if (i_reset = '1') then
@@ -1779,12 +1803,164 @@ when w58 =>
 			v_wait1 := v_wait1 + 1;
 			state <= w58;
 		end if;
+when s59 =>
+		cmd <= "0011"; -- / VIR(12,16)Emissivity_COMPOENSATED=pixos12_16/E E=1
+		in1 <= resize(pixos12_16,f16tmp1);
+		in2 <= to_sfixed(1.0,f16tmp2);
+		state <= w59;
+when w59 =>
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s60;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= w59;
+		end if;
+when s60 =>
+		tmp_slv16 := to_slv (out1);
+		f16out := to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
+		vir12_16_emissitivy_componsated := resize(f16out,vir12_16_emissitivy_componsated);
+		report_error("fail vir12_16_emissitivy_componsated (ok,almost)", vir12_16_emissitivy_componsated, to_sfixed(700.882495690877,vir12_16_emissitivy_componsated)); -- ok,almost
+		state <= w60;
+when w60 =>
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s61;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= w60;
+		end if;
+when s61 =>
+		tmp_slv16 := x"0000"&x"ffca" and x"0000"&x"ffff"; -- ram[0x0708]
+		f16out := to_sfixed (tmp_slv16(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
+		tmp_slv16 := to_slv(f16out);
+--		tmp_slv16 := "000000000000"&tmp_slv16(27 downto 24)&x"0000";
+		pixgain_cp_sp0 := to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
+		pixgain_cp_sp0 := resize(pixgain_cp_sp0,pixgain_cp_sp0);
+--		report_fixed_value("pixgain_cp_sp0",pixgain_cp_sp0);
+		report_error("fail pixgain_cp_sp0", pixgain_cp_sp0, to_sfixed(-54.0,pixgain_cp_sp0));
+		cmd <= "0010"; -- * pixgain_cp_sp0*Kgain
+		in1 <= resize(pixgain_cp_sp0,f16tmp1);
+		in2 <= resize(kgain,f16tmp2);
+		state <= w61;
+when w61 =>
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s62;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= w61;
+		end if;
+when s62 =>
+		tmp_slv16 := to_slv (out1);
+		f16out := to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
+		pixgain_cp_sp0 := resize(f16out,pixgain_cp_sp0);
+		report_error("fail pixgain_cp_sp0 (ok,almost)", pixgain_cp_sp0, to_sfixed(-54.9469153515065,pixgain_cp_sp0)); -- ok,almost
+		state <= w62;
+when w62 =>
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s63;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= w62;
+		end if;
+when s63 =>
+		tmp_slv16 := x"0000"&x"ffc8" and x"0000"&x"ffff"; -- ram[0x0728]
+		f16out := to_sfixed (tmp_slv16(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
+		tmp_slv16 := to_slv(f16out);
+--		tmp_slv16 := "000000000000"&tmp_slv16(27 downto 24)&x"0000";
+		pixgain_cp_sp1 := to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
+		pixgain_cp_sp1 := resize(pixgain_cp_sp1,pixgain_cp_sp1);
+--		report_fixed_value("pixgain_cp_sp1",pixgain_cp_sp1);
+		report_error("fail pixgain_cp_sp1", pixgain_cp_sp1, to_sfixed(-56.0,pixgain_cp_sp1));
+		cmd <= "0010"; -- * pixgain_cp_sp1*Kgain
+		in1 <= resize(pixgain_cp_sp1,f16tmp1);
+		in2 <= resize(kgain,f16tmp2);
+		state <= w63;
+when w63 =>
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s64;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= w63;
+		end if;
+when s64 =>
+		tmp_slv16 := to_slv (out1);
+		f16out := to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
+		pixgain_cp_sp1 := resize(f16out,pixgain_cp_sp1);
+		report_error("fail pixgain_cp_sp1 (ok,almost)", pixgain_cp_sp1, to_sfixed(-56.9819862904511,pixgain_cp_sp1)); -- ok,almost
+		state <= w64;
+when w64 =>
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s65;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= w64;
+		end if;
+when s65 =>
+		tmp_slv16 := x"0000"&x"fbb5" and x"0000"&x"03ff"; -- ee[0x243a]
+		f16out := to_sfixed (tmp_slv16(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
+		tmp_slv16 := to_slv(f16out);
+		tmp_slv16 := "000000"&tmp_slv16(25 downto 16)&x"0000";
+		off_cpsubpage_0 := to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
+		tmps9 := resize(off_cpsubpage_0,tmps9);
+		off_cpsubpage_0 := resize(tmps9,off_cpsubpage_0);
+--		report_fixed_value("off_cpsubpage_0",off_cpsubpage_0);
+		report_error("fail off_cpsubpage_0", off_cpsubpage_0, to_sfixed(-75.0,off_cpsubpage_0));
+		state <= w65;
+when w65 =>
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s66;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= w65;
+		end if;
+when s66 =>
+		tmp_slv16 := x"0000"&x"fbb5" and x"0000"&x"fc00"; -- ee[0x243a]
+		f16out := to_sfixed (tmp_slv16(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
+		tmp_slv16 := to_slv(f16out);
+		tmp_slv16 := "0000000000"&tmp_slv16(31 downto 26)&x"0000";
+		off_cpsubpage_1_delta := to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
+		tmps5 := resize(off_cpsubpage_1_delta,tmps5);
+		off_cpsubpage_1_delta := resize(tmps5,off_cpsubpage_1_delta);
+--		report_fixed_value("off_cpsubpage_1_delta",off_cpsubpage_1_delta);
+		report_error("fail off_cpsubpage_1_delta", off_cpsubpage_1_delta, to_sfixed(-2.0,off_cpsubpage_1_delta));
+		cmd <= "0000"; -- + OFF_CPsubpage_0+OFF_CPsubpage_1_delta
+		in1 <= resize(off_cpsubpage_0,f16tmp1);
+		in2 <= resize(off_cpsubpage_1_delta,f16tmp2);
+		state <= w66;
+when w66 =>
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s67;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= w66;
+		end if;
+when s67 =>
+		tmp_slv16 := to_slv (out1);
+		f16out := to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
+		off_cpsubpage_1 := resize(f16out,off_cpsubpage_1);
+		report_error("fail off_cpsubpage_1 (ok,almost)", off_cpsubpage_1, to_sfixed(-77.0,off_cpsubpage_1)); -- ok,almost
+		state <= w67;
+when w67 =>
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s68;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= w67;
+		end if;
 report "" severity failure;
 
 when ending =>
 
 when others => null;
 end case; end if; end if;
-stmp_slv16 <= tmp_slv16;
+--stmp_slv16 <= tmp_slv16;
 end process tester;
 end architecture testbench;
