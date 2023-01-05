@@ -1988,6 +1988,82 @@ when s69 =>
 		report_error("fail kta_cp (ok,almost)", kta_cp, to_sfixed(0.00457763671875,kta_cp)); -- ok,almost
 		state <= w69;
 when w69 =>
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s70;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= w69;
+		end if;
+when s70 =>
+		tmp_slv16 := x"0000"&x"2363" and x"0000"&x"0f00"; -- ee[0x2438]
+		f16out := to_sfixed (tmp_slv16(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
+		tmp_slv16 := to_slv(f16out);
+		tmp_slv16 := "000000000000"&tmp_slv16(27 downto 24)&x"0000";
+		kv_scale := to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
+		--report_fixed_value("kv_scale",kv_scale);
+		report_error("fail kv_scale", kv_scale, to_sfixed(3.0,kv_scale));
+		kv_scale := to_sfixed(1.0,kv_scale) sll to_integer(kv_scale);
+		report_error("fail 2^kv_scale", kv_scale, to_sfixed(8.0,kv_scale));
+		state <= w70;
+when w70 =>
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s71;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= w70;
+		end if;
+when s71 =>
+		tmp_slv16 := x"0000"&x"044b" and x"0000"&x"ff00"; -- ee[0x243b]
+		f16out := to_sfixed (tmp_slv16(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
+		tmp_slv16 := to_slv(f16out);
+		tmp_slv16 := "00000000"&tmp_slv16(31 downto 24)&x"0000";
+		kv_cp_ee := to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
+		tmps7 := resize(kv_cp_ee,tmps7);
+		kv_cp_ee := resize(tmps7,kv_cp_ee);
+		--report_fixed_value("kv_cp_ee",kv_cp_ee);
+		report_error("fail kv_cp_ee", kv_cp_ee, to_sfixed(4.0,kv_cp_ee));
+		state <= w71;
+when w71 =>
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s72;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= w71;
+		end if;
+when s72 =>
+		cmd <= "0011"; -- / kv_cp_ee/2^kv_scale
+		in1 <= resize(kv_cp_ee,f16tmp1);
+--		report_fixed_value("f16tmp1",kv_cp_ee);
+		in2 <= resize(kv_scale,f16tmp2); -- 2^kv_scale
+--		report_fixed_value("f16tmp2",kv_scale);
+		state <= w72;
+when w72 =>
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s73;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= w72;
+		end if;
+when s73 =>
+		tmp_slv16 := to_slv (out1);
+		f16out := to_sfixed (tmp_slv16, sfixed16'high, sfixed16'low);
+		kv_cp := resize(f16out,kta_cp);
+		report_error("fail kv_cp (ok,almost)", kv_cp, to_sfixed(0.5,kv_cp)); -- ok,almost
+		state <= w73;
+when w73 =>
+		if (v_wait1 = C_WAIT1-1) then
+			v_wait1 := 0;
+			state <= s74;
+		else
+			v_wait1 := v_wait1 + 1;
+			state <= w73;
+		end if;
+when s74 =>
+
 report "" severity failure;
 
 when ending =>
@@ -1997,3 +2073,4 @@ end case; end if; end if;
 --stmp_slv16 <= tmp_slv16;
 end process tester;
 end architecture testbench;
+
