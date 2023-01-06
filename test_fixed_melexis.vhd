@@ -185,24 +185,24 @@ when s1 =>
 		--
 		-- kvdd
 		sftmp_slv_16 := x"9d68" and x"ff00"; -- ee[0x2433]
-		fptmp1 := resize(to_sfixed(sftmp_slv_16, sftmp_sf_16), fptmp1);
-		report_error ("fail ee[0x2433]", fptmp1, to_sfixed (-25344.0, fptmp1)); -- -25344
+		kvdd := resize(to_sfixed(sftmp_slv_16, sftmp_sf_16), kvdd);
+		report_error ("fail ee[0x2433]&0xff00", kvdd, to_sfixed (-25344.0, kvdd)); -- -25344
 		fptmp2 := to_sfixed (2**8, fptmp2);
 		report_error ("fail 2**8", fptmp2, to_sfixed (2**8, fptmp2)); -- 256
 		cmd <= "0011"; -- / ee[0x2433]&0xff00/256
-		in1 <= fptmp1;
+		in1 <= kvdd;
 		in2 <= fptmp2;
 		state <= w1;
 when w1 =>
 		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s2; else v_wait1 := v_wait1 + 1; state <= w1; end if;
 when s2 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
-		report_error ("div ee[0x2433]&0xff00/256", fpout, to_sfixed (-99.0,fpout)); -- -99
-		fptmp1 := fpout;
+		kvdd := resize (fpout, kvdd);
+		report_error ("div ee[0x2433]&0xff00/256", kvdd, to_sfixed (-99.0,kvdd)); -- -99
 		fptmp2 := to_sfixed (2**5, fptmp2);
 		report_error ("fail 2**5", fptmp2, to_sfixed (2**5, fptmp2)); -- 32
-		cmd <= "0010"; -- * (ee[0x2433]&0xff00/256)*2^5
-		in1 <= fptmp1;
+		cmd <= "0010"; -- * kvdd*2^5
+		in1 <= kvdd;
 		in2 <= fptmp2;
 		state <= w2;
 when w2 =>
@@ -211,80 +211,49 @@ when s3 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		kvdd := resize(fpout,kvdd);
 		report_error("fail kvdd", kvdd, to_sfixed(-3168.0,kvdd));
-report "aaaaaaaaaaa" severity failure;
 
 		--
 		-- vdd25
-		sftmp_slv_fpbits := "000000000000"&x"0000"&x"9d68" and "0000000000"&"00"&x"0000"&x"00ff"; -- 0x0068
-		fptmp1 := to_sfixed (sftmp_slv_fpbits(st_sfixed_max'high downto 0)&x"0000", st_sfixed_max'high, st_sfixed_max'low);
-report_fixed_value ("raw val", fptmp1); -- 104
-		sftmp_slv_fpbits := "000000000000"&"0000000100000000" & "0000000000000000"; -- 2**8
-		fptmp2 := to_sfixed (sftmp_slv_fpbits, st_sfixed_max'high, st_sfixed_max'low);
-report_fixed_value ("sub2**8", fptmp2); -- 256
-		cmd <= "0001"; -- -
-		in1 <= fptmp1;
+		sftmp_slv_16 := x"9d68" and x"00ff"; -- ee[0x2433]
+		vdd25 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), vdd25);
+		report_error ("fail ee[0x2433]&0x00ff", vdd25, to_sfixed (104.0, vdd25)); -- 104
+		fptmp2 := to_sfixed (2**8, fptmp2);
+		report_error ("fail 2**8", fptmp2, to_sfixed (2**8, fptmp2)); -- 256
+		cmd <= "0001"; -- - vdd25-256
+		in1 <= vdd25;
 		in2 <= fptmp2;
 		state <= w3;
 when w3 =>
-		-- wait for clock_period*20;
-		if (v_wait1 = C_WAIT1-1) then
-			v_wait1 := 0;
-			state <= s4;
-		else
-			v_wait1 := v_wait1 + 1;
-			state <= w3;
-		end if;
-		sftmp_slv_fpbits := to_slv (out1);
-		fpout := to_sfixed (sftmp_slv_fpbits, st_sfixed_max'high, st_sfixed_max'low);
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s4; else v_wait1 := v_wait1 + 1; state <= w3; end if;
 when s4 =>
-report_fixed_value ("after sub2**8", fpout); -- -152
-		fptmp1 := fpout; -- -152
-		sftmp_slv_fpbits := "000000000000"&"0000000000100000" & "0000000000000000"; -- 2**5
-		fptmp2 := to_sfixed (sftmp_slv_fpbits, st_sfixed_max'high, st_sfixed_max'low);
-report_fixed_value ("mul2**5", fptmp2); -- 32
-		cmd <= "0010"; -- *
-		in1 <= fptmp1;
+		fpout := to_sfixed (to_slv (out1), fpout);
+		vdd25 := resize (fpout, vdd25);
+		report_error ("fail vdd25", vdd25, to_sfixed (-152.0,vdd25)); -- -152
+		fptmp2 := to_sfixed (2**5, fptmp2);
+		report_error ("fail 2**5", fptmp2, to_sfixed (2**5,fptmp2)); -- 32
+		cmd <= "0010"; -- * (vdd25-256)*2^5
+		in1 <= vdd25;
 		in2 <= fptmp2;
 		state <= w4;
 when w4 =>
-		-- wait for clock_period*20;
-		if (v_wait1 = C_WAIT1-1) then
-			v_wait1 := 0;
-			state <= s5;
-		else
-			v_wait1 := v_wait1 + 1;
-			state <= w4;
-		end if;
-		sftmp_slv_fpbits := to_slv (out1);
-		fpout := to_sfixed (sftmp_slv_fpbits, st_sfixed_max'high, st_sfixed_max'low);
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s5; else v_wait1 := v_wait1 + 1; state <= w4; end if;
 when s5 =>
-report_fixed_value ("after mul2**5", fpout); -- -4864
-		fptmp1 := fpout; -- -4864
-		sftmp_slv_fpbits := "000000000000"&"0010000000000000" & "0000000000000000"; -- 2**13
-		fptmp2 := to_sfixed (sftmp_slv_fpbits, st_sfixed_max'high, st_sfixed_max'low);
-report_fixed_value ("sub2**13", fptmp2); -- -2**13
-		cmd <= "0001"; -- -
-		in1 <= fptmp1;
-report_fixed_value ("fptmp1", fptmp1); --
+		fpout := to_sfixed (to_slv (out1), fpout);
+		vdd25 := resize (fpout, vdd25);
+		report_error ("fail vdd25", vdd25, to_sfixed (-4864.0,vdd25)); -- -4864
+		fptmp2 := to_sfixed (2**13, fptmp2);
+		report_error ("fail 2**13", fptmp2, to_sfixed(2**13,fptmp2)); -- 2**13
+		cmd <= "0001"; -- - (vdd25-256)*2^5-2^13
+		in1 <= vdd25;
 		in2 <= fptmp2;
-report_fixed_value ("fptmp2", fptmp2); --
 		state <= w5;
 when w5 =>
-		-- wait for clock_period*20;
-		if (v_wait1 = C_WAIT1-1) then
-			v_wait1 := 0;
-			state <= s6;
-		else
-			v_wait1 := v_wait1 + 1;
-			state <= w5;
-		end if;
-		sftmp_slv_fpbits := to_slv (out1);
-		fpout := to_sfixed (sftmp_slv_fpbits, st_sfixed_max'high, st_sfixed_max'low);
-		vdd25 := resize(fpout,vdd25);
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s6; else v_wait1 := v_wait1 + 1; state <= w5; end if;
 when s6 =>
-		--vdd25 := fpout;
-report_fixed_value ("vdd25", vdd25); -- -13056
-report_error("fail vdd25", vdd25, to_sfixed(-13056.0,vdd25));
+		fpout := to_sfixed (to_slv (out1), fpout);
+		vdd25 := resize (fpout, vdd25);
+		report_error ("fail vdd25", vdd25, to_sfixed (-13056.0,vdd25)); -- -13056
+report "`" severity failure;
 
 --
 --		-- 11.2.2.3
