@@ -218,7 +218,7 @@ when s3 =>
 		-- vdd25
 		sftmp_slv_16 := x"9d68" and x"00ff"; -- ee[0x2433]
 		vdd25 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), vdd25);
-		report_error ("fail vdd25", vdd25, to_sfixed (104.0, vdd25)); -- 104
+		report_error ("fail vdd25 1", vdd25, to_sfixed (104.0, vdd25)); -- 104
 		fptmp2 := to_sfixed (2**8, fptmp2);
 		report_error ("fail 2**8", fptmp2, to_sfixed (2**8, fptmp2)); -- 256
 		cmd <= "0001"; -- - vdd25-256
@@ -230,7 +230,7 @@ when w3 =>
 when s4 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		vdd25 := resize (fpout, vdd25);
-		report_error ("fail vdd25", vdd25, to_sfixed (-152.0, vdd25)); -- -152
+		report_error ("fail vdd25 2", vdd25, to_sfixed (-152.0, vdd25)); -- -152
 		fptmp2 := to_sfixed (2**5, fptmp2);
 		report_error ("fail 2**5", fptmp2, to_sfixed (2**5, fptmp2)); -- 32
 		cmd <= "0010"; -- * (vdd25-256)*2^5
@@ -242,7 +242,7 @@ when w4 =>
 when s5 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		vdd25 := resize (fpout, vdd25);
-		report_error ("fail vdd25", vdd25, to_sfixed (-4864.0, vdd25)); -- -4864
+		report_error ("fail vdd25 3", vdd25, to_sfixed (-4864.0, vdd25)); -- -4864
 		fptmp2 := to_sfixed (2**13, fptmp2);
 		report_error ("fail 2**13", fptmp2, to_sfixed (2**13, fptmp2)); -- 2**13
 		cmd <= "0001"; -- - (vdd25-256)*2^5-2^13
@@ -254,12 +254,12 @@ when w5 =>
 when s6 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		vdd25 := resize (fpout, vdd25);
-		report_error ("fail vdd25", vdd25, to_sfixed (-13056.0, vdd25)); -- -13056
+		report_error ("fail vdd25 4", vdd25, to_sfixed (-13056.0, vdd25)); -- -13056
 		-- 
 		-- kvptat
 		sftmp_slv_16 := x"5952" and x"fc00"; -- ee[0x2432]
 		kvptat := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), kvptat);
-		report_error ("fail kvptat", kvptat, to_sfixed (22528.0, kvptat)); -- 22528
+		report_error ("fail kvptat 1", kvptat, to_sfixed (22528.0, kvptat)); -- 22528
 		fptmp2 := to_sfixed (2**10, fptmp2);
 		report_error ("fail 2**10", fptmp2, to_sfixed (2**10, fptmp2)); -- 2**10
 		cmd <= "0011"; -- / ee[0x2432]&0xfc00/2**10
@@ -271,7 +271,7 @@ when w6 =>
 when s7 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		kvptat := resize (fpout, kvptat);
-		report_error ("fail kvptat", kvptat, to_sfixed (22.0, kvptat)); -- 22
+		report_error ("fail kvptat 2", kvptat, to_sfixed (22.0, kvptat)); -- 22
 		fptmp2 := to_sfixed (2**12, fptmp2);
 		report_error ("fail 2**12", fptmp2, to_sfixed (2**12, fptmp2)); -- 2**12
 		cmd <= "0011"; -- / kvptat/2**12
@@ -283,12 +283,12 @@ when w7 =>
 when s8 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		kvptat := resize (fpout, kvptat);
-		report_error ("fail kvptat", kvptat, to_sfixed (0.005371094, kvptat)); -- 5.371094e-03
+		report_error ("fail kvptat 3", kvptat, to_sfixed (0.005371094, kvptat)); -- 5.371094e-03
 		-- 
 		-- ktptat
 		sftmp_slv_16 := x"5952" and x"03ff"; -- ee[0x2432]
 		ktptat := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), ktptat);
-		report_error ("fail ktptat", ktptat, to_sfixed (338.0, ktptat)); -- 338
+		report_error ("fail ktptat 1", ktptat, to_sfixed (338.0, ktptat)); -- 338
 		fptmp2 := to_sfixed (2**3, fptmp2);
 		report_error ("fail 2**3", fptmp2, to_sfixed (2**3, fptmp2)); -- 8
 		cmd <= "0011"; -- / ktptat/2^3
@@ -300,12 +300,12 @@ when w8 =>
 when s9 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		ktptat := resize (fpout, ktptat);
-		report_error ("fail ktptat", ktptat, to_sfixed (42.25, ktptat)); -- 42.25
+		report_error ("fail ktptat 2", ktptat, to_sfixed (42.25, ktptat)); -- 42.25
 		--
 		-- deltaV
 		sftmp_slv_16 := x"ccc5" and x"ffff"; -- ram[0x072a]
 		deltaV := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), deltaV);
-		report_error ("fail deltaV", deltaV, to_sfixed (-13115.0, deltaV)); -- -13115
+		report_error ("fail deltaV 1", deltaV, to_sfixed (-13115.0, deltaV)); -- -13115
 		cmd <= "0001"; -- - ram[0x072a]-vdd25
 		in1 <= deltaV;
 		in2 <= vdd25;
@@ -315,7 +315,7 @@ when w9 =>
 when s10 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		deltaV := resize (fpout, deltaV);
-		report_error ("fail deltaV", deltaV, to_sfixed (-13115.0-(-13056.0), deltaV)); -- -59
+		report_error ("fail deltaV 2", deltaV, to_sfixed (-13115.0-(-13056.0), deltaV)); -- -59
 		cmd <= "0011"; -- / (ram[0x072a]-vdd25)/kvdd
 		in1 <= deltaV;
 		in2 <= kvdd;
@@ -325,7 +325,7 @@ when w10 =>
 when s11 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		deltaV := resize (fpout, deltaV);
-		report_error ("fail deltaV", deltaV, to_sfixed (0.000, deltaV)); -- 1.861572e-02
+		report_error ("fail deltaV 3", deltaV, to_sfixed (0.018623737, deltaV)); -- 1.861572e-02
 		fptmp2 := to_sfixed (3.3, fptmp2);
 		report_error ("fail 3.3", fptmp2, to_sfixed (3.3, fptmp2)); -- 3.3
 		cmd <= "0000"; -- +
@@ -337,7 +337,7 @@ when w11 =>
 when s12 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		vdd := resize (fpout, vdd);
-		report_error ("fail vdd", vdd, to_sfixed (3.000, vdd)); -- 3.319
+		report_error ("fail vdd", vdd, to_sfixed (3.319, vdd)); -- 3.319
 report "aaa" severity failure;
 --		--
 --		-- vptat25
