@@ -165,9 +165,9 @@ package body p_fphdl_package1 is
 		assert actual = expected
 		report errmes & CR
 		& "Actual: " & to_string(actual)
-		& " (" & real'image(to_real(actual)) & ")" & CR
+		& " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR
 		& "     /= " & to_string(expected)
-		& " (" & real'image(to_real(expected)) & ")"
+		& " (" & real'image(to_real(expected)) & ")" & HT & "(" & to_hstring(expected) & ") "
 		severity note;
 	return;
 	end procedure report_error;
