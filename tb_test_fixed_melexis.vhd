@@ -12,8 +12,6 @@ END tb_test_fixed_melexis;
 
 ARCHITECTURE arch OF tb_test_fixed_melexis IS
 
-subtype sfixed18 is sfixed (17 downto -16);
-
 -- Component Declaration
 component test_fixed_melexis is
 generic (

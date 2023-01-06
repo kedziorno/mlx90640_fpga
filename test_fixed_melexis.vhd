@@ -36,7 +36,7 @@ use work.p_fphdl_package1.all;
 
 entity test_fixed_melexis is
 generic (
-G_C_WAIT1 : integer := 0
+G_C_WAIT1 : integer := 16
 );
 port (
 i_clock : in std_logic;
@@ -159,6 +159,14 @@ begin
 	begin
 		if (rising_edge(i_clock)) then
 			if (i_reset = '1') then
+				report "fp_add_hi : " & integer'image(st_sfixed_add'high);
+				report "fp_add_lo : " & integer'image(st_sfixed_add'low);
+				report "fp_sub_hi : " & integer'image(st_sfixed_sub'high);
+				report "fp_sub_lo : " & integer'image(st_sfixed_sub'low);
+				report "fp_mul_hi : " & integer'image(st_sfixed_mul'high);
+				report "fp_mul_lo : " & integer'image(st_sfixed_mul'low);
+				report "fp_div_hi : " & integer'image(st_sfixed_div'high);
+				report "fp_div_lo : " & integer'image(st_sfixed_div'low);
 				v_wait1 := 0;
 				state <= idle;
 				sftmp_slv_fpbits := (others => '0');

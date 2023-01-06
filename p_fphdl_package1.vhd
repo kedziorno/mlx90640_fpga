@@ -47,15 +47,6 @@ package p_fphdl_package1 is
 	constant sfixed_div_hi : integer := sfixed_high (a,'/',b);
 	constant sfixed_div_lo : integer := sfixed_low  (a,'/',b);
 
---	at 100 ns: Note: fp_add_hi : 44 (/tb_p_fphdl_package1/).
---	at 100 ns: Note: fp_add_lo : 0 (/tb_p_fphdl_package1/).
---	at 100 ns: Note: fp_sub_hi : 44 (/tb_p_fphdl_package1/).
---	at 100 ns: Note: fp_sub_lo : 0 (/tb_p_fphdl_package1/).
---	at 100 ns: Note: fp_mul_hi : 87 (/tb_p_fphdl_package1/).
---	at 100 ns: Note: fp_mul_lo : 0 (/tb_p_fphdl_package1/).
---	at 100 ns: Note: fp_div_hi : 44 (/tb_p_fphdl_package1/).
---	at 100 ns: Note: fp_div_lo : -43 (/tb_p_fphdl_package1/).
-
 	subtype st_sfixed_add is sfixed (sfixed_high(a,'+',b) downto sfixed_low(a,'+',b));
 	subtype st_sfixed_sub is sfixed (sfixed_high(a,'-',b) downto sfixed_low(a,'-',b));
 	subtype st_sfixed_mul is sfixed (sfixed_high(a,'*',b) downto sfixed_low(a,'*',b));
@@ -111,16 +102,13 @@ end p_fphdl_package1;
 package body p_fphdl_package1 is
 
 	procedure report_fixed_value (constant mes : in string; actual : in sfixed) is begin
-		report 
-		mes &
-		CR &
+		report mes & CR &
 		real'image(to_real(actual)) &
 		" ( " &
 		to_string(actual) &
 		" " &
 		to_hstring(actual) &
-		" ) " 
-		severity note;
+		" ) " severity note;
 		return;
 	end procedure report_fixed_value;
 
@@ -135,9 +123,8 @@ package body p_fphdl_package1 is
 		& to_string(actual)
 		& " "
 		& to_hstring(actual)
-		& " ) "
-		severity note;
-	return;
+		& " ) " severity note;
+		return;
 	end procedure report_fixed_value;
 
 	procedure report_fixed_value (
@@ -155,21 +142,18 @@ package body p_fphdl_package1 is
 		& to_string(actual)
 		& " "
 		& to_hstring(actual)
-		& " ) "
-		severity note;
-	return;
+		& " ) " severity note;
+		return;
 	end procedure report_fixed_value;
 
 	procedure report_error (constant errmes : in string; actual : in sfixed; constant expected : in sfixed) is
 	begin
-		assert actual = expected
-		report errmes & CR
+		assert actual = expected report errmes & CR
 		& "Actual: " & to_string(actual)
 		& " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR
 		& "     /= " & to_string(expected)
-		& " (" & real'image(to_real(expected)) & ")" & HT & "(" & to_hstring(expected) & ") "
-		severity note;
-	return;
+		& " (" & real'image(to_real(expected)) & ")" & HT & "(" & to_hstring(expected) & ") " severity note;
+		return;
 	end procedure report_error;
 
 end p_fphdl_package1;
