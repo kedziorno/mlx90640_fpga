@@ -15,11 +15,13 @@ use ieee_proposed.fixed_float_types.all;
 use ieee_proposed.fixed_pkg.all;
 --use ieee.fixed_float_types.all;
 --use ieee.fixed_pkg.all;
+use work.p_fphdl_package1.all;
+
 entity fixed_synth is
   
   port (
-    in1, in2   : in  STD_LOGIC_VECTOR (33 downto 0);  -- inputs
-    out1       : out STD_LOGIC_VECTOR (33 downto 0);  -- output
+    in1, in2   : in  STD_LOGIC_VECTOR (FP_BITS-1 downto 0);  -- inputs
+    out1       : out STD_LOGIC_VECTOR (FP_BITS-1 downto 0);  -- output
     cmd        : in  STD_LOGIC_VECTOR (3 downto 0);
     clk, rst_n : in  STD_ULOGIC);                     -- clk and reset
 
@@ -27,17 +29,14 @@ end entity fixed_synth;
 
 architecture rtl of fixed_synth is
 
---  subtype sfixed7 is sfixed (3 downto -3);                            -- 7 bit original
-  subtype sfixed7 is sfixed (11 downto 4);                            -- 7 bit
---  subtype sfixed16 is sfixed (7 downto -8);                           -- 16 bit original
-  subtype sfixed16 is sfixed (17 downto -16);                           -- 16 bit
-  type cmd_type is array (1 to 15) of STD_ULOGIC_VECTOR (cmd'range);  -- cmd
-  signal cmdarray : cmd_type;           -- command pipeline
-  type cry_type is array (0 to 4) of sfixed16;                        -- arrays
+  subtype sfixed_subtype is sfixed (sfixed_div_hi downto sfixed_div_lo);
+  type cmd_type is array (1 to 15) of STD_ULOGIC_VECTOR (cmd'range); -- cmd
+  signal cmdarray : cmd_type; -- command pipeline
+  type cry_type is array (0 to 4) of sfixed_subtype;
   signal outarray0, outarray1, outarray2, outarray3, outarray4,
     outarray5, outarray6, outarray7, outarray8, outarray9, outarray10,
-    outarray11, outarray12, outarray13, outarray14, outarray15 : sfixed16;
-  signal in1reg3, in2reg3 : sfixed16;   -- register stages
+    outarray11, outarray12, outarray13, outarray14, outarray15 : sfixed_subtype;
+  signal in1reg3, in2reg3 : sfixed_subtype; -- register stages
 begin  -- architecture rtl
 
   -- purpose: "0000" test the "+" operator
@@ -47,10 +46,6 @@ begin  -- architecture rtl
 
     variable in1pin2 : sfixed (SFixed_high(in1array(0), '+', in2array(0)) downto
                                SFixed_low(in1array(0), '+', in2array(0)));
---    variable in1pin2 : sfixed (SFixed_high(15, 0, '+', 15, 0) downto
---                               SFixed_low(15, 0, '+', 15, 0));
---    variable in1pin2 : sfixed (SFixed_high(15, -16, '+', 15, -16) downto
---                               SFixed_low(15, -16, '+', 15, -16));
   begin  -- process cmd0reg
     if rst_n = '1' then                      -- asynchronous reset (active low)
       outarray0 <= (others => '0');
@@ -79,7 +74,7 @@ begin  -- architecture rtl
 --			report "bbb+ "&real'image(to_real(in2array(3)))&" "&to_string(in2array(3))&" "&to_hstring(in2array(3));
 --			report "ccc+ "&real'image(to_real(in1pin2))&" "&to_string(in1pin2)&" "&to_hstring(in1pin2);
 --      outarray(0) := resize (in1pin2, outarray(0));
-      outarray(0) := resize (in1pin2,17,-16);
+      outarray(0) := resize (in1pin2,outarray(0));
 --			report "ddd+ "&real'image(to_real(outarray(0)))&" "&to_string(outarray(0))&" "&to_hstring(outarray(0));
     end if;
   end process cmd0reg;
@@ -160,21 +155,21 @@ begin  -- architecture rtl
       in1array(0) := in1reg3;
       in2array(0) := in2reg3;
       in1min2     := in1array(3) * in2array(3);
---      outarray(0) := resize (in1min2, outarray(0));
-      outarray(0) := resize (in1min2, 17, -16);
+      outarray(0) := resize (in1min2, outarray(0));
+--      outarray(0) := resize (in1min2, 17, -16);
     end if;
   end process cmd2reg;
 
   -- purpose: "0011" test the "/" operator
   cmd3reg : process (clk, rst_n) is
 --  subtype sfixed7 is sfixed (3 downto -3);                            -- 7 bit original
-  subtype sfixed7 is sfixed (11 downto 4);                            -- 7 bit
---  subtype sfixed16 is sfixed (7 downto -8);                           -- 16 bit original
-  subtype sfixed16 is sfixed (17 downto -16);                           -- 16 bit original
-  type cry_type is array (0 to 4) of sfixed16;                        -- arrays
-	variable sfh : integer := SFixed_high(in1reg3'high, in1reg3'low,'/', in2reg3'high, in2reg3'low);
+--  subtype sfixed7 is sfixed (11 downto 4);                            -- 7 bit
+--  subtype sfixed_subtype is sfixed (7 downto -8);                           -- 16 bit original
+  variable sfh : integer := SFixed_high(in1reg3'high, in1reg3'low,'/', in2reg3'high, in2reg3'low);
 	variable sfl : integer := SFixed_low(in1reg3'high, in1reg3'low,'/', in2reg3'high, in2reg3'low);
-    variable in1min2 : sfixed (sfh downto sfl);
+	subtype sfixed_subtype is sfixed (sfixed_div_hi downto sfixed_div_lo);                           -- 16 bit original
+  type cry_type is array (0 to 4) of sfixed_subtype;                        -- arrays
+	  variable in1min2 : sfixed (sfh downto sfl);
 --    variable in1min2 : sfixed (15 downto -16);
     variable outarray           : cry_type;  -- array for output
     variable in1array, in2array : cry_type;  -- array for input
@@ -649,7 +644,7 @@ begin  -- architecture rtl
 
   -- purpose: "1111" test the sra operator
 --  cmd15reg : process (clk, rst_n) is
---    constant match_data         : sfixed16 := "01HL----10HL----";  -- for ?= command
+--    constant match_data         : sfixed_subtype := "01HL----10HL----";  -- for ?= command
 --    variable outarray           : cry_type;  -- array for output
 --    variable in1array, in2array : cry_type;  -- array for input
 --  begin  -- process cmd0reg
@@ -743,9 +738,9 @@ begin  -- architecture rtl
   -- inputs : clk, rst_n, in1, in2
   -- outputs: out1
   cmdreg : process (clk, rst_n) is
-    variable outreg           : sfixed16;  -- register stages
-    variable in1reg, in2reg   : sfixed16;  -- register stages
-    variable in1reg2, in2reg2 : sfixed16;  -- register stages
+    variable outreg           : sfixed_subtype;  -- register stages
+    variable in1reg, in2reg   : sfixed_subtype;  -- register stages
+    variable in1reg2, in2reg2 : sfixed_subtype;  -- register stages
   begin  -- process mulreg
     if rst_n = '1' then                    -- asynchronous reset (active low)
       in1reg  := (others => '0');
