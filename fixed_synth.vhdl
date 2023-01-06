@@ -8,13 +8,10 @@
 
 
 library ieee, ieee_proposed;
---library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee_proposed.fixed_float_types.all;
 use ieee_proposed.fixed_pkg.all;
---use ieee.fixed_float_types.all;
---use ieee.fixed_pkg.all;
 use work.p_fphdl_package1.all;
 
 entity fixed_synth is
@@ -28,14 +25,12 @@ entity fixed_synth is
 end entity fixed_synth;
 
 architecture rtl of fixed_synth is
-
+  subtype sf_integer is integer range -128 to 127;
   subtype sfixed_subtype is st_sfixed_max;
   type cmd_type is array (1 to 15) of STD_ULOGIC_VECTOR (cmd'range); -- cmd
   signal cmdarray : cmd_type; -- command pipeline
   type cry_type is array (0 to 4) of sfixed_subtype;
-  signal outarray0, outarray1, outarray2, outarray3, outarray4,
-    outarray5, outarray6, outarray7, outarray8, outarray9, outarray10,
-    outarray11, outarray12, outarray13, outarray14, outarray15 : sfixed_subtype;
+  signal outarray0, outarray1, outarray2, outarray3, outarray4 : sfixed_subtype;
   signal in1reg3, in2reg3 : sfixed_subtype; -- register stages
 begin  -- architecture rtl
 
@@ -43,9 +38,9 @@ begin  -- architecture rtl
   cmd0reg : process (clk, rst_n) is
     variable outarray           : cry_type;  -- array for output
     variable in1array, in2array : cry_type;  -- array for input
-
-    variable in1pin2 : sfixed (SFixed_high(in1array(0), '+', in2array(0)) downto
-                               SFixed_low(in1array(0), '+', in2array(0)));
+		variable sfh : sf_integer := SFixed_high (in1array(0), '+', in2array(0));
+		variable sfl : sf_integer := SFixed_low  (in1array(0), '+', in2array(0));
+    variable in1pin2 : sfixed (sfh downto sfl);
   begin  -- process cmd0reg
     if rst_n = '1' then                      -- asynchronous reset (active low)
       outarray0 <= (others => '0');
@@ -66,16 +61,9 @@ begin  -- architecture rtl
         in2array (j) := in2array(j-1);
       end loop j2loop;
       in1array(0) := in1reg3;
---			report "aaa+ "&real'image(to_real(in1reg3))&" "&to_string(in1reg3)&" "&to_hstring(in1reg3);
       in2array(0) := in2reg3;
---			report "bbb+ "&real'image(to_real(in2reg3))&" "&to_string(in2reg3)&" "&to_hstring(in2reg3);
       in1pin2     := in1array(3) + in2array(3);
---			report "aaa+ "&real'image(to_real(in1array(3)))&" "&to_string(in1array(3))&" "&to_hstring(in1array(3));
---			report "bbb+ "&real'image(to_real(in2array(3)))&" "&to_string(in2array(3))&" "&to_hstring(in2array(3));
---			report "ccc+ "&real'image(to_real(in1pin2))&" "&to_string(in1pin2)&" "&to_hstring(in1pin2);
---      outarray(0) := resize (in1pin2, outarray(0));
-      outarray(0) := resize (in1pin2,outarray(0));
---			report "ddd+ "&real'image(to_real(outarray(0)))&" "&to_string(outarray(0))&" "&to_hstring(outarray(0));
+      outarray(0) := resize (in1pin2, outarray(0));
     end if;
   end process cmd0reg;
 
@@ -83,14 +71,9 @@ begin  -- architecture rtl
   cmd1reg : process (clk, rst_n) is
     variable outarray           : cry_type;  -- array for output
     variable in1array, in2array : cry_type;  -- array for input
-    variable in1min2 : sfixed (SFixed_high(in1array(0), '-', in2array(0)) downto
-                               SFixed_low(in1array(0), '-', in2array(0)));
---    variable in1min2 : sfixed (SFixed_high(7, -8, '-', 7, -8) downto
---                               SFixed_low(7, -8, '-', 7, -8));
---    variable in1min2 : sfixed (SFixed_high(15, 0, '-', 15, 0) downto
---                               SFixed_low(15, 0, '-', 15, 0));
---    variable in1min2 : sfixed (SFixed_high(15, -16, '-', 15, -16) downto
---                               SFixed_low(15, -16, '-', 15, -16));
+		variable sfh : sf_integer := SFixed_high (in1array(0), '-', in2array(0));
+		variable sfl : sf_integer := SFixed_low  (in1array(0), '-', in2array(0));
+    variable in1min2 : sfixed (sfh downto sfl);
   begin  -- process cmd0reg
     if rst_n = '1' then                      -- asynchronous reset (active low)
       outarray1 <= (others => '0');
@@ -111,26 +94,17 @@ begin  -- architecture rtl
         in2array (j) := in2array(j-1);
       end loop j2loop;
       in1array(0) := in1reg3;
---			report "aaa1 "&real'image(to_real(in1array(0)))&" "&to_string(in1array(0));
       in2array(0) := in2reg3;
---			report "bbb1 "&real'image(to_real(in2array(0)))&" "&to_string(in2array(0));
       in1min2     := in1array(3) - in2array(3);
---			report "ccc1 "&real'image(to_real(in1min2));
       outarray(0) := resize (in1min2, outarray(0));
---      outarray(0) := resize (in1min2,15,-16);
---      outarray(0) := resize (in1min2,17,-16);
---			report "ddd1 "&real'image(to_real(outarray(0)))&" "&to_string(outarray(0));
     end if;
   end process cmd1reg;
 
   -- purpose: "0010" test the "*" operator
   cmd2reg : process (clk, rst_n) is
-    variable in1min2 : sfixed (SFixed_high(in1reg3, '*', in2reg3) downto
-                               SFixed_low(in1reg3, '*', in2reg3));
---    variable in1min2 : sfixed (SFixed_high(7, -8, '*', 7, -8) downto
---                               SFixed_low(7, -8, '*', 7, -8));
---    variable in1min2 : sfixed (SFixed_high(15, 0, '*', 15, 0) downto
---                               SFixed_low(15, 0, '*', 15, 0));
+		variable sfh : sf_integer := SFixed_high (in1reg3, '*', in2reg3);
+		variable sfl : sf_integer := SFixed_low  (in1reg3, '*', in2reg3);    
+    variable in1min2 : sfixed (sfh downto sfl);
     variable outarray           : cry_type;  -- array for output
     variable in1array, in2array : cry_type;  -- array for input
   begin  -- process cmd0reg
@@ -156,21 +130,16 @@ begin  -- architecture rtl
       in2array(0) := in2reg3;
       in1min2     := in1array(3) * in2array(3);
       outarray(0) := resize (in1min2, outarray(0));
---      outarray(0) := resize (in1min2, 17, -16);
     end if;
   end process cmd2reg;
 
   -- purpose: "0011" test the "/" operator
   cmd3reg : process (clk, rst_n) is
---  subtype sfixed7 is sfixed (3 downto -3);                            -- 7 bit original
---  subtype sfixed7 is sfixed (11 downto 4);                            -- 7 bit
---  subtype sfixed_subtype is sfixed (7 downto -8);                           -- 16 bit original
-  variable sfh : integer := SFixed_high(in1reg3'high, in1reg3'low, '/', in2reg3'high, in2reg3'low);
-	variable sfl : integer := SFixed_low (in1reg3'high, in1reg3'low, '/', in2reg3'high, in2reg3'low);
-	subtype sfixed_subtype is st_sfixed_max;                           -- 16 bit original
-  type cry_type is array (0 to 4) of sfixed_subtype;                        -- arrays
+		variable sfh : sf_integer := SFixed_high(in1reg3'high, in1reg3'low, '/', in2reg3'high, in2reg3'low);
+		variable sfl : sf_integer := SFixed_low (in1reg3'high, in1reg3'low, '/', in2reg3'high, in2reg3'low);
+		subtype sfixed_subtype is st_sfixed_max;                           -- 16 bit original
+		type cry_type is array (0 to 4) of sfixed_subtype;                        -- arrays
 	  variable in1min2 : sfixed (sfh downto sfl);
---    variable in1min2 : sfixed (15 downto -16);
     variable outarray           : cry_type;  -- array for output
     variable in1array, in2array : cry_type;  -- array for input
   begin  -- process cmd3reg
@@ -180,8 +149,6 @@ begin  -- architecture rtl
         outarray (j) := (others => '0');
         in1array (j) := (others => '0');
         in2array (j) := to_sfixed(1, in2array(0));
---				report "qqqq1 " & integer'image(sfh);
---				report "qqqq2 " & integer'image(sfl);
       end loop jrloop;
     elsif rising_edge(clk) then              -- rising clock edge
       outarray3 <= outarray(4);
@@ -194,26 +161,73 @@ begin  -- architecture rtl
       j2loop : for j in 3 downto 1 loop
         in2array (j) := in2array(j-1);
       end loop j2loop;
---			report "zzz2 "&real'image(to_real(in1reg3))&" "&to_string(in1reg3)&" "&to_hstring(in1reg3);
       in1array(0) := in1reg3;
       if (in2reg3 = 0) then
         in2array(0) := to_sfixed(1.0, in2array(0));
       else
         in2array(0) := in2reg3;
       end if;
---			report "aaa2 "&real'image(to_real(in1array(3)))&" "&to_string(in1array(3))&" "&to_hstring(in1array(3));
---			report "bbb2 "&real'image(to_real(in2array(3)))&" "&to_string(in2array(3))&" "&to_hstring(in2array(3));
       in1min2     := in1array(3) / in2array(3);
---			report "ccc2 "&real'image(to_real(in1min2))&" "&to_string(in1min2)&" "&to_hstring(in1min2);
---			report "ddd2 "&real'image(to_real(outarray(0)))&" "&to_string(outarray(0))&" "&to_hstring(outarray(0));
       outarray(0) := resize (in1min2, outarray(0));
---      outarray(0) := resize (in1min2,17,-16);
---      outarray(0) := x"0000" & in1min2(15 downto -16);
---      outarray(0) := in1min2(17 downto -16);
---			report "eee2 "&real'image(to_real(outarray(0)))&" "&to_string(outarray(0))&" "&to_hstring(outarray(0));
---			report " ";
     end if;
   end process cmd3reg;
+
+  -- purpose: register the inputs and the outputs
+  -- type   : sequential
+  -- inputs : clk, rst_n, in1, in2
+  -- outputs: out1
+  cmdreg : process (clk, rst_n) is
+    variable outreg           : sfixed_subtype;  -- register stages
+    variable in1reg, in2reg   : sfixed_subtype;  -- register stages
+    variable in1reg2, in2reg2 : sfixed_subtype;  -- register stages
+  begin  -- process mulreg
+    if rst_n = '1' then                    -- asynchronous reset (active low)
+      in1reg  := (others => '0');
+      in2reg  := (others => '0');
+      in1reg2 := (others => '0');
+      in2reg2 := (others => '0');
+      in1reg3 <= (others => '0');
+      in2reg3 <= (others => '0');
+      out1    <= (others => '0');
+      outreg  := (others => '0');
+      rcloop : for i in 1 to 15 loop
+        cmdarray (i) <= (others => '0');
+      end loop rcloop;
+    elsif rising_edge(clk) then            -- rising clock edge
+      out1 <= to_slv (outreg);
+      outregc : case cmdarray (13) is
+        when "0000" => outreg := outarray0;
+        when "0001" => outreg := outarray1;
+        when "0010" => outreg := outarray2;
+        when "0011" => outreg := outarray3;
+--        when "0100" => outreg := outarray4;
+--        when "0101" => outreg := outarray5;
+--        when "0110" => outreg := outarray6;
+--        when "0111" => outreg := outarray7;
+--        when "1000" => outreg := outarray8;
+--        when "1001" => outreg := outarray9;
+--        when "1010" => outreg := outarray10;
+--        when "1011" => outreg := outarray11;
+--        when "1100" => outreg := outarray12;
+--        when "1101" => outreg := outarray13;
+--        when "1110" => outreg := outarray14;
+--        when "1111" => outreg := outarray15;
+        when others => null;
+      end case outregc;
+      cmdpipe : for i in 15 downto 3 loop
+        cmdarray (i) <= cmdarray (i-1);
+      end loop cmdpipe;
+      cmdarray (2) <= STD_ULOGIC_VECTOR(cmd);
+      in1reg3      <= in1reg2;
+      in2reg3      <= in2reg2;
+      in1reg2      := in1reg;
+      in2reg2      := in2reg;
+      in1reg       := to_sfixed (in1, in1reg);
+      in2reg       := to_sfixed (in2, in2reg);
+    end if;
+  end process cmdreg;
+
+end architecture rtl;
 
   -- purpose: "0100" test the "+" operator
 --  cmd4reg : process (clk, rst_n) is
@@ -732,66 +746,3 @@ begin  -- architecture rtl
 --      end if;
 --    end if;
 --  end process cmd15reg;
-
-  -- purpose: register the inputs and the outputs
-  -- type   : sequential
-  -- inputs : clk, rst_n, in1, in2
-  -- outputs: out1
-  cmdreg : process (clk, rst_n) is
-    variable outreg           : sfixed_subtype;  -- register stages
-    variable in1reg, in2reg   : sfixed_subtype;  -- register stages
-    variable in1reg2, in2reg2 : sfixed_subtype;  -- register stages
-  begin  -- process mulreg
-    if rst_n = '1' then                    -- asynchronous reset (active low)
-      in1reg  := (others => '0');
-      in2reg  := (others => '0');
-      in1reg2 := (others => '0');
-      in2reg2 := (others => '0');
-      in1reg3 <= (others => '0');
-      in2reg3 <= (others => '0');
-      out1    <= (others => '0');
-      outreg  := (others => '0');
-      rcloop : for i in 1 to 15 loop
-        cmdarray (i) <= (others => '0');
-      end loop rcloop;
-    elsif rising_edge(clk) then            -- rising clock edge
-      out1 <= to_slv (outreg);
-      outregc : case cmdarray (13) is
-        when "0000" => outreg := outarray0;
-        when "0001" => outreg := outarray1;
-        when "0010" => outreg := outarray2;
-        when "0011" => outreg := outarray3;
-        when "0100" => outreg := outarray4;
-        when "0101" => outreg := outarray5;
-        when "0110" => outreg := outarray6;
-        when "0111" => outreg := outarray7;
-        when "1000" => outreg := outarray8;
-        when "1001" => outreg := outarray9;
-        when "1010" => outreg := outarray10;
-        when "1011" => outreg := outarray11;
-        when "1100" => outreg := outarray12;
-        when "1101" => outreg := outarray13;
-        when "1110" => outreg := outarray14;
-        when "1111" => outreg := outarray15;
-        when others => null;
-      end case outregc;
-      cmdpipe : for i in 15 downto 3 loop
-        cmdarray (i) <= cmdarray (i-1);
-      end loop cmdpipe;
-      cmdarray (2) <= STD_ULOGIC_VECTOR(cmd);
-      in1reg3      <= in1reg2;
-      in2reg3      <= in2reg2;
-      in1reg2      := in1reg;
-      in2reg2      := in2reg;
-      in1reg       := to_sfixed (in1, in1reg);
-      in2reg       := to_sfixed (in2, in2reg);
---			report "in1reg "&real'image(to_real(in1reg));
---			report "in2reg "&real'image(to_real(in2reg));
---			report "in1reg2 "&real'image(to_real(in1reg2));
---			report "in2reg2 "&real'image(to_real(in2reg2));
---			report "in1reg3 "&real'image(to_real(in1reg3));
---			report "in2reg3 "&real'image(to_real(in2reg3));
-    end if;
-  end process cmdreg;
-
-end architecture rtl;
