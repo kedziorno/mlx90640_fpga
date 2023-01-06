@@ -70,10 +70,10 @@ architecture testbench of test_fixed_melexis is
 
 begin
 
-	out1 <= to_sfixed(outslv, st_sfixed_max'high, st_sfixed_max'low);
+	out1 <= to_sfixed(outslv, st_out_sfixed'high, st_out_sfixed'low);
 	o_out1 <= out1;
-	o_in1 <= to_sfixed(in1slv, st_sfixed_max'high, st_sfixed_max'low);
-	o_in2 <= to_sfixed(in2slv, st_sfixed_max'high, st_sfixed_max'low);
+	o_in1 <= to_sfixed(in1slv, st_in1_sfixed'high, st_in1_sfixed'low);
+	o_in2 <= to_sfixed(in2slv, st_in2_sfixed'high, st_in2_sfixed'low);
 
 	in1slv <= to_slv(in1);
 	in2slv <= to_slv(in2);
@@ -183,12 +183,12 @@ when s1 =>
 
 		--
 		-- kvdd
-		sftmp_slv := "000000000000"&x"0000"&x"9d68" and "00"&x"0000"&x"ff00"; -- 0x9d00
+		sftmp_slv := "000000000000"&x"0000"&x"9d68" and "0000000000"&"00"&x"0000"&x"ff00"; -- 0x9d00
 		fptmp1 := to_sfixed (sftmp_slv(st_sfixed_max'high downto 0)&x"0000", st_sfixed_max'high, st_sfixed_max'low);
---		-- report_fixed_value ("raw val", fptmp1); -- -25344/40192
+report_fixed_value ("raw val", fptmp1); -- -25344/40192
 		sftmp_slv := "0000000000000000000100000000" & "0000000000000000"; -- 2**8
 		fptmp2 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
---		-- report_fixed_value ("divider", fptmp2); -- 256
+report_fixed_value ("divider", fptmp2); -- 256
 		cmd <= "0011"; -- /
 		in1 <= fptmp1;
 		in2 <= fptmp2;
@@ -204,44 +204,30 @@ when w1 =>
 		end if;
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
+		report "aaaaaaaaaaa" severity failure;
 when s2 =>
---		-- report_fixed_value ("div out", fpout); -- -99/157/65437
-		--aaa := to_sfixed(to_slv(fpout)(23 downto 0),7,-16);
-		---- report_fixed_value ("div out 8bit", aaa); --
-		--if (aaa > 127.0) then -- signed
-		--	aaa := 256.0 - aaa;
-		--	aaa := -aaa;
-		--end if;
-		---- report_fixed_value ("sign", aaa); -- -99
-		--fptmp1 := to_sfixed("0000000000"&to_slv(aaa),fptmp1); -- -99
-		--fptmp1 := resize(aaa,fptmp1); -- -99
---		-- report_fixed_value ("127", to_ufixed(127.0,tmp_uf8'high,tmp_uf8'low));
---		-- report_fixed_value ("256", to_ufixed(256.0,tmp_uf8'high,tmp_uf8'low));
-		--tmp_uf8 := to_ufixed(-77.0,tmp_uf8);
-		--tmp_uf8 := to_ufixed(77.0,tmp_uf8);
-		--tmp_uf8 := to_ufixed(-154.0,tmp_uf8);
-		--tmp_uf8 := to_ufixed(154.0,tmp_uf8);
+report_fixed_value ("div out", fpout); -- -99/157/65437
 		tmp_uf8 := to_ufixed("0"&to_slv(fpout(7 downto 0)),tmp_uf8); -- xxx fix ufixed to sfixed and test above vals
---		-- report_fixed_value ("tmp_uf8", tmp_uf8);
+report_fixed_value ("tmp_uf8", tmp_uf8);
 		if (tmp_uf8 > 127.0) then -- signed
 			tmp_sf8 := to_sfixed(to_slv(resize(256.0-tmp_uf8,tmp_uf8)),tmp_sf8);
 			tmp_sf8 := -tmp_sf8(7 downto 0);
---			-- report_fixed_value ("kurwa", to_sfixed(to_slv(to_sfixed(tmp_uf8) - to_sfixed(256.0,tmp_sf8)),tmp_sf8));
+report_fixed_value ("kurwa", to_sfixed(to_slv(to_sfixed(tmp_uf8) - to_sfixed(256.0,tmp_sf8)),tmp_sf8));
 --			tmp_sf8 := to_sfixed(to_sfixed(to_slv(tmp_uf8),7,0) - to_sfixed(256.0,7,0),7,0);
 --			tmp_sf8 := to_sfixed(to_sfixed(to_slv(fpout(7 downto 0)),7,0) - to_sfixed(256.0,7,0),tmp_sf8'high,tmp_sf8'low);
 ----			tmp_sf8 := to_sfixed(to_slv(fpout(7 downto 0)),tmp_sf8'high,tmp_sf8'low) - to_sfixed(256.0,7,0);
-			---- report_fixed_value ("-------------------", tmp_sf8);
+report_fixed_value ("-------------------", tmp_sf8);
 --			tmp_sf8 := to_sfixed(to_slv(tmp_uf8),tmp_sf8'high,tmp_sf8'low);
 		else
 			tmp_sf8 := to_sfixed(to_slv(tmp_uf8),tmp_sf8);
 		end if;
-		---- report_fixed_value ("sign8bit", tmp_sf8); -- -99
+report_fixed_value ("sign8bit", tmp_sf8); -- -99
 --		fptmp1 := to_sfixed("0"&x"00"&to_slv(tmp_sf8)&x"0000",fptmp1'high,fptmp1'low);
 		fptmp1 := resize(tmp_sf8,fptmp1);
---		-- report_fixed_value ("sign", fptmp1); -- -99
+report_fixed_value ("sign", fptmp1); -- -99
 		sftmp_slv := "000000000000"&"0000000000100000" & "0000000000000000"; -- 2**5
 		fptmp2 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
---		-- report_fixed_value ("mul32", fptmp2); -- 32
+report_fixed_value ("mul32", fptmp2); -- 32
 		cmd <= "0010"; -- *
 		in1 <= fptmp1;
 		in2 <= fptmp2;
@@ -260,17 +246,17 @@ when w2 =>
 --		sftmp_slv := to_slv (out1);
 		kvdd := resize(fpout,kvdd);
 --		kvdd := fpout(15 downto -16);
---		-- report_fixed_value ("kvdd", kvdd); -- -3168
+report_fixed_value ("kvdd", kvdd); -- -3168
 when s3 =>
-		--report_error("fail kvdd", kvdd, to_sfixed(-3168.0,kvdd));
+report_error("fail kvdd", kvdd, to_sfixed(-3168.0,kvdd));
 		--
 		-- vdd25
-		sftmp_slv := "000000000000"&x"0000"&x"9d68" and "00"&x"0000"&x"00ff"; -- 0x0068
+		sftmp_slv := "000000000000"&x"0000"&x"9d68" and "0000000000"&"00"&x"0000"&x"00ff"; -- 0x0068
 		fptmp1 := to_sfixed (sftmp_slv(st_sfixed_max'high downto 0)&x"0000", st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("raw val", fptmp1); -- 104
+report_fixed_value ("raw val", fptmp1); -- 104
 		sftmp_slv := "000000000000"&"0000000100000000" & "0000000000000000"; -- 2**8
 		fptmp2 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("sub2**8", fptmp2); -- 256
+report_fixed_value ("sub2**8", fptmp2); -- 256
 		cmd <= "0001"; -- -
 		in1 <= fptmp1;
 		in2 <= fptmp2;
@@ -287,11 +273,11 @@ when w3 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
 when s4 =>
-		---- report_fixed_value ("after sub2**8", fpout); -- -152
+report_fixed_value ("after sub2**8", fpout); -- -152
 		fptmp1 := fpout; -- -152
 		sftmp_slv := "000000000000"&"0000000000100000" & "0000000000000000"; -- 2**5
 		fptmp2 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("mul2**5", fptmp2); -- 32
+report_fixed_value ("mul2**5", fptmp2); -- 32
 		cmd <= "0010"; -- *
 		in1 <= fptmp1;
 		in2 <= fptmp2;
@@ -308,16 +294,16 @@ when w4 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
 when s5 =>
-		---- report_fixed_value ("after mul2**5", fpout); -- -4864
+report_fixed_value ("after mul2**5", fpout); -- -4864
 		fptmp1 := fpout; -- -4864
 		sftmp_slv := "000000000000"&"0010000000000000" & "0000000000000000"; -- 2**13
 		fptmp2 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("sub2**13", fptmp2); -- -2**13
+report_fixed_value ("sub2**13", fptmp2); -- -2**13
 		cmd <= "0001"; -- -
 		in1 <= fptmp1;
-		---- report_fixed_value ("fptmp1", fptmp1); --
+report_fixed_value ("fptmp1", fptmp1); --
 		in2 <= fptmp2;
-		---- report_fixed_value ("fptmp2", fptmp2); --
+report_fixed_value ("fptmp2", fptmp2); --
 		state <= w5;
 when w5 =>
 		-- wait for clock_period*20;
@@ -333,8 +319,8 @@ when w5 =>
 		vdd25 := resize(fpout,vdd25);
 when s6 =>
 		--vdd25 := fpout;
---		-- report_fixed_value ("vdd25", vdd25); -- -13056
-		--report_error("fail vdd25", vdd25, to_sfixed(-13056.0,vdd25));
+report_fixed_value ("vdd25", vdd25); -- -13056
+report_error("fail vdd25", vdd25, to_sfixed(-13056.0,vdd25));
 
 --
 --		-- 11.2.2.3
@@ -348,7 +334,7 @@ when s6 =>
 
 		-- 
 		-- kvptat
-		sftmp_slv := "000000000000"&x"0000"&x"5952" and "00"&x"0000"&x"fc00"; -- 0x5800
+		sftmp_slv := "000000000000"&x"0000"&x"5952" and "0000000000"&"00"&x"0000"&x"fc00"; -- 0x5800
 		fptmp1 := to_sfixed (sftmp_slv(st_sfixed_max'high downto 0)&x"0000", st_sfixed_max'high, st_sfixed_max'low);
 		sftmp_slv := "000000000000"&"0000010000000000" & "0000000000000000"; -- 2**10
 		fptmp2 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
@@ -368,26 +354,26 @@ when w6 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
 when s7 =>
-		---- report_fixed_value ("raw val", out1); -- 22
+report_fixed_value ("raw val", out1); -- 22
 		--tmp_uf6 := to_ufixed(-44.0,tmp_uf6);
 		--tmp_uf6 := to_ufixed(44.0,tmp_uf6);
 		--tmp_uf6 := to_ufixed(-11.0,tmp_uf6);
 		--tmp_uf6 := to_ufixed(11.0,tmp_uf6);
 		tmp_uf6 := to_ufixed("0"&to_slv(fpout(5 downto 0)),tmp_uf6); -- xxx fix ufixed to sfixed and test above vals
-		---- report_fixed_value ("tmp_uf6", tmp_uf6);
+report_fixed_value ("tmp_uf6", tmp_uf6);
 		if (tmp_uf6 > 31.0) then -- signed
 			tmp_sf6 := to_sfixed(to_slv(resize(64.0-tmp_uf6,tmp_uf6)),tmp_sf6);
 			tmp_sf6 := -tmp_sf6(5 downto 0);
---			-- report_fixed_value ("kurwa", to_sfixed(to_slv(to_sfixed(tmp_uf8) - to_sfixed(256.0,tmp_sf8)),tmp_sf8));
+report_fixed_value ("kurwa", to_sfixed(to_slv(to_sfixed(tmp_uf8) - to_sfixed(256.0,tmp_sf8)),tmp_sf8));
 --			tmp_sf8 := to_sfixed(to_sfixed(to_slv(tmp_uf8),7,0) - to_sfixed(256.0,7,0),7,0);
 --			tmp_sf8 := to_sfixed(to_sfixed(to_slv(fpout(7 downto 0)),7,0) - to_sfixed(256.0,7,0),tmp_sf8'high,tmp_sf8'low);
 ----			tmp_sf8 := to_sfixed(to_slv(fpout(7 downto 0)),tmp_sf8'high,tmp_sf8'low) - to_sfixed(256.0,7,0);
-			---- report_fixed_value ("-------------------", tmp_sf8);
+report_fixed_value ("-------------------", tmp_sf8);
 --			tmp_sf8 := to_sfixed(to_slv(tmp_uf8),tmp_sf8'high,tmp_sf8'low);
 		else
 			tmp_sf6 := to_sfixed(to_slv(tmp_uf6),tmp_sf6);
 		end if;
-		---- report_fixed_value ("sign6bit", tmp_sf6); -- -99
+report_fixed_value ("sign6bit", tmp_sf6); -- -99
 		--sftmp_slv := to_slv (out1); -- 22
 		fptmp1 := resize (tmp_sf6, fptmp1);
 		--fptmp1 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
@@ -407,56 +393,56 @@ when w7 =>
 		end if;
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("aaaaaaaaa", fpout); --
+report_fixed_value ("aaaaaaaaa", fpout); --
 		kvptat := resize(fpout,kvptat);
 when s8 =>
-		-- report_fixed_value ("kvptat", kvptat); -- 5.371094e-03
-		--report_error("fail kvptat", kvptat, to_sfixed(0.005371094,kvptat));
+report_fixed_value ("kvptat", kvptat); -- 5.371094e-03
+report_error("fail kvptat", kvptat, to_sfixed(0.005371094,kvptat));
 
 		-- 
 		-- ktptat
 		cmd <= "0011"; -- /
-		sftmp_slv := "000000000000"&x"0000"&x"5952" and "00"&x"0000"&x"03ff"; -- 0x0152
+		sftmp_slv := "000000000000"&x"0000"&x"5952" and "0000000000"&"00"&x"0000"&x"03ff"; -- 0x0152
 		fpout := to_sfixed (sftmp_slv(st_sfixed_max'high downto 0)&x"0000", st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("raw val", fpout); -- 338
+report_fixed_value ("raw val", fpout); -- 338
 		--if (fpout > 511.0) then -- signed
 		--	fpout := fpout - 1024.0;
 		--end if;
-		---- report_fixed_value ("sign", fpout); --
+report_fixed_value ("sign", fpout); --
 		--sftmp_slv := to_slv (fpout); -- 338
 --		fptmp1 := to_sfixed ("00"&sftmp_slv, sfixed18'high, sfixed18'low);
 		--fptmp1 := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
-		---- report_fixed_value ("aaaaaaaa", fptmp1); --
+report_fixed_value ("aaaaaaaa", fptmp1); --
 		--tmp_uf9 := to_ufixed(-777.0,tmp_uf9);
 		--tmp_uf9 := to_ufixed(777.0,tmp_uf9);
 		--tmp_uf9 := to_ufixed(-154.0,tmp_uf9);
 		--tmp_uf9 := to_ufixed(154.0,tmp_uf9);
 		tmp_uf9 := to_ufixed("0"&to_slv(fpout(8 downto 0)),tmp_uf9); -- xxx fix ufixed to sfixed and test above vals
-		---- report_fixed_value ("tmp_uf9", tmp_uf9);
+report_fixed_value ("tmp_uf9", tmp_uf9);
 		if (tmp_uf9 > 511.0) then -- signed
 			tmp_sf9 := to_sfixed(to_slv(resize(1024.0-tmp_uf9,tmp_uf9)),tmp_sf9);
 			tmp_sf9 := -tmp_sf9(8 downto 0);
---			-- report_fixed_value ("kurwa", to_sfixed(to_slv(to_sfixed(tmp_uf8) - to_sfixed(256.0,tmp_sf8)),tmp_sf8));
+report_fixed_value ("kurwa", to_sfixed(to_slv(to_sfixed(tmp_uf8) - to_sfixed(256.0,tmp_sf8)),tmp_sf8));
 --			tmp_sf8 := to_sfixed(to_sfixed(to_slv(tmp_uf8),7,0) - to_sfixed(256.0,7,0),7,0);
 --			tmp_sf8 := to_sfixed(to_sfixed(to_slv(fpout(7 downto 0)),7,0) - to_sfixed(256.0,7,0),tmp_sf8'high,tmp_sf8'low);
 ----			tmp_sf8 := to_sfixed(to_slv(fpout(7 downto 0)),tmp_sf8'high,tmp_sf8'low) - to_sfixed(256.0,7,0);
-			---- report_fixed_value ("-------------------", tmp_sf8);
+report_fixed_value ("-------------------", tmp_sf8);
 --			tmp_sf8 := to_sfixed(to_slv(tmp_uf8),tmp_sf8'high,tmp_sf8'low);
 		else
 			tmp_sf9 := to_sfixed(to_slv(tmp_uf9),tmp_sf9);
 		end if;
-		---- report_fixed_value ("sign9bit", tmp_sf9); --
+report_fixed_value ("sign9bit", tmp_sf9); --
 --		fptmp1 := to_sfixed("0"&x"00"&to_slv(tmp_sf8)&x"0000",fptmp1'high,fptmp1'low);
 		fptmp1 := resize(tmp_sf9,fptmp1);
---		-- report_fixed_value ("sign", fptmp1); -- -99
+report_fixed_value ("sign", fptmp1); -- -99
 		sftmp_slv := "000000000000"&"0000000000001000" & "0000000000000000"; -- 2**3
 --		fptmp2 := to_sfixed ("00"&sftmp_slv, sfixed18'high, sfixed18'low);
 		fptmp2 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("bbbbbbbb", fptmp2); --
+report_fixed_value ("bbbbbbbb", fptmp2); --
 		in1 <= fptmp1;
-		---- report_fixed_value ("fptmp1", fptmp1); --
+report_fixed_value ("fptmp1", fptmp1); --
 		in2 <= fptmp2;
-		---- report_fixed_value ("fptmp2", fptmp2); --
+report_fixed_value ("fptmp2", fptmp2); --
 		state <= w8;
 when w8 =>
 		-- wait for clock_period*20;
@@ -471,50 +457,50 @@ when w8 =>
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
 		ktptat := resize(fpout,ktptat);
 when s9 =>
-		---- report_fixed_value ("return", out1); --
-		-- report_fixed_value ("ktptat", ktptat); -- 42.25
-		--report_error("fail ktptat", ktptat, to_sfixed(42.25,ktptat));
+report_fixed_value ("return", out1); --
+report_fixed_value ("ktptat", ktptat); -- 42.25
+report_error("fail ktptat", ktptat, to_sfixed(42.25,ktptat));
 
 --		--
 --		-- deltaV = (ram[0x072a] - vdd25) / kvdd
-		sftmp_slv := "000000000000"&x"0000"&x"ccc5" and "00"&x"0000"&x"ffff"; -- 52421
+		sftmp_slv := "000000000000"&x"0000"&x"ccc5" and "0000000000"&"00"&x"0000"&x"ffff"; -- 52421
 		fpout := to_sfixed (sftmp_slv(st_sfixed_max'high downto 0)&x"0000", st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("ram[0x072a]", fpout); -- 52421
+report_fixed_value ("ram[0x072a]", fpout); -- 52421
 --		if (fpout > 32767.0) then -- signed
 --			fpout := 65536.0 - fpout;
 --			fpout := -fpout;
 --		end if;
---		-- report_fixed_value ("ram[0x072a]", fpout); -- -13115
+report_fixed_value ("ram[0x072a]", fpout); -- -13115
 		--tmp_uf15 := to_ufixed(-38000.0,tmp_uf15);
 		--tmp_uf15 := to_ufixed(38000.0,tmp_uf15);
 		--tmp_uf15 := to_ufixed(-26000.0,tmp_uf15);
 		--tmp_uf15 := to_ufixed(26000.0,tmp_uf15);
 		tmp_uf15 := to_ufixed("0"&to_slv(fpout(15 downto 0)),tmp_uf15); -- xxx fix ufixed to sfixed and test above vals
-		---- report_fixed_value ("tmp_uf15", tmp_uf15);
+report_fixed_value ("tmp_uf15", tmp_uf15);
 		if (tmp_uf15 > 32767.0) then -- signed
 			tmp_sf15 := to_sfixed(to_slv(resize(65536.0-tmp_uf15,tmp_uf15)),tmp_sf15);
 			tmp_sf15 := -tmp_sf15(15 downto 0);
---			-- report_fixed_value ("kurwa", to_sfixed(to_slv(to_sfixed(tmp_uf8) - to_sfixed(256.0,tmp_sf8)),tmp_sf8));
+report_fixed_value ("kurwa", to_sfixed(to_slv(to_sfixed(tmp_uf8) - to_sfixed(256.0,tmp_sf8)),tmp_sf8));
 --			tmp_sf8 := to_sfixed(to_sfixed(to_slv(tmp_uf8),7,0) - to_sfixed(256.0,7,0),7,0);
 --			tmp_sf8 := to_sfixed(to_sfixed(to_slv(fpout(7 downto 0)),7,0) - to_sfixed(256.0,7,0),tmp_sf8'high,tmp_sf8'low);
 ----			tmp_sf8 := to_sfixed(to_slv(fpout(7 downto 0)),tmp_sf8'high,tmp_sf8'low) - to_sfixed(256.0,7,0);
-			---- report_fixed_value ("-------------------", tmp_sf8);
+report_fixed_value ("-------------------", tmp_sf8);
 --			tmp_sf8 := to_sfixed(to_slv(tmp_uf8),tmp_sf8'high,tmp_sf8'low);
 		else
 			tmp_sf15 := to_sfixed(to_slv(tmp_uf15),tmp_sf15);
 		end if;
-		---- report_fixed_value ("sign15bit", tmp_sf15); --
+report_fixed_value ("sign15bit", tmp_sf15); --
 --		fptmp1 := to_sfixed("0"&x"00"&to_slv(tmp_sf8)&x"0000",fptmp1'high,fptmp1'low);
 		fptmp1 := resize(tmp_sf15,fptmp1);
-		---- report_fixed_value ("sign", fptmp1); -- -13115
+report_fixed_value ("sign", fptmp1); -- -13115
 
 		sftmp_slv := to_slv (fptmp1);
 		fptmp1 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("sign", fptmp1); -- -13115
+report_fixed_value ("sign", fptmp1); -- -13115
 
 		sftmp_slv := to_slv(resize (vdd25,fptmp2));
 		fptmp2 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("vdd25", fptmp2); -- -13056
+report_fixed_value ("vdd25", fptmp2); -- -13056
 
 		cmd <= "0001"; -- -
 		in1 <= fptmp1;
@@ -532,14 +518,14 @@ when w9 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
 when s10 =>
-		---- report_fixed_value ("out1", fpout); -- -59
+report_fixed_value ("out1", fpout); -- -59
 
 		sftmp_slv := to_slv (fpout);
 		fptmp1 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("fptmp1", fptmp1); -- -59
+report_fixed_value ("fptmp1", fptmp1); -- -59
 		sftmp_slv := to_slv (resize(kvdd,fptmp2));
 		fptmp2 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("fptmp2", fptmp2); -- -3168
+report_fixed_value ("fptmp2", fptmp2); -- -3168
 
 		cmd <= "0011"; -- /
 		in1 <= fptmp1;
@@ -556,15 +542,15 @@ when w10 =>
 		end if;
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("deltaV", fpout); -- 1.861572e-02
+report_fixed_value ("deltaV", fpout); -- 1.861572e-02
 		deltaV := fpout;
 when s11 =>
 		sftmp_slv := to_slv (deltaV);
 		fptmp1 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
---		-- report_fixed_value (" ", fptmp1); -- 1.861572e-02
+report_fixed_value (" ", fptmp1); -- 1.861572e-02
 		sftmp_slv := "000000000000"&"0000000000000011" & "0100110011001101"; -- 3.3
 		fptmp2 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
---		-- report_fixed_value (" ", fptmp2); -- 3.300003e+00
+report_fixed_value (" ", fptmp2); -- 3.300003e+00
 		cmd <= "0000"; -- +
 		in1 <= fptmp1;
 		in2 <= fptmp2;
@@ -582,13 +568,13 @@ when w11 =>
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
 		vdd := fpout;
 when s12 =>
-		-- report_fixed_value ("deltaV", vdd); -- 3.318619e+00 ~3.319		
-		--report_error("fail deltaV", vdd, to_sfixed(3.318619,vdd));
+report_fixed_value ("deltaV", vdd); -- 3.318619e+00 ~3.319		
+report_error("fail deltaV", vdd, to_sfixed(3.318619,vdd));
 		--
 		-- vptat25
-		sftmp_slv := "000000000000"&x"0000"&x"2ff1" and "00"&x"0000"&x"ffff"; -- 12273
+		sftmp_slv := "000000000000"&x"0000"&x"2ff1" and "0000000000"&"00"&x"0000"&x"ffff"; -- 12273
 		fpout := to_sfixed (sftmp_slv(st_sfixed_max'high downto 0)&x"0000", st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("ee[0x2431]", fpout); -- 12273
+report_fixed_value ("ee[0x2431]", fpout); -- 12273
 		--if (fpout > 32767.0) then -- signed
 		--	fpout := 65536.0 - fpout;
 		--	fpout := -fpout;
@@ -598,32 +584,32 @@ when s12 =>
 		--tmp_uf15 := to_ufixed(-26000.0,tmp_uf15);
 		--tmp_uf15 := to_ufixed(26000.0,tmp_uf15);
 		tmp_uf15 := to_ufixed("0"&to_slv(fpout(15 downto 0)),tmp_uf15); -- xxx fix ufixed to sfixed and test above vals
-		---- report_fixed_value ("tmp_uf15", tmp_uf15);
+report_fixed_value ("tmp_uf15", tmp_uf15);
 		if (tmp_uf15 > 32767.0) then -- signed
 			tmp_sf15 := to_sfixed(to_slv(resize(65536.0-tmp_uf15,tmp_uf15)),tmp_sf15);
 			tmp_sf15 := -tmp_sf15(15 downto 0);
---			-- report_fixed_value ("kurwa", to_sfixed(to_slv(to_sfixed(tmp_uf8) - to_sfixed(256.0,tmp_sf8)),tmp_sf8));
+report_fixed_value ("kurwa", to_sfixed(to_slv(to_sfixed(tmp_uf8) - to_sfixed(256.0,tmp_sf8)),tmp_sf8));
 --			tmp_sf8 := to_sfixed(to_sfixed(to_slv(tmp_uf8),7,0) - to_sfixed(256.0,7,0),7,0);
 --			tmp_sf8 := to_sfixed(to_sfixed(to_slv(fpout(7 downto 0)),7,0) - to_sfixed(256.0,7,0),tmp_sf8'high,tmp_sf8'low);
 ----			tmp_sf8 := to_sfixed(to_slv(fpout(7 downto 0)),tmp_sf8'high,tmp_sf8'low) - to_sfixed(256.0,7,0);
-			---- report_fixed_value ("-------------------", tmp_sf8);
+report_fixed_value ("-------------------", tmp_sf8);
 --			tmp_sf8 := to_sfixed(to_slv(tmp_uf8),tmp_sf8'high,tmp_sf8'low);
 		else
 			tmp_sf15 := to_sfixed(to_slv(tmp_uf15),tmp_sf15);
 		end if;
-		---- report_fixed_value ("sign15bit", tmp_sf15); --
+report_fixed_value ("sign15bit", tmp_sf15); --
 --		fptmp1 := to_sfixed("0"&x"00"&to_slv(tmp_sf8)&x"0000",fptmp1'high,fptmp1'low);
 		fptmp1 := resize(tmp_sf15,fptmp1);
-		---- report_fixed_value ("sign", fptmp1); --
+report_fixed_value ("sign", fptmp1); --
 		vptat25 := resize(fptmp1,vptat25);
-		-- report_fixed_value ("vptat25", vptat25); -- 12273
-		--report_error("fail vptat25", vptat25, to_sfixed(12273,vptat25));
+report_fixed_value ("vptat25", vptat25); -- 12273
+report_error("fail vptat25", vptat25, to_sfixed(12273,vptat25));
 
 		--
 		-- vptat
-		sftmp_slv := "000000000000"&x"0000"&x"06af" and "00"&x"0000"&x"ffff"; -- 1711
+		sftmp_slv := "000000000000"&x"0000"&x"06af" and "0000000000"&"00"&x"0000"&x"ffff"; -- 1711
 		fpout := to_sfixed (sftmp_slv(st_sfixed_max'high downto 0)&x"0000", st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("ram[0x0720]", fpout); -- 1711
+report_fixed_value ("ram[0x0720]", fpout); -- 1711
 		--if (fpout > 32767.0) then -- signed
 		--	fpout := 65536.0 - fpout;
 		--	fpout := -fpout;
@@ -633,31 +619,31 @@ when s12 =>
 		--tmp_uf15 := to_ufixed(-26000.0,tmp_uf15);
 		--tmp_uf15 := to_ufixed(26000.0,tmp_uf15);
 		tmp_uf15 := to_ufixed("0"&to_slv(fpout(15 downto 0)),tmp_uf15); -- xxx fix ufixed to sfixed and test above vals
-		---- report_fixed_value ("tmp_uf15", tmp_uf15);
+report_fixed_value ("tmp_uf15", tmp_uf15);
 		if (tmp_uf15 > 32767.0) then -- signed
 			tmp_sf15 := to_sfixed(to_slv(resize(65536.0-tmp_uf15,tmp_uf15)),tmp_sf15);
 			tmp_sf15 := -tmp_sf15(15 downto 0);
---			-- report_fixed_value ("kurwa", to_sfixed(to_slv(to_sfixed(tmp_uf8) - to_sfixed(256.0,tmp_sf8)),tmp_sf8));
+report_fixed_value ("kurwa", to_sfixed(to_slv(to_sfixed(tmp_uf8) - to_sfixed(256.0,tmp_sf8)),tmp_sf8));
 --			tmp_sf8 := to_sfixed(to_sfixed(to_slv(tmp_uf8),7,0) - to_sfixed(256.0,7,0),7,0);
 --			tmp_sf8 := to_sfixed(to_sfixed(to_slv(fpout(7 downto 0)),7,0) - to_sfixed(256.0,7,0),tmp_sf8'high,tmp_sf8'low);
 ----			tmp_sf8 := to_sfixed(to_slv(fpout(7 downto 0)),tmp_sf8'high,tmp_sf8'low) - to_sfixed(256.0,7,0);
-			---- report_fixed_value ("-------------------", tmp_sf8);
+report_fixed_value ("-------------------", tmp_sf8);
 --			tmp_sf8 := to_sfixed(to_slv(tmp_uf8),tmp_sf8'high,tmp_sf8'low);
 		else
 			tmp_sf15 := to_sfixed(to_slv(tmp_uf15),tmp_sf15);
 		end if;
-		---- report_fixed_value ("sign15bit", tmp_sf15); --
+report_fixed_value ("sign15bit", tmp_sf15); --
 		fptmp1 := resize(tmp_sf15,fptmp1);
-		---- report_fixed_value ("sign", fptmp1); --
+report_fixed_value ("sign", fptmp1); --
 		vptat := resize(fptmp1,vptat);
-		-- report_fixed_value ("vptat", vptat); -- 1711
-		--report_error("fail vptat", vptat, to_sfixed(1711,vptat));
+report_fixed_value ("vptat", vptat); -- 1711
+report_error("fail vptat", vptat, to_sfixed(1711,vptat));
 
 		--
 		-- vbe
-		sftmp_slv := "000000000000"&x"0000"&x"4bf2" and "00"&x"0000"&x"ffff"; -- 19442
+		sftmp_slv := "000000000000"&x"0000"&x"4bf2" and "0000000000"&"00"&x"0000"&x"ffff"; -- 19442
 		fpout := to_sfixed (sftmp_slv(st_sfixed_max'high downto 0)&x"0000", st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("ram[0x0700]", fpout); -- 19442
+report_fixed_value ("ram[0x0700]", fpout); -- 19442
 --		if (fpout > 32767.0) then -- signed
 --			fpout := 65536.0 - fpout;
 --			fpout := -fpout;
@@ -667,37 +653,37 @@ when s12 =>
 		--tmp_uf15 := to_ufixed(-26000.0,tmp_uf15);
 		--tmp_uf15 := to_ufixed(26000.0,tmp_uf15);
 		tmp_uf15 := to_ufixed("0"&to_slv(fpout(15 downto 0)),tmp_uf15); -- xxx fix ufixed to sfixed and test above vals
-		---- report_fixed_value ("tmp_uf15", tmp_uf15);
+report_fixed_value ("tmp_uf15", tmp_uf15);
 		if (tmp_uf15 > 32767.0) then -- signed
 			tmp_sf15 := to_sfixed(to_slv(resize(65536.0-tmp_uf15,tmp_uf15)),tmp_sf15);
 			tmp_sf15 := -tmp_sf15(15 downto 0);
---			-- report_fixed_value ("kurwa", to_sfixed(to_slv(to_sfixed(tmp_uf8) - to_sfixed(256.0,tmp_sf8)),tmp_sf8));
+report_fixed_value ("kurwa", to_sfixed(to_slv(to_sfixed(tmp_uf8) - to_sfixed(256.0,tmp_sf8)),tmp_sf8));
 --			tmp_sf8 := to_sfixed(to_sfixed(to_slv(tmp_uf8),7,0) - to_sfixed(256.0,7,0),7,0);
 --			tmp_sf8 := to_sfixed(to_sfixed(to_slv(fpout(7 downto 0)),7,0) - to_sfixed(256.0,7,0),tmp_sf8'high,tmp_sf8'low);
 ----			tmp_sf8 := to_sfixed(to_slv(fpout(7 downto 0)),tmp_sf8'high,tmp_sf8'low) - to_sfixed(256.0,7,0);
-			---- report_fixed_value ("-------------------", tmp_sf8);
+report_fixed_value ("-------------------", tmp_sf8);
 --			tmp_sf8 := to_sfixed(to_slv(tmp_uf8),tmp_sf8'high,tmp_sf8'low);
 		else
 			tmp_sf15 := to_sfixed(to_slv(tmp_uf15),tmp_sf15);
 		end if;
-		---- report_fixed_value ("sign15bit", tmp_sf15); --
+report_fixed_value ("sign15bit", tmp_sf15); --
 		fptmp1 := resize(tmp_sf15,fptmp1);
-		---- report_fixed_value ("sign", fptmp1); --
+report_fixed_value ("sign", fptmp1); --
 		vbe := resize(fptmp1,vbe);
-		-- report_fixed_value ("vbe", vbe); -- 19442
-		--report_error("fail vbe", vbe, to_sfixed(19442,vbe));
+report_fixed_value ("vbe", vbe); -- 19442
+report_error("fail vbe", vbe, to_sfixed(19442,vbe));
 
 		--
 		-- alphaptatee
-		sftmp_slv := "000000000000"&x"0000"&x"4210" and "00"&x"0000"&x"f000"; -- 16384
+		sftmp_slv := "000000000000"&x"0000"&x"4210" and "0000000000"&"00"&x"0000"&x"f000"; -- 16384
 		fpout := to_sfixed (sftmp_slv(st_sfixed_max'high downto 0)&x"0000", st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("ee[0x2410]", fpout); -- 16384
+report_fixed_value ("ee[0x2410]", fpout); -- 16384
 		sftmp_slv := to_slv (fpout);
 		fptmp1 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("fptmp1", fptmp1); -- 16384
+report_fixed_value ("fptmp1", fptmp1); -- 16384
 		sftmp_slv := "000000000000"&"0001000000000000" & "0000000000000000"; -- 2**12
 		fptmp2 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("fptmp2", fptmp2); -- 4096
+report_fixed_value ("fptmp2", fptmp2); -- 4096
 
 		cmd <= "0011"; -- /
 		in1 <= fptmp1;
@@ -716,20 +702,20 @@ when w12 =>
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
 		alphaptatee := resize(fpout,alphaptatee);
 when s13 =>
-		-- report_fixed_value ("alphaptatee", alphaptatee); -- 4
-		--report_error("fail alphaptatee", alphaptatee, to_sfixed(4,alphaptatee));		
+report_fixed_value ("alphaptatee", alphaptatee); -- 4
+report_error("fail alphaptatee", alphaptatee, to_sfixed(4,alphaptatee));		
 		
 		--
 		-- alphaptat
 		sftmp_slv := to_slv(resize (alphaptatee,fpout)); -- 4
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("raw val", fpout); -- 4
+report_fixed_value ("raw val", fpout); -- 4
 		sftmp_slv := to_slv (fpout);
 		fptmp1 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("raw val", fptmp1); -- 4
+report_fixed_value ("raw val", fptmp1); -- 4
 		sftmp_slv := "000000000000"&"0000000000000100" & "0000000000000000"; -- 2**2
 		fptmp2 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("pow2**2", fptmp2); -- 4
+report_fixed_value ("pow2**2", fptmp2); -- 4
 		cmd <= "0011"; -- /
 		in1 <= fptmp1;
 		in2 <= fptmp2;
@@ -746,16 +732,16 @@ when w13 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
 when s14 =>
-		---- report_fixed_value ("div ", fpout); -- 1
+report_fixed_value ("div ", fpout); -- 1
 
 		sftmp_slv := to_slv (fpout); -- 1
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("div ", fpout); -- 1
+report_fixed_value ("div ", fpout); -- 1
 		fptmp1 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("fptmp1", fptmp1); -- 1
+report_fixed_value ("fptmp1", fptmp1); -- 1
 		sftmp_slv := "000000000000"&"0000000000001000" & "0000000000000000"; -- 2**3
 		fptmp2 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("fptmp2", fptmp2); -- 8
+report_fixed_value ("fptmp2", fptmp2); -- 8
 
 		cmd <= "0000"; -- +
 		in1 <= fptmp1;
@@ -775,16 +761,16 @@ when w14 =>
 		alphaptat := resize(fpout,alphaptat);
 
 when s15 =>
-		-- report_fixed_value ("alphaptat", alphaptat); -- 9
-		--report_error("fail alphaptat", alphaptat, to_sfixed(9,alphaptat));
+report_fixed_value ("alphaptat", alphaptat); -- 9
+report_error("fail alphaptat", alphaptat, to_sfixed(9,alphaptat));
 
 		--
 		-- vptatart
 		
 		cmd <= "0010"; -- *
-		---- report_fixed_value ("vptat", resize(vptat,fptmp1)); --
+report_fixed_value ("vptat", resize(vptat,fptmp1)); --
 		in1 <= resize(vptat,fptmp1);
-		---- report_fixed_value ("alphaptat", resize(alphaptat,fptmp2)); --
+report_fixed_value ("alphaptat", resize(alphaptat,fptmp2)); --
 		in2 <= resize(alphaptat,fptmp2);
 		state <= w15;
 when w15 =>
@@ -800,13 +786,13 @@ when w15 =>
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
 
 when s16 =>
-		---- report_fixed_value ("vptat*alphaptat", fpout); --
+report_fixed_value ("vptat*alphaptat", fpout); --
 
 		cmd <= "0000"; -- +
 		in1 <= fpout;
-		---- report_fixed_value ("vptat*alphaptat", out1); --
+report_fixed_value ("vptat*alphaptat", out1); --
 		in2 <= resize(vbe,fptmp2);
-		---- report_fixed_value ("vbe", resize(vbe,fptmp2)); --
+report_fixed_value ("vbe", resize(vbe,fptmp2)); --
 		state <= w16;
 when w16 =>
 		-- wait for clock_period*20;
@@ -821,13 +807,13 @@ when w16 =>
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
 
 when s17 =>
-		---- report_fixed_value ("vptat*alphaptat+vbe", fpout); --
+report_fixed_value ("vptat*alphaptat+vbe", fpout); --
 
 		cmd <= "0011"; -- /
 		in1 <= resize(vptat,fptmp1);
-		---- report_fixed_value ("vptat", resize(vptat,fptmp1)); --
+report_fixed_value ("vptat", resize(vptat,fptmp1)); --
 		in2 <= fpout;
-		---- report_fixed_value ("vptat*alphaptat+vbe", out1); --
+report_fixed_value ("vptat*alphaptat+vbe", out1); --
 		state <= w17;
 when w17 =>
 		-- wait for clock_period*20;
@@ -842,18 +828,18 @@ when w17 =>
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
 		
 when s18 =>
-		---- report_fixed_value ("vptat/(vptat*alphaptat+vbe)", fpout); --
+report_fixed_value ("vptat/(vptat*alphaptat+vbe)", fpout); --
 
 		sftmp_slv := "000000000001"&x"ffff"&x"0000"; -- 2**18
 		pow2to18 := to_sfixed (sftmp_slv, st_sfixed_max'high,st_sfixed_max'low);
-		---- report_fixed_value ("pow2**18", pow2to18); --
- 		---- report_fixed_value ("pow2**18signed", to_sfixed(to_slv(pow2to18),fptmp1)); --
+report_fixed_value ("pow2**18", pow2to18); --
+report_fixed_value ("pow2**18signed", to_sfixed(to_slv(pow2to18),fptmp1)); --
 
 		cmd <= "0010"; -- *
 		in1 <= pow2to18;
-		---- report_fixed_value ("pow2**18", pow2to18); --
+report_fixed_value ("pow2**18", pow2to18); --
 		in2 <= fpout;
-		---- report_fixed_value ("vptat/(vptat*alphaptat+vbe)", out1); --
+report_fixed_value ("vptat/(vptat*alphaptat+vbe)", out1); --
 		state <= w18;
 when w18 =>
 		-- wait for clock_period*20;
@@ -868,17 +854,17 @@ when w18 =>
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
 
 when s19 =>
-		---- report_fixed_value ("(vptat/(vptat*alphaptat+vbe))*pow2**18", fpout); --
+report_fixed_value ("(vptat/(vptat*alphaptat+vbe))*pow2**18", fpout); --
 		--h1 := fpout;
 
 		sftmp_slv := "000000000000"&"0000000000000010" & "0000000000000000"; -- 2**2
 		fptmp2 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		---- report_fixed_value ("pow2**2", fptmp2); -- 
+report_fixed_value ("pow2**2", fptmp2); -- 
 		cmd <= "0010"; -- *
 		in1 <= fptmp2;
-		---- report_fixed_value ("pow2**2", fptmp2); --
+report_fixed_value ("pow2**2", fptmp2); --
 		in2 <= fpout;
-		---- report_fixed_value ("(vptat/(vptat*alphaptat+vbe))*pow2**18", fpout); --
+report_fixed_value ("(vptat/(vptat*alphaptat+vbe))*pow2**18", fpout); --
 		state <= w19;
 when w19 =>
 		-- wait for clock_period*20;
@@ -893,19 +879,19 @@ when w19 =>
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
 		vptatart := fpout;
 when s20 =>
-		---- report_fixed_value ("((vptat/(vptat*alphaptat+vbe))*pow2**18)*pow2**2", fpout); --
-		-- report_fixed_value ("vptatart", fpout); --
+report_fixed_value ("((vptat/(vptat*alphaptat+vbe))*pow2**18)*pow2**2", fpout); --
+report_fixed_value ("vptatart", fpout); --
 
 		--pow2to18 := to_ufixed (262144.0, ufixed18'high,ufixed18'low);
-		---- report_fixed_value ("2**18", pow2to18); -- 
-		--report_error("fail vptatart (ok,almost)", vptatart, to_sfixed(12873.57952,vptatart)); -- ok, almost
+report_fixed_value ("2**18", pow2to18); -- 
+report_error("fail vptatart (ok,almost)", vptatart, to_sfixed(12873.57952,vptatart)); -- ok, almost
 		--
 		-- Ta
 		cmd <= "0010"; -- * a=deltaV*kvptat
 		in1 <= resize(deltaV,fptmp1);
 		in2 <= resize(kvptat,fptmp2);
-		-- report_fixed_value ("in1", resize(deltaV,fptmp1)); --
-		-- report_fixed_value ("in2", resize(kvptat,fptmp2)); --
+report_fixed_value ("in1", resize(deltaV,fptmp1)); --
+report_fixed_value ("in2", resize(kvptat,fptmp2)); --
 		state <= w20;
 when w20 =>
 		-- wait for clock_period*20;
@@ -919,13 +905,13 @@ when w20 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
 when s21 =>
-		-- report_fixed_value ("out a*", out1); --
+report_fixed_value ("out a*", out1); --
 
 		cmd <= "0000"; -- + b=a+1
 		in1 <= fpout;
 		in2 <= to_sfixed(1.0,fptmp2);
-		-- report_fixed_value ("in1", out1); --
-		-- report_fixed_value ("in2", to_sfixed(1.0,fptmp2)); --
+report_fixed_value ("in1", out1); --
+report_fixed_value ("in2", to_sfixed(1.0,fptmp2)); --
 		state <= w21;
 when w21 =>
 		-- wait for clock_period*20;
@@ -939,13 +925,13 @@ when w21 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
 when s22 =>
-		-- report_fixed_value ("out b+", out1); --
+report_fixed_value ("out b+", out1); --
 
 		cmd <= "0011"; -- / c=vptatart/b
 		in1 <= resize(vptatart,fptmp1); --vptatart
 		in2 <= fpout;
-		-- report_fixed_value ("in1", resize(fpout,fptmp1)); --
-		-- report_fixed_value ("in2", out1); --
+report_fixed_value ("in1", resize(fpout,fptmp1)); --
+report_fixed_value ("in2", out1); --
 		state <= w22;
 when w22 =>
 		-- wait for clock_period*20;
@@ -959,13 +945,13 @@ when w22 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
 when s23 =>
-		-- report_fixed_value ("out c/", out1); --
+report_fixed_value ("out c/", out1); --
 
 		cmd <= "0001"; -- - d=c-vptat25
 		in1 <= fpout;
 		in2 <= resize(vptat25,fptmp2);
-		-- report_fixed_value ("in1", out1); --
-		-- report_fixed_value ("in2", resize(vptat25,fptmp2)); --
+report_fixed_value ("in1", out1); --
+report_fixed_value ("in2", resize(vptat25,fptmp2)); --
 		state <= w23;
 when w23 =>
 		-- wait for clock_period*20;
@@ -979,13 +965,13 @@ when w23 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
 when s24 =>
-		-- report_fixed_value ("out d-", out1); --
+report_fixed_value ("out d-", out1); --
 
 		cmd <= "0011"; -- / e=d/ktptat
 		in1 <= fpout;
 		in2 <= resize(ktptat,fptmp2);
-		-- report_fixed_value ("in1", out1); --
-		-- report_fixed_value ("in2", resize(ktptat,fptmp2)); --
+report_fixed_value ("in1", out1); --
+report_fixed_value ("in2", resize(ktptat,fptmp2)); --
 		state <= w24;
 when w24 =>
 		-- wait for clock_period*20;
@@ -999,12 +985,12 @@ when w24 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
 when s25 =>
-		-- report_fixed_value ("out e/", out1); --
+report_fixed_value ("out e/", out1); --
 		cmd <= "0000"; -- + f=e+25.0
 		in1 <= fpout;
 		in2 <= to_sfixed(25.0,fptmp2);
-		-- report_fixed_value ("in1", out1); --
-		-- report_fixed_value ("in2", to_sfixed(25.0,fptmp2)); --
+report_fixed_value ("in1", out1); --
+report_fixed_value ("in2", to_sfixed(25.0,fptmp2)); --
 		state <= w25;
 when w25 =>
 		-- wait for clock_period*20;
@@ -1019,23 +1005,23 @@ when w25 =>
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
 		Ta := resize(fpout,Ta);
 when s26 =>
-		--report_error("fail Ta (ok,almost)", Ta, to_sfixed(39.184,Ta));
+report_error("fail Ta (ok,almost)", Ta, to_sfixed(39.184,Ta));
 		--
-		sftmp_slv := "000000000000"&x"0000"&x"1881" and "00"&x"0000"&x"ffff"; -- 6273
+		sftmp_slv := "000000000000"&x"0000"&x"1881" and "0000000000"&"00"&x"0000"&x"ffff"; -- 6273
 		fpout := to_sfixed (sftmp_slv(st_sfixed_max'high downto 0)&x"0000", st_sfixed_max'high, st_sfixed_max'low);
-		-- report_fixed_value ("ram[0x070a]", fpout); -- 6273
+report_fixed_value ("ram[0x070a]", fpout); -- 6273
 		sftmp_slv := to_slv (fpout);
 		fptmp1 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		-- report_fixed_value ("fptmp1", fptmp1); -- 6273
-		--report_error("fail ram[0x070a]", fptmp1, to_sfixed(6273.0,fptmp1));
+report_fixed_value ("fptmp1", fptmp1); -- 6273
+report_error("fail ram[0x070a]", fptmp1, to_sfixed(6273.0,fptmp1));
 		--
-		sftmp_slv := "000000000000"&x"0000"&x"18ef" and "00"&x"0000"&x"ffff"; -- 6383
+		sftmp_slv := "000000000000"&x"0000"&x"18ef" and "0000000000"&"00"&x"0000"&x"ffff"; -- 6383
 		fpout := to_sfixed (sftmp_slv(st_sfixed_max'high downto 0)&x"0000", st_sfixed_max'high, st_sfixed_max'low);
-		-- report_fixed_value ("ee[0x2430]", fpout); -- 6383
+report_fixed_value ("ee[0x2430]", fpout); -- 6383
 		sftmp_slv := to_slv (fpout);
 		fptmp2 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		-- report_fixed_value ("fptmp1", fptmp1); -- 6383
-		--report_error("fail gain", fptmp2, to_sfixed(6383.0,fptmp1));
+report_fixed_value ("fptmp1", fptmp1); -- 6383
+report_error("fail gain", fptmp2, to_sfixed(6383.0,fptmp1));
 		--
 		cmd <= "0011"; -- /
 		in1 <= fptmp2;
@@ -1053,14 +1039,14 @@ when w26 =>
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
 		Kgain := resize(fpout,Kgain);
 when s27 =>
---	 report_fixed_value ("gain", out1); --
-		--report_error("fail Kgain (ok,almost)", Kgain, to_sfixed(1.01753546947234,Kgain)); -- ok, almost
+report_fixed_value ("gain", out1); --
+report_error("fail Kgain (ok,almost)", Kgain, to_sfixed(1.01753546947234,Kgain)); -- ok, almost
 		-- xxx pixdata 12,16 0x056f
-		sftmp_slv := "000000000000"&x"0000"&x"0261" and "00"&x"0000"&x"ffff"; -- 609
+		sftmp_slv := "000000000000"&x"0000"&x"0261" and "0000000000"&"00"&x"0000"&x"ffff"; -- 609
 		fpout := to_sfixed (sftmp_slv(st_sfixed_max'high downto 0)&x"0000", st_sfixed_max'high, st_sfixed_max'low);
 		sftmp_slv := to_slv (fpout);
 		fptmp1 := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
-		--report_error("fail pixgain(12,16) ram[0x056f]", fptmp1, to_sfixed(609.0,fptmp1));
+report_error("fail pixgain(12,16) ram[0x056f]", fptmp1, to_sfixed(609.0,fptmp1));
 		cmd <= "0010"; -- *
 		in1 <= fptmp1;
 		in2 <= resize(Kgain,fptmp2);
@@ -1077,14 +1063,14 @@ when w27 =>
 		fpout := to_sfixed (sftmp_slv, st_sfixed_max'high, st_sfixed_max'low);
 		pixgain12_16 := resize(fpout,pixgain12_16); --xxx pix gain 12,16
 when s28 =>
-		--report_error("fail pixgain12_16 (ok,almost)", pixgain12_16, to_sfixed(619.679100908656,pixgain12_16)); -- ok, almost
+report_error("fail pixgain12_16 (ok,almost)", pixgain12_16, to_sfixed(619.679100908656,pixgain12_16)); -- ok, almost
 
 		sftmp_slv := x"0000"&x"ffbb" and x"0000"&x"ffff"; -- 65467
 		fpout := to_sfixed (sftmp_slv(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
-		-- report_fixed_value ("ee[0x2410]", fpout); -- 65467
+report_fixed_value ("ee[0x2410]", fpout); -- 65467
 		sftmp_slv := to_slv (fpout);
 		offsetaverage := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
-		--report_error("fail offsetaverage", offsetaverage, to_sfixed(-69.0,offsetaverage));
+report_error("fail offsetaverage", offsetaverage, to_sfixed(-69.0,offsetaverage));
 
 		sftmp_slv := x"0000"&x"4210" and x"0000"&x"0f00"; -- 2
 		fpout := to_sfixed (sftmp_slv(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
@@ -1093,18 +1079,18 @@ when s28 =>
 		occscalerow := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		tmps4 := resize(occscalerow,tmps4);
 		occscalerow := resize(tmps4,occscalerow);
---		report_fixed_value("occscalerow",occscalerow);
-		--report_error("fail occscalerow", occscalerow, to_sfixed(2.0,occscalerow));
+report_fixed_value("occscalerow",occscalerow);
+report_error("fail occscalerow", occscalerow, to_sfixed(2.0,occscalerow));
 
 		sftmp_slv := x"0000"&x"4210" and x"0000"&x"00f0"; -- 1
 		fpout := to_sfixed (sftmp_slv(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
---		report_fixed_value("asd",fpout);
+report_fixed_value("asd",fpout);
 		sftmp_slv := to_slv(fpout);
 		sftmp_slv := x"000"&sftmp_slv(23 downto 20)&x"0000";
 		occscalecolumn := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		tmps4 := resize(occscalecolumn,tmps4);
 		occscalecolumn := resize(tmps4,occscalecolumn);
-		--report_error("fail occscalecolumn", occscalecolumn, to_sfixed(1.0,occscalecolumn));
+report_error("fail occscalecolumn", occscalecolumn, to_sfixed(1.0,occscalecolumn));
 
 		sftmp_slv := x"0000"&x"f2f2" and x"0000"&x"f000"; -- ee[0x2414]
 		fpout := to_sfixed (sftmp_slv(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
@@ -1113,7 +1099,7 @@ when s28 =>
 		occrow12 := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		tmps4 := resize(occrow12,tmps4);
 		occrow12 := resize(tmps4,occrow12);
-		--report_error("fail occrow12", occrow12, to_sfixed(-1.0,occrow12));
+report_error("fail occrow12", occrow12, to_sfixed(-1.0,occrow12));
 
 		sftmp_slv := x"0000"&x"e0ef" and x"0000"&x"f000"; -- ee[0x241b]
 		fpout := to_sfixed (sftmp_slv(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
@@ -1122,7 +1108,7 @@ when s28 =>
 		occcolumn16 := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		tmps4 := resize(occcolumn16,tmps4);
 		occcolumn16 := resize(tmps4,occcolumn16);
-		--report_error("fail occcolumn16", occcolumn16, to_sfixed(-2.0,occcolumn16));
+report_error("fail occcolumn16", occcolumn16, to_sfixed(-2.0,occcolumn16));
 
 		sftmp_slv := x"0000"&x"08a8" and x"0000"&x"fc00"; -- ee[0x25af]
 		fpout := to_sfixed (sftmp_slv(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
@@ -1131,7 +1117,7 @@ when s28 =>
 		offset12_16 := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		tmps6 := resize(offset12_16,tmps6);
 		offset12_16 := resize(tmps6,offset12_16);
-		--report_error("fail offset12_16", offset12_16, to_sfixed(2.0,offset12_16));
+report_error("fail offset12_16", offset12_16, to_sfixed(2.0,offset12_16));
 
 		sftmp_slv := x"0000"&x"4210" and x"0000"&x"000f"; -- ee[0x2410]
 		fpout := to_sfixed (sftmp_slv(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
@@ -1140,20 +1126,20 @@ when s28 =>
 		occscaleremnant := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		tmps4 := resize(occscaleremnant,tmps4);
 		occscaleremnant := resize(tmps4,occscaleremnant);
-		--report_error("fail occscaleremnant", occscaleremnant, to_sfixed(0.0,occscaleremnant));
+report_error("fail occscaleremnant", occscaleremnant, to_sfixed(0.0,occscaleremnant));
 
 		occsre := to_sfixed(1.0,occsre) sll to_integer(occscaleremnant); -- 1.0
 		occsro := to_sfixed(1.0,occsro) sll to_integer(occscalerow); -- 4.0
 		occsc := to_sfixed(1.0,occsc) sll to_integer(occscalecolumn); -- 2.0
 
---		report_fixed_value("occsre",occsre);
---		report_fixed_value("occsro",occsro);
+report_fixed_value("occsre",occsre);
+report_fixed_value("occsro",occsro);
 --		reporct_fixed_value("occsc",occsc);
 		cmd <= "0010"; -- * occrow12*2^occscalerow
 		in1 <= resize(occrow12,fptmp1);
---		report_fixed_value("occrow12",resize(occrow12,fptmp1));
+report_fixed_value("occrow12",resize(occrow12,fptmp1));
 		in2 <= resize(occsro,fptmp2); -- 2^x
---		report_fixed_value("occsro",resize(occsro,fptmp2));
+report_fixed_value("occsro",resize(occsro,fptmp2));
 		state <= w28;
 when w28 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1167,12 +1153,12 @@ when s29 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		occsro := resize(fpout,occsro);
---		report_fixed_value("occrow12*2^occscalerow",occsro);
+report_fixed_value("occrow12*2^occscalerow",occsro);
 		cmd <= "0010"; -- * occcolumn16*2^occcolumn16
 		in1 <= resize(occcolumn16,fptmp1);
---		report_fixed_value("occcolumn16",resize(occcolumn16,fptmp1));
+report_fixed_value("occcolumn16",resize(occcolumn16,fptmp1));
 		in2 <= resize(occsc,fptmp2); -- 2^x
---		report_fixed_value("occsc",resize(occsc,fptmp2));
+report_fixed_value("occsc",resize(occsc,fptmp2));
 		state <= w29;
 when w29 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1186,13 +1172,13 @@ when s30 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		occsc := resize(fpout,occsc);
---		report_fixed_value("occcolumn16*2^occsc",occsc);
+report_fixed_value("occcolumn16*2^occsc",occsc);
 
 		cmd <= "0010"; -- * occremnant*2^occscaleremnant
 		in1 <= resize(offset12_16,fptmp1);
---		report_fixed_value("offset12_16",resize(offset12_16,fptmp1));
+report_fixed_value("offset12_16",resize(offset12_16,fptmp1));
 		in2 <= resize(occsre,fptmp2); -- 2^x
---		report_fixed_value("occsre",resize(occsre,fptmp2));
+report_fixed_value("occsre",resize(occsre,fptmp2));
 		state <= w30;
 when w30 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1206,13 +1192,13 @@ when s31 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		occsre := resize(fpout,occsre);
---		report_fixed_value("occremnant*2^occscaleremnant",occsre);
+report_fixed_value("occremnant*2^occscaleremnant",occsre);
 
 		cmd <= "0000"; -- + occsre+occsc
 		in1 <= resize(occsre,fptmp1);
---		report_fixed_value("occsre",resize(occsre,fptmp1));
+report_fixed_value("occsre",resize(occsre,fptmp1));
 		in2 <= resize(occsc,fptmp2);
---		report_fixed_value("occsc",resize(occsc,fptmp2));
+report_fixed_value("occsc",resize(occsc,fptmp2));
 		state <= w31;
 when w31 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1226,13 +1212,13 @@ when s32 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		occsre := resize(fpout,occsre); -- occsre+occsc
---		report_fixed_value("occsre+occsc",occsre);
+report_fixed_value("occsre+occsc",occsre);
 
 		cmd <= "0000"; -- + occsre+occsc+occsro
 		in1 <= resize(occsre,fptmp1);
---		report_fixed_value("occsre",resize(occsre,fptmp1));
+report_fixed_value("occsre",resize(occsre,fptmp1));
 		in2 <= resize(occsro,fptmp2);
---		report_fixed_value("occsro",resize(occsro,fptmp2));
+report_fixed_value("occsro",resize(occsro,fptmp2));
 		state <= w32;
 when w32 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1246,13 +1232,13 @@ when s33 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		occsro := resize(fpout,occsro); -- occsre+occsc+occsro
---		report_fixed_value("occsre+occsc+occsro",occsro);
+report_fixed_value("occsre+occsc+occsro",occsro);
 
 		cmd <= "0000"; -- + occsre+occsc+occsro+offsetaverage
 		in1 <= resize(occsro,fptmp1);
---		report_fixed_value("occsro",resize(occsro,fptmp1));
+report_fixed_value("occsro",resize(occsro,fptmp1));
 		in2 <= resize(offsetaverage,fptmp2);
---		report_fixed_value("offsetaverage",resize(offsetaverage,fptmp2));
+report_fixed_value("offsetaverage",resize(offsetaverage,fptmp2));
 		state <= w33;
 when w33 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1266,8 +1252,8 @@ when s34 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		pixosref12_16 := resize(fpout,pixosref12_16);
---		report_fixed_value("pixosref12_16=occsre+occsc+occsro+offsetaverage",pixosref12_16);
-		--report_error("fail pixosref12_16 (ok,almost)", pixosref12_16, to_sfixed(-75.0,pixosref12_16)); -- ok,almost
+report_fixed_value("pixosref12_16=occsre+occsc+occsro+offsetaverage",pixosref12_16);
+report_error("fail pixosref12_16 (ok,almost)", pixosref12_16, to_sfixed(-75.0,pixosref12_16)); -- ok,almost
 
 		sftmp_slv := x"0000"&x"08a0" and x"0000"&x"000e"; -- ee[0x25af]
 		fpout := to_sfixed (sftmp_slv(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
@@ -1277,8 +1263,8 @@ when s34 =>
 		kta12_16 := kta12_16 srl 1;
 		tmps4 := resize(kta12_16,tmps4);
 		kta12_16 := resize(tmps4,kta12_16);
---		report_fixed_value("kta12_16",kta12_16);
-		--report_error("fail kta12_16", kta12_16, to_sfixed(0.0,kta12_16));
+report_fixed_value("kta12_16",kta12_16);
+report_error("fail kta12_16", kta12_16, to_sfixed(0.0,kta12_16));
 
 		sftmp_slv := x"0000"&x"5354" and x"0000"&x"00ff"; -- ee[0x2437]
 		fpout := to_sfixed (sftmp_slv(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
@@ -1287,8 +1273,8 @@ when s34 =>
 		kta_rc_ee := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 --		tmps4 := resize(kta_rc_ee,tmps4);
 --		kta_rc_ee := resize(tmps4,kta_rc_ee);
---		report_fixed_value("kta_rc_ee",kta_rc_ee);
-		--report_error("fail kta_rc_ee", kta_rc_ee, to_sfixed(84.0,kta_rc_ee));
+report_fixed_value("kta_rc_ee",kta_rc_ee);
+report_error("fail kta_rc_ee", kta_rc_ee, to_sfixed(84.0,kta_rc_ee));
 
 		sftmp_slv := x"0000"&x"2363" and x"0000"&x"000f"; -- ee[0x2438]
 		fpout := to_sfixed (sftmp_slv(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
@@ -1296,8 +1282,8 @@ when s34 =>
 		sftmp_slv := "000000000000"&sftmp_slv(19 downto 16)&x"0000";
 		kta_scale_2 := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		kta_scale_2 := resize(kta_scale_2,kta_scale_2);
---		report_fixed_value("kta_rc_ee",kta_rc_ee);
-		--report_error("fail kta_scale_2", kta_scale_2, to_sfixed(3.0,kta_scale_2));
+report_fixed_value("kta_rc_ee",kta_rc_ee);
+report_error("fail kta_scale_2", kta_scale_2, to_sfixed(3.0,kta_scale_2));
 
 		sftmp_slv := x"0000"&x"2363" and x"0000"&x"00f0"; -- ee[0x2438]
 		fpout := to_sfixed (sftmp_slv(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
@@ -1305,8 +1291,8 @@ when s34 =>
 		sftmp_slv := "000000000000"&sftmp_slv(23 downto 20)&x"0000";
 		kta_scale_1 := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		kta_scale_1 := resize(kta_scale_1,kta_scale_1);
---		report_fixed_value("kta_rc_ee",kta_rc_ee);
-		--report_error("fail kta_scale_1", kta_scale_1, to_sfixed(6.0,kta_scale_1));
+report_fixed_value("kta_rc_ee",kta_rc_ee);
+report_error("fail kta_scale_1", kta_scale_1, to_sfixed(6.0,kta_scale_1));
 		state <= w34;
 		cmd <= "0000"; -- + kta_scale_1+8
 		in1 <= resize(kta_scale_1,fptmp1);
@@ -1324,7 +1310,7 @@ when s35 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		kta_scale_1 := resize(fpout,kta_scale_1); -- kta_scale_1+8
-		--report_error("fail kta_scale_1+8 (ok,almost)", kta_scale_1, to_sfixed(14.0,kta_scale_1)); -- ok,almost
+report_error("fail kta_scale_1+8 (ok,almost)", kta_scale_1, to_sfixed(14.0,kta_scale_1)); -- ok,almost
 
 		sftmp_slv := x"0000"&x"5454" and x"0000"&x"000f"; -- ee[0x2434]
 		fpout := to_sfixed (sftmp_slv(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
@@ -1332,11 +1318,11 @@ when s35 =>
 		sftmp_slv := "000000000000"&sftmp_slv(19 downto 16)&x"0000";
 		kv12_16 := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		kv12_16 := resize(kv12_16,kv12_16);
---		report_fixed_value("kv12_16",kv12_16);
-		--report_error("fail kv12_16", kv12_16, to_sfixed(4.0,kv12_16));
+report_fixed_value("kv12_16",kv12_16);
+report_error("fail kv12_16", kv12_16, to_sfixed(4.0,kv12_16));
 
 		kta_scale_2 := to_sfixed(1.0,kta_scale_2) sll to_integer(kta_scale_2);
---		report_fixed_value("2^kta_scale_2",kta_scale_2);
+report_fixed_value("2^kta_scale_2",kta_scale_2);
 
 		cmd <= "0010"; -- * kta(12,16)*2^Kta_scale_2
 		in1 <= resize(kta_scale_2,fptmp1);
@@ -1356,7 +1342,7 @@ when s36 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		kta12_16 := resize(fpout,kta12_16);
-		--report_error("fail kta12_16*2^kta_scale_2 (ok,almost) ~0.0", kta12_16, to_sfixed(0.0,kta12_16)); -- ok,almost
+report_error("fail kta12_16*2^kta_scale_2 (ok,almost) ~0.0", kta12_16, to_sfixed(0.0,kta12_16)); -- ok,almost
 		cmd <= "0000"; -- + kta_rc_ee+kta12_16*2^kta_scale_2
 		in1 <= resize(kta12_16,fptmp1);
 		in2 <= resize(kta_rc_ee,fptmp2);
@@ -1374,7 +1360,7 @@ when s37 =>
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		kta12_16 := resize(fpout,kta12_16);
 		kta_scale_1 := to_sfixed(1.0,kta_scale_1) sll to_integer(kta_scale_1);
-		--report_error("fail kta_rc_ee+kta12_16*2^kta_scale_2 (ok,almost)", kta12_16, to_sfixed(84.0,kta12_16)); -- ok,almost
+report_error("fail kta_rc_ee+kta12_16*2^kta_scale_2 (ok,almost)", kta12_16, to_sfixed(84.0,kta12_16)); -- ok,almost
 		cmd <= "0011"; -- (kta_rc_ee+kta12_16*2^kta_scale_2)/2^kta_scale_1
 		in1 <= resize(kta12_16,fptmp1);
 		in2 <= resize(kta_scale_1,fptmp2);
@@ -1391,7 +1377,7 @@ when s38 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		kta12_16 := resize(fpout,kta12_16);
-		--report_error("fail kta12_16 (ok,almost)", kta12_16, to_sfixed(0.005126953125,kta12_16)); -- ok,almost
+report_error("fail kta12_16 (ok,almost)", kta12_16, to_sfixed(0.005126953125,kta12_16)); -- ok,almost
 		state <= w38;
 when w38 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1408,10 +1394,10 @@ when s39 =>
 		sftmp_slv := "000000000000"&sftmp_slv(27 downto 24)&x"0000";
 		kvscale := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		kvscale := resize(kvscale,kvscale);
---		report_fixed_value("kv12_16",kv12_16);
-		--report_error("fail kvscale", kvscale, to_sfixed(3.0,kv12_16));
+report_fixed_value("kv12_16",kv12_16);
+report_error("fail kvscale", kvscale, to_sfixed(3.0,kv12_16));
 		kvscale := to_sfixed(1.0,kvscale) sll to_integer(kvscale);
-		--report_error("fail 2^kvscale", kvscale, to_sfixed(8.0,kv12_16));
+report_error("fail 2^kvscale", kvscale, to_sfixed(8.0,kv12_16));
 		cmd <= "0011"; -- / kv12_16/2^kvscale
 		in1 <= resize(kv12_16,fptmp1);
 		in2 <= resize(kvscale,fptmp2); -- 2^kvscale
@@ -1428,7 +1414,7 @@ when s40 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		kv12_16 := resize(fpout,kv12_16);
-		--report_error("fail kv12_16 (ok,almost)", kv12_16, to_sfixed(0.5,kv12_16)); -- ok,almost
+report_error("fail kv12_16 (ok,almost)", kv12_16, to_sfixed(0.5,kv12_16)); -- ok,almost
 		state <= w40;
 when w40 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1455,7 +1441,7 @@ when s42 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		tad := resize(fpout,kv12_16);
-		--report_error("fail tad (ok,almost)", tad, to_sfixed(39.184-25.0,tad)); -- ok,almost
+report_error("fail tad (ok,almost)", tad, to_sfixed(39.184-25.0,tad)); -- ok,almost
 		state <= w42;
 when w42 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1482,7 +1468,7 @@ when s44 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		v0d := resize(fpout,v0d);
-		--report_error("fail v0d (ok,almost)", v0d, to_sfixed(3.319-3.3,v0d)); -- ok,almost
+report_error("fail v0d (ok,almost)", v0d, to_sfixed(3.319-3.3,v0d)); -- ok,almost
 		state <= w44;
 when w44 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1509,7 +1495,7 @@ when s46 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		kv12_16 := resize(fpout,kv12_16);
-		--report_error("fail kv12_16*v0d (ok,almost)", kv12_16, to_sfixed(0.5*(3.319-3.3),kv12_16)); -- ok,almost
+report_error("fail kv12_16*v0d (ok,almost)", kv12_16, to_sfixed(0.5*(3.319-3.3),kv12_16)); -- ok,almost
 		state <= w46;
 when w46 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1536,7 +1522,7 @@ when s48 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		kv12_16 := resize(fpout,kv12_16);
-		--report_error("fail 1+kv12_16*v0d (ok,almost)", kv12_16, to_sfixed(1.0+(0.5*(3.319-3.3)),kv12_16)); -- ok,almost
+report_error("fail 1+kv12_16*v0d (ok,almost)", kv12_16, to_sfixed(1.0+(0.5*(3.319-3.3)),kv12_16)); -- ok,almost
 		state <= w48;
 when w48 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1563,7 +1549,7 @@ when s50 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		kta12_16 := resize(fpout,kta12_16);
-		--report_error("fail kta12_16*tad (ok,almost)", kta12_16, to_sfixed(0.005126953125*(39.184-25.0),kta12_16)); -- ok,almost
+report_error("fail kta12_16*tad (ok,almost)", kta12_16, to_sfixed(0.005126953125*(39.184-25.0),kta12_16)); -- ok,almost
 		state <= w50;
 when w50 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1590,7 +1576,7 @@ when s52 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		kta12_16 := resize(fpout,kta12_16);
-		--report_error("fail 1+kta12_16*tad (ok,almost)", kta12_16, to_sfixed(1.0+(0.005126953125*(39.184-25.0)),kta12_16)); -- ok,almost
+report_error("fail 1+kta12_16*tad (ok,almost)", kta12_16, to_sfixed(1.0+(0.005126953125*(39.184-25.0)),kta12_16)); -- ok,almost
 		state <= w52;
 when w52 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1617,7 +1603,7 @@ when s54 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		kta12_16 := resize(fpout,kta12_16);
-		--report_error("fail pixosref*(1+kta12_16*tad) (ok,almost)", kta12_16, to_sfixed((-75.0)*(1.0+(0.005126953125*(39.184-25.0))),kta12_16)); -- ok,almost
+report_error("fail pixosref*(1+kta12_16*tad) (ok,almost)", kta12_16, to_sfixed((-75.0)*(1.0+(0.005126953125*(39.184-25.0))),kta12_16)); -- ok,almost
 		state <= w54;
 when w54 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1644,7 +1630,7 @@ when s56 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		kta12_16 := resize(fpout,kta12_16);
-		--report_error("fail pixosref*(1+kta12_16*tad)*(1+kv12_16*v0d) (ok,almost)", kta12_16, to_sfixed((-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+0.5*(3.319-3.3)),kta12_16)); -- ok,almost
+report_error("fail pixosref*(1+kta12_16*tad)*(1+kv12_16*v0d) (ok,almost)", kta12_16, to_sfixed((-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+0.5*(3.319-3.3)),kta12_16)); -- ok,almost
 		state <= w56;
 when w56 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1671,8 +1657,8 @@ when s58 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		pixos12_16 := resize(fpout,pixos12_16);
---		--report_error("fail pixgain-pixosref*(1+kta12_16*tad)*(1+kv12_16*v0d) (ok,almost)", pixos12_16, to_sfixed(619.679100908656-(-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+0.5*(3.319-3.3)),pixos12_16)); -- ok,almost
-		--report_error("fail pixgain-pixosref*(1+kta12_16*tad)*(1+kv12_16*v0d) (ok,almost)", pixos12_16, to_sfixed(700.882495690877,pixos12_16)); -- ok,almost
+report_error("fail pixgain-pixosref*(1+kta12_16*tad)*(1+kv12_16*v0d) (ok,almost)", pixos12_16, to_sfixed(619.679100908656-(-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+0.5*(3.319-3.3)),pixos12_16)); -- ok,almost
+report_error("fail pixgain-pixosref*(1+kta12_16*tad)*(1+kv12_16*v0d) (ok,almost)", pixos12_16, to_sfixed(700.882495690877,pixos12_16)); -- ok,almost
 		state <= w58;
 when w58 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1699,7 +1685,7 @@ when s60 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		vir12_16_emissitivy_componsated := resize(fpout,vir12_16_emissitivy_componsated);
---		report_error("fail vir12_16_emissitivy_componsated (ok,almost)", vir12_16_emissitivy_componsated, to_sfixed(700.882495690877,vir12_16_emissitivy_componsated)); -- ok,almost
+report_error("fail vir12_16_emissitivy_componsated (ok,almost)", vir12_16_emissitivy_componsated, to_sfixed(700.882495690877,vir12_16_emissitivy_componsated)); -- ok,almost
 		state <= w60;
 when w60 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1716,8 +1702,8 @@ when s61 =>
 --		sftmp_slv := "000000000000"&sftmp_slv(27 downto 24)&x"0000";
 		pixgain_cp_sp0 := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		pixgain_cp_sp0 := resize(pixgain_cp_sp0,pixgain_cp_sp0);
---		report_fixed_value("pixgain_cp_sp0",pixgain_cp_sp0);
-		--report_error("fail pixgain_cp_sp0", pixgain_cp_sp0, to_sfixed(-54.0,pixgain_cp_sp0));
+report_fixed_value("pixgain_cp_sp0",pixgain_cp_sp0);
+report_error("fail pixgain_cp_sp0", pixgain_cp_sp0, to_sfixed(-54.0,pixgain_cp_sp0));
 		cmd <= "0010"; -- * pixgain_cp_sp0*Kgain
 		in1 <= resize(pixgain_cp_sp0,fptmp1);
 		in2 <= resize(kgain,fptmp2);
@@ -1734,7 +1720,7 @@ when s62 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		pixgain_cp_sp0 := resize(fpout,pixgain_cp_sp0);
-		--report_error("fail pixgain_cp_sp0 (ok,almost)", pixgain_cp_sp0, to_sfixed(-54.9469153515065,pixgain_cp_sp0)); -- ok,almost
+report_error("fail pixgain_cp_sp0 (ok,almost)", pixgain_cp_sp0, to_sfixed(-54.9469153515065,pixgain_cp_sp0)); -- ok,almost
 		state <= w62;
 when w62 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1751,8 +1737,8 @@ when s63 =>
 --		sftmp_slv := "000000000000"&sftmp_slv(27 downto 24)&x"0000";
 		pixgain_cp_sp1 := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		pixgain_cp_sp1 := resize(pixgain_cp_sp1,pixgain_cp_sp1);
---		report_fixed_value("pixgain_cp_sp1",pixgain_cp_sp1);
-		--report_error("fail pixgain_cp_sp1", pixgain_cp_sp1, to_sfixed(-56.0,pixgain_cp_sp1));
+report_fixed_value("pixgain_cp_sp1",pixgain_cp_sp1);
+report_error("fail pixgain_cp_sp1", pixgain_cp_sp1, to_sfixed(-56.0,pixgain_cp_sp1));
 		cmd <= "0010"; -- * pixgain_cp_sp1*Kgain
 		in1 <= resize(pixgain_cp_sp1,fptmp1);
 		in2 <= resize(kgain,fptmp2);
@@ -1769,7 +1755,7 @@ when s64 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		pixgain_cp_sp1 := resize(fpout,pixgain_cp_sp1);
-		--report_error("fail pixgain_cp_sp1 (ok,almost)", pixgain_cp_sp1, to_sfixed(-56.9819862904511,pixgain_cp_sp1)); -- ok,almost
+report_error("fail pixgain_cp_sp1 (ok,almost)", pixgain_cp_sp1, to_sfixed(-56.9819862904511,pixgain_cp_sp1)); -- ok,almost
 		state <= w64;
 when w64 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1787,8 +1773,8 @@ when s65 =>
 		off_cpsubpage_0 := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		tmps9 := resize(off_cpsubpage_0,tmps9);
 		off_cpsubpage_0 := resize(tmps9,off_cpsubpage_0);
---		report_fixed_value("off_cpsubpage_0",off_cpsubpage_0);
-		--report_error("fail off_cpsubpage_0", off_cpsubpage_0, to_sfixed(-75.0,off_cpsubpage_0));
+report_fixed_value("off_cpsubpage_0",off_cpsubpage_0);
+report_error("fail off_cpsubpage_0", off_cpsubpage_0, to_sfixed(-75.0,off_cpsubpage_0));
 		state <= w65;
 when w65 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1806,8 +1792,8 @@ when s66 =>
 		off_cpsubpage_1_delta := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		tmps5 := resize(off_cpsubpage_1_delta,tmps5);
 		off_cpsubpage_1_delta := resize(tmps5,off_cpsubpage_1_delta);
---		report_fixed_value("off_cpsubpage_1_delta",off_cpsubpage_1_delta);
-		--report_error("fail off_cpsubpage_1_delta", off_cpsubpage_1_delta, to_sfixed(-2.0,off_cpsubpage_1_delta));
+report_fixed_value("off_cpsubpage_1_delta",off_cpsubpage_1_delta);
+report_error("fail off_cpsubpage_1_delta", off_cpsubpage_1_delta, to_sfixed(-2.0,off_cpsubpage_1_delta));
 		cmd <= "0000"; -- + OFF_CPsubpage_0+OFF_CPsubpage_1_delta
 		in1 <= resize(off_cpsubpage_0,fptmp1);
 		in2 <= resize(off_cpsubpage_1_delta,fptmp2);
@@ -1824,7 +1810,7 @@ when s67 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		off_cpsubpage_1 := resize(fpout,off_cpsubpage_1);
-		--report_error("fail off_cpsubpage_1 (ok,almost)", off_cpsubpage_1, to_sfixed(-77.0,off_cpsubpage_1)); -- ok,almost
+report_error("fail off_cpsubpage_1 (ok,almost)", off_cpsubpage_1, to_sfixed(-77.0,off_cpsubpage_1)); -- ok,almost
 		state <= w67;
 when w67 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1842,9 +1828,9 @@ when s68 =>
 		kta_cp_ee := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		tmps7 := resize(kta_cp_ee,tmps7);
 		kta_cp_ee := resize(tmps7,kta_cp_ee);
---		report_fixed_value("kta_cp_ee",kta_cp_ee);
-		--report_error("fail kta_cp_ee", kta_cp_ee, to_sfixed(75.0,kta_cp_ee));
---		report_fixed_value("kta_scale_1",kta_scale_1);
+report_fixed_value("kta_cp_ee",kta_cp_ee);
+report_error("fail kta_cp_ee", kta_cp_ee, to_sfixed(75.0,kta_cp_ee));
+report_fixed_value("kta_scale_1",kta_scale_1);
 		cmd <= "0011"; -- / KTa_cp_ee/2^KTa_scale_1
 		in1 <= resize(kta_cp_ee,fptmp1);
 		in2 <= resize(kta_scale_1,fptmp2);
@@ -1861,7 +1847,7 @@ when s69 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		kta_cp := resize(fpout,kta_cp);
-		--report_error("fail kta_cp (ok,almost)", kta_cp, to_sfixed(0.00457763671875,kta_cp)); -- ok,almost
+report_error("fail kta_cp (ok,almost)", kta_cp, to_sfixed(0.00457763671875,kta_cp)); -- ok,almost
 		state <= w69;
 when w69 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1877,10 +1863,10 @@ when s70 =>
 		sftmp_slv := to_slv(fpout);
 		sftmp_slv := "000000000000"&sftmp_slv(27 downto 24)&x"0000";
 		kv_scale := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
-		--report_fixed_value("kv_scale",kv_scale);
-		--report_error("fail kv_scale", kv_scale, to_sfixed(3.0,kv_scale));
+report_fixed_value("kv_scale",kv_scale);
+report_error("fail kv_scale", kv_scale, to_sfixed(3.0,kv_scale));
 		kv_scale := to_sfixed(1.0,kv_scale) sll to_integer(kv_scale);
-		--report_error("fail 2^kv_scale", kv_scale, to_sfixed(8.0,kv_scale));
+report_error("fail 2^kv_scale", kv_scale, to_sfixed(8.0,kv_scale));
 		state <= w70;
 when w70 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1898,8 +1884,8 @@ when s71 =>
 		kv_cp_ee := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		tmps7 := resize(kv_cp_ee,tmps7);
 		kv_cp_ee := resize(tmps7,kv_cp_ee);
-		--report_fixed_value("kv_cp_ee",kv_cp_ee);
-		--report_error("fail kv_cp_ee", kv_cp_ee, to_sfixed(4.0,kv_cp_ee));
+report_fixed_value("kv_cp_ee",kv_cp_ee);
+report_error("fail kv_cp_ee", kv_cp_ee, to_sfixed(4.0,kv_cp_ee));
 		state <= w71;
 when w71 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1912,9 +1898,9 @@ when w71 =>
 when s72 =>
 		cmd <= "0011"; -- / kv_cp_ee/2^kv_scale
 		in1 <= resize(kv_cp_ee,fptmp1);
---		report_fixed_value("fptmp1",kv_cp_ee);
+report_fixed_value("fptmp1",kv_cp_ee);
 		in2 <= resize(kv_scale,fptmp2); -- 2^kv_scale
---		report_fixed_value("fptmp2",kv_scale);
+report_fixed_value("fptmp2",kv_scale);
 		state <= w72;
 when w72 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1928,7 +1914,7 @@ when s73 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		kv_cp := resize(fpout,kta_cp);
-		--report_error("fail kv_cp (ok,almost)", kv_cp, to_sfixed(0.5,kv_cp)); -- ok,almost
+report_error("fail kv_cp (ok,almost)", kv_cp, to_sfixed(0.5,kv_cp)); -- ok,almost
 		state <= w73;
 when w73 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1951,14 +1937,14 @@ when s74 =>
 		sftmp_slv := to_slv(fpout);
 		sftmp_slv := "0000000000"&sftmp_slv(21 downto 16)&x"0000";
 		ilchessc1ee := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
---		report_fixed_value("ilchessc1ee",ilchessc1ee);
+report_fixed_value("ilchessc1ee",ilchessc1ee);
 		tmps6 := resize(ilchessc1ee,tmps6);
 		ilchessc1ee := resize(tmps6,ilchessc1ee);
---		report_fixed_value("ilchessc1ee",ilchessc1ee);
---		report_error("fail ilchessc1ee", ilchessc1ee, to_sfixed(1.25,ilchessc1ee));
+report_fixed_value("ilchessc1ee",ilchessc1ee);
+report_error("fail ilchessc1ee", ilchessc1ee, to_sfixed(1.25,ilchessc1ee));
 		ilchessc1ee := ilchessc1ee srl 4;
---		report_fixed_value("ilchessc1ee",ilchessc1ee);
---		report_error("fail ilchessc1ee/2^4", ilchessc1ee, to_sfixed(1.25,ilchessc1ee));
+report_fixed_value("ilchessc1ee",ilchessc1ee);
+report_error("fail ilchessc1ee/2^4", ilchessc1ee, to_sfixed(1.25,ilchessc1ee));
 		state <= w74;
 when w74 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -1985,7 +1971,7 @@ when s76 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		kta_cp := resize(fpout,kta_cp);
---		--report_error("fail kta_cp*(Ta-Ta0) (ok,almost)", kta_cp, to_sfixed(0.00457763671875*(39.184-25.0),kta_cp)); -- ok,almost
+report_error("fail kta_cp*(Ta-Ta0) (ok,almost)", kta_cp, to_sfixed(0.00457763671875*(39.184-25.0),kta_cp)); -- ok,almost
 		state <= w76;
 when w76 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -2012,7 +1998,7 @@ when s78 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		kta_cp := resize(fpout,kta_cp);
---		--report_error("fail 1+kta_cp*(Ta-Ta0) (ok,almost)", kta_cp, to_sfixed(1.0+(0.00457763671875*(39.184-25.0)),kta_cp)); -- ok,almost
+report_error("fail 1+kta_cp*(Ta-Ta0) (ok,almost)", kta_cp, to_sfixed(1.0+(0.00457763671875*(39.184-25.0)),kta_cp)); -- ok,almost
 		state <= w78;
 when w78 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -2039,7 +2025,7 @@ when s80 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		kv_cp := resize(fpout,kv_cp);
---		--report_error("fail kv_cp*(vdd-vdd0) (ok,almost)", kv_cp, to_sfixed(0.5*(3.319-3.3),kv_cp)); -- ok,almost
+report_error("fail kv_cp*(vdd-vdd0) (ok,almost)", kv_cp, to_sfixed(0.5*(3.319-3.3),kv_cp)); -- ok,almost
 		state <= w80;
 when w80 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -2066,7 +2052,7 @@ when s82 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		kv_cp := resize(fpout,kv_cp);
---		--report_error("fail 1+kv_cp*(vdd-vdd0) (ok,almost)", kv_cp, to_sfixed(1.0+(0.5*(3.319-3.3)),kv_cp)); -- ok,almost
+report_error("fail 1+kv_cp*(vdd-vdd0) (ok,almost)", kv_cp, to_sfixed(1.0+(0.5*(3.319-3.3)),kv_cp)); -- ok,almost
 		state <= w82;
 when w82 =>
 		if (v_wait1 = C_WAIT1-1) then
@@ -2087,7 +2073,7 @@ when s84 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		ktacp_kvcp_mul := resize(fpout,ktacp_kvcp_mul);
---		--report_error("fail (1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) (ok,almost)", ktacp_kvcp_mul, to_sfixed((1.0+(0.00457763671875*(39.184-25.0)))*(1.0+(0.5*(3.319-3.3))),ktacp_kvcp_mul)); -- ok,almost
+report_error("fail (1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) (ok,almost)", ktacp_kvcp_mul, to_sfixed((1.0+(0.00457763671875*(39.184-25.0)))*(1.0+(0.5*(3.319-3.3))),ktacp_kvcp_mul)); -- ok,almost
 		state <= w84;
 when w84 =>
 		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s85; else v_wait1 := v_wait1 + 1; state <= w84; end if;
@@ -2102,7 +2088,7 @@ when s86 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		pixos_cp_sp0 := resize(fpout,pixos_cp_sp0);
---		--report_error("fail OFF_CPsubpage_0*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) (ok,almost)", pixos_cp_sp0, to_sfixed((-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)),pixos_cp_sp0)); -- ok,almost
+report_error("fail OFF_CPsubpage_0*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) (ok,almost)", pixos_cp_sp0, to_sfixed((-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)),pixos_cp_sp0)); -- ok,almost
 		state <= w86;
 when w86 =>
 		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s87; else v_wait1 := v_wait1 + 1; state <= w86; end if;
@@ -2117,18 +2103,18 @@ when s88 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		pixos_cp_sp0 := resize(fpout,pixos_cp_sp0);
---		report_fixed_value("PIXgain_cp_sp0-OFF_CPsubpage_0*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))", pixos_cp_sp0);
---		--report_error("fail PIXgain_cp_sp0-OFF_CPsubpage_0*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) (ok,almost)", pixos_cp_sp0, to_sfixed((-54.9469153515065)-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)),pixos_cp_sp0)); -- ok,almost
---		report_error("fail PIXgain_cp_sp0-OFF_CPsubpage_0*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) (ok,almost)", pixos_cp_sp0, to_sfixed(25.6666575059956,pixos_cp_sp0)); -- ok,almost
+report_fixed_value("PIXgain_cp_sp0-OFF_CPsubpage_0*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))", pixos_cp_sp0);
+report_error("fail PIXgain_cp_sp0-OFF_CPsubpage_0*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) (ok,almost)", pixos_cp_sp0, to_sfixed((-54.9469153515065)-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)),pixos_cp_sp0)); -- ok,almost
+report_error("fail PIXgain_cp_sp0-OFF_CPsubpage_0*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) (ok,almost)", pixos_cp_sp0, to_sfixed(25.6666575059956,pixos_cp_sp0)); -- ok,almost
 		state <= w88;
 when w88 =>
 		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s89; else v_wait1 := v_wait1 + 1; state <= w88; end if;
 when s89 =>
 		cmd <= "0010"; -- * OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))
 		in1 <= resize(ktacp_kvcp_mul,fptmp1);
---		report_fixed_value("ktacp_kvcp_mul",ktacp_kvcp_mul);
+report_fixed_value("ktacp_kvcp_mul",ktacp_kvcp_mul);
 		in2 <= resize(off_cpsubpage_1,fptmp2);
---		report_fixed_value("off_cpsubpage_1",off_cpsubpage_1);
+report_fixed_value("off_cpsubpage_1",off_cpsubpage_1);
 		state <= w89;
 when w89 =>
 		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s90; else v_wait1 := v_wait1 + 1; state <= w89; end if;
@@ -2136,16 +2122,16 @@ when s90 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		pixos_cp_sp1 := resize(fpout,pixos_cp_sp1);
---		report_error("fail OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) (ok,almost)", pixos_cp_sp1, to_sfixed((-77.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)),pixos_cp_sp1)); -- ok,almost
+report_error("fail OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) (ok,almost)", pixos_cp_sp1, to_sfixed((-77.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)),pixos_cp_sp1)); -- ok,almost
 		state <= w90;
 when w90 =>
 		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s91; else v_wait1 := v_wait1 + 1; state <= w90; end if;
 when s91 =>
 		cmd <= "0001"; -- - PIXgain_cp_sp1-OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))
 		in1 <= resize(pixgain_cp_sp1,fptmp1);
---		report_fixed_value("pixgain_cp_sp1",pixgain_cp_sp1);
+report_fixed_value("pixgain_cp_sp1",pixgain_cp_sp1);
 		in2 <= resize(pixos_cp_sp1,fptmp2);
---		report_fixed_value("pixos_cp_sp1",pixos_cp_sp1);
+report_fixed_value("pixos_cp_sp1",pixos_cp_sp1);
 		state <= w91;
 when w91 =>
 		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s92; else v_wait1 := v_wait1 + 1; state <= w91; end if;
@@ -2153,10 +2139,10 @@ when s92 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		pixos_cp_sp1 := resize(fpout,pixos_cp_sp1);
---		report_fixed_value("PIXgain_cp_sp1-OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))", pixos_cp_sp1);
---		report_error("fail PIXgain_cp_sp1-OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) (ok,almost)", pixos_cp_sp1, to_sfixed((-56.9819862904511)-(-77.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)),pixos_cp_sp1)); -- ok,almost
---		report_error("fail PIXgain_cp_sp1-OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) (ok,almost)", pixos_cp_sp1, to_sfixed(21.63158656770509,pixos_cp_sp1)); -- ok,almost -- xxx ??? ERROR on page 41 ??? xxx
---		report_error("fail PIXgain_cp_sp1-OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) (ok,almost), error ? on page 41 => pixos_cp_sp1 = 21.63158656770509", pixos_cp_sp1, to_sfixed(25.79655775862116562500,pixos_cp_sp1)); -- ok,almost -- xxx from bc calculator
+report_fixed_value("PIXgain_cp_sp1-OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))", pixos_cp_sp1);
+report_error("fail PIXgain_cp_sp1-OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) (ok,almost)", pixos_cp_sp1, to_sfixed((-56.9819862904511)-(-77.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)),pixos_cp_sp1)); -- ok,almost
+report_error("fail PIXgain_cp_sp1-OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) (ok,almost)", pixos_cp_sp1, to_sfixed(21.63158656770509,pixos_cp_sp1)); -- ok,almost -- xxx ??? ERROR on page 41 ??? xxx
+report_error("fail PIXgain_cp_sp1-OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) (ok,almost), error ? on page 41 => pixos_cp_sp1 = 21.63158656770509", pixos_cp_sp1, to_sfixed(25.79655775862116562500,pixos_cp_sp1)); -- ok,almost -- xxx from bc calculator
 		state <= w92;
 when w92 =>
 		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s93; else v_wait1 := v_wait1 + 1; state <= w92; end if;
@@ -2169,27 +2155,27 @@ when s93 =>
 		to_unsigned((integer(pixelnumber12_16-1)-integer((pixelnumber12_16-1)/2)*2),1)
 		)&x"0000",ch_pattern_12_16
 		);
---		report_fixed_value("ch_pattern_12_16",ch_pattern_12_16);
+report_fixed_value("ch_pattern_12_16",ch_pattern_12_16);
 		sftmp_slv := x"0000"&x"f020" and x"0000"&x"003f"; -- ee[0x243c]
 		fpout := to_sfixed (sftmp_slv(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
 		sftmp_slv := to_slv(fpout);
 		sftmp_slv := "0000000000"&sftmp_slv(21 downto 16)&x"0000";
 		tgcee := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
---		report_fixed_value("tgcee",tgcee);
+report_fixed_value("tgcee",tgcee);
 		tmps8 := resize(tgcee,tmps8);
 		tgcee := resize(tmps8,tgcee);
---		report_fixed_value("tgcee",tgcee);
+report_fixed_value("tgcee",tgcee);
 		tgcee := tgcee srl 5;
---		report_error("fail tgcee>/2^5", tgcee, to_sfixed(1.0,tgcee));
+report_error("fail tgcee>/2^5", tgcee, to_sfixed(1.0,tgcee));
 		state <= w93;
 when w93 =>
 		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s94; else v_wait1 := v_wait1 + 1; state <= w93; end if;
 when s94 =>
 		cmd <= "0010"; -- * CHIL_pattern*PIXos_cp_sp1
 		in1 <= resize(ch_pattern_12_16,fptmp1);
---		report_fixed_value("ch_pattern_12_16",ch_pattern_12_16);
+report_fixed_value("ch_pattern_12_16",ch_pattern_12_16);
 		in2 <= resize(pixos_cp_sp1,fptmp2);
---		report_fixed_value("pixos_cp_sp1",pixos_cp_sp1);
+report_fixed_value("pixos_cp_sp1",pixos_cp_sp1);
 		state <= w94;
 when w94 =>
 		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s95; else v_wait1 := v_wait1 + 1; state <= w94; end if;
@@ -2217,9 +2203,9 @@ when w97 =>
 when s98 =>
 		cmd <= "0010"; -- * (1-CHIL_pattern)*PIXos_cp_sp0
 		in1 <= resize(ch_pattern_12_16_minusone,fptmp1);
---		report_fixed_value("ch_pattern_12_16_minusone",ch_pattern_12_16_minusone);
+report_fixed_value("ch_pattern_12_16_minusone",ch_pattern_12_16_minusone);
 		in2 <= resize(pixos_cp_sp0,fptmp2);
---		report_fixed_value("pixos_cp_sp0",pixos_cp_sp0);
+report_fixed_value("pixos_cp_sp0",pixos_cp_sp0);
 		state <= w98;
 when w98 =>
 		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s99; else v_wait1 := v_wait1 + 1; state <= w98; end if;
@@ -2233,9 +2219,9 @@ when w99 =>
 when s100 =>
 		cmd <= "0000"; -- + ((1-CHIL_pattern)*PIXos_cp_sp0)+(CHIL_pattern*PIXos_cp_sp1)
 		in1 <= resize(pixospatt1,fptmp1);
---		report_fixed_value("pixospatt1",pixospatt1);
+report_fixed_value("pixospatt1",pixospatt1);
 		in2 <= resize(pixospatt2,fptmp2);
---		report_fixed_value("pixospatt2",pixospatt2);
+report_fixed_value("pixospatt2",pixospatt2);
 		state <= w100;
 when w100 =>
 		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s101; else v_wait1 := v_wait1 + 1; state <= w100; end if;
@@ -2243,10 +2229,10 @@ when s101 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		pixospatt12 := resize(fpout,pixospatt12);
---		report_fixed_value("pixospatt12", pixospatt12);
---		report_error("fail ((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) (ok,almost)", pixospatt12, 
---		to_sfixed(((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))
---		+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)))),pixospatt12)); -- ok,almost
+report_fixed_value("pixospatt12", pixospatt12);
+report_error("fail ((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) (ok,almost)", pixospatt12, 
+		to_sfixed(((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))
+		+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)))),pixospatt12)); -- ok,almost
 --		to_sfixed(21.6315865670509,pixospatt12)); -- xxx ??? error on page 42 : right side vir_12_16_compensated
 		state <= w101;
 when w101 =>
@@ -2262,10 +2248,10 @@ when s103 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		pixospatt12 := resize(fpout,pixospatt12);
---		report_fixed_value("TGC*pixospatt12", pixospatt12);
---		report_error("fail TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) (ok,almost)", pixospatt12, 
---		to_sfixed((1.0*((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))
---		+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))),pixospatt12)); -- ok,almost
+report_fixed_value("TGC*pixospatt12", pixospatt12);
+report_error("fail TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) (ok,almost)", pixospatt12, 
+		to_sfixed((1.0*((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))
+		+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))),pixospatt12)); -- ok,almost
 --		to_sfixed(21.6315865670509,pixospatt12)); -- xxx ??? error on page 42 : right side vir_12_16_compensated
 		state <= w103;
 when w103 =>
@@ -2281,10 +2267,10 @@ when s105 =>
 		sftmp_slv := to_slv (out1);
 		fpout := to_sfixed (sftmp_slv, sfixed16'high, sfixed16'low);
 		vir_12_16_compensated := resize(fpout,vir_12_16_compensated);
---		report_fixed_value("vir_exmissivity_compensated-TGC*pixospatt12", vir_12_16_compensated);
---		report_error("fail VIR(12,16)EMISSIVITY_COMPENSATED-TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) (ok,almost)", vir_12_16_compensated, 
---		to_sfixed((700.882495690877-(1.0*((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))
---		+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)))))),vir_12_16_compensated)); -- ok,almost
+report_fixed_value("vir_exmissivity_compensated-TGC*pixospatt12", vir_12_16_compensated);
+report_error("fail VIR(12,16)EMISSIVITY_COMPENSATED-TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) (ok,almost)", vir_12_16_compensated, 
+		to_sfixed((700.882495690877-(1.0*((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))
+		+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)))))),vir_12_16_compensated)); -- ok,almost
 --		to_sfixed(679.250909123826,pixospatt12)); -- xxx ??? error on page 42 : right side vir_12_16_compensated
 		state <= w105;
 when w105 =>

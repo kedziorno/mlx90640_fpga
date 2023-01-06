@@ -61,7 +61,7 @@ package p_fphdl_package1 is
 	subtype st_sfixed_mul is sfixed (sfixed_high(a,'*',b) downto sfixed_low(a,'*',b));
 	subtype st_sfixed_div is sfixed (sfixed_high(a,'/',b) downto sfixed_low(a,'/',b));
 
-	subtype st_sfixed_max is st_sfixed_div;
+	subtype st_sfixed_max is sfixed (FP_BITS-1 downto 0);
 	subtype sfixed1 is sfixed (1 downto 0);
 	subtype ufixed1 is ufixed (1 downto 0);
 	subtype sfixed2 is sfixed (2 downto 0);

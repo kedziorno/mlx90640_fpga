@@ -29,7 +29,7 @@ end entity fixed_synth;
 
 architecture rtl of fixed_synth is
 
-  subtype sfixed_subtype is sfixed (sfixed_div_hi downto sfixed_div_lo);
+  subtype sfixed_subtype is sfixed (FP_BITS-1 downto 0);
   type cmd_type is array (1 to 15) of STD_ULOGIC_VECTOR (cmd'range); -- cmd
   signal cmdarray : cmd_type; -- command pipeline
   type cry_type is array (0 to 4) of sfixed_subtype;
@@ -165,9 +165,9 @@ begin  -- architecture rtl
 --  subtype sfixed7 is sfixed (3 downto -3);                            -- 7 bit original
 --  subtype sfixed7 is sfixed (11 downto 4);                            -- 7 bit
 --  subtype sfixed_subtype is sfixed (7 downto -8);                           -- 16 bit original
-  variable sfh : integer := SFixed_high(in1reg3'high, in1reg3'low,'/', in2reg3'high, in2reg3'low);
-	variable sfl : integer := SFixed_low(in1reg3'high, in1reg3'low,'/', in2reg3'high, in2reg3'low);
-	subtype sfixed_subtype is sfixed (sfixed_div_hi downto sfixed_div_lo);                           -- 16 bit original
+  variable sfh : integer := SFixed_high(in1reg3'high, in1reg3'low, '/', in2reg3'high, in2reg3'low);
+	variable sfl : integer := SFixed_low (in1reg3'high, in1reg3'low, '/', in2reg3'high, in2reg3'low);
+	subtype sfixed_subtype is sfixed (FP_BITS-1 downto 0);                           -- 16 bit original
   type cry_type is array (0 to 4) of sfixed_subtype;                        -- arrays
 	  variable in1min2 : sfixed (sfh downto sfl);
 --    variable in1min2 : sfixed (15 downto -16);
