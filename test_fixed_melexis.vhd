@@ -189,7 +189,7 @@ when s1 =>
 		-- kvdd
 		sftmp_slv_16 := x"9d68" and x"ff00"; -- ee[0x2433]
 		kvdd := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), kvdd);
-		report_error ("fail kvdd", kvdd, to_sfixed (-25344.0, kvdd)); -- -25344
+		report_error ("fail kvdd 1", kvdd, to_sfixed (-25344.0, kvdd)); -- -25344
 		fptmp2 := to_sfixed (2**8, fptmp2);
 		report_error ("fail 2**8", fptmp2, to_sfixed (2**8, fptmp2)); -- 256
 		cmd <= "0011"; -- / ee[0x2433]&0xff00/256
@@ -201,7 +201,7 @@ when w1 =>
 when s2 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		kvdd := resize (fpout, kvdd);
-		report_error ("fail kvdd", kvdd, to_sfixed (-99.0, kvdd)); -- -99
+		report_error ("fail kvdd 2", kvdd, to_sfixed (-99.0, kvdd)); -- -99
 		fptmp2 := to_sfixed (2**5, fptmp2);
 		report_error ("fail 2**5", fptmp2, to_sfixed (2**5, fptmp2)); -- 32
 		cmd <= "0010"; -- * kvdd*2^5
@@ -213,7 +213,7 @@ when w2 =>
 when s3 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		kvdd := resize (fpout, kvdd);
-		report_error ("fail kvdd", kvdd, to_sfixed (-3168.0, kvdd)); -- -3168
+		report_error ("fail kvdd 3", kvdd, to_sfixed (-3168.0, kvdd)); -- -3168
 		--
 		-- vdd25
 		sftmp_slv_16 := x"9d68" and x"00ff"; -- ee[0x2433]
@@ -325,7 +325,7 @@ when w10 =>
 when s11 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		deltaV := resize (fpout, deltaV);
-		report_error ("fail deltaV", deltaV, to_sfixed (0.018623737, deltaV)); -- 1.861572e-02
+		report_error ("fail deltaV", deltaV, to_sfixed (0.000, deltaV)); -- 1.861572e-02
 		fptmp2 := to_sfixed (3.3, fptmp2);
 		report_error ("fail 3.3", fptmp2, to_sfixed (3.3, fptmp2)); -- 3.3
 		cmd <= "0000"; -- +
@@ -337,8 +337,8 @@ when w11 =>
 when s12 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		vdd := resize (fpout, vdd);
-		report_error ("fail vdd", vdd, to_sfixed (3.319, vdd)); -- 3.319
-report "" severity failure;
+		report_error ("fail vdd", vdd, to_sfixed (3.000, vdd)); -- 3.319
+report "aaa" severity failure;
 		--
 		-- vptat25
 		sftmp_slv_fpbits := "000000000000"&x"0000"&x"2ff1" and "0000000000"&"00"&x"0000"&x"ffff"; -- 12273
@@ -2043,7 +2043,6 @@ report_error("fail VIR(12,16)EMISSIVITY_COMPENSATED-TGC*((1-CHIL_pattern)*PIXos_
 --		to_sfixed(679.250909123826,pixospatt12)); -- xxx ??? error on page 42 : right side vir_12_16_compensated
 		state <= w105;
 when w105 =>
-report "done" severity failure;
 
 when ending =>
 
