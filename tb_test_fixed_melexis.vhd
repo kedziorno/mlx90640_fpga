@@ -23,24 +23,24 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-o_out1 : out st_out_sfixed;
-o_in1 : out st_in1_sfixed;
-o_in2 : out st_in2_sfixed
+o_out1 : out st_sfixed_max;
+o_in1 : out st_sfixed_max;
+o_in2 : out st_sfixed_max
 );
 end component test_fixed_melexis;
 
 SIGNAL i_clock :  std_logic;
 SIGNAL i_reset :  std_logic;
 SIGNAL i_run :  std_logic;
-SIGNAL o_out1 :  st_out_sfixed;
-SIGNAL o_in1 :  st_in1_sfixed;
-SIGNAL o_in2 :  st_in2_sfixed;
+SIGNAL o_out1 :  st_sfixed_max;
+SIGNAL o_in1 :  st_sfixed_max;
+SIGNAL o_in2 :  st_sfixed_max;
 
 constant clock_period : time := 500 ns;
 constant G_C_WAIT1 : integer := 16;
 
 signal out1r,in1r,in2r : real;
-signal out1,in1,in2 : st_out_sfixed;
+signal out1,in1,in2 : st_sfixed_max;
 
 BEGIN
 
