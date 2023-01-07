@@ -36,7 +36,7 @@ use work.p_fphdl_package1.all;
 
 entity test_fixed_melexis is
 generic (
-G_C_WAIT1 : integer := 16
+G_C_WAIT1 : integer := 1 -- xxx wait between states to calculate, >= 1
 );
 port (
 i_clock : in std_logic;
@@ -291,7 +291,7 @@ when w7 =>
 when s8 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		kvptat := resize (fpout, kvptat);
-		report_error ("fail kvptat 3", kvptat, to_sfixed (0.005371094, kvptat)); -- 5.371094e-03
+		report_error ("fail kvptat 3", kvptat, to_sfixed (0.0053710939999973561498336493968963623046875, kvptat)); -- 5.371094e-03
 		-- 
 		-- ktptat
 		sftmp_slv_16 := x"5952" and x"03ff"; -- ee[0x2432]
@@ -513,45 +513,28 @@ when w25 =>
 when s26 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		Ta := resize (fpout, Ta);
-		report_error ("fail Ta 6", Ta, to_sfixed (39.184, Ta)); --
+		report_error ("fail Ta 6", Ta, to_sfixed (39.184, Ta)); -- 39.184
+		--
+		-- Kgain
+		sftmp_slv_16 := x"1881" and x"ffff"; -- ram[0x070a]
+		fptmp1 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), Kgain);
+		report_error ("fail ram[0x070a]", fptmp1, to_sfixed (6273.0, fptmp1)); -- 6273
+		sftmp_slv_16 := x"18ef" and x"ffff"; -- ee[0x2430]
+		fptmp2 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), fptmp2);
+		report_error ("fail ee[0x2430]", fptmp2, to_sfixed (6383.0, fptmp2)); -- 6383
+		cmd <= "0011"; -- / GAIN/ram[0x070a]
+		in1 <= fptmp2;
+		in2 <= fptmp1;
+		state <= w26;
+when w26 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s27; else v_wait1 := v_wait1 + 1; state <= w26; end if;
+when s27 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		Kgain := resize (fpout, Kgain);
+		report_error ("fail Kgain", Kgain, to_sfixed (1.01753546947234, Kgain)); -- 1.01753546947234
 
 report "aaa" severity failure;
 
---		--
---		sftmp_slv_fpbits := "000000000000"&x"0000"&x"1881" and "0000000000"&"00"&x"0000"&x"ffff"; -- 6273
---		fpout := to_sfixed (sftmp_slv_fpbits(st_sfixed_max'high downto 0)&x"0000", st_sfixed_max'high, st_sfixed_max'low);
---report_fixed_value ("ram[0x070a]", fpout); -- 6273
---		sftmp_slv_fpbits := to_slv (fpout);
---		fptmp1 := to_sfixed (sftmp_slv_fpbits, st_sfixed_max'high, st_sfixed_max'low);
---report_fixed_value ("fptmp1", fptmp1); -- 6273
---report_error("fail ram[0x070a]", fptmp1, to_sfixed(6273.0,fptmp1));
---		--
---		sftmp_slv_fpbits := "000000000000"&x"0000"&x"18ef" and "0000000000"&"00"&x"0000"&x"ffff"; -- 6383
---		fpout := to_sfixed (sftmp_slv_fpbits(st_sfixed_max'high downto 0)&x"0000", st_sfixed_max'high, st_sfixed_max'low);
---report_fixed_value ("ee[0x2430]", fpout); -- 6383
---		sftmp_slv_fpbits := to_slv (fpout);
---		fptmp2 := to_sfixed (sftmp_slv_fpbits, st_sfixed_max'high, st_sfixed_max'low);
---report_fixed_value ("fptmp1", fptmp1); -- 6383
---report_error("fail gain", fptmp2, to_sfixed(6383.0,fptmp1));
---		--
---		cmd <= "0011"; -- /
---		in1 <= fptmp2;
---		in2 <= fptmp1;
---		state <= w26;
---when w26 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s27;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w26;
---		end if;
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, st_sfixed_max'high, st_sfixed_max'low);
---		Kgain := resize(fpout,Kgain);
---when s27 =>
---report_fixed_value ("gain", out1); --
---report_error("fail Kgain (ok,almost)", Kgain, to_sfixed(1.01753546947234,Kgain)); -- ok, almost
 --		-- xxx pixdata 12,16 0x056f
 --		sftmp_slv_fpbits := "000000000000"&x"0000"&x"0261" and "0000000000"&"00"&x"0000"&x"ffff"; -- 609
 --		fpout := to_sfixed (sftmp_slv_fpbits(st_sfixed_max'high downto 0)&x"0000", st_sfixed_max'high, st_sfixed_max'low);

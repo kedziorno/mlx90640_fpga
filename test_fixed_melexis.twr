@@ -45,8 +45,8 @@ Setup/Hold to clock i_clock
             |Max Setup to|Max Hold to |                  | Clock  |
 Source      | clk (edge) | clk (edge) |Internal Clock(s) | Phase  |
 ------------+------------+------------+------------------+--------+
-i_reset     |    5.261(R)|   -0.334(R)|i_clock_BUFGP     |   0.000|
-i_run       |    2.547(R)|   -0.806(R)|i_clock_BUFGP     |   0.000|
+i_reset     |   11.137(R)|    0.606(R)|i_clock_BUFGP     |   0.000|
+i_run       |    3.482(R)|   -1.524(R)|i_clock_BUFGP     |   0.000|
 ------------+------------+------------+------------------+--------+
 
 Clock i_clock to Pad
@@ -54,42 +54,120 @@ Clock i_clock to Pad
             | clk (edge) |                  | Clock  |
 Destination |   to PAD   |Internal Clock(s) | Phase  |
 ------------+------------+------------------+--------+
-o_in1<8>    |    7.929(R)|i_clock_BUFGP     |   0.000|
-o_in1<10>   |    7.998(R)|i_clock_BUFGP     |   0.000|
-o_in1<11>   |    8.618(R)|i_clock_BUFGP     |   0.000|
-o_in1<12>   |    7.829(R)|i_clock_BUFGP     |   0.000|
-o_in1<15>   |    8.019(R)|i_clock_BUFGP     |   0.000|
-o_in2<8>    |    9.380(R)|i_clock_BUFGP     |   0.000|
-o_out1<-1>  |    7.754(R)|i_clock_BUFGP     |   0.000|
-o_out1<-2>  |    7.943(R)|i_clock_BUFGP     |   0.000|
-o_out1<-3>  |    7.248(R)|i_clock_BUFGP     |   0.000|
-o_out1<-4>  |    7.586(R)|i_clock_BUFGP     |   0.000|
-o_out1<-5>  |   11.337(R)|i_clock_BUFGP     |   0.000|
-o_out1<-6>  |    7.863(R)|i_clock_BUFGP     |   0.000|
-o_out1<-7>  |    8.784(R)|i_clock_BUFGP     |   0.000|
-o_out1<-8>  |    9.159(R)|i_clock_BUFGP     |   0.000|
-o_out1<-9>  |    7.849(R)|i_clock_BUFGP     |   0.000|
-o_out1<-10> |    7.572(R)|i_clock_BUFGP     |   0.000|
-o_out1<-11> |    8.426(R)|i_clock_BUFGP     |   0.000|
-o_out1<-12> |    8.201(R)|i_clock_BUFGP     |   0.000|
-o_out1<-13> |    7.960(R)|i_clock_BUFGP     |   0.000|
-o_out1<-14> |    8.149(R)|i_clock_BUFGP     |   0.000|
-o_out1<0>   |    7.271(R)|i_clock_BUFGP     |   0.000|
-o_out1<1>   |    9.028(R)|i_clock_BUFGP     |   0.000|
-o_out1<2>   |    7.934(R)|i_clock_BUFGP     |   0.000|
-o_out1<3>   |    8.284(R)|i_clock_BUFGP     |   0.000|
-o_out1<4>   |    9.119(R)|i_clock_BUFGP     |   0.000|
-o_out1<5>   |    8.546(R)|i_clock_BUFGP     |   0.000|
-o_out1<6>   |    8.762(R)|i_clock_BUFGP     |   0.000|
-o_out1<7>   |    8.268(R)|i_clock_BUFGP     |   0.000|
-o_out1<8>   |    8.482(R)|i_clock_BUFGP     |   0.000|
-o_out1<9>   |    8.396(R)|i_clock_BUFGP     |   0.000|
-o_out1<10>  |    8.320(R)|i_clock_BUFGP     |   0.000|
-o_out1<11>  |    8.426(R)|i_clock_BUFGP     |   0.000|
-o_out1<12>  |    8.713(R)|i_clock_BUFGP     |   0.000|
-o_out1<13>  |    8.929(R)|i_clock_BUFGP     |   0.000|
-o_out1<14>  |    8.009(R)|i_clock_BUFGP     |   0.000|
-o_out1<15>  |    8.013(R)|i_clock_BUFGP     |   0.000|
+o_in1<-1>   |    7.871(R)|i_clock_BUFGP     |   0.000|
+o_in1<-2>   |   10.739(R)|i_clock_BUFGP     |   0.000|
+o_in1<-3>   |   10.733(R)|i_clock_BUFGP     |   0.000|
+o_in1<-4>   |    7.325(R)|i_clock_BUFGP     |   0.000|
+o_in1<-5>   |    7.333(R)|i_clock_BUFGP     |   0.000|
+o_in1<-6>   |   11.093(R)|i_clock_BUFGP     |   0.000|
+o_in1<-7>   |    8.949(R)|i_clock_BUFGP     |   0.000|
+o_in1<-8>   |    8.257(R)|i_clock_BUFGP     |   0.000|
+o_in1<-9>   |    8.963(R)|i_clock_BUFGP     |   0.000|
+o_in1<-10>  |    8.285(R)|i_clock_BUFGP     |   0.000|
+o_in1<-11>  |    7.868(R)|i_clock_BUFGP     |   0.000|
+o_in1<-12>  |   10.093(R)|i_clock_BUFGP     |   0.000|
+o_in1<-13>  |    7.922(R)|i_clock_BUFGP     |   0.000|
+o_in1<-14>  |    7.346(R)|i_clock_BUFGP     |   0.000|
+o_in1<-15>  |    7.885(R)|i_clock_BUFGP     |   0.000|
+o_in1<-16>  |    8.163(R)|i_clock_BUFGP     |   0.000|
+o_in1<-17>  |    8.805(R)|i_clock_BUFGP     |   0.000|
+o_in1<-18>  |    9.307(R)|i_clock_BUFGP     |   0.000|
+o_in1<0>    |    9.213(R)|i_clock_BUFGP     |   0.000|
+o_in1<1>    |    9.621(R)|i_clock_BUFGP     |   0.000|
+o_in1<2>    |    9.278(R)|i_clock_BUFGP     |   0.000|
+o_in1<3>    |    8.899(R)|i_clock_BUFGP     |   0.000|
+o_in1<4>    |    9.771(R)|i_clock_BUFGP     |   0.000|
+o_in1<5>    |    8.565(R)|i_clock_BUFGP     |   0.000|
+o_in1<6>    |   12.159(R)|i_clock_BUFGP     |   0.000|
+o_in1<7>    |    9.174(R)|i_clock_BUFGP     |   0.000|
+o_in1<8>    |   11.180(R)|i_clock_BUFGP     |   0.000|
+o_in1<9>    |    9.616(R)|i_clock_BUFGP     |   0.000|
+o_in1<10>   |   10.312(R)|i_clock_BUFGP     |   0.000|
+o_in1<11>   |    9.136(R)|i_clock_BUFGP     |   0.000|
+o_in1<12>   |   10.707(R)|i_clock_BUFGP     |   0.000|
+o_in1<13>   |    9.366(R)|i_clock_BUFGP     |   0.000|
+o_in1<14>   |   10.547(R)|i_clock_BUFGP     |   0.000|
+o_in1<15>   |    9.527(R)|i_clock_BUFGP     |   0.000|
+o_in1<16>   |    9.197(R)|i_clock_BUFGP     |   0.000|
+o_in1<17>   |    9.425(R)|i_clock_BUFGP     |   0.000|
+o_in1<18>   |    9.014(R)|i_clock_BUFGP     |   0.000|
+o_in1<19>   |    8.843(R)|i_clock_BUFGP     |   0.000|
+o_in2<-1>   |    7.749(R)|i_clock_BUFGP     |   0.000|
+o_in2<-2>   |    9.120(R)|i_clock_BUFGP     |   0.000|
+o_in2<-3>   |    8.170(R)|i_clock_BUFGP     |   0.000|
+o_in2<-4>   |    8.044(R)|i_clock_BUFGP     |   0.000|
+o_in2<-5>   |    7.638(R)|i_clock_BUFGP     |   0.000|
+o_in2<-6>   |   13.305(R)|i_clock_BUFGP     |   0.000|
+o_in2<-7>   |    8.525(R)|i_clock_BUFGP     |   0.000|
+o_in2<-8>   |    8.283(R)|i_clock_BUFGP     |   0.000|
+o_in2<-9>   |    7.641(R)|i_clock_BUFGP     |   0.000|
+o_in2<-10>  |    7.929(R)|i_clock_BUFGP     |   0.000|
+o_in2<-11>  |    7.262(R)|i_clock_BUFGP     |   0.000|
+o_in2<-12>  |    7.315(R)|i_clock_BUFGP     |   0.000|
+o_in2<-13>  |    8.478(R)|i_clock_BUFGP     |   0.000|
+o_in2<-14>  |    8.269(R)|i_clock_BUFGP     |   0.000|
+o_in2<-15>  |    7.827(R)|i_clock_BUFGP     |   0.000|
+o_in2<-16>  |    7.824(R)|i_clock_BUFGP     |   0.000|
+o_in2<-17>  |    7.605(R)|i_clock_BUFGP     |   0.000|
+o_in2<-18>  |    9.337(R)|i_clock_BUFGP     |   0.000|
+o_in2<0>    |    7.885(R)|i_clock_BUFGP     |   0.000|
+o_in2<1>    |    7.860(R)|i_clock_BUFGP     |   0.000|
+o_in2<2>    |    9.077(R)|i_clock_BUFGP     |   0.000|
+o_in2<3>    |    7.933(R)|i_clock_BUFGP     |   0.000|
+o_in2<4>    |    7.322(R)|i_clock_BUFGP     |   0.000|
+o_in2<5>    |    7.853(R)|i_clock_BUFGP     |   0.000|
+o_in2<6>    |    8.949(R)|i_clock_BUFGP     |   0.000|
+o_in2<7>    |    8.911(R)|i_clock_BUFGP     |   0.000|
+o_in2<8>    |    7.317(R)|i_clock_BUFGP     |   0.000|
+o_in2<9>    |    9.490(R)|i_clock_BUFGP     |   0.000|
+o_in2<10>   |    7.842(R)|i_clock_BUFGP     |   0.000|
+o_in2<11>   |    7.310(R)|i_clock_BUFGP     |   0.000|
+o_in2<12>   |    9.419(R)|i_clock_BUFGP     |   0.000|
+o_in2<13>   |    8.015(R)|i_clock_BUFGP     |   0.000|
+o_in2<14>   |    8.911(R)|i_clock_BUFGP     |   0.000|
+o_in2<15>   |    9.471(R)|i_clock_BUFGP     |   0.000|
+o_in2<16>   |    8.471(R)|i_clock_BUFGP     |   0.000|
+o_in2<17>   |    9.172(R)|i_clock_BUFGP     |   0.000|
+o_in2<18>   |    9.562(R)|i_clock_BUFGP     |   0.000|
+o_in2<19>   |    9.290(R)|i_clock_BUFGP     |   0.000|
+o_out1<-1>  |    8.268(R)|i_clock_BUFGP     |   0.000|
+o_out1<-2>  |    8.455(R)|i_clock_BUFGP     |   0.000|
+o_out1<-3>  |    8.804(R)|i_clock_BUFGP     |   0.000|
+o_out1<-4>  |    7.682(R)|i_clock_BUFGP     |   0.000|
+o_out1<-5>  |    8.001(R)|i_clock_BUFGP     |   0.000|
+o_out1<-6>  |    7.396(R)|i_clock_BUFGP     |   0.000|
+o_out1<-7>  |   11.087(R)|i_clock_BUFGP     |   0.000|
+o_out1<-8>  |   11.175(R)|i_clock_BUFGP     |   0.000|
+o_out1<-9>  |    8.379(R)|i_clock_BUFGP     |   0.000|
+o_out1<-10> |    9.324(R)|i_clock_BUFGP     |   0.000|
+o_out1<-11> |    7.397(R)|i_clock_BUFGP     |   0.000|
+o_out1<-12> |   10.783(R)|i_clock_BUFGP     |   0.000|
+o_out1<-13> |   11.918(R)|i_clock_BUFGP     |   0.000|
+o_out1<-14> |    7.991(R)|i_clock_BUFGP     |   0.000|
+o_out1<-15> |    8.189(R)|i_clock_BUFGP     |   0.000|
+o_out1<-16> |   11.099(R)|i_clock_BUFGP     |   0.000|
+o_out1<-17> |    8.161(R)|i_clock_BUFGP     |   0.000|
+o_out1<-18> |    8.295(R)|i_clock_BUFGP     |   0.000|
+o_out1<0>   |   11.891(R)|i_clock_BUFGP     |   0.000|
+o_out1<1>   |   13.762(R)|i_clock_BUFGP     |   0.000|
+o_out1<2>   |   11.417(R)|i_clock_BUFGP     |   0.000|
+o_out1<3>   |   10.463(R)|i_clock_BUFGP     |   0.000|
+o_out1<4>   |    9.544(R)|i_clock_BUFGP     |   0.000|
+o_out1<5>   |   11.226(R)|i_clock_BUFGP     |   0.000|
+o_out1<6>   |   13.673(R)|i_clock_BUFGP     |   0.000|
+o_out1<7>   |   11.693(R)|i_clock_BUFGP     |   0.000|
+o_out1<8>   |   10.181(R)|i_clock_BUFGP     |   0.000|
+o_out1<9>   |   13.570(R)|i_clock_BUFGP     |   0.000|
+o_out1<10>  |   10.262(R)|i_clock_BUFGP     |   0.000|
+o_out1<11>  |   10.660(R)|i_clock_BUFGP     |   0.000|
+o_out1<12>  |    8.497(R)|i_clock_BUFGP     |   0.000|
+o_out1<13>  |    9.397(R)|i_clock_BUFGP     |   0.000|
+o_out1<14>  |    9.729(R)|i_clock_BUFGP     |   0.000|
+o_out1<15>  |   10.675(R)|i_clock_BUFGP     |   0.000|
+o_out1<16>  |   11.373(R)|i_clock_BUFGP     |   0.000|
+o_out1<17>  |   10.465(R)|i_clock_BUFGP     |   0.000|
+o_out1<18>  |    7.879(R)|i_clock_BUFGP     |   0.000|
+o_out1<19>  |    7.895(R)|i_clock_BUFGP     |   0.000|
 ------------+------------+------------------+--------+
 
 Clock to Setup on destination clock i_clock
@@ -97,18 +175,18 @@ Clock to Setup on destination clock i_clock
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-i_clock        |  412.507|         |         |         |
+i_clock        |  711.459|         |         |         |
 ---------------+---------+---------+---------+---------+
 
 
-Analysis completed Fri Jan  6 19:57:01 2023 
+Analysis completed Fri Jan  6 22:52:56 2023 
 --------------------------------------------------------------------------------
 
 Trace Settings:
 -------------------------
 Trace Settings 
 
-Peak Memory Usage: 492 MB
+Peak Memory Usage: 683 MB
 
 
 

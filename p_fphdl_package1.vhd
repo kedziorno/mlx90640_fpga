@@ -2,6 +2,10 @@ library IEEE,ieee_proposed;
 use IEEE.STD_LOGIC_1164.all;
 use ieee_proposed.fixed_float_types.all;
 use ieee_proposed.fixed_pkg.all;
+--use ieee_proposed.numeric_std_additions.all;
+--use ieee_proposed.standard_additions.all;
+--use ieee_proposed.standard_textio_additions.all;
+--use ieee_proposed.std_logic_1164_additions.all;
 
 package p_fphdl_package1 is
 
@@ -28,7 +32,8 @@ package p_fphdl_package1 is
 		lo : in integer
 	);
 
-	constant FP_BITS : integer := 44;
+--	constant FP_BITS : integer := 19; -- xxx for synthesis
+	constant FP_BITS : integer := 44; -- xxx for simulation
 	subtype st_in1_slv is std_logic_vector (FP_BITS-1 downto 0);
 	subtype st_in2_slv is std_logic_vector (FP_BITS-1 downto 0);
 	subtype st_out_slv is std_logic_vector (FP_BITS-1 downto 0);
