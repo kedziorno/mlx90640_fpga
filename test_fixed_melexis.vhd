@@ -532,223 +532,116 @@ when s27 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		Kgain := resize (fpout, Kgain);
 		report_error ("fail Kgain", Kgain, to_sfixed (1.01753546947234, Kgain)); -- 1.01753546947234
+		-- xxx pixdata 12,16 ram[0x056f]
+		sftmp_slv_16 := x"0261" and x"ffff"; -- ram[0x056f]
+		pixgain12_16 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), pixgain12_16);
+		report_error ("fail pixgain12_16", pixgain12_16, to_sfixed (609.0, pixgain12_16)); -- 609
+		cmd <= "0010"; -- * ram[pixel_data]*Kgain
+		in1 <= pixgain12_16;
+		in2 <= Kgain;
+		state <= w27;
+when w27 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s28; else v_wait1 := v_wait1 + 1; state <= w27; end if;
+when s28 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		pixgain12_16 := resize (fpout, pixgain12_16);
+		report_error ("fail pixgain12_16", pixgain12_16, to_sfixed (619.679100908656, pixgain12_16)); -- 619.679100908656
+		sftmp_slv_16 := x"ffbb" and x"ffff"; -- ee[0x2411]
+		offsetaverage := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), offsetaverage);
+		report_error ("fail offsetaverage", offsetaverage, to_sfixed (-69.0, offsetaverage)); -- -69
+		sftmp_slv_16 := x"4210" and x"0f00"; -- ee[0x2410]
+		occscalerow := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), occscalerow);
+		occscalerow := occscalerow srl 8;
+		report_error ("fail occscalerow", occscalerow, to_sfixed (2.0, occscalerow)); -- 2
+		sftmp_slv_16 := x"4210" and x"00f0"; -- ee[0x2410]
+		occscalecolumn := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), occscalecolumn);
+		occscalecolumn := occscalecolumn srl 4;
+		report_error ("fail occscalecolumn", occscalecolumn, to_sfixed (1.0, occscalecolumn)); -- 1
+		sftmp_slv_16 := x"f2f2" and x"f000"; -- ee[0x2414]
+		occrow12 := to_sfixed (sftmp_slv_16, occrow12);
+		occrow12 := occrow12 srl 12;
+		occrow12 := resize (occrow12, occrow12);
+		report_error ("fail occrow12", occrow12, to_sfixed (-1.0, occrow12)); -- -1 / 0xf signed
+		sftmp_slv_16 := x"e0ef" and x"f000"; -- ee[0x241b]
+		occcolumn16 := to_sfixed (sftmp_slv_16, sftmp_sf_16);
+		occcolumn16 := occcolumn16 srl 12;
+		occcolumn16 := resize (occcolumn16, occcolumn16);
+		report_error ("fail occcolumn16", occcolumn16, to_sfixed (-2.0, occcolumn16)); -- -2 / 0xe signed
+		sftmp_slv_fpbits := x"08a0" and x"fc00"; -- ee[0x25af]
+		offset12_16 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), offset12_16);
+		report_error ("fail offset12_16", offset12_16, to_sfixed (2.0, offset12_16)); -- 2
+		sftmp_slv_16 := x"4210" and x"000f"; -- ee[0x2410]
+		occscaleremnant := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), occscaleremnant);
+		report_error ("fail occscaleremnant", occscaleremnant, to_sfixed (0.0, occscaleremnant)); -- 0
+		occsro := to_sfixed (1.0, occsro) sll to_integer (occscalerow); -- 2^occscalerow=2^2=4.0
+		report_error ("fail occsro", occsro, to_sfixed (4.0, occsro)); -- 4
+		occsc := to_sfixed (1.0, occsc) sll to_integer (occscalecolumn); -- 2^occscalecolumn=2^1=2.0
+		report_error ("fail occsc", occsc, to_sfixed (2.0, occsc)); -- 2
+		occsre := to_sfixed (1.0, occsre) sll to_integer (occscaleremnant); -- 2^occscaleremnant=2^0=1.0
+		report_error ("fail occsre", occsre, to_sfixed (1.0, occsro)); -- 1
+		cmd <= "0010"; -- * occrow12*2^occscalerow
+		in1 <= occrow12;
+		in2 <= occsro;
+		state <= w28;
+when w28 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s29; else v_wait1 := v_wait1 + 1; state <= w28; end if;
+when s29 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		occsro := resize (fpout, occsro);
+		report_error ("fail occsro 1", occsro, to_sfixed (0.0, occsro)); -- 
+		cmd <= "0010"; -- * occcolumn16*2^occscalecolumn
+		in1 <= occcolumn16;
+		in2 <= occsc;
+		state <= w29;
+when w29 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s30; else v_wait1 := v_wait1 + 1; state <= w29; end if;
+when s30 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		occsc := resize (fpout, occsc);
+		report_error ("fail occsc 1", occsc, to_sfixed (0.0, occsc)); -- 
+		cmd <= "0010"; -- * occremnant*2^occscaleremnant
+		in1 <= offset12_16;
+		in2 <= occsre;
+		state <= w30;
+when w30 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s31; else v_wait1 := v_wait1 + 1; state <= w30; end if;
+when s31 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		occsre := resize (fpout, occsre);
+		report_error ("fail occsre 1", occsre, to_sfixed (0.0, occsre)); -- 
+		cmd <= "0000"; -- + (occcolumn16*2^occscalecolumn)+(occremnant*2^occscaleremnant)
+		in1 <= occsc;
+		in2 <= occsre;
+		state <= w31;
+when w31 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s32; else v_wait1 := v_wait1 + 1; state <= w31; end if;
+when s32 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		occsre := resize (fpout, occsre);
+		report_error ("fail occsre 2", occsre, to_sfixed (0.0, occsre)); -- 
+		cmd <= "0000"; -- + (occrow12*2^occscalerow)+(occcolumn16*2^occscalecolumn)+(occremnant*2^occscaleremnant)
+		in1 <= occsre;
+		in2 <= occsro;
+		state <= w32;
+when w32 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s33; else v_wait1 := v_wait1 + 1; state <= w32; end if;
+when s33 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		occsre := resize (fpout, occsre);
+		report_error ("fail occsre 3", occsre, to_sfixed (0.0, occsre)); -- 
+		cmd <= "0000"; -- + offsetaverage+(occrow12*2^occscalerow)+(occcolumn16*2^occscalecolumn)+(occremnant*2^occscaleremnant)
+		in1 <= occsre;
+		in2 <= offsetaverage;
+		state <= w33;
+when w33 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s34; else v_wait1 := v_wait1 + 1; state <= w33; end if;
+when s34 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		pixosref12_16 := resize (fpout, pixosref12_16);
+		report_error ("fail pixosref12_16", pixosref12_16, to_sfixed (-75.0, pixosref12_16)); -- -75
 
 report "aaa" severity failure;
 
---		-- xxx pixdata 12,16 0x056f
---		sftmp_slv_fpbits := "000000000000"&x"0000"&x"0261" and "0000000000"&"00"&x"0000"&x"ffff"; -- 609
---		fpout := to_sfixed (sftmp_slv_fpbits(st_sfixed_max'high downto 0)&x"0000", st_sfixed_max'high, st_sfixed_max'low);
---		sftmp_slv_fpbits := to_slv (fpout);
---		fptmp1 := to_sfixed (sftmp_slv_fpbits, st_sfixed_max'high, st_sfixed_max'low);
---report_error("fail pixgain(12,16) ram[0x056f]", fptmp1, to_sfixed(609.0,fptmp1));
---		cmd <= "0010"; -- *
---		in1 <= fptmp1;
---		in2 <= resize(Kgain,fptmp2);
---		state <= w27;
---when w27 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s28;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w27;
---		end if;
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, st_sfixed_max'high, st_sfixed_max'low);
---		pixgain12_16 := resize(fpout,pixgain12_16); --xxx pix gain 12,16
---when s28 =>
---report_error("fail pixgain12_16 (ok,almost)", pixgain12_16, to_sfixed(619.679100908656,pixgain12_16)); -- ok, almost
---
---		sftmp_slv_fpbits := x"0000"&x"ffbb" and x"0000"&x"ffff"; -- 65467
---		fpout := to_sfixed (sftmp_slv_fpbits(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
---report_fixed_value ("ee[0x2410]", fpout); -- 65467
---		sftmp_slv_fpbits := to_slv (fpout);
---		offsetaverage := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---report_error("fail offsetaverage", offsetaverage, to_sfixed(-69.0,offsetaverage));
---
---		sftmp_slv_fpbits := x"0000"&x"4210" and x"0000"&x"0f00"; -- 2
---		fpout := to_sfixed (sftmp_slv_fpbits(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
---		sftmp_slv_fpbits := to_slv(fpout);
---		sftmp_slv_fpbits := x"00"&sftmp_slv_fpbits(31 downto 24)&x"0000";
---		occscalerow := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		tmps4 := resize(occscalerow,tmps4);
---		occscalerow := resize(tmps4,occscalerow);
---report_fixed_value("occscalerow",occscalerow);
---report_error("fail occscalerow", occscalerow, to_sfixed(2.0,occscalerow));
---
---		sftmp_slv_fpbits := x"0000"&x"4210" and x"0000"&x"00f0"; -- 1
---		fpout := to_sfixed (sftmp_slv_fpbits(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
---report_fixed_value("asd",fpout);
---		sftmp_slv_fpbits := to_slv(fpout);
---		sftmp_slv_fpbits := x"000"&sftmp_slv_fpbits(23 downto 20)&x"0000";
---		occscalecolumn := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		tmps4 := resize(occscalecolumn,tmps4);
---		occscalecolumn := resize(tmps4,occscalecolumn);
---report_error("fail occscalecolumn", occscalecolumn, to_sfixed(1.0,occscalecolumn));
---
---		sftmp_slv_fpbits := x"0000"&x"f2f2" and x"0000"&x"f000"; -- ee[0x2414]
---		fpout := to_sfixed (sftmp_slv_fpbits(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
---		sftmp_slv_fpbits := to_slv(fpout);
---		sftmp_slv_fpbits := x"000"&sftmp_slv_fpbits(31 downto 28)&x"0000";
---		occrow12 := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		tmps4 := resize(occrow12,tmps4);
---		occrow12 := resize(tmps4,occrow12);
---report_error("fail occrow12", occrow12, to_sfixed(-1.0,occrow12));
---
---		sftmp_slv_fpbits := x"0000"&x"e0ef" and x"0000"&x"f000"; -- ee[0x241b]
---		fpout := to_sfixed (sftmp_slv_fpbits(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
---		sftmp_slv_fpbits := to_slv(fpout);
---		sftmp_slv_fpbits := x"000"&sftmp_slv_fpbits(31 downto 28)&x"0000";
---		occcolumn16 := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		tmps4 := resize(occcolumn16,tmps4);
---		occcolumn16 := resize(tmps4,occcolumn16);
---report_error("fail occcolumn16", occcolumn16, to_sfixed(-2.0,occcolumn16));
---
---		sftmp_slv_fpbits := x"0000"&x"08a8" and x"0000"&x"fc00"; -- ee[0x25af]
---		fpout := to_sfixed (sftmp_slv_fpbits(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
---		sftmp_slv_fpbits := to_slv(fpout);
---		sftmp_slv_fpbits := "0000000000"&sftmp_slv_fpbits(31 downto 26)&x"0000";
---		offset12_16 := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		tmps6 := resize(offset12_16,tmps6);
---		offset12_16 := resize(tmps6,offset12_16);
---report_error("fail offset12_16", offset12_16, to_sfixed(2.0,offset12_16));
---
---		sftmp_slv_fpbits := x"0000"&x"4210" and x"0000"&x"000f"; -- ee[0x2410]
---		fpout := to_sfixed (sftmp_slv_fpbits(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
---		sftmp_slv_fpbits := to_slv(fpout);
---		sftmp_slv_fpbits := "000000000000"&sftmp_slv_fpbits(19 downto 16)&x"0000";
---		occscaleremnant := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		tmps4 := resize(occscaleremnant,tmps4);
---		occscaleremnant := resize(tmps4,occscaleremnant);
---report_error("fail occscaleremnant", occscaleremnant, to_sfixed(0.0,occscaleremnant));
---
---		occsre := to_sfixed(1.0,occsre) sll to_integer(occscaleremnant); -- 1.0
---		occsro := to_sfixed(1.0,occsro) sll to_integer(occscalerow); -- 4.0
---		occsc := to_sfixed(1.0,occsc) sll to_integer(occscalecolumn); -- 2.0
---
---report_fixed_value("occsre",occsre);
---report_fixed_value("occsro",occsro);
-----		reporct_fixed_value("occsc",occsc);
---		cmd <= "0010"; -- * occrow12*2^occscalerow
---		in1 <= resize(occrow12,fptmp1);
---report_fixed_value("occrow12",resize(occrow12,fptmp1));
---		in2 <= resize(occsro,fptmp2); -- 2^x
---report_fixed_value("occsro",resize(occsro,fptmp2));
---		state <= w28;
---when w28 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s29;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w28;
---		end if;
---when s29 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		occsro := resize(fpout,occsro);
---report_fixed_value("occrow12*2^occscalerow",occsro);
---		cmd <= "0010"; -- * occcolumn16*2^occcolumn16
---		in1 <= resize(occcolumn16,fptmp1);
---report_fixed_value("occcolumn16",resize(occcolumn16,fptmp1));
---		in2 <= resize(occsc,fptmp2); -- 2^x
---report_fixed_value("occsc",resize(occsc,fptmp2));
---		state <= w29;
---when w29 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s30;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w29;
---		end if;
---when s30 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		occsc := resize(fpout,occsc);
---report_fixed_value("occcolumn16*2^occsc",occsc);
---
---		cmd <= "0010"; -- * occremnant*2^occscaleremnant
---		in1 <= resize(offset12_16,fptmp1);
---report_fixed_value("offset12_16",resize(offset12_16,fptmp1));
---		in2 <= resize(occsre,fptmp2); -- 2^x
---report_fixed_value("occsre",resize(occsre,fptmp2));
---		state <= w30;
---when w30 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s31;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w30;
---		end if;
---when s31 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		occsre := resize(fpout,occsre);
---report_fixed_value("occremnant*2^occscaleremnant",occsre);
---
---		cmd <= "0000"; -- + occsre+occsc
---		in1 <= resize(occsre,fptmp1);
---report_fixed_value("occsre",resize(occsre,fptmp1));
---		in2 <= resize(occsc,fptmp2);
---report_fixed_value("occsc",resize(occsc,fptmp2));
---		state <= w31;
---when w31 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s32;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w31;
---		end if;
---when s32 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		occsre := resize(fpout,occsre); -- occsre+occsc
---report_fixed_value("occsre+occsc",occsre);
---
---		cmd <= "0000"; -- + occsre+occsc+occsro
---		in1 <= resize(occsre,fptmp1);
---report_fixed_value("occsre",resize(occsre,fptmp1));
---		in2 <= resize(occsro,fptmp2);
---report_fixed_value("occsro",resize(occsro,fptmp2));
---		state <= w32;
---when w32 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s33;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w32;
---		end if;
---when s33 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		occsro := resize(fpout,occsro); -- occsre+occsc+occsro
---report_fixed_value("occsre+occsc+occsro",occsro);
---
---		cmd <= "0000"; -- + occsre+occsc+occsro+offsetaverage
---		in1 <= resize(occsro,fptmp1);
---report_fixed_value("occsro",resize(occsro,fptmp1));
---		in2 <= resize(offsetaverage,fptmp2);
---report_fixed_value("offsetaverage",resize(offsetaverage,fptmp2));
---		state <= w33;
---when w33 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s34;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w33;
---		end if;
---when s34 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		pixosref12_16 := resize(fpout,pixosref12_16);
---report_fixed_value("pixosref12_16=occsre+occsc+occsro+offsetaverage",pixosref12_16);
---report_error("fail pixosref12_16 (ok,almost)", pixosref12_16, to_sfixed(-75.0,pixosref12_16)); -- ok,almost
---
 --		sftmp_slv_fpbits := x"0000"&x"08a0" and x"0000"&x"000e"; -- ee[0x25af]
 --		fpout := to_sfixed (sftmp_slv_fpbits(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
 --		sftmp_slv_fpbits := to_slv(fpout);
