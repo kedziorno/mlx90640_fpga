@@ -1354,7 +1354,7 @@ when w109 =>
 when s110 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		cpp1p0ratio := resize (fpout, cpp1p0ratio);
-		report_error ("fail cpp1p0ratio 2", cpp1p0ratio, to_sfixed (-1.05468750000000000000, cpp1p0ratio)); -- -1.05468750000000000000
+		report_error ("fail cpp1p0ratio 2", cpp1p0ratio, to_sfixed (1.0+(-0.05468750000000000000), cpp1p0ratio)); -- 0.9453125
 		cmd <= "0010"; -- * acpsubpage0*(1+(cpp1p0ratio/2^7))
 		in1 <= acpsubpage0;
 		in2 <= cpp1p0ratio;
@@ -1364,7 +1364,7 @@ when w110 =>
 when s111 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		acpsubpage1 := resize (fpout, acpsubpage1);
-		report_error ("fail acpsubpage1", acpsubpage1, to_sfixed ((0.00000000407453626394272)*(-1.05468750000000000000), acpsubpage1)); -- 0.00000000407453626394272*-1.05468750000000000000
+		report_error ("fail acpsubpage1", acpsubpage1, to_sfixed ((0.00000000407453626394272)*(0.9453125), acpsubpage1)); -- 0.00000000407453626394272*0.9453125
 		report_error ("fail acpsubpage1 const", acpsubpage1, to_sfixed (0.00000000385171006200835, acpsubpage1)); -- 0.00000000385171006200835
 report time'image(now) severity failure;
 
