@@ -175,6 +175,8 @@ begin
 --		constant pixelnumber12_16 : integer := 367; -- xxx bad val
 		variable pixospatt1,pixospatt2,pixospatt12,ch_pattern_12_16_minusone : st_sfixed_max;
 		variable ascale,ascalecp,acomp_12_16,acpsubpage0,acpsubpage1,cpp1p0ratio,ksta,kstaee,a_12_16,areference,accrow12,accscalerow,acccolumn16,accscalecolumn,apixel_12_16,accscaleremnant : st_sfixed_max;
+		variable accsro,accsc,accsre : st_sfixed_max;
+		variable accsror,accscr,accsrer : st_sfixed_max;
 	begin
 		if (rising_edge(i_clock)) then
 			if (i_reset = '1') then
@@ -1384,6 +1386,151 @@ when s112 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		ksta := resize (fpout, ksta);
 		report_error ("fail ksta", ksta, to_sfixed (-0.001953125, ksta)); -- -0.001953125
+		sftmp_slv_16 := x"2f44" and x"ffff"; -- ee[0x2421]
+		areference := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), areference);
+		report_error ("fail areference", areference, to_sfixed (12100.0, areference)); -- 12100
+		sftmp_slv_16 := x"79a6" and x"f000"; -- ee[0x2420]
+		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 12));
+		tmpslv4 := sftmp_slv_16 (3 downto 0);
+		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
+		ascale := resize (tmpsf4, ascale);
+		report_error ("fail ascale", ascale, to_sfixed (7.0, ascale)); -- 7
+		fptmp2 := to_sfixed (30.0, fptmp2);
+		report_error ("fail 30.0", fptmp2, to_sfixed (30.0, fptmp2));
+		cmd <= "0000"; -- + ascale+30
+		in1 <= ascale;
+		in2 <= fptmp2;
+		state <= w112;
+when w112 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s113; else v_wait1 := v_wait1 + 1; state <= w112; end if;
+when s113 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		ascale := resize (fpout, ascale);
+		report_error ("fail ascale", ascale, to_sfixed (37.0, ascale)); -- 37
+
+		sftmp_slv_16 := x"3333" and x"f000"; -- ee[0x2424]
+		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 12));
+		tmpslv4 := sftmp_slv_16 (3 downto 0);
+		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
+		accrow12 := resize (tmpsf4, accrow12);
+		report_error ("fail accrow12", accrow12, to_sfixed (3.0, accrow12)); -- 3
+
+		sftmp_slv_16 := x"3333" and x"f000"; -- ee[0x242b]
+		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 12));
+		tmpslv4 := sftmp_slv_16 (3 downto 0);
+		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
+		acccolumn16 := resize (tmpsf4, acccolumn16);
+		report_error ("fail acccolumn16", acccolumn16, to_sfixed (3.0, acccolumn16)); -- 3
+
+		sftmp_slv_16 := x"79a6" and x"0f00"; -- ee[0x2420]
+		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 8));
+		accscalerow := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), accscalerow);
+		report_error ("fail accscalerow", accscalerow, to_sfixed (9.0, accscalerow)); -- 9
+
+		sftmp_slv_16 := x"79a6" and x"00f0"; -- ee[0x2420]
+		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 4));
+		accscalecolumn := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), accscalecolumn);
+		report_error ("fail accscalecolumn", accscalecolumn, to_sfixed (10.0, accscalecolumn)); -- 10
+
+		sftmp_slv_16 := x"79a6" and x"000f"; -- ee[0x2420]
+		tmpslv4 := sftmp_slv_16 (3 downto 0);
+		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
+		accscaleremnant := resize (tmpsf4, accscaleremnant);
+		report_error ("fail accscaleremnant", accscaleremnant, to_sfixed (6.0, accscaleremnant)); -- 6
+
+
+		sftmp_slv_16 := x"08a0" and x"03f0"; -- ee[0x258f]
+		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 4));
+		tmpslv6 := sftmp_slv_16 (5 downto 0);
+		tmpsf6 := to_sfixed (tmpslv6, tmpsf6);
+		apixel_12_16 := resize (tmpsf6, apixel_12_16);
+		report_error ("fail apixel_12_16", apixel_12_16, to_sfixed (10.0, apixel_12_16)); -- 10
+
+		accsro := to_sfixed (1.0, accsro) sll to_integer (accscalerow);
+		report_error ("fail 2^accscalerow", accsro, to_sfixed (2**9, accsro)); -- 2**9
+
+		accsc := to_sfixed (1.0, accsc) sll to_integer (accscalecolumn);
+		report_error ("fail 2^accscalecolumn", accsc, to_sfixed (2**10, accsc)); -- 2**10
+
+		accsre := to_sfixed (1.0, accsre) sll to_integer (accscaleremnant);
+		report_error ("fail 2^accscaleremnant", accsre, to_sfixed (2**6, accsre)); -- 2**6
+
+		state <= w113;
+when w113 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s114; else v_wait1 := v_wait1 + 1; state <= w113; end if;
+when s114 =>
+		cmd <= "0010"; -- * accrow12*2^accscalerow
+		in1 <= accrow12;
+		in2 <= accsro;
+		state <= w114;
+when w114 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s115; else v_wait1 := v_wait1 + 1; state <= w114; end if;
+when s115 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		accsror := resize (fpout, accsror);
+		report_error ("fail accsror", accsror, to_sfixed (3.0*(2**9), accsror)); -- 3.0*(2**9)
+		cmd <= "0010"; -- * acccolumn16*2^accscalecolumn
+		in1 <= acccolumn16;
+		in2 <= accsc;
+		state <= w115;
+when w115 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s116; else v_wait1 := v_wait1 + 1; state <= w115; end if;
+when s116 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		accscr := resize (fpout, accscr);
+		report_error ("fail accscr", accscr, to_sfixed (3.0*(2**10), accscr)); -- 3.0*(2**10)
+		cmd <= "0010"; -- * apixel_12_16*2^accscaleremnant
+		in1 <= apixel_12_16;
+		in2 <= accsre;
+		state <= w116;
+when w116 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s117; else v_wait1 := v_wait1 + 1; state <= w116; end if;
+when s117 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		accsrer := resize (fpout, accsrer);
+		report_error ("fail accsrer", accsrer, to_sfixed (10.0*(2**6), accsrer)); -- 10.0*(2**6)
+		cmd <= "0000"; -- + areference+(accrow12*2^accscalerow)
+		in1 <= areference;
+		in2 <= accsror;
+		state <= w117;
+when w117 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s118; else v_wait1 := v_wait1 + 1; state <= w117; end if;
+when s118 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		a_12_16 := resize (fpout, a_12_16);
+		report_error ("fail a_12_16 1", a_12_16, to_sfixed (12100.0+3.0*(2**9), a_12_16)); -- 12100.0+(3.0*(2**9))
+		cmd <= "0000"; -- + areference+(accrow12*2^accscalerow)+(acccolumn16*2^accscalecolumn)
+		in1 <= a_12_16;
+		in2 <= accscr;
+		state <= w118;
+when w118 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s119; else v_wait1 := v_wait1 + 1; state <= w118; end if;
+when s119 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		a_12_16 := resize (fpout, a_12_16);
+		report_error ("fail a_12_16 2", a_12_16, to_sfixed (12100.0+(3.0*(2**9))+(3.0*(2**10)), a_12_16)); -- 12100.0+(3.0*(2**9))+(3.0*(2**10))
+		cmd <= "0000"; -- + areference+(accrow12*2^accscalerow)+(acccolumn16*2^accscalecolumn)+(apixel_12_16*2^accscaleremnant)
+		in1 <= a_12_16;
+		in2 <= accsrer;
+		state <= w119;
+when w119 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s120; else v_wait1 := v_wait1 + 1; state <= w119; end if;
+when s120 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		a_12_16 := resize (fpout, a_12_16);
+		report_error ("fail a_12_16 3", a_12_16, to_sfixed (12100.0+(3.0*(2**9))+(3.0*(2**10))+(10.0*(2**6)), a_12_16)); -- 12100.0+(3.0*(2**9))+(3.0*(2**10))+(10*(2**6))
+		ascale := to_sfixed (1.0, ascale) sll to_integer (ascale);
+		report_error ("fail 2^ascale", ascale, to_sfixed (137438953472.0, ascale)); -- 137438953472
+		cmd <= "0011"; -- / (12100.0+(3.0*(2**9))+(3.0*(2**10))+(10*(2**6)))/2^ascale
+		in1 <= a_12_16;
+		in2 <= ascale;
+		state <= w120;
+when w120 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s121; else v_wait1 := v_wait1 + 1; state <= w120; end if;
+when s121 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		a_12_16 := resize (fpout, a_12_16);
+		report_error ("fail a_12_16 4", a_12_16, to_sfixed (0.000000126223312690865, a_12_16)); -- 0.000000126223312690865
 
 report time'image(now) severity failure;
 
