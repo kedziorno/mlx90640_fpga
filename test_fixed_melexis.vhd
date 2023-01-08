@@ -143,6 +143,7 @@ begin
 		variable occsror,occscr,occsrer : st_sfixed_max;
 		variable pixosref12_16 : st_sfixed_max;
 		variable kta12_16 : st_sfixed_max;
+		variable kta12_16_ee : st_sfixed_max;
 		variable kta_rc_ee : st_sfixed_max;
 		variable kta_scale_1 : st_sfixed_max;
 		variable kta_scale_2 : st_sfixed_max;
@@ -525,7 +526,7 @@ when s26 =>
 		--
 		-- Kgain
 		sftmp_slv_16 := x"1881" and x"ffff"; -- ram[0x070a]
-		fptmp1 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), Kgain);
+		fptmp1 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), fptmp1);
 		report_error ("fail ram[0x070a]", fptmp1, to_sfixed (6273.0, fptmp1)); -- 6273
 		sftmp_slv_16 := x"18ef" and x"ffff"; -- ee[0x2430]
 		fptmp2 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), fptmp2);
@@ -652,132 +653,75 @@ when s34 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		pixosref12_16 := resize (fpout, pixosref12_16);
 		report_error ("fail pixosref12_16", pixosref12_16, to_sfixed (-75.0, pixosref12_16)); -- -75
+		sftmp_slv_16 := x"08a0" and x"000e"; -- ee[0x25af]
+		kta12_16_ee := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), kta12_16_ee);
+		report_error ("fail kta12_16_ee", kta12_16_ee, to_sfixed (0.0, kta12_16_ee)); -- 0
+		kta12_16_ee := kta12_16_ee srl 1;
+		report_error ("fail kta12_16_ee", kta12_16_ee, to_sfixed (0.0, kta12_16_ee));
+		sftmp_slv_16 := x"5354" and x"00ff"; -- ee[0x2437]
+		kta_rc_ee := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), kta_rc_ee);
+		report_error ("fail kta_rc_ee", kta_rc_ee, to_sfixed (84.0, kta_rc_ee)); -- 84
+		sftmp_slv_16 := x"2363" and x"000f"; -- ee[0x2438]
+		kta_scale_2 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), kta_scale_2);
+		report_error ("fail kta_scale_2", kta_scale_2, to_sfixed (3.0, kta_scale_2)); -- 3
+		sftmp_slv_16 := x"2363" and x"00f0"; -- ee[0x2438]
+		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 4));
+		tmpslv4 := sftmp_slv_16 (3 downto 0);
+		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
+		kta_scale_1 := resize (tmpsf4, kta_scale_1);
+		report_error ("fail kta_scale_1", kta_scale_1, to_sfixed (6.0, kta_scale_1)); -- 6
+		fptmp2 := to_sfixed (8.0, fptmp2);
+		report_error ("fail 8.0", fptmp2, to_sfixed (8.0, fptmp2)); -- 8.0
+		cmd <= "0000"; -- + kta_scale_1+8
+		in1 <= kta_scale_1;
+		in2 <= fptmp2;
+		state <= w34;
+when w34 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s35; else v_wait1 := v_wait1 + 1; state <= w34; end if;
+when s35 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		kta_scale_1 := resize (fpout, kta_scale_1);
+		report_error ("fail kta_scale_1", kta_scale_1, to_sfixed (14.0, kta_scale_1)); -- 14
+		sftmp_slv_16 := x"5454" and x"000f"; -- ee[0x2434]
+		kv12_16 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), kv12_16);
+		report_error ("fail kv12_16", kv12_16, to_sfixed (4.0, kv12_16)); -- 4
+		kta_scale_2 := to_sfixed(1.0, kta_scale_2) sll to_integer (kta_scale_2);
+		report_error ("fail kta_scale_2", kta_scale_2, to_sfixed (2**3, kta_scale_2)); -- 2**3
+		cmd <= "0010"; -- * kta(12,16)_ee*2^Kta_scale_2
+		in1 <= kta12_16_ee;
+		in2 <= kta_scale_2;
+		state <= w35;
+when w35 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s36; else v_wait1 := v_wait1 + 1; state <= w35; end if;
+when s36 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		kta12_16 := resize (fpout, kta12_16);
+		report_error ("fail kta12_16 1", kta12_16, to_sfixed (0.0, kta12_16)); -- 0
+		cmd <= "0000"; -- + kta_rc_ee+kta12_16_ee*2^kta_scale_2
+		in1 <= kta_rc_ee;
+		in2 <= kta12_16;
+		state <= w36;
+when w36 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s37; else v_wait1 := v_wait1 + 1; state <= w36; end if;
+when s37 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		kta12_16 := resize (fpout, kta12_16);
+		report_error ("fail kta12_16 2", kta12_16, to_sfixed (84.0, kta12_16)); -- 84
+		kta_scale_1 := to_sfixed (1.0, kta_scale_1) sll to_integer (kta_scale_1);
+		report_error ("fail 2^kta_scale_1", kta_scale_1, to_sfixed (2**14, kta_scale_1)); -- 2**14
+		cmd <= "0011"; -- (kta_rc_ee+kta12_16*2^kta_scale_2)/2^kta_scale_1
+		in1 <= kta12_16;
+		in2 <= kta_scale_1;
+		state <= w37;
+when w37 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s38; else v_wait1 := v_wait1 + 1; state <= w37; end if;
+when s38 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		kta12_16 := resize (fpout, kta12_16);
+		report_error ("fail kta12_16 3", kta12_16, to_sfixed (0.005126953125, kta12_16)); -- 0.005126953125
 
 report "aaa" severity failure;
 
---		sftmp_slv_fpbits := x"0000"&x"08a0" and x"0000"&x"000e"; -- ee[0x25af]
---		fpout := to_sfixed (sftmp_slv_fpbits(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
---		sftmp_slv_fpbits := to_slv(fpout);
---		sftmp_slv_fpbits := "00000000000"&sftmp_slv_fpbits(19 downto 17)&"0"&x"0000";
---		kta12_16 := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		kta12_16 := kta12_16 srl 1;
---		tmps4 := resize(kta12_16,tmps4);
---		kta12_16 := resize(tmps4,kta12_16);
---report_fixed_value("kta12_16",kta12_16);
---report_error("fail kta12_16", kta12_16, to_sfixed(0.0,kta12_16));
---
---		sftmp_slv_fpbits := x"0000"&x"5354" and x"0000"&x"00ff"; -- ee[0x2437]
---		fpout := to_sfixed (sftmp_slv_fpbits(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
---		sftmp_slv_fpbits := to_slv(fpout);
---		sftmp_slv_fpbits := "00000000"&sftmp_slv_fpbits(23 downto 16)&x"0000";
---		kta_rc_ee := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
-----		tmps4 := resize(kta_rc_ee,tmps4);
-----		kta_rc_ee := resize(tmps4,kta_rc_ee);
---report_fixed_value("kta_rc_ee",kta_rc_ee);
---report_error("fail kta_rc_ee", kta_rc_ee, to_sfixed(84.0,kta_rc_ee));
---
---		sftmp_slv_fpbits := x"0000"&x"2363" and x"0000"&x"000f"; -- ee[0x2438]
---		fpout := to_sfixed (sftmp_slv_fpbits(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
---		sftmp_slv_fpbits := to_slv(fpout);
---		sftmp_slv_fpbits := "000000000000"&sftmp_slv_fpbits(19 downto 16)&x"0000";
---		kta_scale_2 := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		kta_scale_2 := resize(kta_scale_2,kta_scale_2);
---report_fixed_value("kta_rc_ee",kta_rc_ee);
---report_error("fail kta_scale_2", kta_scale_2, to_sfixed(3.0,kta_scale_2));
---
---		sftmp_slv_fpbits := x"0000"&x"2363" and x"0000"&x"00f0"; -- ee[0x2438]
---		fpout := to_sfixed (sftmp_slv_fpbits(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
---		sftmp_slv_fpbits := to_slv(fpout);
---		sftmp_slv_fpbits := "000000000000"&sftmp_slv_fpbits(23 downto 20)&x"0000";
---		kta_scale_1 := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		kta_scale_1 := resize(kta_scale_1,kta_scale_1);
---report_fixed_value("kta_rc_ee",kta_rc_ee);
---report_error("fail kta_scale_1", kta_scale_1, to_sfixed(6.0,kta_scale_1));
---		state <= w34;
---		cmd <= "0000"; -- + kta_scale_1+8
---		in1 <= resize(kta_scale_1,fptmp1);
---		in2 <= to_sfixed(8.0,fptmp2);
---		state <= w34;
---when w34 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s35;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w34;
---		end if;
---when s35 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		kta_scale_1 := resize(fpout,kta_scale_1); -- kta_scale_1+8
---report_error("fail kta_scale_1+8 (ok,almost)", kta_scale_1, to_sfixed(14.0,kta_scale_1)); -- ok,almost
---
---		sftmp_slv_fpbits := x"0000"&x"5454" and x"0000"&x"000f"; -- ee[0x2434]
---		fpout := to_sfixed (sftmp_slv_fpbits(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
---		sftmp_slv_fpbits := to_slv(fpout);
---		sftmp_slv_fpbits := "000000000000"&sftmp_slv_fpbits(19 downto 16)&x"0000";
---		kv12_16 := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		kv12_16 := resize(kv12_16,kv12_16);
---report_fixed_value("kv12_16",kv12_16);
---report_error("fail kv12_16", kv12_16, to_sfixed(4.0,kv12_16));
---
---		kta_scale_2 := to_sfixed(1.0,kta_scale_2) sll to_integer(kta_scale_2);
---report_fixed_value("2^kta_scale_2",kta_scale_2);
---
---		cmd <= "0010"; -- * kta(12,16)*2^Kta_scale_2
---		in1 <= resize(kta_scale_2,fptmp1);
---		in2 <= resize(kta12_16,fptmp2);
---		state <= w35;
---
---when w35 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s36;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w35;
---		end if;
---
---when s36 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		kta12_16 := resize(fpout,kta12_16);
---report_error("fail kta12_16*2^kta_scale_2 (ok,almost) ~0.0", kta12_16, to_sfixed(0.0,kta12_16)); -- ok,almost
---		cmd <= "0000"; -- + kta_rc_ee+kta12_16*2^kta_scale_2
---		in1 <= resize(kta12_16,fptmp1);
---		in2 <= resize(kta_rc_ee,fptmp2);
---		state <= w36;
---when w36 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s37;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w36;
---		end if;
---when s37 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		kta12_16 := resize(fpout,kta12_16);
---		kta_scale_1 := to_sfixed(1.0,kta_scale_1) sll to_integer(kta_scale_1);
---report_error("fail kta_rc_ee+kta12_16*2^kta_scale_2 (ok,almost)", kta12_16, to_sfixed(84.0,kta12_16)); -- ok,almost
---		cmd <= "0011"; -- (kta_rc_ee+kta12_16*2^kta_scale_2)/2^kta_scale_1
---		in1 <= resize(kta12_16,fptmp1);
---		in2 <= resize(kta_scale_1,fptmp2);
---		state <= w37;
---when w37 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s38;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w37;
---		end if;
---when s38 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		kta12_16 := resize(fpout,kta12_16);
---report_error("fail kta12_16 (ok,almost)", kta12_16, to_sfixed(0.005126953125,kta12_16)); -- ok,almost
 --		state <= w38;
 --when w38 =>
 --		if (v_wait1 = C_WAIT1-1) then
