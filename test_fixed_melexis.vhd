@@ -174,6 +174,7 @@ begin
 		constant pixelnumber12_16 : integer := 368; -- xxx good val
 --		constant pixelnumber12_16 : integer := 367; -- xxx bad val
 		variable pixospatt1,pixospatt2,pixospatt12,ch_pattern_12_16_minusone : st_sfixed_max;
+		variable ascale,ascalecp,acomp_12_16,acpsubpage0,acpsubpage1,cpp1p0ratio,ksta,kstaee,a_12_16,areference,accrow12,accscalerow,acccolumn16,accscalecolumn,apixel_12_16,accscaleremnant : st_sfixed_max;
 	begin
 		if (rising_edge(i_clock)) then
 			if (i_reset = '1') then
@@ -1287,13 +1288,57 @@ when s105 =>
 		report_error ("fail VIR(12,16)EMISSIVITY_COMPENSATED-TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) const", vir_12_16_compensated, to_sfixed (679.250909123826, pixospatt12)); -- xxx ??? error on page 42 : right side vir_12_16_compensated
 		state <= w105;
 when w105 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s106; else v_wait1 := v_wait1 + 1; state <= w105; end if;
+when s106 =>
+		sftmp_slv_16 := x"79a6" and x"f000"; -- ee[0x2420]
+		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 12));
+		tmpslv4 := sftmp_slv_16 (3 downto 0);
+		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
+		ascalecp := resize (tmpsf4, ascalecp);
+		report_error ("fail ascalecp", ascalecp, to_sfixed (7.0, ascalecp)); -- 7
+		fptmp2 := to_sfixed (27.0, fptmp2);
+		report_error ("fail 27.0", fptmp2, to_sfixed (27.0, fptmp2));
+		cmd <= "0000"; -- +Ascale_cp+27
+		in1 <= ascalecp;
+		in2 <= fptmp2;
+		state <= w106;
+when w106 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s107; else v_wait1 := v_wait1 + 1; state <= w106; end if;
+when s107 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		ascalecp := resize (fpout, ascalecp);
+		report_error ("fail ascalecp", ascalecp, to_sfixed (34.0, ascalecp)); -- 34
+		sftmp_slv_16 := x"e446" and x"fc00"; -- ee[0x2439]
+		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 10));
+		tmpslv6 := sftmp_slv_16 (5 downto 0);
+		tmpsf6 := to_sfixed (tmpslv6, tmpsf6);
+		cpp1p0ratio := resize (tmpsf6, cpp1p0ratio);
+		report_error ("fail cpp1p0ratio", cpp1p0ratio, to_sfixed (-7.0, cpp1p0ratio)); -- -7
+		sftmp_slv_16 := x"e446" and x"03ff"; -- ee[0x2439]
+		tmpslv10 := sftmp_slv_16 (9 downto 0);
+		tmpsf10 := to_sfixed (tmpslv10, tmpsf10);
+		acpsubpage0 := resize (tmpsf10, acpsubpage0);
+		report_error ("fail acpsubpage0 - xxx", acpsubpage0, to_sfixed (70.0, acpsubpage0)); -- 70
+		ascalecp := to_sfixed (1.0, ascalecp) sll to_integer (ascalecp);
+		report_error ("2^ascalecp", ascalecp, to_sfixed (17179869184.0, ascalecp)); -- 2**34
+		cmd <= "0011"; -- / acpsubpage0/2^ascalecp
+		in1 <= acpsubpage0;
+		in2 <= ascalecp;
+		state <= w107;
+when w107 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s108; else v_wait1 := v_wait1 + 1; state <= w107; end if;
+when s108 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		acpsubpage0 := resize (fpout, acpsubpage0);
+		report_error ("fail acpsubpage0", acpsubpage0, to_sfixed (0.00000000407453626394272, acpsubpage0)); -- 0.00000000407453626394272
+
+
 report time'image(now) severity failure;
 
 when ending =>
 
 when others => null;
 end case; end if; end if;
---sftmp_slv_fpbits := sftmp_slv_fpbits;
 end process tester;
 end architecture testbench;
 
