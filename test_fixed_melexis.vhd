@@ -1591,6 +1591,16 @@ when w127 =>
 when s128 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		acomp_12_16 := resize (fpout, acomp_12_16);
+		report_error ("a_12_16-(tgc*(((1-pattern)*acpsubpage0)+(pattern*acpsubpage1)))", acomp_12_16, to_sfixed (0.000000126223312690865-(1.0*(((1.0-0.0)*0.00000000407453626394272)+(0*0.00000000385171006200835))), acomp_12_16)); -- 0.000000126223312690865-(1.0*(((1.0-0.0)*0.00000000407453626394272)+(0*0.00000000385171006200835)))
+		cmd <= "0010"; -- * (a_12_16-(tgc*(((1-pattern)*acpsubpage0)+(pattern*acpsubpage1))))*(1+(Ksta*(Ta-Ta0)))
+		in1 <= acomp_12_16;
+		in2 <= ksta;
+		state := w128;
+when w128 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s129; else v_wait1 := v_wait1 + 1; state := w128; end if;
+when s129 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		acomp_12_16 := resize (fpout, acomp_12_16);
 		report_error ("fail acomp_12_16", acomp_12_16, to_sfixed (0.00000011876487360496, acomp_12_16)); -- 0.00000011876487360496
 
 report time'image(now) severity failure;
