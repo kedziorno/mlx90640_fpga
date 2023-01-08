@@ -101,7 +101,7 @@ begin  -- architecture rtl
   end process cmd1reg;
 
   -- purpose: "0010" test the "*" operator
-  cmd2reg : process (clk, rst_n) is
+  cmd2reg : process (clk, rst_n, in1reg3) is
 		variable sfh : sf_integer := SFixed_high (in1reg3, '*', in2reg3);
 		variable sfl : sf_integer := SFixed_low  (in1reg3, '*', in2reg3);    
     variable in1min2 : sfixed (sfh downto sfl);

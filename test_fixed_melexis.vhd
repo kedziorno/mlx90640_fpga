@@ -177,6 +177,7 @@ begin
 		variable ascale,ascalecp,acomp_12_16,acpsubpage0,acpsubpage1,cpp1p0ratio,ksta,kstaee,a_12_16,areference,accrow12,accscalerow,acccolumn16,accscalecolumn,apixel_12_16,accscaleremnant : st_sfixed_max;
 		variable accsro,accsc,accsre : st_sfixed_max;
 		variable accsror,accscr,accsrer : st_sfixed_max;
+		variable acpsubpagepatt01,acpsubpagepatt0,acpsubpagepatt1 : st_sfixed_max;
 	begin
 		if (rising_edge(i_clock)) then
 			if (i_reset = '1') then
@@ -1258,7 +1259,6 @@ when s101 =>
 		report_error ("fail ((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1)", pixospatt12, to_sfixed (((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)))), pixospatt12)); -- :E
 		report_error ("fail ((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) const", pixospatt12, to_sfixed(21.6315865670509, pixospatt12)); -- xxx ??? error on page 42 : right side vir_12_16_compensated
 		state <= w101;
-		-----------------------------
 when w101 =>
 		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s102; else v_wait1 := v_wait1 + 1; state <= w101; end if;
 when s102 =>
@@ -1407,54 +1407,43 @@ when s113 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		ascale := resize (fpout, ascale);
 		report_error ("fail ascale", ascale, to_sfixed (37.0, ascale)); -- 37
-
 		sftmp_slv_16 := x"3333" and x"f000"; -- ee[0x2424]
 		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 12));
 		tmpslv4 := sftmp_slv_16 (3 downto 0);
 		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
 		accrow12 := resize (tmpsf4, accrow12);
 		report_error ("fail accrow12", accrow12, to_sfixed (3.0, accrow12)); -- 3
-
 		sftmp_slv_16 := x"3333" and x"f000"; -- ee[0x242b]
 		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 12));
 		tmpslv4 := sftmp_slv_16 (3 downto 0);
 		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
 		acccolumn16 := resize (tmpsf4, acccolumn16);
 		report_error ("fail acccolumn16", acccolumn16, to_sfixed (3.0, acccolumn16)); -- 3
-
 		sftmp_slv_16 := x"79a6" and x"0f00"; -- ee[0x2420]
 		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 8));
 		accscalerow := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), accscalerow);
 		report_error ("fail accscalerow", accscalerow, to_sfixed (9.0, accscalerow)); -- 9
-
 		sftmp_slv_16 := x"79a6" and x"00f0"; -- ee[0x2420]
 		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 4));
 		accscalecolumn := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), accscalecolumn);
 		report_error ("fail accscalecolumn", accscalecolumn, to_sfixed (10.0, accscalecolumn)); -- 10
-
 		sftmp_slv_16 := x"79a6" and x"000f"; -- ee[0x2420]
 		tmpslv4 := sftmp_slv_16 (3 downto 0);
 		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
 		accscaleremnant := resize (tmpsf4, accscaleremnant);
 		report_error ("fail accscaleremnant", accscaleremnant, to_sfixed (6.0, accscaleremnant)); -- 6
-
-
 		sftmp_slv_16 := x"08a0" and x"03f0"; -- ee[0x258f]
 		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 4));
 		tmpslv6 := sftmp_slv_16 (5 downto 0);
 		tmpsf6 := to_sfixed (tmpslv6, tmpsf6);
 		apixel_12_16 := resize (tmpsf6, apixel_12_16);
 		report_error ("fail apixel_12_16", apixel_12_16, to_sfixed (10.0, apixel_12_16)); -- 10
-
 		accsro := to_sfixed (1.0, accsro) sll to_integer (accscalerow);
 		report_error ("fail 2^accscalerow", accsro, to_sfixed (2**9, accsro)); -- 2**9
-
 		accsc := to_sfixed (1.0, accsc) sll to_integer (accscalecolumn);
 		report_error ("fail 2^accscalecolumn", accsc, to_sfixed (2**10, accsc)); -- 2**10
-
 		accsre := to_sfixed (1.0, accsre) sll to_integer (accscaleremnant);
 		report_error ("fail 2^accscaleremnant", accsre, to_sfixed (2**6, accsre)); -- 2**6
-
 		state <= w113;
 when w113 =>
 		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s114; else v_wait1 := v_wait1 + 1; state <= w113; end if;
@@ -1531,6 +1520,89 @@ when s121 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		a_12_16 := resize (fpout, a_12_16);
 		report_error ("fail a_12_16 4", a_12_16, to_sfixed (0.000000126223312690865, a_12_16)); -- 0.000000126223312690865
+		cmd <= "0010"; -- * Ksta*(Ta-Ta0)
+		in1 <= ksta;
+		in2 <= tad;
+		state <= w121;
+when w121 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s122; else v_wait1 := v_wait1 + 1; state <= w121; end if;
+when s122 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		ksta := resize (fpout, ksta);
+		report_error ("fail Ksta*(Ta-Ta0)", ksta, to_sfixed (-0.001953125*(39.184-25.0), ksta)); -- -0.001953125*(39.184-25.0)
+		fptmp1 := to_sfixed (1.0, fptmp1);
+		report_error ("fail 1.0", fptmp1, to_sfixed (1.0, fptmp1));
+		cmd <= "0000"; -- + 1+(Ksta*(Ta-Ta0))
+		in1 <= fptmp1;
+		in2 <= ksta;
+		state <= w122;
+when w122 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s123; else v_wait1 := v_wait1 + 1; state <= w122; end if;
+when s123 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		ksta := resize (fpout, ksta);
+		report_error ("fail 1+(Ksta*(Ta-Ta0))", ksta, to_sfixed (1.0+(-0.001953125*(39.184-25.0)), ksta)); -- 1+(-0.001953125*(39.184-25.0))
+		cmd <= "0010"; -- * pattern*acpsubpage1
+		in1 <= ch_pattern_12_16;
+		in2 <= acpsubpage1;
+		state <= w123;
+		report "aaa";
+when w123 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s124; else v_wait1 := v_wait1 + 1; state <= w123; end if;
+		report "bbb";
+when s124 =>
+		report "ccc";
+		fpout := to_sfixed (to_slv (out1), fpout);
+		acpsubpagepatt1 := resize (fpout, acpsubpagepatt1);
+		report_error ("fail pattern*acpsubpage1", acpsubpagepatt1, to_sfixed (0.0*0.00000000385171006200835, acpsubpagepatt1)); -- 0*0.00000000385171006200835
+		cmd <= "0010"; -- * (1-pattern)*acpsubpage0
+		in1 <= ch_pattern_12_16_minusone;
+		in2 <= acpsubpage0;
+		state <= w124;
+when w124 =>
+		report "ddd";
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s125; else v_wait1 := v_wait1 + 1; state <= w124; end if;
+when s125 =>
+		report "eee";
+		fpout := to_sfixed (to_slv (out1), fpout);
+		acpsubpagepatt0 := resize (fpout, acpsubpagepatt0);
+		report_error ("fail (1-pattern)*acpsubpage0", acpsubpagepatt0, to_sfixed ((1.0-0.0)*0.00000000407453626394272, acpsubpagepatt0)); -- (1-0)*0.00000000407453626394272
+		cmd <= "0000"; -- + (((1-pattern)*acpsubpage0)+(pattern*acpsubpage1))
+		in1 <= acpsubpagepatt0;
+		in2 <= acpsubpagepatt1;
+		state <= w125;
+when w125 =>
+		report "fff";
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s126; else v_wait1 := v_wait1 + 1; state <= w125; end if;
+when s126 => -- xxx LOL :ASDASDASD simulation stop here in isim 14.7
+		report "ggg";
+--		fpout := to_sfixed (to_slv (out1), fpout);
+--		acpsubpagepatt01 := resize (fpout, acpsubpagepatt01);
+--		report_error ("fail (((1-pattern)*acpsubpage0)+(pattern*acpsubpage1))", acpsubpagepatt01, to_sfixed (((1.0-0.0)*0.00000000407453626394272)+(0*0.00000000385171006200835), acpsubpagepatt0)); -- (1-0)*0.00000000407453626394272
+--		cmd <= "0010"; -- * tgc*(((1-pattern)*acpsubpage0)+(pattern*acpsubpage1))
+--		in1 <= tgc;
+--		in2 <= acpsubpagepatt01;
+		state <= w126;
+when w126 =>
+		report "hhh";
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s127; else v_wait1 := v_wait1 + 1; state <= w126; end if;
+when s127 =>
+		report "iii";
+		fpout := to_sfixed (to_slv (out1), fpout);
+		acpsubpagepatt01 := resize (fpout, acpsubpagepatt01);
+		report_error ("fail tgc*(((1-pattern)*acpsubpage0)+(pattern*acpsubpage1))", acpsubpagepatt01, to_sfixed (1.0*(((1.0-0.0)*0.00000000407453626394272)+(0*0.00000000385171006200835)), acpsubpagepatt0)); -- 1.0*(((1.0-0.0)*0.00000000407453626394272)+(0*0.00000000385171006200835))
+		cmd <= "0001"; -- - a_12_16-(tgc*(((1-pattern)*acpsubpage0)+(pattern*acpsubpage1)))
+		in1 <= a_12_16;
+		in2 <= acpsubpagepatt01;
+		state <= w127;
+when w127 =>
+		report "jjj";
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s128; else v_wait1 := v_wait1 + 1; state <= w127; end if;
+when s128 =>
+		report "kkk";
+		fpout := to_sfixed (to_slv (out1), fpout);
+		acomp_12_16 := resize (fpout, acomp_12_16);
+		report_error ("fail acomp_12_16", acomp_12_16, to_sfixed (1.00000011876487360496, acomp_12_16)); -- 0.00000011876487360496
 
 report time'image(now) severity failure;
 
