@@ -1366,6 +1366,25 @@ when s111 =>
 		acpsubpage1 := resize (fpout, acpsubpage1);
 		report_error ("fail acpsubpage1", acpsubpage1, to_sfixed ((0.00000000407453626394272)*(0.9453125), acpsubpage1)); -- 0.00000000407453626394272*0.9453125
 		report_error ("fail acpsubpage1 const", acpsubpage1, to_sfixed (0.00000000385171006200835, acpsubpage1)); -- 0.00000000385171006200835
+		sftmp_slv_16 := x"f020" and x"ff00"; -- ee[0x243c]
+		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 8));
+		tmpslv8 := sftmp_slv_16 (7 downto 0);
+		tmpsf8 := to_sfixed (tmpslv8, tmpsf8);
+		kstaee := resize (tmpsf8, kstaee);
+		report_error ("fail kstaee", kstaee, to_sfixed (-16.0, kstaee)); -- -16
+		fptmp2 := to_sfixed (2**13, fptmp2);
+		report_error ("fail 2**13", fptmp2, to_sfixed (2**13, fptmp2)); -- 2**13
+		cmd <= "0011"; -- / kstaee/2^13
+		in1 <= kstaee;
+		in2 <= fptmp2;
+		state <= w111;
+when w111 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s112; else v_wait1 := v_wait1 + 1; state <= w111; end if;
+when s112 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		ksta := resize (fpout, ksta);
+		report_error ("fail ksta", ksta, to_sfixed (-0.001953125, ksta)); -- -0.001953125
+
 report time'image(now) severity failure;
 
 when ending =>
