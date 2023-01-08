@@ -19,17 +19,23 @@ package p_fphdl_package1 is
 		actual : in ufixed
 	);
 
+	procedure report_fixed_value (
+		constant mes : in string;
+		actual : in sfixed;
+		hi : in integer;
+		lo : in integer
+	);
+
 	procedure report_error (
 		constant errmes : in string;
 		actual : in sfixed;
 		constant expected : in sfixed
 	);
 
-	procedure report_fixed_value (
-		constant mes : in string;
-		actual : in sfixed;
-		hi : in integer;
-		lo : in integer
+	procedure report_error (
+		constant errmes : in string;
+		actual : in ufixed;
+		constant expected : in ufixed
 	);
 
 --	constant FP_BITS : integer := 19; -- xxx for synthesis
@@ -58,6 +64,9 @@ package p_fphdl_package1 is
 	subtype st_sfixed_div is sfixed (sfixed_high(a,'/',b) downto sfixed_low(a,'/',b));
 
 	subtype st_sfixed_max is sfixed (sfixed_div_hi downto sfixed_div_lo);
+	subtype st_ufixed_max is ufixed (sfixed_div_hi downto sfixed_div_lo);
+	subtype sfixed0 is sfixed (0 downto 0);
+	subtype ufixed0 is ufixed (0 downto 0);
 	subtype sfixed1 is sfixed (1 downto 0);
 	subtype ufixed1 is ufixed (1 downto 0);
 	subtype sfixed2 is sfixed (2 downto 0);
@@ -152,6 +161,16 @@ package body p_fphdl_package1 is
 	end procedure report_fixed_value;
 
 	procedure report_error (constant errmes : in string; actual : in sfixed; constant expected : in sfixed) is
+	begin
+		assert actual = expected report errmes & CR
+		& "Actual: " & to_string(actual)
+		& " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR
+		& "     /= " & to_string(expected)
+		& " (" & real'image(to_real(expected)) & ")" & HT & "(" & to_hstring(expected) & ") " severity note;
+		return;
+	end procedure report_error;
+
+	procedure report_error (constant errmes : in string; actual : in ufixed; constant expected : in ufixed) is
 	begin
 		assert actual = expected report errmes & CR
 		& "Actual: " & to_string(actual)

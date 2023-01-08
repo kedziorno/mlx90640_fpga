@@ -125,6 +125,14 @@ begin
 		variable occrow12 : st_sfixed_max;
 		variable occcolumn16 : st_sfixed_max;
 		variable occscaleremnant : st_sfixed_max;
+		variable tmpuf1 : ufixed0;
+		variable tmpulv1 : std_logic_vector(0 downto 0);
+		variable tmpsf1 : sfixed0;
+		variable tmpslv1 : std_logic_vector(0 downto 0);
+		variable tmpsf2 : sfixed1;
+		variable tmpslv2 : std_logic_vector(1 downto 0);
+		variable tmpsf3 : sfixed2;
+		variable tmpslv3 : std_logic_vector(2 downto 0);
 		variable tmpsf4 : sfixed3;
 		variable tmpslv4 : std_logic_vector(3 downto 0);
 		variable tmpsf5 : sfixed4;
@@ -161,9 +169,10 @@ begin
 		variable kv_scale : st_sfixed_max;
 		variable kv_cp_ee : st_sfixed_max;
 		variable kv_cp : st_sfixed_max;
-		variable ktacp_kvcp_mul,ilchessc1ee,ilchessc1,pixos_cp_sp0,pixos_cp_sp1,ch_pattern_12_16,tgcee,tgc,vir_12_16_compensated : st_sfixed_max;
-		variable ch_pattern12_16 : st_sfixed_max;
-		constant pixelnumber12_16 : integer := 368;
+		variable ktacp_kvcp_mul,ilchessc1ee,ilchessc1,pixos_cp_sp0,pixos_cp_sp1,ch_pattern_12_16_s,ch_pattern_12_16,tgcee,tgc,vir_12_16_compensated : st_sfixed_max;
+		variable ch_pattern_12_16_u : st_ufixed_max; -- xxx for xor
+		constant pixelnumber12_16 : integer := 368; -- xxx good val
+--		constant pixelnumber12_16 : integer := 367; -- xxx bad val
 		variable pixospatt1,pixospatt2,pixospatt12,ch_pattern_12_16_minusone : st_sfixed_max;
 	begin
 		if (rising_edge(i_clock)) then
@@ -1162,138 +1171,123 @@ when s92 =>
 		state <= w92;
 when w92 =>
 		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s93; else v_wait1 := v_wait1 + 1; state <= w92; end if;
-
-report "-=-=-=-=-=-=-=-=-=-=-" severity failure;
-
-
---when s93 =>
----- ch_pattern
---		ch_pattern_12_16 := to_sfixed("000000000000000"&
---		std_logic_vector(
---		to_unsigned((integer((pixelnumber12_16-1)/32)-integer(integer((pixelnumber12_16-1)/32)/2)*2),1)
---		xor
---		to_unsigned((integer(pixelnumber12_16-1)-integer((pixelnumber12_16-1)/2)*2),1)
---		)&x"0000",ch_pattern_12_16
---		);
---report_fixed_value("ch_pattern_12_16",ch_pattern_12_16);
---		sftmp_slv_fpbits := x"0000"&x"f020" and x"0000"&x"003f"; -- ee[0x243c]
---		fpout := to_sfixed (sftmp_slv_fpbits(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
---		sftmp_slv_fpbits := to_slv(fpout);
---		sftmp_slv_fpbits := "0000000000"&sftmp_slv_fpbits(21 downto 16)&x"0000";
---		tgcee := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---report_fixed_value("tgcee",tgcee);
---		tmps8 := resize(tgcee,tmps8);
---		tgcee := resize(tmps8,tgcee);
---report_fixed_value("tgcee",tgcee);
---		tgcee := tgcee srl 5;
---report_error("fail tgcee>/2^5", tgcee, to_sfixed(1.0,tgcee));
---		state <= w93;
---when w93 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s94; else v_wait1 := v_wait1 + 1; state <= w93; end if;
---when s94 =>
---		cmd <= "0010"; -- * CHIL_pattern*PIXos_cp_sp1
---		in1 <= resize(ch_pattern_12_16,fptmp1);
---report_fixed_value("ch_pattern_12_16",ch_pattern_12_16);
---		in2 <= resize(pixos_cp_sp1,fptmp2);
---report_fixed_value("pixos_cp_sp1",pixos_cp_sp1);
---		state <= w94;
---when w94 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s95; else v_wait1 := v_wait1 + 1; state <= w94; end if;
---when s95 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		pixospatt1 := resize(fpout,pixospatt1);
---		state <= w95;
---when w95 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s96; else v_wait1 := v_wait1 + 1; state <= w95; end if;
---when s96 =>
---		cmd <= "0001"; -- - (1-CHIL_pattern)
---		in1 <= to_sfixed(1.0,fptmp1);
---		in2 <= resize(ch_pattern_12_16,fptmp2);
---		state <= w96;
---when w96 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s97; else v_wait1 := v_wait1 + 1; state <= w96; end if;
---when s97 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		ch_pattern_12_16_minusone := resize(fpout,ch_pattern_12_16_minusone);
---		state <= w97;
---when w97 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s98; else v_wait1 := v_wait1 + 1; state <= w97; end if;
---when s98 =>
---		cmd <= "0010"; -- * (1-CHIL_pattern)*PIXos_cp_sp0
---		in1 <= resize(ch_pattern_12_16_minusone,fptmp1);
---report_fixed_value("ch_pattern_12_16_minusone",ch_pattern_12_16_minusone);
---		in2 <= resize(pixos_cp_sp0,fptmp2);
---report_fixed_value("pixos_cp_sp0",pixos_cp_sp0);
---		state <= w98;
---when w98 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s99; else v_wait1 := v_wait1 + 1; state <= w98; end if;
---when s99 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		pixospatt2 := resize(fpout,pixospatt2);
---		state <= w99;
---when w99 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s100; else v_wait1 := v_wait1 + 1; state <= w99; end if;
---when s100 =>
---		cmd <= "0000"; -- + ((1-CHIL_pattern)*PIXos_cp_sp0)+(CHIL_pattern*PIXos_cp_sp1)
---		in1 <= resize(pixospatt1,fptmp1);
---report_fixed_value("pixospatt1",pixospatt1);
---		in2 <= resize(pixospatt2,fptmp2);
---report_fixed_value("pixospatt2",pixospatt2);
---		state <= w100;
---when w100 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s101; else v_wait1 := v_wait1 + 1; state <= w100; end if;
---when s101 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		pixospatt12 := resize(fpout,pixospatt12);
---report_fixed_value("pixospatt12", pixospatt12);
---report_error("fail ((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) (ok,almost)", pixospatt12, 
---		to_sfixed(((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))
---		+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)))),pixospatt12)); -- ok,almost
-----		to_sfixed(21.6315865670509,pixospatt12)); -- xxx ??? error on page 42 : right side vir_12_16_compensated
---		state <= w101;
---when w101 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s102; else v_wait1 := v_wait1 + 1; state <= w101; end if;
---when s102 =>
---		cmd <= "0010"; -- * TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1)
---		in1 <= resize(tgcee,fptmp1);
---		in2 <= resize(pixospatt12,fptmp2);
---		state <= w102;
---when w102 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s103; else v_wait1 := v_wait1 + 1; state <= w102; end if;
---when s103 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		pixospatt12 := resize(fpout,pixospatt12);
---report_fixed_value("TGC*pixospatt12", pixospatt12);
---report_error("fail TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) (ok,almost)", pixospatt12, 
---		to_sfixed((1.0*((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))
---		+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))),pixospatt12)); -- ok,almost
-----		to_sfixed(21.6315865670509,pixospatt12)); -- xxx ??? error on page 42 : right side vir_12_16_compensated
---		state <= w103;
---when w103 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s104; else v_wait1 := v_wait1 + 1; state <= w103; end if;
---when s104 =>
---		cmd <= "0001"; -- - VIR(12,16)EMISSIVITY_COMPENSATED-TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1)
---		in1 <= resize(vir12_16_emissitivy_componsated,fptmp1);
---		in2 <= resize(pixospatt12,fptmp2);
---		state <= w104;
---when w104 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s105; else v_wait1 := v_wait1 + 1; state <= w104; end if;
---when s105 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		vir_12_16_compensated := resize(fpout,vir_12_16_compensated);
---report_fixed_value("vir_exmissivity_compensated-TGC*pixospatt12", vir_12_16_compensated);
---report_error("fail VIR(12,16)EMISSIVITY_COMPENSATED-TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) (ok,almost)", vir_12_16_compensated, 
---		to_sfixed((700.882495690877-(1.0*((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))
---		+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)))))),vir_12_16_compensated)); -- ok,almost
-----		to_sfixed(679.250909123826,pixospatt12)); -- xxx ??? error on page 42 : right side vir_12_16_compensated
---		state <= w105;
---when w105 =>
+when s93 =>
+-- ch_pattern
+		tmpuf1 := to_ufixed(
+		std_logic_vector(
+		to_unsigned((integer((pixelnumber12_16-1)/32)-integer(integer((pixelnumber12_16-1)/32)/2)*2),1)
+		xor
+		to_unsigned((integer(pixelnumber12_16-1)-integer((pixelnumber12_16-1)/2)*2),1)
+		),tmpuf1
+		);
+		report_error ("fail pixelnumber12_16 xor uf", tmpuf1, to_ufixed (0.0, tmpuf1));
+		tmpsf1 := to_sfixed (tmpuf1);
+		report_error ("fail pixelnumber12_16 xor sf", tmpsf1, to_sfixed (0.0, tmpsf1));
+		ch_pattern_12_16_u := resize (tmpuf1, ch_pattern_12_16_u);
+		report_error ("fail ch_pattern_12_16_u", ch_pattern_12_16_u, to_ufixed (0.0, ch_pattern_12_16_u)); -- 0
+		ch_pattern_12_16_s := resize (to_sfixed (ch_pattern_12_16_u), ch_pattern_12_16_s);
+		report_error ("fail ch_pattern_12_16_s", ch_pattern_12_16_s, to_sfixed (0.0, ch_pattern_12_16_s)); -- 0
+		ch_pattern_12_16 := ch_pattern_12_16_s;
+		report_error ("fail ch_pattern_12_16 after convert u->s", ch_pattern_12_16, to_sfixed (0.0, ch_pattern_12_16)); -- 0
+		sftmp_slv_16 := x"f020" and x"003f"; -- ee[0x243c]
+		tgcee := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), tgcee);
+		report_error ("fail tgcee", tgcee, to_sfixed (32.0, tgcee)); -- 32
+		tgcee := tgcee srl 5;
+		report_error ("fail tgcee/2^5", tgcee, to_sfixed (1.0, tgcee)); -- 1
+		tgc := tgcee;
+		state <= w93;
+when w93 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s94; else v_wait1 := v_wait1 + 1; state <= w93; end if;
+when s94 =>
+		cmd <= "0010"; -- * CHIL_pattern*PIXos_cp_sp1
+		in1 <= ch_pattern_12_16;
+		in2 <= pixos_cp_sp1;
+		state <= w94;
+when w94 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s95; else v_wait1 := v_wait1 + 1; state <= w94; end if;
+when s95 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		pixospatt1 := resize (fpout, pixospatt1);
+		report_error ("fail pixospatt1", pixospatt1, to_sfixed (to_real (ch_pattern_12_16)*to_real (pixos_cp_sp1), pixospatt1)); -- ch_pattern_12_16*pixos_cp_sp1
+		state <= w95;
+when w95 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s96; else v_wait1 := v_wait1 + 1; state <= w95; end if;
+when s96 =>
+		fptmp1 := to_sfixed (1.0, fptmp1);
+		report_error ("fail 1.0", fptmp1, to_sfixed (1.0, fptmp1)); -- 1.0
+		cmd <= "0001"; -- - (1-CHIL_pattern)
+		in1 <= fptmp1;
+		in2 <= ch_pattern_12_16;
+		state <= w96;
+when w96 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s97; else v_wait1 := v_wait1 + 1; state <= w96; end if;
+when s97 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		ch_pattern_12_16_minusone := resize (fpout, ch_pattern_12_16_minusone);
+		report_error ("fail ch_pattern_12_16_minusone", ch_pattern_12_16_minusone, to_sfixed (1.0-to_real (ch_pattern_12_16), ch_pattern_12_16_minusone)); -- 1.0-ch_pattern_12_16
+		state <= w97;
+when w97 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s98; else v_wait1 := v_wait1 + 1; state <= w97; end if;
+when s98 =>
+		cmd <= "0010"; -- * (1-CHIL_pattern)*PIXos_cp_sp0
+		in1 <= ch_pattern_12_16_minusone;
+		in2 <= pixos_cp_sp0;
+		state <= w98;
+when w98 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s99; else v_wait1 := v_wait1 + 1; state <= w98; end if;
+when s99 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		pixospatt2 := resize (fpout, pixospatt2);
+		report_error ("fail pixospatt2", pixospatt2, to_sfixed (to_real (ch_pattern_12_16_minusone)*to_real (pixos_cp_sp0), pixospatt2)); -- ch_pattern_12_16_minusone*pixos_cp_sp0
+		state <= w99;
+when w99 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s100; else v_wait1 := v_wait1 + 1; state <= w99; end if;
+when s100 =>
+		cmd <= "0000"; -- + ((1-CHIL_pattern)*PIXos_cp_sp0)+(CHIL_pattern*PIXos_cp_sp1)
+		in1 <= pixospatt1;
+		in2 <= pixospatt2;
+		state <= w100;
+when w100 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s101; else v_wait1 := v_wait1 + 1; state <= w100; end if;
+when s101 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		pixospatt12 := resize (fpout, pixospatt12);
+		report_error ("fail ((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1)", pixospatt12, to_sfixed (((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)))), pixospatt12)); -- :E
+		report_error ("fail ((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) const", pixospatt12, to_sfixed(21.6315865670509, pixospatt12)); -- xxx ??? error on page 42 : right side vir_12_16_compensated
+		state <= w101;
+		-----------------------------
+when w101 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s102; else v_wait1 := v_wait1 + 1; state <= w101; end if;
+when s102 =>
+		cmd <= "0010"; -- * TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1)
+		in1 <= tgc;
+		in2 <= pixospatt12;
+		state <= w102;
+when w102 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s103; else v_wait1 := v_wait1 + 1; state <= w102; end if;
+when s103 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		pixospatt12 := resize (fpout, pixospatt12);
+		report_error ("fail TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1)", pixospatt12, to_sfixed ((1.0*((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))), pixospatt12)); -- :E
+		report_error ("fail TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) const", pixospatt12, to_sfixed (21.6315865670509, pixospatt12)); -- xxx ??? error on page 42 : right side vir_12_16_compensated
+		state <= w103;
+when w103 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s104; else v_wait1 := v_wait1 + 1; state <= w103; end if;
+when s104 =>
+		cmd <= "0001"; -- - VIR(12,16)EMISSIVITY_COMPENSATED-TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1)
+		in1 <= vir12_16_emissitivy_componsated;
+		in2 <= pixospatt12;
+		state <= w104;
+when w104 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s105; else v_wait1 := v_wait1 + 1; state <= w104; end if;
+when s105 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		vir_12_16_compensated := resize (fpout, vir_12_16_compensated);
+		report_error ("fail VIR(12,16)EMISSIVITY_COMPENSATED-TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1)", vir_12_16_compensated, to_sfixed ((700.882495690877-(1.0*((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)))))), vir_12_16_compensated)); -- :E
+		report_error ("fail VIR(12,16)EMISSIVITY_COMPENSATED-TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) const", vir_12_16_compensated, to_sfixed (679.250909123826, pixospatt12)); -- xxx ??? error on page 42 : right side vir_12_16_compensated
+		state <= w105;
+when w105 =>
+report time'image(now) severity failure;
 
 when ending =>
 
