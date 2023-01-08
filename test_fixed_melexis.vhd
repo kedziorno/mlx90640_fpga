@@ -719,299 +719,169 @@ when s38 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		kta12_16 := resize (fpout, kta12_16);
 		report_error ("fail kta12_16 3", kta12_16, to_sfixed (0.005126953125, kta12_16)); -- 0.005126953125
+		state <= w38;
+when w38 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s39; else v_wait1 := v_wait1 + 1; state <= w38; end if;
+when s39 =>
+		sftmp_slv_16 := x"2363" and x"0f00"; -- ee[0x2438]
+		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 8));
+		tmpslv4 := sftmp_slv_16 (3 downto 0);
+		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
+		kvscale := resize (tmpsf4, kvscale);
+		report_error ("fail kvscale", kvscale, to_sfixed (3.0, kvscale)); -- 3
+		kvscale := to_sfixed (1.0,kvscale) sll to_integer (kvscale);
+		report_error ("fail 2^kvscale", kvscale, to_sfixed(8.0, kvscale)); -- 8
+		cmd <= "0011"; -- / kv12_16/2^kvscale
+		in1 <= kv12_16;
+		in2 <= kvscale;
+		state <= w39;
+when w39 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s40; else v_wait1 := v_wait1 + 1; state <= w39; end if;
+when s40 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		kv12_16 := resize (fpout, kv12_16);
+		report_error ("fail kv12_16", kv12_16, to_sfixed (0.5, kv12_16)); -- 0.5
+		state <= w40;
+when w40 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s41; else v_wait1 := v_wait1 + 1; state <= w40; end if;
+when s41 =>
+		fptmp2 := to_sfixed (25.0, fptmp2);
+		report_error ("fail 25.0", fptmp2, to_sfixed (25.0, fptmp2)); -- 25.0
+		cmd <= "0001"; -- - Ta-Ta0 Ta-25
+		in1 <= Ta;
+		in2 <= fptmp2;
+		state <= w41;
+when w41 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s42; else v_wait1 := v_wait1 + 1; state <= w41; end if;
+when s42 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		tad := resize (fpout, tad);
+		report_error ("fail tad", tad, to_sfixed (39.184-25.0, tad)); -- 39.184-25.0
+		state <= w42;
+when w42 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s43; else v_wait1 := v_wait1 + 1; state <= w42; end if;
+when s43 =>
+		fptmp2 := to_sfixed (3.3, fptmp2);
+		report_error ("fail 3.3", fptmp2, to_sfixed (3.3, fptmp2)); -- 3.3
+		cmd <= "0001"; -- - Vdd-VddV0 Vdd-3.3
+		in1 <= Vdd;
+		in2 <= fptmp2;
+		state <= w43;
+when w43 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s44; else v_wait1 := v_wait1 + 1; state <= w43; end if;
+when s44 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		v0d := resize (fpout, v0d);
+		report_error ("fail v0d", v0d, to_sfixed (3.319-3.3, v0d)); -- 3.319-3.3
+		state <= w44;
+when w44 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s45; else v_wait1 := v_wait1 + 1; state <= w44; end if;
+when s45 =>
+		cmd <= "0010"; -- * Kv12_16*(Vdd-VddV0)
+		in1 <= kv12_16;
+		in2 <= v0d;
+		state <= w45;
+when w45 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s46; else v_wait1 := v_wait1 + 1; state <= w45; end if;
+when s46 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		kv12_16 := resize (fpout, kv12_16);
+		report_error ("fail kv12_16", kv12_16, to_sfixed (0.5*(3.319-3.3), kv12_16)); -- 0.5*(3.319-3.3)
+		state <= w46;
+when w46 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s47; else v_wait1 := v_wait1 + 1; state <= w46; end if;
+when s47 =>
+		fptmp1 := to_sfixed (1.0, fptmp1);
+		report_error ("fail 1.0", fptmp1, to_sfixed (1.0, fptmp1)); -- 1.0
+		cmd <= "0000"; -- + 1+Kv12_16*(Vdd-VddV0)
+		in1 <= fptmp1;
+		in2 <= kv12_16;
+		state <= w47;
+when w47 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s48; else v_wait1 := v_wait1 + 1; state <= w47; end if;
+when s48 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		kv12_16 := resize (fpout, kv12_16);
+		report_error ("fail kv12_16", kv12_16, to_sfixed (1.0+(0.5*(3.319-3.3)), kv12_16)); -- 1.0+(0.5*(3.319-3.3))
+		state <= w48;
+when w48 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s49; else v_wait1 := v_wait1 + 1; state <= w48; end if;
+when s49 =>
+		cmd <= "0010"; -- * KTa(12,16)*(Ta-Ta0)
+		in1 <= kta12_16;
+		in2 <= tad;
+		state <= w49;
+when w49 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s50; else v_wait1 := v_wait1 + 1; state <= w49; end if;
+when s50 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		kta12_16 := resize (fpout, kta12_16);
+		report_error ("fail kta12_16", kta12_16, to_sfixed (0.005126953125*(39.184-25.0), kta12_16)); -- 0.005126953125*(39.184-25.0)
+		state <= w50;
+when w50 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s51; else v_wait1 := v_wait1 + 1; state <= w50; end if;
+when s51 =>
+		fptmp1 := to_sfixed (1.0, fptmp1);
+		report_error ("fail 1.0", fptmp1, to_sfixed (1.0, fptmp1)); -- 1.0
+		cmd <= "0000"; -- + 1+KTa(12,16)*(Ta-Ta0)
+		in1 <= fptmp1;
+		in2 <= kta12_16;
+		state <= w51;
+when w51 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s52; else v_wait1 := v_wait1 + 1; state <= w51; end if;
+when s52 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		kta12_16 := resize (fpout, kta12_16);
+		report_error ("fail kta12_16", kta12_16, to_sfixed (1.0+(0.005126953125*(39.184-25.0)), kta12_16)); -- 1.0+(0.005126953125*(39.184-25.0))
+		state <= w52;
+when w52 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s53; else v_wait1 := v_wait1 + 1; state <= w52; end if;
+when s53 =>
+		cmd <= "0010"; -- * PIXosref*(1+KTa(12,16)*(Ta-Ta0))
+		in1 <= pixosref12_16;
+		in2 <= kta12_16;
+		state <= w53;
+when w53 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s54; else v_wait1 := v_wait1 + 1; state <= w53; end if;
+when s54 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		kta12_16 := resize (fpout, kta12_16);
+		report_error ("fail kta12_16", kta12_16, to_sfixed ((-75.0)*(1.0+(0.005126953125*(39.184-25.0))), kta12_16)); -- (-75.0)*(1.0+(0.005126953125*(39.184-25.0)))
+		state <= w54;
+when w54 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s55; else v_wait1 := v_wait1 + 1; state <= w54; end if;
+when s55 =>
+		cmd <= "0010"; -- * PIXosref*(1+KTa(12,16)*(Ta-Ta0))*(1+Kv(12,16)*(Vdd-VddV0))
+		in1 <= kta12_16;
+		in2 <= kv12_16;
+		state <= w55;
+when w55 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s56; else v_wait1 := v_wait1 + 1; state <= w55; end if;
+when s56 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		kta12_16 := resize (fpout, kta12_16);
+		report_error ("fail kta12_16", kta12_16, to_sfixed ((-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+0.5*(3.319-3.3)), kta12_16)); -- (-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+0.5*(3.319-3.3))
+		state <= w56;
+when w56 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s57; else v_wait1 := v_wait1 + 1; state <= w56; end if;
+when s57 =>
+		cmd <= "0001"; -- - PIXgain-PIXosref*(1+KTa(12,16)*(Ta-Ta0))*(1+Kv(12,16)*(Vdd-VddV0))
+		in1 <= pixgain12_16;
+		in2 <= kta12_16;
+		state <= w57;
+when w57 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s58; else v_wait1 := v_wait1 + 1; state <= w57; end if;
+when s58 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		pixos12_16 := resize (fpout, pixos12_16);
+		report_error ("fail pixos12_16", pixos12_16, to_sfixed (619.679100908656-(-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+0.5*(3.319-3.3)), pixos12_16)); -- ok,almost
+		report_error ("fail pixos12_16 const", pixos12_16, to_sfixed (700.882495690877, pixos12_16)); -- ok,almost
+		state <= w58;
+when w58 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s59; else v_wait1 := v_wait1 + 1; state <= w58; end if;
 
 report "aaa" severity failure;
 
---		state <= w38;
---when w38 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s39;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w38;
---		end if;
---when s39 =>
---		sftmp_slv_fpbits := x"0000"&x"2363" and x"0000"&x"0f00"; -- ee[0x2438]
---		fpout := to_sfixed (sftmp_slv_fpbits(sfixed16'high downto 0)&x"0000", sfixed16'high, sfixed16'low);
---		sftmp_slv_fpbits := to_slv(fpout);
---		sftmp_slv_fpbits := "000000000000"&sftmp_slv_fpbits(27 downto 24)&x"0000";
---		kvscale := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		kvscale := resize(kvscale,kvscale);
---report_fixed_value("kv12_16",kv12_16);
---report_error("fail kvscale", kvscale, to_sfixed(3.0,kv12_16));
---		kvscale := to_sfixed(1.0,kvscale) sll to_integer(kvscale);
---report_error("fail 2^kvscale", kvscale, to_sfixed(8.0,kv12_16));
---		cmd <= "0011"; -- / kv12_16/2^kvscale
---		in1 <= resize(kv12_16,fptmp1);
---		in2 <= resize(kvscale,fptmp2); -- 2^kvscale
---		state <= w39;
---when w39 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s40;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w39;
---		end if;
---when s40 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		kv12_16 := resize(fpout,kv12_16);
---report_error("fail kv12_16 (ok,almost)", kv12_16, to_sfixed(0.5,kv12_16)); -- ok,almost
---		state <= w40;
---when w40 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s41;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w40;
---		end if;
---when s41 =>
---		cmd <= "0001"; -- - Ta-Ta0 Ta-25
---		in1 <= resize(Ta,fptmp1);
---		in2 <= to_sfixed(25.0,fptmp2);
---		state <= w41;
---when w41 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s42;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w41;
---		end if;
---when s42 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		tad := resize(fpout,kv12_16);
---report_error("fail tad (ok,almost)", tad, to_sfixed(39.184-25.0,tad)); -- ok,almost
---		state <= w42;
---when w42 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s43;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w42;
---		end if;
---when s43 =>
---		cmd <= "0001"; -- - Vdd-VddV0 Vdd-3.3
---		in1 <= resize(Vdd,fptmp1);
---		in2 <= to_sfixed(3.3,fptmp2);
---		state <= w43;
---when w43 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s44;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w43;
---		end if;
---when s44 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		v0d := resize(fpout,v0d);
---report_error("fail v0d (ok,almost)", v0d, to_sfixed(3.319-3.3,v0d)); -- ok,almost
---		state <= w44;
---when w44 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s45;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w44;
---		end if;
---when s45 =>
---		cmd <= "0010"; -- * Kv12_16*v0d
---		in1 <= resize(kv12_16,fptmp1);
---		in2 <= resize(v0d,fptmp2);
---		state <= w45;
---when w45 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s46;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w45;
---		end if;
---when s46 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		kv12_16 := resize(fpout,kv12_16);
---report_error("fail kv12_16*v0d (ok,almost)", kv12_16, to_sfixed(0.5*(3.319-3.3),kv12_16)); -- ok,almost
---		state <= w46;
---when w46 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s47;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w46;
---		end if;
---when s47 =>
---		cmd <= "0000"; -- + 1+kv12_16*v0d
---		in1 <= to_sfixed(1.0,fptmp1);
---		in2 <= resize(kv12_16,fptmp2);
---		state <= w47;
---when w47 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s48;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w47;
---		end if;
---when s48 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		kv12_16 := resize(fpout,kv12_16);
---report_error("fail 1+kv12_16*v0d (ok,almost)", kv12_16, to_sfixed(1.0+(0.5*(3.319-3.3)),kv12_16)); -- ok,almost
---		state <= w48;
---when w48 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s49;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w48;
---		end if;
---when s49 =>
---		cmd <= "0010"; -- * kta12_16*tad
---		in1 <= resize(kta12_16,fptmp1);
---		in2 <= resize(tad,fptmp2);
---		state <= w49;
---when w49 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s50;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w49;
---		end if;
---when s50 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		kta12_16 := resize(fpout,kta12_16);
---report_error("fail kta12_16*tad (ok,almost)", kta12_16, to_sfixed(0.005126953125*(39.184-25.0),kta12_16)); -- ok,almost
---		state <= w50;
---when w50 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s51;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w50;
---		end if;
---when s51 =>
---		cmd <= "0000"; -- + 1+kta12_16*tad
---		in1 <= to_sfixed(1.0,fptmp1);
---		in2 <= resize(kta12_16,fptmp2);
---		state <= w51;
---when w51 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s52;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w51;
---		end if;
---when s52 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		kta12_16 := resize(fpout,kta12_16);
---report_error("fail 1+kta12_16*tad (ok,almost)", kta12_16, to_sfixed(1.0+(0.005126953125*(39.184-25.0)),kta12_16)); -- ok,almost
---		state <= w52;
---when w52 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s53;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w52;
---		end if;
---when s53 =>
---		cmd <= "0010"; -- * pixosref*(1+KTa(12,16)*(Ta-Ta0))
---		in1 <= resize(pixosref12_16,fptmp1);
---		in2 <= resize(kta12_16,fptmp2);
---		state <= w53;
---when w53 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s54;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w53;
---		end if;
---when s54 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		kta12_16 := resize(fpout,kta12_16);
---report_error("fail pixosref*(1+kta12_16*tad) (ok,almost)", kta12_16, to_sfixed((-75.0)*(1.0+(0.005126953125*(39.184-25.0))),kta12_16)); -- ok,almost
---		state <= w54;
---when w54 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s55;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w54;
---		end if;
---when s55 =>
---		cmd <= "0010"; -- * PIXosref*(1+KTa(12,16)*(Ta-Ta0))*(1+Kv(12,16)*(Vdd-VddV0))
---		in1 <= resize(kta12_16,fptmp1);
---		in2 <= resize(kv12_16,fptmp2);
---		state <= w55;
---when w55 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s56;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w55;
---		end if;
---when s56 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		kta12_16 := resize(fpout,kta12_16);
---report_error("fail pixosref*(1+kta12_16*tad)*(1+kv12_16*v0d) (ok,almost)", kta12_16, to_sfixed((-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+0.5*(3.319-3.3)),kta12_16)); -- ok,almost
---		state <= w56;
---when w56 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s57;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w56;
---		end if;
---when s57 =>
---		cmd <= "0001"; -- - pixgain-PIXosref*(1+KTa(12,16)*(Ta-Ta0))*(1+Kv(12,16)*(Vdd-VddV0))
---		in1 <= resize(pixgain12_16,fptmp1);
---		in2 <= resize(kta12_16,fptmp2);
---		state <= w57;
---when w57 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s58;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w57;
---		end if;
---when s58 =>
---		sftmp_slv_fpbits := to_slv (out1);
---		fpout := to_sfixed (sftmp_slv_fpbits, sfixed16'high, sfixed16'low);
---		pixos12_16 := resize(fpout,pixos12_16);
---report_error("fail pixgain-pixosref*(1+kta12_16*tad)*(1+kv12_16*v0d) (ok,almost)", pixos12_16, to_sfixed(619.679100908656-(-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+0.5*(3.319-3.3)),pixos12_16)); -- ok,almost
---report_error("fail pixgain-pixosref*(1+kta12_16*tad)*(1+kv12_16*v0d) (ok,almost)", pixos12_16, to_sfixed(700.882495690877,pixos12_16)); -- ok,almost
---		state <= w58;
---when w58 =>
---		if (v_wait1 = C_WAIT1-1) then
---			v_wait1 := 0;
---			state <= s59;
---		else
---			v_wait1 := v_wait1 + 1;
---			state <= w58;
---		end if;
 --when s59 =>
 --		cmd <= "0011"; -- / VIR(12,16)Emissivity_COMPOENSATED=pixos12_16/E E=1
 --		in1 <= resize(pixos12_16,fptmp1);
