@@ -125,12 +125,20 @@ begin
 		variable occrow12 : st_sfixed_max;
 		variable occcolumn16 : st_sfixed_max;
 		variable occscaleremnant : st_sfixed_max;
-		variable tmps4 : sfixed4;
-		variable tmps5 : sfixed5;
-		variable tmps6 : sfixed6;
-		variable tmps7 : sfixed7;
-		variable tmps8 : sfixed8;
-		variable tmps9 : sfixed9;
+		variable tmpsf4 : sfixed3;
+		variable tmpslv4 : std_logic_vector(3 downto 0);
+		variable tmpsf5 : sfixed4;
+		variable tmpslv5 : std_logic_vector(4 downto 0);
+		variable tmpsf6 : sfixed5;
+		variable tmpslv6 : std_logic_vector(5 downto 0);
+		variable tmpsf7 : sfixed6;
+		variable tmpslv7 : std_logic_vector(6 downto 0);
+		variable tmpsf8 : sfixed7;
+		variable tmpslv8 : std_logic_vector(7 downto 0);
+		variable tmpsf9 : sfixed8;
+		variable tmpslv9 : std_logic_vector(8 downto 0);
+		variable tmpsf10 : sfixed9;
+		variable tmpslv10 : std_logic_vector(9 downto 0);
 		variable occsro,occsc,occsre : st_sfixed_max;
 		variable occsror,occscr,occsrer : st_sfixed_max;
 		variable pixosref12_16 : st_sfixed_max;
@@ -558,17 +566,22 @@ when s28 =>
 		occscalecolumn := occscalecolumn srl 4;
 		report_error ("fail occscalecolumn", occscalecolumn, to_sfixed (1.0, occscalecolumn)); -- 1
 		sftmp_slv_16 := x"f2f2" and x"f000"; -- ee[0x2414]
-		occrow12 := to_sfixed (sftmp_slv_16, occrow12);
-		occrow12 := occrow12 srl 12;
-		occrow12 := resize (occrow12, occrow12);
+		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 12));
+		tmpslv4 := sftmp_slv_16 (3 downto 0);
+		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
+		occrow12 := resize (tmpsf4, occrow12);
 		report_error ("fail occrow12", occrow12, to_sfixed (-1.0, occrow12)); -- -1 / 0xf signed
 		sftmp_slv_16 := x"e0ef" and x"f000"; -- ee[0x241b]
-		occcolumn16 := to_sfixed (sftmp_slv_16, sftmp_sf_16);
-		occcolumn16 := occcolumn16 srl 12;
-		occcolumn16 := resize (occcolumn16, occcolumn16);
+		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 12));
+		tmpslv4 := sftmp_slv_16 (3 downto 0);
+		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
+		occcolumn16 := resize (tmpsf4, occcolumn16);
 		report_error ("fail occcolumn16", occcolumn16, to_sfixed (-2.0, occcolumn16)); -- -2 / 0xe signed
-		sftmp_slv_fpbits := x"08a0" and x"fc00"; -- ee[0x25af]
-		offset12_16 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), offset12_16);
+		sftmp_slv_16 := x"08a0" and x"fc00"; -- ee[0x25af]
+		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 10));
+		tmpslv6 := sftmp_slv_16 (5 downto 0);
+		tmpsf6 := to_sfixed (tmpslv6, tmpsf6);
+		offset12_16 := resize (tmpsf6, offset12_16);
 		report_error ("fail offset12_16", offset12_16, to_sfixed (2.0, offset12_16)); -- 2
 		sftmp_slv_16 := x"4210" and x"000f"; -- ee[0x2410]
 		occscaleremnant := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), occscaleremnant);
@@ -588,7 +601,7 @@ when w28 =>
 when s29 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		occsro := resize (fpout, occsro);
-		report_error ("fail occsro 1", occsro, to_sfixed (0.0, occsro)); -- 
+		report_error ("fail occsro 1", occsro, to_sfixed (-4.0, occsro)); -- -4
 		cmd <= "0010"; -- * occcolumn16*2^occscalecolumn
 		in1 <= occcolumn16;
 		in2 <= occsc;
@@ -598,7 +611,7 @@ when w29 =>
 when s30 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		occsc := resize (fpout, occsc);
-		report_error ("fail occsc 1", occsc, to_sfixed (0.0, occsc)); -- 
+		report_error ("fail occsc 1", occsc, to_sfixed (-4.0, occsc)); -- -4
 		cmd <= "0010"; -- * occremnant*2^occscaleremnant
 		in1 <= offset12_16;
 		in2 <= occsre;
@@ -608,7 +621,7 @@ when w30 =>
 when s31 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		occsre := resize (fpout, occsre);
-		report_error ("fail occsre 1", occsre, to_sfixed (0.0, occsre)); -- 
+		report_error ("fail occsre 1", occsre, to_sfixed (2.0, occsre)); -- 2
 		cmd <= "0000"; -- + (occcolumn16*2^occscalecolumn)+(occremnant*2^occscaleremnant)
 		in1 <= occsc;
 		in2 <= occsre;
@@ -618,7 +631,7 @@ when w31 =>
 when s32 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		occsre := resize (fpout, occsre);
-		report_error ("fail occsre 2", occsre, to_sfixed (0.0, occsre)); -- 
+		report_error ("fail occsre 2", occsre, to_sfixed (-2.0, occsre)); -- -2
 		cmd <= "0000"; -- + (occrow12*2^occscalerow)+(occcolumn16*2^occscalecolumn)+(occremnant*2^occscaleremnant)
 		in1 <= occsre;
 		in2 <= occsro;
@@ -628,7 +641,7 @@ when w32 =>
 when s33 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		occsre := resize (fpout, occsre);
-		report_error ("fail occsre 3", occsre, to_sfixed (0.0, occsre)); -- 
+		report_error ("fail occsre 3", occsre, to_sfixed (-6.0, occsre)); -- -6
 		cmd <= "0000"; -- + offsetaverage+(occrow12*2^occscalerow)+(occcolumn16*2^occscalecolumn)+(occremnant*2^occscaleremnant)
 		in1 <= occsre;
 		in2 <= offsetaverage;
