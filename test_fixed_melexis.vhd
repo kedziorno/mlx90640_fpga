@@ -1331,8 +1331,41 @@ when s108 =>
 		fpout := to_sfixed (to_slv (out1), fpout);
 		acpsubpage0 := resize (fpout, acpsubpage0);
 		report_error ("fail acpsubpage0", acpsubpage0, to_sfixed (0.00000000407453626394272, acpsubpage0)); -- 0.00000000407453626394272
-
-
+		fptmp2 := to_sfixed (2**7, fptmp2);
+		report_error ("fail 2**7", fptmp2, to_sfixed (2**7, fptmp2));		
+		cmd <= "0011"; -- / cpp1p0ratio/2^7
+		in1 <= cpp1p0ratio;
+		in2 <= fptmp2;
+		state <= w108;
+when w108 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s109; else v_wait1 := v_wait1 + 1; state <= w108; end if;
+when s109 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		cpp1p0ratio := resize (fpout, cpp1p0ratio);
+		report_error ("fail cpp1p0ratio 1", cpp1p0ratio, to_sfixed (-0.05468750000000000000, cpp1p0ratio)); -- -0.05468750000000000000
+		fptmp1 := to_sfixed (1.0, fptmp1);
+		report_error ("fail 1.0", fptmp1, to_sfixed (1.0, fptmp1));
+		cmd <= "0000"; -- + 1+(cpp1p0ratio/2^7)
+		in1 <= fptmp1;
+		in2 <= cpp1p0ratio;
+		state <= w109;
+when w109 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s110; else v_wait1 := v_wait1 + 1; state <= w109; end if;
+when s110 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		cpp1p0ratio := resize (fpout, cpp1p0ratio);
+		report_error ("fail cpp1p0ratio 2", cpp1p0ratio, to_sfixed (-1.05468750000000000000, cpp1p0ratio)); -- -1.05468750000000000000
+		cmd <= "0010"; -- * acpsubpage0*(1+(cpp1p0ratio/2^7))
+		in1 <= acpsubpage0;
+		in2 <= cpp1p0ratio;
+		state <= w110;
+when w110 =>
+		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state <= s111; else v_wait1 := v_wait1 + 1; state <= w110; end if;
+when s111 =>
+		fpout := to_sfixed (to_slv (out1), fpout);
+		acpsubpage1 := resize (fpout, acpsubpage1);
+		report_error ("fail acpsubpage1", acpsubpage1, to_sfixed ((0.00000000407453626394272)*(-1.05468750000000000000), acpsubpage1)); -- 0.00000000407453626394272*-1.05468750000000000000
+		report_error ("fail acpsubpage1 const", acpsubpage1, to_sfixed (0.00000000385171006200835, acpsubpage1)); -- 0.00000000385171006200835
 report time'image(now) severity failure;
 
 when ending =>
