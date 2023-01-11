@@ -101,34 +101,8 @@ signal slv_out : std_logic_vector(31 downto 0);
 
 constant CLK_PERIOD :time := 10 ns; -- period of clk period
 
+signal opa_r,output_r : real;
 
-begin
-
-    -- instantiate fpu
-    i_fpu_sqr : fpu_sqr port map (
-			clk_i => clk_i,
-			opa_i => opa_i,
-			opb_i => opb_i,
-			output_o => output_o,  
-        	start_i => start_i,
-        	ready_o => ready_o);		
-			
-
-    ---------------------------------------------------------------------------
-    -- toggle clock
-    ---------------------------------------------------------------------------
-    clk_i <= not(clk_i) after 5 ns;
-
-
-    verify : process 
-		--The operands and results are in Hex format. The test vectors must be placed in a strict order for the verfication to work.
-		file testcases_file: TEXT open read_mode is "test_bench/testcases_sqr.txt"; --Name of the file containing the test cases. 
-
-		variable file_line: line;
-		variable str_in: string(8 downto 1);
-		variable str_fpu_op: string(3 downto 1);
-		variable str_rmode: string(2 downto 1);
-		
 			-- https://opencores.org/websvn/filedetails?repname=raytrac&path=%2Fraytrac%2Fbranches%2Ffp%2Farithpack.vhd&rev=163
 	function ap_slv2int (sl:std_logic_vector) return integer is
 		alias s : std_logic_vector (sl'high downto sl'low) is sl;
@@ -163,6 +137,42 @@ begin
 			return f;
 		end if;
 	end function;
+
+begin
+
+real_assert : process (ready_o) is
+begin
+if (rising_edge(ready_o)) then
+opa_r <= ap_slv2fp (opa_i);
+output_r <= ap_slv2fp (output_o);
+assert sqrt(opa_r) /= output_r report "eq" severity note;
+end if;
+end process real_assert;
+
+    -- instantiate fpu
+    i_fpu_sqr : fpu_sqr port map (
+			clk_i => clk_i,
+			opa_i => opa_i,
+			opb_i => opb_i,
+			output_o => output_o,  
+        	start_i => start_i,
+        	ready_o => ready_o);		
+			
+
+    ---------------------------------------------------------------------------
+    -- toggle clock
+    ---------------------------------------------------------------------------
+    clk_i <= not(clk_i) after 5 ns;
+
+
+    verify : process 
+		--The operands and results are in Hex format. The test vectors must be placed in a strict order for the verfication to work.
+		file testcases_file: TEXT open read_mode is "test_bench/testcases_sqr.txt"; --Name of the file containing the test cases. 
+
+		variable file_line: line;
+		variable str_in: string(8 downto 1);
+		variable str_fpu_op: string(3 downto 1);
+		variable str_rmode: string(2 downto 1);
 
     begin
 
