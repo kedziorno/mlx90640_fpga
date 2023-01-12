@@ -25,7 +25,7 @@ entity fixed_synth is
 end entity fixed_synth;
 
 architecture rtl of fixed_synth is
-  subtype sf_integer is integer range -128 to 127;
+  subtype sf_integer is integer range -256 to 255;
   subtype sfixed_subtype is st_sfixed_max;
   type cmd_type is array (1 to 15) of STD_ULOGIC_VECTOR (cmd'range); -- cmd
   signal cmdarray : cmd_type; -- command pipeline
