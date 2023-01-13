@@ -286,6 +286,7 @@ p0 : process (clock) is
 	variable sqrt2_1,sqrt2_2 : sfixed (24 downto 0);
 	variable fraca : sfixed (27 downto 0);
 	variable fracb : sfixed (-1 downto -36);
+	variable ff1,ff2 : STD_LOGIC_VECTOR(31 DOWNTO 0);
 begin
 	if rising_edge (clock) then
 		case s is
@@ -305,6 +306,9 @@ begin
 				divfpce <= '0';
 				fixed2floata <= (others => '0');
 				fixed2floatond <= '0';
+				mulfpa <= (others => '0');
+				mulfpb <= (others => '0');
+				mulfpond <= '0';
 			when s1 => s := s2;
 				fixed2floatsclr <= '0';
 				float2fixedsclr <= '0';
@@ -322,19 +326,74 @@ begin
 			when s3 =>
 				if (fixed2floatrdy = '1') then
 					s := s4;
+					fixed2floatce <= '0';
+					fixed2floatond <= '0';
 				else
 					s := s3;
 				end if;
-			when s4 =>
+			when s4 => s := s5;
+				ff1 := fixed2floatr;
+				mulfpa <= ff1;
+				mulfpb <= ff1;
+				mulfpce <= '1';
+				mulfpond <= '1';
+			when s5 =>
+				if (mulfprdy = '1') then
+					s := s6;
+					mulfpce <= '0';
+					mulfpond <= '0';
+					mulfpsclr <= '1';
+				else
+					s := s5;
+				end if;
+			when s6 => s := s7;
+				mulfpsclr <= '0';
+				mulfpce <= '1';
+				mulfpa <= mulfpr;
+				mulfpb <= ff1;
+				mulfpond <= '1';
+			when s7 =>
+				if (mulfprdy = '1') then
+					s := s8;
+					mulfpce <= '0';
+					mulfpond <= '0';
+					mulfpsclr <= '1';
+				else
+					s := s7;
+				end if;
+			when s8 => s := s9;
+				mulfpsclr <= '0';
+				mulfpce <= '1';
+				mulfpa <= mulfpr;
+				mulfpb <= ff1;
+				mulfpond <= '1';
+			when s9 =>
+				if (mulfprdy = '1') then
+					s := s10;
+					mulfpce <= '0';
+					mulfpond <= '0';
+					mulfpsclr <= '1';
+				else
+					s := s9;
+				end if;
+			when s10 => s := s11;
+				mulfpsclr <= '0';
+				mulfpce <= '1';
+				mulfpa <= mulfpr;
+				mulfpb <= ff1;
+				mulfpond <= '1';
+			when s11 =>
+				if (mulfprdy = '1') then
+					s := s12;
+					mulfpce <= '0';
+					mulfpond <= '0';
+					mulfpsclr <= '1';
+				else
+					s := s11;
+				end if;
+			when s12 =>
+
 report "done" severity failure;
---signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
---signal fixed2floatond : STD_LOGIC;
---signal fixed2floatorfd : STD_LOGIC;
---signal fixed2floatclk : STD_LOGIC;
---signal fixed2floatsclr : STD_LOGIC;
---signal fixed2floatce : STD_LOGIC;
---signal fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
---signal fixed2floatrdy : STD_LOGIC;
 
 --				acomp1 := reciprocal (acomp_const);
 --				acomp1 := resize (acomp1 (FP_BITS/2 downto 0), acomp1);
