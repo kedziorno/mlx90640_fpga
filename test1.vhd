@@ -35,6 +35,24 @@ signal reset : std_logic := '1';
 signal clock : std_logic := '0';
 constant clock_period : time := 500 ns;
 
+COMPONENT sqrt2
+PORT (
+x_in : IN STD_LOGIC_VECTOR(47 DOWNTO 0);
+x_out : OUT STD_LOGIC_VECTOR(24 DOWNTO 0);
+rdy : OUT STD_LOGIC;
+clk : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+sclr : IN STD_LOGIC
+);
+END COMPONENT;
+
+signal x_in : std_logic_vector(47 downto 0);
+signal x_out : std_logic_vector(24 downto 0);
+signal rdy : std_logic;
+signal clk : std_logic;
+signal ce : std_logic;
+signal sclr : std_logic;
+
 component fixed_synth_add is
 port (
 	in1, in2   : in  std_logic_vector (FP_BITS-1 downto 0);
@@ -78,6 +96,15 @@ signal out1add,out1sub,out1div,out1mul : st_sfixed_max;
 constant C_WAIT1 : integer := 32;
 
 begin
+
+inst_sqrt2 : sqrt2 port map (
+x_in => x_in,
+x_out => x_out,
+rdy => rdy,
+clk => clock,
+ce => ce,
+sclr => sclr
+);
 
 out1add <= to_sfixed(outslvadd, st_sfixed_max'high, st_sfixed_max'low);
 out1sub <= to_sfixed(outslvsub, st_sfixed_max'high, st_sfixed_max'low);
@@ -143,6 +170,7 @@ p0 : process (clock) is
 	variable acomp4 : stsf_max := (others => '0');
 	variable fpout,fptmp1,fptmp2 : stsf_max := (others => '0');
 	variable ta,vircomp,tavircomp : stsf_max := (others => '0');
+	variable sqrt2_1,sqrt2_2 : sfixed (24 downto 0);
 begin
 	if rising_edge (clock) then
 		case s is
@@ -155,7 +183,11 @@ begin
 				in2div <= (others => '0');
 				in1mul <= (others => '0');
 				in2mul <= (others => '0');
+				ce <= '0';
+				sclr <= '1';
+				x_in <= (others => '0');
 			when s1 => s := s2;
+				sclr <= '0';
 				acomp1 := reciprocal (acomp_const);
 				acomp1 := resize (acomp1 (FP_BITS/2 downto 0), acomp1);
 				in1mul <= acomp1&h2_0;
@@ -198,12 +230,35 @@ begin
 				in1add <= resize (reciprocal (ta), in1add);
 				in2add <= resize (reciprocal (vircomp), in2add);
 			when s12 => if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; s := s13; else v_wait1 := v_wait1 + 1; s := s12; end if;
-			when s13 =>
+			when s13 => s := s14;
 				fpout := to_sfixed (to_slv (out1add), fpout);
 				tavircomp := resize (fpout, tavircomp);
 				report_fixed_value ("vircomp+ta 1", tavircomp);
 				report_fixed_value ("vircomp+ta 2", resize (reciprocal (tavircomp), tavircomp));
-			report "done" severity failure;
+				ce <= '1';
+--				x_in <= to_slv (tavircomp)(47 downto 0);
+				x_in <= to_slv (resize (reciprocal (tavircomp), tavircomp))(47 downto 0);
+			when s14 =>
+				if (rdy = '1') then
+					s := s15;
+					sclr <= '1';
+				else
+					s := s14;
+				end if;
+			when s15 => s := s16;
+				sclr <= '0';
+				report_fixed_value ("sqrt2 1", to_sfixed (x_out, sqrt2_1));
+				x_in <= "00000000000000000000000" & x_out;
+			when s16 =>
+				if (rdy = '1') then
+					s := s17;
+				else
+					s := s16;
+				end if;
+			when s17 =>
+				report_fixed_value ("sqrt2 2", to_sfixed (x_out, sqrt2_2));
+				report_fixed_value ("sqrt2 3", resize (reciprocal (to_sfixed (x_out, sqrt2_2)), fptmp1));
+				report "done" severity failure;
 			when others => null;
 		end case;
 	end if;
