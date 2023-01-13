@@ -21,9 +21,9 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-o_out1 : out st_sfixed_max;
-o_in1 : out st_sfixed_max;
-o_in2 : out st_sfixed_max
+o_out1 : out st_sfixed_max
+--o_in1 : out st_sfixed_max;
+--o_in2 : out st_sfixed_max
 );
 end component test_fixed_melexis;
 
@@ -55,9 +55,9 @@ port map (
 i_clock => i_clock,
 i_reset => i_reset,
 i_run => i_run,
-o_out1 => o_out1,
-o_in1 => o_in1,
-o_in2 => o_in2
+o_out1 => o_out1
+--o_in1 => o_in1,
+--o_in2 => o_in2
 );
 
 cp : process

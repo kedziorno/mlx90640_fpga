@@ -39,7 +39,7 @@ package p_fphdl_package1 is
 	);
 
 --	constant FP_BITS : integer := 19; -- xxx for synthesis
-	constant FP_BITS : integer := 44; -- xxx for simulation
+	constant FP_BITS : integer := 256; -- xxx for simulation
 	subtype st_in1_slv is std_logic_vector (FP_BITS-1 downto 0);
 	subtype st_in2_slv is std_logic_vector (FP_BITS-1 downto 0);
 	subtype st_out_slv is std_logic_vector (FP_BITS-1 downto 0);
@@ -63,8 +63,10 @@ package p_fphdl_package1 is
 	subtype st_sfixed_mul is sfixed (sfixed_high(a,'*',b) downto sfixed_low(a,'*',b));
 	subtype st_sfixed_div is sfixed (sfixed_high(a,'/',b) downto sfixed_low(a,'/',b));
 
-	subtype st_sfixed_max is sfixed (sfixed_div_hi downto sfixed_div_lo);
-	subtype st_ufixed_max is ufixed (sfixed_div_hi downto sfixed_div_lo);
+	subtype st_sfixed_max is sfixed (sfixed_div_hi/2 downto sfixed_div_lo/2);
+	subtype st_ufixed_max is ufixed (sfixed_div_hi/2 downto sfixed_div_lo/2);
+	subtype st_sfixed_h1 is sfixed (FP_BITS/2 downto 1);
+	subtype st_sfixed_h2 is sfixed (0 downto -FP_BITS/2+1);
 	subtype sfixed0 is sfixed (0 downto 0);
 	subtype ufixed0 is ufixed (0 downto 0);
 	subtype sfixed1 is sfixed (1 downto 0);

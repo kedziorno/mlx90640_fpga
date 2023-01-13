@@ -17,8 +17,8 @@ use work.p_fphdl_package1.all;
 entity fixed_synth is
   
   port (
-    in1, in2   : in  STD_LOGIC_VECTOR (2*FP_BITS-1 downto 0);  -- inputs
-    out1       : out STD_LOGIC_VECTOR (2*FP_BITS-1 downto 0);  -- output
+    in1, in2   : in  STD_LOGIC_VECTOR (FP_BITS-1 downto 0);  -- inputs
+    out1       : out STD_LOGIC_VECTOR (FP_BITS-1 downto 0);  -- output
     cmd        : in  STD_LOGIC_VECTOR (3 downto 0);
     clk, rst_n : in  STD_ULOGIC);                     -- clk and reset
 
@@ -26,77 +26,58 @@ end entity fixed_synth;
 
 architecture rtl of fixed_synth is
   subtype sf_integer is integer range -256 to 255;
+--  subtype sf_integer is integer;
   subtype sfixed_subtype is st_sfixed_max;
   type cmd_type is array (1 to 15) of STD_ULOGIC_VECTOR (cmd'range); -- cmd
   signal cmdarray : cmd_type; -- command pipeline
-  type cry_type is array (0 to 4) of sfixed_subtype;
-  signal outarray0, outarray1, outarray2, outarray3, outarray4 : sfixed_subtype;
+--  type cry_type is array (0 to 4) of sfixed_subtype;
+  signal outarray0, outarray1, outarray2, outarray3 : sfixed_subtype;
   signal in1reg3, in2reg3 : sfixed_subtype; -- register stages
 begin  -- architecture rtl
 
   -- purpose: "0000" test the "+" operator
   cmd0reg : process (clk, rst_n) is
-    variable outarray           : cry_type;  -- array for output
-    variable in1array, in2array : cry_type;  -- array for input
-		variable sfh : sf_integer := SFixed_high (in1array(0), '+', in2array(0));
-		variable sfl : sf_integer := SFixed_low  (in1array(0), '+', in2array(0));
+--    variable outarray           : cry_type;  -- array for output
+--    variable in1array, in2array : cry_type;  -- array for input
+    variable in1array, in2array : sfixed_subtype;  -- array for input
+    variable sfh : sf_integer := SFixed_high (in1array, '+', in2array);
+		variable sfl : sf_integer := SFixed_low  (in1array, '+', in2array);
     variable in1pin2 : sfixed (sfh downto sfl);
   begin  -- process cmd0reg
     if rst_n = '1' then                      -- asynchronous reset (active low)
       outarray0 <= (others => '0');
-      jrloop : for j in 0 to 4 loop
-        outarray (j) := (others => '0');
-        in1array (j) := (others => '0');
-        in2array (j) := (others => '0');
-      end loop jrloop;
     elsif rising_edge(clk) then              -- rising clock edge
-      outarray0 <= outarray(4);
-      jcloop : for j in 4 downto 1 loop
-        outarray (j) := outarray(j-1);
-      end loop jcloop;
-      j1loop : for j in 3 downto 1 loop
-        in1array (j) := in1array(j-1);
-      end loop j1loop;
-      j2loop : for j in 3 downto 1 loop
-        in2array (j) := in2array(j-1);
-      end loop j2loop;
-      in1array(0) := in1reg3;
-      in2array(0) := in2reg3;
-      in1pin2     := in1array(3) + in2array(3);
-      outarray(0) := resize (in1pin2, outarray(0));
+      in1pin2     := in1reg3 + in2reg3;
+      outarray0 <= resize (in1pin2, outarray0);
     end if;
   end process cmd0reg;
 
   -- purpose: "0001" test the "-" operator
   cmd1reg : process (clk, rst_n) is
-    variable outarray           : cry_type;  -- array for output
-    variable in1array, in2array : cry_type;  -- array for input
-		variable sfh : sf_integer := SFixed_high (in1array(0), '-', in2array(0));
-		variable sfl : sf_integer := SFixed_low  (in1array(0), '-', in2array(0));
+--    variable outarray           : cry_type;  -- array for output
+--    variable in1array, in2array : cry_type;  -- array for input
+    variable outarray           : sfixed_subtype;  -- array for output
+    variable in1array, in2array : sfixed_subtype;  -- array for input
+		variable sfh : sf_integer := SFixed_high (in1array, '-', in2array);
+		variable sfl : sf_integer := SFixed_low  (in1array, '-', in2array);
     variable in1min2 : sfixed (sfh downto sfl);
   begin  -- process cmd0reg
     if rst_n = '1' then                      -- asynchronous reset (active low)
       outarray1 <= (others => '0');
-      jrloop : for j in 0 to 4 loop
-        outarray (j) := (others => '0');
-        in1array (j) := (others => '0');
-        in2array (j) := (others => '0');
-      end loop jrloop;
+--      jrloop : for j in 0 to 4 loop
+--        outarray (j) := (others => '0');
+--        in1array (j) := (others => '0');
+--        in2array (j) := (others => '0');
+--      end loop jrloop;
+        outarray := (others => '0');
+        in1array := (others => '0');
+        in2array := (others => '0');
     elsif rising_edge(clk) then              -- rising clock edge
-      outarray1 <= outarray(4);
-      jcloop : for j in 4 downto 1 loop
-        outarray (j) := outarray(j-1);
-      end loop jcloop;
-      j1loop : for j in 3 downto 1 loop
-        in1array (j) := in1array(j-1);
-      end loop j1loop;
-      j2loop : for j in 3 downto 1 loop
-        in2array (j) := in2array(j-1);
-      end loop j2loop;
-      in1array(0) := in1reg3;
-      in2array(0) := in2reg3;
-      in1min2     := in1array(3) - in2array(3);
-      outarray(0) := resize (in1min2, outarray(0));
+      outarray1 <= outarray;
+      in1array := in1reg3;
+      in2array := in2reg3;
+      in1min2  := in1array - in2array;
+      outarray := resize (in1min2, outarray);
     end if;
   end process cmd1reg;
 
@@ -105,31 +86,36 @@ begin  -- architecture rtl
 		variable sfh : sf_integer := SFixed_high (in1reg3, '*', in2reg3);
 		variable sfl : sf_integer := SFixed_low  (in1reg3, '*', in2reg3);    
     variable in1min2 : sfixed (sfh downto sfl);
-    variable outarray           : cry_type;  -- array for output
-    variable in1array, in2array : cry_type;  -- array for input
+--    variable outarray           : cry_type;  -- array for output
+--    variable in1array, in2array : cry_type;  -- array for input
+    variable outarray           : sfixed_subtype;  -- array for output
+    variable in1array, in2array : sfixed_subtype;  -- array for input
   begin  -- process cmd0reg
     if rst_n = '1' then                      -- asynchronous reset (active low)
       outarray2 <= (others => '0');
-      jrloop : for j in 0 to 4 loop
-        outarray (j) := (others => '0');
-        in1array (j) := (others => '0');
-        in2array (j) := (others => '0');
-      end loop jrloop;
+--      jrloop : for j in 0 to 4 loop
+--        outarray (j) := (others => '0');
+--        in1array (j) := (others => '0');
+--        in2array (j) := (others => '0');
+--      end loop jrloop;
+        outarray := (others => '0');
+        in1array := (others => '0');
+        in2array := (others => '0');
     elsif rising_edge(clk) then              -- rising clock edge
-      outarray2 <= outarray(4);
-      jcloop : for j in 4 downto 1 loop
-        outarray (j) := outarray(j-1);
-      end loop jcloop;
-      j1loop : for j in 3 downto 1 loop
-        in1array (j) := in1array(j-1);
-      end loop j1loop;
-      j2loop : for j in 3 downto 1 loop
-        in2array (j) := in2array(j-1);
-      end loop j2loop;
-      in1array(0) := in1reg3;
-      in2array(0) := in2reg3;
-      in1min2     := in1array(3) * in2array(3);
-      outarray(0) := resize (in1min2, outarray(0));
+      outarray2 <= outarray;
+--      jcloop : for j in 4 downto 1 loop
+--        outarray (j) := outarray(j-1);
+--      end loop jcloop;
+--      j1loop : for j in 3 downto 1 loop
+--        in1array (j) := in1array(j-1);
+--      end loop j1loop;
+--      j2loop : for j in 3 downto 1 loop
+--        in2array (j) := in2array(j-1);
+--      end loop j2loop;
+      in1array := in1reg3;
+      in2array := in2reg3;
+      in1min2     := in1array * in2array;
+      outarray := resize (in1min2, outarray);
     end if;
   end process cmd2reg;
 
@@ -140,35 +126,40 @@ begin  -- architecture rtl
 		subtype sfixed_subtype is st_sfixed_max;                           -- 16 bit original
 		type cry_type is array (0 to 4) of sfixed_subtype;                        -- arrays
 	  variable in1min2 : sfixed (sfh downto sfl);
-    variable outarray           : cry_type;  -- array for output
-    variable in1array, in2array : cry_type;  -- array for input
+--    variable outarray           : cry_type;  -- array for output
+--    variable in1array, in2array : cry_type;  -- array for input
+    variable outarray           : sfixed_subtype;  -- array for output
+    variable in1array, in2array : sfixed_subtype;  -- array for input
   begin  -- process cmd3reg
     if rst_n = '1' then                      -- asynchronous reset (active low)
       outarray3 <= (others => '0');
-      jrloop : for j in 0 to 4 loop
-        outarray (j) := (others => '0');
-        in1array (j) := (others => '0');
-        in2array (j) := to_sfixed(1, in2array(0));
-      end loop jrloop;
+--      jrloop : for j in 0 to 4 loop
+--        outarray (j) := (others => '0');
+--        in1array (j) := (others => '0');
+--        in2array (j) := to_sfixed(1, in2array(0));
+--      end loop jrloop;
+        outarray := (others => '0');
+        in1array := (others => '0');
+        in2array := to_sfixed(1, in2array);
     elsif rising_edge(clk) then              -- rising clock edge
-      outarray3 <= outarray(4);
-      jcloop : for j in 4 downto 1 loop
-        outarray (j) := outarray(j-1);
-      end loop jcloop;
-      j1loop : for j in 3 downto 1 loop
-        in1array (j) := in1array(j-1);
-      end loop j1loop;
-      j2loop : for j in 3 downto 1 loop
-        in2array (j) := in2array(j-1);
-      end loop j2loop;
-      in1array(0) := in1reg3;
+      outarray3 <= outarray;
+--      jcloop : for j in 4 downto 1 loop
+--        outarray (j) := outarray(j-1);
+--      end loop jcloop;
+--      j1loop : for j in 3 downto 1 loop
+--        in1array (j) := in1array(j-1);
+--      end loop j1loop;
+--      j2loop : for j in 3 downto 1 loop
+--        in2array (j) := in2array(j-1);
+--      end loop j2loop;
+      in1array := in1reg3;
       if (in2reg3 = 0) then
-        in2array(0) := to_sfixed(1.0, in2array(0));
+        in2array := to_sfixed(1.0, in2array);
       else
-        in2array(0) := in2reg3;
+        in2array := in2reg3;
       end if;
-      in1min2     := in1array(3) / in2array(3);
-      outarray(0) := resize (in1min2, outarray(0));
+      in1min2     := in1array / in2array;
+      outarray := resize (in1min2, outarray);
     end if;
   end process cmd3reg;
 
