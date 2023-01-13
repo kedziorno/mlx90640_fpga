@@ -34,96 +34,202 @@ architecture Behavioral of tb_test1 is
 signal reset : std_logic := '1';
 signal clock : std_logic := '0';
 constant clock_period : time := 500 ns;
+constant C_WAIT1 : integer := 32;
 
-COMPONENT sqrt2
+COMPONENT float2fixed
 PORT (
-x_in : IN STD_LOGIC_VECTOR(47 DOWNTO 0);
-x_out : OUT STD_LOGIC_VECTOR(24 DOWNTO 0);
-rdy : OUT STD_LOGIC;
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+operation_rfd : OUT STD_LOGIC;
 clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
-sclr : IN STD_LOGIC
+result : OUT STD_LOGIC_VECTOR(63 DOWNTO 0);
+overflow : OUT STD_LOGIC;
+invalid_op : OUT STD_LOGIC;
+rdy : OUT STD_LOGIC
 );
 END COMPONENT;
 
-signal x_in : std_logic_vector(47 downto 0);
-signal x_out : std_logic_vector(24 downto 0);
-signal rdy : std_logic;
-signal clk : std_logic;
-signal ce : std_logic;
-signal sclr : std_logic;
+signal float2fixeda : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal float2fixedond : STD_LOGIC;
+signal float2fixedorfd : STD_LOGIC;
+signal float2fixedclk : STD_LOGIC;
+signal float2fixedsclr : STD_LOGIC;
+signal float2fixedce : STD_LOGIC;
+signal float2fixedr : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal float2fixedof : STD_LOGIC;
+signal float2fixediop : STD_LOGIC;
+signal float2fixedrdy : STD_LOGIC;
 
-component fixed_synth_add is
-port (
-	in1, in2   : in  std_logic_vector (FP_BITS-1 downto 0);
-	out1       : out std_logic_vector (FP_BITS-1 downto 0);
-	clk, rst_n : in  std_ulogic
+COMPONENT fixed2float
+PORT (
+a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+operation_rfd : OUT STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
 );
-end component fixed_synth_add;
+END COMPONENT;
 
-component fixed_synth_sub is
-port (
-	in1, in2   : in  std_logic_vector (FP_BITS-1 downto 0);
-	out1       : out std_logic_vector (FP_BITS-1 downto 0);
-	clk, rst_n : in  std_ulogic
+signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : STD_LOGIC;
+signal fixed2floatorfd : STD_LOGIC;
+signal fixed2floatclk : STD_LOGIC;
+signal fixed2floatsclr : STD_LOGIC;
+signal fixed2floatce : STD_LOGIC;
+signal fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : STD_LOGIC;
+
+COMPONENT divfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+operation_rfd : OUT STD_LOGIC;
+clk : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+underflow : OUT STD_LOGIC;
+overflow : OUT STD_LOGIC;
+invalid_op : OUT STD_LOGIC;
+divide_by_zero : OUT STD_LOGIC;
+rdy : OUT STD_LOGIC
 );
-end component fixed_synth_sub;
+END COMPONENT;
 
-component fixed_synth_mul is
-port (
-	in1, in2   : in  std_logic_vector (FP_BITS-1 downto 0);
-	out1       : out std_logic_vector (FP_BITS-1 downto 0);
-	clk, rst_n : in  std_ulogic
+signal divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : STD_LOGIC;
+signal divfporfd : STD_LOGIC;
+signal divfpclk : STD_LOGIC;
+signal divfpce : STD_LOGIC;
+signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpuf : STD_LOGIC;
+signal divfpof : STD_LOGIC;
+signal divfpiop : STD_LOGIC;
+signal divfpdz : STD_LOGIC;
+signal divfprdy : STD_LOGIC;
+
+COMPONENT mulfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+operation_rfd : OUT STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+underflow : OUT STD_LOGIC;
+overflow : OUT STD_LOGIC;
+invalid_op : OUT STD_LOGIC;
+rdy : OUT STD_LOGIC
 );
-end component fixed_synth_mul;
+END COMPONENT;
 
-component fixed_synth_div is
-port (
-	in1, in2   : in  std_logic_vector (FP_BITS-1 downto 0);
-	out1       : out std_logic_vector (FP_BITS-1 downto 0);
-	clk, rst_n : in  std_ulogic
+signal mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : STD_LOGIC;
+signal mulfporfd : STD_LOGIC;
+signal mulfpclk : STD_LOGIC;
+signal mulfpsclr : STD_LOGIC;
+signal mulfpce : STD_LOGIC;
+signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpuf : STD_LOGIC;
+signal mulfpof : STD_LOGIC;
+signal mulfpiop : STD_LOGIC;
+signal mulfprdy : STD_LOGIC;
+
+COMPONENT addfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+operation_rfd : OUT STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+underflow : OUT STD_LOGIC;
+overflow : OUT STD_LOGIC;
+invalid_op : OUT STD_LOGIC;
+rdy : OUT STD_LOGIC
 );
-end component fixed_synth_div;
+END COMPONENT;
 
-signal in1slvadd, in2slvadd, outslvadd : std_logic_vector(FP_BITS-1 downto 0);
-signal in1slvsub, in2slvsub, outslvsub : std_logic_vector(FP_BITS-1 downto 0);
-signal in1slvdiv, in2slvdiv, outslvdiv : std_logic_vector(FP_BITS-1 downto 0);
-signal in1slvmul, in2slvmul, outslvmul : std_logic_vector(FP_BITS-1 downto 0);
-signal in1add,in1sub,in1div,in1mul : st_sfixed_max;
-signal in2add,in2sub,in2div,in2mul : st_sfixed_max;
-signal out1add,out1sub,out1div,out1mul : st_sfixed_max;
+signal addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : STD_LOGIC;
+signal addfporfd : STD_LOGIC;
+signal addfpclk : STD_LOGIC;
+signal addfpsclr : STD_LOGIC;
+signal addfpce : STD_LOGIC;
+signal addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpuf : STD_LOGIC;
+signal addfpof : STD_LOGIC;
+signal addfpiop : STD_LOGIC;
+signal addfprdy : STD_LOGIC;
 
-constant C_WAIT1 : integer := 32;
+COMPONENT subfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+operation_rfd : OUT STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+underflow : OUT STD_LOGIC;
+overflow : OUT STD_LOGIC;
+invalid_op : OUT STD_LOGIC;
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+
+signal subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpond : STD_LOGIC;
+signal subfporfd : STD_LOGIC;
+signal subfpclk : STD_LOGIC;
+signal subfpsclr : STD_LOGIC;
+signal subfpce : STD_LOGIC;
+signal subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpuf : STD_LOGIC;
+signal subfpof : STD_LOGIC;
+signal subfpiop : STD_LOGIC;
+signal subfprdy : STD_LOGIC;
+
+COMPONENT sqrtfp2
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+operation_rfd : OUT STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+invalid_op : OUT STD_LOGIC;
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+
+signal sqrtfp2a : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal sqrtfp2ond : STD_LOGIC;
+signal sqrtfp2orfd : STD_LOGIC;
+signal sqrtfp2clk : STD_LOGIC;
+signal sqrtfp2sclr : STD_LOGIC;
+signal sqrtfp2ce : STD_LOGIC;
+signal sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal sqrtfp2iop : STD_LOGIC;
+signal sqrtfp2rdy : STD_LOGIC;
 
 begin
 
-inst_sqrt2 : sqrt2 port map (
-x_in => x_in,
-x_out => x_out,
-rdy => rdy,
-clk => clock,
-ce => ce,
-sclr => sclr
-);
-
-out1add <= to_sfixed(outslvadd, st_sfixed_max'high, st_sfixed_max'low);
-out1sub <= to_sfixed(outslvsub, st_sfixed_max'high, st_sfixed_max'low);
-out1div <= to_sfixed(outslvdiv, st_sfixed_max'high, st_sfixed_max'low);
-out1mul <= to_sfixed(outslvmul, st_sfixed_max'high, st_sfixed_max'low);
-
-in1slvadd <= to_slv(in1add);
-in1slvsub <= to_slv(in1sub);
-in1slvdiv <= to_slv(in1div);
-in1slvmul <= to_slv(in1mul);
-in2slvadd <= to_slv(in2add);
-in2slvsub <= to_slv(in2sub);
-in2slvdiv <= to_slv(in2div);
-in2slvmul <= to_slv(in2mul);
-
-DUTadd : fixed_synth_add port map (in1 => in1slvadd, in2 => in2slvadd, out1 => outslvadd, clk => clock, rst_n => reset);
-DUTsub : fixed_synth_sub port map (in1 => in1slvsub, in2 => in2slvsub, out1 => outslvsub, clk => clock, rst_n => reset);
-DUTdiv : fixed_synth_div port map (in1 => in1slvdiv, in2 => in2slvdiv, out1 => outslvdiv, clk => clock, rst_n => reset);
-DUTmul : fixed_synth_mul port map (in1 => in1slvmul, in2 => in2slvmul, out1 => outslvmul, clk => clock, rst_n => reset);
 
 pr : process is
 begin
@@ -264,5 +370,107 @@ begin
 	end if;
 end process p0;
 
+inst_ff1 : float2fixed
+PORT MAP (
+a => float2fixeda,
+operation_nd => float2fixedond,
+operation_rfd => float2fixedorfd,
+clk => float2fixedclk,
+sclr => float2fixedsclr,
+ce => float2fixedce,
+result => float2fixedr,
+overflow => float2fixedof,
+invalid_op => float2fixediop,
+rdy => float2fixedrdy
+);
+
+inst_ff2 : fixed2float
+PORT MAP (
+a => fixed2floata,
+operation_nd => fixed2floatond,
+operation_rfd => fixed2floatorfd,
+clk => fixed2floatclk,
+sclr => fixed2floatsclr,
+ce => fixed2floatce,
+result => fixed2floatr,
+rdy => fixed2floatrdy
+);
+
+inst_divfp : divfp
+PORT MAP (
+a => divfpa,
+b => divfpb,
+operation_nd => divfpond,
+operation_rfd => divfporfd,
+clk => divfpclk,
+ce => divfpce,
+result => divfpr,
+underflow => divfpuf,
+overflow => divfpof,
+invalid_op => divfpiop,
+divide_by_zero => divfpdz,
+rdy => divfprdy
+);
+
+inst_mulfp : mulfp
+PORT MAP (
+a => mulfpa,
+b => mulfpb,
+operation_nd => mulfpond,
+operation_rfd => mulfporfd,
+clk => mulfpclk,
+sclr => mulfpsclr,
+ce => mulfpce,
+result => mulfpr,
+underflow => mulfpuf,
+overflow => mulfpof,
+invalid_op => mulfpiop,
+rdy => mulfprdy
+);
+
+inst_addfp : addfp
+PORT MAP (
+a => addfpa,
+b => addfpb,
+operation_nd => addfpond,
+operation_rfd => addfporfd,
+clk => addfpclk,
+sclr => addfpsclr,
+ce => addfpce,
+result => addfpr,
+underflow => addfpuf,
+overflow => addfpof,
+invalid_op => addfpiop,
+rdy => addfprdy
+);
+
+inst_subfp : subfp
+PORT MAP (
+a => subfpa,
+b => subfpb,
+operation_nd => subfpond,
+operation_rfd => subfporfd,
+clk => subfpclk,
+sclr => subfpsclr,
+ce => subfpce,
+result => subfpr,
+underflow => subfpuf,
+overflow => subfpof,
+invalid_op => subfpiop,
+rdy => subfprdy
+);
+
+inst_sqrtfp2 : sqrtfp2
+PORT MAP (
+a => sqrtfp2a,
+operation_nd => sqrtfp2ond,
+operation_rfd => sqrtfp2orfd,
+clk => sqrtfp2clk,
+sclr => sqrtfp2sclr,
+ce => sqrtfp2ce,
+result => sqrtfp2r,
+invalid_op => sqrtfp2iop,
+rdy => sqrtfp2rdy
+);
 end Behavioral;
 
