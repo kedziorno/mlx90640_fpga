@@ -27,13 +27,17 @@ use work.p_fphdl_package1.all;
 
 
 entity tb_test1 is
+port (
+clock,reset : in std_logic;
+out1 : out std_logic_vector (31 downto 0)
+);
 end tb_test1;
 
 architecture Behavioral of tb_test1 is
 
-signal reset : std_logic := '1';
-signal clock : std_logic := '0';
-constant clock_period : time := 500 ns;
+--signal reset : std_logic := '1';
+--signal clock : std_logic := '0';
+--constant clock_period : time := 500 ns;
 constant C_WAIT1 : integer := 32;
 
 COMPONENT float2fixed
@@ -238,31 +242,31 @@ subfpclk <= clock;
 mulfpclk <= clock;
 divfpclk <= clock;
 
-pr : process is
-begin
-	reset <= '1';
-	wait for clock_period*0.501;
-	reset <= '0';
-	report "fp_add_hi : " & integer'image(st_sfixed_add'high);
-	report "fp_add_lo : " & integer'image(st_sfixed_add'low);
-	report "fp_sub_hi : " & integer'image(st_sfixed_sub'high);
-	report "fp_sub_lo : " & integer'image(st_sfixed_sub'low);
-	report "fp_mul_hi : " & integer'image(st_sfixed_mul'high);
-	report "fp_mul_lo : " & integer'image(st_sfixed_mul'low);
-	report "fp_div_hi : " & integer'image(st_sfixed_div'high);
-	report "fp_div_lo : " & integer'image(st_sfixed_div'low);
-	wait;
-end process pr;
+--pr : process is
+--begin
+--	reset <= '1';
+--	wait for clock_period*0.501;
+--	reset <= '0';
+--	report "fp_add_hi : " & integer'image(st_sfixed_add'high);
+--	report "fp_add_lo : " & integer'image(st_sfixed_add'low);
+--	report "fp_sub_hi : " & integer'image(st_sfixed_sub'high);
+--	report "fp_sub_lo : " & integer'image(st_sfixed_sub'low);
+--	report "fp_mul_hi : " & integer'image(st_sfixed_mul'high);
+--	report "fp_mul_lo : " & integer'image(st_sfixed_mul'low);
+--	report "fp_div_hi : " & integer'image(st_sfixed_div'high);
+--	report "fp_div_lo : " & integer'image(st_sfixed_div'low);
+--	wait;
+--end process pr;
 
-pc : process is
-begin
-	clock <= '0';
-	wait for clock_period/2;
-	clock <= '1';
-	wait for clock_period/2;
-end process pc;
+--pc : process is
+--begin
+--	clock <= '0';
+--	wait for clock_period/2;
+--	clock <= '1';
+--	wait for clock_period/2;
+--end process pc;
 
-p0 : process (clock) is
+p0 : process (clock,reset) is
 	variable v_wait1 : integer range 0 to C_WAIT1-1 := 0;
 	type st is (s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20);
 	variable s : st := s0;
@@ -289,111 +293,118 @@ p0 : process (clock) is
 	variable ff1,ff2 : STD_LOGIC_VECTOR(31 DOWNTO 0);
 begin
 	if rising_edge (clock) then
-		case s is
-			when s0 => s := s1;
+		if (reset = '1') then
 				fixed2floatsclr <= '1';
 				float2fixedsclr <= '1';
 				sqrtfp2sclr <= '1';
 				addfpsclr <= '1';
 				subfpsclr <= '1';
 				mulfpsclr <= '1';
-				fixed2floatce <= '0';
-				float2fixedce <= '0';
-				sqrtfp2ce <= '0';
-				addfpce <= '0';
-				subfpce <= '0';
-				mulfpce <= '0';
-				divfpce <= '0';
-				fixed2floata <= (others => '0');
-				fixed2floatond <= '0';
-				mulfpa <= (others => '0');
-				mulfpb <= (others => '0');
-				mulfpond <= '0';
-			when s1 => s := s2;
-				fixed2floatsclr <= '0';
-				float2fixedsclr <= '0';
-				sqrtfp2sclr <= '0';
-				addfpsclr <= '0';
-				subfpsclr <= '0';
-				mulfpsclr <= '0';
-			when s2 => s := s3;
-				report_fixed_value ("acomp_const", acomp_const);
-				report_fixed_value ("acomp_const 1/x", reciprocal (acomp_const));
-				fixed2floatce <= '1';
-				fixed2floatond <= '1';
---				fixed2floata <= to_slv (resize (reciprocal (acomp_const), fraca)) & to_slv ( resize (reciprocal (acomp_const), fracb));
-				fixed2floata <= to_slv (resize (acomp_const, fraca)) & to_slv ( resize (acomp_const, fracb));
-			when s3 =>
-				if (fixed2floatrdy = '1') then
-					s := s4;
+		else
+			case s is
+				when s0 => s := s1;
 					fixed2floatce <= '0';
+					float2fixedce <= '0';
+					sqrtfp2ce <= '0';
+					addfpce <= '0';
+					subfpce <= '0';
+					mulfpce <= '0';
+					divfpce <= '0';
+					fixed2floata <= (others => '0');
 					fixed2floatond <= '0';
-				else
-					s := s3;
-				end if;
-			when s4 => s := s5;
-				ff1 := fixed2floatr;
-				mulfpa <= ff1;
-				mulfpb <= ff1;
-				mulfpce <= '1';
-				mulfpond <= '1';
-			when s5 =>
-				if (mulfprdy = '1') then
-					s := s6;
-					mulfpce <= '0';
+					mulfpa <= (others => '0');
+					mulfpb <= (others => '0');
 					mulfpond <= '0';
-					mulfpsclr <= '1';
-				else
-					s := s5;
-				end if;
-			when s6 => s := s7;
-				mulfpsclr <= '0';
-				mulfpce <= '1';
-				mulfpa <= mulfpr;
-				mulfpb <= ff1;
-				mulfpond <= '1';
-			when s7 =>
-				if (mulfprdy = '1') then
-					s := s8;
-					mulfpce <= '0';
-					mulfpond <= '0';
-					mulfpsclr <= '1';
-				else
-					s := s7;
-				end if;
-			when s8 => s := s9;
-				mulfpsclr <= '0';
-				mulfpce <= '1';
-				mulfpa <= mulfpr;
-				mulfpb <= ff1;
-				mulfpond <= '1';
-			when s9 =>
-				if (mulfprdy = '1') then
-					s := s10;
-					mulfpce <= '0';
-					mulfpond <= '0';
-					mulfpsclr <= '1';
-				else
-					s := s9;
-				end if;
-			when s10 => s := s11;
-				mulfpsclr <= '0';
-				mulfpce <= '1';
-				mulfpa <= mulfpr;
-				mulfpb <= ff1;
-				mulfpond <= '1';
-			when s11 =>
-				if (mulfprdy = '1') then
-					s := s12;
-					mulfpce <= '0';
-					mulfpond <= '0';
-					mulfpsclr <= '1';
-				else
-					s := s11;
-				end if;
-			when s12 =>
-
-report "done" severity failure;
+				when s1 => s := s2;
+					fixed2floatsclr <= '0';
+					float2fixedsclr <= '0';
+					sqrtfp2sclr <= '0';
+					addfpsclr <= '0';
+					subfpsclr <= '0';
+					mulfpsclr <= '0';
+				when s2 => s := s3;
+					report_fixed_value ("acomp_const", acomp_const);
+					report_fixed_value ("acomp_const 1/x", reciprocal (acomp_const));
+					fixed2floatce <= '1';
+					fixed2floatond <= '1';
+	--				fixed2floata <= to_slv (resize (reciprocal (acomp_const), fraca)) & to_slv ( resize (reciprocal (acomp_const), fracb));
+					fixed2floata <= to_slv (resize (acomp_const, fraca)) & to_slv ( resize (acomp_const, fracb));
+				when s3 =>
+					if (fixed2floatrdy = '1') then
+						s := s4;
+						fixed2floatce <= '0';
+						fixed2floatond <= '0';
+					else
+						s := s3;
+					end if;
+				when s4 => s := s5;
+					ff1 := fixed2floatr;
+					mulfpa <= ff1;
+					mulfpb <= ff1;
+					mulfpce <= '1';
+					mulfpond <= '1';
+				when s5 =>
+					if (mulfprdy = '1') then
+						s := s6;
+						mulfpce <= '0';
+						mulfpond <= '0';
+						mulfpsclr <= '1';
+					else
+						s := s5;
+					end if;
+				when s6 => s := s7;
+					mulfpsclr <= '0';
+					mulfpce <= '1';
+					mulfpa <= mulfpr;
+					mulfpb <= ff1;
+					mulfpond <= '1';
+				when s7 =>
+					if (mulfprdy = '1') then
+						s := s8;
+						mulfpce <= '0';
+						mulfpond <= '0';
+						mulfpsclr <= '1';
+					else
+						s := s7;
+					end if;
+				when s8 => s := s9;
+					mulfpsclr <= '0';
+					mulfpce <= '1';
+					mulfpa <= mulfpr;
+					mulfpb <= ff1;
+					mulfpond <= '1';
+				when s9 =>
+					if (mulfprdy = '1') then
+						s := s10;
+						mulfpce <= '0';
+						mulfpond <= '0';
+						mulfpsclr <= '1';
+					else
+						s := s9;
+					end if;
+				when s10 => s := s11;
+					mulfpsclr <= '0';
+					mulfpce <= '1';
+					mulfpa <= mulfpr;
+					mulfpb <= ff1;
+					mulfpond <= '1';
+				when s11 =>
+					if (mulfprdy = '1') then
+						s := s12;
+						mulfpce <= '0';
+						mulfpond <= '0';
+						mulfpsclr <= '1';
+					else
+						s := s11;
+					end if;
+				when s12 =>
+					out1 <= mulfpr;
+					report "done" severity failure;
+				when others => null;
+			end case;
+		end if;
+	end if;
+end process p0;
 
 --				acomp1 := reciprocal (acomp_const);
 --				acomp1 := resize (acomp1 (FP_BITS/2 downto 0), acomp1);
@@ -466,10 +477,6 @@ report "done" severity failure;
 --				report_fixed_value ("sqrt2 2", to_sfixed (x_out, sqrt2_2));
 --				report_fixed_value ("sqrt2 3", resize (reciprocal (to_sfixed (x_out, sqrt2_2)), fptmp1));
 --				report "done" severity failure;
-			when others => null;
-		end case;
-	end if;
-end process p0;
 
 inst_ff1 : float2fixed
 PORT MAP (
