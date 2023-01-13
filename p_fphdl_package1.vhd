@@ -39,7 +39,7 @@ package p_fphdl_package1 is
 	);
 
 --	constant FP_BITS : integer := 19; -- xxx for synthesis
-	constant FP_BITS : integer := 256; -- xxx for simulation
+	constant FP_BITS : integer := 64; -- xxx for simulation
 	subtype st_in1_slv is std_logic_vector (FP_BITS-1 downto 0);
 	subtype st_in2_slv is std_logic_vector (FP_BITS-1 downto 0);
 	subtype st_out_slv is std_logic_vector (FP_BITS-1 downto 0);
