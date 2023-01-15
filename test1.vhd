@@ -241,7 +241,7 @@ divfpclk <= clock;
 
 p0 : process (clock,reset) is
 	variable v_wait1 : integer range 0 to C_WAIT1-1 := 0;
-	type st is (s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30);
+	type st is (s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43,s44,s45,s46,s47,s48,s49,s50);
 	variable s : st := s0;
 	subtype stsf_max is st_sfixed_max;
 	subtype stsf_h1 is st_sfixed_h1;
@@ -253,16 +253,18 @@ p0 : process (clock,reset) is
 	constant vircomp_const : stsf_max := to_sfixed (679.250909123826, a);
 	constant ta_const : stsf_max := to_sfixed (9516495632.56, a);
 	constant ksto2_const : stsf_max := to_sfixed (-0.00080108642578125, a);
+	constant k27315 : stsf_max := to_sfixed (273.15, a); -- 0x43889333
 	constant h1_0 : stsf_h1 := (others => '0');
 	constant h2_0 : stsf_h2 := (others => '0');
 	variable acomp1,acomp2,acomp3 : stsf_h1 := (others => '0');
 	variable acomp5,acomp6 : stsf_h2 := (others => '0');
 	variable acomp4 : stsf_max := (others => '0');
-	variable fpout,fptmp1,fptmp2 : stsf_max := (others => '0');
 	variable sqrt2_1,sqrt2_2 : sfixed (24 downto 0);
 	variable fraca : sfixed (FP_INTEGER-1 downto 0);
 	variable fracb : sfixed (-1 downto -FP_FRACTION);
-	variable acomp_f,acomp_pow3_f,acomp_pow4_f,vircomp_f,ta_f,ksto2_f,acomp_ta_f,acomp_ta_ksto2_f : std_logic_vector (31 downto 0);
+	variable acomp_f,acomp_pow3_f,acomp_pow4_f,vircomp_f,ta_f,ksto2_f,acomp_ta_f,acomp_ta_ksto2_f,k27315_f : std_logic_vector (31 downto 0);
+	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
+	constant onefp : std_logic_vector (31 downto 0) := x"3F800000";
 begin
 	if rising_edge (clock) then
 		if (reset = '1') then
@@ -390,9 +392,9 @@ begin
 					mulfpond <= '1';
 				when s13 =>
 					if (mulfprdy = '1') then s := s14;
-						vircomp_f := mulfpr; -- acomp**3*vircomp float
-						report "acomp**3*vircomp real " & real'image (ap_slv2fp (vircomp_f));
-						out1 <= vircomp_f;
+						fptmp1 := mulfpr; -- acomp**3*vircomp float
+						report "acomp**3*vircomp real " & real'image (ap_slv2fp (fptmp1));
+						out1 <= fptmp1;
 						mulfpce <= '0';
 						mulfpond <= '0';
 						mulfpsclr <= '1';
@@ -421,9 +423,9 @@ begin
 					mulfpond <= '1';
 				when s17 =>
 					if (mulfprdy = '1') then s := s18;
-						ta_f := mulfpr; -- acomp**4*ta float
-						report "acomp**4*ta real " & real'image (ap_slv2fp (ta_f));
-						out1 <= ta_f;
+						fptmp2 := mulfpr; -- acomp**4*ta float
+						report "acomp**4*ta real " & real'image (ap_slv2fp (fptmp2));
+						out1 <= fptmp2;
 						mulfpce <= '0';
 						mulfpond <= '0';
 						mulfpsclr <= '1';
@@ -431,8 +433,8 @@ begin
 				when s18 => s := s19;
 					mulfpsclr <= '0';
 					addfpce <= '1';
-					addfpa <= vircomp_f;
-					addfpb <= ta_f;
+					addfpa <= fptmp1;
+					addfpb <= fptmp2;
 					addfpond <= '1';
 				when s19 =>
 					if (addfprdy = '1') then s := s20;
@@ -496,13 +498,160 @@ begin
 				when s27 =>
 					if (mulfprdy = '1') then s := s28;
 						acomp_ta_ksto2_f := mulfpr; -- acomp*ta*ksto2 float
-						report "end real " & real'image (ap_slv2fp (acomp_ta_ksto2_f));
+						report "Sx real " & real'image (ap_slv2fp (acomp_ta_ksto2_f));
 						out1 <= acomp_ta_ksto2_f;
 						mulfpce <= '0';
 						mulfpond <= '0';
 						mulfpsclr <= '1';
 					else s := s27; end if;
-				when s28 =>
+				when s28 => s := s29;
+					mulfpsclr <= '0';
+					fixed2floatce <= '1';
+					fixed2floatond <= '1';
+					fixed2floata <= to_slv (resize (k27315, fraca)) & to_slv ( resize (k27315, fracb));
+				when s29 =>
+					if (fixed2floatrdy = '1') then s := s30;
+						k27315_f := fixed2floatr; -- 273.15 float
+						out1 <= k27315_f;
+						fixed2floatce <= '0';
+						fixed2floatond <= '0';
+						fixed2floatsclr <= '1';
+					else s := s29; end if;
+				when s30 => s := s31;
+					fixed2floatsclr <= '0';
+					mulfpce <= '1';
+					mulfpa <= ksto2_f;
+					mulfpb <= k27315_f;
+					mulfpond <= '1';
+				when s31 =>
+					if (mulfprdy = '1') then s := s32;
+						ksto2_f := mulfpr;
+						report "ksto2*273.15 real " & real'image (ap_slv2fp (ksto2_f));
+						out1 <= ksto2_f;
+						mulfpce <= '0';
+						mulfpond <= '0';
+						mulfpsclr <= '1';
+					else s := s31; end if;
+				when s32 => s := s33;
+					mulfpsclr <= '0';
+					subfpce <= '1';
+					subfpa <= onefp;
+					subfpb <= ksto2_f;
+					subfpond <= '1';
+				when s33 =>
+					if (subfprdy = '1') then s := s34;
+						ksto2_f := subfpr;
+						report "1-ksto2*273.15 real " & real'image (ap_slv2fp (ksto2_f));
+						out1 <= ksto2_f;
+						subfpce <= '0';
+						subfpond <= '0';
+						subfpsclr <= '1';
+					else s := s33; end if;
+				when s34 => s := s35;
+					subfpsclr <= '0';
+					mulfpce <= '1';
+					mulfpa <= acomp_f;
+					mulfpb <= ksto2_f;
+					mulfpond <= '1';
+				when s35 =>
+					if (mulfprdy = '1') then s := s36;
+						ksto2_f := mulfpr;
+						report "acomp*(1-ksto2*273.15) real " & real'image (ap_slv2fp (ksto2_f));
+						out1 <= ksto2_f;
+						mulfpce <= '0';
+						mulfpond <= '0';
+						mulfpsclr <= '1';
+					else s := s35; end if;
+				when s36 => s := s37;
+					mulfpsclr <= '0';
+					addfpce <= '1';
+					addfpa <= ksto2_f;
+					addfpb <= acomp_ta_ksto2_f;
+					addfpond <= '1';
+				when s37 =>
+					if (addfprdy = '1') then s := s38;
+						ksto2_f := addfpr;
+						report "acomp*(1-ksto2*273.15)+Sx real " & real'image (ap_slv2fp (ksto2_f));
+						out1 <= ksto2_f;
+						addfpce <= '0';
+						addfpond <= '0';
+						addfpsclr <= '1';
+					else s := s37; end if;
+				when s38 => s := s39;
+					addfpsclr <= '0';
+					divfpce <= '1';
+					divfpa <= vircomp_f;
+					divfpb <= ksto2_f;
+					divfpond <= '1';
+				when s39 =>
+					if (divfprdy = '1') then s := s40;
+						ksto2_f := divfpr;
+						report "vircomp/(acomp*(1-ksto2*273.15)+Sx) real " & real'image (ap_slv2fp (ksto2_f));
+						out1 <= ksto2_f;
+						divfpce <= '0';
+						divfpond <= '0';
+--						divfpsclr <= '1';
+					else s := s39; end if;
+				when s40 => s := s41;
+--					divfpsclr <= '0';
+					addfpce <= '1';
+					addfpa <= ksto2_f;
+					addfpb <= ta_f;
+					addfpond <= '1';
+				when s41 =>
+					if (addfprdy = '1') then s := s42;
+						ksto2_f := addfpr;
+						report "vircomp/(acomp*(1-ksto2*273.15)+Sx)+ta real " & real'image (ap_slv2fp (ksto2_f));
+						out1 <= ksto2_f;
+						addfpce <= '0';
+						addfpond <= '0';
+						addfpsclr <= '1';
+					else s := s41; end if;
+				when s42 => s := s43;
+					addfpsclr <= '0';
+					sqrtfp2ce <= '1';
+					sqrtfp2a <= ksto2_f;
+					sqrtfp2ond <= '1';
+				when s43 =>
+					if (sqrtfp2rdy = '1') then s := s44;
+						ksto2_f := sqrtfp2r;
+						report "sqrt(vircomp/(acomp*(1-ksto2*273.15)+Sx)+ta) real " & real'image (ap_slv2fp (ksto2_f));
+						out1 <= ksto2_f;
+						sqrtfp2ce <= '0';
+						sqrtfp2ond <= '0';
+						sqrtfp2sclr <= '1';
+					else s := s43; end if;
+				when s44 => s := s45;
+					sqrtfp2sclr <= '0';
+					sqrtfp2ce <= '1';
+					sqrtfp2a <= ksto2_f;
+					sqrtfp2ond <= '1';
+				when s45 =>
+					if (sqrtfp2rdy = '1') then s := s46;
+						ksto2_f := sqrtfp2r;
+						report "sqrt(sqrt(vircomp/(acomp*(1-ksto2*273.15)+Sx)+ta)) real " & real'image (ap_slv2fp (ksto2_f));
+						out1 <= ksto2_f;
+						sqrtfp2ce <= '0';
+						sqrtfp2ond <= '0';
+						sqrtfp2sclr <= '1';
+					else s := s45; end if;
+				when s46 => s := s47;
+					sqrtfp2sclr <= '0';
+					subfpce <= '1';
+					subfpa <= ksto2_f;
+					subfpb <= k27315_f;
+					subfpond <= '1';
+				when s47 =>
+					if (subfprdy = '1') then s := s48;
+						ksto2_f := subfpr;
+						report "sqrt(sqrt(vircomp/(acomp*(1-ksto2*273.15)+Sx)+ta))-273.15 real " & real'image (ap_slv2fp (ksto2_f));
+						out1 <= ksto2_f;
+						subfpce <= '0';
+						subfpond <= '0';
+						subfpsclr <= '1';
+					else s := s47; end if;
+				when s48 =>
+					subfpsclr <= '0';
 					report "done" severity failure;
 				when others => null;
 			end case;
