@@ -289,6 +289,14 @@ begin
 				sqrtfp2a <= (others => '0');
 				sqrtfp2ce <= '0';
 				sqrtfp2ond <= '0';
+				subfpce <= '0';
+				subfpond <= '0';
+				subfpa <= (others => '0');
+				subfpb <= (others => '0');
+				divfpce <= '0';
+				divfpond <= '0';
+				divfpa <= (others => '0');
+				divfpb <= (others => '0');
 		else
 			case s is
 				when s0 => s := s1;
