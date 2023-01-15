@@ -332,9 +332,9 @@ begin
 						fixed2floatsclr <= '1';
 					else s := s3; end if;
 				when s4 => s := s5;
-					report_fixed_value ("acomp_const fix ", acomp_const);
-					report "acomp_const real " & real'image (ap_slv2fp (fixed2floatr));
-					report "acomp_const bin " & to_string (fixed2floata);
+					--report_fixed_value ("acomp_const fix ", acomp_const);
+					--report "acomp_const real " & real'image (ap_slv2fp (fixed2floatr));
+					--report "acomp_const bin " & to_string (fixed2floata);
 					fixed2floatsclr <= '0';
 					mulfpa <= acomp_f;
 					mulfpb <= acomp_f;
@@ -355,7 +355,7 @@ begin
 				when s7 =>
 					if (mulfprdy = '1') then s := s8;
 						acomp_pow3_f := mulfpr; -- acomp**3 float
-						report "acomp_pow3_f real " & real'image (ap_slv2fp (acomp_pow3_f));
+						--report "acomp_pow3_f real " & real'image (ap_slv2fp (acomp_pow3_f));
 						out1 <= acomp_pow3_f;
 						mulfpce <= '0';
 						mulfpond <= '0';
@@ -370,7 +370,7 @@ begin
 				when s9 =>
 					if (mulfprdy = '1') then s := s10;
 						acomp_pow4_f := mulfpr; -- acomp**4 float
-						report "acomp_pow4_f real " & real'image (ap_slv2fp (acomp_pow4_f));
+						--report "acomp_pow4_f real " & real'image (ap_slv2fp (acomp_pow4_f));
 						out1 <= acomp_pow4_f;
 						mulfpce <= '0';
 						mulfpond <= '0';
@@ -390,9 +390,9 @@ begin
 						fixed2floatsclr <= '1';
 					else s := s11; end if;
 				when s12 => s := s13;
-					report_fixed_value ("vircomp_const fix ", vircomp_const);
-					report "vircomp_const real " & real'image (ap_slv2fp (fixed2floatr));
-					report "vircomp_const bin " & to_string (fixed2floata);
+					--report_fixed_value ("vircomp_const fix ", vircomp_const);
+					--report "vircomp_const real " & real'image (ap_slv2fp (fixed2floatr));
+					--report "vircomp_const bin " & to_string (fixed2floata);
 					fixed2floatsclr <= '0';
 					mulfpce <= '1';
 					mulfpa <= acomp_pow3_f;
@@ -401,7 +401,7 @@ begin
 				when s13 =>
 					if (mulfprdy = '1') then s := s14;
 						fptmp1 := mulfpr; -- acomp**3*vircomp float
-						report "acomp**3*vircomp real " & real'image (ap_slv2fp (fptmp1));
+						--report "acomp**3*vircomp real " & real'image (ap_slv2fp (fptmp1));
 						out1 <= fptmp1;
 						mulfpce <= '0';
 						mulfpond <= '0';
@@ -421,9 +421,9 @@ begin
 						fixed2floatsclr <= '1';
 					else s := s15; end if;
 				when s16 => s := s17;
-					report_fixed_value ("ta_const fix ", ta_const);
-					report "ta_const real " & real'image (ap_slv2fp (fixed2floatr));
-					report "ta_const bin " & to_string (fixed2floata);
+					--report_fixed_value ("ta_const fix ", ta_const);
+					--report "ta_const real " & real'image (ap_slv2fp (fixed2floatr));
+					--report "ta_const bin " & to_string (fixed2floata);
 					fixed2floatsclr <= '0';
 					mulfpce <= '1';
 					mulfpa <= acomp_pow4_f;
@@ -432,7 +432,7 @@ begin
 				when s17 =>
 					if (mulfprdy = '1') then s := s18;
 						fptmp2 := mulfpr; -- acomp**4*ta float
-						report "acomp**4*ta real " & real'image (ap_slv2fp (fptmp2));
+						--report "acomp**4*ta real " & real'image (ap_slv2fp (fptmp2));
 						out1 <= fptmp2;
 						mulfpce <= '0';
 						mulfpond <= '0';
@@ -447,7 +447,7 @@ begin
 				when s19 =>
 					if (addfprdy = '1') then s := s20;
 						acomp_ta_f := addfpr; -- acomp+ta float
-						report "acomp**3*vir+acomp**4*ta real " & real'image (ap_slv2fp (acomp_ta_f));
+						--report "acomp**3*vir+acomp**4*ta real " & real'image (ap_slv2fp (acomp_ta_f));
 						out1 <= acomp_ta_f;
 						addfpce <= '0';
 						addfpond <= '0';
@@ -461,7 +461,7 @@ begin
 				when s21 =>
 					if (sqrtfp2rdy = '1') then s := s22;
 						acomp_ta_f := sqrtfp2r; -- sqrt2(acomp+ta) float
-						report "sqrt1 real " & real'image (ap_slv2fp (acomp_ta_f));
+						--report "sqrt1 real " & real'image (ap_slv2fp (acomp_ta_f));
 						out1 <= acomp_ta_f;
 						sqrtfp2ce <= '0';
 						sqrtfp2ond <= '0';
@@ -475,7 +475,7 @@ begin
 				when s23 =>
 					if (sqrtfp2rdy = '1') then s := s24;
 						acomp_ta_f := sqrtfp2r; -- sqrt2(acomp+ta) float
-						report "sqrt2 real " & real'image (ap_slv2fp (acomp_ta_f));
+						--report "sqrt2 real " & real'image (ap_slv2fp (acomp_ta_f));
 						out1 <= acomp_ta_f;
 						sqrtfp2ce <= '0';
 						sqrtfp2ond <= '0';
@@ -495,9 +495,9 @@ begin
 						fixed2floatsclr <= '1';
 					else s := s25; end if;
 				when s26 => s := s27;
-					report_fixed_value ("ksto2_const fix ", ksto2_const);
-					report "ksto2_const real " & real'image (ap_slv2fp (fixed2floatr));
-					report "ksto2_const bin " & to_string (fixed2floata);
+					--report_fixed_value ("ksto2_const fix ", ksto2_const);
+					--report "ksto2_const real " & real'image (ap_slv2fp (fixed2floatr));
+					--report "ksto2_const bin " & to_string (fixed2floata);
 					fixed2floatsclr <= '0';
 					mulfpce <= '1';
 					mulfpa <= acomp_ta_f;
@@ -506,7 +506,7 @@ begin
 				when s27 =>
 					if (mulfprdy = '1') then s := s28;
 						acomp_ta_ksto2_f := mulfpr; -- acomp*ta*ksto2 float
-						report "Sx real " & real'image (ap_slv2fp (acomp_ta_ksto2_f));
+						--report "Sx real " & real'image (ap_slv2fp (acomp_ta_ksto2_f));
 						out1 <= acomp_ta_ksto2_f;
 						mulfpce <= '0';
 						mulfpond <= '0';
@@ -534,7 +534,7 @@ begin
 				when s31 =>
 					if (mulfprdy = '1') then s := s32;
 						ksto2_f := mulfpr;
-						report "ksto2*273.15 real " & real'image (ap_slv2fp (ksto2_f));
+						--report "ksto2*273.15 real " & real'image (ap_slv2fp (ksto2_f));
 						out1 <= ksto2_f;
 						mulfpce <= '0';
 						mulfpond <= '0';
@@ -549,7 +549,7 @@ begin
 				when s33 =>
 					if (subfprdy = '1') then s := s34;
 						ksto2_f := subfpr;
-						report "1-ksto2*273.15 real " & real'image (ap_slv2fp (ksto2_f));
+						--report "1-ksto2*273.15 real " & real'image (ap_slv2fp (ksto2_f));
 						out1 <= ksto2_f;
 						subfpce <= '0';
 						subfpond <= '0';
@@ -564,7 +564,7 @@ begin
 				when s35 =>
 					if (mulfprdy = '1') then s := s36;
 						ksto2_f := mulfpr;
-						report "acomp*(1-ksto2*273.15) real " & real'image (ap_slv2fp (ksto2_f));
+						--report "acomp*(1-ksto2*273.15) real " & real'image (ap_slv2fp (ksto2_f));
 						out1 <= ksto2_f;
 						mulfpce <= '0';
 						mulfpond <= '0';
@@ -579,7 +579,7 @@ begin
 				when s37 =>
 					if (addfprdy = '1') then s := s38;
 						ksto2_f := addfpr;
-						report "acomp*(1-ksto2*273.15)+Sx real " & real'image (ap_slv2fp (ksto2_f));
+						--report "acomp*(1-ksto2*273.15)+Sx real " & real'image (ap_slv2fp (ksto2_f));
 						out1 <= ksto2_f;
 						addfpce <= '0';
 						addfpond <= '0';
@@ -594,7 +594,7 @@ begin
 				when s39 =>
 					if (divfprdy = '1') then s := s40;
 						ksto2_f := divfpr;
-						report "vircomp/(acomp*(1-ksto2*273.15)+Sx) real " & real'image (ap_slv2fp (ksto2_f));
+						--report "vircomp/(acomp*(1-ksto2*273.15)+Sx) real " & real'image (ap_slv2fp (ksto2_f));
 						out1 <= ksto2_f;
 						divfpce <= '0';
 						divfpond <= '0';
@@ -609,7 +609,7 @@ begin
 				when s41 =>
 					if (addfprdy = '1') then s := s42;
 						ksto2_f := addfpr;
-						report "vircomp/(acomp*(1-ksto2*273.15)+Sx)+ta real " & real'image (ap_slv2fp (ksto2_f));
+						--report "vircomp/(acomp*(1-ksto2*273.15)+Sx)+ta real " & real'image (ap_slv2fp (ksto2_f));
 						out1 <= ksto2_f;
 						addfpce <= '0';
 						addfpond <= '0';
@@ -623,7 +623,7 @@ begin
 				when s43 =>
 					if (sqrtfp2rdy = '1') then s := s44;
 						ksto2_f := sqrtfp2r;
-						report "sqrt(vircomp/(acomp*(1-ksto2*273.15)+Sx)+ta) real " & real'image (ap_slv2fp (ksto2_f));
+						--report "sqrt(vircomp/(acomp*(1-ksto2*273.15)+Sx)+ta) real " & real'image (ap_slv2fp (ksto2_f));
 						out1 <= ksto2_f;
 						sqrtfp2ce <= '0';
 						sqrtfp2ond <= '0';
@@ -637,7 +637,7 @@ begin
 				when s45 =>
 					if (sqrtfp2rdy = '1') then s := s46;
 						ksto2_f := sqrtfp2r;
-						report "sqrt(sqrt(vircomp/(acomp*(1-ksto2*273.15)+Sx)+ta)) real " & real'image (ap_slv2fp (ksto2_f));
+						--report "sqrt(sqrt(vircomp/(acomp*(1-ksto2*273.15)+Sx)+ta)) real " & real'image (ap_slv2fp (ksto2_f));
 						out1 <= ksto2_f;
 						sqrtfp2ce <= '0';
 						sqrtfp2ond <= '0';
@@ -652,7 +652,7 @@ begin
 				when s47 =>
 					if (subfprdy = '1') then s := s48;
 						ksto2_f := subfpr;
-						report "sqrt(sqrt(vircomp/(acomp*(1-ksto2*273.15)+Sx)+ta))-273.15 real " & real'image (ap_slv2fp (ksto2_f));
+						--report "sqrt(sqrt(vircomp/(acomp*(1-ksto2*273.15)+Sx)+ta))-273.15 real " & real'image (ap_slv2fp (ksto2_f));
 						out1 <= ksto2_f;
 						subfpce <= '0';
 						subfpond <= '0';
@@ -660,7 +660,7 @@ begin
 					else s := s47; end if;
 				when s48 =>
 					subfpsclr <= '0';
-					report "done" severity failure;
+					--report "done" severity failure;
 				when others => null;
 			end case;
 		end if;
