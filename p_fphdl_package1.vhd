@@ -1,5 +1,6 @@
 library IEEE,ieee_proposed;
 use IEEE.STD_LOGIC_1164.all;
+--use IEEE.numeric_std.all;
 use ieee_proposed.fixed_float_types.all;
 use ieee_proposed.fixed_pkg.all;
 --use ieee_proposed.numeric_std_additions.all;
@@ -9,43 +10,26 @@ use ieee_proposed.fixed_pkg.all;
 
 package p_fphdl_package1 is
 
-	procedure report_fixed_value (
-		constant mes : in string;
-		actual : in sfixed
-	);
+	procedure report_fixed_value (constant mes : in string; actual : in sfixed);
+	procedure report_fixed_value (constant mes : in string; actual : in ufixed);
+	procedure report_fixed_value (constant mes : in string; actual : in sfixed; hi : in integer; lo : in integer);
+	procedure report_error (constant errmes : in string; actual : in sfixed; constant expected : in sfixed);
+	procedure report_error (constant errmes : in string; actual : in ufixed; constant expected : in ufixed);
 
-	procedure report_fixed_value (
-		constant mes : in string;
-		actual : in ufixed
-	);
+	function ap_slv2fp (sl:std_logic_vector) return real;
+	function ap_slv2int (sl:std_logic_vector) return integer;
 
-	procedure report_fixed_value (
-		constant mes : in string;
-		actual : in sfixed;
-		hi : in integer;
-		lo : in integer
-	);
+	function to_string ( s : std_logic_vector ) return string;
 
-	procedure report_error (
-		constant errmes : in string;
-		actual : in sfixed;
-		constant expected : in sfixed
-	);
-
-	procedure report_error (
-		constant errmes : in string;
-		actual : in ufixed;
-		constant expected : in ufixed
-	);
-
---	constant FP_BITS : integer := 19; -- xxx for synthesis
-	constant FP_BITS : integer := 64; -- xxx for simulation
+	constant FP_INTEGER : integer := 35; -- FP_INTEGER-1 to 0
+	constant FP_FRACTION : integer := 29; -- -1 to -FP_FRACTION
+	constant FP_BITS : integer := FP_INTEGER + FP_FRACTION;
 	subtype st_in1_slv is std_logic_vector (FP_BITS-1 downto 0);
 	subtype st_in2_slv is std_logic_vector (FP_BITS-1 downto 0);
 	subtype st_out_slv is std_logic_vector (FP_BITS-1 downto 0);
-	subtype st_in1_sfixed is sfixed (FP_BITS-1 downto 0);
-	subtype st_in2_sfixed is sfixed (FP_BITS-1 downto 0);
-	subtype st_out_sfixed is sfixed (FP_BITS-1 downto 0);
+	subtype st_in1_sfixed is sfixed (FP_INTEGER-1 downto -FP_FRACTION);
+	subtype st_in2_sfixed is sfixed (FP_INTEGER-1 downto -FP_FRACTION);
+	subtype st_out_sfixed is sfixed (FP_INTEGER-1 downto -FP_FRACTION);
 	shared variable a : st_in1_sfixed;
 	shared variable b : st_in2_sfixed;
 	shared variable c : st_out_sfixed;
@@ -63,8 +47,9 @@ package p_fphdl_package1 is
 	subtype st_sfixed_mul is sfixed (sfixed_high(a,'*',b) downto sfixed_low(a,'*',b));
 	subtype st_sfixed_div is sfixed (sfixed_high(a,'/',b) downto sfixed_low(a,'/',b));
 
-	subtype st_sfixed_max is sfixed (sfixed_div_hi/2 downto sfixed_div_lo/2);
-	subtype st_ufixed_max is ufixed (sfixed_div_hi/2 downto sfixed_div_lo/2);
+--	subtype st_sfixed_max is sfixed (sfixed_div_hi/2 downto sfixed_div_lo/2);
+	subtype st_sfixed_max is sfixed (FP_INTEGER-1 downto -FP_FRACTION);
+--	subtype st_ufixed_max is ufixed (sfixed_div_hi/2 downto sfixed_div_lo/2);
 	subtype st_sfixed_h1 is sfixed (FP_BITS/2 downto 1);
 	subtype st_sfixed_h2 is sfixed (0 downto -FP_BITS/2+1);
 	subtype sfixed0 is sfixed (0 downto 0);
@@ -122,14 +107,8 @@ end p_fphdl_package1;
 package body p_fphdl_package1 is
 
 	procedure report_fixed_value (constant mes : in string; actual : in sfixed) is begin
---		report mes & CR &
---		real'image(to_real(actual)) &
---		" ( " &
---		to_string(actual) &
---		" " &
---		to_hstring(actual) &
---		" ) " severity note;
---		return;
+		report mes & CR & real'image(to_real(actual)) & " ( " & to_string(actual) & " " & to_hstring(actual) & " ) " severity note;
+		return;
 	end procedure report_fixed_value;
 
 	procedure report_fixed_value (
@@ -137,14 +116,8 @@ package body p_fphdl_package1 is
 		actual : in ufixed
 	) is
 	begin
---		report mes & CR
---		& real'image(to_real(actual))
---		& " ( "
---		& to_string(actual)
---		& " "
---		& to_hstring(actual)
---		& " ) " severity note;
---		return;
+		report mes & CR & real'image(to_real(actual)) & " ( " & to_string(actual) & " " & to_hstring(actual) & " ) " severity note;
+		return;
 	end procedure report_fixed_value;
 
 	procedure report_fixed_value (
@@ -156,34 +129,66 @@ package body p_fphdl_package1 is
 		subtype sta is sfixed (hi downto lo);
 		variable a : sta;
 	begin
---		report mes & CR
---		& real'image(to_real(resize(actual,hi,lo)))
---		& " ( "
---		& to_string(actual)
---		& " "
---		& to_hstring(actual)
---		& " ) " severity note;
---		return;
+		report mes & CR & real'image(to_real(resize(actual,hi,lo))) & " ( " & to_string(actual) & " " & to_hstring(actual) & " ) " severity note;
+		return;
 	end procedure report_fixed_value;
 
 	procedure report_error (constant errmes : in string; actual : in sfixed; constant expected : in sfixed) is
 	begin
---		assert actual = expected report errmes & CR
---		& "Actual: " & to_string(actual)
---		& " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR
---		& "     /= " & to_string(expected)
---		& " (" & real'image(to_real(expected)) & ")" & HT & "(" & to_hstring(expected) & ") " severity note;
---		return;
+		assert actual = expected report errmes & CR & "Actual: " & to_string(actual) & " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & "     /= " & to_string(expected) & " (" & real'image(to_real(expected)) & ")" & HT & "(" & to_hstring(expected) & ") " severity note;
+		return;
 	end procedure report_error;
 
 	procedure report_error (constant errmes : in string; actual : in ufixed; constant expected : in ufixed) is
 	begin
---		assert actual = expected report errmes & CR
---		& "Actual: " & to_string(actual)
---		& " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR
---		& "     /= " & to_string(expected)
---		& " (" & real'image(to_real(expected)) & ")" & HT & "(" & to_hstring(expected) & ") " severity note;
---		return;
+		assert actual = expected report errmes & CR & "Actual: " & to_string(actual) & " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & "     /= " & to_string(expected) & " (" & real'image(to_real(expected)) & ")" & HT & "(" & to_hstring(expected) & ") " severity note;
+		return;
 	end procedure report_error;
+
+	-- https://opencores.org/websvn/filedetails?repname=raytrac&path=%2Fraytrac%2Fbranches%2Ffp%2Farithpack.vhd&rev=163
+	function ap_slv2int (sl:std_logic_vector) return integer is
+		alias s : std_logic_vector (sl'high downto sl'low) is sl;
+		variable i : integer; 
+	begin
+		i:=0;
+		for index in s'high downto s'low loop
+			if s(index)='1' then
+				i:=i*2+1;
+			else
+				i:=i*2;
+			end if;
+		end loop;
+		return i;
+	end function;
+
+	-- https://opencores.org/websvn/filedetails?repname=raytrac&path=%2Fraytrac%2Fbranches%2Ffp%2Farithpack.vhd&rev=163
+	function ap_slv2fp (sl:std_logic_vector) return real is
+		variable frc:integer;
+		alias s: std_logic_vector(31 downto 0) is sl;
+		variable f,expo: real;
+		variable expoint:integer;
+	begin
+		expoint:=(ap_slv2int(s(30 downto 23)) - 127);
+		expo:=real(real(2.0)**expoint);
+		frc:=ap_slv2int('1'&s(22 downto 0));
+		f:=real(frc)*real(0.00000011920928955078125); -- 2**-23 real
+		f:=f*real(expo);
+		if s(31)='1' then
+			return -f;
+		else
+			return f;
+		end if;
+	end function;
+
+	function to_string ( s : std_logic_vector )
+		return string
+	is
+		variable r : string ( s'length downto 1 ) ;
+	begin
+		for i in s'range  loop
+			r(i+1) := std_logic'image (s(i))(2);
+		end loop ;
+		return r ;
+	end function ;
 
 end p_fphdl_package1;

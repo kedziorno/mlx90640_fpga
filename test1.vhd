@@ -25,20 +25,17 @@ use ieee_proposed.fixed_pkg.all;
 --use ieee_proposed.fixed_synth.all;
 use work.p_fphdl_package1.all;
 
-
-entity tb_test1 is
+entity test1 is
+generic (
+constant C_WAIT1 : integer := 1
+);
 port (
 clock,reset : in std_logic;
 out1 : out std_logic_vector (31 downto 0)
 );
-end tb_test1;
+end test1;
 
-architecture Behavioral of tb_test1 is
-
---signal reset : std_logic := '1';
---signal clock : std_logic := '0';
---constant clock_period : time := 500 ns;
-constant C_WAIT1 : integer := 32;
+architecture Behavioral of test1 is
 
 COMPONENT float2fixed
 PORT (
@@ -242,33 +239,9 @@ subfpclk <= clock;
 mulfpclk <= clock;
 divfpclk <= clock;
 
---pr : process is
---begin
---	reset <= '1';
---	wait for clock_period*0.501;
---	reset <= '0';
---	report "fp_add_hi : " & integer'image(st_sfixed_add'high);
---	report "fp_add_lo : " & integer'image(st_sfixed_add'low);
---	report "fp_sub_hi : " & integer'image(st_sfixed_sub'high);
---	report "fp_sub_lo : " & integer'image(st_sfixed_sub'low);
---	report "fp_mul_hi : " & integer'image(st_sfixed_mul'high);
---	report "fp_mul_lo : " & integer'image(st_sfixed_mul'low);
---	report "fp_div_hi : " & integer'image(st_sfixed_div'high);
---	report "fp_div_lo : " & integer'image(st_sfixed_div'low);
---	wait;
---end process pr;
-
---pc : process is
---begin
---	clock <= '0';
---	wait for clock_period/2;
---	clock <= '1';
---	wait for clock_period/2;
---end process pc;
-
 p0 : process (clock,reset) is
 	variable v_wait1 : integer range 0 to C_WAIT1-1 := 0;
-	type st is (s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20);
+	type st is (s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30);
 	variable s : st := s0;
 	subtype stsf_max is st_sfixed_max;
 	subtype stsf_h1 is st_sfixed_h1;
@@ -286,11 +259,10 @@ p0 : process (clock,reset) is
 	variable acomp5,acomp6 : stsf_h2 := (others => '0');
 	variable acomp4 : stsf_max := (others => '0');
 	variable fpout,fptmp1,fptmp2 : stsf_max := (others => '0');
-	variable ta,vircomp,tavircomp : stsf_max := (others => '0');
 	variable sqrt2_1,sqrt2_2 : sfixed (24 downto 0);
-	variable fraca : sfixed (27 downto 0);
-	variable fracb : sfixed (-1 downto -36);
-	variable ff1,ff2 : STD_LOGIC_VECTOR(31 DOWNTO 0);
+	variable fraca : sfixed (FP_INTEGER-1 downto 0);
+	variable fracb : sfixed (-1 downto -FP_FRACTION);
+	variable acomp_f,acomp_pow3_f,acomp_pow4_f,vircomp_f,ta_f,ksto2_f,acomp_ta_f,acomp_ta_ksto2_f : std_logic_vector (31 downto 0);
 begin
 	if rising_edge (clock) then
 		if (reset = '1') then
@@ -323,83 +295,206 @@ begin
 					subfpsclr <= '0';
 					mulfpsclr <= '0';
 				when s2 => s := s3;
-					report_fixed_value ("acomp_const", acomp_const);
-					report_fixed_value ("acomp_const 1/x", reciprocal (acomp_const));
 					fixed2floatce <= '1';
 					fixed2floatond <= '1';
-	--				fixed2floata <= to_slv (resize (reciprocal (acomp_const), fraca)) & to_slv ( resize (reciprocal (acomp_const), fracb));
 					fixed2floata <= to_slv (resize (acomp_const, fraca)) & to_slv ( resize (acomp_const, fracb));
 				when s3 =>
-					if (fixed2floatrdy = '1') then
-						s := s4;
+					if (fixed2floatrdy = '1') then s := s4;
+						acomp_f := fixed2floatr; -- acomp float
+						out1 <= acomp_f;
 						fixed2floatce <= '0';
 						fixed2floatond <= '0';
-					else
-						s := s3;
-					end if;
+						fixed2floatsclr <= '1';
+					else s := s3; end if;
 				when s4 => s := s5;
-					ff1 := fixed2floatr;
-					mulfpa <= ff1;
-					mulfpb <= ff1;
+					report_fixed_value ("acomp_const fix ", acomp_const);
+					report "acomp_const real " & real'image (ap_slv2fp (fixed2floatr));
+					report "acomp_const bin " & to_string (fixed2floata);
+					fixed2floatsclr <= '0';
+					mulfpa <= acomp_f;
+					mulfpb <= acomp_f;
 					mulfpce <= '1';
 					mulfpond <= '1';
 				when s5 =>
-					if (mulfprdy = '1') then
-						s := s6;
+					if (mulfprdy = '1') then s := s6;
 						mulfpce <= '0';
 						mulfpond <= '0';
 						mulfpsclr <= '1';
-					else
-						s := s5;
-					end if;
+					else s := s5; end if;
 				when s6 => s := s7;
 					mulfpsclr <= '0';
 					mulfpce <= '1';
 					mulfpa <= mulfpr;
-					mulfpb <= ff1;
+					mulfpb <= acomp_f;
 					mulfpond <= '1';
 				when s7 =>
-					if (mulfprdy = '1') then
-						s := s8;
+					if (mulfprdy = '1') then s := s8;
+						acomp_pow3_f := mulfpr; -- acomp**3 float
+						report "acomp_pow3_f real " & real'image (ap_slv2fp (acomp_pow3_f));
+						out1 <= acomp_pow3_f;
 						mulfpce <= '0';
 						mulfpond <= '0';
 						mulfpsclr <= '1';
-					else
-						s := s7;
-					end if;
+					else s := s7; end if;
 				when s8 => s := s9;
 					mulfpsclr <= '0';
 					mulfpce <= '1';
 					mulfpa <= mulfpr;
-					mulfpb <= ff1;
+					mulfpb <= acomp_f;
 					mulfpond <= '1';
 				when s9 =>
-					if (mulfprdy = '1') then
-						s := s10;
+					if (mulfprdy = '1') then s := s10;
+						acomp_pow4_f := mulfpr; -- acomp**4 float
+						report "acomp_pow4_f real " & real'image (ap_slv2fp (acomp_pow4_f));
+						out1 <= acomp_pow4_f;
 						mulfpce <= '0';
 						mulfpond <= '0';
 						mulfpsclr <= '1';
-					else
-						s := s9;
-					end if;
-				when s10 => s := s11;
+					else s := s9; end if;
+				when s10 => s:= s11;
 					mulfpsclr <= '0';
-					mulfpce <= '1';
-					mulfpa <= mulfpr;
-					mulfpb <= ff1;
-					mulfpond <= '1';
+					fixed2floatce <= '1';
+					fixed2floatond <= '1';
+					fixed2floata <= to_slv (resize (vircomp_const, fraca)) & to_slv ( resize (vircomp_const, fracb));
 				when s11 =>
-					if (mulfprdy = '1') then
-						s := s12;
+					if (fixed2floatrdy = '1') then s := s12;
+						vircomp_f := fixed2floatr; -- vircomp float
+						out1 <= vircomp_f;
+						fixed2floatce <= '0';
+						fixed2floatond <= '0';
+						fixed2floatsclr <= '1';
+					else s := s11; end if;
+				when s12 => s := s13;
+					report_fixed_value ("vircomp_const fix ", vircomp_const);
+					report "vircomp_const real " & real'image (ap_slv2fp (fixed2floatr));
+					report "vircomp_const bin " & to_string (fixed2floata);
+					fixed2floatsclr <= '0';
+					mulfpce <= '1';
+					mulfpa <= acomp_pow3_f;
+					mulfpb <= vircomp_f;
+					mulfpond <= '1';
+				when s13 =>
+					if (mulfprdy = '1') then s := s14;
+						vircomp_f := mulfpr; -- acomp**3*vircomp float
+						report "acomp**3*vircomp real " & real'image (ap_slv2fp (vircomp_f));
+						out1 <= vircomp_f;
 						mulfpce <= '0';
 						mulfpond <= '0';
 						mulfpsclr <= '1';
-					else
-						s := s11;
-					end if;
-				when s12 =>
-					out1 <= mulfpr;
+					else s := s13; end if;
+				when s14 => s := s15;
+					mulfpsclr <= '0';
+					fixed2floatce <= '1';
+					fixed2floatond <= '1';
+					fixed2floata <= to_slv (resize (ta_const, fraca)) & to_slv ( resize (ta_const, fracb));
+				when s15 =>
+					if (fixed2floatrdy = '1') then s := s16;
+						ta_f := fixed2floatr; -- ta float
+						out1 <= ta_f;
+						fixed2floatce <= '0';
+						fixed2floatond <= '0';
+						fixed2floatsclr <= '1';
+					else s := s15; end if;
+				when s16 => s := s17;
+					report_fixed_value ("ta_const fix ", ta_const);
+					report "ta_const real " & real'image (ap_slv2fp (fixed2floatr));
+					report "ta_const bin " & to_string (fixed2floata);
+					fixed2floatsclr <= '0';
+					mulfpce <= '1';
+					mulfpa <= acomp_pow4_f;
+					mulfpb <= ta_f;
+					mulfpond <= '1';
+				when s17 =>
+					if (mulfprdy = '1') then s := s18;
+						ta_f := mulfpr; -- acomp**4*ta float
+						report "acomp**4*ta real " & real'image (ap_slv2fp (ta_f));
+						out1 <= ta_f;
+						mulfpce <= '0';
+						mulfpond <= '0';
+						mulfpsclr <= '1';
+					else s := s17; end if;
+				when s18 => s := s19;
+					mulfpsclr <= '0';
+					addfpce <= '1';
+					addfpa <= vircomp_f;
+					addfpb <= ta_f;
+					addfpond <= '1';
+				when s19 =>
+					if (addfprdy = '1') then s := s20;
+						acomp_ta_f := addfpr; -- acomp+ta float
+						report "acomp**3*vir+acomp**4*ta real " & real'image (ap_slv2fp (acomp_ta_f));
+						out1 <= acomp_ta_f;
+						addfpce <= '0';
+						addfpond <= '0';
+						addfpsclr <= '1';
+					else s := s19; end if;
+				when s20 => s := s21;
+					addfpsclr <= '0';
+					fixed2floatce <= '1';
+					fixed2floatond <= '1';
+					fixed2floata <= to_slv (resize (ksto2_const, fraca)) & to_slv ( resize (ksto2_const, fracb));
+				when s21 =>
+					if (fixed2floatrdy = '1') then s := s22;
+						ksto2_f := fixed2floatr; -- ksto2 float
+						out1 <= ksto2_f;
+						fixed2floatce <= '0';
+						fixed2floatond <= '0';
+						fixed2floatsclr <= '1';
+					else s := s21; end if;
+				when s22 => s := s23;
+					report_fixed_value ("ksto2_const fix ", ksto2_const);
+					report "ksto2_const real " & real'image (ap_slv2fp (fixed2floatr));
+					report "ksto2_const bin " & to_string (fixed2floata);
+					fixed2floatsclr <= '0';
+					mulfpce <= '1';
+					mulfpa <= acomp_ta_f;
+					mulfpb <= ksto2_f;
+					mulfpond <= '1';
+				when s23 =>
+					if (mulfprdy = '1') then s := s24;
+						acomp_ta_ksto2_f := mulfpr; -- acomp*ta*ksto2 float
+						report "(acomp**3*vir+acomp**4*ta)*ksto2 real " & real'image (ap_slv2fp (acomp_ta_ksto2_f));
+						out1 <= acomp_ta_ksto2_f;
+						mulfpce <= '0';
+						mulfpond <= '0';
+						mulfpsclr <= '1';
+					else s := s23; end if;
+				when s24 =>
 					report "done" severity failure;
+				
+					
+
+
+--a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+--b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+--operation_nd : IN STD_LOGIC;
+--operation_rfd : OUT STD_LOGIC;
+--clk : IN STD_LOGIC;
+--sclr : IN STD_LOGIC;
+--ce : IN STD_LOGIC;
+--result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+--underflow : OUT STD_LOGIC;
+--overflow : OUT STD_LOGIC;
+--invalid_op : OUT STD_LOGIC;
+--rdy : OUT STD_LOGIC
+				
+--				when s10 => s := s11; -- acomp**5
+--					mulfpsclr <= '0';
+--					mulfpce <= '1';
+--					mulfpa <= mulfpr;
+--					mulfpb <= ff1;
+--					mulfpond <= '1';
+--				when s11 =>
+--					if (mulfprdy = '1') then
+--						s := s12;
+--						mulfpce <= '0';
+--						mulfpond <= '0';
+--						mulfpsclr <= '1';
+--					else
+--						s := s11;
+--					end if;
+--				when s12 =>
+
 				when others => null;
 			end case;
 		end if;
