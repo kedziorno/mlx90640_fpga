@@ -430,18 +430,46 @@ begin
 					else s := s19; end if;
 				when s20 => s := s21;
 					addfpsclr <= '0';
+					sqrtfp2ce <= '1';
+					sqrtfp2a <= acomp_ta_f;
+					sqrtfp2ond <= '1';
+				when s21 =>
+					if (sqrtfp2rdy = '1') then s := s22;
+						acomp_ta_f := sqrtfp2r; -- sqrt2(acomp+ta) float
+						report "sqrt1 real " & real'image (ap_slv2fp (acomp_ta_f));
+						out1 <= acomp_ta_f;
+						sqrtfp2ce <= '0';
+						sqrtfp2ond <= '0';
+						sqrtfp2sclr <= '1';
+					else s := s21; end if;
+				when s22 => s := s23;
+					sqrtfp2sclr <= '0';
+					sqrtfp2ce <= '1';
+					sqrtfp2a <= acomp_ta_f;
+					sqrtfp2ond <= '1';
+				when s23 =>
+					if (sqrtfp2rdy = '1') then s := s24;
+						acomp_ta_f := sqrtfp2r; -- sqrt2(acomp+ta) float
+						report "sqrt2 real " & real'image (ap_slv2fp (acomp_ta_f));
+						out1 <= acomp_ta_f;
+						sqrtfp2ce <= '0';
+						sqrtfp2ond <= '0';
+						sqrtfp2sclr <= '1';
+					else s := s23; end if;
+				when s24 => s := s25;
+					sqrtfp2sclr <= '0';
 					fixed2floatce <= '1';
 					fixed2floatond <= '1';
 					fixed2floata <= to_slv (resize (ksto2_const, fraca)) & to_slv ( resize (ksto2_const, fracb));
-				when s21 =>
-					if (fixed2floatrdy = '1') then s := s22;
+				when s25 =>
+					if (fixed2floatrdy = '1') then s := s26;
 						ksto2_f := fixed2floatr; -- ksto2 float
 						out1 <= ksto2_f;
 						fixed2floatce <= '0';
 						fixed2floatond <= '0';
 						fixed2floatsclr <= '1';
-					else s := s21; end if;
-				when s22 => s := s23;
+					else s := s25; end if;
+				when s26 => s := s27;
 					report_fixed_value ("ksto2_const fix ", ksto2_const);
 					report "ksto2_const real " & real'image (ap_slv2fp (fixed2floatr));
 					report "ksto2_const bin " & to_string (fixed2floata);
@@ -450,18 +478,29 @@ begin
 					mulfpa <= acomp_ta_f;
 					mulfpb <= ksto2_f;
 					mulfpond <= '1';
-				when s23 =>
-					if (mulfprdy = '1') then s := s24;
+				when s27 =>
+					if (mulfprdy = '1') then s := s28;
 						acomp_ta_ksto2_f := mulfpr; -- acomp*ta*ksto2 float
-						report "(acomp**3*vir+acomp**4*ta)*ksto2 real " & real'image (ap_slv2fp (acomp_ta_ksto2_f));
+						report "end real " & real'image (ap_slv2fp (acomp_ta_ksto2_f));
 						out1 <= acomp_ta_ksto2_f;
 						mulfpce <= '0';
 						mulfpond <= '0';
 						mulfpsclr <= '1';
-					else s := s23; end if;
-				when s24 =>
+					else s := s27; end if;
+				when s28 =>
 					report "done" severity failure;
-				
+
+--a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+--operation_nd : IN STD_LOGIC;
+--operation_rfd : OUT STD_LOGIC;
+--clk : IN STD_LOGIC;
+--sclr : IN STD_LOGIC;
+--ce : IN STD_LOGIC;
+--result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+--invalid_op : OUT STD_LOGIC;
+--rdy : OUT STD_LOGIC
+					
+--				
 					
 
 
