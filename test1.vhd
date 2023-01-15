@@ -272,6 +272,21 @@ begin
 				addfpsclr <= '1';
 				subfpsclr <= '1';
 				mulfpsclr <= '1';
+				out1 <= (others => '0');
+				fixed2floata <= (others => '0');
+				fixed2floatce <= '0';
+				fixed2floatond <= '0';
+				mulfpa <= (others => '0');
+				mulfpb <= (others => '0');
+				mulfpce <= '0';
+				mulfpond <= '0';
+				addfpa <= (others => '0');
+				addfpb <= (others => '0');
+				addfpce <= '0';
+				addfpond <= '0';
+				sqrtfp2a <= (others => '0');
+				sqrtfp2ce <= '0';
+				sqrtfp2ond <= '0';
 		else
 			case s is
 				when s0 => s := s1;
