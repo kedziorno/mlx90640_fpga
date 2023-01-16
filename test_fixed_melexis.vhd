@@ -388,8 +388,8 @@ when s9 =>
 		deltaV := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), deltaV);
 		report_error_normalize ("fail deltaV 1", deltaV, to_sfixed (-13115.0, max_expected)); -- -13115
 --		cmd <= "0001"; -- - ram[0x072a]-vdd25
-		in1sub <= deltaV;
-		in2sub <= vdd25;
+		in1sub <= resize (deltaV, in1sub);
+		in2sub <= resize (vdd25, in2sub);
 		state := w9;
 when w9 =>
 		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s10; else v_wait1 := v_wait1 + 1; state := w9; end if;
@@ -398,8 +398,8 @@ when s10 =>
 		deltaV := resize (fpout, deltaV);
 		report_error_normalize ("fail deltaV 2", deltaV, to_sfixed (-13115.0-(-13056.0), max_expected)); -- -59
 --		cmd <= "0011"; -- / (ram[0x072a]-vdd25)/kvdd
-		in1div <= deltaV;
-		in2div <= kvdd;
+		in1div <= resize (deltaV, in1div);
+		in2div <= resize (kvdd, in2div);
 		state := w10;
 when w10 =>
 		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s11; else v_wait1 := v_wait1 + 1; state := w10; end if;
@@ -1654,144 +1654,144 @@ when s129 =>
 		fpout := to_sfixed (to_slv (out1mul), fpout);
 		acomp_12_16 := resize (fpout, acomp_12_16);
 		report_error_normalize ("fail acomp_12_16", acomp_12_16, to_sfixed (0.00000011876487360496, max_expected)); -- 0.00000011876487360496
-		sftmp_slv_16 := x"9797" and x"ff00"; -- ee[0x243d]
-		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 8));
-		tmpslv8 := sftmp_slv_16 (7 downto 0);
-		tmpsf8 := to_sfixed (tmpslv8, tmpsf8);
-		ksto2ee := resize (tmpsf8, ksto2ee);
-		report_error_normalize ("fail ksto2ee", ksto2ee, to_sfixed (-105.0, max_expected)); -- -105
-		sftmp_slv_16 := x"2889" and x"000f"; -- ee[0x243f]
-		kstoscale := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), kstoscale);
-		report_error_normalize ("fail kstoscale", kstoscale, to_sfixed (9.0, max_expected)); -- 9
-		fptmp2 := to_sfixed (8.0, fptmp2);
-		report_error_normalize ("fail 8.0", fptmp2, to_sfixed (8.0, max_expected));
---		cmd <= "0000"; -- + kstoscale+8
-		in1add <= kstoscale;
-		in2add <= fptmp2;
-		state := w129;
-when w129 =>
-		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s130; else v_wait1 := v_wait1 + 1; state := w129; end if;
-when s130 =>
-		fpout := to_sfixed (to_slv (out1add), fpout);
-		kstoscale := resize (fpout, kstoscale);
-		report_error_normalize ("fail kstoscale", kstoscale, to_sfixed (17.0, max_expected)); -- 17
-		fptmp2 := to_sfixed (273.15, fptmp2);
-		report_error_normalize ("fail 273.15", fptmp2, to_sfixed (273.15, max_expected));
---		cmd <= "0000"; -- + Ta+273.15
-		in1add <= Ta;
-		in2add <= fptmp2;
-		state := w130;
-when w130 =>
-		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s131; else v_wait1 := v_wait1 + 1; state := w130; end if;
-when s131 =>
-		fpout := to_sfixed (to_slv (out1add), fpout);
-		tak4 := resize (fpout, tak4);
-		report_error_normalize ("fail TaK4**1", tak4, to_sfixed (39.184+273.15, max_expected)); -- 39.184+273.15
---		cmd <= "0010"; -- * TaK4*TaK4
-		in1mul <= tak4;
-		in2mul <= tak4;
-		state := w131;
-when w131 =>
-		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s132; else v_wait1 := v_wait1 + 1; state := w131; end if;
-when s132 =>
-		fpout := to_sfixed (to_slv (out1mul), fpout);
-		fptmp1 := resize (fpout, fptmp1);
-		report_error_normalize ("fail TaK4**2", fptmp1, to_sfixed ((39.184+273.15)*(39.184+273.15), max_expected)); -- (39.184+273.15)**2
---		cmd <= "0010"; -- * TaK4*TaK4*TaK4
-		in1mul <= fptmp1;
-		in2mul <= tak4;
-		state := w132;
-when w132 =>
-		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s133; else v_wait1 := v_wait1 + 1; state := w132; end if;
-when s133 =>
-		fpout := to_sfixed (to_slv (out1mul), fpout);
-		fptmp1 := resize (fpout, fptmp1);
-		report_error_normalize ("fail TaK4**3", fptmp1, to_sfixed ((39.184+273.15)*(39.184+273.15)*(39.184+273.15), max_expected)); -- (39.184+273.15)**3
---		cmd <= "0010"; -- * TaK4*TaK4*TaK4*TaK4
-		in1mul <= fptmp1;
-		in2mul <= tak4;
-		state := w133;
-when w133 =>
-		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s134; else v_wait1 := v_wait1 + 1; state := w133; end if;
-when s134 =>
-		fpout := to_sfixed (to_slv (out1mul), fpout);
-		fptmp1 := resize (fpout, fptmp1);
-		report_error_normalize ("fail TaK4**4", fptmp1, to_sfixed (to_real (tak4)*to_real (tak4)*to_real (tak4)*to_real (tak4), max_expected)); -- (39.184+273.15)**4
-		report_error_normalize ("fail TaK4**4", fptmp1, to_sfixed ((39.184+273.15)*(39.184+273.15)*(39.184+273.15)*(39.184+273.15), max_expected)); -- (39.184+273.15)**4
-		report_error_normalize ("fail TaK4**4 const", fptmp1, to_sfixed (9516495632.56, max_expected)); -- 9516495632.56
-		fptmp2 := to_sfixed (8.0, fptmp2);
-		report_error_normalize ("fail 8.0", fptmp2, to_sfixed (8.0, fptmp2));
---		cmd <= "0001"; -- - Ta-8
-		in1sub <= Ta;
-		in2sub <= fptmp2;
-		state := w134;
-when w134 =>
-		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s135; else v_wait1 := v_wait1 + 1; state := w134; end if;
-when s135 =>
-		fpout := to_sfixed (to_slv (out1sub), fpout);
-		trk4 := resize (fpout, trk4);
-		report_error_normalize ("fail trk4", trk4, to_sfixed (31.184, max_expected)); -- 31.184 ~31
---		cmd <= "0010"; -- * acomp_12_16**2
-		in1mul <= acomp_12_16;
-		in2mul <= acomp_12_16;
-		state := w135;
-when w135 =>
-		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s136; else v_wait1 := v_wait1 + 1; state := w135; end if;
-when s136 =>
-		fpout := to_sfixed (to_slv (out1mul), fpout);
-		acomp_12_16_pow3 := resize (fpout, acomp_12_16_pow3);
-		report_error_normalize ("fail acomp_12_16**2", acomp_12_16_pow3, to_sfixed (to_real (acomp_12_16)*to_real (acomp_12_16), max_expected)); -- acomp_12_16**2
---		cmd <= "0010"; -- * acomp_12_16**3
-		in1mul <= acomp_12_16_pow3;
-		in2mul <= acomp_12_16;
-		state := w136;
-when w136 =>
-		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s137; else v_wait1 := v_wait1 + 1; state := w136; end if;
-when s137 =>
-		fpout := to_sfixed (to_slv (out1mul), fpout);
-		acomp_12_16_pow3 := resize (fpout, acomp_12_16_pow3);
-		report_error_normalize ("fail acomp_12_16**3", acomp_12_16_pow3, to_sfixed (to_real (acomp_12_16)*to_real (acomp_12_16)*to_real (acomp_12_16), max_expected)); -- acomp_12_16**3
---		cmd <= "0010"; -- * acomp_12_16**4
-		in1mul <= acomp_12_16_pow3;
-		in2mul <= acomp_12_16;
-		state := w137;
-when w137 =>
-		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s138; else v_wait1 := v_wait1 + 1; state := w137; end if;
-when s138 =>
-		fpout := to_sfixed (to_slv (out1mul), fpout);
-		acomp_12_16_pow4 := resize (fpout, acomp_12_16_pow4);
-		report_error_normalize ("fail acomp_12_16**4", acomp_12_16_pow4, to_sfixed (to_real (acomp_12_16)*to_real (acomp_12_16)*to_real (acomp_12_16)*to_real (acomp_12_16), max_expected)); -- acomp_12_16**4
---		cmd <= "0010"; -- * acomp_12_16**3*vir_12_16_compensated
-		in1mul <= acomp_12_16_pow3;
-		in2mul <= vir_12_16_compensated;
-		state := w138;
-when w138 =>
-		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s139; else v_wait1 := v_wait1 + 1; state := w138; end if;
-when s139 =>
-		fpout := to_sfixed (to_slv (out1mul), fpout);
-		fptmp1 := resize (fpout, fptmp1);
-		report_error_normalize ("fail acomp_12_16**3*vir_12_16_compensated", fptmp1, to_sfixed (((0.00000011876487360496)**3)*679.250909123826, max_expected)); -- ((0.00000011876487360496)**3)*679.250909123826
---		cmd <= "0010"; -- * acomp_12_16**4*TaK4
-		in1mul <= acomp_12_16_pow4;
-		in2mul <= Tak4;
-		state := w139;
-when w139 =>
-		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s140; else v_wait1 := v_wait1 + 1; state := w139; end if;
-when s140 =>
-		fpout := to_sfixed (to_slv (out1mul), fpout);
-		fptmp2 := resize (fpout, fptmp2);
-		report_error_normalize ("fail acomp_12_16**4*TaK4", fptmp2, to_sfixed (((0.00000011876487360496)**4)*9516495632.56, max_expected)); -- ((0.00000011876487360496)**4)*9516495632.56
---		cmd <= "0000"; -- + (acomp_12_16**3*vir_12_16_compensated)+(acomp_12_16**4*TaK4)
-		in1add <= fptmp1;
-		in1add <= fptmp2;
-		state := w140;
-when w140 =>
-		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s141; else v_wait1 := v_wait1 + 1; state := w140; end if;
-when s141 =>
-		fpout := to_sfixed (to_slv (out1add), fpout);
-		fptmp1 := resize (fpout, fptmp1);
-		report_error_normalize ("fail (acomp_12_16**3*vir_12_16_compensated)+(acomp_12_16**4*TaK4)", fptmp1, to_sfixed ((((0.00000011876487360496)**3)*679.250909123826)+(((0.00000011876487360496)**4)*9516495632.56), max_expected)); -- (((0.00000011876487360496)**3)*679.250909123826)+(((0.00000011876487360496)**4)*9516495632.56)
-		o_out1 <= fptmp1;
+--		sftmp_slv_16 := x"9797" and x"ff00"; -- ee[0x243d]
+--		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 8));
+--		tmpslv8 := sftmp_slv_16 (7 downto 0);
+--		tmpsf8 := to_sfixed (tmpslv8, tmpsf8);
+--		ksto2ee := resize (tmpsf8, ksto2ee);
+--		report_error_normalize ("fail ksto2ee", ksto2ee, to_sfixed (-105.0, max_expected)); -- -105
+--		sftmp_slv_16 := x"2889" and x"000f"; -- ee[0x243f]
+--		kstoscale := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), kstoscale);
+--		report_error_normalize ("fail kstoscale", kstoscale, to_sfixed (9.0, max_expected)); -- 9
+--		fptmp2 := to_sfixed (8.0, fptmp2);
+--		report_error_normalize ("fail 8.0", fptmp2, to_sfixed (8.0, max_expected));
+----		cmd <= "0000"; -- + kstoscale+8
+--		in1add <= kstoscale;
+--		in2add <= fptmp2;
+--		state := w129;
+--when w129 =>
+--		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s130; else v_wait1 := v_wait1 + 1; state := w129; end if;
+--when s130 =>
+--		fpout := to_sfixed (to_slv (out1add), fpout);
+--		kstoscale := resize (fpout, kstoscale);
+--		report_error_normalize ("fail kstoscale", kstoscale, to_sfixed (17.0, max_expected)); -- 17
+--		fptmp2 := to_sfixed (273.15, fptmp2);
+--		report_error_normalize ("fail 273.15", fptmp2, to_sfixed (273.15, max_expected));
+----		cmd <= "0000"; -- + Ta+273.15
+--		in1add <= Ta;
+--		in2add <= fptmp2;
+--		state := w130;
+--when w130 =>
+--		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s131; else v_wait1 := v_wait1 + 1; state := w130; end if;
+--when s131 =>
+--		fpout := to_sfixed (to_slv (out1add), fpout);
+--		tak4 := resize (fpout, tak4);
+--		report_error_normalize ("fail TaK4**1", tak4, to_sfixed (39.184+273.15, max_expected)); -- 39.184+273.15
+----		cmd <= "0010"; -- * TaK4*TaK4
+--		in1mul <= tak4;
+--		in2mul <= tak4;
+--		state := w131;
+--when w131 =>
+--		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s132; else v_wait1 := v_wait1 + 1; state := w131; end if;
+--when s132 =>
+--		fpout := to_sfixed (to_slv (out1mul), fpout);
+--		fptmp1 := resize (fpout, fptmp1);
+--		report_error_normalize ("fail TaK4**2", fptmp1, to_sfixed ((39.184+273.15)*(39.184+273.15), max_expected)); -- (39.184+273.15)**2
+----		cmd <= "0010"; -- * TaK4*TaK4*TaK4
+--		in1mul <= fptmp1;
+--		in2mul <= tak4;
+--		state := w132;
+--when w132 =>
+--		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s133; else v_wait1 := v_wait1 + 1; state := w132; end if;
+--when s133 =>
+--		fpout := to_sfixed (to_slv (out1mul), fpout);
+--		fptmp1 := resize (fpout, fptmp1);
+--		report_error_normalize ("fail TaK4**3", fptmp1, to_sfixed ((39.184+273.15)*(39.184+273.15)*(39.184+273.15), max_expected)); -- (39.184+273.15)**3
+----		cmd <= "0010"; -- * TaK4*TaK4*TaK4*TaK4
+--		in1mul <= fptmp1;
+--		in2mul <= tak4;
+--		state := w133;
+--when w133 =>
+--		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s134; else v_wait1 := v_wait1 + 1; state := w133; end if;
+--when s134 =>
+--		fpout := to_sfixed (to_slv (out1mul), fpout);
+--		fptmp1 := resize (fpout, fptmp1);
+--		report_error_normalize ("fail TaK4**4", fptmp1, to_sfixed (to_real (tak4)*to_real (tak4)*to_real (tak4)*to_real (tak4), max_expected)); -- (39.184+273.15)**4
+--		report_error_normalize ("fail TaK4**4", fptmp1, to_sfixed ((39.184+273.15)*(39.184+273.15)*(39.184+273.15)*(39.184+273.15), max_expected)); -- (39.184+273.15)**4
+--		report_error_normalize ("fail TaK4**4 const", fptmp1, to_sfixed (9516495632.56, max_expected)); -- 9516495632.56
+--		fptmp2 := to_sfixed (8.0, fptmp2);
+--		report_error_normalize ("fail 8.0", fptmp2, to_sfixed (8.0, fptmp2));
+----		cmd <= "0001"; -- - Ta-8
+--		in1sub <= Ta;
+--		in2sub <= fptmp2;
+--		state := w134;
+--when w134 =>
+--		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s135; else v_wait1 := v_wait1 + 1; state := w134; end if;
+--when s135 =>
+--		fpout := to_sfixed (to_slv (out1sub), fpout);
+--		trk4 := resize (fpout, trk4);
+--		report_error_normalize ("fail trk4", trk4, to_sfixed (31.184, max_expected)); -- 31.184 ~31
+----		cmd <= "0010"; -- * acomp_12_16**2
+--		in1mul <= acomp_12_16;
+--		in2mul <= acomp_12_16;
+--		state := w135;
+--when w135 =>
+--		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s136; else v_wait1 := v_wait1 + 1; state := w135; end if;
+--when s136 =>
+--		fpout := to_sfixed (to_slv (out1mul), fpout);
+--		acomp_12_16_pow3 := resize (fpout, acomp_12_16_pow3);
+--		report_error_normalize ("fail acomp_12_16**2", acomp_12_16_pow3, to_sfixed (to_real (acomp_12_16)*to_real (acomp_12_16), max_expected)); -- acomp_12_16**2
+----		cmd <= "0010"; -- * acomp_12_16**3
+--		in1mul <= acomp_12_16_pow3;
+--		in2mul <= acomp_12_16;
+--		state := w136;
+--when w136 =>
+--		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s137; else v_wait1 := v_wait1 + 1; state := w136; end if;
+--when s137 =>
+--		fpout := to_sfixed (to_slv (out1mul), fpout);
+--		acomp_12_16_pow3 := resize (fpout, acomp_12_16_pow3);
+--		report_error_normalize ("fail acomp_12_16**3", acomp_12_16_pow3, to_sfixed (to_real (acomp_12_16)*to_real (acomp_12_16)*to_real (acomp_12_16), max_expected)); -- acomp_12_16**3
+----		cmd <= "0010"; -- * acomp_12_16**4
+--		in1mul <= acomp_12_16_pow3;
+--		in2mul <= acomp_12_16;
+--		state := w137;
+--when w137 =>
+--		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s138; else v_wait1 := v_wait1 + 1; state := w137; end if;
+--when s138 =>
+--		fpout := to_sfixed (to_slv (out1mul), fpout);
+--		acomp_12_16_pow4 := resize (fpout, acomp_12_16_pow4);
+--		report_error_normalize ("fail acomp_12_16**4", acomp_12_16_pow4, to_sfixed (to_real (acomp_12_16)*to_real (acomp_12_16)*to_real (acomp_12_16)*to_real (acomp_12_16), max_expected)); -- acomp_12_16**4
+----		cmd <= "0010"; -- * acomp_12_16**3*vir_12_16_compensated
+--		in1mul <= acomp_12_16_pow3;
+--		in2mul <= vir_12_16_compensated;
+--		state := w138;
+--when w138 =>
+--		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s139; else v_wait1 := v_wait1 + 1; state := w138; end if;
+--when s139 =>
+--		fpout := to_sfixed (to_slv (out1mul), fpout);
+--		fptmp1 := resize (fpout, fptmp1);
+--		report_error_normalize ("fail acomp_12_16**3*vir_12_16_compensated", fptmp1, to_sfixed (((0.00000011876487360496)**3)*679.250909123826, max_expected)); -- ((0.00000011876487360496)**3)*679.250909123826
+----		cmd <= "0010"; -- * acomp_12_16**4*TaK4
+--		in1mul <= acomp_12_16_pow4;
+--		in2mul <= Tak4;
+--		state := w139;
+--when w139 =>
+--		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s140; else v_wait1 := v_wait1 + 1; state := w139; end if;
+--when s140 =>
+--		fpout := to_sfixed (to_slv (out1mul), fpout);
+--		fptmp2 := resize (fpout, fptmp2);
+--		report_error_normalize ("fail acomp_12_16**4*TaK4", fptmp2, to_sfixed (((0.00000011876487360496)**4)*9516495632.56, max_expected)); -- ((0.00000011876487360496)**4)*9516495632.56
+----		cmd <= "0000"; -- + (acomp_12_16**3*vir_12_16_compensated)+(acomp_12_16**4*TaK4)
+--		in1add <= fptmp1;
+--		in1add <= fptmp2;
+--		state := w140;
+--when w140 =>
+--		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s141; else v_wait1 := v_wait1 + 1; state := w140; end if;
+--when s141 =>
+--		fpout := to_sfixed (to_slv (out1add), fpout);
+--		fptmp1 := resize (fpout, fptmp1);
+--		report_error_normalize ("fail (acomp_12_16**3*vir_12_16_compensated)+(acomp_12_16**4*TaK4)", fptmp1, to_sfixed ((((0.00000011876487360496)**3)*679.250909123826)+(((0.00000011876487360496)**4)*9516495632.56), max_expected)); -- (((0.00000011876487360496)**3)*679.250909123826)+(((0.00000011876487360496)**4)*9516495632.56)
+		o_out1 <= acomp_12_16;
 report time'image(now) severity failure;
 
 when ending =>

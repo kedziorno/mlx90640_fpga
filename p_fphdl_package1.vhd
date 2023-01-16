@@ -23,8 +23,8 @@ package p_fphdl_package1 is
 
 	function to_string_1 ( s : std_logic_vector ) return string;
 
-	constant FP_INTEGER : integer := 35; -- FP_INTEGER-1 to 0
-	constant FP_FRACTION : integer := 4; -- -1 to -FP_FRACTION
+	constant FP_INTEGER : integer := 19; -- FP_INTEGER-1 to 0
+	constant FP_FRACTION : integer := 16; -- -1 to -FP_FRACTION
 	constant FP_INTEGER_EXPECTED : integer := 35; -- FP_INTEGER_EXPECTED-1 to 0
 	constant FP_FRACTION_EXPECTED : integer := 64; -- -1 to -FP_FRACTION_EXPECTED
 	constant FP_BITS : integer := FP_INTEGER + FP_FRACTION;
@@ -143,16 +143,8 @@ package body p_fphdl_package1 is
 		constant L : integer := abs (abs(a'high-a'low) - abs(actual'high-actual'low));
 		variable space : string (1 to L+1) := (others => character(' '));
 	begin
-		assert actual /= a report errmes & CR & 
-		"********* OK SFIXED ACTUAL = EXPECTED *********" & CR &
-		"Actual   : " & to_string(actual)  & space & " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & 
-		"Expected : " & to_string(a) & " (" & real'image(to_real(a)) & ")" & HT & "(" & to_hstring(a) & ") " & CR & 
-		"-----------------------------------------------" & CR 
-		severity note;
-		assert actual = a report errmes & CR & 
-		"Actual: " & to_string(actual)  & space & " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & 
-		"     /= " & to_string(a) & " (" & real'image(to_real(a)) & ")" & HT & "(" & to_hstring(a) & ") " 
-		severity error;
+		assert actual /= a report errmes & CR &  "********* OK SFIXED ACTUAL = EXPECTED *********" & CR & "Actual   : " & to_string(actual)  & space & " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & "Expected : " & to_string(a) & " (" & real'image(to_real(a)) & ")" & HT & "(" & to_hstring(a) & ") " & CR & "-----------------------------------------------" & CR severity note;
+		assert actual = a report errmes & CR & "Actual: " & to_string(actual)  & space & " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & "     /= " & to_string(a) & " (" & real'image(to_real(a)) & ")" & HT & "(" & to_hstring(a) & ") " severity error;
 		return;
 	end procedure report_error_normalize;
 
