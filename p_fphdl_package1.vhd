@@ -25,8 +25,8 @@ package p_fphdl_package1 is
 
 	function to_string_1 ( s : std_logic_vector ) return string;
 
-	constant FP_INTEGER : integer := 34; -- FP_INTEGER-1 to 0
-	constant FP_FRACTION : integer := 30; -- -1 to -FP_FRACTION
+	constant FP_INTEGER : integer := 35; -- FP_INTEGER-1 to 0
+	constant FP_FRACTION : integer := 29; -- -1 to -FP_FRACTION
 	constant FP_INTEGER_EXPECTED : integer := 35; -- FP_INTEGER_EXPECTED-1 to 0
 	constant FP_FRACTION_EXPECTED : integer := 64; -- -1 to -FP_FRACTION_EXPECTED
 	constant FP_BITS : integer := FP_INTEGER + FP_FRACTION;
@@ -55,6 +55,9 @@ package p_fphdl_package1 is
 
 	subtype st_sfixed_max is sfixed (FP_INTEGER-1 downto -FP_FRACTION);
 	subtype st_ufixed_max is ufixed (FP_INTEGER-1 downto -FP_FRACTION);
+	subtype fraca is sfixed (FP_INTEGER-1 downto 0);
+	subtype fracb is sfixed (-1 downto -FP_FRACTION);
+
 	subtype st_sfixed_max_expected is sfixed (FP_INTEGER_EXPECTED-1 downto -FP_FRACTION_EXPECTED);
 	subtype st_ufixed_max_expected is ufixed (FP_INTEGER_EXPECTED-1 downto -FP_FRACTION_EXPECTED);
 	subtype st_sfixed_h1 is sfixed (FP_BITS/2 downto 1);
@@ -193,8 +196,8 @@ package body p_fphdl_package1 is
 
 	procedure report_error (sl : std_logic_vector; constant e : real) is
 	begin
-		assert ap_slv2fp (sl) /= e report "OK : " & real'image (ap_slv2fp (sl)) & " = " & real'image (e) & " ( " & to_hex_string (sl) & " ) ";
-		assert ap_slv2fp (sl) = e report "actual /= expected : " & real'image (ap_slv2fp (sl)) & " /= " & real'image (e) & " ( " & to_hex_string (sl) & " ) ";
+		assert ap_slv2fp (sl) /= e report "OK : " & real'image (ap_slv2fp (sl)) & " = " & real'image (e) & " ( " & to_hex_string (sl) & " ) " & to_string_1 (sl);
+		assert ap_slv2fp (sl) = e report "actual /= expected : " & real'image (ap_slv2fp (sl)) & " /= " & real'image (e) & " ( " & to_hex_string (sl) & " ) " & to_string_1 (sl);
 		return;
 	end procedure report_error;
 

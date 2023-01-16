@@ -250,7 +250,7 @@ begin
 		variable sftmp_slv_fpbits : std_logic_vector(FP_BITS-1 downto 0);
 		variable eeprom16slv,ram16slv : slv16;
 		variable eeprom16sf,ram16sf : sfixed16;
-		variable kvdd : sfixed16;
+		variable kvdd : st_sfixed_max;
 		variable kvdd_ft : fd2ft;
 		
 		variable fptmp1,fptmp2,fpout : st_sfixed_max;
@@ -349,8 +349,8 @@ begin
 --		attribute keep of vdd25 : variable is true;
 		variable max_expected_s : st_sfixed_max_expected;
 		variable max_expected_u : st_ufixed_max_expected;
-		variable fraca : sfixed (FP_INTEGER-1 downto 0);
-		variable fracb : sfixed (-1 downto -FP_FRACTION);
+		variable fraca : fraca;
+		variable fracb : fracb;
 	begin
 		if (rising_edge(i_clock)) then
 			if (i_reset = '1') then
@@ -421,10 +421,12 @@ when idle =>
 		kvdd := kvdd sll 5;
 		kvdd := resize (to_sfixed (to_slv (kvdd), sfixed16'high, sfixed16'low), kvdd);
 		report_error_normalize ("kvdd", kvdd, to_sfixed (-3168.0, max_expected_s));
+--		report_error ("kvdd", kvdd, to_sfixed (-3168.0, max_expected_s));
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
---		fixed2floata <= to_slv (resize (kvdd, 34, 0)) & to_slv ( resize (kvdd, 0, -27));
-		fixed2floata <= to_slv (resize (kvdd, 34, 0)) & "00000000000000000000000000000";
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (kvdd (fraca'high downto fraca'low)), fraca)) & 
+		to_slv (to_sfixed (to_slv (kvdd (fracb'high downto fracb'low)), fracb));
 	when s2 =>
 		if (fixed2floatrdy = '1') then state := s3;
 			kvdd_ft := fixed2floatr;
@@ -435,9 +437,6 @@ when idle =>
 		else state := s2; end if;
 	when s3 =>
 		fixed2floatsclr <= '0';
-		
-		
-		
 		--
 		-- vdd25
 		eeprom16slv := x"9d68" and x"00ff"; -- ee[0x2433]
