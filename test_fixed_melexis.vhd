@@ -269,9 +269,9 @@ when s1 =>
 		-- kvdd
 		sftmp_slv_16 := x"9d68" and x"ff00"; -- ee[0x2433]
 		kvdd := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), kvdd);
-		report_error ("fail kvdd 1", kvdd, to_sfixed (-25344.0, kvdd)); -- -25344
+		report_error_normalize ("fail kvdd 1", kvdd, to_sfixed (-25344.0, kvdd)); -- -25344
 		fptmp2 := to_sfixed (2**8, fptmp2);
-		report_error ("fail 2**8", fptmp2, to_sfixed (2**8, fptmp2)); -- 256
+		report_error_normalize ("fail 2**8", fptmp2, to_sfixed (2**8, fptmp2)); -- 256
 --		cmd <= "0011"; -- / ee[0x2433]&0xff00/256
 		in1div <= resize (kvdd, fptmp1);
 		in2div <= fptmp2;
@@ -281,9 +281,9 @@ when w1 =>
 when s2 =>
 		fpout := to_sfixed (to_slv (out1div), fpout);
 		kvdd := resize (fpout, kvdd);
-		report_error ("fail kvdd 2", kvdd, to_sfixed (-99.0, kvdd)); -- -99
+		report_error_normalize ("fail kvdd 2", kvdd, to_sfixed (-99.0, kvdd)); -- -99
 		fptmp2 := to_sfixed (2**5, fptmp2);
-		report_error ("fail 2**5", fptmp2, to_sfixed (2**5, fptmp2)); -- 32
+		report_error_normalize ("fail 2**5", fptmp2, to_sfixed (2**5, fptmp2)); -- 32
 --		cmd <= "0010"; -- * kvdd*2^5
 		in1mul <= resize (kvdd, fptmp1);
 		in2mul <= fptmp2;
@@ -293,15 +293,14 @@ when w2 =>
 when s3 =>
 		fpout := to_sfixed (to_slv (out1mul), fpout);
 		kvdd := resize (fpout, kvdd);
-		report_fixed_value ("fail kvdd 3", kvdd); 
-		report_error ("fail kvdd 3", kvdd, to_sfixed (-3168.0, kvdd)); -- -3168
+		report_error_normalize ("fail kvdd 3", kvdd, to_sfixed (-3168.0, kvdd)); -- -3168
 		--
 		-- vdd25
 		sftmp_slv_16 := x"9d68" and x"00ff"; -- ee[0x2433]
 		vdd25 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), vdd25);
-		report_error ("fail vdd25 1", vdd25, to_sfixed (104.0, vdd25)); -- 104
+		report_error_normalize ("fail vdd25 1", vdd25, to_sfixed (104.0, vdd25)); -- 104
 		fptmp2 := to_sfixed (2**8, fptmp2);
-		report_error ("fail 2**8", fptmp2, to_sfixed (2**8, fptmp2)); -- 256
+		report_error_normalize ("fail 2**8", fptmp2, to_sfixed (2**8, fptmp2)); -- 256
 --		cmd <= "0001"; -- - vdd25-256
 		in1sub <= resize (vdd25, fptmp1);
 		in2sub <= fptmp2;
@@ -311,9 +310,9 @@ when w3 =>
 when s4 =>
 		fpout := to_sfixed (to_slv (out1sub), fpout);
 		vdd25 := resize (fpout, vdd25);
-		report_error ("fail vdd25 2", vdd25, to_sfixed (-152.0, vdd25)); -- -152
+		report_error_normalize ("fail vdd25 2", vdd25, to_sfixed (-152.0, vdd25)); -- -152
 		fptmp2 := to_sfixed (2**5, fptmp2);
-		report_error ("fail 2**5", fptmp2, to_sfixed (2**5, fptmp2)); -- 32
+		report_error_normalize ("fail 2**5", fptmp2, to_sfixed (2**5, fptmp2)); -- 32
 --		cmd <= "0010"; -- * (vdd25-256)*2^5
 		in1mul <= resize (vdd25, fptmp1);
 		in2mul <= fptmp2;
@@ -323,9 +322,9 @@ when w4 =>
 when s5 =>
 		fpout := to_sfixed (to_slv (out1mul), fpout);
 		vdd25 := resize (fpout, vdd25);
-		report_error ("fail vdd25 3", vdd25, to_sfixed (-4864.0, vdd25)); -- -4864
+		report_error_normalize ("fail vdd25 3", vdd25, to_sfixed (-4864.0, vdd25)); -- -4864
 		fptmp2 := to_sfixed (2**13, fptmp2);
-		report_error ("fail 2**13", fptmp2, to_sfixed (2**13, fptmp2)); -- 2**13
+		report_error_normalize ("fail 2**13", fptmp2, to_sfixed (2**13, fptmp2)); -- 2**13
 --		cmd <= "0001"; -- - (vdd25-256)*2^5-2^13
 		in1sub <= resize (vdd25, fptmp1);
 		in2sub <= fptmp2;
@@ -335,16 +334,15 @@ when w5 =>
 when s6 =>
 		fpout := to_sfixed (to_slv (out1sub), fpout);
 		vdd25 := resize (fpout, vdd25);
-		report_error ("fail vdd25 4", vdd25, to_sfixed (-13056.0, vdd25)); -- -13056
---o_out1 <= resize (to_sfixed ("000"&to_slv (kvdd) & to_slv (vdd25), fptmp1), fptmp1);
-report "0-0-0" severity failure;
+		report_error_normalize ("fail vdd25 4", vdd25, to_sfixed (-13056.0, vdd25)); -- -13056
+		report "0-0-0-0" severity failure;
 --		-- 
 --		-- kvptat
 --		sftmp_slv_16 := x"5952" and x"fc00"; -- ee[0x2432]
 --		kvptat := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), kvptat);
---		report_error ("fail kvptat 1", kvptat, to_sfixed (22528.0, kvptat)); -- 22528
+--		report_error_normalize ("fail kvptat 1", kvptat, to_sfixed (22528.0, kvptat)); -- 22528
 --		fptmp2 := to_sfixed (2**10, fptmp2);
---		report_error ("fail 2**10", fptmp2, to_sfixed (2**10, fptmp2)); -- 2**10
+--		report_error_normalize ("fail 2**10", fptmp2, to_sfixed (2**10, fptmp2)); -- 2**10
 ----		cmd <= "0011"; -- / ee[0x2432]&0xfc00/2**10
 --		in1div <= kvptat;
 --		in2div <= fptmp2;
@@ -354,9 +352,9 @@ report "0-0-0" severity failure;
 --when s7 =>
 --		fpout := to_sfixed (to_slv (out1div), fpout);
 --		kvptat := resize (fpout, kvptat);
---		report_error ("fail kvptat 2", kvptat, to_sfixed (22.0, kvptat)); -- 22
+--		report_error_normalize ("fail kvptat 2", kvptat, to_sfixed (22.0, kvptat)); -- 22
 --		fptmp2 := to_sfixed (2**12, fptmp2);
---		report_error ("fail 2**12", fptmp2, to_sfixed (2**12, fptmp2)); -- 2**12
+--		report_error_normalize ("fail 2**12", fptmp2, to_sfixed (2**12, fptmp2)); -- 2**12
 ----		cmd <= "0011"; -- / kvptat/2**12
 --		in1div <= kvptat;
 --		in2div <= fptmp2;
@@ -366,14 +364,14 @@ report "0-0-0" severity failure;
 --when s8 =>
 --		fpout := to_sfixed (to_slv (out1div), fpout);
 --		kvptat := resize (fpout, kvptat);
---		report_error ("fail kvptat 3", kvptat, to_sfixed (0.0053710939999973561498336493968963623046875, kvptat)); -- 5.371094e-03
+--		report_error_normalize ("fail kvptat 3", kvptat, to_sfixed (0.0053710939999973561498336493968963623046875, kvptat)); -- 5.371094e-03
 --		-- 
 --		-- ktptat
 --		sftmp_slv_16 := x"5952" and x"03ff"; -- ee[0x2432]
 --		ktptat := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), ktptat);
---		report_error ("fail ktptat 1", ktptat, to_sfixed (338.0, ktptat)); -- 338
+--		report_error_normalize ("fail ktptat 1", ktptat, to_sfixed (338.0, ktptat)); -- 338
 --		fptmp2 := to_sfixed (2**3, fptmp2);
---		report_error ("fail 2**3", fptmp2, to_sfixed (2**3, fptmp2)); -- 8
+--		report_error_normalize ("fail 2**3", fptmp2, to_sfixed (2**3, fptmp2)); -- 8
 ----		cmd <= "0011"; -- / ktptat/2^3
 --		in1div <= ktptat;
 --		in2div <= fptmp2;
@@ -383,12 +381,12 @@ report "0-0-0" severity failure;
 --when s9 =>
 --		fpout := to_sfixed (to_slv (out1div), fpout);
 --		ktptat := resize (fpout, ktptat);
---		report_error ("fail ktptat 2", ktptat, to_sfixed (42.25, ktptat)); -- 42.25
+--		report_error_normalize ("fail ktptat 2", ktptat, to_sfixed (42.25, ktptat)); -- 42.25
 --		--
 --		-- deltaV
 --		sftmp_slv_16 := x"ccc5" and x"ffff"; -- ram[0x072a]
 --		deltaV := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), deltaV);
---		report_error ("fail deltaV 1", deltaV, to_sfixed (-13115.0, deltaV)); -- -13115
+--		report_error_normalize ("fail deltaV 1", deltaV, to_sfixed (-13115.0, deltaV)); -- -13115
 ----		cmd <= "0001"; -- - ram[0x072a]-vdd25
 --		in1sub <= deltaV;
 --		in2sub <= vdd25;
@@ -398,7 +396,7 @@ report "0-0-0" severity failure;
 --when s10 =>
 --		fpout := to_sfixed (to_slv (out1sub), fpout);
 --		deltaV := resize (fpout, deltaV);
---		report_error ("fail deltaV 2", deltaV, to_sfixed (-13115.0-(-13056.0), deltaV)); -- -59
+--		report_error_normalize ("fail deltaV 2", deltaV, to_sfixed (-13115.0-(-13056.0), deltaV)); -- -59
 ----		cmd <= "0011"; -- / (ram[0x072a]-vdd25)/kvdd
 --		in1div <= deltaV;
 --		in2div <= kvdd;
@@ -408,9 +406,9 @@ report "0-0-0" severity failure;
 --when s11 =>
 --		fpout := to_sfixed (to_slv (out1div), fpout);
 --		deltaV := resize (fpout, deltaV);
---		report_error ("fail deltaV 3", deltaV, to_sfixed (0.018623737, deltaV)); -- 1.861572e-02
+--		report_error_normalize ("fail deltaV 3", deltaV, to_sfixed (0.018623737, deltaV)); -- 1.861572e-02
 --		fptmp2 := to_sfixed (3.3, fptmp2);
---		report_error ("fail 3.3", fptmp2, to_sfixed (3.3, fptmp2)); -- 3.3
+--		report_error_normalize ("fail 3.3", fptmp2, to_sfixed (3.3, fptmp2)); -- 3.3
 ----		cmd <= "0000"; -- +
 --		in1add <= deltaV;
 --		in2add <= fptmp2;
@@ -420,29 +418,29 @@ report "0-0-0" severity failure;
 --when s12 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		vdd := resize (fpout, vdd);
---		report_error ("fail vdd", vdd, to_sfixed (3.319, vdd)); -- 3.319
+--		report_error_normalize ("fail vdd", vdd, to_sfixed (3.319, vdd)); -- 3.319
 --		--
 --		-- vptat25
 --		sftmp_slv_16 := x"2ff1" and x"ffff"; -- ee[0x2431]
 --		vptat25 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), vptat25);
---		report_error ("fail vptat25", vptat25, to_sfixed (12273.0, vptat25)); -- 12273
+--		report_error_normalize ("fail vptat25", vptat25, to_sfixed (12273.0, vptat25)); -- 12273
 --		--
 --		-- vptat
 --		sftmp_slv_16 := x"06af" and x"ffff"; -- ram[0x0720]
 --		vptat := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), vptat);
---		report_error ("fail vptat", vptat, to_sfixed (1711.0,vptat)); -- 1711
+--		report_error_normalize ("fail vptat", vptat, to_sfixed (1711.0,vptat)); -- 1711
 --		--
 --		-- vbe
 --		sftmp_slv_16 := x"4bf2" and x"ffff"; -- ram[0x0700]
 --		vbe := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), vbe);
---		report_error ("fail vbe", vbe, to_sfixed (19442.0,vbe)); -- 19442
+--		report_error_normalize ("fail vbe", vbe, to_sfixed (19442.0,vbe)); -- 19442
 --		--
 --		-- alphaptatee
 --		sftmp_slv_16 := x"4210" and x"f000"; -- ee[0x2410]
 --		alphaptatee := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), alphaptatee);
---		report_error ("fail alphaptatee 1", alphaptatee, to_sfixed (16384.0,alphaptatee)); -- 16384
+--		report_error_normalize ("fail alphaptatee 1", alphaptatee, to_sfixed (16384.0,alphaptatee)); -- 16384
 --		fptmp2 := to_sfixed (2**12, fptmp2);
---		report_error ("fail 2**12", fptmp2, to_sfixed (2**12, fptmp2)); -- 2**12
+--		report_error_normalize ("fail 2**12", fptmp2, to_sfixed (2**12, fptmp2)); -- 2**12
 ----		cmd <= "0011"; -- / alphaptatee/2^12
 --		in1div <= alphaptatee;
 --		in2div <= fptmp2;
@@ -452,11 +450,11 @@ report "0-0-0" severity failure;
 --when s13 =>
 --		fpout := to_sfixed (to_slv (out1div), fpout);
 --		alphaptatee := resize (fpout, alphaptatee);
---		report_error ("fail alphaptatee 2", alphaptatee, to_sfixed (4.0, alphaptatee)); -- 4
+--		report_error_normalize ("fail alphaptatee 2", alphaptatee, to_sfixed (4.0, alphaptatee)); -- 4
 --		--
 --		-- alphaptat
 --		fptmp2 := to_sfixed (2**2, fptmp2);
---		report_error ("fail 2**2", fptmp2, to_sfixed (2**2, fptmp2)); -- 4
+--		report_error_normalize ("fail 2**2", fptmp2, to_sfixed (2**2, fptmp2)); -- 4
 ----		cmd <= "0011"; -- / alphaptatee/2^2
 --		in1div <= alphaptatee;
 --		in2div <= fptmp2;
@@ -466,9 +464,9 @@ report "0-0-0" severity failure;
 --when s14 =>
 --		fpout := to_sfixed (to_slv (out1div), fpout);
 --		alphaptat := resize (fpout, alphaptat);
---		report_error ("fail alphaptat 3", alphaptat, to_sfixed (1.0, alphaptat)); -- 1
+--		report_error_normalize ("fail alphaptat 3", alphaptat, to_sfixed (1.0, alphaptat)); -- 1
 --		fptmp2 := to_sfixed (2**3, fptmp2);
---		report_error ("fail 2**3", fptmp2, to_sfixed (2**3, fptmp2)); -- 2**3
+--		report_error_normalize ("fail 2**3", fptmp2, to_sfixed (2**3, fptmp2)); -- 2**3
 ----		cmd <= "0000"; -- + (alphaptatee/2^2)+2^3
 --		in1add <= alphaptat;
 --		in2add <= fptmp2;
@@ -478,7 +476,7 @@ report "0-0-0" severity failure;
 --when s15 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		alphaptat := resize (fpout, alphaptat);
---		report_error ("fail alphaptat 4", alphaptat, to_sfixed (9.0, alphaptat)); -- 9
+--		report_error_normalize ("fail alphaptat 4", alphaptat, to_sfixed (9.0, alphaptat)); -- 9
 --		--
 --		-- vptatart
 ----		cmd <= "0010"; -- * vptat*alphaptat
@@ -490,7 +488,7 @@ report "0-0-0" severity failure;
 --when s16 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		vptatart := resize (fpout, vptatart);
---		report_error ("fail vptatart 1", vptatart, to_sfixed (15399.0, vptatart)); -- 15399
+--		report_error_normalize ("fail vptatart 1", vptatart, to_sfixed (15399.0, vptatart)); -- 15399
 ----		cmd <= "0000"; -- + (vptat*alphaptat)+vbe
 --		in1add <= vptatart;
 --		in2add <= vbe;
@@ -500,7 +498,7 @@ report "0-0-0" severity failure;
 --when s17 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		vptatart := resize (fpout, vptatart);
---		report_error ("fail vptatart 2", vptatart, to_sfixed (34841.0, vptatart)); -- 34841
+--		report_error_normalize ("fail vptatart 2", vptatart, to_sfixed (34841.0, vptatart)); -- 34841
 ----		cmd <= "0011"; -- / vptat/((vptat*alphaptat)+vbe)
 --		in1div <= vptat;
 --		in2div <= vptatart;
@@ -510,9 +508,9 @@ report "0-0-0" severity failure;
 --when s18 =>
 --		fpout := to_sfixed (to_slv (out1div), fpout);
 --		vptatart := resize (fpout, vptatart);
---		report_error ("fail vptatart 3", vptatart, to_sfixed (0.049108808587561725289560854434967041015625, vptatart)); -- 0.049108808587561725289560854434967041015625
+--		report_error_normalize ("fail vptatart 3", vptatart, to_sfixed (0.049108808587561725289560854434967041015625, vptatart)); -- 0.049108808587561725289560854434967041015625
 --		fptmp2 := to_sfixed (2**18, fptmp2);
---		report_error ("fail 2**18", fptmp2, to_sfixed (2**18, fptmp2)); -- 2**18
+--		report_error_normalize ("fail 2**18", fptmp2, to_sfixed (2**18, fptmp2)); -- 2**18
 ----		cmd <= "0010"; -- * (vptat/((vptat*alphaptat)+vbe))*2^18
 --		in1mul <= vptatart;
 --		in2mul <= fptmp2;
@@ -522,7 +520,7 @@ report "0-0-0" severity failure;
 --when s19 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		vptatart := resize (fpout, vptatart);
---		report_error ("fail vptatart 4", vptatart, to_sfixed (12873.5792, vptatart)); -- 12873.5792
+--		report_error_normalize ("fail vptatart 4", vptatart, to_sfixed (12873.5792, vptatart)); -- 12873.5792
 --		--
 --		-- Ta
 ----		cmd <= "0010"; -- * a=deltaV*kvptat
@@ -534,9 +532,9 @@ report "0-0-0" severity failure;
 --when s21 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		Ta := resize (fpout, Ta);
---		report_error ("fail Ta 1", Ta, to_sfixed (0.00010002983935919473879039287567138671875, Ta)); -- 0.00010002983935919473879039287567138671875
+--		report_error_normalize ("fail Ta 1", Ta, to_sfixed (0.00010002983935919473879039287567138671875, Ta)); -- 0.00010002983935919473879039287567138671875
 --		fptmp2 := to_sfixed (1.0, fptmp2);
---		report_error ("fail 1.0", fptmp2, to_sfixed (1.0, fptmp2)); -- 1.0
+--		report_error_normalize ("fail 1.0", fptmp2, to_sfixed (1.0, fptmp2)); -- 1.0
 ----		cmd <= "0000"; -- + b=1+a
 --		in1add <= fptmp2;
 --		in2add <= Ta;
@@ -546,7 +544,7 @@ report "0-0-0" severity failure;
 --when s22 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		Ta := resize (fpout, Ta);
---		report_error ("fail Ta 2", Ta, to_sfixed (1.00010002983935919473879039287567138671875, Ta)); -- 1.00010002983935919473879039287567138671875
+--		report_error_normalize ("fail Ta 2", Ta, to_sfixed (1.00010002983935919473879039287567138671875, Ta)); -- 1.00010002983935919473879039287567138671875
 ----		cmd <= "0011"; -- / c=vptatart/b
 --		in1div <= vptatart;
 --		in2div <= Ta;
@@ -556,7 +554,7 @@ report "0-0-0" severity failure;
 --when s23 =>
 --		fpout := to_sfixed (to_slv (out1div), fpout);
 --		Ta := resize (fpout, Ta);
---		report_error ("fail Ta 3", Ta, to_sfixed (12872.29190508633109857328236103057861328125, Ta)); -- 12872.29190508633109857328236103057861328125
+--		report_error_normalize ("fail Ta 3", Ta, to_sfixed (12872.29190508633109857328236103057861328125, Ta)); -- 12872.29190508633109857328236103057861328125
 ----		cmd <= "0001"; -- - d=c-vptat25
 --		in1sub <= Ta;
 --		in2sub <= vptat25;
@@ -566,7 +564,7 @@ report "0-0-0" severity failure;
 --when s24 =>
 --		fpout := to_sfixed (to_slv (out1sub), fpout);
 --		Ta := resize (fpout, Ta);
---		report_error ("fail Ta 4", Ta, to_sfixed (599.291905086330416452256031334400177001953125, Ta)); -- 599.291905086330416452256031334400177001953125
+--		report_error_normalize ("fail Ta 4", Ta, to_sfixed (599.291905086330416452256031334400177001953125, Ta)); -- 599.291905086330416452256031334400177001953125
 ----		cmd <= "0011"; -- / e=d/ktptat
 --		in1div <= Ta;
 --		in2div <= ktptat;
@@ -576,9 +574,9 @@ report "0-0-0" severity failure;
 --when s25 =>
 --		fpout := to_sfixed (to_slv (out1div), fpout);
 --		Ta := resize (fpout, Ta);
---		report_error ("fail Ta 5", Ta, to_sfixed (14.1844237890254589729011058807373046875, Ta)); -- 14.1844237890254589729011058807373046875
+--		report_error_normalize ("fail Ta 5", Ta, to_sfixed (14.1844237890254589729011058807373046875, Ta)); -- 14.1844237890254589729011058807373046875
 --		fptmp2 := to_sfixed (25.0, fptmp2);
---		report_error ("fail 25.0", fptmp2, to_sfixed (25.0, fptmp2)); -- 25.0
+--		report_error_normalize ("fail 25.0", fptmp2, to_sfixed (25.0, fptmp2)); -- 25.0
 ----		cmd <= "0000"; -- + f=e+25.0
 --		in1add <= Ta;
 --		in2add <= fptmp2;
@@ -588,15 +586,15 @@ report "0-0-0" severity failure;
 --when s26 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		Ta := resize (fpout, Ta);
---		report_error ("fail Ta 6", Ta, to_sfixed (39.184, Ta)); -- 39.184
+--		report_error_normalize ("fail Ta 6", Ta, to_sfixed (39.184, Ta)); -- 39.184
 --		--
 --		-- Kgain
 --		sftmp_slv_16 := x"1881" and x"ffff"; -- ram[0x070a]
 --		fptmp1 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), fptmp1);
---		report_error ("fail ram[0x070a]", fptmp1, to_sfixed (6273.0, fptmp1)); -- 6273
+--		report_error_normalize ("fail ram[0x070a]", fptmp1, to_sfixed (6273.0, fptmp1)); -- 6273
 --		sftmp_slv_16 := x"18ef" and x"ffff"; -- ee[0x2430]
 --		fptmp2 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), fptmp2);
---		report_error ("fail ee[0x2430]", fptmp2, to_sfixed (6383.0, fptmp2)); -- 6383
+--		report_error_normalize ("fail ee[0x2430]", fptmp2, to_sfixed (6383.0, fptmp2)); -- 6383
 ----		cmd <= "0011"; -- / GAIN/ram[0x070a]
 --		in1div <= fptmp2;
 --		in2div <= fptmp1;
@@ -606,11 +604,11 @@ report "0-0-0" severity failure;
 --when s27 =>
 --		fpout := to_sfixed (to_slv (out1div), fpout);
 --		Kgain := resize (fpout, Kgain);
---		report_error ("fail Kgain", Kgain, to_sfixed (1.01753546947234, Kgain)); -- 1.01753546947234
+--		report_error_normalize ("fail Kgain", Kgain, to_sfixed (1.01753546947234, Kgain)); -- 1.01753546947234
 --		-- xxx pixdata 12,16 ram[0x056f]
 --		sftmp_slv_16 := x"0261" and x"ffff"; -- ram[0x056f]
 --		pixgain12_16 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), pixgain12_16);
---		report_error ("fail pixgain12_16", pixgain12_16, to_sfixed (609.0, pixgain12_16)); -- 609
+--		report_error_normalize ("fail pixgain12_16", pixgain12_16, to_sfixed (609.0, pixgain12_16)); -- 609
 ----		cmd <= "0010"; -- * ram[pixel_data]*Kgain
 --		in1mul <= pixgain12_16;
 --		in2mul <= Kgain;
@@ -620,45 +618,45 @@ report "0-0-0" severity failure;
 --when s28 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		pixgain12_16 := resize (fpout, pixgain12_16);
---		report_error ("fail pixgain12_16", pixgain12_16, to_sfixed (619.679100908656, pixgain12_16)); -- 619.679100908656
+--		report_error_normalize ("fail pixgain12_16", pixgain12_16, to_sfixed (619.679100908656, pixgain12_16)); -- 619.679100908656
 --		sftmp_slv_16 := x"ffbb" and x"ffff"; -- ee[0x2411]
 --		offsetaverage := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), offsetaverage);
---		report_error ("fail offsetaverage", offsetaverage, to_sfixed (-69.0, offsetaverage)); -- -69
+--		report_error_normalize ("fail offsetaverage", offsetaverage, to_sfixed (-69.0, offsetaverage)); -- -69
 --		sftmp_slv_16 := x"4210" and x"0f00"; -- ee[0x2410]
 --		occscalerow := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), occscalerow);
 --		occscalerow := occscalerow srl 8;
---		report_error ("fail occscalerow", occscalerow, to_sfixed (2.0, occscalerow)); -- 2
+--		report_error_normalize ("fail occscalerow", occscalerow, to_sfixed (2.0, occscalerow)); -- 2
 --		sftmp_slv_16 := x"4210" and x"00f0"; -- ee[0x2410]
 --		occscalecolumn := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), occscalecolumn);
 --		occscalecolumn := occscalecolumn srl 4;
---		report_error ("fail occscalecolumn", occscalecolumn, to_sfixed (1.0, occscalecolumn)); -- 1
+--		report_error_normalize ("fail occscalecolumn", occscalecolumn, to_sfixed (1.0, occscalecolumn)); -- 1
 --		sftmp_slv_16 := x"f2f2" and x"f000"; -- ee[0x2414]
 --		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 12));
 --		tmpslv4 := sftmp_slv_16 (3 downto 0);
 --		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
 --		occrow12 := resize (tmpsf4, occrow12);
---		report_error ("fail occrow12", occrow12, to_sfixed (-1.0, occrow12)); -- -1 / 0xf signed
+--		report_error_normalize ("fail occrow12", occrow12, to_sfixed (-1.0, occrow12)); -- -1 / 0xf signed
 --		sftmp_slv_16 := x"e0ef" and x"f000"; -- ee[0x241b]
 --		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 12));
 --		tmpslv4 := sftmp_slv_16 (3 downto 0);
 --		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
 --		occcolumn16 := resize (tmpsf4, occcolumn16);
---		report_error ("fail occcolumn16", occcolumn16, to_sfixed (-2.0, occcolumn16)); -- -2 / 0xe signed
+--		report_error_normalize ("fail occcolumn16", occcolumn16, to_sfixed (-2.0, occcolumn16)); -- -2 / 0xe signed
 --		sftmp_slv_16 := x"08a0" and x"fc00"; -- ee[0x25af]
 --		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 10));
 --		tmpslv6 := sftmp_slv_16 (5 downto 0);
 --		tmpsf6 := to_sfixed (tmpslv6, tmpsf6);
 --		offset12_16 := resize (tmpsf6, offset12_16);
---		report_error ("fail offset12_16", offset12_16, to_sfixed (2.0, offset12_16)); -- 2
+--		report_error_normalize ("fail offset12_16", offset12_16, to_sfixed (2.0, offset12_16)); -- 2
 --		sftmp_slv_16 := x"4210" and x"000f"; -- ee[0x2410]
 --		occscaleremnant := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), occscaleremnant);
---		report_error ("fail occscaleremnant", occscaleremnant, to_sfixed (0.0, occscaleremnant)); -- 0
+--		report_error_normalize ("fail occscaleremnant", occscaleremnant, to_sfixed (0.0, occscaleremnant)); -- 0
 --		occsro := to_sfixed (1.0, occsro) sll to_integer (occscalerow); -- 2^occscalerow=2^2=4.0
---		report_error ("fail occsro", occsro, to_sfixed (4.0, occsro)); -- 4
+--		report_error_normalize ("fail occsro", occsro, to_sfixed (4.0, occsro)); -- 4
 --		occsc := to_sfixed (1.0, occsc) sll to_integer (occscalecolumn); -- 2^occscalecolumn=2^1=2.0
---		report_error ("fail occsc", occsc, to_sfixed (2.0, occsc)); -- 2
+--		report_error_normalize ("fail occsc", occsc, to_sfixed (2.0, occsc)); -- 2
 --		occsre := to_sfixed (1.0, occsre) sll to_integer (occscaleremnant); -- 2^occscaleremnant=2^0=1.0
---		report_error ("fail occsre", occsre, to_sfixed (1.0, occsro)); -- 1
+--		report_error_normalize ("fail occsre", occsre, to_sfixed (1.0, occsro)); -- 1
 ----		cmd <= "0010"; -- * occrow12*2^occscalerow
 --		in1mul <= occrow12;
 --		in2mul <= occsro;
@@ -668,7 +666,7 @@ report "0-0-0" severity failure;
 --when s29 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		occsro := resize (fpout, occsro);
---		report_error ("fail occsro 1", occsro, to_sfixed (-4.0, occsro)); -- -4
+--		report_error_normalize ("fail occsro 1", occsro, to_sfixed (-4.0, occsro)); -- -4
 ----		cmd <= "0010"; -- * occcolumn16*2^occscalecolumn
 --		in1mul <= occcolumn16;
 --		in2mul <= occsc;
@@ -678,7 +676,7 @@ report "0-0-0" severity failure;
 --when s30 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		occsc := resize (fpout, occsc);
---		report_error ("fail occsc 1", occsc, to_sfixed (-4.0, occsc)); -- -4
+--		report_error_normalize ("fail occsc 1", occsc, to_sfixed (-4.0, occsc)); -- -4
 ----		cmd <= "0010"; -- * occremnant*2^occscaleremnant
 --		in1mul <= offset12_16;
 --		in2mul <= occsre;
@@ -688,7 +686,7 @@ report "0-0-0" severity failure;
 --when s31 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		occsre := resize (fpout, occsre);
---		report_error ("fail occsre 1", occsre, to_sfixed (2.0, occsre)); -- 2
+--		report_error_normalize ("fail occsre 1", occsre, to_sfixed (2.0, occsre)); -- 2
 ----		cmd <= "0000"; -- + (occcolumn16*2^occscalecolumn)+(occremnant*2^occscaleremnant)
 --		in1add <= occsc;
 --		in2add <= occsre;
@@ -698,7 +696,7 @@ report "0-0-0" severity failure;
 --when s32 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		occsre := resize (fpout, occsre);
---		report_error ("fail occsre 2", occsre, to_sfixed (-2.0, occsre)); -- -2
+--		report_error_normalize ("fail occsre 2", occsre, to_sfixed (-2.0, occsre)); -- -2
 ----		cmd <= "0000"; -- + (occrow12*2^occscalerow)+(occcolumn16*2^occscalecolumn)+(occremnant*2^occscaleremnant)
 --		in1add <= occsre;
 --		in2add <= occsro;
@@ -708,7 +706,7 @@ report "0-0-0" severity failure;
 --when s33 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		occsre := resize (fpout, occsre);
---		report_error ("fail occsre 3", occsre, to_sfixed (-6.0, occsre)); -- -6
+--		report_error_normalize ("fail occsre 3", occsre, to_sfixed (-6.0, occsre)); -- -6
 ----		cmd <= "0000"; -- + offsetaverage+(occrow12*2^occscalerow)+(occcolumn16*2^occscalecolumn)+(occremnant*2^occscaleremnant)
 --		in1add <= occsre;
 --		in2add <= offsetaverage;
@@ -718,26 +716,26 @@ report "0-0-0" severity failure;
 --when s34 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		pixosref12_16 := resize (fpout, pixosref12_16);
---		report_error ("fail pixosref12_16", pixosref12_16, to_sfixed (-75.0, pixosref12_16)); -- -75
+--		report_error_normalize ("fail pixosref12_16", pixosref12_16, to_sfixed (-75.0, pixosref12_16)); -- -75
 --		sftmp_slv_16 := x"08a0" and x"000e"; -- ee[0x25af]
 --		kta12_16_ee := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), kta12_16_ee);
---		report_error ("fail kta12_16_ee", kta12_16_ee, to_sfixed (0.0, kta12_16_ee)); -- 0
+--		report_error_normalize ("fail kta12_16_ee", kta12_16_ee, to_sfixed (0.0, kta12_16_ee)); -- 0
 --		kta12_16_ee := kta12_16_ee srl 1;
---		report_error ("fail kta12_16_ee", kta12_16_ee, to_sfixed (0.0, kta12_16_ee));
+--		report_error_normalize ("fail kta12_16_ee", kta12_16_ee, to_sfixed (0.0, kta12_16_ee));
 --		sftmp_slv_16 := x"5354" and x"00ff"; -- ee[0x2437]
 --		kta_rc_ee := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), kta_rc_ee);
---		report_error ("fail kta_rc_ee", kta_rc_ee, to_sfixed (84.0, kta_rc_ee)); -- 84
+--		report_error_normalize ("fail kta_rc_ee", kta_rc_ee, to_sfixed (84.0, kta_rc_ee)); -- 84
 --		sftmp_slv_16 := x"2363" and x"000f"; -- ee[0x2438]
 --		kta_scale_2 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), kta_scale_2);
---		report_error ("fail kta_scale_2", kta_scale_2, to_sfixed (3.0, kta_scale_2)); -- 3
+--		report_error_normalize ("fail kta_scale_2", kta_scale_2, to_sfixed (3.0, kta_scale_2)); -- 3
 --		sftmp_slv_16 := x"2363" and x"00f0"; -- ee[0x2438]
 --		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 4));
 --		tmpslv4 := sftmp_slv_16 (3 downto 0);
 --		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
 --		kta_scale_1 := resize (tmpsf4, kta_scale_1);
---		report_error ("fail kta_scale_1", kta_scale_1, to_sfixed (6.0, kta_scale_1)); -- 6
+--		report_error_normalize ("fail kta_scale_1", kta_scale_1, to_sfixed (6.0, kta_scale_1)); -- 6
 --		fptmp2 := to_sfixed (8.0, fptmp2);
---		report_error ("fail 8.0", fptmp2, to_sfixed (8.0, fptmp2)); -- 8.0
+--		report_error_normalize ("fail 8.0", fptmp2, to_sfixed (8.0, fptmp2)); -- 8.0
 ----		cmd <= "0000"; -- + kta_scale_1+8
 --		in1add <= kta_scale_1;
 --		in2add <= fptmp2;
@@ -747,12 +745,12 @@ report "0-0-0" severity failure;
 --when s35 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		kta_scale_1 := resize (fpout, kta_scale_1);
---		report_error ("fail kta_scale_1", kta_scale_1, to_sfixed (14.0, kta_scale_1)); -- 14
+--		report_error_normalize ("fail kta_scale_1", kta_scale_1, to_sfixed (14.0, kta_scale_1)); -- 14
 --		sftmp_slv_16 := x"5454" and x"000f"; -- ee[0x2434]
 --		kv12_16 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), kv12_16);
---		report_error ("fail kv12_16", kv12_16, to_sfixed (4.0, kv12_16)); -- 4
+--		report_error_normalize ("fail kv12_16", kv12_16, to_sfixed (4.0, kv12_16)); -- 4
 --		kta_scale_2 := to_sfixed(1.0, kta_scale_2) sll to_integer (kta_scale_2);
---		report_error ("fail kta_scale_2", kta_scale_2, to_sfixed (2**3, kta_scale_2)); -- 2**3
+--		report_error_normalize ("fail kta_scale_2", kta_scale_2, to_sfixed (2**3, kta_scale_2)); -- 2**3
 ----		cmd <= "0010"; -- * kta(12,16)_ee*2^Kta_scale_2
 --		in1mul <= kta12_16_ee;
 --		in2mul <= kta_scale_2;
@@ -762,7 +760,7 @@ report "0-0-0" severity failure;
 --when s36 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		kta12_16 := resize (fpout, kta12_16);
---		report_error ("fail kta12_16 1", kta12_16, to_sfixed (0.0, kta12_16)); -- 0
+--		report_error_normalize ("fail kta12_16 1", kta12_16, to_sfixed (0.0, kta12_16)); -- 0
 ----		cmd <= "0000"; -- + kta_rc_ee+kta12_16_ee*2^kta_scale_2
 --		in1add <= kta_rc_ee;
 --		in2add <= kta12_16;
@@ -772,9 +770,9 @@ report "0-0-0" severity failure;
 --when s37 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		kta12_16 := resize (fpout, kta12_16);
---		report_error ("fail kta12_16 2", kta12_16, to_sfixed (84.0, kta12_16)); -- 84
+--		report_error_normalize ("fail kta12_16 2", kta12_16, to_sfixed (84.0, kta12_16)); -- 84
 --		kta_scale_1 := to_sfixed (1.0, kta_scale_1) sll to_integer (kta_scale_1);
---		report_error ("fail 2^kta_scale_1", kta_scale_1, to_sfixed (2**14, kta_scale_1)); -- 2**14
+--		report_error_normalize ("fail 2^kta_scale_1", kta_scale_1, to_sfixed (2**14, kta_scale_1)); -- 2**14
 ----		cmd <= "0011"; -- / (kta_rc_ee+kta12_16*2^kta_scale_2)/2^kta_scale_1
 --		in1div <= kta12_16;
 --		in2div <= kta_scale_1;
@@ -784,7 +782,7 @@ report "0-0-0" severity failure;
 --when s38 =>
 --		fpout := to_sfixed (to_slv (out1div), fpout);
 --		kta12_16 := resize (fpout, kta12_16);
---		report_error ("fail kta12_16 3", kta12_16, to_sfixed (0.005126953125, kta12_16)); -- 0.005126953125
+--		report_error_normalize ("fail kta12_16 3", kta12_16, to_sfixed (0.005126953125, kta12_16)); -- 0.005126953125
 --		state := w38;
 --when w38 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s39; else v_wait1 := v_wait1 + 1; state := w38; end if;
@@ -794,9 +792,9 @@ report "0-0-0" severity failure;
 --		tmpslv4 := sftmp_slv_16 (3 downto 0);
 --		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
 --		kvscale := resize (tmpsf4, kvscale);
---		report_error ("fail kvscale", kvscale, to_sfixed (3.0, kvscale)); -- 3
+--		report_error_normalize ("fail kvscale", kvscale, to_sfixed (3.0, kvscale)); -- 3
 --		kvscale := to_sfixed (1.0,kvscale) sll to_integer (kvscale);
---		report_error ("fail 2^kvscale", kvscale, to_sfixed(8.0, kvscale)); -- 8
+--		report_error_normalize ("fail 2^kvscale", kvscale, to_sfixed(8.0, kvscale)); -- 8
 ----		cmd <= "0011"; -- / kv12_16/2^kvscale
 --		in1div <= kv12_16;
 --		in2div <= kvscale;
@@ -806,13 +804,13 @@ report "0-0-0" severity failure;
 --when s40 =>
 --		fpout := to_sfixed (to_slv (out1div), fpout);
 --		kv12_16 := resize (fpout, kv12_16);
---		report_error ("fail kv12_16", kv12_16, to_sfixed (0.5, kv12_16)); -- 0.5
+--		report_error_normalize ("fail kv12_16", kv12_16, to_sfixed (0.5, kv12_16)); -- 0.5
 --		state := w40;
 --when w40 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s41; else v_wait1 := v_wait1 + 1; state := w40; end if;
 --when s41 =>
 --		fptmp2 := to_sfixed (25.0, fptmp2);
---		report_error ("fail 25.0", fptmp2, to_sfixed (25.0, fptmp2)); -- 25.0
+--		report_error_normalize ("fail 25.0", fptmp2, to_sfixed (25.0, fptmp2)); -- 25.0
 ----		cmd <= "0001"; -- - Ta-Ta0 Ta-25
 --		in1sub <= Ta;
 --		in2sub <= fptmp2;
@@ -822,13 +820,13 @@ report "0-0-0" severity failure;
 --when s42 =>
 --		fpout := to_sfixed (to_slv (out1sub), fpout);
 --		tad := resize (fpout, tad);
---		report_error ("fail tad", tad, to_sfixed (39.184-25.0, tad)); -- 39.184-25.0
+--		report_error_normalize ("fail tad", tad, to_sfixed (39.184-25.0, tad)); -- 39.184-25.0
 --		state := w42;
 --when w42 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s43; else v_wait1 := v_wait1 + 1; state := w42; end if;
 --when s43 =>
 --		fptmp2 := to_sfixed (3.3, fptmp2);
---		report_error ("fail 3.3", fptmp2, to_sfixed (3.3, fptmp2)); -- 3.3
+--		report_error_normalize ("fail 3.3", fptmp2, to_sfixed (3.3, fptmp2)); -- 3.3
 ----		cmd <= "0001"; -- - Vdd-VddV0 Vdd-3.3
 --		in1sub <= Vdd;
 --		in2sub <= fptmp2;
@@ -838,7 +836,7 @@ report "0-0-0" severity failure;
 --when s44 =>
 --		fpout := to_sfixed (to_slv (out1sub), fpout);
 --		v0d := resize (fpout, v0d);
---		report_error ("fail v0d", v0d, to_sfixed (3.319-3.3, v0d)); -- 3.319-3.3
+--		report_error_normalize ("fail v0d", v0d, to_sfixed (3.319-3.3, v0d)); -- 3.319-3.3
 --		state := w44;
 --when w44 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s45; else v_wait1 := v_wait1 + 1; state := w44; end if;
@@ -852,13 +850,13 @@ report "0-0-0" severity failure;
 --when s46 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		kv12_16 := resize (fpout, kv12_16);
---		report_error ("fail kv12_16", kv12_16, to_sfixed (0.5*(3.319-3.3), kv12_16)); -- 0.5*(3.319-3.3)
+--		report_error_normalize ("fail kv12_16", kv12_16, to_sfixed (0.5*(3.319-3.3), kv12_16)); -- 0.5*(3.319-3.3)
 --		state := w46;
 --when w46 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s47; else v_wait1 := v_wait1 + 1; state := w46; end if;
 --when s47 =>
 --		fptmp1 := to_sfixed (1.0, fptmp1);
---		report_error ("fail 1.0", fptmp1, to_sfixed (1.0, fptmp1)); -- 1.0
+--		report_error_normalize ("fail 1.0", fptmp1, to_sfixed (1.0, fptmp1)); -- 1.0
 ----		cmd <= "0000"; -- + 1+Kv12_16*(Vdd-VddV0)
 --		in1add <= fptmp1;
 --		in2add <= kv12_16;
@@ -868,7 +866,7 @@ report "0-0-0" severity failure;
 --when s48 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		kv12_16 := resize (fpout, kv12_16);
---		report_error ("fail kv12_16", kv12_16, to_sfixed (1.0+(0.5*(3.319-3.3)), kv12_16)); -- 1.0+(0.5*(3.319-3.3))
+--		report_error_normalize ("fail kv12_16", kv12_16, to_sfixed (1.0+(0.5*(3.319-3.3)), kv12_16)); -- 1.0+(0.5*(3.319-3.3))
 --		state := w48;
 --when w48 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s49; else v_wait1 := v_wait1 + 1; state := w48; end if;
@@ -882,13 +880,13 @@ report "0-0-0" severity failure;
 --when s50 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		kta12_16 := resize (fpout, kta12_16);
---		report_error ("fail kta12_16", kta12_16, to_sfixed (0.005126953125*(39.184-25.0), kta12_16)); -- 0.005126953125*(39.184-25.0)
+--		report_error_normalize ("fail kta12_16", kta12_16, to_sfixed (0.005126953125*(39.184-25.0), kta12_16)); -- 0.005126953125*(39.184-25.0)
 --		state := w50;
 --when w50 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s51; else v_wait1 := v_wait1 + 1; state := w50; end if;
 --when s51 =>
 --		fptmp1 := to_sfixed (1.0, fptmp1);
---		report_error ("fail 1.0", fptmp1, to_sfixed (1.0, fptmp1)); -- 1.0
+--		report_error_normalize ("fail 1.0", fptmp1, to_sfixed (1.0, fptmp1)); -- 1.0
 ----		cmd <= "0000"; -- + 1+KTa(12,16)*(Ta-Ta0)
 --		in1add <= fptmp1;
 --		in2add <= kta12_16;
@@ -898,7 +896,7 @@ report "0-0-0" severity failure;
 --when s52 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		kta12_16 := resize (fpout, kta12_16);
---		report_error ("fail kta12_16", kta12_16, to_sfixed (1.0+(0.005126953125*(39.184-25.0)), kta12_16)); -- 1.0+(0.005126953125*(39.184-25.0))
+--		report_error_normalize ("fail kta12_16", kta12_16, to_sfixed (1.0+(0.005126953125*(39.184-25.0)), kta12_16)); -- 1.0+(0.005126953125*(39.184-25.0))
 --		state := w52;
 --when w52 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s53; else v_wait1 := v_wait1 + 1; state := w52; end if;
@@ -912,7 +910,7 @@ report "0-0-0" severity failure;
 --when s54 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		kta12_16 := resize (fpout, kta12_16);
---		report_error ("fail kta12_16", kta12_16, to_sfixed ((-75.0)*(1.0+(0.005126953125*(39.184-25.0))), kta12_16)); -- (-75.0)*(1.0+(0.005126953125*(39.184-25.0)))
+--		report_error_normalize ("fail kta12_16", kta12_16, to_sfixed ((-75.0)*(1.0+(0.005126953125*(39.184-25.0))), kta12_16)); -- (-75.0)*(1.0+(0.005126953125*(39.184-25.0)))
 --		state := w54;
 --when w54 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s55; else v_wait1 := v_wait1 + 1; state := w54; end if;
@@ -926,7 +924,7 @@ report "0-0-0" severity failure;
 --when s56 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		kta12_16 := resize (fpout, kta12_16);
---		report_error ("fail kta12_16", kta12_16, to_sfixed ((-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+0.5*(3.319-3.3)), kta12_16)); -- (-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+0.5*(3.319-3.3))
+--		report_error_normalize ("fail kta12_16", kta12_16, to_sfixed ((-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+0.5*(3.319-3.3)), kta12_16)); -- (-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+0.5*(3.319-3.3))
 --		state := w56;
 --when w56 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s57; else v_wait1 := v_wait1 + 1; state := w56; end if;
@@ -940,14 +938,14 @@ report "0-0-0" severity failure;
 --when s58 =>
 --		fpout := to_sfixed (to_slv (out1sub), fpout);
 --		pixos12_16 := resize (fpout, pixos12_16);
---		report_error ("fail pixos12_16", pixos12_16, to_sfixed (619.679100908656-(-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+0.5*(3.319-3.3)), pixos12_16)); -- 619.679100908656-(-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+0.5*(3.319-3.3))
---		report_error ("fail pixos12_16 const", pixos12_16, to_sfixed (700.882495690877, pixos12_16)); -- 700.882495690877
+--		report_error_normalize ("fail pixos12_16", pixos12_16, to_sfixed (619.679100908656-(-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+0.5*(3.319-3.3)), pixos12_16)); -- 619.679100908656-(-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+0.5*(3.319-3.3))
+--		report_error_normalize ("fail pixos12_16 const", pixos12_16, to_sfixed (700.882495690877, pixos12_16)); -- 700.882495690877
 --		state := w58;
 --when w58 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s59; else v_wait1 := v_wait1 + 1; state := w58; end if;
 --when s59 =>
 --		fptmp2 := to_sfixed (1.0, fptmp2);
---		report_error ("fail 1.0", fptmp2, to_sfixed (1.0, fptmp2)); -- 1.0
+--		report_error_normalize ("fail 1.0", fptmp2, to_sfixed (1.0, fptmp2)); -- 1.0
 ----		cmd <= "0011"; -- / VIR(12,16)Emissivity_COMPOENSATED=pixos12_16/E E=1
 --		in1div <= pixos12_16;
 --		in2div <= fptmp2;
@@ -957,14 +955,14 @@ report "0-0-0" severity failure;
 --when s60 =>
 --		fpout := to_sfixed (to_slv (out1div), fpout);
 --		vir12_16_emissitivy_componsated := resize (fpout, vir12_16_emissitivy_componsated);
---		report_error ("fail vir12_16_emissitivy_componsated", vir12_16_emissitivy_componsated, to_sfixed (700.882495690877, vir12_16_emissitivy_componsated)); -- 700.882495690877
+--		report_error_normalize ("fail vir12_16_emissitivy_componsated", vir12_16_emissitivy_componsated, to_sfixed (700.882495690877, vir12_16_emissitivy_componsated)); -- 700.882495690877
 --		state := w60;
 --when w60 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s61; else v_wait1 := v_wait1 + 1; state := w60; end if;
 --when s61 =>
 --		sftmp_slv_16 := x"ffca" and x"ffff"; -- ram[0x0708]
 --		pixgain_cp_sp0 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), pixgain_cp_sp0);
---		report_error ("fail pixgain_cp_sp0", pixgain_cp_sp0, to_sfixed (-54.0, pixgain_cp_sp0)); -- -54
+--		report_error_normalize ("fail pixgain_cp_sp0", pixgain_cp_sp0, to_sfixed (-54.0, pixgain_cp_sp0)); -- -54
 ----		cmd <= "0010"; -- * pixgain_cp_sp0*Kgain
 --		in1mul <= pixgain_cp_sp0;
 --		in2mul <= kgain;
@@ -974,14 +972,14 @@ report "0-0-0" severity failure;
 --when s62 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		pixgain_cp_sp0 := resize (fpout, pixgain_cp_sp0);
---		report_error ("fail pixgain_cp_sp0", pixgain_cp_sp0, to_sfixed (-54.9469153515065, pixgain_cp_sp0)); -- -54.9469153515065
+--		report_error_normalize ("fail pixgain_cp_sp0", pixgain_cp_sp0, to_sfixed (-54.9469153515065, pixgain_cp_sp0)); -- -54.9469153515065
 --		state := w62;
 --when w62 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s63; else v_wait1 := v_wait1 + 1; state := w62; end if;
 --when s63 =>
 --		sftmp_slv_16 := x"ffc8" and x"ffff"; -- ram[0x0728]
 --		pixgain_cp_sp1 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), pixgain_cp_sp1);
---		report_error ("fail pixgain_cp_sp1", pixgain_cp_sp1, to_sfixed (-56.0, pixgain_cp_sp1)); -- -56
+--		report_error_normalize ("fail pixgain_cp_sp1", pixgain_cp_sp1, to_sfixed (-56.0, pixgain_cp_sp1)); -- -56
 ----		cmd <= "0010"; -- * pixgain_cp_sp1*Kgain
 --		in1mul <= pixgain_cp_sp1;
 --		in2mul <= kgain;
@@ -991,7 +989,7 @@ report "0-0-0" severity failure;
 --when s64 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		pixgain_cp_sp1 := resize (fpout, pixgain_cp_sp1);
---		report_error ("fail pixgain_cp_sp1", pixgain_cp_sp1, to_sfixed (-56.9819862904511, pixgain_cp_sp1)); -- -56.9819862904511
+--		report_error_normalize ("fail pixgain_cp_sp1", pixgain_cp_sp1, to_sfixed (-56.9819862904511, pixgain_cp_sp1)); -- -56.9819862904511
 --		state := w64;
 --when w64 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s65; else v_wait1 := v_wait1 + 1; state := w64; end if;
@@ -1000,7 +998,7 @@ report "0-0-0" severity failure;
 --		tmpslv10 := sftmp_slv_16 (9 downto 0);
 --		tmpsf10 := to_sfixed (tmpslv10, tmpsf10);
 --		off_cpsubpage_0 := resize (tmpsf10, off_cpsubpage_0);
---		report_error ("fail off_cpsubpage_0", off_cpsubpage_0, to_sfixed (-75.0, off_cpsubpage_0)); -- -75
+--		report_error_normalize ("fail off_cpsubpage_0", off_cpsubpage_0, to_sfixed (-75.0, off_cpsubpage_0)); -- -75
 --		state := w65;
 --when w65 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s66; else v_wait1 := v_wait1 + 1; state := w65; end if;
@@ -1010,7 +1008,7 @@ report "0-0-0" severity failure;
 --		tmpslv6 := sftmp_slv_16 (5 downto 0);
 --		tmpsf6 := to_sfixed (tmpslv6, tmpsf6);
 --		off_cpsubpage_1_delta := resize (tmpsf6, kvscale);
---		report_error ("fail off_cpsubpage_1_delta", off_cpsubpage_1_delta, to_sfixed (-2.0, off_cpsubpage_1_delta)); -- -2
+--		report_error_normalize ("fail off_cpsubpage_1_delta", off_cpsubpage_1_delta, to_sfixed (-2.0, off_cpsubpage_1_delta)); -- -2
 ----		cmd <= "0000"; -- + OFF_CPsubpage_0+OFF_CPsubpage_1_delta
 --		in1add <= off_cpsubpage_0;
 --		in2add <= off_cpsubpage_1_delta;
@@ -1020,14 +1018,14 @@ report "0-0-0" severity failure;
 --when s67 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		off_cpsubpage_1 := resize (fpout, off_cpsubpage_1);
---		report_error ("fail off_cpsubpage_1", off_cpsubpage_1, to_sfixed (-77.0, off_cpsubpage_1)); -- -77.0
+--		report_error_normalize ("fail off_cpsubpage_1", off_cpsubpage_1, to_sfixed (-77.0, off_cpsubpage_1)); -- -77.0
 --		state := w67;
 --when w67 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s68; else v_wait1 := v_wait1 + 1; state := w67; end if;
 --when s68 =>
 --		sftmp_slv_16 := x"044b" and x"00ff"; -- ee[0x243b]
 --		kta_cp_ee := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), kta_cp_ee);
---		report_error ("fail kta_cp_ee", kta_cp_ee, to_sfixed (75.0, kta_cp_ee)); -- 75
+--		report_error_normalize ("fail kta_cp_ee", kta_cp_ee, to_sfixed (75.0, kta_cp_ee)); -- 75
 ----		cmd <= "0011"; -- / KTa_cp_ee/2^KTa_scale_1
 --		in1div <= kta_cp_ee;
 --		in2div <= kta_scale_1;
@@ -1037,7 +1035,7 @@ report "0-0-0" severity failure;
 --when s69 =>
 --		fpout := to_sfixed (to_slv (out1div), fpout);
 --		kta_cp := resize (fpout, kta_cp);
---		report_error ("fail kta_cp", kta_cp, to_sfixed (0.00457763671875, kta_cp)); -- 0.00457763671875
+--		report_error_normalize ("fail kta_cp", kta_cp, to_sfixed (0.00457763671875, kta_cp)); -- 0.00457763671875
 --		state := w69;
 --when w69 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s70; else v_wait1 := v_wait1 + 1; state := w69; end if;
@@ -1047,9 +1045,9 @@ report "0-0-0" severity failure;
 --		tmpslv4 := sftmp_slv_16 (3 downto 0);
 --		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
 --		kv_scale := resize (tmpsf4, kv_scale);
---		--report_error("fail kv_scale", kv_scale, to_sfixed (3.0, kv_scale)); -- 3
+--		--report_error_normalize("fail kv_scale", kv_scale, to_sfixed (3.0, kv_scale)); -- 3
 --		kv_scale := to_sfixed (1.0, kv_scale) sll to_integer (kv_scale);
---		--report_error("fail 2^kv_scale", kv_scale, to_sfixed (8.0, kv_scale)); -- 8
+--		--report_error_normalize("fail 2^kv_scale", kv_scale, to_sfixed (8.0, kv_scale)); -- 8
 --		state := w70;
 --when w70 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s71; else v_wait1 := v_wait1 + 1; state := w70; end if;
@@ -1059,7 +1057,7 @@ report "0-0-0" severity failure;
 --		tmpslv8 := sftmp_slv_16 (7 downto 0);
 --		tmpsf8 := to_sfixed (tmpslv8, tmpsf8);
 --		kv_cp_ee := resize (tmpsf8, kv_cp_ee);
---		--report_error("fail kv_cp_ee", kv_cp_ee, to_sfixed (4.0, kv_cp_ee)); -- 4
+--		--report_error_normalize("fail kv_cp_ee", kv_cp_ee, to_sfixed (4.0, kv_cp_ee)); -- 4
 --		state := w71;
 --when w71 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s72; else v_wait1 := v_wait1 + 1; state := w71; end if;
@@ -1073,7 +1071,7 @@ report "0-0-0" severity failure;
 --when s73 =>
 --		fpout := to_sfixed (to_slv (out1div), fpout);
 --		kv_cp := resize (fpout, kv_cp);
---		report_error ("fail kv_cp", kv_cp, to_sfixed (0.5, kv_cp)); -- 0.5
+--		report_error_normalize ("fail kv_cp", kv_cp, to_sfixed (0.5, kv_cp)); -- 0.5
 --		state := w73;
 --when w73 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s74; else v_wait1 := v_wait1 + 1; state := w73; end if;
@@ -1089,9 +1087,9 @@ report "0-0-0" severity failure;
 --		tmpslv6 := sftmp_slv_16 (5 downto 0);
 --		tmpsf6 := to_sfixed (tmpslv6, tmpsf6);
 --		ilchessc1ee := resize (tmpsf6, ilchessc1ee);
---		report_error ("fail ilchessc1ee", ilchessc1ee, to_sfixed (20.0, ilchessc1ee)); -- 20.0
+--		report_error_normalize ("fail ilchessc1ee", ilchessc1ee, to_sfixed (20.0, ilchessc1ee)); -- 20.0
 --		ilchessc1ee := ilchessc1ee srl 4;
---		report_error ("fail ilchessc1ee/2^4", ilchessc1ee, to_sfixed (1.25, ilchessc1ee)); -- 1.25
+--		report_error_normalize ("fail ilchessc1ee/2^4", ilchessc1ee, to_sfixed (1.25, ilchessc1ee)); -- 1.25
 --		state := w74;
 --when w74 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s75; else v_wait1 := v_wait1 + 1; state := w74; end if;
@@ -1105,13 +1103,13 @@ report "0-0-0" severity failure;
 --when s76 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		kta_cp := resize (fpout, kta_cp);
---		report_error ("fail kta_cp*(Ta-Ta0)", kta_cp, to_sfixed (0.00457763671875*(39.184-25.0), kta_cp)); -- 0.00457763671875*(39.184-25.0)
+--		report_error_normalize ("fail kta_cp*(Ta-Ta0)", kta_cp, to_sfixed (0.00457763671875*(39.184-25.0), kta_cp)); -- 0.00457763671875*(39.184-25.0)
 --		state := w76;
 --when w76 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s77; else v_wait1 := v_wait1 + 1; state := w76; end if;
 --when s77 =>
 --		fptmp1 := to_sfixed (1.0, fptmp1);
---		report_error ("fail 1.0", fptmp1, to_sfixed (1.0, fptmp1)); -- 1.0
+--		report_error_normalize ("fail 1.0", fptmp1, to_sfixed (1.0, fptmp1)); -- 1.0
 ----		cmd <= "0000"; -- + 1+KTa_cp*(Ta-Ta0)
 --		in1add <= fptmp1;
 --		in2add <= kta_cp;
@@ -1121,7 +1119,7 @@ report "0-0-0" severity failure;
 --when s78 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		kta_cp := resize (fpout, kta_cp);
---		--report_error("fail kta_cp", kta_cp, to_sfixed (1.0+(0.00457763671875*(39.184-25.0)), kta_cp)); -- 1.0+(0.00457763671875*(39.184-25.0))
+--		--report_error_normalize("fail kta_cp", kta_cp, to_sfixed (1.0+(0.00457763671875*(39.184-25.0)), kta_cp)); -- 1.0+(0.00457763671875*(39.184-25.0))
 --		state := w78;
 --when w78 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s79; else v_wait1 := v_wait1 + 1; state := w78; end if;
@@ -1135,13 +1133,13 @@ report "0-0-0" severity failure;
 --when s80 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		kv_cp := resize (fpout, kv_cp);
---		report_error ("fail Kv_cp*(Vdd-Vdd0)", kv_cp, to_sfixed (0.5*(3.319-3.3), kv_cp)); -- 0.5*(3.319-3.3)
+--		report_error_normalize ("fail Kv_cp*(Vdd-Vdd0)", kv_cp, to_sfixed (0.5*(3.319-3.3), kv_cp)); -- 0.5*(3.319-3.3)
 --		state := w80;
 --when w80 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s81; else v_wait1 := v_wait1 + 1; state := w80; end if;
 --when s81 =>
 --		fptmp1 := to_sfixed (1.0, fptmp1);
---		report_error ("fail 1.0", fptmp1, to_sfixed (1.0, fptmp1)); -- 1.0
+--		report_error_normalize ("fail 1.0", fptmp1, to_sfixed (1.0, fptmp1)); -- 1.0
 ----		cmd <= "0000"; -- 1+Kv_cp*(Vdd-Vdd0)
 --		in1add <= fptmp1;
 --		in2add <= kv_cp;
@@ -1151,7 +1149,7 @@ report "0-0-0" severity failure;
 --when s82 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		kv_cp := resize (fpout, kv_cp);
---		report_error ("fail 1+Kv_cp*(Vdd-Vdd0)", kv_cp, to_sfixed (1.0+(0.5*(3.319-3.3)), kv_cp)); -- 1.0+(0.5*(3.319-3.3))
+--		report_error_normalize ("fail 1+Kv_cp*(Vdd-Vdd0)", kv_cp, to_sfixed (1.0+(0.5*(3.319-3.3)), kv_cp)); -- 1.0+(0.5*(3.319-3.3))
 --		state := w82;
 --when w82 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s83; else v_wait1 := v_wait1 + 1; state := w82; end if;
@@ -1165,7 +1163,7 @@ report "0-0-0" severity failure;
 --when s84 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		ktacp_kvcp_mul := resize (fpout, ktacp_kvcp_mul);
---		report_error ("fail (1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))", ktacp_kvcp_mul, to_sfixed ((1.0+(0.00457763671875*(39.184-25.0)))*(1.0+(0.5*(3.319-3.3))), ktacp_kvcp_mul)); -- (1.0+(0.00457763671875*(39.184-25.0)))*(1.0+(0.5*(3.319-3.3)))
+--		report_error_normalize ("fail (1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))", ktacp_kvcp_mul, to_sfixed ((1.0+(0.00457763671875*(39.184-25.0)))*(1.0+(0.5*(3.319-3.3))), ktacp_kvcp_mul)); -- (1.0+(0.00457763671875*(39.184-25.0)))*(1.0+(0.5*(3.319-3.3)))
 --		state := w84;
 --when w84 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s85; else v_wait1 := v_wait1 + 1; state := w84; end if;
@@ -1179,7 +1177,7 @@ report "0-0-0" severity failure;
 --when s86 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		pixos_cp_sp0 := resize (fpout, pixos_cp_sp0);
---		report_error ("fail OFF_CPsubpage_0*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))", pixos_cp_sp0, to_sfixed((-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)), pixos_cp_sp0)); -- (-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))
+--		report_error_normalize ("fail OFF_CPsubpage_0*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))", pixos_cp_sp0, to_sfixed((-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)), pixos_cp_sp0)); -- (-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))
 --		state := w86;
 --when w86 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s87; else v_wait1 := v_wait1 + 1; state := w86; end if;
@@ -1193,8 +1191,8 @@ report "0-0-0" severity failure;
 --when s88 =>
 --		fpout := to_sfixed (to_slv (out1sub), fpout);
 --		pixos_cp_sp0 := resize (fpout, pixos_cp_sp0);
---		report_error ("fail PIXgain_cp_sp0-OFF_CPsubpage_0*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))", pixos_cp_sp0, to_sfixed ((-54.9469153515065)-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)), pixos_cp_sp0)); -- (-54.9469153515065)-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))
---		report_error ("fail PIXgain_cp_sp0-OFF_CPsubpage_0*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) const", pixos_cp_sp0, to_sfixed (25.6666575059956, pixos_cp_sp0)); -- 25.6666575059956
+--		report_error_normalize ("fail PIXgain_cp_sp0-OFF_CPsubpage_0*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))", pixos_cp_sp0, to_sfixed ((-54.9469153515065)-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)), pixos_cp_sp0)); -- (-54.9469153515065)-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))
+--		report_error_normalize ("fail PIXgain_cp_sp0-OFF_CPsubpage_0*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) const", pixos_cp_sp0, to_sfixed (25.6666575059956, pixos_cp_sp0)); -- 25.6666575059956
 --		state := w88;
 --when w88 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s89; else v_wait1 := v_wait1 + 1; state := w88; end if;
@@ -1208,7 +1206,7 @@ report "0-0-0" severity failure;
 --when s90 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		pixos_cp_sp1 := resize (fpout, pixos_cp_sp1);
---		--report_error("fail OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))", pixos_cp_sp1, to_sfixed ((-77.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)), pixos_cp_sp1)); -- (-77.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))
+--		--report_error_normalize("fail OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))", pixos_cp_sp1, to_sfixed ((-77.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)), pixos_cp_sp1)); -- (-77.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))
 --		state := w90;
 --when w90 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s91; else v_wait1 := v_wait1 + 1; state := w90; end if;
@@ -1222,9 +1220,9 @@ report "0-0-0" severity failure;
 --when s92 =>
 --		fpout := to_sfixed (to_slv (out1sub), fpout);
 --		pixos_cp_sp1 := resize (fpout, pixos_cp_sp1);
---		report_error ("fail PIXgain_cp_sp1-OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))", pixos_cp_sp1, to_sfixed ((-56.9819862904511)-(-77.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)), pixos_cp_sp1)); -- (-56.9819862904511)-(-77.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))
---		report_error ("fail PIXgain_cp_sp1-OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) const", pixos_cp_sp1, to_sfixed (21.63158656770509, pixos_cp_sp1)); -- 21.63158656770509 -- xxx ??? ERROR on page 41 ??? xxx
---		report_error ("fail PIXgain_cp_sp1-OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) const, error ? on page 41 => pixos_cp_sp1 = 21.63158656770509", pixos_cp_sp1, to_sfixed (25.79655775862116562500, pixos_cp_sp1)); -- 25.79655775862116562500 -- xxx from bc calculator
+--		report_error_normalize ("fail PIXgain_cp_sp1-OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))", pixos_cp_sp1, to_sfixed ((-56.9819862904511)-(-77.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)), pixos_cp_sp1)); -- (-56.9819862904511)-(-77.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))
+--		report_error_normalize ("fail PIXgain_cp_sp1-OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) const", pixos_cp_sp1, to_sfixed (21.63158656770509, pixos_cp_sp1)); -- 21.63158656770509 -- xxx ??? ERROR on page 41 ??? xxx
+--		report_error_normalize ("fail PIXgain_cp_sp1-OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) const, error ? on page 41 => pixos_cp_sp1 = 21.63158656770509", pixos_cp_sp1, to_sfixed (25.79655775862116562500, pixos_cp_sp1)); -- 25.79655775862116562500 -- xxx from bc calculator
 --		state := w92;
 --when w92 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s93; else v_wait1 := v_wait1 + 1; state := w92; end if;
@@ -1238,20 +1236,20 @@ report "0-0-0" severity failure;
 ----		),tmpuf1
 ----		);
 --		tmpuf1 := to_ufixed (0.0, tmpuf1);
---		report_error ("fail pixelnumber12_16 xor uf", tmpuf1, to_ufixed (0.0, tmpuf1));
+--		report_error_normalize ("fail pixelnumber12_16 xor uf", tmpuf1, to_ufixed (0.0, tmpuf1));
 --		tmpsf1 := to_sfixed (tmpuf1)(0 downto 0);
-----		report_error ("fail pixelnumber12_16 xor sf", tmpsf1, to_sfixed (0.0, tmpsf1));
+----		report_error_normalize ("fail pixelnumber12_16 xor sf", tmpsf1, to_sfixed (0.0, tmpsf1));
 --		ch_pattern_12_16_u := resize (tmpuf1, ch_pattern_12_16_u);
---		report_error ("fail ch_pattern_12_16_u", ch_pattern_12_16_u, to_ufixed (0.0, ch_pattern_12_16_u)); -- 0
+--		report_error_normalize ("fail ch_pattern_12_16_u", ch_pattern_12_16_u, to_ufixed (0.0, ch_pattern_12_16_u)); -- 0
 --		ch_pattern_12_16_s := resize (to_sfixed (ch_pattern_12_16_u), ch_pattern_12_16_s);
---		report_error ("fail ch_pattern_12_16_s", ch_pattern_12_16_s, to_sfixed (0.0, ch_pattern_12_16_s)); -- 0
+--		report_error_normalize ("fail ch_pattern_12_16_s", ch_pattern_12_16_s, to_sfixed (0.0, ch_pattern_12_16_s)); -- 0
 --		ch_pattern_12_16 := ch_pattern_12_16_s;
---		report_error ("fail ch_pattern_12_16 after convert u->s", ch_pattern_12_16, to_sfixed (0.0, ch_pattern_12_16)); -- 0
+--		report_error_normalize ("fail ch_pattern_12_16 after convert u->s", ch_pattern_12_16, to_sfixed (0.0, ch_pattern_12_16)); -- 0
 --		sftmp_slv_16 := x"f020" and x"003f"; -- ee[0x243c]
 --		tgcee := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), tgcee);
---		report_error ("fail tgcee", tgcee, to_sfixed (32.0, tgcee)); -- 32
+--		report_error_normalize ("fail tgcee", tgcee, to_sfixed (32.0, tgcee)); -- 32
 --		tgcee := tgcee srl 5;
---		report_error ("fail tgcee/2^5", tgcee, to_sfixed (1.0, tgcee)); -- 1
+--		report_error_normalize ("fail tgcee/2^5", tgcee, to_sfixed (1.0, tgcee)); -- 1
 --		tgc := tgcee;
 --		state := w93;
 --when w93 =>
@@ -1266,13 +1264,13 @@ report "0-0-0" severity failure;
 --when s95 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		pixospatt1 := resize (fpout, pixospatt1);
---		report_error ("fail pixospatt1", pixospatt1, to_sfixed (to_real (ch_pattern_12_16)*to_real (pixos_cp_sp1), pixospatt1)); -- ch_pattern_12_16*pixos_cp_sp1
+--		report_error_normalize ("fail pixospatt1", pixospatt1, to_sfixed (to_real (ch_pattern_12_16)*to_real (pixos_cp_sp1), pixospatt1)); -- ch_pattern_12_16*pixos_cp_sp1
 --		state := w95;
 --when w95 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s96; else v_wait1 := v_wait1 + 1; state := w95; end if;
 --when s96 =>
 --		fptmp1 := to_sfixed (1.0, fptmp1);
---		report_error ("fail 1.0", fptmp1, to_sfixed (1.0, fptmp1)); -- 1.0
+--		report_error_normalize ("fail 1.0", fptmp1, to_sfixed (1.0, fptmp1)); -- 1.0
 ----		cmd <= "0001"; -- - (1-CHIL_pattern)
 --		in1sub <= fptmp1;
 --		in2sub <= ch_pattern_12_16;
@@ -1282,7 +1280,7 @@ report "0-0-0" severity failure;
 --when s97 =>
 --		fpout := to_sfixed (to_slv (out1sub), fpout);
 --		ch_pattern_12_16_minusone := resize (fpout, ch_pattern_12_16_minusone);
---		report_error ("fail ch_pattern_12_16_minusone", ch_pattern_12_16_minusone, to_sfixed (1.0-to_real (ch_pattern_12_16), ch_pattern_12_16_minusone)); -- 1.0-ch_pattern_12_16
+--		report_error_normalize ("fail ch_pattern_12_16_minusone", ch_pattern_12_16_minusone, to_sfixed (1.0-to_real (ch_pattern_12_16), ch_pattern_12_16_minusone)); -- 1.0-ch_pattern_12_16
 --		state := w97;
 --when w97 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s98; else v_wait1 := v_wait1 + 1; state := w97; end if;
@@ -1296,7 +1294,7 @@ report "0-0-0" severity failure;
 --when s99 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		pixospatt2 := resize (fpout, pixospatt2);
---		report_error ("fail pixospatt2", pixospatt2, to_sfixed (to_real (ch_pattern_12_16_minusone)*to_real (pixos_cp_sp0), pixospatt2)); -- ch_pattern_12_16_minusone*pixos_cp_sp0
+--		report_error_normalize ("fail pixospatt2", pixospatt2, to_sfixed (to_real (ch_pattern_12_16_minusone)*to_real (pixos_cp_sp0), pixospatt2)); -- ch_pattern_12_16_minusone*pixos_cp_sp0
 --		state := w99;
 --when w99 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s100; else v_wait1 := v_wait1 + 1; state := w99; end if;
@@ -1310,8 +1308,8 @@ report "0-0-0" severity failure;
 --when s101 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		pixospatt12 := resize (fpout, pixospatt12);
---		report_error ("fail ((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1)", pixospatt12, to_sfixed (((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)))), pixospatt12)); -- :E
---		report_error ("fail ((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) const", pixospatt12, to_sfixed(21.6315865670509, pixospatt12)); -- xxx ??? error on page 42 : right side vir_12_16_compensated
+--		report_error_normalize ("fail ((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1)", pixospatt12, to_sfixed (((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)))), pixospatt12)); -- :E
+--		report_error_normalize ("fail ((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) const", pixospatt12, to_sfixed(21.6315865670509, pixospatt12)); -- xxx ??? error on page 42 : right side vir_12_16_compensated
 --		state := w101;
 --when w101 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s102; else v_wait1 := v_wait1 + 1; state := w101; end if;
@@ -1325,8 +1323,8 @@ report "0-0-0" severity failure;
 --when s103 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		pixospatt12 := resize (fpout, pixospatt12);
---		report_error ("fail TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1)", pixospatt12, to_sfixed ((1.0*((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))), pixospatt12)); -- :E
---		report_error ("fail TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) const", pixospatt12, to_sfixed (21.6315865670509, pixospatt12)); -- xxx ??? error on page 42 : right side vir_12_16_compensated
+--		report_error_normalize ("fail TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1)", pixospatt12, to_sfixed ((1.0*((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))), pixospatt12)); -- :E
+--		report_error_normalize ("fail TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) const", pixospatt12, to_sfixed (21.6315865670509, pixospatt12)); -- xxx ??? error on page 42 : right side vir_12_16_compensated
 --		state := w103;
 --when w103 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s104; else v_wait1 := v_wait1 + 1; state := w103; end if;
@@ -1340,8 +1338,8 @@ report "0-0-0" severity failure;
 --when s105 =>
 --		fpout := to_sfixed (to_slv (out1sub), fpout);
 --		vir_12_16_compensated := resize (fpout, vir_12_16_compensated);
---		report_error ("fail VIR(12,16)EMISSIVITY_COMPENSATED-TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1)", vir_12_16_compensated, to_sfixed ((700.882495690877-(1.0*((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)))))), vir_12_16_compensated)); -- :E
---		report_error ("fail VIR(12,16)EMISSIVITY_COMPENSATED-TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) const", vir_12_16_compensated, to_sfixed (679.250909123826, pixospatt12)); -- xxx ??? error on page 42 : right side vir_12_16_compensated
+--		report_error_normalize ("fail VIR(12,16)EMISSIVITY_COMPENSATED-TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1)", vir_12_16_compensated, to_sfixed ((700.882495690877-(1.0*((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)))))), vir_12_16_compensated)); -- :E
+--		report_error_normalize ("fail VIR(12,16)EMISSIVITY_COMPENSATED-TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) const", vir_12_16_compensated, to_sfixed (679.250909123826, pixospatt12)); -- xxx ??? error on page 42 : right side vir_12_16_compensated
 --		state := w105;
 --when w105 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s106; else v_wait1 := v_wait1 + 1; state := w105; end if;
@@ -1351,9 +1349,9 @@ report "0-0-0" severity failure;
 --		tmpslv4 := sftmp_slv_16 (3 downto 0);
 --		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
 --		ascalecp := resize (tmpsf4, ascalecp);
---		report_error ("fail ascalecp", ascalecp, to_sfixed (7.0, ascalecp)); -- 7
+--		report_error_normalize ("fail ascalecp", ascalecp, to_sfixed (7.0, ascalecp)); -- 7
 --		fptmp2 := to_sfixed (27.0, fptmp2);
---		report_error ("fail 27.0", fptmp2, to_sfixed (27.0, fptmp2));
+--		report_error_normalize ("fail 27.0", fptmp2, to_sfixed (27.0, fptmp2));
 ----		cmd <= "0000"; -- +Ascale_cp+27
 --		in1add <= ascalecp;
 --		in2add <= fptmp2;
@@ -1363,20 +1361,20 @@ report "0-0-0" severity failure;
 --when s107 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		ascalecp := resize (fpout, ascalecp);
---		report_error ("fail ascalecp", ascalecp, to_sfixed (34.0, ascalecp)); -- 34
+--		report_error_normalize ("fail ascalecp", ascalecp, to_sfixed (34.0, ascalecp)); -- 34
 --		sftmp_slv_16 := x"e446" and x"fc00"; -- ee[0x2439]
 --		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 10));
 --		tmpslv6 := sftmp_slv_16 (5 downto 0);
 --		tmpsf6 := to_sfixed (tmpslv6, tmpsf6);
 --		cpp1p0ratio := resize (tmpsf6, cpp1p0ratio);
---		report_error ("fail cpp1p0ratio", cpp1p0ratio, to_sfixed (-7.0, cpp1p0ratio)); -- -7
+--		report_error_normalize ("fail cpp1p0ratio", cpp1p0ratio, to_sfixed (-7.0, cpp1p0ratio)); -- -7
 --		sftmp_slv_16 := x"e446" and x"03ff"; -- ee[0x2439]
 --		tmpslv10 := sftmp_slv_16 (9 downto 0);
 --		tmpsf10 := to_sfixed (tmpslv10, tmpsf10);
 --		acpsubpage0 := resize (tmpsf10, acpsubpage0);
---		report_error ("fail acpsubpage0 - xxx", acpsubpage0, to_sfixed (70.0, acpsubpage0)); -- 70
+--		report_error_normalize ("fail acpsubpage0 - xxx", acpsubpage0, to_sfixed (70.0, acpsubpage0)); -- 70
 --		ascalecp := to_sfixed (1.0, ascalecp) sll to_integer (ascalecp);
---		report_error ("2^ascalecp", ascalecp, to_sfixed (17179869184.0, ascalecp)); -- 2**34
+--		report_error_normalize ("2^ascalecp", ascalecp, to_sfixed (17179869184.0, ascalecp)); -- 2**34
 ----		cmd <= "0011"; -- / acpsubpage0/2^ascalecp
 --		in1div <= acpsubpage0;
 --		in2div <= ascalecp;
@@ -1386,9 +1384,9 @@ report "0-0-0" severity failure;
 --when s108 =>
 --		fpout := to_sfixed (to_slv (out1div), fpout);
 --		acpsubpage0 := resize (fpout, acpsubpage0);
---		report_error ("fail acpsubpage0", acpsubpage0, to_sfixed (0.00000000407453626394272, acpsubpage0)); -- 0.00000000407453626394272
+--		report_error_normalize ("fail acpsubpage0", acpsubpage0, to_sfixed (0.00000000407453626394272, acpsubpage0)); -- 0.00000000407453626394272
 --		fptmp2 := to_sfixed (2**7, fptmp2);
---		report_error ("fail 2**7", fptmp2, to_sfixed (2**7, fptmp2));		
+--		report_error_normalize ("fail 2**7", fptmp2, to_sfixed (2**7, fptmp2));		
 ----		cmd <= "0011"; -- / cpp1p0ratio/2^7
 --		in1div <= cpp1p0ratio;
 --		in2div <= fptmp2;
@@ -1398,9 +1396,9 @@ report "0-0-0" severity failure;
 --when s109 =>
 --		fpout := to_sfixed (to_slv (out1div), fpout);
 --		cpp1p0ratio := resize (fpout, cpp1p0ratio);
---		report_error ("fail cpp1p0ratio 1", cpp1p0ratio, to_sfixed (-0.05468750000000000000, cpp1p0ratio)); -- -0.05468750000000000000
+--		report_error_normalize ("fail cpp1p0ratio 1", cpp1p0ratio, to_sfixed (-0.05468750000000000000, cpp1p0ratio)); -- -0.05468750000000000000
 --		fptmp1 := to_sfixed (1.0, fptmp1);
---		report_error ("fail 1.0", fptmp1, to_sfixed (1.0, fptmp1));
+--		report_error_normalize ("fail 1.0", fptmp1, to_sfixed (1.0, fptmp1));
 ----		cmd <= "0000"; -- + 1+(cpp1p0ratio/2^7)
 --		in1add <= fptmp1;
 --		in2add <= cpp1p0ratio;
@@ -1410,7 +1408,7 @@ report "0-0-0" severity failure;
 --when s110 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		cpp1p0ratio := resize (fpout, cpp1p0ratio);
---		report_error ("fail cpp1p0ratio 2", cpp1p0ratio, to_sfixed (1.0+(-0.05468750000000000000), cpp1p0ratio)); -- 0.9453125
+--		report_error_normalize ("fail cpp1p0ratio 2", cpp1p0ratio, to_sfixed (1.0+(-0.05468750000000000000), cpp1p0ratio)); -- 0.9453125
 ----		cmd <= "0010"; -- * acpsubpage0*(1+(cpp1p0ratio/2^7))
 --		in1mul <= acpsubpage0;
 --		in2mul <= cpp1p0ratio;
@@ -1420,16 +1418,16 @@ report "0-0-0" severity failure;
 --when s111 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		acpsubpage1 := resize (fpout, acpsubpage1);
---		report_error ("fail acpsubpage1", acpsubpage1, to_sfixed ((0.00000000407453626394272)*(0.9453125), acpsubpage1)); -- 0.00000000407453626394272*0.9453125
---		report_error ("fail acpsubpage1 const", acpsubpage1, to_sfixed (0.00000000385171006200835, acpsubpage1)); -- 0.00000000385171006200835
+--		report_error_normalize ("fail acpsubpage1", acpsubpage1, to_sfixed ((0.00000000407453626394272)*(0.9453125), acpsubpage1)); -- 0.00000000407453626394272*0.9453125
+--		report_error_normalize ("fail acpsubpage1 const", acpsubpage1, to_sfixed (0.00000000385171006200835, acpsubpage1)); -- 0.00000000385171006200835
 --		sftmp_slv_16 := x"f020" and x"ff00"; -- ee[0x243c]
 --		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 8));
 --		tmpslv8 := sftmp_slv_16 (7 downto 0);
 --		tmpsf8 := to_sfixed (tmpslv8, tmpsf8);
 --		kstaee := resize (tmpsf8, kstaee);
---		report_error ("fail kstaee", kstaee, to_sfixed (-16.0, kstaee)); -- -16
+--		report_error_normalize ("fail kstaee", kstaee, to_sfixed (-16.0, kstaee)); -- -16
 --		fptmp2 := to_sfixed (2**13, fptmp2);
---		report_error ("fail 2**13", fptmp2, to_sfixed (2**13, fptmp2)); -- 2**13
+--		report_error_normalize ("fail 2**13", fptmp2, to_sfixed (2**13, fptmp2)); -- 2**13
 ----		cmd <= "0011"; -- / kstaee/2^13
 --		in1div <= kstaee;
 --		in2div <= fptmp2;
@@ -1439,18 +1437,18 @@ report "0-0-0" severity failure;
 --when s112 =>
 --		fpout := to_sfixed (to_slv (out1div), fpout);
 --		ksta := resize (fpout, ksta);
---		report_error ("fail ksta", ksta, to_sfixed (-0.001953125, ksta)); -- -0.001953125
+--		report_error_normalize ("fail ksta", ksta, to_sfixed (-0.001953125, ksta)); -- -0.001953125
 --		sftmp_slv_16 := x"2f44" and x"ffff"; -- ee[0x2421]
 --		areference := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), areference);
---		report_error ("fail areference", areference, to_sfixed (12100.0, areference)); -- 12100
+--		report_error_normalize ("fail areference", areference, to_sfixed (12100.0, areference)); -- 12100
 --		sftmp_slv_16 := x"79a6" and x"f000"; -- ee[0x2420]
 --		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 12));
 --		tmpslv4 := sftmp_slv_16 (3 downto 0);
 --		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
 --		ascale := resize (tmpsf4, ascale);
---		report_error ("fail ascale", ascale, to_sfixed (7.0, ascale)); -- 7
+--		report_error_normalize ("fail ascale", ascale, to_sfixed (7.0, ascale)); -- 7
 --		fptmp2 := to_sfixed (30.0, fptmp2);
---		report_error ("fail 30.0", fptmp2, to_sfixed (30.0, fptmp2));
+--		report_error_normalize ("fail 30.0", fptmp2, to_sfixed (30.0, fptmp2));
 ----		cmd <= "0000"; -- + ascale+30
 --		in1add <= ascale;
 --		in2add <= fptmp2;
@@ -1460,44 +1458,44 @@ report "0-0-0" severity failure;
 --when s113 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		ascale := resize (fpout, ascale);
---		report_error ("fail ascale", ascale, to_sfixed (37.0, ascale)); -- 37
+--		report_error_normalize ("fail ascale", ascale, to_sfixed (37.0, ascale)); -- 37
 --		sftmp_slv_16 := x"3333" and x"f000"; -- ee[0x2424]
 --		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 12));
 --		tmpslv4 := sftmp_slv_16 (3 downto 0);
 --		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
 --		accrow12 := resize (tmpsf4, accrow12);
---		report_error ("fail accrow12", accrow12, to_sfixed (3.0, accrow12)); -- 3
+--		report_error_normalize ("fail accrow12", accrow12, to_sfixed (3.0, accrow12)); -- 3
 --		sftmp_slv_16 := x"3333" and x"f000"; -- ee[0x242b]
 --		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 12));
 --		tmpslv4 := sftmp_slv_16 (3 downto 0);
 --		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
 --		acccolumn16 := resize (tmpsf4, acccolumn16);
---		report_error ("fail acccolumn16", acccolumn16, to_sfixed (3.0, acccolumn16)); -- 3
+--		report_error_normalize ("fail acccolumn16", acccolumn16, to_sfixed (3.0, acccolumn16)); -- 3
 --		sftmp_slv_16 := x"79a6" and x"0f00"; -- ee[0x2420]
 --		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 8));
 --		accscalerow := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), accscalerow);
---		report_error ("fail accscalerow", accscalerow, to_sfixed (9.0, accscalerow)); -- 9
+--		report_error_normalize ("fail accscalerow", accscalerow, to_sfixed (9.0, accscalerow)); -- 9
 --		sftmp_slv_16 := x"79a6" and x"00f0"; -- ee[0x2420]
 --		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 4));
 --		accscalecolumn := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), accscalecolumn);
---		report_error ("fail accscalecolumn", accscalecolumn, to_sfixed (10.0, accscalecolumn)); -- 10
+--		report_error_normalize ("fail accscalecolumn", accscalecolumn, to_sfixed (10.0, accscalecolumn)); -- 10
 --		sftmp_slv_16 := x"79a6" and x"000f"; -- ee[0x2420]
 --		tmpslv4 := sftmp_slv_16 (3 downto 0);
 --		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
 --		accscaleremnant := resize (tmpsf4, accscaleremnant);
---		report_error ("fail accscaleremnant", accscaleremnant, to_sfixed (6.0, accscaleremnant)); -- 6
+--		report_error_normalize ("fail accscaleremnant", accscaleremnant, to_sfixed (6.0, accscaleremnant)); -- 6
 --		sftmp_slv_16 := x"08a0" and x"03f0"; -- ee[0x258f]
 --		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 4));
 --		tmpslv6 := sftmp_slv_16 (5 downto 0);
 --		tmpsf6 := to_sfixed (tmpslv6, tmpsf6);
 --		apixel_12_16 := resize (tmpsf6, apixel_12_16);
---		report_error ("fail apixel_12_16", apixel_12_16, to_sfixed (10.0, apixel_12_16)); -- 10
+--		report_error_normalize ("fail apixel_12_16", apixel_12_16, to_sfixed (10.0, apixel_12_16)); -- 10
 --		accsro := to_sfixed (1.0, accsro) sll to_integer (accscalerow);
---		report_error ("fail 2^accscalerow", accsro, to_sfixed (2**9, accsro)); -- 2**9
+--		report_error_normalize ("fail 2^accscalerow", accsro, to_sfixed (2**9, accsro)); -- 2**9
 --		accsc := to_sfixed (1.0, accsc) sll to_integer (accscalecolumn);
---		report_error ("fail 2^accscalecolumn", accsc, to_sfixed (2**10, accsc)); -- 2**10
+--		report_error_normalize ("fail 2^accscalecolumn", accsc, to_sfixed (2**10, accsc)); -- 2**10
 --		accsre := to_sfixed (1.0, accsre) sll to_integer (accscaleremnant);
---		report_error ("fail 2^accscaleremnant", accsre, to_sfixed (2**6, accsre)); -- 2**6
+--		report_error_normalize ("fail 2^accscaleremnant", accsre, to_sfixed (2**6, accsre)); -- 2**6
 --		state := w113;
 --when w113 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s114; else v_wait1 := v_wait1 + 1; state := w113; end if;
@@ -1511,7 +1509,7 @@ report "0-0-0" severity failure;
 --when s115 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		accsror := resize (fpout, accsror);
---		report_error ("fail accsror", accsror, to_sfixed (3.0*(2**9), accsror)); -- 3.0*(2**9)
+--		report_error_normalize ("fail accsror", accsror, to_sfixed (3.0*(2**9), accsror)); -- 3.0*(2**9)
 ----		cmd <= "0010"; -- * acccolumn16*2^accscalecolumn
 --		in1mul <= acccolumn16;
 --		in2mul <= accsc;
@@ -1521,7 +1519,7 @@ report "0-0-0" severity failure;
 --when s116 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		accscr := resize (fpout, accscr);
---		report_error ("fail accscr", accscr, to_sfixed (3.0*(2**10), accscr)); -- 3.0*(2**10)
+--		report_error_normalize ("fail accscr", accscr, to_sfixed (3.0*(2**10), accscr)); -- 3.0*(2**10)
 ----		cmd <= "0010"; -- * apixel_12_16*2^accscaleremnant
 --		in1mul <= apixel_12_16;
 --		in2mul <= accsre;
@@ -1531,7 +1529,7 @@ report "0-0-0" severity failure;
 --when s117 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		accsrer := resize (fpout, accsrer);
---		report_error ("fail accsrer", accsrer, to_sfixed (10.0*(2**6), accsrer)); -- 10.0*(2**6)
+--		report_error_normalize ("fail accsrer", accsrer, to_sfixed (10.0*(2**6), accsrer)); -- 10.0*(2**6)
 ----		cmd <= "0000"; -- + areference+(accrow12*2^accscalerow)
 --		in1add <= areference;
 --		in2add <= accsror;
@@ -1541,7 +1539,7 @@ report "0-0-0" severity failure;
 --when s118 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		a_12_16 := resize (fpout, a_12_16);
---		report_error ("fail a_12_16 1", a_12_16, to_sfixed (12100.0+3.0*(2**9), a_12_16)); -- 12100.0+(3.0*(2**9))
+--		report_error_normalize ("fail a_12_16 1", a_12_16, to_sfixed (12100.0+3.0*(2**9), a_12_16)); -- 12100.0+(3.0*(2**9))
 ----		cmd <= "0000"; -- + areference+(accrow12*2^accscalerow)+(acccolumn16*2^accscalecolumn)
 --		in1add <= a_12_16;
 --		in2add <= accscr;
@@ -1551,7 +1549,7 @@ report "0-0-0" severity failure;
 --when s119 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		a_12_16 := resize (fpout, a_12_16);
---		report_error ("fail a_12_16 2", a_12_16, to_sfixed (12100.0+(3.0*(2**9))+(3.0*(2**10)), a_12_16)); -- 12100.0+(3.0*(2**9))+(3.0*(2**10))
+--		report_error_normalize ("fail a_12_16 2", a_12_16, to_sfixed (12100.0+(3.0*(2**9))+(3.0*(2**10)), a_12_16)); -- 12100.0+(3.0*(2**9))+(3.0*(2**10))
 ----		cmd <= "0000"; -- + areference+(accrow12*2^accscalerow)+(acccolumn16*2^accscalecolumn)+(apixel_12_16*2^accscaleremnant)
 --		in1add <= a_12_16;
 --		in2add <= accsrer;
@@ -1561,9 +1559,9 @@ report "0-0-0" severity failure;
 --when s120 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		a_12_16 := resize (fpout, a_12_16);
---		report_error ("fail a_12_16 3", a_12_16, to_sfixed (12100.0+(3.0*(2**9))+(3.0*(2**10))+(10.0*(2**6)), a_12_16)); -- 12100.0+(3.0*(2**9))+(3.0*(2**10))+(10*(2**6))
+--		report_error_normalize ("fail a_12_16 3", a_12_16, to_sfixed (12100.0+(3.0*(2**9))+(3.0*(2**10))+(10.0*(2**6)), a_12_16)); -- 12100.0+(3.0*(2**9))+(3.0*(2**10))+(10*(2**6))
 --		ascale := to_sfixed (1.0, ascale) sll to_integer (ascale);
---		report_error ("fail 2^ascale", ascale, to_sfixed (137438953472.0, ascale)); -- 137438953472
+--		report_error_normalize ("fail 2^ascale", ascale, to_sfixed (137438953472.0, ascale)); -- 137438953472
 ----		cmd <= "0011"; -- / (12100.0+(3.0*(2**9))+(3.0*(2**10))+(10*(2**6)))/2^ascale
 --		in1div <= a_12_16;
 --		in2div <= ascale;
@@ -1573,7 +1571,7 @@ report "0-0-0" severity failure;
 --when s121 =>
 --		fpout := to_sfixed (to_slv (out1div), fpout);
 --		a_12_16 := resize (fpout, a_12_16);
---		report_error ("fail a_12_16 4", a_12_16, to_sfixed (0.000000126223312690865, a_12_16)); -- 0.000000126223312690865
+--		report_error_normalize ("fail a_12_16 4", a_12_16, to_sfixed (0.000000126223312690865, a_12_16)); -- 0.000000126223312690865
 ----		cmd <= "0010"; -- * Ksta*(Ta-Ta0)
 --		in1mul <= ksta;
 --		in2mul <= tad;
@@ -1583,9 +1581,9 @@ report "0-0-0" severity failure;
 --when s122 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		ksta := resize (fpout, ksta);
---		report_error ("fail Ksta*(Ta-Ta0)", ksta, to_sfixed (-0.001953125*(39.184-25.0), ksta)); -- -0.001953125*(39.184-25.0)
+--		report_error_normalize ("fail Ksta*(Ta-Ta0)", ksta, to_sfixed (-0.001953125*(39.184-25.0), ksta)); -- -0.001953125*(39.184-25.0)
 --		fptmp1 := to_sfixed (1.0, fptmp1);
---		report_error ("fail 1.0", fptmp1, to_sfixed (1.0, fptmp1));
+--		report_error_normalize ("fail 1.0", fptmp1, to_sfixed (1.0, fptmp1));
 ----		cmd <= "0000"; -- + 1+(Ksta*(Ta-Ta0))
 --		in1add <= fptmp1;
 --		in2add <= ksta;
@@ -1595,7 +1593,7 @@ report "0-0-0" severity failure;
 --when s123 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		ksta := resize (fpout, ksta);
---		report_error ("fail 1+(Ksta*(Ta-Ta0))", ksta, to_sfixed (1.0+(-0.001953125*(39.184-25.0)), ksta)); -- 1+(-0.001953125*(39.184-25.0))
+--		report_error_normalize ("fail 1+(Ksta*(Ta-Ta0))", ksta, to_sfixed (1.0+(-0.001953125*(39.184-25.0)), ksta)); -- 1+(-0.001953125*(39.184-25.0))
 ----		cmd <= "0010"; -- * pattern*acpsubpage1
 --		in1mul <= ch_pattern_12_16;
 --		in2mul <= acpsubpage1;
@@ -1605,7 +1603,7 @@ report "0-0-0" severity failure;
 --when s124 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		acpsubpagepatt1 := resize (fpout, acpsubpagepatt1);
---		report_error ("fail pattern*acpsubpage1", acpsubpagepatt1, to_sfixed (0.0*0.00000000385171006200835, acpsubpagepatt1)); -- 0*0.00000000385171006200835
+--		report_error_normalize ("fail pattern*acpsubpage1", acpsubpagepatt1, to_sfixed (0.0*0.00000000385171006200835, acpsubpagepatt1)); -- 0*0.00000000385171006200835
 ----		cmd <= "0010"; -- * (1-pattern)*acpsubpage0
 --		in1mul <= ch_pattern_12_16_minusone;
 --		in2mul <= acpsubpage0;
@@ -1615,7 +1613,7 @@ report "0-0-0" severity failure;
 --when s125 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		acpsubpagepatt0 := resize (fpout, acpsubpagepatt0);
---		report_error ("fail (1-pattern)*acpsubpage0", acpsubpagepatt0, to_sfixed ((1.0-0.0)*0.00000000407453626394272, acpsubpagepatt0)); -- (1-0)*0.00000000407453626394272
+--		report_error_normalize ("fail (1-pattern)*acpsubpage0", acpsubpagepatt0, to_sfixed ((1.0-0.0)*0.00000000407453626394272, acpsubpagepatt0)); -- (1-0)*0.00000000407453626394272
 ----		cmd <= "0000"; -- + (((1-pattern)*acpsubpage0)+(pattern*acpsubpage1))
 --		in1add <= acpsubpagepatt0;
 --		in2add <= acpsubpagepatt1;
@@ -1625,7 +1623,7 @@ report "0-0-0" severity failure;
 --when s126 => -- xxx LOL :ASDASDASD simulation stop here in isim 14.7 when state is signal
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		acpsubpagepatt01 := resize (fpout, acpsubpagepatt01);
---		report_error ("fail (((1-pattern)*acpsubpage0)+(pattern*acpsubpage1))", acpsubpagepatt01, to_sfixed (((1.0-0.0)*0.00000000407453626394272)+(0*0.00000000385171006200835), acpsubpagepatt0)); -- (1-0)*0.00000000407453626394272
+--		report_error_normalize ("fail (((1-pattern)*acpsubpage0)+(pattern*acpsubpage1))", acpsubpagepatt01, to_sfixed (((1.0-0.0)*0.00000000407453626394272)+(0*0.00000000385171006200835), acpsubpagepatt0)); -- (1-0)*0.00000000407453626394272
 ----		cmd <= "0010"; -- * tgc*(((1-pattern)*acpsubpage0)+(pattern*acpsubpage1))
 --		in1mul <= tgc;
 --		in2mul <= acpsubpagepatt01;
@@ -1635,7 +1633,7 @@ report "0-0-0" severity failure;
 --when s127 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		acpsubpagepatt01 := resize (fpout, acpsubpagepatt01);
---		report_error ("fail tgc*(((1-pattern)*acpsubpage0)+(pattern*acpsubpage1))", acpsubpagepatt01, to_sfixed (1.0*(((1.0-0.0)*0.00000000407453626394272)+(0*0.00000000385171006200835)), acpsubpagepatt0)); -- 1.0*(((1.0-0.0)*0.00000000407453626394272)+(0*0.00000000385171006200835))
+--		report_error_normalize ("fail tgc*(((1-pattern)*acpsubpage0)+(pattern*acpsubpage1))", acpsubpagepatt01, to_sfixed (1.0*(((1.0-0.0)*0.00000000407453626394272)+(0*0.00000000385171006200835)), acpsubpagepatt0)); -- 1.0*(((1.0-0.0)*0.00000000407453626394272)+(0*0.00000000385171006200835))
 ----		cmd <= "0001"; -- - a_12_16-(tgc*(((1-pattern)*acpsubpage0)+(pattern*acpsubpage1)))
 --		in1sub <= a_12_16;
 --		in2sub <= acpsubpagepatt01;
@@ -1646,7 +1644,7 @@ report "0-0-0" severity failure;
 --		fpout := to_sfixed (to_slv (out1sub), fpout);
 --		acomp_12_16 := resize (fpout, acomp_12_16);
 --		report_fixed_value ("acomp_12_16 1", acomp_12_16);
-----		report_error ("a_12_16-(tgc*(((1-pattern)*acpsubpage0)+(pattern*acpsubpage1)))", acomp_12_16, to_sfixed (0.000000126223312690865-(1.0*(((1.0-0.0)*0.00000000407453626394272)+(0*0.00000000385171006200835))), acomp_12_16)); -- 0.000000126223312690865-(1.0*(((1.0-0.0)*0.00000000407453626394272)+(0*0.00000000385171006200835)))
+----		report_error_normalize ("a_12_16-(tgc*(((1-pattern)*acpsubpage0)+(pattern*acpsubpage1)))", acomp_12_16, to_sfixed (0.000000126223312690865-(1.0*(((1.0-0.0)*0.00000000407453626394272)+(0*0.00000000385171006200835))), acomp_12_16)); -- 0.000000126223312690865-(1.0*(((1.0-0.0)*0.00000000407453626394272)+(0*0.00000000385171006200835)))
 --		acomp_12_16 := resize (scalb (acomp_12_16, 23), acomp_12_16);
 --		report_fixed_value ("acomp_12_16 2", acomp_12_16);
 ----		report_fixed_value ("bbb", resize (scalb (acomp_12_16, 23), someval'high, someval'low));
@@ -1659,18 +1657,18 @@ report "0-0-0" severity failure;
 --when s129 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		acomp_12_16 := resize (fpout, acomp_12_16);
---		report_error ("fail acomp_12_16", acomp_12_16, to_sfixed (0.00000011876487360496, acomp_12_16)); -- 0.00000011876487360496
+--		report_error_normalize ("fail acomp_12_16", acomp_12_16, to_sfixed (0.00000011876487360496, acomp_12_16)); -- 0.00000011876487360496
 --		sftmp_slv_16 := x"9797" and x"ff00"; -- ee[0x243d]
 --		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 8));
 --		tmpslv8 := sftmp_slv_16 (7 downto 0);
 --		tmpsf8 := to_sfixed (tmpslv8, tmpsf8);
 --		ksto2ee := resize (tmpsf8, ksto2ee);
---		report_error ("fail ksto2ee", ksto2ee, to_sfixed (-105.0, ksto2ee)); -- -105
+--		report_error_normalize ("fail ksto2ee", ksto2ee, to_sfixed (-105.0, ksto2ee)); -- -105
 --		sftmp_slv_16 := x"2889" and x"000f"; -- ee[0x243f]
 --		kstoscale := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), kstoscale);
---		report_error ("fail kstoscale", kstoscale, to_sfixed (9.0, kstoscale)); -- 9
+--		report_error_normalize ("fail kstoscale", kstoscale, to_sfixed (9.0, kstoscale)); -- 9
 --		fptmp2 := to_sfixed (8.0, fptmp2);
---		report_error ("fail 8.0", fptmp2, to_sfixed (8.0, fptmp2));
+--		report_error_normalize ("fail 8.0", fptmp2, to_sfixed (8.0, fptmp2));
 ----		cmd <= "0000"; -- + kstoscale+8
 --		in1add <= kstoscale;
 --		in2add <= fptmp2;
@@ -1680,9 +1678,9 @@ report "0-0-0" severity failure;
 --when s130 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		kstoscale := resize (fpout, kstoscale);
---		report_error ("fail kstoscale", kstoscale, to_sfixed (17.0, kstoscale)); -- 17
+--		report_error_normalize ("fail kstoscale", kstoscale, to_sfixed (17.0, kstoscale)); -- 17
 --		fptmp2 := to_sfixed (273.15, fptmp2);
---		report_error ("fail 273.15", fptmp2, to_sfixed (273.15, fptmp2));
+--		report_error_normalize ("fail 273.15", fptmp2, to_sfixed (273.15, fptmp2));
 ----		cmd <= "0000"; -- + Ta+273.15
 --		in1add <= Ta;
 --		in2add <= fptmp2;
@@ -1692,7 +1690,7 @@ report "0-0-0" severity failure;
 --when s131 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		tak4 := resize (fpout, tak4);
-----		report_error ("fail TaK4**1", tak4, to_sfixed (39.184+273.15, tak4)); -- 39.184+273.15
+----		report_error_normalize ("fail TaK4**1", tak4, to_sfixed (39.184+273.15, tak4)); -- 39.184+273.15
 ----		cmd <= "0010"; -- * TaK4*TaK4
 --		in1mul <= tak4;
 --		in2mul <= tak4;
@@ -1702,7 +1700,7 @@ report "0-0-0" severity failure;
 --when s132 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		fptmp1 := resize (fpout, fptmp1);
-----		report_error ("fail TaK4**2", fptmp1, to_sfixed ((39.184+273.15)*(39.184+273.15), fptmp1)); -- (39.184+273.15)**2
+----		report_error_normalize ("fail TaK4**2", fptmp1, to_sfixed ((39.184+273.15)*(39.184+273.15), fptmp1)); -- (39.184+273.15)**2
 ----		cmd <= "0010"; -- * TaK4*TaK4*TaK4
 --		in1mul <= fptmp1;
 --		in2mul <= tak4;
@@ -1712,7 +1710,7 @@ report "0-0-0" severity failure;
 --when s133 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		fptmp1 := resize (fpout, fptmp1);
-----		report_error ("fail TaK4**3", fptmp1, to_sfixed ((39.184+273.15)*(39.184+273.15)*(39.184+273.15), fptmp1)); -- (39.184+273.15)**3
+----		report_error_normalize ("fail TaK4**3", fptmp1, to_sfixed ((39.184+273.15)*(39.184+273.15)*(39.184+273.15), fptmp1)); -- (39.184+273.15)**3
 ----		cmd <= "0010"; -- * TaK4*TaK4*TaK4*TaK4
 --		in1mul <= fptmp1;
 --		in2mul <= tak4;
@@ -1722,11 +1720,11 @@ report "0-0-0" severity failure;
 --when s134 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		fptmp1 := resize (fpout, fptmp1);
-----		report_error ("fail TaK4**4", fptmp1, to_sfixed (to_real (tak4)*to_real (tak4)*to_real (tak4)*to_real (tak4), fptmp1)); -- (39.184+273.15)**4
-----		report_error ("fail TaK4**4", fptmp1, to_sfixed ((39.184+273.15)*(39.184+273.15)*(39.184+273.15)*(39.184+273.15), fptmp1)); -- (39.184+273.15)**4
-----		report_error ("fail TaK4**4 const", fptmp1, to_sfixed (9516495632.56, fptmp1)); -- 9516495632.56
+----		report_error_normalize ("fail TaK4**4", fptmp1, to_sfixed (to_real (tak4)*to_real (tak4)*to_real (tak4)*to_real (tak4), fptmp1)); -- (39.184+273.15)**4
+----		report_error_normalize ("fail TaK4**4", fptmp1, to_sfixed ((39.184+273.15)*(39.184+273.15)*(39.184+273.15)*(39.184+273.15), fptmp1)); -- (39.184+273.15)**4
+----		report_error_normalize ("fail TaK4**4 const", fptmp1, to_sfixed (9516495632.56, fptmp1)); -- 9516495632.56
 --		fptmp2 := to_sfixed (8.0, fptmp2);
---		report_error ("fail 8.0", fptmp2, to_sfixed (8.0, fptmp2));
+--		report_error_normalize ("fail 8.0", fptmp2, to_sfixed (8.0, fptmp2));
 ----		cmd <= "0001"; -- - Ta-8
 --		in1sub <= Ta;
 --		in2sub <= fptmp2;
@@ -1736,7 +1734,7 @@ report "0-0-0" severity failure;
 --when s135 =>
 --		fpout := to_sfixed (to_slv (out1sub), fpout);
 --		trk4 := resize (fpout, trk4);
-----		report_error ("fail trk4", trk4, to_sfixed (31.184, trk4)); -- 31.184 ~31
+----		report_error_normalize ("fail trk4", trk4, to_sfixed (31.184, trk4)); -- 31.184 ~31
 ----		cmd <= "0010"; -- * acomp_12_16**2
 --		in1mul <= acomp_12_16;
 --		in2mul <= acomp_12_16;
@@ -1746,7 +1744,7 @@ report "0-0-0" severity failure;
 --when s136 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		acomp_12_16_pow3 := resize (fpout, acomp_12_16_pow3);
-----		report_error ("fail acomp_12_16**2", acomp_12_16_pow3, to_sfixed (to_real (acomp_12_16)*to_real (acomp_12_16), acomp_12_16_pow3)); -- acomp_12_16**2
+----		report_error_normalize ("fail acomp_12_16**2", acomp_12_16_pow3, to_sfixed (to_real (acomp_12_16)*to_real (acomp_12_16), acomp_12_16_pow3)); -- acomp_12_16**2
 ----		cmd <= "0010"; -- * acomp_12_16**3
 --		in1mul <= acomp_12_16_pow3;
 --		in2mul <= acomp_12_16;
@@ -1759,7 +1757,7 @@ report "0-0-0" severity failure;
 --		report_fixed_value ("fail acomp_12_16**3 1", acomp_12_16_pow3);
 --		acomp_12_16_pow3 := resize (scalb (acomp_12_16_pow3, -23), acomp_12_16_pow3);
 --		report_fixed_value ("fail acomp_12_16**3 2", acomp_12_16_pow3);
-----		report_error ("fail acomp_12_16**3", acomp_12_16_pow3, to_sfixed (to_real (acomp_12_16)*to_real (acomp_12_16)*to_real (acomp_12_16), acomp_12_16_pow3)); -- acomp_12_16**3
+----		report_error_normalize ("fail acomp_12_16**3", acomp_12_16_pow3, to_sfixed (to_real (acomp_12_16)*to_real (acomp_12_16)*to_real (acomp_12_16), acomp_12_16_pow3)); -- acomp_12_16**3
 ----		cmd <= "0010"; -- * acomp_12_16**4
 --		in1mul <= acomp_12_16_pow3;
 --		in2mul <= acomp_12_16;
@@ -1772,7 +1770,7 @@ report "0-0-0" severity failure;
 --		report_fixed_value ("fail acomp_12_16**4 1", acomp_12_16_pow4);
 --		acomp_12_16_pow4 := resize (scalb (acomp_12_16_pow4, -23), acomp_12_16_pow4);
 --		report_fixed_value ("fail acomp_12_16**4 2", acomp_12_16_pow4);
-----		report_error ("fail acomp_12_16**4", acomp_12_16_pow4, to_sfixed (to_real (acomp_12_16)*to_real (acomp_12_16)*to_real (acomp_12_16)*to_real (acomp_12_16), acomp_12_16_pow4)); -- acomp_12_16**4
+----		report_error_normalize ("fail acomp_12_16**4", acomp_12_16_pow4, to_sfixed (to_real (acomp_12_16)*to_real (acomp_12_16)*to_real (acomp_12_16)*to_real (acomp_12_16), acomp_12_16_pow4)); -- acomp_12_16**4
 ----		cmd <= "0010"; -- * acomp_12_16**3*vir_12_16_compensated
 --		in1mul <= acomp_12_16_pow3;
 --		in2mul <= vir_12_16_compensated;
@@ -1782,7 +1780,7 @@ report "0-0-0" severity failure;
 --when s139 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		fptmp1 := resize (fpout, fptmp1);
---		report_error ("fail acomp_12_16**3*vir_12_16_compensated", fptmp1, to_sfixed (((0.00000011876487360496)**3)*679.250909123826, fptmp1)); -- ((0.00000011876487360496)**3)*679.250909123826
+--		report_error_normalize ("fail acomp_12_16**3*vir_12_16_compensated", fptmp1, to_sfixed (((0.00000011876487360496)**3)*679.250909123826, fptmp1)); -- ((0.00000011876487360496)**3)*679.250909123826
 ----		cmd <= "0010"; -- * acomp_12_16**4*TaK4
 --		in1mul <= acomp_12_16_pow4;
 --		in2mul <= Tak4;
@@ -1792,7 +1790,7 @@ report "0-0-0" severity failure;
 --when s140 =>
 --		fpout := to_sfixed (to_slv (out1mul), fpout);
 --		fptmp2 := resize (fpout, fptmp2);
---		report_error ("fail acomp_12_16**4*TaK4", fptmp2, to_sfixed (((0.00000011876487360496)**4)*9516495632.56, fptmp2)); -- ((0.00000011876487360496)**4)*9516495632.56
+--		report_error_normalize ("fail acomp_12_16**4*TaK4", fptmp2, to_sfixed (((0.00000011876487360496)**4)*9516495632.56, fptmp2)); -- ((0.00000011876487360496)**4)*9516495632.56
 ----		cmd <= "0000"; -- + (acomp_12_16**3*vir_12_16_compensated)+(acomp_12_16**4*TaK4)
 --		in1add <= fptmp1;
 --		in1add <= fptmp2;
@@ -1802,7 +1800,7 @@ report "0-0-0" severity failure;
 --when s141 =>
 --		fpout := to_sfixed (to_slv (out1add), fpout);
 --		fptmp1 := resize (fpout, fptmp1);
---		report_error ("fail (acomp_12_16**3*vir_12_16_compensated)+(acomp_12_16**4*TaK4)", fptmp1, to_sfixed ((((0.00000011876487360496)**3)*679.250909123826)+(((0.00000011876487360496)**4)*9516495632.56), fptmp1)); -- (((0.00000011876487360496)**3)*679.250909123826)+(((0.00000011876487360496)**4)*9516495632.56)
+--		report_error_normalize ("fail (acomp_12_16**3*vir_12_16_compensated)+(acomp_12_16**4*TaK4)", fptmp1, to_sfixed ((((0.00000011876487360496)**3)*679.250909123826)+(((0.00000011876487360496)**4)*9516495632.56), fptmp1)); -- (((0.00000011876487360496)**3)*679.250909123826)+(((0.00000011876487360496)**4)*9516495632.56)
 --		o_out1 <= fptmp1;
 --report time'image(now) severity failure;
 
