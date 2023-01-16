@@ -130,7 +130,8 @@ begin
 		variable sftmp_sf_16 : sfixed15;
 		variable sftmp_slv_fpbits : std_logic_vector(FP_BITS-1 downto 0);
 		variable fptmp1,fptmp2,fpout : st_sfixed_max;
-		variable kvdd,vdd25 : st_sfixed_max;
+		variable vdd25 : sfixed (16 downto 0);
+		variable kvdd : sfixed (15 downto 0);
 		variable kvptat,ktptat : st_sfixed_max;
 		variable vdd,vddv0,deltaV : st_sfixed_max;
 		variable vptat,vbe : st_sfixed_max;
@@ -220,6 +221,9 @@ begin
 --		constant trk4 : st_sfixed_max := 8557586214.66; -- TaK4 = (Tr + 273.15)**4 Tr~Ta-8 Tr~31
 		variable trk4 : st_sfixed_max;
 		variable acomp_12_16_pow3,acomp_12_16_pow4 : st_sfixed_max;
+		attribute keep : boolean;
+		attribute keep of kvdd : variable is true;
+		attribute keep of vdd25 : variable is true;
 	begin
 		if (rising_edge(i_clock)) then
 			if (i_reset = '1') then
@@ -269,7 +273,7 @@ when s1 =>
 		fptmp2 := to_sfixed (2**8, fptmp2);
 		report_error ("fail 2**8", fptmp2, to_sfixed (2**8, fptmp2)); -- 256
 --		cmd <= "0011"; -- / ee[0x2433]&0xff00/256
-		in1div <= kvdd;
+		in1div <= resize (kvdd, fptmp1);
 		in2div <= fptmp2;
 		state := w1;
 when w1 =>
@@ -281,7 +285,7 @@ when s2 =>
 		fptmp2 := to_sfixed (2**5, fptmp2);
 		report_error ("fail 2**5", fptmp2, to_sfixed (2**5, fptmp2)); -- 32
 --		cmd <= "0010"; -- * kvdd*2^5
-		in1mul <= kvdd;
+		in1mul <= resize (kvdd, fptmp1);
 		in2mul <= fptmp2;
 		state := w2;
 when w2 =>
@@ -289,6 +293,7 @@ when w2 =>
 when s3 =>
 		fpout := to_sfixed (to_slv (out1mul), fpout);
 		kvdd := resize (fpout, kvdd);
+		report_fixed_value ("fail kvdd 3", kvdd); 
 		report_error ("fail kvdd 3", kvdd, to_sfixed (-3168.0, kvdd)); -- -3168
 		--
 		-- vdd25
@@ -298,7 +303,7 @@ when s3 =>
 		fptmp2 := to_sfixed (2**8, fptmp2);
 		report_error ("fail 2**8", fptmp2, to_sfixed (2**8, fptmp2)); -- 256
 --		cmd <= "0001"; -- - vdd25-256
-		in1sub <= vdd25;
+		in1sub <= resize (vdd25, fptmp1);
 		in2sub <= fptmp2;
 		state := w3;
 when w3 =>
@@ -310,7 +315,7 @@ when s4 =>
 		fptmp2 := to_sfixed (2**5, fptmp2);
 		report_error ("fail 2**5", fptmp2, to_sfixed (2**5, fptmp2)); -- 32
 --		cmd <= "0010"; -- * (vdd25-256)*2^5
-		in1mul <= vdd25;
+		in1mul <= resize (vdd25, fptmp1);
 		in2mul <= fptmp2;
 		state := w4;
 when w4 =>
@@ -322,7 +327,7 @@ when s5 =>
 		fptmp2 := to_sfixed (2**13, fptmp2);
 		report_error ("fail 2**13", fptmp2, to_sfixed (2**13, fptmp2)); -- 2**13
 --		cmd <= "0001"; -- - (vdd25-256)*2^5-2^13
-		in1sub <= vdd25;
+		in1sub <= resize (vdd25, fptmp1);
 		in2sub <= fptmp2;
 		state := w5;
 when w5 =>
@@ -331,7 +336,7 @@ when s6 =>
 		fpout := to_sfixed (to_slv (out1sub), fpout);
 		vdd25 := resize (fpout, vdd25);
 		report_error ("fail vdd25 4", vdd25, to_sfixed (-13056.0, vdd25)); -- -13056
-o_out1 <= vdd25 or kvdd;
+--o_out1 <= resize (to_sfixed ("000"&to_slv (kvdd) & to_slv (vdd25), fptmp1), fptmp1);
 report "0-0-0" severity failure;
 --		-- 
 --		-- kvptat

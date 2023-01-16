@@ -15,14 +15,15 @@ package p_fphdl_package1 is
 	procedure report_fixed_value (constant mes : in string; actual : in sfixed; hi : in integer; lo : in integer);
 	procedure report_error (constant errmes : in string; actual : in sfixed; constant expected : in sfixed);
 	procedure report_error (constant errmes : in string; actual : in ufixed; constant expected : in ufixed);
+	procedure report_all (constant errmes : in string; actual : in sfixed; constant expected : in sfixed);
 
 	function ap_slv2fp (sl:std_logic_vector) return real;
 	function ap_slv2int (sl:std_logic_vector) return integer;
 
-	function to_string ( s : std_logic_vector ) return string;
+	function to_string_1 ( s : std_logic_vector ) return string;
 
 	constant FP_INTEGER : integer := 35; -- FP_INTEGER-1 to 0
-	constant FP_FRACTION : integer := 29; -- -1 to -FP_FRACTION
+	constant FP_FRACTION : integer := 1; -- -1 to -FP_FRACTION
 	constant FP_BITS : integer := FP_INTEGER + FP_FRACTION;
 	subtype st_in1_slv is std_logic_vector (FP_BITS-1 downto 0);
 	subtype st_in2_slv is std_logic_vector (FP_BITS-1 downto 0);
@@ -126,15 +127,25 @@ package body p_fphdl_package1 is
 
 	procedure report_error (constant errmes : in string; actual : in sfixed; constant expected : in sfixed) is
 	begin
---		assert actual = expected report errmes & CR & "Actual: " & to_string(actual) & " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & "     /= " & to_string(expected) & " (" & real'image(to_real(expected)) & ")" & HT & "(" & to_hstring(expected) & ") " severity note;
+--		assert actual /= expected report errmes & CR & "********* OK SFIXED ACTUAL = EXPECTED *********" & CR &  "Actual   : " & to_string(actual) & " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & "Expected : " & to_string(expected) & " (" & real'image(to_real(expected)) & ")" & HT & "(" & to_hstring(expected) & ") " & CR & "-----------------------------------------------" & CR severity note;
+--		assert actual = expected report errmes & CR & "Actual: " & to_string(actual) & " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & "     /= " & to_string(expected) & " (" & real'image(to_real(expected)) & ")" & HT & "(" & to_hstring(expected) & ") " severity error;
 		return;
 	end procedure report_error;
 
 	procedure report_error (constant errmes : in string; actual : in ufixed; constant expected : in ufixed) is
 	begin
---		assert actual = expected report errmes & CR & "Actual: " & to_string(actual) & " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & "     /= " & to_string(expected) & " (" & real'image(to_real(expected)) & ")" & HT & "(" & to_hstring(expected) & ") " severity note;
+--		assert actual /= expected report errmes & CR & "********* OK UFIXED ACTUAL = EXPECTED *********" severity note;
+--		assert actual = expected  report errmes & CR & "Actual: " & to_string(actual) & " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & "     /= " & to_string(expected) & " (" & real'image(to_real(expected)) & ")" & HT & "(" & to_hstring(expected) & ") " severity warning;
 		return;
 	end procedure report_error;
+
+	procedure report_all (constant errmes : in string; actual : in sfixed; constant expected : in sfixed) is
+	begin
+		report_fixed_value (errmes, actual);
+		report_error (errmes, actual, expected);
+		report errmes & " bin2str " & to_string_1 (to_slv (actual));
+		return;
+	end procedure report_all;
 
 	-- https://opencores.org/websvn/filedetails?repname=raytrac&path=%2Fraytrac%2Fbranches%2Ffp%2Farithpack.vhd&rev=163
 	function ap_slv2int (sl:std_logic_vector) return integer is
@@ -171,7 +182,7 @@ package body p_fphdl_package1 is
 		end if;
 	end function;
 
-	function to_string ( s : std_logic_vector )
+	function to_string_1 ( s : std_logic_vector )
 		return string
 	is
 		variable r : string ( s'length downto 1 ) ;
