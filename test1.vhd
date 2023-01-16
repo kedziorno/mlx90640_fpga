@@ -260,8 +260,8 @@ p0 : process (clock,reset) is
 	variable acomp5,acomp6 : stsf_h2 := (others => '0');
 	variable acomp4 : stsf_max := (others => '0');
 	variable sqrt2_1,sqrt2_2 : sfixed (24 downto 0);
-	variable fraca : sfixed (FP_INTEGER-1 downto 0);
-	variable fracb : sfixed (-1 downto -FP_FRACTION);
+	variable fraca : sfixed (FP_INTEGER-1-4 downto 0);
+	variable fracb : sfixed (-1 downto -FP_FRACTION+4);
 	variable acomp_f,acomp_pow3_f,acomp_pow4_f,vircomp_f,ta_f,ksto2_f,acomp_ta_f,acomp_ta_ksto2_f,k27315_f : std_logic_vector (31 downto 0);
 	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
 	constant onefp : std_logic_vector (31 downto 0) := x"3F800000";

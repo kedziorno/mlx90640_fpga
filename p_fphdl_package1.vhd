@@ -3,10 +3,10 @@ use IEEE.STD_LOGIC_1164.all;
 --use IEEE.numeric_std.all;
 use ieee_proposed.fixed_float_types.all;
 use ieee_proposed.fixed_pkg.all;
---use ieee_proposed.numeric_std_additions.all;
---use ieee_proposed.standard_additions.all;
+use ieee_proposed.numeric_std_additions.all;
+use ieee_proposed.standard_additions.all;
 --use ieee_proposed.standard_textio_additions.all;
---use ieee_proposed.std_logic_1164_additions.all;
+use ieee_proposed.std_logic_1164_additions.all;
 
 package p_fphdl_package1 is
 
@@ -18,14 +18,15 @@ package p_fphdl_package1 is
 	procedure report_error (constant errmes : in string; actual : in sfixed; constant expected : in sfixed);
 	procedure report_error (constant errmes : in string; actual : in ufixed; constant expected : in ufixed);
 	procedure report_all (constant errmes : in string; actual : in sfixed; constant expected : in sfixed);
+	procedure report_error (sl : std_logic_vector; constant e : real);
 
 	function ap_slv2fp (sl:std_logic_vector) return real;
 	function ap_slv2int (sl:std_logic_vector) return integer;
 
 	function to_string_1 ( s : std_logic_vector ) return string;
 
-	constant FP_INTEGER : integer := 19; -- FP_INTEGER-1 to 0
-	constant FP_FRACTION : integer := 16; -- -1 to -FP_FRACTION
+	constant FP_INTEGER : integer := 34; -- FP_INTEGER-1 to 0
+	constant FP_FRACTION : integer := 30; -- -1 to -FP_FRACTION
 	constant FP_INTEGER_EXPECTED : integer := 35; -- FP_INTEGER_EXPECTED-1 to 0
 	constant FP_FRACTION_EXPECTED : integer := 64; -- -1 to -FP_FRACTION_EXPECTED
 	constant FP_BITS : integer := FP_INTEGER + FP_FRACTION;
@@ -58,32 +59,55 @@ package p_fphdl_package1 is
 	subtype st_ufixed_max_expected is ufixed (FP_INTEGER_EXPECTED-1 downto -FP_FRACTION_EXPECTED);
 	subtype st_sfixed_h1 is sfixed (FP_BITS/2 downto 1);
 	subtype st_sfixed_h2 is sfixed (0 downto -FP_BITS/2+1);
-	subtype sfixed0 is sfixed (0 downto 0);
-	subtype ufixed0 is ufixed (0 downto 0);
-	subtype sfixed1 is sfixed (1 downto 0);
-	subtype ufixed1 is ufixed (1 downto 0);
-	subtype sfixed2 is sfixed (2 downto 0);
-	subtype ufixed2 is ufixed (2 downto 0);
-	subtype sfixed3 is sfixed (3 downto 0);
-	subtype ufixed3 is ufixed (3 downto 0);
-	subtype sfixed4 is sfixed (4 downto 0);
-	subtype ufixed4 is ufixed (4 downto 0);
-	subtype sfixed5 is sfixed (5 downto 0);
-	subtype ufixed5 is ufixed (5 downto 0);
-	subtype sfixed6 is sfixed (6 downto 0);
-	subtype ufixed6 is ufixed (6 downto 0);
-	subtype sfixed7 is sfixed (7 downto 0);
-	subtype ufixed7 is ufixed (7 downto 0);
-	subtype sfixed8 is sfixed (8 downto 0);
-	subtype ufixed8 is ufixed (8 downto 0);
-	subtype sfixed9 is sfixed (9 downto 0);
-	subtype ufixed9 is ufixed (9 downto 0);
-	subtype sfixed10 is sfixed (10 downto 0);
-	subtype ufixed10 is ufixed (10 downto 0);
-	subtype sfixed15 is sfixed (15 downto 0); 
-	subtype ufixed15 is ufixed (15 downto 0);
-	subtype sfixed16 is sfixed (16 downto 0); 
-	subtype ufixed16 is ufixed (16 downto 0);
+	subtype sfixed1 is sfixed (0 downto 0);
+	subtype ufixed1 is ufixed (0 downto 0);
+	subtype sfixed2 is sfixed (1 downto 0);
+	subtype ufixed2 is ufixed (1 downto 0);
+	subtype sfixed3 is sfixed (2 downto 0);
+	subtype ufixed3 is ufixed (2 downto 0);
+	subtype sfixed4 is sfixed (3 downto 0);
+	subtype ufixed4 is ufixed (3 downto 0);
+	subtype sfixed5 is sfixed (4 downto 0);
+	subtype ufixed5 is ufixed (4 downto 0);
+	subtype sfixed6 is sfixed (5 downto 0);
+	subtype ufixed6 is ufixed (5 downto 0);
+	subtype sfixed7 is sfixed (6 downto 0);
+	subtype ufixed7 is ufixed (6 downto 0);
+	subtype sfixed8 is sfixed (7 downto 0);
+	subtype ufixed8 is ufixed (7 downto 0);
+	subtype sfixed9 is sfixed (8 downto 0);
+	subtype ufixed9 is ufixed (8 downto 0);
+	subtype sfixed10 is sfixed (9 downto 0);
+	subtype ufixed10 is ufixed (9 downto 0);
+	subtype sfixed11 is sfixed (10 downto 0);
+	subtype ufixed11 is ufixed (10 downto 0);
+	subtype sfixed12 is sfixed (11 downto 0);
+	subtype ufixed12 is ufixed (11 downto 0);
+	subtype sfixed13 is sfixed (12 downto 0);
+	subtype ufixed13 is ufixed (12 downto 0);
+	subtype sfixed14 is sfixed (13 downto 0);
+	subtype ufixed14 is ufixed (13 downto 0);
+	subtype sfixed15 is sfixed (14 downto 0);
+	subtype ufixed15 is ufixed (14 downto 0);
+	subtype sfixed16 is sfixed (15 downto 0); 
+	subtype ufixed16 is ufixed (15 downto 0);
+	subtype slv1 is std_logic_vector (0 downto 0);
+	subtype slv2 is std_logic_vector (1 downto 0);
+	subtype slv3 is std_logic_vector (2 downto 0);
+	subtype slv4 is std_logic_vector (3 downto 0);
+	subtype slv5 is std_logic_vector (4 downto 0);
+	subtype slv6 is std_logic_vector (5 downto 0);
+	subtype slv7 is std_logic_vector (6 downto 0);
+	subtype slv8 is std_logic_vector (7 downto 0);
+	subtype slv9 is std_logic_vector (8 downto 0);
+	subtype slv10 is std_logic_vector (9 downto 0);
+	subtype slv11 is std_logic_vector (10 downto 0);
+	subtype slv12 is std_logic_vector (11 downto 0);
+	subtype slv13 is std_logic_vector (12 downto 0);
+	subtype slv14 is std_logic_vector (13 downto 0);
+	subtype slv15 is std_logic_vector (14 downto 0);
+	subtype slv16 is std_logic_vector (15 downto 0);
+	subtype fd2ft is std_logic_vector (31 downto 0);
 
 	type states is (
 	idle,
@@ -144,7 +168,7 @@ package body p_fphdl_package1 is
 		constant L : integer := abs (abs(a'high-a'low) - abs(actual'high-actual'low));
 		variable space : string (1 to L-1) := (others => character(' '));
 	begin
-		assert actual /= a report errmes & CR &  "********* OK SFIXED ACTUAL = EXPECTED *********" & CR & "Actual   : " & to_string(actual)  & space & " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & "Expected : " & to_string(a) & " (" & real'image(to_real(a)) & ")" & HT & "(" & to_hstring(a) & ") " & CR & "-----------------------------------------------" & CR severity note;
+		assert actual /= a report errmes & CR &  "********* OK SFIXED ACTUAL = EXPECTED *********" & CR & "Actual   : " & to_string(actual)  & space & "  (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & "Expected : " & to_string(a) & " (" & real'image(to_real(a)) & ")" & HT & "(" & to_hstring(a) & ") " & CR & "-----------------------------------------------" & CR severity note;
 		assert actual = a report errmes & CR & "Actual: " & to_string(actual)  & space & "  (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & "     /= " & to_string(a) & " (" & real'image(to_real(a)) & ")" & HT & "(" & to_hstring(a) & ") " severity error;
 		return;
 	end procedure report_error_normalize;
@@ -164,6 +188,13 @@ package body p_fphdl_package1 is
 	begin
 		assert actual /= expected report errmes & CR & "********* OK UFIXED ACTUAL = EXPECTED *********" severity note;
 		assert actual = expected  report errmes & CR & "Actual: " & to_string(actual) & " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & "     /= " & to_string(expected) & " (" & real'image(to_real(expected)) & ")" & HT & "(" & to_hstring(expected) & ") " severity warning;
+		return;
+	end procedure report_error;
+
+	procedure report_error (sl : std_logic_vector; constant e : real) is
+	begin
+		assert ap_slv2fp (sl) /= e report "OK : " & real'image (ap_slv2fp (sl)) & " = " & real'image (e) & " ( " & to_hex_string (sl) & " ) ";
+		assert ap_slv2fp (sl) = e report "actual /= expected : " & real'image (ap_slv2fp (sl)) & " /= " & real'image (e) & " ( " & to_hex_string (sl) & " ) ";
 		return;
 	end procedure report_error;
 
