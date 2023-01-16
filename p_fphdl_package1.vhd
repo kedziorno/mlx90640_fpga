@@ -14,6 +14,7 @@ package p_fphdl_package1 is
 	procedure report_fixed_value (constant mes : in string; actual : in ufixed);
 	procedure report_fixed_value (constant mes : in string; actual : in sfixed; hi : in integer; lo : in integer);
 	procedure report_error_normalize (constant errmes : in string; actual : in sfixed; constant expected : in sfixed);
+	procedure report_error_normalize (constant errmes : in string; actual : in ufixed; constant expected : in ufixed);
 	procedure report_error (constant errmes : in string; actual : in sfixed; constant expected : in sfixed);
 	procedure report_error (constant errmes : in string; actual : in ufixed; constant expected : in ufixed);
 	procedure report_all (constant errmes : in string; actual : in sfixed; constant expected : in sfixed);
@@ -132,13 +133,24 @@ package body p_fphdl_package1 is
 
 	procedure report_error (constant errmes : in string; actual : in sfixed; constant expected : in sfixed) is
 	begin
-		assert actual /= expected report errmes & CR & "********* OK SFIXED ACTUAL = EXPECTED *********" & CR &  "Actual   : " & to_string(actual) & " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & "Expected : " & to_string(expected) & " (" & real'image(to_real(expected)) & ")" & HT & "(" & to_hstring(expected) & ") " & CR & "-----------------------------------------------" & CR severity note;
+		assert actual /= expected report errmes & CR & "********* OK SFIXED ACTUAL = EXPECTED *********" & CR &  "Actual   : " & to_string(actual) & "  (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & "Expected : " & to_string(expected) & " (" & real'image(to_real(expected)) & ")" & HT & "(" & to_hstring(expected) & ") " & CR & "-----------------------------------------------" & CR severity note;
 		assert actual = expected report errmes & CR & "Actual: " & to_string(actual) & " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & "     /= " & to_string(expected) & " (" & real'image(to_real(expected)) & ")" & HT & "(" & to_hstring(expected) & ") " severity error;
 		return;
 	end procedure report_error;
 
 	procedure report_error_normalize (constant errmes : in string; actual : in sfixed; constant expected : in sfixed) is
 		subtype sta is sfixed (FP_INTEGER_EXPECTED-1 downto -FP_FRACTION_EXPECTED);
+		variable a : sta := resize (expected, FP_INTEGER_EXPECTED-1, -FP_FRACTION_EXPECTED);
+		constant L : integer := abs (abs(a'high-a'low) - abs(actual'high-actual'low));
+		variable space : string (1 to L-1) := (others => character(' '));
+	begin
+		assert actual /= a report errmes & CR &  "********* OK SFIXED ACTUAL = EXPECTED *********" & CR & "Actual   : " & to_string(actual)  & space & " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & "Expected : " & to_string(a) & " (" & real'image(to_real(a)) & ")" & HT & "(" & to_hstring(a) & ") " & CR & "-----------------------------------------------" & CR severity note;
+		assert actual = a report errmes & CR & "Actual: " & to_string(actual)  & space & "  (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & "     /= " & to_string(a) & " (" & real'image(to_real(a)) & ")" & HT & "(" & to_hstring(a) & ") " severity error;
+		return;
+	end procedure report_error_normalize;
+
+	procedure report_error_normalize (constant errmes : in string; actual : in ufixed; constant expected : in ufixed) is
+		subtype sta is ufixed (FP_INTEGER_EXPECTED-1 downto -FP_FRACTION_EXPECTED);
 		variable a : sta := resize (expected, FP_INTEGER_EXPECTED-1, -FP_FRACTION_EXPECTED);
 		constant L : integer := abs (abs(a'high-a'low) - abs(actual'high-actual'low));
 		variable space : string (1 to L+1) := (others => character(' '));
