@@ -24,9 +24,9 @@ package p_fphdl_package1 is
 	function to_string_1 ( s : std_logic_vector ) return string;
 
 	constant FP_INTEGER : integer := 35; -- FP_INTEGER-1 to 0
-	constant FP_FRACTION : integer := 1; -- -1 to -FP_FRACTION
-	constant FP_INTEGER_EXPECTED : integer := 35; -- FP_INTEGER-1 to 0
-	constant FP_FRACTION_EXPECTED : integer := 29; -- -1 to -FP_FRACTION
+	constant FP_FRACTION : integer := 4; -- -1 to -FP_FRACTION
+	constant FP_INTEGER_EXPECTED : integer := 35; -- FP_INTEGER_EXPECTED-1 to 0
+	constant FP_FRACTION_EXPECTED : integer := 64; -- -1 to -FP_FRACTION_EXPECTED
 	constant FP_BITS : integer := FP_INTEGER + FP_FRACTION;
 	subtype st_in1_slv is std_logic_vector (FP_BITS-1 downto 0);
 	subtype st_in2_slv is std_logic_vector (FP_BITS-1 downto 0);
@@ -53,6 +53,8 @@ package p_fphdl_package1 is
 
 	subtype st_sfixed_max is sfixed (FP_INTEGER-1 downto -FP_FRACTION);
 	subtype st_ufixed_max is ufixed (FP_INTEGER-1 downto -FP_FRACTION);
+	subtype st_sfixed_max_expected is sfixed (FP_INTEGER_EXPECTED-1 downto -FP_FRACTION_EXPECTED);
+	subtype st_ufixed_max_expected is ufixed (FP_INTEGER_EXPECTED-1 downto -FP_FRACTION_EXPECTED);
 	subtype st_sfixed_h1 is sfixed (FP_BITS/2 downto 1);
 	subtype st_sfixed_h2 is sfixed (0 downto -FP_BITS/2+1);
 	subtype sfixed0 is sfixed (0 downto 0);
@@ -139,16 +141,16 @@ package body p_fphdl_package1 is
 		subtype sta is sfixed (FP_INTEGER_EXPECTED-1 downto -FP_FRACTION_EXPECTED);
 		variable a : sta := resize (expected, FP_INTEGER_EXPECTED-1, -FP_FRACTION_EXPECTED);
 		constant L : integer := abs (abs(a'high-a'low) - abs(actual'high-actual'low));
-		variable space : string (1 to L) := (others => character(' '));
+		variable space : string (1 to L+1) := (others => character(' '));
 	begin
 		assert actual /= a report errmes & CR & 
-		"********* OK SFIXED ACTUAL = EXPECTED *********" & CR &  integer'image(L) & CR &
+		"********* OK SFIXED ACTUAL = EXPECTED *********" & CR &
 		"Actual   : " & to_string(actual)  & space & " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & 
 		"Expected : " & to_string(a) & " (" & real'image(to_real(a)) & ")" & HT & "(" & to_hstring(a) & ") " & CR & 
 		"-----------------------------------------------" & CR 
 		severity note;
 		assert actual = a report errmes & CR & 
-		"Actual: " & to_string(actual)  & " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & 
+		"Actual: " & to_string(actual)  & space & " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & 
 		"     /= " & to_string(a) & " (" & real'image(to_real(a)) & ")" & HT & "(" & to_hstring(a) & ") " 
 		severity error;
 		return;
