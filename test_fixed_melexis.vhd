@@ -272,11 +272,11 @@ sqrtfp2rdy when sqrtfp2ce = '1' else
 		variable eeprom16slv,ram16slv : slv16;
 		variable eeprom16sf,ram16sf : sfixed16;
 		variable eeprom16uf,ram16uf : ufixed16;
-		variable kvdd,vdd25,kvptat,ktptat,deltaV,vdd,vptat,vbe,vptat25,alphaptatee,alphaptat,vptatart : st_sfixed_max;
+		variable kvdd,vdd25,kvptat,ktptat,deltaV,vdd,vptat,vbe,vptat25,alphaptatee,alphaptat,vptatart,Ta : st_sfixed_max;
 		variable resee,resreg : st_ufixed_max;
-		variable kvdd_ft,vdd25_ft,const256_ft,const2pow5_ft,const2pow13_ft,resee_ft,resreg_ft,rescorr_ft : fd2ft;
+		variable kvdd_ft,vdd25_ft,const256_ft,const2pow5_ft,const2pow13_ft,resee_ft,resreg_ft,rescorr_ft,Ta_ft : fd2ft;
 		variable kvptat_ft,ktptat_ft,const2pow12_ft,const2pow3_ft,deltaV_ft,Vdd_ft,const3dot3_ft,vptat_ft,vbe_ft,vptat25_ft : fd2ft;
-		variable alphaptatee_ft,const2pow2_ft,const8_ft,alphaptat_ft,const2pow18_ft,vptatart_ft : fd2ft;
+		variable alphaptatee_ft,const2pow2_ft,const8_ft,alphaptat_ft,const2pow18_ft,vptatart_ft,const25_ft,const1_ft : fd2ft;
 		constant const256 : st_sfixed_max := to_sfixed (256.0, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow5 : st_sfixed_max := to_sfixed (2.0**5, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow13 : st_sfixed_max := to_sfixed (2.0**13, st_sfixed_max'high, st_sfixed_max'low);
@@ -286,6 +286,8 @@ sqrtfp2rdy when sqrtfp2ce = '1' else
 		constant const2pow2 : st_sfixed_max := to_sfixed (2.0**2, st_sfixed_max'high, st_sfixed_max'low);
 		constant const8 : st_sfixed_max := to_sfixed (8.0, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow18 : st_sfixed_max := to_sfixed (2.0**18, st_sfixed_max'high, st_sfixed_max'low);
+		constant const25 : st_sfixed_max := to_sfixed (25.0, st_sfixed_max'high, st_sfixed_max'low);
+		constant const1 : st_sfixed_max := to_sfixed (1.0, st_sfixed_max'high, st_sfixed_max'low);
 
 
 		variable vddv0 : st_sfixed_max;
@@ -300,7 +302,7 @@ sqrtfp2rdy when sqrtfp2ce = '1' else
 		variable tmp_sf15 : sfixed15;
 		constant C_WAIT1 : integer := G_C_WAIT1;
 		variable v_wait1 : integer range 0 to C_WAIT1-1;
-		variable Ta,Ta0 : st_sfixed_max;
+		variable Ta0 : st_sfixed_max;
 		variable Kgain : st_sfixed_max;
 		variable pixgain12_16 : st_sfixed_max; -- xxx for all pixels
 		variable offset12_16 : st_sfixed_max; -- xxx for all pixels
@@ -1033,53 +1035,123 @@ when idle =>
 		else state := s70; end if;
 	when s71 => state := s72;
 		mulfpsclr <= '0';
-
---		--
---		-- vptatart
-----		cmd <= "0010"; -- * vptat*alphaptat
---		in1mul <= vptat;
---		in2mul <= alphaptat;
---		state := w15;
---when w15 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s16; else v_wait1 := v_wait1 + 1; state := w15; end if;
---when s16 =>
---		fpout := to_sfixed (to_slv (out1mul), fpout);
---		vptatart := resize (fpout, vptatart);
---		--report_error_normalize ("fail vptatart 1", vptatart, to_sfixed (15399.0, max_expected_s)); -- 15399
-----		cmd <= "0000"; -- + (vptat*alphaptat)+vbe
---		in1add <= vptatart;
---		in2add <= vbe;
---		state := w16;
---when w16 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s17; else v_wait1 := v_wait1 + 1; state := w16; end if;
---when s17 =>
---		fpout := to_sfixed (to_slv (out1add), fpout);
---		vptatart := resize (fpout, vptatart);
---		--report_error_normalize ("fail vptatart 2", vptatart, to_sfixed (34841.0, max_expected_s)); -- 34841
-----		cmd <= "0011"; -- / vptat/((vptat*alphaptat)+vbe)
---		in1div <= vptat;
---		in2div <= vptatart;
---		state := w17;
---when w17 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s18; else v_wait1 := v_wait1 + 1; state := w17; end if;
---when s18 =>
---		fpout := to_sfixed (to_slv (out1div), fpout);
---		vptatart := resize (fpout, vptatart);
---		--report_error_normalize ("fail vptatart 3", vptatart, to_sfixed (0.049108808587561725289560854434967041015625, max_expected_s)); -- 0.049108808587561725289560854434967041015625
---		fptmp2 := to_sfixed (2**18, fptmp2);
---		--report_error_normalize ("fail 2**18", fptmp2, to_sfixed (2**18, max_expected_s)); -- 2**18
-----		cmd <= "0010"; -- * (vptat/((vptat*alphaptat)+vbe))*2^18
---		in1mul <= vptatart;
---		in2mul <= fptmp2;
---		state := w18;
---when w18 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s19; else v_wait1 := v_wait1 + 1; state := w18; end if;
---when s19 =>
---		fpout := to_sfixed (to_slv (out1mul), fpout);
---		vptatart := resize (fpout, vptatart);
---		--report_error_normalize ("fail vptatart 4", vptatart, to_sfixed (12873.5792, max_expected_s)); -- 12873.5792
---		--
---		-- Ta
+		--
+		-- Ta
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (const1 (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (const1 (fracbs'high downto fracbs'low)), fracbs));
+	when s72 =>
+		if (fixed2floatrdy = '1') then state := s73;
+			const1_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s72; end if;
+	when s73 => state := s74;
+		fixed2floatsclr <= '0';
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (const25 (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (const25 (fracbs'high downto fracbs'low)), fracbs));
+	when s74 =>
+		if (fixed2floatrdy = '1') then state := s75;
+			const25_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s74; end if;
+	when s75 => state := s76;
+		fixed2floatsclr <= '0';
+		mulfpce <= '1';
+		mulfpa <= kvptat_ft;
+		mulfpb <= deltaV_ft;
+		mulfpond <= '1';
+	when s76 =>
+		if (mulfprdy = '1') then state := s77;
+			Ta_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s76; end if;
+	when s77 => state := s78;
+		mulfpsclr <= '0';
+		addfpce <= '1';
+		addfpa <= const1_ft;
+		addfpb <= Ta_ft;
+		addfpond <= '1';
+	when s78 =>
+		if (addfprdy = '1') then state := s79;
+			Ta_ft := addfpr;
+			o_out1 <= addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s78; end if;
+	when s79 => state := s80;
+		addfpsclr <= '0';
+		divfpce <= '1';
+		divfpa <= vptatart_ft;
+		divfpb <= Ta_ft;
+		divfpond <= '1';
+	when s80 =>
+		if (divfprdy = '1') then state := s81;
+			Ta_ft := divfpr;
+			o_out1 <= divfpr;
+			divfpce <= '0';
+			divfpond <= '0';
+			divfpsclr <= '1';
+		else state := s80; end if;
+	when s81 => state := s82;
+		divfpsclr <= '0';
+		subfpce <= '1';
+		subfpa <= Ta_ft;
+		subfpb <= vptat25_ft;
+		subfpond <= '1';
+	when s82 =>
+		if (subfprdy = '1') then state := s83;
+			Ta_ft := subfpr;
+			o_out1 <= subfpr;
+			subfpce <= '0';
+			subfpond <= '0';
+			subfpsclr <= '1';
+		else state := s82; end if;
+	when s83 => state := s84;
+		subfpsclr <= '0';
+		divfpce <= '1';
+		divfpa <= Ta_ft;
+		divfpb <= ktptat_ft;
+		divfpond <= '1';
+	when s84 =>
+		if (divfprdy = '1') then state := s85;
+			Ta_ft := divfpr;
+			o_out1 <= divfpr;
+			divfpce <= '0';
+			divfpond <= '0';
+			divfpsclr <= '1';
+		else state := s84; end if;
+	when s85 => state := s86;
+		divfpsclr <= '0';
+		addfpce <= '1';
+		addfpa <= Ta_ft;
+		addfpb <= const25_ft;
+		addfpond <= '1';
+	when s86 =>
+		if (addfprdy = '1') then state := s87;
+			Ta_ft := addfpr;
+			o_out1 <= addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s86; end if;
+	when s87 => state := s88;
+		addfpsclr <= '0';
+		
 ----		cmd <= "0010"; -- * a=deltaV*kvptat
 --		in1mul <= deltaV;
 --		in2mul <= kvptat;

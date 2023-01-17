@@ -142,12 +142,15 @@ begin
 				when s32 => state := s33;    report_error (vout, 1711.0*9.0); -- vptatart
 				when s33 => state := s34;    report_error (vout, (1711.0*9.0)+19442.0); -- vptatart
 				when s34 => state := s35;    report_error (vout, 0.04910880699753761); -- vptatart (1711.0/((1711.0*9.0)+19442.0))
-				when s35 => state := s36;    report_error (vout, (1711.0/((1711.0*9.0)+19442.0))*2.0**18); -- vptatart
-				when s36 => state := s37;    report_error (vout, 2.0**18); -- vptatart
-				when s37 => state := s38;    report_error (vout, 2.0**18); -- const
-				when s38 => state := s39;    report_error (vout, 2.0**18); -- const
-				when s39 => state := s40;    report_error (vout, 2.0**18); -- const
-				when s40 => state := s41;    report_error (vout, 2.0**18); -- const
+				when s35 => state := s36;    report_error (vout, 12873.5791015625); -- vptatart 12873.57952 = (1711.0/((1711.0*9.0)+19442.0))*2.0**18
+				when s36 => state := s37;    report_error (vout, 1.0); -- const
+				when s37 => state := s38;    report_error (vout, 25.0); -- const
+				when s38 => state := s39;    report_error (vout, 0.0001000298434519209); -- Ta 0.00537109375*0.01862373761832714
+				when s39 => state := s40;    report_error (vout, 1.000100016593933); -- Ta 1.0+(0.00537109375*0.01862373761832714)
+				when s40 => state := s41;    report_error (vout, 12872.2919921875); -- Ta 12873.57952/(1.0+(0.00537109375*0.01862373761832714))
+				when s41 => state := s42;    report_error (vout, 599.2919921875); -- Ta (12873.57952/(1.0+(0.00537109375*0.01862373761832714)))-12273.0
+				when s42 => state := s43;    report_error (vout, 14.184426307678223); -- Ta (((12873.57952/(1.0+(0.00537109375*0.01862373761832714)))-12273.0)/42.25)
+				when s43 => state := s44;    report_error (vout, 39.184); -- Ta (((12873.57952/(1.0+(0.00537109375*0.01862373761832714)))-12273.0)/42.25)+25.0
 				when others => report_error (vout, 0.0);
 			end case;
 		end if;
