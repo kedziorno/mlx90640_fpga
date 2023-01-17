@@ -281,12 +281,13 @@ sqrtfp2rdy when sqrtfp2ce = '1' else
 		variable eeprom16uf,ram16uf : ufixed16;
 		variable kvdd,vdd25,kvptat,ktptat,deltaV,vdd,vptat,vbe,vptat25,alphaptatee,alphaptat,vptatart,Ta,Kgain,gain : st_sfixed_max;
 		variable pixgain1216,offsetaverage,occrow12,occscalerow,occcolumn16,occscalecolumn,offset1216,occscaleremnant : st_sfixed_max;
+		variable pixosref1216 : st_sfixed_max;
 		variable resee,resreg : st_ufixed_max;
 		variable kvdd_ft,vdd25_ft,const256_ft,const2pow5_ft,const2pow13_ft,resee_ft,resreg_ft,rescorr_ft,Ta_ft : fd2ft;
 		variable kvptat_ft,ktptat_ft,const2pow12_ft,const2pow3_ft,deltaV_ft,Vdd_ft,const3dot3_ft,vptat_ft,vbe_ft,vptat25_ft : fd2ft;
 		variable alphaptatee_ft,const2pow2_ft,const8_ft,alphaptat_ft,const2pow18_ft,vptatart_ft,const25_ft,const1_ft,Kgain_ft,gain_ft : fd2ft;
 		variable pixgain1216_ft,offsetaverage_ft,occrow12_ft,occscalerow_ft,occcolumn16_ft,occscalecolumn_ft,offset1216_ft : fd2ft;
-		variable occscaleremnant_ft : fd2ft;
+		variable occscaleremnant_ft,pixosref1216_ft : fd2ft;
 		constant const256 : st_sfixed_max := to_sfixed (256.0, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow5 : st_sfixed_max := to_sfixed (2.0**5, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow13 : st_sfixed_max := to_sfixed (2.0**13, st_sfixed_max'high, st_sfixed_max'low);
@@ -340,7 +341,6 @@ sqrtfp2rdy when sqrtfp2ce = '1' else
 		variable tmpslv10 : slv10;
 		variable occsro,occsc,occsre : st_sfixed_max;
 		variable occsror,occscr,occsrer : st_sfixed_max;
-		variable pixosref12_16 : st_sfixed_max;
 		variable kta12_16 : st_sfixed_max;
 		variable kta12_16_ee : st_sfixed_max;
 		variable kta_rc_ee : st_sfixed_max;
@@ -1288,6 +1288,7 @@ when idle =>
 		occscalerow := occscalerow srl 8;
 		occscalerow := resize (to_sfixed (to_slv (occscalerow (3 downto 0)), sfixed4'high, sfixed4'low), occscalerow);
 		vout2 := resize (occscalerow, st_sfixed_max'high, st_sfixed_max'low);
+		occscalerow := to_sfixed (1.0, occscalerow) sll to_integer (occscalerow);
 --		occscalerow := resize (to_sfixed (to_slv (occscalerow), sfixed16'high, sfixed16'low), occscalerow);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -1332,6 +1333,7 @@ when idle =>
 		occscalecolumn := occscalecolumn srl 4;
 		occscalecolumn := resize (to_sfixed (to_slv (occscalecolumn (3 downto 0)), sfixed4'high, sfixed4'low), occscalecolumn);
 		vout2 := resize (occscalecolumn, st_sfixed_max'high, st_sfixed_max'low);
+		occscalecolumn := to_sfixed (1.0, occscalecolumn) sll to_integer (occscalecolumn);
 --		occscalecolumn := resize (to_sfixed (to_slv (occscalecolumn), sfixed16'high, sfixed16'low), occscalecolumn);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -1373,8 +1375,9 @@ when idle =>
 		eeprom16slv := i_ee0x2410 and x"000f";
 		occscaleremnant := resize (to_sfixed (eeprom16slv, eeprom16sf), occscaleremnant);
 		vout2 := resize (occscaleremnant, st_sfixed_max'high, st_sfixed_max'low);
-		occscaleremnant := resize (to_sfixed (to_slv (offset1216 (3 downto 0)), sfixed4'high, sfixed4'low), occscaleremnant);
+		occscaleremnant := resize (to_sfixed (to_slv (occscaleremnant (3 downto 0)), sfixed4'high, sfixed4'low), occscaleremnant);
 		vout2 := resize (occscaleremnant, st_sfixed_max'high, st_sfixed_max'low);
+		occscaleremnant := to_sfixed (1.0, occscaleremnant) sll to_integer (occscaleremnant);
 --		occscaleremnant := resize (to_sfixed (to_slv (occscaleremnant), sfixed16'high, sfixed16'low), occscaleremnant);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -1391,8 +1394,92 @@ when idle =>
 		else state := s110; end if;
 	when s111 => state := s112;
 		fixed2floatsclr <= '0';
+		mulfpce <= '1';
+		mulfpa <= offset1216_ft;
+		mulfpb <= occscaleremnant_ft;
+		mulfpond <= '1';
+	when s112 =>
+		if (mulfprdy = '1') then state := s113;
+			offset1216_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s112; end if;
+	when s113 => state := s114;
+		mulfpsclr <= '0';
+		mulfpce <= '1';
+		mulfpa <= occcolumn16_ft;
+		mulfpb <= occscalecolumn_ft;
+		mulfpond <= '1';
+	when s114 =>
+		if (mulfprdy = '1') then state := s115;
+			occcolumn16_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s114; end if;
+	when s115 => state := s116;
+		mulfpsclr <= '0';
+		mulfpce <= '1';
+		mulfpa <= occrow12_ft;
+		mulfpb <= occscalerow_ft;
+		mulfpond <= '1';
+	when s116 =>
+		if (mulfprdy = '1') then state := s117;
+			occrow12_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s116; end if;
+	when s117 => state := s118;
+		mulfpsclr <= '0';
+		addfpce <= '1';
+		addfpa <= offset1216_ft;
+		addfpb <= occcolumn16_ft;
+		addfpond <= '1';
+	when s118 =>
+		if (addfprdy = '1') then state := s119;
+			pixosref1216_ft := addfpr;
+			o_out1 <= addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s118; end if;
+	when s119 => state := s120;
+		addfpsclr <= '0';
+		addfpce <= '1';
+		addfpa <= pixosref1216_ft;
+		addfpb <= occrow12_ft;
+		addfpond <= '1';
+	when s120 =>
+		if (addfprdy = '1') then state := s121;
+			pixosref1216_ft := addfpr;
+			o_out1 <= addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s120; end if;
+	when s121 => state := s122;
+		addfpsclr <= '0';
+		addfpce <= '1';
+		addfpa <= pixosref1216_ft;
+		addfpb <= offsetaverage_ft;
+		addfpond <= '1';
+	when s122 =>
+		if (addfprdy = '1') then state := s123;
+			pixosref1216_ft := addfpr;
+			o_out1 <= addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s122; end if;
+	when s123 => state := s124;
+		addfpsclr <= '0';
 
-		
+
 --		sftmp_slv_16 := x"ffbb" and x"ffff"; -- ee[0x2411]
 --		offsetaverage := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), offsetaverage);
 --		--report_error_normalize ("fail offsetaverage", offsetaverage, to_sfixed (-69.0, max_expected_s)); -- -69

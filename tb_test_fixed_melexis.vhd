@@ -109,7 +109,10 @@ tb1 : process (i_clock) is
 	type states is (
 	s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,
 	s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,
-	s41,s42,s43,s44,s45,s46,s47,s48,s49,s50,s51,s52,s53,s54,s55,s56,s57,s58,s59,s60);
+	s41,s42,s43,s44,s45,s46,s47,s48,s49,s50,s51,s52,s53,s54,s55,s56,s57,s58,s59,s60,
+	s61,s62,s63,s64,s65,s66,s67,s68,s69,s70,s71,s72,s73,s74,s75,s76,s77,s78,s79,s80,
+	s81,s82,s83,s84,s85,s86,s87,s88,s89,s90,s91,s92,s93,s94,s95,s96,s97,s98,s99,s100,
+	s101,s102,s103,s104,s105,s106,s107,s108,s109,s110,s111,s112,s113,s114,s115,s116,s117,s118,s119,s120);
 	variable state : states;
 	variable vout : fd2ft;
 begin
@@ -172,12 +175,17 @@ begin
 				when s48 => state := s49;    report_error (vout, 619.6790771484375); -- pixgain1216 619.679100908656
 				when s49 => state := s50;    report_error (vout, -69.0); -- offsetaverage
 				when s50 => state := s51;    report_error (vout, -1.0); -- occrow12
-				when s51 => state := s52;    report_error (vout, 2.0); -- occscalerow
+				when s51 => state := s52;    report_error (vout, 4.0); -- 2^occscalerow
 				when s52 => state := s53;    report_error (vout, -2.0); -- occcolumn16
-				when s53 => state := s54;    report_error (vout, 1.0); -- occscalecolumn
+				when s53 => state := s54;    report_error (vout, 2.0); -- 2^occscalecolumn
 				when s54 => state := s55;    report_error (vout, 2.0); -- offset1216
-				when s55 => state := s56;    report_error (vout, 0.0); -- occscaleremnant
-				when s56 => state := s57;    report_error (vout, 0.0); -- 
+				when s55 => state := s56;    report_error (vout, 1.0); -- 2^occscaleremnant
+				when s56 => state := s57;    report_error (vout, 2.0); -- offset1216*2^occscaleremnant
+				when s57 => state := s58;    report_error (vout, -4.0); -- occcolumn16*2^occscalecolumn
+				when s58 => state := s59;    report_error (vout, -4.0); -- occrow12*2^occscalerow
+				when s59 => state := s60;    report_error (vout, -2.0); -- offset1216*2^occscaleremnant+occcolumn16*2^occscalecolumn
+				when s60 => state := s61;    report_error (vout, -6.0); -- offset1216*2^occscaleremnant+occcolumn16*2^occscalecolumn+occrow12*2^occscalerow
+				when s61 => state := s62;    report_error (vout, -75.0); -- offsetaverage+offset1216*2^occscaleremnant+occcolumn16*2^occscalecolumn+occrow12*2^occscalerow
 				when others => report_error (vout, 0.0);
 			end case;
 		end if;
