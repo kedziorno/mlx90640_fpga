@@ -51,6 +51,8 @@ i_ee0x2431 : in slv16;
 i_ee0x2410 : in slv16;
 i_ram0x0720 : in slv16;
 i_ram0x0700 : in slv16;
+i_ram0x070a : in slv16;
+i_ee0x2430 : in slv16;
 o_out1 : out fd2ft;
 o_rdy : out std_logic;
 o_out2 : out st_sfixed_max
@@ -272,11 +274,11 @@ sqrtfp2rdy when sqrtfp2ce = '1' else
 		variable eeprom16slv,ram16slv : slv16;
 		variable eeprom16sf,ram16sf : sfixed16;
 		variable eeprom16uf,ram16uf : ufixed16;
-		variable kvdd,vdd25,kvptat,ktptat,deltaV,vdd,vptat,vbe,vptat25,alphaptatee,alphaptat,vptatart,Ta : st_sfixed_max;
+		variable kvdd,vdd25,kvptat,ktptat,deltaV,vdd,vptat,vbe,vptat25,alphaptatee,alphaptat,vptatart,Ta,Kgain,gain : st_sfixed_max;
 		variable resee,resreg : st_ufixed_max;
 		variable kvdd_ft,vdd25_ft,const256_ft,const2pow5_ft,const2pow13_ft,resee_ft,resreg_ft,rescorr_ft,Ta_ft : fd2ft;
 		variable kvptat_ft,ktptat_ft,const2pow12_ft,const2pow3_ft,deltaV_ft,Vdd_ft,const3dot3_ft,vptat_ft,vbe_ft,vptat25_ft : fd2ft;
-		variable alphaptatee_ft,const2pow2_ft,const8_ft,alphaptat_ft,const2pow18_ft,vptatart_ft,const25_ft,const1_ft : fd2ft;
+		variable alphaptatee_ft,const2pow2_ft,const8_ft,alphaptat_ft,const2pow18_ft,vptatart_ft,const25_ft,const1_ft,Kgain_ft,gain_ft : fd2ft;
 		constant const256 : st_sfixed_max := to_sfixed (256.0, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow5 : st_sfixed_max := to_sfixed (2.0**5, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow13 : st_sfixed_max := to_sfixed (2.0**13, st_sfixed_max'high, st_sfixed_max'low);
@@ -303,7 +305,6 @@ sqrtfp2rdy when sqrtfp2ce = '1' else
 		constant C_WAIT1 : integer := G_C_WAIT1;
 		variable v_wait1 : integer range 0 to C_WAIT1-1;
 		variable Ta0 : st_sfixed_max;
-		variable Kgain : st_sfixed_max;
 		variable pixgain12_16 : st_sfixed_max; -- xxx for all pixels
 		variable offset12_16 : st_sfixed_max; -- xxx for all pixels
 		variable offsetaverage : st_sfixed_max;
@@ -1151,6 +1152,60 @@ when idle =>
 		else state := s86; end if;
 	when s87 => state := s88;
 		addfpsclr <= '0';
+		--
+		-- Kgain
+		eeprom16slv := i_ram0x070a and x"ffff";
+		gain := resize (to_sfixed (eeprom16slv, eeprom16sf), gain);
+		vout2 := resize (gain, st_sfixed_max'high, st_sfixed_max'low);
+--		gain := resize (to_sfixed (to_slv (gain), sfixed16'high, sfixed16'low), gain);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (gain (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (gain (fracbs'high downto fracbs'low)), fracbs));
+	when s88 =>
+		if (fixed2floatrdy = '1') then state := s89;
+			gain_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s88; end if;
+	when s89 => state := s90;
+		fixed2floatsclr <= '0';
+		eeprom16slv := i_ee0x2430 and x"ffff";
+		Kgain := resize (to_sfixed (eeprom16slv, eeprom16sf), Kgain);
+		vout2 := resize (Kgain, st_sfixed_max'high, st_sfixed_max'low);
+--		Kgain := resize (to_sfixed (to_slv (Kgain), sfixed16'high, sfixed16'low), Kgain);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (Kgain (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (Kgain (fracbs'high downto fracbs'low)), fracbs));
+	when s90 =>
+		if (fixed2floatrdy = '1') then state := s91;
+			Kgain_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s90; end if;
+	when s91 => state := s92;
+		fixed2floatsclr <= '0';
+		divfpce <= '1';
+		divfpa <= Kgain_ft;
+		divfpb <= gain_ft;
+		divfpond <= '1';
+	when s92 =>
+		if (divfprdy = '1') then state := s93;
+			Kgain_ft := divfpr;
+			o_out1 <= divfpr;
+			divfpce <= '0';
+			divfpond <= '0';
+			divfpsclr <= '1';
+		else state := s92; end if;
+	when s93 => state := s94;
+		divfpsclr <= '0';
 		
 ----		cmd <= "0010"; -- * a=deltaV*kvptat
 --		in1mul <= deltaV;

@@ -36,6 +36,8 @@ i_ee0x2431 : in slv16;
 i_ee0x2410 : in slv16;
 i_ram0x0720 : in slv16;
 i_ram0x0700 : in slv16;
+i_ram0x070a : in slv16;
+i_ee0x2430 : in slv16;
 o_out1 : out fd2ft;
 o_rdy : out std_logic;
 o_out2 : out st_sfixed_max
@@ -78,6 +80,8 @@ i_ee0x2431 => x"2ff1",
 i_ee0x2410 => x"4210",
 i_ram0x0720 => x"06af",
 i_ram0x0700 => x"4bf2",
+i_ram0x070a => x"1881",
+i_ee0x2430 => x"18ef",
 o_out1 => o_out1,
 o_rdy => o_rdy,
 o_out2 => o_out2
@@ -150,7 +154,10 @@ begin
 				when s40 => state := s41;    report_error (vout, 12872.2919921875); -- Ta 12873.57952/(1.0+(0.00537109375*0.01862373761832714))
 				when s41 => state := s42;    report_error (vout, 599.2919921875); -- Ta (12873.57952/(1.0+(0.00537109375*0.01862373761832714)))-12273.0
 				when s42 => state := s43;    report_error (vout, 14.184426307678223); -- Ta (((12873.57952/(1.0+(0.00537109375*0.01862373761832714)))-12273.0)/42.25)
-				when s43 => state := s44;    report_error (vout, 39.184); -- Ta (((12873.57952/(1.0+(0.00537109375*0.01862373761832714)))-12273.0)/42.25)+25.0
+				when s43 => state := s44;    report_error (vout, 39.184425354003906); -- Ta ~39.184 = (((12873.57952/(1.0+(0.00537109375*0.01862373761832714)))-12273.0)/42.25)+25.0
+				when s44 => state := s45;    report_error (vout, 6273.0); -- ram0x070a
+				when s45 => state := s46;    report_error (vout, 6383.0); -- ee0x2430
+				when s46 => state := s47;    report_error (vout, 1.01753546947234); -- Kgain
 				when others => report_error (vout, 0.0);
 			end case;
 		end if;
