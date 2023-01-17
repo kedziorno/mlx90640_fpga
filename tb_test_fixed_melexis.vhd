@@ -88,7 +88,10 @@ begin
 end process cp;
 
 tb1 : process (i_clock) is
-	type states is (s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20);
+	type states is (
+	s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,
+	s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,
+	s41,s42,s43,s44,s45,s46,s47,s48,s49,s50,s51,s52,s53,s54,s55,s56,s57,s58,s59,s60);
 	variable state : states;
 	variable vout : fd2ft;
 begin
@@ -118,6 +121,11 @@ begin
 				when s15 => state := s16;    report_error (vout, 338.0); -- ktptat
 				when s16 => state := s17;    report_error (vout, 8.0); -- 2**3
 				when s17 => state := s18;    report_error (vout, 42.25); -- ktptat
+				when s18 => state := s19;    report_error (vout, -13115.0); -- ram0x072a
+				when s19 => state := s20;    report_error (vout, -59.0); -- deltaV
+				when s20 => state := s21;    report_error (vout, 0.01862373761832714); -- deltaV 0.018623737
+				when s21 => state := s22;    report_error (vout, 3.299999952316284); -- 3.3v
+				when s22 => state := s23;    report_error (vout, 3.31862373761832714); -- vdd
 				when others => report_error (vout, 0.0);
 			end case;
 		end if;
