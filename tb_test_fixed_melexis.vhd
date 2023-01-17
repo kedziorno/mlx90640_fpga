@@ -38,6 +38,11 @@ i_ram0x0720 : in slv16;
 i_ram0x0700 : in slv16;
 i_ram0x070a : in slv16;
 i_ee0x2430 : in slv16;
+i_ram0x056f : in slv16; -- pxdata12,16
+i_ee0x2411 : in slv16;
+i_ee0x2414 : in slv16;
+i_ee0x241b : in slv16;
+i_ee0x25af : in slv16;
 o_out1 : out fd2ft;
 o_rdy : out std_logic;
 o_out2 : out st_sfixed_max
@@ -82,6 +87,11 @@ i_ram0x0720 => x"06af",
 i_ram0x0700 => x"4bf2",
 i_ram0x070a => x"1881",
 i_ee0x2430 => x"18ef",
+i_ram0x056f => x"0261",
+i_ee0x2411 => x"ffbb",
+i_ee0x2414 => x"f2f2",
+i_ee0x241b => x"e0ef",
+i_ee0x25af => x"08a0",
 o_out1 => o_out1,
 o_rdy => o_rdy,
 o_out2 => o_out2
@@ -157,7 +167,17 @@ begin
 				when s43 => state := s44;    report_error (vout, 39.184425354003906); -- Ta ~39.184 = (((12873.57952/(1.0+(0.00537109375*0.01862373761832714)))-12273.0)/42.25)+25.0
 				when s44 => state := s45;    report_error (vout, 6273.0); -- ram0x070a
 				when s45 => state := s46;    report_error (vout, 6383.0); -- ee0x2430
-				when s46 => state := s47;    report_error (vout, 1.01753546947234); -- Kgain
+				when s46 => state := s47;    report_error (vout, 1.0175354480743408); -- Kgain 1.01753546947234
+				when s47 => state := s48;    report_error (vout, 609.0); -- ram0x056f pxdata1216
+				when s48 => state := s49;    report_error (vout, 619.6790771484375); -- pixgain1216 619.679100908656
+				when s49 => state := s50;    report_error (vout, -69.0); -- offsetaverage
+				when s50 => state := s51;    report_error (vout, -1.0); -- occrow12
+				when s51 => state := s52;    report_error (vout, 2.0); -- occscalerow
+				when s52 => state := s53;    report_error (vout, -2.0); -- occcolumn16
+				when s53 => state := s54;    report_error (vout, 1.0); -- occscalecolumn
+				when s54 => state := s55;    report_error (vout, 2.0); -- offset1216
+				when s55 => state := s56;    report_error (vout, 0.0); -- occscaleremnant
+				when s56 => state := s57;    report_error (vout, 0.0); -- 
 				when others => report_error (vout, 0.0);
 			end case;
 		end if;
