@@ -46,6 +46,9 @@ i_ee0x2433 : in slv16;
 i_ram0x072a : in slv16;
 i_ee0x2438 : in slv16;
 i_ram0x800d : in slv16;
+i_ee0x2432 : in slv16;
+i_ee0x2431 : in slv16;
+i_ee0x2410 : in slv16;
 o_out1 : out fd2ft;
 o_rdy : out std_logic;
 o_out2 : out st_sfixed_max
@@ -109,6 +112,7 @@ b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
 operation_rfd : OUT STD_LOGIC;
 clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
 result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
 underflow : OUT STD_LOGIC;
@@ -124,6 +128,7 @@ signal divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpond : STD_LOGIC;
 signal divfporfd : STD_LOGIC;
 signal divfpclk : STD_LOGIC;
+signal divfpsclr : STD_LOGIC;
 signal divfpce : STD_LOGIC;
 signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpuf : STD_LOGIC;
@@ -265,16 +270,17 @@ sqrtfp2rdy when sqrtfp2ce = '1' else
 		variable eeprom16slv,ram16slv : slv16;
 		variable eeprom16sf,ram16sf : sfixed16;
 		variable eeprom16uf,ram16uf : ufixed16;
-		variable kvdd,vdd25 : st_sfixed_max;
+		variable kvdd,vdd25,kvptat,ktptat : st_sfixed_max;
 		variable resee,resreg : st_ufixed_max;
 		variable kvdd_ft,vdd25_ft,const256_ft,const2pow5_ft,const2pow13_ft,resee_ft,resreg_ft,rescorr_ft : fd2ft;
+		variable kvptat_ft,ktptat_ft,const2pow12_ft,const2pow3_ft : fd2ft;
 		constant const256 : st_sfixed_max := to_sfixed (256.0, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow5 : st_sfixed_max := to_sfixed (2.0**5, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow13 : st_sfixed_max := to_sfixed (2.0**13, st_sfixed_max'high, st_sfixed_max'low);
+		constant const2pow12 : st_sfixed_max := to_sfixed (2.0**12, st_sfixed_max'high, st_sfixed_max'low);
+		constant const2pow3 : st_sfixed_max := to_sfixed (2.0**3, st_sfixed_max'high, st_sfixed_max'low);
 
 
-		variable fptmp1,fptmp2,fpout : st_sfixed_max;
-		variable kvptat,ktptat : st_sfixed_max;
 		variable vdd,vddv0,deltaV : st_sfixed_max;
 		variable vptat,vbe : st_sfixed_max;
 		variable vptat25 : st_sfixed_max;
@@ -393,6 +399,7 @@ sqrtfp2rdy when sqrtfp2ce = '1' else
 				addfpsclr <= '1';
 				subfpsclr <= '1';
 				mulfpsclr <= '1';
+				divfpsclr <= '1';
 				fixed2floata <= (others => '0');
 				fixed2floatce <= '0';
 				fixed2floatond <= '0';
@@ -433,6 +440,7 @@ when idle =>
 			addfpsclr <= '0';
 			subfpsclr <= '0';
 			mulfpsclr <= '0';
+			divfpsclr <= '0';
 	when s1 => state := s2;
 		--
 		-- kvdd
@@ -628,134 +636,116 @@ when idle =>
 			o_out1 <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
+			divfpsclr <= '1';
 		else state := s22; end if;
-	when s23 =>
-	
---		eeprom16slv := x"9d68" and x"00ff"; -- ee[0x2433]
---		vdd25:= resize (to_sfixed (eeprom16slv, eeprom16sf), vdd25);
---		--report_error_normalize ("vdd25", vdd25, to_sfixed (-25344.0, max_expected_s));
---		kvdd := kvdd srl 8;
---		kvdd := resize (to_sfixed (to_slv (kvdd (7 downto 0)), sfixed8'high, sfixed8'low), kvdd);
---		--report_error_normalize ("kvdd", kvdd, to_sfixed (-99.0, max_expected_s));
---		kvdd := kvdd sll 5;
---		kvdd := resize (to_sfixed (to_slv (kvdd), sfixed16'high, sfixed16'low), kvdd);
---		--report_error_normalize ("kvdd", kvdd, to_sfixed (-3168.0, max_expected_s));
---		--report_error ("kvdd", kvdd, to_sfixed (-3168.0, max_expected_s));
---		fixed2floatce <= '1';
---		fixed2floatond <= '1';
---		fixed2floata <= 
---		to_slv (to_sfixed (to_slv (kvdd (fraca'high downto fraca'low)), fraca)) & 
---		to_slv (to_sfixed (to_slv (kvdd (fracb'high downto fracb'low)), fracb));
-	
+	when s23 => state := s24;
+		divfpsclr <= '0';
+		-- 
+		-- kvptat
+		eeprom16slv := i_ee0x2432 and x"fc00";
+		kvptat := resize (to_sfixed (eeprom16slv, eeprom16sf), kvptat);
+		vout2 := resize (kvptat, st_sfixed_max'high, st_sfixed_max'low);
+		kvptat := kvptat srl 10;
+		kvptat := resize (to_sfixed (to_slv (kvptat (5 downto 0)), sfixed6'high, sfixed6'low), kvptat);
+		vout2 := resize (kvptat, st_sfixed_max'high, st_sfixed_max'low);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (kvptat (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (kvptat (fracbs'high downto fracbs'low)), fracbs));
+	when s24 =>
+		if (fixed2floatrdy = '1') then state := s25;
+			kvptat_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s24; end if;
+	when s25 => state := s26;
+		fixed2floatsclr <= '0';
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (const2pow12 (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (const2pow12 (fracbs'high downto fracbs'low)), fracbs));
+	when s26 =>
+		if (fixed2floatrdy = '1') then state := s27;
+			const2pow12_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s26; end if;
+	when s27 => state := s28;
+		fixed2floatsclr <= '0';
+		divfpce <= '1';
+		divfpa <= kvptat_ft;
+		divfpb <= const2pow12_ft;
+		divfpond <= '1';
+	when s28 =>
+		if (divfprdy = '1') then state := s29;
+			kvptat_ft := divfpr;
+			o_out1 <= divfpr;
+			divfpce <= '0';
+			divfpond <= '0';
+			divfpsclr <= '1';
+		else state := s28; end if;
+	when s29 => state := s30;
+		divfpsclr <= '0';
+		eeprom16slv := i_ee0x2432 and x"03ff";
+		ktptat := resize (to_sfixed (eeprom16slv, eeprom16sf), ktptat);
+		vout2 := resize (kvptat, st_sfixed_max'high, st_sfixed_max'low);
+		ktptat := resize (to_sfixed (to_slv (ktptat (9 downto 0)), sfixed10'high, sfixed10'low), ktptat);
+		vout2 := resize (ktptat, st_sfixed_max'high, st_sfixed_max'low);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (ktptat (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (ktptat (fracbs'high downto fracbs'low)), fracbs));
+	when s30 =>
+		if (fixed2floatrdy = '1') then state := s31;
+			ktptat_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s30; end if;
+	when s31 => state := s32;
+		fixed2floatsclr <= '0';
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (const2pow3 (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (const2pow3 (fracbs'high downto fracbs'low)), fracbs));
+	when s32 =>
+		if (fixed2floatrdy = '1') then state := s33;
+			const2pow3_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s32; end if;
+	when s33 => state := s34;
+		fixed2floatsclr <= '0';
+		divfpce <= '1';
+		divfpa <= ktptat_ft;
+		divfpb <= const2pow3_ft;
+		divfpond <= '1';
+	when s34 =>
+		if (divfprdy = '1') then state := s35;
+			ktptat_ft := divfpr;
+			o_out1 <= divfpr;
+			divfpce <= '0';
+			divfpond <= '0';
+			divfpsclr <= '1';
+		else state := s34; end if;
+	when s35 => state := s36;
+		divfpsclr <= '0';
 
---		report "1111" severity failure;
---		--
---		-- vdd25
---		eeprom16slv := x"9d68" and x"00ff"; -- ee[0x2433]
---		vdd25:= resize (to_sfixed (eeprom16slv, eeprom16sf), vdd25);
---		--report_error_normalize ("vdd25", vdd25, to_sfixed (-25344.0, max_expected_s));
---		kvdd := kvdd srl 8;
---		kvdd := resize (to_sfixed (to_slv (kvdd (7 downto 0)), sfixed8'high, sfixed8'low), kvdd);
---		--report_error_normalize ("kvdd", kvdd, to_sfixed (-99.0, max_expected_s));
---		kvdd := kvdd sll 5;
---		kvdd := resize (to_sfixed (to_slv (kvdd), sfixed16'high, sfixed16'low), kvdd);
---		--report_error_normalize ("kvdd", kvdd, to_sfixed (-3168.0, max_expected_s));
---		--report_error ("kvdd", kvdd, to_sfixed (-3168.0, max_expected_s));
---		fixed2floatce <= '1';
---		fixed2floatond <= '1';
---		fixed2floata <= 
---		to_slv (to_sfixed (to_slv (kvdd (fraca'high downto fraca'low)), fraca)) & 
---		to_slv (to_sfixed (to_slv (kvdd (fracb'high downto fracb'low)), fracb));
---	when s2 =>
---		if (fixed2floatrdy = '1') then state := s3;
---			kvdd_ft := fixed2floatr;
---			--report_error (kvdd_ft, -3168.0);
---			fixed2floatce <= '0';
---			fixed2floatond <= '0';
---			fixed2floatsclr <= '1';
---		else state := s2; end if;
---	when s3 =>
---		fixed2floatsclr <= '0';
-
---report "done" severity failure;
-
---when s1 =>
---		--
---		-- kvdd
---		sftmp_slv_16 := x"9d68" and x"ff00"; -- ee[0x2433]
---		kvdd := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), kvdd);
---		--report_error_normalize ("fail kvdd 1", kvdd, to_sfixed (-25344.0, max_expected_s)); -- -25344
---		fptmp2 := to_sfixed (2**8, fptmp2);
---		--report_error_normalize ("fail 2**8", fptmp2, to_sfixed (2**8, max_expected_s)); -- 256
-----		cmd <= "0011"; -- / ee[0x2433]&0xff00/256
---		in1div <= resize (kvdd, fptmp1);
---		in2div <= fptmp2;
---		state := w1;
---when w1 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s2; else v_wait1 := v_wait1 + 1; state := w1; end if;
---when s2 =>
---		fpout := to_sfixed (to_slv (out1div), fpout);
---		kvdd := resize (fpout, kvdd);
---		--report_error_normalize ("fail kvdd 2", kvdd, to_sfixed (-99.0, max_expected_s)); -- -99
---		fptmp2 := to_sfixed (2**5, fptmp2);
---		--report_error_normalize ("fail 2**5", fptmp2, to_sfixed (2**5, max_expected_s)); -- 32
-----		cmd <= "0010"; -- * kvdd*2^5
---		in1mul <= resize (kvdd, fptmp1);
---		in2mul <= fptmp2;
---		state := w2;
---when w2 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s3; else v_wait1 := v_wait1 + 1; state := w2; end if;
---when s3 =>
---		fpout := to_sfixed (to_slv (out1mul), fpout);
---		kvdd := resize (fpout, kvdd);
---		--report_error_normalize ("fail kvdd 3", kvdd, to_sfixed (-3168.0, max_expected_s)); -- -3168
---		--
---		-- vdd25
---		sftmp_slv_16 := x"9d68" and x"00ff"; -- ee[0x2433]
---		vdd25 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), vdd25);
---		--report_error_normalize ("fail vdd25 1", vdd25, to_sfixed (104.0, max_expected_s)); -- 104
---		fptmp2 := to_sfixed (2**8, fptmp2);
---		--report_error_normalize ("fail 2**8", fptmp2, to_sfixed (2**8, max_expected_s)); -- 256
-----		cmd <= "0001"; -- - vdd25-256
---		in1sub <= resize (vdd25, fptmp1);
---		in2sub <= fptmp2;
---		state := w3;
---when w3 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s4; else v_wait1 := v_wait1 + 1; state := w3; end if;
---when s4 =>
---		fpout := to_sfixed (to_slv (out1sub), fpout);
---		vdd25 := resize (fpout, vdd25);
---		--report_error_normalize ("fail vdd25 2", vdd25, to_sfixed (-152.0, max_expected_s)); -- -152
---		fptmp2 := to_sfixed (2**5, fptmp2);
---		--report_error_normalize ("fail 2**5", fptmp2, to_sfixed (2**5, max_expected_s)); -- 32
-----		cmd <= "0010"; -- * (vdd25-256)*2^5
---		in1mul <= resize (vdd25, fptmp1);
---		in2mul <= fptmp2;
---		state := w4;
---when w4 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s5; else v_wait1 := v_wait1 + 1; state := w4; end if;
---when s5 =>
---		fpout := to_sfixed (to_slv (out1mul), fpout);
---		vdd25 := resize (fpout, vdd25);
---		--report_error_normalize ("fail vdd25 3", vdd25, to_sfixed (-4864.0, max_expected_s)); -- -4864
---		fptmp2 := to_sfixed (2**13, fptmp2);
---		--report_error_normalize ("fail 2**13", fptmp2, to_sfixed (2**13, max_expected_s)); -- 2**13
-----		cmd <= "0001"; -- - (vdd25-256)*2^5-2^13
---		in1sub <= resize (vdd25, fptmp1);
---		in2sub <= fptmp2;
---		state := w5;
---when w5 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s6; else v_wait1 := v_wait1 + 1; state := w5; end if;
---when s6 =>
---		fpout := to_sfixed (to_slv (out1sub), fpout);
---		vdd25 := resize (fpout, vdd25);
---		--report_error_normalize ("fail vdd25 4", vdd25, to_sfixed (-13056.0, max_expected_s)); -- -13056
---		-- 
---		-- kvptat
---		sftmp_slv_16 := x"5952" and x"fc00"; -- ee[0x2432]
---		kvptat := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), kvptat);
---		--report_error_normalize ("fail kvptat 1", kvptat, to_sfixed (22528.0, max_expected_s)); -- 22528
---		fptmp2 := to_sfixed (2**10, fptmp2);
+--	sftmp_slv_16 := x"5952" and x"fc00"; -- ee[0x2432]
+--	kvptat := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), kvptat);
+--	--report_error_normalize ("fail kvptat 1", kvptat, to_sfixed (22528.0, max_expected_s)); -- 22528
+--	fptmp2 := to_sfixed (2**10, fptmp2);
 --		--report_error_normalize ("fail 2**10", fptmp2, to_sfixed (2**10, max_expected_s)); -- 2**10
 ----		cmd <= "0011"; -- / ee[0x2432]&0xfc00/2**10
 --		in1div <= kvptat;
@@ -2255,6 +2245,7 @@ b => divfpb,
 operation_nd => divfpond,
 operation_rfd => divfporfd,
 clk => divfpclk,
+sclr => divfpsclr,
 ce => divfpce,
 result => divfpr,
 underflow => divfpuf,

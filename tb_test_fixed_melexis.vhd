@@ -31,6 +31,9 @@ i_ee0x2433 : in slv16;
 i_ram0x072a : in slv16;
 i_ee0x2438 : in slv16;
 i_ram0x800d : in slv16;
+i_ee0x2432 : in slv16;
+i_ee0x2431 : in slv16;
+i_ee0x2410 : in slv16;
 o_out1 : out fd2ft;
 o_rdy : out std_logic;
 o_out2 : out st_sfixed_max
@@ -68,6 +71,9 @@ i_ee0x2433 => x"9d68",
 i_ee0x2438 => x"2363",
 i_ram0x072a => x"ccc5",
 i_ram0x800d => x"1901",
+i_ee0x2432 => x"5952",
+i_ee0x2431 => x"2ff1",
+i_ee0x2410 => x"4210",
 o_out1 => o_out1,
 o_rdy => o_rdy,
 o_out2 => o_out2
@@ -106,6 +112,12 @@ begin
 				when s9 => state := s10;     report_error (vout, 4.0); -- resee
 				when s10 => state := s11;    report_error (vout, 4.0); -- resreg
 				when s11 => state := s12;    report_error (vout, 1.0); -- rescorr
+				when s12 => state := s13;    report_error (vout, 22.0); -- kvptat
+				when s13 => state := s14;    report_error (vout, 4096.0); -- 2**12
+				when s14 => state := s15;    report_error (vout, 0.00537109375); -- kvptat 0.005371094
+				when s15 => state := s16;    report_error (vout, 338.0); -- ktptat
+				when s16 => state := s17;    report_error (vout, 8.0); -- 2**3
+				when s17 => state := s18;    report_error (vout, 42.25); -- ktptat
 				when others => report_error (vout, 0.0);
 			end case;
 		end if;
