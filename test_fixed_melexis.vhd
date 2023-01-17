@@ -484,8 +484,49 @@ when idle =>
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
 		else state := s8; end if;
-	when s9 =>
+	when s9 => state := s10;
 		fixed2floatsclr <= '0';
+		--
+		-- vdd25
+		eeprom16slv := x"9d68" and x"00ff"; -- ee[0x2433]
+		vdd25 := resize (to_sfixed (eeprom16slv, eeprom16sf), vdd25);
+--		report_error_normalize ("vdd25", vdd25, to_sfixed (104.0, max_expected_s));
+		vdd25 := resize (to_sfixed (to_slv (vdd25 (7 downto 0)), sfixed8'high, sfixed8'low), vdd25);
+--		report_error_normalize ("vdd25", vdd25, to_sfixed (104.0, max_expected_s));
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (vdd25 (fraca'high downto fraca'low)), fraca)) & 
+		to_slv (to_sfixed (to_slv (vdd25 (fracb'high downto fracb'low)), fracb));
+	when s10 =>
+		if (fixed2floatrdy = '1') then state := s11;
+			vdd25_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			report_error (vdd25_ft, 104.0);
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s10; end if;
+	when s11 =>
+		fixed2floatsclr <= '0';
+		
+--		eeprom16slv := x"9d68" and x"00ff"; -- ee[0x2433]
+--		vdd25:= resize (to_sfixed (eeprom16slv, eeprom16sf), vdd25);
+--		report_error_normalize ("vdd25", vdd25, to_sfixed (-25344.0, max_expected_s));
+--		kvdd := kvdd srl 8;
+--		kvdd := resize (to_sfixed (to_slv (kvdd (7 downto 0)), sfixed8'high, sfixed8'low), kvdd);
+--		report_error_normalize ("kvdd", kvdd, to_sfixed (-99.0, max_expected_s));
+--		kvdd := kvdd sll 5;
+--		kvdd := resize (to_sfixed (to_slv (kvdd), sfixed16'high, sfixed16'low), kvdd);
+--		report_error_normalize ("kvdd", kvdd, to_sfixed (-3168.0, max_expected_s));
+--		report_error ("kvdd", kvdd, to_sfixed (-3168.0, max_expected_s));
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (kvdd (fraca'high downto fraca'low)), fraca)) & 
+--		to_slv (to_sfixed (to_slv (kvdd (fracb'high downto fracb'low)), fracb));
+	
+
 		report "1111" severity failure;
 --		--
 --		-- vdd25
