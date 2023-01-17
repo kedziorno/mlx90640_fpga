@@ -40,8 +40,10 @@ package p_fphdl_package1 is
 
 	subtype st_sfixed_max is sfixed (FP_INTEGER-1 downto -FP_FRACTION);
 	subtype st_ufixed_max is ufixed (FP_INTEGER-1 downto -FP_FRACTION);
-	subtype fraca is sfixed (FP_INTEGER-1 downto 0);
-	subtype fracb is sfixed (-1 downto -FP_FRACTION);
+	subtype fracas is sfixed (FP_INTEGER-1 downto 0);
+	subtype fracbs is sfixed (-1 downto -FP_FRACTION);
+	subtype fracau is ufixed (FP_INTEGER-1 downto 0);
+	subtype fracbu is ufixed (-1 downto -FP_FRACTION);
 
 	subtype st_sfixed_max_expected is sfixed (FP_INTEGER_EXPECTED-1 downto -FP_FRACTION_EXPECTED);
 	subtype st_ufixed_max_expected is ufixed (FP_INTEGER_EXPECTED-1 downto -FP_FRACTION_EXPECTED);

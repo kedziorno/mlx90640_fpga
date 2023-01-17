@@ -28,6 +28,9 @@ i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
 i_ee0x2433 : in slv16;
+i_ram0x072a : in slv16;
+i_ee0x2438 : in slv16;
+i_ram0x800d : in slv16;
 o_out1 : out fd2ft;
 o_rdy : out std_logic;
 o_out2 : out st_sfixed_max
@@ -62,6 +65,9 @@ i_clock => i_clock,
 i_reset => i_reset,
 i_run => i_run,
 i_ee0x2433 => x"9d68",
+i_ee0x2438 => x"2363",
+i_ram0x072a => x"ccc5",
+i_ram0x800d => x"1901",
 o_out1 => o_out1,
 o_rdy => o_rdy,
 o_out2 => o_out2
@@ -76,7 +82,7 @@ begin
 end process cp;
 
 tb1 : process (i_clock) is
-	type states is (s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10);
+	type states is (s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20);
 	variable state : states;
 	variable vout : fd2ft;
 begin
@@ -88,16 +94,18 @@ begin
 		vout := o_out1;
 		if (o_rdyp = '0' and o_rdy = '1') then
 			case (state) is
-				when s0 => state := s1; report_error (vout, 0.0);
-				when s1 => state := s2; report_error (vout, -3168.0);
-				when s2 => state := s3; report_error (vout, 256.0);
-				when s3 => state := s4; report_error (vout, 32.0);
-				when s4 => state := s5; report_error (vout, 8192.0);
-				when s5 => state := s6; report_error (vout, 104.0);
-				when s6 => state := s7; report_error (vout, -152.0);
-				when s7 => state := s8; report_error (vout, -4864.0);
-				when s8 => state := s9; report_error (vout, -13056.0);
-				when s9 => state := s10; report_error (vout, 0.0);
+				when s0 => state := s1;      report_error (vout, 0.0);
+				when s1 => state := s2;      report_error (vout, -3168.0); -- kvdd
+				when s2 => state := s3;      report_error (vout, 256.0); -- const
+				when s3 => state := s4;      report_error (vout, 32.0); -- 2**5
+				when s4 => state := s5;      report_error (vout, 8192.0); -- 2**13
+				when s5 => state := s6;      report_error (vout, 104.0); -- vdd25
+				when s6 => state := s7;      report_error (vout, -152.0); -- vdd25
+				when s7 => state := s8;      report_error (vout, -4864.0); -- vdd25
+				when s8 => state := s9;      report_error (vout, -13056.0); -- vdd25
+				when s9 => state := s10;     report_error (vout, 4.0); -- resee
+				when s10 => state := s11;    report_error (vout, 4.0); -- resreg
+				when s11 => state := s12;    report_error (vout, 1.0); -- rescorr
 				when others => report_error (vout, 0.0);
 			end case;
 		end if;
@@ -120,7 +128,7 @@ END PROCESS tb_run;
 
 tb_wait : PROCESS
 BEGIN
-wait for 30 ms;
+wait for 0.5 ms;
 report "done simulation" severity failure;
 END PROCESS tb_wait;
 
