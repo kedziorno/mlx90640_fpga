@@ -6,6 +6,7 @@ USE ieee.numeric_std.ALL;
 use ieee_proposed.fixed_pkg.all;
 
 USE work.p_fphdl_package1.all;
+USE work.p_fphdl_package2.all;
 
 ENTITY tb_test_fixed_melexis IS
 END tb_test_fixed_melexis;
@@ -22,7 +23,8 @@ i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
 i_ee0x2433 : in slv16;
-o_out1 : out fd2ft
+o_out1 : out fd2ft;
+o_rdy : out std_logic
 );
 end component test_fixed_melexis;
 
@@ -30,6 +32,7 @@ SIGNAL i_clock :  std_logic;
 SIGNAL i_reset :  std_logic;
 SIGNAL i_run :  std_logic;
 SIGNAL o_out1 :  fd2ft;
+SIGNAL o_rdy,o_rdyp :  std_logic;
 
 constant clock_period : time := 500 ns;
 constant G_C_WAIT1 : integer := 16;
@@ -50,7 +53,8 @@ i_clock => i_clock,
 i_reset => i_reset,
 i_run => i_run,
 i_ee0x2433 => x"9d68",
-o_out1 => o_out1
+o_out1 => o_out1,
+o_rdy => o_rdy
 );
 
 cp : process
@@ -60,6 +64,49 @@ begin
 	i_clock <= '1';
 	wait for clock_period/2;
 end process cp;
+
+tb1 : process (i_clock) is
+	type states is (s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10);
+	variable state : states;
+	variable vout : fd2ft;
+begin
+	if (i_reset = '1') then
+		state := s0;
+		vout := (others => '0');
+	elsif rising_edge(i_clock) then
+		o_rdyp <= o_rdy;
+		vout := o_out1;
+		if (o_rdyp = '0' and o_rdy = '1') then
+			case (state) is
+				when s0 => state := s1; report_error (vout, 0.0);
+				when s1 => state := s2; report_error (vout, -3168.0);
+				when s2 => state := s3; report_error (vout, 256.0);
+				when s3 => state := s4; report_error (vout, 32.0);
+				when s4 => state := s5; report_error (vout, 8192.0);
+				when s5 => state := s6; report_error (vout, 104.0);
+				when s6 => state := s7; report_error (vout, -152.0);
+				when s7 => state := s8; report_error (vout, -4864.0);
+				when s8 => state := s9; report_error (vout, -13056.0);
+				when s9 => state := s10; report_error (vout, 0.0);
+				when others => report_error (vout, 0.0);
+			end case;
+		end if;
+	end if;
+end process tb1;
+
+tb2 : process (o_rdy, o_rdyp) is
+begin
+--	if (o_rdyp = '0' and o_rdy = '1') then report_error (o_out1, 0.0); end if;
+--	if (o_rdyp = '0' and o_rdy = '1') then report_error (o_out1, -3168.0); end if;
+--	if (o_rdyp = '0' and o_rdy = '1') then report_error (o_out1, 256.0); end if;
+
+--wait until o_rdy = '1';
+--report_error (o_out1, -3168.0);
+--assert out1r /= -3168.0 report "err1";
+--report "bbb";
+
+
+end process tb2;
 
 --  Test Bench Statements
 tb_run: PROCESS
