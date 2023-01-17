@@ -42,6 +42,7 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
+i_ee0x2433 : in slv16;
 o_out1 : out fd2ft
 );
 end test_fixed_melexis;
@@ -413,7 +414,7 @@ when idle =>
 	when s1 => state := s2;
 		--
 		-- kvdd
-		eeprom16slv := x"9d68" and x"ff00"; -- ee[0x2433]
+		eeprom16slv := i_ee0x2433 and x"ff00"; -- ee[0x2433]
 		kvdd := resize (to_sfixed (eeprom16slv, eeprom16sf), kvdd);
 --		report_error_normalize ("kvdd", kvdd, to_sfixed (-25344.0, max_expected_s));
 		kvdd := kvdd srl 8;
@@ -487,7 +488,7 @@ when idle =>
 		fixed2floatsclr <= '0';
 		--
 		-- vdd25
-		eeprom16slv := x"9d68" and x"00ff"; -- ee[0x2433]
+		eeprom16slv := i_ee0x2433 and x"00ff"; -- ee[0x2433]
 		vdd25 := resize (to_sfixed (eeprom16slv, eeprom16sf), vdd25);
 --		report_error_normalize ("vdd25", vdd25, to_sfixed (104.0, max_expected_s));
 		vdd25 := resize (to_sfixed (to_slv (vdd25 (7 downto 0)), sfixed8'high, sfixed8'low), vdd25);

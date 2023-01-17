@@ -21,6 +21,7 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
+i_ee0x2433 : in slv16;
 o_out1 : out fd2ft
 );
 end component test_fixed_melexis;
@@ -48,6 +49,7 @@ port map (
 i_clock => i_clock,
 i_reset => i_reset,
 i_run => i_run,
+i_ee0x2433 => x"9d68",
 o_out1 => o_out1
 );
 
