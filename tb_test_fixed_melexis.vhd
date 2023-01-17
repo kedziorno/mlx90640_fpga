@@ -110,8 +110,8 @@ begin
 				when s0 => state := s1;      report_error (vout, 0.0);
 				when s1 => state := s2;      report_error (vout, -3168.0); -- kvdd
 				when s2 => state := s3;      report_error (vout, 256.0); -- const
-				when s3 => state := s4;      report_error (vout, 32.0); -- 2**5
-				when s4 => state := s5;      report_error (vout, 8192.0); -- 2**13
+				when s3 => state := s4;      report_error (vout, 32.0); -- const
+				when s4 => state := s5;      report_error (vout, 8192.0); -- const
 				when s5 => state := s6;      report_error (vout, 104.0); -- vdd25
 				when s6 => state := s7;      report_error (vout, -152.0); -- vdd25
 				when s7 => state := s8;      report_error (vout, -4864.0); -- vdd25
@@ -120,10 +120,10 @@ begin
 				when s10 => state := s11;    report_error (vout, 4.0); -- resreg
 				when s11 => state := s12;    report_error (vout, 1.0); -- rescorr
 				when s12 => state := s13;    report_error (vout, 22.0); -- kvptat
-				when s13 => state := s14;    report_error (vout, 4096.0); -- 2**12
+				when s13 => state := s14;    report_error (vout, 4096.0); -- const
 				when s14 => state := s15;    report_error (vout, 0.00537109375); -- kvptat 0.005371094
 				when s15 => state := s16;    report_error (vout, 338.0); -- ktptat
-				when s16 => state := s17;    report_error (vout, 8.0); -- 2**3
+				when s16 => state := s17;    report_error (vout, 8.0); -- const
 				when s17 => state := s18;    report_error (vout, 42.25); -- ktptat
 				when s18 => state := s19;    report_error (vout, -13115.0); -- ram0x072a
 				when s19 => state := s20;    report_error (vout, -59.0); -- deltaV
@@ -133,6 +133,21 @@ begin
 				when s23 => state := s24;    report_error (vout, 12273.0); -- vptat25
 				when s24 => state := s25;    report_error (vout, 1711.0); -- vptat
 				when s25 => state := s26;    report_error (vout, 19442.0); -- vbe
+				when s26 => state := s27;    report_error (vout, 4.0); -- alphaptatee
+				when s27 => state := s28;    report_error (vout, 4.0); -- const
+				when s28 => state := s29;    report_error (vout, 8.0); -- const
+				when s29 => state := s30;    report_error (vout, 1.0); -- alphaptatee
+				when s30 => state := s31;    report_error (vout, 9.0); -- alphaptat
+				when s31 => state := s32;    report_error (vout, 2.0**18); -- const
+				when s32 => state := s33;    report_error (vout, 1711.0*9.0); -- vptatart
+				when s33 => state := s34;    report_error (vout, (1711.0*9.0)+19442.0); -- vptatart
+				when s34 => state := s35;    report_error (vout, 0.04910880699753761); -- vptatart (1711.0/((1711.0*9.0)+19442.0))
+				when s35 => state := s36;    report_error (vout, (1711.0/((1711.0*9.0)+19442.0))*2.0**18); -- vptatart
+				when s36 => state := s37;    report_error (vout, 2.0**18); -- vptatart
+				when s37 => state := s38;    report_error (vout, 2.0**18); -- const
+				when s38 => state := s39;    report_error (vout, 2.0**18); -- const
+				when s39 => state := s40;    report_error (vout, 2.0**18); -- const
+				when s40 => state := s41;    report_error (vout, 2.0**18); -- const
 				when others => report_error (vout, 0.0);
 			end case;
 		end if;
