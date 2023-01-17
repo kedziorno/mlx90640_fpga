@@ -196,8 +196,8 @@ package body p_fphdl_package1 is
 
 	procedure report_error (sl : std_logic_vector; constant e : real) is
 	begin
-		assert ap_slv2fp (sl) /= e report "OK : " & real'image (ap_slv2fp (sl)) & " = " & real'image (e) & " ( " & to_hex_string (sl) & " ) " & to_string_1 (sl);
-		assert ap_slv2fp (sl) = e report "actual /= expected : " & real'image (ap_slv2fp (sl)) & " /= " & real'image (e) & " ( " & to_hex_string (sl) & " ) " & to_string_1 (sl);
+		assert ap_slv2fp (sl) /= e report "OK : " & real'image (ap_slv2fp (sl)) & " = " & real'image (e) & " ( " & to_hex_string (sl) & " ) " & to_string_1 (sl) severity note;
+		assert ap_slv2fp (sl) = e report "actual /= expected : " & real'image (ap_slv2fp (sl)) & " /= " & real'image (e) & " ( " & to_hex_string (sl) & " ) " & to_string_1 (sl) severity error;
 		return;
 	end procedure report_error;
 
