@@ -249,9 +249,9 @@ begin
 		variable eeprom16slv,ram16slv : slv16;
 		variable eeprom16sf,ram16sf : sfixed16;
 		variable kvdd,vdd25 : st_sfixed_max;
-		variable kvdd_ft,vdd25_ft,const256_ft,const5_ft,const2pow13_ft : fd2ft;
+		variable kvdd_ft,vdd25_ft,const256_ft,const2pow5_ft,const2pow13_ft : fd2ft;
 		constant const256 : st_sfixed_max := to_sfixed (256.0, st_sfixed_max'high, st_sfixed_max'low);
-		constant const5 : st_sfixed_max := to_sfixed (5.0, st_sfixed_max'high, st_sfixed_max'low);
+		constant const2pow5 : st_sfixed_max := to_sfixed (2.0**5, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow13 : st_sfixed_max := to_sfixed (2.0**13, st_sfixed_max'high, st_sfixed_max'low);
 
 
@@ -457,13 +457,13 @@ when idle =>
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (const5 (fraca'high downto fraca'low)), fraca)) & 
-		to_slv (to_sfixed (to_slv (const5 (fracb'high downto fracb'low)), fracb));
+		to_slv (to_sfixed (to_slv (const2pow5 (fraca'high downto fraca'low)), fraca)) & 
+		to_slv (to_sfixed (to_slv (const2pow5 (fracb'high downto fracb'low)), fracb));
 	when s6 =>
 		if (fixed2floatrdy = '1') then state := s7;
-			const5_ft := fixed2floatr;
+			const2pow5_ft := fixed2floatr;
 			o_out1 <= fixed2floatr;
-			report_error (const5_ft, 5.0);
+			report_error (const2pow5_ft, 2.0**5);
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -507,9 +507,54 @@ when idle =>
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
 		else state := s10; end if;
-	when s11 =>
+	when s11 => state := s12;
 		fixed2floatsclr <= '0';
-		
+		subfpce <= '1';
+		subfpa <= vdd25_ft;
+		subfpb <= const256_ft;
+		subfpond <= '1';
+	when s12 =>
+		if (subfprdy = '1') then state := s13;
+			vdd25_ft := subfpr;
+			o_out1 <= vdd25_ft;
+			report_error (vdd25_ft, -152.0);
+			subfpce <= '0';
+			subfpond <= '0';
+			subfpsclr <= '1';
+		else state := s12; end if;
+	when s13 => state := s14;
+		subfpsclr <= '0';
+		mulfpce <= '1';
+		mulfpa <= vdd25_ft;
+		mulfpb <= const2pow5_ft;
+		mulfpond <= '1';
+	when s14 =>
+		if (mulfprdy = '1') then state := s15;
+			vdd25_ft := mulfpr;
+			o_out1 <= vdd25_ft;
+			report_error (vdd25_ft, -4864.0);
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s14; end if;
+	when s15 => state := s16;
+		mulfpsclr <= '0';
+		subfpce <= '1';
+		subfpa <= vdd25_ft;
+		subfpb <= const2pow13_ft;
+		subfpond <= '1';
+	when s16 =>
+		if (subfprdy = '1') then state := s17;
+			vdd25_ft := subfpr;
+			o_out1 <= vdd25_ft;
+			report_error (vdd25_ft, -13056.0);
+			subfpce <= '0';
+			subfpond <= '0';
+			subfpsclr <= '1';
+		else state := s16; end if;
+	when s17 => state := s18;
+		subfpsclr <= '0';
+
 --		eeprom16slv := x"9d68" and x"00ff"; -- ee[0x2433]
 --		vdd25:= resize (to_sfixed (eeprom16slv, eeprom16sf), vdd25);
 --		report_error_normalize ("vdd25", vdd25, to_sfixed (-25344.0, max_expected_s));
