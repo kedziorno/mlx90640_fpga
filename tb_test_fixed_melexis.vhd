@@ -2,8 +2,13 @@
 
 LIBRARY ieee,ieee_proposed;
 USE ieee.std_logic_1164.ALL;
-USE ieee.numeric_std.ALL;
+--USE ieee.numeric_std.ALL;
+use ieee_proposed.fixed_float_types.all;
 use ieee_proposed.fixed_pkg.all;
+use ieee_proposed.numeric_std_additions.all;
+use ieee_proposed.standard_additions.all;
+--use ieee_proposed.standard_textio_additions.all;
+use ieee_proposed.std_logic_1164_additions.all;
 
 USE work.p_fphdl_package1.all;
 USE work.p_fphdl_package2.all;
@@ -24,7 +29,8 @@ i_reset : in std_logic;
 i_run : in std_logic;
 i_ee0x2433 : in slv16;
 o_out1 : out fd2ft;
-o_rdy : out std_logic
+o_rdy : out std_logic;
+o_out2 : out st_sfixed_max
 );
 end component test_fixed_melexis;
 
@@ -33,15 +39,18 @@ SIGNAL i_reset :  std_logic;
 SIGNAL i_run :  std_logic;
 SIGNAL o_out1 :  fd2ft;
 SIGNAL o_rdy,o_rdyp :  std_logic;
+SIGNAL o_out2 : st_sfixed_max;
 
 constant clock_period : time := 500 ns;
 constant G_C_WAIT1 : integer := 16;
 
 signal out1r : real;
+signal out2r : real;
 
 BEGIN
 
 out1r <= ap_slv2fp (o_out1);
+out2r <= to_real (o_out2);
 
 -- Component Instantiation
 uut : test_fixed_melexis 
@@ -54,7 +63,8 @@ i_reset => i_reset,
 i_run => i_run,
 i_ee0x2433 => x"9d68",
 o_out1 => o_out1,
-o_rdy => o_rdy
+o_rdy => o_rdy,
+o_out2 => o_out2
 );
 
 cp : process
@@ -93,20 +103,6 @@ begin
 		end if;
 	end if;
 end process tb1;
-
-tb2 : process (o_rdy, o_rdyp) is
-begin
---	if (o_rdyp = '0' and o_rdy = '1') then report_error (o_out1, 0.0); end if;
---	if (o_rdyp = '0' and o_rdy = '1') then report_error (o_out1, -3168.0); end if;
---	if (o_rdyp = '0' and o_rdy = '1') then report_error (o_out1, 256.0); end if;
-
---wait until o_rdy = '1';
---report_error (o_out1, -3168.0);
---assert out1r /= -3168.0 report "err1";
---report "bbb";
-
-
-end process tb2;
 
 --  Test Bench Statements
 tb_run: PROCESS

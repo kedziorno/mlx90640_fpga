@@ -44,7 +44,8 @@ i_reset : in std_logic;
 i_run : in std_logic;
 i_ee0x2433 : in slv16;
 o_out1 : out fd2ft;
-o_rdy : out std_logic
+o_rdy : out std_logic;
+o_out2 : out st_sfixed_max
 );
 end test_fixed_melexis;
 
@@ -364,6 +365,7 @@ sqrtfp2rdy when sqrtfp2ce = '1' else
 		variable max_expected_u : st_ufixed_max_expected;
 		variable fraca : fraca;
 		variable fracb : fracb;
+		variable vout2 : st_sfixed_max;
 	begin
 		if (rising_edge(i_clock)) then
 			if (i_reset = '1') then
@@ -409,6 +411,8 @@ sqrtfp2rdy when sqrtfp2ce = '1' else
 				eeprom16slv := (others => '0');
 				ram16slv := (others => '0');
 			else
+		o_out2 <= vout2;
+
 		case (state) is
 when idle =>
 			if (i_run = '1') then
@@ -427,9 +431,12 @@ when idle =>
 		-- kvdd
 		eeprom16slv := i_ee0x2433 and x"ff00"; -- ee[0x2433]
 		kvdd := resize (to_sfixed (eeprom16slv, eeprom16sf), kvdd);
+		vout2 := resize (kvdd, st_sfixed_max'high, st_sfixed_max'low);
 		kvdd := kvdd srl 8;
 		kvdd := resize (to_sfixed (to_slv (kvdd (7 downto 0)), sfixed8'high, sfixed8'low), kvdd);
+		vout2 := resize (kvdd, st_sfixed_max'high, st_sfixed_max'low);
 		kvdd := kvdd sll 5;
+		vout2 := resize (kvdd, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -494,7 +501,9 @@ when idle =>
 		-- vdd25
 		eeprom16slv := i_ee0x2433 and x"00ff"; -- ee[0x2433]
 		vdd25 := resize (to_sfixed (eeprom16slv, eeprom16sf), vdd25);
+		vout2 := resize (vdd25, st_sfixed_max'high, st_sfixed_max'low);
 		vdd25 := resize (to_sfixed (to_slv (vdd25 (7 downto 0)), sfixed8'high, sfixed8'low), vdd25);
+		vout2 := resize (vdd25, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
