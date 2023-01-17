@@ -420,7 +420,6 @@ when idle =>
 		kvdd := resize (to_sfixed (to_slv (kvdd (7 downto 0)), sfixed8'high, sfixed8'low), kvdd);
 --		report_error_normalize ("kvdd", kvdd, to_sfixed (-99.0, max_expected_s));
 		kvdd := kvdd sll 5;
-		kvdd := resize (to_sfixed (to_slv (kvdd), sfixed16'high, sfixed16'low), kvdd);
 --		report_error_normalize ("kvdd", kvdd, to_sfixed (-3168.0, max_expected_s));
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
