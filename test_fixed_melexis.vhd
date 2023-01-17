@@ -49,6 +49,8 @@ i_ram0x800d : in slv16;
 i_ee0x2432 : in slv16;
 i_ee0x2431 : in slv16;
 i_ee0x2410 : in slv16;
+i_ram0x0720 : in slv16;
+i_ram0x0700 : in slv16;
 o_out1 : out fd2ft;
 o_rdy : out std_logic;
 o_out2 : out st_sfixed_max
@@ -270,10 +272,10 @@ sqrtfp2rdy when sqrtfp2ce = '1' else
 		variable eeprom16slv,ram16slv : slv16;
 		variable eeprom16sf,ram16sf : sfixed16;
 		variable eeprom16uf,ram16uf : ufixed16;
-		variable kvdd,vdd25,kvptat,ktptat,deltaV,vdd : st_sfixed_max;
+		variable kvdd,vdd25,kvptat,ktptat,deltaV,vdd,vptat,vbe,vptat25 : st_sfixed_max;
 		variable resee,resreg : st_ufixed_max;
 		variable kvdd_ft,vdd25_ft,const256_ft,const2pow5_ft,const2pow13_ft,resee_ft,resreg_ft,rescorr_ft : fd2ft;
-		variable kvptat_ft,ktptat_ft,const2pow12_ft,const2pow3_ft,deltaV_ft,Vdd_ft,const3dot3_ft : fd2ft;
+		variable kvptat_ft,ktptat_ft,const2pow12_ft,const2pow3_ft,deltaV_ft,Vdd_ft,const3dot3_ft,vptat_ft,vbe_ft,vptat25_ft : fd2ft;
 		constant const256 : st_sfixed_max := to_sfixed (256.0, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow5 : st_sfixed_max := to_sfixed (2.0**5, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow13 : st_sfixed_max := to_sfixed (2.0**13, st_sfixed_max'high, st_sfixed_max'low);
@@ -283,8 +285,6 @@ sqrtfp2rdy when sqrtfp2ce = '1' else
 
 
 		variable vddv0 : st_sfixed_max;
-		variable vptat,vbe : st_sfixed_max;
-		variable vptat25 : st_sfixed_max;
 		variable vptatart : st_sfixed_max;
 		variable alphaptatee : st_sfixed_max;
 		variable alphaptat : st_sfixed_max;
@@ -819,32 +819,72 @@ when idle =>
 		else state := s44; end if;
 	when s45 => state := s46;
 		addfpsclr <= '0';
-
-
---		fptmp2 := to_sfixed (3.3, fptmp2);
---		--report_error_normalize ("fail 3.3", fptmp2, to_sfixed (3.3, max_expected_s)); -- 3.3
-----		cmd <= "0000"; -- +
---		in1add <= deltaV;
---		in2add <= fptmp2;
---		state := w11;
---when w11 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s12; else v_wait1 := v_wait1 + 1; state := w11; end if;
---when s12 =>
---		fpout := to_sfixed (to_slv (out1add), fpout);
---		vdd := resize (fpout, vdd);
---		--report_error_normalize ("fail vdd", vdd, to_sfixed (3.319, max_expected_s)); -- 3.319
---		--
---		-- vptat25
---		sftmp_slv_16 := x"2ff1" and x"ffff"; -- ee[0x2431]
---		vptat25 := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), vptat25);
---		--report_error_normalize ("fail vptat25", vptat25, to_sfixed (12273.0, max_expected_s)); -- 12273
+		--
+		-- vptat25
+		eeprom16slv := i_ee0x2431 and x"ffff";
+		vptat25 := resize (to_sfixed (eeprom16slv, eeprom16sf), vptat25);
+--		vptat25 := resize (to_sfixed (to_slv (vptat25), sfixed16'high, sfixed16'low), vptat25);
+		vout2 := resize (ktptat, st_sfixed_max'high, st_sfixed_max'low);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (vptat25 (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (vptat25 (fracbs'high downto fracbs'low)), fracbs));
+	when s46 =>
+		if (fixed2floatrdy = '1') then state := s47;
+			vptat25_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s46; end if;
+	when s47 => state := s48;
+		fixed2floatsclr <= '0';
 --		--
 --		-- vptat
---		sftmp_slv_16 := x"06af" and x"ffff"; -- ram[0x0720]
---		vptat := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), vptat);
---		--report_error_normalize ("fail vptat", vptat, to_sfixed (1711.0, max_expected_s)); -- 1711
---		--
---		-- vbe
+		eeprom16slv := i_ram0x0720 and x"ffff";
+		vptat := resize (to_sfixed (eeprom16slv, eeprom16sf), vptat);
+--		vptat := resize (to_sfixed (to_slv (vptat), sfixed16'high, sfixed16'low), vptat);
+		vout2 := resize (vptat, st_sfixed_max'high, st_sfixed_max'low);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (vptat (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (vptat (fracbs'high downto fracbs'low)), fracbs));
+	when s48 =>
+		if (fixed2floatrdy = '1') then state := s49;
+			vptat_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s48; end if;
+	when s49 => state := s50;
+		fixed2floatsclr <= '0';
+		--
+		-- vbe
+		eeprom16slv := i_ram0x0700 and x"ffff";
+		vbe := resize (to_sfixed (eeprom16slv, eeprom16sf), vbe);
+--		vbe := resize (to_sfixed (to_slv (vbe), sfixed16'high, sfixed16'low), vbe);
+		vout2 := resize (vbe, st_sfixed_max'high, st_sfixed_max'low);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (vbe (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (vbe (fracbs'high downto fracbs'low)), fracbs));
+	when s50 =>
+		if (fixed2floatrdy = '1') then state := s51;
+			vbe_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s50; end if;
+	when s51 => state := s52;
+		fixed2floatsclr <= '0';
+
+
+
 --		sftmp_slv_16 := x"4bf2" and x"ffff"; -- ram[0x0700]
 --		vbe := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), vbe);
 --		--report_error_normalize ("fail vbe", vbe, to_sfixed (19442.0, max_expected_s)); -- 19442

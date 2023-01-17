@@ -34,6 +34,8 @@ i_ram0x800d : in slv16;
 i_ee0x2432 : in slv16;
 i_ee0x2431 : in slv16;
 i_ee0x2410 : in slv16;
+i_ram0x0720 : in slv16;
+i_ram0x0700 : in slv16;
 o_out1 : out fd2ft;
 o_rdy : out std_logic;
 o_out2 : out st_sfixed_max
@@ -74,6 +76,8 @@ i_ram0x800d => x"1901",
 i_ee0x2432 => x"5952",
 i_ee0x2431 => x"2ff1",
 i_ee0x2410 => x"4210",
+i_ram0x0720 => x"06af",
+i_ram0x0700 => x"4bf2",
 o_out1 => o_out1,
 o_rdy => o_rdy,
 o_out2 => o_out2
@@ -125,7 +129,10 @@ begin
 				when s19 => state := s20;    report_error (vout, -59.0); -- deltaV
 				when s20 => state := s21;    report_error (vout, 0.01862373761832714); -- deltaV 0.018623737
 				when s21 => state := s22;    report_error (vout, 3.299999952316284); -- 3.3v
-				when s22 => state := s23;    report_error (vout, 3.31862373761832714); -- vdd
+				when s22 => state := s23;    report_error (vout, 3.3186237812042236); -- vdd 3.31862373761832714
+				when s23 => state := s24;    report_error (vout, 12273.0); -- vptat25
+				when s24 => state := s25;    report_error (vout, 1711.0); -- vptat
+				when s25 => state := s26;    report_error (vout, 19442.0); -- vbe
 				when others => report_error (vout, 0.0);
 			end case;
 		end if;
