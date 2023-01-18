@@ -1616,7 +1616,7 @@ when idle =>
 		if (float2fixedrdy = '1') then state := s135;
 			ktascale1 := to_sfixed (float2fixedr, st_sfixed_max'high, st_sfixed_max'low);
 			vout2 := resize (ktascale1, st_sfixed_max'high, st_sfixed_max'low);
-			o_out1 <= float2fixedr;
+--			o_out1 <= float2fixedr;
 			float2fixedce <= '0';
 			float2fixedond <= '0';
 			float2fixedsclr <= '1';
@@ -1631,7 +1631,7 @@ when idle =>
 		if (float2fixedrdy = '1') then state := s137;
 			ktascale2 := to_sfixed (float2fixedr, st_sfixed_max'high, st_sfixed_max'low);
 			vout2 := resize (ktascale2, st_sfixed_max'high, st_sfixed_max'low);
-			o_out1 <= float2fixedr;
+--			o_out1 <= float2fixedr;
 			float2fixedce <= '0';
 			float2fixedond <= '0';
 			float2fixedsclr <= '1';
