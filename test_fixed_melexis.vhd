@@ -310,6 +310,7 @@ sqrtfp2rdy when sqrtfp2ce = '1' else
 		variable pixgain1216_ft,offsetaverage_ft,occrow12_ft,occscalerow_ft,occcolumn16_ft,occscalecolumn_ft,offset1216_ft : fd2ft;
 		variable occscaleremnant_ft,pixosref1216_ft,pixos1216_ft,kta1216_ft,ktarcee_ft,ktascale1_ft,ktascale2_ft,kv1216_ft,kvscale_ft : fd2ft;
 		variable kv1216ee_ft : fd2ft;
+		variable fttmp1_ft,fttmp2_ft : fd2ft;
 		constant const256 : st_sfixed_max := to_sfixed (256.0, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow5 : st_sfixed_max := to_sfixed (2.0**5, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow13 : st_sfixed_max := to_sfixed (2.0**13, st_sfixed_max'high, st_sfixed_max'low);
@@ -1719,13 +1720,14 @@ when idle =>
 	when s148 => state := s149;
 	-- wait for data
 	when s149 => state := s150;
+--		o_out1 <= mem_float2powerN_2powerN1;
 		divfpce <= '1';
 		divfpa <= kv1216_ft;
 		divfpb <= mem_float2powerN_2powerN1; -- 2^kvscale
 		divfpond <= '1';
 	when s150 =>
 		if (divfprdy = '1') then state := s151;
-			kv1216_ft := divfpr;
+			kv1216_ft := divfpr; -- 0.5
 			o_out1 <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
@@ -1733,33 +1735,135 @@ when idle =>
 		else state := s150; end if;
 	when s151 => state := s152;
 		divfpsclr <= '0';
-		
-
+		subfpce <= '1';
+		subfpa <= vdd_ft;
+		subfpb <= const3dot3_ft;
+		subfpond <= '1';
+	when s152 =>
+		if (subfprdy = '1') then state := s153;
+			fttmp1_ft := subfpr;
+			o_out1 <= subfpr;
+			subfpce <= '0';
+			subfpond <= '0';
+			subfpsclr <= '1';
+		else state := s152; end if;
+	when s153 => state := s154;
+		subfpsclr <= '0';
+		mulfpce <= '1';
+		mulfpa <= fttmp1_ft;
+		mulfpb <= kv1216_ft;
+		mulfpond <= '1';
+	when s154 =>
+		if (mulfprdy = '1') then state := s155;
+			fttmp1_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s154; end if;
+	when s155 => state := s156;
+		mulfpsclr <= '0';
+		addfpce <= '1';
+		addfpa <= fttmp1_ft;
+		addfpb <= const1_ft;
+		addfpond <= '1';
+	when s156 =>
+		if (addfprdy = '1') then state := s157;
+			fttmp1_ft := addfpr;
+			o_out1 <= addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s156; end if;
+	when s157 => state := s158;
+		addfpsclr <= '0';
+		subfpce <= '1';
+		subfpa <= Ta_ft;
+		subfpb <= const25_ft;
+		subfpond <= '1';
+	when s158 =>
+		if (subfprdy = '1') then state := s159;
+			fttmp2_ft := subfpr;
+			o_out1 <= subfpr;
+			subfpce <= '0';
+			subfpond <= '0';
+			subfpsclr <= '1';
+		else state := s158; end if;
+	when s159 => state := s160;
+		subfpsclr <= '0';
+		mulfpce <= '1';
+		mulfpa <= fttmp2_ft;
+		mulfpb <= kta1216_ft;
+		mulfpond <= '1';
+	when s160 =>
+		if (mulfprdy = '1') then state := s161;
+			fttmp2_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s160; end if;
+	when s161 => state := s162;
+		mulfpsclr <= '0';
+		addfpce <= '1';
+		addfpa <= fttmp2_ft;
+		addfpb <= const1_ft;
+		addfpond <= '1';
+	when s162 =>
+		if (addfprdy = '1') then state := s163;
+			fttmp2_ft := addfpr;
+			o_out1 <= addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s162; end if;
+	when s163 => state := s164;
+		addfpsclr <= '0';
+		mulfpce <= '1';
+		mulfpa <= fttmp1_ft;
+		mulfpb <= fttmp2_ft;
+		mulfpond <= '1';
+	when s164 =>
+		if (mulfprdy = '1') then state := s165;
+			pixos1216_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s164; end if;
+	when s165 => state := s166;
+		mulfpsclr <= '0';
+		mulfpce <= '1';
+		mulfpa <= pixos1216_ft;
+		mulfpb <= pixosref1216_ft;
+		mulfpond <= '1';
+	when s166 =>
+		if (mulfprdy = '1') then state := s167;
+			pixos1216_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s166; end if;
+	when s167 => state := s168;
+		mulfpsclr <= '0';
+		subfpce <= '1';
+		subfpa <= pixgain1216_ft;
+		subfpb <= pixos1216_ft;
+		subfpond <= '1';
+	when s168 =>
+		if (subfprdy = '1') then state := s169;
+			pixos1216_ft := subfpr;
+			o_out1 <= subfpr;
+			subfpce <= '0';
+			subfpond <= '0';
+			subfpsclr <= '1';
+		else state := s168; end if;
+	when s169 => state := s170;
+		subfpsclr <= '0';
 
 -----
 
---		sftmp_slv_16 := x"2363" and x"0f00"; -- ee[0x2438]
---		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 8));
---		tmpslv4 := sftmp_slv_16 (3 downto 0);
---		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
---		kvscale := resize (tmpsf4, kvscale);
---		--report_error_normalize ("fail kvscale", kvscale, to_sfixed (3.0, max_expected_s)); -- 3
---		kvscale := to_sfixed (1.0,kvscale) sll to_integer (kvscale);
---		--report_error_normalize ("fail 2^kvscale", kvscale, to_sfixed(8.0, max_expected_s)); -- 8
-----		cmd <= "0011"; -- / kv12_16/2^kvscale
---		in1div <= kv12_16;
---		in2div <= kvscale;
---		state := w39;
---when w39 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s40; else v_wait1 := v_wait1 + 1; state := w39; end if;
---when s40 =>
---		fpout := to_sfixed (to_slv (out1div), fpout);
---		kv12_16 := resize (fpout, kv12_16);
---		--report_error_normalize ("fail kv12_16", kv12_16, to_sfixed (0.5, max_expected_s)); -- 0.5
---		state := w40;
---when w40 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s41; else v_wait1 := v_wait1 + 1; state := w40; end if;
---when s41 =>
 --		fptmp2 := to_sfixed (25.0, fptmp2);
 --		--report_error_normalize ("fail 25.0", fptmp2, to_sfixed (25.0, max_expected_s)); -- 25.0
 ----		cmd <= "0001"; -- - Ta-Ta0 Ta-25
