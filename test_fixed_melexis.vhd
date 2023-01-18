@@ -58,6 +58,8 @@ i_ee0x2411 : in slv16;
 i_ee0x2414 : in slv16;
 i_ee0x241b : in slv16;
 i_ee0x25af : in slv16;
+i_ee0x2437 : in slv16;
+i_ee0x2434 : in slv16;
 o_out1 : out fd2ft;
 o_rdy : out std_logic;
 o_out2 : out st_sfixed_max
@@ -281,13 +283,14 @@ sqrtfp2rdy when sqrtfp2ce = '1' else
 		variable eeprom16uf,ram16uf : ufixed16;
 		variable kvdd,vdd25,kvptat,ktptat,deltaV,vdd,vptat,vbe,vptat25,alphaptatee,alphaptat,vptatart,Ta,Kgain,gain : st_sfixed_max;
 		variable pixgain1216,offsetaverage,occrow12,occscalerow,occcolumn16,occscalecolumn,offset1216,occscaleremnant : st_sfixed_max;
-		variable pixosref1216 : st_sfixed_max;
+		variable pixosref1216,pixos1216,kta1216,ktarcee,ktascale1,ktascale2,kv1216,kvscale,kta1216ee,kv1216ee : st_sfixed_max;
 		variable resee,resreg : st_ufixed_max;
-		variable kvdd_ft,vdd25_ft,const256_ft,const2pow5_ft,const2pow13_ft,resee_ft,resreg_ft,rescorr_ft,Ta_ft : fd2ft;
+		variable kvdd_ft,vdd25_ft,const256_ft,const2pow5_ft,const2pow13_ft,resee_ft,resreg_ft,rescorr_ft,Ta_ft,kta1216ee_ft : fd2ft;
 		variable kvptat_ft,ktptat_ft,const2pow12_ft,const2pow3_ft,deltaV_ft,Vdd_ft,const3dot3_ft,vptat_ft,vbe_ft,vptat25_ft : fd2ft;
 		variable alphaptatee_ft,const2pow2_ft,const8_ft,alphaptat_ft,const2pow18_ft,vptatart_ft,const25_ft,const1_ft,Kgain_ft,gain_ft : fd2ft;
 		variable pixgain1216_ft,offsetaverage_ft,occrow12_ft,occscalerow_ft,occcolumn16_ft,occscalecolumn_ft,offset1216_ft : fd2ft;
-		variable occscaleremnant_ft,pixosref1216_ft : fd2ft;
+		variable occscaleremnant_ft,pixosref1216_ft,pixos1216_ft,kta1216_ft,ktarcee_ft,ktascale1_ft,ktascale2_ft,kv1216_ft,kvscale_ft : fd2ft;
+		variable kv1216ee_ft : fd2ft;
 		constant const256 : st_sfixed_max := to_sfixed (256.0, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow5 : st_sfixed_max := to_sfixed (2.0**5, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow13 : st_sfixed_max := to_sfixed (2.0**13, st_sfixed_max'high, st_sfixed_max'low);
@@ -346,7 +349,6 @@ sqrtfp2rdy when sqrtfp2ce = '1' else
 		variable kta_rc_ee : st_sfixed_max;
 		variable kta_scale_1 : st_sfixed_max;
 		variable kta_scale_2 : st_sfixed_max;
-		variable kvscale : st_sfixed_max;
 		variable pixos12_16 : st_sfixed_max;
 		variable tad,v0d : st_sfixed_max;
 		variable vir12_16_emissitivy_componsated : st_sfixed_max;
@@ -1478,6 +1480,93 @@ when idle =>
 		else state := s122; end if;
 	when s123 => state := s124;
 		addfpsclr <= '0';
+		eeprom16slv := i_ee0x25af and x"000e";
+		kta1216ee := resize (to_sfixed (eeprom16slv, eeprom16sf), kta1216ee);
+		vout2 := resize (kta1216ee, st_sfixed_max'high, st_sfixed_max'low);
+		kta1216ee := kta1216ee srl 1;
+		kta1216ee := resize (to_sfixed (to_slv (kta1216ee (2 downto 0)), sfixed3'high, sfixed3'low), kta1216ee);
+		vout2 := resize (kta1216ee, st_sfixed_max'high, st_sfixed_max'low);
+--		kta1216ee := resize (to_sfixed (to_slv (kta1216ee), sfixed16'high, sfixed16'low), kta1216ee);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (kta1216ee (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (kta1216ee (fracbs'high downto fracbs'low)), fracbs));
+	when s124 =>
+		if (fixed2floatrdy = '1') then state := s125;
+			kta1216ee_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s124; end if;
+	when s125 => state := s126;
+		fixed2floatsclr <= '0';
+		eeprom16slv := i_ee0x2437 and x"00ff";
+		ktarcee := resize (to_sfixed (eeprom16slv, eeprom16sf), ktarcee);
+		vout2 := resize (ktarcee, st_sfixed_max'high, st_sfixed_max'low);
+		ktarcee := resize (to_sfixed (to_slv (kta1216ee (7 downto 0)), sfixed8'high, sfixed8'low), ktarcee);
+		vout2 := resize (ktarcee, st_sfixed_max'high, st_sfixed_max'low);
+--		ktarcee := resize (to_sfixed (to_slv (ktarcee), sfixed16'high, sfixed16'low), ktarcee);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (ktarcee (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (ktarcee (fracbs'high downto fracbs'low)), fracbs));
+	when s126 =>
+		if (fixed2floatrdy = '1') then state := s127;
+			ktarcee_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s126; end if;
+	when s127 => state := s128;
+		fixed2floatsclr <= '0';
+		eeprom16slv := i_ee0x2438 and x"00f0";
+		ktascale1 := resize (to_sfixed (eeprom16slv, eeprom16sf), ktascale1);
+		vout2 := resize (ktascale1, st_sfixed_max'high, st_sfixed_max'low);
+		ktascale1 := ktascale1 srl 4;
+		ktascale1 := resize (to_sfixed (to_slv (ktascale1 (3 downto 0)), sfixed4'high, sfixed4'low), ktascale1);
+		vout2 := resize (ktascale1, st_sfixed_max'high, st_sfixed_max'low);
+--		ktascale1 := resize (to_sfixed (to_slv (ktascale1), sfixed16'high, sfixed16'low), ktascale1);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (ktascale1 (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (ktascale1 (fracbs'high downto fracbs'low)), fracbs));
+	when s128 =>
+		if (fixed2floatrdy = '1') then state := s129;
+			ktascale1_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s128; end if;
+	when s129 => state := s130;
+		fixed2floatsclr <= '0';
+		addfpce <= '1';
+		addfpa <= ktascale1_ft;
+		addfpb <= const8_ft;
+		addfpond <= '1';
+	when s130 =>
+		if (addfprdy = '1') then state := s131;
+			ktascale1_ft := addfpr;
+			o_out1 <= addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s130; end if;
+	when s131 => state := s132;
+		addfpsclr <= '0';
+		eeprom16slv := i_ee0x2438 and x"000f";
+		ktascale2 := resize (to_sfixed (eeprom16slv, eeprom16sf), ktascale2);
+		vout2 := resize (ktascale2, st_sfixed_max'high, st_sfixed_max'low);
+		ktascale2 := resize (to_sfixed (to_slv (ktascale2 (3 downto 0)), sfixed4'high, sfixed4'low), ktascale2);
+		vout2 := resize (ktascale2, st_sfixed_max'high, st_sfixed_max'low);
+--		ktascale2 := resize (to_sfixed (to_slv (ktascale2), sfixed16'high, sfixed16'low), ktascale2);
+
+
 
 
 --		sftmp_slv_16 := x"ffbb" and x"ffff"; -- ee[0x2411]

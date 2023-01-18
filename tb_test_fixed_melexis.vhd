@@ -43,6 +43,8 @@ i_ee0x2411 : in slv16;
 i_ee0x2414 : in slv16;
 i_ee0x241b : in slv16;
 i_ee0x25af : in slv16;
+i_ee0x2437 : in slv16;
+i_ee0x2434 : in slv16;
 o_out1 : out fd2ft;
 o_rdy : out std_logic;
 o_out2 : out st_sfixed_max
@@ -92,6 +94,8 @@ i_ee0x2411 => x"ffbb",
 i_ee0x2414 => x"f2f2",
 i_ee0x241b => x"e0ef",
 i_ee0x25af => x"08a0",
+i_ee0x2437 => x"5354",
+i_ee0x2434 => x"5454",
 o_out1 => o_out1,
 o_rdy => o_rdy,
 o_out2 => o_out2
@@ -186,6 +190,26 @@ begin
 				when s59 => state := s60;    report_error (vout, -2.0); -- offset1216*2^occscaleremnant+occcolumn16*2^occscalecolumn
 				when s60 => state := s61;    report_error (vout, -6.0); -- offset1216*2^occscaleremnant+occcolumn16*2^occscalecolumn+occrow12*2^occscalerow
 				when s61 => state := s62;    report_error (vout, -75.0); -- offsetaverage+offset1216*2^occscaleremnant+occcolumn16*2^occscalecolumn+occrow12*2^occscalerow
+				when s62 => state := s63;    report_error (vout, 0.0); -- kta1216ee
+				when s63 => state := s64;    report_error (vout, 84.0); -- ktarcee
+				when s64 => state := s65;    report_error (vout, 6.0); -- ktascale1
+				when s65 => state := s66;    report_error (vout, 14.0); -- ktascale1+8
+				when s66 => state := s67;    report_error (vout, 3.0); -- ktascale2
+				when s67 => state := s68;    report_error (vout, 0.0); -- kta1216ee*2^ktascale2
+				when s68 => state := s69;    report_error (vout, 84.0); -- ktarcee+kta1216ee*2^ktascale2
+				when s69 => state := s70;    report_error (vout, 0.005126953125); -- (ktarcee+kta1216ee*2^ktascale2)/2^ktascale1
+				when s70 => state := s71;    report_error (vout, 8.0); -- 2^kvscale
+				when s71 => state := s72;    report_error (vout, 4.0); -- kv1216ee
+				when s72 => state := s73;    report_error (vout, 0.5); -- kv1216
+				when s73 => state := s74;    report_error (vout, (3.319-3.3)); -- (Vdd-VddV0)
+				when s74 => state := s75;    report_error (vout, 0.5*(3.319-3.3)); -- kv1216*(Vdd-VddV0)
+				when s75 => state := s76;    report_error (vout, 1.0+(0.5*(3.319-3.3))); -- 1+(kv1216*(Vdd-VddV0))
+				when s76 => state := s77;    report_error (vout, (39.184-25.0)); -- (Ta-Ta0)
+				when s77 => state := s78;    report_error (vout, (0.005126953125*(39.184-25.0))); -- kta1216*(Ta-Ta0)
+				when s78 => state := s79;    report_error (vout, 1.0+(0.005126953125*(39.184-25.0))); -- 1+kta1216*(Ta-Ta0)
+				when s79 => state := s80;    report_error (vout, (1.0+(0.005126953125*(39.184-25.0)))*(1.0+(0.5*(3.319-3.3)))); -- (1+kta1216*(Ta-Ta0))*(1+(kv1216*(Vdd-VddV0)))
+				when s80 => state := s81;    report_error (vout, (-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+(0.5*(3.319-3.3)))); -- pixosref*(1+kta1216*(Ta-Ta0))*(1+(kv1216*(Vdd-VddV0)))
+				when s81 => state := s82;    report_error (vout, 619.679100908656-(-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+(0.5*(3.319-3.3)))); -- pixgain-pixosref*(1+kta1216*(Ta-Ta0))*(1+(kv1216*(Vdd-VddV0)))
 				when others => report_error (vout, 0.0);
 			end case;
 		end if;
