@@ -201,8 +201,8 @@ begin
 				when s69 => state := s70;    report_error (vout, 0.0); -- kta1216ee*2^ktascale2
 				when s70 => state := s71;    report_error (vout, 84.0); -- ktarcee+kta1216ee*2^ktascale2
 				when s71 => state := s72;    report_error (vout, 0.005126953125); -- (ktarcee+kta1216ee*2^ktascale2)/2^ktascale1
-				when s72 => state := s73;    report_error (vout, 8.0); -- 2^kvscale
-				when s73 => state := s74;    report_error (vout, 4.0); -- kv1216ee
+				when s72 => state := s73;    report_error (vout, 4.0); -- kv1216ee
+				when s73 => state := s74;    report_error (vout, 8.0); -- 2^kvscale
 				when s74 => state := s75;    report_error (vout, 0.5); -- kv1216
 				when s75 => state := s76;    report_error (vout, (3.319-3.3)); -- (Vdd-VddV0)
 				when s76 => state := s77;    report_error (vout, 0.5*(3.319-3.3)); -- kv1216*(Vdd-VddV0)
