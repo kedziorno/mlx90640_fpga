@@ -196,8 +196,8 @@ begin
 				when s64 => state := s65;    report_error (vout, 6.0); -- ktascale1
 				when s65 => state := s66;    report_error (vout, 14.0); -- ktascale1+8
 				when s66 => state := s67;    report_error (vout, 3.0); -- ktascale2
-				when s67 => state := s68;    report_error (vout, 2.0**14); -- 2^ktascale1+8
-				when s68 => state := s69;    report_error (vout, 2.0**3); -- 2^ktascale2
+				when s67 => state := s68;    report_error (vout, 2.0**14); -- 2^ktascale1+8, disappear because get from mem
+				when s68 => state := s69;    report_error (vout, 2.0**3); -- 2^ktascale2, disappear because get from mem
 				when s69 => state := s70;    report_error (vout, 0.0); -- kta1216ee*2^ktascale2
 				when s70 => state := s71;    report_error (vout, 84.0); -- ktarcee+kta1216ee*2^ktascale2
 				when s71 => state := s72;    report_error (vout, 0.005126953125); -- (ktarcee+kta1216ee*2^ktascale2)/2^ktascale1

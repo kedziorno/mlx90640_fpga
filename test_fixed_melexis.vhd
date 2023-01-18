@@ -1616,6 +1616,7 @@ when idle =>
 		if (float2fixedrdy = '1') then state := s135;
 			ktascale1 := to_sfixed (float2fixedr, st_sfixed_max'high, st_sfixed_max'low);
 			vout2 := resize (ktascale1, st_sfixed_max'high, st_sfixed_max'low);
+			o_out1 <= float2fixedr;
 			float2fixedce <= '0';
 			float2fixedond <= '0';
 			float2fixedsclr <= '1';
@@ -1630,6 +1631,7 @@ when idle =>
 		if (float2fixedrdy = '1') then state := s137;
 			ktascale2 := to_sfixed (float2fixedr, st_sfixed_max'high, st_sfixed_max'low);
 			vout2 := resize (ktascale2, st_sfixed_max'high, st_sfixed_max'low);
+			o_out1 <= float2fixedr;
 			float2fixedce <= '0';
 			float2fixedond <= '0';
 			float2fixedsclr <= '1';
@@ -1640,14 +1642,50 @@ when idle =>
 		mem_float2powerN_N1 <= std_logic_vector (to_unsigned (to_integer (ktascale1), 6));
 		mem_float2powerN_N2 <= std_logic_vector (to_unsigned (to_integer (ktascale2), 6));
 	when s138 => state := s139;
+	-- wait for data from mem_float2powerN
 	when s139 => state := s140;
-		-- 2^ktascale1,2^ktascale2
-		ktascale1_ft := mem_float2powerN_2powerN1; -- move to next cycle, >100ps wait
-		ktascale2_ft := mem_float2powerN_2powerN2;
-	when s140 => state := s141;
-		o_out1 <= ktascale1_ft;
+		mulfpce <= '1';
+		mulfpa <= kta1216ee_ft;
+		mulfpb <= mem_float2powerN_2powerN2; -- 2^ktascale2
+		mulfpond <= '1';
+	when s140 =>
+		if (mulfprdy = '1') then state := s141;
+			kta1216_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s140; end if;
 	when s141 => state := s142;
-		o_out1 <= ktascale2_ft;
+		mulfpsclr <= '0';
+		addfpce <= '1';
+		addfpa <= kta1216_ft;
+		addfpb <= ktarcee_ft;
+		addfpond <= '1';
+	when s142 =>
+		if (addfprdy = '1') then state := s143;
+			kta1216_ft := addfpr;
+			o_out1 <= addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s142; end if;
+	when s143 => state := s144;
+		addfpsclr <= '0';
+		divfpce <= '1';
+		divfpa <= kta1216_ft;
+		divfpb <= mem_float2powerN_2powerN1; -- 2^ktascale1;
+		divfpond <= '1';
+	when s144 =>
+		if (divfprdy = '1') then state := s145;
+			kta1216_ft := divfpr;
+			o_out1 <= divfpr;
+			divfpce <= '0';
+			divfpond <= '0';
+			divfpsclr <= '1';
+		else state := s144; end if;
+	when s145 => state := s146;
+		divfpsclr <= '0';	
 
 -----
 
