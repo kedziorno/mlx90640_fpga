@@ -11,7 +11,7 @@ use ieee_proposed.standard_additions.all;
 use ieee_proposed.std_logic_1164_additions.all;
 
 USE work.p_fphdl_package1.all;
-USE work.p_fphdl_package2.all;
+USE work.p_fphdl_package3.all;
 
 ENTITY tb_test_fixed_melexis IS
 END tb_test_fixed_melexis;
@@ -212,8 +212,7 @@ begin
 				when s80 => state := s81;    report_error (vout, 1.0+(0.005126953125*(39.184425354003906-25.0))); -- 1+kta1216*(Ta-Ta0)
 				when s81 => state := s82;    report_error (vout, (1.0+(0.005126953125*(39.184425354003906-25.0)))*(1.0+(0.5*(3.318623828887939453-3.3)))); -- (1+kta1216*(Ta-Ta0))*(1+(kv1216*(Vdd-VddV0)))
 				when s82 => state := s83;    report_error (vout, (-75.0)*(1.0+(0.005126953125*(39.18442535400390625-25.0)))*(1.0+(0.5*(3.318623828887939453-3.3)))); -- pixosref*(1+kta1216*(Ta-Ta0))*(1+(kv1216*(Vdd-VddV0)))
---				when s83 => state := s84;    report_error (vout, 619.679100908656-(-75.0)*(1.0+(0.005126953125*(39.18442535400390625-25.0)))*(1.0+(0.5*(3.318623828887939453-3.3)))); -- pixgain-pixosref*(1+kta1216*(Ta-Ta0))*(1+(kv1216*(Vdd-VddV0)))
-				when s83 => state := s84;    report_error (vout, 700.882495690877); -- pixgain-pixosref*(1+kta1216*(Ta-Ta0))*(1+(kv1216*(Vdd-VddV0)))
+				when s83 => state := s84;    report_error (vout, 619.679100908656-(-75.0)*(1.0+(0.005126953125*(39.18442535400390625-25.0)))*(1.0+(0.5*(3.318623828887939453-3.3)))); -- 700.882495690877 pixgain-pixosref*(1+kta1216*(Ta-Ta0))*(1+(kv1216*(Vdd-VddV0)))
 				when others => report_error (vout, 0.0);
 			end case;
 		end if;
