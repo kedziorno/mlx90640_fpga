@@ -127,6 +127,7 @@ begin
 		o_rdyp <= o_rdy;
 		vout := o_out1;
 		if (o_rdyp = '0' and o_rdy = '1') then
+--			report_error_normalize ("sfixed", o_out2, to_sfixed (0.0, st_sfixed_max_expected'high, st_sfixed_max_expected'low));
 			case (state) is
 				when s0 => state := s1;      report_error (vout, 0.0);
 				when s1 => state := s2;      report_error (vout, -3168.0); -- kvdd
@@ -195,21 +196,23 @@ begin
 				when s64 => state := s65;    report_error (vout, 6.0); -- ktascale1
 				when s65 => state := s66;    report_error (vout, 14.0); -- ktascale1+8
 				when s66 => state := s67;    report_error (vout, 3.0); -- ktascale2
-				when s67 => state := s68;    report_error (vout, 0.0); -- kta1216ee*2^ktascale2
-				when s68 => state := s69;    report_error (vout, 84.0); -- ktarcee+kta1216ee*2^ktascale2
-				when s69 => state := s70;    report_error (vout, 0.005126953125); -- (ktarcee+kta1216ee*2^ktascale2)/2^ktascale1
-				when s70 => state := s71;    report_error (vout, 8.0); -- 2^kvscale
-				when s71 => state := s72;    report_error (vout, 4.0); -- kv1216ee
-				when s72 => state := s73;    report_error (vout, 0.5); -- kv1216
-				when s73 => state := s74;    report_error (vout, (3.319-3.3)); -- (Vdd-VddV0)
-				when s74 => state := s75;    report_error (vout, 0.5*(3.319-3.3)); -- kv1216*(Vdd-VddV0)
-				when s75 => state := s76;    report_error (vout, 1.0+(0.5*(3.319-3.3))); -- 1+(kv1216*(Vdd-VddV0))
-				when s76 => state := s77;    report_error (vout, (39.184-25.0)); -- (Ta-Ta0)
-				when s77 => state := s78;    report_error (vout, (0.005126953125*(39.184-25.0))); -- kta1216*(Ta-Ta0)
-				when s78 => state := s79;    report_error (vout, 1.0+(0.005126953125*(39.184-25.0))); -- 1+kta1216*(Ta-Ta0)
-				when s79 => state := s80;    report_error (vout, (1.0+(0.005126953125*(39.184-25.0)))*(1.0+(0.5*(3.319-3.3)))); -- (1+kta1216*(Ta-Ta0))*(1+(kv1216*(Vdd-VddV0)))
-				when s80 => state := s81;    report_error (vout, (-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+(0.5*(3.319-3.3)))); -- pixosref*(1+kta1216*(Ta-Ta0))*(1+(kv1216*(Vdd-VddV0)))
-				when s81 => state := s82;    report_error (vout, 619.679100908656-(-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+(0.5*(3.319-3.3)))); -- pixgain-pixosref*(1+kta1216*(Ta-Ta0))*(1+(kv1216*(Vdd-VddV0)))
+				when s67 => state := s68;    report_error (vout, 2.0**14); -- 2^ktascale1+8
+				when s68 => state := s69;    report_error (vout, 2.0**3); -- 2^ktascale2
+				when s69 => state := s70;    report_error (vout, 0.0); -- kta1216ee*2^ktascale2
+				when s70 => state := s71;    report_error (vout, 84.0); -- ktarcee+kta1216ee*2^ktascale2
+				when s71 => state := s72;    report_error (vout, 0.005126953125); -- (ktarcee+kta1216ee*2^ktascale2)/2^ktascale1
+				when s72 => state := s73;    report_error (vout, 8.0); -- 2^kvscale
+				when s73 => state := s74;    report_error (vout, 4.0); -- kv1216ee
+				when s74 => state := s75;    report_error (vout, 0.5); -- kv1216
+				when s75 => state := s76;    report_error (vout, (3.319-3.3)); -- (Vdd-VddV0)
+				when s76 => state := s77;    report_error (vout, 0.5*(3.319-3.3)); -- kv1216*(Vdd-VddV0)
+				when s77 => state := s78;    report_error (vout, 1.0+(0.5*(3.319-3.3))); -- 1+(kv1216*(Vdd-VddV0))
+				when s78 => state := s79;    report_error (vout, (39.184-25.0)); -- (Ta-Ta0)
+				when s79 => state := s80;    report_error (vout, (0.005126953125*(39.184-25.0))); -- kta1216*(Ta-Ta0)
+				when s80 => state := s81;    report_error (vout, 1.0+(0.005126953125*(39.184-25.0))); -- 1+kta1216*(Ta-Ta0)
+				when s81 => state := s82;    report_error (vout, (1.0+(0.005126953125*(39.184-25.0)))*(1.0+(0.5*(3.319-3.3)))); -- (1+kta1216*(Ta-Ta0))*(1+(kv1216*(Vdd-VddV0)))
+				when s82 => state := s83;    report_error (vout, (-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+(0.5*(3.319-3.3)))); -- pixosref*(1+kta1216*(Ta-Ta0))*(1+(kv1216*(Vdd-VddV0)))
+				when s83 => state := s84;    report_error (vout, 619.679100908656-(-75.0)*(1.0+(0.005126953125*(39.184-25.0)))*(1.0+(0.5*(3.319-3.3)))); -- pixgain-pixosref*(1+kta1216*(Ta-Ta0))*(1+(kv1216*(Vdd-VddV0)))
 				when others => report_error (vout, 0.0);
 			end case;
 		end if;
@@ -232,8 +235,8 @@ END PROCESS tb_run;
 
 tb_wait : PROCESS
 BEGIN
-wait for 0.5 ms;
-report "done simulation" severity failure;
+wait for 1 ms;
+report "tb - done simulation - tb" severity failure;
 END PROCESS tb_wait;
 
 END ARCHITECTURE arch;

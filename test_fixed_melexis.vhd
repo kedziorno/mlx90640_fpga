@@ -262,6 +262,25 @@ signal sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal sqrtfp2iop : STD_LOGIC;
 signal sqrtfp2rdy : STD_LOGIC;
 
+component mem_float2powerN is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_N : in std_logic_vector (5 downto 0);
+o_2powerN : out std_logic_vector (31 downto 0)
+);
+end component mem_float2powerN;
+
+signal mem_float2powerN_clock1 : std_logic;
+signal mem_float2powerN_reset1 : std_logic;
+signal mem_float2powerN_N1 : std_logic_vector (5 downto 0);
+signal mem_float2powerN_2powerN1 : std_logic_vector (31 downto 0);
+
+signal mem_float2powerN_clock2 : std_logic;
+signal mem_float2powerN_reset2 : std_logic;
+signal mem_float2powerN_N2 : std_logic_vector (5 downto 0);
+signal mem_float2powerN_2powerN2 : std_logic_vector (31 downto 0);
+
 begin
 
 o_rdy <=
@@ -410,6 +429,9 @@ sqrtfp2rdy when sqrtfp2ce = '1' else
 				fixed2floata <= (others => '0');
 				fixed2floatce <= '0';
 				fixed2floatond <= '0';
+				float2fixeda <= (others => '0');
+				float2fixedce <= '0';
+				float2fixedond <= '0';
 				mulfpa <= (others => '0');
 				mulfpb <= (others => '0');
 				mulfpce <= '0';
@@ -431,6 +453,10 @@ sqrtfp2rdy when sqrtfp2ce = '1' else
 				divfpb <= (others => '0');
 				eeprom16slv := (others => '0');
 				ram16slv := (others => '0');
+				mem_float2powerN_reset1 <= '1';
+				mem_float2powerN_N1 <= (others => '0');
+				mem_float2powerN_reset2 <= '1';
+				mem_float2powerN_N2 <= (others => '0');
 			else
 		o_out2 <= vout2;
 
@@ -448,6 +474,8 @@ when idle =>
 			subfpsclr <= '0';
 			mulfpsclr <= '0';
 			divfpsclr <= '0';
+			mem_float2powerN_reset1 <= '0';
+			mem_float2powerN_reset2 <= '0';
 	when s1 => state := s2;
 		--
 		-- kvdd
@@ -1505,7 +1533,7 @@ when idle =>
 		eeprom16slv := i_ee0x2437 and x"00ff";
 		ktarcee := resize (to_sfixed (eeprom16slv, eeprom16sf), ktarcee);
 		vout2 := resize (ktarcee, st_sfixed_max'high, st_sfixed_max'low);
-		ktarcee := resize (to_sfixed (to_slv (kta1216ee (7 downto 0)), sfixed8'high, sfixed8'low), ktarcee);
+		ktarcee := resize (to_sfixed (to_slv (ktarcee (7 downto 0)), sfixed8'high, sfixed8'low), ktarcee);
 		vout2 := resize (ktarcee, st_sfixed_max'high, st_sfixed_max'low);
 --		ktarcee := resize (to_sfixed (to_slv (ktarcee), sfixed16'high, sfixed16'low), ktarcee);
 		fixed2floatce <= '1';
@@ -1565,9 +1593,63 @@ when idle =>
 		ktascale2 := resize (to_sfixed (to_slv (ktascale2 (3 downto 0)), sfixed4'high, sfixed4'low), ktascale2);
 		vout2 := resize (ktascale2, st_sfixed_max'high, st_sfixed_max'low);
 --		ktascale2 := resize (to_sfixed (to_slv (ktascale2), sfixed16'high, sfixed16'low), ktascale2);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (ktascale2 (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (ktascale2 (fracbs'high downto fracbs'low)), fracbs));
+	when s132 =>
+		if (fixed2floatrdy = '1') then state := s133;
+			ktascale2_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s132; end if;
+	when s133 => state := s134;
+		fixed2floatsclr <= '0';
+		-- ktascale1 float2fixed
+		float2fixedce <= '1';
+		float2fixedond <= '1';
+		float2fixeda <= ktascale1_ft;
+	when s134 =>
+		if (float2fixedrdy = '1') then state := s135;
+			ktascale1 := to_sfixed (float2fixedr, st_sfixed_max'high, st_sfixed_max'low);
+			vout2 := resize (ktascale1, st_sfixed_max'high, st_sfixed_max'low);
+			float2fixedce <= '0';
+			float2fixedond <= '0';
+			float2fixedsclr <= '1';
+		else state := s134; end if;
+	when s135 => state := s136;
+		float2fixedsclr <= '0';
+		-- ktascale2 float2fixed
+		float2fixedce <= '1';
+		float2fixedond <= '1';
+		float2fixeda <= ktascale2_ft;
+	when s136 =>
+		if (float2fixedrdy = '1') then state := s137;
+			ktascale2 := to_sfixed (float2fixedr, st_sfixed_max'high, st_sfixed_max'low);
+			vout2 := resize (ktascale2, st_sfixed_max'high, st_sfixed_max'low);
+			float2fixedce <= '0';
+			float2fixedond <= '0';
+			float2fixedsclr <= '1';
+		else state := s136; end if;
+	when s137 => state := s138;
+		float2fixedsclr <= '0';
+		-- ktascale1 and 2 to 2^ktascale1 and 2, return 2 cycle later
+		mem_float2powerN_N1 <= std_logic_vector (to_unsigned (to_integer (ktascale1), 6));
+		mem_float2powerN_N2 <= std_logic_vector (to_unsigned (to_integer (ktascale2), 6));
+	when s138 => state := s139;
+	when s139 => state := s140;
+		-- 2^ktascale1,2^ktascale2
+		ktascale1_ft := mem_float2powerN_2powerN1; -- move to next cycle, >100ps wait
+		ktascale2_ft := mem_float2powerN_2powerN2;
+	when s140 => state := s141;
+		o_out1 <= ktascale1_ft;
+	when s141 => state := s142;
+		o_out1 <= ktascale2_ft;
 
-
-
+-----
 
 --		sftmp_slv_16 := x"ffbb" and x"ffff"; -- ee[0x2411]
 --		offsetaverage := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), offsetaverage);
@@ -2860,6 +2942,25 @@ ce => sqrtfp2ce,
 result => sqrtfp2r,
 invalid_op => sqrtfp2iop,
 rdy => sqrtfp2rdy
+);
+
+mem_float2powerN_clock1 <= i_clock;
+mem_float2powerN_clock2 <= i_clock;
+
+inst_mem_float2powerN1 : mem_float2powerN
+port map (
+i_clock => mem_float2powerN_clock1,
+i_reset => mem_float2powerN_reset1,
+i_N => mem_float2powerN_N1,
+o_2powerN => mem_float2powerN_2powerN1
+);
+
+inst_mem_float2powerN2 : mem_float2powerN
+port map (
+i_clock => mem_float2powerN_clock2,
+i_reset => mem_float2powerN_reset2,
+i_N => mem_float2powerN_N2,
+o_2powerN => mem_float2powerN_2powerN2
 );
 
 end architecture testbench;
