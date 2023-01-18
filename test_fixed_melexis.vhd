@@ -281,6 +281,8 @@ signal mem_float2powerN_reset2 : std_logic;
 signal mem_float2powerN_N2 : std_logic_vector (5 downto 0);
 signal mem_float2powerN_2powerN2 : std_logic_vector (31 downto 0);
 
+signal rdyrecover : std_logic; -- signal for tb when rdy not appear
+
 begin
 
 o_rdy <=
@@ -291,6 +293,15 @@ subfprdy when subfpce = '1' else
 mulfprdy when mulfpce = '1' else
 divfprdy when divfpce = '1' else
 sqrtfp2rdy when sqrtfp2ce = '1' else
+rdyrecover when
+	(fixed2floatce = '0' and
+	float2fixedce = '0' and
+	addfpce = '0' and
+	subfpce = '0' and
+	mulfpce = '0' and
+	divfpce = '0' and
+	sqrtfp2ce = '0')
+else
 '0';
 
 	-- purpose: main test loop
@@ -458,6 +469,7 @@ sqrtfp2rdy when sqrtfp2ce = '1' else
 				mem_float2powerN_N1 <= (others => '0');
 				mem_float2powerN_reset2 <= '1';
 				mem_float2powerN_N2 <= (others => '0');
+				rdyrecover <= '0';
 			else
 		o_out2 <= vout2;
 
@@ -1643,8 +1655,11 @@ when idle =>
 		mem_float2powerN_N1 <= std_logic_vector (to_unsigned (to_integer (ktascale1), 6));
 		mem_float2powerN_N2 <= std_logic_vector (to_unsigned (to_integer (ktascale2), 6));
 	when s138 => state := s139;
-	-- wait for data from mem_float2powerN
+		-- wait for data from mem_float2powerN
+--		rdyrecover <= '1';
 	when s139 => state := s140;
+--		rdyrecover <= '0';
+--		o_out1 <= mem_float2powerN_2powerN2;
 		mulfpce <= '1';
 		mulfpa <= kta1216ee_ft;
 		mulfpb <= mem_float2powerN_2powerN2; -- 2^ktascale2
@@ -1718,9 +1733,11 @@ when idle =>
 --		kvscale := resize (to_sfixed (to_slv (kvscale), sfixed16'high, sfixed16'low), kvscale);
 		mem_float2powerN_N1 <= std_logic_vector (to_unsigned (to_integer (kvscale), 6));
 	when s148 => state := s149;
-	-- wait for data
+		-- wait for data
+		rdyrecover <= '1';
 	when s149 => state := s150;
---		o_out1 <= mem_float2powerN_2powerN1;
+		rdyrecover <= '0';
+		o_out1 <= mem_float2powerN_2powerN1;
 		divfpce <= '1';
 		divfpa <= kv1216_ft;
 		divfpb <= mem_float2powerN_2powerN1; -- 2^kvscale
