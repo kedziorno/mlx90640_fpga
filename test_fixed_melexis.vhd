@@ -327,7 +327,7 @@ else
 		variable alphaptatee_ft,const2pow2_ft,const8_ft,alphaptat_ft,const2pow18_ft,vptatart_ft,const25_ft,const1_ft,Kgain_ft,gain_ft : fd2ft;
 		variable pixgain1216_ft,offsetaverage_ft,occrow12_ft,occscalerow_ft,occcolumn16_ft,occscalecolumn_ft,offset1216_ft : fd2ft;
 		variable occscaleremnant_ft,pixosref1216_ft,pixos1216_ft,kta1216_ft,ktarcee_ft,ktascale1_ft,ktascale2_ft,kv1216_ft,kvscale_ft : fd2ft;
-		variable kv1216ee_ft,vir1216emissivitycompensated_ft,pixgaincpsp0_ft,pixgaincpsp1_ft : fd2ft;
+		variable kv1216ee_ft,vir1216emissivitycompensated_ft,pixgaincpsp0_ft,pixgaincpsp1_ft,v0d_ft,tad_ft : fd2ft;
 		variable offcpsubpage0_ft,offcpsubpage1_ft,offcpsubpage1delta_ft,constemissivity_ft : fd2ft;
 		variable ktacp_ft,ktacpee_ft,kvcp_ft,kvcpee_ft,pixoscpsp0_ft,pixoscpsp1_ft : fd2ft;
 		
@@ -392,7 +392,6 @@ else
 		variable kta_scale_1 : st_sfixed_max;
 		variable kta_scale_2 : st_sfixed_max;
 		variable pixos12_16 : st_sfixed_max;
-		variable tad,v0d : st_sfixed_max;
 		variable vir12_16_emissitivy_componsated : st_sfixed_max;
 		variable pixgain_cp_sp0 : st_sfixed_max;
 		variable pixgain_cp_sp1 : st_sfixed_max;
@@ -418,8 +417,8 @@ else
 --		constant trk4 : st_sfixed_max := 8557586214.66; -- TaK4 = (Tr + 273.15)**4 Tr~Ta-8 Tr~31
 		variable trk4 : st_sfixed_max;
 		variable acomp_12_16_pow3,acomp_12_16_pow4 : st_sfixed_max;
-		attribute keep : boolean;
-		attribute keep of kvdd : variable is true;
+--		attribute keep : boolean;
+--		attribute keep of kvdd : variable is true;
 --		attribute keep of vdd25 : variable is true;
 		variable max_expected_s : st_sfixed_max_expected;
 		variable max_expected_u : st_ufixed_max_expected;
@@ -1769,7 +1768,7 @@ when idle =>
 		subfpond <= '1';
 	when s152 =>
 		if (subfprdy = '1') then state := s153;
-			fttmp1_ft := subfpr;
+			v0d_ft := subfpr;
 			o_out1 <= subfpr;
 			subfpce <= '0';
 			subfpond <= '0';
@@ -1778,7 +1777,7 @@ when idle =>
 	when s153 => state := s154;
 		subfpsclr <= '0';
 		mulfpce <= '1';
-		mulfpa <= fttmp1_ft;
+		mulfpa <= v0d_ft;
 		mulfpb <= kv1216_ft;
 		mulfpond <= '1';
 	when s154 =>
@@ -1811,7 +1810,7 @@ when idle =>
 		subfpond <= '1';
 	when s158 =>
 		if (subfprdy = '1') then state := s159;
-			fttmp2_ft := subfpr;
+			tad_ft := subfpr;
 			o_out1 <= subfpr;
 			subfpce <= '0';
 			subfpond <= '0';
@@ -1820,7 +1819,7 @@ when idle =>
 	when s159 => state := s160;
 		subfpsclr <= '0';
 		mulfpce <= '1';
-		mulfpa <= fttmp2_ft;
+		mulfpa <= tad_ft;
 		mulfpb <= kta1216_ft;
 		mulfpond <= '1';
 	when s160 =>
