@@ -337,9 +337,8 @@ else
 		variable pixgain1216,offsetaverage,occrow12,occscalerow,occcolumn16,occscalecolumn,offset1216,occscaleremnant : st_sfixed_max;
 		variable pixosref1216,pixos1216,kta1216,ktarcee,ktascale1,ktascale2,kv1216,kvscale,kta1216ee,kv1216ee : st_sfixed_max;
 		variable vir1216emissivitycompensated,pixgaincpsp0,pixgaincpsp1,offcpsubpage0,offcpsubpage1,offcpsubpage1delta : st_sfixed_max;
-		variable ktacp,ktacpee,kvcp,kvcpee,pixoscpsp0,pixoscpsp1,tgcee,tgc : st_sfixed_max;
+		variable ktacp,ktacpee,kvcp,kvcpee,pixoscpsp0,pixoscpsp1,tgcee,tgc,pattern : st_sfixed_max;
 		variable resee,resreg : st_ufixed_max;
-		variable pattern : st_sfixed_max;
 		variable kvdd_ft,vdd25_ft,const256_ft,const2pow5_ft,const2pow13_ft,resee_ft,resreg_ft,rescorr_ft,Ta_ft,kta1216ee_ft : fd2ft;
 		variable kvptat_ft,ktptat_ft,const2pow12_ft,const2pow3_ft,deltaV_ft,Vdd_ft,const3dot3_ft,vptat_ft,vbe_ft,vptat25_ft : fd2ft;
 		variable alphaptatee_ft,const2pow2_ft,const8_ft,alphaptat_ft,const2pow18_ft,vptatart_ft,const25_ft,const1_ft,Kgain_ft,gain_ft : fd2ft;
@@ -2296,9 +2295,8 @@ when idle =>
 		-- wait for px pattern
 	when s220 => state := s221;
 		pattern_slv1(0) := mem_switchpattern_pattern;
-		pattern := resize (to_sfixed ("0000000"&pattern_slv1, sfixed8'high, sfixed8'low), pattern);
+		pattern := resize (to_sfixed ("0"&pattern_slv1, sfixed2'high, sfixed2'low), pattern);
 		vout2 := resize (pattern, st_sfixed_max'high, st_sfixed_max'low);
---		vout3 := to_ufixed (123.0, st_ufixed_max'high, st_ufixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
