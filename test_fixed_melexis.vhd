@@ -2169,7 +2169,7 @@ when idle =>
 		mulfpond <= '1';
 	when s204 =>
 		if (mulfprdy = '1') then state := s205;
-			pixoscpsp0_ft := mulfpr;
+			fttmp1_ft := mulfpr;
 			o_out1 <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
@@ -2179,7 +2179,7 @@ when idle =>
 		mulfpsclr <= '0';
 		mulfpce <= '1';
 		mulfpa <= offcpsubpage0_ft;
-		mulfpb <= pixoscpsp0_ft;
+		mulfpb <= fttmp1_ft;
 		mulfpond <= '1';
 	when s206 =>
 		if (mulfprdy = '1') then state := s207;
@@ -2205,7 +2205,34 @@ when idle =>
 		else state := s208; end if;
 	when s209 => state := s210;
 		subfpsclr <= '0';
-
+		mulfpce <= '1';
+		mulfpa <= fttmp1_ft;
+		mulfpb <= offcpsubpage1_ft;
+		mulfpond <= '1';
+	when s210 =>
+		if (mulfprdy = '1') then state := s211;
+			pixoscpsp1_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s210; end if;
+	when s211 => state := s212;
+		mulfpsclr <= '0';
+		subfpce <= '1';
+		subfpa <= pixgaincpsp1_ft;
+		subfpb <= pixoscpsp1_ft;
+		subfpond <= '1';
+	when s212 =>
+		if (subfprdy = '1') then state := s213;
+			pixoscpsp1_ft := subfpr;
+			o_out1 <= subfpr;
+			subfpce <= '0';
+			subfpond <= '0';
+			subfpsclr <= '1';
+		else state := s212; end if;
+	when s213 => state := s214;
+		subfpsclr <= '0';
 
 
 rdyrecover <= '1';
