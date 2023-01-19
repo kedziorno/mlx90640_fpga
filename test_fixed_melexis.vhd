@@ -60,6 +60,11 @@ i_ee0x241b : in slv16;
 i_ee0x25af : in slv16;
 i_ee0x2437 : in slv16;
 i_ee0x2434 : in slv16;
+i_ram0x0708 : in slv16;
+i_ram0x0728 : in slv16;
+i_ee0x243a : in slv16;
+i_ee0x243b : in slv16;
+-----
 o_out1 : out fd2ft;
 o_rdy : out std_logic;
 o_out2 : out st_sfixed_max
@@ -314,13 +319,18 @@ else
 		variable kvdd,vdd25,kvptat,ktptat,deltaV,vdd,vptat,vbe,vptat25,alphaptatee,alphaptat,vptatart,Ta,Kgain,gain : st_sfixed_max;
 		variable pixgain1216,offsetaverage,occrow12,occscalerow,occcolumn16,occscalecolumn,offset1216,occscaleremnant : st_sfixed_max;
 		variable pixosref1216,pixos1216,kta1216,ktarcee,ktascale1,ktascale2,kv1216,kvscale,kta1216ee,kv1216ee : st_sfixed_max;
+		variable vir1216emissivitycompensated,pixgaincpsp0,pixgaincpsp1,offcpsubpage0,offcpsubpage1,offcpsubpage1delta : st_sfixed_max;
+		variable ktacp,ktacpee,kvcp,kvcpee,pixoscpsp0,pixoscpsp1 : st_sfixed_max;
 		variable resee,resreg : st_ufixed_max;
 		variable kvdd_ft,vdd25_ft,const256_ft,const2pow5_ft,const2pow13_ft,resee_ft,resreg_ft,rescorr_ft,Ta_ft,kta1216ee_ft : fd2ft;
 		variable kvptat_ft,ktptat_ft,const2pow12_ft,const2pow3_ft,deltaV_ft,Vdd_ft,const3dot3_ft,vptat_ft,vbe_ft,vptat25_ft : fd2ft;
 		variable alphaptatee_ft,const2pow2_ft,const8_ft,alphaptat_ft,const2pow18_ft,vptatart_ft,const25_ft,const1_ft,Kgain_ft,gain_ft : fd2ft;
 		variable pixgain1216_ft,offsetaverage_ft,occrow12_ft,occscalerow_ft,occcolumn16_ft,occscalecolumn_ft,offset1216_ft : fd2ft;
 		variable occscaleremnant_ft,pixosref1216_ft,pixos1216_ft,kta1216_ft,ktarcee_ft,ktascale1_ft,ktascale2_ft,kv1216_ft,kvscale_ft : fd2ft;
-		variable kv1216ee_ft : fd2ft;
+		variable kv1216ee_ft,vir1216emissivitycompensated_ft,pixgaincpsp0_ft,pixgaincpsp1_ft : fd2ft;
+		variable offcpsubpage0_ft,offcpsubpage1_ft,offcpsubpage1delta_ft,constemissivity_ft : fd2ft;
+		variable ktacp_ft,ktacpee_ft,kvcp_ft,kvcpee_ft,pixoscpsp0_ft,pixoscpsp1_ft : fd2ft;
+		
 		variable fttmp1_ft,fttmp2_ft : fd2ft;
 		constant const256 : st_sfixed_max := to_sfixed (256.0, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow5 : st_sfixed_max := to_sfixed (2.0**5, st_sfixed_max'high, st_sfixed_max'low);
@@ -333,7 +343,8 @@ else
 		constant const2pow18 : st_sfixed_max := to_sfixed (2.0**18, st_sfixed_max'high, st_sfixed_max'low);
 		constant const25 : st_sfixed_max := to_sfixed (25.0, st_sfixed_max'high, st_sfixed_max'low);
 		constant const1 : st_sfixed_max := to_sfixed (1.0, st_sfixed_max'high, st_sfixed_max'low);
-
+		constant constemissivity : st_sfixed_max := to_sfixed (1.0, st_sfixed_max'high, st_sfixed_max'low);
+-----
 
 		variable vddv0 : st_sfixed_max;
 		variable h1,h2 : st_sfixed_max;
@@ -1878,10 +1889,108 @@ when idle =>
 		else state := s168; end if;
 	when s169 => state := s170;
 		subfpsclr <= '0';
-		rdyrecover <= '1';
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (constemissivity (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (constemissivity (fracbs'high downto fracbs'low)), fracbs));
+	when s170 =>
+		if (fixed2floatrdy = '1') then state := s171;
+			constemissivity_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s170; end if;
+	when s171 => state := s172;
+		fixed2floatsclr <= '0';
+		divfpce <= '1';
+		divfpa <= pixos1216_ft;
+		divfpb <= constemissivity_ft;
+		divfpond <= '1';
+	when s172 =>
+		if (divfprdy = '1') then state := s173;
+			vir1216emissivitycompensated_ft := divfpr; -- 700.882
+			o_out1 <= divfpr;
+			divfpce <= '0';
+			divfpond <= '0';
+			divfpsclr <= '1';
+		else state := s172; end if;
+	when s173 => state := s174;
+		divfpsclr <= '0';
+		eeprom16slv := i_ram0x0708 and x"ffff";
+		pixgaincpsp0 := resize (to_sfixed (eeprom16slv, eeprom16sf), pixgaincpsp0);
+		vout2 := resize (pixgaincpsp0, st_sfixed_max'high, st_sfixed_max'low);
+--		pixgaincpsp0 := resize (to_sfixed (to_slv (pixgaincpsp0), sfixed16'high, sfixed16'low), pixgaincpsp0);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (pixgaincpsp0 (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (pixgaincpsp0 (fracbs'high downto fracbs'low)), fracbs));
+	when s174 =>
+		if (fixed2floatrdy = '1') then state := s175;
+			pixgaincpsp0_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s174; end if;
+	when s175 => state := s176;
+		fixed2floatsclr <= '0';
+		mulfpce <= '1';
+		mulfpa <= pixgaincpsp0_ft;
+		mulfpb <= kgain_ft;
+		mulfpond <= '1';
+	when s176 =>
+		if (mulfprdy = '1') then state := s177;
+			pixgaincpsp0_ft := mulfpr; -- -54.946
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s176; end if;
+	when s177 => state := s178;
+		mulfpsclr <= '0';
+		eeprom16slv := i_ram0x0728 and x"ffff";
+		pixgaincpsp1 := resize (to_sfixed (eeprom16slv, eeprom16sf), pixgaincpsp1);
+		vout2 := resize (pixgaincpsp1, st_sfixed_max'high, st_sfixed_max'low);
+--		pixgaincpsp1 := resize (to_sfixed (to_slv (pixgaincpsp1), sfixed16'high, sfixed16'low), pixgaincpsp1);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (pixgaincpsp1 (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (pixgaincpsp1 (fracbs'high downto fracbs'low)), fracbs));
+	when s178 =>
+		if (fixed2floatrdy = '1') then state := s179;
+			pixgaincpsp1_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s178; end if;
+	when s179 => state := s180;
+		fixed2floatsclr <= '0';
+		mulfpce <= '1';
+		mulfpa <= pixgaincpsp1_ft;
+		mulfpb <= kgain_ft;
+		mulfpond <= '1';
+	when s180 =>
+		if (mulfprdy = '1') then state := s181;
+			pixgaincpsp1_ft := mulfpr; -- -56.981
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s180; end if;
+	when s181 => state := s182;
+		mulfpsclr <= '0';
+
+
+
+
+rdyrecover <= '1';
 -----
 
---		--report_error_normalize ("fail pixos12_16 const", pixos12_16, to_sfixed (700.882495690877, max_expected_s)); -- 700.882495690877
 --		state := w58;
 --when w58 =>
 --		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s59; else v_wait1 := v_wait1 + 1; state := w58; end if;

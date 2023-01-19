@@ -45,6 +45,10 @@ i_ee0x241b : in slv16;
 i_ee0x25af : in slv16;
 i_ee0x2437 : in slv16;
 i_ee0x2434 : in slv16;
+i_ram0x0708 : in slv16;
+i_ram0x0728 : in slv16;
+i_ee0x243a : in slv16;
+i_ee0x243b : in slv16;
 o_out1 : out fd2ft;
 o_rdy : out std_logic;
 o_out2 : out st_sfixed_max
@@ -96,6 +100,10 @@ i_ee0x241b => x"e0ef",
 i_ee0x25af => x"08a0",
 i_ee0x2437 => x"5354",
 i_ee0x2434 => x"5454",
+i_ram0x0708 => x"ffca",
+i_ram0x0728 => x"ffc8",
+i_ee0x243a => x"fbb5",
+i_ee0x243b => x"044b",
 o_out1 => o_out1,
 o_rdy => o_rdy,
 o_out2 => o_out2
