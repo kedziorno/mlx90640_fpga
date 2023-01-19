@@ -65,7 +65,7 @@ i_ram0x0728 : in slv16;
 i_ee0x243a : in slv16;
 i_ee0x243b : in slv16;
 i_ee0x243c : in slv16;
-i_pixelpattern : in slv10;
+i_pixelpattern : in slv10; -- 12x16
 -----
 o_out1 : out fd2ft;
 o_rdy : out std_logic;
@@ -2290,7 +2290,7 @@ when idle =>
 	when s217 => state := s218;
 		divfpsclr <= '0';
 	when s218 => state := s219;
-		mem_switchpattern_pixel <= i_pixelpattern; -- 12x16
+		mem_switchpattern_pixel <= i_pixelpattern;
 	when s219 => state := s220;
 		-- wait for px pattern
 	when s220 => state := s221;
