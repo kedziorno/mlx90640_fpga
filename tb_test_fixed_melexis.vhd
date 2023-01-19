@@ -62,7 +62,7 @@ SIGNAL o_out1 :  fd2ft;
 SIGNAL o_rdy,o_rdyp :  std_logic;
 SIGNAL o_out2 : st_sfixed_max;
 
-constant clock_period : time := 500 ns;
+constant clock_period : time := 10 ns;
 constant G_C_WAIT1 : integer := 16;
 
 signal out1r : real;
