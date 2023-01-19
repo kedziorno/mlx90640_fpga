@@ -337,15 +337,16 @@ else
 		variable pixgain1216,offsetaverage,occrow12,occscalerow,occcolumn16,occscalecolumn,offset1216,occscaleremnant : st_sfixed_max;
 		variable pixosref1216,pixos1216,kta1216,ktarcee,ktascale1,ktascale2,kv1216,kvscale,kta1216ee,kv1216ee : st_sfixed_max;
 		variable vir1216emissivitycompensated,pixgaincpsp0,pixgaincpsp1,offcpsubpage0,offcpsubpage1,offcpsubpage1delta : st_sfixed_max;
-		variable ktacp,ktacpee,kvcp,kvcpee,pixoscpsp0,pixoscpsp1,tgcee,tgc,pattern : st_sfixed_max;
+		variable ktacp,ktacpee,kvcp,kvcpee,pixoscpsp0,pixoscpsp1,tgcee,tgc,pattern,vir1216compensated : st_sfixed_max;
+		variable vir1216emmisivitycompensated : st_sfixed_max;
 		variable resee,resreg : st_ufixed_max;
 		variable kvdd_ft,vdd25_ft,const256_ft,const2pow5_ft,const2pow13_ft,resee_ft,resreg_ft,rescorr_ft,Ta_ft,kta1216ee_ft : fd2ft;
 		variable kvptat_ft,ktptat_ft,const2pow12_ft,const2pow3_ft,deltaV_ft,Vdd_ft,const3dot3_ft,vptat_ft,vbe_ft,vptat25_ft : fd2ft;
 		variable alphaptatee_ft,const2pow2_ft,const8_ft,alphaptat_ft,const2pow18_ft,vptatart_ft,const25_ft,const1_ft,Kgain_ft,gain_ft : fd2ft;
 		variable pixgain1216_ft,offsetaverage_ft,occrow12_ft,occscalerow_ft,occcolumn16_ft,occscalecolumn_ft,offset1216_ft : fd2ft;
 		variable occscaleremnant_ft,pixosref1216_ft,pixos1216_ft,kta1216_ft,ktarcee_ft,ktascale1_ft,ktascale2_ft,kv1216_ft,kvscale_ft : fd2ft;
-		variable kv1216ee_ft,vir1216emissivitycompensated_ft,pixgaincpsp0_ft,pixgaincpsp1_ft,v0d_ft,tad_ft : fd2ft;
-		variable offcpsubpage0_ft,offcpsubpage1_ft,offcpsubpage1delta_ft,constemissivity_ft,pattern_ft : fd2ft;
+		variable kv1216ee_ft,vir1216emissivitycompensated_ft,pixgaincpsp0_ft,pixgaincpsp1_ft,v0d_ft,tad_ft,vir1216compensated_ft : fd2ft;
+		variable offcpsubpage0_ft,offcpsubpage1_ft,offcpsubpage1delta_ft,constemissivity_ft,pattern_ft,vir1216emmisivitycompensated_ft : fd2ft;
 		variable ktacp_ft,ktacpee_ft,kvcp_ft,kvcpee_ft,pixoscpsp0_ft,pixoscpsp1_ft,tgcee_ft,tgc_ft : fd2ft;
 		variable pattern_slv1 : slv1;
 
@@ -2312,9 +2313,90 @@ when idle =>
 		else state := s221; end if;
 	when s222 => state := s223;
 		fixed2floatsclr <= '0';
-
-
-
+		mulfpce <= '1';
+		mulfpa <= pattern_ft;
+		mulfpb <= pixoscpsp1_ft;
+		mulfpond <= '1';
+	when s223 =>
+		if (mulfprdy = '1') then state := s224;
+			fttmp1_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s223; end if;
+	when s224 => state := s225;
+		mulfpsclr <= '0';
+		subfpce <= '1';
+		subfpa <= const1_ft;
+		subfpb <= pattern_ft;
+		subfpond <= '1';
+	when s225 =>
+		if (subfprdy = '1') then state := s226;
+			pattern_ft := subfpr;
+			o_out1 <= subfpr;
+			subfpce <= '0';
+			subfpond <= '0';
+			subfpsclr <= '1';
+		else state := s225; end if;
+	when s226 => state := s227;
+		subfpsclr <= '0';
+		mulfpce <= '1';
+		mulfpa <= pattern_ft;
+		mulfpb <= pixoscpsp0_ft;
+		mulfpond <= '1';
+	when s227 =>
+		if (mulfprdy = '1') then state := s228;
+			fttmp2_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s227; end if;
+	when s228 => state := s229;
+		mulfpsclr <= '0';
+		addfpce <= '1';
+		addfpa <= fttmp1_ft;
+		addfpb <= fttmp2_ft;
+		addfpond <= '1';
+	when s229 =>
+		if (addfprdy = '1') then state := s230;
+			vir1216compensated_ft := addfpr;
+			o_out1 <= addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s229; end if;
+	when s230 => state := s231;
+		addfpsclr <= '0';
+		mulfpce <= '1';
+		mulfpa <= vir1216compensated_ft;
+		mulfpb <= tgc_ft;
+		mulfpond <= '1';
+	when s231 =>
+		if (mulfprdy = '1') then state := s232;
+			vir1216compensated_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s231; end if;
+	when s232 => state := s233;
+		mulfpsclr <= '0';
+		subfpce <= '1';
+		subfpa <= vir1216emissivitycompensated_ft;
+		subfpb <= vir1216compensated_ft;
+		subfpond <= '1';
+	when s233 =>
+		if (subfprdy = '1') then state := s234;
+			vir1216compensated_ft := subfpr; -- 675.215, error on ds p.42 (679.250)
+			o_out1 <= subfpr;
+			subfpce <= '0';
+			subfpond <= '0';
+			subfpsclr <= '1';
+		else state := s233; end if;
+	when s234 => state := s235;
+		subfpsclr <= '0';
 
 
 rdyrecover <= '1';
