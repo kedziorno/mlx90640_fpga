@@ -103,7 +103,7 @@ wait for i_clock_period*10;
 --i_pixel <= std_logic_vector (to_unsigned (2, 10)); wait for i_clock_period*10;
 --i_pixel <= std_logic_vector (to_unsigned (767, 10)); wait for i_clock_period*10;
 --i_pixel <= std_logic_vector (to_unsigned (768, 10)); wait for i_clock_period*10;
-for i in 1 to 768 loop
+for i in 1 to 1024 loop
 	i_pixel <= std_logic_vector (to_unsigned (i, 10)); wait for i_clock_period*10;
 end loop;
 report "done tb" severity failure;
