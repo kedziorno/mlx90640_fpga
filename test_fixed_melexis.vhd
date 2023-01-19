@@ -1983,7 +1983,61 @@ when idle =>
 		else state := s180; end if;
 	when s181 => state := s182;
 		mulfpsclr <= '0';
-
+		eeprom16slv := i_ee0x243a and x"03ff";
+		offcpsubpage0 := resize (to_sfixed (eeprom16slv, eeprom16sf), offcpsubpage0);
+		vout2 := resize (offcpsubpage0, st_sfixed_max'high, st_sfixed_max'low);
+		offcpsubpage0 := resize (to_sfixed (to_slv (offcpsubpage0 (9 downto 0)), sfixed10'high, sfixed10'low), offcpsubpage0);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (offcpsubpage0 (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (offcpsubpage0 (fracbs'high downto fracbs'low)), fracbs));
+	when s182 =>
+		if (fixed2floatrdy = '1') then state := s183;
+			offcpsubpage0_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s182; end if;
+	when s183 => state := s184;
+		fixed2floatsclr <= '0';
+		eeprom16slv := i_ee0x243a and x"fc00";
+		offcpsubpage1delta := resize (to_sfixed (eeprom16slv, eeprom16sf), offcpsubpage1delta);
+		vout2 := resize (offcpsubpage1delta, st_sfixed_max'high, st_sfixed_max'low);
+		offcpsubpage1delta := offcpsubpage1delta srl 10;
+		offcpsubpage1delta := resize (to_sfixed (to_slv (offcpsubpage1delta (5 downto 0)), sfixed6'high, sfixed6'low), offcpsubpage1delta);
+		vout2 := resize (offcpsubpage1delta, st_sfixed_max'high, st_sfixed_max'low);
+--		offcpsubpage1delta := resize (to_sfixed (to_slv (offcpsubpage1delta), sfixed16'high, sfixed16'low), offcpsubpage1delta);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (offcpsubpage1delta (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (offcpsubpage1delta (fracbs'high downto fracbs'low)), fracbs));
+	when s184 =>
+		if (fixed2floatrdy = '1') then state := s185;
+			offcpsubpage1delta_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s184; end if;
+	when s185 => state := s186;
+		fixed2floatsclr <= '0';
+		addfpce <= '1';
+		addfpa <= offcpsubpage0_ft;
+		addfpb <= offcpsubpage1delta_ft;
+		addfpond <= '1';
+	when s186 =>
+		if (addfprdy = '1') then state := s187;
+			offcpsubpage1_ft := addfpr;
+			o_out1 <= addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s186; end if;
+	when s187 => state := s188;
+		addfpsclr <= '0';
 
 
 
