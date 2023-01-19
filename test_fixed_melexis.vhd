@@ -2590,351 +2590,47 @@ when idle =>
 		else state := s257; end if;
 	when s258 => state := s259;
 		mulfpsclr <= '0';
-
+		eeprom16slv := i_ee0x243c and x"ff00";
+		kstaee := resize (to_sfixed (eeprom16slv, eeprom16sf), kstaee);
+		vout2 := resize (kstaee, st_sfixed_max'high, st_sfixed_max'low);
+		kstaee := kstaee srl 8;
+		kstaee := resize (to_sfixed (to_slv (kstaee (7 downto 0)), sfixed8'high, sfixed8'low), kstaee);
+		vout2 := resize (kstaee, st_sfixed_max'high, st_sfixed_max'low);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (kstaee (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (kstaee (fracbs'high downto fracbs'low)), fracbs));
+	when s259 =>
+		if (fixed2floatrdy = '1') then state := s260;
+			kstaee_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s259; end if;
+	when s260 => state := s261;
+		fixed2floatsclr <= '0';
+		divfpce <= '1';
+		divfpa <= kstaee_ft;
+		divfpb <= const2pow13_ft;
+		divfpond <= '1';
+	when s261 =>
+		if (divfprdy = '1') then state := s262;
+			ksta_ft := divfpr;
+			o_out1 <= divfpr;
+			divfpce <= '0';
+			divfpond <= '0';
+			divfpsclr <= '1';
+		else state := s261; end if;
+	when s262 => state := s263;
+		divfpsclr <= '0';
 
 
 
 rdyrecover <= '1';
 -----
 
---when s74 =>
---		sftmp_slv_16 := x"0994" and x"003f"; -- ee[0x2435]
---		tmpslv6 := sftmp_slv_16 (5 downto 0);
---		tmpsf6 := to_sfixed (tmpslv6, tmpsf6);
---		ilchessc1ee := resize (tmpsf6, ilchessc1ee);
---		--report_error_normalize ("fail ilchessc1ee", ilchessc1ee, to_sfixed (20.0, max_expected_s)); -- 20.0
---		ilchessc1ee := ilchessc1ee srl 4;
---		--report_error_normalize ("fail ilchessc1ee/2^4", ilchessc1ee, to_sfixed (1.25, max_expected_s)); -- 1.25
---		state := w74;
---when w74 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s75; else v_wait1 := v_wait1 + 1; state := w74; end if;
---when s75 =>
-----		cmd <= "0010"; -- * KTa_cp*(Ta-Ta0)
---		in1mul <= kta_cp;
---		in2mul <= tad;
---		state := w75;
---when w75 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s76; else v_wait1 := v_wait1 + 1; state := w75; end if;
---when s76 =>
---		fpout := to_sfixed (to_slv (out1mul), fpout);
---		kta_cp := resize (fpout, kta_cp);
---		--report_error_normalize ("fail kta_cp*(Ta-Ta0)", kta_cp, to_sfixed (0.00457763671875*(39.184-25.0), max_expected_s)); -- 0.00457763671875*(39.184-25.0)
---		state := w76;
---when w76 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s77; else v_wait1 := v_wait1 + 1; state := w76; end if;
---when s77 =>
---		fptmp1 := to_sfixed (1.0, fptmp1);
---		--report_error_normalize ("fail 1.0", fptmp1, to_sfixed (1.0, max_expected_s)); -- 1.0
-----		cmd <= "0000"; -- + 1+KTa_cp*(Ta-Ta0)
---		in1add <= fptmp1;
---		in2add <= kta_cp;
---		state := w77;
---when w77 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s78; else v_wait1 := v_wait1 + 1; state := w77; end if;
---when s78 =>
---		fpout := to_sfixed (to_slv (out1add), fpout);
---		kta_cp := resize (fpout, kta_cp);
---		--report_error_normalize("fail kta_cp", kta_cp, to_sfixed (1.0+(0.00457763671875*(39.184-25.0)), max_expected_s)); -- 1.0+(0.00457763671875*(39.184-25.0))
---		state := w78;
---when w78 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s79; else v_wait1 := v_wait1 + 1; state := w78; end if;
---when s79 =>
-----		cmd <= "0010"; -- * Kv_cp*(Vdd-Vdd0)
---		in1mul <= kv_cp;
---		in2mul <= v0d;
---		state := w79;
---when w79 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s80; else v_wait1 := v_wait1 + 1; state := w79; end if;
---when s80 =>
---		fpout := to_sfixed (to_slv (out1mul), fpout);
---		kv_cp := resize (fpout, kv_cp);
---		--report_error_normalize ("fail Kv_cp*(Vdd-Vdd0)", kv_cp, to_sfixed (0.5*(3.319-3.3), max_expected_s)); -- 0.5*(3.319-3.3)
---		state := w80;
---when w80 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s81; else v_wait1 := v_wait1 + 1; state := w80; end if;
---when s81 =>
---		fptmp1 := to_sfixed (1.0, fptmp1);
---		--report_error_normalize ("fail 1.0", fptmp1, to_sfixed (1.0, max_expected_s)); -- 1.0
-----		cmd <= "0000"; -- 1+Kv_cp*(Vdd-Vdd0)
---		in1add <= fptmp1;
---		in2add <= kv_cp;
---		state := w81;
---when w81 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s82; else v_wait1 := v_wait1 + 1; state := w81; end if;
---when s82 =>
---		fpout := to_sfixed (to_slv (out1add), fpout);
---		kv_cp := resize (fpout, kv_cp);
---		--report_error_normalize ("fail 1+Kv_cp*(Vdd-Vdd0)", kv_cp, to_sfixed (1.0+(0.5*(3.319-3.3)), max_expected_s)); -- 1.0+(0.5*(3.319-3.3))
---		state := w82;
---when w82 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s83; else v_wait1 := v_wait1 + 1; state := w82; end if;
---when s83 =>
-----		cmd <= "0010"; -- * (1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))
---		in1mul <= kta_cp;
---		in2mul <= kv_cp;
---		state := w83;
---when w83 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s84; else v_wait1 := v_wait1 + 1; state := w83; end if;
---when s84 =>
---		fpout := to_sfixed (to_slv (out1mul), fpout);
---		ktacp_kvcp_mul := resize (fpout, ktacp_kvcp_mul);
---		--report_error_normalize ("fail (1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))", ktacp_kvcp_mul, to_sfixed ((1.0+(0.00457763671875*(39.184-25.0)))*(1.0+(0.5*(3.319-3.3))), max_expected_s)); -- (1.0+(0.00457763671875*(39.184-25.0)))*(1.0+(0.5*(3.319-3.3)))
---		state := w84;
---when w84 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s85; else v_wait1 := v_wait1 + 1; state := w84; end if;
---when s85 =>
-----		cmd <= "0010"; -- * OFF_CPsubpage_0*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))
---		in1mul <= ktacp_kvcp_mul;
---		in2mul <= off_cpsubpage_0;
---		state := w85;
---when w85 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s86; else v_wait1 := v_wait1 + 1; state := w85; end if;
---when s86 =>
---		fpout := to_sfixed (to_slv (out1mul), fpout);
---		pixos_cp_sp0 := resize (fpout, pixos_cp_sp0);
---		--report_error_normalize ("fail OFF_CPsubpage_0*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))", pixos_cp_sp0, to_sfixed((-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)), max_expected_s)); -- (-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))
---		state := w86;
---when w86 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s87; else v_wait1 := v_wait1 + 1; state := w86; end if;
---when s87 =>
-----		cmd <= "0001"; -- - PIXgain_cp_sp0-OFF_CPsubpage_0*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))
---		in1sub <= pixgain_cp_sp0;
---		in2sub <= pixos_cp_sp0;
---		state := w87;
---when w87 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s88; else v_wait1 := v_wait1 + 1; state := w87; end if;
---when s88 =>
---		fpout := to_sfixed (to_slv (out1sub), fpout);
---		pixos_cp_sp0 := resize (fpout, pixos_cp_sp0);
---		--report_error_normalize ("fail PIXgain_cp_sp0-OFF_CPsubpage_0*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))", pixos_cp_sp0, to_sfixed ((-54.9469153515065)-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)), max_expected_s)); -- (-54.9469153515065)-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))
---		--report_error_normalize ("fail PIXgain_cp_sp0-OFF_CPsubpage_0*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) const", pixos_cp_sp0, to_sfixed (25.6666575059956, max_expected_s)); -- 25.6666575059956
---		state := w88;
---when w88 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s89; else v_wait1 := v_wait1 + 1; state := w88; end if;
---when s89 =>
-----		cmd <= "0010"; -- * OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))
---		in1mul <= ktacp_kvcp_mul;
---		in2mul <= off_cpsubpage_1;
---		state := w89;
---when w89 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s90; else v_wait1 := v_wait1 + 1; state := w89; end if;
---when s90 =>
---		fpout := to_sfixed (to_slv (out1mul), fpout);
---		pixos_cp_sp1 := resize (fpout, pixos_cp_sp1);
---		--report_error_normalize("fail OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))", pixos_cp_sp1, to_sfixed ((-77.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)), max_expected_s)); -- (-77.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))
---		state := w90;
---when w90 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s91; else v_wait1 := v_wait1 + 1; state := w90; end if;
---when s91 =>
-----		cmd <= "0001"; -- - PIXgain_cp_sp1-OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))
---		in1sub <= pixgain_cp_sp1;
---		in2sub <= pixos_cp_sp1;
---		state := w91;
---when w91 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s92; else v_wait1 := v_wait1 + 1; state := w91; end if;
---when s92 =>
---		fpout := to_sfixed (to_slv (out1sub), fpout);
---		pixos_cp_sp1 := resize (fpout, pixos_cp_sp1);
---		--report_error_normalize ("fail PIXgain_cp_sp1-OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0))", pixos_cp_sp1, to_sfixed ((-56.9819862904511)-(-77.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)), max_expected_s)); -- (-56.9819862904511)-(-77.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))
---		--report_error_normalize ("fail PIXgain_cp_sp1-OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) const", pixos_cp_sp1, to_sfixed (21.63158656770509, max_expected_s)); -- 21.63158656770509 -- xxx ??? ERROR on page 41 ??? xxx
---		--report_error_normalize ("fail PIXgain_cp_sp1-OFF_CPsubpage_1*(1+KTa_CP*(Ta-Ta0))*(1+Kv_CP*(Vdd-VddV0)) const, error ? on page 41 => pixos_cp_sp1 = 21.63158656770509", pixos_cp_sp1, to_sfixed (25.79655775862116562500, max_expected_s)); -- 25.79655775862116562500 -- xxx from bc calculator
---		state := w92;
---when w92 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s93; else v_wait1 := v_wait1 + 1; state := w92; end if;
---when s93 =>
----- ch_pattern
---		tmpuf1 := to_ufixed(
---		std_logic_vector(
---		to_unsigned((integer((pixelnumber12_16-1)/32)-integer(integer((pixelnumber12_16-1)/32)/2)*2),1)
---		xor
---		to_unsigned((integer(pixelnumber12_16-1)-integer((pixelnumber12_16-1)/2)*2),1)
---		),tmpuf1
---		);
---		tmpuf1 := to_ufixed (0.0, tmpuf1);
---		--report_error_normalize ("fail pixelnumber12_16 xor uf", tmpuf1, to_ufixed (0.0, max_expected_u));
---		tmpsf1 := to_sfixed (tmpuf1)(0 downto 0);
---		--report_error_normalize ("fail pixelnumber12_16 xor sf", tmpsf1, to_sfixed (0.0, max_expected_s));
---		ch_pattern_12_16_u := resize (tmpuf1, ch_pattern_12_16_u);
---		--report_error_normalize ("fail ch_pattern_12_16_u", ch_pattern_12_16_u, to_ufixed (0.0, max_expected_u)); -- 0
---		ch_pattern_12_16_s := resize (to_sfixed (ch_pattern_12_16_u), ch_pattern_12_16_s);
---		--report_error_normalize ("fail ch_pattern_12_16_s", ch_pattern_12_16_s, to_sfixed (0.0, max_expected_s)); -- 0
---		ch_pattern_12_16 := ch_pattern_12_16_s;
---		--report_error_normalize ("fail ch_pattern_12_16 after convert u->s", ch_pattern_12_16, to_sfixed (0.0, max_expected_s)); -- 0
---		sftmp_slv_16 := x"f020" and x"003f"; -- ee[0x243c]
---		tgcee := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), tgcee);
---		--report_error_normalize ("fail tgcee", tgcee, to_sfixed (32.0, max_expected_s)); -- 32
---		tgcee := tgcee srl 5;
---		--report_error_normalize ("fail tgcee/2^5", tgcee, to_sfixed (1.0, max_expected_s)); -- 1
---		tgc := tgcee;
---		state := w93;
---when w93 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s94; else v_wait1 := v_wait1 + 1; state := w93; end if;
---when s94 =>
-----		cmd <= "0010"; -- * CHIL_pattern*PIXos_cp_sp1
---		in1mul <= ch_pattern_12_16;
---		in2mul <= pixos_cp_sp1;
---		state := w94;
---when w94 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s95; else v_wait1 := v_wait1 + 1; state := w94; end if;
---when s95 =>
---		fpout := to_sfixed (to_slv (out1mul), fpout);
---		pixospatt1 := resize (fpout, pixospatt1);
---		--report_error_normalize ("fail pixospatt1", pixospatt1, to_sfixed (to_real (ch_pattern_12_16)*to_real (pixos_cp_sp1), max_expected_s)); -- ch_pattern_12_16*pixos_cp_sp1
---		state := w95;
---when w95 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s96; else v_wait1 := v_wait1 + 1; state := w95; end if;
---when s96 =>
---		fptmp1 := to_sfixed (1.0, fptmp1);
---		--report_error_normalize ("fail 1.0", fptmp1, to_sfixed (1.0, max_expected_s)); -- 1.0
-----		cmd <= "0001"; -- - (1-CHIL_pattern)
---		in1sub <= fptmp1;
---		in2sub <= ch_pattern_12_16;
---		state := w96;
---when w96 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s97; else v_wait1 := v_wait1 + 1; state := w96; end if;
---when s97 =>
---		fpout := to_sfixed (to_slv (out1sub), fpout);
---		ch_pattern_12_16_minusone := resize (fpout, ch_pattern_12_16_minusone);
---		--report_error_normalize ("fail ch_pattern_12_16_minusone", ch_pattern_12_16_minusone, to_sfixed (1.0-to_real (ch_pattern_12_16), max_expected_s)); -- 1.0-ch_pattern_12_16
---		state := w97;
---when w97 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s98; else v_wait1 := v_wait1 + 1; state := w97; end if;
---when s98 =>
-----		cmd <= "0010"; -- * (1-CHIL_pattern)*PIXos_cp_sp0
---		in1mul <= ch_pattern_12_16_minusone;
---		in2mul <= pixos_cp_sp0;
---		state := w98;
---when w98 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s99; else v_wait1 := v_wait1 + 1; state := w98; end if;
---when s99 =>
---		fpout := to_sfixed (to_slv (out1mul), fpout);
---		pixospatt2 := resize (fpout, pixospatt2);
---		--report_error_normalize ("fail pixospatt2", pixospatt2, to_sfixed (to_real (ch_pattern_12_16_minusone)*to_real (pixos_cp_sp0), max_expected_s)); -- ch_pattern_12_16_minusone*pixos_cp_sp0
---		state := w99;
---when w99 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s100; else v_wait1 := v_wait1 + 1; state := w99; end if;
---when s100 =>
-----		cmd <= "0000"; -- + ((1-CHIL_pattern)*PIXos_cp_sp0)+(CHIL_pattern*PIXos_cp_sp1)
---		in1add <= pixospatt1;
---		in2add <= pixospatt2;
---		state := w100;
---when w100 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s101; else v_wait1 := v_wait1 + 1; state := w100; end if;
---when s101 =>
---		fpout := to_sfixed (to_slv (out1add), fpout);
---		pixospatt12 := resize (fpout, pixospatt12);
---		--report_error_normalize ("fail ((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1)", pixospatt12, to_sfixed (((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)))), max_expected_s)); -- :E
---		--report_error_normalize ("fail ((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) const", pixospatt12, to_sfixed(21.6315865670509, max_expected_s)); -- xxx ??? error on page 42 : right side vir_12_16_compensated
---		state := w101;
---when w101 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s102; else v_wait1 := v_wait1 + 1; state := w101; end if;
---when s102 =>
-----		cmd <= "0010"; -- * TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1)
---		in1mul <= tgc;
---		in2mul <= pixospatt12;
---		state := w102;
---when w102 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s103; else v_wait1 := v_wait1 + 1; state := w102; end if;
---when s103 =>
---		fpout := to_sfixed (to_slv (out1mul), fpout);
---		pixospatt12 := resize (fpout, pixospatt12);
---		--report_error_normalize ("fail TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1)", pixospatt12, to_sfixed ((1.0*((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))), max_expected_s)); -- :E
---		--report_error_normalize ("fail TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) const", pixospatt12, to_sfixed (21.6315865670509, max_expected_s)); -- xxx ??? error on page 42 : right side vir_12_16_compensated
---		state := w103;
---when w103 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s104; else v_wait1 := v_wait1 + 1; state := w103; end if;
---when s104 =>
-----		cmd <= "0001"; -- - VIR(12,16)EMISSIVITY_COMPENSATED-TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1)
---		in1sub <= vir12_16_emissitivy_componsated;
---		in2sub <= pixospatt12;
---		state := w104;
---when w104 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s105; else v_wait1 := v_wait1 + 1; state := w104; end if;
---when s105 =>
---		fpout := to_sfixed (to_slv (out1sub), fpout);
---		vir_12_16_compensated := resize (fpout, vir_12_16_compensated);
---		--report_error_normalize ("fail VIR(12,16)EMISSIVITY_COMPENSATED-TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1)", vir_12_16_compensated, to_sfixed ((700.882495690877-(1.0*((1.0-to_real(ch_pattern_12_16))*(-54.9469153515065-(-75.0)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3))))+(to_real(ch_pattern_12_16)*(-56.9819862904511-(-77)*(1.0+0.00457763671875*(39.184-25.0))*(1.0+0.5*(3.319-3.3)))))), max_expected_s)); -- :E
---		--report_error_normalize ("fail VIR(12,16)EMISSIVITY_COMPENSATED-TGC*((1-CHIL_pattern)*PIXos_cp_sp0+CHIL_pattern*PIXos_cp_sp1) const", vir_12_16_compensated, to_sfixed (679.250909123826, max_expected_s)); -- xxx ??? error on page 42 : right side vir_12_16_compensated
---		state := w105;
---when w105 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s106; else v_wait1 := v_wait1 + 1; state := w105; end if;
---when s106 =>
---		sftmp_slv_16 := x"79a6" and x"f000"; -- ee[0x2420]
---		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 12));
---		tmpslv4 := sftmp_slv_16 (3 downto 0);
---		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
---		ascalecp := resize (tmpsf4, ascalecp);
---		--report_error_normalize ("fail ascalecp", ascalecp, to_sfixed (7.0, max_expected_s)); -- 7
---		fptmp2 := to_sfixed (27.0, fptmp2);
---		--report_error_normalize ("fail 27.0", fptmp2, to_sfixed (27.0, max_expected_s));
-----		cmd <= "0000"; -- +Ascale_cp+27
---		in1add <= ascalecp;
---		in2add <= fptmp2;
---		state := w106;
---when w106 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s107; else v_wait1 := v_wait1 + 1; state := w106; end if;
---when s107 =>
---		fpout := to_sfixed (to_slv (out1add), fpout);
---		ascalecp := resize (fpout, ascalecp);
---		--report_error_normalize ("fail ascalecp", ascalecp, to_sfixed (34.0, max_expected_s)); -- 34
---		sftmp_slv_16 := x"e446" and x"fc00"; -- ee[0x2439]
---		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 10));
---		tmpslv6 := sftmp_slv_16 (5 downto 0);
---		tmpsf6 := to_sfixed (tmpslv6, tmpsf6);
---		cpp1p0ratio := resize (tmpsf6, cpp1p0ratio);
---		--report_error_normalize ("fail cpp1p0ratio", cpp1p0ratio, to_sfixed (-7.0, max_expected_s)); -- -7
---		sftmp_slv_16 := x"e446" and x"03ff"; -- ee[0x2439]
---		tmpslv10 := sftmp_slv_16 (9 downto 0);
---		tmpsf10 := to_sfixed (tmpslv10, tmpsf10);
---		acpsubpage0 := resize (tmpsf10, acpsubpage0);
---		--report_error_normalize ("fail acpsubpage0 - xxx", acpsubpage0, to_sfixed (70.0, max_expected_s)); -- 70
---		ascalecp := to_sfixed (1.0, ascalecp) sll to_integer (ascalecp);
---		--report_error_normalize ("2^ascalecp", ascalecp, to_sfixed (17179869184.0, max_expected_s)); -- 2**34
-----		cmd <= "0011"; -- / acpsubpage0/2^ascalecp
---		in1div <= acpsubpage0;
---		in2div <= ascalecp;
---		state := w107;
---when w107 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s108; else v_wait1 := v_wait1 + 1; state := w107; end if;
---when s108 =>
---		fpout := to_sfixed (to_slv (out1div), fpout);
---		acpsubpage0 := resize (fpout, acpsubpage0);
---		--report_error_normalize ("fail acpsubpage0", acpsubpage0, to_sfixed (0.00000000407453626394272, max_expected_s)); -- 0.00000000407453626394272
---		fptmp2 := to_sfixed (2**7, fptmp2);
---		--report_error_normalize ("fail 2**7", fptmp2, to_sfixed (2**7, max_expected_s));		
-----		cmd <= "0011"; -- / cpp1p0ratio/2^7
---		in1div <= cpp1p0ratio;
---		in2div <= fptmp2;
---		state := w108;
---when w108 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s109; else v_wait1 := v_wait1 + 1; state := w108; end if;
---when s109 =>
---		fpout := to_sfixed (to_slv (out1div), fpout);
---		cpp1p0ratio := resize (fpout, cpp1p0ratio);
---		--report_error_normalize ("fail cpp1p0ratio 1", cpp1p0ratio, to_sfixed (-0.05468750000000000000, max_expected_s)); -- -0.05468750000000000000
---		fptmp1 := to_sfixed (1.0, fptmp1);
---		--report_error_normalize ("fail 1.0", fptmp1, to_sfixed (1.0, max_expected_s));
-----		cmd <= "0000"; -- + 1+(cpp1p0ratio/2^7)
---		in1add <= fptmp1;
---		in2add <= cpp1p0ratio;
---		state := w109;
---when w109 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s110; else v_wait1 := v_wait1 + 1; state := w109; end if;
---when s110 =>
---		fpout := to_sfixed (to_slv (out1add), fpout);
---		cpp1p0ratio := resize (fpout, cpp1p0ratio);
---		--report_error_normalize ("fail cpp1p0ratio 2", cpp1p0ratio, to_sfixed (1.0+(-0.05468750000000000000), max_expected_s)); -- 0.9453125
-----		cmd <= "0010"; -- * acpsubpage0*(1+(cpp1p0ratio/2^7))
---		in1mul <= acpsubpage0;
---		in2mul <= cpp1p0ratio;
---		state := w110;
---when w110 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s111; else v_wait1 := v_wait1 + 1; state := w110; end if;
---when s111 =>
---		fpout := to_sfixed (to_slv (out1mul), fpout);
---		acpsubpage1 := resize (fpout, acpsubpage1);
---		--report_error_normalize ("fail acpsubpage1", acpsubpage1, to_sfixed ((0.00000000407453626394272)*(0.9453125), max_expected_s)); -- 0.00000000407453626394272*0.9453125
---		--report_error_normalize ("fail acpsubpage1 const", acpsubpage1, to_sfixed (0.00000000385171006200835, max_expected_s)); -- 0.00000000385171006200835
 --		sftmp_slv_16 := x"f020" and x"ff00"; -- ee[0x243c]
 --		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 8));
 --		tmpslv8 := sftmp_slv_16 (7 downto 0);
