@@ -346,7 +346,7 @@ else
 		variable ktacp,ktacpee,kvcp,kvcpee,pixoscpsp0,pixoscpsp1,tgcee,tgc,pattern,vir1216compensated : st_sfixed_max;
 		variable vir1216emmisivitycompensated : st_sfixed_max;
 		variable acpsubpage0,acpsubpage1,ascalecp,cpp1p0ration,ksta,kstaee,areference,ascale,accrow12,accscalerow,acccolumn16,accscalecolumn : st_sfixed_max;
-		variable apixel1216,accscaleremnant,a1216,acomp1216 : st_sfixed_max;
+		variable apixel1216,accscaleremnant,a1216,acomp1216,cpp1p0ratio : st_sfixed_max;
 		variable resee,resreg : st_ufixed_max;
 		variable kvdd_ft,vdd25_ft,const256_ft,const2pow5_ft,const2pow13_ft,resee_ft,resreg_ft,rescorr_ft,Ta_ft,kta1216ee_ft : fd2ft;
 		variable kvptat_ft,ktptat_ft,const2pow12_ft,const2pow3_ft,deltaV_ft,Vdd_ft,const3dot3_ft,vptat_ft,vbe_ft,vptat25_ft : fd2ft;
@@ -357,13 +357,14 @@ else
 		variable offcpsubpage0_ft,offcpsubpage1_ft,offcpsubpage1delta_ft,constemissivity_ft,pattern_ft,vir1216emmisivitycompensated_ft : fd2ft;
 		variable ktacp_ft,ktacpee_ft,kvcp_ft,kvcpee_ft,pixoscpsp0_ft,pixoscpsp1_ft,tgcee_ft,tgc_ft : fd2ft;
 		variable acpsubpage0_ft,acpsubpage1_ft,ascalecp_ft,cpp1p0ration_ft,ksta_ft,kstaee_ft,areference_ft,ascale_ft,accrow12_ft,accscalerow_ft,acccolumn16_ft,accscalecolumn_ft : fd2ft;
-		variable apixel1216_ft,accscaleremnant_ft,a1216_ft,acomp1216_ft,const27_ft : fd2ft;
+		variable apixel1216_ft,accscaleremnant_ft,a1216_ft,acomp1216_ft,const27_ft,const2pow7_ft,cpp1p0ratio_ft : fd2ft;
 		variable pattern_slv1 : slv1;
 
 		variable fttmp1_ft,fttmp2_ft : fd2ft;
 		variable fptmp1,fptmp2 : st_sfixed_max;
 		constant const256 : st_sfixed_max := to_sfixed (256.0, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow5 : st_sfixed_max := to_sfixed (2.0**5, st_sfixed_max'high, st_sfixed_max'low);
+		constant const2pow7 : st_sfixed_max := to_sfixed (2.0**7, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow13 : st_sfixed_max := to_sfixed (2.0**13, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow12 : st_sfixed_max := to_sfixed (2.0**12, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow3 : st_sfixed_max := to_sfixed (2.0**3, st_sfixed_max'high, st_sfixed_max'low);
@@ -2511,8 +2512,84 @@ when idle =>
 		else state := s247; end if;
 	when s248 => state := s249;
 		divfpsclr <= '0';
-
-
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (const2pow7 (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (const2pow7 (fracbs'high downto fracbs'low)), fracbs));
+	when s249 =>
+		if (fixed2floatrdy = '1') then state := s250;
+			const2pow7_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s249; end if;
+	when s250 => state := s251;
+		fixed2floatsclr <= '0';
+		eeprom16slv := i_ee0x2439 and x"fc00";
+		cpp1p0ratio := resize (to_sfixed (eeprom16slv, eeprom16sf), cpp1p0ratio);
+		vout2 := resize (cpp1p0ratio, st_sfixed_max'high, st_sfixed_max'low);
+		cpp1p0ratio := cpp1p0ratio srl 10;
+		cpp1p0ratio := resize (to_sfixed (to_slv (cpp1p0ratio (5 downto 0)), sfixed6'high, sfixed6'low), cpp1p0ratio);
+		vout2 := resize (cpp1p0ratio, st_sfixed_max'high, st_sfixed_max'low);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (cpp1p0ratio (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (cpp1p0ratio (fracbs'high downto fracbs'low)), fracbs));
+	when s251 =>
+		if (fixed2floatrdy = '1') then state := s252;
+			cpp1p0ratio_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s251; end if;
+	when s252 => state := s253;
+		fixed2floatsclr <= '0';
+		divfpce <= '1';
+		divfpa <= cpp1p0ratio_ft;
+		divfpb <= const2pow7_ft;
+		divfpond <= '1';
+	when s253 =>
+		if (divfprdy = '1') then state := s254;
+			acpsubpage1_ft := divfpr;
+			o_out1 <= divfpr;
+			divfpce <= '0';
+			divfpond <= '0';
+			divfpsclr <= '1';
+		else state := s253; end if;
+	when s254 => state := s255;
+		divfpsclr <= '0';
+		addfpce <= '1';
+		addfpa <= const1_ft;
+		addfpb <= acpsubpage1_ft;
+		addfpond <= '1';
+	when s255 =>
+		if (addfprdy = '1') then state := s256;
+			acpsubpage1_ft := addfpr;
+			o_out1 <= addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s255; end if;
+	when s256 => state := s257;
+		addfpsclr <= '0';
+		mulfpce <= '1';
+		mulfpa <= acpsubpage1_ft;
+		mulfpb <= acpsubpage0_ft;
+		mulfpond <= '1';
+	when s257 =>
+		if (mulfprdy = '1') then state := s258;
+			acpsubpage1_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s257; end if;
+	when s258 => state := s259;
+		mulfpsclr <= '0';
 
 
 
