@@ -64,10 +64,13 @@ i_ram0x0708 : in slv16;
 i_ram0x0728 : in slv16;
 i_ee0x243a : in slv16;
 i_ee0x243b : in slv16;
+i_ee0x243c : in slv16;
+i_pixelpattern : in slv10;
 -----
 o_out1 : out fd2ft;
 o_rdy : out std_logic;
-o_out2 : out st_sfixed_max
+o_out2 : out st_sfixed_max;
+o_out3 : out st_ufixed_max
 );
 end test_fixed_melexis;
 
@@ -286,6 +289,20 @@ signal mem_float2powerN_reset2 : std_logic;
 signal mem_float2powerN_N2 : std_logic_vector (5 downto 0);
 signal mem_float2powerN_2powerN2 : std_logic_vector (31 downto 0);
 
+component mem_switchpattern is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_pixel : in std_logic_vector (9 downto 0);
+o_pattern : out std_logic
+);
+end component mem_switchpattern;
+
+signal mem_switchpattern_clock : std_logic;
+signal mem_switchpattern_reset : std_logic;
+signal mem_switchpattern_pixel : std_logic_vector (9 downto 0);
+signal mem_switchpattern_pattern : std_logic;
+
 signal rdyrecover : std_logic; -- signal for tb when rdy not appear
 
 begin
@@ -320,17 +337,19 @@ else
 		variable pixgain1216,offsetaverage,occrow12,occscalerow,occcolumn16,occscalecolumn,offset1216,occscaleremnant : st_sfixed_max;
 		variable pixosref1216,pixos1216,kta1216,ktarcee,ktascale1,ktascale2,kv1216,kvscale,kta1216ee,kv1216ee : st_sfixed_max;
 		variable vir1216emissivitycompensated,pixgaincpsp0,pixgaincpsp1,offcpsubpage0,offcpsubpage1,offcpsubpage1delta : st_sfixed_max;
-		variable ktacp,ktacpee,kvcp,kvcpee,pixoscpsp0,pixoscpsp1 : st_sfixed_max;
+		variable ktacp,ktacpee,kvcp,kvcpee,pixoscpsp0,pixoscpsp1,tgcee,tgc : st_sfixed_max;
 		variable resee,resreg : st_ufixed_max;
+		variable pattern : st_sfixed_max;
 		variable kvdd_ft,vdd25_ft,const256_ft,const2pow5_ft,const2pow13_ft,resee_ft,resreg_ft,rescorr_ft,Ta_ft,kta1216ee_ft : fd2ft;
 		variable kvptat_ft,ktptat_ft,const2pow12_ft,const2pow3_ft,deltaV_ft,Vdd_ft,const3dot3_ft,vptat_ft,vbe_ft,vptat25_ft : fd2ft;
 		variable alphaptatee_ft,const2pow2_ft,const8_ft,alphaptat_ft,const2pow18_ft,vptatart_ft,const25_ft,const1_ft,Kgain_ft,gain_ft : fd2ft;
 		variable pixgain1216_ft,offsetaverage_ft,occrow12_ft,occscalerow_ft,occcolumn16_ft,occscalecolumn_ft,offset1216_ft : fd2ft;
 		variable occscaleremnant_ft,pixosref1216_ft,pixos1216_ft,kta1216_ft,ktarcee_ft,ktascale1_ft,ktascale2_ft,kv1216_ft,kvscale_ft : fd2ft;
 		variable kv1216ee_ft,vir1216emissivitycompensated_ft,pixgaincpsp0_ft,pixgaincpsp1_ft,v0d_ft,tad_ft : fd2ft;
-		variable offcpsubpage0_ft,offcpsubpage1_ft,offcpsubpage1delta_ft,constemissivity_ft : fd2ft;
-		variable ktacp_ft,ktacpee_ft,kvcp_ft,kvcpee_ft,pixoscpsp0_ft,pixoscpsp1_ft : fd2ft;
-		
+		variable offcpsubpage0_ft,offcpsubpage1_ft,offcpsubpage1delta_ft,constemissivity_ft,pattern_ft : fd2ft;
+		variable ktacp_ft,ktacpee_ft,kvcp_ft,kvcpee_ft,pixoscpsp0_ft,pixoscpsp1_ft,tgcee_ft,tgc_ft : fd2ft;
+		variable pattern_slv1 : slv1;
+
 		variable fttmp1_ft,fttmp2_ft : fd2ft;
 		constant const256 : st_sfixed_max := to_sfixed (256.0, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow5 : st_sfixed_max := to_sfixed (2.0**5, st_sfixed_max'high, st_sfixed_max'low);
@@ -403,7 +422,7 @@ else
 		variable kv_scale : st_sfixed_max;
 		variable kv_cp_ee : st_sfixed_max;
 		variable kv_cp : st_sfixed_max;
-		variable ktacp_kvcp_mul,ilchessc1ee,ilchessc1,pixos_cp_sp0,pixos_cp_sp1,ch_pattern_12_16_s,ch_pattern_12_16,tgcee,tgc,vir_12_16_compensated : st_sfixed_max;
+		variable ktacp_kvcp_mul,ilchessc1ee,ilchessc1,pixos_cp_sp0,pixos_cp_sp1,ch_pattern_12_16_s,ch_pattern_12_16,vir_12_16_compensated : st_sfixed_max;
 		variable ch_pattern_12_16_u : st_ufixed_max; -- xxx for xor
 		constant pixelnumber12_16 : integer := 368; -- xxx good val
 --		constant pixelnumber12_16 : integer := 367; -- xxx bad val
@@ -427,17 +446,18 @@ else
 		variable fracau : fracau;
 		variable fracbu : fracbu;
 		variable vout2 : st_sfixed_max;
+		variable vout3 : st_ufixed_max;
 	begin
 		if (rising_edge(i_clock)) then
 			if (i_reset = '1') then
-				report "fp_add_hi : " & integer'image(st_sfixed_add'high);
-				report "fp_add_lo : " & integer'image(st_sfixed_add'low);
-				report "fp_sub_hi : " & integer'image(st_sfixed_sub'high);
-				report "fp_sub_lo : " & integer'image(st_sfixed_sub'low);
-				report "fp_mul_hi : " & integer'image(st_sfixed_mul'high);
-				report "fp_mul_lo : " & integer'image(st_sfixed_mul'low);
-				report "fp_div_hi : " & integer'image(st_sfixed_div'high);
-				report "fp_div_lo : " & integer'image(st_sfixed_div'low);
+--				report "fp_add_hi : " & integer'image(st_sfixed_add'high);
+--				report "fp_add_lo : " & integer'image(st_sfixed_add'low);
+--				report "fp_sub_hi : " & integer'image(st_sfixed_sub'high);
+--				report "fp_sub_lo : " & integer'image(st_sfixed_sub'low);
+--				report "fp_mul_hi : " & integer'image(st_sfixed_mul'high);
+--				report "fp_mul_lo : " & integer'image(st_sfixed_mul'low);
+--				report "fp_div_hi : " & integer'image(st_sfixed_div'high);
+--				report "fp_div_lo : " & integer'image(st_sfixed_div'low);
 				v_wait1 := 0;
 				state := idle;
 				-- reset
@@ -480,8 +500,10 @@ else
 				mem_float2powerN_reset2 <= '1';
 				mem_float2powerN_N2 <= (others => '0');
 				rdyrecover <= '0';
+				mem_switchpattern_reset <= '1';
 			else
 		o_out2 <= vout2;
+		o_out3 <= vout3;
 
 		case (state) is
 when idle =>
@@ -499,6 +521,7 @@ when idle =>
 			divfpsclr <= '0';
 			mem_float2powerN_reset1 <= '0';
 			mem_float2powerN_reset2 <= '0';
+			mem_switchpattern_reset <= '0';
 	when s1 => state := s2;
 		--
 		-- kvdd
@@ -2233,6 +2256,67 @@ when idle =>
 		else state := s212; end if;
 	when s213 => state := s214;
 		subfpsclr <= '0';
+		eeprom16slv := i_ee0x243c and x"00ff";
+		tgcee := resize (to_sfixed (eeprom16slv, eeprom16sf), tgcee);
+		vout2 := resize (tgcee, st_sfixed_max'high, st_sfixed_max'low);
+		tgcee := resize (to_sfixed (to_slv (tgcee (7 downto 0)), sfixed8'high, sfixed8'low), tgcee);
+		vout2 := resize (tgcee, st_sfixed_max'high, st_sfixed_max'low);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (tgcee (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (tgcee (fracbs'high downto fracbs'low)), fracbs));
+	when s214 =>
+		if (fixed2floatrdy = '1') then state := s215;
+			tgcee_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s214; end if;
+	when s215 => state := s216;
+		fixed2floatsclr <= '0';
+		divfpce <= '1';
+		divfpa <= tgcee_ft;
+		divfpb <= const2pow5_ft;
+		divfpond <= '1';
+	when s216 =>
+		if (divfprdy = '1') then state := s217;
+			tgc_ft := divfpr; -- 1
+			o_out1 <= divfpr;
+			divfpce <= '0';
+			divfpond <= '0';
+			divfpsclr <= '1';
+		else state := s216; end if;
+	when s217 => state := s218;
+		divfpsclr <= '0';
+	when s218 => state := s219;
+		mem_switchpattern_pixel <= i_pixelpattern; -- 12x16
+	when s219 => state := s220;
+		-- wait for px pattern
+	when s220 => state := s221;
+		pattern_slv1(0) := mem_switchpattern_pattern;
+		pattern := resize (to_sfixed ("0000000"&pattern_slv1, sfixed8'high, sfixed8'low), pattern);
+		vout2 := resize (pattern, st_sfixed_max'high, st_sfixed_max'low);
+--		vout3 := to_ufixed (123.0, st_ufixed_max'high, st_ufixed_max'low);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (pattern (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (pattern (fracbs'high downto fracbs'low)), fracbs));
+	when s221 =>
+		if (fixed2floatrdy = '1') then state := s222;
+			pattern_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s221; end if;
+	when s222 => state := s223;
+		fixed2floatsclr <= '0';
+
+
+
 
 
 rdyrecover <= '1';
@@ -3085,6 +3169,16 @@ i_clock => mem_float2powerN_clock2,
 i_reset => mem_float2powerN_reset2,
 i_N => mem_float2powerN_N2,
 o_2powerN => mem_float2powerN_2powerN2
+);
+
+mem_switchpattern_clock <= i_clock;
+
+inst_mem_switchpattern : mem_switchpattern
+port map (
+i_clock => mem_switchpattern_clock,
+i_reset => mem_switchpattern_reset,
+i_pixel => mem_switchpattern_pixel,
+o_pattern => mem_switchpattern_pattern
 );
 
 end architecture testbench;

@@ -2,7 +2,7 @@
 
 LIBRARY ieee,ieee_proposed;
 USE ieee.std_logic_1164.ALL;
---USE ieee.numeric_std.ALL;
+USE ieee.numeric_std.ALL;
 use ieee_proposed.fixed_float_types.all;
 use ieee_proposed.fixed_pkg.all;
 use ieee_proposed.numeric_std_additions.all;
@@ -49,9 +49,12 @@ i_ram0x0708 : in slv16;
 i_ram0x0728 : in slv16;
 i_ee0x243a : in slv16;
 i_ee0x243b : in slv16;
+i_ee0x243c : in slv16;
+i_pixelpattern : in slv10;
 o_out1 : out fd2ft;
 o_rdy : out std_logic;
-o_out2 : out st_sfixed_max
+o_out2 : out st_sfixed_max;
+o_out3 : out st_ufixed_max
 );
 end component test_fixed_melexis;
 
@@ -61,17 +64,19 @@ SIGNAL i_run :  std_logic;
 SIGNAL o_out1 :  fd2ft;
 SIGNAL o_rdy,o_rdyp :  std_logic;
 SIGNAL o_out2 : st_sfixed_max;
+SIGNAL o_out3 : st_ufixed_max;
 
 constant clock_period : time := 500 ns;
 constant G_C_WAIT1 : integer := 16;
 
 signal out1r : real;
-signal out2r : real;
+signal out2r_s,out2r_u : real;
 
 BEGIN
 
 out1r <= ap_slv2fp (o_out1);
-out2r <= to_real (o_out2);
+out2r_s <= to_real (o_out2);
+out2r_u <= to_real (o_out3);
 
 -- Component Instantiation
 uut : test_fixed_melexis 
@@ -104,6 +109,8 @@ i_ram0x0708 => x"ffca",
 i_ram0x0728 => x"ffc8",
 i_ee0x243a => x"fbb5",
 i_ee0x243b => x"044b",
+i_ee0x243c => x"f020",
+i_pixelpattern => std_logic_vector (to_unsigned (367, 10)), -- px 12,16
 o_out1 => o_out1,
 o_rdy => o_rdy,
 o_out2 => o_out2
