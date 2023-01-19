@@ -50,6 +50,12 @@ i_ram0x0728 : in slv16;
 i_ee0x243a : in slv16;
 i_ee0x243b : in slv16;
 i_ee0x243c : in slv16;
+i_ee0x2439 : in slv16;
+i_ee0x2420 : in slv16;
+i_ee0x2421 : in slv16;
+i_ee0x2424 : in slv16;
+i_ee0x242b : in slv16;
+i_ee0x258f : in slv16;
 i_pixelpattern : in slv10;
 o_out1 : out fd2ft;
 o_rdy : out std_logic;
@@ -110,6 +116,12 @@ i_ram0x0728 => x"ffc8",
 i_ee0x243a => x"fbb5",
 i_ee0x243b => x"044b",
 i_ee0x243c => x"f020",
+i_ee0x2439 => x"e446",
+i_ee0x2420 => x"79a6",
+i_ee0x2421 => x"2f44",
+i_ee0x2424 => x"3333",
+i_ee0x242b => x"3333",
+i_ee0x258f => x"08a0",
 i_pixelpattern => std_logic_vector (to_unsigned (368, 10)), -- px 12,16
 o_out1 => o_out1,
 o_rdy => o_rdy,

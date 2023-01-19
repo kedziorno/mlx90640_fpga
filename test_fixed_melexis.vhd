@@ -65,6 +65,12 @@ i_ram0x0728 : in slv16;
 i_ee0x243a : in slv16;
 i_ee0x243b : in slv16;
 i_ee0x243c : in slv16;
+i_ee0x2439 : in slv16;
+i_ee0x2420 : in slv16;
+i_ee0x2421 : in slv16;
+i_ee0x2424 : in slv16;
+i_ee0x242b : in slv16;
+i_ee0x258f : in slv16;
 i_pixelpattern : in slv10; -- 12x16
 -----
 o_out1 : out fd2ft;
@@ -339,6 +345,8 @@ else
 		variable vir1216emissivitycompensated,pixgaincpsp0,pixgaincpsp1,offcpsubpage0,offcpsubpage1,offcpsubpage1delta : st_sfixed_max;
 		variable ktacp,ktacpee,kvcp,kvcpee,pixoscpsp0,pixoscpsp1,tgcee,tgc,pattern,vir1216compensated : st_sfixed_max;
 		variable vir1216emmisivitycompensated : st_sfixed_max;
+		variable acpsubpage0,acpsubpage1,ascalecp,cpp1p0ration,ksta,kstaee,areference,ascale,accrow12,accscalerow,acccolumn16,accscalecolumn : st_sfixed_max;
+		variable apixel1216,accscaleremnant,a1216,acomp1216 : st_sfixed_max;
 		variable resee,resreg : st_ufixed_max;
 		variable kvdd_ft,vdd25_ft,const256_ft,const2pow5_ft,const2pow13_ft,resee_ft,resreg_ft,rescorr_ft,Ta_ft,kta1216ee_ft : fd2ft;
 		variable kvptat_ft,ktptat_ft,const2pow12_ft,const2pow3_ft,deltaV_ft,Vdd_ft,const3dot3_ft,vptat_ft,vbe_ft,vptat25_ft : fd2ft;
@@ -348,9 +356,12 @@ else
 		variable kv1216ee_ft,vir1216emissivitycompensated_ft,pixgaincpsp0_ft,pixgaincpsp1_ft,v0d_ft,tad_ft,vir1216compensated_ft : fd2ft;
 		variable offcpsubpage0_ft,offcpsubpage1_ft,offcpsubpage1delta_ft,constemissivity_ft,pattern_ft,vir1216emmisivitycompensated_ft : fd2ft;
 		variable ktacp_ft,ktacpee_ft,kvcp_ft,kvcpee_ft,pixoscpsp0_ft,pixoscpsp1_ft,tgcee_ft,tgc_ft : fd2ft;
+		variable acpsubpage0_ft,acpsubpage1_ft,ascalecp_ft,cpp1p0ration_ft,ksta_ft,kstaee_ft,areference_ft,ascale_ft,accrow12_ft,accscalerow_ft,acccolumn16_ft,accscalecolumn_ft : fd2ft;
+		variable apixel1216_ft,accscaleremnant_ft,a1216_ft,acomp1216_ft,const27_ft : fd2ft;
 		variable pattern_slv1 : slv1;
 
 		variable fttmp1_ft,fttmp2_ft : fd2ft;
+		variable fptmp1,fptmp2 : st_sfixed_max;
 		constant const256 : st_sfixed_max := to_sfixed (256.0, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow5 : st_sfixed_max := to_sfixed (2.0**5, st_sfixed_max'high, st_sfixed_max'low);
 		constant const2pow13 : st_sfixed_max := to_sfixed (2.0**13, st_sfixed_max'high, st_sfixed_max'low);
@@ -362,6 +373,7 @@ else
 		constant const2pow18 : st_sfixed_max := to_sfixed (2.0**18, st_sfixed_max'high, st_sfixed_max'low);
 		constant const25 : st_sfixed_max := to_sfixed (25.0, st_sfixed_max'high, st_sfixed_max'low);
 		constant const1 : st_sfixed_max := to_sfixed (1.0, st_sfixed_max'high, st_sfixed_max'low);
+		constant const27 : st_sfixed_max := to_sfixed (27.0, st_sfixed_max'high, st_sfixed_max'low);
 		constant constemissivity : st_sfixed_max := to_sfixed (1.0, st_sfixed_max'high, st_sfixed_max'low);
 -----
 
@@ -427,7 +439,6 @@ else
 		constant pixelnumber12_16 : integer := 368; -- xxx good val
 --		constant pixelnumber12_16 : integer := 367; -- xxx bad val
 		variable pixospatt1,pixospatt2,pixospatt12,ch_pattern_12_16_minusone : st_sfixed_max;
-		variable ascale,ascalecp,acomp_12_16,acpsubpage0,acpsubpage1,cpp1p0ratio,ksta,kstaee,a_12_16,areference,accrow12,accscalerow,acccolumn16,accscalecolumn,apixel_12_16,accscaleremnant : st_sfixed_max;
 		variable accsro,accsc,accsre : st_sfixed_max;
 		variable accsror,accscr,accsrer : st_sfixed_max;
 		variable acpsubpagepatt01,acpsubpagepatt0,acpsubpagepatt1 : st_sfixed_max;
@@ -2397,6 +2408,113 @@ when idle =>
 		else state := s233; end if;
 	when s234 => state := s235;
 		subfpsclr <= '0';
+		eeprom16slv := i_ee0x2420 and x"f000";
+		ascalecp := resize (to_sfixed (eeprom16slv, eeprom16sf), ascalecp);
+		vout2 := resize (ascalecp, st_sfixed_max'high, st_sfixed_max'low);
+		ascalecp := ascalecp srl 12;
+		ascalecp := resize (to_sfixed (to_slv (ascalecp (3 downto 0)), sfixed4'high, sfixed4'low), ascalecp);
+		vout2 := resize (ascalecp, st_sfixed_max'high, st_sfixed_max'low);
+--		ascalecp := resize (to_sfixed (to_slv (ascalecp), sfixed16'high, sfixed16'low), ascalecp);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (ascalecp (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (ascalecp (fracbs'high downto fracbs'low)), fracbs));
+	when s235 =>
+		if (fixed2floatrdy = '1') then state := s236;
+			ascalecp_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s235; end if;
+	when s236 => state := s237;
+		fixed2floatsclr <= '0';
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (const27 (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (const27 (fracbs'high downto fracbs'low)), fracbs));
+	when s237 =>
+		if (fixed2floatrdy = '1') then state := s238;
+			const27_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s237; end if;
+	when s238 => state := s239;
+		fixed2floatsclr <= '0';
+		addfpce <= '1';
+		addfpa <= ascalecp_ft;
+		addfpb <= const27_ft;
+		addfpond <= '1';
+	when s239 =>
+		if (addfprdy = '1') then state := s240;
+			ascalecp_ft := addfpr; -- 34
+			o_out1 <= addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s239; end if;
+	when s240 => state := s241;
+		addfpsclr <= '0';
+		float2fixedce <= '1';
+		float2fixedond <= '1';
+		float2fixeda <= ascalecp_ft;
+	when s241 =>
+		if (float2fixedrdy = '1') then state := s242;
+			ascalecp := to_sfixed (float2fixedr, st_sfixed_max'high, st_sfixed_max'low);
+			vout2 := resize (ascalecp, st_sfixed_max'high, st_sfixed_max'low);
+			float2fixedce <= '0';
+			float2fixedond <= '0';
+			float2fixedsclr <= '1';
+		else state := s241; end if;
+	when s242 => state := s243;
+		float2fixedsclr <= '0';
+		mem_float2powerN_N1 <= std_logic_vector (to_unsigned (to_integer (ascalecp), 6));
+	when s243 => state := s244;
+		-- wait for 
+	when s244 => state := s245;
+		ascalecp_ft := mem_float2powerN_2powerN1; -- 2^ascalecp
+		eeprom16slv := i_ee0x2439 and x"03ff";
+		acpsubpage0 := resize (to_sfixed (eeprom16slv, eeprom16sf), acpsubpage0);
+		vout2 := resize (acpsubpage0, st_sfixed_max'high, st_sfixed_max'low);
+		acpsubpage0 := resize (to_sfixed (to_slv (acpsubpage0 (9 downto 0)), sfixed10'high, sfixed10'low), acpsubpage0);
+		vout2 := resize (acpsubpage0, st_sfixed_max'high, st_sfixed_max'low);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (acpsubpage0 (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (acpsubpage0 (fracbs'high downto fracbs'low)), fracbs));
+	when s245 =>
+		if (fixed2floatrdy = '1') then state := s246;
+			acpsubpage0_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s245; end if;
+	when s246 => state := s247;
+		fixed2floatsclr <= '0';
+		divfpce <= '1';
+		divfpa <= acpsubpage0_ft;
+		divfpb <= ascalecp_ft;
+		divfpond <= '1';
+	when s247 =>
+		if (divfprdy = '1') then state := s248;
+			acpsubpage0_ft := divfpr;
+			o_out1 <= divfpr;
+			divfpce <= '0';
+			divfpond <= '0';
+			divfpsclr <= '1';
+		else state := s247; end if;
+	when s248 => state := s249;
+		divfpsclr <= '0';
+
+
+
+
 
 
 rdyrecover <= '1';
