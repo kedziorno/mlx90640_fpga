@@ -345,9 +345,9 @@ else
 		variable vir1216emissivitycompensated,pixgaincpsp0,pixgaincpsp1,offcpsubpage0,offcpsubpage1,offcpsubpage1delta : st_sfixed_max;
 		variable ktacp,ktacpee,kvcp,kvcpee,pixoscpsp0,pixoscpsp1,tgcee,tgc,pattern,vir1216compensated : st_sfixed_max;
 		variable vir1216emmisivitycompensated : st_sfixed_max;
-		variable acpsubpage0,acpsubpage1,ascalecp,cpp1p0ration,ksta,kstaee,areference,ascale,accrow12,accscalerow,acccolumn16,accscalecolumn : st_sfixed_max;
-		variable apixel1216,accscaleremnant,a1216,acomp1216,cpp1p0ratio : st_sfixed_max;
-		variable resee,resreg : st_ufixed_max;
+		variable acpsubpage0,acpsubpage1,ascalecp,cpp1p0ration,ksta,kstaee,areference,ascale,accrow12,acccolumn16: st_sfixed_max;
+		variable apixel1216,a1216,acomp1216,cpp1p0ratio : st_sfixed_max;
+		variable resee,resreg,accscalerow,accscalecolumn,accscaleremnant : st_ufixed_max;
 		variable kvdd_ft,vdd25_ft,const256_ft,const2pow5_ft,const2pow13_ft,resee_ft,resreg_ft,rescorr_ft,Ta_ft,kta1216ee_ft : fd2ft;
 		variable kvptat_ft,ktptat_ft,const2pow12_ft,const2pow3_ft,deltaV_ft,Vdd_ft,const3dot3_ft,vptat_ft,vbe_ft,vptat25_ft : fd2ft;
 		variable alphaptatee_ft,const2pow2_ft,const8_ft,alphaptat_ft,const2pow18_ft,vptatart_ft,const25_ft,const1_ft,Kgain_ft,gain_ft : fd2ft;
@@ -355,7 +355,7 @@ else
 		variable occscaleremnant_ft,pixosref1216_ft,pixos1216_ft,kta1216_ft,ktarcee_ft,ktascale1_ft,ktascale2_ft,kv1216_ft,kvscale_ft : fd2ft;
 		variable kv1216ee_ft,vir1216emissivitycompensated_ft,pixgaincpsp0_ft,pixgaincpsp1_ft,v0d_ft,tad_ft,vir1216compensated_ft : fd2ft;
 		variable offcpsubpage0_ft,offcpsubpage1_ft,offcpsubpage1delta_ft,constemissivity_ft,pattern_ft,vir1216emmisivitycompensated_ft : fd2ft;
-		variable ktacp_ft,ktacpee_ft,kvcp_ft,kvcpee_ft,pixoscpsp0_ft,pixoscpsp1_ft,tgcee_ft,tgc_ft : fd2ft;
+		variable ktacp_ft,ktacpee_ft,kvcp_ft,kvcpee_ft,pixoscpsp0_ft,pixoscpsp1_ft,tgcee_ft,tgc_ft,const30_ft : fd2ft;
 		variable acpsubpage0_ft,acpsubpage1_ft,ascalecp_ft,cpp1p0ration_ft,ksta_ft,kstaee_ft,areference_ft,ascale_ft,accrow12_ft,accscalerow_ft,acccolumn16_ft,accscalecolumn_ft : fd2ft;
 		variable apixel1216_ft,accscaleremnant_ft,a1216_ft,acomp1216_ft,const27_ft,const2pow7_ft,cpp1p0ratio_ft : fd2ft;
 		variable pattern_slv1 : slv1;
@@ -376,6 +376,7 @@ else
 		constant const1 : st_sfixed_max := to_sfixed (1.0, st_sfixed_max'high, st_sfixed_max'low);
 		constant const27 : st_sfixed_max := to_sfixed (27.0, st_sfixed_max'high, st_sfixed_max'low);
 		constant constemissivity : st_sfixed_max := to_sfixed (1.0, st_sfixed_max'high, st_sfixed_max'low);
+		constant const30 : st_sfixed_max := to_sfixed (30.0, st_sfixed_max'high, st_sfixed_max'low);
 -----
 
 		variable vddv0 : st_sfixed_max;
@@ -513,6 +514,9 @@ else
 				mem_float2powerN_N2 <= (others => '0');
 				rdyrecover <= '0';
 				mem_switchpattern_reset <= '1';
+				vout2 := (others => '0');
+				vout3 := (others => '0');
+
 			else
 		o_out2 <= vout2;
 		o_out3 <= vout3;
@@ -2625,9 +2629,199 @@ when idle =>
 		else state := s261; end if;
 	when s262 => state := s263;
 		divfpsclr <= '0';
+		eeprom16slv := i_ee0x2421 and x"ffff";
+		areference := resize (to_sfixed (eeprom16slv, eeprom16sf), areference);
+		vout2 := resize (areference, st_sfixed_max'high, st_sfixed_max'low);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (areference (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (areference (fracbs'high downto fracbs'low)), fracbs));
+	when s263 =>
+		if (fixed2floatrdy = '1') then state := s264;
+			areference_ft := fixed2floatr; -- 12100
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s263; end if;
+	when s264 => state := s265;
+		fixed2floatsclr <= '0';
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (const30 (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (const30 (fracbs'high downto fracbs'low)), fracbs));
+	when s265 =>
+		if (fixed2floatrdy = '1') then state := s266;
+			const30_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s265; end if;
+	when s266 => state := s267;
+		fixed2floatsclr <= '0';
+		eeprom16slv := i_ee0x2420 and x"f000"; -- val same as ascalecp ee0x2420&0xf000
+		ascale := resize (to_sfixed (eeprom16slv, eeprom16sf), ascale);
+		vout2 := resize (ascale, st_sfixed_max'high, st_sfixed_max'low);
+		ascale := ascale srl 12;
+		ascale := resize (to_sfixed (to_slv (ascale (3 downto 0)), sfixed4'high, sfixed4'low), ascale);
+		vout2 := resize (ascale, st_sfixed_max'high, st_sfixed_max'low);
+--		ascale := resize (to_sfixed (to_slv (ascale), sfixed16'high, sfixed16'low), ascale);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <=
+		to_slv (to_sfixed (to_slv (ascale (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (ascale (fracbs'high downto fracbs'low)), fracbs));
+	when s267 =>
+		if (fixed2floatrdy = '1') then state := s268;
+			ascale_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s267; end if;
+	when s268 => state := s269;
+		fixed2floatsclr <= '0';
+		addfpce <= '1';
+		addfpa <= ascale_ft; -- prev val same as ascale ee0x2420&0xf000
+		addfpb <= const30_ft;
+		addfpond <= '1';
+	when s269 =>
+		if (addfprdy = '1') then state := s270;
+			ascale_ft := addfpr; -- 37
+			o_out1 <= addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s269; end if;
+	when s270 => state := s271;
+		addfpsclr <= '0';
+		float2fixedce <= '1';
+		float2fixedond <= '1';
+		float2fixeda <= ascale_ft;
+	when s271 =>
+		if (float2fixedrdy = '1') then state := s272;
+			ascale := to_sfixed (float2fixedr, st_sfixed_max'high, st_sfixed_max'low);
+			vout2 := resize (ascale, st_sfixed_max'high, st_sfixed_max'low);
+			float2fixedce <= '0';
+			float2fixedond <= '0';
+			float2fixedsclr <= '1';
+		else state := s271; end if;
+	when s272 => state := s273;
+		float2fixedsclr <= '0';
+		mem_float2powerN_N2 <= std_logic_vector (to_unsigned (to_integer (ascale), 6));
+	when s273 => state := s274;
+		--wait
+	when s274 => state := s275;
+		ascale_ft := mem_float2powerN_2powerN2; -- 2^ascale
+		o_out1 <= ascale_ft;
+		eeprom16slv := i_ee0x2424 and x"f000";
+		accrow12 := resize (to_sfixed (eeprom16slv, eeprom16sf), accrow12);
+		vout2 := resize (accrow12, st_sfixed_max'high, st_sfixed_max'low);
+		accrow12 := accrow12 srl 12;
+		accrow12 := resize (to_sfixed (to_slv (accrow12 (3 downto 0)), sfixed4'high, sfixed4'low), accrow12);
+		vout2 := resize (accrow12, st_sfixed_max'high, st_sfixed_max'low);
+--		accrow12 := resize (to_sfixed (to_slv (accrow12), sfixed16'high, sfixed16'low), accrow12);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (accrow12 (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (accrow12 (fracbs'high downto fracbs'low)), fracbs));
+	when s275 =>
+		if (fixed2floatrdy = '1') then state := s276;
+			accrow12_ft := fixed2floatr; -- 3
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s275; end if;
+	when s276 => state := s277;
+		fixed2floatsclr <= '0';
+		eeprom16slv := i_ee0x242b and x"f000";
+		acccolumn16 := resize (to_sfixed (eeprom16slv, eeprom16sf), acccolumn16);
+		vout2 := resize (acccolumn16, st_sfixed_max'high, st_sfixed_max'low);
+		acccolumn16 := acccolumn16 srl 12;
+		acccolumn16 := resize (to_sfixed (to_slv (acccolumn16 (3 downto 0)), sfixed4'high, sfixed4'low), acccolumn16);
+		vout2 := resize (acccolumn16, st_sfixed_max'high, st_sfixed_max'low);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (acccolumn16 (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (acccolumn16 (fracbs'high downto fracbs'low)), fracbs));
+	when s277 =>
+		if (fixed2floatrdy = '1') then state := s278;
+			acccolumn16_ft := fixed2floatr; -- 3
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s277; end if;
+	when s278 => state := s279;
+		fixed2floatsclr <= '0';
+		eeprom16slv := i_ee0x258f and x"03f0";
+		apixel1216 := resize (to_sfixed (eeprom16slv, eeprom16sf), apixel1216);
+		vout2 := resize (apixel1216, st_sfixed_max'high, st_sfixed_max'low);
+		apixel1216 := apixel1216 srl 4;
+		apixel1216 := resize (to_sfixed (to_slv (apixel1216 (5 downto 0)), sfixed6'high, sfixed6'low), apixel1216);
+		vout2 := resize (apixel1216, st_sfixed_max'high, st_sfixed_max'low);
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv (apixel1216 (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv (apixel1216 (fracbs'high downto fracbs'low)), fracbs));
+	when s279 =>
+		if (fixed2floatrdy = '1') then state := s280;
+			apixel1216_ft := fixed2floatr; -- 10
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s279; end if;
+	when s280 => state := s281;
+		fixed2floatsclr <= '0';
+		
+		eeprom16slv := i_ee0x2420 and x"0f00";
+		accscalerow := resize (to_ufixed (eeprom16slv, eeprom16uf), accscalerow);
+		vout3 := resize (accscalerow, st_ufixed_max'high, st_ufixed_max'low);
+		accscalerow := accscalerow srl 8;
+		accscalerow := resize (to_ufixed (to_slv (accscalerow (3 downto 0)), ufixed4'high, ufixed4'low), accscalerow);
+		vout3 := resize (accscalerow, st_ufixed_max'high, st_ufixed_max'low);
+		mem_float2powerN_N1 <= std_logic_vector (to_unsigned (to_integer (accscalerow), 6)); -- 9
+	when s281 => state := s282;
+		-- wait
+	when s282 => state := s283;
+		accscalerow_ft := mem_float2powerN_2powerN1; -- 2^accscalerow 512
+		o_out1 <= accscalerow_ft;
+		
 
-
-
+		eeprom16slv := i_ee0x2420 and x"00f0";
+		accscalecolumn := resize (to_ufixed (eeprom16slv, eeprom16uf), accscalecolumn);
+		vout3 := resize (accscalecolumn, st_ufixed_max'high, st_ufixed_max'low);
+		accscalecolumn := accscalecolumn srl 4;
+		accscalecolumn := resize (to_ufixed (to_slv (accscalecolumn (3 downto 0)), ufixed4'high, ufixed4'low), accscalecolumn);
+		vout3 := resize (accscalecolumn, st_ufixed_max'high, st_ufixed_max'low);
+		mem_float2powerN_N2 <= std_logic_vector (to_unsigned (to_integer (accscalecolumn), 6)); -- 10
+	when s283 => state := s284;
+		-- wait
+	when s284 => state := s285;
+		accscalecolumn_ft := mem_float2powerN_2powerN2; -- 2^accscalecolumn 1024
+		o_out1 <= accscalecolumn_ft;
+		
+		eeprom16slv := i_ee0x2420 and x"000f";
+		accscaleremnant := resize (to_ufixed (eeprom16slv, eeprom16uf), accscaleremnant);
+		vout3 := resize (accscaleremnant, st_ufixed_max'high, st_ufixed_max'low);
+		accscaleremnant := resize (to_ufixed (to_slv (accscaleremnant (3 downto 0)), ufixed4'high, ufixed4'low), accscaleremnant);
+		vout3 := resize (accscalecolumn, st_ufixed_max'high, st_ufixed_max'low);
+		mem_float2powerN_N1 <= std_logic_vector (to_unsigned (to_integer (accscaleremnant), 6)); -- 6
+	when s285 => state := s286;
+		-- wait
+	when s286 => state := s287;
+		accscaleremnant_ft := mem_float2powerN_2powerN1; -- 2^accscaleremnant 64
+		o_out1 <= accscaleremnant_ft;
+		
+		
 rdyrecover <= '1';
 -----
 
