@@ -2816,7 +2816,6 @@ when idle =>
 	when s286 => state := s287;
 		accscaleremnant_ft := mem_float2powerN_2powerN1; -- 2^accscaleremnant 64
 		o_out1 <= accscaleremnant_ft;
-
 		mulfpce <= '1';
 		mulfpa <= apixel1216_ft;
 		mulfpb <= accscaleremnant_ft;
@@ -2831,7 +2830,6 @@ when idle =>
 		else state := s287; end if;
 	when s288 => state := s289;
 		mulfpsclr <= '0';
-
 		mulfpce <= '1';
 		mulfpa <= acccolumn16_ft;
 		mulfpb <= accscalecolumn_ft;
@@ -2846,7 +2844,6 @@ when idle =>
 		else state := s289; end if;
 	when s290 => state := s291;
 		mulfpsclr <= '0';
-
 		addfpce <= '1';
 		addfpa <= fttmp1_ft;
 		addfpb <= fttmp2_ft;
@@ -2861,7 +2858,6 @@ when idle =>
 		else state := s291; end if;
 	when s292 => state := s293;
 		addfpsclr <= '0';
-
 		mulfpce <= '1';
 		mulfpa <= accrow12_ft;
 		mulfpb <= accscalerow_ft;
@@ -2876,7 +2872,6 @@ when idle =>
 		else state := s293; end if;
 	when s294 => state := s295;
 		mulfpsclr <= '0';
-
 		addfpce <= '1';
 		addfpa <= fttmp1_ft;
 		addfpb <= fttmp2_ft;
@@ -2891,7 +2886,6 @@ when idle =>
 		else state := s295; end if;
 	when s296 => state := s297;
 		addfpsclr <= '0';
-
 		addfpce <= '1';
 		addfpa <= a1216_ft;
 		addfpb <= areference_ft;
@@ -2906,7 +2900,6 @@ when idle =>
 		else state := s297; end if;
 	when s298 => state := s299;
 		addfpsclr <= '0';
-
 		divfpce <= '1';
 		divfpa <= a1216_ft;
 		divfpb <= ascale_ft;
