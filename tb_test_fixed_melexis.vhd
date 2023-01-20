@@ -262,11 +262,11 @@ wait for clock_period*100;
 i_run <= '0';
 wait; -- will wait forever
 END PROCESS tb_run;
---  End Test Bench 
+--  End Test Bench
 
 tb_wait : PROCESS
 BEGIN
-wait for 1.5 ms;
+wait for 20 ms;
 report "tb - done simulation - tb" severity failure;
 END PROCESS tb_wait;
 
