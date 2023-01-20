@@ -2781,7 +2781,6 @@ when idle =>
 		else state := s279; end if;
 	when s280 => state := s281;
 		fixed2floatsclr <= '0';
-		
 		eeprom16slv := i_ee0x2420 and x"0f00";
 		accscalerow := resize (to_ufixed (eeprom16slv, eeprom16uf), accscalerow);
 		vout3 := resize (accscalerow, st_ufixed_max'high, st_ufixed_max'low);
@@ -2794,8 +2793,6 @@ when idle =>
 	when s282 => state := s283;
 		accscalerow_ft := mem_float2powerN_2powerN1; -- 2^accscalerow 512
 		o_out1 <= accscalerow_ft;
-		
-
 		eeprom16slv := i_ee0x2420 and x"00f0";
 		accscalecolumn := resize (to_ufixed (eeprom16slv, eeprom16uf), accscalecolumn);
 		vout3 := resize (accscalecolumn, st_ufixed_max'high, st_ufixed_max'low);
@@ -2808,7 +2805,6 @@ when idle =>
 	when s284 => state := s285;
 		accscalecolumn_ft := mem_float2powerN_2powerN2; -- 2^accscalecolumn 1024
 		o_out1 <= accscalecolumn_ft;
-		
 		eeprom16slv := i_ee0x2420 and x"000f";
 		accscaleremnant := resize (to_ufixed (eeprom16slv, eeprom16uf), accscaleremnant);
 		vout3 := resize (accscaleremnant, st_ufixed_max'high, st_ufixed_max'low);
@@ -2820,8 +2816,115 @@ when idle =>
 	when s286 => state := s287;
 		accscaleremnant_ft := mem_float2powerN_2powerN1; -- 2^accscaleremnant 64
 		o_out1 <= accscaleremnant_ft;
-		
-		
+
+		mulfpce <= '1';
+		mulfpa <= apixel1216_ft;
+		mulfpb <= accscaleremnant_ft;
+		mulfpond <= '1';
+	when s287 =>
+		if (mulfprdy = '1') then state := s288;
+			fttmp1_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s287; end if;
+	when s288 => state := s289;
+		mulfpsclr <= '0';
+
+		mulfpce <= '1';
+		mulfpa <= acccolumn16_ft;
+		mulfpb <= accscalecolumn_ft;
+		mulfpond <= '1';
+	when s289 =>
+		if (mulfprdy = '1') then state := s290;
+			fttmp2_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s289; end if;
+	when s290 => state := s291;
+		mulfpsclr <= '0';
+
+		addfpce <= '1';
+		addfpa <= fttmp1_ft;
+		addfpb <= fttmp2_ft;
+		addfpond <= '1';
+	when s291 =>
+		if (addfprdy = '1') then state := s292;
+			fttmp1_ft := addfpr;
+			o_out1 <= addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s291; end if;
+	when s292 => state := s293;
+		addfpsclr <= '0';
+
+		mulfpce <= '1';
+		mulfpa <= accrow12_ft;
+		mulfpb <= accscalerow_ft;
+		mulfpond <= '1';
+	when s293 =>
+		if (mulfprdy = '1') then state := s294;
+			fttmp2_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s293; end if;
+	when s294 => state := s295;
+		mulfpsclr <= '0';
+
+		addfpce <= '1';
+		addfpa <= fttmp1_ft;
+		addfpb <= fttmp2_ft;
+		addfpond <= '1';
+	when s295 =>
+		if (addfprdy = '1') then state := s296;
+			a1216_ft := addfpr;
+			o_out1 <= addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s295; end if;
+	when s296 => state := s297;
+		addfpsclr <= '0';
+
+		addfpce <= '1';
+		addfpa <= a1216_ft;
+		addfpb <= areference_ft;
+		addfpond <= '1';
+	when s297 =>
+		if (addfprdy = '1') then state := s298;
+			a1216_ft := addfpr;
+			o_out1 <= addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s297; end if;
+	when s298 => state := s299;
+		addfpsclr <= '0';
+
+		divfpce <= '1';
+		divfpa <= a1216_ft;
+		divfpb <= ascale_ft;
+		divfpond <= '1';
+	when s299 =>
+		if (divfprdy = '1') then state := s300;
+			a1216_ft := divfpr;
+			o_out1 <= divfpr;
+			divfpce <= '0';
+			divfpond <= '0';
+			divfpsclr <= '1';
+		else state := s299; end if;
+	when s300 => state := s301;
+		divfpsclr <= '0';
+
+
+
+
 rdyrecover <= '1';
 -----
 

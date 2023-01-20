@@ -262,7 +262,7 @@ END PROCESS tb_run;
 
 tb_wait : PROCESS
 BEGIN
-wait for 1 ms;
+wait for 1.1 ms;
 report "tb - done simulation - tb" severity failure;
 END PROCESS tb_wait;
 
