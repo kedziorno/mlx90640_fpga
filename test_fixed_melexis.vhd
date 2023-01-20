@@ -349,9 +349,7 @@ else
 		variable vir1216emmisivitycompensated,ksto2ee : st_sfixed_max;
 		variable acpsubpage0,acpsubpage1,ascalecp,cpp1p0ration,ksta,kstaee,areference,ascale,accrow12,acccolumn16: st_sfixed_max;
 		variable apixel1216,a1216,acomp1216,cpp1p0ratio : st_sfixed_max;
-		
 		variable resee,resreg,accscalerow,accscalecolumn,accscaleremnant,kstoscale : st_ufixed_max;
-		
 		variable kvdd_ft,vdd25_ft,const256_ft,const2pow5_ft,const2pow13_ft,resee_ft,resreg_ft,rescorr_ft,Ta_ft,kta1216ee_ft,k27315_ft : fd2ft;
 		variable kvptat_ft,ktptat_ft,const2pow12_ft,const2pow3_ft,deltaV_ft,Vdd_ft,const3dot3_ft,vptat_ft,vbe_ft,vptat25_ft,trk4_ft : fd2ft;
 		variable alphaptatee_ft,const2pow2_ft,const8_ft,alphaptat_ft,const2pow18_ft,vptatart_ft,const25_ft,const1_ft,Kgain_ft,gain_ft : fd2ft;
@@ -364,7 +362,6 @@ else
 		variable apixel1216_ft,accscaleremnant_ft,a1216_ft,acomp1216_ft,const27_ft,const2pow7_ft,cpp1p0ratio_ft,ksto2ee_ft,ksto2_ft : fd2ft;
 		variable acomp1216_pow3_ft,acomp1216_pow4_ft,tak_ft,sx1216 : fd2ft;
 		variable pattern_slv1 : slv1;
-
 		variable fttmp1_ft,fttmp2_ft : fd2ft;
 		variable fptmp1,fptmp2 : st_sfixed_max;
 		constant k27315 : st_sfixed_max := to_sfixed (273.15, st_sfixed_max'high, st_sfixed_max'low); -- 0x43889333
@@ -385,80 +382,80 @@ else
 		constant const30 : st_sfixed_max := to_sfixed (30.0, st_sfixed_max'high, st_sfixed_max'low);
 -----
 
-		variable vddv0 : st_sfixed_max;
-		variable h1,h2 : st_sfixed_max;
-		variable tmp_uf8 : ufixed8;
-		variable tmp_sf8 : sfixed8;
-		variable tmp_uf6 : ufixed6;
-		variable tmp_sf6 : sfixed6;
-		variable tmp_uf9 : ufixed9;
-		variable tmp_sf9 : sfixed9;
-		variable tmp_uf15 : ufixed15;
-		variable tmp_sf15 : sfixed15;
-		constant C_WAIT1 : integer := G_C_WAIT1;
-		variable v_wait1 : integer range 0 to C_WAIT1-1;
-		variable Ta0 : st_sfixed_max;
-		variable offset12_16 : st_sfixed_max; -- xxx for all pixels
+--		variable vddv0 : st_sfixed_max;
+--		variable h1,h2 : st_sfixed_max;
+--		variable tmp_uf8 : ufixed8;
+--		variable tmp_sf8 : sfixed8;
+--		variable tmp_uf6 : ufixed6;
+--		variable tmp_sf6 : sfixed6;
+--		variable tmp_uf9 : ufixed9;
+--		variable tmp_sf9 : sfixed9;
+--		variable tmp_uf15 : ufixed15;
+--		variable tmp_sf15 : sfixed15;
+--		constant C_WAIT1 : integer := G_C_WAIT1;
+--		variable v_wait1 : integer range 0 to C_WAIT1-1;
+--		variable Ta0 : st_sfixed_max;
+--		variable offset12_16 : st_sfixed_max; -- xxx for all pixels
 	
-		variable kv12_16 : st_sfixed_max;
-		variable tmpuf1 : ufixed1;
-		variable tmpulv1 : slv1;
-		variable tmpsf1 : sfixed1;
-		variable tmpslv1 : slv1;
-		variable tmpsf2 : sfixed2;
-		variable tmpslv2 : slv2;
-		variable tmpsf3 : sfixed3;
-		variable tmpslv3 : slv3;
-		variable tmpsf4 : sfixed4;
-		variable tmpslv4 : slv4;
-		variable tmpsf5 : sfixed5;
-		variable tmpslv5 : slv5;
-		variable tmpsf6 : sfixed6;
-		variable tmpslv6 : slv6;
-		variable tmpsf7 : sfixed7;
-		variable tmpslv7 : slv7;
-		variable tmpsf8 : sfixed8;
-		variable tmpslv8 : slv8;
-		variable tmpsf9 : sfixed9;
-		variable tmpslv9 : slv9;
-		variable tmpsf10 : sfixed10;
-		variable tmpslv10 : slv10;
-		variable occsro,occsc,occsre : st_sfixed_max;
-		variable occsror,occscr,occsrer : st_sfixed_max;
-		variable kta12_16 : st_sfixed_max;
-		variable kta12_16_ee : st_sfixed_max;
-		variable kta_rc_ee : st_sfixed_max;
-		variable kta_scale_1 : st_sfixed_max;
-		variable kta_scale_2 : st_sfixed_max;
-		variable pixos12_16 : st_sfixed_max;
-		variable vir12_16_emissitivy_componsated : st_sfixed_max;
-		variable pixgain_cp_sp0 : st_sfixed_max;
-		variable pixgain_cp_sp1 : st_sfixed_max;
-		variable off_cpsubpage_0 : st_sfixed_max;
-		variable off_cpsubpage_1 : st_sfixed_max;
-		variable off_cpsubpage_1_delta : st_sfixed_max;
-		variable kta_cp_ee : st_sfixed_max;
-		variable kta_cp : st_sfixed_max;
-		variable kv_scale : st_sfixed_max;
-		variable kv_cp_ee : st_sfixed_max;
-		variable kv_cp : st_sfixed_max;
-		variable ktacp_kvcp_mul,ilchessc1ee,ilchessc1,pixos_cp_sp0,pixos_cp_sp1,ch_pattern_12_16_s,ch_pattern_12_16,vir_12_16_compensated : st_sfixed_max;
-		variable ch_pattern_12_16_u : st_ufixed_max; -- xxx for xor
-		constant pixelnumber12_16 : integer := 368; -- xxx good val
---		constant pixelnumber12_16 : integer := 367; -- xxx bad val
-		variable pixospatt1,pixospatt2,pixospatt12,ch_pattern_12_16_minusone : st_sfixed_max;
-		variable accsro,accsc,accsre : st_sfixed_max;
-		variable accsror,accscr,accsrer : st_sfixed_max;
-		variable acpsubpagepatt01,acpsubpagepatt0,acpsubpagepatt1 : st_sfixed_max;
-		variable tak4 : st_sfixed_max;
---		constant trk4 : st_sfixed_max := 8557586214.66; -- TaK4 = (Tr + 273.15)**4 Tr~Ta-8 Tr~31
-		variable trk4 : st_sfixed_max;
-		variable acomp_12_16_pow3,acomp_12_16_pow4 : st_sfixed_max;
---		attribute keep : boolean;
---		attribute keep of kvdd : variable is true;
---		attribute keep of vdd25 : variable is true;
-		variable max_expected_s : st_sfixed_max_expected;
-		variable max_expected_u : st_ufixed_max_expected;
+--		variable kv12_16 : st_sfixed_max;
+--		variable tmpuf1 : ufixed1;
+--		variable tmpulv1 : slv1;
+--		variable tmpsf1 : sfixed1;
+--		variable tmpslv1 : slv1;
+--		variable tmpsf2 : sfixed2;
+--		variable tmpslv2 : slv2;
+--		variable tmpsf3 : sfixed3;
+--		variable tmpslv3 : slv3;
+--		variable tmpsf4 : sfixed4;
+--		variable tmpslv4 : slv4;
+--		variable tmpsf5 : sfixed5;
+--		variable tmpslv5 : slv5;
+--		variable tmpsf6 : sfixed6;
+--		variable tmpslv6 : slv6;
+--		variable tmpsf7 : sfixed7;
+--		variable tmpslv7 : slv7;
+--		variable tmpsf8 : sfixed8;
+--		variable tmpslv8 : slv8;
+--		variable tmpsf9 : sfixed9;
+--		variable tmpslv9 : slv9;
+--		variable tmpsf10 : sfixed10;
+--		variable tmpslv10 : slv10;
+--		variable occsro,occsc,occsre : st_sfixed_max;
+--		variable occsror,occscr,occsrer : st_sfixed_max;
+--		variable kta12_16 : st_sfixed_max;
+--		variable kta12_16_ee : st_sfixed_max;
+--		variable kta_rc_ee : st_sfixed_max;
+--		variable kta_scale_1 : st_sfixed_max;
+--		variable kta_scale_2 : st_sfixed_max;
+--		variable pixos12_16 : st_sfixed_max;
+--		variable vir12_16_emissitivy_componsated : st_sfixed_max;
+--		variable pixgain_cp_sp0 : st_sfixed_max;
+--		variable pixgain_cp_sp1 : st_sfixed_max;
+--		variable off_cpsubpage_0 : st_sfixed_max;
+--		variable off_cpsubpage_1 : st_sfixed_max;
+--		variable off_cpsubpage_1_delta : st_sfixed_max;
+--		variable kta_cp_ee : st_sfixed_max;
+--		variable kta_cp : st_sfixed_max;
+--		variable kv_scale : st_sfixed_max;
+--		variable kv_cp_ee : st_sfixed_max;
+--		variable kv_cp : st_sfixed_max;
+--		variable ktacp_kvcp_mul,ilchessc1ee,ilchessc1,pixos_cp_sp0,pixos_cp_sp1,ch_pattern_12_16_s,ch_pattern_12_16,vir_12_16_compensated : st_sfixed_max;
+--		variable ch_pattern_12_16_u : st_ufixed_max; -- xxx for xor
+--		constant pixelnumber12_16 : integer := 368; -- xxx good val
+----		constant pixelnumber12_16 : integer := 367; -- xxx bad val
+--		variable pixospatt1,pixospatt2,pixospatt12,ch_pattern_12_16_minusone : st_sfixed_max;
+--		variable accsro,accsc,accsre : st_sfixed_max;
+--		variable accsror,accscr,accsrer : st_sfixed_max;
+--		variable acpsubpagepatt01,acpsubpagepatt0,acpsubpagepatt1 : st_sfixed_max;
+--		variable tak4 : st_sfixed_max;
+----		constant trk4 : st_sfixed_max := 8557586214.66; -- TaK4 = (Tr + 273.15)**4 Tr~Ta-8 Tr~31
+--		variable trk4 : st_sfixed_max;
+--		variable acomp_12_16_pow3,acomp_12_16_pow4 : st_sfixed_max;
+----		attribute keep : boolean;
+----		attribute keep of kvdd : variable is true;
+----		attribute keep of vdd25 : variable is true;
+--		variable max_expected_s : st_sfixed_max_expected;
+--		variable max_expected_u : st_ufixed_max_expected;
 		variable fracas : fracas;
 		variable fracbs : fracbs;
 		variable fracau : fracau;
@@ -476,7 +473,7 @@ else
 --				report "fp_mul_lo : " & integer'image(st_sfixed_mul'low);
 --				report "fp_div_hi : " & integer'image(st_sfixed_div'high);
 --				report "fp_div_lo : " & integer'image(st_sfixed_div'low);
-				v_wait1 := 0;
+--				v_wait1 := 0;
 				state := idle;
 				o_To <= (others => '0');
 				-- reset
@@ -526,7 +523,7 @@ else
 			else
 --		o_out2 <= --vout2;
 --		o_out3 <= --vout3;
-		s <= state;
+--		s <= state;
 		case (state) is
 when idle =>
 			if (i_run = '1') then
@@ -3581,9 +3578,6 @@ rdyrecover <= '1';
 
 
 -----
-
-
-when ending =>
 
 when others => null;
 end case; end if; end if;
