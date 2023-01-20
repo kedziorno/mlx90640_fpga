@@ -2813,7 +2813,7 @@ when idle =>
 		accscaleremnant := resize (to_ufixed (eeprom16slv, eeprom16uf), accscaleremnant);
 		vout3 := resize (accscaleremnant, st_ufixed_max'high, st_ufixed_max'low);
 		accscaleremnant := resize (to_ufixed (to_slv (accscaleremnant (3 downto 0)), ufixed4'high, ufixed4'low), accscaleremnant);
-		vout3 := resize (accscalecolumn, st_ufixed_max'high, st_ufixed_max'low);
+		vout3 := resize (accscaleremnant, st_ufixed_max'high, st_ufixed_max'low);
 		mem_float2powerN_N1 <= std_logic_vector (to_unsigned (to_integer (accscaleremnant), 6)); -- 6
 	when s285 => state := s286;
 		-- wait
@@ -2825,85 +2825,6 @@ when idle =>
 rdyrecover <= '1';
 -----
 
---		sftmp_slv_16 := x"f020" and x"ff00"; -- ee[0x243c]
---		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 8));
---		tmpslv8 := sftmp_slv_16 (7 downto 0);
---		tmpsf8 := to_sfixed (tmpslv8, tmpsf8);
---		kstaee := resize (tmpsf8, kstaee);
---		--report_error_normalize ("fail kstaee", kstaee, to_sfixed (-16.0, max_expected_s)); -- -16
---		fptmp2 := to_sfixed (2**13, fptmp2);
---		--report_error_normalize ("fail 2**13", fptmp2, to_sfixed (2**13, max_expected_s)); -- 2**13
-----		cmd <= "0011"; -- / kstaee/2^13
---		in1div <= kstaee;
---		in2div <= fptmp2;
---		state := w111;
---when w111 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s112; else v_wait1 := v_wait1 + 1; state := w111; end if;
---when s112 =>
---		fpout := to_sfixed (to_slv (out1div), fpout);
---		ksta := resize (fpout, ksta);
---		--report_error_normalize ("fail ksta", ksta, to_sfixed (-0.001953125, max_expected_s)); -- -0.001953125
---		sftmp_slv_16 := x"2f44" and x"ffff"; -- ee[0x2421]
---		areference := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), areference);
---		--report_error_normalize ("fail areference", areference, to_sfixed (12100.0, max_expected_s)); -- 12100
---		sftmp_slv_16 := x"79a6" and x"f000"; -- ee[0x2420]
---		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 12));
---		tmpslv4 := sftmp_slv_16 (3 downto 0);
---		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
---		ascale := resize (tmpsf4, ascale);
---		--report_error_normalize ("fail ascale", ascale, to_sfixed (7.0, max_expected_s)); -- 7
---		fptmp2 := to_sfixed (30.0, fptmp2);
---		--report_error_normalize ("fail 30.0", fptmp2, to_sfixed (30.0, max_expected_s));
-----		cmd <= "0000"; -- + ascale+30
---		in1add <= ascale;
---		in2add <= fptmp2;
---		state := w112;
---when w112 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s113; else v_wait1 := v_wait1 + 1; state := w112; end if;
---when s113 =>
---		fpout := to_sfixed (to_slv (out1add), fpout);
---		ascale := resize (fpout, ascale);
---		--report_error_normalize ("fail ascale", ascale, to_sfixed (37.0, max_expected_s)); -- 37
---		sftmp_slv_16 := x"3333" and x"f000"; -- ee[0x2424]
---		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 12));
---		tmpslv4 := sftmp_slv_16 (3 downto 0);
---		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
---		accrow12 := resize (tmpsf4, accrow12);
---		--report_error_normalize ("fail accrow12", accrow12, to_sfixed (3.0, max_expected_s)); -- 3
---		sftmp_slv_16 := x"3333" and x"f000"; -- ee[0x242b]
---		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 12));
---		tmpslv4 := sftmp_slv_16 (3 downto 0);
---		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
---		acccolumn16 := resize (tmpsf4, acccolumn16);
---		--report_error_normalize ("fail acccolumn16", acccolumn16, to_sfixed (3.0, max_expected_s)); -- 3
---		sftmp_slv_16 := x"79a6" and x"0f00"; -- ee[0x2420]
---		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 8));
---		accscalerow := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), accscalerow);
---		--report_error_normalize ("fail accscalerow", accscalerow, to_sfixed (9.0, max_expected_s)); -- 9
---		sftmp_slv_16 := x"79a6" and x"00f0"; -- ee[0x2420]
---		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 4));
---		accscalecolumn := resize (to_sfixed (sftmp_slv_16, sftmp_sf_16), accscalecolumn);
---		--report_error_normalize ("fail accscalecolumn", accscalecolumn, to_sfixed (10.0, max_expected_s)); -- 10
---		sftmp_slv_16 := x"79a6" and x"000f"; -- ee[0x2420]
---		tmpslv4 := sftmp_slv_16 (3 downto 0);
---		tmpsf4 := to_sfixed (tmpslv4, tmpsf4);
---		accscaleremnant := resize (tmpsf4, accscaleremnant);
---		--report_error_normalize ("fail accscaleremnant", accscaleremnant, to_sfixed (6.0, max_expected_s)); -- 6
---		sftmp_slv_16 := x"08a0" and x"03f0"; -- ee[0x258f]
---		sftmp_slv_16 := std_logic_vector (shift_right (unsigned (sftmp_slv_16), 4));
---		tmpslv6 := sftmp_slv_16 (5 downto 0);
---		tmpsf6 := to_sfixed (tmpslv6, tmpsf6);
---		apixel_12_16 := resize (tmpsf6, apixel_12_16);
---		--report_error_normalize ("fail apixel_12_16", apixel_12_16, to_sfixed (10.0, max_expected_s)); -- 10
---		accsro := to_sfixed (1.0, accsro) sll to_integer (accscalerow);
---		--report_error_normalize ("fail 2^accscalerow", accsro, to_sfixed (2**9, max_expected_s)); -- 2**9
---		accsc := to_sfixed (1.0, accsc) sll to_integer (accscalecolumn);
---		--report_error_normalize ("fail 2^accscalecolumn", accsc, to_sfixed (2**10, max_expected_s)); -- 2**10
---		accsre := to_sfixed (1.0, accsre) sll to_integer (accscaleremnant);
---		--report_error_normalize ("fail 2^accscaleremnant", accsre, to_sfixed (2**6, max_expected_s)); -- 2**6
---		state := w113;
---when w113 =>
---		if (v_wait1 = C_WAIT1-1) then v_wait1 := 0; state := s114; else v_wait1 := v_wait1 + 1; state := w113; end if;
 --when s114 =>
 ----		cmd <= "0010"; -- * accrow12*2^accscalerow
 --		in1mul <= accrow12;
