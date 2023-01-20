@@ -381,87 +381,10 @@ else
 		constant constemissivity : st_sfixed_max := to_sfixed (1.0, st_sfixed_max'high, st_sfixed_max'low);
 		constant const30 : st_sfixed_max := to_sfixed (30.0, st_sfixed_max'high, st_sfixed_max'low);
 -----
-
---		variable vddv0 : st_sfixed_max;
---		variable h1,h2 : st_sfixed_max;
---		variable tmp_uf8 : ufixed8;
---		variable tmp_sf8 : sfixed8;
---		variable tmp_uf6 : ufixed6;
---		variable tmp_sf6 : sfixed6;
---		variable tmp_uf9 : ufixed9;
---		variable tmp_sf9 : sfixed9;
---		variable tmp_uf15 : ufixed15;
---		variable tmp_sf15 : sfixed15;
---		constant C_WAIT1 : integer := G_C_WAIT1;
---		variable v_wait1 : integer range 0 to C_WAIT1-1;
---		variable Ta0 : st_sfixed_max;
---		variable offset12_16 : st_sfixed_max; -- xxx for all pixels
-	
---		variable kv12_16 : st_sfixed_max;
---		variable tmpuf1 : ufixed1;
---		variable tmpulv1 : slv1;
---		variable tmpsf1 : sfixed1;
---		variable tmpslv1 : slv1;
---		variable tmpsf2 : sfixed2;
---		variable tmpslv2 : slv2;
---		variable tmpsf3 : sfixed3;
---		variable tmpslv3 : slv3;
---		variable tmpsf4 : sfixed4;
---		variable tmpslv4 : slv4;
---		variable tmpsf5 : sfixed5;
---		variable tmpslv5 : slv5;
---		variable tmpsf6 : sfixed6;
---		variable tmpslv6 : slv6;
---		variable tmpsf7 : sfixed7;
---		variable tmpslv7 : slv7;
---		variable tmpsf8 : sfixed8;
---		variable tmpslv8 : slv8;
---		variable tmpsf9 : sfixed9;
---		variable tmpslv9 : slv9;
---		variable tmpsf10 : sfixed10;
---		variable tmpslv10 : slv10;
---		variable occsro,occsc,occsre : st_sfixed_max;
---		variable occsror,occscr,occsrer : st_sfixed_max;
---		variable kta12_16 : st_sfixed_max;
---		variable kta12_16_ee : st_sfixed_max;
---		variable kta_rc_ee : st_sfixed_max;
---		variable kta_scale_1 : st_sfixed_max;
---		variable kta_scale_2 : st_sfixed_max;
---		variable pixos12_16 : st_sfixed_max;
---		variable vir12_16_emissitivy_componsated : st_sfixed_max;
---		variable pixgain_cp_sp0 : st_sfixed_max;
---		variable pixgain_cp_sp1 : st_sfixed_max;
---		variable off_cpsubpage_0 : st_sfixed_max;
---		variable off_cpsubpage_1 : st_sfixed_max;
---		variable off_cpsubpage_1_delta : st_sfixed_max;
---		variable kta_cp_ee : st_sfixed_max;
---		variable kta_cp : st_sfixed_max;
---		variable kv_scale : st_sfixed_max;
---		variable kv_cp_ee : st_sfixed_max;
---		variable kv_cp : st_sfixed_max;
---		variable ktacp_kvcp_mul,ilchessc1ee,ilchessc1,pixos_cp_sp0,pixos_cp_sp1,ch_pattern_12_16_s,ch_pattern_12_16,vir_12_16_compensated : st_sfixed_max;
---		variable ch_pattern_12_16_u : st_ufixed_max; -- xxx for xor
---		constant pixelnumber12_16 : integer := 368; -- xxx good val
-----		constant pixelnumber12_16 : integer := 367; -- xxx bad val
---		variable pixospatt1,pixospatt2,pixospatt12,ch_pattern_12_16_minusone : st_sfixed_max;
---		variable accsro,accsc,accsre : st_sfixed_max;
---		variable accsror,accscr,accsrer : st_sfixed_max;
---		variable acpsubpagepatt01,acpsubpagepatt0,acpsubpagepatt1 : st_sfixed_max;
---		variable tak4 : st_sfixed_max;
-----		constant trk4 : st_sfixed_max := 8557586214.66; -- TaK4 = (Tr + 273.15)**4 Tr~Ta-8 Tr~31
---		variable trk4 : st_sfixed_max;
---		variable acomp_12_16_pow3,acomp_12_16_pow4 : st_sfixed_max;
-----		attribute keep : boolean;
-----		attribute keep of kvdd : variable is true;
-----		attribute keep of vdd25 : variable is true;
---		variable max_expected_s : st_sfixed_max_expected;
---		variable max_expected_u : st_ufixed_max_expected;
 		variable fracas : fracas;
 		variable fracbs : fracbs;
 		variable fracau : fracau;
 		variable fracbu : fracbu;
---		variable vout2 : st_sfixed_max;
---		variable vout3 : st_ufixed_max;
 	begin
 		if (rising_edge(i_clock)) then
 			if (i_reset = '1') then
@@ -473,7 +396,6 @@ else
 --				report "fp_mul_lo : " & integer'image(st_sfixed_mul'low);
 --				report "fp_div_hi : " & integer'image(st_sfixed_div'high);
 --				report "fp_div_lo : " & integer'image(st_sfixed_div'low);
---				v_wait1 := 0;
 				state := idle;
 				o_To <= (others => '0');
 				-- reset
@@ -517,13 +439,7 @@ else
 				mem_float2powerN_N2 <= (others => '0');
 				rdyrecover <= '0';
 				mem_switchpattern_reset <= '1';
-				--vout2 := (others => '0');
-				--vout3 := (others => '0');
-
 			else
---		o_out2 <= --vout2;
---		o_out3 <= --vout3;
---		s <= state;
 		case (state) is
 when idle =>
 			if (i_run = '1') then
