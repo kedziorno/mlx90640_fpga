@@ -56,6 +56,8 @@ i_ee0x2421 : in slv16;
 i_ee0x2424 : in slv16;
 i_ee0x242b : in slv16;
 i_ee0x258f : in slv16;
+i_ee0x243d : in slv16;
+i_ee0x243f : in slv16;
 i_pixelpattern : in slv10;
 o_out1 : out fd2ft;
 o_rdy : out std_logic;
@@ -122,6 +124,8 @@ i_ee0x2421 => x"2f44",
 i_ee0x2424 => x"3333",
 i_ee0x242b => x"3333",
 i_ee0x258f => x"08a0",
+i_ee0x243d => x"9797",
+i_ee0x243f => x"2889",
 i_pixelpattern => std_logic_vector (to_unsigned (368, 10)), -- px 12,16
 o_out1 => o_out1,
 o_rdy => o_rdy,
@@ -262,7 +266,7 @@ END PROCESS tb_run;
 
 tb_wait : PROCESS
 BEGIN
-wait for 1.1 ms;
+wait for 1.5 ms;
 report "tb - done simulation - tb" severity failure;
 END PROCESS tb_wait;
 
