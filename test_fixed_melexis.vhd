@@ -2906,7 +2906,7 @@ when idle =>
 		divfpond <= '1';
 	when s299 =>
 		if (divfprdy = '1') then state := s300;
-			a1216_ft := divfpr;
+			a1216_ft := divfpr; -- 1.26223312690854e-07
 			o_out1 <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
@@ -2915,6 +2915,141 @@ when idle =>
 	when s300 => state := s301;
 		divfpsclr <= '0';
 
+
+		mulfpce <= '1';
+		mulfpa <= pattern_ft;
+		mulfpb <= acpsubpage0_ft;
+		mulfpond <= '1';
+	when s301 =>
+		if (mulfprdy = '1') then state := s302;
+			fttmp1_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s301; end if;
+	when s302 => state := s303;
+		mulfpsclr <= '0';
+
+		subfpce <= '1';
+		subfpa <= pattern_ft;
+		subfpb <= const1_ft;
+		subfpond <= '1';
+	when s303 =>
+		if (subfprdy = '1') then state := s304;
+			pattern_ft := subfpr;
+			o_out1 <= subfpr;
+			subfpce <= '0';
+			subfpond <= '0';
+			subfpsclr <= '1';
+		else state := s303; end if;
+	when s304 => state := s305;
+		subfpsclr <= '0';
+		
+				mulfpce <= '1';
+		mulfpa <= pattern_ft;
+		mulfpb <= acpsubpage1_ft;
+		mulfpond <= '1';
+	when s305 =>
+		if (mulfprdy = '1') then state := s306;
+			fttmp2_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s305; end if;
+	when s306 => state := s307;
+		mulfpsclr <= '0';
+
+				addfpce <= '1';
+		addfpa <= fttmp1_ft;
+		addfpb <= fttmp2_ft;
+		addfpond <= '1';
+	when s307 =>
+		if (addfprdy = '1') then state := s308;
+			acomp1216_ft := addfpr;
+			o_out1 <= addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s307; end if;
+	when s308 => state := s309;
+		addfpsclr <= '0';
+		
+		mulfpce <= '1';
+		mulfpa <= acomp1216_ft;
+		mulfpb <= tgc_ft;
+		mulfpond <= '1';
+	when s309 =>
+		if (mulfprdy = '1') then state := s310;
+			acomp1216_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s309; end if;
+	when s310 => state := s311;
+		mulfpsclr <= '0';
+
+		subfpce <= '1';
+		subfpa <= a1216_ft;
+		subfpb <= acomp1216_ft;
+		subfpond <= '1';
+	when s311 =>
+		if (subfprdy = '1') then state := s312;
+			acomp1216_ft := subfpr;
+			o_out1 <= subfpr;
+			subfpce <= '0';
+			subfpond <= '0';
+			subfpsclr <= '1';
+		else state := s311; end if;
+	when s312 => state := s313;
+		subfpsclr <= '0';
+		
+		mulfpce <= '1';
+		mulfpa <= tad_ft;
+		mulfpb <= ksta_ft;
+		mulfpond <= '1';
+	when s313 =>
+		if (mulfprdy = '1') then state := s314;
+			fttmp1_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s313; end if;
+	when s314 => state := s315;
+		mulfpsclr <= '0';
+
+		addfpce <= '1';
+		addfpa <= fttmp1_ft;
+		addfpb <= const1_ft;
+		addfpond <= '1';
+	when s315 =>
+		if (addfprdy = '1') then state := s316;
+			fttmp1_ft := addfpr;
+			o_out1 <= addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s315; end if;
+	when s316 => state := s317;
+		addfpsclr <= '0';
+
+		mulfpce <= '1';
+		mulfpa <= fttmp1_ft;
+		mulfpb <= acomp1216_ft;
+		mulfpond <= '1';
+	when s317 =>
+		if (mulfprdy = '1') then state := s318;
+			acomp1216_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s317; end if;
+	when s318 => state := s319;
+		mulfpsclr <= '0';
 
 
 
