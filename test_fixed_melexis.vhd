@@ -3288,7 +3288,8 @@ when idle =>
 		mulfpsclr <= '0';
 		-- xxx when emissivity=1 then tar=tak4 else tar=trk4-((trk4-tak4)/emissivity)
 		
-		
+--		report "aaaaaaaaaaaaaa" severity failure;
+
 		
 		
 					mulfpa <= acomp1216_ft;
@@ -3344,7 +3345,7 @@ when idle =>
 						mulfpce <= '0';
 						mulfpond <= '0';
 						mulfpsclr <= '1';
-					else state := s13; end if;
+					else state := s357; end if;
 				when s358 => state := s359;
 					mulfpsclr <= '0';
 
@@ -3360,7 +3361,7 @@ when idle =>
 						mulfpce <= '0';
 						mulfpond <= '0';
 						mulfpsclr <= '1';
-					else state := s259; end if;
+					else state := s359; end if;
 				when s360 => state := s361;
 					mulfpsclr <= '0';
 					addfpce <= '1';
@@ -3418,7 +3419,6 @@ when idle =>
 					else state := s367; end if;
 				when s368 => state := s369;
 					mulfpsclr <= '0';
-
 
 					mulfpce <= '1';
 					mulfpa <= ksto2_ft;
@@ -3554,15 +3554,16 @@ when idle =>
 						subfpce <= '0';
 						subfpond <= '0';
 						subfpsclr <= '1';
-					else state := s47; end if;
+					else state := s385; end if;
 				when s386 =>
 					subfpsclr <= '0';
 					o_out1 <= fttmp1_ft;
+rdyrecover <= '1';
+
 					report "end calc" severity failure;
 
 
 
-rdyrecover <= '1';
 -----
 
 
