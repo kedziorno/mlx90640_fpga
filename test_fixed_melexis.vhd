@@ -313,6 +313,8 @@ signal mem_switchpattern_pattern : std_logic;
 
 signal rdyrecover : std_logic; -- signal for tb when rdy not appear
 
+signal s : states;
+
 begin
 
 o_rdy <=
@@ -525,7 +527,7 @@ else
 			else
 		o_out2 <= vout2;
 		o_out3 <= vout3;
-
+		s <= state;
 		case (state) is
 when idle =>
 			if (i_run = '1') then
@@ -3288,9 +3290,8 @@ when idle =>
 		mulfpsclr <= '0';
 		-- xxx when emissivity=1 then tar=tak4 else tar=trk4-((trk4-tak4)/emissivity)
 		
---		report "aaaaaaaaaaaaaa" severity failure;
 
-		
+
 		
 					mulfpa <= acomp1216_ft;
 					mulfpb <= acomp1216_ft;
@@ -3305,6 +3306,8 @@ when idle =>
 					else state := s351; end if;
 				when s352 => state := s353;
 					mulfpsclr <= '0';
+					
+
 					mulfpce <= '1';
 					mulfpa <= fttmp1_ft;
 					mulfpb <= acomp1216_ft;
@@ -3319,6 +3322,8 @@ when idle =>
 					else state := s353; end if;
 				when s354 => state := s355;
 					mulfpsclr <= '0';
+					
+
 					mulfpce <= '1';
 					mulfpa <= acomp1216_pow3_ft;
 					mulfpb <= acomp1216_ft;
@@ -3333,6 +3338,8 @@ when idle =>
 					else state := s355; end if;
 				when s356 => state := s357;
 					mulfpsclr <= '0';
+
+
 
 					mulfpce <= '1';
 					mulfpa <= acomp1216_pow3_ft;
@@ -3350,9 +3357,10 @@ when idle =>
 					mulfpsclr <= '0';
 
 
+
 					mulfpce <= '1';
 					mulfpa <= acomp1216_pow4_ft;
-					mulfpb <= tak_ft;
+					mulfpb <= tak4_ft;
 					mulfpond <= '1';
 				when s359 =>
 					if (mulfprdy = '1') then state := s360;
@@ -3364,6 +3372,9 @@ when idle =>
 					else state := s359; end if;
 				when s360 => state := s361;
 					mulfpsclr <= '0';
+					
+--																			report "aaaaaaaaaaaaaa" severity failure;
+
 					addfpce <= '1';
 					addfpa <= fttmp1_ft;
 					addfpb <= fttmp2_ft;
@@ -3378,6 +3389,8 @@ when idle =>
 					else state := s361; end if;
 				when s362 => state := s363;
 					addfpsclr <= '0';
+					
+					
 					sqrtfp2ce <= '1';
 					sqrtfp2a <= fttmp1_ft;
 					sqrtfp2ond <= '1';
@@ -3404,6 +3417,9 @@ when idle =>
 					else state := s365; end if;
 				when s366 => state := s367;
 					sqrtfp2sclr <= '0';
+
+
+
 					mulfpce <= '1';
 					mulfpa <= fttmp1_ft;
 					mulfpb <= ksto2_ft;
