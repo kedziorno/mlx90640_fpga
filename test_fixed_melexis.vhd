@@ -75,10 +75,8 @@ i_ee0x243d : in slv16;
 i_ee0x243f : in slv16;
 i_pixelpattern : in slv10; -- 12x16
 -----
-o_out1 : out fd2ft;
-o_rdy : out std_logic;
-o_out2 : out st_sfixed_max;
-o_out3 : out st_ufixed_max
+o_To : out fd2ft; -- output Temp
+o_rdy : out std_logic
 );
 end test_fixed_melexis;
 
@@ -465,8 +463,8 @@ else
 		variable fracbs : fracbs;
 		variable fracau : fracau;
 		variable fracbu : fracbu;
-		variable vout2 : st_sfixed_max;
-		variable vout3 : st_ufixed_max;
+--		variable vout2 : st_sfixed_max;
+--		variable vout3 : st_ufixed_max;
 	begin
 		if (rising_edge(i_clock)) then
 			if (i_reset = '1') then
@@ -480,6 +478,7 @@ else
 --				report "fp_div_lo : " & integer'image(st_sfixed_div'low);
 				v_wait1 := 0;
 				state := idle;
+				o_To <= (others => '0');
 				-- reset
 				fixed2floatsclr <= '1';
 				float2fixedsclr <= '1';
@@ -521,12 +520,12 @@ else
 				mem_float2powerN_N2 <= (others => '0');
 				rdyrecover <= '0';
 				mem_switchpattern_reset <= '1';
-				vout2 := (others => '0');
-				vout3 := (others => '0');
+				--vout2 := (others => '0');
+				--vout3 := (others => '0');
 
 			else
-		o_out2 <= vout2;
-		o_out3 <= vout3;
+--		o_out2 <= --vout2;
+--		o_out3 <= --vout3;
 		s <= state;
 		case (state) is
 when idle =>
@@ -550,12 +549,12 @@ when idle =>
 		-- kvdd
 		eeprom16slv := i_ee0x2433 and x"ff00";
 		kvdd := resize (to_sfixed (eeprom16slv, eeprom16sf), kvdd);
-		vout2 := resize (kvdd, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (kvdd, st_sfixed_max'high, st_sfixed_max'low);
 		kvdd := kvdd srl 8;
 		kvdd := resize (to_sfixed (to_slv (kvdd (7 downto 0)), sfixed8'high, sfixed8'low), kvdd);
-		vout2 := resize (kvdd, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (kvdd, st_sfixed_max'high, st_sfixed_max'low);
 		kvdd := kvdd sll 5;
-		vout2 := resize (kvdd, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (kvdd, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -564,7 +563,7 @@ when idle =>
 	when s2 =>
 		if (fixed2floatrdy = '1') then state := s3;
 			kvdd_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -579,7 +578,7 @@ when idle =>
 	when s4 =>
 		if (fixed2floatrdy = '1') then state := s5;
 			const256_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -594,7 +593,7 @@ when idle =>
 	when s6 =>
 		if (fixed2floatrdy = '1') then state := s7;
 			const2pow5_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -609,7 +608,7 @@ when idle =>
 	when s8 =>
 		if (fixed2floatrdy = '1') then state := s9;
 			const2pow13_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -620,9 +619,9 @@ when idle =>
 		-- vdd25
 		eeprom16slv := i_ee0x2433 and x"00ff";
 		vdd25 := resize (to_sfixed (eeprom16slv, eeprom16sf), vdd25);
-		vout2 := resize (vdd25, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (vdd25, st_sfixed_max'high, st_sfixed_max'low);
 		vdd25 := resize (to_sfixed (to_slv (vdd25 (7 downto 0)), sfixed8'high, sfixed8'low), vdd25);
-		vout2 := resize (vdd25, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (vdd25, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -631,7 +630,7 @@ when idle =>
 	when s10 =>
 		if (fixed2floatrdy = '1') then state := s11;
 			vdd25_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -645,7 +644,7 @@ when idle =>
 	when s12 =>
 		if (subfprdy = '1') then state := s13;
 			vdd25_ft := subfpr;
-			o_out1 <= vdd25_ft;
+			--o_To <= vdd25_ft;
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -659,7 +658,7 @@ when idle =>
 	when s14 =>
 		if (mulfprdy = '1') then state := s15;
 			vdd25_ft := mulfpr;
-			o_out1 <= vdd25_ft;
+			--o_To <= vdd25_ft;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -673,7 +672,7 @@ when idle =>
 	when s16 =>
 		if (subfprdy = '1') then state := s17;
 			vdd25_ft := subfpr;
-			o_out1 <= vdd25_ft;
+			--o_To <= vdd25_ft;
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -684,11 +683,11 @@ when idle =>
 		-- resee
 		eeprom16slv := i_ee0x2438 and x"3000";
 		resee := resize (to_ufixed (eeprom16slv, eeprom16uf), resee);
---		vout2 := resize (resee, st_ufixed_max'high, st_ufixed_max'low);
+--		--vout2 := resize (resee, st_ufixed_max'high, st_ufixed_max'low);
 		resee := resee srl 12;
 		resee := resize (to_ufixed (to_slv (resee (1 downto 0)), ufixed2'high, ufixed2'low), resee);
 		resee := to_ufixed (1.0, resee) sll to_integer (resee);
---		vout2 := resize (resee, st_ufixed_max'high, st_ufixed_max'low);
+--		--vout2 := resize (resee, st_ufixed_max'high, st_ufixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -697,7 +696,7 @@ when idle =>
 	when s18 =>
 		if (fixed2floatrdy = '1') then state := s19;
 			resee_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -708,11 +707,11 @@ when idle =>
 		-- resreg
 		eeprom16slv := i_ram0x800d and x"0c00";
 		resreg := resize (to_ufixed (eeprom16slv, eeprom16uf), resreg);
---		vout2 := resize (resreg, st_ufixed_max'high, st_ufixed_max'low);
+--		--vout2 := resize (resreg, st_ufixed_max'high, st_ufixed_max'low);
 		resreg := resreg srl 10;
 		resreg := resize (to_ufixed (to_slv (resreg (1 downto 0)), ufixed2'high, ufixed2'low), resreg);
 		resreg := to_ufixed (1.0, resreg) sll to_integer (resreg);
---		vout2 := resize (resreg, st_ufixed_max'high, st_ufixed_max'low);
+--		--vout2 := resize (resreg, st_ufixed_max'high, st_ufixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -721,7 +720,7 @@ when idle =>
 	when s20 =>
 		if (fixed2floatrdy = '1') then state := s21;
 			resreg_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -737,7 +736,7 @@ when idle =>
 	when s22 =>
 		if (divfprdy = '1') then state := s23;
 			rescorr_ft := divfpr;
-			o_out1 <= divfpr;
+			--o_To <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -748,10 +747,10 @@ when idle =>
 		-- kvptat
 		eeprom16slv := i_ee0x2432 and x"fc00";
 		kvptat := resize (to_sfixed (eeprom16slv, eeprom16sf), kvptat);
-		vout2 := resize (kvptat, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (kvptat, st_sfixed_max'high, st_sfixed_max'low);
 		kvptat := kvptat srl 10;
 		kvptat := resize (to_sfixed (to_slv (kvptat (5 downto 0)), sfixed6'high, sfixed6'low), kvptat);
-		vout2 := resize (kvptat, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (kvptat, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -760,7 +759,7 @@ when idle =>
 	when s24 =>
 		if (fixed2floatrdy = '1') then state := s25;
 			kvptat_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -775,7 +774,7 @@ when idle =>
 	when s26 =>
 		if (fixed2floatrdy = '1') then state := s27;
 			const2pow12_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -789,7 +788,7 @@ when idle =>
 	when s28 =>
 		if (divfprdy = '1') then state := s29;
 			kvptat_ft := divfpr;
-			o_out1 <= divfpr;
+			--o_To <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -798,9 +797,9 @@ when idle =>
 		divfpsclr <= '0';
 		eeprom16slv := i_ee0x2432 and x"03ff";
 		ktptat := resize (to_sfixed (eeprom16slv, eeprom16sf), ktptat);
-		vout2 := resize (kvptat, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (kvptat, st_sfixed_max'high, st_sfixed_max'low);
 		ktptat := resize (to_sfixed (to_slv (ktptat (9 downto 0)), sfixed10'high, sfixed10'low), ktptat);
-		vout2 := resize (ktptat, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (ktptat, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -809,7 +808,7 @@ when idle =>
 	when s30 =>
 		if (fixed2floatrdy = '1') then state := s31;
 			ktptat_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -824,7 +823,7 @@ when idle =>
 	when s32 =>
 		if (fixed2floatrdy = '1') then state := s33;
 			const2pow3_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -838,7 +837,7 @@ when idle =>
 	when s34 =>
 		if (divfprdy = '1') then state := s35;
 			ktptat_ft := divfpr;
-			o_out1 <= divfpr;
+			--o_To <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -849,7 +848,7 @@ when idle =>
 		-- deltaV
 		eeprom16slv := i_ram0x072a and x"ffff";
 		deltaV := resize (to_sfixed (eeprom16slv, eeprom16sf), deltaV);
-		vout2 := resize (deltaV, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (deltaV, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -858,7 +857,7 @@ when idle =>
 	when s36 =>
 		if (fixed2floatrdy = '1') then state := s37;
 			deltaV_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -872,7 +871,7 @@ when idle =>
 	when s38 =>
 		if (subfprdy = '1') then state := s39;
 			deltaV_ft := subfpr;
-			o_out1 <= subfpr;
+			--o_To <= subfpr;
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -886,7 +885,7 @@ when idle =>
 	when s40 =>
 		if (divfprdy = '1') then state := s41;
 			deltaV_ft := divfpr;
-			o_out1 <= divfpr;
+			--o_To <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -901,7 +900,7 @@ when idle =>
 	when s42 =>
 		if (fixed2floatrdy = '1') then state := s43;
 			const3dot3_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -915,7 +914,7 @@ when idle =>
 	when s44 =>
 		if (addfprdy = '1') then state := s45;
 			Vdd_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -927,7 +926,7 @@ when idle =>
 		eeprom16slv := i_ee0x2431 and x"ffff";
 		vptat25 := resize (to_sfixed (eeprom16slv, eeprom16sf), vptat25);
 --		vptat25 := resize (to_sfixed (to_slv (vptat25), sfixed16'high, sfixed16'low), vptat25);
-		vout2 := resize (ktptat, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (ktptat, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -936,7 +935,7 @@ when idle =>
 	when s46 =>
 		if (fixed2floatrdy = '1') then state := s47;
 			vptat25_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -948,7 +947,7 @@ when idle =>
 		eeprom16slv := i_ram0x0720 and x"ffff";
 		vptat := resize (to_sfixed (eeprom16slv, eeprom16sf), vptat);
 --		vptat := resize (to_sfixed (to_slv (vptat), sfixed16'high, sfixed16'low), vptat);
-		vout2 := resize (vptat, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (vptat, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -957,7 +956,7 @@ when idle =>
 	when s48 =>
 		if (fixed2floatrdy = '1') then state := s49;
 			vptat_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -969,7 +968,7 @@ when idle =>
 		eeprom16slv := i_ram0x0700 and x"ffff";
 		vbe := resize (to_sfixed (eeprom16slv, eeprom16sf), vbe);
 --		vbe := resize (to_sfixed (to_slv (vbe), sfixed16'high, sfixed16'low), vbe);
-		vout2 := resize (vbe, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (vbe, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -978,7 +977,7 @@ when idle =>
 	when s50 =>
 		if (fixed2floatrdy = '1') then state := s51;
 			vbe_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -989,10 +988,10 @@ when idle =>
 		-- alphaptatee
 		eeprom16slv := i_ee0x2410 and x"f000";
 		alphaptatee := resize (to_sfixed (eeprom16slv, eeprom16sf), alphaptatee);
-		vout2 := resize (alphaptatee, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (alphaptatee, st_sfixed_max'high, st_sfixed_max'low);
 		alphaptatee := alphaptatee srl 12;
 		alphaptatee := resize (to_sfixed (to_slv (alphaptatee (3 downto 0)), sfixed4'high, sfixed4'low), alphaptatee);
-		vout2 := resize (alphaptatee, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (alphaptatee, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -1001,7 +1000,7 @@ when idle =>
 	when s52 =>
 		if (fixed2floatrdy = '1') then state := s53;
 			alphaptatee_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1016,7 +1015,7 @@ when idle =>
 	when s54 =>
 		if (fixed2floatrdy = '1') then state := s55;
 			const2pow2_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1031,7 +1030,7 @@ when idle =>
 	when s56 =>
 		if (fixed2floatrdy = '1') then state := s57;
 			const8_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1045,7 +1044,7 @@ when idle =>
 	when s58 =>
 		if (divfprdy = '1') then state := s59;
 			alphaptat_ft := divfpr;
-			o_out1 <= divfpr;
+			--o_To <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -1059,7 +1058,7 @@ when idle =>
 	when s60 =>
 		if (addfprdy = '1') then state := s61;
 			alphaptat_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -1074,7 +1073,7 @@ when idle =>
 	when s62 =>
 		if (fixed2floatrdy = '1') then state := s63;
 			const2pow18_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1088,7 +1087,7 @@ when idle =>
 	when s64 =>
 		if (mulfprdy = '1') then state := s65;
 			vptatart_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -1102,7 +1101,7 @@ when idle =>
 	when s66 =>
 		if (addfprdy = '1') then state := s67;
 			vptatart_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -1116,7 +1115,7 @@ when idle =>
 	when s68 =>
 		if (divfprdy = '1') then state := s69;
 			vptatart_ft := divfpr;
-			o_out1 <= divfpr;
+			--o_To <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -1130,7 +1129,7 @@ when idle =>
 	when s70 =>
 		if (mulfprdy = '1') then state := s71;
 			vptatart_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -1147,7 +1146,7 @@ when idle =>
 	when s72 =>
 		if (fixed2floatrdy = '1') then state := s73;
 			const1_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1162,7 +1161,7 @@ when idle =>
 	when s74 =>
 		if (fixed2floatrdy = '1') then state := s75;
 			const25_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1176,7 +1175,7 @@ when idle =>
 	when s76 =>
 		if (mulfprdy = '1') then state := s77;
 			Ta_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -1190,7 +1189,7 @@ when idle =>
 	when s78 =>
 		if (addfprdy = '1') then state := s79;
 			Ta_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -1204,7 +1203,7 @@ when idle =>
 	when s80 =>
 		if (divfprdy = '1') then state := s81;
 			Ta_ft := divfpr;
-			o_out1 <= divfpr;
+			--o_To <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -1218,7 +1217,7 @@ when idle =>
 	when s82 =>
 		if (subfprdy = '1') then state := s83;
 			Ta_ft := subfpr;
-			o_out1 <= subfpr;
+			--o_To <= subfpr;
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -1232,7 +1231,7 @@ when idle =>
 	when s84 =>
 		if (divfprdy = '1') then state := s85;
 			Ta_ft := divfpr;
-			o_out1 <= divfpr;
+			--o_To <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -1246,7 +1245,7 @@ when idle =>
 	when s86 =>
 		if (addfprdy = '1') then state := s87;
 			Ta_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -1257,7 +1256,7 @@ when idle =>
 		-- Kgain
 		eeprom16slv := i_ram0x070a and x"ffff";
 		gain := resize (to_sfixed (eeprom16slv, eeprom16sf), gain);
-		vout2 := resize (gain, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (gain, st_sfixed_max'high, st_sfixed_max'low);
 --		gain := resize (to_sfixed (to_slv (gain), sfixed16'high, sfixed16'low), gain);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -1267,7 +1266,7 @@ when idle =>
 	when s88 =>
 		if (fixed2floatrdy = '1') then state := s89;
 			gain_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1276,7 +1275,7 @@ when idle =>
 		fixed2floatsclr <= '0';
 		eeprom16slv := i_ee0x2430 and x"ffff";
 		Kgain := resize (to_sfixed (eeprom16slv, eeprom16sf), Kgain);
-		vout2 := resize (Kgain, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (Kgain, st_sfixed_max'high, st_sfixed_max'low);
 --		Kgain := resize (to_sfixed (to_slv (Kgain), sfixed16'high, sfixed16'low), Kgain);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -1286,7 +1285,7 @@ when idle =>
 	when s90 =>
 		if (fixed2floatrdy = '1') then state := s91;
 			Kgain_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1300,7 +1299,7 @@ when idle =>
 	when s92 =>
 		if (divfprdy = '1') then state := s93;
 			Kgain_ft := divfpr;
-			o_out1 <= divfpr;
+			--o_To <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -1309,7 +1308,7 @@ when idle =>
 		divfpsclr <= '0';
 		eeprom16slv := i_ram0x056f and x"ffff";
 		pixgain1216 := resize (to_sfixed (eeprom16slv, eeprom16sf), pixgain1216);
-		vout2 := resize (pixgain1216, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (pixgain1216, st_sfixed_max'high, st_sfixed_max'low);
 --		pixgain1216 := resize (to_sfixed (to_slv (pixgain1216), sfixed16'high, sfixed16'low), pixgain1216);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -1319,7 +1318,7 @@ when idle =>
 	when s94 =>
 		if (fixed2floatrdy = '1') then state := s95;
 			pixgain1216_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1333,7 +1332,7 @@ when idle =>
 	when s96 =>
 		if (mulfprdy = '1') then state := s97;
 			pixgain1216_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -1342,7 +1341,7 @@ when idle =>
 		mulfpsclr <= '0';
 		eeprom16slv := i_ee0x2411 and x"ffff";
 		offsetaverage := resize (to_sfixed (eeprom16slv, eeprom16sf), offsetaverage);
-		vout2 := resize (offsetaverage, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (offsetaverage, st_sfixed_max'high, st_sfixed_max'low);
 --		offsetaverage := resize (to_sfixed (to_slv (offsetaverage), sfixed16'high, sfixed16'low), offsetaverage);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -1352,7 +1351,7 @@ when idle =>
 	when s98 =>
 		if (fixed2floatrdy = '1') then state := s99;
 			offsetaverage_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1361,10 +1360,10 @@ when idle =>
 		fixed2floatsclr <= '0';
 		eeprom16slv := i_ee0x2414 and x"f000";
 		occrow12 := resize (to_sfixed (eeprom16slv, eeprom16sf), occrow12);
-		vout2 := resize (occrow12, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (occrow12, st_sfixed_max'high, st_sfixed_max'low);
 		occrow12 := occrow12 srl 12;
 		occrow12 := resize (to_sfixed (to_slv (occrow12 (3 downto 0)), sfixed4'high, sfixed4'low), occrow12);
-		vout2 := resize (occrow12, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (occrow12, st_sfixed_max'high, st_sfixed_max'low);
 --		occrow12 := resize (to_sfixed (to_slv (occrow12), sfixed16'high, sfixed16'low), occrow12);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -1374,7 +1373,7 @@ when idle =>
 	when s100 =>
 		if (fixed2floatrdy = '1') then state := s101;
 			occrow12_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1383,10 +1382,10 @@ when idle =>
 		fixed2floatsclr <= '0';
 		eeprom16slv := i_ee0x2410 and x"0f00";
 		occscalerow := resize (to_sfixed (eeprom16slv, eeprom16sf), occscalerow);
-		vout2 := resize (occscalerow, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (occscalerow, st_sfixed_max'high, st_sfixed_max'low);
 		occscalerow := occscalerow srl 8;
 		occscalerow := resize (to_sfixed (to_slv (occscalerow (3 downto 0)), sfixed4'high, sfixed4'low), occscalerow);
-		vout2 := resize (occscalerow, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (occscalerow, st_sfixed_max'high, st_sfixed_max'low);
 		occscalerow := to_sfixed (1.0, occscalerow) sll to_integer (occscalerow);
 --		occscalerow := resize (to_sfixed (to_slv (occscalerow), sfixed16'high, sfixed16'low), occscalerow);
 		fixed2floatce <= '1';
@@ -1397,7 +1396,7 @@ when idle =>
 	when s102 =>
 		if (fixed2floatrdy = '1') then state := s103;
 			occscalerow_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1406,10 +1405,10 @@ when idle =>
 		fixed2floatsclr <= '0';
 		eeprom16slv := i_ee0x241b and x"f000";
 		occcolumn16 := resize (to_sfixed (eeprom16slv, eeprom16sf), occcolumn16);
-		vout2 := resize (occcolumn16, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (occcolumn16, st_sfixed_max'high, st_sfixed_max'low);
 		occcolumn16 := occcolumn16 srl 12;
 		occcolumn16 := resize (to_sfixed (to_slv (occcolumn16 (3 downto 0)), sfixed4'high, sfixed4'low), occcolumn16);
-		vout2 := resize (occcolumn16, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (occcolumn16, st_sfixed_max'high, st_sfixed_max'low);
 --		occcolumn16 := resize (to_sfixed (to_slv (occcolumn16), sfixed16'high, sfixed16'low), occcolumn16);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -1419,7 +1418,7 @@ when idle =>
 	when s104 =>
 		if (fixed2floatrdy = '1') then state := s105;
 			occcolumn16_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1428,10 +1427,10 @@ when idle =>
 		fixed2floatsclr <= '0';
 		eeprom16slv := i_ee0x2410 and x"00f0";
 		occscalecolumn := resize (to_sfixed (eeprom16slv, eeprom16sf), occscalecolumn);
-		vout2 := resize (occscalecolumn, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (occscalecolumn, st_sfixed_max'high, st_sfixed_max'low);
 		occscalecolumn := occscalecolumn srl 4;
 		occscalecolumn := resize (to_sfixed (to_slv (occscalecolumn (3 downto 0)), sfixed4'high, sfixed4'low), occscalecolumn);
-		vout2 := resize (occscalecolumn, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (occscalecolumn, st_sfixed_max'high, st_sfixed_max'low);
 		occscalecolumn := to_sfixed (1.0, occscalecolumn) sll to_integer (occscalecolumn);
 --		occscalecolumn := resize (to_sfixed (to_slv (occscalecolumn), sfixed16'high, sfixed16'low), occscalecolumn);
 		fixed2floatce <= '1';
@@ -1442,7 +1441,7 @@ when idle =>
 	when s106 =>
 		if (fixed2floatrdy = '1') then state := s107;
 			occscalecolumn_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1451,10 +1450,10 @@ when idle =>
 		fixed2floatsclr <= '0';
 		eeprom16slv := i_ee0x25af and x"fc00";
 		offset1216 := resize (to_sfixed (eeprom16slv, eeprom16sf), offset1216);
-		vout2 := resize (offset1216, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (offset1216, st_sfixed_max'high, st_sfixed_max'low);
 		offset1216 := offset1216 srl 10;
 		offset1216 := resize (to_sfixed (to_slv (offset1216 (5 downto 0)), sfixed6'high, sfixed6'low), offset1216);
-		vout2 := resize (offset1216, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (offset1216, st_sfixed_max'high, st_sfixed_max'low);
 --		offset1216 := resize (to_sfixed (to_slv (offset1216), sfixed16'high, sfixed16'low), offset1216);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -1464,7 +1463,7 @@ when idle =>
 	when s108 =>
 		if (fixed2floatrdy = '1') then state := s109;
 			offset1216_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1473,9 +1472,9 @@ when idle =>
 		fixed2floatsclr <= '0';
 		eeprom16slv := i_ee0x2410 and x"000f";
 		occscaleremnant := resize (to_sfixed (eeprom16slv, eeprom16sf), occscaleremnant);
-		vout2 := resize (occscaleremnant, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (occscaleremnant, st_sfixed_max'high, st_sfixed_max'low);
 		occscaleremnant := resize (to_sfixed (to_slv (occscaleremnant (3 downto 0)), sfixed4'high, sfixed4'low), occscaleremnant);
-		vout2 := resize (occscaleremnant, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (occscaleremnant, st_sfixed_max'high, st_sfixed_max'low);
 		occscaleremnant := to_sfixed (1.0, occscaleremnant) sll to_integer (occscaleremnant);
 --		occscaleremnant := resize (to_sfixed (to_slv (occscaleremnant), sfixed16'high, sfixed16'low), occscaleremnant);
 		fixed2floatce <= '1';
@@ -1486,7 +1485,7 @@ when idle =>
 	when s110 =>
 		if (fixed2floatrdy = '1') then state := s111;
 			occscaleremnant_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1500,7 +1499,7 @@ when idle =>
 	when s112 =>
 		if (mulfprdy = '1') then state := s113;
 			offset1216_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -1514,7 +1513,7 @@ when idle =>
 	when s114 =>
 		if (mulfprdy = '1') then state := s115;
 			occcolumn16_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -1528,7 +1527,7 @@ when idle =>
 	when s116 =>
 		if (mulfprdy = '1') then state := s117;
 			occrow12_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -1542,7 +1541,7 @@ when idle =>
 	when s118 =>
 		if (addfprdy = '1') then state := s119;
 			pixosref1216_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -1556,7 +1555,7 @@ when idle =>
 	when s120 =>
 		if (addfprdy = '1') then state := s121;
 			pixosref1216_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -1570,7 +1569,7 @@ when idle =>
 	when s122 =>
 		if (addfprdy = '1') then state := s123;
 			pixosref1216_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -1579,10 +1578,10 @@ when idle =>
 		addfpsclr <= '0';
 		eeprom16slv := i_ee0x25af and x"000e";
 		kta1216ee := resize (to_sfixed (eeprom16slv, eeprom16sf), kta1216ee);
-		vout2 := resize (kta1216ee, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (kta1216ee, st_sfixed_max'high, st_sfixed_max'low);
 		kta1216ee := kta1216ee srl 1;
 		kta1216ee := resize (to_sfixed (to_slv (kta1216ee (2 downto 0)), sfixed3'high, sfixed3'low), kta1216ee);
-		vout2 := resize (kta1216ee, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (kta1216ee, st_sfixed_max'high, st_sfixed_max'low);
 --		kta1216ee := resize (to_sfixed (to_slv (kta1216ee), sfixed16'high, sfixed16'low), kta1216ee);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -1592,7 +1591,7 @@ when idle =>
 	when s124 =>
 		if (fixed2floatrdy = '1') then state := s125;
 			kta1216ee_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1601,9 +1600,9 @@ when idle =>
 		fixed2floatsclr <= '0';
 		eeprom16slv := i_ee0x2437 and x"00ff";
 		ktarcee := resize (to_sfixed (eeprom16slv, eeprom16sf), ktarcee);
-		vout2 := resize (ktarcee, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (ktarcee, st_sfixed_max'high, st_sfixed_max'low);
 		ktarcee := resize (to_sfixed (to_slv (ktarcee (7 downto 0)), sfixed8'high, sfixed8'low), ktarcee);
-		vout2 := resize (ktarcee, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (ktarcee, st_sfixed_max'high, st_sfixed_max'low);
 --		ktarcee := resize (to_sfixed (to_slv (ktarcee), sfixed16'high, sfixed16'low), ktarcee);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -1613,7 +1612,7 @@ when idle =>
 	when s126 =>
 		if (fixed2floatrdy = '1') then state := s127;
 			ktarcee_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1622,10 +1621,10 @@ when idle =>
 		fixed2floatsclr <= '0';
 		eeprom16slv := i_ee0x2438 and x"00f0";
 		ktascale1 := resize (to_sfixed (eeprom16slv, eeprom16sf), ktascale1);
-		vout2 := resize (ktascale1, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (ktascale1, st_sfixed_max'high, st_sfixed_max'low);
 		ktascale1 := ktascale1 srl 4;
 		ktascale1 := resize (to_sfixed (to_slv (ktascale1 (3 downto 0)), sfixed4'high, sfixed4'low), ktascale1);
-		vout2 := resize (ktascale1, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (ktascale1, st_sfixed_max'high, st_sfixed_max'low);
 --		ktascale1 := resize (to_sfixed (to_slv (ktascale1), sfixed16'high, sfixed16'low), ktascale1);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -1635,7 +1634,7 @@ when idle =>
 	when s128 =>
 		if (fixed2floatrdy = '1') then state := s129;
 			ktascale1_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1649,7 +1648,7 @@ when idle =>
 	when s130 =>
 		if (addfprdy = '1') then state := s131;
 			ktascale1_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -1658,9 +1657,9 @@ when idle =>
 		addfpsclr <= '0';
 		eeprom16slv := i_ee0x2438 and x"000f";
 		ktascale2 := resize (to_sfixed (eeprom16slv, eeprom16sf), ktascale2);
-		vout2 := resize (ktascale2, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (ktascale2, st_sfixed_max'high, st_sfixed_max'low);
 		ktascale2 := resize (to_sfixed (to_slv (ktascale2 (3 downto 0)), sfixed4'high, sfixed4'low), ktascale2);
-		vout2 := resize (ktascale2, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (ktascale2, st_sfixed_max'high, st_sfixed_max'low);
 --		ktascale2 := resize (to_sfixed (to_slv (ktascale2), sfixed16'high, sfixed16'low), ktascale2);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -1670,7 +1669,7 @@ when idle =>
 	when s132 =>
 		if (fixed2floatrdy = '1') then state := s133;
 			ktascale2_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1684,8 +1683,8 @@ when idle =>
 	when s134 =>
 		if (float2fixedrdy = '1') then state := s135;
 			ktascale1 := to_sfixed (float2fixedr, st_sfixed_max'high, st_sfixed_max'low);
-			vout2 := resize (ktascale1, st_sfixed_max'high, st_sfixed_max'low);
---			o_out1 <= float2fixedr;
+			--vout2 := resize (ktascale1, st_sfixed_max'high, st_sfixed_max'low);
+--			--o_To <= float2fixedr;
 			float2fixedce <= '0';
 			float2fixedond <= '0';
 			float2fixedsclr <= '1';
@@ -1699,8 +1698,8 @@ when idle =>
 	when s136 =>
 		if (float2fixedrdy = '1') then state := s137;
 			ktascale2 := to_sfixed (float2fixedr, st_sfixed_max'high, st_sfixed_max'low);
-			vout2 := resize (ktascale2, st_sfixed_max'high, st_sfixed_max'low);
---			o_out1 <= float2fixedr;
+			--vout2 := resize (ktascale2, st_sfixed_max'high, st_sfixed_max'low);
+--			--o_To <= float2fixedr;
 			float2fixedce <= '0';
 			float2fixedond <= '0';
 			float2fixedsclr <= '1';
@@ -1715,7 +1714,7 @@ when idle =>
 --		rdyrecover <= '1';
 	when s139 => state := s140;
 --		rdyrecover <= '0';
---		o_out1 <= mem_float2powerN_2powerN2;
+--		--o_To <= mem_float2powerN_2powerN2;
 		mulfpce <= '1';
 		mulfpa <= kta1216ee_ft;
 		mulfpb <= mem_float2powerN_2powerN2; -- 2^ktascale2
@@ -1723,7 +1722,7 @@ when idle =>
 	when s140 =>
 		if (mulfprdy = '1') then state := s141;
 			kta1216_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -1737,7 +1736,7 @@ when idle =>
 	when s142 =>
 		if (addfprdy = '1') then state := s143;
 			kta1216_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -1751,7 +1750,7 @@ when idle =>
 	when s144 =>
 		if (divfprdy = '1') then state := s145;
 			kta1216_ft := divfpr; -- 0.005126953125
-			o_out1 <= divfpr;
+			--o_To <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -1760,9 +1759,9 @@ when idle =>
 		divfpsclr <= '0';
 		eeprom16slv := i_ee0x2434 and x"000f";
 		kv1216 := resize (to_sfixed (eeprom16slv, eeprom16sf), kv1216);
-		vout2 := resize (kv1216, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (kv1216, st_sfixed_max'high, st_sfixed_max'low);
 		kv1216 := resize (to_sfixed (to_slv (kv1216 (3 downto 0)), sfixed4'high, sfixed4'low), kv1216);
-		vout2 := resize (kv1216, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (kv1216, st_sfixed_max'high, st_sfixed_max'low);
 --		kv1216 := resize (to_sfixed (to_slv (kv1216), sfixed16'high, sfixed16'low), kv1216);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -1772,7 +1771,7 @@ when idle =>
 	when s146 =>
 		if (fixed2floatrdy = '1') then state := s147;
 			kv1216_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1781,11 +1780,11 @@ when idle =>
 		fixed2floatsclr <= '0';
 		eeprom16slv := i_ee0x2438 and x"0f00";
 		kvscale := resize (to_sfixed (eeprom16slv, eeprom16sf), kvscale);
-		vout2 := resize (kvscale, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (kvscale, st_sfixed_max'high, st_sfixed_max'low);
 		kvscale := kvscale srl 8;
-		vout2 := resize (kvscale, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (kvscale, st_sfixed_max'high, st_sfixed_max'low);
 		kvscale := resize (to_sfixed (to_slv (kvscale (3 downto 0)), sfixed4'high, sfixed4'low), kvscale);
-		vout2 := resize (kvscale, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (kvscale, st_sfixed_max'high, st_sfixed_max'low);
 --		kvscale := resize (to_sfixed (to_slv (kvscale), sfixed16'high, sfixed16'low), kvscale);
 		mem_float2powerN_N2 <= std_logic_vector (to_unsigned (to_integer (kvscale), 6));
 	when s148 => state := s149;
@@ -1793,7 +1792,7 @@ when idle =>
 		rdyrecover <= '1';
 	when s149 => state := s150;
 		rdyrecover <= '0';
-		o_out1 <= mem_float2powerN_2powerN2;
+		--o_To <= mem_float2powerN_2powerN2;
 		divfpce <= '1';
 		divfpa <= kv1216_ft;
 		divfpb <= mem_float2powerN_2powerN2; -- 2^kvscale
@@ -1801,7 +1800,7 @@ when idle =>
 	when s150 =>
 		if (divfprdy = '1') then state := s151;
 			kv1216_ft := divfpr; -- 0.5
-			o_out1 <= divfpr;
+			--o_To <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -1815,7 +1814,7 @@ when idle =>
 	when s152 =>
 		if (subfprdy = '1') then state := s153;
 			v0d_ft := subfpr;
-			o_out1 <= subfpr;
+			--o_To <= subfpr;
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -1829,7 +1828,7 @@ when idle =>
 	when s154 =>
 		if (mulfprdy = '1') then state := s155;
 			fttmp1_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -1843,7 +1842,7 @@ when idle =>
 	when s156 =>
 		if (addfprdy = '1') then state := s157;
 			fttmp1_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -1857,7 +1856,7 @@ when idle =>
 	when s158 =>
 		if (subfprdy = '1') then state := s159;
 			tad_ft := subfpr;
-			o_out1 <= subfpr;
+			--o_To <= subfpr;
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -1871,7 +1870,7 @@ when idle =>
 	when s160 =>
 		if (mulfprdy = '1') then state := s161;
 			fttmp2_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -1885,7 +1884,7 @@ when idle =>
 	when s162 =>
 		if (addfprdy = '1') then state := s163;
 			fttmp2_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -1899,7 +1898,7 @@ when idle =>
 	when s164 =>
 		if (mulfprdy = '1') then state := s165;
 			pixos1216_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -1913,7 +1912,7 @@ when idle =>
 	when s166 =>
 		if (mulfprdy = '1') then state := s167;
 			pixos1216_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -1927,7 +1926,7 @@ when idle =>
 	when s168 =>
 		if (subfprdy = '1') then state := s169;
 			pixos1216_ft := subfpr;
-			o_out1 <= subfpr;
+			--o_To <= subfpr;
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -1942,7 +1941,7 @@ when idle =>
 	when s170 =>
 		if (fixed2floatrdy = '1') then state := s171;
 			constemissivity_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1956,7 +1955,7 @@ when idle =>
 	when s172 =>
 		if (divfprdy = '1') then state := s173;
 			vir1216emissivitycompensated_ft := divfpr; -- 700.882
-			o_out1 <= divfpr;
+			--o_To <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -1965,7 +1964,7 @@ when idle =>
 		divfpsclr <= '0';
 		eeprom16slv := i_ram0x0708 and x"ffff";
 		pixgaincpsp0 := resize (to_sfixed (eeprom16slv, eeprom16sf), pixgaincpsp0);
-		vout2 := resize (pixgaincpsp0, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (pixgaincpsp0, st_sfixed_max'high, st_sfixed_max'low);
 --		pixgaincpsp0 := resize (to_sfixed (to_slv (pixgaincpsp0), sfixed16'high, sfixed16'low), pixgaincpsp0);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -1975,7 +1974,7 @@ when idle =>
 	when s174 =>
 		if (fixed2floatrdy = '1') then state := s175;
 			pixgaincpsp0_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -1989,7 +1988,7 @@ when idle =>
 	when s176 =>
 		if (mulfprdy = '1') then state := s177;
 			pixgaincpsp0_ft := mulfpr; -- -54.946
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -1998,7 +1997,7 @@ when idle =>
 		mulfpsclr <= '0';
 		eeprom16slv := i_ram0x0728 and x"ffff";
 		pixgaincpsp1 := resize (to_sfixed (eeprom16slv, eeprom16sf), pixgaincpsp1);
-		vout2 := resize (pixgaincpsp1, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (pixgaincpsp1, st_sfixed_max'high, st_sfixed_max'low);
 --		pixgaincpsp1 := resize (to_sfixed (to_slv (pixgaincpsp1), sfixed16'high, sfixed16'low), pixgaincpsp1);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -2008,7 +2007,7 @@ when idle =>
 	when s178 =>
 		if (fixed2floatrdy = '1') then state := s179;
 			pixgaincpsp1_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -2022,7 +2021,7 @@ when idle =>
 	when s180 =>
 		if (mulfprdy = '1') then state := s181;
 			pixgaincpsp1_ft := mulfpr; -- -56.981
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -2031,7 +2030,7 @@ when idle =>
 		mulfpsclr <= '0';
 		eeprom16slv := i_ee0x243a and x"03ff";
 		offcpsubpage0 := resize (to_sfixed (eeprom16slv, eeprom16sf), offcpsubpage0);
-		vout2 := resize (offcpsubpage0, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (offcpsubpage0, st_sfixed_max'high, st_sfixed_max'low);
 		offcpsubpage0 := resize (to_sfixed (to_slv (offcpsubpage0 (9 downto 0)), sfixed10'high, sfixed10'low), offcpsubpage0);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -2041,7 +2040,7 @@ when idle =>
 	when s182 =>
 		if (fixed2floatrdy = '1') then state := s183;
 			offcpsubpage0_ft := fixed2floatr; -- -75
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -2050,10 +2049,10 @@ when idle =>
 		fixed2floatsclr <= '0';
 		eeprom16slv := i_ee0x243a and x"fc00";
 		offcpsubpage1delta := resize (to_sfixed (eeprom16slv, eeprom16sf), offcpsubpage1delta);
-		vout2 := resize (offcpsubpage1delta, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (offcpsubpage1delta, st_sfixed_max'high, st_sfixed_max'low);
 		offcpsubpage1delta := offcpsubpage1delta srl 10;
 		offcpsubpage1delta := resize (to_sfixed (to_slv (offcpsubpage1delta (5 downto 0)), sfixed6'high, sfixed6'low), offcpsubpage1delta);
-		vout2 := resize (offcpsubpage1delta, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (offcpsubpage1delta, st_sfixed_max'high, st_sfixed_max'low);
 --		offcpsubpage1delta := resize (to_sfixed (to_slv (offcpsubpage1delta), sfixed16'high, sfixed16'low), offcpsubpage1delta);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -2063,7 +2062,7 @@ when idle =>
 	when s184 =>
 		if (fixed2floatrdy = '1') then state := s185;
 			offcpsubpage1delta_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -2077,7 +2076,7 @@ when idle =>
 	when s186 =>
 		if (addfprdy = '1') then state := s187;
 			offcpsubpage1_ft := addfpr; -- -77
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -2086,9 +2085,9 @@ when idle =>
 		addfpsclr <= '0';
 		eeprom16slv := i_ee0x243b and x"00ff";
 		ktacpee := resize (to_sfixed (eeprom16slv, eeprom16sf), ktacpee);
-		vout2 := resize (ktacpee, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (ktacpee, st_sfixed_max'high, st_sfixed_max'low);
 		ktacpee := resize (to_sfixed (to_slv (ktacpee (7 downto 0)), sfixed8'high, sfixed8'low), ktacpee);
-		vout2 := resize (ktacpee, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (ktacpee, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -2097,7 +2096,7 @@ when idle =>
 	when s188 =>
 		if (fixed2floatrdy = '1') then state := s189;
 			ktacpee_ft := fixed2floatr; -- 75
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -2111,7 +2110,7 @@ when idle =>
 	when s190 =>
 		if (divfprdy = '1') then state := s191;
 			ktacp_ft := divfpr; -- 0.004577
-			o_out1 <= divfpr;
+			--o_To <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -2120,9 +2119,9 @@ when idle =>
 		eeprom16slv := i_ee0x243b and x"ff00";
 		kvcpee := resize (to_sfixed (eeprom16slv, eeprom16sf), kvcpee);
 		kvcpee := kvcpee srl 8;
-		vout2 := resize (kvcpee, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (kvcpee, st_sfixed_max'high, st_sfixed_max'low);
 		ktacpee := resize (to_sfixed (to_slv (kvcpee (7 downto 0)), sfixed8'high, sfixed8'low), kvcpee);
-		vout2 := resize (kvcpee, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (kvcpee, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -2131,7 +2130,7 @@ when idle =>
 	when s192 =>
 		if (fixed2floatrdy = '1') then state := s193;
 			kvcpee_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -2146,7 +2145,7 @@ when idle =>
 	when s194 =>
 		if (divfprdy = '1') then state := s195;
 			kvcp_ft := divfpr;
-			o_out1 <= divfpr;
+			--o_To <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -2160,7 +2159,7 @@ when idle =>
 	when s196 =>
 		if (mulfprdy = '1') then state := s197;
 			fttmp1_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -2174,7 +2173,7 @@ when idle =>
 	when s198 =>
 		if (addfprdy = '1') then state := s199;
 			fttmp1_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -2188,7 +2187,7 @@ when idle =>
 	when s200 =>
 		if (mulfprdy = '1') then state := s201;
 			fttmp2_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -2202,7 +2201,7 @@ when idle =>
 	when s202 =>
 		if (addfprdy = '1') then state := s203;
 			fttmp2_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -2216,7 +2215,7 @@ when idle =>
 	when s204 =>
 		if (mulfprdy = '1') then state := s205;
 			fttmp1_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -2230,7 +2229,7 @@ when idle =>
 	when s206 =>
 		if (mulfprdy = '1') then state := s207;
 			pixoscpsp0_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -2244,7 +2243,7 @@ when idle =>
 	when s208 =>
 		if (subfprdy = '1') then state := s209;
 			pixoscpsp0_ft := subfpr; -- 25.666657
-			o_out1 <= subfpr;
+			--o_To <= subfpr;
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -2258,7 +2257,7 @@ when idle =>
 	when s210 =>
 		if (mulfprdy = '1') then state := s211;
 			pixoscpsp1_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -2272,7 +2271,7 @@ when idle =>
 	when s212 =>
 		if (subfprdy = '1') then state := s213;
 			pixoscpsp1_ft := subfpr;
-			o_out1 <= subfpr;
+			--o_To <= subfpr;
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -2281,9 +2280,9 @@ when idle =>
 		subfpsclr <= '0';
 		eeprom16slv := i_ee0x243c and x"00ff";
 		tgcee := resize (to_sfixed (eeprom16slv, eeprom16sf), tgcee);
-		vout2 := resize (tgcee, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (tgcee, st_sfixed_max'high, st_sfixed_max'low);
 		tgcee := resize (to_sfixed (to_slv (tgcee (7 downto 0)), sfixed8'high, sfixed8'low), tgcee);
-		vout2 := resize (tgcee, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (tgcee, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -2292,7 +2291,7 @@ when idle =>
 	when s214 =>
 		if (fixed2floatrdy = '1') then state := s215;
 			tgcee_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -2306,7 +2305,7 @@ when idle =>
 	when s216 =>
 		if (divfprdy = '1') then state := s217;
 			tgc_ft := divfpr; -- 1
-			o_out1 <= divfpr;
+			--o_To <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -2320,7 +2319,7 @@ when idle =>
 	when s220 => state := s221;
 		pattern_slv1(0) := mem_switchpattern_pattern;
 		pattern := resize (to_sfixed ("0"&pattern_slv1, sfixed2'high, sfixed2'low), pattern);
-		vout2 := resize (pattern, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (pattern, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -2329,7 +2328,7 @@ when idle =>
 	when s221 =>
 		if (fixed2floatrdy = '1') then state := s222;
 			pattern_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -2343,7 +2342,7 @@ when idle =>
 	when s223 =>
 		if (mulfprdy = '1') then state := s224;
 			fttmp1_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -2357,7 +2356,7 @@ when idle =>
 	when s225 =>
 		if (subfprdy = '1') then state := s226;
 			pattern_ft := subfpr;
-			o_out1 <= subfpr;
+			--o_To <= subfpr;
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -2371,7 +2370,7 @@ when idle =>
 	when s227 =>
 		if (mulfprdy = '1') then state := s228;
 			fttmp2_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -2385,7 +2384,7 @@ when idle =>
 	when s229 =>
 		if (addfprdy = '1') then state := s230;
 			vir1216compensated_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -2399,7 +2398,7 @@ when idle =>
 	when s231 =>
 		if (mulfprdy = '1') then state := s232;
 			vir1216compensated_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -2413,7 +2412,7 @@ when idle =>
 	when s233 =>
 		if (subfprdy = '1') then state := s234;
 			vir1216compensated_ft := subfpr; -- 675.215, error on ds p.42 (679.250)
-			o_out1 <= subfpr;
+			--o_To <= subfpr;
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -2422,10 +2421,10 @@ when idle =>
 		subfpsclr <= '0';
 		eeprom16slv := i_ee0x2420 and x"f000";
 		ascalecp := resize (to_sfixed (eeprom16slv, eeprom16sf), ascalecp);
-		vout2 := resize (ascalecp, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (ascalecp, st_sfixed_max'high, st_sfixed_max'low);
 		ascalecp := ascalecp srl 12;
 		ascalecp := resize (to_sfixed (to_slv (ascalecp (3 downto 0)), sfixed4'high, sfixed4'low), ascalecp);
-		vout2 := resize (ascalecp, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (ascalecp, st_sfixed_max'high, st_sfixed_max'low);
 --		ascalecp := resize (to_sfixed (to_slv (ascalecp), sfixed16'high, sfixed16'low), ascalecp);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -2435,7 +2434,7 @@ when idle =>
 	when s235 =>
 		if (fixed2floatrdy = '1') then state := s236;
 			ascalecp_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -2450,7 +2449,7 @@ when idle =>
 	when s237 =>
 		if (fixed2floatrdy = '1') then state := s238;
 			const27_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -2464,7 +2463,7 @@ when idle =>
 	when s239 =>
 		if (addfprdy = '1') then state := s240;
 			ascalecp_ft := addfpr; -- 34
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -2477,7 +2476,7 @@ when idle =>
 	when s241 =>
 		if (float2fixedrdy = '1') then state := s242;
 			ascalecp := to_sfixed (float2fixedr, st_sfixed_max'high, st_sfixed_max'low);
-			vout2 := resize (ascalecp, st_sfixed_max'high, st_sfixed_max'low);
+			--vout2 := resize (ascalecp, st_sfixed_max'high, st_sfixed_max'low);
 			float2fixedce <= '0';
 			float2fixedond <= '0';
 			float2fixedsclr <= '1';
@@ -2491,9 +2490,9 @@ when idle =>
 		ascalecp_ft := mem_float2powerN_2powerN1; -- 2^ascalecp
 		eeprom16slv := i_ee0x2439 and x"03ff";
 		acpsubpage0 := resize (to_sfixed (eeprom16slv, eeprom16sf), acpsubpage0);
-		vout2 := resize (acpsubpage0, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (acpsubpage0, st_sfixed_max'high, st_sfixed_max'low);
 		acpsubpage0 := resize (to_sfixed (to_slv (acpsubpage0 (9 downto 0)), sfixed10'high, sfixed10'low), acpsubpage0);
-		vout2 := resize (acpsubpage0, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (acpsubpage0, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -2502,7 +2501,7 @@ when idle =>
 	when s245 =>
 		if (fixed2floatrdy = '1') then state := s246;
 			acpsubpage0_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -2516,7 +2515,7 @@ when idle =>
 	when s247 =>
 		if (divfprdy = '1') then state := s248;
 			acpsubpage0_ft := divfpr;
-			o_out1 <= divfpr;
+			--o_To <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -2531,7 +2530,7 @@ when idle =>
 	when s249 =>
 		if (fixed2floatrdy = '1') then state := s250;
 			const2pow7_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -2540,10 +2539,10 @@ when idle =>
 		fixed2floatsclr <= '0';
 		eeprom16slv := i_ee0x2439 and x"fc00";
 		cpp1p0ratio := resize (to_sfixed (eeprom16slv, eeprom16sf), cpp1p0ratio);
-		vout2 := resize (cpp1p0ratio, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (cpp1p0ratio, st_sfixed_max'high, st_sfixed_max'low);
 		cpp1p0ratio := cpp1p0ratio srl 10;
 		cpp1p0ratio := resize (to_sfixed (to_slv (cpp1p0ratio (5 downto 0)), sfixed6'high, sfixed6'low), cpp1p0ratio);
-		vout2 := resize (cpp1p0ratio, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (cpp1p0ratio, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -2552,7 +2551,7 @@ when idle =>
 	when s251 =>
 		if (fixed2floatrdy = '1') then state := s252;
 			cpp1p0ratio_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -2566,7 +2565,7 @@ when idle =>
 	when s253 =>
 		if (divfprdy = '1') then state := s254;
 			acpsubpage1_ft := divfpr;
-			o_out1 <= divfpr;
+			--o_To <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -2580,7 +2579,7 @@ when idle =>
 	when s255 =>
 		if (addfprdy = '1') then state := s256;
 			acpsubpage1_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -2594,7 +2593,7 @@ when idle =>
 	when s257 =>
 		if (mulfprdy = '1') then state := s258;
 			acpsubpage1_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -2603,10 +2602,10 @@ when idle =>
 		mulfpsclr <= '0';
 		eeprom16slv := i_ee0x243c and x"ff00";
 		kstaee := resize (to_sfixed (eeprom16slv, eeprom16sf), kstaee);
-		vout2 := resize (kstaee, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (kstaee, st_sfixed_max'high, st_sfixed_max'low);
 		kstaee := kstaee srl 8;
 		kstaee := resize (to_sfixed (to_slv (kstaee (7 downto 0)), sfixed8'high, sfixed8'low), kstaee);
-		vout2 := resize (kstaee, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (kstaee, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -2615,7 +2614,7 @@ when idle =>
 	when s259 =>
 		if (fixed2floatrdy = '1') then state := s260;
 			kstaee_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -2629,7 +2628,7 @@ when idle =>
 	when s261 =>
 		if (divfprdy = '1') then state := s262;
 			ksta_ft := divfpr;
-			o_out1 <= divfpr;
+			--o_To <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -2638,7 +2637,7 @@ when idle =>
 		divfpsclr <= '0';
 		eeprom16slv := i_ee0x2421 and x"ffff";
 		areference := resize (to_sfixed (eeprom16slv, eeprom16sf), areference);
-		vout2 := resize (areference, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (areference, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -2647,7 +2646,7 @@ when idle =>
 	when s263 =>
 		if (fixed2floatrdy = '1') then state := s264;
 			areference_ft := fixed2floatr; -- 12100
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -2662,7 +2661,7 @@ when idle =>
 	when s265 =>
 		if (fixed2floatrdy = '1') then state := s266;
 			const30_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -2671,10 +2670,10 @@ when idle =>
 		fixed2floatsclr <= '0';
 		eeprom16slv := i_ee0x2420 and x"f000"; -- val same as ascalecp ee0x2420&0xf000
 		ascale := resize (to_sfixed (eeprom16slv, eeprom16sf), ascale);
-		vout2 := resize (ascale, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (ascale, st_sfixed_max'high, st_sfixed_max'low);
 		ascale := ascale srl 12;
 		ascale := resize (to_sfixed (to_slv (ascale (3 downto 0)), sfixed4'high, sfixed4'low), ascale);
-		vout2 := resize (ascale, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (ascale, st_sfixed_max'high, st_sfixed_max'low);
 --		ascale := resize (to_sfixed (to_slv (ascale), sfixed16'high, sfixed16'low), ascale);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -2684,7 +2683,7 @@ when idle =>
 	when s267 =>
 		if (fixed2floatrdy = '1') then state := s268;
 			ascale_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -2698,7 +2697,7 @@ when idle =>
 	when s269 =>
 		if (addfprdy = '1') then state := s270;
 			ascale_ft := addfpr; -- 37
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -2711,7 +2710,7 @@ when idle =>
 	when s271 =>
 		if (float2fixedrdy = '1') then state := s272;
 			ascale := to_sfixed (float2fixedr, st_sfixed_max'high, st_sfixed_max'low);
-			vout2 := resize (ascale, st_sfixed_max'high, st_sfixed_max'low);
+			--vout2 := resize (ascale, st_sfixed_max'high, st_sfixed_max'low);
 			float2fixedce <= '0';
 			float2fixedond <= '0';
 			float2fixedsclr <= '1';
@@ -2723,13 +2722,13 @@ when idle =>
 		--wait
 	when s274 => state := s275;
 		ascale_ft := mem_float2powerN_2powerN2; -- 2^ascale
-		o_out1 <= ascale_ft;
+		--o_To <= ascale_ft;
 		eeprom16slv := i_ee0x2424 and x"f000";
 		accrow12 := resize (to_sfixed (eeprom16slv, eeprom16sf), accrow12);
-		vout2 := resize (accrow12, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (accrow12, st_sfixed_max'high, st_sfixed_max'low);
 		accrow12 := accrow12 srl 12;
 		accrow12 := resize (to_sfixed (to_slv (accrow12 (3 downto 0)), sfixed4'high, sfixed4'low), accrow12);
-		vout2 := resize (accrow12, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (accrow12, st_sfixed_max'high, st_sfixed_max'low);
 --		accrow12 := resize (to_sfixed (to_slv (accrow12), sfixed16'high, sfixed16'low), accrow12);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -2739,7 +2738,7 @@ when idle =>
 	when s275 =>
 		if (fixed2floatrdy = '1') then state := s276;
 			accrow12_ft := fixed2floatr; -- 3
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -2748,10 +2747,10 @@ when idle =>
 		fixed2floatsclr <= '0';
 		eeprom16slv := i_ee0x242b and x"f000";
 		acccolumn16 := resize (to_sfixed (eeprom16slv, eeprom16sf), acccolumn16);
-		vout2 := resize (acccolumn16, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (acccolumn16, st_sfixed_max'high, st_sfixed_max'low);
 		acccolumn16 := acccolumn16 srl 12;
 		acccolumn16 := resize (to_sfixed (to_slv (acccolumn16 (3 downto 0)), sfixed4'high, sfixed4'low), acccolumn16);
-		vout2 := resize (acccolumn16, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (acccolumn16, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -2760,7 +2759,7 @@ when idle =>
 	when s277 =>
 		if (fixed2floatrdy = '1') then state := s278;
 			acccolumn16_ft := fixed2floatr; -- 3
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -2769,10 +2768,10 @@ when idle =>
 		fixed2floatsclr <= '0';
 		eeprom16slv := i_ee0x258f and x"03f0";
 		apixel1216 := resize (to_sfixed (eeprom16slv, eeprom16sf), apixel1216);
-		vout2 := resize (apixel1216, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (apixel1216, st_sfixed_max'high, st_sfixed_max'low);
 		apixel1216 := apixel1216 srl 4;
 		apixel1216 := resize (to_sfixed (to_slv (apixel1216 (5 downto 0)), sfixed6'high, sfixed6'low), apixel1216);
-		vout2 := resize (apixel1216, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (apixel1216, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -2781,7 +2780,7 @@ when idle =>
 	when s279 =>
 		if (fixed2floatrdy = '1') then state := s280;
 			apixel1216_ft := fixed2floatr; -- 10
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -2790,39 +2789,39 @@ when idle =>
 		fixed2floatsclr <= '0';
 		eeprom16slv := i_ee0x2420 and x"0f00";
 		accscalerow := resize (to_ufixed (eeprom16slv, eeprom16uf), accscalerow);
-		vout3 := resize (accscalerow, st_ufixed_max'high, st_ufixed_max'low);
+		--vout3 := resize (accscalerow, st_ufixed_max'high, st_ufixed_max'low);
 		accscalerow := accscalerow srl 8;
 		accscalerow := resize (to_ufixed (to_slv (accscalerow (3 downto 0)), ufixed4'high, ufixed4'low), accscalerow);
-		vout3 := resize (accscalerow, st_ufixed_max'high, st_ufixed_max'low);
+		--vout3 := resize (accscalerow, st_ufixed_max'high, st_ufixed_max'low);
 		mem_float2powerN_N1 <= std_logic_vector (to_unsigned (to_integer (accscalerow), 6)); -- 9
 	when s281 => state := s282;
 		-- wait
 	when s282 => state := s283;
 		accscalerow_ft := mem_float2powerN_2powerN1; -- 2^accscalerow 512
-		o_out1 <= accscalerow_ft;
+		--o_To <= accscalerow_ft;
 		eeprom16slv := i_ee0x2420 and x"00f0";
 		accscalecolumn := resize (to_ufixed (eeprom16slv, eeprom16uf), accscalecolumn);
-		vout3 := resize (accscalecolumn, st_ufixed_max'high, st_ufixed_max'low);
+		--vout3 := resize (accscalecolumn, st_ufixed_max'high, st_ufixed_max'low);
 		accscalecolumn := accscalecolumn srl 4;
 		accscalecolumn := resize (to_ufixed (to_slv (accscalecolumn (3 downto 0)), ufixed4'high, ufixed4'low), accscalecolumn);
-		vout3 := resize (accscalecolumn, st_ufixed_max'high, st_ufixed_max'low);
+		--vout3 := resize (accscalecolumn, st_ufixed_max'high, st_ufixed_max'low);
 		mem_float2powerN_N2 <= std_logic_vector (to_unsigned (to_integer (accscalecolumn), 6)); -- 10
 	when s283 => state := s284;
 		-- wait
 	when s284 => state := s285;
 		accscalecolumn_ft := mem_float2powerN_2powerN2; -- 2^accscalecolumn 1024
-		o_out1 <= accscalecolumn_ft;
+		--o_To <= accscalecolumn_ft;
 		eeprom16slv := i_ee0x2420 and x"000f";
 		accscaleremnant := resize (to_ufixed (eeprom16slv, eeprom16uf), accscaleremnant);
-		vout3 := resize (accscaleremnant, st_ufixed_max'high, st_ufixed_max'low);
+		--vout3 := resize (accscaleremnant, st_ufixed_max'high, st_ufixed_max'low);
 		accscaleremnant := resize (to_ufixed (to_slv (accscaleremnant (3 downto 0)), ufixed4'high, ufixed4'low), accscaleremnant);
-		vout3 := resize (accscaleremnant, st_ufixed_max'high, st_ufixed_max'low);
+		--vout3 := resize (accscaleremnant, st_ufixed_max'high, st_ufixed_max'low);
 		mem_float2powerN_N1 <= std_logic_vector (to_unsigned (to_integer (accscaleremnant), 6)); -- 6
 	when s285 => state := s286;
 		-- wait
 	when s286 => state := s287;
 		accscaleremnant_ft := mem_float2powerN_2powerN1; -- 2^accscaleremnant 64
-		o_out1 <= accscaleremnant_ft;
+		--o_To <= accscaleremnant_ft;
 		mulfpce <= '1';
 		mulfpa <= apixel1216_ft;
 		mulfpb <= accscaleremnant_ft;
@@ -2830,7 +2829,7 @@ when idle =>
 	when s287 =>
 		if (mulfprdy = '1') then state := s288;
 			fttmp1_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -2844,7 +2843,7 @@ when idle =>
 	when s289 =>
 		if (mulfprdy = '1') then state := s290;
 			fttmp2_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -2858,7 +2857,7 @@ when idle =>
 	when s291 =>
 		if (addfprdy = '1') then state := s292;
 			fttmp1_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -2872,7 +2871,7 @@ when idle =>
 	when s293 =>
 		if (mulfprdy = '1') then state := s294;
 			fttmp2_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -2886,7 +2885,7 @@ when idle =>
 	when s295 =>
 		if (addfprdy = '1') then state := s296;
 			a1216_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -2900,7 +2899,7 @@ when idle =>
 	when s297 =>
 		if (addfprdy = '1') then state := s298;
 			a1216_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -2914,7 +2913,7 @@ when idle =>
 	when s299 =>
 		if (divfprdy = '1') then state := s300;
 			a1216_ft := divfpr; -- 1.26223312690854e-07
-			o_out1 <= divfpr;
+			--o_To <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -2928,7 +2927,7 @@ when idle =>
 	when s301 =>
 		if (mulfprdy = '1') then state := s302;
 			fttmp1_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -2942,7 +2941,7 @@ when idle =>
 	when s303 =>
 		if (subfprdy = '1') then state := s304;
 			pattern_ft := subfpr;
-			o_out1 <= subfpr;
+			--o_To <= subfpr;
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -2956,7 +2955,7 @@ when idle =>
 	when s305 =>
 		if (mulfprdy = '1') then state := s306;
 			fttmp2_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -2970,7 +2969,7 @@ when idle =>
 	when s307 =>
 		if (addfprdy = '1') then state := s308;
 			acomp1216_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -2984,7 +2983,7 @@ when idle =>
 	when s309 =>
 		if (mulfprdy = '1') then state := s310;
 			acomp1216_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -2998,7 +2997,7 @@ when idle =>
 	when s311 =>
 		if (subfprdy = '1') then state := s312;
 			acomp1216_ft := subfpr;
-			o_out1 <= subfpr;
+			--o_To <= subfpr;
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -3012,7 +3011,7 @@ when idle =>
 	when s313 =>
 		if (mulfprdy = '1') then state := s314;
 			fttmp1_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -3026,7 +3025,7 @@ when idle =>
 	when s315 =>
 		if (addfprdy = '1') then state := s316;
 			fttmp1_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -3040,7 +3039,7 @@ when idle =>
 	when s317 =>
 		if (mulfprdy = '1') then state := s318;
 			acomp1216_ft := mulfpr;
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -3049,11 +3048,11 @@ when idle =>
 		mulfpsclr <= '0';
 		eeprom16slv := i_ee0x243d and x"ff00";
 		ksto2ee := resize (to_sfixed (eeprom16slv, eeprom16sf), ksto2ee);
-		vout2 := resize (ksto2ee, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (ksto2ee, st_sfixed_max'high, st_sfixed_max'low);
 		ksto2ee := ksto2ee srl 8;
-		vout2 := resize (ksto2ee, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (ksto2ee, st_sfixed_max'high, st_sfixed_max'low);
 		ksto2ee := resize (to_sfixed (to_slv (ksto2ee (7 downto 0)), sfixed8'high, sfixed8'low), ksto2ee);
-		vout2 := resize (ksto2ee, st_sfixed_max'high, st_sfixed_max'low);
+		--vout2 := resize (ksto2ee, st_sfixed_max'high, st_sfixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -3062,7 +3061,7 @@ when idle =>
 	when s319 =>
 		if (fixed2floatrdy = '1') then state := s320;
 			ksto2ee_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -3071,9 +3070,9 @@ when idle =>
 		fixed2floatsclr <= '0';
 		eeprom16slv := i_ee0x243f and x"000f";
 		kstoscale := resize (to_ufixed (eeprom16slv, eeprom16uf), kstoscale);
-		vout3 := resize (kstoscale, st_ufixed_max'high, st_ufixed_max'low);
+		--vout3 := resize (kstoscale, st_ufixed_max'high, st_ufixed_max'low);
 		kstoscale := resize (to_ufixed (to_slv (kstoscale (3 downto 0)), ufixed4'high, ufixed4'low), kstoscale);
-		vout3 := resize (kstoscale, st_ufixed_max'high, st_ufixed_max'low);
+		--vout3 := resize (kstoscale, st_ufixed_max'high, st_ufixed_max'low);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= 
@@ -3082,7 +3081,7 @@ when idle =>
 	when s321 =>
 		if (fixed2floatrdy = '1') then state := s322;
 			kstoscale_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -3096,7 +3095,7 @@ when idle =>
 	when s323 =>
 		if (addfprdy = '1') then state := s324;
 			kstoscale_ft := addfpr;
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -3109,8 +3108,8 @@ when idle =>
 	when s325 =>
 		if (float2fixedrdy = '1') then state := s326;
 			kstoscale := to_ufixed (float2fixedr, st_ufixed_max'high, st_ufixed_max'low);
---			vout2 := resize (kstoscale, st_ufixed_max'high, st_ufixed_max'low);
-			vout3 := resize (kstoscale, vout3);
+--			--vout2 := resize (kstoscale, st_ufixed_max'high, st_ufixed_max'low);
+			--vout3 := resize (kstoscale, --vout3);
 			float2fixedce <= '0';
 			float2fixedond <= '0';
 			float2fixedsclr <= '1';
@@ -3122,7 +3121,7 @@ when idle =>
 		-- wait
 	when s328 => state := s329;
 		kstoscale_ft := mem_float2powerN_2powerN1; -- 2^kstoscale 2^17
-		o_out1 <= accscalecolumn_ft;
+		--o_To <= accscalecolumn_ft;
 		divfpce <= '1';
 		divfpa <= ksto2ee_ft;
 		divfpb <= kstoscale_ft;
@@ -3130,7 +3129,7 @@ when idle =>
 	when s329 =>
 		if (divfprdy = '1') then state := s330;
 			ksto2_ft := divfpr; -- -0.00080108642578125
-			o_out1 <= divfpr;
+			--o_To <= divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -3146,7 +3145,7 @@ when idle =>
 	when s331 =>
 		if (fixed2floatrdy = '1') then state := s332;
 			k27315_ft := fixed2floatr;
-			o_out1 <= fixed2floatr;
+			--o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
@@ -3161,7 +3160,7 @@ when idle =>
 	when s333 =>
 		if (addfprdy = '1') then state := s334;
 			fttmp1_ft := addfpr; -- 312.334
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -3176,7 +3175,7 @@ when idle =>
 	when s335 =>
 		if (mulfprdy = '1') then state := s336;
 			fttmp2_ft := mulfpr; -- 312.334 ^2
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -3191,7 +3190,7 @@ when idle =>
 	when s337 =>
 		if (mulfprdy = '1') then state := s338;
 			fttmp2_ft := mulfpr; -- 312.334 ^3
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -3206,7 +3205,7 @@ when idle =>
 	when s339 =>
 		if (mulfprdy = '1') then state := s340;
 			tak4_ft := mulfpr; -- 312.334 ^4 9516495632.56
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -3221,7 +3220,7 @@ when idle =>
 	when s341 =>
 		if (subfprdy = '1') then state := s342;
 			trk4_ft := subfpr;
-			o_out1 <= subfpr;
+			--o_To <= subfpr;
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -3236,7 +3235,7 @@ when idle =>
 	when s343 =>
 		if (addfprdy = '1') then state := s344;
 			fttmp1_ft := addfpr; -- ta-8+273.15
-			o_out1 <= addfpr;
+			--o_To <= addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -3251,7 +3250,7 @@ when idle =>
 	when s345 =>
 		if (mulfprdy = '1') then state := s346;
 			fttmp2_ft := mulfpr; -- trk4^2 
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -3266,7 +3265,7 @@ when idle =>
 	when s347 =>
 		if (mulfprdy = '1') then state := s348;
 			fttmp2_ft := mulfpr; -- trk4^3
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -3281,7 +3280,7 @@ when idle =>
 	when s349 =>
 		if (mulfprdy = '1') then state := s350;
 			trk4_ft := mulfpr; -- trk4^4 8557586214.66
-			o_out1 <= mulfpr;
+			--o_To <= mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -3315,7 +3314,7 @@ when idle =>
 				when s353 =>
 					if (mulfprdy = '1') then state := s354;
 						acomp1216_pow3_ft := mulfpr; -- acomp**3 float
-						o_out1 <= mulfpr;
+						--o_To <= mulfpr;
 						mulfpce <= '0';
 						mulfpond <= '0';
 						mulfpsclr <= '1';
@@ -3331,7 +3330,7 @@ when idle =>
 				when s355 =>
 					if (mulfprdy = '1') then state := s356;
 						acomp1216_pow4_ft := mulfpr; -- acomp**4 float
-						o_out1 <= mulfpr;
+						--o_To <= mulfpr;
 						mulfpce <= '0';
 						mulfpond <= '0';
 						mulfpsclr <= '1';
@@ -3348,7 +3347,7 @@ when idle =>
 				when s357 =>
 					if (mulfprdy = '1') then state := s358;
 						fttmp1_ft := mulfpr; -- acomp**3*vircomp float
-						o_out1 <= mulfpr;
+						--o_To <= mulfpr;
 						mulfpce <= '0';
 						mulfpond <= '0';
 						mulfpsclr <= '1';
@@ -3365,7 +3364,7 @@ when idle =>
 				when s359 =>
 					if (mulfprdy = '1') then state := s360;
 						fttmp2_ft := mulfpr; -- acomp**4*tak4 float , tar=tak , emissivity=1
-						o_out1 <= fttmp2_ft;
+						--o_To <= fttmp2_ft;
 						mulfpce <= '0';
 						mulfpond <= '0';
 						mulfpsclr <= '1';
@@ -3382,7 +3381,7 @@ when idle =>
 				when s361 =>
 					if (addfprdy = '1') then state := s362;
 						fttmp1_ft := addfpr; -- (acomp1216^3*vir1216compensated)+(acomp1216^4*tar) float , tar=tak4
-						o_out1 <= addfpr;
+						--o_To <= addfpr;
 						addfpce <= '0';
 						addfpond <= '0';
 						addfpsclr <= '1';
@@ -3397,7 +3396,7 @@ when idle =>
 				when s363 =>
 					if (sqrtfp2rdy = '1') then state := s364;
 						fttmp1_ft := sqrtfp2r; -- sqrt2(acomp+ta) float
-						o_out1 <= fttmp1_ft;
+						--o_To <= fttmp1_ft;
 						sqrtfp2ce <= '0';
 						sqrtfp2ond <= '0';
 						sqrtfp2sclr <= '1';
@@ -3410,7 +3409,7 @@ when idle =>
 				when s365 =>
 					if (sqrtfp2rdy = '1') then state := s366;
 						fttmp1_ft := sqrtfp2r; -- sqrt2(sqrt2(acomp+ta)) float
-						o_out1 <= fttmp1_ft;
+						--o_To <= fttmp1_ft;
 						sqrtfp2ce <= '0';
 						sqrtfp2ond <= '0';
 						sqrtfp2sclr <= '1';
@@ -3428,7 +3427,7 @@ when idle =>
 					if (mulfprdy = '1') then state := s368;
 --						sx1216 := mulfpr; -- sqrt4(acomp*ta)*ksto2 float
 						fttmp1_ft := mulfpr; -- sqrt4(acomp*ta)*ksto2 float
-						o_out1 <= fttmp1_ft;
+						--o_To <= fttmp1_ft;
 						mulfpce <= '0';
 						mulfpond <= '0';
 						mulfpsclr <= '1';
@@ -3443,7 +3442,7 @@ when idle =>
 				when s369 =>
 					if (mulfprdy = '1') then state := s370;
 						fttmp2_ft := mulfpr;
-						o_out1 <= mulfpr;
+						--o_To <= mulfpr;
 						mulfpce <= '0';
 						mulfpond <= '0';
 						mulfpsclr <= '1';
@@ -3458,7 +3457,7 @@ when idle =>
 				when s371 =>
 					if (subfprdy = '1') then state := s372;
 						fttmp2_ft := subfpr;
-						o_out1 <= subfpr;
+						--o_To <= subfpr;
 						subfpce <= '0';
 						subfpond <= '0';
 						subfpsclr <= '1';
@@ -3473,7 +3472,7 @@ when idle =>
 				when s373 =>
 					if (mulfprdy = '1') then state := s374;
 						fttmp2_ft := mulfpr;
-						o_out1 <= fttmp2_ft;
+						--o_To <= fttmp2_ft;
 						mulfpce <= '0';
 						mulfpond <= '0';
 						mulfpsclr <= '1';
@@ -3488,7 +3487,7 @@ when idle =>
 				when s375 =>
 					if (addfprdy = '1') then state := s376;
 						fttmp1_ft := addfpr; -- +sx1216
-						o_out1 <= fttmp1_ft;
+						--o_To <= fttmp1_ft;
 						addfpce <= '0';
 						addfpond <= '0';
 						addfpsclr <= '1';
@@ -3504,7 +3503,7 @@ when idle =>
 					if (divfprdy = '1') then state := s378;
 						fttmp1_ft := divfpr;
 						--report "vircomp/(acomp*(1-ksto2*273.15)+Sx) real " & real'image (ap_slv2fp (ksto2_f));
-						o_out1 <= fttmp1_ft;
+						--o_To <= fttmp1_ft;
 						divfpce <= '0';
 						divfpond <= '0';
 						divfpsclr <= '1';
@@ -3520,7 +3519,7 @@ when idle =>
 					if (addfprdy = '1') then state := s380;
 						fttmp1_ft := addfpr;
 						--report "vircomp/(acomp*(1-ksto2*273.15)+Sx)+ta real " & real'image (ap_slv2fp (ksto2_f));
-						o_out1 <= fttmp1_ft;
+						--o_To <= fttmp1_ft;
 						addfpce <= '0';
 						addfpond <= '0';
 						addfpsclr <= '1';
@@ -3535,7 +3534,7 @@ when idle =>
 					if (sqrtfp2rdy = '1') then state := s382;
 						fttmp1_ft := sqrtfp2r;
 						--report "sqrt(vircomp/(acomp*(1-ksto2*273.15)+Sx)+ta) real " & real'image (ap_slv2fp (ksto2_f));
-						o_out1 <= fttmp1_ft;
+						--o_To <= fttmp1_ft;
 						sqrtfp2ce <= '0';
 						sqrtfp2ond <= '0';
 						sqrtfp2sclr <= '1';
@@ -3550,7 +3549,7 @@ when idle =>
 					if (sqrtfp2rdy = '1') then state := s384;
 						fttmp1_ft := sqrtfp2r;
 						--report "sqrt(sqrt(vircomp/(acomp*(1-ksto2*273.15)+Sx)+ta)) real " & real'image (ap_slv2fp (ksto2_f));
-						o_out1 <= fttmp1_ft;
+						--o_To <= fttmp1_ft;
 						sqrtfp2ce <= '0';
 						sqrtfp2ond <= '0';
 						sqrtfp2sclr <= '1';
@@ -3566,14 +3565,15 @@ when idle =>
 					if (subfprdy = '1') then state := s386;
 						fttmp1_ft := subfpr;
 						--report "sqrt(sqrt(vircomp/(acomp*(1-ksto2*273.15)+Sx)+ta))-273.15 real " & real'image (ap_slv2fp (ksto2_f));
-						o_out1 <= fttmp1_ft;
+						--o_To <= fttmp1_ft;
 						subfpce <= '0';
 						subfpond <= '0';
 						subfpsclr <= '1';
 					else state := s385; end if;
-				when s386 =>
+				when s386 => state := s387;
 					subfpsclr <= '0';
-					o_out1 <= fttmp1_ft;
+					o_To <= fttmp1_ft;
+				when s387 =>
 rdyrecover <= '1';
 
 					report "end calc" severity failure;

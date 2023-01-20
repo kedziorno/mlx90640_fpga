@@ -59,32 +59,25 @@ i_ee0x258f : in slv16;
 i_ee0x243d : in slv16;
 i_ee0x243f : in slv16;
 i_pixelpattern : in slv10;
-o_out1 : out fd2ft;
-o_rdy : out std_logic;
-o_out2 : out st_sfixed_max;
-o_out3 : out st_ufixed_max
+o_To : out fd2ft;
+o_rdy : out std_logic
 );
 end component test_fixed_melexis;
 
 SIGNAL i_clock :  std_logic;
 SIGNAL i_reset :  std_logic;
 SIGNAL i_run :  std_logic;
-SIGNAL o_out1 :  fd2ft;
+SIGNAL o_To : fd2ft;
 SIGNAL o_rdy,o_rdyp :  std_logic;
-SIGNAL o_out2 : st_sfixed_max;
-SIGNAL o_out3 : st_ufixed_max;
 
 constant clock_period : time := 500 ns;
 constant G_C_WAIT1 : integer := 16;
 
 signal out1r : real;
-signal out2r_s,out2r_u : real;
 
 BEGIN
 
-out1r <= ap_slv2fp (o_out1);
-out2r_s <= to_real (o_out2);
-out2r_u <= to_real (o_out3);
+out1r <= ap_slv2fp (o_To);
 
 -- Component Instantiation
 uut : test_fixed_melexis 
@@ -127,9 +120,8 @@ i_ee0x258f => x"08a0",
 i_ee0x243d => x"9797",
 i_ee0x243f => x"2889",
 i_pixelpattern => std_logic_vector (to_unsigned (368, 10)), -- px 12,16
-o_out1 => o_out1,
-o_rdy => o_rdy,
-o_out2 => o_out2
+o_To => o_To,
+o_rdy => o_rdy
 );
 
 cp : process
@@ -156,7 +148,7 @@ begin
 		vout := (others => '0');
 	elsif rising_edge(i_clock) then
 		o_rdyp <= o_rdy;
-		vout := o_out1;
+		vout := o_To;
 		if (o_rdyp = '0' and o_rdy = '1') then
 --			report_error_normalize ("sfixed", o_out2, to_sfixed (0.0, st_sfixed_max_expected'high, st_sfixed_max_expected'low));
 			case (state) is
