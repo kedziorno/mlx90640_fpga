@@ -385,6 +385,7 @@ else
 		variable fracbs : fracbs;
 		variable fracau : fracau;
 		variable fracbu : fracbu;
+		variable outTo : fd2ft;
 	begin
 		if (rising_edge(i_clock)) then
 			if (i_reset = '1') then
@@ -397,7 +398,7 @@ else
 --				report "fp_div_hi : " & integer'image(st_sfixed_div'high);
 --				report "fp_div_lo : " & integer'image(st_sfixed_div'low);
 				state := idle;
-				o_To <= (others => '0');
+				outTo := (others => '0');
 				-- reset
 				fixed2floatsclr <= '1';
 				float2fixedsclr <= '1';
@@ -3485,7 +3486,7 @@ when idle =>
 					else state := s385; end if;
 				when s386 => state := s387;
 					subfpsclr <= '0';
-					o_To <= fttmp1_ft;
+					outTo := fttmp1_ft;
 				when s387 =>
 rdyrecover <= '1';
 
@@ -3496,7 +3497,7 @@ rdyrecover <= '1';
 -----
 
 when others => null;
-end case; end if; end if;
+end case; o_To <= outTo; end if; end if;
 end process tester;
 
 float2fixedclk <= i_clock;
