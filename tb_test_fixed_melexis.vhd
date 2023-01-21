@@ -58,7 +58,7 @@ i_ee0x242b : in slv16;
 i_ee0x258f : in slv16;
 i_ee0x243d : in slv16;
 i_ee0x243f : in slv16;
-i_pixelpattern : in slv10;
+i_pixelpattern : in slv14;
 o_To : out fd2ft;
 o_rdy : out std_logic
 );
@@ -119,7 +119,7 @@ i_ee0x242b => x"3333",
 i_ee0x258f => x"08a0",
 i_ee0x243d => x"9797",
 i_ee0x243f => x"2889",
-i_pixelpattern => std_logic_vector (to_unsigned (368, 10)), -- px 12,16
+i_pixelpattern => std_logic_vector (to_unsigned (368, 14)), -- px 12,16
 o_To => o_To,
 o_rdy => o_rdy
 );

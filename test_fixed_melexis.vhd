@@ -73,7 +73,7 @@ i_ee0x242b : in slv16;
 i_ee0x258f : in slv16;
 i_ee0x243d : in slv16;
 i_ee0x243f : in slv16;
-i_pixelpattern : in slv10; -- 12x16
+i_pixelpattern : in slv14; -- 12x16
 -----
 o_To : out fd2ft; -- output Temp
 o_rdy : out std_logic
@@ -299,14 +299,14 @@ component mem_switchpattern is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
-i_pixel : in std_logic_vector (9 downto 0);
+i_pixel : in std_logic_vector (13 downto 0);
 o_pattern : out std_logic
 );
 end component mem_switchpattern;
 
 signal mem_switchpattern_clock : std_logic;
 signal mem_switchpattern_reset : std_logic;
-signal mem_switchpattern_pixel : std_logic_vector (9 downto 0);
+signal mem_switchpattern_pixel : std_logic_vector (13 downto 0);
 signal mem_switchpattern_pattern : std_logic;
 
 signal rdyrecover : std_logic; -- signal for tb when rdy not appear

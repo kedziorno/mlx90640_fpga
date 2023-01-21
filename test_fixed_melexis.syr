@@ -5,14 +5,14 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.05 secs
+Total CPU time to Xst completion: 0.06 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.05 secs
+Total CPU time to Xst completion: 0.06 secs
  
 --> 
 WARNING:Xst:1583 - You are using an internal switch '-use_new_parser'.
@@ -190,10 +190,8 @@ Elaborating entity <subfp> (architecture <subfp_a>) from library <work>.
 Elaborating entity <sqrtfp2> (architecture <sqrtfp2_a>) from library <work>.
 
 Elaborating entity <mem_float2powerN> (architecture <Behavioral>) from library <work>.
-WARNING:HDLCompiler:89 - "/home/user/workspace/melexis_mlx90641/mem_float2powerN.vhd" Line 43: <ramb16> remains a black-box since it has no binding entity.
 
 Elaborating entity <mem_switchpattern> (architecture <Behavioral>) from library <work>.
-WARNING:HDLCompiler:89 - "/home/user/workspace/melexis_mlx90641/mem_switchpattern.vhd" Line 43: <ramb16> remains a black-box since it has no binding entity.
 
 =========================================================================
 *                           HDL Synthesis                               *
@@ -330,7 +328,7 @@ INFO:Xst:3210 - "/home/user/workspace/melexis_mlx90641/test_fixed_melexis.vhd" l
     Found 32-bit register for signal <tester.pixoscpsp1_ft>.
     Found 32-bit register for signal <tester.tgcee_ft>.
     Found 32-bit register for signal <tester.tgc_ft>.
-    Found 10-bit register for signal <mem_switchpattern_pixel>.
+    Found 14-bit register for signal <mem_switchpattern_pixel>.
     Found 32-bit register for signal <tester.pattern_ft>.
     Found 32-bit register for signal <tester.vir1216compensated_ft>.
     Found 64-bit register for signal <tester.ascalecp>.
@@ -384,30 +382,20 @@ INFO:Xst:3210 - "/home/user/workspace/melexis_mlx90641/test_fixed_melexis.vhd" l
     Found 37-bit adder for signal <GND_9_o_GND_9_o_add_372_OUT> created at line 1241.
     Summary:
 	inferred   5 Adder/Subtractor(s).
-	inferred 3695 D-type flip-flop(s).
+	inferred 3699 D-type flip-flop(s).
 	inferred 388 Multiplexer(s).
 	inferred   1 Finite State Machine(s).
 Unit <test_fixed_melexis> synthesized.
 
 Synthesizing Unit <mem_float2powerN>.
     Related source file is "/home/user/workspace/melexis_mlx90641/mem_float2powerN.vhd".
-INFO:Xst:3210 - "/home/user/workspace/melexis_mlx90641/mem_float2powerN.vhd" line 176: Output port <DOB> of the instance <inst_mem_float2powerN> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/workspace/melexis_mlx90641/mem_float2powerN.vhd" line 176: Output port <DOPA> of the instance <inst_mem_float2powerN> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/workspace/melexis_mlx90641/mem_float2powerN.vhd" line 176: Output port <DOPB> of the instance <inst_mem_float2powerN> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/workspace/melexis_mlx90641/mem_float2powerN.vhd" line 176: Output port <CASCADEOUTA> of the instance <inst_mem_float2powerN> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/workspace/melexis_mlx90641/mem_float2powerN.vhd" line 176: Output port <CASCADEOUTB> of the instance <inst_mem_float2powerN> is unconnected or connected to loadless signal.
     Summary:
 	no macro.
 Unit <mem_float2powerN> synthesized.
 
 Synthesizing Unit <mem_switchpattern>.
     Related source file is "/home/user/workspace/melexis_mlx90641/mem_switchpattern.vhd".
-INFO:Xst:3210 - "/home/user/workspace/melexis_mlx90641/mem_switchpattern.vhd" line 176: Output port <DOB> of the instance <inst_mem_switchpattern> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/workspace/melexis_mlx90641/mem_switchpattern.vhd" line 176: Output port <DOPA> of the instance <inst_mem_switchpattern> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/workspace/melexis_mlx90641/mem_switchpattern.vhd" line 176: Output port <DOPB> of the instance <inst_mem_switchpattern> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/workspace/melexis_mlx90641/mem_switchpattern.vhd" line 176: Output port <CASCADEOUTA> of the instance <inst_mem_switchpattern> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/workspace/melexis_mlx90641/mem_switchpattern.vhd" line 176: Output port <CASCADEOUTB> of the instance <inst_mem_switchpattern> is unconnected or connected to loadless signal.
-    Found 11-bit subtractor for signal <n0005[10:0]> created at line 171.
+    Found 12-bit subtractor for signal <pixel<13:2>> created at line 44.
     Summary:
 	inferred   1 Adder/Subtractor(s).
 Unit <mem_switchpattern> synthesized.
@@ -417,11 +405,11 @@ HDL Synthesis Report
 
 Macro Statistics
 # Adders/Subtractors                                   : 6
- 11-bit subtractor                                     : 1
+ 12-bit subtractor                                     : 1
  37-bit adder                                          : 5
 # Registers                                            : 136
  1-bit register                                        : 25
- 10-bit register                                       : 1
+ 14-bit register                                       : 1
  32-bit register                                       : 102
  6-bit register                                        : 2
  64-bit register                                       : 6
@@ -455,16 +443,18 @@ Loading core <mulfp> for timing and area information for instance <inst_mulfp>.
 Loading core <addfp> for timing and area information for instance <inst_addfp>.
 Loading core <subfp> for timing and area information for instance <inst_subfp>.
 Loading core <sqrtfp2> for timing and area information for instance <inst_sqrtfp2>.
+WARNING:Xst:2677 - Node <mem_switchpattern_pixel_12> of sequential type is unconnected in block <test_fixed_melexis>.
+WARNING:Xst:2677 - Node <mem_switchpattern_pixel_13> of sequential type is unconnected in block <test_fixed_melexis>.
 
 =========================================================================
 Advanced HDL Synthesis Report
 
 Macro Statistics
 # Adders/Subtractors                                   : 6
- 11-bit subtractor                                     : 1
+ 12-bit subtractor                                     : 1
  37-bit adder                                          : 5
-# Registers                                            : 3695
- Flip-Flops                                            : 3695
+# Registers                                            : 3699
+ Flip-Flops                                            : 3699
 # Multiplexers                                         : 1756
  1-bit 2-to-1 multiplexer                              : 1430
  32-bit 2-to-1 multiplexer                             : 250
@@ -481,6 +471,8 @@ Macro Statistics
 *                         Low Level Synthesis                           *
 =========================================================================
 INFO:Xst:2261 - The FF/Latch <mem_float2powerN_reset1> in Unit <test_fixed_melexis> is equivalent to the following 2 FFs/Latches, which will be removed : <mem_float2powerN_reset2> <mem_switchpattern_reset> 
+WARNING:Xst:2677 - Node <mem_switchpattern_pixel_12> of sequential type is unconnected in block <test_fixed_melexis>.
+WARNING:Xst:2677 - Node <mem_switchpattern_pixel_13> of sequential type is unconnected in block <test_fixed_melexis>.
 Analyzing FSM <MFsm> for best encoding.
 Optimizing FSM <FSM_0> on signal <tester.state[1:388]> with one-hot encoding.
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -911,27 +903,27 @@ WARNING:Xst:2677 - Node <tester.kstoscale_31> of sequential type is unconnected 
 WARNING:Xst:2677 - Node <tester.kstoscale_32> of sequential type is unconnected in block <test_fixed_melexis>.
 WARNING:Xst:2677 - Node <tester.kstoscale_33> of sequential type is unconnected in block <test_fixed_melexis>.
 WARNING:Xst:2677 - Node <tester.kstoscale_34> of sequential type is unconnected in block <test_fixed_melexis>.
-INFO:Xst:2261 - The FF/Latch <fixed2floata_1> in Unit <test_fixed_melexis> is equivalent to the following 7 FFs/Latches, which will be removed : <fixed2floata_4> <fixed2floata_8> <fixed2floata_12> <fixed2floata_16> <fixed2floata_20> <fixed2floata_24> <fixed2floata_27> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_44> in Unit <test_fixed_melexis> is equivalent to the following 10 FFs/Latches, which will be removed : <fixed2floata_45> <fixed2floata_46> <fixed2floata_48> <fixed2floata_49> <fixed2floata_50> <fixed2floata_51> <fixed2floata_52> <fixed2floata_53> <fixed2floata_54> <fixed2floata_55> 
+INFO:Xst:2261 - The FF/Latch <fixed2floata_0> in Unit <test_fixed_melexis> is equivalent to the following 7 FFs/Latches, which will be removed : <fixed2floata_2> <fixed2floata_6> <fixed2floata_10> <fixed2floata_14> <fixed2floata_18> <fixed2floata_22> <fixed2floata_26> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_3> in Unit <test_fixed_melexis> is equivalent to the following 5 FFs/Latches, which will be removed : <fixed2floata_7> <fixed2floata_11> <fixed2floata_15> <fixed2floata_19> <fixed2floata_23> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_56> in Unit <test_fixed_melexis> is equivalent to the following 7 FFs/Latches, which will be removed : <fixed2floata_57> <fixed2floata_58> <fixed2floata_59> <fixed2floata_60> <fixed2floata_61> <fixed2floata_62> <fixed2floata_63> 
-INFO:Xst:2261 - The FF/Latch <fixed2floata_0> in Unit <test_fixed_melexis> is equivalent to the following 7 FFs/Latches, which will be removed : <fixed2floata_2> <fixed2floata_6> <fixed2floata_10> <fixed2floata_14> <fixed2floata_18> <fixed2floata_22> <fixed2floata_26> 
+INFO:Xst:2261 - The FF/Latch <fixed2floata_1> in Unit <test_fixed_melexis> is equivalent to the following 7 FFs/Latches, which will be removed : <fixed2floata_4> <fixed2floata_8> <fixed2floata_12> <fixed2floata_16> <fixed2floata_20> <fixed2floata_24> <fixed2floata_27> 
 
 Optimizing unit <test_fixed_melexis> ...
 INFO:Xst:2261 - The FF/Latch <subfpce> in Unit <test_fixed_melexis> is equivalent to the following FF/Latch, which will be removed : <subfpond> 
-INFO:Xst:2261 - The FF/Latch <mulfpce> in Unit <test_fixed_melexis> is equivalent to the following FF/Latch, which will be removed : <mulfpond> 
 INFO:Xst:2261 - The FF/Latch <divfpce> in Unit <test_fixed_melexis> is equivalent to the following FF/Latch, which will be removed : <divfpond> 
+INFO:Xst:2261 - The FF/Latch <mulfpce> in Unit <test_fixed_melexis> is equivalent to the following FF/Latch, which will be removed : <mulfpond> 
 
 Mapping all equations...
 Building and optimizing final netlist ...
-Found area constraint ratio of 100 (+ 5) on block test_fixed_melexis, actual ratio is 100.
+Found area constraint ratio of 100 (+ 5) on block test_fixed_melexis, actual ratio is 101.
 Optimizing block <test_fixed_melexis> to meet ratio 100 (+ 5) of 8672 slices :
 Area constraint is met for block <test_fixed_melexis>, final ratio is 98.
 INFO:Xst:2260 - The FF/Latch <blk00000087> in Unit <inst_mulfp> is equivalent to the following FF/Latch : <blk0000055b> 
 INFO:Xst:2260 - The FF/Latch <blk00000087> in Unit <inst_mulfp> is equivalent to the following FF/Latch : <blk0000055b> 
 FlipFlop tester.state_FSM_FFd136 has been replicated 1 time(s)
 FlipFlop tester.state_FSM_FFd16 has been replicated 1 time(s)
-FlipFlop tester.state_FSM_FFd168 has been replicated 1 time(s)
+FlipFlop tester.state_FSM_FFd172 has been replicated 1 time(s)
 FlipFlop tester.state_FSM_FFd176 has been replicated 1 time(s)
 FlipFlop tester.state_FSM_FFd24 has been replicated 1 time(s)
 FlipFlop tester.state_FSM_FFd8 has been replicated 1 time(s)
@@ -942,8 +934,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 4012
- Flip-Flops                                            : 4012
+# Registers                                            : 4014
+ Flip-Flops                                            : 4014
 
 =========================================================================
 
@@ -966,28 +958,28 @@ Top Level Output File Name         : test_fixed_melexis.ngc
 
 Primitive and Black Box Usage:
 ------------------------------
-# BELS                             : 19858
+# BELS                             : 19792
 #      GND                         : 8
-#      INV                         : 112
-#      LUT1                        : 225
-#      LUT2                        : 906
-#      LUT2_D                      : 47
-#      LUT2_L                      : 88
-#      LUT3                        : 3995
-#      LUT3_D                      : 264
-#      LUT3_L                      : 576
+#      INV                         : 122
+#      LUT1                        : 226
+#      LUT2                        : 963
+#      LUT2_D                      : 49
+#      LUT2_L                      : 120
+#      LUT3                        : 3959
+#      LUT3_D                      : 270
+#      LUT3_L                      : 705
 #      LUT4                        : 5623
-#      LUT4_D                      : 181
-#      LUT4_L                      : 1509
+#      LUT4_D                      : 121
+#      LUT4_L                      : 1336
 #      MULT_AND                    : 226
-#      MUXCY                       : 3498
-#      MUXF5                       : 487
+#      MUXCY                       : 3520
+#      MUXF5                       : 419
 #      MUXF6                       : 6
 #      MUXF7                       : 3
 #      VCC                         : 8
-#      XORCY                       : 2096
-# FlipFlops/Latches                : 8938
-#      FDE                         : 7667
+#      XORCY                       : 2108
+# FlipFlops/Latches                : 8940
+#      FDE                         : 7669
 #      FDR                         : 393
 #      FDRE                        : 664
 #      FDRS                        : 7
@@ -995,14 +987,15 @@ Primitive and Black Box Usage:
 #      FDS                         : 1
 #      FDSE                        : 30
 # RAMS                             : 3
-#      RAMB16                      : 3
+#      RAMB16_S1                   : 1
+#      RAMB16_S36                  : 2
 # Shift Registers                  : 271
 #      SRL16E                      : 232
 #      SRLC16E                     : 39
 # Clock Buffers                    : 1
 #      BUFGP                       : 1
-# IO Buffers                       : 388
-#      IBUF                        : 355
+# IO Buffers                       : 390
+#      IBUF                        : 357
 #      OBUF                        : 33
 
 Device utilization summary:
@@ -1010,13 +1003,13 @@ Device utilization summary:
 
 Selected Device : 3s1200efg320-4 
 
- Number of Slices:                     8525  out of   8672    98%  
- Number of Slice Flip Flops:           8938  out of  17344    51%  
- Number of 4 input LUTs:              13797  out of  17344    79%  
-    Number used as logic:             13526
+ Number of Slices:                     8400  out of   8672    96%  
+ Number of Slice Flip Flops:           8940  out of  17344    51%  
+ Number of 4 input LUTs:              13765  out of  17344    79%  
+    Number used as logic:             13494
     Number used as Shift registers:     271
- Number of IOs:                         542
- Number of bonded IOBs:                 389  out of    250   155% (*) 
+ Number of IOs:                         546
+ Number of bonded IOBs:                 391  out of    250   156% (*) 
  Number of BRAMs:                         3  out of     28    10%  
  Number of GCLKs:                         1  out of     24     4%  
 
@@ -1040,28 +1033,22 @@ NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
 
 Clock Information:
 ------------------
------------------------------------+---------------------------------------------------+-------+
-Clock Signal                       | Clock buffer(FF name)                             | Load  |
------------------------------------+---------------------------------------------------+-------+
-i_clock                            | BUFGP                                             | 9212  |
-fixed2floata<13>                   | NONE(inst_mem_float2powerN2/inst_mem_float2powerN)| 3     |
------------------------------------+---------------------------------------------------+-------+
-INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+i_clock                            | BUFGP                  | 9214  |
+-----------------------------------+------------------------+-------+
 
 Asynchronous Control Signals Information:
 ----------------------------------------
------------------------------------+----------------------------------------------------+-------+
-Control Signal                     | Buffer(FF name)                                    | Load  |
------------------------------------+----------------------------------------------------+-------+
-fixed2floata<13>(XST_GND:G)        | NONE(inst_mem_switchpattern/inst_mem_switchpattern)| 12    |
------------------------------------+----------------------------------------------------+-------+
+No asynchronous control signals found in this design
 
 Timing Summary:
 ---------------
 Speed Grade: -4
 
-   Minimum period: 14.357ns (Maximum Frequency: 69.652MHz)
-   Minimum input arrival time before clock: 9.610ns
+   Minimum period: 14.549ns (Maximum Frequency: 68.734MHz)
+   Minimum input arrival time before clock: 9.422ns
    Maximum output required time after clock: 10.473ns
    Maximum combinational path delay: No path found
 
@@ -1071,71 +1058,70 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 14.357ns (frequency: 69.652MHz)
-  Total number of paths / destination ports: 20373544 / 18600
+  Clock period: 14.549ns (frequency: 68.734MHz)
+  Total number of paths / destination ports: 20422036 / 18666
 -------------------------------------------------------------------------
-Delay:               14.357ns (Levels of Logic = 22)
-  Source:            tester.state_FSM_FFd287 (FF)
-  Destination:       fixed2floatce (FF)
+Delay:               14.549ns (Levels of Logic = 21)
+  Source:            tester.state_FSM_FFd281 (FF)
+  Destination:       tester.fttmp1_ft_1 (FF)
   Source Clock:      i_clock rising
   Destination Clock: i_clock rising
 
-  Data Path: tester.state_FSM_FFd287 to fixed2floatce
+  Data Path: tester.state_FSM_FFd281 to tester.fttmp1_ft_1
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDR:C->Q             11   0.591   1.108  tester.state_FSM_FFd287 (tester.state_FSM_FFd287)
-     LUT2:I0->O            1   0.704   0.000  tester.state_tester.state<0>_wg_lut<0> (tester.state_tester.state<0>_wg_lut<0>)
-     MUXCY:S->O            1   0.464   0.000  tester.state_tester.state<0>_wg_cy<0> (tester.state_tester.state<0>_wg_cy<0>)
-     MUXCY:CI->O           1   0.059   0.000  tester.state_tester.state<0>_wg_cy<1> (tester.state_tester.state<0>_wg_cy<1>)
-     MUXCY:CI->O           1   0.059   0.000  tester.state_tester.state<0>_wg_cy<2> (tester.state_tester.state<0>_wg_cy<2>)
-     MUXCY:CI->O           1   0.059   0.000  tester.state_tester.state<0>_wg_cy<3> (tester.state_tester.state<0>_wg_cy<3>)
-     MUXCY:CI->O           1   0.059   0.000  tester.state_tester.state<0>_wg_cy<4> (tester.state_tester.state<0>_wg_cy<4>)
-     MUXCY:CI->O           1   0.059   0.000  tester.state_tester.state<0>_wg_cy<5> (tester.state_tester.state<0>_wg_cy<5>)
-     MUXCY:CI->O           1   0.059   0.000  tester.state_tester.state<0>_wg_cy<6> (tester.state_tester.state<0>_wg_cy<6>)
-     MUXCY:CI->O           1   0.059   0.000  tester.state_tester.state<0>_wg_cy<7> (tester.state_tester.state<0>_wg_cy<7>)
-     MUXCY:CI->O           1   0.059   0.000  tester.state_tester.state<0>_wg_cy<8> (tester.state_tester.state<0>_wg_cy<8>)
-     MUXCY:CI->O           1   0.059   0.000  tester.state_tester.state<0>_wg_cy<9> (tester.state_tester.state<0>_wg_cy<9>)
-     MUXCY:CI->O           1   0.059   0.000  tester.state_tester.state<0>_wg_cy<10> (tester.state_tester.state<0>_wg_cy<10>)
-     MUXCY:CI->O           1   0.059   0.000  tester.state_tester.state<0>_wg_cy<11> (tester.state_tester.state<0>_wg_cy<11>)
-     MUXCY:CI->O           9   0.459   0.824  tester.state_tester.state<0>_wg_cy<12> (tester.state_tester.state<0>_wg_cy<12>)
-     LUT4:I3->O           11   0.704   0.968  tester.state_tester.state<0>_wg_cy<48>1_1 (tester.state_tester.state<0>_wg_cy<48>11)
-     LUT3:I2->O            8   0.704   0.761  _n2325<1>1 (_n2325)
-     LUT4_D:I3->O          1   0.704   0.455  _n8600<2>1 (_n8600)
-     LUT4:I2->O            1   0.704   0.424  _n9144_inv339_SW0 (N2088)
-     LUT4_L:I3->LO         1   0.704   0.104  _n9144_inv375 (_n9144_inv375)
-     LUT4:I3->O            1   0.704   0.595  _n9144_inv469 (_n9144_inv469)
-     LUT4:I0->O            1   0.704   0.000  _n9144_inv645_F (N4653)
-     MUXF5:I0->O           2   0.321   0.447  _n9144_inv645 (_n9144_inv645)
-     FDRE:CE                   0.555          fixed2floatce
+     FDR:C->Q             10   0.591   1.057  tester.state_FSM_FFd281 (tester.state_FSM_FFd281)
+     LUT4:I0->O            1   0.704   0.000  tester.state_tester.state<3>_wg_lut<0> (tester.state_tester.state<3>_wg_lut<0>)
+     MUXCY:S->O            1   0.464   0.000  tester.state_tester.state<3>_wg_cy<0> (tester.state_tester.state<3>_wg_cy<0>)
+     MUXCY:CI->O           1   0.059   0.000  tester.state_tester.state<3>_wg_cy<1> (tester.state_tester.state<3>_wg_cy<1>)
+     MUXCY:CI->O           1   0.059   0.000  tester.state_tester.state<3>_wg_cy<2> (tester.state_tester.state<3>_wg_cy<2>)
+     MUXCY:CI->O           1   0.059   0.000  tester.state_tester.state<3>_wg_cy<3> (tester.state_tester.state<3>_wg_cy<3>)
+     MUXCY:CI->O           1   0.059   0.000  tester.state_tester.state<3>_wg_cy<4> (tester.state_tester.state<3>_wg_cy<4>)
+     MUXCY:CI->O           1   0.059   0.000  tester.state_tester.state<3>_wg_cy<5> (tester.state_tester.state<3>_wg_cy<5>)
+     MUXCY:CI->O           1   0.059   0.000  tester.state_tester.state<3>_wg_cy<6> (tester.state_tester.state<3>_wg_cy<6>)
+     MUXCY:CI->O           1   0.059   0.000  tester.state_tester.state<3>_wg_cy<7> (tester.state_tester.state<3>_wg_cy<7>)
+     MUXCY:CI->O           1   0.059   0.000  tester.state_tester.state<3>_wg_cy<8> (tester.state_tester.state<3>_wg_cy<8>)
+     MUXCY:CI->O           1   0.059   0.000  tester.state_tester.state<3>_wg_cy<9> (tester.state_tester.state<3>_wg_cy<9>)
+     MUXCY:CI->O           1   0.059   0.000  tester.state_tester.state<3>_wg_cy<10> (tester.state_tester.state<3>_wg_cy<10>)
+     MUXCY:CI->O           5   0.459   0.808  tester.state_tester.state<3>_wg_cy<11> (tester.state_tester.state<3>_wg_cy<11>)
+     LUT4:I0->O         1162   0.704   1.456  tester.state_tester.state<3>_wg_cy<47>1 (tester.state_tester.state<3>_wg_cy<47>)
+     LUT4:I3->O            1   0.704   0.424  _n4939_inv194_SW0_SW0 (N3064)
+     LUT4_D:I3->O          2   0.704   0.451  _n4939_inv194_SW0 (N2191)
+     LUT4:I3->O            1   0.704   0.000  _n4939_inv258_SW0_SW0_SW1_F (N3876)
+     MUXF5:I0->O           1   0.321   0.424  _n4939_inv258_SW0_SW0_SW1 (N3091)
+     LUT4:I3->O            2   0.704   0.451  _n4939_inv275_SW0 (N3040)
+     LUT4_D:I3->O         16   0.704   1.113  _n4939_inv421_rstpot (_n4939_inv421_rstpot)
+     LUT3:I1->O            1   0.704   0.000  tester.fttmp1_ft_1_dpot (tester.fttmp1_ft_1_dpot)
+     FDE:D                     0.308          tester.fttmp1_ft_1
     ----------------------------------------
-    Total                     14.357ns (8.671ns logic, 5.686ns route)
-                                       (60.4% logic, 39.6% route)
+    Total                     14.549ns (8.365ns logic, 6.184ns route)
+                                       (57.5% logic, 42.5% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 5302 / 4185
+  Total number of paths / destination ports: 5215 / 4189
 -------------------------------------------------------------------------
-Offset:              9.610ns (Levels of Logic = 7)
-  Source:            i_ee0x2438<7> (PAD)
+Offset:              9.422ns (Levels of Logic = 7)
+  Source:            i_ee0x2420<15> (PAD)
   Destination:       fixed2floata_43 (FF)
   Destination Clock: i_clock rising
 
-  Data Path: i_ee0x2438<7> to fixed2floata_43
+  Data Path: i_ee0x2420<15> to fixed2floata_43
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O            35   1.218   1.438  i_ee0x2438_7_IBUF (i_ee0x2438_7_IBUF)
-     LUT3_D:I0->O          1   0.704   0.455  tester.state<2>8_SW1 (N555)
-     LUT3:I2->O            5   0.704   0.668  tester.state<2>8 (tester.state<2>_mmx_out8)
-     LUT3_D:I2->O          2   0.704   0.451  Mmux_tester.state[8]_X_9_o_wide_mux_447_OUT11921 (Mmux_tester.state[8]_X_9_o_wide_mux_447_OUT1192)
-     LUT4:I3->O            1   0.704   0.424  Mmux_tester.state[8]_X_9_o_wide_mux_447_OUT163124 (Mmux_tester.state[8]_X_9_o_wide_mux_447_OUT163124)
+     IBUF:I->O            72   1.218   1.450  i_ee0x2420_15_IBUF (i_ee0x2420_15_IBUF)
+     LUT3:I0->O            1   0.704   0.455  Mmux_tester.state[8]_X_9_o_wide_mux_447_OUT11116 (Mmux_tester.state[8]_X_9_o_wide_mux_447_OUT11116)
+     LUT4_D:I2->LO         1   0.704   0.135  Mmux_tester.state[8]_X_9_o_wide_mux_447_OUT111122 (N4464)
+     LUT3:I2->O            3   0.704   0.535  tester.state<5>111 (tester.state<5>_mmx_out1)
+     LUT4:I3->O            6   0.704   0.673  Mmux_tester.state[8]_X_9_o_wide_mux_447_OUT1484 (Mmux_tester.state[8]_X_9_o_wide_mux_447_OUT1484)
      LUT4:I3->O            1   0.704   0.424  Mmux_tester.state[8]_X_9_o_wide_mux_447_OUT163174 (Mmux_tester.state[8]_X_9_o_wide_mux_447_OUT163174)
      LUT4:I3->O            1   0.704   0.000  Mmux_tester.state[8]_X_9_o_wide_mux_447_OUT163201 (Mmux_tester.state[8]_X_9_o_wide_mux_447_OUT163201)
      FDRE:D                    0.308          fixed2floata_43
     ----------------------------------------
-    Total                      9.610ns (5.750ns logic, 3.860ns route)
-                                       (59.8% logic, 40.2% route)
+    Total                      9.422ns (5.750ns logic, 3.672ns route)
+                                       (61.0% logic, 39.0% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
@@ -1171,14 +1157,14 @@ Clock to Setup on destination clock i_clock
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-i_clock        |   14.357|         |         |         |
+i_clock        |   14.549|         |         |         |
 ---------------+---------+---------+---------+---------+
 
 =========================================================================
 
 
-Total REAL time to Xst completion: 217.00 secs
-Total CPU time to Xst completion: 214.25 secs
+Total REAL time to Xst completion: 222.00 secs
+Total CPU time to Xst completion: 217.34 secs
  
 WARNING:Xst:3152 - You have chosen to run a version of XST which is not the default solution
    for the specified device family. You are free to use it in order to take
@@ -1191,9 +1177,9 @@ WARNING:Xst:3152 - You have chosen to run a version of XST which is not the defa
 --> 
 
 
-Total memory usage is 839456 kilobytes
+Total memory usage is 842556 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :   47 (   0 filtered)
-Number of infos    :   45 (   0 filtered)
+Number of warnings :   49 (   0 filtered)
+Number of infos    :   34 (   0 filtered)
 
