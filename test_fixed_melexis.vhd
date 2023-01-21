@@ -350,36 +350,36 @@ else
 		variable acpsubpage0,acpsubpage1,ascalecp,cpp1p0ration,ksta,kstaee,areference,ascale,accrow12,acccolumn16: st_sfixed_max;
 		variable apixel1216,a1216,acomp1216,cpp1p0ratio : st_sfixed_max;
 		variable resee,resreg,accscalerow,accscalecolumn,accscaleremnant,kstoscale : st_ufixed_max;
-		variable kvdd_ft,vdd25_ft,const256_ft,const2pow5_ft,const2pow13_ft,resee_ft,resreg_ft,rescorr_ft,Ta_ft,kta1216ee_ft,k27315_ft : fd2ft;
-		variable kvptat_ft,ktptat_ft,const2pow12_ft,const2pow3_ft,deltaV_ft,Vdd_ft,const3dot3_ft,vptat_ft,vbe_ft,vptat25_ft,trk4_ft : fd2ft;
-		variable alphaptatee_ft,const2pow2_ft,const8_ft,alphaptat_ft,const2pow18_ft,vptatart_ft,const25_ft,const1_ft,Kgain_ft,gain_ft : fd2ft;
+		variable kvdd_ft,vdd25_ft,resee_ft,resreg_ft,rescorr_ft,Ta_ft,kta1216ee_ft : fd2ft;
+		variable kvptat_ft,ktptat_ft,deltaV_ft,Vdd_ft,vptat_ft,vbe_ft,vptat25_ft,trk4_ft : fd2ft;
+		variable alphaptatee_ft,alphaptat_ft,vptatart_ft,Kgain_ft,gain_ft : fd2ft;
 		variable pixgain1216_ft,offsetaverage_ft,occrow12_ft,occscalerow_ft,occcolumn16_ft,occscalecolumn_ft,offset1216_ft : fd2ft;
 		variable occscaleremnant_ft,pixosref1216_ft,pixos1216_ft,kta1216_ft,ktarcee_ft,ktascale1_ft,ktascale2_ft,kv1216_ft,kvscale_ft : fd2ft;
 		variable kv1216ee_ft,vir1216emissivitycompensated_ft,pixgaincpsp0_ft,pixgaincpsp1_ft,v0d_ft,tad_ft,vir1216compensated_ft : fd2ft;
-		variable offcpsubpage0_ft,offcpsubpage1_ft,offcpsubpage1delta_ft,constemissivity_ft,pattern_ft,vir1216emmisivitycompensated_ft : fd2ft;
-		variable ktacp_ft,ktacpee_ft,kvcp_ft,kvcpee_ft,pixoscpsp0_ft,pixoscpsp1_ft,tgcee_ft,tgc_ft,const30_ft,kstoscale_ft,tak4_ft : fd2ft;
+		variable offcpsubpage0_ft,offcpsubpage1_ft,offcpsubpage1delta_ft,pattern_ft,vir1216emmisivitycompensated_ft : fd2ft;
+		variable ktacp_ft,ktacpee_ft,kvcp_ft,kvcpee_ft,pixoscpsp0_ft,pixoscpsp1_ft,tgcee_ft,tgc_ft,kstoscale_ft,tak4_ft : fd2ft;
 		variable acpsubpage0_ft,acpsubpage1_ft,ascalecp_ft,cpp1p0ration_ft,ksta_ft,kstaee_ft,areference_ft,ascale_ft,accrow12_ft,accscalerow_ft,acccolumn16_ft,accscalecolumn_ft : fd2ft;
-		variable apixel1216_ft,accscaleremnant_ft,a1216_ft,acomp1216_ft,const27_ft,const2pow7_ft,cpp1p0ratio_ft,ksto2ee_ft,ksto2_ft : fd2ft;
+		variable apixel1216_ft,accscaleremnant_ft,a1216_ft,acomp1216_ft,cpp1p0ratio_ft,ksto2ee_ft,ksto2_ft : fd2ft;
 		variable acomp1216_pow3_ft,acomp1216_pow4_ft,tak_ft,sx1216 : fd2ft;
 		variable pattern_slv1 : slv1;
 		variable fttmp1_ft,fttmp2_ft : fd2ft;
 		variable fptmp1,fptmp2 : st_sfixed_max;
-		constant k27315 : st_sfixed_max := to_sfixed (273.15, st_sfixed_max'high, st_sfixed_max'low); -- 0x43889333
-		constant const256 : st_sfixed_max := to_sfixed (256.0, st_sfixed_max'high, st_sfixed_max'low);
-		constant const2pow5 : st_sfixed_max := to_sfixed (2.0**5, st_sfixed_max'high, st_sfixed_max'low);
-		constant const2pow7 : st_sfixed_max := to_sfixed (2.0**7, st_sfixed_max'high, st_sfixed_max'low);
-		constant const2pow13 : st_sfixed_max := to_sfixed (2.0**13, st_sfixed_max'high, st_sfixed_max'low);
-		constant const2pow12 : st_sfixed_max := to_sfixed (2.0**12, st_sfixed_max'high, st_sfixed_max'low);
-		constant const2pow3 : st_sfixed_max := to_sfixed (2.0**3, st_sfixed_max'high, st_sfixed_max'low);
-		constant const3dot3 : st_sfixed_max := to_sfixed (3.3, st_sfixed_max'high, st_sfixed_max'low);
-		constant const2pow2 : st_sfixed_max := to_sfixed (2.0**2, st_sfixed_max'high, st_sfixed_max'low);
-		constant const8 : st_sfixed_max := to_sfixed (8.0, st_sfixed_max'high, st_sfixed_max'low);
-		constant const2pow18 : st_sfixed_max := to_sfixed (2.0**18, st_sfixed_max'high, st_sfixed_max'low);
-		constant const25 : st_sfixed_max := to_sfixed (25.0, st_sfixed_max'high, st_sfixed_max'low);
-		constant const1 : st_sfixed_max := to_sfixed (1.0, st_sfixed_max'high, st_sfixed_max'low);
-		constant const27 : st_sfixed_max := to_sfixed (27.0, st_sfixed_max'high, st_sfixed_max'low);
-		constant constemissivity : st_sfixed_max := to_sfixed (1.0, st_sfixed_max'high, st_sfixed_max'low);
-		constant const30 : st_sfixed_max := to_sfixed (30.0, st_sfixed_max'high, st_sfixed_max'low);
+		constant k27315_ft : fd2ft := x"43889333"; --st_sfixed_max := to_sfixed (273.15, st_sfixed_max'high, st_sfixed_max'low); -- 0x43889333
+		constant const256_ft : fd2ft := x"43800000"; --st_sfixed_max := to_sfixed (256.0, st_sfixed_max'high, st_sfixed_max'low);
+		constant const2pow5_ft : fd2ft := x"42000000"; --st_sfixed_max := to_sfixed (2.0**5, st_sfixed_max'high, st_sfixed_max'low);
+		constant const2pow7_ft : fd2ft := x"43000000"; --st_sfixed_max := to_sfixed (2.0**7, st_sfixed_max'high, st_sfixed_max'low);
+		constant const2pow13_ft : fd2ft := x"46000000"; --st_sfixed_max := to_sfixed (2.0**13, st_sfixed_max'high, st_sfixed_max'low);
+		constant const2pow12_ft : fd2ft := x"45800000"; --st_sfixed_max := to_sfixed (2.0**12, st_sfixed_max'high, st_sfixed_max'low);
+		constant const2pow3_ft : fd2ft := x"41000000"; --st_sfixed_max := to_sfixed (2.0**3, st_sfixed_max'high, st_sfixed_max'low);
+		constant const3dot3_ft : fd2ft := x"40533333"; --st_sfixed_max := to_sfixed (3.3, st_sfixed_max'high, st_sfixed_max'low);
+		constant const2pow2_ft : fd2ft := x"40800000"; --st_sfixed_max := to_sfixed (2.0**2, st_sfixed_max'high, st_sfixed_max'low);
+		constant const8_ft : fd2ft := x"41000000"; --st_sfixed_max := to_sfixed (8.0, st_sfixed_max'high, st_sfixed_max'low);
+		constant const2pow18_ft : fd2ft := x"48800000"; --st_sfixed_max := to_sfixed (2.0**18, st_sfixed_max'high, st_sfixed_max'low);
+		constant const25_ft : fd2ft := x"41C80000"; --st_sfixed_max := to_sfixed (25.0, st_sfixed_max'high, st_sfixed_max'low);
+		constant const1_ft : fd2ft := x"3F800000"; --st_sfixed_max := to_sfixed (1.0, st_sfixed_max'high, st_sfixed_max'low);
+		constant const27_ft : fd2ft := x"41D80000"; --st_sfixed_max := to_sfixed (27.0, st_sfixed_max'high, st_sfixed_max'low);
+		constant constemissivity_ft : fd2ft := const1_ft; --st_sfixed_max := to_sfixed (1.0, st_sfixed_max'high, st_sfixed_max'low);
+		constant const30_ft : fd2ft := x"41F00000"; --st_sfixed_max := to_sfixed (30.0, st_sfixed_max'high, st_sfixed_max'low);
 -----
 		variable fracas : fracas;
 		variable fracbs : fracbs;
@@ -476,58 +476,58 @@ when idle =>
 	when s2 =>
 		if (fixed2floatrdy = '1') then state := s3;
 			kvdd_ft := fixed2floatr;
-			--o_To <= fixed2floatr;
+			o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
 		else state := s2; end if;
-	when s3 => state := s4;
+	when s3 => state := s10;
 		fixed2floatsclr <= '0';
-		fixed2floatce <= '1';
-		fixed2floatond <= '1';
-		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (const256 (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (const256 (fracbs'high downto fracbs'low)), fracbs));
-	when s4 =>
-		if (fixed2floatrdy = '1') then state := s5;
-			const256_ft := fixed2floatr;
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (const256 (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (const256 (fracbs'high downto fracbs'low)), fracbs));
+--	when s4 =>
+--		if (fixed2floatrdy = '1') then state := s5;
+--			const256_ft := fixed2floatr;
 			--o_To <= fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
-		else state := s4; end if;
-	when s5 => state := s6;
-		fixed2floatsclr <= '0';
-		fixed2floatce <= '1';
-		fixed2floatond <= '1';
-		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (const2pow5 (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (const2pow5 (fracbs'high downto fracbs'low)), fracbs));
-	when s6 =>
-		if (fixed2floatrdy = '1') then state := s7;
-			const2pow5_ft := fixed2floatr;
-			--o_To <= fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
-		else state := s6; end if;
-	when s7 => state := s8;
-		fixed2floatsclr <= '0';
-		fixed2floatce <= '1';
-		fixed2floatond <= '1';
-		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (const2pow13 (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (const2pow13 (fracbs'high downto fracbs'low)), fracbs));
-	when s8 =>
-		if (fixed2floatrdy = '1') then state := s9;
-			const2pow13_ft := fixed2floatr;
-			--o_To <= fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
-		else state := s8; end if;
-	when s9 => state := s10;
-		fixed2floatsclr <= '0';
+--			fixed2floatce <= '0';
+--			fixed2floatond <= '0';
+--			fixed2floatsclr <= '1';
+--		else state := s4; end if;
+--	when s5 => state := s6;
+--		fixed2floatsclr <= '0';
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (const2pow5 (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (const2pow5 (fracbs'high downto fracbs'low)), fracbs));
+--	when s6 =>
+--		if (fixed2floatrdy = '1') then state := s7;
+--			const2pow5_ft := fixed2floatr;
+--			--o_To <= fixed2floatr;
+--			fixed2floatce <= '0';
+--			fixed2floatond <= '0';
+--			fixed2floatsclr <= '1';
+--		else state := s6; end if;
+--	when s7 => state := s8;
+--		fixed2floatsclr <= '0';
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (const2pow13 (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (const2pow13 (fracbs'high downto fracbs'low)), fracbs));
+--	when s8 =>
+--		if (fixed2floatrdy = '1') then state := s9;
+--			const2pow13_ft := fixed2floatr;
+--			--o_To <= fixed2floatr;
+--			fixed2floatce <= '0';
+--			fixed2floatond <= '0';
+--			fixed2floatsclr <= '1';
+--		else state := s8; end if;
+--	when s9 => state := s10;
+--		fixed2floatsclr <= '0';
 		--
 		-- vdd25
 		eeprom16slv := i_ee0x2433 and x"00ff";
@@ -677,23 +677,23 @@ when idle =>
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
 		else state := s24; end if;
-	when s25 => state := s26;
+	when s25 => state := s28;
 		fixed2floatsclr <= '0';
-		fixed2floatce <= '1';
-		fixed2floatond <= '1';
-		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (const2pow12 (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (const2pow12 (fracbs'high downto fracbs'low)), fracbs));
-	when s26 =>
-		if (fixed2floatrdy = '1') then state := s27;
-			const2pow12_ft := fixed2floatr;
-			--o_To <= fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
-		else state := s26; end if;
-	when s27 => state := s28;
-		fixed2floatsclr <= '0';
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (const2pow12 (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (const2pow12 (fracbs'high downto fracbs'low)), fracbs));
+--	when s26 =>
+--		if (fixed2floatrdy = '1') then state := s27;
+--			const2pow12_ft := fixed2floatr;
+--			--o_To <= fixed2floatr;
+--			fixed2floatce <= '0';
+--			fixed2floatond <= '0';
+--			fixed2floatsclr <= '1';
+--		else state := s26; end if;
+--	when s27 => state := s28;
+--		fixed2floatsclr <= '0';
 		divfpce <= '1';
 		divfpa <= kvptat_ft;
 		divfpb <= const2pow12_ft;
@@ -726,23 +726,23 @@ when idle =>
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
 		else state := s30; end if;
-	when s31 => state := s32;
+	when s31 => state := s34;
 		fixed2floatsclr <= '0';
-		fixed2floatce <= '1';
-		fixed2floatond <= '1';
-		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (const2pow3 (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (const2pow3 (fracbs'high downto fracbs'low)), fracbs));
-	when s32 =>
-		if (fixed2floatrdy = '1') then state := s33;
-			const2pow3_ft := fixed2floatr;
-			--o_To <= fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
-		else state := s32; end if;
-	when s33 => state := s34;
-		fixed2floatsclr <= '0';
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (const2pow3 (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (const2pow3 (fracbs'high downto fracbs'low)), fracbs));
+--	when s32 =>
+--		if (fixed2floatrdy = '1') then state := s33;
+--			const2pow3_ft := fixed2floatr;
+--			--o_To <= fixed2floatr;
+--			fixed2floatce <= '0';
+--			fixed2floatond <= '0';
+--			fixed2floatsclr <= '1';
+--		else state := s32; end if;
+--	when s33 => state := s34;
+--		fixed2floatsclr <= '0';
 		divfpce <= '1';
 		divfpa <= ktptat_ft;
 		divfpb <= const2pow3_ft;
@@ -803,23 +803,23 @@ when idle =>
 			divfpond <= '0';
 			divfpsclr <= '1';
 		else state := s40; end if;
-	when s41 => state := s42;
+	when s41 => state := s44;
 		divfpsclr <= '0';
-		fixed2floatce <= '1';
-		fixed2floatond <= '1';
-		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (const3dot3 (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (const3dot3 (fracbs'high downto fracbs'low)), fracbs));
-	when s42 =>
-		if (fixed2floatrdy = '1') then state := s43;
-			const3dot3_ft := fixed2floatr;
-			--o_To <= fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
-		else state := s42; end if;
-	when s43 => state := s44;
-		fixed2floatsclr <= '0';
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (const3dot3 (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (const3dot3 (fracbs'high downto fracbs'low)), fracbs));
+--	when s42 =>
+--		if (fixed2floatrdy = '1') then state := s43;
+--			const3dot3_ft := fixed2floatr;
+--			--o_To <= fixed2floatr;
+--			fixed2floatce <= '0';
+--			fixed2floatond <= '0';
+--			fixed2floatsclr <= '1';
+--		else state := s42; end if;
+--	when s43 => state := s44;
+--		fixed2floatsclr <= '0';
 		addfpce <= '1';
 		addfpa <= deltaV_ft;
 		addfpb <= const3dot3_ft;
@@ -918,38 +918,38 @@ when idle =>
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
 		else state := s52; end if;
-	when s53 => state := s54;
+	when s53 => state := s58;
 		fixed2floatsclr <= '0';
-		fixed2floatce <= '1';
-		fixed2floatond <= '1';
-		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (const2pow2 (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (const2pow2 (fracbs'high downto fracbs'low)), fracbs));
-	when s54 =>
-		if (fixed2floatrdy = '1') then state := s55;
-			const2pow2_ft := fixed2floatr;
-			--o_To <= fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
-		else state := s54; end if;
-	when s55 => state := s56;
-		fixed2floatsclr <= '0';
-		fixed2floatce <= '1';
-		fixed2floatond <= '1';
-		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (const8 (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (const8 (fracbs'high downto fracbs'low)), fracbs));
-	when s56 =>
-		if (fixed2floatrdy = '1') then state := s57;
-			const8_ft := fixed2floatr;
-			--o_To <= fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
-		else state := s56; end if;
-	when s57 => state := s58;
-		fixed2floatsclr <= '0';
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (const2pow2 (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (const2pow2 (fracbs'high downto fracbs'low)), fracbs));
+--	when s54 =>
+--		if (fixed2floatrdy = '1') then state := s55;
+--			const2pow2_ft := fixed2floatr;
+--			--o_To <= fixed2floatr;
+--			fixed2floatce <= '0';
+--			fixed2floatond <= '0';
+--			fixed2floatsclr <= '1';
+--		else state := s54; end if;
+--	when s55 => state := s56;
+--		fixed2floatsclr <= '0';
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (const8 (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (const8 (fracbs'high downto fracbs'low)), fracbs));
+--	when s56 =>
+--		if (fixed2floatrdy = '1') then state := s57;
+--			const8_ft := fixed2floatr;
+--			--o_To <= fixed2floatr;
+--			fixed2floatce <= '0';
+--			fixed2floatond <= '0';
+--			fixed2floatsclr <= '1';
+--		else state := s56; end if;
+--	when s57 => state := s58;
+--		fixed2floatsclr <= '0';
 		divfpce <= '1';
 		divfpa <= alphaptatee_ft;
 		divfpb <= const2pow2_ft;
@@ -976,23 +976,23 @@ when idle =>
 			addfpond <= '0';
 			addfpsclr <= '1';
 		else state := s60; end if;
-	when s61 => state := s62;
+	when s61 => state := s64;
 		addfpsclr <= '0';
-		fixed2floatce <= '1';
-		fixed2floatond <= '1';
-		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (const2pow18 (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (const2pow18 (fracbs'high downto fracbs'low)), fracbs));
-	when s62 =>
-		if (fixed2floatrdy = '1') then state := s63;
-			const2pow18_ft := fixed2floatr;
-			--o_To <= fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
-		else state := s62; end if;
-	when s63 => state := s64;
-		fixed2floatsclr <= '0';
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (const2pow18 (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (const2pow18 (fracbs'high downto fracbs'low)), fracbs));
+--	when s62 =>
+--		if (fixed2floatrdy = '1') then state := s63;
+--			const2pow18_ft := fixed2floatr;
+--			--o_To <= fixed2floatr;
+--			fixed2floatce <= '0';
+--			fixed2floatond <= '0';
+--			fixed2floatsclr <= '1';
+--		else state := s62; end if;
+--	when s63 => state := s64;
+--		fixed2floatsclr <= '0';
 		mulfpce <= '1';
 		mulfpa <= vptat_ft;
 		mulfpb <= alphaptat_ft;
@@ -1047,40 +1047,40 @@ when idle =>
 			mulfpond <= '0';
 			mulfpsclr <= '1';
 		else state := s70; end if;
-	when s71 => state := s72;
+	when s71 => state := s76;
 		mulfpsclr <= '0';
 		--
 		-- Ta
-		fixed2floatce <= '1';
-		fixed2floatond <= '1';
-		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (const1 (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (const1 (fracbs'high downto fracbs'low)), fracbs));
-	when s72 =>
-		if (fixed2floatrdy = '1') then state := s73;
-			const1_ft := fixed2floatr;
-			--o_To <= fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
-		else state := s72; end if;
-	when s73 => state := s74;
-		fixed2floatsclr <= '0';
-		fixed2floatce <= '1';
-		fixed2floatond <= '1';
-		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (const25 (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (const25 (fracbs'high downto fracbs'low)), fracbs));
-	when s74 =>
-		if (fixed2floatrdy = '1') then state := s75;
-			const25_ft := fixed2floatr;
-			--o_To <= fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
-		else state := s74; end if;
-	when s75 => state := s76;
-		fixed2floatsclr <= '0';
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (const1 (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (const1 (fracbs'high downto fracbs'low)), fracbs));
+--	when s72 =>
+--		if (fixed2floatrdy = '1') then state := s73;
+--			const1_ft := fixed2floatr;
+--			--o_To <= fixed2floatr;
+--			fixed2floatce <= '0';
+--			fixed2floatond <= '0';
+--			fixed2floatsclr <= '1';
+--		else state := s72; end if;
+--	when s73 => state := s74;
+--		fixed2floatsclr <= '0';
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (const25 (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (const25 (fracbs'high downto fracbs'low)), fracbs));
+--	when s74 =>
+--		if (fixed2floatrdy = '1') then state := s75;
+--			const25_ft := fixed2floatr;
+--			--o_To <= fixed2floatr;
+--			fixed2floatce <= '0';
+--			fixed2floatond <= '0';
+--			fixed2floatsclr <= '1';
+--		else state := s74; end if;
+--	when s75 => state := s76;
+--		fixed2floatsclr <= '0';
 		mulfpce <= '1';
 		mulfpa <= kvptat_ft;
 		mulfpb <= deltaV_ft;
@@ -1844,23 +1844,23 @@ when idle =>
 			subfpond <= '0';
 			subfpsclr <= '1';
 		else state := s168; end if;
-	when s169 => state := s170;
+	when s169 => state := s172;
 		subfpsclr <= '0';
-		fixed2floatce <= '1';
-		fixed2floatond <= '1';
-		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (constemissivity (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (constemissivity (fracbs'high downto fracbs'low)), fracbs));
-	when s170 =>
-		if (fixed2floatrdy = '1') then state := s171;
-			constemissivity_ft := fixed2floatr;
-			--o_To <= fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
-		else state := s170; end if;
-	when s171 => state := s172;
-		fixed2floatsclr <= '0';
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (constemissivity (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (constemissivity (fracbs'high downto fracbs'low)), fracbs));
+--	when s170 =>
+--		if (fixed2floatrdy = '1') then state := s171;
+--			constemissivity_ft := fixed2floatr;
+--			--o_To <= fixed2floatr;
+--			fixed2floatce <= '0';
+--			fixed2floatond <= '0';
+--			fixed2floatsclr <= '1';
+--		else state := s170; end if;
+--	when s171 => state := s172;
+--		fixed2floatsclr <= '0';
 		divfpce <= '1';
 		divfpa <= pixos1216_ft;
 		divfpb <= constemissivity_ft;
@@ -2352,23 +2352,23 @@ when idle =>
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
 		else state := s235; end if;
-	when s236 => state := s237;
+	when s236 => state := s239;
 		fixed2floatsclr <= '0';
-		fixed2floatce <= '1';
-		fixed2floatond <= '1';
-		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (const27 (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (const27 (fracbs'high downto fracbs'low)), fracbs));
-	when s237 =>
-		if (fixed2floatrdy = '1') then state := s238;
-			const27_ft := fixed2floatr;
-			--o_To <= fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
-		else state := s237; end if;
-	when s238 => state := s239;
-		fixed2floatsclr <= '0';
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (const27 (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (const27 (fracbs'high downto fracbs'low)), fracbs));
+--	when s237 =>
+--		if (fixed2floatrdy = '1') then state := s238;
+--			const27_ft := fixed2floatr;
+--			--o_To <= fixed2floatr;
+--			fixed2floatce <= '0';
+--			fixed2floatond <= '0';
+--			fixed2floatsclr <= '1';
+--		else state := s237; end if;
+--	when s238 => state := s239;
+--		fixed2floatsclr <= '0';
 		addfpce <= '1';
 		addfpa <= ascalecp_ft;
 		addfpb <= const27_ft;
@@ -2433,23 +2433,23 @@ when idle =>
 			divfpond <= '0';
 			divfpsclr <= '1';
 		else state := s247; end if;
-	when s248 => state := s249;
+	when s248 => state := s251;
 		divfpsclr <= '0';
-		fixed2floatce <= '1';
-		fixed2floatond <= '1';
-		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (const2pow7 (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (const2pow7 (fracbs'high downto fracbs'low)), fracbs));
-	when s249 =>
-		if (fixed2floatrdy = '1') then state := s250;
-			const2pow7_ft := fixed2floatr;
-			--o_To <= fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
-		else state := s249; end if;
-	when s250 => state := s251;
-		fixed2floatsclr <= '0';
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (const2pow7 (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (const2pow7 (fracbs'high downto fracbs'low)), fracbs));
+--	when s249 =>
+--		if (fixed2floatrdy = '1') then state := s250;
+--			const2pow7_ft := fixed2floatr;
+--			--o_To <= fixed2floatr;
+--			fixed2floatce <= '0';
+--			fixed2floatond <= '0';
+--			fixed2floatsclr <= '1';
+--		else state := s249; end if;
+--	when s250 => state := s251;
+--		fixed2floatsclr <= '0';
 		eeprom16slv := i_ee0x2439 and x"fc00";
 		cpp1p0ratio := resize (to_sfixed (eeprom16slv, eeprom16sf), cpp1p0ratio);
 		--vout2 := resize (cpp1p0ratio, st_sfixed_max'high, st_sfixed_max'low);
@@ -2564,23 +2564,23 @@ when idle =>
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
 		else state := s263; end if;
-	when s264 => state := s265;
+	when s264 => state := s267;
 		fixed2floatsclr <= '0';
-		fixed2floatce <= '1';
-		fixed2floatond <= '1';
-		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (const30 (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (const30 (fracbs'high downto fracbs'low)), fracbs));
-	when s265 =>
-		if (fixed2floatrdy = '1') then state := s266;
-			const30_ft := fixed2floatr;
-			--o_To <= fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
-		else state := s265; end if;
-	when s266 => state := s267;
-		fixed2floatsclr <= '0';
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (const30 (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (const30 (fracbs'high downto fracbs'low)), fracbs));
+--	when s265 =>
+--		if (fixed2floatrdy = '1') then state := s266;
+--			const30_ft := fixed2floatr;
+--			--o_To <= fixed2floatr;
+--			fixed2floatce <= '0';
+--			fixed2floatond <= '0';
+--			fixed2floatsclr <= '1';
+--		else state := s265; end if;
+--	when s266 => state := s267;
+--		fixed2floatsclr <= '0';
 		eeprom16slv := i_ee0x2420 and x"f000"; -- val same as ascalecp ee0x2420&0xf000
 		ascale := resize (to_sfixed (eeprom16slv, eeprom16sf), ascale);
 		--vout2 := resize (ascale, st_sfixed_max'high, st_sfixed_max'low);
@@ -3047,24 +3047,24 @@ when idle =>
 			divfpond <= '0';
 			divfpsclr <= '1';
 		else state := s329; end if;
-	when s330 => state := s331;
+	when s330 => state := s333;
 		divfpsclr <= '0';
 
-		fixed2floatce <= '1';
-		fixed2floatond <= '1';
-		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (k27315 (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (k27315 (fracbs'high downto fracbs'low)), fracbs));
-	when s331 =>
-		if (fixed2floatrdy = '1') then state := s332;
-			k27315_ft := fixed2floatr;
-			--o_To <= fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
-		else state := s331; end if;
-	when s332 => state := s333;
-		fixed2floatsclr <= '0';
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (k27315 (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (k27315 (fracbs'high downto fracbs'low)), fracbs));
+--	when s331 =>
+--		if (fixed2floatrdy = '1') then state := s332;
+--			k27315_ft := fixed2floatr;
+--			--o_To <= fixed2floatr;
+--			fixed2floatce <= '0';
+--			fixed2floatond <= '0';
+--			fixed2floatsclr <= '1';
+--		else state := s331; end if;
+--	when s332 => state := s333;
+--		fixed2floatsclr <= '0';
 
 		addfpce <= '1';
 		addfpa <= ta_ft;
