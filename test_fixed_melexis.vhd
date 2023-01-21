@@ -86,13 +86,13 @@ COMPONENT float2fixed
 PORT (
 a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
-operation_rfd : OUT STD_LOGIC;
+--operation_rfd : OUT STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
+--ce : IN STD_LOGIC;
 result : OUT STD_LOGIC_VECTOR(63 DOWNTO 0);
-overflow : OUT STD_LOGIC;
-invalid_op : OUT STD_LOGIC;
+--overflow : OUT STD_LOGIC;
+--invalid_op : OUT STD_LOGIC;
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
@@ -112,10 +112,10 @@ COMPONENT fixed2float
 PORT (
 a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
-operation_rfd : OUT STD_LOGIC;
+--operation_rfd : OUT STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
+--ce : IN STD_LOGIC;
 result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
 rdy : OUT STD_LOGIC
 );
@@ -135,15 +135,15 @@ PORT (
 a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
-operation_rfd : OUT STD_LOGIC;
+--operation_rfd : OUT STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
+--ce : IN STD_LOGIC;
 result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-underflow : OUT STD_LOGIC;
-overflow : OUT STD_LOGIC;
-invalid_op : OUT STD_LOGIC;
-divide_by_zero : OUT STD_LOGIC;
+--underflow : OUT STD_LOGIC;
+--overflow : OUT STD_LOGIC;
+--invalid_op : OUT STD_LOGIC;
+--divide_by_zero : OUT STD_LOGIC;
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
@@ -167,14 +167,14 @@ PORT (
 a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
-operation_rfd : OUT STD_LOGIC;
+--operation_rfd : OUT STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
+--ce : IN STD_LOGIC;
 result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-underflow : OUT STD_LOGIC;
-overflow : OUT STD_LOGIC;
-invalid_op : OUT STD_LOGIC;
+--underflow : OUT STD_LOGIC;
+--overflow : OUT STD_LOGIC;
+--invalid_op : OUT STD_LOGIC;
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
@@ -197,14 +197,14 @@ PORT (
 a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
-operation_rfd : OUT STD_LOGIC;
+--operation_rfd : OUT STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
+--ce : IN STD_LOGIC;
 result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-underflow : OUT STD_LOGIC;
-overflow : OUT STD_LOGIC;
-invalid_op : OUT STD_LOGIC;
+--underflow : OUT STD_LOGIC;
+--overflow : OUT STD_LOGIC;
+--invalid_op : OUT STD_LOGIC;
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
@@ -227,14 +227,14 @@ PORT (
 a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
-operation_rfd : OUT STD_LOGIC;
+--operation_rfd : OUT STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
+--ce : IN STD_LOGIC;
 result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-underflow : OUT STD_LOGIC;
-overflow : OUT STD_LOGIC;
-invalid_op : OUT STD_LOGIC;
+--underflow : OUT STD_LOGIC;
+--overflow : OUT STD_LOGIC;
+--invalid_op : OUT STD_LOGIC;
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
@@ -256,12 +256,12 @@ COMPONENT sqrtfp2
 PORT (
 a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
-operation_rfd : OUT STD_LOGIC;
+--operation_rfd : OUT STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
+--ce : IN STD_LOGIC;
 result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-invalid_op : OUT STD_LOGIC;
+--invalid_op : OUT STD_LOGIC;
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
@@ -3511,13 +3511,13 @@ inst_ff1 : float2fixed
 PORT MAP (
 a => float2fixeda,
 operation_nd => float2fixedond,
-operation_rfd => float2fixedorfd,
+--operation_rfd => float2fixedorfd,
 clk => float2fixedclk,
 sclr => float2fixedsclr,
-ce => float2fixedce,
+--ce => float2fixedce,
 result => float2fixedr,
-overflow => float2fixedof,
-invalid_op => float2fixediop,
+--overflow => float2fixedof,
+--invalid_op => float2fixediop,
 rdy => float2fixedrdy
 );
 
@@ -3525,10 +3525,10 @@ inst_ff2 : fixed2float
 PORT MAP (
 a => fixed2floata,
 operation_nd => fixed2floatond,
-operation_rfd => fixed2floatorfd,
+--operation_rfd => fixed2floatorfd,
 clk => fixed2floatclk,
 sclr => fixed2floatsclr,
-ce => fixed2floatce,
+--ce => fixed2floatce,
 result => fixed2floatr,
 rdy => fixed2floatrdy
 );
@@ -3538,15 +3538,15 @@ PORT MAP (
 a => divfpa,
 b => divfpb,
 operation_nd => divfpond,
-operation_rfd => divfporfd,
+--operation_rfd => divfporfd,
 clk => divfpclk,
 sclr => divfpsclr,
-ce => divfpce,
+--ce => divfpce,
 result => divfpr,
-underflow => divfpuf,
-overflow => divfpof,
-invalid_op => divfpiop,
-divide_by_zero => divfpdz,
+--underflow => divfpuf,
+--overflow => divfpof,
+--invalid_op => divfpiop,
+--divide_by_zero => divfpdz,
 rdy => divfprdy
 );
 
@@ -3555,14 +3555,14 @@ PORT MAP (
 a => mulfpa,
 b => mulfpb,
 operation_nd => mulfpond,
-operation_rfd => mulfporfd,
+--operation_rfd => mulfporfd,
 clk => mulfpclk,
 sclr => mulfpsclr,
-ce => mulfpce,
+--ce => mulfpce,
 result => mulfpr,
-underflow => mulfpuf,
-overflow => mulfpof,
-invalid_op => mulfpiop,
+--underflow => mulfpuf,
+--overflow => mulfpof,
+--invalid_op => mulfpiop,
 rdy => mulfprdy
 );
 
@@ -3571,14 +3571,14 @@ PORT MAP (
 a => addfpa,
 b => addfpb,
 operation_nd => addfpond,
-operation_rfd => addfporfd,
+--operation_rfd => addfporfd,
 clk => addfpclk,
 sclr => addfpsclr,
-ce => addfpce,
+--ce => addfpce,
 result => addfpr,
-underflow => addfpuf,
-overflow => addfpof,
-invalid_op => addfpiop,
+--underflow => addfpuf,
+--overflow => addfpof,
+--invalid_op => addfpiop,
 rdy => addfprdy
 );
 
@@ -3587,14 +3587,14 @@ PORT MAP (
 a => subfpa,
 b => subfpb,
 operation_nd => subfpond,
-operation_rfd => subfporfd,
+--operation_rfd => subfporfd,
 clk => subfpclk,
 sclr => subfpsclr,
-ce => subfpce,
+--ce => subfpce,
 result => subfpr,
-underflow => subfpuf,
-overflow => subfpof,
-invalid_op => subfpiop,
+--underflow => subfpuf,
+--overflow => subfpof,
+--invalid_op => subfpiop,
 rdy => subfprdy
 );
 
@@ -3602,12 +3602,12 @@ inst_sqrtfp2 : sqrtfp2
 PORT MAP (
 a => sqrtfp2a,
 operation_nd => sqrtfp2ond,
-operation_rfd => sqrtfp2orfd,
+--operation_rfd => sqrtfp2orfd,
 clk => sqrtfp2clk,
 sclr => sqrtfp2sclr,
-ce => sqrtfp2ce,
+--ce => sqrtfp2ce,
 result => sqrtfp2r,
-invalid_op => sqrtfp2iop,
+--invalid_op => sqrtfp2iop,
 rdy => sqrtfp2rdy
 );
 
