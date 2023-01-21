@@ -3497,7 +3497,7 @@ rdyrecover <= '1';
 -----
 
 when others => null;
-end case; o_To <= outTo; end if; end if;
+end case; end if; o_To <= outTo; end if;
 end process tester;
 
 float2fixedclk <= i_clock;
