@@ -476,7 +476,7 @@ when idle =>
 	when s2 =>
 		if (fixed2floatrdy = '1') then state := s3;
 			kvdd_ft := fixed2floatr;
-			o_To <= fixed2floatr;
+--			o_To <= fixed2floatr;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
