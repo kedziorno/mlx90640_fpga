@@ -54,28 +54,20 @@ architecture Behavioral of top is
 COMPONENT i2c_mem
 PORT (
 clka : IN STD_LOGIC;
+ena : IN STD_LOGIC;
 wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
 addra : IN STD_LOGIC_VECTOR(10 DOWNTO 0);
 dina : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
-douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-clkb : IN STD_LOGIC;
-web : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
-addrb : IN STD_LOGIC_VECTOR(10 DOWNTO 0);
-dinb : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
-doutb : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
 );
 END COMPONENT;
 
 signal i2c_mem_clka : STD_LOGIC;
 signal i2c_mem_wea : STD_LOGIC_VECTOR(0 DOWNTO 0);
+signal i2c_mem_ena : STD_LOGIC;
 signal i2c_mem_addra : STD_LOGIC_VECTOR(10 DOWNTO 0);
 signal i2c_mem_dina : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal i2c_mem_clkb : STD_LOGIC;
-signal i2c_mem_web : STD_LOGIC_VECTOR(0 DOWNTO 0);
-signal i2c_mem_addrb : STD_LOGIC_VECTOR(10 DOWNTO 0);
-signal i2c_mem_dinb : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal i2c_mem_doutb : STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 component i2c_r is
 generic (
@@ -256,6 +248,10 @@ signal tfm_to : fd2ft;
 
 signal tfm_calculate : std_logic;
 signal i2c_mem_addra_tfm : std_logic_vector (10 downto 0);
+signal i2c_mem_ena_tfm : std_logic;
+
+signal i2c_r_done_data_re : std_logic;
+signal i2c_r_done_data_fe : std_logic;
 
 begin
 
@@ -267,16 +263,16 @@ i2c_mem_addra <=
 i2c_mem_addra_tfm when tfm_calculate = '1'
 else signal_i2c_mem_addra_index;
 
-signal_i2c_mem_data_available <=
-	'1' when (
-		i2c_r_done_data_prev = '0' and 
-		i2c_r_done_data = '1' and 
-		(signal_i2c_mem_addra_index = std_logic_vector(to_unsigned(C_DATA_SIZE - 1,11)))
-	)
-	else 
-	'0';
+signal_i2c_mem_data_available <= '1' when (i2c_r_done_data_re = '1' and (signal_i2c_mem_addra_index = std_logic_vector(to_unsigned(C_DATA_SIZE-1,11)))) else '0';
 
-i2c_mem_wea(0) <= i2c_r_done_data;
+i2c_r_done_data_re <= '1' when (i2c_r_done_data = '1') and (i2c_r_done_data_prev = '0') else '0';
+i2c_r_done_data_fe <= '1' when (i2c_r_done_data = '0') and (i2c_r_done_data_prev = '1') else '0';
+
+i2c_mem_wea(0) <= '1' when i2c_r_done_data_re = '1' else '0';
+i2c_mem_ena <= 
+'1' when i2c_mem_ena_tfm = '1' else
+'1' when i2c_r_done_data_re = '1' else 
+'0';
 
 p1 : process (i_clock, i_reset) is
 	type states is (a,b,c,d,e,f,g,h,i,j,k,l,m);
@@ -336,11 +332,13 @@ when a =>
 when b =>
 	state := c;
 	i2c_mem_addra_tfm <= std_logic_vector(to_unsigned(0,11)); -- ee0x2410
+	i2c_mem_ena_tfm <= '1';
 	v_wait1 := 0;
 when c =>
 	if (v_wait1 = C_WAIT1 - 1) then
 		state := d;
 		v_wait1 := 0;
+		i2c_mem_ena_tfm <= '0';
 		tfm_ee0x2410 (15 downto 8) <= i2c_mem_douta;
 	else
 		state := c;
@@ -349,11 +347,13 @@ when c =>
 when d =>
 	state := e;
 	i2c_mem_addra_tfm <= std_logic_vector(to_unsigned(1,11)); -- ee0x2410
+	i2c_mem_ena_tfm <= '1';
 	v_wait1 := 0;
 when e =>
 	if (v_wait1 = C_WAIT1 - 1) then
 		state := f;
 		v_wait1 := 0;
+		i2c_mem_ena_tfm <= '0';
 		tfm_ee0x2410 (7 downto 0) <= i2c_mem_douta;
 	else
 		state := e;
@@ -409,7 +409,7 @@ begin
 			i2c_r_done_data_prev <= '0';
 		else
 			i2c_r_done_data_prev <= i2c_r_done_data;
-			if (i2c_r_sto = '1') then
+			if (i2c_r_counter_enable = '0') then
 				variable_i2c_mem_addra_index := 0;
 			elsif (i2c_r_done_data_prev = '0' and i2c_r_done_data = '1') then
 				variable_i2c_mem_addra_index := variable_i2c_mem_addra_index + 1;
@@ -440,15 +440,11 @@ o_counter_enable => i2c_r_counter_enable
 inst_i2c_mem : i2c_mem
 port map (
 clka => i2c_mem_clka,
+ena => i2c_mem_ena,
 wea => i2c_mem_wea,
 addra => i2c_mem_addra,
 dina => i2c_mem_dina,
-douta => i2c_mem_douta,
-clkb => i2c_mem_clkb,
-web => i2c_mem_web,
-addrb => i2c_mem_addrb,
-dinb => i2c_mem_dinb,
-doutb => i2c_mem_doutb
+douta => i2c_mem_douta
 );
 
 tfm_clock <= i_clock;
