@@ -294,7 +294,7 @@ p1 : process (i_clock, i_reset) is
 			v_wait1 := 0;
 			i2c_mem_ena_tfm <= '0';
 			tfmout := i2c_mem_douta;
---			return tfmout;
+			return;
 		else
 			state := s1;
 			v_wait1 := v_wait1 + 1;
@@ -380,6 +380,7 @@ when e =>
 		state := e;
 		v_wait1 := v_wait1 + 1;
 	end if;
+
 when f =>
 	name1 (g, 2);
 when g =>
