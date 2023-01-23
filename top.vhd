@@ -306,37 +306,50 @@ if (rising_edge(i_clock)) then
 		state := s0;
 		v_wait1 := 0;
 		tfm_run <= '0';
-		tfm_ee0x2433 <= (others => '0');
-		tfm_ram0x072a <= (others => '0');
-		tfm_ee0x2438 <= (others => '0');
-		tfm_ram0x800d <= (others => '0');
-		tfm_ee0x2432 <= (others => '0');
-		tfm_ee0x2431 <= (others => '0');
-		tfm_ee0x2410 <= (others => '0');
+		tfm_ee0x2410 <= (others => '0'); -- kptat,scaleocc
+		tfm_ee0x2411 <= (others => '0'); -- pixosavg
+		tfm_ee0x2414 <= (others => '0'); -- occrow12
+		tfm_ee0x241b <= (others => '0'); -- occcol16
+
+		tfm_ee0x2420 <= (others => '0'); -- alphascale,scaleacc
+		tfm_ee0x2421 <= (others => '0'); -- pixsensavg
+		tfm_ee0x2424 <= (others => '0'); -- accrow12
+		tfm_ee0x242b <= (others => '0'); -- acccol16
+
+		tfm_ee0x2430 <= (others => '0'); -- gain
+		tfm_ee0x2431 <= (others => '0'); -- ptat25
+		tfm_ee0x2432 <= (others => '0'); -- kvptat,ktptat
+		tfm_ee0x2433 <= (others => '0'); -- kvdd,vdd25
+		tfm_ee0x2434 <= (others => '0'); -- kvavg_ro[re]co[ce] -- 4x4bit
+
+
+		tfm_ee0x2437 <= (others => '0'); -- ktaavg_ro[re]ce -- 2x8bit
+		tfm_ee0x2438 <= (others => '0'); -- resctrlcal,kvscale,ktascale1,ktascale2
+		tfm_ee0x2439 <= (others => '0'); -- cpsp1/sp0ratio
+
+		tfm_ee0x243a <= (others => '0'); -- cpoffdelta,offsetcpsp0
+		tfm_ee0x243b <= (others => '0'); -- kvcp,ktacp
+		tfm_ee0x243c <= (others => '0'); -- ksta,tgc
+		tfm_ee0x243d <= (others => '0'); -- ksto2,ksto1
+		tfm_ee0x243f <= (others => '0'); -- step,ct3,ct4,kstoscale
+
+
+
+		
+		
+
+		tfm_ee0x258f <= (others => '0');
+		tfm_ee0x25af <= (others => '0');
+		
+		tfm_ram0x0708 <= (others => '0');
+		tfm_ram0x0728 <= (others => '0');
+		tfm_ram0x056f <= (others => '0');
 		tfm_ram0x0720 <= (others => '0');
 		tfm_ram0x0700 <= (others => '0');
 		tfm_ram0x070a <= (others => '0');
-		tfm_ee0x2430 <= (others => '0');
-		tfm_ram0x056f <= (others => '0');
-		tfm_ee0x2411 <= (others => '0');
-		tfm_ee0x2414 <= (others => '0');
-		tfm_ee0x241b <= (others => '0');
-		tfm_ee0x25af <= (others => '0');
-		tfm_ee0x2437 <= (others => '0');
-		tfm_ee0x2434 <= (others => '0');
-		tfm_ram0x0708 <= (others => '0');
-		tfm_ram0x0728 <= (others => '0');
-		tfm_ee0x243a <= (others => '0');
-		tfm_ee0x243b <= (others => '0');
-		tfm_ee0x243c <= (others => '0');
-		tfm_ee0x2439 <= (others => '0');
-		tfm_ee0x2420 <= (others => '0');
-		tfm_ee0x2421 <= (others => '0');
-		tfm_ee0x2424 <= (others => '0');
-		tfm_ee0x242b <= (others => '0');
-		tfm_ee0x258f <= (others => '0');
-		tfm_ee0x243d <= (others => '0');
-		tfm_ee0x243f <= (others => '0');
+		tfm_ram0x800d <= (others => '0');
+		tfm_ram0x072a <= (others => '0');
+
 		tfm_pixelpattern <= (others => '0');
 		tfm_calculate <= '0';
 		i2c_mem_addra_tfm <= (others => '0');
@@ -352,7 +365,7 @@ when s0 =>
 	end if;
 
 when s1 => name1 (s2, 0);
-when s2 => name2 (s2, s3, tfmout);  tfm_ee0x2410 (15 downto 8) <= tfmout;
+when s2 => name2 (s2, s3, tfmout); tfm_ee0x2410 (15 downto 8) <= tfmout;
 when s3 => name1 (s4, 1);
 when s4 => name2 (s4, s5, tfmout); tfm_ee0x2410 (7 downto 0) <= tfmout;
 
@@ -360,6 +373,17 @@ when s5 => name1 (s6, 2);
 when s6 => name2 (s6, s7, tfmout); tfm_ee0x2411 (15 downto 8) <= tfmout;
 when s7 => name1 (s8, 3);
 when s8 => name2 (s8, s9, tfmout); tfm_ee0x2411 (7 downto 0) <= tfmout;
+
+when s9 => name1 (s10, 6);
+when s10 => name2 (s10, s11, tfmout); tfm_ee0x2414 (15 downto 8) <= tfmout;
+when s11 => name1 (s12, 7);
+when s12 => name2 (s12, s13, tfmout); tfm_ee0x2414 (7 downto 0) <= tfmout;
+
+when s13 => name1 (s14, 20);
+when s14 => name2 (s14, s15, tfmout); tfm_ee0x241b (15 downto 8) <= tfmout;
+when s15 => name1 (s16, 21);
+when s16 => name2 (s16, s17, tfmout); tfm_ee0x241b (7 downto 0) <= tfmout;
+
 
 when others => null;
 end case;
