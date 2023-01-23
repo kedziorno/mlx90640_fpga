@@ -275,7 +275,7 @@ i2c_mem_ena <=
 '0';
 
 p1 : process (i_clock, i_reset) is
-	type states is (a,b,c,d,e,f,g,h,i,j,k,l,m);
+	type states is (s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20);
 	variable state : states;
 	constant C_WAIT1 : integer := 2;
 	variable v_wait1 : integer range 0 to C_WAIT1 - 1;
@@ -303,7 +303,7 @@ p1 : process (i_clock, i_reset) is
 begin
 if (rising_edge(i_clock)) then
 	if (i_reset = '1') then
-		state := a;
+		state := s0;
 		v_wait1 := 0;
 		tfm_run <= '0';
 		tfm_ee0x2433 <= (others => '0');
@@ -342,90 +342,25 @@ if (rising_edge(i_clock)) then
 		i2c_mem_addra_tfm <= (others => '0');
 	else
 case (state) is
-when a =>
+when s0 =>
 	if (signal_i2c_mem_data_available = '1') then
-		state := b;
+		state := s1;
 		tfm_calculate <= '1';
 	else
-		state := a;
+		state := s0;
 		tfm_calculate <= '0';
 	end if;
-when b =>
-	state := c;
-	i2c_mem_addra_tfm <= std_logic_vector(to_unsigned(0,11)); -- ee0x2410
-	i2c_mem_ena_tfm <= '1';
-	v_wait1 := 0;
-when c =>
-	if (v_wait1 = C_WAIT1 - 1) then
-		state := d;
-		v_wait1 := 0;
-		i2c_mem_ena_tfm <= '0';
-		tfm_ee0x2410 (15 downto 8) <= i2c_mem_douta;
-	else
-		state := c;
-		v_wait1 := v_wait1 + 1;
-	end if;
-when d =>
-	state := e;
-	i2c_mem_addra_tfm <= std_logic_vector(to_unsigned(1,11)); -- ee0x2410
-	i2c_mem_ena_tfm <= '1';
-	v_wait1 := 0;
-when e =>
-	if (v_wait1 = C_WAIT1 - 1) then
-		state := f;
-		v_wait1 := 0;
-		i2c_mem_ena_tfm <= '0';
-		tfm_ee0x2410 (7 downto 0) <= i2c_mem_douta;
-	else
-		state := e;
-		v_wait1 := v_wait1 + 1;
-	end if;
 
-when f =>
-	name1 (g, 2);
-when g =>
-	name2 (g, h, tfmout); tfm_ee0x2411 (15 downto 8) <= tfmout;
-	
-when h =>
-	name1 (i, 3);
-when i =>
-	name2 (i, j, tfmout); tfm_ee0x2411 (7 downto 0) <= tfmout;
+when s1 => name1 (s2, 0);
+when s2 => name2 (s2, s3, tfmout);  tfm_ee0x2410 (15 downto 8) <= tfmout;
+when s3 => name1 (s4, 1);
+when s4 => name2 (s4, s5, tfmout); tfm_ee0x2410 (7 downto 0) <= tfmout;
 
---when f =>
---mem_kvdd_vdd25_address <= kvdd_vdd25(15 downto 8);
---if (v_wait1 = C_WAIT1 - 1) then
---state := g;
---v_wait1 := 0;
---else
---state := f;
---v_wait1 := v_wait1 + 1;
---end if;
---when g =>
---state := h;
---kvdd16 <= mem_kvdd_vdd25_data_kvdd;
---f32_data_kvdd <= to_float(x"0000"&mem_kvdd_vdd25_data_kvdd,f32_data_kvdd);
---when h =>
---state := i;
---when i =>
---mem_kvdd_vdd25_address <= kvdd_vdd25(7 downto 0);
---if (v_wait1 = C_WAIT1 - 1) then
---state := j;
---v_wait1 := 0;
---else
---state := i;
---v_wait1 := v_wait1 + 1;
---end if;
---when j =>
---state := k;
---vdd2516 <= mem_kvdd_vdd25_data_vdd25;
---f32_data_vdd25 <= to_float(x"0000"&mem_kvdd_vdd25_data_vdd25,f32_data_vdd25);
---when k =>
---state := l;
---i2c_mem_kvdd_vdd25_flag <= '0';
---when l =>
---state := m;
---done_kvdd_vdd25 <= '1';
---when m =>
+when s5 => name1 (s6, 2);
+when s6 => name2 (s6, s7, tfmout); tfm_ee0x2411 (15 downto 8) <= tfmout;
+when s7 => name1 (s8, 3);
+when s8 => name2 (s8, s9, tfmout); tfm_ee0x2411 (7 downto 0) <= tfmout;
+
 when others => null;
 end case;
 end if;
