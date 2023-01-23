@@ -279,6 +279,27 @@ p1 : process (i_clock, i_reset) is
 	variable state : states;
 	constant C_WAIT1 : integer := 2;
 	variable v_wait1 : integer range 0 to C_WAIT1 - 1;
+	variable tfmout : std_logic_vector (7 downto 0);
+	procedure name1 (s1 : in states; address : in integer range 0 to 2**10-1) is
+	begin
+		state := s1;
+		i2c_mem_addra_tfm <= std_logic_vector(to_unsigned(address,11));
+		i2c_mem_ena_tfm <= '1';
+		v_wait1 := 0;
+	end procedure name1;
+	procedure name2 (s1 : in states; s2 : in states; tfmout : out std_logic_vector (7 downto 0)) is
+	begin
+		if (v_wait1 = C_WAIT1 - 1) then
+			state := s2;
+			v_wait1 := 0;
+			i2c_mem_ena_tfm <= '0';
+			tfmout := i2c_mem_douta;
+--			return tfmout;
+		else
+			state := s1;
+			v_wait1 := v_wait1 + 1;
+		end if;
+	end procedure name2;
 begin
 if (rising_edge(i_clock)) then
 	if (i_reset = '1') then
@@ -359,6 +380,16 @@ when e =>
 		state := e;
 		v_wait1 := v_wait1 + 1;
 	end if;
+when f =>
+	name1 (g, 2);
+when g =>
+	name2 (g, h, tfmout); tfm_ee0x2411 (15 downto 8) <= tfmout;
+	
+when h =>
+	name1 (i, 3);
+when i =>
+	name2 (i, j, tfmout); tfm_ee0x2411 (7 downto 0) <= tfmout;
+
 --when f =>
 --mem_kvdd_vdd25_address <= kvdd_vdd25(15 downto 8);
 --if (v_wait1 = C_WAIT1 - 1) then
