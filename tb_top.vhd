@@ -57,7 +57,7 @@ signal scl : std_logic := '1';
 signal reset : std_logic := '0';
 signal clock : std_logic := '1';
 signal scl_clock : std_logic := '0';
-constant clock_period : time := 10 ns;
+constant clock_period : time := 20 ns;
 constant scl_clock_period : time := clock_period / 4;
 
 signal idle : std_logic := '0';

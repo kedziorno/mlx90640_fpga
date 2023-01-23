@@ -32,6 +32,8 @@ use ieee_proposed.float_pkg.all;
 use work.p_package1_constants.all;
 use work.fpupack.all;
 
+use work.p_fphdl_package1.all;
+
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx primitives in this code.
 library UNISIM;
@@ -162,7 +164,6 @@ signal f32_data_kvptat,f32_data_ktptat : float32;
 signal signal_i2c_mem_addra_index : std_logic_vector(10 downto 0);
 signal signal_i2c_mem_data_available : std_logic;
 
-signal i2c_r_done_address_prev : std_logic;
 signal i2c_r_done_data_prev : std_logic;
 
 signal kvdd_vdd25 : std_logic_vector(2*I2C_DATA_BITS - 1 downto 0); -- xxx 0xff/0xff
@@ -205,65 +206,66 @@ signal ta : float32;
 
 signal kvdd16,vdd2516 : std_logic_vector(15 downto 0);
 
+component test_fixed_melexis is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+i_ee0x2433 : in slv16;
+i_ram0x072a : in slv16;
+i_ee0x2438 : in slv16;
+i_ram0x800d : in slv16;
+i_ee0x2432 : in slv16;
+i_ee0x2431 : in slv16;
+i_ee0x2410 : in slv16;
+i_ram0x0720 : in slv16;
+i_ram0x0700 : in slv16;
+i_ram0x070a : in slv16;
+i_ee0x2430 : in slv16;
+i_ram0x056f : in slv16; -- pxdata12,16
+i_ee0x2411 : in slv16;
+i_ee0x2414 : in slv16;
+i_ee0x241b : in slv16;
+i_ee0x25af : in slv16;
+i_ee0x2437 : in slv16;
+i_ee0x2434 : in slv16;
+i_ram0x0708 : in slv16;
+i_ram0x0728 : in slv16;
+i_ee0x243a : in slv16;
+i_ee0x243b : in slv16;
+i_ee0x243c : in slv16;
+i_ee0x2439 : in slv16;
+i_ee0x2420 : in slv16;
+i_ee0x2421 : in slv16;
+i_ee0x2424 : in slv16;
+i_ee0x242b : in slv16;
+i_ee0x258f : in slv16;
+i_ee0x243d : in slv16;
+i_ee0x243f : in slv16;
+i_pixelpattern : in slv14; -- 12x16
+-----
+o_To : out fd2ft; -- output Temp
+o_rdy : out std_logic
+);
+end component test_fixed_melexis;
+
+signal tfm_clock,tfm_reset,tfm_rdy,tfm_run : std_logic;
+signal tfm_ee0x2433,tfm_ram0x072a,tfm_ee0x2438,tfm_ram0x800d,tfm_ee0x2432,tfm_ee0x2431,tfm_ee0x2410,tfm_ram0x0720,tfm_ram0x0700,tfm_ram0x070a,tfm_ee0x2430,tfm_ram0x056f,tfm_ee0x2411,tfm_ee0x2414,tfm_ee0x241b,tfm_ee0x25af,tfm_ee0x2437,tfm_ee0x2434,tfm_ram0x0708,tfm_ram0x0728,tfm_ee0x243a,tfm_ee0x243b,tfm_ee0x243c,tfm_ee0x2439,tfm_ee0x2420,tfm_ee0x2421,tfm_ee0x2424,tfm_ee0x242b,tfm_ee0x258f,tfm_ee0x243d,tfm_ee0x243f : slv16;
+signal tfm_pixelpattern : slv14; 
+signal tfm_to : fd2ft;
+
+signal tfm_calculate : std_logic;
+signal i2c_mem_addra_tfm : std_logic_vector (10 downto 0);
+
 begin
 
 o_data <= ta;
 
-mem_kvdd_vdd25_clock <= i_clock;
-mem_kvdd_vdd25_reset <= i_reset;
-mem_kvptat_ktptat_clock <= i_clock;
-mem_kvptat_ktptat_reset <= i_reset;
-mem_alphaptat_clock <= i_clock;
-mem_alphaptat_reset <= i_reset;
-
 i2c_mem_clka <= i_clock;
 i2c_mem_dina <= i2c_r_data;
 i2c_mem_addra <=
-	i2c_mem_kvdd_vdd25_address when i2c_mem_kvdd_vdd25_flag = '1'
-	else
-	i2c_mem_kvptat_ktptat_address when i2c_mem_kvptat_ktptat_flag = '1'
-	else
-	i2c_mem_vptat25_address when i2c_mem_vptat25_flag = '1'
-	else
-	i2c_mem_vptat_address when i2c_mem_vptat_flag = '1'
-	else
-	i2c_mem_vbe_address when i2c_mem_vbe_flag = '1'
-	else
-	i2c_mem_alphaptat_address when i2c_mem_alphaptat_flag = '1'
-	else
-	signal_i2c_mem_addra_index;
-
-p_i2c_mem_wr : process (i_clock,i_reset) is
-	type states is (a,b);
-	variable state : states;
-begin
-	if (rising_edge(i_clock)) then
-		if (i_reset = '1') then
-			state := a;
-		else
-			case (state) is
-				when a =>
-					if (i2c_r_sta = '1') then
-						state := b;
-						i2c_mem_wea <= "1";
-					else
-						state := a;
-						i2c_mem_wea <= "0";
-					end if;
-				when b =>
-					if (i2c_r_sto = '1') then
-						state := a;
-						i2c_mem_wea <= "0";
-					else
-						state := b;
-						i2c_mem_wea <= "1";
-					end if;
-				when others =>
-					null;
-			end case;
-		end if;
-	end if;
-end process p_i2c_mem_wr;
+i2c_mem_addra_tfm when tfm_calculate = '1'
+else signal_i2c_mem_addra_index;
 
 signal_i2c_mem_data_available <=
 	'1' when (
@@ -274,509 +276,128 @@ signal_i2c_mem_data_available <=
 	else 
 	'0';
 
-vptatart <= (f32_data_vvptat / ((f32_data_vvptat * f32_data_valphaptat) + f32_data_vvbe)) * to_float(262144.0,float32'high,-float32'low);
-ta <= (((vptatart / (1 + f32_data_kvptat * vdd)) - f32_data_vvptat25) / f32_data_ktptat) + to_float(25.0,float32'high,-float32'low);
+i2c_mem_wea(0) <= i2c_r_done_data;
 
-vdd <= ((to_float(std_logic_vector'(x"0000ccc5"),float32'high,-float32'low) - f32_data_vdd25) / f32_data_kvdd) when done_kvdd_vdd25 = '1' else to_float(0.0,float32'high,-float32'low);
-return_vdd <= vdd + to_float(3.3,float32'high,-float32'low) when done_kvdd_vdd25 = '1' else to_float(0.0,float32'high,-float32'low);
-
--- xxx 11.2.2.3,11.1.2 alphaptat
-p6 : process (i_clock, i_reset) is
-	type states is (a,b,c,d,e,f,g,h,i,j,k,l,m);
-	variable state : states;
-	constant C_WAIT1 : integer := 2;
-	variable v_wait1 : integer range 0 to C_WAIT1 - 1;
-begin
-	if (rising_edge(i_clock)) then
-		if (i_reset = '1') then
-			state := a;
-			v_wait1 := 0;
-			i2c_mem_alphaptat_flag <= '0';
-			alphaptat <= (others => '0');
-			done_alphaptat <= '0';
-			f32_data_valphaptat <= (others => '0');
-			i2c_mem_alphaptat_address <= (others => '0');
-			mem_alphaptat_address <= (others => '0');
-		else
-			case (state) is
-				when a =>
-					v_wait1 := 0;
-					if (done_vbe = '1') then
-						state := b;
-						i2c_mem_alphaptat_flag <= '1';
-					else
-						state := a;
-						i2c_mem_alphaptat_flag <= '0';
-					end if;
-				when b =>
-					state := c;
-					i2c_mem_alphaptat_address <= std_logic_vector(to_unsigned(0,11)); -- xxx ee[0x2410]
-				when c =>
-					if (v_wait1 = C_WAIT1 - 1) then
-						state := d;
-						v_wait1 := 0;
-						alphaptat(15 downto 8) <= i2c_mem_douta;
-					else
-						state := c;
-						v_wait1 := v_wait1 + 1;
-					end if;
-				when d =>
-					state := e;
-					i2c_mem_alphaptat_address <= std_logic_vector(to_unsigned(1,11)); -- xxx ee[0x2410]
-				when e =>
-					if (v_wait1 = C_WAIT1 - 1) then
-						state := f;
-						v_wait1 := 0;
-						alphaptat(7 downto 0) <= i2c_mem_douta;
-					else
-						state := e;
-						v_wait1 := v_wait1 + 1;
-					end if;
-				when f =>
-					mem_alphaptat_address <= x"000" & alphaptat(15 downto 12); -- xxx alphaptat 0xf000 - 4bit
-					if (v_wait1 = C_WAIT1 - 1) then
-						state := g;
-						v_wait1 := 0;
-					else
-						state := f;
-						v_wait1 := v_wait1 + 1;
-					end if;
-				when g =>
-					state := h;
-					f32_data_valphaptat <= to_float(mem_alphaptat_data_alphaptat,f32_data_valphaptat);
-				when h =>
-					state := i;
-					i2c_mem_alphaptat_flag <= '0';
---					f32_data_valphaptat(-8 downto -23) <= (others => '0');
-				when i =>
-					state := j;
-					done_alphaptat <= '1';
-				when j =>
-					report "kvdd : " & integer'image(to_integer(signed(kvdd16))) severity note;
-					report "vdd25 : " & integer'image(to_integer(signed(vdd2516))) severity note;
-					report "kvdd : " & real'image(to_real(f32_data_kvdd,denormalize=>false)) severity note;
-					report "vdd25 : " & real'image(to_real(f32_data_vdd25,denormalize=>false)) severity note;
-					report "vdd : " & real'image(to_real(vdd,denormalize=>false)) severity note;
-					report "return vdd : " & real'image(to_real(return_vdd,denormalize=>false)) severity note;
-					report "kvptat : " & real'image(to_real(f32_data_kvptat,denormalize=>false)) severity note;
-					report "ktptat : " & real'image(to_real(f32_data_ktptat,denormalize=>false)) severity note;
-					report "vvptat25 : " & real'image(to_real(f32_data_vvptat25,denormalize=>false)) severity note;
-					report "vptat25 : " & integer'image(to_integer(unsigned(vptat25))) severity note;
-					report "vvptat : " & real'image(to_real(f32_data_vvptat,denormalize=>false)) severity note;
-					report "vptat : " & integer'image(to_integer(unsigned(vptat))) severity note;
-					report "vvbe : " & real'image(to_real(f32_data_vvbe,denormalize=>false)) severity note;
-					report "vbe : " & integer'image(to_integer(unsigned(vbe))) severity note;
-					report "valphaptat : " & real'image(to_real(f32_data_valphaptat,denormalize=>false)) severity note;
-					report "alphaptat : " & integer'image(to_integer(unsigned(alphaptat))) severity note;
-					report "vptatart : " & real'image(to_real(vptatart,denormalize=>false)) severity note;
-					report "ta : " & real'image(to_real(ta,denormalize=>false)) severity note;
-					report "done" severity failure;
-				when others => null;
-			end case;
-		end if;
-	end if;
-end process p6;
-
--- xxx 11.2.2.3,11.1.2 vbe
-p5 : process (i_clock, i_reset) is
-	type states is (a,b,c,d,e,f,g,h,i,j,k,l,m);
-	variable state : states;
-	constant C_WAIT1 : integer := 2;
-	variable v_wait1 : integer range 0 to C_WAIT1 - 1;
-begin
-	if (rising_edge(i_clock)) then
-		if (i_reset = '1') then
-			state := a;
-			v_wait1 := 0;
-			i2c_mem_vbe_flag <= '0';
-			vbe <= (others => '0');
-			done_vbe <= '0';
-			f32_data_vvbe <= (others => '0');
-			i2c_mem_vbe_address <= (others => '0');
-		else
-			case (state) is
-				when a =>
-					v_wait1 := 0;
-					if (done_vptat = '1') then
-						state := b;
-						i2c_mem_vbe_flag <= '1';
-					else
-						state := a;
-						i2c_mem_vbe_flag <= '0';
-					end if;
-				when b =>
-					state := c;
-					i2c_mem_vbe_address <= std_logic_vector(to_unsigned(0,11)); -- xxx ram[0x0700]
-				when c =>
-					if (v_wait1 = C_WAIT1 - 1) then
-						state := d;
-						v_wait1 := 0;
---						vbe(15 downto 8) <= i2c_mem_douta;
-					else
-						state := c;
-						v_wait1 := v_wait1 + 1;
-					end if;
-				when d =>
-					state := e;
-					i2c_mem_vbe_address <= std_logic_vector(to_unsigned(0,11)); -- xxx ram[0x0700]
-				when e =>
-					if (v_wait1 = C_WAIT1 - 1) then
-						state := f;
-						v_wait1 := 0;
---						vbe(7 downto 0) <= i2c_mem_douta;
-						vbe <= x"4BF2"; -- xxx p.37 ds
-					else
-						state := e;
-						v_wait1 := v_wait1 + 1;
-					end if;
-				when f =>
-					state := g;
-					f32_data_vvbe <= to_float(x"0000" & vbe,f32_data_vvbe);
-				when g =>
-					state := h;
-					i2c_mem_vbe_flag <= '0';
---					f32_data_vvbe(-8 downto -23) <= (others => '0');
-				when h =>
-					state := i;
-					done_vbe <= '1';
-				when i =>
---					report "done" severity failure;
-				when others => null;
-			end case;
-		end if;
-	end if;
-end process p5;
-
--- xxx 11.2.2.3,11.1.2 vptat
-p4 : process (i_clock, i_reset) is
-	type states is (a,b,c,d,e,f,g,h,i,j,k,l,m);
-	variable state : states;
-	constant C_WAIT1 : integer := 2;
-	variable v_wait1 : integer range 0 to C_WAIT1 - 1;
-begin
-	if (rising_edge(i_clock)) then
-		if (i_reset = '1') then
-			state := a;
-			v_wait1 := 0;
-			i2c_mem_vptat_flag <= '0';
-			vptat <= (others => '0');
-			done_vptat <= '0';
-			f32_data_vvptat <= (others => '0');
-			i2c_mem_vptat_address <= (others => '0');
-		else
-			case (state) is
-				when a =>
-					v_wait1 := 0;
-					if (done_vptat25 = '1') then
-						state := b;
-						i2c_mem_vptat_flag <= '1';
-					else
-						state := a;
-						i2c_mem_vptat_flag <= '0';
-					end if;
-				when b =>
-					state := c;
-					i2c_mem_vptat_address <= std_logic_vector(to_unsigned(0,11)); -- xxx ram[0x0720]
-				when c =>
-					if (v_wait1 = C_WAIT1 - 1) then
-						state := d;
-						v_wait1 := 0;
---						vptat(15 downto 8) <= i2c_mem_douta;
-					else
-						state := c;
-						v_wait1 := v_wait1 + 1;
-					end if;
-				when d =>
-					state := e;
-					i2c_mem_vptat_address <= std_logic_vector(to_unsigned(0,11)); -- xxx ram[0x0720]
-				when e =>
-					if (v_wait1 = C_WAIT1 - 1) then
-						state := f;
-						v_wait1 := 0;
---						vptat(7 downto 0) <= i2c_mem_douta;
-						vptat <= x"06AF"; -- xxx p.37 ds
-					else
-						state := e;
-						v_wait1 := v_wait1 + 1;
-					end if;
-				when f =>
-					state := g;
-					f32_data_vvptat <= to_float(x"0000" & vptat,f32_data_vvptat);
-				when g =>
-					state := h;
-					i2c_mem_vptat_flag <= '0';
---					f32_data_vvptat(-8 downto -23) <= (others => '0');
-				when h =>
-					state := i;
-					done_vptat <= '1';
-				when i =>
---					report "done" severity failure;
-				when others => null;
-			end case;
-		end if;
-	end if;
-end process p4;
-
--- xxx 11.2.2.3,11.1.2 vptat25
-p3 : process (i_clock, i_reset) is
-	type states is (a,b,c,d,e,f,g,h,i,j,k,l,m);
-	variable state : states;
-	constant C_WAIT1 : integer := 2;
-	variable v_wait1 : integer range 0 to C_WAIT1 - 1;
-begin
-	if (rising_edge(i_clock)) then
-		if (i_reset = '1') then
-			state := a;
-			v_wait1 := 0;
-			i2c_mem_vptat25_flag <= '0';
-			vptat25 <= (others => '0');
-			done_vptat25 <= '0';
-			f32_data_vvptat25 <= (others => '0');
-			i2c_mem_vptat25_address <= (others => '0');
-		else
-			case (state) is
-				when a =>
-					v_wait1 := 0;
-					if (done_kvptat_ktptat = '1') then
-						state := b;
-						i2c_mem_vptat25_flag <= '1';
-					else
-						state := a;
-						i2c_mem_vptat25_flag <= '0';
-					end if;
-				when b =>
-					state := c;
-					i2c_mem_vptat25_address <= std_logic_vector(to_unsigned(66,11));
-				when c =>
-					if (v_wait1 = C_WAIT1 - 1) then
-						state := d;
-						v_wait1 := 0;
-						vptat25(15 downto 8) <= i2c_mem_douta;
-					else
-						state := c;
-						v_wait1 := v_wait1 + 1;
-					end if;
-				when d =>
-					state := e;
-					i2c_mem_vptat25_address <= std_logic_vector(to_unsigned(67,11));
-				when e =>
-					if (v_wait1 = C_WAIT1 - 1) then
-						state := f;
-						v_wait1 := 0;
-						vptat25(7 downto 0) <= i2c_mem_douta;
-					else
-						state := e;
-						v_wait1 := v_wait1 + 1;
-					end if;
-				when f =>
-					state := g;
-					f32_data_vvptat25 <= to_float(x"0000" & vptat25,f32_data_vvptat25);
-				when g =>
-					state := h;
-					i2c_mem_vptat25_flag <= '0';
---					f32_data_vvptat25(-8 downto -23) <= (others => '0');
-				when h =>
-					state := i;
-					done_vptat25 <= '1';
-				when i =>
---					report "done" severity failure;
-				when others => null;
-			end case;
-		end if;
-	end if;
-end process p3;
-
--- xxx 11.2.2.3,11.1.2 kvptat,ktptat
-p2 : process (i_clock, i_reset) is
-	type states is (a,b,c,d,e,f,g,h,i,j,k,l,m);
-	variable state : states;
-	constant C_WAIT1 : integer := 2;
-	variable v_wait1 : integer range 0 to C_WAIT1 - 1;
-begin
-	if (rising_edge(i_clock)) then
-		if (i_reset = '1') then
-			state := a;
-			v_wait1 := 0;
-			i2c_mem_kvptat_ktptat_flag <= '0';
-			kvptat_ktptat <= (others => '0');
-			done_kvptat_ktptat <= '0';
-			f32_data_kvptat <= (others => '0');
-			f32_data_ktptat <= (others => '0');
-			i2c_mem_kvptat_ktptat_address <= (others => '0');
-			mem_kvptat_ktptat_address <= (others => '0');
-		else
-			case (state) is
-				when a =>
-					v_wait1 := 0;
-					if (done_kvdd_vdd25 = '1') then
-						state := b;
-						i2c_mem_kvptat_ktptat_flag <= '1';
-					else
-						state := a;
-						i2c_mem_kvptat_ktptat_flag <= '0';
-					end if;
-				when b =>
-					state := c;
-					i2c_mem_kvptat_ktptat_address <= std_logic_vector(to_unsigned(68,11));
-				when c =>
-					if (v_wait1 = C_WAIT1 - 1) then
-						state := d;
-						v_wait1 := 0;
-						kvptat_ktptat(15 downto 8) <= i2c_mem_douta;
-					else
-						state := c;
-						v_wait1 := v_wait1 + 1;
-					end if;
-				when d =>
-					state := e;
-					i2c_mem_kvptat_ktptat_address <= std_logic_vector(to_unsigned(69,11));
-				when e =>
-					if (v_wait1 = C_WAIT1 - 1) then
-						state := f;
-						v_wait1 := 0;
-						kvptat_ktptat(7 downto 0) <= i2c_mem_douta;
-					else
-						state := e;
-						v_wait1 := v_wait1 + 1;
-					end if;
-				when f =>
-					mem_kvptat_ktptat_address <= "0000000000" & kvptat_ktptat(15 downto 10); -- xxx kvptat 0xfc000 - 6bit
-					if (v_wait1 = C_WAIT1 - 1) then
-						state := g;
-						v_wait1 := 0;
-					else
-						state := f;
-						v_wait1 := v_wait1 + 1;
-					end if;
-				when g =>
-					state := h;
-					f32_data_kvptat <= to_float(mem_kvptat_ktptat_data_kvptat,f32_data_kvptat);
-				when h =>
-					state := i;
-				when i =>
-					mem_kvptat_ktptat_address <= "000000" & kvptat_ktptat(9 downto 0); -- xxx ktptat 0x03ff - 10bit
-					if (v_wait1 = C_WAIT1 - 1) then
-						state := j;
-						v_wait1 := 0;
-					else
-						state := i;
-						v_wait1 := v_wait1 + 1;
-					end if;
-				when j =>
-					state := k;
-					f32_data_ktptat <= to_float(mem_kvptat_ktptat_data_ktptat,f32_data_ktptat);
-				when k =>
-					state := l;
-					i2c_mem_kvptat_ktptat_flag <= '0';
-				when l =>
-					state := m;
-					done_kvptat_ktptat <= '1';
-				when m =>
---					report "return vdd : " & real'image(to_real(return_vdd,denormalize=>false)) severity note;
---					report "done" severity failure;
-				when others => null;
-			end case;
-		end if;
-	end if;
-end process p2;
-
---vdd <= ((to_float(std_logic_vector'(x"0000ccc5"),float32'high,-float32'low) - f32_data_vdd25) / f32_data_kvdd) when done_kvdd_vdd25 = '1' else to_float(0.0,float32'high,-float32'low);
---return_vdd <=  vdd + to_float(3.3,float32'high,-float32'low) when done_kvdd_vdd25 = '1' else to_float(0.0,float32'high,-float32'low);
-
--- xxx 11.2.2.2,11.1.1 datasheet p.33 0x2433-0x2410 = 0x23 * 2 = 0x70 -> kvdd/vdd25 = 0x9d68
 p1 : process (i_clock, i_reset) is
 	type states is (a,b,c,d,e,f,g,h,i,j,k,l,m);
 	variable state : states;
 	constant C_WAIT1 : integer := 2;
 	variable v_wait1 : integer range 0 to C_WAIT1 - 1;
 begin
-	if (rising_edge(i_clock)) then
-		if (i_reset = '1') then
-			state := a;
-			kvdd_vdd25 <= (others => '0');
-			v_wait1 := 0;
-			done_kvdd_vdd25 <= '0';
-			i2c_mem_kvdd_vdd25_flag <= '0';
-			f32_data_kvdd <= (others => '0');
-			f32_data_vdd25 <= (others => '0');
-			i2c_mem_kvdd_vdd25_address <= (others => '0');
-			mem_kvdd_vdd25_address <= (others => '0');
-		else
-			case (state) is
-				when a =>
-					done_kvdd_vdd25 <= '0';
-					v_wait1 := 0;
-					if (i2c_r_sto = '1') then
-						state := b;
-						i2c_mem_kvdd_vdd25_flag <= '1';
-					else
-						state := a;
-						i2c_mem_kvdd_vdd25_flag <= '0';
-					end if;
-				when b =>
-					state := c;
-					i2c_mem_kvdd_vdd25_address <= std_logic_vector(to_unsigned(70,11));
-				when c =>
-					if (v_wait1 = C_WAIT1 - 1) then
-						state := d;
-						v_wait1 := 0;
-						kvdd_vdd25(15 downto 8) <= i2c_mem_douta;
-					else
-						state := c;
-						v_wait1 := v_wait1 + 1;
-					end if;
-				when d =>
-					state := e;
-					i2c_mem_kvdd_vdd25_address <= std_logic_vector(to_unsigned(71,11));
-				when e =>
-					if (v_wait1 = C_WAIT1 - 1) then
-						state := f;
-						v_wait1 := 0;
-						kvdd_vdd25(7 downto 0) <= i2c_mem_douta;
-					else
-						state := e;
-						v_wait1 := v_wait1 + 1;
-					end if;
-				when f =>
-					mem_kvdd_vdd25_address <= kvdd_vdd25(15 downto 8);
-					if (v_wait1 = C_WAIT1 - 1) then
-						state := g;
-						v_wait1 := 0;
-					else
-						state := f;
-						v_wait1 := v_wait1 + 1;
-					end if;
-				when g =>
-					state := h;
-					kvdd16 <= mem_kvdd_vdd25_data_kvdd;
-					f32_data_kvdd <= to_float(x"0000"&mem_kvdd_vdd25_data_kvdd,f32_data_kvdd);
-				when h =>
-					state := i;
-				when i =>
-					mem_kvdd_vdd25_address <= kvdd_vdd25(7 downto 0);
-					if (v_wait1 = C_WAIT1 - 1) then
-						state := j;
-						v_wait1 := 0;
-					else
-						state := i;
-						v_wait1 := v_wait1 + 1;
-					end if;
-				when j =>
-					state := k;
-					vdd2516 <= mem_kvdd_vdd25_data_vdd25;
-					f32_data_vdd25 <= to_float(x"0000"&mem_kvdd_vdd25_data_vdd25,f32_data_vdd25);
-				when k =>
-					state := l;
-					i2c_mem_kvdd_vdd25_flag <= '0';
-				when l =>
-					state := m;
-					done_kvdd_vdd25 <= '1';
-				when m =>
---					report "done" severity failure;
-				when others => null;
-			end case;
-		end if;
+if (rising_edge(i_clock)) then
+	if (i_reset = '1') then
+		state := a;
+		v_wait1 := 0;
+		tfm_run <= '0';
+		tfm_ee0x2433 <= (others => '0');
+		tfm_ram0x072a <= (others => '0');
+		tfm_ee0x2438 <= (others => '0');
+		tfm_ram0x800d <= (others => '0');
+		tfm_ee0x2432 <= (others => '0');
+		tfm_ee0x2431 <= (others => '0');
+		tfm_ee0x2410 <= (others => '0');
+		tfm_ram0x0720 <= (others => '0');
+		tfm_ram0x0700 <= (others => '0');
+		tfm_ram0x070a <= (others => '0');
+		tfm_ee0x2430 <= (others => '0');
+		tfm_ram0x056f <= (others => '0');
+		tfm_ee0x2411 <= (others => '0');
+		tfm_ee0x2414 <= (others => '0');
+		tfm_ee0x241b <= (others => '0');
+		tfm_ee0x25af <= (others => '0');
+		tfm_ee0x2437 <= (others => '0');
+		tfm_ee0x2434 <= (others => '0');
+		tfm_ram0x0708 <= (others => '0');
+		tfm_ram0x0728 <= (others => '0');
+		tfm_ee0x243a <= (others => '0');
+		tfm_ee0x243b <= (others => '0');
+		tfm_ee0x243c <= (others => '0');
+		tfm_ee0x2439 <= (others => '0');
+		tfm_ee0x2420 <= (others => '0');
+		tfm_ee0x2421 <= (others => '0');
+		tfm_ee0x2424 <= (others => '0');
+		tfm_ee0x242b <= (others => '0');
+		tfm_ee0x258f <= (others => '0');
+		tfm_ee0x243d <= (others => '0');
+		tfm_ee0x243f <= (others => '0');
+		tfm_pixelpattern <= (others => '0');
+		tfm_calculate <= '0';
+		i2c_mem_addra_tfm <= (others => '0');
+	else
+case (state) is
+when a =>
+	if (signal_i2c_mem_data_available = '1') then
+		state := b;
+		tfm_calculate <= '1';
+	else
+		state := a;
+		tfm_calculate <= '0';
 	end if;
+when b =>
+	state := c;
+	i2c_mem_addra_tfm <= std_logic_vector(to_unsigned(0,11)); -- ee0x2410
+	v_wait1 := 0;
+when c =>
+	if (v_wait1 = C_WAIT1 - 1) then
+		state := d;
+		v_wait1 := 0;
+		tfm_ee0x2410 (15 downto 8) <= i2c_mem_douta;
+	else
+		state := c;
+		v_wait1 := v_wait1 + 1;
+	end if;
+when d =>
+	state := e;
+	i2c_mem_addra_tfm <= std_logic_vector(to_unsigned(1,11)); -- ee0x2410
+	v_wait1 := 0;
+when e =>
+	if (v_wait1 = C_WAIT1 - 1) then
+		state := f;
+		v_wait1 := 0;
+		tfm_ee0x2410 (7 downto 0) <= i2c_mem_douta;
+	else
+		state := e;
+		v_wait1 := v_wait1 + 1;
+	end if;
+--when f =>
+--mem_kvdd_vdd25_address <= kvdd_vdd25(15 downto 8);
+--if (v_wait1 = C_WAIT1 - 1) then
+--state := g;
+--v_wait1 := 0;
+--else
+--state := f;
+--v_wait1 := v_wait1 + 1;
+--end if;
+--when g =>
+--state := h;
+--kvdd16 <= mem_kvdd_vdd25_data_kvdd;
+--f32_data_kvdd <= to_float(x"0000"&mem_kvdd_vdd25_data_kvdd,f32_data_kvdd);
+--when h =>
+--state := i;
+--when i =>
+--mem_kvdd_vdd25_address <= kvdd_vdd25(7 downto 0);
+--if (v_wait1 = C_WAIT1 - 1) then
+--state := j;
+--v_wait1 := 0;
+--else
+--state := i;
+--v_wait1 := v_wait1 + 1;
+--end if;
+--when j =>
+--state := k;
+--vdd2516 <= mem_kvdd_vdd25_data_vdd25;
+--f32_data_vdd25 <= to_float(x"0000"&mem_kvdd_vdd25_data_vdd25,f32_data_vdd25);
+--when k =>
+--state := l;
+--i2c_mem_kvdd_vdd25_flag <= '0';
+--when l =>
+--state := m;
+--done_kvdd_vdd25 <= '1';
+--when m =>
+when others => null;
+end case;
+end if;
+end if;
 end process p1;
 
 p0 : process (i_clock, i_reset) is
@@ -791,7 +412,7 @@ begin
 			if (i2c_r_sto = '1') then
 				variable_i2c_mem_addra_index := 0;
 			elsif (i2c_r_done_data_prev = '0' and i2c_r_done_data = '1') then
-					variable_i2c_mem_addra_index := variable_i2c_mem_addra_index + 1;
+				variable_i2c_mem_addra_index := variable_i2c_mem_addra_index + 1;
 			end if;
 		end if;
 		signal_i2c_mem_addra_index <= std_logic_vector(to_unsigned(variable_i2c_mem_addra_index,11));
@@ -830,30 +451,48 @@ dinb => i2c_mem_dinb,
 doutb => i2c_mem_doutb
 );
 
-inst_mem_kvdd_vdd25 : mem_kvdd_vdd25
-port map (
-i_clock => mem_kvdd_vdd25_clock,
-i_reset => mem_kvdd_vdd25_reset,
-i_address => mem_kvdd_vdd25_address,
-o_data_kvdd => mem_kvdd_vdd25_data_kvdd,
-o_data_vdd25 => mem_kvdd_vdd25_data_vdd25
-);
+tfm_clock <= i_clock;
+tfm_reset <= i_reset;
 
-inst_mem_kvptat_ktptat : mem_kvptat_ktptat
+inst_tfm : test_fixed_melexis
 port map (
-i_clock => mem_kvptat_ktptat_clock,
-i_reset => mem_kvptat_ktptat_reset,
-i_address => mem_kvptat_ktptat_address,
-o_data_kvptat => mem_kvptat_ktptat_data_kvptat,
-o_data_ktptat => mem_kvptat_ktptat_data_ktptat
-);
-
-inst_mem_alphaptat : mem_alphaptat
-port map (
-i_clock => mem_alphaptat_clock,
-i_reset => mem_alphaptat_reset,
-i_address => mem_alphaptat_address,
-o_data_alphaptat => mem_alphaptat_data_alphaptat
+i_clock => tfm_clock,
+i_reset => tfm_reset,
+i_run => tfm_run,
+i_ee0x2433 => tfm_ee0x2433,
+i_ram0x072a => tfm_ram0x072a,
+i_ee0x2438 => tfm_ee0x2438,
+i_ram0x800d => tfm_ram0x800d,
+i_ee0x2432 => tfm_ee0x2432,
+i_ee0x2431 => tfm_ee0x2431,
+i_ee0x2410 => tfm_ee0x2410,
+i_ram0x0720 => tfm_ram0x0720,
+i_ram0x0700 => tfm_ram0x0700,
+i_ram0x070a => tfm_ram0x070a,
+i_ee0x2430 => tfm_ee0x2430,
+i_ram0x056f => tfm_ram0x056f,
+i_ee0x2411 => tfm_ee0x2411,
+i_ee0x2414 => tfm_ee0x2414,
+i_ee0x241b => tfm_ee0x241b,
+i_ee0x25af => tfm_ee0x25af,
+i_ee0x2437 => tfm_ee0x2437,
+i_ee0x2434 => tfm_ee0x2434,
+i_ram0x0708 => tfm_ram0x0708,
+i_ram0x0728 => tfm_ram0x0728,
+i_ee0x243a => tfm_ee0x243a,
+i_ee0x243b => tfm_ee0x243b,
+i_ee0x243c => tfm_ee0x243c,
+i_ee0x2439 => tfm_ee0x2439,
+i_ee0x2420 => tfm_ee0x2420,
+i_ee0x2421 => tfm_ee0x2421,
+i_ee0x2424 => tfm_ee0x2424,
+i_ee0x242b => tfm_ee0x242b,
+i_ee0x258f => tfm_ee0x258f,
+i_ee0x243d => tfm_ee0x243d,
+i_ee0x243f => tfm_ee0x243f,
+i_pixelpattern => tfm_pixelpattern,
+o_To => tfm_to,
+o_rdy => tfm_rdy
 );
 
 end Behavioral;

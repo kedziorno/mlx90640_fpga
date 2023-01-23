@@ -20,9 +20,6 @@ ARCHITECTURE arch OF tb_test_fixed_melexis IS
 
 -- Component Declaration
 component test_fixed_melexis is
-generic (
-G_C_WAIT1 : integer := 0
-);
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -80,10 +77,7 @@ BEGIN
 out1r <= ap_slv2fp (o_To);
 
 -- Component Instantiation
-uut : test_fixed_melexis 
-generic map (
-G_C_WAIT1 => G_C_WAIT1
-)
+uut : test_fixed_melexis
 port map (
 i_clock => i_clock,
 i_reset => i_reset,
