@@ -57,7 +57,7 @@ i_ee0x2433 : in slv16; -- kvdd,vdd25
 i_ee0x2434 : in slv16; -- kvavg_roco,kvavg_reco,kvavg_roce,kvavg_rece(kv_ij-p.39)
 
 i_ee0x2437 : in slv16; -- ktaavg_roce,ktaavg_rece(ktarcee)
-i_ee0x2438 : in slv16; -- resolutioncontrolcal,kvscale,ktascale1,ktascale2-2/4/4/4
+i_ee0x2438 : in slv16; -- resolutioncontrolcal,kvscale,ktascale1,ktascale2-2/4/4/4|resolutionee
 i_ee0x2439 : in slv16; -- cpsp1ratio/cpsp0ratio,alphacpsp0-6/10,acpsubpage0|cpp1p0ratio
 
 i_ee0x243a : in slv16; -- offcpsubpage1delta,offcpsubpage0-6/10
@@ -70,15 +70,15 @@ i_ee0x243f : in slv16; -- step,ct4,ct3,kstoscale-2/4/4/4
 i_ee0x258f : in slv16; -- apixel1216
 i_ee0x25af : in slv16; -- offset1216,kta1216ee-6,...,3
 
-i_ram0x056f : in slv16; -- pxdata1216
+i_ram0x056f : in slv16; -- pxdata1216,11.2.2.5.1
 
 i_ram0x0700 : in slv16; -- for vbe
-i_ram0x0708 : in slv16; -- for pixgaincpsp0
-i_ram0x070a : in slv16; -- 
+i_ram0x0708 : in slv16; -- for pixgaincpsp0,cpsubpage0
+i_ram0x070a : in slv16; -- gain
 
-i_ram0x0720 : in slv16; -- for vptat
-i_ram0x0728 : in slv16; -- for pixgaincpsp1
-i_ram0x072a : in slv16; -- for deltaV
+i_ram0x0720 : in slv16; -- for vptat,ptat
+i_ram0x0728 : in slv16; -- for pixgaincpsp1,cpsubpage1
+i_ram0x072a : in slv16; -- for deltaV,vdd
 
 i_ram0x800d : in slv16; -- resolution reg
 
@@ -3496,10 +3496,8 @@ when idle =>
 				when s386 => state := s387;
 					subfpsclr <= '0';
 					outTo := fttmp1_ft;
-				when s387 =>
-rdyrecover <= '1';
-
-					report "end calc" severity failure;
+				when s387 => state := idle;
+--					report "end calc" severity failure;
 
 
 
