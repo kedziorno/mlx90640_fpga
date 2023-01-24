@@ -1,6 +1,6 @@
 #!/home/user/.local/bin/python3
 
-# EE[0x2410]
+# EE[0x2433]
 
 import numpy as np
 import struct
@@ -36,18 +36,20 @@ for i in range (0, 0xFF+1):
 	col2 = col1 / pow(2,8)
 	col3 = col2 - 256 if ( col2 > 127 ) else col2
 	col4 = col3 * pow(2,5)
-	col4 = np.int16(col4)
-	col4 = col4.view(np.int16)
-	print ("%d"%i,"%f"%col1,"%f"%col2,"%f"%col3,"%d"%col4,"0x{:04x}".format((int(col4) & 0xFFFF), '04x'))
-	str1.append("0x{:04x}".format((int(col4) & 0xFFFF), '04x'))
+	#col4 = np.int16(col4)
+	#col4 = col4.view(np.int16)
+	#print ("%d"%i,"%f"%col1,"%f"%col2,"%f"%col3,"%d"%col4,"0x{:04x}".format((int(col4) & 0xFFFF), '04x'))
+	#str1.append("0x{:04x}".format((int(col4) & 0xFFFF), '04x'))
+	print ("%d"%i,"%f"%col1,"%f"%col2,"%f"%col3,"%d"%col4,"%s"%float_to_hex(col4))
+	str1.append("%s"%float_to_hex(col4))
 
 print (str1)
 
-for i in range (0, 0xFF, 16):
-	for j in reversed(range(0,16)):
+for i in range (0, 0xFF, 8):
+	for j in reversed(range(0,8)):
 		c=a+j
 		str2 = str2 + str1[c][2:]
-	a = a + 16
+	a = a + 8
 	str3.append(str2)
 	str2 = ""
 
