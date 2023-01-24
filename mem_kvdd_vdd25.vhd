@@ -33,7 +33,8 @@ entity mem_kvdd_vdd25 is
 port (
 	i_clock : in std_logic;
 	i_reset : in std_logic;
-	i_address : in std_logic_vector(7 downto 0);
+	i_address_kvdd : in std_logic_vector(7 downto 0);
+	i_address_vdd25 : in std_logic_vector(7 downto 0);
 	o_data_kvdd : out std_logic_vector(15 downto 0);
 	o_data_vdd25 : out std_logic_vector(15 downto 0)
 );
@@ -169,14 +170,14 @@ signal address_vdd25 : std_logic_vector(14 downto 0);
 
 begin
 
-p0 : process (i_address) is
+p0 : process (i_address_kvdd) is
 begin
-	address_kvdd <= std_logic_vector(to_unsigned(to_integer(unsigned(i_address)) * 16,15));
+	address_kvdd <= std_logic_vector(to_unsigned(to_integer(unsigned(i_address_kvdd)) * 16,15));
 end process p0;
 
-p1 : process (i_address) is
+p1 : process (i_address_vdd25) is
 begin
-	address_vdd25 <= std_logic_vector(to_unsigned(((to_integer(unsigned(i_address))) * 16) + 4096,15));
+	address_vdd25 <= std_logic_vector(to_unsigned(((to_integer(unsigned(i_address_vdd25))) * 16) + 4096,15));
 end process p1;
 
 o_data_kvdd(15 downto 0) <= odata_kvdd(15 downto 0);

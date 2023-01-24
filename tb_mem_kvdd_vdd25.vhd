@@ -44,7 +44,8 @@ COMPONENT mem_kvdd_vdd25
 PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
-i_address : IN  std_logic_vector(7 downto 0);
+i_address_kvdd : IN  std_logic_vector(7 downto 0);
+i_address_vdd25 : IN  std_logic_vector(7 downto 0);
 o_data_kvdd : OUT  std_logic_vector(15 downto 0);
 o_data_vdd25 : OUT  std_logic_vector(15 downto 0)
 );
@@ -53,7 +54,8 @@ END COMPONENT;
 --Inputs
 signal i_clock : std_logic := '0';
 signal i_reset : std_logic := '0';
-signal i_address : std_logic_vector(7 downto 0);
+signal i_address_kvdd : std_logic_vector(7 downto 0);
+signal i_address_vdd25 : std_logic_vector(7 downto 0);
 
 --Outputs
 signal o_data_kvdd : std_logic_vector(15 downto 0);
@@ -101,7 +103,8 @@ BEGIN
 uut: mem_kvdd_vdd25 PORT MAP (
 i_clock => i_clock,
 i_reset => i_reset,
-i_address => i_address,
+i_address_kvdd => i_address_kvdd,
+i_address_vdd25 => i_address_vdd25,
 o_data_kvdd => o_data_kvdd,
 o_data_vdd25 => o_data_vdd25
 );
@@ -124,13 +127,17 @@ wait for 100 ns;
 wait for i_clock_period*10;
 i_reset <= '0';
 -- insert stimulus here
-l0 : for i in 0 to 257 loop
-i_address <= std_logic_vector(to_unsigned(i,8));
+i_address_kvdd <= std_logic_vector(to_unsigned(157,8));
+i_address_vdd25 <= std_logic_vector(to_unsigned(104,8));
 wait for i_clock_period;
-report real'image(ap_slv2fp(o_data_kvdd));
-end loop l0;
-i_address <= x"33";
-wait for i_clock_period;
+
+--l0 : for i in 0 to 257 loop
+--i_address <= std_logic_vector(to_unsigned(i,8));
+--wait for i_clock_period;
+--report real'image(ap_slv2fp(o_data_kvdd));
+--end loop l0;
+--i_address <= x"33";
+--wait for i_clock_period;
 report "done" severity failure;
 end process;
 
