@@ -15,9 +15,9 @@ str3 = list()
 a = 0
 
 for i in range (0, 0xF+1):
-	col1 = i * 0x1000
-	col2 = col1 / pow(2,12)
-	col3 = col2 / pow(2,2) + 8
+	col1 = i
+	col2 = col1 / pow(2,2)
+	col3 = col2 + 8
 	print ("%d"%i,"%f"%col1,"%f"%col2,"%f"%col3,"%s"%float_to_hex(col3))
 	str1.append(float_to_hex(col3))
 
