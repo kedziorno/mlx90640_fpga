@@ -18,7 +18,7 @@ str3 = list()
 a = 0
 n = 1024
 
-for i in range (0, 1024):
+for i in range (0, 0x3ff+1):
 	col1 = i
 	col2 = col1 - 1024 if ( col1 > 511 ) else col1
 	col3 = col2 / pow(2,3)
@@ -30,7 +30,7 @@ for i in range (0, 1024):
 
 #print (str1)
 
-for i in range (0, 1024, 8):
+for i in range (0, 0x3ff+1, 8):
 	for j in reversed(range(0,8)):
 		c=a+j
 		str2 = str2 + str1[c][2:]
