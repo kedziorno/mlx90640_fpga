@@ -383,9 +383,12 @@ ssr <= '1';
 wait for 100 ns;	
 ssr <= '0';
 wait for CLK_period*10;
--- insert stimulus here 
+-- insert stimulus here
 en <= '1';
-wait for CLK_period*2;
+wait for CLK_period/2;
+wait for CLK_period/2;
+wait for CLK_period/2;
+wait for CLK_period/2;
 addr <= std_logic_vector (to_unsigned (111,10));
 wait for CLK_period*2;
 addr <= std_logic_vector (to_unsigned (222,10));

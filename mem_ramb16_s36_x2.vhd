@@ -194,8 +194,8 @@ end mem_ramb16_s36_x2;
 
 architecture Behavioral of mem_ramb16_s36_x2 is
 
-signal DO1,DO2 : std_logic_vector (31 downto 0);
-signal DOP1,DOP2 : std_logic_vector (3 downto 0);
+signal DO1,DO2,DOR : std_logic_vector (31 downto 0);
+signal DOP1,DOP2,DOPR : std_logic_vector (3 downto 0);
 signal ADDR1,ADDR2 : std_logic_vector (8 downto 0);
 signal CLK1,CLK2 : std_logic;
 signal DI1,DI2 : std_logic_vector (31 downto 0);
@@ -209,41 +209,56 @@ begin
 ADDR1 <= ADDR (8 downto 0);
 ADDR2 <= ADDR (8 downto 0);
 CLK1 <= CLK;
-SSR1 <= SSR;
+--SSR1 <= SSR;
 WE1 <= WE;
 CLK2 <= CLK;
-SSR2 <= SSR;
+--SSR2 <= SSR;
 WE2 <= WE;
 DI1 <= DI;
 DIP1 <= DIP;
 DI2 <= DI;
 DIP2 <= DIP;
 
-p0 : process (ADDR,EN) is
+p0 : process (CLK) is
 begin
-	if (ADDR (9) = '0') then
-		EN1 <= EN;
-		EN2 <= '0';
-	elsif (ADDR (9) = '1') then
-		EN1 <= '0';
-		EN2 <= EN;
-	else
-		EN1 <= '0';
-		EN2 <= '0';
+	if (rising_edge (CLK)) then
+		if (ADDR (9) = '0') then
+			EN1 <= EN;
+			EN2 <= '0';
+			SSR1 <= '0';
+			SSR2 <= EN;
+		end if;
+		if (ADDR (9) = '1') then
+			EN1 <= '0';
+			EN2 <= EN;
+			SSR1 <= EN;
+			SSR2 <= '0';
+		end if;
 	end if;
 end process p0;
 
+p2 : process (CLK,SSR) is
+begin
+	if (SSR = '1') then
+		DO <= (others => '0');
+		DOP <= (others => '0');
+	elsif (rising_edge (CLK)) then
+		DO <= DOR;
+		DOP <= DOPR;
+	end if;
+end process p2;
+
 p1 : process (EN1,EN2,DO1,DOP1,DO2,DOP2) is
 begin
-	DO <= (others => '0');
-	DOP <= (others => '0');
+	DOR <= (others => '0');
+	DOPR <= (others => '0');
 	if (EN1 = '1' and EN2 = '0') then
-		DO <= DO1;
-		DOP <= DOP1;
+		DOR <= DO1;
+		DOPR <= DOP1;
 	end if;
 	if (EN1 = '0' and EN2 = '1') then
-		DO <= DO2;
-		DOP <= DOP2;
+		DOR <= DO2;
+		DOPR <= DOP2;
 	end if;
 end process p1;
 
@@ -251,7 +266,7 @@ RAMB16_S36_inst1 : RAMB16_S36
 generic map (
 INIT => X"000000000", -- Value of output RAM registers at startup
 SRVAL => X"000000000", -- Output value upon SSR assertion
-WRITE_MODE => "WRITE_FIRST", -- WRITE_FIRST, READ_FIRST or NO_CHANGE
+WRITE_MODE => "READ_FIRST", -- WRITE_FIRST, READ_FIRST or NO_CHANGE
 -- The following INIT_xx declarations specify the initial contents of the RAM
 -- Address 0 to 127
 INIT_00 => INIT_00,
@@ -351,7 +366,7 @@ RAMB16_S36_inst2 : RAMB16_S36
 generic map (
 INIT => X"000000000", -- Value of output RAM registers at startup
 SRVAL => X"000000000", -- Output value upon SSR assertion
-WRITE_MODE => "WRITE_FIRST", -- WRITE_FIRST, READ_FIRST or NO_CHANGE
+WRITE_MODE => "READ_FIRST", -- WRITE_FIRST, READ_FIRST or NO_CHANGE
 -- The following INIT_xx declarations specify the initial contents of the RAM
 -- Address 0 to 127
 INIT_00 => INIT_40,
