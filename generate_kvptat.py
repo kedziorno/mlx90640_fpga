@@ -15,7 +15,7 @@ str3 = list()
 a = 0
 n = 63
 
-for i in range (0, 64):
+for i in range (0, 0x40):
 	col1 = i
 	col2 = col1 - 64 if ( col1 > 31 ) else col1
 	col3 = col2 / pow(2,12)
@@ -32,7 +32,7 @@ for i in range (0, 64):
 
 #print (str1)
 
-for i in range (0, 64, 8):
+for i in range (0, 0x40, 8):
 	for j in reversed(range(0,8)):
 		c=a+j
 		str2 = str2 + str1[c][2:]

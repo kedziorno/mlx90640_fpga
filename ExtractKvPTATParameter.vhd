@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date:    17:01:44 01/24/2023 
+-- Create Date:    13:53:33 01/25/2023 
 -- Design Name: 
--- Module Name:    ExtractAlphaPtatParameter - Behavioral 
+-- Module Name:    ExtractKvPTATParameter - Behavioral 
 -- Project Name: 
 -- Target Devices: 
 -- Tool versions: 
@@ -29,41 +29,48 @@ use IEEE.NUMERIC_STD.ALL;
 library UNISIM;
 use UNISIM.VComponents.all;
 
-entity ExtractAlphaPtatParameter is
+entity ExtractKvPTATParameter is
 port (
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
-i_ee0x2410 : IN  std_logic_vector (15 downto 0);
-o_alphaptat: OUT  std_logic_vector (31 downto 0)
+i_ee0x2432 : IN  std_logic_vector (15 downto 0);
+o_kvptat : OUT  std_logic_vector (31 downto 0)
 );
-end ExtractAlphaPtatParameter;
 
-architecture Behavioral of ExtractAlphaPtatParameter is
+end ExtractKvPTATParameter;
 
-signal odata_alphaptat : std_logic_vector (31 downto 0);
-signal address_alphaptat : std_logic_vector (8 downto 0);
+architecture Behavioral of ExtractKvPTATParameter is
+
+signal odata_kvptat : std_logic_vector (31 downto 0);
+signal address_kvptat : std_logic_vector (8 downto 0);
 
 begin
 
-p0 : process (i_ee0x2410) is
+o_kvptat  <= odata_kvptat;
+
+p0 : process (i_ee0x2432) is
 begin
-	address_alphaptat <= std_logic_vector(to_unsigned(to_integer(unsigned("000000000000"&i_ee0x2410 (15 downto 12))),9));
+	address_kvptat <= std_logic_vector (to_unsigned (to_integer (unsigned ("000"&i_ee0x2432 (15 downto 10))),9));
 end process p0;
 
-o_alphaptat <= odata_alphaptat;
-
-inst_mem_alphaptat : RAMB16_S36
+inst_mem_kvptat : RAMB16_S36
 generic map (
 INIT => X"000000000", -- Value of output RAM registers at startup
 SRVAL => X"000000000", -- Output value upon SSR assertion
 WRITE_MODE => "WRITE_FIRST", -- WRITE_FIRST, READ_FIRST or NO_CHANGE
-INIT_00 => X"411c0000411800004114000041100000410c0000410800004104000041000000",
-INIT_01 => X"413c0000413800004134000041300000412c0000412800004124000041200000"
+INIT_00 => X"3ae000003ac000003aa000003a8000003a4000003a0000003980000022000000",
+INIT_01 => X"3b7000003b6000003b5000003b4000003b3000003b2000003b1000003b000000",
+INIT_02 => X"3bb800003bb000003ba800003ba000003b9800003b9000003b8800003b800000",
+INIT_03 => X"3bf800003bf000003be800003be000003bd800003bd000003bc800003bc00000",
+INIT_04 => X"bbc80000bbd00000bbd80000bbe00000bbe80000bbf00000bbf80000bc000000",
+INIT_05 => X"bb880000bb900000bb980000bba00000bba80000bbb00000bbb80000bbc00000",
+INIT_06 => X"bb100000bb200000bb300000bb400000bb500000bb600000bb700000bb800000",
+INIT_07 => X"b9800000ba000000ba400000ba800000baa00000bac00000bae00000bb000000"
 )
 port map (
-DO => odata_alphaptat, -- 1-bit Data Output
+DO => odata_kvptat, -- 1-bit Data Output
 DOP => open, -- 1-bit Data Output
-ADDR => address_alphaptat, -- 14-bit Address Input
+ADDR => address_kvptat, -- 14-bit Address Input
 CLK => i_clock, -- Clock
 DI => (others => '0'), -- 1-bit Data Input
 DIP => (others => '0'), -- 1-bit Data Input
