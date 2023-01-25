@@ -41,7 +41,7 @@ end ExtractKsTaParameters;
 architecture Behavioral of ExtractKsTaParameters is
 
 signal odata_ksta : std_logic_vector (31 downto 0);
-signal address_N : std_logic_vector (8 downto 0);
+signal address_ksta : std_logic_vector (8 downto 0);
 
 begin
 
@@ -49,7 +49,7 @@ o_ksta  <= odata_ksta;
 
 p0 : process (i_ee0x243c) is
 begin
-	address_N <= "0" & i_ee0x243c (15 downto 8);
+	address_ksta <= "0" & i_ee0x243c (15 downto 8);
 end process p0;
 
 inst_mem_ksta : RAMB16_S36
@@ -128,7 +128,7 @@ INIT_3F => X"0000000000000000000000000000000000000000000000000000000000000000")
 port map (
 DO => odata_ksta, -- 1-bit Data Output
 DOP => open, -- 1-bit Data Output
-ADDR => address_N, -- 14-bit Address Input
+ADDR => address_ksta, -- 14-bit Address Input
 CLK => i_clock, -- Clock
 DI => (others => '0'), -- 1-bit Data Input
 DIP => (others => '0'), -- 1-bit Data Input
