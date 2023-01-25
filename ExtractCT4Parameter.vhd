@@ -29,16 +29,17 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity ExtractCT4Parameter is
+entity ExtractCT34Parameter is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_ee0x243f : in std_logic_vector (15 downto 0);
+o_ct3 : out std_logic_vector (31 downto 0);
 o_ct4 : out std_logic_vector (31 downto 0)
 );
-end ExtractCT4Parameter;
+end ExtractCT34Parameter;
 
-architecture Behavioral of ExtractCT4Parameter is
+architecture Behavioral of ExtractCT34Parameter is
 
 COMPONENT mem_ramb16_s36_x2
 generic (
@@ -203,13 +204,39 @@ WE : IN  std_logic
 );
 END COMPONENT mem_ramb16_s36_x2;
 
-signal odata_ct4 : std_logic_vector (31 downto 0);
-signal address_ct4 : std_logic_vector (9 downto 0);
+signal odata_ct34 : std_logic_vector (31 downto 0);
+signal address_ct34 : std_logic_vector (9 downto 0);
 
 begin
 
-address_ct4 <= i_ee0x243f (13 downto 12) & i_ee0x243f (11 downto 8) & i_ee0x243f (7 downto 4);
-o_ct4 <= odata_ct4;
+p0 : process (i_clock,i_reset) is
+	type states is (a,b,c,d);
+	variable state : states;
+begin
+	if (rising_edge (i_clock)) then
+		if (i_reset = '1') then
+			o_ct3 <= (others => '0');
+			o_ct4 <= (others => '0');
+			address_ct34 <= (others => '0');
+			state := a;
+		else
+			case (state) is
+				when a =>
+					address_ct34 <= i_ee0x243f (13 downto 12) & "0000" & i_ee0x243f (7 downto 4); -- ct3
+					state := b;
+				when b =>
+					address_ct34 <= i_ee0x243f (13 downto 12) & i_ee0x243f (11 downto 8) & i_ee0x243f (7 downto 4); -- ct4
+					state := c;
+				when c =>
+					o_ct3 <= odata_ct34;
+					state := d;
+				when d =>
+					o_ct4 <= odata_ct34;
+					state := a;
+			end case;
+		end if;
+	end if;
+end process p0;
 
 inst_mem_ct : mem_ramb16_s36_x2 
 GENERIC MAP (
@@ -343,9 +370,9 @@ INIT_7e => X"44250000441d800044160000440e80004407000043ff000043f0000043e10000",
 INIT_7f => X"446100004459800044520000444a800044430000443b800044340000442c8000"
 )
 PORT MAP (
-DO => odata_ct4,
+DO => odata_ct34,
 DOP => open,
-ADDR => address_ct4,
+ADDR => address_ct34,
 CLK => i_clock,
 DI => (others => '0'),
 DIP => (others => '0'),

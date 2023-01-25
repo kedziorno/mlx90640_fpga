@@ -32,18 +32,19 @@ USE ieee.std_logic_1164.ALL;
 -- arithmetic functions with Signed or Unsigned values
 --USE ieee.numeric_std.ALL;
 
-ENTITY tb_ExtractCT4Parameter IS
-END tb_ExtractCT4Parameter;
+ENTITY tb_ExtractCT34Parameter IS
+END tb_ExtractCT34Parameter;
 
-ARCHITECTURE behavior OF tb_ExtractCT4Parameter IS 
+ARCHITECTURE behavior OF tb_ExtractCT34Parameter IS 
 
 -- Component Declaration for the Unit Under Test (UUT)
 
-COMPONENT ExtractCT4Parameter
+COMPONENT ExtractCT34Parameter
 PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
 i_ee0x243f : IN  std_logic_vector(15 downto 0);
+o_ct3 : OUT  std_logic_vector(31 downto 0);
 o_ct4 : OUT  std_logic_vector(31 downto 0)
 );
 END COMPONENT;
@@ -55,6 +56,7 @@ signal i_reset : std_logic := '0';
 signal i_ee0x243f : std_logic_vector(15 downto 0) := (others => '0');
 
 --Outputs
+signal o_ct3 : std_logic_vector(31 downto 0);
 signal o_ct4 : std_logic_vector(31 downto 0);
 
 -- Clock period definitions
@@ -63,10 +65,11 @@ constant i_clock_period : time := 10 ns;
 BEGIN
 
 -- Instantiate the Unit Under Test (UUT)
-uut: ExtractCT4Parameter PORT MAP (
+uut: ExtractCT34Parameter PORT MAP (
 i_clock => i_clock,
 i_reset => i_reset,
 i_ee0x243f => i_ee0x243f,
+o_ct3 => o_ct3,
 o_ct4 => o_ct4
 );
 
@@ -82,6 +85,7 @@ end process;
 
 -- Stimulus process
 stim_proc: process
+	constant N : integer := 10;
 begin		
 -- hold reset state for 100 ns.
 i_reset <= '1';
@@ -89,9 +93,17 @@ wait for 100 ns;
 i_reset <= '0';
 wait for i_clock_period*10;
 -- insert stimulus here 
-wait for i_clock_period*10;
+wait for i_clock_period*N;
 i_ee0x243f <= x"2889";
-wait for i_clock_period*10;
+wait for i_clock_period*N;
+i_ee0x243f <= x"1889";
+wait for i_clock_period*N;
+i_ee0x243f <= x"0889";
+wait for i_clock_period*N;
+i_ee0x243f <= x"3889";
+wait for i_clock_period*N;
+i_ee0x243f <= x"0000";
+wait for i_clock_period*N;
 report "done" severity failure;
 end process;
 
