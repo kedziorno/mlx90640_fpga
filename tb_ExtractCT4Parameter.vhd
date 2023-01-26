@@ -85,7 +85,7 @@ end process;
 
 -- Stimulus process
 stim_proc: process
-	constant N : integer := 10;
+	constant N : integer := 6;
 begin		
 -- hold reset state for 100 ns.
 i_reset <= '1';
