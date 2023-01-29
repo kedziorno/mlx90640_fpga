@@ -85,10 +85,21 @@ i_reset <= '1', '0' after 100 ns ;
 stim_proc: process
 begin
 -- hold reset state for 100 ns.
-i_start0x2422 <= x"abcd";
-wait for 110 ns;
+wait for 105 ns;
 -- insert stimulus here
-wait for i_clock_period*60;
+i_start0x2422 <= x"abcd";
+wait for 60 ns;
+i_start0x2422 <= x"ef01";
+wait for 60 ns;
+i_start0x2422 <= x"2345";
+wait for 60 ns;
+i_start0x2422 <= x"6789";
+wait for 60 ns;
+i_start0x2422 <= x"abcd";
+wait for 60 ns;
+i_start0x2422 <= x"ef01";
+wait for 60 ns;
+
 report "done" severity failure;
 end process;
 
