@@ -99,7 +99,7 @@ i_start0x2422 <= x"abcd";
 wait for 60 ns;
 i_start0x2422 <= x"ef01";
 wait for 60 ns;
-
+wait for 1 ps; -- must be for write
 report "done" severity failure;
 end process;
 
