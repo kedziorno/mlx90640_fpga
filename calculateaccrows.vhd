@@ -88,6 +88,7 @@ p0 : process (i_clock, i_reset) is
 	variable i : integer range 0 to N-1;
 	type states is (idle,a,b,c,d,e,f,g);
 	variable state : states;
+	variable vaddress_write : std_logic_vector (4 downto 0);
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -115,7 +116,7 @@ begin
 					ena_mux1 <= '1';
 					ena_mux2 <= '0';
 					nibble1 <= i_start0x2422 (3 downto 0);
-					address_write <= std_logic_vector (to_unsigned (i * 4 + 0, 9));
+					vaddress_write := std_logic_vector (to_unsigned ((i * 4) + 0, 5));
 					idata_write <= out_nibble1;
 				when b =>
 					state := c;
@@ -123,7 +124,7 @@ begin
 					ena_mux1 <= '1';
 					ena_mux2 <= '0';
 					nibble1 <= i_start0x2422 (7 downto 4);
-					address_write <= std_logic_vector (to_unsigned (i * 4 + 1, 9));
+					vaddress_write := std_logic_vector (to_unsigned ((i * 4) + 1, 5));
 					idata_write <= out_nibble1;
 				when c =>
 					state := d;
@@ -131,7 +132,7 @@ begin
 					ena_mux1 <= '1';
 					ena_mux2 <= '0';
 					nibble1 <= i_start0x2422 (11 downto 8);
-					address_write <= std_logic_vector (to_unsigned (i * 4 + 2, 9));
+					vaddress_write := std_logic_vector (to_unsigned ((i * 4) + 2, 5));
 					idata_write <= out_nibble1;
 				when d =>
 					state := e;
@@ -139,20 +140,20 @@ begin
 					ena_mux1 <= '1';
 					ena_mux2 <= '0';
 					nibble1 <= i_start0x2422 (15 downto 12);
-					address_write <= std_logic_vector (to_unsigned (i * 4 + 3, 9));
+					vaddress_write := std_logic_vector (to_unsigned ((i * 4) + 3, 5));
 					idata_write <= out_nibble1;
 				when e =>
-					write_enable <= '0';
-					ena_mux1 <= '0';
-					ena_mux2 <= '0';
-					address_write <= (others => '0');
-					idata_write <= (others => '0');
+--					write_enable <= '0';
+--					ena_mux1 <= '0';
+--					ena_mux2 <= '0';
+--					vaddress_write := (others => '0');
+--					idata_write <= (others => '0');
 					if (i = N-1) then
 						i := 0;
 						state := f;
 					else
 						i := i + 1;
-						state := a;
+						state := idle;
 					end if;
 				when f =>
 					o_done <= '1';
@@ -160,6 +161,7 @@ begin
 			end case;
 		end if;
 	end if;
+	address_write <= "0000"&vaddress_write;
 end process p0;
 
 inst_mem_kvdd_vdd25 : RAMB16_S36_S36
