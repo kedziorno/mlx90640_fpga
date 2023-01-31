@@ -34,6 +34,7 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_start0x2422 : in std_logic_vector (15 downto 0);
+i_start0x2428 : in std_logic_vector (15 downto 0);
 o_done : out std_logic
 );
 end calculateaccrows;
@@ -61,26 +62,26 @@ x"c1000000" when x"8", x"c0e00000" when x"9", x"c0c00000" when x"a", x"c0a00000"
 x"c0800000" when x"c", x"c0400000" when x"d", x"c0000000" when x"e", x"bf800000" when x"f",
 x"22000000" when others;
 
-with nibble2 select out_nibble2 <=
-x"22000000" when x"0", x"3f800000" when x"1", x"40000000" when x"2", x"40400000" when x"3",
-x"40800000" when x"4", x"40a00000" when x"5", x"40c00000" when x"6", x"40e00000" when x"7",
-x"c1000000" when x"8", x"c0e00000" when x"9", x"c0c00000" when x"a", x"c0a00000" when x"b",
-x"c0800000" when x"c", x"c0400000" when x"d", x"c0000000" when x"e", x"bf800000" when x"f",
-x"22000000" when others;
-
-with nibble3 select out_nibble3 <=
-x"22000000" when x"0", x"3f800000" when x"1", x"40000000" when x"2", x"40400000" when x"3",
-x"40800000" when x"4", x"40a00000" when x"5", x"40c00000" when x"6", x"40e00000" when x"7",
-x"c1000000" when x"8", x"c0e00000" when x"9", x"c0c00000" when x"a", x"c0a00000" when x"b",
-x"c0800000" when x"c", x"c0400000" when x"d", x"c0000000" when x"e", x"bf800000" when x"f",
-x"22000000" when others;
-
-with nibble4 select out_nibble4 <=
-x"22000000" when x"0", x"3f800000" when x"1", x"40000000" when x"2", x"40400000" when x"3",
-x"40800000" when x"4", x"40a00000" when x"5", x"40c00000" when x"6", x"40e00000" when x"7",
-x"c1000000" when x"8", x"c0e00000" when x"9", x"c0c00000" when x"a", x"c0a00000" when x"b",
-x"c0800000" when x"c", x"c0400000" when x"d", x"c0000000" when x"e", x"bf800000" when x"f",
-x"22000000" when others;
+--with nibble2 select out_nibble2 <=
+--x"22000000" when x"0", x"3f800000" when x"1", x"40000000" when x"2", x"40400000" when x"3",
+--x"40800000" when x"4", x"40a00000" when x"5", x"40c00000" when x"6", x"40e00000" when x"7",
+--x"c1000000" when x"8", x"c0e00000" when x"9", x"c0c00000" when x"a", x"c0a00000" when x"b",
+--x"c0800000" when x"c", x"c0400000" when x"d", x"c0000000" when x"e", x"bf800000" when x"f",
+--x"22000000" when others;
+--
+--with nibble3 select out_nibble3 <=
+--x"22000000" when x"0", x"3f800000" when x"1", x"40000000" when x"2", x"40400000" when x"3",
+--x"40800000" when x"4", x"40a00000" when x"5", x"40c00000" when x"6", x"40e00000" when x"7",
+--x"c1000000" when x"8", x"c0e00000" when x"9", x"c0c00000" when x"a", x"c0a00000" when x"b",
+--x"c0800000" when x"c", x"c0400000" when x"d", x"c0000000" when x"e", x"bf800000" when x"f",
+--x"22000000" when others;
+--
+--with nibble4 select out_nibble4 <=
+--x"22000000" when x"0", x"3f800000" when x"1", x"40000000" when x"2", x"40400000" when x"3",
+--x"40800000" when x"4", x"40a00000" when x"5", x"40c00000" when x"6", x"40e00000" when x"7",
+--x"c1000000" when x"8", x"c0e00000" when x"9", x"c0c00000" when x"a", x"c0a00000" when x"b",
+--x"c0800000" when x"c", x"c0400000" when x"d", x"c0000000" when x"e", x"bf800000" when x"f",
+--x"22000000" when others;
 
 p0 : process (i_clock, i_reset) is
 	constant N : integer := 6;
@@ -110,43 +111,37 @@ begin
 					o_done <= '0';
 				when a =>
 					state := b;
+					write_enable <= '1';
+					ena_mux1 <= '1';
+					ena_mux2 <= '0';
 					nibble1 <= i_start0x2422 (3 downto 0);
-					nibble2 <= i_start0x2422 (7 downto 4);
-					nibble3 <= i_start0x2422 (11 downto 8);
-					nibble4 <= i_start0x2422 (15 downto 12);
+					address_write <= std_logic_vector (to_unsigned (i * 4 + 0, 9));
+					idata_write <= out_nibble1;
 				when b =>
 					state := c;
 					write_enable <= '1';
 					ena_mux1 <= '1';
 					ena_mux2 <= '0';
-					address_write <= std_logic_vector (to_unsigned (i * 4 + 0, 9));
---					idata_write <= "0000000000000000000000000000"&nibble1; --out_nibble1;
+					nibble1 <= i_start0x2422 (7 downto 4);
+					address_write <= std_logic_vector (to_unsigned (i * 4 + 1, 9));
 					idata_write <= out_nibble1;
 				when c =>
 					state := d;
 					write_enable <= '1';
 					ena_mux1 <= '1';
 					ena_mux2 <= '0';
-					address_write <= std_logic_vector (to_unsigned (i * 4 + 1, 9));
---					idata_write <= "0000000000000000000000000000"&nibble2; --out_nibble2;
-					idata_write <= out_nibble2;
+					nibble1 <= i_start0x2422 (11 downto 8);
+					address_write <= std_logic_vector (to_unsigned (i * 4 + 2, 9));
+					idata_write <= out_nibble1;
 				when d =>
 					state := e;
 					write_enable <= '1';
 					ena_mux1 <= '1';
 					ena_mux2 <= '0';
-					address_write <= std_logic_vector (to_unsigned (i * 4 + 2, 9));
---					idata_write <= "0000000000000000000000000000"&nibble3; --out_nibble3;
-					idata_write <= out_nibble3;
-				when e =>
-					state := f;
-					write_enable <= '1';
-					ena_mux1 <= '1';
-					ena_mux2 <= '0';
+					nibble1 <= i_start0x2422 (15 downto 12);
 					address_write <= std_logic_vector (to_unsigned (i * 4 + 3, 9));
---					idata_write <= "0000000000000000000000000000"&nibble4; --out_nibble4;
-					idata_write <= out_nibble4;
-				when f =>
+					idata_write <= out_nibble1;
+				when e =>
 					write_enable <= '0';
 					ena_mux1 <= '0';
 					ena_mux2 <= '0';
@@ -154,13 +149,14 @@ begin
 					idata_write <= (others => '0');
 					if (i = N-1) then
 						i := 0;
-						state := g;
+						state := f;
 					else
 						i := i + 1;
 						state := a;
 					end if;
-				when g =>
+				when f =>
 					o_done <= '1';
+				when others => null;
 			end case;
 		end if;
 	end if;

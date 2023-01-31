@@ -44,6 +44,7 @@ PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
 i_start0x2422 : IN  std_logic_vector(15 downto 0);
+i_start0x2428 : IN  std_logic_vector(15 downto 0);
 o_done : OUT  std_logic
 );
 END COMPONENT;
@@ -53,6 +54,7 @@ END COMPONENT;
 signal i_clock : std_logic := '0';
 signal i_reset : std_logic := '0';
 signal i_start0x2422 : std_logic_vector(15 downto 0) := (others => '0');
+signal i_start0x2428 : std_logic_vector(15 downto 0) := (others => '0');
 
 --Outputs
 signal o_done : std_logic;
@@ -67,6 +69,7 @@ uut: calculateaccrows PORT MAP (
 i_clock => i_clock,
 i_reset => i_reset,
 i_start0x2422 => i_start0x2422,
+i_start0x2428 => i_start0x2428,
 o_done => o_done
 );
 
