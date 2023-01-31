@@ -1,0 +1,504 @@
+Release 14.7 - xst P.20131013 (lin64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+--> 
+Parameter TMPDIR set to xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.13 secs
+ 
+--> 
+Parameter xsthdpdir set to xst
+
+
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.13 secs
+ 
+--> 
+WARNING:Xst:1583 - You are using an internal switch '-use_new_parser'.
+WARNING:Xst:3152 - You have chosen to run a version of XST which is not the default solution
+   for the specified device family. You are free to use it in order to take
+   advantage of its enhanced HDL parsing/elaboration capabilities. However,
+   please be aware that you may be impacted by  language support differences.
+   This version may also result in circuit performance and device utilization
+   differences for your particular design. You can always revert back to the
+   default XST solution by setting the "use_new_parser" option to value "no" 
+   on the XST command line or in the XST process properties panel.
+Reading design: calculateaccrows.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Parsing
+  3) HDL Elaboration
+  4) HDL Synthesis
+       4.1) HDL Synthesis Report
+  5) Advanced HDL Synthesis
+       5.1) Advanced HDL Synthesis Report
+  6) Low Level Synthesis
+  7) Partition Report
+  8) Design Summary
+       8.1) Primitive and Black Box Usage
+       8.2) Device utilization summary
+       8.3) Partition Resource Summary
+       8.4) Timing Report
+            8.4.1) Clock Information
+            8.4.2) Asynchronous Control Signals Information
+            8.4.3) Timing Summary
+            8.4.4) Timing Details
+            8.4.5) Cross Clock Domains Report
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "calculateaccrows.prj"
+Input Format                       : mixed
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "calculateaccrows"
+Output Format                      : NGC
+Target Device                      : xc3s1200e-4-fg320
+
+---- Source Options
+Use New Parser                     : yes
+Top Module Name                    : calculateaccrows
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : No
+FSM Style                          : LUT
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Mux Style                          : Auto
+Decoder Extraction                 : YES
+Priority Encoder Extraction        : Yes
+Shift Register Extraction          : YES
+Logical Shifter Extraction         : YES
+XOR Collapsing                     : YES
+ROM Style                          : Auto
+Mux Extraction                     : Yes
+Resource Sharing                   : YES
+Asynchronous To Synchronous        : NO
+Multiplier Style                   : Auto
+Automatic Register Balancing       : No
+
+---- Target Options
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 100000
+Add Generic Clock Buffer(BUFG)     : 16
+Register Duplication               : YES
+Slice Packing                      : YES
+Optimize Instantiated Primitives   : NO
+Use Clock Enable                   : Yes
+Use Synchronous Set                : Yes
+Use Synchronous Reset              : Yes
+Pack IO Registers into IOBs        : Auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Keep Hierarchy                     : No
+Netlist Hierarchy                  : As_Optimized
+RTL Output                         : Yes
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : Maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+Verilog 2001                       : YES
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+---- Other Options
+Cores Search Directories           : {"ipcore_dir"  }
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Parsing                                  *
+=========================================================================
+Parsing VHDL file "/home/user/workspace/melexis_mlx90641/calculateaccrows.vhd" into library work
+Parsing entity <calculateaccrows>.
+Parsing architecture <Behavioral> of entity <calculateaccrows>.
+
+=========================================================================
+*                            HDL Elaboration                            *
+=========================================================================
+
+Elaborating entity <calculateaccrows> (architecture <Behavioral>) from library <work>.
+WARNING:HDLCompiler:1127 - "/home/user/workspace/melexis_mlx90641/calculateaccrows.vhd" Line 86: Assignment to nibble2 ignored, since the identifier is never used
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Synthesizing Unit <calculateaccrows>.
+    Related source file is "/home/user/workspace/melexis_mlx90641/calculateaccrows.vhd".
+WARNING:Xst:647 - Input <i_start0x2428> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+    Found 3-bit register for signal <p0.state>.
+    Found 3-bit register for signal <p0.i>.
+    Found 1-bit register for signal <write_enable>.
+    Found 1-bit register for signal <ena_mux1>.
+    Found 1-bit register for signal <ena_mux2>.
+    Found 1-bit register for signal <o_done>.
+    Found 9-bit register for signal <address_write>.
+    Found 32-bit register for signal <idata_write>.
+    Found 4-bit register for signal <nibble1>.
+INFO:Xst:1799 - State g is never reached in FSM <p0.state>.
+    Found finite state machine <FSM_0> for signal <p0.state>.
+    -----------------------------------------------------------------------
+    | States             | 8                                              |
+    | Transitions        | 8                                              |
+    | Inputs             | 1                                              |
+    | Outputs            | 6                                              |
+    | Clock              | i_clock (rising_edge)                          |
+    | Reset              | i_reset (positive)                             |
+    | Reset type         | synchronous                                    |
+    | Reset State        | idle                                           |
+    | Power Up State     | idle                                           |
+    | Encoding           | auto                                           |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found 6-bit adder for signal <n0072[5:0]> created at line 126.
+    Found 6-bit adder for signal <n0074[5:0]> created at line 134.
+    Found 6-bit adder for signal <n0076[5:0]> created at line 142.
+    Found 3-bit adder for signal <p0.i[2]_GND_5_o_add_6_OUT> created at line 154.
+    Found 16x32-bit Read Only RAM for signal <out_nibble1>
+    Summary:
+	inferred   1 RAM(s).
+	inferred   4 Adder/Subtractor(s).
+	inferred  51 D-type flip-flop(s).
+	inferred  10 Multiplexer(s).
+	inferred   1 Finite State Machine(s).
+Unit <calculateaccrows> synthesized.
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# RAMs                                                 : 1
+ 16x32-bit single-port Read Only RAM                   : 1
+# Adders/Subtractors                                   : 4
+ 3-bit adder                                           : 1
+ 6-bit adder                                           : 3
+# Registers                                            : 7
+ 1-bit register                                        : 3
+ 3-bit register                                        : 1
+ 32-bit register                                       : 1
+ 4-bit register                                        : 1
+ 9-bit register                                        : 1
+# Multiplexers                                         : 10
+ 3-bit 2-to-1 multiplexer                              : 1
+ 32-bit 2-to-1 multiplexer                             : 2
+ 4-bit 2-to-1 multiplexer                              : 3
+ 9-bit 2-to-1 multiplexer                              : 4
+# FSMs                                                 : 1
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+
+Synthesizing (advanced) Unit <calculateaccrows>.
+The following registers are absorbed into counter <p0.i>: 1 register on signal <p0.i>.
+INFO:Xst:3212 - HDL ADVISOR - Asynchronous or synchronous initialization of the register <nibble1> prevents it from being combined with the RAM <Mram_out_nibble1> for implementation as read-only block RAM.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 16-word x 32-bit                    |          |
+    |     weA            | connected to signal <GND>           | high     |
+    |     addrA          | connected to signal <nibble1>       |          |
+    |     diA            | connected to signal <GND>           |          |
+    |     doA            | connected to signal <out_nibble1>   |          |
+    -----------------------------------------------------------------------
+Unit <calculateaccrows> synthesized (advanced).
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# RAMs                                                 : 1
+ 16x32-bit single-port distributed Read Only RAM       : 1
+# Adders/Subtractors                                   : 3
+ 6-bit adder                                           : 3
+# Counters                                             : 1
+ 3-bit up counter                                      : 1
+# Registers                                            : 48
+ Flip-Flops                                            : 48
+# Multiplexers                                         : 9
+ 32-bit 2-to-1 multiplexer                             : 2
+ 4-bit 2-to-1 multiplexer                              : 3
+ 9-bit 2-to-1 multiplexer                              : 4
+# FSMs                                                 : 1
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+Analyzing FSM <MFsm> for best encoding.
+Optimizing FSM <FSM_0> on signal <p0.state[1:3]> with user encoding.
+-------------------
+ State | Encoding
+-------------------
+ idle  | 000
+ a     | 001
+ b     | 010
+ c     | 011
+ d     | 100
+ e     | 101
+ f     | 110
+ g     | unreached
+-------------------
+WARNING:Xst:1710 - FF/Latch <idata_write_20> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <idata_write_19> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <idata_write_18> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <idata_write_17> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <idata_write_16> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <idata_write_15> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <idata_write_14> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <idata_write_13> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <idata_write_12> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <idata_write_11> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <idata_write_10> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <idata_write_9> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <idata_write_8> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <idata_write_7> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <idata_write_6> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <idata_write_5> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <idata_write_4> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <idata_write_3> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <idata_write_2> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <idata_write_1> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <idata_write_0> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <address_write_8> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <address_write_7> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <address_write_6> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <address_write_5> (without init value) has a constant value of 0 in block <calculateaccrows>. This FF/Latch will be trimmed during the optimization process.
+INFO:Xst:2261 - The FF/Latch <ena_mux1> in Unit <calculateaccrows> is equivalent to the following FF/Latch, which will be removed : <write_enable> 
+INFO:Xst:2261 - The FF/Latch <idata_write_25> in Unit <calculateaccrows> is equivalent to the following FF/Latch, which will be removed : <idata_write_29> 
+INFO:Xst:2261 - The FF/Latch <idata_write_26> in Unit <calculateaccrows> is equivalent to the following 2 FFs/Latches, which will be removed : <idata_write_27> <idata_write_28> 
+
+Optimizing unit <calculateaccrows> ...
+
+Mapping all equations...
+Building and optimizing final netlist ...
+Found area constraint ratio of 100 (+ 5) on block calculateaccrows, actual ratio is 0.
+
+Final Macro Processing ...
+
+=========================================================================
+Final Register Report
+
+Macro Statistics
+# Registers                                            : 25
+ Flip-Flops                                            : 25
+
+=========================================================================
+
+=========================================================================
+*                           Partition Report                            *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Design Summary                             *
+=========================================================================
+
+Top Level Output File Name         : calculateaccrows.ngc
+
+Primitive and Black Box Usage:
+------------------------------
+# BELS                             : 45
+#      GND                         : 1
+#      INV                         : 1
+#      LUT2                        : 5
+#      LUT2_D                      : 1
+#      LUT3                        : 17
+#      LUT3_D                      : 1
+#      LUT3_L                      : 1
+#      LUT4                        : 11
+#      LUT4_D                      : 1
+#      LUT4_L                      : 6
+# FlipFlops/Latches                : 25
+#      FDE                         : 13
+#      FDR                         : 3
+#      FDRE                        : 9
+# RAMS                             : 1
+#      RAMB16_S36_S36              : 1
+# Clock Buffers                    : 1
+#      BUFGP                       : 1
+# IO Buffers                       : 18
+#      IBUF                        : 17
+#      OBUF                        : 1
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 3s1200efg320-4 
+
+ Number of Slices:                       23  out of   8672     0%  
+ Number of Slice Flip Flops:             25  out of  17344     0%  
+ Number of 4 input LUTs:                 44  out of  17344     0%  
+ Number of IOs:                          35
+ Number of bonded IOBs:                  19  out of    250     7%  
+ Number of BRAMs:                         1  out of     28     3%  
+ Number of GCLKs:                         1  out of     24     4%  
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+Timing Report
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+i_clock                            | BUFGP                  | 26    |
+-----------------------------------+------------------------+-------+
+
+Asynchronous Control Signals Information:
+----------------------------------------
+No asynchronous control signals found in this design
+
+Timing Summary:
+---------------
+Speed Grade: -4
+
+   Minimum period: 4.374ns (Maximum Frequency: 228.624MHz)
+   Minimum input arrival time before clock: 4.652ns
+   Maximum output required time after clock: 4.283ns
+   Maximum combinational path delay: No path found
+
+Timing Details:
+---------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'i_clock'
+  Clock period: 4.374ns (frequency: 228.624MHz)
+  Total number of paths / destination ports: 193 / 65
+-------------------------------------------------------------------------
+Delay:               4.374ns (Levels of Logic = 3)
+  Source:            nibble1_1 (FF)
+  Destination:       idata_write_24 (FF)
+  Source Clock:      i_clock rising
+  Destination Clock: i_clock rising
+
+  Data Path: nibble1_1 to idata_write_24
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDRE:C->Q             5   0.591   0.808  nibble1_1 (nibble1_1)
+     LUT3_L:I0->LO         1   0.704   0.104  p0.state[2]_idata_write[31]_wide_mux_16_OUT<26>_SW1 (N8)
+     LUT4:I3->O            2   0.704   0.451  p0.state[2]_idata_write[31]_wide_mux_16_OUT<26> (p0.state[2]_idata_write[31]_wide_mux_16_OUT<26>)
+     LUT4:I3->O            1   0.704   0.000  Mmux_p0.state[2]_idata_write[31]_wide_mux_16_OUT4 (p0.state[2]_idata_write[31]_wide_mux_16_OUT<24>)
+     FDE:D                     0.308          idata_write_24
+    ----------------------------------------
+    Total                      4.374ns (3.011ns logic, 1.363ns route)
+                                       (68.8% logic, 31.2% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
+  Total number of paths / destination ports: 43 / 31
+-------------------------------------------------------------------------
+Offset:              4.652ns (Levels of Logic = 2)
+  Source:            i_reset (PAD)
+  Destination:       address_write_0 (FF)
+  Destination Clock: i_clock rising
+
+  Data Path: i_reset to address_write_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O            15   1.218   1.192  i_reset_IBUF (i_reset_IBUF)
+     LUT4:I0->O           13   0.704   0.983  _n0109_inv1 (_n0109_inv)
+     FDE:CE                    0.555          address_write_0
+    ----------------------------------------
+    Total                      4.652ns (2.477ns logic, 2.175ns route)
+                                       (53.2% logic, 46.8% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
+  Total number of paths / destination ports: 1 / 1
+-------------------------------------------------------------------------
+Offset:              4.283ns (Levels of Logic = 1)
+  Source:            o_done (FF)
+  Destination:       o_done (PAD)
+  Source Clock:      i_clock rising
+
+  Data Path: o_done to o_done
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDRE:C->Q             1   0.591   0.420  o_done (o_done_OBUF)
+     OBUF:I->O                 3.272          o_done_OBUF (o_done)
+    ----------------------------------------
+    Total                      4.283ns (3.863ns logic, 0.420ns route)
+                                       (90.2% logic, 9.8% route)
+
+=========================================================================
+
+Cross Clock Domains Report:
+--------------------------
+
+Clock to Setup on destination clock i_clock
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+i_clock        |    4.374|         |         |         |
+---------------+---------+---------+---------+---------+
+
+=========================================================================
+
+
+Total REAL time to Xst completion: 10.00 secs
+Total CPU time to Xst completion: 7.36 secs
+ 
+WARNING:Xst:3152 - You have chosen to run a version of XST which is not the default solution
+   for the specified device family. You are free to use it in order to take
+   advantage of its enhanced HDL parsing/elaboration capabilities. However,
+   please be aware that you may be impacted by  language support differences.
+   This version may also result in circuit performance and device utilization
+   differences for your particular design. You can always revert back to the
+   default XST solution by setting the "use_new_parser" option to value "no" 
+   on the XST command line or in the XST process properties panel.
+--> 
+
+
+Total memory usage is 371672 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :   30 (   0 filtered)
+Number of infos    :    5 (   0 filtered)
+
