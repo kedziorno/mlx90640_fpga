@@ -368,11 +368,18 @@ p0 : process (i_clock, i_reset) is
 	constant N_ROWS : integer := 24;
 	variable i : integer range 0 to N_ROWS-1;
 	variable j : integer range 0 to N_COLS-1;
+	variable index : integer range 0 to 15;
 	variable vaccRemScale : std_logic_vector (31 downto 0); -- = MLX90640_NIBBLE1(eeData[32]);
 	variable vaccColumnScale : std_logic_vector (31 downto 0); -- = MLX90640_NIBBLE2(eeData[32]);
 	variable vaccRowScale : std_logic_vector (31 downto 0); -- = MLX90640_NIBBLE3(eeData[32]);
 	variable valphaScale : std_logic_vector (31 downto 0); -- = MLX90640_NIBBLE4(eeData[32]) + 30;
 	variable valphaRef : std_logic_vector (31 downto 0); -- = eeData[33];
+	variable vaccRemScale1 : std_logic_vector (3 downto 0); -- = MLX90640_NIBBLE1(eeData[32]);
+	variable vaccColumnScale1 : std_logic_vector (3 downto 0); -- = MLX90640_NIBBLE2(eeData[32]);
+	variable vaccRowScale1 : std_logic_vector (3 downto 0); -- = MLX90640_NIBBLE3(eeData[32]);
+	variable valphaScale1 : std_logic_vector (3 downto 0); -- = MLX90640_NIBBLE4(eeData[32]) + 30;
+	variable valphaRef1 : std_logic_vector (15 downto 0); -- = eeData[33];
+	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
 	type states is (idle,
 	acc1,acc2,acc3,acc4,
 	acc5,
@@ -387,6 +394,7 @@ p0 : process (i_clock, i_reset) is
 	ab1,ab2,ab3,ab4,ab5,ab6,ab7,ab8,
 	ab9,ab10,ab11,ab12,ab13,ab14,ab15,ab16,
 	ab17,ab18,ab19,ab20,ab21,ab22,ab23,ab24,
+	calculate1,calculate2,calculate3,calculate4,calculate5,
 	ending);
 	variable state : states;
 begin
@@ -402,6 +410,7 @@ begin
 			write_enable <= '0';
 			ena_mux1 <= '0';
 			o_done <= '0';
+			mulfpsclr <= '1';
 		else
 			case (state) is
 				when idle =>
@@ -410,24 +419,30 @@ begin
 					ena_mux1 <= '1';
 					o_done <= '0';
 					i := 0; j := 0;
+					mulfpsclr <= '0';
 ----
 				when acc1 => state := acc2;
+					vaccRemScale1 := i_start0x2420 (3 downto 0);
 					nibble5 <= i_start0x2420 (3 downto 0);
 					vaccRemScale := out_nibble5;
 
 				when acc2 => state := acc3;
+					vaccColumnScale1 := i_start0x2420 (7 downto 4);
 					nibble5 <= i_start0x2420 (7 downto 4);
 					vaccColumnScale := out_nibble5;
 
 				when acc3 => state := acc4;
+					vaccRowScale1 := i_start0x2420 (11 downto 8);
 					nibble5 <= i_start0x2420 (11 downto 8);
 					vaccRowScale := out_nibble5;
 
 				when acc4 => state := acc5;
+					valphaScale1 := i_start0x2420 (15 downto 12); -- alphascale+30
 					nibble4 <= i_start0x2420 (15 downto 12); -- alphascale+30
 					valphaScale := out_nibble4;
 ----
 				when acc5 => state := a1; -- alpharef from fixed2float
+					valphaRef := i_alphaRef;
 					valphaRef := i_alphaRef;
 ----
 				when a1 => state := ab1;
@@ -687,18 +702,49 @@ begin
 					dia <= out_nibble2;
 					addra <= std_logic_vector (to_unsigned (30+24, 10));
 
-				when d8 => state := ending;
+				when d8 => state := calculate1;
 					nibble2 <= i_start0x242f (15 downto 12);
 					dia <= out_nibble2;
 					addra <= std_logic_vector (to_unsigned (31+24, 10));
 
 ---
-
-				when ending =>
-					o_done <= '1';
-				when others => null;
-			end case;
+when calculate1 => state := calculate2;
+	nibble3 <= i_start0x2440 (9 downto 4); -- (eeData[64 + p] & 0x03F0) >> 4; , alphatemp raw
+when calculate2 => state := calculate3;
+	fptmp1 := out_nibble3;
+when calculate3 => state := calculate4;
+	mulfpsclr <= '0';
+	mulfpce <= '1';
+	mulfpa <= fptmp1; -- alphatemp
+	mulfpb <= x"40000000"; -- *2
+	mulfpond <= '1';
+when calculate4 =>
+	if (mulfprdy = '1') then
+		if (index = to_integer (unsigned (vaccRemScale1))) then
+			state := calculate5;
+			vaccRemScale := fptmp1;
+			index := 0;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else
+			state := calculate3;
+			fptmp1 := mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+			index := index + 1;
 		end if;
+	else state := calculate4; end if;
+when calculate5 => state := ending;
+
+
+	when ending =>
+				o_done <= '1';
+			when others => null;
+		end case;
+	end if;
+	
 	end if;
 end process p0;
 
@@ -734,6 +780,7 @@ result => divfpr,
 rdy => divfprdy
 );
 
+mulfpclk <= i_clock;
 inst_mulfp_acc : mulfp
 PORT MAP (
 a => mulfpa,

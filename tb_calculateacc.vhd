@@ -57,6 +57,10 @@ i_start0x242c : in std_logic_vector (15 downto 0);
 i_start0x242d : in std_logic_vector (15 downto 0);
 i_start0x242e : in std_logic_vector (15 downto 0);
 i_start0x242f : in std_logic_vector (15 downto 0);
+i_start0x2440 : in std_logic_vector (15 downto 0); -- alphatemp ROWS*COLS
+i_start0x2420 : in std_logic_vector (15 downto 0); -- accrowscale,acccolscale,accremnantscale
+i_alphaRef : in std_logic_vector (31 downto 0); -- alpharef from fixed2float
+
 o_done : OUT  std_logic
 );
 END COMPONENT;
@@ -79,6 +83,9 @@ signal i_start0x242c : std_logic_vector(15 downto 0) := (others => '0');
 signal i_start0x242d : std_logic_vector(15 downto 0) := (others => '0');
 signal i_start0x242e : std_logic_vector(15 downto 0) := (others => '0');
 signal i_start0x242f : std_logic_vector(15 downto 0) := (others => '0');
+signal i_start0x2420 : std_logic_vector(15 downto 0) := (others => '0');
+signal i_start0x2440 : std_logic_vector(15 downto 0) := (others => '0');
+signal i_alphaRef : std_logic_vector(31 downto 0) := (others => '0');
 
 --Outputs
 signal o_done : std_logic;
@@ -106,6 +113,9 @@ i_start0x242c => i_start0x242c,
 i_start0x242d => i_start0x242d,
 i_start0x242e => i_start0x242e,
 i_start0x242f => i_start0x242f,
+i_start0x2420 => i_start0x2420,
+i_start0x2440 => i_start0x2440,
+i_alphaRef => i_alphaRef,
 o_done => o_done
 );
 
@@ -141,9 +151,15 @@ i_start0x242c <= x"6789";
 i_start0x242d <= x"abcd";
 i_start0x242e <= x"ef01";
 i_start0x242f <= x"2345";
-wait for 240 ns + 320 ns + 100 ns;
+
+i_start0x2420 <= x"8895";
+i_start0x2440 <= x"00ae";
+i_alphaRef <= x"000030d9";
+
+wait for 2 us;
 wait for 1 ps; -- must be for write
 report "done" severity failure;
+--wait;
 end process;
 
 END;
