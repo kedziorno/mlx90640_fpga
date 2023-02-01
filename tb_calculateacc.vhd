@@ -141,7 +141,7 @@ i_start0x242c <= x"6789";
 i_start0x242d <= x"abcd";
 i_start0x242e <= x"ef01";
 i_start0x242f <= x"2345";
-wait for 240 ns + 320 ns;
+wait for 240 ns + 320 ns + 100 ns;
 wait for 1 ps; -- must be for write
 report "done" severity failure;
 end process;
