@@ -312,23 +312,23 @@ signal doa,dia : std_logic_vector (31 downto 0);
 
 signal ena_mux1 : std_logic;
 
-signal nibble1,nibble2,nibble4,nibble5 : std_logic_vector (3 downto 0);
+signal nibble1,nibble2,nibble4,nibble5,nibble6 : std_logic_vector (3 downto 0);
 signal nibble3 : std_logic_vector (5 downto 0);
-signal out_nibble1,out_nibble2,out_nibble3,out_nibble4,out_nibble5 : std_logic_vector (31 downto 0);
+signal out_nibble1,out_nibble2,out_nibble3,out_nibble4,out_nibble5,out_nibble6 : std_logic_vector (31 downto 0);
 
 signal write_enable : std_logic;
 
 begin
 
 with nibble1 select out_nibble1 <= -- >7,-16 - rows1-24
-x"22000000" when x"0", x"3f800000" when x"1", x"40000000" when x"2", x"40400000" when x"3",
+x"00000000" when x"0", x"3f800000" when x"1", x"40000000" when x"2", x"40400000" when x"3",
 x"40800000" when x"4", x"40a00000" when x"5", x"40c00000" when x"6", x"40e00000" when x"7",
 x"c1000000" when x"8", x"c0e00000" when x"9", x"c0c00000" when x"a", x"c0a00000" when x"b",
 x"c0800000" when x"c", x"c0400000" when x"d", x"c0000000" when x"e", x"bf800000" when x"f",
 x"22000000" when others;
 
 with nibble2 select out_nibble2 <= -- >7,-16 - cols1-32
-x"22000000" when x"0", x"3f800000" when x"1", x"40000000" when x"2", x"40400000" when x"3",
+x"00000000" when x"0", x"3f800000" when x"1", x"40000000" when x"2", x"40400000" when x"3",
 x"40800000" when x"4", x"40a00000" when x"5", x"40c00000" when x"6", x"40e00000" when x"7",
 x"c1000000" when x"8", x"c0e00000" when x"9", x"c0c00000" when x"a", x"c0a00000" when x"b",
 x"c0800000" when x"c", x"c0400000" when x"d", x"c0000000" when x"e", x"bf800000" when x"f",
@@ -357,10 +357,19 @@ x"22000000" when others;
 --INIT_7f => X"41700000 41600000 41500000 41400000 41300000 41200000 41100000 41000000", -- unsigned 0-15 for accremscale,accrowscale,acccolscale
 --INIT_7e => X"40e00000 40c00000 40a00000 40800000 40400000 40000000 3f800000 22000000",
 with nibble5 select out_nibble5 <= -- x - accremscale,accrowscale,acccolscale
-x"22000000" when x"0", x"3f800000" when x"1", x"40000000" when x"2", x"40400000" when x"3",
+x"00000000" when x"0", x"3f800000" when x"1", x"40000000" when x"2", x"40400000" when x"3",
 x"40800000" when x"4", x"40a00000" when x"5", x"40c00000" when x"6", x"40e00000" when x"7",
 x"41000000" when x"8", x"41100000" when x"9", x"41200000" when x"a", x"41300000" when x"b",
 x"41400000" when x"c", x"41500000" when x"d", x"41600000" when x"e", x"41700000" when x"f",
+x"22000000" when others;
+
+--INIT_01 => X"56000000 55800000 55000000 54800000 54000000 53800000 53000000 52800000", -- unsigned 0-15 - 2^(x+30)
+--INIT_00 => X"52000000 51800000 51000000 50800000 50000000 4f800000 4f000000 4e800000", 
+with nibble6 select out_nibble6 <= -- 2^(x+30) - 2^alphascale
+x"4e800000" when x"0", x"4f000000" when x"1", x"4f800000" when x"2", x"50000000" when x"3",
+x"50800000" when x"4", x"51000000" when x"5", x"51800000" when x"6", x"52000000" when x"7",
+x"52800000" when x"8", x"53000000" when x"9", x"53800000" when x"a", x"54000000" when x"b",
+x"54800000" when x"c", x"55000000" when x"d", x"55800000" when x"e", x"56000000" when x"f",
 x"22000000" when others;
 
 p0 : process (i_clock, i_reset) is
@@ -369,6 +378,7 @@ p0 : process (i_clock, i_reset) is
 	variable i : integer range 0 to N_ROWS-1;
 	variable j : integer range 0 to N_COLS-1;
 	variable index : integer range 0 to 15;
+	variable k : integer range 0 to N_COLS*N_ROWS-1;
 	variable vaccRemScale : std_logic_vector (31 downto 0); -- = MLX90640_NIBBLE1(eeData[32]);
 	variable vaccColumnScale : std_logic_vector (31 downto 0); -- = MLX90640_NIBBLE2(eeData[32]);
 	variable vaccRowScale : std_logic_vector (31 downto 0); -- = MLX90640_NIBBLE3(eeData[32]);
@@ -380,6 +390,7 @@ p0 : process (i_clock, i_reset) is
 	variable valphaScale1 : std_logic_vector (3 downto 0); -- = MLX90640_NIBBLE4(eeData[32]) + 30;
 	variable valphaRef1 : std_logic_vector (15 downto 0); -- = eeData[33];
 	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
+	variable row,col : std_logic_vector (31 downto 0);
 	type states is (idle,
 	acc1,acc2,acc3,acc4,
 	acc5,
@@ -394,8 +405,14 @@ p0 : process (i_clock, i_reset) is
 	ab1,ab2,ab3,ab4,ab5,ab6,ab7,ab8,
 	ab9,ab10,ab11,ab12,ab13,ab14,ab15,ab16,
 	ab17,ab18,ab19,ab20,ab21,ab22,ab23,ab24,
+	calculate,calculate0,
+	calculate00,calculate01,calculate02,calculate03,
+	calculate04,calculate05,calculate06,calculate07,
 	calculate1,calculate2,calculate3,calculate4,calculate5,
-	ending);
+	calculate6,calculate7,calculate8,calculate9,calculate10,
+	calculate11,calculate12,calculate13,calculate14,calculate15,
+	calculate16,calculate17,calculate18,calculate19,calculate20,
+	ending0,ending1,ending2,ending);
 	variable state : states;
 begin
 	if (rising_edge (i_clock)) then
@@ -410,7 +427,10 @@ begin
 			write_enable <= '0';
 			ena_mux1 <= '0';
 			o_done <= '0';
+			addfpsclr <= '1';
+			subfpsclr <= '1';
 			mulfpsclr <= '1';
+			divfpsclr <= '1';
 		else
 			case (state) is
 				when idle =>
@@ -419,7 +439,10 @@ begin
 					ena_mux1 <= '1';
 					o_done <= '0';
 					i := 0; j := 0;
+					addfpsclr <= '0';
+					subfpsclr <= '0';
 					mulfpsclr <= '0';
+					divfpsclr <= '0';
 ----
 				when acc1 => state := acc2;
 					vaccRemScale1 := i_start0x2420 (3 downto 0);
@@ -438,8 +461,8 @@ begin
 
 				when acc4 => state := acc5;
 					valphaScale1 := i_start0x2420 (15 downto 12); -- alphascale+30
-					nibble4 <= i_start0x2420 (15 downto 12); -- alphascale+30
-					valphaScale := out_nibble4;
+					nibble6 <= i_start0x2420 (15 downto 12); -- alphascale+30
+					valphaScale := out_nibble6;
 ----
 				when acc5 => state := a1; -- alpharef from fixed2float
 					valphaRef := i_alphaRef;
@@ -702,16 +725,30 @@ begin
 					dia <= out_nibble2;
 					addra <= std_logic_vector (to_unsigned (30+24, 10));
 
-				when d8 => state := calculate1;
+				when d8 => state := calculate;
 					nibble2 <= i_start0x242f (15 downto 12);
 					dia <= out_nibble2;
 					addra <= std_logic_vector (to_unsigned (31+24, 10));
 
 ---
+when calculate => state := calculate00;
+	write_enable <= '0';
+	k := (32 * i) + j;
+when calculate00 => state := calculate01;
+	addra <= std_logic_vector (to_unsigned (j+24, 10));
+when calculate01 => state := calculate02;
+when calculate02 => state := calculate03;
+	row := doa;
+when calculate03 => state := calculate04;
+	addra <= std_logic_vector (to_unsigned (i, 10));
+when calculate04 => state := calculate05;
+when calculate05 => state := calculate1;
+	col := doa;
+---
 when calculate1 => state := calculate2;
 	nibble3 <= i_start0x2440 (9 downto 4); -- (eeData[64 + p] & 0x03F0) >> 4; , alphatemp raw
 when calculate2 => state := calculate3;
-	fptmp1 := out_nibble3;
+	fptmp1 := out_nibble3; -- alphatemp
 when calculate3 => state := calculate4;
 	mulfpsclr <= '0';
 	mulfpce <= '1';
@@ -736,16 +773,139 @@ when calculate4 =>
 			index := index + 1;
 		end if;
 	else state := calculate4; end if;
-when calculate5 => state := ending;
-
-
-	when ending =>
-				o_done <= '1';
-			when others => null;
-		end case;
+when calculate5 => state := calculate6;
+	mulfpsclr <= '0';
+	mulfpce <= '1';
+	mulfpa <= col; -- acccol
+	mulfpb <= x"40000000"; -- *2
+	mulfpond <= '1';
+when calculate6 =>
+	if (mulfprdy = '1') then
+		if (index = to_integer (unsigned (vaccColumnScale1))) then
+			state := calculate7;
+			vaccColumnScale := fptmp2;
+			index := 0;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+			fptmp1 := row;
+		else
+			state := calculate5;
+			fptmp2 := mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+			index := index + 1;
+		end if;
+	else state := calculate6; end if;
+when calculate7 => state := calculate8;
+	mulfpsclr <= '0';
+	mulfpce <= '1';
+	mulfpa <= fptmp1; -- accrow
+	mulfpb <= x"40000000"; -- *2
+	mulfpond <= '1';
+when calculate8 =>
+	if (mulfprdy = '1') then
+		if (index = to_integer (unsigned (vaccRowScale1))) then
+			state := calculate9;
+			vaccRowScale := fptmp1;
+			index := 0;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else
+			state := calculate7;
+			fptmp1 := mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+			index := index + 1;
+		end if;
+	else state := calculate8; end if;
+when calculate9 => state := calculate10;
+	addfpsclr <= '0';
+	addfpce <= '1';
+	addfpa <= vaccRemScale; -- remnant
+	addfpb <= vaccColumnScale; -- column
+	addfpond <= '1';
+when calculate10 =>
+	if (addfprdy = '1') then
+		state := calculate11;
+		fptmp1 := addfpr;
+		addfpce <= '0';
+		addfpond <= '0';
+		addfpsclr <= '1';
+	else state := calculate10; end if;
+when calculate11 => state := calculate12;
+	addfpsclr <= '0';
+	addfpce <= '1';
+	addfpa <= fptmp1; -- column+remnant
+	addfpb <= vaccRowScale; -- row
+	addfpond <= '1';
+when calculate12 =>
+	if (addfprdy = '1') then
+		state := calculate13;
+		fptmp1 := addfpr;
+		addfpce <= '0';
+		addfpond <= '0';
+		addfpsclr <= '1';
+	else state := calculate12; end if;
+when calculate13 => state := calculate14;
+	addfpsclr <= '0';
+	addfpce <= '1';
+	addfpa <= fptmp1; -- row+column+remnant
+	addfpb <= i_alphaRef; -- alpharef
+	addfpond <= '1';
+when calculate14 =>
+	if (addfprdy = '1') then
+		state := calculate15;
+		fptmp1 := addfpr;
+		addfpce <= '0';
+		addfpond <= '0';
+		addfpsclr <= '1';
+	else state := calculate14; end if;
+when calculate15 => state := calculate16;
+	divfpsclr <= '0';
+	divfpce <= '1';
+	divfpa <= fptmp1; -- alpharef+row+column+remnant
+	divfpb <= valphaScale; -- 2^30+x - alphascale
+	divfpond <= '1';
+when calculate16 =>
+	if (divfprdy = '1') then
+		state := calculate17;
+		fptmp1 := divfpr;
+		divfpce <= '0';
+		divfpond <= '0';
+		divfpsclr <= '1';
+	else state := calculate16; end if;
+when calculate17 => state := ending0;
+	write_enable <= '1';
+	dia <= fptmp1;
+	addra <= std_logic_vector (to_unsigned (k+24+32, 10));
+when ending0 => state := ending1;
+	write_enable <= '0';
+when ending1 =>
+	if (i = N_ROWS-1) then
+		i := 0;
+		state := ending2;
+	else
+		i := i + 1;
+		state := calculate;
 	end if;
-	
+when ending2 =>
+	if (j = N_COLS-1) then
+		j := 0;
+		state := ending;
+	else
+		j := j + 1;
+		state := calculate;
 	end if;
+when ending =>
+	o_done <= '1';
+when others => null;
+end case;
+end if;
+end if;
 end process p0;
 
 inst_mem_acc : mem_ramb16_s36_x2
@@ -768,6 +928,7 @@ SSR => i_reset,
 WE => write_enable
 );
 
+divfpclk <= i_clock;
 inst_divfp_acc : divfp
 PORT MAP (
 a => divfpa,
@@ -793,6 +954,7 @@ result => mulfpr,
 rdy => mulfprdy
 );
 
+addfpclk <= i_clock;
 inst_addfp_acc : addfp
 PORT MAP (
 a => addfpa,
@@ -805,6 +967,7 @@ result => addfpr,
 rdy => addfprdy
 );
 
+subfpclk <= i_clock;
 inst_subfp_acc : subfp
 PORT MAP (
 a => subfpa,
