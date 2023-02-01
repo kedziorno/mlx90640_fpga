@@ -1,6 +1,6 @@
 #!/home/user/.local/bin/python3
 
-# EE[0x2422] - 2422-2427 24 rows
+# EE[0x2422] - 2422-2427 24 rows, 2428-242f 32 cols
 
 import struct
 

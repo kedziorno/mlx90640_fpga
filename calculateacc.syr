@@ -1,0 +1,568 @@
+Release 14.7 - xst P.20131013 (lin64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+--> 
+Parameter TMPDIR set to xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.06 secs
+ 
+--> 
+Parameter xsthdpdir set to xst
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.06 secs
+ 
+--> 
+WARNING:Xst:1583 - You are using an internal switch '-use_new_parser'.
+WARNING:Xst:3152 - You have chosen to run a version of XST which is not the default solution
+   for the specified device family. You are free to use it in order to take
+   advantage of its enhanced HDL parsing/elaboration capabilities. However,
+   please be aware that you may be impacted by  language support differences.
+   This version may also result in circuit performance and device utilization
+   differences for your particular design. You can always revert back to the
+   default XST solution by setting the "use_new_parser" option to value "no" 
+   on the XST command line or in the XST process properties panel.
+Reading design: calculateacc.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Parsing
+  3) HDL Elaboration
+  4) HDL Synthesis
+       4.1) HDL Synthesis Report
+  5) Advanced HDL Synthesis
+       5.1) Advanced HDL Synthesis Report
+  6) Low Level Synthesis
+  7) Partition Report
+  8) Design Summary
+       8.1) Primitive and Black Box Usage
+       8.2) Device utilization summary
+       8.3) Partition Resource Summary
+       8.4) Timing Report
+            8.4.1) Clock Information
+            8.4.2) Asynchronous Control Signals Information
+            8.4.3) Timing Summary
+            8.4.4) Timing Details
+            8.4.5) Cross Clock Domains Report
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "calculateacc.prj"
+Input Format                       : mixed
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "calculateacc"
+Output Format                      : NGC
+Target Device                      : xc3s1200e-4-fg320
+
+---- Source Options
+Use New Parser                     : yes
+Top Module Name                    : calculateacc
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : No
+FSM Style                          : LUT
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Mux Style                          : Auto
+Decoder Extraction                 : YES
+Priority Encoder Extraction        : Yes
+Shift Register Extraction          : YES
+Logical Shifter Extraction         : YES
+XOR Collapsing                     : YES
+ROM Style                          : Auto
+Mux Extraction                     : Yes
+Resource Sharing                   : YES
+Asynchronous To Synchronous        : NO
+Multiplier Style                   : Auto
+Automatic Register Balancing       : No
+
+---- Target Options
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 100000
+Add Generic Clock Buffer(BUFG)     : 16
+Register Duplication               : YES
+Slice Packing                      : YES
+Optimize Instantiated Primitives   : NO
+Use Clock Enable                   : Yes
+Use Synchronous Set                : Yes
+Use Synchronous Reset              : Yes
+Pack IO Registers into IOBs        : Auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Keep Hierarchy                     : No
+Netlist Hierarchy                  : As_Optimized
+RTL Output                         : Yes
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : Maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+Verilog 2001                       : YES
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+---- Other Options
+Cores Search Directories           : {"ipcore_dir"  }
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Parsing                                  *
+=========================================================================
+Parsing VHDL file "/home/user/workspace/melexis_mlx90641/calculateacc.vhd" into library work
+Parsing entity <calculateacc>.
+Parsing architecture <Behavioral> of entity <calculateacc>.
+
+=========================================================================
+*                            HDL Elaboration                            *
+=========================================================================
+
+Elaborating entity <calculateacc> (architecture <Behavioral>) from library <work>.
+INFO:HDLCompiler:679 - "/home/user/workspace/melexis_mlx90641/calculateacc.vhd" Line 362. Case statement is complete. others clause is never selected
+WARNING:HDLCompiler:1127 - "/home/user/workspace/melexis_mlx90641/calculateacc.vhd" Line 84: Assignment to nibble3 ignored, since the identifier is never used
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Synthesizing Unit <calculateacc>.
+    Related source file is "/home/user/workspace/melexis_mlx90641/calculateacc.vhd".
+    Found 4-bit register for signal <nibble2>.
+    Found 6-bit register for signal <p0.state>.
+    Found 1-bit register for signal <write_enable>.
+    Found 1-bit register for signal <ena_mux1>.
+    Found 1-bit register for signal <ena_mux2>.
+    Found 1-bit register for signal <o_done>.
+    Found 32-bit register for signal <dia>.
+    Found 9-bit register for signal <addra>.
+    Found 32-bit register for signal <dib>.
+    Found 9-bit register for signal <addrb>.
+    Found 4-bit register for signal <nibble1>.
+    Found finite state machine <FSM_0> for signal <p0.state>.
+    -----------------------------------------------------------------------
+    | States             | 34                                             |
+    | Transitions        | 34                                             |
+    | Inputs             | 0                                              |
+    | Outputs            | 18                                             |
+    | Clock              | i_clock (rising_edge)                          |
+    | Reset              | i_reset (positive)                             |
+    | Reset type         | synchronous                                    |
+    | Reset State        | idle                                           |
+    | Power Up State     | idle                                           |
+    | Encoding           | auto                                           |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found 16x32-bit Read Only RAM for signal <out_nibble1>
+    Found 16x32-bit Read Only RAM for signal <out_nibble2>
+    Summary:
+	inferred   2 RAM(s).
+	inferred  94 D-type flip-flop(s).
+	inferred  54 Multiplexer(s).
+	inferred   1 Finite State Machine(s).
+Unit <calculateacc> synthesized.
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# RAMs                                                 : 2
+ 16x32-bit single-port Read Only RAM                   : 2
+# Registers                                            : 10
+ 1-bit register                                        : 4
+ 32-bit register                                       : 2
+ 4-bit register                                        : 2
+ 9-bit register                                        : 2
+# Multiplexers                                         : 54
+ 4-bit 2-to-1 multiplexer                              : 54
+# FSMs                                                 : 1
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+WARNING:Xst:1710 - FF/Latch <addra_5> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <addra_6> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <addra_7> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <addra_8> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <addrb_6> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <addrb_7> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <addrb_8> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:2404 -  FFs/Latches <addra<8:5>> (without init value) have a constant value of 0 in block <calculateacc>.
+WARNING:Xst:2404 -  FFs/Latches <addrb<8:6>> (without init value) have a constant value of 0 in block <calculateacc>.
+
+Synthesizing (advanced) Unit <calculateacc>.
+INFO:Xst:3212 - HDL ADVISOR - Asynchronous or synchronous initialization of the register <nibble2> prevents it from being combined with the RAM <Mram_out_nibble2> for implementation as read-only block RAM.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 16-word x 32-bit                    |          |
+    |     weA            | connected to signal <GND>           | high     |
+    |     addrA          | connected to signal <nibble2>       |          |
+    |     diA            | connected to signal <GND>           |          |
+    |     doA            | connected to signal <out_nibble2>   |          |
+    -----------------------------------------------------------------------
+INFO:Xst:3231 - The small RAM <Mram_out_nibble2> will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+INFO:Xst:3212 - HDL ADVISOR - Asynchronous or synchronous initialization of the register <nibble1> prevents it from being combined with the RAM <Mram_out_nibble1> for implementation as read-only block RAM.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 16-word x 32-bit                    |          |
+    |     weA            | connected to signal <GND>           | high     |
+    |     addrA          | connected to signal <nibble1>       |          |
+    |     diA            | connected to signal <GND>           |          |
+    |     doA            | connected to signal <out_nibble1>   |          |
+    -----------------------------------------------------------------------
+INFO:Xst:3231 - The small RAM <Mram_out_nibble1> will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+Unit <calculateacc> synthesized (advanced).
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# RAMs                                                 : 2
+ 16x32-bit single-port distributed Read Only RAM       : 2
+# Registers                                            : 87
+ Flip-Flops                                            : 87
+# Multiplexers                                         : 54
+ 4-bit 2-to-1 multiplexer                              : 54
+# FSMs                                                 : 1
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+INFO:Xst:2261 - The FF/Latch <write_enable> in Unit <calculateacc> is equivalent to the following 2 FFs/Latches, which will be removed : <ena_mux1> <ena_mux2> 
+Analyzing FSM <MFsm> for best encoding.
+Optimizing FSM <FSM_0> on signal <p0.state[1:6]> with user encoding.
+--------------------
+ State  | Encoding
+--------------------
+ idle   | 000000
+ a1     | 000001
+ b1     | 000010
+ c1     | 000011
+ d1     | 000100
+ a2     | 000101
+ b2     | 000110
+ c2     | 000111
+ d2     | 001000
+ a3     | 001001
+ b3     | 001010
+ c3     | 001011
+ d3     | 001100
+ a4     | 001101
+ b4     | 001110
+ c4     | 001111
+ d4     | 010000
+ a5     | 010001
+ b5     | 010010
+ c5     | 010011
+ d5     | 010100
+ a6     | 010101
+ b6     | 010110
+ c6     | 010111
+ d6     | 011000
+ a7     | 011001
+ b7     | 011010
+ c7     | 011011
+ d7     | 011100
+ a8     | 011101
+ b8     | 011110
+ c8     | 011111
+ d8     | 100000
+ ending | 100001
+--------------------
+WARNING:Xst:1710 - FF/Latch <dib_0> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dib_1> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dib_2> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dib_3> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dib_4> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dib_5> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dib_6> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dib_7> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dib_8> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dib_9> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dib_10> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dib_11> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dib_12> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dib_13> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dib_14> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dib_15> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dib_16> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dib_17> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dib_18> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dib_19> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dib_20> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dia_0> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dia_1> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dia_2> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dia_3> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dia_4> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dia_5> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dia_6> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dia_7> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dia_8> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dia_9> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dia_10> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dia_11> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dia_12> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dia_13> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dia_14> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dia_15> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dia_16> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dia_17> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dia_18> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dia_19> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dia_20> (without init value) has a constant value of 0 in block <calculateacc>. This FF/Latch will be trimmed during the optimization process.
+INFO:Xst:2261 - The FF/Latch <dib_25> in Unit <calculateacc> is equivalent to the following FF/Latch, which will be removed : <dib_29> 
+INFO:Xst:2261 - The FF/Latch <dib_26> in Unit <calculateacc> is equivalent to the following 2 FFs/Latches, which will be removed : <dib_27> <dib_28> 
+INFO:Xst:2261 - The FF/Latch <dia_25> in Unit <calculateacc> is equivalent to the following FF/Latch, which will be removed : <dia_29> 
+INFO:Xst:2261 - The FF/Latch <dia_26> in Unit <calculateacc> is equivalent to the following 2 FFs/Latches, which will be removed : <dia_27> <dia_28> 
+
+Optimizing unit <calculateacc> ...
+
+Mapping all equations...
+Building and optimizing final netlist ...
+Found area constraint ratio of 100 (+ 5) on block calculateacc, actual ratio is 1.
+FlipFlop p0.state_FSM_FFd4 has been replicated 1 time(s)
+FlipFlop p0.state_FSM_FFd5 has been replicated 1 time(s)
+FlipFlop p0.state_FSM_FFd6 has been replicated 1 time(s)
+
+Final Macro Processing ...
+
+=========================================================================
+Final Register Report
+
+Macro Statistics
+# Registers                                            : 46
+ Flip-Flops                                            : 46
+
+=========================================================================
+
+=========================================================================
+*                           Partition Report                            *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Design Summary                             *
+=========================================================================
+
+Top Level Output File Name         : calculateacc.ngc
+
+Primitive and Black Box Usage:
+------------------------------
+# BELS                             : 279
+#      GND                         : 1
+#      LUT1                        : 4
+#      LUT2                        : 10
+#      LUT2_D                      : 1
+#      LUT2_L                      : 2
+#      LUT3                        : 92
+#      LUT3_D                      : 5
+#      LUT3_L                      : 9
+#      LUT4                        : 75
+#      LUT4_D                      : 2
+#      LUT4_L                      : 18
+#      MUXF5                       : 43
+#      MUXF6                       : 12
+#      MUXF7                       : 4
+#      VCC                         : 1
+# FlipFlops/Latches                : 46
+#      FDE                         : 27
+#      FDR                         : 9
+#      FDRE                        : 10
+# RAMS                             : 1
+#      RAMB16_S36_S36              : 1
+# Clock Buffers                    : 1
+#      BUFGP                       : 1
+# IO Buffers                       : 226
+#      IBUF                        : 225
+#      OBUF                        : 1
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 3s1200efg320-4 
+
+ Number of Slices:                      150  out of   8672     1%  
+ Number of Slice Flip Flops:             46  out of  17344     0%  
+ Number of 4 input LUTs:                218  out of  17344     1%  
+ Number of IOs:                         227
+ Number of bonded IOBs:                 227  out of    250    90%  
+ Number of BRAMs:                         1  out of     28     3%  
+ Number of GCLKs:                         1  out of     24     4%  
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+Timing Report
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+i_clock                            | BUFGP                  | 47    |
+-----------------------------------+------------------------+-------+
+
+Asynchronous Control Signals Information:
+----------------------------------------
+No asynchronous control signals found in this design
+
+Timing Summary:
+---------------
+Speed Grade: -4
+
+   Minimum period: 7.042ns (Maximum Frequency: 142.005MHz)
+   Minimum input arrival time before clock: 6.605ns
+   Maximum output required time after clock: 4.283ns
+   Maximum combinational path delay: No path found
+
+Timing Details:
+---------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'i_clock'
+  Clock period: 7.042ns (frequency: 142.005MHz)
+  Total number of paths / destination ports: 804 / 119
+-------------------------------------------------------------------------
+Delay:               7.042ns (Levels of Logic = 5)
+  Source:            p0.state_FSM_FFd5_1 (FF)
+  Destination:       nibble2_1 (FF)
+  Source Clock:      i_clock rising
+  Destination Clock: i_clock rising
+
+  Data Path: p0.state_FSM_FFd5_1 to nibble2_1
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDR:C->Q              2   0.591   0.622  p0.state_FSM_FFd5_1 (p0.state_FSM_FFd5_1)
+     LUT3_D:I0->O         13   0.704   0.987  p0.state_p0.state[5]_X_5_o_wide_mux_12_OUT<4>11 (p0.state_p0.state[5]_X_5_o_wide_mux_12_OUT<4>1)
+     LUT4:I3->O            1   0.704   0.455  Mmux_p0.state[5]_X_5_o_wide_mux_10_OUT10236_SW0 (N55)
+     LUT3_L:I2->LO         1   0.704   0.135  Mmux_p0.state[5]_X_5_o_wide_mux_10_OUT10236 (Mmux_p0.state[5]_X_5_o_wide_mux_10_OUT10236)
+     LUT4:I2->O            1   0.704   0.424  Mmux_p0.state[5]_X_5_o_wide_mux_10_OUT10260 (Mmux_p0.state[5]_X_5_o_wide_mux_10_OUT10260)
+     LUT4:I3->O            1   0.704   0.000  Mmux_p0.state[5]_X_5_o_wide_mux_10_OUT10270 (Mmux_p0.state[5]_X_5_o_wide_mux_10_OUT10270)
+     FDRE:D                    0.308          nibble2_1
+    ----------------------------------------
+    Total                      7.042ns (4.419ns logic, 2.623ns route)
+                                       (62.8% logic, 37.2% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
+  Total number of paths / destination ports: 272 / 56
+-------------------------------------------------------------------------
+Offset:              6.605ns (Levels of Logic = 6)
+  Source:            i_start0x242a<4> (PAD)
+  Destination:       nibble2_0 (FF)
+  Destination Clock: i_clock rising
+
+  Data Path: i_start0x242a<4> to nibble2_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             1   1.218   0.595  i_start0x242a_4_IBUF (i_start0x242a_4_IBUF)
+     LUT3:I0->O            1   0.704   0.000  Mmux_p0.state[5]_X_5_o_wide_mux_10_OUT5150_SW0_F (N217)
+     MUXF5:I0->O           1   0.321   0.499  Mmux_p0.state[5]_X_5_o_wide_mux_10_OUT5150_SW0 (N19)
+     LUT3:I1->O            1   0.704   0.424  Mmux_p0.state[5]_X_5_o_wide_mux_10_OUT5174 (Mmux_p0.state[5]_X_5_o_wide_mux_10_OUT5174)
+     LUT4:I3->O            1   0.704   0.424  Mmux_p0.state[5]_X_5_o_wide_mux_10_OUT5260 (Mmux_p0.state[5]_X_5_o_wide_mux_10_OUT5260)
+     LUT4:I3->O            1   0.704   0.000  Mmux_p0.state[5]_X_5_o_wide_mux_10_OUT5270 (Mmux_p0.state[5]_X_5_o_wide_mux_10_OUT5270)
+     FDRE:D                    0.308          nibble2_0
+    ----------------------------------------
+    Total                      6.605ns (4.663ns logic, 1.942ns route)
+                                       (70.6% logic, 29.4% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
+  Total number of paths / destination ports: 1 / 1
+-------------------------------------------------------------------------
+Offset:              4.283ns (Levels of Logic = 1)
+  Source:            o_done (FF)
+  Destination:       o_done (PAD)
+  Source Clock:      i_clock rising
+
+  Data Path: o_done to o_done
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDRE:C->Q             1   0.591   0.420  o_done (o_done_OBUF)
+     OBUF:I->O                 3.272          o_done_OBUF (o_done)
+    ----------------------------------------
+    Total                      4.283ns (3.863ns logic, 0.420ns route)
+                                       (90.2% logic, 9.8% route)
+
+=========================================================================
+
+Cross Clock Domains Report:
+--------------------------
+
+Clock to Setup on destination clock i_clock
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+i_clock        |    7.042|         |         |         |
+---------------+---------+---------+---------+---------+
+
+=========================================================================
+
+
+Total REAL time to Xst completion: 7.00 secs
+Total CPU time to Xst completion: 6.64 secs
+ 
+WARNING:Xst:3152 - You have chosen to run a version of XST which is not the default solution
+   for the specified device family. You are free to use it in order to take
+   advantage of its enhanced HDL parsing/elaboration capabilities. However,
+   please be aware that you may be impacted by  language support differences.
+   This version may also result in circuit performance and device utilization
+   differences for your particular design. You can always revert back to the
+   default XST solution by setting the "use_new_parser" option to value "no" 
+   on the XST command line or in the XST process properties panel.
+--> 
+
+
+Total memory usage is 373040 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :   55 (   0 filtered)
+Number of infos    :    9 (   0 filtered)
+
