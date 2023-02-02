@@ -48,7 +48,7 @@ i_start0x242d : in std_logic_vector (15 downto 0);
 i_start0x242e : in std_logic_vector (15 downto 0);
 i_start0x242f : in std_logic_vector (15 downto 0);
 i_start0x2440 : in std_logic_vector (15 downto 0); -- alphatemp ROWS*COLS
-i_start0x2420 : in std_logic_vector (15 downto 0); -- accrowscale,acccolscale,accremnantscale
+i_start0x2420 : in std_logic_vector (15 downto 0); -- n1-accremscale,n2-acccolscale,n3-accrowscale,n4-alphascale
 i_alphaRef : in std_logic_vector (31 downto 0); -- alpharef from fixed2float
 o_done : out std_logic
 );
@@ -312,6 +312,7 @@ signal doa,dia : std_logic_vector (31 downto 0);
 
 signal ena_mux1 : std_logic;
 
+-- xxx nibbles must out in next clock xyxle
 signal nibble1,nibble2,nibble4,nibble5,nibble6 : std_logic_vector (3 downto 0);
 signal nibble3 : std_logic_vector (5 downto 0);
 signal out_nibble1,out_nibble2,out_nibble3,out_nibble4,out_nibble5,out_nibble6 : std_logic_vector (31 downto 0);
@@ -446,27 +447,27 @@ begin
 ----
 				when acc1 => state := acc2;
 					vaccRemScale1 := i_start0x2420 (3 downto 0);
-					nibble5 <= i_start0x2420 (3 downto 0);
+					nibble5 <= i_start0x2420 (3 downto 0); -- remnant
 					vaccRemScale := out_nibble5;
 
 				when acc2 => state := acc3;
 					vaccColumnScale1 := i_start0x2420 (7 downto 4);
-					nibble5 <= i_start0x2420 (7 downto 4);
+					nibble5 <= i_start0x2420 (7 downto 4); -- column
 					vaccColumnScale := out_nibble5;
 
 				when acc3 => state := acc4;
 					vaccRowScale1 := i_start0x2420 (11 downto 8);
-					nibble5 <= i_start0x2420 (11 downto 8);
+					nibble5 <= i_start0x2420 (11 downto 8); -- row
 					vaccRowScale := out_nibble5;
 
 				when acc4 => state := acc5;
-					valphaScale1 := i_start0x2420 (15 downto 12); -- alphascale+30
-					nibble6 <= i_start0x2420 (15 downto 12); -- alphascale+30
-					valphaScale := out_nibble6;
+					valphaScale1 := i_start0x2420 (15 downto 12); -- alphascale
+					nibble6 <= i_start0x2420 (15 downto 12); -- alphascale
 ----
 				when acc5 => state := a1; -- alpharef from fixed2float
 					valphaRef := i_alphaRef;
 					valphaRef := i_alphaRef;
+					valphaScale := out_nibble6; -- 2^(alphascale+30)
 ----
 				when a1 => state := ab1;
 					nibble1 <= i_start0x2422 (3 downto 0);
@@ -688,7 +689,7 @@ begin
 					nibble2 <= i_start0x242d (15 downto 12);
 					dia <= out_nibble2;
 					addra <= std_logic_vector (to_unsigned (23+24, 10));
-----
+---- rest col 24-32
 				when a7 => state := b7;
 					nibble2 <= i_start0x242e (3 downto 0);
 					dia <= out_nibble2;
@@ -738,17 +739,17 @@ when calculate00 => state := calculate01;
 	addra <= std_logic_vector (to_unsigned (j+24, 10));
 when calculate01 => state := calculate02;
 when calculate02 => state := calculate03;
-	row := doa;
+	col := doa;
 when calculate03 => state := calculate04;
 	addra <= std_logic_vector (to_unsigned (i, 10));
 when calculate04 => state := calculate05;
 when calculate05 => state := calculate1;
-	col := doa;
+	row := doa;
 ---
 when calculate1 => state := calculate2;
 	nibble3 <= i_start0x2440 (9 downto 4); -- (eeData[64 + p] & 0x03F0) >> 4; , alphatemp raw
 when calculate2 => state := calculate3;
-	fptmp1 := out_nibble3; -- alphatemp
+	fptmp1 := out_nibble3; -- alphatemp after signed
 when calculate3 => state := calculate4;
 	mulfpsclr <= '0';
 	mulfpce <= '1';
@@ -885,19 +886,19 @@ when calculate17 => state := ending0;
 when ending0 => state := ending1;
 	write_enable <= '0';
 when ending1 =>
-	if (i = N_ROWS-1) then
-		i := 0;
+	if (j = N_COLS-1) then
+		j := 0;
 		state := ending2;
 	else
-		i := i + 1;
+		j := j + 1;
 		state := calculate;
 	end if;
 when ending2 =>
-	if (j = N_COLS-1) then
-		j := 0;
+	if (i = N_ROWS-1) then
+		i := 0;
 		state := ending;
 	else
-		j := j + 1;
+		i := i + 1;
 		state := calculate;
 	end if;
 when ending =>

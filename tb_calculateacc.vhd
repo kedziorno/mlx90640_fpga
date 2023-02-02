@@ -136,6 +136,10 @@ begin
 -- hold reset state for 100 ns.
 wait for 105 ns;
 -- insert stimulus here
+i_start0x2420 <= x"8895"; -- alphascale,accrow,acccol,accrem
+i_start0x2440 <= x"00ae";
+i_alphaRef <= x"000030d9";
+
 i_start0x2422 <= x"abcd";
 i_start0x2423 <= x"eff1";
 i_start0x2424 <= x"2345";
@@ -151,10 +155,6 @@ i_start0x242c <= x"6789";
 i_start0x242d <= x"abcd";
 i_start0x242e <= x"eff1";
 i_start0x242f <= x"2345";
-
-i_start0x2420 <= x"8895";
-i_start0x2440 <= x"00ae";
-i_alphaRef <= x"000030d9";
 
 wait for 2.5 ms;
 wait for 1 ps; -- must be for write
