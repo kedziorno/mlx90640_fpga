@@ -38,52 +38,11 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-
-i_ee0x2410 : in slv16; -- (alphaptatee),kptat,scaleoccrow,scaleocccolumn,scaleoccremnant
-i_ee0x2411 : in slv16; -- (offsetaverage),pixosaverage
-i_ee0x2414 : in slv16; -- OCCROWS12,occrows11,occroes10,occrows09
-i_ee0x241b : in slv16; -- OCCCOLUMN16,occcolumn15,occcolumn14,occcolumn13
-
-i_ee0x2420 : in slv16; -- alphascale,scaleaccrow,scaleacccolumn,scaleaccremnand|ascalecp,ascale
-i_ee0x2421 : in slv16; -- pixsensitivityaverage|areference
-i_ee0x2424 : in slv16; -- ACCROWS12,accrows11,accrows10,accrows09
-i_ee0x242b : in slv16; -- ACCCOLUMN16,acccolumn15,acccolumn14,acccolumn13
-
-i_ee0x2430 : in slv16; -- gain
-i_ee0x2431 : in slv16; -- vptat25
-i_ee0x2432 : in slv16; -- kvptat,ktptat-6/10
 i_ee0x2433 : in slv16; -- kvdd,vdd25
-i_ee0x2434 : in slv16; -- kvavg_roco,kvavg_reco,kvavg_roce,kvavg_rece(kv_ij-p.39)
-
-i_ee0x2437 : in slv16; -- ktaavg_roce,ktaavg_rece(ktarcee)
 i_ee0x2438 : in slv16; -- resolutioncontrolcal,kvscale,ktascale1,ktascale2-2/4/4/4|resolutionee
-i_ee0x2439 : in slv16; -- cpsp1ratio/cpsp0ratio,alphacpsp0-6/10,acpsubpage0|cpp1p0ratio
-
-i_ee0x243a : in slv16; -- offcpsubpage1delta,offcpsubpage0-6/10
-i_ee0x243b : in slv16; -- kvcp,(kvcpee),ktacp,(ktacpee)
-i_ee0x243c : in slv16; -- ksta,(kstaee),tgc,(tgcee)
-i_ee0x243d : in slv16; -- ksto2,(ksto2ee),ksto1
--- i_ee0x243e -- 9797 -- 0x00ff -- 97 (signed) -- ksto3ee, 0xff00 - 97 (signed) -- ksto4ee
-i_ee0x243f : in slv16; -- step,ct4,ct3,kstoscale-2/4/4/4
-
-i_ee0x258f : in slv16; -- apixel1216
-i_ee0x25af : in slv16; -- offset1216,kta1216ee-6,...,3
-
-i_ram0x056f : in slv16; -- pxdata1216,11.2.2.5.1
-
-i_ram0x0700 : in slv16; -- for vbe
-i_ram0x0708 : in slv16; -- for pixgaincpsp0,cpsubpage0
-i_ram0x070a : in slv16; -- gain
-
-i_ram0x0720 : in slv16; -- for vptat,ptat
-i_ram0x0728 : in slv16; -- for pixgaincpsp1,cpsubpage1
 i_ram0x072a : in slv16; -- for deltaV,vdd
-
 i_ram0x800d : in slv16; -- resolution reg
-
-i_pixelpattern : in slv14; -- 12x16
------
-o_Vdd : out fd2ft; -- output Temp
+o_Vdd : out fd2ft; -- output Vdd
 o_rdy : out std_logic
 );
 end calculateVdd;
@@ -231,8 +190,7 @@ p0 : process (i_clock) is
 	variable fracbu : fracbu;
 	type states is (idle,
 	s1,s2,s3,s4,s5,s6,s7,s8,
-	s9,s10,s11,s12,s13,s14,s15,s16,
-	ending);
+	s9,s10,s11,s12,s13,s14);
 	variable state : states;
 	constant const3dot3_ft : fd2ft := x"40533333";
 begin
