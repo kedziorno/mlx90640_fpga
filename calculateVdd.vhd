@@ -43,6 +43,9 @@ i_ee0x2438 : in slv16; -- resolutioncontrolcal,kvscale,ktascale1,ktascale2-2/4/4
 i_ram0x072a : in slv16; -- for deltaV,vdd
 i_ram0x800d : in slv16; -- resolution reg
 o_Vdd : out fd2ft; -- output Vdd
+o_kvdd : out fd2ft;
+o_vdd25 : out fd2ft;
+o_ram0x072a : out fd2ft;
 o_rdy : out std_logic
 );
 end calculateVdd;
@@ -224,6 +227,9 @@ begin
 		eeprom16slv := (others => '0');
 		ram16slv := (others => '0');
 		o_Vdd <= (others => '0');
+		o_kvdd <= (others => '0');
+		o_vdd25 <= (others => '0');
+		o_ram0x072a <= (others => '0');
 		o_rdy <= '0';
 	else
 	case (state) is
@@ -325,6 +331,9 @@ begin
 	when s14 => state := idle;
 		addfpsclr <= '0';
 		o_Vdd <= fttmp1;
+		o_kvdd <= ExtractVDDParameters_kvdd;
+		o_vdd25 <= ExtractVDDParameters_vdd25;
+		o_ram0x072a <= fttmp2;
 		o_rdy <= '1';
 	when others => null;
 	end case;

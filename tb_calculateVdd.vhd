@@ -29,7 +29,10 @@ i_ee0x2433 : in slv16; -- kvdd,vdd25
 i_ee0x2438 : in slv16; -- resolutioncontrolcal,kvscale,ktascale1,ktascale2-2/4/4/4|resolutionee
 i_ram0x072a : in slv16; -- for deltaV,vdd
 i_ram0x800d : in slv16; -- resolution reg
-o_Vdd : out fd2ft; -- output Temp
+o_Vdd : out fd2ft; -- output Vdd
+o_kvdd : out fd2ft;
+o_vdd25 : out fd2ft;
+o_ram0x072a : out fd2ft;
 o_rdy : out std_logic
 );
 end component calculateVdd;
@@ -38,7 +41,10 @@ SIGNAL i_clock :  std_logic := '0';
 SIGNAL i_reset :  std_logic := '0';
 SIGNAL i_run :  std_logic := '0';
 SIGNAL o_Vdd : fd2ft;
-SIGNAL o_rdy :  std_logic;
+SIGNAL o_kvdd : fd2ft;
+SIGNAL o_vdd25 : fd2ft;
+SIGNAL o_ram0x072a : fd2ft;
+SIGNAL o_rdy : std_logic;
 
 constant clock_period : time := 10 ns;
 constant G_C_WAIT1 : integer := 16;
@@ -68,6 +74,9 @@ i_ee0x2438 => x"2363",
 i_ram0x072a => x"ccc5",
 i_ram0x800d => x"1901",
 o_Vdd => o_Vdd,
+o_kvdd => o_kvdd,
+o_vdd25 => o_vdd25,
+o_ram0x072a => o_ram0x072a,
 o_rdy => o_rdy
 );
 
