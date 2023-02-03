@@ -41,15 +41,167 @@ i_run : in std_logic;
 i_ee0x2432 : in slv16; -- kvptat,ktptat-6/10
 i_ee0x2431 : in slv16; -- vptat25
 i_ee0x2410 : in slv16; -- (alphaptatee),kptat,scaleoccrow,scaleocccolumn,scaleoccremnant
-i_kvdd : in fd2ft;
-i_vdd25 : in fd2ft;
-i_ram0x072a : in fd2ft;
+i_ram0x0720 : in slv16;
+i_kvdd : in fd2ft; -- from VDD bram
+i_vdd25 : in fd2ft; -- from VDD bram
+i_ram0x0700 : in slv16;
+i_ram0x072a : in fd2ft; -- from VDD bram
 o_Ta : out fd2ft; -- output Ta
 o_rdy : out std_logic
 );
 end calculateTa;
 
 architecture Behavioral of calculateTa is
+
+COMPONENT ExtractKtPTATParameter
+PORT(
+i_clock : IN  std_logic;
+i_reset : IN  std_logic;
+i_ee0x2432 : IN  std_logic_vector(15 downto 0);
+o_ktptat : OUT  std_logic_vector(31 downto 0)
+);
+END COMPONENT;
+
+signal ExtractKtPTATParameter_clock : std_logic;
+signal ExtractKtPTATParameter_reset : std_logic;
+signal ExtractKtPTATParameter_ee0x2432 : std_logic_vector (15 downto 0);
+signal ExtractKtPTATParameter_ktptat : std_logic_vector (31 downto 0);
+
+COMPONENT ExtractKvPTATParameter
+PORT(
+i_clock : IN  std_logic;
+i_reset : IN  std_logic;
+i_ee0x2432 : IN  std_logic_vector(15 downto 0);
+o_kvptat : OUT  std_logic_vector(31 downto 0)
+);
+END COMPONENT;
+
+signal ExtractKvPTATParameter_clock : std_logic;
+signal ExtractKvPTATParameter_reset : std_logic;
+signal ExtractKvPTATParameter_ee0x2432 : std_logic_vector (15 downto 0);
+signal ExtractKvPTATParameter_kvptat : std_logic_vector (31 downto 0);
+
+component ExtractAlphaPtatParameter is
+port (
+i_clock : IN  std_logic;
+i_reset : IN  std_logic;
+i_ee0x2410 : IN  std_logic_vector (15 downto 0);
+o_alphaptat: OUT  std_logic_vector (31 downto 0)
+);
+end component ExtractAlphaPtatParameter;
+
+signal ExtractAlphaPtatParameter_clock : std_logic;
+signal ExtractAlphaPtatParameter_reset : std_logic;
+signal ExtractAlphaPtatParameter_ee0x2410 : std_logic_vector (15 downto 0);
+signal ExtractAlphaPtatParameter_alphaptat : std_logic_vector (31 downto 0);
+
+COMPONENT fixed2float
+PORT (
+a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+
+signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : STD_LOGIC;
+signal fixed2floatclk : STD_LOGIC;
+signal fixed2floatsclr : STD_LOGIC;
+signal fixed2floatce : STD_LOGIC;
+signal fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : STD_LOGIC;
+
+COMPONENT divfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+
+signal divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : STD_LOGIC;
+signal divfpclk : STD_LOGIC;
+signal divfpsclr : STD_LOGIC;
+signal divfpce : STD_LOGIC;
+signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : STD_LOGIC;
+
+COMPONENT mulfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+
+signal mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : STD_LOGIC;
+signal mulfpclk : STD_LOGIC;
+signal mulfpsclr : STD_LOGIC;
+signal mulfpce : STD_LOGIC;
+signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy : STD_LOGIC;
+
+COMPONENT addfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+
+signal addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : STD_LOGIC;
+signal addfpclk : STD_LOGIC;
+signal addfpsclr : STD_LOGIC;
+signal addfpce : STD_LOGIC;
+signal addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : STD_LOGIC;
+
+COMPONENT subfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+
+signal subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpond : STD_LOGIC;
+signal subfpclk : STD_LOGIC;
+signal subfpsclr : STD_LOGIC;
+signal subfpce : STD_LOGIC;
+signal subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfprdy : STD_LOGIC;
 
 begin
 
@@ -63,6 +215,8 @@ p0 : process (i_clock) is
 	variable fracbs : fracbs;
 	variable fracau : fracau;
 	variable fracbu : fracbu;
+	variable vbe,vptat,vptat25 : st_sfixed_max;
+	variable vbe_ft,vptat_ft,vptat25_ft : fd2ft;
 	type states is (idle,
 	s1,s2,s3,s4,s5,s6,s7,s8,
 	s9,s10,s11,s12,s13,s14,
@@ -71,6 +225,9 @@ p0 : process (i_clock) is
 	s27,s28,s29,s30,ending);
 	variable state : states;
 	constant const3dot3_ft : fd2ft := x"40533333";
+	constant const2pow18_ft : fd2ft := x"48800000";
+	constant const1_ft : fd2ft := x"3F800000";
+	constant const25_ft : fd2ft := x"41C80000";
 begin
 	if (rising_edge (i_clock)) then
 	if (i_reset = '1') then
@@ -101,7 +258,7 @@ begin
 		divfpb <= (others => '0');
 		eeprom16slv := (others => '0');
 		ram16slv := (others => '0');
-		o_Vdd <= (others => '0');
+		o_Ta <= (others => '0');
 		o_rdy <= '0';
 	else
 	case (state) is
@@ -124,7 +281,7 @@ begin
 		subfpond <= '1';
 	when s2 =>
 		if (subfprdy = '1') then state := s3;
-			deltaV_ft := subfpr;
+			fttmp1 := subfpr;
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -132,12 +289,12 @@ begin
 	when s3 => state := s4;
 		subfpsclr <= '0';
 		divfpce <= '1';
-		divfpa <= deltaV_ft;
+		divfpa <= fttmp1;
 		divfpb <= i_kvdd;
 		divfpond <= '1';
 	when s4 =>
 		if (divfprdy = '1') then state := s5;
-			deltaV_ft := divfpr;
+			fttmp1 := divfpr; -- deltaV
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -195,56 +352,56 @@ begin
 		else state := s10; end if;
 	when s11 => state := s12;
 		fixed2floatsclr <= '0';
-		-- vptat*alphaptst
+		-- vptat*alphaptat
 		mulfpce <= '1';
 		mulfpa <= vptat_ft;
 		mulfpb <= ExtractAlphaPtatParameter_alphaptat;
 		mulfpond <= '1';
 	when s12 =>
 		if (mulfprdy = '1') then state := s13;
-			vptatart_ft := mulfpr;
+			fttmp2 := mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
 		else state := s12; end if;
 	when s13 => state := s14;
 		mulfpsclr <= '0';
-		-- vptat*alphaptst+vbe
+		-- vptat*alphaptat+vbe
 		addfpce <= '1';
-		addfpa <= vptatart_ft;
+		addfpa <= fttmp2;
 		addfpb <= vbe_ft;
 		addfpond <= '1';
 	when s14 =>
 		if (addfprdy = '1') then state := s15;
-			vptatart_ft := addfpr;
+			fttmp2 := addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
 		else state := s14; end if;
 	when s15 => state := s16;
 		addfpsclr <= '0';
-		-- vptat/(vptat*alphaptst+vbe)
+		-- vptat/(vptat*alphaptat+vbe)
 		divfpce <= '1';
 		divfpa <= vptat_ft;
-		divfpb <= vptatart_ft;
+		divfpb <= fttmp2;
 		divfpond <= '1';
 	when s16 =>
 		if (divfprdy = '1') then state := s17;
-			vptatart_ft := divfpr;
+			fttmp2 := divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
 		else state := s16; end if;
 	when s17 => state := s18;
 		divfpsclr <= '0';
-		-- vptat/(vptat*alphaptst+vbe)*2^18
+		-- vptat/(vptat*alphaptat+vbe)*2^18
 		mulfpce <= '1';
-		mulfpa <= vptatart_ft;
+		mulfpa <= fttmp2;
 		mulfpb <= const2pow18_ft;
 		mulfpond <= '1';
 	when s18 =>
 		if (mulfprdy = '1') then state := s19;
-			vptatart_ft := mulfpr; -- 12873.57952
+			fttmp2 := mulfpr; -- 12873.57952 vptatart
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -253,12 +410,12 @@ begin
 		mulfpsclr <= '0';
 		-- kvptat*deltaV
 		mulfpce <= '1';
-		mulfpa <= kvptat_ft;
-		mulfpb <= deltaV_ft;
+		mulfpa <= ExtractKvPTATParameter_kvptat;
+		mulfpb <= fttmp1;
 		mulfpond <= '1';
 	when s20 =>
 		if (mulfprdy = '1') then state := s21;
-			Ta_ft := mulfpr;
+			fttmp1 := mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -268,11 +425,11 @@ begin
 		-- 1+kvptat*deltaV
 		addfpce <= '1';
 		addfpa <= const1_ft;
-		addfpb <= Ta_ft;
+		addfpb <= fttmp1;
 		addfpond <= '1';
 	when s22 =>
 		if (addfprdy = '1') then state := s23;
-			Ta_ft := addfpr;
+			fttmp1 := addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -281,12 +438,12 @@ begin
 		addfpsclr <= '0';
 		-- vptatart/(1+kvptat*deltaV)
 		divfpce <= '1';
-		divfpa <= vptatart_ft;
-		divfpb <= Ta_ft;
+		divfpa <= fttmp2;
+		divfpb <= fttmp1;
 		divfpond <= '1';
 	when s24 =>
 		if (divfprdy = '1') then state := s25;
-			Ta_ft := divfpr;
+			fttmp1 := divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -295,12 +452,12 @@ begin
 		divfpsclr <= '0';
 		-- (vptatart/(1+kvptat*deltaV))-vptat25
 		subfpce <= '1';
-		subfpa <= Ta_ft;
+		subfpa <= fttmp1;
 		subfpb <= vptat25_ft;
 		subfpond <= '1';
 	when s26 =>
 		if (subfprdy = '1') then state := s27;
-			Ta_ft := subfpr;
+			fttmp1 := subfpr;
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -309,12 +466,12 @@ begin
 		subfpsclr <= '0';
 		-- ((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat
 		divfpce <= '1';
-		divfpa <= Ta_ft;
+		divfpa <= fttmp1;
 		divfpb <= ExtractKtPTATParameter_ktptat;
 		divfpond <= '1';
 	when s28 =>
 		if (divfprdy = '1') then state := s29;
-			Ta_ft := divfpr;
+			fttmp1 := divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -323,19 +480,19 @@ begin
 		divfpsclr <= '0';
 		-- (((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat)+25
 		addfpce <= '1';
-		addfpa <= Ta_ft;
+		addfpa <= fttmp1;
 		addfpb <= const25_ft;
 		addfpond <= '1';
 	when s30 =>
 		if (addfprdy = '1') then state := ending;
-			Ta_ft := addfpr;
+			fttmp1 := addfpr;
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
 		else state := s30; end if;
 	when ending =>
 		addfpsclr <= '0';
-
+		o_Ta <= fttmp1;
 	when others => null;
 	end case;
 end if;
@@ -360,6 +517,82 @@ i_clock => ExtractKtPTATParameter_clock,
 i_reset => ExtractKtPTATParameter_reset,
 i_ee0x2432 => ExtractKtPTATParameter_ee0x2432,
 o_ktptat => ExtractKtPTATParameter_ktptat
+);
+
+ExtractAlphaPtatParameter_clock <= i_clock;
+ExtractAlphaPtatParameter_reset <= i_reset;
+ExtractAlphaPtatParameter_ee0x2410 <= i_ee0x2410;
+inst_ExtractAlphaPtatParameter : ExtractAlphaPtatParameter
+port map (
+i_clock => ExtractAlphaPtatParameter_clock,
+i_reset => ExtractAlphaPtatParameter_reset,
+i_ee0x2410 => ExtractAlphaPtatParameter_ee0x2410,
+o_alphaptat => ExtractAlphaPtatParameter_alphaptat
+);
+
+fixed2floatclk <= i_clock;
+addfpclk <= i_clock;
+subfpclk <= i_clock;
+mulfpclk <= i_clock;
+divfpclk <= i_clock;
+
+inst_ff2 : fixed2float
+PORT MAP (
+a => fixed2floata,
+operation_nd => fixed2floatond,
+clk => fixed2floatclk,
+sclr => fixed2floatsclr,
+ce => fixed2floatce,
+result => fixed2floatr,
+rdy => fixed2floatrdy
+);
+
+inst_divfp : divfp
+PORT MAP (
+a => divfpa,
+b => divfpb,
+operation_nd => divfpond,
+clk => divfpclk,
+sclr => divfpsclr,
+ce => divfpce,
+result => divfpr,
+rdy => divfprdy
+);
+
+inst_mulfp : mulfp
+PORT MAP (
+a => mulfpa,
+b => mulfpb,
+operation_nd => mulfpond,
+clk => mulfpclk,
+sclr => mulfpsclr,
+ce => mulfpce,
+result => mulfpr,
+rdy => mulfprdy
+);
+
+inst_addfp : addfp
+PORT MAP (
+a => addfpa,
+b => addfpb,
+operation_nd => addfpond,
+clk => addfpclk,
+sclr => addfpsclr,
+ce => addfpce,
+result => addfpr,
+rdy => addfprdy
+);
+
+inst_subfp : subfp
+PORT MAP (
+a => subfpa,
+b => subfpb,
+operation_nd => subfpond,
+clk => subfpclk,
+sclr => subfpsclr,
+ce => subfpce,
+result => subfpr,
+rdy => subfprdy
 );
 
 end Behavioral;
