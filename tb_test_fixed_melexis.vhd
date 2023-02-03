@@ -245,7 +245,7 @@ wait for 600 ns; -- wait until global set/reset completes
 i_reset <= '0';
 -- Add user defined stimulus here
 i_run <= '1';
-wait for clock_period*100;
+wait for clock_period*1;
 i_run <= '0';
 wait; -- will wait forever
 END PROCESS tb_run;
