@@ -493,6 +493,7 @@ begin
 	when ending =>
 		addfpsclr <= '0';
 		o_Ta <= fttmp1;
+		o_rdy <= '1';
 	when others => null;
 	end case;
 end if;

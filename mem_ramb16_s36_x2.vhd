@@ -209,10 +209,10 @@ begin
 ADDR1 <= ADDR (8 downto 0);
 ADDR2 <= ADDR (8 downto 0);
 CLK1 <= CLK;
---SSR1 <= SSR;
+SSR1 <= SSR;
 WE1 <= WE;
 CLK2 <= CLK;
---SSR2 <= SSR;
+SSR2 <= SSR;
 WE2 <= WE;
 DI1 <= DI;
 DIP1 <= DIP;
@@ -225,14 +225,14 @@ begin
 		if (ADDR (9) = '0') then
 			EN1 <= EN;
 			EN2 <= '0';
-			SSR1 <= '0';
-			SSR2 <= SSR;
+--			SSR1 <= '0';
+--			SSR2 <= SSR;
 		end if;
 		if (ADDR (9) = '1') then
 			EN1 <= '0';
 			EN2 <= EN;
-			SSR1 <= SSR;
-			SSR2 <= '0';
+--			SSR1 <= SSR;
+--			SSR2 <= '0';
 		end if;
 	end if;
 end process p0;
