@@ -490,7 +490,7 @@ begin
 			addfpond <= '0';
 			addfpsclr <= '1';
 		else state := s30; end if;
-	when ending =>
+	when ending => state := idle;
 		addfpsclr <= '0';
 		o_Ta <= fttmp1;
 		o_rdy <= '1';
