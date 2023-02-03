@@ -40,12 +40,12 @@ i_reset : in std_logic;
 i_run : in std_logic;
 i_ee0x2432 : in slv16; -- kvptat,ktptat-6/10
 i_ee0x2431 : in slv16; -- vptat25
+i_ram0x0720 : in slv16; -- vptat
+i_ram0x0700 : in slv16; -- vbe
 i_ee0x2410 : in slv16; -- (alphaptatee),kptat,scaleoccrow,scaleocccolumn,scaleoccremnant
-i_ram0x0720 : in slv16;
+i_ram0x072a : in fd2ft; -- from VDD bram
 i_kvdd : in fd2ft; -- from VDD bram
 i_vdd25 : in fd2ft; -- from VDD bram
-i_ram0x0700 : in slv16;
-i_ram0x072a : in fd2ft; -- from VDD bram
 o_Ta : out fd2ft; -- output Ta
 o_rdy : out std_logic
 );
