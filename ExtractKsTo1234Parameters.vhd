@@ -118,8 +118,14 @@ signal divfprdy : STD_LOGIC;
 begin
 
 p0 : process (i_clock) is
-	type states is (idle,s1,s2,s3,s4,s5,s6,s7,ending);
+	type states is (idle,
+	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,
+	ending);
 	variable state : states;
+	variable vksto1 : fd2ft;
+	variable vksto2 : fd2ft;
+	variable vksto3 : fd2ft;
+	variable vksto4 : fd2ft;
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -144,6 +150,10 @@ begin
 						state := idle;
 					end if;
 					divfpsclr <= '0';
+					vksto1 := (others => '0');
+					vksto2 := (others => '0');
+					vksto3 := (others => '0');
+					vksto4 := (others => '0');
 				when s1 => state := s2;
 					ExtractKsToScaleParameter_ee0x243f <= i_ee0x243f;
 				when s2 => state := s3;
@@ -156,14 +166,65 @@ begin
 					divfpond <= '1';
 				when s5 =>
 					if (divfprdy = '1') then state := s6;
-						o_ksto1 <= divfpr;
+						vksto1 := divfpr;
 						divfpce <= '0';
 						divfpond <= '0';
 						divfpsclr <= '1';
 					else state := s5; end if;
-				when s6 => state := ending;
+				when s6 => state := s7;
 					divfpsclr <= '0';
-				when ending =>
+					mem_signedFF_ivalue <= i_ee0x243d (15 downto 8);
+				when s7 => state := s8;
+				when s8 => state := s9;
+					divfpce <= '1';
+					divfpa <= mem_signedFF_ovalue;
+					divfpb <= ExtractKsToScaleParameter_kstoscale;
+					divfpond <= '1';
+				when s9 =>
+					if (divfprdy = '1') then state := s10;
+						vksto2 := divfpr;
+						divfpce <= '0';
+						divfpond <= '0';
+						divfpsclr <= '1';
+					else state := s9; end if;
+				when s10 => state := s11;
+					divfpsclr <= '0';
+					mem_signedFF_ivalue <= i_ee0x243e (7 downto 0);
+				when s11 => state := s12;
+				when s12 => state := s13;
+					divfpce <= '1';
+					divfpa <= mem_signedFF_ovalue;
+					divfpb <= ExtractKsToScaleParameter_kstoscale;
+					divfpond <= '1';
+				when s13 =>
+					if (divfprdy = '1') then state := s14;
+						vksto3 := divfpr;
+						divfpce <= '0';
+						divfpond <= '0';
+						divfpsclr <= '1';
+					else state := s13; end if;
+				when s14 => state := s15;
+					divfpsclr <= '0';
+					mem_signedFF_ivalue <= i_ee0x243e (15 downto 8);
+				when s15 => state := s16;
+				when s16 => state := s17;
+					divfpce <= '1';
+					divfpa <= mem_signedFF_ovalue;
+					divfpb <= ExtractKsToScaleParameter_kstoscale;
+					divfpond <= '1';
+				when s17 =>
+					if (divfprdy = '1') then state := s18;
+						vksto4 := divfpr;
+						divfpce <= '0';
+						divfpond <= '0';
+						divfpsclr <= '1';
+					else state := s17; end if;
+				when s18 => state := idle;
+					divfpsclr <= '0';
+					o_ksto1 <= vksto1;
+					o_ksto2 <= vksto2;
+					o_ksto3 <= vksto3;
+					o_ksto4 <= vksto4;
 				when others => null;
 			end case;
 		end if;
