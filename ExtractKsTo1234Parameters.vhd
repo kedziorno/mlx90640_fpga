@@ -124,6 +124,16 @@ begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
 			divfpsclr <= '1';
+			o_ksto1 <= (others => '0');
+			o_ksto2 <= (others => '0');
+			o_ksto3 <= (others => '0');
+			o_ksto4 <= (others => '0');
+			ExtractKsToScaleParameter_ee0x243f <= (others => '0');
+			mem_signedFF_ivalue <= (others => '0');
+			divfpa <= (others => '0');
+			divfpb <= (others => '0');
+			divfpce <= '0';
+			divfpond <= '0';
 			state := idle;
 		else
 			case (state) is
