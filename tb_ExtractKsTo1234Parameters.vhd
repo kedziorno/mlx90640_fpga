@@ -24,7 +24,8 @@ i_ee0x243e : in slv16; -- ksto3ee,ksto4ee
 o_ksto1 : out fd2ft;
 o_ksto2 : out fd2ft;
 o_ksto3 : out fd2ft;
-o_ksto4 : out fd2ft
+o_ksto4 : out fd2ft;
+o_rdy : out std_logic
 );
 end component ExtractKsTo1234Parameters;
 
@@ -38,6 +39,7 @@ signal ExtractKsTo1234Parameters_ksto1 : fd2ft := (others => '0');
 signal ExtractKsTo1234Parameters_ksto2 : fd2ft := (others => '0');
 signal ExtractKsTo1234Parameters_ksto3 : fd2ft := (others => '0');
 signal ExtractKsTo1234Parameters_ksto4 : fd2ft := (others => '0');
+signal ExtractKsTo1234Parameters_rdy : std_logic := '0';
 
 constant clockperiod : time := 10 ns;
 
@@ -62,7 +64,8 @@ i_ee0x243e => ExtractKsTo1234Parameters_ee0x243e,
 o_ksto1 => ExtractKsTo1234Parameters_ksto1,
 o_ksto2 => ExtractKsTo1234Parameters_ksto2,
 o_ksto3 => ExtractKsTo1234Parameters_ksto3,
-o_ksto4 => ExtractKsTo1234Parameters_ksto4
+o_ksto4 => ExtractKsTo1234Parameters_ksto4,
+o_rdy => ExtractKsTo1234Parameters_rdy
 );
 
 --  Test Bench Statements

@@ -45,7 +45,8 @@ i_ee0x243e : in slv16; -- ksto3ee,ksto4ee
 o_ksto1 : out fd2ft;
 o_ksto2 : out fd2ft;
 o_ksto3 : out fd2ft;
-o_ksto4 : out fd2ft
+o_ksto4 : out fd2ft;
+o_rdy : out std_logic
 );
 end ExtractKsTo1234Parameters;
 
@@ -141,6 +142,7 @@ begin
 			divfpce <= '0';
 			divfpond <= '0';
 			state := idle;
+			o_rdy <= '0';
 		else
 			case (state) is
 				when idle =>
@@ -225,6 +227,7 @@ begin
 					o_ksto2 <= vksto2;
 					o_ksto3 <= vksto3;
 					o_ksto4 <= vksto4;
+					o_rdy <= '1';
 				when others => null;
 			end case;
 		end if;
