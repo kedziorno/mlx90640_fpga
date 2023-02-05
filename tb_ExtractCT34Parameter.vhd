@@ -4,13 +4,13 @@
 --
 -- Create Date:   23:49:11 01/25/2023
 -- Design Name:   
--- Module Name:   /home/user/workspace/melexis_mlx90641/tb_ExtractCT4Parameter.vhd
+-- Module Name:   /home/user/workspace/melexis_mlx90641/tb_ExtractCT34Parameter.vhd
 -- Project Name:  melexis_mlx90641
 -- Target Device:  
 -- Tool versions:  
 -- Description:   
 -- 
--- VHDL Test Bench Created by ISE for module: ExtractCT4Parameter
+-- VHDL Test Bench Created by ISE for module: ExtractCT34Parameter
 -- 
 -- Dependencies:
 -- 

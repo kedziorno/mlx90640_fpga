@@ -4,7 +4,7 @@
 -- 
 -- Create Date:    17:19:20 01/25/2023 
 -- Design Name: 
--- Module Name:    ExtractCT4Parameter - Behavioral 
+-- Module Name:    ExtractCT34Parameter - Behavioral 
 -- Project Name: 
 -- Target Devices: 
 -- Tool versions: 

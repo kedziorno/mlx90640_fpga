@@ -67,7 +67,7 @@ SIGNAL i_run :  std_logic;
 SIGNAL o_To : fd2ft;
 SIGNAL o_rdy,o_rdyp :  std_logic;
 
-constant clock_period : time := 500 ns;
+constant clock_period : time := 20 ns;
 constant G_C_WAIT1 : integer := 16;
 
 signal out1r : real;
