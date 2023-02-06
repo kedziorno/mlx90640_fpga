@@ -4,7 +4,7 @@
 -- 
 -- Create Date:    17:44:29 02/05/2023 
 -- Design Name: 
--- Module Name:    mem_signedFF - Behavioral 
+-- Module Name:    mem_signed256 - Behavioral 
 -- Project Name: 
 -- Target Devices: 
 -- Tool versions: 
@@ -29,20 +29,20 @@ use IEEE.NUMERIC_STD.ALL;
 library UNISIM;
 use UNISIM.VComponents.all;
 
-entity mem_signedFF is
+entity mem_signed256 is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_value : in std_logic_vector (7 downto 0); -- input hex from 0 to 255
 o_value : out std_logic_vector (31 downto 0) -- output signed -128 to 127 in SP float
 );
-end mem_signedFF;
+end mem_signed256;
 
-architecture Behavioral of mem_signedFF is
+architecture Behavioral of mem_signed256 is
 
 begin
 
-inst_mem_signedFF : RAMB16_S36
+inst_mem_signed256 : RAMB16_S36
 generic map (
 INIT => X"0", -- Value of output RAM registers at startup
 SRVAL => X"0", -- Output value upon SSR assertion

@@ -14,9 +14,9 @@ str3 = list()
 idx = 0
 step = list()
 
-for i in range (0, 256):
+for i in range (0, 1024):
 	col1 = i
-	col2 = (col1 - 256) if col1 > 127 else col1
+	col2 = (col1 - 1024) if col1 > 511 else col1
 	col3 = float_to_hex (col2)
 	print ("%d"%col1, "%d"%col2, "%s"%col3)
 	if col2 == 0:
@@ -25,7 +25,7 @@ for i in range (0, 256):
 		str1.append(col3)
 print (str1)
 
-for a in range(0,256,8):
+for a in range(0,1024,8):
 	for j in reversed(range(0,8)):
 		c=a+j
 		str2 = str2 + str1[c][2:]
