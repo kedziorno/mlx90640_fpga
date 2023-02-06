@@ -659,16 +659,6 @@ when idle =>
 			mem_float2powerN_reset1 <= '0';
 			mem_float2powerN_reset2 <= '0';
 			mem_switchpattern_reset <= '0';
---i_run => calculateVdd_run,
---i_ee0x2433 => calculateVdd_ee0x2433,
---i_ee0x2438 => calculateVdd_ee0x2438,
---i_ram0x072a => calculateVdd_ram0x072a,
---i_ram0x800d => calculateVdd_ram0x800d,
---o_Vdd => calculateVdd_Vdd,
---o_kvdd => calculateVdd_kvdd,
---o_vdd25 => calculateVdd_vdd25,
---o_ram0x072a => calculateVdd_ram0x072a,
---o_rdy => calculateVdd_rdy
 	when s1 => state := s2;
 		calculateVdd_run <= '1';
 		calculateVdd_ee0x2433 <= i_ee0x2433;
@@ -682,18 +672,6 @@ when idle =>
 		else
 			state := s2;
 		end if;
---i_run => calculateTa_run,
---i_ee0x2432 => calculateTa_ee0x2432,
---i_ee0x2431 => calculateTa_ee0x2431,
---i_ram0x0720 => calculateTa_ram0x0720,
---i_ram0x0700 => calculateTa_ram0x0700,
---i_ee0x2410 => calculateTa_ee0x2410,
---i_ram0x072a => calculateTa_ram0x072a,
---i_kvdd => calculateTa_kvdd,
---i_vdd25 => calculateTa_vdd25,
---o_Ta => calculateTa_Ta,
---o_rdy => calculateTa_rdy
-
 	when s3 => state := s4;
 		calculateTa_run <= '1';
 		calculateTa_ee0x2432 <= i_ee0x2432;
@@ -711,12 +689,6 @@ when idle =>
 		else
 			state := s4;
 		end if;
---i_run => calculateKGain_run,
---i_ee0x2430 => calculateKGain_ee0x2430,
---i_ram0x070a => calculateKGain_ram0x070a,
---o_KGain => calculateKGain_kgain,
---o_rdy => calculateKGain_rdy
-
 	when s5 => state := s6;
 		calculateKGain_run <= '1';
 		calculateKGain_ee0x2430 <= i_ee0x2430;
@@ -729,7 +701,6 @@ when idle =>
 			state := s6;
 		end if;
 	when s7 => state := s94;
-		
 		eeprom16slv := i_ram0x056f and x"ffff";
 		pixgain1216 := resize (to_sfixed (eeprom16slv, eeprom16sf), pixgain1216);
 		--vout2 := resize (pixgain1216, st_sfixed_max'high, st_sfixed_max'low);
