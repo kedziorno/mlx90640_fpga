@@ -40,21 +40,21 @@ o_rdy : out std_logic
 );
 end component ExtractCPParameters;
 
-signal ExtractCPParameters_clock : std_logic;
-signal ExtractCPParameters_reset : std_logic;
-signal ExtractCPParameters_run : std_logic;
-signal ExtractCPParameters_ee0x2420 : slv16; -- alphascale
-signal ExtractCPParameters_ee0x2438 : slv16; -- ktaScale1,kvScale
-signal ExtractCPParameters_ee0x2439 : slv16; -- alphasp0,alphasp1
-signal ExtractCPParameters_ee0x243a : slv16; -- offsetsp0,offsetsp1
-signal ExtractCPParameters_ee0x243b : slv16; -- cpKta,cpKv
-signal ExtractCPParameters_cpAlpha0 : fd2ft;
-signal ExtractCPParameters_cpAlpha1 : fd2ft;
-signal ExtractCPParameters_cpOffset0 : fd2ft;
-signal ExtractCPParameters_cpOffset1 : fd2ft;
-signal ExtractCPParameters_cpKv : fd2ft;
-signal ExtractCPParameters_cpKta : fd2ft;
-signal ExtractCPParameters_rdy : std_logic;
+signal ExtractCPParameters_clock : std_logic := '0';
+signal ExtractCPParameters_reset : std_logic := '0';
+signal ExtractCPParameters_run : std_logic := '0';
+signal ExtractCPParameters_ee0x2420 : slv16 := (others => '0'); -- alphascale
+signal ExtractCPParameters_ee0x2438 : slv16 := (others => '0'); -- ktaScale1,kvScale
+signal ExtractCPParameters_ee0x2439 : slv16 := (others => '0'); -- alphasp0,alphasp1
+signal ExtractCPParameters_ee0x243a : slv16 := (others => '0'); -- offsetsp0,offsetsp1
+signal ExtractCPParameters_ee0x243b : slv16 := (others => '0'); -- cpKta,cpKv
+signal ExtractCPParameters_cpAlpha0 : fd2ft := (others => '0');
+signal ExtractCPParameters_cpAlpha1 : fd2ft := (others => '0');
+signal ExtractCPParameters_cpOffset0 : fd2ft := (others => '0');
+signal ExtractCPParameters_cpOffset1 : fd2ft := (others => '0');
+signal ExtractCPParameters_cpKv : fd2ft := (others => '0');
+signal ExtractCPParameters_cpKta : fd2ft := (others => '0');
+signal ExtractCPParameters_rdy : std_logic := '0';
 
 constant clockperiod : time := 10 ns;
 
