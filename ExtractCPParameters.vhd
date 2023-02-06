@@ -42,10 +42,10 @@ i_ee0x243a : in slv16; -- offsetsp0,offsetsp1 - offcpsubpage0,offcpsubpage1
 i_ee0x243b : in slv16; -- cpKta,cpKv
 o_cpAlpha0 : out fd2ft; -- acpsubpage0
 o_cpAlpha1 : out fd2ft; -- acpsubpage1
-o_cpOffset0 : out fd2ft; 
-o_cpOffset1 : out fd2ft;
-o_cpKv : out fd2ft;
-o_cpKta : out fd2ft;
+o_cpOffset0 : out fd2ft; -- offcpsubpage0
+o_cpOffset1 : out fd2ft; -- offcpsubpage1
+o_cpKv : out fd2ft; -- kvcp
+o_cpKta : out fd2ft; -- ktacp
 o_rdy : out std_logic
 );
 end ExtractCPParameters;
@@ -219,7 +219,6 @@ when s3 => state := s4;
 	addfpond <= '1';
 	
 	o_cpOffset0 <= mem_signed1024_ovalue;
-	o_cpOffset1 <= out_nibble2;
 
 when s4 =>
 	if (addfprdy = '1') then state := s5;
@@ -227,6 +226,7 @@ when s4 =>
 		addfpce <= '0';
 		addfpond <= '0';
 		addfpsclr <= '1';
+		o_cpOffset1 <= offsetSP01;
 		mem_signed1024_ivalue <= i_ee0x2439 (9 downto 0); -- alphaSP0
 	else state := s4; end if;
 when s5 => state := s6;
@@ -288,7 +288,7 @@ when s11 => state := s12;
 	mulfpond <= '1';
 when s12 =>
 	if (mulfprdy = '1') then state := s13;
-		alphaSP1 := addfpr;
+		alphaSP1 := mulfpr;
 		mulfpce <= '0';
 		mulfpond <= '0';
 		mulfpsclr <= '1';
