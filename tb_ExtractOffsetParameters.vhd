@@ -95,7 +95,6 @@ signal i_ee0x241d : slv16 := (others => '0');
 signal i_ee0x241e : slv16 := (others => '0');
 signal i_ee0x241f : slv16 := (others => '0');
 signal i_ee0x2440 : slv16 := (others => '0');
-signal i_alphaRef : std_logic_vector(31 downto 0) := (others => '0');
 
 --Outputs
 signal o_rdy : std_logic;
@@ -147,9 +146,9 @@ begin
 -- hold reset state for 100 ns.
 wait for 105 ns;
 -- insert stimulus here
-i_ee0x2410 <= x"8895"; -- alphascale,accrow,acccol,accrem
-i_ee0x2440 <= x"00ae";
-i_offsetRef <= x"000030d9";
+i_ee0x2410 <= x"4210"; -- occrow,occcolumn,occremnant,k_ptat
+i_ee0x2440 <= x"08a0";
+i_offsetRef <= x"477FBB00";
 
 i_ee0x2412 <= x"0202";
 i_ee0x2413 <= x"f202";
@@ -166,7 +165,7 @@ i_ee0x241c <= x"e1e1";
 i_ee0x241d <= x"f3f2";
 i_ee0x241e <= x"f404";
 i_ee0x241f <= x"e504";
-
+i_run <= '1'; wait for i_clock_period; i_run <= '0';
 wait for 2.5 ms;
 wait for 1 ps; -- must be for write
 report "done" severity failure;
