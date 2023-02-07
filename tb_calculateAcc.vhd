@@ -28,9 +28,12 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
+USE work.p_fphdl_package1.all;
+USE work.p_fphdl_package3.all;
+
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---USE ieee.numeric_std.ALL;
+USE ieee.numeric_std.ALL;
 
 ENTITY tb_calculateAcc IS
 END tb_calculateAcc;
@@ -43,6 +46,7 @@ COMPONENT calculateAcc
 PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
+i_run : IN  std_logic;
 i_start0x2422 : in std_logic_vector (15 downto 0);
 i_start0x2423 : in std_logic_vector (15 downto 0);
 i_start0x2424 : in std_logic_vector (15 downto 0);
@@ -60,15 +64,16 @@ i_start0x242f : in std_logic_vector (15 downto 0);
 i_start0x2440 : in std_logic_vector (15 downto 0); -- alphatemp ROWS*COLS
 i_start0x2420 : in std_logic_vector (15 downto 0); -- accrowscale,acccolscale,accremnantscale
 i_alphaRef : in std_logic_vector (31 downto 0); -- alpharef from fixed2float
-
-o_done : OUT  std_logic
+o_do : out std_logic_vector (31 downto 0);
+i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
+o_rdy : OUT  std_logic
 );
 END COMPONENT;
-
 
 --Inputs
 signal i_clock : std_logic := '0';
 signal i_reset : std_logic := '0';
+signal i_run : std_logic := '0';
 signal i_start0x2422 : std_logic_vector(15 downto 0) := (others => '0');
 signal i_start0x2423 : std_logic_vector(15 downto 0) := (others => '0');
 signal i_start0x2424 : std_logic_vector(15 downto 0) := (others => '0');
@@ -88,17 +93,25 @@ signal i_start0x2440 : std_logic_vector(15 downto 0) := (others => '0');
 signal i_alphaRef : std_logic_vector(31 downto 0) := (others => '0');
 
 --Outputs
-signal o_done : std_logic;
+signal o_rdy : std_logic;
+
+signal o_do : std_logic_vector (31 downto 0);
+signal i_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
 
+signal out1r : real;
+
 BEGIN
+
+out1r <= ap_slv2fp (o_do); -- output data
 
 -- Instantiate the Unit Under Test (UUT)
 uut: calculateAcc PORT MAP (
 i_clock => i_clock,
 i_reset => i_reset,
+i_run => i_run,
 i_start0x2422 => i_start0x2422,
 i_start0x2423 => i_start0x2423,
 i_start0x2424 => i_start0x2424,
@@ -116,7 +129,9 @@ i_start0x242f => i_start0x242f,
 i_start0x2420 => i_start0x2420,
 i_start0x2440 => i_start0x2440,
 i_alphaRef => i_alphaRef,
-o_done => o_done
+o_do => o_do,
+i_addr => i_addr,
+o_rdy => o_rdy
 );
 
 -- Clock process definitions
@@ -155,8 +170,12 @@ i_start0x242c <= x"6789";
 i_start0x242d <= x"abcd";
 i_start0x242e <= x"eff1";
 i_start0x242f <= x"2345";
-
-wait for 2.5 ms;
+i_run <= '1'; wait for i_clock_period; i_run <= '0';
+wait until o_rdy = '1';
+for i in 0 to 1024 loop
+	i_addr <= std_logic_vector (to_unsigned (i, 10));
+	wait for i_clock_period;
+end loop;
 wait for 1 ps; -- must be for write
 report "done" severity failure;
 --wait on o_done;

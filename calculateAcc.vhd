@@ -33,6 +33,7 @@ entity calculateAcc is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
+i_run : in std_logic;
 i_start0x2422 : in std_logic_vector (15 downto 0); -- accrow
 i_start0x2423 : in std_logic_vector (15 downto 0);
 i_start0x2424 : in std_logic_vector (15 downto 0);
@@ -50,7 +51,9 @@ i_start0x242f : in std_logic_vector (15 downto 0);
 i_start0x2440 : in std_logic_vector (15 downto 0); -- alphatemp ROWS*COLS
 i_start0x2420 : in std_logic_vector (15 downto 0); -- n1-accremscale,n2-acccolscale,n3-accrowscale,n4-alphascale
 i_alphaRef : in std_logic_vector (31 downto 0); -- alpharef from fixed2float
-o_done : out std_logic
+o_do : out std_logic_vector (31 downto 0);
+i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
+o_rdy : out std_logic
 );
 end calculateAcc;
 
@@ -307,8 +310,8 @@ signal WE : in std_logic
 );
 end component mem_ramb16_s36_x2;
 
-signal addra : std_logic_vector (9 downto 0);
-signal doa,dia : std_logic_vector (31 downto 0);
+signal addra,mux_addr : std_logic_vector (9 downto 0);
+signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
 
 signal ena_mux1 : std_logic;
 
@@ -318,8 +321,14 @@ signal nibble3 : std_logic_vector (5 downto 0);
 signal out_nibble1,out_nibble2,out_nibble3,out_nibble4,out_nibble5,out_nibble6 : std_logic_vector (31 downto 0);
 
 signal write_enable : std_logic;
+signal rdy : std_logic;
 
 begin
+
+o_rdy <= rdy;
+o_do <= doa when rdy = '1' else (others => '0');
+mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0');
+mux_dia <= dia when rdy = '0' else (others => '0');
 
 with nibble1 select out_nibble1 <= -- >7,-16 - rows1-24
 x"00000000" when x"0", x"3f800000" when x"1", x"40000000" when x"2", x"40400000" when x"3",
@@ -393,7 +402,7 @@ p0 : process (i_clock, i_reset) is
 	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
 	variable row,col : std_logic_vector (31 downto 0);
 	type states is (idle,
-	acc1,acc2,acc3,acc4,
+	acc0,acc1,acc2,acc3,acc4,
 	acc5,
 	a1,b1,c1,d1,
 	a2,b2,c2,d2,
@@ -427,7 +436,7 @@ begin
 			j := 0;
 			write_enable <= '0';
 			ena_mux1 <= '0';
-			o_done <= '0';
+			rdy <= '0';
 			addfpsclr <= '1';
 			subfpsclr <= '1';
 			mulfpsclr <= '1';
@@ -435,16 +444,22 @@ begin
 		else
 			case (state) is
 				when idle =>
-					state := acc1;
+					if (i_run = '1') then
+						state := acc0;
+					else
+						state := idle;
+					end if;
+----
+				when acc0 => state := acc1;
 					write_enable <= '1';
 					ena_mux1 <= '1';
-					o_done <= '0';
+					rdy <= '0';
 					i := 0; j := 0;
 					addfpsclr <= '0';
 					subfpsclr <= '0';
 					mulfpsclr <= '0';
 					divfpsclr <= '0';
-----
+
 				when acc1 => state := acc2;
 					vaccRemScale1 := i_start0x2420 (3 downto 0);
 					nibble5 <= i_start0x2420 (3 downto 0); -- remnant
@@ -902,8 +917,8 @@ when ending2 =>
 		i := i + 1;
 		state := calculate;
 	end if;
-when ending =>
-	o_done <= '1';
+when ending => state := idle;
+	rdy <= '1';
 when others => null;
 end case;
 end if;
@@ -912,18 +927,18 @@ end process p0;
 
 inst_mem_acc : mem_ramb16_s36_x2
 GENERIC MAP (
-INIT_7f => X"4170000041600000415000004140000041300000412000004110000041000000", -- unsigned 0-15 for accremscale,accrowscale,acccolscale
-INIT_7e => X"40e0000040c0000040a000004080000040400000400000003f80000022000000",
-INIT_7d => X"4234000042300000422c0000422800004224000042200000421c000042180000", -- unsigned 0-15 +30 for alphascale
-INIT_7c => X"4214000042100000420c000042080000420400004200000041f8000041f00000",
+--INIT_7f => X"4170000041600000415000004140000041300000412000004110000041000000", -- unsigned 0-15 for accremscale,accrowscale,acccolscale
+--INIT_7e => X"40e0000040c0000040a000004080000040400000400000003f80000022000000",
+--INIT_7d => X"4234000042300000422c0000422800004224000042200000421c000042180000", -- unsigned 0-15 +30 for alphascale
+--INIT_7c => X"4214000042100000420c000042080000420400004200000041f8000041f00000",
 INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000" -- start 0's
 )
 PORT MAP (
 DO => doa,
 DOP => open,
-ADDR => addra,
+ADDR => mux_addr,
 CLK => i_clock,
-DI => dia,
+DI => mux_dia,
 DIP => (others => '0'),
 EN => ena_mux1,
 SSR => i_reset,
