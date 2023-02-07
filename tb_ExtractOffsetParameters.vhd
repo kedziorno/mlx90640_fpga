@@ -33,7 +33,7 @@ USE work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---USE ieee.numeric_std.ALL;
+USE ieee.numeric_std.ALL;
 
 ENTITY tb_ExtractOffsetParameters IS
 END tb_ExtractOffsetParameters;
@@ -68,11 +68,12 @@ i_ee0x241f : in slv16; -- occcol29-32
 
 i_ee0x2440 : in slv16; -- offset ROWS*COLS
 
+o_do : out std_logic_vector (31 downto 0);
+i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic
 );
 end component ExtractOffsetParameters;
-
 
 --Inputs
 signal i_clock : std_logic := '0';
@@ -99,10 +100,17 @@ signal i_ee0x2440 : slv16 := (others => '0');
 --Outputs
 signal o_rdy : std_logic;
 
+signal o_do : std_logic_vector (31 downto 0) := (others => '0');
+signal i_addr : std_logic_vector (9 downto 0) := (others => '0');
+
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
 
+signal out1r : real;
+
 BEGIN
+
+out1r <= ap_slv2fp (o_do); -- output data
 
 -- Instantiate the Unit Under Test (UUT)
 uut: ExtractOffsetParameters PORT MAP (
@@ -126,6 +134,8 @@ i_ee0x241d => i_ee0x241d,
 i_ee0x241e => i_ee0x241e,
 i_ee0x241f => i_ee0x241f,
 i_ee0x2440 => i_ee0x2440,
+o_do => o_do,
+i_addr => i_addr,
 o_rdy => o_rdy
 );
 
@@ -148,7 +158,7 @@ wait for 105 ns;
 -- insert stimulus here
 i_ee0x2410 <= x"4210"; -- occrow,occcolumn,occremnant,k_ptat
 i_ee0x2440 <= x"08a0";
-i_offsetRef <= x"477FBB00";
+i_offsetRef <= x"477FBB00"; -- 65467
 
 i_ee0x2412 <= x"0202";
 i_ee0x2413 <= x"f202";
@@ -166,7 +176,11 @@ i_ee0x241d <= x"f3f2";
 i_ee0x241e <= x"f404";
 i_ee0x241f <= x"e504";
 i_run <= '1'; wait for i_clock_period; i_run <= '0';
-wait for 2.5 ms;
+wait until o_rdy = '1';
+for i in 0 to 1024 loop
+	i_addr <= std_logic_vector (to_unsigned (i, 10));
+	wait for i_clock_period*2;
+end loop;
 wait for 1 ps; -- must be for write
 report "done" severity failure;
 --wait on o_done;

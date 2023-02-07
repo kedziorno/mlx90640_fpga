@@ -58,6 +58,8 @@ i_ee0x241f : in slv16; -- occcol29-32
 
 i_ee0x2440 : in slv16; -- offset ROWS*COLS
 
+o_do : out std_logic_vector (31 downto 0);
+i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic
 );
@@ -272,19 +274,26 @@ signal WE : in std_logic
 );
 end component mem_ramb16_s36_x2;
 
-signal addra : std_logic_vector (9 downto 0);
-signal doa,dia : std_logic_vector (31 downto 0);
+signal addra,mux_addr : std_logic_vector (9 downto 0);
+signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
 
 signal ena_mux1 : std_logic;
 
 -- xxx nibbles must out in next clock xyxle
-signal nibble1,nibble2,nibble4,nibble5,nibble6 : std_logic_vector (3 downto 0);
+signal nibble1,nibble2 : std_logic_vector (3 downto 0);
 signal nibble3 : std_logic_vector (5 downto 0);
-signal out_nibble1,out_nibble2,out_nibble3,out_nibble4,out_nibble5,out_nibble6 : std_logic_vector (31 downto 0);
+signal out_nibble1,out_nibble2,out_nibble3 : std_logic_vector (31 downto 0);
 
 signal write_enable : std_logic;
 
+signal rdy : std_logic;
+
 begin
+
+o_rdy <= rdy;
+o_do <= doa when rdy = '1' else (others => '0');
+mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0');
+mux_dia <= dia when rdy = '0' else (others => '0');
 
 --INIT_7f => X"41700000 41600000 41500000 41400000 41300000 41200000 41100000 41000000", -- unsigned 0-15 for accremscale,accrowscale,acccolscale
 --INIT_7e => X"40e00000 40c00000 40a00000 40800000 40400000 40000000 3f800000 22000000",
@@ -368,9 +377,19 @@ begin
 			j := 0;
 			write_enable <= '0';
 			ena_mux1 <= '0';
-			o_rdy <= '0';
+			rdy <= '0';
 			addfpsclr <= '1';
 			mulfpsclr <= '1';
+			mulfpa <= (others => '0');
+			mulfpb <= (others => '0');
+			addfpa <= (others => '0');
+			addfpb <= (others => '0');
+			addfpond <= '0';
+			mulfpond <= '0';
+			addfpce <= '0';
+			mulfpce <= '0';
+			addra <= (others => '0');
+			dia <= (others => '0');
 		else
 			case (state) is
 				when idle =>
@@ -382,7 +401,7 @@ begin
 				when occ0 => state := occ1;
 					write_enable <= '1';
 					ena_mux1 <= '1';
-					o_rdy <= '0';
+					rdy <= '0';
 					i := 0; j := 0;
 					addfpsclr <= '0';
 					mulfpsclr <= '0';
@@ -781,7 +800,7 @@ begin
 						state := calculate;
 					end if;
 				when ending => state := idle;
-					o_rdy <= '1';
+					rdy <= '1';
 				when others => null;
 			end case;
 		end if;
@@ -795,9 +814,9 @@ INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000" -
 PORT MAP (
 DO => doa,
 DOP => open,
-ADDR => addra,
+ADDR => mux_addr,
 CLK => i_clock,
-DI => dia,
+DI => mux_dia,
 DIP => (others => '0'),
 EN => ena_mux1,
 SSR => i_reset,
