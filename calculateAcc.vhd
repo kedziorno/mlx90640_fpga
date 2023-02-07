@@ -29,7 +29,7 @@ use IEEE.NUMERIC_STD.ALL;
 library UNISIM;
 use UNISIM.VComponents.all;
 
-entity calculateacc is
+entity calculateAcc is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -52,9 +52,9 @@ i_start0x2420 : in std_logic_vector (15 downto 0); -- n1-accremscale,n2-acccolsc
 i_alphaRef : in std_logic_vector (31 downto 0); -- alpharef from fixed2float
 o_done : out std_logic
 );
-end calculateacc;
+end calculateAcc;
 
-architecture Behavioral of calculateacc is
+architecture Behavioral of calculateAcc is
 
 COMPONENT divfp
 PORT (

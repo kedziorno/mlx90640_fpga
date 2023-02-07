@@ -32,14 +32,14 @@ USE ieee.std_logic_1164.ALL;
 -- arithmetic functions with Signed or Unsigned values
 --USE ieee.numeric_std.ALL;
 
-ENTITY tb_calculateacc IS
-END tb_calculateacc;
+ENTITY tb_calculateAcc IS
+END tb_calculateAcc;
 
-ARCHITECTURE behavior OF tb_calculateacc IS 
+ARCHITECTURE behavior OF tb_calculateAcc IS 
 
 -- Component Declaration for the Unit Under Test (UUT)
 
-COMPONENT calculateacc
+COMPONENT calculateAcc
 PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
@@ -96,7 +96,7 @@ constant i_clock_period : time := 10 ns;
 BEGIN
 
 -- Instantiate the Unit Under Test (UUT)
-uut: calculateacc PORT MAP (
+uut: calculateAcc PORT MAP (
 i_clock => i_clock,
 i_reset => i_reset,
 i_start0x2422 => i_start0x2422,
