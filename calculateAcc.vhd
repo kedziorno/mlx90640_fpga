@@ -56,6 +56,7 @@ i_cpalpha0 : in std_logic_vector (31 downto 0);
 i_cpalpha1 : in std_logic_vector (31 downto 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
+o_done : out std_logic;
 o_rdy : out std_logic
 );
 end calculateAcc;
@@ -468,6 +469,7 @@ begin
 			addfpb <= (others => '0');
 			addra <= (others => '0');
 			dia <= (others => '0');
+			o_done <= '0';
 		else
 			case (state) is
 				when idle =>
@@ -777,6 +779,7 @@ begin
 when calculate => state := calculate00;
 	write_enable <= '0';
 	k := (32 * i) + j;
+	o_done <= '0';
 when calculate00 => state := calculate01;
 	addra <= std_logic_vector (to_unsigned (j+24, 10));
 when calculate01 => state := calculate02;
@@ -999,6 +1002,7 @@ when calculate27 => state := ending0;
 when ending0 => state := ending1;
 	write_enable <= '0';
 when ending1 =>
+	o_done <= '1';
 	if (j = N_COLS-1) then
 		j := 0;
 		state := ending2;
@@ -1007,6 +1011,7 @@ when ending1 =>
 		state := calculate;
 	end if;
 when ending2 =>
+	o_done <= '1';
 	if (i = N_ROWS-1) then
 		i := 0;
 		state := ending;

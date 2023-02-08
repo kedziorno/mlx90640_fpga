@@ -69,6 +69,7 @@ i_cpalpha0 : in std_logic_vector (31 downto 0);
 i_cpalpha1 : in std_logic_vector (31 downto 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
+o_done : OUT  std_logic;
 o_rdy : OUT  std_logic
 );
 END COMPONENT;
@@ -99,6 +100,7 @@ signal i_cpalpha0 : std_logic_vector (31 downto 0) := (others => '0');
 signal i_cpalpha1 : std_logic_vector (31 downto 0) := (others => '0');
 
 --Outputs
+signal o_done : std_logic;
 signal o_rdy : std_logic;
 
 signal o_do : std_logic_vector (31 downto 0);
@@ -140,7 +142,8 @@ i_cpalpha0 => i_cpalpha0,
 i_cpalpha1 => i_cpalpha0,
 o_do => o_do,
 i_addr => i_addr,
-o_rdy => o_rdy
+o_rdy => o_rdy,
+o_done => o_done
 );
 
 -- Clock process definitions
