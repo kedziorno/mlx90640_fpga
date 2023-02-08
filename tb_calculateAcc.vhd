@@ -64,6 +64,9 @@ i_start0x242f : in std_logic_vector (15 downto 0);
 i_start0x2440 : in std_logic_vector (15 downto 0); -- alphatemp ROWS*COLS
 i_start0x2420 : in std_logic_vector (15 downto 0); -- accrowscale,acccolscale,accremnantscale
 i_alphaRef : in std_logic_vector (31 downto 0); -- alpharef from fixed2float
+i_tgc : in std_logic_vector (31 downto 0); -- tgc from fixed2float
+i_cpalpha0 : in std_logic_vector (31 downto 0);
+i_cpalpha1 : in std_logic_vector (31 downto 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 o_rdy : OUT  std_logic
@@ -91,12 +94,15 @@ signal i_start0x242f : std_logic_vector(15 downto 0) := (others => '0');
 signal i_start0x2420 : std_logic_vector(15 downto 0) := (others => '0');
 signal i_start0x2440 : std_logic_vector(15 downto 0) := (others => '0');
 signal i_alphaRef : std_logic_vector(31 downto 0) := (others => '0');
+signal i_tgc : std_logic_vector (31 downto 0) := (others => '0');
+signal i_cpalpha0 : std_logic_vector (31 downto 0) := (others => '0');
+signal i_cpalpha1 : std_logic_vector (31 downto 0) := (others => '0');
 
 --Outputs
 signal o_rdy : std_logic;
 
 signal o_do : std_logic_vector (31 downto 0);
-signal i_addr : std_logic_vector (9 downto 0); -- 10bit-1024
+signal i_addr : std_logic_vector (9 downto 0) := (others => '0'); -- 10bit-1024
 
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
@@ -129,6 +135,9 @@ i_start0x242f => i_start0x242f,
 i_start0x2420 => i_start0x2420,
 i_start0x2440 => i_start0x2440,
 i_alphaRef => i_alphaRef,
+i_tgc => i_tgc,
+i_cpalpha0 => i_cpalpha0,
+i_cpalpha1 => i_cpalpha0,
 o_do => o_do,
 i_addr => i_addr,
 o_rdy => o_rdy
@@ -170,6 +179,11 @@ i_start0x242c <= x"6789";
 i_start0x242d <= x"abcd";
 i_start0x242e <= x"eff1";
 i_start0x242f <= x"2345";
+
+i_tgc <= x"3f800000";
+i_cpalpha0 <= x"318C0000"; -- 0.00000000407453626394272
+i_cpalpha1 <= x"31845800"; -- 0.00000000385171006200835
+
 i_run <= '1'; wait for i_clock_period; i_run <= '0';
 wait until o_rdy = '1';
 for i in 0 to 1024 loop

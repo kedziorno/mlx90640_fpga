@@ -51,6 +51,9 @@ i_start0x242f : in std_logic_vector (15 downto 0);
 i_start0x2440 : in std_logic_vector (15 downto 0); -- alphatemp ROWS*COLS
 i_start0x2420 : in std_logic_vector (15 downto 0); -- n1-accremscale,n2-acccolscale,n3-accrowscale,n4-alphascale
 i_alphaRef : in std_logic_vector (31 downto 0); -- alpharef from fixed2float
+i_tgc : in std_logic_vector (31 downto 0); -- tgc from fixed2float
+i_cpalpha0 : in std_logic_vector (31 downto 0);
+i_cpalpha1 : in std_logic_vector (31 downto 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 o_rdy : out std_logic
@@ -385,6 +388,8 @@ x"22000000" when others;
 p0 : process (i_clock, i_reset) is
 	constant N_COLS : integer := 32;
 	constant N_ROWS : integer := 24;
+	constant const2 : std_logic_vector (31 downto 0) := x"40000000";
+	constant SCALEALPHA : std_logic_vector (31 downto 0) := x"358637BD"; -- 0.000001
 	variable i : integer range 0 to N_ROWS-1;
 	variable j : integer range 0 to N_COLS-1;
 	variable index : integer range 0 to 15;
@@ -422,6 +427,8 @@ p0 : process (i_clock, i_reset) is
 	calculate6,calculate7,calculate8,calculate9,calculate10,
 	calculate11,calculate12,calculate13,calculate14,calculate15,
 	calculate16,calculate17,calculate18,calculate19,calculate20,
+	calculate21,calculate22,calculate23,calculate24,calculate25,
+	calculate26,calculate27,calculate28,
 	ending0,ending1,ending2,ending);
 	variable state : states;
 begin
@@ -431,6 +438,8 @@ begin
 			nibble2 <= (others => '0');
 			nibble3 <= (others => '0');
 			nibble4 <= (others => '0');
+			nibble5 <= (others => '0');
+			nibble6 <= (others => '0');
 			state := idle;
 			i := 0;
 			j := 0;
@@ -441,6 +450,24 @@ begin
 			subfpsclr <= '1';
 			mulfpsclr <= '1';
 			divfpsclr <= '1';
+			addfpce <= '0';
+			subfpce <= '0';
+			mulfpce <= '0';
+			divfpce <= '0';
+			addfpond <= '0';
+			subfpond <= '0';
+			mulfpond <= '0';
+			divfpond <= '0';
+			divfpa <= (others => '0');
+			divfpb <= (others => '0');
+			subfpa <= (others => '0');
+			subfpb <= (others => '0');
+			mulfpa <= (others => '0');
+			mulfpb <= (others => '0');
+			addfpa <= (others => '0');
+			addfpb <= (others => '0');
+			addra <= (others => '0');
+			dia <= (others => '0');
 		else
 			case (state) is
 				when idle =>
@@ -839,7 +866,7 @@ when calculate8 =>
 		end if;
 	else state := calculate8; end if;
 when calculate9 => state := calculate10;
-	addfpsclr <= '0';
+	mulfpsclr <= '0';
 	addfpce <= '1';
 	addfpa <= vaccRemScale; -- remnant
 	addfpb <= vaccColumnScale; -- column
@@ -894,7 +921,77 @@ when calculate16 =>
 		divfpond <= '0';
 		divfpsclr <= '1';
 	else state := calculate16; end if;
-when calculate17 => state := ending0;
+when calculate17 => state := calculate18;
+	divfpsclr <= '0';
+	addfpce <= '1';
+	addfpa <= i_cpAlpha0; -- cpAlpha0
+	addfpb <= i_cpAlpha1; -- cpAlpha1
+	addfpond <= '1';
+when calculate18 =>
+	if (addfprdy = '1') then
+		state := calculate19;
+		fptmp2 := addfpr;
+		addfpce <= '0';
+		addfpond <= '0';
+		addfpsclr <= '1';
+	else state := calculate18; end if;
+when calculate19 => state := calculate20;
+	addfpsclr <= '0';
+	divfpce <= '1';
+	divfpa <= fptmp2; -- cpAlpha0+cpAlpha1
+	divfpb <= const2; -- 2
+	divfpond <= '1';
+when calculate20 =>
+	if (divfprdy = '1') then
+		state := calculate21;
+		fptmp2 := divfpr;
+		divfpce <= '0';
+		divfpond <= '0';
+		divfpsclr <= '1';
+	else state := calculate20; end if;
+when calculate21 => state := calculate22;
+	divfpsclr <= '0';
+	mulfpce <= '1';
+	mulfpa <= fptmp2; -- (cpAlpha0+cpAlpha1)/2
+	mulfpb <= i_tgc; -- tgc
+	mulfpond <= '1';
+when calculate22 =>
+	if (mulfprdy = '1') then
+		state := calculate23;
+		fptmp2 := mulfpr;
+		mulfpce <= '0';
+		mulfpond <= '0';
+		mulfpsclr <= '1';
+	else state := calculate22; end if;
+when calculate23 => state := calculate24;
+	mulfpsclr <= '0';
+	subfpce <= '1';
+	subfpa <= fptmp1; -- (alpharef+row+column+remnant)/(2^30+x)
+	subfpb <= fptmp2; -- tgc*(cpAlpha0+cpAlpha1)/2
+	subfpond <= '1';
+when calculate24 =>
+	if (subfprdy = '1') then
+		state := calculate25;
+		fptmp1 := subfpr;
+		subfpce <= '0';
+		subfpond <= '0';
+		subfpsclr <= '1';
+	else state := calculate24; end if;
+when calculate25 => state := calculate26;
+	subfpsclr <= '0';
+	divfpce <= '1';
+	divfpa <= SCALEALPHA; -- 0.000001
+	divfpb <= fptmp1; -- ((alpharef+row+column+remnant)/(2^30+x))-(tgc*(cpAlpha0+cpAlpha1)/2)
+	divfpond <= '1';
+when calculate26 =>
+	if (divfprdy = '1') then
+		state := calculate27;
+		fptmp1 := divfpr;
+		divfpce <= '0';
+		divfpond <= '0';
+		divfpsclr <= '1';
+	else state := calculate26; end if;
+when calculate27 => state := ending0;
 	divfpsclr <= '0';
 	write_enable <= '1';
 	dia <= fptmp1;
