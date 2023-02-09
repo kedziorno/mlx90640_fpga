@@ -71,6 +71,7 @@ i_ee0x2440 : in slv16; -- offset ROWS*COLS
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
+o_done : out std_logic;
 o_rdy : out std_logic
 );
 end component ExtractOffsetParameters;
@@ -98,6 +99,7 @@ signal i_ee0x241f : slv16 := (others => '0');
 signal i_ee0x2440 : slv16 := (others => '0');
 
 --Outputs
+signal o_done : std_logic;
 signal o_rdy : std_logic;
 
 signal o_do : std_logic_vector (31 downto 0) := (others => '0');
@@ -136,6 +138,7 @@ i_ee0x241f => i_ee0x241f,
 i_ee0x2440 => i_ee0x2440,
 o_do => o_do,
 i_addr => i_addr,
+o_done => o_done,
 o_rdy => o_rdy
 );
 
