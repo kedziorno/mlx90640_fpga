@@ -95,33 +95,26 @@ COMPONENT float2fixed
 PORT (
 a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
---operation_rfd : OUT STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
 result : OUT STD_LOGIC_VECTOR(63 DOWNTO 0);
---overflow : OUT STD_LOGIC;
---invalid_op : OUT STD_LOGIC;
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
 
 signal float2fixeda : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal float2fixedond : STD_LOGIC;
-signal float2fixedorfd : STD_LOGIC;
 signal float2fixedclk : STD_LOGIC;
 signal float2fixedsclr : STD_LOGIC;
 signal float2fixedce : STD_LOGIC;
 signal float2fixedr : STD_LOGIC_VECTOR(63 DOWNTO 0);
-signal float2fixedof : STD_LOGIC;
-signal float2fixediop : STD_LOGIC;
 signal float2fixedrdy : STD_LOGIC;
 
 COMPONENT fixed2float
 PORT (
 a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
---operation_rfd : OUT STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
@@ -132,7 +125,6 @@ END COMPONENT;
 
 signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal fixed2floatond : STD_LOGIC;
-signal fixed2floatorfd : STD_LOGIC;
 signal fixed2floatclk : STD_LOGIC;
 signal fixed2floatsclr : STD_LOGIC;
 signal fixed2floatce : STD_LOGIC;
@@ -144,15 +136,10 @@ PORT (
 a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
---operation_rfd : OUT STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
 result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
---underflow : OUT STD_LOGIC;
---overflow : OUT STD_LOGIC;
---invalid_op : OUT STD_LOGIC;
---divide_by_zero : OUT STD_LOGIC;
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
@@ -160,15 +147,10 @@ END COMPONENT;
 signal divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpond : STD_LOGIC;
-signal divfporfd : STD_LOGIC;
 signal divfpclk : STD_LOGIC;
 signal divfpsclr : STD_LOGIC;
 signal divfpce : STD_LOGIC;
 signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpuf : STD_LOGIC;
-signal divfpof : STD_LOGIC;
-signal divfpiop : STD_LOGIC;
-signal divfpdz : STD_LOGIC;
 signal divfprdy : STD_LOGIC;
 
 COMPONENT mulfp
@@ -176,14 +158,10 @@ PORT (
 a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
---operation_rfd : OUT STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
 result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
---underflow : OUT STD_LOGIC;
---overflow : OUT STD_LOGIC;
---invalid_op : OUT STD_LOGIC;
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
@@ -191,14 +169,10 @@ END COMPONENT;
 signal mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpond : STD_LOGIC;
-signal mulfporfd : STD_LOGIC;
 signal mulfpclk : STD_LOGIC;
 signal mulfpsclr : STD_LOGIC;
 signal mulfpce : STD_LOGIC;
 signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfpuf : STD_LOGIC;
-signal mulfpof : STD_LOGIC;
-signal mulfpiop : STD_LOGIC;
 signal mulfprdy : STD_LOGIC;
 
 COMPONENT addfp
@@ -206,14 +180,10 @@ PORT (
 a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
---operation_rfd : OUT STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
 result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
---underflow : OUT STD_LOGIC;
---overflow : OUT STD_LOGIC;
---invalid_op : OUT STD_LOGIC;
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
@@ -221,14 +191,10 @@ END COMPONENT;
 signal addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfpond : STD_LOGIC;
-signal addfporfd : STD_LOGIC;
 signal addfpclk : STD_LOGIC;
 signal addfpsclr : STD_LOGIC;
 signal addfpce : STD_LOGIC;
 signal addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfpuf : STD_LOGIC;
-signal addfpof : STD_LOGIC;
-signal addfpiop : STD_LOGIC;
 signal addfprdy : STD_LOGIC;
 
 COMPONENT subfp
@@ -236,14 +202,10 @@ PORT (
 a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
---operation_rfd : OUT STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
 result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
---underflow : OUT STD_LOGIC;
---overflow : OUT STD_LOGIC;
---invalid_op : OUT STD_LOGIC;
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
@@ -251,38 +213,30 @@ END COMPONENT;
 signal subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfpond : STD_LOGIC;
-signal subfporfd : STD_LOGIC;
 signal subfpclk : STD_LOGIC;
 signal subfpsclr : STD_LOGIC;
 signal subfpce : STD_LOGIC;
 signal subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal subfpuf : STD_LOGIC;
-signal subfpof : STD_LOGIC;
-signal subfpiop : STD_LOGIC;
 signal subfprdy : STD_LOGIC;
 
 COMPONENT sqrtfp2
 PORT (
 a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
---operation_rfd : OUT STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
 result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
---invalid_op : OUT STD_LOGIC;
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
 
 signal sqrtfp2a : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal sqrtfp2ond : STD_LOGIC;
-signal sqrtfp2orfd : STD_LOGIC;
 signal sqrtfp2clk : STD_LOGIC;
 signal sqrtfp2sclr : STD_LOGIC;
 signal sqrtfp2ce : STD_LOGIC;
 signal sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal sqrtfp2iop : STD_LOGIC;
 signal sqrtfp2rdy : STD_LOGIC;
 
 component mem_float2powerN is
@@ -2784,13 +2738,10 @@ inst_ff1 : float2fixed
 PORT MAP (
 a => float2fixeda,
 operation_nd => float2fixedond,
---operation_rfd => float2fixedorfd,
 clk => float2fixedclk,
 sclr => float2fixedsclr,
 ce => float2fixedce,
 result => float2fixedr,
---overflow => float2fixedof,
---invalid_op => float2fixediop,
 rdy => float2fixedrdy
 );
 
@@ -2798,7 +2749,6 @@ inst_ff2 : fixed2float
 PORT MAP (
 a => fixed2floata,
 operation_nd => fixed2floatond,
---operation_rfd => fixed2floatorfd,
 clk => fixed2floatclk,
 sclr => fixed2floatsclr,
 ce => fixed2floatce,
@@ -2811,15 +2761,10 @@ PORT MAP (
 a => divfpa,
 b => divfpb,
 operation_nd => divfpond,
---operation_rfd => divfporfd,
 clk => divfpclk,
 sclr => divfpsclr,
 ce => divfpce,
 result => divfpr,
---underflow => divfpuf,
---overflow => divfpof,
---invalid_op => divfpiop,
---divide_by_zero => divfpdz,
 rdy => divfprdy
 );
 
@@ -2828,14 +2773,10 @@ PORT MAP (
 a => mulfpa,
 b => mulfpb,
 operation_nd => mulfpond,
---operation_rfd => mulfporfd,
 clk => mulfpclk,
 sclr => mulfpsclr,
 ce => mulfpce,
 result => mulfpr,
---underflow => mulfpuf,
---overflow => mulfpof,
---invalid_op => mulfpiop,
 rdy => mulfprdy
 );
 
@@ -2844,14 +2785,10 @@ PORT MAP (
 a => addfpa,
 b => addfpb,
 operation_nd => addfpond,
---operation_rfd => addfporfd,
 clk => addfpclk,
 sclr => addfpsclr,
 ce => addfpce,
 result => addfpr,
---underflow => addfpuf,
---overflow => addfpof,
---invalid_op => addfpiop,
 rdy => addfprdy
 );
 
@@ -2860,14 +2797,10 @@ PORT MAP (
 a => subfpa,
 b => subfpb,
 operation_nd => subfpond,
---operation_rfd => subfporfd,
 clk => subfpclk,
 sclr => subfpsclr,
 ce => subfpce,
 result => subfpr,
---underflow => subfpuf,
---overflow => subfpof,
---invalid_op => subfpiop,
 rdy => subfprdy
 );
 
@@ -2875,12 +2808,10 @@ inst_sqrtfp2 : sqrtfp2
 PORT MAP (
 a => sqrtfp2a,
 operation_nd => sqrtfp2ond,
---operation_rfd => sqrtfp2orfd,
 clk => sqrtfp2clk,
 sclr => sqrtfp2sclr,
 ce => sqrtfp2ce,
 result => sqrtfp2r,
---invalid_op => sqrtfp2iop,
 rdy => sqrtfp2rdy
 );
 

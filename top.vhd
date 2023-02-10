@@ -56,7 +56,7 @@ PORT (
 clka : IN STD_LOGIC;
 ena : IN STD_LOGIC;
 wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
-addra : IN STD_LOGIC_VECTOR(10 DOWNTO 0);
+addra : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
 dina : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
 douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
 );
@@ -65,7 +65,7 @@ END COMPONENT;
 signal i2c_mem_clka : STD_LOGIC;
 signal i2c_mem_wea : STD_LOGIC_VECTOR(0 DOWNTO 0);
 signal i2c_mem_ena : STD_LOGIC;
-signal i2c_mem_addra : STD_LOGIC_VECTOR(10 DOWNTO 0);
+signal i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal i2c_mem_dina : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 
@@ -153,7 +153,7 @@ signal mem_alphaptat_data_alphaptat : std_logic_vector(31 downto 0);
 signal f32_data_kvdd,f32_data_vdd25 : float32;
 signal f32_data_kvptat,f32_data_ktptat : float32;
 
-signal signal_i2c_mem_addra_index : std_logic_vector(10 downto 0);
+signal signal_i2c_mem_addra_index : std_logic_vector(11 downto 0);
 signal signal_i2c_mem_data_available : std_logic;
 
 signal i2c_r_done_data_prev : std_logic;
@@ -247,7 +247,7 @@ signal tfm_pixelpattern : slv14;
 signal tfm_to : fd2ft;
 
 signal tfm_calculate : std_logic;
-signal i2c_mem_addra_tfm : std_logic_vector (10 downto 0);
+signal i2c_mem_addra_tfm : std_logic_vector (11 downto 0);
 signal i2c_mem_ena_tfm : std_logic;
 
 signal i2c_r_done_data_re : std_logic;
@@ -263,7 +263,7 @@ i2c_mem_addra <=
 i2c_mem_addra_tfm when tfm_calculate = '1'
 else signal_i2c_mem_addra_index;
 
-signal_i2c_mem_data_available <= '1' when (i2c_r_done_data_re = '1' and (signal_i2c_mem_addra_index = std_logic_vector(to_unsigned(C_DATA_SIZE-1,11)))) else '0';
+signal_i2c_mem_data_available <= '1' when (i2c_r_done_data_re = '1' and (signal_i2c_mem_addra_index = std_logic_vector(to_unsigned(C_DATA_SIZE-1,12)))) else '0';
 
 i2c_r_done_data_re <= '1' when (i2c_r_done_data = '1') and (i2c_r_done_data_prev = '0') else '0';
 i2c_r_done_data_fe <= '1' when (i2c_r_done_data = '0') and (i2c_r_done_data_prev = '1') else '0';
@@ -283,7 +283,7 @@ p1 : process (i_clock, i_reset) is
 	procedure name1 (s1 : in states; address : in integer range 0 to 2**10-1) is
 	begin
 		state := s1;
-		i2c_mem_addra_tfm <= std_logic_vector(to_unsigned(address,11));
+		i2c_mem_addra_tfm <= std_logic_vector(to_unsigned(address,12));
 		i2c_mem_ena_tfm <= '1';
 		v_wait1 := 0;
 	end procedure name1;
@@ -406,7 +406,7 @@ begin
 				variable_i2c_mem_addra_index := variable_i2c_mem_addra_index + 1;
 			end if;
 		end if;
-		signal_i2c_mem_addra_index <= std_logic_vector(to_unsigned(variable_i2c_mem_addra_index,11));
+		signal_i2c_mem_addra_index <= std_logic_vector(to_unsigned(variable_i2c_mem_addra_index,12));
 	end if;
 end process p0;
 

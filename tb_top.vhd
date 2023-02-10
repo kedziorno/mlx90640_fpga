@@ -174,7 +174,7 @@ else
 --	loop_main : for i in 0 to 1 loop
 --		report "loop_main : " & integer'image(i);
 
-		file_open(fstatus, test_vector, "tb_data.txt",read_mode);
+		file_open(fstatus, test_vector, "tb_data_mlx90640.txt",read_mode);
 
 		while (not endfile(test_vector)) loop
 
