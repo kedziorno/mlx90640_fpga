@@ -44,15 +44,15 @@ o_rdy : out std_logic
 );
 end component CalculatePixGain;
 
-signal CalculatePixGain_clock : std_logic;
-signal CalculatePixGain_reset : std_logic;
-signal CalculatePixGain_run : std_logic;
-signal CalculatePixGain_i2c_mem_ena : STD_LOGIC;
+signal CalculatePixGain_clock : std_logic := '0';
+signal CalculatePixGain_reset : std_logic := '0';
+signal CalculatePixGain_run : std_logic := '0';
+signal CalculatePixGain_i2c_mem_ena : STD_LOGIC := '0';
 signal CalculatePixGain_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal CalculatePixGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal CalculatePixGain_KGain : fd2ft;
+signal CalculatePixGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0) := (others => '0');
+signal CalculatePixGain_KGain : fd2ft := (others => '0');
 signal CalculatePixGain_do : std_logic_vector (31 downto 0);
-signal CalculatePixGain_addr : std_logic_vector (9 downto 0); -- 10bit-1024
+signal CalculatePixGain_addr : std_logic_vector (9 downto 0) := (others => '0'); -- 10bit-1024
 signal CalculatePixGain_done : std_logic;
 signal CalculatePixGain_rdy : std_logic;
 

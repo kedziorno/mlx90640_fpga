@@ -296,6 +296,20 @@ begin
 			pixgain_index := 0;
 			fixed2floatsclr <= '1';
 			mulfpsclr <= '1';
+			rdy <= '0';
+			o_done <= '0';
+			fixed2floata <= (others => '0');
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			mulfpa <= (others => '0');
+			mulfpb <= (others => '0');
+			mulfpce <= '0';
+			mulfpond <= '0';
+			addra <= (others => '0');
+			dia <= (others => '0');
+			write_enable <= '0';
+			i2c_mem_ena <= '0';
+			i2c_mem_addra <= (others => '0');
 		else
 			case (state) is
 				when idle =>
