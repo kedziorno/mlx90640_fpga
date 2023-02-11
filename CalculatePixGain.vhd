@@ -274,7 +274,7 @@ mux_dia <= dia when rdy = '0' else (others => '0');
 
 p0 : process (i_clock) is
 	constant PIXGAIN_ST : integer := 1665; -- pixgain start - eeprom max + 1
-	constant PIXGAIN_SZ : integer := 24*32 * 2; -- pixgain size * 2
+	constant PIXGAIN_SZ : integer := 24*32; -- pixgain size
 	variable pixgain_index : integer range 0 to PIXGAIN_SZ - 1;
 	type states is (idle,
 	s1,s2,s3,s4,s5,s6,s7,s8,s9,
@@ -314,6 +314,7 @@ begin
 					i2c_mem_addra <= std_logic_vector (to_unsigned (PIXGAIN_ST+(pixgain_index*2)+1, 12));
 					eeprom16slv (7 downto 0) := i2c_mem_douta; -- pixgain LSB
 				when s3 => state := s4;
+					i2c_mem_addra <= (others => '0');
 					eeprom16slv (15 downto 8) := i2c_mem_douta; -- pixgain MSB
 				when s4 => state := s5;
 					pixgain := resize (to_sfixed (eeprom16slv, eeprom16sf), pixgain);

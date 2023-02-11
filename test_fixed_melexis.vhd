@@ -83,6 +83,11 @@ i_ram0x072a : in slv16; -- for deltaV,vdd
 i_ram0x800d : in slv16; -- resolution reg
 
 i_pixelpattern : in slv14; -- 12x16
+
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+
 -----
 o_To : out fd2ft; -- output Temp
 o_rdy : out std_logic
