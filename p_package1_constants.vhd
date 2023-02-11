@@ -14,7 +14,7 @@ constant I2C_ADDRESS_WRITE : boolean := FALSE;
 constant I2C_DATA_ACK : boolean := FALSE;
 constant I2C_DATA_NAK : boolean := TRUE;
 constant I2C_BITS_LENGTH : natural := 9;
-constant C_DATA_SIZE : integer := 3329; -- number bytes from i2c
+constant C_DATA_SIZE : integer := 3340; -- number bytes from i2c
 
 -- XXX https://comp.lang.vhdl.narkive.com/B8UInWjr/convert-boolean-to-std-logic
 function To_Std_Logic(L: BOOLEAN) return std_ulogic;
