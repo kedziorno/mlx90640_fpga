@@ -37,26 +37,31 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-i_ee0x2410 : in slv16; -- 1-occremscale,2-occcolumnscale,3-occrowscale
-i_offsetRef : in fd2ft; -- offsetref from fixed2float
 
-i_ee0x2412 : in slv16; -- occrow1-4
-i_ee0x2413 : in slv16; -- occrow5-8
-i_ee0x2414 : in slv16; -- occrow9-12
-i_ee0x2415 : in slv16; -- occrow13-16
-i_ee0x2416 : in slv16; -- occrow17-20
-i_ee0x2417 : in slv16; -- occrow21-24
+--i_ee0x2410 : in slv16; -- 1-occremscale,2-occcolumnscale,3-occrowscale
+--i_offsetRef : in fd2ft; -- offsetref from fixed2float
+--
+--i_ee0x2412 : in slv16; -- occrow1-4
+--i_ee0x2413 : in slv16; -- occrow5-8
+--i_ee0x2414 : in slv16; -- occrow9-12
+--i_ee0x2415 : in slv16; -- occrow13-16
+--i_ee0x2416 : in slv16; -- occrow17-20
+--i_ee0x2417 : in slv16; -- occrow21-24
+--
+--i_ee0x2418 : in slv16; -- occcol1-4
+--i_ee0x2419 : in slv16; -- occcol5-8
+--i_ee0x241a : in slv16; -- occcol9-12
+--i_ee0x241b : in slv16; -- occcol13-16
+--i_ee0x241c : in slv16; -- occcol17-20
+--i_ee0x241d : in slv16; -- occcol21-24
+--i_ee0x241e : in slv16; -- occcol25-28
+--i_ee0x241f : in slv16; -- occcol29-32
+--
+--i_ee0x2440 : in slv16; -- offset ROWS*COLS
 
-i_ee0x2418 : in slv16; -- occcol1-4
-i_ee0x2419 : in slv16; -- occcol5-8
-i_ee0x241a : in slv16; -- occcol9-12
-i_ee0x241b : in slv16; -- occcol13-16
-i_ee0x241c : in slv16; -- occcol17-20
-i_ee0x241d : in slv16; -- occcol21-24
-i_ee0x241e : in slv16; -- occcol25-28
-i_ee0x241f : in slv16; -- occcol29-32
-
-i_ee0x2440 : in slv16; -- offset ROWS*COLS
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
@@ -331,6 +336,9 @@ p0 : process (i_clock) is
 	variable j : integer range 0 to N_COLS-1;
 	variable index : integer range 0 to 15;
 	variable k : integer range 0 to N_COLS*N_ROWS-1;
+	constant OFFSET_ST : integer := 1665; -- offset start - eeprom max + 1
+	constant OFFSET_SZ : integer := N_COLS*N_ROWS; -- offset size
+	variable pixgain_index : integer range 0 to OFFSET_SZ - 1;
 	variable voccRemScale : std_logic_vector (31 downto 0);
 	variable voccColumnScale : std_logic_vector (31 downto 0);
 	variable voccRowScale : std_logic_vector (31 downto 0);
@@ -344,9 +352,20 @@ p0 : process (i_clock) is
 	variable voffsetRef : fd2ft;
 	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
 	variable row,col : std_logic_vector (31 downto 0);
+	variable temp1 : std_logic_vector (15 downto 0);
 	type states is (idle,
 	occ0,occ1,occ2,occ3,occ4,
-	occ5,
+	occ5,occ6,occ7,occ8,occ9,
+	occ10,occ11,occ12,occ13,occ14,
+	occ15,occ16,occ17,occ18,occ19,
+	occ20,occ21,occ22,occ23,occ24,
+	occ25,occ26,occ27,occ28,occ29,
+	occ30,occ31,occ32,occ33,occ34,
+	occ35,occ36,occ37,occ38,occ39,
+	occ40,occ41,occ42,occ43,occ44,
+	occ45,occ46,occ47,occ48,occ49,
+	occ50,occ51,occ52,occ53,occ54,
+	occ55,occ56,occ57,occ58,occ59,
 	a1,b1,c1,d1,
 	a2,b2,c2,d2,
 	a3,b3,c3,d3,
@@ -392,420 +411,638 @@ begin
 			addra <= (others => '0');
 			dia <= (others => '0');
 			o_done <= '0';
+			i2c_mem_ena <= '0';
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
 						state := occ0;
+						i2c_mem_ena <= '1';
+						write_enable <= '1';
+						ena_mux1 <= '1';
 					else
 						state := idle;
+						i2c_mem_ena <= '0';
+						write_enable <= '0';
+						ena_mux1 <= '0';
 					end if;
 				when occ0 => state := occ1;
-					write_enable <= '1';
-					ena_mux1 <= '1';
-					rdy <= '0';
 					i := 0; j := 0;
 					addfpsclr <= '0';
 					mulfpsclr <= '0';
+					rdy <= '0';
+					
 				when occ1 => state := occ2;
-					nibble1 <= i_ee0x2410 (3 downto 0); -- remnant
+					i2c_mem_addra <= std_logic_vector (to_unsigned (0, 12)); -- 2410 LSB
 				when occ2 => state := occ3;
-					voccRemScale := out_nibble1; -- out remnant
-					voccRemScale1 := i_ee0x2410 (3 downto 0); -- remnant
-					nibble1 <= i_ee0x2410 (7 downto 4); -- column
+					i2c_mem_addra <= std_logic_vector (to_unsigned (1, 12)); -- 2410 MSB
+					temp1 (7 downto 0) := i2c_mem_douta;
 				when occ3 => state := occ4;
-					voccColumnScale := out_nibble1; -- out column
-					voccColumnScale1 := i_ee0x2410 (7 downto 4); -- column
-					nibble1 <= i_ee0x2410 (11 downto 8); -- row
-				when occ4 => state := a1;
-					voccRowScale := out_nibble1; -- out row
-					voccRowScale1 := i_ee0x2410 (11 downto 8); -- row
-					voffsetRef := i_offsetRef; -- offsetref
-				when a1 => state := ab1;
-					nibble1 <= i_ee0x2412 (3 downto 0);
+					temp1 (15 downto 8) := i2c_mem_douta;
+				when occ4 => state := occ5;
+					nibble1 <= temp1 (3 downto 0); -- occ scale remnant
+				when occ5 => state := occ6;
+				
+					voccRemScale := out_nibble1; -- out occ scale remnant signed
+					voccRemScale1 := temp1 (3 downto 0); -- occ scale remnant for 2^x
+					
+					nibble1 <= temp1 (7 downto 4); -- occ scale column
+				when occ6 => state := occ7;
+				
+					voccColumnScale := out_nibble1; -- out occ scale column signed
+					voccColumnScale1 := temp1 (7 downto 4); -- occ scale column for 2^x
+
+					nibble1 <= temp1 (11 downto 8); -- occ scale row
+				when occ7 => state := occ8;
+					
+					voccRowScale := out_nibble1; -- out occ row column signed
+					voccRowScale1 := temp1 (11 downto 8); -- occ scale row for 2^x
+
+				when occ8 => state := occ9;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (2, 12)); -- 2411 LSB
+				when occ9 => state := occ10;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (3, 12)); -- 2411 MSB
+					voffsetRef (7 downto 0) := i2c_mem_douta; -- offsetref LSB
+				when occ10 => state := occ11;
+					voffsetRef (15 downto 8) := i2c_mem_douta; -- offsetref MSB
+				
+				
+					
+				when occ11 => state := occ12;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (4, 12)); -- 2412 LSB -- occrow1-4
+				when occ12 => state := occ13;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (5, 12)); -- 2412 MSB -- occrow1-4
+					temp1 (7 downto 0) := i2c_mem_douta;
+				when occ13 => state := occ14;
+					temp1 (15 downto 8) := i2c_mem_douta;
+				when occ14 => state := occ15;
+					nibble1 <= temp1 (3 downto 0); -- occrowA
+				when occ15 => state := occ16;
+					nibble1 <= temp1 (7 downto 4); -- occrowB
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (0, 10));
-				when ab1 => state := b1;
-					nibble2 <= i_ee0x2418 (3 downto 0);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (0+24, 10));
-				when b1 => state := ab2;
-					nibble1 <= i_ee0x2412 (7 downto 4);
+				when occ16 => state := occ17;
+					nibble1 <= temp1 (11 downto 8); -- occrowC
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (1, 10));
-				when ab2 => state := c1;				
-					nibble2 <= i_ee0x2418 (7 downto 4);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (1+24, 10));
-				when c1 => state := ab3;
-					nibble1 <= i_ee0x2412 (11 downto 8);
+				when occ17 => state := occ18;
+					nibble1 <= temp1 (15 downto 12); -- occrowD
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (2, 10));
-				when ab3 => state := d1;
-					nibble2 <= i_ee0x2418 (11 downto 8);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (2+24, 10));
-				when d1 => state := ab4;
-					nibble1 <= i_ee0x2412 (15 downto 12);
+				when occ18 => state := occ19;
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (3, 10));
-				when ab4 => state := a2;
-					nibble2 <= i_ee0x2418 (15 downto 12);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (3+24, 10));
-				when a2 => state := ab5;
-					nibble1 <= i_ee0x2413 (3 downto 0);
+
+
+
+
+				when occ19 => state := occ20;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (6, 12)); -- 2413 LSB -- occrow5-8
+				when occ20 => state := occ21;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (7, 12)); -- 2413 MSB -- occrow5-8
+					temp1 (7 downto 0) := i2c_mem_douta;
+				when occ21 => state := occ22;
+					temp1 (15 downto 8) := i2c_mem_douta;
+				when occ22 => state := occ23;
+					nibble1 <= temp1 (3 downto 0); -- occrowA
+				when occ23 => state := occ24;
+					nibble1 <= temp1 (7 downto 4); -- occrowB
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (4, 10));
-				when ab5 => state := b2;
-					nibble2 <= i_ee0x2419 (3 downto 0);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (4+24, 10));
-				when b2 => state := ab6;
-					nibble1 <= i_ee0x2413 (7 downto 4);
+				when occ24 => state := occ25;
+					nibble1 <= temp1 (11 downto 8); -- occrowC
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (5, 10));
-				when ab6 => state := c2;
-					nibble2 <= i_ee0x2419 (7 downto 4);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (5+24, 10));
-				when c2 => state := ab7;
-					nibble1 <= i_ee0x2413 (11 downto 8);
+				when occ25 => state := occ26;
+					nibble1 <= temp1 (15 downto 12); -- occrowD
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (6, 10));
-				when ab7 => state := d2;
-					nibble2 <= i_ee0x2419 (11 downto 8);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (6+24, 10));
-				when d2 => state := ab8;
-					nibble1 <= i_ee0x2413 (15 downto 12);
+				when occ26 => state := occ27;
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (7, 10));
-				when ab8 => state := a3;
-					nibble2 <= i_ee0x2419 (15 downto 12);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (7+24, 10));
-				when a3 => state := ab9;
-					nibble1 <= i_ee0x2414 (3 downto 0);
+
+
+				when occ27 => state := occ28;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (8, 12)); -- 2414 LSB -- occrow9-12
+				when occ28 => state := occ29;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (9, 12)); -- 2414 MSB -- occrow9-12
+					temp1 (7 downto 0) := i2c_mem_douta;
+				when occ29 => state := occ30;
+					temp1 (15 downto 8) := i2c_mem_douta;
+				when occ30 => state := occ31;
+					nibble1 <= temp1 (3 downto 0); -- occrowA
+				when occ31 => state := occ32;
+					nibble1 <= temp1 (7 downto 4); -- occrowB
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (8, 10));
-				when ab9 => state := b3;
-					nibble2 <= i_ee0x241a (3 downto 0);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (8+24, 10));
-				when b3 => state := ab10;
-					nibble1 <= i_ee0x2414 (7 downto 4);
+				when occ32 => state := occ33;
+					nibble1 <= temp1 (11 downto 8); -- occrowC
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (9, 10));
-				when ab10 => state := c3;
-					nibble2 <= i_ee0x241a (7 downto 4);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (9+24, 10));
-				when c3 => state := ab11;
-					nibble1 <= i_ee0x2414 (11 downto 8);
+				when occ33 => state := occ34;
+					nibble1 <= temp1 (15 downto 12); -- occrowD
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (10, 10));
-				when ab11 => state := d3;
-					nibble2 <= i_ee0x241a (11 downto 8);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (10+24, 10));
-				when d3 => state := ab12;
-					nibble1 <= i_ee0x2414 (15 downto 12);
+				when occ34 => state := occ35;
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (11, 10));
-				when ab12 => state := a4;
-					nibble2 <= i_ee0x241a (15 downto 12);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (11+24, 10));
-				when a4 => state := ab13;
-					nibble1 <= i_ee0x2415 (3 downto 0);
+
+
+				when occ35 => state := occ36;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (10, 12)); -- 2415 LSB -- occrow13-16
+				when occ36 => state := occ37;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (11, 12)); -- 2415 MSB -- occrow13-16
+					temp1 (7 downto 0) := i2c_mem_douta;
+				when occ37 => state := occ38;
+					temp1 (15 downto 8) := i2c_mem_douta;
+				when occ38 => state := occ39;
+					nibble1 <= temp1 (3 downto 0); -- occrowA
+				when occ39 => state := occ40;
+					nibble1 <= temp1 (7 downto 4); -- occrowB
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (12, 10));
-				when ab13 => state := b4;
-					nibble2 <= i_ee0x241b (3 downto 0);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (12+24, 10));
-				when b4 => state := ab14;
-					nibble1 <= i_ee0x2415 (7 downto 4);
+				when occ40 => state := occ41;
+					nibble1 <= temp1 (11 downto 8); -- occrowC
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (13, 10));
-				when ab14 => state := c4;
-					nibble2 <= i_ee0x241b (7 downto 4);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (13+24, 10));
-				when c4 => state := ab15;
-					nibble1 <= i_ee0x2415 (11 downto 8);
+				when occ41 => state := occ42;
+					nibble1 <= temp1 (15 downto 12); -- occrowD
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (14, 10));
-				when ab15 => state := d4;
-					nibble2 <= i_ee0x241b (11 downto 8);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (14+24, 10));
-				when d4 => state := ab16;
-					nibble1 <= i_ee0x2415 (15 downto 12);
+				when occ42 => state := occ43;
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (15, 10));
-				when ab16 => state := a5;
-					nibble2 <= i_ee0x241b (15 downto 12);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (15+24, 10));
-				when a5 => state := ab17;
-					nibble1 <= i_ee0x2416 (3 downto 0);
+
+
+
+				when occ43 => state := occ44;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (12, 12)); -- 2416 LSB -- occrow17-20
+				when occ44 => state := occ45;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (13, 12)); -- 2416 MSB -- occrow17-20
+					temp1 (7 downto 0) := i2c_mem_douta;
+				when occ45 => state := occ46;
+					temp1 (15 downto 8) := i2c_mem_douta;
+				when occ46 => state := occ47;
+					nibble1 <= temp1 (3 downto 0); -- occrowA
+				when occ47 => state := occ48;
+					nibble1 <= temp1 (7 downto 4); -- occrowB
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (16, 10));
-				when ab17 => state := b5;
-					nibble2 <= i_ee0x241c (3 downto 0);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (16+24, 10));
-				when b5 => state := ab18;
-					nibble1 <= i_ee0x2416 (7 downto 4);
+				when occ48 => state := occ49;
+					nibble1 <= temp1 (11 downto 8); -- occrowC
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (17, 10));
-				when ab18 => state := c5;
-					nibble2 <= i_ee0x241c (7 downto 4);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (17+24, 10));
-				when c5 => state := ab19;
-					nibble1 <= i_ee0x2416 (11 downto 8);
+				when occ49 => state := occ50;
+					nibble1 <= temp1 (15 downto 12); -- occrowD
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (18, 10));
-				when ab19 => state := d5;
-					nibble2 <= i_ee0x241c (11 downto 8);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (18+24, 10));
-				when d5 => state := ab20;
-					nibble1 <= i_ee0x2416 (15 downto 12);
+				when occ50 => state := occ51;
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (19, 10));
-				when ab20 => state := a6;
-					nibble2 <= i_ee0x241c (15 downto 12);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (19+24, 10));
-				when a6 => state := ab21;
-					nibble1 <= i_ee0x2417 (3 downto 0);
+
+
+
+				when occ51 => state := occ52;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (14, 12)); -- 2417 LSB -- occrow21-24
+				when occ52 => state := occ53;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (15, 12)); -- 2417 MSB -- occrow21-24
+					temp1 (7 downto 0) := i2c_mem_douta;
+				when occ53 => state := occ54;
+					temp1 (15 downto 8) := i2c_mem_douta;
+				when occ54 => state := occ55;
+					nibble1 <= temp1 (3 downto 0); -- occrowA
+				when occ55 => state := occ56;
+					nibble1 <= temp1 (7 downto 4); -- occrowB
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (20, 10));
-				when ab21 => state := b6;
-					nibble2 <= i_ee0x241d (3 downto 0);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (20+24, 10));
-				when b6 => state := ab22;
-					nibble1 <= i_ee0x2417 (7 downto 4);
+				when occ56 => state := occ57;
+					nibble1 <= temp1 (11 downto 8); -- occrowC
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (21, 10));
-				when ab22 => state := c6;
-					nibble2 <= i_ee0x241d (7 downto 4);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (21+24, 10));
-				when c6 => state := ab23;
-					nibble1 <= i_ee0x2417 (11 downto 8);
+				when occ57 => state := occ58;
+					nibble1 <= temp1 (15 downto 12); -- occrowD
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (22, 10));
-				when ab23 => state := d6;
-					nibble2 <= i_ee0x241d (11 downto 8);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (22+24, 10));
-				when d6 => state := ab24;
-					nibble1 <= i_ee0x2417 (15 downto 12);
+				when occ58 => state := occ59;
 					dia <= out_nibble1;
 					addra <= std_logic_vector (to_unsigned (23, 10));
-				when ab24 => state := a7;
-					nibble2 <= i_ee0x241d (15 downto 12);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (23+24, 10));
-				when a7 => state := b7;
-					nibble2 <= i_ee0x241e (3 downto 0);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (24+24, 10));
-				when b7 => state := c7;
-					nibble2 <= i_ee0x241e (7 downto 4);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (25+24, 10));
-				when c7 => state := d7;
-					nibble2 <= i_ee0x241e (11 downto 8);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (26+24, 10));
-				when d7 => state := a8;
-					nibble2 <= i_ee0x241e (15 downto 12);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (27+24, 10));
-				when a8 => state := b8;
-					nibble2 <= i_ee0x241f (3 downto 0);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (28+24, 10));
-				when b8 => state := c8;
-					nibble2 <= i_ee0x241f (7 downto 4);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (29+24, 10));
-				when c8 => state := d8;
-					nibble2 <= i_ee0x241f (11 downto 8);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (30+24, 10));
-				when d8 => state := calculate;
-					nibble2 <= i_ee0x241f (15 downto 12);
-					dia <= out_nibble2;
-					addra <= std_logic_vector (to_unsigned (31+24, 10));
-				when calculate => state := calculate00;
-					write_enable <= '0';
-					k := (32 * i) + j;
-					o_done <= '0';
-				when calculate00 => state := calculate01;
-					addra <= std_logic_vector (to_unsigned (j+24, 10));
-				when calculate01 => state := calculate02;
-				when calculate02 => state := calculate03;
-					col := doa;
-				when calculate03 => state := calculate04;
-					addra <= std_logic_vector (to_unsigned (i, 10));
-				when calculate04 => state := calculate05;
-				when calculate05 => state := calculate1;
-					row := doa;
-				when calculate1 => state := calculate2;
-					nibble3 <= i_ee0x2440 (15 downto 10); -- (eeData[64 + p] & MLX90640_MSBITS_6_MASK) >> 10; , offset raw
-				when calculate2 => state := calculate3;
-					fptmp1 := out_nibble3; -- offset after signed
-				when calculate3 => state := calculate4;
-					mulfpsclr <= '0';
-					mulfpce <= '1';
-					mulfpa <= fptmp1; -- alphatemp
-					mulfpb <= x"40000000"; -- *2
-					mulfpond <= '1';
-				when calculate4 =>
-					if (mulfprdy = '1') then
-						if (index = to_integer (unsigned (voccRemScale1))) then
-							state := calculate5;
-							voccRemScale := fptmp1;
-							index := 0;
-							mulfpce <= '0';
-							mulfpond <= '0';
-							mulfpsclr <= '1';
-						else
-							state := calculate3;
-							fptmp1 := mulfpr;
-							mulfpce <= '0';
-							mulfpond <= '0';
-							mulfpsclr <= '1';
-							index := index + 1;
-						end if;
-					else state := calculate4; end if;
-				when calculate5 => state := calculate6;
-					mulfpsclr <= '0';
-					mulfpce <= '1';
-					mulfpa <= col; -- occcol
-					mulfpb <= x"40000000"; -- *2
-					mulfpond <= '1';
-				when calculate6 =>
-					if (mulfprdy = '1') then
-						if (index = to_integer (unsigned (voccColumnScale1))) then
-							state := calculate7;
-							voccColumnScale := fptmp2;
-							index := 0;
-							mulfpce <= '0';
-							mulfpond <= '0';
-							mulfpsclr <= '1';
-							fptmp1 := row;
-						else
-							state := calculate5;
-							fptmp2 := mulfpr;
-							mulfpce <= '0';
-							mulfpond <= '0';
-							mulfpsclr <= '1';
-							index := index + 1;
-						end if;
-					else state := calculate6; end if;
-				when calculate7 => state := calculate8;
-					mulfpsclr <= '0';
-					mulfpce <= '1';
-					mulfpa <= fptmp1; -- occrow
-					mulfpb <= x"40000000"; -- *2
-					mulfpond <= '1';
-				when calculate8 =>
-					if (mulfprdy = '1') then
-						if (index = to_integer (unsigned (voccRowScale1))) then
-							state := calculate9;
-							voccRowScale := fptmp1;
-							index := 0;
-							mulfpce <= '0';
-							mulfpond <= '0';
-							mulfpsclr <= '1';
-						else
-							state := calculate7;
-							fptmp1 := mulfpr;
-							mulfpce <= '0';
-							mulfpond <= '0';
-							mulfpsclr <= '1';
-							index := index + 1;
-						end if;
-					else state := calculate8; end if;
-				when calculate9 => state := calculate10;
-					addfpsclr <= '0';
-					addfpce <= '1';
-					addfpa <= voccRemScale; -- remnant
-					addfpb <= voccColumnScale; -- column
-					addfpond <= '1';
-				when calculate10 =>
-					if (addfprdy = '1') then
-						state := calculate11;
-						fptmp1 := addfpr;
-						addfpce <= '0';
-						addfpond <= '0';
-						addfpsclr <= '1';
-					else state := calculate10; end if;
-				when calculate11 => state := calculate12;
-					addfpsclr <= '0';
-					addfpce <= '1';
-					addfpa <= fptmp1; -- column+remnant
-					addfpb <= voccRowScale; -- row
-					addfpond <= '1';
-				when calculate12 =>
-					if (addfprdy = '1') then
-						state := calculate13;
-						fptmp1 := addfpr;
-						addfpce <= '0';
-						addfpond <= '0';
-						addfpsclr <= '1';
-					else state := calculate12; end if;
-				when calculate13 => state := calculate14;
-					addfpsclr <= '0';
-					addfpce <= '1';
-					addfpa <= fptmp1; -- row+column+remnant
-					addfpb <= i_offsetRef; -- offsetref
-					addfpond <= '1';
-				when calculate14 =>
-					if (addfprdy = '1') then
-						state := calculate15;
-						fptmp1 := addfpr;
-						addfpce <= '0';
-						addfpond <= '0';
-						addfpsclr <= '1';
-					else state := calculate14; end if;
-				when calculate15 => state := calculate17;
-					addfpsclr <= '0';
-				when calculate17 => state := ending0;
-					write_enable <= '1';
-					dia <= fptmp1;
-					addra <= std_logic_vector (to_unsigned (k+24+32, 10));
-				when ending0 => state := ending1;
-					write_enable <= '0';
-				when ending1 =>
-					o_done <= '1';
-					if (j = N_COLS-1) then
-						j := 0;
-						state := ending2;
-					else
-						j := j + 1;
-						state := calculate;
-					end if;
-				when ending2 =>
-					o_done <= '1';
-					if (i = N_ROWS-1) then
-						i := 0;
-						state := ending;
-					else
-						i := i + 1;
-						state := calculate;
-					end if;
-				when ending => state := idle;
-					rdy <= '1';
+
+
+
+
+--				when ab1 => state := b1;
+--					nibble2 <= i_ee0x2418 (3 downto 0);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (0+24, 10));
+--				
+--				when b1 => state := ab2;
+--					nibble1 <= i_ee0x2412 (7 downto 4);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (1, 10));
+--				when ab2 => state := c1;				
+--					nibble2 <= i_ee0x2418 (7 downto 4);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (1+24, 10));
+--				
+--				when c1 => state := ab3;
+--					nibble1 <= i_ee0x2412 (11 downto 8);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (2, 10));
+--				when ab3 => state := d1;
+--					nibble2 <= i_ee0x2418 (11 downto 8);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (2+24, 10));
+--				
+--				when d1 => state := ab4;
+--					nibble1 <= i_ee0x2412 (15 downto 12);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (3, 10));
+--				when ab4 => state := a2;
+--					nibble2 <= i_ee0x2418 (15 downto 12);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (3+24, 10));
+--				
+--				when a2 => state := ab5;
+--					nibble1 <= i_ee0x2413 (3 downto 0);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (4, 10));
+--				when ab5 => state := b2;
+--					nibble2 <= i_ee0x2419 (3 downto 0);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (4+24, 10));
+--				
+--				when b2 => state := ab6;
+--					nibble1 <= i_ee0x2413 (7 downto 4);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (5, 10));
+--				when ab6 => state := c2;
+--					nibble2 <= i_ee0x2419 (7 downto 4);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (5+24, 10));
+--				
+--				when c2 => state := ab7;
+--					nibble1 <= i_ee0x2413 (11 downto 8);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (6, 10));
+--				when ab7 => state := d2;
+--					nibble2 <= i_ee0x2419 (11 downto 8);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (6+24, 10));
+--				
+--				when d2 => state := ab8;
+--					nibble1 <= i_ee0x2413 (15 downto 12);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (7, 10));
+--				when ab8 => state := a3;
+--					nibble2 <= i_ee0x2419 (15 downto 12);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (7+24, 10));
+--				
+--				when a3 => state := ab9;
+--					nibble1 <= i_ee0x2414 (3 downto 0);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (8, 10));
+--				when ab9 => state := b3;
+--					nibble2 <= i_ee0x241a (3 downto 0);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (8+24, 10));
+--				
+--				when b3 => state := ab10;
+--					nibble1 <= i_ee0x2414 (7 downto 4);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (9, 10));
+--				when ab10 => state := c3;
+--					nibble2 <= i_ee0x241a (7 downto 4);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (9+24, 10));
+--				
+--				when c3 => state := ab11;
+--					nibble1 <= i_ee0x2414 (11 downto 8);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (10, 10));
+--				when ab11 => state := d3;
+--					nibble2 <= i_ee0x241a (11 downto 8);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (10+24, 10));
+--				
+--				when d3 => state := ab12;
+--					nibble1 <= i_ee0x2414 (15 downto 12);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (11, 10));
+--				when ab12 => state := a4;
+--					nibble2 <= i_ee0x241a (15 downto 12);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (11+24, 10));
+--				
+--				when a4 => state := ab13;
+--					nibble1 <= i_ee0x2415 (3 downto 0);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (12, 10));
+--				when ab13 => state := b4;
+--					nibble2 <= i_ee0x241b (3 downto 0);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (12+24, 10));
+--				
+--				when b4 => state := ab14;
+--					nibble1 <= i_ee0x2415 (7 downto 4);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (13, 10));
+--				when ab14 => state := c4;
+--					nibble2 <= i_ee0x241b (7 downto 4);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (13+24, 10));
+--				
+--				when c4 => state := ab15;
+--					nibble1 <= i_ee0x2415 (11 downto 8);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (14, 10));
+--				when ab15 => state := d4;
+--					nibble2 <= i_ee0x241b (11 downto 8);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (14+24, 10));
+--				
+--				when d4 => state := ab16;
+--					nibble1 <= i_ee0x2415 (15 downto 12);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (15, 10));
+--				when ab16 => state := a5;
+--					nibble2 <= i_ee0x241b (15 downto 12);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (15+24, 10));
+--				
+--				when a5 => state := ab17;
+--					nibble1 <= i_ee0x2416 (3 downto 0);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (16, 10));
+--				when ab17 => state := b5;
+--					nibble2 <= i_ee0x241c (3 downto 0);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (16+24, 10));
+--				
+--				when b5 => state := ab18;
+--					nibble1 <= i_ee0x2416 (7 downto 4);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (17, 10));
+--				when ab18 => state := c5;
+--					nibble2 <= i_ee0x241c (7 downto 4);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (17+24, 10));
+--				
+--				when c5 => state := ab19;
+--					nibble1 <= i_ee0x2416 (11 downto 8);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (18, 10));
+--				when ab19 => state := d5;
+--					nibble2 <= i_ee0x241c (11 downto 8);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (18+24, 10));
+--				
+--				when d5 => state := ab20;
+--					nibble1 <= i_ee0x2416 (15 downto 12);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (19, 10));
+--				when ab20 => state := a6;
+--					nibble2 <= i_ee0x241c (15 downto 12);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (19+24, 10));
+--				
+--				when a6 => state := ab21;
+--					nibble1 <= i_ee0x2417 (3 downto 0);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (20, 10));
+--				when ab21 => state := b6;
+--					nibble2 <= i_ee0x241d (3 downto 0);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (20+24, 10));
+--				
+--				when b6 => state := ab22;
+--					nibble1 <= i_ee0x2417 (7 downto 4);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (21, 10));
+--				when ab22 => state := c6;
+--					nibble2 <= i_ee0x241d (7 downto 4);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (21+24, 10));
+--				
+--				when c6 => state := ab23;
+--					nibble1 <= i_ee0x2417 (11 downto 8);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (22, 10));
+--				when ab23 => state := d6;
+--					nibble2 <= i_ee0x241d (11 downto 8);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (22+24, 10));
+--				
+--				when d6 => state := ab24;
+--					nibble1 <= i_ee0x2417 (15 downto 12);
+--					dia <= out_nibble1;
+--					addra <= std_logic_vector (to_unsigned (23, 10));
+--				when ab24 => state := a7;
+--					nibble2 <= i_ee0x241d (15 downto 12);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (23+24, 10));
+--				
+--				when a7 => state := b7;
+--					nibble2 <= i_ee0x241e (3 downto 0);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (24+24, 10));
+--				
+--				when b7 => state := c7;
+--					nibble2 <= i_ee0x241e (7 downto 4);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (25+24, 10));
+--				
+--				when c7 => state := d7;
+--					nibble2 <= i_ee0x241e (11 downto 8);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (26+24, 10));
+--				
+--				when d7 => state := a8;
+--					nibble2 <= i_ee0x241e (15 downto 12);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (27+24, 10));
+--				
+--				when a8 => state := b8;
+--					nibble2 <= i_ee0x241f (3 downto 0);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (28+24, 10));
+--				
+--				when b8 => state := c8;
+--					nibble2 <= i_ee0x241f (7 downto 4);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (29+24, 10));
+--				
+--				when c8 => state := d8;
+--					nibble2 <= i_ee0x241f (11 downto 8);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (30+24, 10));
+--
+--				when d8 => state := calculate;
+--					nibble2 <= i_ee0x241f (15 downto 12);
+--					dia <= out_nibble2;
+--					addra <= std_logic_vector (to_unsigned (31+24, 10));
+--				
+--				when calculate => state := calculate00;
+--					write_enable <= '0';
+--					k := (32 * i) + j;
+--					o_done <= '0';
+--				when calculate00 => state := calculate01;
+--					addra <= std_logic_vector (to_unsigned (j+24, 10));
+--				when calculate01 => state := calculate02;
+--				when calculate02 => state := calculate03;
+--					col := doa;
+--				when calculate03 => state := calculate04;
+--					addra <= std_logic_vector (to_unsigned (i, 10));
+--				when calculate04 => state := calculate05;
+--				when calculate05 => state := calculate1;
+--					row := doa;
+--				when calculate1 => state := calculate2;
+--					nibble3 <= i_ee0x2440 (15 downto 10); -- (eeData[64 + p] & MLX90640_MSBITS_6_MASK) >> 10; , offset raw
+--				when calculate2 => state := calculate3;
+--					fptmp1 := out_nibble3; -- offset after signed
+--				when calculate3 => state := calculate4;
+--					mulfpsclr <= '0';
+--					mulfpce <= '1';
+--					mulfpa <= fptmp1; -- alphatemp
+--					mulfpb <= x"40000000"; -- *2
+--					mulfpond <= '1';
+--				when calculate4 =>
+--					if (mulfprdy = '1') then
+--						if (index = to_integer (unsigned (voccRemScale1))) then
+--							state := calculate5;
+--							voccRemScale := fptmp1;
+--							index := 0;
+--							mulfpce <= '0';
+--							mulfpond <= '0';
+--							mulfpsclr <= '1';
+--						else
+--							state := calculate3;
+--							fptmp1 := mulfpr;
+--							mulfpce <= '0';
+--							mulfpond <= '0';
+--							mulfpsclr <= '1';
+--							index := index + 1;
+--						end if;
+--					else state := calculate4; end if;
+--				when calculate5 => state := calculate6;
+--					mulfpsclr <= '0';
+--					mulfpce <= '1';
+--					mulfpa <= col; -- occcol
+--					mulfpb <= x"40000000"; -- *2
+--					mulfpond <= '1';
+--				when calculate6 =>
+--					if (mulfprdy = '1') then
+--						if (index = to_integer (unsigned (voccColumnScale1))) then
+--							state := calculate7;
+--							voccColumnScale := fptmp2;
+--							index := 0;
+--							mulfpce <= '0';
+--							mulfpond <= '0';
+--							mulfpsclr <= '1';
+--							fptmp1 := row;
+--						else
+--							state := calculate5;
+--							fptmp2 := mulfpr;
+--							mulfpce <= '0';
+--							mulfpond <= '0';
+--							mulfpsclr <= '1';
+--							index := index + 1;
+--						end if;
+--					else state := calculate6; end if;
+--				when calculate7 => state := calculate8;
+--					mulfpsclr <= '0';
+--					mulfpce <= '1';
+--					mulfpa <= fptmp1; -- occrow
+--					mulfpb <= x"40000000"; -- *2
+--					mulfpond <= '1';
+--				when calculate8 =>
+--					if (mulfprdy = '1') then
+--						if (index = to_integer (unsigned (voccRowScale1))) then
+--							state := calculate9;
+--							voccRowScale := fptmp1;
+--							index := 0;
+--							mulfpce <= '0';
+--							mulfpond <= '0';
+--							mulfpsclr <= '1';
+--						else
+--							state := calculate7;
+--							fptmp1 := mulfpr;
+--							mulfpce <= '0';
+--							mulfpond <= '0';
+--							mulfpsclr <= '1';
+--							index := index + 1;
+--						end if;
+--					else state := calculate8; end if;
+--				when calculate9 => state := calculate10;
+--					addfpsclr <= '0';
+--					addfpce <= '1';
+--					addfpa <= voccRemScale; -- remnant
+--					addfpb <= voccColumnScale; -- column
+--					addfpond <= '1';
+--				when calculate10 =>
+--					if (addfprdy = '1') then
+--						state := calculate11;
+--						fptmp1 := addfpr;
+--						addfpce <= '0';
+--						addfpond <= '0';
+--						addfpsclr <= '1';
+--					else state := calculate10; end if;
+--				when calculate11 => state := calculate12;
+--					addfpsclr <= '0';
+--					addfpce <= '1';
+--					addfpa <= fptmp1; -- column+remnant
+--					addfpb <= voccRowScale; -- row
+--					addfpond <= '1';
+--				when calculate12 =>
+--					if (addfprdy = '1') then
+--						state := calculate13;
+--						fptmp1 := addfpr;
+--						addfpce <= '0';
+--						addfpond <= '0';
+--						addfpsclr <= '1';
+--					else state := calculate12; end if;
+--				when calculate13 => state := calculate14;
+--					addfpsclr <= '0';
+--					addfpce <= '1';
+--					addfpa <= fptmp1; -- row+column+remnant
+--					addfpb <= i_offsetRef; -- offsetref
+--					addfpond <= '1';
+--				when calculate14 =>
+--					if (addfprdy = '1') then
+--						state := calculate15;
+--						fptmp1 := addfpr;
+--						addfpce <= '0';
+--						addfpond <= '0';
+--						addfpsclr <= '1';
+--					else state := calculate14; end if;
+--				when calculate15 => state := calculate17;
+--					addfpsclr <= '0';
+--				when calculate17 => state := ending0;
+--					write_enable <= '1';
+--					dia <= fptmp1;
+--					addra <= std_logic_vector (to_unsigned (k+24+32, 10));
+--				when ending0 => state := ending1;
+--					write_enable <= '0';
+--				when ending1 =>
+--					o_done <= '1';
+--					if (j = N_COLS-1) then
+--						j := 0;
+--						state := ending2;
+--					else
+--						j := j + 1;
+--						state := calculate;
+--					end if;
+--				when ending2 =>
+--					o_done <= '1';
+--					if (i = N_ROWS-1) then
+--						i := 0;
+--						state := ending;
+--					else
+--						i := i + 1;
+--						state := calculate;
+--					end if;
+--				when ending => state := idle;
+--					rdy <= '1';
 				when others => null;
 			end case;
 		end if;

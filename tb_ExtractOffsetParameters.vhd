@@ -40,33 +40,48 @@ END tb_ExtractOffsetParameters;
 
 ARCHITECTURE behavior OF tb_ExtractOffsetParameters IS 
 
--- Component Declaration for the Unit Under Test (UUT)
+COMPONENT tb_i2c_mem
+PORT (
+clka : IN STD_LOGIC;
+ena : IN STD_LOGIC;
+wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+addra : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
+dina : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+);
+END COMPONENT;
 
+-- Component Declaration for the Unit Under Test (UUT)
 component ExtractOffsetParameters is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-i_ee0x2410 : in slv16; -- 1-occremscale,2-occcolumnscale,3-occrowscale
-i_offsetref : in fd2ft; -- offsetref from fixed2float
 
-i_ee0x2412 : in slv16; -- occrow1-4
-i_ee0x2413 : in slv16; -- occrow5-8
-i_ee0x2414 : in slv16; -- occrow9-12
-i_ee0x2415 : in slv16; -- occrow13-16
-i_ee0x2416 : in slv16; -- occrow17-20
-i_ee0x2417 : in slv16; -- occrow21-24
+--i_ee0x2410 : in slv16; -- 1-occremscale,2-occcolumnscale,3-occrowscale
+--i_offsetref : in fd2ft; -- offsetref from fixed2float
+--
+--i_ee0x2412 : in slv16; -- occrow1-4
+--i_ee0x2413 : in slv16; -- occrow5-8
+--i_ee0x2414 : in slv16; -- occrow9-12
+--i_ee0x2415 : in slv16; -- occrow13-16
+--i_ee0x2416 : in slv16; -- occrow17-20
+--i_ee0x2417 : in slv16; -- occrow21-24
+--
+--i_ee0x2418 : in slv16; -- occcol1-4
+--i_ee0x2419 : in slv16; -- occcol5-8
+--i_ee0x241a : in slv16; -- occcol9-12
+--i_ee0x241b : in slv16; -- occcol13-16
+--i_ee0x241c : in slv16; -- occcol17-20
+--i_ee0x241d : in slv16; -- occcol21-24
+--i_ee0x241e : in slv16; -- occcol25-28
+--i_ee0x241f : in slv16; -- occcol29-32
+--
+--i_ee0x2440 : in slv16; -- offset ROWS*COLS
 
-i_ee0x2418 : in slv16; -- occcol1-4
-i_ee0x2419 : in slv16; -- occcol5-8
-i_ee0x241a : in slv16; -- occcol9-12
-i_ee0x241b : in slv16; -- occcol13-16
-i_ee0x241c : in slv16; -- occcol17-20
-i_ee0x241d : in slv16; -- occcol21-24
-i_ee0x241e : in slv16; -- occcol25-28
-i_ee0x241f : in slv16; -- occcol29-32
-
-i_ee0x2440 : in slv16; -- offset ROWS*COLS
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
@@ -105,6 +120,10 @@ signal o_rdy : std_logic;
 signal o_do : std_logic_vector (31 downto 0) := (others => '0');
 signal i_addr : std_logic_vector (9 downto 0) := (others => '0');
 
+signal i2c_mem_ena : STD_LOGIC;
+signal i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
 
@@ -114,28 +133,42 @@ BEGIN
 
 out1r <= ap_slv2fp (o_do); -- output data
 
+inst_tb_i2c_mem : tb_i2c_mem
+PORT MAP (
+clka => i_clock,
+ena => i2c_mem_ena,
+wea => "0",
+addra => i2c_mem_addra,
+dina => (others => '0'),
+douta => i2c_mem_douta
+);
 -- Instantiate the Unit Under Test (UUT)
 uut: ExtractOffsetParameters PORT MAP (
 i_clock => i_clock,
 i_reset => i_reset,
 i_run => i_run,
-i_ee0x2410 => i_ee0x2410,
-i_offsetRef => i_offsetRef,
-i_ee0x2412 => i_ee0x2412,
-i_ee0x2413 => i_ee0x2413,
-i_ee0x2414 => i_ee0x2414,
-i_ee0x2415 => i_ee0x2415,
-i_ee0x2416 => i_ee0x2416,
-i_ee0x2417 => i_ee0x2417,
-i_ee0x2418 => i_ee0x2418,
-i_ee0x2419 => i_ee0x2419,
-i_ee0x241a => i_ee0x241a,
-i_ee0x241b => i_ee0x241b,
-i_ee0x241c => i_ee0x241c,
-i_ee0x241d => i_ee0x241d,
-i_ee0x241e => i_ee0x241e,
-i_ee0x241f => i_ee0x241f,
-i_ee0x2440 => i_ee0x2440,
+--i_ee0x2410 => i_ee0x2410,
+--i_offsetRef => i_offsetRef,
+--i_ee0x2412 => i_ee0x2412,
+--i_ee0x2413 => i_ee0x2413,
+--i_ee0x2414 => i_ee0x2414,
+--i_ee0x2415 => i_ee0x2415,
+--i_ee0x2416 => i_ee0x2416,
+--i_ee0x2417 => i_ee0x2417,
+--i_ee0x2418 => i_ee0x2418,
+--i_ee0x2419 => i_ee0x2419,
+--i_ee0x241a => i_ee0x241a,
+--i_ee0x241b => i_ee0x241b,
+--i_ee0x241c => i_ee0x241c,
+--i_ee0x241d => i_ee0x241d,
+--i_ee0x241e => i_ee0x241e,
+--i_ee0x241f => i_ee0x241f,
+--i_ee0x2440 => i_ee0x2440,
+
+i2c_mem_ena => i2c_mem_ena,
+i2c_mem_addra => i2c_mem_addra,
+i2c_mem_douta => i2c_mem_douta,
+
 o_do => o_do,
 i_addr => i_addr,
 o_done => o_done,
