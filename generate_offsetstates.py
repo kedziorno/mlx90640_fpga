@@ -32,7 +32,7 @@ for i in range (0, ee_occrow_len):
 		mem_row = 0 + i
 		mem_col = ee_occrow_len + j
 		#print ("%d,%d"%(i,j))
-		print("\
+print("\
 when %s%d => %s := %s%d; 	--1\n\
 	write_enable <= '0';\n\
 	i2c_mem_addra <= std_logic_vector (to_unsigned (%d, 12)); -- offset LSB %d\n\
@@ -192,8 +192,8 @@ state_name,state_index_start+21,state_variable,state_name,state_index_start+22, 
 row+col+index,
 )
 );
-		state_index_start = state_index_start + state_index_length
-		index = index + 1
+#		state_index_start = state_index_start + state_index_length
+#		index = index + 1
 
 	
 
