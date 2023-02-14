@@ -356,7 +356,7 @@ p0 : process (i_clock) is
 	occ115,occ116,occ117,occ118,occ119,
 	occ120,occ121,occ122,occ123,occ124,
 	pow0,pow1,pow2,pow3,pow4,pow5,pow6,
-	a1,b1,c1,d1,occ9a,occ11a,
+	a1,b1,c1,d1,occ9a,occ10a,occ11a,occ9b,occ10b,
 	a2,b2,c2,d2,
 	a3,b3,c3,d3,
 	a4,b4,c4,d4,
@@ -476,16 +476,16 @@ begin
 					voccRowScale := out_nibble1; -- out occ row column signed
 					voccRowScale1 := temp1 (11 downto 8); -- occ scale row for 2^x
 
-				when occ8 => state := occ9;
+				when occ8 => state := occ9a;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (2, 12)); -- 2411 LSB
---				when occ9a => state := occ9;
-				when occ9 => state := occ10;
-					voffsetRef (7 downto 0) := i2c_mem_douta; -- offsetref LSB
+				when occ9a => state := occ9;
+				when occ9 => state := occ10a;
+					voffsetRef (15 downto 8) := i2c_mem_douta; -- offsetref LSB
 					i2c_mem_addra <= std_logic_vector (to_unsigned (3, 12)); -- 2411 MSB
+				when occ10a => state := occ10;
 				when occ10 => state := occ11;
---				when occ11a => state := occ11;
-					voffsetRef (15 downto 8) := i2c_mem_douta; -- offsetref MSB
-				
+					voffsetRef (7 downto 0) := i2c_mem_douta; -- offsetref MSB
+					report_error (voffsetRef, 0.0);
 				
 					
 				when occ11 => state := occ12;
