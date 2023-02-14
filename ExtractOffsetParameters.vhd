@@ -484,7 +484,7 @@ begin
 				when occ3 => state := occ3a;
 				when occ3a => state := occ4;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					report_error (temp1, 0.0);
+					--report_error (temp1, 0.0);
 				when occ4 => state := occ5;
 					nibble1 <= temp1 (3 downto 0); -- occ scale remnant
 				when occ5 => state := occ6;
@@ -513,7 +513,7 @@ begin
 				when occ10a => state := occ10;
 				when occ10 => state := occ11;
 					voffsetRef (7 downto 0) := i2c_mem_douta; -- offsetref MSB
-					report_error (voffsetRef, 0.0);
+					--report_error (voffsetRef, 0.0);
 				
 					
 				when occ11 => state := occ12;
@@ -525,7 +525,7 @@ begin
 				when occ13 => state := occ14a;
 				when occ14a => state := occ14;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					report_error (temp1, 0.0);
+					--report_error (temp1, 0.0);
 					nibble2 <= temp1 (3 downto 0); -- occrowA
 				when occ14 => state := occ15;
 					dia <= out_nibble2;
@@ -556,7 +556,7 @@ begin
 				when occ21 => state := occ22a;
 				when occ22a => state := occ22;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					report_error (temp1, 0.0);
+					--report_error (temp1, 0.0);
 					nibble2 <= temp1 (3 downto 0); -- occrowA
 				when occ22 => state := occ23;
 					dia <= out_nibble2;
@@ -898,7 +898,7 @@ begin
 				when occ117 => state := occ117a;
 				when occ117a => state := occ118;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					report_error (temp1, 0.0);
+					--report_error (temp1, 0.0);
 					nibble2 <= temp1 (3 downto 0); -- occcolA
 				when occ118 => state := occ119;
 					nibble2 <= temp1 (7 downto 4); -- occcolB
@@ -922,16 +922,19 @@ begin
 				when pow0 => state := pow1;
 					addra <= (others => '0');
 					nibble4 <= voccRemScale1;
-					voccRemScale := out_nibble4; -- 2^occscaleremnant
 				when pow1 => state := pow2;
 					nibble4 <= voccColumnScale1;
-					voccColumnScale := out_nibble4; -- 2^occscalecolumn
+					voccRemScale := out_nibble4; -- 2^occscaleremnant
+					report "voccRemScale : " & real'image (ap_slv2fp (voccRemScale));
 				when pow2 => state := pow3;
 					nibble4 <= voccRowScale1;
-					voccRowScale := out_nibble4; -- 2^occscalerow
+					voccColumnScale := out_nibble4; -- 2^occscalecolumn
+					report "voccColumnScale : " & real'image (ap_slv2fp (voccColumnScale));
 				when pow3 => state := pow4;
+					voccRowScale := out_nibble4; -- 2^occscalerow
+					report "voccRowScale : " & real'image (ap_slv2fp (voccRowScale));
 					voffsetRef_sf := resize (to_sfixed (voffsetRef, eeprom16sf), voffsetRef_sf);
-					report_error (voffsetRef, 0.0);
+					--report_error (voffsetRef, 0.0);
 					fixed2floatce <= '1';
 					fixed2floatond <= '1';
 					fixed2floata <= 
@@ -940,6 +943,7 @@ begin
 				when pow4 =>
 					if (fixed2floatrdy = '1') then state := pow5;
 						vOffsetAverage := fixed2floatr;
+						report "vOffsetAverage : " & real'image (ap_slv2fp (vOffsetAverage));
 						fixed2floatce <= '0';
 						fixed2floatond <= '0';
 						fixed2floatsclr <= '1';
@@ -950,20 +954,26 @@ begin
 	col := 0;
 	i := 0;
 when s0 => state := s1; 	--1
+	report "====================";
+	vOffset_ft := (others => '0');
 	write_enable <= '0';
-	i2c_mem_addra <= std_logic_vector (to_unsigned (48+(2*i), 12)); -- offset LSB 0
+	i2c_mem_addra <= std_logic_vector (to_unsigned (47+(2*i), 12)); -- offset LSB 0
 	addra <= std_logic_vector (to_unsigned (col+C_ROW, 10)); -- OCCColumnJ
 when s1 => state := s1a;	--2
+	i2c_mem_addra <= (others => '0');
+	addra <= (others => '0');
 when s1a => state := s2;	--2
-	i2c_mem_addra <= std_logic_vector (to_unsigned (48+(2*i)+1, 12)); -- offset MSB 1
+	i2c_mem_addra <= std_logic_vector (to_unsigned (47+(2*i)+1, 12)); -- offset MSB 1
 	addra <= std_logic_vector (to_unsigned (row, 10)); -- OCCrowI
 	vOCCColumnJ := doa;
 	vOffset (15 downto 8) := i2c_mem_douta;
 when s2 => state := s2a; 	--3
+	i2c_mem_addra <= (others => '0');
+	addra <= (others => '0');
 when s2a => state := s3; 	--3
 	vOCCRowI := doa;
 	vOffset (7 downto 0) := i2c_mem_douta;
-	vOffset_sf := resize (to_sfixed (vOffset, eeprom16sf), vOffset_sf);
+	vOffset_sf := resize (to_sfixed (vOffset and x"fc00", eeprom16sf), vOffset_sf);
 	fixed2floatce <= '1';
 	fixed2floatond <= '1';
 	fixed2floata <= 
@@ -972,6 +982,7 @@ when s2a => state := s3; 	--3
 when s3 => 			--4
 	if (fixed2floatrdy = '1') then state := s4;
 		vOffset_ft := fixed2floatr;
+		report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
 		fixed2floatce <= '0';
 		fixed2floatond <= '0';
 		fixed2floatsclr <= '1';
@@ -982,6 +993,8 @@ when s4 => state := s5; 	--5
 	mulfpa <= vOffset_ft;
 	mulfpb <= voccRemScale;
 	mulfpond <= '1';
+	report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
+	report "voccRemScale : " & real'image (ap_slv2fp (voccRemScale));
 when s5 => 			--6
 	if (mulfprdy = '1') then state := s6;
 		vOffset_ft := mulfpr;
@@ -995,6 +1008,8 @@ when s6 => state := s7; 	--7
 	mulfpa <= vOCCColumnJ;
 	mulfpb <= voccColumnScale;
 	mulfpond <= '1';
+	report "vOCCColumnJ : " & real'image (ap_slv2fp (vOCCColumnJ));
+	report "voccColumnScale : " & real'image (ap_slv2fp (voccColumnScale));
 when s7 => 			--8
 	if (mulfprdy = '1') then state := s8;
 		vOCCColumnJ := mulfpr;
@@ -1010,6 +1025,8 @@ when s9 => state := s10; 	--10
 	mulfpa <= vOCCRowI;
 	mulfpb <= voccRowScale;
 	mulfpond <= '1';
+	report "vOCCRowI : " & real'image (ap_slv2fp (vOCCRowI));
+	report "voccRowScale : " & real'image (ap_slv2fp (voccRowScale));
 when s10 => 			--11
 	if (mulfprdy = '1') then state := s11;
 		vOCCRowI := mulfpr;
@@ -1025,6 +1042,8 @@ when s12 => state := s13; 	--13
 	addfpa <= vOffset_ft;
 	addfpb <= vOCCColumnJ;
 	addfpond <= '1';
+	report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
+	report "vOCCColumnJ : " & real'image (ap_slv2fp (vOCCColumnJ));
 when s13 => 			--14
 	if (addfprdy = '1') then state := s14;
 		vOffset_ft := addfpr;
@@ -1040,6 +1059,8 @@ when s15 => state := s16; 	--16
 	addfpa <= vOffset_ft;
 	addfpb <= vOCCRowI;
 	addfpond <= '1';
+	report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
+	report "vOCCRowI : " & real'image (ap_slv2fp (vOCCRowI));
 when s16 => 			--17
 	if (addfprdy = '1') then state := s17;
 		vOffset_ft := addfpr;
@@ -1055,6 +1076,8 @@ when s18 => state := s19; 	--19
 	addfpa <= vOffset_ft;
 	addfpb <= vOffsetAverage;
 	addfpond <= '1';
+	report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
+	report "vOffsetAverage : " & real'image (ap_slv2fp (vOffsetAverage));
 when s19 => 			--20
 	if (addfprdy = '1') then state := s20;
 		vOffset_ft := addfpr;
@@ -1068,6 +1091,7 @@ when s21 => state := s22; 	--22
 	write_enable <= '1';
 	addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vOffset_ft
 	dia <= vOffset_ft;
+	report "================vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
 	i := i + 1;
 when s22 =>
 	if (col = C_COL-1) then
@@ -1140,18 +1164,18 @@ rdy => addfprdy
 --INIT_7f => X"41700000 41600000 41500000 41400000 41300000 41200000 41100000 41000000", -- unsigned 0-15 for accremscale,accrowscale,acccolscale
 --INIT_7e => X"40e00000 40c00000 40a00000 40800000 40400000 40000000 3f800000 22000000",
 with nibble1 select out_nibble1 <= -- x - occremscale,occrowscale,occcolscale
-x"00000000" when x"0", x"3f800000" when x"1", x"40000000" when x"2", x"40400000" when x"3",
+x"22000000" when x"0", x"3f800000" when x"1", x"40000000" when x"2", x"40400000" when x"3",
 x"40800000" when x"4", x"40a00000" when x"5", x"40c00000" when x"6", x"40e00000" when x"7",
 x"41000000" when x"8", x"41100000" when x"9", x"41200000" when x"a", x"41300000" when x"b",
 x"41400000" when x"c", x"41500000" when x"d", x"41600000" when x"e", x"41700000" when x"f",
-x"00000000" when others;
+x"22000000" when others;
 
 with nibble2 select out_nibble2 <= -- >7,-16 - rows1-24,cols1-32
-x"00000000" when x"0", x"3f800000" when x"1", x"40000000" when x"2", x"40400000" when x"3",
+x"22000000" when x"0", x"3f800000" when x"1", x"40000000" when x"2", x"40400000" when x"3",
 x"40800000" when x"4", x"40a00000" when x"5", x"40c00000" when x"6", x"40e00000" when x"7",
 x"c1000000" when x"8", x"c0e00000" when x"9", x"c0c00000" when x"a", x"c0a00000" when x"b",
 x"c0800000" when x"c", x"c0400000" when x"d", x"c0000000" when x"e", x"bf800000" when x"f",
-x"00000000" when others;
+x"22000000" when others;
 
 with nibble3 select out_nibble3 <= -- >31,-64 - offset raw
 x"40e00000" when "000111",x"40c00000" when "000110",x"40a00000" when "000101",x"40800000" when "000100",x"40400000" when "000011",x"40000000" when "000010",x"3f800000" when "000001",x"22000000" when "000000",
