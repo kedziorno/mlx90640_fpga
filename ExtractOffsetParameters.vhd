@@ -484,7 +484,7 @@ begin
 				when occ3 => state := occ3a;
 				when occ3a => state := occ4;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					--report_error (temp1, 0.0);
+					----report_error (temp1, 0.0);
 				when occ4 => state := occ5;
 					nibble1 <= temp1 (3 downto 0); -- occ scale remnant
 				when occ5 => state := occ6;
@@ -513,7 +513,7 @@ begin
 				when occ10a => state := occ10;
 				when occ10 => state := occ11;
 					voffsetRef (7 downto 0) := i2c_mem_douta; -- offsetref MSB
-					--report_error (voffsetRef, 0.0);
+					----report_error (voffsetRef, 0.0);
 				
 					
 				when occ11 => state := occ12;
@@ -525,7 +525,7 @@ begin
 				when occ13 => state := occ14a;
 				when occ14a => state := occ14;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					--report_error (temp1, 0.0);
+					----report_error (temp1, 0.0);
 					nibble2 <= temp1 (3 downto 0); -- occrowA
 				when occ14 => state := occ15;
 					dia <= out_nibble2;
@@ -556,7 +556,7 @@ begin
 				when occ21 => state := occ22a;
 				when occ22a => state := occ22;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					--report_error (temp1, 0.0);
+					----report_error (temp1, 0.0);
 					nibble2 <= temp1 (3 downto 0); -- occrowA
 				when occ22 => state := occ23;
 					dia <= out_nibble2;
@@ -898,7 +898,7 @@ begin
 				when occ117 => state := occ117a;
 				when occ117a => state := occ118;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					--report_error (temp1, 0.0);
+					----report_error (temp1, 0.0);
 					nibble2 <= temp1 (3 downto 0); -- occcolA
 				when occ118 => state := occ119;
 					nibble2 <= temp1 (7 downto 4); -- occcolB
@@ -925,16 +925,16 @@ begin
 				when pow1 => state := pow2;
 					nibble4 <= voccColumnScale1;
 					voccRemScale := out_nibble4; -- 2^occscaleremnant
-					report "voccRemScale : " & real'image (ap_slv2fp (voccRemScale));
+					--report "voccRemScale : " & real'image (ap_slv2fp (voccRemScale));
 				when pow2 => state := pow3;
 					nibble4 <= voccRowScale1;
 					voccColumnScale := out_nibble4; -- 2^occscalecolumn
-					report "voccColumnScale : " & real'image (ap_slv2fp (voccColumnScale));
+					--report "voccColumnScale : " & real'image (ap_slv2fp (voccColumnScale));
 				when pow3 => state := pow4;
 					voccRowScale := out_nibble4; -- 2^occscalerow
-					report "voccRowScale : " & real'image (ap_slv2fp (voccRowScale));
+					--report "voccRowScale : " & real'image (ap_slv2fp (voccRowScale));
 					voffsetRef_sf := resize (to_sfixed (voffsetRef, eeprom16sf), voffsetRef_sf);
-					--report_error (voffsetRef, 0.0);
+					----report_error (voffsetRef, 0.0);
 					fixed2floatce <= '1';
 					fixed2floatond <= '1';
 					fixed2floata <= 
@@ -943,7 +943,7 @@ begin
 				when pow4 =>
 					if (fixed2floatrdy = '1') then state := pow5;
 						vOffsetAverage := fixed2floatr;
-						report "vOffsetAverage : " & real'image (ap_slv2fp (vOffsetAverage));
+						--report "vOffsetAverage : " & real'image (ap_slv2fp (vOffsetAverage));
 						fixed2floatce <= '0';
 						fixed2floatond <= '0';
 						fixed2floatsclr <= '1';
@@ -954,7 +954,7 @@ begin
 	col := 0;
 	i := 0;
 when s0 => state := s1; 	--1
-	report "====================";
+	--report "====================";
 	vOffset_ft := (others => '0');
 	write_enable <= '0';
 	i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i), 12)); -- offset LSB 0
@@ -966,24 +966,24 @@ when s1a => state := s2;	--2
 	i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i)+1, 12)); -- offset MSB 1
 	addra <= std_logic_vector (to_unsigned (row, 10)); -- OCCrowI
 	vOCCColumnJ := doa;
-	report "vOCCColumnJ : " & real'image (ap_slv2fp (vOCCColumnJ));
+	--report "vOCCColumnJ : " & real'image (ap_slv2fp (vOCCColumnJ));
 	vOffset (15 downto 8) := i2c_mem_douta;
 when s2 => state := s2a; 	--3
 	i2c_mem_addra <= (others => '0');
 	addra <= (others => '0');
 when s2a => state := s4; 	--3
 	vOCCRowI := doa;
-	report "vOCCRowI : " & real'image (ap_slv2fp (vOCCRowI));
+	--report "vOCCRowI : " & real'image (ap_slv2fp (vOCCRowI));
 	vOffset (7 downto 0) := i2c_mem_douta;
-	report_error (vOffset, 0.0);
+	--report_error (vOffset, 0.0);
 	nibble3 <= vOffset (15 downto 10);
 when s4 => state := s5; 	--5
 	mulfpce <= '1';
 	mulfpa <= out_nibble3;
 	mulfpb <= voccRemScale;
 	mulfpond <= '1';
-	report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
-	report "voccRemScale : " & real'image (ap_slv2fp (voccRemScale));
+	--report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
+	--report "voccRemScale : " & real'image (ap_slv2fp (voccRemScale));
 when s5 => 			--6
 	if (mulfprdy = '1') then state := s6;
 		vOffset_ft := mulfpr;
@@ -997,8 +997,8 @@ when s6 => state := s7; 	--7
 	mulfpa <= vOCCColumnJ;
 	mulfpb <= voccColumnScale;
 	mulfpond <= '1';
-	report "vOCCColumnJ : " & real'image (ap_slv2fp (vOCCColumnJ));
-	report "voccColumnScale : " & real'image (ap_slv2fp (voccColumnScale));
+	--report "vOCCColumnJ : " & real'image (ap_slv2fp (vOCCColumnJ));
+	--report "voccColumnScale : " & real'image (ap_slv2fp (voccColumnScale));
 when s7 => 			--8
 	if (mulfprdy = '1') then state := s8;
 		vOCCColumnJ := mulfpr;
@@ -1014,8 +1014,8 @@ when s9 => state := s10; 	--10
 	mulfpa <= vOCCRowI;
 	mulfpb <= voccRowScale;
 	mulfpond <= '1';
-	report "vOCCRowI : " & real'image (ap_slv2fp (vOCCRowI));
-	report "voccRowScale : " & real'image (ap_slv2fp (voccRowScale));
+	--report "vOCCRowI : " & real'image (ap_slv2fp (vOCCRowI));
+	--report "voccRowScale : " & real'image (ap_slv2fp (voccRowScale));
 when s10 => 			--11
 	if (mulfprdy = '1') then state := s11;
 		vOCCRowI := mulfpr;
@@ -1031,8 +1031,8 @@ when s12 => state := s13; 	--13
 	addfpa <= vOffset_ft;
 	addfpb <= vOCCColumnJ;
 	addfpond <= '1';
-	report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
-	report "vOCCColumnJ : " & real'image (ap_slv2fp (vOCCColumnJ));
+	--report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
+	--report "vOCCColumnJ : " & real'image (ap_slv2fp (vOCCColumnJ));
 when s13 => 			--14
 	if (addfprdy = '1') then state := s14;
 		vOffset_ft := addfpr;
@@ -1048,8 +1048,8 @@ when s15 => state := s16; 	--16
 	addfpa <= vOffset_ft;
 	addfpb <= vOCCRowI;
 	addfpond <= '1';
-	report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
-	report "vOCCRowI : " & real'image (ap_slv2fp (vOCCRowI));
+	--report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
+	--report "vOCCRowI : " & real'image (ap_slv2fp (vOCCRowI));
 when s16 => 			--17
 	if (addfprdy = '1') then state := s17;
 		vOffset_ft := addfpr;
@@ -1065,8 +1065,8 @@ when s18 => state := s19; 	--19
 	addfpa <= vOffset_ft;
 	addfpb <= vOffsetAverage;
 	addfpond <= '1';
-	report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
-	report "vOffsetAverage : " & real'image (ap_slv2fp (vOffsetAverage));
+	--report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
+	--report "vOffsetAverage : " & real'image (ap_slv2fp (vOffsetAverage));
 when s19 => 			--20
 	if (addfprdy = '1') then state := s20;
 		vOffset_ft := addfpr;
@@ -1080,7 +1080,7 @@ when s21 => state := s22; 	--22
 	write_enable <= '1';
 	addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vOffset_ft
 	dia <= vOffset_ft;
-	report "================vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
+	--report "================vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
 	i := i + 1;
 when s22 =>
 	if (col = C_COL-1) then
