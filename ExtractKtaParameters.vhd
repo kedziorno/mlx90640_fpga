@@ -393,16 +393,16 @@ x"00000000" when others;
 --end case;
 
 cole <= '1' when (col mod 2) = 0 else '0' when (col mod 2) = 1; -- column even
-rowe <= '1' when (row mod 2) = 0 else '0' when (row mod 2) = 0; -- row even
+rowe <= '1' when (row mod 2) = 0 else '0' when (row mod 2) = 1; -- row even
 
 p1 : process (cole,rowe,ktarcee_oo,ktarcee_eo,ktarcee_oe,ktarcee_ee) is
 	variable a : std_logic_vector (1 downto 0);
 begin
-	a := cole&rowe;
+	a := rowe&cole;
 case (a) is
 	when "00" => ktarcee <= ktarcee_oo;
-	when "01" => ktarcee <= ktarcee_eo;
-	when "10" => ktarcee <= ktarcee_oe;
+	when "10" => ktarcee <= ktarcee_eo;
+	when "01" => ktarcee <= ktarcee_oe;
 	when "11" => ktarcee <= ktarcee_ee;
 	when others => ktarcee <= (others => '0');
 end case;
@@ -589,7 +589,7 @@ begin
 				when kta12 => state := kta13;
 					ktarcee_ft := mem_signed256_ovalue;
 				when kta13 => state := kta14;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (54*2+5, 12)); -- 2438 MSB - ktascale1/ktascale2				
+					i2c_mem_addra <= std_logic_vector (to_unsigned (54*2+5, 12)); -- 2438 LSB - ktascale1/ktascale2				
 				when kta14 => state := kta15;
 				when kta15 => state := kta16;
 					nibble1 <= i2c_mem_douta (7 downto 4); -- ktascale1
@@ -602,7 +602,7 @@ begin
 					nibble3 <= i2c_mem_douta (3 downto 1);
 				when kta19 => state := kta20;
 	mulfpce <= '1';
-	mulfpa <= out_nibble3; -- kta
+	mulfpa <= out_nibble3; -- kta_ee
 	mulfpb <= out_nibble2; -- 2^ktascale2
 	mulfpond <= '1';
 --	--report "vAlphaPixel : " & real'image (ap_slv2fp (out_nibble3));
@@ -635,8 +635,8 @@ when kta23 => state := kta24; 	--7
 
 
 	divfpce <= '1';
-	divfpa <= kta_ft; -- kta_ee*2^ktascale2
-	divfpb <= out_nibble1; -- ktascale1
+	divfpa <= kta_ft; -- ktarcee+kta_ee*2^ktascale2
+	divfpb <= out_nibble1; -- 2^ktascale1
 	divfpond <= '1';
 --	--report "vAlphaPixel : " & real'image (ap_slv2fp (out_nibble3));
 --	--report "vktaRemScale : " & real'image (ap_slv2fp (vktaRemScale));
@@ -654,8 +654,8 @@ when kta26 => state := kta27; 	--22
 	write_enable <= '1';
 	addra <= std_logic_vector (to_unsigned (i, 10)); -- kta
 	dia <= kta_ft;
---	--report "================vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
-	----report_error (vAlphaPixel_ft,0.0);
+	report "================kta_ft : " & real'image (ap_slv2fp (kta_ft));
+	----report_error (kta_ft,0.0);
 	i := i + 1;
 when kta27 =>
 	if (col = C_COL-1) then
