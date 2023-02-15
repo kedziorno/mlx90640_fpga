@@ -957,13 +957,13 @@ when s0 => state := s1; 	--1
 	report "====================";
 	vOffset_ft := (others => '0');
 	write_enable <= '0';
-	i2c_mem_addra <= std_logic_vector (to_unsigned (32+48+(2*i), 12)); -- offset LSB 0
+	i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i), 12)); -- offset LSB 0
 	addra <= std_logic_vector (to_unsigned (col+C_ROW, 10)); -- OCCColumnJ
 when s1 => state := s1a;	--2
 	i2c_mem_addra <= (others => '0');
 	addra <= (others => '0');
 when s1a => state := s2;	--2
-	i2c_mem_addra <= std_logic_vector (to_unsigned (32+48+(2*i)+1, 12)); -- offset MSB 1
+	i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i)+1, 12)); -- offset MSB 1
 	addra <= std_logic_vector (to_unsigned (row, 10)); -- OCCrowI
 	vOCCColumnJ := doa;
 	vOffset (15 downto 8) := i2c_mem_douta;
@@ -973,6 +973,7 @@ when s2 => state := s2a; 	--3
 when s2a => state := s3; 	--3
 	vOCCRowI := doa;
 	vOffset (7 downto 0) := i2c_mem_douta;
+	report_error (vOffset, 0.0);
 	nibble3 <= vOffset (15 downto 10);
 --	vOffset_sf := resize (to_sfixed (vOffset and x"fc00", eeprom16sf), vOffset_sf);
 --	fixed2floatce <= '1';
@@ -1180,7 +1181,7 @@ x"c0800000" when x"c", x"c0400000" when x"d", x"c0000000" when x"e", x"bf800000"
 x"00000000" when others;
 
 with nibble3 select out_nibble3 <= -- >31,-64 - offset raw
-x"40e00000" when "000111",x"40c00000" when "000110",x"40a00000" when "000101",x"40800000" when "000100",x"40400000" when "000011",x"40000000" when "000010",x"3f800000" when "000001",x"22000000" when "000000",
+x"40e00000" when "000111",x"40c00000" when "000110",x"40a00000" when "000101",x"40800000" when "000100",x"40400000" when "000011",x"40000000" when "000010",x"3f800000" when "000001",x"00000000" when "000000",
 x"41700000" when "001111",x"41600000" when "001110",x"41500000" when "001101",x"41400000" when "001100",x"41300000" when "001011",x"41200000" when "001010",x"41100000" when "001001",x"41000000" when "001000",
 x"41b80000" when "010111",x"41b00000" when "010110",x"41a80000" when "010101",x"41a00000" when "010100",x"41980000" when "010011",x"41900000" when "010010",x"41880000" when "010001",x"41800000" when "010000",
 x"41f80000" when "011111",x"41f00000" when "011110",x"41e80000" when "011101",x"41e00000" when "011100",x"41d80000" when "011011",x"41d00000" when "011010",x"41c80000" when "011001",x"41c00000" when "011000",
