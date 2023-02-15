@@ -491,7 +491,7 @@ begin
 				when acc3 => state := acc3a;
 				when acc3a => state := acc4;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					----report_error (temp1, 0.0);
+					--------report_error (temp1, 0.0);
 				when acc4 => state := acc5;
 					nibble1 <= temp1 (3 downto 0); -- acc scale remnant
 				when acc5 => state := acc6;
@@ -534,7 +534,7 @@ begin
 				when acc13 => state := acc14a;
 				when acc14a => state := acc14;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					----report_error (temp1, 0.0);
+					--------report_error (temp1, 0.0);
 					nibble2 <= temp1 (3 downto 0); -- accrowA
 				when acc14 => state := acc15;
 					dia <= out_nibble2;
@@ -565,7 +565,7 @@ begin
 				when acc21 => state := acc22a;
 				when acc22a => state := acc22;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					----report_error (temp1, 0.0);
+					--------report_error (temp1, 0.0);
 					nibble2 <= temp1 (3 downto 0); -- accrowA
 				when acc22 => state := acc23;
 					dia <= out_nibble2;
@@ -907,7 +907,7 @@ begin
 				when acc117 => state := acc117a;
 				when acc117a => state := acc118;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					----report_error (temp1, 0.0);
+					--------report_error (temp1, 0.0);
 					nibble2 <= temp1 (3 downto 0); -- acccolA
 				when acc118 => state := acc119;
 					nibble2 <= temp1 (7 downto 4); -- acccolB
@@ -943,7 +943,7 @@ begin
 					vaccRowScale := out_nibble4; -- 2^accscalerow
 					--report "vaccRowScale : " & real'image (ap_slv2fp (vaccRowScale));
 					valphaRef_sf := resize (to_sfixed (valphaRef, eeprom16sf), valphaRef_sf);
-					----report_error (valphaRef, 0.0);
+					--------report_error (valphaRef, 0.0);
 					fixed2floatce <= '1';
 					fixed2floatond <= '1';
 					fixed2floata <= 
@@ -963,7 +963,7 @@ begin
 	col := 0;
 	i := 0;
 when s0 => state := s1; 	--1
-	--report "====================";
+	----report "====================";
 	vAlphaPixel_ft := (others => '0');
 	write_enable <= '0';
 	i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i), 12)); -- offset LSB 0
@@ -975,24 +975,24 @@ when s1a => state := s2;	--2
 	i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i)+1, 12)); -- offset MSB 1
 	addra <= std_logic_vector (to_unsigned (row, 10)); -- accrowI
 	vaccColumnJ := doa;
-	--report "vaccColumnJ : " & real'image (ap_slv2fp (vaccColumnJ));
+--	--report "vaccColumnJ : " & real'image (ap_slv2fp (vaccColumnJ));
 	vAlphaPixel (15 downto 8) := i2c_mem_douta;
 when s2 => state := s2a; 	--3
 	i2c_mem_addra <= (others => '0');
 	addra <= (others => '0');
 when s2a => state := s4; 	--3
 	vaccRowI := doa;
-	--report "vaccRowI : " & real'image (ap_slv2fp (vaccRowI));
+--	--report "vaccRowI : " & real'image (ap_slv2fp (vaccRowI));
 	vAlphaPixel (7 downto 0) := i2c_mem_douta;
-	--report_error (vAlphaPixel, 0.0);
+--	----report_error (vAlphaPixel, 0.0);
 	nibble3 <= vAlphaPixel (9 downto 4);
 when s4 => state := s5; 	--5
 	mulfpce <= '1';
 	mulfpa <= out_nibble3;
 	mulfpb <= vaccRemScale;
 	mulfpond <= '1';
-	--report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
-	--report "vaccRemScale : " & real'image (ap_slv2fp (vaccRemScale));
+--	--report "vAlphaPixel : " & real'image (ap_slv2fp (out_nibble3));
+--	--report "vaccRemScale : " & real'image (ap_slv2fp (vaccRemScale));
 when s5 => 			--6
 	if (mulfprdy = '1') then state := s6;
 		vAlphaPixel_ft := mulfpr;
@@ -1006,8 +1006,8 @@ when s6 => state := s7; 	--7
 	mulfpa <= vaccColumnJ;
 	mulfpb <= vaccColumnScale;
 	mulfpond <= '1';
-	--report "vaccColumnJ : " & real'image (ap_slv2fp (vaccColumnJ));
-	--report "vaccColumnScale : " & real'image (ap_slv2fp (vaccColumnScale));
+--	--report "vaccColumnJ : " & real'image (ap_slv2fp (vaccColumnJ));
+--	--report "vaccColumnScale : " & real'image (ap_slv2fp (vaccColumnScale));
 when s7 => 			--8
 	if (mulfprdy = '1') then state := s8;
 		vaccColumnJ := mulfpr;
@@ -1023,8 +1023,8 @@ when s9 => state := s10; 	--10
 	mulfpa <= vaccRowI;
 	mulfpb <= vaccRowScale;
 	mulfpond <= '1';
-	--report "vaccRowI : " & real'image (ap_slv2fp (vaccRowI));
-	--report "vaccRowScale : " & real'image (ap_slv2fp (vaccRowScale));
+--	--report "vaccRowI : " & real'image (ap_slv2fp (vaccRowI));
+--	--report "vaccRowScale : " & real'image (ap_slv2fp (vaccRowScale));
 when s10 => 			--11
 	if (mulfprdy = '1') then state := s11;
 		vaccRowI := mulfpr;
@@ -1040,8 +1040,8 @@ when s12 => state := s13; 	--13
 	addfpa <= vAlphaPixel_ft;
 	addfpb <= vaccColumnJ;
 	addfpond <= '1';
-	--report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
-	--report "vaccColumnJ : " & real'image (ap_slv2fp (vaccColumnJ));
+--	--report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
+--	--report "vaccColumnJ : " & real'image (ap_slv2fp (vaccColumnJ));
 when s13 => 			--14
 	if (addfprdy = '1') then state := s14;
 		vAlphaPixel_ft := addfpr;
@@ -1057,8 +1057,8 @@ when s15 => state := s16; 	--16
 	addfpa <= vAlphaPixel_ft;
 	addfpb <= vaccRowI;
 	addfpond <= '1';
-	--report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
-	--report "vaccRowI : " & real'image (ap_slv2fp (vaccRowI));
+--	--report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
+--	--report "vaccRowI : " & real'image (ap_slv2fp (vaccRowI));
 when s16 => 			--17
 	if (addfprdy = '1') then state := s17;
 		vAlphaPixel_ft := addfpr;
@@ -1074,8 +1074,8 @@ when s18 => state := s19; 	--19
 	addfpa <= vAlphaPixel_ft;
 	addfpb <= valphaReference_ft;
 	addfpond <= '1';
-	--report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
-	--report "valphaReference_ft : " & real'image (ap_slv2fp (valphaReference_ft));
+--	--report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
+--	--report "valphaReference_ft : " & real'image (ap_slv2fp (valphaReference_ft));
 when s19 => 			--20
 	if (addfprdy = '1') then state := s20;
 		vAlphaPixel_ft := addfpr;
@@ -1089,6 +1089,8 @@ when s20 => state := s21; 	--21
 	divfpa <= vAlphaPixel_ft;
 	divfpb <= out_nibble5;
 	divfpond <= '1';
+--	--report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
+--	--report "out_nibble5 : " & real'image (ap_slv2fp (out_nibble5));
 when s21 =>
 	if (divfprdy = '1') then state := s22;
 		vAlphaPixel_ft := divfpr;
@@ -1102,7 +1104,8 @@ when s23 => state := s24; 	--22
 	write_enable <= '1';
 	addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vAlphaPixel_ft
 	dia <= vAlphaPixel_ft;
-	--report "================vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
+--	--report "================vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
+	----report_error (vAlphaPixel_ft,0.0);
 	i := i + 1;
 when s24 =>
 	if (col = C_COL-1) then
@@ -1199,14 +1202,14 @@ x"c1100000" when "110111",x"c1200000" when "110110",x"c1300000" when "110101",x"
 x"bf800000" when "111111",x"c0000000" when "111110",x"c0400000" when "111101",x"c0800000" when "111100",x"c0a00000" when "111011",x"c0c00000" when "111010",x"c0e00000" when "111001",x"c1000000" when "111000",
 x"00000000" when others;
 
---INIT_7d => X"42340000 42300000 422c0000 42280000 42240000 42200000 421c0000 42180000", -- unsigned 0-15 +30 for alphascale
---INIT_7c => X"42140000 42100000 420c0000 42080000 42040000 42000000 41f80000 41f00000",
-with nibble5 select out_nibble5 <= -- x+30 - alphascale
-x"41f00000" when x"0", x"41f80000" when x"1", x"42000000" when x"2", x"42040000" when x"3",
-x"42080000" when x"4", x"420c0000" when x"5", x"42100000" when x"6", x"42140000" when x"7",
-x"42180000" when x"8", x"421c0000" when x"9", x"42200000" when x"a", x"42240000" when x"b",
-x"42280000" when x"c", x"422c0000" when x"d", x"42300000" when x"e", x"42340000" when x"f",
-x"22000000" when others;
+--INIT_01 => X"56000000 55800000 55000000 54800000 54000000 53800000 53000000 52800000", -- unsigned 0-15 - 2^(x+30)
+--INIT_00 => X"52000000 51800000 51000000 50800000 50000000 4f800000 4f000000 4e800000", 
+with nibble5 select out_nibble5 <= -- 2^(x+30) - 2^alphascale
+x"4e800000" when x"0", x"4f000000" when x"1", x"4f800000" when x"2", x"50000000" when x"3",
+x"50800000" when x"4", x"51000000" when x"5", x"51800000" when x"6", x"52000000" when x"7",
+x"52800000" when x"8", x"53000000" when x"9", x"53800000" when x"a", x"54000000" when x"b",
+x"54800000" when x"c", x"55000000" when x"d", x"55800000" when x"e", x"56000000" when x"f",
+x"00000000" when others;
 
 --INIT_01 => X"47000000 46800000 46000000 45800000 45000000 44800000 44000000 43800000",
 --INIT_00 => X"43000000 42800000 42000000 41800000 41000000 40800000 40000000 3f800000",
