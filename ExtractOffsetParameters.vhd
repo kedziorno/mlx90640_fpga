@@ -547,7 +547,7 @@ begin
 
 
 				when occ19 => state := occ20;
-					addra <= (others => '0');
+--					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+6, 12)); -- 2413 LSB -- occrow5-8
 				when occ20 => state := occ20a;
 				when occ20a => state := occ21;
@@ -576,7 +576,7 @@ begin
 
 
 				when occ27 => state := occ28;
-					addra <= (others => '0');
+--					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+8, 12)); -- 2414 LSB -- occrow9-12
 				when occ28 => state := occ28a;
 				when occ28a => state := occ29;
@@ -605,7 +605,7 @@ begin
 
 
 				when occ35 => state := occ36;
-					addra <= (others => '0');
+--					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+10, 12)); -- 2415 LSB -- occrow13-16
 				when occ36 => state := occ36a;
 				when occ36a => state := occ37;
@@ -634,7 +634,7 @@ begin
 
 
 				when occ43 => state := occ44;
-					addra <= (others => '0');
+--					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+12, 12)); -- 2416 LSB -- occrow17-20
 				when occ44 => state := occ44a;
 				when occ44a => state := occ45;
@@ -662,7 +662,7 @@ begin
 
 
 				when occ51 => state := occ52;
-					addra <= (others => '0');
+--					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+14, 12)); -- 2417 LSB -- occrow21-24
 				when occ52 => state := occ52a;
 				when occ52a => state := occ53;
@@ -690,7 +690,7 @@ begin
 
 
 				when occ59 => state := occ60;
-					addra <= (others => '0');
+--					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+16, 12)); -- 2418 LSB -- occcol1-4
 				when occ60 => state := occ60a;
 				when occ60a => state := occ61;
@@ -718,7 +718,7 @@ begin
 
 
 				when occ67 => state := occ68;
-					addra <= (others => '0');
+--					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+18, 12)); -- 2419 LSB -- occcol5-8
 				when occ68 => state := occ68a;
 				when occ68a => state := occ69;
@@ -746,7 +746,7 @@ begin
 
 
 				when occ75 => state := occ76;
-					addra <= (others => '0');
+--					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+20, 12)); -- 241a LSB -- occcol9-12
 				when occ76 => state := occ76a;
 				when occ76a => state := occ77;
@@ -774,7 +774,7 @@ begin
 
 
 				when occ83 => state := occ84;
-					addra <= (others => '0');
+--					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+22, 12)); -- 241b LSB -- occcol13-16
 				when occ84 => state := occ84a;
 				when occ84a => state := occ85;
@@ -802,7 +802,7 @@ begin
 
 
 				when occ91 => state := occ92;
-					addra <= (others => '0');
+--					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+24, 12)); -- 241c LSB -- occcol17-20
 				when occ92 => state := occ92a;
 				when occ92a => state := occ93;
@@ -831,7 +831,7 @@ begin
 
 
 				when occ99 => state := occ100;
-					addra <= (others => '0');
+--					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+26, 12)); -- 241d LSB -- occcol21-24
 				when occ100 => state := occ100a;
 				when occ100a => state := occ101;
@@ -860,7 +860,7 @@ begin
 
 
 				when occ107 => state := occ108;
-					addra <= (others => '0');
+--					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+28, 12)); -- 241e LSB -- occcol25-28
 				when occ108 => state := occ108a;
 				when occ108a => state := occ109;
@@ -889,7 +889,7 @@ begin
 
 
 				when occ115 => state := occ116;
-					addra <= (others => '0');
+--					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+30, 12)); -- 241f LSB -- occcol29-32
 				when occ116 => state := occ116a;
 				when occ116a => state := occ117;
