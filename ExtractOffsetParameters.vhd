@@ -720,7 +720,7 @@ begin
 				when occ67 => state := occ68;
 					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (18, 12)); -- 2419 LSB -- occcol5-8
-				when occ68 => state := occ69a;
+				when occ68 => state := occ68a;
 				when occ68a => state := occ69;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (19, 12)); -- 2419 MSB -- occcol5-8
 					temp1 (15 downto 8) := i2c_mem_douta;
