@@ -966,34 +966,20 @@ when s1a => state := s2;	--2
 	i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i)+1, 12)); -- offset MSB 1
 	addra <= std_logic_vector (to_unsigned (row, 10)); -- OCCrowI
 	vOCCColumnJ := doa;
+	report "vOCCColumnJ : " & real'image (ap_slv2fp (vOCCColumnJ));
 	vOffset (15 downto 8) := i2c_mem_douta;
 when s2 => state := s2a; 	--3
 	i2c_mem_addra <= (others => '0');
 	addra <= (others => '0');
-when s2a => state := s3; 	--3
+when s2a => state := s4; 	--3
 	vOCCRowI := doa;
+	report "vOCCRowI : " & real'image (ap_slv2fp (vOCCRowI));
 	vOffset (7 downto 0) := i2c_mem_douta;
 	report_error (vOffset, 0.0);
 	nibble3 <= vOffset (15 downto 10);
---	vOffset_sf := resize (to_sfixed (vOffset and x"fc00", eeprom16sf), vOffset_sf);
---	fixed2floatce <= '1';
---	fixed2floatond <= '1';
---	fixed2floata <= 
---	to_slv (to_sfixed (to_slv (vOffset_sf (fracas'high downto fracas'low)), fracas))&
---	to_slv (to_sfixed (to_slv (vOffset_sf (fracbs'high downto fracbs'low)), fracbs));
-when s3 => state := s4;			--4
-	vOffset_ft := out_nibble3;
---	if (fixed2floatrdy = '1') then state := s4;
---		vOffset_ft := fixed2floatr;
---		report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
---		fixed2floatce <= '0';
---		fixed2floatond <= '0';
---		fixed2floatsclr <= '1';
---	else state := s3; end if;
 when s4 => state := s5; 	--5
---	fixed2floatsclr <= '0';
 	mulfpce <= '1';
-	mulfpa <= vOffset_ft;
+	mulfpa <= out_nibble3;
 	mulfpb <= voccRemScale;
 	mulfpond <= '1';
 	report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
