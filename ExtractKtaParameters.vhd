@@ -370,27 +370,10 @@ x"00000000" when others;
 
 --INIT_01 => X"40e00000 40c00000 40a00000 40800000 40400000 40000000 3f800000 00000000",
 --INIT_00 => X"bf800000 c0000000 c0400000 c0800000 40400000 40000000 3f800000 00000000",
-with nibble3 select out_nibble3 <= -- x signed (000e / 2) 0-7, >3,-8
+with nibble3 select out_nibble3 <= -- x signed (000e / 2) 0-7, >3,-8 - kta(i,j)_ee
 x"00000000" when "000", x"3f800000" when "001", x"40000000" when "010", x"40400000" when "011",
 x"c0800000" when "100", x"c0400000" when "101", x"c0000000" when "110", x"bf800000" when "111",
 x"00000000" when others;
-
---cole <= '1' when (col mod 2) = 0 else '0'; -- column even
---colo <= '1' when (col mod 2) = 1 else '0'; -- column odd
---rowe <= '1' when (row mod 2) = 0 else '0'; -- column even
---rowo <= '1' when (row mod 2) = 1 else '0'; -- column odd
---
---p1 : process (cole,colo,rowe,rowo,ktarcee_oo,ktarcee_eo,ktarcee_oe,ktarcee_ee) is
---	variable a : std_logic_vector (3 downto 0);
---begin
---	a := cole&colo&rowe&rowo;
---case (a) is
---	when "0001" => ktarcee <= ktarcee_oo;
---	when "0010" => ktarcee <= ktarcee_eo;
---	when "0100" => ktarcee <= ktarcee_oe;
---	when "1000" => ktarcee <= ktarcee_ee;
---	when others => ktarcee <= (others => '0');
---end case;
 
 cole <= '1' when (col mod 2) = 0 else '0' when (col mod 2) = 1; -- column even
 rowe <= '1' when (row mod 2) = 0 else '0' when (row mod 2) = 1; -- row even
@@ -599,7 +582,7 @@ begin
 					i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i)+1, 12)); -- kta LSB 1
 				when kta17 => state := kta18;
 				when kta18 => state := kta19;
-					nibble3 <= i2c_mem_douta (3 downto 1);
+					nibble3 <= i2c_mem_douta (3 downto 1); -- kta_ee 3bit
 				when kta19 => state := kta20;
 	mulfpce <= '1';
 	mulfpa <= out_nibble3; -- kta_ee
@@ -654,24 +637,26 @@ when kta26 => state := kta27; 	--22
 	write_enable <= '1';
 	addra <= std_logic_vector (to_unsigned (i, 10)); -- kta
 	dia <= kta_ft;
-	report "================kta_ft : " & real'image (ap_slv2fp (kta_ft));
-	----report_error (kta_ft,0.0);
-	i := i + 1;
+--	report "================kta_ft : " & real'image (ap_slv2fp (kta_ft));
+--	report_error (kta_ft,0.0);
 when kta27 =>
+	i := i + 1;
+	write_enable <= '0';
 	if (col = C_COL-1) then
 		col <= 0;
 		state := kta28;
 	else
 		col <= col + 1;
-		state := kta16;
+		state := kta1;
 	end if;
 when kta28 =>
+	write_enable <= '0';
 	if (row = C_ROW-1) then
 		row <= 0;
 		state := ending;
 	else
 		row <= row + 1;
-		state := kta16;
+		state := kta1;
 	end if;
 
 				when ending => state := idle;
