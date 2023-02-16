@@ -287,7 +287,9 @@ END PROCESS tb_run;
 
 tb_wait : PROCESS
 BEGIN
-wait for 1.5 ms;
+--wait for 1.5 ms;
+--wait until o_rdy = '1';
+wait;
 report "tb - done simulation - tb" severity failure;
 END PROCESS tb_wait;
 
