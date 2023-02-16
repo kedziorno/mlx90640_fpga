@@ -647,7 +647,7 @@ when kta27 =>
 		state := kta28;
 	else
 		col <= col + 1;
-		state := kta1;
+		state := kta10;
 	end if;
 when kta28 =>
 	write_enable <= '0';
@@ -656,7 +656,7 @@ when kta28 =>
 		state := ending;
 	else
 		row <= row + 1;
-		state := kta1;
+		state := kta10;
 	end if;
 
 				when ending => state := idle;
