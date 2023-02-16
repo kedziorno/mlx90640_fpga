@@ -5,6 +5,9 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
+USE work.p_fphdl_package1.all;
+USE work.p_fphdl_package3.all;
+
 ENTITY tb_CalculatePixOS IS
 END tb_CalculatePixOS;
 
@@ -64,7 +67,11 @@ signal CalculatePixOS_rdy : std_logic;
 constant i_clock_period : time := 10 ns;
 signal i_clock : std_logic;
 
+signal out1r : real;
+
 BEGIN
+
+out1r <= ap_slv2fp (CalculatePixOS_do); -- output data
 
 uut : CalculatePixOS port map (
 i_clock => CalculatePixOS_clock,
@@ -110,12 +117,12 @@ CalculatePixOS_reset <= '1';
 wait for 100 ns; -- wait until global set/reset completes
 CalculatePixOS_reset <= '0';
 wait for i_clock_period*10;
-CalculatePixOS_KGain <= x"00000000";
-CalculatePixOS_const1 <= x"00000000";
-CalculatePixOS_Ta <= x"00000000";
-CalculatePixOS_Ta0 <= x"00000000";
-CalculatePixOS_Vdd <= x"00000000";
-CalculatePixOS_VddV0 <= x"00000000";
+CalculatePixOS_KGain <= x"3F823E9A"; -- 1.01753546947234
+CalculatePixOS_const1 <= x"3F800000"; -- 1
+CalculatePixOS_Ta <= x"421CBC6A"; -- 39.184
+CalculatePixOS_Ta0 <= x"41C80000"; -- 25
+CalculatePixOS_Vdd <= x"40546A7F"; -- 3.319
+CalculatePixOS_VddV0 <= x"40533333"; -- 3.3
 CalculatePixOS_run <= '1'; wait for i_clock_period; CalculatePixOS_run <= '0';
 wait until CalculatePixOS_rdy = '1';
 for i in 0 to 1024 loop

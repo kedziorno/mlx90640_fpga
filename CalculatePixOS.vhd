@@ -22,7 +22,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx primitives in this code.
@@ -395,8 +395,6 @@ end component mem_ramb16_s36_x2;
 signal addra,mux_addr : std_logic_vector (9 downto 0);
 signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
 
-signal ena_mux1 : std_logic;
-
 signal rdy,write_enable : std_logic;
 
 signal CalculatePixGain_mux,ExtractOffsetParameters_mux,ExtractKtaParameters_mux,ExtractKvParameters_mux : std_logic;
@@ -409,13 +407,46 @@ p0 : process (i_clock) is
 	variable i : integer range 0 to C_ROW*C_COL-1;
 	type states is (idle,
 	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,
+	s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,
+	s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,
 	ending);
 	variable state : states;
+	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
 			state := idle;
 			i := 0;
+			addfpsclr <= '1';
+			subfpsclr <= '1';
+			mulfpsclr <= '1';
+			rdy <= '0';
+			CalculatePixGain_run <= '0';
+			ExtractOffsetParameters_run <= '0';
+			ExtractKtaParameters_run <= '0';
+			ExtractKvParameters_run <= '0';
+			CalculatePixGain_mux <= '0';
+			ExtractOffsetParameters_mux <= '0';
+			ExtractKtaParameters_mux <= '0';
+			ExtractKvParameters_mux <= '0';
+			CalculatePixGain_addr <= (others => '0');
+			ExtractOffsetParameters_addr <= (others => '0');
+			ExtractKtaParameters_addr <= (others => '0');
+			ExtractKvParameters_addr <= (others => '0');
+			mulfpa <= (others => '0');
+			mulfpb <= (others => '0');
+			addfpa <= (others => '0');
+			addfpb <= (others => '0');
+			subfpa <= (others => '0');
+			subfpb <= (others => '0');
+			mulfpond <= '0';
+			addfpond <= '0';
+			subfpond <= '0';
+			mulfpce <= '0';
+			addfpce <= '0';
+			subfpce <= '0';
+			dia <= (others => '0');
+			write_enable <= '0';
 		else
 			case (state) is
 				when idle =>
@@ -425,6 +456,10 @@ begin
 						state := idle;
 					end if;
 					i := 0;
+					addfpsclr <= '0';
+					subfpsclr <= '0';
+					mulfpsclr <= '0';
+
 				when s1 => state := s2;
 					
 					
@@ -482,144 +517,145 @@ begin
 			state := s9;
 			ExtractKvParameters_mux <= '1';
 		end if;
-	when s10 => state := ending;
-					
-					
---					CalculatePixGain_addr
---					ExtractOffsetParameters_addr
---					ExtractKtaParameters_addr
---					ExtractKvParameters_addr
+	when s10 => state := s11;
+		CalculatePixGain_addr <= std_logic_vector (to_unsigned (i, 10));
+		ExtractOffsetParameters_addr <= std_logic_vector (to_unsigned (i, 10));
+		ExtractKtaParameters_addr <= std_logic_vector (to_unsigned (i, 10));
+		ExtractKvParameters_addr <= std_logic_vector (to_unsigned (i, 10));
 					
 
---when s151 => state := s152;
---		subfpce <= '1';
---		subfpa <= calculateVdd_Vdd;
---		subfpb <= const3dot3_ft;
---		subfpond <= '1';
---	when s152 =>
---		if (subfprdy = '1') then state := s153;
---			v0d_ft := subfpr;
---			outTo := subfpr;
---			subfpce <= '0';
---			subfpond <= '0';
---			subfpsclr <= '1';
---		else state := s152; end if;
---	when s153 => state := s154;
---		subfpsclr <= '0';
---		mulfpce <= '1';
---		mulfpa <= v0d_ft;
---		mulfpb <= kv1216_ft;
---		mulfpond <= '1';
---	when s154 =>
---		if (mulfprdy = '1') then state := s155;
---			fttmp1_ft := mulfpr;
---			outTo := mulfpr;
---			mulfpce <= '0';
---			mulfpond <= '0';
---			mulfpsclr <= '1';
---		else state := s154; end if;
---	when s155 => state := s156;
---		mulfpsclr <= '0';
---		addfpce <= '1';
---		addfpa <= fttmp1_ft;
---		addfpb <= const1_ft;
---		addfpond <= '1';
---	when s156 =>
---		if (addfprdy = '1') then state := s157;
---			fttmp1_ft := addfpr;
---			outTo := addfpr;
---			addfpce <= '0';
---			addfpond <= '0';
---			addfpsclr <= '1';
---		else state := s156; end if;
---	when s157 => state := s158;
---		addfpsclr <= '0';
---		subfpce <= '1';
---		subfpa <= calculateTa_Ta;
---		subfpb <= const25_ft;
---		subfpond <= '1';
---	when s158 =>
---		if (subfprdy = '1') then state := s159;
---			tad_ft := subfpr;
---			outTo := subfpr;
---			subfpce <= '0';
---			subfpond <= '0';
---			subfpsclr <= '1';
---		else state := s158; end if;
---	when s159 => state := s160;
---		subfpsclr <= '0';
---		mulfpce <= '1';
---		mulfpa <= tad_ft;
---		mulfpb <= kta1216_ft;
---		mulfpond <= '1';
---	when s160 =>
---		if (mulfprdy = '1') then state := s161;
---			fttmp2_ft := mulfpr;
---			outTo := mulfpr;
---			mulfpce <= '0';
---			mulfpond <= '0';
---			mulfpsclr <= '1';
---		else state := s160; end if;
---	when s161 => state := s162;
---		mulfpsclr <= '0';
---		addfpce <= '1';
---		addfpa <= fttmp2_ft;
---		addfpb <= const1_ft;
---		addfpond <= '1';
---	when s162 =>
---		if (addfprdy = '1') then state := s163;
---			fttmp2_ft := addfpr;
---			outTo := addfpr;
---			addfpce <= '0';
---			addfpond <= '0';
---			addfpsclr <= '1';
---		else state := s162; end if;
---	when s163 => state := s164;
---		addfpsclr <= '0';
---		mulfpce <= '1';
---		mulfpa <= fttmp1_ft;
---		mulfpb <= fttmp2_ft;
---		mulfpond <= '1';
---	when s164 =>
---		if (mulfprdy = '1') then state := s165;
---			pixos1216_ft := mulfpr;
---			outTo := mulfpr;
---			mulfpce <= '0';
---			mulfpond <= '0';
---			mulfpsclr <= '1';
---		else state := s164; end if;
---	when s165 => state := s166;
---		mulfpsclr <= '0';
---		mulfpce <= '1';
---		mulfpa <= pixos1216_ft;
---		mulfpb <= pixosref1216_ft;
---		mulfpond <= '1';
---	when s166 =>
---		if (mulfprdy = '1') then state := s167;
---			pixos1216_ft := mulfpr;
---			outTo := mulfpr;
---			mulfpce <= '0';
---			mulfpond <= '0';
---			mulfpsclr <= '1';
---		else state := s166; end if;
---	when s167 => state := s168;
---		mulfpsclr <= '0';
---		subfpce <= '1';
---		subfpa <= pixgain1216_ft;
---		subfpb <= pixos1216_ft;
---		subfpond <= '1';
---	when s168 =>
---		if (subfprdy = '1') then state := s169;
---			pixos1216_ft := subfpr;
---			outTo := subfpr;
---			subfpce <= '0';
---			subfpond <= '0';
---			subfpsclr <= '1';
---		else state := s168; end if;
---	when s169 => state := s172;
---		subfpsclr <= '0';
-
-		when ending => state := idle;
+when s11 => state := s12;
+		subfpce <= '1';
+		subfpa <= i_Vdd;
+		subfpb <= i_VddV0;
+		subfpond <= '1';
+when s12 =>
+	if (subfprdy = '1') then state := s13;
+		fptmp1 := subfpr;
+		subfpce <= '0';
+		subfpond <= '0';
+		subfpsclr <= '1';
+	else state := s12; end if;
+when s13 => state := s14;
+	subfpsclr <= '0';
+	mulfpce <= '1';
+	mulfpa <= fptmp1;
+	mulfpb <= ExtractKvParameters_do;
+	mulfpond <= '1';
+when s14 =>
+	if (mulfprdy = '1') then state := s15;
+		fptmp1 := mulfpr;
+		mulfpce <= '0';
+		mulfpond <= '0';
+		mulfpsclr <= '1';
+	else state := s14; end if;
+when s15 => state := s16;
+	mulfpsclr <= '0';
+	addfpce <= '1';
+	addfpa <= fptmp1;
+	addfpb <= i_const1;
+	addfpond <= '1';
+when s16 =>
+	if (addfprdy = '1') then state := s17;
+		fptmp1 := addfpr;
+		addfpce <= '0';
+		addfpond <= '0';
+		addfpsclr <= '1';
+	else state := s16; end if;
+when s17 => state := s18;
+	addfpsclr <= '0';
+	subfpce <= '1';
+	subfpa <= i_Ta;
+	subfpb <= i_Ta0;
+	subfpond <= '1';
+when s18 =>
+	if (subfprdy = '1') then state := s19;
+		fptmp2 := subfpr;
+		subfpce <= '0';
+		subfpond <= '0';
+		subfpsclr <= '1';
+	else state := s18; end if;
+when s19 => state := s20;
+	subfpsclr <= '0';
+	mulfpce <= '1';
+	mulfpa <= fptmp2;
+	mulfpb <= ExtractKtaParameters_do;
+	mulfpond <= '1';
+when s20 =>
+	if (mulfprdy = '1') then state := s21;
+		fptmp2 := mulfpr;
+		mulfpce <= '0';
+		mulfpond <= '0';
+		mulfpsclr <= '1';
+	else state := s20; end if;
+when s21 => state := s22;
+	mulfpsclr <= '0';
+	addfpce <= '1';
+	addfpa <= fptmp2;
+	addfpb <= i_const1;
+	addfpond <= '1';
+when s22 =>
+	if (addfprdy = '1') then state := s23;
+		fptmp2 := addfpr;
+		addfpce <= '0';
+		addfpond <= '0';
+		addfpsclr <= '1';
+	else state := s22; end if;
+when s23 => state := s24;
+	addfpsclr <= '0';
+	mulfpce <= '1';
+	mulfpa <= fptmp1;
+	mulfpb <= fptmp2;
+	mulfpond <= '1';
+when s24 =>
+	if (mulfprdy = '1') then state := s25;
+		fptmp1 := mulfpr;
+		mulfpce <= '0';
+		mulfpond <= '0';
+		mulfpsclr <= '1';
+	else state := s24; end if;
+when s25 => state := s26;
+	mulfpsclr <= '0';
+	mulfpce <= '1';
+	mulfpa <= fptmp1;
+	mulfpb <= ExtractOffsetParameters_do;
+	mulfpond <= '1';
+when s26 =>
+	if (mulfprdy = '1') then state := s27;
+		fptmp1 := mulfpr;
+		mulfpce <= '0';
+		mulfpond <= '0';
+		mulfpsclr <= '1';
+	else state := s26; end if;
+when s27 => state := s28;
+	mulfpsclr <= '0';
+	subfpce <= '1';
+	subfpa <= CalculatePixGain_do;
+	subfpb <= fptmp1;
+	subfpond <= '1';
+when s28 =>
+	if (subfprdy = '1') then state := s29;
+		fptmp1 := subfpr;
+		subfpce <= '0';
+		subfpond <= '0';
+		subfpsclr <= '1';
+	else state := s28; end if;
+when s29 => state := s30;
+	subfpsclr <= '0';
+	write_enable <= '1';
+	addra <= std_logic_vector (to_unsigned (i, 10)); -- pixos
+	dia <= fptmp1;
+	--report "================pixos : " & real'image (ap_slv2fp (fptmp1));
+when s30 =>
+	write_enable <= '0';
+	if (i = (C_ROW*C_COL)-1) then
+		state := ending;
+		i := 0;
+	else
+		state := s10;
+		i := i + 1;
+	end if;
+when ending => state := idle;
 			rdy <= '1';
 	when others => null;
 	end case;
@@ -763,6 +799,7 @@ result => addfpr,
 rdy => addfprdy
 );
 
+subfpclk <= i_clock;
 inst_subfp_pixos : subfp
 PORT MAP (
 a => subfpa,
