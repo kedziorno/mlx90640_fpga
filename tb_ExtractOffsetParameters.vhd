@@ -58,27 +58,6 @@ i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
 
---i_ee0x2410 : in slv16; -- 1-occremscale,2-occcolumnscale,3-occrowscale
---i_offsetref : in fd2ft; -- offsetref from fixed2float
---
---i_ee0x2412 : in slv16; -- occrow1-4
---i_ee0x2413 : in slv16; -- occrow5-8
---i_ee0x2414 : in slv16; -- occrow9-12
---i_ee0x2415 : in slv16; -- occrow13-16
---i_ee0x2416 : in slv16; -- occrow17-20
---i_ee0x2417 : in slv16; -- occrow21-24
---
---i_ee0x2418 : in slv16; -- occcol1-4
---i_ee0x2419 : in slv16; -- occcol5-8
---i_ee0x241a : in slv16; -- occcol9-12
---i_ee0x241b : in slv16; -- occcol13-16
---i_ee0x241c : in slv16; -- occcol17-20
---i_ee0x241d : in slv16; -- occcol21-24
---i_ee0x241e : in slv16; -- occcol25-28
---i_ee0x241f : in slv16; -- occcol29-32
---
---i_ee0x2440 : in slv16; -- offset ROWS*COLS
-
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -147,23 +126,6 @@ uut: ExtractOffsetParameters PORT MAP (
 i_clock => i_clock,
 i_reset => i_reset,
 i_run => i_run,
---i_ee0x2410 => i_ee0x2410,
---i_offsetRef => i_offsetRef,
---i_ee0x2412 => i_ee0x2412,
---i_ee0x2413 => i_ee0x2413,
---i_ee0x2414 => i_ee0x2414,
---i_ee0x2415 => i_ee0x2415,
---i_ee0x2416 => i_ee0x2416,
---i_ee0x2417 => i_ee0x2417,
---i_ee0x2418 => i_ee0x2418,
---i_ee0x2419 => i_ee0x2419,
---i_ee0x241a => i_ee0x241a,
---i_ee0x241b => i_ee0x241b,
---i_ee0x241c => i_ee0x241c,
---i_ee0x241d => i_ee0x241d,
---i_ee0x241e => i_ee0x241e,
---i_ee0x241f => i_ee0x241f,
---i_ee0x2440 => i_ee0x2440,
 
 i2c_mem_ena => i2c_mem_ena,
 i2c_mem_addra => i2c_mem_addra,
