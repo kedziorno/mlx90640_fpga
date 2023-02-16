@@ -18,6 +18,24 @@ END tb_test_fixed_melexis;
 
 ARCHITECTURE arch OF tb_test_fixed_melexis IS
 
+COMPONENT tb_i2c_mem
+PORT (
+clka : IN STD_LOGIC;
+ena : IN STD_LOGIC;
+wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+addra : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
+dina : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+);
+END COMPONENT;
+
+signal tb_i2c_mem_clka : STD_LOGIC;
+signal tb_i2c_mem_ena : STD_LOGIC;
+signal tb_i2c_mem_wea : STD_LOGIC_VECTOR(0 DOWNTO 0);
+signal tb_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal tb_i2c_mem_dina : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal tb_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+
 -- Component Declaration
 component test_fixed_melexis is
 port (
@@ -56,6 +74,9 @@ i_ee0x258f : in slv16;
 i_ee0x243d : in slv16;
 i_ee0x243f : in slv16;
 i_pixelpattern : in slv14;
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_To : out fd2ft;
 o_rdy : out std_logic
 );
@@ -73,6 +94,16 @@ constant G_C_WAIT1 : integer := 16;
 signal out1r : real;
 
 BEGIN
+
+inst_tb_i2c_mem : tb_i2c_mem
+PORT MAP (
+clka => tb_i2c_mem_clka,
+ena => tb_i2c_mem_ena,
+wea => tb_i2c_mem_wea,
+addra => tb_i2c_mem_addra,
+dina => tb_i2c_mem_dina,
+douta => tb_i2c_mem_douta
+);
 
 out1r <= ap_slv2fp (o_To);
 
@@ -114,6 +145,9 @@ i_ee0x258f => x"08a0",
 i_ee0x243d => x"9797",
 i_ee0x243f => x"2889",
 i_pixelpattern => std_logic_vector (to_unsigned (368, 14)), -- px 12,16
+i2c_mem_ena => tb_i2c_mem_ena,
+i2c_mem_addra => tb_i2c_mem_addra,
+i2c_mem_douta => tb_i2c_mem_douta,
 o_To => o_To,
 o_rdy => o_rdy
 );

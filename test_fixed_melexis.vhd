@@ -579,6 +579,139 @@ signal ExtractKvParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal ExtractKvParameters_done : std_logic;
 signal ExtractKvParameters_rdy : std_logic;
 
+component CalculateAlphaCP is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+i_ee0x2439 : in slv16; -- CP_P12P0_ratio/Acpsubpage0 - 6/10bit
+i_ee0x2420 : in slv16; -- Ascalecp
+o_acpsubpage0 : out fd2ft;
+o_acpsubpage1 : out fd2ft;
+o_rdy : out std_logic
+);
+end component CalculateAlphaCP;
+
+signal CalculateAlphaCP_clock : std_logic := '0';
+signal CalculateAlphaCP_reset : std_logic := '0';
+signal CalculateAlphaCP_run : std_logic := '0';
+signal CalculateAlphaCP_ee0x2439 : slv16 := (others => '0'); -- CP_P12P0_ratio/Acpsubpage0 - 6/10bit
+signal CalculateAlphaCP_ee0x2420 : slv16 := (others => '0'); -- Ascalecp
+signal CalculateAlphaCP_acpsubpage0 : fd2ft := (others => '0');
+signal CalculateAlphaCP_acpsubpage1 : fd2ft := (others => '0');
+signal CalculateAlphaCP_rdy : std_logic := '0';
+
+component CalculateOffsetCP is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+i_ee0x243a : in slv16; -- offcpsubpage1delta/offcpsubpage0 - 6/10bit
+o_offcpsubpage0 : out fd2ft;
+o_offcpsubpage1 : out fd2ft;
+o_rdy : out std_logic
+);
+end component CalculateOffsetCP;
+
+signal CalculateOffsetCP_clock : std_logic := '0';
+signal CalculateOffsetCP_reset : std_logic := '0';
+signal CalculateOffsetCP_run : std_logic := '0';
+signal CalculateOffsetCP_ee0x243a : slv16 := (others => '0');
+signal CalculateOffsetCP_offcpsubpage0 : fd2ft := (others => '0');
+signal CalculateOffsetCP_offcpsubpage1 : fd2ft := (others => '0');
+signal CalculateOffsetCP_rdy : std_logic := '0';
+
+component CalculatePixGain is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+i_KGain : in fd2ft;
+o_do : out std_logic_vector (31 downto 0);
+i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
+o_done : out std_logic;
+o_rdy : out std_logic
+);
+end component CalculatePixGain;
+
+signal CalculatePixGain_clock : std_logic := '0';
+signal CalculatePixGain_reset : std_logic := '0';
+signal CalculatePixGain_run : std_logic := '0';
+signal CalculatePixGain_i2c_mem_ena : STD_LOGIC := '0';
+signal CalculatePixGain_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal CalculatePixGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0) := (others => '0');
+signal CalculatePixGain_KGain : fd2ft := (others => '0');
+signal CalculatePixGain_do : std_logic_vector (31 downto 0);
+signal CalculatePixGain_addr : std_logic_vector (9 downto 0) := (others => '0'); -- 10bit-1024
+signal CalculatePixGain_done : std_logic;
+signal CalculatePixGain_rdy : std_logic;
+
+component ExtractAlphaCorrRange1234 is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+i_ee0x243d : in slv16; -- ksto1ee,ksto2ee
+i_ee0x243e : in slv16; -- ksto3ee,ksto4ee
+i_ee0x243f : in slv16; -- kstoscale,ct34param
+o_alphacorrrange1 : out fd2ft;
+o_alphacorrrange2 : out fd2ft;
+o_alphacorrrange3 : out fd2ft;
+o_alphacorrrange4 : out fd2ft;
+o_rdy : out std_logic
+);
+end component ExtractAlphaCorrRange1234;
+
+signal ExtractAlphaCorrRange1234_clock : std_logic := '0';
+signal ExtractAlphaCorrRange1234_reset : std_logic := '0';
+signal ExtractAlphaCorrRange1234_run : std_logic := '0';
+signal ExtractAlphaCorrRange1234_ee0x243d : slv16 := (others => '0'); -- ksto1ee,ksto2ee
+signal ExtractAlphaCorrRange1234_ee0x243e : slv16 := (others => '0'); -- ksto3ee,ksto4ee
+signal ExtractAlphaCorrRange1234_ee0x243f : slv16 := (others => '0'); -- kstoscale,ct34param
+signal ExtractAlphaCorrRange1234_alphacorrrange1 : fd2ft;
+signal ExtractAlphaCorrRange1234_alphacorrrange2 : fd2ft;
+signal ExtractAlphaCorrRange1234_alphacorrrange3 : fd2ft;
+signal ExtractAlphaCorrRange1234_alphacorrrange4 : fd2ft;
+signal ExtractAlphaCorrRange1234_rdy : std_logic;
+
+component ExtractCPParameters is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+i_ee0x2420 : in slv16; -- alphascale
+i_ee0x2438 : in slv16; -- ktaScale1,kvScale
+i_ee0x2439 : in slv16; -- alphasp0,alphasp1
+i_ee0x243a : in slv16; -- offsetsp0,offsetsp1
+i_ee0x243b : in slv16; -- cpKta,cpKv
+o_cpAlpha0 : out fd2ft;
+o_cpAlpha1 : out fd2ft;
+o_cpOffset0 : out fd2ft;
+o_cpOffset1 : out fd2ft;
+o_cpKv : out fd2ft;
+o_cpKta : out fd2ft;
+o_rdy : out std_logic
+);
+end component ExtractCPParameters;
+
+signal ExtractCPParameters_clock : std_logic := '0';
+signal ExtractCPParameters_reset : std_logic := '0';
+signal ExtractCPParameters_run : std_logic := '0';
+signal ExtractCPParameters_ee0x2420 : slv16 := (others => '0'); -- alphascale
+signal ExtractCPParameters_ee0x2438 : slv16 := (others => '0'); -- ktaScale1,kvScale
+signal ExtractCPParameters_ee0x2439 : slv16 := (others => '0'); -- alphasp0,alphasp1
+signal ExtractCPParameters_ee0x243a : slv16 := (others => '0'); -- offsetsp0,offsetsp1
+signal ExtractCPParameters_ee0x243b : slv16 := (others => '0'); -- cpKta,cpKv
+signal ExtractCPParameters_cpAlpha0 : fd2ft := (others => '0');
+signal ExtractCPParameters_cpAlpha1 : fd2ft := (others => '0');
+signal ExtractCPParameters_cpOffset0 : fd2ft := (others => '0');
+signal ExtractCPParameters_cpOffset1 : fd2ft := (others => '0');
+signal ExtractCPParameters_cpKv : fd2ft := (others => '0');
+signal ExtractCPParameters_cpKta : fd2ft := (others => '0');
+signal ExtractCPParameters_rdy : std_logic := '0';
 
 signal rdyrecover : std_logic; -- signal for tb when rdy not appear
 
@@ -3137,6 +3270,94 @@ o_do => ExtractKvParameters_do,
 i_addr => ExtractKvParameters_addr,
 o_done => ExtractKvParameters_done,
 o_rdy => ExtractKvParameters_rdy
+);
+
+CalculateAlphaCP_clock <= i_clock;
+CalculateAlphaCP_reset <= i_reset;
+inst_CalculateAlphaCP : CalculateAlphaCP
+port map (
+i_clock => CalculateAlphaCP_clock,
+i_reset => CalculateAlphaCP_reset,
+i_run => CalculateAlphaCP_run,
+i_ee0x2439 => CalculateAlphaCP_ee0x2439,
+i_ee0x2420 => CalculateAlphaCP_ee0x2420,
+o_acpsubpage0 => CalculateAlphaCP_acpsubpage0,
+o_acpsubpage1 => CalculateAlphaCP_acpsubpage1,
+o_rdy => CalculateAlphaCP_rdy
+);
+
+CalculateOffsetCP_clock <= i_clock;
+CalculateOffsetCP_reset <= i_reset;
+inst_CalculateOffsetCP : CalculateOffsetCP
+port map (
+i_clock => CalculateOffsetCP_clock,
+i_reset => CalculateOffsetCP_reset,
+i_run => CalculateOffsetCP_run,
+i_ee0x243a => CalculateOffsetCP_ee0x243a,
+o_offcpsubpage0 => CalculateOffsetCP_offcpsubpage0,
+o_offcpsubpage1 => CalculateOffsetCP_offcpsubpage1,
+o_rdy => CalculateOffsetCP_rdy
+);
+
+CalculatePixGain_clock <= i_clock;
+CalculatePixGain_reset <= i_reset;
+CalculatePixGain_KGain <= x"0000"; -- xxx
+inst_CalculatePixGain : CalculatePixGain port map (
+i_clock => CalculatePixGain_clock,
+i_reset => CalculatePixGain_reset,
+i_run => CalculatePixGain_run,
+i2c_mem_ena => CalculatePixGain_i2c_mem_ena,
+i2c_mem_addra => CalculatePixGain_i2c_mem_addra,
+i2c_mem_douta => CalculatePixGain_i2c_mem_douta,
+i_KGain => CalculatePixGain_KGain,
+o_do => CalculatePixGain_do,
+i_addr => CalculatePixGain_addr,
+o_done => CalculatePixGain_done,
+o_rdy => CalculatePixGain_rdy
+);
+
+ExtractAlphaCorrRange1234_clock <= i_clock;
+ExtractAlphaCorrRange1234_reset <= i_reset;
+ExtractAlphaCorrRange1234_ee0x243d <= x"0000"; -- xxx
+ExtractAlphaCorrRange1234_ee0x243e <= x"0000"; -- xxx
+ExtractAlphaCorrRange1234_ee0x243f <= x"0000"; -- xxx
+inst_ExtractAlphaCorrRange1234 : ExtractAlphaCorrRange1234 port map (
+i_clock => ExtractAlphaCorrRange1234_clock,
+i_reset => ExtractAlphaCorrRange1234_reset,
+i_run => ExtractAlphaCorrRange1234_run,
+i_ee0x243d => ExtractAlphaCorrRange1234_ee0x243d,
+i_ee0x243e => ExtractAlphaCorrRange1234_ee0x243e,
+i_ee0x243f => ExtractAlphaCorrRange1234_ee0x243f,
+o_alphacorrrange1 => ExtractAlphaCorrRange1234_alphacorrrange1,
+o_alphacorrrange2 => ExtractAlphaCorrRange1234_alphacorrrange2,
+o_alphacorrrange3 => ExtractAlphaCorrRange1234_alphacorrrange3,
+o_alphacorrrange4 => ExtractAlphaCorrRange1234_alphacorrrange4,
+o_rdy => ExtractAlphaCorrRange1234_rdy
+);
+
+ExtractCPParameters_clock <= i_clock;
+ExtractCPParameters_reset <= i_reset;
+ExtractCPParameters_ee0x2420 <= x"0000"; -- xxx
+ExtractCPParameters_ee0x2438 <= x"0000"; -- xxx
+ExtractCPParameters_ee0x2439 <= x"0000"; -- xxx
+ExtractCPParameters_ee0x243a <= x"0000"; -- xxx
+ExtractCPParameters_ee0x243b <= x"0000"; -- xxx
+inst_ExtractCPParameters : ExtractCPParameters port map (
+i_clock => ExtractCPParameters_clock,
+i_reset => ExtractCPParameters_reset,
+i_run => ExtractCPParameters_run,
+i_ee0x2420 => ExtractCPParameters_ee0x2420,
+i_ee0x2438 => ExtractCPParameters_ee0x2438,
+i_ee0x2439 => ExtractCPParameters_ee0x2439,
+i_ee0x243a => ExtractCPParameters_ee0x243a,
+i_ee0x243b => ExtractCPParameters_ee0x243b,
+o_cpAlpha0 => ExtractCPParameters_cpAlpha0,
+o_cpAlpha1 => ExtractCPParameters_cpAlpha1,
+o_cpOffset0 => ExtractCPParameters_cpOffset0,
+o_cpOffset1 => ExtractCPParameters_cpOffset1,
+o_cpKv => ExtractCPParameters_cpKv,
+o_cpKta => ExtractCPParameters_cpKta,
+o_rdy => ExtractCPParameters_rdy
 );
 
 end architecture testbench;
