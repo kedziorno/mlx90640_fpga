@@ -475,6 +475,110 @@ signal calculateKGain_ram0x070a : slv16;
 signal calculateKGain_KGain : fd2ft;
 signal calculateKGain_rdy : std_logic;
 
+component ExtractOffsetParameters is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+o_do : out std_logic_vector (31 downto 0);
+i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
+o_done : out std_logic;
+o_rdy : out std_logic
+);
+end component ExtractOffsetParameters;
+
+signal ExtractOffsetParameters_clock : std_logic;
+signal ExtractOffsetParameters_reset : std_logic;
+signal ExtractOffsetParameters_run : std_logic;
+signal ExtractOffsetParameters_i2c_mem_ena : STD_LOGIC;
+signal ExtractOffsetParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal ExtractOffsetParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal ExtractOffsetParameters_do : std_logic_vector (31 downto 0);
+signal ExtractOffsetParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
+signal ExtractOffsetParameters_done : std_logic;
+signal ExtractOffsetParameters_rdy : std_logic;
+
+component ExtractAlphaParameters is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+o_do : out std_logic_vector (31 downto 0);
+i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
+o_done : out std_logic;
+o_rdy : out std_logic
+);
+end component ExtractAlphaParameters;
+
+signal ExtractAlphaParameters_clock : std_logic;
+signal ExtractAlphaParameters_reset : std_logic;
+signal ExtractAlphaParameters_run : std_logic;
+signal ExtractAlphaParameters_i2c_mem_ena : STD_LOGIC;
+signal ExtractAlphaParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal ExtractAlphaParametersi2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal ExtractAlphaParameters_do : std_logic_vector (31 downto 0);
+signal ExtractAlphaParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
+signal ExtractAlphaParameters_done : std_logic;
+signal ExtractAlphaParameters_rdy : std_logic;
+
+component ExtractKtaParameters is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+o_do : out std_logic_vector (31 downto 0);
+i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
+o_done : out std_logic;
+o_rdy : out std_logic
+);
+end component ExtractKtaParameters;
+
+signal ExtractKtaParameters_clock : std_logic;
+signal ExtractKtaParameters_reset : std_logic;
+signal ExtractKtaParameters_run : std_logic;
+signal ExtractKtaParameters_i2c_mem_ena : STD_LOGIC;
+signal ExtractKtaParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal ExtractKtaParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal ExtractKtaParameters_do : std_logic_vector (31 downto 0);
+signal ExtractKtaParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
+signal ExtractKtaParameters_done : std_logic;
+signal ExtractKtaParameters_rdy : std_logic;
+
+component ExtractKvParameters is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+o_do : out std_logic_vector (31 downto 0);
+i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
+o_done : out std_logic;
+o_rdy : out std_logic
+);
+end component ExtractKvParameters;
+
+signal ExtractKvParameters_clock : std_logic;
+signal ExtractKvParameters_reset : std_logic;
+signal ExtractKvParameters_run : std_logic;
+signal ExtractKvParameters_i2c_mem_ena : STD_LOGIC;
+signal ExtractKvParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal ExtractKvParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal ExtractKvParameters_do : std_logic_vector (31 downto 0);
+signal ExtractKvParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
+signal ExtractKvParameters_done : std_logic;
+signal ExtractKvParameters_rdy : std_logic;
+
 
 signal rdyrecover : std_logic; -- signal for tb when rdy not appear
 
@@ -2821,8 +2925,6 @@ rdy => sqrtfp2rdy
 );
 
 mem_float2powerN_clock1 <= i_clock;
-mem_float2powerN_clock2 <= i_clock;
-
 inst_mem_float2powerN1 : mem_float2powerN
 port map (
 i_clock => mem_float2powerN_clock1,
@@ -2831,6 +2933,7 @@ i_N => mem_float2powerN_N1,
 o_2powerN => mem_float2powerN_2powerN1
 );
 
+mem_float2powerN_clock2 <= i_clock;
 inst_mem_float2powerN2 : mem_float2powerN
 port map (
 i_clock => mem_float2powerN_clock2,
@@ -2840,7 +2943,6 @@ o_2powerN => mem_float2powerN_2powerN2
 );
 
 mem_switchpattern_clock <= i_clock;
-
 inst_mem_switchpattern : mem_switchpattern
 port map (
 i_clock => mem_switchpattern_clock,
@@ -2975,6 +3077,66 @@ i_ee0x2430 => calculateKGain_ee0x2430,
 i_ram0x070a => calculateKGain_ram0x070a,
 o_KGain => calculateKGain_kgain,
 o_rdy => calculateKGain_rdy
+);
+
+ExtractOffsetParameters_clock <= i_clock;
+ExtractOffsetParameters_reset <= i_reset;
+inst_ExtractOffsetParameters : ExtractOffsetParameters port map (
+i_clock => ExtractOffsetParameters_clock,
+i_reset => ExtractOffsetParameters_reset,
+i_run => ExtractOffsetParameters_run,
+i2c_mem_ena => ExtractOffsetParameters_i2c_mem_ena,
+i2c_mem_addra => ExtractOffsetParameters_i2c_mem_addra,
+i2c_mem_douta => ExtractOffsetParameters_i2c_mem_douta,
+o_do => ExtractOffsetParameters_do,
+i_addr => ExtractOffsetParameters_addr,
+o_done => ExtractOffsetParameters_done,
+o_rdy => ExtractOffsetParameters_rdy
+);
+
+ExtractAlphaParameters_clock <= i_clock;
+ExtractAlphaParameters_reset <= i_reset;
+inst_ExtractAlphaParameters : ExtractAlphaParameters port map (
+i_clock => ExtractAlphaParameters_clock,
+i_reset => ExtractAlphaParameters_reset,
+i_run => ExtractAlphaParameters_run,
+i2c_mem_ena => ExtractAlphaParameters_i2c_mem_ena,
+i2c_mem_addra => ExtractAlphaParameters_i2c_mem_addra,
+i2c_mem_douta => ExtractAlphaParameters_i2c_mem_douta,
+o_do => ExtractAlphaParameters_do,
+i_addr => ExtractAlphaParameters_addr,
+o_done => ExtractAlphaParameters_done,
+o_rdy => ExtractAlphaParameters_rdy
+);
+
+ExtractKtaParameters_clock <= i_clock;
+ExtractKtaParameters_reset <= i_reset;
+inst_ExtractKtaParameters : ExtractKtaParameters port map (
+i_clock => ExtractKtaParameters_clock,
+i_reset => ExtractKtaParameters_reset,
+i_run => ExtractKtaParameters_run,
+i2c_mem_ena => ExtractKtaParameters_i2c_mem_ena,
+i2c_mem_addra => ExtractKtaParameters_i2c_mem_addra,
+i2c_mem_douta => ExtractKtaParameters_i2c_mem_douta,
+o_do => ExtractKtaParameters_do,
+i_addr => ExtractKtaParameters_addr,
+o_done => ExtractKtaParameters_done,
+o_rdy => ExtractKtaParameters_rdy
+);
+
+ExtractKvParameters_clock <= i_clock;
+ExtractKvParameters_reset <= i_reset;
+inst_ExtractKvParameters : ExtractKvParameters port map (
+i_clock => ExtractKvParameters_clock,
+i_reset => ExtractKvParameters_reset,
+i_run => ExtractKvParameters_run,
+i2c_mem_ena => ExtractKvParameters_i2c_mem_ena,
+i2c_mem_addra => ExtractKvParameters_i2c_mem_addra,
+i2c_mem_douta => ExtractKvParameters_i2c_mem_douta,
+o_do => ExtractKvParameters_do,
+i_addr => ExtractKvParameters_addr,
+o_done => ExtractKvParameters_done,
+o_rdy => ExtractKvParameters_rdy
 );
 
 end architecture testbench;
