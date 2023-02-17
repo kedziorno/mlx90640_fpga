@@ -952,7 +952,7 @@ when idle =>
 	when s94 => 
 		CalculatePixOS_run <= '0';
 		if (CalculatePixOS_rdy = '1') then
-			state := s151;
+			state := s169;
 			CalculatePixOS_mux <= '0';
 		else
 			state := s94;
@@ -960,133 +960,7 @@ when idle =>
 		end if;
 		
 
-	when s151 => state := s152;
-		subfpce <= '1';
-		subfpa <= calculateVdd_Vdd;
-		subfpb <= const3dot3_ft;
-		subfpond <= '1';
-	when s152 =>
-		if (subfprdy = '1') then state := s153;
-			v0d_ft := subfpr;
-			outTo := subfpr;
-			subfpce <= '0';
-			subfpond <= '0';
-			subfpsclr <= '1';
-		else state := s152; end if;
-	when s153 => state := s154;
-		subfpsclr <= '0';
-		mulfpce <= '1';
-		mulfpa <= v0d_ft;
-		mulfpb <= kv1216_ft;
-		mulfpond <= '1';
-	when s154 =>
-		if (mulfprdy = '1') then state := s155;
-			fttmp1_ft := mulfpr;
-			outTo := mulfpr;
-			mulfpce <= '0';
-			mulfpond <= '0';
-			mulfpsclr <= '1';
-		else state := s154; end if;
-	when s155 => state := s156;
-		mulfpsclr <= '0';
-		addfpce <= '1';
-		addfpa <= fttmp1_ft;
-		addfpb <= const1_ft;
-		addfpond <= '1';
-	when s156 =>
-		if (addfprdy = '1') then state := s157;
-			fttmp1_ft := addfpr;
-			outTo := addfpr;
-			addfpce <= '0';
-			addfpond <= '0';
-			addfpsclr <= '1';
-		else state := s156; end if;
-	when s157 => state := s158;
-		addfpsclr <= '0';
-		subfpce <= '1';
-		subfpa <= calculateTa_Ta;
-		subfpb <= const25_ft;
-		subfpond <= '1';
-	when s158 =>
-		if (subfprdy = '1') then state := s159;
-			tad_ft := subfpr;
-			outTo := subfpr;
-			subfpce <= '0';
-			subfpond <= '0';
-			subfpsclr <= '1';
-		else state := s158; end if;
-	when s159 => state := s160;
-		subfpsclr <= '0';
-		mulfpce <= '1';
-		mulfpa <= tad_ft;
-		mulfpb <= kta1216_ft;
-		mulfpond <= '1';
-	when s160 =>
-		if (mulfprdy = '1') then state := s161;
-			fttmp2_ft := mulfpr;
-			outTo := mulfpr;
-			mulfpce <= '0';
-			mulfpond <= '0';
-			mulfpsclr <= '1';
-		else state := s160; end if;
-	when s161 => state := s162;
-		mulfpsclr <= '0';
-		addfpce <= '1';
-		addfpa <= fttmp2_ft;
-		addfpb <= const1_ft;
-		addfpond <= '1';
-	when s162 =>
-		if (addfprdy = '1') then state := s163;
-			fttmp2_ft := addfpr;
-			outTo := addfpr;
-			addfpce <= '0';
-			addfpond <= '0';
-			addfpsclr <= '1';
-		else state := s162; end if;
-	when s163 => state := s164;
-		addfpsclr <= '0';
-		mulfpce <= '1';
-		mulfpa <= fttmp1_ft;
-		mulfpb <= fttmp2_ft;
-		mulfpond <= '1';
-	when s164 =>
-		if (mulfprdy = '1') then state := s165;
-			pixos1216_ft := mulfpr;
-			outTo := mulfpr;
-			mulfpce <= '0';
-			mulfpond <= '0';
-			mulfpsclr <= '1';
-		else state := s164; end if;
-	when s165 => state := s166;
-		mulfpsclr <= '0';
-		mulfpce <= '1';
-		mulfpa <= pixos1216_ft;
-		mulfpb <= pixosref1216_ft;
-		mulfpond <= '1';
-	when s166 =>
-		if (mulfprdy = '1') then state := s167;
-			pixos1216_ft := mulfpr;
-			outTo := mulfpr;
-			mulfpce <= '0';
-			mulfpond <= '0';
-			mulfpsclr <= '1';
-		else state := s166; end if;
-	when s167 => state := s168;
-		mulfpsclr <= '0';
-		subfpce <= '1';
-		subfpa <= pixgain1216_ft;
-		subfpb <= pixos1216_ft;
-		subfpond <= '1';
-	when s168 =>
-		if (subfprdy = '1') then state := s169;
-			pixos1216_ft := subfpr;
-			outTo := subfpr;
-			subfpce <= '0';
-			subfpond <= '0';
-			subfpsclr <= '1';
-		else state := s168; end if;
 	when s169 => state := s172;
-		subfpsclr <= '0';
 		divfpce <= '1';
 		divfpa <= pixos1216_ft;
 		divfpb <= constemissivity_ft;
