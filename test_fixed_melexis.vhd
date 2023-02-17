@@ -958,24 +958,9 @@ when idle =>
 			state := s94;
 			CalculatePixOS_mux <= '1';
 		end if;
-		
 
-	when s169 => state := s172;
-		divfpce <= '1';
-		divfpa <= pixos1216_ft;
-		divfpb <= constemissivity_ft;
-		divfpond <= '1';
-	when s172 =>
-		if (divfprdy = '1') then state := s173;
-			vir1216emissivitycompensated_ft := divfpr; -- 700.882
-			outTo := divfpr;
-			divfpce <= '0';
-			divfpond <= '0';
-			divfpsclr <= '1';
-		else state := s172; end if;
-	when s173 => state := s174;
-		divfpsclr <= '0';
-		eeprom16slv := i_ram0x0708 and x"ffff";
+	when s169 => state := s174;
+		eeprom16slv := i_ram0x0708 and x"ffff"; -- pixgain_cp_sp0
 		pixgaincpsp0 := resize (to_sfixed (eeprom16slv, eeprom16sf), pixgaincpsp0);
 		--vout2 := resize (pixgaincpsp0, st_sfixed_max'high, st_sfixed_max'low);
 --		pixgaincpsp0 := resize (to_sfixed (to_slv (pixgaincpsp0), sfixed16'high, sfixed16'low), pixgaincpsp0);
@@ -1008,7 +993,7 @@ when idle =>
 		else state := s176; end if;
 	when s177 => state := s178;
 		mulfpsclr <= '0';
-		eeprom16slv := i_ram0x0728 and x"ffff";
+		eeprom16slv := i_ram0x0728 and x"ffff"; -- pixgain_cp_sp1
 		pixgaincpsp1 := resize (to_sfixed (eeprom16slv, eeprom16sf), pixgaincpsp1);
 		--vout2 := resize (pixgaincpsp1, st_sfixed_max'high, st_sfixed_max'low);
 --		pixgaincpsp1 := resize (to_sfixed (to_slv (pixgaincpsp1), sfixed16'high, sfixed16'low), pixgaincpsp1);
@@ -1039,8 +1024,26 @@ when idle =>
 			mulfpond <= '0';
 			mulfpsclr <= '1';
 		else state := s180; end if;
-	when s181 => state := s182;
+	when s181 => state := s170;
 		mulfpsclr <= '0';
+
+
+
+	when s170 => state := s172;
+		divfpce <= '1';
+		divfpa <= pixos1216_ft;
+		divfpb <= constemissivity_ft;
+		divfpond <= '1';
+	when s172 =>
+		if (divfprdy = '1') then state := s173;
+			vir1216emissivitycompensated_ft := divfpr; -- 700.882
+			outTo := divfpr;
+			divfpce <= '0';
+			divfpond <= '0';
+			divfpsclr <= '1';
+		else state := s172; end if;
+	when s173 => state := s182;
+		divfpsclr <= '0';
 		eeprom16slv := i_ee0x243a and x"03ff";
 		offcpsubpage0 := resize (to_sfixed (eeprom16slv, eeprom16sf), offcpsubpage0);
 		--vout2 := resize (offcpsubpage0, st_sfixed_max'high, st_sfixed_max'low);
