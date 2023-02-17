@@ -713,36 +713,57 @@ signal ExtractCPParameters_cpKv : fd2ft := (others => '0');
 signal ExtractCPParameters_cpKta : fd2ft := (others => '0');
 signal ExtractCPParameters_rdy : std_logic := '0';
 
+component CalculatePixOS is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+i_KGain : in std_logic_vector (31 downto 0);
+i_const1 : in std_logic_vector (31 downto 0);
+i_Ta : in std_logic_vector (31 downto 0);
+i_Ta0 : in std_logic_vector (31 downto 0);
+i_Vdd : in std_logic_vector (31 downto 0);
+i_VddV0 : in std_logic_vector (31 downto 0);
+o_do : out std_logic_vector (31 downto 0);
+i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
+o_rdy : out std_logic
+);
+end component CalculatePixOS;
+
+signal CalculatePixOS_clock : std_logic;
+signal CalculatePixOS_reset : std_logic;
+signal CalculatePixOS_run : std_logic;
+signal CalculatePixOS_i2c_mem_ena : STD_LOGIC;
+signal CalculatePixOS_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal CalculatePixOS_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal CalculatePixOS_KGain : std_logic_vector (31 downto 0);
+signal CalculatePixOS_const1 : std_logic_vector (31 downto 0);
+signal CalculatePixOS_Ta : std_logic_vector (31 downto 0);
+signal CalculatePixOS_Ta0 : std_logic_vector (31 downto 0);
+signal CalculatePixOS_Vdd : std_logic_vector (31 downto 0);
+signal CalculatePixOS_VddV0 : std_logic_vector (31 downto 0);
+signal CalculatePixOS_do : std_logic_vector (31 downto 0);
+signal CalculatePixOS_addr : std_logic_vector (9 downto 0); -- 10bit-1024
+signal CalculatePixOS_rdy : std_logic;
+
 signal rdyrecover : std_logic; -- signal for tb when rdy not appear
 
-signal CalculatePixGain_mux,ExtractOffsetParameters_mux,ExtractKtaParameters_mux,ExtractKvParameters_mux : std_logic;
+signal CalculatePixOS_mux : std_logic;
 
 begin
 
 i2c_mem_ena <=
-CalculatePixGain_i2c_mem_ena when CalculatePixGain_mux = '1'
-else
-ExtractOffsetParameters_i2c_mem_ena when ExtractOffsetParameters_mux = '1'
-else
-ExtractKtaParameters_i2c_mem_ena when ExtractKtaParameters_mux = '1'
-else
-ExtractKvParameters_i2c_mem_ena when ExtractKvParameters_mux = '1'
+CalculatePixOS_i2c_mem_ena when CalculatePixOS_mux = '1'
 else '0';
 
 i2c_mem_addra <=
-CalculatePixGain_i2c_mem_addra when CalculatePixGain_mux = '1'
-else
-ExtractOffsetParameters_i2c_mem_addra when ExtractOffsetParameters_mux = '1'
-else
-ExtractKtaParameters_i2c_mem_addra when ExtractKtaParameters_mux = '1'
-else
-ExtractKvParameters_i2c_mem_addra when ExtractKvParameters_mux = '1'
+CalculatePixOS_i2c_mem_addra when CalculatePixOS_mux = '1'
 else (others => '0');
 
-CalculatePixGain_i2c_mem_douta <= i2c_mem_douta;
-ExtractOffsetParameters_i2c_mem_douta <= i2c_mem_douta;
-ExtractKtaParameters_i2c_mem_douta <= i2c_mem_douta;
-ExtractKvParameters_i2c_mem_douta <= i2c_mem_douta;
+CalculatePixOS_i2c_mem_douta <= i2c_mem_douta;
 
 o_rdy <=
 fixed2floatrdy when fixed2floatce = '1' else
@@ -926,60 +947,18 @@ when idle =>
 		
 		
 	when s7 => state := s94;
-		CalculatePixGain_run <= '1';
-		CalculatePixGain_mux <= '1';
+		CalculatePixOS_run <= '1';
+		CalculatePixOS_mux <= '1';
 	when s94 => 
-		CalculatePixGain_run <= '0';
-		if (CalculatePixGain_rdy = '1') then
-			state := s97;
-			CalculatePixGain_mux <= '0';
+		CalculatePixOS_run <= '0';
+		if (CalculatePixOS_rdy = '1') then
+			state := s151;
+			CalculatePixOS_mux <= '0';
 		else
 			state := s94;
-			CalculatePixGain_mux <= '1';
+			CalculatePixOS_mux <= '1';
 		end if;
 		
-		
-	when s97 => state := s98;
-		ExtractOffsetParameters_run <= '1';
-		ExtractOffsetParameters_mux <= '1';
-	when s98 => 
-		ExtractOffsetParameters_run <= '0';
-		if (ExtractOffsetParameters_rdy = '1') then
-			state := s123;
-			ExtractOffsetParameters_mux <= '0';
-		else
-			state := s98;
-			ExtractOffsetParameters_mux <= '1';
-		end if;
-
-
-	when s123 => state := s124;
-		ExtractKtaParameters_run <= '1';
-		ExtractKtaParameters_mux <= '1';
-	when s124 => 
-		ExtractKtaParameters_run <= '0';
-		if (ExtractKtaParameters_rdy = '1') then
-			state := s145;
-			ExtractKtaParameters_mux <= '0';
-		else
-			state := s124;
-			ExtractKtaParameters_mux <= '1';
-		end if;
-
-
-	when s145 => state := s146;
-		ExtractKvParameters_run <= '1';
-		ExtractKvParameters_mux <= '1';
-	when s146 => 
-		ExtractKvParameters_run <= '0';
-		if (ExtractKvParameters_rdy = '1') then
-			state := s151;
-			ExtractKvParameters_mux <= '0';
-		else
-			state := s146;
-			ExtractKvParameters_mux <= '1';
-		end if;
-
 
 	when s151 => state := s152;
 		subfpce <= '1';
@@ -2942,6 +2921,32 @@ o_cpOffset1 => ExtractCPParameters_cpOffset1,
 o_cpKv => ExtractCPParameters_cpKv,
 o_cpKta => ExtractCPParameters_cpKta,
 o_rdy => ExtractCPParameters_rdy
+);
+
+CalculatePixOS_clock <= i_clock;
+CalculatePixOS_reset <= i_reset;
+CalculatePixOS_KGain <= calculateKGain_kgain;
+CalculatePixOS_const1 <= x"3F800000"; -- 1
+CalculatePixOS_Ta <= CalculateTa_Ta; -- xxx
+CalculatePixOS_Ta0 <= x"41C80000"; -- 25
+CalculatePixOS_Vdd <= CalculateVdd_Vdd; -- xxx
+CalculatePixOS_VddV0 <= x"40533333"; -- 3.3
+inst_CalculatePixOS : CalculatePixOS port map (
+i_clock => CalculatePixOS_clock,
+i_reset => CalculatePixOS_reset,
+i_run => CalculatePixOS_run,
+i2c_mem_ena => CalculatePixOS_i2c_mem_ena,
+i2c_mem_addra => CalculatePixOS_i2c_mem_addra,
+i2c_mem_douta => CalculatePixOS_i2c_mem_douta,
+i_KGain => CalculatePixOS_KGain,
+i_const1 => CalculatePixOS_const1,
+i_Ta => CalculatePixOS_Ta,
+i_Ta0 => CalculatePixOS_Ta0,
+i_Vdd => CalculatePixOS_Vdd,
+i_VddV0 => CalculatePixOS_VddV0,
+o_do => CalculatePixOS_do,
+i_addr => CalculatePixOS_addr,
+o_rdy => CalculatePixOS_rdy
 );
 
 end architecture testbench;
