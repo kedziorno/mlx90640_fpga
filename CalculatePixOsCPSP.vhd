@@ -221,7 +221,7 @@ p0 : process (i_clock) is
 	s61,s62,s63,s64,s65,s66,s67,s68,s69,s70,
 	s71,s72,s73,s74,s75,s76,s77,s78,s79,s80,
 	s81,s82,s83,s84,s85,s86,s87,s88,s89,s90,
-	s91,s92,s93,s94,s95,s96,s97,s98,s99,s100,
+	s91,s92,s93,s94,s95,s96,s97,s98,s99,s100,s21a,s56a,
 	ending);
 	variable state : states;
 	variable fttmp1,fttmp2,ram0708_ft,ram0728_ft,pixoscpsp0_ft,pixoscpsp1_ft,pixgaincpsp0_ft,pixgaincpsp1_ft,offcpsubpage0_ft,offcpsubpage1delta_ft,offcpsubpage1_ft,kvcpee_ft,ktacpee_ft,kvcp_ft,ktacp_ft : std_logic_vector (31 downto 0);
@@ -239,6 +239,8 @@ begin
 			addfpsclr <= '1';
 			subfpsclr <= '1';
 			mulfpsclr <= '1';
+			divfpsclr <= '1';
+			fixed2floatsclr <= '1';
 			rdy <= '0';
 			mulfpa <= (others => '0');
 			mulfpb <= (others => '0');
@@ -246,25 +248,44 @@ begin
 			addfpb <= (others => '0');
 			subfpa <= (others => '0');
 			subfpb <= (others => '0');
+			divfpa <= (others => '0');
+			divfpb <= (others => '0');
 			mulfpond <= '0';
 			addfpond <= '0';
 			subfpond <= '0';
+			divfpond <= '0';
 			mulfpce <= '0';
 			addfpce <= '0';
 			subfpce <= '0';
+			divfpce <= '0';
+			i2c_mem_ena <= '0';
+			i2c_mem_addra <= (others => '0');
+			o_pixoscpsp0 <= (others => '0');
+			o_pixoscpsp1 <= (others => '0');
+			fixed2floata <= (others => '0');
+			fixed2floatond <= '0';
+			fixed2floatce <= '0';
+			mem_signed1024_ivalue <= (others => '0');
+			mem_signed256_ivalue <= (others => '0');
+			nibble1 <= (others => '0');
+			nibble2 <= (others => '0');
+			nibble3 <= (others => '0');
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
 						state := s1;
+						i2c_mem_ena <= '1';
 					else
 						state := idle;
+						i2c_mem_ena <= '0';
 					end if;
 					i := 0;
 					addfpsclr <= '0';
 					subfpsclr <= '0';
 					mulfpsclr <= '0';
-
+					divfpsclr <= '0';
+					fixed2floatsclr <= '0';
 				when s1 => state := s2;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(776*2)+0, 12)); -- ram0708 - pixgain_cp_sp0
 				when s2 => state := s3;
@@ -335,10 +356,10 @@ begin
 						mulfpond <= '0';
 						mulfpsclr <= '1';
 					else state := s20; end if;
-				when s21 => state := s22;
+				when s21 => state := s21a;
 					mulfpsclr <= '0';
 
-				when s21 => state := s22;
+				when s21a => state := s22;
 					mulfpce <= '1';
 					mulfpa <= ram0728_ft;
 					mulfpb <= i_KGain;
@@ -455,9 +476,6 @@ begin
 					else state := s55; end if;
 				when s56 => state := s57;
 					divfpsclr <= '0';
-
-
-				when s56 => state := s57;
 					subfpce <= '1';
 					subfpa <= i_Vdd;
 					subfpb <= i_VddV0;
@@ -710,6 +728,7 @@ addfpclk <= i_clock;
 subfpclk <= i_clock;
 mulfpclk <= i_clock;
 divfpclk <= i_clock;
+fixed2floatclk <= i_clock;
 
 inst_divfp : divfp
 PORT MAP (
@@ -757,6 +776,17 @@ sclr => subfpsclr,
 ce => subfpce,
 result => subfpr,
 rdy => subfprdy
+);
+
+inst_ff2 : fixed2float
+PORT MAP (
+a => fixed2floata,
+operation_nd => fixed2floatond,
+clk => fixed2floatclk,
+sclr => fixed2floatsclr,
+ce => fixed2floatce,
+result => fixed2floatr,
+rdy => fixed2floatrdy
 );
 
 end Behavioral;
