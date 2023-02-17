@@ -749,21 +749,62 @@ signal CalculatePixOS_do : std_logic_vector (31 downto 0);
 signal CalculatePixOS_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal CalculatePixOS_rdy : std_logic;
 
+component CalculatePixOsCPSP is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+i_KGain : in std_logic_vector (31 downto 0);
+i_Ta : in std_logic_vector (31 downto 0);
+i_Ta0 : in std_logic_vector (31 downto 0);
+i_Vdd : in std_logic_vector (31 downto 0);
+i_VddV0 : in std_logic_vector (31 downto 0);
+i_const1 : in std_logic_vector (31 downto 0);
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+o_pixoscpsp0 : out std_logic_vector (31 downto 0);
+o_pixoscpsp1 : out std_logic_vector (31 downto 0);
+o_rdy : out std_logic
+);
+end component CalculatePixOsCPSP;
+
+signal CalculatePixOsCPSP_clock : std_logic;
+signal CalculatePixOsCPSP_reset : std_logic;
+signal CalculatePixOsCPSP_run : std_logic;
+signal CalculatePixOsCPSP_KGain : std_logic_vector (31 downto 0);
+signal CalculatePixOsCPSP_Ta : std_logic_vector (31 downto 0);
+signal CalculatePixOsCPSP_Ta0 : std_logic_vector (31 downto 0);
+signal CalculatePixOsCPSP_Vdd : std_logic_vector (31 downto 0);
+signal CalculatePixOsCPSP_VddV0 : std_logic_vector (31 downto 0);
+signal CalculatePixOsCPSP_const1 : std_logic_vector (31 downto 0);
+signal CalculatePixOsCPSP_i2c_mem_ena : STD_LOGIC;
+signal CalculatePixOsCPSP_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal CalculatePixOsCPSP_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal CalculatePixOsCPSP_pixoscpsp0 : std_logic_vector (31 downto 0);
+signal CalculatePixOsCPSP_pixoscpsp1 : std_logic_vector (31 downto 0);
+signal CalculatePixOsCPSP_rdy : std_logic;
+
 signal rdyrecover : std_logic; -- signal for tb when rdy not appear
 
-signal CalculatePixOS_mux : std_logic;
+signal CalculatePixOS_mux,CalculatePixOsCPSP_mux : std_logic;
 
 begin
 
 i2c_mem_ena <=
 CalculatePixOS_i2c_mem_ena when CalculatePixOS_mux = '1'
+else
+CalculatePixOsCPSP_i2c_mem_ena when CalculatePixOsCPSP_mux = '1'
 else '0';
 
 i2c_mem_addra <=
 CalculatePixOS_i2c_mem_addra when CalculatePixOS_mux = '1'
+else
+CalculatePixOsCPSP_i2c_mem_addra when CalculatePixOsCPSP_mux = '1'
 else (others => '0');
 
 CalculatePixOS_i2c_mem_douta <= i2c_mem_douta;
+CalculatePixOsCPSP_i2c_mem_douta <= i2c_mem_douta;
 
 o_rdy <=
 fixed2floatrdy when fixed2floatce = '1' else
@@ -946,18 +987,32 @@ when idle =>
 		end if;
 		
 		
-	when s7 => state := s94;
+	when s7 => state := s8;
 		CalculatePixOS_run <= '1';
 		CalculatePixOS_mux <= '1';
-	when s94 => 
+	when s8 => 
 		CalculatePixOS_run <= '0';
 		if (CalculatePixOS_rdy = '1') then
-			state := s213;
+			state := s9;
 			CalculatePixOS_mux <= '0';
 		else
-			state := s94;
+			state := s8;
 			CalculatePixOS_mux <= '1';
 		end if;
+
+	when s9 => state := s10;
+		CalculatePixOsCPSP_run <= '1';
+		CalculatePixOsCPSP_mux <= '1';
+	when s10 => 
+		CalculatePixOsCPSP_run <= '0';
+		if (CalculatePixOsCPSP_rdy = '1') then
+			state := s213;
+			CalculatePixOsCPSP_mux <= '0';
+		else
+			state := s10;
+			CalculatePixOsCPSP_mux <= '1';
+		end if;
+
 
 when s213 => state := s214;
 		eeprom16slv := i_ee0x243c and x"00ff";
@@ -2490,6 +2545,32 @@ i_VddV0 => CalculatePixOS_VddV0,
 o_do => CalculatePixOS_do,
 i_addr => CalculatePixOS_addr,
 o_rdy => CalculatePixOS_rdy
+);
+
+CalculatePixOsCPSP_clock <= i_clock;
+CalculatePixOsCPSP_reset <= i_reset;
+CalculatePixOsCPSP_KGain <= calculateKGain_kgain;
+CalculatePixOsCPSP_Ta <= CalculateTa_Ta; -- xxx
+CalculatePixOsCPSP_Ta0 <= x"41C80000"; -- 25
+CalculatePixOsCPSP_Vdd <= CalculateVdd_Vdd; -- xxx
+CalculatePixOsCPSP_VddV0 <= x"40533333"; -- 3.3
+CalculatePixOsCPSP_const1 <= x"3F800000"; -- 1
+inst_CalculatePixOsCPSP : CalculatePixOsCPSP port map (
+i_clock => CalculatePixOsCPSP_clock,
+i_reset => CalculatePixOsCPSP_reset,
+i_run => CalculatePixOsCPSP_run,
+i_KGain => CalculatePixOsCPSP_KGain,
+i_Ta => CalculatePixOsCPSP_Ta,
+i_Ta0 => CalculatePixOsCPSP_Ta0,
+i_Vdd => CalculatePixOsCPSP_Vdd,
+i_VddV0 => CalculatePixOsCPSP_VddV0,
+i_const1 => CalculatePixOsCPSP_const1,
+i2c_mem_ena => CalculatePixOsCPSP_i2c_mem_ena,
+i2c_mem_addra => CalculatePixOsCPSP_i2c_mem_addra,
+i2c_mem_douta => CalculatePixOsCPSP_i2c_mem_douta,
+o_pixoscpsp0 => CalculatePixOsCPSP_pixoscpsp0,
+o_pixoscpsp1 => CalculatePixOsCPSP_pixoscpsp1,
+o_rdy => CalculatePixOsCPSP_rdy
 );
 
 end architecture testbench;
