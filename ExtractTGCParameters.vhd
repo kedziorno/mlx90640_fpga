@@ -22,7 +22,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx primitives in this code.
@@ -33,8 +33,14 @@ entity ExtractTGCParameters is
 port (
 	i_clock : in std_logic;
 	i_reset : in std_logic;
-	i_ee0x243c : in std_logic_vector (15 downto 0);
-	o_tgc : out std_logic_vector (31 downto 0)
+	i_run : in std_logic;
+	
+	i2c_mem_ena : out STD_LOGIC;
+	i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+	i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+
+	o_tgc : out std_logic_vector (31 downto 0);
+	o_rdy : out std_logic
 );
 end ExtractTGCParameters;
 
@@ -43,13 +49,49 @@ architecture Behavioral of ExtractTGCParameters is
 signal odata_tgc : std_logic_vector (31 downto 0);
 signal address_N : std_logic_vector (8 downto 0);
 
+signal rdy : std_logic;
+
 begin
 
-o_tgc  <= odata_tgc;
+o_rdy <= rdy;
 
-p0 : process (i_ee0x243c) is
+p0 : process (i_clock) is
+	type states is (idle,
+	s1,s2,s3,s4,s5,
+	ending);
+	variable state : states;
 begin
-	address_N <= "0" & i_ee0x243c (7 downto 0);
+	if (rising_edge (i_clock)) then
+		if (i_reset = '1') then
+			state := idle;
+			rdy <= '0';
+			i2c_mem_ena <= '0';
+			i2c_mem_addra <= (others => '0');
+			address_N <= (others => '0');
+		else
+			case (state) is
+				when idle =>
+					if (i_run = '1') then
+						state := s1;
+						i2c_mem_ena <= '1';
+					else
+						state := idle;
+						i2c_mem_ena <= '0';
+					end if;
+				when s1 => state := s2;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (60*2+1, 12)); -- ee243c LSB - tgcee
+				when s2 => state := s3;
+				when s3 => state := s4;
+					address_N <= "0"&i2c_mem_douta;
+				when s4 => state := s5;
+				when s5 => state := ending;
+					o_tgc  <= odata_tgc;
+				when ending => state := idle;
+					rdy <= '1';
+				when others => null;
+			end case;
+		end if;
+	end if;
 end process p0;
 
 inst_mem_tgc : RAMB16_S36
@@ -59,7 +101,8 @@ SRVAL => X"0", -- Output value upon SSR assertion
 WRITE_MODE => "WRITE_FIRST", -- WRITE_FIRST, READ_FIRST or NO_CHANGE
 -- The following INIT_xx declarations specify the intial contents of the RAM
 -- Address 0 to 4095
-INIT_00 => X"3e6000003e4000003e2000003e0000003dc000003d8000003d00000002200000",
+-- TGC_EE -128 - 127 , out TGC_EE/2^5 Single FP
+INIT_00 => X"3e6000003e4000003e2000003e0000003dc000003d8000003d00000000000000",
 INIT_01 => X"3ef000003ee000003ed000003ec000003eb000003ea000003e9000003e800000",
 INIT_02 => X"3f3800003f3000003f2800003f2000003f1800003f1000003f0800003f000000",
 INIT_03 => X"3f7800003f7000003f6800003f6000003f5800003f5000003f4800003f400000",

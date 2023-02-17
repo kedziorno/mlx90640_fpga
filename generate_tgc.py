@@ -39,7 +39,7 @@ for i in range (0x0, 0xFF+1):
 #	col3 = col2.view(np.int16)
 #	print ("%d"%i,"%f"%col1,"%f"%col2,"%f"%col3,"%d"%col3,"0x{:04x}".format((int(col3) & 0xFFFF), '04x'))
 	col4 = float_to_hex (col3)
-	print ("%d"%i,"%f"%col1,"%f"%col3,"%s"%col4)
+	print ("%d"%i,"%d"%col1,"%d"%col2,"%f"%col3,"%s"%col4)
 	#str1.append("0x{:04x}".format((int(col3) & 0xFFFF), '04x'))
 	str1.append(col4)
 

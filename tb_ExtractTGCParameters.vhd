@@ -37,70 +37,91 @@ END tb_ExtractTGCParameters;
 
 ARCHITECTURE behavior OF tb_ExtractTGCParameters IS 
 
--- Component Declaration for the Unit Under Test (UUT)
-
-COMPONENT ExtractTGCParameters
-PORT(
-i_clock : IN  std_logic;
-i_reset : IN  std_logic;
-i_ee0x243c : IN  std_logic_vector(15 downto 0);
-o_tgc : OUT  std_logic_vector(31 downto 0)
+COMPONENT tb_i2c_mem
+PORT (
+clka : IN STD_LOGIC;
+ena : IN STD_LOGIC;
+wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+addra : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
+dina : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
 );
 END COMPONENT;
 
+-- Component Declaration for the Unit Under Test (UUT)
+component ExtractTGCParameters is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+o_tgc : out std_logic_vector (31 downto 0);
+o_rdy : out std_logic
+);
+end component ExtractTGCParameters;
 
 --Inputs
-signal i_clock : std_logic := '0';
-signal i_reset : std_logic := '0';
-signal i_ee0x243c : std_logic_vector(15 downto 0) := (others => '0');
+signal ExtractTGCParameters_clock : std_logic;
+signal ExtractTGCParameters_reset : std_logic;
+signal ExtractTGCParameters_run : std_logic;
+signal ExtractTGCParameters_i2c_mem_ena : STD_LOGIC;
+signal ExtractTGCParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal ExtractTGCParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 --Outputs
-signal o_tgc : std_logic_vector(31 downto 0);
+signal ExtractTGCParameters_tgc : std_logic_vector (31 downto 0);
+signal ExtractTGCParameters_rdy : std_logic;
 
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
 
 BEGIN
 
+inst_tb_i2c_mem : tb_i2c_mem
+PORT MAP (
+clka => ExtractTGCParameters_clock,
+ena => ExtractTGCParameters_i2c_mem_ena,
+wea => "0",
+addra => ExtractTGCParameters_i2c_mem_addra,
+dina => (others => '0'),
+douta => ExtractTGCParameters_i2c_mem_douta
+);
+
 -- Instantiate the Unit Under Test (UUT)
-uut: ExtractTGCParameters PORT MAP (
-i_clock => i_clock,
-i_reset => i_reset,
-i_ee0x243c => i_ee0x243c,
-o_tgc => o_tgc
+uut: ExtractTGCParameters port map (
+i_clock => ExtractTGCParameters_clock,
+i_reset => ExtractTGCParameters_reset,
+i_run => ExtractTGCParameters_run,
+i2c_mem_ena => ExtractTGCParameters_i2c_mem_ena,
+i2c_mem_addra => ExtractTGCParameters_i2c_mem_addra,
+i2c_mem_douta => ExtractTGCParameters_i2c_mem_douta,
+o_tgc => ExtractTGCParameters_tgc,
+o_rdy => ExtractTGCParameters_rdy
 );
 
 -- Clock process definitions
 i_clock_process :process
 begin
-i_clock <= '0';
+ExtractTGCParameters_clock <= '0';
 wait for i_clock_period/2;
-i_clock <= '1';
+ExtractTGCParameters_clock <= '1';
 wait for i_clock_period/2;
 end process;
-
 
 -- Stimulus process
 stim_proc: process
 begin		
 -- hold reset state for 100 ns.
-i_reset <= '1';
+ExtractTGCParameters_reset <= '1';
 wait for 100 ns;	
-i_reset <= '0';
+ExtractTGCParameters_reset <= '0';
 wait for i_clock_period*10;
-
--- insert stimulus here 
-i_ee0x243c <= std_logic_vector (to_unsigned (32, 16));
-wait for i_clock_period;
-i_ee0x243c <= std_logic_vector (to_unsigned (7, 16));
-wait for i_clock_period;
-i_ee0x243c <= std_logic_vector (to_unsigned (83, 16));
-wait for i_clock_period;
-i_ee0x243c <= std_logic_vector (to_unsigned (149, 16));
-wait for i_clock_period;
-i_ee0x243c <= std_logic_vector (to_unsigned (271, 16));
-wait for i_clock_period;
-
+-- insert stimulus here
+ExtractTGCParameters_run <= '1'; wait for i_clock_period; ExtractTGCParameters_run <= '0';
+wait until ExtractTGCParameters_rdy = '1';
+wait for 100 ns;
 report "done" severity failure;
 end process;
 
