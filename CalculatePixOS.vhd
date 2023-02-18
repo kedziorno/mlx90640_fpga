@@ -662,9 +662,7 @@ when ending => state := idle;
 	end if;
 	end if;
 	end process p0;
-		
-		
-		
+
 o_rdy <= rdy;
 o_do <= doa when rdy = '1' else (others => '0');
 mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0');
