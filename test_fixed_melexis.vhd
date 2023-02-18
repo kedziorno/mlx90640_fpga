@@ -379,11 +379,6 @@ signal ExtractKvPTATParameter_reset : std_logic;
 signal ExtractKvPTATParameter_ee0x2432 : std_logic_vector (15 downto 0);
 signal ExtractKvPTATParameter_kvptat : std_logic_vector (31 downto 0);
 
-signal ExtractTGCParameters_clock : std_logic;
-signal ExtractTGCParameters_reset : std_logic;
-signal ExtractTGCParameters_ee0x243c : std_logic_vector (15 downto 0);
-signal ExtractTGCParameters_tgc : std_logic_vector (31 downto 0);
-
 component calculateVdd is
 port (
 i_clock : in std_logic;

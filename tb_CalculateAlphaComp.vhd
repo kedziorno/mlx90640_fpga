@@ -131,7 +131,7 @@ CalculateAlphaComp_Ta0 <= x"41C80000"; -- 25
 CalculateAlphaComp_acpsubpage0 <= x"4082629A"; -- 4.07453626394272
 CalculateAlphaComp_acpsubpage1 <= x"4076826B"; -- 3.85171006200835
 CalculateAlphaComp_tgc <= x"3f800000"; -- 1
-CalculateAlphaComp_const1 <= x"";
+CalculateAlphaComp_const1 <= x"3f800000"; -- 1
 wait for i_clock_period;
 CalculateAlphaComp_run <= '1'; wait for i_clock_period; CalculateAlphaComp_run <= '0';
 wait until CalculateAlphaComp_rdy = '1';
