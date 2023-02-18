@@ -43,7 +43,6 @@ i_Ta : in std_logic_vector (31 downto 0);
 i_Ta0 : in std_logic_vector (31 downto 0);
 i_acpsubpage0 : in std_logic_vector (31 downto 0);
 i_acpsubpage1 : in std_logic_vector (31 downto 0);
-i_tgc : in std_logic_vector (31 downto 0);
 i_const1 : in std_logic_vector (31 downto 0);
 
 i_alpha_do : in std_logic_vector (31 downto 0);

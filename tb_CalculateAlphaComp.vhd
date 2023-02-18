@@ -50,7 +50,6 @@ i_Ta : IN  std_logic_vector(31 downto 0);
 i_Ta0 : IN  std_logic_vector(31 downto 0);
 i_acpsubpage0 : IN  std_logic_vector(31 downto 0);
 i_acpsubpage1 : IN  std_logic_vector(31 downto 0);
-i_tgc : IN  std_logic_vector(31 downto 0);
 i_const1 : IN  std_logic_vector(31 downto 0);
 i_alpha_do : IN  std_logic_vector(31 downto 0);
 o_alpha_addr : OUT  std_logic_vector(9 downto 0);
@@ -69,7 +68,6 @@ signal CalculateAlphaComp_Ta : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_Ta0 : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_acpsubpage0 : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_acpsubpage1 : std_logic_vector(31 downto 0) := (others => '0');
-signal CalculateAlphaComp_tgc : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_const1 : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_alpha_do : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_addr : std_logic_vector(9 downto 0) := (others => '0');
@@ -98,7 +96,6 @@ i_Ta => CalculateAlphaComp_Ta,
 i_Ta0 => CalculateAlphaComp_Ta0,
 i_acpsubpage0 => CalculateAlphaComp_acpsubpage0,
 i_acpsubpage1 => CalculateAlphaComp_acpsubpage1,
-i_tgc => CalculateAlphaComp_tgc,
 i_const1 => CalculateAlphaComp_const1,
 i_alpha_do => CalculateAlphaComp_alpha_do,
 o_alpha_addr => CalculateAlphaComp_alpha_addr,
@@ -130,7 +127,6 @@ CalculateAlphaComp_Ta <= x"421CBC6A"; -- 39.184
 CalculateAlphaComp_Ta0 <= x"41C80000"; -- 25
 CalculateAlphaComp_acpsubpage0 <= x"4082629A"; -- 4.07453626394272
 CalculateAlphaComp_acpsubpage1 <= x"4076826B"; -- 3.85171006200835
-CalculateAlphaComp_tgc <= x"3f800000"; -- 1
 CalculateAlphaComp_const1 <= x"3f800000"; -- 1
 wait for i_clock_period;
 CalculateAlphaComp_run <= '1'; wait for i_clock_period; CalculateAlphaComp_run <= '0';

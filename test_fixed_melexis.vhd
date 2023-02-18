@@ -323,20 +323,6 @@ signal ExtractCT34Parameter_ee0x243f : std_logic_vector (15 downto 0);
 signal ExtractCT34Parameter_ct3 : std_logic_vector (31 downto 0);
 signal ExtractCT34Parameter_ct4 : std_logic_vector (31 downto 0);
 
-COMPONENT ExtractKsTaParameters
-PORT(
-i_clock : IN  std_logic;
-i_reset : IN  std_logic;
-i_ee0x243c : IN  std_logic_vector(15 downto 0);
-o_ksta : OUT  std_logic_vector(31 downto 0)
-);
-END COMPONENT;
-
-signal ExtractKsTaParameters_clock : std_logic;
-signal ExtractKsTaParameters_reset : std_logic;
-signal ExtractKsTaParameters_ee0x243c : std_logic_vector (15 downto 0);
-signal ExtractKsTaParameters_ksta : std_logic_vector (31 downto 0);
-
 COMPONENT ExtractKsToScaleParameter
 PORT(
 i_clock : IN  std_logic;
@@ -570,22 +556,24 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-i_ee0x2439 : in slv16; -- CP_P12P0_ratio/Acpsubpage0 - 6/10bit
-i_ee0x2420 : in slv16; -- Ascalecp
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_acpsubpage0 : out fd2ft;
 o_acpsubpage1 : out fd2ft;
 o_rdy : out std_logic
 );
 end component CalculateAlphaCP;
 
-signal CalculateAlphaCP_clock : std_logic := '0';
-signal CalculateAlphaCP_reset : std_logic := '0';
-signal CalculateAlphaCP_run : std_logic := '0';
-signal CalculateAlphaCP_ee0x2439 : slv16 := (others => '0'); -- CP_P12P0_ratio/Acpsubpage0 - 6/10bit
-signal CalculateAlphaCP_ee0x2420 : slv16 := (others => '0'); -- Ascalecp
-signal CalculateAlphaCP_acpsubpage0 : fd2ft := (others => '0');
-signal CalculateAlphaCP_acpsubpage1 : fd2ft := (others => '0');
-signal CalculateAlphaCP_rdy : std_logic := '0';
+signal CalculateAlphaCP_clock : std_logic;
+signal CalculateAlphaCP_reset : std_logic;
+signal CalculateAlphaCP_run : std_logic;
+signal CalculateAlphaCP_i2c_mem_ena : STD_LOGIC;
+signal CalculateAlphaCP_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal CalculateAlphaCP_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal CalculateAlphaCP_acpsubpage0 : fd2ft;
+signal CalculateAlphaCP_acpsubpage1 : fd2ft;
+signal CalculateAlphaCP_rdy : std_logic;
 
 component CalculateOffsetCP is
 port (
@@ -805,9 +793,47 @@ signal CalculateVirCompensated_pixos_addr : std_logic_vector(9 downto 0);
 signal CalculateVirCompensated_do : std_logic_vector(31 downto 0);
 signal CalculateVirCompensated_rdy : std_logic;
 
+COMPONENT CalculateAlphaComp
+PORT(
+i_clock : IN  std_logic;
+i_reset : IN  std_logic;
+i_run : IN  std_logic;
+i2c_mem_ena : OUT  std_logic;
+i2c_mem_addra : OUT  std_logic_vector(11 downto 0);
+i2c_mem_douta : IN  std_logic_vector(7 downto 0);
+i_Ta : IN  std_logic_vector(31 downto 0);
+i_Ta0 : IN  std_logic_vector(31 downto 0);
+i_acpsubpage0 : IN  std_logic_vector(31 downto 0);
+i_acpsubpage1 : IN  std_logic_vector(31 downto 0);
+i_const1 : IN  std_logic_vector(31 downto 0);
+i_alpha_do : IN  std_logic_vector(31 downto 0);
+o_alpha_addr : OUT  std_logic_vector(9 downto 0);
+o_do : OUT  std_logic_vector(31 downto 0);
+i_addr : IN  std_logic_vector(9 downto 0);
+o_rdy : OUT  std_logic
+);
+END COMPONENT;
+
+signal CalculateAlphaComp_clock : std_logic := '0';
+signal CalculateAlphaComp_reset : std_logic := '0';
+signal CalculateAlphaComp_run : std_logic := '0';
+signal CalculateAlphaComp_i2c_mem_douta : std_logic_vector(7 downto 0) := (others => '0');
+signal CalculateAlphaComp_Ta : std_logic_vector(31 downto 0) := (others => '0');
+signal CalculateAlphaComp_Ta0 : std_logic_vector(31 downto 0) := (others => '0');
+signal CalculateAlphaComp_acpsubpage0 : std_logic_vector(31 downto 0) := (others => '0');
+signal CalculateAlphaComp_acpsubpage1 : std_logic_vector(31 downto 0) := (others => '0');
+signal CalculateAlphaComp_const1 : std_logic_vector(31 downto 0) := (others => '0');
+signal CalculateAlphaComp_alpha_do : std_logic_vector(31 downto 0) := (others => '0');
+signal CalculateAlphaComp_addr : std_logic_vector(9 downto 0) := (others => '0');
+signal CalculateAlphaComp_i2c_mem_ena : std_logic;
+signal CalculateAlphaComp_i2c_mem_addra : std_logic_vector(11 downto 0);
+signal CalculateAlphaComp_alpha_addr : std_logic_vector(9 downto 0);
+signal CalculateAlphaComp_do : std_logic_vector(31 downto 0);
+signal CalculateAlphaComp_rdy : std_logic;
+
 signal rdyrecover : std_logic; -- signal for tb when rdy not appear
 
-signal CalculatePixOS_mux,CalculatePixOsCPSP_mux,CalculateVirCompensated_mux,ExtractOffsetParameters_mux,ExtractAlphaParameters_mux : std_logic;
+signal CalculatePixOS_mux,CalculatePixOsCPSP_mux,CalculateVirCompensated_mux,ExtractOffsetParameters_mux,ExtractAlphaParameters_mux,CalculateAlphaComp_mux,CalculateAlphaCP_mux : std_logic;
 
 begin
 
@@ -820,7 +846,11 @@ CalculateVirCompensated_i2c_mem_ena when CalculateVirCompensated_mux = '1'
 else
 ExtractOffsetParameters_i2c_mem_ena when ExtractOffsetParameters_mux = '1'
 else
+CalculateAlphaCP_i2c_mem_ena when CalculateAlphaCP_mux = '1'
+else
 ExtractAlphaParameters_i2c_mem_ena when ExtractAlphaParameters_mux = '1'
+else
+CalculateAlphaComp_i2c_mem_ena when CalculateAlphaComp_mux = '1'
 else '0';
 
 i2c_mem_addra <=
@@ -832,14 +862,20 @@ CalculateVirCompensated_i2c_mem_addra when CalculateVirCompensated_mux = '1'
 else
 ExtractOffsetParameters_i2c_mem_addra when ExtractOffsetParameters_mux = '1'
 else
+CalculateAlphaCP_i2c_mem_addra when CalculateAlphaCP_mux = '1'
+else
 ExtractAlphaParameters_i2c_mem_addra when ExtractAlphaParameters_mux = '1'
+else
+CalculateAlphaComp_i2c_mem_addra when CalculateAlphaComp_mux = '1'
 else (others => '0');
 
 CalculatePixOS_i2c_mem_douta <= i2c_mem_douta;
 CalculatePixOsCPSP_i2c_mem_douta <= i2c_mem_douta;
 CalculateVirCompensated_i2c_mem_douta <= i2c_mem_douta;
 ExtractOffsetParameters_i2c_mem_douta <= i2c_mem_douta;
+CalculateAlphaCP_i2c_mem_douta <= i2c_mem_douta;
 ExtractAlphaParameters_i2c_mem_douta <= i2c_mem_douta;
+CalculateAlphaComp_i2c_mem_douta <= i2c_mem_douta;
 
 o_rdy <=
 fixed2floatrdy when fixed2floatce = '1' else
@@ -1076,17 +1112,44 @@ when idle =>
 		end if;
 
 	when s15 => state := s16;
-		ExtractAlphaParameters_run <= '1';
-		ExtractAlphaParameters_mux <= '1';
+		CalculateAlphaCP_run <= '1';
+		CalculateAlphaCP_mux <= '1';
 	when s16 => 
-		ExtractAlphaParameters_run <= '0';
-		if (ExtractAlphaParameters_rdy = '1') then
-			state := s318;
-			ExtractAlphaParameters_mux <= '0';
+		CalculateAlphaCP_run <= '0';
+		if (CalculateAlphaCP_rdy = '1') then
+			state := s17;
+			CalculateAlphaCP_mux <= '0';
 		else
 			state := s16;
+			CalculateAlphaCP_mux <= '1';
+		end if;
+
+	when s17 => state := s18;
+		ExtractAlphaParameters_run <= '1';
+		ExtractAlphaParameters_mux <= '1';
+	when s18 => 
+		ExtractAlphaParameters_run <= '0';
+		if (ExtractAlphaParameters_rdy = '1') then
+			state := s19;
+			ExtractAlphaParameters_mux <= '0';
+		else
+			state := s18;
 			ExtractAlphaParameters_mux <= '1';
 		end if;
+
+	when s19 => state := s20;
+		CalculateAlphaComp_run <= '1';
+		CalculateAlphaComp_mux <= '1';
+	when s20 => 
+		CalculateAlphaComp_run <= '0';
+		if (CalculateAlphaComp_rdy = '1') then
+			state := s318;
+			CalculateAlphaComp_mux <= '0';
+		else
+			state := s20;
+			CalculateAlphaComp_mux <= '1';
+		end if;
+
 
 	when s318 => state := s319;
 		eeprom16slv := i_ee0x243d and x"ff00";
@@ -1661,16 +1724,6 @@ o_ct3 => ExtractCT34Parameter_ct3,
 o_ct4 => ExtractCT34Parameter_ct4
 );
 
-ExtractKsTaParameters_clock <= i_clock;
-ExtractKsTaParameters_reset <= i_reset;
-ExtractKsTaParameters_ee0x243c <= i_ee0x243c;
-inst_ExtractKsTaParameters : ExtractKsTaParameters PORT MAP (
-i_clock => ExtractKsTaParameters_clock,
-i_reset => ExtractKsTaParameters_reset,
-i_ee0x243c => ExtractKsTaParameters_ee0x243c,
-o_ksta => ExtractKsTaParameters_ksta
-);
-
 ExtractKsToScaleParameter_clock <= i_clock;
 ExtractKsToScaleParameter_reset <= i_reset;
 ExtractKsToScaleParameter_ee0x243f <= i_ee0x243f;
@@ -1815,8 +1868,9 @@ port map (
 i_clock => CalculateAlphaCP_clock,
 i_reset => CalculateAlphaCP_reset,
 i_run => CalculateAlphaCP_run,
-i_ee0x2439 => CalculateAlphaCP_ee0x2439,
-i_ee0x2420 => CalculateAlphaCP_ee0x2420,
+i2c_mem_ena => CalculateAlphaCP_i2c_mem_ena,
+i2c_mem_addra => CalculateAlphaCP_i2c_mem_addra,
+i2c_mem_douta => CalculateAlphaCP_i2c_mem_douta,
 o_acpsubpage0 => CalculateAlphaCP_acpsubpage0,
 o_acpsubpage1 => CalculateAlphaCP_acpsubpage1,
 o_rdy => CalculateAlphaCP_rdy
@@ -1970,6 +2024,34 @@ o_pixos_addr => CalculateVirCompensated_pixos_addr,
 o_do => CalculateVirCompensated_do,
 i_addr => CalculateVirCompensated_addr,
 o_rdy => CalculateVirCompensated_rdy
+);
+
+CalculateAlphaComp_clock <= i_clock;
+CalculateAlphaComp_reset <= i_reset;
+CalculateAlphaComp_Ta <= CalculateTa_Ta;
+CalculateAlphaComp_Ta0 <= x"41C80000"; -- 25
+CalculateAlphaComp_acpsubpage0 <= CalculateAlphaCP_acpsubpage0;
+CalculateAlphaComp_acpsubpage1 <= CalculateAlphaCP_acpsubpage1;
+CalculateAlphaComp_const1 <= x"3f800000";
+CalculateAlphaComp_alpha_do <= ExtractAlphaParameters_do;
+CalculateAlphaComp_alpha_addr <= ExtractAlphaParameters_addr;
+inst_CalculateAlphaComp : CalculateAlphaComp PORT MAP (
+i_clock => CalculateAlphaComp_clock,
+i_reset => CalculateAlphaComp_reset,
+i_run => CalculateAlphaComp_run,
+i2c_mem_ena => CalculateAlphaComp_i2c_mem_ena,
+i2c_mem_addra => CalculateAlphaComp_i2c_mem_addra,
+i2c_mem_douta => CalculateAlphaComp_i2c_mem_douta,
+i_Ta => CalculateAlphaComp_Ta,
+i_Ta0 => CalculateAlphaComp_Ta0,
+i_acpsubpage0 => CalculateAlphaComp_acpsubpage0,
+i_acpsubpage1 => CalculateAlphaComp_acpsubpage1,
+i_const1 => CalculateAlphaComp_const1,
+i_alpha_do => CalculateAlphaComp_alpha_do,
+o_alpha_addr => CalculateAlphaComp_alpha_addr,
+o_do => CalculateAlphaComp_do,
+i_addr => CalculateAlphaComp_addr,
+o_rdy => CalculateAlphaComp_rdy
 );
 
 end architecture testbench;
