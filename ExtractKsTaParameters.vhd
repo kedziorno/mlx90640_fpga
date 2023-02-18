@@ -22,7 +22,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx primitives in this code.
@@ -33,8 +33,14 @@ entity ExtractKsTaParameters is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
-i_ee0x243c : in std_logic_vector (15 downto 0);
-o_ksta : out std_logic_vector (31 downto 0)
+i_run : in std_logic;
+
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+
+o_ksta : out std_logic_vector (31 downto 0);
+o_rdy : out std_logic
 );
 end ExtractKsTaParameters;
 
@@ -45,11 +51,39 @@ signal address_ksta : std_logic_vector (8 downto 0);
 
 begin
 
-o_ksta  <= odata_ksta;
-
-p0 : process (i_ee0x243c) is
+p0 : process (i_clock) is
+	type states is (idle,
+	s1,s2,s3,s4,s5,
+	ending);
+	variable state : states;
 begin
-	address_ksta <= "0" & i_ee0x243c (15 downto 8);
+	if (rising_edge (i_clock)) then
+		if (i_reset = '1') then
+			state := idle;
+			i2c_mem_ena <= '0';
+		else
+			case (state) is
+				when idle =>
+					if (i_run = '1') then
+						state := s1;
+						i2c_mem_ena <= '1';
+					else
+						state := idle;
+						i2c_mem_ena <= '0';
+					end if;
+				when s1 => state := s2;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (60*2+0, 12)); -- 243c MSB kstaee 8bit
+				when s2 => state := s3;
+				when s3 => state := s4;
+					address_ksta <= "0"&i2c_mem_douta; -- kstaee
+				when s4 => state := s5;
+				when s5 => state := ending;
+					o_ksta <= odata_ksta;
+				when ending => state := idle;
+					o_rdy <= '1';
+			end case;
+		end if;
+	end if;
 end process p0;
 
 inst_mem_ksta : RAMB16_S36
@@ -59,7 +93,7 @@ SRVAL => X"0", -- Output value upon SSR assertion
 WRITE_MODE => "WRITE_FIRST", -- WRITE_FIRST, READ_FIRST or NO_CHANGE
 -- The following INIT_xx declarations specify the intial contents of the RAM
 -- Address 0 to 4095
-INIT_00 => X"3a6000003a4000003a2000003a00000039c00000398000003900000022000000",
+INIT_00 => X"3a6000003a4000003a2000003a00000039c00000398000003900000000000000",
 INIT_01 => X"3af000003ae000003ad000003ac000003ab000003aa000003a9000003a800000",
 INIT_02 => X"3b3800003b3000003b2800003b2000003b1800003b1000003b0800003b000000",
 INIT_03 => X"3b7800003b7000003b6800003b6000003b5800003b5000003b4800003b400000",
