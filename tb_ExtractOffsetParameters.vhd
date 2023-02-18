@@ -121,6 +121,7 @@ addra => i2c_mem_addra,
 dina => (others => '0'),
 douta => i2c_mem_douta
 );
+
 -- Instantiate the Unit Under Test (UUT)
 uut: ExtractOffsetParameters PORT MAP (
 i_clock => i_clock,

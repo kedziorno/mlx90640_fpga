@@ -24,7 +24,7 @@ use work.p_fphdl_package1.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx primitives in this code.
@@ -36,8 +36,11 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-i_ee0x2439 : in slv16; -- CP_P12P0_ratio/Acpsubpage0 - 6/10bit
-i_ee0x2420 : in slv16; -- Ascalecp
+
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+
 o_acpsubpage0 : out fd2ft;
 o_acpsubpage1 : out fd2ft;
 o_rdy : out std_logic
@@ -150,8 +153,10 @@ x"00000000" when others;
 p0 : process (i_clock,i_reset) is
 	variable fptmp1,fptmp2 : fd2ft;
 	type states is (idle,
-	s1,s2,s3,s4,s5,s6,s7,s8);
+	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,
+	ending);
 	variable state : states;
+	variable ee0x2439 : std_logic_vector (15 downto 0);
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -172,52 +177,62 @@ begin
 			mem_unsigned1024_ivalue <= (others => '0');
 			nibble1 <= (others => '0');
 			nibble2 <= (others => '0');
+			i2c_mem_ena <= '0';
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
 						state := s1;
+						i2c_mem_ena <= '1';
 					else
 						state := idle;
+						i2c_mem_ena <= '0';
 					end if;
 					mulfpsclr <= '0';
 					divfpsclr <= '0';
 				when s1 => state := s2;
-					nibble2 <= i_ee0x2420 (15 downto 12); -- Ascalecp 4bit
-					nibble1 <= i_ee0x2439 (15 downto 10); -- CP_P12P0_ratio 6bit
-					mem_unsigned1024_ivalue <= i_ee0x2439 (9 downto 0); -- Acpsubpage0 10bit
+					i2c_mem_addra <= std_logic_vector (to_unsigned (16*2+0, 12)); -- 2420 MSB Ascalecp 4bit
 				when s2 => state := s3;
-					--wait 1 clk
+					i2c_mem_addra <= std_logic_vector (to_unsigned (57*2+0, 12)); -- 2439 MSB Acpsubpage0 10bit/CP_P12P0_ratio 6bit
 				when s3 => state := s4;
-					--wait 1 clk
+					nibble2 <= i2c_mem_douta (7 downto 4); -- Ascalecp 4bit
+					i2c_mem_addra <= std_logic_vector (to_unsigned (57*2+1, 12)); -- 2439 LSB Acpsubpage0 10bit/CP_P12P0_ratio 6bit
 				when s4 => state := s5;
+					ee0x2439 (15 downto 8) := i2c_mem_douta;
+				when s5 => state := s6;
+					ee0x2439 (7 downto 0) := i2c_mem_douta;
+				when s6 => state := s7;
+					nibble1 <= ee0x2439 (15 downto 10); -- CP_P12P0_ratio 6bit
+					mem_unsigned1024_ivalue <= ee0x2439 (9 downto 0); -- Acpsubpage0 10bit
+				when s7 => state := s8;
+				when s8 => state := s9;
 					divfpce <= '1';
 					divfpa <= mem_unsigned1024_ovalue; -- Acpsubpage0
 					divfpb <= out_nibble2; -- 2^(Ascalecp+27)
 					divfpond <= '1';
-				when s5 =>
-					if (divfprdy = '1') then state := s6;
+				when s9 =>
+					if (divfprdy = '1') then state := s10;
 						fptmp1 := divfpr;
 						divfpce <= '0';
 						divfpond <= '0';
 						divfpsclr <= '1';
 						o_acpsubpage0 <= fptmp1;
-					else state := s5; end if;
-				when s6 => state := s7;
+					else state := s9; end if;
+				when s10 => state := s11;
 					divfpsclr <= '0';
 					mulfpce <= '1';
 					mulfpa <= fptmp1; -- Acpsubpage0/(2^(Ascalecp+27))
 					mulfpb <= out_nibble1; -- (1 + (CP_P12P0_ratio/2^7))
 					mulfpond <= '1';
-				when s7 =>
-					if (mulfprdy = '1') then state := s8;
-						fptmp2 := mulfpr;
+				when s11 =>
+					if (mulfprdy = '1') then state := ending;
+						fptmp1 := mulfpr;
 						mulfpce <= '0';
 						mulfpond <= '0';
 						mulfpsclr <= '1';
-						o_acpsubpage1 <= fptmp2;
-					else state := s7; end if;
-				when s8 => state := idle;
+						o_acpsubpage1 <= fptmp1;
+					else state := s11; end if;
+				when ending => state := idle;
 					mulfpsclr <= '0';
 					o_rdy <= '1';
 				when others => null;
