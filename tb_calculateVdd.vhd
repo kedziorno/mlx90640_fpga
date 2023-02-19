@@ -19,16 +19,26 @@ END tb_calculateVdd;
 
 ARCHITECTURE tb OF tb_calculateVdd IS 
 
+COMPONENT tb_i2c_mem
+PORT (
+clka : IN STD_LOGIC;
+ena : IN STD_LOGIC;
+wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+addra : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
+dina : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+);
+END COMPONENT;
+
 -- Component Declaration
 component calculateVdd is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-i_ee0x2433 : in slv16; -- kvdd,vdd25
-i_ee0x2438 : in slv16; -- resolutioncontrolcal,kvscale,ktascale1,ktascale2-2/4/4/4|resolutionee
-i_ram0x072a : in slv16; -- for deltaV,vdd
-i_ram0x800d : in slv16; -- resolution reg
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_Vdd : out fd2ft; -- output Vdd
 o_kvdd : out fd2ft;
 o_vdd25 : out fd2ft;
@@ -36,61 +46,71 @@ o_ram0x072a : out fd2ft;
 o_rdy : out std_logic
 );
 end component calculateVdd;
-
-SIGNAL i_clock :  std_logic := '0';
-SIGNAL i_reset :  std_logic := '0';
-SIGNAL i_run :  std_logic := '0';
-SIGNAL o_Vdd : fd2ft;
-SIGNAL o_kvdd : fd2ft;
-SIGNAL o_vdd25 : fd2ft;
-SIGNAL o_ram0x072a : fd2ft;
-SIGNAL o_rdy : std_logic;
+--
+signal calculateVdd_clock : std_logic;
+signal calculateVdd_reset : std_logic;
+signal calculateVdd_run : std_logic;
+signal calculateVdd_i2c_mem_ena : STD_LOGIC;
+signal calculateVdd_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal calculateVdd_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal calculateVdd_Vdd : fd2ft; -- output Vdd
+signal calculateVdd_kvdd : fd2ft;
+signal calculateVdd_vdd25 : fd2ft;
+signal calculateVdd_ram0x072a : fd2ft;
+signal calculateVdd_rdy : std_logic;
 
 constant clock_period : time := 10 ns;
-constant G_C_WAIT1 : integer := 16;
 
 signal out1r : real;
 
 BEGIN
 
-out1r <= ap_slv2fp (o_Vdd);
+out1r <= ap_slv2fp (calculateVdd_Vdd);
+
+inst_tb_i2c_mem : tb_i2c_mem
+PORT MAP (
+clka => calculateVdd_clock,
+ena => calculateVdd_i2c_mem_ena,
+wea => "0",
+addra => calculateVdd_i2c_mem_addra,
+dina => (others => '0'),
+douta => calculateVdd_i2c_mem_douta
+);
 
 cp : process
 begin
-	i_clock <= '0';
+	calculateVdd_clock <= '0';
 	wait for clock_period/2;
-	i_clock <= '1';
+	calculateVdd_clock <= '1';
 	wait for clock_period/2;
 end process cp;
 
 -- Component Instantiation
-uut : calculateVdd
-port map (
-i_clock => i_clock,
-i_reset => i_reset,
-i_run => i_run,
-i_ee0x2433 => x"9d68",
-i_ee0x2438 => x"2363",
-i_ram0x072a => x"ccc5",
-i_ram0x800d => x"1901",
-o_Vdd => o_Vdd,
-o_kvdd => o_kvdd,
-o_vdd25 => o_vdd25,
-o_ram0x072a => o_ram0x072a,
-o_rdy => o_rdy
+uut : calculateVdd port map (
+i_clock => calculateVdd_clock,
+i_reset => calculateVdd_reset,
+i_run => calculateVdd_run,
+i2c_mem_ena => calculateVdd_i2c_mem_ena,
+i2c_mem_addra => calculateVdd_i2c_mem_addra,
+i2c_mem_douta => calculateVdd_i2c_mem_douta,
+o_Vdd => calculateVdd_Vdd,
+o_kvdd => calculateVdd_kvdd,
+o_vdd25 => calculateVdd_vdd25,
+o_ram0x072a => calculateVdd_ram0x072a,
+o_rdy => calculateVdd_rdy
 );
 
 --  Test Bench Statements
 tbprocess : PROCESS
 BEGIN
-i_reset <= '1';
+calculateVdd_reset <= '1';
 wait for 254.3 ns; -- wait until global set/reset completes
-i_reset <= '0';
+calculateVdd_reset <= '0';
 wait for clock_period*10;
 -- Add user defined stimulus here
-i_run <= '1'; wait for clock_period; i_run <= '0';
-wait for clock_period*10;
-wait for 100 us;
+calculateVdd_run <= '1'; wait for clock_period; calculateVdd_run <= '0';
+wait until calculateVdd_rdy = '1';
+wait for 100 ns;
 report "done" severity failure;
 END PROCESS tbprocess;
 --  End Test Bench 

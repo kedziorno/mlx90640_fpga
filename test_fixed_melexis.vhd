@@ -107,7 +107,6 @@ result : OUT STD_LOGIC_VECTOR(63 DOWNTO 0);
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
-
 signal float2fixeda : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal float2fixedond : STD_LOGIC;
 signal float2fixedclk : STD_LOGIC;
@@ -127,7 +126,6 @@ result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
-
 signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal fixed2floatond : STD_LOGIC;
 signal fixed2floatclk : STD_LOGIC;
@@ -148,7 +146,6 @@ result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
-
 signal divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpond : STD_LOGIC;
@@ -170,7 +167,6 @@ result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
-
 signal mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpond : STD_LOGIC;
@@ -192,7 +188,6 @@ result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
-
 signal addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfpond : STD_LOGIC;
@@ -214,7 +209,6 @@ result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
-
 signal subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfpond : STD_LOGIC;
@@ -235,7 +229,6 @@ result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
-
 signal sqrtfp2a : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal sqrtfp2ond : STD_LOGIC;
 signal sqrtfp2clk : STD_LOGIC;
@@ -252,12 +245,10 @@ i_N : in std_logic_vector (5 downto 0);
 o_2powerN : out std_logic_vector (31 downto 0)
 );
 end component mem_float2powerN;
-
 signal mem_float2powerN_clock1 : std_logic;
 signal mem_float2powerN_reset1 : std_logic;
 signal mem_float2powerN_N1 : std_logic_vector (5 downto 0);
 signal mem_float2powerN_2powerN1 : std_logic_vector (31 downto 0);
-
 signal mem_float2powerN_clock2 : std_logic;
 signal mem_float2powerN_reset2 : std_logic;
 signal mem_float2powerN_N2 : std_logic_vector (5 downto 0);
@@ -271,27 +262,33 @@ i_pixel : in std_logic_vector (13 downto 0);
 o_pattern : out std_logic
 );
 end component mem_switchpattern;
-
 signal mem_switchpattern_clock : std_logic;
 signal mem_switchpattern_reset : std_logic;
 signal mem_switchpattern_pixel : std_logic_vector (13 downto 0);
 signal mem_switchpattern_pattern : std_logic;
 
-component ExtractVDDParameters is
-port (
+COMPONENT ExtractVDDParameters
+PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
-i_ee0x2433 : IN  std_logic_vector (15 downto 0);
+i_run : in std_logic;
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_kvdd : OUT  std_logic_vector (31 downto 0);
-o_vdd25 : OUT  std_logic_vector (31 downto 0)
+o_vdd25 : OUT  std_logic_vector (31 downto 0);
+o_rdy : out std_logic
 );
-end component ExtractVDDParameters;
-
+END COMPONENT;
 signal ExtractVDDParameters_clock : std_logic;
 signal ExtractVDDParameters_reset : std_logic;
-signal ExtractVDDParameters_ee0x2433 : std_logic_vector (15 downto 0);
-signal ExtractVDDParameters_kvdd : std_logic_vector (31 downto 0);
-signal ExtractVDDParameters_vdd25 : std_logic_vector (31 downto 0);
+signal ExtractVDDParameters_run : std_logic;
+signal ExtractVDDParameters_i2c_mem_ena : STD_LOGIC;
+signal ExtractVDDParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal ExtractVDDParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal ExtractVDDParameters_kvdd : std_logic_vector(31 downto 0);
+signal ExtractVDDParameters_vdd25 : std_logic_vector(31 downto 0);
+signal ExtractVDDParameters_rdy : std_logic;
 
 component ExtractAlphaPtatParameter is
 port (
@@ -301,7 +298,6 @@ i_ee0x2410 : IN  std_logic_vector (15 downto 0);
 o_alphaptat: OUT  std_logic_vector (31 downto 0)
 );
 end component ExtractAlphaPtatParameter;
-
 signal ExtractAlphaPtatParameter_clock : std_logic;
 signal ExtractAlphaPtatParameter_reset : std_logic;
 signal ExtractAlphaPtatParameter_ee0x2410 : std_logic_vector (15 downto 0);
@@ -316,7 +312,6 @@ o_ct3 : out std_logic_vector (31 downto 0);
 o_ct4 : out std_logic_vector (31 downto 0)
 );
 end component ExtractCT34Parameter;
-
 signal ExtractCT34Parameter_clock : std_logic;
 signal ExtractCT34Parameter_reset : std_logic;
 signal ExtractCT34Parameter_ee0x243f : std_logic_vector (15 downto 0);
@@ -331,7 +326,6 @@ i_ee0x243f : IN  std_logic_vector(15 downto 0);
 o_kstoscale : OUT  std_logic_vector(31 downto 0)
 );
 END COMPONENT;
-
 signal ExtractKsToScaleParameter_clock : std_logic;
 signal ExtractKsToScaleParameter_reset : std_logic;
 signal ExtractKsToScaleParameter_ee0x243f : std_logic_vector (15 downto 0);
@@ -345,7 +339,6 @@ i_ee0x2432 : IN  std_logic_vector(15 downto 0);
 o_ktptat : OUT  std_logic_vector(31 downto 0)
 );
 END COMPONENT;
-
 signal ExtractKtPTATParameter_clock : std_logic;
 signal ExtractKtPTATParameter_reset : std_logic;
 signal ExtractKtPTATParameter_ee0x2432 : std_logic_vector (15 downto 0);
@@ -359,7 +352,6 @@ i_ee0x2432 : IN  std_logic_vector(15 downto 0);
 o_kvptat : OUT  std_logic_vector(31 downto 0)
 );
 END COMPONENT;
-
 signal ExtractKvPTATParameter_clock : std_logic;
 signal ExtractKvPTATParameter_reset : std_logic;
 signal ExtractKvPTATParameter_ee0x2432 : std_logic_vector (15 downto 0);
@@ -381,7 +373,6 @@ o_ram0x072a : out fd2ft;
 o_rdy : out std_logic
 );
 end component calculateVdd;
-
 signal calculateVdd_clock : std_logic;
 signal calculateVdd_reset : std_logic;
 signal calculateVdd_run : std_logic;
@@ -412,7 +403,6 @@ o_Ta : out fd2ft; -- output Ta
 o_rdy : out std_logic
 );
 end component calculateTa;
-
 signal calculateTa_clock : std_logic;
 signal calculateTa_reset : std_logic;
 signal calculateTa_run : std_logic;
@@ -438,7 +428,6 @@ o_KGain : out fd2ft;
 o_rdy : out std_logic
 );
 end component calculateKGain;
-
 signal calculateKGain_clock : std_logic;
 signal calculateKGain_reset : std_logic;
 signal calculateKGain_run : std_logic;
@@ -461,7 +450,6 @@ o_done : out std_logic;
 o_rdy : out std_logic
 );
 end component ExtractOffsetParameters;
-
 signal ExtractOffsetParameters_clock : std_logic;
 signal ExtractOffsetParameters_reset : std_logic;
 signal ExtractOffsetParameters_run : std_logic;
@@ -487,7 +475,6 @@ o_done : out std_logic;
 o_rdy : out std_logic
 );
 end component ExtractAlphaParameters;
-
 signal ExtractAlphaParameters_clock : std_logic;
 signal ExtractAlphaParameters_reset : std_logic;
 signal ExtractAlphaParameters_run : std_logic;
@@ -513,7 +500,6 @@ o_done : out std_logic;
 o_rdy : out std_logic
 );
 end component ExtractKtaParameters;
-
 signal ExtractKtaParameters_clock : std_logic;
 signal ExtractKtaParameters_reset : std_logic;
 signal ExtractKtaParameters_run : std_logic;
@@ -539,7 +525,6 @@ o_done : out std_logic;
 o_rdy : out std_logic
 );
 end component ExtractKvParameters;
-
 signal ExtractKvParameters_clock : std_logic;
 signal ExtractKvParameters_reset : std_logic;
 signal ExtractKvParameters_run : std_logic;
@@ -564,7 +549,6 @@ o_acpsubpage1 : out fd2ft;
 o_rdy : out std_logic
 );
 end component CalculateAlphaCP;
-
 signal CalculateAlphaCP_clock : std_logic;
 signal CalculateAlphaCP_reset : std_logic;
 signal CalculateAlphaCP_run : std_logic;
@@ -586,7 +570,6 @@ o_offcpsubpage1 : out fd2ft;
 o_rdy : out std_logic
 );
 end component CalculateOffsetCP;
-
 signal CalculateOffsetCP_clock : std_logic := '0';
 signal CalculateOffsetCP_reset : std_logic := '0';
 signal CalculateOffsetCP_run : std_logic := '0';
@@ -610,7 +593,6 @@ o_done : out std_logic;
 o_rdy : out std_logic
 );
 end component CalculatePixGain;
-
 signal CalculatePixGain_clock : std_logic := '0';
 signal CalculatePixGain_reset : std_logic := '0';
 signal CalculatePixGain_run : std_logic := '0';
@@ -638,7 +620,6 @@ o_alphacorrrange4 : out fd2ft;
 o_rdy : out std_logic
 );
 end component ExtractAlphaCorrRange1234;
-
 signal ExtractAlphaCorrRange1234_clock : std_logic := '0';
 signal ExtractAlphaCorrRange1234_reset : std_logic := '0';
 signal ExtractAlphaCorrRange1234_run : std_logic := '0';
@@ -670,7 +651,6 @@ o_cpKta : out fd2ft;
 o_rdy : out std_logic
 );
 end component ExtractCPParameters;
-
 signal ExtractCPParameters_clock : std_logic := '0';
 signal ExtractCPParameters_reset : std_logic := '0';
 signal ExtractCPParameters_run : std_logic := '0';
@@ -706,7 +686,6 @@ i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 o_rdy : out std_logic
 );
 end component CalculatePixOS;
-
 signal CalculatePixOS_clock : std_logic;
 signal CalculatePixOS_reset : std_logic;
 signal CalculatePixOS_run : std_logic;
@@ -742,7 +721,6 @@ o_pixoscpsp1 : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic
 );
 end component CalculatePixOsCPSP;
-
 signal CalculatePixOsCPSP_clock : std_logic;
 signal CalculatePixOsCPSP_reset : std_logic;
 signal CalculatePixOsCPSP_run : std_logic;
@@ -777,7 +755,6 @@ i_addr : IN  std_logic_vector(9 downto 0);
 o_rdy : OUT  std_logic
 );
 END COMPONENT;
-
 signal CalculateVirCompensated_clock : std_logic;
 signal CalculateVirCompensated_reset : std_logic;
 signal CalculateVirCompensated_run : std_logic;
@@ -813,7 +790,6 @@ i_addr : IN  std_logic_vector(9 downto 0);
 o_rdy : OUT  std_logic
 );
 END COMPONENT;
-
 signal CalculateAlphaComp_clock : std_logic := '0';
 signal CalculateAlphaComp_reset : std_logic := '0';
 signal CalculateAlphaComp_run : std_logic := '0';
@@ -833,11 +809,14 @@ signal CalculateAlphaComp_rdy : std_logic;
 
 signal rdyrecover : std_logic; -- signal for tb when rdy not appear
 
-signal CalculatePixOS_mux,CalculatePixOsCPSP_mux,CalculateVirCompensated_mux,ExtractOffsetParameters_mux,ExtractAlphaParameters_mux,CalculateAlphaComp_mux,CalculateAlphaCP_mux : std_logic;
+signal CalculatePixOS_mux,CalculatePixOsCPSP_mux,CalculateVirCompensated_mux,ExtractOffsetParameters_mux : std_logic;
+signal ExtractAlphaParameters_mux,CalculateAlphaComp_mux,CalculateAlphaCP_mux,ExtractVDDParameters_mux : std_logic;
 
 begin
 
 i2c_mem_ena <=
+ExtractVDDParameters_i2c_mem_ena when ExtractVDDParameters_mux = '1'
+else
 CalculatePixOS_i2c_mem_ena when CalculatePixOS_mux = '1'
 else
 CalculatePixOsCPSP_i2c_mem_ena when CalculatePixOsCPSP_mux = '1'
@@ -854,6 +833,8 @@ CalculateAlphaComp_i2c_mem_ena when CalculateAlphaComp_mux = '1'
 else '0';
 
 i2c_mem_addra <=
+ExtractVDDParameters_i2c_mem_addra when ExtractVDDParameters_mux = '1'
+else
 CalculatePixOS_i2c_mem_addra when CalculatePixOS_mux = '1'
 else
 CalculatePixOsCPSP_i2c_mem_addra when CalculatePixOsCPSP_mux = '1'
@@ -869,6 +850,7 @@ else
 CalculateAlphaComp_i2c_mem_addra when CalculateAlphaComp_mux = '1'
 else (others => '0');
 
+ExtractVDDParameters_i2c_mem_douta <= i2c_mem_douta;
 CalculatePixOS_i2c_mem_douta <= i2c_mem_douta;
 CalculatePixOsCPSP_i2c_mem_douta <= i2c_mem_douta;
 CalculateVirCompensated_i2c_mem_douta <= i2c_mem_douta;
@@ -1015,7 +997,19 @@ when idle =>
 			mem_float2powerN_reset1 <= '0';
 			mem_float2powerN_reset2 <= '0';
 			mem_switchpattern_reset <= '0';
-	when s1 => state := s2;
+	when s1 => state := s1a;
+		ExtractVDDParameters_run <= '1';
+		ExtractVDDParameters_mux <= '1';
+	when s1a => 
+		ExtractVDDParameters_run <= '0';
+		if (ExtractVDDParameters_rdy = '1') then
+			state := s1b;
+			ExtractVDDParameters_mux <= '0';
+		else
+			state := s1a;
+			ExtractVDDParameters_mux <= '1';
+		end if;
+	when s1b => state := s2;
 		calculateVdd_run <= '1';
 		calculateVdd_ee0x2433 <= i_ee0x2433;
 		calculateVdd_ee0x2438 <= i_ee0x2438;
@@ -1695,14 +1689,16 @@ o_pattern => mem_switchpattern_pattern
 
 ExtractVDDParameters_clock <= i_clock;
 ExtractVDDParameters_reset <= i_reset;
-ExtractVDDParameters_ee0x2433 <= i_ee0x2433;
-inst_ExtractVDDParameters : ExtractVDDParameters
-port map (
+inst_ExtractVDDParameters : ExtractVDDParameters port map (
 i_clock => ExtractVDDParameters_clock,
 i_reset => ExtractVDDParameters_reset,
-i_ee0x2433 => ExtractVDDParameters_ee0x2433,
+i_run => ExtractVDDParameters_run,
+i2c_mem_ena => ExtractVDDParameters_i2c_mem_ena,
+i2c_mem_addra => ExtractVDDParameters_i2c_mem_addra,
+i2c_mem_douta => ExtractVDDParameters_i2c_mem_douta,
 o_kvdd => ExtractVDDParameters_kvdd,
-o_vdd25 => ExtractVDDParameters_vdd25
+o_vdd25 => ExtractVDDParameters_vdd25,
+o_rdy => ExtractVDDParameters_rdy
 );
 
 ExtractAlphaPtatParameter_clock <= i_clock;

@@ -33,9 +33,13 @@ entity ExtractVDDParameters is
 port (
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
-i_ee0x2433 : IN  std_logic_vector (15 downto 0);
+i_run : in std_logic;
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_kvdd : OUT  std_logic_vector (31 downto 0);
-o_vdd25 : OUT  std_logic_vector (31 downto 0)
+o_vdd25 : OUT  std_logic_vector (31 downto 0);
+o_rdy : out std_logic
 );
 end ExtractVDDParameters;
 
@@ -48,18 +52,47 @@ signal address_vdd25 : std_logic_vector (8 downto 0);
 
 begin
 
-p0 : process (i_ee0x2433) is
+p0 : process (i_clock) is
+	variable ee2433 : std_logic_vector (15 downto 0);
+	type states is (idle,s1,s2,s3,s4,s5,s6,s7,ending);
+	variable state : states;
 begin
-	address_kvdd <= std_logic_vector(to_unsigned(to_integer(unsigned("0"&i_ee0x2433 (15 downto 8))),9));
+	if (rising_edge (i_clock)) then
+		if (i_reset = '1') then
+			state := idle;
+			i2c_mem_ena <= '0';
+			o_rdy <= '0';
+		else
+			case (state) is
+				when idle =>
+					if (i_run = '1') then
+						state := s1;
+						i2c_mem_ena <= '1';
+					else
+						state := idle;
+						i2c_mem_ena <= '0';
+					end if;
+				when s1 => state := s2;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (51*2+0, 12)); -- 2433 MSB kvdd
+				when s2 => state := s3;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (51*2+1, 12)); -- 2433 LSB vdd25
+				when s3 => state := s4;
+					ee2433 (15 downto 8) := i2c_mem_douta;
+				when s4 => state := s5;
+					ee2433 (7 downto 0) := i2c_mem_douta;
+				when s5 => state := s6;
+					address_kvdd <= "0"&ee2433 (15 downto 8);
+					address_vdd25 <= "1"&ee2433 (7 downto 0);
+				when s6 => state := s7;
+				when s7 => state := ending;
+					o_kvdd <= odata_kvdd;
+					o_vdd25 <= odata_vdd25;
+				when ending => state := idle;
+					o_rdy <= '1';
+			end case;
+		end if;
+	end if;
 end process p0;
-
-p1 : process (i_ee0x2433) is
-begin
-	address_vdd25 <= std_logic_vector(to_unsigned(to_integer(unsigned("1"&i_ee0x2433 (7 downto 0))),9));
-end process p1;
-
-o_kvdd <= odata_kvdd;
-o_vdd25 <= odata_vdd25;
 
 inst_mem_kvdd_vdd25 : RAMB16_S36_S36
 generic map (
@@ -159,7 +192,4 @@ WEB => '0' -- Write Enable Input,
 );
 -- End of RAMB16_S1_inst instantiation
 
-
-
 end Behavioral;
-
