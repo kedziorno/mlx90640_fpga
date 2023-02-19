@@ -28,9 +28,11 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
+USE work.p_fphdl_package3.all;
+
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---USE ieee.numeric_std.ALL;
+USE ieee.numeric_std.ALL;
 
 ENTITY tb_CalculateTo IS
 END tb_CalculateTo;
@@ -57,6 +59,7 @@ i_run : IN  std_logic;
 i2c_mem_ena : OUT  std_logic;
 i2c_mem_addra : OUT  std_logic_vector(11 downto 0);
 i2c_mem_douta : IN  std_logic_vector(7 downto 0);
+i_Ta : IN  std_logic_vector(31 downto 0);
 i_vircompensated_do : IN  std_logic_vector(31 downto 0);
 o_vircompensated_addr : OUT  std_logic_vector(9 downto 0);
 i_alphacomp_do : IN  std_logic_vector(31 downto 0);
@@ -72,6 +75,7 @@ signal CalculateTo_run : std_logic := '0';
 signal CalculateTo_i2c_mem_douta : std_logic_vector(7 downto 0) := (others => '0');
 signal CalculateTo_vircompensated_do : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateTo_alphacomp_do : std_logic_vector(31 downto 0) := (others => '0');
+signal CalculateTo_Ta : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateTo_addr : std_logic_vector(9 downto 0) := (others => '0');
 signal CalculateTo_i2c_mem_ena : std_logic;
 signal CalculateTo_i2c_mem_addra : std_logic_vector(11 downto 0);
@@ -83,7 +87,11 @@ signal CalculateTo_rdy : std_logic;
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
 
+signal out1r : real;
+
 BEGIN
+
+out1r <= ap_slv2fp (CalculateTo_do); -- output data
 
 inst_tb_i2c_mem : tb_i2c_mem
 PORT MAP (
@@ -103,6 +111,7 @@ i_run => CalculateTo_run,
 i2c_mem_ena => CalculateTo_i2c_mem_ena,
 i2c_mem_addra => CalculateTo_i2c_mem_addra,
 i2c_mem_douta => CalculateTo_i2c_mem_douta,
+i_Ta => CalculateTo_Ta,
 i_vircompensated_do => CalculateTo_vircompensated_do,
 o_vircompensated_addr => CalculateTo_vircompensated_addr,
 i_alphacomp_do => CalculateTo_alphacomp_do,
@@ -129,9 +138,14 @@ CalculateTo_reset <= '1';
 wait for 100 ns;
 CalculateTo_reset <= '0';
 wait for i_clock_period*10;
--- insert stimulus here 
+-- insert stimulus here
+CalculateTo_Ta <= x"421CBC6A"; -- 39.184
 CalculateTo_run <= '1'; wait for i_clock_period; CalculateTo_run <= '0';
 wait until CalculateTo_rdy = '1';
+for i in 0 to 1024 loop
+	CalculateTo_addr <= std_logic_vector (to_unsigned (i, 10));
+	wait for i_clock_period*2;
+end loop;
 wait for 1 ps;
 report "done" severity failure;
 end process;

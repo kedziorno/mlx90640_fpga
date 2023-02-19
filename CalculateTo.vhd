@@ -22,7 +22,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx primitives in this code.
@@ -55,6 +55,272 @@ o_rdy : out std_logic
 end CalculateTo;
 
 architecture Behavioral of CalculateTo is
+
+component mem_ramb16_s36_x2 is
+generic (
+INIT_00 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_01 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_02 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_03 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_04 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_05 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_06 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_07 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_08 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_09 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_0A : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_0B : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_0C : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_0D : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_0E : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_0F : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_10 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_11 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_12 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_13 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_14 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_15 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_16 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_17 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_18 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_19 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_1A : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_1B : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_1C : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_1D : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_1E : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_1F : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_20 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_21 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_22 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_23 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_24 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_25 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_26 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_27 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_28 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_29 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_2A : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_2B : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_2C : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_2D : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_2E : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_2F : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_30 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_31 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_32 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_33 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_34 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_35 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_36 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_37 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_38 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_39 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_3A : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_3B : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_3C : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_3D : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_3E : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_3F : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+
+INIT_40 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_41 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_42 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_43 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_44 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_45 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_46 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_47 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_48 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_49 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_4A : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_4B : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_4C : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_4D : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_4E : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_4F : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_50 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_51 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_52 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_53 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_54 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_55 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_56 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_57 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_58 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_59 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_5A : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_5B : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_5C : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_5D : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_5E : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_5F : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_60 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_61 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_62 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_63 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_64 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_65 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_66 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_67 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_68 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_69 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_6A : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_6B : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_6C : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_6D : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_6E : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_6F : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_70 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_71 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_72 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_73 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_74 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_75 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_76 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_77 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_78 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_79 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_7A : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_7B : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_7C : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_7D : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_7E : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INIT_7F : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+
+INITP_00 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INITP_01 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INITP_02 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INITP_03 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INITP_04 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INITP_05 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INITP_06 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INITP_07 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+
+INITP_08 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INITP_09 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INITP_0a : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INITP_0b : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INITP_0c : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INITP_0d : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INITP_0e : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
+INITP_0f : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000"
+);
+port (
+signal DO : out std_logic_vector (31 downto 0);
+signal DOP : out std_logic_vector (3 downto 0);
+signal ADDR : in std_logic_vector (9 downto 0); -- 10bit-1024
+signal CLK : in std_logic;
+signal DI : in std_logic_vector (31 downto 0);
+signal DIP : in std_logic_vector (3 downto 0);
+signal EN : in std_logic;
+signal SSR : in std_logic;
+signal WE : in std_logic
+);
+end component mem_ramb16_s36_x2;
+
+COMPONENT divfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : STD_LOGIC;
+signal divfpclk : STD_LOGIC;
+signal divfpsclr : STD_LOGIC;
+signal divfpce : STD_LOGIC;
+signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : STD_LOGIC;
+
+COMPONENT mulfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : STD_LOGIC;
+signal mulfpclk : STD_LOGIC;
+signal mulfpsclr : STD_LOGIC;
+signal mulfpce : STD_LOGIC;
+signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy : STD_LOGIC;
+
+COMPONENT addfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : STD_LOGIC;
+signal addfpclk : STD_LOGIC;
+signal addfpsclr : STD_LOGIC;
+signal addfpce : STD_LOGIC;
+signal addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : STD_LOGIC;
+
+COMPONENT subfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpond : STD_LOGIC;
+signal subfpclk : STD_LOGIC;
+signal subfpsclr : STD_LOGIC;
+signal subfpce : STD_LOGIC;
+signal subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfprdy : STD_LOGIC;
+
+COMPONENT sqrtfp2
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal sqrtfp2a : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal sqrtfp2ond : STD_LOGIC;
+signal sqrtfp2clk : STD_LOGIC;
+signal sqrtfp2sclr : STD_LOGIC;
+signal sqrtfp2ce : STD_LOGIC;
+signal sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal sqrtfp2rdy : STD_LOGIC;
 
 component mem_signed256 is
 port (
@@ -92,22 +358,70 @@ signal ExtractKsToScaleParameter_rdy : std_logic;
 
 signal ExtractKsToScaleParameter_mux : std_logic;
 
+signal addra,mux_addr : std_logic_vector (9 downto 0);
+signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
+
+signal rdy,write_enable : std_logic;
+
 begin
 
+o_rdy <= rdy;
+o_do <= doa when rdy = '1' else (others => '0');
+mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0');
+mux_dia <= dia when rdy = '0' else (others => '0');
+
 p0 : process (i_clock) is
-	constant C_ROWS : integer := 24;
-	constant C_COLS : integer := 32;
-	variable i : integer range 0 to C_ROWS*C_COLS-1;
+	constant C_ROW : integer := 24;
+	constant C_COL : integer := 32;
+	variable i : integer range 0 to C_ROW*C_COL-1;
 	constant constTr : std_logic_vector (31 downto 0) := x"41000000"; -- 8
 	constant const27315 : std_logic_vector (31 downto 0) := x"43889333"; -- 273.15
 	constant constEmissivity : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
 	constant const1 : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
+	type states is (idle,
+	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s10a,
+	s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,
+	s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,
+	s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,
+	s41,s42,s43,s44,s45,s46,s47,s48,s49,s50,
+	s51,s52,s53,s54,s55,s56,s57,s58,s59,s60,
+	s61,s62,s63,s64,s65,s66,s67,s68,s69,s70,
+	s71,
+	ending);
+	variable state : states;
+	variable fttmp1,fttmp2,ksto2,tak4,trk4,tar,sx,acomp_pow3,acomp_pow4,tr : std_logic_vector (31 downto 0);
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
 			state := idle;
 			i := 0;
 			i2c_mem_ena <= '0';
+			rdy <= '0';
+			addfpsclr <= '1';
+			subfpsclr <= '1';
+			mulfpsclr <= '1';
+			divfpsclr <= '1';
+			sqrtfp2sclr <= '1';
+			rdy <= '0';
+			mulfpa <= (others => '0');
+			mulfpb <= (others => '0');
+			addfpa <= (others => '0');
+			addfpb <= (others => '0');
+			subfpa <= (others => '0');
+			subfpb <= (others => '0');
+			divfpa <= (others => '0');
+			divfpb <= (others => '0');
+			sqrtfp2a <= (others => '0');
+			mulfpond <= '0';
+			addfpond <= '0';
+			subfpond <= '0';
+			divfpond <= '0';
+			sqrtfp2ond <= '0';
+			mulfpce <= '0';
+			addfpce <= '0';
+			subfpce <= '0';
+			divfpce <= '0';
+			sqrtfp2ce <= '0';
 		else
 			case (state) is
 				when idle =>
@@ -119,8 +433,11 @@ begin
 						i2c_mem_ena <= '0';
 					end if;
 					i := 0;
-
-
+					addfpsclr <= '0';
+					subfpsclr <= '0';
+					mulfpsclr <= '0';
+					divfpsclr <= '0';
+					sqrtfp2sclr <= '0';
 				when s1 => state := s2;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (61*2+0, 12)); -- ee243d MSB ksto2ee 0xff00
 				when s2 => state := s3;
@@ -161,19 +478,19 @@ begin
 		subfpond <= '1';
 	when s9 =>
 		if (subfprdy = '1') then state := s10;
-			tr_ft := subfpr;
+			Tr := subfpr;
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
 		else state := s9; end if;
-	when s10 => state := s11;
+	when s10 => state := s10a;
 		subfpsclr <= '0';
 
 		addfpce <= '1';
 		addfpa <= i_Ta;
 		addfpb <= const27315;
 		addfpond <= '1';
-	when s10 =>
+	when s10a =>
 		if (addfprdy = '1') then state := s11;
 			fttmp1 := addfpr;
 			addfpce <= '0';
@@ -421,7 +738,7 @@ begin
 		sqrtfp2ond <= '1';
 	when s49 =>
 		if (sqrtfp2rdy = '1') then state := s50;
-			fttmp1 := sqrtfp2r;
+			sx := sqrtfp2r;
 			sqrtfp2ce <= '0';
 			sqrtfp2ond <= '0';
 			sqrtfp2sclr <= '1';
@@ -440,39 +757,155 @@ begin
 			mulfpond <= '0';
 			mulfpsclr <= '1';
 		else state := s51; end if;
-	when s52 => state := s54;
+	when s52 => state := s53;
 		mulfpsclr <= '0';
 
 		mulfpce <= '1';
-		mulfpa <= ksto2_ft;
-		mulfpb <= k27315_ft;
+		mulfpa <= ksto2;
+		mulfpb <= const27315;
 		mulfpond <= '1';
-	when s369 =>
-		if (mulfprdy = '1') then state := s370;
-			fttmp2_ft := mulfpr;
-			outTo := mulfpr;
+	when s53 =>
+		if (mulfprdy = '1') then state := s54;
+			fttmp2 := mulfpr;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
-		else state := s369; end if;
-	when s370 => state := s371;
+		else state := s53; end if;
+	when s54 => state := s55;
 		mulfpsclr <= '0';
 
+		subfpce <= '1';
+		subfpa <= const1;
+		subfpb <= fttmp2;
+		subfpond <= '1';
+	when s55 =>
+		if (subfprdy = '1') then state := s56;
+			fttmp2 := subfpr;
+			subfpce <= '0';
+			subfpond <= '0';
+			subfpsclr <= '1';
+		else state := s55; end if;
+	when s56 => state := s57;
+		subfpsclr <= '0';
+
+		mulfpce <= '1';
+		mulfpa <= i_alphacomp_do;
+		mulfpb <= fttmp2;
+		mulfpond <= '1';
+	when s57 =>
+		if (mulfprdy = '1') then state := s58;
+			fttmp2 := mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s57; end if;
+	when s58 => state := s59;
+		mulfpsclr <= '0';
+
+		addfpce <= '1';
+		addfpa <= fttmp2;
+		addfpb <= sx;
+		addfpond <= '1';
+	when s59 =>
+		if (addfprdy = '1') then state := s60;
+			fttmp1 := addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s59; end if;
+	when s60 => state := s61;
+		addfpsclr <= '0';
+
+		divfpce <= '1';
+		divfpa <= i_vircompensated_do;
+		divfpb <= fttmp1;
+		divfpond <= '1';
+	when s61 =>
+		if (divfprdy = '1') then state := s62;
+			fttmp1 := divfpr;
+			divfpce <= '0';
+			divfpond <= '0';
+			divfpsclr <= '1';
+		else state := s61; end if;
+	when s62 => state := s63;
+		divfpsclr <= '0';
+
+		addfpce <= '1';
+		addfpa <= fttmp1;
+		addfpb <= tar;
+		addfpond <= '1';
+	when s63 =>
+		if (addfprdy = '1') then state := s64;
+			fttmp1 := addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s63; end if;
+	when s64 => state := s65;
+		addfpsclr <= '0';
+
+		sqrtfp2ce <= '1';
+		sqrtfp2a <= fttmp1;
+		sqrtfp2ond <= '1';
+	when s65 =>
+		if (sqrtfp2rdy = '1') then state := s66;
+			fttmp1 := sqrtfp2r;
+			sqrtfp2ce <= '0';
+			sqrtfp2ond <= '0';
+			sqrtfp2sclr <= '1';
+		else state := s65; end if;
+	when s66 => state := s67;
+		sqrtfp2sclr <= '0';
+
+		sqrtfp2ce <= '1';
+		sqrtfp2a <= fttmp1;
+		sqrtfp2ond <= '1';
+	when s67 =>
+		if (sqrtfp2rdy = '1') then state := s68;
+			fttmp1 := sqrtfp2r;
+			sqrtfp2ce <= '0';
+			sqrtfp2ond <= '0';
+			sqrtfp2sclr <= '1';
+		else state := s67; end if;
+	when s68 => state := s69;
+		sqrtfp2sclr <= '0';
+
+		subfpce <= '1';
+		subfpa <= fttmp1;
+		subfpb <= const27315;
+		subfpond <= '1';
+	when s69 =>
+		if (subfprdy = '1') then state := s70;
+			fttmp1 := subfpr; -- To
+			subfpce <= '0';
+			subfpond <= '0';
+			subfpsclr <= '1';
+		else state := s69; end if;
+	when s70 => state := s71;
+		subfpsclr <= '0';
+
+		write_enable <= '1';
+		addra <= std_logic_vector (to_unsigned (i, 10)); -- To
+		dia <= fttmp1;
+		--report "================To : " & real'image (ap_slv2fp (fttmp1));
+	when s71 =>
+		write_enable <= '0';
+		if (i = (C_ROW*C_COL)-1) then
+			state := ending;
+			i := 0;
+		else
+			state := s32;
+			i := i + 1;
+		end if;
+
+	when ending => state := idle;
+		rdy <= '1';
 
 				when others => null;
 			end case;
 		end if;
 	end if;
 end process p0;
-
---INIT_01 => X"4b000000 4a800000 4a000000 49800000 49000000 48800000 48000000 47800000",
---INIT_00 => X"47000000 46800000 46000000 45800000 45000000 44800000 44000000 43800000",
-with nibble1 select out_nibble1 <= -- 2^(x+8) unsigned 0-15 - kstoscale
-x"43800000" when x"0", x"44000000" when x"1", x"44800000" when x"2", x"45000000" when x"3",
-x"45800000" when x"4", x"46000000" when x"5", x"46800000" when x"6", x"47000000" when x"7",
-x"47800000" when x"8", x"48000000" when x"9", x"48800000" when x"a", x"49000000" when x"b",
-x"49800000" when x"c", x"4a000000" when x"d", x"4a800000" when x"e", x"4b000000" when x"f",
-x"00000000" when others;
 
 mem_signed256_clock <= i_clock;
 mem_signed256_reset <= i_reset;
@@ -494,6 +927,87 @@ i2c_mem_addra => ExtractKsToScaleParameter_i2c_mem_addra,
 i2c_mem_douta => ExtractKsToScaleParameter_i2c_mem_douta,
 o_kstoscale => ExtractKsToScaleParameter_kstoscale,
 o_rdy => ExtractKsToScaleParameter_rdy
+);
+
+sqrtfp2clk <= i_clock;
+addfpclk <= i_clock;
+subfpclk <= i_clock;
+mulfpclk <= i_clock;
+divfpclk <= i_clock;
+
+inst_divfp : divfp
+PORT MAP (
+a => divfpa,
+b => divfpb,
+operation_nd => divfpond,
+clk => divfpclk,
+sclr => divfpsclr,
+ce => divfpce,
+result => divfpr,
+rdy => divfprdy
+);
+
+inst_mulfp : mulfp
+PORT MAP (
+a => mulfpa,
+b => mulfpb,
+operation_nd => mulfpond,
+clk => mulfpclk,
+sclr => mulfpsclr,
+ce => mulfpce,
+result => mulfpr,
+rdy => mulfprdy
+);
+
+inst_addfp : addfp
+PORT MAP (
+a => addfpa,
+b => addfpb,
+operation_nd => addfpond,
+clk => addfpclk,
+sclr => addfpsclr,
+ce => addfpce,
+result => addfpr,
+rdy => addfprdy
+);
+
+inst_subfp : subfp
+PORT MAP (
+a => subfpa,
+b => subfpb,
+operation_nd => subfpond,
+clk => subfpclk,
+sclr => subfpsclr,
+ce => subfpce,
+result => subfpr,
+rdy => subfprdy
+);
+
+inst_sqrtfp2 : sqrtfp2
+PORT MAP (
+a => sqrtfp2a,
+operation_nd => sqrtfp2ond,
+clk => sqrtfp2clk,
+sclr => sqrtfp2sclr,
+ce => sqrtfp2ce,
+result => sqrtfp2r,
+rdy => sqrtfp2rdy
+);
+
+inst_mem_To : mem_ramb16_s36_x2
+GENERIC MAP (
+INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000" -- start 0's
+)
+PORT MAP (
+DO => doa,
+DOP => open,
+ADDR => mux_addr,
+CLK => i_clock,
+DI => mux_dia,
+DIP => (others => '0'),
+EN => '1',
+SSR => i_reset,
+WE => write_enable
 );
 
 end Behavioral;
