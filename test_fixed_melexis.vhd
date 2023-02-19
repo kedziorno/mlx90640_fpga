@@ -40,73 +40,27 @@ i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
 
-i_ee0x2410 : in slv16; -- (alphaptatee),kptat,scaleoccrow,scaleocccolumn,scaleoccremnant
-i_ee0x2411 : in slv16; -- (offsetaverage),pixosaverage
-i_ee0x2414 : in slv16; -- OCCROWS12,occrows11,occroes10,occrows09
-i_ee0x241b : in slv16; -- OCCCOLUMN16,occcolumn15,occcolumn14,occcolumn13
-
-i_ee0x2420 : in slv16; -- alphascale,scaleaccrow,scaleacccolumn,scaleaccremnand|ascalecp,ascale
-i_ee0x2421 : in slv16; -- pixsensitivityaverage|areference
-i_ee0x2424 : in slv16; -- ACCROWS12,accrows11,accrows10,accrows09
-i_ee0x242b : in slv16; -- ACCCOLUMN16,acccolumn15,acccolumn14,acccolumn13
-
-i_ee0x2430 : in slv16; -- gain
-i_ee0x2431 : in slv16; -- vptat25
-i_ee0x2432 : in slv16; -- kvptat,ktptat-6/10
-i_ee0x2433 : in slv16; -- kvdd,vdd25
-i_ee0x2434 : in slv16; -- kvavg_roco,kvavg_reco,kvavg_roce,kvavg_rece(kv_ij-p.39)
-
-i_ee0x2437 : in slv16; -- ktaavg_roce,ktaavg_rece(ktarcee)
-i_ee0x2438 : in slv16; -- resolutioncontrolcal,kvscale,ktascale1,ktascale2-2/4/4/4|resolutionee
-i_ee0x2439 : in slv16; -- cpsp1ratio/cpsp0ratio,alphacpsp0-6/10,acpsubpage0|cpp1p0ratio
-
-i_ee0x243a : in slv16; -- offcpsubpage1delta,offcpsubpage0-6/10
-i_ee0x243b : in slv16; -- kvcp,(kvcpee),ktacp,(ktacpee)
-i_ee0x243c : in slv16; -- ksta,(kstaee),tgc,(tgcee)
-i_ee0x243d : in slv16; -- ksto2,(ksto2ee),ksto1
--- i_ee0x243e -- 9797 -- 0x00ff -- 97 (signed) -- ksto3ee, 0xff00 - 97 (signed) -- ksto4ee
-i_ee0x243f : in slv16; -- step,ct4,ct3,kstoscale-2/4/4/4
-
-i_ee0x258f : in slv16; -- apixel1216
-i_ee0x25af : in slv16; -- offset1216,kta1216ee-6,...,3
-
-i_ram0x056f : in slv16; -- pxdata1216,11.2.2.5.1
-
-i_ram0x0700 : in slv16; -- for vbe
-i_ram0x0708 : in slv16; -- for pixgaincpsp0,cpsubpage0
-i_ram0x070a : in slv16; -- gain
-
-i_ram0x0720 : in slv16; -- for vptat,ptat
-i_ram0x0728 : in slv16; -- for pixgaincpsp1,cpsubpage1
-i_ram0x072a : in slv16; -- for deltaV,vdd
-
-i_ram0x800d : in slv16; -- resolution reg
-
-i_pixelpattern : in slv14; -- 12x16
-
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
------
-o_To : out fd2ft; -- output Temp
 o_rdy : out std_logic
 );
 end test_fixed_melexis;
 
 architecture testbench of test_fixed_melexis is
 
-COMPONENT float2fixed
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(63 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
+--COMPONENT float2fixed
+--PORT (
+--a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+--operation_nd : IN STD_LOGIC;
+--clk : IN STD_LOGIC;
+--sclr : IN STD_LOGIC;
+--ce : IN STD_LOGIC;
+--result : OUT STD_LOGIC_VECTOR(63 DOWNTO 0);
+--rdy : OUT STD_LOGIC
+--);
+--END COMPONENT;
 signal float2fixeda : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal float2fixedond : STD_LOGIC;
 signal float2fixedclk : STD_LOGIC;
@@ -114,18 +68,18 @@ signal float2fixedsclr : STD_LOGIC;
 signal float2fixedce : STD_LOGIC;
 signal float2fixedr : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal float2fixedrdy : STD_LOGIC;
-
-COMPONENT fixed2float
-PORT (
-a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
+--
+--COMPONENT fixed2float
+--PORT (
+--a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+--operation_nd : IN STD_LOGIC;
+--clk : IN STD_LOGIC;
+--sclr : IN STD_LOGIC;
+--ce : IN STD_LOGIC;
+--result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+--rdy : OUT STD_LOGIC
+--);
+--END COMPONENT;
 signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal fixed2floatond : STD_LOGIC;
 signal fixed2floatclk : STD_LOGIC;
@@ -133,19 +87,19 @@ signal fixed2floatsclr : STD_LOGIC;
 signal fixed2floatce : STD_LOGIC;
 signal fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal fixed2floatrdy : STD_LOGIC;
-
-COMPONENT divfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
+--
+--COMPONENT divfp
+--PORT (
+--a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+--b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+--operation_nd : IN STD_LOGIC;
+--clk : IN STD_LOGIC;
+--sclr : IN STD_LOGIC;
+--ce : IN STD_LOGIC;
+--result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+--rdy : OUT STD_LOGIC
+--);
+--END COMPONENT;
 signal divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpond : STD_LOGIC;
@@ -154,19 +108,19 @@ signal divfpsclr : STD_LOGIC;
 signal divfpce : STD_LOGIC;
 signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy : STD_LOGIC;
-
-COMPONENT mulfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
+--
+--COMPONENT mulfp
+--PORT (
+--a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+--b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+--operation_nd : IN STD_LOGIC;
+--clk : IN STD_LOGIC;
+--sclr : IN STD_LOGIC;
+--ce : IN STD_LOGIC;
+--result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+--rdy : OUT STD_LOGIC
+--);
+--END COMPONENT;
 signal mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpond : STD_LOGIC;
@@ -175,19 +129,19 @@ signal mulfpsclr : STD_LOGIC;
 signal mulfpce : STD_LOGIC;
 signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfprdy : STD_LOGIC;
-
-COMPONENT addfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
+--
+--COMPONENT addfp
+--PORT (
+--a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+--b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+--operation_nd : IN STD_LOGIC;
+--clk : IN STD_LOGIC;
+--sclr : IN STD_LOGIC;
+--ce : IN STD_LOGIC;
+--result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+--rdy : OUT STD_LOGIC
+--);
+--END COMPONENT;
 signal addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfpond : STD_LOGIC;
@@ -196,19 +150,19 @@ signal addfpsclr : STD_LOGIC;
 signal addfpce : STD_LOGIC;
 signal addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfprdy : STD_LOGIC;
-
-COMPONENT subfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
+--
+--COMPONENT subfp
+--PORT (
+--a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+--b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+--operation_nd : IN STD_LOGIC;
+--clk : IN STD_LOGIC;
+--sclr : IN STD_LOGIC;
+--ce : IN STD_LOGIC;
+--result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+--rdy : OUT STD_LOGIC
+--);
+--END COMPONENT;
 signal subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfpond : STD_LOGIC;
@@ -217,18 +171,18 @@ signal subfpsclr : STD_LOGIC;
 signal subfpce : STD_LOGIC;
 signal subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfprdy : STD_LOGIC;
-
-COMPONENT sqrtfp2
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
+--
+--COMPONENT sqrtfp2
+--PORT (
+--a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+--operation_nd : IN STD_LOGIC;
+--clk : IN STD_LOGIC;
+--sclr : IN STD_LOGIC;
+--ce : IN STD_LOGIC;
+--result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+--rdy : OUT STD_LOGIC
+--);
+--END COMPONENT;
 signal sqrtfp2a : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal sqrtfp2ond : STD_LOGIC;
 signal sqrtfp2clk : STD_LOGIC;
@@ -237,35 +191,35 @@ signal sqrtfp2ce : STD_LOGIC;
 signal sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal sqrtfp2rdy : STD_LOGIC;
 
-component mem_float2powerN is
-port (
-i_clock : in std_logic;
-i_reset : in std_logic;
-i_N : in std_logic_vector (5 downto 0);
-o_2powerN : out std_logic_vector (31 downto 0)
-);
-end component mem_float2powerN;
-signal mem_float2powerN_clock1 : std_logic;
-signal mem_float2powerN_reset1 : std_logic;
-signal mem_float2powerN_N1 : std_logic_vector (5 downto 0);
-signal mem_float2powerN_2powerN1 : std_logic_vector (31 downto 0);
-signal mem_float2powerN_clock2 : std_logic;
-signal mem_float2powerN_reset2 : std_logic;
-signal mem_float2powerN_N2 : std_logic_vector (5 downto 0);
-signal mem_float2powerN_2powerN2 : std_logic_vector (31 downto 0);
-
-component mem_switchpattern is
-port (
-i_clock : in std_logic;
-i_reset : in std_logic;
-i_pixel : in std_logic_vector (13 downto 0);
-o_pattern : out std_logic
-);
-end component mem_switchpattern;
-signal mem_switchpattern_clock : std_logic;
-signal mem_switchpattern_reset : std_logic;
-signal mem_switchpattern_pixel : std_logic_vector (13 downto 0);
-signal mem_switchpattern_pattern : std_logic;
+--component mem_float2powerN is
+--port (
+--i_clock : in std_logic;
+--i_reset : in std_logic;
+--i_N : in std_logic_vector (5 downto 0);
+--o_2powerN : out std_logic_vector (31 downto 0)
+--);
+--end component mem_float2powerN;
+--signal mem_float2powerN_clock1 : std_logic;
+--signal mem_float2powerN_reset1 : std_logic;
+--signal mem_float2powerN_N1 : std_logic_vector (5 downto 0);
+--signal mem_float2powerN_2powerN1 : std_logic_vector (31 downto 0);
+--signal mem_float2powerN_clock2 : std_logic;
+--signal mem_float2powerN_reset2 : std_logic;
+--signal mem_float2powerN_N2 : std_logic_vector (5 downto 0);
+--signal mem_float2powerN_2powerN2 : std_logic_vector (31 downto 0);
+--
+--component mem_switchpattern is
+--port (
+--i_clock : in std_logic;
+--i_reset : in std_logic;
+--i_pixel : in std_logic_vector (13 downto 0);
+--o_pattern : out std_logic
+--);
+--end component mem_switchpattern;
+--signal mem_switchpattern_clock : std_logic;
+--signal mem_switchpattern_reset : std_logic;
+--signal mem_switchpattern_pixel : std_logic_vector (13 downto 0);
+--signal mem_switchpattern_pattern : std_logic;
 
 --COMPONENT ExtractVDDParameters
 --PORT(
@@ -290,15 +244,15 @@ signal ExtractVDDParameters_kvdd : std_logic_vector(31 downto 0);
 signal ExtractVDDParameters_vdd25 : std_logic_vector(31 downto 0);
 signal ExtractVDDParameters_rdy : std_logic;
 
-component ExtractCT34Parameter is
-port (
-i_clock : in std_logic;
-i_reset : in std_logic;
-i_ee0x243f : in std_logic_vector (15 downto 0);
-o_ct3 : out std_logic_vector (31 downto 0);
-o_ct4 : out std_logic_vector (31 downto 0)
-);
-end component ExtractCT34Parameter;
+--component ExtractCT34Parameter is
+--port (
+--i_clock : in std_logic;
+--i_reset : in std_logic;
+--i_ee0x243f : in std_logic_vector (15 downto 0);
+--o_ct3 : out std_logic_vector (31 downto 0);
+--o_ct4 : out std_logic_vector (31 downto 0)
+--);
+--end component ExtractCT34Parameter;
 signal ExtractCT34Parameter_clock : std_logic;
 signal ExtractCT34Parameter_reset : std_logic;
 signal ExtractCT34Parameter_ee0x243f : std_logic_vector (15 downto 0);
@@ -428,20 +382,20 @@ signal ExtractAlphaParameters_addr : std_logic_vector (9 downto 0); -- 10bit-102
 signal ExtractAlphaParameters_done : std_logic;
 signal ExtractAlphaParameters_rdy : std_logic;
 
-component ExtractKtaParameters is
-port (
-i_clock : in std_logic;
-i_reset : in std_logic;
-i_run : in std_logic;
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-o_do : out std_logic_vector (31 downto 0);
-i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
-o_done : out std_logic;
-o_rdy : out std_logic
-);
-end component ExtractKtaParameters;
+--component ExtractKtaParameters is
+--port (
+--i_clock : in std_logic;
+--i_reset : in std_logic;
+--i_run : in std_logic;
+--i2c_mem_ena : out STD_LOGIC;
+--i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+--i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+--o_do : out std_logic_vector (31 downto 0);
+--i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
+--o_done : out std_logic;
+--o_rdy : out std_logic
+--);
+--end component ExtractKtaParameters;
 signal ExtractKtaParameters_clock : std_logic;
 signal ExtractKtaParameters_reset : std_logic;
 signal ExtractKtaParameters_run : std_logic;
@@ -453,20 +407,20 @@ signal ExtractKtaParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal ExtractKtaParameters_done : std_logic;
 signal ExtractKtaParameters_rdy : std_logic;
 
-component ExtractKvParameters is
-port (
-i_clock : in std_logic;
-i_reset : in std_logic;
-i_run : in std_logic;
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-o_do : out std_logic_vector (31 downto 0);
-i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
-o_done : out std_logic;
-o_rdy : out std_logic
-);
-end component ExtractKvParameters;
+--component ExtractKvParameters is
+--port (
+--i_clock : in std_logic;
+--i_reset : in std_logic;
+--i_run : in std_logic;
+--i2c_mem_ena : out STD_LOGIC;
+--i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+--i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+--o_do : out std_logic_vector (31 downto 0);
+--i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
+--o_done : out std_logic;
+--o_rdy : out std_logic
+--);
+--end component ExtractKvParameters;
 signal ExtractKvParameters_clock : std_logic;
 signal ExtractKvParameters_reset : std_logic;
 signal ExtractKvParameters_run : std_logic;
@@ -961,12 +915,12 @@ else
 				divfpb <= (others => '0');
 				eeprom16slv := (others => '0');
 				ram16slv := (others => '0');
-				mem_float2powerN_reset1 <= '1';
-				mem_float2powerN_N1 <= (others => '0');
-				mem_float2powerN_reset2 <= '1';
-				mem_float2powerN_N2 <= (others => '0');
+--				mem_float2powerN_reset1 <= '1';
+--				mem_float2powerN_N1 <= (others => '0');
+--				mem_float2powerN_reset2 <= '1';
+--				mem_float2powerN_N2 <= (others => '0');
 				rdyrecover <= '0';
-				mem_switchpattern_reset <= '1';
+--				mem_switchpattern_reset <= '1';
 				calculateVdd_run <= '0';
 				calculateTa_run <= '0';
 				calculateKGain_run <= '0';
@@ -1138,126 +1092,127 @@ when idle =>
 
 
 	when ending => state := idle;
+		rdyrecover <= '1';
 -----
 when others => null;
 end case; o_To <= outTo; end if; end if;
 end process tester;
 
-float2fixedclk <= i_clock;
-fixed2floatclk <= i_clock;
-sqrtfp2clk <= i_clock;
-addfpclk <= i_clock;
-subfpclk <= i_clock;
-mulfpclk <= i_clock;
-divfpclk <= i_clock;
+--float2fixedclk <= i_clock;
+--fixed2floatclk <= i_clock;
+--sqrtfp2clk <= i_clock;
+--addfpclk <= i_clock;
+--subfpclk <= i_clock;
+--mulfpclk <= i_clock;
+--divfpclk <= i_clock;
+--
+--inst_ff1 : float2fixed
+--PORT MAP (
+--a => float2fixeda,
+--operation_nd => float2fixedond,
+--clk => float2fixedclk,
+--sclr => float2fixedsclr,
+--ce => float2fixedce,
+--result => float2fixedr,
+--rdy => float2fixedrdy
+--);
+--
+--inst_ff2 : fixed2float
+--PORT MAP (
+--a => fixed2floata,
+--operation_nd => fixed2floatond,
+--clk => fixed2floatclk,
+--sclr => fixed2floatsclr,
+--ce => fixed2floatce,
+--result => fixed2floatr,
+--rdy => fixed2floatrdy
+--);
+--
+--inst_divfp : divfp
+--PORT MAP (
+--a => divfpa,
+--b => divfpb,
+--operation_nd => divfpond,
+--clk => divfpclk,
+--sclr => divfpsclr,
+--ce => divfpce,
+--result => divfpr,
+--rdy => divfprdy
+--);
+--
+--inst_mulfp : mulfp
+--PORT MAP (
+--a => mulfpa,
+--b => mulfpb,
+--operation_nd => mulfpond,
+--clk => mulfpclk,
+--sclr => mulfpsclr,
+--ce => mulfpce,
+--result => mulfpr,
+--rdy => mulfprdy
+--);
+--
+--inst_addfp : addfp
+--PORT MAP (
+--a => addfpa,
+--b => addfpb,
+--operation_nd => addfpond,
+--clk => addfpclk,
+--sclr => addfpsclr,
+--ce => addfpce,
+--result => addfpr,
+--rdy => addfprdy
+--);
+--
+--inst_subfp : subfp
+--PORT MAP (
+--a => subfpa,
+--b => subfpb,
+--operation_nd => subfpond,
+--clk => subfpclk,
+--sclr => subfpsclr,
+--ce => subfpce,
+--result => subfpr,
+--rdy => subfprdy
+--);
+--
+--inst_sqrtfp2 : sqrtfp2
+--PORT MAP (
+--a => sqrtfp2a,
+--operation_nd => sqrtfp2ond,
+--clk => sqrtfp2clk,
+--sclr => sqrtfp2sclr,
+--ce => sqrtfp2ce,
+--result => sqrtfp2r,
+--rdy => sqrtfp2rdy
+--);
 
-inst_ff1 : float2fixed
-PORT MAP (
-a => float2fixeda,
-operation_nd => float2fixedond,
-clk => float2fixedclk,
-sclr => float2fixedsclr,
-ce => float2fixedce,
-result => float2fixedr,
-rdy => float2fixedrdy
-);
+--mem_float2powerN_clock1 <= i_clock;
+--inst_mem_float2powerN1 : mem_float2powerN
+--port map (
+--i_clock => mem_float2powerN_clock1,
+--i_reset => mem_float2powerN_reset1,
+--i_N => mem_float2powerN_N1,
+--o_2powerN => mem_float2powerN_2powerN1
+--);
 
-inst_ff2 : fixed2float
-PORT MAP (
-a => fixed2floata,
-operation_nd => fixed2floatond,
-clk => fixed2floatclk,
-sclr => fixed2floatsclr,
-ce => fixed2floatce,
-result => fixed2floatr,
-rdy => fixed2floatrdy
-);
+--mem_float2powerN_clock2 <= i_clock;
+--inst_mem_float2powerN2 : mem_float2powerN
+--port map (
+--i_clock => mem_float2powerN_clock2,
+--i_reset => mem_float2powerN_reset2,
+--i_N => mem_float2powerN_N2,
+--o_2powerN => mem_float2powerN_2powerN2
+--);
 
-inst_divfp : divfp
-PORT MAP (
-a => divfpa,
-b => divfpb,
-operation_nd => divfpond,
-clk => divfpclk,
-sclr => divfpsclr,
-ce => divfpce,
-result => divfpr,
-rdy => divfprdy
-);
-
-inst_mulfp : mulfp
-PORT MAP (
-a => mulfpa,
-b => mulfpb,
-operation_nd => mulfpond,
-clk => mulfpclk,
-sclr => mulfpsclr,
-ce => mulfpce,
-result => mulfpr,
-rdy => mulfprdy
-);
-
-inst_addfp : addfp
-PORT MAP (
-a => addfpa,
-b => addfpb,
-operation_nd => addfpond,
-clk => addfpclk,
-sclr => addfpsclr,
-ce => addfpce,
-result => addfpr,
-rdy => addfprdy
-);
-
-inst_subfp : subfp
-PORT MAP (
-a => subfpa,
-b => subfpb,
-operation_nd => subfpond,
-clk => subfpclk,
-sclr => subfpsclr,
-ce => subfpce,
-result => subfpr,
-rdy => subfprdy
-);
-
-inst_sqrtfp2 : sqrtfp2
-PORT MAP (
-a => sqrtfp2a,
-operation_nd => sqrtfp2ond,
-clk => sqrtfp2clk,
-sclr => sqrtfp2sclr,
-ce => sqrtfp2ce,
-result => sqrtfp2r,
-rdy => sqrtfp2rdy
-);
-
-mem_float2powerN_clock1 <= i_clock;
-inst_mem_float2powerN1 : mem_float2powerN
-port map (
-i_clock => mem_float2powerN_clock1,
-i_reset => mem_float2powerN_reset1,
-i_N => mem_float2powerN_N1,
-o_2powerN => mem_float2powerN_2powerN1
-);
-
-mem_float2powerN_clock2 <= i_clock;
-inst_mem_float2powerN2 : mem_float2powerN
-port map (
-i_clock => mem_float2powerN_clock2,
-i_reset => mem_float2powerN_reset2,
-i_N => mem_float2powerN_N2,
-o_2powerN => mem_float2powerN_2powerN2
-);
-
-mem_switchpattern_clock <= i_clock;
-inst_mem_switchpattern : mem_switchpattern
-port map (
-i_clock => mem_switchpattern_clock,
-i_reset => mem_switchpattern_reset,
-i_pixel => mem_switchpattern_pixel,
-o_pattern => mem_switchpattern_pattern
-);
+--mem_switchpattern_clock <= i_clock;
+--inst_mem_switchpattern : mem_switchpattern
+--port map (
+--i_clock => mem_switchpattern_clock,
+--i_reset => mem_switchpattern_reset,
+--i_pixel => mem_switchpattern_pixel,
+--o_pattern => mem_switchpattern_pattern
+--);
 
 --ExtractVDDParameters_clock <= i_clock;
 --ExtractVDDParameters_reset <= i_reset;
@@ -1273,13 +1228,13 @@ o_pattern => mem_switchpattern_pattern
 --o_rdy => ExtractVDDParameters_rdy
 --);
 
-inst_ExtractCT34Parameter : ExtractCT34Parameter PORT MAP (
-i_clock => ExtractCT34Parameter_clock,
-i_reset => ExtractCT34Parameter_reset,
-i_ee0x243f => ExtractCT34Parameter_ee0x243f,
-o_ct3 => ExtractCT34Parameter_ct3,
-o_ct4 => ExtractCT34Parameter_ct4
-);
+--inst_ExtractCT34Parameter : ExtractCT34Parameter PORT MAP (
+--i_clock => ExtractCT34Parameter_clock,
+--i_reset => ExtractCT34Parameter_reset,
+--i_ee0x243f => ExtractCT34Parameter_ee0x243f,
+--o_ct3 => ExtractCT34Parameter_ct3,
+--o_ct4 => ExtractCT34Parameter_ct4
+--);
 
 calculateVdd_clock <= i_clock;
 calculateVdd_reset <= i_reset;
@@ -1355,35 +1310,35 @@ o_done => ExtractAlphaParameters_done,
 o_rdy => ExtractAlphaParameters_rdy
 );
 
-ExtractKtaParameters_clock <= i_clock;
-ExtractKtaParameters_reset <= i_reset;
-inst_ExtractKtaParameters : ExtractKtaParameters port map (
-i_clock => ExtractKtaParameters_clock,
-i_reset => ExtractKtaParameters_reset,
-i_run => ExtractKtaParameters_run,
-i2c_mem_ena => ExtractKtaParameters_i2c_mem_ena,
-i2c_mem_addra => ExtractKtaParameters_i2c_mem_addra,
-i2c_mem_douta => ExtractKtaParameters_i2c_mem_douta,
-o_do => ExtractKtaParameters_do,
-i_addr => ExtractKtaParameters_addr,
-o_done => ExtractKtaParameters_done,
-o_rdy => ExtractKtaParameters_rdy
-);
+--ExtractKtaParameters_clock <= i_clock;
+--ExtractKtaParameters_reset <= i_reset;
+--inst_ExtractKtaParameters : ExtractKtaParameters port map (
+--i_clock => ExtractKtaParameters_clock,
+--i_reset => ExtractKtaParameters_reset,
+--i_run => ExtractKtaParameters_run,
+--i2c_mem_ena => ExtractKtaParameters_i2c_mem_ena,
+--i2c_mem_addra => ExtractKtaParameters_i2c_mem_addra,
+--i2c_mem_douta => ExtractKtaParameters_i2c_mem_douta,
+--o_do => ExtractKtaParameters_do,
+--i_addr => ExtractKtaParameters_addr,
+--o_done => ExtractKtaParameters_done,
+--o_rdy => ExtractKtaParameters_rdy
+--);
 
-ExtractKvParameters_clock <= i_clock;
-ExtractKvParameters_reset <= i_reset;
-inst_ExtractKvParameters : ExtractKvParameters port map (
-i_clock => ExtractKvParameters_clock,
-i_reset => ExtractKvParameters_reset,
-i_run => ExtractKvParameters_run,
-i2c_mem_ena => ExtractKvParameters_i2c_mem_ena,
-i2c_mem_addra => ExtractKvParameters_i2c_mem_addra,
-i2c_mem_douta => ExtractKvParameters_i2c_mem_douta,
-o_do => ExtractKvParameters_do,
-i_addr => ExtractKvParameters_addr,
-o_done => ExtractKvParameters_done,
-o_rdy => ExtractKvParameters_rdy
-);
+--ExtractKvParameters_clock <= i_clock;
+--ExtractKvParameters_reset <= i_reset;
+--inst_ExtractKvParameters : ExtractKvParameters port map (
+--i_clock => ExtractKvParameters_clock,
+--i_reset => ExtractKvParameters_reset,
+--i_run => ExtractKvParameters_run,
+--i2c_mem_ena => ExtractKvParameters_i2c_mem_ena,
+--i2c_mem_addra => ExtractKvParameters_i2c_mem_addra,
+--i2c_mem_douta => ExtractKvParameters_i2c_mem_douta,
+--o_do => ExtractKvParameters_do,
+--i_addr => ExtractKvParameters_addr,
+--o_done => ExtractKvParameters_done,
+--o_rdy => ExtractKvParameters_rdy
+--);
 
 CalculateAlphaCP_clock <= i_clock;
 CalculateAlphaCP_reset <= i_reset;
