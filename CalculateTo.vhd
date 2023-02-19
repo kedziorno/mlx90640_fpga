@@ -29,6 +29,8 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
+use work.p_fphdl_package3.all;
+
 entity CalculateTo is
 port (
 i_clock : in std_logic;
@@ -887,7 +889,7 @@ begin
 		write_enable <= '1';
 		addra <= std_logic_vector (to_unsigned (i, 10)); -- To
 		dia <= fttmp1;
-		--report "================To : " & real'image (ap_slv2fp (fttmp1));
+		report "================To : " & real'image (ap_slv2fp (fttmp1));
 	when s71 =>
 		write_enable <= '0';
 		if (i = (C_ROW*C_COL)-1) then

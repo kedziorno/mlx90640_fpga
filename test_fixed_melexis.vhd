@@ -267,19 +267,19 @@ signal mem_switchpattern_reset : std_logic;
 signal mem_switchpattern_pixel : std_logic_vector (13 downto 0);
 signal mem_switchpattern_pattern : std_logic;
 
-COMPONENT ExtractVDDParameters
-PORT(
-i_clock : IN  std_logic;
-i_reset : IN  std_logic;
-i_run : in std_logic;
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-o_kvdd : OUT  std_logic_vector (31 downto 0);
-o_vdd25 : OUT  std_logic_vector (31 downto 0);
-o_rdy : out std_logic
-);
-END COMPONENT;
+--COMPONENT ExtractVDDParameters
+--PORT(
+--i_clock : IN  std_logic;
+--i_reset : IN  std_logic;
+--i_run : in std_logic;
+--i2c_mem_ena : out STD_LOGIC;
+--i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+--i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+--o_kvdd : OUT  std_logic_vector (31 downto 0);
+--o_vdd25 : OUT  std_logic_vector (31 downto 0);
+--o_rdy : out std_logic
+--);
+--END COMPONENT;
 signal ExtractVDDParameters_clock : std_logic;
 signal ExtractVDDParameters_reset : std_logic;
 signal ExtractVDDParameters_run : std_logic;
@@ -749,11 +749,44 @@ signal CalculateAlphaComp_alpha_addr : std_logic_vector(9 downto 0);
 signal CalculateAlphaComp_do : std_logic_vector(31 downto 0);
 signal CalculateAlphaComp_rdy : std_logic;
 
+COMPONENT CalculateTo
+PORT(
+i_clock : IN  std_logic;
+i_reset : IN  std_logic;
+i_run : IN  std_logic;
+i2c_mem_ena : OUT  std_logic;
+i2c_mem_addra : OUT  std_logic_vector(11 downto 0);
+i2c_mem_douta : IN  std_logic_vector(7 downto 0);
+i_Ta : IN  std_logic_vector(31 downto 0);
+i_vircompensated_do : IN  std_logic_vector(31 downto 0);
+o_vircompensated_addr : OUT  std_logic_vector(9 downto 0);
+i_alphacomp_do : IN  std_logic_vector(31 downto 0);
+o_alphacomp_addr : OUT  std_logic_vector(9 downto 0);
+o_do : OUT  std_logic_vector(31 downto 0);
+i_addr : IN  std_logic_vector(9 downto 0);
+o_rdy : OUT  std_logic
+);
+END COMPONENT;
+signal CalculateTo_clock : std_logic := '0';
+signal CalculateTo_reset : std_logic := '0';
+signal CalculateTo_run : std_logic := '0';
+signal CalculateTo_i2c_mem_douta : std_logic_vector(7 downto 0) := (others => '0');
+signal CalculateTo_vircompensated_do : std_logic_vector(31 downto 0) := (others => '0');
+signal CalculateTo_alphacomp_do : std_logic_vector(31 downto 0) := (others => '0');
+signal CalculateTo_Ta : std_logic_vector(31 downto 0) := (others => '0');
+signal CalculateTo_addr : std_logic_vector(9 downto 0) := (others => '0');
+signal CalculateTo_i2c_mem_ena : std_logic;
+signal CalculateTo_i2c_mem_addra : std_logic_vector(11 downto 0);
+signal CalculateTo_vircompensated_addr : std_logic_vector(9 downto 0);
+signal CalculateTo_alphacomp_addr : std_logic_vector(9 downto 0);
+signal CalculateTo_do : std_logic_vector(31 downto 0);
+signal CalculateTo_rdy : std_logic;
+
 signal rdyrecover : std_logic; -- signal for tb when rdy not appear
 
 signal CalculatePixOS_mux,CalculatePixOsCPSP_mux,CalculateVirCompensated_mux,ExtractOffsetParameters_mux : std_logic;
 signal ExtractAlphaParameters_mux,CalculateAlphaComp_mux,CalculateAlphaCP_mux,ExtractVDDParameters_mux : std_logic;
-signal CalculateVdd_mux,CalculateTa_mux : std_logic;
+signal CalculateVdd_mux,CalculateTa_mux,CalculateTo_mux : std_logic;
 
 begin
 
@@ -777,6 +810,8 @@ else
 CalculateVdd_i2c_mem_ena when CalculateVdd_mux = '1'
 else
 CalculateTa_i2c_mem_ena when CalculateTa_mux = '1'
+else
+CalculateTo_i2c_mem_ena when CalculateTo_mux = '1'
 else '0';
 
 i2c_mem_addra <=
@@ -799,6 +834,8 @@ else
 CalculateVdd_i2c_mem_addra when CalculateVdd_mux = '1'
 else
 CalculateTa_i2c_mem_addra when CalculateTa_mux = '1'
+else
+CalculateTo_i2c_mem_addra when CalculateTo_mux = '1'
 else (others => '0');
 
 ExtractVDDParameters_i2c_mem_douta <= i2c_mem_douta;
@@ -811,6 +848,7 @@ ExtractAlphaParameters_i2c_mem_douta <= i2c_mem_douta;
 CalculateAlphaComp_i2c_mem_douta <= i2c_mem_douta;
 CalculateVdd_i2c_mem_douta <= i2c_mem_douta;
 CalculateTa_i2c_mem_douta <= i2c_mem_douta;
+CalculateTo_i2c_mem_douta <= i2c_mem_douta;
 
 o_rdy <=
 fixed2floatrdy when fixed2floatce = '1' else
@@ -1078,435 +1116,28 @@ when idle =>
 	when s20 => 
 		CalculateAlphaComp_run <= '0';
 		if (CalculateAlphaComp_rdy = '1') then
-			state := s318;
+			state := s21;
 			CalculateAlphaComp_mux <= '0';
 		else
 			state := s20;
 			CalculateAlphaComp_mux <= '1';
 		end if;
 
+	when s21 => state := s22;
+		CalculateTo_run <= '1';
+		CalculateTo_mux <= '1';
+	when s22 => 
+		CalculateTo_run <= '0';
+		if (CalculateTo_rdy = '1') then
+			state := ending;
+			CalculateTo_mux <= '0';
+		else
+			state := s22;
+			CalculateTo_mux <= '1';
+		end if;
 
---	when s318 => state := s319;
---		eeprom16slv := i_ee0x243d and x"ff00";
---		ksto2ee := resize (to_sfixed (eeprom16slv, eeprom16sf), ksto2ee);
---		--vout2 := resize (ksto2ee, st_sfixed_max'high, st_sfixed_max'low);
---		ksto2ee := ksto2ee srl 8;
---		--vout2 := resize (ksto2ee, st_sfixed_max'high, st_sfixed_max'low);
---		ksto2ee := resize (to_sfixed (to_slv (ksto2ee (7 downto 0)), sfixed8'high, sfixed8'low), ksto2ee);
---		--vout2 := resize (ksto2ee, st_sfixed_max'high, st_sfixed_max'low);
---		fixed2floatce <= '1';
---		fixed2floatond <= '1';
---		fixed2floata <= 
---		to_slv (to_sfixed (to_slv (ksto2ee (fracas'high downto fracas'low)), fracas)) & 
---		to_slv (to_sfixed (to_slv (ksto2ee (fracbs'high downto fracbs'low)), fracbs));
---	when s319 =>
---		if (fixed2floatrdy = '1') then state := s320;
---			ksto2ee_ft := fixed2floatr;
---			outTo := fixed2floatr;
---			fixed2floatce <= '0';
---			fixed2floatond <= '0';
---			fixed2floatsclr <= '1';
---		else state := s319; end if;
---	when s320 => state := s329;
---		fixed2floatsclr <= '0';
---		kstoscale_ft := mem_float2powerN_2powerN1; -- 2^kstoscale 2^17
-		outTo := accscalecolumn_ft;
---		divfpce <= '1';
---		divfpa <= ksto2ee_ft;
---		divfpb <= ExtractKsToScaleParameter_kstoscale;
---		divfpond <= '1';
---	when s329 =>
---		if (divfprdy = '1') then state := s330;
---			ksto2_ft := divfpr; -- -0.00080108642578125
---			outTo := divfpr;
---			divfpce <= '0';
---			divfpond <= '0';
---			divfpsclr <= '1';
---		else state := s329; end if;
---	when s330 => state := s333;
---		divfpsclr <= '0';
---		addfpce <= '1';
---		addfpa <= calculateTa_Ta;
---		addfpb <= k27315_ft;
---		addfpond <= '1';
---	when s333 =>
---		if (addfprdy = '1') then state := s334;
---			fttmp1_ft := addfpr; -- 312.334
---			outTo := addfpr;
---			addfpce <= '0';
---			addfpond <= '0';
---			addfpsclr <= '1';
---		else state := s333; end if;
---	when s334 => state := s335;
---		addfpsclr <= '0';
---		mulfpce <= '1';
---		mulfpa <= fttmp1_ft;
---		mulfpb <= fttmp1_ft;
---		mulfpond <= '1';
---	when s335 =>
---		if (mulfprdy = '1') then state := s336;
---			fttmp2_ft := mulfpr; -- 312.334 ^2
---			outTo := mulfpr;
---			mulfpce <= '0';
---			mulfpond <= '0';
---			mulfpsclr <= '1';
---		else state := s335; end if;
---	when s336 => state := s337;
---		mulfpsclr <= '0';
---		mulfpce <= '1';
---		mulfpa <= fttmp2_ft;
---		mulfpb <= fttmp1_ft;
---		mulfpond <= '1';
---	when s337 =>
---		if (mulfprdy = '1') then state := s338;
---			fttmp2_ft := mulfpr; -- 312.334 ^3
---			outTo := mulfpr;
---			mulfpce <= '0';
---			mulfpond <= '0';
---			mulfpsclr <= '1';
---		else state := s337; end if;
---	when s338 => state := s339;
---		mulfpsclr <= '0';
---		mulfpce <= '1';
---		mulfpa <= fttmp2_ft;
---		mulfpb <= fttmp1_ft;
---		mulfpond <= '1';
---	when s339 =>
---		if (mulfprdy = '1') then state := s340;
---			tak4_ft := mulfpr; -- 312.334 ^4 9516495632.56
---			outTo := mulfpr;
---			mulfpce <= '0';
---			mulfpond <= '0';
---			mulfpsclr <= '1';
---		else state := s339; end if;
---	when s340 => state := s341;
---		mulfpsclr <= '0';
---		subfpce <= '1';
---		subfpa <= calculateTa_Ta;
---		subfpb <= const8_ft;
---		subfpond <= '1';
---	when s341 =>
---		if (subfprdy = '1') then state := s342;
---			trk4_ft := subfpr;
---			outTo := subfpr;
---			subfpce <= '0';
---			subfpond <= '0';
---			subfpsclr <= '1';
---		else state := s341; end if;
---	when s342 => state := s343;
---		subfpsclr <= '0';
---		addfpce <= '1';
---		addfpa <= trk4_ft;
---		addfpb <= k27315_ft;
---		addfpond <= '1';
---	when s343 =>
---		if (addfprdy = '1') then state := s344;
---			fttmp1_ft := addfpr; -- ta-8+273.15
---			outTo := addfpr;
---			addfpce <= '0';
---			addfpond <= '0';
---			addfpsclr <= '1';
---		else state := s343; end if;
---	when s344 => state := s345;
---		addfpsclr <= '0';
---		mulfpce <= '1';
---		mulfpa <= fttmp1_ft;
---		mulfpb <= fttmp1_ft;
---		mulfpond <= '1';
---	when s345 =>
---		if (mulfprdy = '1') then state := s346;
---			fttmp2_ft := mulfpr; -- trk4^2 
---			outTo := mulfpr;
---			mulfpce <= '0';
---			mulfpond <= '0';
---			mulfpsclr <= '1';
---		else state := s345; end if;
---	when s346 => state := s347;
---		mulfpsclr <= '0';
---		mulfpce <= '1';
---		mulfpa <= fttmp2_ft;
---		mulfpb <= fttmp1_ft;
---		mulfpond <= '1';
---	when s347 =>
---		if (mulfprdy = '1') then state := s348;
---			fttmp2_ft := mulfpr; -- trk4^3
---			outTo := mulfpr;
---			mulfpce <= '0';
---			mulfpond <= '0';
---			mulfpsclr <= '1';
---		else state := s347; end if;
---	when s348 => state := s349;
---		mulfpsclr <= '0';
---		mulfpce <= '1';
---		mulfpa <= fttmp2_ft;
---		mulfpb <= fttmp1_ft;
---		mulfpond <= '1';
---	when s349 =>
---		if (mulfprdy = '1') then state := s350;
---			trk4_ft := mulfpr; -- trk4^4 8557586214.66
---			outTo := mulfpr;
---			mulfpce <= '0';
---			mulfpond <= '0';
---			mulfpsclr <= '1';
---		else state := s349; end if;
---	when s350 => state := s351;
---		mulfpsclr <= '0';
-		-- xxx when emissivity=1 then tar=tak4 else tar=trk4-((trk4-tak4)/emissivity)
---		mulfpa <= acomp1216_ft;
---		mulfpb <= acomp1216_ft;
---		mulfpce <= '1';
---		mulfpond <= '1';
---	when s351 =>
---		if (mulfprdy = '1') then state := s352;
---			fttmp1_ft := mulfpr;
---			mulfpce <= '0';
---			mulfpond <= '0';
---			mulfpsclr <= '1';
---		else state := s351; end if;
---	when s352 => state := s353;
---		mulfpsclr <= '0';
---		mulfpce <= '1';
---		mulfpa <= fttmp1_ft;
---		mulfpb <= acomp1216_ft;
---		mulfpond <= '1';
---	when s353 =>
---		if (mulfprdy = '1') then state := s354;
---			acomp1216_pow3_ft := mulfpr; -- acomp**3 float
---			outTo := mulfpr;
---			mulfpce <= '0';
---			mulfpond <= '0';
---			mulfpsclr <= '1';
---		else state := s353; end if;
---	when s354 => state := s355;
---		mulfpsclr <= '0';
---		mulfpce <= '1';
---		mulfpa <= acomp1216_pow3_ft;
---		mulfpb <= acomp1216_ft;
---		mulfpond <= '1';
---	when s355 =>
---		if (mulfprdy = '1') then state := s356;
---			acomp1216_pow4_ft := mulfpr; -- acomp**4 float
---			outTo := mulfpr;
---			mulfpce <= '0';
---			mulfpond <= '0';
---			mulfpsclr <= '1';
---		else state := s355; end if;
---	when s356 => state := s357;
---		mulfpsclr <= '0';
---		mulfpce <= '1';
---		mulfpa <= acomp1216_pow3_ft;
---		mulfpb <= vir1216compensated_ft;
---		mulfpond <= '1';
---	when s357 =>
---		if (mulfprdy = '1') then state := s358;
---			fttmp1_ft := mulfpr; -- acomp**3*vircomp float
---			outTo := mulfpr;
---			mulfpce <= '0';
---			mulfpond <= '0';
---			mulfpsclr <= '1';
---		else state := s357; end if;
---	when s358 => state := s359;
---		mulfpsclr <= '0';
---		mulfpce <= '1';
---		mulfpa <= acomp1216_pow4_ft;
---		mulfpb <= tak4_ft;
---		mulfpond <= '1';
---	when s359 =>
---		if (mulfprdy = '1') then state := s360;
---			fttmp2_ft := mulfpr; -- acomp**4*tak4 float , tar=tak , emissivity=1
---			outTo := fttmp2_ft;
---			mulfpce <= '0';
---			mulfpond <= '0';
---			mulfpsclr <= '1';
---		else state := s359; end if;
---	when s360 => state := s361;
---		mulfpsclr <= '0';
---		addfpce <= '1';
---		addfpa <= fttmp1_ft;
---		addfpb <= fttmp2_ft;
---		addfpond <= '1';
---	when s361 =>
---		if (addfprdy = '1') then state := s362;
---			fttmp1_ft := addfpr; -- (acomp1216^3*vir1216compensated)+(acomp1216^4*tar) float , tar=tak4
---			outTo := addfpr;
---			addfpce <= '0';
---			addfpond <= '0';
---			addfpsclr <= '1';
---		else state := s361; end if;
---	when s362 => state := s363;
---		addfpsclr <= '0';
---		sqrtfp2ce <= '1';
---		sqrtfp2a <= fttmp1_ft;
---		sqrtfp2ond <= '1';
---	when s363 =>
---		if (sqrtfp2rdy = '1') then state := s364;
---			fttmp1_ft := sqrtfp2r; -- sqrt2(acomp+ta) float
---			outTo := fttmp1_ft;
---			sqrtfp2ce <= '0';
---			sqrtfp2ond <= '0';
---			sqrtfp2sclr <= '1';
---		else state := s363; end if;
---	when s364 => state := s365;
---		sqrtfp2sclr <= '0';
---		sqrtfp2ce <= '1';
---		sqrtfp2a <= fttmp1_ft;
---		sqrtfp2ond <= '1';
---	when s365 =>
---		if (sqrtfp2rdy = '1') then state := s366;
---			fttmp1_ft := sqrtfp2r; -- sqrt2(sqrt2(acomp+ta)) float
---			outTo := fttmp1_ft;
---			sqrtfp2ce <= '0';
---			sqrtfp2ond <= '0';
---			sqrtfp2sclr <= '1';
---		else state := s365; end if;
---	when s366 => state := s367;
---		sqrtfp2sclr <= '0';
---		mulfpce <= '1';
---		mulfpa <= fttmp1_ft;
---		mulfpb <= ksto2_ft;
---		mulfpond <= '1';
---	when s367 =>
---		if (mulfprdy = '1') then state := s368;
-----						sx1216 := mulfpr; -- sqrt4(acomp*ta)*ksto2 float
---			fttmp1_ft := mulfpr; -- sqrt4(acomp*ta)*ksto2 float
---			outTo := fttmp1_ft;
---			mulfpce <= '0';
---			mulfpond <= '0';
---			mulfpsclr <= '1';
---		else state := s367; end if;
---	when s368 => state := s369;
---		mulfpsclr <= '0';
---		mulfpce <= '1';
---		mulfpa <= ksto2_ft;
---		mulfpb <= k27315_ft;
---		mulfpond <= '1';
---	when s369 =>
---		if (mulfprdy = '1') then state := s370;
---			fttmp2_ft := mulfpr;
---			outTo := mulfpr;
---			mulfpce <= '0';
---			mulfpond <= '0';
---			mulfpsclr <= '1';
---		else state := s369; end if;
---	when s370 => state := s371;
---		mulfpsclr <= '0';
---		subfpce <= '1';
---		subfpa <= const1_ft;
---		subfpb <= fttmp2_ft;
---		subfpond <= '1';
---	when s371 =>
---		if (subfprdy = '1') then state := s372;
---			fttmp2_ft := subfpr;
---			outTo := subfpr;
---			subfpce <= '0';
---			subfpond <= '0';
---			subfpsclr <= '1';
---		else state := s371; end if;
---	when s372 => state := s373;
---		subfpsclr <= '0';
---		mulfpce <= '1';
---		mulfpa <= acomp1216_ft;
---		mulfpb <= fttmp2_ft;
---		mulfpond <= '1';
---	when s373 =>
---		if (mulfprdy = '1') then state := s374;
---			fttmp2_ft := mulfpr;
---			outTo := fttmp2_ft;
---			mulfpce <= '0';
---			mulfpond <= '0';
---			mulfpsclr <= '1';
---		else state := s373; end if;
---	when s374 => state := s375;
---		mulfpsclr <= '0';
---		addfpce <= '1';
---		addfpa <= fttmp1_ft;
---		addfpb <= fttmp2_ft;
---		addfpond <= '1';
---	when s375 =>
---		if (addfprdy = '1') then state := s376;
---			fttmp1_ft := addfpr; -- +sx1216
---			outTo := fttmp1_ft;
---			addfpce <= '0';
---			addfpond <= '0';
---			addfpsclr <= '1';
---		else state := s375; end if;
---	when s376 => state := s377;
---		addfpsclr <= '0';
---		divfpce <= '1';
---		divfpa <= vir1216compensated_ft;
---		divfpb <= fttmp1_ft;
---		divfpond <= '1';
---	when s377 =>
---		if (divfprdy = '1') then state := s378;
---			fttmp1_ft := divfpr;
---			--report "vircomp/(acomp*(1-ksto2*273.15)+Sx) real " & real'image (ap_slv2fp (ksto2_f));
---			outTo := fttmp1_ft;
---			divfpce <= '0';
---			divfpond <= '0';
---			divfpsclr <= '1';
---		else state := s377; end if;
---	when s378 => state := s379;
---		divfpsclr <= '0';
---		addfpce <= '1';
---		addfpa <= fttmp1_ft;
---		addfpb <= tak4_ft;
---		addfpond <= '1';
---	when s379 =>
---		if (addfprdy = '1') then state := s380;
---			fttmp1_ft := addfpr;
---			--report "vircomp/(acomp*(1-ksto2*273.15)+Sx)+ta real " & real'image (ap_slv2fp (ksto2_f));
---			outTo := fttmp1_ft;
---			addfpce <= '0';
---			addfpond <= '0';
---			addfpsclr <= '1';
---		else state := s379; end if;
---	when s380 => state := s381;
---		addfpsclr <= '0';
---		sqrtfp2ce <= '1';
---		sqrtfp2a <= fttmp1_ft;
---		sqrtfp2ond <= '1';
---	when s381 =>
---		if (sqrtfp2rdy = '1') then state := s382;
---			fttmp1_ft := sqrtfp2r;
---			--report "sqrt(vircomp/(acomp*(1-ksto2*273.15)+Sx)+ta) real " & real'image (ap_slv2fp (ksto2_f));
---			outTo := fttmp1_ft;
---			sqrtfp2ce <= '0';
---			sqrtfp2ond <= '0';
---			sqrtfp2sclr <= '1';
---		else state := s381; end if;
---	when s382 => state := s383;
---		sqrtfp2sclr <= '0';
---		sqrtfp2ce <= '1';
---		sqrtfp2a <= fttmp1_ft;
---		sqrtfp2ond <= '1';
---	when s383 =>
---		if (sqrtfp2rdy = '1') then state := s384;
---			fttmp1_ft := sqrtfp2r;
---			--report "sqrt(sqrt(vircomp/(acomp*(1-ksto2*273.15)+Sx)+ta)) real " & real'image (ap_slv2fp (ksto2_f));
---			outTo := fttmp1_ft;
---			sqrtfp2ce <= '0';
---			sqrtfp2ond <= '0';
---			sqrtfp2sclr <= '1';
---		else state := s383; end if;
---	when s384 => state := s385;
---		sqrtfp2sclr <= '0';
---		subfpce <= '1';
---		subfpa <= fttmp1_ft;
---		subfpb <= k27315_ft;
---		subfpond <= '1';
---	when s385 =>
---		if (subfprdy = '1') then state := s386;
---			fttmp1_ft := subfpr;
---			--report "sqrt(sqrt(vircomp/(acomp*(1-ksto2*273.15)+Sx)+ta))-273.15 real " & real'image (ap_slv2fp (ksto2_f));
---			outTo := fttmp1_ft;
---			subfpce <= '0';
---			subfpond <= '0';
---			subfpsclr <= '1';
---		else state := s385; end if;
---	when s386 => state := s387;
---		subfpsclr <= '0';
-		outTo := fttmp1_ft;
-	when s387 => state := idle;
+
+	when ending => state := idle;
 -----
 when others => null;
 end case; o_To <= outTo; end if; end if;
@@ -1628,19 +1259,19 @@ i_pixel => mem_switchpattern_pixel,
 o_pattern => mem_switchpattern_pattern
 );
 
-ExtractVDDParameters_clock <= i_clock;
-ExtractVDDParameters_reset <= i_reset;
-inst_ExtractVDDParameters : ExtractVDDParameters port map (
-i_clock => ExtractVDDParameters_clock,
-i_reset => ExtractVDDParameters_reset,
-i_run => ExtractVDDParameters_run,
-i2c_mem_ena => ExtractVDDParameters_i2c_mem_ena,
-i2c_mem_addra => ExtractVDDParameters_i2c_mem_addra,
-i2c_mem_douta => ExtractVDDParameters_i2c_mem_douta,
-o_kvdd => ExtractVDDParameters_kvdd,
-o_vdd25 => ExtractVDDParameters_vdd25,
-o_rdy => ExtractVDDParameters_rdy
-);
+--ExtractVDDParameters_clock <= i_clock;
+--ExtractVDDParameters_reset <= i_reset;
+--inst_ExtractVDDParameters : ExtractVDDParameters port map (
+--i_clock => ExtractVDDParameters_clock,
+--i_reset => ExtractVDDParameters_reset,
+--i_run => ExtractVDDParameters_run,
+--i2c_mem_ena => ExtractVDDParameters_i2c_mem_ena,
+--i2c_mem_addra => ExtractVDDParameters_i2c_mem_addra,
+--i2c_mem_douta => ExtractVDDParameters_i2c_mem_douta,
+--o_kvdd => ExtractVDDParameters_kvdd,
+--o_vdd25 => ExtractVDDParameters_vdd25,
+--o_rdy => ExtractVDDParameters_rdy
+--);
 
 inst_ExtractCT34Parameter : ExtractCT34Parameter PORT MAP (
 i_clock => ExtractCT34Parameter_clock,
@@ -1947,5 +1578,28 @@ i_addr => CalculateAlphaComp_addr,
 o_rdy => CalculateAlphaComp_rdy
 );
 
+CalculateTo_clock <= i_clock;
+CalculateTo_reset <= i_reset;
+CalculateTo_vircompensated_do <= CalculateVirCompensated_do;
+CalculateTo_vircompensated_addr <= CalculateVirCompensated_addr;
+CalculateTo_alphacomp_do <= CalculateAlphaComp_do;
+CalculateTo_alphacomp_addr <= CalculateAlphaComp_addr;
+CalculateTo_Ta <= CalculateTa_Ta;
+inst_CalculateTo : CalculateTo PORT MAP (
+i_clock => CalculateTo_clock,
+i_reset => CalculateTo_reset,
+i_run => CalculateTo_run,
+i2c_mem_ena => CalculateTo_i2c_mem_ena,
+i2c_mem_addra => CalculateTo_i2c_mem_addra,
+i2c_mem_douta => CalculateTo_i2c_mem_douta,
+i_Ta => CalculateTo_Ta,
+i_vircompensated_do => CalculateTo_vircompensated_do,
+o_vircompensated_addr => CalculateTo_vircompensated_addr,
+i_alphacomp_do => CalculateTo_alphacomp_do,
+o_alphacomp_addr => CalculateTo_alphacomp_addr,
+o_do => CalculateTo_do,
+i_addr => CalculateTo_addr,
+o_rdy => CalculateTo_rdy
+);
 end architecture testbench;
 

@@ -52,19 +52,26 @@ end ExtractKsTo1234Parameters;
 
 architecture Behavioral of ExtractKsTo1234Parameters is
 
-COMPONENT ExtractKsToScaleParameter -- 2^kstoscale float
+COMPONENT ExtractKsToScaleParameter
 PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
-i_ee0x243f : IN  std_logic_vector (15 downto 0);
-o_kstoscale : OUT  std_logic_vector (31 downto 0)
+i_run : in std_logic;
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+o_kstoscale : OUT  std_logic_vector (31 downto 0);
+o_rdy : out std_logic
 );
 END COMPONENT;
-
 signal ExtractKsToScaleParameter_clock : std_logic;
 signal ExtractKsToScaleParameter_reset : std_logic;
-signal ExtractKsToScaleParameter_ee0x243f : std_logic_vector (15 downto 0);
+signal ExtractKsToScaleParameter_run : std_logic;
+signal ExtractKsToScaleParameter_i2c_mem_ena : STD_LOGIC;
+signal ExtractKsToScaleParameter_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal ExtractKsToScaleParameter_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal ExtractKsToScaleParameter_kstoscale : std_logic_vector (31 downto 0);
+signal ExtractKsToScaleParameter_rdy : std_logic;
 
 --COMPONENT mem_float2powerN -- for ksto1234ee
 --PORT(
@@ -135,7 +142,7 @@ begin
 			o_ksto2 <= (others => '0');
 			o_ksto3 <= (others => '0');
 			o_ksto4 <= (others => '0');
-			ExtractKsToScaleParameter_ee0x243f <= (others => '0');
+--			ExtractKsToScaleParameter_ee0x243f <= (others => '0');
 			mem_signed256_ivalue <= (others => '0');
 			divfpa <= (others => '0');
 			divfpb <= (others => '0');
@@ -157,7 +164,7 @@ begin
 					vksto3 := (others => '0');
 					vksto4 := (others => '0');
 				when s1 => state := s2;
-					ExtractKsToScaleParameter_ee0x243f <= i_ee0x243f;
+--					ExtractKsToScaleParameter_ee0x243f <= i_ee0x243f;
 				when s2 => state := s3;
 					mem_signed256_ivalue <= i_ee0x243d (7 downto 0);
 				when s3 => state := s4;
@@ -236,11 +243,15 @@ end process p0;
 
 ExtractKsToScaleParameter_clock <= i_clock;
 ExtractKsToScaleParameter_reset <= i_reset;
-inst_mem_kstoscale : ExtractKsToScaleParameter PORT MAP (
+inst_mem_kstoscale : ExtractKsToScaleParameter port map (
 i_clock => ExtractKsToScaleParameter_clock,
 i_reset => ExtractKsToScaleParameter_reset,
-i_ee0x243f => ExtractKsToScaleParameter_ee0x243f,
-o_kstoscale => ExtractKsToScaleParameter_kstoscale
+i_run => ExtractKsToScaleParameter_run,
+i2c_mem_ena => ExtractKsToScaleParameter_i2c_mem_ena,
+i2c_mem_addra => ExtractKsToScaleParameter_i2c_mem_addra,
+i2c_mem_douta => ExtractKsToScaleParameter_i2c_mem_douta,
+o_kstoscale => ExtractKsToScaleParameter_kstoscale,
+o_rdy => ExtractKsToScaleParameter_rdy
 );
 
 --mem_float2powerN_ksto1234_clock <= i_clock;
