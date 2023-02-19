@@ -362,10 +362,9 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-i_ee0x2433 : in slv16; -- kvdd,vdd25
-i_ee0x2438 : in slv16; -- resolutioncontrolcal,kvscale,ktascale1,ktascale2-2/4/4/4|resolutionee
-i_ram0x072a : in slv16; -- for deltaV,vdd
-i_ram0x800d : in slv16; -- resolution reg
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_Vdd : out fd2ft; -- output Vdd
 o_kvdd : out fd2ft;
 o_vdd25 : out fd2ft;
@@ -376,14 +375,13 @@ end component calculateVdd;
 signal calculateVdd_clock : std_logic;
 signal calculateVdd_reset : std_logic;
 signal calculateVdd_run : std_logic;
-signal calculateVdd_ee0x2433 : slv16; -- kvdd,vdd25
-signal calculateVdd_ee0x2438 : slv16; -- resolutioncontrolcal,kvscale,ktascale1,ktascale2-2/4/4/4|resolutionee
-signal calculateVdd_ram0x072a : slv16; -- for deltaV,vdd
-signal calculateVdd_ram0x800d : slv16; -- resolution reg
+signal calculateVdd_i2c_mem_ena : STD_LOGIC;
+signal calculateVdd_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal calculateVdd_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal calculateVdd_Vdd : fd2ft; -- output Vdd
 signal calculateVdd_kvdd : fd2ft;
 signal calculateVdd_vdd25 : fd2ft;
-signal calculateVdd_ram0x072a_ft : fd2ft;
+signal calculateVdd_ram0x072a : fd2ft;
 signal calculateVdd_rdy : std_logic;
 
 component calculateTa is
@@ -811,6 +809,7 @@ signal rdyrecover : std_logic; -- signal for tb when rdy not appear
 
 signal CalculatePixOS_mux,CalculatePixOsCPSP_mux,CalculateVirCompensated_mux,ExtractOffsetParameters_mux : std_logic;
 signal ExtractAlphaParameters_mux,CalculateAlphaComp_mux,CalculateAlphaCP_mux,ExtractVDDParameters_mux : std_logic;
+signal CalculateVdd_mux : std_logic;
 
 begin
 
@@ -830,6 +829,8 @@ else
 ExtractAlphaParameters_i2c_mem_ena when ExtractAlphaParameters_mux = '1'
 else
 CalculateAlphaComp_i2c_mem_ena when CalculateAlphaComp_mux = '1'
+else
+CalculateVdd_i2c_mem_ena when CalculateVdd_mux = '1'
 else '0';
 
 i2c_mem_addra <=
@@ -848,6 +849,8 @@ else
 ExtractAlphaParameters_i2c_mem_addra when ExtractAlphaParameters_mux = '1'
 else
 CalculateAlphaComp_i2c_mem_addra when CalculateAlphaComp_mux = '1'
+else
+CalculateVdd_i2c_mem_addra when CalculateVdd_mux = '1'
 else (others => '0');
 
 ExtractVDDParameters_i2c_mem_douta <= i2c_mem_douta;
@@ -858,6 +861,7 @@ ExtractOffsetParameters_i2c_mem_douta <= i2c_mem_douta;
 CalculateAlphaCP_i2c_mem_douta <= i2c_mem_douta;
 ExtractAlphaParameters_i2c_mem_douta <= i2c_mem_douta;
 CalculateAlphaComp_i2c_mem_douta <= i2c_mem_douta;
+CalculateVdd_i2c_mem_douta <= i2c_mem_douta;
 
 o_rdy <=
 fixed2floatrdy when fixed2floatce = '1' else
@@ -997,31 +1001,19 @@ when idle =>
 			mem_float2powerN_reset1 <= '0';
 			mem_float2powerN_reset2 <= '0';
 			mem_switchpattern_reset <= '0';
-	when s1 => state := s1a;
-		ExtractVDDParameters_run <= '1';
-		ExtractVDDParameters_mux <= '1';
-	when s1a => 
-		ExtractVDDParameters_run <= '0';
-		if (ExtractVDDParameters_rdy = '1') then
-			state := s1b;
-			ExtractVDDParameters_mux <= '0';
-		else
-			state := s1a;
-			ExtractVDDParameters_mux <= '1';
-		end if;
-	when s1b => state := s2;
-		calculateVdd_run <= '1';
-		calculateVdd_ee0x2433 <= i_ee0x2433;
-		calculateVdd_ee0x2438 <= i_ee0x2438;
-		calculateVdd_ram0x072a <= i_ram0x072a;
-		calculateVdd_ram0x800d <= i_ram0x800d;
-	when s2 =>
-		calculateVdd_run <= '0';
-		if (calculateVdd_rdy = '1') then
+	when s1 => state := s2;
+		CalculateVdd_run <= '1';
+		CalculateVdd_mux <= '1';
+	when s2 => 
+		CalculateVdd_run <= '0';
+		if (CalculateVdd_rdy = '1') then
 			state := s3;
+			CalculateVdd_mux <= '0';
 		else
 			state := s2;
+			CalculateVdd_mux <= '1';
 		end if;
+
 	when s3 => state := s4;
 		calculateTa_run <= '1';
 		calculateTa_ee0x2432 <= i_ee0x2432;
@@ -1029,7 +1021,7 @@ when idle =>
 		calculateTa_ram0x0720 <= i_ram0x0720;
 		calculateTa_ram0x0700 <= i_ram0x0700;
 		calculateTa_ee0x2410 <= i_ee0x2410;
-		calculateTa_ram0x072a <= calculateVdd_ram0x072a_ft;
+		calculateTa_ram0x072a <= calculateVdd_ram0x072a;
 		calculateTa_kvdd <= calculateVdd_kvdd;
 		calculateTa_vdd25 <= calculateVdd_vdd25;
 	when s4 =>
@@ -1756,16 +1748,16 @@ inst_calculateVdd : calculateVdd port map (
 i_clock => calculateVdd_clock,
 i_reset => calculateVdd_reset,
 i_run => calculateVdd_run,
-i_ee0x2433 => calculateVdd_ee0x2433,
-i_ee0x2438 => calculateVdd_ee0x2438,
-i_ram0x072a => calculateVdd_ram0x072a,
-i_ram0x800d => calculateVdd_ram0x800d,
+i2c_mem_ena => calculateVdd_i2c_mem_ena,
+i2c_mem_addra => calculateVdd_i2c_mem_addra,
+i2c_mem_douta => calculateVdd_i2c_mem_douta,
 o_Vdd => calculateVdd_Vdd,
 o_kvdd => calculateVdd_kvdd,
 o_vdd25 => calculateVdd_vdd25,
-o_ram0x072a => calculateVdd_ram0x072a_ft,
+o_ram0x072a => calculateVdd_ram0x072a,
 o_rdy => calculateVdd_rdy
 );
+
 
 calculateTa_clock <= i_clock;
 calculateTa_reset <= i_reset;
