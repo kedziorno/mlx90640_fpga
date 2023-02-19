@@ -38,14 +38,15 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-i_ee0x2432 : in slv16; -- kvptat,ktptat-6/10
-i_ee0x2431 : in slv16; -- vptat25
-i_ram0x0720 : in slv16; -- vptat
-i_ram0x0700 : in slv16; -- vbe
-i_ee0x2410 : in slv16; -- (alphaptatee),kptat,scaleoccrow,scaleocccolumn,scaleoccremnant
+
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+
 i_ram0x072a : in fd2ft; -- from VDD bram
 i_kvdd : in fd2ft; -- from VDD bram
 i_vdd25 : in fd2ft; -- from VDD bram
+
 o_Ta : out fd2ft; -- output Ta
 o_rdy : out std_logic
 );
@@ -203,6 +204,8 @@ signal subfpce : STD_LOGIC;
 signal subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfprdy : STD_LOGIC;
 
+signal ee2432,ee2431,ram0720,ram0700,ee2410 : std_logic_vector (15 downto 0);
+
 begin
 
 p0 : process (i_clock) is
@@ -218,7 +221,10 @@ p0 : process (i_clock) is
 	variable vbe,vptat,vptat25 : st_sfixed_max;
 	variable vbe_ft,vptat_ft,vptat25_ft : fd2ft;
 	type states is (idle,
-	s1,s2,s3,s4,s5,s6,s7,s8,
+	s0,s1,
+	s1a,s1b,s1c,s1d,s1e,s1f,s1g,s1h,s1i,s1j,s1k,s1l,s1m,s1n,
+	s1o,s1p,s1r,s1s,s1t,s1u,s1w,s1y,s1z,
+	s2,s3,s4,s5,s6,s7,s8,
 	s9,s10,s11,s12,s13,s14,
 	s15,s16,s17,s18,s19,s20,
 	s21,s22,s23,s24,s25,s26,
@@ -260,20 +266,79 @@ begin
 		ram16slv := (others => '0');
 		o_Ta <= (others => '0');
 		o_rdy <= '0';
+		i2c_mem_ena <= '0';
 	else
 	case (state) is
 	when idle =>
 		if (i_run = '1') then
-			state := s1;
+			state := s0;
+			i2c_mem_ena <= '1';
 		else
 			state := idle;
+			i2c_mem_ena <= '0';
 		end if;
 		fixed2floatsclr <= '0';
 		addfpsclr <= '0';
 		subfpsclr <= '0';
 		mulfpsclr <= '0';
 		divfpsclr <= '0';
-	when s1 => state := s2;
+
+--i_ee0x2432 : in slv16; -- kvptat,ktptat-6/10
+--i_ee0x2431 : in slv16; -- vptat25
+--i_ram0x0720 : in slv16; -- vptat
+--i_ram0x0700 : in slv16; -- vbe
+--i_ee0x2410 : in slv16; -- (alphaptatee),kptat,scaleoccrow,scaleocccolumn,scaleoccremnant
+
+	when s0 => state := s1;
+		i2c_mem_addra <= std_logic_vector (to_unsigned (50*2+0, 12)); -- ee2432 MSB kvptat,ktptat-6/10
+	when s1 => state := s1a;
+		i2c_mem_addra <= std_logic_vector (to_unsigned (50*2+1, 12)); -- ee2432 LSB kvptat,ktptat-6/10
+	when s1a => state := s1b;
+		ee2432 (15 downto 8) <= i2c_mem_douta;
+	when s1b => state := s1c;
+		ee2432 (7 downto 0) <= i2c_mem_douta;
+	when s1c => state := s1d;
+
+	when s1d => state := s1e;
+		i2c_mem_addra <= std_logic_vector (to_unsigned (49*2+0, 12)); -- ee2431 MSB vptat25
+	when s1e => state := s1f;
+		i2c_mem_addra <= std_logic_vector (to_unsigned (49*2+1, 12)); -- ee2431 LSB vptat25
+	when s1f => state := s1g;
+		ee2431 (15 downto 8) <= i2c_mem_douta;
+	when s1g => state := s1h;
+		ee2431 (7 downto 0) <= i2c_mem_douta;
+	when s1h => state := s1i;
+
+	when s1i => state := s1j;
+		i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(800*2)+0, 12)); -- ram0720 MSB vptat
+	when s1j => state := s1k;
+		i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(800*2)+1, 12)); -- ram0720 LSB vptat
+	when s1k => state := s1l;
+		ram0720 (15 downto 8) <= i2c_mem_douta;
+	when s1l => state := s1m;
+		ram0720 (7 downto 0) <= i2c_mem_douta;
+	when s1m => state := s1n;
+
+	when s1n => state := s1o;
+		i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(768*2)+0, 12)); -- ram0700 MSB vbe
+	when s1o => state := s1p;
+		i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(768*2)+1, 12)); -- ram0700 LSB vbe
+	when s1p => state := s1r;
+		ram0700 (15 downto 8) <= i2c_mem_douta;
+	when s1r => state := s1s;
+		ram0700 (7 downto 0) <= i2c_mem_douta;
+	when s1s => state := s1t;
+
+	when s1t => state := s1u;
+		i2c_mem_addra <= std_logic_vector (to_unsigned (16*2+0, 12)); -- ee2410 MSB kptat
+	when s1u => state := s1w;
+		i2c_mem_addra <= std_logic_vector (to_unsigned (16*2+1, 12)); -- ee2410 LSB kptat
+	when s1w => state := s1y;
+		ee2410 (15 downto 8) <= i2c_mem_douta;
+	when s1y => state := s1z;
+		ee2410 (7 downto 0) <= i2c_mem_douta;
+	when s1z => state := s2;
+
 		-- deltaV
 		subfpce <= '1';
 		subfpa <= i_ram0x072a;
@@ -302,7 +367,7 @@ begin
 	when s5 => state := s6;
 		divfpsclr <= '0';
 		-- vptat25
-		eeprom16slv := i_ee0x2431 and x"ffff";
+		eeprom16slv := ee2431;
 		vptat25 := resize (to_sfixed (eeprom16slv, eeprom16sf), vptat25);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -319,7 +384,7 @@ begin
 	when s7 => state := s8;
 		fixed2floatsclr <= '0';
 		-- vptat
-		eeprom16slv := i_ram0x0720 and x"ffff";
+		eeprom16slv := ram0720;
 		vptat := resize (to_sfixed (eeprom16slv, eeprom16sf), vptat);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -336,7 +401,7 @@ begin
 	when s9 => state := s10;
 		fixed2floatsclr <= '0';
 		-- vbe
-		eeprom16slv := i_ram0x0700 and x"ffff";
+		eeprom16slv := ram0700;
 		vbe := resize (to_sfixed (eeprom16slv, eeprom16sf), vbe);
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
@@ -502,7 +567,7 @@ end process p0;
 
 ExtractKvPTATParameter_clock <= i_clock;
 ExtractKvPTATParameter_reset <= i_reset;
-ExtractKvPTATParameter_ee0x2432 <= i_ee0x2432;
+ExtractKvPTATParameter_ee0x2432 <= ee2432;
 inst_ExtractKvPTATParameter : ExtractKvPTATParameter PORT MAP (
 i_clock => ExtractKvPTATParameter_clock,
 i_reset => ExtractKvPTATParameter_reset,
@@ -512,7 +577,7 @@ o_kvptat => ExtractKvPTATParameter_kvptat
 
 ExtractKtPTATParameter_clock <= i_clock;
 ExtractKtPTATParameter_reset <= i_reset;
-ExtractKtPTATParameter_ee0x2432 <= i_ee0x2432;
+ExtractKtPTATParameter_ee0x2432 <= ee2432;
 inst_ExtractKtPTATParameter : ExtractKtPTATParameter PORT MAP (
 i_clock => ExtractKtPTATParameter_clock,
 i_reset => ExtractKtPTATParameter_reset,
@@ -522,7 +587,7 @@ o_ktptat => ExtractKtPTATParameter_ktptat
 
 ExtractAlphaPtatParameter_clock <= i_clock;
 ExtractAlphaPtatParameter_reset <= i_reset;
-ExtractAlphaPtatParameter_ee0x2410 <= i_ee0x2410;
+ExtractAlphaPtatParameter_ee0x2410 <= ee2410;
 inst_ExtractAlphaPtatParameter : ExtractAlphaPtatParameter
 port map (
 i_clock => ExtractAlphaPtatParameter_clock,

@@ -1001,6 +1001,7 @@ when idle =>
 			mem_float2powerN_reset1 <= '0';
 			mem_float2powerN_reset2 <= '0';
 			mem_switchpattern_reset <= '0';
+
 	when s1 => state := s2;
 		CalculateVdd_run <= '1';
 		CalculateVdd_mux <= '1';
