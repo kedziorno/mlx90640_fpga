@@ -305,19 +305,6 @@ signal ExtractCT34Parameter_ee0x243f : std_logic_vector (15 downto 0);
 signal ExtractCT34Parameter_ct3 : std_logic_vector (31 downto 0);
 signal ExtractCT34Parameter_ct4 : std_logic_vector (31 downto 0);
 
-COMPONENT ExtractKsToScaleParameter
-PORT(
-i_clock : IN  std_logic;
-i_reset : IN  std_logic;
-i_ee0x243f : IN  std_logic_vector(15 downto 0);
-o_kstoscale : OUT  std_logic_vector(31 downto 0)
-);
-END COMPONENT;
-signal ExtractKsToScaleParameter_clock : std_logic;
-signal ExtractKsToScaleParameter_reset : std_logic;
-signal ExtractKsToScaleParameter_ee0x243f : std_logic_vector (15 downto 0);
-signal ExtractKsToScaleParameter_kstoscale : std_logic_vector (31 downto 0);
-
 component calculateVdd is
 port (
 i_clock : in std_logic;
@@ -1099,310 +1086,310 @@ when idle =>
 		end if;
 
 
-	when s318 => state := s319;
-		eeprom16slv := i_ee0x243d and x"ff00";
-		ksto2ee := resize (to_sfixed (eeprom16slv, eeprom16sf), ksto2ee);
-		--vout2 := resize (ksto2ee, st_sfixed_max'high, st_sfixed_max'low);
-		ksto2ee := ksto2ee srl 8;
-		--vout2 := resize (ksto2ee, st_sfixed_max'high, st_sfixed_max'low);
-		ksto2ee := resize (to_sfixed (to_slv (ksto2ee (7 downto 0)), sfixed8'high, sfixed8'low), ksto2ee);
-		--vout2 := resize (ksto2ee, st_sfixed_max'high, st_sfixed_max'low);
-		fixed2floatce <= '1';
-		fixed2floatond <= '1';
-		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (ksto2ee (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (ksto2ee (fracbs'high downto fracbs'low)), fracbs));
-	when s319 =>
-		if (fixed2floatrdy = '1') then state := s320;
-			ksto2ee_ft := fixed2floatr;
-			outTo := fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
-		else state := s319; end if;
-	when s320 => state := s329;
-		fixed2floatsclr <= '0';
+--	when s318 => state := s319;
+--		eeprom16slv := i_ee0x243d and x"ff00";
+--		ksto2ee := resize (to_sfixed (eeprom16slv, eeprom16sf), ksto2ee);
+--		--vout2 := resize (ksto2ee, st_sfixed_max'high, st_sfixed_max'low);
+--		ksto2ee := ksto2ee srl 8;
+--		--vout2 := resize (ksto2ee, st_sfixed_max'high, st_sfixed_max'low);
+--		ksto2ee := resize (to_sfixed (to_slv (ksto2ee (7 downto 0)), sfixed8'high, sfixed8'low), ksto2ee);
+--		--vout2 := resize (ksto2ee, st_sfixed_max'high, st_sfixed_max'low);
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (ksto2ee (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (ksto2ee (fracbs'high downto fracbs'low)), fracbs));
+--	when s319 =>
+--		if (fixed2floatrdy = '1') then state := s320;
+--			ksto2ee_ft := fixed2floatr;
+--			outTo := fixed2floatr;
+--			fixed2floatce <= '0';
+--			fixed2floatond <= '0';
+--			fixed2floatsclr <= '1';
+--		else state := s319; end if;
+--	when s320 => state := s329;
+--		fixed2floatsclr <= '0';
 --		kstoscale_ft := mem_float2powerN_2powerN1; -- 2^kstoscale 2^17
 		outTo := accscalecolumn_ft;
-		divfpce <= '1';
-		divfpa <= ksto2ee_ft;
-		divfpb <= ExtractKsToScaleParameter_kstoscale;
-		divfpond <= '1';
-	when s329 =>
-		if (divfprdy = '1') then state := s330;
-			ksto2_ft := divfpr; -- -0.00080108642578125
-			outTo := divfpr;
-			divfpce <= '0';
-			divfpond <= '0';
-			divfpsclr <= '1';
-		else state := s329; end if;
-	when s330 => state := s333;
-		divfpsclr <= '0';
-		addfpce <= '1';
-		addfpa <= calculateTa_Ta;
-		addfpb <= k27315_ft;
-		addfpond <= '1';
-	when s333 =>
-		if (addfprdy = '1') then state := s334;
-			fttmp1_ft := addfpr; -- 312.334
-			outTo := addfpr;
-			addfpce <= '0';
-			addfpond <= '0';
-			addfpsclr <= '1';
-		else state := s333; end if;
-	when s334 => state := s335;
-		addfpsclr <= '0';
-		mulfpce <= '1';
-		mulfpa <= fttmp1_ft;
-		mulfpb <= fttmp1_ft;
-		mulfpond <= '1';
-	when s335 =>
-		if (mulfprdy = '1') then state := s336;
-			fttmp2_ft := mulfpr; -- 312.334 ^2
-			outTo := mulfpr;
-			mulfpce <= '0';
-			mulfpond <= '0';
-			mulfpsclr <= '1';
-		else state := s335; end if;
-	when s336 => state := s337;
-		mulfpsclr <= '0';
-		mulfpce <= '1';
-		mulfpa <= fttmp2_ft;
-		mulfpb <= fttmp1_ft;
-		mulfpond <= '1';
-	when s337 =>
-		if (mulfprdy = '1') then state := s338;
-			fttmp2_ft := mulfpr; -- 312.334 ^3
-			outTo := mulfpr;
-			mulfpce <= '0';
-			mulfpond <= '0';
-			mulfpsclr <= '1';
-		else state := s337; end if;
-	when s338 => state := s339;
-		mulfpsclr <= '0';
-		mulfpce <= '1';
-		mulfpa <= fttmp2_ft;
-		mulfpb <= fttmp1_ft;
-		mulfpond <= '1';
-	when s339 =>
-		if (mulfprdy = '1') then state := s340;
-			tak4_ft := mulfpr; -- 312.334 ^4 9516495632.56
-			outTo := mulfpr;
-			mulfpce <= '0';
-			mulfpond <= '0';
-			mulfpsclr <= '1';
-		else state := s339; end if;
-	when s340 => state := s341;
-		mulfpsclr <= '0';
-		subfpce <= '1';
-		subfpa <= calculateTa_Ta;
-		subfpb <= const8_ft;
-		subfpond <= '1';
-	when s341 =>
-		if (subfprdy = '1') then state := s342;
-			trk4_ft := subfpr;
-			outTo := subfpr;
-			subfpce <= '0';
-			subfpond <= '0';
-			subfpsclr <= '1';
-		else state := s341; end if;
-	when s342 => state := s343;
-		subfpsclr <= '0';
-		addfpce <= '1';
-		addfpa <= trk4_ft;
-		addfpb <= k27315_ft;
-		addfpond <= '1';
-	when s343 =>
-		if (addfprdy = '1') then state := s344;
-			fttmp1_ft := addfpr; -- ta-8+273.15
-			outTo := addfpr;
-			addfpce <= '0';
-			addfpond <= '0';
-			addfpsclr <= '1';
-		else state := s343; end if;
-	when s344 => state := s345;
-		addfpsclr <= '0';
-		mulfpce <= '1';
-		mulfpa <= fttmp1_ft;
-		mulfpb <= fttmp1_ft;
-		mulfpond <= '1';
-	when s345 =>
-		if (mulfprdy = '1') then state := s346;
-			fttmp2_ft := mulfpr; -- trk4^2 
-			outTo := mulfpr;
-			mulfpce <= '0';
-			mulfpond <= '0';
-			mulfpsclr <= '1';
-		else state := s345; end if;
-	when s346 => state := s347;
-		mulfpsclr <= '0';
-		mulfpce <= '1';
-		mulfpa <= fttmp2_ft;
-		mulfpb <= fttmp1_ft;
-		mulfpond <= '1';
-	when s347 =>
-		if (mulfprdy = '1') then state := s348;
-			fttmp2_ft := mulfpr; -- trk4^3
-			outTo := mulfpr;
-			mulfpce <= '0';
-			mulfpond <= '0';
-			mulfpsclr <= '1';
-		else state := s347; end if;
-	when s348 => state := s349;
-		mulfpsclr <= '0';
-		mulfpce <= '1';
-		mulfpa <= fttmp2_ft;
-		mulfpb <= fttmp1_ft;
-		mulfpond <= '1';
-	when s349 =>
-		if (mulfprdy = '1') then state := s350;
-			trk4_ft := mulfpr; -- trk4^4 8557586214.66
-			outTo := mulfpr;
-			mulfpce <= '0';
-			mulfpond <= '0';
-			mulfpsclr <= '1';
-		else state := s349; end if;
-	when s350 => state := s351;
-		mulfpsclr <= '0';
+--		divfpce <= '1';
+--		divfpa <= ksto2ee_ft;
+--		divfpb <= ExtractKsToScaleParameter_kstoscale;
+--		divfpond <= '1';
+--	when s329 =>
+--		if (divfprdy = '1') then state := s330;
+--			ksto2_ft := divfpr; -- -0.00080108642578125
+--			outTo := divfpr;
+--			divfpce <= '0';
+--			divfpond <= '0';
+--			divfpsclr <= '1';
+--		else state := s329; end if;
+--	when s330 => state := s333;
+--		divfpsclr <= '0';
+--		addfpce <= '1';
+--		addfpa <= calculateTa_Ta;
+--		addfpb <= k27315_ft;
+--		addfpond <= '1';
+--	when s333 =>
+--		if (addfprdy = '1') then state := s334;
+--			fttmp1_ft := addfpr; -- 312.334
+--			outTo := addfpr;
+--			addfpce <= '0';
+--			addfpond <= '0';
+--			addfpsclr <= '1';
+--		else state := s333; end if;
+--	when s334 => state := s335;
+--		addfpsclr <= '0';
+--		mulfpce <= '1';
+--		mulfpa <= fttmp1_ft;
+--		mulfpb <= fttmp1_ft;
+--		mulfpond <= '1';
+--	when s335 =>
+--		if (mulfprdy = '1') then state := s336;
+--			fttmp2_ft := mulfpr; -- 312.334 ^2
+--			outTo := mulfpr;
+--			mulfpce <= '0';
+--			mulfpond <= '0';
+--			mulfpsclr <= '1';
+--		else state := s335; end if;
+--	when s336 => state := s337;
+--		mulfpsclr <= '0';
+--		mulfpce <= '1';
+--		mulfpa <= fttmp2_ft;
+--		mulfpb <= fttmp1_ft;
+--		mulfpond <= '1';
+--	when s337 =>
+--		if (mulfprdy = '1') then state := s338;
+--			fttmp2_ft := mulfpr; -- 312.334 ^3
+--			outTo := mulfpr;
+--			mulfpce <= '0';
+--			mulfpond <= '0';
+--			mulfpsclr <= '1';
+--		else state := s337; end if;
+--	when s338 => state := s339;
+--		mulfpsclr <= '0';
+--		mulfpce <= '1';
+--		mulfpa <= fttmp2_ft;
+--		mulfpb <= fttmp1_ft;
+--		mulfpond <= '1';
+--	when s339 =>
+--		if (mulfprdy = '1') then state := s340;
+--			tak4_ft := mulfpr; -- 312.334 ^4 9516495632.56
+--			outTo := mulfpr;
+--			mulfpce <= '0';
+--			mulfpond <= '0';
+--			mulfpsclr <= '1';
+--		else state := s339; end if;
+--	when s340 => state := s341;
+--		mulfpsclr <= '0';
+--		subfpce <= '1';
+--		subfpa <= calculateTa_Ta;
+--		subfpb <= const8_ft;
+--		subfpond <= '1';
+--	when s341 =>
+--		if (subfprdy = '1') then state := s342;
+--			trk4_ft := subfpr;
+--			outTo := subfpr;
+--			subfpce <= '0';
+--			subfpond <= '0';
+--			subfpsclr <= '1';
+--		else state := s341; end if;
+--	when s342 => state := s343;
+--		subfpsclr <= '0';
+--		addfpce <= '1';
+--		addfpa <= trk4_ft;
+--		addfpb <= k27315_ft;
+--		addfpond <= '1';
+--	when s343 =>
+--		if (addfprdy = '1') then state := s344;
+--			fttmp1_ft := addfpr; -- ta-8+273.15
+--			outTo := addfpr;
+--			addfpce <= '0';
+--			addfpond <= '0';
+--			addfpsclr <= '1';
+--		else state := s343; end if;
+--	when s344 => state := s345;
+--		addfpsclr <= '0';
+--		mulfpce <= '1';
+--		mulfpa <= fttmp1_ft;
+--		mulfpb <= fttmp1_ft;
+--		mulfpond <= '1';
+--	when s345 =>
+--		if (mulfprdy = '1') then state := s346;
+--			fttmp2_ft := mulfpr; -- trk4^2 
+--			outTo := mulfpr;
+--			mulfpce <= '0';
+--			mulfpond <= '0';
+--			mulfpsclr <= '1';
+--		else state := s345; end if;
+--	when s346 => state := s347;
+--		mulfpsclr <= '0';
+--		mulfpce <= '1';
+--		mulfpa <= fttmp2_ft;
+--		mulfpb <= fttmp1_ft;
+--		mulfpond <= '1';
+--	when s347 =>
+--		if (mulfprdy = '1') then state := s348;
+--			fttmp2_ft := mulfpr; -- trk4^3
+--			outTo := mulfpr;
+--			mulfpce <= '0';
+--			mulfpond <= '0';
+--			mulfpsclr <= '1';
+--		else state := s347; end if;
+--	when s348 => state := s349;
+--		mulfpsclr <= '0';
+--		mulfpce <= '1';
+--		mulfpa <= fttmp2_ft;
+--		mulfpb <= fttmp1_ft;
+--		mulfpond <= '1';
+--	when s349 =>
+--		if (mulfprdy = '1') then state := s350;
+--			trk4_ft := mulfpr; -- trk4^4 8557586214.66
+--			outTo := mulfpr;
+--			mulfpce <= '0';
+--			mulfpond <= '0';
+--			mulfpsclr <= '1';
+--		else state := s349; end if;
+--	when s350 => state := s351;
+--		mulfpsclr <= '0';
 		-- xxx when emissivity=1 then tar=tak4 else tar=trk4-((trk4-tak4)/emissivity)
-		mulfpa <= acomp1216_ft;
-		mulfpb <= acomp1216_ft;
-		mulfpce <= '1';
-		mulfpond <= '1';
-	when s351 =>
-		if (mulfprdy = '1') then state := s352;
-			fttmp1_ft := mulfpr;
-			mulfpce <= '0';
-			mulfpond <= '0';
-			mulfpsclr <= '1';
-		else state := s351; end if;
-	when s352 => state := s353;
-		mulfpsclr <= '0';
-		mulfpce <= '1';
-		mulfpa <= fttmp1_ft;
-		mulfpb <= acomp1216_ft;
-		mulfpond <= '1';
-	when s353 =>
-		if (mulfprdy = '1') then state := s354;
-			acomp1216_pow3_ft := mulfpr; -- acomp**3 float
-			outTo := mulfpr;
-			mulfpce <= '0';
-			mulfpond <= '0';
-			mulfpsclr <= '1';
-		else state := s353; end if;
-	when s354 => state := s355;
-		mulfpsclr <= '0';
-		mulfpce <= '1';
-		mulfpa <= acomp1216_pow3_ft;
-		mulfpb <= acomp1216_ft;
-		mulfpond <= '1';
-	when s355 =>
-		if (mulfprdy = '1') then state := s356;
-			acomp1216_pow4_ft := mulfpr; -- acomp**4 float
-			outTo := mulfpr;
-			mulfpce <= '0';
-			mulfpond <= '0';
-			mulfpsclr <= '1';
-		else state := s355; end if;
-	when s356 => state := s357;
-		mulfpsclr <= '0';
-		mulfpce <= '1';
-		mulfpa <= acomp1216_pow3_ft;
-		mulfpb <= vir1216compensated_ft;
-		mulfpond <= '1';
-	when s357 =>
-		if (mulfprdy = '1') then state := s358;
-			fttmp1_ft := mulfpr; -- acomp**3*vircomp float
-			outTo := mulfpr;
-			mulfpce <= '0';
-			mulfpond <= '0';
-			mulfpsclr <= '1';
-		else state := s357; end if;
-	when s358 => state := s359;
-		mulfpsclr <= '0';
-		mulfpce <= '1';
-		mulfpa <= acomp1216_pow4_ft;
-		mulfpb <= tak4_ft;
-		mulfpond <= '1';
-	when s359 =>
-		if (mulfprdy = '1') then state := s360;
-			fttmp2_ft := mulfpr; -- acomp**4*tak4 float , tar=tak , emissivity=1
-			outTo := fttmp2_ft;
-			mulfpce <= '0';
-			mulfpond <= '0';
-			mulfpsclr <= '1';
-		else state := s359; end if;
-	when s360 => state := s361;
-		mulfpsclr <= '0';
-		addfpce <= '1';
-		addfpa <= fttmp1_ft;
-		addfpb <= fttmp2_ft;
-		addfpond <= '1';
-	when s361 =>
-		if (addfprdy = '1') then state := s362;
-			fttmp1_ft := addfpr; -- (acomp1216^3*vir1216compensated)+(acomp1216^4*tar) float , tar=tak4
-			outTo := addfpr;
-			addfpce <= '0';
-			addfpond <= '0';
-			addfpsclr <= '1';
-		else state := s361; end if;
-	when s362 => state := s363;
-		addfpsclr <= '0';
-		sqrtfp2ce <= '1';
-		sqrtfp2a <= fttmp1_ft;
-		sqrtfp2ond <= '1';
-	when s363 =>
-		if (sqrtfp2rdy = '1') then state := s364;
-			fttmp1_ft := sqrtfp2r; -- sqrt2(acomp+ta) float
-			outTo := fttmp1_ft;
-			sqrtfp2ce <= '0';
-			sqrtfp2ond <= '0';
-			sqrtfp2sclr <= '1';
-		else state := s363; end if;
-	when s364 => state := s365;
-		sqrtfp2sclr <= '0';
-		sqrtfp2ce <= '1';
-		sqrtfp2a <= fttmp1_ft;
-		sqrtfp2ond <= '1';
-	when s365 =>
-		if (sqrtfp2rdy = '1') then state := s366;
-			fttmp1_ft := sqrtfp2r; -- sqrt2(sqrt2(acomp+ta)) float
-			outTo := fttmp1_ft;
-			sqrtfp2ce <= '0';
-			sqrtfp2ond <= '0';
-			sqrtfp2sclr <= '1';
-		else state := s365; end if;
-	when s366 => state := s367;
-		sqrtfp2sclr <= '0';
-		mulfpce <= '1';
-		mulfpa <= fttmp1_ft;
-		mulfpb <= ksto2_ft;
-		mulfpond <= '1';
-	when s367 =>
-		if (mulfprdy = '1') then state := s368;
---						sx1216 := mulfpr; -- sqrt4(acomp*ta)*ksto2 float
-			fttmp1_ft := mulfpr; -- sqrt4(acomp*ta)*ksto2 float
-			outTo := fttmp1_ft;
-			mulfpce <= '0';
-			mulfpond <= '0';
-			mulfpsclr <= '1';
-		else state := s367; end if;
-	when s368 => state := s369;
-		mulfpsclr <= '0';
-		mulfpce <= '1';
-		mulfpa <= ksto2_ft;
-		mulfpb <= k27315_ft;
-		mulfpond <= '1';
-	when s369 =>
-		if (mulfprdy = '1') then state := s370;
-			fttmp2_ft := mulfpr;
-			outTo := mulfpr;
-			mulfpce <= '0';
-			mulfpond <= '0';
-			mulfpsclr <= '1';
-		else state := s369; end if;
-	when s370 => state := s371;
-		mulfpsclr <= '0';
+--		mulfpa <= acomp1216_ft;
+--		mulfpb <= acomp1216_ft;
+--		mulfpce <= '1';
+--		mulfpond <= '1';
+--	when s351 =>
+--		if (mulfprdy = '1') then state := s352;
+--			fttmp1_ft := mulfpr;
+--			mulfpce <= '0';
+--			mulfpond <= '0';
+--			mulfpsclr <= '1';
+--		else state := s351; end if;
+--	when s352 => state := s353;
+--		mulfpsclr <= '0';
+--		mulfpce <= '1';
+--		mulfpa <= fttmp1_ft;
+--		mulfpb <= acomp1216_ft;
+--		mulfpond <= '1';
+--	when s353 =>
+--		if (mulfprdy = '1') then state := s354;
+--			acomp1216_pow3_ft := mulfpr; -- acomp**3 float
+--			outTo := mulfpr;
+--			mulfpce <= '0';
+--			mulfpond <= '0';
+--			mulfpsclr <= '1';
+--		else state := s353; end if;
+--	when s354 => state := s355;
+--		mulfpsclr <= '0';
+--		mulfpce <= '1';
+--		mulfpa <= acomp1216_pow3_ft;
+--		mulfpb <= acomp1216_ft;
+--		mulfpond <= '1';
+--	when s355 =>
+--		if (mulfprdy = '1') then state := s356;
+--			acomp1216_pow4_ft := mulfpr; -- acomp**4 float
+--			outTo := mulfpr;
+--			mulfpce <= '0';
+--			mulfpond <= '0';
+--			mulfpsclr <= '1';
+--		else state := s355; end if;
+--	when s356 => state := s357;
+--		mulfpsclr <= '0';
+--		mulfpce <= '1';
+--		mulfpa <= acomp1216_pow3_ft;
+--		mulfpb <= vir1216compensated_ft;
+--		mulfpond <= '1';
+--	when s357 =>
+--		if (mulfprdy = '1') then state := s358;
+--			fttmp1_ft := mulfpr; -- acomp**3*vircomp float
+--			outTo := mulfpr;
+--			mulfpce <= '0';
+--			mulfpond <= '0';
+--			mulfpsclr <= '1';
+--		else state := s357; end if;
+--	when s358 => state := s359;
+--		mulfpsclr <= '0';
+--		mulfpce <= '1';
+--		mulfpa <= acomp1216_pow4_ft;
+--		mulfpb <= tak4_ft;
+--		mulfpond <= '1';
+--	when s359 =>
+--		if (mulfprdy = '1') then state := s360;
+--			fttmp2_ft := mulfpr; -- acomp**4*tak4 float , tar=tak , emissivity=1
+--			outTo := fttmp2_ft;
+--			mulfpce <= '0';
+--			mulfpond <= '0';
+--			mulfpsclr <= '1';
+--		else state := s359; end if;
+--	when s360 => state := s361;
+--		mulfpsclr <= '0';
+--		addfpce <= '1';
+--		addfpa <= fttmp1_ft;
+--		addfpb <= fttmp2_ft;
+--		addfpond <= '1';
+--	when s361 =>
+--		if (addfprdy = '1') then state := s362;
+--			fttmp1_ft := addfpr; -- (acomp1216^3*vir1216compensated)+(acomp1216^4*tar) float , tar=tak4
+--			outTo := addfpr;
+--			addfpce <= '0';
+--			addfpond <= '0';
+--			addfpsclr <= '1';
+--		else state := s361; end if;
+--	when s362 => state := s363;
+--		addfpsclr <= '0';
+--		sqrtfp2ce <= '1';
+--		sqrtfp2a <= fttmp1_ft;
+--		sqrtfp2ond <= '1';
+--	when s363 =>
+--		if (sqrtfp2rdy = '1') then state := s364;
+--			fttmp1_ft := sqrtfp2r; -- sqrt2(acomp+ta) float
+--			outTo := fttmp1_ft;
+--			sqrtfp2ce <= '0';
+--			sqrtfp2ond <= '0';
+--			sqrtfp2sclr <= '1';
+--		else state := s363; end if;
+--	when s364 => state := s365;
+--		sqrtfp2sclr <= '0';
+--		sqrtfp2ce <= '1';
+--		sqrtfp2a <= fttmp1_ft;
+--		sqrtfp2ond <= '1';
+--	when s365 =>
+--		if (sqrtfp2rdy = '1') then state := s366;
+--			fttmp1_ft := sqrtfp2r; -- sqrt2(sqrt2(acomp+ta)) float
+--			outTo := fttmp1_ft;
+--			sqrtfp2ce <= '0';
+--			sqrtfp2ond <= '0';
+--			sqrtfp2sclr <= '1';
+--		else state := s365; end if;
+--	when s366 => state := s367;
+--		sqrtfp2sclr <= '0';
+--		mulfpce <= '1';
+--		mulfpa <= fttmp1_ft;
+--		mulfpb <= ksto2_ft;
+--		mulfpond <= '1';
+--	when s367 =>
+--		if (mulfprdy = '1') then state := s368;
+----						sx1216 := mulfpr; -- sqrt4(acomp*ta)*ksto2 float
+--			fttmp1_ft := mulfpr; -- sqrt4(acomp*ta)*ksto2 float
+--			outTo := fttmp1_ft;
+--			mulfpce <= '0';
+--			mulfpond <= '0';
+--			mulfpsclr <= '1';
+--		else state := s367; end if;
+--	when s368 => state := s369;
+--		mulfpsclr <= '0';
+--		mulfpce <= '1';
+--		mulfpa <= ksto2_ft;
+--		mulfpb <= k27315_ft;
+--		mulfpond <= '1';
+--	when s369 =>
+--		if (mulfprdy = '1') then state := s370;
+--			fttmp2_ft := mulfpr;
+--			outTo := mulfpr;
+--			mulfpce <= '0';
+--			mulfpond <= '0';
+--			mulfpsclr <= '1';
+--		else state := s369; end if;
+--	when s370 => state := s371;
+--		mulfpsclr <= '0';
 		subfpce <= '1';
 		subfpa <= const1_ft;
 		subfpb <= fttmp2_ft;
@@ -1661,16 +1648,6 @@ i_reset => ExtractCT34Parameter_reset,
 i_ee0x243f => ExtractCT34Parameter_ee0x243f,
 o_ct3 => ExtractCT34Parameter_ct3,
 o_ct4 => ExtractCT34Parameter_ct4
-);
-
-ExtractKsToScaleParameter_clock <= i_clock;
-ExtractKsToScaleParameter_reset <= i_reset;
-ExtractKsToScaleParameter_ee0x243f <= i_ee0x243f;
-inst_ExtractKsToScaleParameter : ExtractKsToScaleParameter PORT MAP (
-i_clock => ExtractKsToScaleParameter_clock,
-i_reset => ExtractKsToScaleParameter_reset,
-i_ee0x243f => ExtractKsToScaleParameter_ee0x243f,
-o_kstoscale => ExtractKsToScaleParameter_kstoscale
 );
 
 calculateVdd_clock <= i_clock;
