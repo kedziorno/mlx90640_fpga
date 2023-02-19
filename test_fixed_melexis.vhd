@@ -290,19 +290,6 @@ signal ExtractVDDParameters_kvdd : std_logic_vector(31 downto 0);
 signal ExtractVDDParameters_vdd25 : std_logic_vector(31 downto 0);
 signal ExtractVDDParameters_rdy : std_logic;
 
-component ExtractAlphaPtatParameter is
-port (
-i_clock : IN  std_logic;
-i_reset : IN  std_logic;
-i_ee0x2410 : IN  std_logic_vector (15 downto 0);
-o_alphaptat: OUT  std_logic_vector (31 downto 0)
-);
-end component ExtractAlphaPtatParameter;
-signal ExtractAlphaPtatParameter_clock : std_logic;
-signal ExtractAlphaPtatParameter_reset : std_logic;
-signal ExtractAlphaPtatParameter_ee0x2410 : std_logic_vector (15 downto 0);
-signal ExtractAlphaPtatParameter_alphaptat : std_logic_vector (31 downto 0);
-
 component ExtractCT34Parameter is
 port (
 i_clock : in std_logic;
@@ -330,32 +317,6 @@ signal ExtractKsToScaleParameter_clock : std_logic;
 signal ExtractKsToScaleParameter_reset : std_logic;
 signal ExtractKsToScaleParameter_ee0x243f : std_logic_vector (15 downto 0);
 signal ExtractKsToScaleParameter_kstoscale : std_logic_vector (31 downto 0);
-
-COMPONENT ExtractKtPTATParameter
-PORT(
-i_clock : IN  std_logic;
-i_reset : IN  std_logic;
-i_ee0x2432 : IN  std_logic_vector(15 downto 0);
-o_ktptat : OUT  std_logic_vector(31 downto 0)
-);
-END COMPONENT;
-signal ExtractKtPTATParameter_clock : std_logic;
-signal ExtractKtPTATParameter_reset : std_logic;
-signal ExtractKtPTATParameter_ee0x2432 : std_logic_vector (15 downto 0);
-signal ExtractKtPTATParameter_ktptat : std_logic_vector (31 downto 0);
-
-COMPONENT ExtractKvPTATParameter
-PORT(
-i_clock : IN  std_logic;
-i_reset : IN  std_logic;
-i_ee0x2432 : IN  std_logic_vector(15 downto 0);
-o_kvptat : OUT  std_logic_vector(31 downto 0)
-);
-END COMPONENT;
-signal ExtractKvPTATParameter_clock : std_logic;
-signal ExtractKvPTATParameter_reset : std_logic;
-signal ExtractKvPTATParameter_ee0x2432 : std_logic_vector (15 downto 0);
-signal ExtractKvPTATParameter_kvptat : std_logic_vector (31 downto 0);
 
 component calculateVdd is
 port (
@@ -389,11 +350,9 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-i_ee0x2432 : in slv16; -- kvptat,ktptat-6/10
-i_ee0x2431 : in slv16; -- vptat25
-i_ram0x0720 : in slv16; -- vptat
-i_ram0x0700 : in slv16; -- vbe
-i_ee0x2410 : in slv16; -- (alphaptatee),kptat,scaleoccrow,scaleocccolumn,scaleoccremnant
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 i_ram0x072a : in fd2ft; -- from VDD bram
 i_kvdd : in fd2ft; -- from VDD bram
 i_vdd25 : in fd2ft; -- from VDD bram
@@ -404,11 +363,9 @@ end component calculateTa;
 signal calculateTa_clock : std_logic;
 signal calculateTa_reset : std_logic;
 signal calculateTa_run : std_logic;
-signal calculateTa_ee0x2432 : slv16; -- kvptat,ktptat-6/10
-signal calculateTa_ee0x2431 : slv16; -- vptat25
-signal calculateTa_ram0x0720 : slv16; -- vptat
-signal calculateTa_ram0x0700 : slv16; -- vbe
-signal calculateTa_ee0x2410 : slv16; -- (alphaptatee),kptat,scaleoccrow,scaleocccolumn,scaleoccremnant
+signal calculateTa_i2c_mem_ena : STD_LOGIC;
+signal calculateTa_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal calculateTa_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal calculateTa_ram0x072a : fd2ft; -- from VDD bram
 signal calculateTa_kvdd : fd2ft; -- from VDD bram
 signal calculateTa_vdd25 : fd2ft; -- from VDD bram
@@ -809,7 +766,7 @@ signal rdyrecover : std_logic; -- signal for tb when rdy not appear
 
 signal CalculatePixOS_mux,CalculatePixOsCPSP_mux,CalculateVirCompensated_mux,ExtractOffsetParameters_mux : std_logic;
 signal ExtractAlphaParameters_mux,CalculateAlphaComp_mux,CalculateAlphaCP_mux,ExtractVDDParameters_mux : std_logic;
-signal CalculateVdd_mux : std_logic;
+signal CalculateVdd_mux,CalculateTa_mux : std_logic;
 
 begin
 
@@ -831,6 +788,8 @@ else
 CalculateAlphaComp_i2c_mem_ena when CalculateAlphaComp_mux = '1'
 else
 CalculateVdd_i2c_mem_ena when CalculateVdd_mux = '1'
+else
+CalculateTa_i2c_mem_ena when CalculateTa_mux = '1'
 else '0';
 
 i2c_mem_addra <=
@@ -851,6 +810,8 @@ else
 CalculateAlphaComp_i2c_mem_addra when CalculateAlphaComp_mux = '1'
 else
 CalculateVdd_i2c_mem_addra when CalculateVdd_mux = '1'
+else
+CalculateTa_i2c_mem_addra when CalculateTa_mux = '1'
 else (others => '0');
 
 ExtractVDDParameters_i2c_mem_douta <= i2c_mem_douta;
@@ -862,6 +823,7 @@ CalculateAlphaCP_i2c_mem_douta <= i2c_mem_douta;
 ExtractAlphaParameters_i2c_mem_douta <= i2c_mem_douta;
 CalculateAlphaComp_i2c_mem_douta <= i2c_mem_douta;
 CalculateVdd_i2c_mem_douta <= i2c_mem_douta;
+CalculateTa_i2c_mem_douta <= i2c_mem_douta;
 
 o_rdy <=
 fixed2floatrdy when fixed2floatce = '1' else
@@ -1017,11 +979,7 @@ when idle =>
 
 	when s3 => state := s4;
 		calculateTa_run <= '1';
-		calculateTa_ee0x2432 <= i_ee0x2432;
-		calculateTa_ee0x2431 <= i_ee0x2431;
-		calculateTa_ram0x0720 <= i_ram0x0720;
-		calculateTa_ram0x0700 <= i_ram0x0700;
-		calculateTa_ee0x2410 <= i_ee0x2410;
+		CalculateTa_mux <= '1';
 		calculateTa_ram0x072a <= calculateVdd_ram0x072a;
 		calculateTa_kvdd <= calculateVdd_kvdd;
 		calculateTa_vdd25 <= calculateVdd_vdd25;
@@ -1029,9 +987,12 @@ when idle =>
 		calculateTa_run <= '0';
 		if (calculateTa_rdy = '1') then
 			state := s5;
+			CalculateTa_mux <= '0';
 		else
 			state := s4;
+			CalculateTa_mux <= '1';
 		end if;
+
 	when s5 => state := s6;
 		calculateKGain_run <= '1';
 		calculateKGain_ee0x2430 <= i_ee0x2430;
@@ -1694,17 +1655,6 @@ o_vdd25 => ExtractVDDParameters_vdd25,
 o_rdy => ExtractVDDParameters_rdy
 );
 
-ExtractAlphaPtatParameter_clock <= i_clock;
-ExtractAlphaPtatParameter_reset <= i_reset;
-ExtractAlphaPtatParameter_ee0x2410 <= i_ee0x2410;
-inst_ExtractAlphaPtatParameter : ExtractAlphaPtatParameter
-port map (
-i_clock => ExtractAlphaPtatParameter_clock,
-i_reset => ExtractAlphaPtatParameter_reset,
-i_ee0x2410 => ExtractAlphaPtatParameter_ee0x2410,
-o_alphaptat => ExtractAlphaPtatParameter_alphaptat
-);
-
 inst_ExtractCT34Parameter : ExtractCT34Parameter PORT MAP (
 i_clock => ExtractCT34Parameter_clock,
 i_reset => ExtractCT34Parameter_reset,
@@ -1723,26 +1673,6 @@ i_ee0x243f => ExtractKsToScaleParameter_ee0x243f,
 o_kstoscale => ExtractKsToScaleParameter_kstoscale
 );
 
-ExtractKtPTATParameter_clock <= i_clock;
-ExtractKtPTATParameter_reset <= i_reset;
-ExtractKtPTATParameter_ee0x2432 <= i_ee0x2432;
-inst_ExtractKtPTATParameter : ExtractKtPTATParameter PORT MAP (
-i_clock => ExtractKtPTATParameter_clock,
-i_reset => ExtractKtPTATParameter_reset,
-i_ee0x2432 => ExtractKtPTATParameter_ee0x2432,
-o_ktptat => ExtractKtPTATParameter_ktptat
-);
-
-ExtractKvPTATParameter_clock <= i_clock;
-ExtractKvPTATParameter_reset <= i_reset;
-ExtractKvPTATParameter_ee0x2432 <= i_ee0x2432;
-inst_ExtractKvPTATParameter : ExtractKvPTATParameter PORT MAP (
-i_clock => ExtractKvPTATParameter_clock,
-i_reset => ExtractKvPTATParameter_reset,
-i_ee0x2432 => ExtractKvPTATParameter_ee0x2432,
-o_kvptat => ExtractKvPTATParameter_kvptat
-);
-
 calculateVdd_clock <= i_clock;
 calculateVdd_reset <= i_reset;
 inst_calculateVdd : calculateVdd port map (
@@ -1759,18 +1689,15 @@ o_ram0x072a => calculateVdd_ram0x072a,
 o_rdy => calculateVdd_rdy
 );
 
-
 calculateTa_clock <= i_clock;
 calculateTa_reset <= i_reset;
 inst_calculateTa : calculateTa port map (
 i_clock => calculateTa_clock,
 i_reset => calculateTa_reset,
 i_run => calculateTa_run,
-i_ee0x2432 => calculateTa_ee0x2432,
-i_ee0x2431 => calculateTa_ee0x2431,
-i_ram0x0720 => calculateTa_ram0x0720,
-i_ram0x0700 => calculateTa_ram0x0700,
-i_ee0x2410 => calculateTa_ee0x2410,
+i2c_mem_ena => calculateTa_i2c_mem_ena,
+i2c_mem_addra => calculateTa_i2c_mem_addra,
+i2c_mem_douta => calculateTa_i2c_mem_douta,
 i_ram0x072a => calculateTa_ram0x072a,
 i_kvdd => calculateTa_kvdd,
 i_vdd25 => calculateTa_vdd25,
