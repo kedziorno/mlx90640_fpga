@@ -38,7 +38,6 @@ i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
 
-i_KGain : in std_logic_vector (31 downto 0);
 i_Ta : in std_logic_vector (31 downto 0);
 i_Ta0 : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
@@ -194,13 +193,51 @@ signal mem_signed256_reset : std_logic;
 signal mem_signed256_ivalue : std_logic_vector (7 downto 0);
 signal mem_signed256_ovalue : std_logic_vector (31 downto 0);
 
+component calculateKGain is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+o_KGain : out fd2ft;
+o_rdy : out std_logic
+);
+end component calculateKGain;
+signal calculateKGain_clock : std_logic;
+signal calculateKGain_reset : std_logic;
+signal calculateKGain_run : std_logic;
+signal calculateKGain_i2c_mem_ena : STD_LOGIC;
+signal calculateKGain_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal calculateKGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal calculateKGain_KGain : fd2ft;
+signal calculateKGain_rdy : std_logic;
+
 signal rdy : std_logic;
 
 signal nibble1 : std_logic_vector (5 downto 0);
 signal nibble2,nibble3 : std_logic_vector (3 downto 0);
 signal out_nibble1,out_nibble2,out_nibble3 : std_logic_vector (31 downto 0);
 
+signal i2c_mem_ena_internal : STD_LOGIC;
+signal i2c_mem_addra_internal : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal i2c_mem_douta_internal : STD_LOGIC_VECTOR(7 DOWNTO 0);
+
+signal CalculateKGain_mux : std_logic;
+
 begin
+
+i2c_mem_ena <=
+CalculateKGain_i2c_mem_ena when CalculateKGain_mux = '1'
+else i2c_mem_ena_internal;
+
+i2c_mem_addra <=
+CalculateKGain_i2c_mem_addra when CalculateKGain_mux = '1'
+else i2c_mem_addra_internal;
+
+CalculateKGain_i2c_mem_douta <= i2c_mem_douta;
+i2c_mem_douta_internal <= i2c_mem_douta;
 
 o_rdy <= rdy;
 
@@ -211,7 +248,7 @@ p0 : process (i_clock) is
 	constant C_ROW : integer := 24;
 	constant C_COL : integer := 32;
 	variable i : integer range 0 to C_ROW*C_COL-1;
-	type states is (idle,
+	type states is (idle,s0,s0a,
 	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,
 	s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,
 	s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,
@@ -258,8 +295,8 @@ begin
 			addfpce <= '0';
 			subfpce <= '0';
 			divfpce <= '0';
-			i2c_mem_ena <= '0';
-			i2c_mem_addra <= (others => '0');
+			i2c_mem_ena_internal <= '0';
+			i2c_mem_addra_internal <= (others => '0');
 			o_pixoscpsp0 <= (others => '0');
 			o_pixoscpsp1 <= (others => '0');
 			fixed2floata <= (others => '0');
@@ -274,11 +311,11 @@ begin
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := s1;
-						i2c_mem_ena <= '1';
+						state := s0;
+						i2c_mem_ena_internal <= '1';
 					else
 						state := idle;
-						i2c_mem_ena <= '0';
+						i2c_mem_ena_internal <= '0';
 					end if;
 					i := 0;
 					addfpsclr <= '0';
@@ -286,27 +323,43 @@ begin
 					mulfpsclr <= '0';
 					divfpsclr <= '0';
 					fixed2floatsclr <= '0';
+					
+				when s0 => state := s0a;
+					CalculateKGain_run <= '1';
+					CalculateKGain_mux <= '1';
+				when s0a => 
+					CalculateKGain_run <= '0';
+					if (CalculateKGain_rdy = '1') then
+						state := s1;
+						CalculateKGain_mux <= '0';
+					else
+						state := s0a;
+						CalculateKGain_mux <= '1';
+					end if;
+
+					
+					
 				when s1 => state := s2;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(776*2)+0, 12)); -- ram0708 - pixgain_cp_sp0
+					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(776*2)+0, 12)); -- ram0708 - pixgain_cp_sp0
 				when s2 => state := s3;
 				when s3 => state := s4;
-					ram0708 (15 downto 8) := i2c_mem_douta;
+					ram0708 (15 downto 8) := i2c_mem_douta_internal;
 				when s4 => state := s5;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(776*2)+1, 12)); -- ram0708 - pixgain_cp_sp0
+					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(776*2)+1, 12)); -- ram0708 - pixgain_cp_sp0
 				when s5 => state := s6;
 				when s6 => state := s7;
-					ram0708 (7 downto 0) := i2c_mem_douta;
+					ram0708 (7 downto 0) := i2c_mem_douta_internal;
 
 				when s7 => state := s8;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(808*2)+0, 12)); -- ram0728 - pixgain_cp_sp1
+					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(808*2)+0, 12)); -- ram0728 - pixgain_cp_sp1
 				when s8 => state := s9;
 				when s9 => state := s10;
-					ram0728 (15 downto 8) := i2c_mem_douta;
+					ram0728 (15 downto 8) := i2c_mem_douta_internal;
 				when s10 => state := s11;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(808*2)+1, 12)); -- ram0728 - pixgain_cp_sp1
+					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(808*2)+1, 12)); -- ram0728 - pixgain_cp_sp1
 				when s11 => state := s12;
 				when s12 => state := s13;
-					ram0728 (7 downto 0) := i2c_mem_douta;
+					ram0728 (7 downto 0) := i2c_mem_douta_internal;
 
 				when s13 => state := s14;
 					ram0708_fd := resize (to_sfixed (ram0708, eeprom16sf), ram0708_fd);
@@ -345,7 +398,7 @@ begin
 				when s19 => state := s20;
 					mulfpce <= '1';
 					mulfpa <= ram0708_ft;
-					mulfpb <= i_KGain;
+					mulfpb <= calculateKGain_KGain;
 					mulfpond <= '1';
 				--	report ": " & real'image (ap_slv2fp (mulfpa));
 				--	report ": " & real'image (ap_slv2fp (mulfpb));
@@ -362,7 +415,7 @@ begin
 				when s21a => state := s22;
 					mulfpce <= '1';
 					mulfpa <= ram0728_ft;
-					mulfpb <= i_KGain;
+					mulfpb <= calculateKGain_KGain;
 					mulfpond <= '1';
 				--	report ": " & real'image (ap_slv2fp (mulfpa));
 				--	report ": " & real'image (ap_slv2fp (mulfpb));
@@ -378,15 +431,15 @@ begin
 
 
 				when s24 => state := s25;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (58*2+0, 12)); -- ee243a - offcpsubpage0
+					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (58*2+0, 12)); -- ee243a - offcpsubpage0
 				when s25 => state := s26;
 				when s26 => state := s27;
-					offcpsubpage0 (15 downto 8) := i2c_mem_douta;
+					offcpsubpage0 (15 downto 8) := i2c_mem_douta_internal;
 				when s27 => state := s28;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (58*2+1, 12)); -- ee243a - offcpsubpage0
+					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (58*2+1, 12)); -- ee243a - offcpsubpage0
 				when s28 => state := s29;
 				when s29 => state := s30;
-					offcpsubpage0 (7 downto 0) := i2c_mem_douta;
+					offcpsubpage0 (7 downto 0) := i2c_mem_douta_internal;
 
 
 				when s30 => state := s31;
@@ -413,34 +466,34 @@ begin
 
 
 				when s35 => state := s36;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (56*2+0, 12)); -- ee2438 MSB - kvscale
+					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+0, 12)); -- ee2438 MSB - kvscale
 				when s36 => state := s37;
 				when s37 => state := s38;
-					nibble3 <= i2c_mem_douta (3 downto 0); -- ee2438 0f00
+					nibble3 <= i2c_mem_douta_internal (3 downto 0); -- ee2438 0f00
 
 
 				when s38 => state := s39;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (56*2+1, 12)); -- ee2438 LSB - ktascale1
+					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+1, 12)); -- ee2438 LSB - ktascale1
 				when s39 => state := s40;
 				when s40 => state := s41;
-					nibble2 <= i2c_mem_douta (7 downto 4); -- ee2438 00f0
+					nibble2 <= i2c_mem_douta_internal (7 downto 4); -- ee2438 00f0
 
 
 				when s41 => state := s42;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
+					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
 				when s42 => state := s43;
 				when s43 => state := s44;
-					mem_signed256_ivalue <= i2c_mem_douta;
+					mem_signed256_ivalue <= i2c_mem_douta_internal;
 				when s44 => state := s45;
 				when s45 => state := s46;
 					kvcpee_ft := mem_signed256_ovalue;
 				
 				
 				when s46 => state := s47;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
+					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
 				when s47 => state := s48;
 				when s48 => state := s49;
-					mem_signed256_ivalue <= i2c_mem_douta;
+					mem_signed256_ivalue <= i2c_mem_douta_internal;
 				when s49 => state := s50;
 				when s50 => state := s51;
 					ktacpee_ft := mem_signed256_ovalue;
@@ -789,5 +842,17 @@ result => fixed2floatr,
 rdy => fixed2floatrdy
 );
 
+calculateKGain_clock <= i_clock;
+calculateKGain_reset <= i_reset;
+inst_calculateKGain : calculateKGain port map (
+i_clock => calculateKGain_clock,
+i_reset => calculateKGain_reset,
+i_run => calculateKGain_run,
+i2c_mem_ena => calculateKGain_i2c_mem_ena,
+i2c_mem_addra => calculateKGain_i2c_mem_addra,
+i2c_mem_douta => calculateKGain_i2c_mem_douta,
+o_KGain => calculateKGain_KGain,
+o_rdy => calculateKGain_rdy
+);
 end Behavioral;
 

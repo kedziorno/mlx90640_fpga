@@ -27,7 +27,6 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-i_KGain : in std_logic_vector (31 downto 0);
 i_Ta : in std_logic_vector (31 downto 0);
 i_Ta0 : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
@@ -45,7 +44,6 @@ end component CalculatePixOsCPSP;
 signal CalculatePixOsCPSP_clock : std_logic;
 signal CalculatePixOsCPSP_reset : std_logic;
 signal CalculatePixOsCPSP_run : std_logic;
-signal CalculatePixOsCPSP_KGain : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_Ta : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_Ta0 : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_Vdd : std_logic_vector (31 downto 0);
@@ -85,7 +83,6 @@ uut : CalculatePixOsCPSP port map (
 i_clock => CalculatePixOsCPSP_clock,
 i_reset => CalculatePixOsCPSP_reset,
 i_run => CalculatePixOsCPSP_run,
-i_KGain => CalculatePixOsCPSP_KGain,
 i_Ta => CalculatePixOsCPSP_Ta,
 i_Ta0 => CalculatePixOsCPSP_Ta0,
 i_Vdd => CalculatePixOsCPSP_Vdd,
@@ -107,7 +104,6 @@ wait for 100 ns; -- wait until global set/reset completes
 CalculatePixOsCPSP_reset <= '0';
 wait for clockperiod*10;
 -- Add user defined stimulus here
-CalculatePixOSCPSP_KGain <= x"3F823E9A"; -- 1.01753546947234
 CalculatePixOSCPSP_const1 <= x"3F800000"; -- 1
 CalculatePixOSCPSP_Ta <= x"421CBC6A"; -- 39.184
 CalculatePixOSCPSP_Ta0 <= x"41C80000"; -- 25
