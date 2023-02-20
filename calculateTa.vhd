@@ -23,6 +23,7 @@ use ieee.std_logic_1164.all;
 use ieee_proposed.fixed_pkg.all;
 
 use work.p_fphdl_package1.all;
+use work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -363,6 +364,7 @@ begin
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
+			report "================ CalculateTa deltaV : " & real'image (ap_slv2fp (fttmp1));
 		else state := s4; end if;
 	when s5 => state := s6;
 		divfpsclr <= '0';
@@ -380,6 +382,7 @@ begin
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
+			report "================ CalculateTa vptat25 : " & real'image (ap_slv2fp (vptat25_ft));
 		else state := s6; end if;
 	when s7 => state := s8;
 		fixed2floatsclr <= '0';
@@ -422,6 +425,7 @@ begin
 		mulfpa <= vptat_ft;
 		mulfpb <= ExtractAlphaPtatParameter_alphaptat;
 		mulfpond <= '1';
+		report "================ CalculateTa alphaptat : " & real'image (ap_slv2fp (ExtractAlphaPtatParameter_alphaptat));
 	when s12 =>
 		if (mulfprdy = '1') then state := s13;
 			fttmp2 := mulfpr;
@@ -478,6 +482,7 @@ begin
 		mulfpa <= ExtractKvPTATParameter_kvptat;
 		mulfpb <= fttmp1;
 		mulfpond <= '1';
+		report "================ CalculateTa ExtractKvPTATParameter_kvptat : " & real'image (ap_slv2fp (ExtractKvPTATParameter_kvptat));
 	when s20 =>
 		if (mulfprdy = '1') then state := s21;
 			fttmp1 := mulfpr;
@@ -534,6 +539,7 @@ begin
 		divfpa <= fttmp1;
 		divfpb <= ExtractKtPTATParameter_ktptat;
 		divfpond <= '1';
+		report "================ CalculateTa ExtractKtPTATParameter_ktptat : " & real'image (ap_slv2fp (ExtractKtPTATParameter_ktptat));
 	when s28 =>
 		if (divfprdy = '1') then state := s29;
 			fttmp1 := divfpr;
@@ -558,6 +564,7 @@ begin
 	when ending => state := idle;
 		addfpsclr <= '0';
 		o_Ta <= fttmp1;
+		report "================ CalculateTa Ta : " & real'image (ap_slv2fp (fttmp1));
 		o_rdy <= '1';
 	when others => null;
 	end case;

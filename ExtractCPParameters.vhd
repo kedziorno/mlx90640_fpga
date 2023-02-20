@@ -29,6 +29,7 @@ use ieee_proposed.fixed_pkg.all;
 --use UNISIM.VComponents.all;
 
 use work.p_fphdl_package1.all;
+use work.p_fphdl_package3.all;
 
 entity ExtractCPParameters is
 port (
@@ -293,6 +294,7 @@ begin
 						divfpce <= '0';
 						divfpond <= '0';
 						divfpsclr <= '1';
+						report "================ extractCPParameters cpKta : " & real'image (ap_slv2fp (divfpr));
 					else state := s14; end if;
 				when s15 => state := s16;
 					divfpsclr <= '0';
@@ -306,6 +308,7 @@ begin
 						divfpce <= '0';
 						divfpond <= '0';
 						divfpsclr <= '1';
+						report "================ extractCPParameters cpKv : " & real'image (ap_slv2fp (divfpr));
 					else state := s16; end if;
 				when s17 => state := idle;
 					divfpsclr <= '0';

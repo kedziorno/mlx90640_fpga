@@ -21,6 +21,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
 use work.p_fphdl_package1.all;
+use work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -217,6 +218,7 @@ begin
 						divfpond <= '0';
 						divfpsclr <= '1';
 						o_acpsubpage0 <= fptmp1;
+						report "================ calculateAlphaCP o_acpsubpage0 : " & real'image (ap_slv2fp (fptmp1));
 					else state := s9; end if;
 				when s10 => state := s11;
 					divfpsclr <= '0';
@@ -231,6 +233,7 @@ begin
 						mulfpond <= '0';
 						mulfpsclr <= '1';
 						o_acpsubpage1 <= fptmp1;
+						report "================ calculateAlphaCP o_acpsubpage1 : " & real'image (ap_slv2fp (fptmp1));
 					else state := s11; end if;
 				when ending => state := idle;
 					mulfpsclr <= '0';

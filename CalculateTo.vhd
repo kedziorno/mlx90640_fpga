@@ -365,7 +365,22 @@ signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
 
 signal rdy,write_enable : std_logic;
 
+signal i2c_mem_ena_internal : STD_LOGIC;
+signal i2c_mem_addra_internal : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal i2c_mem_douta_internal : STD_LOGIC_VECTOR(7 DOWNTO 0);
+
 begin
+
+i2c_mem_ena <= ExtractKsToScaleParameter_i2c_mem_ena when ExtractKsToScaleParameter_mux = '1'
+else i2c_mem_ena_internal;
+
+i2c_mem_addra <= ExtractKsToScaleParameter_i2c_mem_addra when ExtractKsToScaleParameter_mux = '1'
+else i2c_mem_addra_internal;
+
+ExtractKsToScaleParameter_i2c_mem_douta <= i2c_mem_douta when ExtractKsToScaleParameter_mux = '1'
+else (others => '0');
+
+i2c_mem_douta_internal <= i2c_mem_douta;
 
 o_rdy <= rdy;
 o_do <= doa when rdy = '1' else (others => '0');
@@ -397,7 +412,7 @@ begin
 		if (i_reset = '1') then
 			state := idle;
 			i := 0;
-			i2c_mem_ena <= '0';
+			i2c_mem_ena_internal <= '0';
 			rdy <= '0';
 			addfpsclr <= '1';
 			subfpsclr <= '1';
@@ -431,10 +446,10 @@ begin
 				when idle =>
 					if (i_run = '1') then
 						state := s1;
-						i2c_mem_ena <= '1';
+						i2c_mem_ena_internal <= '1';
 					else
 						state := idle;
-						i2c_mem_ena <= '0';
+						i2c_mem_ena_internal <= '0';
 					end if;
 					i := 0;
 					addfpsclr <= '0';
@@ -443,10 +458,10 @@ begin
 					divfpsclr <= '0';
 					sqrtfp2sclr <= '0';
 				when s1 => state := s2;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (61*2+0, 12)); -- ee243d MSB ksto2ee 0xff00
+					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (61*2+0, 12)); -- ee243d MSB ksto2ee 0xff00
 				when s2 => state := s3;
 				when s3 => state := s4;
-					mem_signed256_ivalue <= i2c_mem_douta; -- ksto2ee
+					mem_signed256_ivalue <= i2c_mem_douta_internal; -- ksto2ee
 
 	when s4 => state := s5;
 		ExtractKsToScaleParameter_run <= '1';
@@ -475,6 +490,7 @@ begin
 		else state := s7; end if;
 	when s8 => state := s9;
 		divfpsclr <= '0';
+		report "================ To ksto2 : " & real'image (ap_slv2fp (ksto2));
 
 		subfpce <= '1';
 		subfpa <= i_Ta;
@@ -891,7 +907,7 @@ begin
 		write_enable <= '1';
 		addra <= std_logic_vector (to_unsigned (i, 10)); -- To
 		dia <= fttmp1;
-		report "================To : " & real'image (ap_slv2fp (fttmp1));
+		report "================ To : " & real'image (ap_slv2fp (fttmp1));
 	when s71 =>
 		write_enable <= '0';
 		if (i = (C_ROW*C_COL)-1) then

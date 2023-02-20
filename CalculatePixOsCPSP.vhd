@@ -31,6 +31,7 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 use work.p_fphdl_package1.all;
+use work.p_fphdl_package3.all;
 
 entity CalculatePixOsCPSP is
 port (
@@ -448,6 +449,7 @@ begin
 				when s31 => state := s32;
 				when s32 => state := s33;
 					offcpsubpage0_ft := mem_signed1024_ovalue; -- offcpsubpage0
+					report "================ CalculatePixOsCPSP offcpsubpage0 : " & real'image (ap_slv2fp (offcpsubpage0_ft));
 					offcpsubpage1delta_ft := out_nibble1;
 					addfpce <= '1';
 					addfpa <= offcpsubpage0_ft;
@@ -456,6 +458,7 @@ begin
 				when s33 =>
 					if (addfprdy = '1') then state := s34;
 						offcpsubpage1_ft := addfpr; -- offcpsubpage1
+						report "================ CalculatePixOsCPSP offcpsubpage1 : " & real'image (ap_slv2fp (offcpsubpage1_ft));
 						addfpce <= '0';
 						addfpond <= '0';
 						addfpsclr <= '1';
@@ -498,7 +501,6 @@ begin
 				when s50 => state := s51;
 					ktacpee_ft := mem_signed256_ovalue;
 
-
 				when s51 => state := s52;
 					divfpce <= '1';
 					divfpa <= ktacpee_ft; -- ktacpee
@@ -513,6 +515,7 @@ begin
 					else state := s52; end if;
 				when s53 => state := s54;
 					divfpsclr <= '0';
+					report "================ CalculatePixOsCPSP ktacp : " & real'image (ap_slv2fp (ktacp_ft));
 
 
 				when s54 => state := s55;
@@ -529,6 +532,8 @@ begin
 					else state := s55; end if;
 				when s56 => state := s57;
 					divfpsclr <= '0';
+					report "================ CalculatePixOsCPSP kvcp : " & real'image (ap_slv2fp (kvcp_ft));
+
 					subfpce <= '1';
 					subfpa <= i_Vdd;
 					subfpb <= i_VddV0;
@@ -667,6 +672,7 @@ begin
 						subfpce <= '0';
 						subfpond <= '0';
 						subfpsclr <= '1';
+						report "================ CalculatePixOsCPSP o_pixoscpsp0 : " & real'image (ap_slv2fp (subfpr));
 					else state := s81; end if;
 				when s82 => state := s83;
 					subfpsclr <= '0';
@@ -712,6 +718,7 @@ begin
 				when s90 =>
 					if (subfprdy = '1') then state := s91;
 						o_pixoscpsp1 <= subfpr;
+						report "================ CalculatePixOsCPSP o_pixoscpsp1 : " & real'image (ap_slv2fp (subfpr));
 						subfpce <= '0';
 						subfpond <= '0';
 						subfpsclr <= '1';

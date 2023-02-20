@@ -23,6 +23,7 @@ use ieee.std_logic_1164.all;
 use ieee_proposed.fixed_pkg.all;
 
 use work.p_fphdl_package1.all;
+use work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -176,6 +177,7 @@ begin
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
+			report "================ calculateKGain gain : " & real'image (ap_slv2fp (fttmp1));
 		else state := s10; end if;
 	when s11 => state := s12;
 		fixed2floatsclr <= '0';
@@ -205,6 +207,7 @@ begin
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
+--			report "================ calculateKGain gain : " & real'image (ap_slv2fp (fttmp1));
 		else state := s14; end if;
 	when ending => state := idle;
 		divfpsclr <= '0';

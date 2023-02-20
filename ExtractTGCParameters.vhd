@@ -20,6 +20,9 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
+use work.p_fphdl_package1.all;
+use work.p_fphdl_package3.all;
+
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
@@ -86,6 +89,7 @@ begin
 				when s4 => state := s5;
 				when s5 => state := ending;
 					o_tgc  <= odata_tgc;
+					report "================ extractTGCparameters tgc : " & real'image (ap_slv2fp (odata_tgc));
 				when ending => state := idle;
 					rdy <= '1';
 				when others => null;
