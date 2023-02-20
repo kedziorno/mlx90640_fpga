@@ -19,65 +19,89 @@ END tb_calculateKGain;
 
 ARCHITECTURE tb OF tb_calculateKGain IS 
 
+COMPONENT tb_i2c_mem
+PORT (
+clka : IN STD_LOGIC;
+ena : IN STD_LOGIC;
+wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+addra : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
+dina : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+);
+END COMPONENT;
+
 -- Component Declaration
 component calculateKGain is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-i_ee0x2430 : in slv16; -- gain
-i_ram0x070a : in slv16;
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_KGain : out fd2ft;
 o_rdy : out std_logic
 );
 end component calculateKGain;
-
-signal i_clock : std_logic;
-signal i_reset : std_logic;
-signal i_run : std_logic;
-signal o_KGain : fd2ft;
-signal o_rdy : std_logic;
+signal calculateKGain_clock : std_logic;
+signal calculateKGain_reset : std_logic;
+signal calculateKGain_run : std_logic;
+signal calculateKGain_i2c_mem_ena : STD_LOGIC;
+signal calculateKGain_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal calculateKGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal calculateKGain_KGain : fd2ft;
+signal calculateKGain_rdy : std_logic;
 
 constant clock_period : time := 10 ns;
-constant G_C_WAIT1 : integer := 16;
 
 signal out1r : real;
 
 BEGIN
 
-out1r <= ap_slv2fp (o_KGain);
+out1r <= ap_slv2fp (calculateKGain_KGain);
+
+inst_tb_i2c_mem : tb_i2c_mem
+PORT MAP (
+clka => calculateKGain_clock,
+ena => calculateKGain_i2c_mem_ena,
+wea => "0",
+addra => calculateKGain_i2c_mem_addra,
+dina => (others => '0'),
+douta => calculateKGain_i2c_mem_douta
+);
 
 cp : process
 begin
-	i_clock <= '0';
+	calculateKGain_clock <= '0';
 	wait for clock_period/2;
-	i_clock <= '1';
+	calculateKGain_clock <= '1';
 	wait for clock_period/2;
 end process cp;
 
 -- Component Instantiation
 uut: calculateKGain port map (
-i_clock => i_clock,
-i_reset => i_reset,
-i_run => i_run,
-i_ee0x2430 => x"18ef",
-i_ram0x070a => x"1881",
-o_KGain => o_KGain,
-o_rdy => o_rdy
+i_clock => calculateKGain_clock,
+i_reset => calculateKGain_reset,
+i_run => calculateKGain_run,
+i2c_mem_ena => calculateKGain_i2c_mem_ena,
+i2c_mem_addra => calculateKGain_i2c_mem_addra,
+i2c_mem_douta => calculateKGain_i2c_mem_douta,
+o_KGain => calculateKGain_KGain,
+o_rdy => calculateKGain_rdy
 );
 
 
 --  Test Bench Statements
 tbprocess : PROCESS
 BEGIN
-i_reset <= '1';
+calculateKGain_reset <= '1';
 wait for 254.3 ns; -- wait until global set/reset completes
-i_reset <= '0';
+calculateKGain_reset <= '0';
 wait for clock_period*10;
 -- Add user defined stimulus here
-i_run <= '1'; wait for clock_period; i_run <= '0';
-wait for clock_period*10;
-wait for 100 us;
+calculateKGain_run <= '1'; wait for clock_period; calculateKGain_run <= '0';
+wait until calculateKGain_rdy = '1';
+wait for 1 ps;
 report "done" severity failure;
 END PROCESS tbprocess;
 --  End Test Bench 
