@@ -398,16 +398,16 @@ else
 CalculateTo_i2c_mem_addra when CalculateTo_mux = '1'
 else (others => '0');
 
-CalculatePixOS_i2c_mem_douta <= i2c_mem_douta;
-CalculatePixOsCPSP_i2c_mem_douta <= i2c_mem_douta;
-CalculateVirCompensated_i2c_mem_douta <= i2c_mem_douta;
-ExtractOffsetParameters_i2c_mem_douta <= i2c_mem_douta;
-CalculateAlphaCP_i2c_mem_douta <= i2c_mem_douta;
-ExtractAlphaParameters_i2c_mem_douta <= i2c_mem_douta;
-CalculateAlphaComp_i2c_mem_douta <= i2c_mem_douta;
-CalculateVdd_i2c_mem_douta <= i2c_mem_douta;
-CalculateTa_i2c_mem_douta <= i2c_mem_douta;
-CalculateTo_i2c_mem_douta <= i2c_mem_douta;
+CalculatePixOS_i2c_mem_douta <= i2c_mem_douta when CalculatePixOS_mux = '1' else (others => '0');
+CalculatePixOsCPSP_i2c_mem_douta <= i2c_mem_douta when CalculatePixOsCPSP_mux = '1' else (others => '0');
+CalculateVirCompensated_i2c_mem_douta <= i2c_mem_douta when CalculateVirCompensated_mux = '1' else (others => '0');
+ExtractOffsetParameters_i2c_mem_douta <= i2c_mem_douta when ExtractOffsetParameters_mux = '1' else (others => '0');
+CalculateAlphaCP_i2c_mem_douta <= i2c_mem_douta when CalculateAlphaCP_mux = '1' else (others => '0');
+ExtractAlphaParameters_i2c_mem_douta <= i2c_mem_douta when ExtractAlphaParameters_mux = '1' else (others => '0');
+CalculateAlphaComp_i2c_mem_douta <= i2c_mem_douta when CalculateAlphaComp_mux = '1' else (others => '0');
+CalculateVdd_i2c_mem_douta <= i2c_mem_douta when CalculateVdd_mux = '1' else (others => '0');
+CalculateTa_i2c_mem_douta <= i2c_mem_douta when CalculateTa_mux = '1' else (others => '0');
+CalculateTo_i2c_mem_douta <= i2c_mem_douta when CalculateTo_mux = '1' else (others => '0');
 
 o_rdy <= rdyrecover;
 

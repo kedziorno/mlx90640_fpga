@@ -424,6 +424,8 @@ begin
 			subfpce <= '0';
 			divfpce <= '0';
 			sqrtfp2ce <= '0';
+			o_vircompensated_addr <= (others => '0');
+			o_alphacomp_addr <= (others => '0');
 		else
 			case (state) is
 				when idle =>
