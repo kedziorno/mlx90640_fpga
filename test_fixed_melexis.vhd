@@ -702,7 +702,7 @@ CalculateVirCompensated_pixoscpsp1 <= CalculatePixOsCPSP_pixoscpsp1;
 CalculateVirCompensated_clock <= i_clock;
 CalculateVirCompensated_reset <= i_reset;
 CalculateVirCompensated_pixos_do <= CalculatePixOS_do;
-CalculateVirCompensated_pixos_addr <= CalculatePixOS_addr;
+CalculatePixOS_addr <= CalculateVirCompensated_pixos_addr;
 inst_CalculateVirCompensated : CalculateVirCompensated PORT MAP (
 i_clock => CalculateVirCompensated_clock,
 i_reset => CalculateVirCompensated_reset,
@@ -728,7 +728,7 @@ CalculateAlphaComp_acpsubpage0 <= CalculateAlphaCP_acpsubpage0;
 CalculateAlphaComp_acpsubpage1 <= CalculateAlphaCP_acpsubpage1;
 CalculateAlphaComp_const1 <= x"3f800000";
 CalculateAlphaComp_alpha_do <= ExtractAlphaParameters_do;
-CalculateAlphaComp_alpha_addr <= ExtractAlphaParameters_addr;
+ExtractAlphaParameters_addr <= CalculateAlphaComp_alpha_addr;
 inst_CalculateAlphaComp : CalculateAlphaComp PORT MAP (
 i_clock => CalculateAlphaComp_clock,
 i_reset => CalculateAlphaComp_reset,
@@ -751,9 +751,9 @@ o_rdy => CalculateAlphaComp_rdy
 CalculateTo_clock <= i_clock;
 CalculateTo_reset <= i_reset;
 CalculateTo_vircompensated_do <= CalculateVirCompensated_do;
-CalculateTo_vircompensated_addr <= CalculateVirCompensated_addr;
+CalculateVirCompensated_addr <= CalculateTo_vircompensated_addr;
 CalculateTo_alphacomp_do <= CalculateAlphaComp_do;
-CalculateTo_alphacomp_addr <= CalculateAlphaComp_addr;
+CalculateAlphaComp_addr <= CalculateTo_alphacomp_addr;
 CalculateTo_Ta <= CalculateTa_Ta;
 inst_CalculateTo : CalculateTo PORT MAP (
 i_clock => CalculateTo_clock,
