@@ -62,11 +62,11 @@ BEGIN
 
 inst_tb_i2c_mem : tb_i2c_mem
 PORT MAP (
-clka => tb_i2c_mem_clka,
+clka => i_clock,
 ena => tb_i2c_mem_ena,
-wea => tb_i2c_mem_wea,
+wea => "0",
 addra => tb_i2c_mem_addra,
-dina => tb_i2c_mem_dina,
+dina => (others => '0'),
 douta => tb_i2c_mem_douta
 );
 
