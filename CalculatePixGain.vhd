@@ -42,8 +42,6 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-i_KGain : in fd2ft;
-
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 o_done : out std_logic;
@@ -259,13 +257,51 @@ signal WE : in std_logic
 );
 end component mem_ramb16_s36_x2;
 
+component calculateKGain is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+o_KGain : out fd2ft;
+o_rdy : out std_logic
+);
+end component calculateKGain;
+signal calculateKGain_clock : std_logic;
+signal calculateKGain_reset : std_logic;
+signal calculateKGain_run : std_logic;
+signal calculateKGain_i2c_mem_ena : STD_LOGIC;
+signal calculateKGain_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal calculateKGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal calculateKGain_KGain : fd2ft;
+signal calculateKGain_rdy : std_logic;
+
 signal addra,mux_addr : std_logic_vector (9 downto 0);
 signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
 
 signal write_enable : std_logic;
 signal rdy : std_logic;
 
+signal i2c_mem_ena_internal : STD_LOGIC;
+signal i2c_mem_addra_internal : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal i2c_mem_douta_internal : STD_LOGIC_VECTOR(7 DOWNTO 0);
+
+signal CalculateKGain_mux : std_logic;
+
 begin
+
+i2c_mem_ena <=
+CalculateKGain_i2c_mem_ena when CalculateKGain_mux = '1'
+else i2c_mem_ena_internal;
+
+i2c_mem_addra <=
+CalculateKGain_i2c_mem_addra when CalculateKGain_mux = '1'
+else i2c_mem_addra_internal;
+
+CalculateKGain_i2c_mem_douta <= i2c_mem_douta;
+i2c_mem_douta_internal <= i2c_mem_douta;
 
 o_rdy <= rdy;
 o_do <= doa when rdy = '1' else (others => '0');
@@ -276,7 +312,7 @@ p0 : process (i_clock) is
 	constant PIXGAIN_ST : integer := 1665; -- pixgain start - eeprom max + 1
 	constant PIXGAIN_SZ : integer := 24*32; -- pixgain size
 	variable pixgain_index : integer range 0 to PIXGAIN_SZ - 1;
-	type states is (idle,
+	type states is (idle,s0,s0a,
 	s1,s2,s3,s4,s5,s6,s7,s8,s9,
 	ending);
 	variable state : states;
@@ -308,28 +344,42 @@ begin
 			addra <= (others => '0');
 			dia <= (others => '0');
 			write_enable <= '0';
-			i2c_mem_ena <= '0';
-			i2c_mem_addra <= (others => '0');
+			CalculateKGain_mux <= '0';
+			i2c_mem_ena_internal <= '0';
+			i2c_mem_addra_internal <= (others => '0');
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := s1;
-						i2c_mem_ena <= '1';
+						state := s0;
+						i2c_mem_ena_internal <= '1';
 					else
 						state := idle;
-						i2c_mem_ena <= '0';
+						i2c_mem_ena_internal <= '0';
 					end if;
 					fixed2floatsclr <= '0';
 					mulfpsclr <= '0';
+
+				when s0 => state := s0a;
+					CalculateKGain_run <= '1';
+					CalculateKGain_mux <= '1';
+				when s0a => 
+					CalculateKGain_run <= '0';
+					if (CalculateKGain_rdy = '1') then
+						state := s1;
+						CalculateKGain_mux <= '0';
+					else
+						state := s0a;
+						CalculateKGain_mux <= '1';
+					end if;
+
 				when s1 => state := s2;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (PIXGAIN_ST+(pixgain_index*2)+0, 12));
+					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (PIXGAIN_ST+(pixgain_index*2)+0, 12));
 				when s2 => state := s3;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (PIXGAIN_ST+(pixgain_index*2)+1, 12));
-					eeprom16slv (7 downto 0) := i2c_mem_douta; -- pixgain LSB
+					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (PIXGAIN_ST+(pixgain_index*2)+1, 12));
+					eeprom16slv (7 downto 0) := i2c_mem_douta_internal; -- pixgain LSB
 				when s3 => state := s4;
-					i2c_mem_addra <= (others => '0');
-					eeprom16slv (15 downto 8) := i2c_mem_douta; -- pixgain MSB
+					eeprom16slv (15 downto 8) := i2c_mem_douta_internal; -- pixgain MSB
 				when s4 => state := s5;
 					pixgain := resize (to_sfixed (eeprom16slv, eeprom16sf), pixgain);
 					fixed2floatce <= '1';
@@ -348,7 +398,7 @@ begin
 					fixed2floatsclr <= '0';
 					mulfpce <= '1';
 					mulfpa <= pixgain_ft;
-					mulfpb <= i_KGain;
+					mulfpb <= CalculateKGain_KGain;
 					mulfpond <= '1';
 				when s7 =>
 					if (mulfprdy = '1') then state := s8;
@@ -418,6 +468,19 @@ sclr => mulfpsclr,
 ce => mulfpce,
 result => mulfpr,
 rdy => mulfprdy
+);
+
+calculateKGain_clock <= i_clock;
+calculateKGain_reset <= i_reset;
+inst_calculateKGain : calculateKGain port map (
+i_clock => calculateKGain_clock,
+i_reset => calculateKGain_reset,
+i_run => calculateKGain_run,
+i2c_mem_ena => calculateKGain_i2c_mem_ena,
+i2c_mem_addra => calculateKGain_i2c_mem_addra,
+i2c_mem_douta => calculateKGain_i2c_mem_douta,
+o_KGain => calculateKGain_KGain,
+o_rdy => calculateKGain_rdy
 );
 
 end Behavioral;

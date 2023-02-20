@@ -126,6 +126,7 @@ begin
 		o_KGain <= (others => '0');
 		o_rdy <= '0';
 		i2c_mem_ena <= '0';
+		i2c_mem_addra <= (others => '0');
 	else
 	case (state) is
 	when idle =>
@@ -145,7 +146,7 @@ begin
 	when s1 => state := s2;
 		i2c_mem_addra <= std_logic_vector (to_unsigned (48*2+0, 12)); -- 2430 MSB ee gain
 	when s2 => state := s3;
-		i2c_mem_addra <= std_logic_vector (to_unsigned (48*1+0, 12)); -- 2430 LSB ee gain
+		i2c_mem_addra <= std_logic_vector (to_unsigned (48*2+1, 12)); -- 2430 LSB ee gain
 	when s3 => state := s4;
 		ee2430 (15 downto 8) := i2c_mem_douta; -- ee gain
 	when s4 => state := s5;
