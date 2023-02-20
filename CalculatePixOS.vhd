@@ -41,7 +41,6 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-i_KGain : in std_logic_vector (31 downto 0);
 i_const1 : in std_logic_vector (31 downto 0);
 i_Ta : in std_logic_vector (31 downto 0);
 i_Ta0 : in std_logic_vector (31 downto 0);
@@ -143,7 +142,6 @@ i_run : in std_logic;
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-i_KGain : in fd2ft;
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 o_done : out std_logic;
@@ -151,15 +149,14 @@ o_rdy : out std_logic
 );
 end component CalculatePixGain;
 
-signal CalculatePixGain_clock : std_logic := '0';
-signal CalculatePixGain_reset : std_logic := '0';
-signal CalculatePixGain_run : std_logic := '0';
-signal CalculatePixGain_i2c_mem_ena : STD_LOGIC := '0';
+signal CalculatePixGain_clock : std_logic;
+signal CalculatePixGain_reset : std_logic;
+signal CalculatePixGain_run : std_logic;
+signal CalculatePixGain_i2c_mem_ena : STD_LOGIC;
 signal CalculatePixGain_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal CalculatePixGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0) := (others => '0');
-signal CalculatePixGain_KGain : fd2ft := (others => '0');
+signal CalculatePixGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal CalculatePixGain_do : std_logic_vector (31 downto 0);
-signal CalculatePixGain_addr : std_logic_vector (9 downto 0) := (others => '0'); -- 10bit-1024
+signal CalculatePixGain_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal CalculatePixGain_done : std_logic;
 signal CalculatePixGain_rdy : std_logic;
 
@@ -460,22 +457,7 @@ begin
 					subfpsclr <= '0';
 					mulfpsclr <= '0';
 
-				when s1 => state := s2;
-					
-					
-	when s2 => state := s3;
-		CalculatePixGain_run <= '1';
-		CalculatePixGain_mux <= '1';
-	when s3 => 
-		CalculatePixGain_run <= '0';
-		if (CalculatePixGain_rdy = '1') then
-			state := s4;
-			CalculatePixGain_mux <= '0';
-		else
-			state := s3;
-			CalculatePixGain_mux <= '1';
-		end if;
-		
+				when s1 => state := s4;		
 		
 	when s4 => state := s5;
 		ExtractOffsetParameters_run <= '1';
@@ -695,7 +677,6 @@ ExtractKvParameters_i2c_mem_douta <= i2c_mem_douta;
 
 CalculatePixGain_clock <= i_clock;
 CalculatePixGain_reset <= i_reset;
-CalculatePixGain_KGain <= i_KGain;
 inst_CalculatePixGain : CalculatePixGain port map (
 i_clock => CalculatePixGain_clock,
 i_reset => CalculatePixGain_reset,
@@ -703,7 +684,6 @@ i_run => CalculatePixGain_run,
 i2c_mem_ena => CalculatePixGain_i2c_mem_ena,
 i2c_mem_addra => CalculatePixGain_i2c_mem_addra,
 i2c_mem_douta => CalculatePixGain_i2c_mem_douta,
-i_KGain => CalculatePixGain_KGain,
 o_do => CalculatePixGain_do,
 i_addr => CalculatePixGain_addr,
 o_done => CalculatePixGain_done,

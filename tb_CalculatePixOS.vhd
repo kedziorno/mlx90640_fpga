@@ -34,7 +34,6 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-i_KGain : in std_logic_vector (31 downto 0);
 i_const1 : in std_logic_vector (31 downto 0);
 i_Ta : in std_logic_vector (31 downto 0);
 i_Ta0 : in std_logic_vector (31 downto 0);
@@ -54,7 +53,6 @@ signal CalculatePixOS_run : std_logic;
 signal CalculatePixOS_i2c_mem_ena : STD_LOGIC;
 signal CalculatePixOS_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal CalculatePixOS_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal CalculatePixOS_KGain : std_logic_vector (31 downto 0);
 signal CalculatePixOS_const1 : std_logic_vector (31 downto 0);
 signal CalculatePixOS_Ta : std_logic_vector (31 downto 0);
 signal CalculatePixOS_Ta0 : std_logic_vector (31 downto 0);
@@ -80,7 +78,6 @@ i_run => CalculatePixOS_run,
 i2c_mem_ena => CalculatePixOS_i2c_mem_ena,
 i2c_mem_addra => CalculatePixOS_i2c_mem_addra,
 i2c_mem_douta => CalculatePixOS_i2c_mem_douta,
-i_KGain => CalculatePixOS_KGain,
 i_const1 => CalculatePixOS_const1,
 i_Ta => CalculatePixOS_Ta,
 i_Ta0 => CalculatePixOS_Ta0,
@@ -117,7 +114,6 @@ CalculatePixOS_reset <= '1';
 wait for 100 ns; -- wait until global set/reset completes
 CalculatePixOS_reset <= '0';
 wait for i_clock_period*10;
-CalculatePixOS_KGain <= x"3F823E9A"; -- 1.01753546947234
 CalculatePixOS_const1 <= x"3F800000"; -- 1
 CalculatePixOS_Ta <= x"421CBC6A"; -- 39.184
 CalculatePixOS_Ta0 <= x"41C80000"; -- 25
