@@ -6,6 +6,7 @@ USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
 use work.p_fphdl_package1.all;
+use work.p_fphdl_package3.all;
 
 ENTITY tb_CalculatePixGain IS
 END tb_CalculatePixGain;
@@ -55,7 +56,11 @@ signal CalculatePixGain_rdy : std_logic;
 
 constant clockperiod : time := 10 ns;
 
+signal out1r : real;
+
 BEGIN
+
+out1r <= ap_slv2fp (CalculatePixGain_do); -- output data
 
 inst_tb_i2c_mem : tb_i2c_mem
 PORT MAP (

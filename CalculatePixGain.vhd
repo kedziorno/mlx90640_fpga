@@ -22,6 +22,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 use ieee_proposed.fixed_pkg.all;
 
 use work.p_fphdl_package1.all;
+use work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -374,12 +375,12 @@ begin
 					end if;
 
 				when s1 => state := s2;
-					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (PIXGAIN_ST+(pixgain_index*2)+0, 12));
+					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (PIXGAIN_ST+(pixgain_index*2)+0, 12)); -- MSB
 				when s2 => state := s3;
-					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (PIXGAIN_ST+(pixgain_index*2)+1, 12));
-					eeprom16slv (7 downto 0) := i2c_mem_douta_internal; -- pixgain LSB
-				when s3 => state := s4;
+					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (PIXGAIN_ST+(pixgain_index*2)+1, 12)); -- LSB
 					eeprom16slv (15 downto 8) := i2c_mem_douta_internal; -- pixgain MSB
+				when s3 => state := s4;
+					eeprom16slv (7 downto 0) := i2c_mem_douta_internal; -- pixgain LSB
 				when s4 => state := s5;
 					pixgain := resize (to_sfixed (eeprom16slv, eeprom16sf), pixgain);
 					fixed2floatce <= '1';
@@ -413,6 +414,7 @@ begin
 					mulfpsclr <= '0';
 					write_enable <= '0';
 					o_done <= '1';
+					report "================ CalculatePixGain PixGain " & integer'image (pixgain_index) & " : " & real'image (ap_slv2fp (mulfpr));
 				when s9 =>
 					o_done <= '0';
 					if (pixgain_index = PIXGAIN_SZ - 1) then

@@ -457,8 +457,19 @@ begin
 					subfpsclr <= '0';
 					mulfpsclr <= '0';
 
-				when s1 => state := s4;		
-		
+				when s1 => state := s2;		
+		CalculatePixGain_run <= '1';
+		CalculatePixGain_mux <= '1';
+	when s2 => 
+		CalculatePixGain_run <= '0';
+		if (CalculatePixGain_rdy = '1') then
+			state := s4;
+			CalculatePixGain_mux <= '0';
+		else
+			state := s2;
+			CalculatePixGain_mux <= '1';
+		end if;
+
 	when s4 => state := s5;
 		ExtractOffsetParameters_run <= '1';
 		ExtractOffsetParameters_mux <= '1';
