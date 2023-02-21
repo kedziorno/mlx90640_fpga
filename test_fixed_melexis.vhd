@@ -104,30 +104,30 @@ signal calculateTa_vdd25 : fd2ft; -- from VDD bram
 signal calculateTa_Ta : fd2ft; -- output Ta
 signal calculateTa_rdy : std_logic;
 
-component ExtractOffsetParameters is
-port (
-i_clock : in std_logic;
-i_reset : in std_logic;
-i_run : in std_logic;
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-o_do : out std_logic_vector (31 downto 0);
-i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
-o_done : out std_logic;
-o_rdy : out std_logic
-);
-end component ExtractOffsetParameters;
-signal ExtractOffsetParameters_clock : std_logic;
-signal ExtractOffsetParameters_reset : std_logic;
-signal ExtractOffsetParameters_run : std_logic;
-signal ExtractOffsetParameters_i2c_mem_ena : STD_LOGIC;
-signal ExtractOffsetParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal ExtractOffsetParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal ExtractOffsetParameters_do : std_logic_vector (31 downto 0);
-signal ExtractOffsetParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
-signal ExtractOffsetParameters_done : std_logic;
-signal ExtractOffsetParameters_rdy : std_logic;
+--component ExtractOffsetParameters is
+--port (
+--i_clock : in std_logic;
+--i_reset : in std_logic;
+--i_run : in std_logic;
+--i2c_mem_ena : out STD_LOGIC;
+--i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+--i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+--o_do : out std_logic_vector (31 downto 0);
+--i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
+--o_done : out std_logic;
+--o_rdy : out std_logic
+--);
+--end component ExtractOffsetParameters;
+--signal ExtractOffsetParameters_clock : std_logic;
+--signal ExtractOffsetParameters_reset : std_logic;
+--signal ExtractOffsetParameters_run : std_logic;
+--signal ExtractOffsetParameters_i2c_mem_ena : STD_LOGIC;
+--signal ExtractOffsetParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+--signal ExtractOffsetParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+--signal ExtractOffsetParameters_do : std_logic_vector (31 downto 0);
+--signal ExtractOffsetParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
+--signal ExtractOffsetParameters_done : std_logic;
+--signal ExtractOffsetParameters_rdy : std_logic;
 
 component ExtractAlphaParameters is
 port (
@@ -443,11 +443,11 @@ case (state) is
 		end if;
 
 	when s3 => state := s4;
-		calculateTa_run <= '1';
+		CalculateTa_run <= '1';
 		CalculateTa_mux <= '1';
-		calculateTa_ram0x072a <= calculateVdd_ram0x072a;
-		calculateTa_kvdd <= calculateVdd_kvdd;
-		calculateTa_vdd25 <= calculateVdd_vdd25;
+		CalculateTa_ram0x072a <= CalculateVdd_ram0x072a;
+		CalculateTa_kvdd <= CalculateVdd_kvdd;
+		CalculateTa_vdd25 <= CalculateVdd_vdd25;
 	when s4 =>
 		calculateTa_run <= '0';
 		if (calculateTa_rdy = '1') then
@@ -490,25 +490,26 @@ case (state) is
 	when s12 => 
 		CalculateVirCompensated_run <= '0';
 		if (CalculateVirCompensated_rdy = '1') then
-			state := s13;
+--			state := s13;
+			state := s15;
 			CalculateVirCompensated_mux <= '0';
 		else
 			state := s12;
 			CalculateVirCompensated_mux <= '1';
 		end if;
 
-	when s13 => state := s14;
-		ExtractOffsetParameters_run <= '1';
-		ExtractOffsetParameters_mux <= '1';
-	when s14 => 
-		ExtractOffsetParameters_run <= '0';
-		if (ExtractOffsetParameters_rdy = '1') then
-			state := s15;
-			ExtractOffsetParameters_mux <= '0';
-		else
-			state := s14;
-			ExtractOffsetParameters_mux <= '1';
-		end if;
+--	when s13 => state := s14;
+--		ExtractOffsetParameters_run <= '1';
+--		ExtractOffsetParameters_mux <= '1';
+--	when s14 => 
+--		ExtractOffsetParameters_run <= '0';
+--		if (ExtractOffsetParameters_rdy = '1') then
+--			state := s15;
+--			ExtractOffsetParameters_mux <= '0';
+--		else
+--			state := s14;
+--			ExtractOffsetParameters_mux <= '1';
+--		end if;
 
 	when s15 => state := s16;
 		CalculateAlphaCP_run <= '1';
@@ -603,20 +604,20 @@ o_Ta => calculateTa_Ta,
 o_rdy => calculateTa_rdy
 );
 
-ExtractOffsetParameters_clock <= i_clock;
-ExtractOffsetParameters_reset <= i_reset;
-inst_ExtractOffsetParameters : ExtractOffsetParameters port map (
-i_clock => ExtractOffsetParameters_clock,
-i_reset => ExtractOffsetParameters_reset,
-i_run => ExtractOffsetParameters_run,
-i2c_mem_ena => ExtractOffsetParameters_i2c_mem_ena,
-i2c_mem_addra => ExtractOffsetParameters_i2c_mem_addra,
-i2c_mem_douta => ExtractOffsetParameters_i2c_mem_douta,
-o_do => ExtractOffsetParameters_do,
-i_addr => ExtractOffsetParameters_addr,
-o_done => ExtractOffsetParameters_done,
-o_rdy => ExtractOffsetParameters_rdy
-);
+--ExtractOffsetParameters_clock <= i_clock;
+--ExtractOffsetParameters_reset <= i_reset;
+--inst_ExtractOffsetParameters : ExtractOffsetParameters port map (
+--i_clock => ExtractOffsetParameters_clock,
+--i_reset => ExtractOffsetParameters_reset,
+--i_run => ExtractOffsetParameters_run,
+--i2c_mem_ena => ExtractOffsetParameters_i2c_mem_ena,
+--i2c_mem_addra => ExtractOffsetParameters_i2c_mem_addra,
+--i2c_mem_douta => ExtractOffsetParameters_i2c_mem_douta,
+--o_do => ExtractOffsetParameters_do,
+--i_addr => ExtractOffsetParameters_addr,
+--o_done => ExtractOffsetParameters_done,
+--o_rdy => ExtractOffsetParameters_rdy
+--);
 
 ExtractAlphaParameters_clock <= i_clock;
 ExtractAlphaParameters_reset <= i_reset;
