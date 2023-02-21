@@ -498,7 +498,7 @@ begin
 		subfpond <= '1';
 	when s9 =>
 		if (subfprdy = '1') then state := s10;
-			Tr := subfpr;
+			Tr := subfpr; -- Tr~=Ta-8
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -512,7 +512,7 @@ begin
 		addfpond <= '1';
 	when s10a =>
 		if (addfprdy = '1') then state := s11;
-			fttmp1 := addfpr;
+			fttmp1 := addfpr; -- Ta + 273.15
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -525,7 +525,7 @@ begin
 		mulfpond <= '1';
 	when s12 =>
 		if (mulfprdy = '1') then state := s13;
-			fttmp2 := mulfpr;
+			fttmp2 := mulfpr; -- (Ta + 273.15)^2
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -538,7 +538,7 @@ begin
 		mulfpond <= '1';
 	when s14 =>
 		if (mulfprdy = '1') then state := s15;
-			fttmp2 := mulfpr;
+			fttmp2 := mulfpr; -- (Ta + 273.15)^3
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -551,7 +551,7 @@ begin
 		mulfpond <= '1';
 	when s16 =>
 		if (mulfprdy = '1') then state := s17;
-			tak4 := mulfpr;
+			tak4 := mulfpr; -- TaK4=(Ta + 273.15)^4
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -565,7 +565,7 @@ begin
 		addfpond <= '1';
 	when s18 =>
 		if (addfprdy = '1') then state := s19;
-			fttmp1 := addfpr;
+			fttmp1 := addfpr; -- Tr + 273.15
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -578,7 +578,7 @@ begin
 		mulfpond <= '1';
 	when s20 =>
 		if (mulfprdy = '1') then state := s21;
-			fttmp2 := mulfpr;
+			fttmp2 := mulfpr; -- (Tr + 273.15)^2
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -591,7 +591,7 @@ begin
 		mulfpond <= '1';
 	when s22 =>
 		if (mulfprdy = '1') then state := s23;
-			fttmp2 := mulfpr;
+			fttmp2 := mulfpr; -- (Tr + 273.15)^3
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -604,7 +604,7 @@ begin
 		mulfpond <= '1';
 	when s24 =>
 		if (mulfprdy = '1') then state := s25;
-			trk4 := mulfpr;
+			trk4 := mulfpr; -- TrK4=(Tr + 273.15)^4
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -618,7 +618,7 @@ begin
 		subfpond <= '1';
 	when s26 =>
 		if (subfprdy = '1') then state := s27;
-			fttmp1 := subfpr;
+			fttmp1 := subfpr; -- TrK4-TaK4
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -627,12 +627,12 @@ begin
 		subfpsclr <= '0';
 
 		divfpce <= '1';
-		divfpa <= fttmp1;
-		divfpb <= constEmissivity;
+		divfpa <= fttmp1; -- TrK4-TaK4
+		divfpb <= constEmissivity; -- Emissivity
 		divfpond <= '1';
 	when s28 =>
 		if (divfprdy = '1') then state := s29;
-			fttmp1 := divfpr;
+			fttmp1 := divfpr; -- (TrK4-TaK4)/Emissivity
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -646,7 +646,7 @@ begin
 		subfpond <= '1';
 	when s30 =>
 		if (subfprdy = '1') then state := s31;
-			tar := subfpr;
+			tar := subfpr; -- TrK4-((TrK4-TaK4)/Emissivity)
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -664,7 +664,7 @@ begin
 		mulfpond <= '1';
 	when s35 =>
 		if (mulfprdy = '1') then state := s36;
-			fttmp1 := mulfpr;
+			fttmp1 := mulfpr; -- alphacomp^2
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -677,7 +677,7 @@ begin
 		mulfpond <= '1';
 	when s37 =>
 		if (mulfprdy = '1') then state := s38;
-			acomp_pow3 := mulfpr;
+			acomp_pow3 := mulfpr; -- alphacomp^3
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -690,7 +690,7 @@ begin
 		mulfpond <= '1';
 	when s39 =>
 		if (mulfprdy = '1') then state := s40;
-			acomp_pow4 := mulfpr;
+			acomp_pow4 := mulfpr; -- alphacomp^4
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -704,7 +704,7 @@ begin
 		mulfpond <= '1';
 	when s41 =>
 		if (mulfprdy = '1') then state := s42;
-			fttmp1 := mulfpr;
+			fttmp1 := mulfpr; -- alphacomp^3*vircompensated
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -718,7 +718,7 @@ begin
 		mulfpond <= '1';
 	when s43 =>
 		if (mulfprdy = '1') then state := s44;
-			fttmp2 := mulfpr;
+			fttmp2 := mulfpr; -- alphacomp^4*Tar
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -727,12 +727,12 @@ begin
 		mulfpsclr <= '0';
 
 		addfpce <= '1';
-		addfpa <= fttmp1;
-		addfpb <= fttmp2;
+		addfpa <= fttmp1; -- alphacomp^3*vircompensated 
+		addfpb <= fttmp2; -- alphacomp^4*Tar
 		addfpond <= '1';
 	when s45 =>
 		if (addfprdy = '1') then state := s46;
-			fttmp1 := addfpr;
+			fttmp1 := addfpr; -- (alphacomp^3*vircompensated)+(alphacomp^4*Tar)
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -745,7 +745,7 @@ begin
 		sqrtfp2ond <= '1';
 	when s47 =>
 		if (sqrtfp2rdy = '1') then state := s48;
-			fttmp1 := sqrtfp2r;
+			fttmp1 := sqrtfp2r; -- sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar))
 			sqrtfp2ce <= '0';
 			sqrtfp2ond <= '0';
 			sqrtfp2sclr <= '1';
@@ -758,7 +758,7 @@ begin
 		sqrtfp2ond <= '1';
 	when s49 =>
 		if (sqrtfp2rdy = '1') then state := s50;
-			sx := sqrtfp2r;
+			sx := sqrtfp2r; -- sqrt2(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar)))
 			sqrtfp2ce <= '0';
 			sqrtfp2ond <= '0';
 			sqrtfp2sclr <= '1';
@@ -767,12 +767,12 @@ begin
 		sqrtfp2sclr <= '0';
 
 		mulfpce <= '1';
-		mulfpa <= fttmp1;
+		mulfpa <= sx;
 		mulfpb <= ksto2;
 		mulfpond <= '1';
 	when s51 =>
 		if (mulfprdy = '1') then state := s52;
-			fttmp1 := mulfpr;
+			sx := mulfpr; -- ksto2*sqrt2(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar)))
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -786,7 +786,7 @@ begin
 		mulfpond <= '1';
 	when s53 =>
 		if (mulfprdy = '1') then state := s54;
-			fttmp2 := mulfpr;
+			fttmp2 := mulfpr; -- ksto2*273.15
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -800,7 +800,7 @@ begin
 		subfpond <= '1';
 	when s55 =>
 		if (subfprdy = '1') then state := s56;
-			fttmp2 := subfpr;
+			fttmp2 := subfpr; -- 1-ksto2*273.15
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -814,7 +814,7 @@ begin
 		mulfpond <= '1';
 	when s57 =>
 		if (mulfprdy = '1') then state := s58;
-			fttmp2 := mulfpr;
+			fttmp2 := mulfpr; -- alphacomp*(1-ksto2*273.15)
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -828,7 +828,7 @@ begin
 		addfpond <= '1';
 	when s59 =>
 		if (addfprdy = '1') then state := s60;
-			fttmp1 := addfpr;
+			fttmp1 := addfpr; -- alphacomp*(1-ksto2*273.15)+sx
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -842,7 +842,7 @@ begin
 		divfpond <= '1';
 	when s61 =>
 		if (divfprdy = '1') then state := s62;
-			fttmp1 := divfpr;
+			fttmp1 := divfpr; -- vircompensated/(alphacomp*(1-ksto2*273.15)+sx)
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -856,7 +856,7 @@ begin
 		addfpond <= '1';
 	when s63 =>
 		if (addfprdy = '1') then state := s64;
-			fttmp1 := addfpr;
+			fttmp1 := addfpr; -- (vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -869,7 +869,7 @@ begin
 		sqrtfp2ond <= '1';
 	when s65 =>
 		if (sqrtfp2rdy = '1') then state := s66;
-			fttmp1 := sqrtfp2r;
+			fttmp1 := sqrtfp2r; -- sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar)
 			sqrtfp2ce <= '0';
 			sqrtfp2ond <= '0';
 			sqrtfp2sclr <= '1';
@@ -882,7 +882,7 @@ begin
 		sqrtfp2ond <= '1';
 	when s67 =>
 		if (sqrtfp2rdy = '1') then state := s68;
-			fttmp1 := sqrtfp2r;
+			fttmp1 := sqrtfp2r; -- sqrt2(sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar))
 			sqrtfp2ce <= '0';
 			sqrtfp2ond <= '0';
 			sqrtfp2sclr <= '1';
@@ -896,7 +896,7 @@ begin
 		subfpond <= '1';
 	when s69 =>
 		if (subfprdy = '1') then state := s70;
-			fttmp1 := subfpr; -- To
+			fttmp1 := subfpr; -- To = (sqrt2(sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar)))-273.15
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
