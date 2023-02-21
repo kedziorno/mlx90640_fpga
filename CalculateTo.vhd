@@ -907,7 +907,7 @@ begin
 		write_enable <= '1';
 		addra <= std_logic_vector (to_unsigned (i, 10)); -- To
 		dia <= fttmp1;
-		report "================ To : " & real'image (ap_slv2fp (fttmp1));
+		report "================ To " & integer'image (i) & " : " & real'image (ap_slv2fp (fttmp1));
 	when s71 =>
 		write_enable <= '0';
 		if (i = (C_ROW*C_COL)-1) then

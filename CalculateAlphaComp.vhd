@@ -369,8 +369,8 @@ else
 ExtractKsTaParameters_i2c_mem_addra when ExtractKsTaParameters_mux = '1'
 else (others => '0');
 
-ExtractTGCParameters_i2c_mem_douta <= i2c_mem_douta;
-ExtractKsTaParameters_i2c_mem_douta <= i2c_mem_douta;
+ExtractTGCParameters_i2c_mem_douta <= i2c_mem_douta when ExtractTGCParameters_mux = '1' else (others => '0');
+ExtractKsTaParameters_i2c_mem_douta <= i2c_mem_douta when ExtractKsTaParameters_mux = '1' else (others => '0');
 
 with mem_switchpattern_pattern select pattern_ft <=
 x"3f800000" when '1',

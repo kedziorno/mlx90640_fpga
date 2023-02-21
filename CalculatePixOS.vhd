@@ -681,10 +681,10 @@ else
 ExtractKvParameters_i2c_mem_addra when ExtractKvParameters_mux = '1'
 else (others => '0');
 
-CalculatePixGain_i2c_mem_douta <= i2c_mem_douta;
-ExtractOffsetParameters_i2c_mem_douta <= i2c_mem_douta;
-ExtractKtaParameters_i2c_mem_douta <= i2c_mem_douta;
-ExtractKvParameters_i2c_mem_douta <= i2c_mem_douta;
+CalculatePixGain_i2c_mem_douta <= i2c_mem_douta when CalculatePixGain_mux = '1' else (others => '0');
+ExtractOffsetParameters_i2c_mem_douta <= i2c_mem_douta when ExtractOffsetParameters_mux = '1' else (others => '0');
+ExtractKtaParameters_i2c_mem_douta <= i2c_mem_douta when ExtractKtaParameters_mux = '1' else (others => '0');
+ExtractKvParameters_i2c_mem_douta <= i2c_mem_douta when ExtractKvParameters_mux = '1' else (others => '0');
 
 CalculatePixGain_clock <= i_clock;
 CalculatePixGain_reset <= i_reset;

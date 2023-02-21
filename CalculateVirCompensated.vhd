@@ -382,7 +382,7 @@ p0 : process (i_clock) is
 	constant C_ROW : integer := 24;
 	constant C_COL : integer := 32;
 	variable i : integer range 0 to C_ROW*C_COL-1;
-	type states is (idle,
+	type states is (idle,s0,s0a,
 	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,
 	s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,
 	s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,
@@ -422,7 +422,7 @@ begin
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := s1;
+						state := s0;
 					else
 						state := idle;
 					end if;
@@ -431,6 +431,19 @@ begin
 					subfpsclr <= '0';
 					mulfpsclr <= '0';
 					divfpsclr <= '0';
+				when s0 => state := s0a;
+					ExtractTGCParameters_run <= '1';
+					ExtractTGCParameters_mux <= '1';
+				when s0a => 
+					ExtractTGCParameters_run <= '0';
+					if (ExtractTGCParameters_rdy = '1') then
+						state := s1;
+						ExtractTGCParameters_mux <= '0';
+					else
+						state := s0a;
+						ExtractTGCParameters_mux <= '1';
+					end if;
+
 				when s1 => state := s2;
 					o_pixos_addr <= std_logic_vector (to_unsigned (i, 10));
 					mem_switchpattern_pixel <= std_logic_vector (to_unsigned (i, 14));
@@ -448,21 +461,9 @@ begin
 						divfpond <= '0';
 						divfpsclr <= '1';
 					else state := s4; end if;
-				when s5 => state := s6;
+				when s5 => state := s8;
 					divfpsclr <= '0';
 
-				when s6 => state := s7;
-					ExtractTGCParameters_run <= '1';
-					ExtractTGCParameters_mux <= '1';
-				when s7 => 
-					ExtractTGCParameters_run <= '0';
-					if (ExtractTGCParameters_rdy = '1') then
-						state := s8;
-						ExtractTGCParameters_mux <= '0';
-					else
-						state := s7;
-						ExtractTGCParameters_mux <= '1';
-					end if;
 
 				when s8 => state := s9;
 					mulfpce <= '1';

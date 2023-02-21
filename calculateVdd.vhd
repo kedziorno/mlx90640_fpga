@@ -204,7 +204,7 @@ i2c_mem_addra <=
 ExtractVDDParameters_i2c_mem_addra when ExtractVDDParameters_mux = '1'
 else i2c_mem_addra_internal;
 
-ExtractVDDParameters_i2c_mem_douta <= i2c_mem_douta;
+ExtractVDDParameters_i2c_mem_douta <= i2c_mem_douta when ExtractVDDParameters_mux = '1' else (others => '0');
 i2c_mem_douta_internal <= i2c_mem_douta;
 
 p0 : process (i_clock) is
