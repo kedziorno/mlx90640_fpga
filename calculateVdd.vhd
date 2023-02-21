@@ -289,13 +289,14 @@ begin
 			ExtractVDDParameters_mux <= '1';
 		end if;
 	when s3 => state := s4;
-		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+0, 12)); -- 2438 MSB resolutionee 2bit
+		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+0, 12)); -- 2438 MSB resolutionee 2bit & 3000
 	when s4 => state := s5;
 		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1, 12)); -- xxx request ram800d & 0c00 resolutionreg 2bit or constant
 	when s5 => state := s6;
 		resolutionee <= i2c_mem_douta_internal (5 downto 4);
 	when s6 => state := s7a;
-		resolutionreg <= i2c_mem_douta_internal (3 downto 2); --0x0c00=0000 1100 0000 0000
+--		resolutionreg <= i2c_mem_douta_internal (3 downto 2); --0x0c00=0000 1100 0000 0000
+		resolutionreg <= "10"; -- const 2
 	when s7a => state := s9;
 		-- resolutioncorr
 		divfpce <= '1';
@@ -315,9 +316,9 @@ begin
 	when s11 => state := s12;
 		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(810*2)+1, 12)); -- ram072a LSB
 	when s12 => state := s13;
-		ram072a (7 downto 0) := i2c_mem_douta_internal;
-	when s13 => state := s14;
 		ram072a (15 downto 8) := i2c_mem_douta_internal;
+	when s13 => state := s14;
+		ram072a (7 downto 0) := i2c_mem_douta_internal;
 	when s14 => state := s15;
 		-- ram[0x072a]
 		fptmp2 := resize (to_sfixed (ram072a, eeprom16sf), fptmp2);

@@ -220,7 +220,7 @@ p0 : process (i_clock) is
 	variable fracau : fracau;
 	variable fracbu : fracbu;
 	variable vbe,vptat,vptat25 : st_sfixed_max;
-	variable vbe_ft,vptat_ft,vptat25_ft : fd2ft;
+	variable vbe_ft,vptat_ft,vptat25_ft,deltaV,vptatart : fd2ft;
 	type states is (idle,
 	s0,s1,
 	s1a,s1b,s1c,s1d,s1e,s1f,s1g,s1h,s1i,s1j,s1k,s1l,s1m,s1n,
@@ -347,7 +347,7 @@ begin
 		subfpond <= '1';
 	when s2 =>
 		if (subfprdy = '1') then state := s3;
-			fttmp1 := subfpr;
+			fttmp1 := subfpr; -- ram072a-vdd25
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -360,7 +360,7 @@ begin
 		divfpond <= '1';
 	when s4 =>
 		if (divfprdy = '1') then state := s5;
-			fttmp1 := divfpr; -- deltaV
+			deltaV := divfpr; -- deltaV =  (ram072a-vdd25)/kvdd
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -400,6 +400,7 @@ begin
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
+			report "================ CalculateTa vptat : " & real'image (ap_slv2fp (vptat_ft));
 		else state := s8; end if;
 	when s9 => state := s10;
 		fixed2floatsclr <= '0';
@@ -417,6 +418,7 @@ begin
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
+			report "================ CalculateTa vbe : " & real'image (ap_slv2fp (vbe_ft));
 		else state := s10; end if;
 	when s11 => state := s12;
 		fixed2floatsclr <= '0';
@@ -428,7 +430,7 @@ begin
 		report "================ CalculateTa alphaptat : " & real'image (ap_slv2fp (ExtractAlphaPtatParameter_alphaptat));
 	when s12 =>
 		if (mulfprdy = '1') then state := s13;
-			fttmp2 := mulfpr;
+			fttmp2 := mulfpr; -- vptat*alphaptat
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -442,7 +444,7 @@ begin
 		addfpond <= '1';
 	when s14 =>
 		if (addfprdy = '1') then state := s15;
-			fttmp2 := addfpr;
+			fttmp2 := addfpr; -- vptat*alphaptat+vbe
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -456,7 +458,7 @@ begin
 		divfpond <= '1';
 	when s16 =>
 		if (divfprdy = '1') then state := s17;
-			fttmp2 := divfpr;
+			fttmp2 := divfpr; -- vptat/(vptat*alphaptat+vbe)
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -470,7 +472,7 @@ begin
 		mulfpond <= '1';
 	when s18 =>
 		if (mulfprdy = '1') then state := s19;
-			fttmp2 := mulfpr; -- 12873.57952 vptatart
+			vptatart := mulfpr; -- vptatart =  (vptat/(vptat*alphaptat+vbe))*2^18
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -480,12 +482,12 @@ begin
 		-- kvptat*deltaV
 		mulfpce <= '1';
 		mulfpa <= ExtractKvPTATParameter_kvptat;
-		mulfpb <= fttmp1;
+		mulfpb <= deltaV;
 		mulfpond <= '1';
 		report "================ CalculateTa ExtractKvPTATParameter_kvptat : " & real'image (ap_slv2fp (ExtractKvPTATParameter_kvptat));
 	when s20 =>
 		if (mulfprdy = '1') then state := s21;
-			fttmp1 := mulfpr;
+			fttmp1 := mulfpr; -- kvptat*deltaV
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -499,7 +501,7 @@ begin
 		addfpond <= '1';
 	when s22 =>
 		if (addfprdy = '1') then state := s23;
-			fttmp1 := addfpr;
+			fttmp1 := addfpr; -- 1+kvptat*deltaV
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -508,12 +510,12 @@ begin
 		addfpsclr <= '0';
 		-- vptatart/(1+kvptat*deltaV)
 		divfpce <= '1';
-		divfpa <= fttmp2;
+		divfpa <= vptatart;
 		divfpb <= fttmp1;
 		divfpond <= '1';
 	when s24 =>
 		if (divfprdy = '1') then state := s25;
-			fttmp1 := divfpr;
+			fttmp1 := divfpr; -- vptatart/(1+kvptat*deltaV)
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -527,7 +529,7 @@ begin
 		subfpond <= '1';
 	when s26 =>
 		if (subfprdy = '1') then state := s27;
-			fttmp1 := subfpr;
+			fttmp1 := subfpr; -- (vptatart/(1+kvptat*deltaV))-vptat25
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
@@ -542,7 +544,7 @@ begin
 		report "================ CalculateTa ExtractKtPTATParameter_ktptat : " & real'image (ap_slv2fp (ExtractKtPTATParameter_ktptat));
 	when s28 =>
 		if (divfprdy = '1') then state := s29;
-			fttmp1 := divfpr;
+			fttmp1 := divfpr; -- ((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -556,7 +558,7 @@ begin
 		addfpond <= '1';
 	when s30 =>
 		if (addfprdy = '1') then state := ending;
-			fttmp1 := addfpr;
+			fttmp1 := addfpr; -- (((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat)+25
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
