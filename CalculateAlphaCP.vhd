@@ -94,19 +94,19 @@ signal mulfpce : STD_LOGIC;
 signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfprdy : STD_LOGIC;
 
-component mem_unsigned1024 is
+component mem_signed1024 is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_value : in std_logic_vector (9 downto 0); -- input hex from 0 to 1024
 o_value : out std_logic_vector (31 downto 0) -- output signed 0 to 1024 in SP float
 );
-end component mem_unsigned1024;
+end component mem_signed1024;
 
-signal mem_unsigned1024_clock : std_logic;
-signal mem_unsigned1024_reset : std_logic;
-signal mem_unsigned1024_ivalue : std_logic_vector (9 downto 0); -- input hex from 0 to 1024
-signal mem_unsigned1024_ovalue : std_logic_vector (31 downto 0); -- output signed 0 to 1024 in SP float
+signal mem_signed1024_clock : std_logic;
+signal mem_signed1024_reset : std_logic;
+signal mem_signed1024_ivalue : std_logic_vector (9 downto 0); -- input hex from 0 to 1024
+signal mem_signed1024_ovalue : std_logic_vector (31 downto 0); -- output signed 0 to 1024 in SP float
 
 signal nibble1 : std_logic_vector (5 downto 0);
 signal nibble2 : std_logic_vector (3 downto 0);
@@ -175,7 +175,7 @@ begin
 			mulfpb <= (others => '0');
 			mulfpce <= '0';
 			mulfpond <= '0';
-			mem_unsigned1024_ivalue <= (others => '0');
+			mem_signed1024_ivalue <= (others => '0');
 			nibble1 <= (others => '0');
 			nibble2 <= (others => '0');
 			i2c_mem_ena <= '0';
@@ -192,7 +192,7 @@ begin
 					mulfpsclr <= '0';
 					divfpsclr <= '0';
 				when s1 => state := s2;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (16*2+0, 12)); -- 2420 MSB Ascalecp 4bit
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32*2+0, 12)); -- 2420 MSB Ascalecp 4bit
 				when s2 => state := s3;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (57*2+0, 12)); -- 2439 MSB Acpsubpage0 10bit/CP_P12P0_ratio 6bit
 				when s3 => state := s4;
@@ -204,11 +204,11 @@ begin
 					ee0x2439 (7 downto 0) := i2c_mem_douta;
 				when s6 => state := s7;
 					nibble1 <= ee0x2439 (15 downto 10); -- CP_P12P0_ratio 6bit
-					mem_unsigned1024_ivalue <= ee0x2439 (9 downto 0); -- Acpsubpage0 10bit
+					mem_signed1024_ivalue <= ee0x2439 (9 downto 0); -- Acpsubpage0 10bit
 				when s7 => state := s8;
 				when s8 => state := s9;
 					divfpce <= '1';
-					divfpa <= mem_unsigned1024_ovalue; -- Acpsubpage0
+					divfpa <= mem_signed1024_ovalue; -- Acpsubpage0
 					divfpb <= out_nibble2; -- 2^(Ascalecp+27)
 					divfpond <= '1';
 				when s9 =>
@@ -271,14 +271,14 @@ result => mulfpr,
 rdy => mulfprdy
 );
 
-mem_unsigned1024_clock <= i_clock;
-mem_unsigned1024_reset <= i_reset;
-inst_mem_unsigned1024 : mem_unsigned1024
+mem_signed1024_clock <= i_clock;
+mem_signed1024_reset <= i_reset;
+inst_mem_signed1024 : mem_signed1024
 port map (
-i_clock => mem_unsigned1024_clock,
-i_reset => mem_unsigned1024_reset,
-i_value => mem_unsigned1024_ivalue,
-o_value => mem_unsigned1024_ovalue
+i_clock => mem_signed1024_clock,
+i_reset => mem_signed1024_reset,
+i_value => mem_signed1024_ivalue,
+o_value => mem_signed1024_ovalue
 );
 
 end Behavioral;
