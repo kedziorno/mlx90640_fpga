@@ -44,9 +44,11 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-i_ram0x072a : in fd2ft; -- from VDD bram
-i_kvdd : in fd2ft; -- from VDD bram
-i_vdd25 : in fd2ft; -- from VDD bram
+--i_ram0x072a : in fd2ft; -- from VDD bram
+--i_kvdd : in fd2ft; -- from VDD bram
+--i_vdd25 : in fd2ft; -- from VDD bram
+
+i_Vdd : in fd2ft;
 
 o_Ta : out fd2ft; -- output Ta
 o_rdy : out std_logic
@@ -340,49 +342,49 @@ begin
 		ee2410 (7 downto 0) <= i2c_mem_douta;
 	when s1z => state := s2;
 
-		-- deltaV
+--		-- deltaV
+--		subfpce <= '1';
+--		subfpa <= i_ram0x072a;
+--		subfpb <= i_vdd25;
+--		subfpond <= '1';
+--	when s2 =>
+--		if (subfprdy = '1') then state := s3;
+--			fttmp1 := subfpr; -- ram072a-vdd25
+--			subfpce <= '0';
+--			subfpond <= '0';
+--			subfpsclr <= '1';
+--		else state := s2; end if;
+--	when s3 => state := s4;
+--		subfpsclr <= '0';
+--		divfpce <= '1';
+--		divfpa <= fttmp1;
+--		divfpb <= i_kvdd;
+--		divfpond <= '1';
+--	when s4 =>
+--		if (divfprdy = '1') then state := s5;
+--			deltaV := divfpr; -- deltaV =  (ram072a-vdd25)/kvdd
+--			divfpce <= '0';
+--			divfpond <= '0';
+--			divfpsclr <= '1';
+--			report "================ CalculateTa deltaV : " & real'image (ap_slv2fp (deltaV));
+--		else state := s4; end if;
+--	when s5 => state := s5a;
+--		divfpsclr <= '0';
+
 		subfpce <= '1';
-		subfpa <= i_ram0x072a;
-		subfpb <= i_vdd25;
+		subfpa <= i_Vdd;
+		subfpb <= const3dot3_ft;
 		subfpond <= '1';
 	when s2 =>
 		if (subfprdy = '1') then state := s3;
-			fttmp1 := subfpr; -- ram072a-vdd25
+			deltaV := subfpr; -- deltaV =  Vdd-3.3
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
-		else state := s2; end if;
-	when s3 => state := s4;
-		subfpsclr <= '0';
-		divfpce <= '1';
-		divfpa <= fttmp1;
-		divfpb <= i_kvdd;
-		divfpond <= '1';
-	when s4 =>
-		if (divfprdy = '1') then state := s5;
-			deltaV := divfpr; -- deltaV =  (ram072a-vdd25)/kvdd
-			divfpce <= '0';
-			divfpond <= '0';
-			divfpsclr <= '1';
 			report "================ CalculateTa deltaV : " & real'image (ap_slv2fp (deltaV));
-		else state := s4; end if;
-	when s5 => state := s5a;
-		divfpsclr <= '0';
-
-		subfpce <= '1';
-		subfpa <= deltaV;
-		subfpb <= const3dot3_ft;
-		subfpond <= '1';
-	when s5a =>
-		if (subfprdy = '1') then state := s5b;
-			deltaV := subfpr; -- deltaV =  (ram072a-vdd25)/kvdd
-			subfpce <= '0';
-			subfpond <= '0';
-			subfpsclr <= '1';
-			report "================ CalculateTa deltaV-3.3 : " & real'image (ap_slv2fp (deltaV));
-		else state := s5a; end if;
-	when s5b => state := s6;
-		divfpsclr <= '0';
+		else state := s2; end if;
+	when s3 => state := s6;
+		subfpsclr <= '0';
 
 		-- vptat25
 		eeprom16slv := ee2431;
@@ -507,6 +509,7 @@ begin
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
+			report "================ CalculateTa 1 : " & real'image (ap_slv2fp (fttmp1));
 		else state := s20; end if;
 	when s21 => state := s22;
 		mulfpsclr <= '0';
@@ -521,6 +524,7 @@ begin
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
+			report "================ CalculateTa 2 : " & real'image (ap_slv2fp (fttmp1));
 		else state := s22; end if;
 	when s23 => state := s24;
 		addfpsclr <= '0';
@@ -535,6 +539,7 @@ begin
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
+			report "================ CalculateTa 3 : " & real'image (ap_slv2fp (fttmp1));
 		else state := s24; end if;
 	when s25 => state := s26;
 		divfpsclr <= '0';
@@ -549,6 +554,7 @@ begin
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
+			report "================ CalculateTa 4 : " & real'image (ap_slv2fp (fttmp1));
 		else state := s26; end if;
 	when s27 => state := s28;
 		subfpsclr <= '0';
@@ -564,6 +570,7 @@ begin
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
+			report "================ CalculateTa 5 : " & real'image (ap_slv2fp (fttmp1));
 		else state := s28; end if;
 	when s29 => state := s30;
 		divfpsclr <= '0';
@@ -578,6 +585,7 @@ begin
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
+			report "================ CalculateTa 6 : " & real'image (ap_slv2fp (fttmp1));
 		else state := s30; end if;
 	when ending => state := idle;
 		addfpsclr <= '0';

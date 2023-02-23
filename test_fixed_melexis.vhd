@@ -85,9 +85,10 @@ i_run : in std_logic;
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-i_ram0x072a : in fd2ft; -- from VDD bram
-i_kvdd : in fd2ft; -- from VDD bram
-i_vdd25 : in fd2ft; -- from VDD bram
+--i_ram0x072a : in fd2ft; -- from VDD bram
+--i_kvdd : in fd2ft; -- from VDD bram
+--i_vdd25 : in fd2ft; -- from VDD bram
+i_Vdd : in fd2ft;
 o_Ta : out fd2ft; -- output Ta
 o_rdy : out std_logic
 );
@@ -98,9 +99,10 @@ signal calculateTa_run : std_logic;
 signal calculateTa_i2c_mem_ena : STD_LOGIC;
 signal calculateTa_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal calculateTa_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal calculateTa_ram0x072a : fd2ft; -- from VDD bram
-signal calculateTa_kvdd : fd2ft; -- from VDD bram
-signal calculateTa_vdd25 : fd2ft; -- from VDD bram
+--signal calculateTa_ram0x072a : fd2ft; -- from VDD bram
+--signal calculateTa_kvdd : fd2ft; -- from VDD bram
+--signal calculateTa_vdd25 : fd2ft; -- from VDD bram
+signal calculateTa_Vdd : fd2ft; -- from VDD
 signal calculateTa_Ta : fd2ft; -- output Ta
 signal calculateTa_rdy : std_logic;
 
@@ -445,9 +447,9 @@ case (state) is
 	when s3 => state := s4;
 		CalculateTa_run <= '1';
 		CalculateTa_mux <= '1';
-		CalculateTa_ram0x072a <= CalculateVdd_ram0x072a;
-		CalculateTa_kvdd <= CalculateVdd_kvdd;
-		CalculateTa_vdd25 <= CalculateVdd_vdd25;
+--		CalculateTa_ram0x072a <= CalculateVdd_ram0x072a;
+--		CalculateTa_kvdd <= CalculateVdd_kvdd;
+--		CalculateTa_vdd25 <= CalculateVdd_vdd25;
 	when s4 =>
 		calculateTa_run <= '0';
 		if (calculateTa_rdy = '1') then
@@ -590,6 +592,7 @@ o_rdy => calculateVdd_rdy
 
 calculateTa_clock <= i_clock;
 calculateTa_reset <= i_reset;
+calculateTa_Vdd <= calculateVdd_Vdd;
 inst_calculateTa : calculateTa port map (
 i_clock => calculateTa_clock,
 i_reset => calculateTa_reset,
@@ -597,9 +600,10 @@ i_run => calculateTa_run,
 i2c_mem_ena => calculateTa_i2c_mem_ena,
 i2c_mem_addra => calculateTa_i2c_mem_addra,
 i2c_mem_douta => calculateTa_i2c_mem_douta,
-i_ram0x072a => calculateTa_ram0x072a,
-i_kvdd => calculateTa_kvdd,
-i_vdd25 => calculateTa_vdd25,
+--i_ram0x072a => calculateTa_ram0x072a,
+--i_kvdd => calculateTa_kvdd,
+--i_vdd25 => calculateTa_vdd25,
+i_Vdd => calculateTa_Vdd,
 o_Ta => calculateTa_Ta,
 o_rdy => calculateTa_rdy
 );
