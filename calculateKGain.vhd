@@ -177,7 +177,7 @@ begin
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
-			report "================ calculateKGain gain : " & real'image (ap_slv2fp (fttmp1));
+			report "================ calculateKGain gainEE : " & real'image (ap_slv2fp (fttmp1));
 		else state := s10; end if;
 	when s11 => state := s12;
 		fixed2floatsclr <= '0';
@@ -207,7 +207,7 @@ begin
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
---			report "================ calculateKGain gain : " & real'image (ap_slv2fp (fttmp1));
+			report "================ calculateKGain gain : " & real'image (ap_slv2fp (fttmp1));
 		else state := s14; end if;
 	when ending => state := idle;
 		divfpsclr <= '0';

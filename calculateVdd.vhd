@@ -225,6 +225,7 @@ p0 : process (i_clock) is
 	variable state : states;
 	constant const3dot3_ft : fd2ft := x"40533333";
 	variable ram072a : std_logic_vector (15 downto 0);
+	constant resreg : std_logic_vector (15 downto 0) := x"1901" and x"0c00";
 begin
 	if (rising_edge (i_clock)) then
 	if (i_reset = '1') then
@@ -296,7 +297,7 @@ begin
 		resolutionee <= i2c_mem_douta_internal (5 downto 4);
 	when s6 => state := s7a;
 --		resolutionreg <= i2c_mem_douta_internal (3 downto 2); --0x0c00=0000 1100 0000 0000
-		resolutionreg <= "10"; -- const 2
+		resolutionreg <= resreg (11 downto 10);
 	when s7a => state := s9;
 		-- resolutioncorr
 		divfpce <= '1';

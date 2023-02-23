@@ -225,7 +225,7 @@ p0 : process (i_clock) is
 	s0,s1,
 	s1a,s1b,s1c,s1d,s1e,s1f,s1g,s1h,s1i,s1j,s1k,s1l,s1m,s1n,
 	s1o,s1p,s1r,s1s,s1t,s1u,s1w,s1y,s1z,
-	s2,s3,s4,s5,s6,s7,s8,
+	s2,s3,s4,s5,s5a,s5b,s6,s7,s8,
 	s9,s10,s11,s12,s13,s14,
 	s15,s16,s17,s18,s19,s20,
 	s21,s22,s23,s24,s25,s26,
@@ -364,10 +364,26 @@ begin
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
-			report "================ CalculateTa deltaV : " & real'image (ap_slv2fp (fttmp1));
+			report "================ CalculateTa deltaV : " & real'image (ap_slv2fp (deltaV));
 		else state := s4; end if;
-	when s5 => state := s6;
+	when s5 => state := s5a;
 		divfpsclr <= '0';
+
+		subfpce <= '1';
+		subfpa <= deltaV;
+		subfpb <= const3dot3_ft;
+		subfpond <= '1';
+	when s5a =>
+		if (subfprdy = '1') then state := s5b;
+			deltaV := subfpr; -- deltaV =  (ram072a-vdd25)/kvdd
+			subfpce <= '0';
+			subfpond <= '0';
+			subfpsclr <= '1';
+			report "================ CalculateTa deltaV-3.3 : " & real'image (ap_slv2fp (deltaV));
+		else state := s5a; end if;
+	when s5b => state := s6;
+		divfpsclr <= '0';
+
 		-- vptat25
 		eeprom16slv := ee2431;
 		vptat25 := resize (to_sfixed (eeprom16slv, eeprom16sf), vptat25);
@@ -566,6 +582,7 @@ begin
 	when ending => state := idle;
 		addfpsclr <= '0';
 		o_Ta <= fttmp1;
+--		o_Ta <= x"4207F54F"; -- example 33.989559
 		report "================ CalculateTa Ta : " & real'image (ap_slv2fp (fttmp1));
 		o_rdy <= '1';
 	when others => null;

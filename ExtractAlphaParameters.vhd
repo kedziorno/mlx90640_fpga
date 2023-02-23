@@ -319,11 +319,14 @@ signal rdy : std_logic;
 
 signal stemp1 : std_logic_vector (15 downto 0);
 
+constant C_COL : integer := 32;
+constant C_ROW : integer := 24;
+
 begin
 
 o_rdy <= rdy;
 o_do <= doa when rdy = '1' else (others => '0');
-mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0');
+mux_addr <= addra when rdy = '0' else std_logic_vector (to_unsigned (to_integer(unsigned (i_addr))+C_COL+C_ROW-1,10))  when rdy = '1' else (others => '0');
 mux_dia <= dia when rdy = '0' else (others => '0');
 
 p0 : process (i_clock) is
@@ -426,8 +429,6 @@ acc120a,acc121a,acc122a,acc123a,acc124a,
 	variable eeprom16sf,ram16sf : sfixed16;
 	variable eeprom16uf,ram16uf : ufixed16;
 
-	constant C_COL : integer := 32;
-	constant C_ROW : integer := 24;
 	variable col : integer range 0 to C_COL-1;
 	variable row : integer range 0 to C_ROW-1;
 	variable i : integer range 0 to (C_ROW*C_COL)-1;
