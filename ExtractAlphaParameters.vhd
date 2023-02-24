@@ -326,7 +326,7 @@ begin
 
 o_rdy <= rdy;
 o_do <= doa when rdy = '1' else (others => '0');
-mux_addr <= addra when rdy = '0' else std_logic_vector (to_unsigned (to_integer(unsigned (i_addr))+C_COL+C_ROW-1,10))  when rdy = '1' else (others => '0');
+mux_addr <= addra when rdy = '0' else std_logic_vector (to_unsigned (to_integer(unsigned (i_addr))+C_COL+C_ROW,10))  when rdy = '1' else (others => '0');
 mux_dia <= dia when rdy = '0' else (others => '0');
 
 p0 : process (i_clock) is
