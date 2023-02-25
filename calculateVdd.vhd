@@ -45,10 +45,46 @@ i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 o_Vdd : out fd2ft; -- output Vdd
-o_kvdd : out fd2ft;
-o_vdd25 : out fd2ft;
-o_ram0x072a : out fd2ft;
-o_rdy : out std_logic
+o_rdy : out std_logic;
+
+fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+fixed2floatond : out STD_LOGIC;
+fixed2floatce : out STD_LOGIC;
+fixed2floatsclr : out STD_LOGIC;
+fixed2floatr :  in STD_LOGIC_VECTOR(31 DOWNTO 0);
+fixed2floatrdy : in STD_LOGIC;
+
+divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+divfpond : out STD_LOGIC;
+divfpce : out STD_LOGIC;
+divfpsclr : out STD_LOGIC;
+divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+divfprdy : in STD_LOGIC;
+
+mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+mulfpond : out STD_LOGIC;
+mulfpce : out STD_LOGIC;
+mulfpsclr : out STD_LOGIC;
+mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+mulfprdy : in STD_LOGIC;
+
+addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+addfpond : out STD_LOGIC;
+addfpce : out STD_LOGIC;
+addfpsclr : out STD_LOGIC;
+addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+addfprdy : in STD_LOGIC;
+
+subfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+subfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+subfpond : out STD_LOGIC;
+subfpce : out STD_LOGIC;
+subfpsclr : out STD_LOGIC;
+subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+subfprdy : in STD_LOGIC
 );
 end calculateVdd;
 
@@ -76,114 +112,6 @@ signal ExtractVDDParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal ExtractVDDParameters_kvdd : std_logic_vector(31 downto 0);
 signal ExtractVDDParameters_vdd25 : std_logic_vector(31 downto 0);
 signal ExtractVDDParameters_rdy : std_logic;
-
-COMPONENT fixed2float
-PORT (
-a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-
-signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
-signal fixed2floatond : STD_LOGIC;
-signal fixed2floatclk : STD_LOGIC;
-signal fixed2floatsclr : STD_LOGIC;
-signal fixed2floatce : STD_LOGIC;
-signal fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal fixed2floatrdy : STD_LOGIC;
-
-COMPONENT divfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-
-signal divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpond : STD_LOGIC;
-signal divfpclk : STD_LOGIC;
-signal divfpsclr : STD_LOGIC;
-signal divfpce : STD_LOGIC;
-signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy : STD_LOGIC;
-
-COMPONENT mulfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-
-signal mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfpond : STD_LOGIC;
-signal mulfpclk : STD_LOGIC;
-signal mulfpsclr : STD_LOGIC;
-signal mulfpce : STD_LOGIC;
-signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy : STD_LOGIC;
-
-COMPONENT addfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-
-signal addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfpond : STD_LOGIC;
-signal addfpclk : STD_LOGIC;
-signal addfpsclr : STD_LOGIC;
-signal addfpce : STD_LOGIC;
-signal addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfprdy : STD_LOGIC;
-
-COMPONENT subfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-
-signal subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal subfpond : STD_LOGIC;
-signal subfpclk : STD_LOGIC;
-signal subfpsclr : STD_LOGIC;
-signal subfpce : STD_LOGIC;
-signal subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal subfprdy : STD_LOGIC;
 
 signal out_resolutionee,out_resolutionreg : std_logic_vector (31 downto 0);
 signal resolutionee,resolutionreg : std_logic_vector (1 downto 0);
@@ -235,31 +163,31 @@ begin
 		subfpsclr <= '1';
 		mulfpsclr <= '1';
 		divfpsclr <= '1';
-		fixed2floata <= (others => '0');
-		fixed2floatce <= '0';
-		fixed2floatond <= '0';
-		mulfpa <= (others => '0');
-		mulfpb <= (others => '0');
-		mulfpce <= '0';
-		mulfpond <= '0';
-		addfpa <= (others => '0');
-		addfpb <= (others => '0');
-		addfpce <= '0';
-		addfpond <= '0';
-		subfpce <= '0';
-		subfpond <= '0';
-		subfpa <= (others => '0');
-		subfpb <= (others => '0');
-		divfpce <= '0';
-		divfpond <= '0';
-		divfpa <= (others => '0');
-		divfpb <= (others => '0');
+--		fixed2floata <= (others => '0');
+--		fixed2floatce <= '0';
+--		fixed2floatond <= '0';
+--		mulfpa <= (others => '0');
+--		mulfpb <= (others => '0');
+--		mulfpce <= '0';
+--		mulfpond <= '0';
+--		addfpa <= (others => '0');
+--		addfpb <= (others => '0');
+--		addfpce <= '0';
+--		addfpond <= '0';
+--		subfpce <= '0';
+--		subfpond <= '0';
+--		subfpa <= (others => '0');
+--		subfpb <= (others => '0');
+--		divfpce <= '0';
+--		divfpond <= '0';
+--		divfpa <= (others => '0');
+--		divfpb <= (others => '0');
 		eeprom16slv := (others => '0');
 		ram16slv := (others => '0');
 		o_Vdd <= (others => '0');
-		o_kvdd <= (others => '0');
-		o_vdd25 <= (others => '0');
-		o_ram0x072a <= (others => '0');
+--		o_kvdd <= (others => '0');
+--		o_vdd25 <= (others => '0');
+--		o_ram0x072a <= (others => '0');
 		o_rdy <= '0';
 		i2c_mem_ena_internal <= '0';
 	else
@@ -390,12 +318,12 @@ begin
 		addfpsclr <= '0';
 		o_Vdd <= fttmp1;
 		report "================ CalculateVdd o_Vdd : " & real'image (ap_slv2fp (fttmp1));
-		o_kvdd <= ExtractVDDParameters_kvdd;
-		report "================ CalculateVdd o_kvdd : " & real'image (ap_slv2fp (ExtractVDDParameters_kvdd));
-		o_vdd25 <= ExtractVDDParameters_vdd25;
-		report "================ CalculateVdd o_vdd25 : " & real'image (ap_slv2fp (ExtractVDDParameters_vdd25));
-		o_ram0x072a <= fttmp2;
-		report "================ CalculateVdd o_ram0x072a : " & real'image (ap_slv2fp (fttmp2));
+--		o_kvdd <= ExtractVDDParameters_kvdd;
+--		report "================ CalculateVdd o_kvdd : " & real'image (ap_slv2fp (ExtractVDDParameters_kvdd));
+--		o_vdd25 <= ExtractVDDParameters_vdd25;
+--		report "================ CalculateVdd o_vdd25 : " & real'image (ap_slv2fp (ExtractVDDParameters_vdd25));
+--		o_ram0x072a <= fttmp2;
+--		report "================ CalculateVdd o_ram0x072a : " & real'image (ap_slv2fp (fttmp2));
 		o_rdy <= '1';
 	when others => null;
 	end case;
@@ -424,71 +352,6 @@ i2c_mem_douta => ExtractVDDParameters_i2c_mem_douta,
 o_kvdd => ExtractVDDParameters_kvdd,
 o_vdd25 => ExtractVDDParameters_vdd25,
 o_rdy => ExtractVDDParameters_rdy
-);
-
-fixed2floatclk <= i_clock;
-addfpclk <= i_clock;
-subfpclk <= i_clock;
-mulfpclk <= i_clock;
-divfpclk <= i_clock;
-
-inst_ff2 : fixed2float
-PORT MAP (
-a => fixed2floata,
-operation_nd => fixed2floatond,
-clk => fixed2floatclk,
-sclr => fixed2floatsclr,
-ce => fixed2floatce,
-result => fixed2floatr,
-rdy => fixed2floatrdy
-);
-
-inst_divfp : divfp
-PORT MAP (
-a => divfpa,
-b => divfpb,
-operation_nd => divfpond,
-clk => divfpclk,
-sclr => divfpsclr,
-ce => divfpce,
-result => divfpr,
-rdy => divfprdy
-);
-
-inst_mulfp : mulfp
-PORT MAP (
-a => mulfpa,
-b => mulfpb,
-operation_nd => mulfpond,
-clk => mulfpclk,
-sclr => mulfpsclr,
-ce => mulfpce,
-result => mulfpr,
-rdy => mulfprdy
-);
-
-inst_addfp : addfp
-PORT MAP (
-a => addfpa,
-b => addfpb,
-operation_nd => addfpond,
-clk => addfpclk,
-sclr => addfpsclr,
-ce => addfpce,
-result => addfpr,
-rdy => addfprdy
-);
-
-inst_subfp : subfp
-PORT MAP (
-a => subfpa,
-b => subfpb,
-operation_nd => subfpond,
-clk => subfpclk,
-sclr => subfpsclr,
-ce => subfpce,
-result => subfpr,
-rdy => subfprdy
 );
 
 end Behavioral;
