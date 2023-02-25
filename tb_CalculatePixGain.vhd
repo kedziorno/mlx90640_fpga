@@ -13,6 +13,44 @@ END tb_CalculatePixGain;
 
 ARCHITECTURE behavior OF tb_CalculatePixGain IS 
 
+COMPONENT fixed2float
+PORT (
+a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+
+COMPONENT mulfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+
+COMPONENT divfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+
 COMPONENT tb_i2c_mem
 PORT (
 clka : IN STD_LOGIC;
@@ -39,20 +77,71 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 o_done : out std_logic;
 
-o_rdy : out std_logic
+o_rdy : out std_logic;
+
+fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+fixed2floatond : out STD_LOGIC;
+fixed2floatce : out STD_LOGIC;
+fixed2floatsclr : out STD_LOGIC;
+fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+fixed2floatrdy : in STD_LOGIC;
+
+mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+mulfpond : out STD_LOGIC;
+mulfpce : out STD_LOGIC;
+mulfpsclr : out STD_LOGIC;
+mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+mulfprdy : in STD_LOGIC;
+
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC
+
 );
 end component CalculatePixGain;
 
-signal CalculatePixGain_clock : std_logic := '0';
-signal CalculatePixGain_reset : std_logic := '0';
-signal CalculatePixGain_run : std_logic := '0';
-signal CalculatePixGain_i2c_mem_ena : STD_LOGIC := '0';
+signal CalculatePixGain_clock : std_logic;
+signal CalculatePixGain_reset : std_logic;
+signal CalculatePixGain_run : std_logic;
+signal CalculatePixGain_i2c_mem_ena : STD_LOGIC;
 signal CalculatePixGain_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal CalculatePixGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0) := (others => '0');
+signal CalculatePixGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal CalculatePixGain_do : std_logic_vector (31 downto 0);
-signal CalculatePixGain_addr : std_logic_vector (9 downto 0) := (others => '0'); -- 10bit-1024
+signal CalculatePixGain_addr : std_logic_vector (9 downto 0);
 signal CalculatePixGain_done : std_logic;
 signal CalculatePixGain_rdy : std_logic;
+
+signal CalculatePixGain_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculatePixGain_fixed2floatond : STD_LOGIC;
+signal CalculatePixGain_fixed2floatce : STD_LOGIC;
+signal CalculatePixGain_fixed2floatsclr : STD_LOGIC;
+signal CalculatePixGain_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixGain_fixed2floatrdy : STD_LOGIC;
+
+signal CalculatePixGain_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixGain_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixGain_mulfpond : STD_LOGIC;
+signal CalculatePixGain_mulfpce : STD_LOGIC;
+signal CalculatePixGain_mulfpsclr : STD_LOGIC;
+signal CalculatePixGain_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixGain_mulfprdy : STD_LOGIC;
+
+signal CalculatePixGain_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixGain_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixGain_divfpond : STD_LOGIC;
+signal CalculatePixGain_divfpsclr : STD_LOGIC;
+signal CalculatePixGain_divfpce : STD_LOGIC;
+signal CalculatePixGain_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixGain_divfprdy : STD_LOGIC;
+
+signal CalculatePixGain_fixed2floatclk : std_logic;
+signal CalculatePixGain_mulfpclk : std_logic;
+signal CalculatePixGain_divfpclk : std_logic;
 
 constant clockperiod : time := 10 ns;
 
@@ -91,7 +180,30 @@ i2c_mem_douta => CalculatePixGain_i2c_mem_douta,
 o_do => CalculatePixGain_do,
 i_addr => CalculatePixGain_addr,
 o_done => CalculatePixGain_done,
-o_rdy => CalculatePixGain_rdy
+o_rdy => CalculatePixGain_rdy,
+
+fixed2floata => CalculatePixGain_fixed2floata,
+fixed2floatond => CalculatePixGain_fixed2floatond,
+fixed2floatce => CalculatePixGain_fixed2floatce,
+fixed2floatsclr => CalculatePixGain_fixed2floatsclr,
+fixed2floatr => CalculatePixGain_fixed2floatr,
+fixed2floatrdy => CalculatePixGain_fixed2floatrdy,
+
+mulfpa => CalculatePixGain_mulfpa,
+mulfpb => CalculatePixGain_mulfpb,
+mulfpond => CalculatePixGain_mulfpond,
+mulfpce => CalculatePixGain_mulfpce,
+mulfpsclr => CalculatePixGain_mulfpsclr,
+mulfpr => CalculatePixGain_mulfpr,
+mulfprdy => CalculatePixGain_mulfprdy,
+
+divfpa => CalculatePixGain_divfpa,
+divfpb => CalculatePixGain_divfpb,
+divfpond => CalculatePixGain_divfpond,
+divfpce => CalculatePixGain_divfpce,
+divfpsclr => CalculatePixGain_divfpsclr,
+divfpr => CalculatePixGain_divfpr,
+divfprdy => CalculatePixGain_divfprdy
 );
 
 --  Test Bench Statements
@@ -112,5 +224,44 @@ wait for 1 ps; -- must be for write
 report "done" severity failure;
 END PROCESS tb;
 --  End Test Bench 
+
+CalculatePixGain_fixed2floatclk <= CalculatePixGain_clock;
+CalculatePixGain_mulfpclk <= CalculatePixGain_clock;
+CalculatePixGain_divfpclk <= CalculatePixGain_clock;
+
+inst_fixed2float : fixed2float
+PORT MAP (
+a => CalculatePixGain_fixed2floata,
+operation_nd => CalculatePixGain_fixed2floatond,
+clk => CalculatePixGain_fixed2floatclk,
+sclr => CalculatePixGain_fixed2floatsclr,
+ce => CalculatePixGain_fixed2floatce,
+result => CalculatePixGain_fixed2floatr,
+rdy => CalculatePixGain_fixed2floatrdy
+);
+
+inst_mulfp : mulfp
+PORT MAP (
+a => CalculatePixGain_mulfpa,
+b => CalculatePixGain_mulfpb,
+operation_nd => CalculatePixGain_mulfpond,
+clk => CalculatePixGain_mulfpclk,
+sclr => CalculatePixGain_mulfpsclr,
+ce => CalculatePixGain_mulfpce,
+result => CalculatePixGain_mulfpr,
+rdy => CalculatePixGain_mulfprdy
+);
+
+inst_divfp : divfp
+PORT MAP (
+a => CalculatePixGain_divfpa,
+b => CalculatePixGain_divfpb,
+operation_nd => CalculatePixGain_divfpond,
+clk => CalculatePixGain_divfpclk,
+sclr => CalculatePixGain_divfpsclr,
+ce => CalculatePixGain_divfpce,
+result => CalculatePixGain_divfpr,
+rdy => CalculatePixGain_divfprdy
+);
 
 END ARCHITECTURE behavior;

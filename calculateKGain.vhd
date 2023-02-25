@@ -45,55 +45,59 @@ i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 o_KGain : out fd2ft;
-o_rdy : out std_logic
+o_rdy : out std_logic;
+
+signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC;
+
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC
+
 );
 end calculateKGain;
 
 architecture Behavioral of calculateKGain is
 
-COMPONENT fixed2float
-PORT (
-a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
+signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond_internal : STD_LOGIC;
+signal fixed2floatsclr_internal : STD_LOGIC;
+signal fixed2floatce_internal : STD_LOGIC;
+signal fixed2floatr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy_internal : STD_LOGIC;
 
-signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
-signal fixed2floatond : STD_LOGIC;
-signal fixed2floatclk : STD_LOGIC;
-signal fixed2floatsclr : STD_LOGIC;
-signal fixed2floatce : STD_LOGIC;
-signal fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal fixed2floatrdy : STD_LOGIC;
-
-COMPONENT divfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-
-signal divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpond : STD_LOGIC;
-signal divfpclk : STD_LOGIC;
-signal divfpsclr : STD_LOGIC;
-signal divfpce : STD_LOGIC;
-signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy : STD_LOGIC;
+signal divfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond_internal : STD_LOGIC;
+signal divfpsclr_internal : STD_LOGIC;
+signal divfpce_internal : STD_LOGIC;
+signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy_internal : STD_LOGIC;
 
 begin
+
+fixed2floata <= fixed2floata_internal;
+fixed2floatond <= fixed2floatond_internal;
+fixed2floatsclr <= fixed2floatsclr_internal;
+fixed2floatce <= fixed2floatce_internal;
+fixed2floatr_internal <= fixed2floatr;
+fixed2floatrdy_internal <= fixed2floatrdy;
+
+divfpa <= divfpa_internal;
+divfpb <= divfpb_internal;
+divfpond <= divfpond_internal;
+divfpsclr <= divfpsclr_internal;
+divfpce <= divfpce_internal;
+divfpr_internal <= divfpr;
+divfprdy_internal <= divfprdy;
 
 p0 : process (i_clock) is
 	variable eeprom16slv,ram16slv : slv16;
@@ -114,15 +118,15 @@ begin
 	if (rising_edge (i_clock)) then
 	if (i_reset = '1') then
 		state := idle;
-		fixed2floatsclr <= '1';
-		divfpsclr <= '1';
-		fixed2floata <= (others => '0');
-		fixed2floatce <= '0';
-		fixed2floatond <= '0';
-		divfpce <= '0';
-		divfpond <= '0';
-		divfpa <= (others => '0');
-		divfpb <= (others => '0');
+		fixed2floatsclr_internal <= '1';
+		divfpsclr_internal <= '1';
+		fixed2floata_internal <= (others => '0');
+		fixed2floatce_internal <= '0';
+		fixed2floatond_internal <= '0';
+		divfpce_internal <= '0';
+		divfpond_internal <= '0';
+		divfpa_internal <= (others => '0');
+		divfpb_internal <= (others => '0');
 		eeprom16slv := (others => '0');
 		o_KGain <= (others => '0');
 		o_rdy <= '0';
@@ -138,8 +142,8 @@ begin
 			state := idle;
 			i2c_mem_ena <= '0';
 		end if;
-		fixed2floatsclr <= '0';
-		divfpsclr <= '0';
+		fixed2floatsclr_internal <= '0';
+		divfpsclr_internal <= '0';
 
 --i_ee0x2430 : in slv16; -- gain
 --i_ram0x070a : in slv16;
@@ -166,51 +170,51 @@ begin
 		-- Kgain
 		eeprom16slv := ram070a;
 		fptmp1 := resize (to_sfixed (eeprom16slv, eeprom16sf), fptmp1);
-		fixed2floatce <= '1';
-		fixed2floatond <= '1';
-		fixed2floata <= 
+		fixed2floatce_internal <= '1';
+		fixed2floatond_internal <= '1';
+		fixed2floata_internal <= 
 		to_slv (to_sfixed (to_slv (fptmp1 (fracas'high downto fracas'low)), fracas)) & 
 		to_slv (to_sfixed (to_slv (fptmp1 (fracbs'high downto fracbs'low)), fracbs));
 	when s10 =>
-		if (fixed2floatrdy = '1') then state := s11;
-			fttmp1 := fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
+		if (fixed2floatrdy_internal = '1') then state := s11;
+			fttmp1 := fixed2floatr_internal;
+			fixed2floatce_internal <= '0';
+			fixed2floatond_internal <= '0';
+			fixed2floatsclr_internal <= '1';
 			report "================ calculateKGain gainEE : " & real'image (ap_slv2fp (fttmp1));
 		else state := s10; end if;
 	when s11 => state := s12;
-		fixed2floatsclr <= '0';
+		fixed2floatsclr_internal <= '0';
 		eeprom16slv := ee2430;
 		fptmp2 := resize (to_sfixed (eeprom16slv, eeprom16sf), fptmp2);
-		fixed2floatce <= '1';
-		fixed2floatond <= '1';
-		fixed2floata <= 
+		fixed2floatce_internal <= '1';
+		fixed2floatond_internal <= '1';
+		fixed2floata_internal <= 
 		to_slv (to_sfixed (to_slv (fptmp2 (fracas'high downto fracas'low)), fracas)) & 
 		to_slv (to_sfixed (to_slv (fptmp2 (fracbs'high downto fracbs'low)), fracbs));
 	when s12 =>
-		if (fixed2floatrdy = '1') then state := s13;
-			fttmp2 := fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
+		if (fixed2floatrdy_internal = '1') then state := s13;
+			fttmp2 := fixed2floatr_internal;
+			fixed2floatce_internal <= '0';
+			fixed2floatond_internal <= '0';
+			fixed2floatsclr_internal <= '1';
 		else state := s12; end if;
 	when s13 => state := s14;
-		fixed2floatsclr <= '0';
-		divfpce <= '1';
-		divfpa <= fttmp2;
-		divfpb <= fttmp1;
-		divfpond <= '1';
+		fixed2floatsclr_internal <= '0';
+		divfpce_internal <= '1';
+		divfpa_internal <= fttmp2;
+		divfpb_internal <= fttmp1;
+		divfpond_internal <= '1';
 	when s14 =>
-		if (divfprdy = '1') then state := ending;
-			fttmp1 := divfpr;
-			divfpce <= '0';
-			divfpond <= '0';
-			divfpsclr <= '1';
+		if (divfprdy_internal = '1') then state := ending;
+			fttmp1 := divfpr_internal;
+			divfpce_internal <= '0';
+			divfpond_internal <= '0';
+			divfpsclr_internal <= '1';
 			report "================ calculateKGain gain : " & real'image (ap_slv2fp (fttmp1));
 		else state := s14; end if;
 	when ending => state := idle;
-		divfpsclr <= '0';
+		divfpsclr_internal <= '0';
 		o_KGain <= fttmp1;
 		o_rdy <= '1';
 	when others => null;
@@ -218,32 +222,6 @@ begin
 end if;
 end if;
 end process p0;
-
-fixed2floatclk <= i_clock;
-divfpclk <= i_clock;
-
-inst_ff2 : fixed2float
-PORT MAP (
-a => fixed2floata,
-operation_nd => fixed2floatond,
-clk => fixed2floatclk,
-sclr => fixed2floatsclr,
-ce => fixed2floatce,
-result => fixed2floatr,
-rdy => fixed2floatrdy
-);
-
-inst_divfp : divfp
-PORT MAP (
-a => divfpa,
-b => divfpb,
-operation_nd => divfpond,
-clk => divfpclk,
-sclr => divfpsclr,
-ce => divfpce,
-result => divfpr,
-rdy => divfprdy
-);
 
 end Behavioral;
 

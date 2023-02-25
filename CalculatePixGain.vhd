@@ -47,53 +47,35 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 o_done : out std_logic;
 
-o_rdy : out std_logic
+o_rdy : out std_logic;
+
+fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+fixed2floatond : out STD_LOGIC;
+fixed2floatce : out STD_LOGIC;
+fixed2floatsclr : out STD_LOGIC;
+fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+fixed2floatrdy : in STD_LOGIC;
+
+mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+mulfpond : out STD_LOGIC;
+mulfpce : out STD_LOGIC;
+mulfpsclr : out STD_LOGIC;
+mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+mulfprdy : in STD_LOGIC;
+
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC
+
 );
 end CalculatePixGain;
 
 architecture Behavioral of CalculatePixGain is
-
-COMPONENT fixed2float
-PORT (
-a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-
-signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
-signal fixed2floatond : STD_LOGIC;
-signal fixed2floatclk : STD_LOGIC;
-signal fixed2floatsclr : STD_LOGIC;
-signal fixed2floatce : STD_LOGIC;
-signal fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal fixed2floatrdy : STD_LOGIC;
-
-COMPONENT mulfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-
-signal mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfpond : STD_LOGIC;
-signal mulfpclk : STD_LOGIC;
-signal mulfpsclr : STD_LOGIC;
-signal mulfpce : STD_LOGIC;
-signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy : STD_LOGIC;
 
 component mem_ramb16_s36_x2 is
 generic (
@@ -267,7 +249,23 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_KGain : out fd2ft;
-o_rdy : out std_logic
+o_rdy : out std_logic;
+
+signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC;
+
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC
+
 );
 end component calculateKGain;
 signal calculateKGain_clock : std_logic;
@@ -278,6 +276,21 @@ signal calculateKGain_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal calculateKGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal calculateKGain_KGain : fd2ft;
 signal calculateKGain_rdy : std_logic;
+
+signal calculateKGain_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal calculateKGain_fixed2floatond : STD_LOGIC;
+signal calculateKGain_fixed2floatsclr : STD_LOGIC;
+signal calculateKGain_fixed2floatce : STD_LOGIC;
+signal calculateKGain_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculateKGain_fixed2floatrdy : STD_LOGIC;
+
+signal calculateKGain_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculateKGain_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculateKGain_divfpond : STD_LOGIC;
+signal calculateKGain_divfpsclr : STD_LOGIC;
+signal calculateKGain_divfpce : STD_LOGIC;
+signal calculateKGain_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculateKGain_divfprdy : STD_LOGIC;
 
 signal addra,mux_addr : std_logic_vector (9 downto 0);
 signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
@@ -291,7 +304,74 @@ signal i2c_mem_douta_internal : STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 signal CalculateKGain_mux : std_logic;
 
+signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond_internal : STD_LOGIC;
+signal fixed2floatce_internal : STD_LOGIC;
+signal fixed2floatsclr_internal : STD_LOGIC;
+signal fixed2floatr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy_internal : STD_LOGIC;
+
+signal mulfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond_internal : STD_LOGIC;
+signal mulfpce_internal : STD_LOGIC;
+signal mulfpsclr_internal : STD_LOGIC;
+signal mulfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy_internal : STD_LOGIC;
+
+signal divfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond_internal : STD_LOGIC;
+signal divfpsclr_internal : STD_LOGIC;
+signal divfpce_internal : STD_LOGIC;
+signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy_internal : STD_LOGIC;
+
 begin
+
+--fixed2floata <= CalculateKGain_fixed2floata when CalculateKGain_mux = '1' else fixed2floata_internal;
+--fixed2floatond <= CalculateKGain_fixed2floatond when CalculateKGain_mux = '1' else fixed2floatond_internal;
+--fixed2floatce <= CalculateKGain_fixed2floatce when CalculateKGain_mux = '1' else fixed2floatce_internal;
+--fixed2floatsclr <= CalculateKGain_fixed2floatsclr when CalculateKGain_mux = '1' else fixed2floatsclr_internal;
+--fixed2floatr_internal <= CalculateKGain_fixed2floatr when CalculateKGain_mux = '1' else (others => '0');
+--fixed2floatrdy_internal <= CalculateKGain_fixed2floatrdy when CalculateKGain_mux = '1' else (others => '0');
+--
+--mulfpa <= CalculateKGain_mulfpa when CalculateKGain_mux = '1' else mulfpa_internal;
+--mulfpb <= CalculateKGain_mulfpb when CalculateKGain_mux = '1' else mulfpb_internal;
+--mulfpond <= CalculateKGain_mulfpond when CalculateKGain_mux = '1' else mulfpond_internal;
+--mulfpce <= CalculateKGain_mulfpce when CalculateKGain_mux = '1' else mulfpce_internal;
+--mulfpsclr <= CalculateKGain_mulfpsclr when CalculateKGain_mux = '1' else mulfpsclr_internal;
+--mulfpr_internal <= CalculateKGain_mulfpr when CalculateKGain_mux = '1' else (others => '0');
+--mulfprdy_internal <= CalculateKGain_mulfprdy when CalculateKGain_mux = '1' else (others => '0');
+
+fixed2floata <= CalculateKGain_fixed2floata when CalculateKGain_mux = '1' else fixed2floata_internal;
+fixed2floatond <= CalculateKGain_fixed2floatond when CalculateKGain_mux = '1' else fixed2floatond_internal;
+fixed2floatce <= CalculateKGain_fixed2floatce when CalculateKGain_mux = '1' else fixed2floatce_internal;
+fixed2floatsclr <= CalculateKGain_fixed2floatsclr when CalculateKGain_mux = '1' else fixed2floatsclr_internal;
+CalculateKGain_fixed2floatr <= fixed2floatr when CalculateKGain_mux = '1' else (others => '0');
+CalculateKGain_fixed2floatrdy <= fixed2floatrdy when CalculateKGain_mux = '1' else '0';
+fixed2floatr_internal <= fixed2floatr;
+fixed2floatrdy_internal <= fixed2floatrdy;
+
+
+mulfpa <= mulfpa_internal;
+mulfpb <= mulfpb_internal;
+mulfpond <= mulfpond_internal;
+mulfpce <= mulfpce_internal;
+mulfpsclr <= mulfpsclr_internal;
+mulfpr_internal <= mulfpr;
+mulfprdy_internal <= mulfprdy;
+
+divfpa <= CalculateKGain_divfpa when CalculateKGain_mux = '1' else divfpa_internal;
+divfpb <= CalculateKGain_divfpb when CalculateKGain_mux = '1' else divfpb_internal;
+divfpond <= CalculateKGain_divfpond when CalculateKGain_mux = '1' else divfpond_internal;
+divfpsclr <= CalculateKGain_divfpsclr when CalculateKGain_mux = '1' else divfpsclr_internal;
+divfpce <= CalculateKGain_divfpce when CalculateKGain_mux = '1' else divfpce_internal;
+CalculateKGain_divfpr <= divfpr when CalculateKGain_mux = '1' else (others => '0');
+CalculateKGain_divfprdy <= divfprdy when CalculateKGain_mux = '1' else '0';
+divfpr_internal <= divfpr;
+divfprdy_internal <= divfprdy;
+
 
 i2c_mem_ena <=
 CalculateKGain_i2c_mem_ena when CalculateKGain_mux = '1'
@@ -331,17 +411,17 @@ begin
 		if (i_reset = '1') then
 			state := idle;
 			pixgain_index := 0;
-			fixed2floatsclr <= '1';
-			mulfpsclr <= '1';
+			fixed2floatsclr_internal <= '1';
+			mulfpsclr_internal <= '1';
 			rdy <= '0';
 			o_done <= '0';
-			fixed2floata <= (others => '0');
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			mulfpa <= (others => '0');
-			mulfpb <= (others => '0');
-			mulfpce <= '0';
-			mulfpond <= '0';
+			fixed2floata_internal <= (others => '0');
+			fixed2floatce_internal <= '0';
+			fixed2floatond_internal <= '0';
+			mulfpa_internal <= (others => '0');
+			mulfpb_internal <= (others => '0');
+			mulfpce_internal <= '0';
+			mulfpond_internal <= '0';
 			addra <= (others => '0');
 			dia <= (others => '0');
 			write_enable <= '0';
@@ -358,8 +438,8 @@ begin
 						state := idle;
 						i2c_mem_ena_internal <= '0';
 					end if;
-					fixed2floatsclr <= '0';
-					mulfpsclr <= '0';
+					fixed2floatsclr_internal <= '0';
+					mulfpsclr_internal <= '0';
 
 				when s0 => state := s0a;
 					CalculateKGain_run <= '1';
@@ -383,35 +463,35 @@ begin
 					eeprom16slv (7 downto 0) := i2c_mem_douta_internal; -- pixgain LSB
 				when s4 => state := s5;
 					pixgain := resize (to_sfixed (eeprom16slv, eeprom16sf), pixgain);
-					fixed2floatce <= '1';
-					fixed2floatond <= '1';
-					fixed2floata <= 
+					fixed2floatce_internal <= '1';
+					fixed2floatond_internal <= '1';
+					fixed2floata_internal <= 
 					to_slv (to_sfixed (to_slv (pixgain (fracas'high downto fracas'low)), fracas)) & 
 					to_slv (to_sfixed (to_slv (pixgain (fracbs'high downto fracbs'low)), fracbs));
 				when s5 =>
 					if (fixed2floatrdy = '1') then state := s6;
 						pixgain_ft := fixed2floatr;
-						fixed2floatce <= '0';
-						fixed2floatond <= '0';
-						fixed2floatsclr <= '1';
+						fixed2floatce_internal <= '0';
+						fixed2floatond_internal <= '0';
+						fixed2floatsclr_internal <= '1';
 					else state := s5; end if;
 				when s6 => state := s7;
-					fixed2floatsclr <= '0';
-					mulfpce <= '1';
-					mulfpa <= pixgain_ft;
-					mulfpb <= CalculateKGain_KGain;
-					mulfpond <= '1';
+					fixed2floatsclr_internal <= '0';
+					mulfpce_internal <= '1';
+					mulfpa_internal <= pixgain_ft;
+					mulfpb_internal <= CalculateKGain_KGain;
+					mulfpond_internal <= '1';
 				when s7 =>
 					if (mulfprdy = '1') then state := s8;
 						addra <= std_logic_vector (to_unsigned (pixgain_index, 10));
 						dia <= mulfpr;
 						write_enable <= '1';
-						mulfpce <= '0';
-						mulfpond <= '0';
-						mulfpsclr <= '1';
+						mulfpce_internal <= '0';
+						mulfpond_internal <= '0';
+						mulfpsclr_internal <= '1';
 					else state := s7; end if;
 				when s8 => state := s9;
-					mulfpsclr <= '0';
+					mulfpsclr_internal <= '0';
 					write_enable <= '0';
 					o_done <= '1';
 					report "================ CalculatePixGain PixGain " & integer'image (pixgain_index) & " : " & real'image (ap_slv2fp (mulfpr));
@@ -447,31 +527,6 @@ SSR => i_reset,
 WE => write_enable
 );
 
-fixed2floatclk <= i_clock;
-inst_ff2 : fixed2float
-PORT MAP (
-a => fixed2floata,
-operation_nd => fixed2floatond,
-clk => fixed2floatclk,
-sclr => fixed2floatsclr,
-ce => fixed2floatce,
-result => fixed2floatr,
-rdy => fixed2floatrdy
-);
-
-mulfpclk <= i_clock;
-inst_mulfp : mulfp
-PORT MAP (
-a => mulfpa,
-b => mulfpb,
-operation_nd => mulfpond,
-clk => mulfpclk,
-sclr => mulfpsclr,
-ce => mulfpce,
-result => mulfpr,
-rdy => mulfprdy
-);
-
 calculateKGain_clock <= i_clock;
 calculateKGain_reset <= i_reset;
 inst_calculateKGain : calculateKGain port map (
@@ -482,7 +537,23 @@ i2c_mem_ena => calculateKGain_i2c_mem_ena,
 i2c_mem_addra => calculateKGain_i2c_mem_addra,
 i2c_mem_douta => calculateKGain_i2c_mem_douta,
 o_KGain => calculateKGain_KGain,
-o_rdy => calculateKGain_rdy
+o_rdy => calculateKGain_rdy,
+
+fixed2floata => calculateKGain_fixed2floata,
+fixed2floatond => calculateKGain_fixed2floatond,
+fixed2floatsclr => calculateKGain_fixed2floatsclr,
+fixed2floatce => calculateKGain_fixed2floatce,
+fixed2floatr => calculateKGain_fixed2floatr,
+fixed2floatrdy => calculateKGain_fixed2floatrdy,
+
+divfpa => calculateKGain_divfpa,
+divfpb => calculateKGain_divfpb,
+divfpond => calculateKGain_divfpond,
+divfpsclr => calculateKGain_divfpsclr,
+divfpce => calculateKGain_divfpce,
+divfpr => calculateKGain_divfpr,
+divfprdy => calculateKGain_divfprdy
+
 );
 
 end Behavioral;

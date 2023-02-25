@@ -19,6 +19,31 @@ END tb_calculateKGain;
 
 ARCHITECTURE tb OF tb_calculateKGain IS 
 
+COMPONENT fixed2float
+PORT (
+a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+
+COMPONENT divfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+
 COMPONENT tb_i2c_mem
 PORT (
 clka : IN STD_LOGIC;
@@ -40,7 +65,22 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_KGain : out fd2ft;
-o_rdy : out std_logic
+o_rdy : out std_logic;
+signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC;
+
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC
+
 );
 end component calculateKGain;
 signal calculateKGain_clock : std_logic;
@@ -51,6 +91,39 @@ signal calculateKGain_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal calculateKGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal calculateKGain_KGain : fd2ft;
 signal calculateKGain_rdy : std_logic;
+
+signal calculateKGain_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal calculateKGain_fixed2floatond : STD_LOGIC;
+signal calculateKGain_fixed2floatsclr : STD_LOGIC;
+signal calculateKGain_fixed2floatce : STD_LOGIC;
+signal calculateKGain_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculateKGain_fixed2floatrdy : STD_LOGIC;
+
+signal calculateKGain_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculateKGain_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculateKGain_divfpond : STD_LOGIC;
+signal calculateKGain_divfpsclr : STD_LOGIC;
+signal calculateKGain_divfpce : STD_LOGIC;
+signal calculateKGain_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculateKGain_divfprdy : STD_LOGIC;
+
+signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : STD_LOGIC;
+signal fixed2floatce : STD_LOGIC;
+signal fixed2floatsclr : STD_LOGIC;
+signal fixed2floatr :  STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : STD_LOGIC;
+
+signal divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : STD_LOGIC;
+signal divfpce : STD_LOGIC;
+signal divfpsclr : STD_LOGIC;
+signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : STD_LOGIC;
+
+signal calculateKGain_fixed2floatclk : std_logic;
+signal calculateKGain_divfpclk : std_logic;
 
 constant clock_period : time := 10 ns;
 
@@ -87,7 +160,23 @@ i2c_mem_ena => calculateKGain_i2c_mem_ena,
 i2c_mem_addra => calculateKGain_i2c_mem_addra,
 i2c_mem_douta => calculateKGain_i2c_mem_douta,
 o_KGain => calculateKGain_KGain,
-o_rdy => calculateKGain_rdy
+o_rdy => calculateKGain_rdy,
+
+fixed2floata => calculateKGain_fixed2floata,
+fixed2floatond => calculateKGain_fixed2floatond,
+fixed2floatsclr => calculateKGain_fixed2floatsclr,
+fixed2floatce => calculateKGain_fixed2floatce,
+fixed2floatr => calculateKGain_fixed2floatr,
+fixed2floatrdy => calculateKGain_fixed2floatrdy,
+
+divfpa => calculateKGain_divfpa,
+divfpb => calculateKGain_divfpb,
+divfpond => calculateKGain_divfpond,
+divfpsclr => calculateKGain_divfpsclr,
+divfpce => calculateKGain_divfpce,
+divfpr => calculateKGain_divfpr,
+divfprdy => calculateKGain_divfprdy
+
 );
 
 
@@ -105,5 +194,30 @@ wait for 1 ps;
 report "done" severity failure;
 END PROCESS tbprocess;
 --  End Test Bench 
+
+calculateKGain_fixed2floatclk <= calculateKGain_clock;
+inst_fixed2float : fixed2float
+PORT MAP (
+a => calculateKGain_fixed2floata,
+operation_nd => calculateKGain_fixed2floatond,
+clk => calculateKGain_fixed2floatclk,
+sclr => calculateKGain_fixed2floatsclr,
+ce => calculateKGain_fixed2floatce,
+result => calculateKGain_fixed2floatr,
+rdy => calculateKGain_fixed2floatrdy
+);
+
+calculateKGain_divfpclk <= calculateKGain_clock;
+inst_divfp : divfp
+PORT MAP (
+a => calculateKGain_divfpa,
+b => calculateKGain_divfpb,
+operation_nd => calculateKGain_divfpond,
+clk => calculateKGain_divfpclk,
+sclr => calculateKGain_divfpsclr,
+ce => calculateKGain_divfpce,
+result => calculateKGain_divfpr,
+rdy => calculateKGain_divfprdy
+);
 
 END tb;
