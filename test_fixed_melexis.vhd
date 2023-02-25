@@ -268,26 +268,93 @@ i_run : in std_logic;
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
---i_ram0x072a : in fd2ft; -- from VDD bram
---i_kvdd : in fd2ft; -- from VDD bram
---i_vdd25 : in fd2ft; -- from VDD bram
 i_Vdd : in fd2ft;
 o_Ta : out fd2ft; -- output Ta
-o_rdy : out std_logic
+o_rdy : out std_logic;
+fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+fixed2floatond : out STD_LOGIC;
+fixed2floatce : out STD_LOGIC;
+fixed2floatsclr : out STD_LOGIC;
+fixed2floatr :  in STD_LOGIC_VECTOR(31 DOWNTO 0);
+fixed2floatrdy : in STD_LOGIC;
+divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+divfpond : out STD_LOGIC;
+divfpce : out STD_LOGIC;
+divfpsclr : out STD_LOGIC;
+divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+divfprdy : in STD_LOGIC;
+mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+mulfpond : out STD_LOGIC;
+mulfpce : out STD_LOGIC;
+mulfpsclr : out STD_LOGIC;
+mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+mulfprdy : in STD_LOGIC;
+addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+addfpond : out STD_LOGIC;
+addfpce : out STD_LOGIC;
+addfpsclr : out STD_LOGIC;
+addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+addfprdy : in STD_LOGIC;
+subfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+subfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+subfpond : out STD_LOGIC;
+subfpce : out STD_LOGIC;
+subfpsclr : out STD_LOGIC;
+subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+subfprdy : in STD_LOGIC
 );
 end component calculateTa;
-signal calculateTa_clock : std_logic;
-signal calculateTa_reset : std_logic;
-signal calculateTa_run : std_logic;
-signal calculateTa_i2c_mem_ena : STD_LOGIC;
-signal calculateTa_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal calculateTa_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
---signal calculateTa_ram0x072a : fd2ft; -- from VDD bram
---signal calculateTa_kvdd : fd2ft; -- from VDD bram
---signal calculateTa_vdd25 : fd2ft; -- from VDD bram
+signal CalculateTa_clock : std_logic;
+signal CalculateTa_reset : std_logic;
+signal CalculateTa_run : std_logic;
+signal CalculateTa_i2c_mem_ena : STD_LOGIC;
+signal CalculateTa_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal CalculateTa_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal CalculateTa_rdy : std_logic;
+signal CalculateTa_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculateTa_fixed2floatond : STD_LOGIC;
+signal CalculateTa_fixed2floatce : STD_LOGIC;
+signal CalculateTa_fixed2floatsclr : STD_LOGIC;
+signal CalculateTa_fixed2floatr :  STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_fixed2floatrdy : STD_LOGIC;
+signal CalculateTa_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_divfpond : STD_LOGIC;
+signal CalculateTa_divfpce : STD_LOGIC;
+signal CalculateTa_divfpsclr : STD_LOGIC;
+signal CalculateTa_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_divfprdy : STD_LOGIC;
+signal CalculateTa_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_mulfpond : STD_LOGIC;
+signal CalculateTa_mulfpce : STD_LOGIC;
+signal CalculateTa_mulfpsclr : STD_LOGIC;
+signal CalculateTa_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_mulfprdy : STD_LOGIC;
+signal CalculateTa_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_addfpond : STD_LOGIC;
+signal CalculateTa_addfpce : STD_LOGIC;
+signal CalculateTa_addfpsclr : STD_LOGIC;
+signal CalculateTa_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_addfprdy : STD_LOGIC;
+signal CalculateTa_subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_subfpond : STD_LOGIC;
+signal CalculateTa_subfpce : STD_LOGIC;
+signal CalculateTa_subfpsclr : STD_LOGIC;
+signal CalculateTa_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_subfprdy : STD_LOGIC;
+signal CalculateTa_fixed2floatclk : std_logic;
+signal CalculateTa_addfpclk : std_logic;
+signal CalculateTa_subfpclk : std_logic;
+signal CalculateTa_mulfpclk : std_logic;
+signal CalculateTa_divfpclk : std_logic;
 signal calculateTa_Vdd : fd2ft; -- from VDD
 signal calculateTa_Ta : fd2ft; -- output Ta
-signal calculateTa_rdy : std_logic;
 
 --component ExtractOffsetParameters is
 --port (
@@ -539,74 +606,152 @@ signal CalculateVdd_mux,CalculateTa_mux,CalculateTo_mux : std_logic;
 
 begin
 
-fixed2floata <= CalculateVdd_fixed2floata when CalculateVdd_mux = '1' 
+fixed2floata <=
+CalculateVdd_fixed2floata when CalculateVdd_mux = '1'
+else
+CalculateTa_fixed2floata when CalculateTa_mux = '1'
 else (others => '0');
-fixed2floatond <= CalculateVdd_fixed2floatond when CalculateVdd_mux = '1' 
+fixed2floatond <=
+CalculateVdd_fixed2floatond when CalculateVdd_mux = '1' 
+else
+CalculateTa_fixed2floatond when CalculateTa_mux = '1' 
 else '0';
-fixed2floatce <= CalculateVdd_fixed2floatce when CalculateVdd_mux = '1' 
+fixed2floatce <=
+CalculateVdd_fixed2floatce when CalculateVdd_mux = '1' 
+else
+CalculateTa_fixed2floatce when CalculateTa_mux = '1' 
 else '0';
-fixed2floatsclr <= CalculateVdd_fixed2floatsclr when CalculateVdd_mux = '1' 
+fixed2floatsclr <=
+CalculateVdd_fixed2floatsclr when CalculateVdd_mux = '1' 
+else
+CalculateTa_fixed2floatsclr when CalculateTa_mux = '1' 
 else '0';
-CalculateVdd_fixed2floatr <= fixed2floatr when CalculateVdd_mux = '1' 
+
+divfpa <=
+CalculateVdd_divfpa when CalculateVdd_mux = '1' 
+else
+CalculateTa_divfpa when CalculateTa_mux = '1' 
 else (others => '0');
-CalculateVdd_fixed2floatrdy <= fixed2floatrdy when CalculateVdd_mux = '1' 
-else '0';
-divfpa <= CalculateVdd_divfpa when CalculateVdd_mux = '1' 
+divfpb <=
+CalculateVdd_divfpb when CalculateVdd_mux = '1' 
+else
+CalculateTa_divfpb when CalculateTa_mux = '1' 
 else (others => '0');
-divfpb <= CalculateVdd_divfpb when CalculateVdd_mux = '1' 
+divfpond <=
+CalculateVdd_divfpond when CalculateVdd_mux = '1' 
+else
+CalculateTa_divfpond when CalculateTa_mux = '1' 
+else '0';
+divfpce <=
+CalculateVdd_divfpce when CalculateVdd_mux = '1' 
+else
+CalculateTa_divfpce when CalculateTa_mux = '1' 
+else '0';
+divfpsclr <=
+CalculateVdd_divfpsclr when CalculateVdd_mux = '1' 
+else
+CalculateTa_divfpsclr when CalculateTa_mux = '1' 
+else '0';
+
+mulfpa <=
+CalculateVdd_mulfpa when CalculateVdd_mux = '1' 
+else
+CalculateTa_mulfpa when CalculateTa_mux = '1' 
 else (others => '0');
-divfpond <= CalculateVdd_divfpond when CalculateVdd_mux = '1' 
-else '0';
-divfpce <= CalculateVdd_divfpce when CalculateVdd_mux = '1' 
-else '0';
-divfpsclr <= CalculateVdd_divfpsclr when CalculateVdd_mux = '1' 
-else '0';
-CalculateVdd_divfpr <= divfpr when CalculateVdd_mux = '1' 
+mulfpb <=
+CalculateVdd_mulfpb when CalculateVdd_mux = '1' 
+else
+CalculateTa_mulfpb when CalculateTa_mux = '1' 
 else (others => '0');
-CalculateVdd_divfprdy <= divfprdy when CalculateVdd_mux = '1' 
+mulfpond <=
+CalculateVdd_mulfpond when CalculateVdd_mux = '1' 
+else
+CalculateTa_mulfpond when CalculateTa_mux = '1' 
 else '0';
-mulfpa <= CalculateVdd_mulfpa when CalculateVdd_mux = '1' 
+mulfpce <=
+CalculateVdd_mulfpce when CalculateVdd_mux = '1' 
+else
+CalculateTa_mulfpce when CalculateTa_mux = '1' 
+else '0';
+mulfpsclr <=
+CalculateVdd_mulfpsclr when CalculateVdd_mux = '1' 
+else
+CalculateTa_mulfpsclr when CalculateTa_mux = '1' 
+else '0';
+
+addfpa <=
+CalculateVdd_addfpa when CalculateVdd_mux = '1' 
+else
+Calculateta_addfpa when CalculateTa_mux = '1' 
 else (others => '0');
-mulfpb <= CalculateVdd_mulfpb when CalculateVdd_mux = '1' 
+addfpb <=
+CalculateVdd_addfpb when CalculateVdd_mux = '1' 
+else
+CalculateTa_addfpb when CalculateTa_mux = '1' 
 else (others => '0');
-mulfpond <= CalculateVdd_mulfpond when CalculateVdd_mux = '1' 
+addfpond <=
+CalculateVdd_addfpond when CalculateVdd_mux = '1' 
+else
+CalculateTa_addfpond when CalculateTa_mux = '1' 
 else '0';
-mulfpce <= CalculateVdd_mulfpce when CalculateVdd_mux = '1' 
+addfpce <=
+CalculateVdd_addfpce when CalculateVdd_mux = '1' 
+else
+CalculateTa_addfpce when CalculateTa_mux = '1' 
 else '0';
-mulfpsclr <= CalculateVdd_mulfpsclr when CalculateVdd_mux = '1' 
+addfpsclr <=
+CalculateVdd_addfpsclr when CalculateVdd_mux = '1' 
+else
+CalculateTa_addfpsclr when CalculateTa_mux = '1' 
 else '0';
-CalculateVdd_mulfpr <= mulfpr when CalculateVdd_mux = '1' 
+
+subfpa <=
+CalculateVdd_subfpa when CalculateVdd_mux = '1' 
+else
+CalculateTa_subfpa when CalculateTa_mux = '1' 
 else (others => '0');
-CalculateVdd_mulfprdy <= mulfprdy when CalculateVdd_mux = '1' 
-else '0';
-addfpa <= CalculateVdd_addfpa when CalculateVdd_mux = '1' 
+subfpb <=
+CalculateVdd_subfpb when CalculateVdd_mux = '1' 
+else
+CalculateTa_subfpb when CalculateTa_mux = '1' 
 else (others => '0');
-addfpb <= CalculateVdd_addfpb when CalculateVdd_mux = '1' 
-else (others => '0');
-addfpond <= CalculateVdd_addfpond when CalculateVdd_mux = '1' 
+subfpond <=
+CalculateVdd_subfpond when CalculateVdd_mux = '1' 
+else
+CalculateTa_subfpond when CalculateTa_mux = '1' 
 else '0';
-addfpce <= CalculateVdd_addfpce when CalculateVdd_mux = '1' 
+subfpce <=
+CalculateVdd_subfpce when CalculateVdd_mux = '1' 
+else
+CalculateTa_subfpce when CalculateTa_mux = '1' 
 else '0';
-addfpsclr <= CalculateVdd_addfpsclr when CalculateVdd_mux = '1' 
+subfpsclr <=
+CalculateVdd_subfpsclr when CalculateVdd_mux = '1' 
+else
+CalculateTa_subfpsclr when CalculateTa_mux = '1' 
 else '0';
-CalculateVdd_addfpr <= addfpr when CalculateVdd_mux = '1' 
-else (others => '0');
-CalculateVdd_addfprdy <= addfprdy when CalculateVdd_mux = '1' 
-else '0';
-subfpa <= CalculateVdd_subfpa when CalculateVdd_mux = '1' 
-else (others => '0');
-subfpb <= CalculateVdd_subfpb when CalculateVdd_mux = '1' 
-else (others => '0');
-subfpond <= CalculateVdd_subfpond when CalculateVdd_mux = '1' 
-else '0';
-subfpce <= CalculateVdd_subfpce when CalculateVdd_mux = '1' 
-else '0';
-subfpsclr <= CalculateVdd_subfpsclr when CalculateVdd_mux = '1' 
-else '0';
-CalculateVdd_subfpr <= subfpr when CalculateVdd_mux = '1' 
-else (others => '0');
-CalculateVdd_subfprdy <= subfprdy when CalculateVdd_mux = '1' 
-else '0';
+
+CalculateVdd_fixed2floatr <= fixed2floatr when CalculateVdd_mux = '1' else (others => '0');
+CalculateVdd_fixed2floatrdy <= fixed2floatrdy when CalculateVdd_mux = '1' else '0';
+CalculateVdd_divfpr <= divfpr when CalculateVdd_mux = '1' else (others => '0');
+CalculateVdd_divfprdy <= divfprdy when CalculateVdd_mux = '1' else '0';
+CalculateVdd_mulfpr <= mulfpr when CalculateVdd_mux = '1' else (others => '0');
+CalculateVdd_mulfprdy <= mulfprdy when CalculateVdd_mux = '1' else '0';
+CalculateVdd_addfpr <= addfpr when CalculateVdd_mux = '1' else (others => '0');
+CalculateVdd_addfprdy <= addfprdy when CalculateVdd_mux = '1' else '0';
+CalculateVdd_subfpr <= subfpr when CalculateVdd_mux = '1' else (others => '0');
+CalculateVdd_subfprdy <= subfprdy when CalculateVdd_mux = '1' else '0';
+
+CalculateTa_fixed2floatr <= fixed2floatr when CalculateTa_mux = '1' else (others => '0');
+CalculateTa_fixed2floatrdy <= fixed2floatrdy when CalculateTa_mux = '1' else '0';
+CalculateTa_divfpr <= divfpr when CalculateTa_mux = '1' else (others => '0');
+CalculateTa_divfprdy <= divfprdy when CalculateTa_mux = '1' else '0';
+CalculateTa_mulfpr <= mulfpr when CalculateTa_mux = '1' else (others => '0');
+CalculateTa_mulfprdy <= mulfprdy when CalculateTa_mux = '1' else '0';
+CalculateTa_addfpr <= addfpr when CalculateTa_mux = '1' else (others => '0');
+CalculateTa_addfprdy <= addfprdy when CalculateTa_mux = '1' else '0';
+CalculateTa_subfpr <= subfpr when CalculateTa_mux = '1' else (others => '0');
+CalculateTa_subfprdy <= subfprdy when CalculateTa_mux = '1' else '0';
 
 i2c_mem_ena <=
 CalculatePixOS_i2c_mem_ena when CalculatePixOS_mux = '1'
@@ -877,19 +1022,51 @@ calculateTa_clock <= i_clock;
 calculateTa_reset <= i_reset;
 calculateTa_Vdd <= calculateVdd_Vdd;
 inst_calculateTa : calculateTa port map (
-i_clock => calculateTa_clock,
-i_reset => calculateTa_reset,
-i_run => calculateTa_run,
-i2c_mem_ena => calculateTa_i2c_mem_ena,
-i2c_mem_addra => calculateTa_i2c_mem_addra,
-i2c_mem_douta => calculateTa_i2c_mem_douta,
---i_ram0x072a => calculateTa_ram0x072a,
---i_kvdd => calculateTa_kvdd,
---i_vdd25 => calculateTa_vdd25,
-i_Vdd => calculateTa_Vdd,
-o_Ta => calculateTa_Ta,
-o_rdy => calculateTa_rdy
+i_clock => CalculateTa_clock,
+i_reset => CalculateTa_reset,
+i_run => CalculateTa_run,
+i2c_mem_ena => CalculateTa_i2c_mem_ena,
+i2c_mem_addra => CalculateTa_i2c_mem_addra,
+i2c_mem_douta => CalculateTa_i2c_mem_douta,
+i_Vdd => CalculateTa_Vdd, -- output Vdd
+o_Ta => CalculateTa_Ta, -- output Ta
+o_rdy => CalculateTa_rdy,
+fixed2floata => CalculateTa_fixed2floata,
+fixed2floatond => CalculateTa_fixed2floatond,
+fixed2floatce => CalculateTa_fixed2floatce,
+fixed2floatsclr => CalculateTa_fixed2floatsclr,
+fixed2floatr => CalculateTa_fixed2floatr,
+fixed2floatrdy => CalculateTa_fixed2floatrdy,
+divfpa => CalculateTa_divfpa,
+divfpb => CalculateTa_divfpb,
+divfpond => CalculateTa_divfpond,
+divfpce => CalculateTa_divfpce,
+divfpsclr => CalculateTa_divfpsclr,
+divfpr => CalculateTa_divfpr,
+divfprdy => CalculateTa_divfprdy,
+mulfpa => CalculateTa_mulfpa,
+mulfpb => CalculateTa_mulfpb,
+mulfpond => CalculateTa_mulfpond,
+mulfpce => CalculateTa_mulfpce,
+mulfpsclr => CalculateTa_mulfpsclr,
+mulfpr => CalculateTa_mulfpr,
+mulfprdy => CalculateTa_mulfprdy,
+addfpa => CalculateTa_addfpa,
+addfpb => CalculateTa_addfpb,
+addfpond => CalculateTa_addfpond,
+addfpce => CalculateTa_addfpce,
+addfpsclr => CalculateTa_addfpsclr,
+addfpr => CalculateTa_addfpr,
+addfprdy => CalculateTa_addfprdy,
+subfpa => CalculateTa_subfpa,
+subfpb => CalculateTa_subfpb,
+subfpond => CalculateTa_subfpond,
+subfpce => CalculateTa_subfpce,
+subfpsclr => CalculateTa_subfpsclr,
+subfpr => CalculateTa_subfpr,
+subfprdy  => CalculateTa_subfprdy
 );
+
 
 --ExtractOffsetParameters_clock <= i_clock;
 --ExtractOffsetParameters_reset <= i_reset;
