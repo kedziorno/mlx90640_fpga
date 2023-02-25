@@ -19,6 +19,70 @@ END tb_calculateTa;
 
 ARCHITECTURE tb OF tb_calculateTa IS 
 
+COMPONENT fixed2float
+PORT (
+a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+
+COMPONENT divfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+
+COMPONENT mulfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+
+COMPONENT addfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+
+COMPONENT subfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+
 COMPONENT tb_i2c_mem
 PORT (
 clka : IN STD_LOGIC;
@@ -35,28 +99,105 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
+
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-i_ram0x072a : in fd2ft; -- from VDD bram
-i_kvdd : in fd2ft; -- from VDD bram
-i_vdd25 : in fd2ft; -- from VDD bram
+
+i_Vdd : in fd2ft;
+
 o_Ta : out fd2ft; -- output Ta
-o_rdy : out std_logic
+o_rdy : out std_logic;
+
+fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+fixed2floatond : out STD_LOGIC;
+fixed2floatce : out STD_LOGIC;
+fixed2floatsclr : out STD_LOGIC;
+fixed2floatr :  in STD_LOGIC_VECTOR(31 DOWNTO 0);
+fixed2floatrdy : in STD_LOGIC;
+
+divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+divfpond : out STD_LOGIC;
+divfpce : out STD_LOGIC;
+divfpsclr : out STD_LOGIC;
+divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+divfprdy : in STD_LOGIC;
+
+mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+mulfpond : out STD_LOGIC;
+mulfpce : out STD_LOGIC;
+mulfpsclr : out STD_LOGIC;
+mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+mulfprdy : in STD_LOGIC;
+
+addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+addfpond : out STD_LOGIC;
+addfpce : out STD_LOGIC;
+addfpsclr : out STD_LOGIC;
+addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+addfprdy : in STD_LOGIC;
+
+subfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+subfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+subfpond : out STD_LOGIC;
+subfpce : out STD_LOGIC;
+subfpsclr : out STD_LOGIC;
+subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+subfprdy : in STD_LOGIC
 );
 end component calculateTa;
+signal CalculateTa_clock : std_logic;
+signal CalculateTa_reset : std_logic;
+signal CalculateTa_run : std_logic;
+signal CalculateTa_i2c_mem_ena : STD_LOGIC;
+signal CalculateTa_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal CalculateTa_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal CalculateTa_Vdd : fd2ft;
+signal CalculateTa_Ta : fd2ft; -- output Ta
+signal CalculateTa_rdy : std_logic;
+signal CalculateTa_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculateTa_fixed2floatond : STD_LOGIC;
+signal CalculateTa_fixed2floatce : STD_LOGIC;
+signal CalculateTa_fixed2floatsclr : STD_LOGIC;
+signal CalculateTa_fixed2floatr :  STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_fixed2floatrdy : STD_LOGIC;
+signal CalculateTa_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_divfpond : STD_LOGIC;
+signal CalculateTa_divfpce : STD_LOGIC;
+signal CalculateTa_divfpsclr : STD_LOGIC;
+signal CalculateTa_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_divfprdy : STD_LOGIC;
+signal CalculateTa_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_mulfpond : STD_LOGIC;
+signal CalculateTa_mulfpce : STD_LOGIC;
+signal CalculateTa_mulfpsclr : STD_LOGIC;
+signal CalculateTa_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_mulfprdy : STD_LOGIC;
+signal CalculateTa_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_addfpond : STD_LOGIC;
+signal CalculateTa_addfpce : STD_LOGIC;
+signal CalculateTa_addfpsclr : STD_LOGIC;
+signal CalculateTa_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_addfprdy : STD_LOGIC;
+signal CalculateTa_subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_subfpond : STD_LOGIC;
+signal CalculateTa_subfpce : STD_LOGIC;
+signal CalculateTa_subfpsclr : STD_LOGIC;
+signal CalculateTa_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTa_subfprdy : STD_LOGIC;
 
-signal calculateTa_clock : std_logic;
-signal calculateTa_reset : std_logic;
-signal calculateTa_run : std_logic;
-signal calculateTa_i2c_mem_ena : STD_LOGIC;
-signal calculateTa_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal calculateTa_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal calculateTa_ram0x072a : fd2ft; -- from VDD bram
-signal calculateTa_kvdd : fd2ft; -- from VDD bram
-signal calculateTa_vdd25 : fd2ft; -- from VDD bram
-signal calculateTa_Ta : fd2ft; -- output Ta
-signal calculateTa_rdy : std_logic;
+signal CalculateTa_fixed2floatclk : std_logic;
+signal CalculateTa_addfpclk : std_logic;
+signal CalculateTa_subfpclk : std_logic;
+signal CalculateTa_mulfpclk : std_logic;
+signal CalculateTa_divfpclk : std_logic;
 
 constant clock_period : time := 10 ns;
 
@@ -86,17 +227,57 @@ end process cp;
 
 -- Component Instantiation
 uut : calculateTa port map (
-i_clock => calculateTa_clock,
-i_reset => calculateTa_reset,
-i_run => calculateTa_run,
-i2c_mem_ena => calculateTa_i2c_mem_ena,
-i2c_mem_addra => calculateTa_i2c_mem_addra,
-i2c_mem_douta => calculateTa_i2c_mem_douta,
-i_ram0x072a => calculateTa_ram0x072a,
-i_kvdd => calculateTa_kvdd,
-i_vdd25 => calculateTa_vdd25,
-o_Ta => calculateTa_Ta,
-o_rdy => calculateTa_rdy
+i_clock => CalculateTa_clock,
+i_reset => CalculateTa_reset,
+i_run => CalculateTa_run,
+
+i2c_mem_ena => CalculateTa_i2c_mem_ena,
+i2c_mem_addra => CalculateTa_i2c_mem_addra,
+i2c_mem_douta => CalculateTa_i2c_mem_douta,
+
+i_Vdd => CalculateTa_Vdd,
+
+o_Ta => CalculateTa_Ta, -- output Ta
+o_rdy => CalculateTa_rdy,
+
+fixed2floata => CalculateTa_fixed2floata,
+fixed2floatond => CalculateTa_fixed2floatond,
+fixed2floatce => CalculateTa_fixed2floatce,
+fixed2floatsclr => CalculateTa_fixed2floatsclr,
+fixed2floatr => CalculateTa_fixed2floatr,
+fixed2floatrdy => CalculateTa_fixed2floatrdy,
+
+divfpa => CalculateTa_divfpa,
+divfpb => CalculateTa_divfpb,
+divfpond => CalculateTa_divfpond,
+divfpce => CalculateTa_divfpce,
+divfpsclr => CalculateTa_divfpsclr,
+divfpr => CalculateTa_divfpr,
+divfprdy => CalculateTa_divfprdy,
+
+mulfpa => CalculateTa_mulfpa,
+mulfpb => CalculateTa_mulfpb,
+mulfpond => CalculateTa_mulfpond,
+mulfpce => CalculateTa_mulfpce,
+mulfpsclr => CalculateTa_mulfpsclr,
+mulfpr => CalculateTa_mulfpr,
+mulfprdy => CalculateTa_mulfprdy,
+
+addfpa => CalculateTa_addfpa,
+addfpb => CalculateTa_addfpb,
+addfpond => CalculateTa_addfpond,
+addfpce => CalculateTa_addfpce,
+addfpsclr => CalculateTa_addfpsclr,
+addfpr => CalculateTa_addfpr,
+addfprdy => CalculateTa_addfprdy,
+
+subfpa => CalculateTa_subfpa,
+subfpb => CalculateTa_subfpb,
+subfpond => CalculateTa_subfpond,
+subfpce => CalculateTa_subfpce,
+subfpsclr => CalculateTa_subfpsclr,
+subfpr => CalculateTa_subfpr,
+subfprdy => CalculateTa_subfprdy
 );
 
 --i_ee0x2432 => x"5952",
@@ -115,13 +296,82 @@ wait for 254.3 ns; -- wait until global set/reset completes
 calculateTa_reset <= '0';
 wait for clock_period*10;
 -- Add user defined stimulus here
-calculateTa_kvdd <= x"C5480000";
-calculateTa_vdd25 <= x"C6440000";
-calculateTa_ram0x072a <= x"c64cec00";
+calculateTa_Vdd <= x"4052B852"; -- 3.292500
 calculateTa_run <= '1'; wait for clock_period; calculateTa_run <= '0';
 wait until calculateTa_rdy = '1';
 report "done" severity failure;
 END PROCESS tbprocess;
 --  End Test Bench 
+
+CalculateTa_fixed2floatclk <= CalculateTa_clock;
+CalculateTa_addfpclk <= CalculateTa_clock;
+CalculateTa_subfpclk <= CalculateTa_clock;
+CalculateTa_mulfpclk <= CalculateTa_clock;
+CalculateTa_divfpclk <= CalculateTa_clock;
+
+--CalculateTa_fixed2floatsclr <= CalculateTa_reset;
+--CalculateTa_addfpsclr <= CalculateTa_reset;
+--CalculateTa_subfpsclr <= CalculateTa_reset;
+--CalculateTa_mulfpsclr <= CalculateTa_reset;
+--CalculateTa_divfpsclr <= CalculateTa_reset;
+
+inst_fixed2float : fixed2float
+PORT MAP (
+a => CalculateTa_fixed2floata,
+operation_nd => CalculateTa_fixed2floatond,
+clk => CalculateTa_fixed2floatclk,
+sclr => CalculateTa_fixed2floatsclr,
+ce => CalculateTa_fixed2floatce,
+result => CalculateTa_fixed2floatr,
+rdy => CalculateTa_fixed2floatrdy
+);
+
+inst_divfp : divfp
+PORT MAP (
+a => CalculateTa_divfpa,
+b => CalculateTa_divfpb,
+operation_nd => CalculateTa_divfpond,
+clk => CalculateTa_divfpclk,
+sclr => CalculateTa_divfpsclr,
+ce => CalculateTa_divfpce,
+result => CalculateTa_divfpr,
+rdy => CalculateTa_divfprdy
+);
+
+inst_mulfp : mulfp
+PORT MAP (
+a => CalculateTa_mulfpa,
+b => CalculateTa_mulfpb,
+operation_nd => CalculateTa_mulfpond,
+clk => CalculateTa_mulfpclk,
+sclr => CalculateTa_mulfpsclr,
+ce => CalculateTa_mulfpce,
+result => CalculateTa_mulfpr,
+rdy => CalculateTa_mulfprdy
+);
+
+inst_addfp : addfp
+PORT MAP (
+a => CalculateTa_addfpa,
+b => CalculateTa_addfpb,
+operation_nd => CalculateTa_addfpond,
+clk => CalculateTa_addfpclk,
+sclr => CalculateTa_addfpsclr,
+ce => CalculateTa_addfpce,
+result => CalculateTa_addfpr,
+rdy => CalculateTa_addfprdy
+);
+
+inst_subfp : subfp
+PORT MAP (
+a => CalculateTa_subfpa,
+b => CalculateTa_subfpb,
+operation_nd => CalculateTa_subfpond,
+clk => CalculateTa_subfpclk,
+sclr => CalculateTa_subfpsclr,
+ce => CalculateTa_subfpce,
+result => CalculateTa_subfpr,
+rdy => CalculateTa_subfprdy
+);
 
 END tb;
