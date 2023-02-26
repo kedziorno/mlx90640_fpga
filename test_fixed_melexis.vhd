@@ -355,31 +355,6 @@ signal CalculateTa_divfpclk : std_logic;
 signal calculateTa_Vdd : fd2ft; -- from VDD
 signal calculateTa_Ta : fd2ft; -- output Ta
 
---component ExtractOffsetParameters is
---port (
---i_clock : in std_logic;
---i_reset : in std_logic;
---i_run : in std_logic;
---i2c_mem_ena : out STD_LOGIC;
---i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
---i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
---o_do : out std_logic_vector (31 downto 0);
---i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
---o_done : out std_logic;
---o_rdy : out std_logic
---);
---end component ExtractOffsetParameters;
---signal ExtractOffsetParameters_clock : std_logic;
---signal ExtractOffsetParameters_reset : std_logic;
---signal ExtractOffsetParameters_run : std_logic;
---signal ExtractOffsetParameters_i2c_mem_ena : STD_LOGIC;
---signal ExtractOffsetParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
---signal ExtractOffsetParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
---signal ExtractOffsetParameters_do : std_logic_vector (31 downto 0);
---signal ExtractOffsetParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
---signal ExtractOffsetParameters_done : std_logic;
---signal ExtractOffsetParameters_rdy : std_logic;
-
 component ExtractAlphaParameters is
 port (
 i_clock : in std_logic;
@@ -391,7 +366,34 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 o_done : out std_logic;
-o_rdy : out std_logic
+o_rdy : out std_logic;
+signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC;
+signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : out STD_LOGIC;
+signal mulfpsclr : out STD_LOGIC;
+signal mulfpce : out STD_LOGIC;
+signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy : in STD_LOGIC;
+signal addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : out STD_LOGIC;
+signal addfpsclr : out STD_LOGIC;
+signal addfpce : out STD_LOGIC;
+signal addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : in STD_LOGIC;
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC
 );
 end component ExtractAlphaParameters;
 signal ExtractAlphaParameters_clock : std_logic;
@@ -404,21 +406,45 @@ signal ExtractAlphaParameters_do : std_logic_vector (31 downto 0);
 signal ExtractAlphaParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal ExtractAlphaParameters_done : std_logic;
 signal ExtractAlphaParameters_rdy : std_logic;
+signal ExtractAlphaParameters_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal ExtractAlphaParameters_fixed2floatond : STD_LOGIC;
+signal ExtractAlphaParameters_fixed2floatsclr : STD_LOGIC;
+signal ExtractAlphaParameters_fixed2floatce : STD_LOGIC;
+signal ExtractAlphaParameters_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractAlphaParameters_fixed2floatrdy : STD_LOGIC;
+signal ExtractAlphaParameters_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractAlphaParameters_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractAlphaParameters_mulfpond : STD_LOGIC;
+signal ExtractAlphaParameters_mulfpsclr : STD_LOGIC;
+signal ExtractAlphaParameters_mulfpce : STD_LOGIC;
+signal ExtractAlphaParameters_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractAlphaParameters_mulfprdy : STD_LOGIC;
+signal ExtractAlphaParameters_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractAlphaParameters_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractAlphaParameters_addfpond : STD_LOGIC;
+signal ExtractAlphaParameters_addfpsclr : STD_LOGIC;
+signal ExtractAlphaParameters_addfpce : STD_LOGIC;
+signal ExtractAlphaParameters_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractAlphaParameters_addfprdy : STD_LOGIC;
+signal ExtractAlphaParameters_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractAlphaParameters_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractAlphaParameters_divfpond : STD_LOGIC;
+signal ExtractAlphaParameters_divfpsclr : STD_LOGIC;
+signal ExtractAlphaParameters_divfpce : STD_LOGIC;
+signal ExtractAlphaParameters_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractAlphaParameters_divfprdy : STD_LOGIC;
 
 component CalculateAlphaCP is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-
 o_acpsubpage0 : out fd2ft;
 o_acpsubpage1 : out fd2ft;
 o_rdy : out std_logic;
-
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpond : out STD_LOGIC;
@@ -426,7 +452,6 @@ signal divfpsclr : out STD_LOGIC;
 signal divfpce : out STD_LOGIC;
 signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy : in STD_LOGIC;
-
 signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpond : out STD_LOGIC;
@@ -560,7 +585,6 @@ signal CalculatePixOS_subfpsclr : STD_LOGIC;
 signal CalculatePixOS_subfpce : STD_LOGIC;
 signal CalculatePixOS_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixOS_subfprdy : STD_LOGIC;
-
 signal CalculatePixOS_fixed2floatclk : std_logic;
 signal CalculatePixOS_addfpclk : std_logic;
 signal CalculatePixOS_subfpclk : std_logic;
@@ -572,29 +596,23 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-
 i_Ta : in std_logic_vector (31 downto 0);
 i_Ta0 : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
 i_VddV0 : in std_logic_vector (31 downto 0);
 i_const1 : in std_logic_vector (31 downto 0);
-
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-
 o_pixoscpsp0 : out std_logic_vector (31 downto 0);
 o_pixoscpsp1 : out std_logic_vector (31 downto 0);
-
 o_rdy : out std_logic;
-
 signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
 signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal fixed2floatrdy : in STD_LOGIC;
-
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpond : out STD_LOGIC;
@@ -602,7 +620,6 @@ signal divfpsclr : out STD_LOGIC;
 signal divfpce : out STD_LOGIC;
 signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy : in STD_LOGIC;
-
 signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpond : out STD_LOGIC;
@@ -610,7 +627,6 @@ signal mulfpsclr : out STD_LOGIC;
 signal mulfpce : out STD_LOGIC;
 signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfprdy : in STD_LOGIC;
-
 signal addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfpond : out STD_LOGIC;
@@ -618,7 +634,6 @@ signal addfpsclr : out STD_LOGIC;
 signal addfpce : out STD_LOGIC;
 signal addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfprdy : in STD_LOGIC;
-
 signal subfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfpond : out STD_LOGIC;
@@ -642,14 +657,12 @@ signal CalculatePixOsCPSP_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal CalculatePixOsCPSP_pixoscpsp0 : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_pixoscpsp1 : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_rdy : std_logic;
-
 signal CalculatePixOsCPSP_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal CalculatePixOsCPSP_fixed2floatond : STD_LOGIC;
 signal CalculatePixOsCPSP_fixed2floatsclr : STD_LOGIC;
 signal CalculatePixOsCPSP_fixed2floatce : STD_LOGIC;
 signal CalculatePixOsCPSP_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixOsCPSP_fixed2floatrdy : STD_LOGIC;
-
 signal CalculatePixOsCPSP_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixOsCPSP_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixOsCPSP_divfpond : STD_LOGIC;
@@ -657,7 +670,6 @@ signal CalculatePixOsCPSP_divfpsclr : STD_LOGIC;
 signal CalculatePixOsCPSP_divfpce : STD_LOGIC;
 signal CalculatePixOsCPSP_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixOsCPSP_divfprdy : STD_LOGIC;
-
 signal CalculatePixOsCPSP_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixOsCPSP_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixOsCPSP_mulfpond : STD_LOGIC;
@@ -665,7 +677,6 @@ signal CalculatePixOsCPSP_mulfpsclr : STD_LOGIC;
 signal CalculatePixOsCPSP_mulfpce : STD_LOGIC;
 signal CalculatePixOsCPSP_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixOsCPSP_mulfprdy : STD_LOGIC;
-
 signal CalculatePixOsCPSP_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixOsCPSP_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixOsCPSP_addfpond : STD_LOGIC;
@@ -673,7 +684,6 @@ signal CalculatePixOsCPSP_addfpsclr : STD_LOGIC;
 signal CalculatePixOsCPSP_addfpce : STD_LOGIC;
 signal CalculatePixOsCPSP_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixOsCPSP_addfprdy : STD_LOGIC;
-
 signal CalculatePixOsCPSP_subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixOsCPSP_subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixOsCPSP_subfpond : STD_LOGIC;
@@ -681,13 +691,11 @@ signal CalculatePixOsCPSP_subfpsclr : STD_LOGIC;
 signal CalculatePixOsCPSP_subfpce : STD_LOGIC;
 signal CalculatePixOsCPSP_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixOsCPSP_subfprdy : STD_LOGIC;
-
 signal CalculatePixOsCPSP_fixed2floatclk : STD_LOGIC;
 signal CalculatePixOsCPSP_addfpclk : STD_LOGIC;
 signal CalculatePixOsCPSP_subfpclk : STD_LOGIC;
 signal CalculatePixOsCPSP_mulfpclk : STD_LOGIC;
 signal CalculatePixOsCPSP_divfpclk : STD_LOGIC;
-
 
 COMPONENT CalculateVirCompensated
 PORT(
@@ -808,6 +816,8 @@ else
 CalculatePixOS_fixed2floata when CalculatePixOS_mux = '1'
 else
 CalculatePixOSCPSP_fixed2floata when CalculatePixOSCPSP_mux = '1'
+else
+ExtractAlphaParameters_fixed2floata when ExtractAlphaParameters_mux = '1'
 else (others => '0');
 
 fixed2floatond <=
@@ -818,6 +828,8 @@ else
 CalculatePixOS_fixed2floatond when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_fixed2floatond when CalculatePixOSCPSP_mux = '1' 
+else
+ExtractAlphaParameters_fixed2floatond when ExtractAlphaParameters_mux = '1' 
 else '0';
 
 fixed2floatce <=
@@ -828,6 +840,8 @@ else
 CalculatePixOS_fixed2floatce when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_fixed2floatce when CalculatePixOSCPSP_mux = '1' 
+else
+ExtractAlphaParameters_fixed2floatce when ExtractAlphaParameters_mux = '1' 
 else '0';
 
 fixed2floatsclr <=
@@ -838,6 +852,8 @@ else
 CalculatePixOS_fixed2floatsclr when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_fixed2floatsclr when CalculatePixOSCPSP_mux = '1' 
+else
+ExtractAlphaParameters_fixed2floatsclr when ExtractAlphaParameters_mux = '1' 
 else '0';
 
 divfpa <=
@@ -850,6 +866,8 @@ else
 CalculatePixOSCPSP_divfpa when CalculatePixOSCPSP_mux = '1' 
 else
 CalculateAlphaCP_divfpa when CalculateAlphaCP_mux = '1' 
+else
+ExtractAlphaParameters_divfpa when ExtractAlphaParameters_mux = '1' 
 else (others => '0');
 
 divfpb <=
@@ -862,6 +880,8 @@ else
 CalculatePixOSCPSP_divfpb when CalculatePixOSCPSP_mux = '1' 
 else
 CalculateAlphaCP_divfpb when CalculateAlphaCP_mux = '1' 
+else
+ExtractAlphaParameters_divfpb when ExtractAlphaParameters_mux = '1' 
 else (others => '0');
 
 divfpond <=
@@ -874,6 +894,8 @@ else
 CalculatePixOSCPSP_divfpond when CalculatePixOSCPSP_mux = '1' 
 else
 CalculateAlphaCP_divfpond when CalculateAlphaCP_mux = '1' 
+else
+ExtractAlphaParameters_divfpond when ExtractAlphaParameters_mux = '1' 
 else '0';
 
 divfpce <=
@@ -886,6 +908,8 @@ else
 CalculatePixOSCPSP_divfpce when CalculatePixOSCPSP_mux = '1' 
 else
 CalculateAlphaCP_divfpce when CalculateAlphaCP_mux = '1' 
+else
+ExtractAlphaParameters_divfpce when ExtractAlphaParameters_mux = '1' 
 else '0';
 
 divfpsclr <=
@@ -898,6 +922,8 @@ else
 CalculatePixOSCPSP_divfpsclr when CalculatePixOSCPSP_mux = '1' 
 else
 CalculateAlphaCP_divfpsclr when CalculateAlphaCP_mux = '1' 
+else
+ExtractAlphaParameters_divfpsclr when ExtractAlphaParameters_mux = '1' 
 else '0';
 
 mulfpa <=
@@ -910,6 +936,8 @@ else
 CalculatePixOSCPSP_mulfpa when CalculatePixOSCPSP_mux = '1' 
 else
 CalculateAlphaCP_mulfpa when CalculateAlphaCP_mux = '1' 
+else
+ExtractAlphaParameters_mulfpa when ExtractAlphaParameters_mux = '1' 
 else (others => '0');
 
 mulfpb <=
@@ -922,6 +950,8 @@ else
 CalculatePixOSCPSP_mulfpb when CalculatePixOSCPSP_mux = '1' 
 else
 CalculateAlphaCP_mulfpb when CalculateAlphaCP_mux = '1' 
+else
+ExtractAlphaParameters_mulfpb when ExtractAlphaParameters_mux = '1' 
 else (others => '0');
 
 mulfpond <=
@@ -934,6 +964,8 @@ else
 CalculatePixOSCPSP_mulfpond when CalculatePixOSCPSP_mux = '1' 
 else
 CalculateAlphaCP_mulfpond when CalculateAlphaCP_mux = '1' 
+else
+ExtractAlphaParameters_mulfpond when ExtractAlphaParameters_mux = '1' 
 else '0';
 
 mulfpce <=
@@ -946,6 +978,8 @@ else
 CalculatePixOSCPSP_mulfpce when CalculatePixOSCPSP_mux = '1' 
 else
 CalculateAlphaCP_mulfpce when CalculateAlphaCP_mux = '1' 
+else
+ExtractAlphaParameters_mulfpce when ExtractAlphaParameters_mux = '1' 
 else '0';
 
 mulfpsclr <=
@@ -958,6 +992,8 @@ else
 CalculatePixOSCPSP_mulfpsclr when CalculatePixOSCPSP_mux = '1' 
 else
 CalculateAlphaCP_mulfpsclr when CalculateAlphaCP_mux = '1' 
+else
+ExtractAlphaParameters_mulfpsclr when ExtractAlphaParameters_mux = '1' 
 else '0';
 
 addfpa <=
@@ -968,6 +1004,8 @@ else
 CalculatePixOS_addfpa when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_addfpa when CalculatePixOSCPSP_mux = '1' 
+else
+ExtractAlphaParameters_addfpa when ExtractAlphaParameters_mux = '1' 
 else (others => '0');
 
 addfpb <=
@@ -978,6 +1016,8 @@ else
 CalculatePixOS_addfpb when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_addfpb when CalculatePixOSCPSP_mux = '1' 
+else
+ExtractAlphaParameters_addfpb when ExtractAlphaParameters_mux = '1' 
 else (others => '0');
 
 addfpond <=
@@ -988,6 +1028,8 @@ else
 CalculatePixOS_addfpond when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_addfpond when CalculatePixOSCPSP_mux = '1' 
+else
+ExtractAlphaParameters_addfpond when ExtractAlphaParameters_mux = '1' 
 else '0';
 
 addfpce <=
@@ -998,6 +1040,8 @@ else
 CalculatePixOS_addfpce when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_addfpce when CalculatePixOSCPSP_mux = '1' 
+else
+ExtractAlphaParameters_addfpce when ExtractAlphaParameters_mux = '1' 
 else '0';
 
 addfpsclr <=
@@ -1008,6 +1052,8 @@ else
 CalculatePixOS_addfpsclr when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_addfpsclr when CalculatePixOSCPSP_mux = '1' 
+else
+ExtractAlphaParameters_addfpsclr when ExtractAlphaParameters_mux = '1' 
 else '0';
 
 subfpa <=
@@ -1108,6 +1154,15 @@ CalculateAlphaCP_divfpr <= divfpr when CalculateAlphaCP_mux = '1' else (others =
 CalculateAlphaCP_divfprdy <= divfprdy when CalculateAlphaCP_mux = '1' else '0';
 CalculateAlphaCP_mulfpr <= mulfpr when CalculateAlphaCP_mux = '1' else (others => '0');
 CalculateAlphaCP_mulfprdy <= mulfprdy when CalculateAlphaCP_mux = '1' else '0';
+
+ExtractAlphaParameters_fixed2floatr <= fixed2floatr when ExtractAlphaParameters_mux = '1' else (others => '0');
+ExtractAlphaParameters_fixed2floatrdy <= fixed2floatrdy when ExtractAlphaParameters_mux = '1' else '0';
+ExtractAlphaParameters_divfpr <= divfpr when ExtractAlphaParameters_mux = '1' else (others => '0');
+ExtractAlphaParameters_divfprdy <= divfprdy when ExtractAlphaParameters_mux = '1' else '0';
+ExtractAlphaParameters_mulfpr <= mulfpr when ExtractAlphaParameters_mux = '1' else (others => '0');
+ExtractAlphaParameters_mulfprdy <= mulfprdy when ExtractAlphaParameters_mux = '1' else '0';
+ExtractAlphaParameters_addfpr <= addfpr when ExtractAlphaParameters_mux = '1' else (others => '0');
+ExtractAlphaParameters_addfprdy <= addfprdy when ExtractAlphaParameters_mux = '1' else '0';
 
 i2c_mem_ena <=
 CalculatePixOS_i2c_mem_ena when CalculatePixOS_mux = '1'
@@ -1423,35 +1478,52 @@ subfpr => CalculateTa_subfpr,
 subfprdy  => CalculateTa_subfprdy
 );
 
-
---ExtractOffsetParameters_clock <= i_clock;
---ExtractOffsetParameters_reset <= i_reset;
---inst_ExtractOffsetParameters : ExtractOffsetParameters port map (
---i_clock => ExtractOffsetParameters_clock,
---i_reset => ExtractOffsetParameters_reset,
---i_run => ExtractOffsetParameters_run,
---i2c_mem_ena => ExtractOffsetParameters_i2c_mem_ena,
---i2c_mem_addra => ExtractOffsetParameters_i2c_mem_addra,
---i2c_mem_douta => ExtractOffsetParameters_i2c_mem_douta,
---o_do => ExtractOffsetParameters_do,
---i_addr => ExtractOffsetParameters_addr,
---o_done => ExtractOffsetParameters_done,
---o_rdy => ExtractOffsetParameters_rdy
---);
-
 ExtractAlphaParameters_clock <= i_clock;
 ExtractAlphaParameters_reset <= i_reset;
 inst_ExtractAlphaParameters : ExtractAlphaParameters port map (
 i_clock => ExtractAlphaParameters_clock,
 i_reset => ExtractAlphaParameters_reset,
 i_run => ExtractAlphaParameters_run,
+
 i2c_mem_ena => ExtractAlphaParameters_i2c_mem_ena,
 i2c_mem_addra => ExtractAlphaParameters_i2c_mem_addra,
 i2c_mem_douta => ExtractAlphaParameters_i2c_mem_douta,
+
 o_do => ExtractAlphaParameters_do,
 i_addr => ExtractAlphaParameters_addr,
 o_done => ExtractAlphaParameters_done,
-o_rdy => ExtractAlphaParameters_rdy
+o_rdy => ExtractAlphaParameters_rdy,
+
+fixed2floata => ExtractAlphaParameters_fixed2floata,
+fixed2floatond => ExtractAlphaParameters_fixed2floatond,
+fixed2floatsclr => ExtractAlphaParameters_fixed2floatsclr,
+fixed2floatce => ExtractAlphaParameters_fixed2floatce,
+fixed2floatr => ExtractAlphaParameters_fixed2floatr,
+fixed2floatrdy => ExtractAlphaParameters_fixed2floatrdy,
+
+mulfpa => ExtractAlphaParameters_mulfpa,
+mulfpb => ExtractAlphaParameters_mulfpb,
+mulfpond => ExtractAlphaParameters_mulfpond,
+mulfpsclr => ExtractAlphaParameters_mulfpsclr,
+mulfpce => ExtractAlphaParameters_mulfpce,
+mulfpr => ExtractAlphaParameters_mulfpr,
+mulfprdy => ExtractAlphaParameters_mulfprdy,
+
+addfpa => ExtractAlphaParameters_addfpa,
+addfpb => ExtractAlphaParameters_addfpb,
+addfpond => ExtractAlphaParameters_addfpond,
+addfpsclr => ExtractAlphaParameters_addfpsclr,
+addfpce => ExtractAlphaParameters_addfpce,
+addfpr => ExtractAlphaParameters_addfpr,
+addfprdy => ExtractAlphaParameters_addfprdy,
+
+divfpa => ExtractAlphaParameters_divfpa,
+divfpb => ExtractAlphaParameters_divfpb,
+divfpond => ExtractAlphaParameters_divfpond,
+divfpsclr => ExtractAlphaParameters_divfpsclr,
+divfpce => ExtractAlphaParameters_divfpce,
+divfpr => ExtractAlphaParameters_divfpr,
+divfprdy => ExtractAlphaParameters_divfprdy
 );
 
 CalculateAlphaCP_clock <= i_clock;
