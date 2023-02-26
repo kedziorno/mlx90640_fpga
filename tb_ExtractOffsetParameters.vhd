@@ -40,6 +40,64 @@ END tb_ExtractOffsetParameters;
 
 ARCHITECTURE behavior OF tb_ExtractOffsetParameters IS 
 
+COMPONENT fixed2float
+PORT (
+a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : STD_LOGIC;
+signal fixed2floatce : STD_LOGIC;
+signal fixed2floatsclr : STD_LOGIC;
+signal fixed2floatr :  STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : STD_LOGIC;
+
+COMPONENT mulfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : STD_LOGIC;
+signal mulfpce : STD_LOGIC;
+signal mulfpsclr : STD_LOGIC;
+signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy : STD_LOGIC;
+
+COMPONENT addfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : STD_LOGIC;
+signal addfpce : STD_LOGIC;
+signal addfpsclr : STD_LOGIC;
+signal addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : STD_LOGIC;
+
 COMPONENT tb_i2c_mem
 PORT (
 clka : IN STD_LOGIC;
@@ -66,42 +124,67 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_done : out std_logic;
-o_rdy : out std_logic
+o_rdy : out std_logic;
+
+signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC;
+
+signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : out STD_LOGIC;
+signal mulfpsclr : out STD_LOGIC;
+signal mulfpce : out STD_LOGIC;
+signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy : in STD_LOGIC;
+
+signal addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : out STD_LOGIC;
+signal addfpsclr : out STD_LOGIC;
+signal addfpce : out STD_LOGIC;
+signal addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : in STD_LOGIC
+
 );
 end component ExtractOffsetParameters;
+signal ExtractOffsetParameters_clock : std_logic;
+signal ExtractOffsetParameters_reset : std_logic;
+signal ExtractOffsetParameters_run : std_logic;
+signal ExtractOffsetParameters_i2c_mem_ena : STD_LOGIC;
+signal ExtractOffsetParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal ExtractOffsetParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal ExtractOffsetParameters_do : std_logic_vector (31 downto 0);
+signal ExtractOffsetParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
+signal ExtractOffsetParameters_done : std_logic;
+signal ExtractOffsetParameters_rdy : std_logic;
+signal ExtractOffsetParameters_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal ExtractOffsetParameters_fixed2floatond : STD_LOGIC;
+signal ExtractOffsetParameters_fixed2floatsclr : STD_LOGIC;
+signal ExtractOffsetParameters_fixed2floatce : STD_LOGIC;
+signal ExtractOffsetParameters_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractOffsetParameters_fixed2floatrdy : STD_LOGIC;
+signal ExtractOffsetParameters_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractOffsetParameters_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractOffsetParameters_mulfpond : STD_LOGIC;
+signal ExtractOffsetParameters_mulfpsclr : STD_LOGIC;
+signal ExtractOffsetParameters_mulfpce : STD_LOGIC;
+signal ExtractOffsetParameters_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractOffsetParameters_mulfprdy : STD_LOGIC;
+signal ExtractOffsetParameters_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractOffsetParameters_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractOffsetParameters_addfpond : STD_LOGIC;
+signal ExtractOffsetParameters_addfpsclr : STD_LOGIC;
+signal ExtractOffsetParameters_addfpce : STD_LOGIC;
+signal ExtractOffsetParameters_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractOffsetParameters_addfprdy : STD_LOGIC;
 
---Inputs
-signal i_clock : std_logic := '0';
-signal i_reset : std_logic := '0';
-signal i_run : std_logic := '0';
-signal i_ee0x2410 : slv16 := (others => '0');
-signal i_offsetref : fd2ft := (others => '0');
-signal i_ee0x2412 : slv16 := (others => '0');
-signal i_ee0x2413 : slv16 := (others => '0');
-signal i_ee0x2414 : slv16 := (others => '0');
-signal i_ee0x2415 : slv16 := (others => '0');
-signal i_ee0x2416 : slv16 := (others => '0');
-signal i_ee0x2417 : slv16 := (others => '0');
-signal i_ee0x2418 : slv16 := (others => '0');
-signal i_ee0x2419 : slv16 := (others => '0');
-signal i_ee0x241a : slv16 := (others => '0');
-signal i_ee0x241b : slv16 := (others => '0');
-signal i_ee0x241c : slv16 := (others => '0');
-signal i_ee0x241d : slv16 := (others => '0');
-signal i_ee0x241e : slv16 := (others => '0');
-signal i_ee0x241f : slv16 := (others => '0');
-signal i_ee0x2440 : slv16 := (others => '0');
-
---Outputs
-signal o_done : std_logic;
-signal o_rdy : std_logic;
-
-signal o_do : std_logic_vector (31 downto 0) := (others => '0');
-signal i_addr : std_logic_vector (9 downto 0) := (others => '0');
-
-signal i2c_mem_ena : STD_LOGIC;
-signal i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal ExtractOffsetParameters_fixed2floatclk : std_logic;
+signal ExtractOffsetParameters_addfpclk : std_logic;
+signal ExtractOffsetParameters_mulfpclk : std_logic;
 
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
@@ -110,44 +193,68 @@ signal out1r : real;
 
 BEGIN
 
-out1r <= ap_slv2fp (o_do); -- output data
+out1r <= ap_slv2fp (ExtractOffsetParameters_do); -- output data
 
 inst_tb_i2c_mem : tb_i2c_mem
 PORT MAP (
-clka => i_clock,
-ena => i2c_mem_ena,
+clka => ExtractOffsetParameters_clock,
+ena => ExtractOffsetParameters_i2c_mem_ena,
 wea => "0",
-addra => i2c_mem_addra,
+addra => ExtractOffsetParameters_i2c_mem_addra,
 dina => (others => '0'),
-douta => i2c_mem_douta
+douta => ExtractOffsetParameters_i2c_mem_douta
 );
 
 -- Instantiate the Unit Under Test (UUT)
 uut: ExtractOffsetParameters PORT MAP (
-i_clock => i_clock,
-i_reset => i_reset,
-i_run => i_run,
+i_clock => ExtractOffsetParameters_clock,
+i_reset => ExtractOffsetParameters_reset,
+i_run => ExtractOffsetParameters_run,
 
-i2c_mem_ena => i2c_mem_ena,
-i2c_mem_addra => i2c_mem_addra,
-i2c_mem_douta => i2c_mem_douta,
+i2c_mem_ena => ExtractOffsetParameters_i2c_mem_ena,
+i2c_mem_addra => ExtractOffsetParameters_i2c_mem_addra,
+i2c_mem_douta => ExtractOffsetParameters_i2c_mem_douta,
 
-o_do => o_do,
-i_addr => i_addr,
-o_done => o_done,
-o_rdy => o_rdy
+o_do => ExtractOffsetParameters_do,
+i_addr => ExtractOffsetParameters_addr, -- 10bit-1024
+
+o_done => ExtractOffsetParameters_done,
+o_rdy => ExtractOffsetParameters_rdy,
+
+fixed2floata => ExtractOffsetParameters_fixed2floata,
+fixed2floatond => ExtractOffsetParameters_fixed2floatond,
+fixed2floatsclr => ExtractOffsetParameters_fixed2floatsclr,
+fixed2floatce => ExtractOffsetParameters_fixed2floatce,
+fixed2floatr => ExtractOffsetParameters_fixed2floatr,
+fixed2floatrdy => ExtractOffsetParameters_fixed2floatrdy,
+
+mulfpa => ExtractOffsetParameters_mulfpa,
+mulfpb => ExtractOffsetParameters_mulfpb,
+mulfpond => ExtractOffsetParameters_mulfpond,
+mulfpsclr => ExtractOffsetParameters_mulfpsclr,
+mulfpce => ExtractOffsetParameters_mulfpce,
+mulfpr => ExtractOffsetParameters_mulfpr,
+mulfprdy => ExtractOffsetParameters_mulfprdy,
+
+addfpa => ExtractOffsetParameters_addfpa,
+addfpb => ExtractOffsetParameters_addfpb,
+addfpond => ExtractOffsetParameters_addfpond,
+addfpsclr => ExtractOffsetParameters_addfpsclr,
+addfpce => ExtractOffsetParameters_addfpce,
+addfpr => ExtractOffsetParameters_addfpr,
+addfprdy => ExtractOffsetParameters_addfprdy
 );
 
 -- Clock process definitions
 i_clock_process :process
 begin
-i_clock <= '0';
+ExtractOffsetParameters_clock <= '0';
 wait for i_clock_period/2;
-i_clock <= '1';
+ExtractOffsetParameters_clock <= '1';
 wait for i_clock_period/2;
 end process;
 
-i_reset <= '1', '0' after 100 ns ;	
+ExtractOffsetParameters_reset <= '1', '0' after 100 ns ;	
 
 -- Stimulus process
 stim_proc: process
@@ -155,34 +262,54 @@ begin
 -- hold reset state for 100 ns.
 wait for 105 ns;
 -- insert stimulus here
-i_ee0x2410 <= x"4210"; -- occrow,occcolumn,occremnant,k_ptat
-i_ee0x2440 <= x"08a0";
-i_offsetRef <= x"477FBB00"; -- 65467
-
-i_ee0x2412 <= x"0202";
-i_ee0x2413 <= x"f202";
-i_ee0x2414 <= x"f2f2";
-i_ee0x2415 <= x"e2e2";
-i_ee0x2416 <= x"d1e1";
-i_ee0x2417 <= x"b1d1";
-
-i_ee0x2418 <= x"f10f";
-i_ee0x2419 <= x"f00f";
-i_ee0x241a <= x"e0ef";
-i_ee0x241b <= x"e0ef";
-i_ee0x241c <= x"e1e1";
-i_ee0x241d <= x"f3f2";
-i_ee0x241e <= x"f404";
-i_ee0x241f <= x"e504";
-i_run <= '1'; wait for i_clock_period; i_run <= '0';
-wait until o_rdy = '1';
+ExtractOffsetParameters_run <= '1'; wait for i_clock_period; ExtractOffsetParameters_run <= '0';
+wait until ExtractOffsetParameters_rdy = '1';
 for i in 0 to 1024 loop
-	i_addr <= std_logic_vector (to_unsigned (i, 10));
+	ExtractOffsetParameters_addr <= std_logic_vector (to_unsigned (i, 10));
 	wait for i_clock_period*2;
 end loop;
 wait for 1 ps; -- must be for write
 report "done" severity failure;
 --wait on o_done;
 end process;
+
+ExtractOffsetParameters_fixed2floatclk <= ExtractOffsetParameters_clock;
+ExtractOffsetParameters_addfpclk <= ExtractOffsetParameters_clock;
+ExtractOffsetParameters_mulfpclk <= ExtractOffsetParameters_clock;
+
+inst_fixed2float : fixed2float
+PORT MAP (
+a => ExtractOffsetParameters_fixed2floata,
+operation_nd => ExtractOffsetParameters_fixed2floatond,
+clk => ExtractOffsetParameters_fixed2floatclk,
+sclr => ExtractOffsetParameters_fixed2floatsclr,
+ce => ExtractOffsetParameters_fixed2floatce,
+result => ExtractOffsetParameters_fixed2floatr,
+rdy => ExtractOffsetParameters_fixed2floatrdy
+);
+
+inst_mulfp : mulfp
+PORT MAP (
+a => ExtractOffsetParameters_mulfpa,
+b => ExtractOffsetParameters_mulfpb,
+operation_nd => ExtractOffsetParameters_mulfpond,
+clk => ExtractOffsetParameters_mulfpclk,
+sclr => ExtractOffsetParameters_mulfpsclr,
+ce => ExtractOffsetParameters_mulfpce,
+result => ExtractOffsetParameters_mulfpr,
+rdy => ExtractOffsetParameters_mulfprdy
+);
+
+inst_addfp : addfp
+PORT MAP (
+a => ExtractOffsetParameters_addfpa,
+b => ExtractOffsetParameters_addfpb,
+operation_nd => ExtractOffsetParameters_addfpond,
+clk => ExtractOffsetParameters_addfpclk,
+sclr => ExtractOffsetParameters_addfpsclr,
+ce => ExtractOffsetParameters_addfpce,
+result => ExtractOffsetParameters_addfpr,
+rdy => ExtractOffsetParameters_addfprdy
+);
 
 END;
