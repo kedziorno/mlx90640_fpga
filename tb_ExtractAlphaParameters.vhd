@@ -40,6 +40,84 @@ END tb_ExtractAlphaParameters;
 
 ARCHITECTURE behavior OF tb_ExtractAlphaParameters IS 
 
+COMPONENT fixed2float
+PORT (
+a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : STD_LOGIC;
+signal fixed2floatce : STD_LOGIC;
+signal fixed2floatsclr : STD_LOGIC;
+signal fixed2floatr :  STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : STD_LOGIC;
+
+COMPONENT divfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : STD_LOGIC;
+signal divfpce : STD_LOGIC;
+signal divfpsclr : STD_LOGIC;
+signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : STD_LOGIC;
+
+COMPONENT mulfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : STD_LOGIC;
+signal mulfpce : STD_LOGIC;
+signal mulfpsclr : STD_LOGIC;
+signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy : STD_LOGIC;
+
+COMPONENT addfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : STD_LOGIC;
+signal addfpce : STD_LOGIC;
+signal addfpsclr : STD_LOGIC;
+signal addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : STD_LOGIC;
+
 COMPONENT tb_i2c_mem
 PORT (
 clka : IN STD_LOGIC;
@@ -58,27 +136,6 @@ i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
 
---i_ee0x2410 : in slv16; -- 1-occremscale,2-occcolumnscale,3-occrowscale
---i_offsetref : in fd2ft; -- offsetref from fixed2float
---
---i_ee0x2412 : in slv16; -- occrow1-4
---i_ee0x2413 : in slv16; -- occrow5-8
---i_ee0x2414 : in slv16; -- occrow9-12
---i_ee0x2415 : in slv16; -- occrow13-16
---i_ee0x2416 : in slv16; -- occrow17-20
---i_ee0x2417 : in slv16; -- occrow21-24
---
---i_ee0x2418 : in slv16; -- occcol1-4
---i_ee0x2419 : in slv16; -- occcol5-8
---i_ee0x241a : in slv16; -- occcol9-12
---i_ee0x241b : in slv16; -- occcol13-16
---i_ee0x241c : in slv16; -- occcol17-20
---i_ee0x241d : in slv16; -- occcol21-24
---i_ee0x241e : in slv16; -- occcol25-28
---i_ee0x241f : in slv16; -- occcol29-32
---
---i_ee0x2440 : in slv16; -- offset ROWS*COLS
-
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -87,42 +144,83 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_done : out std_logic;
-o_rdy : out std_logic
+o_rdy : out std_logic;
+
+signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC;
+
+signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : out STD_LOGIC;
+signal mulfpsclr : out STD_LOGIC;
+signal mulfpce : out STD_LOGIC;
+signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy : in STD_LOGIC;
+
+signal addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : out STD_LOGIC;
+signal addfpsclr : out STD_LOGIC;
+signal addfpce : out STD_LOGIC;
+signal addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : in STD_LOGIC;
+
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC
+
 );
 end component ExtractAlphaParameters;
+signal ExtractAlphaParameters_clock : std_logic;
+signal ExtractAlphaParameters_reset : std_logic;
+signal ExtractAlphaParameters_run : std_logic;
+signal ExtractAlphaParameters_i2c_mem_ena : STD_LOGIC;
+signal ExtractAlphaParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal ExtractAlphaParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal ExtractAlphaParameters_do : std_logic_vector (31 downto 0);
+signal ExtractAlphaParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
+signal ExtractAlphaParameters_done : std_logic;
+signal ExtractAlphaParameters_rdy : std_logic;
+signal ExtractAlphaParameters_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal ExtractAlphaParameters_fixed2floatond : STD_LOGIC;
+signal ExtractAlphaParameters_fixed2floatsclr : STD_LOGIC;
+signal ExtractAlphaParameters_fixed2floatce : STD_LOGIC;
+signal ExtractAlphaParameters_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractAlphaParameters_fixed2floatrdy : STD_LOGIC;
+signal ExtractAlphaParameters_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractAlphaParameters_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractAlphaParameters_mulfpond : STD_LOGIC;
+signal ExtractAlphaParameters_mulfpsclr : STD_LOGIC;
+signal ExtractAlphaParameters_mulfpce : STD_LOGIC;
+signal ExtractAlphaParameters_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractAlphaParameters_mulfprdy : STD_LOGIC;
+signal ExtractAlphaParameters_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractAlphaParameters_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractAlphaParameters_addfpond : STD_LOGIC;
+signal ExtractAlphaParameters_addfpsclr : STD_LOGIC;
+signal ExtractAlphaParameters_addfpce : STD_LOGIC;
+signal ExtractAlphaParameters_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractAlphaParameters_addfprdy : STD_LOGIC;
+signal ExtractAlphaParameters_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractAlphaParameters_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractAlphaParameters_divfpond : STD_LOGIC;
+signal ExtractAlphaParameters_divfpsclr : STD_LOGIC;
+signal ExtractAlphaParameters_divfpce : STD_LOGIC;
+signal ExtractAlphaParameters_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractAlphaParameters_divfprdy : STD_LOGIC;
 
---Inputs
-signal i_clock : std_logic := '0';
-signal i_reset : std_logic := '0';
-signal i_run : std_logic := '0';
-signal i_ee0x2410 : slv16 := (others => '0');
-signal i_offsetref : fd2ft := (others => '0');
-signal i_ee0x2412 : slv16 := (others => '0');
-signal i_ee0x2413 : slv16 := (others => '0');
-signal i_ee0x2414 : slv16 := (others => '0');
-signal i_ee0x2415 : slv16 := (others => '0');
-signal i_ee0x2416 : slv16 := (others => '0');
-signal i_ee0x2417 : slv16 := (others => '0');
-signal i_ee0x2418 : slv16 := (others => '0');
-signal i_ee0x2419 : slv16 := (others => '0');
-signal i_ee0x241a : slv16 := (others => '0');
-signal i_ee0x241b : slv16 := (others => '0');
-signal i_ee0x241c : slv16 := (others => '0');
-signal i_ee0x241d : slv16 := (others => '0');
-signal i_ee0x241e : slv16 := (others => '0');
-signal i_ee0x241f : slv16 := (others => '0');
-signal i_ee0x2440 : slv16 := (others => '0');
-
---Outputs
-signal o_done : std_logic;
-signal o_rdy : std_logic;
-
-signal o_do : std_logic_vector (31 downto 0) := (others => '0');
-signal i_addr : std_logic_vector (9 downto 0) := (others => '0');
-
-signal i2c_mem_ena : STD_LOGIC;
-signal i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal ExtractAlphaParameters_fixed2floatclk : std_logic;
+signal ExtractAlphaParameters_addfpclk : std_logic;
+signal ExtractAlphaParameters_mulfpclk : std_logic;
+signal ExtractAlphaParameters_divfpclk : std_logic;
 
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
@@ -131,60 +229,75 @@ signal out1r : real;
 
 BEGIN
 
-out1r <= ap_slv2fp (o_do); -- output data
+out1r <= ap_slv2fp (ExtractAlphaParameters_do); -- output data
 
 inst_tb_i2c_mem : tb_i2c_mem
 PORT MAP (
-clka => i_clock,
-ena => i2c_mem_ena,
+clka => ExtractAlphaParameters_clock,
+ena => ExtractAlphaParameters_i2c_mem_ena,
 wea => "0",
-addra => i2c_mem_addra,
+addra => ExtractAlphaParameters_i2c_mem_addra,
 dina => (others => '0'),
-douta => i2c_mem_douta
+douta => ExtractAlphaParameters_i2c_mem_douta
 );
 -- Instantiate the Unit Under Test (UUT)
 uut: ExtractAlphaParameters PORT MAP (
-i_clock => i_clock,
-i_reset => i_reset,
-i_run => i_run,
---i_ee0x2410 => i_ee0x2410,
---i_offsetRef => i_offsetRef,
---i_ee0x2412 => i_ee0x2412,
---i_ee0x2413 => i_ee0x2413,
---i_ee0x2414 => i_ee0x2414,
---i_ee0x2415 => i_ee0x2415,
---i_ee0x2416 => i_ee0x2416,
---i_ee0x2417 => i_ee0x2417,
---i_ee0x2418 => i_ee0x2418,
---i_ee0x2419 => i_ee0x2419,
---i_ee0x241a => i_ee0x241a,
---i_ee0x241b => i_ee0x241b,
---i_ee0x241c => i_ee0x241c,
---i_ee0x241d => i_ee0x241d,
---i_ee0x241e => i_ee0x241e,
---i_ee0x241f => i_ee0x241f,
---i_ee0x2440 => i_ee0x2440,
+i_clock => ExtractAlphaParameters_clock,
+i_reset => ExtractAlphaParameters_reset,
+i_run => ExtractAlphaParameters_run,
 
-i2c_mem_ena => i2c_mem_ena,
-i2c_mem_addra => i2c_mem_addra,
-i2c_mem_douta => i2c_mem_douta,
+i2c_mem_ena => ExtractAlphaParameters_i2c_mem_ena,
+i2c_mem_addra => ExtractAlphaParameters_i2c_mem_addra,
+i2c_mem_douta => ExtractAlphaParameters_i2c_mem_douta,
 
-o_do => o_do,
-i_addr => i_addr,
-o_done => o_done,
-o_rdy => o_rdy
+o_do => ExtractAlphaParameters_do,
+i_addr => ExtractAlphaParameters_addr,
+o_done => ExtractAlphaParameters_done,
+o_rdy => ExtractAlphaParameters_rdy,
+
+fixed2floata => ExtractAlphaParameters_fixed2floata,
+fixed2floatond => ExtractAlphaParameters_fixed2floatond,
+fixed2floatsclr => ExtractAlphaParameters_fixed2floatsclr,
+fixed2floatce => ExtractAlphaParameters_fixed2floatce,
+fixed2floatr => ExtractAlphaParameters_fixed2floatr,
+fixed2floatrdy => ExtractAlphaParameters_fixed2floatrdy,
+
+mulfpa => ExtractAlphaParameters_mulfpa,
+mulfpb => ExtractAlphaParameters_mulfpb,
+mulfpond => ExtractAlphaParameters_mulfpond,
+mulfpsclr => ExtractAlphaParameters_mulfpsclr,
+mulfpce => ExtractAlphaParameters_mulfpce,
+mulfpr => ExtractAlphaParameters_mulfpr,
+mulfprdy => ExtractAlphaParameters_mulfprdy,
+
+addfpa => ExtractAlphaParameters_addfpa,
+addfpb => ExtractAlphaParameters_addfpb,
+addfpond => ExtractAlphaParameters_addfpond,
+addfpsclr => ExtractAlphaParameters_addfpsclr,
+addfpce => ExtractAlphaParameters_addfpce,
+addfpr => ExtractAlphaParameters_addfpr,
+addfprdy => ExtractAlphaParameters_addfprdy,
+
+divfpa => ExtractAlphaParameters_divfpa,
+divfpb => ExtractAlphaParameters_divfpb,
+divfpond => ExtractAlphaParameters_divfpond,
+divfpsclr => ExtractAlphaParameters_divfpsclr,
+divfpce => ExtractAlphaParameters_divfpce,
+divfpr => ExtractAlphaParameters_divfpr,
+divfprdy => ExtractAlphaParameters_divfprdy
+
 );
 
 -- Clock process definitions
 i_clock_process :process
 begin
-i_clock <= '0';
+ExtractAlphaParameters_clock <= '0';
 wait for i_clock_period/2;
-i_clock <= '1';
+ExtractAlphaParameters_clock <= '1';
 wait for i_clock_period/2;
 end process;
 
-i_reset <= '1', '0' after 100 ns ;	
+ExtractAlphaParameters_reset <= '1', '0' after 100 ns ;	
 
 -- Stimulus process
 stim_proc: process
@@ -192,34 +305,67 @@ begin
 -- hold reset state for 100 ns.
 wait for 105 ns;
 -- insert stimulus here
-i_ee0x2410 <= x"4210"; -- occrow,occcolumn,occremnant,k_ptat
-i_ee0x2440 <= x"08a0";
-i_offsetRef <= x"477FBB00"; -- 65467
-
-i_ee0x2412 <= x"0202";
-i_ee0x2413 <= x"f202";
-i_ee0x2414 <= x"f2f2";
-i_ee0x2415 <= x"e2e2";
-i_ee0x2416 <= x"d1e1";
-i_ee0x2417 <= x"b1d1";
-
-i_ee0x2418 <= x"f10f";
-i_ee0x2419 <= x"f00f";
-i_ee0x241a <= x"e0ef";
-i_ee0x241b <= x"e0ef";
-i_ee0x241c <= x"e1e1";
-i_ee0x241d <= x"f3f2";
-i_ee0x241e <= x"f404";
-i_ee0x241f <= x"e504";
-i_run <= '1'; wait for i_clock_period; i_run <= '0';
-wait until o_rdy = '1';
+ExtractAlphaParameters_run <= '1'; wait for i_clock_period; ExtractAlphaParameters_run <= '0';
+wait until ExtractAlphaParameters_rdy = '1';
 for i in 0 to 1024 loop
-	i_addr <= std_logic_vector (to_unsigned (i, 10));
+	ExtractAlphaParameters_addr <= std_logic_vector (to_unsigned (i, 10));
 	wait for i_clock_period*2;
 end loop;
 wait for 1 ps; -- must be for write
 report "done" severity failure;
 --wait on o_done;
 end process;
+
+ExtractAlphaParameters_fixed2floatclk <= ExtractAlphaParameters_clock;
+ExtractAlphaParameters_addfpclk <= ExtractAlphaParameters_clock;
+ExtractAlphaParameters_mulfpclk <= ExtractAlphaParameters_clock;
+ExtractAlphaParameters_divfpclk <= ExtractAlphaParameters_clock;
+
+inst_fixed2float : fixed2float
+PORT MAP (
+a => ExtractAlphaParameters_fixed2floata,
+operation_nd => ExtractAlphaParameters_fixed2floatond,
+clk => ExtractAlphaParameters_fixed2floatclk,
+sclr => ExtractAlphaParameters_fixed2floatsclr,
+ce => ExtractAlphaParameters_fixed2floatce,
+result => ExtractAlphaParameters_fixed2floatr,
+rdy => ExtractAlphaParameters_fixed2floatrdy
+);
+
+inst_divfp : divfp
+PORT MAP (
+a => ExtractAlphaParameters_divfpa,
+b => ExtractAlphaParameters_divfpb,
+operation_nd => ExtractAlphaParameters_divfpond,
+clk => ExtractAlphaParameters_divfpclk,
+sclr => ExtractAlphaParameters_divfpsclr,
+ce => ExtractAlphaParameters_divfpce,
+result => ExtractAlphaParameters_divfpr,
+rdy => ExtractAlphaParameters_divfprdy
+);
+
+inst_mulfp : mulfp
+PORT MAP (
+a => ExtractAlphaParameters_mulfpa,
+b => ExtractAlphaParameters_mulfpb,
+operation_nd => ExtractAlphaParameters_mulfpond,
+clk => ExtractAlphaParameters_mulfpclk,
+sclr => ExtractAlphaParameters_mulfpsclr,
+ce => ExtractAlphaParameters_mulfpce,
+result => ExtractAlphaParameters_mulfpr,
+rdy => ExtractAlphaParameters_mulfprdy
+);
+
+inst_addfp : addfp
+PORT MAP (
+a => ExtractAlphaParameters_addfpa,
+b => ExtractAlphaParameters_addfpb,
+operation_nd => ExtractAlphaParameters_addfpond,
+clk => ExtractAlphaParameters_addfpclk,
+sclr => ExtractAlphaParameters_addfpsclr,
+ce => ExtractAlphaParameters_addfpce,
+result => ExtractAlphaParameters_addfpr,
+rdy => ExtractAlphaParameters_addfprdy
+);
 
 END;

@@ -48,97 +48,43 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_done : out std_logic;
-o_rdy : out std_logic
+o_rdy : out std_logic;
+
+signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC;
+
+signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : out STD_LOGIC;
+signal mulfpsclr : out STD_LOGIC;
+signal mulfpce : out STD_LOGIC;
+signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy : in STD_LOGIC;
+
+signal addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : out STD_LOGIC;
+signal addfpsclr : out STD_LOGIC;
+signal addfpce : out STD_LOGIC;
+signal addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : in STD_LOGIC;
+
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC
+
 );
 end ExtractAlphaParameters;
 
 architecture Behavioral of ExtractAlphaParameters is
-
-COMPONENT fixed2float
-PORT (
-a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-
-signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
-signal fixed2floatond : STD_LOGIC;
-signal fixed2floatclk : STD_LOGIC;
-signal fixed2floatsclr : STD_LOGIC;
-signal fixed2floatce : STD_LOGIC;
-signal fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal fixed2floatrdy : STD_LOGIC;
-
-COMPONENT mulfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-
-signal mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfpond : STD_LOGIC;
-signal mulfpclk : STD_LOGIC;
-signal mulfpsclr : STD_LOGIC;
-signal mulfpce : STD_LOGIC;
-signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy : STD_LOGIC;
-
-COMPONENT addfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-
-signal addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfpond : STD_LOGIC;
-signal addfpclk : STD_LOGIC;
-signal addfpsclr : STD_LOGIC;
-signal addfpce : STD_LOGIC;
-signal addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfprdy : STD_LOGIC;
-
-COMPONENT divfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-
-signal divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpond : STD_LOGIC;
-signal divfpclk : STD_LOGIC;
-signal divfpsclr : STD_LOGIC;
-signal divfpce : STD_LOGIC;
-signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy : STD_LOGIC;
 
 component mem_ramb16_s36_x2 is
 generic (
@@ -317,12 +263,72 @@ signal write_enable : std_logic;
 
 signal rdy : std_logic;
 
-signal stemp1 : std_logic_vector (15 downto 0);
-
 constant C_COL : integer := 32;
 constant C_ROW : integer := 24;
 
+signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond_internal : STD_LOGIC;
+signal fixed2floatsclr_internal : STD_LOGIC;
+signal fixed2floatce_internal : STD_LOGIC;
+signal fixed2floatr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy_internal : STD_LOGIC;
+
+signal mulfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond_internal : STD_LOGIC;
+signal mulfpsclr_internal : STD_LOGIC;
+signal mulfpce_internal : STD_LOGIC;
+signal mulfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy_internal : STD_LOGIC;
+
+signal addfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond_internal : STD_LOGIC;
+signal addfpsclr_internal : STD_LOGIC;
+signal addfpce_internal : STD_LOGIC;
+signal addfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy_internal : STD_LOGIC;
+
+signal divfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond_internal : STD_LOGIC;
+signal divfpsclr_internal : STD_LOGIC;
+signal divfpce_internal : STD_LOGIC;
+signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy_internal : STD_LOGIC;
+
 begin
+
+fixed2floata <= fixed2floata_internal;
+fixed2floatond <= fixed2floatond_internal;
+fixed2floatsclr <= fixed2floatsclr_internal;
+fixed2floatce <= fixed2floatce_internal;
+fixed2floatr_internal <= fixed2floatr;
+fixed2floatrdy_internal <= fixed2floatrdy;
+
+mulfpa <= mulfpa_internal;
+mulfpb <= mulfpb_internal;
+mulfpond <= mulfpond_internal;
+mulfpsclr <= mulfpsclr_internal;
+mulfpce <= mulfpce_internal;
+mulfpr_internal <= mulfpr;
+mulfprdy_internal <= mulfprdy;
+
+addfpa <= addfpa_internal;
+addfpb <= addfpb_internal;
+addfpond <= addfpond_internal;
+addfpsclr <= addfpsclr_internal;
+addfpce <= addfpce_internal;
+addfpr_internal <= addfpr;
+addfprdy_internal <= addfprdy;
+
+divfpa <= divfpa_internal;
+divfpb <= divfpb_internal;
+divfpond <= divfpond_internal;
+divfpsclr <= divfpsclr_internal;
+divfpce <= divfpce_internal;
+divfpr_internal <= divfpr;
+divfprdy_internal <= divfprdy;
 
 o_rdy <= rdy;
 o_do <= doa when rdy = '1' else (others => '0');
@@ -442,22 +448,22 @@ begin
 			write_enable <= '0';
 			ena_mux1 <= '0';
 			rdy <= '0';
-			addfpsclr <= '1';
-			mulfpsclr <= '1';
-			divfpsclr <= '1';
-			fixed2floatsclr <= '1';
-			mulfpa <= (others => '0');
-			mulfpb <= (others => '0');
-			addfpa <= (others => '0');
-			addfpb <= (others => '0');
-			divfpa <= (others => '0');
-			divfpb <= (others => '0');
-			addfpond <= '0';
-			mulfpond <= '0';
-			divfpond <= '0';
-			addfpce <= '0';
-			mulfpce <= '0';
-			divfpce <= '0';
+			addfpsclr_internal <= '1';
+			mulfpsclr_internal <= '1';
+			divfpsclr_internal <= '1';
+			fixed2floatsclr_internal <= '1';
+			mulfpa_internal <= (others => '0');
+			mulfpb_internal <= (others => '0');
+			addfpa_internal <= (others => '0');
+			addfpb_internal <= (others => '0');
+			divfpa_internal <= (others => '0');
+			divfpb_internal <= (others => '0');
+			addfpond_internal <= '0';
+			mulfpond_internal <= '0';
+			divfpond_internal <= '0';
+			addfpce_internal <= '0';
+			mulfpce_internal <= '0';
+			divfpce_internal <= '0';
 			addra <= (others => '0');
 			dia <= (others => '0');
 			o_done <= '0';
@@ -477,10 +483,10 @@ begin
 						ena_mux1 <= '0';
 					end if;
 				when acc0 => state := acc1;
-					addfpsclr <= '0';
-					mulfpsclr <= '0';
-					divfpsclr <= '0';
-					fixed2floatsclr <= '0';
+					addfpsclr_internal <= '0';
+					mulfpsclr_internal <= '0';
+					divfpsclr_internal <= '0';
+					fixed2floatsclr_internal <= '0';
 					rdy <= '0';
 					
 				when acc1 => state := acc2;
@@ -945,21 +951,21 @@ begin
 					--report "vaccRowScale : " & real'image (ap_slv2fp (vaccRowScale));
 					valphaRef_sf := resize (to_sfixed (valphaRef, eeprom16sf), valphaRef_sf);
 					--------report_error (valphaRef, 0.0);
-					fixed2floatce <= '1';
-					fixed2floatond <= '1';
-					fixed2floata <= 
+					fixed2floatce_internal <= '1';
+					fixed2floatond_internal <= '1';
+					fixed2floata_internal <= 
 					to_slv (to_sfixed (to_slv (valphaRef_sf (fracas'high downto fracas'low)), fracas))&
 					to_slv (to_sfixed (to_slv (valphaRef_sf (fracbs'high downto fracbs'low)), fracbs));
 				when pow4 =>
-					if (fixed2floatrdy = '1') then state := pow5;
-						valphaReference_ft := fixed2floatr;
+					if (fixed2floatrdy_internal = '1') then state := pow5;
+						valphaReference_ft := fixed2floatr_internal;
 						--report "valphaReference_ft : " & real'image (ap_slv2fp (valphaReference_ft));
-						fixed2floatce <= '0';
-						fixed2floatond <= '0';
-						fixed2floatsclr <= '1';
+						fixed2floatce_internal <= '0';
+						fixed2floatond_internal <= '0';
+						fixed2floatsclr_internal <= '1';
 					else state := pow4; end if;
 				when pow5 => state := s0;
-					fixed2floatsclr <= '0';
+					fixed2floatsclr_internal <= '0';
 	row := 0;
 	col := 0;
 	i := 0;
@@ -988,119 +994,119 @@ when s2a => state := s4; 	--3
 --	----report_error (vAlphaPixel, 0.0);
 	nibble3 <= vAlphaPixel (9 downto 4);
 when s4 => state := s5; 	--5
-	mulfpce <= '1';
-	mulfpa <= out_nibble3;
-	mulfpb <= vaccRemScale;
-	mulfpond <= '1';
+	mulfpce_internal <= '1';
+	mulfpa_internal <= out_nibble3;
+	mulfpb_internal <= vaccRemScale;
+	mulfpond_internal <= '1';
 --	--report "vAlphaPixel : " & real'image (ap_slv2fp (out_nibble3));
 --	--report "vaccRemScale : " & real'image (ap_slv2fp (vaccRemScale));
 when s5 => 			--6
-	if (mulfprdy = '1') then state := s6;
-		vAlphaPixel_ft := mulfpr;
-		mulfpce <= '0';
-		mulfpond <= '0';
-		mulfpsclr <= '1';
+	if (mulfprdy_internal = '1') then state := s6;
+		vAlphaPixel_ft := mulfpr_internal;
+		mulfpce_internal <= '0';
+		mulfpond_internal <= '0';
+		mulfpsclr_internal <= '1';
 	else state := s5; end if;
 when s6 => state := s7; 	--7
-	mulfpsclr <= '0';
-	mulfpce <= '1';
-	mulfpa <= vaccColumnJ;
-	mulfpb <= vaccColumnScale;
-	mulfpond <= '1';
+	mulfpsclr_internal <= '0';
+	mulfpce_internal <= '1';
+	mulfpa_internal <= vaccColumnJ;
+	mulfpb_internal <= vaccColumnScale;
+	mulfpond_internal <= '1';
 --	--report "vaccColumnJ : " & real'image (ap_slv2fp (vaccColumnJ));
 --	--report "vaccColumnScale : " & real'image (ap_slv2fp (vaccColumnScale));
 when s7 => 			--8
-	if (mulfprdy = '1') then state := s8;
-		vaccColumnJ := mulfpr;
-		mulfpce <= '0';
-		mulfpond <= '0';
-		mulfpsclr <= '1';
+	if (mulfprdy_internal = '1') then state := s8;
+		vaccColumnJ := mulfpr_internal;
+		mulfpce_internal <= '0';
+		mulfpond_internal <= '0';
+		mulfpsclr_internal <= '1';
 	else state := s7; end if;
 when s8 => state := s9; 	--9
-	mulfpsclr <= '0';
+	mulfpsclr_internal <= '0';
 when s9 => state := s10; 	--10
-	mulfpsclr <= '0';
-	mulfpce <= '1';
-	mulfpa <= vaccRowI;
-	mulfpb <= vaccRowScale;
-	mulfpond <= '1';
+	mulfpsclr_internal <= '0';
+	mulfpce_internal <= '1';
+	mulfpa_internal <= vaccRowI;
+	mulfpb_internal <= vaccRowScale;
+	mulfpond_internal <= '1';
 --	--report "vaccRowI : " & real'image (ap_slv2fp (vaccRowI));
 --	--report "vaccRowScale : " & real'image (ap_slv2fp (vaccRowScale));
 when s10 => 			--11
-	if (mulfprdy = '1') then state := s11;
-		vaccRowI := mulfpr;
-		mulfpce <= '0';
-		mulfpond <= '0';
-		mulfpsclr <= '1';
+	if (mulfprdy_internal = '1') then state := s11;
+		vaccRowI := mulfpr_internal;
+		mulfpce_internal <= '0';
+		mulfpond_internal <= '0';
+		mulfpsclr_internal <= '1';
 	else state := s10; end if;
 when s11 => state := s12; 	--12
-	mulfpsclr <= '0';
+	mulfpsclr_internal <= '0';
 when s12 => state := s13; 	--13
-	addfpsclr <= '0';
-	addfpce <= '1';
-	addfpa <= vAlphaPixel_ft;
-	addfpb <= vaccColumnJ;
-	addfpond <= '1';
+	addfpsclr_internal <= '0';
+	addfpce_internal <= '1';
+	addfpa_internal <= vAlphaPixel_ft;
+	addfpb_internal <= vaccColumnJ;
+	addfpond_internal <= '1';
 --	--report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
 --	--report "vaccColumnJ : " & real'image (ap_slv2fp (vaccColumnJ));
 when s13 => 			--14
-	if (addfprdy = '1') then state := s14;
-		vAlphaPixel_ft := addfpr;
-		addfpce <= '0';
-		addfpond <= '0';
-		addfpsclr <= '1';
+	if (addfprdy_internal = '1') then state := s14;
+		vAlphaPixel_ft := addfpr_internal;
+		addfpce_internal <= '0';
+		addfpond_internal <= '0';
+		addfpsclr_internal <= '1';
 	else state := s13; end if;
 when s14 => state := s15; 	--15
-	addfpsclr <= '0';
+	addfpsclr_internal <= '0';
 when s15 => state := s16; 	--16
-	addfpsclr <= '0';
-	addfpce <= '1';
-	addfpa <= vAlphaPixel_ft;
-	addfpb <= vaccRowI;
-	addfpond <= '1';
+	addfpsclr_internal <= '0';
+	addfpce_internal <= '1';
+	addfpa_internal <= vAlphaPixel_ft;
+	addfpb_internal <= vaccRowI;
+	addfpond_internal <= '1';
 --	--report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
 --	--report "vaccRowI : " & real'image (ap_slv2fp (vaccRowI));
 when s16 => 			--17
-	if (addfprdy = '1') then state := s17;
-		vAlphaPixel_ft := addfpr;
-		addfpce <= '0';
-		addfpond <= '0';
-		addfpsclr <= '1';
+	if (addfprdy_internal = '1') then state := s17;
+		vAlphaPixel_ft := addfpr_internal;
+		addfpce_internal <= '0';
+		addfpond_internal <= '0';
+		addfpsclr_internal <= '1';
 	else state := s16; end if;
 when s17 => state := s18; 	--18
-	addfpsclr <= '0';
+	addfpsclr_internal <= '0';
 when s18 => state := s19; 	--19
-	addfpsclr <= '0';
-	addfpce <= '1';
-	addfpa <= vAlphaPixel_ft;
-	addfpb <= valphaReference_ft;
-	addfpond <= '1';
+	addfpsclr_internal <= '0';
+	addfpce_internal <= '1';
+	addfpa_internal <= vAlphaPixel_ft;
+	addfpb_internal <= valphaReference_ft;
+	addfpond_internal <= '1';
 --	--report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
 --	--report "valphaReference_ft : " & real'image (ap_slv2fp (valphaReference_ft));
 when s19 => 			--20
-	if (addfprdy = '1') then state := s20;
-		vAlphaPixel_ft := addfpr;
-		addfpce <= '0';
-		addfpond <= '0';
-		addfpsclr <= '1';
+	if (addfprdy_internal = '1') then state := s20;
+		vAlphaPixel_ft := addfpr_internal;
+		addfpce_internal <= '0';
+		addfpond_internal <= '0';
+		addfpsclr_internal <= '1';
 	else state := s19; end if;
 when s20 => state := s21; 	--21
-	addfpsclr <= '0';
-	divfpce <= '1';
-	divfpa <= vAlphaPixel_ft;
-	divfpb <= out_nibble5;
-	divfpond <= '1';
+	addfpsclr_internal <= '0';
+	divfpce_internal <= '1';
+	divfpa_internal <= vAlphaPixel_ft;
+	divfpb_internal <= out_nibble5;
+	divfpond_internal <= '1';
 --	--report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
 --	--report "out_nibble5 : " & real'image (ap_slv2fp (out_nibble5));
 when s21 =>
-	if (divfprdy = '1') then state := s22;
-		vAlphaPixel_ft := divfpr;
-		divfpce <= '0';
-		divfpond <= '0';
-		divfpsclr <= '1';
+	if (divfprdy_internal = '1') then state := s22;
+		vAlphaPixel_ft := divfpr_internal;
+		divfpce_internal <= '0';
+		divfpond_internal <= '0';
+		divfpsclr_internal <= '1';
 	else state := s21; end if;
 when s22 => state := s23;
-	divfpsclr <= '0';
+	divfpsclr_internal <= '0';
 when s23 => state := s24; 	--22
 	write_enable <= '1';
 	addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vAlphaPixel_ft
@@ -1150,32 +1156,6 @@ SSR => i_reset,
 WE => write_enable
 );
 
-mulfpclk <= i_clock;
-inst_mulfp_acc : mulfp
-PORT MAP (
-a => mulfpa,
-b => mulfpb,
-operation_nd => mulfpond,
-clk => mulfpclk,
-sclr => mulfpsclr,
-ce => mulfpce,
-result => mulfpr,
-rdy => mulfprdy
-);
-
-addfpclk <= i_clock;
-inst_addfp_acc : addfp
-PORT MAP (
-a => addfpa,
-b => addfpb,
-operation_nd => addfpond,
-clk => addfpclk,
-sclr => addfpsclr,
-ce => addfpce,
-result => addfpr,
-rdy => addfprdy
-);
-
 --INIT_7f => X"41700000 41600000 41500000 41400000 41300000 41200000 41100000 41000000", -- unsigned 0-15 for accremscale,accrowscale,acccolscale
 --INIT_7e => X"40e00000 40c00000 40a00000 40800000 40400000 40000000 3f800000 22000000",
 with nibble1 select out_nibble1 <= -- x - accremscale,accrowscale,acccolscale unsigned 4bit
@@ -1220,31 +1200,6 @@ x"41800000" when x"4", x"42000000" when x"5", x"42800000" when x"6", x"43000000"
 x"43800000" when x"8", x"44000000" when x"9", x"44800000" when x"a", x"45000000" when x"b",
 x"45800000" when x"c", x"46000000" when x"d", x"46800000" when x"e", x"47000000" when x"f",
 x"00000000" when others;
-
-fixed2floatclk <= i_clock;
-inst_ff2 : fixed2float
-PORT MAP (
-a => fixed2floata,
-operation_nd => fixed2floatond,
-clk => fixed2floatclk,
-sclr => fixed2floatsclr,
-ce => fixed2floatce,
-result => fixed2floatr,
-rdy => fixed2floatrdy
-);
-
-divfpclk <= i_clock;
-inst_divfp_acc : divfp
-PORT MAP (
-a => divfpa,
-b => divfpb,
-operation_nd => divfpond,
-clk => divfpclk,
-sclr => divfpsclr,
-ce => divfpce,
-result => divfpr,
-rdy => divfprdy
-);
 
 end Behavioral;
 
