@@ -501,6 +501,12 @@ CalculatePixGain_mulfprdy <= mulfprdy when CalculatePixGain_mux = '1' else '0';
 CalculatePixGain_divfpr <= divfpr when CalculatePixGain_mux = '1' else (others => '0');
 CalculatePixGain_divfprdy <= divfprdy when CalculatePixGain_mux = '1' else '0';
 
+mulfpr_internal <= mulfpr;
+mulfprdy_internal <= mulfprdy;
+
+divfpr_internal <= divfpr;
+divfprdy_internal <= divfprdy;
+
 --CalculatePixGain_addfpr <= addfpr when CalculatePixGain_mux = '1' else (others => '0');
 --CalculatePixGain_addfprdy <= addfprdy when CalculatePixGain_mux = '1' else '0';
 --CalculatePixGain_subfpr <= subfpr when CalculatePixGain_mux = '1' else (others => '0');
@@ -631,7 +637,7 @@ when s11 => state := s12;
 		subfpb_internal <= i_VddV0;
 		subfpond_internal <= '1';
 when s12 =>
-	if (subfprdy = '1') then state := s13;
+	if (subfprdy_internal = '1') then state := s13;
 		fptmp1 := subfpr_internal;
 		subfpce_internal <= '0';
 		subfpond_internal <= '0';
@@ -644,7 +650,7 @@ when s13 => state := s14;
 	mulfpb_internal <= ExtractKvParameters_do;
 	mulfpond_internal <= '1';
 when s14 =>
-	if (mulfprdy = '1') then state := s15;
+	if (mulfprdy_internal = '1') then state := s15;
 		fptmp1 := mulfpr_internal;
 		mulfpce_internal <= '0';
 		mulfpond_internal <= '0';
@@ -657,7 +663,7 @@ when s15 => state := s16;
 	addfpb_internal <= i_const1;
 	addfpond_internal <= '1';
 when s16 =>
-	if (addfprdy = '1') then state := s17;
+	if (addfprdy_internal = '1') then state := s17;
 		fptmp1 := addfpr_internal;
 		addfpce_internal <= '0';
 		addfpond_internal <= '0';
@@ -670,7 +676,7 @@ when s17 => state := s18;
 	subfpb_internal <= i_Ta0;
 	subfpond_internal <= '1';
 when s18 =>
-	if (subfprdy = '1') then state := s19;
+	if (subfprdy_internal = '1') then state := s19;
 		fptmp2 := subfpr_internal;
 		subfpce_internal <= '0';
 		subfpond_internal <= '0';
@@ -683,7 +689,7 @@ when s19 => state := s20;
 	mulfpb_internal <= ExtractKtaParameters_do;
 	mulfpond_internal <= '1';
 when s20 =>
-	if (mulfprdy = '1') then state := s21;
+	if (mulfprdy_internal = '1') then state := s21;
 		fptmp2 := mulfpr_internal;
 		mulfpce_internal <= '0';
 		mulfpond_internal <= '0';
@@ -696,7 +702,7 @@ when s21 => state := s22;
 	addfpb_internal <= i_const1;
 	addfpond_internal <= '1';
 when s22 =>
-	if (addfprdy = '1') then state := s23;
+	if (addfprdy_internal = '1') then state := s23;
 		fptmp2 := addfpr_internal;
 		addfpce_internal <= '0';
 		addfpond_internal <= '0';
@@ -709,7 +715,7 @@ when s23 => state := s24;
 	mulfpb_internal <= fptmp2;
 	mulfpond_internal <= '1';
 when s24 =>
-	if (mulfprdy = '1') then state := s25;
+	if (mulfprdy_internal = '1') then state := s25;
 		fptmp1 := mulfpr_internal;
 		mulfpce_internal <= '0';
 		mulfpond_internal <= '0';
@@ -722,7 +728,7 @@ when s25 => state := s26;
 	mulfpb_internal <= ExtractOffsetParameters_do;
 	mulfpond_internal <= '1';
 when s26 =>
-	if (mulfprdy = '1') then state := s27;
+	if (mulfprdy_internal = '1') then state := s27;
 		fptmp1 := mulfpr_internal;
 		mulfpce_internal <= '0';
 		mulfpond_internal <= '0';
@@ -735,7 +741,7 @@ when s27 => state := s28;
 	subfpb_internal <= fptmp1;
 	subfpond_internal <= '1';
 when s28 =>
-	if (subfprdy = '1') then state := s29;
+	if (subfprdy_internal = '1') then state := s29;
 		fptmp1 := subfpr_internal;
 		subfpce_internal <= '0';
 		subfpond_internal <= '0';
