@@ -410,12 +410,30 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
+
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+
 o_acpsubpage0 : out fd2ft;
 o_acpsubpage1 : out fd2ft;
-o_rdy : out std_logic
+o_rdy : out std_logic;
+
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC;
+
+signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : out STD_LOGIC;
+signal mulfpsclr : out STD_LOGIC;
+signal mulfpce : out STD_LOGIC;
+signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy : in STD_LOGIC
 );
 end component CalculateAlphaCP;
 signal CalculateAlphaCP_clock : std_logic;
@@ -427,6 +445,20 @@ signal CalculateAlphaCP_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal CalculateAlphaCP_acpsubpage0 : fd2ft;
 signal CalculateAlphaCP_acpsubpage1 : fd2ft;
 signal CalculateAlphaCP_rdy : std_logic;
+signal CalculateAlphaCP_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaCP_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaCP_divfpond : STD_LOGIC;
+signal CalculateAlphaCP_divfpsclr : STD_LOGIC;
+signal CalculateAlphaCP_divfpce : STD_LOGIC;
+signal CalculateAlphaCP_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaCP_divfprdy : STD_LOGIC;
+signal CalculateAlphaCP_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaCP_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaCP_mulfpond : STD_LOGIC;
+signal CalculateAlphaCP_mulfpsclr : STD_LOGIC;
+signal CalculateAlphaCP_mulfpce : STD_LOGIC;
+signal CalculateAlphaCP_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaCP_mulfprdy : STD_LOGIC;
 
 component CalculatePixOS is
 port (
@@ -816,6 +848,8 @@ else
 CalculatePixOS_divfpa when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_divfpa when CalculatePixOSCPSP_mux = '1' 
+else
+CalculateAlphaCP_divfpa when CalculateAlphaCP_mux = '1' 
 else (others => '0');
 
 divfpb <=
@@ -826,6 +860,8 @@ else
 CalculatePixOS_divfpb when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_divfpb when CalculatePixOSCPSP_mux = '1' 
+else
+CalculateAlphaCP_divfpb when CalculateAlphaCP_mux = '1' 
 else (others => '0');
 
 divfpond <=
@@ -836,6 +872,8 @@ else
 CalculatePixOS_divfpond when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_divfpond when CalculatePixOSCPSP_mux = '1' 
+else
+CalculateAlphaCP_divfpond when CalculateAlphaCP_mux = '1' 
 else '0';
 
 divfpce <=
@@ -846,6 +884,8 @@ else
 CalculatePixOS_divfpce when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_divfpce when CalculatePixOSCPSP_mux = '1' 
+else
+CalculateAlphaCP_divfpce when CalculateAlphaCP_mux = '1' 
 else '0';
 
 divfpsclr <=
@@ -856,6 +896,8 @@ else
 CalculatePixOS_divfpsclr when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_divfpsclr when CalculatePixOSCPSP_mux = '1' 
+else
+CalculateAlphaCP_divfpsclr when CalculateAlphaCP_mux = '1' 
 else '0';
 
 mulfpa <=
@@ -866,6 +908,8 @@ else
 CalculatePixOS_mulfpa when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_mulfpa when CalculatePixOSCPSP_mux = '1' 
+else
+CalculateAlphaCP_mulfpa when CalculateAlphaCP_mux = '1' 
 else (others => '0');
 
 mulfpb <=
@@ -876,6 +920,8 @@ else
 CalculatePixOS_mulfpb when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_mulfpb when CalculatePixOSCPSP_mux = '1' 
+else
+CalculateAlphaCP_mulfpb when CalculateAlphaCP_mux = '1' 
 else (others => '0');
 
 mulfpond <=
@@ -886,6 +932,8 @@ else
 CalculatePixOS_mulfpond when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_mulfpond when CalculatePixOSCPSP_mux = '1' 
+else
+CalculateAlphaCP_mulfpond when CalculateAlphaCP_mux = '1' 
 else '0';
 
 mulfpce <=
@@ -896,6 +944,8 @@ else
 CalculatePixOS_mulfpce when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_mulfpce when CalculatePixOSCPSP_mux = '1' 
+else
+CalculateAlphaCP_mulfpce when CalculateAlphaCP_mux = '1' 
 else '0';
 
 mulfpsclr <=
@@ -906,6 +956,8 @@ else
 CalculatePixOS_mulfpsclr when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_mulfpsclr when CalculatePixOSCPSP_mux = '1' 
+else
+CalculateAlphaCP_mulfpsclr when CalculateAlphaCP_mux = '1' 
 else '0';
 
 addfpa <=
@@ -1051,6 +1103,11 @@ CalculatePixOSCPSP_addfpr <= addfpr when CalculatePixOSCPSP_mux = '1' else (othe
 CalculatePixOSCPSP_addfprdy <= addfprdy when CalculatePixOSCPSP_mux = '1' else '0';
 CalculatePixOSCPSP_subfpr <= subfpr when CalculatePixOSCPSP_mux = '1' else (others => '0');
 CalculatePixOSCPSP_subfprdy <= subfprdy when CalculatePixOSCPSP_mux = '1' else '0';
+
+CalculateAlphaCP_divfpr <= divfpr when CalculateAlphaCP_mux = '1' else (others => '0');
+CalculateAlphaCP_divfprdy <= divfprdy when CalculateAlphaCP_mux = '1' else '0';
+CalculateAlphaCP_mulfpr <= mulfpr when CalculateAlphaCP_mux = '1' else (others => '0');
+CalculateAlphaCP_mulfprdy <= mulfprdy when CalculateAlphaCP_mux = '1' else '0';
 
 i2c_mem_ena <=
 CalculatePixOS_i2c_mem_ena when CalculatePixOS_mux = '1'
@@ -1409,7 +1466,23 @@ i2c_mem_addra => CalculateAlphaCP_i2c_mem_addra,
 i2c_mem_douta => CalculateAlphaCP_i2c_mem_douta,
 o_acpsubpage0 => CalculateAlphaCP_acpsubpage0,
 o_acpsubpage1 => CalculateAlphaCP_acpsubpage1,
-o_rdy => CalculateAlphaCP_rdy
+o_rdy => CalculateAlphaCP_rdy,
+
+divfpa => CalculateAlphaCP_divfpa,
+divfpb => CalculateAlphaCP_divfpb,
+divfpond => CalculateAlphaCP_divfpond,
+divfpsclr => CalculateAlphaCP_divfpsclr,
+divfpce => CalculateAlphaCP_divfpce,
+divfpr => CalculateAlphaCP_divfpr,
+divfprdy => CalculateAlphaCP_divfprdy,
+
+mulfpa => CalculateAlphaCP_mulfpa,
+mulfpb => CalculateAlphaCP_mulfpb,
+mulfpond => CalculateAlphaCP_mulfpond,
+mulfpsclr => CalculateAlphaCP_mulfpsclr,
+mulfpce => CalculateAlphaCP_mulfpce,
+mulfpr => CalculateAlphaCP_mulfpr,
+mulfprdy => CalculateAlphaCP_mulfprdy
 );
 
 CalculatePixOS_clock <= i_clock;
