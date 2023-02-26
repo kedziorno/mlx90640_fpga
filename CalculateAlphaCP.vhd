@@ -44,55 +44,44 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 o_acpsubpage0 : out fd2ft;
 o_acpsubpage1 : out fd2ft;
-o_rdy : out std_logic
+o_rdy : out std_logic;
+
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC;
+
+signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : out STD_LOGIC;
+signal mulfpsclr : out STD_LOGIC;
+signal mulfpce : out STD_LOGIC;
+signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy : in STD_LOGIC
+
 );
 end CalculateAlphaCP;
 
 architecture Behavioral of CalculateAlphaCP is
 
-COMPONENT divfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
+signal divfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond_internal : STD_LOGIC;
+signal divfpsclr_internal : STD_LOGIC;
+signal divfpce_internal : STD_LOGIC;
+signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy_internal : STD_LOGIC;
 
-signal divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpond : STD_LOGIC;
-signal divfpclk : STD_LOGIC;
-signal divfpsclr : STD_LOGIC;
-signal divfpce : STD_LOGIC;
-signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy : STD_LOGIC;
-
-COMPONENT mulfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-
-signal mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfpond : STD_LOGIC;
-signal mulfpclk : STD_LOGIC;
-signal mulfpsclr : STD_LOGIC;
-signal mulfpce : STD_LOGIC;
-signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy : STD_LOGIC;
+signal mulfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond_internal : STD_LOGIC;
+signal mulfpsclr_internal : STD_LOGIC;
+signal mulfpce_internal : STD_LOGIC;
+signal mulfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy_internal : STD_LOGIC;
 
 component mem_signed1024 is
 port (
@@ -114,6 +103,22 @@ signal nibble2 : std_logic_vector (3 downto 0);
 signal out_nibble1,out_nibble2 : std_logic_vector (31 downto 0);
 
 begin
+
+divfpa <= divfpa_internal;
+divfpb <= divfpb_internal;
+divfpond <= divfpond_internal;
+divfpsclr <= divfpsclr_internal;
+divfpce <= divfpce_internal;
+divfpr_internal <= divfpr;
+divfprdy_internal <= divfprdy;
+
+mulfpa <= mulfpa_internal;
+mulfpb <= mulfpb_internal;
+mulfpond <= mulfpond_internal;
+mulfpsclr <= mulfpsclr_internal;
+mulfpce <= mulfpce_internal;
+mulfpr_internal <= mulfpr;
+mulfprdy_internal <= mulfprdy;
 
 --INIT_00 => X"3f870000 3f860000 3f850000 3f840000 3f830000 3f820000 3f810000 3f800000",
 --INIT_01 => X"3f8f0000 3f8e0000 3f8d0000 3f8c0000 3f8b0000 3f8a0000 3f890000 3f880000",
@@ -162,19 +167,19 @@ begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
 			state := idle;
-			mulfpsclr <= '1';
-			divfpsclr <= '1';
+			mulfpsclr_internal <= '1';
+			divfpsclr_internal <= '1';
 			o_acpsubpage0 <= (others => '0');
 			o_acpsubpage1 <= (others => '0');
 			o_rdy <= '0';
-			divfpa <= (others => '0');
-			divfpb <= (others => '0');
-			divfpce <= '0';
-			divfpond <= '0';
-			mulfpa <= (others => '0');
-			mulfpb <= (others => '0');
-			mulfpce <= '0';
-			mulfpond <= '0';
+			divfpa_internal <= (others => '0');
+			divfpb_internal <= (others => '0');
+			divfpce_internal <= '0';
+			divfpond_internal <= '0';
+			mulfpa_internal <= (others => '0');
+			mulfpb_internal <= (others => '0');
+			mulfpce_internal <= '0';
+			mulfpond_internal <= '0';
 			mem_signed1024_ivalue <= (others => '0');
 			nibble1 <= (others => '0');
 			nibble2 <= (others => '0');
@@ -189,8 +194,8 @@ begin
 						state := idle;
 						i2c_mem_ena <= '0';
 					end if;
-					mulfpsclr <= '0';
-					divfpsclr <= '0';
+					mulfpsclr_internal <= '0';
+					divfpsclr_internal <= '0';
 				when s1 => state := s2;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32*2+0, 12)); -- 2420 MSB Ascalecp 4bit
 				when s2 => state := s3;
@@ -207,69 +212,42 @@ begin
 					mem_signed1024_ivalue <= ee0x2439 (9 downto 0); -- Acpsubpage0 10bit
 				when s7 => state := s8;
 				when s8 => state := s9;
-					divfpce <= '1';
-					divfpa <= mem_signed1024_ovalue; -- Acpsubpage0
-					divfpb <= out_nibble2; -- 2^(Ascalecp+27)
-					divfpond <= '1';
+					divfpce_internal <= '1';
+					divfpa_internal <= mem_signed1024_ovalue; -- Acpsubpage0
+					divfpb_internal <= out_nibble2; -- 2^(Ascalecp+27)
+					divfpond_internal <= '1';
 				when s9 =>
-					if (divfprdy = '1') then state := s10;
-						fptmp1 := divfpr;
-						divfpce <= '0';
-						divfpond <= '0';
-						divfpsclr <= '1';
+					if (divfprdy_internal = '1') then state := s10;
+						fptmp1 := divfpr_internal;
+						divfpce_internal <= '0';
+						divfpond_internal <= '0';
+						divfpsclr_internal <= '1';
 						o_acpsubpage0 <= fptmp1;
 						report "================ calculateAlphaCP o_acpsubpage0 : " & real'image (ap_slv2fp (fptmp1));
 					else state := s9; end if;
 				when s10 => state := s11;
-					divfpsclr <= '0';
-					mulfpce <= '1';
-					mulfpa <= fptmp1; -- Acpsubpage0/(2^(Ascalecp+27))
-					mulfpb <= out_nibble1; -- (1 + (CP_P12P0_ratio/2^7))
-					mulfpond <= '1';
+					divfpsclr_internal <= '0';
+					mulfpce_internal <= '1';
+					mulfpa_internal <= fptmp1; -- Acpsubpage0/(2^(Ascalecp+27))
+					mulfpb_internal <= out_nibble1; -- (1 + (CP_P12P0_ratio/2^7))
+					mulfpond_internal <= '1';
 				when s11 =>
-					if (mulfprdy = '1') then state := ending;
-						fptmp1 := mulfpr;
-						mulfpce <= '0';
-						mulfpond <= '0';
-						mulfpsclr <= '1';
+					if (mulfprdy_internal = '1') then state := ending;
+						fptmp1 := mulfpr_internal;
+						mulfpce_internal <= '0';
+						mulfpond_internal <= '0';
+						mulfpsclr_internal <= '1';
 						o_acpsubpage1 <= fptmp1;
 						report "================ calculateAlphaCP o_acpsubpage1 : " & real'image (ap_slv2fp (fptmp1));
 					else state := s11; end if;
 				when ending => state := idle;
-					mulfpsclr <= '0';
+					mulfpsclr_internal <= '0';
 					o_rdy <= '1';
 				when others => null;
 			end case;
 		end if;
 	end if;
 end process p0;
-
-mulfpclk <= i_clock;
-divfpclk <= i_clock;
-
-inst_divfp : divfp
-PORT MAP (
-a => divfpa,
-b => divfpb,
-operation_nd => divfpond,
-clk => divfpclk,
-sclr => divfpsclr,
-ce => divfpce,
-result => divfpr,
-rdy => divfprdy
-);
-
-inst_mulfp : mulfp
-PORT MAP (
-a => mulfpa,
-b => mulfpb,
-operation_nd => mulfpond,
-clk => mulfpclk,
-sclr => mulfpsclr,
-ce => mulfpce,
-result => mulfpr,
-rdy => mulfprdy
-);
 
 mem_signed1024_clock <= i_clock;
 mem_signed1024_reset <= i_reset;
