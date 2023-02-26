@@ -252,13 +252,24 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
+
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
+
 o_done : out std_logic;
-o_rdy : out std_logic
+o_rdy : out std_logic;
+
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC
 );
 end component ExtractKvParameters;
 signal ExtractKvParameters_clock : std_logic;
@@ -271,6 +282,13 @@ signal ExtractKvParameters_do : std_logic_vector (31 downto 0);
 signal ExtractKvParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal ExtractKvParameters_done : std_logic;
 signal ExtractKvParameters_rdy : std_logic;
+signal ExtractKvParameters_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractKvParameters_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractKvParameters_divfpond : STD_LOGIC;
+signal ExtractKvParameters_divfpsclr : STD_LOGIC;
+signal ExtractKvParameters_divfpce : STD_LOGIC;
+signal ExtractKvParameters_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractKvParameters_divfprdy : STD_LOGIC;
 
 component CalculatePixGain is
 port (
@@ -621,6 +639,8 @@ else
 ExtractOffsetParameters_divfpa when ExtractOffsetParameters_mux = '1'
 else
 ExtractKtaParameters_divfpa when ExtractKtaParameters_mux = '1'
+else
+ExtractKvParameters_divfpa when ExtractKvParameters_mux = '1'
 else divfpa_internal;
 
 divfpb <=
@@ -629,6 +649,8 @@ else
 ExtractOffsetParameters_divfpb when ExtractOffsetParameters_mux = '1'
 else
 ExtractKtaParameters_divfpb when ExtractKtaParameters_mux = '1'
+else
+ExtractKvParameters_divfpb when ExtractKvParameters_mux = '1'
 else divfpb_internal;
 
 divfpond <=
@@ -637,6 +659,8 @@ else
 ExtractOffsetParameters_divfpond when ExtractOffsetParameters_mux = '1'
 else
 ExtractKtaParameters_divfpond when ExtractKtaParameters_mux = '1'
+else
+ExtractKvParameters_divfpond when ExtractKvParameters_mux = '1'
 else divfpond_internal;
 
 divfpsclr <=
@@ -645,6 +669,8 @@ else
 ExtractOffsetParameters_divfpsclr when ExtractOffsetParameters_mux = '1'
 else
 ExtractKtaParameters_divfpsclr when ExtractKtaParameters_mux = '1'
+else
+ExtractKvParameters_divfpsclr when ExtractKvParameters_mux = '1'
 else divfpsclr_internal;
 
 divfpce <=
@@ -653,6 +679,8 @@ else
 ExtractOffsetParameters_divfpce when ExtractOffsetParameters_mux = '1'
 else
 ExtractKtaParameters_divfpce when ExtractKtaParameters_mux = '1'
+else
+ExtractKvParameters_divfpce when ExtractKvParameters_mux = '1'
 else divfpce_internal;
 
 addfpa <=
@@ -736,6 +764,9 @@ ExtractKtaParameters_mulfpr <= mulfpr when ExtractKtaParameters_mux = '1' else (
 ExtractKtaParameters_mulfprdy <= mulfprdy when ExtractKtaParameters_mux = '1' else '0';
 ExtractKtaParameters_addfpr <= addfpr when ExtractKtaParameters_mux = '1' else (others => '0');
 ExtractKtaParameters_addfprdy <= addfprdy when ExtractKtaParameters_mux = '1' else '0';
+
+ExtractKvParameters_divfpr <= divfpr when ExtractKvParameters_mux = '1' else (others => '0');
+ExtractKvParameters_divfprdy <= divfprdy when ExtractKvParameters_mux = '1' else '0';
 
 mulfpr_internal <= mulfpr;
 mulfprdy_internal <= mulfprdy;
@@ -1163,13 +1194,23 @@ inst_ExtractKvParameters : ExtractKvParameters port map (
 i_clock => ExtractKvParameters_clock,
 i_reset => ExtractKvParameters_reset,
 i_run => ExtractKvParameters_run,
+
 i2c_mem_ena => ExtractKvParameters_i2c_mem_ena,
 i2c_mem_addra => ExtractKvParameters_i2c_mem_addra,
 i2c_mem_douta => ExtractKvParameters_i2c_mem_douta,
+
 o_do => ExtractKvParameters_do,
 i_addr => ExtractKvParameters_addr,
 o_done => ExtractKvParameters_done,
-o_rdy => ExtractKvParameters_rdy
+o_rdy => ExtractKvParameters_rdy,
+
+divfpa => ExtractKvParameters_divfpa,
+divfpb => ExtractKvParameters_divfpb,
+divfpond => ExtractKvParameters_divfpond,
+divfpsclr => ExtractKvParameters_divfpsclr,
+divfpce => ExtractKvParameters_divfpce,
+divfpr => ExtractKvParameters_divfpr,
+divfprdy => ExtractKvParameters_divfprdy
 );
 
 inst_mem_pixos : mem_ramb16_s36_x2
