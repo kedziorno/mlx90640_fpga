@@ -40,6 +40,66 @@ END tb_ExtractKtaParameters;
 
 ARCHITECTURE behavior OF tb_ExtractKtaParameters IS 
 
+COMPONENT divfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : STD_LOGIC;
+signal divfpce : STD_LOGIC;
+signal divfpsclr : STD_LOGIC;
+signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : STD_LOGIC;
+
+COMPONENT mulfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : STD_LOGIC;
+signal mulfpce : STD_LOGIC;
+signal mulfpsclr : STD_LOGIC;
+signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy : STD_LOGIC;
+
+COMPONENT addfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : STD_LOGIC;
+signal addfpce : STD_LOGIC;
+signal addfpsclr : STD_LOGIC;
+signal addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : STD_LOGIC;
+
 COMPONENT tb_i2c_mem
 PORT (
 clka : IN STD_LOGIC;
@@ -66,42 +126,68 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_done : out std_logic;
-o_rdy : out std_logic
+o_rdy : out std_logic;
+
+signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : out STD_LOGIC;
+signal mulfpsclr : out STD_LOGIC;
+signal mulfpce : out STD_LOGIC;
+signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy : in STD_LOGIC;
+
+signal addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : out STD_LOGIC;
+signal addfpsclr : out STD_LOGIC;
+signal addfpce : out STD_LOGIC;
+signal addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : in STD_LOGIC;
+
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC
 );
 end component ExtractKtaParameters;
+signal ExtractKtaParameters_clock : std_logic;
+signal ExtractKtaParameters_reset : std_logic;
+signal ExtractKtaParameters_run : std_logic;
+signal ExtractKtaParameters_i2c_mem_ena : STD_LOGIC;
+signal ExtractKtaParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal ExtractKtaParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal ExtractKtaParameters_do : std_logic_vector (31 downto 0);
+signal ExtractKtaParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
+signal ExtractKtaParameters_done : std_logic;
+signal ExtractKtaParameters_rdy : std_logic;
+signal ExtractKtaParameters_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractKtaParameters_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractKtaParameters_mulfpond : STD_LOGIC;
+signal ExtractKtaParameters_mulfpsclr : STD_LOGIC;
+signal ExtractKtaParameters_mulfpce : STD_LOGIC;
+signal ExtractKtaParameters_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractKtaParameters_mulfprdy : STD_LOGIC;
+signal ExtractKtaParameters_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractKtaParameters_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractKtaParameters_addfpond : STD_LOGIC;
+signal ExtractKtaParameters_addfpsclr : STD_LOGIC;
+signal ExtractKtaParameters_addfpce : STD_LOGIC;
+signal ExtractKtaParameters_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractKtaParameters_addfprdy : STD_LOGIC;
+signal ExtractKtaParameters_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractKtaParameters_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractKtaParameters_divfpond : STD_LOGIC;
+signal ExtractKtaParameters_divfpsclr : STD_LOGIC;
+signal ExtractKtaParameters_divfpce : STD_LOGIC;
+signal ExtractKtaParameters_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractKtaParameters_divfprdy : STD_LOGIC;
 
---Inputs
-signal i_clock : std_logic := '0';
-signal i_reset : std_logic := '0';
-signal i_run : std_logic := '0';
-signal i_ee0x2410 : slv16 := (others => '0');
-signal i_offsetref : fd2ft := (others => '0');
-signal i_ee0x2412 : slv16 := (others => '0');
-signal i_ee0x2413 : slv16 := (others => '0');
-signal i_ee0x2414 : slv16 := (others => '0');
-signal i_ee0x2415 : slv16 := (others => '0');
-signal i_ee0x2416 : slv16 := (others => '0');
-signal i_ee0x2417 : slv16 := (others => '0');
-signal i_ee0x2418 : slv16 := (others => '0');
-signal i_ee0x2419 : slv16 := (others => '0');
-signal i_ee0x241a : slv16 := (others => '0');
-signal i_ee0x241b : slv16 := (others => '0');
-signal i_ee0x241c : slv16 := (others => '0');
-signal i_ee0x241d : slv16 := (others => '0');
-signal i_ee0x241e : slv16 := (others => '0');
-signal i_ee0x241f : slv16 := (others => '0');
-signal i_ee0x2440 : slv16 := (others => '0');
-
---Outputs
-signal o_done : std_logic;
-signal o_rdy : std_logic;
-
-signal o_do : std_logic_vector (31 downto 0) := (others => '0');
-signal i_addr : std_logic_vector (9 downto 0) := (others => '0');
-
-signal i2c_mem_ena : STD_LOGIC;
-signal i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal ExtractKtaParameters_divfpclk : std_logic;
+signal ExtractKtaParameters_mulfpclk : std_logic;
+signal ExtractKtaParameters_addfpclk : std_logic;
 
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
@@ -110,43 +196,68 @@ signal out1r : real;
 
 BEGIN
 
-out1r <= ap_slv2fp (o_do); -- output data
+out1r <= ap_slv2fp (ExtractKtaParameters_do); -- output data
 
 inst_tb_i2c_mem : tb_i2c_mem
 PORT MAP (
-clka => i_clock,
-ena => i2c_mem_ena,
+clka => ExtractKtaParameters_clock,
+ena => ExtractKtaParameters_i2c_mem_ena,
 wea => "0",
-addra => i2c_mem_addra,
+addra => ExtractKtaParameters_i2c_mem_addra,
 dina => (others => '0'),
-douta => i2c_mem_douta
+douta => ExtractKtaParameters_i2c_mem_douta
 );
 -- Instantiate the Unit Under Test (UUT)
 uut: ExtractKtaParameters PORT MAP (
-i_clock => i_clock,
-i_reset => i_reset,
-i_run => i_run,
+i_clock => ExtractKtaParameters_clock,
+i_reset => ExtractKtaParameters_reset,
+i_run => ExtractKtaParameters_run,
 
-i2c_mem_ena => i2c_mem_ena,
-i2c_mem_addra => i2c_mem_addra,
-i2c_mem_douta => i2c_mem_douta,
+i2c_mem_ena => ExtractKtaParameters_i2c_mem_ena,
+i2c_mem_addra => ExtractKtaParameters_i2c_mem_addra,
+i2c_mem_douta => ExtractKtaParameters_i2c_mem_douta,
 
-o_do => o_do,
-i_addr => i_addr,
-o_done => o_done,
-o_rdy => o_rdy
+o_do => ExtractKtaParameters_do,
+i_addr => ExtractKtaParameters_addr, -- 10bit-1024
+
+o_done => ExtractKtaParameters_done,
+o_rdy => ExtractKtaParameters_rdy,
+
+mulfpa => ExtractKtaParameters_mulfpa,
+mulfpb => ExtractKtaParameters_mulfpb,
+mulfpond => ExtractKtaParameters_mulfpond,
+mulfpsclr => ExtractKtaParameters_mulfpsclr,
+mulfpce => ExtractKtaParameters_mulfpce,
+mulfpr => ExtractKtaParameters_mulfpr,
+mulfprdy => ExtractKtaParameters_mulfprdy,
+
+addfpa => ExtractKtaParameters_addfpa,
+addfpb => ExtractKtaParameters_addfpb,
+addfpond => ExtractKtaParameters_addfpond,
+addfpsclr => ExtractKtaParameters_addfpsclr,
+addfpce => ExtractKtaParameters_addfpce,
+addfpr => ExtractKtaParameters_addfpr,
+addfprdy => ExtractKtaParameters_addfprdy,
+
+divfpa => ExtractKtaParameters_divfpa,
+divfpb => ExtractKtaParameters_divfpb,
+divfpond => ExtractKtaParameters_divfpond,
+divfpsclr => ExtractKtaParameters_divfpsclr,
+divfpce => ExtractKtaParameters_divfpce,
+divfpr => ExtractKtaParameters_divfpr,
+divfprdy => ExtractKtaParameters_divfprdy
 );
 
 -- Clock process definitions
 i_clock_process :process
 begin
-i_clock <= '0';
+ExtractKtaParameters_clock <= '0';
 wait for i_clock_period/2;
-i_clock <= '1';
+ExtractKtaParameters_clock <= '1';
 wait for i_clock_period/2;
 end process;
 
-i_reset <= '1', '0' after 100 ns ;	
+ExtractKtaParameters_reset <= '1', '0' after 100 ns ;	
 
 -- Stimulus process
 stim_proc: process
@@ -154,15 +265,55 @@ begin
 -- hold reset state for 100 ns.
 wait for 105 ns;
 -- insert stimulus here
-i_run <= '1'; wait for i_clock_period; i_run <= '0';
-wait until o_rdy = '1';
+ExtractKtaParameters_run <= '1'; wait for i_clock_period; ExtractKtaParameters_run <= '0';
+wait until ExtractKtaParameters_rdy = '1';
 for i in 0 to 1024 loop
-	i_addr <= std_logic_vector (to_unsigned (i, 10));
+	ExtractKtaParameters_addr <= std_logic_vector (to_unsigned (i, 10));
 	wait for i_clock_period*2;
 end loop;
 wait for 1 ps; -- must be for write
 report "done" severity failure;
 --wait on o_done;
 end process;
+
+ExtractKtaParameters_divfpclk <= ExtractKtaParameters_clock;
+ExtractKtaParameters_mulfpclk <= ExtractKtaParameters_clock;
+ExtractKtaParameters_addfpclk <= ExtractKtaParameters_clock;
+
+inst_divfp : divfp
+PORT MAP (
+a => ExtractKtaParameters_divfpa,
+b => ExtractKtaParameters_divfpb,
+operation_nd => ExtractKtaParameters_divfpond,
+clk => ExtractKtaParameters_divfpclk,
+sclr => ExtractKtaParameters_divfpsclr,
+ce => ExtractKtaParameters_divfpce,
+result => ExtractKtaParameters_divfpr,
+rdy => ExtractKtaParameters_divfprdy
+);
+
+inst_mulfp : mulfp
+PORT MAP (
+a => ExtractKtaParameters_mulfpa,
+b => ExtractKtaParameters_mulfpb,
+operation_nd => ExtractKtaParameters_mulfpond,
+clk => ExtractKtaParameters_mulfpclk,
+sclr => ExtractKtaParameters_mulfpsclr,
+ce => ExtractKtaParameters_mulfpce,
+result => ExtractKtaParameters_mulfpr,
+rdy => ExtractKtaParameters_mulfprdy
+);
+
+inst_addfp : addfp
+PORT MAP (
+a => ExtractKtaParameters_addfpa,
+b => ExtractKtaParameters_addfpb,
+operation_nd => ExtractKtaParameters_addfpond,
+clk => ExtractKtaParameters_addfpclk,
+sclr => ExtractKtaParameters_addfpsclr,
+ce => ExtractKtaParameters_addfpce,
+result => ExtractKtaParameters_addfpr,
+rdy => ExtractKtaParameters_addfprdy
+);
 
 END;

@@ -48,97 +48,60 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_done : out std_logic;
-o_rdy : out std_logic
+o_rdy : out std_logic;
+
+signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : out STD_LOGIC;
+signal mulfpsclr : out STD_LOGIC;
+signal mulfpce : out STD_LOGIC;
+signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy : in STD_LOGIC;
+
+signal addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : out STD_LOGIC;
+signal addfpsclr : out STD_LOGIC;
+signal addfpce : out STD_LOGIC;
+signal addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : in STD_LOGIC;
+
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC
+
 );
 end ExtractKtaParameters;
 
 architecture Behavioral of ExtractKtaParameters is
 
-COMPONENT fixed2float
-PORT (
-a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
+signal mulfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond_internal : STD_LOGIC;
+signal mulfpsclr_internal : STD_LOGIC;
+signal mulfpce_internal : STD_LOGIC;
+signal mulfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy_internal : STD_LOGIC;
 
-signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
-signal fixed2floatond : STD_LOGIC;
-signal fixed2floatclk : STD_LOGIC;
-signal fixed2floatsclr : STD_LOGIC;
-signal fixed2floatce : STD_LOGIC;
-signal fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal fixed2floatrdy : STD_LOGIC;
+signal addfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond_internal : STD_LOGIC;
+signal addfpsclr_internal : STD_LOGIC;
+signal addfpce_internal : STD_LOGIC;
+signal addfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy_internal : STD_LOGIC;
 
-COMPONENT mulfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-
-signal mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfpond : STD_LOGIC;
-signal mulfpclk : STD_LOGIC;
-signal mulfpsclr : STD_LOGIC;
-signal mulfpce : STD_LOGIC;
-signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy : STD_LOGIC;
-
-COMPONENT addfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-
-signal addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfpond : STD_LOGIC;
-signal addfpclk : STD_LOGIC;
-signal addfpsclr : STD_LOGIC;
-signal addfpce : STD_LOGIC;
-signal addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfprdy : STD_LOGIC;
-
-COMPONENT divfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-
-signal divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpond : STD_LOGIC;
-signal divfpclk : STD_LOGIC;
-signal divfpsclr : STD_LOGIC;
-signal divfpce : STD_LOGIC;
-signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy : STD_LOGIC;
+signal divfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond_internal : STD_LOGIC;
+signal divfpsclr_internal : STD_LOGIC;
+signal divfpce_internal : STD_LOGIC;
+signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy_internal : STD_LOGIC;
 
 component mem_ramb16_s36_x2 is
 generic (
@@ -345,6 +308,30 @@ signal ktarcee_oo,ktarcee_eo,ktarcee_oe,ktarcee_ee,ktarcee : std_logic_vector (7
 
 begin
 
+mulfpa <= mulfpa_internal;
+mulfpb <= mulfpb_internal;
+mulfpond <= mulfpond_internal;
+mulfpsclr <= mulfpsclr_internal;
+mulfpce <= mulfpce_internal;
+mulfpr_internal <= mulfpr;
+mulfprdy_internal <= mulfprdy;
+
+addfpa <= addfpa_internal;
+addfpb <= addfpb_internal;
+addfpond <= addfpond_internal;
+addfpsclr <= addfpsclr_internal;
+addfpce <= addfpce_internal;
+addfpr_internal <= addfpr;
+addfprdy_internal <= addfprdy;
+
+divfpa <= divfpa_internal;
+divfpb <= divfpb_internal;
+divfpond <= divfpond_internal;
+divfpsclr <= divfpsclr_internal;
+divfpce <= divfpce_internal;
+divfpr_internal <= divfpr;
+divfprdy_internal <= divfprdy;
+
 o_rdy <= rdy;
 o_do <= doa when rdy = '1' else (others => '0');
 mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0');
@@ -504,22 +491,21 @@ begin
 			write_enable <= '0';
 			ena_mux1 <= '0';
 			rdy <= '0';
-			addfpsclr <= '1';
-			mulfpsclr <= '1';
-			divfpsclr <= '1';
-			fixed2floatsclr <= '1';
-			mulfpa <= (others => '0');
-			mulfpb <= (others => '0');
-			addfpa <= (others => '0');
-			addfpb <= (others => '0');
-			divfpa <= (others => '0');
-			divfpb <= (others => '0');
-			addfpond <= '0';
-			mulfpond <= '0';
-			divfpond <= '0';
-			addfpce <= '0';
-			mulfpce <= '0';
-			divfpce <= '0';
+			addfpsclr_internal <= '1';
+			mulfpsclr_internal <= '1';
+			divfpsclr_internal <= '1';
+			mulfpa_internal <= (others => '0');
+			mulfpb_internal <= (others => '0');
+			addfpa_internal <= (others => '0');
+			addfpb_internal <= (others => '0');
+			divfpa_internal <= (others => '0');
+			divfpb_internal <= (others => '0');
+			addfpond_internal <= '0';
+			mulfpond_internal <= '0';
+			divfpond_internal <= '0';
+			addfpce_internal <= '0';
+			mulfpce_internal <= '0';
+			divfpce_internal <= '0';
 			addra <= (others => '0');
 			dia <= (others => '0');
 			o_done <= '0';
@@ -542,10 +528,9 @@ begin
 						ena_mux1 <= '0';
 					end if;
 				when kta0 => state := kta1;
-					addfpsclr <= '0';
-					mulfpsclr <= '0';
-					divfpsclr <= '0';
-					fixed2floatsclr <= '0';
+					addfpsclr_internal <= '0';
+					mulfpsclr_internal <= '0';
+					divfpsclr_internal <= '0';
 					rdy <= '0';
 
 
@@ -584,54 +569,54 @@ begin
 				when kta18 => state := kta19;
 					nibble3 <= i2c_mem_douta (3 downto 1); -- kta_ee 3bit
 				when kta19 => state := kta20;
-	mulfpce <= '1';
-	mulfpa <= out_nibble3; -- kta_ee
-	mulfpb <= out_nibble2; -- 2^ktascale2
-	mulfpond <= '1';
+	mulfpce_internal <= '1';
+	mulfpa_internal <= out_nibble3; -- kta_ee
+	mulfpb_internal <= out_nibble2; -- 2^ktascale2
+	mulfpond_internal <= '1';
 --	--report "vAlphaPixel : " & real'image (ap_slv2fp (out_nibble3));
 --	--report "vktaRemScale : " & real'image (ap_slv2fp (vktaRemScale));
 when kta20 => 			--6
-	if (mulfprdy = '1') then state := kta21;
-		kta_ft := mulfpr;
-		mulfpce <= '0';
-		mulfpond <= '0';
-		mulfpsclr <= '1';
+	if (mulfprdy_internal = '1') then state := kta21;
+		kta_ft := mulfpr_internal;
+		mulfpce_internal <= '0';
+		mulfpond_internal <= '0';
+		mulfpsclr_internal <= '1';
 	else state := kta20; end if;
 when kta21 => state := kta22; 	--7
-	mulfpsclr <= '0';
+	mulfpsclr_internal <= '0';
 
-	addfpce <= '1';
-	addfpa <= kta_ft; -- kta_ee*2^ktascale2
-	addfpb <= ktarcee_ft; -- ktarcee
-	addfpond <= '1';
+	addfpce_internal <= '1';
+	addfpa_internal <= kta_ft; -- kta_ee*2^ktascale2
+	addfpb_internal <= ktarcee_ft; -- ktarcee
+	addfpond_internal <= '1';
 --	--report "vAlphaPixel : " & real'image (ap_slv2fp (out_nibble3));
 --	--report "vktaRemScale : " & real'image (ap_slv2fp (vktaRemScale));
 when kta22 => 			--6
-	if (addfprdy = '1') then state := kta23;
-		kta_ft := addfpr;
-		addfpce <= '0';
-		addfpond <= '0';
-		addfpsclr <= '1';
+	if (addfprdy_internal = '1') then state := kta23;
+		kta_ft := addfpr_internal;
+		addfpce_internal <= '0';
+		addfpond_internal <= '0';
+		addfpsclr_internal <= '1';
 	else state := kta22; end if;
 when kta23 => state := kta24; 	--7
-	addfpsclr <= '0';
+	addfpsclr_internal <= '0';
 
 
-	divfpce <= '1';
-	divfpa <= kta_ft; -- ktarcee+kta_ee*2^ktascale2
-	divfpb <= out_nibble1; -- 2^ktascale1
-	divfpond <= '1';
+	divfpce_internal <= '1';
+	divfpa_internal <= kta_ft; -- ktarcee+kta_ee*2^ktascale2
+	divfpb_internal <= out_nibble1; -- 2^ktascale1
+	divfpond_internal <= '1';
 --	--report "vAlphaPixel : " & real'image (ap_slv2fp (out_nibble3));
 --	--report "vktaRemScale : " & real'image (ap_slv2fp (vktaRemScale));
 when kta24 => 			--6
-	if (divfprdy = '1') then state := kta25;
-		kta_ft := divfpr;
-		divfpce <= '0';
-		divfpond <= '0';
-		divfpsclr <= '1';
+	if (divfprdy_internal = '1') then state := kta25;
+		kta_ft := divfpr_internal;
+		divfpce_internal <= '0';
+		divfpond_internal <= '0';
+		divfpsclr_internal <= '1';
 	else state := kta24; end if;
 when kta25 => state := kta26; 	--7
-	divfpsclr <= '0';
+	divfpsclr_internal <= '0';
 
 when kta26 => state := kta27; 	--22
 	write_enable <= '1';
@@ -1324,30 +1309,13 @@ SSR => i_reset,
 WE => write_enable
 );
 
-mulfpclk <= i_clock;
-inst_mulfp_kta : mulfp
-PORT MAP (
-a => mulfpa,
-b => mulfpb,
-operation_nd => mulfpond,
-clk => mulfpclk,
-sclr => mulfpsclr,
-ce => mulfpce,
-result => mulfpr,
-rdy => mulfprdy
-);
-
-addfpclk <= i_clock;
-inst_addfp_kta : addfp
-PORT MAP (
-a => addfpa,
-b => addfpb,
-operation_nd => addfpond,
-clk => addfpclk,
-sclr => addfpsclr,
-ce => addfpce,
-result => addfpr,
-rdy => addfprdy
+mem_signed256_clock <= i_clock;
+mem_signed256_reset <= i_reset;
+inst_mem_signed256_ktarcee : mem_signed256 port map (
+i_clock => mem_signed256_clock,
+i_reset => mem_signed256_reset,
+i_value => mem_signed256_ivalue,
+o_value => mem_signed256_ovalue
 );
 
 ----INIT_7f => X"41700000 41600000 41500000 41400000 41300000 41200000 41100000 41000000", -- unsigned 0-15 for ktaremscale,ktarowscale,ktacolscale
@@ -1394,40 +1362,6 @@ rdy => addfprdy
 --x"43800000" when x"8", x"44000000" when x"9", x"44800000" when x"a", x"45000000" when x"b",
 --x"45800000" when x"c", x"46000000" when x"d", x"46800000" when x"e", x"47000000" when x"f",
 --x"00000000" when others;
-
-fixed2floatclk <= i_clock;
-inst_ff2 : fixed2float
-PORT MAP (
-a => fixed2floata,
-operation_nd => fixed2floatond,
-clk => fixed2floatclk,
-sclr => fixed2floatsclr,
-ce => fixed2floatce,
-result => fixed2floatr,
-rdy => fixed2floatrdy
-);
-
-divfpclk <= i_clock;
-inst_divfp_kta : divfp
-PORT MAP (
-a => divfpa,
-b => divfpb,
-operation_nd => divfpond,
-clk => divfpclk,
-sclr => divfpsclr,
-ce => divfpce,
-result => divfpr,
-rdy => divfprdy
-);
-
-mem_signed256_clock <= i_clock;
-mem_signed256_reset <= i_reset;
-inst_mem_signed256_ktarcee : mem_signed256 port map (
-i_clock => mem_signed256_clock,
-i_reset => mem_signed256_reset,
-i_value => mem_signed256_ivalue,
-o_value => mem_signed256_ovalue
-);
 
 end Behavioral;
 
