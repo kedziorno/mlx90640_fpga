@@ -66,6 +66,7 @@ i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_KGain : out fd2ft;
 o_rdy : out std_logic;
+
 signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;

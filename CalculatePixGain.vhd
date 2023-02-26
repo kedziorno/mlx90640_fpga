@@ -329,21 +329,6 @@ signal divfprdy_internal : STD_LOGIC;
 
 begin
 
---fixed2floata <= CalculateKGain_fixed2floata when CalculateKGain_mux = '1' else fixed2floata_internal;
---fixed2floatond <= CalculateKGain_fixed2floatond when CalculateKGain_mux = '1' else fixed2floatond_internal;
---fixed2floatce <= CalculateKGain_fixed2floatce when CalculateKGain_mux = '1' else fixed2floatce_internal;
---fixed2floatsclr <= CalculateKGain_fixed2floatsclr when CalculateKGain_mux = '1' else fixed2floatsclr_internal;
---fixed2floatr_internal <= CalculateKGain_fixed2floatr when CalculateKGain_mux = '1' else (others => '0');
---fixed2floatrdy_internal <= CalculateKGain_fixed2floatrdy when CalculateKGain_mux = '1' else (others => '0');
---
---mulfpa <= CalculateKGain_mulfpa when CalculateKGain_mux = '1' else mulfpa_internal;
---mulfpb <= CalculateKGain_mulfpb when CalculateKGain_mux = '1' else mulfpb_internal;
---mulfpond <= CalculateKGain_mulfpond when CalculateKGain_mux = '1' else mulfpond_internal;
---mulfpce <= CalculateKGain_mulfpce when CalculateKGain_mux = '1' else mulfpce_internal;
---mulfpsclr <= CalculateKGain_mulfpsclr when CalculateKGain_mux = '1' else mulfpsclr_internal;
---mulfpr_internal <= CalculateKGain_mulfpr when CalculateKGain_mux = '1' else (others => '0');
---mulfprdy_internal <= CalculateKGain_mulfprdy when CalculateKGain_mux = '1' else (others => '0');
-
 fixed2floata <= CalculateKGain_fixed2floata when CalculateKGain_mux = '1' else fixed2floata_internal;
 fixed2floatond <= CalculateKGain_fixed2floatond when CalculateKGain_mux = '1' else fixed2floatond_internal;
 fixed2floatce <= CalculateKGain_fixed2floatce when CalculateKGain_mux = '1' else fixed2floatce_internal;
@@ -352,15 +337,6 @@ CalculateKGain_fixed2floatr <= fixed2floatr when CalculateKGain_mux = '1' else (
 CalculateKGain_fixed2floatrdy <= fixed2floatrdy when CalculateKGain_mux = '1' else '0';
 fixed2floatr_internal <= fixed2floatr;
 fixed2floatrdy_internal <= fixed2floatrdy;
-
-
-mulfpa <= mulfpa_internal;
-mulfpb <= mulfpb_internal;
-mulfpond <= mulfpond_internal;
-mulfpce <= mulfpce_internal;
-mulfpsclr <= mulfpsclr_internal;
-mulfpr_internal <= mulfpr;
-mulfprdy_internal <= mulfprdy;
 
 divfpa <= CalculateKGain_divfpa when CalculateKGain_mux = '1' else divfpa_internal;
 divfpb <= CalculateKGain_divfpb when CalculateKGain_mux = '1' else divfpb_internal;
@@ -372,6 +348,13 @@ CalculateKGain_divfprdy <= divfprdy when CalculateKGain_mux = '1' else '0';
 divfpr_internal <= divfpr;
 divfprdy_internal <= divfprdy;
 
+mulfpa <= mulfpa_internal;
+mulfpb <= mulfpb_internal;
+mulfpond <= mulfpond_internal;
+mulfpce <= mulfpce_internal;
+mulfpsclr <= mulfpsclr_internal;
+mulfpr_internal <= mulfpr;
+mulfprdy_internal <= mulfprdy;
 
 i2c_mem_ena <=
 CalculateKGain_i2c_mem_ena when CalculateKGain_mux = '1'

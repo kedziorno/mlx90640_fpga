@@ -444,7 +444,41 @@ i_Vdd : in std_logic_vector (31 downto 0);
 i_VddV0 : in std_logic_vector (31 downto 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
-o_rdy : out std_logic
+o_rdy : out std_logic;
+fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+fixed2floatond : out STD_LOGIC;
+fixed2floatce : out STD_LOGIC;
+fixed2floatsclr : out STD_LOGIC;
+fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+fixed2floatrdy : in STD_LOGIC;
+mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+mulfpond : out STD_LOGIC;
+mulfpsclr : out STD_LOGIC;
+mulfpce : out STD_LOGIC;
+mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+mulfprdy : in STD_LOGIC;
+addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+addfpond : out STD_LOGIC;
+addfpsclr : out STD_LOGIC;
+addfpce : out STD_LOGIC;
+addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+addfprdy : in STD_LOGIC;
+subfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+subfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+subfpond : out STD_LOGIC;
+subfpsclr : out STD_LOGIC;
+subfpce : out STD_LOGIC;
+subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+subfprdy : in STD_LOGIC;
+divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+divfpond : out STD_LOGIC;
+divfpsclr : out STD_LOGIC;
+divfpce : out STD_LOGIC;
+divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+divfprdy : in STD_LOGIC
 );
 end component CalculatePixOS;
 signal CalculatePixOS_clock : std_logic;
@@ -461,23 +495,106 @@ signal CalculatePixOS_VddV0 : std_logic_vector (31 downto 0);
 signal CalculatePixOS_do : std_logic_vector (31 downto 0);
 signal CalculatePixOS_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal CalculatePixOS_rdy : std_logic;
+signal CalculatePixOS_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculatePixOS_fixed2floatond : STD_LOGIC;
+signal CalculatePixOS_fixed2floatce : STD_LOGIC;
+signal CalculatePixOS_fixed2floatsclr : STD_LOGIC;
+signal CalculatePixOS_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOS_fixed2floatrdy : STD_LOGIC;
+signal CalculatePixOS_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOS_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOS_mulfpond : STD_LOGIC;
+signal CalculatePixOS_mulfpsclr : STD_LOGIC;
+signal CalculatePixOS_mulfpce : STD_LOGIC;
+signal CalculatePixOS_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOS_mulfprdy : STD_LOGIC;
+signal CalculatePixOS_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOS_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOS_divfpond : STD_LOGIC;
+signal CalculatePixOS_divfpsclr : STD_LOGIC;
+signal CalculatePixOS_divfpce : STD_LOGIC;
+signal CalculatePixOS_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOS_divfprdy : STD_LOGIC;
+signal CalculatePixOS_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOS_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOS_addfpond : STD_LOGIC;
+signal CalculatePixOS_addfpsclr : STD_LOGIC;
+signal CalculatePixOS_addfpce : STD_LOGIC;
+signal CalculatePixOS_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOS_addfprdy : STD_LOGIC;
+signal CalculatePixOS_subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOS_subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOS_subfpond : STD_LOGIC;
+signal CalculatePixOS_subfpsclr : STD_LOGIC;
+signal CalculatePixOS_subfpce : STD_LOGIC;
+signal CalculatePixOS_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOS_subfprdy : STD_LOGIC;
+
+signal CalculatePixOS_fixed2floatclk : std_logic;
+signal CalculatePixOS_addfpclk : std_logic;
+signal CalculatePixOS_subfpclk : std_logic;
+signal CalculatePixOS_mulfpclk : std_logic;
+signal CalculatePixOS_divfpclk : std_logic;
 
 component CalculatePixOsCPSP is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
+
 i_Ta : in std_logic_vector (31 downto 0);
 i_Ta0 : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
 i_VddV0 : in std_logic_vector (31 downto 0);
 i_const1 : in std_logic_vector (31 downto 0);
+
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+
 o_pixoscpsp0 : out std_logic_vector (31 downto 0);
 o_pixoscpsp1 : out std_logic_vector (31 downto 0);
-o_rdy : out std_logic
+
+o_rdy : out std_logic;
+
+signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC;
+
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC;
+
+signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : out STD_LOGIC;
+signal mulfpsclr : out STD_LOGIC;
+signal mulfpce : out STD_LOGIC;
+signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy : in STD_LOGIC;
+
+signal addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : out STD_LOGIC;
+signal addfpsclr : out STD_LOGIC;
+signal addfpce : out STD_LOGIC;
+signal addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : in STD_LOGIC;
+
+signal subfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpond : out STD_LOGIC;
+signal subfpsclr : out STD_LOGIC;
+signal subfpce : out STD_LOGIC;
+signal subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfprdy : in STD_LOGIC
 );
 end component CalculatePixOsCPSP;
 signal CalculatePixOsCPSP_clock : std_logic;
@@ -494,6 +611,52 @@ signal CalculatePixOsCPSP_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal CalculatePixOsCPSP_pixoscpsp0 : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_pixoscpsp1 : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_rdy : std_logic;
+
+signal CalculatePixOsCPSP_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculatePixOsCPSP_fixed2floatond : STD_LOGIC;
+signal CalculatePixOsCPSP_fixed2floatsclr : STD_LOGIC;
+signal CalculatePixOsCPSP_fixed2floatce : STD_LOGIC;
+signal CalculatePixOsCPSP_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOsCPSP_fixed2floatrdy : STD_LOGIC;
+
+signal CalculatePixOsCPSP_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOsCPSP_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOsCPSP_divfpond : STD_LOGIC;
+signal CalculatePixOsCPSP_divfpsclr : STD_LOGIC;
+signal CalculatePixOsCPSP_divfpce : STD_LOGIC;
+signal CalculatePixOsCPSP_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOsCPSP_divfprdy : STD_LOGIC;
+
+signal CalculatePixOsCPSP_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOsCPSP_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOsCPSP_mulfpond : STD_LOGIC;
+signal CalculatePixOsCPSP_mulfpsclr : STD_LOGIC;
+signal CalculatePixOsCPSP_mulfpce : STD_LOGIC;
+signal CalculatePixOsCPSP_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOsCPSP_mulfprdy : STD_LOGIC;
+
+signal CalculatePixOsCPSP_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOsCPSP_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOsCPSP_addfpond : STD_LOGIC;
+signal CalculatePixOsCPSP_addfpsclr : STD_LOGIC;
+signal CalculatePixOsCPSP_addfpce : STD_LOGIC;
+signal CalculatePixOsCPSP_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOsCPSP_addfprdy : STD_LOGIC;
+
+signal CalculatePixOsCPSP_subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOsCPSP_subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOsCPSP_subfpond : STD_LOGIC;
+signal CalculatePixOsCPSP_subfpsclr : STD_LOGIC;
+signal CalculatePixOsCPSP_subfpce : STD_LOGIC;
+signal CalculatePixOsCPSP_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculatePixOsCPSP_subfprdy : STD_LOGIC;
+
+signal CalculatePixOsCPSP_fixed2floatclk : STD_LOGIC;
+signal CalculatePixOsCPSP_addfpclk : STD_LOGIC;
+signal CalculatePixOsCPSP_subfpclk : STD_LOGIC;
+signal CalculatePixOsCPSP_mulfpclk : STD_LOGIC;
+signal CalculatePixOsCPSP_divfpclk : STD_LOGIC;
+
 
 COMPONENT CalculateVirCompensated
 PORT(
@@ -610,125 +773,240 @@ fixed2floata <=
 CalculateVdd_fixed2floata when CalculateVdd_mux = '1'
 else
 CalculateTa_fixed2floata when CalculateTa_mux = '1'
+else
+CalculatePixOS_fixed2floata when CalculatePixOS_mux = '1'
+else
+CalculatePixOSCPSP_fixed2floata when CalculatePixOSCPSP_mux = '1'
 else (others => '0');
+
 fixed2floatond <=
 CalculateVdd_fixed2floatond when CalculateVdd_mux = '1' 
 else
 CalculateTa_fixed2floatond when CalculateTa_mux = '1' 
+else
+CalculatePixOS_fixed2floatond when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_fixed2floatond when CalculatePixOSCPSP_mux = '1' 
 else '0';
+
 fixed2floatce <=
 CalculateVdd_fixed2floatce when CalculateVdd_mux = '1' 
 else
 CalculateTa_fixed2floatce when CalculateTa_mux = '1' 
+else
+CalculatePixOS_fixed2floatce when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_fixed2floatce when CalculatePixOSCPSP_mux = '1' 
 else '0';
+
 fixed2floatsclr <=
 CalculateVdd_fixed2floatsclr when CalculateVdd_mux = '1' 
 else
 CalculateTa_fixed2floatsclr when CalculateTa_mux = '1' 
+else
+CalculatePixOS_fixed2floatsclr when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_fixed2floatsclr when CalculatePixOSCPSP_mux = '1' 
 else '0';
 
 divfpa <=
 CalculateVdd_divfpa when CalculateVdd_mux = '1' 
 else
 CalculateTa_divfpa when CalculateTa_mux = '1' 
+else
+CalculatePixOS_divfpa when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_divfpa when CalculatePixOSCPSP_mux = '1' 
 else (others => '0');
+
 divfpb <=
 CalculateVdd_divfpb when CalculateVdd_mux = '1' 
 else
 CalculateTa_divfpb when CalculateTa_mux = '1' 
+else
+CalculatePixOS_divfpb when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_divfpb when CalculatePixOSCPSP_mux = '1' 
 else (others => '0');
+
 divfpond <=
 CalculateVdd_divfpond when CalculateVdd_mux = '1' 
 else
 CalculateTa_divfpond when CalculateTa_mux = '1' 
+else
+CalculatePixOS_divfpond when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_divfpond when CalculatePixOSCPSP_mux = '1' 
 else '0';
+
 divfpce <=
 CalculateVdd_divfpce when CalculateVdd_mux = '1' 
 else
 CalculateTa_divfpce when CalculateTa_mux = '1' 
+else
+CalculatePixOS_divfpce when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_divfpce when CalculatePixOSCPSP_mux = '1' 
 else '0';
+
 divfpsclr <=
 CalculateVdd_divfpsclr when CalculateVdd_mux = '1' 
 else
 CalculateTa_divfpsclr when CalculateTa_mux = '1' 
+else
+CalculatePixOS_divfpsclr when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_divfpsclr when CalculatePixOSCPSP_mux = '1' 
 else '0';
 
 mulfpa <=
 CalculateVdd_mulfpa when CalculateVdd_mux = '1' 
 else
 CalculateTa_mulfpa when CalculateTa_mux = '1' 
+else
+CalculatePixOS_mulfpa when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_mulfpa when CalculatePixOSCPSP_mux = '1' 
 else (others => '0');
+
 mulfpb <=
 CalculateVdd_mulfpb when CalculateVdd_mux = '1' 
 else
 CalculateTa_mulfpb when CalculateTa_mux = '1' 
+else
+CalculatePixOS_mulfpb when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_mulfpb when CalculatePixOSCPSP_mux = '1' 
 else (others => '0');
+
 mulfpond <=
 CalculateVdd_mulfpond when CalculateVdd_mux = '1' 
 else
 CalculateTa_mulfpond when CalculateTa_mux = '1' 
+else
+CalculatePixOS_mulfpond when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_mulfpond when CalculatePixOSCPSP_mux = '1' 
 else '0';
+
 mulfpce <=
 CalculateVdd_mulfpce when CalculateVdd_mux = '1' 
 else
 CalculateTa_mulfpce when CalculateTa_mux = '1' 
+else
+CalculatePixOS_mulfpce when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_mulfpce when CalculatePixOSCPSP_mux = '1' 
 else '0';
+
 mulfpsclr <=
 CalculateVdd_mulfpsclr when CalculateVdd_mux = '1' 
 else
 CalculateTa_mulfpsclr when CalculateTa_mux = '1' 
+else
+CalculatePixOS_mulfpsclr when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_mulfpsclr when CalculatePixOSCPSP_mux = '1' 
 else '0';
 
 addfpa <=
 CalculateVdd_addfpa when CalculateVdd_mux = '1' 
 else
-Calculateta_addfpa when CalculateTa_mux = '1' 
+CalculateTa_addfpa when CalculateTa_mux = '1' 
+else
+CalculatePixOS_addfpa when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_addfpa when CalculatePixOSCPSP_mux = '1' 
 else (others => '0');
+
 addfpb <=
 CalculateVdd_addfpb when CalculateVdd_mux = '1' 
 else
 CalculateTa_addfpb when CalculateTa_mux = '1' 
+else
+CalculatePixOS_addfpb when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_addfpb when CalculatePixOSCPSP_mux = '1' 
 else (others => '0');
+
 addfpond <=
 CalculateVdd_addfpond when CalculateVdd_mux = '1' 
 else
 CalculateTa_addfpond when CalculateTa_mux = '1' 
+else
+CalculatePixOS_addfpond when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_addfpond when CalculatePixOSCPSP_mux = '1' 
 else '0';
+
 addfpce <=
 CalculateVdd_addfpce when CalculateVdd_mux = '1' 
 else
 CalculateTa_addfpce when CalculateTa_mux = '1' 
+else
+CalculatePixOS_addfpce when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_addfpce when CalculatePixOSCPSP_mux = '1' 
 else '0';
+
 addfpsclr <=
 CalculateVdd_addfpsclr when CalculateVdd_mux = '1' 
 else
 CalculateTa_addfpsclr when CalculateTa_mux = '1' 
+else
+CalculatePixOS_addfpsclr when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_addfpsclr when CalculatePixOSCPSP_mux = '1' 
 else '0';
 
 subfpa <=
 CalculateVdd_subfpa when CalculateVdd_mux = '1' 
 else
 CalculateTa_subfpa when CalculateTa_mux = '1' 
+else
+CalculatePixOS_subfpa when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_subfpa when CalculatePixOSCPSP_mux = '1' 
 else (others => '0');
+
 subfpb <=
 CalculateVdd_subfpb when CalculateVdd_mux = '1' 
 else
 CalculateTa_subfpb when CalculateTa_mux = '1' 
+else
+CalculatePixOS_subfpb when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_subfpb when CalculatePixOSCPSP_mux = '1' 
 else (others => '0');
+
 subfpond <=
 CalculateVdd_subfpond when CalculateVdd_mux = '1' 
 else
 CalculateTa_subfpond when CalculateTa_mux = '1' 
+else
+CalculatePixOS_subfpond when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_subfpond when CalculatePixOSCPSP_mux = '1' 
 else '0';
+
 subfpce <=
 CalculateVdd_subfpce when CalculateVdd_mux = '1' 
 else
 CalculateTa_subfpce when CalculateTa_mux = '1' 
+else
+CalculatePixOS_subfpce when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_subfpce when CalculatePixOSCPSP_mux = '1' 
 else '0';
+
 subfpsclr <=
 CalculateVdd_subfpsclr when CalculateVdd_mux = '1' 
 else
 CalculateTa_subfpsclr when CalculateTa_mux = '1' 
+else
+CalculatePixOS_subfpsclr when CalculatePixOS_mux = '1' 
+else
+CalculatePixOSCPSP_subfpsclr when CalculatePixOSCPSP_mux = '1' 
 else '0';
 
 CalculateVdd_fixed2floatr <= fixed2floatr when CalculateVdd_mux = '1' else (others => '0');
@@ -752,6 +1030,28 @@ CalculateTa_addfpr <= addfpr when CalculateTa_mux = '1' else (others => '0');
 CalculateTa_addfprdy <= addfprdy when CalculateTa_mux = '1' else '0';
 CalculateTa_subfpr <= subfpr when CalculateTa_mux = '1' else (others => '0');
 CalculateTa_subfprdy <= subfprdy when CalculateTa_mux = '1' else '0';
+
+CalculatePixOS_fixed2floatr <= fixed2floatr when CalculatePixOS_mux = '1' else (others => '0');
+CalculatePixOS_fixed2floatrdy <= fixed2floatrdy when CalculatePixOS_mux = '1' else '0';
+CalculatePixOS_divfpr <= divfpr when CalculatePixOS_mux = '1' else (others => '0');
+CalculatePixOS_divfprdy <= divfprdy when CalculatePixOS_mux = '1' else '0';
+CalculatePixOS_mulfpr <= mulfpr when CalculatePixOS_mux = '1' else (others => '0');
+CalculatePixOS_mulfprdy <= mulfprdy when CalculatePixOS_mux = '1' else '0';
+CalculatePixOS_addfpr <= addfpr when CalculatePixOS_mux = '1' else (others => '0');
+CalculatePixOS_addfprdy <= addfprdy when CalculatePixOS_mux = '1' else '0';
+CalculatePixOS_subfpr <= subfpr when CalculatePixOS_mux = '1' else (others => '0');
+CalculatePixOS_subfprdy <= subfprdy when CalculatePixOS_mux = '1' else '0';
+
+CalculatePixOSCPSP_fixed2floatr <= fixed2floatr when CalculatePixOSCPSP_mux = '1' else (others => '0');
+CalculatePixOSCPSP_fixed2floatrdy <= fixed2floatrdy when CalculatePixOSCPSP_mux = '1' else '0';
+CalculatePixOSCPSP_divfpr <= divfpr when CalculatePixOSCPSP_mux = '1' else (others => '0');
+CalculatePixOSCPSP_divfprdy <= divfprdy when CalculatePixOSCPSP_mux = '1' else '0';
+CalculatePixOSCPSP_mulfpr <= mulfpr when CalculatePixOSCPSP_mux = '1' else (others => '0');
+CalculatePixOSCPSP_mulfprdy <= mulfprdy when CalculatePixOSCPSP_mux = '1' else '0';
+CalculatePixOSCPSP_addfpr <= addfpr when CalculatePixOSCPSP_mux = '1' else (others => '0');
+CalculatePixOSCPSP_addfprdy <= addfprdy when CalculatePixOSCPSP_mux = '1' else '0';
+CalculatePixOSCPSP_subfpr <= subfpr when CalculatePixOSCPSP_mux = '1' else (others => '0');
+CalculatePixOSCPSP_subfprdy <= subfprdy when CalculatePixOSCPSP_mux = '1' else '0';
 
 i2c_mem_ena <=
 CalculatePixOS_i2c_mem_ena when CalculatePixOS_mux = '1'
@@ -1134,7 +1434,41 @@ i_Vdd => CalculatePixOS_Vdd,
 i_VddV0 => CalculatePixOS_VddV0,
 o_do => CalculatePixOS_do,
 i_addr => CalculatePixOS_addr,
-o_rdy => CalculatePixOS_rdy
+o_rdy => CalculatePixOS_rdy,
+fixed2floata => CalculatePixOS_fixed2floata,
+fixed2floatond => CalculatePixOS_fixed2floatond,
+fixed2floatce => CalculatePixOS_fixed2floatce,
+fixed2floatsclr => CalculatePixOS_fixed2floatsclr,
+fixed2floatr => CalculatePixOS_fixed2floatr,
+fixed2floatrdy => CalculatePixOS_fixed2floatrdy,
+mulfpa => CalculatePixOS_mulfpa,
+mulfpb => CalculatePixOS_mulfpb,
+mulfpond => CalculatePixOS_mulfpond,
+mulfpsclr => CalculatePixOS_mulfpsclr,
+mulfpce => CalculatePixOS_mulfpce,
+mulfpr => CalculatePixOS_mulfpr,
+mulfprdy => CalculatePixOS_mulfprdy,
+addfpa => CalculatePixOS_addfpa,
+addfpb => CalculatePixOS_addfpb,
+addfpond => CalculatePixOS_addfpond,
+addfpsclr => CalculatePixOS_addfpsclr,
+addfpce => CalculatePixOS_addfpce,
+addfpr => CalculatePixOS_addfpr,
+addfprdy => CalculatePixOS_addfprdy,
+subfpa => CalculatePixOS_subfpa,
+subfpb => CalculatePixOS_subfpb,
+subfpond => CalculatePixOS_subfpond,
+subfpsclr => CalculatePixOS_subfpsclr,
+subfpce => CalculatePixOS_subfpce,
+subfpr => CalculatePixOS_subfpr,
+subfprdy => CalculatePixOS_subfprdy,
+divfpa => CalculatePixOS_divfpa,
+divfpb => CalculatePixOS_divfpb,
+divfpond => CalculatePixOS_divfpond,
+divfpsclr => CalculatePixOS_divfpsclr,
+divfpce => CalculatePixOS_divfpce,
+divfpr => CalculatePixOS_divfpr,
+divfprdy => CalculatePixOS_divfprdy
 );
 
 CalculatePixOsCPSP_clock <= i_clock;
@@ -1158,7 +1492,46 @@ i2c_mem_addra => CalculatePixOsCPSP_i2c_mem_addra,
 i2c_mem_douta => CalculatePixOsCPSP_i2c_mem_douta,
 o_pixoscpsp0 => CalculatePixOsCPSP_pixoscpsp0,
 o_pixoscpsp1 => CalculatePixOsCPSP_pixoscpsp1,
-o_rdy => CalculatePixOsCPSP_rdy
+o_rdy => CalculatePixOsCPSP_rdy,
+
+fixed2floata => CalculatePixOSCPSP_fixed2floata,
+fixed2floatond => CalculatePixOSCPSP_fixed2floatond,
+fixed2floatsclr => CalculatePixOSCPSP_fixed2floatsclr,
+fixed2floatce => CalculatePixOSCPSP_fixed2floatce,
+fixed2floatr => CalculatePixOSCPSP_fixed2floatr,
+fixed2floatrdy => CalculatePixOSCPSP_fixed2floatrdy,
+
+divfpa => CalculatePixOSCPSP_divfpa,
+divfpb => CalculatePixOSCPSP_divfpb,
+divfpond => CalculatePixOSCPSP_divfpond,
+divfpsclr => CalculatePixOSCPSP_divfpsclr,
+divfpce => CalculatePixOSCPSP_divfpce,
+divfpr => CalculatePixOSCPSP_divfpr,
+divfprdy => CalculatePixOSCPSP_divfprdy,
+
+mulfpa => CalculatePixOSCPSP_mulfpa,
+mulfpb => CalculatePixOSCPSP_mulfpb,
+mulfpond => CalculatePixOSCPSP_mulfpond,
+mulfpsclr => CalculatePixOSCPSP_mulfpsclr,
+mulfpce => CalculatePixOSCPSP_mulfpce,
+mulfpr => CalculatePixOSCPSP_mulfpr,
+mulfprdy => CalculatePixOSCPSP_mulfprdy,
+
+addfpa => CalculatePixOSCPSP_addfpa,
+addfpb => CalculatePixOSCPSP_addfpb,
+addfpond => CalculatePixOSCPSP_addfpond,
+addfpsclr => CalculatePixOSCPSP_addfpsclr,
+addfpce => CalculatePixOSCPSP_addfpce,
+addfpr => CalculatePixOSCPSP_addfpr,
+addfprdy => CalculatePixOSCPSP_addfprdy,
+
+subfpa => CalculatePixOSCPSP_subfpa,
+subfpb => CalculatePixOSCPSP_subfpb,
+subfpond => CalculatePixOSCPSP_subfpond,
+subfpsclr => CalculatePixOSCPSP_subfpsclr,
+subfpce => CalculatePixOSCPSP_subfpce,
+subfpr => CalculatePixOSCPSP_subfpr,
+subfprdy => CalculatePixOSCPSP_subfprdy
 );
 
 CalculateVirCompensated_Emissivity <= x"3f800000"; -- 1

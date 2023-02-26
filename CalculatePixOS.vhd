@@ -454,11 +454,13 @@ fixed2floata <= CalculatePixGain_fixed2floata when CalculatePixGain_mux = '1' el
 fixed2floatond <= CalculatePixGain_fixed2floatond when CalculatePixGain_mux = '1' else fixed2floatond_internal;
 fixed2floatce <= CalculatePixGain_fixed2floatce when CalculatePixGain_mux = '1' else fixed2floatce_internal;
 fixed2floatsclr <= CalculatePixGain_fixed2floatsclr when CalculatePixGain_mux = '1' else fixed2floatsclr_internal;
+
 mulfpa <= CalculatePixGain_mulfpa when CalculatePixGain_mux = '1' else mulfpa_internal;
 mulfpb <= CalculatePixGain_mulfpb when CalculatePixGain_mux = '1' else mulfpb_internal;
 mulfpond <= CalculatePixGain_mulfpond when CalculatePixGain_mux = '1' else mulfpond_internal;
 mulfpsclr <= CalculatePixGain_mulfpsclr when CalculatePixGain_mux = '1' else mulfpsclr_internal;
 mulfpce <= CalculatePixGain_mulfpce when CalculatePixGain_mux = '1' else mulfpce_internal;
+
 divfpa <= CalculatePixGain_divfpa when CalculatePixGain_mux = '1' else divfpa_internal;
 divfpb <= CalculatePixGain_divfpb when CalculatePixGain_mux = '1' else divfpb_internal;
 divfpond <= CalculatePixGain_divfpond when CalculatePixGain_mux = '1' else divfpond_internal;
