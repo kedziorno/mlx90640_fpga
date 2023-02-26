@@ -568,7 +568,7 @@ begin
 				when kta17 => state := kta18;
 				when kta18 => state := kta19;
 					nibble3 <= i2c_mem_douta (3 downto 1); -- kta_ee 3bit
-				when kta19 => state := kta20;
+when kta19 => state := kta20;
 	mulfpce_internal <= '1';
 	mulfpa_internal <= out_nibble3; -- kta_ee
 	mulfpb_internal <= out_nibble2; -- 2^ktascale2
