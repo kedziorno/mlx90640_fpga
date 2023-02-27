@@ -335,8 +335,6 @@ fixed2floatce <= CalculateKGain_fixed2floatce when CalculateKGain_mux = '1' else
 fixed2floatsclr <= CalculateKGain_fixed2floatsclr when CalculateKGain_mux = '1' else fixed2floatsclr_internal;
 CalculateKGain_fixed2floatr <= fixed2floatr when CalculateKGain_mux = '1' else (others => '0');
 CalculateKGain_fixed2floatrdy <= fixed2floatrdy when CalculateKGain_mux = '1' else '0';
-fixed2floatr_internal <= fixed2floatr;
-fixed2floatrdy_internal <= fixed2floatrdy;
 
 divfpa <= CalculateKGain_divfpa when CalculateKGain_mux = '1' else divfpa_internal;
 divfpb <= CalculateKGain_divfpb when CalculateKGain_mux = '1' else divfpb_internal;
@@ -345,16 +343,12 @@ divfpsclr <= CalculateKGain_divfpsclr when CalculateKGain_mux = '1' else divfpsc
 divfpce <= CalculateKGain_divfpce when CalculateKGain_mux = '1' else divfpce_internal;
 CalculateKGain_divfpr <= divfpr when CalculateKGain_mux = '1' else (others => '0');
 CalculateKGain_divfprdy <= divfprdy when CalculateKGain_mux = '1' else '0';
-divfpr_internal <= divfpr;
-divfprdy_internal <= divfprdy;
 
 mulfpa <= mulfpa_internal;
 mulfpb <= mulfpb_internal;
 mulfpond <= mulfpond_internal;
 mulfpce <= mulfpce_internal;
 mulfpsclr <= mulfpsclr_internal;
-mulfpr_internal <= mulfpr;
-mulfprdy_internal <= mulfprdy;
 
 i2c_mem_ena <=
 CalculateKGain_i2c_mem_ena when CalculateKGain_mux = '1'

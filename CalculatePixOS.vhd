@@ -771,9 +771,6 @@ ExtractKvParameters_divfprdy <= divfprdy when ExtractKvParameters_mux = '1' else
 mulfpr_internal <= mulfpr;
 mulfprdy_internal <= mulfprdy;
 
-divfpr_internal <= divfpr;
-divfprdy_internal <= divfprdy;
-
 --CalculatePixGain_addfpr <= addfpr when CalculatePixGain_mux = '1' else (others => '0');
 --CalculatePixGain_addfprdy <= addfprdy when CalculatePixGain_mux = '1' else '0';
 --CalculatePixGain_subfpr <= subfpr when CalculatePixGain_mux = '1' else (others => '0');

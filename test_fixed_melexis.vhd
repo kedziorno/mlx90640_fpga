@@ -1565,17 +1565,18 @@ CalculateVdd_i2c_mem_douta <= i2c_mem_douta when CalculateVdd_mux = '1' else (ot
 CalculateTa_i2c_mem_douta <= i2c_mem_douta when CalculateTa_mux = '1' else (others => '0');
 CalculateTo_i2c_mem_douta <= i2c_mem_douta when CalculateTo_mux = '1' else (others => '0');
 
-o_rdy <= rdyrecover;
-
 	-- purpose: main test loop
 	tester : process (i_clock,i_reset) is
+		type states is (idle,
+		s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,
+		ending);
 		variable state : states;
 	begin
 		if (rising_edge(i_clock)) then
 			if (i_reset = '1') then
 				state := idle;
 				-- reset
-				rdyrecover <= '0';
+				o_rdy <= '0';
 			else
 case (state) is
 	when idle =>
@@ -1601,126 +1602,109 @@ case (state) is
 	when s3 => state := s4;
 		CalculateTa_run <= '1';
 		CalculateTa_mux <= '1';
---		CalculateTa_ram0x072a <= CalculateVdd_ram0x072a;
---		CalculateTa_kvdd <= CalculateVdd_kvdd;
---		CalculateTa_vdd25 <= CalculateVdd_vdd25;
 	when s4 =>
 		calculateTa_run <= '0';
 		if (calculateTa_rdy = '1') then
-			state := s7;
+			state := s5;
 			CalculateTa_mux <= '0';
 		else
 			state := s4;
 			CalculateTa_mux <= '1';
 		end if;		
 		
-	when s7 => state := s8;
+	when s5 => state := s6;
 		CalculatePixOS_run <= '1';
 		CalculatePixOS_mux <= '1';
-	when s8 => 
+	when s6 => 
 		CalculatePixOS_run <= '0';
 		if (CalculatePixOS_rdy = '1') then
-			state := s9;
+			state := s7;
 			CalculatePixOS_mux <= '0';
 		else
-			state := s8;
+			state := s6;
 			CalculatePixOS_mux <= '1';
 		end if;
 
-	when s9 => state := s10;
+	when s7 => state := s8;
 		CalculatePixOsCPSP_run <= '1';
 		CalculatePixOsCPSP_mux <= '1';
-	when s10 => 
+	when s8 => 
 		CalculatePixOsCPSP_run <= '0';
 		if (CalculatePixOsCPSP_rdy = '1') then
-			state := s11;
+			state := s9;
 			CalculatePixOsCPSP_mux <= '0';
 		else
-			state := s10;
+			state := s8;
 			CalculatePixOsCPSP_mux <= '1';
 		end if;
 
-	when s11 => state := s12;
+	when s9 => state := s10;
 		CalculateVirCompensated_run <= '1';
 		CalculateVirCompensated_mux <= '1';
-	when s12 => 
+	when s10 => 
 		CalculateVirCompensated_run <= '0';
 		if (CalculateVirCompensated_rdy = '1') then
---			state := s13;
-			state := s15;
+			state := s11;
 			CalculateVirCompensated_mux <= '0';
 		else
-			state := s12;
+			state := s10;
 			CalculateVirCompensated_mux <= '1';
 		end if;
 
---	when s13 => state := s14;
---		ExtractOffsetParameters_run <= '1';
---		ExtractOffsetParameters_mux <= '1';
---	when s14 => 
---		ExtractOffsetParameters_run <= '0';
---		if (ExtractOffsetParameters_rdy = '1') then
---			state := s15;
---			ExtractOffsetParameters_mux <= '0';
---		else
---			state := s14;
---			ExtractOffsetParameters_mux <= '1';
---		end if;
-
-	when s15 => state := s16;
+	when s11 => state := s12;
 		CalculateAlphaCP_run <= '1';
 		CalculateAlphaCP_mux <= '1';
-	when s16 => 
+	when s12 => 
 		CalculateAlphaCP_run <= '0';
 		if (CalculateAlphaCP_rdy = '1') then
-			state := s17;
+			state := s13;
 			CalculateAlphaCP_mux <= '0';
 		else
-			state := s16;
+			state := s12;
 			CalculateAlphaCP_mux <= '1';
 		end if;
 
-	when s17 => state := s18;
+	when s13 => state := s14;
 		ExtractAlphaParameters_run <= '1';
 		ExtractAlphaParameters_mux <= '1';
-	when s18 => 
+	when s14 => 
 		ExtractAlphaParameters_run <= '0';
 		if (ExtractAlphaParameters_rdy = '1') then
-			state := s19;
+			state := s15;
 			ExtractAlphaParameters_mux <= '0';
 		else
-			state := s18;
+			state := s14;
 			ExtractAlphaParameters_mux <= '1';
 		end if;
 
-	when s19 => state := s20;
+	when s15 => state := s16;
 		CalculateAlphaComp_run <= '1';
 		CalculateAlphaComp_mux <= '1';
-	when s20 => 
+	when s16 => 
 		CalculateAlphaComp_run <= '0';
 		if (CalculateAlphaComp_rdy = '1') then
-			state := s21;
+			state := s17;
 			CalculateAlphaComp_mux <= '0';
 		else
-			state := s20;
+			state := s16;
 			CalculateAlphaComp_mux <= '1';
 		end if;
 
-	when s21 => state := s22;
+	when s17 => state := s18;
 		CalculateTo_run <= '1';
 		CalculateTo_mux <= '1';
-	when s22 => 
+	when s18 => 
 		CalculateTo_run <= '0';
 		if (CalculateTo_rdy = '1') then
 			state := ending;
 			CalculateTo_mux <= '0';
 		else
-			state := s22;
+			state := s18;
 			CalculateTo_mux <= '1';
 		end if;
 
 	when ending => state := idle;
-		rdyrecover <= '1';
+		o_rdy <= '1';
 
 	when others => null;
 end case;

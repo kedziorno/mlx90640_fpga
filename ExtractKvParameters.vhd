@@ -233,8 +233,7 @@ signal ena_mux1 : std_logic;
 
 -- xxx nibbles must out in next clock xyxle
 signal nibble1,nibble2,nibble5,nibble4 : std_logic_vector (3 downto 0);
-signal nibble3 : std_logic_vector (2 downto 0);
-signal out_nibble1,out_nibble2,out_nibble3,out_nibble4,out_nibble5 : std_logic_vector (31 downto 0);
+signal out_nibble1,out_nibble2,out_nibble4,out_nibble5 : std_logic_vector (31 downto 0);
 
 signal write_enable : std_logic;
 
@@ -416,7 +415,6 @@ begin
 			state := idle;
 			nibble1 <= (others => '0');
 			nibble2 <= (others => '0');
-			nibble3 <= (others => '0');
 			write_enable <= '0';
 			ena_mux1 <= '0';
 			rdy <= '0';
@@ -476,8 +474,6 @@ when kv9 => state := kv24;
 	divfpa_internal <= out_nibble2; -- kvij 
 	divfpb_internal <= out_nibble1; -- 2^kvscale
 	divfpond_internal <= '1';
---	--report "vAlphaPixel : " & real'image (ap_slv2fp (out_nibble3));
---	--report "vkvRemScale : " & real'image (ap_slv2fp (vkvRemScale));
 when kv24 => 			--6
 	if (divfprdy_internal = '1') then state := kv25;
 		kv_ft := divfpr_internal;

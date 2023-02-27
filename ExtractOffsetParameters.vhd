@@ -244,8 +244,6 @@ end component mem_ramb16_s36_x2;
 signal addra,mux_addr : std_logic_vector (9 downto 0);
 signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
 
-signal ena_mux1 : std_logic;
-
 -- xxx nibbles must out in next clock xyxle
 signal nibble1,nibble2,nibble4 : std_logic_vector (3 downto 0);
 signal nibble3 : std_logic_vector (5 downto 0);
@@ -424,7 +422,6 @@ begin
 			nibble2 <= (others => '0');
 			nibble3 <= (others => '0');
 			write_enable <= '0';
-			ena_mux1 <= '0';
 			rdy <= '0';
 			addfpsclr_internal <= '1';
 			mulfpsclr_internal <= '1';
@@ -448,12 +445,10 @@ begin
 						state := occ0;
 						i2c_mem_ena <= '1';
 						write_enable <= '1';
-						ena_mux1 <= '1';
 					else
 						state := idle;
 						i2c_mem_ena <= '0';
 						write_enable <= '0';
-						ena_mux1 <= '0';
 					end if;
 				when occ0 => state := occ1;
 					addfpsclr_internal <= '0';
