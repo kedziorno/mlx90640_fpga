@@ -788,22 +788,51 @@ signal CalculateVirCompensated_subfprdy : STD_LOGIC;
 
 COMPONENT CalculateAlphaComp
 PORT(
-i_clock : IN  std_logic;
-i_reset : IN  std_logic;
-i_run : IN  std_logic;
-i2c_mem_ena : OUT  std_logic;
-i2c_mem_addra : OUT  std_logic_vector(11 downto 0);
-i2c_mem_douta : IN  std_logic_vector(7 downto 0);
-i_Ta : IN  std_logic_vector(31 downto 0);
-i_Ta0 : IN  std_logic_vector(31 downto 0);
-i_acpsubpage0 : IN  std_logic_vector(31 downto 0);
-i_acpsubpage1 : IN  std_logic_vector(31 downto 0);
-i_const1 : IN  std_logic_vector(31 downto 0);
-i_alpha_do : IN  std_logic_vector(31 downto 0);
-o_alpha_addr : OUT  std_logic_vector(9 downto 0);
-o_do : OUT  std_logic_vector(31 downto 0);
-i_addr : IN  std_logic_vector(9 downto 0);
-o_rdy : OUT  std_logic
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+
+i_Ta : in std_logic_vector (31 downto 0);
+i_Ta0 : in std_logic_vector (31 downto 0);
+i_acpsubpage0 : in std_logic_vector (31 downto 0);
+i_acpsubpage1 : in std_logic_vector (31 downto 0);
+i_const1 : in std_logic_vector (31 downto 0);
+
+i_alpha_do : in std_logic_vector (31 downto 0);
+o_alpha_addr : out std_logic_vector (9 downto 0); -- 10bit-1024
+
+o_do : out std_logic_vector (31 downto 0);
+i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
+
+o_rdy : out std_logic;
+
+signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : out STD_LOGIC;
+signal mulfpsclr : out STD_LOGIC;
+signal mulfpce : out STD_LOGIC;
+signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy : in STD_LOGIC;
+
+signal addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : out STD_LOGIC;
+signal addfpsclr : out STD_LOGIC;
+signal addfpce : out STD_LOGIC;
+signal addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : in STD_LOGIC;
+
+signal subfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpond : out STD_LOGIC;
+signal subfpsclr : out STD_LOGIC;
+signal subfpce : out STD_LOGIC;
+signal subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfprdy : in STD_LOGIC
 );
 END COMPONENT;
 signal CalculateAlphaComp_clock : std_logic := '0';
@@ -822,6 +851,27 @@ signal CalculateAlphaComp_i2c_mem_addra : std_logic_vector(11 downto 0);
 signal CalculateAlphaComp_alpha_addr : std_logic_vector(9 downto 0);
 signal CalculateAlphaComp_do : std_logic_vector(31 downto 0);
 signal CalculateAlphaComp_rdy : std_logic;
+signal CalculateAlphaComp_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaComp_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaComp_mulfpond : STD_LOGIC;
+signal CalculateAlphaComp_mulfpsclr : STD_LOGIC;
+signal CalculateAlphaComp_mulfpce : STD_LOGIC;
+signal CalculateAlphaComp_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaComp_mulfprdy : STD_LOGIC;
+signal CalculateAlphaComp_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaComp_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaComp_addfpond : STD_LOGIC;
+signal CalculateAlphaComp_addfpsclr : STD_LOGIC;
+signal CalculateAlphaComp_addfpce : STD_LOGIC;
+signal CalculateAlphaComp_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaComp_addfprdy : STD_LOGIC;
+signal CalculateAlphaComp_subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaComp_subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaComp_subfpond : STD_LOGIC;
+signal CalculateAlphaComp_subfpsclr : STD_LOGIC;
+signal CalculateAlphaComp_subfpce : STD_LOGIC;
+signal CalculateAlphaComp_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaComp_subfprdy : STD_LOGIC;
 
 COMPONENT CalculateTo
 PORT(
@@ -1006,6 +1056,8 @@ else
 ExtractAlphaParameters_mulfpa when ExtractAlphaParameters_mux = '1' 
 else
 CalculateVirCompensated_mulfpa when CalculateVirCompensated_mux = '1' 
+else
+CalculateAlphaComp_mulfpa when CalculateAlphaComp_mux = '1' 
 else (others => '0');
 
 mulfpb <=
@@ -1022,6 +1074,8 @@ else
 ExtractAlphaParameters_mulfpb when ExtractAlphaParameters_mux = '1' 
 else
 CalculateVirCompensated_mulfpb when CalculateVirCompensated_mux = '1' 
+else
+CalculateAlphaComp_mulfpb when CalculateAlphaComp_mux = '1' 
 else (others => '0');
 
 mulfpond <=
@@ -1038,6 +1092,8 @@ else
 ExtractAlphaParameters_mulfpond when ExtractAlphaParameters_mux = '1' 
 else
 CalculateVirCompensated_mulfpond when CalculateVirCompensated_mux = '1' 
+else
+CalculateAlphaComp_mulfpond when CalculateAlphaComp_mux = '1' 
 else '0';
 
 mulfpce <=
@@ -1054,6 +1110,8 @@ else
 ExtractAlphaParameters_mulfpce when ExtractAlphaParameters_mux = '1' 
 else
 CalculateVirCompensated_mulfpce when CalculateVirCompensated_mux = '1' 
+else
+CalculateAlphaComp_mulfpce when CalculateAlphaComp_mux = '1' 
 else '0';
 
 mulfpsclr <=
@@ -1070,6 +1128,8 @@ else
 ExtractAlphaParameters_mulfpsclr when ExtractAlphaParameters_mux = '1' 
 else
 CalculateVirCompensated_mulfpsclr when CalculateVirCompensated_mux = '1' 
+else
+CalculateAlphaComp_mulfpsclr when CalculateAlphaComp_mux = '1' 
 else '0';
 
 addfpa <=
@@ -1084,6 +1144,8 @@ else
 ExtractAlphaParameters_addfpa when ExtractAlphaParameters_mux = '1' 
 else
 CalculateVirCompensated_addfpa when CalculateVirCompensated_mux = '1' 
+else
+CalculateAlphaComp_addfpa when CalculateAlphaComp_mux = '1' 
 else (others => '0');
 
 addfpb <=
@@ -1098,6 +1160,8 @@ else
 ExtractAlphaParameters_addfpb when ExtractAlphaParameters_mux = '1' 
 else
 CalculateVirCompensated_addfpb when CalculateVirCompensated_mux = '1' 
+else
+CalculateAlphaComp_addfpb when CalculateAlphaComp_mux = '1' 
 else (others => '0');
 
 addfpond <=
@@ -1112,6 +1176,8 @@ else
 ExtractAlphaParameters_addfpond when ExtractAlphaParameters_mux = '1' 
 else
 CalculateVirCompensated_addfpond when CalculateVirCompensated_mux = '1' 
+else
+CalculateAlphaComp_addfpond when CalculateAlphaComp_mux = '1' 
 else '0';
 
 addfpce <=
@@ -1126,6 +1192,8 @@ else
 ExtractAlphaParameters_addfpce when ExtractAlphaParameters_mux = '1' 
 else
 CalculateVirCompensated_addfpce when CalculateVirCompensated_mux = '1' 
+else
+CalculateAlphaComp_addfpce when CalculateAlphaComp_mux = '1' 
 else '0';
 
 addfpsclr <=
@@ -1140,6 +1208,8 @@ else
 ExtractAlphaParameters_addfpsclr when ExtractAlphaParameters_mux = '1' 
 else
 CalculateVirCompensated_addfpsclr when CalculateVirCompensated_mux = '1' 
+else
+CalculateAlphaComp_addfpsclr when CalculateAlphaComp_mux = '1' 
 else '0';
 
 subfpa <=
@@ -1152,6 +1222,8 @@ else
 CalculatePixOSCPSP_subfpa when CalculatePixOSCPSP_mux = '1' 
 else
 CalculateVirCompensated_subfpa when CalculateVirCompensated_mux = '1' 
+else
+CalculateAlphaComp_subfpa when CalculateAlphaComp_mux = '1' 
 else (others => '0');
 
 subfpb <=
@@ -1164,6 +1236,8 @@ else
 CalculatePixOSCPSP_subfpb when CalculatePixOSCPSP_mux = '1' 
 else
 CalculateVirCompensated_subfpb when CalculateVirCompensated_mux = '1' 
+else
+CalculateAlphaComp_subfpb when CalculateAlphaComp_mux = '1' 
 else (others => '0');
 
 subfpond <=
@@ -1176,6 +1250,8 @@ else
 CalculatePixOSCPSP_subfpond when CalculatePixOSCPSP_mux = '1' 
 else
 CalculateVirCompensated_subfpond when CalculateVirCompensated_mux = '1' 
+else
+CalculateAlphaComp_subfpond when CalculateAlphaComp_mux = '1' 
 else '0';
 
 subfpce <=
@@ -1188,6 +1264,8 @@ else
 CalculatePixOSCPSP_subfpce when CalculatePixOSCPSP_mux = '1' 
 else
 CalculateVirCompensated_subfpce when CalculateVirCompensated_mux = '1' 
+else
+CalculateAlphaComp_subfpce when CalculateAlphaComp_mux = '1' 
 else '0';
 
 subfpsclr <=
@@ -1200,6 +1278,8 @@ else
 CalculatePixOSCPSP_subfpsclr when CalculatePixOSCPSP_mux = '1' 
 else
 CalculateVirCompensated_subfpsclr when CalculateVirCompensated_mux = '1' 
+else
+CalculateAlphaComp_subfpsclr when CalculateAlphaComp_mux = '1' 
 else '0';
 
 CalculateVdd_fixed2floatr <= fixed2floatr when CalculateVdd_mux = '1' else (others => '0');
@@ -1268,6 +1348,13 @@ CalculateVirCompensated_addfpr <= addfpr when CalculateVirCompensated_mux = '1' 
 CalculateVirCompensated_addfprdy <= addfprdy when CalculateVirCompensated_mux = '1' else '0';
 CalculateVirCompensated_subfpr <= subfpr when CalculateVirCompensated_mux = '1' else (others => '0');
 CalculateVirCompensated_subfprdy <= subfprdy when CalculateVirCompensated_mux = '1' else '0';
+
+CalculateAlphaComp_mulfpr <= mulfpr when CalculateAlphaComp_mux = '1' else (others => '0');
+CalculateAlphaComp_mulfprdy <= mulfprdy when CalculateAlphaComp_mux = '1' else '0';
+CalculateAlphaComp_addfpr <= addfpr when CalculateAlphaComp_mux = '1' else (others => '0');
+CalculateAlphaComp_addfprdy <= addfprdy when CalculateAlphaComp_mux = '1' else '0';
+CalculateAlphaComp_subfpr <= subfpr when CalculateAlphaComp_mux = '1' else (others => '0');
+CalculateAlphaComp_subfprdy <= subfprdy when CalculateAlphaComp_mux = '1' else '0';
 
 i2c_mem_ena <=
 CalculatePixOS_i2c_mem_ena when CalculatePixOS_mux = '1'
@@ -1864,7 +1951,31 @@ i_alpha_do => CalculateAlphaComp_alpha_do,
 o_alpha_addr => CalculateAlphaComp_alpha_addr,
 o_do => CalculateAlphaComp_do,
 i_addr => CalculateAlphaComp_addr,
-o_rdy => CalculateAlphaComp_rdy
+o_rdy => CalculateAlphaComp_rdy,
+
+mulfpa => CalculateAlphaComp_mulfpa,
+mulfpb => CalculateAlphaComp_mulfpb,
+mulfpond => CalculateAlphaComp_mulfpond,
+mulfpsclr => CalculateAlphaComp_mulfpsclr,
+mulfpce => CalculateAlphaComp_mulfpce,
+mulfpr => CalculateAlphaComp_mulfpr,
+mulfprdy => CalculateAlphaComp_mulfprdy,
+
+addfpa => CalculateAlphaComp_addfpa,
+addfpb => CalculateAlphaComp_addfpb,
+addfpond => CalculateAlphaComp_addfpond,
+addfpsclr => CalculateAlphaComp_addfpsclr,
+addfpce => CalculateAlphaComp_addfpce,
+addfpr => CalculateAlphaComp_addfpr,
+addfprdy => CalculateAlphaComp_addfprdy,
+
+subfpa => CalculateAlphaComp_subfpa,
+subfpb => CalculateAlphaComp_subfpb,
+subfpond => CalculateAlphaComp_subfpond,
+subfpsclr => CalculateAlphaComp_subfpsclr,
+subfpce => CalculateAlphaComp_subfpce,
+subfpr => CalculateAlphaComp_subfpr,
+subfprdy => CalculateAlphaComp_subfprdy
 );
 
 CalculateTo_clock <= i_clock;
