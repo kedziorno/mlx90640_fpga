@@ -21,11 +21,11 @@
 -- For fphdl vhdl-200x created by David Bishop (dbishop@vhdl.org)
 ----------------------------------------------------------------------------------
 
-library ieee, ieee_proposed;
---library ieee;
+--library ieee, ieee_proposed;
+library ieee;
 use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
-use ieee_proposed.fixed_pkg.all;
+--use ieee.numeric_std.all;
+--use ieee_proposed.fixed_pkg.all;
 --use ieee_proposed.fixed_synth.all;
 
 

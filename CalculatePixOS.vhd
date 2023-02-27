@@ -781,7 +781,7 @@ p0 : process (i_clock) is
 	constant C_COL : integer := 32;
 	variable i : integer range 0 to C_ROW*C_COL-1;
 	type states is (idle,
-	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,
+	s2,s3,s4,s5,s6,s7,s8,s9,s10,
 	s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,
 	s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,
 	ending);
@@ -826,7 +826,7 @@ begin
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := s1;
+						state := s2;
 					else
 						state := idle;
 					end if;
@@ -835,16 +835,16 @@ begin
 					subfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 
-	when s1 => state := s2;		
+	when s2 => state := s3;		
 		CalculatePixGain_run <= '1';
 		CalculatePixGain_mux <= '1';
-	when s2 => 
+	when s3 => 
 		CalculatePixGain_run <= '0';
 		if (CalculatePixGain_rdy = '1') then
 			state := s4;
 			CalculatePixGain_mux <= '0';
 		else
-			state := s2;
+			state := s3;
 			CalculatePixGain_mux <= '1';
 		end if;
 
