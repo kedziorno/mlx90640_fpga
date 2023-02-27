@@ -360,8 +360,8 @@ x"00000000" when "000", x"3f800000" when "001", x"40000000" when "010", x"404000
 x"c0800000" when "100", x"c0400000" when "101", x"c0000000" when "110", x"bf800000" when "111",
 x"00000000" when others;
 
-cole <= '1' when (col mod 2) = 0 else '0' when (col mod 2) = 1; -- column even
-rowe <= '1' when (row mod 2) = 0 else '0' when (row mod 2) = 1; -- row even
+cole <= '1' when (col mod 2) = 0 else '0' when (col mod 2) = 1 else '0'; -- column even
+rowe <= '1' when (row mod 2) = 0 else '0' when (row mod 2) = 1 else '0'; -- row even
 
 p1 : process (cole,rowe,ktarcee_oo,ktarcee_eo,ktarcee_oe,ktarcee_ee) is
 	variable a : std_logic_vector (1 downto 0);

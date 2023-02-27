@@ -290,8 +290,8 @@ x"c1000000" when x"8", x"c0e00000" when x"9", x"c0c00000" when x"a", x"c0a00000"
 x"c0800000" when x"c", x"c0400000" when x"d", x"c0000000" when x"e", x"bf800000" when x"f",
 x"00000000" when others;
 
-cole <= '1' when (col mod 2) = 0 else '0' when (col mod 2) = 1; -- column even
-rowe <= '1' when (row mod 2) = 0 else '0' when (row mod 2) = 1; -- row even
+cole <= '1' when (col mod 2) = 0 else '0' when (col mod 2) = 1 else '0'; -- column even
+rowe <= '1' when (row mod 2) = 0 else '0' when (row mod 2) = 1 else '0'; -- row even
 
 p1 : process (cole,rowe,kvijee_oo,kvijee_eo,kvijee_oe,kvijee_ee) is
 	variable a : std_logic_vector (1 downto 0);

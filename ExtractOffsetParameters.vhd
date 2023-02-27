@@ -894,7 +894,7 @@ when s0 => state := s1; 	--1
 	--report "====================";
 	vOffset_ft := (others => '0');
 	write_enable <= '0';
-	i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i), 12)); -- offset LSB 0
+	i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i)+0, 12)); -- offset LSB 0
 	addra <= std_logic_vector (to_unsigned (col+C_ROW, 10)); -- OCCColumnJ
 when s1 => state := s2;	--2
 	i2c_mem_addra <= (others => '0');

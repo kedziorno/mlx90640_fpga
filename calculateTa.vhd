@@ -154,7 +154,7 @@ p0 : process (i_clock) is
 	s0,s1,
 	s1a,s1b,s1c,s1d,s1e,s1f,s1g,s1h,s1i,s1j,s1k,s1l,s1m,s1n,
 	s1o,s1p,s1r,s1s,s1t,s1u,s1w,s1y,s1z,
-	s2,s3,s4,s5,s5a,s5b,s6,s7,s8,
+	s2,s3,s6,s7,s8,
 	s9,s10,s11,s12,s13,s14,
 	s15,s16,s17,s18,s19,s20,
 	s21,s22,s23,s24,s25,s26,
