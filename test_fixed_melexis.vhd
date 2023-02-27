@@ -907,7 +907,47 @@ i_alphacomp_do : IN  std_logic_vector(31 downto 0);
 o_alphacomp_addr : OUT  std_logic_vector(9 downto 0);
 o_do : OUT  std_logic_vector(31 downto 0);
 i_addr : IN  std_logic_vector(9 downto 0);
-o_rdy : OUT  std_logic
+o_rdy : OUT  std_logic;
+
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC;
+
+signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : out STD_LOGIC;
+signal mulfpsclr : out STD_LOGIC;
+signal mulfpce : out STD_LOGIC;
+signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy : in STD_LOGIC;
+
+signal addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : out STD_LOGIC;
+signal addfpsclr : out STD_LOGIC;
+signal addfpce : out STD_LOGIC;
+signal addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : in STD_LOGIC;
+
+signal subfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpond : out STD_LOGIC;
+signal subfpsclr : out STD_LOGIC;
+signal subfpce : out STD_LOGIC;
+signal subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfprdy : in STD_LOGIC;
+
+signal sqrtfp2a : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal sqrtfp2ond : out STD_LOGIC;
+signal sqrtfp2sclr : out STD_LOGIC;
+signal sqrtfp2ce : out STD_LOGIC;
+signal sqrtfp2r : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal sqrtfp2rdy : in STD_LOGIC
+
 );
 END COMPONENT;
 signal CalculateTo_clock : std_logic := '0';
@@ -924,6 +964,45 @@ signal CalculateTo_vircompensated_addr : std_logic_vector(9 downto 0);
 signal CalculateTo_alphacomp_addr : std_logic_vector(9 downto 0);
 signal CalculateTo_do : std_logic_vector(31 downto 0);
 signal CalculateTo_rdy : std_logic;
+
+signal CalculateTo_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTo_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTo_divfpond : STD_LOGIC;
+signal CalculateTo_divfpsclr : STD_LOGIC;
+signal CalculateTo_divfpce : STD_LOGIC;
+signal CalculateTo_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTo_divfprdy : STD_LOGIC;
+
+signal CalculateTo_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTo_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTo_mulfpond : STD_LOGIC;
+signal CalculateTo_mulfpsclr : STD_LOGIC;
+signal CalculateTo_mulfpce : STD_LOGIC;
+signal CalculateTo_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTo_mulfprdy : STD_LOGIC;
+
+signal CalculateTo_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTo_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTo_addfpond : STD_LOGIC;
+signal CalculateTo_addfpsclr : STD_LOGIC;
+signal CalculateTo_addfpce : STD_LOGIC;
+signal CalculateTo_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTo_addfprdy : STD_LOGIC;
+
+signal CalculateTo_subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTo_subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTo_subfpond : STD_LOGIC;
+signal CalculateTo_subfpsclr : STD_LOGIC;
+signal CalculateTo_subfpce : STD_LOGIC;
+signal CalculateTo_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTo_subfprdy : STD_LOGIC;
+
+signal CalculateTo_sqrtfp2a : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTo_sqrtfp2ond : STD_LOGIC;
+signal CalculateTo_sqrtfp2sclr : STD_LOGIC;
+signal CalculateTo_sqrtfp2ce : STD_LOGIC;
+signal CalculateTo_sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTo_sqrtfp2rdy : STD_LOGIC;
 
 signal rdyrecover : std_logic; -- signal for tb when rdy not appear
 
@@ -995,6 +1074,8 @@ else
 ExtractAlphaParameters_divfpa when ExtractAlphaParameters_mux = '1' 
 else
 CalculateVirCompensated_divfpa when CalculateVirCompensated_mux = '1' 
+else
+CalculateTo_divfpa when CalculateTo_mux = '1' 
 else (others => '0');
 
 divfpb <=
@@ -1011,6 +1092,8 @@ else
 ExtractAlphaParameters_divfpb when ExtractAlphaParameters_mux = '1' 
 else
 CalculateVirCompensated_divfpb when CalculateVirCompensated_mux = '1' 
+else
+CalculateTo_divfpb when CalculateTo_mux = '1' 
 else (others => '0');
 
 divfpond <=
@@ -1027,6 +1110,8 @@ else
 ExtractAlphaParameters_divfpond when ExtractAlphaParameters_mux = '1' 
 else
 CalculateVirCompensated_divfpond when CalculateVirCompensated_mux = '1' 
+else
+CalculateTo_divfpond when CalculateTo_mux = '1' 
 else '0';
 
 divfpce <=
@@ -1043,6 +1128,8 @@ else
 ExtractAlphaParameters_divfpce when ExtractAlphaParameters_mux = '1' 
 else
 CalculateVirCompensated_divfpce when CalculateVirCompensated_mux = '1' 
+else
+CalculateTo_divfpce when CalculateTo_mux = '1' 
 else '0';
 
 divfpsclr <=
@@ -1059,6 +1146,8 @@ else
 ExtractAlphaParameters_divfpsclr when ExtractAlphaParameters_mux = '1' 
 else
 CalculateVirCompensated_divfpsclr when CalculateVirCompensated_mux = '1' 
+else
+CalculateTo_divfpsclr when CalculateTo_mux = '1' 
 else '0';
 
 mulfpa <=
@@ -1077,6 +1166,8 @@ else
 CalculateVirCompensated_mulfpa when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_mulfpa when CalculateAlphaComp_mux = '1' 
+else
+CalculateTo_mulfpa when CalculateTo_mux = '1' 
 else (others => '0');
 
 mulfpb <=
@@ -1095,6 +1186,8 @@ else
 CalculateVirCompensated_mulfpb when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_mulfpb when CalculateAlphaComp_mux = '1' 
+else
+CalculateTo_mulfpb when CalculateTo_mux = '1' 
 else (others => '0');
 
 mulfpond <=
@@ -1113,6 +1206,8 @@ else
 CalculateVirCompensated_mulfpond when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_mulfpond when CalculateAlphaComp_mux = '1' 
+else
+CalculateTo_mulfpond when CalculateTo_mux = '1' 
 else '0';
 
 mulfpce <=
@@ -1131,6 +1226,8 @@ else
 CalculateVirCompensated_mulfpce when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_mulfpce when CalculateAlphaComp_mux = '1' 
+else
+CalculateTo_mulfpce when CalculateTo_mux = '1' 
 else '0';
 
 mulfpsclr <=
@@ -1149,6 +1246,8 @@ else
 CalculateVirCompensated_mulfpsclr when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_mulfpsclr when CalculateAlphaComp_mux = '1' 
+else
+CalculateTo_mulfpsclr when CalculateTo_mux = '1' 
 else '0';
 
 addfpa <=
@@ -1165,6 +1264,8 @@ else
 CalculateVirCompensated_addfpa when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_addfpa when CalculateAlphaComp_mux = '1' 
+else
+CalculateTo_addfpa when CalculateTo_mux = '1' 
 else (others => '0');
 
 addfpb <=
@@ -1181,6 +1282,8 @@ else
 CalculateVirCompensated_addfpb when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_addfpb when CalculateAlphaComp_mux = '1' 
+else
+CalculateTo_addfpb when CalculateTo_mux = '1' 
 else (others => '0');
 
 addfpond <=
@@ -1197,6 +1300,8 @@ else
 CalculateVirCompensated_addfpond when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_addfpond when CalculateAlphaComp_mux = '1' 
+else
+CalculateTo_addfpond when CalculateTo_mux = '1' 
 else '0';
 
 addfpce <=
@@ -1213,6 +1318,8 @@ else
 CalculateVirCompensated_addfpce when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_addfpce when CalculateAlphaComp_mux = '1' 
+else
+CalculateTo_addfpce when CalculateTo_mux = '1' 
 else '0';
 
 addfpsclr <=
@@ -1229,6 +1336,8 @@ else
 CalculateVirCompensated_addfpsclr when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_addfpsclr when CalculateAlphaComp_mux = '1' 
+else
+CalculateTo_addfpsclr when CalculateTo_mux = '1' 
 else '0';
 
 subfpa <=
@@ -1243,6 +1352,8 @@ else
 CalculateVirCompensated_subfpa when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_subfpa when CalculateAlphaComp_mux = '1' 
+else
+CalculateTo_subfpa when CalculateTo_mux = '1' 
 else (others => '0');
 
 subfpb <=
@@ -1257,6 +1368,8 @@ else
 CalculateVirCompensated_subfpb when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_subfpb when CalculateAlphaComp_mux = '1' 
+else
+CalculateTo_subfpb when CalculateTo_mux = '1' 
 else (others => '0');
 
 subfpond <=
@@ -1271,6 +1384,8 @@ else
 CalculateVirCompensated_subfpond when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_subfpond when CalculateAlphaComp_mux = '1' 
+else
+CalculateTo_subfpond when CalculateTo_mux = '1' 
 else '0';
 
 subfpce <=
@@ -1285,6 +1400,8 @@ else
 CalculateVirCompensated_subfpce when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_subfpce when CalculateAlphaComp_mux = '1' 
+else
+CalculateTo_subfpce when CalculateTo_mux = '1' 
 else '0';
 
 subfpsclr <=
@@ -1299,7 +1416,14 @@ else
 CalculateVirCompensated_subfpsclr when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_subfpsclr when CalculateAlphaComp_mux = '1' 
+else
+CalculateTo_subfpsclr when CalculateTo_mux = '1' 
 else '0';
+
+sqrtfp2a <= CalculateTo_sqrtfp2a when CalculateTo_mux = '1' else (others => '0');
+sqrtfp2ond <= CalculateTo_sqrtfp2ond when CalculateTo_mux = '1' else '0';
+sqrtfp2sclr <= CalculateTo_sqrtfp2sclr when CalculateTo_mux = '1' else '0';
+sqrtfp2ce <= CalculateTo_sqrtfp2ce when CalculateTo_mux = '1' else '0';
 
 CalculateVdd_fixed2floatr <= fixed2floatr when CalculateVdd_mux = '1' else (others => '0');
 CalculateVdd_fixed2floatrdy <= fixed2floatrdy when CalculateVdd_mux = '1' else '0';
@@ -1374,6 +1498,17 @@ CalculateAlphaComp_addfpr <= addfpr when CalculateAlphaComp_mux = '1' else (othe
 CalculateAlphaComp_addfprdy <= addfprdy when CalculateAlphaComp_mux = '1' else '0';
 CalculateAlphaComp_subfpr <= subfpr when CalculateAlphaComp_mux = '1' else (others => '0');
 CalculateAlphaComp_subfprdy <= subfprdy when CalculateAlphaComp_mux = '1' else '0';
+
+CalculateTo_divfpr <= divfpr when CalculateTo_mux = '1' else (others => '0');
+CalculateTo_divfprdy <= divfprdy when CalculateTo_mux = '1' else '0';
+CalculateTo_mulfpr <= mulfpr when CalculateTo_mux = '1' else (others => '0');
+CalculateTo_mulfprdy <= mulfprdy when CalculateTo_mux = '1' else '0';
+CalculateTo_addfpr <= addfpr when CalculateTo_mux = '1' else (others => '0');
+CalculateTo_addfprdy <= addfprdy when CalculateTo_mux = '1' else '0';
+CalculateTo_subfpr <= subfpr when CalculateTo_mux = '1' else (others => '0');
+CalculateTo_subfprdy <= subfprdy when CalculateTo_mux = '1' else '0';
+CalculateTo_sqrtfp2r <= sqrtfp2r when CalculateTo_mux = '1' else (others => '0');
+CalculateTo_sqrtfp2rdy <= sqrtfp2rdy when CalculateTo_mux = '1' else '0';
 
 i2c_mem_ena <=
 CalculatePixOS_i2c_mem_ena when CalculatePixOS_mux = '1'
@@ -2018,7 +2153,46 @@ i_alphacomp_do => CalculateTo_alphacomp_do,
 o_alphacomp_addr => CalculateTo_alphacomp_addr,
 o_do => CalculateTo_do,
 i_addr => CalculateTo_addr,
-o_rdy => CalculateTo_rdy
+o_rdy => CalculateTo_rdy,
+
+divfpa => CalculateTo_divfpa,
+divfpb => CalculateTo_divfpb,
+divfpond => CalculateTo_divfpond,
+divfpsclr => CalculateTo_divfpsclr,
+divfpce => CalculateTo_divfpce,
+divfpr => CalculateTo_divfpr,
+divfprdy => CalculateTo_divfprdy,
+
+mulfpa => CalculateTo_mulfpa,
+mulfpb => CalculateTo_mulfpb,
+mulfpond => CalculateTo_mulfpond,
+mulfpsclr => CalculateTo_mulfpsclr,
+mulfpce => CalculateTo_mulfpce,
+mulfpr => CalculateTo_mulfpr,
+mulfprdy => CalculateTo_mulfprdy,
+
+addfpa => CalculateTo_addfpa,
+addfpb => CalculateTo_addfpb,
+addfpond => CalculateTo_addfpond,
+addfpsclr => CalculateTo_addfpsclr,
+addfpce => CalculateTo_addfpce,
+addfpr => CalculateTo_addfpr,
+addfprdy => CalculateTo_addfprdy,
+
+subfpa => CalculateTo_subfpa,
+subfpb => CalculateTo_subfpb,
+subfpond => CalculateTo_subfpond,
+subfpsclr => CalculateTo_subfpsclr,
+subfpce => CalculateTo_subfpce,
+subfpr => CalculateTo_subfpr,
+subfprdy => CalculateTo_subfprdy,
+
+sqrtfp2a => CalculateTo_sqrtfp2a,
+sqrtfp2ond => CalculateTo_sqrtfp2ond,
+sqrtfp2sclr => CalculateTo_sqrtfp2sclr,
+sqrtfp2ce => CalculateTo_sqrtfp2ce,
+sqrtfp2r => CalculateTo_sqrtfp2r,
+sqrtfp2rdy => CalculateTo_sqrtfp2rdy
 );
 
 fixed2floatclk <= i_clock;
@@ -2026,6 +2200,7 @@ addfpclk <= i_clock;
 subfpclk <= i_clock;
 mulfpclk <= i_clock;
 divfpclk <= i_clock;
+sqrtfp2clk <= i_clock;
 
 inst_fixed2float : fixed2float
 PORT MAP (
