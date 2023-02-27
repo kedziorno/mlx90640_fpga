@@ -699,36 +699,92 @@ signal CalculatePixOsCPSP_divfpclk : STD_LOGIC;
 
 COMPONENT CalculateVirCompensated
 PORT(
-i_clock : IN  std_logic;
-i_reset : IN  std_logic;
-i_run : IN  std_logic;
-i_Emissivity : IN  std_logic_vector(31 downto 0);
-i_pixoscpsp0 : IN  std_logic_vector(31 downto 0);
-i_pixoscpsp1 : IN  std_logic_vector(31 downto 0);
-i2c_mem_ena : OUT  std_logic;
-i2c_mem_addra : OUT  std_logic_vector(11 downto 0);
-i2c_mem_douta : IN  std_logic_vector(7 downto 0);
-i_pixos_do : IN  std_logic_vector(31 downto 0);
-o_pixos_addr : OUT  std_logic_vector(9 downto 0);
-o_do : OUT  std_logic_vector(31 downto 0);
-i_addr : IN  std_logic_vector(9 downto 0);
-o_rdy : OUT  std_logic
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+i_Emissivity : in std_logic_vector (31 downto 0);
+i_pixoscpsp0 : in std_logic_vector (31 downto 0);
+i_pixoscpsp1 : in std_logic_vector (31 downto 0);
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+i_pixos_do : in std_logic_vector (31 downto 0);
+o_pixos_addr : out std_logic_vector (9 downto 0); -- 10bit-1024
+o_do : out std_logic_vector (31 downto 0);
+i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
+o_rdy : out std_logic;
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC;
+signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : out STD_LOGIC;
+signal mulfpsclr : out STD_LOGIC;
+signal mulfpce : out STD_LOGIC;
+signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy : in STD_LOGIC;
+signal addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : out STD_LOGIC;
+signal addfpsclr : out STD_LOGIC;
+signal addfpce : out STD_LOGIC;
+signal addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : in STD_LOGIC;
+signal subfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpond : out STD_LOGIC;
+signal subfpsclr : out STD_LOGIC;
+signal subfpce : out STD_LOGIC;
+signal subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfprdy : in STD_LOGIC
 );
 END COMPONENT;
 signal CalculateVirCompensated_clock : std_logic;
 signal CalculateVirCompensated_reset : std_logic;
 signal CalculateVirCompensated_run : std_logic;
-signal CalculateVirCompensated_Emissivity : std_logic_vector(31 downto 0);
-signal CalculateVirCompensated_pixoscpsp0 : std_logic_vector(31 downto 0);
-signal CalculateVirCompensated_pixoscpsp1 : std_logic_vector(31 downto 0);
-signal CalculateVirCompensated_pixos_do : std_logic_vector(31 downto 0);
+signal CalculateVirCompensated_Emissivity : std_logic_vector(31 downto 0) := x"3f800000"; -- 1
+signal CalculateVirCompensated_pixoscpsp0 : std_logic_vector(31 downto 0) := x"41CD5551"; -- 25.6666575059956
+signal CalculateVirCompensated_pixoscpsp1 : std_logic_vector(31 downto 0) := x"41AD0D7D"; -- 21.6315865670509
+signal CalculateVirCompensated_i2c_mem_douta : std_logic_vector(7 downto 0);
+signal CalculateVirCompensated_pixos_do : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateVirCompensated_addr : std_logic_vector(9 downto 0);
 signal CalculateVirCompensated_i2c_mem_ena : std_logic;
 signal CalculateVirCompensated_i2c_mem_addra : std_logic_vector(11 downto 0);
-signal CalculateVirCompensated_i2c_mem_douta : std_logic_vector(7 downto 0);
 signal CalculateVirCompensated_pixos_addr : std_logic_vector(9 downto 0);
 signal CalculateVirCompensated_do : std_logic_vector(31 downto 0);
 signal CalculateVirCompensated_rdy : std_logic;
+signal CalculateVirCompensated_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVirCompensated_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVirCompensated_divfpond : STD_LOGIC;
+signal CalculateVirCompensated_divfpsclr : STD_LOGIC;
+signal CalculateVirCompensated_divfpce : STD_LOGIC;
+signal CalculateVirCompensated_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVirCompensated_divfprdy : STD_LOGIC;
+signal CalculateVirCompensated_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVirCompensated_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVirCompensated_mulfpond : STD_LOGIC;
+signal CalculateVirCompensated_mulfpsclr : STD_LOGIC;
+signal CalculateVirCompensated_mulfpce : STD_LOGIC;
+signal CalculateVirCompensated_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVirCompensated_mulfprdy : STD_LOGIC;
+signal CalculateVirCompensated_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVirCompensated_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVirCompensated_addfpond : STD_LOGIC;
+signal CalculateVirCompensated_addfpsclr : STD_LOGIC;
+signal CalculateVirCompensated_addfpce : STD_LOGIC;
+signal CalculateVirCompensated_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVirCompensated_addfprdy : STD_LOGIC;
+signal CalculateVirCompensated_subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVirCompensated_subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVirCompensated_subfpond : STD_LOGIC;
+signal CalculateVirCompensated_subfpsclr : STD_LOGIC;
+signal CalculateVirCompensated_subfpce : STD_LOGIC;
+signal CalculateVirCompensated_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVirCompensated_subfprdy : STD_LOGIC;
 
 COMPONENT CalculateAlphaComp
 PORT(
@@ -868,6 +924,8 @@ else
 CalculateAlphaCP_divfpa when CalculateAlphaCP_mux = '1' 
 else
 ExtractAlphaParameters_divfpa when ExtractAlphaParameters_mux = '1' 
+else
+CalculateVirCompensated_divfpa when CalculateVirCompensated_mux = '1' 
 else (others => '0');
 
 divfpb <=
@@ -882,6 +940,8 @@ else
 CalculateAlphaCP_divfpb when CalculateAlphaCP_mux = '1' 
 else
 ExtractAlphaParameters_divfpb when ExtractAlphaParameters_mux = '1' 
+else
+CalculateVirCompensated_divfpb when CalculateVirCompensated_mux = '1' 
 else (others => '0');
 
 divfpond <=
@@ -896,6 +956,8 @@ else
 CalculateAlphaCP_divfpond when CalculateAlphaCP_mux = '1' 
 else
 ExtractAlphaParameters_divfpond when ExtractAlphaParameters_mux = '1' 
+else
+CalculateVirCompensated_divfpond when CalculateVirCompensated_mux = '1' 
 else '0';
 
 divfpce <=
@@ -910,6 +972,8 @@ else
 CalculateAlphaCP_divfpce when CalculateAlphaCP_mux = '1' 
 else
 ExtractAlphaParameters_divfpce when ExtractAlphaParameters_mux = '1' 
+else
+CalculateVirCompensated_divfpce when CalculateVirCompensated_mux = '1' 
 else '0';
 
 divfpsclr <=
@@ -924,6 +988,8 @@ else
 CalculateAlphaCP_divfpsclr when CalculateAlphaCP_mux = '1' 
 else
 ExtractAlphaParameters_divfpsclr when ExtractAlphaParameters_mux = '1' 
+else
+CalculateVirCompensated_divfpsclr when CalculateVirCompensated_mux = '1' 
 else '0';
 
 mulfpa <=
@@ -938,6 +1004,8 @@ else
 CalculateAlphaCP_mulfpa when CalculateAlphaCP_mux = '1' 
 else
 ExtractAlphaParameters_mulfpa when ExtractAlphaParameters_mux = '1' 
+else
+CalculateVirCompensated_mulfpa when CalculateVirCompensated_mux = '1' 
 else (others => '0');
 
 mulfpb <=
@@ -952,6 +1020,8 @@ else
 CalculateAlphaCP_mulfpb when CalculateAlphaCP_mux = '1' 
 else
 ExtractAlphaParameters_mulfpb when ExtractAlphaParameters_mux = '1' 
+else
+CalculateVirCompensated_mulfpb when CalculateVirCompensated_mux = '1' 
 else (others => '0');
 
 mulfpond <=
@@ -966,6 +1036,8 @@ else
 CalculateAlphaCP_mulfpond when CalculateAlphaCP_mux = '1' 
 else
 ExtractAlphaParameters_mulfpond when ExtractAlphaParameters_mux = '1' 
+else
+CalculateVirCompensated_mulfpond when CalculateVirCompensated_mux = '1' 
 else '0';
 
 mulfpce <=
@@ -980,6 +1052,8 @@ else
 CalculateAlphaCP_mulfpce when CalculateAlphaCP_mux = '1' 
 else
 ExtractAlphaParameters_mulfpce when ExtractAlphaParameters_mux = '1' 
+else
+CalculateVirCompensated_mulfpce when CalculateVirCompensated_mux = '1' 
 else '0';
 
 mulfpsclr <=
@@ -994,6 +1068,8 @@ else
 CalculateAlphaCP_mulfpsclr when CalculateAlphaCP_mux = '1' 
 else
 ExtractAlphaParameters_mulfpsclr when ExtractAlphaParameters_mux = '1' 
+else
+CalculateVirCompensated_mulfpsclr when CalculateVirCompensated_mux = '1' 
 else '0';
 
 addfpa <=
@@ -1006,6 +1082,8 @@ else
 CalculatePixOSCPSP_addfpa when CalculatePixOSCPSP_mux = '1' 
 else
 ExtractAlphaParameters_addfpa when ExtractAlphaParameters_mux = '1' 
+else
+CalculateVirCompensated_addfpa when CalculateVirCompensated_mux = '1' 
 else (others => '0');
 
 addfpb <=
@@ -1018,6 +1096,8 @@ else
 CalculatePixOSCPSP_addfpb when CalculatePixOSCPSP_mux = '1' 
 else
 ExtractAlphaParameters_addfpb when ExtractAlphaParameters_mux = '1' 
+else
+CalculateVirCompensated_addfpb when CalculateVirCompensated_mux = '1' 
 else (others => '0');
 
 addfpond <=
@@ -1030,6 +1110,8 @@ else
 CalculatePixOSCPSP_addfpond when CalculatePixOSCPSP_mux = '1' 
 else
 ExtractAlphaParameters_addfpond when ExtractAlphaParameters_mux = '1' 
+else
+CalculateVirCompensated_addfpond when CalculateVirCompensated_mux = '1' 
 else '0';
 
 addfpce <=
@@ -1042,6 +1124,8 @@ else
 CalculatePixOSCPSP_addfpce when CalculatePixOSCPSP_mux = '1' 
 else
 ExtractAlphaParameters_addfpce when ExtractAlphaParameters_mux = '1' 
+else
+CalculateVirCompensated_addfpce when CalculateVirCompensated_mux = '1' 
 else '0';
 
 addfpsclr <=
@@ -1054,6 +1138,8 @@ else
 CalculatePixOSCPSP_addfpsclr when CalculatePixOSCPSP_mux = '1' 
 else
 ExtractAlphaParameters_addfpsclr when ExtractAlphaParameters_mux = '1' 
+else
+CalculateVirCompensated_addfpsclr when CalculateVirCompensated_mux = '1' 
 else '0';
 
 subfpa <=
@@ -1064,6 +1150,8 @@ else
 CalculatePixOS_subfpa when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_subfpa when CalculatePixOSCPSP_mux = '1' 
+else
+CalculateVirCompensated_subfpa when CalculateVirCompensated_mux = '1' 
 else (others => '0');
 
 subfpb <=
@@ -1074,6 +1162,8 @@ else
 CalculatePixOS_subfpb when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_subfpb when CalculatePixOSCPSP_mux = '1' 
+else
+CalculateVirCompensated_subfpb when CalculateVirCompensated_mux = '1' 
 else (others => '0');
 
 subfpond <=
@@ -1084,6 +1174,8 @@ else
 CalculatePixOS_subfpond when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_subfpond when CalculatePixOSCPSP_mux = '1' 
+else
+CalculateVirCompensated_subfpond when CalculateVirCompensated_mux = '1' 
 else '0';
 
 subfpce <=
@@ -1094,6 +1186,8 @@ else
 CalculatePixOS_subfpce when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_subfpce when CalculatePixOSCPSP_mux = '1' 
+else
+CalculateVirCompensated_subfpce when CalculateVirCompensated_mux = '1' 
 else '0';
 
 subfpsclr <=
@@ -1104,6 +1198,8 @@ else
 CalculatePixOS_subfpsclr when CalculatePixOS_mux = '1' 
 else
 CalculatePixOSCPSP_subfpsclr when CalculatePixOSCPSP_mux = '1' 
+else
+CalculateVirCompensated_subfpsclr when CalculateVirCompensated_mux = '1' 
 else '0';
 
 CalculateVdd_fixed2floatr <= fixed2floatr when CalculateVdd_mux = '1' else (others => '0');
@@ -1163,6 +1259,15 @@ ExtractAlphaParameters_mulfpr <= mulfpr when ExtractAlphaParameters_mux = '1' el
 ExtractAlphaParameters_mulfprdy <= mulfprdy when ExtractAlphaParameters_mux = '1' else '0';
 ExtractAlphaParameters_addfpr <= addfpr when ExtractAlphaParameters_mux = '1' else (others => '0');
 ExtractAlphaParameters_addfprdy <= addfprdy when ExtractAlphaParameters_mux = '1' else '0';
+
+CalculateVirCompensated_divfpr <= divfpr when CalculateVirCompensated_mux = '1' else (others => '0');
+CalculateVirCompensated_divfprdy <= divfprdy when CalculateVirCompensated_mux = '1' else '0';
+CalculateVirCompensated_mulfpr <= mulfpr when CalculateVirCompensated_mux = '1' else (others => '0');
+CalculateVirCompensated_mulfprdy <= mulfprdy when CalculateVirCompensated_mux = '1' else '0';
+CalculateVirCompensated_addfpr <= addfpr when CalculateVirCompensated_mux = '1' else (others => '0');
+CalculateVirCompensated_addfprdy <= addfprdy when CalculateVirCompensated_mux = '1' else '0';
+CalculateVirCompensated_subfpr <= subfpr when CalculateVirCompensated_mux = '1' else (others => '0');
+CalculateVirCompensated_subfprdy <= subfprdy when CalculateVirCompensated_mux = '1' else '0';
 
 i2c_mem_ena <=
 CalculatePixOS_i2c_mem_ena when CalculatePixOS_mux = '1'
@@ -1699,7 +1804,39 @@ i_pixos_do => CalculateVirCompensated_pixos_do,
 o_pixos_addr => CalculateVirCompensated_pixos_addr,
 o_do => CalculateVirCompensated_do,
 i_addr => CalculateVirCompensated_addr,
-o_rdy => CalculateVirCompensated_rdy
+o_rdy => CalculateVirCompensated_rdy,
+
+divfpa => CalculateVirCompensated_divfpa,
+divfpb => CalculateVirCompensated_divfpb,
+divfpond => CalculateVirCompensated_divfpond,
+divfpsclr => CalculateVirCompensated_divfpsclr,
+divfpce => CalculateVirCompensated_divfpce,
+divfpr => CalculateVirCompensated_divfpr,
+divfprdy => CalculateVirCompensated_divfprdy,
+
+mulfpa => CalculateVirCompensated_mulfpa,
+mulfpb => CalculateVirCompensated_mulfpb,
+mulfpond => CalculateVirCompensated_mulfpond,
+mulfpsclr => CalculateVirCompensated_mulfpsclr,
+mulfpce => CalculateVirCompensated_mulfpce,
+mulfpr => CalculateVirCompensated_mulfpr,
+mulfprdy => CalculateVirCompensated_mulfprdy,
+
+addfpa => CalculateVirCompensated_addfpa,
+addfpb => CalculateVirCompensated_addfpb,
+addfpond => CalculateVirCompensated_addfpond,
+addfpsclr => CalculateVirCompensated_addfpsclr,
+addfpce => CalculateVirCompensated_addfpce,
+addfpr => CalculateVirCompensated_addfpr,
+addfprdy => CalculateVirCompensated_addfprdy,
+
+subfpa => CalculateVirCompensated_subfpa,
+subfpb => CalculateVirCompensated_subfpb,
+subfpond => CalculateVirCompensated_subfpond,
+subfpsclr => CalculateVirCompensated_subfpsclr,
+subfpce => CalculateVirCompensated_subfpce,
+subfpr => CalculateVirCompensated_subfpr,
+subfprdy => CalculateVirCompensated_subfprdy
 );
 
 CalculateAlphaComp_clock <= i_clock;
