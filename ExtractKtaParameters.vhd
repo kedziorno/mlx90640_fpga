@@ -378,7 +378,6 @@ end process p1;
 
 
 p0 : process (i_clock) is
-
 	type states is (idle,
 	kta0,kta1,kta2,kta3,kta4,
 	kta5,kta6,kta7,kta8,kta9,

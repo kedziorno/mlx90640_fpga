@@ -311,76 +311,7 @@ p0 : process (i_clock) is
 	kv0,kv1,kv2,kv3,kv4,
 	kv5,kv6,kv7,kv8,kv9,
 	kv10,kv11,kv12,kv13,kv14,
-	kv15,kv16,kv17,kv18,kv19,
-	kv20,kv21,kv22,kv23,kv24,
-	kv25,kv26,kv27,kv28,kv29,
-	kv30,kv31,kv32,kv33,kv34,
-	kv35,kv36,kv37,kv38,kv39,
-	kv40,kv41,kv42,kv43,kv44,
-	kv45,kv46,kv47,kv48,kv49,
-	kv50,kv51,kv52,kv53,kv54,
-	kv55,kv56,kv57,kv58,kv59,
-	
-	kv60,kv61,kv62,kv63,kv64,
-	kv65,kv66,kv67,kv68,kv69,
-	kv70,kv71,kv72,kv73,kv74,
-	kv75,kv76,kv77,kv78,kv79,
-	kv80,kv81,kv82,kv83,kv84,
-	kv85,kv86,kv87,kv88,kv89,
-	kv90,kv91,kv92,kv93,kv94,
-	kv95,kv96,kv97,kv98,kv99,
-	kv100,kv101,kv102,kv103,kv104,
-	kv105,kv106,kv107,kv108,kv109,
-	
-	kv110,kv111,kv112,kv113,kv114,
-	kv115,kv116,kv117,kv118,kv119,
-	kv120,kv121,kv122,kv123,kv124,
-	kv0a,kv1a,kv2a,kv3a,kv4a,
-kv5a,kv6a,kv7a,kv8a,kv9a,
-kv10a,kv11a,kv12a,kv13a,kv14a,
-kv15a,kv16a,kv17a,kv18a,kv19a,
-kv20a,kv21a,kv22a,kv23a,kv24a,
-kv25a,kv26a,kv27a,kv28a,kv29a,
-kv30a,kv31a,kv32a,kv33a,kv34a,
-kv35a,kv36a,kv37a,kv38a,kv39a,
-kv40a,kv41a,kv42a,kv43a,kv44a,
-kv45a,kv46a,kv47a,kv48a,kv49a,
-kv50a,kv51a,kv52a,kv53a,kv54a,
-kv55a,kv56a,kv57a,kv58a,kv59a,
-kv60a,kv61a,kv62a,kv63a,kv64a,
-kv65a,kv66a,kv67a,kv68a,kv69a,
-kv70a,kv71a,kv72a,kv73a,kv74a,
-kv75a,kv76a,kv77a,kv78a,kv79a,
-kv80a,kv81a,kv82a,kv83a,kv84a,
-kv85a,kv86a,kv87a,kv88a,kv89a,
-kv90a,kv91a,kv92a,kv93a,kv94a,
-kv95a,kv96a,kv97a,kv98a,kv99a,
-kv100a,kv101a,kv102a,kv103a,kv104a,
-kv105a,kv106a,kv107a,kv108a,kv109a,
-kv110a,kv111a,kv112a,kv113a,kv114a,
-kv115a,kv116a,kv117a,kv118a,kv119a,
-kv120a,kv121a,kv122a,kv123a,kv124a,
-	pow0,pow1,pow2,pow3,pow4,pow5,pow6,
-	a1,b1,c1,d1,kv9b,kv10b,
-	a2,b2,c2,d2,
-	a3,b3,c3,d3,
-	a4,b4,c4,d4,
-	a5,b5,c5,d5,
-	a6,b6,c6,d6,
-	a7,b7,c7,d7,
-	a8,b8,c8,d8,
-	ab1,ab2,ab3,ab4,ab5,ab6,ab7,ab8,
-	ab9,ab10,ab11,ab12,ab13,ab14,ab15,ab16,
-	ab17,ab18,ab19,ab20,ab21,ab22,ab23,ab24,
-	calculate,calculate0,
-	calculate00,calculate01,calculate02,calculate03,
-	calculate04,calculate05,calculate06,calculate07,
-	calculate1,calculate2,calculate3,calculate4,calculate5,
-	calculate6,calculate7,calculate8,calculate9,calculate10,
-	calculate11,calculate12,calculate13,calculate14,calculate15,
-	calculate16,calculate17,calculate18,calculate19,calculate20,
-	s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,
-	ending0,ending1,ending2,ending,s1a,s2a);
+	ending);
 	variable state : states;
 	variable vkvRemScale : std_logic_vector (31 downto 0);
 	variable vkvColumnScale : std_logic_vector (31 downto 0);
@@ -437,11 +368,10 @@ begin
 						i2c_mem_ena <= '0';
 						write_enable <= '0';
 					end if;
+
 				when kv0 => state := kv1;
 					divfpsclr_internal <= '0';
 					rdy <= '0';
-
-
 				when kv1 => state := kv2;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (56*2+0, 12)); -- 2438 MSB - kvscale
 				when kv2 => state := kv3;
@@ -460,40 +390,39 @@ begin
 					kvijee_ee <= i2c_mem_douta (3 downto 0);
 				when kv8 => state := kv9;
 					nibble2 <= kvijee;
-					
 
-when kv9 => state := kv24;
+when kv9 => state := kv10;
 	divfpce_internal <= '1';
 	divfpa_internal <= out_nibble2; -- kvij 
 	divfpb_internal <= out_nibble1; -- 2^kvscale
 	divfpond_internal <= '1';
-when kv24 => 			--6
-	if (divfprdy_internal = '1') then state := kv25;
+when kv10 => 			--6
+	if (divfprdy_internal = '1') then state := kv11;
 		kv_ft := divfpr_internal;
 		divfpce_internal <= '0';
 		divfpond_internal <= '0';
 		divfpsclr_internal <= '1';
-	else state := kv24; end if;
-when kv25 => state := kv26; 	--7
+	else state := kv10; end if;
+when kv11 => state := kv12; 	--7
 	divfpsclr_internal <= '0';
 
-when kv26 => state := kv27; 	--22
+when kv12 => state := kv13; 	--22
 	write_enable <= '1';
 	addra <= std_logic_vector (to_unsigned (i, 10)); -- kv
 	dia <= kv_ft;
 --	report "================kv_ft : " & real'image (ap_slv2fp (kv_ft));
 --	report_error (kv_ft,0.0);
-when kv27 =>
+when kv13 =>
 	i := i + 1;
 	write_enable <= '0';
 	if (col = C_COL-1) then
 		col <= 0;
-		state := kv28;
+		state := kv14;
 	else
 		col <= col + 1;
 		state := kv1;
 	end if;
-when kv28 =>
+when kv14 =>
 	write_enable <= '0';
 	if (row = C_ROW-1) then
 		row <= 0;
