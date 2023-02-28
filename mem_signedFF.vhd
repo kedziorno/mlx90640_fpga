@@ -40,7 +40,11 @@ end mem_signed256;
 
 architecture Behavioral of mem_signed256 is
 
+signal addrt : std_logic_vector (8 downto 0);
+
 begin
+
+addrt <= "0"&i_value;
 
 inst_mem_signed256 : RAMB16_S36
 generic map (
@@ -118,7 +122,7 @@ INIT_3F => X"0000000000000000000000000000000000000000000000000000000000000000")
 port map (
 DO => o_value, -- 1-bit Data Output
 DOP => open, -- 1-bit Data Output
-ADDR => "0"&i_value, -- 14-bit Address Input
+ADDR => addrt, -- 14-bit Address Input
 CLK => i_clock, -- Clock
 DI => (others => '0'), -- 1-bit Data Input
 DIP => (others => '0'), -- 1-bit Data Input

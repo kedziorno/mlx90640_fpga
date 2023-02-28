@@ -17,10 +17,10 @@
 -- Additional Comments: 
 --
 ----------------------------------------------------------------------------------
-library IEEE,ieee_proposed;
+library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-use ieee_proposed.fixed_pkg.all;
+--use ieee_proposed.fixed_pkg.all;
 
 USE work.p_fphdl_package1.all;
 USE work.p_fphdl_package3.all;

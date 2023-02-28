@@ -17,9 +17,9 @@
 -- Additional Comments: 
 --
 ----------------------------------------------------------------------------------
-library IEEE,ieee_proposed;
+library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use ieee_proposed.fixed_pkg.all;
+--use ieee_proposed.fixed_pkg.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
