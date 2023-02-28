@@ -565,25 +565,25 @@ fixed2floata <=
 CalculatePixGain_fixed2floata when CalculatePixGain_mux = '1'
 else
 ExtractOffsetParameters_fixed2floata when ExtractOffsetParameters_mux = '1'
-else fixed2floata_internal;
+else (others => '0');
 
 fixed2floatond <=
 CalculatePixGain_fixed2floatond when CalculatePixGain_mux = '1'
 else
 ExtractOffsetParameters_fixed2floatond when ExtractOffsetParameters_mux = '1'
-else fixed2floatond_internal;
+else '0';
 
 fixed2floatce <=
 CalculatePixGain_fixed2floatce when CalculatePixGain_mux = '1'
 else
 ExtractOffsetParameters_fixed2floatce when ExtractOffsetParameters_mux = '1'
-else fixed2floatce_internal;
+else '0';
 
 fixed2floatsclr <=
 CalculatePixGain_fixed2floatsclr when CalculatePixGain_mux = '1'
 else
 ExtractOffsetParameters_fixed2floatsclr when ExtractOffsetParameters_mux = '1'
-else fixed2floatsclr_internal;
+else '0';
 
 mulfpa <=
 CalculatePixGain_mulfpa when CalculatePixGain_mux = '1'
@@ -814,10 +814,10 @@ begin
 			subfpce_internal <= '0';
 			dia <= (others => '0');
 			write_enable <= '0';
-			fixed2floata_internal <= (others => '0');
-			fixed2floatond_internal <= '0';
-			fixed2floatce_internal <= '0';
-			fixed2floatsclr_internal <= '0';
+--			fixed2floata_internal <= (others => '0');
+--			fixed2floatond_internal <= '0';
+--			fixed2floatce_internal <= '0';
+--			fixed2floatsclr_internal <= '0';
 			divfpa_internal <= (others => '0');
 			divfpb_internal <= (others => '0');
 			divfpond_internal <= '0';
