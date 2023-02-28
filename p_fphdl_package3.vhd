@@ -1,11 +1,12 @@
-library IEEE,ieee_proposed;
+--library IEEE,ieee_proposed;
+library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.numeric_std.all;
 USE IEEE.math_real.all;
-use ieee_proposed.float_pkg.all;
-use ieee_proposed.numeric_std_additions.all;
-use ieee_proposed.standard_additions.all;
-use ieee_proposed.std_logic_1164_additions.all;
+--use ieee_proposed.float_pkg.all;
+--use ieee_proposed.numeric_std_additions.all;
+--use ieee_proposed.standard_additions.all;
+--use ieee_proposed.std_logic_1164_additions.all;
 
 package p_fphdl_package3 is
 
@@ -21,22 +22,22 @@ end p_fphdl_package3;
 package body p_fphdl_package3 is
 
 	procedure report_error (sl : std_logic_vector; constant ec : real) is
-		variable a : float32;
-		variable b : float32 := to_float (ec, a);
-		variable actual : real := ap_slv2fp (sl);
-		variable expected : real := to_real (b);
-		variable actuals,expecteds : string (1 to 13);
+--		variable a : float32;
+--		variable b : float32 := to_float (ec, a);
+--		variable actual : real := ap_slv2fp (sl);
+--		variable expected : real := to_real (b);
+--		variable actuals,expecteds : string (1 to 13);
 	begin
-		if actual >= real(0.0) then
-			actuals := " " & real'image (actual);
-		else
-			actuals := real'image (actual);
-		end if;
-		if expected >= real(0.0) then
-			expecteds := " " & real'image (expected);
-		else
-			expecteds := real'image (expected);
-		end if;
+--		if actual >= real(0.0) then
+--			actuals := " " & real'image (actual);
+--		else
+--			actuals := real'image (actual);
+--		end if;
+--		if expected >= real(0.0) then
+--			expecteds := " " & real'image (expected);
+--		else
+--			expecteds := real'image (expected);
+--		end if;
 --		assert actual = expected report "actual = expected : " & CR & actuals & CR & expecteds & CR & to_hex_string (sl) & CR & to_hex_string (b) & CR & to_string_1 (sl) & CR & to_string_1 (to_slv (b)) severity note;
 --		report "actual = expected : " & actuals & " = " & expecteds & " " & to_hex_string (sl) & " " & to_hex_string (b) & " " & to_string_1 (sl) & " " & to_string_1 (to_slv (b)) severity note;
 		return;
