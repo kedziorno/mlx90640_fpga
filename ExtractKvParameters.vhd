@@ -373,15 +373,15 @@ begin
 					divfpsclr_internal <= '0';
 					rdy <= '0';
 				when kv1 => state := kv2;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (56*2+0, 12)); -- 2438 MSB - kvscale
+					i2c_mem_addra <= std_logic_vector (to_unsigned (112, 12)); -- 2438 MSB - kvscale 56*2+0
 				when kv2 => state := kv3;
 				when kv3 => state := kv4;
 					nibble1 <= i2c_mem_douta (3 downto 0);
 
 				when kv4 => state := kv5;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (52*2+0, 12)); -- 2434 LSB - kvijee
+					i2c_mem_addra <= std_logic_vector (to_unsigned (104, 12)); -- 2434 LSB - kvijee 52*2+0
 				when kv5 => state := kv6;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (52*2+1, 12)); -- 2434 MSB - kvijee
+					i2c_mem_addra <= std_logic_vector (to_unsigned (105, 12)); -- 2434 MSB - kvijee 52*2+1
 				when kv6 => state := kv7;
 					kvijee_oo <= i2c_mem_douta (7 downto 4);
 					kvijee_eo <= i2c_mem_douta (3 downto 0);

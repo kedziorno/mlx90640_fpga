@@ -460,18 +460,18 @@ begin
 					divfpsclr_internal <= '0';
 					rdy <= '0';
 				when kta1 => state := kta2;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (54*2+0, 12)); -- 2436 LSB - ktarcee_oo
+					i2c_mem_addra <= std_logic_vector (to_unsigned (108, 12)); -- 2436 LSB - ktarcee_oo 54*2+0
 				when kta2 => state := kta3;
 				when kta3 => state := kta4;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (54*2+1, 12)); -- 2436 MSB - ktarcee_eo
+					i2c_mem_addra <= std_logic_vector (to_unsigned (109, 12)); -- 2436 MSB - ktarcee_eo 54*2+1
 					ktarcee_oo <= i2c_mem_douta;
 				when kta4 => state := kta5;
 				when kta5 => state := kta6;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (54*2+2, 12)); -- 2437 LSB - ktarcee_oe
+					i2c_mem_addra <= std_logic_vector (to_unsigned (110, 12)); -- 2437 LSB - ktarcee_oe 54*2+2
 					ktarcee_eo <= i2c_mem_douta;
 				when kta6 => state := kta7;
 				when kta7 => state := kta8;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (54*2+3, 12)); -- 2437 MSB - ktarcee_ee
+					i2c_mem_addra <= std_logic_vector (to_unsigned (111, 12)); -- 2437 MSB - ktarcee_ee 54*2+3
 					ktarcee_oe <= i2c_mem_douta;
 				when kta8 => state := kta9;
 				when kta9 => state := kta10;
@@ -482,14 +482,14 @@ begin
 				when kta12 => state := kta13;
 					ktarcee_ft := mem_signed256_ovalue;
 				when kta13 => state := kta14;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (54*2+5, 12)); -- 2438 LSB - ktascale1/ktascale2				
+					i2c_mem_addra <= std_logic_vector (to_unsigned (113, 12)); -- 2438 LSB - ktascale1/ktascale2	54*2+5
 				when kta14 => state := kta15;
 				when kta15 => state := kta16;
 					nibble1 <= i2c_mem_douta (7 downto 4); -- ktascale1
 					nibble2 <= i2c_mem_douta (3 downto 0); -- ktascale2
 				
 				when kta16 => state := kta17;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i)+1, 12)); -- kta LSB 1
+					i2c_mem_addra <= std_logic_vector (to_unsigned (129+(2*i), 12)); -- kta LSB 1
 				when kta17 => state := kta18;
 				when kta18 => state := kta19;
 					nibble3 <= i2c_mem_douta (3 downto 1); -- kta_ee 3bit
