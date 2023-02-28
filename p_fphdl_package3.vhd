@@ -11,7 +11,7 @@ USE IEEE.math_real.all;
 package p_fphdl_package3 is
 
 	function ap_slv2fp (sl:std_logic_vector) return real;
---	function ap_slv2int (sl:std_logic_vector) return integer;
+	function ap_slv2int (sl:std_logic_vector) return integer;
 
 --	function to_string_1 ( s : std_logic_vector ) return string;
 
@@ -44,20 +44,20 @@ package body p_fphdl_package3 is
 --	end procedure report_error;
 
 	-- https://opencores.org/websvn/filedetails?repname=raytrac&path=%2Fraytrac%2Fbranches%2Ffp%2Farithpack.vhd&rev=163
---	function ap_slv2int (sl:std_logic_vector) return integer is
---		alias s : std_logic_vector (sl'high downto sl'low) is sl;
---		variable i : integer; 
---	begin
---		i:=0;
---		for index in s'high downto s'low loop
---			if s(index)='1' then
---				i:=i*2+1;
---			else
---				i:=i*2;
---			end if;
---		end loop;
---		return i;
---	end function;
+	function ap_slv2int (sl:std_logic_vector) return integer is
+		alias s : std_logic_vector (sl'high downto sl'low) is sl;
+		variable i : integer; 
+	begin
+		i:=0;
+		for index in s'high downto s'low loop
+			if s(index)='1' then
+				i:=i*2+1;
+			else
+				i:=i*2;
+			end if;
+		end loop;
+		return i;
+	end function;
 
 	-- https://opencores.org/websvn/filedetails?repname=raytrac&path=%2Fraytrac%2Fbranches%2Ffp%2Farithpack.vhd&rev=163
   function ap_slv2fp(sl:std_logic_vector) return real is
@@ -75,7 +75,8 @@ package body p_fphdl_package3 is
 --	 else
 --		return f;
 --	 end if;
---  end function;
+	return 0.0;
+  end function;
 
 --	function to_string_1 ( s : std_logic_vector )
 --		return string
@@ -86,7 +87,7 @@ package body p_fphdl_package3 is
 --			r(i+1) := std_logic'image (s(i))(2);
 --		end loop ;
 --		return r ;
-		return 0.0;
-	end function ;
+--		return 0.0;
+--	end function ;
 
 end p_fphdl_package3;

@@ -44,7 +44,11 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-o_rdy : out std_logic
+o_rdy : out std_logic;
+
+i_addr : in std_logic_vector(9 downto 0);
+o_do : out std_logic_vector(31 downto 0)
+
 );
 end test_fixed_melexis;
 
@@ -2123,6 +2127,8 @@ CalculateVirCompensated_addr <= CalculateTo_vircompensated_addr;
 CalculateTo_alphacomp_do <= CalculateAlphaComp_do;
 CalculateAlphaComp_addr <= CalculateTo_alphacomp_addr;
 CalculateTo_Ta <= CalculateTa_Ta;
+CalculateTo_addr <= i_addr;
+o_do <= CalculateTo_do;
 inst_CalculateTo : CalculateTo PORT MAP (
 i_clock => CalculateTo_clock,
 i_reset => CalculateTo_reset,
