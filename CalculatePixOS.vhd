@@ -109,7 +109,6 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
-o_done : out std_logic;
 o_rdy : out std_logic;
 
 signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
@@ -144,7 +143,6 @@ signal ExtractOffsetParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal ExtractOffsetParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal ExtractOffsetParameters_do : std_logic_vector (31 downto 0);
 signal ExtractOffsetParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
-signal ExtractOffsetParameters_done : std_logic;
 signal ExtractOffsetParameters_rdy : std_logic;
 signal ExtractOffsetParameters_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal ExtractOffsetParameters_fixed2floatond : STD_LOGIC;
@@ -187,7 +185,6 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
-o_done : out std_logic;
 o_rdy : out std_logic;
 
 signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -223,7 +220,6 @@ signal ExtractKtaParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal ExtractKtaParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal ExtractKtaParameters_do : std_logic_vector (31 downto 0);
 signal ExtractKtaParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
-signal ExtractKtaParameters_done : std_logic;
 signal ExtractKtaParameters_rdy : std_logic;
 signal ExtractKtaParameters_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractKtaParameters_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -260,7 +256,6 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
-o_done : out std_logic;
 o_rdy : out std_logic;
 
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -280,7 +275,6 @@ signal ExtractKvParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal ExtractKvParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal ExtractKvParameters_do : std_logic_vector (31 downto 0);
 signal ExtractKvParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
-signal ExtractKvParameters_done : std_logic;
 signal ExtractKvParameters_rdy : std_logic;
 signal ExtractKvParameters_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractKvParameters_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -300,7 +294,6 @@ i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
-o_done : out std_logic;
 o_rdy : out std_logic;
 fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
@@ -332,7 +325,6 @@ signal CalculatePixGain_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal CalculatePixGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal CalculatePixGain_do : std_logic_vector (31 downto 0);
 signal CalculatePixGain_addr : std_logic_vector (9 downto 0);
-signal CalculatePixGain_done : std_logic;
 signal CalculatePixGain_rdy : std_logic;
 signal CalculatePixGain_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal CalculatePixGain_fixed2floatond : STD_LOGIC;
@@ -636,8 +628,8 @@ else mulfpce_internal;
 divfpa <=
 CalculatePixGain_divfpa when CalculatePixGain_mux = '1'
 else
-ExtractOffsetParameters_divfpa when ExtractOffsetParameters_mux = '1'
-else
+--ExtractOffsetParameters_divfpa when ExtractOffsetParameters_mux = '1'
+--else
 ExtractKtaParameters_divfpa when ExtractKtaParameters_mux = '1'
 else
 ExtractKvParameters_divfpa when ExtractKvParameters_mux = '1'
@@ -646,8 +638,8 @@ else divfpa_internal;
 divfpb <=
 CalculatePixGain_divfpb when CalculatePixGain_mux = '1'
 else
-ExtractOffsetParameters_divfpb when ExtractOffsetParameters_mux = '1'
-else
+--ExtractOffsetParameters_divfpb when ExtractOffsetParameters_mux = '1'
+--else
 ExtractKtaParameters_divfpb when ExtractKtaParameters_mux = '1'
 else
 ExtractKvParameters_divfpb when ExtractKvParameters_mux = '1'
@@ -656,8 +648,8 @@ else divfpb_internal;
 divfpond <=
 CalculatePixGain_divfpond when CalculatePixGain_mux = '1'
 else
-ExtractOffsetParameters_divfpond when ExtractOffsetParameters_mux = '1'
-else
+--ExtractOffsetParameters_divfpond when ExtractOffsetParameters_mux = '1'
+--else
 ExtractKtaParameters_divfpond when ExtractKtaParameters_mux = '1'
 else
 ExtractKvParameters_divfpond when ExtractKvParameters_mux = '1'
@@ -666,8 +658,8 @@ else divfpond_internal;
 divfpsclr <=
 CalculatePixGain_divfpsclr when CalculatePixGain_mux = '1'
 else
-ExtractOffsetParameters_divfpsclr when ExtractOffsetParameters_mux = '1'
-else
+--ExtractOffsetParameters_divfpsclr when ExtractOffsetParameters_mux = '1'
+--else
 ExtractKtaParameters_divfpsclr when ExtractKtaParameters_mux = '1'
 else
 ExtractKvParameters_divfpsclr when ExtractKvParameters_mux = '1'
@@ -676,8 +668,8 @@ else divfpsclr_internal;
 divfpce <=
 CalculatePixGain_divfpce when CalculatePixGain_mux = '1'
 else
-ExtractOffsetParameters_divfpce when ExtractOffsetParameters_mux = '1'
-else
+--ExtractOffsetParameters_divfpce when ExtractOffsetParameters_mux = '1'
+--else
 ExtractKtaParameters_divfpce when ExtractKtaParameters_mux = '1'
 else
 ExtractKvParameters_divfpce when ExtractKvParameters_mux = '1'
@@ -822,6 +814,15 @@ begin
 			subfpce_internal <= '0';
 			dia <= (others => '0');
 			write_enable <= '0';
+			fixed2floata_internal <= (others => '0');
+			fixed2floatond_internal <= '0';
+			fixed2floatce_internal <= '0';
+			fixed2floatsclr_internal <= '0';
+			divfpa_internal <= (others => '0');
+			divfpb_internal <= (others => '0');
+			divfpond_internal <= '0';
+			divfpsclr_internal <= '0';
+			divfpce_internal <= '0';
 		else
 			case (state) is
 				when idle =>
@@ -1075,7 +1076,6 @@ i2c_mem_addra => CalculatePixGain_i2c_mem_addra,
 i2c_mem_douta => CalculatePixGain_i2c_mem_douta,
 o_do => CalculatePixGain_do,
 i_addr => CalculatePixGain_addr,
-o_done => CalculatePixGain_done,
 o_rdy => CalculatePixGain_rdy,
 
 fixed2floata => CalculatePixGain_fixed2floata,
@@ -1116,7 +1116,6 @@ i2c_mem_douta => ExtractOffsetParameters_i2c_mem_douta,
 o_do => ExtractOffsetParameters_do,
 i_addr => ExtractOffsetParameters_addr, -- 10bit-1024
 
-o_done => ExtractOffsetParameters_done,
 o_rdy => ExtractOffsetParameters_rdy,
 
 fixed2floata => ExtractOffsetParameters_fixed2floata,
@@ -1157,7 +1156,6 @@ i2c_mem_douta => ExtractKtaParameters_i2c_mem_douta,
 o_do => ExtractKtaParameters_do,
 i_addr => ExtractKtaParameters_addr, -- 10bit-1024
 
-o_done => ExtractKtaParameters_done,
 o_rdy => ExtractKtaParameters_rdy,
 
 mulfpa => ExtractKtaParameters_mulfpa,
@@ -1198,7 +1196,6 @@ i2c_mem_douta => ExtractKvParameters_i2c_mem_douta,
 
 o_do => ExtractKvParameters_do,
 i_addr => ExtractKvParameters_addr,
-o_done => ExtractKvParameters_done,
 o_rdy => ExtractKvParameters_rdy,
 
 divfpa => ExtractKvParameters_divfpa,

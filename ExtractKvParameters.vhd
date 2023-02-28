@@ -47,7 +47,6 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
-o_done : out std_logic;
 o_rdy : out std_logic;
 
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -228,8 +227,6 @@ end component mem_ramb16_s36_x2;
 
 signal addra,mux_addr : std_logic_vector (9 downto 0);
 signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
-
-signal ena_mux1 : std_logic;
 
 -- xxx nibbles must out in next clock xyxle
 signal nibble1,nibble2,nibble5,nibble4 : std_logic_vector (3 downto 0);
@@ -416,7 +413,6 @@ begin
 			nibble1 <= (others => '0');
 			nibble2 <= (others => '0');
 			write_enable <= '0';
-			ena_mux1 <= '0';
 			rdy <= '0';
 			divfpsclr_internal <= '1';
 			divfpa_internal <= (others => '0');
@@ -425,7 +421,6 @@ begin
 			divfpce_internal <= '0';
 			addra <= (others => '0');
 			dia <= (others => '0');
-			o_done <= '0';
 			i2c_mem_ena <= '0';
 			i := 0;
 			col <= 0;
@@ -437,12 +432,10 @@ begin
 						state := kv0;
 						i2c_mem_ena <= '1';
 						write_enable <= '1';
-						ena_mux1 <= '1';
 					else
 						state := idle;
 						i2c_mem_ena <= '0';
 						write_enable <= '0';
-						ena_mux1 <= '0';
 					end if;
 				when kv0 => state := kv1;
 					divfpsclr_internal <= '0';

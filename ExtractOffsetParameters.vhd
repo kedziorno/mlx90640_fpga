@@ -47,7 +47,6 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
-o_done : out std_logic;
 o_rdy : out std_logic;
 
 signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
@@ -394,7 +393,6 @@ begin
 			mulfpce_internal <= '0';
 			addra <= (others => '0');
 			dia <= (others => '0');
-			o_done <= '0';
 			i2c_mem_ena <= '0';
 		else
 			case (state) is

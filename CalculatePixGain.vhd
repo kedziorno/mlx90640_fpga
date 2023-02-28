@@ -45,7 +45,6 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
-o_done : out std_logic;
 
 o_rdy : out std_logic;
 
@@ -391,7 +390,6 @@ begin
 			fixed2floatsclr_internal <= '1';
 			mulfpsclr_internal <= '1';
 			rdy <= '0';
-			o_done <= '0';
 			fixed2floata_internal <= (others => '0');
 			fixed2floatce_internal <= '0';
 			fixed2floatond_internal <= '0';
@@ -470,10 +468,8 @@ begin
 				when s8 => state := s9;
 					mulfpsclr_internal <= '0';
 					write_enable <= '0';
-					o_done <= '1';
 					report "================ CalculatePixGain PixGain " & integer'image (pixgain_index) & " : " & real'image (ap_slv2fp (mulfpr));
 				when s9 =>
-					o_done <= '0';
 					if (pixgain_index = PIXGAIN_SZ - 1) then
 						state := ending;
 						pixgain_index := 0;
