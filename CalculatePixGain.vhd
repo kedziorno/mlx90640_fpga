@@ -335,11 +335,11 @@ fixed2floatsclr <= CalculateKGain_fixed2floatsclr when CalculateKGain_mux = '1' 
 CalculateKGain_fixed2floatr <= fixed2floatr when CalculateKGain_mux = '1' else (others => '0');
 CalculateKGain_fixed2floatrdy <= fixed2floatrdy when CalculateKGain_mux = '1' else '0';
 
-divfpa <= CalculateKGain_divfpa when CalculateKGain_mux = '1' else divfpa_internal;
-divfpb <= CalculateKGain_divfpb when CalculateKGain_mux = '1' else divfpb_internal;
-divfpond <= CalculateKGain_divfpond when CalculateKGain_mux = '1' else divfpond_internal;
-divfpsclr <= CalculateKGain_divfpsclr when CalculateKGain_mux = '1' else divfpsclr_internal;
-divfpce <= CalculateKGain_divfpce when CalculateKGain_mux = '1' else divfpce_internal;
+divfpa <= CalculateKGain_divfpa when CalculateKGain_mux = '1' else (others => '0');
+divfpb <= CalculateKGain_divfpb when CalculateKGain_mux = '1' else (others => '0');
+divfpond <= CalculateKGain_divfpond when CalculateKGain_mux = '1' else '0';
+divfpsclr <= CalculateKGain_divfpsclr when CalculateKGain_mux = '1' else '0';
+divfpce <= CalculateKGain_divfpce when CalculateKGain_mux = '1' else '0';
 CalculateKGain_divfpr <= divfpr when CalculateKGain_mux = '1' else (others => '0');
 CalculateKGain_divfprdy <= divfprdy when CalculateKGain_mux = '1' else '0';
 
