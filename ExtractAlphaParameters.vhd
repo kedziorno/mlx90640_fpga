@@ -383,14 +383,14 @@ p0 : process (i_clock) is
 	variable vacccolumnj,accrowi,vaccrowi,valphaReference_ft,vAlphaPixel_ft : std_logic_vector (31 downto 0);
 	variable temp1,vAlphaPixel : std_logic_vector (15 downto 0);
 
-	variable fracas : fracas;
-	variable fracbs : fracbs;
-	variable fracau : fracau;
-	variable fracbu : fracbu;
-	variable vAlphaPixel_sf,valphaRef_sf : st_sfixed_max;
-	variable eeprom16slv,ram16slv : slv16;
-	variable eeprom16sf,ram16sf : sfixed16;
-	variable eeprom16uf,ram16uf : ufixed16;
+--	variable fracas : fracas;
+--	variable fracbs : fracbs;
+--	variable fracau : fracau;
+--	variable fracbu : fracbu;
+--	variable vAlphaPixel_sf,valphaRef_sf : st_sfixed_max;
+--	variable eeprom16slv,ram16slv : slv16;
+--	variable eeprom16sf,ram16sf : sfixed16;
+--	variable eeprom16uf,ram16uf : ufixed16;
 
 	variable col : integer range 0 to C_COL-1;
 	variable row : integer range 0 to C_ROW-1;

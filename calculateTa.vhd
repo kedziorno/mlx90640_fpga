@@ -139,16 +139,16 @@ signal ee2432,ee2431,ram0720,ram0700,ee2410 : std_logic_vector (15 downto 0);
 begin
 
 p0 : process (i_clock) is
-	variable eeprom16slv,ram16slv : slv16;
-	variable eeprom16sf,ram16sf : sfixed16;
-	variable eeprom16uf,ram16uf : ufixed16;
+--	variable eeprom16slv,ram16slv : slv16;
+--	variable eeprom16sf,ram16sf : sfixed16;
+--	variable eeprom16uf,ram16uf : ufixed16;
 	variable fttmp1,fttmp2 : fd2ft;
-	variable fptmp1,fptmp2 : st_sfixed_max;
-	variable fracas : fracas;
-	variable fracbs : fracbs;
-	variable fracau : fracau;
-	variable fracbu : fracbu;
-	variable vbe,vptat,vptat25 : st_sfixed_max;
+--	variable fptmp1,fptmp2 : st_sfixed_max;
+--	variable fracas : fracas;
+--	variable fracbs : fracbs;
+--	variable fracau : fracau;
+--	variable fracbu : fracbu;
+--	variable vbe,vptat,vptat25 : st_sfixed_max;
 	variable vbe_ft,vptat_ft,vptat25_ft,deltaV,vptatart : fd2ft;
 	type states is (idle,
 	s0,s1,
@@ -192,8 +192,8 @@ begin
 		divfpond <= '0';
 		divfpa <= (others => '0');
 		divfpb <= (others => '0');
-		eeprom16slv := (others => '0');
-		ram16slv := (others => '0');
+--		eeprom16slv := (others => '0');
+--		ram16slv := (others => '0');
 		o_Ta <= (others => '0');
 		o_rdy <= '0';
 		i2c_mem_ena <= '0';

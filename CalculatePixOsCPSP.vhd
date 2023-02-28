@@ -288,9 +288,9 @@ i2c_mem_douta_internal <= i2c_mem_douta;
 o_rdy <= rdy;
 
 p0 : process (i_clock) is
-	variable eeprom16slv,ram16slv : slv16;
-	variable eeprom16sf,ram16sf : sfixed16;
-	variable eeprom16uf,ram16uf : ufixed16;
+--	variable eeprom16slv,ram16slv : slv16;
+--	variable eeprom16sf,ram16sf : sfixed16;
+--	variable eeprom16uf,ram16uf : ufixed16;
 	constant C_ROW : integer := 24;
 	constant C_COL : integer := 32;
 	variable i : integer range 0 to C_ROW*C_COL-1;
@@ -308,13 +308,13 @@ p0 : process (i_clock) is
 	ending);
 	variable state : states;
 	variable fttmp1,fttmp2,ram0708_ft,ram0728_ft,pixoscpsp0_ft,pixoscpsp1_ft,pixgaincpsp0_ft,pixgaincpsp1_ft,offcpsubpage0_ft,offcpsubpage1delta_ft,offcpsubpage1_ft,kvcpee_ft,ktacpee_ft,kvcp_ft,ktacp_ft : std_logic_vector (31 downto 0);
-	variable ram0708,ram0728 : slv16;
+	variable ram0708,ram0728 : std_logic_vector (15 downto 0);
 	variable offcpsubpage0 : std_logic_vector (15 downto 0);
-	variable ram0708_fd,ram0728_fd : st_sfixed_max;
-	variable fracas : fracas;
-	variable fracbs : fracbs;
-	variable fracau : fracau;
-	variable fracbu : fracbu;
+--	variable ram0708_fd,ram0728_fd : st_sfixed_max;
+--	variable fracas : fracas;
+--	variable fracbs : fracbs;
+--	variable fracau : fracau;
+--	variable fracbu : fracbu;
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -408,12 +408,25 @@ begin
 					ram0728 (7 downto 0) := i2c_mem_douta_internal;
 
 				when s13 => state := s14;
-					ram0708_fd := resize (to_sfixed (ram0708, eeprom16sf), ram0708_fd);
-					fixed2floatce_internal <= '1';
-					fixed2floatond_internal <= '1';
-					fixed2floata_internal <= 
-					to_slv (to_sfixed (to_slv (ram0708_fd (fracas'high downto fracas'low)), fracas)) & 
-					to_slv (to_sfixed (to_slv (ram0708_fd (fracbs'high downto fracbs'low)), fracbs));
+--					ram0708_fd := resize (to_sfixed (ram0708, eeprom16sf), ram0708_fd);
+--					fixed2floatce_internal <= '1';
+--					fixed2floatond_internal <= '1';
+--					fixed2floata_internal <= 
+--					to_slv (to_sfixed (to_slv (ram0708_fd (fracas'high downto fracas'low)), fracas)) & 
+--					to_slv (to_sfixed (to_slv (ram0708_fd (fracbs'high downto fracbs'low)), fracbs));
+fixed2floatce_internal <= '1';
+fixed2floatond_internal <= '1';
+fixed2floata_internal <=
+ram0708 (15) & ram0708 (15) & 
+ram0708 (15) & ram0708 (15) & 
+ram0708 (15) & ram0708 (15) & 
+ram0708 (15) & ram0708 (15) & 
+ram0708 (15) & ram0708 (15) & 
+ram0708 (15) & ram0708 (15) & 
+ram0708 (15) & ram0708 (15) & 
+ram0708 (15) & ram0708 (15) & 
+ram0708 (15) & ram0708 (15) & 
+ram0708 (15) & ram0708 & "00000000000000000000000000000";
 				when s14 =>
 					if (fixed2floatrdy_internal = '1') then state := s15;
 						ram0708_ft := fixed2floatr_internal;

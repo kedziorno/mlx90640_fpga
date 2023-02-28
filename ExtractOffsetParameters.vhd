@@ -359,14 +359,14 @@ p0 : process (i_clock) is
 	variable vocccolumnj,occrowi,voccrowi,vOffsetAverage,voffset_ft : std_logic_vector (31 downto 0);
 	variable temp1,voffset : std_logic_vector (15 downto 0);
 
-	variable fracas : fracas;
-	variable fracbs : fracbs;
-	variable fracau : fracau;
-	variable fracbu : fracbu;
-	variable vOffset_sf,voffsetRef_sf : st_sfixed_max;
-	variable eeprom16slv,ram16slv : slv16;
-	variable eeprom16sf,ram16sf : sfixed16;
-	variable eeprom16uf,ram16uf : ufixed16;
+--	variable fracas : fracas;
+--	variable fracbs : fracbs;
+--	variable fracau : fracau;
+--	variable fracbu : fracbu;
+--	variable vOffset_sf,voffsetRef_sf : st_sfixed_max;
+--	variable eeprom16slv,ram16slv : slv16;
+--	variable eeprom16sf,ram16sf : sfixed16;
+--	variable eeprom16uf,ram16uf : ufixed16;
 
 	variable col : integer range 0 to C_COL-1;
 	variable row : integer range 0 to C_ROW-1;

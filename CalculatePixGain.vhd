@@ -373,15 +373,15 @@ p0 : process (i_clock) is
 	s1,s2,s3,s4,s5,s6,s7,s8,s9,
 	ending);
 	variable state : states;
-	variable pixgain : st_sfixed_max;
-	variable eeprom16slv,ram16slv : slv16;
-	variable eeprom16sf,ram16sf : sfixed16;
-	variable eeprom16uf,ram16uf : ufixed16;
+--	variable pixgain : st_sfixed_max;
+	variable eeprom16slv,ram16slv : std_logic_vector (15 downto 0);
+--	variable eeprom16sf,ram16sf : sfixed16;
+--	variable eeprom16uf,ram16uf : ufixed16;
 	variable pixgain_ft : fd2ft;
-	variable fracas : fracas;
-	variable fracbs : fracbs;
-	variable fracau : fracau;
-	variable fracbu : fracbu;
+--	variable fracas : fracas;
+--	variable fracbs : fracbs;
+--	variable fracau : fracau;
+--	variable fracbu : fracbu;
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then

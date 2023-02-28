@@ -101,15 +101,15 @@ divfpr_internal <= divfpr;
 divfprdy_internal <= divfprdy;
 
 p0 : process (i_clock) is
-	variable eeprom16slv,ram16slv : slv16;
-	variable eeprom16sf,ram16sf : sfixed16;
-	variable eeprom16uf,ram16uf : ufixed16;
+--	variable eeprom16slv,ram16slv : slv16;
+--	variable eeprom16sf,ram16sf : sfixed16;
+--	variable eeprom16uf,ram16uf : ufixed16;
 	variable fttmp1,fttmp2 : fd2ft;
-	variable fptmp1,fptmp2 : st_sfixed_max;
-	variable fracas : fracas;
-	variable fracbs : fracbs;
-	variable fracau : fracau;
-	variable fracbu : fracbu;
+--	variable fptmp1,fptmp2 : st_sfixed_max;
+--	variable fracas : fracas;
+--	variable fracbs : fracbs;
+--	variable fracau : fracau;
+--	variable fracbu : fracbu;
 	type states is (idle,
 	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,
 	ending);
@@ -128,7 +128,7 @@ begin
 		divfpond_internal <= '0';
 		divfpa_internal <= (others => '0');
 		divfpb_internal <= (others => '0');
-		eeprom16slv := (others => '0');
+--		eeprom16slv := (others => '0');
 		o_KGain <= (others => '0');
 		o_rdy <= '0';
 		i2c_mem_ena <= '0';
