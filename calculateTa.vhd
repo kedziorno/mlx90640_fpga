@@ -314,13 +314,26 @@ begin
 		subfpsclr <= '0';
 
 		-- vptat25
-		eeprom16slv := ee2431;
-		vptat25 := resize (to_sfixed (eeprom16slv, eeprom16sf), vptat25);
+--		eeprom16slv := ee2431;
+--		vptat25 := resize (to_sfixed (eeprom16slv, eeprom16sf), vptat25);
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (vptat25 (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (vptat25 (fracbs'high downto fracbs'low)), fracbs));
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
-		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (vptat25 (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (vptat25 (fracbs'high downto fracbs'low)), fracbs));
+		fixed2floata <=
+		ee2431 (15) & ee2431 (15) & 
+		ee2431 (15) & ee2431 (15) & 
+		ee2431 (15) & ee2431 (15) & 
+		ee2431 (15) & ee2431 (15) & 
+		ee2431 (15) & ee2431 (15) & 
+		ee2431 (15) & ee2431 (15) & 
+		ee2431 (15) & ee2431 (15) & 
+		ee2431 (15) & ee2431 (15) & 
+		ee2431 (15) & ee2431 (15) & 
+		ee2431 (15) & ee2431 & "00000000000000000000000000000";
 	when s6 =>
 		if (fixed2floatrdy = '1') then state := s7;
 			vptat25_ft := fixed2floatr;
@@ -332,13 +345,26 @@ begin
 	when s7 => state := s8;
 		fixed2floatsclr <= '0';
 		-- vptat
-		eeprom16slv := ram0720;
-		vptat := resize (to_sfixed (eeprom16slv, eeprom16sf), vptat);
+--		eeprom16slv := ram0720;
+--		vptat := resize (to_sfixed (eeprom16slv, eeprom16sf), vptat);
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (vptat (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (vptat (fracbs'high downto fracbs'low)), fracbs));
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
-		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (vptat (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (vptat (fracbs'high downto fracbs'low)), fracbs));
+		fixed2floata <=
+		ram0720 (15) & ram0720 (15) & 
+		ram0720 (15) & ram0720 (15) & 
+		ram0720 (15) & ram0720 (15) & 
+		ram0720 (15) & ram0720 (15) & 
+		ram0720 (15) & ram0720 (15) & 
+		ram0720 (15) & ram0720 (15) & 
+		ram0720 (15) & ram0720 (15) & 
+		ram0720 (15) & ram0720 (15) & 
+		ram0720 (15) & ram0720 (15) & 
+		ram0720 (15) & ram0720 & "00000000000000000000000000000";
 	when s8 =>
 		if (fixed2floatrdy = '1') then state := s9;
 			vptat_ft := fixed2floatr;
@@ -350,13 +376,26 @@ begin
 	when s9 => state := s10;
 		fixed2floatsclr <= '0';
 		-- vbe
-		eeprom16slv := ram0700;
-		vbe := resize (to_sfixed (eeprom16slv, eeprom16sf), vbe);
+--		eeprom16slv := ram0700;
+--		vbe := resize (to_sfixed (eeprom16slv, eeprom16sf), vbe);
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (vbe (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (vbe (fracbs'high downto fracbs'low)), fracbs));
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
-		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (vbe (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (vbe (fracbs'high downto fracbs'low)), fracbs));
+		fixed2floata <=
+		ram0700 (15) & ram0700 (15) & 
+		ram0700 (15) & ram0700 (15) & 
+		ram0700 (15) & ram0700 (15) & 
+		ram0700 (15) & ram0700 (15) & 
+		ram0700 (15) & ram0700 (15) & 
+		ram0700 (15) & ram0700 (15) & 
+		ram0700 (15) & ram0700 (15) & 
+		ram0700 (15) & ram0700 (15) & 
+		ram0700 (15) & ram0700 (15) & 
+		ram0700 (15) & ram0700 & "00000000000000000000000000000";
 	when s10 =>
 		if (fixed2floatrdy = '1') then state := s11;
 			vbe_ft := fixed2floatr;

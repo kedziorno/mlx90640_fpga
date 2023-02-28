@@ -437,12 +437,27 @@ begin
 				when s3 => state := s4;
 					eeprom16slv (7 downto 0) := i2c_mem_douta_internal; -- pixgain LSB
 				when s4 => state := s5;
-					pixgain := resize (to_sfixed (eeprom16slv, eeprom16sf), pixgain);
-					fixed2floatce_internal <= '1';
-					fixed2floatond_internal <= '1';
-					fixed2floata_internal <= 
-					to_slv (to_sfixed (to_slv (pixgain (fracas'high downto fracas'low)), fracas)) & 
-					to_slv (to_sfixed (to_slv (pixgain (fracbs'high downto fracbs'low)), fracbs));
+--					pixgain := resize (to_sfixed (eeprom16slv, eeprom16sf), pixgain);
+--					fixed2floatce_internal <= '1';
+--					fixed2floatond_internal <= '1';
+--					fixed2floata_internal <= 
+--					to_slv (to_sfixed (to_slv (pixgain (fracas'high downto fracas'low)), fracas)) & 
+--					to_slv (to_sfixed (to_slv (pixgain (fracbs'high downto fracbs'low)), fracbs));
+
+		fixed2floatce_internal <= '1';
+		fixed2floatond_internal <= '1';
+		fixed2floata_internal <=
+		eeprom16slv (15) & eeprom16slv (15) & 
+		eeprom16slv (15) & eeprom16slv (15) & 
+		eeprom16slv (15) & eeprom16slv (15) & 
+		eeprom16slv (15) & eeprom16slv (15) & 
+		eeprom16slv (15) & eeprom16slv (15) & 
+		eeprom16slv (15) & eeprom16slv (15) & 
+		eeprom16slv (15) & eeprom16slv (15) & 
+		eeprom16slv (15) & eeprom16slv (15) & 
+		eeprom16slv (15) & eeprom16slv (15) & 
+		eeprom16slv (15) & eeprom16slv & "00000000000000000000000000000";
+
 				when s5 =>
 					if (fixed2floatrdy = '1') then state := s6;
 						pixgain_ft := fixed2floatr;

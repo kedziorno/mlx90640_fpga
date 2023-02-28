@@ -84,7 +84,7 @@ package body p_fphdl_package2 is
 	begin
 		report_fixed_value (errmes, actual);
 		report_error (errmes, actual, expected);
-		report errmes & " bin2str " & to_string_1 (to_slv (actual));
+--		report errmes & " bin2str " & to_string_1 (to_slv (actual));
 		return;
 	end procedure report_all;
 

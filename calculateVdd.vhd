@@ -250,12 +250,25 @@ begin
 		ram072a (7 downto 0) := i2c_mem_douta_internal;
 	when s14 => state := s15;
 		-- ram[0x072a]
-		fptmp2 := resize (to_sfixed (ram072a, eeprom16sf), fptmp2);
+--		fptmp2 := resize (to_sfixed (ram072a, eeprom16sf), fptmp2);
+--		fixed2floatce <= '1';
+--		fixed2floatond <= '1';
+--		fixed2floata <= 
+--		to_slv (to_sfixed (to_slv (fptmp2 (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (fptmp2 (fracbs'high downto fracbs'low)), fracbs));
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
-		fixed2floata <= 
-		to_slv (to_sfixed (to_slv (fptmp2 (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (fptmp2 (fracbs'high downto fracbs'low)), fracbs));
+		fixed2floata <=
+		ram072a (15) & ram072a (15) & 
+		ram072a (15) & ram072a (15) & 
+		ram072a (15) & ram072a (15) & 
+		ram072a (15) & ram072a (15) & 
+		ram072a (15) & ram072a (15) & 
+		ram072a (15) & ram072a (15) & 
+		ram072a (15) & ram072a (15) & 
+		ram072a (15) & ram072a (15) & 
+		ram072a (15) & ram072a (15) & 
+		ram072a (15) & ram072a & "00000000000000000000000000000";
 	when s15 =>
 		if (fixed2floatrdy = '1') then state := s16;
 			fttmp2 := fixed2floatr;

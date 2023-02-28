@@ -903,13 +903,26 @@ begin
 				when pow3 => state := pow4;
 					vaccRowScale := out_nibble4; -- 2^accscalerow
 					--report "vaccRowScale : " & real'image (ap_slv2fp (vaccRowScale));
-					valphaRef_sf := resize (to_sfixed (valphaRef, eeprom16sf), valphaRef_sf);
-					--------report_error (valphaRef, 0.0);
-					fixed2floatce_internal <= '1';
-					fixed2floatond_internal <= '1';
-					fixed2floata_internal <= 
-					to_slv (to_sfixed (to_slv (valphaRef_sf (fracas'high downto fracas'low)), fracas))&
-					to_slv (to_sfixed (to_slv (valphaRef_sf (fracbs'high downto fracbs'low)), fracbs));
+--					valphaRef_sf := resize (to_sfixed (valphaRef, eeprom16sf), valphaRef_sf);
+--					--------report_error (valphaRef, 0.0);
+--					fixed2floatce_internal <= '1';
+--					fixed2floatond_internal <= '1';
+--					fixed2floata_internal <= 
+--					to_slv (to_sfixed (to_slv (valphaRef_sf (fracas'high downto fracas'low)), fracas))&
+--					to_slv (to_sfixed (to_slv (valphaRef_sf (fracbs'high downto fracbs'low)), fracbs));
+fixed2floatce_internal <= '1';
+fixed2floatond_internal <= '1';
+fixed2floata_internal <=
+valphaRef (15) & valphaRef (15) & 
+valphaRef (15) & valphaRef (15) & 
+valphaRef (15) & valphaRef (15) & 
+valphaRef (15) & valphaRef (15) & 
+valphaRef (15) & valphaRef (15) & 
+valphaRef (15) & valphaRef (15) & 
+valphaRef (15) & valphaRef (15) & 
+valphaRef (15) & valphaRef (15) & 
+valphaRef (15) & valphaRef (15) & 
+valphaRef (15) & valphaRef & "00000000000000000000000000000";
 				when pow4 =>
 					if (fixed2floatrdy_internal = '1') then state := pow5;
 						valphaReference_ft := fixed2floatr_internal;

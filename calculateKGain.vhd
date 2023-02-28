@@ -23,6 +23,7 @@ use ieee.std_logic_1164.all;
 use ieee_proposed.fixed_pkg.all;
 
 use work.p_fphdl_package1.all;
+--use work.p_fphdl_package2.all;
 use work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
@@ -168,13 +169,29 @@ begin
 	
 	when s9 => state := s10;
 		-- Kgain
-		eeprom16slv := ram070a;
-		fptmp1 := resize (to_sfixed (eeprom16slv, eeprom16sf), fptmp1);
+--		eeprom16slv := ram070a;
+--		fptmp1 := resize (to_sfixed (eeprom16slv, eeprom16sf), fptmp1);
+--		report_error (eeprom16slv, 0.0);
+--		report_all ("asd", fptmp1, to_sfixed (0.0, fptmp1));
+--		fixed2floatce_internal <= '1';
+--		fixed2floatond_internal <= '1';
+--		fixed2floata_internal <= 
+--		to_slv (to_sfixed (to_slv (fptmp1 (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (fptmp1 (fracbs'high downto fracbs'low)), fracbs));
+
 		fixed2floatce_internal <= '1';
 		fixed2floatond_internal <= '1';
-		fixed2floata_internal <= 
-		to_slv (to_sfixed (to_slv (fptmp1 (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (fptmp1 (fracbs'high downto fracbs'low)), fracbs));
+		fixed2floata_internal <=
+		ram070a (15) & ram070a (15) & 
+		ram070a (15) & ram070a (15) & 
+		ram070a (15) & ram070a (15) & 
+		ram070a (15) & ram070a (15) & 
+		ram070a (15) & ram070a (15) & 
+		ram070a (15) & ram070a (15) & 
+		ram070a (15) & ram070a (15) & 
+		ram070a (15) & ram070a (15) & 
+		ram070a (15) & ram070a (15) & 
+		ram070a (15) & ram070a & "00000000000000000000000000000";
 	when s10 =>
 		if (fixed2floatrdy_internal = '1') then state := s11;
 			fttmp1 := fixed2floatr_internal;
@@ -185,13 +202,28 @@ begin
 		else state := s10; end if;
 	when s11 => state := s12;
 		fixed2floatsclr_internal <= '0';
-		eeprom16slv := ee2430;
-		fptmp2 := resize (to_sfixed (eeprom16slv, eeprom16sf), fptmp2);
+--		eeprom16slv := ee2430;
+--		fptmp2 := resize (to_sfixed (eeprom16slv, eeprom16sf), fptmp2);
+--		fixed2floatce_internal <= '1';
+--		fixed2floatond_internal <= '1';
+--		fixed2floata_internal <= 
+--		to_slv (to_sfixed (to_slv (fptmp2 (fracas'high downto fracas'low)), fracas)) & 
+--		to_slv (to_sfixed (to_slv (fptmp2 (fracbs'high downto fracbs'low)), fracbs));
+
 		fixed2floatce_internal <= '1';
 		fixed2floatond_internal <= '1';
-		fixed2floata_internal <= 
-		to_slv (to_sfixed (to_slv (fptmp2 (fracas'high downto fracas'low)), fracas)) & 
-		to_slv (to_sfixed (to_slv (fptmp2 (fracbs'high downto fracbs'low)), fracbs));
+		fixed2floata_internal <=
+		ee2430 (15) & ee2430 (15) & 
+		ee2430 (15) & ee2430 (15) & 
+		ee2430 (15) & ee2430 (15) & 
+		ee2430 (15) & ee2430 (15) & 
+		ee2430 (15) & ee2430 (15) & 
+		ee2430 (15) & ee2430 (15) & 
+		ee2430 (15) & ee2430 (15) & 
+		ee2430 (15) & ee2430 (15) & 
+		ee2430 (15) & ee2430 (15) & 
+		ee2430 (15) & ee2430 & "00000000000000000000000000000";
+
 	when s12 =>
 		if (fixed2floatrdy_internal = '1') then state := s13;
 			fttmp2 := fixed2floatr_internal;

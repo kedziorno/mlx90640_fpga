@@ -868,13 +868,26 @@ begin
 				when pow3 => state := pow4;
 					voccRowScale := out_nibble4; -- 2^occscalerow
 					--report "voccRowScale : " & real'image (ap_slv2fp (voccRowScale));
-					voffsetRef_sf := resize (to_sfixed (voffsetRef, eeprom16sf), voffsetRef_sf);
-					----report_error (voffsetRef, 0.0);
-					fixed2floatce_internal <= '1';
-					fixed2floatond_internal <= '1';
-					fixed2floata_internal <= 
-					to_slv (to_sfixed (to_slv (voffsetRef_sf (fracas'high downto fracas'low)), fracas))&
-					to_slv (to_sfixed (to_slv (voffsetRef_sf (fracbs'high downto fracbs'low)), fracbs));
+--					voffsetRef_sf := resize (to_sfixed (voffsetRef, eeprom16sf), voffsetRef_sf);
+--					----report_error (voffsetRef, 0.0);
+--					fixed2floatce_internal <= '1';
+--					fixed2floatond_internal <= '1';
+--					fixed2floata_internal <= 
+--					to_slv (to_sfixed (to_slv (voffsetRef_sf (fracas'high downto fracas'low)), fracas))&
+--					to_slv (to_sfixed (to_slv (voffsetRef_sf (fracbs'high downto fracbs'low)), fracbs));
+fixed2floatce_internal <= '1';
+fixed2floatond_internal <= '1';
+fixed2floata_internal <=
+voffsetRef (15) & voffsetRef (15) & 
+voffsetRef (15) & voffsetRef (15) & 
+voffsetRef (15) & voffsetRef (15) & 
+voffsetRef (15) & voffsetRef (15) & 
+voffsetRef (15) & voffsetRef (15) & 
+voffsetRef (15) & voffsetRef (15) & 
+voffsetRef (15) & voffsetRef (15) & 
+voffsetRef (15) & voffsetRef (15) & 
+voffsetRef (15) & voffsetRef (15) & 
+voffsetRef (15) & voffsetRef & "00000000000000000000000000000";
 				when pow4 =>
 					if (fixed2floatrdy_internal = '1') then state := pow5;
 						vOffsetAverage := fixed2floatr_internal;

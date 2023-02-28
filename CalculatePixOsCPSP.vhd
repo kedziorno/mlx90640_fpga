@@ -425,12 +425,25 @@ begin
 					fixed2floatsclr_internal <= '0';
 
 				when s16 => state := s17;
-					ram0728_fd := resize (to_sfixed (ram0728, eeprom16sf), ram0728_fd);
-					fixed2floatce_internal <= '1';
-					fixed2floatond_internal <= '1';
-					fixed2floata_internal <= 
-					to_slv (to_sfixed (to_slv (ram0728_fd (fracas'high downto fracas'low)), fracas)) & 
-					to_slv (to_sfixed (to_slv (ram0728_fd (fracbs'high downto fracbs'low)), fracbs));
+--					ram0728_fd := resize (to_sfixed (ram0728, eeprom16sf), ram0728_fd);
+--					fixed2floatce_internal <= '1';
+--					fixed2floatond_internal <= '1';
+--					fixed2floata_internal <= 
+--					to_slv (to_sfixed (to_slv (ram0728_fd (fracas'high downto fracas'low)), fracas)) & 
+--					to_slv (to_sfixed (to_slv (ram0728_fd (fracbs'high downto fracbs'low)), fracbs));
+fixed2floatce_internal <= '1';
+fixed2floatond_internal <= '1';
+fixed2floata_internal <=
+ram0728 (15) & ram0728 (15) & 
+ram0728 (15) & ram0728 (15) & 
+ram0728 (15) & ram0728 (15) & 
+ram0728 (15) & ram0728 (15) & 
+ram0728 (15) & ram0728 (15) & 
+ram0728 (15) & ram0728 (15) & 
+ram0728 (15) & ram0728 (15) & 
+ram0728 (15) & ram0728 (15) & 
+ram0728 (15) & ram0728 (15) & 
+ram0728 (15) & ram0728 & "00000000000000000000000000000";
 				when s17 =>
 					if (fixed2floatrdy_internal = '1') then state := s18;
 						ram0728_ft := fixed2floatr_internal;
