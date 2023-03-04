@@ -29,18 +29,41 @@ INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on
 
 Data Sheet report:
 -----------------
-No constraints were found to generate data for the Data Sheet Report section.
-Use the Advanced Analysis (-a) option or generate global constraints for each
-clock, its pad to setup and clock to pad paths, and a pad to pad constraint.
+All values displayed in nanoseconds (ns)
 
-Analysis completed Sat Mar  4 22:00:46 2023 
+Setup/Hold to clock i_clock
+------------+------------+------------+------------------+--------+
+            |Max Setup to|Max Hold to |                  | Clock  |
+Source      | clk (edge) | clk (edge) |Internal Clock(s) | Phase  |
+------------+------------+------------+------------------+--------+
+i_reset     |    2.255(R)|   -0.021(R)|i_clock_BUFGP     |   0.000|
+------------+------------+------------+------------------+--------+
+
+Clock i_clock to Pad
+------------+------------+------------------+--------+
+            | clk (edge) |                  | Clock  |
+Destination |   to PAD   |Internal Clock(s) | Phase  |
+------------+------------+------------------+--------+
+vga_clock   |   10.709(R)|i_clock_BUFGP     |   0.000|
+------------+------------+------------------+--------+
+
+Clock to Setup on destination clock i_clock
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+i_clock        |    2.289|         |         |         |
+---------------+---------+---------+---------+---------+
+
+
+Analysis completed Sat Mar  4 23:05:02 2023 
 --------------------------------------------------------------------------------
 
 Trace Settings:
 -------------------------
 Trace Settings 
 
-Peak Memory Usage: 478 MB
+Peak Memory Usage: 482 MB
 
 
 

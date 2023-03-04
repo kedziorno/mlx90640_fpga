@@ -37,7 +37,7 @@ architecture Behavioral of test1 is
 
 constant PIXELS : integer := 768;
 constant ADDRESS1 : integer := 10;
-constant BITS : integer := 10;
+constant BITS : integer := 24;
 
 component test_fixed_melexis is
 port (
@@ -161,8 +161,39 @@ begin
 	end if;
 end process pvgaclk;
 
+p0 : process (i_clock) is
+	type states is (idle,
+	s1,
+	ending);
+	variable state : states;
+begin
+	if (rising_edge (i_clock)) then
+		if (i_reset = '1') then
+			state := idle;
+			test_fixed_melexis_run <= '0';
+			address_generator_enable <= '0';
+		else
+			case (state) is
+				when idle => state := s1;
+					test_fixed_melexis_run <= '1';
+				when s1 => state := ending;
+					test_fixed_melexis_run <= '0';
+					if (test_fixed_melexis_rdy = '1') then
+						state := ending;
+					else
+						state := s1;
+					end if;
+				when ending => state := ending;
+					address_generator_enable <= '1';
+				when others => null;
+			end case;
+		end if;
+	end if;
+end process p0;
+
 test_fixed_melexis_clock <= i_clock;
 test_fixed_melexis_reset <= i_reset;
+test_fixed_melexis_addr <= address_generator_address;
 tfm_inst : test_fixed_melexis port map (
 i_clock => test_fixed_melexis_clock,
 i_reset => test_fixed_melexis_reset,
@@ -187,6 +218,8 @@ douta => test_fixed_melexis_i2c_mem_douta
 
 address_generator_clk25 <= clk25;
 address_generator_reset <= i_reset;
+address_generator_vsync <= VGA_timing_synch_Vsync;
+address_generator_activeh <= VGA_timing_synch_activehaaddrgen;
 ag_inst : address_generator port map (
 reset => address_generator_reset,
 clk25 => address_generator_clk25,
@@ -196,6 +229,9 @@ activeh => address_generator_activeh,
 address => address_generator_address
 );
 
+vga_clock <= VGA_timing_synch_clk25;
+vga_hsync <= VGA_timing_synch_Hsync;
+vga_vsync <= VGA_timing_synch_Vsync;
 VGA_timing_synch_clk25 <= clk25;
 VGA_timing_synch_reset <= i_reset;
 vts_inst : VGA_timing_synch port map (
@@ -209,6 +245,9 @@ activeRender1 => VGA_timing_synch_activeRender1,
 blank => VGA_timing_synch_blank
 );
 
+vga_r <= vga_imagegenerator_RGB_out (7 downto 0);
+vga_g <= vga_imagegenerator_RGB_out (15 downto 8);
+vga_b <= vga_imagegenerator_RGB_out (23 downto 16);
 vga_imagegenerator_clk <= clk25;
 vga_imagegenerator_reset <= i_reset;
 vig_inst : vga_imagegenerator port map (
