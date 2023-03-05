@@ -29,7 +29,10 @@ vga_vsync : out std_logic;
 vga_clock : out std_logic;
 vga_r : out std_logic_vector (7 downto 0);
 vga_g : out std_logic_vector (7 downto 0);
-vga_b : out std_logic_vector (7 downto 0)
+vga_b : out std_logic_vector (7 downto 0);
+vga_syncn : out std_logic;
+vga_blankn: out std_logic;
+vga_psave: out std_logic
 );
 end test1;
 
@@ -131,9 +134,13 @@ signal vga_imagegenerator_Data_in1 : STD_LOGIC_VECTOR (BITS-1 downto 0);
 signal vga_imagegenerator_active_area1 : STD_LOGIC;
 signal vga_imagegenerator_RGB_out : STD_LOGIC_VECTOR (BITS-1 downto 0);
 
-signal vgaclk25,agclk5 : std_logic;
+signal vgaclk25,agclk : std_logic;
 
 begin
+
+vga_syncn <= '1';
+vga_blankn <= '1';
+vga_psave <= '1';
 
 pvgaclk : process (i_clock) is
 	constant CMAX : integer := 2; -- 25
@@ -156,19 +163,19 @@ begin
 end process pvgaclk;
 
 pagclk : process (i_clock) is
-	constant CMAX : integer := 10; -- 5
+	constant CMAX : integer := 40; -- 1.25
 	variable vmax : integer range 0 to CMAX-1;
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
-			agclk5 <= '0';
+			agclk <= '0';
 			vmax := 0;
 		else
 			if (vmax = CMAX-1) then
-				agclk5 <= not agclk5;
+				agclk <= not agclk;
 				vmax := 0;
 			else
-				agclk5 <= agclk5;
+				agclk <= agclk;
 				vmax := vmax + 1;
 			end if;
 		end if;
@@ -189,7 +196,7 @@ begin
 			case (state) is
 				when idle => state := s1;
 					test_fixed_melexis_run <= '1';
-				when s1 => state := ending;
+				when s1 =>
 					test_fixed_melexis_run <= '0';
 					if (test_fixed_melexis_rdy = '1') then
 						state := ending;
@@ -228,7 +235,7 @@ dina => (others => '0'),
 douta => test_fixed_melexis_i2c_mem_douta
 );
 
-address_generator_clk <= agclk5;
+address_generator_clk <= agclk;
 address_generator_reset <= i_reset;
 address_generator_vsync <= VGA_timing_synch_Vsync;
 address_generator_activeh <= VGA_timing_synch_activehaaddrgen;
@@ -261,6 +268,8 @@ blank => VGA_timing_synch_blank
 vga_r <= vga_imagegenerator_RGB_out (7 downto 0);
 vga_g <= vga_imagegenerator_RGB_out (15 downto 8);
 vga_b <= vga_imagegenerator_RGB_out (23 downto 16);
+vga_imagegenerator_active_area1 <= VGA_timing_synch_activeArea1;
+vga_imagegenerator_Data_in1 <= test_fixed_melexis_do (BITS-1 downto 0);
 vga_imagegenerator_vgaclk25 <= vgaclk25;
 vga_imagegenerator_reset <= i_reset;
 vig_inst : vga_imagegenerator port map (

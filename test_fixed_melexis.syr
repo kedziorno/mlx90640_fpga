@@ -45,7 +45,7 @@ Ignore Synthesis Constraint File   : NO
 ---- Target Parameters
 Output File Name                   : "test_fixed_melexis"
 Output Format                      : NGC
-Target Device                      : xc3s1200e-4-ft256
+Target Device                      : xc4vsx35-10-ff668
 
 ---- Source Options
 Top Module Name                    : test_fixed_melexis
@@ -66,25 +66,27 @@ ROM Style                          : Auto
 Mux Extraction                     : Yes
 Resource Sharing                   : YES
 Asynchronous To Synchronous        : NO
-Multiplier Style                   : Auto
+Use DSP Block                      : Auto
 Automatic Register Balancing       : No
 
 ---- Target Options
 Add IO Buffers                     : YES
 Global Maximum Fanout              : 500
-Add Generic Clock Buffer(BUFG)     : 24
+Add Generic Clock Buffer(BUFG)     : 32
+Number of Regional Clock Buffers   : 24
 Register Duplication               : YES
 Slice Packing                      : YES
 Optimize Instantiated Primitives   : NO
-Use Clock Enable                   : Yes
-Use Synchronous Set                : Yes
-Use Synchronous Reset              : Yes
+Use Clock Enable                   : Auto
+Use Synchronous Set                : Auto
+Use Synchronous Reset              : Auto
 Pack IO Registers into IOBs        : Auto
 Equivalent register Removal        : YES
 
 ---- General Options
 Optimization Goal                  : Speed
 Optimization Effort                : 1
+Power Reduction                    : NO
 Keep Hierarchy                     : No
 Netlist Hierarchy                  : As_Optimized
 RTL Output                         : Yes
@@ -97,6 +99,7 @@ Bus Delimiter                      : <>
 Case Specifier                     : Maintain
 Slice Utilization Ratio            : 100
 BRAM Utilization Ratio             : 100
+DSP48 Utilization Ratio            : 100
 Verilog 2001                       : YES
 Auto BRAM Packing                  : NO
 Slice Utilization Ratio Delta      : 5
@@ -113,8 +116,7 @@ Cores Search Directories           : {"ipcore_dir"  }
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/p_fphdl_package1.vhd" in Library work.
 Architecture p_fphdl_package1 of Entity p_fphdl_package1 is up to date.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/p_fphdl_package3.vhd" in Library work.
-Package <p_fphdl_package3> compiled.
-Package body <p_fphdl_package3> compiled.
+Architecture p_fphdl_package3 of Entity p_fphdl_package3 is up to date.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/mem_ramb16_s36_x2.vhd" in Library work.
 Architecture behavioral of Entity mem_ramb16_s36_x2 is up to date.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/mem_signedFF.vhd" in Library work.
@@ -833,7 +835,7 @@ WARNING:Xst:2211 - "/home/user/workspace/melexis_mlx90641/test_fixed_melexis.vhd
 Entity <test_fixed_melexis> analyzed. Unit <test_fixed_melexis> generated.
 
 Analyzing Entity <calculateVdd> in library <work> (Architecture <behavioral>).
-INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateVdd.vhd" line 333: report: ================ CalculateVdd o_Vdd : 31237
+INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateVdd.vhd" line 333: report: ================ CalculateVdd o_Vdd : 31682
 INFO:Xst:2679 - Register <resolutionreg> in unit <calculateVdd> has a constant value of 10 during circuit operation. The register is replaced by logic.
 INFO:Xst:2679 - Register <addfpb> in unit <calculateVdd> has a constant value of 01000000010100110011001100110011 during circuit operation. The register is replaced by logic.
 Entity <calculateVdd> analyzed. Unit <calculateVdd> generated.
@@ -926,15 +928,15 @@ INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateTa.vhd" line 343
 INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateTa.vhd" line 374: report: ================ CalculateTa vptat : 0
 INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateTa.vhd" line 405: report: ================ CalculateTa vbe : 0
 INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateTa.vhd" line 414: report: ================ CalculateTa alphaptat : 0
-INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateTa.vhd" line 471: report: ================ CalculateTa ExtractKvPTATParameter_kvptat : 31237
+INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateTa.vhd" line 471: report: ================ CalculateTa ExtractKvPTATParameter_kvptat : 31682
 INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateTa.vhd" line 478: report: ================ CalculateTa 1 : 0
-INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateTa.vhd" line 493: report: ================ CalculateTa 2 : 0
-INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateTa.vhd" line 508: report: ================ CalculateTa 3 : 31237
-INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateTa.vhd" line 523: report: ================ CalculateTa 4 : 31237
-INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateTa.vhd" line 532: report: ================ CalculateTa ExtractKtPTATParameter_ktptat : 31237
+INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateTa.vhd" line 493: report: ================ CalculateTa 2 : 31682
+INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateTa.vhd" line 508: report: ================ CalculateTa 3 : 0
+INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateTa.vhd" line 523: report: ================ CalculateTa 4 : 31682
+INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateTa.vhd" line 532: report: ================ CalculateTa ExtractKtPTATParameter_ktptat : 31682
 INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateTa.vhd" line 539: report: ================ CalculateTa 5 : 0
 INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateTa.vhd" line 554: report: ================ CalculateTa 6 : 0
-INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateTa.vhd" line 560: report: ================ CalculateTa Ta : 31237
+INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateTa.vhd" line 560: report: ================ CalculateTa Ta : 31682
 Entity <calculateTa> analyzed. Unit <calculateTa> generated.
 
 Analyzing Entity <ExtractKvPTATParameter> in library <work> (Architecture <behavioral>).
@@ -1697,8 +1699,8 @@ Analyzing generic Entity <mem_ramb16_s36_x2.1> in library <work> (Architecture <
 Entity <mem_ramb16_s36_x2.1> analyzed. Unit <mem_ramb16_s36_x2.1> generated.
 
 Analyzing Entity <CalculateAlphaCP> in library <work> (Architecture <behavioral>).
-INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/CalculateAlphaCP.vhd" line 226: report: ================ calculateAlphaCP o_acpsubpage0 : 31237
-INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/CalculateAlphaCP.vhd" line 241: report: ================ calculateAlphaCP o_acpsubpage1 : 31237
+INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/CalculateAlphaCP.vhd" line 226: report: ================ calculateAlphaCP o_acpsubpage0 : 31682
+INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/CalculateAlphaCP.vhd" line 241: report: ================ calculateAlphaCP o_acpsubpage1 : 31682
 Entity <CalculateAlphaCP> analyzed. Unit <CalculateAlphaCP> generated.
 
 Analyzing Entity <mem_signed1024> in library <work> (Architecture <behavioral>).
@@ -2017,8 +2019,8 @@ WARNING:Xst:753 - "/home/user/workspace/melexis_mlx90641/CalculatePixGain.vhd" l
 Entity <CalculatePixGain> analyzed. Unit <CalculatePixGain> generated.
 
 Analyzing Entity <calculateKGain> in library <work> (Architecture <behavioral>).
-INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateKGain.vhd" line 201: report: ================ calculateKGain gainEE : 31237
-INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateKGain.vhd" line 246: report: ================ calculateKGain gain : 31237
+INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateKGain.vhd" line 201: report: ================ calculateKGain gainEE : 31682
+INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/calculateKGain.vhd" line 246: report: ================ calculateKGain gain : 31682
 Entity <calculateKGain> analyzed. Unit <calculateKGain> generated.
 
 Analyzing Entity <ExtractOffsetParameters> in library <work> (Architecture <behavioral>).
@@ -2205,7 +2207,7 @@ Analyzing Entity <ExtractTGCParameters> in library <work> (Architecture <behavio
 Entity <ExtractTGCParameters> analyzed. Unit <ExtractTGCParameters> generated.
 
 Analyzing Entity <mem_switchpattern> in library <work> (Architecture <behavioral>).
-    Set user-defined property "INIT =  0" for instance <inst_mem_switchpattern> in unit <mem_switchpattern>.
+    Set user-defined property "INIT =  000000000" for instance <inst_mem_switchpattern> in unit <mem_switchpattern>.
     Set user-defined property "INIT_00 =  0101010101010101010101010101010110101010101010101010101010101010" for instance <inst_mem_switchpattern> in unit <mem_switchpattern>.
     Set user-defined property "INIT_01 =  0101010101010101010101010101010110101010101010101010101010101010" for instance <inst_mem_switchpattern> in unit <mem_switchpattern>.
     Set user-defined property "INIT_02 =  0101010101010101010101010101010110101010101010101010101010101010" for instance <inst_mem_switchpattern> in unit <mem_switchpattern>.
@@ -2270,7 +2272,7 @@ Analyzing Entity <mem_switchpattern> in library <work> (Architecture <behavioral
     Set user-defined property "INIT_3D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_switchpattern> in unit <mem_switchpattern>.
     Set user-defined property "INIT_3E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_switchpattern> in unit <mem_switchpattern>.
     Set user-defined property "INIT_3F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_switchpattern> in unit <mem_switchpattern>.
-    Set user-defined property "SRVAL =  0" for instance <inst_mem_switchpattern> in unit <mem_switchpattern>.
+    Set user-defined property "SRVAL =  000000000" for instance <inst_mem_switchpattern> in unit <mem_switchpattern>.
     Set user-defined property "WRITE_MODE =  READ_FIRST" for instance <inst_mem_switchpattern> in unit <mem_switchpattern>.
 Entity <mem_switchpattern> analyzed. Unit <mem_switchpattern> generated.
 
@@ -2279,7 +2281,7 @@ WARNING:Xst:753 - "/home/user/workspace/melexis_mlx90641/CalculateAlphaComp.vhd"
 Entity <CalculateAlphaComp> analyzed. Unit <CalculateAlphaComp> generated.
 
 Analyzing Entity <ExtractKsTaParameters> in library <work> (Architecture <behavioral>).
-INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/ExtractKsTaParameters.vhd" line 85: report: ================ extractKsTaParameters ksta : 31237
+INFO:Xst:1749 - "/home/user/workspace/melexis_mlx90641/ExtractKsTaParameters.vhd" line 85: report: ================ extractKsTaParameters ksta : 31682
     Set user-defined property "INIT =  000000000" for instance <inst_mem_ksta> in unit <ExtractKsTaParameters>.
     Set user-defined property "INITP_00 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_ksta> in unit <ExtractKsTaParameters>.
     Set user-defined property "INITP_01 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_ksta> in unit <ExtractKsTaParameters>.
@@ -4838,7 +4840,25 @@ WARNING:Xst:2404 -  FFs/Latches <mem_switchpattern_pixel<13:10>> (without init v
 
 Synthesizing (advanced) Unit <CalculateAlphaCP>.
 INFO:Xst:3034 - In order to maximize performance and save block RAM resources, the small ROM <Mrom_out_nibble2> will be implemented on LUT. If you want to force its implementation on block, use option/constraint rom_style.
-INFO:Xst:3045 - The ROM description <Mrom_out_nibble1> will be implemented on LUTs because the limited number of device block RAMs. If you want to be implemented as block RAM, please select a larger device.
+INFO:Xst:3044 - The ROM <Mrom_out_nibble1> will be implemented as a read-only BLOCK RAM, absorbing the register: <mulfpb_internal>.
+INFO:Xst:3225 - The RAM <Mrom_out_nibble1> will be implemented as BLOCK RAM
+    -----------------------------------------------------------------------
+    | ram_type           | Block                               |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 64-word x 32-bit                    |          |
+    |     mode           | write-first                         |          |
+    |     clkA           | connected to signal <i_clock>       | rise     |
+    |     enA            | connected to signal <state_cmp_eq0003_0> | high     |
+    |     weA            | connected to internal node          | high     |
+    |     addrA          | connected to signal <nibble1>       |          |
+    |     diA            | connected to internal node          |          |
+    |     doA            | connected to signal <mulfpb_internal> |          |
+    |     dorstA         | connected to signal <i_reset>       | high     |
+    | reset value        | 00000000000000000000000000000000               |
+    -----------------------------------------------------------------------
+    | optimization       | speed                               |          |
+    -----------------------------------------------------------------------
 Unit <CalculateAlphaCP> synthesized (advanced).
 
 Synthesizing (advanced) Unit <CalculatePixOsCPSP>.
@@ -4882,10 +4902,12 @@ Advanced HDL Synthesis Report
 
 Macro Statistics
 # FSMs                                                 : 19
-# ROMs                                                 : 20
+# RAMs                                                 : 1
+ 64x32-bit single-port block RAM                       : 1
+# ROMs                                                 : 19
  16x32-bit ROM                                         : 14
  4x32-bit ROM                                          : 1
- 64x32-bit ROM                                         : 4
+ 64x32-bit ROM                                         : 3
  8x32-bit ROM                                          : 1
 # Adders/Subtractors                                   : 27
  10-bit adder                                          : 12
@@ -4897,8 +4919,8 @@ Macro Statistics
 # Counters                                             : 7
  10-bit up counter                                     : 3
  5-bit up counter                                      : 4
-# Registers                                            : 7024
- Flip-Flops                                            : 7024
+# Registers                                            : 6992
+ Flip-Flops                                            : 6992
 # Multiplexers                                         : 80
  1-bit 4-to-1 multiplexer                              : 64
  32-bit 4-to-1 multiplexer                             : 13
@@ -5601,24 +5623,6 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_1> 
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_0> (without init value) has a constant value of 0 in block <CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_11> (without init value) has a constant value of 0 in block <ExtractAlphaParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_11> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <mulfpb_internal_31> (without init value) has a constant value of 0 in block <CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_30> (without init value) has a constant value of 0 in block <CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_15> (without init value) has a constant value of 0 in block <CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_14> (without init value) has a constant value of 0 in block <CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_13> (without init value) has a constant value of 0 in block <CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_12> (without init value) has a constant value of 0 in block <CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_11> (without init value) has a constant value of 0 in block <CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_10> (without init value) has a constant value of 0 in block <CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_9> (without init value) has a constant value of 0 in block <CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_8> (without init value) has a constant value of 0 in block <CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_7> (without init value) has a constant value of 0 in block <CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_6> (without init value) has a constant value of 0 in block <CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_5> (without init value) has a constant value of 0 in block <CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_4> (without init value) has a constant value of 0 in block <CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_3> (without init value) has a constant value of 0 in block <CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_2> (without init value) has a constant value of 0 in block <CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_1> (without init value) has a constant value of 0 in block <CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_0> (without init value) has a constant value of 0 in block <CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_18> (without init value) has a constant value of 0 in block <CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <addfpb_internal_17> (without init value) has a constant value of 0 in block <CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <addfpb_internal_16> (without init value) has a constant value of 0 in block <CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
@@ -5638,11 +5642,43 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <addfpb_internal_3> 
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <addfpb_internal_2> (without init value) has a constant value of 0 in block <CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <addfpb_internal_1> (without init value) has a constant value of 0 in block <CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <addfpb_internal_0> (without init value) has a constant value of 0 in block <CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
+INFO:Xst:1901 - Instance inst_mem_kvdd_vdd25 in unit ExtractVDDParameters of type RAMB16_S36_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance RAMB16_S36_inst1 in unit mem_ramb16_s36_x2_2 of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance RAMB16_S36_inst2 in unit mem_ramb16_s36_x2_2 of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance RAMB16_S36_inst1 in unit mem_ramb16_s36_x2_3 of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance RAMB16_S36_inst2 in unit mem_ramb16_s36_x2_3 of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_tgc in unit ExtractTGCParameters of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_ksta in unit ExtractKsTaParameters of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_kstoscale in unit ExtractKsToScaleParameter of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_acc/RAMB16_S36_inst2 in unit ExtractAlphaParameters of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_acc/RAMB16_S36_inst1 in unit ExtractAlphaParameters of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_vir_compensated/RAMB16_S36_inst2 in unit CalculateVirCompensated of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_vir_compensated/RAMB16_S36_inst1 in unit CalculateVirCompensated of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_switchpattern/inst_mem_switchpattern in unit CalculateVirCompensated of type RAMB16_S1 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_alphacomp/RAMB16_S36_inst2 in unit CalculateAlphaComp of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_alphacomp/RAMB16_S36_inst1 in unit CalculateAlphaComp of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_switchpattern/inst_mem_switchpattern in unit CalculateAlphaComp of type RAMB16_S1 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_To/RAMB16_S36_inst2 in unit CalculateTo of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_To/RAMB16_S36_inst1 in unit CalculateTo of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_signed256/inst_mem_signed256 in unit CalculateTo of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_KGain/RAMB16_S36_inst2 in unit CalculatePixGain of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_KGain/RAMB16_S36_inst1 in unit CalculatePixGain of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_occ/RAMB16_S36_inst2 in unit ExtractOffsetParameters of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_occ/RAMB16_S36_inst1 in unit ExtractOffsetParameters of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_kta/RAMB16_S36_inst2 in unit ExtractKtaParameters of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_kta/RAMB16_S36_inst1 in unit ExtractKtaParameters of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_signed256_ktarcee/inst_mem_signed256 in unit ExtractKtaParameters of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_kv/RAMB16_S36_inst2 in unit ExtractKvParameters of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_kv/RAMB16_S36_inst1 in unit ExtractKvParameters of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_ExtractKvPTATParameter/inst_mem_kvptat in unit calculateTa of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_ExtractAlphaPtatParameter/inst_mem_alphaptat in unit calculateTa of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_pixos/RAMB16_S36_inst2 in unit CalculatePixOS of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_pixos/RAMB16_S36_inst1 in unit CalculatePixOS of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:1901 - Instance inst_mem_signed256_ktacpee_kvcpee/inst_mem_signed256 in unit CalculatePixOsCPSP of type RAMB16_S36 has been replaced by RAMB16
 INFO:Xst:2261 - The FF/Latch <mulfpb_internal_27> in Unit <ExtractKtaParameters> is equivalent to the following 2 FFs/Latches, which will be removed : <mulfpb_internal_28> <mulfpb_internal_29> 
 INFO:Xst:2261 - The FF/Latch <mulfpa_internal_24> in Unit <ExtractKtaParameters> is equivalent to the following 5 FFs/Latches, which will be removed : <mulfpa_internal_25> <mulfpa_internal_26> <mulfpa_internal_27> <mulfpa_internal_28> <mulfpa_internal_29> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_27> in Unit <ExtractKvParameters> is equivalent to the following 2 FFs/Latches, which will be removed : <divfpb_internal_28> <divfpb_internal_29> 
 INFO:Xst:2261 - The FF/Latch <divfpa_internal_25> in Unit <ExtractKvParameters> is equivalent to the following 4 FFs/Latches, which will be removed : <divfpa_internal_26> <divfpa_internal_27> <divfpa_internal_28> <divfpa_internal_29> 
-INFO:Xst:2261 - The FF/Latch <mulfpb_internal_24> in Unit <CalculateAlphaCP> is equivalent to the following 5 FFs/Latches, which will be removed : <mulfpb_internal_25> <mulfpb_internal_26> <mulfpb_internal_27> <mulfpb_internal_28> <mulfpb_internal_29> 
 
 Optimizing unit <test_fixed_melexis> ...
 
@@ -5691,23 +5727,22 @@ Mapping all equations...
 Building and optimizing final netlist ...
 INFO:Xst:2261 - The FF/Latch <inst_CalculatePixOS/addfpb_internal_29> in Unit <test_fixed_melexis> is equivalent to the following 6 FFs/Latches, which will be removed : <inst_CalculatePixOS/addfpb_internal_28> <inst_CalculatePixOS/addfpb_internal_27> <inst_CalculatePixOS/addfpb_internal_26> <inst_CalculatePixOS/addfpb_internal_25> <inst_CalculatePixOS/addfpb_internal_24> <inst_CalculatePixOS/addfpb_internal_23> 
 INFO:Xst:2261 - The FF/Latch <inst_CalculatePixOsCPSP/addfpb_internal_28> in Unit <test_fixed_melexis> is equivalent to the following 2 FFs/Latches, which will be removed : <inst_CalculatePixOsCPSP/addfpb_internal_27> <inst_CalculatePixOsCPSP/addfpb_internal_26> 
-Found area constraint ratio of 100 (+ 5) on block test_fixed_melexis, actual ratio is 115.
-Optimizing block <test_fixed_melexis> to meet ratio 100 (+ 5) of 8672 slices :
-WARNING:Xst:2254 - Area constraint could not be met for block <test_fixed_melexis>, final ratio is 108.
+Found area constraint ratio of 100 (+ 5) on block test_fixed_melexis, actual ratio is 67.
+INFO:Xst:2260 - The FF/Latch <blk00000084> in Unit <inst_mulfp> is equivalent to the following FF/Latch : <blk00000553> 
+INFO:Xst:2260 - The FF/Latch <blk00000296> in Unit <inst_addfp> is equivalent to the following FF/Latch : <blk000004d7> 
+INFO:Xst:2260 - The FF/Latch <blk00000296> in Unit <inst_subfp> is equivalent to the following FF/Latch : <blk000004d7> 
+INFO:Xst:2260 - The FF/Latch <blk00000084> in Unit <inst_mulfp> is equivalent to the following FF/Latch : <blk00000553> 
+INFO:Xst:2260 - The FF/Latch <blk00000296> in Unit <inst_addfp> is equivalent to the following FF/Latch : <blk000004d7> 
+INFO:Xst:2260 - The FF/Latch <blk00000296> in Unit <inst_subfp> is equivalent to the following FF/Latch : <blk000004d7> 
+FlipFlop CalculateAlphaCP_mux has been replicated 1 time(s)
 FlipFlop CalculateAlphaComp_mux has been replicated 1 time(s)
 FlipFlop CalculatePixOS_mux has been replicated 2 time(s)
-FlipFlop CalculatePixOsCPSP_mux has been replicated 1 time(s)
+FlipFlop CalculatePixOsCPSP_mux has been replicated 3 time(s)
 FlipFlop CalculateTa_mux has been replicated 2 time(s)
-FlipFlop CalculateTo_mux has been replicated 1 time(s)
+FlipFlop CalculateTo_mux has been replicated 2 time(s)
 FlipFlop CalculateVdd_mux has been replicated 1 time(s)
-FlipFlop CalculateVirCompensated_mux has been replicated 1 time(s)
-FlipFlop inst_CalculatePixOS/CalculatePixGain_mux has been replicated 1 time(s)
-FlipFlop inst_CalculatePixOS/ExtractOffsetParameters_mux has been replicated 1 time(s)
-FlipFlop inst_CalculatePixOS/inst_CalculatePixGain/CalculateKGain_mux has been replicated 1 time(s)
-FlipFlop inst_CalculatePixOS/inst_CalculatePixGain/fixed2floata_internal_44 has been replicated 1 time(s)
-FlipFlop inst_CalculatePixOS/inst_ExtractOffsetParameters/fixed2floata_internal_44 has been replicated 1 time(s)
-FlipFlop inst_CalculatePixOsCPSP/CalculateKGain_mux has been replicated 1 time(s)
-FlipFlop inst_calculateVdd/fixed2floata_44 has been replicated 1 time(s)
+FlipFlop CalculateVirCompensated_mux has been replicated 4 time(s)
+FlipFlop ExtractAlphaParameters_mux has been replicated 3 time(s)
 
 Final Macro Processing ...
 
@@ -5715,8 +5750,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 7067
- Flip-Flops                                            : 7067
+# Registers                                            : 7061
+ Flip-Flops                                            : 7061
 
 =========================================================================
 
@@ -5745,68 +5780,62 @@ Design Statistics
 # IOs                              : 67
 
 Cell Usage :
-# BELS                             : 20005
-#      BUF                         : 13
+# BELS                             : 21381
+#      BUF                         : 14
 #      GND                         : 7
-#      INV                         : 152
-#      LUT1                        : 173
-#      LUT2                        : 2661
-#      LUT2_D                      : 8
-#      LUT2_L                      : 65
-#      LUT3                        : 3447
-#      LUT3_D                      : 115
-#      LUT3_L                      : 209
-#      LUT4                        : 7282
-#      LUT4_D                      : 24
-#      LUT4_L                      : 985
-#      MULT_AND                    : 1
-#      MUXCY                       : 1987
-#      MUXF5                       : 1159
+#      INV                         : 124
+#      LUT1                        : 110
+#      LUT2                        : 2731
+#      LUT2_D                      : 4
+#      LUT2_L                      : 10
+#      LUT3                        : 3825
+#      LUT3_D                      : 124
+#      LUT3_L                      : 115
+#      LUT4                        : 8029
+#      LUT4_D                      : 18
+#      LUT4_L                      : 648
+#      MULT_AND                    : 225
+#      MUXCY                       : 2236
+#      MUXF5                       : 1205
 #      MUXF6                       : 19
 #      MUXF7                       : 2
 #      VCC                         : 7
-#      XORCY                       : 1689
-# FlipFlops/Latches                : 11137
-#      FDE                         : 6998
-#      FDR                         : 1091
-#      FDRE                        : 1382
-#      FDRS                        : 1134
-#      FDRSE                       : 443
+#      XORCY                       : 1928
+# FlipFlops/Latches                : 11543
+#      FDE                         : 7183
+#      FDR                         : 1137
+#      FDRE                        : 1606
+#      FDRS                        : 1131
+#      FDRSE                       : 397
 #      FDS                         : 70
 #      FDSE                        : 19
-# RAMS                             : 36
-#      RAMB16_S1                   : 2
-#      RAMB16_S36                  : 33
-#      RAMB16_S36_S36              : 1
-# Shift Registers                  : 210
-#      SRL16E                      : 177
+# RAMS                             : 37
+#      RAMB16                      : 37
+# Shift Registers                  : 244
+#      SRL16E                      : 211
 #      SRLC16E                     : 33
 # Clock Buffers                    : 1
 #      BUFGP                       : 1
 # IO Buffers                       : 66
 #      IBUF                        : 20
 #      OBUF                        : 46
-# MULTs                            : 4
-#      MULT18X18SIO                : 4
 =========================================================================
 
 Device utilization summary:
 ---------------------------
 
-Selected Device : 3s1200eft256-4 
+Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                     9530  out of   8672   109% (*) 
- Number of Slice Flip Flops:          11137  out of  17344    64%  
- Number of 4 input LUTs:              15331  out of  17344    88%  
-    Number used as logic:             15121
-    Number used as Shift registers:     210
+ Number of Slices:                     9534  out of  15360    62%  
+ Number of Slice Flip Flops:          11543  out of  30720    37%  
+ Number of 4 input LUTs:              15982  out of  30720    52%  
+    Number used as logic:             15738
+    Number used as Shift registers:     244
  Number of IOs:                          67
- Number of bonded IOBs:                  67  out of    190    35%  
- Number of BRAMs:                        36  out of     28   128% (*) 
- Number of MULT18X18SIOs:                 4  out of     28    14%  
- Number of GCLKs:                         1  out of     24     4%  
-
-WARNING:Xst:1336 -  (*) More than 100% of Device resources are used
+ Number of bonded IOBs:                  67  out of    448    14%  
+ Number of FIFO16/RAMB16s:               37  out of    192    19%  
+    Number used as RAMB16s:              37
+ Number of GCLKs:                         1  out of     32     3%  
 
 ---------------------------
 Partition Resource Summary:
@@ -5829,7 +5858,7 @@ Clock Information:
 -----------------------------------+------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)  | Load  |
 -----------------------------------+------------------------+-------+
-i_clock                            | BUFGP                  | 11387 |
+i_clock                            | BUFGP                  | 11824 |
 -----------------------------------+------------------------+-------+
 
 Asynchronous Control Signals Information:
@@ -5838,11 +5867,11 @@ No asynchronous control signals found in this design
 
 Timing Summary:
 ---------------
-Speed Grade: -4
+Speed Grade: -10
 
-   Minimum period: 12.560ns (Maximum Frequency: 79.621MHz)
-   Minimum input arrival time before clock: 7.415ns
-   Maximum output required time after clock: 12.992ns
+   Minimum period: 10.973ns (Maximum Frequency: 91.133MHz)
+   Minimum input arrival time before clock: 7.878ns
+   Maximum output required time after clock: 12.182ns
    Maximum combinational path delay: No path found
 
 Timing Detail:
@@ -5851,99 +5880,35 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 12.560ns (frequency: 79.621MHz)
-  Total number of paths / destination ports: 405880 / 21708
+  Clock period: 10.973ns (frequency: 91.133MHz)
+  Total number of paths / destination ports: 456518 / 22726
 -------------------------------------------------------------------------
-Delay:               12.560ns (Levels of Logic = 69)
-  Source:            CalculateVdd_mux (FF)
-  Destination:       inst_fixed2float/blk000001df (FF)
+Delay:               10.973ns (Levels of Logic = 5)
+  Source:            inst_CalculatePixOS/CalculatePixGain_mux (FF)
+  Destination:       inst_divfp/blk00000196 (FF)
   Source Clock:      i_clock rising
   Destination Clock: i_clock rising
 
-  Data Path: CalculateVdd_mux to inst_fixed2float/blk000001df
+  Data Path: inst_CalculatePixOS/CalculatePixGain_mux to inst_divfp/blk00000196
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDE:C->Q            449   0.591   1.473  CalculateVdd_mux (CalculateVdd_mux)
-     LUT2:I1->O            1   0.704   0.499  fixed2floata<62>1 (fixed2floata<44>1)
-     LUT4:I1->O            1   0.704   0.499  fixed2floata<63>20 (fixed2floata<63>20)
-     LUT4:I1->O           65   0.704   1.448  fixed2floata<63>59 (fixed2floata<63>)
-     begin scope: 'inst_fixed2float'
-     LUT2:I0->O            1   0.704   0.000  blk000003c8 (sig00000486)
-     MUXCY:S->O            1   0.464   0.000  blk00000160 (sig000001a6)
-     MUXCY:CI->O           1   0.059   0.000  blk00000162 (sig000001b1)
-     MUXCY:CI->O           1   0.059   0.000  blk00000164 (sig000001bc)
-     MUXCY:CI->O           1   0.059   0.000  blk00000166 (sig000001c7)
-     MUXCY:CI->O           1   0.059   0.000  blk00000168 (sig000001d2)
-     MUXCY:CI->O           1   0.059   0.000  blk0000016a (sig000001d7)
-     MUXCY:CI->O           1   0.059   0.000  blk0000016c (sig000001d8)
-     MUXCY:CI->O           1   0.059   0.000  blk0000016e (sig000001d9)
-     MUXCY:CI->O           1   0.059   0.000  blk00000170 (sig000001da)
-     MUXCY:CI->O           1   0.059   0.000  blk00000172 (sig0000019c)
-     MUXCY:CI->O           1   0.059   0.000  blk00000174 (sig0000019d)
-     MUXCY:CI->O           1   0.059   0.000  blk00000176 (sig0000019e)
-     MUXCY:CI->O           1   0.059   0.000  blk00000178 (sig0000019f)
-     MUXCY:CI->O           1   0.059   0.000  blk0000017a (sig000001a0)
-     MUXCY:CI->O           1   0.059   0.000  blk0000017c (sig000001a1)
-     MUXCY:CI->O           1   0.059   0.000  blk0000017e (sig000001a2)
-     MUXCY:CI->O           1   0.059   0.000  blk00000180 (sig000001a3)
-     MUXCY:CI->O           1   0.059   0.000  blk00000182 (sig000001a4)
-     MUXCY:CI->O           1   0.059   0.000  blk00000184 (sig000001a5)
-     MUXCY:CI->O           1   0.059   0.000  blk00000186 (sig000001a7)
-     MUXCY:CI->O           1   0.059   0.000  blk00000188 (sig000001a8)
-     MUXCY:CI->O           1   0.059   0.000  blk0000018a (sig000001a9)
-     MUXCY:CI->O           1   0.059   0.000  blk0000018c (sig000001aa)
-     MUXCY:CI->O           1   0.059   0.000  blk0000018e (sig000001ab)
-     MUXCY:CI->O           1   0.059   0.000  blk00000190 (sig000001ac)
-     MUXCY:CI->O           1   0.059   0.000  blk00000192 (sig000001ad)
-     MUXCY:CI->O           1   0.059   0.000  blk00000194 (sig000001ae)
-     MUXCY:CI->O           1   0.059   0.000  blk00000196 (sig000001af)
-     MUXCY:CI->O           1   0.059   0.000  blk00000198 (sig000001b0)
-     MUXCY:CI->O           1   0.059   0.000  blk0000019a (sig000001b2)
-     MUXCY:CI->O           1   0.059   0.000  blk0000019c (sig000001b3)
-     MUXCY:CI->O           1   0.059   0.000  blk0000019e (sig000001b4)
-     MUXCY:CI->O           1   0.059   0.000  blk000001a0 (sig000001b5)
-     MUXCY:CI->O           1   0.059   0.000  blk000001a2 (sig000001b6)
-     MUXCY:CI->O           1   0.059   0.000  blk000001a4 (sig000001b7)
-     MUXCY:CI->O           1   0.059   0.000  blk000001a6 (sig000001b8)
-     MUXCY:CI->O           1   0.059   0.000  blk000001a8 (sig000001b9)
-     MUXCY:CI->O           1   0.059   0.000  blk000001aa (sig000001ba)
-     MUXCY:CI->O           1   0.059   0.000  blk000001ac (sig000001bb)
-     MUXCY:CI->O           1   0.059   0.000  blk000001ae (sig000001bd)
-     MUXCY:CI->O           1   0.059   0.000  blk000001b0 (sig000001be)
-     MUXCY:CI->O           1   0.059   0.000  blk000001b2 (sig000001bf)
-     MUXCY:CI->O           1   0.059   0.000  blk000001b4 (sig000001c0)
-     MUXCY:CI->O           1   0.059   0.000  blk000001b6 (sig000001c1)
-     MUXCY:CI->O           1   0.059   0.000  blk000001b8 (sig000001c2)
-     MUXCY:CI->O           1   0.059   0.000  blk000001ba (sig000001c3)
-     MUXCY:CI->O           1   0.059   0.000  blk000001bc (sig000001c4)
-     MUXCY:CI->O           1   0.059   0.000  blk000001be (sig000001c5)
-     MUXCY:CI->O           1   0.059   0.000  blk000001c0 (sig000001c6)
-     MUXCY:CI->O           1   0.059   0.000  blk000001c2 (sig000001c8)
-     MUXCY:CI->O           1   0.059   0.000  blk000001c4 (sig000001c9)
-     MUXCY:CI->O           1   0.059   0.000  blk000001c6 (sig000001ca)
-     MUXCY:CI->O           1   0.059   0.000  blk000001c8 (sig000001cb)
-     MUXCY:CI->O           1   0.059   0.000  blk000001ca (sig000001cc)
-     MUXCY:CI->O           1   0.059   0.000  blk000001cc (sig000001cd)
-     MUXCY:CI->O           1   0.059   0.000  blk000001ce (sig000001ce)
-     MUXCY:CI->O           1   0.059   0.000  blk000001d0 (sig000001cf)
-     MUXCY:CI->O           1   0.059   0.000  blk000001d2 (sig000001d0)
-     MUXCY:CI->O           1   0.059   0.000  blk000001d4 (sig000001d1)
-     MUXCY:CI->O           1   0.059   0.000  blk000001d6 (sig000001d3)
-     MUXCY:CI->O           1   0.059   0.000  blk000001d8 (sig000001d4)
-     MUXCY:CI->O           1   0.059   0.000  blk000001da (sig000001d5)
-     MUXCY:CI->O           0   0.059   0.000  blk000001dc (sig000001d6)
-     XORCY:CI->O           1   0.804   0.000  blk000001de (sig00000216)
-     FDE:D                     0.308          blk000001df
+     FDRSE:C->Q          367   0.360   2.619  inst_CalculatePixOS/CalculatePixGain_mux (inst_CalculatePixOS/CalculatePixGain_mux)
+     LUT4:I0->O            1   0.195   0.523  divfpond56_SW1 (N4758)
+     LUT4_D:I3->O          1   0.195   0.688  divfpond56 (divfpce56)
+     LUT4:I1->O          472   0.195   2.648  divfpce76 (divfpce)
+     begin scope: 'inst_divfp'
+     BUF:I->O            473   0.358   2.652  ce_2 (ce_2)
+     FDE:CE                    0.540          blk000005eb
     ----------------------------------------
-    Total                     12.560ns (8.641ns logic, 3.919ns route)
-                                       (68.8% logic, 31.2% route)
+    Total                     10.973ns (1.843ns logic, 9.130ns route)
+                                       (16.8% logic, 83.2% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 7551 / 7551
+  Total number of paths / destination ports: 7547 / 7547
 -------------------------------------------------------------------------
-Offset:              7.415ns (Levels of Logic = 3)
+Offset:              7.878ns (Levels of Logic = 3)
   Source:            i_reset (PAD)
   Destination:       inst_calculateVdd/inst_ExtractVDDParameters/o_vdd25_0 (FF)
   Destination Clock: i_clock rising
@@ -5952,52 +5917,52 @@ Offset:              7.415ns (Levels of Logic = 3)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           447   1.218   1.393  i_reset_IBUF (i_reset_IBUF)
-     BUF:I->O            446   0.704   1.568  i_reset_IBUF_6 (i_reset_IBUF_6)
-     LUT2:I0->O           64   0.704   1.272  inst_calculateVdd/subfpa_not00011 (inst_calculateVdd/subfpa_not0001)
-     FDE:CE                    0.555          inst_calculateVdd/subfpa_0
+     IBUF:I->O           251   0.965   1.784  i_reset_IBUF (i_reset_IBUF)
+     BUF:I->O            500   0.358   2.983  i_reset_IBUF_5 (i_reset_IBUF_5)
+     LUT2:I0->O           64   0.195   1.053  inst_calculateVdd/subfpa_not00011 (inst_calculateVdd/subfpa_not0001)
+     FDE:CE                    0.540          inst_calculateVdd/subfpa_0
     ----------------------------------------
-    Total                      7.415ns (3.181ns logic, 4.234ns route)
-                                       (42.9% logic, 57.1% route)
+    Total                      7.878ns (2.058ns logic, 5.820ns route)
+                                       (26.1% logic, 73.9% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
-  Total number of paths / destination ports: 684 / 46
+  Total number of paths / destination ports: 700 / 46
 -------------------------------------------------------------------------
-Offset:              12.992ns (Levels of Logic = 8)
-  Source:            CalculateTo_mux (FF)
-  Destination:       i2c_mem_addra<0> (PAD)
+Offset:              12.182ns (Levels of Logic = 8)
+  Source:            CalculateVdd_mux (FF)
+  Destination:       i2c_mem_addra<5> (PAD)
   Source Clock:      i_clock rising
 
-  Data Path: CalculateTo_mux to i2c_mem_addra<0>
+  Data Path: CalculateVdd_mux to i2c_mem_addra<5>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDE:C->Q            326   0.591   1.530  CalculateTo_mux (CalculateTo_mux)
-     LUT2:I0->O            2   0.704   0.451  i2c_mem_addra<0>11_SW0 (N2517)
-     LUT4:I3->O            8   0.704   0.836  i2c_mem_addra<0>11 (N284)
-     LUT4:I1->O            1   0.704   0.000  i2c_mem_addra<0>1341 (i2c_mem_addra<0>1341)
-     MUXF5:I1->O           1   0.321   0.424  i2c_mem_addra<0>134_f5 (i2c_mem_addra<0>134)
-     LUT4:I3->O            1   0.704   0.424  i2c_mem_addra<0>142 (i2c_mem_addra<0>142)
-     LUT4:I3->O            1   0.704   0.499  i2c_mem_addra<0>182 (i2c_mem_addra<0>182)
-     LUT2:I1->O            1   0.704   0.420  i2c_mem_addra<0>191 (i2c_mem_addra_0_OBUF)
-     OBUF:I->O                 3.272          i2c_mem_addra_0_OBUF (i2c_mem_addra<0>)
+     FDE:C->Q            499   0.360   3.082  CalculateVdd_mux (CalculateVdd_mux)
+     LUT3:I0->O            8   0.195   0.670  i2c_mem_addra<0>131 (N298)
+     LUT4:I2->O            1   0.195   0.585  i2c_mem_addra<5>129 (i2c_mem_addra<5>129)
+     LUT3:I1->O            1   0.195   0.741  i2c_mem_addra<5>154_SW0 (N3444)
+     LUT4:I0->O            1   0.195   0.000  i2c_mem_addra<5>192_SW02 (i2c_mem_addra<5>192_SW01)
+     MUXF5:I0->O           1   0.382   0.688  i2c_mem_addra<5>192_SW0_f5 (N4618)
+     LUT4:I1->O            1   0.195   0.000  i2c_mem_addra<5>1922 (i2c_mem_addra<5>1921)
+     MUXF5:I0->O           1   0.382   0.360  i2c_mem_addra<5>192_f5 (i2c_mem_addra_5_OBUF)
+     OBUF:I->O                 3.957          i2c_mem_addra_5_OBUF (i2c_mem_addra<5>)
     ----------------------------------------
-    Total                     12.992ns (8.408ns logic, 4.584ns route)
-                                       (64.7% logic, 35.3% route)
+    Total                     12.182ns (6.056ns logic, 6.126ns route)
+                                       (49.7% logic, 50.3% route)
 
 =========================================================================
 
 
-Total REAL time to Xst completion: 454.00 secs
-Total CPU time to Xst completion: 434.95 secs
+Total REAL time to Xst completion: 283.00 secs
+Total CPU time to Xst completion: 279.22 secs
  
 --> 
 
 
-Total memory usage is 946596 kilobytes
+Total memory usage is 990904 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings : 1008 (   0 filtered)
-Number of infos    :  133 (   0 filtered)
+Number of warnings :  988 (   0 filtered)
+Number of infos    :  172 (   0 filtered)
 
