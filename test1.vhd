@@ -72,12 +72,6 @@ dina : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
 douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
 );
 END COMPONENT;
-signal tb_i2c_mem_clka : STD_LOGIC;
-signal tb_i2c_mem_ena : STD_LOGIC;
-signal tb_i2c_mem_wea : STD_LOGIC_VECTOR(0 DOWNTO 0);
-signal tb_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal tb_i2c_mem_dina : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal tb_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 component address_generator is
 Generic (
@@ -86,7 +80,7 @@ ADDRESS1 : integer := ADDRESS1
 );
 Port ( 
 reset : in std_logic;
-clk25 : in STD_LOGIC;
+clk : in STD_LOGIC;
 enable : in STD_LOGIC;
 vsync : in STD_LOGIC;
 activeh : in STD_LOGIC;
@@ -94,7 +88,7 @@ address : out STD_LOGIC_VECTOR (ADDRESS1-1 downto 0)
 );  
 end component address_generator;
 signal address_generator_reset : std_logic;
-signal address_generator_clk25 : STD_LOGIC;
+signal address_generator_clk : STD_LOGIC;
 signal address_generator_enable : STD_LOGIC;
 signal address_generator_vsync : STD_LOGIC;
 signal address_generator_activeh : STD_LOGIC;
@@ -103,7 +97,7 @@ signal address_generator_address : STD_LOGIC_VECTOR (ADDRESS1-1 downto 0);
 component VGA_timing_synch is
 Port (
 reset : in std_logic;
-clk25 : in  STD_LOGIC;
+vgaclk25 : in  STD_LOGIC;
 Hsync : out  STD_LOGIC;
 Vsync : out  STD_LOGIC;
 activeArea1 : out  STD_LOGIC;
@@ -113,7 +107,7 @@ blank : out STD_LOGIC
 );
 end component VGA_timing_synch;
 signal VGA_timing_synch_reset : std_logic;
-signal VGA_timing_synch_clk25 : STD_LOGIC;
+signal VGA_timing_synch_vgaclk25 : STD_LOGIC;
 signal VGA_timing_synch_Hsync : STD_LOGIC;
 signal VGA_timing_synch_Vsync : STD_LOGIC;
 signal VGA_timing_synch_activeArea1 : STD_LOGIC;
@@ -125,41 +119,61 @@ component vga_imagegenerator is
 generic (BITS : integer := BITS);
 Port (
 reset : in std_logic;
-clk : std_logic;
+vgaclk25 : std_logic;
 Data_in1 : in STD_LOGIC_VECTOR (BITS-1 downto 0);
 active_area1 : in  STD_LOGIC;
 RGB_out : out  STD_LOGIC_VECTOR (BITS-1 downto 0)
 );
 end component vga_imagegenerator;
 signal vga_imagegenerator_reset : std_logic;
-signal vga_imagegenerator_clk : std_logic;
+signal vga_imagegenerator_vgaclk25 : std_logic;
 signal vga_imagegenerator_Data_in1 : STD_LOGIC_VECTOR (BITS-1 downto 0);
 signal vga_imagegenerator_active_area1 : STD_LOGIC;
 signal vga_imagegenerator_RGB_out : STD_LOGIC_VECTOR (BITS-1 downto 0);
 
-signal clk25 : std_logic;
+signal vgaclk25,agclk5 : std_logic;
 
 begin
 
 pvgaclk : process (i_clock) is
-	constant CMAX : integer := 4; -- 25
+	constant CMAX : integer := 2; -- 25
 	variable vmax : integer range 0 to CMAX-1;
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
-			clk25 <= '0';
+			vgaclk25 <= '0';
 			vmax := 0;
 		else
 			if (vmax = CMAX-1) then
-				clk25 <= not clk25;
+				vgaclk25 <= not vgaclk25;
 				vmax := 0;
 			else
-				clk25 <= clk25;
+				vgaclk25 <= vgaclk25;
 				vmax := vmax + 1;
 			end if;
 		end if;
 	end if;
 end process pvgaclk;
+
+pagclk : process (i_clock) is
+	constant CMAX : integer := 10; -- 5
+	variable vmax : integer range 0 to CMAX-1;
+begin
+	if (rising_edge (i_clock)) then
+		if (i_reset = '1') then
+			agclk5 <= '0';
+			vmax := 0;
+		else
+			if (vmax = CMAX-1) then
+				agclk5 <= not agclk5;
+				vmax := 0;
+			else
+				agclk5 <= agclk5;
+				vmax := vmax + 1;
+			end if;
+		end if;
+	end if;
+end process pagclk;
 
 p0 : process (i_clock) is
 	type states is (idle,
@@ -171,7 +185,6 @@ begin
 		if (i_reset = '1') then
 			state := idle;
 			test_fixed_melexis_run <= '0';
-			address_generator_enable <= '0';
 		else
 			case (state) is
 				when idle => state := s1;
@@ -184,7 +197,6 @@ begin
 						state := s1;
 					end if;
 				when ending => state := ending;
-					address_generator_enable <= '1';
 				when others => null;
 			end case;
 		end if;
@@ -216,27 +228,28 @@ dina => (others => '0'),
 douta => test_fixed_melexis_i2c_mem_douta
 );
 
-address_generator_clk25 <= clk25;
+address_generator_clk <= agclk5;
 address_generator_reset <= i_reset;
 address_generator_vsync <= VGA_timing_synch_Vsync;
 address_generator_activeh <= VGA_timing_synch_activehaaddrgen;
+address_generator_enable <= VGA_timing_synch_activeRender1;
 ag_inst : address_generator port map (
 reset => address_generator_reset,
-clk25 => address_generator_clk25,
+clk => address_generator_clk,
 enable => address_generator_enable,
 vsync => address_generator_vsync,
 activeh => address_generator_activeh,
 address => address_generator_address
 );
 
-vga_clock <= VGA_timing_synch_clk25;
+vga_clock <= VGA_timing_synch_vgaclk25;
 vga_hsync <= VGA_timing_synch_Hsync;
 vga_vsync <= VGA_timing_synch_Vsync;
-VGA_timing_synch_clk25 <= clk25;
+VGA_timing_synch_vgaclk25 <= vgaclk25;
 VGA_timing_synch_reset <= i_reset;
 vts_inst : VGA_timing_synch port map (
 reset => VGA_timing_synch_reset,
-clk25 => VGA_timing_synch_clk25,
+vgaclk25 => VGA_timing_synch_vgaclk25,
 Hsync => VGA_timing_synch_Hsync,
 Vsync => VGA_timing_synch_Vsync,
 activeArea1 => VGA_timing_synch_activeArea1,
@@ -248,11 +261,11 @@ blank => VGA_timing_synch_blank
 vga_r <= vga_imagegenerator_RGB_out (7 downto 0);
 vga_g <= vga_imagegenerator_RGB_out (15 downto 8);
 vga_b <= vga_imagegenerator_RGB_out (23 downto 16);
-vga_imagegenerator_clk <= clk25;
+vga_imagegenerator_vgaclk25 <= vgaclk25;
 vga_imagegenerator_reset <= i_reset;
 vig_inst : vga_imagegenerator port map (
 reset => vga_imagegenerator_reset,
-clk => vga_imagegenerator_clk,
+vgaclk25 => vga_imagegenerator_vgaclk25,
 Data_in1 => vga_imagegenerator_Data_in1,
 active_area1 => vga_imagegenerator_active_area1,
 RGB_out => vga_imagegenerator_RGB_out

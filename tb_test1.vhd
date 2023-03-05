@@ -98,7 +98,7 @@ wait for 100 ns;
 i_reset <= '0';
 wait for i_clock_period*10;
 -- insert stimulus here
-wait for 32 ms;
+wait for 17 ms;
 report "tb done" severity failure;
 end process;
 

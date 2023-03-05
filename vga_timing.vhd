@@ -8,7 +8,7 @@ use IEEE.NUMERIC_STD.ALL;
 use IEEE.STD_LOGIC_ARITH.ALL;
 
 entity VGA_timing_synch is
-    Port ( reset : in std_logic; clk25 : in  STD_LOGIC;
+    Port ( reset : in std_logic; vgaclk25 : in  STD_LOGIC;
            Hsync : out  STD_LOGIC;
            Vsync : out  STD_LOGIC;
            activeArea1 : out  STD_LOGIC;
@@ -52,8 +52,8 @@ begin
 activehaaddrgen <= activeh;
 activeArea1 <= tactiveArea1;
 
-clkdv_vga <= clk25;
---clk_vga <= clk25;
+clkdv_vga <= vgaclk25;
+--clk_vga <= vgaclk25;
 
 --count_proc : process(clk_vga,vcnt,hcnt,reset) begin
 --if (reset = '1') then
@@ -461,11 +461,11 @@ Vsync <= v;
 --Hsync <= thsync;
 --Vsync <= tvsync;
 
---Horizontal_position_counter:process(clk25, reset)
+--Horizontal_position_counter:process(vgaclk25, reset)
 --begin
 --	if(reset = '1')then
 --		hpos <= 0;
---	elsif(rising_edge(clk25))then
+--	elsif(rising_edge(vgaclk25))then
 --			if (hPos = (HD + HFP + HSP + HBP)-1) then
 --				hPos <= 0;
 --			else
@@ -474,11 +474,11 @@ Vsync <= v;
 --	end if;
 --end process;
 --
---Vertical_position_counter:process(clk25, reset, hPos)
+--Vertical_position_counter:process(vgaclk25, reset, hPos)
 --begin
 --	if(reset = '1')then
 --		vPos <= 0;
---	elsif(rising_edge(clk25))then
+--	elsif(rising_edge(vgaclk25))then
 --			if(hPos = (HD + HFP + HSP + HBP)-1)then
 --				if (vPos = (VD + VFP + VSP + VBP)-1) then
 --					vPos <= 0;
@@ -489,11 +489,11 @@ Vsync <= v;
 --	end if;
 --end process;
 --
---Horizontal_Synchronisation:process(clk25, reset, hPos)
+--Horizontal_Synchronisation:process(vgaclk25, reset, hPos)
 --begin
 --	if(reset = '1')then
 --		thsync <= '0';
---	elsif(rising_edge(clk25))then
+--	elsif(rising_edge(vgaclk25))then
 --		if((hPos <= (HD + HFP)) OR (hPos > HD + HFP + HSP))then
 --			thsync <= '1';
 --		else
@@ -502,11 +502,11 @@ Vsync <= v;
 --	end if;
 --end process;
 --
---Vertical_Synchronisation:process(clk25, reset, vPos)
+--Vertical_Synchronisation:process(vgaclk25, reset, vPos)
 --begin
 --	if(reset = '1')then
 --		tvsync <= '0';
---	elsif(rising_edge(clk25))then
+--	elsif(rising_edge(vgaclk25))then
 --		if((vPos <= (VD + VFP)) OR (vPos > VD + VFP + VSP))then
 --			tvsync <= '1';
 --		else
@@ -515,14 +515,14 @@ Vsync <= v;
 --	end if;
 --end process;
 
-video_on:process(clk25, reset, hPos, vPos)
+video_on:process(vgaclk25, reset, hPos, vPos)
 begin
 	if(reset = '1')then
 		videoOn <= '0';
-	elsif(rising_edge(clk25))then
+	elsif(rising_edge(vgaclk25))then
 --		if(hPos <= HD and vPos <= VD)then
-		if(hPos >= 145 and hPos < 785 and vPos < VD and vPos mod 4 = 0)then
---		if(hPos < HD and vPos < VD and vPos mod 4 = 0)then
+		if(hPos >= 145 and hPos < 785 and vPos < VD and vPos mod 24 = 0)then
+--		if(hPos < HD and vPos < VD and vPos mod 24 = 0)then
 			videoOn <= '1';
 		else
 			videoOn <= '0';
