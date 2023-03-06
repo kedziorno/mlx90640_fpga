@@ -21,6 +21,8 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+--use work.p_fphdl_package3.all;
+
 entity test1 is
 port (
 i_clock,i_reset : in std_logic;
@@ -228,7 +230,10 @@ begin
 					float2fixeda <= tb_data_calculateTo_douta;
 				when s5 =>
 					if (float2fixedrdy = '1') then state := s6;
-						tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
+--						tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
+--						tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
+--						report_error ("float2fixedr", float2fixedr, 0.0);
+						tout := "0000000000"&float2fixedr (34 downto 13); -- 35 29
 						float2fixedond <= '0';
 						float2fixedce <= '0';
 						float2fixedsclr <= '1';
