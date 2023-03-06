@@ -1,7 +1,7 @@
 Release 14.7 par P.20131013 (lin64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-work::  Mon Mar 06 15:55:46 2023
+work::  Mon Mar 06 16:19:33 2023
 
 par -w -intstyle ise -pl std -rl std -t 1 test1_map.ncd test1.ncd test1.pcf 
 
@@ -36,7 +36,7 @@ Device Utilization Summary:
       Number of LOCed IOBs                  32 out of 32    100%
 
    Number of RAMB16s                         4 out of 192     2%
-   Number of Slices                        414 out of 15360   2%
+   Number of Slices                        395 out of 15360   2%
       Number of SLICEMs                      6 out of 7680    1%
 
 
@@ -44,25 +44,25 @@ Device Utilization Summary:
 Overall effort level (-ol):   Not applicable because -pl and -rl switches are used
 Router effort level (-rl):    Standard 
 
-Starting initial Timing Analysis.  REAL time: 6 secs 
-Finished initial Timing Analysis.  REAL time: 6 secs 
+Starting initial Timing Analysis.  REAL time: 7 secs 
+Finished initial Timing Analysis.  REAL time: 7 secs 
 
 Starting Router
 
 
-Phase  1  : 3497 unrouted;      REAL time: 7 secs 
+Phase  1  : 3509 unrouted;      REAL time: 8 secs 
 
-Phase  2  : 2875 unrouted;      REAL time: 7 secs 
+Phase  2  : 2903 unrouted;      REAL time: 8 secs 
 
-Phase  3  : 981 unrouted;      REAL time: 8 secs 
+Phase  3  : 933 unrouted;      REAL time: 8 secs 
 
-Phase  4  : 990 unrouted; (Par is working to improve performance)     REAL time: 9 secs 
+Phase  4  : 934 unrouted; (Par is working to improve performance)     REAL time: 10 secs 
 
 Updating file: test1.ncd with current fully routed design.
 
-Phase  5  : 0 unrouted; (Par is working to improve performance)     REAL time: 10 secs 
+Phase  5  : 0 unrouted; (Par is working to improve performance)     REAL time: 11 secs 
 
-Phase  6  : 0 unrouted; (Par is working to improve performance)     REAL time: 10 secs 
+Phase  6  : 0 unrouted; (Par is working to improve performance)     REAL time: 11 secs 
 
 Phase  7  : 0 unrouted; (Par is working to improve performance)     REAL time: 11 secs 
 
@@ -70,8 +70,8 @@ Phase  8  : 0 unrouted; (Par is working to improve performance)     REAL time: 1
 
 Phase  9  : 0 unrouted; (Par is working to improve performance)     REAL time: 11 secs 
 
-Phase 10  : 0 unrouted; (Par is working to improve performance)     REAL time: 11 secs 
-Total REAL time to Router completion: 11 secs 
+Phase 10  : 0 unrouted; (Par is working to improve performance)     REAL time: 12 secs 
+Total REAL time to Router completion: 12 secs 
 Total CPU time to Router completion: 11 secs 
 
 Partition Implementation Status
@@ -90,11 +90,11 @@ Generating Clock Report
 +---------------------+--------------+------+------+------------+-------------+
 |        Clock Net    |   Resource   |Locked|Fanout|Net Skew(ns)|Max Delay(ns)|
 +---------------------+--------------+------+------+------------+-------------+
-|       i_clock_BUFGP | BUFGCTRL_X0Y0| No   |  278 |  0.302     |  2.805      |
+|       i_clock_BUFGP | BUFGCTRL_X0Y0| No   |  273 |  0.216     |  2.719      |
 +---------------------+--------------+------+------+------------+-------------+
-|               agclk | BUFGCTRL_X0Y1| No   |   47 |  0.100     |  2.739      |
+|               agclk | BUFGCTRL_X0Y1| No   |   37 |  0.110     |  2.729      |
 +---------------------+--------------+------+------+------------+-------------+
-|            vgaclk25 |BUFGCTRL_X0Y31| No   |   16 |  0.111     |  2.757      |
+|            vgaclk25 |BUFGCTRL_X0Y31| No   |   16 |  0.110     |  2.749      |
 +---------------------+--------------+------+------+------------+-------------+
 
 * Net Skew is the difference between the minimum and maximum routing
@@ -114,14 +114,14 @@ Asterisk (*) preceding a constraint indicates it was not met.
   Constraint                                |    Check    | Worst Case |  Best Case | Timing |   Timing   
                                             |             |    Slack   | Achievable | Errors |    Score   
 ----------------------------------------------------------------------------------------------------------
-  Autotimespec constraint for clock net i_c | SETUP       |         N/A|     4.779ns|     N/A|           0
-  lock_BUFGP                                | HOLD        |     0.489ns|            |       0|           0
+  Autotimespec constraint for clock net i_c | SETUP       |         N/A|     4.664ns|     N/A|           0
+  lock_BUFGP                                | HOLD        |     0.288ns|            |       0|           0
 ----------------------------------------------------------------------------------------------------------
-  Autotimespec constraint for clock net agc | SETUP       |         N/A|     4.349ns|     N/A|           0
-  lk                                        | HOLD        |     0.497ns|            |       0|           0
+  Autotimespec constraint for clock net agc | SETUP       |         N/A|     5.708ns|     N/A|           0
+  lk                                        | HOLD        |     0.504ns|            |       0|           0
 ----------------------------------------------------------------------------------------------------------
-  Autotimespec constraint for clock net vga | SETUP       |         N/A|     3.807ns|     N/A|           0
-  clk25                                     | HOLD        |     0.780ns|            |       0|           0
+  Autotimespec constraint for clock net vga | SETUP       |         N/A|     3.586ns|     N/A|           0
+  clk25                                     | HOLD        |     0.706ns|            |       0|           0
 ----------------------------------------------------------------------------------------------------------
 
 
@@ -140,7 +140,7 @@ All signals are completely routed.
 Total REAL time to PAR completion: 13 secs 
 Total CPU time to PAR completion: 13 secs 
 
-Peak Memory Usage:  662 MB
+Peak Memory Usage:  664 MB
 
 Placer: Placement generated during map.
 Routing: Completed - No errors found.

@@ -5,14 +5,14 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.05 secs
+Total CPU time to Xst completion: 0.07 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.06 secs
+Total CPU time to Xst completion: 0.07 secs
  
 --> 
 Reading design: test1.prj
@@ -114,7 +114,8 @@ Cores Search Directories           : {"ipcore_dir"  }
 *                          HDL Compilation                              *
 =========================================================================
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/address_generator.vhd" in Library work.
-Architecture behavioral of Entity address_generator is up to date.
+Entity <address_generator> compiled.
+Entity <address_generator> (Architecture <behavioral>) compiled.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/vga_timing.vhd" in Library work.
 Architecture behavioral of Entity vga_timing_synch is up to date.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/vga_imagegenerator.vhd" in Library work.
@@ -126,8 +127,7 @@ Architecture float2fixed_a of Entity float2fixed is up to date.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/ipcore_dir/dualmem.vhd" in Library work.
 Architecture dualmem_a of Entity dualmem is up to date.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/test1.vhd" in Library work.
-Entity <test1> compiled.
-Entity <test1> (Architecture <behavioral>) compiled.
+Architecture behavioral of Entity test1 is up to date.
 
 =========================================================================
 *                     Design Hierarchy Analysis                         *
@@ -176,10 +176,10 @@ Synthesizing Unit <address_generator>.
     Related source file is "/home/user/workspace/melexis_mlx90641/address_generator.vhd".
     Found finite state machine <FSM_0> for signal <state>.
     -----------------------------------------------------------------------
-    | States             | 49                                             |
-    | Transitions        | 146                                            |
-    | Inputs             | 4                                              |
-    | Outputs            | 48                                             |
+    | States             | 24                                             |
+    | Transitions        | 71                                             |
+    | Inputs             | 3                                              |
+    | Outputs            | 24                                             |
     | Clock              | clk                       (rising_edge)        |
     | Reset              | reset                     (positive)           |
     | Reset type         | synchronous                                    |
@@ -189,16 +189,15 @@ Synthesizing Unit <address_generator>.
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
     Found 10-bit register for signal <addr>.
-    Found 10-bit adder for signal <addr$share0000>.
+    Found 10-bit adder for signal <addr$addsub0000> created at line 64.
+    Found 10-bit addsub for signal <addr$share0000>.
     Found 5-bit register for signal <count1>.
     Found 5-bit adder for signal <count1$addsub0000>.
-    Found 1-bit register for signal <count2<0>>.
     Found 10-bit register for signal <va>.
-    Found 10-bit adder for signal <va$add0000> created at line 58.
-    Found 10-bit subtractor for signal <va$addsub0000> created at line 58.
+    Found 10-bit subtractor for signal <va$sub0000> created at line 60.
     Summary:
 	inferred   1 Finite State Machine(s).
-	inferred  26 D-type flip-flop(s).
+	inferred  25 D-type flip-flop(s).
 	inferred   4 Adder/Subtractor(s).
 Unit <address_generator> synthesized.
 
@@ -295,14 +294,15 @@ HDL Synthesis Report
 
 Macro Statistics
 # Adders/Subtractors                                   : 5
- 10-bit adder                                          : 3
+ 10-bit adder                                          : 2
+ 10-bit addsub                                         : 1
  10-bit subtractor                                     : 1
  5-bit adder                                           : 1
 # Counters                                             : 3
  10-bit up counter                                     : 2
  6-bit up counter                                      : 1
-# Registers                                            : 21
- 1-bit register                                        : 12
+# Registers                                            : 20
+ 1-bit register                                        : 11
  10-bit register                                       : 5
  32-bit register                                       : 3
  5-bit register                                        : 1
@@ -333,68 +333,42 @@ Optimizing FSM <state/FSM> on signal <state[1:9]> with one-hot encoding.
  1000  | 100000000
 --------------------
 Analyzing FSM <FSM_0> for best encoding.
-Optimizing FSM <ag_inst/state/FSM> on signal <state[1:49]> with one-hot encoding.
--------------------------------------------------------------
+Optimizing FSM <ag_inst/state/FSM> on signal <state[1:24]> with one-hot encoding.
+------------------------------------
  State  | Encoding
--------------------------------------------------------------
- 000000 | 0000000000000000000000000000000000000000000000001
- 000001 | 0000000000000000000000000000000000000000000000010
- 000010 | 0000000000000000000000000000000000000000000000100
- 000011 | 0000000000000000000000000000000000000000000001000
- 000100 | 0000000000000000000000000000000000000000000010000
- 000101 | 0000000000000000000000000000000000000000000100000
- 000110 | 0000000000000000000000000000000000000000001000000
- 000111 | 0000000000000000000000000000000000000000010000000
- 001000 | 0000000000000000000000000000000000000000100000000
- 001001 | 0000000000000000000000000000000000000001000000000
- 001010 | 0000000000000000000000000000000000000010000000000
- 001011 | 0000000000000000000000000000000000000100000000000
- 001100 | 0000000000000000000000000000000000001000000000000
- 001101 | 0000000000000000000000000000000000010000000000000
- 001110 | 0000000000000000000000000000000000100000000000000
- 001111 | 0000000000000000000000000000000001000000000000000
- 010000 | 0000000000000000000000000000000010000000000000000
- 010001 | 0000000000000000000000000000000100000000000000000
- 010010 | 0000000000000000000000000000001000000000000000000
- 010011 | 0000000000000000000000000000010000000000000000000
- 010100 | 0000000000000000000000000000100000000000000000000
- 010101 | 0000000000000000000000000001000000000000000000000
- 010110 | 0000000000000000000000000010000000000000000000000
- 010111 | 0000000000000000000000000100000000000000000000000
- 011000 | 0000000000000000000000001000000000000000000000000
- 011001 | 0000000000000000000000010000000000000000000000000
- 011010 | 0000000000000000000000100000000000000000000000000
- 011011 | 0000000000000000000001000000000000000000000000000
- 011100 | 0000000000000000000010000000000000000000000000000
- 011101 | 0000000000000000000100000000000000000000000000000
- 011110 | 0000000000000000001000000000000000000000000000000
- 011111 | 0000000000000000010000000000000000000000000000000
- 100000 | 0000000000000000100000000000000000000000000000000
- 100001 | 0000000000000001000000000000000000000000000000000
- 100010 | 0000000000000010000000000000000000000000000000000
- 100011 | 0000000000000100000000000000000000000000000000000
- 100100 | 0000000000001000000000000000000000000000000000000
- 100101 | 0000000000010000000000000000000000000000000000000
- 100110 | 0000000000100000000000000000000000000000000000000
- 100111 | 0000000001000000000000000000000000000000000000000
- 101000 | 0000000010000000000000000000000000000000000000000
- 101001 | 0000000100000000000000000000000000000000000000000
- 101010 | 0000001000000000000000000000000000000000000000000
- 101011 | 0000010000000000000000000000000000000000000000000
- 101100 | 0000100000000000000000000000000000000000000000000
- 101101 | 0001000000000000000000000000000000000000000000000
- 101110 | 0010000000000000000000000000000000000000000000000
- 101111 | 0100000000000000000000000000000000000000000000000
- 110000 | 1000000000000000000000000000000000000000000000000
--------------------------------------------------------------
+------------------------------------
+ 000000 | 000000000000000000000001
+ 000010 | 000000000000000000000010
+ 000100 | 000000000000000000000100
+ 000110 | 000000000000000000001000
+ 001000 | 000000000000000000010000
+ 001010 | 000000000000000000100000
+ 001100 | 000000000000000001000000
+ 001110 | 000000000000000010000000
+ 010000 | 000000000000000100000000
+ 010010 | 000000000000001000000000
+ 010100 | 000000000000010000000000
+ 010110 | 000000000000100000000000
+ 011000 | 000000000001000000000000
+ 011010 | 000000000010000000000000
+ 011100 | 000000000100000000000000
+ 011110 | 000000001000000000000000
+ 100000 | 000000010000000000000000
+ 100010 | 000000100000000000000000
+ 100100 | 000001000000000000000000
+ 100110 | 000010000000000000000000
+ 101000 | 000100000000000000000000
+ 101010 | 001000000000000000000000
+ 101100 | 010000000000000000000000
+ 101110 | 100000000000000000000000
+------------------------------------
 Reading core <ipcore_dir/tb_data_calculateTo.ngc>.
 Reading core <ipcore_dir/float2fixed.ngc>.
 Reading core <ipcore_dir/dualmem.ngc>.
 Loading core <tb_data_calculateTo> for timing and area information for instance <tb_data_calculateTo_inst>.
 Loading core <float2fixed> for timing and area information for instance <inst_float2fixed>.
 Loading core <dualmem> for timing and area information for instance <dualmem_inst>.
-WARNING:Xst:1293 - FF/Latch <count2_0> has a constant value of 0 in block <ag_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_31> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <tout_31> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_30> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_29> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_28> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -447,14 +421,15 @@ Advanced HDL Synthesis Report
 Macro Statistics
 # FSMs                                                 : 2
 # Adders/Subtractors                                   : 5
- 10-bit adder                                          : 3
+ 10-bit adder                                          : 2
+ 10-bit addsub                                         : 1
  10-bit subtractor                                     : 1
  5-bit adder                                           : 1
 # Counters                                             : 3
  10-bit up counter                                     : 2
  6-bit up counter                                      : 1
-# Registers                                            : 163
- Flip-Flops                                            : 163
+# Registers                                            : 162
+ Flip-Flops                                            : 162
 # Comparators                                          : 7
  10-bit comparator greatequal                          : 2
  10-bit comparator less                                : 1
@@ -465,7 +440,6 @@ Macro Statistics
 =========================================================================
 *                         Low Level Synthesis                           *
 =========================================================================
-WARNING:Xst:1293 - FF/Latch <count2_0> has a constant value of 0 in block <address_generator>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <tout_31> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_30> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_29> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -522,8 +496,6 @@ Optimizing unit <VGA_timing_synch> ...
 Mapping all equations...
 Building and optimizing final netlist ...
 Found area constraint ratio of 100 (+ 5) on block test1, actual ratio is 2.
-WARNING:Xst:2677 - Node <float2fixedce_2> of sequential type is unconnected in block <test1>.
-FlipFlop float2fixedce has been replicated 2 time(s)
 
 Final Macro Processing ...
 
@@ -531,8 +503,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 201
- Flip-Flops                                            : 201
+# Registers                                            : 175
+ Flip-Flops                                            : 175
 
 =========================================================================
 
@@ -563,30 +535,30 @@ Design Statistics
 Cell Usage :
 # BELS                             : 1065
 #      GND                         : 4
-#      INV                         : 10
-#      LUT1                        : 19
-#      LUT2                        : 143
+#      INV                         : 8
+#      LUT1                        : 23
+#      LUT2                        : 124
 #      LUT2_D                      : 1
-#      LUT3                        : 332
-#      LUT3_D                      : 2
+#      LUT2_L                      : 2
+#      LUT3                        : 337
+#      LUT3_D                      : 5
 #      LUT3_L                      : 1
-#      LUT4                        : 259
-#      LUT4_D                      : 5
-#      LUT4_L                      : 5
-#      MULT_AND                    : 4
-#      MUXCY                       : 121
-#      MUXF5                       : 58
+#      LUT4                        : 269
+#      LUT4_D                      : 4
+#      LUT4_L                      : 6
+#      MUXCY                       : 114
+#      MUXF5                       : 66
 #      MUXF6                       : 2
 #      MUXF7                       : 1
 #      VCC                         : 2
 #      XORCY                       : 96
-# FlipFlops/Latches                : 598
+# FlipFlops/Latches                : 572
 #      FDC                         : 13
 #      FDCE                        : 10
-#      FDE                         : 453
-#      FDR                         : 92
+#      FDE                         : 452
+#      FDR                         : 59
 #      FDRE                        : 17
-#      FDRS                        : 5
+#      FDRS                        : 13
 #      FDRSE                       : 2
 #      FDS                         : 3
 #      FDSE                        : 3
@@ -607,10 +579,10 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                      458  out of  15360     2%  
- Number of Slice Flip Flops:            598  out of  30720     1%  
- Number of 4 input LUTs:                784  out of  30720     2%  
-    Number used as logic:               777
+ Number of Slices:                      451  out of  15360     2%  
+ Number of Slice Flip Flops:            572  out of  30720     1%  
+ Number of 4 input LUTs:                787  out of  30720     2%  
+    Number used as logic:               780
     Number used as Shift registers:       7
  Number of IOs:                          32
  Number of bonded IOBs:                  32  out of    448     7%  
@@ -639,9 +611,9 @@ Clock Information:
 -----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)                                                                                                                          | Load  |
 -----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------+-------+
-i_clock                            | BUFGP                                                                                                                                          | 512   |
+i_clock                            | BUFGP                                                                                                                                          | 511   |
 tb_data_calculateTo_inst/N1        | NONE(tb_data_calculateTo_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_init.ram/SP.SINGLE_PRIM.SP)| 2     |
-agclk1                             | BUFG                                                                                                                                           | 76    |
+agclk1                             | BUFG                                                                                                                                           | 51    |
 vgaclk251                          | BUFG                                                                                                                                           | 23    |
 -----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------+-------+
 INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
@@ -661,7 +633,7 @@ Timing Summary:
 Speed Grade: -10
 
    Minimum period: 5.330ns (Maximum Frequency: 187.608MHz)
-   Minimum input arrival time before clock: 4.156ns
+   Minimum input arrival time before clock: 4.058ns
    Maximum output required time after clock: 8.324ns
    Maximum combinational path delay: No path found
 
@@ -672,7 +644,7 @@ All values displayed in nanoseconds (ns)
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
   Clock period: 5.330ns (frequency: 187.608MHz)
-  Total number of paths / destination ports: 7530 / 1049
+  Total number of paths / destination ports: 7526 / 1048
 -------------------------------------------------------------------------
 Delay:               5.330ns (Levels of Logic = 66)
   Source:            inst_float2fixed/blk00000455 (FF)
@@ -758,69 +730,66 @@ Delay:               5.330ns (Levels of Logic = 66)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'agclk1'
-  Clock period: 4.091ns (frequency: 244.460MHz)
-  Total number of paths / destination ports: 1405 / 94
+  Clock period: 5.270ns (frequency: 189.768MHz)
+  Total number of paths / destination ports: 2301 / 77
 -------------------------------------------------------------------------
-Delay:               4.091ns (Levels of Logic = 13)
-  Source:            ag_inst/count1_0 (FF)
-  Destination:       ag_inst/addr_9 (FF)
+Delay:               5.270ns (Levels of Logic = 10)
+  Source:            ag_inst/state_FSM_FFd12 (FF)
+  Destination:       ag_inst/addr_3 (FF)
   Source Clock:      agclk1 rising
   Destination Clock: agclk1 rising
 
-  Data Path: ag_inst/count1_0 to ag_inst/addr_9
+  Data Path: ag_inst/state_FSM_FFd12 to ag_inst/addr_3
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDR:C->Q              6   0.360   0.560  ag_inst/count1_0 (ag_inst/count1_0)
-     LUT2:I1->O            1   0.195   0.741  ag_inst/addr_mux0002<4>1 (ag_inst/addr_mux0002<4>)
-     LUT4:I0->O            1   0.195   0.000  ag_inst/Madd_addr_share0000_lut<0> (ag_inst/Madd_addr_share0000_lut<0>)
-     MUXCY:S->O            1   0.366   0.000  ag_inst/Madd_addr_share0000_cy<0> (ag_inst/Madd_addr_share0000_cy<0>)
-     MUXCY:CI->O           1   0.044   0.000  ag_inst/Madd_addr_share0000_cy<1> (ag_inst/Madd_addr_share0000_cy<1>)
-     MUXCY:CI->O           1   0.044   0.000  ag_inst/Madd_addr_share0000_cy<2> (ag_inst/Madd_addr_share0000_cy<2>)
-     MUXCY:CI->O           1   0.044   0.000  ag_inst/Madd_addr_share0000_cy<3> (ag_inst/Madd_addr_share0000_cy<3>)
-     MUXCY:CI->O           1   0.044   0.000  ag_inst/Madd_addr_share0000_cy<4> (ag_inst/Madd_addr_share0000_cy<4>)
-     MUXCY:CI->O           1   0.044   0.000  ag_inst/Madd_addr_share0000_cy<5> (ag_inst/Madd_addr_share0000_cy<5>)
-     MUXCY:CI->O           1   0.044   0.000  ag_inst/Madd_addr_share0000_cy<6> (ag_inst/Madd_addr_share0000_cy<6>)
-     MUXCY:CI->O           1   0.044   0.000  ag_inst/Madd_addr_share0000_cy<7> (ag_inst/Madd_addr_share0000_cy<7>)
-     MUXCY:CI->O           0   0.044   0.000  ag_inst/Madd_addr_share0000_cy<8> (ag_inst/Madd_addr_share0000_cy<8>)
-     XORCY:CI->O           1   0.360   0.741  ag_inst/Madd_addr_share0000_xor<9> (ag_inst/addr_share0000<9>)
-     LUT4:I0->O            1   0.195   0.000  ag_inst/addr_mux0001<0>1 (ag_inst/addr_mux0001<0>)
-     FDR:D                     0.022          ag_inst/addr_9
+     FDR:C->Q              3   0.360   0.756  ag_inst/state_FSM_FFd12 (ag_inst/state_FSM_FFd12)
+     LUT4:I0->O            1   0.195   0.000  ag_inst/count1_or0002_wg_lut<1> (ag_inst/count1_or0002_wg_lut<1>)
+     MUXCY:S->O            1   0.366   0.000  ag_inst/count1_or0002_wg_cy<1> (ag_inst/count1_or0002_wg_cy<1>)
+     MUXCY:CI->O           1   0.045   0.000  ag_inst/count1_or0002_wg_cy<2> (ag_inst/count1_or0002_wg_cy<2>)
+     MUXCY:CI->O           1   0.045   0.000  ag_inst/count1_or0002_wg_cy<3> (ag_inst/count1_or0002_wg_cy<3>)
+     MUXCY:CI->O           1   0.045   0.000  ag_inst/count1_or0002_wg_cy<4> (ag_inst/count1_or0002_wg_cy<4>)
+     MUXCY:CI->O          10   0.369   0.713  ag_inst/count1_or0002_wg_cy<5> (ag_inst/count1_or0002)
+     LUT3_D:I1->O          9   0.195   0.850  ag_inst/addr_mux0001<0>11 (ag_inst/N01)
+     LUT4:I0->O            3   0.195   0.538  ag_inst/addr_mux0001<5>21 (ag_inst/N7)
+     LUT4:I3->O            1   0.195   0.000  ag_inst/addr_mux0001<6>1_F (N102)
+     MUXF5:I0->O           1   0.382   0.000  ag_inst/addr_mux0001<6>1 (ag_inst/addr_mux0001<6>1)
+     FDRS:D                    0.022          ag_inst/addr_3
     ----------------------------------------
-    Total                      4.091ns (2.049ns logic, 2.042ns route)
-                                       (50.1% logic, 49.9% route)
+    Total                      5.270ns (2.413ns logic, 2.857ns route)
+                                       (45.8% logic, 54.2% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'vgaclk251'
-  Clock period: 4.067ns (frequency: 245.875MHz)
+  Clock period: 4.027ns (frequency: 248.321MHz)
   Total number of paths / destination ports: 477 / 33
 -------------------------------------------------------------------------
-Delay:               4.067ns (Levels of Logic = 5)
-  Source:            vts_inst/hPos_5 (FF)
+Delay:               4.027ns (Levels of Logic = 5)
+  Source:            vts_inst/hPos_2 (FF)
   Destination:       vts_inst/videoOn (FF)
   Source Clock:      vgaclk251 rising
   Destination Clock: vgaclk251 rising
 
-  Data Path: vts_inst/hPos_5 to vts_inst/videoOn
+  Data Path: vts_inst/hPos_2 to vts_inst/videoOn
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDC:C->Q              4   0.360   0.702  vts_inst/hPos_5 (vts_inst/hPos_5)
-     LUT3:I0->O            2   0.195   0.540  vts_inst/h_mux000116 (vts_inst/h_mux000116)
-     LUT4:I3->O            1   0.195   0.523  vts_inst/videoOn_and0000129 (vts_inst/videoOn_and0000129)
-     LUT4:I3->O            2   0.195   0.758  vts_inst/videoOn_and0000173 (vts_inst/videoOn_and0000173)
-     LUT4:I0->O            1   0.195   0.000  vts_inst/videoOn_and0000189_F (N56)
-     MUXF5:I0->O           1   0.382   0.000  vts_inst/videoOn_and0000189 (vts_inst/videoOn_and0000)
+     FDC:C->Q              5   0.360   0.711  vts_inst/hPos_2 (vts_inst/hPos_2)
+     LUT3:I0->O            1   0.195   0.585  vts_inst/videoOn_and0000114 (vts_inst/videoOn_and0000114)
+     LUT4:I2->O            1   0.195   0.585  vts_inst/videoOn_and0000130 (vts_inst/videoOn_and0000130)
+     LUT4:I2->O            2   0.195   0.602  vts_inst/videoOn_and0000174 (vts_inst/videoOn_and0000174)
+     LUT4:I2->O            1   0.195   0.000  vts_inst/videoOn_and0000188_F (N146)
+     MUXF5:I0->O           1   0.382   0.000  vts_inst/videoOn_and0000188 (vts_inst/videoOn_and0000)
      FDC:D                     0.022          vts_inst/videoOn
     ----------------------------------------
-    Total                      4.067ns (1.544ns logic, 2.523ns route)
-                                       (38.0% logic, 62.0% route)
+    Total                      4.027ns (1.544ns logic, 2.483ns route)
+                                       (38.3% logic, 61.7% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 104 / 104
+  Total number of paths / destination ports: 103 / 103
 -------------------------------------------------------------------------
-Offset:              4.136ns (Levels of Logic = 2)
+Offset:              4.039ns (Levels of Logic = 2)
   Source:            i_reset (PAD)
   Destination:       float2fixeda_0 (FF)
   Destination Clock: i_clock rising
@@ -829,18 +798,18 @@ Offset:              4.136ns (Levels of Logic = 2)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           123   0.965   1.509  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O            98   0.965   1.411  i_reset_IBUF (i_reset_IBUF)
      LUT2:I0->O           32   0.195   0.928  float2fixeda_not00011 (float2fixeda_not0001)
      FDE:CE                    0.540          float2fixeda_0
     ----------------------------------------
-    Total                      4.136ns (1.700ns logic, 2.436ns route)
-                                       (41.1% logic, 58.9% route)
+    Total                      4.039ns (1.700ns logic, 2.339ns route)
+                                       (42.1% logic, 57.9% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'agclk1'
-  Total number of paths / destination ports: 74 / 74
+  Total number of paths / destination ports: 49 / 49
 -------------------------------------------------------------------------
-Offset:              4.156ns (Levels of Logic = 2)
+Offset:              4.058ns (Levels of Logic = 2)
   Source:            i_reset (PAD)
   Destination:       ag_inst/addr_9 (FF)
   Destination Clock: agclk1 rising
@@ -849,12 +818,12 @@ Offset:              4.156ns (Levels of Logic = 2)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           123   0.965   1.447  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O            98   0.965   1.349  i_reset_IBUF (i_reset_IBUF)
      LUT2:I1->O           10   0.195   0.488  ag_inst/addr_or00011 (ag_inst/addr_or0001)
-     FDR:R                     1.062          ag_inst/addr_0
+     FDR:R                     1.062          ag_inst/addr_9
     ----------------------------------------
-    Total                      4.156ns (2.222ns logic, 1.934ns route)
-                                       (53.5% logic, 46.5% route)
+    Total                      4.058ns (2.222ns logic, 1.836ns route)
+                                       (54.7% logic, 45.3% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
@@ -922,15 +891,15 @@ Offset:              7.353ns (Levels of Logic = 3)
 =========================================================================
 
 
-Total REAL time to Xst completion: 14.00 secs
-Total CPU time to Xst completion: 13.86 secs
+Total REAL time to Xst completion: 16.00 secs
+Total CPU time to Xst completion: 16.00 secs
  
 --> 
 
 
-Total memory usage is 559084 kilobytes
+Total memory usage is 557204 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :  117 (   0 filtered)
+Number of warnings :  114 (   0 filtered)
 Number of infos    :    2 (   0 filtered)
 
