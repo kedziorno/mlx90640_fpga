@@ -82,7 +82,7 @@ begin
 				when s4 => state := s5;
 				when s5 => state := ending;
 					o_ksta <= odata_ksta;
-					report "================ extractKsTaParameters ksta : " & real'image (ap_slv2fp (odata_ksta));
+--					report "================ extractKsTaParameters ksta : " & real'image (ap_slv2fp (odata_ksta));
 				when ending => state := idle;
 					o_rdy <= '1';
 			end case;

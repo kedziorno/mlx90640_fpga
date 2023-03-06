@@ -50,7 +50,7 @@ signal tactiveArea1 : std_logic;
 begin
 
 activehaaddrgen <= activeh;
-activeArea1 <= tactiveArea1;
+--activeArea1 <= tactiveArea1;
 
 clkdv_vga <= vgaclk25;
 --clk_vga <= vgaclk25;
@@ -73,172 +73,148 @@ clkdv_vga <= vgaclk25;
 --		end if;
 --end process count_proc;
 --
---hsync_gen : process(clk_vga,reset) begin
+--p1 : process (clkdv_vga,reset) is
+--type states is (idle,p0a,p0b);
+--variable state : states := idle;
+--constant C1 : integer := 120*640; --(VD-VFP-VSP-VBP)/4;
+--constant C2 : integer := 480*640; --VD;
+--variable i : integer range 0 to C2-1;
+--begin
 --if (reset = '1') then
---h <= '0';
---	elsif rising_edge(clk_vga) then
---		if (hcnt >= (HD+HFP) and hcnt <= (HD+HFP+HSP)) then 
---			h <= '0';
---		else
---			h <= '1';
---		end if;
+--state := idle;
+--v120 <= '0';
+--pv <= '0';
+--i := 0;
+--elsif (rising_edge(clkdv_vga)) then
+--		pv <= activeh;
+--		case (state) is
+--			when idle =>
+--				v120 <= '0';
+--				if (pv = '0' and activeh = '1') then
+--					state := p0a;
+--				else
+--					state := idle;
+--				end if;
+--				i := 0;
+--			when p0a =>
+--				v120 <= '1';
+--				if (i = C1-1) then
+--					state := p0b;
+--					i := 0;
+--				else
+--					state := p0a;
+--					i := i + 1;
+--				end if;
+--			when p0b =>
+--				v120 <= '0';
+--				if (i = C2-1) then
+--					state := idle;
+--					i := 0;
+--				else
+--					state := p0b;
+--					i := i + 1;
+--				end if;
+--		end case;
 --	end if;
---end process hsync_gen;
+--end process p1;
 --
---vsync_gen : process(clk_vga,reset) begin
+--p0 : process (clkdv_vga,reset) is
+--type states is (idle,idle1a,p0a,p0b,p0c,p0d,p0e);
+--variable state : states := idle;
+--variable count1 : integer range 0 to 1023 := 0;
+--variable counter2 : integer range 0 to HBP-1 := 0;
+--begin
 --if (reset = '1') then
---v <= '0';
---	elsif rising_edge(clk_vga) then
---		if (vcnt >= (VD+VFP) and vcnt <= (VD+VFP+VSP)) then
---			v <= '0';
---		else
---			v <= '1';
---		end if;
---	end if;
---end process vsync_gen;
-
-p1 : process (clkdv_vga,reset) is
-type states is (idle,p0a,p0b);
-variable state : states := idle;
-constant C1 : integer := 120*640; --(VD-VFP-VSP-VBP)/4;
-constant C2 : integer := 480*640; --VD;
-variable i : integer range 0 to C2-1;
-begin
-if (reset = '1') then
-state := idle;
-v120 <= '0';
-pv <= '0';
-i := 0;
-elsif (rising_edge(clkdv_vga)) then
-		pv <= activeh;
-		case (state) is
-			when idle =>
-				v120 <= '0';
-				if (pv = '0' and activeh = '1') then
-					state := p0a;
-				else
-					state := idle;
-				end if;
-				i := 0;
-			when p0a =>
-				v120 <= '1';
-				if (i = C1-1) then
-					state := p0b;
-					i := 0;
-				else
-					state := p0a;
-					i := i + 1;
-				end if;
-			when p0b =>
-				v120 <= '0';
-				if (i = C2-1) then
-					state := idle;
-					i := 0;
-				else
-					state := p0b;
-					i := i + 1;
-				end if;
-		end case;
-	end if;
-end process p1;
-
-p0 : process (clkdv_vga,reset) is
-type states is (idle,idle1a,p0a,p0b,p0c,p0d,p0e);
-variable state : states := idle;
-variable count1 : integer range 0 to 1023 := 0;
-variable counter2 : integer range 0 to HBP-1 := 0;
-begin
-if (reset = '1') then
-state := idle;
-count1 := 0;
-counter2 := 0;
-ph <= '0';
-tactiveArea1 <= '0';
-elsif (rising_edge(clkdv_vga)) then
-	ph <= h;
-		case (state) is
-			when idle =>
---				if (display_flag = '1') then
-					if (ph = '0' and h = '1') then
-						state := idle1a;
-						counter2 := 0;
---						state := p0a;
---					else
---						state := idle;
---					end if;
-				else
-					state := idle;
-				end if;
-				tactiveArea1 <= '0';
-				count1 := 0;
-			when idle1a =>
-				if (counter2 = HBP-1) then
-					state := p0a;
-					counter2 := 0;
-				else
-					state := idle1a;
-					counter2 := counter2 + 1;
-				end if;
-			when p0a =>
---				if (v120 = '1') then
-					if (count1 = HD-1) then
-						count1 := 0;
---						state := p0b;
-						state := p0e;
-					else
-						count1 := count1 + 1;
-						state := p0a;
-					end if;
-					tactiveArea1 <= '1';
+--state := idle;
+--count1 := 0;
+--counter2 := 0;
+--ph <= '0';
+--tactiveArea1 <= '0';
+--elsif (rising_edge(clkdv_vga)) then
+--	ph <= h;
+--		case (state) is
+--			when idle =>
+----				if (display_flag = '1') then
+--					if (ph = '0' and h = '1') then
+--						state := idle1a;
+--						counter2 := 0;
+----						state := p0a;
+----					else
+----						state := idle;
+----					end if;
+--				else
+--					state := idle;
 --				end if;
-			when p0b =>
---				if (v120 = '1') then
-					if (count1 = 160-1) then
-						count1 := 0;
-						state := p0c;
-					else
-						count1 := count1 + 1;
-						state := p0b;
-					end if;
-					tactiveArea1 <= '0';
+--				tactiveArea1 <= '0';
+--				count1 := 0;
+--			when idle1a =>
+--				if (counter2 = HBP-1) then
+--					state := p0a;
+--					counter2 := 0;
+--				else
+--					state := idle1a;
+--					counter2 := counter2 + 1;
 --				end if;
-			when p0c =>
---				if (v120 = '1') then
-					if (count1 = 160-1) then
-						count1 := 0;
-						state := p0d;
-					else
-						count1 := count1 + 1;
-						state := p0c;
-					end if;
-					tactiveArea1 <= '0';
---				end if;
-			when p0d =>
---				if (v120 = '1') then
-					if (count1 = 160-1) then
-						count1 := 0;
+--			when p0a =>
+----				if (v120 = '1') then
+--					if (count1 = HD-1) then
+--						count1 := 0;
+----						state := p0b;
 --						state := p0e;
-						state := idle;
-					else
-						count1 := count1 + 1;
-						state := p0d;
-					end if;
-					tactiveArea1 <= '0';
---				end if;
-			when p0e =>
---				if (v120 = '1') then
-					if (count1 = HFP-1) then
-						count1 := 0;
-						state := idle;
-					else
-						count1 := count1 + 1;
-						state := p0e;
-					end if;
-					tactiveArea1 <= '0';
---				end if;
-		end case;
-	end if;
-end process p0;
+--					else
+--						count1 := count1 + 1;
+--						state := p0a;
+--					end if;
+--					tactiveArea1 <= '1';
+----				end if;
+--			when p0b =>
+----				if (v120 = '1') then
+--					if (count1 = 160-1) then
+--						count1 := 0;
+--						state := p0c;
+--					else
+--						count1 := count1 + 1;
+--						state := p0b;
+--					end if;
+--					tactiveArea1 <= '0';
+----				end if;
+--			when p0c =>
+----				if (v120 = '1') then
+--					if (count1 = 160-1) then
+--						count1 := 0;
+--						state := p0d;
+--					else
+--						count1 := count1 + 1;
+--						state := p0c;
+--					end if;
+--					tactiveArea1 <= '0';
+----				end if;
+--			when p0d =>
+----				if (v120 = '1') then
+--					if (count1 = 160-1) then
+--						count1 := 0;
+----						state := p0e;
+--						state := idle;
+--					else
+--						count1 := count1 + 1;
+--						state := p0d;
+--					end if;
+--					tactiveArea1 <= '0';
+----				end if;
+--			when p0e =>
+----				if (v120 = '1') then
+--					if (count1 = HFP-1) then
+--						count1 := 0;
+--						state := idle;
+--					else
+--						count1 := count1 + 1;
+--						state := p0e;
+--					end if;
+--					tactiveArea1 <= '0';
+----				end if;
+--		end case;
+--	end if;
+--end process p0;
 --activeRender1 <= tactiveArea1;
 
 --aaproc : process(clk_vga,reset) is
@@ -288,8 +264,6 @@ end process p0;
 ----activeArea3 <= '1' when (hcnt >= 0 and hcnt < 160) and (vcnt >= 240 and vcnt < 360) else '0';
 ----activeArea4 <= '1' when (hcnt >= 0 and hcnt < 160) and (vcnt >= 360 and vcnt < 480) else '0';
 --
---Hsync <= h;
---Vsync <= v;
 --activeArea1 <= '1' when (hcnt <= HD) and (vcnt <= VD) else '0';
 --activeArea1 <= '1' when (hcnt <= HD) and (vcnt <= VD) else '0';
 --activeRender1 <= '1' when (hcnt <= HD) and ((vcnt <= VD) and ((vcnt mod 4 = 0))) else '0';
@@ -298,196 +272,227 @@ end process p0;
 --activeArea3 <= '0';
 --activeArea4 <= '0';
 
-p3 : process (clkdv_vga,reset,h) is
-	constant C_PW : integer := 95;
---	constant C_FP : integer := 16+320+160;
---	constant C_FP : integer := 16+320;
-	constant C_FP : integer := 16;
-	constant C_BP : integer := 48;
---	constant C_DISP : integer := 640-320-160;
---	constant C_DISP : integer := 640-320;
-	constant C_DISP : integer := 640;
-	variable pwh : integer range 0 to C_PW - 1 := 0;
-	variable fph : integer range 0 to C_FP - 1 := 0;
-	variable bph : integer range 0 to C_BP - 1 := 0;
-	variable disph : integer range 0 to C_DISP - 1 := 0;
-	type statesh is (idleh,state_pwh,state_fph,state_disph,state_bph);
-	variable stateh : statesh;
-begin
-	if (reset = '1') then
-		fph := 0;
-		bph := 0;
-		disph := 0;
-		stateh := idleh;
-		display_flag <= '0';
-		hPos <= 0;
-		vPos <= 0;
-		thPos <= (others => '0');
-		tvPos <= (others => '0');
-	elsif (rising_edge(clkdv_vga)) then
-		case (stateh) is
-			when idleh =>
-				hPos <= 0;
-				vPos <= 0;
-				display_flag <= '0';
-				h <= '0';
-				if (activeh = '1') then
-					stateh := state_pwh;
-					vPos <= vPos + 1;
-				else
-					stateh := idleh;
-				end if;
-			when state_pwh =>
-				hPos <= hPos + 1;
-				display_flag <= '0';
-				h <= '0';
-				if (pwh = C_PW - 1) then
-					stateh := state_bph;
-					pwh := 0;
-				else
-					stateh := state_pwh;
-					pwh := pwh + 1;
-				end if;
-			when state_bph =>
-				hPos <= hPos + 1;
-				display_flag <= '0';
-				h <= '1';
-				if (bph = C_BP - 1) then
-					stateh := state_disph;
-					bph := 0;
-				else
-					stateh := state_bph;
-					bph := bph + 1;
-				end if;
-			when state_disph =>
-				hPos <= hPos + 1;
-				display_flag <= '1';
-				h <= '1';
-				if (disph = C_DISP - 1) then
-					stateh := state_fph;
-					disph := 0;
-				else
-					stateh := state_disph;
-					disph := disph + 1;
-				end if;
-			when state_fph =>
-				hPos <= hPos + 1;
-				display_flag <= '0';
-				h <= '1';
-				if (fph = C_FP - 1) then
-					stateh := idleh;
-					fph := 0;
-				else
-					stateh := state_fph;
-					fph := fph + 1;
-				end if;
-		end case;
-		thPos <= std_logic_vector(to_unsigned(hPos,10));
-		tvPos <= std_logic_vector(to_unsigned(vPos,10));
-	end if;
-end process p3;
+--p3 : process (clkdv_vga,reset,h) is
+--	constant C_PW : integer := 95;
+----	constant C_FP : integer := 16+320+160;
+----	constant C_FP : integer := 16+320;
+--	constant C_FP : integer := 16;
+--	constant C_BP : integer := 48;
+----	constant C_DISP : integer := 640-320-160;
+----	constant C_DISP : integer := 640-320;
+--	constant C_DISP : integer := 640;
+--	variable pwh : integer range 0 to C_PW - 1 := 0;
+--	variable fph : integer range 0 to C_FP - 1 := 0;
+--	variable bph : integer range 0 to C_BP - 1 := 0;
+--	variable disph : integer range 0 to C_DISP - 1 := 0;
+--	type statesh is (idleh,state_pwh,state_fph,state_disph,state_bph);
+--	variable stateh : statesh;
+--begin
+--	if (reset = '1') then
+--		fph := 0;
+--		bph := 0;
+--		disph := 0;
+--		stateh := idleh;
+--		display_flag <= '0';
+--		hPos <= 0;
+--		vPos <= 0;
+--		thPos <= (others => '0');
+--		tvPos <= (others => '0');
+--	elsif (rising_edge(clkdv_vga)) then
+--		case (stateh) is
+--			when idleh =>
+--				hPos <= 0;
+--				vPos <= 0;
+--				display_flag <= '0';
+--				h <= '0';
+--				if (activeh = '1') then
+--					stateh := state_pwh;
+--					vPos <= vPos + 1;
+--				else
+--					stateh := idleh;
+--				end if;
+--			when state_pwh =>
+--				hPos <= hPos + 1;
+--				display_flag <= '0';
+--				h <= '0';
+--				if (pwh = C_PW - 1) then
+--					stateh := state_bph;
+--					pwh := 0;
+--				else
+--					stateh := state_pwh;
+--					pwh := pwh + 1;
+--				end if;
+--			when state_bph =>
+--				hPos <= hPos + 1;
+--				display_flag <= '0';
+--				h <= '1';
+--				if (bph = C_BP - 1) then
+--					stateh := state_disph;
+--					bph := 0;
+--				else
+--					stateh := state_bph;
+--					bph := bph + 1;
+--				end if;
+--			when state_disph =>
+--				hPos <= hPos + 1;
+--				display_flag <= '1';
+--				h <= '1';
+--				if (disph = C_DISP - 1) then
+--					stateh := state_fph;
+--					disph := 0;
+--				else
+--					stateh := state_disph;
+--					disph := disph + 1;
+--				end if;
+--			when state_fph =>
+--				hPos <= hPos + 1;
+--				display_flag <= '0';
+--				h <= '1';
+--				if (fph = C_FP - 1) then
+--					stateh := idleh;
+--					fph := 0;
+--				else
+--					stateh := state_fph;
+--					fph := fph + 1;
+--				end if;
+--		end case;
+--		thPos <= std_logic_vector(to_unsigned(hPos,10));
+--		tvPos <= std_logic_vector(to_unsigned(vPos,10));
+--	end if;
+--end process p3;
+--
+--p4 : process (clkdv_vga,reset,v) is
+--	constant C_PW : integer := 1600;
+----	constant C_FP : integer := 8000+192000+96000;
+----	constant C_FP : integer := 8000+192000;
+--	constant C_FP : integer := 8000;
+--	constant C_BP : integer := 33*800; -- 29,33
+----	constant C_DISP : integer := 384000-192000-96000;
+----	constant C_DISP : integer := 384000-192000;
+--	constant C_DISP : integer := 384000;
+--	variable pwv : integer range 0 to C_PW - 1 := 0;
+--	variable fpv : integer range 0 to C_FP - 1 := 0;
+--	variable bpv : integer range 0 to C_BP - 1 := 0;
+--	variable dispv : integer range 0 to C_DISP - 1 := 0;
+--	type statesv is (state_pwv,state_fpv,state_dispv,state_bpv);
+--	variable statev : statesv;
+--begin
+--	if (reset = '1') then
+--		pwv := 0;
+--		fpv := 0;
+--		bpv := 0;
+--		dispv := 0;
+--		statev := state_pwv;
+--		activeh <= '0';
+--	elsif (rising_edge(clkdv_vga)) then
+--		case (statev) is
+--			when state_pwv =>
+--				activeh <= '0';
+--				v <= '0';
+--				if (pwv = C_PW - 1) then
+--					statev := state_bpv;
+--					pwv := 0;
+--				else
+--					statev := state_pwv;
+--					pwv := pwv + 1;
+--				end if;
+--			when state_bpv =>
+--				activeh <= '0';
+--				v <= '1';
+--				if (bpv = C_BP - 1) then
+--					statev := state_dispv;
+--					bpv := 0;
+--				else
+--					statev := state_bpv;
+--					bpv := bpv + 1;
+--				end if;
+--			when state_dispv =>
+--				activeh <= '1';
+--				v <= '1';
+--				if (dispv = C_DISP - 1) then
+--					statev := state_fpv;
+--					dispv := 0;
+--				else
+--					statev := state_dispv;
+--					dispv := dispv + 1;
+--				end if;
+--			when state_fpv =>
+--				activeh <= '0';
+--				v <= '1';
+--				if (fpv = C_FP - 1) then
+--					statev := state_pwv;
+--					fpv := 0;
+--				else
+--					statev := state_fpv;
+--					fpv := fpv + 1;
+--				end if;
+--		end case;
+--	end if;
+--end process p4;
 
-p4 : process (clkdv_vga,reset,v) is
-	constant C_PW : integer := 1600;
---	constant C_FP : integer := 8000+192000+96000;
---	constant C_FP : integer := 8000+192000;
-	constant C_FP : integer := 8000;
-	constant C_BP : integer := 33*800; -- 29,33
---	constant C_DISP : integer := 384000-192000-96000;
---	constant C_DISP : integer := 384000-192000;
-	constant C_DISP : integer := 384000;
-	variable pwv : integer range 0 to C_PW - 1 := 0;
-	variable fpv : integer range 0 to C_FP - 1 := 0;
-	variable bpv : integer range 0 to C_BP - 1 := 0;
-	variable dispv : integer range 0 to C_DISP - 1 := 0;
-	type statesv is (state_pwv,state_fpv,state_dispv,state_bpv);
-	variable statev : statesv;
-begin
-	if (reset = '1') then
-		pwv := 0;
-		fpv := 0;
-		bpv := 0;
-		dispv := 0;
-		statev := state_pwv;
-		activeh <= '0';
-	elsif (rising_edge(clkdv_vga)) then
-		case (statev) is
-			when state_pwv =>
-				activeh <= '0';
-				v <= '0';
-				if (pwv = C_PW - 1) then
-					statev := state_bpv;
-					pwv := 0;
-				else
-					statev := state_pwv;
-					pwv := pwv + 1;
-				end if;
-			when state_bpv =>
-				activeh <= '0';
-				v <= '1';
-				if (bpv = C_BP - 1) then
-					statev := state_dispv;
-					bpv := 0;
-				else
-					statev := state_bpv;
-					bpv := bpv + 1;
-				end if;
-			when state_dispv =>
-				activeh <= '1';
-				v <= '1';
-				if (dispv = C_DISP - 1) then
-					statev := state_fpv;
-					dispv := 0;
-				else
-					statev := state_dispv;
-					dispv := dispv + 1;
-				end if;
-			when state_fpv =>
-				activeh <= '0';
-				v <= '1';
-				if (fpv = C_FP - 1) then
-					statev := state_pwv;
-					fpv := 0;
-				else
-					statev := state_fpv;
-					fpv := fpv + 1;
-				end if;
-		end case;
-	end if;
-end process p4;
+--Hsync <= h;
+--Vsync <= v;
 
 Hsync <= h;
 Vsync <= v;
+activeh <= '1';
+activeArea1 <= '1';
+
+hsync_gen : process(vgaclk25,reset) begin
+if (reset = '1') then
+h <= '0';
+	elsif rising_edge(vgaclk25) then
+		if (hPos >= (HD+HFP) and hPos <= (HD+HFP+HSP)) then 
+			h <= '0';
+		else
+			h <= '1';
+		end if;
+	end if;
+end process hsync_gen;
+
+vsync_gen : process(vgaclk25,reset) begin
+if (reset = '1') then
+v <= '0';
+	elsif rising_edge(vgaclk25) then
+		if (vPos >= (VD+VFP) and vPos <= (VD+VFP+VSP)) then
+			v <= '0';
+		else
+			v <= '1';
+		end if;
+	end if;
+end process vsync_gen;
+
+Horizontal_position_counter:process(vgaclk25, reset)
+begin
+	if(reset = '1')then
+		hpos <= 0;
+	elsif(rising_edge(vgaclk25))then
+			if (hPos = (HD + HFP + HSP + HBP)-1) then
+				hPos <= 0;
+			else
+				hPos <= hPos + 1;
+			end if;
+	end if;
+end process;
+
+Vertical_position_counter:process(vgaclk25, reset, hPos)
+begin
+	if(reset = '1')then
+		vPos <= 0;
+	elsif(rising_edge(vgaclk25))then
+			if(hPos = (HD + HFP + HSP + HBP)-1)then
+				if (vPos = (VD + VFP + VSP + VBP)-1) then
+					vPos <= 0;
+				else
+					vPos <= vPos + 1;
+				end if;
+			end if;
+	end if;
+end process;
+--
+
 --Hsync <= thsync;
 --Vsync <= tvsync;
-
---Horizontal_position_counter:process(vgaclk25, reset)
---begin
---	if(reset = '1')then
---		hpos <= 0;
---	elsif(rising_edge(vgaclk25))then
---			if (hPos = (HD + HFP + HSP + HBP)-1) then
---				hPos <= 0;
---			else
---				hPos <= hPos + 1;
---			end if;
---	end if;
---end process;
---
---Vertical_position_counter:process(vgaclk25, reset, hPos)
---begin
---	if(reset = '1')then
---		vPos <= 0;
---	elsif(rising_edge(vgaclk25))then
---			if(hPos = (HD + HFP + HSP + HBP)-1)then
---				if (vPos = (VD + VFP + VSP + VBP)-1) then
---					vPos <= 0;
---				else
---					vPos <= vPos + 1;
---				end if;
---			end if;
---	end if;
---end process;
 --
 --Horizontal_Synchronisation:process(vgaclk25, reset, hPos)
 --begin
@@ -521,7 +526,28 @@ begin
 		videoOn <= '0';
 	elsif(rising_edge(vgaclk25))then
 --		if(hPos <= HD and vPos <= VD)then
-		if(hPos >= 145 and hPos < 785 and vPos < VD and vPos mod 32 = 0)then
+		if((hPos >= 0 and hPos < 645) and (
+		(vPos = 0) or
+		(vPos = 24) or
+		(vPos = 48) or
+		(vPos = 72) or
+		(vPos = 96) or
+		(vPos = 120) or
+		(vPos = 144) or
+		(vPos = 168) or
+		(vPos = 192) or
+		(vPos = 216) or
+		(vPos = 240) or
+		(vPos = 264) or
+		(vPos = 288) or
+		(vPos = 312) or
+		(vPos = 336) or
+		(vPos = 360) or
+		(vPos = 384) or
+		(vPos = 408) or
+		(vPos = 432) or
+		(vPos = 456)
+		)) then
 --		if(hPos < HD and vPos < VD and vPos mod 24 = 0)then
 			videoOn <= '1';
 		else

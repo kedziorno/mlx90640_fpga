@@ -505,7 +505,7 @@ begin
 		else state := s7; end if;
 	when s8 => state := s9;
 		divfpsclr_internal <= '0';
-		report "================ To ksto2 : " & real'image (ap_slv2fp (ksto2));
+--		report "================ To ksto2 : " & real'image (ap_slv2fp (ksto2));
 
 		subfpce_internal <= '1';
 		subfpa_internal <= i_Ta;
@@ -922,7 +922,7 @@ begin
 		write_enable <= '1';
 		addra <= std_logic_vector (to_unsigned (i, 10)); -- To
 		dia <= fttmp1;
-		report "================ To " & integer'image (i) & " : " & real'image (ap_slv2fp (fttmp1));
+		report_error ("To " & integer'image (i), fttmp1, 0.0);
 	when s71 =>
 		write_enable <= '0';
 		if (i = (C_ROW*C_COL)-1) then

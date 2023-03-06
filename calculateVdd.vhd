@@ -330,7 +330,7 @@ begin
 	when ending => state := idle;
 		addfpsclr <= '0';
 		o_Vdd <= fttmp1;
-		report "================ CalculateVdd o_Vdd : " & real'image (ap_slv2fp (fttmp1));
+--		report "================ CalculateVdd o_Vdd : " & real'image (ap_slv2fp (fttmp1));
 --		o_kvdd <= ExtractVDDParameters_kvdd;
 --		report "================ CalculateVdd o_kvdd : " & real'image (ap_slv2fp (ExtractVDDParameters_kvdd));
 --		o_vdd25 <= ExtractVDDParameters_vdd25;
