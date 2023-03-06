@@ -10,38 +10,37 @@ Target Device  : xc4vsx35
 Target Package : ff668
 Target Speed   : -10
 Mapper Version : virtex4 -- $Revision: 1.55 $
-Mapped Date    : Sun Mar  5 19:50:21 2023
+Mapped Date    : Mon Mar  6 14:48:09 2023
 
 Design Summary
 --------------
 Number of errors:      0
 Number of warnings:    0
 Logic Utilization:
-  Number of Slice Flip Flops:        11,744 out of  30,720   38%
-  Number of 4 input LUTs:            16,356 out of  30,720   53%
+  Number of Slice Flip Flops:           107 out of  30,720    1%
+  Number of 4 input LUTs:               210 out of  30,720    1%
 Logic Distribution:
-  Number of occupied Slices:         11,481 out of  15,360   74%
-    Number of Slices containing only related logic:  11,481 out of  11,481 100%
-    Number of Slices containing unrelated logic:          0 out of  11,481   0%
+  Number of occupied Slices:            175 out of  15,360    1%
+    Number of Slices containing only related logic:     175 out of     175 100%
+    Number of Slices containing unrelated logic:          0 out of     175   0%
       *See NOTES below for an explanation of the effects of unrelated logic.
-  Total Number of 4 input LUTs:      16,699 out of  30,720   54%
-    Number used as logic:            16,113
-    Number used as a route-thru:        343
-    Number used as Shift registers:     243
+  Total Number of 4 input LUTs:         228 out of  30,720    1%
+    Number used as logic:               210
+    Number used as a route-thru:         18
 
   The Slice Logic Distribution report is not meaningful if the design is
   over-mapped for a non-slice resource or if Placement fails.
   Number of bonded IOBs:                 32 out of     448    7%
   Number of BUFG/BUFGCTRLs:               3 out of      32    9%
     Number used as BUFGs:                 3
-  Number of FIFO16/RAMB16s:              39 out of     192   20%
-    Number used as RAMB16s:              39
+  Number of FIFO16/RAMB16s:               2 out of     192    1%
+    Number used as RAMB16s:               2
 
-Average Fanout of Non-Clock Nets:                3.43
+Average Fanout of Non-Clock Nets:                3.29
 
-Peak Memory Usage:  1121 MB
-Total REAL time to MAP completion:  2 mins 52 secs 
-Total CPU time to MAP completion:   2 mins 51 secs 
+Peak Memory Usage:  810 MB
+Total REAL time to MAP completion:  11 secs 
+Total CPU time to MAP completion:   10 secs 
 
 Table of Contents
 -----------------
@@ -67,6 +66,15 @@ Section 2 - Warnings
 
 Section 3 - Informational
 -------------------------
+INFO:LIT:243 - Logical network tb_data_calculateTo_inst/douta<31> has no load.
+INFO:LIT:395 - The above info message is repeated 7 more times for the following
+   (max. 5 shown):
+   tb_data_calculateTo_inst/douta<30>,
+   tb_data_calculateTo_inst/douta<29>,
+   tb_data_calculateTo_inst/douta<28>,
+   tb_data_calculateTo_inst/douta<27>,
+   tb_data_calculateTo_inst/douta<26>
+   To see the details of these info messages, please use the -detail switch.
 INFO:MapLib:562 - No environment variables are currently set.
 INFO:MapLib:797 - Your design is targeting LX/SX Production Step 0/1/ES devices.
    Please note that there are new specifications for the DCMs to guarantee
@@ -84,9 +92,8 @@ INFO:Pack:1650 - Map created a placed design.
 
 Section 4 - Removed Logic Summary
 ---------------------------------
- 164 block(s) removed
-  55 block(s) optimized away
-  57 signal(s) removed
+   3 block(s) optimized away
+   8 signal(s) removed
 
 Section 5 - Removed Logic
 -------------------------
@@ -101,306 +108,28 @@ To quickly locate the original cause for the removal of a chain of logic, look
 above the place where that logic is listed in the trimming report, then locate
 the lines that are least indented (begin at the leftmost edge).
 
-Loadless block "tfm_inst/inst_addfp/blk00000206" (XOR) removed.
- The signal "tfm_inst/inst_addfp/sig0000050d" is loadless and has been removed.
-  Loadless block "tfm_inst/inst_addfp/blk00000208" (MUX) removed.
-   The signal "tfm_inst/inst_addfp/sig0000050c" is loadless and has been removed.
-    Loadless block "tfm_inst/inst_addfp/blk0000020a" (MUX) removed.
-     The signal "tfm_inst/inst_addfp/sig0000050b" is loadless and has been removed.
-      Loadless block "tfm_inst/inst_addfp/blk0000020c" (MUX) removed.
-       The signal "tfm_inst/inst_addfp/sig0000050a" is loadless and has been removed.
-        Loadless block "tfm_inst/inst_addfp/blk0000020e" (MUX) removed.
-         The signal "tfm_inst/inst_addfp/sig00000509" is loadless and has been removed.
-          Loadless block "tfm_inst/inst_addfp/blk00000210" (MUX) removed.
-           The signal "tfm_inst/inst_addfp/sig00000508" is loadless and has been removed.
-            Loadless block "tfm_inst/inst_addfp/blk00000212" (MUX) removed.
-             The signal "tfm_inst/inst_addfp/sig00000507" is loadless and has been removed.
-              Loadless block "tfm_inst/inst_addfp/blk00000214" (MUX) removed.
-               The signal "tfm_inst/inst_addfp/sig00000577" is loadless and has been removed.
-                Loadless block "tfm_inst/inst_addfp/blk0000026c" (FF) removed.
-                 The signal "tfm_inst/inst_addfp/sig00000557" is loadless and has been removed.
-                  Loadless block "tfm_inst/inst_addfp/blk00000253" (XOR) removed.
-                   The signal "tfm_inst/inst_addfp/sig0000054d" is loadless and has been removed.
-                    Loadless block "tfm_inst/inst_addfp/blk00000255" (MUX) removed.
-Loadless block "tfm_inst/inst_addfp/blk00000207" (XOR) removed.
-Loadless block "tfm_inst/inst_addfp/blk00000209" (XOR) removed.
-Loadless block "tfm_inst/inst_addfp/blk0000020b" (XOR) removed.
-Loadless block "tfm_inst/inst_addfp/blk0000020d" (XOR) removed.
-Loadless block "tfm_inst/inst_addfp/blk0000020f" (XOR) removed.
-Loadless block "tfm_inst/inst_addfp/blk00000211" (XOR) removed.
-Loadless block "tfm_inst/inst_addfp/blk00000213" (XOR) removed.
-Loadless block "tfm_inst/inst_addfp/blk00000273" (MUX) removed.
- The signal "tfm_inst/inst_addfp/sig00000473" is loadless and has been removed.
-  Loadless block "tfm_inst/inst_addfp/blk00000328" (ROM) removed.
- The signal "tfm_inst/inst_addfp/sig00000474" is loadless and has been removed.
-  Loadless block "tfm_inst/inst_addfp/blk00000327" (ROM) removed.
-   The signal "tfm_inst/inst_addfp/sig00000461" is loadless and has been removed.
-    Loadless block "tfm_inst/inst_addfp/blk00000298" (FF) removed.
-     The signal "tfm_inst/inst_addfp/sig0000046c" is loadless and has been removed.
-      Loadless block "tfm_inst/inst_addfp/blk00000291" (MUX) removed.
-       The signal "tfm_inst/inst_addfp/sig00000465" is loadless and has been removed.
-        Loadless block "tfm_inst/inst_addfp/blk0000038c" (ROM) removed.
-Loadless block "tfm_inst/inst_divfp/blk00000244" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk00000246" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk00000248" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk0000024a" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk0000024c" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk0000024e" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk00000250" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk00000252" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk00000254" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk00000256" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk00000258" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk0000025a" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk0000025c" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk0000025e" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk00000260" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk00000262" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk00000264" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk00000266" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk00000268" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk0000026a" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk0000026c" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk0000026e" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk00000270" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk00000272" (XOR) removed.
-Loadless block "tfm_inst/inst_divfp/blk000009e7" (XOR) removed.
-Loadless block "tfm_inst/inst_fixed2float/blk00000016" (MUX) removed.
- The signal "tfm_inst/inst_fixed2float/sig0000011c" is loadless and has been
+The signal "tb_data_calculateTo_inst/douta<31>" is sourceless and has been
 removed.
-  Loadless block "tfm_inst/inst_fixed2float/blk000002b3" (ROM) removed.
- The signal "tfm_inst/inst_fixed2float/sig0000011d" is loadless and has been
+The signal "tb_data_calculateTo_inst/douta<30>" is sourceless and has been
 removed.
-  Loadless block "tfm_inst/inst_fixed2float/blk000002b2" (ROM) removed.
-   The signal "tfm_inst/inst_fixed2float/sig00000103" is loadless and has been
+The signal "tb_data_calculateTo_inst/douta<29>" is sourceless and has been
 removed.
-    Loadless block "tfm_inst/inst_fixed2float/blk0000004e" (FF) removed.
-     The signal "tfm_inst/inst_fixed2float/sig0000010f" is loadless and has been
+The signal "tb_data_calculateTo_inst/douta<28>" is sourceless and has been
 removed.
-      Loadless block "tfm_inst/inst_fixed2float/blk00000047" (MUX) removed.
-       The signal "tfm_inst/inst_fixed2float/sig00000107" is loadless and has been
+The signal "tb_data_calculateTo_inst/douta<27>" is sourceless and has been
 removed.
-        Loadless block "tfm_inst/inst_fixed2float/blk000002c6" (ROM) removed.
-       The signal "tfm_inst/inst_fixed2float/sig0000010b" is loadless and has been
+The signal "tb_data_calculateTo_inst/douta<26>" is sourceless and has been
 removed.
-        Loadless block "tfm_inst/inst_fixed2float/blk000002c0" (ROM) removed.
-Loadless block "tfm_inst/inst_mulfp/blk0000004f" (XOR) removed.
-Loadless block "tfm_inst/inst_mulfp/blk0000012b" (FF) removed.
- The signal "tfm_inst/inst_mulfp/sig00000151" is loadless and has been removed.
-  Loadless block "tfm_inst/inst_mulfp/blk0000012a" (XOR) removed.
-   The signal "tfm_inst/inst_mulfp/sig0000011b" is loadless and has been removed.
-    Loadless block "tfm_inst/inst_mulfp/blk00000127" (MUX) removed.
-   The signal "tfm_inst/inst_mulfp/sig00000136" is loadless and has been removed.
-    Loadless block "tfm_inst/inst_mulfp/blk00000129" (ROM) removed.
-     The signal "tfm_inst/inst_mulfp/sig0000090f" is loadless and has been removed.
-      Loadless block "tfm_inst/inst_mulfp/blk000001ee" (FF) removed.
-       The signal "tfm_inst/inst_mulfp/sig000002b9" is loadless and has been removed.
-Loadless block "tfm_inst/inst_mulfp/blk00000414" (AND) removed.
-Loadless block "tfm_inst/inst_mulfp/blk00000416" (SFF) removed.
- The signal "tfm_inst/inst_mulfp/sig0000075d" is loadless and has been removed.
-  Loadless block "tfm_inst/inst_mulfp/blk00000415" (XOR) removed.
-   The signal "tfm_inst/inst_mulfp/sig00000712" is loadless and has been removed.
-    Loadless block "tfm_inst/inst_mulfp/blk00000411" (MUX) removed.
-     The signal "tfm_inst/inst_mulfp/sig00000711" is loadless and has been removed.
-      Loadless block "tfm_inst/inst_mulfp/blk0000040d" (MUX) removed.
-       The signal "tfm_inst/inst_mulfp/sig0000072a" is loadless and has been removed.
-        Loadless block "tfm_inst/inst_mulfp/blk0000040c" (AND) removed.
-     The signal "tfm_inst/inst_mulfp/sig0000072b" is loadless and has been removed.
-      Loadless block "tfm_inst/inst_mulfp/blk00000410" (AND) removed.
-     The signal "tfm_inst/inst_mulfp/sig00000744" is loadless and has been removed.
-      Loadless block "tfm_inst/inst_mulfp/blk0000040f" (ROM) removed.
-   The signal "tfm_inst/inst_mulfp/sig00000745" is loadless and has been removed.
-    Loadless block "tfm_inst/inst_mulfp/blk00000413" (ROM) removed.
- The signal "tfm_inst/inst_mulfp/sig0000071b" is loadless and has been removed.
-Loadless block "tfm_inst/inst_mulfp/blk00000417" (SFF) removed.
- The signal "tfm_inst/inst_mulfp/sig0000075c" is loadless and has been removed.
-  Loadless block "tfm_inst/inst_mulfp/blk00000412" (XOR) removed.
-Loadless block "tfm_inst/inst_mulfp/blk0000069e" (AND) removed.
-Loadless block "tfm_inst/inst_mulfp/blk00000701" (AND) removed.
-Loadless block "tfm_inst/inst_mulfp/blk00000764" (AND) removed.
-Loadless block "tfm_inst/inst_mulfp/blk000007c7" (AND) removed.
-Loadless block "tfm_inst/inst_mulfp/blk0000082a" (AND) removed.
-Loadless block "tfm_inst/inst_mulfp/blk0000088d" (AND) removed.
-Loadless block "tfm_inst/inst_mulfp/blk000008f0" (AND) removed.
-Loadless block "tfm_inst/inst_mulfp/blk00000953" (AND) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk00000142" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk0000014e" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk0000015f" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk0000016c" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk00000182" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk0000019b" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000001b7" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000001e1" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000001f8" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk0000021d" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk00000245" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk00000270" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk0000029e" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000002cf" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk00000303" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk0000033a" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk00000374" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000003b1" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000003f1" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk00000434" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk0000047a" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000004c3" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk0000050f" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk0000055e" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005b0" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005b2" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005b4" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005b6" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005b8" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005ba" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005bc" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005be" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005c0" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005c2" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005c4" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005c6" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005c8" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005ca" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005cc" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005ce" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005d0" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005d2" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005d4" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005d6" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005d8" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005da" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005dc" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005de" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005e0" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005e2" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005e4" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005e6" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk000005fe" (FF) removed.
- The signal "tfm_inst/inst_sqrtfp2/sig0000082f" is loadless and has been removed.
-  Loadless block "tfm_inst/inst_sqrtfp2/blk00000621" (XOR) removed.
-Loadless block "tfm_inst/inst_sqrtfp2/blk00000620" (XOR) removed.
- The signal "tfm_inst/inst_sqrtfp2/sig00000825" is loadless and has been removed.
-  Loadless block "tfm_inst/inst_sqrtfp2/blk0000061e" (MUX) removed.
-Loadless block "tfm_inst/inst_subfp/blk00000206" (XOR) removed.
- The signal "tfm_inst/inst_subfp/sig0000050e" is loadless and has been removed.
-  Loadless block "tfm_inst/inst_subfp/blk00000208" (MUX) removed.
-   The signal "tfm_inst/inst_subfp/sig0000050d" is loadless and has been removed.
-    Loadless block "tfm_inst/inst_subfp/blk0000020a" (MUX) removed.
-     The signal "tfm_inst/inst_subfp/sig0000050c" is loadless and has been removed.
-      Loadless block "tfm_inst/inst_subfp/blk0000020c" (MUX) removed.
-       The signal "tfm_inst/inst_subfp/sig0000050b" is loadless and has been removed.
-        Loadless block "tfm_inst/inst_subfp/blk0000020e" (MUX) removed.
-         The signal "tfm_inst/inst_subfp/sig0000050a" is loadless and has been removed.
-          Loadless block "tfm_inst/inst_subfp/blk00000210" (MUX) removed.
-           The signal "tfm_inst/inst_subfp/sig00000509" is loadless and has been removed.
-            Loadless block "tfm_inst/inst_subfp/blk00000212" (MUX) removed.
-             The signal "tfm_inst/inst_subfp/sig00000508" is loadless and has been removed.
-              Loadless block "tfm_inst/inst_subfp/blk00000214" (MUX) removed.
-               The signal "tfm_inst/inst_subfp/sig00000578" is loadless and has been removed.
-                Loadless block "tfm_inst/inst_subfp/blk0000026c" (FF) removed.
-                 The signal "tfm_inst/inst_subfp/sig00000558" is loadless and has been removed.
-                  Loadless block "tfm_inst/inst_subfp/blk00000253" (XOR) removed.
-                   The signal "tfm_inst/inst_subfp/sig0000054e" is loadless and has been removed.
-                    Loadless block "tfm_inst/inst_subfp/blk00000255" (MUX) removed.
-Loadless block "tfm_inst/inst_subfp/blk00000207" (XOR) removed.
-Loadless block "tfm_inst/inst_subfp/blk00000209" (XOR) removed.
-Loadless block "tfm_inst/inst_subfp/blk0000020b" (XOR) removed.
-Loadless block "tfm_inst/inst_subfp/blk0000020d" (XOR) removed.
-Loadless block "tfm_inst/inst_subfp/blk0000020f" (XOR) removed.
-Loadless block "tfm_inst/inst_subfp/blk00000211" (XOR) removed.
-Loadless block "tfm_inst/inst_subfp/blk00000213" (XOR) removed.
-Loadless block "tfm_inst/inst_subfp/blk00000273" (MUX) removed.
- The signal "tfm_inst/inst_subfp/sig00000474" is loadless and has been removed.
-  Loadless block "tfm_inst/inst_subfp/blk00000328" (ROM) removed.
- The signal "tfm_inst/inst_subfp/sig00000475" is loadless and has been removed.
-  Loadless block "tfm_inst/inst_subfp/blk00000327" (ROM) removed.
-   The signal "tfm_inst/inst_subfp/sig00000462" is loadless and has been removed.
-    Loadless block "tfm_inst/inst_subfp/blk00000298" (FF) removed.
-     The signal "tfm_inst/inst_subfp/sig0000046d" is loadless and has been removed.
-      Loadless block "tfm_inst/inst_subfp/blk00000291" (MUX) removed.
-       The signal "tfm_inst/inst_subfp/sig00000466" is loadless and has been removed.
-        Loadless block "tfm_inst/inst_subfp/blk0000038c" (ROM) removed.
-The signal "tfm_inst/inst_subfp/sig00000173" is sourceless and has been removed.
-The signal "tfm_inst/inst_addfp/sig00000173" is sourceless and has been removed.
-The signal "tfm_inst/inst_mulfp/sig00000107" is sourceless and has been removed.
-The signal "tfm_inst/inst_mulfp/sig00000108" is sourceless and has been removed.
-The signal "tfm_inst/inst_mulfp/sig00000109" is sourceless and has been removed.
-Unused block "tfm_inst/inst_addfp/blk0000009b" (MUX) removed.
-Unused block "tfm_inst/inst_mulfp/blk000001ed" (SRLC16E) removed.
-Unused block "tfm_inst/inst_subfp/blk0000009b" (MUX) removed.
+The signal "tb_data_calculateTo_inst/douta<25>" is sourceless and has been
+removed.
+The signal "tb_data_calculateTo_inst/douta<24>" is sourceless and has been
+removed.
 
 Optimized Block(s):
 TYPE 		BLOCK
 GND 		XST_GND
 VCC 		XST_VCC
-GND 		inst_tb_i2c_mem/XST_GND
-GND 		tfm_inst/inst_addfp/blk00000001
-VCC 		tfm_inst/inst_addfp/blk00000002
-GND 		tfm_inst/inst_divfp/blk00000001
-VCC 		tfm_inst/inst_divfp/blk00000002
-GND 		tfm_inst/inst_fixed2float/blk00000001
-VCC 		tfm_inst/inst_fixed2float/blk00000002
-GND 		tfm_inst/inst_mulfp/blk00000001
-VCC 		tfm_inst/inst_mulfp/blk00000002
-LUT4 		tfm_inst/inst_mulfp/blk00000633
-   optimized to 0
-LUT4 		tfm_inst/inst_mulfp/blk00000634
-   optimized to 0
-LUT4 		tfm_inst/inst_mulfp/blk00000635
-   optimized to 0
-LUT4 		tfm_inst/inst_mulfp/blk0000069d
-   optimized to 0
-LUT4 		tfm_inst/inst_mulfp/blk00000700
-   optimized to 0
-LUT4 		tfm_inst/inst_mulfp/blk00000763
-   optimized to 0
-LUT4 		tfm_inst/inst_mulfp/blk000007c6
-   optimized to 0
-LUT4 		tfm_inst/inst_mulfp/blk00000829
-   optimized to 0
-LUT4 		tfm_inst/inst_mulfp/blk0000088c
-   optimized to 0
-LUT4 		tfm_inst/inst_mulfp/blk000008ef
-   optimized to 0
-LUT4 		tfm_inst/inst_mulfp/blk00000952
-   optimized to 0
-FDE 		tfm_inst/inst_mulfp/blk00000983
-   optimized to 0
-FDE 		tfm_inst/inst_mulfp/blk00000984
-   optimized to 0
-FDE 		tfm_inst/inst_mulfp/blk00000985
-   optimized to 0
-LUT2 		tfm_inst/inst_mulfp/blk000009d2
-   optimized to 0
-GND 		tfm_inst/inst_sqrtfp2/blk00000001
-VCC 		tfm_inst/inst_sqrtfp2/blk00000002
-GND 		tfm_inst/inst_subfp/blk00000001
-VCC 		tfm_inst/inst_subfp/blk00000002
-MUXCY 		tfm_inst/inst_fixed2float/blk000000c3
-MUXCY 		tfm_inst/inst_fixed2float/blk000000c4
-MUXCY 		tfm_inst/inst_fixed2float/blk000000c5
-MUXCY 		tfm_inst/inst_fixed2float/blk000000c6
-MUXCY 		tfm_inst/inst_fixed2float/blk000000c7
-MUXCY 		tfm_inst/inst_fixed2float/blk000000c8
-MUXCY 		tfm_inst/inst_fixed2float/blk000000c9
-MUXCY 		tfm_inst/inst_fixed2float/blk000000ca
-MUXCY 		tfm_inst/inst_fixed2float/blk000000cb
-MUXCY 		tfm_inst/inst_fixed2float/blk000000cc
-MUXCY 		tfm_inst/inst_fixed2float/blk000000cd
-MUXCY 		tfm_inst/inst_fixed2float/blk000000ce
-MUXCY 		tfm_inst/inst_fixed2float/blk000000cf
-MUXCY 		tfm_inst/inst_fixed2float/blk000000d0
-MUXCY 		tfm_inst/inst_fixed2float/blk000000d1
-MUXCY 		tfm_inst/inst_fixed2float/blk000000d2
-MUXCY 		tfm_inst/inst_fixed2float/blk000000d3
-MUXCY 		tfm_inst/inst_fixed2float/blk000000d4
-MUXCY 		tfm_inst/inst_fixed2float/blk000000d5
-MUXCY 		tfm_inst/inst_fixed2float/blk000000d6
-MUXCY 		tfm_inst/inst_fixed2float/blk000000d7
-MUXCY 		tfm_inst/inst_fixed2float/blk000000d8
-MUXCY 		tfm_inst/inst_fixed2float/blk000000d9
-MUXCY 		tfm_inst/inst_fixed2float/blk000000da
-MUXCY 		tfm_inst/inst_fixed2float/blk000000db
+GND 		tb_data_calculateTo_inst/XST_GND
 
 To enable printing of redundant blocks removed and signals merged, set the
 detailed map report option and rerun map.

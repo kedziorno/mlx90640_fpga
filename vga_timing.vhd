@@ -436,7 +436,7 @@ clkdv_vga <= vgaclk25;
 Hsync <= h;
 Vsync <= v;
 activeh <= '1';
-activeArea1 <= '1';
+activeArea1 <= '1' when (hPos <= HD) and (vPos <= VD) else '0';
 
 hsync_gen : process(vgaclk25,reset) begin
 if (reset = '1') then

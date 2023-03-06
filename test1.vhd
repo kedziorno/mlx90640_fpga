@@ -42,39 +42,52 @@ constant PIXELS : integer := 768;
 constant ADDRESS1 : integer := 10;
 constant BITS : integer := 24;
 
-component test_fixed_melexis is
-port (
-i_clock : in std_logic;
-i_reset : in std_logic;
-i_run : in std_logic;
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-o_rdy : out std_logic;
-i_addr : in std_logic_vector(9 downto 0);
-o_do : out std_logic_vector(31 downto 0)
-);
-end component test_fixed_melexis;
-signal test_fixed_melexis_clock : std_logic;
-signal test_fixed_melexis_reset : std_logic;
-signal test_fixed_melexis_run : std_logic;
-signal test_fixed_melexis_i2c_mem_ena : STD_LOGIC;
-signal test_fixed_melexis_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal test_fixed_melexis_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal test_fixed_melexis_rdy : std_logic;
-signal test_fixed_melexis_addr : std_logic_vector(9 downto 0);
-signal test_fixed_melexis_do : std_logic_vector(31 downto 0);
+--component test_fixed_melexis is
+--port (
+--i_clock : in std_logic;
+--i_reset : in std_logic;
+--i_run : in std_logic;
+--i2c_mem_ena : out STD_LOGIC;
+--i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+--i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+--o_rdy : out std_logic;
+--i_addr : in std_logic_vector(9 downto 0);
+--o_do : out std_logic_vector(31 downto 0)
+--);
+--end component test_fixed_melexis;
+--signal test_fixed_melexis_clock : std_logic;
+--signal test_fixed_melexis_reset : std_logic;
+--signal test_fixed_melexis_run : std_logic;
+--signal test_fixed_melexis_i2c_mem_ena : STD_LOGIC;
+--signal test_fixed_melexis_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+--signal test_fixed_melexis_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+--signal test_fixed_melexis_rdy : std_logic;
+--signal test_fixed_melexis_addr : std_logic_vector(9 downto 0);
+--signal test_fixed_melexis_do : std_logic_vector(31 downto 0);
 
-COMPONENT tb_i2c_mem
+--COMPONENT tb_i2c_mem
+--PORT (
+--clka : IN STD_LOGIC;
+--ena : IN STD_LOGIC;
+--wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+--addra : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
+--dina : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+--douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+--);
+--END COMPONENT;
+
+COMPONENT tb_data_calculateTo
 PORT (
 clka : IN STD_LOGIC;
 ena : IN STD_LOGIC;
-wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
-addra : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
-dina : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
-douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+addra : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+douta : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
 );
 END COMPONENT;
+signal tb_data_calculateTo_clka : STD_LOGIC;
+signal tb_data_calculateTo_ena : STD_LOGIC;
+signal tb_data_calculateTo_addra : STD_LOGIC_VECTOR(9 DOWNTO 0);
+signal tb_data_calculateTo_douta : STD_LOGIC_VECTOR(31 DOWNTO 0);
 
 component address_generator is
 Generic (
@@ -182,58 +195,58 @@ begin
 	end if;
 end process pagclk;
 
-p0 : process (i_clock) is
-	type states is (idle,
-	s1,
-	ending);
-	variable state : states;
-begin
-	if (rising_edge (i_clock)) then
-		if (i_reset = '1') then
-			state := idle;
-			test_fixed_melexis_run <= '0';
-		else
-			case (state) is
-				when idle => state := s1;
-					test_fixed_melexis_run <= '1';
-				when s1 =>
-					test_fixed_melexis_run <= '0';
-					if (test_fixed_melexis_rdy = '1') then
-						state := ending;
-					else
-						state := s1;
-					end if;
-				when ending => state := ending;
-				when others => null;
-			end case;
-		end if;
-	end if;
-end process p0;
+--p0 : process (i_clock) is
+--	type states is (idle,
+--	s1,
+--	ending);
+--	variable state : states;
+--begin
+--	if (rising_edge (i_clock)) then
+--		if (i_reset = '1') then
+--			state := idle;
+--			test_fixed_melexis_run <= '0';
+--		else
+--			case (state) is
+--				when idle => state := s1;
+--					test_fixed_melexis_run <= '1';
+--				when s1 =>
+--					test_fixed_melexis_run <= '0';
+--					if (test_fixed_melexis_rdy = '1') then
+--						state := ending;
+--					else
+--						state := s1;
+--					end if;
+--				when ending => state := ending;
+--				when others => null;
+--			end case;
+--		end if;
+--	end if;
+--end process p0;
 
-test_fixed_melexis_clock <= i_clock;
-test_fixed_melexis_reset <= i_reset;
-test_fixed_melexis_addr <= address_generator_address;
-tfm_inst : test_fixed_melexis port map (
-i_clock => test_fixed_melexis_clock,
-i_reset => test_fixed_melexis_reset,
-i_run => test_fixed_melexis_run,
-i2c_mem_ena => test_fixed_melexis_i2c_mem_ena,
-i2c_mem_addra => test_fixed_melexis_i2c_mem_addra,
-i2c_mem_douta => test_fixed_melexis_i2c_mem_douta,
-o_rdy => test_fixed_melexis_rdy,
-i_addr => test_fixed_melexis_addr,
-o_do => test_fixed_melexis_do
-);
+--test_fixed_melexis_clock <= i_clock;
+--test_fixed_melexis_reset <= i_reset;
+--test_fixed_melexis_addr <= address_generator_address;
+--tfm_inst : test_fixed_melexis port map (
+--i_clock => test_fixed_melexis_clock,
+--i_reset => test_fixed_melexis_reset,
+--i_run => test_fixed_melexis_run,
+--i2c_mem_ena => test_fixed_melexis_i2c_mem_ena,
+--i2c_mem_addra => test_fixed_melexis_i2c_mem_addra,
+--i2c_mem_douta => test_fixed_melexis_i2c_mem_douta,
+--o_rdy => test_fixed_melexis_rdy,
+--i_addr => test_fixed_melexis_addr,
+--o_do => test_fixed_melexis_do
+--);
 
-inst_tb_i2c_mem : tb_i2c_mem
-PORT MAP (
-clka => test_fixed_melexis_clock,
-ena => test_fixed_melexis_i2c_mem_ena,
-wea => "0",
-addra => test_fixed_melexis_i2c_mem_addra,
-dina => (others => '0'),
-douta => test_fixed_melexis_i2c_mem_douta
-);
+--inst_tb_i2c_mem : tb_i2c_mem
+--PORT MAP (
+--clka => test_fixed_melexis_clock,
+--ena => test_fixed_melexis_i2c_mem_ena,
+--wea => "0",
+--addra => test_fixed_melexis_i2c_mem_addra,
+--dina => (others => '0'),
+--douta => test_fixed_melexis_i2c_mem_douta
+--);
 
 address_generator_clk <= agclk;
 address_generator_reset <= i_reset;
@@ -269,7 +282,8 @@ vga_r <= vga_imagegenerator_RGB_out (7 downto 0);
 vga_g <= vga_imagegenerator_RGB_out (15 downto 8);
 vga_b <= vga_imagegenerator_RGB_out (23 downto 16);
 vga_imagegenerator_active_area1 <= VGA_timing_synch_activeArea1;
-vga_imagegenerator_Data_in1 <= test_fixed_melexis_do (BITS-1 downto 0);
+--vga_imagegenerator_Data_in1 <= test_fixed_melexis_do (BITS-1 downto 0);
+vga_imagegenerator_Data_in1 <= tb_data_calculateTo_douta (BITS-1 downto 0);
 vga_imagegenerator_vgaclk25 <= vgaclk25;
 vga_imagegenerator_reset <= i_reset;
 vig_inst : vga_imagegenerator port map (
@@ -278,6 +292,16 @@ vgaclk25 => vga_imagegenerator_vgaclk25,
 Data_in1 => vga_imagegenerator_Data_in1,
 active_area1 => vga_imagegenerator_active_area1,
 RGB_out => vga_imagegenerator_RGB_out
+);
+
+tb_data_calculateTo_clka <= i_clock;
+tb_data_calculateTo_ena <= '1';
+tb_data_calculateTo_addra <= address_generator_address;
+tb_data_calculateTo_inst : tb_data_calculateTo PORT MAP (
+clka => tb_data_calculateTo_clka,
+ena => tb_data_calculateTo_ena,
+addra => tb_data_calculateTo_addra,
+douta => tb_data_calculateTo_douta
 );
 
 end Behavioral;
