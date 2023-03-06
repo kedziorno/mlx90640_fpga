@@ -149,11 +149,126 @@ signal vga_imagegenerator_RGB_out : STD_LOGIC_VECTOR (BITS-1 downto 0);
 
 signal vgaclk25,agclk : std_logic;
 
+COMPONENT float2fixed
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(63 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal float2fixeda : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal float2fixedond : STD_LOGIC;
+signal float2fixedclk : STD_LOGIC;
+signal float2fixedsclr : STD_LOGIC;
+signal float2fixedce : STD_LOGIC;
+signal float2fixedr : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal float2fixedrdy : STD_LOGIC;
+
+COMPONENT dualmem
+PORT (
+clka : IN STD_LOGIC;
+ena : IN STD_LOGIC;
+wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+addra : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+dina : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+clkb : IN STD_LOGIC;
+enb : IN STD_LOGIC;
+addrb : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+doutb : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+);
+END COMPONENT;
+signal dualmem_clka : STD_LOGIC;
+signal dualmem_ena : STD_LOGIC;
+signal dualmem_wea : STD_LOGIC_VECTOR(0 DOWNTO 0);
+signal dualmem_addra : STD_LOGIC_VECTOR(9 DOWNTO 0);
+signal dualmem_dina : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal dualmem_clkb : STD_LOGIC;
+signal dualmem_enb : STD_LOGIC;
+signal dualmem_addrb : STD_LOGIC_VECTOR(9 DOWNTO 0);
+signal dualmem_doutb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+
 begin
 
 vga_syncn <= '1';
 vga_blankn <= '1';
 vga_psave <= '1';
+
+p0 : process (i_clock) is
+	variable i : integer range 0 to PIXELS-1;
+	variable tout : std_logic_vector (31 downto 0);
+	type states is (idle,
+	s1,s2,s3,s4,s5,s6,s7,s8);
+	variable state : states;
+begin
+	if (rising_edge (i_clock)) then
+		if (i_reset = '1') then
+			state := idle;
+			float2fixedsclr <= '1';
+			i := 0;
+			dualmem_ena <= '0';
+			dualmem_enb <= '0';
+			tout := (others => '0');
+		else
+			case (state) is
+				when idle => state := s1;
+					float2fixedsclr <= '0';
+					i := 0;
+					tout := (others => '0');
+				when s1 => state := s2;
+				when s2 => state := s3;
+					tb_data_calculateTo_addra <= std_logic_vector (to_unsigned (i, 10));
+				when s3 => state := s4;
+				when s4 => state := s5;
+					float2fixedond <= '1';
+					float2fixedce <= '1';
+					float2fixeda <= tb_data_calculateTo_douta;
+				when s5 =>
+					if (float2fixedrdy = '1') then state := s6;
+						tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
+						float2fixedond <= '0';
+						float2fixedce <= '0';
+						float2fixedsclr <= '1';
+					else state := s5; end if;
+				when s6 => state := s7;
+					float2fixedsclr <= '0';
+					dualmem_wea <= "1";
+					dualmem_addra <= std_logic_vector (to_unsigned (i, 10));
+					dualmem_dina <= tout;
+					dualmem_ena <= '1';
+				when s7 =>
+					dualmem_wea <= "0";
+					dualmem_ena <= '0';
+					if (i = PIXELS-1) then
+						i := 0;
+						state := s8;
+					else
+						state := s1;
+						i := i + 1;
+					end if;
+				when s8 =>
+					dualmem_enb <= '1';
+				when others => null;
+--a => float2fixeda,
+--operation_nd => float2fixedond,
+--clk => float2fixedclk,
+--sclr => float2fixedsclr,
+--ce => float2fixedce,
+--result => float2fixedr,
+--rdy => float2fixedrdy
+--dualmem_wea <= '1';
+--ena => dualmem_ena,
+--wea => dualmem_wea,
+--addra => dualmem_addra,
+--dina => dualmem_dina,
+
+			end case;
+		end if;
+	end if;
+end process p0;
 
 pvgaclk : process (i_clock) is
 	constant CMAX : integer := 2; -- 25
@@ -283,7 +398,7 @@ vga_g <= vga_imagegenerator_RGB_out (15 downto 8);
 vga_b <= vga_imagegenerator_RGB_out (23 downto 16);
 vga_imagegenerator_active_area1 <= VGA_timing_synch_activeArea1;
 --vga_imagegenerator_Data_in1 <= test_fixed_melexis_do (BITS-1 downto 0);
-vga_imagegenerator_Data_in1 <= tb_data_calculateTo_douta (BITS-1 downto 0);
+vga_imagegenerator_Data_in1 <= dualmem_doutb (BITS-1 downto 0);
 vga_imagegenerator_vgaclk25 <= vgaclk25;
 vga_imagegenerator_reset <= i_reset;
 vig_inst : vga_imagegenerator port map (
@@ -296,12 +411,38 @@ RGB_out => vga_imagegenerator_RGB_out
 
 tb_data_calculateTo_clka <= i_clock;
 tb_data_calculateTo_ena <= '1';
-tb_data_calculateTo_addra <= address_generator_address;
+--tb_data_calculateTo_addra <= address_generator_address;
 tb_data_calculateTo_inst : tb_data_calculateTo PORT MAP (
 clka => tb_data_calculateTo_clka,
 ena => tb_data_calculateTo_ena,
 addra => tb_data_calculateTo_addra,
 douta => tb_data_calculateTo_douta
+);
+
+float2fixedclk <= i_clock;
+inst_float2fixed : float2fixed PORT MAP (
+a => float2fixeda,
+operation_nd => float2fixedond,
+clk => float2fixedclk,
+sclr => float2fixedsclr,
+ce => float2fixedce,
+result => float2fixedr,
+rdy => float2fixedrdy
+);
+
+dualmem_clka <= i_clock;
+dualmem_clkb <= agclk;
+dualmem_addrb <= address_generator_address;
+dualmem_inst : dualmem PORT MAP (
+clka => dualmem_clka,
+ena => dualmem_ena,
+wea => dualmem_wea,
+addra => dualmem_addra,
+dina => dualmem_dina,
+clkb => dualmem_clkb,
+enb => dualmem_enb,
+addrb => dualmem_addrb,
+doutb => dualmem_doutb
 );
 
 end Behavioral;

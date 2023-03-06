@@ -12,7 +12,7 @@ Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.05 secs
+Total CPU time to Xst completion: 0.06 secs
  
 --> 
 Reading design: test1.prj
@@ -116,13 +116,15 @@ Cores Search Directories           : {"ipcore_dir"  }
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/address_generator.vhd" in Library work.
 Architecture behavioral of Entity address_generator is up to date.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/vga_timing.vhd" in Library work.
-Entity <vga_timing_synch> compiled.
-Entity <vga_timing_synch> (Architecture <behavioral>) compiled.
+Architecture behavioral of Entity vga_timing_synch is up to date.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/vga_imagegenerator.vhd" in Library work.
 Architecture behavioral of Entity vga_imagegenerator is up to date.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/ipcore_dir/tb_data_calculateTo.vhd" in Library work.
-Entity <tb_data_calculateTo> compiled.
-Entity <tb_data_calculateTo> (Architecture <tb_data_calculateTo_a>) compiled.
+Architecture tb_data_calculateto_a of Entity tb_data_calculateto is up to date.
+Compiling vhdl file "/home/user/workspace/melexis_mlx90641/ipcore_dir/float2fixed.vhd" in Library work.
+Architecture float2fixed_a of Entity float2fixed is up to date.
+Compiling vhdl file "/home/user/workspace/melexis_mlx90641/ipcore_dir/dualmem.vhd" in Library work.
+Architecture dualmem_a of Entity dualmem is up to date.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/test1.vhd" in Library work.
 Entity <test1> compiled.
 Entity <test1> (Architecture <behavioral>) compiled.
@@ -146,7 +148,9 @@ Analyzing hierarchy for entity <vga_imagegenerator> in library <work> (architect
 *                            HDL Analysis                               *
 =========================================================================
 Analyzing Entity <test1> in library <work> (Architecture <behavioral>).
-WARNING:Xst:2211 - "/home/user/workspace/melexis_mlx90641/test1.vhd" line 300: Instantiating black box module <tb_data_calculateTo>.
+WARNING:Xst:2211 - "/home/user/workspace/melexis_mlx90641/test1.vhd" line 415: Instantiating black box module <tb_data_calculateTo>.
+WARNING:Xst:2211 - "/home/user/workspace/melexis_mlx90641/test1.vhd" line 423: Instantiating black box module <float2fixed>.
+WARNING:Xst:2211 - "/home/user/workspace/melexis_mlx90641/test1.vhd" line 436: Instantiating black box module <dualmem>.
 Entity <test1> analyzed. Unit <test1> generated.
 
 Analyzing generic Entity <address_generator> in library <work> (Architecture <behavioral>).
@@ -242,15 +246,46 @@ Unit <vga_imagegenerator> synthesized.
 
 Synthesizing Unit <test1>.
     Related source file is "/home/user/workspace/melexis_mlx90641/test1.vhd".
-WARNING:Xst:646 - Signal <tb_data_calculateTo_douta<31:24>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <float2fixedr<63:37>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <float2fixedr<27:0>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <dualmem_doutb<31:24>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <VGA_timing_synch_blank> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+    Register <float2fixedond> equivalent to <float2fixedce> has been removed
+    Found finite state machine <FSM_1> for signal <state>.
+    -----------------------------------------------------------------------
+    | States             | 9                                              |
+    | Transitions        | 11                                             |
+    | Inputs             | 2                                              |
+    | Outputs            | 9                                              |
+    | Clock              | i_clock                   (rising_edge)        |
+    | Reset              | i_reset                   (positive)           |
+    | Reset type         | synchronous                                    |
+    | Reset State        | 0000                                           |
+    | Power Up State     | 0000                                           |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
     Found 1-bit register for signal <agclk>.
+    Found 10-bit register for signal <dualmem_addra>.
+    Found 32-bit register for signal <dualmem_dina>.
+    Found 1-bit register for signal <dualmem_ena>.
+    Found 1-bit register for signal <dualmem_enb>.
+    Found 1-bit register for signal <dualmem_wea<0>>.
+    Found 32-bit register for signal <float2fixeda>.
+    Found 1-bit register for signal <float2fixedce>.
+    Found 1-bit register for signal <float2fixedsclr>.
+    Found 10-bit register for signal <i>.
+    Found 10-bit adder for signal <i$addsub0000> created at line 250.
+    Found 10-bit register for signal <tb_data_calculateTo_addra>.
+    Found 32-bit register for signal <tout>.
     Found 1-bit register for signal <vgaclk25>.
     Found 1-bit register for signal <vmax<0>>.
     Found 6-bit up counter for signal <vmax0>.
     Summary:
+	inferred   1 Finite State Machine(s).
 	inferred   1 Counter(s).
-	inferred   3 D-type flip-flop(s).
+	inferred 134 D-type flip-flop(s).
+	inferred   1 Adder/Subtractor(s).
 Unit <test1> synthesized.
 
 INFO:Xst:1767 - HDL ADVISOR - Resource sharing has identified that some arithmetic operations in this design can share the same physical resources for reduced device utilization. For improved clock frequency you may try to disable resource sharing.
@@ -259,16 +294,17 @@ INFO:Xst:1767 - HDL ADVISOR - Resource sharing has identified that some arithmet
 HDL Synthesis Report
 
 Macro Statistics
-# Adders/Subtractors                                   : 4
- 10-bit adder                                          : 2
+# Adders/Subtractors                                   : 5
+ 10-bit adder                                          : 3
  10-bit subtractor                                     : 1
  5-bit adder                                           : 1
 # Counters                                             : 3
  10-bit up counter                                     : 2
  6-bit up counter                                      : 1
-# Registers                                            : 10
- 1-bit register                                        : 7
- 10-bit register                                       : 2
+# Registers                                            : 21
+ 1-bit register                                        : 12
+ 10-bit register                                       : 5
+ 32-bit register                                       : 3
  5-bit register                                        : 1
 # Comparators                                          : 7
  10-bit comparator greatequal                          : 2
@@ -281,6 +317,21 @@ Macro Statistics
 *                       Advanced HDL Synthesis                          *
 =========================================================================
 
+Analyzing FSM <FSM_1> for best encoding.
+Optimizing FSM <state/FSM> on signal <state[1:9]> with one-hot encoding.
+--------------------
+ State | Encoding
+--------------------
+ 0000  | 000000001
+ 0001  | 000000010
+ 0010  | 000000100
+ 0011  | 000001000
+ 0100  | 000010000
+ 0101  | 000100000
+ 0110  | 001000000
+ 0111  | 010000000
+ 1000  | 100000000
+--------------------
 Analyzing FSM <FSM_0> for best encoding.
 Optimizing FSM <ag_inst/state/FSM> on signal <state[1:49]> with one-hot encoding.
 -------------------------------------------------------------
@@ -337,23 +388,73 @@ Optimizing FSM <ag_inst/state/FSM> on signal <state[1:49]> with one-hot encoding
  110000 | 1000000000000000000000000000000000000000000000000
 -------------------------------------------------------------
 Reading core <ipcore_dir/tb_data_calculateTo.ngc>.
+Reading core <ipcore_dir/float2fixed.ngc>.
+Reading core <ipcore_dir/dualmem.ngc>.
 Loading core <tb_data_calculateTo> for timing and area information for instance <tb_data_calculateTo_inst>.
+Loading core <float2fixed> for timing and area information for instance <inst_float2fixed>.
+Loading core <dualmem> for timing and area information for instance <dualmem_inst>.
 WARNING:Xst:1293 - FF/Latch <count2_0> has a constant value of 0 in block <ag_inst>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_31> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_30> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_29> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_28> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_27> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_26> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_25> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_24> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_23> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_22> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_21> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_9> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_10> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_11> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_12> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_15> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_16> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_17> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_18> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_19> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_20> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_21> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_22> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_23> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_24> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_25> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_26> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_27> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_28> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_29> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_30> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_31> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_20> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_19> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_18> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_17> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_16> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_15> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_12> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_11> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_10> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_9> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 
 =========================================================================
 Advanced HDL Synthesis Report
 
 Macro Statistics
-# FSMs                                                 : 1
-# Adders/Subtractors                                   : 4
- 10-bit adder                                          : 2
+# FSMs                                                 : 2
+# Adders/Subtractors                                   : 5
+ 10-bit adder                                          : 3
  10-bit subtractor                                     : 1
  5-bit adder                                           : 1
 # Counters                                             : 3
  10-bit up counter                                     : 2
  6-bit up counter                                      : 1
-# Registers                                            : 32
- Flip-Flops                                            : 32
+# Registers                                            : 163
+ Flip-Flops                                            : 163
 # Comparators                                          : 7
  10-bit comparator greatequal                          : 2
  10-bit comparator less                                : 1
@@ -365,6 +466,52 @@ Macro Statistics
 *                         Low Level Synthesis                           *
 =========================================================================
 WARNING:Xst:1293 - FF/Latch <count2_0> has a constant value of 0 in block <address_generator>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <tout_31> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_30> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_29> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_28> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_27> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_26> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_25> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_24> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_23> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_22> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_21> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_9> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_10> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_11> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_12> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_15> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_16> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_17> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_18> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_19> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_20> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_21> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_22> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_23> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_24> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_25> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_26> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_27> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_28> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_29> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_30> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_31> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_20> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_19> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_18> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_17> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_16> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_15> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_12> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_11> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_10> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_9> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 
 Optimizing unit <test1> ...
 
@@ -374,8 +521,9 @@ Optimizing unit <VGA_timing_synch> ...
 
 Mapping all equations...
 Building and optimizing final netlist ...
-Found area constraint ratio of 100 (+ 5) on block test1, actual ratio is 0.
-FlipFlop vts_inst/hPos_9 has been replicated 1 time(s)
+Found area constraint ratio of 100 (+ 5) on block test1, actual ratio is 2.
+WARNING:Xst:2677 - Node <float2fixedce_2> of sequential type is unconnected in block <test1>.
+FlipFlop float2fixedce has been replicated 2 time(s)
 
 Final Macro Processing ...
 
@@ -383,8 +531,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 107
- Flip-Flops                                            : 107
+# Registers                                            : 201
+ Flip-Flops                                            : 201
 
 =========================================================================
 
@@ -413,32 +561,39 @@ Design Statistics
 # IOs                              : 32
 
 Cell Usage :
-# BELS                             : 310
-#      GND                         : 2
-#      INV                         : 7
-#      LUT1                        : 18
-#      LUT2                        : 62
-#      LUT3                        : 28
+# BELS                             : 1065
+#      GND                         : 4
+#      INV                         : 10
+#      LUT1                        : 19
+#      LUT2                        : 143
+#      LUT2_D                      : 1
+#      LUT3                        : 332
 #      LUT3_D                      : 2
-#      LUT3_L                      : 2
-#      LUT4                        : 97
-#      LUT4_D                      : 8
-#      LUT4_L                      : 6
+#      LUT3_L                      : 1
+#      LUT4                        : 259
+#      LUT4_D                      : 5
+#      LUT4_L                      : 5
 #      MULT_AND                    : 4
-#      MUXCY                       : 40
-#      MUXF5                       : 3
-#      VCC                         : 1
-#      XORCY                       : 30
-# FlipFlops/Latches                : 107
-#      FD                          : 6
-#      FDC                         : 14
+#      MUXCY                       : 121
+#      MUXF5                       : 58
+#      MUXF6                       : 2
+#      MUXF7                       : 1
+#      VCC                         : 2
+#      XORCY                       : 96
+# FlipFlops/Latches                : 598
+#      FDC                         : 13
 #      FDCE                        : 10
-#      FDR                         : 63
-#      FDRE                        : 12
-#      FDRS                        : 1
-#      FDS                         : 1
-# RAMS                             : 2
-#      RAMB16                      : 2
+#      FDE                         : 453
+#      FDR                         : 92
+#      FDRE                        : 17
+#      FDRS                        : 5
+#      FDRSE                       : 2
+#      FDS                         : 3
+#      FDSE                        : 3
+# RAMS                             : 4
+#      RAMB16                      : 4
+# Shift Registers                  : 7
+#      SRL16E                      : 7
 # Clock Buffers                    : 3
 #      BUFG                        : 2
 #      BUFGP                       : 1
@@ -452,13 +607,15 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                      122  out of  15360     0%  
- Number of Slice Flip Flops:            107  out of  30720     0%  
- Number of 4 input LUTs:                230  out of  30720     0%  
+ Number of Slices:                      458  out of  15360     2%  
+ Number of Slice Flip Flops:            598  out of  30720     1%  
+ Number of 4 input LUTs:                784  out of  30720     2%  
+    Number used as logic:               777
+    Number used as Shift registers:       7
  Number of IOs:                          32
  Number of bonded IOBs:                  32  out of    448     7%  
- Number of FIFO16/RAMB16s:                2  out of    192     1%  
-    Number used as RAMB16s:               2
+ Number of FIFO16/RAMB16s:                4  out of    192     2%  
+    Number used as RAMB16s:               4
  Number of GCLKs:                         3  out of     32     9%  
 
 ---------------------------
@@ -482,10 +639,10 @@ Clock Information:
 -----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)                                                                                                                          | Load  |
 -----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------+-------+
-i_clock                            | BUFGP                                                                                                                                          | 11    |
+i_clock                            | BUFGP                                                                                                                                          | 512   |
 tb_data_calculateTo_inst/N1        | NONE(tb_data_calculateTo_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_init.ram/SP.SINGLE_PRIM.SP)| 2     |
-agclk1                             | BUFG                                                                                                                                           | 74    |
-vgaclk251                          | BUFG                                                                                                                                           | 24    |
+agclk1                             | BUFG                                                                                                                                           | 76    |
+vgaclk251                          | BUFG                                                                                                                                           | 23    |
 -----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------+-------+
 INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
 
@@ -494,7 +651,8 @@ Asynchronous Control Signals Information:
 ---------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------+-------+
 Control Signal                                                 | Buffer(FF name)                                                                                                                                | Load  |
 ---------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------+-------+
-i_reset                                                        | IBUF                                                                                                                                           | 24    |
+i_reset                                                        | IBUF                                                                                                                                           | 23    |
+dualmem_inst/N1(dualmem_inst/XST_GND:G)                        | NONE(dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP)        | 8     |
 tb_data_calculateTo_inst/N1(tb_data_calculateTo_inst/XST_GND:G)| NONE(tb_data_calculateTo_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_init.ram/SP.SINGLE_PRIM.SP)| 8     |
 ---------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------+-------+
 
@@ -502,9 +660,9 @@ Timing Summary:
 ---------------
 Speed Grade: -10
 
-   Minimum period: 3.841ns (Maximum Frequency: 260.332MHz)
-   Minimum input arrival time before clock: 4.031ns
-   Maximum output required time after clock: 8.136ns
+   Minimum period: 5.330ns (Maximum Frequency: 187.608MHz)
+   Minimum input arrival time before clock: 4.156ns
+   Maximum output required time after clock: 8.324ns
    Maximum combinational path delay: No path found
 
 Timing Detail:
@@ -513,106 +671,176 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 2.846ns (frequency: 351.401MHz)
-  Total number of paths / destination ports: 55 / 11
+  Clock period: 5.330ns (frequency: 187.608MHz)
+  Total number of paths / destination ports: 7530 / 1049
 -------------------------------------------------------------------------
-Delay:               2.846ns (Levels of Logic = 3)
-  Source:            vmax0_2 (FF)
-  Destination:       vmax0_3 (FF)
+Delay:               5.330ns (Levels of Logic = 66)
+  Source:            inst_float2fixed/blk00000455 (FF)
+  Destination:       inst_float2fixed/blk000000ac (FF)
   Source Clock:      i_clock rising
   Destination Clock: i_clock rising
 
-  Data Path: vmax0_2 to vmax0_3
+  Data Path: inst_float2fixed/blk00000455 to inst_float2fixed/blk000000ac
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FD:C->Q               3   0.360   0.756  vmax0_2 (vmax0_2)
-     LUT4:I0->O            1   0.195   0.585  vmax0_or00002_SW0 (N46)
-     LUT4_D:I2->O          3   0.195   0.538  vmax0_or00002 (vmax0_or0000)
-     LUT2:I1->O            1   0.195   0.000  vmax0_5_rstpot (vmax0_5_rstpot)
-     FD:D                      0.022          vmax0_5
+     FDE:C->Q             66   0.360   1.224  blk00000455 (sig000003ad)
+     LUT4:I3->O            1   0.195   0.000  blk000003bc (sig00000401)
+     MUXCY:S->O            1   0.366   0.000  blk00000029 (sig00000335)
+     MUXCY:CI->O           1   0.045   0.000  blk0000002b (sig00000340)
+     MUXCY:CI->O           1   0.045   0.000  blk0000002d (sig0000034b)
+     MUXCY:CI->O           1   0.045   0.000  blk0000002f (sig00000356)
+     MUXCY:CI->O           1   0.045   0.000  blk00000031 (sig00000361)
+     MUXCY:CI->O           1   0.045   0.000  blk00000033 (sig00000368)
+     MUXCY:CI->O           1   0.045   0.000  blk00000035 (sig00000369)
+     MUXCY:CI->O           1   0.045   0.000  blk00000037 (sig0000036a)
+     MUXCY:CI->O           1   0.045   0.000  blk00000039 (sig0000036b)
+     MUXCY:CI->O           1   0.045   0.000  blk0000003b (sig0000032b)
+     MUXCY:CI->O           1   0.045   0.000  blk0000003d (sig0000032c)
+     MUXCY:CI->O           1   0.045   0.000  blk0000003f (sig0000032d)
+     MUXCY:CI->O           1   0.045   0.000  blk00000041 (sig0000032e)
+     MUXCY:CI->O           1   0.045   0.000  blk00000043 (sig0000032f)
+     MUXCY:CI->O           1   0.045   0.000  blk00000045 (sig00000330)
+     MUXCY:CI->O           1   0.045   0.000  blk00000047 (sig00000331)
+     MUXCY:CI->O           1   0.045   0.000  blk00000049 (sig00000332)
+     MUXCY:CI->O           1   0.045   0.000  blk0000004b (sig00000333)
+     MUXCY:CI->O           1   0.045   0.000  blk0000004d (sig00000334)
+     MUXCY:CI->O           1   0.045   0.000  blk0000004f (sig00000336)
+     MUXCY:CI->O           1   0.045   0.000  blk00000051 (sig00000337)
+     MUXCY:CI->O           1   0.045   0.000  blk00000053 (sig00000338)
+     MUXCY:CI->O           1   0.045   0.000  blk00000055 (sig00000339)
+     MUXCY:CI->O           1   0.045   0.000  blk00000057 (sig0000033a)
+     MUXCY:CI->O           1   0.045   0.000  blk00000059 (sig0000033b)
+     MUXCY:CI->O           1   0.045   0.000  blk0000005b (sig0000033c)
+     MUXCY:CI->O           1   0.045   0.000  blk0000005d (sig0000033d)
+     MUXCY:CI->O           1   0.044   0.000  blk0000005f (sig0000033e)
+     MUXCY:CI->O           1   0.044   0.000  blk00000061 (sig0000033f)
+     MUXCY:CI->O           1   0.044   0.000  blk00000063 (sig00000341)
+     MUXCY:CI->O           1   0.044   0.000  blk00000065 (sig00000342)
+     MUXCY:CI->O           1   0.044   0.000  blk00000067 (sig00000343)
+     MUXCY:CI->O           1   0.044   0.000  blk00000069 (sig00000344)
+     MUXCY:CI->O           1   0.044   0.000  blk0000006b (sig00000345)
+     MUXCY:CI->O           1   0.044   0.000  blk0000006d (sig00000346)
+     MUXCY:CI->O           1   0.044   0.000  blk0000006f (sig00000347)
+     MUXCY:CI->O           1   0.044   0.000  blk00000071 (sig00000348)
+     MUXCY:CI->O           1   0.044   0.000  blk00000073 (sig00000349)
+     MUXCY:CI->O           1   0.044   0.000  blk00000075 (sig0000034a)
+     MUXCY:CI->O           1   0.044   0.000  blk00000077 (sig0000034c)
+     MUXCY:CI->O           1   0.044   0.000  blk00000079 (sig0000034d)
+     MUXCY:CI->O           1   0.044   0.000  blk0000007b (sig0000034e)
+     MUXCY:CI->O           1   0.044   0.000  blk0000007d (sig0000034f)
+     MUXCY:CI->O           1   0.044   0.000  blk0000007f (sig00000350)
+     MUXCY:CI->O           1   0.044   0.000  blk00000081 (sig00000351)
+     MUXCY:CI->O           1   0.044   0.000  blk00000083 (sig00000352)
+     MUXCY:CI->O           1   0.044   0.000  blk00000085 (sig00000353)
+     MUXCY:CI->O           1   0.044   0.000  blk00000087 (sig00000354)
+     MUXCY:CI->O           1   0.044   0.000  blk00000089 (sig00000355)
+     MUXCY:CI->O           1   0.044   0.000  blk0000008b (sig00000357)
+     MUXCY:CI->O           1   0.045   0.000  blk0000008d (sig00000358)
+     MUXCY:CI->O           1   0.044   0.000  blk0000008f (sig00000359)
+     MUXCY:CI->O           1   0.044   0.000  blk00000091 (sig0000035a)
+     MUXCY:CI->O           1   0.044   0.000  blk00000093 (sig0000035b)
+     MUXCY:CI->O           1   0.044   0.000  blk00000095 (sig0000035c)
+     MUXCY:CI->O           1   0.044   0.000  blk00000097 (sig0000035d)
+     MUXCY:CI->O           1   0.044   0.000  blk00000099 (sig0000035e)
+     MUXCY:CI->O           1   0.044   0.000  blk0000009b (sig0000035f)
+     MUXCY:CI->O           1   0.044   0.000  blk0000009d (sig00000360)
+     MUXCY:CI->O           1   0.044   0.000  blk0000009f (sig00000362)
+     MUXCY:CI->O           1   0.044   0.000  blk000000a1 (sig00000363)
+     MUXCY:CI->O           1   0.044   0.000  blk000000a3 (sig00000364)
+     MUXCY:CI->O           1   0.044   0.000  blk000000a5 (sig00000365)
+     MUXCY:CI->O           1   0.044   0.000  blk000000a7 (sig00000366)
+     XORCY:CI->O           1   0.360   0.000  blk000000aa (sig000003a7)
+     FDE:D                     0.022          blk000000ac
     ----------------------------------------
-    Total                      2.846ns (0.967ns logic, 1.879ns route)
-                                       (34.0% logic, 66.0% route)
+    Total                      5.330ns (4.107ns logic, 1.224ns route)
+                                       (77.0% logic, 23.0% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'agclk1'
-  Clock period: 3.841ns (frequency: 260.332MHz)
-  Total number of paths / destination ports: 1395 / 74
+  Clock period: 4.091ns (frequency: 244.460MHz)
+  Total number of paths / destination ports: 1405 / 94
 -------------------------------------------------------------------------
-Delay:               3.841ns (Levels of Logic = 8)
-  Source:            ag_inst/state_FSM_FFd25 (FF)
-  Destination:       ag_inst/addr_8 (FF)
+Delay:               4.091ns (Levels of Logic = 13)
+  Source:            ag_inst/count1_0 (FF)
+  Destination:       ag_inst/addr_9 (FF)
   Source Clock:      agclk1 rising
   Destination Clock: agclk1 rising
 
-  Data Path: ag_inst/state_FSM_FFd25 to ag_inst/addr_8
+  Data Path: ag_inst/count1_0 to ag_inst/addr_9
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDR:C->Q              3   0.360   0.756  ag_inst/state_FSM_FFd25 (ag_inst/state_FSM_FFd25)
-     LUT4:I0->O            1   0.195   0.000  ag_inst/count1_or0003_wg_lut<1> (ag_inst/count1_or0003_wg_lut<1>)
-     MUXCY:S->O            1   0.366   0.000  ag_inst/count1_or0003_wg_cy<1> (ag_inst/count1_or0003_wg_cy<1>)
-     MUXCY:CI->O           1   0.045   0.000  ag_inst/count1_or0003_wg_cy<2> (ag_inst/count1_or0003_wg_cy<2>)
-     MUXCY:CI->O           1   0.045   0.000  ag_inst/count1_or0003_wg_cy<3> (ag_inst/count1_or0003_wg_cy<3>)
-     MUXCY:CI->O           1   0.045   0.000  ag_inst/count1_or0003_wg_cy<4> (ag_inst/count1_or0003_wg_cy<4>)
-     MUXCY:CI->O           8   0.369   0.670  ag_inst/count1_or0003_wg_cy<5> (ag_inst/count1_or0003)
-     LUT4_D:I2->O          7   0.195   0.579  ag_inst/addr_mux0001<0>145 (ag_inst/N2)
-     LUT4:I3->O            1   0.195   0.000  ag_inst/addr_mux0001<7>1 (ag_inst/addr_mux0001<7>)
-     FDR:D                     0.022          ag_inst/addr_2
+     FDR:C->Q              6   0.360   0.560  ag_inst/count1_0 (ag_inst/count1_0)
+     LUT2:I1->O            1   0.195   0.741  ag_inst/addr_mux0002<4>1 (ag_inst/addr_mux0002<4>)
+     LUT4:I0->O            1   0.195   0.000  ag_inst/Madd_addr_share0000_lut<0> (ag_inst/Madd_addr_share0000_lut<0>)
+     MUXCY:S->O            1   0.366   0.000  ag_inst/Madd_addr_share0000_cy<0> (ag_inst/Madd_addr_share0000_cy<0>)
+     MUXCY:CI->O           1   0.044   0.000  ag_inst/Madd_addr_share0000_cy<1> (ag_inst/Madd_addr_share0000_cy<1>)
+     MUXCY:CI->O           1   0.044   0.000  ag_inst/Madd_addr_share0000_cy<2> (ag_inst/Madd_addr_share0000_cy<2>)
+     MUXCY:CI->O           1   0.044   0.000  ag_inst/Madd_addr_share0000_cy<3> (ag_inst/Madd_addr_share0000_cy<3>)
+     MUXCY:CI->O           1   0.044   0.000  ag_inst/Madd_addr_share0000_cy<4> (ag_inst/Madd_addr_share0000_cy<4>)
+     MUXCY:CI->O           1   0.044   0.000  ag_inst/Madd_addr_share0000_cy<5> (ag_inst/Madd_addr_share0000_cy<5>)
+     MUXCY:CI->O           1   0.044   0.000  ag_inst/Madd_addr_share0000_cy<6> (ag_inst/Madd_addr_share0000_cy<6>)
+     MUXCY:CI->O           1   0.044   0.000  ag_inst/Madd_addr_share0000_cy<7> (ag_inst/Madd_addr_share0000_cy<7>)
+     MUXCY:CI->O           0   0.044   0.000  ag_inst/Madd_addr_share0000_cy<8> (ag_inst/Madd_addr_share0000_cy<8>)
+     XORCY:CI->O           1   0.360   0.741  ag_inst/Madd_addr_share0000_xor<9> (ag_inst/addr_share0000<9>)
+     LUT4:I0->O            1   0.195   0.000  ag_inst/addr_mux0001<0>1 (ag_inst/addr_mux0001<0>)
+     FDR:D                     0.022          ag_inst/addr_9
     ----------------------------------------
-    Total                      3.841ns (1.836ns logic, 2.005ns route)
-                                       (47.8% logic, 52.2% route)
+    Total                      4.091ns (2.049ns logic, 2.042ns route)
+                                       (50.1% logic, 49.9% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'vgaclk251'
-  Clock period: 3.417ns (frequency: 292.676MHz)
-  Total number of paths / destination ports: 480 / 34
+  Clock period: 4.067ns (frequency: 245.875MHz)
+  Total number of paths / destination ports: 477 / 33
 -------------------------------------------------------------------------
-Delay:               3.417ns (Levels of Logic = 3)
-  Source:            vts_inst/hPos_9_1 (FF)
-  Destination:       vts_inst/vPos_9 (FF)
+Delay:               4.067ns (Levels of Logic = 5)
+  Source:            vts_inst/hPos_5 (FF)
+  Destination:       vts_inst/videoOn (FF)
   Source Clock:      vgaclk251 rising
   Destination Clock: vgaclk251 rising
 
-  Data Path: vts_inst/hPos_9_1 to vts_inst/vPos_9
+  Data Path: vts_inst/hPos_5 to vts_inst/videoOn
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDC:C->Q              1   0.360   0.741  vts_inst/hPos_9_1 (vts_inst/hPos_9_1)
-     LUT4_L:I0->LO         1   0.195   0.163  vts_inst/hPos_cmp_eq000012 (vts_inst/hPos_cmp_eq000012)
-     LUT4:I3->O            2   0.195   0.540  vts_inst/hPos_cmp_eq000025_SW0 (N36)
-     LUT4:I3->O           10   0.195   0.488  vts_inst/hPos_cmp_eq000025 (vts_inst/hPos_cmp_eq0000)
-     FDCE:CE                   0.540          vts_inst/vPos_0
+     FDC:C->Q              4   0.360   0.702  vts_inst/hPos_5 (vts_inst/hPos_5)
+     LUT3:I0->O            2   0.195   0.540  vts_inst/h_mux000116 (vts_inst/h_mux000116)
+     LUT4:I3->O            1   0.195   0.523  vts_inst/videoOn_and0000129 (vts_inst/videoOn_and0000129)
+     LUT4:I3->O            2   0.195   0.758  vts_inst/videoOn_and0000173 (vts_inst/videoOn_and0000173)
+     LUT4:I0->O            1   0.195   0.000  vts_inst/videoOn_and0000189_F (N56)
+     MUXF5:I0->O           1   0.382   0.000  vts_inst/videoOn_and0000189 (vts_inst/videoOn_and0000)
+     FDC:D                     0.022          vts_inst/videoOn
     ----------------------------------------
-    Total                      3.417ns (1.485ns logic, 1.932ns route)
-                                       (43.5% logic, 56.5% route)
+    Total                      4.067ns (1.544ns logic, 2.523ns route)
+                                       (38.0% logic, 62.0% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 9 / 9
+  Total number of paths / destination ports: 104 / 104
 -------------------------------------------------------------------------
-Offset:              3.965ns (Levels of Logic = 2)
+Offset:              4.136ns (Levels of Logic = 2)
   Source:            i_reset (PAD)
-  Destination:       vmax_0 (FF)
+  Destination:       float2fixeda_0 (FF)
   Destination Clock: i_clock rising
 
-  Data Path: i_reset to vmax_0
+  Data Path: i_reset to float2fixeda_0
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O            91   0.965   1.384  i_reset_IBUF (i_reset_IBUF)
-     LUT2:I0->O            1   0.195   0.360  vmax_0_or00001 (vmax_0_or0000)
-     FDR:R                     1.062          vmax_0
+     IBUF:I->O           123   0.965   1.509  i_reset_IBUF (i_reset_IBUF)
+     LUT2:I0->O           32   0.195   0.928  float2fixeda_not00011 (float2fixeda_not0001)
+     FDE:CE                    0.540          float2fixeda_0
     ----------------------------------------
-    Total                      3.965ns (2.222ns logic, 1.743ns route)
-                                       (56.0% logic, 44.0% route)
+    Total                      4.136ns (1.700ns logic, 2.436ns route)
+                                       (41.1% logic, 58.9% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'agclk1'
   Total number of paths / destination ports: 74 / 74
 -------------------------------------------------------------------------
-Offset:              4.031ns (Levels of Logic = 2)
+Offset:              4.156ns (Levels of Logic = 2)
   Source:            i_reset (PAD)
   Destination:       ag_inst/addr_9 (FF)
   Destination Clock: agclk1 rising
@@ -621,28 +849,70 @@ Offset:              4.031ns (Levels of Logic = 2)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O            91   0.965   1.322  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O           123   0.965   1.447  i_reset_IBUF (i_reset_IBUF)
      LUT2:I1->O           10   0.195   0.488  ag_inst/addr_or00011 (ag_inst/addr_or0001)
      FDR:R                     1.062          ag_inst/addr_0
     ----------------------------------------
-    Total                      4.031ns (2.222ns logic, 1.809ns route)
-                                       (55.1% logic, 44.9% route)
+    Total                      4.156ns (2.222ns logic, 1.934ns route)
+                                       (53.5% logic, 46.5% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
-  Total number of paths / destination ports: 25 / 25
+  Total number of paths / destination ports: 1 / 1
 -------------------------------------------------------------------------
-Offset:              7.353ns (Levels of Logic = 3)
-  Source:            tb_data_calculateTo_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_init.ram/SP.SINGLE_PRIM.SP (RAM)
-  Destination:       vga_b<7> (PAD)
+Offset:              4.694ns (Levels of Logic = 1)
+  Source:            vgaclk25 (FF)
+  Destination:       vga_clock (PAD)
   Source Clock:      i_clock rising
 
-  Data Path: tb_data_calculateTo_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_init.ram/SP.SINGLE_PRIM.SP to vga_b<7>
+  Data Path: vgaclk25 to vga_clock
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     RAMB16:CLKA->DOA5     1   2.100   0.741  U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_init.ram/SP.SINGLE_PRIM.SP (douta<23>)
-     end scope: 'tb_data_calculateTo_inst'
+     FDRE:C->Q             2   0.360   0.377  vgaclk25 (vgaclk251)
+     OBUF:I->O                 3.957          vga_clock_OBUF (vga_clock)
+    ----------------------------------------
+    Total                      4.694ns (4.317ns logic, 0.377ns route)
+                                       (92.0% logic, 8.0% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'vgaclk251'
+  Total number of paths / destination ports: 482 / 26
+-------------------------------------------------------------------------
+Offset:              8.324ns (Levels of Logic = 5)
+  Source:            vts_inst/vPos_0 (FF)
+  Destination:       vga_b<7> (PAD)
+  Source Clock:      vgaclk251 rising
+
+  Data Path: vts_inst/vPos_0 to vga_b<7>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDCE:C->Q             4   0.360   0.599  vts_inst/vPos_0 (vts_inst/vPos_0)
+     LUT2:I0->O            2   0.195   0.540  vts_inst/v_mux000111 (vts_inst/N9)
+     LUT4:I3->O            1   0.195   0.688  vts_inst/activeArea1_and000067 (vts_inst/activeArea1_and000067)
+     LUT3:I0->O           24   0.195   1.040  vts_inst/activeArea1_and000078 (vts_inst/activeArea1_and000078)
+     LUT4:I2->O            1   0.195   0.360  vig_inst/RGB_out<9>1 (vga_g_1_OBUF)
+     OBUF:I->O                 3.957          vga_g_1_OBUF (vga_g<1>)
+    ----------------------------------------
+    Total                      8.324ns (5.097ns logic, 3.227ns route)
+                                       (61.2% logic, 38.8% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'agclk1'
+  Total number of paths / destination ports: 24 / 24
+-------------------------------------------------------------------------
+Offset:              7.353ns (Levels of Logic = 3)
+  Source:            dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (RAM)
+  Destination:       vga_b<7> (PAD)
+  Source Clock:      agclk1 rising
+
+  Data Path: dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP to vga_b<7>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     RAMB16:CLKB->DOB5     1   2.100   0.741  U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (doutb<23>)
+     end scope: 'dualmem_inst'
      LUT4:I0->O            1   0.195   0.360  vig_inst/RGB_out<23>1 (vga_b_7_OBUF)
      OBUF:I->O                 3.957          vga_b_7_OBUF (vga_b<7>)
     ----------------------------------------
@@ -650,40 +920,17 @@ Offset:              7.353ns (Levels of Logic = 3)
                                        (85.0% logic, 15.0% route)
 
 =========================================================================
-Timing constraint: Default OFFSET OUT AFTER for Clock 'vgaclk251'
-  Total number of paths / destination ports: 482 / 26
--------------------------------------------------------------------------
-Offset:              8.136ns (Levels of Logic = 5)
-  Source:            vts_inst/vPos_2 (FF)
-  Destination:       vga_b<7> (PAD)
-  Source Clock:      vgaclk251 rising
-
-  Data Path: vts_inst/vPos_2 to vga_b<7>
-                                Gate     Net
-    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
-    ----------------------------------------  ------------
-     FDCE:C->Q             5   0.360   0.764  vts_inst/vPos_2 (vts_inst/vPos_2)
-     LUT4:I0->O            1   0.195   0.000  vts_inst/activeArea1_and0000671 (vts_inst/activeArea1_and0000671)
-     MUXF5:I0->O           1   0.382   0.688  vts_inst/activeArea1_and000067_f5 (vts_inst/activeArea1_and000067)
-     LUT3:I0->O           24   0.195   1.040  vts_inst/activeArea1_and000078 (vts_inst/activeArea1_and000078)
-     LUT4:I2->O            1   0.195   0.360  vig_inst/RGB_out<9>1 (vga_g_1_OBUF)
-     OBUF:I->O                 3.957          vga_g_1_OBUF (vga_g<1>)
-    ----------------------------------------
-    Total                      8.136ns (5.284ns logic, 2.852ns route)
-                                       (64.9% logic, 35.1% route)
-
-=========================================================================
 
 
-Total REAL time to Xst completion: 9.00 secs
-Total CPU time to Xst completion: 8.36 secs
+Total REAL time to Xst completion: 14.00 secs
+Total CPU time to Xst completion: 13.86 secs
  
 --> 
 
 
-Total memory usage is 548016 kilobytes
+Total memory usage is 559084 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :   20 (   0 filtered)
+Number of warnings :  117 (   0 filtered)
 Number of infos    :    2 (   0 filtered)
 
