@@ -366,8 +366,8 @@ p4 : process (clkdv_vga,reset,v) is
 --	constant C_FP : integer := 8000+192000+96000;
 --	constant C_FP : integer := 8000+192000;
 	constant C_FP : integer := 8000;
---	constant C_BP : integer := 33*800; -- 29,33
-	constant C_BP : integer := 29*800; -- 29,33
+	constant C_BP : integer := 33*800; -- 29,33
+--	constant C_BP : integer := 29*800; -- 29,33
 --	constant C_DISP : integer := 384000-192000-96000;
 --	constant C_DISP : integer := 384000-192000;
 	constant C_DISP : integer := 384000;
