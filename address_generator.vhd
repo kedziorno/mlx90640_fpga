@@ -22,39 +22,37 @@ end address_generator;
 
 architecture Behavioral of address_generator is
 
-  
+signal addr: STD_LOGIC_VECTOR(address'range) := (others => '0');
+ 
+constant CCOUNT1 : integer := 32;
+signal count1 : integer range 0 to CCOUNT1-1;
+
 begin
 
---  address <= addr; 
+  address <= addr; 
 
 process (clk)
-variable addr: STD_LOGIC_VECTOR(address'range) := (others => '0');
-
 variable va : std_logic_vector(addr'range);
+
 type states is (idle,
 a0,a,a1,b,b1,c,c1,d,d1,e,e1,f,f1,g,g1,h,h1,i,i1,j,j1,k,k1,l,l1,m,m1,n,n1,o,o1,p,p1,r,r1,s,s1,t,t1,u,u1,w,w1,y,y1,z,z1,x,x1
 );
 variable state : states;
-constant CCOUNT1 : integer := 32;
---constant CCOUNT2 : integer := 1;
-variable count1 : integer range 0 to CCOUNT1-1;
---variable count2 : integer range 0 to CCOUNT2-1;
 
 begin
-address <= addr;
 if rising_edge (clk) then
 	if (reset = '1') then
 		va := (others => '0');
 		state := idle;
-		count1 := 0;
-		addr := (others => '0');
+		count1 <= 0;
+		addr <= (others => '0');
 --		count2 := 0;
 	else
 		if (enable='1') then
 			if (addr = PIXELS-1) then
-				addr := (others => '0');
+				addr <= (others => '0');
 			else
-				addr := addr+1;
+				addr <= addr+1;
 			end if;
 --			state := a0;
 			state := a;
@@ -62,7 +60,7 @@ if rising_edge (clk) then
 --			va := std_logic_vector(to_unsigned(to_integer(unsigned(addr))-CCOUNT1+2,addr'left+1));
 			va := std_logic_vector(to_unsigned(to_integer(unsigned(addr))-Ccount1,addr'left+1));
 --			report "aaaaaaaaaaaaa " & integer'image (addr'left); -- 9
-			count1 := 0;
+			count1 <= 0;
 --			count2 := 0;
 		else
 			case (state) is
@@ -75,14 +73,14 @@ if rising_edge (clk) then
 --					end if;
 
 --				when a0 =>
---	--				addr := std_logic_vector(to_unsigned(to_integer(unsigned(va)),addr'left+1));
+--	--				addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va)),addr'left+1));
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := a;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := a0;
 --						count2 := count2 + 1;
@@ -90,25 +88,25 @@ if rising_edge (clk) then
 
 				when a =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := a1;
 						state := b;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := a;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when a1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := b;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := a1;
 --						count2 := count2 + 1;
@@ -116,20 +114,20 @@ if rising_edge (clk) then
 
 				when b =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := b1;
 						state := c;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := b;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when b1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := c;
 --	--					state := idle;
@@ -138,7 +136,7 @@ if rising_edge (clk) then
 --	--					state := a;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := b1;
 --						count2 := count2 + 1;
@@ -146,26 +144,26 @@ if rising_edge (clk) then
 
 				when c =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := c1;
 						state := d;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := c;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when c1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := d;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := c1;
 --						count2 := count2 + 1;
@@ -173,26 +171,26 @@ if rising_edge (clk) then
 
 				when d =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := d1;
 						state := e;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := d;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when d1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := e;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := d1;
 --						count2 := count2 + 1;
@@ -200,26 +198,26 @@ if rising_edge (clk) then
 
 				when e =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := e1;
 						state := f;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := e;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when e1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := f;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := e1;
 --						count2 := count2 + 1;
@@ -227,26 +225,26 @@ if rising_edge (clk) then
 
 				when f =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := f1;
 						state := g;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := f;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when f1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := g;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := f1;
 --						count2 := count2 + 1;
@@ -254,26 +252,26 @@ if rising_edge (clk) then
 
 				when g =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := g1;
 						state := h;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := g;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when g1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := h;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := g1;
 --						count2 := count2 + 1;
@@ -281,26 +279,26 @@ if rising_edge (clk) then
 
 				when h =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := h1;
 						state := i;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := h;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when h1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := i;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := h1;
 --						count2 := count2 + 1;
@@ -308,26 +306,26 @@ if rising_edge (clk) then
 
 				when i =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := i1;
 						state := j;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := i;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when i1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := j;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := i1;
 --						count2 := count2 + 1;
@@ -335,26 +333,26 @@ if rising_edge (clk) then
 
 				when j =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := j1;
 						state := k;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := j;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when j1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := k;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := j1;
 --						count2 := count2 + 1;
@@ -362,26 +360,26 @@ if rising_edge (clk) then
 
 				when k =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := k1;
 						state := l;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := k;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when k1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := l;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := k1;
 --						count2 := count2 + 1;
@@ -389,26 +387,26 @@ if rising_edge (clk) then
 
 				when l =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := l1;
 						state := m;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := l;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when l1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := m;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := l1;
 --						count2 := count2 + 1;
@@ -416,26 +414,26 @@ if rising_edge (clk) then
 
 				when m =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := m1;
 						state := n;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := m;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when m1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := n;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := m1;
 --						count2 := count2 + 1;
@@ -443,26 +441,26 @@ if rising_edge (clk) then
 
 				when n =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := n1;
 						state := o;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := n;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when n1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := o;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := n1;
 --						count2 := count2 + 1;
@@ -470,26 +468,26 @@ if rising_edge (clk) then
 
 				when o =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := o1;
 						state := p;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := o;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when o1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := p;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := o1;
 --						count2 := count2 + 1;
@@ -497,26 +495,26 @@ if rising_edge (clk) then
 
 				when p =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := p1;
 						state := r;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := p;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when p1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := r;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := p1;
 --						count2 := count2 + 1;
@@ -524,26 +522,26 @@ if rising_edge (clk) then
 
 				when r =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := r1;
 						state := s;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := r;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when r1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := s;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := r1;
 --						count2 := count2 + 1;
@@ -551,26 +549,26 @@ if rising_edge (clk) then
 
 				when s =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := s1;
 						state := t;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := s;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when s1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := t;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := s1;
 --						count2 := count2 + 1;
@@ -578,26 +576,26 @@ if rising_edge (clk) then
 
 				when t =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := t1;
 						state := u;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := t;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when t1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := u;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := t1;
 --						count2 := count2 + 1;
@@ -605,26 +603,26 @@ if rising_edge (clk) then
 
 				when u =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := u1;
 						state := w;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := u;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when u1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := w;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := u1;
 --						count2 := count2 + 1;
@@ -632,26 +630,26 @@ if rising_edge (clk) then
 
 				when w =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := w1;
 						state := y;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := w;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when w1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := y;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := w1;
 --						count2 := count2 + 1;
@@ -659,26 +657,26 @@ if rising_edge (clk) then
 
 				when y =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := y1;
 						state := z;
-						count1 := 0;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := y;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when y1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := z;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := y1;
 --						count2 := count2 + 1;
@@ -686,54 +684,55 @@ if rising_edge (clk) then
 
 				when z =>
 					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 --						state := z1;
-						state := x;
-						count1 := 0;
+--						state := x;
+						state := z;
+						count1 <= 0;
 					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 	--					addr <= (others => '0');
 						state := z;
-						count1 := count1 + 1;
+						count1 <= count1 + 1;
 					end if;
 --				when z1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := x;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := z1;
 --						count2 := count2 + 1;
 --					end if;
 
-				when x =>
-					if (count1 = CCOUNT1-1) then
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
-	--					addr <= (others => '0');
+--				when x =>
+--					if (count1 = CCOUNT1-1) then
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
+--	--					addr <= (others => '0');
+----						state := x;
+----						state := idle;
 --						state := x;
---						state := idle;
-						state := x;
-						count1 := 0;
-					else
-						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
-	--					addr <= (others => '0');
-						state := x;
-						count1 := count1 + 1;
-					end if;
+--						count1 <= 0;
+--					else
+--						addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
+--	--					addr <= (others => '0');
+--						state := x;
+--						count1 <= count1 + 1;
+--					end if;
 --				when x1 =>
 --					if (count2 = CCOUNT2-1) then
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --	--					state := idle;
 --						state := x1;
 --						count2 := 0;
 --					else
---	--					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1+1,addr'left+1));
+--	--					addr <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 --	--					addr <= (others => '0');
 --						state := x1;
 --						count2 := count2 + 1;
@@ -741,14 +740,14 @@ if rising_edge (clk) then
 
 --				when others =>
 --					state := idle;
---					count1 := 0;
+--					count1 <= 0;
 ----					count2 := 0;
 --					addr <= (others => '0');
 				when others => null;
 			end case;
 		end if;
 		if vsync = '0' then -- this V depend from VGA
-			addr := (others => '0');
+			addr <= (others => '0');
 		end if;
 	end if;
 end if;
