@@ -526,7 +526,7 @@ begin
 		videoOn <= '0';
 	elsif(rising_edge(vgaclk25))then
 --		if(hPos <= HD and vPos <= VD)then
-		if((hPos >= 0 and hPos < 645) and (
+		if((hPos >= 145 and hPos < 785) and (
 		(vPos = 0) or
 		(vPos = 24) or
 		(vPos = 48) or
