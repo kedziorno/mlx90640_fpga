@@ -1,7 +1,7 @@
 Release 14.7 par P.20131013 (lin64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-work::  Tue Mar 07 18:45:20 2023
+work::  Wed Mar 08 16:42:49 2023
 
 par -w -intstyle ise -pl std -rl std -t 1 test1_map.ncd test1.ncd test1.pcf 
 
@@ -36,8 +36,8 @@ Device Utilization Summary:
       Number of LOCed IOBs                  32 out of 32    100%
 
    Number of RAMB16s                         4 out of 192     2%
-   Number of Slices                        515 out of 15360   3%
-      Number of SLICEMs                      5 out of 7680    1%
+   Number of Slices                        499 out of 15360   3%
+      Number of SLICEMs                      6 out of 7680    1%
 
 
 
@@ -50,13 +50,13 @@ Finished initial Timing Analysis.  REAL time: 7 secs
 Starting Router
 
 
-Phase  1  : 4230 unrouted;      REAL time: 8 secs 
+Phase  1  : 4052 unrouted;      REAL time: 8 secs 
 
-Phase  2  : 3548 unrouted;      REAL time: 8 secs 
+Phase  2  : 3375 unrouted;      REAL time: 8 secs 
 
-Phase  3  : 1194 unrouted;      REAL time: 9 secs 
+Phase  3  : 976 unrouted;      REAL time: 9 secs 
 
-Phase  4  : 1198 unrouted; (Par is working to improve performance)     REAL time: 11 secs 
+Phase  4  : 993 unrouted; (Par is working to improve performance)     REAL time: 10 secs 
 
 Updating file: test1.ncd with current fully routed design.
 
@@ -72,7 +72,7 @@ Phase  9  : 0 unrouted; (Par is working to improve performance)     REAL time: 1
 
 Phase 10  : 0 unrouted; (Par is working to improve performance)     REAL time: 13 secs 
 Total REAL time to Router completion: 13 secs 
-Total CPU time to Router completion: 13 secs 
+Total CPU time to Router completion: 12 secs 
 
 Partition Implementation Status
 -------------------------------
@@ -90,11 +90,11 @@ Generating Clock Report
 +---------------------+--------------+------+------+------------+-------------+
 |        Clock Net    |   Resource   |Locked|Fanout|Net Skew(ns)|Max Delay(ns)|
 +---------------------+--------------+------+------+------------+-------------+
-|       i_clock_BUFGP | BUFGCTRL_X0Y0| No   |  299 |  0.388     |  2.936      |
+|       i_clock_BUFGP | BUFGCTRL_X0Y0| No   |  298 |  0.412     |  2.951      |
 +---------------------+--------------+------+------+------------+-------------+
-|            vgaclk25 |BUFGCTRL_X0Y31| No   |   89 |  0.290     |  2.802      |
+|            vgaclk25 |BUFGCTRL_X0Y31| No   |   81 |  0.265     |  2.887      |
 +---------------------+--------------+------+------+------------+-------------+
-|               agclk | BUFGCTRL_X0Y1| No   |   25 |  0.055     |  2.624      |
+|               agclk | BUFGCTRL_X0Y1| No   |   27 |  0.066     |  2.629      |
 +---------------------+--------------+------+------+------------+-------------+
 
 * Net Skew is the difference between the minimum and maximum routing
@@ -114,14 +114,14 @@ Asterisk (*) preceding a constraint indicates it was not met.
   Constraint                                |    Check    | Worst Case |  Best Case | Timing |   Timing   
                                             |             |    Slack   | Achievable | Errors |    Score   
 ----------------------------------------------------------------------------------------------------------
-  Autotimespec constraint for clock net i_c | SETUP       |         N/A|     5.057ns|     N/A|           0
-  lock_BUFGP                                | HOLD        |     0.305ns|            |       0|           0
+  Autotimespec constraint for clock net i_c | SETUP       |         N/A|     5.034ns|     N/A|           0
+  lock_BUFGP                                | HOLD        |     0.444ns|            |       0|           0
 ----------------------------------------------------------------------------------------------------------
-  Autotimespec constraint for clock net vga | SETUP       |         N/A|     4.316ns|     N/A|           0
-  clk25                                     | HOLD        |     0.517ns|            |       0|           0
+  Autotimespec constraint for clock net vga | SETUP       |         N/A|     3.816ns|     N/A|           0
+  clk25                                     | HOLD        |     0.518ns|            |       0|           0
 ----------------------------------------------------------------------------------------------------------
-  Autotimespec constraint for clock net agc | SETUP       |         N/A|     3.743ns|     N/A|           0
-  lk                                        | HOLD        |     0.575ns|            |       0|           0
+  Autotimespec constraint for clock net agc | SETUP       |         N/A|     4.233ns|     N/A|           0
+  lk                                        | HOLD        |     0.408ns|            |       0|           0
 ----------------------------------------------------------------------------------------------------------
 
 
@@ -140,7 +140,7 @@ All signals are completely routed.
 Total REAL time to PAR completion: 15 secs 
 Total CPU time to PAR completion: 15 secs 
 
-Peak Memory Usage:  664 MB
+Peak Memory Usage:  666 MB
 
 Placer: Placement generated during map.
 Routing: Completed - No errors found.

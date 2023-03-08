@@ -290,9 +290,9 @@ begin
 		stateh := idleh;
 		display_flag <= '0';
 		hPos <= 0;
---		vPos <= 0;
+		vPos <= 0;
 		thPos <= (others => '0');
---		tvPos <= (others => '0');
+		tvPos <= (others => '0');
 	elsif (rising_edge(vgaclk25)) then
 		case (stateh) is
 			when idleh =>
@@ -300,7 +300,7 @@ begin
 				display_flag <= '0';
 				h <= '0';
 				if (activeh = '1') then
---					vPos <= vPos + 1;
+					vPos <= vPos + 1;
 					stateh := state_pwh;
 				else
 					stateh := idleh;
@@ -351,7 +351,7 @@ begin
 				end if;
 		end case;
 		thPos <= std_logic_vector(to_unsigned(hPos,10));
---		tvPos <= std_logic_vector(to_unsigned(vPos,10));
+		tvPos <= std_logic_vector(to_unsigned(vPos,10));
 	end if;
 end process p3;
 
@@ -378,16 +378,17 @@ begin
 		fpv := 0;
 		bpv := 0;
 		dispv := 0;
-		statev := idle;
+--		statev := idle;
+		statev := state_pwv;
 		activeh <= '0';
-		vPos <= 0;
-		tvPos <= (others => '0');
+--		vPos <= 0;
+--		tvPos <= (others => '0');
 	elsif (rising_edge(vgaclk25)) then
 		case (statev) is
-			when idle => statev := state_pwv;
-				vPos <= 0;
+--			when idle => statev := state_pwv;
+--				vPos <= 0;
 			when state_pwv =>
-				vPos <= vPos + 1;
+--				vPos <= vPos + 1;
 				activeh <= '0';
 				v <= '0';
 				if (pwv = C_PW - 1) then
@@ -398,7 +399,7 @@ begin
 					pwv := pwv + 1;
 				end if;
 			when state_bpv =>
-				vPos <= vPos + 1;
+--				vPos <= vPos + 1;
 				activeh <= '0';
 				v <= '1';
 				if (bpv = C_BP - 1) then
@@ -409,7 +410,7 @@ begin
 					bpv := bpv + 1;
 				end if;
 			when state_dispv =>
-				vPos <= vPos + 1;
+--				vPos <= vPos + 1;
 				activeh <= '1';
 				v <= '1';
 				if (dispv = C_DISP - 1) then
@@ -420,16 +421,18 @@ begin
 					dispv := dispv + 1;
 				end if;
 			when state_fpv =>
-				vPos <= vPos + 1;
+--				vPos <= vPos + 1;
 				activeh <= '0';
 				v <= '1';
 				if (fpv = C_FP - 1) then
-					statev := idle;
+--					statev := idle;
+					statev := state_pwv;
 					fpv := 0;
 				else
 					statev := state_fpv;
 					fpv := fpv + 1;
 				end if;
+			when others => null;
 		end case;
 --		tvPos <= std_logic_vector(to_unsigned(vPos,10));
 	end if;
@@ -532,26 +535,26 @@ begin
 	elsif(rising_edge(vgaclk25))then
 --		if(hPos <= HD and vPos <= VD)then
 		if((hPos >= 145 and hPos < 785) and (
-		(vPos = 1*800) or
-		(vPos = 24*800) or
-		(vPos = 48*800) or
-		(vPos = 72*800) or
-		(vPos = 96*800) or
-		(vPos = 120*800) or
-		(vPos = 144*800) or
-		(vPos = 168*800) or
-		(vPos = 192*800) or
-		(vPos = 216*800) or
-		(vPos = 240*800) or
-		(vPos = 264*800) or
-		(vPos = 288*800) or
-		(vPos = 312*800) or
-		(vPos = 336*800) or
-		(vPos = 360*800) or
-		(vPos = 384*800) or
-		(vPos = 408*800) or
-		(vPos = 432*800) or
-		(vPos = 456*800)
+		(vPos = 0) or
+		(vPos = 24) or
+		(vPos = 48) or
+		(vPos = 72) or
+		(vPos = 96) or
+		(vPos = 120) or
+		(vPos = 144) or
+		(vPos = 168) or
+		(vPos = 192) or
+		(vPos = 216) or
+		(vPos = 240) or
+		(vPos = 264) or
+		(vPos = 288) or
+		(vPos = 312) or
+		(vPos = 336) or
+		(vPos = 360) or
+		(vPos = 384) or
+		(vPos = 408) or
+		(vPos = 432) or
+		(vPos = 456)
 		)) then
 --		if(hPos < HD and vPos < VD and vPos mod 24 = 0)then
 			videoOn <= '1';
@@ -561,7 +564,11 @@ begin
 	end if;
 end process;
 activeRender1 <= videoOn;
-blank <= '1' when hPos >= HD or vPos >= VD else '0';
+--blank <= '1' when hPos >= HD or vPos >= VD else '0';
+blank <=
+--display_flag when activeh = '1' else
+h when activeh = '1' else
+'1' when v = '1';
 --blank <= '1';
 
 end Behavioral;

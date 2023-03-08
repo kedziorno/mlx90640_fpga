@@ -196,7 +196,8 @@ signal dualmem_doutb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 begin
 
 vga_syncn <= '1';
-vga_blankn <= not VGA_timing_synch_blank;
+--vga_blankn <= VGA_timing_synch_blank;
+vga_blankn <= '1';
 vga_psave <= '1';
 
 p0 : process (i_clock) is
@@ -373,8 +374,8 @@ address_generator_clk <= agclk;
 address_generator_reset <= i_reset;
 address_generator_vsync <= VGA_timing_synch_Vsync;
 address_generator_activeh <= VGA_timing_synch_activehaaddrgen;
---address_generator_enable <= VGA_timing_synch_activeRender1;
-address_generator_enable <= VGA_timing_synch_Hsync;
+address_generator_enable <= VGA_timing_synch_activeRender1;
+--address_generator_enable <= VGA_timing_synch_Hsync;
 ag_inst : address_generator port map (
 reset => address_generator_reset,
 clk => address_generator_clk,
