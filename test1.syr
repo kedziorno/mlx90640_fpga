@@ -5,14 +5,14 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.04 secs
+Total CPU time to Xst completion: 0.08 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.04 secs
+Total CPU time to Xst completion: 0.08 secs
  
 --> 
 Reading design: test1.prj
@@ -77,9 +77,9 @@ Number of Regional Clock Buffers   : 24
 Register Duplication               : YES
 Slice Packing                      : YES
 Optimize Instantiated Primitives   : NO
-Use Clock Enable                   : Auto
-Use Synchronous Set                : Auto
-Use Synchronous Reset              : Auto
+Use Clock Enable                   : Yes
+Use Synchronous Set                : Yes
+Use Synchronous Reset              : Yes
 Pack IO Registers into IOBs        : Auto
 Equivalent register Removal        : YES
 
@@ -117,8 +117,7 @@ Compiling vhdl file "/home/user/workspace/melexis_mlx90641/address_generator.vhd
 Entity <address_generator> compiled.
 Entity <address_generator> (Architecture <behavioral>) compiled.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/vga_timing.vhd" in Library work.
-Entity <vga_timing_synch> compiled.
-Entity <vga_timing_synch> (Architecture <behavioral>) compiled.
+Architecture behavioral of Entity vga_timing_synch is up to date.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/vga_imagegenerator.vhd" in Library work.
 Architecture behavioral of Entity vga_imagegenerator is up to date.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/ipcore_dir/tb_data_calculateTo.vhd" in Library work.
@@ -538,18 +537,20 @@ Design Statistics
 # IOs                              : 32
 
 Cell Usage :
-# BELS                             : 1317
+# BELS                             : 1329
 #      GND                         : 4
 #      INV                         : 18
 #      LUT1                        : 73
-#      LUT2                        : 192
-#      LUT3                        : 343
-#      LUT3_D                      : 6
-#      LUT4                        : 265
+#      LUT2                        : 193
+#      LUT2_L                      : 1
+#      LUT3                        : 345
+#      LUT3_D                      : 7
+#      LUT3_L                      : 1
+#      LUT4                        : 270
 #      LUT4_D                      : 8
 #      LUT4_L                      : 7
 #      MUXCY                       : 167
-#      MUXF5                       : 75
+#      MUXF5                       : 76
 #      MUXF6                       : 2
 #      MUXF7                       : 1
 #      VCC                         : 2
@@ -582,10 +583,10 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                      528  out of  15360     3%  
+ Number of Slices:                      532  out of  15360     3%  
  Number of Slice Flip Flops:            676  out of  30720     2%  
- Number of 4 input LUTs:                919  out of  30720     2%  
-    Number used as logic:               912
+ Number of 4 input LUTs:                930  out of  30720     3%  
+    Number used as logic:               923
     Number used as Shift registers:       7
  Number of IOs:                          32
  Number of bonded IOBs:                  32  out of    448     7%  
@@ -750,7 +751,7 @@ Delay:               3.924ns (Levels of Logic = 5)
      LUT3_D:I0->O          2   0.195   0.540  ag_inst/addr_mux0000<4>11 (ag_inst/N10)
      LUT4_D:I3->O          5   0.195   0.608  ag_inst/addr_mux0000<6>11 (ag_inst/N3)
      LUT4_D:I2->O          3   0.195   0.538  ag_inst/addr_mux0000<8>11 (ag_inst/N13)
-     LUT4:I3->O            1   0.195   0.000  ag_inst/address_mux0000<9>45_G (N88)
+     LUT4:I3->O            1   0.195   0.000  ag_inst/address_mux0000<9>45_G (N84)
      MUXF5:I1->O           1   0.374   0.000  ag_inst/address_mux0000<9>45 (ag_inst/address_mux0000<9>)
      FDE:D                     0.022          ag_inst/address_9
     ----------------------------------------
@@ -759,30 +760,30 @@ Delay:               3.924ns (Levels of Logic = 5)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'vgaclk251'
-  Clock period: 4.391ns (frequency: 227.746MHz)
-  Total number of paths / destination ports: 2143 / 212
+  Clock period: 4.470ns (frequency: 223.711MHz)
+  Total number of paths / destination ports: 2163 / 212
 -------------------------------------------------------------------------
-Delay:               4.391ns (Levels of Logic = 6)
-  Source:            vts_inst/hPos_5 (FF)
+Delay:               4.470ns (Levels of Logic = 6)
+  Source:            vts_inst/hPos_3 (FF)
   Destination:       vts_inst/videoOn (FF)
   Source Clock:      vgaclk251 rising
   Destination Clock: vgaclk251 rising
 
-  Data Path: vts_inst/hPos_5 to vts_inst/videoOn
+  Data Path: vts_inst/hPos_3 to vts_inst/videoOn
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDC:C->Q              4   0.360   0.599  vts_inst/hPos_5 (vts_inst/hPos_5)
-     LUT2:I0->O            1   0.195   0.585  vts_inst/videoOn_and0000107 (vts_inst/videoOn_and0000107)
-     LUT4:I2->O            1   0.195   0.523  vts_inst/videoOn_and0000125 (vts_inst/videoOn_and0000125)
-     LUT3:I2->O            1   0.195   0.000  vts_inst/videoOn_and0000232_F (N93)
-     MUXF5:I0->O           2   0.382   0.758  vts_inst/videoOn_and0000232 (vts_inst/videoOn_and0000232)
-     LUT4:I0->O            1   0.195   0.000  vts_inst/videoOn_and0000243_F (N99)
-     MUXF5:I0->O           1   0.382   0.000  vts_inst/videoOn_and0000243 (vts_inst/videoOn_and0000)
+     FDC:C->Q              5   0.360   0.764  vts_inst/hPos_3 (vts_inst/hPos_3)
+     LUT4_L:I0->LO         1   0.195   0.163  vts_inst/videoOn_and0000352 (vts_inst/videoOn_and0000352)
+     LUT4:I3->O            1   0.195   0.523  vts_inst/videoOn_and0000385_SW0 (N43)
+     LUT4:I3->O            1   0.195   0.523  vts_inst/videoOn_and0000385 (vts_inst/videoOn_and0000385)
+     LUT4:I3->O            2   0.195   0.758  vts_inst/videoOn_and0000421 (vts_inst/videoOn_and0000421)
+     LUT4:I0->O            1   0.195   0.000  vts_inst/videoOn_and0000432_F (N93)
+     MUXF5:I0->O           1   0.382   0.000  vts_inst/videoOn_and0000432 (vts_inst/videoOn_and0000)
      FDC:D                     0.022          vts_inst/videoOn
     ----------------------------------------
-    Total                      4.391ns (1.926ns logic, 2.465ns route)
-                                       (43.9% logic, 56.1% route)
+    Total                      4.470ns (1.739ns logic, 2.731ns route)
+                                       (38.9% logic, 61.1% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
@@ -907,13 +908,13 @@ Offset:              7.135ns (Levels of Logic = 3)
 =========================================================================
 
 
-Total REAL time to Xst completion: 15.00 secs
-Total CPU time to Xst completion: 15.05 secs
+Total REAL time to Xst completion: 17.00 secs
+Total CPU time to Xst completion: 16.01 secs
  
 --> 
 
 
-Total memory usage is 560380 kilobytes
+Total memory usage is 559168 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :   64 (   0 filtered)
