@@ -557,7 +557,7 @@ begin
 --(vPos = 432) or
 --(vPos = 456)
 
-(vPos = 1) or
+(vPos = 0) or
 (vPos = 20) or
 (vPos = 40) or
 (vPos = 60) or

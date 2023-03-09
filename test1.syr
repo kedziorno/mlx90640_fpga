@@ -12,7 +12,7 @@ Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.07 secs
+Total CPU time to Xst completion: 0.08 secs
  
 --> 
 Reading design: test1.prj
@@ -180,7 +180,7 @@ WARNING:Xst:646 - Signal <tstate> is assigned but never used. This unconnected s
     | States             | 4                                              |
     | Transitions        | 10                                             |
     | Inputs             | 6                                              |
-    | Outputs            | 5                                              |
+    | Outputs            | 4                                              |
     | Clock              | clk                       (rising_edge)        |
     | Reset              | state$and0000             (negative)           |
     | Reset type         | synchronous                                    |
@@ -191,7 +191,8 @@ WARNING:Xst:646 - Signal <tstate> is assigned but never used. This unconnected s
     -----------------------------------------------------------------------
     Found 10-bit register for signal <address>.
     Found 10-bit up counter for signal <addr>.
-    Found 10-bit adder for signal <address$addsub0000> created at line 114.
+    Found 10-bit register for signal <addr1>.
+    Found 10-bit adder for signal <addr1$addsub0000> created at line 114.
     Found 5-bit register for signal <count1>.
     Found 5-bit adder for signal <count1$addsub0000> created at line 120.
     Found 1-bit register for signal <penable>.
@@ -203,7 +204,7 @@ WARNING:Xst:646 - Signal <tstate> is assigned but never used. This unconnected s
     Summary:
 	inferred   1 Finite State Machine(s).
 	inferred   1 Counter(s).
-	inferred  34 D-type flip-flop(s).
+	inferred  44 D-type flip-flop(s).
 	inferred   4 Adder/Subtractor(s).
 Unit <address_generator> synthesized.
 
@@ -303,9 +304,9 @@ Macro Statistics
 # Counters                                             : 4
  10-bit up counter                                     : 3
  6-bit up counter                                      : 1
-# Registers                                            : 23
+# Registers                                            : 24
  1-bit register                                        : 12
- 10-bit register                                       : 5
+ 10-bit register                                       : 6
  3-bit register                                        : 1
  32-bit register                                       : 3
  5-bit register                                        : 2
@@ -383,8 +384,8 @@ Macro Statistics
 # Counters                                             : 4
  10-bit up counter                                     : 3
  6-bit up counter                                      : 1
-# Registers                                            : 171
- Flip-Flops                                            : 171
+# Registers                                            : 181
+ Flip-Flops                                            : 181
 # Comparators                                          : 6
  10-bit comparator greatequal                          : 2
  10-bit comparator lessequal                           : 4
@@ -423,7 +424,7 @@ Optimizing unit <VGA_timing_synch> ...
 
 Mapping all equations...
 Building and optimizing final netlist ...
-Found area constraint ratio of 100 (+ 5) on block test1, actual ratio is 2.
+Found area constraint ratio of 100 (+ 5) on block test1, actual ratio is 3.
 WARNING:Xst:2677 - Node <float2fixedce_2> of sequential type is unconnected in block <test1>.
 FlipFlop float2fixedce has been replicated 2 time(s)
 
@@ -433,8 +434,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 199
- Flip-Flops                                            : 199
+# Registers                                            : 209
+ Flip-Flops                                            : 209
 
 =========================================================================
 
@@ -463,31 +464,32 @@ Design Statistics
 # IOs                              : 32
 
 Cell Usage :
-# BELS                             : 1083
+# BELS                             : 1082
 #      GND                         : 4
-#      INV                         : 8
+#      INV                         : 9
 #      LUT1                        : 32
-#      LUT2                        : 111
+#      LUT2                        : 113
+#      LUT2_D                      : 1
 #      LUT2_L                      : 2
-#      LUT3                        : 370
+#      LUT3                        : 366
 #      LUT3_D                      : 1
 #      LUT3_L                      : 2
-#      LUT4                        : 236
+#      LUT4                        : 238
 #      LUT4_D                      : 1
-#      LUT4_L                      : 9
+#      LUT4_L                      : 8
 #      MUXCY                       : 117
-#      MUXF5                       : 79
+#      MUXF5                       : 77
 #      MUXF6                       : 2
 #      MUXF7                       : 1
 #      VCC                         : 2
 #      XORCY                       : 106
-# FlipFlops/Latches                : 596
+# FlipFlops/Latches                : 606
 #      FDC                         : 13
 #      FDCE                        : 10
 #      FDE                         : 467
-#      FDR                         : 66
-#      FDRE                        : 27
-#      FDRS                        : 6
+#      FDR                         : 65
+#      FDRE                        : 37
+#      FDRS                        : 7
 #      FDRSE                       : 2
 #      FDS                         : 2
 #      FDSE                        : 3
@@ -508,10 +510,10 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                      451  out of  15360     2%  
- Number of Slice Flip Flops:            596  out of  30720     1%  
- Number of 4 input LUTs:                779  out of  30720     2%  
-    Number used as logic:               772
+ Number of Slices:                      457  out of  15360     2%  
+ Number of Slice Flip Flops:            606  out of  30720     1%  
+ Number of 4 input LUTs:                780  out of  30720     2%  
+    Number used as logic:               773
     Number used as Shift registers:       7
  Number of IOs:                          32
  Number of bonded IOBs:                  32  out of    448     7%  
@@ -542,7 +544,7 @@ Clock Signal                       | Clock buffer(FF name)                      
 -----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------+-------+
 i_clock                            | BUFGP                                                                                                                                          | 538   |
 tb_data_calculateTo_inst/N1        | NONE(tb_data_calculateTo_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_init.ram/SP.SINGLE_PRIM.SP)| 2     |
-agclk1                             | BUFG                                                                                                                                           | 48    |
+agclk1                             | BUFG                                                                                                                                           | 58    |
 vgaclk251                          | BUFG                                                                                                                                           | 23    |
 -----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------+-------+
 INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
@@ -660,7 +662,7 @@ Delay:               5.330ns (Levels of Logic = 66)
 =========================================================================
 Timing constraint: Default period analysis for Clock 'agclk1'
   Clock period: 4.295ns (frequency: 232.815MHz)
-  Total number of paths / destination ports: 541 / 87
+  Total number of paths / destination ports: 718 / 98
 -------------------------------------------------------------------------
 Delay:               4.295ns (Levels of Logic = 3)
   Source:            ag_inst/addr_7 (FF)
@@ -674,7 +676,7 @@ Delay:               4.295ns (Levels of Logic = 3)
     ----------------------------------------  ------------
      FDRE:C->Q             4   0.360   0.755  ag_inst/addr_7 (ag_inst/addr_7)
      LUT4:I0->O            1   0.195   0.523  ag_inst/addr_or000018 (ag_inst/addr_or000018)
-     LUT4:I3->O            1   0.195   0.523  ag_inst/addr_or000039_SW0 (N120)
+     LUT4:I3->O            1   0.195   0.523  ag_inst/addr_or000039_SW0 (N117)
      LUT4:I3->O           10   0.195   0.488  ag_inst/addr_or000039 (ag_inst/addr_or0000)
      FDRE:R                    1.062          ag_inst/addr_0
     ----------------------------------------
@@ -698,10 +700,10 @@ Delay:               5.017ns (Levels of Logic = 6)
     ----------------------------------------  ------------
      FDC:C->Q              4   0.360   0.755  vts_inst/hPos_1 (vts_inst/hPos_1)
      LUT4:I0->O            1   0.195   0.523  vts_inst/activeArea1_cmp_le0000212 (vts_inst/activeArea1_cmp_le0000212)
-     LUT4:I3->O            1   0.195   0.000  vts_inst/activeArea1_cmp_le0000263_G (N125)
+     LUT4:I3->O            1   0.195   0.000  vts_inst/activeArea1_cmp_le0000263_G (N122)
      MUXF5:I1->O          25   0.374   1.063  vts_inst/activeArea1_cmp_le0000263 (vts_inst/activeArea1_cmp_le0000)
-     LUT3:I2->O            2   0.195   0.758  vts_inst/videoOn_and0000440 (vts_inst/videoOn_and0000440)
-     LUT4:I0->O            1   0.195   0.000  vts_inst/videoOn_and0000442_F (N142)
+     LUT3:I2->O            2   0.195   0.758  vts_inst/videoOn_and0000438 (vts_inst/videoOn_and0000438)
+     LUT4:I0->O            1   0.195   0.000  vts_inst/videoOn_and0000442_F (N135)
      MUXF5:I0->O           1   0.382   0.000  vts_inst/videoOn_and0000442 (vts_inst/videoOn_and0000)
      FDC:D                     0.022          vts_inst/videoOn
     ----------------------------------------
@@ -730,7 +732,7 @@ Offset:              4.086ns (Levels of Logic = 2)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'agclk1'
-  Total number of paths / destination ports: 46 / 46
+  Total number of paths / destination ports: 56 / 56
 -------------------------------------------------------------------------
 Offset:              4.323ns (Levels of Logic = 2)
   Source:            i_reset (PAD)
@@ -782,7 +784,7 @@ Offset:              8.142ns (Levels of Logic = 5)
     ----------------------------------------  ------------
      FDC:C->Q              4   0.360   0.755  vts_inst/hPos_1 (vts_inst/hPos_1)
      LUT4:I0->O            1   0.195   0.523  vts_inst/activeArea1_cmp_le0000212 (vts_inst/activeArea1_cmp_le0000212)
-     LUT4:I3->O            1   0.195   0.000  vts_inst/activeArea1_cmp_le0000263_G (N125)
+     LUT4:I3->O            1   0.195   0.000  vts_inst/activeArea1_cmp_le0000263_G (N122)
      MUXF5:I1->O          25   0.374   1.228  vts_inst/activeArea1_cmp_le0000263 (vts_inst/activeArea1_cmp_le0000)
      LUT3:I0->O            1   0.195   0.360  vig_inst/RGB_out<9>1 (vga_g_1_OBUF)
      OBUF:I->O                 3.957          vga_g_1_OBUF (vga_g<1>)
@@ -814,13 +816,13 @@ Offset:              7.135ns (Levels of Logic = 3)
 =========================================================================
 
 
-Total REAL time to Xst completion: 16.00 secs
-Total CPU time to Xst completion: 15.19 secs
+Total REAL time to Xst completion: 15.00 secs
+Total CPU time to Xst completion: 14.22 secs
  
 --> 
 
 
-Total memory usage is 555492 kilobytes
+Total memory usage is 555520 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :   63 (   0 filtered)

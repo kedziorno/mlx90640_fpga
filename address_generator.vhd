@@ -60,13 +60,14 @@ end process p0;
 process (clk)
 
 variable va : std_logic_vector(address'range);
+variable addr1 : std_logic_vector(address'range);
 constant CCOUNT1 : integer := 32;
 variable count1 : integer range 0 to CCOUNT1-1;
 
 variable state : states;
 constant C_ROWS : integer := 19;
 variable rows : integer range 0 to C_ROWS-1;
-constant CW8 : integer := 7;
+constant CW8 : integer := 7; -- must wait on HFP/HBP
 variable w8 : integer range 0 to CW8-1;
 begin
 if rising_edge (clk) then
@@ -82,22 +83,21 @@ if rising_edge (clk) then
 --  address <= addr;
 tstate <= state;
 penable <= enable;
-
 			case (state) is
 				when idle =>
 					if (penable = '0' and enable = '1' and activeh = '1') then
 --					if (enable = '0' and activeh = '1') then
 --						state := d;
 						state := a;
-						va := std_logic_vector(to_unsigned(to_integer(unsigned(addr)),addr'left+1));
-						address <= addr;
+--						address <= addr;
 						count1 := 0;
 						rows := 0;
 						w8 := 0;
 					else
 						state := idle;
 					end if;
-					address <= addr;
+					addr1 := addr;
+					va := std_logic_vector(to_unsigned(to_integer(unsigned(addr1)),addr'left+1));
 --				when d =>
 --					if (w8 = CW8-1) then
 --						state := a;
@@ -111,7 +111,7 @@ penable <= enable;
 --						state := d;
 --					end if;
 				when a =>
-					address <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
+					addr1 := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 					if (count1 = CCOUNT1-1) then
 						state := b;
 						count1 := 0;
@@ -137,10 +137,15 @@ penable <= enable;
 					end if;
 				when others => null;
 			end case;
+address <= addr1;
+
 		end if;
+
 		if vsync = '0' then -- this V depend from VGA
 			state := idle;
+			addr1 := (others => '0');
 		end if;
+
 end if;
 
 end process;    
