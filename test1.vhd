@@ -237,6 +237,7 @@ begin
 --						tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
 --						report_error ("float2fixedr", float2fixedr, 0.0);
 						tout := "0000000000"&float2fixedr (34 downto 13); -- 35 29
+--						tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
 						float2fixedond <= '0';
 						float2fixedce <= '0';
 						float2fixedsclr <= '1';
