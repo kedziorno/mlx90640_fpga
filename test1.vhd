@@ -405,9 +405,22 @@ activeRender1 => VGA_timing_synch_activeRender1,
 blank => VGA_timing_synch_blank
 );
 
-vga_r <= vga_imagegenerator_RGB_out (7 downto 0);
-vga_g <= vga_imagegenerator_RGB_out (15 downto 8);
-vga_b <= vga_imagegenerator_RGB_out (23 downto 16);
+--vga_r <= vga_imagegenerator_RGB_out (7 downto 0);
+--vga_g <= vga_imagegenerator_RGB_out (15 downto 8);
+--vga_b <= vga_imagegenerator_RGB_out (23 downto 16);
+
+--vga_r <= vga_imagegenerator_RGB_out (23 downto 16);
+--vga_g <= vga_imagegenerator_RGB_out (23 downto 16);
+--vga_b <= vga_imagegenerator_RGB_out (23 downto 16);
+
+--vga_r <= vga_imagegenerator_RGB_out (23 downto 21) & vga_imagegenerator_RGB_out (15 downto 13) & vga_imagegenerator_RGB_out (7 downto 6);
+--vga_g <= vga_imagegenerator_RGB_out (23 downto 21) & vga_imagegenerator_RGB_out (15 downto 13) & vga_imagegenerator_RGB_out (7 downto 6);
+--vga_b <= vga_imagegenerator_RGB_out (23 downto 21) & vga_imagegenerator_RGB_out (15 downto 13) & vga_imagegenerator_RGB_out (7 downto 6);
+
+vga_r <= vga_imagegenerator_RGB_out (18 downto 16) & vga_imagegenerator_RGB_out (10 downto 8) & vga_imagegenerator_RGB_out (1 downto 0);
+vga_g <= vga_imagegenerator_RGB_out (18 downto 16) & vga_imagegenerator_RGB_out (10 downto 8) & vga_imagegenerator_RGB_out (1 downto 0);
+vga_b <= vga_imagegenerator_RGB_out (18 downto 16) & vga_imagegenerator_RGB_out (10 downto 8) & vga_imagegenerator_RGB_out (1 downto 0);
+
 vga_imagegenerator_active_area1 <= VGA_timing_synch_activeArea1;
 --vga_imagegenerator_Data_in1 <= test_fixed_melexis_do (BITS-1 downto 0);
 vga_imagegenerator_Data_in1 <= dualmem_doutb (BITS-1 downto 0);

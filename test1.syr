@@ -114,8 +114,7 @@ Cores Search Directories           : {"ipcore_dir"  }
 *                          HDL Compilation                              *
 =========================================================================
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/address_generator.vhd" in Library work.
-Entity <address_generator> compiled.
-Entity <address_generator> (Architecture <behavioral>) compiled.
+Architecture behavioral of Entity address_generator is up to date.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/vga_timing.vhd" in Library work.
 Architecture behavioral of Entity vga_timing_synch is up to date.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/vga_imagegenerator.vhd" in Library work.
@@ -127,7 +126,8 @@ Architecture float2fixed_a of Entity float2fixed is up to date.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/ipcore_dir/dualmem.vhd" in Library work.
 Architecture dualmem_a of Entity dualmem is up to date.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/test1.vhd" in Library work.
-Architecture behavioral of Entity test1 is up to date.
+Entity <test1> compiled.
+Entity <test1> (Architecture <behavioral>) compiled.
 
 =========================================================================
 *                     Design Hierarchy Analysis                         *
@@ -148,9 +148,9 @@ Analyzing hierarchy for entity <vga_imagegenerator> in library <work> (architect
 *                            HDL Analysis                               *
 =========================================================================
 Analyzing Entity <test1> in library <work> (Architecture <behavioral>).
-WARNING:Xst:2211 - "/home/user/workspace/melexis_mlx90641/test1.vhd" line 427: Instantiating black box module <tb_data_calculateTo>.
-WARNING:Xst:2211 - "/home/user/workspace/melexis_mlx90641/test1.vhd" line 435: Instantiating black box module <float2fixed>.
-WARNING:Xst:2211 - "/home/user/workspace/melexis_mlx90641/test1.vhd" line 448: Instantiating black box module <dualmem>.
+WARNING:Xst:2211 - "/home/user/workspace/melexis_mlx90641/test1.vhd" line 440: Instantiating black box module <tb_data_calculateTo>.
+WARNING:Xst:2211 - "/home/user/workspace/melexis_mlx90641/test1.vhd" line 448: Instantiating black box module <float2fixed>.
+WARNING:Xst:2211 - "/home/user/workspace/melexis_mlx90641/test1.vhd" line 461: Instantiating black box module <dualmem>.
 Entity <test1> analyzed. Unit <test1> generated.
 
 Analyzing generic Entity <address_generator> in library <work> (Architecture <behavioral>).
@@ -253,6 +253,9 @@ Unit <vga_imagegenerator> synthesized.
 
 Synthesizing Unit <test1>.
     Related source file is "/home/user/workspace/melexis_mlx90641/test1.vhd".
+WARNING:Xst:646 - Signal <vga_imagegenerator_RGB_out<23:19>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <vga_imagegenerator_RGB_out<15:11>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <vga_imagegenerator_RGB_out<7:2>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <float2fixedr<63:35>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <float2fixedr<12:0>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <dualmem_doutb<31:24>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
@@ -470,17 +473,17 @@ Design Statistics
 # IOs                              : 32
 
 Cell Usage :
-# BELS                             : 1134
+# BELS                             : 1118
 #      GND                         : 4
 #      INV                         : 10
 #      LUT1                        : 39
-#      LUT2                        : 130
-#      LUT2_D                      : 1
+#      LUT2                        : 113
+#      LUT2_D                      : 2
 #      LUT2_L                      : 2
-#      LUT3                        : 353
+#      LUT3                        : 354
 #      LUT3_D                      : 2
 #      LUT3_L                      : 4
-#      LUT4                        : 252
+#      LUT4                        : 251
 #      LUT4_D                      : 5
 #      LUT4_L                      : 9
 #      MUXCY                       : 124
@@ -516,8 +519,8 @@ Selected Device : 4vsx35ff668-10
 
  Number of Slices:                      481  out of  15360     3%  
  Number of Slice Flip Flops:            619  out of  30720     2%  
- Number of 4 input LUTs:                814  out of  30720     2%  
-    Number used as logic:               807
+ Number of 4 input LUTs:                798  out of  30720     2%  
+    Number used as logic:               791
     Number used as Shift registers:       7
  Number of IOs:                          32
  Number of bonded IOBs:                  32  out of    448     7%  
@@ -568,7 +571,7 @@ Speed Grade: -10
 
    Minimum period: 6.384ns (Maximum Frequency: 156.648MHz)
    Minimum input arrival time before clock: 4.280ns
-   Maximum output required time after clock: 9.202ns
+   Maximum output required time after clock: 8.847ns
    Maximum combinational path delay: No path found
 
 Timing Detail:
@@ -665,7 +668,7 @@ Delay:               5.330ns (Levels of Logic = 66)
 =========================================================================
 Timing constraint: Default period analysis for Clock 'vgaclk251'
   Clock period: 6.384ns (frequency: 156.648MHz)
-  Total number of paths / destination ports: 1681 / 148
+  Total number of paths / destination ports: 1679 / 148
 -------------------------------------------------------------------------
 Delay:               6.384ns (Levels of Logic = 6)
   Source:            vts_inst/hPos_1 (FF)
@@ -796,7 +799,7 @@ Offset:              4.694ns (Levels of Logic = 1)
 Timing constraint: Default OFFSET OUT AFTER for Clock 'vgaclk251'
   Total number of paths / destination ports: 482 / 26
 -------------------------------------------------------------------------
-Offset:              9.202ns (Levels of Logic = 6)
+Offset:              8.847ns (Levels of Logic = 6)
   Source:            vts_inst/hPos_3 (FF)
   Destination:       vga_b<7> (PAD)
   Source Clock:      vgaclk251 rising
@@ -809,18 +812,18 @@ Offset:              9.202ns (Levels of Logic = 6)
      LUT4_D:I0->O          1   0.195   0.585  vts_inst/activeArea1_and00002111 (vts_inst/N27)
      LUT4:I2->O            1   0.195   0.585  vts_inst/activeArea1_and000013 (vts_inst/activeArea1_and000013)
      LUT4:I2->O            1   0.195   0.585  vts_inst/activeArea1_and0000106_SW0 (N137)
-     LUT4:I2->O           24   0.195   1.040  vts_inst/activeArea1_and0000106 (VGA_timing_synch_activeArea1)
-     LUT2:I0->O            1   0.195   0.360  vig_inst/RGB_out<9>1 (vga_g_1_OBUF)
-     OBUF:I->O                 3.957          vga_g_1_OBUF (vga_g<1>)
+     LUT4:I2->O            8   0.195   0.670  vts_inst/activeArea1_and0000106 (VGA_timing_synch_activeArea1)
+     LUT2:I0->O            3   0.195   0.375  vig_inst/RGB_out<9>1 (vga_r_3_OBUF)
+     OBUF:I->O                 3.957          vga_b_3_OBUF (vga_b<3>)
     ----------------------------------------
-    Total                      9.202ns (5.292ns logic, 3.910ns route)
-                                       (57.5% logic, 42.5% route)
+    Total                      8.847ns (5.292ns logic, 3.555ns route)
+                                       (59.8% logic, 40.2% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'agclk'
   Total number of paths / destination ports: 24 / 24
 -------------------------------------------------------------------------
-Offset:              7.135ns (Levels of Logic = 3)
+Offset:              7.150ns (Levels of Logic = 3)
   Source:            dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (RAM)
   Destination:       vga_b<7> (PAD)
   Source Clock:      agclk rising
@@ -829,26 +832,26 @@ Offset:              7.135ns (Levels of Logic = 3)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     RAMB16:CLKB->DOB5     1   2.100   0.523  U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (doutb<23>)
+     RAMB16:CLKB->DOB0     1   2.100   0.523  U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (doutb<18>)
      end scope: 'dualmem_inst'
-     LUT2:I1->O            1   0.195   0.360  vig_inst/RGB_out<23>1 (vga_b_7_OBUF)
+     LUT2:I1->O            3   0.195   0.375  vig_inst/RGB_out<18>1 (vga_r_7_OBUF)
      OBUF:I->O                 3.957          vga_b_7_OBUF (vga_b<7>)
     ----------------------------------------
-    Total                      7.135ns (6.252ns logic, 0.883ns route)
-                                       (87.6% logic, 12.4% route)
+    Total                      7.150ns (6.252ns logic, 0.898ns route)
+                                       (87.4% logic, 12.6% route)
 
 =========================================================================
 
 
-Total REAL time to Xst completion: 16.00 secs
-Total CPU time to Xst completion: 15.82 secs
+Total REAL time to Xst completion: 14.00 secs
+Total CPU time to Xst completion: 14.19 secs
  
 --> 
 
 
-Total memory usage is 556076 kilobytes
+Total memory usage is 555976 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :   62 (   0 filtered)
+Number of warnings :   65 (   0 filtered)
 Number of infos    :    1 (   0 filtered)
 
