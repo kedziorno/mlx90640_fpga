@@ -5,14 +5,14 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.06 secs
+Total CPU time to Xst completion: 0.07 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.06 secs
+Total CPU time to Xst completion: 0.07 secs
  
 --> 
 Reading design: test1.prj
@@ -117,8 +117,7 @@ Compiling vhdl file "/home/user/workspace/melexis_mlx90641/address_generator.vhd
 Entity <address_generator> compiled.
 Entity <address_generator> (Architecture <behavioral>) compiled.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/vga_timing.vhd" in Library work.
-Entity <vga_timing_synch> compiled.
-Entity <vga_timing_synch> (Architecture <behavioral>) compiled.
+Architecture behavioral of Entity vga_timing_synch is up to date.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/vga_imagegenerator.vhd" in Library work.
 Architecture behavioral of Entity vga_imagegenerator is up to date.
 Compiling vhdl file "/home/user/workspace/melexis_mlx90641/ipcore_dir/tb_data_calculateTo.vhd" in Library work.
@@ -424,7 +423,7 @@ Optimizing unit <VGA_timing_synch> ...
 
 Mapping all equations...
 Building and optimizing final netlist ...
-Found area constraint ratio of 100 (+ 5) on block test1, actual ratio is 3.
+Found area constraint ratio of 100 (+ 5) on block test1, actual ratio is 2.
 WARNING:Xst:2677 - Node <float2fixedce_2> of sequential type is unconnected in block <test1>.
 FlipFlop float2fixedce has been replicated 2 time(s)
 
@@ -464,20 +463,20 @@ Design Statistics
 # IOs                              : 32
 
 Cell Usage :
-# BELS                             : 1082
+# BELS                             : 1083
 #      GND                         : 4
 #      INV                         : 8
 #      LUT1                        : 32
-#      LUT2                        : 113
+#      LUT2                        : 111
 #      LUT2_L                      : 2
-#      LUT3                        : 368
+#      LUT3                        : 370
 #      LUT3_D                      : 1
 #      LUT3_L                      : 2
 #      LUT4                        : 236
 #      LUT4_D                      : 1
 #      LUT4_L                      : 9
 #      MUXCY                       : 117
-#      MUXF5                       : 78
+#      MUXF5                       : 79
 #      MUXF6                       : 2
 #      MUXF7                       : 1
 #      VCC                         : 2
@@ -486,9 +485,9 @@ Cell Usage :
 #      FDC                         : 13
 #      FDCE                        : 10
 #      FDE                         : 467
-#      FDR                         : 65
+#      FDR                         : 66
 #      FDRE                        : 27
-#      FDRS                        : 7
+#      FDRS                        : 6
 #      FDRSE                       : 2
 #      FDS                         : 2
 #      FDSE                        : 3
@@ -509,7 +508,7 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                      453  out of  15360     2%  
+ Number of Slices:                      451  out of  15360     2%  
  Number of Slice Flip Flops:            596  out of  30720     1%  
  Number of 4 input LUTs:                779  out of  30720     2%  
     Number used as logic:               772
@@ -661,7 +660,7 @@ Delay:               5.330ns (Levels of Logic = 66)
 =========================================================================
 Timing constraint: Default period analysis for Clock 'agclk1'
   Clock period: 4.295ns (frequency: 232.815MHz)
-  Total number of paths / destination ports: 537 / 88
+  Total number of paths / destination ports: 541 / 87
 -------------------------------------------------------------------------
 Delay:               4.295ns (Levels of Logic = 3)
   Source:            ag_inst/addr_7 (FF)
@@ -675,7 +674,7 @@ Delay:               4.295ns (Levels of Logic = 3)
     ----------------------------------------  ------------
      FDRE:C->Q             4   0.360   0.755  ag_inst/addr_7 (ag_inst/addr_7)
      LUT4:I0->O            1   0.195   0.523  ag_inst/addr_or000018 (ag_inst/addr_or000018)
-     LUT4:I3->O            1   0.195   0.523  ag_inst/addr_or000039_SW0 (N117)
+     LUT4:I3->O            1   0.195   0.523  ag_inst/addr_or000039_SW0 (N120)
      LUT4:I3->O           10   0.195   0.488  ag_inst/addr_or000039 (ag_inst/addr_or0000)
      FDRE:R                    1.062          ag_inst/addr_0
     ----------------------------------------
@@ -699,10 +698,10 @@ Delay:               5.017ns (Levels of Logic = 6)
     ----------------------------------------  ------------
      FDC:C->Q              4   0.360   0.755  vts_inst/hPos_1 (vts_inst/hPos_1)
      LUT4:I0->O            1   0.195   0.523  vts_inst/activeArea1_cmp_le0000212 (vts_inst/activeArea1_cmp_le0000212)
-     LUT4:I3->O            1   0.195   0.000  vts_inst/activeArea1_cmp_le0000263_G (N122)
+     LUT4:I3->O            1   0.195   0.000  vts_inst/activeArea1_cmp_le0000263_G (N125)
      MUXF5:I1->O          25   0.374   1.063  vts_inst/activeArea1_cmp_le0000263 (vts_inst/activeArea1_cmp_le0000)
      LUT3:I2->O            2   0.195   0.758  vts_inst/videoOn_and0000440 (vts_inst/videoOn_and0000440)
-     LUT4:I0->O            1   0.195   0.000  vts_inst/videoOn_and0000442_F (N135)
+     LUT4:I0->O            1   0.195   0.000  vts_inst/videoOn_and0000442_F (N142)
      MUXF5:I0->O           1   0.382   0.000  vts_inst/videoOn_and0000442 (vts_inst/videoOn_and0000)
      FDC:D                     0.022          vts_inst/videoOn
     ----------------------------------------
@@ -783,7 +782,7 @@ Offset:              8.142ns (Levels of Logic = 5)
     ----------------------------------------  ------------
      FDC:C->Q              4   0.360   0.755  vts_inst/hPos_1 (vts_inst/hPos_1)
      LUT4:I0->O            1   0.195   0.523  vts_inst/activeArea1_cmp_le0000212 (vts_inst/activeArea1_cmp_le0000212)
-     LUT4:I3->O            1   0.195   0.000  vts_inst/activeArea1_cmp_le0000263_G (N122)
+     LUT4:I3->O            1   0.195   0.000  vts_inst/activeArea1_cmp_le0000263_G (N125)
      MUXF5:I1->O          25   0.374   1.228  vts_inst/activeArea1_cmp_le0000263 (vts_inst/activeArea1_cmp_le0000)
      LUT3:I0->O            1   0.195   0.360  vig_inst/RGB_out<9>1 (vga_g_1_OBUF)
      OBUF:I->O                 3.957          vga_g_1_OBUF (vga_g<1>)
@@ -815,13 +814,13 @@ Offset:              7.135ns (Levels of Logic = 3)
 =========================================================================
 
 
-Total REAL time to Xst completion: 15.00 secs
-Total CPU time to Xst completion: 14.27 secs
+Total REAL time to Xst completion: 16.00 secs
+Total CPU time to Xst completion: 15.19 secs
  
 --> 
 
 
-Total memory usage is 555432 kilobytes
+Total memory usage is 555492 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :   63 (   0 filtered)

@@ -64,7 +64,7 @@ constant CCOUNT1 : integer := 32;
 variable count1 : integer range 0 to CCOUNT1-1;
 
 variable state : states;
-constant C_ROWS : integer := 20;
+constant C_ROWS : integer := 19;
 variable rows : integer range 0 to C_ROWS-1;
 constant CW8 : integer := 7;
 variable w8 : integer range 0 to CW8-1;
