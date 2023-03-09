@@ -447,10 +447,10 @@ activeh <= '1';
 activeArea1 <= '1' when (hPos <= HD) and (vPos <= VD) else '0';
 --
 hsync_gen : process(vgaclk25,reset) begin
+	if rising_edge(vgaclk25) then
 if (reset = '1') then
 h <= '0';
-	elsif rising_edge(vgaclk25) then
-		if (hPos >= (HD+HFP) and hPos <= (HD+HFP+HSP)) then 
+elsif (hPos >= (HD+HFP) and hPos <= (HD+HFP+HSP)) then 
 			h <= '0';
 		else
 			h <= '1';
@@ -459,10 +459,10 @@ h <= '0';
 end process hsync_gen;
 
 vsync_gen : process(vgaclk25,reset) begin
+	if rising_edge(vgaclk25) then
 if (reset = '1') then
 v <= '0';
-	elsif rising_edge(vgaclk25) then
-		if (vPos >= (VD+VFP) and vPos <= (VD+VFP+VSP)) then
+elsif (vPos >= (VD+VFP) and vPos <= (VD+VFP+VSP)) then
 			v <= '0';
 		else
 			v <= '1';
@@ -472,10 +472,10 @@ end process vsync_gen;
 
 Horizontal_position_counter:process(vgaclk25, reset)
 begin
+	if(rising_edge(vgaclk25))then
 	if(reset = '1')then
 		hpos <= 0;
-	elsif(rising_edge(vgaclk25))then
-			if (hPos = (HD + HFP + HSP + HBP)-1) then
+elsif (hPos = (HD + HFP + HSP + HBP)-1) then
 				hPos <= 0;
 			else
 				hPos <= hPos + 1;
@@ -485,10 +485,10 @@ end process;
 
 Vertical_position_counter:process(vgaclk25, reset, hPos)
 begin
+	if(rising_edge(vgaclk25))then
 	if(reset = '1')then
 		vPos <= 0;
-	elsif(rising_edge(vgaclk25))then
-			if(hPos = (HD + HFP + HSP + HBP)-1)then
+elsif(hPos = (HD + HFP + HSP + HBP)-1)then
 				if (vPos = (VD + VFP + VSP + VBP)-1) then
 					vPos <= 0;
 				else
@@ -530,10 +530,10 @@ end process;
 
 video_on:process(vgaclk25, reset, hPos, vPos)
 begin
+	if(rising_edge(vgaclk25))then
 	if(reset = '1')then
 		videoOn <= '0';
-	elsif(rising_edge(vgaclk25))then
-		if((hPos <= HD and vPos <= VD) and (
+elsif((hPos <= HD and vPos <= VD) and (
 --		if((hPos >= 145 and hPos < 785) and (
 
 --(vPos = 1) or

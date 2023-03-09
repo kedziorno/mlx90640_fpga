@@ -99,6 +99,7 @@ ADDRESS1 : integer := ADDRESS1
 Port ( 
 reset : in std_logic;
 clk : in STD_LOGIC;
+clk25 : in STD_LOGIC;
 enable : in STD_LOGIC;
 vsync : in STD_LOGIC;
 activeh : in STD_LOGIC;
@@ -107,6 +108,7 @@ address : out STD_LOGIC_VECTOR (ADDRESS1-1 downto 0)
 end component address_generator;
 signal address_generator_reset : std_logic;
 signal address_generator_clk : STD_LOGIC;
+signal address_generator_clk25 : STD_LOGIC;
 signal address_generator_enable : STD_LOGIC;
 signal address_generator_vsync : STD_LOGIC;
 signal address_generator_activeh : STD_LOGIC;
@@ -371,6 +373,7 @@ end process pagclk;
 --);
 
 address_generator_clk <= agclk;
+address_generator_clk25 <= vgaclk25;
 address_generator_reset <= i_reset;
 address_generator_vsync <= VGA_timing_synch_Vsync;
 address_generator_activeh <= VGA_timing_synch_activehaaddrgen;
@@ -379,16 +382,17 @@ address_generator_enable <= VGA_timing_synch_activeRender1;
 ag_inst : address_generator port map (
 reset => address_generator_reset,
 clk => address_generator_clk,
+clk25 => address_generator_clk25,
 enable => address_generator_enable,
 vsync => address_generator_vsync,
 activeh => address_generator_activeh,
 address => address_generator_address
 );
 
+VGA_timing_synch_vgaclk25 <= vgaclk25;
 vga_clock <= VGA_timing_synch_vgaclk25;
 vga_hsync <= VGA_timing_synch_Hsync;
 vga_vsync <= VGA_timing_synch_Vsync;
-VGA_timing_synch_vgaclk25 <= vgaclk25;
 VGA_timing_synch_reset <= i_reset;
 vts_inst : VGA_timing_synch port map (
 reset => VGA_timing_synch_reset,
