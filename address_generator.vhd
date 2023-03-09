@@ -23,90 +23,129 @@ end address_generator;
 architecture Behavioral of address_generator is
 
 
+signal addr: STD_LOGIC_VECTOR(address'range) := (others => '0');
 
+type states is (idle,
+a0,a,a1,b,b1,c,c1,d,d1,e,e1,f,f1,g,g1,h,h1,i,i1,j,j1,k,k1,l,l1,m,m1,n,n1,o,o1,p,p1,r,r1,s,s1,t,t1,u,u1,w,w1,y,y1,z,z1,x,x1
+);
+
+signal tstate : states;
+signal penable : std_logic;
 begin
 
+--address <= addr;
+
+p0 : process (clk) is
+begin
+	if (rising_edge(clk)) then
+		if (reset='1') then
+			addr <= (others => '0');
+		else
+			if (enable = '1') then
+				if (addr = PIXELS-1) then
+					addr <= (others => '0');
+				else
+					addr <= addr+1;
+				end if;
+			else
+				addr <= addr;
+			end if;
+			if (vsync = '0') then
+				addr <= (others => '0');
+			end if;
+		end if;
+	end if;
+end process p0;
 
 process (clk)
-variable addr: STD_LOGIC_VECTOR(address'range) := (others => '0');
 
 variable va : std_logic_vector(address'range);
 constant CCOUNT1 : integer := 32;
 variable count1 : integer range 0 to CCOUNT1-1;
 
-type states is (idle,
-a0,a,a1,b,b1,c,c1,d,d1,e,e1,f,f1,g,g1,h,h1,i,i1,j,j1,k,k1,l,l1,m,m1,n,n1,o,o1,p,p1,r,r1,s,s1,t,t1,u,u1,w,w1,y,y1,z,z1,x,x1
-);
 variable state : states;
-constant C_ROWS : integer := 32;
+constant C_ROWS : integer := 20;
 variable rows : integer range 0 to C_ROWS-1;
+constant CW8 : integer := 7;
+variable w8 : integer range 0 to CW8-1;
 begin
 if rising_edge (clk) then
 	if (reset = '1') then
 		va := (others => '0');
 		state := idle;
 		count1 := 0;
-		addr := (others => '0');
+		address <= (others => '0');
 --		count2 := 0;
 		rows := 0;
+		w8 := 0;
 	else
---  address <= addr; 
+--  address <= addr;
+tstate <= state;
+penable <= enable;
 
-		if (enable='1') then
-			if (addr = PIXELS-1) then
-				addr := (others => '0');
-			else
-				addr := addr+1;
-			end if;
---			state := a0;
-			state := a;
---			state := idle;
---			va := std_logic_vector(to_unsigned(to_integer(unsigned(addr))-CCOUNT1+2,addr'left+1));
-			va := std_logic_vector(to_unsigned(to_integer(unsigned(addr))-Ccount1,addr'left+1));
---			report "aaaaaaaaaaaaa " & integer'image (addr'left); -- 9
-			count1 := 0;
---			count2 := 0;
-			rows := 0;
-			  address <= addr; 
-report "addr : " &integer'image(to_integer(unsigned(addr)));
-
-		else
-		
-		
 			case (state) is
+				when idle =>
+					if (penable = '0' and enable = '1' and activeh = '1') then
+--					if (enable = '0' and activeh = '1') then
+--						state := d;
+						state := a;
+						va := std_logic_vector(to_unsigned(to_integer(unsigned(addr)),addr'left+1));
+						address <= addr;
+						count1 := 0;
+						rows := 0;
+						w8 := 0;
+					else
+						state := idle;
+					end if;
+					address <= addr;
+--				when d =>
+--					if (w8 = CW8-1) then
+--						state := a;
+--						va := std_logic_vector(to_unsigned(to_integer(unsigned(addr)),addr'left+1));
+--						address <= addr;
+--						count1 := 0;
+--						rows := 0;
+--						w8 := 0;
+--					else
+--						w8 := w8 + 1;
+--						state := d;
+--					end if;
 				when a =>
-					va := std_logic_vector(to_unsigned(to_integer(unsigned(addr))-ccount1+count1,addr'left+1));
-					  address <= va; 
-report "va : " &integer'image(to_integer(unsigned(va)));
-
+					address <= std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
 					if (count1 = CCOUNT1-1) then
---						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
-	--					addr := (others => '0');
---						state := a1;
 						state := b;
 						count1 := 0;
 					else
---						addr := std_logic_vector(to_unsigned(to_integer(unsigned(va))+count1,addr'left+1));
-	--					addr := (others => '0');
 						state := a;
 						count1 := count1 + 1;
 					end if;
 				when b =>
---					addr := std_logic_vector(to_unsigned(to_integer(unsigned(va)),addr'left+1));
---			va := std_logic_vector(to_unsigned(to_integer(unsigned(addr)),addr'left+1));
-			va := (others => '0');
-  address <= va; 
-report "va : " &integer'image(to_integer(unsigned(va)));
-
+					if (w8 = CW8-1) then
+						w8 := 0;
+						state := c;
+					else
+						w8 := w8 + 1;
+						state := b;
+					end if;
+				when c =>
 					if (rows = C_ROWS-1) then
 						rows := 0;
-						state := c;
+						state := idle;
 					else
 						rows := rows + 1;
 						state := a;
 					end if;
 				when others => null;
 			end case;
+		end if;
+		if vsync = '0' then -- this V depend from VGA
+			state := idle;
+		end if;
+end if;
+
+end process;    
+end Behavioral;
+
 --			case (state) is
 ----				when idle =>
 ----					if (activeh = '1') then
@@ -789,14 +828,6 @@ report "va : " &integer'image(to_integer(unsigned(va)));
 ----					addr := (others => '0');
 --				when others => null;
 --			end case;
-		end if;
-		if vsync = '0' then -- this V depend from VGA
-			addr := (others => '0');
-		end if;
-	end if;
-end if;
-end process;    
-end Behavioral;
 
 --library IEEE;
 --use IEEE.STD_LOGIC_1164.ALL;
