@@ -23,7 +23,7 @@ use ieee.std_logic_1164.all;
 --use ieee_proposed.fixed_pkg.all;
 
 use work.p_fphdl_package1.all;
-use work.p_fphdl_package3.all;
+--use work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -330,13 +330,13 @@ begin
 	when ending => state := idle;
 		addfpsclr <= '0';
 		o_Vdd <= fttmp1;
---		report "================ CalculateVdd o_Vdd : " & real'image (ap_slv2fp (fttmp1));
+--		--report "================ CalculateVdd o_Vdd : " & real'image (ap_slv2fp (fttmp1));
 --		o_kvdd <= ExtractVDDParameters_kvdd;
---		report "================ CalculateVdd o_kvdd : " & real'image (ap_slv2fp (ExtractVDDParameters_kvdd));
+--		--report "================ CalculateVdd o_kvdd : " & real'image (ap_slv2fp (ExtractVDDParameters_kvdd));
 --		o_vdd25 <= ExtractVDDParameters_vdd25;
---		report "================ CalculateVdd o_vdd25 : " & real'image (ap_slv2fp (ExtractVDDParameters_vdd25));
+--		--report "================ CalculateVdd o_vdd25 : " & real'image (ap_slv2fp (ExtractVDDParameters_vdd25));
 --		o_ram0x072a <= fttmp2;
---		report "================ CalculateVdd o_ram0x072a : " & real'image (ap_slv2fp (fttmp2));
+--		--report "================ CalculateVdd o_ram0x072a : " & real'image (ap_slv2fp (fttmp2));
 		o_rdy <= '1';
 	when others => null;
 	end case;

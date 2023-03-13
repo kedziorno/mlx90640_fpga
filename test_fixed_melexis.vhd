@@ -54,6 +54,8 @@ end test_fixed_melexis;
 
 architecture testbench of test_fixed_melexis is
 
+--attribute RlOC : string;
+
 COMPONENT fixed2float
 PORT (
 a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
@@ -71,6 +73,8 @@ signal fixed2floatce : STD_LOGIC;
 signal fixed2floatsclr : STD_LOGIC;
 signal fixed2floatr :  STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal fixed2floatrdy : STD_LOGIC;
+
+--attribute RLOC of fixed2float : component is "SLICE_X40Y174:SLICE_X79Y191";
 
 COMPONENT divfp
 PORT (

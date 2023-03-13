@@ -600,7 +600,7 @@ begin
 					write_enable <= '1';
 					addra <= std_logic_vector (to_unsigned (i, 10)); -- alphacomp
 					dia <= fptmp1;
-					--report "================alphacomp : " & real'image (ap_slv2fp (fptmp1));
+					----report "================alphacomp : " & real'image (ap_slv2fp (fptmp1));
 				when s31 =>
 					write_enable <= '0';
 					if (i = (C_ROW*C_COL)-1) then

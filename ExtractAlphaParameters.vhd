@@ -23,7 +23,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use ieee_proposed.fixed_pkg.all;
 
 USE work.p_fphdl_package1.all;
-USE work.p_fphdl_package3.all;
+--USE work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -452,7 +452,7 @@ begin
 				when acc4 => state := acc5;
 				when acc5 => state := acc6;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					--------report_error (temp1, 0.0);
+					----------report_error (temp1, 0.0);
 				when acc6 => state := acc7;
 					nibble1 <= temp1 (3 downto 0); -- acc scale remnant
 				when acc7 => state := acc8;
@@ -483,7 +483,7 @@ begin
 				when acc13 => state := acc14;
 				when acc14 => state := acc15;
 					valphaRef (7 downto 0) := i2c_mem_douta; -- alpharef MSB
-					----report_error (valphaRef, 0.0);
+					------report_error (valphaRef, 0.0);
 				
 					
 				when acc15 => state := acc16;
@@ -495,7 +495,7 @@ begin
 				when acc18 => state := acc19;
 				when acc19 => state := acc20;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					--------report_error (temp1, 0.0);
+					----------report_error (temp1, 0.0);
 					nibble2 <= temp1 (3 downto 0); -- accrowA
 				when acc20 => state := acc21;
 					dia <= out_nibble2;
@@ -526,7 +526,7 @@ begin
 				when acc27 => state := acc28;
 				when acc28 => state := acc29;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					--------report_error (temp1, 0.0);
+					----------report_error (temp1, 0.0);
 					nibble2 <= temp1 (3 downto 0); -- accrowA
 				when acc29 => state := acc30;
 					dia <= out_nibble2;
@@ -868,7 +868,7 @@ begin
 				when acc135 => state := acc136;
 				when acc136 => state := acc137;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					--------report_error (temp1, 0.0);
+					----------report_error (temp1, 0.0);
 					nibble2 <= temp1 (3 downto 0); -- acccolA
 				when acc137 => state := acc138;
 					nibble2 <= temp1 (7 downto 4); -- acccolB
@@ -895,16 +895,16 @@ begin
 				when pow1 => state := pow2;
 					nibble4 <= vaccColumnScale1;
 					vaccRemScale := out_nibble4; -- 2^accscaleremnant
-					--report "vaccRemScale : " & real'image (ap_slv2fp (vaccRemScale));
+					----report "vaccRemScale : " & real'image (ap_slv2fp (vaccRemScale));
 				when pow2 => state := pow3;
 					nibble4 <= vaccRowScale1;
 					vaccColumnScale := out_nibble4; -- 2^accscalecolumn
-					--report "vaccColumnScale : " & real'image (ap_slv2fp (vaccColumnScale));
+					----report "vaccColumnScale : " & real'image (ap_slv2fp (vaccColumnScale));
 				when pow3 => state := pow4;
 					vaccRowScale := out_nibble4; -- 2^accscalerow
-					--report "vaccRowScale : " & real'image (ap_slv2fp (vaccRowScale));
+					----report "vaccRowScale : " & real'image (ap_slv2fp (vaccRowScale));
 --					valphaRef_sf := resize (to_sfixed (valphaRef, eeprom16sf), valphaRef_sf);
---					--------report_error (valphaRef, 0.0);
+--					----------report_error (valphaRef, 0.0);
 --					fixed2floatce_internal <= '1';
 --					fixed2floatond_internal <= '1';
 --					fixed2floata_internal <= 
@@ -926,7 +926,7 @@ valphaRef (15) & valphaRef & "00000000000000000000000000000";
 				when pow4 =>
 					if (fixed2floatrdy_internal = '1') then state := pow5;
 						valphaReference_ft := fixed2floatr_internal;
-						--report "valphaReference_ft : " & real'image (ap_slv2fp (valphaReference_ft));
+						----report "valphaReference_ft : " & real'image (ap_slv2fp (valphaReference_ft));
 						fixed2floatce_internal <= '0';
 						fixed2floatond_internal <= '0';
 						fixed2floatsclr_internal <= '1';
@@ -937,7 +937,7 @@ valphaRef (15) & valphaRef & "00000000000000000000000000000";
 	col := 0;
 	i := 0;
 when s0 => state := s1; 	--1
-	----report "====================";
+	------report "====================";
 	vAlphaPixel_ft := (others => '0');
 	write_enable <= '0';
 	i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i), 12)); -- offset LSB 0
@@ -949,24 +949,24 @@ when s2 => state := s3;	--2
 	i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i)+1, 12)); -- offset MSB 1
 	addra <= std_logic_vector (to_unsigned (row, 10)); -- accrowI
 	vaccColumnJ := doa;
---	--report "vaccColumnJ : " & real'image (ap_slv2fp (vaccColumnJ));
+--	----report "vaccColumnJ : " & real'image (ap_slv2fp (vaccColumnJ));
 	vAlphaPixel (15 downto 8) := i2c_mem_douta;
 when s3 => state := s4; 	--3
 	i2c_mem_addra <= (others => '0');
 	addra <= (others => '0');
 when s4 => state := s5; 	--3
 	vaccRowI := doa;
---	--report "vaccRowI : " & real'image (ap_slv2fp (vaccRowI));
+--	----report "vaccRowI : " & real'image (ap_slv2fp (vaccRowI));
 	vAlphaPixel (7 downto 0) := i2c_mem_douta;
---	----report_error (vAlphaPixel, 0.0);
+--	------report_error (vAlphaPixel, 0.0);
 	nibble3 <= vAlphaPixel (9 downto 4);
 when s5 => state := s6; 	--5
 	mulfpce_internal <= '1';
 	mulfpa_internal <= out_nibble3;
 	mulfpb_internal <= vaccRemScale;
 	mulfpond_internal <= '1';
---	--report "vAlphaPixel : " & real'image (ap_slv2fp (out_nibble3));
---	--report "vaccRemScale : " & real'image (ap_slv2fp (vaccRemScale));
+--	----report "vAlphaPixel : " & real'image (ap_slv2fp (out_nibble3));
+--	----report "vaccRemScale : " & real'image (ap_slv2fp (vaccRemScale));
 when s6 => 			--6
 	if (mulfprdy_internal = '1') then state := s7;
 		vAlphaPixel_ft := mulfpr_internal;
@@ -980,8 +980,8 @@ when s7 => state := s8; 	--7
 	mulfpa_internal <= vaccColumnJ;
 	mulfpb_internal <= vaccColumnScale;
 	mulfpond_internal <= '1';
---	--report "vaccColumnJ : " & real'image (ap_slv2fp (vaccColumnJ));
---	--report "vaccColumnScale : " & real'image (ap_slv2fp (vaccColumnScale));
+--	----report "vaccColumnJ : " & real'image (ap_slv2fp (vaccColumnJ));
+--	----report "vaccColumnScale : " & real'image (ap_slv2fp (vaccColumnScale));
 when s8 => 			--8
 	if (mulfprdy_internal = '1') then state := s9;
 		vaccColumnJ := mulfpr_internal;
@@ -997,8 +997,8 @@ when s10 => state := s11; 	--10
 	mulfpa_internal <= vaccRowI;
 	mulfpb_internal <= vaccRowScale;
 	mulfpond_internal <= '1';
---	--report "vaccRowI : " & real'image (ap_slv2fp (vaccRowI));
---	--report "vaccRowScale : " & real'image (ap_slv2fp (vaccRowScale));
+--	----report "vaccRowI : " & real'image (ap_slv2fp (vaccRowI));
+--	----report "vaccRowScale : " & real'image (ap_slv2fp (vaccRowScale));
 when s11 => 			--11
 	if (mulfprdy_internal = '1') then state := s12;
 		vaccRowI := mulfpr_internal;
@@ -1014,8 +1014,8 @@ when s13 => state := s14; 	--13
 	addfpa_internal <= vAlphaPixel_ft;
 	addfpb_internal <= vaccColumnJ;
 	addfpond_internal <= '1';
---	--report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
---	--report "vaccColumnJ : " & real'image (ap_slv2fp (vaccColumnJ));
+--	----report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
+--	----report "vaccColumnJ : " & real'image (ap_slv2fp (vaccColumnJ));
 when s14 => 			--14
 	if (addfprdy_internal = '1') then state := s15;
 		vAlphaPixel_ft := addfpr_internal;
@@ -1031,8 +1031,8 @@ when s16 => state := s17; 	--16
 	addfpa_internal <= vAlphaPixel_ft;
 	addfpb_internal <= vaccRowI;
 	addfpond_internal <= '1';
---	--report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
---	--report "vaccRowI : " & real'image (ap_slv2fp (vaccRowI));
+--	----report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
+--	----report "vaccRowI : " & real'image (ap_slv2fp (vaccRowI));
 when s17 => 			--17
 	if (addfprdy_internal = '1') then state := s18;
 		vAlphaPixel_ft := addfpr_internal;
@@ -1048,8 +1048,8 @@ when s19 => state := s20; 	--19
 	addfpa_internal <= vAlphaPixel_ft;
 	addfpb_internal <= valphaReference_ft;
 	addfpond_internal <= '1';
---	--report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
---	--report "valphaReference_ft : " & real'image (ap_slv2fp (valphaReference_ft));
+--	----report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
+--	----report "valphaReference_ft : " & real'image (ap_slv2fp (valphaReference_ft));
 when s20 => 			--20
 	if (addfprdy_internal = '1') then state := s21;
 		vAlphaPixel_ft := addfpr_internal;
@@ -1063,8 +1063,8 @@ when s21 => state := s22; 	--21
 	divfpa_internal <= vAlphaPixel_ft;
 	divfpb_internal <= out_nibble5;
 	divfpond_internal <= '1';
---	--report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
---	--report "out_nibble5 : " & real'image (ap_slv2fp (out_nibble5));
+--	----report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
+--	----report "out_nibble5 : " & real'image (ap_slv2fp (out_nibble5));
 when s22 =>
 	if (divfprdy_internal = '1') then state := s23;
 		vAlphaPixel_ft := divfpr_internal;
@@ -1078,8 +1078,8 @@ when s24 => state := s25; 	--22
 	write_enable <= '1';
 	addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vAlphaPixel_ft
 	dia <= vAlphaPixel_ft;
---	--report "================vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
-	----report_error (vAlphaPixel_ft,0.0);
+--	----report "================vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
+	------report_error (vAlphaPixel_ft,0.0);
 	i := i + 1;
 when s25 =>
 	if (col = C_COL-1) then
