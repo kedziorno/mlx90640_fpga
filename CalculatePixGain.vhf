@@ -7,11 +7,11 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : CalculatePixGain.vhf
--- /___/   /\     Timestamp : 06/19/2023 15:05:24
+-- /___/   /\     Timestamp : 08/23/2023 17:28:30
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
---Command: sch2hdl -sympath /home/user/workspace/melexis_mlx90641/ipcore_dir -intstyle ise -family virtex4 -flat -suppress -vhdl /home/user/workspace/melexis_mlx90641/CalculatePixGain.vhf -w /home/user/workspace/melexis_mlx90641/CalculatePixGain.sch
+--Command: sch2hdl -sympath /home/user/workspace/mlx90640_fpga/ipcore_dir -intstyle ise -family virtex4 -flat -suppress -vhdl /home/user/workspace/mlx90640_fpga/CalculatePixGain.vhf -w /home/user/workspace/mlx90640_fpga/CalculatePixGain.sch
 --Design Name: CalculatePixGain
 --Device: virtex4
 --Purpose:

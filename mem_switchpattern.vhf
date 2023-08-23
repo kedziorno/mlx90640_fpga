@@ -7,11 +7,11 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : mem_switchpattern.vhf
--- /___/   /\     Timestamp : 06/19/2023 15:05:21
+-- /___/   /\     Timestamp : 08/23/2023 17:28:27
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
---Command: sch2hdl -sympath /home/user/workspace/melexis_mlx90641/ipcore_dir -intstyle ise -family virtex4 -flat -suppress -vhdl /home/user/workspace/melexis_mlx90641/mem_switchpattern.vhf -w /home/user/workspace/melexis_mlx90641/mem_switchpattern.sch
+--Command: sch2hdl -sympath /home/user/workspace/mlx90640_fpga/ipcore_dir -intstyle ise -family virtex4 -flat -suppress -vhdl /home/user/workspace/mlx90640_fpga/mem_switchpattern.vhf -w /home/user/workspace/mlx90640_fpga/mem_switchpattern.sch
 --Design Name: mem_switchpattern
 --Device: virtex4
 --Purpose:
