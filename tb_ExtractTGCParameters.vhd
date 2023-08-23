@@ -49,7 +49,7 @@ douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
 END COMPONENT;
 
 -- Component Declaration for the Unit Under Test (UUT)
-component ExtractTGCParameters is
+component ExtractTGCParameter is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -60,7 +60,7 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_tgc : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic
 );
-end component ExtractTGCParameters;
+end component ExtractTGCParameter;
 
 --Inputs
 signal ExtractTGCParameters_clock : std_logic;
@@ -90,7 +90,7 @@ douta => ExtractTGCParameters_i2c_mem_douta
 );
 
 -- Instantiate the Unit Under Test (UUT)
-uut: ExtractTGCParameters port map (
+uut: ExtractTGCParameter port map (
 i_clock => ExtractTGCParameters_clock,
 i_reset => ExtractTGCParameters_reset,
 i_run => ExtractTGCParameters_run,
