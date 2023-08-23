@@ -4,14 +4,14 @@ Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 Parameter TMPDIR set to xst/projnav.tmp
 
 
-Total REAL time to Xst completion: 1.00 secs
+Total REAL time to Xst completion: 0.00 secs
 Total CPU time to Xst completion: 0.07 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
-Total REAL time to Xst completion: 1.00 secs
+Total REAL time to Xst completion: 0.00 secs
 Total CPU time to Xst completion: 0.07 secs
  
 --> 
@@ -114,11 +114,12 @@ Cores Search Directories           : {"ipcore_dir"  }
 *                          HDL Compilation                              *
 =========================================================================
 Compiling vhdl file "/home/user/workspace/mlx90640_fpga/p_fphdl_package3.vhd" in Library work.
+Package <p_fphdl_package3> compiled.
 WARNING:HDLParsers:523 - "/home/user/workspace/mlx90640_fpga/p_fphdl_package3.vhd" Line 84. The function ap_slv2int does not contain any return statement.
 WARNING:HDLParsers:3350 - "/home/user/workspace/mlx90640_fpga/p_fphdl_package3.vhd" Line 112. Null range: -2 downto -1
 WARNING:HDLParsers:3350 - "/home/user/workspace/mlx90640_fpga/p_fphdl_package3.vhd" Line 116. Null range: -2 downto 0
 WARNING:HDLParsers:523 - "/home/user/workspace/mlx90640_fpga/p_fphdl_package3.vhd" Line 140. The function to_string_1 does not contain any return statement.
-Architecture p_fphdl_package3 of Entity p_fphdl_package3 is up to date.
+Package body <p_fphdl_package3> compiled.
 Compiling vhdl file "/home/user/workspace/mlx90640_fpga/ExtractVDDParameters_process_p0.vhd" in Library work.
 Architecture behavioral of Entity extractvddparameters_process_p0 is up to date.
 Compiling vhdl file "/home/user/workspace/mlx90640_fpga/CalculateVDD_process_p0.vhd" in Library work.
@@ -291,6 +292,11 @@ Performing bidirectional port resolution...
 
 Synthesizing Unit <CalculateVDD_process_p0>.
     Related source file is "/home/user/workspace/mlx90640_fpga/CalculateVDD_process_p0.vhd".
+WARNING:Xst:647 - Input <addfprdy> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <subfprdy> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <mulfprdy> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <divfprdy> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <fixed2floatrdy> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
     Register <addfpond> equivalent to <addfpce> has been removed
     Register <divfpond> equivalent to <divfpce> has been removed
     Register <fixed2floatond> equivalent to <fixed2floatce> has been removed
@@ -333,14 +339,22 @@ Synthesizing Unit <CalculateVDD_process_p0>.
     Found 1-bit register for signal <fixed2floatce>.
     Found 64-bit register for signal <fixed2floata>.
     Found 1-bit register for signal <subfpsclr>.
+    Found 4-bit up counter for signal <addfp_wait>.
+    Found 5-bit register for signal <divfp_wait>.
+    Found 5-bit adder for signal <divfp_wait$addsub0000>.
+    Found 3-bit up counter for signal <fi2fl_wait>.
     Found 32-bit register for signal <fttmp1>.
     Found 32-bit register for signal <fttmp2>.
     Found 12-bit register for signal <i2c_mem_addra_internal>.
     Found 1-bit register for signal <i2c_mem_ena_internal>.
+    Found 4-bit up counter for signal <mulfp_wait>.
     Found 16-bit register for signal <ram072a>.
+    Found 4-bit up counter for signal <subfp_wait>.
     Summary:
 	inferred   1 Finite State Machine(s).
-	inferred 428 D-type flip-flop(s).
+	inferred   4 Counter(s).
+	inferred 433 D-type flip-flop(s).
+	inferred   1 Adder/Subtractor(s).
 Unit <CalculateVDD_process_p0> synthesized.
 
 
@@ -396,6 +410,7 @@ Synthesizing Unit <CalculateVDD>.
     Related source file is "/home/user/workspace/mlx90640_fpga/CalculateVDD.vhf".
 Unit <CalculateVDD> synthesized.
 
+INFO:Xst:1767 - HDL ADVISOR - Resource sharing has identified that some arithmetic operations in this design can share the same physical resources for reduced device utilization. For improved clock frequency you may try to disable resource sharing.
 
 =========================================================================
 HDL Synthesis Report
@@ -403,12 +418,18 @@ HDL Synthesis Report
 Macro Statistics
 # ROMs                                                 : 2
  4x32-bit ROM                                          : 2
-# Registers                                            : 66
+# Adders/Subtractors                                   : 1
+ 5-bit adder                                           : 1
+# Counters                                             : 4
+ 3-bit up counter                                      : 1
+ 4-bit up counter                                      : 3
+# Registers                                            : 67
  1-bit register                                        : 48
  12-bit register                                       : 2
  15-bit register                                       : 2
  2-bit register                                        : 1
  32-bit register                                       : 12
+ 5-bit register                                        : 1
  64-bit register                                       : 1
 
 =========================================================================
@@ -488,8 +509,13 @@ Macro Statistics
 # FSMs                                                 : 2
 # ROMs                                                 : 2
  4x32-bit ROM                                          : 2
-# Registers                                            : 549
- Flip-Flops                                            : 549
+# Adders/Subtractors                                   : 1
+ 5-bit adder                                           : 1
+# Counters                                             : 4
+ 3-bit up counter                                      : 1
+ 4-bit up counter                                      : 3
+# Registers                                            : 554
+ Flip-Flops                                            : 554
 
 =========================================================================
 
@@ -561,13 +587,7 @@ Optimizing unit <ExtractVDDParameters_MUSER_CalculateVDD> ...
 Mapping all equations...
 Building and optimizing final netlist ...
 Found area constraint ratio of 100 (+ 5) on block CalculateVDD, actual ratio is 3.
-FlipFlop XLXI_1/ExtractVDDParameters_mux has been replicated 1 time(s)
-FlipFlop XLXI_1/state_FSM_FFd16 has been replicated 2 time(s)
-FlipFlop XLXI_1/state_FSM_FFd2 has been replicated 1 time(s)
-FlipFlop XLXI_1/state_FSM_FFd4 has been replicated 3 time(s)
-FlipFlop XLXI_1/state_FSM_FFd6 has been replicated 3 time(s)
-FlipFlop XLXI_1/state_FSM_FFd8 has been replicated 2 time(s)
-FlipFlop XLXI_6/XLXI_197/state_FSM_FFd2 has been replicated 2 time(s)
+FlipFlop XLXI_1/state_FSM_FFd8 has been replicated 1 time(s)
 
 Final Macro Processing ...
 
@@ -575,8 +595,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 527
- Flip-Flops                                            : 527
+# Registers                                            : 534
+ Flip-Flops                                            : 534
 
 =========================================================================
 
@@ -605,35 +625,36 @@ Design Statistics
 # IOs                              : 557
 
 Cell Usage :
-# BELS                             : 463
+# BELS                             : 440
 #      AND2                        : 21
 #      AND2B1                      : 21
 #      BUF                         : 30
 #      GND                         : 1
-#      INV                         : 1
-#      LUT2                        : 115
-#      LUT2_L                      : 5
-#      LUT3                        : 11
-#      LUT3_D                      : 1
-#      LUT3_L                      : 2
-#      LUT4                        : 188
-#      LUT4_D                      : 5
-#      LUT4_L                      : 32
-#      MUXF5                       : 8
+#      INV                         : 5
+#      LUT2                        : 26
+#      LUT2_D                      : 2
+#      LUT2_L                      : 1
+#      LUT3                        : 55
+#      LUT3_L                      : 31
+#      LUT4                        : 176
+#      LUT4_D                      : 4
+#      LUT4_L                      : 34
+#      MUXF5                       : 11
 #      OR2                         : 21
 #      VCC                         : 1
-# FlipFlops/Latches                : 527
-#      FDE                         : 359
-#      FDR                         : 26
-#      FDRE                        : 117
-#      FDRSE                       : 18
+# FlipFlops/Latches                : 534
+#      FDE                         : 358
+#      FDR                         : 29
+#      FDRE                        : 132
+#      FDRS                        : 1
+#      FDRSE                       : 7
 #      FDS                         : 7
 # RAMS                             : 1
 #      RAMB16                      : 1
 # Clock Buffers                    : 1
 #      BUFG                        : 1
-# IO Buffers                       : 557
-#      IBUF                        : 176
+# IO Buffers                       : 552
+#      IBUF                        : 171
 #      OBUF                        : 381
 =========================================================================
 
@@ -642,11 +663,11 @@ Device utilization summary:
 
 Selected Device : 4vsx25ff668-10 
 
- Number of Slices:                      328  out of  10240     3%  
- Number of Slice Flip Flops:            527  out of  20480     2%  
- Number of 4 input LUTs:                360  out of  20480     1%  
+ Number of Slices:                      371  out of  10240     3%  
+ Number of Slice Flip Flops:            534  out of  20480     2%  
+ Number of 4 input LUTs:                334  out of  20480     1%  
  Number of IOs:                         557
- Number of bonded IOBs:                 557  out of    320   174% (*) 
+ Number of bonded IOBs:                 552  out of    320   172% (*) 
  Number of FIFO16/RAMB16s:                1  out of    128     0%  
     Number used as RAMB16s:               1
  Number of GCLKs:                         1  out of     32     3%  
@@ -674,7 +695,7 @@ Clock Information:
 -----------------------------------+------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)  | Load  |
 -----------------------------------+------------------------+-------+
-i_clock                            | IBUF+BUFG              | 528   |
+i_clock                            | IBUF+BUFG              | 535   |
 -----------------------------------+------------------------+-------+
 
 Asynchronous Control Signals Information:
@@ -689,9 +710,9 @@ Timing Summary:
 ---------------
 Speed Grade: -10
 
-   Minimum period: 3.119ns (Maximum Frequency: 320.653MHz)
-   Minimum input arrival time before clock: 4.738ns
-   Maximum output required time after clock: 7.044ns
+   Minimum period: 4.139ns (Maximum Frequency: 241.608MHz)
+   Minimum input arrival time before clock: 4.618ns
+   Maximum output required time after clock: 7.107ns
    Maximum combinational path delay: No path found
 
 Timing Detail:
@@ -700,55 +721,54 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 3.119ns (frequency: 320.653MHz)
-  Total number of paths / destination ports: 1673 / 852
+  Clock period: 4.139ns (frequency: 241.608MHz)
+  Total number of paths / destination ports: 3096 / 896
 -------------------------------------------------------------------------
-Delay:               3.119ns (Levels of Logic = 2)
-  Source:            XLXI_1/state_FSM_FFd16_2 (FF)
-  Destination:       XLXI_1/fttmp1_31 (FF)
+Delay:               4.139ns (Levels of Logic = 4)
+  Source:            XLXI_1/mulfp_wait_2 (FF)
+  Destination:       XLXI_1/fttmp1_9 (FF)
   Source Clock:      i_clock rising
   Destination Clock: i_clock rising
 
-  Data Path: XLXI_1/state_FSM_FFd16_2 to XLXI_1/fttmp1_31
+  Data Path: XLXI_1/mulfp_wait_2 to XLXI_1/fttmp1_9
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDRSE:C->Q           33   0.360   1.095  XLXI_1/state_FSM_FFd16_2 (XLXI_1/state_FSM_FFd16_2)
-     LUT3_D:I2->O         31   0.195   1.252  XLXI_1/fttmp1_mux0000<9>38 (XLXI_1/fttmp1_mux0000<0>38)
-     LUT4:I1->O            1   0.195   0.000  XLXI_1/fttmp1_mux0000<8>48 (XLXI_1/fttmp1_mux0000<8>)
-     FDE:D                     0.022          XLXI_1/fttmp1_8
+     FDRE:C->Q             4   0.360   0.755  XLXI_1/mulfp_wait_2 (XLXI_1/mulfp_wait_2)
+     LUT4:I0->O           38   0.195   1.114  XLXI_1/state_cmp_eq00021 (XLXI_1/state_cmp_eq0002)
+     LUT3:I2->O            1   0.195   0.523  XLXI_1/fttmp1_mux0000<9>10_SW0 (N120)
+     LUT4:I3->O            1   0.195   0.585  XLXI_1/fttmp1_mux0000<9>10 (XLXI_1/fttmp1_mux0000<9>10)
+     LUT4:I2->O            1   0.195   0.000  XLXI_1/fttmp1_mux0000<9>29 (XLXI_1/fttmp1_mux0000<9>)
+     FDE:D                     0.022          XLXI_1/fttmp1_9
     ----------------------------------------
-    Total                      3.119ns (0.772ns logic, 2.347ns route)
-                                       (24.8% logic, 75.2% route)
+    Total                      4.139ns (1.162ns logic, 2.977ns route)
+                                       (28.1% logic, 71.9% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 1049 / 665
+  Total number of paths / destination ports: 735 / 639
 -------------------------------------------------------------------------
-Offset:              4.738ns (Levels of Logic = 5)
-  Source:            subfprdy (PAD)
-  Destination:       XLXI_1/fttmp1_9 (FF)
+Offset:              4.618ns (Levels of Logic = 2)
+  Source:            i_reset (PAD)
+  Destination:       XLXI_1/divfpce (FF)
   Destination Clock: i_clock rising
 
-  Data Path: subfprdy to XLXI_1/fttmp1_9
+  Data Path: i_reset to XLXI_1/divfpce
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O            40   0.965   1.122  subfprdy_IBUF (subfprdy_IBUF)
-     LUT2:I1->O            1   0.195   0.741  XLXI_1/fttmp1_mux0000<9>3 (XLXI_1/fttmp1_mux0000<9>3)
-     LUT4:I0->O            1   0.195   0.585  XLXI_1/fttmp1_mux0000<9>8 (XLXI_1/fttmp1_mux0000<9>8)
-     LUT4:I2->O            1   0.195   0.523  XLXI_1/fttmp1_mux0000<9>26 (XLXI_1/fttmp1_mux0000<9>26)
-     LUT4:I3->O            1   0.195   0.000  XLXI_1/fttmp1_mux0000<9>48 (XLXI_1/fttmp1_mux0000<9>)
-     FDE:D                     0.022          XLXI_1/fttmp1_9
+     IBUF:I->O           178   0.965   1.499  i_reset_IBUF (i_reset_IBUF)
+     INV:I->O            116   0.358   1.256  XLXI_6/XLXI_197/i_reset_inv1_INV_0 (XLXI_1/i_reset_inv)
+     FDE:CE                    0.540          XLXI_1/divfpa_0
     ----------------------------------------
-    Total                      4.738ns (1.767ns logic, 2.971ns route)
-                                       (37.3% logic, 62.7% route)
+    Total                      4.618ns (1.863ns logic, 2.755ns route)
+                                       (40.3% logic, 59.7% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
   Total number of paths / destination ports: 348 / 320
 -------------------------------------------------------------------------
-Offset:              7.044ns (Levels of Logic = 4)
+Offset:              7.107ns (Levels of Logic = 4)
   Source:            XLXI_1/ExtractVDDParameters_mux (FF)
   Destination:       i2c_mem_ena (PAD)
   Source Clock:      i_clock rising
@@ -757,28 +777,28 @@ Offset:              7.044ns (Levels of Logic = 4)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDE:C->Q             27   0.360   1.289  XLXI_1/ExtractVDDParameters_mux (XLXI_1/ExtractVDDParameters_mux)
+     FDE:C->Q             43   0.360   1.352  XLXI_1/ExtractVDDParameters_mux (XLXI_1/ExtractVDDParameters_mux)
      begin scope: 'XLXI_16_11'
      AND2B1:I0->O          1   0.195   0.688  I_36_7 (M0)
      OR2:I1->O             1   0.195   0.360  I_36_8 (O)
      end scope: 'XLXI_16_11'
      OBUF:I->O                 3.957          i2c_mem_addra_11_OBUF (i2c_mem_addra<11>)
     ----------------------------------------
-    Total                      7.044ns (4.707ns logic, 2.337ns route)
-                                       (66.8% logic, 33.2% route)
+    Total                      7.107ns (4.707ns logic, 2.400ns route)
+                                       (66.2% logic, 33.8% route)
 
 =========================================================================
 
 
 Total REAL time to Xst completion: 17.00 secs
-Total CPU time to Xst completion: 16.00 secs
+Total CPU time to Xst completion: 16.10 secs
  
 --> 
 
 
-Total memory usage is 568456 kilobytes
+Total memory usage is 569132 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :   70 (   0 filtered)
-Number of infos    :    6 (   0 filtered)
+Number of warnings :   75 (   0 filtered)
+Number of infos    :    7 (   0 filtered)
 
