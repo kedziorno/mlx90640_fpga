@@ -1,79 +1,21 @@
+NET "i_clock" PERIOD = 10 ns;
+NET "i_clock" TNM_NET = "i_clock";
 NET "i_clock" LOC = AE14;
-
-#NET "i_vga_rgb<0>" LOC="AA24";
-#NET "i_vga_rgb<1>" LOC="V20";
-#NET "i_vga_rgb<2>" LOC="AC25";
-#NET "i_vga_rgb<3>" LOC="AC24";
-#NET "i_vga_rgb<4>" LOC="W25";
-#NET "i_vga_rgb<5>" LOC="AB24";
-#NET "i_vga_rgb<6>" LOC="Y24";
-#NET "i_vga_rgb<7>" LOC="AB23";
-#NET "i_vga_rgb<8>" LOC="W26";
-#NET "i_vga_rgb<9>" LOC="Y26";
-#NET "i_vga_rgb<10>" LOC="Y25";
-#NET "i_vga_rgb<11>" LOC="AA26";
-#NET "i_vga_rgb<12>" LOC="AA23";
-#NET "i_vga_rgb<13>" LOC="AC21";
-#NET "i_vga_rgb<14>" LOC="AB26";
-#NET "i_vga_rgb<15>" LOC="AC23";
-
-#NET "i_vga_hsync" LOC="V21";
-#NET "i_vga_vsync" LOC="W22";
-
-#NET "i_clk25" LOC="V22";
-
-#NET "i_vga_syncn" LOC="AC26";
-#NET "i_vga_blankn" LOC="AD26";
-
-#NET "o_debug<0>" LOC="AD25";
-#NET "o_debug<1>" LOC="AB22";
-#NET "o_debug<2>" LOC="W21";
-#NET "o_debug<3>" LOC="W20";
-#NET "o_debug<4>" LOC="AB21";
-#NET "o_debug<5>" LOC="AD22";
-#NET "o_debug<6>" LOC="AE24";
-#NET "o_debug<7>" LOC="AF24";
 
 NET "vga_clock" LOC = AF8;
 
-#NET "o_vga_rgb<0>" LOC="C5"; #vgaB3
-#NET "o_vga_rgb<1>" LOC="C7";
-#NET "o_vga_rgb<2>" LOC="B7";
-#NET "o_vga_rgb<3>" LOC="G8";
-#NET "o_vga_rgb<4>" LOC="F8"; #vgaB7
-#NET "o_vga_rgb<5>" LOC="M20"; # ### vgaG2
-#NET "o_vga_rgb<6>" LOC="E4"; #vgaG3
-#NET "o_vga_rgb<7>" LOC="D3";
-#NET "o_vga_rgb<8>" LOC="H7";
-#NET "o_vga_rgb<9>" LOC="H8";
-#NET "o_vga_rgb<10>" LOC="C1"; #vgaG7
-#NET "o_vga_rgb<11>" LOC="C2"; #vgaB3
-#NET "o_vga_rgb<12>" LOC="G7";
-#NET "o_vga_rgb<13>" LOC="F7";
-#NET "o_vga_rgb<14>" LOC="E5";
-#NET "o_vga_rgb<15>" LOC="E6"; #vgaB7
-
-NET "vga_r[0]" LOC = N23;
-NET "vga_r[1]" LOC = N24;
-NET "vga_r[2]" LOC = N25;
 NET "vga_r[3]" LOC = C2;
 NET "vga_r[4]" LOC = G7;
 NET "vga_r[5]" LOC = F7;
 NET "vga_r[6]" LOC = E5;
 NET "vga_r[7]" LOC = E6;
 
-NET "vga_g[0]" LOC = M22;
-NET "vga_g[1]" LOC = M23;
-NET "vga_g[2]" LOC = M20;
 NET "vga_g[3]" LOC = E4;
 NET "vga_g[4]" LOC = D3;
 NET "vga_g[5]" LOC = H7;
 NET "vga_g[6]" LOC = H8;
 NET "vga_g[7]" LOC = C1;
 
-NET "vga_b[0]" LOC = M21;
-NET "vga_b[1]" LOC = M26;
-NET "vga_b[2]" LOC = L26;
 NET "vga_b[3]" LOC = C5;
 NET "vga_b[4]" LOC = C7;
 NET "vga_b[5]" LOC = B7;
@@ -83,40 +25,6 @@ NET "vga_b[7]" LOC = F8;
 NET "vga_hsync" LOC = C10;
 NET "vga_vsync" LOC = A8;
 
-NET "vga_syncn" LOC = L23;
-NET "vga_blankn" LOC = M24;
-
-NET "vga_psave" LOC = M25;
-
 NET "i_reset" LOC = E7;
 
 #NET "i_clk25" CLOCK_DEDICATED_ROUTE = FALSE;
-
-# PlanAhead Generated physical constraints 
-
-#INST "tfm_inst/inst_fixed2float" AREA_GROUP = "pblock_tfm_inst_inst_fxd2flt";
-#INST "inst_float2fixed" AREA_GROUP = "pblock_inst_float2fixed_1";
-#AREA_GROUP "pblock_inst_float2fixed_1" RANGE=SLICE_X40Y174:SLICE_X79Y191;
-#AREA_GROUP "pblock_inst_float2fixed_1" RANGE=DSP48_X2Y44:DSP48_X3Y47;
-#AREA_GROUP "pblock_inst_float2fixed_1" RANGE=FIFO16_X4Y22:FIFO16_X7Y23;
-#AREA_GROUP "pblock_inst_float2fixed_1" RANGE=RAMB16_X4Y22:RAMB16_X7Y23;
-#INST "tfm_inst/inst_addfp" AREA_GROUP = "pblock_tfm_inst_inst_addfp_1";
-#AREA_GROUP "pblock_tfm_inst_inst_addfp_1" RANGE=SLICE_X40Y144:SLICE_X79Y175;
-#AREA_GROUP "pblock_tfm_inst_inst_addfp_1" RANGE=DSP48_X2Y36:DSP48_X3Y43;
-#AREA_GROUP "pblock_tfm_inst_inst_addfp_1" RANGE=FIFO16_X4Y18:FIFO16_X7Y21;
-#AREA_GROUP "pblock_tfm_inst_inst_addfp_1" RANGE=RAMB16_X4Y18:RAMB16_X7Y21;
-#INST "tfm_inst/inst_divfp" AREA_GROUP = "pblock_tfm_inst_inst_divfp_1";
-#AREA_GROUP "pblock_tfm_inst_inst_divfp_1" RANGE=SLICE_X40Y112:SLICE_X79Y143;
-#AREA_GROUP "pblock_tfm_inst_inst_divfp_1" RANGE=DSP48_X2Y28:DSP48_X3Y35;
-#AREA_GROUP "pblock_tfm_inst_inst_divfp_1" RANGE=FIFO16_X4Y14:FIFO16_X7Y17;
-#AREA_GROUP "pblock_tfm_inst_inst_divfp_1" RANGE=RAMB16_X4Y14:RAMB16_X7Y17;
-#INST "tfm_inst/inst_mulfp" AREA_GROUP = "pblock_tfm_inst_inst_mulfp_1";
-#AREA_GROUP "pblock_tfm_inst_inst_mulfp_1" RANGE=SLICE_X40Y80:SLICE_X79Y111;
-#AREA_GROUP "pblock_tfm_inst_inst_mulfp_1" RANGE=DSP48_X2Y20:DSP48_X3Y27;
-#AREA_GROUP "pblock_tfm_inst_inst_mulfp_1" RANGE=FIFO16_X4Y10:FIFO16_X7Y13;
-#AREA_GROUP "pblock_tfm_inst_inst_mulfp_1" RANGE=RAMB16_X4Y10:RAMB16_X7Y13;
-#INST "tfm_inst/inst_subfp" AREA_GROUP = "pblock_tfm_inst_inst_subfp_1";
-#AREA_GROUP "pblock_tfm_inst_inst_subfp_1" RANGE=SLICE_X40Y48:SLICE_X79Y79;
-#AREA_GROUP "pblock_tfm_inst_inst_subfp_1" RANGE=DSP48_X2Y12:DSP48_X3Y19;
-#AREA_GROUP "pblock_tfm_inst_inst_subfp_1" RANGE=FIFO16_X4Y6:FIFO16_X7Y9;
-#AREA_GROUP "pblock_tfm_inst_inst_subfp_1" RANGE=RAMB16_X4Y6:RAMB16_X7Y9;

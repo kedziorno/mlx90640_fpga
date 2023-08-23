@@ -332,16 +332,26 @@ fixed2floata <= CalculateKGain_fixed2floata when CalculateKGain_mux = '1' else f
 fixed2floatond <= CalculateKGain_fixed2floatond when CalculateKGain_mux = '1' else fixed2floatond_internal;
 fixed2floatce <= CalculateKGain_fixed2floatce when CalculateKGain_mux = '1' else fixed2floatce_internal;
 fixed2floatsclr <= CalculateKGain_fixed2floatsclr when CalculateKGain_mux = '1' else fixed2floatsclr_internal;
-CalculateKGain_fixed2floatr <= fixed2floatr when CalculateKGain_mux = '1' else (others => '0');
-CalculateKGain_fixed2floatrdy <= fixed2floatrdy when CalculateKGain_mux = '1' else '0';
+--CalculateKGain_fixed2floatr <= fixed2floatr when CalculateKGain_mux = '1' else (others => '0');
+--CalculateKGain_fixed2floatrdy <= fixed2floatrdy when CalculateKGain_mux = '1' else '0';
+CalculateKGain_fixed2floatr <= fixed2floatr;
+CalculateKGain_fixed2floatrdy <= fixed2floatrdy;
 
-divfpa <= CalculateKGain_divfpa when CalculateKGain_mux = '1' else (others => '0');
-divfpb <= CalculateKGain_divfpb when CalculateKGain_mux = '1' else (others => '0');
-divfpond <= CalculateKGain_divfpond when CalculateKGain_mux = '1' else '0';
-divfpsclr <= CalculateKGain_divfpsclr when CalculateKGain_mux = '1' else '0';
-divfpce <= CalculateKGain_divfpce when CalculateKGain_mux = '1' else '0';
-CalculateKGain_divfpr <= divfpr when CalculateKGain_mux = '1' else (others => '0');
-CalculateKGain_divfprdy <= divfprdy when CalculateKGain_mux = '1' else '0';
+--divfpa <= CalculateKGain_divfpa when CalculateKGain_mux = '1' else (others => '0');
+--divfpb <= CalculateKGain_divfpb when CalculateKGain_mux = '1' else (others => '0');
+--divfpond <= CalculateKGain_divfpond when CalculateKGain_mux = '1' else '0';
+--divfpsclr <= CalculateKGain_divfpsclr when CalculateKGain_mux = '1' else '0';
+--divfpce <= CalculateKGain_divfpce when CalculateKGain_mux = '1' else '0';
+--CalculateKGain_divfpr <= divfpr when CalculateKGain_mux = '1' else (others => '0');
+--CalculateKGain_divfprdy <= divfprdy when CalculateKGain_mux = '1' else '0';
+
+divfpa <= CalculateKGain_divfpa;
+divfpb <= CalculateKGain_divfpb;
+divfpond <= CalculateKGain_divfpond;
+divfpsclr <= CalculateKGain_divfpsclr;
+divfpce <= CalculateKGain_divfpce;
+CalculateKGain_divfpr <= divfpr;
+CalculateKGain_divfprdy <= divfprdy;
 
 mulfpa <= mulfpa_internal;
 mulfpb <= mulfpb_internal;
