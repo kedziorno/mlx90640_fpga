@@ -32,6 +32,8 @@ USE ieee.std_logic_1164.ALL;
 -- arithmetic functions with Signed or Unsigned values
 USE ieee.numeric_std.ALL;
 
+USE work.p_fphdl_package3.all;
+
 ENTITY tb_CalculateAlphaComp IS
 END tb_CalculateAlphaComp;
 
@@ -189,10 +191,35 @@ signal CalculateAlphaComp_mulfpclk : std_logic;
 signal CalculateAlphaComp_addfpclk : std_logic;
 signal CalculateAlphaComp_subfpclk : std_logic;
 
+COMPONENT tb_i2c_mem
+PORT (
+clka : IN STD_LOGIC;
+ena : IN STD_LOGIC;
+wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+addra : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
+dina : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+);
+END COMPONENT;
+
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
 
+signal out1r : real;
+
 BEGIN
+
+out1r <= ap_slv2fp (CalculateAlphaComp_do); -- output data
+
+inst_tb_i2c_mem : tb_i2c_mem
+PORT MAP (
+clka => CalculateAlphaComp_clock,
+ena => CalculateAlphaComp_i2c_mem_ena,
+wea => "0",
+addra => CalculateAlphaComp_i2c_mem_addra,
+dina => (others => '0'),
+douta => CalculateAlphaComp_i2c_mem_douta
+);
 
 -- Instantiate the Unit Under Test (UUT)
 uut: CalculateAlphaComp PORT MAP (

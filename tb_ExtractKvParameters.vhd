@@ -85,7 +85,6 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
-o_done : out std_logic;
 o_rdy : out std_logic;
 
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -105,7 +104,6 @@ signal ExtractKvParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal ExtractKvParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal ExtractKvParameters_do : std_logic_vector (31 downto 0);
 signal ExtractKvParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
-signal ExtractKvParameters_done : std_logic;
 signal ExtractKvParameters_rdy : std_logic;
 signal ExtractKvParameters_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractKvParameters_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -147,7 +145,6 @@ i2c_mem_douta => ExtractKvParameters_i2c_mem_douta,
 
 o_do => ExtractKvParameters_do,
 i_addr => ExtractKvParameters_addr,
-o_done => ExtractKvParameters_done,
 o_rdy => ExtractKvParameters_rdy,
 
 divfpa => ExtractKvParameters_divfpa,

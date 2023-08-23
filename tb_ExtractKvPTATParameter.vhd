@@ -89,6 +89,9 @@ i_reset <= '0';
 wait for i_clock_period*10;
 -- insert stimulus here
 i_ee0x2432 <= x"5952";
+--i_ee0x2432 <= x"2555";
+--i_ee0x2432 <= x"2fa4";
+--i_ee0x2432 <= x"9c78";
 wait for i_clock_period;
 report "done" severity failure;
 end process;
