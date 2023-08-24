@@ -623,30 +623,35 @@ WARNING:Xst:647 - Input <fixed2floatrdy> is never used. This port will be preser
     Found 64-bit register for signal <fixed2floata>.
     Found 1-bit register for signal <subfpsclr>.
     Found 32-bit register for signal <o_Ta>.
-    Found 4-bit register for signal <addfp_wait>.
-    Found 4-bit adder for signal <addfp_wait$addsub0000>.
+    Found 1-bit register for signal <addfp_rdy>.
+    Found 1-bit register for signal <addfp_run>.
+    Found 4-bit up counter for signal <addfp_wait>.
     Found 32-bit register for signal <deltaV>.
-    Found 5-bit register for signal <divfp_wait>.
-    Found 5-bit adder for signal <divfp_wait$addsub0000>.
+    Found 1-bit register for signal <divfp_rdy>.
+    Found 1-bit register for signal <divfp_run>.
+    Found 5-bit up counter for signal <divfp_wait>.
     Found 16-bit register for signal <ee2431>.
-    Found 3-bit register for signal <fi2fl_wait>.
-    Found 3-bit adder for signal <fi2fl_wait$addsub0000>.
+    Found 1-bit register for signal <fi2fl_rdy>.
+    Found 1-bit register for signal <fi2fl_run>.
+    Found 3-bit up counter for signal <fi2fl_wait>.
     Found 32-bit register for signal <fttmp1>.
     Found 32-bit register for signal <fttmp2>.
-    Found 4-bit register for signal <mulfp_wait>.
-    Found 4-bit adder for signal <mulfp_wait$addsub0000>.
+    Found 1-bit register for signal <mulfp_rdy>.
+    Found 1-bit register for signal <mulfp_run>.
+    Found 4-bit up counter for signal <mulfp_wait>.
     Found 16-bit register for signal <ram0700>.
     Found 16-bit register for signal <ram0720>.
-    Found 4-bit register for signal <subfp_wait>.
-    Found 4-bit adder for signal <subfp_wait$addsub0000>.
+    Found 1-bit register for signal <subfp_rdy>.
+    Found 1-bit register for signal <subfp_run>.
+    Found 4-bit up counter for signal <subfp_wait>.
     Found 32-bit register for signal <vbe_ft>.
     Found 32-bit register for signal <vptat25_ft>.
     Found 32-bit register for signal <vptat_ft>.
     Found 32-bit register for signal <vptatart>.
     Summary:
 	inferred   1 Finite State Machine(s).
-	inferred 700 D-type flip-flop(s).
-	inferred   5 Adder/Subtractor(s).
+	inferred   5 Counter(s).
+	inferred 690 D-type flip-flop(s).
 Unit <calculateTa_process_p0> synthesized.
 
 
@@ -705,23 +710,19 @@ Synthesizing Unit <CalculateTa>.
     Related source file is "/home/user/workspace/mlx90640_fpga/CalculateTa.vhf".
 Unit <CalculateTa> synthesized.
 
-INFO:Xst:1767 - HDL ADVISOR - Resource sharing has identified that some arithmetic operations in this design can share the same physical resources for reduced device utilization. For improved clock frequency you may try to disable resource sharing.
 
 =========================================================================
 HDL Synthesis Report
 
 Macro Statistics
-# Adders/Subtractors                                   : 5
- 3-bit adder                                           : 1
- 4-bit adder                                           : 3
- 5-bit adder                                           : 1
-# Registers                                            : 115
- 1-bit register                                        : 92
+# Counters                                             : 5
+ 3-bit up counter                                      : 1
+ 4-bit up counter                                      : 3
+ 5-bit up counter                                      : 1
+# Registers                                            : 120
+ 1-bit register                                        : 102
  12-bit register                                       : 1
- 3-bit register                                        : 1
  32-bit register                                       : 16
- 4-bit register                                        : 3
- 5-bit register                                        : 1
  64-bit register                                       : 1
 
 =========================================================================
@@ -829,12 +830,12 @@ Advanced HDL Synthesis Report
 
 Macro Statistics
 # FSMs                                                 : 1
-# Adders/Subtractors                                   : 5
- 3-bit adder                                           : 1
- 4-bit adder                                           : 3
- 5-bit adder                                           : 1
-# Registers                                            : 700
- Flip-Flops                                            : 700
+# Counters                                             : 5
+ 3-bit up counter                                      : 1
+ 4-bit up counter                                      : 3
+ 5-bit up counter                                      : 1
+# Registers                                            : 690
+ Flip-Flops                                            : 690
 
 =========================================================================
 
@@ -905,8 +906,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 709
- Flip-Flops                                            : 709
+# Registers                                            : 719
+ Flip-Flops                                            : 719
 
 =========================================================================
 
@@ -935,27 +936,28 @@ Design Statistics
 # IOs                              : 589
 
 Cell Usage :
-# BELS                             : 1228
+# BELS                             : 1223
 #      AND2                        : 32
 #      AND2B1                      : 32
 #      BUF                         : 54
 #      GND                         : 1
-#      INV                         : 1
+#      INV                         : 6
 #      LUT2                        : 183
-#      LUT2_D                      : 2
-#      LUT3                        : 196
+#      LUT2_D                      : 1
+#      LUT3                        : 206
 #      LUT3_D                      : 3
-#      LUT4                        : 482
-#      LUT4_D                      : 2
-#      LUT4_L                      : 65
-#      MUXF5                       : 142
+#      LUT3_L                      : 1
+#      LUT4                        : 474
+#      LUT4_D                      : 3
+#      LUT4_L                      : 61
+#      MUXF5                       : 133
 #      OR2                         : 32
 #      VCC                         : 1
-# FlipFlops/Latches                : 709
+# FlipFlops/Latches                : 719
 #      FDE                         : 300
-#      FDR                         : 113
-#      FDRE                        : 34
-#      FDRS                        : 229
+#      FDR                         : 96
+#      FDRE                        : 58
+#      FDRS                        : 232
 #      FDRSE                       : 27
 #      FDS                         : 6
 # RAMS                             : 4
@@ -972,9 +974,9 @@ Device utilization summary:
 
 Selected Device : 4vsx25ff668-10 
 
- Number of Slices:                      544  out of  10240     5%  
- Number of Slice Flip Flops:            709  out of  20480     3%  
- Number of 4 input LUTs:                934  out of  20480     4%  
+ Number of Slices:                      545  out of  10240     5%  
+ Number of Slice Flip Flops:            719  out of  20480     3%  
+ Number of 4 input LUTs:                938  out of  20480     4%  
  Number of IOs:                         589
  Number of bonded IOBs:                 584  out of    320   182% (*) 
  Number of FIFO16/RAMB16s:                4  out of    128     3%  
@@ -1004,7 +1006,7 @@ Clock Information:
 -----------------------------------+---------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)     | Load  |
 -----------------------------------+---------------------------+-------+
-i_clock                            | BUFGP                     | 713   |
+i_clock                            | BUFGP                     | 723   |
 N0                                 | NONE(XLXI_2/ROM_ALPHAPTAT)| 4     |
 -----------------------------------+---------------------------+-------+
 INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
@@ -1022,7 +1024,7 @@ Timing Summary:
 Speed Grade: -10
 
    Minimum period: 5.048ns (Maximum Frequency: 198.108MHz)
-   Minimum input arrival time before clock: 5.423ns
+   Minimum input arrival time before clock: 5.404ns
    Maximum output required time after clock: 4.694ns
    Maximum combinational path delay: No path found
 
@@ -1033,7 +1035,7 @@ All values displayed in nanoseconds (ns)
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
   Clock period: 5.048ns (frequency: 198.108MHz)
-  Total number of paths / destination ports: 7029 / 1038
+  Total number of paths / destination ports: 7056 / 1095
 -------------------------------------------------------------------------
 Delay:               5.048ns (Levels of Logic = 6)
   Source:            XLXI_1/o_ee2432_9 (FF)
@@ -1060,9 +1062,9 @@ Delay:               5.048ns (Levels of Logic = 6)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 1200 / 1040
+  Total number of paths / destination ports: 1210 / 1050
 -------------------------------------------------------------------------
-Offset:              5.423ns (Levels of Logic = 2)
+Offset:              5.404ns (Levels of Logic = 2)
   Source:            i_reset (PAD)
   Destination:       XLXI_1/i2c_mem_addra_11 (FF)
   Destination Clock: i_clock rising
@@ -1071,12 +1073,12 @@ Offset:              5.423ns (Levels of Logic = 2)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           428   0.965   2.476  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O           423   0.965   2.457  i_reset_IBUF (i_reset_IBUF)
      INV:I->O             72   0.358   1.084  XLXI_1/i_reset_inv1_INV_0 (XLXI_1/i_reset_inv)
      FDE:CE                    0.540          XLXI_1/fttmp1_0
     ----------------------------------------
-    Total                      5.423ns (1.863ns logic, 3.560ns route)
-                                       (34.4% logic, 65.6% route)
+    Total                      5.404ns (1.863ns logic, 3.541ns route)
+                                       (34.5% logic, 65.5% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
@@ -1100,15 +1102,15 @@ Offset:              4.694ns (Levels of Logic = 1)
 =========================================================================
 
 
-Total REAL time to Xst completion: 20.00 secs
-Total CPU time to Xst completion: 18.96 secs
+Total REAL time to Xst completion: 21.00 secs
+Total CPU time to Xst completion: 19.87 secs
  
 --> 
 
 
-Total memory usage is 598040 kilobytes
+Total memory usage is 598640 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :  119 (   0 filtered)
-Number of infos    :    2 (   0 filtered)
+Number of infos    :    1 (   0 filtered)
 
