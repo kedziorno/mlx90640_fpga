@@ -118,6 +118,11 @@ p0 : process (i_clock) is
 	constant const2pow18_ft : std_logic_vector (31 downto 0) := x"48800000";
 	constant const1_ft : std_logic_vector (31 downto 0) := x"3F800000";
 	constant const25_ft : std_logic_vector (31 downto 0) := x"41C80000";
+  variable divfp_wait : integer range 0 to C_DIVFP_WAIT-1;
+  variable addfp_wait : integer range 0 to C_ADDFP_WAIT-1;
+  variable mulfp_wait : integer range 0 to C_MULFP_WAIT-1;
+  variable subfp_wait : integer range 0 to C_SUBFP_WAIT-1;
+  variable fi2fl_wait : integer range 0 to C_FI2FL_WAIT-1;
 begin
 	if (rising_edge (i_clock)) then
 	if (i_reset = '1') then
@@ -149,6 +154,11 @@ begin
 		o_Ta <= (others => '0');
 		o_rdy <= '0';
 		i2c_mem_ena <= '0';
+    divfp_wait := 0;
+    mulfp_wait := 0;
+    addfp_wait := 0;
+    subfp_wait := 0;
+    fi2fl_wait := 0;
 	else
 	case (state) is
 	when idle =>
@@ -255,13 +265,25 @@ begin
 		subfpb <= const3dot3_ft;
 		subfpond <= '1';
 	when s2 =>
-		if (subfprdy = '1') then state := s3;
-			deltaV := subfpr; -- deltaV =  Vdd-3.3
-			subfpce <= '0';
-			subfpond <= '0';
-			subfpsclr <= '1';
---			--report "================ CalculateTa deltaV : " & real'image (ap_slv2fp (deltaV));
-		else state := s2; end if;
+if (subfp_wait = C_SUBFP_WAIT-1) then
+deltaV := subfpr; -- deltaV =  Vdd-3.3
+subfpce <= '0';
+subfpond <= '0';
+subfpsclr <= '1';
+--report "================ CalculateTa deltaV : " & real'image (ap_slv2fp (deltaV));
+subfp_wait := 0;
+state := s3;
+else
+subfp_wait := subfp_wait + 1;
+state := s2;
+end if;
+--		if (subfprdy = '1') then state := s3;
+--			deltaV := subfpr; -- deltaV =  Vdd-3.3
+--			subfpce <= '0';
+--			subfpond <= '0';
+--			subfpsclr <= '1';
+----			--report "================ CalculateTa deltaV : " & real'image (ap_slv2fp (deltaV));
+--		else state := s2; end if;
 	when s3 => state := s6;
 		subfpsclr <= '0';
 
@@ -287,13 +309,25 @@ begin
 		ee2431 (15) & ee2431 (15) & 
 		ee2431 (15) & ee2431 & "00000000000000000000000000000";
 	when s6 =>
-		if (fixed2floatrdy = '1') then state := s7;
-			vptat25_ft := fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
---			--report "================ CalculateTa vptat25 : " & real'image (ap_slv2fp (vptat25_ft));
-		else state := s6; end if;
+if (fi2fl_wait = C_FI2FL_WAIT-1) then
+vptat25_ft := fixed2floatr;
+fixed2floatce <= '0';
+fixed2floatond <= '0';
+fixed2floatsclr <= '1';
+--report "================ CalculateTa vptat25 : " & real'image (ap_slv2fp (vptat25_ft));
+fi2fl_wait := 0;
+state := s7;
+else
+fi2fl_wait := fi2fl_wait + 1;
+state := s6;
+end if;
+--		if (fixed2floatrdy = '1') then state := s7;
+--			vptat25_ft := fixed2floatr;
+--			fixed2floatce <= '0';
+--			fixed2floatond <= '0';
+--			fixed2floatsclr <= '1';
+----			--report "================ CalculateTa vptat25 : " & real'image (ap_slv2fp (vptat25_ft));
+--		else state := s6; end if;
 	when s7 => state := s8;
 		fixed2floatsclr <= '0';
 		-- vptat
@@ -318,13 +352,25 @@ begin
 		ram0720 (15) & ram0720 (15) & 
 		ram0720 (15) & ram0720 & "00000000000000000000000000000";
 	when s8 =>
-		if (fixed2floatrdy = '1') then state := s9;
-			vptat_ft := fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
---			--report "================ CalculateTa vptat : " & real'image (ap_slv2fp (vptat_ft));
-		else state := s8; end if;
+if (fi2fl_wait = C_FI2FL_WAIT-1) then
+vptat_ft := fixed2floatr;
+fixed2floatce <= '0';
+fixed2floatond <= '0';
+fixed2floatsclr <= '1';
+--report "================ CalculateTa vptat : " & real'image (ap_slv2fp (vptat_ft));
+fi2fl_wait := 0;
+state := s9;
+else
+fi2fl_wait := fi2fl_wait + 1;
+state := s8;
+end if;
+--		if (fixed2floatrdy = '1') then state := s9;
+--			vptat_ft := fixed2floatr;
+--			fixed2floatce <= '0';
+--			fixed2floatond <= '0';
+--			fixed2floatsclr <= '1';
+----			--report "================ CalculateTa vptat : " & real'image (ap_slv2fp (vptat_ft));
+--		else state := s8; end if;
 	when s9 => state := s10;
 		fixed2floatsclr <= '0';
 		-- vbe
@@ -349,13 +395,25 @@ begin
 		ram0700 (15) & ram0700 (15) & 
 		ram0700 (15) & ram0700 & "00000000000000000000000000000";
 	when s10 =>
-		if (fixed2floatrdy = '1') then state := s11;
-			vbe_ft := fixed2floatr;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
---			--report "================ CalculateTa vbe : " & real'image (ap_slv2fp (vbe_ft));
-		else state := s10; end if;
+if (fi2fl_wait = C_FI2FL_WAIT-1) then
+vbe_ft := fixed2floatr;
+fixed2floatce <= '0';
+fixed2floatond <= '0';
+fixed2floatsclr <= '1';
+--report "================ CalculateTa vbe : " & real'image (ap_slv2fp (vbe_ft));
+fi2fl_wait := 0;
+state := s11;
+else
+fi2fl_wait := fi2fl_wait + 1;
+state := s10;
+end if;
+--		if (fixed2floatrdy = '1') then state := s11;
+--			vbe_ft := fixed2floatr;
+--			fixed2floatce <= '0';
+--			fixed2floatond <= '0';
+--			fixed2floatsclr <= '1';
+----			--report "================ CalculateTa vbe : " & real'image (ap_slv2fp (vbe_ft));
+--		else state := s10; end if;
 	when s11 => state := s12;
 		fixed2floatsclr <= '0';
 		-- vptat*alphaptat
@@ -365,12 +423,23 @@ begin
 		mulfpond <= '1';
                report_error ("================ CalculateTa alphaptat : ",ExtractAlphaPtatParameter_alphaptat,0.0);
 	when s12 =>
-		if (mulfprdy = '1') then state := s13;
-			fttmp2 := mulfpr; -- vptat*alphaptat
-			mulfpce <= '0';
-			mulfpond <= '0';
-			mulfpsclr <= '1';
-		else state := s12; end if;
+if (mulfp_wait = C_MULFP_WAIT-1) then
+fttmp2 := mulfpr; -- vptat*alphaptat
+mulfpce <= '0';
+mulfpond <= '0';
+mulfpsclr <= '1';
+mulfp_wait := 0;
+state := s13;
+else
+mulfp_wait := mulfp_wait + 1;
+state := s12;
+end if;
+--		if (mulfprdy = '1') then state := s13;
+--			fttmp2 := mulfpr; -- vptat*alphaptat
+--			mulfpce <= '0';
+--			mulfpond <= '0';
+--			mulfpsclr <= '1';
+--		else state := s12; end if;
 	when s13 => state := s14;
 		mulfpsclr <= '0';
 		-- vptat*alphaptat+vbe
@@ -379,12 +448,23 @@ begin
 		addfpb <= vbe_ft;
 		addfpond <= '1';
 	when s14 =>
-		if (addfprdy = '1') then state := s15;
-			fttmp2 := addfpr; -- vptat*alphaptat+vbe
-			addfpce <= '0';
-			addfpond <= '0';
-			addfpsclr <= '1';
-		else state := s14; end if;
+if (addfp_wait = C_ADDFP_WAIT-1) then
+fttmp2 := addfpr; -- vptat*alphaptat+vbe
+addfpce <= '0';
+addfpond <= '0';
+addfpsclr <= '1';
+addfp_wait := 0;
+state := s15;
+else
+addfp_wait := addfp_wait + 1;
+state := s14;
+end if;
+--		if (addfprdy = '1') then state := s15;
+--			fttmp2 := addfpr; -- vptat*alphaptat+vbe
+--			addfpce <= '0';
+--			addfpond <= '0';
+--			addfpsclr <= '1';
+--		else state := s14; end if;
 	when s15 => state := s16;
 		addfpsclr <= '0';
 		-- vptat/(vptat*alphaptat+vbe)
@@ -393,12 +473,23 @@ begin
 		divfpb <= fttmp2;
 		divfpond <= '1';
 	when s16 =>
-		if (divfprdy = '1') then state := s17;
-			fttmp2 := divfpr; -- vptat/(vptat*alphaptat+vbe)
-			divfpce <= '0';
-			divfpond <= '0';
-			divfpsclr <= '1';
-		else state := s16; end if;
+if (divfp_wait = C_DIVFP_WAIT-1) then
+fttmp2 := divfpr; -- vptat/(vptat*alphaptat+vbe)
+divfpce <= '0';
+divfpond <= '0';
+divfpsclr <= '1';
+divfp_wait := 0;
+state := s17;
+else
+divfp_wait := divfp_wait + 1;
+state := s16;
+end if;
+--		if (divfprdy = '1') then state := s17;
+--			fttmp2 := divfpr; -- vptat/(vptat*alphaptat+vbe)
+--			divfpce <= '0';
+--			divfpond <= '0';
+--			divfpsclr <= '1';
+--		else state := s16; end if;
 	when s17 => state := s18;
 		divfpsclr <= '0';
 		-- vptat/(vptat*alphaptat+vbe)*2^18
@@ -407,12 +498,23 @@ begin
 		mulfpb <= const2pow18_ft;
 		mulfpond <= '1';
 	when s18 =>
-		if (mulfprdy = '1') then state := s19;
-			vptatart := mulfpr; -- vptatart =  (vptat/(vptat*alphaptat+vbe))*2^18
-			mulfpce <= '0';
-			mulfpond <= '0';
-			mulfpsclr <= '1';
-		else state := s18; end if;
+if (mulfp_wait = C_MULFP_WAIT-1) then
+vptatart := mulfpr; -- vptatart =  (vptat/(vptat*alphaptat+vbe))*2^18
+mulfpce <= '0';
+mulfpond <= '0';
+mulfpsclr <= '1';
+mulfp_wait := 0;
+state := s19;
+else
+mulfp_wait := mulfp_wait + 1;
+state := s18;
+end if;
+--		if (mulfprdy = '1') then state := s19;
+--			vptatart := mulfpr; -- vptatart =  (vptat/(vptat*alphaptat+vbe))*2^18
+--			mulfpce <= '0';
+--			mulfpond <= '0';
+--			mulfpsclr <= '1';
+--		else state := s18; end if;
 	when s19 => state := s20;
 		mulfpsclr <= '0';
 		-- kvptat*deltaV
@@ -422,13 +524,25 @@ begin
 		mulfpond <= '1';
                report_error ("================ CalculateTa ExtractKvPTATParameter_kvptat : ",ExtractKvPTATParameter_kvptat,0.0);
 	when s20 =>
-		if (mulfprdy = '1') then state := s21;
-			fttmp1 := mulfpr; -- kvptat*deltaV
-			mulfpce <= '0';
-			mulfpond <= '0';
-			mulfpsclr <= '1';
---			--report "================ CalculateTa 1 : " & real'image (ap_slv2fp (fttmp1));
-		else state := s20; end if;
+if (mulfp_wait = C_MULFP_WAIT-1) then
+fttmp1 := mulfpr; -- kvptat*deltaV
+mulfpce <= '0';
+mulfpond <= '0';
+mulfpsclr <= '1';
+--report "================ CalculateTa 1 : " & real'image (ap_slv2fp (fttmp1));
+mulfp_wait := 0;
+state := s21;
+else
+mulfp_wait := mulfp_wait + 1;
+state := s20;
+end if;
+--		if (mulfprdy = '1') then state := s21;
+--			fttmp1 := mulfpr; -- kvptat*deltaV
+--			mulfpce <= '0';
+--			mulfpond <= '0';
+--			mulfpsclr <= '1';
+----			--report "================ CalculateTa 1 : " & real'image (ap_slv2fp (fttmp1));
+--		else state := s20; end if;
 	when s21 => state := s22;
 		mulfpsclr <= '0';
 		-- 1+kvptat*deltaV
@@ -437,13 +551,25 @@ begin
 		addfpb <= fttmp1;
 		addfpond <= '1';
 	when s22 =>
-		if (addfprdy = '1') then state := s23;
-			fttmp1 := addfpr; -- 1+kvptat*deltaV
-			addfpce <= '0';
-			addfpond <= '0';
-			addfpsclr <= '1';
---			--report "================ CalculateTa 2 : " & real'image (ap_slv2fp (fttmp1));
-		else state := s22; end if;
+if (addfp_wait = C_ADDFP_WAIT-1) then
+fttmp1 := addfpr; -- 1+kvptat*deltaV
+addfpce <= '0';
+addfpond <= '0';
+addfpsclr <= '1';
+--report "================ CalculateTa 2 : " & real'image (ap_slv2fp (fttmp1));
+addfp_wait := 0;
+state := s23;
+else
+addfp_wait := addfp_wait + 1;
+state := s22;
+end if;
+--		if (addfprdy = '1') then state := s23;
+--			fttmp1 := addfpr; -- 1+kvptat*deltaV
+--			addfpce <= '0';
+--			addfpond <= '0';
+--			addfpsclr <= '1';
+----			--report "================ CalculateTa 2 : " & real'image (ap_slv2fp (fttmp1));
+--		else state := s22; end if;
 	when s23 => state := s24;
 		addfpsclr <= '0';
 		-- vptatart/(1+kvptat*deltaV)
@@ -452,13 +578,25 @@ begin
 		divfpb <= fttmp1;
 		divfpond <= '1';
 	when s24 =>
-		if (divfprdy = '1') then state := s25;
-			fttmp1 := divfpr; -- vptatart/(1+kvptat*deltaV)
-			divfpce <= '0';
-			divfpond <= '0';
-			divfpsclr <= '1';
---			--report "================ CalculateTa 3 : " & real'image (ap_slv2fp (fttmp1));
-		else state := s24; end if;
+if (divfp_wait = C_DIVFP_WAIT-1) then
+fttmp1 := divfpr; -- vptatart/(1+kvptat*deltaV)
+divfpce <= '0';
+divfpond <= '0';
+divfpsclr <= '1';
+--report "================ CalculateTa 3 : " & real'image (ap_slv2fp (fttmp1));
+divfp_wait := 0;
+state := s25;
+else
+divfp_wait := divfp_wait + 1;
+state := s24;
+end if;
+--		if (divfprdy = '1') then state := s25;
+--			fttmp1 := divfpr; -- vptatart/(1+kvptat*deltaV)
+--			divfpce <= '0';
+--			divfpond <= '0';
+--			divfpsclr <= '1';
+----			--report "================ CalculateTa 3 : " & real'image (ap_slv2fp (fttmp1));
+--		else state := s24; end if;
 	when s25 => state := s26;
 		divfpsclr <= '0';
 		-- (vptatart/(1+kvptat*deltaV))-vptat25
@@ -467,13 +605,25 @@ begin
 		subfpb <= vptat25_ft;
 		subfpond <= '1';
 	when s26 =>
-		if (subfprdy = '1') then state := s27;
-			fttmp1 := subfpr; -- (vptatart/(1+kvptat*deltaV))-vptat25
-			subfpce <= '0';
-			subfpond <= '0';
-			subfpsclr <= '1';
---			--report "================ CalculateTa 4 : " & real'image (ap_slv2fp (fttmp1));
-		else state := s26; end if;
+if (subfp_wait = C_SUBFP_WAIT-1) then
+fttmp1 := subfpr; -- (vptatart/(1+kvptat*deltaV))-vptat25
+subfpce <= '0';
+subfpond <= '0';
+subfpsclr <= '1';
+--report "================ CalculateTa 4 : " & real'image (ap_slv2fp (fttmp1));
+subfp_wait := 0;
+state := s27;
+else
+subfp_wait := subfp_wait + 1;
+state := s26;
+end if;
+--		if (subfprdy = '1') then state := s27;
+--			fttmp1 := subfpr; -- (vptatart/(1+kvptat*deltaV))-vptat25
+--			subfpce <= '0';
+--			subfpond <= '0';
+--			subfpsclr <= '1';
+----			--report "================ CalculateTa 4 : " & real'image (ap_slv2fp (fttmp1));
+--		else state := s26; end if;
 	when s27 => state := s28;
 		subfpsclr <= '0';
 		-- ((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat
@@ -483,13 +633,25 @@ begin
 		divfpond <= '1';
                report_error ("================ CalculateTa ExtractKtPTATParameter_ktptat : ",ExtractKtPTATParameter_ktptat,0.0);
 	when s28 =>
-		if (divfprdy = '1') then state := s29;
-			fttmp1 := divfpr; -- ((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat
-			divfpce <= '0';
-			divfpond <= '0';
-			divfpsclr <= '1';
---			--report "================ CalculateTa 5 : " & real'image (ap_slv2fp (fttmp1));
-		else state := s28; end if;
+if (divfp_wait = C_DIVFP_WAIT-1) then
+fttmp1 := divfpr; -- ((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat
+divfpce <= '0';
+divfpond <= '0';
+divfpsclr <= '1';
+--report "================ CalculateTa 5 : " & real'image (ap_slv2fp (fttmp1));
+divfp_wait := 0;
+state := s29;
+else
+divfp_wait := divfp_wait + 1;
+state := s28;
+end if;
+--		if (divfprdy = '1') then state := s29;
+--			fttmp1 := divfpr; -- ((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat
+--			divfpce <= '0';
+--			divfpond <= '0';
+--			divfpsclr <= '1';
+----			--report "================ CalculateTa 5 : " & real'image (ap_slv2fp (fttmp1));
+--		else state := s28; end if;
 	when s29 => state := s30;
 		divfpsclr <= '0';
 		-- (((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat)+25
@@ -498,13 +660,25 @@ begin
 		addfpb <= const25_ft;
 		addfpond <= '1';
 	when s30 =>
-		if (addfprdy = '1') then state := ending;
-			fttmp1 := addfpr; -- (((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat)+25
-			addfpce <= '0';
-			addfpond <= '0';
-			addfpsclr <= '1';
---			--report "================ CalculateTa 6 : " & real'image (ap_slv2fp (fttmp1));
-		else state := s30; end if;
+if (addfp_wait = C_ADDFP_WAIT-1) then
+fttmp1 := addfpr; -- (((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat)+25
+addfpce <= '0';
+addfpond <= '0';
+addfpsclr <= '1';
+--report "================ CalculateTa 6 : " & real'image (ap_slv2fp (fttmp1));
+addfp_wait := 0;
+state := ending;
+else
+addfp_wait := addfp_wait + 1;
+state := s30;
+end if;
+--		if (addfprdy = '1') then state := ending;
+--			fttmp1 := addfpr; -- (((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat)+25
+--			addfpce <= '0';
+--			addfpond <= '0';
+--			addfpsclr <= '1';
+----			--report "================ CalculateTa 6 : " & real'image (ap_slv2fp (fttmp1));
+--		else state := s30; end if;
 	when ending => state := idle;
 		addfpsclr <= '0';
 		o_Ta <= fttmp1;

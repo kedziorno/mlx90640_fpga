@@ -287,6 +287,7 @@ begin
 --            mulfpsclr <= '1';
 --          else state := s17; end if;
         when s18 => state := s19;
+          mulfpsclr <= '0';
           subfpce <= '1';
           subfpa <= fttmp1;
           subfpb <= ExtractVDDParameters_vdd25;
@@ -360,8 +361,7 @@ begin
         when ending => state := idle;
           addfpsclr <= '0';
           o_Vdd <= fttmp1;
-                         report_error ("================ CalculateVdd o_Vdd : ",fttmp1,0.0);
-
+          report_error ("================ CalculateVdd o_Vdd : ",fttmp1,0.0);
           --  report "================ CalculateVdd o_Vdd : " & real'image (ap_slv2fp (fttmp1));
           --  report "================ CalculateVdd o_kvdd : " & real'image (ap_slv2fp (ExtractVDDParameters_kvdd));
           --  report "================ CalculateVdd o_vdd25 : " & real'image (ap_slv2fp (ExtractVDDParameters_vdd25));

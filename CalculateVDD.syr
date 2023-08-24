@@ -123,7 +123,8 @@ Package body <p_fphdl_package3> compiled.
 Compiling vhdl file "/home/user/workspace/mlx90640_fpga/ExtractVDDParameters_process_p0.vhd" in Library work.
 Architecture behavioral of Entity extractvddparameters_process_p0 is up to date.
 Compiling vhdl file "/home/user/workspace/mlx90640_fpga/CalculateVDD_process_p0.vhd" in Library work.
-Architecture behavioral of Entity calculatevdd_process_p0 is up to date.
+Entity <calculatevdd_process_p0> compiled.
+Entity <calculatevdd_process_p0> (Architecture <behavioral>) compiled.
 Compiling vhdl file "/home/user/workspace/mlx90640_fpga/CalculateVDD_pow2_2bit.vhd" in Library work.
 Architecture behavioral of Entity calculatevdd_pow2_2bit is up to date.
 Compiling vhdl file "/home/user/workspace/mlx90640_fpga/CalculateVDD.vhf" in Library work.
@@ -587,7 +588,7 @@ Optimizing unit <ExtractVDDParameters_MUSER_CalculateVDD> ...
 Mapping all equations...
 Building and optimizing final netlist ...
 Found area constraint ratio of 100 (+ 5) on block CalculateVDD, actual ratio is 3.
-FlipFlop XLXI_1/state_FSM_FFd8 has been replicated 1 time(s)
+FlipFlop XLXI_1/state_FSM_FFd6 has been replicated 1 time(s)
 
 Final Macro Processing ...
 
@@ -625,7 +626,7 @@ Design Statistics
 # IOs                              : 557
 
 Cell Usage :
-# BELS                             : 440
+# BELS                             : 442
 #      AND2                        : 21
 #      AND2B1                      : 21
 #      BUF                         : 30
@@ -633,10 +634,10 @@ Cell Usage :
 #      INV                         : 5
 #      LUT2                        : 26
 #      LUT2_D                      : 2
-#      LUT2_L                      : 1
-#      LUT3                        : 55
+#      LUT2_L                      : 2
+#      LUT3                        : 54
 #      LUT3_L                      : 31
-#      LUT4                        : 176
+#      LUT4                        : 178
 #      LUT4_D                      : 4
 #      LUT4_L                      : 34
 #      MUXF5                       : 11
@@ -663,9 +664,9 @@ Device utilization summary:
 
 Selected Device : 4vsx25ff668-10 
 
- Number of Slices:                      371  out of  10240     3%  
+ Number of Slices:                      372  out of  10240     3%  
  Number of Slice Flip Flops:            534  out of  20480     2%  
- Number of 4 input LUTs:                334  out of  20480     1%  
+ Number of 4 input LUTs:                336  out of  20480     1%  
  Number of IOs:                         557
  Number of bonded IOBs:                 552  out of    320   172% (*) 
  Number of FIFO16/RAMB16s:                1  out of    128     0%  
@@ -710,7 +711,7 @@ Timing Summary:
 ---------------
 Speed Grade: -10
 
-   Minimum period: 4.139ns (Maximum Frequency: 241.608MHz)
+   Minimum period: 4.043ns (Maximum Frequency: 247.338MHz)
    Minimum input arrival time before clock: 4.618ns
    Maximum output required time after clock: 7.107ns
    Maximum combinational path delay: No path found
@@ -721,28 +722,26 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 4.139ns (frequency: 241.608MHz)
-  Total number of paths / destination ports: 3096 / 896
+  Clock period: 4.043ns (frequency: 247.338MHz)
+  Total number of paths / destination ports: 3102 / 896
 -------------------------------------------------------------------------
-Delay:               4.139ns (Levels of Logic = 4)
-  Source:            XLXI_1/mulfp_wait_2 (FF)
-  Destination:       XLXI_1/fttmp1_9 (FF)
+Delay:               4.043ns (Levels of Logic = 2)
+  Source:            XLXI_1/subfp_wait_3 (FF)
+  Destination:       XLXI_1/subfp_wait_3 (FF)
   Source Clock:      i_clock rising
   Destination Clock: i_clock rising
 
-  Data Path: XLXI_1/mulfp_wait_2 to XLXI_1/fttmp1_9
+  Data Path: XLXI_1/subfp_wait_3 to XLXI_1/subfp_wait_3
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDRE:C->Q             4   0.360   0.755  XLXI_1/mulfp_wait_2 (XLXI_1/mulfp_wait_2)
-     LUT4:I0->O           38   0.195   1.114  XLXI_1/state_cmp_eq00021 (XLXI_1/state_cmp_eq0002)
-     LUT3:I2->O            1   0.195   0.523  XLXI_1/fttmp1_mux0000<9>10_SW0 (N120)
-     LUT4:I3->O            1   0.195   0.585  XLXI_1/fttmp1_mux0000<9>10 (XLXI_1/fttmp1_mux0000<9>10)
-     LUT4:I2->O            1   0.195   0.000  XLXI_1/fttmp1_mux0000<9>29 (XLXI_1/fttmp1_mux0000<9>)
-     FDE:D                     0.022          XLXI_1/fttmp1_9
+     FDRE:C->Q             4   0.360   0.755  XLXI_1/subfp_wait_3 (XLXI_1/subfp_wait_3)
+     LUT4:I0->O           35   0.195   1.103  XLXI_1/state_cmp_eq00031_2 (XLXI_1/state_cmp_eq000311)
+     LUT3:I2->O            4   0.195   0.374  XLXI_1/subfp_wait_or00001 (XLXI_1/subfp_wait_or0000)
+     FDRE:R                    1.062          XLXI_1/subfp_wait_0
     ----------------------------------------
-    Total                      4.139ns (1.162ns logic, 2.977ns route)
-                                       (28.1% logic, 71.9% route)
+    Total                      4.043ns (1.812ns logic, 2.231ns route)
+                                       (44.8% logic, 55.2% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
@@ -791,12 +790,12 @@ Offset:              7.107ns (Levels of Logic = 4)
 
 
 Total REAL time to Xst completion: 17.00 secs
-Total CPU time to Xst completion: 16.10 secs
+Total CPU time to Xst completion: 15.60 secs
  
 --> 
 
 
-Total memory usage is 569132 kilobytes
+Total memory usage is 569532 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :   75 (   0 filtered)
