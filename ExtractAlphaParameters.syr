@@ -5,14 +5,14 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.07 secs
+Total CPU time to Xst completion: 0.08 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.07 secs
+Total CPU time to Xst completion: 0.08 secs
  
 --> 
 Reading design: ExtractAlphaParameters.prj
@@ -120,7 +120,8 @@ WARNING:HDLParsers:3350 - "/home/user/workspace/mlx90640_fpga/p_fphdl_package3.v
 WARNING:HDLParsers:523 - "/home/user/workspace/mlx90640_fpga/p_fphdl_package3.vhd" Line 140. The function to_string_1 does not contain any return statement.
 Architecture p_fphdl_package3 of Entity p_fphdl_package3 is up to date.
 Compiling vhdl file "/home/user/workspace/mlx90640_fpga/ExtractAlphaParameters_process_p0.vhd" in Library work.
-Architecture behavioral of Entity extractalphaparameters_process_p0 is up to date.
+Entity <extractalphaparameters_process_p0> compiled.
+Entity <extractalphaparameters_process_p0> (Architecture <behavioral>) compiled.
 Compiling vhdl file "/home/user/workspace/mlx90640_fpga/rom_signed4bit.vhd" in Library work.
 Architecture behavioral of Entity rom_signed4bit is up to date.
 Compiling vhdl file "/home/user/workspace/mlx90640_fpga/rom_signed6bit.vhd" in Library work.
@@ -543,6 +544,10 @@ WARNING:Xst:1305 - Output <o_do> is never assigned. Tied to value 00000000000000
 WARNING:Xst:647 - Input <i_addr> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
 WARNING:Xst:1780 - Signal <vAlphaPixel<15:10>> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:1780 - Signal <vAlphaPixel<7:0>> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <mulfprdy_internal> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <fixed2floatrdy_internal> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <divfprdy_internal> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <addfprdy_internal> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
     Register <addfpond_internal> equivalent to <addfpce_internal> has been removed
     Register <divfpond_internal> equivalent to <divfpce_internal> has been removed
     Register <fixed2floatond_internal> equivalent to <fixed2floatce_internal> has been removed
@@ -572,31 +577,43 @@ WARNING:Xst:1780 - Signal <vAlphaPixel<7:0>> is never used or assigned. This unc
     Found 1-bit register for signal <o_write_enable>.
     Found 1-bit register for signal <i2c_mem_ena>.
     Found 4-bit register for signal <nibble4_out>.
+    Found 1-bit register for signal <addfp_rdy>.
+    Found 1-bit register for signal <addfp_run>.
+    Found 4-bit up counter for signal <addfp_wait>.
     Found 32-bit register for signal <addfpa_internal>.
     Found 32-bit register for signal <addfpb_internal>.
     Found 1-bit register for signal <addfpce_internal>.
     Found 1-bit register for signal <addfpsclr_internal>.
     Found 5-bit register for signal <col>.
-    Found 5-bit adder for signal <col$addsub0000> created at line 926.
+    Found 5-bit adder for signal <col$addsub0000> created at line 1121.
+    Found 1-bit register for signal <divfp_rdy>.
+    Found 1-bit register for signal <divfp_run>.
+    Found 5-bit up counter for signal <divfp_wait>.
     Found 32-bit register for signal <divfpa_internal>.
     Found 32-bit register for signal <divfpb_internal>.
     Found 1-bit register for signal <divfpce_internal>.
     Found 1-bit register for signal <divfpsclr_internal>.
+    Found 1-bit register for signal <fi2fl_rdy>.
+    Found 1-bit register for signal <fi2fl_run>.
+    Found 3-bit up counter for signal <fi2fl_wait>.
     Found 64-bit register for signal <fixed2floata_internal>.
     Found 1-bit register for signal <fixed2floatce_internal>.
     Found 1-bit register for signal <fixed2floatsclr_internal>.
     Found 10-bit register for signal <i>.
-    Found 10-bit adder for signal <i$addsub0000> created at line 920.
-    Found 11-bit adder for signal <i2c_mem_addra$add0002> created at line 760.
-    Found 11-bit adder carry out for signal <i2c_mem_addra$addsub0001> created at line 766.
+    Found 10-bit adder for signal <i$addsub0000> created at line 1115.
+    Found 11-bit adder for signal <i2c_mem_addra$add0002> created at line 843.
+    Found 11-bit adder carry out for signal <i2c_mem_addra$addsub0001> created at line 849.
+    Found 1-bit register for signal <mulfp_rdy>.
+    Found 1-bit register for signal <mulfp_run>.
+    Found 4-bit up counter for signal <mulfp_wait>.
     Found 32-bit register for signal <mulfpa_internal>.
     Found 32-bit register for signal <mulfpb_internal>.
     Found 1-bit register for signal <mulfpce_internal>.
     Found 1-bit register for signal <mulfpsclr_internal>.
-    Found 10-bit adder for signal <o_addra$addsub0000> created at line 917.
-    Found 5-bit adder carry out for signal <o_addra$addsub0001> created at line 761.
+    Found 10-bit adder for signal <o_addra$addsub0000> created at line 1112.
+    Found 5-bit adder carry out for signal <o_addra$addsub0001> created at line 844.
     Found 5-bit register for signal <row>.
-    Found 5-bit adder for signal <row$addsub0000> created at line 934.
+    Found 5-bit adder for signal <row$addsub0000> created at line 1129.
     Found 16-bit register for signal <temp1>.
     Found 32-bit register for signal <vacccolumnj>.
     Found 32-bit register for signal <vaccColumnScale>.
@@ -612,7 +629,8 @@ WARNING:Xst:1780 - Signal <vAlphaPixel<7:0>> is never used or assigned. This unc
     Found 32-bit register for signal <valphaReference_ft>.
     Summary:
 	inferred   1 Finite State Machine(s).
-	inferred 633 D-type flip-flop(s).
+	inferred   4 Counter(s).
+	inferred 641 D-type flip-flop(s).
 	inferred   7 Adder/Subtractor(s).
 Unit <ExtractAlphaParameters_process_p0> synthesized.
 
@@ -713,8 +731,12 @@ Macro Statistics
  11-bit adder carry out                                : 1
  5-bit adder                                           : 2
  5-bit adder carry out                                 : 1
-# Registers                                            : 73
- 1-bit register                                        : 45
+# Counters                                             : 4
+ 3-bit up counter                                      : 1
+ 4-bit up counter                                      : 2
+ 5-bit up counter                                      : 1
+# Registers                                            : 81
+ 1-bit register                                        : 53
  10-bit register                                       : 2
  12-bit register                                       : 1
  32-bit register                                       : 14
@@ -930,8 +952,12 @@ Macro Statistics
  11-bit adder carry out                                : 1
  5-bit adder                                           : 2
  5-bit adder carry out                                 : 1
-# Registers                                            : 633
- Flip-Flops                                            : 633
+# Counters                                             : 4
+ 3-bit up counter                                      : 1
+ 4-bit up counter                                      : 2
+ 5-bit up counter                                      : 1
+# Registers                                            : 641
+ Flip-Flops                                            : 641
 
 =========================================================================
 
@@ -1089,7 +1115,7 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <XLXI_1/vaccRowScale
 
 Mapping all equations...
 Building and optimizing final netlist ...
-Found area constraint ratio of 100 (+ 5) on block ExtractAlphaParameters, actual ratio is 5.
+Found area constraint ratio of 100 (+ 5) on block ExtractAlphaParameters, actual ratio is 6.
 FlipFlop XLXI_1/o_rdy has been replicated 1 time(s)
 
 Final Macro Processing ...
@@ -1098,8 +1124,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 653
- Flip-Flops                                            : 653
+# Registers                                            : 677
+ Flip-Flops                                            : 677
 
 =========================================================================
 
@@ -1128,40 +1154,40 @@ Design Statistics
 # IOs                              : 500
 
 Cell Usage :
-# BELS                             : 1623
+# BELS                             : 1668
 #      AND2                        : 160
 #      AND2B1                      : 160
 #      BUF                         : 22
 #      GND                         : 1
-#      INV                         : 3
+#      INV                         : 7
 #      LUT1                        : 2
-#      LUT2                        : 53
-#      LUT2_D                      : 1
+#      LUT2                        : 61
+#      LUT2_D                      : 2
 #      LUT2_L                      : 8
-#      LUT3                        : 126
-#      LUT3_D                      : 4
-#      LUT3_L                      : 40
-#      LUT4                        : 688
-#      LUT4_D                      : 9
-#      LUT4_L                      : 48
+#      LUT3                        : 147
+#      LUT3_D                      : 2
+#      LUT3_L                      : 36
+#      LUT4                        : 629
+#      LUT4_D                      : 12
+#      LUT4_L                      : 122
 #      MUXCY                       : 6
-#      MUXF5                       : 126
+#      MUXF5                       : 125
 #      MUXF6                       : 5
 #      OR2                         : 160
 #      VCC                         : 1
-# FlipFlops/Latches                : 653
+# FlipFlops/Latches                : 677
 #      FDE                         : 263
-#      FDR                         : 212
-#      FDRE                        : 78
+#      FDR                         : 215
+#      FDRE                        : 98
 #      FDRS                        : 85
-#      FDRSE                       : 10
+#      FDRSE                       : 11
 #      FDS                         : 5
 # RAMS                             : 2
 #      RAMB16                      : 2
 # Clock Buffers                    : 1
 #      BUFGP                       : 1
-# IO Buffers                       : 499
-#      IBUF                        : 152
+# IO Buffers                       : 495
+#      IBUF                        : 148
 #      OBUF                        : 347
 =========================================================================
 
@@ -1170,11 +1196,11 @@ Device utilization summary:
 
 Selected Device : 4vsx25ff668-10 
 
- Number of Slices:                      491  out of  10240     4%  
- Number of Slice Flip Flops:            653  out of  20480     3%  
- Number of 4 input LUTs:                982  out of  20480     4%  
+ Number of Slices:                      514  out of  10240     5%  
+ Number of Slice Flip Flops:            677  out of  20480     3%  
+ Number of 4 input LUTs:               1028  out of  20480     5%  
  Number of IOs:                         500
- Number of bonded IOBs:                 500  out of    320   156% (*) 
+ Number of bonded IOBs:                 496  out of    320   155% (*) 
  Number of FIFO16/RAMB16s:                2  out of    128     1%  
     Number used as RAMB16s:               2
  Number of GCLKs:                         1  out of     32     3%  
@@ -1202,7 +1228,7 @@ Clock Information:
 -----------------------------------+------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)  | Load  |
 -----------------------------------+------------------------+-------+
-i_clock                            | BUFGP                  | 655   |
+i_clock                            | BUFGP                  | 679   |
 XLXI_1/vaccColumnScale<0>          | NONE(inst_mem_acc1)    | 2     |
 -----------------------------------+------------------------+-------+
 INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
@@ -1231,7 +1257,7 @@ All values displayed in nanoseconds (ns)
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
   Clock period: 5.546ns (frequency: 180.300MHz)
-  Total number of paths / destination ports: 8052 / 936
+  Total number of paths / destination ports: 9797 / 1005
 -------------------------------------------------------------------------
 Delay:               5.546ns (Levels of Logic = 5)
   Source:            XLXI_1/state_FSM_FFd129 (FF)
@@ -1245,10 +1271,10 @@ Delay:               5.546ns (Levels of Logic = 5)
     ----------------------------------------  ------------
      FDR:C->Q              4   0.360   0.702  XLXI_1/state_FSM_FFd129 (XLXI_1/state_FSM_FFd129)
      LUT3:I0->O            1   0.195   0.688  XLXI_1/nibble2_out_mux0000<0>42 (XLXI_1/nibble2_out_mux0000<0>42)
-     LUT4:I1->O           13   0.195   0.690  XLXI_1/nibble2_out_mux0000<0>415 (XLXI_1/N18)
-     LUT4:I3->O            1   0.195   0.000  XLXI_1/o_dia_mux0000<0>148_SW0_F (N428)
-     MUXF5:I0->O           1   0.382   0.523  XLXI_1/o_dia_mux0000<0>148_SW0 (N404)
-     LUT4:I3->O            1   0.195   0.360  XLXI_1/o_dia_mux0000<31>_SW0 (N184)
+     LUT4:I1->O           13   0.195   0.690  XLXI_1/nibble2_out_mux0000<0>415 (XLXI_1/N19)
+     LUT4:I3->O            1   0.195   0.000  XLXI_1/o_dia_mux0000<0>148_SW0_F (N467)
+     MUXF5:I0->O           1   0.382   0.523  XLXI_1/o_dia_mux0000<0>148_SW0 (N414)
+     LUT4:I3->O            1   0.195   0.360  XLXI_1/o_dia_mux0000<31>_SW0 (N194)
      FDRS:S                    1.062          XLXI_1/o_dia_31
     ----------------------------------------
     Total                      5.546ns (2.584ns logic, 2.962ns route)
@@ -1256,7 +1282,7 @@ Delay:               5.546ns (Levels of Logic = 5)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 2293 / 873
+  Total number of paths / destination ports: 1940 / 873
 -------------------------------------------------------------------------
 Offset:              7.120ns (Levels of Logic = 8)
   Source:            i_addr<4> (PAD)
@@ -1269,7 +1295,7 @@ Offset:              7.120ns (Levels of Logic = 8)
     ----------------------------------------  ------------
      IBUF:I->O             4   0.965   0.702  i_addr_4_IBUF (i_addr_4_IBUF)
      LUT3:I0->O            3   0.195   0.600  XLXI_8/mux_addr<9>11 (XLXI_8/N01)
-     LUT4:I2->O            1   0.195   0.741  XLXI_8/mux_addr<9>_SW0 (N204)
+     LUT4:I2->O            1   0.195   0.741  XLXI_8/mux_addr<9>_SW0 (N214)
      LUT4:I0->O          130   0.195   1.692  XLXI_8/mux_addr<9> (XLXN_94<9>)
      begin scope: 'XLXI_39_31'
      AND2B1:I0->O          1   0.195   0.688  I_36_7 (M0)
@@ -1322,7 +1348,7 @@ Delay:               10.680ns (Levels of Logic = 8)
     ----------------------------------------  ------------
      IBUF:I->O             4   0.965   0.702  i_addr_4_IBUF (i_addr_4_IBUF)
      LUT3:I0->O            3   0.195   0.600  XLXI_8/mux_addr<9>11 (XLXI_8/N01)
-     LUT4:I2->O            1   0.195   0.741  XLXI_8/mux_addr<9>_SW0 (N204)
+     LUT4:I2->O            1   0.195   0.741  XLXI_8/mux_addr<9>_SW0 (N214)
      LUT4:I0->O          130   0.195   1.692  XLXI_8/mux_addr<9> (XLXN_94<9>)
      begin scope: 'XLXI_42_31'
      AND2B1:I0->O          1   0.195   0.688  I_36_7 (M0)
@@ -1336,15 +1362,15 @@ Delay:               10.680ns (Levels of Logic = 8)
 =========================================================================
 
 
-Total REAL time to Xst completion: 28.00 secs
-Total CPU time to Xst completion: 27.90 secs
+Total REAL time to Xst completion: 35.00 secs
+Total CPU time to Xst completion: 32.71 secs
  
 --> 
 
 
-Total memory usage is 605876 kilobytes
+Total memory usage is 608044 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :  173 (   0 filtered)
+Number of warnings :  177 (   0 filtered)
 Number of infos    :    5 (   0 filtered)
 

@@ -125,6 +125,15 @@ signal divfpce_internal : STD_LOGIC;
 signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy_internal : STD_LOGIC;
 
+signal divfp_wait : integer range 0 to C_DIVFP_WAIT-1;
+signal addfp_wait : integer range 0 to C_ADDFP_WAIT-1;
+signal mulfp_wait : integer range 0 to C_MULFP_WAIT-1;
+signal fi2fl_wait : integer range 0 to C_FI2FL_WAIT-1;
+signal divfp_run,divfp_rdy : std_logic;
+signal addfp_run,addfp_rdy : std_logic;
+signal mulfp_run,mulfp_rdy : std_logic;
+signal fi2fl_run,fi2fl_rdy : std_logic;
+
 begin
 
 fixed2floata <= fixed2floata_internal;
@@ -157,6 +166,58 @@ divfpsclr <= divfpsclr_internal;
 divfpce <= divfpce_internal;
 divfpr_internal <= divfpr;
 divfprdy_internal <= divfprdy;
+
+p1_counter_divfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      divfp_wait <= 0;
+    elsif (divfp_rdy = '1') then
+      divfp_wait <= 0;
+    elsif (divfp_run = '1') then
+      divfp_wait <= divfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_divfp;
+
+p1_counter_mulfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      mulfp_wait <= 0;
+    elsif (mulfp_rdy = '1') then
+      mulfp_wait <= 0;
+    elsif (mulfp_run = '1') then
+      mulfp_wait <= mulfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_mulfp;
+
+p1_counter_addfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      addfp_wait <= 0;
+    elsif (addfp_rdy = '1') then
+      addfp_wait <= 0;
+    elsif (addfp_run = '1') then
+      addfp_wait <= addfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_addfp;
+
+p1_counter_fi2fl : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      fi2fl_wait <= 0;
+    elsif (fi2fl_rdy = '1') then
+      fi2fl_wait <= 0;
+    elsif (fi2fl_run = '1') then
+      fi2fl_wait <= fi2fl_wait + 1;
+    end if;
+  end if;
+end process p1_counter_fi2fl;
 
 p0 : process (i_clock) is
 	type states is (idle,
@@ -241,6 +302,14 @@ begin
 			o_dia <= (others => '0');
 			o_done <= '0';
 			i2c_mem_ena <= '0';
+      divfp_run <= '0';
+      divfp_rdy <= '0';
+      mulfp_run <= '0';
+      mulfp_rdy <= '0';
+      addfp_run <= '0';
+      addfp_rdy <= '0';
+      fi2fl_run <= '0';
+      fi2fl_rdy <= '0';
 		else
 			case (state) is
 				when idle =>
@@ -741,14 +810,28 @@ valphaRef (15) & valphaRef (15) &
 valphaRef (15) & valphaRef (15) & 
 valphaRef (15) & valphaRef & "00000000000000000000000000000";
 				when pow4 =>
-					if (fixed2floatrdy_internal = '1') then state := pow5;
-						valphaReference_ft := fixed2floatr_internal;
-                                            report_error ("valphaReference_ft : ",valphaReference_ft,0.0);
-						fixed2floatce_internal <= '0';
-						fixed2floatond_internal <= '0';
-						fixed2floatsclr_internal <= '1';
-					else state := pow4; end if;
+if (fi2fl_wait = C_FI2FL_WAIT-1) then
+valphaReference_ft := fixed2floatr_internal;
+report_error ("valphaReference_ft : ",valphaReference_ft,0.0);
+fixed2floatce_internal <= '0';
+fixed2floatond_internal <= '0';
+fixed2floatsclr_internal <= '1';
+state := pow5;
+fi2fl_run <= '0';
+fi2fl_rdy <= '1';
+else
+fi2fl_run <= '1';
+state := pow4;
+end if;
+--if (fixed2floatrdy_internal = '1') then state := pow5;
+--valphaReference_ft := fixed2floatr_internal;
+--report_error ("valphaReference_ft : ",valphaReference_ft,0.0);
+--fixed2floatce_internal <= '0';
+--fixed2floatond_internal <= '0';
+--fixed2floatsclr_internal <= '1';
+--else state := pow4; end if;
 				when pow5 => state := s0;
+fi2fl_rdy <= '0';
 					fixed2floatsclr_internal <= '0';
 	row := 0;
 	col := 0;
@@ -785,16 +868,32 @@ when s5 => state := s6; 	--5
 --	----report "vAlphaPixel : " & real'image (ap_slv2fp (nibble3_in));
 --	----report "vaccRemScale : " & real'image (ap_slv2fp (vaccRemScale));
 when s6 => 			--6
-	if (mulfprdy_internal = '1') then state := s7;
+if (mulfp_wait = C_MULFP_WAIT-1) then
 --    report_error ("mulfpa 1 : ",   mulfpa_internal,0.0);
 --    report_error ("mulfpb 1 : ",   mulfpb_internal,0.0);
 --    report_error ("* mulfpr 1 : ", mulfpr_internal,0.0);
-		vAlphaPixel_ft := mulfpr_internal;
-		mulfpce_internal <= '0';
-		mulfpond_internal <= '0';
-		mulfpsclr_internal <= '1';
-	else state := s6; end if;
+vAlphaPixel_ft := mulfpr_internal;
+mulfpce_internal <= '0';
+mulfpond_internal <= '0';
+mulfpsclr_internal <= '1';
+state := s7;
+mulfp_run <= '0';
+mulfp_rdy <= '1';
+else
+mulfp_run <= '1';
+state := s6;
+end if;
+--if (mulfprdy_internal = '1') then state := s7;
+----    report_error ("mulfpa 1 : ",   mulfpa_internal,0.0);
+----    report_error ("mulfpb 1 : ",   mulfpb_internal,0.0);
+----    report_error ("* mulfpr 1 : ", mulfpr_internal,0.0);
+--vAlphaPixel_ft := mulfpr_internal;
+--mulfpce_internal <= '0';
+--mulfpond_internal <= '0';
+--mulfpsclr_internal <= '1';
+--else state := s6; end if;
 when s7 => state := s8; 	--7
+mulfp_rdy <= '0';
 	mulfpsclr_internal <= '0';
 	mulfpce_internal <= '1';
 	mulfpa_internal <= vaccColumnJ;
@@ -803,17 +902,33 @@ when s7 => state := s8; 	--7
 --	----report "vaccColumnJ : " & real'image (ap_slv2fp (vaccColumnJ));
 --	----report "vaccColumnScale : " & real'image (ap_slv2fp (vaccColumnScale));
 when s8 => 			--8
-	if (mulfprdy_internal = '1') then state := s9;
+if (mulfp_wait = C_MULFP_WAIT-1) then
 --    report_error ("mulfpa 2 : ",   mulfpa_internal,0.0);
 --    report_error ("mulfpb 2 : ",   mulfpb_internal,0.0);
 --    report_error ("* mulfpr 2 : ", mulfpr_internal,0.0);
-		vaccColumnJ := mulfpr_internal;
-		mulfpce_internal <= '0';
-		mulfpond_internal <= '0';
-		mulfpsclr_internal <= '1';
-	else state := s8; end if;
+vaccColumnJ := mulfpr_internal;
+mulfpce_internal <= '0';
+mulfpond_internal <= '0';
+mulfpsclr_internal <= '1';
+state := s9;
+mulfp_run <= '0';
+mulfp_rdy <= '1';
+else
+state := s8;
+mulfp_run <= '1';
+end if;
+--	if (mulfprdy_internal = '1') then state := s9;
+----    report_error ("mulfpa 2 : ",   mulfpa_internal,0.0);
+----    report_error ("mulfpb 2 : ",   mulfpb_internal,0.0);
+----    report_error ("* mulfpr 2 : ", mulfpr_internal,0.0);
+--		vaccColumnJ := mulfpr_internal;
+--		mulfpce_internal <= '0';
+--		mulfpond_internal <= '0';
+--		mulfpsclr_internal <= '1';
+--	else state := s8; end if;
 when s9 => state := s10; 	--9
 	mulfpsclr_internal <= '0';
+mulfp_rdy <= '0';
 when s10 => state := s11; 	--10
 	mulfpsclr_internal <= '0';
 	mulfpce_internal <= '1';
@@ -823,17 +938,33 @@ when s10 => state := s11; 	--10
 --	----report "vaccRowI : " & real'image (ap_slv2fp (vaccRowI));
 --	----report "vaccRowScale : " & real'image (ap_slv2fp (vaccRowScale));
 when s11 => 			--11
-	if (mulfprdy_internal = '1') then state := s12;
+if (mulfp_wait = C_MULFP_WAIT-1) then
 --    report_error ("mulfpa 3 : ",   mulfpa_internal,0.0);
 --    report_error ("mulfpb 3 : ",   mulfpb_internal,0.0);
 --    report_error ("* mulfpr 3 : ", mulfpr_internal,0.0);
-		vaccRowI := mulfpr_internal;
-		mulfpce_internal <= '0';
-		mulfpond_internal <= '0';
-		mulfpsclr_internal <= '1';
-	else state := s11; end if;
+vaccRowI := mulfpr_internal;
+mulfpce_internal <= '0';
+mulfpond_internal <= '0';
+mulfpsclr_internal <= '1';
+state := s12;
+mulfp_run <= '0';
+mulfp_rdy <= '1';
+else
+mulfp_run <= '1';
+state := s11;
+end if;
+--if (mulfprdy_internal = '1') then state := s12;
+----    report_error ("mulfpa 3 : ",   mulfpa_internal,0.0);
+----    report_error ("mulfpb 3 : ",   mulfpb_internal,0.0);
+----    report_error ("* mulfpr 3 : ", mulfpr_internal,0.0);
+--vaccRowI := mulfpr_internal;
+--mulfpce_internal <= '0';
+--mulfpond_internal <= '0';
+--mulfpsclr_internal <= '1';
+--else state := s11; end if;
 when s12 => state := s13; 	--12
 	mulfpsclr_internal <= '0';
+mulfp_rdy <= '0';
 when s13 => state := s14; 	--13
 	addfpsclr_internal <= '0';
 	addfpce_internal <= '1';
@@ -843,16 +974,32 @@ when s13 => state := s14; 	--13
 --	----report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
 --	----report "vaccColumnJ : " & real'image (ap_slv2fp (vaccColumnJ));
 when s14 => 			--14
-	if (addfprdy_internal = '1') then state := s15;
+if (addfp_wait = C_ADDFP_WAIT-1) then
 --    report_error ("addfpa 1 : ",   addfpa_internal,0.0);
 --    report_error ("addfpb 1 : ",   addfpb_internal,0.0);
 --    report_error ("* addfpr 1 : ", addfpr_internal,0.0);
-		vAlphaPixel_ft := addfpr_internal;
-		addfpce_internal <= '0';
-		addfpond_internal <= '0';
-		addfpsclr_internal <= '1';
-	else state := s14; end if;
+vAlphaPixel_ft := addfpr_internal;
+addfpce_internal <= '0';
+addfpond_internal <= '0';
+addfpsclr_internal <= '1';
+state := s15;
+addfp_run <= '0';
+addfp_rdy <= '1';
+else
+state := s14;
+addfp_run <= '1';
+end if;
+--if (addfprdy_internal = '1') then state := s15;
+----    report_error ("addfpa 1 : ",   addfpa_internal,0.0);
+----    report_error ("addfpb 1 : ",   addfpb_internal,0.0);
+----    report_error ("* addfpr 1 : ", addfpr_internal,0.0);
+--vAlphaPixel_ft := addfpr_internal;
+--addfpce_internal <= '0';
+--addfpond_internal <= '0';
+--addfpsclr_internal <= '1';
+--else state := s14; end if;
 when s15 => state := s16; 	--15
+addfp_rdy <= '0';
 	addfpsclr_internal <= '0';
 when s16 => state := s17; 	--16
 	addfpsclr_internal <= '0';
@@ -863,16 +1010,32 @@ when s16 => state := s17; 	--16
 --	----report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
 --	----report "vaccRowI : " & real'image (ap_slv2fp (vaccRowI));
 when s17 => 			--17
-	if (addfprdy_internal = '1') then state := s18;
+if (addfp_wait = C_ADDFP_WAIT-1) then
 --    report_error ("addfpa 2 : ",   addfpa_internal,0.0);
 --    report_error ("addfpb 2 : ",   addfpb_internal,0.0);
 --    report_error ("* addfpr 2 : ", addfpr_internal,0.0);
-		vAlphaPixel_ft := addfpr_internal;
-		addfpce_internal <= '0';
-		addfpond_internal <= '0';
-		addfpsclr_internal <= '1';
-	else state := s17; end if;
+vAlphaPixel_ft := addfpr_internal;
+addfpce_internal <= '0';
+addfpond_internal <= '0';
+addfpsclr_internal <= '1';
+state := s18;
+addfp_run <= '0';
+addfp_rdy <= '1';
+else
+state := s17;
+addfp_run <= '1';
+end if;
+--if (addfprdy_internal = '1') then state := s18;
+----    report_error ("addfpa 2 : ",   addfpa_internal,0.0);
+----    report_error ("addfpb 2 : ",   addfpb_internal,0.0);
+----    report_error ("* addfpr 2 : ", addfpr_internal,0.0);
+--vAlphaPixel_ft := addfpr_internal;
+--addfpce_internal <= '0';
+--addfpond_internal <= '0';
+--addfpsclr_internal <= '1';
+--else state := s17; end if;
 when s18 => state := s19; 	--18
+  addfp_rdy <= '0';
 	addfpsclr_internal <= '0';
 when s19 => state := s20; 	--19
 	addfpsclr_internal <= '0';
@@ -883,16 +1046,32 @@ when s19 => state := s20; 	--19
 --	----report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
 --	----report "valphaReference_ft : " & real'image (ap_slv2fp (valphaReference_ft));
 when s20 => 			--20
-	if (addfprdy_internal = '1') then state := s21;
+if (addfp_wait = C_ADDFP_WAIT-1) then
 --    report_error ("addfpa 3 : ",   addfpa_internal,0.0);
 --    report_error ("addfpb 3 : ",   addfpb_internal,0.0);
 --    report_error ("* addfpr 3 : ", addfpr_internal,0.0);
-		vAlphaPixel_ft := addfpr_internal;
-		addfpce_internal <= '0';
-		addfpond_internal <= '0';
-		addfpsclr_internal <= '1';
-	else state := s20; end if;
+vAlphaPixel_ft := addfpr_internal;
+addfpce_internal <= '0';
+addfpond_internal <= '0';
+addfpsclr_internal <= '1';
+state := s21;
+addfp_run <= '0';
+addfp_rdy <= '1';
+else
+state := s20;
+addfp_run <= '1';
+end if;
+--if (addfprdy_internal = '1') then state := s21;
+----    report_error ("addfpa 3 : ",   addfpa_internal,0.0);
+----    report_error ("addfpb 3 : ",   addfpb_internal,0.0);
+----    report_error ("* addfpr 3 : ", addfpr_internal,0.0);
+--vAlphaPixel_ft := addfpr_internal;
+--addfpce_internal <= '0';
+--addfpond_internal <= '0';
+--addfpsclr_internal <= '1';
+--else state := s20; end if;
 when s21 => state := s22; 	--21
+addfp_rdy <= '0';
 	addfpsclr_internal <= '0';
 	divfpce_internal <= '1';
 	divfpa_internal <= vAlphaPixel_ft;
@@ -901,16 +1080,32 @@ when s21 => state := s22; 	--21
 --	----report "vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
 --	----report "nibble5_in : " & real'image (ap_slv2fp (nibble5_in));
 when s22 =>
-	if (divfprdy_internal = '1') then state := s23;
+if (divfp_wait = C_DIVFP_WAIT-1) then
 --    report_error ("divfpa 1 : ",   divfpa_internal,0.0);
 --    report_error ("divfpb 1 : ",   divfpb_internal,0.0);
 --    report_error ("* divfpr 1 : ", divfpr_internal,0.0);
-		vAlphaPixel_ft := divfpr_internal;
-		divfpce_internal <= '0';
-		divfpond_internal <= '0';
-		divfpsclr_internal <= '1';
-	else state := s22; end if;
+vAlphaPixel_ft := divfpr_internal;
+divfpce_internal <= '0';
+divfpond_internal <= '0';
+divfpsclr_internal <= '1';
+state := s23;
+divfp_run <= '0';
+divfp_rdy <= '1';
+else
+state := s22;
+divfp_run <= '1';
+end if;
+--if (divfprdy_internal = '1') then state := s23;
+----    report_error ("divfpa 1 : ",   divfpa_internal,0.0);
+----    report_error ("divfpb 1 : ",   divfpb_internal,0.0);
+----    report_error ("* divfpr 1 : ", divfpr_internal,0.0);
+--vAlphaPixel_ft := divfpr_internal;
+--divfpce_internal <= '0';
+--divfpond_internal <= '0';
+--divfpsclr_internal <= '1';
+--else state := s22; end if;
 when s23 => state := s24;
+divfp_rdy <= '0';
 	divfpsclr_internal <= '0';
 when s24 => state := s25; 	--22
 	o_write_enable <= '1';
