@@ -91,7 +91,38 @@ signal mulfpce_internal : STD_LOGIC;
 signal mulfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfprdy_internal : STD_LOGIC;
 
+signal divfp_wait : integer range 0 to C_DIVFP_WAIT-1;
+signal mulfp_wait : integer range 0 to C_MULFP_WAIT-1;
+signal divfp_run,divfp_rdy : std_logic;
+signal mulfp_run,mulfp_rdy : std_logic;
+
 begin
+
+p1_counter_divfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      divfp_wait <= 0;
+    elsif (divfp_rdy = '1') then
+      divfp_wait <= 0;
+    elsif (divfp_run = '1') then
+      divfp_wait <= divfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_divfp;
+
+p1_counter_mulfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      mulfp_wait <= 0;
+    elsif (mulfp_rdy = '1') then
+      mulfp_wait <= 0;
+    elsif (mulfp_run = '1') then
+      mulfp_wait <= mulfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_mulfp;
 
 divfpa <= divfpa_internal;
 divfpb <= divfpb_internal;
@@ -137,6 +168,10 @@ begin
 			nibble_out1 <= (others => '0');
 			nibble_out2 <= (others => '0');
 			i2c_mem_ena <= '0';
+      divfp_run <= '0';
+      divfp_rdy <= '0';
+      mulfp_run <= '0';
+      mulfp_rdy <= '0';
 		else
 			case (state) is
 				when idle =>
@@ -170,30 +205,60 @@ begin
 					divfpb_internal <= nibble_in2; -- 2^(Ascalecp+27)
 					divfpond_internal <= '1';
 				when s9 =>
-					if (divfprdy_internal = '1') then state := s10;
-						fptmp1 := divfpr_internal;
-						divfpce_internal <= '0';
-						divfpond_internal <= '0';
-						divfpsclr_internal <= '1';
-						o_acpsubpage0 <= fptmp1;
-            report_error ("================ calculateAlphaCP o_acpsubpage0 : ",fptmp1,0.0);
-					else state := s9; end if;
+if (divfp_wait = C_DIVFP_WAIT-1) then
+fptmp1 := divfpr_internal;
+divfpce_internal <= '0';
+divfpond_internal <= '0';
+divfpsclr_internal <= '1';
+o_acpsubpage0 <= fptmp1;
+report_error ("================ calculateAlphaCP o_acpsubpage0 : ",fptmp1,0.0);
+state := s10;
+divfp_run <= '0';
+divfp_rdy <= '1';
+else
+state := s9;
+divfp_run <= '1';
+end if;
+--					if (divfprdy_internal = '1') then state := s10;
+--						fptmp1 := divfpr_internal;
+--						divfpce_internal <= '0';
+--						divfpond_internal <= '0';
+--						divfpsclr_internal <= '1';
+--						o_acpsubpage0 <= fptmp1;
+--            report_error ("================ calculateAlphaCP o_acpsubpage0 : ",fptmp1,0.0);
+--					else state := s9; end if;
 				when s10 => state := s11;
+divfp_rdy <= '0';
 					divfpsclr_internal <= '0';
 					mulfpce_internal <= '1';
 					mulfpa_internal <= fptmp1; -- Acpsubpage0/(2^(Ascalecp+27))
 					mulfpb_internal <= nibble_in1; -- (1 + (CP_P12P0_ratio/2^7))
 					mulfpond_internal <= '1';
 				when s11 =>
-					if (mulfprdy_internal = '1') then state := ending;
-						fptmp1 := mulfpr_internal;
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-						o_acpsubpage1 <= fptmp1;
-            report_error ("================ calculateAlphaCP o_acpsubpage1 : ",fptmp1,0.0);
-					else state := s11; end if;
+if (mulfp_wait = C_MULFP_WAIT-1) then
+fptmp1 := mulfpr_internal;
+mulfpce_internal <= '0';
+mulfpond_internal <= '0';
+mulfpsclr_internal <= '1';
+o_acpsubpage1 <= fptmp1;
+report_error ("================ calculateAlphaCP o_acpsubpage1 : ",fptmp1,0.0);
+state := ending;
+mulfp_run <= '0';
+mulfp_rdy <= '1';
+else
+state := s11;
+mulfp_run <= '1';
+end if;
+--if (mulfprdy_internal = '1') then state := ending;
+--fptmp1 := mulfpr_internal;
+--mulfpce_internal <= '0';
+--mulfpond_internal <= '0';
+--mulfpsclr_internal <= '1';
+--o_acpsubpage1 <= fptmp1;
+--report_error ("================ calculateAlphaCP o_acpsubpage1 : ",fptmp1,0.0);
+--else state := s11; end if;
 				when ending => state := idle;
+mulfp_rdy <= '0';
 					mulfpsclr_internal <= '0';
 					o_rdy <= '1';
 				when others => null;
