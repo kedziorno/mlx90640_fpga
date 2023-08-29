@@ -102,11 +102,87 @@ signal i2c_mem_ena_internal : STD_LOGIC;
 signal i2c_mem_addra_internal : STD_LOGIC_VECTOR (11 DOWNTO 0);
 signal i2c_mem_douta_internal : STD_LOGIC_VECTOR (7 DOWNTO 0);
 
+signal divfp_wait : integer range 0 to C_DIVFP_WAIT-1;
+signal addfp_wait : integer range 0 to C_ADDFP_WAIT-1;
+signal mulfp_wait : integer range 0 to C_MULFP_WAIT-1;
+signal subfp_wait : integer range 0 to C_SUBFP_WAIT-1;
+signal fi2fl_wait : integer range 0 to C_FI2FL_WAIT-1;
+signal divfp_run,divfp_rdy : std_logic;
+signal addfp_run,addfp_rdy : std_logic;
+signal mulfp_run,mulfp_rdy : std_logic;
+signal subfp_run,subfp_rdy : std_logic;
+signal fi2fl_run,fi2fl_rdy : std_logic;
+
 begin
 
 i2c_mem_ena <= i2c_mem_ena_internal;
 i2c_mem_addra <= i2c_mem_addra_internal;
 i2c_mem_douta_internal <= i2c_mem_douta;
+
+p1_counter_divfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      divfp_wait <= 0;
+    elsif (divfp_rdy = '1') then
+      divfp_wait <= 0;
+    elsif (divfp_run = '1') then
+      divfp_wait <= divfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_divfp;
+
+p1_counter_mulfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      mulfp_wait <= 0;
+    elsif (mulfp_rdy = '1') then
+      mulfp_wait <= 0;
+    elsif (mulfp_run = '1') then
+      mulfp_wait <= mulfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_mulfp;
+
+p1_counter_addfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      addfp_wait <= 0;
+    elsif (addfp_rdy = '1') then
+      addfp_wait <= 0;
+    elsif (addfp_run = '1') then
+      addfp_wait <= addfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_addfp;
+
+p1_counter_subfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      subfp_wait <= 0;
+    elsif (subfp_rdy = '1') then
+      subfp_wait <= 0;
+    elsif (subfp_run = '1') then
+      subfp_wait <= subfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_subfp;
+
+p1_counter_fi2fl : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      fi2fl_wait <= 0;
+    elsif (fi2fl_rdy = '1') then
+      fi2fl_wait <= 0;
+    elsif (fi2fl_run = '1') then
+      fi2fl_wait <= fi2fl_wait + 1;
+    end if;
+  end if;
+end process p1_counter_fi2fl;
 
 p0 : process (i_clock) is
 	variable fttmp1,fttmp2 : std_logic_vector (31 downto 0);
@@ -119,11 +195,6 @@ p0 : process (i_clock) is
 	constant const3dot3_ft : std_logic_vector (31 downto 0) := x"40533333";
 	variable ram072a : std_logic_vector (15 downto 0);
 	constant resreg : std_logic_vector (15 downto 0) := x"1901" and x"0c00"; -- XXX request ram800d & 0c00 resolutionreg 2bit or constant
-  variable divfp_wait : integer range 0 to C_DIVFP_WAIT-1;
-  variable addfp_wait : integer range 0 to C_ADDFP_WAIT-1;
-  variable mulfp_wait : integer range 0 to C_MULFP_WAIT-1;
-  variable subfp_wait : integer range 0 to C_SUBFP_WAIT-1;
-  variable fi2fl_wait : integer range 0 to C_FI2FL_WAIT-1;
 begin
 	if (rising_edge (i_clock)) then
     if (i_reset = '1') then
@@ -155,11 +226,16 @@ begin
       o_Vdd <= (others => '0');
       o_rdy <= '0';
       i2c_mem_ena_internal <= '0';
-      divfp_wait := 0;
-      mulfp_wait := 0;
-      addfp_wait := 0;
-      subfp_wait := 0;
-      fi2fl_wait := 0;
+    divfp_run <= '0';
+    divfp_rdy <= '0';
+    mulfp_run <= '0';
+    mulfp_rdy <= '0';
+    addfp_run <= '0';
+    addfp_rdy <= '0';
+    subfp_run <= '0';
+    subfp_rdy <= '0';
+    fi2fl_run <= '0';
+    fi2fl_rdy <= '0';
     else
       case (state) is
         when idle =>
@@ -203,17 +279,18 @@ begin
           divfpb <= in_resolutionreg;
           divfpond <= '1';
         when s9 =>
-          if (divfp_wait = C_DIVFP_WAIT-1) then
-            fttmp1 := divfpr;
-            divfpce <= '0';
-            divfpond <= '0';
-            divfpsclr <= '1';
-            divfp_wait := 0;
-            state := s10;
-          else
-            divfp_wait := divfp_wait + 1;
-            state := s9;
-          end if;
+if (divfp_wait = C_DIVFP_WAIT-1) then
+fttmp1 := divfpr;
+divfpce <= '0';
+divfpond <= '0';
+divfpsclr <= '1';
+divfp_run <= '0';
+divfp_rdy <= '1';
+state := s10;
+else
+divfp_run <= '1';
+state := s9;
+end if;
 --          if (divfprdy = '1') then state := s10;
 --            fttmp1 := divfpr;
 --            divfpce <= '0';
@@ -221,6 +298,7 @@ begin
 --            divfpsclr <= '1';
 --          else state := s9; end if;
         when s10 => state := s11;
+divfp_rdy <= '0';
           divfpsclr <= '0';
           i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(810*2)+0, 12)); -- ram072a MSB
         when s11 => state := s12;
@@ -245,17 +323,18 @@ begin
           ram072a (15) & ram072a (15) & 
           ram072a (15) & ram072a & "00000000000000000000000000000";
         when s15 =>
-          if (fi2fl_wait = C_FI2FL_WAIT-1) then
-            fttmp2 := fixed2floatr;
-            fixed2floatce <= '0';
-            fixed2floatond <= '0';
-            fixed2floatsclr <= '1';
-            state := s16;
-            fi2fl_wait := 0;
-          else
-            state := s15;
-            fi2fl_wait := fi2fl_wait + 1;
-          end if;
+if (fi2fl_wait = C_FI2FL_WAIT-1) then
+fttmp2 := fixed2floatr;
+fixed2floatce <= '0';
+fixed2floatond <= '0';
+fixed2floatsclr <= '1';
+state := s16;
+fi2fl_run <= '0';
+fi2fl_rdy <= '1';
+else
+state := s15;
+fi2fl_run <= '1';
+end if;
 --          if (fixed2floatrdy = '1') then state := s16;
 --            fttmp2 := fixed2floatr;
 --            fixed2floatce <= '0';
@@ -263,23 +342,25 @@ begin
 --            fixed2floatsclr <= '1';
 --          else state := s15; end if;
         when s16 => state := s17;
+fi2fl_rdy <= '0';
           fixed2floatsclr <= '0';
           mulfpce <= '1';
           mulfpa <= fttmp1; -- resolutioncorr
           mulfpb <= fttmp2; -- ram[0x072a]
           mulfpond <= '1';
         when s17 =>
-          if (mulfp_wait = C_MULFP_WAIT-1) then
-            fttmp1 := mulfpr;
-            mulfpce <= '0';
-            mulfpond <= '0';
-            mulfpsclr <= '1';
-            mulfp_wait := 0;
-            state := s18;
-          else
-            mulfp_wait := mulfp_wait + 1;
-            state := s17;
-          end if;
+if (mulfp_wait = C_MULFP_WAIT-1) then
+fttmp1 := mulfpr;
+mulfpce <= '0';
+mulfpond <= '0';
+mulfpsclr <= '1';
+mulfp_run <= '0';
+mulfp_rdy <= '1';
+state := s18;
+else
+mulfp_run <= '1';
+state := s17;
+end if;
 --          if (mulfprdy = '1') then state := s18;
 --            fttmp1 := mulfpr;
 --            mulfpce <= '0';
@@ -287,23 +368,25 @@ begin
 --            mulfpsclr <= '1';
 --          else state := s17; end if;
         when s18 => state := s19;
+mulfp_rdy <= '0';
           mulfpsclr <= '0';
           subfpce <= '1';
           subfpa <= fttmp1;
           subfpb <= ExtractVDDParameters_vdd25;
           subfpond <= '1';
         when s19 =>
-          if (subfp_wait = C_SUBFP_WAIT-1) then
-            fttmp1 := subfpr;
-            subfpce <= '0';
-            subfpond <= '0';
-            subfpsclr <= '1';
-            state := s20;
-            subfp_wait := 0;
-          else
-            state := s19;
-            subfp_wait := subfp_wait + 1;
-          end if;
+if (subfp_wait = C_SUBFP_WAIT-1) then
+fttmp1 := subfpr;
+subfpce <= '0';
+subfpond <= '0';
+subfpsclr <= '1';
+state := s20;
+subfp_run <= '0';
+subfp_rdy <= '1';
+else
+state := s19;
+subfp_run <= '1';
+end if;
 --          if (subfprdy = '1') then state := s20;
 --            fttmp1 := subfpr;
 --            subfpce <= '0';
@@ -311,23 +394,25 @@ begin
 --            subfpsclr <= '1';
 --          else state := s19; end if;
         when s20 => state := s21;
+subfp_rdy <= '0';
           subfpsclr <= '0';
           divfpce <= '1';
           divfpa <= fttmp1;
           divfpb <= ExtractVDDParameters_kvdd;
           divfpond <= '1';
         when s21 =>
-          if (divfp_wait = C_DIVFP_WAIT-1) then
-            fttmp1 := divfpr;
-            divfpce <= '0';
-            divfpond <= '0';
-            divfpsclr <= '1';
-            state := s22;
-            divfp_wait := 0;
-          else
-            state := s21;
-            divfp_wait := divfp_wait + 1;
-          end if;
+if (divfp_wait = C_DIVFP_WAIT-1) then
+fttmp1 := divfpr;
+divfpce <= '0';
+divfpond <= '0';
+divfpsclr <= '1';
+state := s22;
+divfp_run <= '0';
+divfp_rdy <= '1';
+else
+state := s21;
+divfp_run <= '1';
+end if;
 --          if (divfprdy = '1') then state := s22;
 --            fttmp1 := divfpr;
 --            divfpce <= '0';
@@ -335,23 +420,25 @@ begin
 --            divfpsclr <= '1';
 --          else state := s21; end if;
         when s22 => state := s23;
+divfp_rdy <= '0';
           divfpsclr <= '0';
           addfpce <= '1';
           addfpa <= fttmp1;
           addfpb <= const3dot3_ft;
           addfpond <= '1';
         when s23 =>
-          if (addfp_wait = C_ADDFP_WAIT-1) then
-            fttmp1 := addfpr;
-            addfpce <= '0';
-            addfpond <= '0';
-            addfpsclr <= '1';
-            state := ending;
-            addfp_wait := 0;
-          else
-            state := s23;
-            addfp_wait := addfp_wait + 1;
-          end if;
+if (addfp_wait = C_ADDFP_WAIT-1) then
+fttmp1 := addfpr;
+addfpce <= '0';
+addfpond <= '0';
+addfpsclr <= '1';
+state := ending;
+addfp_run <= '0';
+addfp_rdy <= '1';
+else
+state := s23;
+addfp_run <= '1';
+end if;
 --          if (addfprdy = '1') then state := ending;
 --            fttmp1 := addfpr;
 --            addfpce <= '0';
@@ -359,6 +446,7 @@ begin
 --            addfpsclr <= '1';
 --          else state := s23; end if;
         when ending => state := idle;
+addfp_rdy <= '0';
           addfpsclr <= '0';
           o_Vdd <= fttmp1;
           report_error ("================ CalculateVdd o_Vdd : ",fttmp1,0.0);
