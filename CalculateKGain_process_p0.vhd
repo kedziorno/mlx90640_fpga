@@ -79,7 +79,38 @@ signal divfpce_internal : STD_LOGIC;
 signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy_internal : STD_LOGIC;
 
+signal divfp_wait : integer range 0 to C_DIVFP_WAIT-1;
+signal fi2fl_wait : integer range 0 to C_FI2FL_WAIT-1;
+signal divfp_run,divfp_rdy : std_logic;
+signal fi2fl_run,fi2fl_rdy : std_logic;
+
 begin
+
+p1_counter_divfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      divfp_wait <= 0;
+    elsif (divfp_rdy = '1') then
+      divfp_wait <= 0;
+    elsif (divfp_run = '1') then
+      divfp_wait <= divfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_divfp;
+
+p1_counter_fi2fl : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      fi2fl_wait <= 0;
+    elsif (fi2fl_rdy = '1') then
+      fi2fl_wait <= 0;
+    elsif (fi2fl_run = '1') then
+      fi2fl_wait <= fi2fl_wait + 1;
+    end if;
+  end if;
+end process p1_counter_fi2fl;
 
 fixed2floata <= fixed2floata_internal;
 fixed2floatond <= fixed2floatond_internal;
@@ -121,6 +152,10 @@ begin
 		o_rdy <= '0';
 		i2c_mem_ena <= '0';
 		i2c_mem_addra <= (others => '0');
+    divfp_run <= '0';
+    divfp_rdy <= '0';
+    fi2fl_run <= '0';
+    fi2fl_rdy <= '0';
 	else
 	case (state) is
 	when idle =>
@@ -168,14 +203,27 @@ begin
 		ram070a (15) & ram070a (15) & 
 		ram070a (15) & ram070a & "00000000000000000000000000000";
 	when s10 =>
-		if (fixed2floatrdy_internal = '1') then state := s11;
-			fttmp1 := fixed2floatr_internal;
-			fixed2floatce_internal <= '0';
-			fixed2floatond_internal <= '0';
-			fixed2floatsclr_internal <= '1';
---			report "================ calculateKGain gainEE : " & real'image (ap_slv2fp (fttmp1));
-		else state := s10; end if;
+if (fi2fl_wait = C_FI2FL_WAIT-1) then
+fttmp1 := fixed2floatr_internal;
+fixed2floatce_internal <= '0';
+fixed2floatond_internal <= '0';
+fixed2floatsclr_internal <= '1';
+state := s11;
+fi2fl_run <= '0';
+fi2fl_rdy <= '1';
+else
+state := s10;
+fi2fl_run <= '1';
+end if;
+--if (fixed2floatrdy_internal = '1') then state := s11;
+--fttmp1 := fixed2floatr_internal;
+--fixed2floatce_internal <= '0';
+--fixed2floatond_internal <= '0';
+--fixed2floatsclr_internal <= '1';
+--report "================ calculateKGain gainEE : " & real'image (ap_slv2fp (fttmp1));
+--else state := s10; end if;
 	when s11 => state := s12;
+fi2fl_rdy <= '0';
 		fixed2floatsclr_internal <= '0';
 		fixed2floatce_internal <= '1';
 		fixed2floatond_internal <= '1';
@@ -192,27 +240,53 @@ begin
 		ee2430 (15) & ee2430 & "00000000000000000000000000000";
 
 	when s12 =>
-		if (fixed2floatrdy_internal = '1') then state := s13;
-			fttmp2 := fixed2floatr_internal;
-			fixed2floatce_internal <= '0';
-			fixed2floatond_internal <= '0';
-			fixed2floatsclr_internal <= '1';
-		else state := s12; end if;
+if (fi2fl_wait = C_FI2FL_WAIT-1) then
+fttmp2 := fixed2floatr_internal;
+fixed2floatce_internal <= '0';
+fixed2floatond_internal <= '0';
+fixed2floatsclr_internal <= '1';
+state := s13;
+fi2fl_run <= '0';
+fi2fl_rdy <= '1';
+else
+state := s12;
+fi2fl_run <= '1';
+end if;
+--if (fixed2floatrdy_internal = '1') then state := s13;
+--fttmp2 := fixed2floatr_internal;
+--fixed2floatce_internal <= '0';
+--fixed2floatond_internal <= '0';
+--fixed2floatsclr_internal <= '1';
+--else state := s12; end if;
 	when s13 => state := s14;
+fi2fl_rdy <= '0';
 		fixed2floatsclr_internal <= '0';
 		divfpce_internal <= '1';
 		divfpa_internal <= fttmp2;
 		divfpb_internal <= fttmp1;
 		divfpond_internal <= '1';
 	when s14 =>
-		if (divfprdy_internal = '1') then state := ending;
-			fttmp1 := divfpr_internal;
-			divfpce_internal <= '0';
-			divfpond_internal <= '0';
-			divfpsclr_internal <= '1';
-                       report_error ("================ calculateKGain gain : ",fttmp1,0.0);
-		else state := s14; end if;
+if (divfp_wait = C_DIVFP_WAIT-1) then
+fttmp1 := divfpr_internal;
+divfpce_internal <= '0';
+divfpond_internal <= '0';
+divfpsclr_internal <= '1';
+state := ending;
+divfp_run <= '0';
+divfp_rdy <= '1';
+else
+state := s14;
+divfp_run <= '1';
+end if;
+--if (divfprdy_internal = '1') then state := ending;
+--fttmp1 := divfpr_internal;
+--divfpce_internal <= '0';
+--divfpond_internal <= '0';
+--divfpsclr_internal <= '1';
+--report_error ("================ calculateKGain gain : ",fttmp1,0.0);
+--else state := s14; end if;
 	when ending => state := idle;
+divfp_rdy <= '1';
 		divfpsclr_internal <= '0';
 		o_KGain <= fttmp1;
 		o_rdy <= '1';
