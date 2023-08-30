@@ -24,7 +24,7 @@ package p_fphdl_package3 is
   constant C_SUBFP_WAIT : integer := 14;
   constant C_MULFP_WAIT : integer := 9;
   constant C_DIVFP_WAIT : integer := 29;
-  constant C_SQRTFP2_WAIT : integer := 27;
+  constant C_SQRTFP2_WAIT : integer := 28;
   constant C_FI2FL_WAIT : integer := 8;
   constant C_FL2FI_WAIT : integer := 7;
 
