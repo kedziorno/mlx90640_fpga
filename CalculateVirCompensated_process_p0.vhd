@@ -47,7 +47,7 @@ o_pixos_addr : out std_logic_vector (9 downto 0); -- 10bit-1024
 o_rdy : out std_logic;
 
 ExtractTGCParameters_run : out std_logic;
-ExtractTGCParameters_mux : out std_logic;
+ExtractTGCParameters_mux : out std_logic; -- xxx unconnected in schematic
 ExtractTGCParameters_rdy : in std_logic;
 ExtractTGCParameters_tgc : in std_logic_vector (31 downto 0);
 
@@ -103,7 +103,7 @@ signal divfpond_internal : STD_LOGIC;
 signal divfpsclr_internal : STD_LOGIC;
 signal divfpce_internal : STD_LOGIC;
 signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy_internal : STD_LOGIC;
+--signal divfprdy_internal : STD_LOGIC;
 
 signal mulfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -111,7 +111,7 @@ signal mulfpond_internal : STD_LOGIC;
 signal mulfpsclr_internal : STD_LOGIC;
 signal mulfpce_internal : STD_LOGIC;
 signal mulfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy_internal : STD_LOGIC;
+--signal mulfprdy_internal : STD_LOGIC;
 
 signal addfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -119,7 +119,7 @@ signal addfpond_internal : STD_LOGIC;
 signal addfpsclr_internal : STD_LOGIC;
 signal addfpce_internal : STD_LOGIC;
 signal addfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfprdy_internal : STD_LOGIC;
+--signal addfprdy_internal : STD_LOGIC;
 
 signal subfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -127,7 +127,7 @@ signal subfpond_internal : STD_LOGIC;
 signal subfpsclr_internal : STD_LOGIC;
 signal subfpce_internal : STD_LOGIC;
 signal subfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal subfprdy_internal : STD_LOGIC;
+--signal subfprdy_internal : STD_LOGIC;
 
 signal divfp_wait : integer range 0 to C_DIVFP_WAIT-1;
 signal addfp_wait : integer range 0 to C_ADDFP_WAIT-1;
@@ -146,7 +146,7 @@ divfpond <= divfpond_internal;
 divfpsclr <= divfpsclr_internal;
 divfpce <= divfpce_internal;
 divfpr_internal <= divfpr;
-divfprdy_internal <= divfprdy;
+--divfprdy_internal <= divfprdy;
 
 mulfpa <= mulfpa_internal;
 mulfpb <= mulfpb_internal;
@@ -154,7 +154,7 @@ mulfpond <= mulfpond_internal;
 mulfpsclr <= mulfpsclr_internal;
 mulfpce <= mulfpce_internal;
 mulfpr_internal <= mulfpr;
-mulfprdy_internal <= mulfprdy;
+--mulfprdy_internal <= mulfprdy;
 
 addfpa <= addfpa_internal;
 addfpb <= addfpb_internal;
@@ -162,7 +162,7 @@ addfpond <= addfpond_internal;
 addfpsclr <= addfpsclr_internal;
 addfpce <= addfpce_internal;
 addfpr_internal <= addfpr;
-addfprdy_internal <= addfprdy;
+--addfprdy_internal <= addfprdy;
 
 subfpa <= subfpa_internal;
 subfpb <= subfpb_internal;
@@ -170,7 +170,7 @@ subfpond <= subfpond_internal;
 subfpsclr <= subfpsclr_internal;
 subfpce <= subfpce_internal;
 subfpr_internal <= subfpr;
-subfprdy_internal <= subfprdy;
+--subfprdy_internal <= subfprdy;
 
 p1_counter_divfp : process (i_clock) is
 begin
@@ -262,7 +262,7 @@ begin
 			subfpce_internal <= '0';
 			divfpce_internal <= '0';
 			ExtractTGCParameters_run <= '0';
-			ExtractTGCParameters_mux <= '0';
+--			ExtractTGCParameters_mux <= '0';
 			o_write_enable <= '0';
       divfp_run <= '0';
       divfp_rdy <= '0';
@@ -287,15 +287,15 @@ begin
 					divfpsclr_internal <= '0';
 				when s0 => state := s0a;
 					ExtractTGCParameters_run <= '1';
-					ExtractTGCParameters_mux <= '1';
+--					ExtractTGCParameters_mux <= '1';
 				when s0a => 
 					ExtractTGCParameters_run <= '0';
 					if (ExtractTGCParameters_rdy = '1') then
 						state := s1;
-						ExtractTGCParameters_mux <= '0';
+--						ExtractTGCParameters_mux <= '0';
 					else
 						state := s0a;
-						ExtractTGCParameters_mux <= '1';
+--						ExtractTGCParameters_mux <= '1';
 					end if;
 
 				when s1 => state := s2;

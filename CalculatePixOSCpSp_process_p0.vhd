@@ -113,7 +113,7 @@ signal fixed2floatond_internal : STD_LOGIC;
 signal fixed2floatce_internal : STD_LOGIC;
 signal fixed2floatsclr_internal : STD_LOGIC;
 signal fixed2floatr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal fixed2floatrdy_internal : STD_LOGIC;
+--signal fixed2floatrdy_internal : STD_LOGIC;
 
 signal mulfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -121,7 +121,7 @@ signal mulfpond_internal : STD_LOGIC;
 signal mulfpce_internal : STD_LOGIC;
 signal mulfpsclr_internal : STD_LOGIC;
 signal mulfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy_internal : STD_LOGIC;
+--signal mulfprdy_internal : STD_LOGIC;
 
 signal divfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -129,7 +129,7 @@ signal divfpond_internal : STD_LOGIC;
 signal divfpsclr_internal : STD_LOGIC;
 signal divfpce_internal : STD_LOGIC;
 signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy_internal : STD_LOGIC;
+--signal divfprdy_internal : STD_LOGIC;
 
 signal addfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -137,7 +137,7 @@ signal addfpond_internal : STD_LOGIC;
 signal addfpsclr_internal : STD_LOGIC;
 signal addfpce_internal : STD_LOGIC;
 signal addfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfprdy_internal : STD_LOGIC;
+--signal addfprdy_internal : STD_LOGIC;
 
 signal subfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -145,7 +145,7 @@ signal subfpond_internal : STD_LOGIC;
 signal subfpsclr_internal : STD_LOGIC;
 signal subfpce_internal : STD_LOGIC;
 signal subfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal subfprdy_internal : STD_LOGIC;
+--signal subfprdy_internal : STD_LOGIC;
 
 signal i2c_mem_ena_internal : STD_LOGIC;
 signal i2c_mem_addra_internal : STD_LOGIC_VECTOR(11 DOWNTO 0);
@@ -239,7 +239,7 @@ mulfpond <= mulfpond_internal;
 mulfpce <= mulfpce_internal;
 mulfpsclr <= mulfpsclr_internal;
 mulfpr_internal <= mulfpr;
-mulfprdy_internal <= mulfprdy;
+--mulfprdy_internal <= mulfprdy;
 
 addfpa <= addfpa_internal;
 addfpb <= addfpb_internal;
@@ -247,7 +247,7 @@ addfpond <= addfpond_internal;
 addfpce <= addfpce_internal;
 addfpsclr <= addfpsclr_internal;
 addfpr_internal <= addfpr;
-addfprdy_internal <= addfprdy;
+--addfprdy_internal <= addfprdy;
 
 subfpa <= subfpa_internal;
 subfpb <= subfpb_internal;
@@ -255,7 +255,7 @@ subfpond <= subfpond_internal;
 subfpce <= subfpce_internal;
 subfpsclr <= subfpsclr_internal;
 subfpr_internal <= subfpr;
-subfprdy_internal <= subfprdy;
+--subfprdy_internal <= subfprdy;
 
 divfpa <= divfpa_internal;
 divfpb <= divfpb_internal;
@@ -263,14 +263,14 @@ divfpond <= divfpond_internal;
 divfpce <= divfpce_internal;
 divfpsclr <= divfpsclr_internal;
 divfpr_internal <= divfpr;
-divfprdy_internal <= divfprdy;
+--divfprdy_internal <= divfprdy;
 
 fixed2floata <= fixed2floata_internal;
 fixed2floatond <= fixed2floatond_internal;
 fixed2floatce <= fixed2floatce_internal;
 fixed2floatsclr <= fixed2floatsclr_internal;
 fixed2floatr_internal <= fixed2floatr;
-fixed2floatrdy_internal <= fixed2floatrdy;
+--fixed2floatrdy_internal <= fixed2floatrdy;
 
 p0 : process (i_clock) is
 	constant C_ROW : integer := 24;

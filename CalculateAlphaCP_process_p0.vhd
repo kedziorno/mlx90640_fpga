@@ -81,7 +81,7 @@ signal divfpond_internal : STD_LOGIC;
 signal divfpsclr_internal : STD_LOGIC;
 signal divfpce_internal : STD_LOGIC;
 signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy_internal : STD_LOGIC;
+--signal divfprdy_internal : STD_LOGIC;
 
 signal mulfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -89,7 +89,7 @@ signal mulfpond_internal : STD_LOGIC;
 signal mulfpsclr_internal : STD_LOGIC;
 signal mulfpce_internal : STD_LOGIC;
 signal mulfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy_internal : STD_LOGIC;
+--signal mulfprdy_internal : STD_LOGIC;
 
 signal divfp_wait : integer range 0 to C_DIVFP_WAIT-1;
 signal mulfp_wait : integer range 0 to C_MULFP_WAIT-1;
@@ -130,7 +130,7 @@ divfpond <= divfpond_internal;
 divfpsclr <= divfpsclr_internal;
 divfpce <= divfpce_internal;
 divfpr_internal <= divfpr;
-divfprdy_internal <= divfprdy;
+--divfprdy_internal <= divfprdy;
 
 mulfpa <= mulfpa_internal;
 mulfpb <= mulfpb_internal;
@@ -138,7 +138,7 @@ mulfpond <= mulfpond_internal;
 mulfpsclr <= mulfpsclr_internal;
 mulfpce <= mulfpce_internal;
 mulfpr_internal <= mulfpr;
-mulfprdy_internal <= mulfprdy;
+--mulfprdy_internal <= mulfprdy;
 
 p0 : process (i_clock,i_reset) is
 	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);

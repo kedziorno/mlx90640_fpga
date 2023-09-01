@@ -113,7 +113,7 @@ signal divfpond_internal : STD_LOGIC;
 signal divfpsclr_internal : STD_LOGIC;
 signal divfpce_internal : STD_LOGIC;
 signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy_internal : STD_LOGIC;
+--signal divfprdy_internal : STD_LOGIC;
 
 signal mulfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -121,7 +121,7 @@ signal mulfpond_internal : STD_LOGIC;
 signal mulfpsclr_internal : STD_LOGIC;
 signal mulfpce_internal : STD_LOGIC;
 signal mulfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy_internal : STD_LOGIC;
+--signal mulfprdy_internal : STD_LOGIC;
 
 signal addfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -129,7 +129,7 @@ signal addfpond_internal : STD_LOGIC;
 signal addfpsclr_internal : STD_LOGIC;
 signal addfpce_internal : STD_LOGIC;
 signal addfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfprdy_internal : STD_LOGIC;
+--signal addfprdy_internal : STD_LOGIC;
 
 signal subfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -137,14 +137,14 @@ signal subfpond_internal : STD_LOGIC;
 signal subfpsclr_internal : STD_LOGIC;
 signal subfpce_internal : STD_LOGIC;
 signal subfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal subfprdy_internal : STD_LOGIC;
+--signal subfprdy_internal : STD_LOGIC;
 
 signal sqrtfp2a_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal sqrtfp2ond_internal : STD_LOGIC;
 signal sqrtfp2sclr_internal : STD_LOGIC;
 signal sqrtfp2ce_internal : STD_LOGIC;
 signal sqrtfp2r_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal sqrtfp2rdy_internal : STD_LOGIC;
+--signal sqrtfp2rdy_internal : STD_LOGIC;
 
 signal i2c_mem_ena_internal : STD_LOGIC;
 signal i2c_mem_addra_internal : STD_LOGIC_VECTOR(11 DOWNTO 0);
@@ -162,6 +162,9 @@ signal subfp_run,subfp_rdy : std_logic;
 signal sqrtfp2_run,sqrtfp2_rdy : std_logic;
 
 begin
+i2c_mem_addra <= i2c_mem_addra_internal;
+i2c_mem_ena <= i2c_mem_ena_internal;
+i2c_mem_douta_internal <= i2c_mem_douta;
 
 divfpa <= divfpa_internal;
 divfpb <= divfpb_internal;
@@ -169,7 +172,7 @@ divfpond <= divfpond_internal;
 divfpsclr <= divfpsclr_internal;
 divfpce <= divfpce_internal;
 divfpr_internal <= divfpr;
-divfprdy_internal <= divfprdy;
+--divfprdy_internal <= divfprdy;
 
 mulfpa <= mulfpa_internal;
 mulfpb <= mulfpb_internal;
@@ -177,7 +180,7 @@ mulfpond <= mulfpond_internal;
 mulfpsclr <= mulfpsclr_internal;
 mulfpce <= mulfpce_internal;
 mulfpr_internal <= mulfpr;
-mulfprdy_internal <= mulfprdy;
+--mulfprdy_internal <= mulfprdy;
 
 addfpa <= addfpa_internal;
 addfpb <= addfpb_internal;
@@ -185,7 +188,7 @@ addfpond <= addfpond_internal;
 addfpsclr <= addfpsclr_internal;
 addfpce <= addfpce_internal;
 addfpr_internal <= addfpr;
-addfprdy_internal <= addfprdy;
+--addfprdy_internal <= addfprdy;
 
 subfpa <= subfpa_internal;
 subfpb <= subfpb_internal;
@@ -193,14 +196,14 @@ subfpond <= subfpond_internal;
 subfpsclr <= subfpsclr_internal;
 subfpce <= subfpce_internal;
 subfpr_internal <= subfpr;
-subfprdy_internal <= subfprdy;
+--subfprdy_internal <= subfprdy;
 
 sqrtfp2a <= sqrtfp2a_internal;
 sqrtfp2ond <= sqrtfp2ond_internal;
 sqrtfp2sclr <= sqrtfp2sclr_internal;
 sqrtfp2ce <= sqrtfp2ce_internal;
 sqrtfp2r_internal <= sqrtfp2r;
-sqrtfp2rdy_internal <= sqrtfp2rdy;
+--sqrtfp2rdy_internal <= sqrtfp2rdy;
 
 p1_counter_divfp : process (i_clock) is
 begin

@@ -43,8 +43,8 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 i_doa : in std_logic_vector (31 downto 0);
 o_dia : out std_logic_vector (31 downto 0);
-o_do : out std_logic_vector (31 downto 0);
-i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
+o_do : out std_logic_vector (31 downto 0); -- xxx dont exists
+i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024 xxx dont exists
 
 o_done : out std_logic;
 o_rdy : out std_logic;
@@ -99,7 +99,7 @@ signal fixed2floatond_internal : STD_LOGIC;
 signal fixed2floatsclr_internal : STD_LOGIC;
 signal fixed2floatce_internal : STD_LOGIC;
 signal fixed2floatr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal fixed2floatrdy_internal : STD_LOGIC;
+--signal fixed2floatrdy_internal : STD_LOGIC;
 
 signal mulfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -107,7 +107,7 @@ signal mulfpond_internal : STD_LOGIC;
 signal mulfpsclr_internal : STD_LOGIC;
 signal mulfpce_internal : STD_LOGIC;
 signal mulfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy_internal : STD_LOGIC;
+--signal mulfprdy_internal : STD_LOGIC;
 
 signal addfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -115,7 +115,7 @@ signal addfpond_internal : STD_LOGIC;
 signal addfpsclr_internal : STD_LOGIC;
 signal addfpce_internal : STD_LOGIC;
 signal addfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfprdy_internal : STD_LOGIC;
+--signal addfprdy_internal : STD_LOGIC;
 
 signal divfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -123,7 +123,7 @@ signal divfpond_internal : STD_LOGIC;
 signal divfpsclr_internal : STD_LOGIC;
 signal divfpce_internal : STD_LOGIC;
 signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy_internal : STD_LOGIC;
+--signal divfprdy_internal : STD_LOGIC;
 
 signal divfp_wait : integer range 0 to C_DIVFP_WAIT-1;
 signal addfp_wait : integer range 0 to C_ADDFP_WAIT-1;
@@ -141,7 +141,7 @@ fixed2floatond <= fixed2floatond_internal;
 fixed2floatsclr <= fixed2floatsclr_internal;
 fixed2floatce <= fixed2floatce_internal;
 fixed2floatr_internal <= fixed2floatr;
-fixed2floatrdy_internal <= fixed2floatrdy;
+--fixed2floatrdy_internal <= fixed2floatrdy;
 
 mulfpa <= mulfpa_internal;
 mulfpb <= mulfpb_internal;
@@ -149,7 +149,7 @@ mulfpond <= mulfpond_internal;
 mulfpsclr <= mulfpsclr_internal;
 mulfpce <= mulfpce_internal;
 mulfpr_internal <= mulfpr;
-mulfprdy_internal <= mulfprdy;
+--mulfprdy_internal <= mulfprdy;
 
 addfpa <= addfpa_internal;
 addfpb <= addfpb_internal;
@@ -157,7 +157,7 @@ addfpond <= addfpond_internal;
 addfpsclr <= addfpsclr_internal;
 addfpce <= addfpce_internal;
 addfpr_internal <= addfpr;
-addfprdy_internal <= addfprdy;
+--addfprdy_internal <= addfprdy;
 
 divfpa <= divfpa_internal;
 divfpb <= divfpb_internal;
@@ -165,7 +165,7 @@ divfpond <= divfpond_internal;
 divfpsclr <= divfpsclr_internal;
 divfpce <= divfpce_internal;
 divfpr_internal <= divfpr;
-divfprdy_internal <= divfprdy;
+--divfprdy_internal <= divfprdy;
 
 p1_counter_divfp : process (i_clock) is
 begin

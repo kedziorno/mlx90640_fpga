@@ -29,22 +29,22 @@ constant VFP : INTEGER := 10;
 constant VSP : INTEGER := 2;
 constant VBP : INTEGER := 33;
 
-signal clk_vga : STD_LOGIC;
-signal hcnt,vcnt : INTEGER range 0 to 1023 := 0;
+--signal clk_vga : STD_LOGIC;
+--signal hcnt,vcnt : INTEGER range 0 to 1023 := 0;
 signal hPos,vPos : integer range 0 to 1023 := 0;
-signal thPos,tvPos : std_logic_vector(9 downto 0);
+--signal thPos,tvPos : std_logic_vector(9 downto 0);
 signal videoOn : std_logic;
-signal thsync,tvsync : std_logic;
+--signal thsync,tvsync : std_logic;
 
 signal h,v : std_logic;
 
-signal ph,pv : std_logic;
+--signal ph,pv : std_logic;
 
-signal v120 : std_logic;
+--signal v120 : std_logic;
 
 signal display_flag,activeh : std_logic;
 
-signal tactiveArea1 : std_logic;
+--signal tactiveArea1 : std_logic;
 
 begin
 

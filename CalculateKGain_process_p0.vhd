@@ -69,7 +69,7 @@ signal fixed2floatond_internal : STD_LOGIC;
 signal fixed2floatsclr_internal : STD_LOGIC;
 signal fixed2floatce_internal : STD_LOGIC;
 signal fixed2floatr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal fixed2floatrdy_internal : STD_LOGIC;
+--signal fixed2floatrdy_internal : STD_LOGIC;
 
 signal divfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -77,7 +77,7 @@ signal divfpond_internal : STD_LOGIC;
 signal divfpsclr_internal : STD_LOGIC;
 signal divfpce_internal : STD_LOGIC;
 signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy_internal : STD_LOGIC;
+--signal divfprdy_internal : STD_LOGIC;
 
 signal divfp_wait : integer range 0 to C_DIVFP_WAIT-1;
 signal fi2fl_wait : integer range 0 to C_FI2FL_WAIT-1;
@@ -117,7 +117,7 @@ fixed2floatond <= fixed2floatond_internal;
 fixed2floatsclr <= fixed2floatsclr_internal;
 fixed2floatce <= fixed2floatce_internal;
 fixed2floatr_internal <= fixed2floatr;
-fixed2floatrdy_internal <= fixed2floatrdy;
+--fixed2floatrdy_internal <= fixed2floatrdy;
 
 divfpa <= divfpa_internal;
 divfpb <= divfpb_internal;
@@ -125,7 +125,7 @@ divfpond <= divfpond_internal;
 divfpsclr <= divfpsclr_internal;
 divfpce <= divfpce_internal;
 divfpr_internal <= divfpr;
-divfprdy_internal <= divfprdy;
+--divfprdy_internal <= divfprdy;
 
 p0 : process (i_clock) is
 	variable fttmp1,fttmp2 : std_logic_vector (31 downto 0);
