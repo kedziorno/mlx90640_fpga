@@ -286,7 +286,7 @@ end if;
 --report_error ("================ calculateKGain gain : ",fttmp1,0.0);
 --else state := s14; end if;
 	when ending => state := idle;
-divfp_rdy <= '1';
+divfp_rdy <= '0';
 		divfpsclr_internal <= '0';
 		o_KGain <= fttmp1;
 		o_rdy <= '1';

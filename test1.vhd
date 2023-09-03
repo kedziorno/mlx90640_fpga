@@ -21,7 +21,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
---use work.p_fphdl_package3.all;
+use work.p_fphdl_package3.all;
 
 entity test1 is
 port (
@@ -160,8 +160,8 @@ operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(63 DOWNTO 0);
-rdy : OUT STD_LOGIC
+result : OUT STD_LOGIC_VECTOR(63 DOWNTO 0)
+--rdy : OUT STD_LOGIC
 );
 END COMPONENT;
 signal float2fixeda : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -170,7 +170,7 @@ signal float2fixedclk : STD_LOGIC;
 signal float2fixedsclr : STD_LOGIC;
 signal float2fixedce : STD_LOGIC;
 signal float2fixedr : STD_LOGIC_VECTOR(63 DOWNTO 0);
-signal float2fixedrdy : STD_LOGIC;
+--signal float2fixedrdy : STD_LOGIC;
 
 COMPONENT dualmem
 PORT (
@@ -195,12 +195,28 @@ signal dualmem_enb : STD_LOGIC;
 signal dualmem_addrb : STD_LOGIC_VECTOR(9 DOWNTO 0);
 signal dualmem_doutb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 
+signal fl2fi_wait : integer range 0 to C_FL2FI_WAIT-1;
+signal fl2fi_run,fl2fi_rdy : std_logic;
+
 begin
 
 vga_syncn <= '1';
 --vga_blankn <= VGA_timing_synch_blank;
 vga_blankn <= '1';
 vga_psave <= '1';
+
+p1_counter_fl2fi : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      fl2fi_wait <= 0;
+    elsif (fl2fi_rdy = '1') then
+      fl2fi_wait <= 0;
+    elsif (fl2fi_run = '1') then
+      fl2fi_wait <= fl2fi_wait + 1;
+    end if;
+  end if;
+end process p1_counter_fl2fi;
 
 pTo : process (i_clock) is
 	variable i : integer range 0 to PIXELS-1;
@@ -217,6 +233,8 @@ begin
 			dualmem_ena <= '0';
 			dualmem_enb <= '0';
 			tout := (others => '0');
+      fl2fi_run <= '0';
+      fl2fi_rdy <= '0';
 		else
 			case (state) is
 				when idle => state := s1;
@@ -241,17 +259,34 @@ begin
 					float2fixedce <= '1';
 					float2fixeda <= test_fixed_melexis_do;
 				when s7 =>
-					if (float2fixedrdy = '1') then state := s8;
---						tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
---						tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
---						report_error ("float2fixedr", float2fixedr, 0.0);
-						tout := "0000000000"&float2fixedr (34 downto 13); -- 35 29
---						tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
-						float2fixedond <= '0';
-						float2fixedce <= '0';
-						float2fixedsclr <= '1';
-					else state := s7; end if;
+if (fl2fi_wait = C_FL2FI_WAIT-1) then
+--tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
+--tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
+--report_error ("float2fixedr", float2fixedr, 0.0);
+tout := "0000000000"&float2fixedr (34 downto 13); -- 35 29
+--tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
+float2fixedond <= '0';
+float2fixedce <= '0';
+float2fixedsclr <= '1';
+state := s8;
+fl2fi_run <= '0';
+fl2fi_rdy <= '1';
+else
+state := s7;
+fl2fi_run <= '1';
+end if;
+--if (float2fixedrdy = '1') then state := s8;
+--tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
+--tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
+--report_error ("float2fixedr", float2fixedr, 0.0);
+--tout := "0000000000"&float2fixedr (34 downto 13); -- 35 29
+--tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
+--float2fixedond <= '0';
+--float2fixedce <= '0';
+--float2fixedsclr <= '1';
+--else state := s7; end if;
 				when s8 => state := s9;
+        fl2fi_rdy <= '0';
 					float2fixedsclr <= '0';
 					dualmem_wea <= "1";
 					dualmem_addra <= std_logic_vector (to_unsigned (i, 10));
@@ -448,8 +483,8 @@ operation_nd => float2fixedond,
 clk => float2fixedclk,
 sclr => float2fixedsclr,
 ce => float2fixedce,
-result => float2fixedr,
-rdy => float2fixedrdy
+result => float2fixedr
+--rdy => float2fixedrdy
 );
 
 dualmem_clka <= i_clock;

@@ -108,6 +108,13 @@ signal addfpce_internal : STD_LOGIC;
 signal addfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfprdy_internal : STD_LOGIC;
 
+signal addfp_wait : integer range 0 to C_ADDFP_WAIT-1;
+signal mulfp_wait : integer range 0 to C_MULFP_WAIT-1;
+signal fi2fl_wait : integer range 0 to C_FI2FL_WAIT-1;
+signal addfp_run,addfp_rdy : std_logic;
+signal mulfp_run,mulfp_rdy : std_logic;
+signal fi2fl_run,fi2fl_rdy : std_logic;
+
 begin
 
 fixed2floata <= fixed2floata_internal;
@@ -115,7 +122,7 @@ fixed2floatond <= fixed2floatond_internal;
 fixed2floatsclr <= fixed2floatsclr_internal;
 fixed2floatce <= fixed2floatce_internal;
 fixed2floatr_internal <= fixed2floatr;
-fixed2floatrdy_internal <= fixed2floatrdy;
+--fixed2floatrdy_internal <= fixed2floatrdy;
 
 mulfpa <= mulfpa_internal;
 mulfpb <= mulfpb_internal;
@@ -123,7 +130,7 @@ mulfpond <= mulfpond_internal;
 mulfpsclr <= mulfpsclr_internal;
 mulfpce <= mulfpce_internal;
 mulfpr_internal <= mulfpr;
-mulfprdy_internal <= mulfprdy;
+--mulfprdy_internal <= mulfprdy;
 
 addfpa <= addfpa_internal;
 addfpb <= addfpb_internal;
@@ -131,7 +138,46 @@ addfpond <= addfpond_internal;
 addfpsclr <= addfpsclr_internal;
 addfpce <= addfpce_internal;
 addfpr_internal <= addfpr;
-addfprdy_internal <= addfprdy;
+--addfprdy_internal <= addfprdy;
+
+p1_counter_mulfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      mulfp_wait <= 0;
+    elsif (mulfp_rdy = '1') then
+      mulfp_wait <= 0;
+    elsif (mulfp_run = '1') then
+      mulfp_wait <= mulfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_mulfp;
+
+p1_counter_addfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      addfp_wait <= 0;
+    elsif (addfp_rdy = '1') then
+      addfp_wait <= 0;
+    elsif (addfp_run = '1') then
+      addfp_wait <= addfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_addfp;
+
+p1_counter_fi2fl : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      fi2fl_wait <= 0;
+    elsif (fi2fl_rdy = '1') then
+      fi2fl_wait <= 0;
+    elsif (fi2fl_run = '1') then
+      fi2fl_wait <= fi2fl_wait + 1;
+    end if;
+  end if;
+end process p1_counter_fi2fl;
 
 p0 : process (i_clock) is
 	type states is (idle,
@@ -211,6 +257,12 @@ begin
 			o_dia <= (others => '0');
 			i2c_mem_ena <= '0';
 			i2c_mem_addra <= (others => '0');
+      mulfp_run <= '0';
+      mulfp_rdy <= '0';
+      addfp_run <= '0';
+      addfp_rdy <= '0';
+      fi2fl_run <= '0';
+      fi2fl_rdy <= '0';
 		else
 			case (state) is
 				when idle =>
@@ -699,14 +751,28 @@ voffsetRef (15) & voffsetRef (15) &
 voffsetRef (15) & voffsetRef (15) & 
 voffsetRef (15) & voffsetRef & "00000000000000000000000000000";
 				when pow4 =>
-					if (fixed2floatrdy_internal = '1') then state := pow5;
-						vOffsetAverage := fixed2floatr_internal;
-						--report "vOffsetAverage : " & real'image (ap_slv2fp (vOffsetAverage));
-						fixed2floatce_internal <= '0';
-						fixed2floatond_internal <= '0';
-						fixed2floatsclr_internal <= '1';
-					else state := pow4; end if;
-				when pow5 => state := s0;
+if (fi2fl_wait = C_FI2FL_WAIT-1) then
+vOffsetAverage := fixed2floatr_internal;
+--report "vOffsetAverage : " & real'image (ap_slv2fp (vOffsetAverage));
+fixed2floatce_internal <= '0';
+fixed2floatond_internal <= '0';
+fixed2floatsclr_internal <= '1';
+state := pow5;
+fi2fl_run <= '0';
+fi2fl_rdy <= '1';
+else
+state := pow4;
+fi2fl_run <= '1';
+end if;
+--if (fixed2floatrdy_internal = '1') then state := pow5;
+--vOffsetAverage := fixed2floatr_internal;
+----report "vOffsetAverage : " & real'image (ap_slv2fp (vOffsetAverage));
+--fixed2floatce_internal <= '0';
+--fixed2floatond_internal <= '0';
+--fixed2floatsclr_internal <= '1';
+--else state := pow4; end if;
+when pow5 => state := s0;
+fi2fl_rdy <= '0';
 					fixed2floatsclr_internal <= '0';
 	row := 0;
 	col := 0;
@@ -744,13 +810,26 @@ when s5 => state := s6; 	--5
 	report_error ("voccRemScale "&integer'image(i),voccRemScale,0.0);
 	report_error ("nibble_in3 "&integer'image(i),nibble_in3,0.0);
 when s6 => 			--6
-	if (mulfprdy_internal = '1') then state := s7;
-		vOffset_ft := mulfpr_internal;
-		mulfpce_internal <= '0';
-		mulfpond_internal <= '0';
-		mulfpsclr_internal <= '1';
-	else state := s6; end if;
+if (mulfp_wait = C_MULFP_WAIT-1) then
+vOffset_ft := mulfpr_internal;
+mulfpce_internal <= '0';
+mulfpond_internal <= '0';
+mulfpsclr_internal <= '1';
+state := s7;
+mulfp_run <= '0';
+mulfp_rdy <= '1';
+else
+state := s6;
+mulfp_run <= '1';
+end if;
+--if (mulfprdy_internal = '1') then state := s7;
+--vOffset_ft := mulfpr_internal;
+--mulfpce_internal <= '0';
+--mulfpond_internal <= '0';
+--mulfpsclr_internal <= '1';
+--else state := s6; end if;
 when s7 => state := s8; 	--7
+mulfp_rdy <= '0';
 	mulfpsclr_internal <= '0';
 	mulfpce_internal <= '1';
 	mulfpa_internal <= vOCCColumnJ;
@@ -758,13 +837,26 @@ when s7 => state := s8; 	--7
 	mulfpond_internal <= '1';
 	report_error ("voccColumnScale "&integer'image(i),voccColumnScale,0.0);
 when s8 => 			--8
-	if (mulfprdy_internal = '1') then state := s9;
-		vOCCColumnJ := mulfpr_internal;
-		mulfpce_internal <= '0';
-		mulfpond_internal <= '0';
-		mulfpsclr_internal <= '1';
-	else state := s8; end if;
+if (mulfp_wait = C_MULFP_WAIT-1) then
+vOCCColumnJ := mulfpr_internal;
+mulfpce_internal <= '0';
+mulfpond_internal <= '0';
+mulfpsclr_internal <= '1';
+state := s9;
+mulfp_run <= '0';
+mulfp_rdy <= '1';
+else
+state := s8;
+mulfp_run <= '1';
+end if;
+--if (mulfprdy_internal = '1') then state := s9;
+--vOCCColumnJ := mulfpr_internal;
+--mulfpce_internal <= '0';
+--mulfpond_internal <= '0';
+--mulfpsclr_internal <= '1';
+--else state := s8; end if;
 when s9 => state := s10; 	--9
+mulfp_rdy <= '0';
 	mulfpsclr_internal <= '0';
 when s10 => state := s11; 	--10
 	mulfpsclr_internal <= '0';
@@ -774,13 +866,26 @@ when s10 => state := s11; 	--10
 	mulfpond_internal <= '1';
 	report_error ("voccRowScale "&integer'image(i),voccRowScale,0.0);
 when s11 => 			--11
-	if (mulfprdy_internal = '1') then state := s12;
-		vOCCRowI := mulfpr_internal;
-		mulfpce_internal <= '0';
-		mulfpond_internal <= '0';
-		mulfpsclr_internal <= '1';
-	else state := s11; end if;
+if (mulfp_wait = C_MULFP_WAIT-1) then
+vOCCRowI := mulfpr_internal;
+mulfpce_internal <= '0';
+mulfpond_internal <= '0';
+mulfpsclr_internal <= '1';
+state := s12;
+mulfp_run <= '0';
+mulfp_rdy <= '1';
+else
+state := s11;
+mulfp_run <= '1';
+end if;
+--if (mulfprdy_internal = '1') then state := s12;
+--vOCCRowI := mulfpr_internal;
+--mulfpce_internal <= '0';
+--mulfpond_internal <= '0';
+--mulfpsclr_internal <= '1';
+--else state := s11; end if;
 when s12 => state := s13; 	--12
+mulfp_rdy <= '0';
 	mulfpsclr_internal <= '0';
 when s13 => state := s14; 	--13
 	addfpsclr_internal <= '0';
@@ -791,13 +896,26 @@ when s13 => state := s14; 	--13
 	report_error ("vOffset_ft nibble_in3 * voccremscale",vOffset_ft,0.0);
 	report_error ("vOCCColumnJ vocccolumnj * vocccolumnscale",vOCCColumnJ,0.0);
 when s14 => 			--14
-	if (addfprdy_internal = '1') then state := s15;
-		vOffset_ft := addfpr_internal;
-		addfpce_internal <= '0';
-		addfpond_internal <= '0';
-		addfpsclr_internal <= '1';
-	else state := s14; end if;
+if (addfp_wait = C_ADDFP_WAIT-1) then
+vOffset_ft := addfpr_internal;
+addfpce_internal <= '0';
+addfpond_internal <= '0';
+addfpsclr_internal <= '1';
+state := s15;
+addfp_run <= '0';
+addfp_rdy <= '1';
+else
+state := s14;
+addfp_run <= '1';
+end if;
+--if (addfprdy_internal = '1') then state := s15;
+--vOffset_ft := addfpr_internal;
+--addfpce_internal <= '0';
+--addfpond_internal <= '0';
+--addfpsclr_internal <= '1';
+--else state := s14; end if;
 when s15 => state := s16; 	--15
+addfp_rdy <= '0';
 	addfpsclr_internal <= '0';
 when s16 => state := s17; 	--16
 	addfpsclr_internal <= '0';
@@ -808,13 +926,26 @@ when s16 => state := s17; 	--16
 	report_error ("vOffset_ft voffset_ft + vocccolumnj",vOffset_ft,0.0);
 	report_error ("vOCCRowI voccrowi * voccrowscale",vOCCRowI,0.0);
 when s17 => 			--17
-	if (addfprdy_internal = '1') then state := s18;
-		vOffset_ft := addfpr_internal;
-		addfpce_internal <= '0';
-		addfpond_internal <= '0';
-		addfpsclr_internal <= '1';
-	else state := s17; end if;
+if (addfp_wait = C_MULFP_WAIT-1) then
+vOffset_ft := addfpr_internal;
+addfpce_internal <= '0';
+addfpond_internal <= '0';
+addfpsclr_internal <= '1';
+state := s18;
+addfp_run <= '0';
+addfp_rdy <= '1';
+else
+state := s17;
+addfp_run <= '1';
+end if;
+--if (addfprdy_internal = '1') then state := s18;
+--vOffset_ft := addfpr_internal;
+--addfpce_internal <= '0';
+--addfpond_internal <= '0';
+--addfpsclr_internal <= '1';
+--else state := s17; end if;
 when s18 => state := s19; 	--18
+addfp_rdy <= '0';
 	addfpsclr_internal <= '0';
 when s19 => state := s20; 	--19
 	addfpsclr_internal <= '0';
@@ -825,13 +956,26 @@ when s19 => state := s20; 	--19
 	report_error ("vOffset_ft after voffset_ft + voccrowi",vOffset_ft,0.0);
 	report_error ("vOffsetAverage fi2fl",vOffsetAverage,0.0);
 when s20 => 			--20
-	if (addfprdy_internal = '1') then state := s21;
-		vOffset_ft := addfpr_internal;
-		addfpce_internal <= '0';
-		addfpond_internal <= '0';
-		addfpsclr_internal <= '1';
-	else state := s20; end if;
+if (addfp_wait = C_ADDFP_WAIT-1) then
+vOffset_ft := addfpr_internal;
+addfpce_internal <= '0';
+addfpond_internal <= '0';
+addfpsclr_internal <= '1';
+state := s21;
+addfp_run <= '0';
+addfp_rdy <= '1';
+else
+state := s20;
+addfp_run <= '1';
+end if;
+--if (addfprdy_internal = '1') then state := s21;
+--vOffset_ft := addfpr_internal;
+--addfpce_internal <= '0';
+--addfpond_internal <= '0';
+--addfpsclr_internal <= '1';
+--else state := s20; end if;
 when s21 => state := s22; 	--21
+addfp_rdy <= '0';
 	addfpsclr_internal <= '0';
 when s22 => state := s23; 	--22
 	o_write_enable <= '1';
