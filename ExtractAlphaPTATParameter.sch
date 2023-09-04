@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="virtex4" name="DeviceFamilyName">
+    <attr value="spartan3e" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -20,8 +20,8 @@
         <port polarity="Input" name="i_clock" />
         <port polarity="Input" name="i_reset" />
         <port polarity="Output" name="o_alphaptat(31:0)" />
-        <blockdef name="ramb16">
-            <timestamp>2007-9-26T16:56:25</timestamp>
+        <blockdef name="RAMB16">
+            <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
             <rect width="64" x="0" y="-588" height="24" />
@@ -83,7 +83,7 @@
             <line x2="64" y1="0" y2="-32" x1="64" />
             <line x2="32" y1="-64" y2="-64" x1="96" />
         </blockdef>
-        <block symbolname="ramb16" name="ROM_ALPHAPTAT">
+        <block symbolname="RAMB16" name="ROM_ALPHAPTAT">
             <attr value="411c0000411800004114000041100000410c0000410800004104000041000000" name="INIT_00">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />

@@ -7,13 +7,13 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : mem_switchpattern.vhf
--- /___/   /\     Timestamp : 08/23/2023 17:28:27
+-- /___/   /\     Timestamp : 09/03/2023 19:01:57
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
---Command: sch2hdl -sympath /home/user/workspace/mlx90640_fpga/ipcore_dir -intstyle ise -family virtex4 -flat -suppress -vhdl /home/user/workspace/mlx90640_fpga/mem_switchpattern.vhf -w /home/user/workspace/mlx90640_fpga/mem_switchpattern.sch
+--Command: sch2hdl -sympath /home/user/workspace/mlx90640_fpga/ipcore_dir -intstyle ise -family spartan3e -flat -suppress -vhdl /home/user/workspace/mlx90640_fpga/mem_switchpattern.vhf -w /home/user/workspace/mlx90640_fpga/mem_switchpattern.sch
 --Design Name: mem_switchpattern
---Device: virtex4
+--Device: spartan3e
 --Purpose:
 --    This vhdl netlist is translated from an ECS schematic. It can be 
 --    synthesized and simulated, but it should not be modified. 
@@ -33,7 +33,6 @@ entity mem_switchpattern is
 end mem_switchpattern;
 
 architecture BEHAVIORAL of mem_switchpattern is
-   attribute BOX_TYPE    : string ;
    attribute INIT_00     : string ;
    attribute INIT_01     : string ;
    attribute INIT_02     : string ;
@@ -101,22 +100,12 @@ architecture BEHAVIORAL of mem_switchpattern is
    attribute INIT        : string ;
    attribute SRVAL       : string ;
    attribute WRITE_MODE  : string ;
-   signal ADDR                  : std_logic_vector (13 downto 0);
-   signal do                    : std_logic;
-   signal XLXN_11               : std_logic;
-   signal XLXN_44               : std_logic;
-   signal XLXI_10_DI_openSignal : std_logic_vector (0 downto 0);
-   component VCC
-      port ( P : out   std_logic);
-   end component;
-   attribute BOX_TYPE of VCC : component is "BLACK_BOX";
-   
-   component BUF
-      port ( I : in    std_logic; 
-             O : out   std_logic);
-   end component;
-   attribute BOX_TYPE of BUF : component is "BLACK_BOX";
-   
+   attribute BOX_TYPE    : string ;
+   signal ADDR                                : std_logic_vector (13 downto 0);
+   signal do                                  : std_logic;
+   signal XLXN_11                             : std_logic;
+   signal XLXN_44                             : std_logic;
+   signal ROM_mem_switchpattern_DI_openSignal : std_logic_vector (0 downto 0);
    component RAMB16_S1
       -- synopsys translate_off
       generic( INIT_00 : bit_vector :=  
@@ -391,44 +380,48 @@ architecture BEHAVIORAL of mem_switchpattern is
    attribute SRVAL of RAMB16_S1 : component is "0";
    attribute WRITE_MODE of RAMB16_S1 : component is "NO_CHANGE";
    
+   component VCC
+      port ( P : out   std_logic);
+   end component;
+   attribute BOX_TYPE of VCC : component is "BLACK_BOX";
+   
+   component BUF
+      port ( I : in    std_logic; 
+             O : out   std_logic);
+   end component;
+   attribute BOX_TYPE of BUF : component is "BLACK_BOX";
+   
    component GND
       port ( G : out   std_logic);
    end component;
    attribute BOX_TYPE of GND : component is "BLACK_BOX";
    
-   attribute INIT_0B of XLXI_10 : label is 
+   attribute INIT_0B of ROM_mem_switchpattern : label is 
          "0101010101010101010101010101010110101010101010101010101010101010";
-   attribute INIT_0A of XLXI_10 : label is 
+   attribute INIT_0A of ROM_mem_switchpattern : label is 
          "0101010101010101010101010101010110101010101010101010101010101010";
-   attribute INIT_09 of XLXI_10 : label is 
+   attribute INIT_09 of ROM_mem_switchpattern : label is 
          "0101010101010101010101010101010110101010101010101010101010101010";
-   attribute INIT_08 of XLXI_10 : label is 
+   attribute INIT_08 of ROM_mem_switchpattern : label is 
          "0101010101010101010101010101010110101010101010101010101010101010";
-   attribute INIT_07 of XLXI_10 : label is 
+   attribute INIT_07 of ROM_mem_switchpattern : label is 
          "0101010101010101010101010101010110101010101010101010101010101010";
-   attribute INIT_06 of XLXI_10 : label is 
+   attribute INIT_06 of ROM_mem_switchpattern : label is 
          "0101010101010101010101010101010110101010101010101010101010101010";
-   attribute INIT_05 of XLXI_10 : label is 
+   attribute INIT_05 of ROM_mem_switchpattern : label is 
          "0101010101010101010101010101010110101010101010101010101010101010";
-   attribute INIT_04 of XLXI_10 : label is 
+   attribute INIT_04 of ROM_mem_switchpattern : label is 
          "0101010101010101010101010101010110101010101010101010101010101010";
-   attribute INIT_03 of XLXI_10 : label is 
+   attribute INIT_03 of ROM_mem_switchpattern : label is 
          "0101010101010101010101010101010110101010101010101010101010101010";
-   attribute INIT_02 of XLXI_10 : label is 
+   attribute INIT_02 of ROM_mem_switchpattern : label is 
          "0101010101010101010101010101010110101010101010101010101010101010";
-   attribute INIT_01 of XLXI_10 : label is 
+   attribute INIT_01 of ROM_mem_switchpattern : label is 
          "0101010101010101010101010101010110101010101010101010101010101010";
-   attribute INIT_00 of XLXI_10 : label is 
+   attribute INIT_00 of ROM_mem_switchpattern : label is 
          "0101010101010101010101010101010110101010101010101010101010101010";
 begin
-   XLXI_7 : VCC
-      port map (P=>XLXN_11);
-   
-   XLXI_8 : BUF
-      port map (I=>do,
-                O=>o_pattern);
-   
-   XLXI_10 : RAMB16_S1
+   ROM_mem_switchpattern : RAMB16_S1
    -- synopsys translate_off
    generic map( INIT_0B => 
          x"0101010101010101010101010101010110101010101010101010101010101010",
@@ -457,11 +450,18 @@ begin
    -- synopsys translate_on
       port map (ADDR(13 downto 0)=>ADDR(13 downto 0),
                 CLK=>i_clock,
-                DI(0)=>XLXI_10_DI_openSignal(0),
+                DI(0)=>ROM_mem_switchpattern_DI_openSignal(0),
                 EN=>XLXN_11,
                 SSR=>i_reset,
                 WE=>XLXN_44,
                 DO(0)=>do);
+   
+   XLXI_7 : VCC
+      port map (P=>XLXN_11);
+   
+   XLXI_8 : BUF
+      port map (I=>do,
+                O=>o_pattern);
    
    XLXI_11 : GND
       port map (G=>XLXN_44);

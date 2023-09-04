@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="virtex4" name="DeviceFamilyName">
+    <attr value="spartan3e" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -171,8 +171,8 @@
             <rect width="64" x="592" y="-44" height="24" />
             <line x2="656" y1="-32" y2="-32" x1="592" />
         </blockdef>
-        <blockdef name="ramb16">
-            <timestamp>2007-9-26T16:56:25</timestamp>
+        <blockdef name="RAMB16">
+            <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
             <rect width="64" x="0" y="-588" height="24" />
@@ -255,7 +255,7 @@
             <rect width="112" x="0" y="0" height="64" />
             <line x2="112" y1="32" y2="32" x1="144" />
         </blockdef>
-        <block symbolname="CalculateKGain_process_p0" name="inst_CalcKGain_proc0">
+        <block symbolname="CalculateKGain_process_p0" name="CalculatePixGain_inst_CalcKGain_proc0">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="XLXN_117" name="i_run" />
@@ -278,7 +278,7 @@
             <blockpin signalname="divfpa(31:0)" name="divfpa(31:0)" />
             <blockpin signalname="divfpb(31:0)" name="divfpb(31:0)" />
         </block>
-        <block symbolname="CalculatePixGain_process_p0" name="inst_CalcPixGain_proc0">
+        <block symbolname="CalculatePixGain_process_p0" name="CalculatePixGain_inst_CalcPixGain_proc0">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="i_run" name="i_run" />
@@ -307,7 +307,7 @@
             <blockpin signalname="mulfpa(31:0)" name="mulfpa(31:0)" />
             <blockpin signalname="mulfpb(31:0)" name="mulfpb(31:0)" />
         </block>
-        <block symbolname="ramb16" name="mem_KGain_1">
+        <block symbolname="RAMB16" name="mem_KGain_1">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -375,7 +375,7 @@
             <blockpin name="DOPA(3:0)" />
             <blockpin name="DOPB(3:0)" />
         </block>
-        <block symbolname="ramb16" name="mem_KGain_2">
+        <block symbolname="RAMB16" name="mem_KGain_2">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -461,19 +461,19 @@
             <blockpin signalname="mux_addr(9)" name="I" />
             <blockpin signalname="XLXN_59" name="O" />
         </block>
-        <block symbolname="m2_1" name="MUX_DO(31:0)">
+        <block symbolname="m2_1" name="CalculatePixGain_MUX_DO(31:0)">
             <blockpin signalname="XLXN_79(31:0)" name="D0" />
             <blockpin signalname="XLXN_78(31:0)" name="D1" />
             <blockpin signalname="mux_addr(9)" name="S0" />
             <blockpin signalname="o_do(31:0)" name="O" />
         </block>
-        <block symbolname="m2_1" name="mux2_addra(9:0)">
+        <block symbolname="m2_1" name="CalculatePixGain_mux2_addra(9:0)">
             <blockpin signalname="XLXN_86(9:0)" name="D0" />
             <blockpin signalname="i_addr(9:0)" name="D1" />
             <blockpin signalname="o_rdy" name="S0" />
             <blockpin signalname="mux_addr(9:0)" name="O" />
         </block>
-        <block symbolname="m2_1" name="MUX_DIA(31:0)">
+        <block symbolname="m2_1" name="CalculatePixGain_MUX_DIA(31:0)">
             <blockpin signalname="XLXN_157(31:0)" name="D0" />
             <blockpin signalname="XLXN_158(31:0)" name="D1" />
             <blockpin signalname="o_rdy" name="S0" />
@@ -487,37 +487,37 @@
             </attr>
             <blockpin signalname="XLXN_158(31:0)" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_21">
+        <block symbolname="m2_1" name="CalculatePixGain_MUX_i2c_mem_ena">
             <blockpin signalname="XLXN_109" name="D0" />
             <blockpin signalname="XLXN_112" name="D1" />
             <blockpin signalname="XLXN_113" name="S0" />
             <blockpin signalname="i2c_mem_ena" name="O" />
         </block>
-        <block symbolname="m2_1" name="MUX_I2C_ADDR(11:0)">
+        <block symbolname="m2_1" name="CalculatePixGain_MUX_i2c_mem_addra(11:0)">
             <blockpin signalname="XLXN_114(11:0)" name="D0" />
             <blockpin signalname="XLXN_115(11:0)" name="D1" />
             <blockpin signalname="XLXN_113" name="S0" />
             <blockpin signalname="i2c_mem_addra(11:0)" name="O" />
         </block>
-        <block symbolname="m2_1" name="MUX_F2FA(63:0)">
+        <block symbolname="m2_1" name="CalculatePixGain_MUX_fi2fl_a(63:0)">
             <blockpin signalname="XLXN_118(63:0)" name="D0" />
             <blockpin signalname="XLXN_119(63:0)" name="D1" />
             <blockpin signalname="XLXN_113" name="S0" />
             <blockpin signalname="fixed2floata(63:0)" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_24">
+        <block symbolname="m2_1" name="CalculatePixGain_MUX_fi2fl_ond">
             <blockpin signalname="XLXN_132" name="D0" />
             <blockpin signalname="XLXN_135" name="D1" />
             <blockpin signalname="XLXN_113" name="S0" />
             <blockpin signalname="fixed2floatond" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_26">
+        <block symbolname="m2_1" name="CalculatePixGain_MUX_fi2fl_sclr">
             <blockpin signalname="XLXN_134" name="D0" />
             <blockpin signalname="XLXN_136" name="D1" />
             <blockpin signalname="XLXN_113" name="S0" />
             <blockpin signalname="fixed2floatsclr" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_27">
+        <block symbolname="m2_1" name="CalculatePixGain_MUX_fi2fl_ce">
             <blockpin signalname="XLXN_133" name="D0" />
             <blockpin signalname="XLXN_137" name="D1" />
             <blockpin signalname="XLXN_113" name="S0" />
@@ -529,9 +529,9 @@
         </block>
     </netlist>
     <sheet sheetnum="1" width="7040" height="5440">
-        <instance x="3024" y="1376" name="inst_CalcKGain_proc0" orien="R0">
+        <instance x="3024" y="1376" name="CalculatePixGain_inst_CalcKGain_proc0" orien="R0">
         </instance>
-        <instance x="3008" y="2976" name="inst_CalcPixGain_proc0" orien="R0">
+        <instance x="3008" y="2976" name="CalculatePixGain_inst_CalcPixGain_proc0" orien="R0">
         </instance>
         <bustap x2="3680" y1="3808" y2="3712" x1="3680" />
         <branch name="XLXN_45(4:0)">
@@ -603,7 +603,7 @@
             <wire x2="2960" y1="4128" y2="4464" x1="2960" />
             <wire x2="4336" y1="4064" y2="4544" x1="4336" />
         </branch>
-        <instance x="4336" y="4096" name="MUX_DO(31:0)" orien="R0" />
+        <instance x="4336" y="4096" name="CalculatePixGain_MUX_DO(31:0)" orien="R0" />
         <branch name="XLXN_78(31:0)">
             <wire x2="4336" y1="4000" y2="4000" x1="4112" />
         </branch>
@@ -614,7 +614,7 @@
             <wire x2="4176" y1="3936" y2="4464" x1="4176" />
             <wire x2="4336" y1="3936" y2="3936" x1="4176" />
         </branch>
-        <instance x="1760" y="3488" name="mux2_addra(9:0)" orien="M180" />
+        <instance x="1760" y="3488" name="CalculatePixGain_mux2_addra(9:0)" orien="M180" />
         <branch name="i_addr(9:0)">
             <wire x2="1760" y1="3584" y2="3584" x1="1632" />
         </branch>
@@ -635,7 +635,7 @@
             <wire x2="3024" y1="4000" y2="4432" x1="3024" />
             <wire x2="3728" y1="4000" y2="4000" x1="3024" />
         </branch>
-        <instance x="1760" y="3872" name="MUX_DIA(31:0)" orien="M180" />
+        <instance x="1760" y="3872" name="CalculatePixGain_MUX_DIA(31:0)" orien="M180" />
         <iomarker fontsize="28" x="1632" y="3584" name="i_addr(9:0)" orien="R180" />
         <branch name="i2c_mem_douta(7:0)">
             <wire x2="2944" y1="2592" y2="2592" x1="2816" />
@@ -644,7 +644,7 @@
             <wire x2="3024" y1="1056" y2="1056" x1="2944" />
         </branch>
         <iomarker fontsize="28" x="2816" y="2592" name="i2c_mem_douta(7:0)" orien="R180" />
-        <instance x="4320" y="2080" name="XLXI_21" orien="R0" />
+        <instance x="4320" y="2080" name="CalculatePixGain_MUX_i2c_mem_ena" orien="R0" />
         <branch name="XLXN_109">
             <wire x2="4320" y1="1920" y2="1920" x1="3664" />
         </branch>
@@ -704,11 +704,11 @@
             <wire x2="3024" y1="864" y2="864" x1="2960" />
         </branch>
         <iomarker fontsize="28" x="2816" y="2368" name="fixed2floatrdy" orien="R180" />
-        <instance x="4320" y="2032" name="XLXI_24" orien="M180" />
-        <instance x="4320" y="2208" name="XLXI_26" orien="M180" />
-        <instance x="4320" y="2560" name="MUX_I2C_ADDR(11:0)" orien="M180" />
+        <instance x="4320" y="2032" name="CalculatePixGain_MUX_fi2fl_ond" orien="M180" />
+        <instance x="4320" y="2208" name="CalculatePixGain_MUX_fi2fl_sclr" orien="M180" />
+        <instance x="4320" y="2560" name="CalculatePixGain_MUX_i2c_mem_addra(11:0)" orien="M180" />
         <iomarker fontsize="28" x="4672" y="2688" name="i2c_mem_addra(11:0)" orien="R0" />
-        <instance x="4320" y="2384" name="XLXI_27" orien="M180" />
+        <instance x="4320" y="2384" name="CalculatePixGain_MUX_fi2fl_ce" orien="M180" />
         <branch name="XLXN_132">
             <wire x2="3872" y1="2240" y2="2240" x1="3664" />
             <wire x2="4320" y1="2192" y2="2192" x1="3872" />
@@ -781,7 +781,7 @@
         <branch name="mulfpa(31:0)">
             <wire x2="3920" y1="2880" y2="2880" x1="3664" />
         </branch>
-        <instance x="4320" y="2752" name="MUX_F2FA(63:0)" orien="M180" />
+        <instance x="4320" y="2752" name="CalculatePixGain_MUX_fi2fl_a(63:0)" orien="M180" />
         <branch name="XLXN_113">
             <wire x2="4304" y1="2048" y2="2048" x1="3664" />
             <wire x2="4320" y1="2048" y2="2048" x1="4304" />

@@ -7,13 +7,13 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : ExtractKvParameters.vhf
--- /___/   /\     Timestamp : 08/23/2023 17:28:31
+-- /___/   /\     Timestamp : 09/03/2023 19:10:45
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
---Command: sch2hdl -sympath /home/user/workspace/mlx90640_fpga/ipcore_dir -intstyle ise -family virtex4 -flat -suppress -vhdl /home/user/workspace/mlx90640_fpga/ExtractKvParameters.vhf -w /home/user/workspace/mlx90640_fpga/ExtractKvParameters.sch
+--Command: sch2hdl -sympath /home/user/workspace/mlx90640_fpga/ipcore_dir -intstyle ise -family spartan3e -flat -suppress -vhdl /home/user/workspace/mlx90640_fpga/ExtractKvParameters.vhf -w /home/user/workspace/mlx90640_fpga/ExtractKvParameters.sch
 --Design Name: ExtractKvParameters
---Device: virtex4
+--Device: spartan3e
 --Purpose:
 --    This vhdl netlist is translated from an ECS schematic. It can be 
 --    synthesized and simulated, but it should not be modified. 
@@ -103,98 +103,14 @@ entity ExtractKvParameters is
 end ExtractKvParameters;
 
 architecture BEHAVIORAL of ExtractKvParameters is
-   attribute DOA_REG             : string ;
-   attribute DOB_REG             : string ;
-   attribute INIT_00             : string ;
-   attribute INIT_01             : string ;
-   attribute INIT_02             : string ;
-   attribute INIT_03             : string ;
-   attribute INIT_04             : string ;
-   attribute INIT_05             : string ;
-   attribute INIT_06             : string ;
-   attribute INIT_07             : string ;
-   attribute INIT_08             : string ;
-   attribute INIT_09             : string ;
-   attribute INIT_0A             : string ;
-   attribute INIT_0B             : string ;
-   attribute INIT_0C             : string ;
-   attribute INIT_0D             : string ;
-   attribute INIT_0E             : string ;
-   attribute INIT_0F             : string ;
-   attribute INIT_10             : string ;
-   attribute INIT_11             : string ;
-   attribute INIT_12             : string ;
-   attribute INIT_13             : string ;
-   attribute INIT_14             : string ;
-   attribute INIT_15             : string ;
-   attribute INIT_16             : string ;
-   attribute INIT_17             : string ;
-   attribute INIT_18             : string ;
-   attribute INIT_19             : string ;
-   attribute INIT_1A             : string ;
-   attribute INIT_1B             : string ;
-   attribute INIT_1C             : string ;
-   attribute INIT_1D             : string ;
-   attribute INIT_1E             : string ;
-   attribute INIT_1F             : string ;
-   attribute INIT_20             : string ;
-   attribute INIT_21             : string ;
-   attribute INIT_22             : string ;
-   attribute INIT_23             : string ;
-   attribute INIT_24             : string ;
-   attribute INIT_25             : string ;
-   attribute INIT_26             : string ;
-   attribute INIT_27             : string ;
-   attribute INIT_28             : string ;
-   attribute INIT_29             : string ;
-   attribute INIT_2A             : string ;
-   attribute INIT_2B             : string ;
-   attribute INIT_2C             : string ;
-   attribute INIT_2D             : string ;
-   attribute INIT_2E             : string ;
-   attribute INIT_2F             : string ;
-   attribute INIT_30             : string ;
-   attribute INIT_31             : string ;
-   attribute INIT_32             : string ;
-   attribute INIT_33             : string ;
-   attribute INIT_34             : string ;
-   attribute INIT_35             : string ;
-   attribute INIT_36             : string ;
-   attribute INIT_37             : string ;
-   attribute INIT_38             : string ;
-   attribute INIT_39             : string ;
-   attribute INIT_3A             : string ;
-   attribute INIT_3B             : string ;
-   attribute INIT_3C             : string ;
-   attribute INIT_3D             : string ;
-   attribute INIT_3E             : string ;
-   attribute INIT_3F             : string ;
-   attribute INIT_A              : string ;
-   attribute INIT_B              : string ;
-   attribute INITP_00            : string ;
-   attribute INITP_01            : string ;
-   attribute INITP_02            : string ;
-   attribute INITP_03            : string ;
-   attribute INITP_04            : string ;
-   attribute INITP_05            : string ;
-   attribute INITP_06            : string ;
-   attribute INITP_07            : string ;
-   attribute INIT_FILE           : string ;
-   attribute INVERT_CLK_DOA_REG  : string ;
-   attribute INVERT_CLK_DOB_REG  : string ;
-   attribute RAM_EXTENSION_A     : string ;
-   attribute RAM_EXTENSION_B     : string ;
-   attribute READ_WIDTH_A        : string ;
-   attribute READ_WIDTH_B        : string ;
-   attribute SRVAL_A             : string ;
-   attribute SRVAL_B             : string ;
-   attribute WRITE_MODE_A        : string ;
-   attribute WRITE_MODE_B        : string ;
-   attribute WRITE_WIDTH_A       : string ;
-   attribute WRITE_WIDTH_B       : string ;
-   attribute SIM_COLLISION_CHECK : string ;
-   attribute BOX_TYPE            : string ;
-   attribute HU_SET              : string ;
+   attribute HU_SET        : string ;
+   attribute WRITE_WIDTH_B : string ;
+   attribute WRITE_WIDTH_A : string ;
+   attribute WRITE_MODE_B  : string ;
+   attribute WRITE_MODE_A  : string ;
+   attribute READ_WIDTH_B  : string ;
+   attribute READ_WIDTH_A  : string ;
+   attribute BOX_TYPE      : string ;
    signal mux_addr1                               : std_logic_vector (9 downto 
          0);
    signal XLXN_44                                 : std_logic_vector (14 downto 
@@ -270,6 +186,40 @@ architecture BEHAVIORAL of ExtractKvParameters is
    signal mem_extrkvparam_2_SSRB_openSignal       : std_logic;
    signal mem_extrkvparam_2_WEB_openSignal        : std_logic_vector (3 downto 
          0);
+   component colrow_even
+      port ( col  : in    std_logic_vector (0 to 4); 
+             row  : in    std_logic_vector (0 to 4); 
+             cole : out   std_logic; 
+             rowe : out   std_logic);
+   end component;
+   
+   component M2_1_MXILINX_ExtractKvParameters
+      port ( D0 : in    std_logic; 
+             D1 : in    std_logic; 
+             S0 : in    std_logic; 
+             O  : out   std_logic);
+   end component;
+   
+   component ExtractKvParameters_process_p1
+      port ( cole      : in    std_logic; 
+             rowe      : in    std_logic; 
+             kvijee_oo : in    std_logic_vector (3 downto 0); 
+             kvijee_eo : in    std_logic_vector (3 downto 0); 
+             kvijee_oe : in    std_logic_vector (3 downto 0); 
+             kvijee_ee : in    std_logic_vector (3 downto 0); 
+             kvijee    : out   std_logic_vector (3 downto 0));
+   end component;
+   
+   component rom_signed4bit
+      port ( nibble_in  : in    std_logic_vector (3 downto 0); 
+             nibble_out : out   std_logic_vector (31 downto 0));
+   end component;
+   
+   component rom_unsigned4bit_2powx
+      port ( nibble_in  : in    std_logic_vector (3 downto 0); 
+             nibble_out : out   std_logic_vector (31 downto 0));
+   end component;
+   
    component ExtractKvParameters_process_p0
       port ( i_clock        : in    std_logic; 
              i_reset        : in    std_logic; 
@@ -302,170 +252,6 @@ architecture BEHAVIORAL of ExtractKvParameters is
    end component;
    
    component RAMB16
-      -- synopsys translate_off
-      generic( DOA_REG : integer :=  0;
-               DOB_REG : integer :=  0;
-               INIT_00 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_01 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_02 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_03 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_04 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_05 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_06 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_07 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_08 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_09 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0A : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0B : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0C : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0D : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0E : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0F : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_10 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_11 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_12 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_13 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_14 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_15 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_16 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_17 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_18 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_19 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1A : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1B : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1C : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1D : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1E : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1F : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_20 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_21 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_22 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_23 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_24 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_25 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_26 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_27 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_28 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_29 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2A : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2B : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2C : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2D : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2E : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2F : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_30 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_31 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_32 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_33 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_34 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_35 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_36 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_37 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_38 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_39 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3A : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3B : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3C : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3D : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3E : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3F : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_A : bit_vector :=  x"000000000";
-               INIT_B : bit_vector :=  x"000000000";
-               INITP_00 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_01 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_02 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_03 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_04 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_05 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_06 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_07 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_FILE : string :=  "NONE";
-               INVERT_CLK_DOA_REG : boolean :=  FALSE;
-               INVERT_CLK_DOB_REG : boolean :=  FALSE;
-               RAM_EXTENSION_A : string :=  "NONE";
-               RAM_EXTENSION_B : string :=  "NONE";
-               READ_WIDTH_A : integer :=  0;
-               READ_WIDTH_B : integer :=  0;
-               SRVAL_A : bit_vector :=  x"000000000";
-               SRVAL_B : bit_vector :=  x"000000000";
-               WRITE_MODE_A : string :=  "WRITE_FIRST";
-               WRITE_MODE_B : string :=  "WRITE_FIRST";
-               WRITE_WIDTH_A : integer :=  0;
-               WRITE_WIDTH_B : integer :=  0;
-               SIM_COLLISION_CHECK : string :=  "ALL");
-      -- synopsys translate_on
       port ( ADDRA       : in    std_logic_vector (14 downto 0); 
              ADDRB       : in    std_logic_vector (14 downto 0); 
              CASCADEINA  : in    std_logic; 
@@ -491,176 +277,6 @@ architecture BEHAVIORAL of ExtractKvParameters is
              DOPA        : out   std_logic_vector (3 downto 0); 
              DOPB        : out   std_logic_vector (3 downto 0));
    end component;
-   attribute DOA_REG of RAMB16 : component is "0";
-   attribute DOB_REG of RAMB16 : component is "0";
-   attribute INIT_00 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_01 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_02 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_03 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_04 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_05 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_06 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_07 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_08 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_09 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0A of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0B of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0C of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0D of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0E of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0F of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_10 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_11 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_12 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_13 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_14 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_15 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_16 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_17 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_18 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_19 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1A of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1B of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1C of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1D of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1E of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1F of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_20 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_21 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_22 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_23 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_24 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_25 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_26 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_27 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_28 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_29 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2A of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2B of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2C of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2D of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2E of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2F of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_30 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_31 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_32 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_33 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_34 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_35 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_36 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_37 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_38 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_39 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3A of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3B of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3C of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3D of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3E of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3F of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_A of RAMB16 : component is "000000000";
-   attribute INIT_B of RAMB16 : component is "000000000";
-   attribute INITP_00 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_01 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_02 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_03 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_04 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_05 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_06 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_07 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_FILE of RAMB16 : component is "NONE";
-   attribute INVERT_CLK_DOA_REG of RAMB16 : component is "FALSE";
-   attribute INVERT_CLK_DOB_REG of RAMB16 : component is "FALSE";
-   attribute RAM_EXTENSION_A of RAMB16 : component is "NONE";
-   attribute RAM_EXTENSION_B of RAMB16 : component is "NONE";
-   attribute READ_WIDTH_A of RAMB16 : component is "0";
-   attribute READ_WIDTH_B of RAMB16 : component is "0";
-   attribute SRVAL_A of RAMB16 : component is "000000000";
-   attribute SRVAL_B of RAMB16 : component is "000000000";
-   attribute WRITE_MODE_A of RAMB16 : component is "WRITE_FIRST";
-   attribute WRITE_MODE_B of RAMB16 : component is "WRITE_FIRST";
-   attribute WRITE_WIDTH_A of RAMB16 : component is "0";
-   attribute WRITE_WIDTH_B of RAMB16 : component is "0";
-   attribute SIM_COLLISION_CHECK of RAMB16 : component is "ALL";
-   attribute BOX_TYPE of RAMB16 : component is "BLACK_BOX";
-   
-   component M2_1_MXILINX_ExtractKvParameters
-      port ( D0 : in    std_logic; 
-             D1 : in    std_logic; 
-             S0 : in    std_logic; 
-             O  : out   std_logic);
-   end component;
    
    component INV
       port ( I : in    std_logic; 
@@ -679,33 +295,90 @@ architecture BEHAVIORAL of ExtractKvParameters is
    end component;
    attribute BOX_TYPE of BUF : component is "BLACK_BOX";
    
-   component rom_unsigned4bit_2powx
-      port ( nibble_in  : in    std_logic_vector (3 downto 0); 
-             nibble_out : out   std_logic_vector (31 downto 0));
-   end component;
-   
-   component rom_signed4bit
-      port ( nibble_in  : in    std_logic_vector (3 downto 0); 
-             nibble_out : out   std_logic_vector (31 downto 0));
-   end component;
-   
-   component colrow_even
-      port ( col  : in    std_logic_vector (0 to 4); 
-             row  : in    std_logic_vector (0 to 4); 
-             cole : out   std_logic; 
-             rowe : out   std_logic);
-   end component;
-   
-   component ExtractKvParameters_process_p1
-      port ( cole      : in    std_logic; 
-             rowe      : in    std_logic; 
-             kvijee_oo : in    std_logic_vector (3 downto 0); 
-             kvijee_eo : in    std_logic_vector (3 downto 0); 
-             kvijee_oe : in    std_logic_vector (3 downto 0); 
-             kvijee_ee : in    std_logic_vector (3 downto 0); 
-             kvijee    : out   std_logic_vector (3 downto 0));
-   end component;
-   
+   attribute HU_SET of extractkvparameters_MUX_ADDR_0 : label is 
+         "extractkvparameters_MUX_ADDR_0_83";
+   attribute HU_SET of extractkvparameters_MUX_ADDR_1 : label is 
+         "extractkvparameters_MUX_ADDR_1_82";
+   attribute HU_SET of extractkvparameters_MUX_ADDR_2 : label is 
+         "extractkvparameters_MUX_ADDR_2_81";
+   attribute HU_SET of extractkvparameters_MUX_ADDR_3 : label is 
+         "extractkvparameters_MUX_ADDR_3_80";
+   attribute HU_SET of extractkvparameters_MUX_ADDR_4 : label is 
+         "extractkvparameters_MUX_ADDR_4_79";
+   attribute HU_SET of extractkvparameters_MUX_ADDR_5 : label is 
+         "extractkvparameters_MUX_ADDR_5_78";
+   attribute HU_SET of extractkvparameters_MUX_ADDR_6 : label is 
+         "extractkvparameters_MUX_ADDR_6_77";
+   attribute HU_SET of extractkvparameters_MUX_ADDR_7 : label is 
+         "extractkvparameters_MUX_ADDR_7_76";
+   attribute HU_SET of extractkvparameters_MUX_ADDR_8 : label is 
+         "extractkvparameters_MUX_ADDR_8_75";
+   attribute HU_SET of extractkvparameters_MUX_ADDR_9 : label is 
+         "extractkvparameters_MUX_ADDR_9_74";
+   attribute HU_SET of extractkvparameters_MUX_DO_0 : label is 
+         "extractkvparameters_MUX_DO_0_73";
+   attribute HU_SET of extractkvparameters_MUX_DO_1 : label is 
+         "extractkvparameters_MUX_DO_1_72";
+   attribute HU_SET of extractkvparameters_MUX_DO_2 : label is 
+         "extractkvparameters_MUX_DO_2_71";
+   attribute HU_SET of extractkvparameters_MUX_DO_3 : label is 
+         "extractkvparameters_MUX_DO_3_70";
+   attribute HU_SET of extractkvparameters_MUX_DO_4 : label is 
+         "extractkvparameters_MUX_DO_4_69";
+   attribute HU_SET of extractkvparameters_MUX_DO_5 : label is 
+         "extractkvparameters_MUX_DO_5_68";
+   attribute HU_SET of extractkvparameters_MUX_DO_6 : label is 
+         "extractkvparameters_MUX_DO_6_67";
+   attribute HU_SET of extractkvparameters_MUX_DO_7 : label is 
+         "extractkvparameters_MUX_DO_7_66";
+   attribute HU_SET of extractkvparameters_MUX_DO_8 : label is 
+         "extractkvparameters_MUX_DO_8_65";
+   attribute HU_SET of extractkvparameters_MUX_DO_9 : label is 
+         "extractkvparameters_MUX_DO_9_64";
+   attribute HU_SET of extractkvparameters_MUX_DO_10 : label is 
+         "extractkvparameters_MUX_DO_10_63";
+   attribute HU_SET of extractkvparameters_MUX_DO_11 : label is 
+         "extractkvparameters_MUX_DO_11_62";
+   attribute HU_SET of extractkvparameters_MUX_DO_12 : label is 
+         "extractkvparameters_MUX_DO_12_61";
+   attribute HU_SET of extractkvparameters_MUX_DO_13 : label is 
+         "extractkvparameters_MUX_DO_13_60";
+   attribute HU_SET of extractkvparameters_MUX_DO_14 : label is 
+         "extractkvparameters_MUX_DO_14_59";
+   attribute HU_SET of extractkvparameters_MUX_DO_15 : label is 
+         "extractkvparameters_MUX_DO_15_58";
+   attribute HU_SET of extractkvparameters_MUX_DO_16 : label is 
+         "extractkvparameters_MUX_DO_16_57";
+   attribute HU_SET of extractkvparameters_MUX_DO_17 : label is 
+         "extractkvparameters_MUX_DO_17_56";
+   attribute HU_SET of extractkvparameters_MUX_DO_18 : label is 
+         "extractkvparameters_MUX_DO_18_55";
+   attribute HU_SET of extractkvparameters_MUX_DO_19 : label is 
+         "extractkvparameters_MUX_DO_19_54";
+   attribute HU_SET of extractkvparameters_MUX_DO_20 : label is 
+         "extractkvparameters_MUX_DO_20_53";
+   attribute HU_SET of extractkvparameters_MUX_DO_21 : label is 
+         "extractkvparameters_MUX_DO_21_52";
+   attribute HU_SET of extractkvparameters_MUX_DO_22 : label is 
+         "extractkvparameters_MUX_DO_22_51";
+   attribute HU_SET of extractkvparameters_MUX_DO_23 : label is 
+         "extractkvparameters_MUX_DO_23_50";
+   attribute HU_SET of extractkvparameters_MUX_DO_24 : label is 
+         "extractkvparameters_MUX_DO_24_49";
+   attribute HU_SET of extractkvparameters_MUX_DO_25 : label is 
+         "extractkvparameters_MUX_DO_25_48";
+   attribute HU_SET of extractkvparameters_MUX_DO_26 : label is 
+         "extractkvparameters_MUX_DO_26_47";
+   attribute HU_SET of extractkvparameters_MUX_DO_27 : label is 
+         "extractkvparameters_MUX_DO_27_46";
+   attribute HU_SET of extractkvparameters_MUX_DO_28 : label is 
+         "extractkvparameters_MUX_DO_28_45";
+   attribute HU_SET of extractkvparameters_MUX_DO_29 : label is 
+         "extractkvparameters_MUX_DO_29_44";
+   attribute HU_SET of extractkvparameters_MUX_DO_30 : label is 
+         "extractkvparameters_MUX_DO_30_43";
+   attribute HU_SET of extractkvparameters_MUX_DO_31 : label is 
+         "extractkvparameters_MUX_DO_31_42";
    attribute WRITE_WIDTH_B of mem_extrkvparam_1 : label is "36";
    attribute WRITE_WIDTH_A of mem_extrkvparam_1 : label is "36";
    attribute WRITE_MODE_B of mem_extrkvparam_1 : label is "READ_FIRST";
@@ -718,51 +391,284 @@ architecture BEHAVIORAL of ExtractKvParameters is
    attribute WRITE_MODE_A of mem_extrkvparam_2 : label is "READ_FIRST";
    attribute READ_WIDTH_B of mem_extrkvparam_2 : label is "36";
    attribute READ_WIDTH_A of mem_extrkvparam_2 : label is "36";
-   attribute HU_SET of MUX_ADDR_0 : label is "MUX_ADDR_0_1851";
-   attribute HU_SET of MUX_ADDR_1 : label is "MUX_ADDR_1_1850";
-   attribute HU_SET of MUX_ADDR_2 : label is "MUX_ADDR_2_1849";
-   attribute HU_SET of MUX_ADDR_3 : label is "MUX_ADDR_3_1848";
-   attribute HU_SET of MUX_ADDR_4 : label is "MUX_ADDR_4_1847";
-   attribute HU_SET of MUX_ADDR_5 : label is "MUX_ADDR_5_1846";
-   attribute HU_SET of MUX_ADDR_6 : label is "MUX_ADDR_6_1845";
-   attribute HU_SET of MUX_ADDR_7 : label is "MUX_ADDR_7_1844";
-   attribute HU_SET of MUX_ADDR_8 : label is "MUX_ADDR_8_1843";
-   attribute HU_SET of MUX_ADDR_9 : label is "MUX_ADDR_9_1842";
-   attribute HU_SET of MUX_DO_0 : label is "MUX_DO_0_1841";
-   attribute HU_SET of MUX_DO_1 : label is "MUX_DO_1_1840";
-   attribute HU_SET of MUX_DO_2 : label is "MUX_DO_2_1839";
-   attribute HU_SET of MUX_DO_3 : label is "MUX_DO_3_1838";
-   attribute HU_SET of MUX_DO_4 : label is "MUX_DO_4_1837";
-   attribute HU_SET of MUX_DO_5 : label is "MUX_DO_5_1836";
-   attribute HU_SET of MUX_DO_6 : label is "MUX_DO_6_1835";
-   attribute HU_SET of MUX_DO_7 : label is "MUX_DO_7_1834";
-   attribute HU_SET of MUX_DO_8 : label is "MUX_DO_8_1833";
-   attribute HU_SET of MUX_DO_9 : label is "MUX_DO_9_1832";
-   attribute HU_SET of MUX_DO_10 : label is "MUX_DO_10_1831";
-   attribute HU_SET of MUX_DO_11 : label is "MUX_DO_11_1830";
-   attribute HU_SET of MUX_DO_12 : label is "MUX_DO_12_1829";
-   attribute HU_SET of MUX_DO_13 : label is "MUX_DO_13_1828";
-   attribute HU_SET of MUX_DO_14 : label is "MUX_DO_14_1827";
-   attribute HU_SET of MUX_DO_15 : label is "MUX_DO_15_1826";
-   attribute HU_SET of MUX_DO_16 : label is "MUX_DO_16_1825";
-   attribute HU_SET of MUX_DO_17 : label is "MUX_DO_17_1824";
-   attribute HU_SET of MUX_DO_18 : label is "MUX_DO_18_1823";
-   attribute HU_SET of MUX_DO_19 : label is "MUX_DO_19_1822";
-   attribute HU_SET of MUX_DO_20 : label is "MUX_DO_20_1821";
-   attribute HU_SET of MUX_DO_21 : label is "MUX_DO_21_1820";
-   attribute HU_SET of MUX_DO_22 : label is "MUX_DO_22_1819";
-   attribute HU_SET of MUX_DO_23 : label is "MUX_DO_23_1818";
-   attribute HU_SET of MUX_DO_24 : label is "MUX_DO_24_1817";
-   attribute HU_SET of MUX_DO_25 : label is "MUX_DO_25_1816";
-   attribute HU_SET of MUX_DO_26 : label is "MUX_DO_26_1815";
-   attribute HU_SET of MUX_DO_27 : label is "MUX_DO_27_1814";
-   attribute HU_SET of MUX_DO_28 : label is "MUX_DO_28_1813";
-   attribute HU_SET of MUX_DO_29 : label is "MUX_DO_29_1812";
-   attribute HU_SET of MUX_DO_30 : label is "MUX_DO_30_1811";
-   attribute HU_SET of MUX_DO_31 : label is "MUX_DO_31_1810";
 begin
    o_rdy <= o_rdy_DUMMY;
-   inst_extrkvparam_proc0 : ExtractKvParameters_process_p0
+   extractkvparameters_colrow_even : colrow_even
+      port map (col(0 to 4)=>XLXN_189(0 to 4),
+                row(0 to 4)=>XLXN_188(0 to 4),
+                cole=>XLXN_187,
+                rowe=>XLXN_186);
+   
+   extractkvparameters_MUX_ADDR_0 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_210(0),
+                D1=>i_addr(0),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr1(0));
+   
+   extractkvparameters_MUX_ADDR_1 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_210(1),
+                D1=>i_addr(1),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr1(1));
+   
+   extractkvparameters_MUX_ADDR_2 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_210(2),
+                D1=>i_addr(2),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr1(2));
+   
+   extractkvparameters_MUX_ADDR_3 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_210(3),
+                D1=>i_addr(3),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr1(3));
+   
+   extractkvparameters_MUX_ADDR_4 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_210(4),
+                D1=>i_addr(4),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr1(4));
+   
+   extractkvparameters_MUX_ADDR_5 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_210(5),
+                D1=>i_addr(5),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr1(5));
+   
+   extractkvparameters_MUX_ADDR_6 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_210(6),
+                D1=>i_addr(6),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr1(6));
+   
+   extractkvparameters_MUX_ADDR_7 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_210(7),
+                D1=>i_addr(7),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr1(7));
+   
+   extractkvparameters_MUX_ADDR_8 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_210(8),
+                D1=>i_addr(8),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr1(8));
+   
+   extractkvparameters_MUX_ADDR_9 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_210(9),
+                D1=>i_addr(9),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr1(9));
+   
+   extractkvparameters_MUX_DO_0 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(0),
+                D1=>XLXN_78(0),
+                S0=>mux_addr1(9),
+                O=>o_do(0));
+   
+   extractkvparameters_MUX_DO_1 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(1),
+                D1=>XLXN_78(1),
+                S0=>mux_addr1(9),
+                O=>o_do(1));
+   
+   extractkvparameters_MUX_DO_2 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(2),
+                D1=>XLXN_78(2),
+                S0=>mux_addr1(9),
+                O=>o_do(2));
+   
+   extractkvparameters_MUX_DO_3 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(3),
+                D1=>XLXN_78(3),
+                S0=>mux_addr1(9),
+                O=>o_do(3));
+   
+   extractkvparameters_MUX_DO_4 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(4),
+                D1=>XLXN_78(4),
+                S0=>mux_addr1(9),
+                O=>o_do(4));
+   
+   extractkvparameters_MUX_DO_5 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(5),
+                D1=>XLXN_78(5),
+                S0=>mux_addr1(9),
+                O=>o_do(5));
+   
+   extractkvparameters_MUX_DO_6 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(6),
+                D1=>XLXN_78(6),
+                S0=>mux_addr1(9),
+                O=>o_do(6));
+   
+   extractkvparameters_MUX_DO_7 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(7),
+                D1=>XLXN_78(7),
+                S0=>mux_addr1(9),
+                O=>o_do(7));
+   
+   extractkvparameters_MUX_DO_8 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(8),
+                D1=>XLXN_78(8),
+                S0=>mux_addr1(9),
+                O=>o_do(8));
+   
+   extractkvparameters_MUX_DO_9 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(9),
+                D1=>XLXN_78(9),
+                S0=>mux_addr1(9),
+                O=>o_do(9));
+   
+   extractkvparameters_MUX_DO_10 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(10),
+                D1=>XLXN_78(10),
+                S0=>mux_addr1(9),
+                O=>o_do(10));
+   
+   extractkvparameters_MUX_DO_11 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(11),
+                D1=>XLXN_78(11),
+                S0=>mux_addr1(9),
+                O=>o_do(11));
+   
+   extractkvparameters_MUX_DO_12 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(12),
+                D1=>XLXN_78(12),
+                S0=>mux_addr1(9),
+                O=>o_do(12));
+   
+   extractkvparameters_MUX_DO_13 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(13),
+                D1=>XLXN_78(13),
+                S0=>mux_addr1(9),
+                O=>o_do(13));
+   
+   extractkvparameters_MUX_DO_14 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(14),
+                D1=>XLXN_78(14),
+                S0=>mux_addr1(9),
+                O=>o_do(14));
+   
+   extractkvparameters_MUX_DO_15 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(15),
+                D1=>XLXN_78(15),
+                S0=>mux_addr1(9),
+                O=>o_do(15));
+   
+   extractkvparameters_MUX_DO_16 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(16),
+                D1=>XLXN_78(16),
+                S0=>mux_addr1(9),
+                O=>o_do(16));
+   
+   extractkvparameters_MUX_DO_17 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(17),
+                D1=>XLXN_78(17),
+                S0=>mux_addr1(9),
+                O=>o_do(17));
+   
+   extractkvparameters_MUX_DO_18 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(18),
+                D1=>XLXN_78(18),
+                S0=>mux_addr1(9),
+                O=>o_do(18));
+   
+   extractkvparameters_MUX_DO_19 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(19),
+                D1=>XLXN_78(19),
+                S0=>mux_addr1(9),
+                O=>o_do(19));
+   
+   extractkvparameters_MUX_DO_20 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(20),
+                D1=>XLXN_78(20),
+                S0=>mux_addr1(9),
+                O=>o_do(20));
+   
+   extractkvparameters_MUX_DO_21 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(21),
+                D1=>XLXN_78(21),
+                S0=>mux_addr1(9),
+                O=>o_do(21));
+   
+   extractkvparameters_MUX_DO_22 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(22),
+                D1=>XLXN_78(22),
+                S0=>mux_addr1(9),
+                O=>o_do(22));
+   
+   extractkvparameters_MUX_DO_23 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(23),
+                D1=>XLXN_78(23),
+                S0=>mux_addr1(9),
+                O=>o_do(23));
+   
+   extractkvparameters_MUX_DO_24 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(24),
+                D1=>XLXN_78(24),
+                S0=>mux_addr1(9),
+                O=>o_do(24));
+   
+   extractkvparameters_MUX_DO_25 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(25),
+                D1=>XLXN_78(25),
+                S0=>mux_addr1(9),
+                O=>o_do(25));
+   
+   extractkvparameters_MUX_DO_26 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(26),
+                D1=>XLXN_78(26),
+                S0=>mux_addr1(9),
+                O=>o_do(26));
+   
+   extractkvparameters_MUX_DO_27 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(27),
+                D1=>XLXN_78(27),
+                S0=>mux_addr1(9),
+                O=>o_do(27));
+   
+   extractkvparameters_MUX_DO_28 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(28),
+                D1=>XLXN_78(28),
+                S0=>mux_addr1(9),
+                O=>o_do(28));
+   
+   extractkvparameters_MUX_DO_29 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(29),
+                D1=>XLXN_78(29),
+                S0=>mux_addr1(9),
+                O=>o_do(29));
+   
+   extractkvparameters_MUX_DO_30 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(30),
+                D1=>XLXN_78(30),
+                S0=>mux_addr1(9),
+                O=>o_do(30));
+   
+   extractkvparameters_MUX_DO_31 : M2_1_MXILINX_ExtractKvParameters
+      port map (D0=>XLXN_79(31),
+                D1=>XLXN_78(31),
+                S0=>mux_addr1(9),
+                O=>o_do(31));
+   
+   extractkvparameters_process_p1_inst : ExtractKvParameters_process_p1
+      port map (cole=>XLXN_187,
+                kvijee_ee(3 downto 0)=>XLXN_202(3 downto 0),
+                kvijee_eo(3 downto 0)=>XLXN_204(3 downto 0),
+                kvijee_oe(3 downto 0)=>XLXN_203(3 downto 0),
+                kvijee_oo(3 downto 0)=>XLXN_205(3 downto 0),
+                rowe=>XLXN_186,
+                kvijee(3 downto 0)=>XLXN_209(3 downto 0));
+   
+   extractkvparameters_rom_signed4bit : rom_signed4bit
+      port map (nibble_in(3 downto 0)=>XLXN_195(3 downto 0),
+                nibble_out(31 downto 0)=>XLXN_201(31 downto 0));
+   
+   extractkvparameters_rom_unsigned4bit_2powx : rom_unsigned4bit_2powx
+      port map (nibble_in(3 downto 0)=>XLXN_194(3 downto 0),
+                nibble_out(31 downto 0)=>XLXN_200(31 downto 0));
+   
+   inst_extrkvparam_proc0_inst : ExtractKvParameters_process_p0
       port map (divfpr(31 downto 0)=>divfpr(31 downto 0),
                 divfprdy=>divfprdy,
                 i_clock=>i_clock,
@@ -861,258 +767,6 @@ begin
                 DOB=>open,
                 DOPA=>open,
                 DOPB=>open);
-   
-   MUX_ADDR_0 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_210(0),
-                D1=>i_addr(0),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr1(0));
-   
-   MUX_ADDR_1 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_210(1),
-                D1=>i_addr(1),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr1(1));
-   
-   MUX_ADDR_2 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_210(2),
-                D1=>i_addr(2),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr1(2));
-   
-   MUX_ADDR_3 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_210(3),
-                D1=>i_addr(3),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr1(3));
-   
-   MUX_ADDR_4 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_210(4),
-                D1=>i_addr(4),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr1(4));
-   
-   MUX_ADDR_5 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_210(5),
-                D1=>i_addr(5),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr1(5));
-   
-   MUX_ADDR_6 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_210(6),
-                D1=>i_addr(6),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr1(6));
-   
-   MUX_ADDR_7 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_210(7),
-                D1=>i_addr(7),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr1(7));
-   
-   MUX_ADDR_8 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_210(8),
-                D1=>i_addr(8),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr1(8));
-   
-   MUX_ADDR_9 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_210(9),
-                D1=>i_addr(9),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr1(9));
-   
-   MUX_DO_0 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(0),
-                D1=>XLXN_78(0),
-                S0=>mux_addr1(9),
-                O=>o_do(0));
-   
-   MUX_DO_1 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(1),
-                D1=>XLXN_78(1),
-                S0=>mux_addr1(9),
-                O=>o_do(1));
-   
-   MUX_DO_2 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(2),
-                D1=>XLXN_78(2),
-                S0=>mux_addr1(9),
-                O=>o_do(2));
-   
-   MUX_DO_3 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(3),
-                D1=>XLXN_78(3),
-                S0=>mux_addr1(9),
-                O=>o_do(3));
-   
-   MUX_DO_4 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(4),
-                D1=>XLXN_78(4),
-                S0=>mux_addr1(9),
-                O=>o_do(4));
-   
-   MUX_DO_5 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(5),
-                D1=>XLXN_78(5),
-                S0=>mux_addr1(9),
-                O=>o_do(5));
-   
-   MUX_DO_6 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(6),
-                D1=>XLXN_78(6),
-                S0=>mux_addr1(9),
-                O=>o_do(6));
-   
-   MUX_DO_7 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(7),
-                D1=>XLXN_78(7),
-                S0=>mux_addr1(9),
-                O=>o_do(7));
-   
-   MUX_DO_8 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(8),
-                D1=>XLXN_78(8),
-                S0=>mux_addr1(9),
-                O=>o_do(8));
-   
-   MUX_DO_9 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(9),
-                D1=>XLXN_78(9),
-                S0=>mux_addr1(9),
-                O=>o_do(9));
-   
-   MUX_DO_10 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(10),
-                D1=>XLXN_78(10),
-                S0=>mux_addr1(9),
-                O=>o_do(10));
-   
-   MUX_DO_11 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(11),
-                D1=>XLXN_78(11),
-                S0=>mux_addr1(9),
-                O=>o_do(11));
-   
-   MUX_DO_12 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(12),
-                D1=>XLXN_78(12),
-                S0=>mux_addr1(9),
-                O=>o_do(12));
-   
-   MUX_DO_13 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(13),
-                D1=>XLXN_78(13),
-                S0=>mux_addr1(9),
-                O=>o_do(13));
-   
-   MUX_DO_14 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(14),
-                D1=>XLXN_78(14),
-                S0=>mux_addr1(9),
-                O=>o_do(14));
-   
-   MUX_DO_15 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(15),
-                D1=>XLXN_78(15),
-                S0=>mux_addr1(9),
-                O=>o_do(15));
-   
-   MUX_DO_16 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(16),
-                D1=>XLXN_78(16),
-                S0=>mux_addr1(9),
-                O=>o_do(16));
-   
-   MUX_DO_17 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(17),
-                D1=>XLXN_78(17),
-                S0=>mux_addr1(9),
-                O=>o_do(17));
-   
-   MUX_DO_18 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(18),
-                D1=>XLXN_78(18),
-                S0=>mux_addr1(9),
-                O=>o_do(18));
-   
-   MUX_DO_19 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(19),
-                D1=>XLXN_78(19),
-                S0=>mux_addr1(9),
-                O=>o_do(19));
-   
-   MUX_DO_20 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(20),
-                D1=>XLXN_78(20),
-                S0=>mux_addr1(9),
-                O=>o_do(20));
-   
-   MUX_DO_21 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(21),
-                D1=>XLXN_78(21),
-                S0=>mux_addr1(9),
-                O=>o_do(21));
-   
-   MUX_DO_22 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(22),
-                D1=>XLXN_78(22),
-                S0=>mux_addr1(9),
-                O=>o_do(22));
-   
-   MUX_DO_23 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(23),
-                D1=>XLXN_78(23),
-                S0=>mux_addr1(9),
-                O=>o_do(23));
-   
-   MUX_DO_24 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(24),
-                D1=>XLXN_78(24),
-                S0=>mux_addr1(9),
-                O=>o_do(24));
-   
-   MUX_DO_25 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(25),
-                D1=>XLXN_78(25),
-                S0=>mux_addr1(9),
-                O=>o_do(25));
-   
-   MUX_DO_26 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(26),
-                D1=>XLXN_78(26),
-                S0=>mux_addr1(9),
-                O=>o_do(26));
-   
-   MUX_DO_27 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(27),
-                D1=>XLXN_78(27),
-                S0=>mux_addr1(9),
-                O=>o_do(27));
-   
-   MUX_DO_28 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(28),
-                D1=>XLXN_78(28),
-                S0=>mux_addr1(9),
-                O=>o_do(28));
-   
-   MUX_DO_29 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(29),
-                D1=>XLXN_78(29),
-                S0=>mux_addr1(9),
-                O=>o_do(29));
-   
-   MUX_DO_30 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(30),
-                D1=>XLXN_78(30),
-                S0=>mux_addr1(9),
-                O=>o_do(30));
-   
-   MUX_DO_31 : M2_1_MXILINX_ExtractKvParameters
-      port map (D0=>XLXN_79(31),
-                D1=>XLXN_78(31),
-                S0=>mux_addr1(9),
-                O=>o_do(31));
    
    XLXI_5 : INV
       port map (I=>mux_addr1(9),
@@ -1243,29 +897,6 @@ begin
    XLXI_29_3 : BUF
       port map (I=>XLXN_216,
                 O=>XLXN_139(3));
-   
-   XLXI_110 : rom_unsigned4bit_2powx
-      port map (nibble_in(3 downto 0)=>XLXN_194(3 downto 0),
-                nibble_out(31 downto 0)=>XLXN_200(31 downto 0));
-   
-   XLXI_111 : rom_signed4bit
-      port map (nibble_in(3 downto 0)=>XLXN_195(3 downto 0),
-                nibble_out(31 downto 0)=>XLXN_201(31 downto 0));
-   
-   XLXI_112 : colrow_even
-      port map (col(0 to 4)=>XLXN_189(0 to 4),
-                row(0 to 4)=>XLXN_188(0 to 4),
-                cole=>XLXN_187,
-                rowe=>XLXN_186);
-   
-   XLXI_113 : ExtractKvParameters_process_p1
-      port map (cole=>XLXN_187,
-                kvijee_ee(3 downto 0)=>XLXN_202(3 downto 0),
-                kvijee_eo(3 downto 0)=>XLXN_204(3 downto 0),
-                kvijee_oe(3 downto 0)=>XLXN_203(3 downto 0),
-                kvijee_oo(3 downto 0)=>XLXN_205(3 downto 0),
-                rowe=>XLXN_186,
-                kvijee(3 downto 0)=>XLXN_209(3 downto 0));
    
 end BEHAVIORAL;
 

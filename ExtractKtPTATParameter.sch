@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="virtex4" name="DeviceFamilyName">
+    <attr value="spartan3e" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
     </attr>
     <netlist>
-        <signal name="ADDRA(9:0)">
-        </signal>
+        <signal name="ADDRA(9:0)" />
         <signal name="MEM1_ADDRA(14:0)" />
         <signal name="MEM1_ADDRA(13:5)" />
         <signal name="MEM2_ADDRA(13:5)" />
@@ -15,7 +14,6 @@
         <signal name="XLXN_41(9:0)" />
         <signal name="XLXN_41(8:0)" />
         <signal name="XLXN_41(9)" />
-        <signal name="XLXN_44(9:0)" />
         <signal name="ADDRA(8:0)" />
         <signal name="i_clock" />
         <signal name="i_reset" />
@@ -36,13 +34,12 @@
         <signal name="XLXN_85" />
         <signal name="i_ee0x2432(15:0)" />
         <signal name="ADDRA(15:0)" />
-        <signal name="XLXN_91(9:0)" />
         <port polarity="Input" name="i_clock" />
         <port polarity="Input" name="i_reset" />
         <port polarity="Output" name="o_ktptat(31:0)" />
         <port polarity="Input" name="i_ee0x2432(15:0)" />
-        <blockdef name="ramb16">
-            <timestamp>2007-9-26T16:56:25</timestamp>
+        <blockdef name="RAMB16">
+            <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
             <rect width="64" x="0" y="-588" height="24" />
@@ -117,7 +114,7 @@
             <line x2="64" y1="0" y2="-32" x1="64" />
             <line x2="32" y1="-64" y2="-64" x1="96" />
         </blockdef>
-        <block symbolname="ramb16" name="ROM_KTPTAT_0to3F">
+        <block symbolname="RAMB16" name="ROM_KTPTAT_0to3F">
             <attr value="NONE" name="INIT_FILE">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -647,7 +644,7 @@
             <blockpin signalname="ADDRA(8:0)" name="I" />
             <blockpin signalname="MEM2_ADDRA(13:5)" name="O" />
         </block>
-        <block symbolname="ramb16" name="ROM_KTPTAT_40to7f">
+        <block symbolname="RAMB16" name="ROM_KTPTAT_40to7f">
             <attr value="NONE" name="INIT_FILE">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -1173,7 +1170,7 @@
             <blockpin signalname="ADDRA(9:0)" name="I" />
             <blockpin signalname="XLXN_41(9:0)" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_40(31:0)">
+        <block symbolname="m2_1" name="extractktptatparameter_MUX_DO(31:0)">
             <blockpin signalname="XLXN_58(31:0)" name="D0" />
             <blockpin signalname="XLXN_59(31:0)" name="D1" />
             <blockpin signalname="XLXN_41(9)" name="S0" />
@@ -1256,7 +1253,7 @@
         </branch>
         <iomarker fontsize="28" x="1424" y="592" name="i_reset" orien="R180" />
         <iomarker fontsize="28" x="1552" y="272" name="i_clock" orien="R180" />
-        <instance x="2128" y="304" name="XLXI_40(31:0)" orien="R0" />
+        <instance x="2128" y="304" name="extractktptatparameter_MUX_DO(31:0)" orien="R0" />
         <branch name="XLXN_58(31:0)">
             <wire x2="2064" y1="336" y2="336" x1="1968" />
             <wire x2="2064" y1="144" y2="336" x1="2064" />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="virtex4" name="DeviceFamilyName">
+    <attr value="spartan3e" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -138,8 +138,8 @@
             <line x2="64" y1="0" y2="-64" x1="64" />
             <circle r="16" cx="144" cy="-32" />
         </blockdef>
-        <blockdef name="ramb16">
-            <timestamp>2007-9-26T16:56:25</timestamp>
+        <blockdef name="RAMB16">
+            <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
             <rect width="64" x="0" y="-588" height="24" />
@@ -303,7 +303,7 @@
             <rect width="64" x="368" y="-44" height="24" />
             <line x2="432" y1="-32" y2="-32" x1="368" />
         </blockdef>
-        <block symbolname="CalculateVirCompensated_process_p0" name="XLXI_33">
+        <block symbolname="CalculateVirCompensated_process_p0" name="calculatevircompensated_process_p0_inst">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="i_run" name="i_run" />
@@ -352,7 +352,7 @@
             <blockpin signalname="subfpa(31:0)" name="subfpa(31:0)" />
             <blockpin signalname="subfpb(31:0)" name="subfpb(31:0)" />
         </block>
-        <block symbolname="ExtractTGCParameter" name="XLXI_31">
+        <block symbolname="ExtractTGCParameter" name="calculatevircompensated_extracttgcparameter">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="XLXN_216(31:0)" name="o_tgc(31:0)" />
@@ -362,7 +362,7 @@
             <blockpin signalname="XLXN_217" name="o_rdy" />
             <blockpin signalname="i2c_mem_addra(11:0)" name="i2c_mem_addra(11:0)" />
         </block>
-        <block symbolname="mem_switchpattern" name="XLXI_32">
+        <block symbolname="mem_switchpattern" name="calculatevircompensated_mem_switchpattern">
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="XLXN_213(11:0)" name="i_pixel(11:0)" />
@@ -386,7 +386,7 @@
             <blockpin signalname="mux_addr1(9)" name="I" />
             <blockpin signalname="XLXN_59" name="O" />
         </block>
-        <block symbolname="ramb16" name="mem_vir_compensated1">
+        <block symbolname="RAMB16" name="mem_vir_compensated1">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -454,7 +454,7 @@
             <blockpin name="DOPA(3:0)" />
             <blockpin name="DOPB(3:0)" />
         </block>
-        <block symbolname="m2_1" name="MUX_DO(31:0)">
+        <block symbolname="m2_1" name="calculatevircompensated_MUX_DO(31:0)">
             <blockpin signalname="XLXN_79(31:0)" name="D0" />
             <blockpin signalname="XLXN_78(31:0)" name="D1" />
             <blockpin signalname="mux_addr1(9)" name="S0" />
@@ -464,13 +464,13 @@
             <blockpin signalname="XLXN_236" name="I" />
             <blockpin signalname="XLXN_139(3:0)" name="O" />
         </block>
-        <block symbolname="m2_1" name="MUX_ADDR(9:0)">
+        <block symbolname="m2_1" name="calculatevircompensated_MUX_ADDR(9:0)">
             <blockpin signalname="XLXN_241(9:0)" name="D0" />
             <blockpin signalname="i_addr(9:0)" name="D1" />
             <blockpin signalname="o_rdy" name="S0" />
             <blockpin signalname="mux_addr1(9:0)" name="O" />
         </block>
-        <block symbolname="ramb16" name="mem_vir_compensated2">
+        <block symbolname="RAMB16" name="mem_vir_compensated2">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -538,19 +538,19 @@
             <blockpin name="DOPA(3:0)" />
             <blockpin name="DOPB(3:0)" />
         </block>
-        <block symbolname="rom_switchpattern_neg" name="XLXI_76">
+        <block symbolname="rom_switchpattern_neg" name="calculatevircompensated_rom_switchpattern_neg">
             <blockpin signalname="XLXN_212" name="pattern_in" />
             <blockpin signalname="XLXN_214(31:0)" name="pattern_out(31:0)" />
         </block>
-        <block symbolname="rom_switchpattern_pos" name="XLXI_77">
+        <block symbolname="rom_switchpattern_pos" name="calculatevircompensated_rom_switchpattern_pos">
             <blockpin signalname="XLXN_212" name="pattern_in" />
             <blockpin signalname="XLXN_215(31:0)" name="pattern_out(31:0)" />
         </block>
     </netlist>
     <sheet sheetnum="1" width="7040" height="5440">
-        <instance x="3456" y="912" name="XLXI_31" orien="R0">
+        <instance x="3456" y="912" name="calculatevircompensated_extracttgcparameter" orien="R0">
         </instance>
-        <instance x="3488" y="1376" name="XLXI_32" orien="R0">
+        <instance x="3488" y="1376" name="calculatevircompensated_mem_switchpattern" orien="R0">
         </instance>
         <branch name="XLXN_45(4:0)">
             <wire x2="3968" y1="4560" y2="4576" x1="3968" />
@@ -638,19 +638,19 @@
         <instance x="2832" y="5248" name="mem_vir_compensated1" orien="R0">
             <attrtext style="fontsize:28;fontname:Arial" attrname="InstName" x="0" y="0" type="instance" />
         </instance>
-        <instance x="4624" y="4960" name="MUX_DO(31:0)" orien="R0" />
+        <instance x="4624" y="4960" name="calculatevircompensated_MUX_DO(31:0)" orien="R0" />
         <instance x="2560" y="5152" name="XLXI_29(3:0)" orien="M180" />
-        <instance x="2128" y="4352" name="MUX_ADDR(9:0)" orien="M180" />
+        <instance x="2128" y="4352" name="calculatevircompensated_MUX_ADDR(9:0)" orien="M180" />
         <instance x="4016" y="5248" name="mem_vir_compensated2" orien="R0">
             <attrtext style="fontsize:28;fontname:Arial" attrname="InstName" x="0" y="0" type="instance" />
         </instance>
         <iomarker fontsize="28" x="1952" y="4448" name="i_addr(9:0)" orien="R180" />
         <iomarker fontsize="28" x="4976" y="4832" name="o_do(31:0)" orien="R0" />
-        <instance x="1072" y="2176" name="XLXI_33" orien="R0">
+        <instance x="1072" y="2176" name="calculatevircompensated_process_p0_inst" orien="R0">
         </instance>
-        <instance x="3904" y="1408" name="XLXI_76" orien="R180">
+        <instance x="3904" y="1408" name="calculatevircompensated_rom_switchpattern_neg" orien="R180">
         </instance>
-        <instance x="3904" y="1568" name="XLXI_77" orien="R180">
+        <instance x="3904" y="1568" name="calculatevircompensated_rom_switchpattern_pos" orien="R180">
         </instance>
         <branch name="XLXN_212">
             <wire x2="3920" y1="1216" y2="1216" x1="3872" />

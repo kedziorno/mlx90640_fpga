@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="virtex4" name="DeviceFamilyName">
+    <attr value="spartan3e" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -202,7 +202,7 @@
             <rect width="64" x="416" y="-172" height="24" />
             <line x2="480" y1="-160" y2="-160" x1="416" />
         </blockdef>
-        <block symbolname="calculateTa_process_p0" name="XLXI_1">
+        <block symbolname="calculateTa_process_p0" name="CalculateTa_process_p0_inst">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="i_run" name="i_run" />
@@ -252,19 +252,19 @@
             <blockpin signalname="subfpa(31:0)" name="subfpa(31:0)" />
             <blockpin signalname="subfpb(31:0)" name="subfpb(31:0)" />
         </block>
-        <block symbolname="ExtractKtPTATParameter" name="XLXI_3">
+        <block symbolname="ExtractKtPTATParameter" name="CalculateTa_etractktptatparameter">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="ee0x2432(15:0)" name="i_ee0x2432(15:0)" />
             <blockpin signalname="XLXN_4(31:0)" name="o_ktptat(31:0)" />
         </block>
-        <block symbolname="ExtractKvPTATParameter" name="XLXI_4">
+        <block symbolname="ExtractKvPTATParameter" name="CalculateTa_extractkvptatparameter">
             <blockpin signalname="ee0x2432(15:0)" name="i_ee0x2432(15:0)" />
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="XLXN_5(31:0)" name="o_kvptat(31:0)" />
         </block>
-        <block symbolname="ExtractAlphaPTATParameter" name="XLXI_2">
+        <block symbolname="ExtractAlphaPTATParameter" name="CalculateTa_extractalphaptatparameter">
             <blockpin signalname="ee0x2410(15:0)" name="i_ee0x2410(15:0)" />
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
@@ -272,7 +272,7 @@
         </block>
     </netlist>
     <sheet sheetnum="1" width="5440" height="3520">
-        <instance x="2288" y="1904" name="XLXI_1" orien="R0">
+        <instance x="2288" y="1904" name="CalculateTa_process_p0_inst" orien="R0">
         </instance>
         <branch name="XLXN_4(31:0)">
             <wire x2="1904" y1="1104" y2="2208" x1="1904" />
@@ -483,11 +483,11 @@
         <iomarker fontsize="28" x="2224" y="240" name="i_reset" orien="R180" />
         <iomarker fontsize="28" x="3120" y="208" name="o_rdy" orien="R0" />
         <iomarker fontsize="28" x="3120" y="912" name="addfpce" orien="R0" />
-        <instance x="2928" y="2592" name="XLXI_2" orien="R180">
+        <instance x="2928" y="2592" name="CalculateTa_extractalphaptatparameter" orien="R180">
         </instance>
-        <instance x="2928" y="2320" name="XLXI_4" orien="R180">
+        <instance x="2928" y="2320" name="CalculateTa_extractkvptatparameter" orien="R180">
         </instance>
-        <instance x="2928" y="2048" name="XLXI_3" orien="R180">
+        <instance x="2928" y="2048" name="CalculateTa_etractktptatparameter" orien="R180">
         </instance>
         <branch name="ee0x2432(15:0)">
             <wire x2="3056" y1="2080" y2="2080" x1="2928" />

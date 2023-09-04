@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="virtex4" name="DeviceFamilyName">
+    <attr value="spartan3e" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -238,8 +238,8 @@
             <line x2="64" y1="0" y2="-64" x1="64" />
             <circle r="16" cx="144" cy="-32" />
         </blockdef>
-        <blockdef name="ramb16">
-            <timestamp>2007-9-26T16:56:25</timestamp>
+        <blockdef name="RAMB16">
+            <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
             <rect width="64" x="0" y="-588" height="24" />
@@ -661,7 +661,7 @@
             <blockpin signalname="mux_addr1(9)" name="I" />
             <blockpin signalname="XLXN_59" name="O" />
         </block>
-        <block symbolname="ramb16" name="mem_calc_pixos_1">
+        <block symbolname="RAMB16" name="mem_calc_pixos_1">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -729,7 +729,7 @@
             <blockpin name="DOPA(3:0)" />
             <blockpin name="DOPB(3:0)" />
         </block>
-        <block symbolname="m2_1" name="MUX_DO(31:0)">
+        <block symbolname="m2_1" name="CalculatePixOS_MUX_DO(31:0)">
             <blockpin signalname="XLXN_79(31:0)" name="D0" />
             <blockpin signalname="XLXN_78(31:0)" name="D1" />
             <blockpin signalname="mux_addr1(9)" name="S0" />
@@ -739,13 +739,13 @@
             <blockpin signalname="XLXN_216" name="I" />
             <blockpin signalname="XLXN_139(3:0)" name="O" />
         </block>
-        <block symbolname="m2_1" name="MUX_ADDR(9:0)">
+        <block symbolname="m2_1" name="CalculatePixOS_MUX_ADDR(9:0)">
             <blockpin signalname="XLXN_210(9:0)" name="D0" />
             <blockpin signalname="i_addr(9:0)" name="D1" />
             <blockpin signalname="o_rdy" name="S0" />
             <blockpin signalname="mux_addr1(9:0)" name="O" />
         </block>
-        <block symbolname="ramb16" name="mem_calc_pixos_2">
+        <block symbolname="RAMB16" name="mem_calc_pixos_2">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -813,7 +813,7 @@
             <blockpin name="DOPA(3:0)" />
             <blockpin name="DOPB(3:0)" />
         </block>
-        <block symbolname="CalculatePixGain" name="inst_CalcPixGain">
+        <block symbolname="CalculatePixGain" name="CalculatePixOS_inst_CalcPixGain">
             <blockpin signalname="XLXN_573(7:0)" name="i2c_mem_douta(7:0)" />
             <blockpin signalname="XLXN_412(9:0)" name="i_addr(9:0)" />
             <blockpin signalname="fixed2floatr(31:0)" name="fixed2floatr(31:0)" />
@@ -844,7 +844,7 @@
             <blockpin signalname="XLXN_407" name="o_rdy" />
             <blockpin signalname="XLXN_416(31:0)" name="o_do(31:0)" />
         </block>
-        <block symbolname="ExtractOffsetParameters" name="inst_ExtrOffParam">
+        <block symbolname="ExtractOffsetParameters" name="CalculatePixOS_inst_ExtrOffParam">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="XLXN_413(9:0)" name="i_addr(9:0)" />
@@ -875,7 +875,7 @@
             <blockpin signalname="XLXN_558(31:0)" name="addfpa(31:0)" />
             <blockpin signalname="XLXN_561(31:0)" name="addfpb(31:0)" />
         </block>
-        <block symbolname="ExtractKtaParameters" name="inst_ExtrKtaParam">
+        <block symbolname="ExtractKtaParameters" name="CalculatePixOS_inst_ExtrKtaParam">
             <blockpin signalname="XLXN_414(9:0)" name="i_addr(9:0)" />
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
@@ -907,7 +907,7 @@
             <blockpin signalname="XLXN_529(31:0)" name="divfpb(31:0)" />
             <blockpin signalname="XLXN_418(31:0)" name="o_do(31:0)" />
         </block>
-        <block symbolname="ExtractKvParameters" name="inst_ExtrKvParam">
+        <block symbolname="ExtractKvParameters" name="CalculatePixOS_inst_ExtrKvParam">
             <blockpin signalname="XLXN_415(9:0)" name="i_addr(9:0)" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="i_clock" name="i_clock" />
@@ -925,7 +925,7 @@
             <blockpin signalname="XLXN_520(31:0)" name="divfpa(31:0)" />
             <blockpin signalname="XLXN_530(31:0)" name="divfpb(31:0)" />
         </block>
-        <block symbolname="mux4x1" name="XLXI_82(11:0)">
+        <block symbolname="mux4x1" name="CalculatePixOS_MUX4x1_i2c_mem_addra(11:0)">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i2c_mem_addra(11:0)" name="o" />
             <blockpin signalname="cpgi2caddr(11:0)" name="i0" />
@@ -937,7 +937,7 @@
             <blockpin signalname="extractktaparametersmux" name="s2" />
             <blockpin signalname="extractkvparametersmux" name="s3" />
         </block>
-        <block symbolname="mux4x1" name="XLXI_83">
+        <block symbolname="mux4x1" name="CalculatePixOS_MUX4x1_i2c_mem_ena">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i2c_mem_ena" name="o" />
             <blockpin signalname="XLXN_385" name="i0" />
@@ -949,35 +949,35 @@
             <blockpin signalname="extractktaparametersmux" name="s2" />
             <blockpin signalname="extractkvparametersmux" name="s3" />
         </block>
-        <block symbolname="mux2x1" name="XLXI_98(63:0)">
+        <block symbolname="mux2x1" name="CalculatePixOS_MUX2x1_fi2fl_a(63:0)">
             <blockpin signalname="extractoffsetparametersmux" name="s1" />
             <blockpin signalname="calculatepixgainmux" name="s0" />
             <blockpin signalname="XLXN_461(63:0)" name="i1" />
             <blockpin signalname="XLXN_459(63:0)" name="i0" />
             <blockpin signalname="fixed2floata(63:0)" name="o" />
         </block>
-        <block symbolname="mux2x1" name="XLXI_99">
+        <block symbolname="mux2x1" name="CalculatePixOS_MUX2x1_fi2fl_ond">
             <blockpin signalname="extractoffsetparametersmux" name="s1" />
             <blockpin signalname="calculatepixgainmux" name="s0" />
             <blockpin signalname="XLXN_465" name="i1" />
             <blockpin signalname="XLXN_464" name="i0" />
             <blockpin signalname="fixed2floatond" name="o" />
         </block>
-        <block symbolname="mux2x1" name="XLXI_100">
+        <block symbolname="mux2x1" name="CalculatePixOS_MUX2x1_fi2fl_ce">
             <blockpin signalname="extractoffsetparametersmux" name="s1" />
             <blockpin signalname="calculatepixgainmux" name="s0" />
             <blockpin signalname="XLXN_470" name="i1" />
             <blockpin signalname="XLXN_469" name="i0" />
             <blockpin signalname="fixed2floatce" name="o" />
         </block>
-        <block symbolname="mux2x1" name="XLXI_101">
+        <block symbolname="mux2x1" name="CalculatePixOS_MUX2x1_fi2fl_sclr">
             <blockpin signalname="extractoffsetparametersmux" name="s1" />
             <blockpin signalname="calculatepixgainmux" name="s0" />
             <blockpin signalname="XLXN_474" name="i1" />
             <blockpin signalname="XLXN_473" name="i0" />
             <blockpin signalname="fixed2floatsclr" name="o" />
         </block>
-        <block symbolname="mux3x1" name="XLXI_102(31:0)">
+        <block symbolname="mux3x1" name="CalculatePixOS_MUX3x1_mulfp_a(31:0)">
             <blockpin signalname="XLXN_480(31:0)" name="i3" />
             <blockpin signalname="XLXN_479(31:0)" name="i2" />
             <blockpin signalname="XLXN_478(31:0)" name="i1" />
@@ -987,7 +987,7 @@
             <blockpin signalname="calculatepixgainmux" name="s0" />
             <blockpin signalname="mulfpa(31:0)" name="o" />
         </block>
-        <block symbolname="mux3x1" name="XLXI_103(31:0)">
+        <block symbolname="mux3x1" name="CalculatePixOS_MUX3x1_mulfp_b(31:0)">
             <blockpin signalname="XLXN_490(31:0)" name="i3" />
             <blockpin signalname="XLXN_489(31:0)" name="i2" />
             <blockpin signalname="XLXN_488(31:0)" name="i1" />
@@ -997,7 +997,7 @@
             <blockpin signalname="calculatepixgainmux" name="s0" />
             <blockpin signalname="mulfpb(31:0)" name="o" />
         </block>
-        <block symbolname="mux3x1" name="XLXI_104">
+        <block symbolname="mux3x1" name="CalculatePixOS_MUX3x1_mulfp_ond">
             <blockpin signalname="XLXN_498" name="i3" />
             <blockpin signalname="XLXN_497" name="i2" />
             <blockpin signalname="XLXN_496" name="i1" />
@@ -1007,7 +1007,7 @@
             <blockpin signalname="calculatepixgainmux" name="s0" />
             <blockpin signalname="mulfpond" name="o" />
         </block>
-        <block symbolname="mux3x1" name="XLXI_105">
+        <block symbolname="mux3x1" name="CalculatePixOS_MUX3x1_mulfp_sclr">
             <blockpin signalname="XLXN_506" name="i3" />
             <blockpin signalname="XLXN_505" name="i2" />
             <blockpin signalname="XLXN_504" name="i1" />
@@ -1017,7 +1017,7 @@
             <blockpin signalname="calculatepixgainmux" name="s0" />
             <blockpin signalname="mulfpsclr" name="o" />
         </block>
-        <block symbolname="mux3x1" name="XLXI_106">
+        <block symbolname="mux3x1" name="CalculatePixOS_MUX3x1_mulfp_ce">
             <blockpin signalname="XLXN_514" name="i3" />
             <blockpin signalname="XLXN_513" name="i2" />
             <blockpin signalname="XLXN_512" name="i1" />
@@ -1027,7 +1027,7 @@
             <blockpin signalname="calculatepixgainmux" name="s0" />
             <blockpin signalname="mulfpce" name="o" />
         </block>
-        <block symbolname="mux3x1" name="XLXI_113(31:0)">
+        <block symbolname="mux3x1" name="CalculatePixOS_MUX3x1_divfp_a(31:0)">
             <blockpin name="i3" />
             <blockpin signalname="XLXN_520(31:0)" name="i2" />
             <blockpin signalname="XLXN_519(31:0)" name="i1" />
@@ -1037,7 +1037,7 @@
             <blockpin signalname="calculatepixgainmux" name="s0" />
             <blockpin signalname="divfpa(31:0)" name="o" />
         </block>
-        <block symbolname="mux3x1" name="XLXI_114(31:0)">
+        <block symbolname="mux3x1" name="CalculatePixOS_MUX3x1_divfp_b(31:0)">
             <blockpin name="i3" />
             <blockpin signalname="XLXN_530(31:0)" name="i2" />
             <blockpin signalname="XLXN_529(31:0)" name="i1" />
@@ -1047,7 +1047,7 @@
             <blockpin signalname="calculatepixgainmux" name="s0" />
             <blockpin signalname="divfpb(31:0)" name="o" />
         </block>
-        <block symbolname="mux3x1" name="XLXI_115">
+        <block symbolname="mux3x1" name="CalculatePixOS_MUX3x1_divfp_ond">
             <blockpin name="i3" />
             <blockpin signalname="XLXN_536" name="i2" />
             <blockpin signalname="XLXN_535" name="i1" />
@@ -1057,7 +1057,7 @@
             <blockpin signalname="calculatepixgainmux" name="s0" />
             <blockpin signalname="divfpond" name="o" />
         </block>
-        <block symbolname="mux3x1" name="XLXI_116">
+        <block symbolname="mux3x1" name="CalculatePixOS_MUX3x1_divfp_sclr">
             <blockpin name="i3" />
             <blockpin signalname="XLXN_539" name="i2" />
             <blockpin signalname="XLXN_538" name="i1" />
@@ -1067,7 +1067,7 @@
             <blockpin signalname="calculatepixgainmux" name="s0" />
             <blockpin signalname="divfpsclr" name="o" />
         </block>
-        <block symbolname="mux3x1" name="XLXI_117">
+        <block symbolname="mux3x1" name="CalculatePixOS_MUX3x1_divfp_ce">
             <blockpin name="i3" />
             <blockpin signalname="XLXN_543" name="i2" />
             <blockpin signalname="XLXN_542" name="i1" />
@@ -1077,7 +1077,7 @@
             <blockpin signalname="calculatepixgainmux" name="s0" />
             <blockpin signalname="divfpce" name="o" />
         </block>
-        <block symbolname="mux3x1a" name="XLXI_128(31:0)">
+        <block symbolname="mux3x1a" name="CalculatePixOS_MUX3x1a_addfp_a(31:0)">
             <blockpin signalname="extractktaparametersmux" name="s1" />
             <blockpin signalname="extractoffsetparametersmux" name="s0" />
             <blockpin signalname="XLXN_560(31:0)" name="i2" />
@@ -1085,7 +1085,7 @@
             <blockpin signalname="XLXN_558(31:0)" name="i0" />
             <blockpin signalname="addfpa(31:0)" name="o" />
         </block>
-        <block symbolname="mux3x1a" name="XLXI_129(31:0)">
+        <block symbolname="mux3x1a" name="CalculatePixOS_MUX3x1a_addfp_b(31:0)">
             <blockpin signalname="extractktaparametersmux" name="s1" />
             <blockpin signalname="extractoffsetparametersmux" name="s0" />
             <blockpin signalname="XLXN_563(31:0)" name="i2" />
@@ -1093,7 +1093,7 @@
             <blockpin signalname="XLXN_561(31:0)" name="i0" />
             <blockpin signalname="addfpb(31:0)" name="o" />
         </block>
-        <block symbolname="mux3x1a" name="XLXI_130">
+        <block symbolname="mux3x1a" name="CalculatePixOS_MUX3x1a_addfp_ond">
             <blockpin signalname="extractktaparametersmux" name="s1" />
             <blockpin signalname="extractoffsetparametersmux" name="s0" />
             <blockpin signalname="XLXN_566" name="i2" />
@@ -1101,7 +1101,7 @@
             <blockpin signalname="XLXN_564" name="i0" />
             <blockpin signalname="addfpond" name="o" />
         </block>
-        <block symbolname="mux3x1a" name="XLXI_131">
+        <block symbolname="mux3x1a" name="CalculatePixOS_MUX3x1a_addfp_sclr">
             <blockpin signalname="extractktaparametersmux" name="s1" />
             <blockpin signalname="extractoffsetparametersmux" name="s0" />
             <blockpin signalname="XLXN_569" name="i2" />
@@ -1109,7 +1109,7 @@
             <blockpin signalname="XLXN_567" name="i0" />
             <blockpin signalname="addfpsclr" name="o" />
         </block>
-        <block symbolname="mux3x1a" name="XLXI_132">
+        <block symbolname="mux3x1a" name="CalculatePixOS_MUX3x1a_addfp_ce">
             <blockpin signalname="extractktaparametersmux" name="s1" />
             <blockpin signalname="extractoffsetparametersmux" name="s0" />
             <blockpin signalname="XLXN_572" name="i2" />
@@ -1133,25 +1133,25 @@
             <blockpin signalname="XLXN_583(7:0)" name="I" />
             <blockpin signalname="XLXN_576(7:0)" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_140(7:0)">
+        <block symbolname="m2_1" name="CalculatePixOS_MUX_i2c_mem_douta_pixgain(7:0)">
             <blockpin signalname="XLXN_589(7:0)" name="D0" />
             <blockpin signalname="i2c_mem_douta(7:0)" name="D1" />
             <blockpin signalname="calculatepixgainmux" name="S0" />
             <blockpin signalname="XLXN_580(7:0)" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_141(7:0)">
+        <block symbolname="m2_1" name="CalculatePixOS_MUX_i2c_mem_douta_extroffparam(7:0)">
             <blockpin signalname="XLXN_589(7:0)" name="D0" />
             <blockpin signalname="i2c_mem_douta(7:0)" name="D1" />
             <blockpin signalname="extractoffsetparametersmux" name="S0" />
             <blockpin signalname="XLXN_581(7:0)" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_142(7:0)">
+        <block symbolname="m2_1" name="CalculatePixOS_MUX_i2c_mem_douta_extrktaparam(7:0)">
             <blockpin signalname="XLXN_589(7:0)" name="D0" />
             <blockpin signalname="i2c_mem_douta(7:0)" name="D1" />
             <blockpin signalname="extractktaparametersmux" name="S0" />
             <blockpin signalname="XLXN_582(7:0)" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_143(7:0)">
+        <block symbolname="m2_1" name="CalculatePixOS_MUX_i2c_mem_douta_extrkvparam(7:0)">
             <blockpin signalname="XLXN_589(7:0)" name="D0" />
             <blockpin signalname="i2c_mem_douta(7:0)" name="D1" />
             <blockpin signalname="extractkvparametersmux" name="S0" />
@@ -1303,20 +1303,20 @@
         <instance x="1152" y="5104" name="mem_calc_pixos_1" orien="R0">
             <attrtext style="fontsize:28;fontname:Arial" attrname="InstName" x="0" y="0" type="instance" />
         </instance>
-        <instance x="2944" y="4816" name="MUX_DO(31:0)" orien="R0" />
+        <instance x="2944" y="4816" name="CalculatePixOS_MUX_DO(31:0)" orien="R0" />
         <instance x="880" y="5008" name="XLXI_29(3:0)" orien="M180" />
-        <instance x="448" y="4208" name="MUX_ADDR(9:0)" orien="M180" />
+        <instance x="448" y="4208" name="CalculatePixOS_MUX_ADDR(9:0)" orien="M180" />
         <instance x="2336" y="5104" name="mem_calc_pixos_2" orien="R0">
             <attrtext style="fontsize:28;fontname:Arial" attrname="InstName" x="0" y="0" type="instance" />
         </instance>
         <iomarker fontsize="28" x="272" y="4304" name="i_addr(9:0)" orien="R180" />
-        <instance x="4736" y="80" name="inst_CalcPixGain" orien="M180">
+        <instance x="4736" y="80" name="CalculatePixOS_inst_CalcPixGain" orien="M180">
         </instance>
-        <instance x="4736" y="1248" name="inst_ExtrOffParam" orien="M180">
+        <instance x="4736" y="1248" name="CalculatePixOS_inst_ExtrOffParam" orien="M180">
         </instance>
-        <instance x="4832" y="3568" name="inst_ExtrKtaParam" orien="M180">
+        <instance x="4832" y="3568" name="CalculatePixOS_inst_ExtrKtaParam" orien="M180">
         </instance>
-        <instance x="4736" y="3648" name="inst_ExtrKvParam" orien="M180">
+        <instance x="4736" y="3648" name="CalculatePixOS_inst_ExtrKvParam" orien="M180">
         </instance>
         <instance x="736" y="2800" name="inst_CalcPixOS_proc0" orien="R0">
             <attrtext style="fontsize:28;fontname:Arial" attrname="InstName" x="0" y="64" type="instance" />
@@ -1437,17 +1437,20 @@
             <wire x2="6272" y1="2784" y2="2784" x1="5904" />
         </branch>
         <branch name="eopi2caddr(11:0)">
-            <wire x2="5728" y1="1600" y2="1600" x1="5312" />
+            <wire x2="5328" y1="1600" y2="1600" x1="5312" />
+            <wire x2="5728" y1="1600" y2="1600" x1="5328" />
             <wire x2="5728" y1="192" y2="1600" x1="5728" />
             <wire x2="6272" y1="192" y2="192" x1="5728" />
         </branch>
         <branch name="ktai2caddr(11:0)">
-            <wire x2="5744" y1="2832" y2="2832" x1="5216" />
+            <wire x2="5232" y1="2832" y2="2832" x1="5216" />
+            <wire x2="5744" y1="2832" y2="2832" x1="5232" />
             <wire x2="5744" y1="176" y2="2832" x1="5744" />
             <wire x2="6272" y1="176" y2="176" x1="5744" />
         </branch>
         <branch name="kvi2caddr(11:0)">
-            <wire x2="5760" y1="3872" y2="3872" x1="5312" />
+            <wire x2="5328" y1="3872" y2="3872" x1="5312" />
+            <wire x2="5760" y1="3872" y2="3872" x1="5328" />
             <wire x2="5760" y1="160" y2="3872" x1="5760" />
             <wire x2="6272" y1="160" y2="160" x1="5760" />
         </branch>
@@ -1484,17 +1487,19 @@
             <wire x2="6272" y1="400" y2="400" x1="6128" />
         </branch>
         <branch name="cpgi2caddr(11:0)">
-            <wire x2="5712" y1="1136" y2="1136" x1="5312" />
+            <wire x2="5328" y1="1136" y2="1136" x1="5312" />
+            <wire x2="5712" y1="1136" y2="1136" x1="5328" />
             <wire x2="5712" y1="208" y2="1136" x1="5712" />
             <wire x2="6272" y1="208" y2="208" x1="5712" />
         </branch>
-        <instance x="6272" y="80" name="XLXI_82(11:0)" orien="M180">
+        <instance x="6272" y="80" name="CalculatePixOS_MUX4x1_i2c_mem_addra(11:0)" orien="M180">
         </instance>
         <branch name="i2c_mem_addra(11:0)">
-            <wire x2="6688" y1="224" y2="224" x1="6656" />
+            <wire x2="6672" y1="224" y2="224" x1="6656" />
+            <wire x2="6688" y1="224" y2="224" x1="6672" />
         </branch>
         <iomarker fontsize="28" x="6688" y="224" name="i2c_mem_addra(11:0)" orien="R0" />
-        <instance x="6272" y="256" name="XLXI_83" orien="M180">
+        <instance x="6272" y="256" name="CalculatePixOS_MUX4x1_i2c_mem_ena" orien="M180">
         </instance>
         <branch name="XLXN_385">
             <wire x2="5792" y1="1200" y2="1200" x1="5312" />
@@ -1768,7 +1773,7 @@
         <branch name="subfprdy">
             <wire x2="736" y1="1104" y2="1104" x1="288" />
         </branch>
-        <instance x="6272" y="528" name="XLXI_98(63:0)" orien="R0">
+        <instance x="6272" y="528" name="CalculatePixOS_MUX2x1_fi2fl_a(63:0)" orien="R0">
         </instance>
         <branch name="XLXN_459(63:0)">
             <wire x2="5824" y1="1072" y2="1072" x1="5312" />
@@ -1784,7 +1789,7 @@
             <wire x2="6688" y1="496" y2="496" x1="6656" />
         </branch>
         <iomarker fontsize="28" x="6688" y="496" name="fixed2floata(63:0)" orien="R0" />
-        <instance x="6272" y="624" name="XLXI_99" orien="R0">
+        <instance x="6272" y="624" name="CalculatePixOS_MUX2x1_fi2fl_ond" orien="R0">
         </instance>
         <branch name="XLXN_464">
             <wire x2="5856" y1="1008" y2="1008" x1="5312" />
@@ -1800,7 +1805,7 @@
             <wire x2="6688" y1="592" y2="592" x1="6656" />
         </branch>
         <iomarker fontsize="28" x="6688" y="592" name="fixed2floatond" orien="R0" />
-        <instance x="6272" y="720" name="XLXI_100" orien="R0">
+        <instance x="6272" y="720" name="CalculatePixOS_MUX2x1_fi2fl_ce" orien="R0">
         </instance>
         <branch name="XLXN_469">
             <wire x2="5888" y1="880" y2="880" x1="5312" />
@@ -1812,7 +1817,7 @@
             <wire x2="5392" y1="656" y2="2048" x1="5392" />
             <wire x2="6272" y1="656" y2="656" x1="5392" />
         </branch>
-        <instance x="6272" y="816" name="XLXI_101" orien="R0">
+        <instance x="6272" y="816" name="CalculatePixOS_MUX2x1_fi2fl_sclr" orien="R0">
         </instance>
         <branch name="XLXN_473">
             <wire x2="5376" y1="944" y2="944" x1="5312" />
@@ -1824,7 +1829,7 @@
             <wire x2="5360" y1="752" y2="2112" x1="5360" />
             <wire x2="6272" y1="752" y2="752" x1="5360" />
         </branch>
-        <instance x="6272" y="944" name="XLXI_102(31:0)" orien="R0">
+        <instance x="6272" y="944" name="CalculatePixOS_MUX3x1_mulfp_a(31:0)" orien="R0">
         </instance>
         <branch name="XLXN_477(31:0)">
             <wire x2="5344" y1="752" y2="752" x1="5312" />
@@ -1862,7 +1867,7 @@
             <wire x2="6688" y1="928" y2="928" x1="6656" />
         </branch>
         <iomarker fontsize="28" x="6688" y="928" name="mulfpa(31:0)" orien="R0" />
-        <instance x="6272" y="1088" name="XLXI_103(31:0)" orien="R0">
+        <instance x="6272" y="1088" name="CalculatePixOS_MUX3x1_mulfp_b(31:0)" orien="R0">
         </instance>
         <branch name="XLXN_487(31:0)">
             <wire x2="5328" y1="816" y2="816" x1="5312" />
@@ -1890,11 +1895,11 @@
             <wire x2="6688" y1="1072" y2="1072" x1="6656" />
         </branch>
         <iomarker fontsize="28" x="6688" y="1072" name="mulfpb(31:0)" orien="R0" />
-        <instance x="6272" y="1232" name="XLXI_104" orien="R0">
+        <instance x="6272" y="1232" name="CalculatePixOS_MUX3x1_mulfp_ond" orien="R0">
         </instance>
-        <instance x="6272" y="1376" name="XLXI_105" orien="R0">
+        <instance x="6272" y="1376" name="CalculatePixOS_MUX3x1_mulfp_sclr" orien="R0">
         </instance>
-        <instance x="6272" y="1520" name="XLXI_106" orien="R0">
+        <instance x="6272" y="1520" name="CalculatePixOS_MUX3x1_mulfp_ce" orien="R0">
         </instance>
         <branch name="XLXN_495">
             <wire x2="5456" y1="688" y2="688" x1="5312" />
@@ -1989,15 +1994,15 @@
             <wire x2="5840" y1="1648" y2="3744" x1="5840" />
             <wire x2="6272" y1="1648" y2="1648" x1="5840" />
         </branch>
-        <instance x="6272" y="1680" name="XLXI_113(31:0)" orien="R0">
+        <instance x="6272" y="1680" name="CalculatePixOS_MUX3x1_divfp_a(31:0)" orien="R0">
         </instance>
-        <instance x="6272" y="1824" name="XLXI_114(31:0)" orien="R0">
+        <instance x="6272" y="1824" name="CalculatePixOS_MUX3x1_divfp_b(31:0)" orien="R0">
         </instance>
-        <instance x="6272" y="1968" name="XLXI_115" orien="R0">
+        <instance x="6272" y="1968" name="CalculatePixOS_MUX3x1_divfp_ond" orien="R0">
         </instance>
-        <instance x="6272" y="2112" name="XLXI_116" orien="R0">
+        <instance x="6272" y="2112" name="CalculatePixOS_MUX3x1_divfp_sclr" orien="R0">
         </instance>
-        <instance x="6272" y="2256" name="XLXI_117" orien="R0">
+        <instance x="6272" y="2256" name="CalculatePixOS_MUX3x1_divfp_ce" orien="R0">
         </instance>
         <branch name="XLXN_526(31:0)">
             <wire x2="5536" y1="496" y2="496" x1="5312" />
@@ -2085,15 +2090,15 @@
             <wire x2="6688" y1="2240" y2="2240" x1="6656" />
         </branch>
         <iomarker fontsize="28" x="6688" y="2240" name="divfpce" orien="R0" />
-        <instance x="6272" y="2368" name="XLXI_128(31:0)" orien="R0">
+        <instance x="6272" y="2368" name="CalculatePixOS_MUX3x1a_addfp_a(31:0)" orien="R0">
         </instance>
-        <instance x="6272" y="2480" name="XLXI_129(31:0)" orien="R0">
+        <instance x="6272" y="2480" name="CalculatePixOS_MUX3x1a_addfp_b(31:0)" orien="R0">
         </instance>
-        <instance x="6272" y="2592" name="XLXI_130" orien="R0">
+        <instance x="6272" y="2592" name="CalculatePixOS_MUX3x1a_addfp_ond" orien="R0">
         </instance>
-        <instance x="6272" y="2704" name="XLXI_131" orien="R0">
+        <instance x="6272" y="2704" name="CalculatePixOS_MUX3x1a_addfp_sclr" orien="R0">
         </instance>
-        <instance x="6272" y="2816" name="XLXI_132" orien="R0">
+        <instance x="6272" y="2816" name="CalculatePixOS_MUX3x1a_addfp_ce" orien="R0">
         </instance>
         <branch name="XLXN_558(31:0)">
             <wire x2="5328" y1="1344" y2="1344" x1="5312" />
@@ -2292,19 +2297,19 @@
         <branch name="XLXN_580(7:0)">
             <wire x2="4112" y1="1200" y2="1200" x1="4080" />
         </branch>
-        <instance x="3760" y="1328" name="XLXI_140(7:0)" orien="R0" />
+        <instance x="3760" y="1328" name="CalculatePixOS_MUX_i2c_mem_douta_pixgain(7:0)" orien="R0" />
         <branch name="XLXN_581(7:0)">
             <wire x2="4112" y1="1696" y2="1696" x1="4080" />
         </branch>
-        <instance x="3760" y="1568" name="XLXI_141(7:0)" orien="M180" />
+        <instance x="3760" y="1568" name="CalculatePixOS_MUX_i2c_mem_douta_extroffparam(7:0)" orien="M180" />
         <branch name="XLXN_582(7:0)">
             <wire x2="4112" y1="3216" y2="3216" x1="4080" />
         </branch>
-        <instance x="3760" y="3088" name="XLXI_142(7:0)" orien="M180" />
+        <instance x="3760" y="3088" name="CalculatePixOS_MUX_i2c_mem_douta_extrktaparam(7:0)" orien="M180" />
         <branch name="XLXN_583(7:0)">
             <wire x2="4112" y1="3872" y2="3872" x1="4080" />
         </branch>
-        <instance x="3760" y="4000" name="XLXI_143(7:0)" orien="R0" />
+        <instance x="3760" y="4000" name="CalculatePixOS_MUX_i2c_mem_douta_extrkvparam(7:0)" orien="R0" />
         <branch name="i2c_mem_douta(7:0)">
             <wire x2="480" y1="1296" y2="1296" x1="288" />
             <wire x2="480" y1="1296" y2="2928" x1="480" />
