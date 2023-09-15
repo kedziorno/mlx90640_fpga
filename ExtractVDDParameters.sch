@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="virtex4" name="DeviceFamilyName">
+    <attr value="spartan3e" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -40,8 +40,8 @@
         <port polarity="Input" name="i_run" />
         <port polarity="Input" name="i_reset" />
         <port polarity="Input" name="i_clock" />
-        <blockdef name="ramb16">
-            <timestamp>2007-9-26T16:56:25</timestamp>
+        <blockdef name="RAMB16">
+            <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
             <rect width="64" x="0" y="-588" height="24" />
@@ -122,7 +122,7 @@
             <rect width="64" x="512" y="-44" height="24" />
             <line x2="576" y1="-32" y2="-32" x1="512" />
         </blockdef>
-        <block symbolname="ramb16" name="MEM_KVDD_VDD25">
+        <block symbolname="RAMB16" name="MEM_KVDD_VDD25">
             <attr value="c5720000c5740000c5760000c5780000c57a0000c57c0000c57e0000c5800000" name="INIT_10">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -655,7 +655,7 @@
         <block symbolname="gnd" name="XLXI_195">
             <blockpin signalname="XLXN_638" name="G" />
         </block>
-        <block symbolname="ExtractVDDParameters_process_p0" name="XLXI_197">
+        <block symbolname="ExtractVDDParameters_process_p0" name="ExtractVDDParameters_process_p0_inst">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="i_run" name="i_run" />
@@ -812,7 +812,7 @@
         <iomarker fontsize="28" x="960" y="560" name="i_clock" orien="R180" />
         <iomarker fontsize="28" x="960" y="720" name="i_reset" orien="R180" />
         <iomarker fontsize="28" x="976" y="368" name="i_clock" orien="R180" />
-        <instance x="1728" y="608" name="XLXI_197" orien="R0">
+        <instance x="1728" y="608" name="ExtractVDDParameters_process_p0_inst" orien="R0">
         </instance>
         <branch name="ADDRA(14:0)">
             <wire x2="944" y1="80" y2="240" x1="944" />

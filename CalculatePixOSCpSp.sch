@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="virtex4" name="DeviceFamilyName">
+    <attr value="spartan3e" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -328,7 +328,7 @@
             <line x2="96" y1="-96" y2="-96" x1="0" />
             <line x2="96" y1="-160" y2="-160" x1="0" />
         </blockdef>
-        <block symbolname="CalculateKGain_process_p0" name="XLXI_7">
+        <block symbolname="CalculateKGain_process_p0" name="CalculatePixOSCpSp_calculatekgain_process_p0">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="XLXN_12" name="i_run" />
@@ -351,31 +351,31 @@
             <blockpin signalname="XLXN_30(31:0)" name="divfpa(31:0)" />
             <blockpin signalname="XLXN_31(31:0)" name="divfpb(31:0)" />
         </block>
-        <block symbolname="rom_unsigned4bit_2powx" name="XLXI_1">
+        <block symbolname="rom_unsigned4bit_2powx" name="CalculatePixOSCpSp_rom_unsigned4bit_2powx">
             <blockpin signalname="XLXN_5(3:0)" name="nibble_in(3:0)" />
             <blockpin signalname="XLXN_6(31:0)" name="nibble_out(31:0)" />
         </block>
-        <block symbolname="rom_signed10bit" name="XLXI_4">
+        <block symbolname="rom_signed10bit" name="CalculatePixOSCpSp_rom_signed10bit">
             <blockpin signalname="XLXN_8(9:0)" name="address(9:0)" />
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="XLXN_10(31:0)" name="o_data(31:0)" />
         </block>
-        <block symbolname="rom_signed8bit" name="XLXI_5">
+        <block symbolname="rom_signed8bit" name="CalculatePixOSCpSp_rom_signed8bit">
             <blockpin signalname="XLXN_7(7:0)" name="i_value(7:0)" />
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="XLXN_9(31:0)" name="o_value(31:0)" />
         </block>
-        <block symbolname="rom_unsigned4bit_2powx8" name="XLXI_2">
+        <block symbolname="rom_unsigned4bit_2powx8" name="CalculatePixOSCpSp_rom_unsigned4bit_2powx8">
             <blockpin signalname="XLXN_3(3:0)" name="nibble_in(3:0)" />
             <blockpin signalname="XLXN_4(31:0)" name="nibble_out(31:0)" />
         </block>
-        <block symbolname="rom_signed6bit" name="XLXI_6">
+        <block symbolname="rom_signed6bit" name="CalculatePixOSCpSp_rom_signed6bit">
             <blockpin signalname="XLXN_1(5:0)" name="nibble_in(5:0)" />
             <blockpin signalname="XLXN_2(31:0)" name="nibble_out(31:0)" />
         </block>
-        <block symbolname="CalculatePixOSCpSp_process_p0" name="XLXI_13">
+        <block symbolname="CalculatePixOSCpSp_process_p0" name="CalculatePixOSCpSp_process_p0_inst">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="i_run" name="i_run" />
@@ -439,67 +439,67 @@
             <blockpin signalname="subfpa(31:0)" name="subfpa(31:0)" />
             <blockpin signalname="subfpb(31:0)" name="subfpb(31:0)" />
         </block>
-        <block symbolname="m2_1" name="XLXI_14(63:0)">
+        <block symbolname="m2_1" name="CalculatePixOSCpSp_MUX_fi2fl_a(63:0)">
             <blockpin signalname="XLXN_22(63:0)" name="D0" />
             <blockpin signalname="XLXN_18(63:0)" name="D1" />
             <blockpin signalname="kgainmux" name="S0" />
             <blockpin signalname="fixed2floata(63:0)" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_15">
+        <block symbolname="m2_1" name="CalculatePixOSCpSp_MUX_fi2fl_ond">
             <blockpin signalname="XLXN_23" name="D0" />
             <blockpin signalname="XLXN_19" name="D1" />
             <blockpin signalname="kgainmux" name="S0" />
             <blockpin signalname="fixed2floatond" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_16">
+        <block symbolname="m2_1" name="CalculatePixOSCpSp_MUX_fi2fl_ce">
             <blockpin signalname="XLXN_24" name="D0" />
             <blockpin signalname="XLXN_20" name="D1" />
             <blockpin signalname="kgainmux" name="S0" />
             <blockpin signalname="fixed2floatce" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_17">
+        <block symbolname="m2_1" name="CalculatePixOSCpSp_MUX_fi2fl_sclr">
             <blockpin signalname="XLXN_25" name="D0" />
             <blockpin signalname="XLXN_21" name="D1" />
             <blockpin signalname="kgainmux" name="S0" />
             <blockpin signalname="fixed2floatsclr" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_18(31:0)">
+        <block symbolname="m2_1" name="CalculatePixOSCpSp_MUX_divfp_a(31:0)">
             <blockpin signalname="XLXN_35(31:0)" name="D0" />
             <blockpin signalname="XLXN_30(31:0)" name="D1" />
             <blockpin signalname="kgainmux" name="S0" />
             <blockpin signalname="divfpa(31:0)" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_19(31:0)">
+        <block symbolname="m2_1" name="CalculatePixOSCpSp_MUX_divfp_b(31:0)">
             <blockpin signalname="XLXN_36(31:0)" name="D0" />
             <blockpin signalname="XLXN_31(31:0)" name="D1" />
             <blockpin signalname="kgainmux" name="S0" />
             <blockpin signalname="divfpb(31:0)" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_20">
+        <block symbolname="m2_1" name="CalculatePixOSCpSp_MUX_divfp_ond">
             <blockpin signalname="XLXN_37" name="D0" />
             <blockpin signalname="XLXN_32" name="D1" />
             <blockpin signalname="kgainmux" name="S0" />
             <blockpin signalname="divfpond" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_21">
+        <block symbolname="m2_1" name="CalculatePixOSCpSp_MUX_divfp_sclr">
             <blockpin signalname="XLXN_38" name="D0" />
             <blockpin signalname="XLXN_33" name="D1" />
             <blockpin signalname="kgainmux" name="S0" />
             <blockpin signalname="divfpsclr" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_22">
+        <block symbolname="m2_1" name="CalculatePixOSCpSp_MUX_divfp_ce">
             <blockpin signalname="XLXN_39" name="D0" />
             <blockpin signalname="XLXN_34" name="D1" />
             <blockpin signalname="kgainmux" name="S0" />
             <blockpin signalname="divfpce" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_23">
+        <block symbolname="m2_1" name="CalculatePixOSCpSp_MUX_i2c_mem_ena">
             <blockpin signalname="XLXN_57" name="D0" />
             <blockpin signalname="XLXN_55" name="D1" />
             <blockpin signalname="kgainmux" name="S0" />
             <blockpin signalname="i2c_mem_ena" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_24(11:0)">
+        <block symbolname="m2_1" name="CalculatePixOSCpSp_MUX_i2c_mem_addra(11:0)">
             <blockpin signalname="XLXN_58(11:0)" name="D0" />
             <blockpin signalname="XLXN_56(11:0)" name="D1" />
             <blockpin signalname="kgainmux" name="S0" />
@@ -507,19 +507,19 @@
         </block>
     </netlist>
     <sheet sheetnum="1" width="5440" height="3520">
-        <instance x="1056" y="2384" name="XLXI_13" orien="R0">
+        <instance x="1056" y="2384" name="CalculatePixOSCpSp_process_p0_inst" orien="R0">
         </instance>
-        <instance x="3024" y="912" name="XLXI_7" orien="R0">
+        <instance x="3024" y="912" name="CalculatePixOSCpSp_calculatekgain_process_p0" orien="R0">
         </instance>
-        <instance x="3120" y="1168" name="XLXI_5" orien="R0">
+        <instance x="3120" y="1168" name="CalculatePixOSCpSp_rom_signed8bit" orien="R0">
         </instance>
-        <instance x="3136" y="1440" name="XLXI_4" orien="R0">
+        <instance x="3136" y="1440" name="CalculatePixOSCpSp_rom_signed10bit" orien="R0">
         </instance>
-        <instance x="3104" y="1552" name="XLXI_6" orien="R0">
+        <instance x="3104" y="1552" name="CalculatePixOSCpSp_rom_signed6bit" orien="R0">
         </instance>
-        <instance x="3104" y="1664" name="XLXI_2" orien="R0">
+        <instance x="3104" y="1664" name="CalculatePixOSCpSp_rom_unsigned4bit_2powx8" orien="R0">
         </instance>
-        <instance x="3104" y="1776" name="XLXI_1" orien="R0">
+        <instance x="3104" y="1776" name="CalculatePixOSCpSp_rom_unsigned4bit_2powx" orien="R0">
         </instance>
         <branch name="XLXN_1(5:0)">
             <wire x2="2448" y1="1648" y2="1648" x1="1808" />
@@ -593,9 +593,9 @@
             <wire x2="2416" y1="240" y2="304" x1="2416" />
             <wire x2="3024" y1="304" y2="304" x1="2416" />
         </branch>
-        <instance x="4864" y="512" name="XLXI_15" orien="R0" />
-        <instance x="4864" y="752" name="XLXI_16" orien="R0" />
-        <instance x="4864" y="992" name="XLXI_17" orien="R0" />
+        <instance x="4864" y="512" name="CalculatePixOSCpSp_MUX_fi2fl_ond" orien="R0" />
+        <instance x="4864" y="752" name="CalculatePixOSCpSp_MUX_fi2fl_ce" orien="R0" />
+        <instance x="4864" y="992" name="CalculatePixOSCpSp_MUX_fi2fl_sclr" orien="R0" />
         <branch name="XLXN_18(63:0)">
             <wire x2="4528" y1="752" y2="752" x1="3600" />
             <wire x2="4528" y1="176" y2="752" x1="4528" />
@@ -659,11 +659,11 @@
             <wire x2="5216" y1="864" y2="864" x1="5184" />
         </branch>
         <iomarker fontsize="28" x="5216" y="864" name="fixed2floatsclr" orien="R0" />
-        <instance x="4864" y="1232" name="XLXI_18(31:0)" orien="R0" />
-        <instance x="4864" y="1472" name="XLXI_19(31:0)" orien="R0" />
-        <instance x="4864" y="1712" name="XLXI_20" orien="R0" />
-        <instance x="4864" y="1952" name="XLXI_21" orien="R0" />
-        <instance x="4864" y="2192" name="XLXI_22" orien="R0" />
+        <instance x="4864" y="1232" name="CalculatePixOSCpSp_MUX_divfp_a(31:0)" orien="R0" />
+        <instance x="4864" y="1472" name="CalculatePixOSCpSp_MUX_divfp_b(31:0)" orien="R0" />
+        <instance x="4864" y="1712" name="CalculatePixOSCpSp_MUX_divfp_ond" orien="R0" />
+        <instance x="4864" y="1952" name="CalculatePixOSCpSp_MUX_divfp_sclr" orien="R0" />
+        <instance x="4864" y="2192" name="CalculatePixOSCpSp_MUX_divfp_ce" orien="R0" />
         <branch name="XLXN_30(31:0)">
             <wire x2="4592" y1="816" y2="816" x1="3600" />
             <wire x2="4592" y1="816" y2="1136" x1="4592" />
@@ -744,7 +744,7 @@
             <wire x2="5216" y1="2064" y2="2064" x1="5184" />
         </branch>
         <iomarker fontsize="28" x="5216" y="2064" name="divfpce" orien="R0" />
-        <instance x="4832" y="272" name="XLXI_14(63:0)" orien="R0" />
+        <instance x="4832" y="272" name="CalculatePixOSCpSp_MUX_fi2fl_a(63:0)" orien="R0" />
         <branch name="kgainmux">
             <wire x2="2400" y1="304" y2="304" x1="1808" />
             <wire x2="2400" y1="304" y2="2816" x1="2400" />
@@ -799,8 +799,8 @@
             <wire x2="3136" y1="1408" y2="1408" x1="2944" />
             <wire x2="3120" y1="1136" y2="1136" x1="2944" />
         </branch>
-        <instance x="4864" y="2432" name="XLXI_23" orien="R0" />
-        <instance x="4864" y="2672" name="XLXI_24(11:0)" orien="R0" />
+        <instance x="4864" y="2432" name="CalculatePixOSCpSp_MUX_i2c_mem_ena" orien="R0" />
+        <instance x="4864" y="2672" name="CalculatePixOSCpSp_MUX_i2c_mem_addra(11:0)" orien="R0" />
         <branch name="i2c_mem_ena">
             <wire x2="5216" y1="2304" y2="2304" x1="5184" />
         </branch>

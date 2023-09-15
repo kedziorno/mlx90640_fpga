@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="virtex4" name="DeviceFamilyName">
+    <attr value="spartan3e" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -139,8 +139,8 @@
             <line x2="64" y1="0" y2="-64" x1="64" />
             <circle r="16" cx="144" cy="-32" />
         </blockdef>
-        <blockdef name="ramb16">
-            <timestamp>2007-9-26T16:56:25</timestamp>
+        <blockdef name="RAMB16">
+            <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
             <rect width="64" x="0" y="-588" height="24" />
@@ -351,7 +351,7 @@
             <blockpin signalname="mux_addr1(9)" name="I" />
             <blockpin signalname="XLXN_59" name="O" />
         </block>
-        <block symbolname="ramb16" name="mem_alphacomp_1">
+        <block symbolname="RAMB16" name="mem_alphacomp_1">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -419,7 +419,7 @@
             <blockpin name="DOPA(3:0)" />
             <blockpin name="DOPB(3:0)" />
         </block>
-        <block symbolname="m2_1" name="MUX_DO(31:0)">
+        <block symbolname="m2_1" name="CalculateAlphaComp_MUX_DO(31:0)">
             <blockpin signalname="XLXN_79(31:0)" name="D0" />
             <blockpin signalname="XLXN_78(31:0)" name="D1" />
             <blockpin signalname="mux_addr1(9)" name="S0" />
@@ -429,13 +429,13 @@
             <blockpin signalname="XLXN_236" name="I" />
             <blockpin signalname="XLXN_139(3:0)" name="O" />
         </block>
-        <block symbolname="m2_1" name="MUX_ADDR(9:0)">
+        <block symbolname="m2_1" name="CalculateAlphaComp_MUX_ADDR(9:0)">
             <blockpin signalname="XLXN_241(9:0)" name="D0" />
             <blockpin signalname="i_addr(9:0)" name="D1" />
             <blockpin signalname="o_rdy" name="S0" />
             <blockpin signalname="mux_addr1(9:0)" name="O" />
         </block>
-        <block symbolname="ramb16" name="mem_alphacomp_2">
+        <block symbolname="RAMB16" name="mem_alphacomp_2">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -503,13 +503,13 @@
             <blockpin name="DOPA(3:0)" />
             <blockpin name="DOPB(3:0)" />
         </block>
-        <block symbolname="mem_switchpattern" name="XLXI_30">
+        <block symbolname="mem_switchpattern" name="CalculateAlphaComp_mem_switchpattern">
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="XLXN_243(11:0)" name="i_pixel(11:0)" />
             <blockpin signalname="XLXN_242" name="o_pattern" />
         </block>
-        <block symbolname="ExtractKsTaParameters" name="XLXI_32">
+        <block symbolname="ExtractKsTaParameters" name="CalculateAlphaComp_extrkstaparam">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="XLXN_253(31:0)" name="o_ksta(31:0)" />
@@ -519,7 +519,7 @@
             <blockpin signalname="XLXN_249" name="o_rdy" />
             <blockpin signalname="XLXN_260(11:0)" name="i2c_mem_addra(11:0)" />
         </block>
-        <block symbolname="ExtractTGCParameter" name="XLXI_33">
+        <block symbolname="ExtractTGCParameter" name="CalculateAlphaComp_extrtgcparam">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="XLXN_251(31:0)" name="o_tgc(31:0)" />
@@ -529,15 +529,15 @@
             <blockpin signalname="XLXN_248" name="o_rdy" />
             <blockpin signalname="XLXN_261(11:0)" name="i2c_mem_addra(11:0)" />
         </block>
-        <block symbolname="rom_switchpattern_neg" name="XLXI_34">
+        <block symbolname="rom_switchpattern_neg" name="CalculateAlphaComp_rom_switchpattern_neg">
             <blockpin signalname="XLXN_242" name="pattern_in" />
             <blockpin signalname="XLXN_245(31:0)" name="pattern_out(31:0)" />
         </block>
-        <block symbolname="rom_switchpattern_pos" name="XLXI_35">
+        <block symbolname="rom_switchpattern_pos" name="CalculateAlphaComp_rom_switchpattern_pos">
             <blockpin signalname="XLXN_242" name="pattern_in" />
             <blockpin signalname="XLXN_244(31:0)" name="pattern_out(31:0)" />
         </block>
-        <block symbolname="CalculateAlphaComp_process_p0" name="XLXI_36">
+        <block symbolname="CalculateAlphaComp_process_p0" name="CalculateAlphaComp_process_p0_inst">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="i_run" name="i_run" />
@@ -585,7 +585,7 @@
             <blockpin signalname="subfpa(31:0)" name="subfpa(31:0)" />
             <blockpin signalname="subfpb(31:0)" name="subfpb(31:0)" />
         </block>
-        <block symbolname="mux3x1a" name="XLXI_40">
+        <block symbolname="mux3x1a" name="CalculateAlphaComp_mux3x1a_i2c_mem_ena">
             <blockpin signalname="XLXN_259" name="s1" />
             <blockpin signalname="XLXN_258" name="s0" />
             <blockpin signalname="XLXN_273" name="i2" />
@@ -593,7 +593,7 @@
             <blockpin signalname="XLXN_256" name="i0" />
             <blockpin signalname="i2c_mem_ena" name="o" />
         </block>
-        <block symbolname="mux3x1a" name="XLXI_42(11:0)">
+        <block symbolname="mux3x1a" name="CalculateAlphaComp_mux3x1a_i2c_mem_addra(11:0)">
             <blockpin signalname="XLXN_259" name="s1" />
             <blockpin signalname="XLXN_258" name="s0" />
             <blockpin signalname="XLXN_274(11:0)" name="i2" />
@@ -724,23 +724,23 @@
         <instance x="2096" y="3248" name="mem_alphacomp_1" orien="R0">
             <attrtext style="fontsize:28;fontname:Arial" attrname="InstName" x="0" y="0" type="instance" />
         </instance>
-        <instance x="3888" y="2960" name="MUX_DO(31:0)" orien="R0" />
+        <instance x="3888" y="2960" name="CalculateAlphaComp_MUX_DO(31:0)" orien="R0" />
         <instance x="1824" y="3152" name="XLXI_29(3:0)" orien="M180" />
-        <instance x="1392" y="2352" name="MUX_ADDR(9:0)" orien="M180" />
+        <instance x="1392" y="2352" name="CalculateAlphaComp_MUX_ADDR(9:0)" orien="M180" />
         <instance x="3280" y="3248" name="mem_alphacomp_2" orien="R0">
             <attrtext style="fontsize:28;fontname:Arial" attrname="InstName" x="0" y="0" type="instance" />
         </instance>
         <iomarker fontsize="28" x="1216" y="2448" name="i_addr(9:0)" orien="R180" />
         <iomarker fontsize="28" x="4240" y="2832" name="o_do(31:0)" orien="R0" />
-        <instance x="2784" y="1040" name="XLXI_32" orien="R0">
+        <instance x="2784" y="1040" name="CalculateAlphaComp_extrkstaparam" orien="R0">
         </instance>
-        <instance x="2800" y="576" name="XLXI_33" orien="R0">
+        <instance x="2800" y="576" name="CalculateAlphaComp_extrtgcparam" orien="R0">
         </instance>
-        <instance x="3232" y="1536" name="XLXI_35" orien="R180">
+        <instance x="3232" y="1536" name="CalculateAlphaComp_rom_switchpattern_pos" orien="R180">
         </instance>
-        <instance x="3232" y="1696" name="XLXI_34" orien="R180">
+        <instance x="3232" y="1696" name="CalculateAlphaComp_rom_switchpattern_neg" orien="R180">
         </instance>
-        <instance x="2848" y="1504" name="XLXI_30" orien="R0">
+        <instance x="2848" y="1504" name="CalculateAlphaComp_mem_switchpattern" orien="R0">
         </instance>
         <branch name="XLXN_242">
             <wire x2="3248" y1="1344" y2="1344" x1="3232" />
@@ -749,7 +749,7 @@
             <wire x2="3248" y1="1568" y2="1568" x1="3232" />
             <wire x2="3248" y1="1728" y2="1728" x1="3232" />
         </branch>
-        <instance x="832" y="1888" name="XLXI_36" orien="R0">
+        <instance x="832" y="1888" name="CalculateAlphaComp_process_p0_inst" orien="R0">
         </instance>
         <branch name="XLXN_243(11:0)">
             <wire x2="2240" y1="1344" y2="1344" x1="1632" />
@@ -815,7 +815,7 @@
             <wire x2="3360" y1="416" y2="416" x1="3232" />
             <wire x2="3360" y1="416" y2="2016" x1="3360" />
         </branch>
-        <instance x="3616" y="688" name="XLXI_40" orien="R0">
+        <instance x="3616" y="688" name="CalculateAlphaComp_mux3x1a_i2c_mem_ena" orien="R0">
         </instance>
         <branch name="XLXN_256">
             <wire x2="3616" y1="608" y2="608" x1="3232" />
@@ -844,7 +844,7 @@
         <branch name="XLXN_260(11:0)">
             <wire x2="3616" y1="1200" y2="1200" x1="3248" />
         </branch>
-        <instance x="3616" y="1264" name="XLXI_42(11:0)" orien="R0">
+        <instance x="3616" y="1264" name="CalculateAlphaComp_mux3x1a_i2c_mem_addra(11:0)" orien="R0">
         </instance>
         <branch name="XLXN_261(11:0)">
             <wire x2="3440" y1="736" y2="736" x1="3232" />

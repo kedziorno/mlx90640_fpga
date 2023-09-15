@@ -7,13 +7,13 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : CalculateVDD.vhf
--- /___/   /\     Timestamp : 06/19/2023 15:05:23
+-- /___/   /\     Timestamp : 09/03/2023 19:09:09
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
---Command: sch2hdl -sympath /home/user/workspace/melexis_mlx90641/ipcore_dir -intstyle ise -family virtex4 -flat -suppress -vhdl /home/user/workspace/melexis_mlx90641/CalculateVDD.vhf -w /home/user/workspace/melexis_mlx90641/CalculateVDD.sch
+--Command: sch2hdl -sympath /home/user/workspace/mlx90640_fpga/ipcore_dir -intstyle ise -family spartan3e -flat -suppress -vhdl /home/user/workspace/mlx90640_fpga/CalculateVDD.vhf -w /home/user/workspace/mlx90640_fpga/CalculateVDD.sch
 --Design Name: CalculateVDD
---Device: virtex4
+--Device: spartan3e
 --Purpose:
 --    This vhdl netlist is translated from an ECS schematic. It can be 
 --    synthesized and simulated, but it should not be modified. 
@@ -97,96 +97,73 @@ end ExtractVDDParameters_MUSER_CalculateVDD;
 
 architecture BEHAVIORAL of ExtractVDDParameters_MUSER_CalculateVDD is
    attribute BOX_TYPE            : string ;
-   attribute DOA_REG             : string ;
-   attribute DOB_REG             : string ;
-   attribute INIT_00             : string ;
-   attribute INIT_01             : string ;
-   attribute INIT_02             : string ;
-   attribute INIT_03             : string ;
-   attribute INIT_04             : string ;
-   attribute INIT_05             : string ;
-   attribute INIT_06             : string ;
-   attribute INIT_07             : string ;
-   attribute INIT_08             : string ;
-   attribute INIT_09             : string ;
-   attribute INIT_0A             : string ;
-   attribute INIT_0B             : string ;
-   attribute INIT_0C             : string ;
-   attribute INIT_0D             : string ;
-   attribute INIT_0E             : string ;
-   attribute INIT_0F             : string ;
    attribute INIT_10             : string ;
-   attribute INIT_11             : string ;
-   attribute INIT_12             : string ;
-   attribute INIT_13             : string ;
-   attribute INIT_14             : string ;
-   attribute INIT_15             : string ;
-   attribute INIT_16             : string ;
-   attribute INIT_17             : string ;
-   attribute INIT_18             : string ;
-   attribute INIT_19             : string ;
-   attribute INIT_1A             : string ;
-   attribute INIT_1B             : string ;
-   attribute INIT_1C             : string ;
-   attribute INIT_1D             : string ;
-   attribute INIT_1E             : string ;
+   attribute INIT_0F             : string ;
+   attribute INIT_0E             : string ;
+   attribute INIT_0D             : string ;
+   attribute INIT_0C             : string ;
+   attribute INIT_0B             : string ;
+   attribute INIT_0A             : string ;
+   attribute INIT_09             : string ;
+   attribute INIT_08             : string ;
+   attribute INIT_07             : string ;
+   attribute INIT_06             : string ;
+   attribute INIT_05             : string ;
+   attribute INIT_04             : string ;
+   attribute INIT_03             : string ;
+   attribute INIT_02             : string ;
+   attribute INIT_01             : string ;
+   attribute INIT_00             : string ;
    attribute INIT_1F             : string ;
-   attribute INIT_20             : string ;
-   attribute INIT_21             : string ;
-   attribute INIT_22             : string ;
-   attribute INIT_23             : string ;
-   attribute INIT_24             : string ;
-   attribute INIT_25             : string ;
-   attribute INIT_26             : string ;
-   attribute INIT_27             : string ;
-   attribute INIT_28             : string ;
-   attribute INIT_29             : string ;
-   attribute INIT_2A             : string ;
-   attribute INIT_2B             : string ;
-   attribute INIT_2C             : string ;
-   attribute INIT_2D             : string ;
-   attribute INIT_2E             : string ;
-   attribute INIT_2F             : string ;
-   attribute INIT_30             : string ;
-   attribute INIT_31             : string ;
-   attribute INIT_32             : string ;
-   attribute INIT_33             : string ;
-   attribute INIT_34             : string ;
-   attribute INIT_35             : string ;
-   attribute INIT_36             : string ;
-   attribute INIT_37             : string ;
-   attribute INIT_38             : string ;
-   attribute INIT_39             : string ;
-   attribute INIT_3A             : string ;
-   attribute INIT_3B             : string ;
-   attribute INIT_3C             : string ;
-   attribute INIT_3D             : string ;
-   attribute INIT_3E             : string ;
+   attribute INIT_1E             : string ;
+   attribute INIT_1D             : string ;
+   attribute INIT_1C             : string ;
+   attribute INIT_1B             : string ;
+   attribute INIT_1A             : string ;
+   attribute INIT_19             : string ;
+   attribute INIT_18             : string ;
+   attribute INIT_17             : string ;
+   attribute INIT_16             : string ;
+   attribute INIT_15             : string ;
+   attribute INIT_14             : string ;
+   attribute INIT_13             : string ;
+   attribute INIT_12             : string ;
+   attribute INIT_11             : string ;
    attribute INIT_3F             : string ;
-   attribute INIT_A              : string ;
-   attribute INIT_B              : string ;
-   attribute INITP_00            : string ;
-   attribute INITP_01            : string ;
-   attribute INITP_02            : string ;
-   attribute INITP_03            : string ;
-   attribute INITP_04            : string ;
-   attribute INITP_05            : string ;
-   attribute INITP_06            : string ;
-   attribute INITP_07            : string ;
-   attribute INIT_FILE           : string ;
-   attribute INVERT_CLK_DOA_REG  : string ;
-   attribute INVERT_CLK_DOB_REG  : string ;
-   attribute RAM_EXTENSION_A     : string ;
-   attribute RAM_EXTENSION_B     : string ;
-   attribute READ_WIDTH_A        : string ;
-   attribute READ_WIDTH_B        : string ;
-   attribute SRVAL_A             : string ;
-   attribute SRVAL_B             : string ;
-   attribute WRITE_MODE_A        : string ;
-   attribute WRITE_MODE_B        : string ;
-   attribute WRITE_WIDTH_A       : string ;
-   attribute WRITE_WIDTH_B       : string ;
+   attribute INIT_3E             : string ;
+   attribute INIT_3D             : string ;
+   attribute INIT_3C             : string ;
+   attribute INIT_3B             : string ;
+   attribute INIT_3A             : string ;
+   attribute INIT_39             : string ;
+   attribute INIT_38             : string ;
+   attribute INIT_37             : string ;
+   attribute INIT_36             : string ;
+   attribute INIT_35             : string ;
+   attribute INIT_34             : string ;
+   attribute INIT_33             : string ;
+   attribute INIT_32             : string ;
+   attribute INIT_31             : string ;
+   attribute INIT_30             : string ;
+   attribute INIT_2F             : string ;
+   attribute INIT_2E             : string ;
+   attribute INIT_2D             : string ;
+   attribute INIT_2C             : string ;
+   attribute INIT_2B             : string ;
+   attribute INIT_2A             : string ;
+   attribute INIT_29             : string ;
+   attribute INIT_28             : string ;
+   attribute INIT_27             : string ;
+   attribute INIT_26             : string ;
+   attribute INIT_25             : string ;
+   attribute INIT_24             : string ;
+   attribute INIT_23             : string ;
+   attribute INIT_22             : string ;
+   attribute INIT_21             : string ;
+   attribute INIT_20             : string ;
    attribute SIM_COLLISION_CHECK : string ;
+   attribute READ_WIDTH_B        : string ;
+   attribute READ_WIDTH_A        : string ;
    signal ADDRA         : std_logic_vector (14 downto 0);
    signal ADDRB         : std_logic_vector (14 downto 0);
    signal XLXN_605      : std_logic_vector (31 downto 0);
@@ -209,171 +186,23 @@ architecture BEHAVIORAL of ExtractVDDParameters_MUSER_CalculateVDD is
    end component;
    attribute BOX_TYPE of BUF : component is "BLACK_BOX";
    
+   component ExtractVDDParameters_process_p0
+      port ( i_clock       : in    std_logic; 
+             i_reset       : in    std_logic; 
+             i_run         : in    std_logic; 
+             i2c_mem_douta : in    std_logic_vector (7 downto 0); 
+             data_kvdd     : in    std_logic_vector (31 downto 0); 
+             data_vdd25    : in    std_logic_vector (31 downto 0); 
+             i2c_mem_ena   : out   std_logic; 
+             o_rdy         : out   std_logic; 
+             i2c_mem_addra : out   std_logic_vector (11 downto 0); 
+             address_kvdd  : out   std_logic_vector (14 downto 0); 
+             address_vdd25 : out   std_logic_vector (14 downto 0); 
+             o_kvdd        : out   std_logic_vector (31 downto 0); 
+             o_vdd25       : out   std_logic_vector (31 downto 0));
+   end component;
+   
    component RAMB16
-      -- synopsys translate_off
-      generic( DOA_REG : integer :=  0;
-               DOB_REG : integer :=  0;
-               INIT_00 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_01 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_02 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_03 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_04 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_05 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_06 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_07 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_08 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_09 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0A : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0B : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0C : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0D : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0E : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0F : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_10 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_11 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_12 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_13 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_14 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_15 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_16 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_17 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_18 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_19 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1A : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1B : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1C : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1D : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1E : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1F : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_20 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_21 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_22 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_23 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_24 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_25 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_26 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_27 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_28 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_29 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2A : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2B : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2C : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2D : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2E : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2F : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_30 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_31 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_32 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_33 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_34 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_35 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_36 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_37 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_38 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_39 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3A : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3B : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3C : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3D : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3E : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3F : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_A : bit_vector :=  x"000000000";
-               INIT_B : bit_vector :=  x"000000000";
-               INITP_00 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_01 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_02 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_03 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_04 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_05 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_06 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_07 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_FILE : string :=  "NONE";
-               INVERT_CLK_DOA_REG : boolean :=  FALSE;
-               INVERT_CLK_DOB_REG : boolean :=  FALSE;
-               RAM_EXTENSION_A : string :=  "NONE";
-               RAM_EXTENSION_B : string :=  "NONE";
-               READ_WIDTH_A : integer :=  0;
-               READ_WIDTH_B : integer :=  0;
-               SRVAL_A : bit_vector :=  x"000000000";
-               SRVAL_B : bit_vector :=  x"000000000";
-               WRITE_MODE_A : string :=  "WRITE_FIRST";
-               WRITE_MODE_B : string :=  "WRITE_FIRST";
-               WRITE_WIDTH_A : integer :=  0;
-               WRITE_WIDTH_B : integer :=  0;
-               SIM_COLLISION_CHECK : string :=  "ALL");
-      -- synopsys translate_on
       port ( ADDRA       : in    std_logic_vector (14 downto 0); 
              ADDRB       : in    std_logic_vector (14 downto 0); 
              CASCADEINA  : in    std_logic; 
@@ -399,190 +228,11 @@ architecture BEHAVIORAL of ExtractVDDParameters_MUSER_CalculateVDD is
              DOPA        : out   std_logic_vector (3 downto 0); 
              DOPB        : out   std_logic_vector (3 downto 0));
    end component;
-   attribute DOA_REG of RAMB16 : component is "0";
-   attribute DOB_REG of RAMB16 : component is "0";
-   attribute INIT_00 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_01 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_02 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_03 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_04 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_05 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_06 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_07 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_08 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_09 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0A of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0B of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0C of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0D of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0E of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0F of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_10 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_11 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_12 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_13 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_14 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_15 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_16 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_17 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_18 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_19 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1A of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1B of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1C of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1D of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1E of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1F of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_20 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_21 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_22 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_23 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_24 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_25 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_26 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_27 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_28 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_29 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2A of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2B of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2C of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2D of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2E of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2F of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_30 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_31 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_32 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_33 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_34 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_35 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_36 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_37 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_38 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_39 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3A of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3B of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3C of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3D of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3E of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3F of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_A of RAMB16 : component is "000000000";
-   attribute INIT_B of RAMB16 : component is "000000000";
-   attribute INITP_00 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_01 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_02 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_03 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_04 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_05 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_06 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_07 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_FILE of RAMB16 : component is "NONE";
-   attribute INVERT_CLK_DOA_REG of RAMB16 : component is "FALSE";
-   attribute INVERT_CLK_DOB_REG of RAMB16 : component is "FALSE";
-   attribute RAM_EXTENSION_A of RAMB16 : component is "NONE";
-   attribute RAM_EXTENSION_B of RAMB16 : component is "NONE";
-   attribute READ_WIDTH_A of RAMB16 : component is "0";
-   attribute READ_WIDTH_B of RAMB16 : component is "0";
-   attribute SRVAL_A of RAMB16 : component is "000000000";
-   attribute SRVAL_B of RAMB16 : component is "000000000";
-   attribute WRITE_MODE_A of RAMB16 : component is "WRITE_FIRST";
-   attribute WRITE_MODE_B of RAMB16 : component is "WRITE_FIRST";
-   attribute WRITE_WIDTH_A of RAMB16 : component is "0";
-   attribute WRITE_WIDTH_B of RAMB16 : component is "0";
-   attribute SIM_COLLISION_CHECK of RAMB16 : component is "ALL";
-   attribute BOX_TYPE of RAMB16 : component is "BLACK_BOX";
    
    component GND
       port ( G : out   std_logic);
    end component;
    attribute BOX_TYPE of GND : component is "BLACK_BOX";
-   
-   component ExtractVDDParameters_process_p0
-      port ( i_clock       : in    std_logic; 
-             i_reset       : in    std_logic; 
-             i_run         : in    std_logic; 
-             i2c_mem_douta : in    std_logic_vector (7 downto 0); 
-             data_kvdd     : in    std_logic_vector (31 downto 0); 
-             data_vdd25    : in    std_logic_vector (31 downto 0); 
-             i2c_mem_ena   : out   std_logic; 
-             o_rdy         : out   std_logic; 
-             i2c_mem_addra : out   std_logic_vector (11 downto 0); 
-             address_kvdd  : out   std_logic_vector (14 downto 0); 
-             address_vdd25 : out   std_logic_vector (14 downto 0); 
-             o_kvdd        : out   std_logic_vector (31 downto 0); 
-             o_vdd25       : out   std_logic_vector (31 downto 0));
-   end component;
    
    attribute INIT_10 of MEM_KVDD_VDD25 : label is 
          "c5720000c5740000c5760000c5780000c57a0000c57c0000c57e0000c5800000";
@@ -835,6 +485,21 @@ begin
    BUF_vdd25_14 : BUF
       port map (I=>XLXN_615(14),
                 O=>ADDRB(14));
+   
+   ExtractVDDParameters_process_p0_inst : ExtractVDDParameters_process_p0
+      port map (data_kvdd(31 downto 0)=>XLXN_605(31 downto 0),
+                data_vdd25(31 downto 0)=>XLXN_606(31 downto 0),
+                i_clock=>i_clock,
+                i_reset=>i_reset,
+                i_run=>i_run,
+                i2c_mem_douta(7 downto 0)=>i2c_mem_douta(7 downto 0),
+                address_kvdd(14 downto 0)=>XLXN_614(14 downto 0),
+                address_vdd25(14 downto 0)=>XLXN_615(14 downto 0),
+                i2c_mem_addra(11 downto 0)=>i2c_mem_addra(11 downto 0),
+                i2c_mem_ena=>i2c_mem_ena,
+                o_kvdd(31 downto 0)=>o_kvdd(31 downto 0),
+                o_rdy=>o_rdy,
+                o_vdd25(31 downto 0)=>o_vdd25(31 downto 0));
    
    MEM_KVDD_VDD25 : RAMB16
    -- synopsys translate_off
@@ -1247,21 +912,6 @@ begin
    XLXI_195 : GND
       port map (G=>XLXN_638);
    
-   XLXI_197 : ExtractVDDParameters_process_p0
-      port map (data_kvdd(31 downto 0)=>XLXN_605(31 downto 0),
-                data_vdd25(31 downto 0)=>XLXN_606(31 downto 0),
-                i_clock=>i_clock,
-                i_reset=>i_reset,
-                i_run=>i_run,
-                i2c_mem_douta(7 downto 0)=>i2c_mem_douta(7 downto 0),
-                address_kvdd(14 downto 0)=>XLXN_614(14 downto 0),
-                address_vdd25(14 downto 0)=>XLXN_615(14 downto 0),
-                i2c_mem_addra(11 downto 0)=>i2c_mem_addra(11 downto 0),
-                i2c_mem_ena=>i2c_mem_ena,
-                o_kvdd(31 downto 0)=>o_kvdd(31 downto 0),
-                o_rdy=>o_rdy,
-                o_vdd25(31 downto 0)=>o_vdd25(31 downto 0));
-   
 end BEHAVIORAL;
 
 
@@ -1334,11 +984,28 @@ architecture BEHAVIORAL of CalculateVDD is
    signal XLXN_23                    : std_logic_vector (11 downto 0);
    signal XLXN_24                    : std_logic_vector (11 downto 0);
    signal XLXN_27                    : std_logic;
+   component ExtractVDDParameters_MUSER_CalculateVDD
+      port ( i_clock       : in    std_logic; 
+             i_reset       : in    std_logic; 
+             i_run         : in    std_logic; 
+             i2c_mem_douta : in    std_logic_vector (7 downto 0); 
+             i2c_mem_ena   : out   std_logic; 
+             o_rdy         : out   std_logic; 
+             i2c_mem_addra : out   std_logic_vector (11 downto 0); 
+             o_kvdd        : out   std_logic_vector (31 downto 0); 
+             o_vdd25       : out   std_logic_vector (31 downto 0));
+   end component;
+   
    component M2_1_MXILINX_CalculateVDD
       port ( D0 : in    std_logic; 
              D1 : in    std_logic; 
              S0 : in    std_logic; 
              O  : out   std_logic);
+   end component;
+   
+   component CalculateVDD_pow2_2bit
+      port ( x     : in    std_logic_vector (1 downto 0); 
+             pow2x : out   std_logic_vector (31 downto 0));
    end component;
    
    component CalculateVDD_process_p0
@@ -1395,53 +1062,196 @@ architecture BEHAVIORAL of CalculateVDD is
              subfpb                     : out   std_logic_vector (31 downto 0));
    end component;
    
-   component CalculateVDD_pow2_2bit
-      port ( x     : in    std_logic_vector (1 downto 0); 
-             pow2x : out   std_logic_vector (31 downto 0));
-   end component;
-   
-   component ExtractVDDParameters_MUSER_CalculateVDD
-      port ( i_clock       : in    std_logic; 
-             i_reset       : in    std_logic; 
-             i_run         : in    std_logic; 
-             i2c_mem_douta : in    std_logic_vector (7 downto 0); 
-             i2c_mem_ena   : out   std_logic; 
-             o_rdy         : out   std_logic; 
-             i2c_mem_addra : out   std_logic_vector (11 downto 0); 
-             o_kvdd        : out   std_logic_vector (31 downto 0); 
-             o_vdd25       : out   std_logic_vector (31 downto 0));
-   end component;
-   
-   attribute HU_SET of MUX_i2c_ena : label is "MUX_i2c_ena_1325";
-   attribute HU_SET of XLXI_14_0 : label is "XLXI_14_0_1312";
-   attribute HU_SET of XLXI_14_1 : label is "XLXI_14_1_1311";
-   attribute HU_SET of XLXI_14_2 : label is "XLXI_14_2_1310";
-   attribute HU_SET of XLXI_14_3 : label is "XLXI_14_3_1309";
-   attribute HU_SET of XLXI_14_4 : label is "XLXI_14_4_1308";
-   attribute HU_SET of XLXI_14_5 : label is "XLXI_14_5_1307";
-   attribute HU_SET of XLXI_14_6 : label is "XLXI_14_6_1306";
-   attribute HU_SET of XLXI_14_7 : label is "XLXI_14_7_1305";
-   attribute HU_SET of XLXI_16_0 : label is "XLXI_16_0_1324";
-   attribute HU_SET of XLXI_16_1 : label is "XLXI_16_1_1323";
-   attribute HU_SET of XLXI_16_2 : label is "XLXI_16_2_1322";
-   attribute HU_SET of XLXI_16_3 : label is "XLXI_16_3_1321";
-   attribute HU_SET of XLXI_16_4 : label is "XLXI_16_4_1320";
-   attribute HU_SET of XLXI_16_5 : label is "XLXI_16_5_1319";
-   attribute HU_SET of XLXI_16_6 : label is "XLXI_16_6_1318";
-   attribute HU_SET of XLXI_16_7 : label is "XLXI_16_7_1317";
-   attribute HU_SET of XLXI_16_8 : label is "XLXI_16_8_1316";
-   attribute HU_SET of XLXI_16_9 : label is "XLXI_16_9_1315";
-   attribute HU_SET of XLXI_16_10 : label is "XLXI_16_10_1314";
-   attribute HU_SET of XLXI_16_11 : label is "XLXI_16_11_1313";
+   attribute HU_SET of CalculateVDD_MUX_i2c_ena : label is 
+         "CalculateVDD_MUX_i2c_ena_20";
+   attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_0 : label is 
+         "CalculateVDD_MUX_i2c_mem_addra_0_19";
+   attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_1 : label is 
+         "CalculateVDD_MUX_i2c_mem_addra_1_18";
+   attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_2 : label is 
+         "CalculateVDD_MUX_i2c_mem_addra_2_17";
+   attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_3 : label is 
+         "CalculateVDD_MUX_i2c_mem_addra_3_16";
+   attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_4 : label is 
+         "CalculateVDD_MUX_i2c_mem_addra_4_15";
+   attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_5 : label is 
+         "CalculateVDD_MUX_i2c_mem_addra_5_14";
+   attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_6 : label is 
+         "CalculateVDD_MUX_i2c_mem_addra_6_13";
+   attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_7 : label is 
+         "CalculateVDD_MUX_i2c_mem_addra_7_12";
+   attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_8 : label is 
+         "CalculateVDD_MUX_i2c_mem_addra_8_11";
+   attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_9 : label is 
+         "CalculateVDD_MUX_i2c_mem_addra_9_10";
+   attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_10 : label is 
+         "CalculateVDD_MUX_i2c_mem_addra_10_9";
+   attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_11 : label is 
+         "CalculateVDD_MUX_i2c_mem_addra_11_8";
+   attribute HU_SET of CalculateVDD_MUX_i2c_mem_douta_0 : label is 
+         "CalculateVDD_MUX_i2c_mem_douta_0_7";
+   attribute HU_SET of CalculateVDD_MUX_i2c_mem_douta_1 : label is 
+         "CalculateVDD_MUX_i2c_mem_douta_1_6";
+   attribute HU_SET of CalculateVDD_MUX_i2c_mem_douta_2 : label is 
+         "CalculateVDD_MUX_i2c_mem_douta_2_5";
+   attribute HU_SET of CalculateVDD_MUX_i2c_mem_douta_3 : label is 
+         "CalculateVDD_MUX_i2c_mem_douta_3_4";
+   attribute HU_SET of CalculateVDD_MUX_i2c_mem_douta_4 : label is 
+         "CalculateVDD_MUX_i2c_mem_douta_4_3";
+   attribute HU_SET of CalculateVDD_MUX_i2c_mem_douta_5 : label is 
+         "CalculateVDD_MUX_i2c_mem_douta_5_2";
+   attribute HU_SET of CalculateVDD_MUX_i2c_mem_douta_6 : label is 
+         "CalculateVDD_MUX_i2c_mem_douta_6_1";
+   attribute HU_SET of CalculateVDD_MUX_i2c_mem_douta_7 : label is 
+         "CalculateVDD_MUX_i2c_mem_douta_7_0";
 begin
    CONST0(7 downto 0) <= x"00";
-   MUX_i2c_ena : M2_1_MXILINX_CalculateVDD
+   CalculateVDD_extractvddparameters : ExtractVDDParameters_MUSER_CalculateVDD
+      port map (i_clock=>i_clock,
+                i_reset=>i_reset,
+                i_run=>XLXN_27,
+                i2c_mem_douta(7 downto 0)=>i2c_mem_douta(7 downto 0),
+                i2c_mem_addra(11 downto 0)=>XLXN_24(11 downto 0),
+                i2c_mem_ena=>XLXN_11,
+                o_kvdd(31 downto 0)=>ExtractVDDParameters_kvdd(31 downto 0),
+                o_rdy=>ExractVDDParameters_rdy,
+                o_vdd25(31 downto 0)=>ExtractVDDParameters_vdd25(31 downto 0));
+   
+   CalculateVDD_MUX_i2c_ena : M2_1_MXILINX_CalculateVDD
       port map (D0=>XLXN_22,
                 D1=>XLXN_11,
                 S0=>XLXN_9,
                 O=>i2c_mem_ena);
    
-   XLXI_1 : CalculateVDD_process_p0
+   CalculateVDD_MUX_i2c_mem_addra_0 : M2_1_MXILINX_CalculateVDD
+      port map (D0=>XLXN_23(0),
+                D1=>XLXN_24(0),
+                S0=>XLXN_9,
+                O=>i2c_mem_addra(0));
+   
+   CalculateVDD_MUX_i2c_mem_addra_1 : M2_1_MXILINX_CalculateVDD
+      port map (D0=>XLXN_23(1),
+                D1=>XLXN_24(1),
+                S0=>XLXN_9,
+                O=>i2c_mem_addra(1));
+   
+   CalculateVDD_MUX_i2c_mem_addra_2 : M2_1_MXILINX_CalculateVDD
+      port map (D0=>XLXN_23(2),
+                D1=>XLXN_24(2),
+                S0=>XLXN_9,
+                O=>i2c_mem_addra(2));
+   
+   CalculateVDD_MUX_i2c_mem_addra_3 : M2_1_MXILINX_CalculateVDD
+      port map (D0=>XLXN_23(3),
+                D1=>XLXN_24(3),
+                S0=>XLXN_9,
+                O=>i2c_mem_addra(3));
+   
+   CalculateVDD_MUX_i2c_mem_addra_4 : M2_1_MXILINX_CalculateVDD
+      port map (D0=>XLXN_23(4),
+                D1=>XLXN_24(4),
+                S0=>XLXN_9,
+                O=>i2c_mem_addra(4));
+   
+   CalculateVDD_MUX_i2c_mem_addra_5 : M2_1_MXILINX_CalculateVDD
+      port map (D0=>XLXN_23(5),
+                D1=>XLXN_24(5),
+                S0=>XLXN_9,
+                O=>i2c_mem_addra(5));
+   
+   CalculateVDD_MUX_i2c_mem_addra_6 : M2_1_MXILINX_CalculateVDD
+      port map (D0=>XLXN_23(6),
+                D1=>XLXN_24(6),
+                S0=>XLXN_9,
+                O=>i2c_mem_addra(6));
+   
+   CalculateVDD_MUX_i2c_mem_addra_7 : M2_1_MXILINX_CalculateVDD
+      port map (D0=>XLXN_23(7),
+                D1=>XLXN_24(7),
+                S0=>XLXN_9,
+                O=>i2c_mem_addra(7));
+   
+   CalculateVDD_MUX_i2c_mem_addra_8 : M2_1_MXILINX_CalculateVDD
+      port map (D0=>XLXN_23(8),
+                D1=>XLXN_24(8),
+                S0=>XLXN_9,
+                O=>i2c_mem_addra(8));
+   
+   CalculateVDD_MUX_i2c_mem_addra_9 : M2_1_MXILINX_CalculateVDD
+      port map (D0=>XLXN_23(9),
+                D1=>XLXN_24(9),
+                S0=>XLXN_9,
+                O=>i2c_mem_addra(9));
+   
+   CalculateVDD_MUX_i2c_mem_addra_10 : M2_1_MXILINX_CalculateVDD
+      port map (D0=>XLXN_23(10),
+                D1=>XLXN_24(10),
+                S0=>XLXN_9,
+                O=>i2c_mem_addra(10));
+   
+   CalculateVDD_MUX_i2c_mem_addra_11 : M2_1_MXILINX_CalculateVDD
+      port map (D0=>XLXN_23(11),
+                D1=>XLXN_24(11),
+                S0=>XLXN_9,
+                O=>i2c_mem_addra(11));
+   
+   CalculateVDD_MUX_i2c_mem_douta_0 : M2_1_MXILINX_CalculateVDD
+      port map (D0=>i2c_mem_douta(0),
+                D1=>CONST0(0),
+                S0=>XLXN_9,
+                O=>XLXN_17(0));
+   
+   CalculateVDD_MUX_i2c_mem_douta_1 : M2_1_MXILINX_CalculateVDD
+      port map (D0=>i2c_mem_douta(1),
+                D1=>CONST0(1),
+                S0=>XLXN_9,
+                O=>XLXN_17(1));
+   
+   CalculateVDD_MUX_i2c_mem_douta_2 : M2_1_MXILINX_CalculateVDD
+      port map (D0=>i2c_mem_douta(2),
+                D1=>CONST0(2),
+                S0=>XLXN_9,
+                O=>XLXN_17(2));
+   
+   CalculateVDD_MUX_i2c_mem_douta_3 : M2_1_MXILINX_CalculateVDD
+      port map (D0=>i2c_mem_douta(3),
+                D1=>CONST0(3),
+                S0=>XLXN_9,
+                O=>XLXN_17(3));
+   
+   CalculateVDD_MUX_i2c_mem_douta_4 : M2_1_MXILINX_CalculateVDD
+      port map (D0=>i2c_mem_douta(4),
+                D1=>CONST0(4),
+                S0=>XLXN_9,
+                O=>XLXN_17(4));
+   
+   CalculateVDD_MUX_i2c_mem_douta_5 : M2_1_MXILINX_CalculateVDD
+      port map (D0=>i2c_mem_douta(5),
+                D1=>CONST0(5),
+                S0=>XLXN_9,
+                O=>XLXN_17(5));
+   
+   CalculateVDD_MUX_i2c_mem_douta_6 : M2_1_MXILINX_CalculateVDD
+      port map (D0=>i2c_mem_douta(6),
+                D1=>CONST0(6),
+                S0=>XLXN_9,
+                O=>XLXN_17(6));
+   
+   CalculateVDD_MUX_i2c_mem_douta_7 : M2_1_MXILINX_CalculateVDD
+      port map (D0=>i2c_mem_douta(7),
+                D1=>CONST0(7),
+                S0=>XLXN_9,
+                O=>XLXN_17(7));
+   
+   CalculateVDD_pow2_2bit_resee : CalculateVDD_pow2_2bit
+      port map (x(1 downto 0)=>XLXN_6(1 downto 0),
+                pow2x(31 downto 0)=>XLXN_15(31 downto 0));
+   
+   CalculateVDD_pow2_2bit_resreg : CalculateVDD_pow2_2bit
+      port map (x(1 downto 0)=>XLXN_3(1 downto 0),
+                pow2x(31 downto 0)=>XLXN_16(31 downto 0));
+   
+   CalculateVDD_process_p0_inst : CalculateVDD_process_p0
       port map (addfpr(31 downto 0)=>addfpr(31 downto 0),
                 addfprdy=>addfprdy,
                 divfpr(31 downto 0)=>divfpr(31 downto 0),
@@ -1495,145 +1305,6 @@ begin
                 subfpce=>subfpce,
                 subfpond=>subfpond,
                 subfpsclr=>subfpsclr);
-   
-   XLXI_2 : CalculateVDD_pow2_2bit
-      port map (x(1 downto 0)=>XLXN_6(1 downto 0),
-                pow2x(31 downto 0)=>XLXN_15(31 downto 0));
-   
-   XLXI_3 : CalculateVDD_pow2_2bit
-      port map (x(1 downto 0)=>XLXN_3(1 downto 0),
-                pow2x(31 downto 0)=>XLXN_16(31 downto 0));
-   
-   XLXI_6 : ExtractVDDParameters_MUSER_CalculateVDD
-      port map (i_clock=>i_clock,
-                i_reset=>i_reset,
-                i_run=>XLXN_27,
-                i2c_mem_douta(7 downto 0)=>i2c_mem_douta(7 downto 0),
-                i2c_mem_addra(11 downto 0)=>XLXN_24(11 downto 0),
-                i2c_mem_ena=>XLXN_11,
-                o_kvdd(31 downto 0)=>ExtractVDDParameters_kvdd(31 downto 0),
-                o_rdy=>ExractVDDParameters_rdy,
-                o_vdd25(31 downto 0)=>ExtractVDDParameters_vdd25(31 downto 0));
-   
-   XLXI_14_0 : M2_1_MXILINX_CalculateVDD
-      port map (D0=>i2c_mem_douta(0),
-                D1=>CONST0(0),
-                S0=>XLXN_9,
-                O=>XLXN_17(0));
-   
-   XLXI_14_1 : M2_1_MXILINX_CalculateVDD
-      port map (D0=>i2c_mem_douta(1),
-                D1=>CONST0(1),
-                S0=>XLXN_9,
-                O=>XLXN_17(1));
-   
-   XLXI_14_2 : M2_1_MXILINX_CalculateVDD
-      port map (D0=>i2c_mem_douta(2),
-                D1=>CONST0(2),
-                S0=>XLXN_9,
-                O=>XLXN_17(2));
-   
-   XLXI_14_3 : M2_1_MXILINX_CalculateVDD
-      port map (D0=>i2c_mem_douta(3),
-                D1=>CONST0(3),
-                S0=>XLXN_9,
-                O=>XLXN_17(3));
-   
-   XLXI_14_4 : M2_1_MXILINX_CalculateVDD
-      port map (D0=>i2c_mem_douta(4),
-                D1=>CONST0(4),
-                S0=>XLXN_9,
-                O=>XLXN_17(4));
-   
-   XLXI_14_5 : M2_1_MXILINX_CalculateVDD
-      port map (D0=>i2c_mem_douta(5),
-                D1=>CONST0(5),
-                S0=>XLXN_9,
-                O=>XLXN_17(5));
-   
-   XLXI_14_6 : M2_1_MXILINX_CalculateVDD
-      port map (D0=>i2c_mem_douta(6),
-                D1=>CONST0(6),
-                S0=>XLXN_9,
-                O=>XLXN_17(6));
-   
-   XLXI_14_7 : M2_1_MXILINX_CalculateVDD
-      port map (D0=>i2c_mem_douta(7),
-                D1=>CONST0(7),
-                S0=>XLXN_9,
-                O=>XLXN_17(7));
-   
-   XLXI_16_0 : M2_1_MXILINX_CalculateVDD
-      port map (D0=>XLXN_23(0),
-                D1=>XLXN_24(0),
-                S0=>XLXN_9,
-                O=>i2c_mem_addra(0));
-   
-   XLXI_16_1 : M2_1_MXILINX_CalculateVDD
-      port map (D0=>XLXN_23(1),
-                D1=>XLXN_24(1),
-                S0=>XLXN_9,
-                O=>i2c_mem_addra(1));
-   
-   XLXI_16_2 : M2_1_MXILINX_CalculateVDD
-      port map (D0=>XLXN_23(2),
-                D1=>XLXN_24(2),
-                S0=>XLXN_9,
-                O=>i2c_mem_addra(2));
-   
-   XLXI_16_3 : M2_1_MXILINX_CalculateVDD
-      port map (D0=>XLXN_23(3),
-                D1=>XLXN_24(3),
-                S0=>XLXN_9,
-                O=>i2c_mem_addra(3));
-   
-   XLXI_16_4 : M2_1_MXILINX_CalculateVDD
-      port map (D0=>XLXN_23(4),
-                D1=>XLXN_24(4),
-                S0=>XLXN_9,
-                O=>i2c_mem_addra(4));
-   
-   XLXI_16_5 : M2_1_MXILINX_CalculateVDD
-      port map (D0=>XLXN_23(5),
-                D1=>XLXN_24(5),
-                S0=>XLXN_9,
-                O=>i2c_mem_addra(5));
-   
-   XLXI_16_6 : M2_1_MXILINX_CalculateVDD
-      port map (D0=>XLXN_23(6),
-                D1=>XLXN_24(6),
-                S0=>XLXN_9,
-                O=>i2c_mem_addra(6));
-   
-   XLXI_16_7 : M2_1_MXILINX_CalculateVDD
-      port map (D0=>XLXN_23(7),
-                D1=>XLXN_24(7),
-                S0=>XLXN_9,
-                O=>i2c_mem_addra(7));
-   
-   XLXI_16_8 : M2_1_MXILINX_CalculateVDD
-      port map (D0=>XLXN_23(8),
-                D1=>XLXN_24(8),
-                S0=>XLXN_9,
-                O=>i2c_mem_addra(8));
-   
-   XLXI_16_9 : M2_1_MXILINX_CalculateVDD
-      port map (D0=>XLXN_23(9),
-                D1=>XLXN_24(9),
-                S0=>XLXN_9,
-                O=>i2c_mem_addra(9));
-   
-   XLXI_16_10 : M2_1_MXILINX_CalculateVDD
-      port map (D0=>XLXN_23(10),
-                D1=>XLXN_24(10),
-                S0=>XLXN_9,
-                O=>i2c_mem_addra(10));
-   
-   XLXI_16_11 : M2_1_MXILINX_CalculateVDD
-      port map (D0=>XLXN_23(11),
-                D1=>XLXN_24(11),
-                S0=>XLXN_9,
-                O=>i2c_mem_addra(11));
    
 end BEHAVIORAL;
 

@@ -47,7 +47,7 @@ o_pixos_addr : out std_logic_vector (9 downto 0); -- 10bit-1024
 o_rdy : out std_logic;
 
 ExtractTGCParameters_run : out std_logic;
-ExtractTGCParameters_mux : out std_logic;
+ExtractTGCParameters_mux : out std_logic; -- xxx unconnected in schematic
 ExtractTGCParameters_rdy : in std_logic;
 ExtractTGCParameters_tgc : in std_logic_vector (31 downto 0);
 
@@ -103,7 +103,7 @@ signal divfpond_internal : STD_LOGIC;
 signal divfpsclr_internal : STD_LOGIC;
 signal divfpce_internal : STD_LOGIC;
 signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy_internal : STD_LOGIC;
+--signal divfprdy_internal : STD_LOGIC;
 
 signal mulfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -111,7 +111,7 @@ signal mulfpond_internal : STD_LOGIC;
 signal mulfpsclr_internal : STD_LOGIC;
 signal mulfpce_internal : STD_LOGIC;
 signal mulfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy_internal : STD_LOGIC;
+--signal mulfprdy_internal : STD_LOGIC;
 
 signal addfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -119,7 +119,7 @@ signal addfpond_internal : STD_LOGIC;
 signal addfpsclr_internal : STD_LOGIC;
 signal addfpce_internal : STD_LOGIC;
 signal addfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfprdy_internal : STD_LOGIC;
+--signal addfprdy_internal : STD_LOGIC;
 
 signal subfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -127,7 +127,16 @@ signal subfpond_internal : STD_LOGIC;
 signal subfpsclr_internal : STD_LOGIC;
 signal subfpce_internal : STD_LOGIC;
 signal subfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal subfprdy_internal : STD_LOGIC;
+--signal subfprdy_internal : STD_LOGIC;
+
+signal divfp_wait : integer range 0 to C_DIVFP_WAIT-1;
+signal addfp_wait : integer range 0 to C_ADDFP_WAIT-1;
+signal mulfp_wait : integer range 0 to C_MULFP_WAIT-1;
+signal subfp_wait : integer range 0 to C_SUBFP_WAIT-1;
+signal divfp_run,divfp_rdy : std_logic;
+signal addfp_run,addfp_rdy : std_logic;
+signal mulfp_run,mulfp_rdy : std_logic;
+signal subfp_run,subfp_rdy : std_logic;
 
 begin
 
@@ -137,7 +146,7 @@ divfpond <= divfpond_internal;
 divfpsclr <= divfpsclr_internal;
 divfpce <= divfpce_internal;
 divfpr_internal <= divfpr;
-divfprdy_internal <= divfprdy;
+--divfprdy_internal <= divfprdy;
 
 mulfpa <= mulfpa_internal;
 mulfpb <= mulfpb_internal;
@@ -145,7 +154,7 @@ mulfpond <= mulfpond_internal;
 mulfpsclr <= mulfpsclr_internal;
 mulfpce <= mulfpce_internal;
 mulfpr_internal <= mulfpr;
-mulfprdy_internal <= mulfprdy;
+--mulfprdy_internal <= mulfprdy;
 
 addfpa <= addfpa_internal;
 addfpb <= addfpb_internal;
@@ -153,7 +162,7 @@ addfpond <= addfpond_internal;
 addfpsclr <= addfpsclr_internal;
 addfpce <= addfpce_internal;
 addfpr_internal <= addfpr;
-addfprdy_internal <= addfprdy;
+--addfprdy_internal <= addfprdy;
 
 subfpa <= subfpa_internal;
 subfpb <= subfpb_internal;
@@ -161,7 +170,59 @@ subfpond <= subfpond_internal;
 subfpsclr <= subfpsclr_internal;
 subfpce <= subfpce_internal;
 subfpr_internal <= subfpr;
-subfprdy_internal <= subfprdy;
+--subfprdy_internal <= subfprdy;
+
+p1_counter_divfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      divfp_wait <= 0;
+    elsif (divfp_rdy = '1') then
+      divfp_wait <= 0;
+    elsif (divfp_run = '1') then
+      divfp_wait <= divfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_divfp;
+
+p1_counter_mulfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      mulfp_wait <= 0;
+    elsif (mulfp_rdy = '1') then
+      mulfp_wait <= 0;
+    elsif (mulfp_run = '1') then
+      mulfp_wait <= mulfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_mulfp;
+
+p1_counter_addfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      addfp_wait <= 0;
+    elsif (addfp_rdy = '1') then
+      addfp_wait <= 0;
+    elsif (addfp_run = '1') then
+      addfp_wait <= addfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_addfp;
+
+p1_counter_subfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      subfp_wait <= 0;
+    elsif (subfp_rdy = '1') then
+      subfp_wait <= 0;
+    elsif (subfp_run = '1') then
+      subfp_wait <= subfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_subfp;
 
 p0 : process (i_clock) is
 	constant C_ROW : integer := 24;
@@ -201,8 +262,16 @@ begin
 			subfpce_internal <= '0';
 			divfpce_internal <= '0';
 			ExtractTGCParameters_run <= '0';
-			ExtractTGCParameters_mux <= '0';
+--			ExtractTGCParameters_mux <= '0';
 			o_write_enable <= '0';
+      divfp_run <= '0';
+      divfp_rdy <= '0';
+      mulfp_run <= '0';
+      mulfp_rdy <= '0';
+      addfp_run <= '0';
+      addfp_rdy <= '0';
+      subfp_run <= '0';
+      subfp_rdy <= '0';
 		else
 			case (state) is
 				when idle =>
@@ -218,15 +287,15 @@ begin
 					divfpsclr_internal <= '0';
 				when s0 => state := s0a;
 					ExtractTGCParameters_run <= '1';
-					ExtractTGCParameters_mux <= '1';
+--					ExtractTGCParameters_mux <= '1';
 				when s0a => 
 					ExtractTGCParameters_run <= '0';
 					if (ExtractTGCParameters_rdy = '1') then
 						state := s1;
-						ExtractTGCParameters_mux <= '0';
+--						ExtractTGCParameters_mux <= '0';
 					else
 						state := s0a;
-						ExtractTGCParameters_mux <= '1';
+--						ExtractTGCParameters_mux <= '1';
 					end if;
 
 				when s1 => state := s2;
@@ -240,13 +309,26 @@ begin
 					divfpb_internal <= i_Emissivity;
 					divfpond_internal <= '1';
 				when s4 =>
-					if (divfprdy_internal = '1') then state := s5;
-						emissivity_compensated := divfpr_internal;
-						divfpce_internal <= '0';
-						divfpond_internal <= '0';
-						divfpsclr_internal <= '1';
-					else state := s4; end if;
+if (divfp_wait = C_DIVFP_WAIT-1) then
+emissivity_compensated := divfpr_internal;
+divfpce_internal <= '0';
+divfpond_internal <= '0';
+divfpsclr_internal <= '1';
+state := s5;
+divfp_run <= '0';
+divfp_rdy <= '1';
+else
+state := s4;
+divfp_run <= '1';
+end if;
+--if (divfprdy_internal = '1') then state := s5;
+--emissivity_compensated := divfpr_internal;
+--divfpce_internal <= '0';
+--divfpond_internal <= '0';
+--divfpsclr_internal <= '1';
+--else state := s4; end if;
 				when s5 => state := s8;
+divfp_rdy <= '0';
 					divfpsclr_internal <= '0';
 
 
@@ -256,13 +338,26 @@ begin
 					mulfpb_internal <= pattern_ft;
 					mulfpond_internal <= '1';
 				when s9 =>
-					if (mulfprdy_internal = '1') then state := s10;
-						fptmp1 := mulfpr_internal;
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-					else state := s9; end if;
+if (mulfp_wait = C_MULFP_WAIT-1) then
+fptmp1 := mulfpr_internal;
+mulfpce_internal <= '0';
+mulfpond_internal <= '0';
+mulfpsclr_internal <= '1';
+state := s10;
+mulfp_run <= '0';
+mulfp_rdy <= '1';
+else
+state := s9;
+mulfp_run <= '1';
+end if;
+--if (mulfprdy_internal = '1') then state := s10;
+--fptmp1 := mulfpr_internal;
+--mulfpce_internal <= '0';
+--mulfpond_internal <= '0';
+--mulfpsclr_internal <= '1';
+--else state := s9; end if;
 				when s10 => state := s11;
+mulfp_rdy <= '0';
 					mulfpsclr_internal <= '0';
 
 				when s11 => state := s12;
@@ -271,13 +366,26 @@ begin
 					mulfpb_internal <= pattern_neg_ft;
 					mulfpond_internal <= '1';
 				when s12 =>
-					if (mulfprdy_internal = '1') then state := s13;
-						fptmp2 := mulfpr_internal;
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-					else state := s12; end if;
+if (mulfp_wait = C_MULFP_WAIT-1) then
+fptmp2 := mulfpr_internal;
+mulfpce_internal <= '0';
+mulfpond_internal <= '0';
+mulfpsclr_internal <= '1';
+state := s13;
+mulfp_run <= '0';
+mulfp_rdy <= '1';
+else
+state := s12;
+mulfp_run <= '1';
+end if;
+--if (mulfprdy_internal = '1') then state := s13;
+--fptmp2 := mulfpr_internal;
+--mulfpce_internal <= '0';
+--mulfpond_internal <= '0';
+--mulfpsclr_internal <= '1';
+--else state := s12; end if;
 				when s13 => state := s14;
+        mulfp_rdy <= '0';
 					mulfpsclr_internal <= '0';
 
 				when s14 => state := s15;
@@ -286,13 +394,26 @@ begin
 					addfpb_internal <= fptmp2;
 					addfpond_internal <= '1';
 				when s15 =>
-					if (addfprdy_internal = '1') then state := s16;
-						fptmp1 := addfpr_internal;
-						addfpce_internal <= '0';
-						addfpond_internal <= '0';
-						addfpsclr_internal <= '1';
-					else state := s15; end if;
+if (addfp_wait = C_ADDFP_WAIT-1) then
+fptmp1 := addfpr_internal;
+addfpce_internal <= '0';
+addfpond_internal <= '0';
+addfpsclr_internal <= '1';
+state := s16;
+addfp_run <= '0';
+addfp_rdy <= '1';
+else
+state := s15;
+addfp_run <= '1';
+end if;
+--if (addfprdy_internal = '1') then state := s16;
+--fptmp1 := addfpr_internal;
+--addfpce_internal <= '0';
+--addfpond_internal <= '0';
+--addfpsclr_internal <= '1';
+--else state := s15; end if;
 				when s16 => state := s17;
+        addfp_rdy <= '0';
 					addfpsclr_internal <= '0';
 
 				when s17 => state := s18;
@@ -301,13 +422,26 @@ begin
 					mulfpb_internal <= ExtractTGCParameters_tgc;
 					mulfpond_internal <= '1';
 				when s18 =>
-					if (mulfprdy_internal = '1') then state := s19;
-						fptmp1 := mulfpr_internal;
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-					else state := s18; end if;
+if (mulfp_wait = C_MULFP_WAIT-1) then
+fptmp1 := mulfpr_internal;
+mulfpce_internal <= '0';
+mulfpond_internal <= '0';
+mulfpsclr_internal <= '1';
+state := s19;
+mulfp_run <= '0';
+mulfp_rdy <= '1';
+else
+state := s18;
+mulfp_run <= '1';
+end if;
+--if (mulfprdy_internal = '1') then state := s19;
+--fptmp1 := mulfpr_internal;
+--mulfpce_internal <= '0';
+--mulfpond_internal <= '0';
+--mulfpsclr_internal <= '1';
+--else state := s18; end if;
 				when s19 => state := s20;
+        mulfp_rdy <= '0';
 					mulfpsclr_internal <= '0';
 
 				when s20 => state := s21;
@@ -316,13 +450,26 @@ begin
 					subfpb_internal <= fptmp1;
 					subfpond_internal <= '1';
 				when s21 =>
-					if (subfprdy_internal = '1') then state := s22;
-						fptmp1 := subfpr_internal;
-						subfpce_internal <= '0';
-						subfpond_internal <= '0';
-						subfpsclr_internal <= '1';
-					else state := s21; end if;
+if (subfp_wait = C_SUBFP_WAIT-1) then
+fptmp1 := subfpr_internal;
+subfpce_internal <= '0';
+subfpond_internal <= '0';
+subfpsclr_internal <= '1';
+state := s22;
+subfp_run <= '0';
+subfp_rdy <= '1';
+else
+state := s21;
+subfp_run <= '1';
+end if;
+--if (subfprdy_internal = '1') then state := s22;
+--fptmp1 := subfpr_internal;
+--subfpce_internal <= '0';
+--subfpond_internal <= '0';
+--subfpsclr_internal <= '1';
+--else state := s21; end if;
 				when s22 => state := s23;
+        subfp_rdy <= '0';
 					subfpsclr_internal <= '0';
 
 					o_write_enable <= '1';

@@ -113,7 +113,7 @@ signal fixed2floatond_internal : STD_LOGIC;
 signal fixed2floatce_internal : STD_LOGIC;
 signal fixed2floatsclr_internal : STD_LOGIC;
 signal fixed2floatr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal fixed2floatrdy_internal : STD_LOGIC;
+--signal fixed2floatrdy_internal : STD_LOGIC;
 
 signal mulfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -121,7 +121,7 @@ signal mulfpond_internal : STD_LOGIC;
 signal mulfpce_internal : STD_LOGIC;
 signal mulfpsclr_internal : STD_LOGIC;
 signal mulfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy_internal : STD_LOGIC;
+--signal mulfprdy_internal : STD_LOGIC;
 
 signal divfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -129,7 +129,7 @@ signal divfpond_internal : STD_LOGIC;
 signal divfpsclr_internal : STD_LOGIC;
 signal divfpce_internal : STD_LOGIC;
 signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy_internal : STD_LOGIC;
+--signal divfprdy_internal : STD_LOGIC;
 
 signal addfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -137,7 +137,7 @@ signal addfpond_internal : STD_LOGIC;
 signal addfpsclr_internal : STD_LOGIC;
 signal addfpce_internal : STD_LOGIC;
 signal addfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfprdy_internal : STD_LOGIC;
+--signal addfprdy_internal : STD_LOGIC;
 
 signal subfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -145,13 +145,89 @@ signal subfpond_internal : STD_LOGIC;
 signal subfpsclr_internal : STD_LOGIC;
 signal subfpce_internal : STD_LOGIC;
 signal subfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal subfprdy_internal : STD_LOGIC;
+--signal subfprdy_internal : STD_LOGIC;
 
 signal i2c_mem_ena_internal : STD_LOGIC;
 signal i2c_mem_addra_internal : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal i2c_mem_douta_internal : STD_LOGIC_VECTOR(7 DOWNTO 0);
 
+signal divfp_wait : integer range 0 to C_DIVFP_WAIT-1;
+signal addfp_wait : integer range 0 to C_ADDFP_WAIT-1;
+signal mulfp_wait : integer range 0 to C_MULFP_WAIT-1;
+signal subfp_wait : integer range 0 to C_SUBFP_WAIT-1;
+signal fi2fl_wait : integer range 0 to C_FI2FL_WAIT-1;
+signal divfp_run,divfp_rdy : std_logic;
+signal addfp_run,addfp_rdy : std_logic;
+signal mulfp_run,mulfp_rdy : std_logic;
+signal subfp_run,subfp_rdy : std_logic;
+signal fi2fl_run,fi2fl_rdy : std_logic;
+
 begin
+
+p1_counter_divfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      divfp_wait <= 0;
+    elsif (divfp_rdy = '1') then
+      divfp_wait <= 0;
+    elsif (divfp_run = '1') then
+      divfp_wait <= divfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_divfp;
+
+p1_counter_mulfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      mulfp_wait <= 0;
+    elsif (mulfp_rdy = '1') then
+      mulfp_wait <= 0;
+    elsif (mulfp_run = '1') then
+      mulfp_wait <= mulfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_mulfp;
+
+p1_counter_addfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      addfp_wait <= 0;
+    elsif (addfp_rdy = '1') then
+      addfp_wait <= 0;
+    elsif (addfp_run = '1') then
+      addfp_wait <= addfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_addfp;
+
+p1_counter_subfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      subfp_wait <= 0;
+    elsif (subfp_rdy = '1') then
+      subfp_wait <= 0;
+    elsif (subfp_run = '1') then
+      subfp_wait <= subfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_subfp;
+
+p1_counter_fi2fl : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      fi2fl_wait <= 0;
+    elsif (fi2fl_rdy = '1') then
+      fi2fl_wait <= 0;
+    elsif (fi2fl_run = '1') then
+      fi2fl_wait <= fi2fl_wait + 1;
+    end if;
+  end if;
+end process p1_counter_fi2fl;
 
 i2c_mem_ena <= i2c_mem_ena_internal;
 i2c_mem_addra <= i2c_mem_addra_internal;
@@ -163,7 +239,7 @@ mulfpond <= mulfpond_internal;
 mulfpce <= mulfpce_internal;
 mulfpsclr <= mulfpsclr_internal;
 mulfpr_internal <= mulfpr;
-mulfprdy_internal <= mulfprdy;
+--mulfprdy_internal <= mulfprdy;
 
 addfpa <= addfpa_internal;
 addfpb <= addfpb_internal;
@@ -171,7 +247,7 @@ addfpond <= addfpond_internal;
 addfpce <= addfpce_internal;
 addfpsclr <= addfpsclr_internal;
 addfpr_internal <= addfpr;
-addfprdy_internal <= addfprdy;
+--addfprdy_internal <= addfprdy;
 
 subfpa <= subfpa_internal;
 subfpb <= subfpb_internal;
@@ -179,7 +255,7 @@ subfpond <= subfpond_internal;
 subfpce <= subfpce_internal;
 subfpsclr <= subfpsclr_internal;
 subfpr_internal <= subfpr;
-subfprdy_internal <= subfprdy;
+--subfprdy_internal <= subfprdy;
 
 divfpa <= divfpa_internal;
 divfpb <= divfpb_internal;
@@ -187,14 +263,14 @@ divfpond <= divfpond_internal;
 divfpce <= divfpce_internal;
 divfpsclr <= divfpsclr_internal;
 divfpr_internal <= divfpr;
-divfprdy_internal <= divfprdy;
+--divfprdy_internal <= divfprdy;
 
 fixed2floata <= fixed2floata_internal;
 fixed2floatond <= fixed2floatond_internal;
 fixed2floatce <= fixed2floatce_internal;
 fixed2floatsclr <= fixed2floatsclr_internal;
 fixed2floatr_internal <= fixed2floatr;
-fixed2floatrdy_internal <= fixed2floatrdy;
+--fixed2floatrdy_internal <= fixed2floatrdy;
 
 p0 : process (i_clock) is
 	constant C_ROW : integer := 24;
@@ -254,6 +330,16 @@ begin
 			nibble_out1 <= (others => '0');
 			nibble_out2 <= (others => '0');
 			nibble_out3 <= (others => '0');
+      divfp_run <= '0';
+      divfp_rdy <= '0';
+      mulfp_run <= '0';
+      mulfp_rdy <= '0';
+      addfp_run <= '0';
+      addfp_rdy <= '0';
+      subfp_run <= '0';
+      subfp_rdy <= '0';
+      fi2fl_run <= '0';
+      fi2fl_rdy <= '0';
 		else
 			case (state) is
 				when idle =>
@@ -323,14 +409,27 @@ ram0708 (15) & ram0708 (15) &
 ram0708 (15) & ram0708 (15) & 
 ram0708 (15) & ram0708 & "00000000000000000000000000000";
 				when s14 =>
-					if (fixed2floatrdy_internal = '1') then state := s15;
-						ram0708_ft := fixed2floatr_internal;
-						fixed2floatce_internal <= '0';
-						fixed2floatond_internal <= '0';
-						fixed2floatsclr_internal <= '1';
-					else state := s14; end if;
+if (fi2fl_wait = C_FI2FL_WAIT-1) then
+ram0708_ft := fixed2floatr_internal;
+fixed2floatce_internal <= '0';
+fixed2floatond_internal <= '0';
+fixed2floatsclr_internal <= '1';
+state := s15;
+fi2fl_run <= '0';
+fi2fl_rdy <= '1';
+else
+state := s14;
+fi2fl_run <= '1';
+end if;
+--if (fixed2floatrdy_internal = '1') then state := s15;
+--ram0708_ft := fixed2floatr_internal;
+--fixed2floatce_internal <= '0';
+--fixed2floatond_internal <= '0';
+--fixed2floatsclr_internal <= '1';
+--else state := s14; end if;
 				when s15 => state := s16;
-					fixed2floatsclr_internal <= '0';
+fi2fl_rdy <= '0';
+fixed2floatsclr_internal <= '0';
 
 				when s16 => state := s17;
 fixed2floatce_internal <= '1';
@@ -347,13 +446,26 @@ ram0728 (15) & ram0728 (15) &
 ram0728 (15) & ram0728 (15) & 
 ram0728 (15) & ram0728 & "00000000000000000000000000000";
 				when s17 =>
-					if (fixed2floatrdy_internal = '1') then state := s18;
-						ram0728_ft := fixed2floatr_internal;
-						fixed2floatce_internal <= '0';
-						fixed2floatond_internal <= '0';
-						fixed2floatsclr_internal <= '1';
-					else state := s17; end if;
+if (fi2fl_wait = C_FI2FL_WAIT-1) then
+ram0728_ft := fixed2floatr_internal;
+fixed2floatce_internal <= '0';
+fixed2floatond_internal <= '0';
+fixed2floatsclr_internal <= '1';
+state := s18;
+fi2fl_run <= '0';
+fi2fl_rdy <= '1';
+else
+state := s17;
+fi2fl_run <= '1';
+end if;
+--if (fixed2floatrdy_internal = '1') then state := s18;
+--ram0728_ft := fixed2floatr_internal;
+--fixed2floatce_internal <= '0';
+--fixed2floatond_internal <= '0';
+--fixed2floatsclr_internal <= '1';
+--else state := s17; end if;
 				when s18 => state := s19;
+fi2fl_rdy <= '0';
 					fixed2floatsclr_internal <= '0';
 
 				when s19 => state := s20;
@@ -364,13 +476,26 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 				--	--report ": " & real'image (ap_slv2fp (mulfpa));
 				--	--report ": " & real'image (ap_slv2fp (mulfpb));
 				when s20 =>
-					if (mulfprdy_internal = '1') then state := s21;
-						pixgaincpsp0_ft := mulfpr_internal;
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-					else state := s20; end if;
+if (mulfp_wait = C_MULFP_WAIT-1) then
+pixgaincpsp0_ft := mulfpr_internal;
+mulfpce_internal <= '0';
+mulfpond_internal <= '0';
+mulfpsclr_internal <= '1';
+state := s21;
+mulfp_run <= '0';
+mulfp_rdy <= '1';
+else
+state := s20;
+mulfp_run <= '1';
+end if;
+--if (mulfprdy_internal = '1') then state := s21;
+--pixgaincpsp0_ft := mulfpr_internal;
+--mulfpce_internal <= '0';
+--mulfpond_internal <= '0';
+--mulfpsclr_internal <= '1';
+--else state := s20; end if;
 				when s21 => state := s21a;
+mulfp_rdy <= '0';
 					mulfpsclr_internal <= '0';
 
 				when s21a => state := s22;
@@ -381,13 +506,26 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 				--	--report ": " & real'image (ap_slv2fp (mulfpa));
 				--	--report ": " & real'image (ap_slv2fp (mulfpb));
 				when s22 =>
-					if (mulfprdy_internal = '1') then state := s23;
-						pixgaincpsp1_ft := mulfpr_internal;
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-					else state := s22; end if;
+if (mulfp_wait = C_MULFP_WAIT-1) then
+pixgaincpsp1_ft := mulfpr_internal;
+mulfpce_internal <= '0';
+mulfpond_internal <= '0';
+mulfpsclr_internal <= '1';
+state := s23;
+mulfp_run <= '0';
+mulfp_rdy <= '1';
+else
+state := s22;
+mulfp_run <= '1';
+end if;
+--if (mulfprdy_internal = '1') then state := s23;
+--pixgaincpsp1_ft := mulfpr_internal;
+--mulfpce_internal <= '0';
+--mulfpond_internal <= '0';
+--mulfpsclr_internal <= '1';
+--else state := s22; end if;
 				when s23 => state := s24;
+mulfp_rdy <= '0';
 					mulfpsclr_internal <= '0';
 
 
@@ -416,14 +554,28 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 					addfpb_internal <= offcpsubpage1delta_ft;
 					addfpond_internal <= '1';
 				when s33 =>
-					if (addfprdy_internal = '1') then state := s34;
-						offcpsubpage1_ft := addfpr_internal; -- offcpsubpage1
-           report_error ("================ CalculatePixOsCPSP offcpsubpage1 : ",offcpsubpage1_ft,0.0);
-						addfpce_internal <= '0';
-						addfpond_internal <= '0';
-						addfpsclr_internal <= '1';
-					else state := s33; end if;
+if (addfp_wait = C_ADDFP_WAIT-1) then
+offcpsubpage1_ft := addfpr_internal; -- offcpsubpage1
+--report_error ("================ CalculatePixOsCPSP offcpsubpage1 : ",offcpsubpage1_ft,0.0);
+addfpce_internal <= '0';
+addfpond_internal <= '0';
+addfpsclr_internal <= '1';
+state := s34;
+addfp_run <= '0';
+addfp_rdy <= '1';
+else
+state := s33;
+addfp_run <= '1';
+end if;
+--if (addfprdy_internal = '1') then state := s34;
+--offcpsubpage1_ft := addfpr_internal; -- offcpsubpage1
+--report_error ("================ CalculatePixOsCPSP offcpsubpage1 : ",offcpsubpage1_ft,0.0);
+--addfpce_internal <= '0';
+--addfpond_internal <= '0';
+--addfpsclr_internal <= '1';
+--else state := s33; end if;
 				when s34 => state := s35;
+addfp_rdy <= '0';
 					addfpsclr_internal <= '0';
 
 
@@ -467,13 +619,26 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 					divfpb_internal <= nibble_in2; -- 2^(ktascale1+8);
 					divfpond_internal <= '1';
 				when s52 =>
-					if (divfprdy_internal = '1') then state := s53;
-						ktacp_ft := divfpr_internal;
-						divfpce_internal <= '0';
-						divfpond_internal <= '0';
-						divfpsclr_internal <= '1';
-					else state := s52; end if;
+if (divfp_wait = C_DIVFP_WAIT-1) then
+ktacp_ft := divfpr_internal;
+divfpce_internal <= '0';
+divfpond_internal <= '0';
+divfpsclr_internal <= '1';
+state := s53;
+divfp_run <= '0';
+divfp_rdy <= '1';
+else
+state := s52;
+divfp_run <= '1';
+end if;
+--if (divfprdy_internal = '1') then state := s53;
+--ktacp_ft := divfpr_internal;
+--divfpce_internal <= '0';
+--divfpond_internal <= '0';
+--divfpsclr_internal <= '1';
+--else state := s52; end if;
 				when s53 => state := s54;
+divfp_rdy <= '0';
 					divfpsclr_internal <= '0';
          report_error ("================ CalculatePixOsCPSP ktacp : ",ktacp_ft,0.0);
 
@@ -484,13 +649,26 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 					divfpb_internal <= nibble_in3; -- 2^kvscale;
 					divfpond_internal <= '1';
 				when s55 =>
-					if (divfprdy_internal = '1') then state := s56;
-						kvcp_ft := divfpr_internal;
-						divfpce_internal <= '0';
-						divfpond_internal <= '0';
-						divfpsclr_internal <= '1';
-					else state := s55; end if;
+if (divfp_wait = C_DIVFP_WAIT-1) then
+kvcp_ft := divfpr_internal;
+divfpce_internal <= '0';
+divfpond_internal <= '0';
+divfpsclr_internal <= '1';
+state := s56;
+divfp_run <= '0';
+divfp_rdy <= '1';
+else
+state := s55;
+divfp_run <= '1';
+end if;
+--if (divfprdy_internal = '1') then state := s56;
+--kvcp_ft := divfpr_internal;
+--divfpce_internal <= '0';
+--divfpond_internal <= '0';
+--divfpsclr_internal <= '1';
+--else state := s55; end if;
 				when s56 => state := s57;
+divfp_rdy <= '0';
 					divfpsclr_internal <= '0';
          report_error ("================ CalculatePixOsCPSP kvcp : ",kvcp_ft,0.0);
 
@@ -499,13 +677,26 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 					subfpb_internal <= i_VddV0;
 					subfpond_internal <= '1';
 				when s57 =>
-					if (subfprdy_internal = '1') then state := s58;
-						fttmp1 := subfpr_internal;
-						subfpce_internal <= '0';
-						subfpond_internal <= '0';
-						subfpsclr_internal <= '1';
-					else state := s57; end if;
+if (subfp_wait = C_SUBFP_WAIT-1) then
+fttmp1 := subfpr_internal;
+subfpce_internal <= '0';
+subfpond_internal <= '0';
+subfpsclr_internal <= '1';
+state := s58;
+subfp_run <= '0';
+subfp_rdy <= '1';
+else
+state := s57;
+subfp_run <= '1';
+end if;
+--if (subfprdy_internal = '1') then state := s58;
+--fttmp1 := subfpr_internal;
+--subfpce_internal <= '0';
+--subfpond_internal <= '0';
+--subfpsclr_internal <= '1';
+--else state := s57; end if;
 				when s58 => state := s59;
+subfp_rdy <= '0';
 					subfpsclr_internal <= '0';
 
 
@@ -515,13 +706,26 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 					subfpb_internal <= i_Ta0;
 					subfpond_internal <= '1';
 				when s60 =>
-					if (subfprdy_internal = '1') then state := s61;
-						fttmp2 := subfpr_internal;
-						subfpce_internal <= '0';
-						subfpond_internal <= '0';
-						subfpsclr_internal <= '1';
-					else state := s60; end if;
+if (subfp_wait = C_SUBFP_WAIT-1) then
+fttmp2 := subfpr_internal;
+subfpce_internal <= '0';
+subfpond_internal <= '0';
+subfpsclr_internal <= '1';
+state := s61;
+subfp_run <= '0';
+subfp_rdy <= '1';
+else
+state := s60;
+subfp_run <= '1';
+end if;
+--if (subfprdy_internal = '1') then state := s61;
+--fttmp2 := subfpr_internal;
+--subfpce_internal <= '0';
+--subfpond_internal <= '0';
+--subfpsclr_internal <= '1';
+--else state := s60; end if;
 				when s61 => state := s62;
+subfp_rdy <= '0';
 					subfpsclr_internal <= '0';
 
 
@@ -531,14 +735,27 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 					mulfpb_internal <= kvcp_ft;
 					mulfpond_internal <= '1';
 				when s63 =>
-					if (mulfprdy_internal = '1') then state := s64;
-						fttmp1 := mulfpr_internal;
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-					else state := s63; end if;
+if (mulfp_wait = C_MULFP_WAIT-1) then
+fttmp1 := mulfpr_internal;
+mulfpce_internal <= '0';
+mulfpond_internal <= '0';
+mulfpsclr_internal <= '1';
+state := s64;
+mulfp_run <= '0';
+mulfp_rdy <= '1';
+else
+state := s63;
+mulfp_run <= '1';
+end if;
+--if (mulfprdy_internal = '1') then state := s64;
+--fttmp1 := mulfpr_internal;
+--mulfpce_internal <= '0';
+--mulfpond_internal <= '0';
+--mulfpsclr_internal <= '1';
+--else state := s63; end if;
 				when s64 => state := s65;
-					mulfpsclr_internal <= '0';
+mulfp_rdy <= '0';
+          mulfpsclr_internal <= '0';
 
 
 				when s65 => state := s66;
@@ -547,13 +764,26 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 					addfpb_internal <= i_const1;
 					addfpond_internal <= '1';
 				when s66 =>
-					if (addfprdy_internal = '1') then state := s67;
-						fttmp1 := addfpr_internal;
-						addfpce_internal <= '0';
-						addfpond_internal <= '0';
-						addfpsclr_internal <= '1';
-					else state := s66; end if;
+if (addfp_wait = C_ADDFP_WAIT-1) then
+fttmp1 := addfpr_internal;
+addfpce_internal <= '0';
+addfpond_internal <= '0';
+addfpsclr_internal <= '1';
+state := s67;
+addfp_run <= '0';
+addfp_rdy <= '1';
+else
+state := s66;
+addfp_run <= '1';
+end if;
+--if (addfprdy_internal = '1') then state := s67;
+--fttmp1 := addfpr_internal;
+--addfpce_internal <= '0';
+--addfpond_internal <= '0';
+--addfpsclr_internal <= '1';
+--else state := s66; end if;
 				when s67 => state := s68;
+addfp_rdy <= '0';
 					addfpsclr_internal <= '0';
 
 
@@ -563,14 +793,27 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 					mulfpb_internal <= ktacp_ft;
 					mulfpond_internal <= '1';
 				when s69 =>
-					if (mulfprdy_internal = '1') then state := s70;
-						fttmp2 := mulfpr_internal;
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-					else state := s69; end if;
+if (mulfp_wait = C_MULFP_WAIT-1) then
+fttmp2 := mulfpr_internal;
+mulfpce_internal <= '0';
+mulfpond_internal <= '0';
+mulfpsclr_internal <= '1';
+state := s70;
+mulfp_run <= '0';
+mulfp_rdy <= '1';
+else
+state := s69;
+mulfp_run <= '1';
+end if;
+--if (mulfprdy_internal = '1') then state := s70;
+--fttmp2 := mulfpr_internal;
+--mulfpce_internal <= '0';
+--mulfpond_internal <= '0';
+--mulfpsclr_internal <= '1';
+--else state := s69; end if;
 				when s70 => state := s71;
-					mulfpsclr_internal <= '0';
+					mulfp_rdy <= '0';
+          mulfpsclr_internal <= '0';
 
 
 				when s71 => state := s72;
@@ -579,14 +822,27 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 					addfpb_internal <= i_const1;
 					addfpond_internal <= '1';
 				when s72 =>
-					if (addfprdy_internal = '1') then state := s73;
-						fttmp2 := addfpr_internal;
-						addfpce_internal <= '0';
-						addfpond_internal <= '0';
-						addfpsclr_internal <= '1';
-					else state := s72; end if;
+if (addfp_wait = C_ADDFP_WAIT-1) then
+fttmp2 := addfpr_internal;
+addfpce_internal <= '0';
+addfpond_internal <= '0';
+addfpsclr_internal <= '1';
+state := s73;
+addfp_run <= '0';
+addfp_rdy <= '1';
+else
+state := s72;
+addfp_run <= '1';
+end if;
+--if (addfprdy_internal = '1') then state := s73;
+--fttmp2 := addfpr_internal;
+--addfpce_internal <= '0';
+--addfpond_internal <= '0';
+--addfpsclr_internal <= '1';
+--else state := s72; end if;
 				when s73 => state := s74;
-					addfpsclr_internal <= '0';
+					addfp_rdy <= '0';
+          addfpsclr_internal <= '0';
 
 
 				when s74 => state := s75;
@@ -595,13 +851,26 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 					mulfpb_internal <= fttmp2;
 					mulfpond_internal <= '1';
 				when s75 =>
-					if (mulfprdy_internal = '1') then state := s76;
-						pixoscpsp0_ft := mulfpr_internal;
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-					else state := s75; end if;
+if (mulfp_wait = C_MULFP_WAIT-1) then
+pixoscpsp0_ft := mulfpr_internal;
+mulfpce_internal <= '0';
+mulfpond_internal <= '0';
+mulfpsclr_internal <= '1';
+state := s76;
+mulfp_run <= '0';
+mulfp_rdy <= '1';
+else
+state := s75;
+mulfp_run <= '1';
+end if;
+--if (mulfprdy_internal = '1') then state := s76;
+--pixoscpsp0_ft := mulfpr_internal;
+--mulfpce_internal <= '0';
+--mulfpond_internal <= '0';
+--mulfpsclr_internal <= '1';
+--else state := s75; end if;
 				when s76 => state := s77;
+mulfp_rdy <= '0';
 					mulfpsclr_internal <= '0';
 
 
@@ -611,13 +880,26 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 					mulfpb_internal <= offcpsubpage0_ft;
 					mulfpond_internal <= '1';
 				when s78 =>
-					if (mulfprdy_internal = '1') then state := s79;
-						pixoscpsp0_ft := mulfpr_internal;
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-					else state := s78; end if;
+if (mulfp_wait = C_MULFP_WAIT-1) then
+pixoscpsp0_ft := mulfpr_internal;
+mulfpce_internal <= '0';
+mulfpond_internal <= '0';
+mulfpsclr_internal <= '1';
+state := s79;
+mulfp_run <= '0';
+mulfp_rdy <= '1';
+else
+state := s78;
+mulfp_run <= '1';
+end if;
+--if (mulfprdy_internal = '1') then state := s79;
+--pixoscpsp0_ft := mulfpr_internal;
+--mulfpce_internal <= '0';
+--mulfpond_internal <= '0';
+--mulfpsclr_internal <= '1';
+--else state := s78; end if;
 				when s79 => state := s80;
+        mulfp_rdy <= '0';
 					mulfpsclr_internal <= '0';
 
 
@@ -627,15 +909,28 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 					subfpb_internal <= pixoscpsp0_ft;
 					subfpond_internal <= '1';
 				when s81 =>
-					if (subfprdy_internal = '1') then state := s82;
-						o_pixoscpsp0 <= subfpr_internal;
-						subfpce_internal <= '0';
-						subfpond_internal <= '0';
-						subfpsclr_internal <= '1';
-           report_error ("================ CalculatePixOsCPSP o_pixoscpsp0 : ",subfpr_internal,0.0);
-					else state := s81; end if;
+if (subfp_wait = C_SUBFP_WAIT-1) then
+o_pixoscpsp0 <= subfpr_internal;
+subfpce_internal <= '0';
+subfpond_internal <= '0';
+subfpsclr_internal <= '1';
+state := s82;
+subfp_run <= '0';
+subfp_rdy <= '1';
+else
+state := s81;
+subfp_run <= '1';
+end if;
+--if (subfprdy_internal = '1') then state := s82;
+--o_pixoscpsp0 <= subfpr_internal;
+--subfpce_internal <= '0';
+--subfpond_internal <= '0';
+--subfpsclr_internal <= '1';
+--report_error ("================ CalculatePixOsCPSP o_pixoscpsp0 : ",subfpr_internal,0.0);
+--else state := s81; end if;
 				when s82 => state := s83;
-					subfpsclr_internal <= '0';
+					subfp_rdy <= '0';
+          subfpsclr_internal <= '0';
 
 
 				when s83 => state := s84;
@@ -644,13 +939,26 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 					mulfpb_internal <= fttmp2;
 					mulfpond_internal <= '1';
 				when s84 =>
-					if (mulfprdy_internal = '1') then state := s85;
-						pixoscpsp1_ft := mulfpr_internal;
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-					else state := s84; end if;
+if (mulfp_wait = C_MULFP_WAIT-1) then
+pixoscpsp1_ft := mulfpr_internal;
+mulfpce_internal <= '0';
+mulfpond_internal <= '0';
+mulfpsclr_internal <= '1';
+state := s85;
+mulfp_run <= '0';
+mulfp_rdy <= '1';
+else
+state := s84;
+mulfp_run <= '1';
+end if;
+--if (mulfprdy_internal = '1') then state := s85;
+--pixoscpsp1_ft := mulfpr_internal;
+--mulfpce_internal <= '0';
+--mulfpond_internal <= '0';
+--mulfpsclr_internal <= '1';
+--else state := s84; end if;
 				when s85 => state := s86;
+mulfp_rdy <= '0';
 					mulfpsclr_internal <= '0';
 
 
@@ -660,13 +968,26 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 					mulfpb_internal <= offcpsubpage1_ft;
 					mulfpond_internal <= '1';
 				when s87 =>
-					if (mulfprdy_internal = '1') then state := s88;
-						pixoscpsp1_ft := mulfpr_internal;
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-					else state := s87; end if;
+if (mulfp_wait = C_MULFP_WAIT-1) then
+pixoscpsp1_ft := mulfpr_internal;
+mulfpce_internal <= '0';
+mulfpond_internal <= '0';
+mulfpsclr_internal <= '1';
+state := s88;
+mulfp_run <= '0';
+mulfp_rdy <= '1';
+else
+state := s87;
+mulfp_run <= '1';
+end if;
+--if (mulfprdy_internal = '1') then state := s88;
+--pixoscpsp1_ft := mulfpr_internal;
+--mulfpce_internal <= '0';
+--mulfpond_internal <= '0';
+--mulfpsclr_internal <= '1';
+--else state := s87; end if;
 				when s88 => state := s89;
+        mulfp_rdy <= '0';
 					mulfpsclr_internal <= '0';
 
 
@@ -676,14 +997,28 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 					subfpb_internal <= pixoscpsp1_ft;
 					subfpond_internal <= '1';
 				when s90 =>
-					if (subfprdy_internal = '1') then state := s91;
-						o_pixoscpsp1 <= subfpr_internal;
-           report_error ("================ CalculatePixOsCPSP o_pixoscpsp1 : ",subfpr_internal,0.0);
-						subfpce_internal <= '0';
-						subfpond_internal <= '0';
-						subfpsclr_internal <= '1';
-					else state := s90; end if;
+if (subfp_wait = C_SUBFP_WAIT-1) then
+o_pixoscpsp1 <= subfpr_internal;
+report_error ("================ CalculatePixOsCPSP o_pixoscpsp1 : ",subfpr_internal,0.0);
+subfpce_internal <= '0';
+subfpond_internal <= '0';
+subfpsclr_internal <= '1';
+state := s91;
+subfp_run <= '0';
+subfp_rdy <= '1';
+else
+state := s90;
+subfp_run <= '1';
+end if;
+--if (subfprdy_internal = '1') then state := s91;
+--o_pixoscpsp1 <= subfpr_internal;
+--report_error ("================ CalculatePixOsCPSP o_pixoscpsp1 : ",subfpr_internal,0.0);
+--subfpce_internal <= '0';
+--subfpond_internal <= '0';
+--subfpsclr_internal <= '1';
+--else state := s90; end if;
 				when s91 => state := ending;
+        subfp_rdy <= '0';
 					subfpsclr_internal <= '0';
 				when ending => state := idle;
 					o_rdy <= '1';

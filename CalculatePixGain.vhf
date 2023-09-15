@@ -7,13 +7,13 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : CalculatePixGain.vhf
--- /___/   /\     Timestamp : 06/19/2023 15:05:24
+-- /___/   /\     Timestamp : 09/03/2023 19:01:58
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
---Command: sch2hdl -sympath /home/user/workspace/melexis_mlx90641/ipcore_dir -intstyle ise -family virtex4 -flat -suppress -vhdl /home/user/workspace/melexis_mlx90641/CalculatePixGain.vhf -w /home/user/workspace/melexis_mlx90641/CalculatePixGain.sch
+--Command: sch2hdl -sympath /home/user/workspace/mlx90640_fpga/ipcore_dir -intstyle ise -family spartan3e -flat -suppress -vhdl /home/user/workspace/mlx90640_fpga/CalculatePixGain.vhf -w /home/user/workspace/mlx90640_fpga/CalculatePixGain.sch
 --Design Name: CalculatePixGain
---Device: virtex4
+--Device: spartan3e
 --Purpose:
 --    This vhdl netlist is translated from an ECS schematic. It can be 
 --    synthesized and simulated, but it should not be modified. 
@@ -116,98 +116,14 @@ entity CalculatePixGain is
 end CalculatePixGain;
 
 architecture BEHAVIORAL of CalculatePixGain is
-   attribute DOA_REG             : string ;
-   attribute DOB_REG             : string ;
-   attribute INIT_00             : string ;
-   attribute INIT_01             : string ;
-   attribute INIT_02             : string ;
-   attribute INIT_03             : string ;
-   attribute INIT_04             : string ;
-   attribute INIT_05             : string ;
-   attribute INIT_06             : string ;
-   attribute INIT_07             : string ;
-   attribute INIT_08             : string ;
-   attribute INIT_09             : string ;
-   attribute INIT_0A             : string ;
-   attribute INIT_0B             : string ;
-   attribute INIT_0C             : string ;
-   attribute INIT_0D             : string ;
-   attribute INIT_0E             : string ;
-   attribute INIT_0F             : string ;
-   attribute INIT_10             : string ;
-   attribute INIT_11             : string ;
-   attribute INIT_12             : string ;
-   attribute INIT_13             : string ;
-   attribute INIT_14             : string ;
-   attribute INIT_15             : string ;
-   attribute INIT_16             : string ;
-   attribute INIT_17             : string ;
-   attribute INIT_18             : string ;
-   attribute INIT_19             : string ;
-   attribute INIT_1A             : string ;
-   attribute INIT_1B             : string ;
-   attribute INIT_1C             : string ;
-   attribute INIT_1D             : string ;
-   attribute INIT_1E             : string ;
-   attribute INIT_1F             : string ;
-   attribute INIT_20             : string ;
-   attribute INIT_21             : string ;
-   attribute INIT_22             : string ;
-   attribute INIT_23             : string ;
-   attribute INIT_24             : string ;
-   attribute INIT_25             : string ;
-   attribute INIT_26             : string ;
-   attribute INIT_27             : string ;
-   attribute INIT_28             : string ;
-   attribute INIT_29             : string ;
-   attribute INIT_2A             : string ;
-   attribute INIT_2B             : string ;
-   attribute INIT_2C             : string ;
-   attribute INIT_2D             : string ;
-   attribute INIT_2E             : string ;
-   attribute INIT_2F             : string ;
-   attribute INIT_30             : string ;
-   attribute INIT_31             : string ;
-   attribute INIT_32             : string ;
-   attribute INIT_33             : string ;
-   attribute INIT_34             : string ;
-   attribute INIT_35             : string ;
-   attribute INIT_36             : string ;
-   attribute INIT_37             : string ;
-   attribute INIT_38             : string ;
-   attribute INIT_39             : string ;
-   attribute INIT_3A             : string ;
-   attribute INIT_3B             : string ;
-   attribute INIT_3C             : string ;
-   attribute INIT_3D             : string ;
-   attribute INIT_3E             : string ;
-   attribute INIT_3F             : string ;
-   attribute INIT_A              : string ;
-   attribute INIT_B              : string ;
-   attribute INITP_00            : string ;
-   attribute INITP_01            : string ;
-   attribute INITP_02            : string ;
-   attribute INITP_03            : string ;
-   attribute INITP_04            : string ;
-   attribute INITP_05            : string ;
-   attribute INITP_06            : string ;
-   attribute INITP_07            : string ;
-   attribute INIT_FILE           : string ;
-   attribute INVERT_CLK_DOA_REG  : string ;
-   attribute INVERT_CLK_DOB_REG  : string ;
-   attribute RAM_EXTENSION_A     : string ;
-   attribute RAM_EXTENSION_B     : string ;
-   attribute READ_WIDTH_A        : string ;
-   attribute READ_WIDTH_B        : string ;
-   attribute SRVAL_A             : string ;
-   attribute SRVAL_B             : string ;
-   attribute WRITE_MODE_A        : string ;
-   attribute WRITE_MODE_B        : string ;
-   attribute WRITE_WIDTH_A       : string ;
-   attribute WRITE_WIDTH_B       : string ;
-   attribute SIM_COLLISION_CHECK : string ;
-   attribute BOX_TYPE            : string ;
-   attribute HU_SET              : string ;
+   attribute HU_SET        : string ;
+   attribute WRITE_WIDTH_B : string ;
+   attribute WRITE_WIDTH_A : string ;
+   attribute WRITE_MODE_B  : string ;
+   attribute WRITE_MODE_A  : string ;
+   attribute READ_WIDTH_B  : string ;
+   attribute READ_WIDTH_A  : string ;
+   attribute BOX_TYPE      : string ;
    signal mux_addr                          : std_logic_vector (9 downto 0);
    signal XLXN_44                           : std_logic_vector (14 downto 0);
    signal XLXN_45                           : std_logic_vector (14 downto 0);
@@ -315,171 +231,14 @@ architecture BEHAVIORAL of CalculatePixGain is
              mulfpb               : out   std_logic_vector (31 downto 0));
    end component;
    
+   component M2_1_MXILINX_CalculatePixGain
+      port ( D0 : in    std_logic; 
+             D1 : in    std_logic; 
+             S0 : in    std_logic; 
+             O  : out   std_logic);
+   end component;
+   
    component RAMB16
-      -- synopsys translate_off
-      generic( DOA_REG : integer :=  0;
-               DOB_REG : integer :=  0;
-               INIT_00 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_01 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_02 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_03 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_04 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_05 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_06 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_07 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_08 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_09 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0A : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0B : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0C : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0D : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0E : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0F : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_10 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_11 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_12 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_13 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_14 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_15 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_16 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_17 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_18 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_19 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1A : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1B : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1C : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1D : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1E : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1F : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_20 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_21 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_22 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_23 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_24 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_25 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_26 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_27 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_28 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_29 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2A : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2B : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2C : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2D : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2E : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2F : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_30 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_31 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_32 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_33 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_34 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_35 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_36 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_37 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_38 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_39 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3A : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3B : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3C : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3D : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3E : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3F : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_A : bit_vector :=  x"000000000";
-               INIT_B : bit_vector :=  x"000000000";
-               INITP_00 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_01 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_02 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_03 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_04 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_05 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_06 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_07 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_FILE : string :=  "NONE";
-               INVERT_CLK_DOA_REG : boolean :=  FALSE;
-               INVERT_CLK_DOB_REG : boolean :=  FALSE;
-               RAM_EXTENSION_A : string :=  "NONE";
-               RAM_EXTENSION_B : string :=  "NONE";
-               READ_WIDTH_A : integer :=  0;
-               READ_WIDTH_B : integer :=  0;
-               SRVAL_A : bit_vector :=  x"000000000";
-               SRVAL_B : bit_vector :=  x"000000000";
-               WRITE_MODE_A : string :=  "WRITE_FIRST";
-               WRITE_MODE_B : string :=  "WRITE_FIRST";
-               WRITE_WIDTH_A : integer :=  0;
-               WRITE_WIDTH_B : integer :=  0;
-               SIM_COLLISION_CHECK : string :=  "ALL");
-      -- synopsys translate_on
       port ( ADDRA       : in    std_logic_vector (14 downto 0); 
              ADDRB       : in    std_logic_vector (14 downto 0); 
              CASCADEINA  : in    std_logic; 
@@ -505,176 +264,6 @@ architecture BEHAVIORAL of CalculatePixGain is
              DOPA        : out   std_logic_vector (3 downto 0); 
              DOPB        : out   std_logic_vector (3 downto 0));
    end component;
-   attribute DOA_REG of RAMB16 : component is "0";
-   attribute DOB_REG of RAMB16 : component is "0";
-   attribute INIT_00 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_01 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_02 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_03 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_04 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_05 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_06 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_07 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_08 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_09 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0A of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0B of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0C of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0D of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0E of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0F of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_10 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_11 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_12 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_13 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_14 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_15 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_16 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_17 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_18 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_19 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1A of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1B of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1C of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1D of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1E of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1F of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_20 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_21 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_22 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_23 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_24 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_25 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_26 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_27 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_28 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_29 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2A of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2B of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2C of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2D of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2E of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2F of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_30 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_31 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_32 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_33 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_34 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_35 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_36 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_37 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_38 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_39 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3A of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3B of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3C of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3D of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3E of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3F of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_A of RAMB16 : component is "000000000";
-   attribute INIT_B of RAMB16 : component is "000000000";
-   attribute INITP_00 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_01 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_02 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_03 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_04 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_05 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_06 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_07 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_FILE of RAMB16 : component is "NONE";
-   attribute INVERT_CLK_DOA_REG of RAMB16 : component is "FALSE";
-   attribute INVERT_CLK_DOB_REG of RAMB16 : component is "FALSE";
-   attribute RAM_EXTENSION_A of RAMB16 : component is "NONE";
-   attribute RAM_EXTENSION_B of RAMB16 : component is "NONE";
-   attribute READ_WIDTH_A of RAMB16 : component is "0";
-   attribute READ_WIDTH_B of RAMB16 : component is "0";
-   attribute SRVAL_A of RAMB16 : component is "000000000";
-   attribute SRVAL_B of RAMB16 : component is "000000000";
-   attribute WRITE_MODE_A of RAMB16 : component is "WRITE_FIRST";
-   attribute WRITE_MODE_B of RAMB16 : component is "WRITE_FIRST";
-   attribute WRITE_WIDTH_A of RAMB16 : component is "0";
-   attribute WRITE_WIDTH_B of RAMB16 : component is "0";
-   attribute SIM_COLLISION_CHECK of RAMB16 : component is "ALL";
-   attribute BOX_TYPE of RAMB16 : component is "BLACK_BOX";
-   
-   component M2_1_MXILINX_CalculatePixGain
-      port ( D0 : in    std_logic; 
-             D1 : in    std_logic; 
-             S0 : in    std_logic; 
-             O  : out   std_logic);
-   end component;
    
    component GND
       port ( G : out   std_logic);
@@ -693,6 +282,314 @@ architecture BEHAVIORAL of CalculatePixGain is
    end component;
    attribute BOX_TYPE of INV : component is "BLACK_BOX";
    
+   attribute HU_SET of CalculatePixGain_MUX_DIA_0 : label is 
+         "CalculatePixGain_MUX_DIA_0_731";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_1 : label is 
+         "CalculatePixGain_MUX_DIA_1_730";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_2 : label is 
+         "CalculatePixGain_MUX_DIA_2_729";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_3 : label is 
+         "CalculatePixGain_MUX_DIA_3_728";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_4 : label is 
+         "CalculatePixGain_MUX_DIA_4_727";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_5 : label is 
+         "CalculatePixGain_MUX_DIA_5_726";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_6 : label is 
+         "CalculatePixGain_MUX_DIA_6_725";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_7 : label is 
+         "CalculatePixGain_MUX_DIA_7_724";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_8 : label is 
+         "CalculatePixGain_MUX_DIA_8_723";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_9 : label is 
+         "CalculatePixGain_MUX_DIA_9_722";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_10 : label is 
+         "CalculatePixGain_MUX_DIA_10_721";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_11 : label is 
+         "CalculatePixGain_MUX_DIA_11_720";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_12 : label is 
+         "CalculatePixGain_MUX_DIA_12_719";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_13 : label is 
+         "CalculatePixGain_MUX_DIA_13_718";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_14 : label is 
+         "CalculatePixGain_MUX_DIA_14_717";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_15 : label is 
+         "CalculatePixGain_MUX_DIA_15_716";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_16 : label is 
+         "CalculatePixGain_MUX_DIA_16_715";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_17 : label is 
+         "CalculatePixGain_MUX_DIA_17_714";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_18 : label is 
+         "CalculatePixGain_MUX_DIA_18_713";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_19 : label is 
+         "CalculatePixGain_MUX_DIA_19_712";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_20 : label is 
+         "CalculatePixGain_MUX_DIA_20_711";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_21 : label is 
+         "CalculatePixGain_MUX_DIA_21_710";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_22 : label is 
+         "CalculatePixGain_MUX_DIA_22_709";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_23 : label is 
+         "CalculatePixGain_MUX_DIA_23_708";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_24 : label is 
+         "CalculatePixGain_MUX_DIA_24_707";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_25 : label is 
+         "CalculatePixGain_MUX_DIA_25_706";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_26 : label is 
+         "CalculatePixGain_MUX_DIA_26_705";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_27 : label is 
+         "CalculatePixGain_MUX_DIA_27_704";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_28 : label is 
+         "CalculatePixGain_MUX_DIA_28_703";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_29 : label is 
+         "CalculatePixGain_MUX_DIA_29_702";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_30 : label is 
+         "CalculatePixGain_MUX_DIA_30_701";
+   attribute HU_SET of CalculatePixGain_MUX_DIA_31 : label is 
+         "CalculatePixGain_MUX_DIA_31_700";
+   attribute HU_SET of CalculatePixGain_MUX_DO_0 : label is 
+         "CalculatePixGain_MUX_DO_0_689";
+   attribute HU_SET of CalculatePixGain_MUX_DO_1 : label is 
+         "CalculatePixGain_MUX_DO_1_688";
+   attribute HU_SET of CalculatePixGain_MUX_DO_2 : label is 
+         "CalculatePixGain_MUX_DO_2_687";
+   attribute HU_SET of CalculatePixGain_MUX_DO_3 : label is 
+         "CalculatePixGain_MUX_DO_3_686";
+   attribute HU_SET of CalculatePixGain_MUX_DO_4 : label is 
+         "CalculatePixGain_MUX_DO_4_685";
+   attribute HU_SET of CalculatePixGain_MUX_DO_5 : label is 
+         "CalculatePixGain_MUX_DO_5_684";
+   attribute HU_SET of CalculatePixGain_MUX_DO_6 : label is 
+         "CalculatePixGain_MUX_DO_6_683";
+   attribute HU_SET of CalculatePixGain_MUX_DO_7 : label is 
+         "CalculatePixGain_MUX_DO_7_682";
+   attribute HU_SET of CalculatePixGain_MUX_DO_8 : label is 
+         "CalculatePixGain_MUX_DO_8_681";
+   attribute HU_SET of CalculatePixGain_MUX_DO_9 : label is 
+         "CalculatePixGain_MUX_DO_9_680";
+   attribute HU_SET of CalculatePixGain_MUX_DO_10 : label is 
+         "CalculatePixGain_MUX_DO_10_679";
+   attribute HU_SET of CalculatePixGain_MUX_DO_11 : label is 
+         "CalculatePixGain_MUX_DO_11_678";
+   attribute HU_SET of CalculatePixGain_MUX_DO_12 : label is 
+         "CalculatePixGain_MUX_DO_12_677";
+   attribute HU_SET of CalculatePixGain_MUX_DO_13 : label is 
+         "CalculatePixGain_MUX_DO_13_676";
+   attribute HU_SET of CalculatePixGain_MUX_DO_14 : label is 
+         "CalculatePixGain_MUX_DO_14_675";
+   attribute HU_SET of CalculatePixGain_MUX_DO_15 : label is 
+         "CalculatePixGain_MUX_DO_15_674";
+   attribute HU_SET of CalculatePixGain_MUX_DO_16 : label is 
+         "CalculatePixGain_MUX_DO_16_673";
+   attribute HU_SET of CalculatePixGain_MUX_DO_17 : label is 
+         "CalculatePixGain_MUX_DO_17_672";
+   attribute HU_SET of CalculatePixGain_MUX_DO_18 : label is 
+         "CalculatePixGain_MUX_DO_18_671";
+   attribute HU_SET of CalculatePixGain_MUX_DO_19 : label is 
+         "CalculatePixGain_MUX_DO_19_670";
+   attribute HU_SET of CalculatePixGain_MUX_DO_20 : label is 
+         "CalculatePixGain_MUX_DO_20_669";
+   attribute HU_SET of CalculatePixGain_MUX_DO_21 : label is 
+         "CalculatePixGain_MUX_DO_21_668";
+   attribute HU_SET of CalculatePixGain_MUX_DO_22 : label is 
+         "CalculatePixGain_MUX_DO_22_667";
+   attribute HU_SET of CalculatePixGain_MUX_DO_23 : label is 
+         "CalculatePixGain_MUX_DO_23_666";
+   attribute HU_SET of CalculatePixGain_MUX_DO_24 : label is 
+         "CalculatePixGain_MUX_DO_24_665";
+   attribute HU_SET of CalculatePixGain_MUX_DO_25 : label is 
+         "CalculatePixGain_MUX_DO_25_664";
+   attribute HU_SET of CalculatePixGain_MUX_DO_26 : label is 
+         "CalculatePixGain_MUX_DO_26_663";
+   attribute HU_SET of CalculatePixGain_MUX_DO_27 : label is 
+         "CalculatePixGain_MUX_DO_27_662";
+   attribute HU_SET of CalculatePixGain_MUX_DO_28 : label is 
+         "CalculatePixGain_MUX_DO_28_661";
+   attribute HU_SET of CalculatePixGain_MUX_DO_29 : label is 
+         "CalculatePixGain_MUX_DO_29_660";
+   attribute HU_SET of CalculatePixGain_MUX_DO_30 : label is 
+         "CalculatePixGain_MUX_DO_30_659";
+   attribute HU_SET of CalculatePixGain_MUX_DO_31 : label is 
+         "CalculatePixGain_MUX_DO_31_658";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_0 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_0_808";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_1 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_1_807";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_2 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_2_806";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_3 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_3_805";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_4 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_4_804";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_5 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_5_803";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_6 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_6_802";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_7 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_7_801";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_8 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_8_800";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_9 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_9_799";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_10 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_10_798";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_11 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_11_797";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_12 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_12_796";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_13 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_13_795";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_14 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_14_794";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_15 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_15_793";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_16 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_16_792";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_17 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_17_791";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_18 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_18_790";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_19 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_19_789";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_20 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_20_788";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_21 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_21_787";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_22 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_22_786";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_23 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_23_785";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_24 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_24_784";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_25 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_25_783";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_26 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_26_782";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_27 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_27_781";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_28 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_28_780";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_29 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_29_779";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_30 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_30_778";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_31 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_31_777";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_32 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_32_776";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_33 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_33_775";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_34 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_34_774";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_35 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_35_773";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_36 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_36_772";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_37 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_37_771";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_38 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_38_770";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_39 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_39_769";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_40 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_40_768";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_41 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_41_767";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_42 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_42_766";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_43 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_43_765";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_44 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_44_764";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_45 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_45_763";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_46 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_46_762";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_47 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_47_761";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_48 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_48_760";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_49 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_49_759";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_50 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_50_758";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_51 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_51_757";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_52 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_52_756";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_53 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_53_755";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_54 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_54_754";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_55 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_55_753";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_56 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_56_752";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_57 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_57_751";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_58 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_58_750";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_59 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_59_749";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_60 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_60_748";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_61 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_61_747";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_62 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_62_746";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_63 : label is 
+         "CalculatePixGain_MUX_fi2fl_a_63_745";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_ce : label is 
+         "CalculatePixGain_MUX_fi2fl_ce_811";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_ond : label is 
+         "CalculatePixGain_MUX_fi2fl_ond_809";
+   attribute HU_SET of CalculatePixGain_MUX_fi2fl_sclr : label is 
+         "CalculatePixGain_MUX_fi2fl_sclr_810";
+   attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_0 : label is 
+         "CalculatePixGain_MUX_i2c_mem_addra_0_744";
+   attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_1 : label is 
+         "CalculatePixGain_MUX_i2c_mem_addra_1_743";
+   attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_2 : label is 
+         "CalculatePixGain_MUX_i2c_mem_addra_2_742";
+   attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_3 : label is 
+         "CalculatePixGain_MUX_i2c_mem_addra_3_741";
+   attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_4 : label is 
+         "CalculatePixGain_MUX_i2c_mem_addra_4_740";
+   attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_5 : label is 
+         "CalculatePixGain_MUX_i2c_mem_addra_5_739";
+   attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_6 : label is 
+         "CalculatePixGain_MUX_i2c_mem_addra_6_738";
+   attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_7 : label is 
+         "CalculatePixGain_MUX_i2c_mem_addra_7_737";
+   attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_8 : label is 
+         "CalculatePixGain_MUX_i2c_mem_addra_8_736";
+   attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_9 : label is 
+         "CalculatePixGain_MUX_i2c_mem_addra_9_735";
+   attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_10 : label is 
+         "CalculatePixGain_MUX_i2c_mem_addra_10_734";
+   attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_11 : label is 
+         "CalculatePixGain_MUX_i2c_mem_addra_11_733";
+   attribute HU_SET of CalculatePixGain_MUX_i2c_mem_ena : label is 
+         "CalculatePixGain_MUX_i2c_mem_ena_732";
+   attribute HU_SET of CalculatePixGain_mux2_addra_0 : label is 
+         "CalculatePixGain_mux2_addra_0_699";
+   attribute HU_SET of CalculatePixGain_mux2_addra_1 : label is 
+         "CalculatePixGain_mux2_addra_1_698";
+   attribute HU_SET of CalculatePixGain_mux2_addra_2 : label is 
+         "CalculatePixGain_mux2_addra_2_697";
+   attribute HU_SET of CalculatePixGain_mux2_addra_3 : label is 
+         "CalculatePixGain_mux2_addra_3_696";
+   attribute HU_SET of CalculatePixGain_mux2_addra_4 : label is 
+         "CalculatePixGain_mux2_addra_4_695";
+   attribute HU_SET of CalculatePixGain_mux2_addra_5 : label is 
+         "CalculatePixGain_mux2_addra_5_694";
+   attribute HU_SET of CalculatePixGain_mux2_addra_6 : label is 
+         "CalculatePixGain_mux2_addra_6_693";
+   attribute HU_SET of CalculatePixGain_mux2_addra_7 : label is 
+         "CalculatePixGain_mux2_addra_7_692";
+   attribute HU_SET of CalculatePixGain_mux2_addra_8 : label is 
+         "CalculatePixGain_mux2_addra_8_691";
+   attribute HU_SET of CalculatePixGain_mux2_addra_9 : label is 
+         "CalculatePixGain_mux2_addra_9_690";
    attribute WRITE_WIDTH_B of mem_KGain_1 : label is "36";
    attribute WRITE_WIDTH_A of mem_KGain_1 : label is "36";
    attribute WRITE_MODE_B of mem_KGain_1 : label is "READ_FIRST";
@@ -705,164 +602,10 @@ architecture BEHAVIORAL of CalculatePixGain is
    attribute WRITE_MODE_A of mem_KGain_2 : label is "READ_FIRST";
    attribute READ_WIDTH_B of mem_KGain_2 : label is "36";
    attribute READ_WIDTH_A of mem_KGain_2 : label is "36";
-   attribute HU_SET of MUX_DIA_0 : label is "MUX_DIA_0_1623";
-   attribute HU_SET of MUX_DIA_1 : label is "MUX_DIA_1_1622";
-   attribute HU_SET of MUX_DIA_2 : label is "MUX_DIA_2_1621";
-   attribute HU_SET of MUX_DIA_3 : label is "MUX_DIA_3_1620";
-   attribute HU_SET of MUX_DIA_4 : label is "MUX_DIA_4_1619";
-   attribute HU_SET of MUX_DIA_5 : label is "MUX_DIA_5_1618";
-   attribute HU_SET of MUX_DIA_6 : label is "MUX_DIA_6_1617";
-   attribute HU_SET of MUX_DIA_7 : label is "MUX_DIA_7_1616";
-   attribute HU_SET of MUX_DIA_8 : label is "MUX_DIA_8_1615";
-   attribute HU_SET of MUX_DIA_9 : label is "MUX_DIA_9_1614";
-   attribute HU_SET of MUX_DIA_10 : label is "MUX_DIA_10_1613";
-   attribute HU_SET of MUX_DIA_11 : label is "MUX_DIA_11_1612";
-   attribute HU_SET of MUX_DIA_12 : label is "MUX_DIA_12_1611";
-   attribute HU_SET of MUX_DIA_13 : label is "MUX_DIA_13_1610";
-   attribute HU_SET of MUX_DIA_14 : label is "MUX_DIA_14_1609";
-   attribute HU_SET of MUX_DIA_15 : label is "MUX_DIA_15_1608";
-   attribute HU_SET of MUX_DIA_16 : label is "MUX_DIA_16_1607";
-   attribute HU_SET of MUX_DIA_17 : label is "MUX_DIA_17_1606";
-   attribute HU_SET of MUX_DIA_18 : label is "MUX_DIA_18_1605";
-   attribute HU_SET of MUX_DIA_19 : label is "MUX_DIA_19_1604";
-   attribute HU_SET of MUX_DIA_20 : label is "MUX_DIA_20_1603";
-   attribute HU_SET of MUX_DIA_21 : label is "MUX_DIA_21_1602";
-   attribute HU_SET of MUX_DIA_22 : label is "MUX_DIA_22_1601";
-   attribute HU_SET of MUX_DIA_23 : label is "MUX_DIA_23_1600";
-   attribute HU_SET of MUX_DIA_24 : label is "MUX_DIA_24_1599";
-   attribute HU_SET of MUX_DIA_25 : label is "MUX_DIA_25_1598";
-   attribute HU_SET of MUX_DIA_26 : label is "MUX_DIA_26_1597";
-   attribute HU_SET of MUX_DIA_27 : label is "MUX_DIA_27_1596";
-   attribute HU_SET of MUX_DIA_28 : label is "MUX_DIA_28_1595";
-   attribute HU_SET of MUX_DIA_29 : label is "MUX_DIA_29_1594";
-   attribute HU_SET of MUX_DIA_30 : label is "MUX_DIA_30_1593";
-   attribute HU_SET of MUX_DIA_31 : label is "MUX_DIA_31_1592";
-   attribute HU_SET of MUX_DO_0 : label is "MUX_DO_0_1581";
-   attribute HU_SET of MUX_DO_1 : label is "MUX_DO_1_1580";
-   attribute HU_SET of MUX_DO_2 : label is "MUX_DO_2_1579";
-   attribute HU_SET of MUX_DO_3 : label is "MUX_DO_3_1578";
-   attribute HU_SET of MUX_DO_4 : label is "MUX_DO_4_1577";
-   attribute HU_SET of MUX_DO_5 : label is "MUX_DO_5_1576";
-   attribute HU_SET of MUX_DO_6 : label is "MUX_DO_6_1575";
-   attribute HU_SET of MUX_DO_7 : label is "MUX_DO_7_1574";
-   attribute HU_SET of MUX_DO_8 : label is "MUX_DO_8_1573";
-   attribute HU_SET of MUX_DO_9 : label is "MUX_DO_9_1572";
-   attribute HU_SET of MUX_DO_10 : label is "MUX_DO_10_1571";
-   attribute HU_SET of MUX_DO_11 : label is "MUX_DO_11_1570";
-   attribute HU_SET of MUX_DO_12 : label is "MUX_DO_12_1569";
-   attribute HU_SET of MUX_DO_13 : label is "MUX_DO_13_1568";
-   attribute HU_SET of MUX_DO_14 : label is "MUX_DO_14_1567";
-   attribute HU_SET of MUX_DO_15 : label is "MUX_DO_15_1566";
-   attribute HU_SET of MUX_DO_16 : label is "MUX_DO_16_1565";
-   attribute HU_SET of MUX_DO_17 : label is "MUX_DO_17_1564";
-   attribute HU_SET of MUX_DO_18 : label is "MUX_DO_18_1563";
-   attribute HU_SET of MUX_DO_19 : label is "MUX_DO_19_1562";
-   attribute HU_SET of MUX_DO_20 : label is "MUX_DO_20_1561";
-   attribute HU_SET of MUX_DO_21 : label is "MUX_DO_21_1560";
-   attribute HU_SET of MUX_DO_22 : label is "MUX_DO_22_1559";
-   attribute HU_SET of MUX_DO_23 : label is "MUX_DO_23_1558";
-   attribute HU_SET of MUX_DO_24 : label is "MUX_DO_24_1557";
-   attribute HU_SET of MUX_DO_25 : label is "MUX_DO_25_1556";
-   attribute HU_SET of MUX_DO_26 : label is "MUX_DO_26_1555";
-   attribute HU_SET of MUX_DO_27 : label is "MUX_DO_27_1554";
-   attribute HU_SET of MUX_DO_28 : label is "MUX_DO_28_1553";
-   attribute HU_SET of MUX_DO_29 : label is "MUX_DO_29_1552";
-   attribute HU_SET of MUX_DO_30 : label is "MUX_DO_30_1551";
-   attribute HU_SET of MUX_DO_31 : label is "MUX_DO_31_1550";
-   attribute HU_SET of MUX_F2FA_0 : label is "MUX_F2FA_0_1700";
-   attribute HU_SET of MUX_F2FA_1 : label is "MUX_F2FA_1_1699";
-   attribute HU_SET of MUX_F2FA_2 : label is "MUX_F2FA_2_1698";
-   attribute HU_SET of MUX_F2FA_3 : label is "MUX_F2FA_3_1697";
-   attribute HU_SET of MUX_F2FA_4 : label is "MUX_F2FA_4_1696";
-   attribute HU_SET of MUX_F2FA_5 : label is "MUX_F2FA_5_1695";
-   attribute HU_SET of MUX_F2FA_6 : label is "MUX_F2FA_6_1694";
-   attribute HU_SET of MUX_F2FA_7 : label is "MUX_F2FA_7_1693";
-   attribute HU_SET of MUX_F2FA_8 : label is "MUX_F2FA_8_1692";
-   attribute HU_SET of MUX_F2FA_9 : label is "MUX_F2FA_9_1691";
-   attribute HU_SET of MUX_F2FA_10 : label is "MUX_F2FA_10_1690";
-   attribute HU_SET of MUX_F2FA_11 : label is "MUX_F2FA_11_1689";
-   attribute HU_SET of MUX_F2FA_12 : label is "MUX_F2FA_12_1688";
-   attribute HU_SET of MUX_F2FA_13 : label is "MUX_F2FA_13_1687";
-   attribute HU_SET of MUX_F2FA_14 : label is "MUX_F2FA_14_1686";
-   attribute HU_SET of MUX_F2FA_15 : label is "MUX_F2FA_15_1685";
-   attribute HU_SET of MUX_F2FA_16 : label is "MUX_F2FA_16_1684";
-   attribute HU_SET of MUX_F2FA_17 : label is "MUX_F2FA_17_1683";
-   attribute HU_SET of MUX_F2FA_18 : label is "MUX_F2FA_18_1682";
-   attribute HU_SET of MUX_F2FA_19 : label is "MUX_F2FA_19_1681";
-   attribute HU_SET of MUX_F2FA_20 : label is "MUX_F2FA_20_1680";
-   attribute HU_SET of MUX_F2FA_21 : label is "MUX_F2FA_21_1679";
-   attribute HU_SET of MUX_F2FA_22 : label is "MUX_F2FA_22_1678";
-   attribute HU_SET of MUX_F2FA_23 : label is "MUX_F2FA_23_1677";
-   attribute HU_SET of MUX_F2FA_24 : label is "MUX_F2FA_24_1676";
-   attribute HU_SET of MUX_F2FA_25 : label is "MUX_F2FA_25_1675";
-   attribute HU_SET of MUX_F2FA_26 : label is "MUX_F2FA_26_1674";
-   attribute HU_SET of MUX_F2FA_27 : label is "MUX_F2FA_27_1673";
-   attribute HU_SET of MUX_F2FA_28 : label is "MUX_F2FA_28_1672";
-   attribute HU_SET of MUX_F2FA_29 : label is "MUX_F2FA_29_1671";
-   attribute HU_SET of MUX_F2FA_30 : label is "MUX_F2FA_30_1670";
-   attribute HU_SET of MUX_F2FA_31 : label is "MUX_F2FA_31_1669";
-   attribute HU_SET of MUX_F2FA_32 : label is "MUX_F2FA_32_1668";
-   attribute HU_SET of MUX_F2FA_33 : label is "MUX_F2FA_33_1667";
-   attribute HU_SET of MUX_F2FA_34 : label is "MUX_F2FA_34_1666";
-   attribute HU_SET of MUX_F2FA_35 : label is "MUX_F2FA_35_1665";
-   attribute HU_SET of MUX_F2FA_36 : label is "MUX_F2FA_36_1664";
-   attribute HU_SET of MUX_F2FA_37 : label is "MUX_F2FA_37_1663";
-   attribute HU_SET of MUX_F2FA_38 : label is "MUX_F2FA_38_1662";
-   attribute HU_SET of MUX_F2FA_39 : label is "MUX_F2FA_39_1661";
-   attribute HU_SET of MUX_F2FA_40 : label is "MUX_F2FA_40_1660";
-   attribute HU_SET of MUX_F2FA_41 : label is "MUX_F2FA_41_1659";
-   attribute HU_SET of MUX_F2FA_42 : label is "MUX_F2FA_42_1658";
-   attribute HU_SET of MUX_F2FA_43 : label is "MUX_F2FA_43_1657";
-   attribute HU_SET of MUX_F2FA_44 : label is "MUX_F2FA_44_1656";
-   attribute HU_SET of MUX_F2FA_45 : label is "MUX_F2FA_45_1655";
-   attribute HU_SET of MUX_F2FA_46 : label is "MUX_F2FA_46_1654";
-   attribute HU_SET of MUX_F2FA_47 : label is "MUX_F2FA_47_1653";
-   attribute HU_SET of MUX_F2FA_48 : label is "MUX_F2FA_48_1652";
-   attribute HU_SET of MUX_F2FA_49 : label is "MUX_F2FA_49_1651";
-   attribute HU_SET of MUX_F2FA_50 : label is "MUX_F2FA_50_1650";
-   attribute HU_SET of MUX_F2FA_51 : label is "MUX_F2FA_51_1649";
-   attribute HU_SET of MUX_F2FA_52 : label is "MUX_F2FA_52_1648";
-   attribute HU_SET of MUX_F2FA_53 : label is "MUX_F2FA_53_1647";
-   attribute HU_SET of MUX_F2FA_54 : label is "MUX_F2FA_54_1646";
-   attribute HU_SET of MUX_F2FA_55 : label is "MUX_F2FA_55_1645";
-   attribute HU_SET of MUX_F2FA_56 : label is "MUX_F2FA_56_1644";
-   attribute HU_SET of MUX_F2FA_57 : label is "MUX_F2FA_57_1643";
-   attribute HU_SET of MUX_F2FA_58 : label is "MUX_F2FA_58_1642";
-   attribute HU_SET of MUX_F2FA_59 : label is "MUX_F2FA_59_1641";
-   attribute HU_SET of MUX_F2FA_60 : label is "MUX_F2FA_60_1640";
-   attribute HU_SET of MUX_F2FA_61 : label is "MUX_F2FA_61_1639";
-   attribute HU_SET of MUX_F2FA_62 : label is "MUX_F2FA_62_1638";
-   attribute HU_SET of MUX_F2FA_63 : label is "MUX_F2FA_63_1637";
-   attribute HU_SET of MUX_I2C_ADDR_0 : label is "MUX_I2C_ADDR_0_1636";
-   attribute HU_SET of MUX_I2C_ADDR_1 : label is "MUX_I2C_ADDR_1_1635";
-   attribute HU_SET of MUX_I2C_ADDR_2 : label is "MUX_I2C_ADDR_2_1634";
-   attribute HU_SET of MUX_I2C_ADDR_3 : label is "MUX_I2C_ADDR_3_1633";
-   attribute HU_SET of MUX_I2C_ADDR_4 : label is "MUX_I2C_ADDR_4_1632";
-   attribute HU_SET of MUX_I2C_ADDR_5 : label is "MUX_I2C_ADDR_5_1631";
-   attribute HU_SET of MUX_I2C_ADDR_6 : label is "MUX_I2C_ADDR_6_1630";
-   attribute HU_SET of MUX_I2C_ADDR_7 : label is "MUX_I2C_ADDR_7_1629";
-   attribute HU_SET of MUX_I2C_ADDR_8 : label is "MUX_I2C_ADDR_8_1628";
-   attribute HU_SET of MUX_I2C_ADDR_9 : label is "MUX_I2C_ADDR_9_1627";
-   attribute HU_SET of MUX_I2C_ADDR_10 : label is "MUX_I2C_ADDR_10_1626";
-   attribute HU_SET of MUX_I2C_ADDR_11 : label is "MUX_I2C_ADDR_11_1625";
-   attribute HU_SET of mux2_addra_0 : label is "mux2_addra_0_1591";
-   attribute HU_SET of mux2_addra_1 : label is "mux2_addra_1_1590";
-   attribute HU_SET of mux2_addra_2 : label is "mux2_addra_2_1589";
-   attribute HU_SET of mux2_addra_3 : label is "mux2_addra_3_1588";
-   attribute HU_SET of mux2_addra_4 : label is "mux2_addra_4_1587";
-   attribute HU_SET of mux2_addra_5 : label is "mux2_addra_5_1586";
-   attribute HU_SET of mux2_addra_6 : label is "mux2_addra_6_1585";
-   attribute HU_SET of mux2_addra_7 : label is "mux2_addra_7_1584";
-   attribute HU_SET of mux2_addra_8 : label is "mux2_addra_8_1583";
-   attribute HU_SET of mux2_addra_9 : label is "mux2_addra_9_1582";
-   attribute HU_SET of XLXI_21 : label is "XLXI_21_1624";
-   attribute HU_SET of XLXI_24 : label is "XLXI_24_1701";
-   attribute HU_SET of XLXI_26 : label is "XLXI_26_1702";
-   attribute HU_SET of XLXI_27 : label is "XLXI_27_1703";
 begin
    XLXN_158(31 downto 0) <= x"00000000";
    o_rdy <= o_rdy_DUMMY;
-   inst_CalcKGain_proc0 : CalculateKGain_process_p0
+   CalculatePixGain_inst_CalcKGain_proc0 : CalculateKGain_process_p0
       port map (divfpr(31 downto 0)=>divfpr(31 downto 0),
                 divfprdy=>divfprdy,
                 fixed2floatr(31 downto 0)=>fixed2floatr(31 downto 0),
@@ -885,7 +628,7 @@ begin
                 o_KGain(31 downto 0)=>XLXN_141(31 downto 0),
                 o_rdy=>XLXN_155);
    
-   inst_CalcPixGain_proc0 : CalculatePixGain_process_p0
+   CalculatePixGain_inst_CalcPixGain_proc0 : CalculatePixGain_process_p0
       port map (CalculateKGain_KGain(31 downto 0)=>XLXN_141(31 downto 0),
                 CalculateKGain_rdy=>XLXN_155,
                 fixed2floatr(31 downto 0)=>fixed2floatr(31 downto 0),
@@ -913,6 +656,930 @@ begin
                 o_dia(31 downto 0)=>XLXN_157(31 downto 0),
                 o_rdy=>o_rdy_DUMMY,
                 o_write_enable=>XLXN_140);
+   
+   CalculatePixGain_MUX_DIA_0 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(0),
+                D1=>XLXN_158(0),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(0));
+   
+   CalculatePixGain_MUX_DIA_1 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(1),
+                D1=>XLXN_158(1),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(1));
+   
+   CalculatePixGain_MUX_DIA_2 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(2),
+                D1=>XLXN_158(2),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(2));
+   
+   CalculatePixGain_MUX_DIA_3 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(3),
+                D1=>XLXN_158(3),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(3));
+   
+   CalculatePixGain_MUX_DIA_4 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(4),
+                D1=>XLXN_158(4),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(4));
+   
+   CalculatePixGain_MUX_DIA_5 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(5),
+                D1=>XLXN_158(5),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(5));
+   
+   CalculatePixGain_MUX_DIA_6 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(6),
+                D1=>XLXN_158(6),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(6));
+   
+   CalculatePixGain_MUX_DIA_7 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(7),
+                D1=>XLXN_158(7),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(7));
+   
+   CalculatePixGain_MUX_DIA_8 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(8),
+                D1=>XLXN_158(8),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(8));
+   
+   CalculatePixGain_MUX_DIA_9 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(9),
+                D1=>XLXN_158(9),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(9));
+   
+   CalculatePixGain_MUX_DIA_10 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(10),
+                D1=>XLXN_158(10),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(10));
+   
+   CalculatePixGain_MUX_DIA_11 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(11),
+                D1=>XLXN_158(11),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(11));
+   
+   CalculatePixGain_MUX_DIA_12 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(12),
+                D1=>XLXN_158(12),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(12));
+   
+   CalculatePixGain_MUX_DIA_13 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(13),
+                D1=>XLXN_158(13),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(13));
+   
+   CalculatePixGain_MUX_DIA_14 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(14),
+                D1=>XLXN_158(14),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(14));
+   
+   CalculatePixGain_MUX_DIA_15 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(15),
+                D1=>XLXN_158(15),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(15));
+   
+   CalculatePixGain_MUX_DIA_16 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(16),
+                D1=>XLXN_158(16),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(16));
+   
+   CalculatePixGain_MUX_DIA_17 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(17),
+                D1=>XLXN_158(17),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(17));
+   
+   CalculatePixGain_MUX_DIA_18 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(18),
+                D1=>XLXN_158(18),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(18));
+   
+   CalculatePixGain_MUX_DIA_19 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(19),
+                D1=>XLXN_158(19),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(19));
+   
+   CalculatePixGain_MUX_DIA_20 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(20),
+                D1=>XLXN_158(20),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(20));
+   
+   CalculatePixGain_MUX_DIA_21 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(21),
+                D1=>XLXN_158(21),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(21));
+   
+   CalculatePixGain_MUX_DIA_22 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(22),
+                D1=>XLXN_158(22),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(22));
+   
+   CalculatePixGain_MUX_DIA_23 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(23),
+                D1=>XLXN_158(23),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(23));
+   
+   CalculatePixGain_MUX_DIA_24 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(24),
+                D1=>XLXN_158(24),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(24));
+   
+   CalculatePixGain_MUX_DIA_25 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(25),
+                D1=>XLXN_158(25),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(25));
+   
+   CalculatePixGain_MUX_DIA_26 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(26),
+                D1=>XLXN_158(26),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(26));
+   
+   CalculatePixGain_MUX_DIA_27 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(27),
+                D1=>XLXN_158(27),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(27));
+   
+   CalculatePixGain_MUX_DIA_28 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(28),
+                D1=>XLXN_158(28),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(28));
+   
+   CalculatePixGain_MUX_DIA_29 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(29),
+                D1=>XLXN_158(29),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(29));
+   
+   CalculatePixGain_MUX_DIA_30 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(30),
+                D1=>XLXN_158(30),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(30));
+   
+   CalculatePixGain_MUX_DIA_31 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_157(31),
+                D1=>XLXN_158(31),
+                S0=>o_rdy_DUMMY,
+                O=>XLXN_88(31));
+   
+   CalculatePixGain_MUX_DO_0 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(0),
+                D1=>XLXN_78(0),
+                S0=>mux_addr(9),
+                O=>o_do(0));
+   
+   CalculatePixGain_MUX_DO_1 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(1),
+                D1=>XLXN_78(1),
+                S0=>mux_addr(9),
+                O=>o_do(1));
+   
+   CalculatePixGain_MUX_DO_2 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(2),
+                D1=>XLXN_78(2),
+                S0=>mux_addr(9),
+                O=>o_do(2));
+   
+   CalculatePixGain_MUX_DO_3 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(3),
+                D1=>XLXN_78(3),
+                S0=>mux_addr(9),
+                O=>o_do(3));
+   
+   CalculatePixGain_MUX_DO_4 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(4),
+                D1=>XLXN_78(4),
+                S0=>mux_addr(9),
+                O=>o_do(4));
+   
+   CalculatePixGain_MUX_DO_5 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(5),
+                D1=>XLXN_78(5),
+                S0=>mux_addr(9),
+                O=>o_do(5));
+   
+   CalculatePixGain_MUX_DO_6 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(6),
+                D1=>XLXN_78(6),
+                S0=>mux_addr(9),
+                O=>o_do(6));
+   
+   CalculatePixGain_MUX_DO_7 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(7),
+                D1=>XLXN_78(7),
+                S0=>mux_addr(9),
+                O=>o_do(7));
+   
+   CalculatePixGain_MUX_DO_8 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(8),
+                D1=>XLXN_78(8),
+                S0=>mux_addr(9),
+                O=>o_do(8));
+   
+   CalculatePixGain_MUX_DO_9 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(9),
+                D1=>XLXN_78(9),
+                S0=>mux_addr(9),
+                O=>o_do(9));
+   
+   CalculatePixGain_MUX_DO_10 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(10),
+                D1=>XLXN_78(10),
+                S0=>mux_addr(9),
+                O=>o_do(10));
+   
+   CalculatePixGain_MUX_DO_11 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(11),
+                D1=>XLXN_78(11),
+                S0=>mux_addr(9),
+                O=>o_do(11));
+   
+   CalculatePixGain_MUX_DO_12 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(12),
+                D1=>XLXN_78(12),
+                S0=>mux_addr(9),
+                O=>o_do(12));
+   
+   CalculatePixGain_MUX_DO_13 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(13),
+                D1=>XLXN_78(13),
+                S0=>mux_addr(9),
+                O=>o_do(13));
+   
+   CalculatePixGain_MUX_DO_14 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(14),
+                D1=>XLXN_78(14),
+                S0=>mux_addr(9),
+                O=>o_do(14));
+   
+   CalculatePixGain_MUX_DO_15 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(15),
+                D1=>XLXN_78(15),
+                S0=>mux_addr(9),
+                O=>o_do(15));
+   
+   CalculatePixGain_MUX_DO_16 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(16),
+                D1=>XLXN_78(16),
+                S0=>mux_addr(9),
+                O=>o_do(16));
+   
+   CalculatePixGain_MUX_DO_17 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(17),
+                D1=>XLXN_78(17),
+                S0=>mux_addr(9),
+                O=>o_do(17));
+   
+   CalculatePixGain_MUX_DO_18 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(18),
+                D1=>XLXN_78(18),
+                S0=>mux_addr(9),
+                O=>o_do(18));
+   
+   CalculatePixGain_MUX_DO_19 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(19),
+                D1=>XLXN_78(19),
+                S0=>mux_addr(9),
+                O=>o_do(19));
+   
+   CalculatePixGain_MUX_DO_20 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(20),
+                D1=>XLXN_78(20),
+                S0=>mux_addr(9),
+                O=>o_do(20));
+   
+   CalculatePixGain_MUX_DO_21 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(21),
+                D1=>XLXN_78(21),
+                S0=>mux_addr(9),
+                O=>o_do(21));
+   
+   CalculatePixGain_MUX_DO_22 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(22),
+                D1=>XLXN_78(22),
+                S0=>mux_addr(9),
+                O=>o_do(22));
+   
+   CalculatePixGain_MUX_DO_23 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(23),
+                D1=>XLXN_78(23),
+                S0=>mux_addr(9),
+                O=>o_do(23));
+   
+   CalculatePixGain_MUX_DO_24 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(24),
+                D1=>XLXN_78(24),
+                S0=>mux_addr(9),
+                O=>o_do(24));
+   
+   CalculatePixGain_MUX_DO_25 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(25),
+                D1=>XLXN_78(25),
+                S0=>mux_addr(9),
+                O=>o_do(25));
+   
+   CalculatePixGain_MUX_DO_26 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(26),
+                D1=>XLXN_78(26),
+                S0=>mux_addr(9),
+                O=>o_do(26));
+   
+   CalculatePixGain_MUX_DO_27 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(27),
+                D1=>XLXN_78(27),
+                S0=>mux_addr(9),
+                O=>o_do(27));
+   
+   CalculatePixGain_MUX_DO_28 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(28),
+                D1=>XLXN_78(28),
+                S0=>mux_addr(9),
+                O=>o_do(28));
+   
+   CalculatePixGain_MUX_DO_29 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(29),
+                D1=>XLXN_78(29),
+                S0=>mux_addr(9),
+                O=>o_do(29));
+   
+   CalculatePixGain_MUX_DO_30 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(30),
+                D1=>XLXN_78(30),
+                S0=>mux_addr(9),
+                O=>o_do(30));
+   
+   CalculatePixGain_MUX_DO_31 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_79(31),
+                D1=>XLXN_78(31),
+                S0=>mux_addr(9),
+                O=>o_do(31));
+   
+   CalculatePixGain_MUX_fi2fl_a_0 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(0),
+                D1=>XLXN_119(0),
+                S0=>XLXN_113,
+                O=>fixed2floata(0));
+   
+   CalculatePixGain_MUX_fi2fl_a_1 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(1),
+                D1=>XLXN_119(1),
+                S0=>XLXN_113,
+                O=>fixed2floata(1));
+   
+   CalculatePixGain_MUX_fi2fl_a_2 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(2),
+                D1=>XLXN_119(2),
+                S0=>XLXN_113,
+                O=>fixed2floata(2));
+   
+   CalculatePixGain_MUX_fi2fl_a_3 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(3),
+                D1=>XLXN_119(3),
+                S0=>XLXN_113,
+                O=>fixed2floata(3));
+   
+   CalculatePixGain_MUX_fi2fl_a_4 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(4),
+                D1=>XLXN_119(4),
+                S0=>XLXN_113,
+                O=>fixed2floata(4));
+   
+   CalculatePixGain_MUX_fi2fl_a_5 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(5),
+                D1=>XLXN_119(5),
+                S0=>XLXN_113,
+                O=>fixed2floata(5));
+   
+   CalculatePixGain_MUX_fi2fl_a_6 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(6),
+                D1=>XLXN_119(6),
+                S0=>XLXN_113,
+                O=>fixed2floata(6));
+   
+   CalculatePixGain_MUX_fi2fl_a_7 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(7),
+                D1=>XLXN_119(7),
+                S0=>XLXN_113,
+                O=>fixed2floata(7));
+   
+   CalculatePixGain_MUX_fi2fl_a_8 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(8),
+                D1=>XLXN_119(8),
+                S0=>XLXN_113,
+                O=>fixed2floata(8));
+   
+   CalculatePixGain_MUX_fi2fl_a_9 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(9),
+                D1=>XLXN_119(9),
+                S0=>XLXN_113,
+                O=>fixed2floata(9));
+   
+   CalculatePixGain_MUX_fi2fl_a_10 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(10),
+                D1=>XLXN_119(10),
+                S0=>XLXN_113,
+                O=>fixed2floata(10));
+   
+   CalculatePixGain_MUX_fi2fl_a_11 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(11),
+                D1=>XLXN_119(11),
+                S0=>XLXN_113,
+                O=>fixed2floata(11));
+   
+   CalculatePixGain_MUX_fi2fl_a_12 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(12),
+                D1=>XLXN_119(12),
+                S0=>XLXN_113,
+                O=>fixed2floata(12));
+   
+   CalculatePixGain_MUX_fi2fl_a_13 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(13),
+                D1=>XLXN_119(13),
+                S0=>XLXN_113,
+                O=>fixed2floata(13));
+   
+   CalculatePixGain_MUX_fi2fl_a_14 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(14),
+                D1=>XLXN_119(14),
+                S0=>XLXN_113,
+                O=>fixed2floata(14));
+   
+   CalculatePixGain_MUX_fi2fl_a_15 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(15),
+                D1=>XLXN_119(15),
+                S0=>XLXN_113,
+                O=>fixed2floata(15));
+   
+   CalculatePixGain_MUX_fi2fl_a_16 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(16),
+                D1=>XLXN_119(16),
+                S0=>XLXN_113,
+                O=>fixed2floata(16));
+   
+   CalculatePixGain_MUX_fi2fl_a_17 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(17),
+                D1=>XLXN_119(17),
+                S0=>XLXN_113,
+                O=>fixed2floata(17));
+   
+   CalculatePixGain_MUX_fi2fl_a_18 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(18),
+                D1=>XLXN_119(18),
+                S0=>XLXN_113,
+                O=>fixed2floata(18));
+   
+   CalculatePixGain_MUX_fi2fl_a_19 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(19),
+                D1=>XLXN_119(19),
+                S0=>XLXN_113,
+                O=>fixed2floata(19));
+   
+   CalculatePixGain_MUX_fi2fl_a_20 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(20),
+                D1=>XLXN_119(20),
+                S0=>XLXN_113,
+                O=>fixed2floata(20));
+   
+   CalculatePixGain_MUX_fi2fl_a_21 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(21),
+                D1=>XLXN_119(21),
+                S0=>XLXN_113,
+                O=>fixed2floata(21));
+   
+   CalculatePixGain_MUX_fi2fl_a_22 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(22),
+                D1=>XLXN_119(22),
+                S0=>XLXN_113,
+                O=>fixed2floata(22));
+   
+   CalculatePixGain_MUX_fi2fl_a_23 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(23),
+                D1=>XLXN_119(23),
+                S0=>XLXN_113,
+                O=>fixed2floata(23));
+   
+   CalculatePixGain_MUX_fi2fl_a_24 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(24),
+                D1=>XLXN_119(24),
+                S0=>XLXN_113,
+                O=>fixed2floata(24));
+   
+   CalculatePixGain_MUX_fi2fl_a_25 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(25),
+                D1=>XLXN_119(25),
+                S0=>XLXN_113,
+                O=>fixed2floata(25));
+   
+   CalculatePixGain_MUX_fi2fl_a_26 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(26),
+                D1=>XLXN_119(26),
+                S0=>XLXN_113,
+                O=>fixed2floata(26));
+   
+   CalculatePixGain_MUX_fi2fl_a_27 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(27),
+                D1=>XLXN_119(27),
+                S0=>XLXN_113,
+                O=>fixed2floata(27));
+   
+   CalculatePixGain_MUX_fi2fl_a_28 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(28),
+                D1=>XLXN_119(28),
+                S0=>XLXN_113,
+                O=>fixed2floata(28));
+   
+   CalculatePixGain_MUX_fi2fl_a_29 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(29),
+                D1=>XLXN_119(29),
+                S0=>XLXN_113,
+                O=>fixed2floata(29));
+   
+   CalculatePixGain_MUX_fi2fl_a_30 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(30),
+                D1=>XLXN_119(30),
+                S0=>XLXN_113,
+                O=>fixed2floata(30));
+   
+   CalculatePixGain_MUX_fi2fl_a_31 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(31),
+                D1=>XLXN_119(31),
+                S0=>XLXN_113,
+                O=>fixed2floata(31));
+   
+   CalculatePixGain_MUX_fi2fl_a_32 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(32),
+                D1=>XLXN_119(32),
+                S0=>XLXN_113,
+                O=>fixed2floata(32));
+   
+   CalculatePixGain_MUX_fi2fl_a_33 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(33),
+                D1=>XLXN_119(33),
+                S0=>XLXN_113,
+                O=>fixed2floata(33));
+   
+   CalculatePixGain_MUX_fi2fl_a_34 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(34),
+                D1=>XLXN_119(34),
+                S0=>XLXN_113,
+                O=>fixed2floata(34));
+   
+   CalculatePixGain_MUX_fi2fl_a_35 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(35),
+                D1=>XLXN_119(35),
+                S0=>XLXN_113,
+                O=>fixed2floata(35));
+   
+   CalculatePixGain_MUX_fi2fl_a_36 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(36),
+                D1=>XLXN_119(36),
+                S0=>XLXN_113,
+                O=>fixed2floata(36));
+   
+   CalculatePixGain_MUX_fi2fl_a_37 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(37),
+                D1=>XLXN_119(37),
+                S0=>XLXN_113,
+                O=>fixed2floata(37));
+   
+   CalculatePixGain_MUX_fi2fl_a_38 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(38),
+                D1=>XLXN_119(38),
+                S0=>XLXN_113,
+                O=>fixed2floata(38));
+   
+   CalculatePixGain_MUX_fi2fl_a_39 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(39),
+                D1=>XLXN_119(39),
+                S0=>XLXN_113,
+                O=>fixed2floata(39));
+   
+   CalculatePixGain_MUX_fi2fl_a_40 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(40),
+                D1=>XLXN_119(40),
+                S0=>XLXN_113,
+                O=>fixed2floata(40));
+   
+   CalculatePixGain_MUX_fi2fl_a_41 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(41),
+                D1=>XLXN_119(41),
+                S0=>XLXN_113,
+                O=>fixed2floata(41));
+   
+   CalculatePixGain_MUX_fi2fl_a_42 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(42),
+                D1=>XLXN_119(42),
+                S0=>XLXN_113,
+                O=>fixed2floata(42));
+   
+   CalculatePixGain_MUX_fi2fl_a_43 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(43),
+                D1=>XLXN_119(43),
+                S0=>XLXN_113,
+                O=>fixed2floata(43));
+   
+   CalculatePixGain_MUX_fi2fl_a_44 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(44),
+                D1=>XLXN_119(44),
+                S0=>XLXN_113,
+                O=>fixed2floata(44));
+   
+   CalculatePixGain_MUX_fi2fl_a_45 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(45),
+                D1=>XLXN_119(45),
+                S0=>XLXN_113,
+                O=>fixed2floata(45));
+   
+   CalculatePixGain_MUX_fi2fl_a_46 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(46),
+                D1=>XLXN_119(46),
+                S0=>XLXN_113,
+                O=>fixed2floata(46));
+   
+   CalculatePixGain_MUX_fi2fl_a_47 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(47),
+                D1=>XLXN_119(47),
+                S0=>XLXN_113,
+                O=>fixed2floata(47));
+   
+   CalculatePixGain_MUX_fi2fl_a_48 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(48),
+                D1=>XLXN_119(48),
+                S0=>XLXN_113,
+                O=>fixed2floata(48));
+   
+   CalculatePixGain_MUX_fi2fl_a_49 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(49),
+                D1=>XLXN_119(49),
+                S0=>XLXN_113,
+                O=>fixed2floata(49));
+   
+   CalculatePixGain_MUX_fi2fl_a_50 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(50),
+                D1=>XLXN_119(50),
+                S0=>XLXN_113,
+                O=>fixed2floata(50));
+   
+   CalculatePixGain_MUX_fi2fl_a_51 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(51),
+                D1=>XLXN_119(51),
+                S0=>XLXN_113,
+                O=>fixed2floata(51));
+   
+   CalculatePixGain_MUX_fi2fl_a_52 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(52),
+                D1=>XLXN_119(52),
+                S0=>XLXN_113,
+                O=>fixed2floata(52));
+   
+   CalculatePixGain_MUX_fi2fl_a_53 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(53),
+                D1=>XLXN_119(53),
+                S0=>XLXN_113,
+                O=>fixed2floata(53));
+   
+   CalculatePixGain_MUX_fi2fl_a_54 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(54),
+                D1=>XLXN_119(54),
+                S0=>XLXN_113,
+                O=>fixed2floata(54));
+   
+   CalculatePixGain_MUX_fi2fl_a_55 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(55),
+                D1=>XLXN_119(55),
+                S0=>XLXN_113,
+                O=>fixed2floata(55));
+   
+   CalculatePixGain_MUX_fi2fl_a_56 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(56),
+                D1=>XLXN_119(56),
+                S0=>XLXN_113,
+                O=>fixed2floata(56));
+   
+   CalculatePixGain_MUX_fi2fl_a_57 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(57),
+                D1=>XLXN_119(57),
+                S0=>XLXN_113,
+                O=>fixed2floata(57));
+   
+   CalculatePixGain_MUX_fi2fl_a_58 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(58),
+                D1=>XLXN_119(58),
+                S0=>XLXN_113,
+                O=>fixed2floata(58));
+   
+   CalculatePixGain_MUX_fi2fl_a_59 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(59),
+                D1=>XLXN_119(59),
+                S0=>XLXN_113,
+                O=>fixed2floata(59));
+   
+   CalculatePixGain_MUX_fi2fl_a_60 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(60),
+                D1=>XLXN_119(60),
+                S0=>XLXN_113,
+                O=>fixed2floata(60));
+   
+   CalculatePixGain_MUX_fi2fl_a_61 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(61),
+                D1=>XLXN_119(61),
+                S0=>XLXN_113,
+                O=>fixed2floata(61));
+   
+   CalculatePixGain_MUX_fi2fl_a_62 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(62),
+                D1=>XLXN_119(62),
+                S0=>XLXN_113,
+                O=>fixed2floata(62));
+   
+   CalculatePixGain_MUX_fi2fl_a_63 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_118(63),
+                D1=>XLXN_119(63),
+                S0=>XLXN_113,
+                O=>fixed2floata(63));
+   
+   CalculatePixGain_MUX_fi2fl_ce : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_133,
+                D1=>XLXN_137,
+                S0=>XLXN_113,
+                O=>fixed2floatce);
+   
+   CalculatePixGain_MUX_fi2fl_ond : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_132,
+                D1=>XLXN_135,
+                S0=>XLXN_113,
+                O=>fixed2floatond);
+   
+   CalculatePixGain_MUX_fi2fl_sclr : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_134,
+                D1=>XLXN_136,
+                S0=>XLXN_113,
+                O=>fixed2floatsclr);
+   
+   CalculatePixGain_MUX_i2c_mem_addra_0 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_114(0),
+                D1=>XLXN_115(0),
+                S0=>XLXN_113,
+                O=>i2c_mem_addra(0));
+   
+   CalculatePixGain_MUX_i2c_mem_addra_1 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_114(1),
+                D1=>XLXN_115(1),
+                S0=>XLXN_113,
+                O=>i2c_mem_addra(1));
+   
+   CalculatePixGain_MUX_i2c_mem_addra_2 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_114(2),
+                D1=>XLXN_115(2),
+                S0=>XLXN_113,
+                O=>i2c_mem_addra(2));
+   
+   CalculatePixGain_MUX_i2c_mem_addra_3 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_114(3),
+                D1=>XLXN_115(3),
+                S0=>XLXN_113,
+                O=>i2c_mem_addra(3));
+   
+   CalculatePixGain_MUX_i2c_mem_addra_4 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_114(4),
+                D1=>XLXN_115(4),
+                S0=>XLXN_113,
+                O=>i2c_mem_addra(4));
+   
+   CalculatePixGain_MUX_i2c_mem_addra_5 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_114(5),
+                D1=>XLXN_115(5),
+                S0=>XLXN_113,
+                O=>i2c_mem_addra(5));
+   
+   CalculatePixGain_MUX_i2c_mem_addra_6 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_114(6),
+                D1=>XLXN_115(6),
+                S0=>XLXN_113,
+                O=>i2c_mem_addra(6));
+   
+   CalculatePixGain_MUX_i2c_mem_addra_7 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_114(7),
+                D1=>XLXN_115(7),
+                S0=>XLXN_113,
+                O=>i2c_mem_addra(7));
+   
+   CalculatePixGain_MUX_i2c_mem_addra_8 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_114(8),
+                D1=>XLXN_115(8),
+                S0=>XLXN_113,
+                O=>i2c_mem_addra(8));
+   
+   CalculatePixGain_MUX_i2c_mem_addra_9 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_114(9),
+                D1=>XLXN_115(9),
+                S0=>XLXN_113,
+                O=>i2c_mem_addra(9));
+   
+   CalculatePixGain_MUX_i2c_mem_addra_10 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_114(10),
+                D1=>XLXN_115(10),
+                S0=>XLXN_113,
+                O=>i2c_mem_addra(10));
+   
+   CalculatePixGain_MUX_i2c_mem_addra_11 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_114(11),
+                D1=>XLXN_115(11),
+                S0=>XLXN_113,
+                O=>i2c_mem_addra(11));
+   
+   CalculatePixGain_MUX_i2c_mem_ena : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_109,
+                D1=>XLXN_112,
+                S0=>XLXN_113,
+                O=>i2c_mem_ena);
+   
+   CalculatePixGain_mux2_addra_0 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_86(0),
+                D1=>i_addr(0),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr(0));
+   
+   CalculatePixGain_mux2_addra_1 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_86(1),
+                D1=>i_addr(1),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr(1));
+   
+   CalculatePixGain_mux2_addra_2 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_86(2),
+                D1=>i_addr(2),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr(2));
+   
+   CalculatePixGain_mux2_addra_3 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_86(3),
+                D1=>i_addr(3),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr(3));
+   
+   CalculatePixGain_mux2_addra_4 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_86(4),
+                D1=>i_addr(4),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr(4));
+   
+   CalculatePixGain_mux2_addra_5 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_86(5),
+                D1=>i_addr(5),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr(5));
+   
+   CalculatePixGain_mux2_addra_6 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_86(6),
+                D1=>i_addr(6),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr(6));
+   
+   CalculatePixGain_mux2_addra_7 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_86(7),
+                D1=>i_addr(7),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr(7));
+   
+   CalculatePixGain_mux2_addra_8 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_86(8),
+                D1=>i_addr(8),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr(8));
+   
+   CalculatePixGain_mux2_addra_9 : M2_1_MXILINX_CalculatePixGain
+      port map (D0=>XLXN_86(9),
+                D1=>i_addr(9),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr(9));
    
    mem_KGain_1 : RAMB16
    -- synopsys translate_off
@@ -981,906 +1648,6 @@ begin
                 DOB=>open,
                 DOPA=>open,
                 DOPB=>open);
-   
-   MUX_DIA_0 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(0),
-                D1=>XLXN_158(0),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(0));
-   
-   MUX_DIA_1 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(1),
-                D1=>XLXN_158(1),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(1));
-   
-   MUX_DIA_2 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(2),
-                D1=>XLXN_158(2),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(2));
-   
-   MUX_DIA_3 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(3),
-                D1=>XLXN_158(3),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(3));
-   
-   MUX_DIA_4 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(4),
-                D1=>XLXN_158(4),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(4));
-   
-   MUX_DIA_5 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(5),
-                D1=>XLXN_158(5),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(5));
-   
-   MUX_DIA_6 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(6),
-                D1=>XLXN_158(6),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(6));
-   
-   MUX_DIA_7 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(7),
-                D1=>XLXN_158(7),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(7));
-   
-   MUX_DIA_8 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(8),
-                D1=>XLXN_158(8),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(8));
-   
-   MUX_DIA_9 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(9),
-                D1=>XLXN_158(9),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(9));
-   
-   MUX_DIA_10 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(10),
-                D1=>XLXN_158(10),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(10));
-   
-   MUX_DIA_11 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(11),
-                D1=>XLXN_158(11),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(11));
-   
-   MUX_DIA_12 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(12),
-                D1=>XLXN_158(12),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(12));
-   
-   MUX_DIA_13 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(13),
-                D1=>XLXN_158(13),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(13));
-   
-   MUX_DIA_14 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(14),
-                D1=>XLXN_158(14),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(14));
-   
-   MUX_DIA_15 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(15),
-                D1=>XLXN_158(15),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(15));
-   
-   MUX_DIA_16 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(16),
-                D1=>XLXN_158(16),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(16));
-   
-   MUX_DIA_17 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(17),
-                D1=>XLXN_158(17),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(17));
-   
-   MUX_DIA_18 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(18),
-                D1=>XLXN_158(18),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(18));
-   
-   MUX_DIA_19 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(19),
-                D1=>XLXN_158(19),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(19));
-   
-   MUX_DIA_20 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(20),
-                D1=>XLXN_158(20),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(20));
-   
-   MUX_DIA_21 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(21),
-                D1=>XLXN_158(21),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(21));
-   
-   MUX_DIA_22 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(22),
-                D1=>XLXN_158(22),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(22));
-   
-   MUX_DIA_23 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(23),
-                D1=>XLXN_158(23),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(23));
-   
-   MUX_DIA_24 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(24),
-                D1=>XLXN_158(24),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(24));
-   
-   MUX_DIA_25 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(25),
-                D1=>XLXN_158(25),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(25));
-   
-   MUX_DIA_26 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(26),
-                D1=>XLXN_158(26),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(26));
-   
-   MUX_DIA_27 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(27),
-                D1=>XLXN_158(27),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(27));
-   
-   MUX_DIA_28 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(28),
-                D1=>XLXN_158(28),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(28));
-   
-   MUX_DIA_29 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(29),
-                D1=>XLXN_158(29),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(29));
-   
-   MUX_DIA_30 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(30),
-                D1=>XLXN_158(30),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(30));
-   
-   MUX_DIA_31 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_157(31),
-                D1=>XLXN_158(31),
-                S0=>o_rdy_DUMMY,
-                O=>XLXN_88(31));
-   
-   MUX_DO_0 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(0),
-                D1=>XLXN_78(0),
-                S0=>mux_addr(9),
-                O=>o_do(0));
-   
-   MUX_DO_1 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(1),
-                D1=>XLXN_78(1),
-                S0=>mux_addr(9),
-                O=>o_do(1));
-   
-   MUX_DO_2 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(2),
-                D1=>XLXN_78(2),
-                S0=>mux_addr(9),
-                O=>o_do(2));
-   
-   MUX_DO_3 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(3),
-                D1=>XLXN_78(3),
-                S0=>mux_addr(9),
-                O=>o_do(3));
-   
-   MUX_DO_4 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(4),
-                D1=>XLXN_78(4),
-                S0=>mux_addr(9),
-                O=>o_do(4));
-   
-   MUX_DO_5 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(5),
-                D1=>XLXN_78(5),
-                S0=>mux_addr(9),
-                O=>o_do(5));
-   
-   MUX_DO_6 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(6),
-                D1=>XLXN_78(6),
-                S0=>mux_addr(9),
-                O=>o_do(6));
-   
-   MUX_DO_7 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(7),
-                D1=>XLXN_78(7),
-                S0=>mux_addr(9),
-                O=>o_do(7));
-   
-   MUX_DO_8 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(8),
-                D1=>XLXN_78(8),
-                S0=>mux_addr(9),
-                O=>o_do(8));
-   
-   MUX_DO_9 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(9),
-                D1=>XLXN_78(9),
-                S0=>mux_addr(9),
-                O=>o_do(9));
-   
-   MUX_DO_10 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(10),
-                D1=>XLXN_78(10),
-                S0=>mux_addr(9),
-                O=>o_do(10));
-   
-   MUX_DO_11 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(11),
-                D1=>XLXN_78(11),
-                S0=>mux_addr(9),
-                O=>o_do(11));
-   
-   MUX_DO_12 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(12),
-                D1=>XLXN_78(12),
-                S0=>mux_addr(9),
-                O=>o_do(12));
-   
-   MUX_DO_13 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(13),
-                D1=>XLXN_78(13),
-                S0=>mux_addr(9),
-                O=>o_do(13));
-   
-   MUX_DO_14 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(14),
-                D1=>XLXN_78(14),
-                S0=>mux_addr(9),
-                O=>o_do(14));
-   
-   MUX_DO_15 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(15),
-                D1=>XLXN_78(15),
-                S0=>mux_addr(9),
-                O=>o_do(15));
-   
-   MUX_DO_16 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(16),
-                D1=>XLXN_78(16),
-                S0=>mux_addr(9),
-                O=>o_do(16));
-   
-   MUX_DO_17 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(17),
-                D1=>XLXN_78(17),
-                S0=>mux_addr(9),
-                O=>o_do(17));
-   
-   MUX_DO_18 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(18),
-                D1=>XLXN_78(18),
-                S0=>mux_addr(9),
-                O=>o_do(18));
-   
-   MUX_DO_19 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(19),
-                D1=>XLXN_78(19),
-                S0=>mux_addr(9),
-                O=>o_do(19));
-   
-   MUX_DO_20 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(20),
-                D1=>XLXN_78(20),
-                S0=>mux_addr(9),
-                O=>o_do(20));
-   
-   MUX_DO_21 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(21),
-                D1=>XLXN_78(21),
-                S0=>mux_addr(9),
-                O=>o_do(21));
-   
-   MUX_DO_22 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(22),
-                D1=>XLXN_78(22),
-                S0=>mux_addr(9),
-                O=>o_do(22));
-   
-   MUX_DO_23 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(23),
-                D1=>XLXN_78(23),
-                S0=>mux_addr(9),
-                O=>o_do(23));
-   
-   MUX_DO_24 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(24),
-                D1=>XLXN_78(24),
-                S0=>mux_addr(9),
-                O=>o_do(24));
-   
-   MUX_DO_25 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(25),
-                D1=>XLXN_78(25),
-                S0=>mux_addr(9),
-                O=>o_do(25));
-   
-   MUX_DO_26 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(26),
-                D1=>XLXN_78(26),
-                S0=>mux_addr(9),
-                O=>o_do(26));
-   
-   MUX_DO_27 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(27),
-                D1=>XLXN_78(27),
-                S0=>mux_addr(9),
-                O=>o_do(27));
-   
-   MUX_DO_28 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(28),
-                D1=>XLXN_78(28),
-                S0=>mux_addr(9),
-                O=>o_do(28));
-   
-   MUX_DO_29 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(29),
-                D1=>XLXN_78(29),
-                S0=>mux_addr(9),
-                O=>o_do(29));
-   
-   MUX_DO_30 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(30),
-                D1=>XLXN_78(30),
-                S0=>mux_addr(9),
-                O=>o_do(30));
-   
-   MUX_DO_31 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_79(31),
-                D1=>XLXN_78(31),
-                S0=>mux_addr(9),
-                O=>o_do(31));
-   
-   MUX_F2FA_0 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(0),
-                D1=>XLXN_119(0),
-                S0=>XLXN_113,
-                O=>fixed2floata(0));
-   
-   MUX_F2FA_1 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(1),
-                D1=>XLXN_119(1),
-                S0=>XLXN_113,
-                O=>fixed2floata(1));
-   
-   MUX_F2FA_2 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(2),
-                D1=>XLXN_119(2),
-                S0=>XLXN_113,
-                O=>fixed2floata(2));
-   
-   MUX_F2FA_3 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(3),
-                D1=>XLXN_119(3),
-                S0=>XLXN_113,
-                O=>fixed2floata(3));
-   
-   MUX_F2FA_4 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(4),
-                D1=>XLXN_119(4),
-                S0=>XLXN_113,
-                O=>fixed2floata(4));
-   
-   MUX_F2FA_5 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(5),
-                D1=>XLXN_119(5),
-                S0=>XLXN_113,
-                O=>fixed2floata(5));
-   
-   MUX_F2FA_6 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(6),
-                D1=>XLXN_119(6),
-                S0=>XLXN_113,
-                O=>fixed2floata(6));
-   
-   MUX_F2FA_7 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(7),
-                D1=>XLXN_119(7),
-                S0=>XLXN_113,
-                O=>fixed2floata(7));
-   
-   MUX_F2FA_8 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(8),
-                D1=>XLXN_119(8),
-                S0=>XLXN_113,
-                O=>fixed2floata(8));
-   
-   MUX_F2FA_9 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(9),
-                D1=>XLXN_119(9),
-                S0=>XLXN_113,
-                O=>fixed2floata(9));
-   
-   MUX_F2FA_10 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(10),
-                D1=>XLXN_119(10),
-                S0=>XLXN_113,
-                O=>fixed2floata(10));
-   
-   MUX_F2FA_11 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(11),
-                D1=>XLXN_119(11),
-                S0=>XLXN_113,
-                O=>fixed2floata(11));
-   
-   MUX_F2FA_12 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(12),
-                D1=>XLXN_119(12),
-                S0=>XLXN_113,
-                O=>fixed2floata(12));
-   
-   MUX_F2FA_13 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(13),
-                D1=>XLXN_119(13),
-                S0=>XLXN_113,
-                O=>fixed2floata(13));
-   
-   MUX_F2FA_14 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(14),
-                D1=>XLXN_119(14),
-                S0=>XLXN_113,
-                O=>fixed2floata(14));
-   
-   MUX_F2FA_15 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(15),
-                D1=>XLXN_119(15),
-                S0=>XLXN_113,
-                O=>fixed2floata(15));
-   
-   MUX_F2FA_16 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(16),
-                D1=>XLXN_119(16),
-                S0=>XLXN_113,
-                O=>fixed2floata(16));
-   
-   MUX_F2FA_17 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(17),
-                D1=>XLXN_119(17),
-                S0=>XLXN_113,
-                O=>fixed2floata(17));
-   
-   MUX_F2FA_18 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(18),
-                D1=>XLXN_119(18),
-                S0=>XLXN_113,
-                O=>fixed2floata(18));
-   
-   MUX_F2FA_19 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(19),
-                D1=>XLXN_119(19),
-                S0=>XLXN_113,
-                O=>fixed2floata(19));
-   
-   MUX_F2FA_20 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(20),
-                D1=>XLXN_119(20),
-                S0=>XLXN_113,
-                O=>fixed2floata(20));
-   
-   MUX_F2FA_21 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(21),
-                D1=>XLXN_119(21),
-                S0=>XLXN_113,
-                O=>fixed2floata(21));
-   
-   MUX_F2FA_22 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(22),
-                D1=>XLXN_119(22),
-                S0=>XLXN_113,
-                O=>fixed2floata(22));
-   
-   MUX_F2FA_23 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(23),
-                D1=>XLXN_119(23),
-                S0=>XLXN_113,
-                O=>fixed2floata(23));
-   
-   MUX_F2FA_24 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(24),
-                D1=>XLXN_119(24),
-                S0=>XLXN_113,
-                O=>fixed2floata(24));
-   
-   MUX_F2FA_25 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(25),
-                D1=>XLXN_119(25),
-                S0=>XLXN_113,
-                O=>fixed2floata(25));
-   
-   MUX_F2FA_26 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(26),
-                D1=>XLXN_119(26),
-                S0=>XLXN_113,
-                O=>fixed2floata(26));
-   
-   MUX_F2FA_27 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(27),
-                D1=>XLXN_119(27),
-                S0=>XLXN_113,
-                O=>fixed2floata(27));
-   
-   MUX_F2FA_28 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(28),
-                D1=>XLXN_119(28),
-                S0=>XLXN_113,
-                O=>fixed2floata(28));
-   
-   MUX_F2FA_29 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(29),
-                D1=>XLXN_119(29),
-                S0=>XLXN_113,
-                O=>fixed2floata(29));
-   
-   MUX_F2FA_30 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(30),
-                D1=>XLXN_119(30),
-                S0=>XLXN_113,
-                O=>fixed2floata(30));
-   
-   MUX_F2FA_31 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(31),
-                D1=>XLXN_119(31),
-                S0=>XLXN_113,
-                O=>fixed2floata(31));
-   
-   MUX_F2FA_32 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(32),
-                D1=>XLXN_119(32),
-                S0=>XLXN_113,
-                O=>fixed2floata(32));
-   
-   MUX_F2FA_33 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(33),
-                D1=>XLXN_119(33),
-                S0=>XLXN_113,
-                O=>fixed2floata(33));
-   
-   MUX_F2FA_34 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(34),
-                D1=>XLXN_119(34),
-                S0=>XLXN_113,
-                O=>fixed2floata(34));
-   
-   MUX_F2FA_35 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(35),
-                D1=>XLXN_119(35),
-                S0=>XLXN_113,
-                O=>fixed2floata(35));
-   
-   MUX_F2FA_36 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(36),
-                D1=>XLXN_119(36),
-                S0=>XLXN_113,
-                O=>fixed2floata(36));
-   
-   MUX_F2FA_37 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(37),
-                D1=>XLXN_119(37),
-                S0=>XLXN_113,
-                O=>fixed2floata(37));
-   
-   MUX_F2FA_38 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(38),
-                D1=>XLXN_119(38),
-                S0=>XLXN_113,
-                O=>fixed2floata(38));
-   
-   MUX_F2FA_39 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(39),
-                D1=>XLXN_119(39),
-                S0=>XLXN_113,
-                O=>fixed2floata(39));
-   
-   MUX_F2FA_40 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(40),
-                D1=>XLXN_119(40),
-                S0=>XLXN_113,
-                O=>fixed2floata(40));
-   
-   MUX_F2FA_41 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(41),
-                D1=>XLXN_119(41),
-                S0=>XLXN_113,
-                O=>fixed2floata(41));
-   
-   MUX_F2FA_42 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(42),
-                D1=>XLXN_119(42),
-                S0=>XLXN_113,
-                O=>fixed2floata(42));
-   
-   MUX_F2FA_43 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(43),
-                D1=>XLXN_119(43),
-                S0=>XLXN_113,
-                O=>fixed2floata(43));
-   
-   MUX_F2FA_44 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(44),
-                D1=>XLXN_119(44),
-                S0=>XLXN_113,
-                O=>fixed2floata(44));
-   
-   MUX_F2FA_45 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(45),
-                D1=>XLXN_119(45),
-                S0=>XLXN_113,
-                O=>fixed2floata(45));
-   
-   MUX_F2FA_46 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(46),
-                D1=>XLXN_119(46),
-                S0=>XLXN_113,
-                O=>fixed2floata(46));
-   
-   MUX_F2FA_47 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(47),
-                D1=>XLXN_119(47),
-                S0=>XLXN_113,
-                O=>fixed2floata(47));
-   
-   MUX_F2FA_48 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(48),
-                D1=>XLXN_119(48),
-                S0=>XLXN_113,
-                O=>fixed2floata(48));
-   
-   MUX_F2FA_49 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(49),
-                D1=>XLXN_119(49),
-                S0=>XLXN_113,
-                O=>fixed2floata(49));
-   
-   MUX_F2FA_50 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(50),
-                D1=>XLXN_119(50),
-                S0=>XLXN_113,
-                O=>fixed2floata(50));
-   
-   MUX_F2FA_51 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(51),
-                D1=>XLXN_119(51),
-                S0=>XLXN_113,
-                O=>fixed2floata(51));
-   
-   MUX_F2FA_52 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(52),
-                D1=>XLXN_119(52),
-                S0=>XLXN_113,
-                O=>fixed2floata(52));
-   
-   MUX_F2FA_53 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(53),
-                D1=>XLXN_119(53),
-                S0=>XLXN_113,
-                O=>fixed2floata(53));
-   
-   MUX_F2FA_54 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(54),
-                D1=>XLXN_119(54),
-                S0=>XLXN_113,
-                O=>fixed2floata(54));
-   
-   MUX_F2FA_55 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(55),
-                D1=>XLXN_119(55),
-                S0=>XLXN_113,
-                O=>fixed2floata(55));
-   
-   MUX_F2FA_56 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(56),
-                D1=>XLXN_119(56),
-                S0=>XLXN_113,
-                O=>fixed2floata(56));
-   
-   MUX_F2FA_57 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(57),
-                D1=>XLXN_119(57),
-                S0=>XLXN_113,
-                O=>fixed2floata(57));
-   
-   MUX_F2FA_58 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(58),
-                D1=>XLXN_119(58),
-                S0=>XLXN_113,
-                O=>fixed2floata(58));
-   
-   MUX_F2FA_59 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(59),
-                D1=>XLXN_119(59),
-                S0=>XLXN_113,
-                O=>fixed2floata(59));
-   
-   MUX_F2FA_60 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(60),
-                D1=>XLXN_119(60),
-                S0=>XLXN_113,
-                O=>fixed2floata(60));
-   
-   MUX_F2FA_61 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(61),
-                D1=>XLXN_119(61),
-                S0=>XLXN_113,
-                O=>fixed2floata(61));
-   
-   MUX_F2FA_62 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(62),
-                D1=>XLXN_119(62),
-                S0=>XLXN_113,
-                O=>fixed2floata(62));
-   
-   MUX_F2FA_63 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_118(63),
-                D1=>XLXN_119(63),
-                S0=>XLXN_113,
-                O=>fixed2floata(63));
-   
-   MUX_I2C_ADDR_0 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_114(0),
-                D1=>XLXN_115(0),
-                S0=>XLXN_113,
-                O=>i2c_mem_addra(0));
-   
-   MUX_I2C_ADDR_1 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_114(1),
-                D1=>XLXN_115(1),
-                S0=>XLXN_113,
-                O=>i2c_mem_addra(1));
-   
-   MUX_I2C_ADDR_2 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_114(2),
-                D1=>XLXN_115(2),
-                S0=>XLXN_113,
-                O=>i2c_mem_addra(2));
-   
-   MUX_I2C_ADDR_3 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_114(3),
-                D1=>XLXN_115(3),
-                S0=>XLXN_113,
-                O=>i2c_mem_addra(3));
-   
-   MUX_I2C_ADDR_4 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_114(4),
-                D1=>XLXN_115(4),
-                S0=>XLXN_113,
-                O=>i2c_mem_addra(4));
-   
-   MUX_I2C_ADDR_5 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_114(5),
-                D1=>XLXN_115(5),
-                S0=>XLXN_113,
-                O=>i2c_mem_addra(5));
-   
-   MUX_I2C_ADDR_6 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_114(6),
-                D1=>XLXN_115(6),
-                S0=>XLXN_113,
-                O=>i2c_mem_addra(6));
-   
-   MUX_I2C_ADDR_7 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_114(7),
-                D1=>XLXN_115(7),
-                S0=>XLXN_113,
-                O=>i2c_mem_addra(7));
-   
-   MUX_I2C_ADDR_8 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_114(8),
-                D1=>XLXN_115(8),
-                S0=>XLXN_113,
-                O=>i2c_mem_addra(8));
-   
-   MUX_I2C_ADDR_9 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_114(9),
-                D1=>XLXN_115(9),
-                S0=>XLXN_113,
-                O=>i2c_mem_addra(9));
-   
-   MUX_I2C_ADDR_10 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_114(10),
-                D1=>XLXN_115(10),
-                S0=>XLXN_113,
-                O=>i2c_mem_addra(10));
-   
-   MUX_I2C_ADDR_11 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_114(11),
-                D1=>XLXN_115(11),
-                S0=>XLXN_113,
-                O=>i2c_mem_addra(11));
-   
-   mux2_addra_0 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_86(0),
-                D1=>i_addr(0),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr(0));
-   
-   mux2_addra_1 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_86(1),
-                D1=>i_addr(1),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr(1));
-   
-   mux2_addra_2 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_86(2),
-                D1=>i_addr(2),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr(2));
-   
-   mux2_addra_3 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_86(3),
-                D1=>i_addr(3),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr(3));
-   
-   mux2_addra_4 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_86(4),
-                D1=>i_addr(4),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr(4));
-   
-   mux2_addra_5 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_86(5),
-                D1=>i_addr(5),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr(5));
-   
-   mux2_addra_6 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_86(6),
-                D1=>i_addr(6),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr(6));
-   
-   mux2_addra_7 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_86(7),
-                D1=>i_addr(7),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr(7));
-   
-   mux2_addra_8 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_86(8),
-                D1=>i_addr(8),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr(8));
-   
-   mux2_addra_9 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_86(9),
-                D1=>i_addr(9),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr(9));
    
    XLXI_7_0 : GND
       port map (G=>XLXN_45(0));
@@ -1995,30 +1762,6 @@ begin
    XLXI_12 : INV
       port map (I=>mux_addr(9),
                 O=>XLXN_59);
-   
-   XLXI_21 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_109,
-                D1=>XLXN_112,
-                S0=>XLXN_113,
-                O=>i2c_mem_ena);
-   
-   XLXI_24 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_132,
-                D1=>XLXN_135,
-                S0=>XLXN_113,
-                O=>fixed2floatond);
-   
-   XLXI_26 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_134,
-                D1=>XLXN_136,
-                S0=>XLXN_113,
-                O=>fixed2floatsclr);
-   
-   XLXI_27 : M2_1_MXILINX_CalculatePixGain
-      port map (D0=>XLXN_133,
-                D1=>XLXN_137,
-                S0=>XLXN_113,
-                O=>fixed2floatce);
    
    XLXI_29_0 : BUF
       port map (I=>XLXN_140,

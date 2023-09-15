@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="virtex4" name="DeviceFamilyName">
+    <attr value="spartan3e" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -226,7 +226,7 @@
             <rect width="112" x="0" y="0" height="64" />
             <line x2="112" y1="32" y2="32" x1="144" />
         </blockdef>
-        <block symbolname="CalculateVDD_process_p0" name="XLXI_1">
+        <block symbolname="CalculateVDD_process_p0" name="CalculateVDD_process_p0_inst">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="i_run" name="i_run" />
@@ -279,7 +279,7 @@
             <blockpin signalname="subfpa(31:0)" name="subfpa(31:0)" />
             <blockpin signalname="subfpb(31:0)" name="subfpb(31:0)" />
         </block>
-        <block symbolname="ExtractVDDParameters" name="XLXI_6">
+        <block symbolname="ExtractVDDParameters" name="CalculateVDD_extractvddparameters">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="XLXN_27" name="i_run" />
@@ -290,27 +290,27 @@
             <blockpin signalname="ExtractVDDParameters_kvdd(31:0)" name="o_kvdd(31:0)" />
             <blockpin signalname="ExtractVDDParameters_vdd25(31:0)" name="o_vdd25(31:0)" />
         </block>
-        <block symbolname="CalculateVDD_pow2_2bit" name="XLXI_3">
+        <block symbolname="CalculateVDD_pow2_2bit" name="CalculateVDD_pow2_2bit_resreg">
             <blockpin signalname="XLXN_3(1:0)" name="x(1:0)" />
             <blockpin signalname="XLXN_16(31:0)" name="pow2x(31:0)" />
         </block>
-        <block symbolname="CalculateVDD_pow2_2bit" name="XLXI_2">
+        <block symbolname="CalculateVDD_pow2_2bit" name="CalculateVDD_pow2_2bit_resee">
             <blockpin signalname="XLXN_6(1:0)" name="x(1:0)" />
             <blockpin signalname="XLXN_15(31:0)" name="pow2x(31:0)" />
         </block>
-        <block symbolname="m2_1" name="XLXI_14(7:0)">
+        <block symbolname="m2_1" name="CalculateVDD_MUX_i2c_mem_douta(7:0)">
             <blockpin signalname="i2c_mem_douta(7:0)" name="D0" />
             <blockpin signalname="CONST0(7:0)" name="D1" />
             <blockpin signalname="XLXN_9" name="S0" />
             <blockpin signalname="XLXN_17(7:0)" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_16(11:0)">
+        <block symbolname="m2_1" name="CalculateVDD_MUX_i2c_mem_addra(11:0)">
             <blockpin signalname="XLXN_23(11:0)" name="D0" />
             <blockpin signalname="XLXN_24(11:0)" name="D1" />
             <blockpin signalname="XLXN_9" name="S0" />
             <blockpin signalname="i2c_mem_addra(11:0)" name="O" />
         </block>
-        <block symbolname="m2_1" name="MUX_i2c_ena">
+        <block symbolname="m2_1" name="CalculateVDD_MUX_i2c_ena">
             <blockpin signalname="XLXN_22" name="D0" />
             <blockpin signalname="XLXN_11" name="D1" />
             <blockpin signalname="XLXN_9" name="S0" />
@@ -326,16 +326,17 @@
         </block>
     </netlist>
     <sheet sheetnum="1" width="5440" height="3520">
-        <instance x="1280" y="2224" name="XLXI_1" orien="R0">
+        <instance x="1280" y="2224" name="CalculateVDD_process_p0_inst" orien="R0">
         </instance>
         <branch name="XLXN_6(1:0)">
             <wire x2="848" y1="1264" y2="2288" x1="848" />
             <wire x2="2128" y1="2288" y2="2288" x1="848" />
             <wire x2="880" y1="1264" y2="1264" x1="848" />
-            <wire x2="2128" y1="1552" y2="1552" x1="2064" />
+            <wire x2="2080" y1="1552" y2="1552" x1="2064" />
+            <wire x2="2128" y1="1552" y2="1552" x1="2080" />
             <wire x2="2128" y1="1552" y2="2288" x1="2128" />
         </branch>
-        <instance x="1408" y="2704" name="XLXI_6" orien="R0">
+        <instance x="1408" y="2704" name="CalculateVDD_extractvddparameters" orien="R0">
         </instance>
         <branch name="XLXN_9">
             <wire x2="480" y1="96" y2="1552" x1="480" />
@@ -363,9 +364,7 @@
             <wire x2="2112" y1="1488" y2="1488" x1="2064" />
             <wire x2="2112" y1="1488" y2="2272" x1="2112" />
         </branch>
-        <instance x="880" y="1392" name="XLXI_3" orien="R0">
-        </instance>
-        <instance x="880" y="1296" name="XLXI_2" orien="R0">
+        <instance x="880" y="1392" name="CalculateVDD_pow2_2bit_resreg" orien="R0">
         </instance>
         <branch name="XLXN_15(31:0)">
             <wire x2="1280" y1="1264" y2="1264" x1="1264" />
@@ -373,7 +372,7 @@
         <branch name="XLXN_16(31:0)">
             <wire x2="1280" y1="1360" y2="1360" x1="1264" />
         </branch>
-        <instance x="512" y="1584" name="XLXI_14(7:0)" orien="R0" />
+        <instance x="512" y="1584" name="CalculateVDD_MUX_i2c_mem_douta(7:0)" orien="R0" />
         <branch name="XLXN_17(7:0)">
             <wire x2="1280" y1="1456" y2="1456" x1="832" />
         </branch>
@@ -386,7 +385,7 @@
         <branch name="CONST0(7:0)">
             <wire x2="512" y1="1488" y2="1488" x1="368" />
         </branch>
-        <instance x="2336" y="1520" name="XLXI_16(11:0)" orien="M180" />
+        <instance x="2336" y="1520" name="CalculateVDD_MUX_i2c_mem_addra(11:0)" orien="M180" />
         <branch name="XLXN_22">
             <wire x2="2288" y1="400" y2="400" x1="2064" />
             <wire x2="2288" y1="400" y2="464" x1="2288" />
@@ -439,7 +438,7 @@
         <branch name="subfpsclr">
             <wire x2="2672" y1="1360" y2="1360" x1="2064" />
         </branch>
-        <instance x="2320" y="304" name="MUX_i2c_ena" orien="M180" />
+        <instance x="2320" y="304" name="CalculateVDD_MUX_i2c_ena" orien="M180" />
         <branch name="divfpsclr">
             <wire x2="2672" y1="784" y2="784" x1="2064" />
         </branch>
@@ -614,5 +613,7 @@
         <iomarker fontsize="28" x="368" y="1744" name="mulfpr(31:0)" orien="R180" />
         <iomarker fontsize="28" x="368" y="1840" name="addfpr(31:0)" orien="R180" />
         <iomarker fontsize="28" x="368" y="1936" name="subfpr(31:0)" orien="R180" />
+        <instance x="880" y="1296" name="CalculateVDD_pow2_2bit_resee" orien="R0">
+        </instance>
     </sheet>
 </drawing>

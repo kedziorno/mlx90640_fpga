@@ -7,13 +7,13 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : ExtractKtaParameters.vhf
--- /___/   /\     Timestamp : 06/19/2023 15:05:25
+-- /___/   /\     Timestamp : 09/03/2023 19:10:45
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
---Command: sch2hdl -sympath /home/user/workspace/melexis_mlx90641/ipcore_dir -intstyle ise -family virtex4 -flat -suppress -vhdl /home/user/workspace/melexis_mlx90641/ExtractKtaParameters.vhf -w /home/user/workspace/melexis_mlx90641/ExtractKtaParameters.sch
+--Command: sch2hdl -sympath /home/user/workspace/mlx90640_fpga/ipcore_dir -intstyle ise -family spartan3e -flat -suppress -vhdl /home/user/workspace/mlx90640_fpga/ExtractKtaParameters.vhf -w /home/user/workspace/mlx90640_fpga/ExtractKtaParameters.sch
 --Design Name: ExtractKtaParameters
---Device: virtex4
+--Device: spartan3e
 --Purpose:
 --    This vhdl netlist is translated from an ECS schematic. It can be 
 --    synthesized and simulated, but it should not be modified. 
@@ -33,278 +33,70 @@ entity rom_signed8bit_MUSER_ExtractKtaParameters is
 end rom_signed8bit_MUSER_ExtractKtaParameters;
 
 architecture BEHAVIORAL of rom_signed8bit_MUSER_ExtractKtaParameters is
-   attribute DOA_REG             : string ;
-   attribute DOB_REG             : string ;
-   attribute INIT_00             : string ;
-   attribute INIT_01             : string ;
-   attribute INIT_02             : string ;
-   attribute INIT_03             : string ;
-   attribute INIT_04             : string ;
-   attribute INIT_05             : string ;
-   attribute INIT_06             : string ;
-   attribute INIT_07             : string ;
-   attribute INIT_08             : string ;
-   attribute INIT_09             : string ;
-   attribute INIT_0A             : string ;
-   attribute INIT_0B             : string ;
-   attribute INIT_0C             : string ;
-   attribute INIT_0D             : string ;
-   attribute INIT_0E             : string ;
-   attribute INIT_0F             : string ;
-   attribute INIT_10             : string ;
-   attribute INIT_11             : string ;
-   attribute INIT_12             : string ;
-   attribute INIT_13             : string ;
-   attribute INIT_14             : string ;
-   attribute INIT_15             : string ;
-   attribute INIT_16             : string ;
-   attribute INIT_17             : string ;
-   attribute INIT_18             : string ;
-   attribute INIT_19             : string ;
-   attribute INIT_1A             : string ;
-   attribute INIT_1B             : string ;
-   attribute INIT_1C             : string ;
-   attribute INIT_1D             : string ;
-   attribute INIT_1E             : string ;
-   attribute INIT_1F             : string ;
-   attribute INIT_20             : string ;
-   attribute INIT_21             : string ;
-   attribute INIT_22             : string ;
-   attribute INIT_23             : string ;
-   attribute INIT_24             : string ;
-   attribute INIT_25             : string ;
-   attribute INIT_26             : string ;
-   attribute INIT_27             : string ;
-   attribute INIT_28             : string ;
-   attribute INIT_29             : string ;
-   attribute INIT_2A             : string ;
-   attribute INIT_2B             : string ;
-   attribute INIT_2C             : string ;
-   attribute INIT_2D             : string ;
-   attribute INIT_2E             : string ;
-   attribute INIT_2F             : string ;
-   attribute INIT_30             : string ;
-   attribute INIT_31             : string ;
-   attribute INIT_32             : string ;
-   attribute INIT_33             : string ;
-   attribute INIT_34             : string ;
-   attribute INIT_35             : string ;
-   attribute INIT_36             : string ;
-   attribute INIT_37             : string ;
-   attribute INIT_38             : string ;
-   attribute INIT_39             : string ;
-   attribute INIT_3A             : string ;
-   attribute INIT_3B             : string ;
-   attribute INIT_3C             : string ;
-   attribute INIT_3D             : string ;
-   attribute INIT_3E             : string ;
-   attribute INIT_3F             : string ;
-   attribute INIT_A              : string ;
-   attribute INIT_B              : string ;
-   attribute INITP_00            : string ;
-   attribute INITP_01            : string ;
-   attribute INITP_02            : string ;
-   attribute INITP_03            : string ;
-   attribute INITP_04            : string ;
-   attribute INITP_05            : string ;
-   attribute INITP_06            : string ;
-   attribute INITP_07            : string ;
-   attribute INIT_FILE           : string ;
-   attribute INVERT_CLK_DOA_REG  : string ;
-   attribute INVERT_CLK_DOB_REG  : string ;
-   attribute RAM_EXTENSION_A     : string ;
-   attribute RAM_EXTENSION_B     : string ;
-   attribute READ_WIDTH_A        : string ;
-   attribute READ_WIDTH_B        : string ;
-   attribute SRVAL_A             : string ;
-   attribute SRVAL_B             : string ;
-   attribute WRITE_MODE_A        : string ;
-   attribute WRITE_MODE_B        : string ;
-   attribute WRITE_WIDTH_A       : string ;
-   attribute WRITE_WIDTH_B       : string ;
-   attribute SIM_COLLISION_CHECK : string ;
-   attribute BOX_TYPE            : string ;
-   signal XLXN_2                               : std_logic_vector (14 downto 0);
-   signal XLXN_13                              : std_logic;
-   signal mem_signed8bit_ADDRB_openSignal      : std_logic_vector (14 downto 0);
-   signal mem_signed8bit_CASCADEINA_openSignal : std_logic;
-   signal mem_signed8bit_CASCADEINB_openSignal : std_logic;
-   signal mem_signed8bit_CLKB_openSignal       : std_logic;
-   signal mem_signed8bit_DIA_openSignal        : std_logic_vector (31 downto 0);
-   signal mem_signed8bit_DIB_openSignal        : std_logic_vector (31 downto 0);
-   signal mem_signed8bit_DIPA_openSignal       : std_logic_vector (3 downto 0);
-   signal mem_signed8bit_DIPB_openSignal       : std_logic_vector (3 downto 0);
-   signal mem_signed8bit_ENB_openSignal        : std_logic;
-   signal mem_signed8bit_REGCEA_openSignal     : std_logic;
-   signal mem_signed8bit_REGCEB_openSignal     : std_logic;
-   signal mem_signed8bit_SSRB_openSignal       : std_logic;
-   signal mem_signed8bit_WEA_openSignal        : std_logic_vector (3 downto 0);
-   signal mem_signed8bit_WEB_openSignal        : std_logic_vector (3 downto 0);
+   attribute WRITE_WIDTH_B : string ;
+   attribute WRITE_WIDTH_A : string ;
+   attribute WRITE_MODE_B  : string ;
+   attribute WRITE_MODE_A  : string ;
+   attribute READ_WIDTH_B  : string ;
+   attribute READ_WIDTH_A  : string ;
+   attribute INIT_1F       : string ;
+   attribute INIT_1E       : string ;
+   attribute INIT_1D       : string ;
+   attribute INIT_1C       : string ;
+   attribute INIT_1B       : string ;
+   attribute INIT_1A       : string ;
+   attribute INIT_19       : string ;
+   attribute INIT_18       : string ;
+   attribute INIT_17       : string ;
+   attribute INIT_16       : string ;
+   attribute INIT_15       : string ;
+   attribute INIT_14       : string ;
+   attribute INIT_13       : string ;
+   attribute INIT_12       : string ;
+   attribute INIT_11       : string ;
+   attribute INIT_10       : string ;
+   attribute INIT_0F       : string ;
+   attribute INIT_0E       : string ;
+   attribute INIT_0D       : string ;
+   attribute INIT_0C       : string ;
+   attribute INIT_0B       : string ;
+   attribute INIT_0A       : string ;
+   attribute INIT_09       : string ;
+   attribute INIT_08       : string ;
+   attribute INIT_07       : string ;
+   attribute INIT_06       : string ;
+   attribute INIT_05       : string ;
+   attribute INIT_04       : string ;
+   attribute INIT_03       : string ;
+   attribute INIT_02       : string ;
+   attribute INIT_01       : string ;
+   attribute INIT_00       : string ;
+   attribute BOX_TYPE      : string ;
+   signal XLXN_2                                   : std_logic_vector (14 
+         downto 0);
+   signal XLXN_13                                  : std_logic;
+   signal ROM_mem_signed8bit_ADDRB_openSignal      : std_logic_vector (14 
+         downto 0);
+   signal ROM_mem_signed8bit_CASCADEINA_openSignal : std_logic;
+   signal ROM_mem_signed8bit_CASCADEINB_openSignal : std_logic;
+   signal ROM_mem_signed8bit_CLKB_openSignal       : std_logic;
+   signal ROM_mem_signed8bit_DIA_openSignal        : std_logic_vector (31 
+         downto 0);
+   signal ROM_mem_signed8bit_DIB_openSignal        : std_logic_vector (31 
+         downto 0);
+   signal ROM_mem_signed8bit_DIPA_openSignal       : std_logic_vector (3 downto 
+         0);
+   signal ROM_mem_signed8bit_DIPB_openSignal       : std_logic_vector (3 downto 
+         0);
+   signal ROM_mem_signed8bit_ENB_openSignal        : std_logic;
+   signal ROM_mem_signed8bit_REGCEA_openSignal     : std_logic;
+   signal ROM_mem_signed8bit_REGCEB_openSignal     : std_logic;
+   signal ROM_mem_signed8bit_SSRB_openSignal       : std_logic;
+   signal ROM_mem_signed8bit_WEA_openSignal        : std_logic_vector (3 downto 
+         0);
+   signal ROM_mem_signed8bit_WEB_openSignal        : std_logic_vector (3 downto 
+         0);
    component RAMB16
-      -- synopsys translate_off
-      generic( DOA_REG : integer :=  0;
-               DOB_REG : integer :=  0;
-               INIT_00 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_01 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_02 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_03 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_04 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_05 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_06 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_07 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_08 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_09 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0A : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0B : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0C : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0D : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0E : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0F : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_10 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_11 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_12 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_13 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_14 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_15 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_16 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_17 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_18 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_19 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1A : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1B : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1C : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1D : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1E : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1F : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_20 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_21 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_22 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_23 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_24 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_25 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_26 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_27 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_28 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_29 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2A : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2B : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2C : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2D : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2E : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2F : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_30 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_31 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_32 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_33 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_34 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_35 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_36 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_37 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_38 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_39 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3A : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3B : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3C : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3D : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3E : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3F : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_A : bit_vector :=  x"000000000";
-               INIT_B : bit_vector :=  x"000000000";
-               INITP_00 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_01 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_02 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_03 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_04 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_05 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_06 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_07 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_FILE : string :=  "NONE";
-               INVERT_CLK_DOA_REG : boolean :=  FALSE;
-               INVERT_CLK_DOB_REG : boolean :=  FALSE;
-               RAM_EXTENSION_A : string :=  "NONE";
-               RAM_EXTENSION_B : string :=  "NONE";
-               READ_WIDTH_A : integer :=  0;
-               READ_WIDTH_B : integer :=  0;
-               SRVAL_A : bit_vector :=  x"000000000";
-               SRVAL_B : bit_vector :=  x"000000000";
-               WRITE_MODE_A : string :=  "WRITE_FIRST";
-               WRITE_MODE_B : string :=  "WRITE_FIRST";
-               WRITE_WIDTH_A : integer :=  0;
-               WRITE_WIDTH_B : integer :=  0;
-               SIM_COLLISION_CHECK : string :=  "ALL");
-      -- synopsys translate_on
       port ( ADDRA       : in    std_logic_vector (14 downto 0); 
              ADDRB       : in    std_logic_vector (14 downto 0); 
              CASCADEINA  : in    std_logic; 
@@ -330,169 +122,6 @@ architecture BEHAVIORAL of rom_signed8bit_MUSER_ExtractKtaParameters is
              DOPA        : out   std_logic_vector (3 downto 0); 
              DOPB        : out   std_logic_vector (3 downto 0));
    end component;
-   attribute DOA_REG of RAMB16 : component is "0";
-   attribute DOB_REG of RAMB16 : component is "0";
-   attribute INIT_00 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_01 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_02 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_03 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_04 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_05 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_06 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_07 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_08 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_09 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0A of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0B of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0C of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0D of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0E of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0F of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_10 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_11 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_12 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_13 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_14 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_15 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_16 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_17 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_18 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_19 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1A of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1B of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1C of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1D of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1E of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1F of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_20 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_21 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_22 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_23 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_24 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_25 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_26 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_27 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_28 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_29 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2A of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2B of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2C of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2D of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2E of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2F of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_30 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_31 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_32 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_33 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_34 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_35 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_36 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_37 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_38 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_39 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3A of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3B of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3C of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3D of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3E of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3F of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_A of RAMB16 : component is "000000000";
-   attribute INIT_B of RAMB16 : component is "000000000";
-   attribute INITP_00 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_01 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_02 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_03 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_04 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_05 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_06 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_07 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_FILE of RAMB16 : component is "NONE";
-   attribute INVERT_CLK_DOA_REG of RAMB16 : component is "FALSE";
-   attribute INVERT_CLK_DOB_REG of RAMB16 : component is "FALSE";
-   attribute RAM_EXTENSION_A of RAMB16 : component is "NONE";
-   attribute RAM_EXTENSION_B of RAMB16 : component is "NONE";
-   attribute READ_WIDTH_A of RAMB16 : component is "0";
-   attribute READ_WIDTH_B of RAMB16 : component is "0";
-   attribute SRVAL_A of RAMB16 : component is "000000000";
-   attribute SRVAL_B of RAMB16 : component is "000000000";
-   attribute WRITE_MODE_A of RAMB16 : component is "WRITE_FIRST";
-   attribute WRITE_MODE_B of RAMB16 : component is "WRITE_FIRST";
-   attribute WRITE_WIDTH_A of RAMB16 : component is "0";
-   attribute WRITE_WIDTH_B of RAMB16 : component is "0";
-   attribute SIM_COLLISION_CHECK of RAMB16 : component is "ALL";
-   attribute BOX_TYPE of RAMB16 : component is "BLACK_BOX";
    
    component GND
       port ( G : out   std_logic);
@@ -510,78 +139,78 @@ architecture BEHAVIORAL of rom_signed8bit_MUSER_ExtractKtaParameters is
    end component;
    attribute BOX_TYPE of VCC : component is "BLACK_BOX";
    
-   attribute WRITE_WIDTH_B of mem_signed8bit : label is "36";
-   attribute WRITE_WIDTH_A of mem_signed8bit : label is "36";
-   attribute WRITE_MODE_B of mem_signed8bit : label is "READ_FIRST";
-   attribute WRITE_MODE_A of mem_signed8bit : label is "READ_FIRST";
-   attribute READ_WIDTH_B of mem_signed8bit : label is "36";
-   attribute READ_WIDTH_A of mem_signed8bit : label is "36";
-   attribute INIT_1F of mem_signed8bit : label is 
+   attribute WRITE_WIDTH_B of ROM_mem_signed8bit : label is "36";
+   attribute WRITE_WIDTH_A of ROM_mem_signed8bit : label is "36";
+   attribute WRITE_MODE_B of ROM_mem_signed8bit : label is "READ_FIRST";
+   attribute WRITE_MODE_A of ROM_mem_signed8bit : label is "READ_FIRST";
+   attribute READ_WIDTH_B of ROM_mem_signed8bit : label is "36";
+   attribute READ_WIDTH_A of ROM_mem_signed8bit : label is "36";
+   attribute INIT_1F of ROM_mem_signed8bit : label is 
          "bf800000c0000000c0400000c0800000c0a00000c0c00000c0e00000c1000000";
-   attribute INIT_1E of mem_signed8bit : label is 
+   attribute INIT_1E of ROM_mem_signed8bit : label is 
          "c1100000c1200000c1300000c1400000c1500000c1600000c1700000c1800000";
-   attribute INIT_1D of mem_signed8bit : label is 
+   attribute INIT_1D of ROM_mem_signed8bit : label is 
          "c1880000c1900000c1980000c1a00000c1a80000c1b00000c1b80000c1c00000";
-   attribute INIT_1C of mem_signed8bit : label is 
+   attribute INIT_1C of ROM_mem_signed8bit : label is 
          "c1c80000c1d00000c1d80000c1e00000c1e80000c1f00000c1f80000c2000000";
-   attribute INIT_1B of mem_signed8bit : label is 
+   attribute INIT_1B of ROM_mem_signed8bit : label is 
          "c2040000c2080000c20c0000c2100000c2140000c2180000c21c0000c2200000";
-   attribute INIT_1A of mem_signed8bit : label is 
+   attribute INIT_1A of ROM_mem_signed8bit : label is 
          "c2240000c2280000c22c0000c2300000c2340000c2380000c23c0000c2400000";
-   attribute INIT_19 of mem_signed8bit : label is 
+   attribute INIT_19 of ROM_mem_signed8bit : label is 
          "c2440000c2480000c24c0000c2500000c2540000c2580000c25c0000c2600000";
-   attribute INIT_18 of mem_signed8bit : label is 
+   attribute INIT_18 of ROM_mem_signed8bit : label is 
          "c2640000c2680000c26c0000c2700000c2740000c2780000c27c0000c2800000";
-   attribute INIT_17 of mem_signed8bit : label is 
+   attribute INIT_17 of ROM_mem_signed8bit : label is 
          "c2820000c2840000c2860000c2880000c28a0000c28c0000c28e0000c2900000";
-   attribute INIT_16 of mem_signed8bit : label is 
+   attribute INIT_16 of ROM_mem_signed8bit : label is 
          "c2920000c2940000c2960000c2980000c29a0000c29c0000c29e0000c2a00000";
-   attribute INIT_15 of mem_signed8bit : label is 
+   attribute INIT_15 of ROM_mem_signed8bit : label is 
          "c2a20000c2a40000c2a60000c2a80000c2aa0000c2ac0000c2ae0000c2b00000";
-   attribute INIT_14 of mem_signed8bit : label is 
+   attribute INIT_14 of ROM_mem_signed8bit : label is 
          "c2b20000c2b40000c2b60000c2b80000c2ba0000c2bc0000c2be0000c2c00000";
-   attribute INIT_13 of mem_signed8bit : label is 
+   attribute INIT_13 of ROM_mem_signed8bit : label is 
          "c2c20000c2c40000c2c60000c2c80000c2ca0000c2cc0000c2ce0000c2d00000";
-   attribute INIT_12 of mem_signed8bit : label is 
+   attribute INIT_12 of ROM_mem_signed8bit : label is 
          "c2d20000c2d40000c2d60000c2d80000c2da0000c2dc0000c2de0000c2e00000";
-   attribute INIT_11 of mem_signed8bit : label is 
+   attribute INIT_11 of ROM_mem_signed8bit : label is 
          "c2e20000c2e40000c2e60000c2e80000c2ea0000c2ec0000c2ee0000c2f00000";
-   attribute INIT_10 of mem_signed8bit : label is 
+   attribute INIT_10 of ROM_mem_signed8bit : label is 
          "c2f20000c2f40000c2f60000c2f80000c2fa0000c2fc0000c2fe0000c3000000";
-   attribute INIT_0F of mem_signed8bit : label is 
+   attribute INIT_0F of ROM_mem_signed8bit : label is 
          "42fe000042fc000042fa000042f8000042f6000042f4000042f2000042f00000";
-   attribute INIT_0E of mem_signed8bit : label is 
+   attribute INIT_0E of ROM_mem_signed8bit : label is 
          "42ee000042ec000042ea000042e8000042e6000042e4000042e2000042e00000";
-   attribute INIT_0D of mem_signed8bit : label is 
+   attribute INIT_0D of ROM_mem_signed8bit : label is 
          "42de000042dc000042da000042d8000042d6000042d4000042d2000042d00000";
-   attribute INIT_0C of mem_signed8bit : label is 
+   attribute INIT_0C of ROM_mem_signed8bit : label is 
          "42ce000042cc000042ca000042c8000042c6000042c4000042c2000042c00000";
-   attribute INIT_0B of mem_signed8bit : label is 
+   attribute INIT_0B of ROM_mem_signed8bit : label is 
          "42be000042bc000042ba000042b8000042b6000042b4000042b2000042b00000";
-   attribute INIT_0A of mem_signed8bit : label is 
+   attribute INIT_0A of ROM_mem_signed8bit : label is 
          "42ae000042ac000042aa000042a8000042a6000042a4000042a2000042a00000";
-   attribute INIT_09 of mem_signed8bit : label is 
+   attribute INIT_09 of ROM_mem_signed8bit : label is 
          "429e0000429c0000429a00004298000042960000429400004292000042900000";
-   attribute INIT_08 of mem_signed8bit : label is 
+   attribute INIT_08 of ROM_mem_signed8bit : label is 
          "428e0000428c0000428a00004288000042860000428400004282000042800000";
-   attribute INIT_07 of mem_signed8bit : label is 
+   attribute INIT_07 of ROM_mem_signed8bit : label is 
          "427c0000427800004274000042700000426c0000426800004264000042600000";
-   attribute INIT_06 of mem_signed8bit : label is 
+   attribute INIT_06 of ROM_mem_signed8bit : label is 
          "425c0000425800004254000042500000424c0000424800004244000042400000";
-   attribute INIT_05 of mem_signed8bit : label is 
+   attribute INIT_05 of ROM_mem_signed8bit : label is 
          "423c0000423800004234000042300000422c0000422800004224000042200000";
-   attribute INIT_04 of mem_signed8bit : label is 
+   attribute INIT_04 of ROM_mem_signed8bit : label is 
          "421c0000421800004214000042100000420c0000420800004204000042000000";
-   attribute INIT_03 of mem_signed8bit : label is 
+   attribute INIT_03 of ROM_mem_signed8bit : label is 
          "41f8000041f0000041e8000041e0000041d8000041d0000041c8000041c00000";
-   attribute INIT_02 of mem_signed8bit : label is 
+   attribute INIT_02 of ROM_mem_signed8bit : label is 
          "41b8000041b0000041a8000041a0000041980000419000004188000041800000";
-   attribute INIT_01 of mem_signed8bit : label is 
+   attribute INIT_01 of ROM_mem_signed8bit : label is 
          "4170000041600000415000004140000041300000412000004110000041000000";
-   attribute INIT_00 of mem_signed8bit : label is 
+   attribute INIT_00 of ROM_mem_signed8bit : label is 
          "40e0000040c0000040a000004080000040400000400000003f80000000000000";
 begin
-   mem_signed8bit : RAMB16
+   ROM_mem_signed8bit : RAMB16
    -- synopsys translate_off
    generic map( WRITE_WIDTH_B => 36,
             WRITE_WIDTH_A => 36,
@@ -655,23 +284,24 @@ begin
          x"40e0000040c0000040a000004080000040400000400000003f80000000000000")
    -- synopsys translate_on
       port map (ADDRA(14 downto 0)=>XLXN_2(14 downto 0),
-                ADDRB(14 downto 0)=>mem_signed8bit_ADDRB_openSignal(14 downto 0),
-                CASCADEINA=>mem_signed8bit_CASCADEINA_openSignal,
-                CASCADEINB=>mem_signed8bit_CASCADEINB_openSignal,
+                ADDRB(14 downto 0)=>ROM_mem_signed8bit_ADDRB_openSignal(14 
+            downto 0),
+                CASCADEINA=>ROM_mem_signed8bit_CASCADEINA_openSignal,
+                CASCADEINB=>ROM_mem_signed8bit_CASCADEINB_openSignal,
                 CLKA=>i_clock,
-                CLKB=>mem_signed8bit_CLKB_openSignal,
-                DIA(31 downto 0)=>mem_signed8bit_DIA_openSignal(31 downto 0),
-                DIB(31 downto 0)=>mem_signed8bit_DIB_openSignal(31 downto 0),
-                DIPA(3 downto 0)=>mem_signed8bit_DIPA_openSignal(3 downto 0),
-                DIPB(3 downto 0)=>mem_signed8bit_DIPB_openSignal(3 downto 0),
+                CLKB=>ROM_mem_signed8bit_CLKB_openSignal,
+                DIA(31 downto 0)=>ROM_mem_signed8bit_DIA_openSignal(31 downto 0),
+                DIB(31 downto 0)=>ROM_mem_signed8bit_DIB_openSignal(31 downto 0),
+                DIPA(3 downto 0)=>ROM_mem_signed8bit_DIPA_openSignal(3 downto 0),
+                DIPB(3 downto 0)=>ROM_mem_signed8bit_DIPB_openSignal(3 downto 0),
                 ENA=>XLXN_13,
-                ENB=>mem_signed8bit_ENB_openSignal,
-                REGCEA=>mem_signed8bit_REGCEA_openSignal,
-                REGCEB=>mem_signed8bit_REGCEB_openSignal,
+                ENB=>ROM_mem_signed8bit_ENB_openSignal,
+                REGCEA=>ROM_mem_signed8bit_REGCEA_openSignal,
+                REGCEB=>ROM_mem_signed8bit_REGCEB_openSignal,
                 SSRA=>i_reset,
-                SSRB=>mem_signed8bit_SSRB_openSignal,
-                WEA(3 downto 0)=>mem_signed8bit_WEA_openSignal(3 downto 0),
-                WEB(3 downto 0)=>mem_signed8bit_WEB_openSignal(3 downto 0),
+                SSRB=>ROM_mem_signed8bit_SSRB_openSignal,
+                WEA(3 downto 0)=>ROM_mem_signed8bit_WEA_openSignal(3 downto 0),
+                WEB(3 downto 0)=>ROM_mem_signed8bit_WEB_openSignal(3 downto 0),
                 CASCADEOUTA=>open,
                 CASCADEOUTB=>open,
                 DOA(31 downto 0)=>o_value(31 downto 0),
@@ -837,98 +467,14 @@ entity ExtractKtaParameters is
 end ExtractKtaParameters;
 
 architecture BEHAVIORAL of ExtractKtaParameters is
-   attribute DOA_REG             : string ;
-   attribute DOB_REG             : string ;
-   attribute INIT_00             : string ;
-   attribute INIT_01             : string ;
-   attribute INIT_02             : string ;
-   attribute INIT_03             : string ;
-   attribute INIT_04             : string ;
-   attribute INIT_05             : string ;
-   attribute INIT_06             : string ;
-   attribute INIT_07             : string ;
-   attribute INIT_08             : string ;
-   attribute INIT_09             : string ;
-   attribute INIT_0A             : string ;
-   attribute INIT_0B             : string ;
-   attribute INIT_0C             : string ;
-   attribute INIT_0D             : string ;
-   attribute INIT_0E             : string ;
-   attribute INIT_0F             : string ;
-   attribute INIT_10             : string ;
-   attribute INIT_11             : string ;
-   attribute INIT_12             : string ;
-   attribute INIT_13             : string ;
-   attribute INIT_14             : string ;
-   attribute INIT_15             : string ;
-   attribute INIT_16             : string ;
-   attribute INIT_17             : string ;
-   attribute INIT_18             : string ;
-   attribute INIT_19             : string ;
-   attribute INIT_1A             : string ;
-   attribute INIT_1B             : string ;
-   attribute INIT_1C             : string ;
-   attribute INIT_1D             : string ;
-   attribute INIT_1E             : string ;
-   attribute INIT_1F             : string ;
-   attribute INIT_20             : string ;
-   attribute INIT_21             : string ;
-   attribute INIT_22             : string ;
-   attribute INIT_23             : string ;
-   attribute INIT_24             : string ;
-   attribute INIT_25             : string ;
-   attribute INIT_26             : string ;
-   attribute INIT_27             : string ;
-   attribute INIT_28             : string ;
-   attribute INIT_29             : string ;
-   attribute INIT_2A             : string ;
-   attribute INIT_2B             : string ;
-   attribute INIT_2C             : string ;
-   attribute INIT_2D             : string ;
-   attribute INIT_2E             : string ;
-   attribute INIT_2F             : string ;
-   attribute INIT_30             : string ;
-   attribute INIT_31             : string ;
-   attribute INIT_32             : string ;
-   attribute INIT_33             : string ;
-   attribute INIT_34             : string ;
-   attribute INIT_35             : string ;
-   attribute INIT_36             : string ;
-   attribute INIT_37             : string ;
-   attribute INIT_38             : string ;
-   attribute INIT_39             : string ;
-   attribute INIT_3A             : string ;
-   attribute INIT_3B             : string ;
-   attribute INIT_3C             : string ;
-   attribute INIT_3D             : string ;
-   attribute INIT_3E             : string ;
-   attribute INIT_3F             : string ;
-   attribute INIT_A              : string ;
-   attribute INIT_B              : string ;
-   attribute INITP_00            : string ;
-   attribute INITP_01            : string ;
-   attribute INITP_02            : string ;
-   attribute INITP_03            : string ;
-   attribute INITP_04            : string ;
-   attribute INITP_05            : string ;
-   attribute INITP_06            : string ;
-   attribute INITP_07            : string ;
-   attribute INIT_FILE           : string ;
-   attribute INVERT_CLK_DOA_REG  : string ;
-   attribute INVERT_CLK_DOB_REG  : string ;
-   attribute RAM_EXTENSION_A     : string ;
-   attribute RAM_EXTENSION_B     : string ;
-   attribute READ_WIDTH_A        : string ;
-   attribute READ_WIDTH_B        : string ;
-   attribute SRVAL_A             : string ;
-   attribute SRVAL_B             : string ;
-   attribute WRITE_MODE_A        : string ;
-   attribute WRITE_MODE_B        : string ;
-   attribute WRITE_WIDTH_A       : string ;
-   attribute WRITE_WIDTH_B       : string ;
-   attribute SIM_COLLISION_CHECK : string ;
-   attribute BOX_TYPE            : string ;
-   attribute HU_SET              : string ;
+   attribute HU_SET        : string ;
+   attribute WRITE_WIDTH_B : string ;
+   attribute WRITE_WIDTH_A : string ;
+   attribute WRITE_MODE_B  : string ;
+   attribute WRITE_MODE_A  : string ;
+   attribute READ_WIDTH_B  : string ;
+   attribute READ_WIDTH_A  : string ;
+   attribute BOX_TYPE      : string ;
    signal mux_addr1                                : std_logic_vector (9 downto 
          0);
    signal o_write_enable                           : std_logic;
@@ -1012,6 +558,52 @@ architecture BEHAVIORAL of ExtractKtaParameters is
    signal mem_extrktaparam_2_SSRB_openSignal       : std_logic;
    signal mem_extrktaparam_2_WEB_openSignal        : std_logic_vector (3 downto 
          0);
+   component colrow_even
+      port ( col  : in    std_logic_vector (0 to 4); 
+             row  : in    std_logic_vector (0 to 4); 
+             cole : out   std_logic; 
+             rowe : out   std_logic);
+   end component;
+   
+   component M2_1_MXILINX_ExtractKtaParameters
+      port ( D0 : in    std_logic; 
+             D1 : in    std_logic; 
+             S0 : in    std_logic; 
+             O  : out   std_logic);
+   end component;
+   
+   component ExtractKtaParameters_process_p1
+      port ( cole       : in    std_logic; 
+             rowe       : in    std_logic; 
+             ktarcee_oo : in    std_logic_vector (7 downto 0); 
+             ktarcee_eo : in    std_logic_vector (7 downto 0); 
+             ktarcee_oe : in    std_logic_vector (7 downto 0); 
+             ktarcee_ee : in    std_logic_vector (7 downto 0); 
+             ktarcee    : out   std_logic_vector (7 downto 0));
+   end component;
+   
+   component rom_signed3bit
+      port ( nibble_in  : in    std_logic_vector (2 downto 0); 
+             nibble_out : out   std_logic_vector (31 downto 0));
+   end component;
+   
+   component rom_signed8bit_MUSER_ExtractKtaParameters
+      port ( i_value : in    std_logic_vector (7 downto 0); 
+             i_clock : in    std_logic; 
+             i_reset : in    std_logic; 
+             o_value : out   std_logic_vector (31 downto 0));
+   end component;
+   
+   component rom_unsigned4bit_2powx
+      port ( nibble_in  : in    std_logic_vector (3 downto 0); 
+             nibble_out : out   std_logic_vector (31 downto 0));
+   end component;
+   
+   component rom_unsigned4bit_2powx8
+      port ( nibble_in  : in    std_logic_vector (3 downto 0); 
+             nibble_out : out   std_logic_vector (31 downto 0));
+   end component;
+   
    component ExtractKtaParameters_process_p0
       port ( i_clock              : in    std_logic; 
              i_reset              : in    std_logic; 
@@ -1062,170 +654,6 @@ architecture BEHAVIORAL of ExtractKtaParameters is
    end component;
    
    component RAMB16
-      -- synopsys translate_off
-      generic( DOA_REG : integer :=  0;
-               DOB_REG : integer :=  0;
-               INIT_00 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_01 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_02 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_03 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_04 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_05 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_06 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_07 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_08 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_09 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0A : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0B : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0C : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0D : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0E : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_0F : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_10 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_11 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_12 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_13 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_14 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_15 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_16 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_17 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_18 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_19 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1A : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1B : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1C : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1D : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1E : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_1F : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_20 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_21 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_22 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_23 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_24 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_25 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_26 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_27 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_28 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_29 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2A : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2B : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2C : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2D : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2E : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_2F : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_30 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_31 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_32 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_33 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_34 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_35 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_36 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_37 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_38 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_39 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3A : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3B : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3C : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3D : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3E : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_3F : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_A : bit_vector :=  x"000000000";
-               INIT_B : bit_vector :=  x"000000000";
-               INITP_00 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_01 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_02 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_03 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_04 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_05 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_06 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INITP_07 : bit_vector :=  
-            x"0000000000000000000000000000000000000000000000000000000000000000";
-               INIT_FILE : string :=  "NONE";
-               INVERT_CLK_DOA_REG : boolean :=  FALSE;
-               INVERT_CLK_DOB_REG : boolean :=  FALSE;
-               RAM_EXTENSION_A : string :=  "NONE";
-               RAM_EXTENSION_B : string :=  "NONE";
-               READ_WIDTH_A : integer :=  0;
-               READ_WIDTH_B : integer :=  0;
-               SRVAL_A : bit_vector :=  x"000000000";
-               SRVAL_B : bit_vector :=  x"000000000";
-               WRITE_MODE_A : string :=  "WRITE_FIRST";
-               WRITE_MODE_B : string :=  "WRITE_FIRST";
-               WRITE_WIDTH_A : integer :=  0;
-               WRITE_WIDTH_B : integer :=  0;
-               SIM_COLLISION_CHECK : string :=  "ALL");
-      -- synopsys translate_on
       port ( ADDRA       : in    std_logic_vector (14 downto 0); 
              ADDRB       : in    std_logic_vector (14 downto 0); 
              CASCADEINA  : in    std_logic; 
@@ -1251,176 +679,6 @@ architecture BEHAVIORAL of ExtractKtaParameters is
              DOPA        : out   std_logic_vector (3 downto 0); 
              DOPB        : out   std_logic_vector (3 downto 0));
    end component;
-   attribute DOA_REG of RAMB16 : component is "0";
-   attribute DOB_REG of RAMB16 : component is "0";
-   attribute INIT_00 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_01 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_02 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_03 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_04 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_05 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_06 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_07 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_08 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_09 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0A of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0B of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0C of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0D of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0E of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_0F of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_10 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_11 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_12 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_13 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_14 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_15 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_16 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_17 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_18 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_19 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1A of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1B of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1C of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1D of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1E of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_1F of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_20 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_21 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_22 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_23 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_24 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_25 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_26 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_27 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_28 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_29 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2A of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2B of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2C of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2D of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2E of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_2F of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_30 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_31 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_32 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_33 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_34 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_35 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_36 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_37 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_38 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_39 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3A of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3B of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3C of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3D of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3E of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_3F of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_A of RAMB16 : component is "000000000";
-   attribute INIT_B of RAMB16 : component is "000000000";
-   attribute INITP_00 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_01 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_02 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_03 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_04 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_05 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_06 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INITP_07 of RAMB16 : component is 
-         "0000000000000000000000000000000000000000000000000000000000000000";
-   attribute INIT_FILE of RAMB16 : component is "NONE";
-   attribute INVERT_CLK_DOA_REG of RAMB16 : component is "FALSE";
-   attribute INVERT_CLK_DOB_REG of RAMB16 : component is "FALSE";
-   attribute RAM_EXTENSION_A of RAMB16 : component is "NONE";
-   attribute RAM_EXTENSION_B of RAMB16 : component is "NONE";
-   attribute READ_WIDTH_A of RAMB16 : component is "0";
-   attribute READ_WIDTH_B of RAMB16 : component is "0";
-   attribute SRVAL_A of RAMB16 : component is "000000000";
-   attribute SRVAL_B of RAMB16 : component is "000000000";
-   attribute WRITE_MODE_A of RAMB16 : component is "WRITE_FIRST";
-   attribute WRITE_MODE_B of RAMB16 : component is "WRITE_FIRST";
-   attribute WRITE_WIDTH_A of RAMB16 : component is "0";
-   attribute WRITE_WIDTH_B of RAMB16 : component is "0";
-   attribute SIM_COLLISION_CHECK of RAMB16 : component is "ALL";
-   attribute BOX_TYPE of RAMB16 : component is "BLACK_BOX";
-   
-   component M2_1_MXILINX_ExtractKtaParameters
-      port ( D0 : in    std_logic; 
-             D1 : in    std_logic; 
-             S0 : in    std_logic; 
-             O  : out   std_logic);
-   end component;
    
    component INV
       port ( I : in    std_logic; 
@@ -1439,45 +697,90 @@ architecture BEHAVIORAL of ExtractKtaParameters is
    end component;
    attribute BOX_TYPE of BUF : component is "BLACK_BOX";
    
-   component rom_signed8bit_MUSER_ExtractKtaParameters
-      port ( i_value : in    std_logic_vector (7 downto 0); 
-             i_clock : in    std_logic; 
-             i_reset : in    std_logic; 
-             o_value : out   std_logic_vector (31 downto 0));
-   end component;
-   
-   component rom_unsigned4bit_2powx8
-      port ( nibble_in  : in    std_logic_vector (3 downto 0); 
-             nibble_out : out   std_logic_vector (31 downto 0));
-   end component;
-   
-   component rom_unsigned4bit_2powx
-      port ( nibble_in  : in    std_logic_vector (3 downto 0); 
-             nibble_out : out   std_logic_vector (31 downto 0));
-   end component;
-   
-   component rom_signed3bit
-      port ( nibble_in  : in    std_logic_vector (2 downto 0); 
-             nibble_out : out   std_logic_vector (31 downto 0));
-   end component;
-   
-   component colrow_even
-      port ( col  : in    std_logic_vector (0 to 4); 
-             row  : in    std_logic_vector (0 to 4); 
-             cole : out   std_logic; 
-             rowe : out   std_logic);
-   end component;
-   
-   component ExtractKtaParameters_process_p1
-      port ( cole       : in    std_logic; 
-             rowe       : in    std_logic; 
-             ktarcee_oo : in    std_logic_vector (7 downto 0); 
-             ktarcee_eo : in    std_logic_vector (7 downto 0); 
-             ktarcee_oe : in    std_logic_vector (7 downto 0); 
-             ktarcee_ee : in    std_logic_vector (7 downto 0); 
-             ktarcee    : out   std_logic_vector (7 downto 0));
-   end component;
-   
+   attribute HU_SET of extractktaparameters_MUX_ADDR_0 : label is 
+         "extractktaparameters_MUX_ADDR_0_41";
+   attribute HU_SET of extractktaparameters_MUX_ADDR_1 : label is 
+         "extractktaparameters_MUX_ADDR_1_40";
+   attribute HU_SET of extractktaparameters_MUX_ADDR_2 : label is 
+         "extractktaparameters_MUX_ADDR_2_39";
+   attribute HU_SET of extractktaparameters_MUX_ADDR_3 : label is 
+         "extractktaparameters_MUX_ADDR_3_38";
+   attribute HU_SET of extractktaparameters_MUX_ADDR_4 : label is 
+         "extractktaparameters_MUX_ADDR_4_37";
+   attribute HU_SET of extractktaparameters_MUX_ADDR_5 : label is 
+         "extractktaparameters_MUX_ADDR_5_36";
+   attribute HU_SET of extractktaparameters_MUX_ADDR_6 : label is 
+         "extractktaparameters_MUX_ADDR_6_35";
+   attribute HU_SET of extractktaparameters_MUX_ADDR_7 : label is 
+         "extractktaparameters_MUX_ADDR_7_34";
+   attribute HU_SET of extractktaparameters_MUX_ADDR_8 : label is 
+         "extractktaparameters_MUX_ADDR_8_33";
+   attribute HU_SET of extractktaparameters_MUX_ADDR_9 : label is 
+         "extractktaparameters_MUX_ADDR_9_32";
+   attribute HU_SET of extractktaparameters_MUX_DO_0 : label is 
+         "extractktaparameters_MUX_DO_0_31";
+   attribute HU_SET of extractktaparameters_MUX_DO_1 : label is 
+         "extractktaparameters_MUX_DO_1_30";
+   attribute HU_SET of extractktaparameters_MUX_DO_2 : label is 
+         "extractktaparameters_MUX_DO_2_29";
+   attribute HU_SET of extractktaparameters_MUX_DO_3 : label is 
+         "extractktaparameters_MUX_DO_3_28";
+   attribute HU_SET of extractktaparameters_MUX_DO_4 : label is 
+         "extractktaparameters_MUX_DO_4_27";
+   attribute HU_SET of extractktaparameters_MUX_DO_5 : label is 
+         "extractktaparameters_MUX_DO_5_26";
+   attribute HU_SET of extractktaparameters_MUX_DO_6 : label is 
+         "extractktaparameters_MUX_DO_6_25";
+   attribute HU_SET of extractktaparameters_MUX_DO_7 : label is 
+         "extractktaparameters_MUX_DO_7_24";
+   attribute HU_SET of extractktaparameters_MUX_DO_8 : label is 
+         "extractktaparameters_MUX_DO_8_23";
+   attribute HU_SET of extractktaparameters_MUX_DO_9 : label is 
+         "extractktaparameters_MUX_DO_9_22";
+   attribute HU_SET of extractktaparameters_MUX_DO_10 : label is 
+         "extractktaparameters_MUX_DO_10_21";
+   attribute HU_SET of extractktaparameters_MUX_DO_11 : label is 
+         "extractktaparameters_MUX_DO_11_20";
+   attribute HU_SET of extractktaparameters_MUX_DO_12 : label is 
+         "extractktaparameters_MUX_DO_12_19";
+   attribute HU_SET of extractktaparameters_MUX_DO_13 : label is 
+         "extractktaparameters_MUX_DO_13_18";
+   attribute HU_SET of extractktaparameters_MUX_DO_14 : label is 
+         "extractktaparameters_MUX_DO_14_17";
+   attribute HU_SET of extractktaparameters_MUX_DO_15 : label is 
+         "extractktaparameters_MUX_DO_15_16";
+   attribute HU_SET of extractktaparameters_MUX_DO_16 : label is 
+         "extractktaparameters_MUX_DO_16_15";
+   attribute HU_SET of extractktaparameters_MUX_DO_17 : label is 
+         "extractktaparameters_MUX_DO_17_14";
+   attribute HU_SET of extractktaparameters_MUX_DO_18 : label is 
+         "extractktaparameters_MUX_DO_18_13";
+   attribute HU_SET of extractktaparameters_MUX_DO_19 : label is 
+         "extractktaparameters_MUX_DO_19_12";
+   attribute HU_SET of extractktaparameters_MUX_DO_20 : label is 
+         "extractktaparameters_MUX_DO_20_11";
+   attribute HU_SET of extractktaparameters_MUX_DO_21 : label is 
+         "extractktaparameters_MUX_DO_21_10";
+   attribute HU_SET of extractktaparameters_MUX_DO_22 : label is 
+         "extractktaparameters_MUX_DO_22_9";
+   attribute HU_SET of extractktaparameters_MUX_DO_23 : label is 
+         "extractktaparameters_MUX_DO_23_8";
+   attribute HU_SET of extractktaparameters_MUX_DO_24 : label is 
+         "extractktaparameters_MUX_DO_24_7";
+   attribute HU_SET of extractktaparameters_MUX_DO_25 : label is 
+         "extractktaparameters_MUX_DO_25_6";
+   attribute HU_SET of extractktaparameters_MUX_DO_26 : label is 
+         "extractktaparameters_MUX_DO_26_5";
+   attribute HU_SET of extractktaparameters_MUX_DO_27 : label is 
+         "extractktaparameters_MUX_DO_27_4";
+   attribute HU_SET of extractktaparameters_MUX_DO_28 : label is 
+         "extractktaparameters_MUX_DO_28_3";
+   attribute HU_SET of extractktaparameters_MUX_DO_29 : label is 
+         "extractktaparameters_MUX_DO_29_2";
+   attribute HU_SET of extractktaparameters_MUX_DO_30 : label is 
+         "extractktaparameters_MUX_DO_30_1";
+   attribute HU_SET of extractktaparameters_MUX_DO_31 : label is 
+         "extractktaparameters_MUX_DO_31_0";
    attribute WRITE_WIDTH_B of mem_extrktaparam_1 : label is "36";
    attribute WRITE_WIDTH_A of mem_extrktaparam_1 : label is "36";
    attribute WRITE_MODE_B of mem_extrktaparam_1 : label is "READ_FIRST";
@@ -1490,51 +793,295 @@ architecture BEHAVIORAL of ExtractKtaParameters is
    attribute WRITE_MODE_A of mem_extrktaparam_2 : label is "READ_FIRST";
    attribute READ_WIDTH_B of mem_extrktaparam_2 : label is "36";
    attribute READ_WIDTH_A of mem_extrktaparam_2 : label is "36";
-   attribute HU_SET of MUX_ADDR_0 : label is "MUX_ADDR_0_1809";
-   attribute HU_SET of MUX_ADDR_1 : label is "MUX_ADDR_1_1808";
-   attribute HU_SET of MUX_ADDR_2 : label is "MUX_ADDR_2_1807";
-   attribute HU_SET of MUX_ADDR_3 : label is "MUX_ADDR_3_1806";
-   attribute HU_SET of MUX_ADDR_4 : label is "MUX_ADDR_4_1805";
-   attribute HU_SET of MUX_ADDR_5 : label is "MUX_ADDR_5_1804";
-   attribute HU_SET of MUX_ADDR_6 : label is "MUX_ADDR_6_1803";
-   attribute HU_SET of MUX_ADDR_7 : label is "MUX_ADDR_7_1802";
-   attribute HU_SET of MUX_ADDR_8 : label is "MUX_ADDR_8_1801";
-   attribute HU_SET of MUX_ADDR_9 : label is "MUX_ADDR_9_1800";
-   attribute HU_SET of MUX_DO_0 : label is "MUX_DO_0_1799";
-   attribute HU_SET of MUX_DO_1 : label is "MUX_DO_1_1798";
-   attribute HU_SET of MUX_DO_2 : label is "MUX_DO_2_1797";
-   attribute HU_SET of MUX_DO_3 : label is "MUX_DO_3_1796";
-   attribute HU_SET of MUX_DO_4 : label is "MUX_DO_4_1795";
-   attribute HU_SET of MUX_DO_5 : label is "MUX_DO_5_1794";
-   attribute HU_SET of MUX_DO_6 : label is "MUX_DO_6_1793";
-   attribute HU_SET of MUX_DO_7 : label is "MUX_DO_7_1792";
-   attribute HU_SET of MUX_DO_8 : label is "MUX_DO_8_1791";
-   attribute HU_SET of MUX_DO_9 : label is "MUX_DO_9_1790";
-   attribute HU_SET of MUX_DO_10 : label is "MUX_DO_10_1789";
-   attribute HU_SET of MUX_DO_11 : label is "MUX_DO_11_1788";
-   attribute HU_SET of MUX_DO_12 : label is "MUX_DO_12_1787";
-   attribute HU_SET of MUX_DO_13 : label is "MUX_DO_13_1786";
-   attribute HU_SET of MUX_DO_14 : label is "MUX_DO_14_1785";
-   attribute HU_SET of MUX_DO_15 : label is "MUX_DO_15_1784";
-   attribute HU_SET of MUX_DO_16 : label is "MUX_DO_16_1783";
-   attribute HU_SET of MUX_DO_17 : label is "MUX_DO_17_1782";
-   attribute HU_SET of MUX_DO_18 : label is "MUX_DO_18_1781";
-   attribute HU_SET of MUX_DO_19 : label is "MUX_DO_19_1780";
-   attribute HU_SET of MUX_DO_20 : label is "MUX_DO_20_1779";
-   attribute HU_SET of MUX_DO_21 : label is "MUX_DO_21_1778";
-   attribute HU_SET of MUX_DO_22 : label is "MUX_DO_22_1777";
-   attribute HU_SET of MUX_DO_23 : label is "MUX_DO_23_1776";
-   attribute HU_SET of MUX_DO_24 : label is "MUX_DO_24_1775";
-   attribute HU_SET of MUX_DO_25 : label is "MUX_DO_25_1774";
-   attribute HU_SET of MUX_DO_26 : label is "MUX_DO_26_1773";
-   attribute HU_SET of MUX_DO_27 : label is "MUX_DO_27_1772";
-   attribute HU_SET of MUX_DO_28 : label is "MUX_DO_28_1771";
-   attribute HU_SET of MUX_DO_29 : label is "MUX_DO_29_1770";
-   attribute HU_SET of MUX_DO_30 : label is "MUX_DO_30_1769";
-   attribute HU_SET of MUX_DO_31 : label is "MUX_DO_31_1768";
 begin
    o_rdy <= o_rdy_DUMMY;
-   inst_extrktaparam_proc0 : ExtractKtaParameters_process_p0
+   extractktaparameters_colrow_even : colrow_even
+      port map (col(0 to 4)=>XLXN_240(0 to 4),
+                row(0 to 4)=>XLXN_239(0 to 4),
+                cole=>XLXN_243,
+                rowe=>XLXN_244);
+   
+   extractktaparameters_MUX_ADDR_0 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_254(0),
+                D1=>i_addr(0),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr1(0));
+   
+   extractktaparameters_MUX_ADDR_1 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_254(1),
+                D1=>i_addr(1),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr1(1));
+   
+   extractktaparameters_MUX_ADDR_2 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_254(2),
+                D1=>i_addr(2),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr1(2));
+   
+   extractktaparameters_MUX_ADDR_3 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_254(3),
+                D1=>i_addr(3),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr1(3));
+   
+   extractktaparameters_MUX_ADDR_4 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_254(4),
+                D1=>i_addr(4),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr1(4));
+   
+   extractktaparameters_MUX_ADDR_5 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_254(5),
+                D1=>i_addr(5),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr1(5));
+   
+   extractktaparameters_MUX_ADDR_6 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_254(6),
+                D1=>i_addr(6),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr1(6));
+   
+   extractktaparameters_MUX_ADDR_7 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_254(7),
+                D1=>i_addr(7),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr1(7));
+   
+   extractktaparameters_MUX_ADDR_8 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_254(8),
+                D1=>i_addr(8),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr1(8));
+   
+   extractktaparameters_MUX_ADDR_9 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_254(9),
+                D1=>i_addr(9),
+                S0=>o_rdy_DUMMY,
+                O=>mux_addr1(9));
+   
+   extractktaparameters_MUX_DO_0 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(0),
+                D1=>XLXN_78(0),
+                S0=>mux_addr1(9),
+                O=>o_do(0));
+   
+   extractktaparameters_MUX_DO_1 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(1),
+                D1=>XLXN_78(1),
+                S0=>mux_addr1(9),
+                O=>o_do(1));
+   
+   extractktaparameters_MUX_DO_2 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(2),
+                D1=>XLXN_78(2),
+                S0=>mux_addr1(9),
+                O=>o_do(2));
+   
+   extractktaparameters_MUX_DO_3 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(3),
+                D1=>XLXN_78(3),
+                S0=>mux_addr1(9),
+                O=>o_do(3));
+   
+   extractktaparameters_MUX_DO_4 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(4),
+                D1=>XLXN_78(4),
+                S0=>mux_addr1(9),
+                O=>o_do(4));
+   
+   extractktaparameters_MUX_DO_5 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(5),
+                D1=>XLXN_78(5),
+                S0=>mux_addr1(9),
+                O=>o_do(5));
+   
+   extractktaparameters_MUX_DO_6 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(6),
+                D1=>XLXN_78(6),
+                S0=>mux_addr1(9),
+                O=>o_do(6));
+   
+   extractktaparameters_MUX_DO_7 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(7),
+                D1=>XLXN_78(7),
+                S0=>mux_addr1(9),
+                O=>o_do(7));
+   
+   extractktaparameters_MUX_DO_8 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(8),
+                D1=>XLXN_78(8),
+                S0=>mux_addr1(9),
+                O=>o_do(8));
+   
+   extractktaparameters_MUX_DO_9 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(9),
+                D1=>XLXN_78(9),
+                S0=>mux_addr1(9),
+                O=>o_do(9));
+   
+   extractktaparameters_MUX_DO_10 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(10),
+                D1=>XLXN_78(10),
+                S0=>mux_addr1(9),
+                O=>o_do(10));
+   
+   extractktaparameters_MUX_DO_11 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(11),
+                D1=>XLXN_78(11),
+                S0=>mux_addr1(9),
+                O=>o_do(11));
+   
+   extractktaparameters_MUX_DO_12 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(12),
+                D1=>XLXN_78(12),
+                S0=>mux_addr1(9),
+                O=>o_do(12));
+   
+   extractktaparameters_MUX_DO_13 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(13),
+                D1=>XLXN_78(13),
+                S0=>mux_addr1(9),
+                O=>o_do(13));
+   
+   extractktaparameters_MUX_DO_14 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(14),
+                D1=>XLXN_78(14),
+                S0=>mux_addr1(9),
+                O=>o_do(14));
+   
+   extractktaparameters_MUX_DO_15 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(15),
+                D1=>XLXN_78(15),
+                S0=>mux_addr1(9),
+                O=>o_do(15));
+   
+   extractktaparameters_MUX_DO_16 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(16),
+                D1=>XLXN_78(16),
+                S0=>mux_addr1(9),
+                O=>o_do(16));
+   
+   extractktaparameters_MUX_DO_17 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(17),
+                D1=>XLXN_78(17),
+                S0=>mux_addr1(9),
+                O=>o_do(17));
+   
+   extractktaparameters_MUX_DO_18 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(18),
+                D1=>XLXN_78(18),
+                S0=>mux_addr1(9),
+                O=>o_do(18));
+   
+   extractktaparameters_MUX_DO_19 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(19),
+                D1=>XLXN_78(19),
+                S0=>mux_addr1(9),
+                O=>o_do(19));
+   
+   extractktaparameters_MUX_DO_20 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(20),
+                D1=>XLXN_78(20),
+                S0=>mux_addr1(9),
+                O=>o_do(20));
+   
+   extractktaparameters_MUX_DO_21 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(21),
+                D1=>XLXN_78(21),
+                S0=>mux_addr1(9),
+                O=>o_do(21));
+   
+   extractktaparameters_MUX_DO_22 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(22),
+                D1=>XLXN_78(22),
+                S0=>mux_addr1(9),
+                O=>o_do(22));
+   
+   extractktaparameters_MUX_DO_23 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(23),
+                D1=>XLXN_78(23),
+                S0=>mux_addr1(9),
+                O=>o_do(23));
+   
+   extractktaparameters_MUX_DO_24 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(24),
+                D1=>XLXN_78(24),
+                S0=>mux_addr1(9),
+                O=>o_do(24));
+   
+   extractktaparameters_MUX_DO_25 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(25),
+                D1=>XLXN_78(25),
+                S0=>mux_addr1(9),
+                O=>o_do(25));
+   
+   extractktaparameters_MUX_DO_26 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(26),
+                D1=>XLXN_78(26),
+                S0=>mux_addr1(9),
+                O=>o_do(26));
+   
+   extractktaparameters_MUX_DO_27 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(27),
+                D1=>XLXN_78(27),
+                S0=>mux_addr1(9),
+                O=>o_do(27));
+   
+   extractktaparameters_MUX_DO_28 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(28),
+                D1=>XLXN_78(28),
+                S0=>mux_addr1(9),
+                O=>o_do(28));
+   
+   extractktaparameters_MUX_DO_29 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(29),
+                D1=>XLXN_78(29),
+                S0=>mux_addr1(9),
+                O=>o_do(29));
+   
+   extractktaparameters_MUX_DO_30 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(30),
+                D1=>XLXN_78(30),
+                S0=>mux_addr1(9),
+                O=>o_do(30));
+   
+   extractktaparameters_MUX_DO_31 : M2_1_MXILINX_ExtractKtaParameters
+      port map (D0=>XLXN_79(31),
+                D1=>XLXN_78(31),
+                S0=>mux_addr1(9),
+                O=>o_do(31));
+   
+   extractktaparameters_process_p1_inst : ExtractKtaParameters_process_p1
+      port map (cole=>XLXN_243,
+                ktarcee_ee(7 downto 0)=>XLXN_245(7 downto 0),
+                ktarcee_eo(7 downto 0)=>XLXN_247(7 downto 0),
+                ktarcee_oe(7 downto 0)=>XLXN_246(7 downto 0),
+                ktarcee_oo(7 downto 0)=>XLXN_248(7 downto 0),
+                rowe=>XLXN_244,
+                ktarcee(7 downto 0)=>XLXN_253(7 downto 0));
+   
+   extractktaparameters_rom_signed3bit : rom_signed3bit
+      port map (nibble_in(2 downto 0)=>XLXN_235(2 downto 0),
+                nibble_out(31 downto 0)=>XLXN_238(31 downto 0));
+   
+   extractktaparameters_rom_signed8bit : 
+         rom_signed8bit_MUSER_ExtractKtaParameters
+      port map (i_clock=>i_clock,
+                i_reset=>i_reset,
+                i_value(7 downto 0)=>XLXN_196(7 downto 0),
+                o_value(31 downto 0)=>XLXN_173(31 downto 0));
+   
+   extractktaparameters_rom_unsigned4bit_2powx : rom_unsigned4bit_2powx
+      port map (nibble_in(3 downto 0)=>XLXN_197(3 downto 0),
+                nibble_out(31 downto 0)=>XLXN_200(31 downto 0));
+   
+   extractktaparameters_rom_unsigned4bit_2powx8 : rom_unsigned4bit_2powx8
+      port map (nibble_in(3 downto 0)=>XLXN_201(3 downto 0),
+                nibble_out(31 downto 0)=>XLXN_178(31 downto 0));
+   
+   inst_extrktaparam_proc0_inst : ExtractKtaParameters_process_p0
       port map (addfpr(31 downto 0)=>addfpr(31 downto 0),
                 addfprdy=>addfprdy,
                 divfpr(31 downto 0)=>divfpr(31 downto 0),
@@ -1651,258 +1198,6 @@ begin
                 DOB=>open,
                 DOPA=>open,
                 DOPB=>open);
-   
-   MUX_ADDR_0 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_254(0),
-                D1=>i_addr(0),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr1(0));
-   
-   MUX_ADDR_1 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_254(1),
-                D1=>i_addr(1),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr1(1));
-   
-   MUX_ADDR_2 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_254(2),
-                D1=>i_addr(2),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr1(2));
-   
-   MUX_ADDR_3 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_254(3),
-                D1=>i_addr(3),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr1(3));
-   
-   MUX_ADDR_4 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_254(4),
-                D1=>i_addr(4),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr1(4));
-   
-   MUX_ADDR_5 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_254(5),
-                D1=>i_addr(5),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr1(5));
-   
-   MUX_ADDR_6 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_254(6),
-                D1=>i_addr(6),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr1(6));
-   
-   MUX_ADDR_7 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_254(7),
-                D1=>i_addr(7),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr1(7));
-   
-   MUX_ADDR_8 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_254(8),
-                D1=>i_addr(8),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr1(8));
-   
-   MUX_ADDR_9 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_254(9),
-                D1=>i_addr(9),
-                S0=>o_rdy_DUMMY,
-                O=>mux_addr1(9));
-   
-   MUX_DO_0 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(0),
-                D1=>XLXN_78(0),
-                S0=>mux_addr1(9),
-                O=>o_do(0));
-   
-   MUX_DO_1 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(1),
-                D1=>XLXN_78(1),
-                S0=>mux_addr1(9),
-                O=>o_do(1));
-   
-   MUX_DO_2 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(2),
-                D1=>XLXN_78(2),
-                S0=>mux_addr1(9),
-                O=>o_do(2));
-   
-   MUX_DO_3 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(3),
-                D1=>XLXN_78(3),
-                S0=>mux_addr1(9),
-                O=>o_do(3));
-   
-   MUX_DO_4 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(4),
-                D1=>XLXN_78(4),
-                S0=>mux_addr1(9),
-                O=>o_do(4));
-   
-   MUX_DO_5 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(5),
-                D1=>XLXN_78(5),
-                S0=>mux_addr1(9),
-                O=>o_do(5));
-   
-   MUX_DO_6 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(6),
-                D1=>XLXN_78(6),
-                S0=>mux_addr1(9),
-                O=>o_do(6));
-   
-   MUX_DO_7 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(7),
-                D1=>XLXN_78(7),
-                S0=>mux_addr1(9),
-                O=>o_do(7));
-   
-   MUX_DO_8 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(8),
-                D1=>XLXN_78(8),
-                S0=>mux_addr1(9),
-                O=>o_do(8));
-   
-   MUX_DO_9 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(9),
-                D1=>XLXN_78(9),
-                S0=>mux_addr1(9),
-                O=>o_do(9));
-   
-   MUX_DO_10 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(10),
-                D1=>XLXN_78(10),
-                S0=>mux_addr1(9),
-                O=>o_do(10));
-   
-   MUX_DO_11 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(11),
-                D1=>XLXN_78(11),
-                S0=>mux_addr1(9),
-                O=>o_do(11));
-   
-   MUX_DO_12 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(12),
-                D1=>XLXN_78(12),
-                S0=>mux_addr1(9),
-                O=>o_do(12));
-   
-   MUX_DO_13 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(13),
-                D1=>XLXN_78(13),
-                S0=>mux_addr1(9),
-                O=>o_do(13));
-   
-   MUX_DO_14 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(14),
-                D1=>XLXN_78(14),
-                S0=>mux_addr1(9),
-                O=>o_do(14));
-   
-   MUX_DO_15 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(15),
-                D1=>XLXN_78(15),
-                S0=>mux_addr1(9),
-                O=>o_do(15));
-   
-   MUX_DO_16 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(16),
-                D1=>XLXN_78(16),
-                S0=>mux_addr1(9),
-                O=>o_do(16));
-   
-   MUX_DO_17 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(17),
-                D1=>XLXN_78(17),
-                S0=>mux_addr1(9),
-                O=>o_do(17));
-   
-   MUX_DO_18 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(18),
-                D1=>XLXN_78(18),
-                S0=>mux_addr1(9),
-                O=>o_do(18));
-   
-   MUX_DO_19 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(19),
-                D1=>XLXN_78(19),
-                S0=>mux_addr1(9),
-                O=>o_do(19));
-   
-   MUX_DO_20 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(20),
-                D1=>XLXN_78(20),
-                S0=>mux_addr1(9),
-                O=>o_do(20));
-   
-   MUX_DO_21 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(21),
-                D1=>XLXN_78(21),
-                S0=>mux_addr1(9),
-                O=>o_do(21));
-   
-   MUX_DO_22 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(22),
-                D1=>XLXN_78(22),
-                S0=>mux_addr1(9),
-                O=>o_do(22));
-   
-   MUX_DO_23 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(23),
-                D1=>XLXN_78(23),
-                S0=>mux_addr1(9),
-                O=>o_do(23));
-   
-   MUX_DO_24 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(24),
-                D1=>XLXN_78(24),
-                S0=>mux_addr1(9),
-                O=>o_do(24));
-   
-   MUX_DO_25 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(25),
-                D1=>XLXN_78(25),
-                S0=>mux_addr1(9),
-                O=>o_do(25));
-   
-   MUX_DO_26 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(26),
-                D1=>XLXN_78(26),
-                S0=>mux_addr1(9),
-                O=>o_do(26));
-   
-   MUX_DO_27 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(27),
-                D1=>XLXN_78(27),
-                S0=>mux_addr1(9),
-                O=>o_do(27));
-   
-   MUX_DO_28 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(28),
-                D1=>XLXN_78(28),
-                S0=>mux_addr1(9),
-                O=>o_do(28));
-   
-   MUX_DO_29 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(29),
-                D1=>XLXN_78(29),
-                S0=>mux_addr1(9),
-                O=>o_do(29));
-   
-   MUX_DO_30 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(30),
-                D1=>XLXN_78(30),
-                S0=>mux_addr1(9),
-                O=>o_do(30));
-   
-   MUX_DO_31 : M2_1_MXILINX_ExtractKtaParameters
-      port map (D0=>XLXN_79(31),
-                D1=>XLXN_78(31),
-                S0=>mux_addr1(9),
-                O=>o_do(31));
    
    XLXI_5 : INV
       port map (I=>mux_addr1(9),
@@ -2033,39 +1328,6 @@ begin
    XLXI_29_3 : BUF
       port map (I=>o_write_enable,
                 O=>XLXN_139(3));
-   
-   XLXI_62 : rom_signed8bit_MUSER_ExtractKtaParameters
-      port map (i_clock=>i_clock,
-                i_reset=>i_reset,
-                i_value(7 downto 0)=>XLXN_196(7 downto 0),
-                o_value(31 downto 0)=>XLXN_173(31 downto 0));
-   
-   XLXI_63 : rom_unsigned4bit_2powx8
-      port map (nibble_in(3 downto 0)=>XLXN_201(3 downto 0),
-                nibble_out(31 downto 0)=>XLXN_178(31 downto 0));
-   
-   XLXI_66 : rom_unsigned4bit_2powx
-      port map (nibble_in(3 downto 0)=>XLXN_197(3 downto 0),
-                nibble_out(31 downto 0)=>XLXN_200(31 downto 0));
-   
-   XLXI_83 : rom_signed3bit
-      port map (nibble_in(2 downto 0)=>XLXN_235(2 downto 0),
-                nibble_out(31 downto 0)=>XLXN_238(31 downto 0));
-   
-   XLXI_84 : colrow_even
-      port map (col(0 to 4)=>XLXN_240(0 to 4),
-                row(0 to 4)=>XLXN_239(0 to 4),
-                cole=>XLXN_243,
-                rowe=>XLXN_244);
-   
-   XLXI_85 : ExtractKtaParameters_process_p1
-      port map (cole=>XLXN_243,
-                ktarcee_ee(7 downto 0)=>XLXN_245(7 downto 0),
-                ktarcee_eo(7 downto 0)=>XLXN_247(7 downto 0),
-                ktarcee_oe(7 downto 0)=>XLXN_246(7 downto 0),
-                ktarcee_oo(7 downto 0)=>XLXN_248(7 downto 0),
-                rowe=>XLXN_244,
-                ktarcee(7 downto 0)=>XLXN_253(7 downto 0));
    
 end BEHAVIORAL;
 
