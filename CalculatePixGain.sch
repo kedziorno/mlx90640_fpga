@@ -171,7 +171,7 @@
             <rect width="64" x="592" y="-44" height="24" />
             <line x2="656" y1="-32" y2="-32" x1="592" />
         </blockdef>
-        <blockdef name="RAMB16">
+        <blockdef name="RAMB16_S36_S36">
             <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
@@ -307,7 +307,7 @@
             <blockpin signalname="mulfpa(31:0)" name="mulfpa(31:0)" />
             <blockpin signalname="mulfpb(31:0)" name="mulfpb(31:0)" />
         </block>
-        <block symbolname="RAMB16" name="mem_KGain_1">
+        <block symbolname="RAMB16_S36_S36" name="mem_KGain_1">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -375,7 +375,7 @@
             <blockpin name="DOPA(3:0)" />
             <blockpin name="DOPB(3:0)" />
         </block>
-        <block symbolname="RAMB16" name="mem_KGain_2">
+        <block symbolname="RAMB16_S36_S36" name="mem_KGain_2">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />

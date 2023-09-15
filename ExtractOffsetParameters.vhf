@@ -7,13 +7,13 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : ExtractOffsetParameters.vhf
--- /___/   /\     Timestamp : 09/03/2023 19:01:58
+-- /___/   /\     Timestamp : 09/15/2023 17:58:36
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
---Command: sch2hdl -sympath /home/user/workspace/mlx90640_fpga/ipcore_dir -intstyle ise -family spartan3e -flat -suppress -vhdl /home/user/workspace/mlx90640_fpga/ExtractOffsetParameters.vhf -w /home/user/workspace/mlx90640_fpga/ExtractOffsetParameters.sch
+--Command: sch2hdl -sympath /home/user/workspace/mlx90640_fpga/ipcore_dir -intstyle ise -family virtex4 -flat -suppress -vhdl /home/user/workspace/mlx90640_fpga/ExtractOffsetParameters.vhf -w /home/user/workspace/mlx90640_fpga/ExtractOffsetParameters.sch
 --Design Name: ExtractOffsetParameters
---Device: spartan3e
+--Device: virtex4
 --Purpose:
 --    This vhdl netlist is translated from an ECS schematic. It can be 
 --    synthesized and simulated, but it should not be modified. 
@@ -116,14 +116,98 @@ entity ExtractOffsetParameters is
 end ExtractOffsetParameters;
 
 architecture BEHAVIORAL of ExtractOffsetParameters is
-   attribute HU_SET        : string ;
-   attribute WRITE_WIDTH_B : string ;
-   attribute WRITE_WIDTH_A : string ;
-   attribute WRITE_MODE_B  : string ;
-   attribute WRITE_MODE_A  : string ;
-   attribute READ_WIDTH_B  : string ;
-   attribute READ_WIDTH_A  : string ;
-   attribute BOX_TYPE      : string ;
+   attribute HU_SET              : string ;
+   attribute DOA_REG             : string ;
+   attribute DOB_REG             : string ;
+   attribute INIT_00             : string ;
+   attribute INIT_01             : string ;
+   attribute INIT_02             : string ;
+   attribute INIT_03             : string ;
+   attribute INIT_04             : string ;
+   attribute INIT_05             : string ;
+   attribute INIT_06             : string ;
+   attribute INIT_07             : string ;
+   attribute INIT_08             : string ;
+   attribute INIT_09             : string ;
+   attribute INIT_0A             : string ;
+   attribute INIT_0B             : string ;
+   attribute INIT_0C             : string ;
+   attribute INIT_0D             : string ;
+   attribute INIT_0E             : string ;
+   attribute INIT_0F             : string ;
+   attribute INIT_10             : string ;
+   attribute INIT_11             : string ;
+   attribute INIT_12             : string ;
+   attribute INIT_13             : string ;
+   attribute INIT_14             : string ;
+   attribute INIT_15             : string ;
+   attribute INIT_16             : string ;
+   attribute INIT_17             : string ;
+   attribute INIT_18             : string ;
+   attribute INIT_19             : string ;
+   attribute INIT_1A             : string ;
+   attribute INIT_1B             : string ;
+   attribute INIT_1C             : string ;
+   attribute INIT_1D             : string ;
+   attribute INIT_1E             : string ;
+   attribute INIT_1F             : string ;
+   attribute INIT_20             : string ;
+   attribute INIT_21             : string ;
+   attribute INIT_22             : string ;
+   attribute INIT_23             : string ;
+   attribute INIT_24             : string ;
+   attribute INIT_25             : string ;
+   attribute INIT_26             : string ;
+   attribute INIT_27             : string ;
+   attribute INIT_28             : string ;
+   attribute INIT_29             : string ;
+   attribute INIT_2A             : string ;
+   attribute INIT_2B             : string ;
+   attribute INIT_2C             : string ;
+   attribute INIT_2D             : string ;
+   attribute INIT_2E             : string ;
+   attribute INIT_2F             : string ;
+   attribute INIT_30             : string ;
+   attribute INIT_31             : string ;
+   attribute INIT_32             : string ;
+   attribute INIT_33             : string ;
+   attribute INIT_34             : string ;
+   attribute INIT_35             : string ;
+   attribute INIT_36             : string ;
+   attribute INIT_37             : string ;
+   attribute INIT_38             : string ;
+   attribute INIT_39             : string ;
+   attribute INIT_3A             : string ;
+   attribute INIT_3B             : string ;
+   attribute INIT_3C             : string ;
+   attribute INIT_3D             : string ;
+   attribute INIT_3E             : string ;
+   attribute INIT_3F             : string ;
+   attribute INIT_A              : string ;
+   attribute INIT_B              : string ;
+   attribute INITP_00            : string ;
+   attribute INITP_01            : string ;
+   attribute INITP_02            : string ;
+   attribute INITP_03            : string ;
+   attribute INITP_04            : string ;
+   attribute INITP_05            : string ;
+   attribute INITP_06            : string ;
+   attribute INITP_07            : string ;
+   attribute INIT_FILE           : string ;
+   attribute INVERT_CLK_DOA_REG  : string ;
+   attribute INVERT_CLK_DOB_REG  : string ;
+   attribute RAM_EXTENSION_A     : string ;
+   attribute RAM_EXTENSION_B     : string ;
+   attribute READ_WIDTH_A        : string ;
+   attribute READ_WIDTH_B        : string ;
+   attribute SRVAL_A             : string ;
+   attribute SRVAL_B             : string ;
+   attribute WRITE_MODE_A        : string ;
+   attribute WRITE_MODE_B        : string ;
+   attribute WRITE_WIDTH_A       : string ;
+   attribute WRITE_WIDTH_B       : string ;
+   attribute SIM_COLLISION_CHECK : string ;
+   attribute BOX_TYPE            : string ;
    signal addra1                                   : std_logic_vector (14 
          downto 0);
    signal addra2                                   : std_logic_vector (14 
@@ -275,7 +359,171 @@ architecture BEHAVIORAL of ExtractOffsetParameters is
              addfpb          : out   std_logic_vector (31 downto 0));
    end component;
    
-   component RAMB16
+   component ramb16
+      -- synopsys translate_off
+      generic( DOA_REG : integer :=  0;
+               DOB_REG : integer :=  0;
+               INIT_00 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_01 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_02 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_03 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_04 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_05 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_06 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_07 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_08 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_09 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0A : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0B : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0C : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0D : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0E : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0F : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_10 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_11 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_12 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_13 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_14 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_15 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_16 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_17 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_18 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_19 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1A : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1B : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1C : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1D : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1E : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1F : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_20 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_21 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_22 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_23 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_24 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_25 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_26 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_27 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_28 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_29 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2A : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2B : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2C : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2D : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2E : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2F : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_30 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_31 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_32 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_33 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_34 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_35 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_36 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_37 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_38 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_39 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3A : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3B : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3C : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3D : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3E : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3F : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_A : bit_vector :=  x"000000000";
+               INIT_B : bit_vector :=  x"000000000";
+               INITP_00 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_01 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_02 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_03 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_04 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_05 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_06 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_07 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_FILE : string :=  "NONE";
+               INVERT_CLK_DOA_REG : boolean :=  FALSE;
+               INVERT_CLK_DOB_REG : boolean :=  FALSE;
+               RAM_EXTENSION_A : string :=  "NONE";
+               RAM_EXTENSION_B : string :=  "NONE";
+               READ_WIDTH_A : integer :=  0;
+               READ_WIDTH_B : integer :=  0;
+               SRVAL_A : bit_vector :=  x"000000000";
+               SRVAL_B : bit_vector :=  x"000000000";
+               WRITE_MODE_A : string :=  "WRITE_FIRST";
+               WRITE_MODE_B : string :=  "WRITE_FIRST";
+               WRITE_WIDTH_A : integer :=  0;
+               WRITE_WIDTH_B : integer :=  0;
+               SIM_COLLISION_CHECK : string :=  "ALL");
+      -- synopsys translate_on
       port ( ADDRA       : in    std_logic_vector (14 downto 0); 
              ADDRB       : in    std_logic_vector (14 downto 0); 
              CASCADEINA  : in    std_logic; 
@@ -301,6 +549,168 @@ architecture BEHAVIORAL of ExtractOffsetParameters is
              DOPA        : out   std_logic_vector (3 downto 0); 
              DOPB        : out   std_logic_vector (3 downto 0));
    end component;
+   attribute DOA_REG of ramb16 : component is "0";
+   attribute DOB_REG of ramb16 : component is "0";
+   attribute INIT_00 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_01 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_02 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_03 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_04 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_05 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_06 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_07 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_08 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_09 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0A of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0B of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0C of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0D of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0E of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0F of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_10 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_11 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_12 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_13 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_14 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_15 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_16 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_17 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_18 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_19 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1A of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1B of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1C of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1D of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1E of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1F of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_20 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_21 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_22 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_23 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_24 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_25 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_26 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_27 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_28 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_29 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2A of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2B of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2C of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2D of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2E of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2F of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_30 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_31 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_32 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_33 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_34 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_35 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_36 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_37 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_38 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_39 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3A of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3B of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3C of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3D of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3E of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3F of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_A of ramb16 : component is "000000000";
+   attribute INIT_B of ramb16 : component is "000000000";
+   attribute INITP_00 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_01 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_02 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_03 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_04 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_05 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_06 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_07 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_FILE of ramb16 : component is "NONE";
+   attribute INVERT_CLK_DOA_REG of ramb16 : component is "FALSE";
+   attribute INVERT_CLK_DOB_REG of ramb16 : component is "FALSE";
+   attribute RAM_EXTENSION_A of ramb16 : component is "NONE";
+   attribute RAM_EXTENSION_B of ramb16 : component is "NONE";
+   attribute READ_WIDTH_A of ramb16 : component is "0";
+   attribute READ_WIDTH_B of ramb16 : component is "0";
+   attribute SRVAL_A of ramb16 : component is "000000000";
+   attribute SRVAL_B of ramb16 : component is "000000000";
+   attribute WRITE_MODE_A of ramb16 : component is "WRITE_FIRST";
+   attribute WRITE_MODE_B of ramb16 : component is "WRITE_FIRST";
+   attribute WRITE_WIDTH_A of ramb16 : component is "0";
+   attribute WRITE_WIDTH_B of ramb16 : component is "0";
+   attribute SIM_COLLISION_CHECK of ramb16 : component is "ALL";
    
    component GND
       port ( G : out   std_logic);
@@ -320,133 +730,133 @@ architecture BEHAVIORAL of ExtractOffsetParameters is
    attribute BOX_TYPE of INV : component is "BLACK_BOX";
    
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_0 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_0_875";
+         "ExtractOffsetParameters_MUX_DO_MAIN_0_526";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_1 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_1_874";
+         "ExtractOffsetParameters_MUX_DO_MAIN_1_525";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_2 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_2_873";
+         "ExtractOffsetParameters_MUX_DO_MAIN_2_524";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_3 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_3_872";
+         "ExtractOffsetParameters_MUX_DO_MAIN_3_523";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_4 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_4_871";
+         "ExtractOffsetParameters_MUX_DO_MAIN_4_522";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_5 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_5_870";
+         "ExtractOffsetParameters_MUX_DO_MAIN_5_521";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_6 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_6_869";
+         "ExtractOffsetParameters_MUX_DO_MAIN_6_520";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_7 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_7_868";
+         "ExtractOffsetParameters_MUX_DO_MAIN_7_519";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_8 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_8_867";
+         "ExtractOffsetParameters_MUX_DO_MAIN_8_518";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_9 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_9_866";
+         "ExtractOffsetParameters_MUX_DO_MAIN_9_517";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_10 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_10_865";
+         "ExtractOffsetParameters_MUX_DO_MAIN_10_516";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_11 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_11_864";
+         "ExtractOffsetParameters_MUX_DO_MAIN_11_515";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_12 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_12_863";
+         "ExtractOffsetParameters_MUX_DO_MAIN_12_514";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_13 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_13_862";
+         "ExtractOffsetParameters_MUX_DO_MAIN_13_513";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_14 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_14_861";
+         "ExtractOffsetParameters_MUX_DO_MAIN_14_512";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_15 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_15_860";
+         "ExtractOffsetParameters_MUX_DO_MAIN_15_511";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_16 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_16_859";
+         "ExtractOffsetParameters_MUX_DO_MAIN_16_510";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_17 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_17_858";
+         "ExtractOffsetParameters_MUX_DO_MAIN_17_509";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_18 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_18_857";
+         "ExtractOffsetParameters_MUX_DO_MAIN_18_508";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_19 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_19_856";
+         "ExtractOffsetParameters_MUX_DO_MAIN_19_507";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_20 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_20_855";
+         "ExtractOffsetParameters_MUX_DO_MAIN_20_506";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_21 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_21_854";
+         "ExtractOffsetParameters_MUX_DO_MAIN_21_505";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_22 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_22_853";
+         "ExtractOffsetParameters_MUX_DO_MAIN_22_504";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_23 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_23_852";
+         "ExtractOffsetParameters_MUX_DO_MAIN_23_503";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_24 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_24_851";
+         "ExtractOffsetParameters_MUX_DO_MAIN_24_502";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_25 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_25_850";
+         "ExtractOffsetParameters_MUX_DO_MAIN_25_501";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_26 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_26_849";
+         "ExtractOffsetParameters_MUX_DO_MAIN_26_500";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_27 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_27_848";
+         "ExtractOffsetParameters_MUX_DO_MAIN_27_499";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_28 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_28_847";
+         "ExtractOffsetParameters_MUX_DO_MAIN_28_498";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_29 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_29_846";
+         "ExtractOffsetParameters_MUX_DO_MAIN_29_497";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_30 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_30_845";
+         "ExtractOffsetParameters_MUX_DO_MAIN_30_496";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_31 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_31_844";
+         "ExtractOffsetParameters_MUX_DO_MAIN_31_495";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_0 : label is 
-         "ExtractOffsetParameters_MUX_DO_0_843";
+         "ExtractOffsetParameters_MUX_DO_0_494";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_1 : label is 
-         "ExtractOffsetParameters_MUX_DO_1_842";
+         "ExtractOffsetParameters_MUX_DO_1_493";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_2 : label is 
-         "ExtractOffsetParameters_MUX_DO_2_841";
+         "ExtractOffsetParameters_MUX_DO_2_492";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_3 : label is 
-         "ExtractOffsetParameters_MUX_DO_3_840";
+         "ExtractOffsetParameters_MUX_DO_3_491";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_4 : label is 
-         "ExtractOffsetParameters_MUX_DO_4_839";
+         "ExtractOffsetParameters_MUX_DO_4_490";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_5 : label is 
-         "ExtractOffsetParameters_MUX_DO_5_838";
+         "ExtractOffsetParameters_MUX_DO_5_489";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_6 : label is 
-         "ExtractOffsetParameters_MUX_DO_6_837";
+         "ExtractOffsetParameters_MUX_DO_6_488";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_7 : label is 
-         "ExtractOffsetParameters_MUX_DO_7_836";
+         "ExtractOffsetParameters_MUX_DO_7_487";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_8 : label is 
-         "ExtractOffsetParameters_MUX_DO_8_835";
+         "ExtractOffsetParameters_MUX_DO_8_486";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_9 : label is 
-         "ExtractOffsetParameters_MUX_DO_9_834";
+         "ExtractOffsetParameters_MUX_DO_9_485";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_10 : label is 
-         "ExtractOffsetParameters_MUX_DO_10_833";
+         "ExtractOffsetParameters_MUX_DO_10_484";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_11 : label is 
-         "ExtractOffsetParameters_MUX_DO_11_832";
+         "ExtractOffsetParameters_MUX_DO_11_483";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_12 : label is 
-         "ExtractOffsetParameters_MUX_DO_12_831";
+         "ExtractOffsetParameters_MUX_DO_12_482";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_13 : label is 
-         "ExtractOffsetParameters_MUX_DO_13_830";
+         "ExtractOffsetParameters_MUX_DO_13_481";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_14 : label is 
-         "ExtractOffsetParameters_MUX_DO_14_829";
+         "ExtractOffsetParameters_MUX_DO_14_480";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_15 : label is 
-         "ExtractOffsetParameters_MUX_DO_15_828";
+         "ExtractOffsetParameters_MUX_DO_15_479";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_16 : label is 
-         "ExtractOffsetParameters_MUX_DO_16_827";
+         "ExtractOffsetParameters_MUX_DO_16_478";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_17 : label is 
-         "ExtractOffsetParameters_MUX_DO_17_826";
+         "ExtractOffsetParameters_MUX_DO_17_477";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_18 : label is 
-         "ExtractOffsetParameters_MUX_DO_18_825";
+         "ExtractOffsetParameters_MUX_DO_18_476";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_19 : label is 
-         "ExtractOffsetParameters_MUX_DO_19_824";
+         "ExtractOffsetParameters_MUX_DO_19_475";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_20 : label is 
-         "ExtractOffsetParameters_MUX_DO_20_823";
+         "ExtractOffsetParameters_MUX_DO_20_474";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_21 : label is 
-         "ExtractOffsetParameters_MUX_DO_21_822";
+         "ExtractOffsetParameters_MUX_DO_21_473";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_22 : label is 
-         "ExtractOffsetParameters_MUX_DO_22_821";
+         "ExtractOffsetParameters_MUX_DO_22_472";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_23 : label is 
-         "ExtractOffsetParameters_MUX_DO_23_820";
+         "ExtractOffsetParameters_MUX_DO_23_471";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_24 : label is 
-         "ExtractOffsetParameters_MUX_DO_24_819";
+         "ExtractOffsetParameters_MUX_DO_24_470";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_25 : label is 
-         "ExtractOffsetParameters_MUX_DO_25_818";
+         "ExtractOffsetParameters_MUX_DO_25_469";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_26 : label is 
-         "ExtractOffsetParameters_MUX_DO_26_817";
+         "ExtractOffsetParameters_MUX_DO_26_468";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_27 : label is 
-         "ExtractOffsetParameters_MUX_DO_27_816";
+         "ExtractOffsetParameters_MUX_DO_27_467";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_28 : label is 
-         "ExtractOffsetParameters_MUX_DO_28_815";
+         "ExtractOffsetParameters_MUX_DO_28_466";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_29 : label is 
-         "ExtractOffsetParameters_MUX_DO_29_814";
+         "ExtractOffsetParameters_MUX_DO_29_465";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_30 : label is 
-         "ExtractOffsetParameters_MUX_DO_30_813";
+         "ExtractOffsetParameters_MUX_DO_30_464";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_31 : label is 
-         "ExtractOffsetParameters_MUX_DO_31_812";
+         "ExtractOffsetParameters_MUX_DO_31_463";
    attribute WRITE_WIDTH_B of mem_extroffparam_1 : label is "36";
    attribute WRITE_WIDTH_A of mem_extroffparam_1 : label is "36";
    attribute WRITE_MODE_B of mem_extroffparam_1 : label is "READ_FIRST";
@@ -909,7 +1319,7 @@ begin
                 o_rdy=>o_rdy_DUMMY,
                 o_write_enable=>write_enable);
    
-   mem_extroffparam_1 : RAMB16
+   mem_extroffparam_1 : ramb16
    -- synopsys translate_off
    generic map( WRITE_WIDTH_B => 36,
             WRITE_WIDTH_A => 36,
@@ -944,7 +1354,7 @@ begin
                 DOPA=>open,
                 DOPB=>open);
    
-   mem_extroffparam_2 : RAMB16
+   mem_extroffparam_2 : ramb16
    -- synopsys translate_off
    generic map( WRITE_WIDTH_B => 36,
             WRITE_WIDTH_A => 36,

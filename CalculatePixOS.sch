@@ -238,7 +238,7 @@
             <line x2="64" y1="0" y2="-64" x1="64" />
             <circle r="16" cx="144" cy="-32" />
         </blockdef>
-        <blockdef name="RAMB16">
+        <blockdef name="RAMB16_S36_S36">
             <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
@@ -661,7 +661,7 @@
             <blockpin signalname="mux_addr1(9)" name="I" />
             <blockpin signalname="XLXN_59" name="O" />
         </block>
-        <block symbolname="RAMB16" name="mem_calc_pixos_1">
+        <block symbolname="RAMB16_S36_S36" name="mem_calc_pixos_1">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -745,7 +745,7 @@
             <blockpin signalname="o_rdy" name="S0" />
             <blockpin signalname="mux_addr1(9:0)" name="O" />
         </block>
-        <block symbolname="RAMB16" name="mem_calc_pixos_2">
+        <block symbolname="RAMB16_S36_S36" name="mem_calc_pixos_2">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />

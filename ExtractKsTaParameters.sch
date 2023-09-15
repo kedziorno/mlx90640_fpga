@@ -37,7 +37,7 @@
             <line x2="64" y1="-64" y2="-80" x1="64" />
             <line x2="64" y1="-128" y2="-96" x1="64" />
         </blockdef>
-        <blockdef name="RAMB16">
+        <blockdef name="RAMB16_S36_S36">
             <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
@@ -102,7 +102,7 @@
             <rect width="64" x="512" y="-44" height="24" />
             <line x2="576" y1="-32" y2="-32" x1="512" />
         </blockdef>
-        <block symbolname="RAMB16" name="ROM_KSTA">
+        <block symbolname="RAMB16_S36_S36" name="ROM_KSTA">
             <attr value="3a6000003a4000003a2000003a00000039c00000398000003900000000000000" name="INIT_00">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />

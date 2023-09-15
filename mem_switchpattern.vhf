@@ -7,13 +7,13 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : mem_switchpattern.vhf
--- /___/   /\     Timestamp : 09/03/2023 19:01:57
+-- /___/   /\     Timestamp : 09/15/2023 17:58:39
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
---Command: sch2hdl -sympath /home/user/workspace/mlx90640_fpga/ipcore_dir -intstyle ise -family spartan3e -flat -suppress -vhdl /home/user/workspace/mlx90640_fpga/mem_switchpattern.vhf -w /home/user/workspace/mlx90640_fpga/mem_switchpattern.sch
+--Command: sch2hdl -sympath /home/user/workspace/mlx90640_fpga/ipcore_dir -intstyle ise -family virtex4 -flat -suppress -vhdl /home/user/workspace/mlx90640_fpga/mem_switchpattern.vhf -w /home/user/workspace/mlx90640_fpga/mem_switchpattern.sch
 --Design Name: mem_switchpattern
---Device: spartan3e
+--Device: virtex4
 --Purpose:
 --    This vhdl netlist is translated from an ECS schematic. It can be 
 --    synthesized and simulated, but it should not be modified. 

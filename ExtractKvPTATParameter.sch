@@ -20,7 +20,7 @@
         <port polarity="Input" name="i_clock" />
         <port polarity="Input" name="i_reset" />
         <port polarity="Output" name="o_kvptat(31:0)" />
-        <blockdef name="RAMB16">
+        <blockdef name="RAMB16_S36_S36">
             <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
@@ -83,7 +83,7 @@
             <line x2="64" y1="0" y2="-32" x1="64" />
             <line x2="32" y1="-64" y2="-64" x1="96" />
         </blockdef>
-        <block symbolname="RAMB16" name="ROM_KVPTAT">
+        <block symbolname="RAMB16_S36_S36" name="ROM_KVPTAT">
             <attr value="b9800000ba000000ba400000ba800000baa00000bac00000bae00000bb000000" name="INIT_07">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />

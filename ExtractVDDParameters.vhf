@@ -7,13 +7,13 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : ExtractVDDParameters.vhf
--- /___/   /\     Timestamp : 09/03/2023 19:03:12
+-- /___/   /\     Timestamp : 09/15/2023 17:58:34
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
---Command: sch2hdl -sympath /home/user/workspace/mlx90640_fpga/ipcore_dir -intstyle ise -family spartan3e -flat -suppress -vhdl /home/user/workspace/mlx90640_fpga/ExtractVDDParameters.vhf -w /home/user/workspace/mlx90640_fpga/ExtractVDDParameters.sch
+--Command: sch2hdl -sympath /home/user/workspace/mlx90640_fpga/ipcore_dir -intstyle ise -family virtex4 -flat -suppress -vhdl /home/user/workspace/mlx90640_fpga/ExtractVDDParameters.vhf -w /home/user/workspace/mlx90640_fpga/ExtractVDDParameters.sch
 --Design Name: ExtractVDDParameters
---Device: spartan3e
+--Device: virtex4
 --Purpose:
 --    This vhdl netlist is translated from an ECS schematic. It can be 
 --    synthesized and simulated, but it should not be modified. 
@@ -39,73 +39,96 @@ end ExtractVDDParameters;
 
 architecture BEHAVIORAL of ExtractVDDParameters is
    attribute BOX_TYPE            : string ;
-   attribute INIT_10             : string ;
-   attribute INIT_0F             : string ;
-   attribute INIT_0E             : string ;
-   attribute INIT_0D             : string ;
-   attribute INIT_0C             : string ;
-   attribute INIT_0B             : string ;
-   attribute INIT_0A             : string ;
-   attribute INIT_09             : string ;
-   attribute INIT_08             : string ;
-   attribute INIT_07             : string ;
-   attribute INIT_06             : string ;
-   attribute INIT_05             : string ;
-   attribute INIT_04             : string ;
-   attribute INIT_03             : string ;
-   attribute INIT_02             : string ;
-   attribute INIT_01             : string ;
+   attribute DOA_REG             : string ;
+   attribute DOB_REG             : string ;
    attribute INIT_00             : string ;
-   attribute INIT_1F             : string ;
-   attribute INIT_1E             : string ;
-   attribute INIT_1D             : string ;
-   attribute INIT_1C             : string ;
-   attribute INIT_1B             : string ;
-   attribute INIT_1A             : string ;
-   attribute INIT_19             : string ;
-   attribute INIT_18             : string ;
-   attribute INIT_17             : string ;
-   attribute INIT_16             : string ;
-   attribute INIT_15             : string ;
-   attribute INIT_14             : string ;
-   attribute INIT_13             : string ;
-   attribute INIT_12             : string ;
+   attribute INIT_01             : string ;
+   attribute INIT_02             : string ;
+   attribute INIT_03             : string ;
+   attribute INIT_04             : string ;
+   attribute INIT_05             : string ;
+   attribute INIT_06             : string ;
+   attribute INIT_07             : string ;
+   attribute INIT_08             : string ;
+   attribute INIT_09             : string ;
+   attribute INIT_0A             : string ;
+   attribute INIT_0B             : string ;
+   attribute INIT_0C             : string ;
+   attribute INIT_0D             : string ;
+   attribute INIT_0E             : string ;
+   attribute INIT_0F             : string ;
+   attribute INIT_10             : string ;
    attribute INIT_11             : string ;
-   attribute INIT_3F             : string ;
-   attribute INIT_3E             : string ;
-   attribute INIT_3D             : string ;
-   attribute INIT_3C             : string ;
-   attribute INIT_3B             : string ;
-   attribute INIT_3A             : string ;
-   attribute INIT_39             : string ;
-   attribute INIT_38             : string ;
-   attribute INIT_37             : string ;
-   attribute INIT_36             : string ;
-   attribute INIT_35             : string ;
-   attribute INIT_34             : string ;
-   attribute INIT_33             : string ;
-   attribute INIT_32             : string ;
-   attribute INIT_31             : string ;
-   attribute INIT_30             : string ;
-   attribute INIT_2F             : string ;
-   attribute INIT_2E             : string ;
-   attribute INIT_2D             : string ;
-   attribute INIT_2C             : string ;
-   attribute INIT_2B             : string ;
-   attribute INIT_2A             : string ;
-   attribute INIT_29             : string ;
-   attribute INIT_28             : string ;
-   attribute INIT_27             : string ;
-   attribute INIT_26             : string ;
-   attribute INIT_25             : string ;
-   attribute INIT_24             : string ;
-   attribute INIT_23             : string ;
-   attribute INIT_22             : string ;
-   attribute INIT_21             : string ;
+   attribute INIT_12             : string ;
+   attribute INIT_13             : string ;
+   attribute INIT_14             : string ;
+   attribute INIT_15             : string ;
+   attribute INIT_16             : string ;
+   attribute INIT_17             : string ;
+   attribute INIT_18             : string ;
+   attribute INIT_19             : string ;
+   attribute INIT_1A             : string ;
+   attribute INIT_1B             : string ;
+   attribute INIT_1C             : string ;
+   attribute INIT_1D             : string ;
+   attribute INIT_1E             : string ;
+   attribute INIT_1F             : string ;
    attribute INIT_20             : string ;
-   attribute SIM_COLLISION_CHECK : string ;
-   attribute READ_WIDTH_B        : string ;
+   attribute INIT_21             : string ;
+   attribute INIT_22             : string ;
+   attribute INIT_23             : string ;
+   attribute INIT_24             : string ;
+   attribute INIT_25             : string ;
+   attribute INIT_26             : string ;
+   attribute INIT_27             : string ;
+   attribute INIT_28             : string ;
+   attribute INIT_29             : string ;
+   attribute INIT_2A             : string ;
+   attribute INIT_2B             : string ;
+   attribute INIT_2C             : string ;
+   attribute INIT_2D             : string ;
+   attribute INIT_2E             : string ;
+   attribute INIT_2F             : string ;
+   attribute INIT_30             : string ;
+   attribute INIT_31             : string ;
+   attribute INIT_32             : string ;
+   attribute INIT_33             : string ;
+   attribute INIT_34             : string ;
+   attribute INIT_35             : string ;
+   attribute INIT_36             : string ;
+   attribute INIT_37             : string ;
+   attribute INIT_38             : string ;
+   attribute INIT_39             : string ;
+   attribute INIT_3A             : string ;
+   attribute INIT_3B             : string ;
+   attribute INIT_3C             : string ;
+   attribute INIT_3D             : string ;
+   attribute INIT_3E             : string ;
+   attribute INIT_3F             : string ;
+   attribute INIT_A              : string ;
+   attribute INIT_B              : string ;
+   attribute INITP_00            : string ;
+   attribute INITP_01            : string ;
+   attribute INITP_02            : string ;
+   attribute INITP_03            : string ;
+   attribute INITP_04            : string ;
+   attribute INITP_05            : string ;
+   attribute INITP_06            : string ;
+   attribute INITP_07            : string ;
+   attribute INIT_FILE           : string ;
+   attribute INVERT_CLK_DOA_REG  : string ;
+   attribute INVERT_CLK_DOB_REG  : string ;
+   attribute RAM_EXTENSION_A     : string ;
+   attribute RAM_EXTENSION_B     : string ;
    attribute READ_WIDTH_A        : string ;
+   attribute READ_WIDTH_B        : string ;
+   attribute SRVAL_A             : string ;
+   attribute SRVAL_B             : string ;
+   attribute WRITE_MODE_A        : string ;
+   attribute WRITE_MODE_B        : string ;
+   attribute WRITE_WIDTH_A       : string ;
+   attribute WRITE_WIDTH_B       : string ;
+   attribute SIM_COLLISION_CHECK : string ;
    signal ADDRA         : std_logic_vector (14 downto 0);
    signal ADDRB         : std_logic_vector (14 downto 0);
    signal XLXN_605      : std_logic_vector (31 downto 0);
@@ -144,7 +167,171 @@ architecture BEHAVIORAL of ExtractVDDParameters is
              o_vdd25       : out   std_logic_vector (31 downto 0));
    end component;
    
-   component RAMB16
+   component ramb16
+      -- synopsys translate_off
+      generic( DOA_REG : integer :=  0;
+               DOB_REG : integer :=  0;
+               INIT_00 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_01 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_02 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_03 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_04 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_05 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_06 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_07 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_08 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_09 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0A : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0B : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0C : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0D : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0E : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0F : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_10 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_11 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_12 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_13 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_14 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_15 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_16 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_17 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_18 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_19 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1A : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1B : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1C : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1D : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1E : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1F : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_20 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_21 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_22 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_23 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_24 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_25 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_26 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_27 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_28 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_29 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2A : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2B : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2C : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2D : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2E : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2F : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_30 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_31 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_32 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_33 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_34 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_35 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_36 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_37 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_38 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_39 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3A : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3B : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3C : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3D : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3E : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3F : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_A : bit_vector :=  x"000000000";
+               INIT_B : bit_vector :=  x"000000000";
+               INITP_00 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_01 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_02 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_03 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_04 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_05 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_06 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_07 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_FILE : string :=  "NONE";
+               INVERT_CLK_DOA_REG : boolean :=  FALSE;
+               INVERT_CLK_DOB_REG : boolean :=  FALSE;
+               RAM_EXTENSION_A : string :=  "NONE";
+               RAM_EXTENSION_B : string :=  "NONE";
+               READ_WIDTH_A : integer :=  0;
+               READ_WIDTH_B : integer :=  0;
+               SRVAL_A : bit_vector :=  x"000000000";
+               SRVAL_B : bit_vector :=  x"000000000";
+               WRITE_MODE_A : string :=  "WRITE_FIRST";
+               WRITE_MODE_B : string :=  "WRITE_FIRST";
+               WRITE_WIDTH_A : integer :=  0;
+               WRITE_WIDTH_B : integer :=  0;
+               SIM_COLLISION_CHECK : string :=  "ALL");
+      -- synopsys translate_on
       port ( ADDRA       : in    std_logic_vector (14 downto 0); 
              ADDRB       : in    std_logic_vector (14 downto 0); 
              CASCADEINA  : in    std_logic; 
@@ -170,6 +357,168 @@ architecture BEHAVIORAL of ExtractVDDParameters is
              DOPA        : out   std_logic_vector (3 downto 0); 
              DOPB        : out   std_logic_vector (3 downto 0));
    end component;
+   attribute DOA_REG of ramb16 : component is "0";
+   attribute DOB_REG of ramb16 : component is "0";
+   attribute INIT_00 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_01 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_02 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_03 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_04 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_05 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_06 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_07 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_08 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_09 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0A of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0B of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0C of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0D of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0E of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0F of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_10 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_11 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_12 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_13 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_14 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_15 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_16 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_17 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_18 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_19 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1A of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1B of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1C of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1D of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1E of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1F of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_20 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_21 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_22 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_23 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_24 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_25 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_26 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_27 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_28 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_29 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2A of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2B of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2C of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2D of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2E of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2F of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_30 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_31 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_32 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_33 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_34 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_35 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_36 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_37 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_38 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_39 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3A of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3B of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3C of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3D of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3E of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3F of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_A of ramb16 : component is "000000000";
+   attribute INIT_B of ramb16 : component is "000000000";
+   attribute INITP_00 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_01 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_02 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_03 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_04 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_05 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_06 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_07 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_FILE of ramb16 : component is "NONE";
+   attribute INVERT_CLK_DOA_REG of ramb16 : component is "FALSE";
+   attribute INVERT_CLK_DOB_REG of ramb16 : component is "FALSE";
+   attribute RAM_EXTENSION_A of ramb16 : component is "NONE";
+   attribute RAM_EXTENSION_B of ramb16 : component is "NONE";
+   attribute READ_WIDTH_A of ramb16 : component is "0";
+   attribute READ_WIDTH_B of ramb16 : component is "0";
+   attribute SRVAL_A of ramb16 : component is "000000000";
+   attribute SRVAL_B of ramb16 : component is "000000000";
+   attribute WRITE_MODE_A of ramb16 : component is "WRITE_FIRST";
+   attribute WRITE_MODE_B of ramb16 : component is "WRITE_FIRST";
+   attribute WRITE_WIDTH_A of ramb16 : component is "0";
+   attribute WRITE_WIDTH_B of ramb16 : component is "0";
+   attribute SIM_COLLISION_CHECK of ramb16 : component is "ALL";
    
    component GND
       port ( G : out   std_logic);
@@ -443,7 +792,7 @@ begin
                 o_rdy=>o_rdy,
                 o_vdd25(31 downto 0)=>o_vdd25(31 downto 0));
    
-   MEM_KVDD_VDD25 : RAMB16
+   MEM_KVDD_VDD25 : ramb16
    -- synopsys translate_off
    generic map( INIT_10 => 
          x"c5720000c5740000c5760000c5780000c57a0000c57c0000c57e0000c5800000",

@@ -38,7 +38,7 @@
         <port polarity="Input" name="i_reset" />
         <port polarity="Output" name="o_ktptat(31:0)" />
         <port polarity="Input" name="i_ee0x2432(15:0)" />
-        <blockdef name="RAMB16">
+        <blockdef name="RAMB16_S36_S36">
             <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
@@ -114,7 +114,7 @@
             <line x2="64" y1="0" y2="-32" x1="64" />
             <line x2="32" y1="-64" y2="-64" x1="96" />
         </blockdef>
-        <block symbolname="RAMB16" name="ROM_KTPTAT_0to3F">
+        <block symbolname="RAMB16_S36_S36" name="ROM_KTPTAT_0to3F">
             <attr value="NONE" name="INIT_FILE">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -644,7 +644,7 @@
             <blockpin signalname="ADDRA(8:0)" name="I" />
             <blockpin signalname="MEM2_ADDRA(13:5)" name="O" />
         </block>
-        <block symbolname="RAMB16" name="ROM_KTPTAT_40to7f">
+        <block symbolname="RAMB16_S36_S36" name="ROM_KTPTAT_40to7f">
             <attr value="NONE" name="INIT_FILE">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />

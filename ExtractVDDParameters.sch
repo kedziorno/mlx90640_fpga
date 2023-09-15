@@ -40,7 +40,7 @@
         <port polarity="Input" name="i_run" />
         <port polarity="Input" name="i_reset" />
         <port polarity="Input" name="i_clock" />
-        <blockdef name="RAMB16">
+        <blockdef name="RAMB16_S36_S36">
             <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
@@ -122,7 +122,7 @@
             <rect width="64" x="512" y="-44" height="24" />
             <line x2="576" y1="-32" y2="-32" x1="512" />
         </blockdef>
-        <block symbolname="RAMB16" name="MEM_KVDD_VDD25">
+        <block symbolname="RAMB16_S36_S36" name="MEM_KVDD_VDD25">
             <attr value="c5720000c5740000c5760000c5780000c57a0000c57c0000c57e0000c5800000" name="INIT_10">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />

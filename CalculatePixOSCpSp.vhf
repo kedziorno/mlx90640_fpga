@@ -7,13 +7,13 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : CalculatePixOSCpSp.vhf
--- /___/   /\     Timestamp : 09/03/2023 19:10:49
+-- /___/   /\     Timestamp : 09/15/2023 17:58:38
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
---Command: sch2hdl -sympath /home/user/workspace/mlx90640_fpga/ipcore_dir -intstyle ise -family spartan3e -flat -suppress -vhdl /home/user/workspace/mlx90640_fpga/CalculatePixOSCpSp.vhf -w /home/user/workspace/mlx90640_fpga/CalculatePixOSCpSp.sch
+--Command: sch2hdl -sympath /home/user/workspace/mlx90640_fpga/ipcore_dir -intstyle ise -family virtex4 -flat -suppress -vhdl /home/user/workspace/mlx90640_fpga/CalculatePixOSCpSp.vhf -w /home/user/workspace/mlx90640_fpga/CalculatePixOSCpSp.sch
 --Design Name: CalculatePixOSCpSp
---Device: spartan3e
+--Device: virtex4
 --Purpose:
 --    This vhdl netlist is translated from an ECS schematic. It can be 
 --    synthesized and simulated, but it should not be modified. 
@@ -91,45 +91,97 @@ entity rom_signed8bit_MUSER_CalculatePixOSCpSp is
 end rom_signed8bit_MUSER_CalculatePixOSCpSp;
 
 architecture BEHAVIORAL of rom_signed8bit_MUSER_CalculatePixOSCpSp is
-   attribute WRITE_WIDTH_B : string ;
-   attribute WRITE_WIDTH_A : string ;
-   attribute WRITE_MODE_B  : string ;
-   attribute WRITE_MODE_A  : string ;
-   attribute READ_WIDTH_B  : string ;
-   attribute READ_WIDTH_A  : string ;
-   attribute INIT_1F       : string ;
-   attribute INIT_1E       : string ;
-   attribute INIT_1D       : string ;
-   attribute INIT_1C       : string ;
-   attribute INIT_1B       : string ;
-   attribute INIT_1A       : string ;
-   attribute INIT_19       : string ;
-   attribute INIT_18       : string ;
-   attribute INIT_17       : string ;
-   attribute INIT_16       : string ;
-   attribute INIT_15       : string ;
-   attribute INIT_14       : string ;
-   attribute INIT_13       : string ;
-   attribute INIT_12       : string ;
-   attribute INIT_11       : string ;
-   attribute INIT_10       : string ;
-   attribute INIT_0F       : string ;
-   attribute INIT_0E       : string ;
-   attribute INIT_0D       : string ;
-   attribute INIT_0C       : string ;
-   attribute INIT_0B       : string ;
-   attribute INIT_0A       : string ;
-   attribute INIT_09       : string ;
-   attribute INIT_08       : string ;
-   attribute INIT_07       : string ;
-   attribute INIT_06       : string ;
-   attribute INIT_05       : string ;
-   attribute INIT_04       : string ;
-   attribute INIT_03       : string ;
-   attribute INIT_02       : string ;
-   attribute INIT_01       : string ;
-   attribute INIT_00       : string ;
-   attribute BOX_TYPE      : string ;
+   attribute DOA_REG             : string ;
+   attribute DOB_REG             : string ;
+   attribute INIT_00             : string ;
+   attribute INIT_01             : string ;
+   attribute INIT_02             : string ;
+   attribute INIT_03             : string ;
+   attribute INIT_04             : string ;
+   attribute INIT_05             : string ;
+   attribute INIT_06             : string ;
+   attribute INIT_07             : string ;
+   attribute INIT_08             : string ;
+   attribute INIT_09             : string ;
+   attribute INIT_0A             : string ;
+   attribute INIT_0B             : string ;
+   attribute INIT_0C             : string ;
+   attribute INIT_0D             : string ;
+   attribute INIT_0E             : string ;
+   attribute INIT_0F             : string ;
+   attribute INIT_10             : string ;
+   attribute INIT_11             : string ;
+   attribute INIT_12             : string ;
+   attribute INIT_13             : string ;
+   attribute INIT_14             : string ;
+   attribute INIT_15             : string ;
+   attribute INIT_16             : string ;
+   attribute INIT_17             : string ;
+   attribute INIT_18             : string ;
+   attribute INIT_19             : string ;
+   attribute INIT_1A             : string ;
+   attribute INIT_1B             : string ;
+   attribute INIT_1C             : string ;
+   attribute INIT_1D             : string ;
+   attribute INIT_1E             : string ;
+   attribute INIT_1F             : string ;
+   attribute INIT_20             : string ;
+   attribute INIT_21             : string ;
+   attribute INIT_22             : string ;
+   attribute INIT_23             : string ;
+   attribute INIT_24             : string ;
+   attribute INIT_25             : string ;
+   attribute INIT_26             : string ;
+   attribute INIT_27             : string ;
+   attribute INIT_28             : string ;
+   attribute INIT_29             : string ;
+   attribute INIT_2A             : string ;
+   attribute INIT_2B             : string ;
+   attribute INIT_2C             : string ;
+   attribute INIT_2D             : string ;
+   attribute INIT_2E             : string ;
+   attribute INIT_2F             : string ;
+   attribute INIT_30             : string ;
+   attribute INIT_31             : string ;
+   attribute INIT_32             : string ;
+   attribute INIT_33             : string ;
+   attribute INIT_34             : string ;
+   attribute INIT_35             : string ;
+   attribute INIT_36             : string ;
+   attribute INIT_37             : string ;
+   attribute INIT_38             : string ;
+   attribute INIT_39             : string ;
+   attribute INIT_3A             : string ;
+   attribute INIT_3B             : string ;
+   attribute INIT_3C             : string ;
+   attribute INIT_3D             : string ;
+   attribute INIT_3E             : string ;
+   attribute INIT_3F             : string ;
+   attribute INIT_A              : string ;
+   attribute INIT_B              : string ;
+   attribute INITP_00            : string ;
+   attribute INITP_01            : string ;
+   attribute INITP_02            : string ;
+   attribute INITP_03            : string ;
+   attribute INITP_04            : string ;
+   attribute INITP_05            : string ;
+   attribute INITP_06            : string ;
+   attribute INITP_07            : string ;
+   attribute INIT_FILE           : string ;
+   attribute INVERT_CLK_DOA_REG  : string ;
+   attribute INVERT_CLK_DOB_REG  : string ;
+   attribute RAM_EXTENSION_A     : string ;
+   attribute RAM_EXTENSION_B     : string ;
+   attribute READ_WIDTH_A        : string ;
+   attribute READ_WIDTH_B        : string ;
+   attribute SRVAL_A             : string ;
+   attribute SRVAL_B             : string ;
+   attribute WRITE_MODE_A        : string ;
+   attribute WRITE_MODE_B        : string ;
+   attribute WRITE_WIDTH_A       : string ;
+   attribute WRITE_WIDTH_B       : string ;
+   attribute SIM_COLLISION_CHECK : string ;
+   attribute BOX_TYPE            : string ;
    signal XLXN_2                                   : std_logic_vector (14 
          downto 0);
    signal XLXN_13                                  : std_logic;
@@ -154,7 +206,171 @@ architecture BEHAVIORAL of rom_signed8bit_MUSER_CalculatePixOSCpSp is
          0);
    signal ROM_mem_signed8bit_WEB_openSignal        : std_logic_vector (3 downto 
          0);
-   component RAMB16
+   component ramb16
+      -- synopsys translate_off
+      generic( DOA_REG : integer :=  0;
+               DOB_REG : integer :=  0;
+               INIT_00 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_01 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_02 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_03 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_04 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_05 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_06 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_07 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_08 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_09 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0A : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0B : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0C : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0D : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0E : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0F : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_10 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_11 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_12 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_13 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_14 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_15 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_16 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_17 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_18 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_19 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1A : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1B : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1C : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1D : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1E : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1F : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_20 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_21 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_22 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_23 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_24 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_25 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_26 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_27 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_28 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_29 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2A : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2B : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2C : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2D : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2E : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2F : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_30 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_31 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_32 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_33 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_34 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_35 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_36 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_37 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_38 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_39 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3A : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3B : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3C : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3D : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3E : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3F : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_A : bit_vector :=  x"000000000";
+               INIT_B : bit_vector :=  x"000000000";
+               INITP_00 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_01 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_02 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_03 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_04 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_05 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_06 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_07 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_FILE : string :=  "NONE";
+               INVERT_CLK_DOA_REG : boolean :=  FALSE;
+               INVERT_CLK_DOB_REG : boolean :=  FALSE;
+               RAM_EXTENSION_A : string :=  "NONE";
+               RAM_EXTENSION_B : string :=  "NONE";
+               READ_WIDTH_A : integer :=  0;
+               READ_WIDTH_B : integer :=  0;
+               SRVAL_A : bit_vector :=  x"000000000";
+               SRVAL_B : bit_vector :=  x"000000000";
+               WRITE_MODE_A : string :=  "WRITE_FIRST";
+               WRITE_MODE_B : string :=  "WRITE_FIRST";
+               WRITE_WIDTH_A : integer :=  0;
+               WRITE_WIDTH_B : integer :=  0;
+               SIM_COLLISION_CHECK : string :=  "ALL");
+      -- synopsys translate_on
       port ( ADDRA       : in    std_logic_vector (14 downto 0); 
              ADDRB       : in    std_logic_vector (14 downto 0); 
              CASCADEINA  : in    std_logic; 
@@ -180,6 +396,168 @@ architecture BEHAVIORAL of rom_signed8bit_MUSER_CalculatePixOSCpSp is
              DOPA        : out   std_logic_vector (3 downto 0); 
              DOPB        : out   std_logic_vector (3 downto 0));
    end component;
+   attribute DOA_REG of ramb16 : component is "0";
+   attribute DOB_REG of ramb16 : component is "0";
+   attribute INIT_00 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_01 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_02 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_03 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_04 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_05 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_06 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_07 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_08 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_09 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0A of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0B of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0C of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0D of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0E of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0F of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_10 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_11 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_12 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_13 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_14 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_15 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_16 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_17 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_18 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_19 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1A of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1B of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1C of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1D of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1E of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1F of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_20 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_21 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_22 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_23 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_24 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_25 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_26 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_27 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_28 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_29 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2A of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2B of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2C of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2D of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2E of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2F of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_30 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_31 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_32 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_33 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_34 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_35 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_36 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_37 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_38 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_39 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3A of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3B of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3C of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3D of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3E of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3F of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_A of ramb16 : component is "000000000";
+   attribute INIT_B of ramb16 : component is "000000000";
+   attribute INITP_00 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_01 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_02 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_03 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_04 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_05 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_06 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_07 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_FILE of ramb16 : component is "NONE";
+   attribute INVERT_CLK_DOA_REG of ramb16 : component is "FALSE";
+   attribute INVERT_CLK_DOB_REG of ramb16 : component is "FALSE";
+   attribute RAM_EXTENSION_A of ramb16 : component is "NONE";
+   attribute RAM_EXTENSION_B of ramb16 : component is "NONE";
+   attribute READ_WIDTH_A of ramb16 : component is "0";
+   attribute READ_WIDTH_B of ramb16 : component is "0";
+   attribute SRVAL_A of ramb16 : component is "000000000";
+   attribute SRVAL_B of ramb16 : component is "000000000";
+   attribute WRITE_MODE_A of ramb16 : component is "WRITE_FIRST";
+   attribute WRITE_MODE_B of ramb16 : component is "WRITE_FIRST";
+   attribute WRITE_WIDTH_A of ramb16 : component is "0";
+   attribute WRITE_WIDTH_B of ramb16 : component is "0";
+   attribute SIM_COLLISION_CHECK of ramb16 : component is "ALL";
    
    component GND
       port ( G : out   std_logic);
@@ -268,7 +646,7 @@ architecture BEHAVIORAL of rom_signed8bit_MUSER_CalculatePixOSCpSp is
    attribute INIT_00 of ROM_mem_signed8bit : label is 
          "40e0000040c0000040a000004080000040400000400000003f80000000000000";
 begin
-   ROM_mem_signed8bit : RAMB16
+   ROM_mem_signed8bit : ramb16
    -- synopsys translate_off
    generic map( WRITE_WIDTH_B => 36,
             WRITE_WIDTH_A => 36,
@@ -441,78 +819,98 @@ entity rom_signed10bit_MUSER_CalculatePixOSCpSp is
 end rom_signed10bit_MUSER_CalculatePixOSCpSp;
 
 architecture BEHAVIORAL of rom_signed10bit_MUSER_CalculatePixOSCpSp is
-   attribute HU_SET        : string ;
-   attribute WRITE_WIDTH_B : string ;
-   attribute WRITE_WIDTH_A : string ;
-   attribute WRITE_MODE_B  : string ;
-   attribute WRITE_MODE_A  : string ;
-   attribute READ_WIDTH_B  : string ;
-   attribute READ_WIDTH_A  : string ;
-   attribute INIT_3F       : string ;
-   attribute INIT_3E       : string ;
-   attribute INIT_3D       : string ;
-   attribute INIT_3C       : string ;
-   attribute INIT_3B       : string ;
-   attribute INIT_3A       : string ;
-   attribute INIT_39       : string ;
-   attribute INIT_38       : string ;
-   attribute INIT_37       : string ;
-   attribute INIT_36       : string ;
-   attribute INIT_35       : string ;
-   attribute INIT_34       : string ;
-   attribute INIT_33       : string ;
-   attribute INIT_32       : string ;
-   attribute INIT_31       : string ;
-   attribute INIT_30       : string ;
-   attribute INIT_2F       : string ;
-   attribute INIT_2E       : string ;
-   attribute INIT_2D       : string ;
-   attribute INIT_2C       : string ;
-   attribute INIT_2B       : string ;
-   attribute INIT_2A       : string ;
-   attribute INIT_29       : string ;
-   attribute INIT_28       : string ;
-   attribute INIT_27       : string ;
-   attribute INIT_26       : string ;
-   attribute INIT_25       : string ;
-   attribute INIT_24       : string ;
-   attribute INIT_23       : string ;
-   attribute INIT_22       : string ;
-   attribute INIT_21       : string ;
-   attribute INIT_20       : string ;
-   attribute INIT_1F       : string ;
-   attribute INIT_1E       : string ;
-   attribute INIT_1D       : string ;
-   attribute INIT_1C       : string ;
-   attribute INIT_1B       : string ;
-   attribute INIT_1A       : string ;
-   attribute INIT_19       : string ;
-   attribute INIT_18       : string ;
-   attribute INIT_17       : string ;
-   attribute INIT_16       : string ;
-   attribute INIT_15       : string ;
-   attribute INIT_14       : string ;
-   attribute INIT_13       : string ;
-   attribute INIT_12       : string ;
-   attribute INIT_11       : string ;
-   attribute INIT_10       : string ;
-   attribute INIT_0F       : string ;
-   attribute INIT_0E       : string ;
-   attribute INIT_0D       : string ;
-   attribute INIT_0C       : string ;
-   attribute INIT_0B       : string ;
-   attribute INIT_0A       : string ;
-   attribute INIT_09       : string ;
-   attribute INIT_08       : string ;
-   attribute INIT_07       : string ;
-   attribute INIT_06       : string ;
-   attribute INIT_05       : string ;
-   attribute INIT_04       : string ;
-   attribute INIT_03       : string ;
-   attribute INIT_02       : string ;
-   attribute INIT_01       : string ;
-   attribute INIT_00       : string ;
-   attribute BOX_TYPE      : string ;
+   attribute HU_SET              : string ;
+   attribute DOA_REG             : string ;
+   attribute DOB_REG             : string ;
+   attribute INIT_00             : string ;
+   attribute INIT_01             : string ;
+   attribute INIT_02             : string ;
+   attribute INIT_03             : string ;
+   attribute INIT_04             : string ;
+   attribute INIT_05             : string ;
+   attribute INIT_06             : string ;
+   attribute INIT_07             : string ;
+   attribute INIT_08             : string ;
+   attribute INIT_09             : string ;
+   attribute INIT_0A             : string ;
+   attribute INIT_0B             : string ;
+   attribute INIT_0C             : string ;
+   attribute INIT_0D             : string ;
+   attribute INIT_0E             : string ;
+   attribute INIT_0F             : string ;
+   attribute INIT_10             : string ;
+   attribute INIT_11             : string ;
+   attribute INIT_12             : string ;
+   attribute INIT_13             : string ;
+   attribute INIT_14             : string ;
+   attribute INIT_15             : string ;
+   attribute INIT_16             : string ;
+   attribute INIT_17             : string ;
+   attribute INIT_18             : string ;
+   attribute INIT_19             : string ;
+   attribute INIT_1A             : string ;
+   attribute INIT_1B             : string ;
+   attribute INIT_1C             : string ;
+   attribute INIT_1D             : string ;
+   attribute INIT_1E             : string ;
+   attribute INIT_1F             : string ;
+   attribute INIT_20             : string ;
+   attribute INIT_21             : string ;
+   attribute INIT_22             : string ;
+   attribute INIT_23             : string ;
+   attribute INIT_24             : string ;
+   attribute INIT_25             : string ;
+   attribute INIT_26             : string ;
+   attribute INIT_27             : string ;
+   attribute INIT_28             : string ;
+   attribute INIT_29             : string ;
+   attribute INIT_2A             : string ;
+   attribute INIT_2B             : string ;
+   attribute INIT_2C             : string ;
+   attribute INIT_2D             : string ;
+   attribute INIT_2E             : string ;
+   attribute INIT_2F             : string ;
+   attribute INIT_30             : string ;
+   attribute INIT_31             : string ;
+   attribute INIT_32             : string ;
+   attribute INIT_33             : string ;
+   attribute INIT_34             : string ;
+   attribute INIT_35             : string ;
+   attribute INIT_36             : string ;
+   attribute INIT_37             : string ;
+   attribute INIT_38             : string ;
+   attribute INIT_39             : string ;
+   attribute INIT_3A             : string ;
+   attribute INIT_3B             : string ;
+   attribute INIT_3C             : string ;
+   attribute INIT_3D             : string ;
+   attribute INIT_3E             : string ;
+   attribute INIT_3F             : string ;
+   attribute INIT_A              : string ;
+   attribute INIT_B              : string ;
+   attribute INITP_00            : string ;
+   attribute INITP_01            : string ;
+   attribute INITP_02            : string ;
+   attribute INITP_03            : string ;
+   attribute INITP_04            : string ;
+   attribute INITP_05            : string ;
+   attribute INITP_06            : string ;
+   attribute INITP_07            : string ;
+   attribute INIT_FILE           : string ;
+   attribute INVERT_CLK_DOA_REG  : string ;
+   attribute INVERT_CLK_DOB_REG  : string ;
+   attribute RAM_EXTENSION_A     : string ;
+   attribute RAM_EXTENSION_B     : string ;
+   attribute READ_WIDTH_A        : string ;
+   attribute READ_WIDTH_B        : string ;
+   attribute SRVAL_A             : string ;
+   attribute SRVAL_B             : string ;
+   attribute WRITE_MODE_A        : string ;
+   attribute WRITE_MODE_B        : string ;
+   attribute WRITE_WIDTH_A       : string ;
+   attribute WRITE_WIDTH_B       : string ;
+   attribute SIM_COLLISION_CHECK : string ;
+   attribute BOX_TYPE            : string ;
    signal XLXN_3                                           : std_logic_vector 
          (14 downto 0);
    signal XLXN_4                                           : std_logic_vector 
@@ -571,7 +969,171 @@ architecture BEHAVIORAL of rom_signed10bit_MUSER_CalculatePixOSCpSp is
              O  : out   std_logic);
    end component;
    
-   component RAMB16
+   component ramb16
+      -- synopsys translate_off
+      generic( DOA_REG : integer :=  0;
+               DOB_REG : integer :=  0;
+               INIT_00 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_01 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_02 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_03 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_04 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_05 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_06 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_07 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_08 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_09 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0A : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0B : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0C : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0D : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0E : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_0F : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_10 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_11 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_12 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_13 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_14 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_15 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_16 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_17 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_18 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_19 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1A : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1B : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1C : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1D : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1E : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_1F : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_20 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_21 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_22 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_23 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_24 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_25 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_26 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_27 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_28 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_29 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2A : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2B : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2C : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2D : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2E : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_2F : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_30 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_31 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_32 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_33 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_34 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_35 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_36 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_37 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_38 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_39 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3A : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3B : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3C : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3D : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3E : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_3F : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_A : bit_vector :=  x"000000000";
+               INIT_B : bit_vector :=  x"000000000";
+               INITP_00 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_01 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_02 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_03 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_04 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_05 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_06 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INITP_07 : bit_vector :=  
+            x"0000000000000000000000000000000000000000000000000000000000000000";
+               INIT_FILE : string :=  "NONE";
+               INVERT_CLK_DOA_REG : boolean :=  FALSE;
+               INVERT_CLK_DOB_REG : boolean :=  FALSE;
+               RAM_EXTENSION_A : string :=  "NONE";
+               RAM_EXTENSION_B : string :=  "NONE";
+               READ_WIDTH_A : integer :=  0;
+               READ_WIDTH_B : integer :=  0;
+               SRVAL_A : bit_vector :=  x"000000000";
+               SRVAL_B : bit_vector :=  x"000000000";
+               WRITE_MODE_A : string :=  "WRITE_FIRST";
+               WRITE_MODE_B : string :=  "WRITE_FIRST";
+               WRITE_WIDTH_A : integer :=  0;
+               WRITE_WIDTH_B : integer :=  0;
+               SIM_COLLISION_CHECK : string :=  "ALL");
+      -- synopsys translate_on
       port ( ADDRA       : in    std_logic_vector (14 downto 0); 
              ADDRB       : in    std_logic_vector (14 downto 0); 
              CASCADEINA  : in    std_logic; 
@@ -597,6 +1159,168 @@ architecture BEHAVIORAL of rom_signed10bit_MUSER_CalculatePixOSCpSp is
              DOPA        : out   std_logic_vector (3 downto 0); 
              DOPB        : out   std_logic_vector (3 downto 0));
    end component;
+   attribute DOA_REG of ramb16 : component is "0";
+   attribute DOB_REG of ramb16 : component is "0";
+   attribute INIT_00 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_01 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_02 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_03 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_04 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_05 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_06 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_07 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_08 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_09 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0A of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0B of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0C of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0D of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0E of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_0F of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_10 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_11 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_12 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_13 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_14 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_15 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_16 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_17 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_18 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_19 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1A of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1B of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1C of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1D of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1E of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_1F of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_20 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_21 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_22 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_23 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_24 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_25 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_26 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_27 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_28 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_29 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2A of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2B of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2C of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2D of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2E of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_2F of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_30 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_31 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_32 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_33 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_34 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_35 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_36 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_37 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_38 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_39 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3A of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3B of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3C of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3D of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3E of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_3F of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_A of ramb16 : component is "000000000";
+   attribute INIT_B of ramb16 : component is "000000000";
+   attribute INITP_00 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_01 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_02 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_03 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_04 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_05 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_06 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INITP_07 of ramb16 : component is 
+         "0000000000000000000000000000000000000000000000000000000000000000";
+   attribute INIT_FILE of ramb16 : component is "NONE";
+   attribute INVERT_CLK_DOA_REG of ramb16 : component is "FALSE";
+   attribute INVERT_CLK_DOB_REG of ramb16 : component is "FALSE";
+   attribute RAM_EXTENSION_A of ramb16 : component is "NONE";
+   attribute RAM_EXTENSION_B of ramb16 : component is "NONE";
+   attribute READ_WIDTH_A of ramb16 : component is "0";
+   attribute READ_WIDTH_B of ramb16 : component is "0";
+   attribute SRVAL_A of ramb16 : component is "000000000";
+   attribute SRVAL_B of ramb16 : component is "000000000";
+   attribute WRITE_MODE_A of ramb16 : component is "WRITE_FIRST";
+   attribute WRITE_MODE_B of ramb16 : component is "WRITE_FIRST";
+   attribute WRITE_WIDTH_A of ramb16 : component is "0";
+   attribute WRITE_WIDTH_B of ramb16 : component is "0";
+   attribute SIM_COLLISION_CHECK of ramb16 : component is "ALL";
    
    component GND
       port ( G : out   std_logic);
@@ -621,69 +1345,69 @@ architecture BEHAVIORAL of rom_signed10bit_MUSER_CalculatePixOSCpSp is
    attribute BOX_TYPE of VCC : component is "BLACK_BOX";
    
    attribute HU_SET of MUX_rom_signed_10bit_0 : label is 
-         "MUX_rom_signed_10bit_0_1046";
+         "MUX_rom_signed_10bit_0_1018";
    attribute HU_SET of MUX_rom_signed_10bit_1 : label is 
-         "MUX_rom_signed_10bit_1_1045";
+         "MUX_rom_signed_10bit_1_1017";
    attribute HU_SET of MUX_rom_signed_10bit_2 : label is 
-         "MUX_rom_signed_10bit_2_1044";
+         "MUX_rom_signed_10bit_2_1016";
    attribute HU_SET of MUX_rom_signed_10bit_3 : label is 
-         "MUX_rom_signed_10bit_3_1043";
+         "MUX_rom_signed_10bit_3_1015";
    attribute HU_SET of MUX_rom_signed_10bit_4 : label is 
-         "MUX_rom_signed_10bit_4_1042";
+         "MUX_rom_signed_10bit_4_1014";
    attribute HU_SET of MUX_rom_signed_10bit_5 : label is 
-         "MUX_rom_signed_10bit_5_1041";
+         "MUX_rom_signed_10bit_5_1013";
    attribute HU_SET of MUX_rom_signed_10bit_6 : label is 
-         "MUX_rom_signed_10bit_6_1040";
+         "MUX_rom_signed_10bit_6_1012";
    attribute HU_SET of MUX_rom_signed_10bit_7 : label is 
-         "MUX_rom_signed_10bit_7_1039";
+         "MUX_rom_signed_10bit_7_1011";
    attribute HU_SET of MUX_rom_signed_10bit_8 : label is 
-         "MUX_rom_signed_10bit_8_1038";
+         "MUX_rom_signed_10bit_8_1010";
    attribute HU_SET of MUX_rom_signed_10bit_9 : label is 
-         "MUX_rom_signed_10bit_9_1037";
+         "MUX_rom_signed_10bit_9_1009";
    attribute HU_SET of MUX_rom_signed_10bit_10 : label is 
-         "MUX_rom_signed_10bit_10_1036";
+         "MUX_rom_signed_10bit_10_1008";
    attribute HU_SET of MUX_rom_signed_10bit_11 : label is 
-         "MUX_rom_signed_10bit_11_1035";
+         "MUX_rom_signed_10bit_11_1007";
    attribute HU_SET of MUX_rom_signed_10bit_12 : label is 
-         "MUX_rom_signed_10bit_12_1034";
+         "MUX_rom_signed_10bit_12_1006";
    attribute HU_SET of MUX_rom_signed_10bit_13 : label is 
-         "MUX_rom_signed_10bit_13_1033";
+         "MUX_rom_signed_10bit_13_1005";
    attribute HU_SET of MUX_rom_signed_10bit_14 : label is 
-         "MUX_rom_signed_10bit_14_1032";
+         "MUX_rom_signed_10bit_14_1004";
    attribute HU_SET of MUX_rom_signed_10bit_15 : label is 
-         "MUX_rom_signed_10bit_15_1031";
+         "MUX_rom_signed_10bit_15_1003";
    attribute HU_SET of MUX_rom_signed_10bit_16 : label is 
-         "MUX_rom_signed_10bit_16_1030";
+         "MUX_rom_signed_10bit_16_1002";
    attribute HU_SET of MUX_rom_signed_10bit_17 : label is 
-         "MUX_rom_signed_10bit_17_1029";
+         "MUX_rom_signed_10bit_17_1001";
    attribute HU_SET of MUX_rom_signed_10bit_18 : label is 
-         "MUX_rom_signed_10bit_18_1028";
+         "MUX_rom_signed_10bit_18_1000";
    attribute HU_SET of MUX_rom_signed_10bit_19 : label is 
-         "MUX_rom_signed_10bit_19_1027";
+         "MUX_rom_signed_10bit_19_999";
    attribute HU_SET of MUX_rom_signed_10bit_20 : label is 
-         "MUX_rom_signed_10bit_20_1026";
+         "MUX_rom_signed_10bit_20_998";
    attribute HU_SET of MUX_rom_signed_10bit_21 : label is 
-         "MUX_rom_signed_10bit_21_1025";
+         "MUX_rom_signed_10bit_21_997";
    attribute HU_SET of MUX_rom_signed_10bit_22 : label is 
-         "MUX_rom_signed_10bit_22_1024";
+         "MUX_rom_signed_10bit_22_996";
    attribute HU_SET of MUX_rom_signed_10bit_23 : label is 
-         "MUX_rom_signed_10bit_23_1023";
+         "MUX_rom_signed_10bit_23_995";
    attribute HU_SET of MUX_rom_signed_10bit_24 : label is 
-         "MUX_rom_signed_10bit_24_1022";
+         "MUX_rom_signed_10bit_24_994";
    attribute HU_SET of MUX_rom_signed_10bit_25 : label is 
-         "MUX_rom_signed_10bit_25_1021";
+         "MUX_rom_signed_10bit_25_993";
    attribute HU_SET of MUX_rom_signed_10bit_26 : label is 
-         "MUX_rom_signed_10bit_26_1020";
+         "MUX_rom_signed_10bit_26_992";
    attribute HU_SET of MUX_rom_signed_10bit_27 : label is 
-         "MUX_rom_signed_10bit_27_1019";
+         "MUX_rom_signed_10bit_27_991";
    attribute HU_SET of MUX_rom_signed_10bit_28 : label is 
-         "MUX_rom_signed_10bit_28_1018";
+         "MUX_rom_signed_10bit_28_990";
    attribute HU_SET of MUX_rom_signed_10bit_29 : label is 
-         "MUX_rom_signed_10bit_29_1017";
+         "MUX_rom_signed_10bit_29_989";
    attribute HU_SET of MUX_rom_signed_10bit_30 : label is 
-         "MUX_rom_signed_10bit_30_1016";
+         "MUX_rom_signed_10bit_30_988";
    attribute HU_SET of MUX_rom_signed_10bit_31 : label is 
-         "MUX_rom_signed_10bit_31_1015";
+         "MUX_rom_signed_10bit_31_987";
    attribute WRITE_WIDTH_B of rom_signed_10bit_mem_half1 : label is "36";
    attribute WRITE_WIDTH_A of rom_signed_10bit_mem_half1 : label is "36";
    attribute WRITE_MODE_B of rom_signed_10bit_mem_half1 : label is "READ_FIRST";
@@ -1145,7 +1869,7 @@ begin
                 S0=>address(9),
                 O=>o_data(31));
    
-   rom_signed_10bit_mem_half1 : RAMB16
+   rom_signed_10bit_mem_half1 : ramb16
    -- synopsys translate_off
    generic map( WRITE_WIDTH_B => 36,
             WRITE_WIDTH_A => 36,
@@ -1314,7 +2038,7 @@ begin
                 DOPA=>open,
                 DOPB=>open);
    
-   rom_signed_10bit_mem_half2 : RAMB16
+   rom_signed_10bit_mem_half2 : ramb16
    -- synopsys translate_off
    generic map( INIT_3F => 
          x"bf800000c0000000c0400000c0800000c0a00000c0c00000c0e00000c1000000",
@@ -1825,299 +2549,299 @@ architecture BEHAVIORAL of CalculatePixOSCpSp is
    end component;
    
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_0 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_0_1145";
+         "CalculatePixOSCpSp_MUX_divfp_a_0_1117";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_1 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_1_1144";
+         "CalculatePixOSCpSp_MUX_divfp_a_1_1116";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_2 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_2_1143";
+         "CalculatePixOSCpSp_MUX_divfp_a_2_1115";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_3 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_3_1142";
+         "CalculatePixOSCpSp_MUX_divfp_a_3_1114";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_4 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_4_1141";
+         "CalculatePixOSCpSp_MUX_divfp_a_4_1113";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_5 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_5_1140";
+         "CalculatePixOSCpSp_MUX_divfp_a_5_1112";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_6 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_6_1139";
+         "CalculatePixOSCpSp_MUX_divfp_a_6_1111";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_7 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_7_1138";
+         "CalculatePixOSCpSp_MUX_divfp_a_7_1110";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_8 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_8_1137";
+         "CalculatePixOSCpSp_MUX_divfp_a_8_1109";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_9 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_9_1136";
+         "CalculatePixOSCpSp_MUX_divfp_a_9_1108";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_10 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_10_1135";
+         "CalculatePixOSCpSp_MUX_divfp_a_10_1107";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_11 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_11_1134";
+         "CalculatePixOSCpSp_MUX_divfp_a_11_1106";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_12 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_12_1133";
+         "CalculatePixOSCpSp_MUX_divfp_a_12_1105";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_13 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_13_1132";
+         "CalculatePixOSCpSp_MUX_divfp_a_13_1104";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_14 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_14_1131";
+         "CalculatePixOSCpSp_MUX_divfp_a_14_1103";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_15 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_15_1130";
+         "CalculatePixOSCpSp_MUX_divfp_a_15_1102";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_16 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_16_1129";
+         "CalculatePixOSCpSp_MUX_divfp_a_16_1101";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_17 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_17_1128";
+         "CalculatePixOSCpSp_MUX_divfp_a_17_1100";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_18 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_18_1127";
+         "CalculatePixOSCpSp_MUX_divfp_a_18_1099";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_19 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_19_1126";
+         "CalculatePixOSCpSp_MUX_divfp_a_19_1098";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_20 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_20_1125";
+         "CalculatePixOSCpSp_MUX_divfp_a_20_1097";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_21 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_21_1124";
+         "CalculatePixOSCpSp_MUX_divfp_a_21_1096";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_22 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_22_1123";
+         "CalculatePixOSCpSp_MUX_divfp_a_22_1095";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_23 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_23_1122";
+         "CalculatePixOSCpSp_MUX_divfp_a_23_1094";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_24 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_24_1121";
+         "CalculatePixOSCpSp_MUX_divfp_a_24_1093";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_25 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_25_1120";
+         "CalculatePixOSCpSp_MUX_divfp_a_25_1092";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_26 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_26_1119";
+         "CalculatePixOSCpSp_MUX_divfp_a_26_1091";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_27 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_27_1118";
+         "CalculatePixOSCpSp_MUX_divfp_a_27_1090";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_28 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_28_1117";
+         "CalculatePixOSCpSp_MUX_divfp_a_28_1089";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_29 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_29_1116";
+         "CalculatePixOSCpSp_MUX_divfp_a_29_1088";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_30 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_30_1115";
+         "CalculatePixOSCpSp_MUX_divfp_a_30_1087";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_31 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_31_1114";
+         "CalculatePixOSCpSp_MUX_divfp_a_31_1086";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_0 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_0_1177";
+         "CalculatePixOSCpSp_MUX_divfp_b_0_1149";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_1 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_1_1176";
+         "CalculatePixOSCpSp_MUX_divfp_b_1_1148";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_2 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_2_1175";
+         "CalculatePixOSCpSp_MUX_divfp_b_2_1147";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_3 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_3_1174";
+         "CalculatePixOSCpSp_MUX_divfp_b_3_1146";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_4 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_4_1173";
+         "CalculatePixOSCpSp_MUX_divfp_b_4_1145";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_5 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_5_1172";
+         "CalculatePixOSCpSp_MUX_divfp_b_5_1144";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_6 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_6_1171";
+         "CalculatePixOSCpSp_MUX_divfp_b_6_1143";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_7 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_7_1170";
+         "CalculatePixOSCpSp_MUX_divfp_b_7_1142";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_8 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_8_1169";
+         "CalculatePixOSCpSp_MUX_divfp_b_8_1141";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_9 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_9_1168";
+         "CalculatePixOSCpSp_MUX_divfp_b_9_1140";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_10 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_10_1167";
+         "CalculatePixOSCpSp_MUX_divfp_b_10_1139";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_11 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_11_1166";
+         "CalculatePixOSCpSp_MUX_divfp_b_11_1138";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_12 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_12_1165";
+         "CalculatePixOSCpSp_MUX_divfp_b_12_1137";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_13 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_13_1164";
+         "CalculatePixOSCpSp_MUX_divfp_b_13_1136";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_14 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_14_1163";
+         "CalculatePixOSCpSp_MUX_divfp_b_14_1135";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_15 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_15_1162";
+         "CalculatePixOSCpSp_MUX_divfp_b_15_1134";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_16 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_16_1161";
+         "CalculatePixOSCpSp_MUX_divfp_b_16_1133";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_17 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_17_1160";
+         "CalculatePixOSCpSp_MUX_divfp_b_17_1132";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_18 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_18_1159";
+         "CalculatePixOSCpSp_MUX_divfp_b_18_1131";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_19 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_19_1158";
+         "CalculatePixOSCpSp_MUX_divfp_b_19_1130";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_20 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_20_1157";
+         "CalculatePixOSCpSp_MUX_divfp_b_20_1129";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_21 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_21_1156";
+         "CalculatePixOSCpSp_MUX_divfp_b_21_1128";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_22 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_22_1155";
+         "CalculatePixOSCpSp_MUX_divfp_b_22_1127";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_23 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_23_1154";
+         "CalculatePixOSCpSp_MUX_divfp_b_23_1126";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_24 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_24_1153";
+         "CalculatePixOSCpSp_MUX_divfp_b_24_1125";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_25 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_25_1152";
+         "CalculatePixOSCpSp_MUX_divfp_b_25_1124";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_26 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_26_1151";
+         "CalculatePixOSCpSp_MUX_divfp_b_26_1123";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_27 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_27_1150";
+         "CalculatePixOSCpSp_MUX_divfp_b_27_1122";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_28 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_28_1149";
+         "CalculatePixOSCpSp_MUX_divfp_b_28_1121";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_29 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_29_1148";
+         "CalculatePixOSCpSp_MUX_divfp_b_29_1120";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_30 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_30_1147";
+         "CalculatePixOSCpSp_MUX_divfp_b_30_1119";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_31 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_31_1146";
+         "CalculatePixOSCpSp_MUX_divfp_b_31_1118";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_ce : label is 
-         "CalculatePixOSCpSp_MUX_divfp_ce_1180";
+         "CalculatePixOSCpSp_MUX_divfp_ce_1152";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_ond : label is 
-         "CalculatePixOSCpSp_MUX_divfp_ond_1178";
+         "CalculatePixOSCpSp_MUX_divfp_ond_1150";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_sclr : label is 
-         "CalculatePixOSCpSp_MUX_divfp_sclr_1179";
+         "CalculatePixOSCpSp_MUX_divfp_sclr_1151";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_0 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_0_1110";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_0_1082";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_1 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_1_1109";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_1_1081";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_2 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_2_1108";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_2_1080";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_3 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_3_1107";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_3_1079";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_4 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_4_1106";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_4_1078";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_5 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_5_1105";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_5_1077";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_6 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_6_1104";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_6_1076";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_7 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_7_1103";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_7_1075";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_8 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_8_1102";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_8_1074";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_9 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_9_1101";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_9_1073";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_10 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_10_1100";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_10_1072";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_11 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_11_1099";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_11_1071";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_12 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_12_1098";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_12_1070";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_13 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_13_1097";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_13_1069";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_14 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_14_1096";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_14_1068";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_15 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_15_1095";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_15_1067";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_16 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_16_1094";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_16_1066";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_17 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_17_1093";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_17_1065";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_18 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_18_1092";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_18_1064";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_19 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_19_1091";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_19_1063";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_20 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_20_1090";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_20_1062";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_21 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_21_1089";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_21_1061";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_22 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_22_1088";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_22_1060";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_23 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_23_1087";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_23_1059";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_24 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_24_1086";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_24_1058";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_25 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_25_1085";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_25_1057";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_26 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_26_1084";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_26_1056";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_27 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_27_1083";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_27_1055";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_28 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_28_1082";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_28_1054";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_29 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_29_1081";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_29_1053";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_30 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_30_1080";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_30_1052";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_31 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_31_1079";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_31_1051";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_32 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_32_1078";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_32_1050";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_33 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_33_1077";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_33_1049";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_34 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_34_1076";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_34_1048";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_35 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_35_1075";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_35_1047";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_36 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_36_1074";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_36_1046";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_37 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_37_1073";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_37_1045";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_38 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_38_1072";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_38_1044";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_39 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_39_1071";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_39_1043";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_40 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_40_1070";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_40_1042";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_41 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_41_1069";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_41_1041";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_42 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_42_1068";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_42_1040";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_43 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_43_1067";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_43_1039";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_44 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_44_1066";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_44_1038";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_45 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_45_1065";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_45_1037";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_46 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_46_1064";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_46_1036";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_47 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_47_1063";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_47_1035";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_48 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_48_1062";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_48_1034";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_49 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_49_1061";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_49_1033";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_50 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_50_1060";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_50_1032";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_51 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_51_1059";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_51_1031";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_52 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_52_1058";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_52_1030";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_53 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_53_1057";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_53_1029";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_54 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_54_1056";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_54_1028";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_55 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_55_1055";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_55_1027";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_56 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_56_1054";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_56_1026";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_57 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_57_1053";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_57_1025";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_58 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_58_1052";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_58_1024";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_59 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_59_1051";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_59_1023";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_60 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_60_1050";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_60_1022";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_61 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_61_1049";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_61_1021";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_62 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_62_1048";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_62_1020";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_63 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_63_1047";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_63_1019";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_ce : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_ce_1112";
+         "CalculatePixOSCpSp_MUX_fi2fl_ce_1084";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_ond : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_ond_1111";
+         "CalculatePixOSCpSp_MUX_fi2fl_ond_1083";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_sclr : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_sclr_1113";
+         "CalculatePixOSCpSp_MUX_fi2fl_sclr_1085";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_0 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_0_1193";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_0_1165";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_1 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_1_1192";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_1_1164";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_2 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_2_1191";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_2_1163";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_3 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_3_1190";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_3_1162";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_4 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_4_1189";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_4_1161";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_5 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_5_1188";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_5_1160";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_6 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_6_1187";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_6_1159";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_7 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_7_1186";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_7_1158";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_8 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_8_1185";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_8_1157";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_9 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_9_1184";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_9_1156";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_10 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_10_1183";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_10_1155";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_11 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_11_1182";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_11_1154";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_ena : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_ena_1181";
+         "CalculatePixOSCpSp_MUX_i2c_mem_ena_1153";
 begin
    CalculatePixOSCpSp_calculatekgain_process_p0 : CalculateKGain_process_p0
       port map (divfpr(31 downto 0)=>divfpr(31 downto 0),

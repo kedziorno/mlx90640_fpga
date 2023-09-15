@@ -29,7 +29,7 @@
         <port polarity="Output" name="o_rdy" />
         <port polarity="Output" name="i2c_mem_addra(11:0)" />
         <port polarity="Output" name="o_tgc(31:0)" />
-        <blockdef name="RAMB16">
+        <blockdef name="RAMB16_S36_S36">
             <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
@@ -111,7 +111,7 @@
             <rect width="64" x="512" y="-44" height="24" />
             <line x2="576" y1="-32" y2="-32" x1="512" />
         </blockdef>
-        <block symbolname="RAMB16" name="ROM_TGC">
+        <block symbolname="RAMB16_S36_S36" name="ROM_TGC">
             <attr value="3ffc00003ff800003ff400003ff000003fec00003fe800003fe400003fe00000" name="INIT_07">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />

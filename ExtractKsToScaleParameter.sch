@@ -28,7 +28,7 @@
         <port polarity="Output" name="i2c_mem_addra(11:0)" />
         <port polarity="Output" name="o_kstoscale(31:0)" />
         <port polarity="Input" name="i2c_mem_douta(7:0)" />
-        <blockdef name="RAMB16">
+        <blockdef name="RAMB16_S36_S36">
             <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
@@ -102,7 +102,7 @@
             <rect width="64" x="544" y="-44" height="24" />
             <line x2="608" y1="-32" y2="-32" x1="544" />
         </blockdef>
-        <block symbolname="RAMB16" name="ROM_KSTOSCALE">
+        <block symbolname="RAMB16_S36_S36" name="ROM_KSTOSCALE">
             <attr value="4700000046800000460000004580000045000000448000004400000043800000" name="INIT_00">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
