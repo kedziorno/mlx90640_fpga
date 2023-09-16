@@ -345,7 +345,7 @@ end if;
 
 				when s12 => state := s13;
 					o_alpha_addr <= std_logic_vector (to_unsigned (i, 10));
-					mem_switchpattern_pixel <= std_logic_vector (to_unsigned (i, 12));
+					mem_switchpattern_pixel <= std_logic_vector (to_unsigned (i, 14));
 				when s13 => state := s14;
 				when s14 => state := s15;
 					

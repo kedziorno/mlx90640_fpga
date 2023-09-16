@@ -47,8 +47,8 @@ operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+--rdy : OUT STD_LOGIC
 );
 END COMPONENT;
 signal mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -57,7 +57,7 @@ signal mulfpond : STD_LOGIC;
 signal mulfpce : STD_LOGIC;
 signal mulfpsclr : STD_LOGIC;
 signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy : STD_LOGIC;
+--signal mulfprdy : STD_LOGIC;
 
 COMPONENT addfp
 PORT (
@@ -67,8 +67,8 @@ operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+--rdy : OUT STD_LOGIC
 );
 END COMPONENT;
 signal addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -77,7 +77,7 @@ signal addfpond : STD_LOGIC;
 signal addfpce : STD_LOGIC;
 signal addfpsclr : STD_LOGIC;
 signal addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfprdy : STD_LOGIC;
+--signal addfprdy : STD_LOGIC;
 
 COMPONENT subfp
 PORT (
@@ -87,8 +87,8 @@ operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+--rdy : OUT STD_LOGIC
 );
 END COMPONENT;
 signal subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -97,7 +97,7 @@ signal subfpond : STD_LOGIC;
 signal subfpce : STD_LOGIC;
 signal subfpsclr : STD_LOGIC;
 signal subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal subfprdy : STD_LOGIC;
+--signal subfprdy : STD_LOGIC;
 
 -- Component Declaration for the Unit Under Test (UUT)
 COMPONENT CalculateAlphaComp
@@ -313,8 +313,8 @@ operation_nd => CalculateAlphaComp_mulfpond,
 clk => CalculateAlphaComp_mulfpclk,
 sclr => CalculateAlphaComp_mulfpsclr,
 ce => CalculateAlphaComp_mulfpce,
-result => CalculateAlphaComp_mulfpr,
-rdy => CalculateAlphaComp_mulfprdy
+result => CalculateAlphaComp_mulfpr
+--rdy => CalculateAlphaComp_mulfprdy
 );
 
 inst_addfp : addfp
@@ -325,8 +325,8 @@ operation_nd => CalculateAlphaComp_addfpond,
 clk => CalculateAlphaComp_addfpclk,
 sclr => CalculateAlphaComp_addfpsclr,
 ce => CalculateAlphaComp_addfpce,
-result => CalculateAlphaComp_addfpr,
-rdy => CalculateAlphaComp_addfprdy
+result => CalculateAlphaComp_addfpr
+--rdy => CalculateAlphaComp_addfprdy
 );
 
 inst_subfp : subfp
@@ -337,8 +337,8 @@ operation_nd => CalculateAlphaComp_subfpond,
 clk => CalculateAlphaComp_subfpclk,
 sclr => CalculateAlphaComp_subfpsclr,
 ce => CalculateAlphaComp_subfpce,
-result => CalculateAlphaComp_subfpr,
-rdy => CalculateAlphaComp_subfprdy
+result => CalculateAlphaComp_subfpr
+--rdy => CalculateAlphaComp_subfprdy
 );
 
 END;

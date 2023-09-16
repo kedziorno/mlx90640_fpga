@@ -250,7 +250,23 @@ signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
 
 signal rdy,write_enable : std_logic;
 
+signal mulfp_wait : integer range 0 to C_MULFP_WAIT-1;
+signal mulfp_run,mulfp_rdy : std_logic;
+
 begin
+
+p1_counter_mulfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      mulfp_wait <= 0;
+    elsif (mulfp_rdy = '1') then
+      mulfp_wait <= 0;
+    elsif (mulfp_run = '1') then
+      mulfp_wait <= mulfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_mulfp;
 
 mulfpa <= mulfpa_internal;
 mulfpb <= mulfpb_internal;
@@ -292,6 +308,8 @@ begin
 			mulfpce_internal <= '0';
 			o_vircompensated_addr <= (others => '0');
 			o_alphacomp_addr <= (others => '0');
+    mulfp_run <= '0';
+    mulfp_rdy <= '0';
 		else
 			case (state) is
   when idle =>
@@ -312,15 +330,21 @@ begin
 		mulfpce_internal <= '1';
 		mulfpond_internal <= '1';
 	when s4 =>
-		if (mulfprdy_internal = '1') then state := s5;
+		if (mulfp_wait = C_MULFP_WAIT-1) then
 			fttmp1 := mulfpr_internal; -- GetImage
 			mulfpce_internal <= '0';
 			mulfpond_internal <= '0';
 			mulfpsclr_internal <= '1';
-		else state := s4; end if;
+      state := s5;
+      mulfp_run <= '0';
+      mulfp_rdy <= '1';
+    else
+      state := s4;
+      mulfp_run <= '1';
+    end if;
 	when s5 => state := s6;
 		mulfpsclr_internal <= '0';
-
+    mulfp_rdy <= '0';
 		write_enable <= '1';
 		addra <= std_logic_vector (to_unsigned (i, 10)); -- To
 		dia <= fttmp1;
