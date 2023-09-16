@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : rom_signed10bit.vhf
--- /___/   /\     Timestamp : 09/15/2023 17:58:35
+-- /___/   /\     Timestamp : 09/16/2023 16:10:23
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -813,7 +813,7 @@ architecture BEHAVIORAL of rom_signed10bit is
    attribute INIT_01 of rom_signed_10bit_mem_half1 : label is 
          "4170000041600000415000004140000041300000412000004110000041000000";
    attribute INIT_00 of rom_signed_10bit_mem_half1 : label is 
-         "40e0000040c0000040a000004080000040400000400000003f80000000000000";
+         "40e0000040c0000040a000004080000040400000400000003f80000022000000";
    attribute INIT_3F of rom_signed_10bit_mem_half2 : label is 
          "bf800000c0000000c0400000c0800000c0a00000c0c00000c0e00000c1000000";
    attribute INIT_3E of rom_signed_10bit_mem_half2 : label is 
@@ -1276,7 +1276,7 @@ begin
             INIT_01 => 
          x"4170000041600000415000004140000041300000412000004110000041000000",
             INIT_00 => 
-         x"40e0000040c0000040a000004080000040400000400000003f80000000000000")
+         x"40e0000040c0000040a000004080000040400000400000003f80000022000000")
    -- synopsys translate_on
       port map (ADDRA(14 downto 0)=>XLXN_3(14 downto 0),
                 ADDRB(14 downto 

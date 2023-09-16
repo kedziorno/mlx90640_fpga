@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : ExtractKvPTATParameter.vhf
--- /___/   /\     Timestamp : 09/15/2023 17:58:34
+-- /___/   /\     Timestamp : 09/16/2023 16:10:22
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -524,7 +524,7 @@ architecture BEHAVIORAL of ExtractKvPTATParameter is
    attribute INIT_01 of ROM_KVPTAT : label is 
          "3b7000003b6000003b5000003b4000003b3000003b2000003b1000003b000000";
    attribute INIT_00 of ROM_KVPTAT : label is 
-         "3ae000003ac000003aa000003a8000003a4000003a0000003980000000000000";
+         "3ae000003ac000003aa000003a8000003a4000003a0000003980000022000000";
    attribute WRITE_WIDTH_B of ROM_KVPTAT : label is "36";
    attribute WRITE_WIDTH_A of ROM_KVPTAT : label is "36";
    attribute WRITE_MODE_B of ROM_KVPTAT : label is "READ_FIRST";
@@ -573,7 +573,7 @@ begin
             INIT_01 => 
          x"3b7000003b6000003b5000003b4000003b3000003b2000003b1000003b000000",
             INIT_00 => 
-         x"3ae000003ac000003aa000003a8000003a4000003a0000003980000000000000",
+         x"3ae000003ac000003aa000003a8000003a4000003a0000003980000022000000",
             WRITE_WIDTH_B => 36,
             WRITE_WIDTH_A => 36,
             WRITE_MODE_B => "READ_FIRST",

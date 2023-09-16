@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : CalculateVirCompensated.vhf
--- /___/   /\     Timestamp : 09/15/2023 17:58:39
+-- /___/   /\     Timestamp : 09/16/2023 16:10:32
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -1106,7 +1106,7 @@ architecture BEHAVIORAL of ExtractTGCParameter_MUSER_CalculateVirCompensated is
    attribute INIT_01 of ROM_TGC : label is 
          "3ef000003ee000003ed000003ec000003eb000003ea000003e9000003e800000";
    attribute INIT_00 of ROM_TGC : label is 
-         "3e6000003e4000003e2000003e0000003dc000003d8000003d00000000000000";
+         "3e6000003e4000003e2000003e0000003dc000003d8000003d00000022000000";
    attribute WRITE_WIDTH_B of ROM_TGC : label is "36";
    attribute WRITE_WIDTH_A of ROM_TGC : label is "36";
    attribute WRITE_MODE_B of ROM_TGC : label is "READ_FIRST";
@@ -1223,7 +1223,7 @@ begin
             INIT_01 => 
          x"3ef000003ee000003ed000003ec000003eb000003ea000003e9000003e800000",
             INIT_00 => 
-         x"3e6000003e4000003e2000003e0000003dc000003d8000003d00000000000000",
+         x"3e6000003e4000003e2000003e0000003dc000003d8000003d00000022000000",
             WRITE_WIDTH_B => 36,
             WRITE_WIDTH_A => 36,
             WRITE_MODE_B => "READ_FIRST",
@@ -1996,89 +1996,89 @@ architecture BEHAVIORAL of CalculateVirCompensated is
    attribute BOX_TYPE of BUF : component is "BLACK_BOX";
    
    attribute HU_SET of calculatevircompensated_MUX_ADDR_0 : label is 
-         "calculatevircompensated_MUX_ADDR_0_1207";
+         "calculatevircompensated_MUX_ADDR_0_2309";
    attribute HU_SET of calculatevircompensated_MUX_ADDR_1 : label is 
-         "calculatevircompensated_MUX_ADDR_1_1206";
+         "calculatevircompensated_MUX_ADDR_1_2308";
    attribute HU_SET of calculatevircompensated_MUX_ADDR_2 : label is 
-         "calculatevircompensated_MUX_ADDR_2_1205";
+         "calculatevircompensated_MUX_ADDR_2_2307";
    attribute HU_SET of calculatevircompensated_MUX_ADDR_3 : label is 
-         "calculatevircompensated_MUX_ADDR_3_1204";
+         "calculatevircompensated_MUX_ADDR_3_2306";
    attribute HU_SET of calculatevircompensated_MUX_ADDR_4 : label is 
-         "calculatevircompensated_MUX_ADDR_4_1203";
+         "calculatevircompensated_MUX_ADDR_4_2305";
    attribute HU_SET of calculatevircompensated_MUX_ADDR_5 : label is 
-         "calculatevircompensated_MUX_ADDR_5_1202";
+         "calculatevircompensated_MUX_ADDR_5_2304";
    attribute HU_SET of calculatevircompensated_MUX_ADDR_6 : label is 
-         "calculatevircompensated_MUX_ADDR_6_1201";
+         "calculatevircompensated_MUX_ADDR_6_2303";
    attribute HU_SET of calculatevircompensated_MUX_ADDR_7 : label is 
-         "calculatevircompensated_MUX_ADDR_7_1200";
+         "calculatevircompensated_MUX_ADDR_7_2302";
    attribute HU_SET of calculatevircompensated_MUX_ADDR_8 : label is 
-         "calculatevircompensated_MUX_ADDR_8_1199";
+         "calculatevircompensated_MUX_ADDR_8_2301";
    attribute HU_SET of calculatevircompensated_MUX_ADDR_9 : label is 
-         "calculatevircompensated_MUX_ADDR_9_1198";
+         "calculatevircompensated_MUX_ADDR_9_2300";
    attribute HU_SET of calculatevircompensated_MUX_DO_0 : label is 
-         "calculatevircompensated_MUX_DO_0_1197";
+         "calculatevircompensated_MUX_DO_0_2299";
    attribute HU_SET of calculatevircompensated_MUX_DO_1 : label is 
-         "calculatevircompensated_MUX_DO_1_1196";
+         "calculatevircompensated_MUX_DO_1_2298";
    attribute HU_SET of calculatevircompensated_MUX_DO_2 : label is 
-         "calculatevircompensated_MUX_DO_2_1195";
+         "calculatevircompensated_MUX_DO_2_2297";
    attribute HU_SET of calculatevircompensated_MUX_DO_3 : label is 
-         "calculatevircompensated_MUX_DO_3_1194";
+         "calculatevircompensated_MUX_DO_3_2296";
    attribute HU_SET of calculatevircompensated_MUX_DO_4 : label is 
-         "calculatevircompensated_MUX_DO_4_1193";
+         "calculatevircompensated_MUX_DO_4_2295";
    attribute HU_SET of calculatevircompensated_MUX_DO_5 : label is 
-         "calculatevircompensated_MUX_DO_5_1192";
+         "calculatevircompensated_MUX_DO_5_2294";
    attribute HU_SET of calculatevircompensated_MUX_DO_6 : label is 
-         "calculatevircompensated_MUX_DO_6_1191";
+         "calculatevircompensated_MUX_DO_6_2293";
    attribute HU_SET of calculatevircompensated_MUX_DO_7 : label is 
-         "calculatevircompensated_MUX_DO_7_1190";
+         "calculatevircompensated_MUX_DO_7_2292";
    attribute HU_SET of calculatevircompensated_MUX_DO_8 : label is 
-         "calculatevircompensated_MUX_DO_8_1189";
+         "calculatevircompensated_MUX_DO_8_2291";
    attribute HU_SET of calculatevircompensated_MUX_DO_9 : label is 
-         "calculatevircompensated_MUX_DO_9_1188";
+         "calculatevircompensated_MUX_DO_9_2290";
    attribute HU_SET of calculatevircompensated_MUX_DO_10 : label is 
-         "calculatevircompensated_MUX_DO_10_1187";
+         "calculatevircompensated_MUX_DO_10_2289";
    attribute HU_SET of calculatevircompensated_MUX_DO_11 : label is 
-         "calculatevircompensated_MUX_DO_11_1186";
+         "calculatevircompensated_MUX_DO_11_2288";
    attribute HU_SET of calculatevircompensated_MUX_DO_12 : label is 
-         "calculatevircompensated_MUX_DO_12_1185";
+         "calculatevircompensated_MUX_DO_12_2287";
    attribute HU_SET of calculatevircompensated_MUX_DO_13 : label is 
-         "calculatevircompensated_MUX_DO_13_1184";
+         "calculatevircompensated_MUX_DO_13_2286";
    attribute HU_SET of calculatevircompensated_MUX_DO_14 : label is 
-         "calculatevircompensated_MUX_DO_14_1183";
+         "calculatevircompensated_MUX_DO_14_2285";
    attribute HU_SET of calculatevircompensated_MUX_DO_15 : label is 
-         "calculatevircompensated_MUX_DO_15_1182";
+         "calculatevircompensated_MUX_DO_15_2284";
    attribute HU_SET of calculatevircompensated_MUX_DO_16 : label is 
-         "calculatevircompensated_MUX_DO_16_1181";
+         "calculatevircompensated_MUX_DO_16_2283";
    attribute HU_SET of calculatevircompensated_MUX_DO_17 : label is 
-         "calculatevircompensated_MUX_DO_17_1180";
+         "calculatevircompensated_MUX_DO_17_2282";
    attribute HU_SET of calculatevircompensated_MUX_DO_18 : label is 
-         "calculatevircompensated_MUX_DO_18_1179";
+         "calculatevircompensated_MUX_DO_18_2281";
    attribute HU_SET of calculatevircompensated_MUX_DO_19 : label is 
-         "calculatevircompensated_MUX_DO_19_1178";
+         "calculatevircompensated_MUX_DO_19_2280";
    attribute HU_SET of calculatevircompensated_MUX_DO_20 : label is 
-         "calculatevircompensated_MUX_DO_20_1177";
+         "calculatevircompensated_MUX_DO_20_2279";
    attribute HU_SET of calculatevircompensated_MUX_DO_21 : label is 
-         "calculatevircompensated_MUX_DO_21_1176";
+         "calculatevircompensated_MUX_DO_21_2278";
    attribute HU_SET of calculatevircompensated_MUX_DO_22 : label is 
-         "calculatevircompensated_MUX_DO_22_1175";
+         "calculatevircompensated_MUX_DO_22_2277";
    attribute HU_SET of calculatevircompensated_MUX_DO_23 : label is 
-         "calculatevircompensated_MUX_DO_23_1174";
+         "calculatevircompensated_MUX_DO_23_2276";
    attribute HU_SET of calculatevircompensated_MUX_DO_24 : label is 
-         "calculatevircompensated_MUX_DO_24_1173";
+         "calculatevircompensated_MUX_DO_24_2275";
    attribute HU_SET of calculatevircompensated_MUX_DO_25 : label is 
-         "calculatevircompensated_MUX_DO_25_1172";
+         "calculatevircompensated_MUX_DO_25_2274";
    attribute HU_SET of calculatevircompensated_MUX_DO_26 : label is 
-         "calculatevircompensated_MUX_DO_26_1171";
+         "calculatevircompensated_MUX_DO_26_2273";
    attribute HU_SET of calculatevircompensated_MUX_DO_27 : label is 
-         "calculatevircompensated_MUX_DO_27_1170";
+         "calculatevircompensated_MUX_DO_27_2272";
    attribute HU_SET of calculatevircompensated_MUX_DO_28 : label is 
-         "calculatevircompensated_MUX_DO_28_1169";
+         "calculatevircompensated_MUX_DO_28_2271";
    attribute HU_SET of calculatevircompensated_MUX_DO_29 : label is 
-         "calculatevircompensated_MUX_DO_29_1168";
+         "calculatevircompensated_MUX_DO_29_2270";
    attribute HU_SET of calculatevircompensated_MUX_DO_30 : label is 
-         "calculatevircompensated_MUX_DO_30_1167";
+         "calculatevircompensated_MUX_DO_30_2269";
    attribute HU_SET of calculatevircompensated_MUX_DO_31 : label is 
-         "calculatevircompensated_MUX_DO_31_1166";
+         "calculatevircompensated_MUX_DO_31_2268";
    attribute WRITE_WIDTH_B of mem_vir_compensated1 : label is "36";
    attribute WRITE_WIDTH_A of mem_vir_compensated1 : label is "36";
    attribute WRITE_MODE_B of mem_vir_compensated1 : label is "READ_FIRST";

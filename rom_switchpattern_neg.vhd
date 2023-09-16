@@ -41,7 +41,7 @@ architecture Behavioral of rom_switchpattern_neg is
 begin
 
 with pattern_in select pattern_out <=
-x"00000000" when '1',
+x"22000000" when '1',
 x"3f800000" when others;
 
 end Behavioral;

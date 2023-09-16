@@ -515,7 +515,7 @@
             <blockpin signalname="o_do(31:0)" name="O" />
         </block>
         <block symbolname="constant" name="XLXI_57">
-            <attr value="00000000" name="CValue">
+            <attr value="22000000" name="CValue">
                 <trait delete="all:1 sym:0" />
                 <trait editname="all:1 sch:0" />
                 <trait valuetype="BitVector 32 Hexadecimal" />

@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : ExtractTGCParameter.vhf
--- /___/   /\     Timestamp : 09/15/2023 17:58:39
+-- /___/   /\     Timestamp : 09/16/2023 16:10:32
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -543,7 +543,7 @@ architecture BEHAVIORAL of ExtractTGCParameter is
    attribute INIT_01 of ROM_TGC : label is 
          "3ef000003ee000003ed000003ec000003eb000003ea000003e9000003e800000";
    attribute INIT_00 of ROM_TGC : label is 
-         "3e6000003e4000003e2000003e0000003dc000003d8000003d00000000000000";
+         "3e6000003e4000003e2000003e0000003dc000003d8000003d00000022000000";
    attribute WRITE_WIDTH_B of ROM_TGC : label is "36";
    attribute WRITE_WIDTH_A of ROM_TGC : label is "36";
    attribute WRITE_MODE_B of ROM_TGC : label is "READ_FIRST";
@@ -660,7 +660,7 @@ begin
             INIT_01 => 
          x"3ef000003ee000003ed000003ec000003eb000003ea000003e9000003e800000",
             INIT_00 => 
-         x"3e6000003e4000003e2000003e0000003dc000003d8000003d00000000000000",
+         x"3e6000003e4000003e2000003e0000003dc000003d8000003d00000022000000",
             WRITE_WIDTH_B => 36,
             WRITE_WIDTH_A => 36,
             WRITE_MODE_B => "READ_FIRST",

@@ -42,7 +42,7 @@ begin
 
 with pattern_in select pattern_out <=
 x"3f800000" when '1',
-x"00000000" when others;
+x"22000000" when others;
 
 end Behavioral;
 

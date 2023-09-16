@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : ExtractKsTaParameters.vhf
--- /___/   /\     Timestamp : 09/15/2023 17:58:39
+-- /___/   /\     Timestamp : 09/16/2023 16:10:26
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -522,7 +522,7 @@ architecture BEHAVIORAL of ExtractKsTaParameters is
    attribute BOX_TYPE of VCC : component is "BLACK_BOX";
    
    attribute INIT_00 of ROM_KSTA : label is 
-         "3a6000003a4000003a2000003a00000039c00000398000003900000000000000";
+         "3a6000003a4000003a2000003a00000039c00000398000003900000022000000";
    attribute INIT_01 of ROM_KSTA : label is 
          "3af000003ae000003ad000003ac000003ab000003aa000003a9000003a800000";
    attribute WRITE_WIDTH_B of ROM_KSTA : label is "36";
@@ -607,7 +607,7 @@ begin
    ROM_KSTA : ramb16
    -- synopsys translate_off
    generic map( INIT_00 => 
-         x"3a6000003a4000003a2000003a00000039c00000398000003900000000000000",
+         x"3a6000003a4000003a2000003a00000039c00000398000003900000022000000",
             INIT_01 => 
          x"3af000003ae000003ad000003ac000003ab000003aa000003a9000003a800000",
             WRITE_WIDTH_B => 36,

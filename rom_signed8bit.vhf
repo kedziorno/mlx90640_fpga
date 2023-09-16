@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : rom_signed8bit.vhf
--- /___/   /\     Timestamp : 09/15/2023 17:58:35
+-- /___/   /\     Timestamp : 09/16/2023 16:10:23
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -586,7 +586,7 @@ architecture BEHAVIORAL of rom_signed8bit is
    attribute INIT_01 of ROM_mem_signed8bit : label is 
          "4170000041600000415000004140000041300000412000004110000041000000";
    attribute INIT_00 of ROM_mem_signed8bit : label is 
-         "40e0000040c0000040a000004080000040400000400000003f80000000000000";
+         "40e0000040c0000040a000004080000040400000400000003f80000022000000";
 begin
    ROM_mem_signed8bit : ramb16
    -- synopsys translate_off
@@ -659,7 +659,7 @@ begin
             INIT_01 => 
          x"4170000041600000415000004140000041300000412000004110000041000000",
             INIT_00 => 
-         x"40e0000040c0000040a000004080000040400000400000003f80000000000000")
+         x"40e0000040c0000040a000004080000040400000400000003f80000022000000")
    -- synopsys translate_on
       port map (ADDRA(14 downto 0)=>XLXN_2(14 downto 0),
                 ADDRB(14 downto 0)=>ROM_mem_signed8bit_ADDRB_openSignal(14 

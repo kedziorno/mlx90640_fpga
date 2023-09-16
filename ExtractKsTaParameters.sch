@@ -103,7 +103,7 @@
             <line x2="576" y1="-32" y2="-32" x1="512" />
         </blockdef>
         <block symbolname="RAMB16_S36_S36" name="ROM_KSTA">
-            <attr value="3a6000003a4000003a2000003a00000039c00000398000003900000000000000" name="INIT_00">
+            <attr value="3a6000003a4000003a2000003a00000039c00000398000003900000022000000" name="INIT_00">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
                 <trait verilog="all:0 dp:1nosynth wsynop:1 wsynth:1" />

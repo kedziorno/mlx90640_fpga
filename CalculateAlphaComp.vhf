@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : CalculateAlphaComp.vhf
--- /___/   /\     Timestamp : 09/15/2023 17:58:39
+-- /___/   /\     Timestamp : 09/16/2023 16:10:32
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -543,7 +543,7 @@ architecture BEHAVIORAL of ExtractTGCParameter_MUSER_CalculateAlphaComp is
    attribute INIT_01 of ROM_TGC : label is 
          "3ef000003ee000003ed000003ec000003eb000003ea000003e9000003e800000";
    attribute INIT_00 of ROM_TGC : label is 
-         "3e6000003e4000003e2000003e0000003dc000003d8000003d00000000000000";
+         "3e6000003e4000003e2000003e0000003dc000003d8000003d00000022000000";
    attribute WRITE_WIDTH_B of ROM_TGC : label is "36";
    attribute WRITE_WIDTH_A of ROM_TGC : label is "36";
    attribute WRITE_MODE_B of ROM_TGC : label is "READ_FIRST";
@@ -660,7 +660,7 @@ begin
             INIT_01 => 
          x"3ef000003ee000003ed000003ec000003eb000003ea000003e9000003e800000",
             INIT_00 => 
-         x"3e6000003e4000003e2000003e0000003dc000003d8000003d00000000000000",
+         x"3e6000003e4000003e2000003e0000003dc000003d8000003d00000022000000",
             WRITE_WIDTH_B => 36,
             WRITE_WIDTH_A => 36,
             WRITE_MODE_B => "READ_FIRST",
@@ -1272,7 +1272,7 @@ architecture BEHAVIORAL of ExtractKsTaParameters_MUSER_CalculateAlphaComp is
    attribute BOX_TYPE of VCC : component is "BLACK_BOX";
    
    attribute INIT_00 of ROM_KSTA : label is 
-         "3a6000003a4000003a2000003a00000039c00000398000003900000000000000";
+         "3a6000003a4000003a2000003a00000039c00000398000003900000022000000";
    attribute INIT_01 of ROM_KSTA : label is 
          "3af000003ae000003ad000003ac000003ab000003aa000003a9000003a800000";
    attribute WRITE_WIDTH_B of ROM_KSTA : label is "36";
@@ -1357,7 +1357,7 @@ begin
    ROM_KSTA : ramb16
    -- synopsys translate_off
    generic map( INIT_00 => 
-         x"3a6000003a4000003a2000003a00000039c00000398000003900000000000000",
+         x"3a6000003a4000003a2000003a00000039c00000398000003900000022000000",
             INIT_01 => 
          x"3af000003ae000003ad000003ac000003ab000003aa000003a9000003a800000",
             WRITE_WIDTH_B => 36,
@@ -2727,89 +2727,89 @@ architecture BEHAVIORAL of CalculateAlphaComp is
    attribute BOX_TYPE of BUF : component is "BLACK_BOX";
    
    attribute HU_SET of CalculateAlphaComp_MUX_ADDR_0 : label is 
-         "CalculateAlphaComp_MUX_ADDR_0_1249";
+         "CalculateAlphaComp_MUX_ADDR_0_2351";
    attribute HU_SET of CalculateAlphaComp_MUX_ADDR_1 : label is 
-         "CalculateAlphaComp_MUX_ADDR_1_1248";
+         "CalculateAlphaComp_MUX_ADDR_1_2350";
    attribute HU_SET of CalculateAlphaComp_MUX_ADDR_2 : label is 
-         "CalculateAlphaComp_MUX_ADDR_2_1247";
+         "CalculateAlphaComp_MUX_ADDR_2_2349";
    attribute HU_SET of CalculateAlphaComp_MUX_ADDR_3 : label is 
-         "CalculateAlphaComp_MUX_ADDR_3_1246";
+         "CalculateAlphaComp_MUX_ADDR_3_2348";
    attribute HU_SET of CalculateAlphaComp_MUX_ADDR_4 : label is 
-         "CalculateAlphaComp_MUX_ADDR_4_1245";
+         "CalculateAlphaComp_MUX_ADDR_4_2347";
    attribute HU_SET of CalculateAlphaComp_MUX_ADDR_5 : label is 
-         "CalculateAlphaComp_MUX_ADDR_5_1244";
+         "CalculateAlphaComp_MUX_ADDR_5_2346";
    attribute HU_SET of CalculateAlphaComp_MUX_ADDR_6 : label is 
-         "CalculateAlphaComp_MUX_ADDR_6_1243";
+         "CalculateAlphaComp_MUX_ADDR_6_2345";
    attribute HU_SET of CalculateAlphaComp_MUX_ADDR_7 : label is 
-         "CalculateAlphaComp_MUX_ADDR_7_1242";
+         "CalculateAlphaComp_MUX_ADDR_7_2344";
    attribute HU_SET of CalculateAlphaComp_MUX_ADDR_8 : label is 
-         "CalculateAlphaComp_MUX_ADDR_8_1241";
+         "CalculateAlphaComp_MUX_ADDR_8_2343";
    attribute HU_SET of CalculateAlphaComp_MUX_ADDR_9 : label is 
-         "CalculateAlphaComp_MUX_ADDR_9_1240";
+         "CalculateAlphaComp_MUX_ADDR_9_2342";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_0 : label is 
-         "CalculateAlphaComp_MUX_DO_0_1239";
+         "CalculateAlphaComp_MUX_DO_0_2341";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_1 : label is 
-         "CalculateAlphaComp_MUX_DO_1_1238";
+         "CalculateAlphaComp_MUX_DO_1_2340";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_2 : label is 
-         "CalculateAlphaComp_MUX_DO_2_1237";
+         "CalculateAlphaComp_MUX_DO_2_2339";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_3 : label is 
-         "CalculateAlphaComp_MUX_DO_3_1236";
+         "CalculateAlphaComp_MUX_DO_3_2338";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_4 : label is 
-         "CalculateAlphaComp_MUX_DO_4_1235";
+         "CalculateAlphaComp_MUX_DO_4_2337";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_5 : label is 
-         "CalculateAlphaComp_MUX_DO_5_1234";
+         "CalculateAlphaComp_MUX_DO_5_2336";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_6 : label is 
-         "CalculateAlphaComp_MUX_DO_6_1233";
+         "CalculateAlphaComp_MUX_DO_6_2335";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_7 : label is 
-         "CalculateAlphaComp_MUX_DO_7_1232";
+         "CalculateAlphaComp_MUX_DO_7_2334";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_8 : label is 
-         "CalculateAlphaComp_MUX_DO_8_1231";
+         "CalculateAlphaComp_MUX_DO_8_2333";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_9 : label is 
-         "CalculateAlphaComp_MUX_DO_9_1230";
+         "CalculateAlphaComp_MUX_DO_9_2332";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_10 : label is 
-         "CalculateAlphaComp_MUX_DO_10_1229";
+         "CalculateAlphaComp_MUX_DO_10_2331";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_11 : label is 
-         "CalculateAlphaComp_MUX_DO_11_1228";
+         "CalculateAlphaComp_MUX_DO_11_2330";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_12 : label is 
-         "CalculateAlphaComp_MUX_DO_12_1227";
+         "CalculateAlphaComp_MUX_DO_12_2329";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_13 : label is 
-         "CalculateAlphaComp_MUX_DO_13_1226";
+         "CalculateAlphaComp_MUX_DO_13_2328";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_14 : label is 
-         "CalculateAlphaComp_MUX_DO_14_1225";
+         "CalculateAlphaComp_MUX_DO_14_2327";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_15 : label is 
-         "CalculateAlphaComp_MUX_DO_15_1224";
+         "CalculateAlphaComp_MUX_DO_15_2326";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_16 : label is 
-         "CalculateAlphaComp_MUX_DO_16_1223";
+         "CalculateAlphaComp_MUX_DO_16_2325";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_17 : label is 
-         "CalculateAlphaComp_MUX_DO_17_1222";
+         "CalculateAlphaComp_MUX_DO_17_2324";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_18 : label is 
-         "CalculateAlphaComp_MUX_DO_18_1221";
+         "CalculateAlphaComp_MUX_DO_18_2323";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_19 : label is 
-         "CalculateAlphaComp_MUX_DO_19_1220";
+         "CalculateAlphaComp_MUX_DO_19_2322";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_20 : label is 
-         "CalculateAlphaComp_MUX_DO_20_1219";
+         "CalculateAlphaComp_MUX_DO_20_2321";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_21 : label is 
-         "CalculateAlphaComp_MUX_DO_21_1218";
+         "CalculateAlphaComp_MUX_DO_21_2320";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_22 : label is 
-         "CalculateAlphaComp_MUX_DO_22_1217";
+         "CalculateAlphaComp_MUX_DO_22_2319";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_23 : label is 
-         "CalculateAlphaComp_MUX_DO_23_1216";
+         "CalculateAlphaComp_MUX_DO_23_2318";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_24 : label is 
-         "CalculateAlphaComp_MUX_DO_24_1215";
+         "CalculateAlphaComp_MUX_DO_24_2317";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_25 : label is 
-         "CalculateAlphaComp_MUX_DO_25_1214";
+         "CalculateAlphaComp_MUX_DO_25_2316";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_26 : label is 
-         "CalculateAlphaComp_MUX_DO_26_1213";
+         "CalculateAlphaComp_MUX_DO_26_2315";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_27 : label is 
-         "CalculateAlphaComp_MUX_DO_27_1212";
+         "CalculateAlphaComp_MUX_DO_27_2314";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_28 : label is 
-         "CalculateAlphaComp_MUX_DO_28_1211";
+         "CalculateAlphaComp_MUX_DO_28_2313";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_29 : label is 
-         "CalculateAlphaComp_MUX_DO_29_1210";
+         "CalculateAlphaComp_MUX_DO_29_2312";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_30 : label is 
-         "CalculateAlphaComp_MUX_DO_30_1209";
+         "CalculateAlphaComp_MUX_DO_30_2311";
    attribute HU_SET of CalculateAlphaComp_MUX_DO_31 : label is 
-         "CalculateAlphaComp_MUX_DO_31_1208";
+         "CalculateAlphaComp_MUX_DO_31_2310";
    attribute WRITE_WIDTH_B of mem_alphacomp_1 : label is "36";
    attribute WRITE_WIDTH_A of mem_alphacomp_1 : label is "36";
    attribute WRITE_MODE_B of mem_alphacomp_1 : label is "READ_FIRST";

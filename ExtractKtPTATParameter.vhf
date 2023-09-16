@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : ExtractKtPTATParameter.vhf
--- /___/   /\     Timestamp : 09/15/2023 17:58:34
+-- /___/   /\     Timestamp : 09/16/2023 16:10:22
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -770,7 +770,7 @@ architecture BEHAVIORAL of ExtractKtPTATParameter is
    attribute INIT_01 of ROM_KTPTAT_0to3F : label is 
          "3ff000003fe000003fd000003fc000003fb000003fa000003f9000003f800000";
    attribute INIT_00 of ROM_KTPTAT_0to3F : label is 
-         "3f6000003f4000003f2000003f0000003ec000003e8000003e00000000000000";
+         "3f6000003f4000003f2000003f0000003ec000003e8000003e00000022000000";
    attribute WRITE_WIDTH_B of ROM_KTPTAT_40to7f : label is "36";
    attribute WRITE_WIDTH_A of ROM_KTPTAT_40to7f : label is "36";
    attribute READ_WIDTH_B of ROM_KTPTAT_40to7f : label is "36";
@@ -1410,7 +1410,7 @@ begin
             INIT_01 => 
          x"3ff000003fe000003fd000003fc000003fb000003fa000003f9000003f800000",
             INIT_00 => 
-         x"3f6000003f4000003f2000003f0000003ec000003e8000003e00000000000000")
+         x"3f6000003f4000003f2000003f0000003ec000003e8000003e00000022000000")
    -- synopsys translate_on
       port map (ADDRA(14 downto 0)=>MEM1_ADDRA(14 downto 0),
                 ADDRB(14 downto 0)=>MEM1_ADDRA(14 downto 0),

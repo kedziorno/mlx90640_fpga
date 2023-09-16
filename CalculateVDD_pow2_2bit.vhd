@@ -45,7 +45,7 @@ x"3f800000" when "00", -- 2^0
 x"40000000" when "01", -- 2^1
 x"40800000" when "10", -- 2^2
 x"41000000" when "11", -- 2^3
-x"00000000" when others;
+x"22000000" when others;
 
 end Behavioral;
 

@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : ExtractVDDParameters.vhf
--- /___/   /\     Timestamp : 09/15/2023 17:58:34
+-- /___/   /\     Timestamp : 09/16/2023 16:10:27
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -558,7 +558,7 @@ architecture BEHAVIORAL of ExtractVDDParameters is
    attribute INIT_01 of MEM_KVDD_VDD25 : label is 
          "43f0000043e0000043d0000043c0000043b0000043a000004390000043800000";
    attribute INIT_00 of MEM_KVDD_VDD25 : label is 
-         "4360000043400000432000004300000042c00000428000004200000000000000";
+         "4360000043400000432000004300000042c00000428000004200000022000000";
    attribute INIT_1F of MEM_KVDD_VDD25 : label is 
          "c2000000c2800000c2c00000c3000000c3200000c3400000c3600000c3800000";
    attribute INIT_1E of MEM_KVDD_VDD25 : label is 
@@ -827,7 +827,7 @@ begin
             INIT_01 => 
          x"43f0000043e0000043d0000043c0000043b0000043a000004390000043800000",
             INIT_00 => 
-         x"4360000043400000432000004300000042c00000428000004200000000000000",
+         x"4360000043400000432000004300000042c00000428000004200000022000000",
             INIT_1F => 
          x"c2000000c2800000c2c00000c3000000c3200000c3400000c3600000c3800000",
             INIT_1E => 

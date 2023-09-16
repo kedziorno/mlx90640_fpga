@@ -604,7 +604,7 @@
                 <trait vhdl="all:0 gm:1nosynth wa:1 wd:1" />
                 <trait valuetype="BitVector 256 hexadecimal" />
             </attr>
-            <attr value="3f6000003f4000003f2000003f0000003ec000003e8000003e00000000000000" name="INIT_00">
+            <attr value="3f6000003f4000003f2000003f0000003ec000003e8000003e00000022000000" name="INIT_00">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
                 <trait verilog="all:0 dp:1nosynth wsynop:1 wsynth:1" />

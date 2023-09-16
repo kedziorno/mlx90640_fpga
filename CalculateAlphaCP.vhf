@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : CalculateAlphaCP.vhf
--- /___/   /\     Timestamp : 09/15/2023 17:58:35
+-- /___/   /\     Timestamp : 09/16/2023 16:10:28
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -617,69 +617,69 @@ architecture BEHAVIORAL of rom_signed10bit_MUSER_CalculateAlphaCP is
    attribute BOX_TYPE of VCC : component is "BLACK_BOX";
    
    attribute HU_SET of MUX_rom_signed_10bit_0 : label is 
-         "MUX_rom_signed_10bit_0_308";
+         "MUX_rom_signed_10bit_0_1452";
    attribute HU_SET of MUX_rom_signed_10bit_1 : label is 
-         "MUX_rom_signed_10bit_1_307";
+         "MUX_rom_signed_10bit_1_1451";
    attribute HU_SET of MUX_rom_signed_10bit_2 : label is 
-         "MUX_rom_signed_10bit_2_306";
+         "MUX_rom_signed_10bit_2_1450";
    attribute HU_SET of MUX_rom_signed_10bit_3 : label is 
-         "MUX_rom_signed_10bit_3_305";
+         "MUX_rom_signed_10bit_3_1449";
    attribute HU_SET of MUX_rom_signed_10bit_4 : label is 
-         "MUX_rom_signed_10bit_4_304";
+         "MUX_rom_signed_10bit_4_1448";
    attribute HU_SET of MUX_rom_signed_10bit_5 : label is 
-         "MUX_rom_signed_10bit_5_303";
+         "MUX_rom_signed_10bit_5_1447";
    attribute HU_SET of MUX_rom_signed_10bit_6 : label is 
-         "MUX_rom_signed_10bit_6_302";
+         "MUX_rom_signed_10bit_6_1446";
    attribute HU_SET of MUX_rom_signed_10bit_7 : label is 
-         "MUX_rom_signed_10bit_7_301";
+         "MUX_rom_signed_10bit_7_1445";
    attribute HU_SET of MUX_rom_signed_10bit_8 : label is 
-         "MUX_rom_signed_10bit_8_300";
+         "MUX_rom_signed_10bit_8_1444";
    attribute HU_SET of MUX_rom_signed_10bit_9 : label is 
-         "MUX_rom_signed_10bit_9_299";
+         "MUX_rom_signed_10bit_9_1443";
    attribute HU_SET of MUX_rom_signed_10bit_10 : label is 
-         "MUX_rom_signed_10bit_10_298";
+         "MUX_rom_signed_10bit_10_1442";
    attribute HU_SET of MUX_rom_signed_10bit_11 : label is 
-         "MUX_rom_signed_10bit_11_297";
+         "MUX_rom_signed_10bit_11_1441";
    attribute HU_SET of MUX_rom_signed_10bit_12 : label is 
-         "MUX_rom_signed_10bit_12_296";
+         "MUX_rom_signed_10bit_12_1440";
    attribute HU_SET of MUX_rom_signed_10bit_13 : label is 
-         "MUX_rom_signed_10bit_13_295";
+         "MUX_rom_signed_10bit_13_1439";
    attribute HU_SET of MUX_rom_signed_10bit_14 : label is 
-         "MUX_rom_signed_10bit_14_294";
+         "MUX_rom_signed_10bit_14_1438";
    attribute HU_SET of MUX_rom_signed_10bit_15 : label is 
-         "MUX_rom_signed_10bit_15_293";
+         "MUX_rom_signed_10bit_15_1437";
    attribute HU_SET of MUX_rom_signed_10bit_16 : label is 
-         "MUX_rom_signed_10bit_16_292";
+         "MUX_rom_signed_10bit_16_1436";
    attribute HU_SET of MUX_rom_signed_10bit_17 : label is 
-         "MUX_rom_signed_10bit_17_291";
+         "MUX_rom_signed_10bit_17_1435";
    attribute HU_SET of MUX_rom_signed_10bit_18 : label is 
-         "MUX_rom_signed_10bit_18_290";
+         "MUX_rom_signed_10bit_18_1434";
    attribute HU_SET of MUX_rom_signed_10bit_19 : label is 
-         "MUX_rom_signed_10bit_19_289";
+         "MUX_rom_signed_10bit_19_1433";
    attribute HU_SET of MUX_rom_signed_10bit_20 : label is 
-         "MUX_rom_signed_10bit_20_288";
+         "MUX_rom_signed_10bit_20_1432";
    attribute HU_SET of MUX_rom_signed_10bit_21 : label is 
-         "MUX_rom_signed_10bit_21_287";
+         "MUX_rom_signed_10bit_21_1431";
    attribute HU_SET of MUX_rom_signed_10bit_22 : label is 
-         "MUX_rom_signed_10bit_22_286";
+         "MUX_rom_signed_10bit_22_1430";
    attribute HU_SET of MUX_rom_signed_10bit_23 : label is 
-         "MUX_rom_signed_10bit_23_285";
+         "MUX_rom_signed_10bit_23_1429";
    attribute HU_SET of MUX_rom_signed_10bit_24 : label is 
-         "MUX_rom_signed_10bit_24_284";
+         "MUX_rom_signed_10bit_24_1428";
    attribute HU_SET of MUX_rom_signed_10bit_25 : label is 
-         "MUX_rom_signed_10bit_25_283";
+         "MUX_rom_signed_10bit_25_1427";
    attribute HU_SET of MUX_rom_signed_10bit_26 : label is 
-         "MUX_rom_signed_10bit_26_282";
+         "MUX_rom_signed_10bit_26_1426";
    attribute HU_SET of MUX_rom_signed_10bit_27 : label is 
-         "MUX_rom_signed_10bit_27_281";
+         "MUX_rom_signed_10bit_27_1425";
    attribute HU_SET of MUX_rom_signed_10bit_28 : label is 
-         "MUX_rom_signed_10bit_28_280";
+         "MUX_rom_signed_10bit_28_1424";
    attribute HU_SET of MUX_rom_signed_10bit_29 : label is 
-         "MUX_rom_signed_10bit_29_279";
+         "MUX_rom_signed_10bit_29_1423";
    attribute HU_SET of MUX_rom_signed_10bit_30 : label is 
-         "MUX_rom_signed_10bit_30_278";
+         "MUX_rom_signed_10bit_30_1422";
    attribute HU_SET of MUX_rom_signed_10bit_31 : label is 
-         "MUX_rom_signed_10bit_31_277";
+         "MUX_rom_signed_10bit_31_1421";
    attribute WRITE_WIDTH_B of rom_signed_10bit_mem_half1 : label is "36";
    attribute WRITE_WIDTH_A of rom_signed_10bit_mem_half1 : label is "36";
    attribute WRITE_MODE_B of rom_signed_10bit_mem_half1 : label is "READ_FIRST";
@@ -813,7 +813,7 @@ architecture BEHAVIORAL of rom_signed10bit_MUSER_CalculateAlphaCP is
    attribute INIT_01 of rom_signed_10bit_mem_half1 : label is 
          "4170000041600000415000004140000041300000412000004110000041000000";
    attribute INIT_00 of rom_signed_10bit_mem_half1 : label is 
-         "40e0000040c0000040a000004080000040400000400000003f80000000000000";
+         "40e0000040c0000040a000004080000040400000400000003f80000022000000";
    attribute INIT_3F of rom_signed_10bit_mem_half2 : label is 
          "bf800000c0000000c0400000c0800000c0a00000c0c00000c0e00000c1000000";
    attribute INIT_3E of rom_signed_10bit_mem_half2 : label is 
@@ -1276,7 +1276,7 @@ begin
             INIT_01 => 
          x"4170000041600000415000004140000041300000412000004110000041000000",
             INIT_00 => 
-         x"40e0000040c0000040a000004080000040400000400000003f80000000000000")
+         x"40e0000040c0000040a000004080000040400000400000003f80000022000000")
    -- synopsys translate_on
       port map (ADDRA(14 downto 0)=>XLXN_3(14 downto 0),
                 ADDRB(14 downto 
