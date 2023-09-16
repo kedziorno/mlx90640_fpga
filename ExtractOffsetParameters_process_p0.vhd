@@ -57,7 +57,7 @@ o_dia : out std_logic_vector (31 downto 0);
 o_addra : out std_logic_vector (9 downto 0);
 i_doa : in std_logic_vector (31 downto 0);
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
@@ -85,7 +85,7 @@ end ExtractOffsetParameters_process_p0;
 
 architecture Behavioral of ExtractOffsetParameters_process_p0 is
 
-signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata_internal : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond_internal : STD_LOGIC;
 signal fixed2floatsclr_internal : STD_LOGIC;
 signal fixed2floatce_internal : STD_LOGIC;
@@ -739,17 +739,7 @@ begin
 					--report "voccRowScale : " & real'image (ap_slv2fp (voccRowScale));
 fixed2floatce_internal <= '1';
 fixed2floatond_internal <= '1';
-fixed2floata_internal <=
-voffsetRef (15) & voffsetRef (15) & 
-voffsetRef (15) & voffsetRef (15) & 
-voffsetRef (15) & voffsetRef (15) & 
-voffsetRef (15) & voffsetRef (15) & 
-voffsetRef (15) & voffsetRef (15) & 
-voffsetRef (15) & voffsetRef (15) & 
-voffsetRef (15) & voffsetRef (15) & 
-voffsetRef (15) & voffsetRef (15) & 
-voffsetRef (15) & voffsetRef (15) & 
-voffsetRef (15) & voffsetRef & "00000000000000000000000000000";
+fixed2floata_internal <= voffsetRef;
 				when pow4 =>
 if (fi2fl_wait = C_FI2FL_WAIT-1) then
 vOffsetAverage := fixed2floatr_internal;

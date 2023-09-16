@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="spartan3e" name="DeviceFamilyName">
+    <attr value="virtex4" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -19,15 +19,15 @@
         <signal name="XLXN_11" />
         <signal name="XLXN_12" />
         <signal name="kgainmux" />
-        <signal name="XLXN_18(63:0)" />
+        <signal name="XLXN_18(15:0)" />
         <signal name="XLXN_19" />
         <signal name="XLXN_20" />
         <signal name="XLXN_21" />
-        <signal name="XLXN_22(63:0)" />
+        <signal name="XLXN_22(15:0)" />
         <signal name="XLXN_23" />
         <signal name="XLXN_24" />
         <signal name="XLXN_25" />
-        <signal name="fixed2floata(63:0)" />
+        <signal name="fixed2floata(15:0)" />
         <signal name="fixed2floatond" />
         <signal name="fixed2floatce" />
         <signal name="fixed2floatsclr" />
@@ -90,7 +90,7 @@
         <signal name="mulfpr(31:0)" />
         <signal name="addfpr(31:0)" />
         <signal name="subfpr(31:0)" />
-        <port polarity="Output" name="fixed2floata(63:0)" />
+        <port polarity="Output" name="fixed2floata(15:0)" />
         <port polarity="Output" name="fixed2floatond" />
         <port polarity="Output" name="fixed2floatce" />
         <port polarity="Output" name="fixed2floatsclr" />
@@ -183,7 +183,7 @@
             <line x2="448" y1="-32" y2="-32" x1="384" />
         </blockdef>
         <blockdef name="CalculateKGain_process_p0">
-            <timestamp>2023-6-15T12:2:30</timestamp>
+            <timestamp>2023-9-16T15:27:49</timestamp>
             <rect width="448" x="64" y="-832" height="832" />
             <line x2="0" y1="-800" y2="-800" x1="64" />
             <line x2="0" y1="-704" y2="-704" x1="64" />
@@ -216,7 +216,7 @@
             <line x2="576" y1="-32" y2="-32" x1="512" />
         </blockdef>
         <blockdef name="CalculatePixOSCpSp_process_p0">
-            <timestamp>2023-6-15T12:38:43</timestamp>
+            <timestamp>2023-9-16T15:27:56</timestamp>
             <rect width="624" x="64" y="-2304" height="2304" />
             <line x2="0" y1="-2272" y2="-2272" x1="64" />
             <line x2="0" y1="-2192" y2="-2192" x1="64" />
@@ -347,7 +347,7 @@
             <blockpin signalname="XLXN_34" name="divfpce" />
             <blockpin signalname="XLXN_56(11:0)" name="i2c_mem_addra(11:0)" />
             <blockpin signalname="XLXN_59(31:0)" name="o_KGain(31:0)" />
-            <blockpin signalname="XLXN_18(63:0)" name="fixed2floata(63:0)" />
+            <blockpin signalname="XLXN_18(15:0)" name="fixed2floata(15:0)" />
             <blockpin signalname="XLXN_30(31:0)" name="divfpa(31:0)" />
             <blockpin signalname="XLXN_31(31:0)" name="divfpb(31:0)" />
         </block>
@@ -429,7 +429,7 @@
             <blockpin signalname="XLXN_1(5:0)" name="nibble_out1(5:0)" />
             <blockpin signalname="XLXN_3(3:0)" name="nibble_out2(3:0)" />
             <blockpin signalname="XLXN_5(3:0)" name="nibble_out3(3:0)" />
-            <blockpin signalname="XLXN_22(63:0)" name="fixed2floata(63:0)" />
+            <blockpin signalname="XLXN_22(15:0)" name="fixed2floata(15:0)" />
             <blockpin signalname="XLXN_35(31:0)" name="divfpa(31:0)" />
             <blockpin signalname="XLXN_36(31:0)" name="divfpb(31:0)" />
             <blockpin signalname="mulfpa(31:0)" name="mulfpa(31:0)" />
@@ -439,11 +439,11 @@
             <blockpin signalname="subfpa(31:0)" name="subfpa(31:0)" />
             <blockpin signalname="subfpb(31:0)" name="subfpb(31:0)" />
         </block>
-        <block symbolname="m2_1" name="CalculatePixOSCpSp_MUX_fi2fl_a(63:0)">
-            <blockpin signalname="XLXN_22(63:0)" name="D0" />
-            <blockpin signalname="XLXN_18(63:0)" name="D1" />
+        <block symbolname="m2_1" name="CalculatePixOSCpSp_MUX_fi2fl_a(15:0)">
+            <blockpin signalname="XLXN_22(15:0)" name="D0" />
+            <blockpin signalname="XLXN_18(15:0)" name="D1" />
             <blockpin signalname="kgainmux" name="S0" />
-            <blockpin signalname="fixed2floata(63:0)" name="O" />
+            <blockpin signalname="fixed2floata(15:0)" name="O" />
         </block>
         <block symbolname="m2_1" name="CalculatePixOSCpSp_MUX_fi2fl_ond">
             <blockpin signalname="XLXN_23" name="D0" />
@@ -596,7 +596,7 @@
         <instance x="4864" y="512" name="CalculatePixOSCpSp_MUX_fi2fl_ond" orien="R0" />
         <instance x="4864" y="752" name="CalculatePixOSCpSp_MUX_fi2fl_ce" orien="R0" />
         <instance x="4864" y="992" name="CalculatePixOSCpSp_MUX_fi2fl_sclr" orien="R0" />
-        <branch name="XLXN_18(63:0)">
+        <branch name="XLXN_18(15:0)">
             <wire x2="4528" y1="752" y2="752" x1="3600" />
             <wire x2="4528" y1="176" y2="752" x1="4528" />
             <wire x2="4832" y1="176" y2="176" x1="4528" />
@@ -616,7 +616,7 @@
             <wire x2="4576" y1="304" y2="896" x1="4576" />
             <wire x2="4864" y1="896" y2="896" x1="4576" />
         </branch>
-        <branch name="XLXN_22(63:0)">
+        <branch name="XLXN_22(15:0)">
             <wire x2="2288" y1="1840" y2="1840" x1="1808" />
             <wire x2="2288" y1="1840" y2="2768" x1="2288" />
             <wire x2="4768" y1="2768" y2="2768" x1="2288" />
@@ -644,7 +644,7 @@
             <wire x2="4864" y1="832" y2="832" x1="4688" />
             <wire x2="4688" y1="832" y2="2688" x1="4688" />
         </branch>
-        <branch name="fixed2floata(63:0)">
+        <branch name="fixed2floata(15:0)">
             <wire x2="5168" y1="144" y2="144" x1="5152" />
         </branch>
         <branch name="fixed2floatond">
@@ -744,7 +744,7 @@
             <wire x2="5216" y1="2064" y2="2064" x1="5184" />
         </branch>
         <iomarker fontsize="28" x="5216" y="2064" name="divfpce" orien="R0" />
-        <instance x="4832" y="272" name="CalculatePixOSCpSp_MUX_fi2fl_a(63:0)" orien="R0" />
+        <instance x="4832" y="272" name="CalculatePixOSCpSp_MUX_fi2fl_a(15:0)" orien="R0" />
         <branch name="kgainmux">
             <wire x2="2400" y1="304" y2="304" x1="1808" />
             <wire x2="2400" y1="304" y2="2816" x1="2400" />
@@ -772,7 +772,7 @@
             <wire x2="4864" y1="720" y2="720" x1="4816" />
             <wire x2="4864" y1="480" y2="480" x1="4816" />
         </branch>
-        <iomarker fontsize="28" x="5168" y="144" name="fixed2floata(63:0)" orien="R0" />
+        <iomarker fontsize="28" x="5168" y="144" name="fixed2floata(15:0)" orien="R0" />
         <branch name="i_clock">
             <wire x2="1008" y1="112" y2="112" x1="848" />
             <wire x2="1056" y1="112" y2="112" x1="1008" />

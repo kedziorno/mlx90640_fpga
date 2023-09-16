@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="spartan3e" name="DeviceFamilyName">
+    <attr value="virtex4" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -72,9 +72,9 @@
         <signal name="addfprdy" />
         <signal name="subfprdy" />
         <signal name="divfprdy" />
-        <signal name="XLXN_459(63:0)" />
-        <signal name="XLXN_461(63:0)" />
-        <signal name="fixed2floata(63:0)" />
+        <signal name="XLXN_459(15:0)" />
+        <signal name="XLXN_461(15:0)" />
+        <signal name="fixed2floata(15:0)" />
         <signal name="XLXN_464" />
         <signal name="XLXN_465" />
         <signal name="fixed2floatond" />
@@ -187,7 +187,7 @@
         <port polarity="Input" name="addfprdy" />
         <port polarity="Input" name="subfprdy" />
         <port polarity="Input" name="divfprdy" />
-        <port polarity="Output" name="fixed2floata(63:0)" />
+        <port polarity="Output" name="fixed2floata(15:0)" />
         <port polarity="Output" name="fixed2floatond" />
         <port polarity="Output" name="fixed2floatce" />
         <port polarity="Output" name="fixed2floatsclr" />
@@ -238,7 +238,7 @@
             <line x2="64" y1="0" y2="-64" x1="64" />
             <circle r="16" cx="144" cy="-32" />
         </blockdef>
-        <blockdef name="RAMB16_S36_S36">
+        <blockdef name="ramb16_s36_s36">
             <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
@@ -292,7 +292,7 @@
             <line x2="96" y1="-160" y2="-160" x1="0" />
         </blockdef>
         <blockdef name="CalculatePixOS_process_p0">
-            <timestamp>2023-6-18T12:14:1</timestamp>
+            <timestamp>2023-9-16T15:19:1</timestamp>
             <line x2="832" y1="32" y2="32" x1="768" />
             <line x2="0" y1="-2656" y2="-2656" x1="64" />
             <line x2="0" y1="-2560" y2="-2560" x1="64" />
@@ -374,7 +374,7 @@
             <rect width="704" x="64" y="-2684" height="2748" />
         </blockdef>
         <blockdef name="CalculatePixGain">
-            <timestamp>2023-6-14T15:19:49</timestamp>
+            <timestamp>2023-9-16T15:30:53</timestamp>
             <rect width="448" x="64" y="-1152" height="1152" />
             <rect width="64" x="0" y="-1132" height="24" />
             <line x2="0" y1="-1120" y2="-1120" x1="64" />
@@ -419,7 +419,7 @@
             <line x2="576" y1="-32" y2="-32" x1="512" />
         </blockdef>
         <blockdef name="ExtractOffsetParameters">
-            <timestamp>2023-6-14T15:20:22</timestamp>
+            <timestamp>2023-9-16T15:30:59</timestamp>
             <rect width="448" x="64" y="-1152" height="1152" />
             <line x2="0" y1="-1120" y2="-1120" x1="64" />
             <line x2="0" y1="-1024" y2="-1024" x1="64" />
@@ -464,7 +464,7 @@
             <line x2="576" y1="-32" y2="-32" x1="512" />
         </blockdef>
         <blockdef name="ExtractKtaParameters">
-            <timestamp>2023-6-14T15:31:15</timestamp>
+            <timestamp>2023-9-16T15:31:4</timestamp>
             <line x2="0" y1="32" y2="32" x1="64" />
             <line x2="0" y1="96" y2="96" x1="64" />
             <rect width="64" x="0" y="148" height="24" />
@@ -511,7 +511,7 @@
             <rect width="256" x="64" y="-64" height="1216" />
         </blockdef>
         <blockdef name="ExtractKvParameters">
-            <timestamp>2023-6-14T15:22:4</timestamp>
+            <timestamp>2023-9-16T15:31:9</timestamp>
             <rect width="448" x="64" y="-576" height="576" />
             <line x2="0" y1="-544" y2="-544" x1="64" />
             <line x2="0" y1="-464" y2="-464" x1="64" />
@@ -661,7 +661,7 @@
             <blockpin signalname="mux_addr1(9)" name="I" />
             <blockpin signalname="XLXN_59" name="O" />
         </block>
-        <block symbolname="RAMB16_S36_S36" name="mem_calc_pixos_1">
+        <block symbolname="ramb16_s36_s36" name="mem_calc_pixos_1">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -745,7 +745,7 @@
             <blockpin signalname="o_rdy" name="S0" />
             <blockpin signalname="mux_addr1(9:0)" name="O" />
         </block>
-        <block symbolname="RAMB16_S36_S36" name="mem_calc_pixos_2">
+        <block symbolname="ramb16_s36_s36" name="mem_calc_pixos_2">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -827,7 +827,7 @@
             <blockpin signalname="divfpr(31:0)" name="divfpr(31:0)" />
             <blockpin signalname="XLXN_385" name="i2c_mem_ena" />
             <blockpin signalname="cpgi2caddr(11:0)" name="i2c_mem_addra(11:0)" />
-            <blockpin signalname="XLXN_459(63:0)" name="fixed2floata(63:0)" />
+            <blockpin signalname="XLXN_459(15:0)" name="fixed2floata(15:0)" />
             <blockpin signalname="XLXN_464" name="fixed2floatond" />
             <blockpin signalname="XLXN_473" name="fixed2floatsclr" />
             <blockpin signalname="XLXN_469" name="fixed2floatce" />
@@ -856,7 +856,6 @@
             <blockpin signalname="fixed2floatr(31:0)" name="fixed2floatr(31:0)" />
             <blockpin signalname="mulfpr(31:0)" name="mulfpr(31:0)" />
             <blockpin signalname="addfpr(31:0)" name="addfpr(31:0)" />
-            <blockpin signalname="XLXN_417(31:0)" name="o_do(31:0)" />
             <blockpin signalname="XLXN_408" name="o_rdy" />
             <blockpin signalname="XLXN_386" name="i2c_mem_ena" />
             <blockpin signalname="XLXN_465" name="fixed2floatond" />
@@ -869,11 +868,12 @@
             <blockpin signalname="XLXN_567" name="addfpsclr" />
             <blockpin signalname="XLXN_570" name="addfpce" />
             <blockpin signalname="eopi2caddr(11:0)" name="i2c_mem_addra(11:0)" />
-            <blockpin signalname="XLXN_461(63:0)" name="fixed2floata(63:0)" />
+            <blockpin signalname="XLXN_461(15:0)" name="fixed2floata(15:0)" />
             <blockpin signalname="XLXN_478(31:0)" name="mulfpa(31:0)" />
             <blockpin signalname="XLXN_488(31:0)" name="mulfpb(31:0)" />
             <blockpin signalname="XLXN_558(31:0)" name="addfpa(31:0)" />
             <blockpin signalname="XLXN_561(31:0)" name="addfpb(31:0)" />
+            <blockpin signalname="XLXN_417(31:0)" name="o_do(31:0)" />
         </block>
         <block symbolname="ExtractKtaParameters" name="CalculatePixOS_inst_ExtrKtaParam">
             <blockpin signalname="XLXN_414(9:0)" name="i_addr(9:0)" />
@@ -949,12 +949,12 @@
             <blockpin signalname="extractktaparametersmux" name="s2" />
             <blockpin signalname="extractkvparametersmux" name="s3" />
         </block>
-        <block symbolname="mux2x1" name="CalculatePixOS_MUX2x1_fi2fl_a(63:0)">
+        <block symbolname="mux2x1" name="CalculatePixOS_MUX2x1_fi2fl_a(15:0)">
             <blockpin signalname="extractoffsetparametersmux" name="s1" />
             <blockpin signalname="calculatepixgainmux" name="s0" />
-            <blockpin signalname="XLXN_461(63:0)" name="i1" />
-            <blockpin signalname="XLXN_459(63:0)" name="i0" />
-            <blockpin signalname="fixed2floata(63:0)" name="o" />
+            <blockpin signalname="XLXN_461(15:0)" name="i1" />
+            <blockpin signalname="XLXN_459(15:0)" name="i0" />
+            <blockpin signalname="fixed2floata(15:0)" name="o" />
         </block>
         <block symbolname="mux2x1" name="CalculatePixOS_MUX2x1_fi2fl_ond">
             <blockpin signalname="extractoffsetparametersmux" name="s1" />
@@ -1773,22 +1773,22 @@
         <branch name="subfprdy">
             <wire x2="736" y1="1104" y2="1104" x1="288" />
         </branch>
-        <instance x="6272" y="528" name="CalculatePixOS_MUX2x1_fi2fl_a(63:0)" orien="R0">
+        <instance x="6272" y="528" name="CalculatePixOS_MUX2x1_fi2fl_a(15:0)" orien="R0">
         </instance>
-        <branch name="XLXN_459(63:0)">
+        <branch name="XLXN_459(15:0)">
             <wire x2="5824" y1="1072" y2="1072" x1="5312" />
             <wire x2="5824" y1="448" y2="1072" x1="5824" />
             <wire x2="6272" y1="448" y2="448" x1="5824" />
         </branch>
-        <branch name="XLXN_461(63:0)">
+        <branch name="XLXN_461(15:0)">
             <wire x2="5840" y1="1536" y2="1536" x1="5312" />
             <wire x2="5840" y1="464" y2="1536" x1="5840" />
             <wire x2="6272" y1="464" y2="464" x1="5840" />
         </branch>
-        <branch name="fixed2floata(63:0)">
+        <branch name="fixed2floata(15:0)">
             <wire x2="6688" y1="496" y2="496" x1="6656" />
         </branch>
-        <iomarker fontsize="28" x="6688" y="496" name="fixed2floata(63:0)" orien="R0" />
+        <iomarker fontsize="28" x="6688" y="496" name="fixed2floata(15:0)" orien="R0" />
         <instance x="6272" y="624" name="CalculatePixOS_MUX2x1_fi2fl_ond" orien="R0">
         </instance>
         <branch name="XLXN_464">

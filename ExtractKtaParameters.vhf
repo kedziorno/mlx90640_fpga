@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : ExtractKtaParameters.vhf
--- /___/   /\     Timestamp : 09/16/2023 16:10:29
+-- /___/   /\     Timestamp : 09/16/2023 17:26:08
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -1486,89 +1486,89 @@ architecture BEHAVIORAL of ExtractKtaParameters is
    attribute BOX_TYPE of BUF : component is "BLACK_BOX";
    
    attribute HU_SET of extractktaparameters_MUX_ADDR_0 : label is 
-         "extractktaparameters_MUX_ADDR_0_1712";
+         "extractktaparameters_MUX_ADDR_0_793";
    attribute HU_SET of extractktaparameters_MUX_ADDR_1 : label is 
-         "extractktaparameters_MUX_ADDR_1_1711";
+         "extractktaparameters_MUX_ADDR_1_792";
    attribute HU_SET of extractktaparameters_MUX_ADDR_2 : label is 
-         "extractktaparameters_MUX_ADDR_2_1710";
+         "extractktaparameters_MUX_ADDR_2_791";
    attribute HU_SET of extractktaparameters_MUX_ADDR_3 : label is 
-         "extractktaparameters_MUX_ADDR_3_1709";
+         "extractktaparameters_MUX_ADDR_3_790";
    attribute HU_SET of extractktaparameters_MUX_ADDR_4 : label is 
-         "extractktaparameters_MUX_ADDR_4_1708";
+         "extractktaparameters_MUX_ADDR_4_789";
    attribute HU_SET of extractktaparameters_MUX_ADDR_5 : label is 
-         "extractktaparameters_MUX_ADDR_5_1707";
+         "extractktaparameters_MUX_ADDR_5_788";
    attribute HU_SET of extractktaparameters_MUX_ADDR_6 : label is 
-         "extractktaparameters_MUX_ADDR_6_1706";
+         "extractktaparameters_MUX_ADDR_6_787";
    attribute HU_SET of extractktaparameters_MUX_ADDR_7 : label is 
-         "extractktaparameters_MUX_ADDR_7_1705";
+         "extractktaparameters_MUX_ADDR_7_786";
    attribute HU_SET of extractktaparameters_MUX_ADDR_8 : label is 
-         "extractktaparameters_MUX_ADDR_8_1704";
+         "extractktaparameters_MUX_ADDR_8_785";
    attribute HU_SET of extractktaparameters_MUX_ADDR_9 : label is 
-         "extractktaparameters_MUX_ADDR_9_1703";
+         "extractktaparameters_MUX_ADDR_9_784";
    attribute HU_SET of extractktaparameters_MUX_DO_0 : label is 
-         "extractktaparameters_MUX_DO_0_1702";
+         "extractktaparameters_MUX_DO_0_783";
    attribute HU_SET of extractktaparameters_MUX_DO_1 : label is 
-         "extractktaparameters_MUX_DO_1_1701";
+         "extractktaparameters_MUX_DO_1_782";
    attribute HU_SET of extractktaparameters_MUX_DO_2 : label is 
-         "extractktaparameters_MUX_DO_2_1700";
+         "extractktaparameters_MUX_DO_2_781";
    attribute HU_SET of extractktaparameters_MUX_DO_3 : label is 
-         "extractktaparameters_MUX_DO_3_1699";
+         "extractktaparameters_MUX_DO_3_780";
    attribute HU_SET of extractktaparameters_MUX_DO_4 : label is 
-         "extractktaparameters_MUX_DO_4_1698";
+         "extractktaparameters_MUX_DO_4_779";
    attribute HU_SET of extractktaparameters_MUX_DO_5 : label is 
-         "extractktaparameters_MUX_DO_5_1697";
+         "extractktaparameters_MUX_DO_5_778";
    attribute HU_SET of extractktaparameters_MUX_DO_6 : label is 
-         "extractktaparameters_MUX_DO_6_1696";
+         "extractktaparameters_MUX_DO_6_777";
    attribute HU_SET of extractktaparameters_MUX_DO_7 : label is 
-         "extractktaparameters_MUX_DO_7_1695";
+         "extractktaparameters_MUX_DO_7_776";
    attribute HU_SET of extractktaparameters_MUX_DO_8 : label is 
-         "extractktaparameters_MUX_DO_8_1694";
+         "extractktaparameters_MUX_DO_8_775";
    attribute HU_SET of extractktaparameters_MUX_DO_9 : label is 
-         "extractktaparameters_MUX_DO_9_1693";
+         "extractktaparameters_MUX_DO_9_774";
    attribute HU_SET of extractktaparameters_MUX_DO_10 : label is 
-         "extractktaparameters_MUX_DO_10_1692";
+         "extractktaparameters_MUX_DO_10_773";
    attribute HU_SET of extractktaparameters_MUX_DO_11 : label is 
-         "extractktaparameters_MUX_DO_11_1691";
+         "extractktaparameters_MUX_DO_11_772";
    attribute HU_SET of extractktaparameters_MUX_DO_12 : label is 
-         "extractktaparameters_MUX_DO_12_1690";
+         "extractktaparameters_MUX_DO_12_771";
    attribute HU_SET of extractktaparameters_MUX_DO_13 : label is 
-         "extractktaparameters_MUX_DO_13_1689";
+         "extractktaparameters_MUX_DO_13_770";
    attribute HU_SET of extractktaparameters_MUX_DO_14 : label is 
-         "extractktaparameters_MUX_DO_14_1688";
+         "extractktaparameters_MUX_DO_14_769";
    attribute HU_SET of extractktaparameters_MUX_DO_15 : label is 
-         "extractktaparameters_MUX_DO_15_1687";
+         "extractktaparameters_MUX_DO_15_768";
    attribute HU_SET of extractktaparameters_MUX_DO_16 : label is 
-         "extractktaparameters_MUX_DO_16_1686";
+         "extractktaparameters_MUX_DO_16_767";
    attribute HU_SET of extractktaparameters_MUX_DO_17 : label is 
-         "extractktaparameters_MUX_DO_17_1685";
+         "extractktaparameters_MUX_DO_17_766";
    attribute HU_SET of extractktaparameters_MUX_DO_18 : label is 
-         "extractktaparameters_MUX_DO_18_1684";
+         "extractktaparameters_MUX_DO_18_765";
    attribute HU_SET of extractktaparameters_MUX_DO_19 : label is 
-         "extractktaparameters_MUX_DO_19_1683";
+         "extractktaparameters_MUX_DO_19_764";
    attribute HU_SET of extractktaparameters_MUX_DO_20 : label is 
-         "extractktaparameters_MUX_DO_20_1682";
+         "extractktaparameters_MUX_DO_20_763";
    attribute HU_SET of extractktaparameters_MUX_DO_21 : label is 
-         "extractktaparameters_MUX_DO_21_1681";
+         "extractktaparameters_MUX_DO_21_762";
    attribute HU_SET of extractktaparameters_MUX_DO_22 : label is 
-         "extractktaparameters_MUX_DO_22_1680";
+         "extractktaparameters_MUX_DO_22_761";
    attribute HU_SET of extractktaparameters_MUX_DO_23 : label is 
-         "extractktaparameters_MUX_DO_23_1679";
+         "extractktaparameters_MUX_DO_23_760";
    attribute HU_SET of extractktaparameters_MUX_DO_24 : label is 
-         "extractktaparameters_MUX_DO_24_1678";
+         "extractktaparameters_MUX_DO_24_759";
    attribute HU_SET of extractktaparameters_MUX_DO_25 : label is 
-         "extractktaparameters_MUX_DO_25_1677";
+         "extractktaparameters_MUX_DO_25_758";
    attribute HU_SET of extractktaparameters_MUX_DO_26 : label is 
-         "extractktaparameters_MUX_DO_26_1676";
+         "extractktaparameters_MUX_DO_26_757";
    attribute HU_SET of extractktaparameters_MUX_DO_27 : label is 
-         "extractktaparameters_MUX_DO_27_1675";
+         "extractktaparameters_MUX_DO_27_756";
    attribute HU_SET of extractktaparameters_MUX_DO_28 : label is 
-         "extractktaparameters_MUX_DO_28_1674";
+         "extractktaparameters_MUX_DO_28_755";
    attribute HU_SET of extractktaparameters_MUX_DO_29 : label is 
-         "extractktaparameters_MUX_DO_29_1673";
+         "extractktaparameters_MUX_DO_29_754";
    attribute HU_SET of extractktaparameters_MUX_DO_30 : label is 
-         "extractktaparameters_MUX_DO_30_1672";
+         "extractktaparameters_MUX_DO_30_753";
    attribute HU_SET of extractktaparameters_MUX_DO_31 : label is 
-         "extractktaparameters_MUX_DO_31_1671";
+         "extractktaparameters_MUX_DO_31_752";
    attribute WRITE_WIDTH_B of mem_extrktaparam_1 : label is "36";
    attribute WRITE_WIDTH_A of mem_extrktaparam_1 : label is "36";
    attribute WRITE_MODE_B of mem_extrktaparam_1 : label is "READ_FIRST";

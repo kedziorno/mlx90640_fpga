@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="spartan3e" name="DeviceFamilyName">
+    <attr value="virtex4" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -44,7 +44,7 @@
         <signal name="subfpsclr" />
         <signal name="i2c_mem_addra(11:0)" />
         <signal name="o_Ta(31:0)" />
-        <signal name="fixed2floata(63:0)" />
+        <signal name="fixed2floata(15:0)" />
         <signal name="divfpa(31:0)" />
         <signal name="divfpb(31:0)" />
         <signal name="mulfpa(31:0)" />
@@ -88,7 +88,7 @@
         <port polarity="Output" name="subfpsclr" />
         <port polarity="Output" name="i2c_mem_addra(11:0)" />
         <port polarity="Output" name="o_Ta(31:0)" />
-        <port polarity="Output" name="fixed2floata(63:0)" />
+        <port polarity="Output" name="fixed2floata(15:0)" />
         <port polarity="Output" name="divfpa(31:0)" />
         <port polarity="Output" name="divfpb(31:0)" />
         <port polarity="Output" name="mulfpa(31:0)" />
@@ -98,7 +98,7 @@
         <port polarity="Output" name="subfpa(31:0)" />
         <port polarity="Output" name="subfpb(31:0)" />
         <blockdef name="calculateTa_process_p0">
-            <timestamp>2023-6-10T20:32:26</timestamp>
+            <timestamp>2023-9-16T15:16:9</timestamp>
             <rect width="64" x="736" y="20" height="24" />
             <line x2="800" y1="32" y2="32" x1="736" />
             <rect width="64" x="736" y="84" height="24" />
@@ -242,7 +242,7 @@
             <blockpin signalname="ee0x2432(15:0)" name="o_ee2432(15:0)" />
             <blockpin signalname="i2c_mem_addra(11:0)" name="i2c_mem_addra(11:0)" />
             <blockpin signalname="o_Ta(31:0)" name="o_Ta(31:0)" />
-            <blockpin signalname="fixed2floata(63:0)" name="fixed2floata(63:0)" />
+            <blockpin signalname="fixed2floata(15:0)" name="fixed2floata(15:0)" />
             <blockpin signalname="divfpa(31:0)" name="divfpa(31:0)" />
             <blockpin signalname="divfpb(31:0)" name="divfpb(31:0)" />
             <blockpin signalname="mulfpa(31:0)" name="mulfpa(31:0)" />
@@ -443,10 +443,10 @@
             <wire x2="3120" y1="1296" y2="1296" x1="3088" />
         </branch>
         <iomarker fontsize="28" x="3120" y="1296" name="o_Ta(31:0)" orien="R0" />
-        <branch name="fixed2floata(63:0)">
+        <branch name="fixed2floata(15:0)">
             <wire x2="3120" y1="1360" y2="1360" x1="3088" />
         </branch>
-        <iomarker fontsize="28" x="3120" y="1360" name="fixed2floata(63:0)" orien="R0" />
+        <iomarker fontsize="28" x="3120" y="1360" name="fixed2floata(15:0)" orien="R0" />
         <branch name="divfpa(31:0)">
             <wire x2="3120" y1="1424" y2="1424" x1="3088" />
         </branch>

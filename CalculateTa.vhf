@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : CalculateTa.vhf
--- /___/   /\     Timestamp : 09/16/2023 16:10:28
+-- /___/   /\     Timestamp : 09/16/2023 17:17:10
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -1790,69 +1790,69 @@ architecture BEHAVIORAL of ExtractKtPTATParameter_MUSER_CalculateTa is
    attribute BOX_TYPE of VCC : component is "BLACK_BOX";
    
    attribute HU_SET of extractktptatparameter_MUX_DO_0 : label is 
-         "extractktptatparameter_MUX_DO_0_1260";
+         "extractktptatparameter_MUX_DO_0_31";
    attribute HU_SET of extractktptatparameter_MUX_DO_1 : label is 
-         "extractktptatparameter_MUX_DO_1_1259";
+         "extractktptatparameter_MUX_DO_1_30";
    attribute HU_SET of extractktptatparameter_MUX_DO_2 : label is 
-         "extractktptatparameter_MUX_DO_2_1258";
+         "extractktptatparameter_MUX_DO_2_29";
    attribute HU_SET of extractktptatparameter_MUX_DO_3 : label is 
-         "extractktptatparameter_MUX_DO_3_1257";
+         "extractktptatparameter_MUX_DO_3_28";
    attribute HU_SET of extractktptatparameter_MUX_DO_4 : label is 
-         "extractktptatparameter_MUX_DO_4_1256";
+         "extractktptatparameter_MUX_DO_4_27";
    attribute HU_SET of extractktptatparameter_MUX_DO_5 : label is 
-         "extractktptatparameter_MUX_DO_5_1255";
+         "extractktptatparameter_MUX_DO_5_26";
    attribute HU_SET of extractktptatparameter_MUX_DO_6 : label is 
-         "extractktptatparameter_MUX_DO_6_1254";
+         "extractktptatparameter_MUX_DO_6_25";
    attribute HU_SET of extractktptatparameter_MUX_DO_7 : label is 
-         "extractktptatparameter_MUX_DO_7_1253";
+         "extractktptatparameter_MUX_DO_7_24";
    attribute HU_SET of extractktptatparameter_MUX_DO_8 : label is 
-         "extractktptatparameter_MUX_DO_8_1252";
+         "extractktptatparameter_MUX_DO_8_23";
    attribute HU_SET of extractktptatparameter_MUX_DO_9 : label is 
-         "extractktptatparameter_MUX_DO_9_1251";
+         "extractktptatparameter_MUX_DO_9_22";
    attribute HU_SET of extractktptatparameter_MUX_DO_10 : label is 
-         "extractktptatparameter_MUX_DO_10_1250";
+         "extractktptatparameter_MUX_DO_10_21";
    attribute HU_SET of extractktptatparameter_MUX_DO_11 : label is 
-         "extractktptatparameter_MUX_DO_11_1249";
+         "extractktptatparameter_MUX_DO_11_20";
    attribute HU_SET of extractktptatparameter_MUX_DO_12 : label is 
-         "extractktptatparameter_MUX_DO_12_1248";
+         "extractktptatparameter_MUX_DO_12_19";
    attribute HU_SET of extractktptatparameter_MUX_DO_13 : label is 
-         "extractktptatparameter_MUX_DO_13_1247";
+         "extractktptatparameter_MUX_DO_13_18";
    attribute HU_SET of extractktptatparameter_MUX_DO_14 : label is 
-         "extractktptatparameter_MUX_DO_14_1246";
+         "extractktptatparameter_MUX_DO_14_17";
    attribute HU_SET of extractktptatparameter_MUX_DO_15 : label is 
-         "extractktptatparameter_MUX_DO_15_1245";
+         "extractktptatparameter_MUX_DO_15_16";
    attribute HU_SET of extractktptatparameter_MUX_DO_16 : label is 
-         "extractktptatparameter_MUX_DO_16_1244";
+         "extractktptatparameter_MUX_DO_16_15";
    attribute HU_SET of extractktptatparameter_MUX_DO_17 : label is 
-         "extractktptatparameter_MUX_DO_17_1243";
+         "extractktptatparameter_MUX_DO_17_14";
    attribute HU_SET of extractktptatparameter_MUX_DO_18 : label is 
-         "extractktptatparameter_MUX_DO_18_1242";
+         "extractktptatparameter_MUX_DO_18_13";
    attribute HU_SET of extractktptatparameter_MUX_DO_19 : label is 
-         "extractktptatparameter_MUX_DO_19_1241";
+         "extractktptatparameter_MUX_DO_19_12";
    attribute HU_SET of extractktptatparameter_MUX_DO_20 : label is 
-         "extractktptatparameter_MUX_DO_20_1240";
+         "extractktptatparameter_MUX_DO_20_11";
    attribute HU_SET of extractktptatparameter_MUX_DO_21 : label is 
-         "extractktptatparameter_MUX_DO_21_1239";
+         "extractktptatparameter_MUX_DO_21_10";
    attribute HU_SET of extractktptatparameter_MUX_DO_22 : label is 
-         "extractktptatparameter_MUX_DO_22_1238";
+         "extractktptatparameter_MUX_DO_22_9";
    attribute HU_SET of extractktptatparameter_MUX_DO_23 : label is 
-         "extractktptatparameter_MUX_DO_23_1237";
+         "extractktptatparameter_MUX_DO_23_8";
    attribute HU_SET of extractktptatparameter_MUX_DO_24 : label is 
-         "extractktptatparameter_MUX_DO_24_1236";
+         "extractktptatparameter_MUX_DO_24_7";
    attribute HU_SET of extractktptatparameter_MUX_DO_25 : label is 
-         "extractktptatparameter_MUX_DO_25_1235";
+         "extractktptatparameter_MUX_DO_25_6";
    attribute HU_SET of extractktptatparameter_MUX_DO_26 : label is 
-         "extractktptatparameter_MUX_DO_26_1234";
+         "extractktptatparameter_MUX_DO_26_5";
    attribute HU_SET of extractktptatparameter_MUX_DO_27 : label is 
-         "extractktptatparameter_MUX_DO_27_1233";
+         "extractktptatparameter_MUX_DO_27_4";
    attribute HU_SET of extractktptatparameter_MUX_DO_28 : label is 
-         "extractktptatparameter_MUX_DO_28_1232";
+         "extractktptatparameter_MUX_DO_28_3";
    attribute HU_SET of extractktptatparameter_MUX_DO_29 : label is 
-         "extractktptatparameter_MUX_DO_29_1231";
+         "extractktptatparameter_MUX_DO_29_2";
    attribute HU_SET of extractktptatparameter_MUX_DO_30 : label is 
-         "extractktptatparameter_MUX_DO_30_1230";
+         "extractktptatparameter_MUX_DO_30_1";
    attribute HU_SET of extractktptatparameter_MUX_DO_31 : label is 
-         "extractktptatparameter_MUX_DO_31_1229";
+         "extractktptatparameter_MUX_DO_31_0";
    attribute WRITE_WIDTH_B of ROM_KTPTAT_0to3F : label is "36";
    attribute WRITE_WIDTH_A of ROM_KTPTAT_0to3F : label is "36";
    attribute READ_WIDTH_B of ROM_KTPTAT_0to3F : label is "36";
@@ -3116,7 +3116,7 @@ entity CalculateTa is
           divfpce         : out   std_logic; 
           divfpond        : out   std_logic; 
           divfpsclr       : out   std_logic; 
-          fixed2floata    : out   std_logic_vector (63 downto 0); 
+          fixed2floata    : out   std_logic_vector (15 downto 0); 
           fixed2floatce   : out   std_logic; 
           fixed2floatond  : out   std_logic; 
           fixed2floatsclr : out   std_logic; 
@@ -3217,7 +3217,7 @@ architecture BEHAVIORAL of CalculateTa is
             downto 0); 
              o_Ta                                : out   std_logic_vector (31 
             downto 0); 
-             fixed2floata                        : out   std_logic_vector (63 
+             fixed2floata                        : out   std_logic_vector (15 
             downto 0); 
              divfpa                              : out   std_logic_vector (31 
             downto 0); 
@@ -3287,7 +3287,7 @@ begin
                 divfpce=>divfpce,
                 divfpond=>divfpond,
                 divfpsclr=>divfpsclr,
-                fixed2floata(63 downto 0)=>fixed2floata(63 downto 0),
+                fixed2floata(15 downto 0)=>fixed2floata(15 downto 0),
                 fixed2floatce=>fixed2floatce,
                 fixed2floatond=>fixed2floatond,
                 fixed2floatsclr=>fixed2floatsclr,

@@ -58,7 +58,7 @@ nibble1_out,nibble2_out,nibble4_out,nibble5_out : out std_logic_vector (3 downto
 nibble3_out : out std_logic_vector (5 downto 0);
 nibble1_in,nibble2_in,nibble3_in,nibble4_in,nibble5_in : in std_logic_vector (31 downto 0);
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
@@ -94,7 +94,7 @@ end ExtractAlphaParameters_process_p0;
 
 architecture Behavioral of ExtractAlphaParameters_process_p0 is
 
-signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata_internal : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond_internal : STD_LOGIC;
 signal fixed2floatsclr_internal : STD_LOGIC;
 signal fixed2floatce_internal : STD_LOGIC;
@@ -798,17 +798,7 @@ begin
 --					to_slv (to_sfixed (to_slv (valphaRef_sf (fracbs'high downto fracbs'low)), fracbs));
 fixed2floatce_internal <= '1';
 fixed2floatond_internal <= '1';
-fixed2floata_internal <=
-valphaRef (15) & valphaRef (15) & 
-valphaRef (15) & valphaRef (15) & 
-valphaRef (15) & valphaRef (15) & 
-valphaRef (15) & valphaRef (15) & 
-valphaRef (15) & valphaRef (15) & 
-valphaRef (15) & valphaRef (15) & 
-valphaRef (15) & valphaRef (15) & 
-valphaRef (15) & valphaRef (15) & 
-valphaRef (15) & valphaRef (15) & 
-valphaRef (15) & valphaRef & "00000000000000000000000000000";
+fixed2floata_internal <= valphaRef;
 				when pow4 =>
 if (fi2fl_wait = C_FI2FL_WAIT-1) then
 valphaReference_ft := fixed2floatr_internal;

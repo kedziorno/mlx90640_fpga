@@ -52,7 +52,7 @@ o_write_enable : out std_logic;
 o_addra : out std_logic_vector (9 downto 0);
 o_dia : out std_logic_vector (31 downto 0);
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
@@ -76,7 +76,7 @@ signal i2c_mem_ena_internal : STD_LOGIC;
 signal i2c_mem_addra_internal : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal i2c_mem_douta_internal : STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata_internal : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond_internal : STD_LOGIC;
 signal fixed2floatce_internal : STD_LOGIC;
 signal fixed2floatsclr_internal : STD_LOGIC;
@@ -215,17 +215,7 @@ begin
 
 		fixed2floatce_internal <= '1';
 		fixed2floatond_internal <= '1';
-		fixed2floata_internal <=
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv & "00000000000000000000000000000";
+		fixed2floata_internal <= eeprom16slv;
 
 				when s5 =>
 if (fi2fl_wait = C_FI2FL_WAIT-1) then

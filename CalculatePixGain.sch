@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="spartan3e" name="DeviceFamilyName">
+    <attr value="virtex4" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -28,9 +28,9 @@
         <signal name="XLXN_115(11:0)" />
         <signal name="i2c_mem_addra(11:0)" />
         <signal name="XLXN_117" />
-        <signal name="XLXN_118(63:0)" />
-        <signal name="XLXN_119(63:0)" />
-        <signal name="fixed2floata(63:0)" />
+        <signal name="XLXN_118(15:0)" />
+        <signal name="XLXN_119(15:0)" />
+        <signal name="fixed2floata(15:0)" />
         <signal name="fixed2floatr(31:0)" />
         <signal name="fixed2floatrdy" />
         <signal name="XLXN_113" />
@@ -72,7 +72,7 @@
         <port polarity="Input" name="i_addr(9:0)" />
         <port polarity="Output" name="i2c_mem_ena" />
         <port polarity="Output" name="i2c_mem_addra(11:0)" />
-        <port polarity="Output" name="fixed2floata(63:0)" />
+        <port polarity="Output" name="fixed2floata(15:0)" />
         <port polarity="Input" name="fixed2floatr(31:0)" />
         <port polarity="Input" name="fixed2floatrdy" />
         <port polarity="Output" name="fixed2floatond" />
@@ -98,7 +98,7 @@
         <port polarity="Output" name="o_rdy" />
         <port polarity="Output" name="o_do(31:0)" />
         <blockdef name="CalculateKGain_process_p0">
-            <timestamp>2023-6-15T18:17:26</timestamp>
+            <timestamp>2023-9-16T15:20:10</timestamp>
             <rect width="448" x="64" y="-832" height="832" />
             <line x2="0" y1="-800" y2="-800" x1="64" />
             <line x2="0" y1="-704" y2="-704" x1="64" />
@@ -131,7 +131,7 @@
             <line x2="576" y1="-32" y2="-32" x1="512" />
         </blockdef>
         <blockdef name="CalculatePixGain_process_p0">
-            <timestamp>2023-6-13T13:20:25</timestamp>
+            <timestamp>2023-9-16T15:20:21</timestamp>
             <rect width="528" x="64" y="-1088" height="1088" />
             <line x2="0" y1="-1056" y2="-1056" x1="64" />
             <line x2="0" y1="-944" y2="-944" x1="64" />
@@ -171,7 +171,7 @@
             <rect width="64" x="592" y="-44" height="24" />
             <line x2="656" y1="-32" y2="-32" x1="592" />
         </blockdef>
-        <blockdef name="RAMB16_S36_S36">
+        <blockdef name="ramb16_s36_s36">
             <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
@@ -274,7 +274,7 @@
             <blockpin signalname="divfpce" name="divfpce" />
             <blockpin signalname="XLXN_115(11:0)" name="i2c_mem_addra(11:0)" />
             <blockpin signalname="XLXN_141(31:0)" name="o_KGain(31:0)" />
-            <blockpin signalname="XLXN_119(63:0)" name="fixed2floata(63:0)" />
+            <blockpin signalname="XLXN_119(15:0)" name="fixed2floata(15:0)" />
             <blockpin signalname="divfpa(31:0)" name="divfpa(31:0)" />
             <blockpin signalname="divfpb(31:0)" name="divfpb(31:0)" />
         </block>
@@ -303,11 +303,11 @@
             <blockpin signalname="XLXN_114(11:0)" name="i2c_mem_addra(11:0)" />
             <blockpin signalname="XLXN_86(9:0)" name="o_addra(9:0)" />
             <blockpin signalname="XLXN_157(31:0)" name="o_dia(31:0)" />
-            <blockpin signalname="XLXN_118(63:0)" name="fixed2floata(63:0)" />
+            <blockpin signalname="XLXN_118(15:0)" name="fixed2floata(15:0)" />
             <blockpin signalname="mulfpa(31:0)" name="mulfpa(31:0)" />
             <blockpin signalname="mulfpb(31:0)" name="mulfpb(31:0)" />
         </block>
-        <block symbolname="RAMB16_S36_S36" name="mem_KGain_1">
+        <block symbolname="ramb16_s36_s36" name="mem_KGain_1">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -375,7 +375,7 @@
             <blockpin name="DOPA(3:0)" />
             <blockpin name="DOPB(3:0)" />
         </block>
-        <block symbolname="RAMB16_S36_S36" name="mem_KGain_2">
+        <block symbolname="ramb16_s36_s36" name="mem_KGain_2">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -499,11 +499,11 @@
             <blockpin signalname="XLXN_113" name="S0" />
             <blockpin signalname="i2c_mem_addra(11:0)" name="O" />
         </block>
-        <block symbolname="m2_1" name="CalculatePixGain_MUX_fi2fl_a(63:0)">
-            <blockpin signalname="XLXN_118(63:0)" name="D0" />
-            <blockpin signalname="XLXN_119(63:0)" name="D1" />
+        <block symbolname="m2_1" name="CalculatePixGain_MUX_fi2fl_a(15:0)">
+            <blockpin signalname="XLXN_118(15:0)" name="D0" />
+            <blockpin signalname="XLXN_119(15:0)" name="D1" />
             <blockpin signalname="XLXN_113" name="S0" />
-            <blockpin signalname="fixed2floata(63:0)" name="O" />
+            <blockpin signalname="fixed2floata(15:0)" name="O" />
         </block>
         <block symbolname="m2_1" name="CalculatePixGain_MUX_fi2fl_ond">
             <blockpin signalname="XLXN_132" name="D0" />
@@ -677,17 +677,17 @@
             <wire x2="3024" y1="768" y2="768" x1="2912" />
             <wire x2="3728" y1="1984" y2="1984" x1="3664" />
         </branch>
-        <branch name="XLXN_118(63:0)">
+        <branch name="XLXN_118(15:0)">
             <wire x2="3728" y1="2816" y2="2816" x1="3664" />
             <wire x2="3728" y1="2816" y2="2912" x1="3728" />
             <wire x2="4320" y1="2912" y2="2912" x1="3728" />
         </branch>
-        <branch name="XLXN_119(63:0)">
+        <branch name="XLXN_119(15:0)">
             <wire x2="3904" y1="1216" y2="1216" x1="3600" />
             <wire x2="3904" y1="1216" y2="2848" x1="3904" />
             <wire x2="4320" y1="2848" y2="2848" x1="3904" />
         </branch>
-        <branch name="fixed2floata(63:0)">
+        <branch name="fixed2floata(15:0)">
             <wire x2="4672" y1="2880" y2="2880" x1="4640" />
         </branch>
         <branch name="fixed2floatr(31:0)">
@@ -781,7 +781,7 @@
         <branch name="mulfpa(31:0)">
             <wire x2="3920" y1="2880" y2="2880" x1="3664" />
         </branch>
-        <instance x="4320" y="2752" name="CalculatePixGain_MUX_fi2fl_a(63:0)" orien="M180" />
+        <instance x="4320" y="2752" name="CalculatePixGain_MUX_fi2fl_a(15:0)" orien="M180" />
         <branch name="XLXN_113">
             <wire x2="4304" y1="2048" y2="2048" x1="3664" />
             <wire x2="4320" y1="2048" y2="2048" x1="4304" />
@@ -796,7 +796,7 @@
             <wire x2="4320" y1="2784" y2="2784" x1="4304" />
             <wire x2="4320" y1="2416" y2="2416" x1="4304" />
         </branch>
-        <iomarker fontsize="28" x="4672" y="2880" name="fixed2floata(63:0)" orien="R0" />
+        <iomarker fontsize="28" x="4672" y="2880" name="fixed2floata(15:0)" orien="R0" />
         <branch name="mulfpond">
             <wire x2="3680" y1="2432" y2="2432" x1="3664" />
             <wire x2="3680" y1="2432" y2="2448" x1="3680" />

@@ -64,7 +64,7 @@ CalculateKGain_mux : out std_logic;
 CalculateKGain_rdy : in std_logic;
 calculateKGain_KGain : in std_logic_vector (31 downto 0);
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
@@ -108,7 +108,7 @@ end CalculatePixOSCpSp_process_p0;
 
 architecture Behavioral of CalculatePixOSCpSp_process_p0 is
 
-signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata_internal : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond_internal : STD_LOGIC;
 signal fixed2floatce_internal : STD_LOGIC;
 signal fixed2floatsclr_internal : STD_LOGIC;
@@ -397,17 +397,7 @@ begin
 				when s13 => state := s14;
 fixed2floatce_internal <= '1';
 fixed2floatond_internal <= '1';
-fixed2floata_internal <=
-ram0708 (15) & ram0708 (15) & 
-ram0708 (15) & ram0708 (15) & 
-ram0708 (15) & ram0708 (15) & 
-ram0708 (15) & ram0708 (15) & 
-ram0708 (15) & ram0708 (15) & 
-ram0708 (15) & ram0708 (15) & 
-ram0708 (15) & ram0708 (15) & 
-ram0708 (15) & ram0708 (15) & 
-ram0708 (15) & ram0708 (15) & 
-ram0708 (15) & ram0708 & "00000000000000000000000000000";
+fixed2floata_internal <= ram0708;
 				when s14 =>
 if (fi2fl_wait = C_FI2FL_WAIT-1) then
 ram0708_ft := fixed2floatr_internal;
@@ -434,17 +424,7 @@ fixed2floatsclr_internal <= '0';
 				when s16 => state := s17;
 fixed2floatce_internal <= '1';
 fixed2floatond_internal <= '1';
-fixed2floata_internal <=
-ram0728 (15) & ram0728 (15) & 
-ram0728 (15) & ram0728 (15) & 
-ram0728 (15) & ram0728 (15) & 
-ram0728 (15) & ram0728 (15) & 
-ram0728 (15) & ram0728 (15) & 
-ram0728 (15) & ram0728 (15) & 
-ram0728 (15) & ram0728 (15) & 
-ram0728 (15) & ram0728 (15) & 
-ram0728 (15) & ram0728 (15) & 
-ram0728 (15) & ram0728 & "00000000000000000000000000000";
+fixed2floata_internal <= ram0728;
 				when s17 =>
 if (fi2fl_wait = C_FI2FL_WAIT-1) then
 ram0728_ft := fixed2floatr_internal;

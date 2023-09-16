@@ -53,7 +53,7 @@ i_Vdd : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 o_Ta : out STD_LOGIC_VECTOR(31 DOWNTO 0); -- output Ta
 o_rdy : out std_logic;
 
-fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
 fixed2floatsclr : out STD_LOGIC;
@@ -375,17 +375,7 @@ end if;
 --		to_slv (to_sfixed (to_slv (vptat25 (fracbs'high downto fracbs'low)), fracbs));
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
-		fixed2floata <=
-		ee2431 (15) & ee2431 (15) & 
-		ee2431 (15) & ee2431 (15) & 
-		ee2431 (15) & ee2431 (15) & 
-		ee2431 (15) & ee2431 (15) & 
-		ee2431 (15) & ee2431 (15) & 
-		ee2431 (15) & ee2431 (15) & 
-		ee2431 (15) & ee2431 (15) & 
-		ee2431 (15) & ee2431 (15) & 
-		ee2431 (15) & ee2431 (15) & 
-		ee2431 (15) & ee2431 & "00000000000000000000000000000";
+		fixed2floata <= ee2431;
 	when s6 =>
 if (fi2fl_wait = C_FI2FL_WAIT-1) then
 vptat25_ft := fixed2floatr;
@@ -420,17 +410,7 @@ end if;
 --		to_slv (to_sfixed (to_slv (vptat (fracbs'high downto fracbs'low)), fracbs));
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
-		fixed2floata <=
-		ram0720 (15) & ram0720 (15) & 
-		ram0720 (15) & ram0720 (15) & 
-		ram0720 (15) & ram0720 (15) & 
-		ram0720 (15) & ram0720 (15) & 
-		ram0720 (15) & ram0720 (15) & 
-		ram0720 (15) & ram0720 (15) & 
-		ram0720 (15) & ram0720 (15) & 
-		ram0720 (15) & ram0720 (15) & 
-		ram0720 (15) & ram0720 (15) & 
-		ram0720 (15) & ram0720 & "00000000000000000000000000000";
+		fixed2floata <= ram0720;
 	when s8 =>
 if (fi2fl_wait = C_FI2FL_WAIT-1) then
 vptat_ft := fixed2floatr;
@@ -465,17 +445,7 @@ end if;
 --		to_slv (to_sfixed (to_slv (vbe (fracbs'high downto fracbs'low)), fracbs));
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
-		fixed2floata <=
-		ram0700 (15) & ram0700 (15) & 
-		ram0700 (15) & ram0700 (15) & 
-		ram0700 (15) & ram0700 (15) & 
-		ram0700 (15) & ram0700 (15) & 
-		ram0700 (15) & ram0700 (15) & 
-		ram0700 (15) & ram0700 (15) & 
-		ram0700 (15) & ram0700 (15) & 
-		ram0700 (15) & ram0700 (15) & 
-		ram0700 (15) & ram0700 (15) & 
-		ram0700 (15) & ram0700 & "00000000000000000000000000000";
+		fixed2floata <= ram0700;
 	when s10 =>
 if (fi2fl_wait = C_FI2FL_WAIT-1) then
 vbe_ft := fixed2floatr;

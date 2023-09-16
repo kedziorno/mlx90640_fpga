@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="spartan3e" name="DeviceFamilyName">
+    <attr value="virtex4" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -38,7 +38,7 @@
         <signal name="XLXN_27" />
         <signal name="fixed2floatond" />
         <signal name="o_Vdd(31:0)" />
-        <signal name="fixed2floata(63:0)" />
+        <signal name="fixed2floata(15:0)" />
         <signal name="divfpa(31:0)" />
         <signal name="divfpb(31:0)" />
         <signal name="mulfpa(31:0)" />
@@ -83,7 +83,7 @@
         <port polarity="Output" name="fixed2floatce" />
         <port polarity="Output" name="fixed2floatond" />
         <port polarity="Output" name="o_Vdd(31:0)" />
-        <port polarity="Output" name="fixed2floata(63:0)" />
+        <port polarity="Output" name="fixed2floata(15:0)" />
         <port polarity="Output" name="divfpa(31:0)" />
         <port polarity="Output" name="divfpb(31:0)" />
         <port polarity="Output" name="mulfpa(31:0)" />
@@ -106,7 +106,7 @@
         <port polarity="Input" name="i_clock" />
         <port polarity="Input" name="fixed2floatr(31:0)" />
         <blockdef name="CalculateVDD_process_p0">
-            <timestamp>2023-6-9T11:0:35</timestamp>
+            <timestamp>2023-9-16T15:13:36</timestamp>
             <rect width="656" x="64" y="-2048" height="2048" />
             <line x2="0" y1="-2016" y2="-2016" x1="64" />
             <line x2="0" y1="-1920" y2="-1920" x1="64" />
@@ -269,7 +269,7 @@
             <blockpin signalname="XLXN_3(1:0)" name="out_resolutionee(1:0)" />
             <blockpin signalname="XLXN_6(1:0)" name="out_resolutionreg(1:0)" />
             <blockpin signalname="XLXN_23(11:0)" name="i2c_mem_addra(11:0)" />
-            <blockpin signalname="fixed2floata(63:0)" name="fixed2floata(63:0)" />
+            <blockpin signalname="fixed2floata(15:0)" name="fixed2floata(15:0)" />
             <blockpin signalname="divfpa(31:0)" name="divfpa(31:0)" />
             <blockpin signalname="divfpb(31:0)" name="divfpb(31:0)" />
             <blockpin signalname="mulfpa(31:0)" name="mulfpa(31:0)" />
@@ -470,7 +470,7 @@
         <branch name="o_Vdd(31:0)">
             <wire x2="2672" y1="1424" y2="1424" x1="2064" />
         </branch>
-        <branch name="fixed2floata(63:0)">
+        <branch name="fixed2floata(15:0)">
             <wire x2="2144" y1="1680" y2="1680" x1="2064" />
             <wire x2="2144" y1="1680" y2="1744" x1="2144" />
             <wire x2="2672" y1="1744" y2="1744" x1="2144" />
@@ -590,7 +590,7 @@
         <iomarker fontsize="28" x="2672" y="1296" name="subfpce" orien="R0" />
         <iomarker fontsize="28" x="2672" y="1424" name="o_Vdd(31:0)" orien="R0" />
         <iomarker fontsize="28" x="2672" y="1648" name="i2c_mem_addra(11:0)" orien="R0" />
-        <iomarker fontsize="28" x="2672" y="1744" name="fixed2floata(63:0)" orien="R0" />
+        <iomarker fontsize="28" x="2672" y="1744" name="fixed2floata(15:0)" orien="R0" />
         <iomarker fontsize="28" x="2672" y="1776" name="divfpa(31:0)" orien="R0" />
         <iomarker fontsize="28" x="2672" y="1808" name="divfpb(31:0)" orien="R0" />
         <iomarker fontsize="28" x="2672" y="1872" name="mulfpa(31:0)" orien="R0" />

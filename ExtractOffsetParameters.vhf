@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : ExtractOffsetParameters.vhf
--- /___/   /\     Timestamp : 09/16/2023 16:10:29
+-- /___/   /\     Timestamp : 09/16/2023 17:26:08
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -100,7 +100,7 @@ entity ExtractOffsetParameters is
           addfpce         : out   std_logic; 
           addfpond        : out   std_logic; 
           addfpsclr       : out   std_logic; 
-          fixed2floata    : out   std_logic_vector (63 downto 0); 
+          fixed2floata    : out   std_logic_vector (15 downto 0); 
           fixed2floatce   : out   std_logic; 
           fixed2floatond  : out   std_logic; 
           fixed2floatsclr : out   std_logic; 
@@ -352,7 +352,7 @@ architecture BEHAVIORAL of ExtractOffsetParameters is
              nibble_out3     : out   std_logic_vector (5 downto 0); 
              o_dia           : out   std_logic_vector (31 downto 0); 
              o_addra         : out   std_logic_vector (9 downto 0); 
-             fixed2floata    : out   std_logic_vector (63 downto 0); 
+             fixed2floata    : out   std_logic_vector (15 downto 0); 
              mulfpa          : out   std_logic_vector (31 downto 0); 
              mulfpb          : out   std_logic_vector (31 downto 0); 
              addfpa          : out   std_logic_vector (31 downto 0); 
@@ -730,133 +730,133 @@ architecture BEHAVIORAL of ExtractOffsetParameters is
    attribute BOX_TYPE of INV : component is "BLACK_BOX";
    
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_0 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_0_1670";
+         "ExtractOffsetParameters_MUX_DO_MAIN_0_751";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_1 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_1_1669";
+         "ExtractOffsetParameters_MUX_DO_MAIN_1_750";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_2 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_2_1668";
+         "ExtractOffsetParameters_MUX_DO_MAIN_2_749";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_3 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_3_1667";
+         "ExtractOffsetParameters_MUX_DO_MAIN_3_748";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_4 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_4_1666";
+         "ExtractOffsetParameters_MUX_DO_MAIN_4_747";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_5 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_5_1665";
+         "ExtractOffsetParameters_MUX_DO_MAIN_5_746";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_6 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_6_1664";
+         "ExtractOffsetParameters_MUX_DO_MAIN_6_745";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_7 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_7_1663";
+         "ExtractOffsetParameters_MUX_DO_MAIN_7_744";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_8 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_8_1662";
+         "ExtractOffsetParameters_MUX_DO_MAIN_8_743";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_9 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_9_1661";
+         "ExtractOffsetParameters_MUX_DO_MAIN_9_742";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_10 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_10_1660";
+         "ExtractOffsetParameters_MUX_DO_MAIN_10_741";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_11 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_11_1659";
+         "ExtractOffsetParameters_MUX_DO_MAIN_11_740";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_12 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_12_1658";
+         "ExtractOffsetParameters_MUX_DO_MAIN_12_739";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_13 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_13_1657";
+         "ExtractOffsetParameters_MUX_DO_MAIN_13_738";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_14 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_14_1656";
+         "ExtractOffsetParameters_MUX_DO_MAIN_14_737";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_15 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_15_1655";
+         "ExtractOffsetParameters_MUX_DO_MAIN_15_736";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_16 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_16_1654";
+         "ExtractOffsetParameters_MUX_DO_MAIN_16_735";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_17 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_17_1653";
+         "ExtractOffsetParameters_MUX_DO_MAIN_17_734";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_18 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_18_1652";
+         "ExtractOffsetParameters_MUX_DO_MAIN_18_733";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_19 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_19_1651";
+         "ExtractOffsetParameters_MUX_DO_MAIN_19_732";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_20 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_20_1650";
+         "ExtractOffsetParameters_MUX_DO_MAIN_20_731";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_21 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_21_1649";
+         "ExtractOffsetParameters_MUX_DO_MAIN_21_730";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_22 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_22_1648";
+         "ExtractOffsetParameters_MUX_DO_MAIN_22_729";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_23 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_23_1647";
+         "ExtractOffsetParameters_MUX_DO_MAIN_23_728";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_24 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_24_1646";
+         "ExtractOffsetParameters_MUX_DO_MAIN_24_727";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_25 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_25_1645";
+         "ExtractOffsetParameters_MUX_DO_MAIN_25_726";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_26 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_26_1644";
+         "ExtractOffsetParameters_MUX_DO_MAIN_26_725";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_27 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_27_1643";
+         "ExtractOffsetParameters_MUX_DO_MAIN_27_724";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_28 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_28_1642";
+         "ExtractOffsetParameters_MUX_DO_MAIN_28_723";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_29 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_29_1641";
+         "ExtractOffsetParameters_MUX_DO_MAIN_29_722";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_30 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_30_1640";
+         "ExtractOffsetParameters_MUX_DO_MAIN_30_721";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_MAIN_31 : label is 
-         "ExtractOffsetParameters_MUX_DO_MAIN_31_1639";
+         "ExtractOffsetParameters_MUX_DO_MAIN_31_720";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_0 : label is 
-         "ExtractOffsetParameters_MUX_DO_0_1638";
+         "ExtractOffsetParameters_MUX_DO_0_719";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_1 : label is 
-         "ExtractOffsetParameters_MUX_DO_1_1637";
+         "ExtractOffsetParameters_MUX_DO_1_718";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_2 : label is 
-         "ExtractOffsetParameters_MUX_DO_2_1636";
+         "ExtractOffsetParameters_MUX_DO_2_717";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_3 : label is 
-         "ExtractOffsetParameters_MUX_DO_3_1635";
+         "ExtractOffsetParameters_MUX_DO_3_716";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_4 : label is 
-         "ExtractOffsetParameters_MUX_DO_4_1634";
+         "ExtractOffsetParameters_MUX_DO_4_715";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_5 : label is 
-         "ExtractOffsetParameters_MUX_DO_5_1633";
+         "ExtractOffsetParameters_MUX_DO_5_714";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_6 : label is 
-         "ExtractOffsetParameters_MUX_DO_6_1632";
+         "ExtractOffsetParameters_MUX_DO_6_713";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_7 : label is 
-         "ExtractOffsetParameters_MUX_DO_7_1631";
+         "ExtractOffsetParameters_MUX_DO_7_712";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_8 : label is 
-         "ExtractOffsetParameters_MUX_DO_8_1630";
+         "ExtractOffsetParameters_MUX_DO_8_711";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_9 : label is 
-         "ExtractOffsetParameters_MUX_DO_9_1629";
+         "ExtractOffsetParameters_MUX_DO_9_710";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_10 : label is 
-         "ExtractOffsetParameters_MUX_DO_10_1628";
+         "ExtractOffsetParameters_MUX_DO_10_709";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_11 : label is 
-         "ExtractOffsetParameters_MUX_DO_11_1627";
+         "ExtractOffsetParameters_MUX_DO_11_708";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_12 : label is 
-         "ExtractOffsetParameters_MUX_DO_12_1626";
+         "ExtractOffsetParameters_MUX_DO_12_707";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_13 : label is 
-         "ExtractOffsetParameters_MUX_DO_13_1625";
+         "ExtractOffsetParameters_MUX_DO_13_706";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_14 : label is 
-         "ExtractOffsetParameters_MUX_DO_14_1624";
+         "ExtractOffsetParameters_MUX_DO_14_705";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_15 : label is 
-         "ExtractOffsetParameters_MUX_DO_15_1623";
+         "ExtractOffsetParameters_MUX_DO_15_704";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_16 : label is 
-         "ExtractOffsetParameters_MUX_DO_16_1622";
+         "ExtractOffsetParameters_MUX_DO_16_703";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_17 : label is 
-         "ExtractOffsetParameters_MUX_DO_17_1621";
+         "ExtractOffsetParameters_MUX_DO_17_702";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_18 : label is 
-         "ExtractOffsetParameters_MUX_DO_18_1620";
+         "ExtractOffsetParameters_MUX_DO_18_701";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_19 : label is 
-         "ExtractOffsetParameters_MUX_DO_19_1619";
+         "ExtractOffsetParameters_MUX_DO_19_700";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_20 : label is 
-         "ExtractOffsetParameters_MUX_DO_20_1618";
+         "ExtractOffsetParameters_MUX_DO_20_699";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_21 : label is 
-         "ExtractOffsetParameters_MUX_DO_21_1617";
+         "ExtractOffsetParameters_MUX_DO_21_698";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_22 : label is 
-         "ExtractOffsetParameters_MUX_DO_22_1616";
+         "ExtractOffsetParameters_MUX_DO_22_697";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_23 : label is 
-         "ExtractOffsetParameters_MUX_DO_23_1615";
+         "ExtractOffsetParameters_MUX_DO_23_696";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_24 : label is 
-         "ExtractOffsetParameters_MUX_DO_24_1614";
+         "ExtractOffsetParameters_MUX_DO_24_695";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_25 : label is 
-         "ExtractOffsetParameters_MUX_DO_25_1613";
+         "ExtractOffsetParameters_MUX_DO_25_694";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_26 : label is 
-         "ExtractOffsetParameters_MUX_DO_26_1612";
+         "ExtractOffsetParameters_MUX_DO_26_693";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_27 : label is 
-         "ExtractOffsetParameters_MUX_DO_27_1611";
+         "ExtractOffsetParameters_MUX_DO_27_692";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_28 : label is 
-         "ExtractOffsetParameters_MUX_DO_28_1610";
+         "ExtractOffsetParameters_MUX_DO_28_691";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_29 : label is 
-         "ExtractOffsetParameters_MUX_DO_29_1609";
+         "ExtractOffsetParameters_MUX_DO_29_690";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_30 : label is 
-         "ExtractOffsetParameters_MUX_DO_30_1608";
+         "ExtractOffsetParameters_MUX_DO_30_689";
    attribute HU_SET of ExtractOffsetParameters_MUX_DO_31 : label is 
-         "ExtractOffsetParameters_MUX_DO_31_1607";
+         "ExtractOffsetParameters_MUX_DO_31_688";
    attribute WRITE_WIDTH_B of mem_extroffparam_1 : label is "36";
    attribute WRITE_WIDTH_A of mem_extroffparam_1 : label is "36";
    attribute WRITE_MODE_B of mem_extroffparam_1 : label is "READ_FIRST";
@@ -1299,7 +1299,7 @@ begin
                 addfpce=>addfpce,
                 addfpond=>addfpond,
                 addfpsclr=>addfpsclr,
-                fixed2floata(63 downto 0)=>fixed2floata(63 downto 0),
+                fixed2floata(15 downto 0)=>fixed2floata(15 downto 0),
                 fixed2floatce=>fixed2floatce,
                 fixed2floatond=>fixed2floatond,
                 fixed2floatsclr=>fixed2floatsclr,

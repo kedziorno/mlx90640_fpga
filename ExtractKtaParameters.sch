@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="spartan3e" name="DeviceFamilyName">
+    <attr value="virtex4" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -124,7 +124,7 @@
             <line x2="64" y1="0" y2="-64" x1="64" />
             <circle r="16" cx="144" cy="-32" />
         </blockdef>
-        <blockdef name="RAMB16_S36_S36">
+        <blockdef name="ramb16_s36_s36">
             <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
@@ -178,7 +178,7 @@
             <line x2="96" y1="-160" y2="-160" x1="0" />
         </blockdef>
         <blockdef name="ExtractKtaParameters_process_p0">
-            <timestamp>2023-6-14T11:59:31</timestamp>
+            <timestamp>2023-9-16T15:20:38</timestamp>
             <rect width="592" x="64" y="-1984" height="1984" />
             <line x2="0" y1="-1952" y2="-1952" x1="64" />
             <line x2="0" y1="-1840" y2="-1840" x1="64" />
@@ -333,7 +333,7 @@
             <blockpin signalname="mux_addr1(9)" name="I" />
             <blockpin signalname="XLXN_59" name="O" />
         </block>
-        <block symbolname="RAMB16_S36_S36" name="mem_extrktaparam_1">
+        <block symbolname="ramb16_s36_s36" name="mem_extrktaparam_1">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -417,7 +417,7 @@
             <blockpin signalname="o_rdy" name="S0" />
             <blockpin signalname="mux_addr1(9:0)" name="O" />
         </block>
-        <block symbolname="RAMB16_S36_S36" name="mem_extrktaparam_2">
+        <block symbolname="ramb16_s36_s36" name="mem_extrktaparam_2">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />

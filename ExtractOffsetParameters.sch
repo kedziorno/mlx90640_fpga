@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="spartan3e" name="DeviceFamilyName">
+    <attr value="virtex4" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -52,7 +52,7 @@
         <signal name="addfpsclr" />
         <signal name="addfpce" />
         <signal name="i2c_mem_addra(11:0)" />
-        <signal name="fixed2floata(63:0)" />
+        <signal name="fixed2floata(15:0)" />
         <signal name="mulfpa(31:0)" />
         <signal name="mulfpb(31:0)" />
         <signal name="addfpa(31:0)" />
@@ -84,7 +84,7 @@
         <port polarity="Output" name="addfpsclr" />
         <port polarity="Output" name="addfpce" />
         <port polarity="Output" name="i2c_mem_addra(11:0)" />
-        <port polarity="Output" name="fixed2floata(63:0)" />
+        <port polarity="Output" name="fixed2floata(15:0)" />
         <port polarity="Output" name="mulfpa(31:0)" />
         <port polarity="Output" name="mulfpb(31:0)" />
         <port polarity="Output" name="addfpa(31:0)" />
@@ -116,7 +116,7 @@
             <line x2="64" y1="0" y2="-64" x1="64" />
             <circle r="16" cx="144" cy="-32" />
         </blockdef>
-        <blockdef name="RAMB16_S36_S36">
+        <blockdef name="ramb16_s36_s36">
             <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
@@ -170,7 +170,7 @@
             <line x2="96" y1="-160" y2="-160" x1="0" />
         </blockdef>
         <blockdef name="ExtractOffsetParameters_process_p0">
-            <timestamp>2023-6-13T19:19:45</timestamp>
+            <timestamp>2023-9-16T15:20:28</timestamp>
             <rect width="448" x="64" y="-1536" height="1536" />
             <line x2="0" y1="-1504" y2="-1504" x1="64" />
             <line x2="0" y1="-1408" y2="-1408" x1="64" />
@@ -299,7 +299,7 @@
             <blockpin signalname="mux_addr1(9)" name="I" />
             <blockpin signalname="XLXN_59" name="O" />
         </block>
-        <block symbolname="RAMB16_S36_S36" name="mem_extroffparam_2">
+        <block symbolname="ramb16_s36_s36" name="mem_extroffparam_2">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -367,7 +367,7 @@
             <blockpin name="DOPA(3:0)" />
             <blockpin name="DOPB(3:0)" />
         </block>
-        <block symbolname="RAMB16_S36_S36" name="mem_extroffparam_1">
+        <block symbolname="ramb16_s36_s36" name="mem_extroffparam_1">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -480,7 +480,7 @@
             <blockpin signalname="nibble_out3(5:0)" name="nibble_out3(5:0)" />
             <blockpin signalname="o_dia(31:0)" name="o_dia(31:0)" />
             <blockpin signalname="o_addra(9:0)" name="o_addra(9:0)" />
-            <blockpin signalname="fixed2floata(63:0)" name="fixed2floata(63:0)" />
+            <blockpin signalname="fixed2floata(15:0)" name="fixed2floata(15:0)" />
             <blockpin signalname="mulfpa(31:0)" name="mulfpa(31:0)" />
             <blockpin signalname="mulfpb(31:0)" name="mulfpb(31:0)" />
             <blockpin signalname="addfpa(31:0)" name="addfpa(31:0)" />
@@ -786,7 +786,7 @@
         <branch name="i2c_mem_addra(11:0)">
             <wire x2="3024" y1="912" y2="912" x1="2848" />
         </branch>
-        <branch name="fixed2floata(63:0)">
+        <branch name="fixed2floata(15:0)">
             <wire x2="3024" y1="1360" y2="1360" x1="2848" />
         </branch>
         <branch name="mulfpa(31:0)">
@@ -801,7 +801,7 @@
         <branch name="addfpb(31:0)">
             <wire x2="3024" y1="1616" y2="1616" x1="2848" />
         </branch>
-        <iomarker fontsize="28" x="3024" y="1360" name="fixed2floata(63:0)" orien="R0" />
+        <iomarker fontsize="28" x="3024" y="1360" name="fixed2floata(15:0)" orien="R0" />
         <iomarker fontsize="28" x="3024" y="1424" name="mulfpa(31:0)" orien="R0" />
         <iomarker fontsize="28" x="3024" y="1488" name="mulfpb(31:0)" orien="R0" />
         <iomarker fontsize="28" x="3024" y="1552" name="addfpa(31:0)" orien="R0" />

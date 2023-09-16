@@ -54,7 +54,7 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
 fixed2floatsclr : out STD_LOGIC;
@@ -311,17 +311,7 @@ divfp_rdy <= '0';
           -- ram[0x072a]
           fixed2floatce <= '1';
           fixed2floatond <= '1';
-          fixed2floata <=
-          ram072a (15) & ram072a (15) & 
-          ram072a (15) & ram072a (15) & 
-          ram072a (15) & ram072a (15) & 
-          ram072a (15) & ram072a (15) & 
-          ram072a (15) & ram072a (15) & 
-          ram072a (15) & ram072a (15) & 
-          ram072a (15) & ram072a (15) & 
-          ram072a (15) & ram072a (15) & 
-          ram072a (15) & ram072a (15) & 
-          ram072a (15) & ram072a & "00000000000000000000000000000";
+          fixed2floata <= ram072a;
         when s15 =>
 if (fi2fl_wait = C_FI2FL_WAIT-1) then
 fttmp2 := fixed2floatr;

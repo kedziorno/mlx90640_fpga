@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : ExtractAlphaParameters.vhf
--- /___/   /\     Timestamp : 09/16/2023 16:10:28
+-- /___/   /\     Timestamp : 09/16/2023 17:18:34
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -107,7 +107,7 @@ entity ExtractAlphaParameters is
           divfpce         : out   std_logic; 
           divfpond        : out   std_logic; 
           divfpsclr       : out   std_logic; 
-          fixed2floata    : out   std_logic_vector (63 downto 0); 
+          fixed2floata    : out   std_logic_vector (15 downto 0); 
           fixed2floatce   : out   std_logic; 
           fixed2floatond  : out   std_logic; 
           fixed2floatsclr : out   std_logic; 
@@ -328,7 +328,7 @@ architecture BEHAVIORAL of ExtractAlphaParameters is
              nibble4_out     : out   std_logic_vector (3 downto 0); 
              nibble5_out     : out   std_logic_vector (3 downto 0); 
              nibble3_out     : out   std_logic_vector (5 downto 0); 
-             fixed2floata    : out   std_logic_vector (63 downto 0); 
+             fixed2floata    : out   std_logic_vector (15 downto 0); 
              mulfpa          : out   std_logic_vector (31 downto 0); 
              mulfpb          : out   std_logic_vector (31 downto 0); 
              addfpa          : out   std_logic_vector (31 downto 0); 
@@ -733,325 +733,325 @@ architecture BEHAVIORAL of ExtractAlphaParameters is
    attribute BOX_TYPE of GND : component is "BLACK_BOX";
    
    attribute HU_SET of extractalphaparameters_MUX_DIA_0 : label is 
-         "extractalphaparameters_MUX_DIA_0_1292";
+         "extractalphaparameters_MUX_DIA_0_191";
    attribute HU_SET of extractalphaparameters_MUX_DIA_1 : label is 
-         "extractalphaparameters_MUX_DIA_1_1291";
+         "extractalphaparameters_MUX_DIA_1_190";
    attribute HU_SET of extractalphaparameters_MUX_DIA_2 : label is 
-         "extractalphaparameters_MUX_DIA_2_1290";
+         "extractalphaparameters_MUX_DIA_2_189";
    attribute HU_SET of extractalphaparameters_MUX_DIA_3 : label is 
-         "extractalphaparameters_MUX_DIA_3_1289";
+         "extractalphaparameters_MUX_DIA_3_188";
    attribute HU_SET of extractalphaparameters_MUX_DIA_4 : label is 
-         "extractalphaparameters_MUX_DIA_4_1288";
+         "extractalphaparameters_MUX_DIA_4_187";
    attribute HU_SET of extractalphaparameters_MUX_DIA_5 : label is 
-         "extractalphaparameters_MUX_DIA_5_1287";
+         "extractalphaparameters_MUX_DIA_5_186";
    attribute HU_SET of extractalphaparameters_MUX_DIA_6 : label is 
-         "extractalphaparameters_MUX_DIA_6_1286";
+         "extractalphaparameters_MUX_DIA_6_185";
    attribute HU_SET of extractalphaparameters_MUX_DIA_7 : label is 
-         "extractalphaparameters_MUX_DIA_7_1285";
+         "extractalphaparameters_MUX_DIA_7_184";
    attribute HU_SET of extractalphaparameters_MUX_DIA_8 : label is 
-         "extractalphaparameters_MUX_DIA_8_1284";
+         "extractalphaparameters_MUX_DIA_8_183";
    attribute HU_SET of extractalphaparameters_MUX_DIA_9 : label is 
-         "extractalphaparameters_MUX_DIA_9_1283";
+         "extractalphaparameters_MUX_DIA_9_182";
    attribute HU_SET of extractalphaparameters_MUX_DIA_10 : label is 
-         "extractalphaparameters_MUX_DIA_10_1282";
+         "extractalphaparameters_MUX_DIA_10_181";
    attribute HU_SET of extractalphaparameters_MUX_DIA_11 : label is 
-         "extractalphaparameters_MUX_DIA_11_1281";
+         "extractalphaparameters_MUX_DIA_11_180";
    attribute HU_SET of extractalphaparameters_MUX_DIA_12 : label is 
-         "extractalphaparameters_MUX_DIA_12_1280";
+         "extractalphaparameters_MUX_DIA_12_179";
    attribute HU_SET of extractalphaparameters_MUX_DIA_13 : label is 
-         "extractalphaparameters_MUX_DIA_13_1279";
+         "extractalphaparameters_MUX_DIA_13_178";
    attribute HU_SET of extractalphaparameters_MUX_DIA_14 : label is 
-         "extractalphaparameters_MUX_DIA_14_1278";
+         "extractalphaparameters_MUX_DIA_14_177";
    attribute HU_SET of extractalphaparameters_MUX_DIA_15 : label is 
-         "extractalphaparameters_MUX_DIA_15_1277";
+         "extractalphaparameters_MUX_DIA_15_176";
    attribute HU_SET of extractalphaparameters_MUX_DIA_16 : label is 
-         "extractalphaparameters_MUX_DIA_16_1276";
+         "extractalphaparameters_MUX_DIA_16_175";
    attribute HU_SET of extractalphaparameters_MUX_DIA_17 : label is 
-         "extractalphaparameters_MUX_DIA_17_1275";
+         "extractalphaparameters_MUX_DIA_17_174";
    attribute HU_SET of extractalphaparameters_MUX_DIA_18 : label is 
-         "extractalphaparameters_MUX_DIA_18_1274";
+         "extractalphaparameters_MUX_DIA_18_173";
    attribute HU_SET of extractalphaparameters_MUX_DIA_19 : label is 
-         "extractalphaparameters_MUX_DIA_19_1273";
+         "extractalphaparameters_MUX_DIA_19_172";
    attribute HU_SET of extractalphaparameters_MUX_DIA_20 : label is 
-         "extractalphaparameters_MUX_DIA_20_1272";
+         "extractalphaparameters_MUX_DIA_20_171";
    attribute HU_SET of extractalphaparameters_MUX_DIA_21 : label is 
-         "extractalphaparameters_MUX_DIA_21_1271";
+         "extractalphaparameters_MUX_DIA_21_170";
    attribute HU_SET of extractalphaparameters_MUX_DIA_22 : label is 
-         "extractalphaparameters_MUX_DIA_22_1270";
+         "extractalphaparameters_MUX_DIA_22_169";
    attribute HU_SET of extractalphaparameters_MUX_DIA_23 : label is 
-         "extractalphaparameters_MUX_DIA_23_1269";
+         "extractalphaparameters_MUX_DIA_23_168";
    attribute HU_SET of extractalphaparameters_MUX_DIA_24 : label is 
-         "extractalphaparameters_MUX_DIA_24_1268";
+         "extractalphaparameters_MUX_DIA_24_167";
    attribute HU_SET of extractalphaparameters_MUX_DIA_25 : label is 
-         "extractalphaparameters_MUX_DIA_25_1267";
+         "extractalphaparameters_MUX_DIA_25_166";
    attribute HU_SET of extractalphaparameters_MUX_DIA_26 : label is 
-         "extractalphaparameters_MUX_DIA_26_1266";
+         "extractalphaparameters_MUX_DIA_26_165";
    attribute HU_SET of extractalphaparameters_MUX_DIA_27 : label is 
-         "extractalphaparameters_MUX_DIA_27_1265";
+         "extractalphaparameters_MUX_DIA_27_164";
    attribute HU_SET of extractalphaparameters_MUX_DIA_28 : label is 
-         "extractalphaparameters_MUX_DIA_28_1264";
+         "extractalphaparameters_MUX_DIA_28_163";
    attribute HU_SET of extractalphaparameters_MUX_DIA_29 : label is 
-         "extractalphaparameters_MUX_DIA_29_1263";
+         "extractalphaparameters_MUX_DIA_29_162";
    attribute HU_SET of extractalphaparameters_MUX_DIA_30 : label is 
-         "extractalphaparameters_MUX_DIA_30_1262";
+         "extractalphaparameters_MUX_DIA_30_161";
    attribute HU_SET of extractalphaparameters_MUX_DIA_31 : label is 
-         "extractalphaparameters_MUX_DIA_31_1261";
+         "extractalphaparameters_MUX_DIA_31_160";
    attribute HU_SET of extractalphaparameters_MUX_DOA_0 : label is 
-         "extractalphaparameters_MUX_DOA_0_1356";
+         "extractalphaparameters_MUX_DOA_0_255";
    attribute HU_SET of extractalphaparameters_MUX_DOA_1 : label is 
-         "extractalphaparameters_MUX_DOA_1_1355";
+         "extractalphaparameters_MUX_DOA_1_254";
    attribute HU_SET of extractalphaparameters_MUX_DOA_2 : label is 
-         "extractalphaparameters_MUX_DOA_2_1354";
+         "extractalphaparameters_MUX_DOA_2_253";
    attribute HU_SET of extractalphaparameters_MUX_DOA_3 : label is 
-         "extractalphaparameters_MUX_DOA_3_1353";
+         "extractalphaparameters_MUX_DOA_3_252";
    attribute HU_SET of extractalphaparameters_MUX_DOA_4 : label is 
-         "extractalphaparameters_MUX_DOA_4_1352";
+         "extractalphaparameters_MUX_DOA_4_251";
    attribute HU_SET of extractalphaparameters_MUX_DOA_5 : label is 
-         "extractalphaparameters_MUX_DOA_5_1351";
+         "extractalphaparameters_MUX_DOA_5_250";
    attribute HU_SET of extractalphaparameters_MUX_DOA_6 : label is 
-         "extractalphaparameters_MUX_DOA_6_1350";
+         "extractalphaparameters_MUX_DOA_6_249";
    attribute HU_SET of extractalphaparameters_MUX_DOA_7 : label is 
-         "extractalphaparameters_MUX_DOA_7_1349";
+         "extractalphaparameters_MUX_DOA_7_248";
    attribute HU_SET of extractalphaparameters_MUX_DOA_8 : label is 
-         "extractalphaparameters_MUX_DOA_8_1348";
+         "extractalphaparameters_MUX_DOA_8_247";
    attribute HU_SET of extractalphaparameters_MUX_DOA_9 : label is 
-         "extractalphaparameters_MUX_DOA_9_1347";
+         "extractalphaparameters_MUX_DOA_9_246";
    attribute HU_SET of extractalphaparameters_MUX_DOA_10 : label is 
-         "extractalphaparameters_MUX_DOA_10_1346";
+         "extractalphaparameters_MUX_DOA_10_245";
    attribute HU_SET of extractalphaparameters_MUX_DOA_11 : label is 
-         "extractalphaparameters_MUX_DOA_11_1345";
+         "extractalphaparameters_MUX_DOA_11_244";
    attribute HU_SET of extractalphaparameters_MUX_DOA_12 : label is 
-         "extractalphaparameters_MUX_DOA_12_1344";
+         "extractalphaparameters_MUX_DOA_12_243";
    attribute HU_SET of extractalphaparameters_MUX_DOA_13 : label is 
-         "extractalphaparameters_MUX_DOA_13_1343";
+         "extractalphaparameters_MUX_DOA_13_242";
    attribute HU_SET of extractalphaparameters_MUX_DOA_14 : label is 
-         "extractalphaparameters_MUX_DOA_14_1342";
+         "extractalphaparameters_MUX_DOA_14_241";
    attribute HU_SET of extractalphaparameters_MUX_DOA_15 : label is 
-         "extractalphaparameters_MUX_DOA_15_1341";
+         "extractalphaparameters_MUX_DOA_15_240";
    attribute HU_SET of extractalphaparameters_MUX_DOA_16 : label is 
-         "extractalphaparameters_MUX_DOA_16_1340";
+         "extractalphaparameters_MUX_DOA_16_239";
    attribute HU_SET of extractalphaparameters_MUX_DOA_17 : label is 
-         "extractalphaparameters_MUX_DOA_17_1339";
+         "extractalphaparameters_MUX_DOA_17_238";
    attribute HU_SET of extractalphaparameters_MUX_DOA_18 : label is 
-         "extractalphaparameters_MUX_DOA_18_1338";
+         "extractalphaparameters_MUX_DOA_18_237";
    attribute HU_SET of extractalphaparameters_MUX_DOA_19 : label is 
-         "extractalphaparameters_MUX_DOA_19_1337";
+         "extractalphaparameters_MUX_DOA_19_236";
    attribute HU_SET of extractalphaparameters_MUX_DOA_20 : label is 
-         "extractalphaparameters_MUX_DOA_20_1336";
+         "extractalphaparameters_MUX_DOA_20_235";
    attribute HU_SET of extractalphaparameters_MUX_DOA_21 : label is 
-         "extractalphaparameters_MUX_DOA_21_1335";
+         "extractalphaparameters_MUX_DOA_21_234";
    attribute HU_SET of extractalphaparameters_MUX_DOA_22 : label is 
-         "extractalphaparameters_MUX_DOA_22_1334";
+         "extractalphaparameters_MUX_DOA_22_233";
    attribute HU_SET of extractalphaparameters_MUX_DOA_23 : label is 
-         "extractalphaparameters_MUX_DOA_23_1333";
+         "extractalphaparameters_MUX_DOA_23_232";
    attribute HU_SET of extractalphaparameters_MUX_DOA_24 : label is 
-         "extractalphaparameters_MUX_DOA_24_1332";
+         "extractalphaparameters_MUX_DOA_24_231";
    attribute HU_SET of extractalphaparameters_MUX_DOA_25 : label is 
-         "extractalphaparameters_MUX_DOA_25_1331";
+         "extractalphaparameters_MUX_DOA_25_230";
    attribute HU_SET of extractalphaparameters_MUX_DOA_26 : label is 
-         "extractalphaparameters_MUX_DOA_26_1330";
+         "extractalphaparameters_MUX_DOA_26_229";
    attribute HU_SET of extractalphaparameters_MUX_DOA_27 : label is 
-         "extractalphaparameters_MUX_DOA_27_1329";
+         "extractalphaparameters_MUX_DOA_27_228";
    attribute HU_SET of extractalphaparameters_MUX_DOA_28 : label is 
-         "extractalphaparameters_MUX_DOA_28_1328";
+         "extractalphaparameters_MUX_DOA_28_227";
    attribute HU_SET of extractalphaparameters_MUX_DOA_29 : label is 
-         "extractalphaparameters_MUX_DOA_29_1327";
+         "extractalphaparameters_MUX_DOA_29_226";
    attribute HU_SET of extractalphaparameters_MUX_DOA_30 : label is 
-         "extractalphaparameters_MUX_DOA_30_1326";
+         "extractalphaparameters_MUX_DOA_30_225";
    attribute HU_SET of extractalphaparameters_MUX_DOA_31 : label is 
-         "extractalphaparameters_MUX_DOA_31_1325";
+         "extractalphaparameters_MUX_DOA_31_224";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_0 : label is 
-         "extractalphaparameters_MUX_DO_half1_0_1324";
+         "extractalphaparameters_MUX_DO_half1_0_223";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_1 : label is 
-         "extractalphaparameters_MUX_DO_half1_1_1323";
+         "extractalphaparameters_MUX_DO_half1_1_222";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_2 : label is 
-         "extractalphaparameters_MUX_DO_half1_2_1322";
+         "extractalphaparameters_MUX_DO_half1_2_221";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_3 : label is 
-         "extractalphaparameters_MUX_DO_half1_3_1321";
+         "extractalphaparameters_MUX_DO_half1_3_220";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_4 : label is 
-         "extractalphaparameters_MUX_DO_half1_4_1320";
+         "extractalphaparameters_MUX_DO_half1_4_219";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_5 : label is 
-         "extractalphaparameters_MUX_DO_half1_5_1319";
+         "extractalphaparameters_MUX_DO_half1_5_218";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_6 : label is 
-         "extractalphaparameters_MUX_DO_half1_6_1318";
+         "extractalphaparameters_MUX_DO_half1_6_217";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_7 : label is 
-         "extractalphaparameters_MUX_DO_half1_7_1317";
+         "extractalphaparameters_MUX_DO_half1_7_216";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_8 : label is 
-         "extractalphaparameters_MUX_DO_half1_8_1316";
+         "extractalphaparameters_MUX_DO_half1_8_215";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_9 : label is 
-         "extractalphaparameters_MUX_DO_half1_9_1315";
+         "extractalphaparameters_MUX_DO_half1_9_214";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_10 : label is 
-         "extractalphaparameters_MUX_DO_half1_10_1314";
+         "extractalphaparameters_MUX_DO_half1_10_213";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_11 : label is 
-         "extractalphaparameters_MUX_DO_half1_11_1313";
+         "extractalphaparameters_MUX_DO_half1_11_212";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_12 : label is 
-         "extractalphaparameters_MUX_DO_half1_12_1312";
+         "extractalphaparameters_MUX_DO_half1_12_211";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_13 : label is 
-         "extractalphaparameters_MUX_DO_half1_13_1311";
+         "extractalphaparameters_MUX_DO_half1_13_210";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_14 : label is 
-         "extractalphaparameters_MUX_DO_half1_14_1310";
+         "extractalphaparameters_MUX_DO_half1_14_209";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_15 : label is 
-         "extractalphaparameters_MUX_DO_half1_15_1309";
+         "extractalphaparameters_MUX_DO_half1_15_208";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_16 : label is 
-         "extractalphaparameters_MUX_DO_half1_16_1308";
+         "extractalphaparameters_MUX_DO_half1_16_207";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_17 : label is 
-         "extractalphaparameters_MUX_DO_half1_17_1307";
+         "extractalphaparameters_MUX_DO_half1_17_206";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_18 : label is 
-         "extractalphaparameters_MUX_DO_half1_18_1306";
+         "extractalphaparameters_MUX_DO_half1_18_205";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_19 : label is 
-         "extractalphaparameters_MUX_DO_half1_19_1305";
+         "extractalphaparameters_MUX_DO_half1_19_204";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_20 : label is 
-         "extractalphaparameters_MUX_DO_half1_20_1304";
+         "extractalphaparameters_MUX_DO_half1_20_203";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_21 : label is 
-         "extractalphaparameters_MUX_DO_half1_21_1303";
+         "extractalphaparameters_MUX_DO_half1_21_202";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_22 : label is 
-         "extractalphaparameters_MUX_DO_half1_22_1302";
+         "extractalphaparameters_MUX_DO_half1_22_201";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_23 : label is 
-         "extractalphaparameters_MUX_DO_half1_23_1301";
+         "extractalphaparameters_MUX_DO_half1_23_200";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_24 : label is 
-         "extractalphaparameters_MUX_DO_half1_24_1300";
+         "extractalphaparameters_MUX_DO_half1_24_199";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_25 : label is 
-         "extractalphaparameters_MUX_DO_half1_25_1299";
+         "extractalphaparameters_MUX_DO_half1_25_198";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_26 : label is 
-         "extractalphaparameters_MUX_DO_half1_26_1298";
+         "extractalphaparameters_MUX_DO_half1_26_197";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_27 : label is 
-         "extractalphaparameters_MUX_DO_half1_27_1297";
+         "extractalphaparameters_MUX_DO_half1_27_196";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_28 : label is 
-         "extractalphaparameters_MUX_DO_half1_28_1296";
+         "extractalphaparameters_MUX_DO_half1_28_195";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_29 : label is 
-         "extractalphaparameters_MUX_DO_half1_29_1295";
+         "extractalphaparameters_MUX_DO_half1_29_194";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_30 : label is 
-         "extractalphaparameters_MUX_DO_half1_30_1294";
+         "extractalphaparameters_MUX_DO_half1_30_193";
    attribute HU_SET of extractalphaparameters_MUX_DO_half1_31 : label is 
-         "extractalphaparameters_MUX_DO_half1_31_1293";
+         "extractalphaparameters_MUX_DO_half1_31_192";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_0 : label is 
-         "extractalphaparameters_MUX_DO_half2_0_1388";
+         "extractalphaparameters_MUX_DO_half2_0_287";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_1 : label is 
-         "extractalphaparameters_MUX_DO_half2_1_1387";
+         "extractalphaparameters_MUX_DO_half2_1_286";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_2 : label is 
-         "extractalphaparameters_MUX_DO_half2_2_1386";
+         "extractalphaparameters_MUX_DO_half2_2_285";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_3 : label is 
-         "extractalphaparameters_MUX_DO_half2_3_1385";
+         "extractalphaparameters_MUX_DO_half2_3_284";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_4 : label is 
-         "extractalphaparameters_MUX_DO_half2_4_1384";
+         "extractalphaparameters_MUX_DO_half2_4_283";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_5 : label is 
-         "extractalphaparameters_MUX_DO_half2_5_1383";
+         "extractalphaparameters_MUX_DO_half2_5_282";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_6 : label is 
-         "extractalphaparameters_MUX_DO_half2_6_1382";
+         "extractalphaparameters_MUX_DO_half2_6_281";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_7 : label is 
-         "extractalphaparameters_MUX_DO_half2_7_1381";
+         "extractalphaparameters_MUX_DO_half2_7_280";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_8 : label is 
-         "extractalphaparameters_MUX_DO_half2_8_1380";
+         "extractalphaparameters_MUX_DO_half2_8_279";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_9 : label is 
-         "extractalphaparameters_MUX_DO_half2_9_1379";
+         "extractalphaparameters_MUX_DO_half2_9_278";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_10 : label is 
-         "extractalphaparameters_MUX_DO_half2_10_1378";
+         "extractalphaparameters_MUX_DO_half2_10_277";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_11 : label is 
-         "extractalphaparameters_MUX_DO_half2_11_1377";
+         "extractalphaparameters_MUX_DO_half2_11_276";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_12 : label is 
-         "extractalphaparameters_MUX_DO_half2_12_1376";
+         "extractalphaparameters_MUX_DO_half2_12_275";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_13 : label is 
-         "extractalphaparameters_MUX_DO_half2_13_1375";
+         "extractalphaparameters_MUX_DO_half2_13_274";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_14 : label is 
-         "extractalphaparameters_MUX_DO_half2_14_1374";
+         "extractalphaparameters_MUX_DO_half2_14_273";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_15 : label is 
-         "extractalphaparameters_MUX_DO_half2_15_1373";
+         "extractalphaparameters_MUX_DO_half2_15_272";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_16 : label is 
-         "extractalphaparameters_MUX_DO_half2_16_1372";
+         "extractalphaparameters_MUX_DO_half2_16_271";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_17 : label is 
-         "extractalphaparameters_MUX_DO_half2_17_1371";
+         "extractalphaparameters_MUX_DO_half2_17_270";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_18 : label is 
-         "extractalphaparameters_MUX_DO_half2_18_1370";
+         "extractalphaparameters_MUX_DO_half2_18_269";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_19 : label is 
-         "extractalphaparameters_MUX_DO_half2_19_1369";
+         "extractalphaparameters_MUX_DO_half2_19_268";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_20 : label is 
-         "extractalphaparameters_MUX_DO_half2_20_1368";
+         "extractalphaparameters_MUX_DO_half2_20_267";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_21 : label is 
-         "extractalphaparameters_MUX_DO_half2_21_1367";
+         "extractalphaparameters_MUX_DO_half2_21_266";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_22 : label is 
-         "extractalphaparameters_MUX_DO_half2_22_1366";
+         "extractalphaparameters_MUX_DO_half2_22_265";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_23 : label is 
-         "extractalphaparameters_MUX_DO_half2_23_1365";
+         "extractalphaparameters_MUX_DO_half2_23_264";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_24 : label is 
-         "extractalphaparameters_MUX_DO_half2_24_1364";
+         "extractalphaparameters_MUX_DO_half2_24_263";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_25 : label is 
-         "extractalphaparameters_MUX_DO_half2_25_1363";
+         "extractalphaparameters_MUX_DO_half2_25_262";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_26 : label is 
-         "extractalphaparameters_MUX_DO_half2_26_1362";
+         "extractalphaparameters_MUX_DO_half2_26_261";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_27 : label is 
-         "extractalphaparameters_MUX_DO_half2_27_1361";
+         "extractalphaparameters_MUX_DO_half2_27_260";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_28 : label is 
-         "extractalphaparameters_MUX_DO_half2_28_1360";
+         "extractalphaparameters_MUX_DO_half2_28_259";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_29 : label is 
-         "extractalphaparameters_MUX_DO_half2_29_1359";
+         "extractalphaparameters_MUX_DO_half2_29_258";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_30 : label is 
-         "extractalphaparameters_MUX_DO_half2_30_1358";
+         "extractalphaparameters_MUX_DO_half2_30_257";
    attribute HU_SET of extractalphaparameters_MUX_DO_half2_31 : label is 
-         "extractalphaparameters_MUX_DO_half2_31_1357";
+         "extractalphaparameters_MUX_DO_half2_31_256";
    attribute HU_SET of extractalphaparameters_MUX_DO_0 : label is 
-         "extractalphaparameters_MUX_DO_0_1420";
+         "extractalphaparameters_MUX_DO_0_319";
    attribute HU_SET of extractalphaparameters_MUX_DO_1 : label is 
-         "extractalphaparameters_MUX_DO_1_1419";
+         "extractalphaparameters_MUX_DO_1_318";
    attribute HU_SET of extractalphaparameters_MUX_DO_2 : label is 
-         "extractalphaparameters_MUX_DO_2_1418";
+         "extractalphaparameters_MUX_DO_2_317";
    attribute HU_SET of extractalphaparameters_MUX_DO_3 : label is 
-         "extractalphaparameters_MUX_DO_3_1417";
+         "extractalphaparameters_MUX_DO_3_316";
    attribute HU_SET of extractalphaparameters_MUX_DO_4 : label is 
-         "extractalphaparameters_MUX_DO_4_1416";
+         "extractalphaparameters_MUX_DO_4_315";
    attribute HU_SET of extractalphaparameters_MUX_DO_5 : label is 
-         "extractalphaparameters_MUX_DO_5_1415";
+         "extractalphaparameters_MUX_DO_5_314";
    attribute HU_SET of extractalphaparameters_MUX_DO_6 : label is 
-         "extractalphaparameters_MUX_DO_6_1414";
+         "extractalphaparameters_MUX_DO_6_313";
    attribute HU_SET of extractalphaparameters_MUX_DO_7 : label is 
-         "extractalphaparameters_MUX_DO_7_1413";
+         "extractalphaparameters_MUX_DO_7_312";
    attribute HU_SET of extractalphaparameters_MUX_DO_8 : label is 
-         "extractalphaparameters_MUX_DO_8_1412";
+         "extractalphaparameters_MUX_DO_8_311";
    attribute HU_SET of extractalphaparameters_MUX_DO_9 : label is 
-         "extractalphaparameters_MUX_DO_9_1411";
+         "extractalphaparameters_MUX_DO_9_310";
    attribute HU_SET of extractalphaparameters_MUX_DO_10 : label is 
-         "extractalphaparameters_MUX_DO_10_1410";
+         "extractalphaparameters_MUX_DO_10_309";
    attribute HU_SET of extractalphaparameters_MUX_DO_11 : label is 
-         "extractalphaparameters_MUX_DO_11_1409";
+         "extractalphaparameters_MUX_DO_11_308";
    attribute HU_SET of extractalphaparameters_MUX_DO_12 : label is 
-         "extractalphaparameters_MUX_DO_12_1408";
+         "extractalphaparameters_MUX_DO_12_307";
    attribute HU_SET of extractalphaparameters_MUX_DO_13 : label is 
-         "extractalphaparameters_MUX_DO_13_1407";
+         "extractalphaparameters_MUX_DO_13_306";
    attribute HU_SET of extractalphaparameters_MUX_DO_14 : label is 
-         "extractalphaparameters_MUX_DO_14_1406";
+         "extractalphaparameters_MUX_DO_14_305";
    attribute HU_SET of extractalphaparameters_MUX_DO_15 : label is 
-         "extractalphaparameters_MUX_DO_15_1405";
+         "extractalphaparameters_MUX_DO_15_304";
    attribute HU_SET of extractalphaparameters_MUX_DO_16 : label is 
-         "extractalphaparameters_MUX_DO_16_1404";
+         "extractalphaparameters_MUX_DO_16_303";
    attribute HU_SET of extractalphaparameters_MUX_DO_17 : label is 
-         "extractalphaparameters_MUX_DO_17_1403";
+         "extractalphaparameters_MUX_DO_17_302";
    attribute HU_SET of extractalphaparameters_MUX_DO_18 : label is 
-         "extractalphaparameters_MUX_DO_18_1402";
+         "extractalphaparameters_MUX_DO_18_301";
    attribute HU_SET of extractalphaparameters_MUX_DO_19 : label is 
-         "extractalphaparameters_MUX_DO_19_1401";
+         "extractalphaparameters_MUX_DO_19_300";
    attribute HU_SET of extractalphaparameters_MUX_DO_20 : label is 
-         "extractalphaparameters_MUX_DO_20_1400";
+         "extractalphaparameters_MUX_DO_20_299";
    attribute HU_SET of extractalphaparameters_MUX_DO_21 : label is 
-         "extractalphaparameters_MUX_DO_21_1399";
+         "extractalphaparameters_MUX_DO_21_298";
    attribute HU_SET of extractalphaparameters_MUX_DO_22 : label is 
-         "extractalphaparameters_MUX_DO_22_1398";
+         "extractalphaparameters_MUX_DO_22_297";
    attribute HU_SET of extractalphaparameters_MUX_DO_23 : label is 
-         "extractalphaparameters_MUX_DO_23_1397";
+         "extractalphaparameters_MUX_DO_23_296";
    attribute HU_SET of extractalphaparameters_MUX_DO_24 : label is 
-         "extractalphaparameters_MUX_DO_24_1396";
+         "extractalphaparameters_MUX_DO_24_295";
    attribute HU_SET of extractalphaparameters_MUX_DO_25 : label is 
-         "extractalphaparameters_MUX_DO_25_1395";
+         "extractalphaparameters_MUX_DO_25_294";
    attribute HU_SET of extractalphaparameters_MUX_DO_26 : label is 
-         "extractalphaparameters_MUX_DO_26_1394";
+         "extractalphaparameters_MUX_DO_26_293";
    attribute HU_SET of extractalphaparameters_MUX_DO_27 : label is 
-         "extractalphaparameters_MUX_DO_27_1393";
+         "extractalphaparameters_MUX_DO_27_292";
    attribute HU_SET of extractalphaparameters_MUX_DO_28 : label is 
-         "extractalphaparameters_MUX_DO_28_1392";
+         "extractalphaparameters_MUX_DO_28_291";
    attribute HU_SET of extractalphaparameters_MUX_DO_29 : label is 
-         "extractalphaparameters_MUX_DO_29_1391";
+         "extractalphaparameters_MUX_DO_29_290";
    attribute HU_SET of extractalphaparameters_MUX_DO_30 : label is 
-         "extractalphaparameters_MUX_DO_30_1390";
+         "extractalphaparameters_MUX_DO_30_289";
    attribute HU_SET of extractalphaparameters_MUX_DO_31 : label is 
-         "extractalphaparameters_MUX_DO_31_1389";
+         "extractalphaparameters_MUX_DO_31_288";
    attribute WRITE_WIDTH_B of inst_mem_acc1 : label is "36";
    attribute WRITE_WIDTH_A of inst_mem_acc1 : label is "36";
    attribute WRITE_MODE_B of inst_mem_acc1 : label is "READ_FIRST";
@@ -2065,7 +2065,7 @@ begin
                 divfpce=>divfpce,
                 divfpond=>divfpond,
                 divfpsclr=>divfpsclr,
-                fixed2floata(63 downto 0)=>fixed2floata(63 downto 0),
+                fixed2floata(15 downto 0)=>fixed2floata(15 downto 0),
                 fixed2floatce=>fixed2floatce,
                 fixed2floatond=>fixed2floatond,
                 fixed2floatsclr=>fixed2floatsclr,

@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : CalculatePixOSCpSp.vhf
--- /___/   /\     Timestamp : 09/16/2023 16:10:31
+-- /___/   /\     Timestamp : 09/16/2023 17:32:51
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -1345,69 +1345,69 @@ architecture BEHAVIORAL of rom_signed10bit_MUSER_CalculatePixOSCpSp is
    attribute BOX_TYPE of VCC : component is "BLACK_BOX";
    
    attribute HU_SET of MUX_rom_signed_10bit_0 : label is 
-         "MUX_rom_signed_10bit_0_2120";
+         "MUX_rom_signed_10bit_0_818";
    attribute HU_SET of MUX_rom_signed_10bit_1 : label is 
-         "MUX_rom_signed_10bit_1_2119";
+         "MUX_rom_signed_10bit_1_817";
    attribute HU_SET of MUX_rom_signed_10bit_2 : label is 
-         "MUX_rom_signed_10bit_2_2118";
+         "MUX_rom_signed_10bit_2_816";
    attribute HU_SET of MUX_rom_signed_10bit_3 : label is 
-         "MUX_rom_signed_10bit_3_2117";
+         "MUX_rom_signed_10bit_3_815";
    attribute HU_SET of MUX_rom_signed_10bit_4 : label is 
-         "MUX_rom_signed_10bit_4_2116";
+         "MUX_rom_signed_10bit_4_814";
    attribute HU_SET of MUX_rom_signed_10bit_5 : label is 
-         "MUX_rom_signed_10bit_5_2115";
+         "MUX_rom_signed_10bit_5_813";
    attribute HU_SET of MUX_rom_signed_10bit_6 : label is 
-         "MUX_rom_signed_10bit_6_2114";
+         "MUX_rom_signed_10bit_6_812";
    attribute HU_SET of MUX_rom_signed_10bit_7 : label is 
-         "MUX_rom_signed_10bit_7_2113";
+         "MUX_rom_signed_10bit_7_811";
    attribute HU_SET of MUX_rom_signed_10bit_8 : label is 
-         "MUX_rom_signed_10bit_8_2112";
+         "MUX_rom_signed_10bit_8_810";
    attribute HU_SET of MUX_rom_signed_10bit_9 : label is 
-         "MUX_rom_signed_10bit_9_2111";
+         "MUX_rom_signed_10bit_9_809";
    attribute HU_SET of MUX_rom_signed_10bit_10 : label is 
-         "MUX_rom_signed_10bit_10_2110";
+         "MUX_rom_signed_10bit_10_808";
    attribute HU_SET of MUX_rom_signed_10bit_11 : label is 
-         "MUX_rom_signed_10bit_11_2109";
+         "MUX_rom_signed_10bit_11_807";
    attribute HU_SET of MUX_rom_signed_10bit_12 : label is 
-         "MUX_rom_signed_10bit_12_2108";
+         "MUX_rom_signed_10bit_12_806";
    attribute HU_SET of MUX_rom_signed_10bit_13 : label is 
-         "MUX_rom_signed_10bit_13_2107";
+         "MUX_rom_signed_10bit_13_805";
    attribute HU_SET of MUX_rom_signed_10bit_14 : label is 
-         "MUX_rom_signed_10bit_14_2106";
+         "MUX_rom_signed_10bit_14_804";
    attribute HU_SET of MUX_rom_signed_10bit_15 : label is 
-         "MUX_rom_signed_10bit_15_2105";
+         "MUX_rom_signed_10bit_15_803";
    attribute HU_SET of MUX_rom_signed_10bit_16 : label is 
-         "MUX_rom_signed_10bit_16_2104";
+         "MUX_rom_signed_10bit_16_802";
    attribute HU_SET of MUX_rom_signed_10bit_17 : label is 
-         "MUX_rom_signed_10bit_17_2103";
+         "MUX_rom_signed_10bit_17_801";
    attribute HU_SET of MUX_rom_signed_10bit_18 : label is 
-         "MUX_rom_signed_10bit_18_2102";
+         "MUX_rom_signed_10bit_18_800";
    attribute HU_SET of MUX_rom_signed_10bit_19 : label is 
-         "MUX_rom_signed_10bit_19_2101";
+         "MUX_rom_signed_10bit_19_799";
    attribute HU_SET of MUX_rom_signed_10bit_20 : label is 
-         "MUX_rom_signed_10bit_20_2100";
+         "MUX_rom_signed_10bit_20_798";
    attribute HU_SET of MUX_rom_signed_10bit_21 : label is 
-         "MUX_rom_signed_10bit_21_2099";
+         "MUX_rom_signed_10bit_21_797";
    attribute HU_SET of MUX_rom_signed_10bit_22 : label is 
-         "MUX_rom_signed_10bit_22_2098";
+         "MUX_rom_signed_10bit_22_796";
    attribute HU_SET of MUX_rom_signed_10bit_23 : label is 
-         "MUX_rom_signed_10bit_23_2097";
+         "MUX_rom_signed_10bit_23_795";
    attribute HU_SET of MUX_rom_signed_10bit_24 : label is 
-         "MUX_rom_signed_10bit_24_2096";
+         "MUX_rom_signed_10bit_24_794";
    attribute HU_SET of MUX_rom_signed_10bit_25 : label is 
-         "MUX_rom_signed_10bit_25_2095";
+         "MUX_rom_signed_10bit_25_793";
    attribute HU_SET of MUX_rom_signed_10bit_26 : label is 
-         "MUX_rom_signed_10bit_26_2094";
+         "MUX_rom_signed_10bit_26_792";
    attribute HU_SET of MUX_rom_signed_10bit_27 : label is 
-         "MUX_rom_signed_10bit_27_2093";
+         "MUX_rom_signed_10bit_27_791";
    attribute HU_SET of MUX_rom_signed_10bit_28 : label is 
-         "MUX_rom_signed_10bit_28_2092";
+         "MUX_rom_signed_10bit_28_790";
    attribute HU_SET of MUX_rom_signed_10bit_29 : label is 
-         "MUX_rom_signed_10bit_29_2091";
+         "MUX_rom_signed_10bit_29_789";
    attribute HU_SET of MUX_rom_signed_10bit_30 : label is 
-         "MUX_rom_signed_10bit_30_2090";
+         "MUX_rom_signed_10bit_30_788";
    attribute HU_SET of MUX_rom_signed_10bit_31 : label is 
-         "MUX_rom_signed_10bit_31_2089";
+         "MUX_rom_signed_10bit_31_787";
    attribute WRITE_WIDTH_B of rom_signed_10bit_mem_half1 : label is "36";
    attribute WRITE_WIDTH_A of rom_signed_10bit_mem_half1 : label is "36";
    attribute WRITE_MODE_B of rom_signed_10bit_mem_half1 : label is "READ_FIRST";
@@ -2364,7 +2364,7 @@ entity CalculatePixOSCpSp is
           divfpce         : out   std_logic; 
           divfpond        : out   std_logic; 
           divfpsclr       : out   std_logic; 
-          fixed2floata    : out   std_logic_vector (63 downto 0); 
+          fixed2floata    : out   std_logic_vector (15 downto 0); 
           fixed2floatce   : out   std_logic; 
           fixed2floatond  : out   std_logic; 
           fixed2floatsclr : out   std_logic; 
@@ -2400,11 +2400,11 @@ architecture BEHAVIORAL of CalculatePixOSCpSp is
    signal XLXN_10         : std_logic_vector (31 downto 0);
    signal XLXN_11         : std_logic;
    signal XLXN_12         : std_logic;
-   signal XLXN_18         : std_logic_vector (63 downto 0);
+   signal XLXN_18         : std_logic_vector (15 downto 0);
    signal XLXN_19         : std_logic;
    signal XLXN_20         : std_logic;
    signal XLXN_21         : std_logic;
-   signal XLXN_22         : std_logic_vector (63 downto 0);
+   signal XLXN_22         : std_logic_vector (15 downto 0);
    signal XLXN_23         : std_logic;
    signal XLXN_24         : std_logic;
    signal XLXN_25         : std_logic;
@@ -2442,7 +2442,7 @@ architecture BEHAVIORAL of CalculatePixOSCpSp is
              divfpce         : out   std_logic; 
              i2c_mem_addra   : out   std_logic_vector (11 downto 0); 
              o_KGain         : out   std_logic_vector (31 downto 0); 
-             fixed2floata    : out   std_logic_vector (63 downto 0); 
+             fixed2floata    : out   std_logic_vector (15 downto 0); 
              divfpa          : out   std_logic_vector (31 downto 0); 
              divfpb          : out   std_logic_vector (31 downto 0));
    end component;
@@ -2508,7 +2508,7 @@ architecture BEHAVIORAL of CalculatePixOSCpSp is
              nibble_out1           : out   std_logic_vector (5 downto 0); 
              nibble_out2           : out   std_logic_vector (3 downto 0); 
              nibble_out3           : out   std_logic_vector (3 downto 0); 
-             fixed2floata          : out   std_logic_vector (63 downto 0); 
+             fixed2floata          : out   std_logic_vector (15 downto 0); 
              divfpa                : out   std_logic_vector (31 downto 0); 
              divfpb                : out   std_logic_vector (31 downto 0); 
              mulfpa                : out   std_logic_vector (31 downto 0); 
@@ -2549,299 +2549,203 @@ architecture BEHAVIORAL of CalculatePixOSCpSp is
    end component;
    
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_0 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_0_2219";
+         "CalculatePixOSCpSp_MUX_divfp_a_0_869";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_1 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_1_2218";
+         "CalculatePixOSCpSp_MUX_divfp_a_1_868";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_2 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_2_2217";
+         "CalculatePixOSCpSp_MUX_divfp_a_2_867";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_3 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_3_2216";
+         "CalculatePixOSCpSp_MUX_divfp_a_3_866";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_4 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_4_2215";
+         "CalculatePixOSCpSp_MUX_divfp_a_4_865";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_5 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_5_2214";
+         "CalculatePixOSCpSp_MUX_divfp_a_5_864";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_6 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_6_2213";
+         "CalculatePixOSCpSp_MUX_divfp_a_6_863";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_7 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_7_2212";
+         "CalculatePixOSCpSp_MUX_divfp_a_7_862";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_8 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_8_2211";
+         "CalculatePixOSCpSp_MUX_divfp_a_8_861";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_9 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_9_2210";
+         "CalculatePixOSCpSp_MUX_divfp_a_9_860";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_10 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_10_2209";
+         "CalculatePixOSCpSp_MUX_divfp_a_10_859";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_11 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_11_2208";
+         "CalculatePixOSCpSp_MUX_divfp_a_11_858";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_12 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_12_2207";
+         "CalculatePixOSCpSp_MUX_divfp_a_12_857";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_13 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_13_2206";
+         "CalculatePixOSCpSp_MUX_divfp_a_13_856";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_14 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_14_2205";
+         "CalculatePixOSCpSp_MUX_divfp_a_14_855";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_15 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_15_2204";
+         "CalculatePixOSCpSp_MUX_divfp_a_15_854";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_16 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_16_2203";
+         "CalculatePixOSCpSp_MUX_divfp_a_16_853";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_17 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_17_2202";
+         "CalculatePixOSCpSp_MUX_divfp_a_17_852";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_18 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_18_2201";
+         "CalculatePixOSCpSp_MUX_divfp_a_18_851";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_19 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_19_2200";
+         "CalculatePixOSCpSp_MUX_divfp_a_19_850";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_20 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_20_2199";
+         "CalculatePixOSCpSp_MUX_divfp_a_20_849";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_21 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_21_2198";
+         "CalculatePixOSCpSp_MUX_divfp_a_21_848";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_22 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_22_2197";
+         "CalculatePixOSCpSp_MUX_divfp_a_22_847";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_23 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_23_2196";
+         "CalculatePixOSCpSp_MUX_divfp_a_23_846";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_24 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_24_2195";
+         "CalculatePixOSCpSp_MUX_divfp_a_24_845";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_25 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_25_2194";
+         "CalculatePixOSCpSp_MUX_divfp_a_25_844";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_26 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_26_2193";
+         "CalculatePixOSCpSp_MUX_divfp_a_26_843";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_27 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_27_2192";
+         "CalculatePixOSCpSp_MUX_divfp_a_27_842";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_28 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_28_2191";
+         "CalculatePixOSCpSp_MUX_divfp_a_28_841";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_29 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_29_2190";
+         "CalculatePixOSCpSp_MUX_divfp_a_29_840";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_30 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_30_2189";
+         "CalculatePixOSCpSp_MUX_divfp_a_30_839";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_a_31 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_a_31_2188";
+         "CalculatePixOSCpSp_MUX_divfp_a_31_838";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_0 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_0_2251";
+         "CalculatePixOSCpSp_MUX_divfp_b_0_901";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_1 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_1_2250";
+         "CalculatePixOSCpSp_MUX_divfp_b_1_900";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_2 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_2_2249";
+         "CalculatePixOSCpSp_MUX_divfp_b_2_899";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_3 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_3_2248";
+         "CalculatePixOSCpSp_MUX_divfp_b_3_898";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_4 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_4_2247";
+         "CalculatePixOSCpSp_MUX_divfp_b_4_897";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_5 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_5_2246";
+         "CalculatePixOSCpSp_MUX_divfp_b_5_896";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_6 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_6_2245";
+         "CalculatePixOSCpSp_MUX_divfp_b_6_895";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_7 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_7_2244";
+         "CalculatePixOSCpSp_MUX_divfp_b_7_894";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_8 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_8_2243";
+         "CalculatePixOSCpSp_MUX_divfp_b_8_893";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_9 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_9_2242";
+         "CalculatePixOSCpSp_MUX_divfp_b_9_892";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_10 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_10_2241";
+         "CalculatePixOSCpSp_MUX_divfp_b_10_891";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_11 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_11_2240";
+         "CalculatePixOSCpSp_MUX_divfp_b_11_890";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_12 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_12_2239";
+         "CalculatePixOSCpSp_MUX_divfp_b_12_889";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_13 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_13_2238";
+         "CalculatePixOSCpSp_MUX_divfp_b_13_888";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_14 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_14_2237";
+         "CalculatePixOSCpSp_MUX_divfp_b_14_887";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_15 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_15_2236";
+         "CalculatePixOSCpSp_MUX_divfp_b_15_886";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_16 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_16_2235";
+         "CalculatePixOSCpSp_MUX_divfp_b_16_885";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_17 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_17_2234";
+         "CalculatePixOSCpSp_MUX_divfp_b_17_884";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_18 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_18_2233";
+         "CalculatePixOSCpSp_MUX_divfp_b_18_883";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_19 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_19_2232";
+         "CalculatePixOSCpSp_MUX_divfp_b_19_882";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_20 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_20_2231";
+         "CalculatePixOSCpSp_MUX_divfp_b_20_881";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_21 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_21_2230";
+         "CalculatePixOSCpSp_MUX_divfp_b_21_880";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_22 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_22_2229";
+         "CalculatePixOSCpSp_MUX_divfp_b_22_879";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_23 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_23_2228";
+         "CalculatePixOSCpSp_MUX_divfp_b_23_878";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_24 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_24_2227";
+         "CalculatePixOSCpSp_MUX_divfp_b_24_877";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_25 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_25_2226";
+         "CalculatePixOSCpSp_MUX_divfp_b_25_876";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_26 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_26_2225";
+         "CalculatePixOSCpSp_MUX_divfp_b_26_875";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_27 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_27_2224";
+         "CalculatePixOSCpSp_MUX_divfp_b_27_874";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_28 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_28_2223";
+         "CalculatePixOSCpSp_MUX_divfp_b_28_873";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_29 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_29_2222";
+         "CalculatePixOSCpSp_MUX_divfp_b_29_872";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_30 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_30_2221";
+         "CalculatePixOSCpSp_MUX_divfp_b_30_871";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_b_31 : label is 
-         "CalculatePixOSCpSp_MUX_divfp_b_31_2220";
+         "CalculatePixOSCpSp_MUX_divfp_b_31_870";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_ce : label is 
-         "CalculatePixOSCpSp_MUX_divfp_ce_2254";
+         "CalculatePixOSCpSp_MUX_divfp_ce_904";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_ond : label is 
-         "CalculatePixOSCpSp_MUX_divfp_ond_2252";
+         "CalculatePixOSCpSp_MUX_divfp_ond_902";
    attribute HU_SET of CalculatePixOSCpSp_MUX_divfp_sclr : label is 
-         "CalculatePixOSCpSp_MUX_divfp_sclr_2253";
+         "CalculatePixOSCpSp_MUX_divfp_sclr_903";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_0 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_0_2184";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_0_834";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_1 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_1_2183";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_1_833";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_2 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_2_2182";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_2_832";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_3 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_3_2181";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_3_831";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_4 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_4_2180";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_4_830";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_5 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_5_2179";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_5_829";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_6 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_6_2178";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_6_828";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_7 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_7_2177";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_7_827";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_8 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_8_2176";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_8_826";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_9 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_9_2175";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_9_825";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_10 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_10_2174";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_10_824";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_11 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_11_2173";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_11_823";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_12 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_12_2172";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_12_822";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_13 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_13_2171";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_13_821";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_14 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_14_2170";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_14_820";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_15 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_15_2169";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_16 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_16_2168";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_17 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_17_2167";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_18 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_18_2166";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_19 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_19_2165";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_20 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_20_2164";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_21 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_21_2163";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_22 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_22_2162";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_23 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_23_2161";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_24 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_24_2160";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_25 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_25_2159";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_26 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_26_2158";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_27 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_27_2157";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_28 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_28_2156";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_29 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_29_2155";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_30 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_30_2154";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_31 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_31_2153";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_32 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_32_2152";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_33 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_33_2151";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_34 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_34_2150";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_35 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_35_2149";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_36 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_36_2148";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_37 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_37_2147";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_38 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_38_2146";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_39 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_39_2145";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_40 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_40_2144";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_41 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_41_2143";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_42 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_42_2142";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_43 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_43_2141";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_44 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_44_2140";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_45 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_45_2139";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_46 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_46_2138";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_47 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_47_2137";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_48 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_48_2136";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_49 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_49_2135";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_50 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_50_2134";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_51 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_51_2133";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_52 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_52_2132";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_53 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_53_2131";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_54 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_54_2130";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_55 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_55_2129";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_56 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_56_2128";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_57 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_57_2127";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_58 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_58_2126";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_59 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_59_2125";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_60 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_60_2124";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_61 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_61_2123";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_62 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_62_2122";
-   attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_a_63 : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_a_63_2121";
+         "CalculatePixOSCpSp_MUX_fi2fl_a_15_819";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_ce : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_ce_2186";
+         "CalculatePixOSCpSp_MUX_fi2fl_ce_836";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_ond : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_ond_2185";
+         "CalculatePixOSCpSp_MUX_fi2fl_ond_835";
    attribute HU_SET of CalculatePixOSCpSp_MUX_fi2fl_sclr : label is 
-         "CalculatePixOSCpSp_MUX_fi2fl_sclr_2187";
+         "CalculatePixOSCpSp_MUX_fi2fl_sclr_837";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_0 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_0_2267";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_0_917";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_1 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_1_2266";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_1_916";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_2 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_2_2265";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_2_915";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_3 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_3_2264";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_3_914";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_4 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_4_2263";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_4_913";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_5 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_5_2262";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_5_912";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_6 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_6_2261";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_6_911";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_7 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_7_2260";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_7_910";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_8 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_8_2259";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_8_909";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_9 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_9_2258";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_9_908";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_10 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_10_2257";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_10_907";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_addra_11 : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_addra_11_2256";
+         "CalculatePixOSCpSp_MUX_i2c_mem_addra_11_906";
    attribute HU_SET of CalculatePixOSCpSp_MUX_i2c_mem_ena : label is 
-         "CalculatePixOSCpSp_MUX_i2c_mem_ena_2255";
+         "CalculatePixOSCpSp_MUX_i2c_mem_ena_905";
 begin
    CalculatePixOSCpSp_calculatekgain_process_p0 : CalculateKGain_process_p0
       port map (divfpr(31 downto 0)=>divfpr(31 downto 0),
@@ -2857,7 +2761,7 @@ begin
                 divfpce=>XLXN_34,
                 divfpond=>XLXN_32,
                 divfpsclr=>XLXN_33,
-                fixed2floata(63 downto 0)=>XLXN_18(63 downto 0),
+                fixed2floata(15 downto 0)=>XLXN_18(15 downto 0),
                 fixed2floatce=>XLXN_20,
                 fixed2floatond=>XLXN_19,
                 fixed2floatsclr=>XLXN_21,
@@ -3364,294 +3268,6 @@ begin
                 S0=>kgainmux,
                 O=>fixed2floata(15));
    
-   CalculatePixOSCpSp_MUX_fi2fl_a_16 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(16),
-                D1=>XLXN_18(16),
-                S0=>kgainmux,
-                O=>fixed2floata(16));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_17 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(17),
-                D1=>XLXN_18(17),
-                S0=>kgainmux,
-                O=>fixed2floata(17));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_18 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(18),
-                D1=>XLXN_18(18),
-                S0=>kgainmux,
-                O=>fixed2floata(18));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_19 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(19),
-                D1=>XLXN_18(19),
-                S0=>kgainmux,
-                O=>fixed2floata(19));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_20 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(20),
-                D1=>XLXN_18(20),
-                S0=>kgainmux,
-                O=>fixed2floata(20));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_21 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(21),
-                D1=>XLXN_18(21),
-                S0=>kgainmux,
-                O=>fixed2floata(21));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_22 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(22),
-                D1=>XLXN_18(22),
-                S0=>kgainmux,
-                O=>fixed2floata(22));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_23 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(23),
-                D1=>XLXN_18(23),
-                S0=>kgainmux,
-                O=>fixed2floata(23));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_24 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(24),
-                D1=>XLXN_18(24),
-                S0=>kgainmux,
-                O=>fixed2floata(24));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_25 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(25),
-                D1=>XLXN_18(25),
-                S0=>kgainmux,
-                O=>fixed2floata(25));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_26 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(26),
-                D1=>XLXN_18(26),
-                S0=>kgainmux,
-                O=>fixed2floata(26));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_27 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(27),
-                D1=>XLXN_18(27),
-                S0=>kgainmux,
-                O=>fixed2floata(27));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_28 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(28),
-                D1=>XLXN_18(28),
-                S0=>kgainmux,
-                O=>fixed2floata(28));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_29 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(29),
-                D1=>XLXN_18(29),
-                S0=>kgainmux,
-                O=>fixed2floata(29));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_30 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(30),
-                D1=>XLXN_18(30),
-                S0=>kgainmux,
-                O=>fixed2floata(30));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_31 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(31),
-                D1=>XLXN_18(31),
-                S0=>kgainmux,
-                O=>fixed2floata(31));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_32 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(32),
-                D1=>XLXN_18(32),
-                S0=>kgainmux,
-                O=>fixed2floata(32));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_33 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(33),
-                D1=>XLXN_18(33),
-                S0=>kgainmux,
-                O=>fixed2floata(33));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_34 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(34),
-                D1=>XLXN_18(34),
-                S0=>kgainmux,
-                O=>fixed2floata(34));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_35 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(35),
-                D1=>XLXN_18(35),
-                S0=>kgainmux,
-                O=>fixed2floata(35));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_36 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(36),
-                D1=>XLXN_18(36),
-                S0=>kgainmux,
-                O=>fixed2floata(36));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_37 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(37),
-                D1=>XLXN_18(37),
-                S0=>kgainmux,
-                O=>fixed2floata(37));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_38 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(38),
-                D1=>XLXN_18(38),
-                S0=>kgainmux,
-                O=>fixed2floata(38));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_39 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(39),
-                D1=>XLXN_18(39),
-                S0=>kgainmux,
-                O=>fixed2floata(39));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_40 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(40),
-                D1=>XLXN_18(40),
-                S0=>kgainmux,
-                O=>fixed2floata(40));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_41 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(41),
-                D1=>XLXN_18(41),
-                S0=>kgainmux,
-                O=>fixed2floata(41));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_42 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(42),
-                D1=>XLXN_18(42),
-                S0=>kgainmux,
-                O=>fixed2floata(42));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_43 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(43),
-                D1=>XLXN_18(43),
-                S0=>kgainmux,
-                O=>fixed2floata(43));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_44 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(44),
-                D1=>XLXN_18(44),
-                S0=>kgainmux,
-                O=>fixed2floata(44));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_45 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(45),
-                D1=>XLXN_18(45),
-                S0=>kgainmux,
-                O=>fixed2floata(45));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_46 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(46),
-                D1=>XLXN_18(46),
-                S0=>kgainmux,
-                O=>fixed2floata(46));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_47 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(47),
-                D1=>XLXN_18(47),
-                S0=>kgainmux,
-                O=>fixed2floata(47));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_48 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(48),
-                D1=>XLXN_18(48),
-                S0=>kgainmux,
-                O=>fixed2floata(48));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_49 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(49),
-                D1=>XLXN_18(49),
-                S0=>kgainmux,
-                O=>fixed2floata(49));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_50 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(50),
-                D1=>XLXN_18(50),
-                S0=>kgainmux,
-                O=>fixed2floata(50));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_51 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(51),
-                D1=>XLXN_18(51),
-                S0=>kgainmux,
-                O=>fixed2floata(51));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_52 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(52),
-                D1=>XLXN_18(52),
-                S0=>kgainmux,
-                O=>fixed2floata(52));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_53 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(53),
-                D1=>XLXN_18(53),
-                S0=>kgainmux,
-                O=>fixed2floata(53));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_54 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(54),
-                D1=>XLXN_18(54),
-                S0=>kgainmux,
-                O=>fixed2floata(54));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_55 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(55),
-                D1=>XLXN_18(55),
-                S0=>kgainmux,
-                O=>fixed2floata(55));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_56 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(56),
-                D1=>XLXN_18(56),
-                S0=>kgainmux,
-                O=>fixed2floata(56));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_57 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(57),
-                D1=>XLXN_18(57),
-                S0=>kgainmux,
-                O=>fixed2floata(57));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_58 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(58),
-                D1=>XLXN_18(58),
-                S0=>kgainmux,
-                O=>fixed2floata(58));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_59 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(59),
-                D1=>XLXN_18(59),
-                S0=>kgainmux,
-                O=>fixed2floata(59));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_60 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(60),
-                D1=>XLXN_18(60),
-                S0=>kgainmux,
-                O=>fixed2floata(60));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_61 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(61),
-                D1=>XLXN_18(61),
-                S0=>kgainmux,
-                O=>fixed2floata(61));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_62 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(62),
-                D1=>XLXN_18(62),
-                S0=>kgainmux,
-                O=>fixed2floata(62));
-   
-   CalculatePixOSCpSp_MUX_fi2fl_a_63 : M2_1_MXILINX_CalculatePixOSCpSp
-      port map (D0=>XLXN_22(63),
-                D1=>XLXN_18(63),
-                S0=>kgainmux,
-                O=>fixed2floata(63));
-   
    CalculatePixOSCpSp_MUX_fi2fl_ce : M2_1_MXILINX_CalculatePixOSCpSp
       port map (D0=>XLXN_24,
                 D1=>XLXN_20,
@@ -3787,7 +3403,7 @@ begin
                 divfpce=>XLXN_39,
                 divfpond=>XLXN_37,
                 divfpsclr=>XLXN_38,
-                fixed2floata(63 downto 0)=>XLXN_22(63 downto 0),
+                fixed2floata(15 downto 0)=>XLXN_22(15 downto 0),
                 fixed2floatce=>XLXN_24,
                 fixed2floatond=>XLXN_23,
                 fixed2floatsclr=>XLXN_25,
