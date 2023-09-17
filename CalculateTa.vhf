@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : CalculateTa.vhf
--- /___/   /\     Timestamp : 09/16/2023 17:17:10
+-- /___/   /\     Timestamp : 09/17/2023 17:06:37
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
