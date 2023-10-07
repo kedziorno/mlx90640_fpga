@@ -160,7 +160,7 @@ operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+result : OUT STD_LOGIC_VECTOR(63 DOWNTO 0)
 --rdy : OUT STD_LOGIC
 );
 END COMPONENT;
@@ -169,7 +169,7 @@ signal float2fixedond : STD_LOGIC;
 signal float2fixedclk : STD_LOGIC;
 signal float2fixedsclr : STD_LOGIC;
 signal float2fixedce : STD_LOGIC;
-signal float2fixedr : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal float2fixedr : STD_LOGIC_VECTOR(63 DOWNTO 0);
 --signal float2fixedrdy : STD_LOGIC;
 
 COMPONENT dualmem
@@ -262,10 +262,12 @@ begin
 if (fl2fi_wait = C_FL2FI_WAIT-1) then
 --tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
 --tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
---report_error ("float2fixedr", float2fixedr, 0.0);
---tout := "0000000000"&float2fixedr (34 downto 13); -- 35 29
-tout := x"0000"&float2fixedr (15 downto 0);
+--report_error ("================ test1 float2fixedr : ", float2fixedr, 0.0);
+tout := "0000000000"&float2fixedr (34 downto 13); -- 35 29
+--tout := "000000000000000000000000"&float2fixedr (13 downto 6);
+--tout := x"0000"&float2fixedr (15 downto 0);
 --tout := float2fixedr (15 downto 0)&x"0000";
+report_error ("================ test1 tout : ",tout,0.0);
 --tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
 float2fixedond <= '0';
 float2fixedce <= '0';
@@ -439,6 +441,10 @@ activeRender1 => VGA_timing_synch_activeRender1,
 blank => VGA_timing_synch_blank
 );
 
+vga_r <= vga_imagegenerator_RGB_out (7 downto 0);
+vga_g <= vga_imagegenerator_RGB_out (7 downto 0);
+vga_b <= vga_imagegenerator_RGB_out (7 downto 0);
+
 --vga_r <= vga_imagegenerator_RGB_out (7 downto 0);
 --vga_g <= vga_imagegenerator_RGB_out (15 downto 8);
 --vga_b <= vga_imagegenerator_RGB_out (23 downto 16);
@@ -451,9 +457,9 @@ blank => VGA_timing_synch_blank
 --vga_g <= vga_imagegenerator_RGB_out (23 downto 21) & vga_imagegenerator_RGB_out (15 downto 13) & vga_imagegenerator_RGB_out (7 downto 6);
 --vga_b <= vga_imagegenerator_RGB_out (23 downto 21) & vga_imagegenerator_RGB_out (15 downto 13) & vga_imagegenerator_RGB_out (7 downto 6);
 
-vga_r <= vga_imagegenerator_RGB_out (18 downto 16) & vga_imagegenerator_RGB_out (10 downto 8) & vga_imagegenerator_RGB_out (1 downto 0);
-vga_g <= vga_imagegenerator_RGB_out (18 downto 16) & vga_imagegenerator_RGB_out (10 downto 8) & vga_imagegenerator_RGB_out (1 downto 0);
-vga_b <= vga_imagegenerator_RGB_out (18 downto 16) & vga_imagegenerator_RGB_out (10 downto 8) & vga_imagegenerator_RGB_out (1 downto 0);
+--vga_r <= vga_imagegenerator_RGB_out (18 downto 16) & vga_imagegenerator_RGB_out (10 downto 8) & vga_imagegenerator_RGB_out (1 downto 0);
+--vga_g <= vga_imagegenerator_RGB_out (18 downto 16) & vga_imagegenerator_RGB_out (10 downto 8) & vga_imagegenerator_RGB_out (1 downto 0);
+--vga_b <= vga_imagegenerator_RGB_out (18 downto 16) & vga_imagegenerator_RGB_out (10 downto 8) & vga_imagegenerator_RGB_out (1 downto 0);
 
 vga_imagegenerator_active_area1 <= VGA_timing_synch_activeArea1;
 --vga_imagegenerator_Data_in1 <= test_fixed_melexis_do (BITS-1 downto 0);
