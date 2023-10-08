@@ -263,7 +263,8 @@ if (fl2fi_wait = C_FL2FI_WAIT-1) then
 --tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
 --tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
 --report_error ("================ test1 float2fixedr : ", float2fixedr, 0.0);
-tout := "0000000000"&float2fixedr (34 downto 13); -- 35 29
+--tout := float2fixedr (31+16 downto 0+16); -- 35 29
+tout := float2fixedr (31 downto 0); -- 35 29
 --tout := "000000000000000000000000"&float2fixedr (13 downto 6);
 --tout := x"0000"&float2fixedr (15 downto 0);
 --tout := float2fixedr (15 downto 0)&x"0000";
@@ -441,13 +442,17 @@ activeRender1 => VGA_timing_synch_activeRender1,
 blank => VGA_timing_synch_blank
 );
 
-vga_r <= vga_imagegenerator_RGB_out (7 downto 0);
-vga_g <= vga_imagegenerator_RGB_out (7 downto 0);
-vga_b <= vga_imagegenerator_RGB_out (7 downto 0);
+--vga_r <= x"ff";
+--vga_g <= x"ff";
+--vga_b <= x"ff";
 
 --vga_r <= vga_imagegenerator_RGB_out (7 downto 0);
---vga_g <= vga_imagegenerator_RGB_out (15 downto 8);
---vga_b <= vga_imagegenerator_RGB_out (23 downto 16);
+--vga_g <= vga_imagegenerator_RGB_out (7 downto 0);
+--vga_b <= vga_imagegenerator_RGB_out (7 downto 0);
+
+vga_r <= vga_imagegenerator_RGB_out (7 downto 0);
+vga_g <= vga_imagegenerator_RGB_out (15 downto 8);
+vga_b <= vga_imagegenerator_RGB_out (23 downto 16);
 
 --vga_r <= vga_imagegenerator_RGB_out (23 downto 16);
 --vga_g <= vga_imagegenerator_RGB_out (23 downto 16);

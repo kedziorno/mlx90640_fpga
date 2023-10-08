@@ -372,7 +372,7 @@ begin
 		write_enable <= '1';
 		addra <= std_logic_vector (to_unsigned (i, 10)); -- To
 		dia <= fttmp1;
-		report_error ("To " & integer'image (i), fttmp1, 0.0);
+		report_error ("CalculateGetImage To " & integer'image (i), fttmp1, 0.0);
 	when s6 =>
 		write_enable <= '0';
 		if (i = (C_ROW*C_COL)-1) then

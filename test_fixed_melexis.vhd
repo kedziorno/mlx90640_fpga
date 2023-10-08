@@ -181,7 +181,7 @@ douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
 );
 END COMPONENT;
 
-component calculateVdd is
+component CalculateVDD is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -226,7 +226,7 @@ subfpsclr : out STD_LOGIC;
 subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 subfprdy : in STD_LOGIC
 );
-end component calculateVdd;
+end component CalculateVDD;
 signal calculateVdd_clock : std_logic;
 signal calculateVdd_reset : std_logic;
 signal calculateVdd_run : std_logic;
@@ -1588,7 +1588,7 @@ end process tester;
 
 calculateVdd_clock <= i_clock;
 calculateVdd_reset <= i_reset;
-inst_calculateVdd : calculateVdd port map (
+inst_CalculateVDD : CalculateVDD port map (
 i_clock => CalculateVdd_clock,
 i_reset => CalculateVdd_reset,
 i_run => CalculateVdd_run,

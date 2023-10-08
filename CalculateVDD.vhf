@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : CalculateVDD.vhf
--- /___/   /\     Timestamp : 09/16/2023 17:15:28
+-- /___/   /\     Timestamp : 10/08/2023 14:04:45
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -1412,47 +1412,47 @@ architecture BEHAVIORAL of CalculateVDD is
    end component;
    
    attribute HU_SET of CalculateVDD_MUX_i2c_ena : label is 
-         "CalculateVDD_MUX_i2c_ena_20";
+         "CalculateVDD_MUX_i2c_ena_1126";
    attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_0 : label is 
-         "CalculateVDD_MUX_i2c_mem_addra_0_19";
+         "CalculateVDD_MUX_i2c_mem_addra_0_1125";
    attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_1 : label is 
-         "CalculateVDD_MUX_i2c_mem_addra_1_18";
+         "CalculateVDD_MUX_i2c_mem_addra_1_1124";
    attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_2 : label is 
-         "CalculateVDD_MUX_i2c_mem_addra_2_17";
+         "CalculateVDD_MUX_i2c_mem_addra_2_1123";
    attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_3 : label is 
-         "CalculateVDD_MUX_i2c_mem_addra_3_16";
+         "CalculateVDD_MUX_i2c_mem_addra_3_1122";
    attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_4 : label is 
-         "CalculateVDD_MUX_i2c_mem_addra_4_15";
+         "CalculateVDD_MUX_i2c_mem_addra_4_1121";
    attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_5 : label is 
-         "CalculateVDD_MUX_i2c_mem_addra_5_14";
+         "CalculateVDD_MUX_i2c_mem_addra_5_1120";
    attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_6 : label is 
-         "CalculateVDD_MUX_i2c_mem_addra_6_13";
+         "CalculateVDD_MUX_i2c_mem_addra_6_1119";
    attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_7 : label is 
-         "CalculateVDD_MUX_i2c_mem_addra_7_12";
+         "CalculateVDD_MUX_i2c_mem_addra_7_1118";
    attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_8 : label is 
-         "CalculateVDD_MUX_i2c_mem_addra_8_11";
+         "CalculateVDD_MUX_i2c_mem_addra_8_1117";
    attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_9 : label is 
-         "CalculateVDD_MUX_i2c_mem_addra_9_10";
+         "CalculateVDD_MUX_i2c_mem_addra_9_1116";
    attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_10 : label is 
-         "CalculateVDD_MUX_i2c_mem_addra_10_9";
+         "CalculateVDD_MUX_i2c_mem_addra_10_1115";
    attribute HU_SET of CalculateVDD_MUX_i2c_mem_addra_11 : label is 
-         "CalculateVDD_MUX_i2c_mem_addra_11_8";
+         "CalculateVDD_MUX_i2c_mem_addra_11_1114";
    attribute HU_SET of CalculateVDD_MUX_i2c_mem_douta_0 : label is 
-         "CalculateVDD_MUX_i2c_mem_douta_0_7";
+         "CalculateVDD_MUX_i2c_mem_douta_0_1113";
    attribute HU_SET of CalculateVDD_MUX_i2c_mem_douta_1 : label is 
-         "CalculateVDD_MUX_i2c_mem_douta_1_6";
+         "CalculateVDD_MUX_i2c_mem_douta_1_1112";
    attribute HU_SET of CalculateVDD_MUX_i2c_mem_douta_2 : label is 
-         "CalculateVDD_MUX_i2c_mem_douta_2_5";
+         "CalculateVDD_MUX_i2c_mem_douta_2_1111";
    attribute HU_SET of CalculateVDD_MUX_i2c_mem_douta_3 : label is 
-         "CalculateVDD_MUX_i2c_mem_douta_3_4";
+         "CalculateVDD_MUX_i2c_mem_douta_3_1110";
    attribute HU_SET of CalculateVDD_MUX_i2c_mem_douta_4 : label is 
-         "CalculateVDD_MUX_i2c_mem_douta_4_3";
+         "CalculateVDD_MUX_i2c_mem_douta_4_1109";
    attribute HU_SET of CalculateVDD_MUX_i2c_mem_douta_5 : label is 
-         "CalculateVDD_MUX_i2c_mem_douta_5_2";
+         "CalculateVDD_MUX_i2c_mem_douta_5_1108";
    attribute HU_SET of CalculateVDD_MUX_i2c_mem_douta_6 : label is 
-         "CalculateVDD_MUX_i2c_mem_douta_6_1";
+         "CalculateVDD_MUX_i2c_mem_douta_6_1107";
    attribute HU_SET of CalculateVDD_MUX_i2c_mem_douta_7 : label is 
-         "CalculateVDD_MUX_i2c_mem_douta_7_0";
+         "CalculateVDD_MUX_i2c_mem_douta_7_1106";
 begin
    CONST0(7 downto 0) <= x"00";
    CalculateVDD_extractvddparameters : ExtractVDDParameters_MUSER_CalculateVDD
