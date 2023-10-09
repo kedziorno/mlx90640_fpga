@@ -270,7 +270,7 @@ end if;
         mulfp_rdy <= '0';
 					mulfpsclr_internal <= '0';
 					o_write_enable <= '0';
-          report_error ("================ CalculatePixGain PixGain " & integer'image (pixgain_index) & " : ",mulfpr,0.0);
+--          report_error ("================ CalculatePixGain PixGain " & integer'image (pixgain_index) & " : ",mulfpr,0.0);
 				when s9 =>
 					if (pixgain_index = PIXGAIN_SZ - 1) then
 						state := ending;

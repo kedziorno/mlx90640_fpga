@@ -475,7 +475,7 @@ end if;
 					o_write_enable <= '1';
 					o_addra <= std_logic_vector (to_unsigned (i, 10)); -- pixos
 					o_dia <= fptmp1;
-         report_error ("================vircompensated : ",fptmp1,0.0);
+--         report_error ("================vircompensated : ",fptmp1,0.0);
 				when s23 =>
 					o_write_enable <= '0';
 					if (i = (C_ROW*C_COL)-1) then

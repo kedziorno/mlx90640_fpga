@@ -527,7 +527,7 @@ mulfp_rdy <= '0';
 				when s31 => state := s32;
 				when s32 => state := s33;
 					offcpsubpage0_ft := mem_signed1024_ovalue; -- offcpsubpage0
-         report_error ("================ CalculatePixOsCPSP offcpsubpage0 : ",offcpsubpage0_ft,0.0);
+--         report_error ("================ CalculatePixOsCPSP offcpsubpage0 : ",offcpsubpage0_ft,0.0);
 					offcpsubpage1delta_ft := nibble_in1;
 					addfpce_internal <= '1';
 					addfpa_internal <= offcpsubpage0_ft;
@@ -620,7 +620,7 @@ end if;
 				when s53 => state := s54;
 divfp_rdy <= '0';
 					divfpsclr_internal <= '0';
-         report_error ("================ CalculatePixOsCPSP ktacp : ",ktacp_ft,0.0);
+--         report_error ("================ CalculatePixOsCPSP ktacp : ",ktacp_ft,0.0);
 
 
 				when s54 => state := s55;
@@ -650,7 +650,7 @@ end if;
 				when s56 => state := s57;
 divfp_rdy <= '0';
 					divfpsclr_internal <= '0';
-         report_error ("================ CalculatePixOsCPSP kvcp : ",kvcp_ft,0.0);
+--         report_error ("================ CalculatePixOsCPSP kvcp : ",kvcp_ft,0.0);
 
 					subfpce_internal <= '1';
 					subfpa_internal <= i_Vdd;
@@ -979,7 +979,7 @@ end if;
 				when s90 =>
 if (subfp_wait = C_SUBFP_WAIT-1) then
 o_pixoscpsp1 <= subfpr_internal;
-report_error ("================ CalculatePixOsCPSP o_pixoscpsp1 : ",subfpr_internal,0.0);
+--report_error ("================ CalculatePixOsCPSP o_pixoscpsp1 : ",subfpr_internal,0.0);
 subfpce_internal <= '0';
 subfpond_internal <= '0';
 subfpsclr_internal <= '1';

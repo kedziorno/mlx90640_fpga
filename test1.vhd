@@ -21,6 +21,16 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+--synthesis translate_off
+library ieee_proposed;
+use ieee_proposed.float_pkg.all;
+use ieee_proposed.fixed_pkg.all;
+use ieee_proposed.numeric_std_additions.all; -- xxx 64bit
+use ieee_proposed.standard_additions.all; -- xxx 64bit
+use ieee_proposed.std_logic_1164_additions.all; -- xxx 64bit
+--synthesis translate_on
+
+use work.p_fphdl_package2.all;
 use work.p_fphdl_package3.all;
 
 entity test1 is
@@ -135,21 +145,21 @@ signal VGA_timing_synch_activehaaddrgen : STD_LOGIC;
 signal VGA_timing_synch_activeRender1 : STD_LOGIC;
 signal VGA_timing_synch_blank : STD_LOGIC;
 
-component vga_imagegenerator is
-generic (BITS : integer := BITS);
-Port (
-reset : in std_logic;
-vgaclk25 : std_logic;
-Data_in1 : in STD_LOGIC_VECTOR (BITS-1 downto 0);
-active_area1 : in  STD_LOGIC;
-RGB_out : out  STD_LOGIC_VECTOR (BITS-1 downto 0)
-);
-end component vga_imagegenerator;
-signal vga_imagegenerator_reset : std_logic;
-signal vga_imagegenerator_vgaclk25 : std_logic;
-signal vga_imagegenerator_Data_in1 : STD_LOGIC_VECTOR (BITS-1 downto 0);
-signal vga_imagegenerator_active_area1 : STD_LOGIC;
-signal vga_imagegenerator_RGB_out : STD_LOGIC_VECTOR (BITS-1 downto 0);
+--component vga_imagegenerator is
+--generic (BITS : integer := BITS);
+--Port (
+--reset : in std_logic;
+--vgaclk25 : std_logic;
+--Data_in1 : in STD_LOGIC_VECTOR (BITS-1 downto 0);
+--active_area1 : in  STD_LOGIC;
+--RGB_out : out  STD_LOGIC_VECTOR (BITS-1 downto 0)
+--);
+--end component vga_imagegenerator;
+--signal vga_imagegenerator_reset : std_logic;
+--signal vga_imagegenerator_vgaclk25 : std_logic;
+--signal vga_imagegenerator_Data_in1 : STD_LOGIC_VECTOR (BITS-1 downto 0);
+--signal vga_imagegenerator_active_area1 : STD_LOGIC;
+--signal vga_imagegenerator_RGB_out : STD_LOGIC_VECTOR (BITS-1 downto 0);
 
 signal vgaclk25,agclk : std_logic;
 
@@ -160,7 +170,7 @@ operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(63 DOWNTO 0)
+result : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
 --rdy : OUT STD_LOGIC
 );
 END COMPONENT;
@@ -169,7 +179,7 @@ signal float2fixedond : STD_LOGIC;
 signal float2fixedclk : STD_LOGIC;
 signal float2fixedsclr : STD_LOGIC;
 signal float2fixedce : STD_LOGIC;
-signal float2fixedr : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal float2fixedr : STD_LOGIC_VECTOR(15 DOWNTO 0);
 --signal float2fixedrdy : STD_LOGIC;
 
 COMPONENT dualmem
@@ -201,8 +211,9 @@ signal fl2fi_run,fl2fi_rdy : std_logic;
 begin
 
 vga_syncn <= '1';
+--vga_blankn <= '1';
 --vga_blankn <= VGA_timing_synch_blank;
-vga_blankn <= '1';
+vga_blankn <= VGA_timing_synch_activeArea1;
 vga_psave <= '1';
 
 p1_counter_fl2fi : process (i_clock) is
@@ -224,6 +235,9 @@ pTo : process (i_clock) is
 	type states is (idle,
 	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10);
 	variable state : states;
+--synthesis translate_off
+  variable data1 : sfixed (7 downto -8); 
+--synthesis translate_on
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -262,14 +276,13 @@ begin
 if (fl2fi_wait = C_FL2FI_WAIT-1) then
 --tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
 --tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
---report_error ("================ test1 float2fixedr : ", float2fixedr, 0.0);
---tout := float2fixedr (31+16 downto 0+16); -- 35 29
-tout := float2fixedr (31 downto 0); -- 35 29
---tout := "000000000000000000000000"&float2fixedr (13 downto 6);
---tout := x"0000"&float2fixedr (15 downto 0);
---tout := float2fixedr (15 downto 0)&x"0000";
-report_error ("================ test1 tout : ",tout,0.0);
+tout := x"ff00"&float2fixedr (15 downto 0); -- 35 29
 --tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
+--tout := x"ffffffff"; -- xxx debug, W screen, ok
+--tout := x"000000ff"; -- xxx debug, R screen, ok
+--tout := x"0000ff00"; -- xxx debug, G screen, ok
+--tout := x"00ff0000"; -- xxx debug, B screen, ok
+--tout := x"ff000000"; -- xxx debug, Black screen, ok
 float2fixedond <= '0';
 float2fixedce <= '0';
 float2fixedsclr <= '1';
@@ -280,23 +293,19 @@ else
 state := s7;
 fl2fi_run <= '1';
 end if;
---if (float2fixedrdy = '1') then state := s8;
---tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
---tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
---report_error ("float2fixedr", float2fixedr, 0.0);
---tout := "0000000000"&float2fixedr (34 downto 13); -- 35 29
---tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
---float2fixedond <= '0';
---float2fixedce <= '0';
---float2fixedsclr <= '1';
---else state := s7; end if;
 				when s8 => state := s9;
-        fl2fi_rdy <= '0';
+          fl2fi_rdy <= '0';
 					float2fixedsclr <= '0';
 					dualmem_wea <= "1";
 					dualmem_addra <= std_logic_vector (to_unsigned (i, 10));
 					dualmem_dina <= tout;
 					dualmem_ena <= '1';
+--synthesis translate_off
+--          data1 := to_sfixed (std_logic_vector(float2fixedr));
+          report_fixed_value ("test1 float2fixedr : ", to_sfixed(std_logic_vector(float2fixedr),data1));
+--          report_error ("test1 float2fixedr : ", to_sfixed(std_logic_vector(float2fixedr),data1));
+          report_error ("test1 tout         : ", tout, 0.0);
+--synthesis translate_on
 				when s9 =>
 					dualmem_wea <= "0";
 					dualmem_ena <= '0';
@@ -442,17 +451,14 @@ activeRender1 => VGA_timing_synch_activeRender1,
 blank => VGA_timing_synch_blank
 );
 
---vga_r <= x"ff";
---vga_g <= x"ff";
---vga_b <= x"ff";
+-- xxx debug
+--vga_r <= x"ff" when vga_imagegenerator_active_area1 = '1' else (others => '0');
+--vga_g <= x"ff" when vga_imagegenerator_active_area1 = '1' else (others => '0');
+--vga_b <= x"ff" when vga_imagegenerator_active_area1 = '1' else (others => '0');
 
 --vga_r <= vga_imagegenerator_RGB_out (7 downto 0);
---vga_g <= vga_imagegenerator_RGB_out (7 downto 0);
---vga_b <= vga_imagegenerator_RGB_out (7 downto 0);
-
-vga_r <= vga_imagegenerator_RGB_out (7 downto 0);
-vga_g <= vga_imagegenerator_RGB_out (15 downto 8);
-vga_b <= vga_imagegenerator_RGB_out (23 downto 16);
+--vga_g <= vga_imagegenerator_RGB_out (15 downto 8);
+--vga_b <= vga_imagegenerator_RGB_out (23 downto 16);
 
 --vga_r <= vga_imagegenerator_RGB_out (23 downto 16);
 --vga_g <= vga_imagegenerator_RGB_out (23 downto 16);
@@ -466,18 +472,26 @@ vga_b <= vga_imagegenerator_RGB_out (23 downto 16);
 --vga_g <= vga_imagegenerator_RGB_out (18 downto 16) & vga_imagegenerator_RGB_out (10 downto 8) & vga_imagegenerator_RGB_out (1 downto 0);
 --vga_b <= vga_imagegenerator_RGB_out (18 downto 16) & vga_imagegenerator_RGB_out (10 downto 8) & vga_imagegenerator_RGB_out (1 downto 0);
 
-vga_imagegenerator_active_area1 <= VGA_timing_synch_activeArea1;
+--vga_r <= dualmem_doutb (23 downto 16) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+--vga_g <= dualmem_doutb (15 downto 8) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+--vga_b <= dualmem_doutb (7 downto 0) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+
+vga_r <= dualmem_doutb (7 downto 0) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_g <= dualmem_doutb (7 downto 0) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_b <= dualmem_doutb (7 downto 0) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+
+--vga_imagegenerator_active_area1 <= VGA_timing_synch_activeArea1;
 --vga_imagegenerator_Data_in1 <= test_fixed_melexis_do (BITS-1 downto 0);
-vga_imagegenerator_Data_in1 <= dualmem_doutb (BITS-1 downto 0);
-vga_imagegenerator_vgaclk25 <= vgaclk25;
-vga_imagegenerator_reset <= i_reset;
-vig_inst : vga_imagegenerator port map (
-reset => vga_imagegenerator_reset,
-vgaclk25 => vga_imagegenerator_vgaclk25,
-Data_in1 => vga_imagegenerator_Data_in1,
-active_area1 => vga_imagegenerator_active_area1,
-RGB_out => vga_imagegenerator_RGB_out
-);
+--vga_imagegenerator_Data_in1 <= dualmem_doutb (BITS-1 downto 0);
+--vga_imagegenerator_vgaclk25 <= vgaclk25;
+--vga_imagegenerator_reset <= i_reset;
+--vig_inst : vga_imagegenerator port map (
+--reset => vga_imagegenerator_reset,
+--vgaclk25 => vga_imagegenerator_vgaclk25,
+--Data_in1 => vga_imagegenerator_Data_in1,
+--active_area1 => vga_imagegenerator_active_area1,
+--RGB_out => vga_imagegenerator_RGB_out
+--);
 
 --tb_data_calculateTo_clka <= i_clock;
 --tb_data_calculateTo_ena <= '1';

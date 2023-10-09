@@ -400,7 +400,7 @@ when kta26 => state := kta27; 	--22
 	o_write_enable <= '1';
 	o_addra <= std_logic_vector (to_unsigned (i, 10)); -- kta
 	o_dia <= kta_ft;
-     report_error ("================kta_ft "&integer'image(i)&" ",kta_ft,0.0);
+--     report_error ("================kta_ft "&integer'image(i)&" ",kta_ft,0.0);
 when kta27 =>
 	i := i + 1;
 	o_write_enable <= '0';

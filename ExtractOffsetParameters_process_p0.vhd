@@ -768,7 +768,7 @@ fi2fl_rdy <= '0';
 	col := 0;
 	i := 0;
 when s0 => state := s1; 	--1
-	report "====================";
+--	report "====================";
 	vOffset_ft := (others => '0');
 	o_write_enable <= '0';
 	i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i)+0, 12)); -- offset LSB 0
@@ -780,25 +780,25 @@ when s2 => state := s3;	--2
 	i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i)+1, 12)); -- offset MSB 1
 	o_addra <= std_logic_vector (to_unsigned (row, 10)); -- OCCrowI
 	vOCCColumnJ := i_doa;
-	report_error ("vOCCColumnJ i="&integer'image(i)&",col="&integer'image(col+C_ROW),vOCCColumnJ,0.0);
+--	report_error ("vOCCColumnJ i="&integer'image(i)&",col="&integer'image(col+C_ROW),vOCCColumnJ,0.0);
 	vOffset (15 downto 8) := i2c_mem_douta;
 when s3 => state := s4; 	--3
 	i2c_mem_addra <= (others => '0');
 	o_addra <= (others => '0');
 when s4 => state := s5; 	--3
 	vOCCRowI := i_doa;
-	report_error ("vOCCRowI i="&integer'image(i)&",row="&integer'image(row),vOCCRowI,0.0);
+--	report_error ("vOCCRowI i="&integer'image(i)&",row="&integer'image(row),vOCCRowI,0.0);
 	vOffset (7 downto 0) := i2c_mem_douta;
 --	report_error ("vOffset i2c_addr "&integer'image(128+(2*i)),vOffset,0.0);
-	report_error ("vOffset i2c_addr "&integer'image(i),vOffset,0.0);
+--	report_error ("vOffset i2c_addr "&integer'image(i),vOffset,0.0);
 	nibble_out3 <= vOffset (15 downto 10);
 when s5 => state := s6; 	--5
 	mulfpce_internal <= '1';
 	mulfpa_internal <= nibble_in3;
 	mulfpb_internal <= voccRemScale;
 	mulfpond_internal <= '1';
-	report_error ("voccRemScale "&integer'image(i),voccRemScale,0.0);
-	report_error ("nibble_in3 "&integer'image(i),nibble_in3,0.0);
+--	report_error ("voccRemScale "&integer'image(i),voccRemScale,0.0);
+--	report_error ("nibble_in3 "&integer'image(i),nibble_in3,0.0);
 when s6 => 			--6
 if (mulfp_wait = C_MULFP_WAIT-1) then
 vOffset_ft := mulfpr_internal;
@@ -825,7 +825,7 @@ mulfp_rdy <= '0';
 	mulfpa_internal <= vOCCColumnJ;
 	mulfpb_internal <= voccColumnScale;
 	mulfpond_internal <= '1';
-	report_error ("voccColumnScale "&integer'image(i),voccColumnScale,0.0);
+--	report_error ("voccColumnScale "&integer'image(i),voccColumnScale,0.0);
 when s8 => 			--8
 if (mulfp_wait = C_MULFP_WAIT-1) then
 vOCCColumnJ := mulfpr_internal;
@@ -854,7 +854,7 @@ when s10 => state := s11; 	--10
 	mulfpa_internal <= vOCCRowI;
 	mulfpb_internal <= voccRowScale;
 	mulfpond_internal <= '1';
-	report_error ("voccRowScale "&integer'image(i),voccRowScale,0.0);
+--	report_error ("voccRowScale "&integer'image(i),voccRowScale,0.0);
 when s11 => 			--11
 if (mulfp_wait = C_MULFP_WAIT-1) then
 vOCCRowI := mulfpr_internal;
@@ -883,8 +883,8 @@ when s13 => state := s14; 	--13
 	addfpa_internal <= vOffset_ft;
 	addfpb_internal <= vOCCColumnJ;
 	addfpond_internal <= '1';
-	report_error ("vOffset_ft nibble_in3 * voccremscale",vOffset_ft,0.0);
-	report_error ("vOCCColumnJ vocccolumnj * vocccolumnscale",vOCCColumnJ,0.0);
+--	report_error ("vOffset_ft nibble_in3 * voccremscale",vOffset_ft,0.0);
+--	report_error ("vOCCColumnJ vocccolumnj * vocccolumnscale",vOCCColumnJ,0.0);
 when s14 => 			--14
 if (addfp_wait = C_ADDFP_WAIT-1) then
 vOffset_ft := addfpr_internal;
@@ -913,8 +913,8 @@ when s16 => state := s17; 	--16
 	addfpa_internal <= vOffset_ft;
 	addfpb_internal <= vOCCRowI;
 	addfpond_internal <= '1';
-	report_error ("vOffset_ft voffset_ft + vocccolumnj",vOffset_ft,0.0);
-	report_error ("vOCCRowI voccrowi * voccrowscale",vOCCRowI,0.0);
+--	report_error ("vOffset_ft voffset_ft + vocccolumnj",vOffset_ft,0.0);
+--	report_error ("vOCCRowI voccrowi * voccrowscale",vOCCRowI,0.0);
 when s17 => 			--17
 if (addfp_wait = C_MULFP_WAIT-1) then
 vOffset_ft := addfpr_internal;
@@ -943,8 +943,8 @@ when s19 => state := s20; 	--19
 	addfpa_internal <= vOffset_ft;
 	addfpb_internal <= vOffsetAverage;
 	addfpond_internal <= '1';
-	report_error ("vOffset_ft after voffset_ft + voccrowi",vOffset_ft,0.0);
-	report_error ("vOffsetAverage fi2fl",vOffsetAverage,0.0);
+--	report_error ("vOffset_ft after voffset_ft + voccrowi",vOffset_ft,0.0);
+--	report_error ("vOffsetAverage fi2fl",vOffsetAverage,0.0);
 when s20 => 			--20
 if (addfp_wait = C_ADDFP_WAIT-1) then
 vOffset_ft := addfpr_internal;
@@ -971,7 +971,7 @@ when s22 => state := s23; 	--22
 	o_write_enable <= '1';
 	o_addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vOffset_ft
 	o_dia <= vOffset_ft;
-    report_error ("================vOffset_ft voffset_ft + vOffsetAverage,param i="&integer'image(i)&",i+off="&integer'image(i+C_ROW+C_COL),vOffset_ft,0.0);
+--    report_error ("================vOffset_ft voffset_ft + vOffsetAverage,param i="&integer'image(i)&",i+off="&integer'image(i+C_ROW+C_COL),vOffset_ft,0.0);
 	i := i + 1;
 when s23 =>
 	if (col = C_COL-1) then

@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : CalculatePixGain.vhf
--- /___/   /\     Timestamp : 10/08/2023 14:04:45
+-- /___/   /\     Timestamp : 10/09/2023 14:17:13
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -693,217 +693,217 @@ architecture BEHAVIORAL of CalculatePixGain is
    attribute BOX_TYPE of INV : component is "BLACK_BOX";
    
    attribute HU_SET of CalculatePixGain_MUX_DIA_0 : label is 
-         "CalculatePixGain_MUX_DIA_0_1200";
+         "CalculatePixGain_MUX_DIA_0_507";
    attribute HU_SET of CalculatePixGain_MUX_DIA_1 : label is 
-         "CalculatePixGain_MUX_DIA_1_1199";
+         "CalculatePixGain_MUX_DIA_1_506";
    attribute HU_SET of CalculatePixGain_MUX_DIA_2 : label is 
-         "CalculatePixGain_MUX_DIA_2_1198";
+         "CalculatePixGain_MUX_DIA_2_505";
    attribute HU_SET of CalculatePixGain_MUX_DIA_3 : label is 
-         "CalculatePixGain_MUX_DIA_3_1197";
+         "CalculatePixGain_MUX_DIA_3_504";
    attribute HU_SET of CalculatePixGain_MUX_DIA_4 : label is 
-         "CalculatePixGain_MUX_DIA_4_1196";
+         "CalculatePixGain_MUX_DIA_4_503";
    attribute HU_SET of CalculatePixGain_MUX_DIA_5 : label is 
-         "CalculatePixGain_MUX_DIA_5_1195";
+         "CalculatePixGain_MUX_DIA_5_502";
    attribute HU_SET of CalculatePixGain_MUX_DIA_6 : label is 
-         "CalculatePixGain_MUX_DIA_6_1194";
+         "CalculatePixGain_MUX_DIA_6_501";
    attribute HU_SET of CalculatePixGain_MUX_DIA_7 : label is 
-         "CalculatePixGain_MUX_DIA_7_1193";
+         "CalculatePixGain_MUX_DIA_7_500";
    attribute HU_SET of CalculatePixGain_MUX_DIA_8 : label is 
-         "CalculatePixGain_MUX_DIA_8_1192";
+         "CalculatePixGain_MUX_DIA_8_499";
    attribute HU_SET of CalculatePixGain_MUX_DIA_9 : label is 
-         "CalculatePixGain_MUX_DIA_9_1191";
+         "CalculatePixGain_MUX_DIA_9_498";
    attribute HU_SET of CalculatePixGain_MUX_DIA_10 : label is 
-         "CalculatePixGain_MUX_DIA_10_1190";
+         "CalculatePixGain_MUX_DIA_10_497";
    attribute HU_SET of CalculatePixGain_MUX_DIA_11 : label is 
-         "CalculatePixGain_MUX_DIA_11_1189";
+         "CalculatePixGain_MUX_DIA_11_496";
    attribute HU_SET of CalculatePixGain_MUX_DIA_12 : label is 
-         "CalculatePixGain_MUX_DIA_12_1188";
+         "CalculatePixGain_MUX_DIA_12_495";
    attribute HU_SET of CalculatePixGain_MUX_DIA_13 : label is 
-         "CalculatePixGain_MUX_DIA_13_1187";
+         "CalculatePixGain_MUX_DIA_13_494";
    attribute HU_SET of CalculatePixGain_MUX_DIA_14 : label is 
-         "CalculatePixGain_MUX_DIA_14_1186";
+         "CalculatePixGain_MUX_DIA_14_493";
    attribute HU_SET of CalculatePixGain_MUX_DIA_15 : label is 
-         "CalculatePixGain_MUX_DIA_15_1185";
+         "CalculatePixGain_MUX_DIA_15_492";
    attribute HU_SET of CalculatePixGain_MUX_DIA_16 : label is 
-         "CalculatePixGain_MUX_DIA_16_1184";
+         "CalculatePixGain_MUX_DIA_16_491";
    attribute HU_SET of CalculatePixGain_MUX_DIA_17 : label is 
-         "CalculatePixGain_MUX_DIA_17_1183";
+         "CalculatePixGain_MUX_DIA_17_490";
    attribute HU_SET of CalculatePixGain_MUX_DIA_18 : label is 
-         "CalculatePixGain_MUX_DIA_18_1182";
+         "CalculatePixGain_MUX_DIA_18_489";
    attribute HU_SET of CalculatePixGain_MUX_DIA_19 : label is 
-         "CalculatePixGain_MUX_DIA_19_1181";
+         "CalculatePixGain_MUX_DIA_19_488";
    attribute HU_SET of CalculatePixGain_MUX_DIA_20 : label is 
-         "CalculatePixGain_MUX_DIA_20_1180";
+         "CalculatePixGain_MUX_DIA_20_487";
    attribute HU_SET of CalculatePixGain_MUX_DIA_21 : label is 
-         "CalculatePixGain_MUX_DIA_21_1179";
+         "CalculatePixGain_MUX_DIA_21_486";
    attribute HU_SET of CalculatePixGain_MUX_DIA_22 : label is 
-         "CalculatePixGain_MUX_DIA_22_1178";
+         "CalculatePixGain_MUX_DIA_22_485";
    attribute HU_SET of CalculatePixGain_MUX_DIA_23 : label is 
-         "CalculatePixGain_MUX_DIA_23_1177";
+         "CalculatePixGain_MUX_DIA_23_484";
    attribute HU_SET of CalculatePixGain_MUX_DIA_24 : label is 
-         "CalculatePixGain_MUX_DIA_24_1176";
+         "CalculatePixGain_MUX_DIA_24_483";
    attribute HU_SET of CalculatePixGain_MUX_DIA_25 : label is 
-         "CalculatePixGain_MUX_DIA_25_1175";
+         "CalculatePixGain_MUX_DIA_25_482";
    attribute HU_SET of CalculatePixGain_MUX_DIA_26 : label is 
-         "CalculatePixGain_MUX_DIA_26_1174";
+         "CalculatePixGain_MUX_DIA_26_481";
    attribute HU_SET of CalculatePixGain_MUX_DIA_27 : label is 
-         "CalculatePixGain_MUX_DIA_27_1173";
+         "CalculatePixGain_MUX_DIA_27_480";
    attribute HU_SET of CalculatePixGain_MUX_DIA_28 : label is 
-         "CalculatePixGain_MUX_DIA_28_1172";
+         "CalculatePixGain_MUX_DIA_28_479";
    attribute HU_SET of CalculatePixGain_MUX_DIA_29 : label is 
-         "CalculatePixGain_MUX_DIA_29_1171";
+         "CalculatePixGain_MUX_DIA_29_478";
    attribute HU_SET of CalculatePixGain_MUX_DIA_30 : label is 
-         "CalculatePixGain_MUX_DIA_30_1170";
+         "CalculatePixGain_MUX_DIA_30_477";
    attribute HU_SET of CalculatePixGain_MUX_DIA_31 : label is 
-         "CalculatePixGain_MUX_DIA_31_1169";
+         "CalculatePixGain_MUX_DIA_31_476";
    attribute HU_SET of CalculatePixGain_MUX_DO_0 : label is 
-         "CalculatePixGain_MUX_DO_0_1158";
+         "CalculatePixGain_MUX_DO_0_465";
    attribute HU_SET of CalculatePixGain_MUX_DO_1 : label is 
-         "CalculatePixGain_MUX_DO_1_1157";
+         "CalculatePixGain_MUX_DO_1_464";
    attribute HU_SET of CalculatePixGain_MUX_DO_2 : label is 
-         "CalculatePixGain_MUX_DO_2_1156";
+         "CalculatePixGain_MUX_DO_2_463";
    attribute HU_SET of CalculatePixGain_MUX_DO_3 : label is 
-         "CalculatePixGain_MUX_DO_3_1155";
+         "CalculatePixGain_MUX_DO_3_462";
    attribute HU_SET of CalculatePixGain_MUX_DO_4 : label is 
-         "CalculatePixGain_MUX_DO_4_1154";
+         "CalculatePixGain_MUX_DO_4_461";
    attribute HU_SET of CalculatePixGain_MUX_DO_5 : label is 
-         "CalculatePixGain_MUX_DO_5_1153";
+         "CalculatePixGain_MUX_DO_5_460";
    attribute HU_SET of CalculatePixGain_MUX_DO_6 : label is 
-         "CalculatePixGain_MUX_DO_6_1152";
+         "CalculatePixGain_MUX_DO_6_459";
    attribute HU_SET of CalculatePixGain_MUX_DO_7 : label is 
-         "CalculatePixGain_MUX_DO_7_1151";
+         "CalculatePixGain_MUX_DO_7_458";
    attribute HU_SET of CalculatePixGain_MUX_DO_8 : label is 
-         "CalculatePixGain_MUX_DO_8_1150";
+         "CalculatePixGain_MUX_DO_8_457";
    attribute HU_SET of CalculatePixGain_MUX_DO_9 : label is 
-         "CalculatePixGain_MUX_DO_9_1149";
+         "CalculatePixGain_MUX_DO_9_456";
    attribute HU_SET of CalculatePixGain_MUX_DO_10 : label is 
-         "CalculatePixGain_MUX_DO_10_1148";
+         "CalculatePixGain_MUX_DO_10_455";
    attribute HU_SET of CalculatePixGain_MUX_DO_11 : label is 
-         "CalculatePixGain_MUX_DO_11_1147";
+         "CalculatePixGain_MUX_DO_11_454";
    attribute HU_SET of CalculatePixGain_MUX_DO_12 : label is 
-         "CalculatePixGain_MUX_DO_12_1146";
+         "CalculatePixGain_MUX_DO_12_453";
    attribute HU_SET of CalculatePixGain_MUX_DO_13 : label is 
-         "CalculatePixGain_MUX_DO_13_1145";
+         "CalculatePixGain_MUX_DO_13_452";
    attribute HU_SET of CalculatePixGain_MUX_DO_14 : label is 
-         "CalculatePixGain_MUX_DO_14_1144";
+         "CalculatePixGain_MUX_DO_14_451";
    attribute HU_SET of CalculatePixGain_MUX_DO_15 : label is 
-         "CalculatePixGain_MUX_DO_15_1143";
+         "CalculatePixGain_MUX_DO_15_450";
    attribute HU_SET of CalculatePixGain_MUX_DO_16 : label is 
-         "CalculatePixGain_MUX_DO_16_1142";
+         "CalculatePixGain_MUX_DO_16_449";
    attribute HU_SET of CalculatePixGain_MUX_DO_17 : label is 
-         "CalculatePixGain_MUX_DO_17_1141";
+         "CalculatePixGain_MUX_DO_17_448";
    attribute HU_SET of CalculatePixGain_MUX_DO_18 : label is 
-         "CalculatePixGain_MUX_DO_18_1140";
+         "CalculatePixGain_MUX_DO_18_447";
    attribute HU_SET of CalculatePixGain_MUX_DO_19 : label is 
-         "CalculatePixGain_MUX_DO_19_1139";
+         "CalculatePixGain_MUX_DO_19_446";
    attribute HU_SET of CalculatePixGain_MUX_DO_20 : label is 
-         "CalculatePixGain_MUX_DO_20_1138";
+         "CalculatePixGain_MUX_DO_20_445";
    attribute HU_SET of CalculatePixGain_MUX_DO_21 : label is 
-         "CalculatePixGain_MUX_DO_21_1137";
+         "CalculatePixGain_MUX_DO_21_444";
    attribute HU_SET of CalculatePixGain_MUX_DO_22 : label is 
-         "CalculatePixGain_MUX_DO_22_1136";
+         "CalculatePixGain_MUX_DO_22_443";
    attribute HU_SET of CalculatePixGain_MUX_DO_23 : label is 
-         "CalculatePixGain_MUX_DO_23_1135";
+         "CalculatePixGain_MUX_DO_23_442";
    attribute HU_SET of CalculatePixGain_MUX_DO_24 : label is 
-         "CalculatePixGain_MUX_DO_24_1134";
+         "CalculatePixGain_MUX_DO_24_441";
    attribute HU_SET of CalculatePixGain_MUX_DO_25 : label is 
-         "CalculatePixGain_MUX_DO_25_1133";
+         "CalculatePixGain_MUX_DO_25_440";
    attribute HU_SET of CalculatePixGain_MUX_DO_26 : label is 
-         "CalculatePixGain_MUX_DO_26_1132";
+         "CalculatePixGain_MUX_DO_26_439";
    attribute HU_SET of CalculatePixGain_MUX_DO_27 : label is 
-         "CalculatePixGain_MUX_DO_27_1131";
+         "CalculatePixGain_MUX_DO_27_438";
    attribute HU_SET of CalculatePixGain_MUX_DO_28 : label is 
-         "CalculatePixGain_MUX_DO_28_1130";
+         "CalculatePixGain_MUX_DO_28_437";
    attribute HU_SET of CalculatePixGain_MUX_DO_29 : label is 
-         "CalculatePixGain_MUX_DO_29_1129";
+         "CalculatePixGain_MUX_DO_29_436";
    attribute HU_SET of CalculatePixGain_MUX_DO_30 : label is 
-         "CalculatePixGain_MUX_DO_30_1128";
+         "CalculatePixGain_MUX_DO_30_435";
    attribute HU_SET of CalculatePixGain_MUX_DO_31 : label is 
-         "CalculatePixGain_MUX_DO_31_1127";
+         "CalculatePixGain_MUX_DO_31_434";
    attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_0 : label is 
-         "CalculatePixGain_MUX_fi2fl_a_0_1229";
+         "CalculatePixGain_MUX_fi2fl_a_0_536";
    attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_1 : label is 
-         "CalculatePixGain_MUX_fi2fl_a_1_1228";
+         "CalculatePixGain_MUX_fi2fl_a_1_535";
    attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_2 : label is 
-         "CalculatePixGain_MUX_fi2fl_a_2_1227";
+         "CalculatePixGain_MUX_fi2fl_a_2_534";
    attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_3 : label is 
-         "CalculatePixGain_MUX_fi2fl_a_3_1226";
+         "CalculatePixGain_MUX_fi2fl_a_3_533";
    attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_4 : label is 
-         "CalculatePixGain_MUX_fi2fl_a_4_1225";
+         "CalculatePixGain_MUX_fi2fl_a_4_532";
    attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_5 : label is 
-         "CalculatePixGain_MUX_fi2fl_a_5_1224";
+         "CalculatePixGain_MUX_fi2fl_a_5_531";
    attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_6 : label is 
-         "CalculatePixGain_MUX_fi2fl_a_6_1223";
+         "CalculatePixGain_MUX_fi2fl_a_6_530";
    attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_7 : label is 
-         "CalculatePixGain_MUX_fi2fl_a_7_1222";
+         "CalculatePixGain_MUX_fi2fl_a_7_529";
    attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_8 : label is 
-         "CalculatePixGain_MUX_fi2fl_a_8_1221";
+         "CalculatePixGain_MUX_fi2fl_a_8_528";
    attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_9 : label is 
-         "CalculatePixGain_MUX_fi2fl_a_9_1220";
+         "CalculatePixGain_MUX_fi2fl_a_9_527";
    attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_10 : label is 
-         "CalculatePixGain_MUX_fi2fl_a_10_1219";
+         "CalculatePixGain_MUX_fi2fl_a_10_526";
    attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_11 : label is 
-         "CalculatePixGain_MUX_fi2fl_a_11_1218";
+         "CalculatePixGain_MUX_fi2fl_a_11_525";
    attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_12 : label is 
-         "CalculatePixGain_MUX_fi2fl_a_12_1217";
+         "CalculatePixGain_MUX_fi2fl_a_12_524";
    attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_13 : label is 
-         "CalculatePixGain_MUX_fi2fl_a_13_1216";
+         "CalculatePixGain_MUX_fi2fl_a_13_523";
    attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_14 : label is 
-         "CalculatePixGain_MUX_fi2fl_a_14_1215";
+         "CalculatePixGain_MUX_fi2fl_a_14_522";
    attribute HU_SET of CalculatePixGain_MUX_fi2fl_a_15 : label is 
-         "CalculatePixGain_MUX_fi2fl_a_15_1214";
+         "CalculatePixGain_MUX_fi2fl_a_15_521";
    attribute HU_SET of CalculatePixGain_MUX_fi2fl_ce : label is 
-         "CalculatePixGain_MUX_fi2fl_ce_1232";
+         "CalculatePixGain_MUX_fi2fl_ce_539";
    attribute HU_SET of CalculatePixGain_MUX_fi2fl_ond : label is 
-         "CalculatePixGain_MUX_fi2fl_ond_1230";
+         "CalculatePixGain_MUX_fi2fl_ond_537";
    attribute HU_SET of CalculatePixGain_MUX_fi2fl_sclr : label is 
-         "CalculatePixGain_MUX_fi2fl_sclr_1231";
+         "CalculatePixGain_MUX_fi2fl_sclr_538";
    attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_0 : label is 
-         "CalculatePixGain_MUX_i2c_mem_addra_0_1213";
+         "CalculatePixGain_MUX_i2c_mem_addra_0_520";
    attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_1 : label is 
-         "CalculatePixGain_MUX_i2c_mem_addra_1_1212";
+         "CalculatePixGain_MUX_i2c_mem_addra_1_519";
    attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_2 : label is 
-         "CalculatePixGain_MUX_i2c_mem_addra_2_1211";
+         "CalculatePixGain_MUX_i2c_mem_addra_2_518";
    attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_3 : label is 
-         "CalculatePixGain_MUX_i2c_mem_addra_3_1210";
+         "CalculatePixGain_MUX_i2c_mem_addra_3_517";
    attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_4 : label is 
-         "CalculatePixGain_MUX_i2c_mem_addra_4_1209";
+         "CalculatePixGain_MUX_i2c_mem_addra_4_516";
    attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_5 : label is 
-         "CalculatePixGain_MUX_i2c_mem_addra_5_1208";
+         "CalculatePixGain_MUX_i2c_mem_addra_5_515";
    attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_6 : label is 
-         "CalculatePixGain_MUX_i2c_mem_addra_6_1207";
+         "CalculatePixGain_MUX_i2c_mem_addra_6_514";
    attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_7 : label is 
-         "CalculatePixGain_MUX_i2c_mem_addra_7_1206";
+         "CalculatePixGain_MUX_i2c_mem_addra_7_513";
    attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_8 : label is 
-         "CalculatePixGain_MUX_i2c_mem_addra_8_1205";
+         "CalculatePixGain_MUX_i2c_mem_addra_8_512";
    attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_9 : label is 
-         "CalculatePixGain_MUX_i2c_mem_addra_9_1204";
+         "CalculatePixGain_MUX_i2c_mem_addra_9_511";
    attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_10 : label is 
-         "CalculatePixGain_MUX_i2c_mem_addra_10_1203";
+         "CalculatePixGain_MUX_i2c_mem_addra_10_510";
    attribute HU_SET of CalculatePixGain_MUX_i2c_mem_addra_11 : label is 
-         "CalculatePixGain_MUX_i2c_mem_addra_11_1202";
+         "CalculatePixGain_MUX_i2c_mem_addra_11_509";
    attribute HU_SET of CalculatePixGain_MUX_i2c_mem_ena : label is 
-         "CalculatePixGain_MUX_i2c_mem_ena_1201";
+         "CalculatePixGain_MUX_i2c_mem_ena_508";
    attribute HU_SET of CalculatePixGain_mux2_addra_0 : label is 
-         "CalculatePixGain_mux2_addra_0_1168";
+         "CalculatePixGain_mux2_addra_0_475";
    attribute HU_SET of CalculatePixGain_mux2_addra_1 : label is 
-         "CalculatePixGain_mux2_addra_1_1167";
+         "CalculatePixGain_mux2_addra_1_474";
    attribute HU_SET of CalculatePixGain_mux2_addra_2 : label is 
-         "CalculatePixGain_mux2_addra_2_1166";
+         "CalculatePixGain_mux2_addra_2_473";
    attribute HU_SET of CalculatePixGain_mux2_addra_3 : label is 
-         "CalculatePixGain_mux2_addra_3_1165";
+         "CalculatePixGain_mux2_addra_3_472";
    attribute HU_SET of CalculatePixGain_mux2_addra_4 : label is 
-         "CalculatePixGain_mux2_addra_4_1164";
+         "CalculatePixGain_mux2_addra_4_471";
    attribute HU_SET of CalculatePixGain_mux2_addra_5 : label is 
-         "CalculatePixGain_mux2_addra_5_1163";
+         "CalculatePixGain_mux2_addra_5_470";
    attribute HU_SET of CalculatePixGain_mux2_addra_6 : label is 
-         "CalculatePixGain_mux2_addra_6_1162";
+         "CalculatePixGain_mux2_addra_6_469";
    attribute HU_SET of CalculatePixGain_mux2_addra_7 : label is 
-         "CalculatePixGain_mux2_addra_7_1161";
+         "CalculatePixGain_mux2_addra_7_468";
    attribute HU_SET of CalculatePixGain_mux2_addra_8 : label is 
-         "CalculatePixGain_mux2_addra_8_1160";
+         "CalculatePixGain_mux2_addra_8_467";
    attribute HU_SET of CalculatePixGain_mux2_addra_9 : label is 
-         "CalculatePixGain_mux2_addra_9_1159";
+         "CalculatePixGain_mux2_addra_9_466";
    attribute WRITE_WIDTH_B of mem_KGain_1 : label is "36";
    attribute WRITE_WIDTH_A of mem_KGain_1 : label is "36";
    attribute WRITE_MODE_B of mem_KGain_1 : label is "READ_FIRST";

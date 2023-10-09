@@ -781,14 +781,14 @@ begin
 				when pow1 => state := pow2;
 					nibble4_out <= vaccColumnScale1;
 					vaccRemScale := nibble4_in; -- 2^accscaleremnant
-                                     report_error ("vaccRemScale : ",vaccRemScale,0.0);
+--                                     report_error ("vaccRemScale : ",vaccRemScale,0.0);
 				when pow2 => state := pow3;
 					nibble4_out <= vaccRowScale1;
 					vaccColumnScale := nibble4_in; -- 2^accscalecolumn
-                                     report_error ("vaccColumnScale : ",vaccColumnScale,0.0);
+--                                     report_error ("vaccColumnScale : ",vaccColumnScale,0.0);
 				when pow3 => state := pow4;
 					vaccRowScale := nibble4_in; -- 2^accscalerow
-                                     report_error ("vaccRowScale : ",vaccRowScale,0.0);
+--                                     report_error ("vaccRowScale : ",vaccRowScale,0.0);
 --					valphaRef_sf := resize (to_sfixed (valphaRef, eeprom16sf), valphaRef_sf);
 --					----------report_error (valphaRef, 0.0);
 --					fixed2floatce_internal <= '1';
@@ -802,7 +802,7 @@ fixed2floata_internal <= valphaRef;
 				when pow4 =>
 if (fi2fl_wait = C_FI2FL_WAIT-1) then
 valphaReference_ft := fixed2floatr_internal;
-report_error ("valphaReference_ft : ",valphaReference_ft,0.0);
+--report_error ("valphaReference_ft : ",valphaReference_ft,0.0);
 fixed2floatce_internal <= '0';
 fixed2floatond_internal <= '0';
 fixed2floatsclr_internal <= '1';
@@ -1101,7 +1101,7 @@ when s24 => state := s25; 	--22
 	o_write_enable <= '1';
 	o_addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vAlphaPixel_ft
 	o_dia <= vAlphaPixel_ft;
-       report_error ("================vAlphaPixel_ft : ",vAlphaPixel_ft,0.0);
+--       report_error ("================vAlphaPixel_ft : ",vAlphaPixel_ft,0.0);
 	i := i + 1;
 when s25 =>
 	if (col = C_COL-1) then

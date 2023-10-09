@@ -218,7 +218,7 @@ when kv12 => state := kv13; 	--22
 	o_write_enable <= '1';
 	o_addra <= std_logic_vector (to_unsigned (i, 10)); -- kv
 	o_dia <= kv_ft;
-     report_error ("================kv_ft "&integer'image(i)&" ",kv_ft,0.0);
+--     report_error ("================kv_ft "&integer'image(i)&" ",kv_ft,0.0);
 when kv13 =>
 	i := i + 1;
 	o_write_enable <= '0';

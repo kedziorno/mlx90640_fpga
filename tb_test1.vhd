@@ -30,7 +30,9 @@ USE ieee.std_logic_1164.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---USE ieee.numeric_std.ALL;
+USE ieee.numeric_std.ALL;
+
+use work.bmp_pkg.all;
 
 ENTITY tb_test1 IS
 END tb_test1;
@@ -47,7 +49,10 @@ vga_vsync : OUT  std_logic;
 vga_clock : OUT  std_logic;
 vga_r : OUT  std_logic_vector(7 downto 0);
 vga_g : OUT  std_logic_vector(7 downto 0);
-vga_b : OUT  std_logic_vector(7 downto 0)
+vga_b : OUT  std_logic_vector(7 downto 0);
+vga_syncn : out std_logic;
+vga_blankn: out std_logic;
+vga_psave: out std_logic
 );
 END COMPONENT;
 
@@ -59,12 +64,29 @@ signal i_reset : std_logic := '0';
 signal vga_hsync : std_logic;
 signal vga_vsync : std_logic;
 signal vga_clock : std_logic;
+signal vga_syncn : std_logic;
+signal vga_blankn : std_logic;
+signal vga_psave : std_logic;
 signal vga_r : std_logic_vector(7 downto 0);
 signal vga_g : std_logic_vector(7 downto 0);
 signal vga_b : std_logic_vector(7 downto 0);
 
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
+
+component vga_bmp_sink is
+generic (
+FILENAME        : string
+);
+port (
+clk_i           : in    std_logic;
+dat_i           : in    std_logic_vector(23 downto 0);
+active_vid_i    : in    std_logic;
+h_sync_i        : in    std_logic;
+v_sync_i        : in    std_logic
+
+);
+end component vga_bmp_sink;
 
 BEGIN
 
@@ -77,7 +99,10 @@ vga_vsync => vga_vsync,
 vga_clock => vga_clock,
 vga_r => vga_r,
 vga_g => vga_g,
-vga_b => vga_b
+vga_b => vga_b,
+vga_syncn => vga_syncn,
+vga_blankn => vga_blankn,
+vga_psave => vga_psave
 );
 
 -- Clock process definitions
@@ -101,5 +126,15 @@ wait for i_clock_period*10;
 wait for 34 ms;
 report "tb done" severity failure;
 end process;
+
+vga_bmp : entity work.vga_bmp_sink
+generic map ( FILENAME => "vga.bmp" )
+port map (
+clk_i           => vga_clock,
+dat_i           => vga_r & vga_g & vga_b,
+active_vid_i    => not vga_blankn,
+h_sync_i        => vga_hsync,
+v_sync_i        => vga_vsync
+);
 
 END;
