@@ -44,7 +44,7 @@ vga_g : out std_logic_vector (7 downto 0);
 vga_b : out std_logic_vector (7 downto 0);
 vga_syncn : out std_logic;
 vga_blankn: out std_logic;
-vga_psave: out std_logic
+vga_psaven: out std_logic
 );
 end test1;
 
@@ -210,11 +210,11 @@ signal fl2fi_run,fl2fi_rdy : std_logic;
 
 begin
 
-vga_syncn <= '1';
+vga_syncn <= '0';
+--vga_syncn <= VGA_timing_synch_blank;
 --vga_blankn <= '1';
---vga_blankn <= VGA_timing_synch_blank;
 vga_blankn <= VGA_timing_synch_activeArea1;
-vga_psave <= '1';
+vga_psaven <= '1';
 
 p1_counter_fl2fi : process (i_clock) is
 begin
@@ -272,11 +272,13 @@ begin
 					float2fixedond <= '1';
 					float2fixedce <= '1';
 					float2fixeda <= test_fixed_melexis_do;
+--					float2fixeda <= x"477FFF00"; -- xxx debug white, val 65535
 				when s7 =>
 if (fl2fi_wait = C_FL2FI_WAIT-1) then
 --tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
 --tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
-tout := x"ff00"&float2fixedr (15 downto 0); -- 35 29
+tout := float2fixedr (15 downto 0)&float2fixedr (15 downto 0); -- 35 29
+--tout := x"ffffffff"; -- xxx debug white ok
 --tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
 --tout := x"ffffffff"; -- xxx debug, W screen, ok
 --tout := x"000000ff"; -- xxx debug, R screen, ok
@@ -497,9 +499,9 @@ blank => VGA_timing_synch_blank
 --vga_b <= dualmem_doutb (7+4 downto 0+4) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
 -- xxx on virtual vga image seems ok, darker than +4
-vga_r <= dualmem_doutb (7+5 downto 0+5) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_g <= dualmem_doutb (7+5 downto 0+5) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_b <= dualmem_doutb (7+5 downto 0+5) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_r <= dualmem_doutb (7+5 downto 3+5)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_g <= dualmem_doutb (7+5 downto 3+5)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_b <= dualmem_doutb (7+5 downto 3+5)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
 -- xxx on virtual vga image seems ok, darker than +5
 --vga_r <= dualmem_doutb (7+6 downto 0+6) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
