@@ -18,7 +18,7 @@ use ieee.math_real.all;
 package bmp_pkg is
 
     constant BMP_MAX_WIDTH : integer := 640;
-    constant BMP_MAX_HEIGHT : integer := 479;
+    constant BMP_MAX_HEIGHT : integer := 480;
 
     subtype bmp_slv8_t is std_logic_vector(7 downto 0);
     subtype bmp_slv16_t is std_logic_vector(15 downto 0);

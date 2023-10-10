@@ -132,7 +132,7 @@ generic map ( FILENAME => "vga.bmp" )
 port map (
 clk_i           => vga_clock,
 dat_i           => vga_r & vga_g & vga_b,
-active_vid_i    => not vga_blankn,
+active_vid_i    => vga_blankn,
 h_sync_i        => vga_hsync,
 v_sync_i        => vga_vsync
 );

@@ -56,8 +56,8 @@ architecture Behavioral of vga_bmp_sink is
     signal eol  : std_logic := '0';
     signal eof  : std_logic := '0';
 
-    signal x    : natural := 0;
-    signal y    : natural := 0;
+    signal x    : natural range 0 to BMP_MAX_WIDTH-1 := 0;
+    signal y    : natural range 0 to BMP_MAX_HEIGHT-1 := 0;
 
     signal is_active_line   : std_logic := '0';
     signal is_active_frame  : std_logic := '0';
@@ -73,6 +73,7 @@ begin
             -- EOL
             if h_sync_dly = '0' and h_sync_i = '1' then
                 eol <= '1';
+                report "eol";
             else
                 eol <= '0';
             end if;
@@ -80,6 +81,7 @@ begin
             -- EOF
             if v_sync_dly = '0' and v_sync_i = '1' then
                 eof <= '1';
+                report "eof";
             else
                 eof <= '0';
             end if;
@@ -108,20 +110,33 @@ begin
 
                 bmp_set_pix( sink_bmp, x, y, sink_pix );
 
+                if (x = BMP_MAX_WIDTH-1) then
+                x <= 0;
+                else
                 x <= x + 1;
+                end if;
+--                report "x : " & integer'image(x);
                 is_active_line <= '1';
                 is_active_frame <= '1';
             else
                 if eol = '1' then
                     x <= 0;
+                    bmp_save( sink_bmp, FILENAME );
+                    report "x reset, line save to bmp";
                     if is_active_line = '1' then
+                        if (y = BMP_MAX_HEIGHT-1) then
+                        y <= 0;
+                        else
                         y <= y + 1;
+                        end if;
+                        report "y : " & integer'image(y);
                     end if;
                     is_active_line <= '0';
                 end if;
 
                 if eof = '1' then
                     y <= 0;
+                    report "y reset";
                     if is_active_frame = '1' then
                         bmp_save( sink_bmp, FILENAME );
                     end if;
