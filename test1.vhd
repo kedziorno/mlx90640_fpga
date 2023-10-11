@@ -208,13 +208,19 @@ signal dualmem_doutb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal fl2fi_wait : integer range 0 to C_FL2FI_WAIT-1;
 signal fl2fi_run,fl2fi_rdy : std_logic;
 
+--synthesis translate_off
+signal data2 : sfixed (7 downto -8); 
+--synthesis translate_on
+
 begin
 
 vga_syncn <= '0';
---vga_syncn <= VGA_timing_synch_blank;
---vga_blankn <= '1';
 vga_blankn <= VGA_timing_synch_activeArea1;
 vga_psaven <= '1';
+
+--vga_syncn <= '1';
+--vga_blankn <= '1';
+--vga_psaven <= '1';
 
 p1_counter_fl2fi : process (i_clock) is
 begin
@@ -277,7 +283,7 @@ begin
 if (fl2fi_wait = C_FL2FI_WAIT-1) then
 --tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
 --tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
-tout := float2fixedr (15 downto 0)&float2fixedr (15 downto 0); -- 35 29
+tout := x"ff00"&float2fixedr (15 downto 0); -- 35 29
 --tout := x"ffffffff"; -- xxx debug white ok
 --tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
 --tout := x"ffffffff"; -- xxx debug, W screen, ok
@@ -304,9 +310,9 @@ end if;
 					dualmem_ena <= '1';
 --synthesis translate_off
 --          data1 := to_sfixed (std_logic_vector(float2fixedr));
-          report_fixed_value ("test1 float2fixedr : ", to_sfixed(std_logic_vector(float2fixedr),data1));
+          report_fixed_value ("test1 float2fixedr", to_sfixed(std_logic_vector(float2fixedr),data1));
 --          report_error ("test1 float2fixedr : ", to_sfixed(std_logic_vector(float2fixedr),data1));
-          report_error ("test1 tout         : ", tout, 0.0);
+          report_error ("test1 tout        ", tout, 0.0);
 --synthesis translate_on
 				when s9 =>
 					dualmem_wea <= "0";
@@ -345,6 +351,15 @@ begin
 		end if;
 	end if;
 end process pvgaclk;
+
+--synthesis translate_off
+pdualmemdoutb : process (agclk) is
+begin
+  if (rising_edge (agclk)) then
+    report_fixed_value ("test1 dualmemdoutb", to_sfixed(std_logic_vector(dualmem_doutb (15 downto 0)),data2));
+  end if;
+end process pdualmemdoutb;
+--synthesis translate_on
 
 pagclk : process (i_clock) is
 	constant CMAX : integer := 40; -- 1.25
@@ -499,9 +514,9 @@ blank => VGA_timing_synch_blank
 --vga_b <= dualmem_doutb (7+4 downto 0+4) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
 -- xxx on virtual vga image seems ok, darker than +4
-vga_r <= dualmem_doutb (7+5 downto 3+5)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_g <= dualmem_doutb (7+5 downto 3+5)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_b <= dualmem_doutb (7+5 downto 3+5)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+--vga_r <= dualmem_doutb (7+5 downto 0+5) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+--vga_g <= dualmem_doutb (7+5 downto 0+5) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+--vga_b <= dualmem_doutb (7+5 downto 0+5) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
 -- xxx on virtual vga image seems ok, darker than +5
 --vga_r <= dualmem_doutb (7+6 downto 0+6) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
@@ -517,6 +532,13 @@ vga_b <= dualmem_doutb (7+5 downto 3+5)&"000" when VGA_timing_synch_activeArea1 
 --vga_r <= dualmem_doutb (7+8 downto 0+8) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_g <= dualmem_doutb (7+8 downto 0+8) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_b <= dualmem_doutb (7+8 downto 0+8) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+
+vga_r (7 downto 3) <= dualmem_doutb (13 downto 9) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_g (7 downto 3) <= dualmem_doutb (13 downto 9) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_b (7 downto 3) <= dualmem_doutb (13 downto 9) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_r (2 downto 0) <= "000";
+vga_g (2 downto 0) <= "000";
+vga_b (2 downto 0) <= "000";
 
 --vga_imagegenerator_active_area1 <= VGA_timing_synch_activeArea1;
 --vga_imagegenerator_Data_in1 <= test_fixed_melexis_do (BITS-1 downto 0);

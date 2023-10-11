@@ -44,13 +44,13 @@ package body p_fphdl_package2 is
 
 	procedure report_fixed_value (constant mes : in string; actual : in sfixed) is
   begin
-		report mes & CR & real'image(to_real(actual)) & " ( " & to_string(actual) & " " & to_hstring(actual) & " ) " severity note;
+		report mes & " : " & real'image(to_real(actual)) & " ( " & to_string(actual) & " " & to_hstring(actual) & " ) " severity note;
 		return;
 	end procedure report_fixed_value;
 
 	procedure report_fixed_value (constant mes : in string; actual : in ufixed) is
 	begin
-		report mes & CR & real'image(to_real(actual)) & " ( " & to_string(actual) & " " & to_hstring(actual) & " ) " severity note;
+		report mes & " : " & real'image(to_real(actual)) & " ( " & to_string(actual) & " " & to_hstring(actual) & " ) " severity note;
 		return;
 	end procedure report_fixed_value;
 
@@ -58,7 +58,7 @@ package body p_fphdl_package2 is
 		subtype sta is sfixed (hi downto lo);
 		variable a : sta;
 	begin
-		report mes & CR & real'image(to_real(resize(actual,hi,lo))) & " ( " & to_string(actual) & " " & to_hstring(actual) & " ) " severity note;
+		report mes & " : " & real'image(to_real(resize(actual,hi,lo))) & " ( " & to_string(actual) & " " & to_hstring(actual) & " ) " severity note;
 		return;
 	end procedure report_fixed_value;
 
