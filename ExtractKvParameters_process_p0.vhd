@@ -145,8 +145,8 @@ begin
 			i2c_mem_ena <= '0';
 			i2c_mem_addra <= (others => '0');
 			i := 0;
-			o_col <= (others => '0');
-			o_row <= (others => '0');
+--			o_col <= (others => '0');
+--			o_row <= (others => '0');
       col <= 0;
       row <= 0;
       divfp_run <= '0';
@@ -229,7 +229,6 @@ when kv13 =>
 		col <= col + 1;
 		state := kv1;
 	end if;
-  o_col <= std_logic_vector (to_unsigned (col, 5));
 when kv14 =>
 	o_write_enable <= '0';
 	if (row = C_ROW-1) then
@@ -239,7 +238,6 @@ when kv14 =>
 		row <= row + 1;
 		state := kv1;
 	end if;
-  o_row <= std_logic_vector (to_unsigned (row, 5));
 when ending => state := idle;
   o_rdy <= '1';
 				when others => null;
@@ -247,6 +245,9 @@ when ending => state := idle;
 		end if;
 	end if;
 end process p0;
+
+o_row <= std_logic_vector (to_unsigned (row, 5));
+o_col <= std_logic_vector (to_unsigned (col, 5));
 
 end Behavioral;
 
