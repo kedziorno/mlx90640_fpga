@@ -20,13 +20,13 @@ package p_fphdl_package3 is
   constant fl16exp : integer := 6;
   constant fl16fra : integer := 10;
 
-  constant C_ADDFP_WAIT : integer := 16;
-  constant C_SUBFP_WAIT : integer := 16;
-  constant C_MULFP_WAIT : integer := 16;
-  constant C_DIVFP_WAIT : integer := 32;
-  constant C_SQRTFP2_WAIT : integer := 32;
-  constant C_FI2FL_WAIT : integer := 8;
-  constant C_FL2FI_WAIT : integer := 8;
+  constant C_ADDFP_WAIT : integer := 32;
+  constant C_SUBFP_WAIT : integer := 32;
+  constant C_MULFP_WAIT : integer := 32;
+  constant C_DIVFP_WAIT : integer := 64;
+  constant C_SQRTFP2_WAIT : integer := 64;
+  constant C_FI2FL_WAIT : integer := 16;
+  constant C_FL2FI_WAIT : integer := 16;
 
 	function ap_slv2fp (sl:std_logic_vector) return real;
 	function ap_slv2int (sl:std_logic_vector) return integer;
