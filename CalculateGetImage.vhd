@@ -289,9 +289,9 @@ p0 : process (i_clock) is
 	constant const27315 : std_logic_vector (31 downto 0) := x"43889333"; -- 273.15
 	constant constEmissivity : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
 	constant const1 : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
---	constant const10e7 : std_logic_vector (31 downto 0) := x"4B189680"; -- 10e7
+	constant const10e7 : std_logic_vector (31 downto 0) := x"4B189680"; -- 10e7
 --	constant const10e7 : std_logic_vector (31 downto 0) := x"CB189680"; -- -10e7
-	constant const10e7 : std_logic_vector (31 downto 0) := x"CCBEBC20"; -- -10e8
+--	constant const10e7 : std_logic_vector (31 downto 0) := x"CCBEBC20"; -- -10e8
 	type states is (idle,
 	s1,s2,s3,s4,s5,s6,s6a,s6b,s6c,
 	ending);
@@ -356,7 +356,7 @@ begin
 		mulfpond_internal <= '1';
 	when s6b =>
 		if (mulfp_wait = C_MULFP_WAIT-1) then
-			fttmp1 := mulfpr_internal; -- * 10e7
+			fttmp1 := mulfpr_internal; -- normalization mulfp
 			mulfpce_internal <= '0';
 			mulfpond_internal <= '0';
 			mulfpsclr_internal <= '1';

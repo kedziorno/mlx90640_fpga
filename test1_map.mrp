@@ -10,24 +10,25 @@ Target Device  : xc4vsx35
 Target Package : ff668
 Target Speed   : -10
 Mapper Version : virtex4 -- $Revision: 1.55 $
-Mapped Date    : Wed Oct 11 13:07:59 2023
+Mapped Date    : Thu Oct 12 18:42:23 2023
 
 Design Summary
 --------------
 Number of errors:      0
-Number of warnings:   65
+Number of warnings:   66
 Logic Utilization:
-  Number of Slice Flip Flops:         8,379 out of  30,720   27%
-  Number of 4 input LUTs:            12,228 out of  30,720   39%
+  Number of Slice Flip Flops:         8,348 out of  30,720   27%
+  Number of 4 input LUTs:            12,234 out of  30,720   39%
 Logic Distribution:
-  Number of occupied Slices:          8,573 out of  15,360   55%
-    Number of Slices containing only related logic:   8,573 out of   8,573 100%
-    Number of Slices containing unrelated logic:          0 out of   8,573   0%
+  Number of occupied Slices:          8,569 out of  15,360   55%
+    Number of Slices containing only related logic:   8,569 out of   8,569 100%
+    Number of Slices containing unrelated logic:          0 out of   8,569   0%
       *See NOTES below for an explanation of the effects of unrelated logic.
-  Total Number of 4 input LUTs:      12,339 out of  30,720   40%
-    Number used as logic:            12,032
-    Number used as a route-thru:        111
-    Number used as Shift registers:     196
+  Total Number of 4 input LUTs:      12,346 out of  30,720   40%
+    Number used as logic:            12,035
+    Number used as a route-thru:        112
+    Number used as 16x1 RAMs:             1
+    Number used as Shift registers:     198
 
   The Slice Logic Distribution report is not meaningful if the design is
   over-mapped for a non-slice resource or if Placement fails.
@@ -39,11 +40,11 @@ Logic Distribution:
   Number of DSP48s:                      13 out of     192    6%
 
   Number of RPM macros:            2
-Average Fanout of Non-Clock Nets:                3.39
+Average Fanout of Non-Clock Nets:                3.38
 
 Peak Memory Usage:  890 MB
-Total REAL time to MAP completion:  1 mins 19 secs 
-Total CPU time to MAP completion:   1 mins 15 secs 
+Total REAL time to MAP completion:  1 mins 6 secs 
+Total CPU time to MAP completion:   1 mins 5 secs 
 
 NOTES:
 
@@ -128,6 +129,8 @@ WARNING:PhysDesignRules:367 - The signal <tfm_inst/inst_mulfp/sig000001fa> is
    incomplete. The signal does not drive any load pins in the design.
 WARNING:PhysDesignRules:367 - The signal <tfm_inst/inst_mulfp/sig000001f9> is
    incomplete. The signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <inst_float2fixed/Mshreg_sig00000013>
+   is incomplete. The signal does not drive any load pins in the design.
 WARNING:PhysDesignRules:367 - The signal <tfm_inst/inst_mulfp/sig00000066> is
    incomplete. The signal does not drive any load pins in the design.
 WARNING:PhysDesignRules:367 - The signal
@@ -276,12 +279,6 @@ INFO:Xst:2261 - The FF/Latch <tfm_inst/CalculateVirCompensated_mux> in Unit
    <test1> is equivalent to the following FF/Latch, which will be removed :
    <tfm_inst/CalculateVirCompensated_mux_1> 
 INFO:Xst:2261 - The FF/Latch
-   <tfm_inst/inst_CalculatePixOS/inst_CalcPixOS_proc0/ExtractOffsetParameters_mu
-   x> in Unit <test1> is equivalent to the following FF/Latch, which will be
-   removed :
-   <tfm_inst/inst_CalculatePixOS/inst_CalcPixOS_proc0/ExtractOffsetParameters_mu
-   x_1> 
-INFO:Xst:2261 - The FF/Latch
    <tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_calculatekgain_process_p
    0/fttmp2_29> in Unit <test1> is equivalent to the following FF/Latch, which
    will be removed :
@@ -335,6 +332,12 @@ INFO:Xst:2261 - The FF/Latch
    removed :
    <tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_process_p0_inst/ram0708_
    ft_28> 
+INFO:Xst:2261 - The FF/Latch
+   <tfm_inst/inst_CalculatePixOS/inst_CalcPixOS_proc0/ExtractOffsetParameters_mu
+   x> in Unit <test1> is equivalent to the following FF/Latch, which will be
+   removed :
+   <tfm_inst/inst_CalculatePixOS/inst_CalcPixOS_proc0/ExtractOffsetParameters_mu
+   x_1> 
 INFO:Xst:2261 - The FF/Latch
    <tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_process_p0_inst/ram0728_
    ft_29> in Unit <test1> is equivalent to the following FF/Latch, which will be
@@ -4939,16 +4942,13 @@ INFO:MapLib:791 - This design contains DSP48 instances with C port tied to
    simulation mismatches.
    List of affected DSP48 instances: tfm_inst/inst_addfp/blk00000178 and
    tfm_inst/inst_subfp/blk00000178
-INFO:LIT:244 - All of the single ended outputs in this design are using slew
-   rate limited output drivers. The delay on speed critical single ended outputs
-   can be dramatically reduced by designating them as fast outputs.
 
 Section 4 - Removed Logic Summary
 ---------------------------------
 1572 block(s) removed
   41 block(s) optimized away
 1610 signal(s) removed
-1006 Block(s) redundant
+1158 Block(s) redundant
 
 Section 5 - Removed Logic
 -------------------------
@@ -14211,7 +14211,118 @@ Redundant Block(s):
 TYPE 		BLOCK
 LOCALBUF
 		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<9>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<8>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<7>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<6>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<5>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<4>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<3>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<31>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<30>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<2>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<29>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<28>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<27>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<26>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<25>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<24>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<23>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<22>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<21>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<20>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<1>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<19>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<18>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<17>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<16>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<15>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<14>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<13>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<12>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<11>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<10>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
+m_proc0/voffset_ft_mux0000<0>_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
 m_proc0/o_addra_mux0000<7>1_SW0/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/state_cmp_eq0000_SW0/LUT
+2_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/inst_CalcPixOS_proc0/state_cmp_eq0002_SW0/LUT2_L_
+BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<0>1_SW1/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/inst_CalcPixOS_proc0/fptmp2_mux0000<0>1_SW1/LUT4_
+L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<0>1_SW1/LUT4_L_BUF
 LOCALBUF
 		tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/o_
 addra_mux0000<7>2_SW0/LUT4_L_BUF
@@ -14281,6 +14392,9 @@ LOCALBUF 		tfm_inst/divfpa<20>40_SW1/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<21>52_SW1/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<22>52_SW1/LUT4_L_BUF
 LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<9>33_SW
+0/LUT4_L_BUF
+LOCALBUF
 		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
 m_proc0/nibble_out2_mux0000<2>8_SW0/LUT4_L_BUF
 LOCALBUF
@@ -14343,18 +14457,9 @@ LOCALBUF 		tfm_inst/subfpb<1>8_SW1/LUT4_L_BUF
 LOCALBUF 		tfm_inst/subfpa<17>8_SW1/LUT4_L_BUF
 LOCALBUF 		tfm_inst/subfpb<26>8_SW1/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpb<26>53_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpb<19>8_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<3>8_SW1/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpb<19>34_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<25>8_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpb<2>8_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<18>8_SW1/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpb<2>34_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpb<27>8_SW1/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpb<27>53_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpb<20>8_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<4>8_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<26>8_SW1/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpb<3>34_SW1/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpb<28>53_SW1/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpb<21>34_SW1/LUT4_L_BUF
@@ -14367,10 +14472,11 @@ LOCALBUF 		tfm_inst/addfpb<11>34_SW1/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpb<15>34_SW1/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpb<14>34_SW1/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<31>52_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<29>38_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpb<29>15_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<3>38_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<21>38_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/fixed2floatce22_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/fixed2floata<14>22_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<29>32_SW0/LUT3_L_BUF
 LOCALBUF 		tfm_inst/divfpa<24>73_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<23>73_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<25>73_SW0/LUT4_L_BUF
@@ -14384,6 +14490,7 @@ LOCALBUF 		tfm_inst/divfpb<27>73_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<29>73_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<28>51_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<30>73_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpa<31>73_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpb<23>74_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpb<24>74_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpb<25>74_SW0/LUT4_L_BUF
@@ -14392,6 +14499,7 @@ LOCALBUF 		tfm_inst/addfpb<27>74_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpb<28>74_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpb<29>74_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<31>79_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpa<0>131/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<0>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<0>4/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<0>59/LUT3_L_BUF
@@ -14431,8 +14539,6 @@ LOCALBUF 		tfm_inst/addfpa<1>59/LUT3_L_BUF
 LOCALBUF 		tfm_inst/addfpa<20>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<20>4/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<20>59/LUT3_L_BUF
-LOCALBUF 		tfm_inst/addfpa<21>20/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<21>4/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<21>59/LUT3_L_BUF
 LOCALBUF 		tfm_inst/addfpa<22>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<22>4/LUT4_L_BUF
@@ -14455,6 +14561,8 @@ LOCALBUF 		tfm_inst/addfpa<27>59/LUT3_L_BUF
 LOCALBUF 		tfm_inst/addfpa<28>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<28>4/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<28>59/LUT3_L_BUF
+LOCALBUF 		tfm_inst/addfpa<29>20/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<29>4/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<29>59/LUT3_L_BUF
 LOCALBUF 		tfm_inst/addfpa<2>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<2>4/LUT4_L_BUF
@@ -14463,8 +14571,6 @@ LOCALBUF 		tfm_inst/addfpa<30>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<30>4/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<30>59/LUT3_L_BUF
 LOCALBUF 		tfm_inst/addfpa<31>62/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<3>20/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<3>4/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<3>59/LUT3_L_BUF
 LOCALBUF 		tfm_inst/addfpa<4>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<4>4/LUT4_L_BUF
@@ -14524,7 +14630,6 @@ LOCALBUF 		tfm_inst/divfpa<22>4/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<22>55/LUT3_L_BUF
 LOCALBUF 		tfm_inst/divfpa<23>52/LUT3_L_BUF
 LOCALBUF 		tfm_inst/divfpa<2>43/LUT3_L_BUF
-LOCALBUF 		tfm_inst/divfpa<31>55/LUT3_L_BUF
 LOCALBUF 		tfm_inst/divfpa<3>43/LUT3_L_BUF
 LOCALBUF 		tfm_inst/divfpa<4>43/LUT3_L_BUF
 LOCALBUF 		tfm_inst/divfpa<5>43/LUT3_L_BUF
@@ -14548,7 +14653,6 @@ LOCALBUF 		tfm_inst/divfpb<20>7/LUT3_L_BUF
 LOCALBUF 		tfm_inst/divfpb<21>7/LUT3_L_BUF
 LOCALBUF 		tfm_inst/divfpb<22>7/LUT3_L_BUF
 LOCALBUF 		tfm_inst/divfpb<28>9/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpb<29>26/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<2>7/LUT3_L_BUF
 LOCALBUF 		tfm_inst/divfpb<30>33/LUT3_L_BUF
 LOCALBUF 		tfm_inst/divfpb<30>48/LUT4_L_BUF
@@ -14578,6 +14682,102 @@ LOCALBUF 		tfm_inst/i2c_mem_addra<6>86/LUT4_L_BUF
 LOCALBUF 		tfm_inst/i2c_mem_ena31/LUT4_L_BUF
 LOCALBUF 		tfm_inst/i2c_mem_ena6/LUT3_L_BUF
 LOCALBUF 		tfm_inst/i2c_mem_ena89/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<0>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<10>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<11>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<12>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<13>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<14>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<15>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<16>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<17>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<18>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<19>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<1>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<20>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<21>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<22>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<23>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<24>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<25>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<26>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<27>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<28>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<29>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<2>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<30>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<31>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<3>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<4>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<5>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<6>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<7>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<8>7/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktapara
+m_proc0_inst/kta_ft_mux0000<9>7/LUT4_L_BUF
 LOCALBUF
 		tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffPara
 m_proc0/o_addra_mux0000<4>241/LUT4_L_BUF
@@ -14678,6 +14878,198 @@ LOCALBUF
 		tfm_inst/inst_CalculatePixOS/inst_CalcPixOS_proc0/fptmp2_mux0000<8>9/LUT4_L_BU
 F
 LOCALBUF
+		tfm_inst/inst_CalculatePixOS/inst_CalcPixOS_proc0/fptmp2_mux0000<9>9/LUT4_L_BU
+F
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<0>33/LU
+T4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<0>663/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<10>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<11>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<12>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<13>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<14>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<15>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<16>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<17>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<18>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<19>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<1>33/LU
+T4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<20>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<21>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<22>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<23>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<24>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<25>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<26>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<27>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<28>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<29>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<2>33/LU
+T4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<30>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<31>33/L
+UT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<3>33/LU
+T4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<4>33/LU
+T4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<5>33/LU
+T4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<6>33/LU
+T4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<7>33/LU
+T4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst/fttmp1_mux0000<8>33/LU
+T4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<0>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<10>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<11>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<12>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<13>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<14>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<15>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<16>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<17>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<18>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<19>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<1>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<20>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<21>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<22>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<23>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<24>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<25>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<26>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<27>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<28>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<29>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<2>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<30>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<31>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<3>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<4>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<5>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<6>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<7>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/
+fptmp1_mux0000<8>20/LUT4_L_BUF
+LOCALBUF
 		tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/ni
 bble2_out_mux0000<0>41/LUT4_L_BUF
 LOCALBUF
@@ -14695,6 +15087,102 @@ addra_mux0000<8>35/LUT4_L_BUF
 LOCALBUF
 		tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/o_
 dia_mux0000<0>119/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp1_mux0000<0>631/LUT
+4_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<10>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<11>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<12>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<13>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<14>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<15>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<16>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<17>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<18>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<19>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<1>9/LUT4_
+L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<20>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<21>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<22>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<23>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<24>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<25>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<26>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<27>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<28>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<29>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<2>9/LUT4_
+L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<30>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<31>9/LUT4
+_L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<3>9/LUT4_
+L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<4>9/LUT4_
+L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<5>9/LUT4_
+L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<6>9/LUT4_
+L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<7>9/LUT4_
+L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<8>9/LUT4_
+L_BUF
+LOCALBUF
+		tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_mux0000<9>9/LUT4_
+L_BUF
 LOCALBUF 		tfm_inst/mulfpa<0>11_SW0_1/LUT2_L_BUF
 LOCALBUF 		tfm_inst/mulfpa<0>127/LUT4_L_BUF
 LOCALBUF 		tfm_inst/mulfpa<0>17/LUT4_L_BUF
@@ -14826,26 +15314,20 @@ LOCALBUF 		tfm_inst/inst_mulfp/blk000001b7/LUT4_L_BUF
 LOCALBUF 		tfm_inst/inst_mulfp/blk000001b8/LUT3_L_BUF
 LOCALBUF 		tfm_inst/inst_mulfp/blk000001ba/LUT4_L_BUF
 LOCALBUF 		tfm_inst/inst_mulfp/blk000001b6/LUT4_L_BUF
-LOCALBUF 		inst_float2fixed/blk00000162/LUT4_L_BUF
-LOCALBUF 		inst_float2fixed/blk00000163/LUT4_L_BUF
-LOCALBUF 		inst_float2fixed/blk00000149/LUT3_L_BUF
-LOCALBUF 		inst_float2fixed/blk00000161/LUT3_L_BUF
-LOCALBUF 		inst_float2fixed/blk00000160/LUT3_L_BUF
-LOCALBUF 		inst_float2fixed/blk0000015f/LUT3_L_BUF
-LOCALBUF 		inst_float2fixed/blk0000015e/LUT3_L_BUF
-LOCALBUF 		inst_float2fixed/blk0000015d/LUT3_L_BUF
-LOCALBUF 		inst_float2fixed/blk0000015c/LUT3_L_BUF
-LOCALBUF 		inst_float2fixed/blk00000148/LUT3_L_BUF
-LOCALBUF 		inst_float2fixed/blk0000015a/LUT3_L_BUF
-LOCALBUF 		inst_float2fixed/blk00000159/LUT3_L_BUF
-LOCALBUF 		inst_float2fixed/blk00000158/LUT3_L_BUF
-LOCALBUF 		inst_float2fixed/blk00000157/LUT3_L_BUF
-LOCALBUF 		inst_float2fixed/blk00000156/LUT3_L_BUF
-LOCALBUF 		inst_float2fixed/blk00000155/LUT3_L_BUF
-LOCALBUF 		inst_float2fixed/blk00000147/LUT2_L_BUF
-LOCALBUF 		inst_float2fixed/blk00000146/LUT3_L_BUF
-LOCALBUF 		inst_float2fixed/blk0000014b/LUT3_L_BUF
-LOCALBUF 		inst_float2fixed/blk0000014a/LUT3_L_BUF
+LOCALBUF 		inst_float2fixed/blk000000dc/LUT4_L_BUF
+LOCALBUF 		inst_float2fixed/blk000000db/LUT3_L_BUF
+LOCALBUF 		inst_float2fixed/blk000000d2/LUT3_L_BUF
+LOCALBUF 		inst_float2fixed/blk000000e0/LUT3_L_BUF
+LOCALBUF 		inst_float2fixed/blk000000df/LUT3_L_BUF
+LOCALBUF 		inst_float2fixed/blk000000d3/LUT2_L_BUF
+LOCALBUF 		inst_float2fixed/blk000000de/LUT3_L_BUF
+LOCALBUF 		inst_float2fixed/blk000000dd/LUT3_L_BUF
+LOCALBUF 		inst_float2fixed/blk000000d9/LUT3_L_BUF
+LOCALBUF 		inst_float2fixed/blk000000d8/LUT3_L_BUF
+LOCALBUF 		inst_float2fixed/blk000000d7/LUT3_L_BUF
+LOCALBUF 		inst_float2fixed/blk000000d6/LUT3_L_BUF
+LOCALBUF 		inst_float2fixed/blk000000d5/LUT3_L_BUF
+LOCALBUF 		inst_float2fixed/blk000000d4/LUT3_L_BUF
 LOCALBUF 		tfm_inst/inst_subfp/blk0000038c/LUT4_L_BUF
 LOCALBUF 		tfm_inst/inst_subfp/blk0000038d/LUT4_L_BUF
 LOCALBUF 		tfm_inst/inst_subfp/blk00000393/LUT4_L_BUF
@@ -15607,8 +16089,10 @@ LUT1 		tfm_inst/inst_mulfp/blk00000183
 LUT1 		tfm_inst/inst_mulfp/blk00000182
 LUT1 		tfm_inst/inst_mulfp/blk00000181
 LUT1 		tfm_inst/inst_mulfp/blk00000180
-INV 		inst_float2fixed/blk00000145
-LUT1 		inst_float2fixed/blk00000134
+INV 		inst_float2fixed/blk000000cb
+INV 		inst_float2fixed/blk000000ca
+INV 		inst_float2fixed/blk000000c9
+LUT1 		inst_float2fixed/blk000000b8
 INV 		tfm_inst/inst_subfp/blk0000037c
 LUT4 		tfm_inst/i2c_mem_addra<3>272
 MUXCY 		tfm_inst/inst_addfp/blk000000a5
@@ -15623,36 +16107,36 @@ Section 6 - IOB Properties
 +---------------------------------------------------------------------------------------------------------------------------------------------------------+
 | i_clock                            | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
 | i_reset                            | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
-| vga_b<0>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_b<1>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_b<2>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_b<3>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_b<4>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_b<5>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_b<6>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_b<7>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_blankn                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_clock                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_g<0>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_g<1>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_g<2>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_g<3>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_g<4>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_g<5>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_g<6>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_g<7>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_hsync                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_psaven                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_r<0>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_r<1>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_r<2>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_r<3>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_r<4>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_r<5>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_r<6>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_r<7>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_syncn                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| vga_vsync                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| vga_b<0>                           | IOB              | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| vga_b<1>                           | IOB              | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| vga_b<2>                           | IOB              | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| vga_b<3>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | FAST |              |          |          |
+| vga_b<4>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | FAST |              |          |          |
+| vga_b<5>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | FAST |              |          |          |
+| vga_b<6>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | FAST |              |          |          |
+| vga_b<7>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | FAST |              |          |          |
+| vga_blankn                         | IOB              | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| vga_clock                          | IOB              | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| vga_g<0>                           | IOB              | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| vga_g<1>                           | IOB              | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| vga_g<2>                           | IOB              | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| vga_g<3>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | FAST |              |          |          |
+| vga_g<4>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | FAST |              |          |          |
+| vga_g<5>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | FAST |              |          |          |
+| vga_g<6>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | FAST |              |          |          |
+| vga_g<7>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | FAST |              |          |          |
+| vga_hsync                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | FAST |              |          |          |
+| vga_psaven                         | IOB              | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| vga_r<0>                           | IOB              | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| vga_r<1>                           | IOB              | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| vga_r<2>                           | IOB              | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| vga_r<3>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | FAST |              |          |          |
+| vga_r<4>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | FAST |              |          |          |
+| vga_r<5>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | FAST |              |          |          |
+| vga_r<6>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | FAST |              |          |          |
+| vga_r<7>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | FAST |              |          |          |
+| vga_syncn                          | IOB              | OUTPUT    | LVCMOS33             |       | 12       | FAST |              |          |          |
+| vga_vsync                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | FAST |              |          |          |
 +---------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 Section 7 - RPMs
@@ -19983,7 +20467,7 @@ Section 13 - Utilization by Hierarchy
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Module                                             | Partition | Slices        | Slice Reg     | LUTs          | LUTRAM        | BRAM/FIFO | DSP48   | BUFG  | BUFIO | BUFR  | DCM_ADV   | Full Hierarchical Name                                                                                                       |
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| test1/                                             |           | 113/9781      | 124/8379      | 81/12239      | 0/196         | 0/38      | 0/13    | 2/2   | 0/0   | 0/0   | 0/0       | test1                                                                                                                        |
+| test1/                                             |           | 103/9806      | 103/8348      | 72/12244      | 0/199         | 0/38      | 0/13    | 2/2   | 0/0   | 0/0   | 0/0       | test1                                                                                                                        |
 | +ag_inst                                           |           | 78/78         | 70/70         | 122/122       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/ag_inst                                                                                                                |
 | +dualmem_inst                                      |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/dualmem_inst                                                                                                           |
 | ++U0                                               |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/dualmem_inst/U0                                                                                                        |
@@ -19992,7 +20476,7 @@ Section 13 - Utilization by Hierarchy
 | +++++valid.cstr                                    |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr                                         |
 | ++++++ramloop[0].ram.r                             |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r                        |
 | +++++++v4_noinit.ram                               |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram          |
-| +inst_float2fixed                                  |           | 120/120       | 144/144       | 151/151       | 4/4           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_float2fixed                                                                                                       |
+| +inst_float2fixed                                  |           | 82/82         | 89/89         | 95/95         | 7/7           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_float2fixed                                                                                                       |
 | +inst_tb_i2c_mem                                   |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_tb_i2c_mem                                                                                                        |
 | ++U0                                               |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_tb_i2c_mem/U0                                                                                                     |
 | +++xst_blk_mem_generator                           |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_tb_i2c_mem/U0/xst_blk_mem_generator                                                                               |
@@ -20003,10 +20487,10 @@ Section 13 - Utilization by Hierarchy
 | ++++++ramloop[1].ram.r                             |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r                     |
 | +++++++v4_init.ram                                 |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_init.ram         |
 | +test1                                             |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/test1                                                                                                                  |
-| +tfm_inst                                          |           | 1720/9430     | 41/8018       | 2812/11819    | 0/192         | 0/35      | 0/13    | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst                                                                                                               |
+| +tfm_inst                                          |           | 1760/9503     | 41/8063       | 2844/11889    | 0/192         | 0/35      | 0/13    | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst                                                                                                               |
 | ++b0.inst_fixed2float                              |           | 93/93         | 129/129       | 146/146       | 3/3           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/b0.inst_fixed2float                                                                                           |
-| ++inst_CalculateAlphaCP                            |           | 2/184         | 0/238         | 3/135         | 0/0           | 0/3       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaCP                                                                                         |
-| +++CalculateAlphaCP_process_p0_inst                |           | 148/148       | 238/238       | 96/96         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaCP/CalculateAlphaCP_process_p0_inst                                                        |
+| ++inst_CalculateAlphaCP                            |           | 4/190         | 0/240         | 6/139         | 0/0           | 0/3       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaCP                                                                                         |
+| +++CalculateAlphaCP_process_p0_inst                |           | 152/152       | 240/240       | 97/97         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaCP/CalculateAlphaCP_process_p0_inst                                                        |
 | +++CalculateAlphaCP_rom_alphascalepow27            |           | 2/2           | 0/0           | 4/4           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaCP/CalculateAlphaCP_rom_alphascalepow27                                                    |
 | +++CalculateAlphaCP_rom_cpp12p0_ratio              |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaCP/CalculateAlphaCP_rom_cpp12p0_ratio                                                      |
 | +++CalculateAlphaCP_rom_signed10bit                |           | 0/32          | 0/0           | 0/32          | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaCP/CalculateAlphaCP_rom_signed10bit                                                        |
@@ -20042,7 +20526,7 @@ Section 13 - Utilization by Hierarchy
 | ++++MUX_rom_signed_10bit_7                         |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaCP/CalculateAlphaCP_rom_signed10bit/MUX_rom_signed_10bit_7                                 |
 | ++++MUX_rom_signed_10bit_8                         |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaCP/CalculateAlphaCP_rom_signed10bit/MUX_rom_signed_10bit_8                                 |
 | ++++MUX_rom_signed_10bit_9                         |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaCP/CalculateAlphaCP_rom_signed10bit/MUX_rom_signed_10bit_9                                 |
-| ++inst_CalculateAlphaComp                          |           | 0/483         | 0/508         | 0/551         | 0/0           | 2/5       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaComp                                                                                       |
+| ++inst_CalculateAlphaComp                          |           | 0/488         | 0/511         | 0/560         | 0/0           | 2/5       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaComp                                                                                       |
 | +++CalculateAlphaComp_MUX_ADDR_0                   |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaComp/CalculateAlphaComp_MUX_ADDR_0                                                         |
 | +++CalculateAlphaComp_MUX_ADDR_1                   |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaComp/CalculateAlphaComp_MUX_ADDR_1                                                         |
 | +++CalculateAlphaComp_MUX_ADDR_2                   |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaComp/CalculateAlphaComp_MUX_ADDR_2                                                         |
@@ -20090,10 +20574,10 @@ Section 13 - Utilization by Hierarchy
 | +++CalculateAlphaComp_extrtgcparam                 |           | 0/28          | 0/50          | 0/3           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaComp/CalculateAlphaComp_extrtgcparam                                                       |
 | ++++ExtractTGCParameter_process_p0_inst            |           | 28/28         | 50/50         | 3/3           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaComp/CalculateAlphaComp_extrtgcparam/ExtractTGCParameter_process_p0_inst                   |
 | +++CalculateAlphaComp_mem_switchpattern            |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaComp/CalculateAlphaComp_mem_switchpattern                                                  |
-| +++CalculateAlphaComp_process_p0_inst              |           | 386/386       | 410/410       | 502/502       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaComp/CalculateAlphaComp_process_p0_inst                                                    |
-| ++inst_CalculateGetImage                           |           | 183/186       | 178/180       | 229/230       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateGetImage                                                                                        |
+| +++CalculateAlphaComp_process_p0_inst              |           | 391/391       | 413/413       | 511/511       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaComp/CalculateAlphaComp_process_p0_inst                                                    |
+| ++inst_CalculateGetImage                           |           | 186/189       | 179/181       | 234/235       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateGetImage                                                                                        |
 | +++inst_mem_To                                     |           | 3/3           | 2/2           | 1/1           | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateGetImage/inst_mem_To                                                                            |
-| ++inst_CalculatePixOS                              |           | 0/2090        | 0/1969        | 0/2391        | 0/0           | 2/11      | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS                                                                                           |
+| ++inst_CalculatePixOS                              |           | 0/2100        | 0/1983        | 0/2420        | 0/0           | 2/11      | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS                                                                                           |
 | +++CalculatePixOS_MUX3x1_divfp_a_0                 |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_MUX3x1_divfp_a_0                                                           |
 | +++CalculatePixOS_MUX4x1_i2c_mem_addra_0           |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_MUX4x1_i2c_mem_addra_0                                                     |
 | +++CalculatePixOS_MUX_ADDR_0                       |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_MUX_ADDR_0                                                                 |
@@ -20170,7 +20654,7 @@ Section 13 - Utilization by Hierarchy
 | +++CalculatePixOS_MUX_i2c_mem_douta_pixgain_5      |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_MUX_i2c_mem_douta_pixgain_5                                                |
 | +++CalculatePixOS_MUX_i2c_mem_douta_pixgain_6      |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_MUX_i2c_mem_douta_pixgain_6                                                |
 | +++CalculatePixOS_MUX_i2c_mem_douta_pixgain_7      |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_MUX_i2c_mem_douta_pixgain_7                                                |
-| +++CalculatePixOS_inst_CalcPixGain                 |           | 2/399         | 0/467         | 3/299         | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_CalcPixGain                                                           |
+| +++CalculatePixOS_inst_CalcPixGain                 |           | 2/401         | 0/471         | 3/303         | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_CalcPixGain                                                           |
 | ++++CalculatePixGain_MUX_DIA_0                     |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_CalcPixGain/CalculatePixGain_MUX_DIA_0                                |
 | ++++CalculatePixGain_MUX_DIA_1                     |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_CalcPixGain/CalculatePixGain_MUX_DIA_1                                |
 | ++++CalculatePixGain_MUX_DIA_10                    |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_CalcPixGain/CalculatePixGain_MUX_DIA_10                               |
@@ -20233,8 +20717,8 @@ Section 13 - Utilization by Hierarchy
 | ++++CalculatePixGain_MUX_i2c_mem_addra_8           |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_CalcPixGain/CalculatePixGain_MUX_i2c_mem_addra_8                      |
 | ++++CalculatePixGain_MUX_i2c_mem_addra_9           |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_CalcPixGain/CalculatePixGain_MUX_i2c_mem_addra_9                      |
 | ++++CalculatePixGain_MUX_i2c_mem_ena               |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_CalcPixGain/CalculatePixGain_MUX_i2c_mem_ena                          |
-| ++++CalculatePixGain_inst_CalcKGain_proc0          |           | 164/164       | 247/247       | 137/137       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_CalcPixGain/CalculatePixGain_inst_CalcKGain_proc0                     |
-| ++++CalculatePixGain_inst_CalcPixGain_proc0        |           | 161/161       | 220/220       | 87/87         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_CalcPixGain/CalculatePixGain_inst_CalcPixGain_proc0                   |
+| ++++CalculatePixGain_inst_CalcKGain_proc0          |           | 165/165       | 249/249       | 138/138       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_CalcPixGain/CalculatePixGain_inst_CalcKGain_proc0                     |
+| ++++CalculatePixGain_inst_CalcPixGain_proc0        |           | 162/162       | 222/222       | 90/90         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_CalcPixGain/CalculatePixGain_inst_CalcPixGain_proc0                   |
 | ++++CalculatePixGain_mux2_addra_0                  |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_CalcPixGain/CalculatePixGain_mux2_addra_0                             |
 | ++++CalculatePixGain_mux2_addra_1                  |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_CalcPixGain/CalculatePixGain_mux2_addra_1                             |
 | ++++CalculatePixGain_mux2_addra_2                  |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_CalcPixGain/CalculatePixGain_mux2_addra_2                             |
@@ -20245,7 +20729,7 @@ Section 13 - Utilization by Hierarchy
 | ++++CalculatePixGain_mux2_addra_7                  |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_CalcPixGain/CalculatePixGain_mux2_addra_7                             |
 | ++++CalculatePixGain_mux2_addra_8                  |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_CalcPixGain/CalculatePixGain_mux2_addra_8                             |
 | ++++CalculatePixGain_mux2_addra_9                  |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_CalcPixGain/CalculatePixGain_mux2_addra_9                             |
-| +++CalculatePixOS_inst_ExtrKtaParam                |           | 3/311         | 0/359         | 5/270         | 0/0           | 2/3       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam                                                          |
+| +++CalculatePixOS_inst_ExtrKtaParam                |           | 3/314         | 0/362         | 5/278         | 0/0           | 2/3       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam                                                          |
 | ++++extractktaparameters_MUX_ADDR_0                |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/extractktaparameters_MUX_ADDR_0                          |
 | ++++extractktaparameters_MUX_ADDR_1                |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/extractktaparameters_MUX_ADDR_1                          |
 | ++++extractktaparameters_MUX_ADDR_2                |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/extractktaparameters_MUX_ADDR_2                          |
@@ -20293,8 +20777,8 @@ Section 13 - Utilization by Hierarchy
 | ++++extractktaparameters_rom_signed8bit            |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/extractktaparameters_rom_signed8bit                      |
 | ++++extractktaparameters_rom_unsigned4bit_2powx    |           | 2/2           | 0/0           | 2/2           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/extractktaparameters_rom_unsigned4bit_2powx              |
 | ++++extractktaparameters_rom_unsigned4bit_2powx8   |           | 3/3           | 0/0           | 4/4           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/extractktaparameters_rom_unsigned4bit_2powx8             |
-| ++++inst_extrktaparam_proc0_inst                   |           | 251/251       | 359/359       | 198/198       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst                             |
-| +++CalculatePixOS_inst_ExtrKvParam                 |           | 3/151         | 0/166         | 5/118         | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam                                                           |
+| ++++inst_extrktaparam_proc0_inst                   |           | 254/254       | 362/362       | 206/206       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst                             |
+| +++CalculatePixOS_inst_ExtrKvParam                 |           | 3/152         | 0/167         | 5/119         | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam                                                           |
 | ++++extractkvparameters_MUX_ADDR_0                 |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/extractkvparameters_MUX_ADDR_0                            |
 | ++++extractkvparameters_MUX_ADDR_1                 |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/extractkvparameters_MUX_ADDR_1                            |
 | ++++extractkvparameters_MUX_ADDR_2                 |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/extractkvparameters_MUX_ADDR_2                            |
@@ -20340,8 +20824,8 @@ Section 13 - Utilization by Hierarchy
 | ++++extractkvparameters_process_p1_inst            |           | 4/4           | 0/0           | 8/8           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/extractkvparameters_process_p1_inst                       |
 | ++++extractkvparameters_rom_signed4bit             |           | 3/3           | 0/0           | 5/5           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/extractkvparameters_rom_signed4bit                        |
 | ++++extractkvparameters_rom_unsigned4bit_2powx     |           | 2/2           | 0/0           | 2/2           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/extractkvparameters_rom_unsigned4bit_2powx                |
-| ++++inst_extrkvparam_proc0_inst                    |           | 97/97         | 166/166       | 56/56         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst                               |
-| +++CalculatePixOS_inst_ExtrOffParam                |           | 2/693         | 0/622         | 2/936         | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam                                                          |
+| ++++inst_extrkvparam_proc0_inst                    |           | 98/98         | 167/167       | 57/57         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst                               |
+| +++CalculatePixOS_inst_ExtrOffParam                |           | 2/694         | 0/625         | 2/943         | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam                                                          |
 | ++++ExtractOffsetParameters_MUX_DO_MAIN_0          |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/ExtractOffsetParameters_MUX_DO_MAIN_0                    |
 | ++++ExtractOffsetParameters_MUX_DO_MAIN_1          |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/ExtractOffsetParameters_MUX_DO_MAIN_1                    |
 | ++++ExtractOffsetParameters_MUX_DO_MAIN_10         |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/ExtractOffsetParameters_MUX_DO_MAIN_10                   |
@@ -20379,9 +20863,9 @@ Section 13 - Utilization by Hierarchy
 | ++++extractoffsetparameters_rom_unsigned4bit       |           | 5/5           | 0/0           | 6/6           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/extractoffsetparameters_rom_unsigned4bit                 |
 | ++++extractoffsetparameters_rom_unsigned4bit_2powx |           | 4/4           | 0/0           | 4/4           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/extractoffsetparameters_rom_unsigned4bit_2powx           |
 | ++++extroffparam_mux_addr                          |           | 11/11         | 0/0           | 17/17         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/extroffparam_mux_addr                                    |
-| ++++inst_ExtrOffParam_proc0                        |           | 626/626       | 622/622       | 854/854       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0                                  |
-| +++inst_CalcPixOS_proc0                            |           | 460/460       | 355/355       | 692/692       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_CalcPixOS_proc0                                                                      |
-| ++inst_CalculatePixOsCPSP                          |           | 4/1241        | 0/1254        | 5/1477        | 0/0           | 0/3       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP                                                                                       |
+| ++++inst_ExtrOffParam_proc0                        |           | 627/627       | 625/625       | 861/861       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0                                  |
+| +++inst_CalcPixOS_proc0                            |           | 463/463       | 358/358       | 701/701       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_CalcPixOS_proc0                                                                      |
+| ++inst_CalculatePixOsCPSP                          |           | 4/1255        | 0/1261        | 5/1491        | 0/0           | 0/3       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP                                                                                       |
 | +++CalculatePixOSCpSp_MUX_divfp_a_0                |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_MUX_divfp_a_0                                                      |
 | +++CalculatePixOSCpSp_MUX_divfp_a_1                |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_MUX_divfp_a_1                                                      |
 | +++CalculatePixOSCpSp_MUX_divfp_a_10               |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_MUX_divfp_a_10                                                     |
@@ -20474,8 +20958,8 @@ Section 13 - Utilization by Hierarchy
 | +++CalculatePixOSCpSp_MUX_i2c_mem_addra_6          |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_MUX_i2c_mem_addra_6                                                |
 | +++CalculatePixOSCpSp_MUX_i2c_mem_addra_7          |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_MUX_i2c_mem_addra_7                                                |
 | +++CalculatePixOSCpSp_MUX_i2c_mem_ena              |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_MUX_i2c_mem_ena                                                    |
-| +++CalculatePixOSCpSp_calculatekgain_process_p0    |           | 165/165       | 247/247       | 137/137       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_calculatekgain_process_p0                                          |
-| +++CalculatePixOSCpSp_process_p0_inst              |           | 930/930       | 1007/1007     | 1183/1183     | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_process_p0_inst                                                    |
+| +++CalculatePixOSCpSp_calculatekgain_process_p0    |           | 165/165       | 249/249       | 138/138       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_calculatekgain_process_p0                                          |
+| +++CalculatePixOSCpSp_process_p0_inst              |           | 944/944       | 1012/1012     | 1196/1196     | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_process_p0_inst                                                    |
 | +++CalculatePixOSCpSp_rom_signed10bit              |           | 0/32          | 0/0           | 0/32          | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_rom_signed10bit                                                    |
 | ++++MUX_rom_signed_10bit_0                         |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_rom_signed10bit/MUX_rom_signed_10bit_0                             |
 | ++++MUX_rom_signed_10bit_1                         |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_rom_signed10bit/MUX_rom_signed_10bit_1                             |
@@ -20513,7 +20997,7 @@ Section 13 - Utilization by Hierarchy
 | +++CalculatePixOSCpSp_rom_signed8bit               |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_rom_signed8bit                                                     |
 | +++CalculatePixOSCpSp_rom_unsigned4bit_2powx       |           | 3/3           | 0/0           | 3/3           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_rom_unsigned4bit_2powx                                             |
 | +++CalculatePixOSCpSp_rom_unsigned4bit_2powx8      |           | 3/3           | 0/0           | 4/4           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_rom_unsigned4bit_2powx8                                            |
-| ++inst_CalculateVDD                                |           | 0/407         | 0/537         | 0/374         | 0/0           | 0/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVDD                                                                                             |
+| ++inst_CalculateVDD                                |           | 0/406         | 0/542         | 0/354         | 0/0           | 0/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVDD                                                                                             |
 | +++CalculateVDD_MUX_i2c_ena                        |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVDD/CalculateVDD_MUX_i2c_ena                                                                    |
 | +++CalculateVDD_MUX_i2c_mem_addra_0                |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVDD/CalculateVDD_MUX_i2c_mem_addra_0                                                            |
 | +++CalculateVDD_MUX_i2c_mem_addra_1                |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVDD/CalculateVDD_MUX_i2c_mem_addra_1                                                            |
@@ -20532,10 +21016,10 @@ Section 13 - Utilization by Hierarchy
 | +++CalculateVDD_MUX_i2c_mem_douta_5                |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVDD/CalculateVDD_MUX_i2c_mem_douta_5                                                            |
 | +++CalculateVDD_MUX_i2c_mem_douta_6                |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVDD/CalculateVDD_MUX_i2c_mem_douta_6                                                            |
 | +++CalculateVDD_MUX_i2c_mem_douta_7                |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVDD/CalculateVDD_MUX_i2c_mem_douta_7                                                            |
-| +++CalculateVDD_extractvddparameters               |           | 0/62          | 0/113         | 0/11          | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVDD/CalculateVDD_extractvddparameters                                                           |
-| ++++ExtractVDDParameters_process_p0_inst           |           | 62/62         | 113/113       | 11/11         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVDD/CalculateVDD_extractvddparameters/ExtractVDDParameters_process_p0_inst                      |
-| +++CalculateVDD_process_p0_inst                    |           | 327/327       | 424/424       | 345/345       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst                                                                |
-| ++inst_CalculateVirCompensated                     |           | 0/424         | 0/491         | 0/387         | 0/0           | 2/4       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVirCompensated                                                                                  |
+| +++CalculateVDD_extractvddparameters               |           | 0/61          | 0/113         | 0/11          | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVDD/CalculateVDD_extractvddparameters                                                           |
+| ++++ExtractVDDParameters_process_p0_inst           |           | 61/61         | 113/113       | 11/11         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVDD/CalculateVDD_extractvddparameters/ExtractVDDParameters_process_p0_inst                      |
+| +++CalculateVDD_process_p0_inst                    |           | 327/327       | 429/429       | 325/325       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVDD/CalculateVDD_process_p0_inst                                                                |
+| ++inst_CalculateVirCompensated                     |           | 0/430         | 0/495         | 0/397         | 0/0           | 2/4       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVirCompensated                                                                                  |
 | +++calculatevircompensated_MUX_ADDR_0              |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_MUX_ADDR_0                                               |
 | +++calculatevircompensated_MUX_ADDR_1              |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_MUX_ADDR_1                                               |
 | +++calculatevircompensated_MUX_ADDR_2              |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_MUX_ADDR_2                                               |
@@ -20581,9 +21065,9 @@ Section 13 - Utilization by Hierarchy
 | +++calculatevircompensated_extracttgcparameter     |           | 0/28          | 0/50          | 0/3           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_extracttgcparameter                                      |
 | ++++ExtractTGCParameter_process_p0_inst            |           | 28/28         | 50/50         | 3/3           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_extracttgcparameter/ExtractTGCParameter_process_p0_inst  |
 | +++calculatevircompensated_mem_switchpattern       |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_mem_switchpattern                                        |
-| +++calculatevircompensated_process_p0_inst         |           | 354/354       | 441/441       | 342/342       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst                                          |
-| ++inst_ExtractAlphaParameters                      |           | 9/839         | 0/672         | 9/1120        | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters                                                                                   |
-| +++extractalphaparameters_MUX_ADDR                 |           | 9/9           | 0/0           | 15/15         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_MUX_ADDR                                                   |
+| +++calculatevircompensated_process_p0_inst         |           | 360/360       | 445/445       | 352/352       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst                                          |
+| ++inst_ExtractAlphaParameters                      |           | 9/842         | 0/676         | 9/1128        | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters                                                                                   |
+| +++extractalphaparameters_MUX_ADDR                 |           | 8/8           | 0/0           | 15/15         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_MUX_ADDR                                                   |
 | +++extractalphaparameters_MUX_DIA_0                |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_MUX_DIA_0                                                  |
 | +++extractalphaparameters_MUX_DIA_1                |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_MUX_DIA_1                                                  |
 | +++extractalphaparameters_MUX_DIA_10               |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_MUX_DIA_10                                                 |
@@ -20680,18 +21164,18 @@ Section 13 - Utilization by Hierarchy
 | +++extractalphaparameters_MUX_DO_7                 |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_MUX_DO_7                                                   |
 | +++extractalphaparameters_MUX_DO_8                 |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_MUX_DO_8                                                   |
 | +++extractalphaparameters_MUX_DO_9                 |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_MUX_DO_9                                                   |
-| +++extractalphaparameters_process_p0_inst          |           | 705/705       | 672/672       | 971/971       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst                                            |
+| +++extractalphaparameters_process_p0_inst          |           | 709/709       | 676/676       | 979/979       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst                                            |
 | +++extractalphaparameters_rom_alphascale           |           | 3/3           | 0/0           | 3/3           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_rom_alphascale                                             |
 | +++extractalphaparameters_rom_signed6bit           |           | 11/11         | 0/0           | 19/19         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_rom_signed6bit                                             |
 | +++extractalphaparameters_rom_unsigned4bit         |           | 5/5           | 0/0           | 6/6           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_rom_unsigned4bit                                           |
 | +++extractalphaparameters_rom_unsigned4bit_2powx   |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_rom_unsigned4bit_2powx                                     |
 | ++inst_addfp                                       |           | 360/360       | 459/459       | 408/408       | 58/58         | 0/0       | 4/4     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_addfp                                                                                                    |
-| ++inst_calculateTa                                 |           | 0/722         | 0/693         | 0/954         | 0/0           | 0/4       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_calculateTa                                                                                              |
+| ++inst_calculateTa                                 |           | 0/710         | 0/698         | 0/933         | 0/0           | 0/4       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_calculateTa                                                                                              |
 | +++CalculateTa_etractktptatparameter               |           | 0/0           | 0/0           | 0/0           | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_calculateTa/CalculateTa_etractktptatparameter                                                            |
 | +++CalculateTa_extractalphaptatparameter           |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_calculateTa/CalculateTa_extractalphaptatparameter                                                        |
 | +++CalculateTa_extractkvptatparameter              |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_calculateTa/CalculateTa_extractkvptatparameter                                                           |
-| +++CalculateTa_process_p0_inst                     |           | 722/722       | 693/693       | 954/954       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst                                                                  |
-| ++inst_divfp                                       |           | 158/158       | 197/197       | 268/268       | 27/27         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_divfp                                                                                                    |
+| +++CalculateTa_process_p0_inst                     |           | 710/710       | 698/698       | 933/933       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst                                                                  |
+| ++inst_divfp                                       |           | 157/157       | 197/197       | 268/268       | 27/27         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_divfp                                                                                                    |
 | ++inst_mulfp                                       |           | 126/164       | 147/191       | 151/158       | 39/46         | 0/0       | 5/5     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_mulfp                                                                                                    |
 | +++blk000000ad                                     |           | 4/4           | 7/7           | 0/0           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_mulfp/blk000000ad                                                                                        |
 | +++blk000000b6                                     |           | 17/17         | 17/17         | 0/0           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_mulfp/blk000000b6                                                                                        |

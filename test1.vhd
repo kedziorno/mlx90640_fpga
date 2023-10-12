@@ -170,7 +170,7 @@ operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+result : OUT STD_LOGIC_VECTOR(4 DOWNTO 0)
 --rdy : OUT STD_LOGIC
 );
 END COMPONENT;
@@ -179,7 +179,7 @@ signal float2fixedond : STD_LOGIC;
 signal float2fixedclk : STD_LOGIC;
 signal float2fixedsclr : STD_LOGIC;
 signal float2fixedce : STD_LOGIC;
-signal float2fixedr : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal float2fixedr : STD_LOGIC_VECTOR(4 DOWNTO 0);
 --signal float2fixedrdy : STD_LOGIC;
 
 COMPONENT dualmem
@@ -209,12 +209,12 @@ signal fl2fi_wait : integer range 0 to C_FL2FI_WAIT-1;
 signal fl2fi_run,fl2fi_rdy : std_logic;
 
 --synthesis translate_off
-signal data2 : sfixed (7 downto -8); 
+signal data2 : sfixed (4 downto 0); 
 --synthesis translate_on
 
 begin
 
-vga_syncn <= '0';
+vga_syncn <= '1';
 vga_blankn <= VGA_timing_synch_activeArea1;
 vga_psaven <= '1';
 
@@ -242,7 +242,7 @@ pTo : process (i_clock) is
 	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10);
 	variable state : states;
 --synthesis translate_off
-  variable data1 : sfixed (7 downto -8); 
+--  variable data1 : sfixed (3 downto -1); 
 --synthesis translate_on
 begin
 	if (rising_edge (i_clock)) then
@@ -283,7 +283,7 @@ begin
 if (fl2fi_wait = C_FL2FI_WAIT-1) then
 --tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
 --tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
-tout := x"ff00"&float2fixedr (15 downto 0); -- 35 29
+tout := "000000000000000000000000"&"000"&float2fixedr (4 downto 0);
 --tout := x"ffffffff"; -- xxx debug white ok
 --tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
 --tout := x"ffffffff"; -- xxx debug, W screen, ok
@@ -310,9 +310,10 @@ end if;
 					dualmem_ena <= '1';
 --synthesis translate_off
 --          data1 := to_sfixed (std_logic_vector(float2fixedr));
-          report_fixed_value ("test1 float2fixedr", to_sfixed(std_logic_vector(float2fixedr),data1));
+          report_error       ("test1 test_fixed_melexis_do "&integer'image(i), test_fixed_melexis_do, 0.0);
+          report_fixed_value ("test1 float2fixedr          "&integer'image(i), to_sfixed(std_logic_vector(float2fixedr),2,-2));
 --          report_error ("test1 float2fixedr : ", to_sfixed(std_logic_vector(float2fixedr),data1));
-          report_error ("test1 tout        ", tout, 0.0);
+--          report_error ("test1 tout        ", tout, 0.0);
 --synthesis translate_on
 				when s9 =>
 					dualmem_wea <= "0";
@@ -352,14 +353,14 @@ begin
 	end if;
 end process pvgaclk;
 
---synthesis translate_off
-pdualmemdoutb : process (agclk) is
-begin
-  if (rising_edge (agclk)) then
-    report_fixed_value ("test1 dualmemdoutb", to_sfixed(std_logic_vector(dualmem_doutb (15 downto 0)),data2));
-  end if;
-end process pdualmemdoutb;
---synthesis translate_on
+----synthesis translate_off
+--pdualmemdoutb : process (agclk) is
+--begin
+--  if (rising_edge (agclk)) then
+--    report_fixed_value ("test1 dualmemdoutb", to_sfixed(std_logic_vector(dualmem_doutb (15 downto 0)),data2));
+--  end if;
+--end process pdualmemdoutb;
+----synthesis translate_on
 
 pagclk : process (i_clock) is
 	constant CMAX : integer := 40; -- 1.25
@@ -493,6 +494,13 @@ blank => VGA_timing_synch_blank
 --vga_g <= dualmem_doutb (15 downto 8) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_b <= dualmem_doutb (7 downto 0) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
+vga_r <= dualmem_doutb (4 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_g <= dualmem_doutb (4 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_b <= dualmem_doutb (4 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+--vga_r <= "00000111"; -- xxx last 3 bit GND
+--vga_g <= "00000111";
+--vga_b <= "00000111";
+
 -- xxx on virtual vga image dont similar to anything
 --vga_r <= dualmem_doutb (7+1 downto 0+1) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_g <= dualmem_doutb (7+1 downto 0+1) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
@@ -533,12 +541,12 @@ blank => VGA_timing_synch_blank
 --vga_g <= dualmem_doutb (7+8 downto 0+8) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_b <= dualmem_doutb (7+8 downto 0+8) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
-vga_r (7 downto 3) <= dualmem_doutb (13 downto 9) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_g (7 downto 3) <= dualmem_doutb (13 downto 9) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_b (7 downto 3) <= dualmem_doutb (13 downto 9) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_r (2 downto 0) <= "000";
-vga_g (2 downto 0) <= "000";
-vga_b (2 downto 0) <= "000";
+--vga_r (7 downto 3) <= dualmem_doutb (13 downto 9) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+--vga_g (7 downto 3) <= dualmem_doutb (13 downto 9) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+--vga_b (7 downto 3) <= dualmem_doutb (13 downto 9) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+--vga_r (2 downto 0) <= "000";
+--vga_g (2 downto 0) <= "000";
+--vga_b (2 downto 0) <= "000";
 
 --vga_imagegenerator_active_area1 <= VGA_timing_synch_activeArea1;
 --vga_imagegenerator_Data_in1 <= test_fixed_melexis_do (BITS-1 downto 0);

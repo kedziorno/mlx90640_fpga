@@ -43,8 +43,14 @@ package body p_fphdl_package2 is
 	end function ;
 
 	procedure report_fixed_value (constant mes : in string; actual : in sfixed) is
+    variable actuals : string (1 to 13);
   begin
-		report mes & " : " & real'image(to_real(actual)) & " ( " & to_string(actual) & " " & to_hstring(actual) & " ) " severity note;
+    if to_real(actual) >= real(0.0) then
+			actuals := " " & real'image (to_real(actual));
+		else
+			actuals := real'image (to_real(actual));
+		end if;
+		report mes & " : " & actuals & " ( " & to_string(actual) & " " & to_hstring(actual) & " ) " severity note;
 		return;
 	end procedure report_fixed_value;
 
