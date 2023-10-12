@@ -212,6 +212,44 @@ signal fl2fi_run,fl2fi_rdy : std_logic;
 signal data2 : sfixed (4 downto 0); 
 --synthesis translate_on
 
+type rom_type is array (31 downto 0) of std_logic_vector (23 downto 0);
+signal ROM : rom_type := (
+x"00022f",
+x"00043f",
+x"000750",
+x"000c60",
+x"00136f",
+x"011d79",
+x"012a7f",
+x"03397e",
+x"064977",
+x"0a5a6c",
+x"116a5d",
+x"1a774c",
+x"27803c",
+x"37842d",
+x"4b8320",
+x"638015",
+x"7e7d0e",
+x"9c7c09",
+x"bd8007",
+x"e08d07",
+x"ffa509",
+x"ffc70e",
+x"fff317",
+x"ffff24",
+x"ffff37",
+x"ffff4e",
+x"ffff6b",
+x"ffff8c",
+x"ffffad",
+x"ffffcd",
+x"ffffe7",
+x"fffff8"
+);
+
+signal rdata : std_logic_vector(23 downto 0);
+
 begin
 
 vga_syncn <= '1';
@@ -494,12 +532,12 @@ blank => VGA_timing_synch_blank
 --vga_g <= dualmem_doutb (15 downto 8) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_b <= dualmem_doutb (7 downto 0) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
-vga_r <= dualmem_doutb (4 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_g <= dualmem_doutb (4 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_b <= dualmem_doutb (4 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
---vga_r <= "00000111"; -- xxx last 3 bit GND
---vga_g <= "00000111";
---vga_b <= "00000111";
+--vga_r <= dualmem_doutb (4 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+--vga_g <= dualmem_doutb (4 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+--vga_b <= dualmem_doutb (4 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+--vga_r <= "00000111" when VGA_timing_synch_activeArea1 = '1' else (others => '0'); -- xxx last 3 bit GND
+--vga_g <= "00000111" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+--vga_b <= "00000111" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
 -- xxx on virtual vga image dont similar to anything
 --vga_r <= dualmem_doutb (7+1 downto 0+1) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
@@ -596,6 +634,13 @@ enb => dualmem_enb,
 addrb => dualmem_addrb,
 doutb => dualmem_doutb
 );
+
+
+rdata <= ROM (to_integer (unsigned (dualmem_doutb (4 downto 0))));
+
+vga_r <= rdata (23 downto 16) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_g <= rdata (15 downto 8) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_b <= rdata (7 downto 0) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
 end Behavioral;
 
