@@ -891,16 +891,20 @@ signal CalculateAlphaComp_subfprdy : STD_LOGIC;
 
 COMPONENT CalculateGetImage
 PORT(
-i_clock : IN  std_logic;
-i_reset : IN  std_logic;
-i_run : IN  std_logic;
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+
 i_vircompensated_do : IN  std_logic_vector(31 downto 0);
 o_vircompensated_addr : OUT  std_logic_vector(9 downto 0);
+
 i_alphacomp_do : IN  std_logic_vector(31 downto 0);
 o_alphacomp_addr : OUT  std_logic_vector(9 downto 0);
+
 o_do : OUT  std_logic_vector(31 downto 0);
 i_addr : IN  std_logic_vector(9 downto 0);
-o_rdy : OUT  std_logic;
+
+o_rdy : out std_logic;
 
 signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -908,7 +912,15 @@ signal mulfpond : out STD_LOGIC;
 signal mulfpsclr : out STD_LOGIC;
 signal mulfpce : out STD_LOGIC;
 signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy : in STD_LOGIC
+signal mulfprdy : in STD_LOGIC;
+
+signal addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : out STD_LOGIC;
+signal addfpsclr : out STD_LOGIC;
+signal addfpce : out STD_LOGIC;
+signal addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : in STD_LOGIC
 
 );
 END COMPONENT;
@@ -930,6 +942,14 @@ signal CalculateGetImage_mulfpsclr : STD_LOGIC;
 signal CalculateGetImage_mulfpce : STD_LOGIC;
 signal CalculateGetImage_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateGetImage_mulfprdy : STD_LOGIC;
+
+signal CalculateGetImage_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateGetImage_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateGetImage_addfpond : STD_LOGIC;
+signal CalculateGetImage_addfpsclr : STD_LOGIC;
+signal CalculateGetImage_addfpce : STD_LOGIC;
+signal CalculateGetImage_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateGetImage_addfprdy : STD_LOGIC;
 
 signal rdyrecover : std_logic; -- signal for tb when rdy not appear
 
@@ -1181,6 +1201,8 @@ else
 CalculateVirCompensated_addfpa when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_addfpa when CalculateAlphaComp_mux = '1' 
+else
+CalculateGetImage_addfpa when CalculateGetImage_mux = '1' 
 else (others => '0');
 
 addfpb <=
@@ -1197,6 +1219,8 @@ else
 CalculateVirCompensated_addfpb when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_addfpb when CalculateAlphaComp_mux = '1' 
+else
+CalculateGetImage_addfpb when CalculateGetImage_mux = '1'
 else (others => '0');
 
 addfpond <=
@@ -1212,7 +1236,9 @@ ExtractAlphaParameters_addfpond when ExtractAlphaParameters_mux = '1'
 else
 CalculateVirCompensated_addfpond when CalculateVirCompensated_mux = '1' 
 else
-CalculateAlphaComp_addfpond when CalculateAlphaComp_mux = '1' 
+CalculateAlphaComp_addfpond when CalculateAlphaComp_mux = '1'
+else
+CalculateGetImage_addfpond when CalculateGetImage_mux = '1' 
 else '0';
 
 addfpce <=
@@ -1228,7 +1254,9 @@ ExtractAlphaParameters_addfpce when ExtractAlphaParameters_mux = '1'
 else
 CalculateVirCompensated_addfpce when CalculateVirCompensated_mux = '1' 
 else
-CalculateAlphaComp_addfpce when CalculateAlphaComp_mux = '1' 
+CalculateAlphaComp_addfpce when CalculateAlphaComp_mux = '1'
+else
+CalculateGetImage_addfpce when CalculateGetImage_mux = '1' 
 else '0';
 
 addfpsclr <=
@@ -1245,6 +1273,8 @@ else
 CalculateVirCompensated_addfpsclr when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_addfpsclr when CalculateAlphaComp_mux = '1' 
+else
+CalculateGetImage_addfpsclr when CalculateGetImage_mux = '1'
 else '0';
 
 subfpa <=
@@ -1393,6 +1423,8 @@ CalculateAlphaComp_subfprdy <= subfprdy when CalculateAlphaComp_mux = '1' else '
 
 CalculateGetImage_mulfpr <= mulfpr when CalculateGetImage_mux = '1' else (others => '0');
 CalculateGetImage_mulfprdy <= mulfprdy when CalculateGetImage_mux = '1' else '0';
+CalculateGetImage_addfpr <= addfpr when CalculateGetImage_mux = '1' else (others => '0');
+CalculateGetImage_addfprdy <= addfprdy when CalculateGetImage_mux = '1' else '0';
 
 i2c_mem_ena <=
 CalculatePixOS_i2c_mem_ena when CalculatePixOS_mux = '1'
@@ -1882,10 +1914,11 @@ subfpr => CalculatePixOSCPSP_subfpr,
 subfprdy => CalculatePixOSCPSP_subfprdy
 );
 
---CalculateVirCompensated_Emissivity <= x"3f800000"; -- 1
+CalculateVirCompensated_Emissivity <= x"3f800000"; -- 1
 --CalculateVirCompensated_Emissivity <= x"40000000"; -- 2
 --CalculateVirCompensated_Emissivity <= x"3F000000"; -- 0.5
-CalculateVirCompensated_Emissivity <= x"3DCCCCCD"; -- 0.1
+--CalculateVirCompensated_Emissivity <= x"3DCCCCCD"; -- 0.1
+--CalculateVirCompensated_Emissivity <= x"3D4CCCCD"; -- 0.05
 CalculateVirCompensated_pixoscpsp0 <= CalculatePixOsCPSP_pixoscpsp0;
 CalculateVirCompensated_pixoscpsp1 <= CalculatePixOsCPSP_pixoscpsp1;
 CalculateVirCompensated_clock <= i_clock;
@@ -2019,7 +2052,15 @@ mulfpond => CalculateGetImage_mulfpond,
 mulfpsclr => CalculateGetImage_mulfpsclr,
 mulfpce => CalculateGetImage_mulfpce,
 mulfpr => CalculateGetImage_mulfpr,
-mulfprdy => CalculateGetImage_mulfprdy
+mulfprdy => CalculateGetImage_mulfprdy,
+
+addfpa => CalculateGetImage_addfpa,
+addfpb => CalculateGetImage_addfpb,
+addfpond => CalculateGetImage_addfpond,
+addfpsclr => CalculateGetImage_addfpsclr,
+addfpce => CalculateGetImage_addfpce,
+addfpr => CalculateGetImage_addfpr,
+addfprdy => CalculateGetImage_addfprdy
 
 );
 

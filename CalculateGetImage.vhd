@@ -54,7 +54,15 @@ signal mulfpond : out STD_LOGIC;
 signal mulfpsclr : out STD_LOGIC;
 signal mulfpce : out STD_LOGIC;
 signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy : in STD_LOGIC
+signal mulfprdy : in STD_LOGIC;
+
+signal addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : out STD_LOGIC;
+signal addfpsclr : out STD_LOGIC;
+signal addfpce : out STD_LOGIC;
+signal addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : in STD_LOGIC
 
 );
 end CalculateGetImage;
@@ -68,6 +76,14 @@ signal mulfpsclr_internal : STD_LOGIC;
 signal mulfpce_internal : STD_LOGIC;
 signal mulfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfprdy_internal : STD_LOGIC;
+
+signal addfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond_internal : STD_LOGIC;
+signal addfpsclr_internal : STD_LOGIC;
+signal addfpce_internal : STD_LOGIC;
+signal addfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy_internal : STD_LOGIC;
 
 component mem_ramb16_s36_x2 is
 generic (
@@ -253,6 +269,9 @@ signal rdy,write_enable : std_logic;
 signal mulfp_wait : integer range 0 to C_MULFP_WAIT-1;
 signal mulfp_run,mulfp_rdy : std_logic;
 
+signal addfp_wait : integer range 0 to C_ADDFP_WAIT-1;
+signal addfp_run,addfp_rdy : std_logic;
+
 begin
 
 p1_counter_mulfp : process (i_clock) is
@@ -268,6 +287,19 @@ begin
   end if;
 end process p1_counter_mulfp;
 
+p1_counter_addfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      addfp_wait <= 0;
+    elsif (addfp_rdy = '1') then
+      addfp_wait <= 0;
+    elsif (addfp_run = '1') then
+      addfp_wait <= addfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_addfp;
+
 mulfpa <= mulfpa_internal;
 mulfpb <= mulfpb_internal;
 mulfpond <= mulfpond_internal;
@@ -275,6 +307,14 @@ mulfpsclr <= mulfpsclr_internal;
 mulfpce <= mulfpce_internal;
 mulfpr_internal <= mulfpr;
 mulfprdy_internal <= mulfprdy;
+
+addfpa <= addfpa_internal;
+addfpb <= addfpb_internal;
+addfpond <= addfpond_internal;
+addfpsclr <= addfpsclr_internal;
+addfpce <= addfpce_internal;
+addfpr_internal <= addfpr;
+addfprdy_internal <= addfprdy;
 
 o_rdy <= rdy;
 o_do <= doa when rdy = '1' else (others => '0');
@@ -293,11 +333,13 @@ p0 : process (i_clock) is
 --  constant const10e7 : std_logic_vector (31 downto 0) := x"CB189680"; -- -10e7 - neg image
   constant const10e8 : std_logic_vector (31 downto 0) := x"4CBEBC20"; -- 10e8
 --  constant const10e8 : std_logic_vector (31 downto 0) := x"CCBEBC20"; -- -10e8 - neg image
-  constant constdot6 : std_logic_vector (31 downto 0) := x"3F19999A"; -- 0.6
+--  constant constupper : std_logic_vector (31 downto 0) := x"42800000"; -- 64
+--  constant constupper : std_logic_vector (31 downto 0) := x"C2800000"; -- -64
+  constant constupper : std_logic_vector (31 downto 0) := x"00000000"; -- 0
 	type states is (idle,
 	s1,s2,s3,s4,s5,
   s6a,s6b,s6c,
---  s6d,s6e,s6f,
+  s6d,s6e,s6f,
   s6,
 	ending);
 	variable state : states;
@@ -373,32 +415,31 @@ begin
       state := s6b;
       mulfp_run <= '1';
     end if;
---	when s6c => state := s6d;
-	when s6c => state := s6;
+	when s6c => state := s6d;
 		mulfpsclr_internal <= '0';
     mulfp_rdy <= '0';
 
---	when s6d => state := s6e;
---		mulfpa_internal <= fttmp1;
---		mulfpb_internal <= constdot6;
---		mulfpce_internal <= '1';
---		mulfpond_internal <= '1';
---	when s6e =>
---		if (mulfp_wait = C_MULFP_WAIT-1) then
---			fttmp1 := mulfpr_internal; -- mul 0.6
---			mulfpce_internal <= '0';
---			mulfpond_internal <= '0';
---			mulfpsclr_internal <= '1';
---      state := s6f;
---      mulfp_run <= '0';
---      mulfp_rdy <= '1';
---    else
---      state := s6e;
---      mulfp_run <= '1';
---    end if;
---	when s6f => state := s6;
---		mulfpsclr_internal <= '0';
---    mulfp_rdy <= '0';
+	when s6d => state := s6e;
+		addfpa_internal <= fttmp1;
+		addfpb_internal <= constupper;
+		addfpce_internal <= '1';
+		addfpond_internal <= '1';
+	when s6e =>
+		if (addfp_wait = C_ADDFP_WAIT-1) then
+			fttmp1 := addfpr_internal; -- add constupper
+			addfpce_internal <= '0';
+			addfpond_internal <= '0';
+			addfpsclr_internal <= '1';
+      state := s6f;
+      addfp_run <= '0';
+      addfp_rdy <= '1';
+    else
+      state := s6e;
+      addfp_run <= '1';
+    end if;
+	when s6f => state := s6;
+		addfpsclr_internal <= '0';
+    addfp_rdy <= '0';
 
 		write_enable <= '1';
 		addra <= std_logic_vector (to_unsigned (i, 10)); -- To
