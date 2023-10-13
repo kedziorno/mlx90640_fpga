@@ -289,11 +289,16 @@ p0 : process (i_clock) is
 	constant const27315 : std_logic_vector (31 downto 0) := x"43889333"; -- 273.15
 	constant constEmissivity : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
 	constant const1 : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
---	constant const10e7 : std_logic_vector (31 downto 0) := x"4B189680"; -- 10e7
-	constant const10e7 : std_logic_vector (31 downto 0) := x"CB189680"; -- -10e7
---	constant const10e7 : std_logic_vector (31 downto 0) := x"CCBEBC20"; -- -10e8
+--  constant const10e7 : std_logic_vector (31 downto 0) := x"4B189680"; -- 10e7
+--  constant const10e7 : std_logic_vector (31 downto 0) := x"CB189680"; -- -10e7 - neg image
+  constant const10e8 : std_logic_vector (31 downto 0) := x"4CBEBC20"; -- 10e8
+--  constant const10e8 : std_logic_vector (31 downto 0) := x"CCBEBC20"; -- -10e8 - neg image
+  constant constdot6 : std_logic_vector (31 downto 0) := x"3F19999A"; -- 0.6
 	type states is (idle,
-	s1,s2,s3,s4,s5,s6,s6a,s6b,s6c,
+	s1,s2,s3,s4,s5,
+  s6a,s6b,s6c,
+--  s6d,s6e,s6f,
+  s6,
 	ending);
 	variable state : states;
 	variable fttmp1,fttmp2,ksto2,tak4,trk4,tar,sx,acomp_pow3,acomp_pow4,tr : std_logic_vector (31 downto 0);
@@ -351,7 +356,8 @@ begin
 
 	when s6a => state := s6b;
 		mulfpa_internal <= fttmp1;
-		mulfpb_internal <= const10e7;
+--		mulfpb_internal <= const10e7;
+		mulfpb_internal <= const10e8;
 		mulfpce_internal <= '1';
 		mulfpond_internal <= '1';
 	when s6b =>
@@ -367,9 +373,32 @@ begin
       state := s6b;
       mulfp_run <= '1';
     end if;
+--	when s6c => state := s6d;
 	when s6c => state := s6;
 		mulfpsclr_internal <= '0';
     mulfp_rdy <= '0';
+
+--	when s6d => state := s6e;
+--		mulfpa_internal <= fttmp1;
+--		mulfpb_internal <= constdot6;
+--		mulfpce_internal <= '1';
+--		mulfpond_internal <= '1';
+--	when s6e =>
+--		if (mulfp_wait = C_MULFP_WAIT-1) then
+--			fttmp1 := mulfpr_internal; -- mul 0.6
+--			mulfpce_internal <= '0';
+--			mulfpond_internal <= '0';
+--			mulfpsclr_internal <= '1';
+--      state := s6f;
+--      mulfp_run <= '0';
+--      mulfp_rdy <= '1';
+--    else
+--      state := s6e;
+--      mulfp_run <= '1';
+--    end if;
+--	when s6f => state := s6;
+--		mulfpsclr_internal <= '0';
+--    mulfp_rdy <= '0';
 
 		write_enable <= '1';
 		addra <= std_logic_vector (to_unsigned (i, 10)); -- To

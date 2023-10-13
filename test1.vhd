@@ -32,6 +32,7 @@ use ieee_proposed.std_logic_1164_additions.all; -- xxx 64bit
 
 use work.p_fphdl_package2.all;
 use work.p_fphdl_package3.all;
+use work.colormap_pkg.all;
 
 entity test1 is
 port (
@@ -170,7 +171,7 @@ operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(4 DOWNTO 0)
+result : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
 --rdy : OUT STD_LOGIC
 );
 END COMPONENT;
@@ -179,7 +180,7 @@ signal float2fixedond : STD_LOGIC;
 signal float2fixedclk : STD_LOGIC;
 signal float2fixedsclr : STD_LOGIC;
 signal float2fixedce : STD_LOGIC;
-signal float2fixedr : STD_LOGIC_VECTOR(4 DOWNTO 0);
+signal float2fixedr : STD_LOGIC_VECTOR(7 DOWNTO 0);
 --signal float2fixedrdy : STD_LOGIC;
 
 COMPONENT dualmem
@@ -207,46 +208,6 @@ signal dualmem_doutb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 
 signal fl2fi_wait : integer range 0 to C_FL2FI_WAIT-1;
 signal fl2fi_run,fl2fi_rdy : std_logic;
-
---synthesis translate_off
-signal data2 : sfixed (4 downto 0); 
---synthesis translate_on
-
-type rom_type is array (31 downto 0) of std_logic_vector (23 downto 0);
-signal ROM : rom_type := (
-x"00022f",
-x"00043f",
-x"000750",
-x"000c60",
-x"00136f",
-x"011d79",
-x"012a7f",
-x"03397e",
-x"064977",
-x"0a5a6c",
-x"116a5d",
-x"1a774c",
-x"27803c",
-x"37842d",
-x"4b8320",
-x"638015",
-x"7e7d0e",
-x"9c7c09",
-x"bd8007",
-x"e08d07",
-x"ffa509",
-x"ffc70e",
-x"fff317",
-x"ffff24",
-x"ffff37",
-x"ffff4e",
-x"ffff6b",
-x"ffff8c",
-x"ffffad",
-x"ffffcd",
-x"ffffe7",
-x"fffff8"
-);
 
 signal rdata : std_logic_vector(23 downto 0);
 
@@ -321,7 +282,7 @@ begin
 if (fl2fi_wait = C_FL2FI_WAIT-1) then
 --tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
 --tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
-tout := "000000000000000000000000"&"000"&float2fixedr (4 downto 0);
+tout := "000000000000000000000000"&float2fixedr (7 downto 0);
 --tout := x"ffffffff"; -- xxx debug white ok
 --tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
 --tout := x"ffffffff"; -- xxx debug, W screen, ok
@@ -349,7 +310,7 @@ end if;
 --synthesis translate_off
 --          data1 := to_sfixed (std_logic_vector(float2fixedr));
           report_error       ("test1 test_fixed_melexis_do "&integer'image(i), test_fixed_melexis_do, 0.0);
-          report_fixed_value ("test1 float2fixedr          "&integer'image(i), to_sfixed(std_logic_vector(float2fixedr),2,-2));
+          report_fixed_value ("test1 float2fixedr          "&integer'image(i), to_sfixed(std_logic_vector(float2fixedr),7,0));
 --          report_error ("test1 float2fixedr : ", to_sfixed(std_logic_vector(float2fixedr),data1));
 --          report_error ("test1 tout        ", tout, 0.0);
 --synthesis translate_on
@@ -391,14 +352,19 @@ begin
 	end if;
 end process pvgaclk;
 
-----synthesis translate_off
---pdualmemdoutb : process (agclk) is
---begin
---  if (rising_edge (agclk)) then
---    report_fixed_value ("test1 dualmemdoutb", to_sfixed(std_logic_vector(dualmem_doutb (15 downto 0)),data2));
---  end if;
---end process pdualmemdoutb;
-----synthesis translate_on
+--synthesis translate_off
+pdualmemdoutb : process (address_generator_clk) is
+  variable data2 : sfixed (7 downto 0);
+--  variable prev_hsync : std_logic;
+begin
+  if (rising_edge (address_generator_clk)) then
+--    if (prev_hsync = '0' and VGA_timing_synch_Hsync = '1') then
+      report_fixed_value ("test1 dualmemdoutb", to_sfixed(std_logic_vector(dualmem_doutb (7 downto 0)),data2));
+--    end if;
+--    prev_hsync := VGA_timing_synch_Hsync;
+  end if;
+end process pdualmemdoutb;
+--synthesis translate_on
 
 pagclk : process (i_clock) is
 	constant CMAX : integer := 40; -- 1.25
@@ -636,11 +602,11 @@ doutb => dualmem_doutb
 );
 
 
-rdata <= ROM (to_integer (unsigned (dualmem_doutb (4 downto 0))));
+rdata <= colormap_rom (to_integer (signed (dualmem_doutb (7 downto 0))));
 
-vga_r <= rdata (23 downto 16) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_g <= rdata (15 downto 8) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_b <= rdata (7 downto 0) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_g <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
 end Behavioral;
 

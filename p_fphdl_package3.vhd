@@ -13,13 +13,6 @@ use ieee_proposed.std_logic_1164_additions.all; -- xxx 64bit
 
 package p_fphdl_package3 is
 
-  constant fiexp : integer := 35;
-  constant fifra : integer := 29;
-  constant flexp : integer := 8;
-  constant flfra : integer := 24;
-  constant fl16exp : integer := 6;
-  constant fl16fra : integer := 10;
-
 ----   xxx syn
   constant C_ADDFP_WAIT : integer := 32;
   constant C_SUBFP_WAIT : integer := 32;
@@ -37,6 +30,13 @@ package p_fphdl_package3 is
 --  constant C_SQRTFP2_WAIT : integer := 32;
 --  constant C_FI2FL_WAIT : integer := 8;
 --  constant C_FL2FI_WAIT : integer := 8;
+
+  constant fiexp : integer := 35;
+  constant fifra : integer := 29;
+  constant flexp : integer := 8;
+  constant flfra : integer := 24;
+  constant fl16exp : integer := 6;
+  constant fl16fra : integer := 10;
 
 	function ap_slv2fp (sl:std_logic_vector) return real;
 	function ap_slv2int (sl:std_logic_vector) return integer;
