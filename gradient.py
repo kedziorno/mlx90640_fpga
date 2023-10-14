@@ -15,7 +15,7 @@ ld = im.load()
 # A map of rgb points in your distribution
 # [distance, (r, g, b)]
 # distance is percentage from left edge
-"""heatmap = [
+heatmap = [
     [0.0, (0, 0, 0)],
     [0.20, (0, 0, .5)],
     [0.40, (0, .5, 0)],
@@ -23,12 +23,12 @@ ld = im.load()
     [0.80, (.75, .75, 0)],
     [0.90, (1.0, .75, 0)],
     [1.00, (1.0, 1.0, 1.0)],
-]"""
+]
 
-heatmap = [
+"""heatmap = [
     [0.0,  (0.0, 0.0, 1.0)],
     [1.00, (1.0, 0.0, 0.0)],
-]
+]"""
 
 
 def gaussian(x, a, b, c, d=0):

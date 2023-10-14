@@ -5,14 +5,14 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.05 secs
+Total CPU time to Xst completion: 0.07 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.05 secs
+Total CPU time to Xst completion: 0.07 secs
  
 --> 
 Reading design: test1.prj
@@ -237,8 +237,7 @@ Architecture behavioral of Entity mem_switchpattern_muser_calculatealphacomp is 
 Architecture behavioral of Entity m2_1_mxilinx_calculatealphacomp is up to date.
 Architecture behavioral of Entity calculatealphacomp is up to date.
 Compiling vhdl file "/home/user/workspace/mlx90640_fpga/CalculateGetImage.vhd" in Library work.
-Entity <calculategetimage> compiled.
-Entity <calculategetimage> (Architecture <behavioral>) compiled.
+Architecture behavioral of Entity calculategetimage is up to date.
 Compiling vhdl file "/home/user/workspace/mlx90640_fpga/ipcore_dir/fixed2float.vhd" in Library work.
 Architecture fixed2float_a of Entity fixed2float is up to date.
 Compiling vhdl file "/home/user/workspace/mlx90640_fpga/ipcore_dir/divfp.vhd" in Library work.
@@ -254,8 +253,7 @@ Architecture p_fphdl_package2 of Entity p_fphdl_package2 is up to date.
 Compiling vhdl file "/home/user/workspace/mlx90640_fpga/colormap_pkg.vhd" in Library work.
 Architecture colormap_pkg of Entity colormap_pkg is up to date.
 Compiling vhdl file "/home/user/workspace/mlx90640_fpga/test_fixed_melexis.vhd" in Library work.
-Entity <test_fixed_melexis> compiled.
-Entity <test_fixed_melexis> (Architecture <testbench>) compiled.
+Architecture testbench of Entity test_fixed_melexis is up to date.
 Compiling vhdl file "/home/user/workspace/mlx90640_fpga/ipcore_dir/tb_i2c_mem.vhd" in Library work.
 Architecture tb_i2c_mem_a of Entity tb_i2c_mem is up to date.
 Compiling vhdl file "/home/user/workspace/mlx90640_fpga/address_generator.vhd" in Library work.
@@ -625,15 +623,16 @@ Analyzing Entity <test1> in library <work> (Architecture <behavioral>).
 WARNING:Xst:2211 - "/home/user/workspace/mlx90640_fpga/test1.vhd" line 433: Instantiating black box module <tb_i2c_mem>.
 WARNING:Xst:2211 - "/home/user/workspace/mlx90640_fpga/test1.vhd" line 579: Instantiating black box module <float2fixed>.
 WARNING:Xst:2211 - "/home/user/workspace/mlx90640_fpga/test1.vhd" line 592: Instantiating black box module <dualmem>.
+WARNING:Xst:790 - "/home/user/workspace/mlx90640_fpga/test1.vhd" line 605: Index value(s) does not match array range, simulation mismatch.
 Entity <test1> analyzed. Unit <test1> generated.
 
 Analyzing Entity <test_fixed_melexis> in library <work> (Architecture <testbench>).
 WARNING:Xst:753 - "/home/user/workspace/mlx90640_fpga/test_fixed_melexis.vhd" line 1719: Unconnected output port 'o_doa' of component 'ExtractAlphaParameters'.
-WARNING:Xst:2211 - "/home/user/workspace/mlx90640_fpga/test_fixed_melexis.vhd" line 2080: Instantiating black box module <fixed2float>.
-WARNING:Xst:2211 - "/home/user/workspace/mlx90640_fpga/test_fixed_melexis.vhd" line 2092: Instantiating black box module <divfp>.
-WARNING:Xst:2211 - "/home/user/workspace/mlx90640_fpga/test_fixed_melexis.vhd" line 2104: Instantiating black box module <mulfp>.
-WARNING:Xst:2211 - "/home/user/workspace/mlx90640_fpga/test_fixed_melexis.vhd" line 2116: Instantiating black box module <addfp>.
-WARNING:Xst:2211 - "/home/user/workspace/mlx90640_fpga/test_fixed_melexis.vhd" line 2128: Instantiating black box module <subfp>.
+WARNING:Xst:2211 - "/home/user/workspace/mlx90640_fpga/test_fixed_melexis.vhd" line 2082: Instantiating black box module <fixed2float>.
+WARNING:Xst:2211 - "/home/user/workspace/mlx90640_fpga/test_fixed_melexis.vhd" line 2094: Instantiating black box module <divfp>.
+WARNING:Xst:2211 - "/home/user/workspace/mlx90640_fpga/test_fixed_melexis.vhd" line 2106: Instantiating black box module <mulfp>.
+WARNING:Xst:2211 - "/home/user/workspace/mlx90640_fpga/test_fixed_melexis.vhd" line 2118: Instantiating black box module <addfp>.
+WARNING:Xst:2211 - "/home/user/workspace/mlx90640_fpga/test_fixed_melexis.vhd" line 2130: Instantiating black box module <subfp>.
 Entity <test_fixed_melexis> analyzed. Unit <test_fixed_melexis> generated.
 
 Analyzing Entity <CalculateVDD> in library <work> (Architecture <behavioral>).
@@ -6074,15 +6073,6 @@ INFO:Xst:2261 - The FF/Latch <o_alpha_addr_6> in Unit <CalculateAlphaComp_proces
 INFO:Xst:2261 - The FF/Latch <o_alpha_addr_7> in Unit <CalculateAlphaComp_process_p0_inst> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_7> 
 INFO:Xst:2261 - The FF/Latch <o_alpha_addr_8> in Unit <CalculateAlphaComp_process_p0_inst> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_8> 
 INFO:Xst:2261 - The FF/Latch <o_alpha_addr_9> in Unit <CalculateAlphaComp_process_p0_inst> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_9> 
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_3> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_2> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_1> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_0> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <ExtractTGCParameter_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_9> (without init value) has a constant value of 0 in block <CalculatePixOSCpSp_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_8> (without init value) has a constant value of 0 in block <CalculatePixOSCpSp_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_3> (without init value) has a constant value of 0 in block <CalculatePixOSCpSp_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_9> (without init value) has a constant value of 0 in block <CalculatePixOSCpSp_calculatekgain_process_p0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_8> (without init value) has a constant value of 0 in block <CalculatePixOSCpSp_calculatekgain_process_p0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_3> (without init value) has a constant value of 0 in block <CalculatePixOSCpSp_calculatekgain_process_p0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <CalculatePixOSCpSp_calculatekgain_process_p0>. This FF/Latch will be trimmed during the optimization process.
@@ -6098,33 +6088,33 @@ WARNING:Xst:1710 - FF/Latch <addfpb_internal_16> (without init value) has a cons
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_15> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_14> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_13> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <addfpb_internal_12> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <addfpb_internal_11> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <addfpb_internal_10> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <addfpb_internal_9> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <addfpb_internal_8> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <addfpb_internal_7> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <mem_switchpattern_pixel_10> (without init value) has a constant value of 0 in block <CalculateAlphaComp_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <ExtractTGCParameter_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <mem_switchpattern_pixel_10> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <divfpb_internal_31> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <divfpb_internal_30> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_22> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_21> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_20> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <divfpb_internal_23> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <divfpb_internal_19> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <divfpb_internal_18> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_17> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_16> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <divfpb_internal_15> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <divfpb_internal_14> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_13> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_12> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <divfpb_internal_11> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <divfpb_internal_10> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_9> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_8> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <divfpb_internal_7> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <divfpb_internal_6> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_5> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_4> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <CalculatePixGain_inst_CalcKGain_proc0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_11> (without init value) has a constant value of 0 in block <CalculateAlphaCP_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_10> (without init value) has a constant value of 0 in block <CalculateAlphaCP_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <divfpb_internal_3> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <divfpb_internal_2> (without init value) has a constant value of 0 in block <calculatevircompensated_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <ExtractTGCParameter_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_9> (without init value) has a constant value of 0 in block <CalculatePixOSCpSp_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_8> (without init value) has a constant value of 0 in block <CalculatePixOSCpSp_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_3> (without init value) has a constant value of 0 in block <CalculatePixOSCpSp_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_9> (without init value) has a constant value of 0 in block <CalculatePixOSCpSp_calculatekgain_process_p0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_9> (without init value) has a constant value of 0 in block <CalculateAlphaCP_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_8> (without init value) has a constant value of 0 in block <CalculateAlphaCP_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_7> (without init value) has a constant value of 0 in block <CalculateAlphaCP_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
@@ -6146,18 +6136,19 @@ WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_8> (without init value) has a constan
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_7> (without init value) has a constant value of 0 in block <ExtractVDDParameters_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_4> (without init value) has a constant value of 0 in block <ExtractVDDParameters_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_3> (without init value) has a constant value of 0 in block <ExtractVDDParameters_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <addfpb_internal_12> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <addfpb_internal_11> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <addfpb_internal_10> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <addfpb_internal_9> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <addfpb_internal_8> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <addfpb_internal_7> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_6> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_5> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_4> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_3> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_2> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_1> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <addfpb_internal_0> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_11> (without init value) has a constant value of 0 in block <inst_extrkvparam_proc0_inst>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_10> (without init value) has a constant value of 0 in block <inst_extrkvparam_proc0_inst>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_9> (without init value) has a constant value of 0 in block <inst_extrkvparam_proc0_inst>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_10> (without init value) has a constant value of 0 in block <CalculateAlphaCP_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_11> (without init value) has a constant value of 0 in block <CalculateAlphaCP_process_p0_inst>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <CalculatePixGain_inst_CalcKGain_proc0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_3> (without init value) has a constant value of 0 in block <CalculatePixGain_inst_CalcKGain_proc0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_8> (without init value) has a constant value of 0 in block <CalculatePixGain_inst_CalcKGain_proc0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_9> (without init value) has a constant value of 0 in block <CalculatePixGain_inst_CalcKGain_proc0>. This FF/Latch will be trimmed during the optimization process.
@@ -6166,10 +6157,6 @@ WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constan
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_2> (without init value) has a constant value of 0 in block <inst_extrkvparam_proc0_inst>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_7> (without init value) has a constant value of 0 in block <inst_extrkvparam_proc0_inst>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_8> (without init value) has a constant value of 0 in block <inst_extrkvparam_proc0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_9> (without init value) has a constant value of 0 in block <inst_extrkvparam_proc0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_10> (without init value) has a constant value of 0 in block <inst_extrkvparam_proc0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_11> (without init value) has a constant value of 0 in block <inst_extrkvparam_proc0_inst>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <addfpb_internal_0> (without init value) has a constant value of 0 in block <inst_CalcPixOS_proc0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_20> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_21> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_22> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -6548,28 +6535,30 @@ Optimizing unit <CalculatePixOS> ...
 Optimizing unit <CalculatePixOsCPSP> ...
 
 Optimizing unit <test_fixed_melexis> ...
-WARNING:Xst:1710 - FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_4> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_5> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_2> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_3> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_6> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_7> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_8> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_9> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_10> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_11> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_12> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_15> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_16> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_17> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_18> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_19> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_20> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_21> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_22> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_23> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_30> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_31> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRemScale_31> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRemScale_19> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRemScale_18> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRemScale_17> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRemScale_16> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRemScale_15> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRemScale_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRemScale_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/divfpb_internal_3> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/divfpb_internal_4> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/divfpb_internal_5> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/divfpb_internal_6> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/divfpb_internal_7> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/divfpb_internal_8> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -6589,16 +6578,6 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_Extra
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/divfpb_internal_22> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/divfpb_internal_29> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/divfpb_internal_31> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_0> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_2> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_3> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccColumnScale_17> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccColumnScale_16> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccColumnScale_15> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccColumnScale_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccColumnScale_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccColumnScale_12> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccColumnScale_11> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccColumnScale_10> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccColumnScale_9> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -6615,13 +6594,12 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_Calcu
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRowScale_19> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRowScale_18> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRowScale_17> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRemScale_19> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRemScale_18> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRemScale_17> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRemScale_16> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRemScale_15> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRemScale_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRemScale_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRowScale_16> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRowScale_15> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRowScale_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRowScale_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRowScale_12> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRowScale_11> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRemScale_12> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRemScale_11> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRemScale_10> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -6638,6 +6616,13 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_Calcu
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccColumnScale_31> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccColumnScale_19> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccColumnScale_18> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccColumnScale_17> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccColumnScale_16> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccColumnScale_15> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccColumnScale_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccColumnScale_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccColumnScale_12> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccColumnScale_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccColumnScale_2> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccColumnScale_3> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccColumnScale_4> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -6658,8 +6643,6 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_Extra
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccColumnScale_19> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccColumnScale_31> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccRemScale_0> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccRemScale_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccRemScale_2> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/mulfpb_internal_0> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/mulfpb_internal_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/mulfpb_internal_2> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -6682,7 +6665,9 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_Extra
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/mulfpb_internal_19> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/mulfpb_internal_31> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccColumnScale_0> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccColumnScale_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccRowScale_2> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccRowScale_3> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccRowScale_4> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccRowScale_5> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccRowScale_6> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccRowScale_7> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -6702,9 +6687,8 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_Extra
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/divfpb_internal_0> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/divfpb_internal_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/divfpb_internal_2> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/divfpb_internal_3> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/divfpb_internal_4> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/divfpb_internal_5> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccRemScale_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccRemScale_2> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccRemScale_3> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccRemScale_4> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccRemScale_5> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -6725,11 +6709,6 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_Extra
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccRemScale_31> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccRowScale_0> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccRowScale_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccRowScale_2> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccRowScale_3> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_ExtractAlphaParameters/extractalphaparameters_process_p0_inst/vaccRowScale_4> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_17> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_16> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_15> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -6750,9 +6729,7 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_Calcu
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpb_internal_22> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpb_internal_21> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpb_internal_20> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/divfpb_internal_18> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/divfpb_internal_17> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/divfpb_internal_16> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpb_internal_19> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/divfpb_internal_15> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/divfpb_internal_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/divfpb_internal_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -6773,6 +6750,8 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_Calcu
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_20> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_19> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_18> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_17> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_16> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/inst_CalcPixOS_proc0/addfpb_internal_3> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/inst_CalcPixOS_proc0/addfpb_internal_4> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/inst_CalcPixOS_proc0/addfpb_internal_5> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -6795,7 +6774,6 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_Calcu
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/inst_CalcPixOS_proc0/addfpb_internal_22> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/inst_CalcPixOS_proc0/addfpb_internal_30> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/inst_CalcPixOS_proc0/addfpb_internal_31> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpb_internal_19> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpb_internal_18> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpb_internal_17> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpb_internal_16> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -6818,11 +6796,6 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_Calcu
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/inst_CalcPixOS_proc0/addfpb_internal_0> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/inst_CalcPixOS_proc0/addfpb_internal_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/inst_CalcPixOS_proc0/addfpb_internal_2> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/mulfpb_internal_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/mulfpb_internal_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/mulfpb_internal_12> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/mulfpb_internal_11> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/mulfpb_internal_10> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/mulfpb_internal_9> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/mulfpb_internal_8> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/mulfpb_internal_7> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -6840,12 +6813,10 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_Calcu
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_16> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_15> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRowScale_16> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRowScale_15> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRowScale_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRowScale_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRowScale_12> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRowScale_11> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_12> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_11> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_10> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRowScale_10> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRowScale_9> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/voccRowScale_8> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -6863,9 +6834,11 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_Calcu
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/mulfpb_internal_17> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/mulfpb_internal_16> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/mulfpb_internal_15> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpb_internal_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpb_internal_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpb_internal_12> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/mulfpb_internal_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/mulfpb_internal_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/mulfpb_internal_12> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/mulfpb_internal_11> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/mulfpb_internal_10> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpb_internal_11> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpb_internal_10> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpb_internal_9> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -6885,10 +6858,9 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_Calcu
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/divfpb_internal_21> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/divfpb_internal_20> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/divfpb_internal_19> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_12> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_11> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_10> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/divfpb_internal_18> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/divfpb_internal_17> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/divfpb_internal_16> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_9> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_8> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_7> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -6908,6 +6880,9 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_Calcu
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpb_internal_17> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpb_internal_16> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpb_internal_15> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpb_internal_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpb_internal_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpb_internal_12> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:2677 - Node <tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/o_ee2410_10> of sequential type is unconnected in block <test1>.
 WARNING:Xst:2677 - Node <tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/o_ee2410_11> of sequential type is unconnected in block <test1>.
 WARNING:Xst:2677 - Node <tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/o_ee2410_0> of sequential type is unconnected in block <test1>.
@@ -6925,7 +6900,8 @@ Mapping all equations...
 Building and optimizing final netlist ...
 INFO:Xst:2261 - The FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpb_internal_27> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpb_internal_28> <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpb_internal_29> 
 INFO:Xst:2261 - The FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_25> in Unit <test1> is equivalent to the following FF/Latch, which will be removed : <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_29> 
-INFO:Xst:2261 - The FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_29> in Unit <test1> is equivalent to the following 6 FFs/Latches, which will be removed : <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_28> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_27> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_26> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_25> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_24> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_23> 
+INFO:Xst:2261 - The FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_29> in Unit <test1> is equivalent to the following 18 FFs/Latches, which will be removed : <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_28> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_27> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_26> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_25> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_24> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_22> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_21> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_20>
+   <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_17> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_16> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_13> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_12> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_9> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_8> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_5> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_4> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_1> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_0> 
 INFO:Xst:2261 - The FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpb_internal_27> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpb_internal_28> <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpb_internal_29> 
 INFO:Xst:2261 - The FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_25> in Unit <test1> is equivalent to the following FF/Latch, which will be removed : <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_29> 
 INFO:Xst:2261 - The FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_24> in Unit <test1> is equivalent to the following 3 FFs/Latches, which will be removed : <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_26> <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_27> <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_28> 
@@ -6934,16 +6910,15 @@ Found area constraint ratio of 100 (+ 5) on block test1, actual ratio is 51.
 INFO:Xst:2260 - The FF/Latch <blk00000144> in Unit <tfm_inst/inst_divfp> is equivalent to the following 4 FFs/Latches : <blk00000217> <blk00000218> <blk00000219> <blk0000021a> 
 INFO:Xst:2260 - The FF/Latch <blk00000144> in Unit <tfm_inst/inst_divfp> is equivalent to the following 4 FFs/Latches : <blk00000217> <blk00000218> <blk00000219> <blk0000021a> 
 FlipFlop tfm_inst/CalculateAlphaComp_mux has been replicated 2 time(s)
-FlipFlop tfm_inst/CalculateGetImage_mux has been replicated 2 time(s)
-FlipFlop tfm_inst/CalculatePixOS_mux has been replicated 2 time(s)
-FlipFlop tfm_inst/CalculatePixOsCPSP_mux has been replicated 2 time(s)
+FlipFlop tfm_inst/CalculateGetImage_mux has been replicated 1 time(s)
+FlipFlop tfm_inst/CalculatePixOS_mux has been replicated 1 time(s)
+FlipFlop tfm_inst/CalculatePixOsCPSP_mux has been replicated 1 time(s)
 FlipFlop tfm_inst/CalculateTa_mux has been replicated 2 time(s)
 FlipFlop tfm_inst/CalculateVdd_mux has been replicated 2 time(s)
 FlipFlop tfm_inst/CalculateVirCompensated_mux has been replicated 2 time(s)
 FlipFlop tfm_inst/ExtractAlphaParameters_mux has been replicated 2 time(s)
 FlipFlop tfm_inst/inst_CalculatePixOS/inst_CalcPixOS_proc0/ExtractKtaParameters_mux has been replicated 1 time(s)
 FlipFlop tfm_inst/inst_CalculatePixOS/inst_CalcPixOS_proc0/ExtractOffsetParameters_mux has been replicated 1 time(s)
-FlipFlop tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_process_p0_inst/CalculateKGain_mux has been replicated 1 time(s)
 
 Final Macro Processing ...
 
@@ -6951,8 +6926,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 6941
- Flip-Flops                                            : 6941
+# Registers                                            : 6937
+ Flip-Flops                                            : 6937
 
 =========================================================================
 
@@ -6981,32 +6956,32 @@ Design Statistics
 # IOs                              : 32
 
 Cell Usage :
-# BELS                             : 16472
+# BELS                             : 16679
 #      AND2                        : 788
 #      AND2B1                      : 788
 #      BUF                         : 445
 #      GND                         : 16
-#      INV                         : 96
+#      INV                         : 95
 #      LUT1                        : 95
-#      LUT2                        : 2174
-#      LUT2_D                      : 22
-#      LUT2_L                      : 31
-#      LUT3                        : 1715
-#      LUT3_D                      : 32
-#      LUT3_L                      : 156
-#      LUT4                        : 6660
-#      LUT4_D                      : 25
-#      LUT4_L                      : 759
+#      LUT2                        : 2232
+#      LUT2_D                      : 55
+#      LUT2_L                      : 52
+#      LUT3                        : 1770
+#      LUT3_D                      : 30
+#      LUT3_L                      : 118
+#      LUT4                        : 6599
+#      LUT4_D                      : 22
+#      LUT4_L                      : 815
 #      MUXCY                       : 480
-#      MUXF5                       : 1105
+#      MUXF5                       : 1194
 #      MUXF6                       : 17
 #      MUXF7                       : 1
 #      OR2                         : 788
 #      VCC                         : 8
 #      XORCY                       : 271
-# FlipFlops/Latches                : 8579
+# FlipFlops/Latches                : 8575
 #      FD                          : 90
-#      FDE                         : 4292
+#      FDE                         : 4288
 #      FDR                         : 1319
 #      FDRE                        : 1729
 #      FDRS                        : 802
@@ -7031,10 +7006,10 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                     7367  out of  15360    47%  
- Number of Slice Flip Flops:           8579  out of  30720    27%  
- Number of 4 input LUTs:              11920  out of  30720    38%  
-    Number used as logic:             11765
+ Number of Slices:                     7398  out of  15360    48%  
+ Number of Slice Flip Flops:           8575  out of  30720    27%  
+ Number of 4 input LUTs:              12038  out of  30720    39%  
+    Number used as logic:             11883
     Number used as Shift registers:     155
  Number of IOs:                          32
  Number of bonded IOBs:                  32  out of    448     7%  
@@ -7064,7 +7039,7 @@ Clock Information:
 -----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)                                                                                                                  | Load  |
 -----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
-i_clock                            | IBUF+BUFG                                                                                                                              | 8693  |
+i_clock                            | IBUF+BUFG                                                                                                                              | 8689  |
 inst_tb_i2c_mem/N1                 | NONE(inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_init.ram/SP.SINGLE_PRIM.SP) | 2     |
 agclk                              | NONE(dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP)| 12    |
 vgaclk251                          | BUFG                                                                                                                                   | 83    |
@@ -7086,9 +7061,9 @@ Timing Summary:
 ---------------
 Speed Grade: -10
 
-   Minimum period: 8.973ns (Maximum Frequency: 111.451MHz)
-   Minimum input arrival time before clock: 8.475ns
-   Maximum output required time after clock: 11.529ns
+   Minimum period: 9.191ns (Maximum Frequency: 108.804MHz)
+   Minimum input arrival time before clock: 8.693ns
+   Maximum output required time after clock: 11.257ns
    Maximum combinational path delay: No path found
 
 Timing Detail:
@@ -7097,37 +7072,36 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 8.973ns (frequency: 111.451MHz)
-  Total number of paths / destination ports: 249734 / 17139
+  Clock period: 9.191ns (frequency: 108.804MHz)
+  Total number of paths / destination ports: 256484 / 17135
 -------------------------------------------------------------------------
-Delay:               8.973ns (Levels of Logic = 6)
-  Source:            tfm_inst/ExtractAlphaParameters_mux (FF)
-  Destination:       tfm_inst/inst_mulfp/blk0000013c (FF)
+Delay:               9.191ns (Levels of Logic = 5)
+  Source:            tfm_inst/CalculatePixOS_mux (FF)
+  Destination:       tfm_inst/inst_subfp/blk00000207 (FF)
   Source Clock:      i_clock rising
   Destination Clock: i_clock rising
 
-  Data Path: tfm_inst/ExtractAlphaParameters_mux to tfm_inst/inst_mulfp/blk0000013c
+  Data Path: tfm_inst/CalculatePixOS_mux to tfm_inst/inst_subfp/blk00000207
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDE:C->Q            375   0.360   2.432  tfm_inst/ExtractAlphaParameters_mux (tfm_inst/ExtractAlphaParameters_mux)
-     LUT4:I3->O            1   0.195   0.741  tfm_inst/mulfpce155_SW0_SW0 (N4437)
-     LUT4:I0->O            1   0.195   0.000  tfm_inst/mulfpce155_SW12 (tfm_inst/mulfpce155_SW11)
-     MUXF5:I0->O           1   0.382   0.523  tfm_inst/mulfpce155_SW1_f5 (N4181)
-     LUT4:I3->O          312   0.195   2.248  tfm_inst/mulfpce155 (tfm_inst/mulfpce)
-     begin scope: 'tfm_inst/inst_mulfp'
-     LUT2:I0->O            8   0.195   0.445  blk0000017e (sig00000256)
-     FDRSE:S                   1.062          blk0000013c
+     FDE:C->Q            440   0.360   2.851  tfm_inst/CalculatePixOS_mux (tfm_inst/CalculatePixOS_mux)
+     LUT4:I1->O            1   0.195   0.000  tfm_inst/subfpce29_SW02 (tfm_inst/subfpce29_SW01)
+     MUXF5:I0->O           1   0.382   0.523  tfm_inst/subfpce29_SW0_f5 (N4990)
+     LUT4:I3->O          553   0.195   2.983  tfm_inst/subfpce29 (tfm_inst/subfpce)
+     begin scope: 'tfm_inst/inst_subfp'
+     LUT2:I0->O            8   0.195   0.445  blk00000334 (sig00000462)
+     FDRSE:S                   1.062          blk00000207
     ----------------------------------------
-    Total                      8.973ns (2.584ns logic, 6.389ns route)
-                                       (28.8% logic, 71.2% route)
+    Total                      9.191ns (2.389ns logic, 6.802ns route)
+                                       (26.0% logic, 74.0% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'vgaclk251'
-  Clock period: 6.208ns (frequency: 161.089MHz)
-  Total number of paths / destination ports: 1765 / 148
+  Clock period: 6.008ns (frequency: 166.449MHz)
+  Total number of paths / destination ports: 1691 / 148
 -------------------------------------------------------------------------
-Delay:               6.208ns (Levels of Logic = 7)
+Delay:               6.008ns (Levels of Logic = 7)
   Source:            vts_inst/hPos_3 (FF)
   Destination:       vts_inst/videoOn (FF)
   Source Clock:      vgaclk251 rising
@@ -7139,16 +7113,16 @@ Delay:               6.208ns (Levels of Logic = 7)
     ----------------------------------------  ------------
      FDR:C->Q              4   0.360   0.755  vts_inst/hPos_3 (vts_inst/hPos_3)
      LUT4:I0->O            1   0.195   0.741  vts_inst/videoOn_or000087 (vts_inst/videoOn_or000087)
-     LUT4_D:I0->O          9   0.195   0.850  vts_inst/videoOn_or0000830 (vts_inst/videoOn_or0000_bdd15)
-     LUT4:I0->O            1   0.195   0.688  vts_inst/videoOn_or00002354_SW1 (N2398)
-     LUT4_L:I1->LO         1   0.195   0.163  vts_inst/videoOn_or00002354 (vts_inst/videoOn_or00002354)
-     LUT4:I3->O            1   0.195   0.741  vts_inst/videoOn_or00002421 (vts_inst/videoOn_or00002421)
-     LUT4:I0->O            1   0.195   0.523  vts_inst/videoOn_or00002446_SW0 (N2407)
-     LUT4:I3->O            1   0.195   0.000  vts_inst/videoOn_rstpot1 (vts_inst/videoOn_rstpot)
+     LUT4_D:I0->O          7   0.195   0.579  vts_inst/videoOn_or0000830 (vts_inst/videoOn_or0000_bdd15)
+     LUT4_D:I3->LO         1   0.195   0.328  vts_inst/videoOn_or0000161 (N6061)
+     LUT4:I1->O            1   0.195   0.585  vts_inst/videoOn_or00002176_SW0 (N2393)
+     LUT4:I2->O            1   0.195   0.585  vts_inst/videoOn_or00002176 (vts_inst/videoOn_or00002176)
+     LUT4:I2->O            1   0.195   0.688  vts_inst/videoOn_or00002203 (vts_inst/videoOn_or00002203)
+     LUT4:I1->O            1   0.195   0.000  vts_inst/videoOn_rstpot1 (vts_inst/videoOn_rstpot)
      FD:D                      0.022          vts_inst/videoOn
     ----------------------------------------
-    Total                      6.208ns (1.747ns logic, 4.461ns route)
-                                       (28.1% logic, 71.9% route)
+    Total                      6.008ns (1.747ns logic, 4.261ns route)
+                                       (29.1% logic, 70.9% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'agclk'
@@ -7167,7 +7141,7 @@ Delay:               4.522ns (Levels of Logic = 3)
     ----------------------------------------  ------------
      FDRE:C->Q             4   0.360   0.755  ag_inst/addr_7 (ag_inst/addr_7)
      LUT4:I0->O            1   0.195   0.688  ag_inst/addr_or000018 (ag_inst/addr_or000018)
-     LUT4:I1->O            1   0.195   0.585  ag_inst/addr_or000039_SW0 (N4347)
+     LUT4:I1->O            1   0.195   0.585  ag_inst/addr_or000039_SW0 (N4392)
      LUT4:I2->O           10   0.195   0.488  ag_inst/addr_or000039 (ag_inst/addr_or0000)
      FDRE:R                    1.062          ag_inst/addr_0
     ----------------------------------------
@@ -7176,9 +7150,9 @@ Delay:               4.522ns (Levels of Logic = 3)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 6895 / 6895
+  Total number of paths / destination ports: 6891 / 6891
 -------------------------------------------------------------------------
-Offset:              8.281ns (Levels of Logic = 3)
+Offset:              8.277ns (Levels of Logic = 3)
   Source:            i_reset (PAD)
   Destination:       dualmem_wea_0 (FF)
   Destination Clock: i_clock rising
@@ -7189,17 +7163,17 @@ Offset:              8.281ns (Levels of Logic = 3)
     ----------------------------------------  ------------
      IBUF:I->O           335   0.965   2.113  i_reset_IBUF (i_reset_IBUF)
      BUF:I->O            251   0.358   1.784  i_reset_IBUF_4_1 (i_reset_IBUF_4_1)
-     INV:I->O            348   0.358   2.163  tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_process_p0_inst/i_reset_inv1_INV_0_2 (tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_process_p0_inst/i_reset_inv1_INV_0_2)
-     FDE:CE                    0.540          tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/fttmp2_8
+     INV:I->O            347   0.358   2.159  tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_process_p0_inst/i_reset_inv1_INV_0_2 (tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_process_p0_inst/i_reset_inv1_INV_0_2)
+     FDE:CE                    0.540          tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/i2c_mem_addra_0
     ----------------------------------------
-    Total                      8.281ns (2.221ns logic, 6.060ns route)
+    Total                      8.277ns (2.221ns logic, 6.056ns route)
                                        (26.8% logic, 73.2% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'vgaclk251'
   Total number of paths / destination ports: 101 / 91
 -------------------------------------------------------------------------
-Offset:              8.475ns (Levels of Logic = 4)
+Offset:              8.693ns (Levels of Logic = 4)
   Source:            i_reset (PAD)
   Destination:       vts_inst/vPos_9 (FF)
   Destination Clock: vgaclk251 rising
@@ -7209,13 +7183,13 @@ Offset:              8.475ns (Levels of Logic = 4)
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
      IBUF:I->O           335   0.965   2.113  i_reset_IBUF (i_reset_IBUF)
-     BUF:I->O            501   0.358   2.921  i_reset_IBUF_1 (i_reset_IBUF_1)
-     LUT4:I3->O            1   0.195   0.000  vts_inst/vPos_or00002641 (vts_inst/vPos_or0000264)
+     BUF:I->O            501   0.358   3.139  i_reset_IBUF_1 (i_reset_IBUF_1)
+     LUT4:I0->O            1   0.195   0.000  vts_inst/vPos_or00002641 (vts_inst/vPos_or0000264)
      MUXF5:I1->O          10   0.374   0.488  vts_inst/vPos_or0000264_f5 (vts_inst/vPos_or0000)
      FDRE:R                    1.062          vts_inst/vPos_0
     ----------------------------------------
-    Total                      8.475ns (2.954ns logic, 5.521ns route)
-                                       (34.9% logic, 65.1% route)
+    Total                      8.693ns (2.954ns logic, 5.739ns route)
+                                       (34.0% logic, 66.0% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'agclk'
@@ -7258,67 +7232,66 @@ Offset:              4.694ns (Levels of Logic = 1)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'vgaclk251'
-  Total number of paths / destination ports: 322 / 13
+  Total number of paths / destination ports: 462 / 18
 -------------------------------------------------------------------------
-Offset:              9.691ns (Levels of Logic = 7)
+Offset:              10.286ns (Levels of Logic = 7)
   Source:            vts_inst/hPos_3 (FF)
-  Destination:       vga_b<5> (PAD)
+  Destination:       vga_b<6> (PAD)
   Source Clock:      vgaclk251 rising
 
-  Data Path: vts_inst/hPos_3 to vga_b<5>
+  Data Path: vts_inst/hPos_3 to vga_b<6>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
      FDR:C->Q              4   0.360   0.755  vts_inst/hPos_3 (vts_inst/hPos_3)
      LUT4:I0->O            2   0.195   0.758  vts_inst/activeArea1_and00002111 (vts_inst/N27)
      LUT4:I0->O            1   0.195   0.585  vts_inst/activeArea1_and000013 (vts_inst/activeArea1_and000013)
-     LUT4:I2->O            1   0.195   0.585  vts_inst/activeArea1_and0000106_SW0 (N3417)
-     LUT4:I2->O           16   0.195   0.974  vts_inst/activeArea1_and0000106 (vga_blankn_OBUF)
-     LUT4:I0->O            1   0.195   0.000  vga_r<6>1_F (N5355)
-     MUXF5:I0->O           1   0.382   0.360  vga_r<6>1 (vga_r_6_OBUF)
-     OBUF:I->O                 3.957          vga_r_6_OBUF (vga_r<6>)
+     LUT4:I2->O            1   0.195   0.585  vts_inst/activeArea1_and0000106_SW0 (N3332)
+     LUT4:I2->O           23   0.195   1.069  vts_inst/activeArea1_and0000106 (vga_blankn_OBUF)
+     LUT4:I1->O            1   0.195   0.688  vga_b<6>171 (vga_b<6>171)
+     LUT3:I0->O            1   0.195   0.360  vga_b<6>175 (vga_b_6_OBUF)
+     OBUF:I->O                 3.957          vga_b_6_OBUF (vga_b<6>)
     ----------------------------------------
-    Total                      9.691ns (5.674ns logic, 4.017ns route)
-                                       (58.5% logic, 41.5% route)
+    Total                     10.286ns (5.487ns logic, 4.799ns route)
+                                       (53.3% logic, 46.7% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'agclk'
-  Total number of paths / destination ports: 417 / 10
+  Total number of paths / destination ports: 539 / 15
 -------------------------------------------------------------------------
-Offset:              11.529ns (Levels of Logic = 8)
+Offset:              11.257ns (Levels of Logic = 7)
   Source:            dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (RAM)
-  Destination:       vga_b<3> (PAD)
+  Destination:       vga_g<5> (PAD)
   Source Clock:      agclk rising
 
-  Data Path: dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP to vga_b<3>
+  Data Path: dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP to vga_g<5>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     RAMB16:CLKB->DOB2    23   2.100   1.069  U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (doutb<2>)
+     RAMB16:CLKB->DOB1    35   2.100   1.165  U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (doutb<1>)
      end scope: 'dualmem_inst'
-     LUT3:I0->O           13   0.195   0.908  vga_b<3>71 (vga_b<3>_bdd6)
-     LUT4:I0->O            1   0.195   0.000  vga_b<3>3117_SW01 (vga_b<3>3117_SW0)
-     MUXF5:I1->O           1   0.374   0.523  vga_b<3>3117_SW0_f5 (N3407)
-     LUT4:I3->O            1   0.195   0.741  vga_b<3>3117 (vga_b<3>3117)
-     LUT4:I0->O            1   0.195   0.523  vga_b<3>3150 (vga_b<3>3150)
-     LUT4:I3->O            1   0.195   0.360  vga_b<3>3420 (vga_b_3_OBUF)
-     OBUF:I->O                 3.957          vga_b_3_OBUF (vga_b<3>)
+     LUT2:I0->O            8   0.195   0.608  vga_b<3>61 (vga_b<3>_bdd10)
+     LUT4:I3->O            3   0.195   0.703  vga_g<3>91 (vga_g<3>_bdd10)
+     LUT4:I1->O            4   0.195   0.702  vga_g<3>81 (vga_g<3>_bdd1)
+     LUT4:I1->O            1   0.195   0.688  vga_g<5>3100 (vga_g<5>3100)
+     LUT4:I1->O            1   0.195   0.360  vga_g<5>3162 (vga_g_5_OBUF)
+     OBUF:I->O                 3.957          vga_g_5_OBUF (vga_g<5>)
     ----------------------------------------
-    Total                     11.529ns (7.406ns logic, 4.123ns route)
-                                       (64.2% logic, 35.8% route)
+    Total                     11.257ns (7.032ns logic, 4.225ns route)
+                                       (62.5% logic, 37.5% route)
 
 =========================================================================
 
 
-Total REAL time to Xst completion: 283.00 secs
-Total CPU time to Xst completion: 279.04 secs
+Total REAL time to Xst completion: 288.00 secs
+Total CPU time to Xst completion: 284.20 secs
  
 --> 
 
 
-Total memory usage is 1102800 kilobytes
+Total memory usage is 1101380 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings : 1366 (   0 filtered)
+Number of warnings : 1343 (   0 filtered)
 Number of infos    :   72 (   0 filtered)
 

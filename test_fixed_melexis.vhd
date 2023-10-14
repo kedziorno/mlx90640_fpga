@@ -1914,11 +1914,13 @@ subfpr => CalculatePixOSCPSP_subfpr,
 subfprdy => CalculatePixOSCPSP_subfprdy
 );
 
-CalculateVirCompensated_Emissivity <= x"3f800000"; -- 1
+--CalculateVirCompensated_Emissivity <= x"3f800000"; -- 1
 --CalculateVirCompensated_Emissivity <= x"40000000"; -- 2
 --CalculateVirCompensated_Emissivity <= x"3F000000"; -- 0.5
 --CalculateVirCompensated_Emissivity <= x"3DCCCCCD"; -- 0.1
 --CalculateVirCompensated_Emissivity <= x"3D4CCCCD"; -- 0.05
+--CalculateVirCompensated_Emissivity <= x"3F7AE148"; -- 0.98
+CalculateVirCompensated_Emissivity <= x"3F733333"; -- 0.95
 CalculateVirCompensated_pixoscpsp0 <= CalculatePixOsCPSP_pixoscpsp0;
 CalculateVirCompensated_pixoscpsp1 <= CalculatePixOsCPSP_pixoscpsp1;
 CalculateVirCompensated_clock <= i_clock;
