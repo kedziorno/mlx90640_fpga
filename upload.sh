@@ -1,4 +1,4 @@
 #!/bin/sh
 
-impact -batch default.ipf
+LD_PRELOAD='/home/user/.local/Xilinx/usb-driver/libusb-driver-x86_64.so' impact -batch impact.ipf
 
