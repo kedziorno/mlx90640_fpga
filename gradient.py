@@ -2,7 +2,7 @@
 
 # https://stackoverflow.com/a/31125282
 
-width,height,bits,stderr_bits = 256,1,5,8
+width,height,bits,stderr_bits = 512,1,5,8
 
 import sys
 

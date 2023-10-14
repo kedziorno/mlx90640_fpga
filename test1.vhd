@@ -171,7 +171,7 @@ operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+result : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
 --rdy : OUT STD_LOGIC
 );
 END COMPONENT;
@@ -180,7 +180,7 @@ signal float2fixedond : STD_LOGIC;
 signal float2fixedclk : STD_LOGIC;
 signal float2fixedsclr : STD_LOGIC;
 signal float2fixedce : STD_LOGIC;
-signal float2fixedr : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal float2fixedr : STD_LOGIC_VECTOR(8 DOWNTO 0);
 --signal float2fixedrdy : STD_LOGIC;
 
 COMPONENT dualmem
@@ -189,22 +189,22 @@ clka : IN STD_LOGIC;
 ena : IN STD_LOGIC;
 wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
 addra : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-dina : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+dina : IN STD_LOGIC_VECTOR(8 DOWNTO 0);
 clkb : IN STD_LOGIC;
 enb : IN STD_LOGIC;
 addrb : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-doutb : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+doutb : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
 );
 END COMPONENT;
 signal dualmem_clka : STD_LOGIC;
 signal dualmem_ena : STD_LOGIC;
 signal dualmem_wea : STD_LOGIC_VECTOR(0 DOWNTO 0);
 signal dualmem_addra : STD_LOGIC_VECTOR(9 DOWNTO 0);
-signal dualmem_dina : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal dualmem_dina : STD_LOGIC_VECTOR(8 DOWNTO 0);
 signal dualmem_clkb : STD_LOGIC;
 signal dualmem_enb : STD_LOGIC;
 signal dualmem_addrb : STD_LOGIC_VECTOR(9 DOWNTO 0);
-signal dualmem_doutb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal dualmem_doutb : STD_LOGIC_VECTOR(8 DOWNTO 0);
 
 signal fl2fi_wait : integer range 0 to C_FL2FI_WAIT-1;
 signal fl2fi_run,fl2fi_rdy : std_logic;
@@ -236,13 +236,10 @@ end process p1_counter_fl2fi;
 
 pTo : process (i_clock) is
 	variable i : integer range 0 to PIXELS-1;
-	variable tout : std_logic_vector (31 downto 0);
+	variable tout : std_logic_vector (dualmem_dina'left downto 0);
 	type states is (idle,
 	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10);
 	variable state : states;
---synthesis translate_off
---  variable data1 : sfixed (3 downto -1); 
---synthesis translate_on
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -282,7 +279,7 @@ begin
 if (fl2fi_wait = C_FL2FI_WAIT-1) then
 --tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
 --tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
-tout := "000000000000000000000000"&float2fixedr (7 downto 0);
+tout := float2fixedr (8 downto 0);
 --tout := x"ffffffff"; -- xxx debug white ok
 --tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
 --tout := x"ffffffff"; -- xxx debug, W screen, ok
@@ -310,7 +307,7 @@ end if;
 --synthesis translate_off
 --          data1 := to_sfixed (std_logic_vector(float2fixedr));
           report_error       ("test1 test_fixed_melexis_do "&integer'image(i), test_fixed_melexis_do, 0.0);
-          report_fixed_value ("test1 float2fixedr          "&integer'image(i), to_sfixed(std_logic_vector(float2fixedr),7,0));
+          report_fixed_value ("test1 float2fixedr          "&integer'image(i), to_sfixed(std_logic_vector(float2fixedr),float2fixedr'left,0));
 --          report_error ("test1 float2fixedr : ", to_sfixed(std_logic_vector(float2fixedr),data1));
 --          report_error ("test1 tout        ", tout, 0.0);
 --synthesis translate_on
@@ -354,12 +351,12 @@ end process pvgaclk;
 
 --synthesis translate_off
 pdualmemdoutb : process (address_generator_clk) is
-  variable data2 : sfixed (7 downto 0);
+  variable data2 : sfixed (dualmem_doutb'left downto 0);
 --  variable prev_hsync : std_logic;
 begin
   if (rising_edge (address_generator_clk)) then
 --    if (prev_hsync = '0' and VGA_timing_synch_Hsync = '1') then
-      report_fixed_value ("test1 dualmemdoutb", to_sfixed(std_logic_vector(dualmem_doutb (7 downto 0)),data2));
+      report_fixed_value ("test1 dualmemdoutb", to_sfixed(std_logic_vector(dualmem_doutb (dualmem_doutb'range)),data2));
 --    end if;
 --    prev_hsync := VGA_timing_synch_Hsync;
   end if;
@@ -602,7 +599,7 @@ doutb => dualmem_doutb
 );
 
 
-rdata <= colormap_rom (to_integer (signed (dualmem_doutb (7 downto 0))));
+rdata <= colormap_rom (to_integer (signed (dualmem_doutb (8 downto 0))));
 
 vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 vga_g <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');

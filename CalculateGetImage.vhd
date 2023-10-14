@@ -333,9 +333,9 @@ p0 : process (i_clock) is
 --  constant const10e7 : std_logic_vector (31 downto 0) := x"CB189680"; -- -10e7 - neg image
   constant const10e8 : std_logic_vector (31 downto 0) := x"4CBEBC20"; -- 10e8
 --  constant const10e8 : std_logic_vector (31 downto 0) := x"CCBEBC20"; -- -10e8 - neg image
---  constant constupper : std_logic_vector (31 downto 0) := x"42800000"; -- 64
---  constant constupper : std_logic_vector (31 downto 0) := x"C2800000"; -- -64
-  constant constupper : std_logic_vector (31 downto 0) := x"00000000"; -- 0
+--  constant constupper : std_logic_vector (31 downto 0) := x"42800000"; -- xxx check TGC - 64
+--  constant constupper : std_logic_vector (31 downto 0) := x"C2800000"; -- xxx check TGC - -64
+  constant constupper : std_logic_vector (31 downto 0) := x"00000000"; -- xxx check TGC - 0
 	type states is (idle,
 	s1,s2,s3,s4,s5,
   s6a,s6b,s6c,
@@ -426,7 +426,7 @@ begin
 		addfpond_internal <= '1';
 	when s6e =>
 		if (addfp_wait = C_ADDFP_WAIT-1) then
-			fttmp1 := addfpr_internal; -- add constupper
+			fttmp1 := addfpr_internal; -- xxx add constupper - MLX90640_GetImage:77 - "irData = irData - params->tgc * irDataCP[subPage]"
 			addfpce_internal <= '0';
 			addfpond_internal <= '0';
 			addfpsclr_internal <= '1';
