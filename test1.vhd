@@ -502,42 +502,42 @@ blank => VGA_timing_synch_blank
 --vga_g <= "00000111" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_b <= "00000111" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
--- xxx on virtual vga image dont similar to anything
+-- xxx on virtual vga image dont similar to anything - vga_offset1.bmp
 --vga_r <= dualmem_doutb (7+1 downto 0+1) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_g <= dualmem_doutb (7+1 downto 0+1) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_b <= dualmem_doutb (7+1 downto 0+1) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
--- xxx on virtual vga image dont similar to original
+-- xxx on virtual vga image dont similar to original - vga_offset2.bmp
 --vga_r <= dualmem_doutb (7+2 downto 0+2) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_g <= dualmem_doutb (7+2 downto 0+2) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_b <= dualmem_doutb (7+2 downto 0+2) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
--- xxx on virtual vga image seems not ok but similar, noise in corners and in middle dont see hot points
+-- xxx on virtual vga image seems not ok but similar, noise in corners and in middle dont see hot points - vga_offset3.bmp
 --vga_r <= dualmem_doutb (7+3 downto 0+3) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_g <= dualmem_doutb (7+3 downto 0+3) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_b <= dualmem_doutb (7+3 downto 0+3) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
--- xxx on virtual vga image seems ok
+-- xxx on virtual vga image seems ok - vga_offset4.bmp
 --vga_r <= dualmem_doutb (7+4 downto 0+4) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_g <= dualmem_doutb (7+4 downto 0+4) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_b <= dualmem_doutb (7+4 downto 0+4) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
--- xxx on virtual vga image seems ok, darker than +4
+-- xxx on virtual vga image seems ok, darker than +4 - vga_offset5.bmp
 --vga_r <= dualmem_doutb (7+5 downto 0+5) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_g <= dualmem_doutb (7+5 downto 0+5) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_b <= dualmem_doutb (7+5 downto 0+5) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
--- xxx on virtual vga image seems ok, darker than +5
+-- xxx on virtual vga image seems ok, darker than +5 - vga_offset6.bmp
 --vga_r <= dualmem_doutb (7+6 downto 0+6) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_g <= dualmem_doutb (7+6 downto 0+6) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_b <= dualmem_doutb (7+6 downto 0+6) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
--- xxx on virtual vga image seems ok, darker than +6
+-- xxx on virtual vga image seems ok, darker than +6 - vga_offset7.bmp
 --vga_r <= dualmem_doutb (7+7 downto 0+7) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_g <= dualmem_doutb (7+7 downto 0+7) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_b <= dualmem_doutb (7+7 downto 0+7) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
--- xxx on virtual vga image seems ok, darker than +7, very dark, maybe good for hot points
+-- xxx on virtual vga image seems ok, darker than +7, very dark, maybe good for hot points - vga_offset8.bmp
 --vga_r <= dualmem_doutb (7+8 downto 0+8) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_g <= dualmem_doutb (7+8 downto 0+8) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_b <= dualmem_doutb (7+8 downto 0+8) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
@@ -545,9 +545,9 @@ blank => VGA_timing_synch_blank
 --vga_r (7 downto 3) <= dualmem_doutb (13 downto 9) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_g (7 downto 3) <= dualmem_doutb (13 downto 9) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 --vga_b (7 downto 3) <= dualmem_doutb (13 downto 9) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
---vga_r (2 downto 0) <= "000";
---vga_g (2 downto 0) <= "000";
---vga_b (2 downto 0) <= "000";
+--vga_r (2 downto 0) <= "000"; -- xxx GND
+--vga_g (2 downto 0) <= "000"; -- xxx GND
+--vga_b (2 downto 0) <= "000"; -- xxx GND
 
 --vga_imagegenerator_active_area1 <= VGA_timing_synch_activeArea1;
 --vga_imagegenerator_Data_in1 <= test_fixed_melexis_do (BITS-1 downto 0);
@@ -598,9 +598,10 @@ addrb => dualmem_addrb,
 doutb => dualmem_doutb
 );
 
+-- xxx 9 bit signed heatmap, in simulation show all BGYW colors, on board 'only' YW colors, test image have range -172 to 17
+rdata <= colormap_rom (to_integer (signed (dualmem_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
 
-rdata <= colormap_rom (to_integer (signed (dualmem_doutb (8 downto 0))));
-
+-- xxx on board last 3 bits is connected to GND, so we have 'only' RGB555 : (
 vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 vga_g <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');

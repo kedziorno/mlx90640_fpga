@@ -31,6 +31,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 use work.p_fphdl_package3.all;
 
+-- xxx based on MLX90640_GetImage from mlx90640_library - this module dont use sqrtfp2 (square root) module, so we save some resources and speed the calculations
 entity CalculateGetImage is
 port (
 i_clock : in std_logic;
@@ -333,9 +334,9 @@ p0 : process (i_clock) is
 --  constant const10e7 : std_logic_vector (31 downto 0) := x"CB189680"; -- -10e7 - neg image
   constant const10e8 : std_logic_vector (31 downto 0) := x"4CBEBC20"; -- 10e8
 --  constant const10e8 : std_logic_vector (31 downto 0) := x"CCBEBC20"; -- -10e8 - neg image
---  constant constupper : std_logic_vector (31 downto 0) := x"42800000"; -- xxx check TGC - 64
---  constant constupper : std_logic_vector (31 downto 0) := x"C2800000"; -- xxx check TGC - -64
-  constant constupper : std_logic_vector (31 downto 0) := x"00000000"; -- xxx check TGC - 0
+--  constant constupper : std_logic_vector (31 downto 0) := x"42800000"; -- xxx from datasheet, check TGC - 64
+--  constant constupper : std_logic_vector (31 downto 0) := x"C2800000"; -- xxx from datasheet, check TGC - -64
+  constant constupper : std_logic_vector (31 downto 0) := x"00000000"; -- xxx from datasheet, check TGC - 0
 	type states is (idle,
 	s1,s2,s3,s4,s5,
   s6a,s6b,s6c,
