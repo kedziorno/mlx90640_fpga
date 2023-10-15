@@ -4,3 +4,5 @@
 ![Calculated temperatures](333506035_680609170477392_5402465778520738655_n.jpg)
 ![Display on VGA](333014955_740028757714962_8963736502072594292_n.jpg)
 ### I am not responsible for incorrect operation or misuse of the project
+### UPDATE: use less resourcess, speed calculations, add color heatmap
+![Display from simulation](01cdcc5a16eb4adb588599b45d8a1d491c0c27ac.bmp)
