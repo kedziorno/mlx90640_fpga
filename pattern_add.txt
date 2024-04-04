@@ -1,0 +1,14 @@
+		addfpce <= '1';
+		addfpa <= _ft;
+		addfpb <= _ft;
+		addfpond <= '1';
+	when s =>
+		if (addfprdy = '1') then state := s;
+			_ft := addfpr;
+			o_out1 <= addfpr;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+		else state := s; end if;
+	when s => state := s;
+		addfpsclr <= '0';

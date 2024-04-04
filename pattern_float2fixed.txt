@@ -1,0 +1,14 @@
+		float2fixedce <= '1';
+		float2fixedond <= '1';
+		float2fixeda <= ;
+	when s =>
+		if (float2fixedrdy = '1') then state := s;
+			 := to_sfixed (float2fixedr, st_sfixed_max'high, st_sfixed_max'low);
+			vout2 := resize (, st_sfixed_max'high, st_sfixed_max'low);
+			float2fixedce <= '0';
+			float2fixedond <= '0';
+			float2fixedsclr <= '1';
+		else state := s; end if;
+	when s => state := s;
+		float2fixedsclr <= '0';
+

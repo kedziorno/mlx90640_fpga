@@ -1,0 +1,14 @@
+		divfpce <= '1';
+		divfpa <= _ft;
+		divfpb <= _ft;
+		divfpond <= '1';
+	when s =>
+		if (divfprdy = '1') then state := s;
+			_ft := divfpr;
+			o_out1 <= divfpr;
+			divfpce <= '0';
+			divfpond <= '0';
+			divfpsclr <= '1';
+		else state := s; end if;
+	when s => state := s;
+		divfpsclr <= '0';

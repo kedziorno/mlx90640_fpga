@@ -1,0 +1,16 @@
+		fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= 
+		to_slv (to_sfixed (to_slv ( (fracas'high downto fracas'low)), fracas)) & 
+		to_slv (to_sfixed (to_slv ( (fracbs'high downto fracbs'low)), fracbs));
+	when s =>
+		if (fixed2floatrdy = '1') then state := s;
+			_ft := fixed2floatr;
+			o_out1 <= fixed2floatr;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s; end if;
+	when s => state := s;
+		fixed2floatsclr <= '0';
+
