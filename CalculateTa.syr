@@ -5,50 +5,65 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.06 secs
+Total CPU time to Xst completion: 0.05 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.06 secs
+Total CPU time to Xst completion: 0.05 secs
  
 --> 
-Reading design: CalculateTa.prj
+WARNING:Xst:1583 - You are using an internal switch '-use_new_parser'.
+WARNING:Xst:3152 - You have chosen to run a version of XST which is not the default solution
+   for the specified device family. You are free to use it in order to take
+   advantage of its enhanced HDL parsing/elaboration capabilities. However,
+   please be aware that you may be impacted by  language support differences.
+   This version may also result in circuit performance and device utilization
+   differences for your particular design. You can always revert back to the
+   default XST solution by setting the "use_new_parser" option to value "no" 
+   on the XST command line or in the XST process properties panel.
+Reading design: calculateTa.prj
 
 TABLE OF CONTENTS
   1) Synthesis Options Summary
-  2) HDL Compilation
-  3) Design Hierarchy Analysis
-  4) HDL Analysis
-  5) HDL Synthesis
-     5.1) HDL Synthesis Report
-  6) Advanced HDL Synthesis
-     6.1) Advanced HDL Synthesis Report
-  7) Low Level Synthesis
-  8) Partition Report
-  9) Final Report
-	9.1) Device utilization summary
-	9.2) Partition Resource Summary
-	9.3) TIMING REPORT
+  2) HDL Parsing
+  3) HDL Elaboration
+  4) HDL Synthesis
+       4.1) HDL Synthesis Report
+  5) Advanced HDL Synthesis
+       5.1) Advanced HDL Synthesis Report
+  6) Low Level Synthesis
+  7) Partition Report
+  8) Design Summary
+       8.1) Primitive and Black Box Usage
+       8.2) Device utilization summary
+       8.3) Partition Resource Summary
+       8.4) Timing Report
+            8.4.1) Clock Information
+            8.4.2) Asynchronous Control Signals Information
+            8.4.3) Timing Summary
+            8.4.4) Timing Details
+            8.4.5) Cross Clock Domains Report
 
 
 =========================================================================
 *                      Synthesis Options Summary                        *
 =========================================================================
 ---- Source Parameters
-Input File Name                    : "CalculateTa.prj"
+Input File Name                    : "calculateTa.prj"
 Input Format                       : mixed
 Ignore Synthesis Constraint File   : NO
 
 ---- Target Parameters
-Output File Name                   : "CalculateTa"
+Output File Name                   : "calculateTa"
 Output Format                      : NGC
-Target Device                      : xc4vsx25-10-ff668
+Target Device                      : xc3s1200e-4-fg320
 
 ---- Source Options
-Top Module Name                    : CalculateTa
+Use New Parser                     : yes
+Top Module Name                    : calculateTa
 Automatic FSM Extraction           : YES
 FSM Encoding Algorithm             : Auto
 Safe Implementation                : No
@@ -66,14 +81,13 @@ ROM Style                          : Auto
 Mux Extraction                     : Yes
 Resource Sharing                   : YES
 Asynchronous To Synchronous        : NO
-Use DSP Block                      : Auto
+Multiplier Style                   : Auto
 Automatic Register Balancing       : No
 
 ---- Target Options
 Add IO Buffers                     : YES
-Global Maximum Fanout              : 500
-Add Generic Clock Buffer(BUFG)     : 32
-Number of Regional Clock Buffers   : 16
+Global Maximum Fanout              : 100000
+Add Generic Clock Buffer(BUFG)     : 16
 Register Duplication               : YES
 Slice Packing                      : YES
 Optimize Instantiated Primitives   : NO
@@ -86,7 +100,6 @@ Equivalent register Removal        : YES
 ---- General Options
 Optimization Goal                  : Speed
 Optimization Effort                : 1
-Power Reduction                    : NO
 Keep Hierarchy                     : No
 Netlist Hierarchy                  : As_Optimized
 RTL Output                         : Yes
@@ -99,7 +112,6 @@ Bus Delimiter                      : <>
 Case Specifier                     : Maintain
 Slice Utilization Ratio            : 100
 BRAM Utilization Ratio             : 100
-DSP48 Utilization Ratio            : 100
 Verilog 2001                       : YES
 Auto BRAM Packing                  : NO
 Slice Utilization Ratio Delta      : 5
@@ -111,619 +123,321 @@ Cores Search Directories           : {"ipcore_dir"  }
 
 
 =========================================================================
-*                          HDL Compilation                              *
+*                          HDL Parsing                                  *
 =========================================================================
-Compiling vhdl file "/home/user/workspace/mlx90640_fpga/p_fphdl_package3.vhd" in Library work.
-WARNING:HDLParsers:523 - "/home/user/workspace/mlx90640_fpga/p_fphdl_package3.vhd" Line 84. The function ap_slv2int does not contain any return statement.
-WARNING:HDLParsers:3350 - "/home/user/workspace/mlx90640_fpga/p_fphdl_package3.vhd" Line 112. Null range: -2 downto -1
-WARNING:HDLParsers:3350 - "/home/user/workspace/mlx90640_fpga/p_fphdl_package3.vhd" Line 116. Null range: -2 downto 0
-WARNING:HDLParsers:523 - "/home/user/workspace/mlx90640_fpga/p_fphdl_package3.vhd" Line 140. The function to_string_1 does not contain any return statement.
-Architecture p_fphdl_package3 of Entity p_fphdl_package3 is up to date.
-Compiling vhdl file "/home/user/workspace/mlx90640_fpga/calculateTa_process_p0.vhd" in Library work.
-Entity <calculateta_process_p0> compiled.
-Entity <calculateta_process_p0> (Architecture <behavioral>) compiled.
-Compiling vhdl file "/home/user/workspace/mlx90640_fpga/CalculateTa.vhf" in Library work.
-Architecture behavioral of Entity extractalphaptatparameter_muser_calculateta is up to date.
-Architecture behavioral of Entity extractkvptatparameter_muser_calculateta is up to date.
-Architecture behavioral of Entity m2_1_mxilinx_calculateta is up to date.
-Architecture behavioral of Entity extractktptatparameter_muser_calculateta is up to date.
-Architecture behavioral of Entity calculateta is up to date.
-Compiling vhdl file "/home/user/workspace/mlx90640_fpga/ExtractAlphaPTATParameter.vhf" in Library work.
-Architecture behavioral of Entity extractalphaptatparameter is up to date.
-Compiling vhdl file "/home/user/workspace/mlx90640_fpga/ExtractKtPTATParameter.vhf" in Library work.
-Architecture behavioral of Entity m2_1_mxilinx_extractktptatparameter is up to date.
-Architecture behavioral of Entity extractktptatparameter is up to date.
-Compiling vhdl file "/home/user/workspace/mlx90640_fpga/ExtractKvPTATParameter.vhf" in Library work.
-Architecture behavioral of Entity extractkvptatparameter is up to date.
+Parsing VHDL file "/home/user/workspace/melexis_mlx90641/ipcore_dir/subfp.vhd" into library work
+Parsing entity <subfp>.
+Parsing architecture <subfp_a> of entity <subfp>.
+Parsing VHDL file "/home/user/workspace/melexis_mlx90641/ipcore_dir/mulfp.vhd" into library work
+Parsing entity <mulfp>.
+Parsing architecture <mulfp_a> of entity <mulfp>.
+Parsing VHDL file "/home/user/workspace/melexis_mlx90641/ipcore_dir/divfp.vhd" into library work
+Parsing entity <divfp>.
+Parsing architecture <divfp_a> of entity <divfp>.
+Parsing VHDL file "/home/user/workspace/melexis_mlx90641/ipcore_dir/fixed2float.vhd" into library work
+Parsing entity <fixed2float>.
+Parsing architecture <fixed2float_a> of entity <fixed2float>.
+Parsing VHDL file "/home/user/workspace/melexis_mlx90641/ipcore_dir/addfp.vhd" into library work
+Parsing entity <addfp>.
+Parsing architecture <addfp_a> of entity <addfp>.
+Parsing VHDL file "/home/user/workspace/fphdl/fixed_float_types_c.vhdl" into library ieee_proposed
+Parsing package <fixed_float_types>.
+Parsing VHDL file "/home/user/workspace/melexis_mlx90641/mem_ramb16_s36_x2.vhd" into library work
+Parsing entity <mem_ramb16_s36_x2>.
+Parsing architecture <Behavioral> of entity <mem_ramb16_s36_x2>.
+Parsing VHDL file "/home/user/workspace/fphdl/fixed_pkg_c.vhdl" into library ieee_proposed
+Parsing package <fixed_pkg>.
+Parsing package body <fixed_pkg>.
+Parsing VHDL file "/home/user/workspace/melexis_mlx90641/p_fphdl_package1.vhd" into library work
+Parsing package <p_fphdl_package1>.
+Parsing package body <p_fphdl_package1>.
+Parsing VHDL file "/home/user/workspace/melexis_mlx90641/ExtractKvPTATParameter.vhd" into library work
+Parsing entity <ExtractKvPTATParameter>.
+Parsing architecture <Behavioral> of entity <extractkvptatparameter>.
+Parsing VHDL file "/home/user/workspace/melexis_mlx90641/ExtractKtPTATParameter.vhd" into library work
+Parsing entity <ExtractKtPTATParameter>.
+Parsing architecture <Behavioral> of entity <extractktptatparameter>.
+Parsing VHDL file "/home/user/workspace/melexis_mlx90641/ExtractAlphaPtatParameter.vhd" into library work
+Parsing entity <ExtractAlphaPtatParameter>.
+Parsing architecture <Behavioral> of entity <extractalphaptatparameter>.
+Parsing VHDL file "/home/user/workspace/melexis_mlx90641/calculateTa.vhd" into library work
+Parsing entity <calculateTa>.
+Parsing architecture <Behavioral> of entity <calculateta>.
 
 =========================================================================
-*                     Design Hierarchy Analysis                         *
+*                            HDL Elaboration                            *
 =========================================================================
-Analyzing hierarchy for entity <CalculateTa> in library <work> (architecture <behavioral>).
+WARNING:HDLCompiler:746 - "/home/user/workspace/fphdl/fixed_pkg_c.vhdl" Line 1474: Range is empty (null range)
+WARNING:HDLCompiler:746 - "/home/user/workspace/fphdl/fixed_pkg_c.vhdl" Line 1475: Range is empty (null range)
+WARNING:HDLCompiler:746 - "/home/user/workspace/fphdl/fixed_pkg_c.vhdl" Line 1476: Range is empty (null range)
 
-Analyzing hierarchy for entity <calculateTa_process_p0> in library <work> (architecture <behavioral>).
+Elaborating entity <calculateTa> (architecture <Behavioral>) from library <work>.
+INFO:HDLCompiler:679 - "/home/user/workspace/melexis_mlx90641/calculateTa.vhd" Line 497. Case statement is complete. others clause is never selected
 
-Analyzing hierarchy for entity <ExtractAlphaPTATParameter_MUSER_CalculateTa> in library <work> (architecture <behavioral>).
+Elaborating entity <ExtractKvPTATParameter> (architecture <Behavioral>) from library <work>.
 
-Analyzing hierarchy for entity <ExtractKtPTATParameter_MUSER_CalculateTa> in library <work> (architecture <behavioral>).
+Elaborating entity <ExtractKtPTATParameter> (architecture <Behavioral>) from library <work>.
 
-Analyzing hierarchy for entity <ExtractKvPTATParameter_MUSER_CalculateTa> in library <work> (architecture <behavioral>).
+Elaborating entity <mem_ramb16_s36_x2> (architecture <Behavioral>) with generics from library <work>.
 
-Analyzing hierarchy for entity <M2_1_MXILINX_CalculateTa> in library <work> (architecture <behavioral>).
+Elaborating entity <ExtractAlphaPtatParameter> (architecture <Behavioral>) from library <work>.
 
+Elaborating entity <fixed2float> (architecture <fixed2float_a>) from library <work>.
 
-=========================================================================
-*                            HDL Analysis                               *
-=========================================================================
-Analyzing Entity <CalculateTa> in library <work> (Architecture <behavioral>).
-Entity <CalculateTa> analyzed. Unit <CalculateTa> generated.
+Elaborating entity <divfp> (architecture <divfp_a>) from library <work>.
 
-Analyzing Entity <calculateTa_process_p0> in library <work> (Architecture <behavioral>).
-Entity <calculateTa_process_p0> analyzed. Unit <calculateTa_process_p0> generated.
+Elaborating entity <mulfp> (architecture <mulfp_a>) from library <work>.
 
-Analyzing Entity <ExtractAlphaPTATParameter_MUSER_CalculateTa> in library <work> (Architecture <behavioral>).
-    Set user-defined property "DOA_REG =  0" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "DOB_REG =  0" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_00 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_01 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_02 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_03 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_04 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_05 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_06 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_07 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_00 =  411c0000411800004114000041100000410c0000410800004104000041000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_01 =  413c0000413800004134000041300000412c0000412800004124000041200000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_02 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_03 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_04 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_05 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_06 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_07 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_08 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_09 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_10 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_11 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_12 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_13 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_14 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_15 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_16 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_17 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_18 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_19 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_20 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_21 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_22 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_23 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_24 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_25 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_26 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_27 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_28 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_29 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_30 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_31 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_32 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_33 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_34 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_35 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_36 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_37 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_38 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_39 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_A =  000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_B =  000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_FILE =  NONE" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INVERT_CLK_DOA_REG =  FALSE" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INVERT_CLK_DOB_REG =  FALSE" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "RAM_EXTENSION_A =  NONE" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "RAM_EXTENSION_B =  NONE" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "READ_WIDTH_A =  36" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "READ_WIDTH_B =  36" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "SIM_COLLISION_CHECK =  ALL" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "SRVAL_A =  000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "SRVAL_B =  000000000" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "WRITE_MODE_A =  READ_FIRST" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "WRITE_MODE_B =  READ_FIRST" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "WRITE_WIDTH_A =  36" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "WRITE_WIDTH_B =  36" for instance <ROM_ALPHAPTAT> in unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-Entity <ExtractAlphaPTATParameter_MUSER_CalculateTa> analyzed. Unit <ExtractAlphaPTATParameter_MUSER_CalculateTa> generated.
+Elaborating entity <addfp> (architecture <addfp_a>) from library <work>.
 
-Analyzing Entity <ExtractKtPTATParameter_MUSER_CalculateTa> in library <work> (Architecture <behavioral>).
-    Set user-defined property "DOA_REG =  0" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "DOB_REG =  0" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_00 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_01 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_02 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_03 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_04 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_05 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_06 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_07 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_00 =  3f6000003f4000003f2000003f0000003ec000003e8000003e00000000000000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_01 =  3ff000003fe000003fd000003fc000003fb000003fa000003f9000003f800000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_02 =  4038000040300000402800004020000040180000401000004008000040000000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_03 =  4078000040700000406800004060000040580000405000004048000040400000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_04 =  409c0000409800004094000040900000408c0000408800004084000040800000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_05 =  40bc000040b8000040b4000040b0000040ac000040a8000040a4000040a00000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_06 =  40dc000040d8000040d4000040d0000040cc000040c8000040c4000040c00000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_07 =  40fc000040f8000040f4000040f0000040ec000040e8000040e4000040e00000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_08 =  410e0000410c0000410a00004108000041060000410400004102000041000000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_09 =  411e0000411c0000411a00004118000041160000411400004112000041100000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0A =  412e0000412c0000412a00004128000041260000412400004122000041200000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0B =  413e0000413c0000413a00004138000041360000413400004132000041300000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0C =  414e0000414c0000414a00004148000041460000414400004142000041400000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0D =  415e0000415c0000415a00004158000041560000415400004152000041500000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0E =  416e0000416c0000416a00004168000041660000416400004162000041600000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0F =  417e0000417c0000417a00004178000041760000417400004172000041700000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_10 =  4187000041860000418500004184000041830000418200004181000041800000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_11 =  418f0000418e0000418d0000418c0000418b0000418a00004189000041880000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_12 =  4197000041960000419500004194000041930000419200004191000041900000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_13 =  419f0000419e0000419d0000419c0000419b0000419a00004199000041980000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_14 =  41a7000041a6000041a5000041a4000041a3000041a2000041a1000041a00000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_15 =  41af000041ae000041ad000041ac000041ab000041aa000041a9000041a80000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_16 =  41b7000041b6000041b5000041b4000041b3000041b2000041b1000041b00000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_17 =  41bf000041be000041bd000041bc000041bb000041ba000041b9000041b80000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_18 =  41c7000041c6000041c5000041c4000041c3000041c2000041c1000041c00000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_19 =  41cf000041ce000041cd000041cc000041cb000041ca000041c9000041c80000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1A =  41d7000041d6000041d5000041d4000041d3000041d2000041d1000041d00000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1B =  41df000041de000041dd000041dc000041db000041da000041d9000041d80000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1C =  41e7000041e6000041e5000041e4000041e3000041e2000041e1000041e00000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1D =  41ef000041ee000041ed000041ec000041eb000041ea000041e9000041e80000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1E =  41f7000041f6000041f5000041f4000041f3000041f2000041f1000041f00000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1F =  41ff000041fe000041fd000041fc000041fb000041fa000041f9000041f80000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_20 =  4203800042030000420280004202000042018000420100004200800042000000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_21 =  4207800042070000420680004206000042058000420500004204800042040000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_22 =  420b8000420b0000420a8000420a000042098000420900004208800042080000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_23 =  420f8000420f0000420e8000420e0000420d8000420d0000420c8000420c0000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_24 =  4213800042130000421280004212000042118000421100004210800042100000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_25 =  4217800042170000421680004216000042158000421500004214800042140000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_26 =  421b8000421b0000421a8000421a000042198000421900004218800042180000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_27 =  421f8000421f0000421e8000421e0000421d8000421d0000421c8000421c0000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_28 =  4223800042230000422280004222000042218000422100004220800042200000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_29 =  4227800042270000422680004226000042258000422500004224800042240000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2A =  422b8000422b0000422a8000422a000042298000422900004228800042280000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2B =  422f8000422f0000422e8000422e0000422d8000422d0000422c8000422c0000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2C =  4233800042330000423280004232000042318000423100004230800042300000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2D =  4237800042370000423680004236000042358000423500004234800042340000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2E =  423b8000423b0000423a8000423a000042398000423900004238800042380000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2F =  423f8000423f0000423e8000423e0000423d8000423d0000423c8000423c0000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_30 =  4243800042430000424280004242000042418000424100004240800042400000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_31 =  4247800042470000424680004246000042458000424500004244800042440000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_32 =  424b8000424b0000424a8000424a000042498000424900004248800042480000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_33 =  424f8000424f0000424e8000424e0000424d8000424d0000424c8000424c0000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_34 =  4253800042530000425280004252000042518000425100004250800042500000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_35 =  4257800042570000425680004256000042558000425500004254800042540000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_36 =  425b8000425b0000425a8000425a000042598000425900004258800042580000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_37 =  425f8000425f0000425e8000425e0000425d8000425d0000425c8000425c0000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_38 =  4263800042630000426280004262000042618000426100004260800042600000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_39 =  4267800042670000426680004266000042658000426500004264800042640000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3A =  426b8000426b0000426a8000426a000042698000426900004268800042680000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3B =  426f8000426f0000426e8000426e0000426d8000426d0000426c8000426c0000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3C =  4273800042730000427280004272000042718000427100004270800042700000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3D =  4277800042770000427680004276000042758000427500004274800042740000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3E =  427b8000427b0000427a8000427a000042798000427900004278800042780000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3F =  427f8000427f0000427e8000427e0000427d8000427d0000427c8000427c0000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_A =  000000000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_B =  000000000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_FILE =  NONE" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INVERT_CLK_DOA_REG =  FALSE" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INVERT_CLK_DOB_REG =  FALSE" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "RAM_EXTENSION_A =  NONE" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "RAM_EXTENSION_B =  NONE" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "READ_WIDTH_A =  36" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "READ_WIDTH_B =  36" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "SIM_COLLISION_CHECK =  ALL" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "SRVAL_A =  000000000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "SRVAL_B =  000000000" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "WRITE_MODE_A =  READ_FIRST" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "WRITE_MODE_B =  READ_FIRST" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "WRITE_WIDTH_A =  36" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "WRITE_WIDTH_B =  36" for instance <ROM_KTPTAT_0to3F> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "DOA_REG =  0" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "DOB_REG =  0" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_00 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_01 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_02 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_03 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_04 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_05 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_06 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_07 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_00 =  c27c8000c27d0000c27d8000c27e0000c27e8000c27f0000c27f8000c2800000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_01 =  c2788000c2790000c2798000c27a0000c27a8000c27b0000c27b8000c27c0000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_02 =  c2748000c2750000c2758000c2760000c2768000c2770000c2778000c2780000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_03 =  c2708000c2710000c2718000c2720000c2728000c2730000c2738000c2740000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_04 =  c26c8000c26d0000c26d8000c26e0000c26e8000c26f0000c26f8000c2700000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_05 =  c2688000c2690000c2698000c26a0000c26a8000c26b0000c26b8000c26c0000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_06 =  c2648000c2650000c2658000c2660000c2668000c2670000c2678000c2680000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_07 =  c2608000c2610000c2618000c2620000c2628000c2630000c2638000c2640000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_08 =  c25c8000c25d0000c25d8000c25e0000c25e8000c25f0000c25f8000c2600000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_09 =  c2588000c2590000c2598000c25a0000c25a8000c25b0000c25b8000c25c0000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0A =  c2548000c2550000c2558000c2560000c2568000c2570000c2578000c2580000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0B =  c2508000c2510000c2518000c2520000c2528000c2530000c2538000c2540000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0C =  c24c8000c24d0000c24d8000c24e0000c24e8000c24f0000c24f8000c2500000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0D =  c2488000c2490000c2498000c24a0000c24a8000c24b0000c24b8000c24c0000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0E =  c2448000c2450000c2458000c2460000c2468000c2470000c2478000c2480000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0F =  c2408000c2410000c2418000c2420000c2428000c2430000c2438000c2440000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_10 =  c23c8000c23d0000c23d8000c23e0000c23e8000c23f0000c23f8000c2400000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_11 =  c2388000c2390000c2398000c23a0000c23a8000c23b0000c23b8000c23c0000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_12 =  c2348000c2350000c2358000c2360000c2368000c2370000c2378000c2380000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_13 =  c2308000c2310000c2318000c2320000c2328000c2330000c2338000c2340000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_14 =  c22c8000c22d0000c22d8000c22e0000c22e8000c22f0000c22f8000c2300000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_15 =  c2288000c2290000c2298000c22a0000c22a8000c22b0000c22b8000c22c0000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_16 =  c2248000c2250000c2258000c2260000c2268000c2270000c2278000c2280000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_17 =  c2208000c2210000c2218000c2220000c2228000c2230000c2238000c2240000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_18 =  c21c8000c21d0000c21d8000c21e0000c21e8000c21f0000c21f8000c2200000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_19 =  c2188000c2190000c2198000c21a0000c21a8000c21b0000c21b8000c21c0000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1A =  c2148000c2150000c2158000c2160000c2168000c2170000c2178000c2180000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1B =  c2108000c2110000c2118000c2120000c2128000c2130000c2138000c2140000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1C =  c20c8000c20d0000c20d8000c20e0000c20e8000c20f0000c20f8000c2100000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1D =  c2088000c2090000c2098000c20a0000c20a8000c20b0000c20b8000c20c0000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1E =  c2048000c2050000c2058000c2060000c2068000c2070000c2078000c2080000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1F =  c2008000c2010000c2018000c2020000c2028000c2030000c2038000c2040000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_20 =  c1f90000c1fa0000c1fb0000c1fc0000c1fd0000c1fe0000c1ff0000c2000000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_21 =  c1f10000c1f20000c1f30000c1f40000c1f50000c1f60000c1f70000c1f80000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_22 =  c1e90000c1ea0000c1eb0000c1ec0000c1ed0000c1ee0000c1ef0000c1f00000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_23 =  c1e10000c1e20000c1e30000c1e40000c1e50000c1e60000c1e70000c1e80000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_24 =  c1d90000c1da0000c1db0000c1dc0000c1dd0000c1de0000c1df0000c1e00000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_25 =  c1d10000c1d20000c1d30000c1d40000c1d50000c1d60000c1d70000c1d80000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_26 =  c1c90000c1ca0000c1cb0000c1cc0000c1cd0000c1ce0000c1cf0000c1d00000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_27 =  c1c10000c1c20000c1c30000c1c40000c1c50000c1c60000c1c70000c1c80000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_28 =  c1b90000c1ba0000c1bb0000c1bc0000c1bd0000c1be0000c1bf0000c1c00000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_29 =  c1b10000c1b20000c1b30000c1b40000c1b50000c1b60000c1b70000c1b80000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2A =  c1a90000c1aa0000c1ab0000c1ac0000c1ad0000c1ae0000c1af0000c1b00000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2B =  c1a10000c1a20000c1a30000c1a40000c1a50000c1a60000c1a70000c1a80000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2C =  c1990000c19a0000c19b0000c19c0000c19d0000c19e0000c19f0000c1a00000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2D =  c1910000c1920000c1930000c1940000c1950000c1960000c1970000c1980000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2E =  c1890000c18a0000c18b0000c18c0000c18d0000c18e0000c18f0000c1900000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2F =  c1810000c1820000c1830000c1840000c1850000c1860000c1870000c1880000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_30 =  c1720000c1740000c1760000c1780000c17a0000c17c0000c17e0000c1800000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_31 =  c1620000c1640000c1660000c1680000c16a0000c16c0000c16e0000c1700000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_32 =  c1520000c1540000c1560000c1580000c15a0000c15c0000c15e0000c1600000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_33 =  c1420000c1440000c1460000c1480000c14a0000c14c0000c14e0000c1500000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_34 =  c1320000c1340000c1360000c1380000c13a0000c13c0000c13e0000c1400000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_35 =  c1220000c1240000c1260000c1280000c12a0000c12c0000c12e0000c1300000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_36 =  c1120000c1140000c1160000c1180000c11a0000c11c0000c11e0000c1200000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_37 =  c1020000c1040000c1060000c1080000c10a0000c10c0000c10e0000c1100000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_38 =  c0e40000c0e80000c0ec0000c0f00000c0f40000c0f80000c0fc0000c1000000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_39 =  c0c40000c0c80000c0cc0000c0d00000c0d40000c0d80000c0dc0000c0e00000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3A =  c0a40000c0a80000c0ac0000c0b00000c0b40000c0b80000c0bc0000c0c00000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3B =  c0840000c0880000c08c0000c0900000c0940000c0980000c09c0000c0a00000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3C =  c0480000c0500000c0580000c0600000c0680000c0700000c0780000c0800000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3D =  c0080000c0100000c0180000c0200000c0280000c0300000c0380000c0400000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3E =  bf900000bfa00000bfb00000bfc00000bfd00000bfe00000bff00000c0000000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3F =  be000000be800000bec00000bf000000bf200000bf400000bf600000bf800000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_A =  000000000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_B =  000000000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_FILE =  NONE" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INVERT_CLK_DOA_REG =  FALSE" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INVERT_CLK_DOB_REG =  FALSE" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "RAM_EXTENSION_A =  NONE" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "RAM_EXTENSION_B =  NONE" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "READ_WIDTH_A =  36" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "READ_WIDTH_B =  36" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "SIM_COLLISION_CHECK =  ALL" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "SRVAL_A =  000000000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "SRVAL_B =  000000000" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "WRITE_MODE_A =  READ_FIRST" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "WRITE_MODE_B =  READ_FIRST" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "WRITE_WIDTH_A =  36" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "WRITE_WIDTH_B =  36" for instance <ROM_KTPTAT_40to7f> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_0_1357" for instance <XLXI_40_0> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_1_1356" for instance <XLXI_40_1> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_2_1355" for instance <XLXI_40_2> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_3_1354" for instance <XLXI_40_3> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_4_1353" for instance <XLXI_40_4> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_5_1352" for instance <XLXI_40_5> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_6_1351" for instance <XLXI_40_6> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_7_1350" for instance <XLXI_40_7> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_8_1349" for instance <XLXI_40_8> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_9_1348" for instance <XLXI_40_9> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_10_1347" for instance <XLXI_40_10> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_11_1346" for instance <XLXI_40_11> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_12_1345" for instance <XLXI_40_12> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_13_1344" for instance <XLXI_40_13> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_14_1343" for instance <XLXI_40_14> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_15_1342" for instance <XLXI_40_15> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_16_1341" for instance <XLXI_40_16> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_17_1340" for instance <XLXI_40_17> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_18_1339" for instance <XLXI_40_18> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_19_1338" for instance <XLXI_40_19> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_20_1337" for instance <XLXI_40_20> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_21_1336" for instance <XLXI_40_21> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_22_1335" for instance <XLXI_40_22> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_23_1334" for instance <XLXI_40_23> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_24_1333" for instance <XLXI_40_24> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_25_1332" for instance <XLXI_40_25> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_26_1331" for instance <XLXI_40_26> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_27_1330" for instance <XLXI_40_27> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_28_1329" for instance <XLXI_40_28> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_29_1328" for instance <XLXI_40_29> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_30_1327" for instance <XLXI_40_30> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "HU_SET =  XLXI_40_31_1326" for instance <XLXI_40_31> in unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-Entity <ExtractKtPTATParameter_MUSER_CalculateTa> analyzed. Unit <ExtractKtPTATParameter_MUSER_CalculateTa> generated.
-
-Analyzing Entity <M2_1_MXILINX_CalculateTa> in library <work> (Architecture <behavioral>).
-Entity <M2_1_MXILINX_CalculateTa> analyzed. Unit <M2_1_MXILINX_CalculateTa> generated.
-
-Analyzing Entity <ExtractKvPTATParameter_MUSER_CalculateTa> in library <work> (Architecture <behavioral>).
-    Set user-defined property "DOA_REG =  0" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "DOB_REG =  0" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_00 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_01 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_02 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_03 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_04 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_05 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_06 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INITP_07 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_00 =  3ae000003ac000003aa000003a8000003a4000003a0000003980000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_01 =  3b7000003b6000003b5000003b4000003b3000003b2000003b1000003b000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_02 =  3bb800003bb000003ba800003ba000003b9800003b9000003b8800003b800000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_03 =  3bf800003bf000003be800003be000003bd800003bd000003bc800003bc00000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_04 =  bbc80000bbd00000bbd80000bbe00000bbe80000bbf00000bbf80000bc000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_05 =  bb880000bb900000bb980000bba00000bba80000bbb00000bbb80000bbc00000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_06 =  bb100000bb200000bb300000bb400000bb500000bb600000bb700000bb800000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_07 =  b9800000ba000000ba400000ba800000baa00000bac00000bae00000bb000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_08 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_09 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_0F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_10 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_11 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_12 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_13 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_14 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_15 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_16 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_17 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_18 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_19 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_1F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_20 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_21 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_22 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_23 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_24 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_25 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_26 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_27 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_28 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_29 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_2F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_30 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_31 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_32 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_33 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_34 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_35 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_36 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_37 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_38 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_39 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_3F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_A =  000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_B =  000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INIT_FILE =  NONE" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INVERT_CLK_DOA_REG =  FALSE" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "INVERT_CLK_DOB_REG =  FALSE" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "RAM_EXTENSION_A =  NONE" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "RAM_EXTENSION_B =  NONE" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "READ_WIDTH_A =  36" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "READ_WIDTH_B =  36" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "SIM_COLLISION_CHECK =  ALL" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "SRVAL_A =  000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "SRVAL_B =  000000000" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "WRITE_MODE_A =  READ_FIRST" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "WRITE_MODE_B =  READ_FIRST" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "WRITE_WIDTH_A =  36" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Set user-defined property "WRITE_WIDTH_B =  36" for instance <ROM_KVPTAT> in unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-Entity <ExtractKvPTATParameter_MUSER_CalculateTa> analyzed. Unit <ExtractKvPTATParameter_MUSER_CalculateTa> generated.
-
+Elaborating entity <subfp> (architecture <subfp_a>) from library <work>.
 
 =========================================================================
 *                           HDL Synthesis                               *
 =========================================================================
 
-Performing bidirectional port resolution...
-
-Synthesizing Unit <calculateTa_process_p0>.
-    Related source file is "/home/user/workspace/mlx90640_fpga/calculateTa_process_p0.vhd".
-WARNING:Xst:647 - Input <addfprdy> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
-WARNING:Xst:647 - Input <subfprdy> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
-WARNING:Xst:647 - Input <mulfprdy> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
-WARNING:Xst:647 - Input <divfprdy> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
-WARNING:Xst:647 - Input <fixed2floatrdy> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
-    Register <addfpond> equivalent to <addfpce> has been removed
-    Register <divfpond> equivalent to <divfpce> has been removed
-    Register <fixed2floatond> equivalent to <fixed2floatce> has been removed
-    Register <mulfpond> equivalent to <mulfpce> has been removed
-    Register <subfpond> equivalent to <subfpce> has been removed
-    Found finite state machine <FSM_0> for signal <state>.
-    -----------------------------------------------------------------------
-    | States             | 54                                             |
-    | Transitions        | 69                                             |
-    | Inputs             | 6                                              |
-    | Outputs            | 55                                             |
-    | Clock              | i_clock                   (rising_edge)        |
-    | Reset              | i_reset                   (positive)           |
-    | Reset type         | synchronous                                    |
-    | Reset State        | 000000                                         |
-    | Power Up State     | 000000                                         |
-    | Encoding           | automatic                                      |
-    | Implementation     | LUT                                            |
-    -----------------------------------------------------------------------
-    Found 16-bit register for signal <o_ee2410>.
-    Found 1-bit register for signal <mulfpce>.
-    Found 12-bit register for signal <i2c_mem_addra>.
+Synthesizing Unit <calculateTa>.
+    Related source file is "/home/user/workspace/melexis_mlx90641/calculateTa.vhd".
+    Found 1-bit register for signal <fixed2floatsclr>.
     Found 1-bit register for signal <addfpsclr>.
-    Found 16-bit register for signal <o_ee2432>.
+    Found 1-bit register for signal <subfpsclr>.
+    Found 1-bit register for signal <mulfpsclr>.
     Found 1-bit register for signal <divfpsclr>.
+    Found 64-bit register for signal <fixed2floata>.
+    Found 1-bit register for signal <fixed2floatce>.
+    Found 1-bit register for signal <fixed2floatond>.
+    Found 32-bit register for signal <mulfpa>.
+    Found 32-bit register for signal <mulfpb>.
+    Found 1-bit register for signal <mulfpce>.
+    Found 1-bit register for signal <mulfpond>.
     Found 32-bit register for signal <addfpa>.
     Found 32-bit register for signal <addfpb>.
-    Found 1-bit register for signal <o_rdy>.
-    Found 1-bit register for signal <fixed2floatsclr>.
     Found 1-bit register for signal <addfpce>.
+    Found 1-bit register for signal <addfpond>.
     Found 1-bit register for signal <subfpce>.
+    Found 1-bit register for signal <subfpond>.
     Found 32-bit register for signal <subfpa>.
     Found 32-bit register for signal <subfpb>.
     Found 1-bit register for signal <divfpce>.
+    Found 1-bit register for signal <divfpond>.
     Found 32-bit register for signal <divfpa>.
     Found 32-bit register for signal <divfpb>.
-    Found 32-bit register for signal <mulfpa>.
-    Found 32-bit register for signal <mulfpb>.
-    Found 1-bit register for signal <mulfpsclr>.
-    Found 1-bit register for signal <i2c_mem_ena>.
-    Found 1-bit register for signal <fixed2floatce>.
-    Found 64-bit register for signal <fixed2floata>.
-    Found 1-bit register for signal <subfpsclr>.
     Found 32-bit register for signal <o_Ta>.
-    Found 1-bit register for signal <addfp_rdy>.
-    Found 1-bit register for signal <addfp_run>.
-    Found 4-bit up counter for signal <addfp_wait>.
-    Found 32-bit register for signal <deltaV>.
-    Found 1-bit register for signal <divfp_rdy>.
-    Found 1-bit register for signal <divfp_run>.
-    Found 5-bit up counter for signal <divfp_wait>.
-    Found 16-bit register for signal <ee2431>.
-    Found 1-bit register for signal <fi2fl_rdy>.
-    Found 1-bit register for signal <fi2fl_run>.
-    Found 3-bit up counter for signal <fi2fl_wait>.
-    Found 32-bit register for signal <fttmp1>.
-    Found 32-bit register for signal <fttmp2>.
-    Found 1-bit register for signal <mulfp_rdy>.
-    Found 1-bit register for signal <mulfp_run>.
-    Found 4-bit up counter for signal <mulfp_wait>.
-    Found 16-bit register for signal <ram0700>.
-    Found 16-bit register for signal <ram0720>.
-    Found 1-bit register for signal <subfp_rdy>.
-    Found 1-bit register for signal <subfp_run>.
-    Found 4-bit up counter for signal <subfp_wait>.
-    Found 32-bit register for signal <vbe_ft>.
-    Found 32-bit register for signal <vptat25_ft>.
-    Found 32-bit register for signal <vptat_ft>.
-    Found 32-bit register for signal <vptatart>.
+    Found 1-bit register for signal <o_rdy>.
+    Found 32-bit register for signal <p0.fttmp1>.
+    Found 32-bit register for signal <p0.vptat25_ft>.
+    Found 32-bit register for signal <p0.vptat_ft>.
+    Found 32-bit register for signal <p0.vbe_ft>.
+    Found 32-bit register for signal <p0.fttmp2>.
+    Found 5-bit register for signal <p0.state>.
+    Found finite state machine <FSM_0> for signal <p0.state>.
+    -----------------------------------------------------------------------
+    | States             | 32                                             |
+    | Transitions        | 48                                             |
+    | Inputs             | 6                                              |
+    | Outputs            | 20                                             |
+    | Clock              | i_clock (rising_edge)                          |
+    | Reset              | i_reset (positive)                             |
+    | Reset type         | synchronous                                    |
+    | Reset State        | idle                                           |
+    | Power Up State     | idle                                           |
+    | Encoding           | auto                                           |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
     Summary:
+	inferred 528 D-type flip-flop(s).
+	inferred  28 Multiplexer(s).
 	inferred   1 Finite State Machine(s).
-	inferred   5 Counter(s).
-	inferred 690 D-type flip-flop(s).
-Unit <calculateTa_process_p0> synthesized.
+Unit <calculateTa> synthesized.
 
-
-Synthesizing Unit <ExtractAlphaPTATParameter_MUSER_CalculateTa>.
-    Related source file is "/home/user/workspace/mlx90640_fpga/CalculateTa.vhf".
-WARNING:Xst:647 - Input <i_ee0x2410<11:0>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
-WARNING:Xst:653 - Signal <ROM_ALPHAPTAT_WEB_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0000.
-WARNING:Xst:653 - Signal <ROM_ALPHAPTAT_WEA_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0000.
-WARNING:Xst:653 - Signal <ROM_ALPHAPTAT_SSRB_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0.
-WARNING:Xst:653 - Signal <ROM_ALPHAPTAT_REGCEB_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0.
-WARNING:Xst:653 - Signal <ROM_ALPHAPTAT_REGCEA_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0.
-WARNING:Xst:653 - Signal <ROM_ALPHAPTAT_ENB_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0.
-WARNING:Xst:653 - Signal <ROM_ALPHAPTAT_DIPB_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0000.
-WARNING:Xst:653 - Signal <ROM_ALPHAPTAT_DIPA_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0000.
-WARNING:Xst:653 - Signal <ROM_ALPHAPTAT_DIB_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 00000000000000000000000000000000.
-WARNING:Xst:653 - Signal <ROM_ALPHAPTAT_DIA_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 00000000000000000000000000000000.
-WARNING:Xst:653 - Signal <ROM_ALPHAPTAT_CLKB_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0.
-WARNING:Xst:653 - Signal <ROM_ALPHAPTAT_CASCADEINB_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0.
-WARNING:Xst:653 - Signal <ROM_ALPHAPTAT_CASCADEINA_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0.
-WARNING:Xst:653 - Signal <ROM_ALPHAPTAT_ADDRB_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 000000000000000.
-Unit <ExtractAlphaPTATParameter_MUSER_CalculateTa> synthesized.
-
-
-Synthesizing Unit <ExtractKvPTATParameter_MUSER_CalculateTa>.
-    Related source file is "/home/user/workspace/mlx90640_fpga/CalculateTa.vhf".
+Synthesizing Unit <ExtractKvPTATParameter>.
+    Related source file is "/home/user/workspace/melexis_mlx90641/ExtractKvPTATParameter.vhd".
 WARNING:Xst:647 - Input <i_ee0x2432<9:0>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
-WARNING:Xst:653 - Signal <ROM_KVPTAT_WEB_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0000.
-WARNING:Xst:653 - Signal <ROM_KVPTAT_WEA_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0000.
-WARNING:Xst:653 - Signal <ROM_KVPTAT_SSRB_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0.
-WARNING:Xst:653 - Signal <ROM_KVPTAT_REGCEB_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0.
-WARNING:Xst:653 - Signal <ROM_KVPTAT_REGCEA_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0.
-WARNING:Xst:653 - Signal <ROM_KVPTAT_ENB_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0.
-WARNING:Xst:653 - Signal <ROM_KVPTAT_DIPB_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0000.
-WARNING:Xst:653 - Signal <ROM_KVPTAT_DIPA_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0000.
-WARNING:Xst:653 - Signal <ROM_KVPTAT_DIB_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 00000000000000000000000000000000.
-WARNING:Xst:653 - Signal <ROM_KVPTAT_DIA_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 00000000000000000000000000000000.
-WARNING:Xst:653 - Signal <ROM_KVPTAT_CLKB_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0.
-WARNING:Xst:653 - Signal <ROM_KVPTAT_CASCADEINB_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0.
-WARNING:Xst:653 - Signal <ROM_KVPTAT_CASCADEINA_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 0.
-WARNING:Xst:653 - Signal <ROM_KVPTAT_ADDRB_openSignal> is used but never assigned. This sourceless signal will be automatically connected to value 000000000000000.
-Unit <ExtractKvPTATParameter_MUSER_CalculateTa> synthesized.
+    Summary:
+	no macro.
+Unit <ExtractKvPTATParameter> synthesized.
 
+Synthesizing Unit <ExtractKtPTATParameter>.
+    Related source file is "/home/user/workspace/melexis_mlx90641/ExtractKtPTATParameter.vhd".
+WARNING:Xst:647 - Input <i_ee0x2432<15:10>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+INFO:Xst:3210 - "/home/user/workspace/melexis_mlx90641/ExtractKtPTATParameter.vhd" line 218: Output port <DOP> of the instance <inst_mem_ktptat> is unconnected or connected to loadless signal.
+    Summary:
+	no macro.
+Unit <ExtractKtPTATParameter> synthesized.
 
-Synthesizing Unit <M2_1_MXILINX_CalculateTa>.
-    Related source file is "/home/user/workspace/mlx90640_fpga/CalculateTa.vhf".
-Unit <M2_1_MXILINX_CalculateTa> synthesized.
+Synthesizing Unit <mem_ramb16_s36_x2>.
+    Related source file is "/home/user/workspace/melexis_mlx90641/mem_ramb16_s36_x2.vhd".
+        INIT_00 = "0011111101100000000000000000000000111111010000000000000000000000001111110010000000000000000000000011111100000000000000000000000000111110110000000000000000000000001111101000000000000000000000000011111000000000000000000000000000100010000000000000000000000000"
+        INIT_01 = "0011111111110000000000000000000000111111111000000000000000000000001111111101000000000000000000000011111111000000000000000000000000111111101100000000000000000000001111111010000000000000000000000011111110010000000000000000000000111111100000000000000000000000"
+        INIT_02 = "0100000000111000000000000000000001000000001100000000000000000000010000000010100000000000000000000100000000100000000000000000000001000000000110000000000000000000010000000001000000000000000000000100000000001000000000000000000001000000000000000000000000000000"
+        INIT_03 = "0100000001111000000000000000000001000000011100000000000000000000010000000110100000000000000000000100000001100000000000000000000001000000010110000000000000000000010000000101000000000000000000000100000001001000000000000000000001000000010000000000000000000000"
+        INIT_04 = "0100000010011100000000000000000001000000100110000000000000000000010000001001010000000000000000000100000010010000000000000000000001000000100011000000000000000000010000001000100000000000000000000100000010000100000000000000000001000000100000000000000000000000"
+        INIT_05 = "0100000010111100000000000000000001000000101110000000000000000000010000001011010000000000000000000100000010110000000000000000000001000000101011000000000000000000010000001010100000000000000000000100000010100100000000000000000001000000101000000000000000000000"
+        INIT_06 = "0100000011011100000000000000000001000000110110000000000000000000010000001101010000000000000000000100000011010000000000000000000001000000110011000000000000000000010000001100100000000000000000000100000011000100000000000000000001000000110000000000000000000000"
+        INIT_07 = "0100000011111100000000000000000001000000111110000000000000000000010000001111010000000000000000000100000011110000000000000000000001000000111011000000000000000000010000001110100000000000000000000100000011100100000000000000000001000000111000000000000000000000"
+        INIT_08 = "0100000100001110000000000000000001000001000011000000000000000000010000010000101000000000000000000100000100001000000000000000000001000001000001100000000000000000010000010000010000000000000000000100000100000010000000000000000001000001000000000000000000000000"
+        INIT_09 = "0100000100011110000000000000000001000001000111000000000000000000010000010001101000000000000000000100000100011000000000000000000001000001000101100000000000000000010000010001010000000000000000000100000100010010000000000000000001000001000100000000000000000000"
+        INIT_0A = "0100000100101110000000000000000001000001001011000000000000000000010000010010101000000000000000000100000100101000000000000000000001000001001001100000000000000000010000010010010000000000000000000100000100100010000000000000000001000001001000000000000000000000"
+        INIT_0B = "0100000100111110000000000000000001000001001111000000000000000000010000010011101000000000000000000100000100111000000000000000000001000001001101100000000000000000010000010011010000000000000000000100000100110010000000000000000001000001001100000000000000000000"
+        INIT_0C = "0100000101001110000000000000000001000001010011000000000000000000010000010100101000000000000000000100000101001000000000000000000001000001010001100000000000000000010000010100010000000000000000000100000101000010000000000000000001000001010000000000000000000000"
+        INIT_0D = "0100000101011110000000000000000001000001010111000000000000000000010000010101101000000000000000000100000101011000000000000000000001000001010101100000000000000000010000010101010000000000000000000100000101010010000000000000000001000001010100000000000000000000"
+        INIT_0E = "0100000101101110000000000000000001000001011011000000000000000000010000010110101000000000000000000100000101101000000000000000000001000001011001100000000000000000010000010110010000000000000000000100000101100010000000000000000001000001011000000000000000000000"
+        INIT_0F = "0100000101111110000000000000000001000001011111000000000000000000010000010111101000000000000000000100000101111000000000000000000001000001011101100000000000000000010000010111010000000000000000000100000101110010000000000000000001000001011100000000000000000000"
+        INIT_10 = "0100000110000111000000000000000001000001100001100000000000000000010000011000010100000000000000000100000110000100000000000000000001000001100000110000000000000000010000011000001000000000000000000100000110000001000000000000000001000001100000000000000000000000"
+        INIT_11 = "0100000110001111000000000000000001000001100011100000000000000000010000011000110100000000000000000100000110001100000000000000000001000001100010110000000000000000010000011000101000000000000000000100000110001001000000000000000001000001100010000000000000000000"
+        INIT_12 = "0100000110010111000000000000000001000001100101100000000000000000010000011001010100000000000000000100000110010100000000000000000001000001100100110000000000000000010000011001001000000000000000000100000110010001000000000000000001000001100100000000000000000000"
+        INIT_13 = "0100000110011111000000000000000001000001100111100000000000000000010000011001110100000000000000000100000110011100000000000000000001000001100110110000000000000000010000011001101000000000000000000100000110011001000000000000000001000001100110000000000000000000"
+        INIT_14 = "0100000110100111000000000000000001000001101001100000000000000000010000011010010100000000000000000100000110100100000000000000000001000001101000110000000000000000010000011010001000000000000000000100000110100001000000000000000001000001101000000000000000000000"
+        INIT_15 = "0100000110101111000000000000000001000001101011100000000000000000010000011010110100000000000000000100000110101100000000000000000001000001101010110000000000000000010000011010101000000000000000000100000110101001000000000000000001000001101010000000000000000000"
+        INIT_16 = "0100000110110111000000000000000001000001101101100000000000000000010000011011010100000000000000000100000110110100000000000000000001000001101100110000000000000000010000011011001000000000000000000100000110110001000000000000000001000001101100000000000000000000"
+        INIT_17 = "0100000110111111000000000000000001000001101111100000000000000000010000011011110100000000000000000100000110111100000000000000000001000001101110110000000000000000010000011011101000000000000000000100000110111001000000000000000001000001101110000000000000000000"
+        INIT_18 = "0100000111000111000000000000000001000001110001100000000000000000010000011100010100000000000000000100000111000100000000000000000001000001110000110000000000000000010000011100001000000000000000000100000111000001000000000000000001000001110000000000000000000000"
+        INIT_19 = "0100000111001111000000000000000001000001110011100000000000000000010000011100110100000000000000000100000111001100000000000000000001000001110010110000000000000000010000011100101000000000000000000100000111001001000000000000000001000001110010000000000000000000"
+        INIT_1A = "0100000111010111000000000000000001000001110101100000000000000000010000011101010100000000000000000100000111010100000000000000000001000001110100110000000000000000010000011101001000000000000000000100000111010001000000000000000001000001110100000000000000000000"
+        INIT_1B = "0100000111011111000000000000000001000001110111100000000000000000010000011101110100000000000000000100000111011100000000000000000001000001110110110000000000000000010000011101101000000000000000000100000111011001000000000000000001000001110110000000000000000000"
+        INIT_1C = "0100000111100111000000000000000001000001111001100000000000000000010000011110010100000000000000000100000111100100000000000000000001000001111000110000000000000000010000011110001000000000000000000100000111100001000000000000000001000001111000000000000000000000"
+        INIT_1D = "0100000111101111000000000000000001000001111011100000000000000000010000011110110100000000000000000100000111101100000000000000000001000001111010110000000000000000010000011110101000000000000000000100000111101001000000000000000001000001111010000000000000000000"
+        INIT_1E = "0100000111110111000000000000000001000001111101100000000000000000010000011111010100000000000000000100000111110100000000000000000001000001111100110000000000000000010000011111001000000000000000000100000111110001000000000000000001000001111100000000000000000000"
+        INIT_1F = "0100000111111111000000000000000001000001111111100000000000000000010000011111110100000000000000000100000111111100000000000000000001000001111110110000000000000000010000011111101000000000000000000100000111111001000000000000000001000001111110000000000000000000"
+        INIT_20 = "0100001000000011100000000000000001000010000000110000000000000000010000100000001010000000000000000100001000000010000000000000000001000010000000011000000000000000010000100000000100000000000000000100001000000000100000000000000001000010000000000000000000000000"
+        INIT_21 = "0100001000000111100000000000000001000010000001110000000000000000010000100000011010000000000000000100001000000110000000000000000001000010000001011000000000000000010000100000010100000000000000000100001000000100100000000000000001000010000001000000000000000000"
+        INIT_22 = "0100001000001011100000000000000001000010000010110000000000000000010000100000101010000000000000000100001000001010000000000000000001000010000010011000000000000000010000100000100100000000000000000100001000001000100000000000000001000010000010000000000000000000"
+        INIT_23 = "0100001000001111100000000000000001000010000011110000000000000000010000100000111010000000000000000100001000001110000000000000000001000010000011011000000000000000010000100000110100000000000000000100001000001100100000000000000001000010000011000000000000000000"
+        INIT_24 = "0100001000010011100000000000000001000010000100110000000000000000010000100001001010000000000000000100001000010010000000000000000001000010000100011000000000000000010000100001000100000000000000000100001000010000100000000000000001000010000100000000000000000000"
+        INIT_25 = "0100001000010111100000000000000001000010000101110000000000000000010000100001011010000000000000000100001000010110000000000000000001000010000101011000000000000000010000100001010100000000000000000100001000010100100000000000000001000010000101000000000000000000"
+        INIT_26 = "0100001000011011100000000000000001000010000110110000000000000000010000100001101010000000000000000100001000011010000000000000000001000010000110011000000000000000010000100001100100000000000000000100001000011000100000000000000001000010000110000000000000000000"
+        INIT_27 = "0100001000011111100000000000000001000010000111110000000000000000010000100001111010000000000000000100001000011110000000000000000001000010000111011000000000000000010000100001110100000000000000000100001000011100100000000000000001000010000111000000000000000000"
+        INIT_28 = "0100001000100011100000000000000001000010001000110000000000000000010000100010001010000000000000000100001000100010000000000000000001000010001000011000000000000000010000100010000100000000000000000100001000100000100000000000000001000010001000000000000000000000"
+        INIT_29 = "0100001000100111100000000000000001000010001001110000000000000000010000100010011010000000000000000100001000100110000000000000000001000010001001011000000000000000010000100010010100000000000000000100001000100100100000000000000001000010001001000000000000000000"
+        INIT_2A = "0100001000101011100000000000000001000010001010110000000000000000010000100010101010000000000000000100001000101010000000000000000001000010001010011000000000000000010000100010100100000000000000000100001000101000100000000000000001000010001010000000000000000000"
+        INIT_2B = "0100001000101111100000000000000001000010001011110000000000000000010000100010111010000000000000000100001000101110000000000000000001000010001011011000000000000000010000100010110100000000000000000100001000101100100000000000000001000010001011000000000000000000"
+        INIT_2C = "0100001000110011100000000000000001000010001100110000000000000000010000100011001010000000000000000100001000110010000000000000000001000010001100011000000000000000010000100011000100000000000000000100001000110000100000000000000001000010001100000000000000000000"
+        INIT_2D = "0100001000110111100000000000000001000010001101110000000000000000010000100011011010000000000000000100001000110110000000000000000001000010001101011000000000000000010000100011010100000000000000000100001000110100100000000000000001000010001101000000000000000000"
+        INIT_2E = "0100001000111011100000000000000001000010001110110000000000000000010000100011101010000000000000000100001000111010000000000000000001000010001110011000000000000000010000100011100100000000000000000100001000111000100000000000000001000010001110000000000000000000"
+        INIT_2F = "0100001000111111100000000000000001000010001111110000000000000000010000100011111010000000000000000100001000111110000000000000000001000010001111011000000000000000010000100011110100000000000000000100001000111100100000000000000001000010001111000000000000000000"
+        INIT_30 = "0100001001000011100000000000000001000010010000110000000000000000010000100100001010000000000000000100001001000010000000000000000001000010010000011000000000000000010000100100000100000000000000000100001001000000100000000000000001000010010000000000000000000000"
+        INIT_31 = "0100001001000111100000000000000001000010010001110000000000000000010000100100011010000000000000000100001001000110000000000000000001000010010001011000000000000000010000100100010100000000000000000100001001000100100000000000000001000010010001000000000000000000"
+        INIT_32 = "0100001001001011100000000000000001000010010010110000000000000000010000100100101010000000000000000100001001001010000000000000000001000010010010011000000000000000010000100100100100000000000000000100001001001000100000000000000001000010010010000000000000000000"
+        INIT_33 = "0100001001001111100000000000000001000010010011110000000000000000010000100100111010000000000000000100001001001110000000000000000001000010010011011000000000000000010000100100110100000000000000000100001001001100100000000000000001000010010011000000000000000000"
+        INIT_34 = "0100001001010011100000000000000001000010010100110000000000000000010000100101001010000000000000000100001001010010000000000000000001000010010100011000000000000000010000100101000100000000000000000100001001010000100000000000000001000010010100000000000000000000"
+        INIT_35 = "0100001001010111100000000000000001000010010101110000000000000000010000100101011010000000000000000100001001010110000000000000000001000010010101011000000000000000010000100101010100000000000000000100001001010100100000000000000001000010010101000000000000000000"
+        INIT_36 = "0100001001011011100000000000000001000010010110110000000000000000010000100101101010000000000000000100001001011010000000000000000001000010010110011000000000000000010000100101100100000000000000000100001001011000100000000000000001000010010110000000000000000000"
+        INIT_37 = "0100001001011111100000000000000001000010010111110000000000000000010000100101111010000000000000000100001001011110000000000000000001000010010111011000000000000000010000100101110100000000000000000100001001011100100000000000000001000010010111000000000000000000"
+        INIT_38 = "0100001001100011100000000000000001000010011000110000000000000000010000100110001010000000000000000100001001100010000000000000000001000010011000011000000000000000010000100110000100000000000000000100001001100000100000000000000001000010011000000000000000000000"
+        INIT_39 = "0100001001100111100000000000000001000010011001110000000000000000010000100110011010000000000000000100001001100110000000000000000001000010011001011000000000000000010000100110010100000000000000000100001001100100100000000000000001000010011001000000000000000000"
+        INIT_3A = "0100001001101011100000000000000001000010011010110000000000000000010000100110101010000000000000000100001001101010000000000000000001000010011010011000000000000000010000100110100100000000000000000100001001101000100000000000000001000010011010000000000000000000"
+        INIT_3B = "0100001001101111100000000000000001000010011011110000000000000000010000100110111010000000000000000100001001101110000000000000000001000010011011011000000000000000010000100110110100000000000000000100001001101100100000000000000001000010011011000000000000000000"
+        INIT_3C = "0100001001110011100000000000000001000010011100110000000000000000010000100111001010000000000000000100001001110010000000000000000001000010011100011000000000000000010000100111000100000000000000000100001001110000100000000000000001000010011100000000000000000000"
+        INIT_3D = "0100001001110111100000000000000001000010011101110000000000000000010000100111011010000000000000000100001001110110000000000000000001000010011101011000000000000000010000100111010100000000000000000100001001110100100000000000000001000010011101000000000000000000"
+        INIT_3E = "0100001001111011100000000000000001000010011110110000000000000000010000100111101010000000000000000100001001111010000000000000000001000010011110011000000000000000010000100111100100000000000000000100001001111000100000000000000001000010011110000000000000000000"
+        INIT_3F = "0100001001111111100000000000000001000010011111110000000000000000010000100111111010000000000000000100001001111110000000000000000001000010011111011000000000000000010000100111110100000000000000000100001001111100100000000000000001000010011111000000000000000000"
+        INIT_40 = "1100001001111100100000000000000011000010011111010000000000000000110000100111110110000000000000001100001001111110000000000000000011000010011111101000000000000000110000100111111100000000000000001100001001111111100000000000000011000010100000000000000000000000"
+        INIT_41 = "1100001001111000100000000000000011000010011110010000000000000000110000100111100110000000000000001100001001111010000000000000000011000010011110101000000000000000110000100111101100000000000000001100001001111011100000000000000011000010011111000000000000000000"
+        INIT_42 = "1100001001110100100000000000000011000010011101010000000000000000110000100111010110000000000000001100001001110110000000000000000011000010011101101000000000000000110000100111011100000000000000001100001001110111100000000000000011000010011110000000000000000000"
+        INIT_43 = "1100001001110000100000000000000011000010011100010000000000000000110000100111000110000000000000001100001001110010000000000000000011000010011100101000000000000000110000100111001100000000000000001100001001110011100000000000000011000010011101000000000000000000"
+        INIT_44 = "1100001001101100100000000000000011000010011011010000000000000000110000100110110110000000000000001100001001101110000000000000000011000010011011101000000000000000110000100110111100000000000000001100001001101111100000000000000011000010011100000000000000000000"
+        INIT_45 = "1100001001101000100000000000000011000010011010010000000000000000110000100110100110000000000000001100001001101010000000000000000011000010011010101000000000000000110000100110101100000000000000001100001001101011100000000000000011000010011011000000000000000000"
+        INIT_46 = "1100001001100100100000000000000011000010011001010000000000000000110000100110010110000000000000001100001001100110000000000000000011000010011001101000000000000000110000100110011100000000000000001100001001100111100000000000000011000010011010000000000000000000"
+        INIT_47 = "1100001001100000100000000000000011000010011000010000000000000000110000100110000110000000000000001100001001100010000000000000000011000010011000101000000000000000110000100110001100000000000000001100001001100011100000000000000011000010011001000000000000000000"
+        INIT_48 = "1100001001011100100000000000000011000010010111010000000000000000110000100101110110000000000000001100001001011110000000000000000011000010010111101000000000000000110000100101111100000000000000001100001001011111100000000000000011000010011000000000000000000000"
+        INIT_49 = "1100001001011000100000000000000011000010010110010000000000000000110000100101100110000000000000001100001001011010000000000000000011000010010110101000000000000000110000100101101100000000000000001100001001011011100000000000000011000010010111000000000000000000"
+        INIT_4A = "1100001001010100100000000000000011000010010101010000000000000000110000100101010110000000000000001100001001010110000000000000000011000010010101101000000000000000110000100101011100000000000000001100001001010111100000000000000011000010010110000000000000000000"
+        INIT_4B = "1100001001010000100000000000000011000010010100010000000000000000110000100101000110000000000000001100001001010010000000000000000011000010010100101000000000000000110000100101001100000000000000001100001001010011100000000000000011000010010101000000000000000000"
+        INIT_4C = "1100001001001100100000000000000011000010010011010000000000000000110000100100110110000000000000001100001001001110000000000000000011000010010011101000000000000000110000100100111100000000000000001100001001001111100000000000000011000010010100000000000000000000"
+        INIT_4D = "1100001001001000100000000000000011000010010010010000000000000000110000100100100110000000000000001100001001001010000000000000000011000010010010101000000000000000110000100100101100000000000000001100001001001011100000000000000011000010010011000000000000000000"
+        INIT_4E = "1100001001000100100000000000000011000010010001010000000000000000110000100100010110000000000000001100001001000110000000000000000011000010010001101000000000000000110000100100011100000000000000001100001001000111100000000000000011000010010010000000000000000000"
+        INIT_4F = "1100001001000000100000000000000011000010010000010000000000000000110000100100000110000000000000001100001001000010000000000000000011000010010000101000000000000000110000100100001100000000000000001100001001000011100000000000000011000010010001000000000000000000"
+        INIT_50 = "1100001000111100100000000000000011000010001111010000000000000000110000100011110110000000000000001100001000111110000000000000000011000010001111101000000000000000110000100011111100000000000000001100001000111111100000000000000011000010010000000000000000000000"
+        INIT_51 = "1100001000111000100000000000000011000010001110010000000000000000110000100011100110000000000000001100001000111010000000000000000011000010001110101000000000000000110000100011101100000000000000001100001000111011100000000000000011000010001111000000000000000000"
+        INIT_52 = "1100001000110100100000000000000011000010001101010000000000000000110000100011010110000000000000001100001000110110000000000000000011000010001101101000000000000000110000100011011100000000000000001100001000110111100000000000000011000010001110000000000000000000"
+        INIT_53 = "1100001000110000100000000000000011000010001100010000000000000000110000100011000110000000000000001100001000110010000000000000000011000010001100101000000000000000110000100011001100000000000000001100001000110011100000000000000011000010001101000000000000000000"
+        INIT_54 = "1100001000101100100000000000000011000010001011010000000000000000110000100010110110000000000000001100001000101110000000000000000011000010001011101000000000000000110000100010111100000000000000001100001000101111100000000000000011000010001100000000000000000000"
+        INIT_55 = "1100001000101000100000000000000011000010001010010000000000000000110000100010100110000000000000001100001000101010000000000000000011000010001010101000000000000000110000100010101100000000000000001100001000101011100000000000000011000010001011000000000000000000"
+        INIT_56 = "1100001000100100100000000000000011000010001001010000000000000000110000100010010110000000000000001100001000100110000000000000000011000010001001101000000000000000110000100010011100000000000000001100001000100111100000000000000011000010001010000000000000000000"
+        INIT_57 = "1100001000100000100000000000000011000010001000010000000000000000110000100010000110000000000000001100001000100010000000000000000011000010001000101000000000000000110000100010001100000000000000001100001000100011100000000000000011000010001001000000000000000000"
+        INIT_58 = "1100001000011100100000000000000011000010000111010000000000000000110000100001110110000000000000001100001000011110000000000000000011000010000111101000000000000000110000100001111100000000000000001100001000011111100000000000000011000010001000000000000000000000"
+        INIT_59 = "1100001000011000100000000000000011000010000110010000000000000000110000100001100110000000000000001100001000011010000000000000000011000010000110101000000000000000110000100001101100000000000000001100001000011011100000000000000011000010000111000000000000000000"
+        INIT_5A = "1100001000010100100000000000000011000010000101010000000000000000110000100001010110000000000000001100001000010110000000000000000011000010000101101000000000000000110000100001011100000000000000001100001000010111100000000000000011000010000110000000000000000000"
+        INIT_5B = "1100001000010000100000000000000011000010000100010000000000000000110000100001000110000000000000001100001000010010000000000000000011000010000100101000000000000000110000100001001100000000000000001100001000010011100000000000000011000010000101000000000000000000"
+        INIT_5C = "1100001000001100100000000000000011000010000011010000000000000000110000100000110110000000000000001100001000001110000000000000000011000010000011101000000000000000110000100000111100000000000000001100001000001111100000000000000011000010000100000000000000000000"
+        INIT_5D = "1100001000001000100000000000000011000010000010010000000000000000110000100000100110000000000000001100001000001010000000000000000011000010000010101000000000000000110000100000101100000000000000001100001000001011100000000000000011000010000011000000000000000000"
+        INIT_5E = "1100001000000100100000000000000011000010000001010000000000000000110000100000010110000000000000001100001000000110000000000000000011000010000001101000000000000000110000100000011100000000000000001100001000000111100000000000000011000010000010000000000000000000"
+        INIT_5F = "1100001000000000100000000000000011000010000000010000000000000000110000100000000110000000000000001100001000000010000000000000000011000010000000101000000000000000110000100000001100000000000000001100001000000011100000000000000011000010000001000000000000000000"
+        INIT_60 = "1100000111111001000000000000000011000001111110100000000000000000110000011111101100000000000000001100000111111100000000000000000011000001111111010000000000000000110000011111111000000000000000001100000111111111000000000000000011000010000000000000000000000000"
+        INIT_61 = "1100000111110001000000000000000011000001111100100000000000000000110000011111001100000000000000001100000111110100000000000000000011000001111101010000000000000000110000011111011000000000000000001100000111110111000000000000000011000001111110000000000000000000"
+        INIT_62 = "1100000111101001000000000000000011000001111010100000000000000000110000011110101100000000000000001100000111101100000000000000000011000001111011010000000000000000110000011110111000000000000000001100000111101111000000000000000011000001111100000000000000000000"
+        INIT_63 = "1100000111100001000000000000000011000001111000100000000000000000110000011110001100000000000000001100000111100100000000000000000011000001111001010000000000000000110000011110011000000000000000001100000111100111000000000000000011000001111010000000000000000000"
+        INIT_64 = "1100000111011001000000000000000011000001110110100000000000000000110000011101101100000000000000001100000111011100000000000000000011000001110111010000000000000000110000011101111000000000000000001100000111011111000000000000000011000001111000000000000000000000"
+        INIT_65 = "1100000111010001000000000000000011000001110100100000000000000000110000011101001100000000000000001100000111010100000000000000000011000001110101010000000000000000110000011101011000000000000000001100000111010111000000000000000011000001110110000000000000000000"
+        INIT_66 = "1100000111001001000000000000000011000001110010100000000000000000110000011100101100000000000000001100000111001100000000000000000011000001110011010000000000000000110000011100111000000000000000001100000111001111000000000000000011000001110100000000000000000000"
+        INIT_67 = "1100000111000001000000000000000011000001110000100000000000000000110000011100001100000000000000001100000111000100000000000000000011000001110001010000000000000000110000011100011000000000000000001100000111000111000000000000000011000001110010000000000000000000"
+        INIT_68 = "1100000110111001000000000000000011000001101110100000000000000000110000011011101100000000000000001100000110111100000000000000000011000001101111010000000000000000110000011011111000000000000000001100000110111111000000000000000011000001110000000000000000000000"
+        INIT_69 = "1100000110110001000000000000000011000001101100100000000000000000110000011011001100000000000000001100000110110100000000000000000011000001101101010000000000000000110000011011011000000000000000001100000110110111000000000000000011000001101110000000000000000000"
+        INIT_6A = "1100000110101001000000000000000011000001101010100000000000000000110000011010101100000000000000001100000110101100000000000000000011000001101011010000000000000000110000011010111000000000000000001100000110101111000000000000000011000001101100000000000000000000"
+        INIT_6B = "1100000110100001000000000000000011000001101000100000000000000000110000011010001100000000000000001100000110100100000000000000000011000001101001010000000000000000110000011010011000000000000000001100000110100111000000000000000011000001101010000000000000000000"
+        INIT_6C = "1100000110011001000000000000000011000001100110100000000000000000110000011001101100000000000000001100000110011100000000000000000011000001100111010000000000000000110000011001111000000000000000001100000110011111000000000000000011000001101000000000000000000000"
+        INIT_6D = "1100000110010001000000000000000011000001100100100000000000000000110000011001001100000000000000001100000110010100000000000000000011000001100101010000000000000000110000011001011000000000000000001100000110010111000000000000000011000001100110000000000000000000"
+        INIT_6E = "1100000110001001000000000000000011000001100010100000000000000000110000011000101100000000000000001100000110001100000000000000000011000001100011010000000000000000110000011000111000000000000000001100000110001111000000000000000011000001100100000000000000000000"
+        INIT_6F = "1100000110000001000000000000000011000001100000100000000000000000110000011000001100000000000000001100000110000100000000000000000011000001100001010000000000000000110000011000011000000000000000001100000110000111000000000000000011000001100010000000000000000000"
+        INIT_70 = "1100000101110010000000000000000011000001011101000000000000000000110000010111011000000000000000001100000101111000000000000000000011000001011110100000000000000000110000010111110000000000000000001100000101111110000000000000000011000001100000000000000000000000"
+        INIT_71 = "1100000101100010000000000000000011000001011001000000000000000000110000010110011000000000000000001100000101101000000000000000000011000001011010100000000000000000110000010110110000000000000000001100000101101110000000000000000011000001011100000000000000000000"
+        INIT_72 = "1100000101010010000000000000000011000001010101000000000000000000110000010101011000000000000000001100000101011000000000000000000011000001010110100000000000000000110000010101110000000000000000001100000101011110000000000000000011000001011000000000000000000000"
+        INIT_73 = "1100000101000010000000000000000011000001010001000000000000000000110000010100011000000000000000001100000101001000000000000000000011000001010010100000000000000000110000010100110000000000000000001100000101001110000000000000000011000001010100000000000000000000"
+        INIT_74 = "1100000100110010000000000000000011000001001101000000000000000000110000010011011000000000000000001100000100111000000000000000000011000001001110100000000000000000110000010011110000000000000000001100000100111110000000000000000011000001010000000000000000000000"
+        INIT_75 = "1100000100100010000000000000000011000001001001000000000000000000110000010010011000000000000000001100000100101000000000000000000011000001001010100000000000000000110000010010110000000000000000001100000100101110000000000000000011000001001100000000000000000000"
+        INIT_76 = "1100000100010010000000000000000011000001000101000000000000000000110000010001011000000000000000001100000100011000000000000000000011000001000110100000000000000000110000010001110000000000000000001100000100011110000000000000000011000001001000000000000000000000"
+        INIT_77 = "1100000100000010000000000000000011000001000001000000000000000000110000010000011000000000000000001100000100001000000000000000000011000001000010100000000000000000110000010000110000000000000000001100000100001110000000000000000011000001000100000000000000000000"
+        INIT_78 = "1100000011100100000000000000000011000000111010000000000000000000110000001110110000000000000000001100000011110000000000000000000011000000111101000000000000000000110000001111100000000000000000001100000011111100000000000000000011000001000000000000000000000000"
+        INIT_79 = "1100000011000100000000000000000011000000110010000000000000000000110000001100110000000000000000001100000011010000000000000000000011000000110101000000000000000000110000001101100000000000000000001100000011011100000000000000000011000000111000000000000000000000"
+        INIT_7A = "1100000010100100000000000000000011000000101010000000000000000000110000001010110000000000000000001100000010110000000000000000000011000000101101000000000000000000110000001011100000000000000000001100000010111100000000000000000011000000110000000000000000000000"
+        INIT_7B = "1100000010000100000000000000000011000000100010000000000000000000110000001000110000000000000000001100000010010000000000000000000011000000100101000000000000000000110000001001100000000000000000001100000010011100000000000000000011000000101000000000000000000000"
+        INIT_7C = "1100000001001000000000000000000011000000010100000000000000000000110000000101100000000000000000001100000001100000000000000000000011000000011010000000000000000000110000000111000000000000000000001100000001111000000000000000000011000000100000000000000000000000"
+        INIT_7D = "1100000000001000000000000000000011000000000100000000000000000000110000000001100000000000000000001100000000100000000000000000000011000000001010000000000000000000110000000011000000000000000000001100000000111000000000000000000011000000010000000000000000000000"
+        INIT_7E = "1011111110010000000000000000000010111111101000000000000000000000101111111011000000000000000000001011111111000000000000000000000010111111110100000000000000000000101111111110000000000000000000001011111111110000000000000000000011000000000000000000000000000000"
+        INIT_7F = "1011111000000000000000000000000010111110100000000000000000000000101111101100000000000000000000001011111100000000000000000000000010111111001000000000000000000000101111110100000000000000000000001011111101100000000000000000000010111111100000000000000000000000"
+        INITP_00 = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        INITP_01 = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        INITP_02 = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        INITP_03 = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        INITP_04 = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        INITP_05 = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        INITP_06 = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        INITP_07 = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        INITP_08 = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        INITP_09 = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        INITP_0a = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        INITP_0b = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        INITP_0c = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        INITP_0d = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        INITP_0e = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        INITP_0f = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    Found 1-bit register for signal <EN2>.
+    Found 1-bit register for signal <EN1>.
+    Summary:
+	inferred   2 D-type flip-flop(s).
+	inferred   4 Multiplexer(s).
+Unit <mem_ramb16_s36_x2> synthesized.
 
-
-Synthesizing Unit <ExtractKtPTATParameter_MUSER_CalculateTa>.
-    Related source file is "/home/user/workspace/mlx90640_fpga/CalculateTa.vhf".
-WARNING:Xst:646 - Signal <ADDRA<15:10>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
-Unit <ExtractKtPTATParameter_MUSER_CalculateTa> synthesized.
-
-
-Synthesizing Unit <CalculateTa>.
-    Related source file is "/home/user/workspace/mlx90640_fpga/CalculateTa.vhf".
-Unit <CalculateTa> synthesized.
-
+Synthesizing Unit <ExtractAlphaPtatParameter>.
+    Related source file is "/home/user/workspace/melexis_mlx90641/ExtractAlphaPtatParameter.vhd".
+WARNING:Xst:647 - Input <i_ee0x2410<11:0>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+    Summary:
+	no macro.
+Unit <ExtractAlphaPtatParameter> synthesized.
 
 =========================================================================
 HDL Synthesis Report
 
 Macro Statistics
-# Counters                                             : 5
- 3-bit up counter                                      : 1
- 4-bit up counter                                      : 3
- 5-bit up counter                                      : 1
-# Registers                                            : 120
- 1-bit register                                        : 102
- 12-bit register                                       : 1
- 32-bit register                                       : 16
+# Registers                                            : 33
+ 1-bit register                                        : 18
+ 32-bit register                                       : 14
  64-bit register                                       : 1
+# Multiplexers                                         : 32
+ 32-bit 2-to-1 multiplexer                             : 28
+ 4-bit 2-to-1 multiplexer                              : 2
+ 64-bit 2-to-1 multiplexer                             : 2
+# FSMs                                                 : 1
 
 =========================================================================
 
@@ -731,174 +445,121 @@ Macro Statistics
 *                       Advanced HDL Synthesis                          *
 =========================================================================
 
-Analyzing FSM <FSM_0> for best encoding.
-Optimizing FSM <XLXI_1/state/FSM> on signal <state[1:54]> with one-hot encoding.
-------------------------------------------------------------------
- State  | Encoding
-------------------------------------------------------------------
- 000000 | 000000000000000000000000000000000000000000000000000001
- 000001 | 000000000000000000000000000000000000000000000000000010
- 000010 | 000000000000000000000000000000000000000000000000000100
- 000011 | 000000000000000000000000000000000000000000000000001000
- 000100 | 000000000000000000000000000000000000000000000000010000
- 000101 | 000000000000000000000000000000000000000000000000100000
- 000110 | 000000000000000000000000000000000000000000000001000000
- 000111 | 000000000000000000000000000000000000000000000010000000
- 001000 | 000000000000000000000000000000000000000000000100000000
- 001001 | 000000000000000000000000000000000000000000001000000000
- 001010 | 000000000000000000000000000000000000000000010000000000
- 001011 | 000000000000000000000000000000000000000000100000000000
- 001100 | 000000000000000000000000000000000000000001000000000000
- 001101 | 000000000000000000000000000000000000000010000000000000
- 001110 | 000000000000000000000000000000000000000100000000000000
- 001111 | 000000000000000000000000000000000000001000000000000000
- 010000 | 000000000000000000000000000000000000010000000000000000
- 010001 | 000000000000000000000000000000000000100000000000000000
- 010010 | 000000000000000000000000000000000001000000000000000000
- 010011 | 000000000000000000000000000000000010000000000000000000
- 010100 | 000000000000000000000000000000000100000000000000000000
- 010101 | 000000000000000000000000000000001000000000000000000000
- 010110 | 000000000000000000000000000000010000000000000000000000
- 010111 | 000000000000000000000000000000100000000000000000000000
- 011000 | 000000000000000000000000000001000000000000000000000000
- 011001 | 000000000000000000000000000010000000000000000000000000
- 011010 | 000000000000000000000000000100000000000000000000000000
- 011011 | 000000000000000000000000001000000000000000000000000000
- 011100 | 000000000000000000000000010000000000000000000000000000
- 011101 | 000000000000000000000000100000000000000000000000000000
- 011110 | 000000000000000000000001000000000000000000000000000000
- 011111 | 000000000000000000000010000000000000000000000000000000
- 100000 | 000000000000000000000100000000000000000000000000000000
- 100001 | 000000000000000000001000000000000000000000000000000000
- 100010 | 000000000000000000010000000000000000000000000000000000
- 100011 | 000000000000000000100000000000000000000000000000000000
- 100100 | 000000000000000001000000000000000000000000000000000000
- 100101 | 000000000000000010000000000000000000000000000000000000
- 100110 | 000000000000000100000000000000000000000000000000000000
- 100111 | 000000000000001000000000000000000000000000000000000000
- 101000 | 000000000000010000000000000000000000000000000000000000
- 101001 | 000000000000100000000000000000000000000000000000000000
- 101010 | 000000000001000000000000000000000000000000000000000000
- 101011 | 000000000010000000000000000000000000000000000000000000
- 101100 | 000000000100000000000000000000000000000000000000000000
- 101101 | 000000001000000000000000000000000000000000000000000000
- 101110 | 000000010000000000000000000000000000000000000000000000
- 101111 | 000000100000000000000000000000000000000000000000000000
- 110000 | 000001000000000000000000000000000000000000000000000000
- 110001 | 000010000000000000000000000000000000000000000000000000
- 110010 | 000100000000000000000000000000000000000000000000000000
- 110011 | 001000000000000000000000000000000000000000000000000000
- 110100 | 010000000000000000000000000000000000000000000000000000
- 110101 | 100000000000000000000000000000000000000000000000000000
-------------------------------------------------------------------
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_9> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_8> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_4> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_3> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_28> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_27> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_26> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_25> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_24> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_23> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_22> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_21> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_20> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_19> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_18> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_17> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_0> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_1> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_2> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_3> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_4> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_5> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_6> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_7> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_8> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_9> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_10> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_11> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_12> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_13> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_14> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_15> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_16> (without init value) has a constant value of 0 in block <XLXI_1>. This FF/Latch will be trimmed during the optimization process.
+Reading core <ipcore_dir/fixed2float.ngc>.
+Reading core <ipcore_dir/divfp.ngc>.
+Reading core <ipcore_dir/mulfp.ngc>.
+Reading core <ipcore_dir/addfp.ngc>.
+Reading core <ipcore_dir/subfp.ngc>.
+Loading core <fixed2float> for timing and area information for instance <inst_ff2>.
+Loading core <divfp> for timing and area information for instance <inst_divfp>.
+Loading core <mulfp> for timing and area information for instance <inst_mulfp>.
+Loading core <addfp> for timing and area information for instance <inst_addfp>.
+Loading core <subfp> for timing and area information for instance <inst_subfp>.
 
 =========================================================================
 Advanced HDL Synthesis Report
 
 Macro Statistics
+# Registers                                            : 530
+ Flip-Flops                                            : 530
+# Multiplexers                                         : 94
+ 1-bit 2-to-1 multiplexer                              : 64
+ 32-bit 2-to-1 multiplexer                             : 26
+ 4-bit 2-to-1 multiplexer                              : 2
+ 64-bit 2-to-1 multiplexer                             : 2
 # FSMs                                                 : 1
-# Counters                                             : 5
- 3-bit up counter                                      : 1
- 4-bit up counter                                      : 3
- 5-bit up counter                                      : 1
-# Registers                                            : 690
- Flip-Flops                                            : 690
 
 =========================================================================
 
 =========================================================================
 *                         Low Level Synthesis                           *
 =========================================================================
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_9> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_8> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_4> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_3> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_28> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_27> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_26> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_25> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_24> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_23> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_22> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_21> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_20> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_19> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_18> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_17> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_0> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_1> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_2> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_3> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_4> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_5> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_6> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_7> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_8> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_9> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_10> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_11> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_12> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_13> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_14> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_15> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_16> (without init value) has a constant value of 0 in block <calculateTa_process_p0>. This FF/Latch will be trimmed during the optimization process.
+Analyzing FSM <MFsm> for best encoding.
+Optimizing FSM <FSM_0> on signal <p0.state[1:5]> with user encoding.
+--------------------
+ State  | Encoding
+--------------------
+ idle   | 00000
+ s1     | 00001
+ s2     | 00010
+ s3     | 00011
+ s4     | 00100
+ s5     | 00101
+ s6     | 00110
+ s7     | 00111
+ s8     | 01000
+ s9     | 01001
+ s10    | 01010
+ s11    | 01011
+ s12    | 01100
+ s13    | 01101
+ s14    | 01110
+ s15    | 01111
+ s16    | 10000
+ s17    | 10001
+ s18    | 10010
+ s19    | 10011
+ s20    | 10100
+ s21    | 10101
+ s22    | 10110
+ s23    | 10111
+ s24    | 11000
+ s25    | 11001
+ s26    | 11010
+ s27    | 11011
+ s28    | 11100
+ s29    | 11101
+ s30    | 11110
+ ending | 11111
+--------------------
+WARNING:Xst:1710 - FF/Latch <fixed2floata_28> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_27> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_26> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_25> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_24> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_23> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_22> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_21> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_20> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_19> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_18> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_17> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_16> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_15> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_14> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_13> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_12> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_11> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_10> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_9> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_8> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_7> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_6> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_5> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_4> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_3> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_2> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_1> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_0> (without init value) has a constant value of 0 in block <calculateTa>. This FF/Latch will be trimmed during the optimization process.
+INFO:Xst:2261 - The FF/Latch <addfpce> in Unit <calculateTa> is equivalent to the following FF/Latch, which will be removed : <addfpond> 
+INFO:Xst:2261 - The FF/Latch <fixed2floatce> in Unit <calculateTa> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond> 
+INFO:Xst:2261 - The FF/Latch <fixed2floata_44> in Unit <calculateTa> is equivalent to the following 19 FFs/Latches, which will be removed : <fixed2floata_45> <fixed2floata_46> <fixed2floata_47> <fixed2floata_48> <fixed2floata_49> <fixed2floata_50> <fixed2floata_51> <fixed2floata_52> <fixed2floata_53> <fixed2floata_54> <fixed2floata_55> <fixed2floata_56> <fixed2floata_57> <fixed2floata_58> <fixed2floata_59> <fixed2floata_60> <fixed2floata_61> <fixed2floata_62> <fixed2floata_63> 
+INFO:Xst:2261 - The FF/Latch <mulfpce> in Unit <calculateTa> is equivalent to the following FF/Latch, which will be removed : <mulfpond> 
+INFO:Xst:2261 - The FF/Latch <subfpce> in Unit <calculateTa> is equivalent to the following FF/Latch, which will be removed : <subfpond> 
+INFO:Xst:2261 - The FF/Latch <divfpce> in Unit <calculateTa> is equivalent to the following FF/Latch, which will be removed : <divfpond> 
 
-Optimizing unit <CalculateTa> ...
+Optimizing unit <calculateTa> ...
 
-Optimizing unit <calculateTa_process_p0> ...
-
-Optimizing unit <M2_1_MXILINX_CalculateTa> ...
-
-Optimizing unit <ExtractKtPTATParameter_MUSER_CalculateTa> ...
-WARNING:Xst:2677 - Node <XLXI_1/o_ee2410_9> of sequential type is unconnected in block <CalculateTa>.
-WARNING:Xst:2677 - Node <XLXI_1/o_ee2410_8> of sequential type is unconnected in block <CalculateTa>.
-WARNING:Xst:2677 - Node <XLXI_1/o_ee2410_7> of sequential type is unconnected in block <CalculateTa>.
-WARNING:Xst:2677 - Node <XLXI_1/o_ee2410_6> of sequential type is unconnected in block <CalculateTa>.
-WARNING:Xst:2677 - Node <XLXI_1/o_ee2410_5> of sequential type is unconnected in block <CalculateTa>.
-WARNING:Xst:2677 - Node <XLXI_1/o_ee2410_4> of sequential type is unconnected in block <CalculateTa>.
-WARNING:Xst:2677 - Node <XLXI_1/o_ee2410_3> of sequential type is unconnected in block <CalculateTa>.
-WARNING:Xst:2677 - Node <XLXI_1/o_ee2410_2> of sequential type is unconnected in block <CalculateTa>.
-WARNING:Xst:2677 - Node <XLXI_1/o_ee2410_1> of sequential type is unconnected in block <CalculateTa>.
-WARNING:Xst:2677 - Node <XLXI_1/o_ee2410_0> of sequential type is unconnected in block <CalculateTa>.
-WARNING:Xst:2677 - Node <XLXI_1/o_ee2410_11> of sequential type is unconnected in block <CalculateTa>.
-WARNING:Xst:2677 - Node <XLXI_1/o_ee2410_10> of sequential type is unconnected in block <CalculateTa>.
+Optimizing unit <mem_ramb16_s36_x2> ...
 
 Mapping all equations...
 Building and optimizing final netlist ...
-Found area constraint ratio of 100 (+ 5) on block CalculateTa, actual ratio is 5.
+Found area constraint ratio of 100 (+ 5) on block calculateTa, actual ratio is 28.
+FlipFlop p0.state_FSM_FFd1 has been replicated 1 time(s)
+FlipFlop p0.state_FSM_FFd2 has been replicated 1 time(s)
+FlipFlop p0.state_FSM_FFd3 has been replicated 1 time(s)
+FlipFlop p0.state_FSM_FFd4 has been replicated 1 time(s)
+FlipFlop p0.state_FSM_FFd5 has been replicated 1 time(s)
 
 Final Macro Processing ...
 
@@ -906,8 +567,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 719
- Flip-Flops                                            : 719
+# Registers                                            : 487
+ Flip-Flops                                            : 487
 
 =========================================================================
 
@@ -923,67 +584,68 @@ Partition Implementation Status
 -------------------------------
 
 =========================================================================
-*                            Final Report                               *
+*                            Design Summary                             *
 =========================================================================
-Final Results
-RTL Top Level Output File Name     : CalculateTa.ngr
-Top Level Output File Name         : CalculateTa
-Output Format                      : NGC
-Optimization Goal                  : Speed
-Keep Hierarchy                     : No
 
-Design Statistics
-# IOs                              : 589
+Top Level Output File Name         : calculateTa.ngc
 
-Cell Usage :
-# BELS                             : 1223
-#      AND2                        : 32
-#      AND2B1                      : 32
-#      BUF                         : 54
-#      GND                         : 1
-#      INV                         : 6
-#      LUT2                        : 183
-#      LUT2_D                      : 1
-#      LUT3                        : 206
-#      LUT3_D                      : 3
-#      LUT3_L                      : 1
-#      LUT4                        : 474
-#      LUT4_D                      : 3
-#      LUT4_L                      : 61
-#      MUXF5                       : 133
-#      OR2                         : 32
-#      VCC                         : 1
-# FlipFlops/Latches                : 719
-#      FDE                         : 300
-#      FDR                         : 96
-#      FDRE                        : 58
-#      FDRS                        : 232
-#      FDRSE                       : 27
-#      FDS                         : 6
+Primitive and Black Box Usage:
+------------------------------
+# BELS                             : 5894
+#      GND                         : 6
+#      INV                         : 61
+#      LUT1                        : 39
+#      LUT2                        : 580
+#      LUT2_D                      : 5
+#      LUT2_L                      : 3
+#      LUT3                        : 1470
+#      LUT3_D                      : 105
+#      LUT3_L                      : 115
+#      LUT4                        : 710
+#      LUT4_D                      : 6
+#      LUT4_L                      : 84
+#      MULT_AND                    : 1
+#      MUXCY                       : 1344
+#      MUXF5                       : 238
+#      MUXF6                       : 4
+#      MUXF7                       : 2
+#      VCC                         : 6
+#      XORCY                       : 1115
+# FlipFlops/Latches                : 3737
+#      FDE                         : 3222
+#      FDR                         : 10
+#      FDRE                        : 333
+#      FDRS                        : 8
+#      FDRSE                       : 144
+#      FDSE                        : 20
 # RAMS                             : 4
-#      RAMB16                      : 4
+#      RAMB16_S36                  : 4
+# Shift Registers                  : 165
+#      SRL16E                      : 144
+#      SRLC16E                     : 21
 # Clock Buffers                    : 1
 #      BUFGP                       : 1
-# IO Buffers                       : 583
-#      IBUF                        : 202
-#      OBUF                        : 381
-=========================================================================
+# IO Buffers                       : 199
+#      IBUF                        : 166
+#      OBUF                        : 33
+# MULTs                            : 4
+#      MULT18X18SIO                : 4
 
 Device utilization summary:
 ---------------------------
 
-Selected Device : 4vsx25ff668-10 
+Selected Device : 3s1200efg320-4 
 
- Number of Slices:                      545  out of  10240     5%  
- Number of Slice Flip Flops:            719  out of  20480     3%  
- Number of 4 input LUTs:                938  out of  20480     4%  
- Number of IOs:                         589
- Number of bonded IOBs:                 584  out of    320   182% (*) 
- Number of FIFO16/RAMB16s:                4  out of    128     3%  
-    Number used as RAMB16s:               4
- Number of GCLKs:                         1  out of     32     3%  
-
-WARNING:Xst:1336 -  (*) More than 100% of Device resources are used
+ Number of Slices:                     2537  out of   8672    29%  
+ Number of Slice Flip Flops:           3737  out of  17344    21%  
+ Number of 4 input LUTs:               3343  out of  17344    19%  
+    Number used as logic:              3178
+    Number used as Shift registers:     165
+ Number of IOs:                         212
+ Number of bonded IOBs:                 200  out of    250    80%  
+ Number of BRAMs:                         4  out of     28    14%  
+ Number of MULT18X18SIOs:                 4  out of     28    14%  
+ Number of GCLKs:                         1  out of     24     4%  
 
 ---------------------------
 Partition Resource Summary:
@@ -995,7 +657,7 @@ Partition Resource Summary:
 
 
 =========================================================================
-TIMING REPORT
+Timing Report
 
 NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
       FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
@@ -1003,114 +665,189 @@ NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
 
 Clock Information:
 ------------------
------------------------------------+---------------------------+-------+
-Clock Signal                       | Clock buffer(FF name)     | Load  |
------------------------------------+---------------------------+-------+
-i_clock                            | BUFGP                     | 723   |
-N0                                 | NONE(XLXI_2/ROM_ALPHAPTAT)| 4     |
------------------------------------+---------------------------+-------+
-INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+i_clock                            | BUFGP                  | 3910  |
+-----------------------------------+------------------------+-------+
 
 Asynchronous Control Signals Information:
 ----------------------------------------
------------------------------------+---------------------------+-------+
-Control Signal                     | Buffer(FF name)           | Load  |
------------------------------------+---------------------------+-------+
-N0(XST_GND:G)                      | NONE(XLXI_2/ROM_ALPHAPTAT)| 16    |
------------------------------------+---------------------------+-------+
+No asynchronous control signals found in this design
 
 Timing Summary:
 ---------------
-Speed Grade: -10
+Speed Grade: -4
 
-   Minimum period: 5.048ns (Maximum Frequency: 198.108MHz)
-   Minimum input arrival time before clock: 5.404ns
-   Maximum output required time after clock: 4.694ns
+   Minimum period: 7.983ns (Maximum Frequency: 125.272MHz)
+   Minimum input arrival time before clock: 5.909ns
+   Maximum output required time after clock: 4.310ns
    Maximum combinational path delay: No path found
 
-Timing Detail:
---------------
+Timing Details:
+---------------
 All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 5.048ns (frequency: 198.108MHz)
-  Total number of paths / destination ports: 7056 / 1095
+  Clock period: 7.983ns (frequency: 125.272MHz)
+  Total number of paths / destination ports: 62802 / 8046
 -------------------------------------------------------------------------
-Delay:               5.048ns (Levels of Logic = 6)
-  Source:            XLXI_1/o_ee2432_9 (FF)
-  Destination:       XLXI_1/divfpb_31 (FF)
+Delay:               7.983ns (Levels of Logic = 66)
+  Source:            fixed2floata_44 (FF)
+  Destination:       inst_ff2/blk000001df (FF)
   Source Clock:      i_clock rising
   Destination Clock: i_clock rising
 
-  Data Path: XLXI_1/o_ee2432_9 to XLXI_1/divfpb_31
+  Data Path: fixed2floata_44 to inst_ff2/blk000001df
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDE:C->Q              1   0.360   0.360  XLXI_1/o_ee2432_9 (XLXI_1/o_ee2432_9)
-     BUF:I->O              1   0.358   0.360  XLXI_3/BUF_9 (XLXI_3/ADDRA<9>)
-     BUF:I->O             64   0.358   1.434  XLXI_3/BUF1_ADDRA_9 (XLXI_3/XLXN_41<9>)
-     begin scope: 'XLXI_3/XLXI_40_31'
-     AND2B1:I0->O          1   0.195   0.688  I_36_7 (M0)
-     OR2:I1->O             1   0.195   0.523  I_36_8 (O)
-     end scope: 'XLXI_3/XLXI_40_31'
-     LUT2:I1->O            1   0.195   0.000  XLXI_1/divfpb_mux0000<31>281 (XLXI_1/divfpb_mux0000<31>28)
-     FDRS:D                    0.022          XLXI_1/divfpb_31
+     FDRE:C->Q            84   0.591   1.454  fixed2floata_44 (fixed2floata_44)
+     begin scope: 'inst_ff2:a<63>'
+     LUT2:I0->O            1   0.704   0.000  blk000003c8 (sig00000486)
+     MUXCY:S->O            1   0.464   0.000  blk00000160 (sig000001a6)
+     MUXCY:CI->O           1   0.059   0.000  blk00000162 (sig000001b1)
+     MUXCY:CI->O           1   0.059   0.000  blk00000164 (sig000001bc)
+     MUXCY:CI->O           1   0.059   0.000  blk00000166 (sig000001c7)
+     MUXCY:CI->O           1   0.059   0.000  blk00000168 (sig000001d2)
+     MUXCY:CI->O           1   0.059   0.000  blk0000016a (sig000001d7)
+     MUXCY:CI->O           1   0.059   0.000  blk0000016c (sig000001d8)
+     MUXCY:CI->O           1   0.059   0.000  blk0000016e (sig000001d9)
+     MUXCY:CI->O           1   0.059   0.000  blk00000170 (sig000001da)
+     MUXCY:CI->O           1   0.059   0.000  blk00000172 (sig0000019c)
+     MUXCY:CI->O           1   0.059   0.000  blk00000174 (sig0000019d)
+     MUXCY:CI->O           1   0.059   0.000  blk00000176 (sig0000019e)
+     MUXCY:CI->O           1   0.059   0.000  blk00000178 (sig0000019f)
+     MUXCY:CI->O           1   0.059   0.000  blk0000017a (sig000001a0)
+     MUXCY:CI->O           1   0.059   0.000  blk0000017c (sig000001a1)
+     MUXCY:CI->O           1   0.059   0.000  blk0000017e (sig000001a2)
+     MUXCY:CI->O           1   0.059   0.000  blk00000180 (sig000001a3)
+     MUXCY:CI->O           1   0.059   0.000  blk00000182 (sig000001a4)
+     MUXCY:CI->O           1   0.059   0.000  blk00000184 (sig000001a5)
+     MUXCY:CI->O           1   0.059   0.000  blk00000186 (sig000001a7)
+     MUXCY:CI->O           1   0.059   0.000  blk00000188 (sig000001a8)
+     MUXCY:CI->O           1   0.059   0.000  blk0000018a (sig000001a9)
+     MUXCY:CI->O           1   0.059   0.000  blk0000018c (sig000001aa)
+     MUXCY:CI->O           1   0.059   0.000  blk0000018e (sig000001ab)
+     MUXCY:CI->O           1   0.059   0.000  blk00000190 (sig000001ac)
+     MUXCY:CI->O           1   0.059   0.000  blk00000192 (sig000001ad)
+     MUXCY:CI->O           1   0.059   0.000  blk00000194 (sig000001ae)
+     MUXCY:CI->O           1   0.059   0.000  blk00000196 (sig000001af)
+     MUXCY:CI->O           1   0.059   0.000  blk00000198 (sig000001b0)
+     MUXCY:CI->O           1   0.059   0.000  blk0000019a (sig000001b2)
+     MUXCY:CI->O           1   0.059   0.000  blk0000019c (sig000001b3)
+     MUXCY:CI->O           1   0.059   0.000  blk0000019e (sig000001b4)
+     MUXCY:CI->O           1   0.059   0.000  blk000001a0 (sig000001b5)
+     MUXCY:CI->O           1   0.059   0.000  blk000001a2 (sig000001b6)
+     MUXCY:CI->O           1   0.059   0.000  blk000001a4 (sig000001b7)
+     MUXCY:CI->O           1   0.059   0.000  blk000001a6 (sig000001b8)
+     MUXCY:CI->O           1   0.059   0.000  blk000001a8 (sig000001b9)
+     MUXCY:CI->O           1   0.059   0.000  blk000001aa (sig000001ba)
+     MUXCY:CI->O           1   0.059   0.000  blk000001ac (sig000001bb)
+     MUXCY:CI->O           1   0.059   0.000  blk000001ae (sig000001bd)
+     MUXCY:CI->O           1   0.059   0.000  blk000001b0 (sig000001be)
+     MUXCY:CI->O           1   0.059   0.000  blk000001b2 (sig000001bf)
+     MUXCY:CI->O           1   0.059   0.000  blk000001b4 (sig000001c0)
+     MUXCY:CI->O           1   0.059   0.000  blk000001b6 (sig000001c1)
+     MUXCY:CI->O           1   0.059   0.000  blk000001b8 (sig000001c2)
+     MUXCY:CI->O           1   0.059   0.000  blk000001ba (sig000001c3)
+     MUXCY:CI->O           1   0.059   0.000  blk000001bc (sig000001c4)
+     MUXCY:CI->O           1   0.059   0.000  blk000001be (sig000001c5)
+     MUXCY:CI->O           1   0.059   0.000  blk000001c0 (sig000001c6)
+     MUXCY:CI->O           1   0.059   0.000  blk000001c2 (sig000001c8)
+     MUXCY:CI->O           1   0.059   0.000  blk000001c4 (sig000001c9)
+     MUXCY:CI->O           1   0.059   0.000  blk000001c6 (sig000001ca)
+     MUXCY:CI->O           1   0.059   0.000  blk000001c8 (sig000001cb)
+     MUXCY:CI->O           1   0.059   0.000  blk000001ca (sig000001cc)
+     MUXCY:CI->O           1   0.059   0.000  blk000001cc (sig000001cd)
+     MUXCY:CI->O           1   0.059   0.000  blk000001ce (sig000001ce)
+     MUXCY:CI->O           1   0.059   0.000  blk000001d0 (sig000001cf)
+     MUXCY:CI->O           1   0.059   0.000  blk000001d2 (sig000001d0)
+     MUXCY:CI->O           1   0.059   0.000  blk000001d4 (sig000001d1)
+     MUXCY:CI->O           1   0.059   0.000  blk000001d6 (sig000001d3)
+     MUXCY:CI->O           1   0.059   0.000  blk000001d8 (sig000001d4)
+     MUXCY:CI->O           1   0.059   0.000  blk000001da (sig000001d5)
+     MUXCY:CI->O           0   0.059   0.000  blk000001dc (sig000001d6)
+     XORCY:CI->O           1   0.804   0.000  blk000001de (sig00000216)
+     FDE:D                     0.308          blk000001df
     ----------------------------------------
-    Total                      5.048ns (1.683ns logic, 3.365ns route)
-                                       (33.3% logic, 66.7% route)
+    Total                      7.983ns (6.529ns logic, 1.454ns route)
+                                       (81.8% logic, 18.2% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 1210 / 1050
+  Total number of paths / destination ports: 683 / 635
 -------------------------------------------------------------------------
-Offset:              5.404ns (Levels of Logic = 2)
+Offset:              5.909ns (Levels of Logic = 3)
   Source:            i_reset (PAD)
-  Destination:       XLXI_1/i2c_mem_addra_11 (FF)
+  Destination:       p0.vptat_ft_0 (FF)
   Destination Clock: i_clock rising
 
-  Data Path: i_reset to XLXI_1/i2c_mem_addra_11
+  Data Path: i_reset to p0.vptat_ft_0
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           423   0.965   2.457  i_reset_IBUF (i_reset_IBUF)
-     INV:I->O             72   0.358   1.084  XLXI_1/i_reset_inv1_INV_0 (XLXI_1/i_reset_inv)
-     FDE:CE                    0.540          XLXI_1/fttmp1_0
+     IBUF:I->O           334   1.218   1.362  i_reset_IBUF (i_reset_IBUF)
+     LUT4_L:I3->LO         1   0.704   0.104  _n0378_inv_SW0 (N2)
+     LUT4:I3->O           32   0.704   1.262  _n0378_inv (_n0378_inv)
+     FDE:CE                    0.555          p0.vptat_ft_0
     ----------------------------------------
-    Total                      5.404ns (1.863ns logic, 3.541ns route)
-                                       (34.5% logic, 65.5% route)
+    Total                      5.909ns (3.181ns logic, 2.728ns route)
+                                       (53.8% logic, 46.2% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
-  Total number of paths / destination ports: 348 / 348
+  Total number of paths / destination ports: 33 / 33
 -------------------------------------------------------------------------
-Offset:              4.694ns (Levels of Logic = 1)
-  Source:            XLXI_1/addfpsclr (FF)
-  Destination:       addfpsclr (PAD)
+Offset:              4.310ns (Levels of Logic = 1)
+  Source:            o_rdy (FF)
+  Destination:       o_rdy (PAD)
   Source Clock:      i_clock rising
 
-  Data Path: XLXI_1/addfpsclr to addfpsclr
+  Data Path: o_rdy to o_rdy
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDS:C->Q              2   0.360   0.377  XLXI_1/addfpsclr (XLXI_1/addfpsclr)
-     OBUF:I->O                 3.957          addfpsclr_OBUF (addfpsclr)
+     FDRS:C->Q             2   0.591   0.447  o_rdy (o_rdy_OBUF)
+     OBUF:I->O                 3.272          o_rdy_OBUF (o_rdy)
     ----------------------------------------
-    Total                      4.694ns (4.317ns logic, 0.377ns route)
-                                       (92.0% logic, 8.0% route)
+    Total                      4.310ns (3.863ns logic, 0.447ns route)
+                                       (89.6% logic, 10.4% route)
+
+=========================================================================
+
+Cross Clock Domains Report:
+--------------------------
+
+Clock to Setup on destination clock i_clock
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+i_clock        |    7.983|         |         |         |
+---------------+---------+---------+---------+---------+
 
 =========================================================================
 
 
-Total REAL time to Xst completion: 21.00 secs
-Total CPU time to Xst completion: 19.87 secs
+Total REAL time to Xst completion: 20.00 secs
+Total CPU time to Xst completion: 19.69 secs
  
+WARNING:Xst:3152 - You have chosen to run a version of XST which is not the default solution
+   for the specified device family. You are free to use it in order to take
+   advantage of its enhanced HDL parsing/elaboration capabilities. However,
+   please be aware that you may be impacted by  language support differences.
+   This version may also result in circuit performance and device utilization
+   differences for your particular design. You can always revert back to the
+   default XST solution by setting the "use_new_parser" option to value "no" 
+   on the XST command line or in the XST process properties panel.
 --> 
 
 
-Total memory usage is 598640 kilobytes
+Total memory usage is 411400 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :  119 (   0 filtered)
-Number of infos    :    1 (   0 filtered)
+Number of warnings :   38 (   0 filtered)
+Number of infos    :    7 (   0 filtered)
 
