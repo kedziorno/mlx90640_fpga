@@ -73,7 +73,7 @@ begin
             -- EOL
             if h_sync_dly = '0' and h_sync_i = '1' then
                 eol <= '1';
-                report "eol";
+--                report "eol";
             else
                 eol <= '0';
             end if;
@@ -81,7 +81,7 @@ begin
             -- EOF
             if v_sync_dly = '0' and v_sync_i = '1' then
                 eof <= '1';
-                report "eof";
+--                report "eof";
             else
                 eof <= '0';
             end if;
@@ -121,8 +121,8 @@ begin
             else
                 if eol = '1' then
                     x <= 0;
-                    bmp_save( sink_bmp, FILENAME );
-                    report "x reset, line save to bmp";
+--                    bmp_save( sink_bmp, FILENAME );
+--                    report "x reset, line save to bmp";
                     if is_active_line = '1' then
                         if (y = BMP_MAX_HEIGHT-1) then
                         y <= 0;

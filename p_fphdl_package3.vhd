@@ -6,9 +6,9 @@ USE IEEE.math_real.all;
 --synthesis translate_off
 library ieee_proposed;
 use ieee_proposed.float_pkg.all;
-use ieee_proposed.numeric_std_additions.all; -- xxx 64bit
-use ieee_proposed.standard_additions.all; -- xxx 64bit
-use ieee_proposed.std_logic_1164_additions.all; -- xxx 64bit
+--use ieee_proposed.numeric_std_additions.all; -- xxx 64bit
+--use ieee_proposed.standard_additions.all; -- xxx 64bit
+--use ieee_proposed.std_logic_1164_additions.all; -- xxx 64bit
 --synthesis translate_on
 
 package p_fphdl_package3 is
@@ -70,7 +70,7 @@ package body p_fphdl_package3 is
 			expecteds := real'image (expected);
 		end if;
 --		assert actual = expected report "actual = expected : " & CR & actuals & CR & expecteds & CR & to_hex_string (sl) & CR & to_hex_string (b) & CR & to_string_1 (sl) & CR & to_string_1 (to_slv (b)) severity note;
-		report str & " : " & actuals & " = " & expecteds & " " & to_hex_string (sl) & " " & to_hex_string (b) & " " & to_string_1 (sl) & " " & to_string_1 (to_slv (b)) severity note;
+		report str & " : " & actuals & " = " & expecteds & " " & to_hex_string (b) & " " & to_string_1 (sl) & " " & to_string_1 (to_slv (b)) severity note;
 		return;
 --synthesis translate_on
 	end procedure report_error;
@@ -170,7 +170,7 @@ package body p_fphdl_package3 is
 			expecteds := real'image (expected);
 		end if;
 --		assert actual = expected report "actual = expected : " & CR & actuals & CR & expecteds & CR & to_hex_string (sl) & CR & to_hex_string (b) & CR & to_string_1 (sl) & CR & to_string_1 (to_slv (b)) severity note;
-		report str & " : " & actuals & " = " & expecteds & " " & to_hex_string (sl) & " " & to_hex_string (b) & " " & to_string_1 (sl) & " " & to_string_1 (to_slv (b)) severity note;
+		report str & " : " & actuals & " = " & expecteds & " " & to_hex_string (b) & " " & to_string_1 (sl) & " " & to_string_1 (to_slv (b)) severity note;
 		return;
     -- synthesis translate_on
 	end procedure report_errorem;

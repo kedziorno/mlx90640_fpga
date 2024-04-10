@@ -25,9 +25,9 @@ use ieee.numeric_std.all;
 library ieee_proposed;
 use ieee_proposed.float_pkg.all;
 use ieee_proposed.fixed_pkg.all;
-use ieee_proposed.numeric_std_additions.all; -- xxx 64bit
-use ieee_proposed.standard_additions.all; -- xxx 64bit
-use ieee_proposed.std_logic_1164_additions.all; -- xxx 64bit
+--use ieee_proposed.numeric_std_additions.all; -- xxx 64bit
+--use ieee_proposed.standard_additions.all; -- xxx 64bit
+--use ieee_proposed.std_logic_1164_additions.all; -- xxx 64bit
 --synthesis translate_on
 
 use work.p_fphdl_package2.all;
@@ -306,8 +306,8 @@ end if;
 					dualmem_ena <= '1';
 --synthesis translate_off
 --          data1 := to_sfixed (std_logic_vector(float2fixedr));
-          report_error       ("test1 test_fixed_melexis_do "&integer'image(i), test_fixed_melexis_do, 0.0);
-          report_fixed_value ("test1 float2fixedr          "&integer'image(i), to_sfixed(std_logic_vector(float2fixedr),float2fixedr'left,0));
+--          report_error       ("test1 test_fixed_melexis_do "&integer'image(i), test_fixed_melexis_do, 0.0);
+--          report_fixed_value ("test1 float2fixedr          "&integer'image(i), to_sfixed(std_logic_vector(float2fixedr),float2fixedr'left,0));
 --          report_error ("test1 float2fixedr : ", to_sfixed(std_logic_vector(float2fixedr),data1));
 --          report_error ("test1 tout        ", tout, 0.0);
 --synthesis translate_on
@@ -356,7 +356,7 @@ pdualmemdoutb : process (address_generator_clk) is
 begin
   if (rising_edge (address_generator_clk)) then
 --    if (prev_hsync = '0' and VGA_timing_synch_Hsync = '1') then
-      report_fixed_value ("test1 dualmemdoutb", to_sfixed(std_logic_vector(dualmem_doutb (dualmem_doutb'range)),data2));
+--      report_fixed_value ("test1 dualmemdoutb", to_sfixed(std_logic_vector(dualmem_doutb (dualmem_doutb'range)),data2));
 --    end if;
 --    prev_hsync := VGA_timing_synch_Hsync;
   end if;
