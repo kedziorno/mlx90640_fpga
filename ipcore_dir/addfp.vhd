@@ -103,15 +103,15 @@ END COMPONENT;
       c_has_status => 0,
       c_has_subtract => 0,
       c_has_underflow => 0,
-      c_latency => 16,
-      c_mult_usage => 2,
+      c_latency => 13,
+      c_mult_usage => 0,
       c_optimization => 1,
       c_rate => 1,
       c_result_fraction_width => 24,
       c_result_width => 32,
       c_speed => 2,
       c_status_early => 0,
-      c_xdevicefamily => "virtex4"
+      c_xdevicefamily => "spartan3e"
     );
 -- synthesis translate_on
 BEGIN
