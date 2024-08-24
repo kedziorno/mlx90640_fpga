@@ -2066,11 +2066,17 @@ addfprdy => CalculateGetImage_addfprdy
 
 );
 
-fixed2floatclk <= i_clock;
-addfpclk <= i_clock;
-subfpclk <= i_clock;
-mulfpclk <= i_clock;
-divfpclk <= i_clock;
+--fixed2floatclk <= i_clock;
+--addfpclk <= i_clock;
+--subfpclk <= i_clock;
+--mulfpclk <= i_clock;
+--divfpclk <= i_clock;
+
+fixed2floatclk <= i_clock when (fixed2floatce = '1') else '0';
+addfpclk <= i_clock when (addfpce = '1') else '0';
+subfpclk <= i_clock when (subfpce = '1') else '0';
+mulfpclk <= i_clock when (mulfpce = '1') else '0';
+divfpclk <= i_clock when (divfpce = '1') else '0';
 
 b0 : block
 attribute loc : string;
