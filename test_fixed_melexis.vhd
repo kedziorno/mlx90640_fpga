@@ -2072,11 +2072,30 @@ addfprdy => CalculateGetImage_addfprdy
 --mulfpclk <= i_clock;
 --divfpclk <= i_clock;
 
-fixed2floatclk <= i_clock when (fixed2floatce = '1') else '0';
-addfpclk <= i_clock when (addfpce = '1') else '0';
-subfpclk <= i_clock when (subfpce = '1') else '0';
-mulfpclk <= i_clock when (mulfpce = '1') else '0';
-divfpclk <= i_clock when (divfpce = '1') else '0';
+pfpclock : process (i_clock, fixed2floatce, addfpce, subfpce, mulfpce, divfpce) is
+  variable s : std_logic_vector (4 downto 0);
+begin
+  s := fixed2floatce&addfpce&subfpce&mulfpce&divfpce;
+  case (s) is
+    when "10000" => fixed2floatclk <= i_clock;
+    when "01000" => addfpclk <= i_clock;
+    when "00100" => subfpclk <= i_clock;
+    when "00010" => mulfpclk <= i_clock;
+    when "00001" => divfpclk <= i_clock;
+    when others =>
+      fixed2floatclk <= '0';
+      addfpclk <= '0';
+      subfpclk <= '0';
+      mulfpclk <= '0';
+      divfpclk <= '0';
+  end case;
+end process pfpclock;
+
+--fixed2floatclk <= i_clock when (fixed2floatce = '1') else '0';
+--addfpclk <= i_clock when (addfpce = '1') else '0';
+--subfpclk <= i_clock when (subfpce = '1') else '0';
+--mulfpclk <= i_clock when (mulfpce = '1') else '0';
+--divfpclk <= i_clock when (divfpce = '1') else '0';
 
 b0 : block
 attribute loc : string;
