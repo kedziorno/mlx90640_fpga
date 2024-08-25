@@ -4,15 +4,15 @@ Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 Parameter TMPDIR set to xst/projnav.tmp
 
 
-Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.09 secs
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.11 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
-Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.09 secs
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.11 secs
  
 --> 
 Reading design: test1.prj
@@ -628,13 +628,11 @@ Entity <test1> analyzed. Unit <test1> generated.
 
 Analyzing Entity <test_fixed_melexis> in library <work> (Architecture <testbench>).
 WARNING:Xst:753 - "/home/user/workspace/kedziorno/mlx90640_fpga/test_fixed_melexis.vhd" line 1719: Unconnected output port 'o_doa' of component 'ExtractAlphaParameters'.
-WARNING:Xst:819 - "/home/user/workspace/kedziorno/mlx90640_fpga/test_fixed_melexis.vhd" line 2094: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
-   <i_clock>
-WARNING:Xst:2211 - "/home/user/workspace/kedziorno/mlx90640_fpga/test_fixed_melexis.vhd" line 2152: Instantiating black box module <fixed2float>.
-WARNING:Xst:2211 - "/home/user/workspace/kedziorno/mlx90640_fpga/test_fixed_melexis.vhd" line 2164: Instantiating black box module <divfp>.
-WARNING:Xst:2211 - "/home/user/workspace/kedziorno/mlx90640_fpga/test_fixed_melexis.vhd" line 2176: Instantiating black box module <mulfp>.
-WARNING:Xst:2211 - "/home/user/workspace/kedziorno/mlx90640_fpga/test_fixed_melexis.vhd" line 2188: Instantiating black box module <addfp>.
-WARNING:Xst:2211 - "/home/user/workspace/kedziorno/mlx90640_fpga/test_fixed_melexis.vhd" line 2200: Instantiating black box module <subfp>.
+WARNING:Xst:2211 - "/home/user/workspace/kedziorno/mlx90640_fpga/test_fixed_melexis.vhd" line 2154: Instantiating black box module <fixed2float>.
+WARNING:Xst:2211 - "/home/user/workspace/kedziorno/mlx90640_fpga/test_fixed_melexis.vhd" line 2166: Instantiating black box module <divfp>.
+WARNING:Xst:2211 - "/home/user/workspace/kedziorno/mlx90640_fpga/test_fixed_melexis.vhd" line 2178: Instantiating black box module <mulfp>.
+WARNING:Xst:2211 - "/home/user/workspace/kedziorno/mlx90640_fpga/test_fixed_melexis.vhd" line 2190: Instantiating black box module <addfp>.
+WARNING:Xst:2211 - "/home/user/workspace/kedziorno/mlx90640_fpga/test_fixed_melexis.vhd" line 2202: Instantiating black box module <subfp>.
 Entity <test_fixed_melexis> analyzed. Unit <test_fixed_melexis> generated.
 
 Analyzing Entity <CalculateVDD> in library <work> (Architecture <behavioral>).
@@ -4993,6 +4991,9 @@ WARNING:Xst:1780 - Signal <CalculatePixOS_mulfpclk> is never used or assigned. T
 WARNING:Xst:1780 - Signal <CalculatePixOS_fixed2floatclk> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:1780 - Signal <CalculatePixOS_divfpclk> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:1780 - Signal <CalculatePixOS_addfpclk> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+INFO:Xst:1608 - Relative priorities of control signals on register <subfpclk> differ from those commonly found in the selected device family. This will result in additional logic around the register.
+INFO:Xst:1608 - Relative priorities of control signals on register <mulfpclk> differ from those commonly found in the selected device family. This will result in additional logic around the register.
+INFO:Xst:1608 - Relative priorities of control signals on register <divfpclk> differ from those commonly found in the selected device family. This will result in additional logic around the register.
     Found finite state machine <FSM_18> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 20                                             |
@@ -5007,6 +5008,11 @@ WARNING:Xst:1780 - Signal <CalculatePixOS_addfpclk> is never used or assigned. T
     | Encoding           | automatic                                      |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
+WARNING:Xst:737 - Found 1-bit latch for signal <subfpclk>. Latches may be generated from incomplete case or if statements. We do not recommend the use of latches in FPGA/CPLD designs, as they may lead to timing problems.
+WARNING:Xst:737 - Found 1-bit latch for signal <mulfpclk>. Latches may be generated from incomplete case or if statements. We do not recommend the use of latches in FPGA/CPLD designs, as they may lead to timing problems.
+WARNING:Xst:737 - Found 1-bit latch for signal <fixed2floatclk>. Latches may be generated from incomplete case or if statements. We do not recommend the use of latches in FPGA/CPLD designs, as they may lead to timing problems.
+WARNING:Xst:737 - Found 1-bit latch for signal <divfpclk>. Latches may be generated from incomplete case or if statements. We do not recommend the use of latches in FPGA/CPLD designs, as they may lead to timing problems.
+WARNING:Xst:737 - Found 1-bit latch for signal <addfpclk>. Latches may be generated from incomplete case or if statements. We do not recommend the use of latches in FPGA/CPLD designs, as they may lead to timing problems.
     Found 1-bit register for signal <o_rdy>.
     Found 1-bit register for signal <CalculateAlphaComp_mux>.
     Found 1-bit register for signal <CalculateAlphaComp_run>.
@@ -5117,6 +5123,8 @@ Macro Statistics
  6-bit register                                        : 4
  8-bit register                                        : 10
  9-bit register                                        : 2
+# Latches                                              : 5
+ 1-bit latch                                           : 5
 # Comparators                                          : 8
  10-bit comparator greatequal                          : 2
  10-bit comparator greater                             : 2
@@ -6227,6 +6235,8 @@ Macro Statistics
  8-bit up counter                                      : 1
 # Registers                                            : 7094
  Flip-Flops                                            : 7094
+# Latches                                              : 5
+ 1-bit latch                                           : 5
 # Comparators                                          : 8
  10-bit comparator greatequal                          : 2
  10-bit comparator greater                             : 2
@@ -6804,14 +6814,14 @@ WARNING:Xst:2677 - Node <tfm_inst/inst_calculateTa/CalculateTa_process_p0_inst/o
 
 Mapping all equations...
 Building and optimizing final netlist ...
-INFO:Xst:2261 - The FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpb_internal_27> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpb_internal_28> <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpb_internal_29> 
-INFO:Xst:2261 - The FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_25> in Unit <test1> is equivalent to the following FF/Latch, which will be removed : <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_29> 
+INFO:Xst:2261 - The FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpb_internal_27> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpb_internal_28> <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpb_internal_29> 
 INFO:Xst:2261 - The FF/Latch <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_29> in Unit <test1> is equivalent to the following 18 FFs/Latches, which will be removed : <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_28> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_27> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_26> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_25> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_24> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_22> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_21> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_20>
    <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_17> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_16> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_13> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_12> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_9> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_8> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_5> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_4> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_1> <tfm_inst/inst_CalculateVirCompensated/calculatevircompensated_process_p0_inst/divfpb_internal_0> 
-INFO:Xst:2261 - The FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpb_internal_27> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpb_internal_28> <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpb_internal_29> 
-INFO:Xst:2261 - The FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_25> in Unit <test1> is equivalent to the following FF/Latch, which will be removed : <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_29> 
+INFO:Xst:2261 - The FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpb_internal_27> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpb_internal_28> <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpb_internal_29> 
+INFO:Xst:2261 - The FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_25> in Unit <test1> is equivalent to the following FF/Latch, which will be removed : <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_29> 
 INFO:Xst:2261 - The FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_24> in Unit <test1> is equivalent to the following 3 FFs/Latches, which will be removed : <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_26> <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_27> <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_28> 
 INFO:Xst:2261 - The FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_26> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_27> <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKvParam/inst_extrkvparam_proc0_inst/divfpa_internal_28> 
+INFO:Xst:2261 - The FF/Latch <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_25> in Unit <test1> is equivalent to the following FF/Latch, which will be removed : <tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrKtaParam/inst_extrktaparam_proc0_inst/mulfpa_internal_29> 
 Found area constraint ratio of 100 (+ 5) on block test1, actual ratio is 52.
 INFO:Xst:2260 - The FF/Latch <blk0000028c> in Unit <tfm_inst/inst_subfp> is equivalent to the following FF/Latch : <blk000004c5> 
 INFO:Xst:2260 - The FF/Latch <blk0000028c> in Unit <tfm_inst/inst_addfp> is equivalent to the following FF/Latch : <blk000004c5> 
@@ -6864,31 +6874,31 @@ Design Statistics
 # IOs                              : 32
 
 Cell Usage :
-# BELS                             : 19013
+# BELS                             : 19021
 #      AND2                        : 788
 #      AND2B1                      : 788
 #      BUF                         : 448
 #      GND                         : 9
 #      INV                         : 99
 #      LUT1                        : 100
-#      LUT2                        : 2160
+#      LUT2                        : 2165
 #      LUT2_D                      : 126
 #      LUT2_L                      : 53
-#      LUT3                        : 2651
+#      LUT3                        : 2649
 #      LUT3_D                      : 132
 #      LUT3_L                      : 144
-#      LUT4                        : 6425
+#      LUT4                        : 6428
 #      LUT4_D                      : 38
 #      LUT4_L                      : 743
 #      MULT_AND                    : 225
 #      MUXCY                       : 1068
-#      MUXF5                       : 1333
+#      MUXF5                       : 1335
 #      MUXF6                       : 21
 #      MUXF7                       : 3
 #      OR2                         : 788
 #      VCC                         : 7
 #      XORCY                       : 864
-# FlipFlops/Latches                : 9239
+# FlipFlops/Latches                : 9244
 #      FD                          : 24
 #      FDE                         : 4734
 #      FDR                         : 1400
@@ -6896,6 +6906,8 @@ Cell Usage :
 #      FDRS                        : 766
 #      FDRSE                       : 285
 #      FDS                         : 67
+#      LDC                         : 1
+#      LDCP                        : 4
 # RAMS                             : 38
 #      RAMB16                      : 38
 # Shift Registers                  : 163
@@ -6913,10 +6925,10 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                     7377  out of  15360    48%  
- Number of Slice Flip Flops:           9239  out of  30720    30%  
- Number of 4 input LUTs:              12834  out of  30720    41%  
-    Number used as logic:             12671
+ Number of Slices:                     7382  out of  15360    48%  
+ Number of Slice Flip Flops:           9244  out of  30720    30%  
+ Number of 4 input LUTs:              12840  out of  30720    41%  
+    Number used as logic:             12677
     Number used as Shift registers:     163
  Number of IOs:                          32
  Number of bonded IOBs:                  32  out of    448     7%  
@@ -6942,34 +6954,44 @@ NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
 
 Clock Information:
 ------------------
-----------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
-Clock Signal                                        | Clock buffer(FF name)                                                                                                                  | Load  |
-----------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
-i_clock                                             | IBUF+BUFG                                                                                                                              | 6995  |
-inst_tb_i2c_mem/N1                                  | NONE(inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_init.ram/SP.SINGLE_PRIM.SP) | 2     |
-agclk                                               | NONE(dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP)| 11    |
-vgaclk251                                           | BUFG                                                                                                                                   | 83    |
-tfm_inst/ExtractAlphaParameters_mulfpb<0>           | NONE(tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_rom_signed8bit/ROM_mem_signed8bit)                                            | 29    |
-tfm_inst/subfpclk1(tfm_inst/subfpclk1:O)            | BUFG(*)(tfm_inst/inst_subfp/blk00000003)                                                                                               | 624   |
-tfm_inst/addfpclk1(tfm_inst/addfpclk1:O)            | BUFG(*)(tfm_inst/inst_addfp/blk00000003)                                                                                               | 624   |
-tfm_inst/mulfpclk1(tfm_inst/mulfpclk1:O)            | BUFG(*)(tfm_inst/inst_mulfp/blk00000003)                                                                                               | 736   |
-tfm_inst/divfpclk1(tfm_inst/divfpclk1:O)            | BUFG(*)(tfm_inst/inst_divfp/blk00000003)                                                                                               | 228   |
-tfm_inst/fixed2floatclk1(tfm_inst/fixed2floatclk1:O)| BUFG(*)(tfm_inst/b0.inst_fixed2float/blk00000003)                                                                                      | 140   |
-----------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
-(*) These 5 clock signal(s) are generated by combinatorial logic,
+--------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
+Clock Signal                                      | Clock buffer(FF name)                                                                                                                  | Load  |
+--------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
+i_clock                                           | IBUF+BUFG                                                                                                                              | 6995  |
+inst_tb_i2c_mem/N1                                | NONE(inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_init.ram/SP.SINGLE_PRIM.SP) | 2     |
+agclk                                             | NONE(dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP)| 11    |
+vgaclk251                                         | BUFG                                                                                                                                   | 83    |
+tfm_inst/ExtractAlphaParameters_mulfpb<0>         | NONE(tfm_inst/inst_CalculatePixOsCPSP/CalculatePixOSCpSp_rom_signed8bit/ROM_mem_signed8bit)                                            | 29    |
+tfm_inst/fixed2floatce(tfm_inst/fixed2floatce54:O)| NONE(*)(tfm_inst/subfpclk)                                                                                                             | 5     |
+tfm_inst/subfpclk1                                | BUFG                                                                                                                                   | 624   |
+tfm_inst/addfpclk1                                | BUFG                                                                                                                                   | 624   |
+tfm_inst/mulfpclk1                                | BUFG                                                                                                                                   | 736   |
+tfm_inst/divfpclk1                                | BUFG                                                                                                                                   | 228   |
+tfm_inst/fixed2floatclk1                          | BUFG                                                                                                                                   | 140   |
+--------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
+(*) This 1 clock signal(s) are generated by combinatorial logic,
 and XST is not able to identify which are the primary clock signals.
 Please use the CLOCK_SIGNAL constraint to specify the clock signal(s) generated by combinatorial logic.
 INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
 
 Asynchronous Control Signals Information:
 ----------------------------------------
-----------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
-Control Signal                                      | Buffer(FF name)                                                                                                                        | Load  |
-----------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
-tfm_inst/ExtractAlphaParameters_mulfpb<0>(XST_GND:G)| NONE(tfm_inst/inst_CalculateAlphaCP/CalculateAlphaCP_rom_signed10bit/rom_signed_10bit_mem_half1)                                       | 118   |
-inst_tb_i2c_mem/N1(inst_tb_i2c_mem/XST_GND:G)       | NONE(inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_init.ram/SP.SINGLE_PRIM.SP) | 8     |
-dualmem_inst/N1(dualmem_inst/XST_GND:G)             | NONE(dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP)| 4     |
-----------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
+-----------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
+Control Signal                                                   | Buffer(FF name)                                                                                                                        | Load  |
+-----------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
+tfm_inst/ExtractAlphaParameters_mulfpb<0>(XST_GND:G)             | NONE(tfm_inst/inst_CalculateAlphaCP/CalculateAlphaCP_rom_signed10bit/rom_signed_10bit_mem_half1)                                       | 118   |
+inst_tb_i2c_mem/N1(inst_tb_i2c_mem/XST_GND:G)                    | NONE(inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_init.ram/SP.SINGLE_PRIM.SP) | 8     |
+dualmem_inst/N1(dualmem_inst/XST_GND:G)                          | NONE(dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP)| 4     |
+tfm_inst/addfpclk__and0000(tfm_inst/addfpclk__and00001:O)        | NONE(tfm_inst/addfpclk)                                                                                                                | 1     |
+tfm_inst/addfpclk__or0000(tfm_inst/addfpclk__or0000:O)           | NONE(tfm_inst/addfpclk)                                                                                                                | 1     |
+tfm_inst/divfpclk__and0000(tfm_inst/divfpclk__and00001:O)        | NONE(tfm_inst/divfpclk)                                                                                                                | 1     |
+tfm_inst/divfpclk__or0000(tfm_inst/divfpclk__or0000_f5:O)        | NONE(tfm_inst/divfpclk)                                                                                                                | 1     |
+tfm_inst/fixed2floatclk_or0000(tfm_inst/fixed2floatclk_or00001:O)| NONE(tfm_inst/fixed2floatclk)                                                                                                          | 1     |
+tfm_inst/mulfpclk__and0000(tfm_inst/mulfpclk__and00001:O)        | NONE(tfm_inst/mulfpclk)                                                                                                                | 1     |
+tfm_inst/mulfpclk__or0000(tfm_inst/mulfpclk__or0000_f5:O)        | NONE(tfm_inst/mulfpclk)                                                                                                                | 1     |
+tfm_inst/subfpclk__and0000(tfm_inst/subfpclk__and00001:O)        | NONE(tfm_inst/subfpclk)                                                                                                                | 1     |
+tfm_inst/subfpclk__or0000(tfm_inst/subfpclk__or0000:O)           | NONE(tfm_inst/subfpclk)                                                                                                                | 1     |
+-----------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
 
 Timing Summary:
 ---------------
@@ -7000,8 +7022,8 @@ Delay:               7.097ns (Levels of Logic = 10)
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
      FDR:C->Q              4   0.360   0.755  tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/o_addra_9 (tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/inst_ExtrOffParam_proc0/o_addra_9)
-     LUT4:I0->O            1   0.195   0.000  tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/extroffparam_mux_addr/mux_addr<9>_SW0_SW1_F (N2588)
-     MUXF5:I0->O           5   0.382   0.546  tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/extroffparam_mux_addr/mux_addr<9>_SW0_SW1 (N2424)
+     LUT4:I0->O            1   0.195   0.000  tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/extroffparam_mux_addr/mux_addr<9>_SW0_SW1_F (N2596)
+     MUXF5:I0->O           5   0.382   0.546  tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/extroffparam_mux_addr/mux_addr<9>_SW0_SW1 (N2432)
      LUT4:I3->O           16   0.195   0.974  tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/extroffparam_mux_addr/mux_addr<9>_1 (tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/extroffparam_mux_addr/mux_addr<9>)
      begin scope: 'tfm_inst/inst_CalculatePixOS/CalculatePixOS_inst_ExtrOffParam/ExtractOffsetParameters_MUX_DO_0'
      AND2B1:I0->O          1   0.195   0.688  I_36_7 (M0)
@@ -7033,10 +7055,10 @@ Delay:               5.648ns (Levels of Logic = 7)
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
      FDR:C->Q              6   0.360   0.725  vts_inst/hPos_9 (vts_inst/hPos_9)
-     LUT3:I0->O            1   0.195   0.688  vts_inst/videoOn_or0000816_SW1 (N2408)
+     LUT3:I0->O            1   0.195   0.688  vts_inst/videoOn_or0000816_SW1 (N2416)
      LUT4_D:I1->O          9   0.195   0.632  vts_inst/videoOn_or0000830 (vts_inst/videoOn_or0000_bdd15)
      LUT4_D:I3->O          1   0.195   0.585  vts_inst/videoOn_or0000151 (vts_inst/videoOn_or0000_bdd26)
-     LUT4_L:I2->LO         1   0.195   0.163  vts_inst/videoOn_or00002176_SW0 (N2400)
+     LUT4_L:I2->LO         1   0.195   0.163  vts_inst/videoOn_or00002176_SW0 (N2408)
      LUT4:I3->O            1   0.195   0.523  vts_inst/videoOn_or00002176 (vts_inst/videoOn_or00002176)
      LUT4:I3->O            1   0.195   0.585  vts_inst/videoOn_or00002203 (vts_inst/videoOn_or00002203)
      LUT4:I2->O            1   0.195   0.000  vts_inst/videoOn_rstpot1 (vts_inst/videoOn_rstpot)
@@ -7062,7 +7084,7 @@ Delay:               4.162ns (Levels of Logic = 3)
     ----------------------------------------  ------------
      FDRE:C->Q             4   0.360   0.755  ag_inst/addr_7 (ag_inst/addr_7)
      LUT4:I0->O            1   0.195   0.688  ag_inst/addr_or000018 (ag_inst/addr_or000018)
-     LUT4_L:I1->LO         1   0.195   0.225  ag_inst/addr_or000039_SW0 (N3972)
+     LUT4_L:I1->LO         1   0.195   0.225  ag_inst/addr_or000039_SW0 (N3980)
      LUT4:I2->O           10   0.195   0.488  ag_inst/addr_or000039 (ag_inst/addr_or0000)
      FDRE:R                    1.062          ag_inst/addr_0
     ----------------------------------------
@@ -7306,6 +7328,26 @@ Offset:              4.985ns (Levels of Logic = 2)
                                        (44.6% logic, 55.4% route)
 
 =========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'tfm_inst/fixed2floatce'
+  Total number of paths / destination ports: 5 / 5
+-------------------------------------------------------------------------
+Offset:              1.872ns (Levels of Logic = 2)
+  Source:            i_clock (PAD)
+  Destination:       tfm_inst/subfpclk (LATCH)
+  Destination Clock: tfm_inst/fixed2floatce falling
+
+  Data Path: i_clock to tfm_inst/subfpclk
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O            13   0.965   0.690  i_clock_IBUF (i_clock_IBUF1)
+     LUT2:I1->O            2   0.195   0.000  tfm_inst/subfpclk__and00001 (tfm_inst/subfpclk__and0000)
+     LDCP:D                    0.022          tfm_inst/subfpclk
+    ----------------------------------------
+    Total                      1.872ns (1.182ns logic, 0.690ns route)
+                                       (63.2% logic, 36.8% route)
+
+=========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
   Total number of paths / destination ports: 1 / 1
 -------------------------------------------------------------------------
@@ -7365,7 +7407,7 @@ Offset:              11.849ns (Levels of Logic = 8)
      RAMB16:CLKB->DOB2    60   2.100   1.365  U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (doutb<2>)
      end scope: 'dualmem_inst'
      LUT3:I0->O           12   0.195   0.520  vga_b<3>371 (vga_b<3>_bdd64)
-     MUXF5:S->O            2   0.527   0.758  vga_g<3>1199_SW0_f5 (N3864)
+     MUXF5:S->O            2   0.527   0.758  vga_g<3>1199_SW0_f5 (N3872)
      LUT4:I0->O            1   0.195   0.000  vga_g<3>12091 (vga_g<3>12091)
      MUXF5:I1->O           1   0.374   0.523  vga_g<3>1209_f5 (vga_g<3>1209)
      LUT4:I3->O            1   0.195   0.585  vga_g<3>1225 (vga_g<3>1225)
@@ -7378,15 +7420,15 @@ Offset:              11.849ns (Levels of Logic = 8)
 =========================================================================
 
 
-Total REAL time to Xst completion: 473.00 secs
-Total CPU time to Xst completion: 405.91 secs
+Total REAL time to Xst completion: 515.00 secs
+Total CPU time to Xst completion: 385.12 secs
  
 --> 
 
 
-Total memory usage is 1129404 kilobytes
+Total memory usage is 1131416 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings : 1246 (   0 filtered)
-Number of infos    :   78 (   0 filtered)
+Number of warnings : 1250 (   0 filtered)
+Number of infos    :   81 (   0 filtered)
 
