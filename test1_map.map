@@ -10,7 +10,7 @@ Target Device  : xc4vsx35
 Target Package : ff668
 Target Speed   : -10
 Mapper Version : virtex4 -- $Revision: 1.55 $
-Mapped Date    : Mon Aug 26 00:44:09 2024
+Mapped Date    : Mon Aug 26 01:00:53 2024
 
 Running global optimization...
 Mapping design into LUTs...
@@ -18,9 +18,18 @@ Running directed packing...
 Running delay-based LUT packing...
 Running related packing...
 Updating timing models...
-WARNING:PhysDesignRules:372 - Gated clock. Clock net tfm_inst/fixed2floatce54 is
-   sourced by a combinatorial pin. This is not good design practice. Use the CE
-   pin to control the loading of data into the flip-flop.
+WARNING:PhysDesignRules:367 - The signal
+   <tfm_inst/inst_mulfp/Mshreg_sig00000890> is incomplete. The signal does not
+   drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <tfm_inst/inst_mulfp/Mshreg_sig00000892> is incomplete. The signal does not
+   drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <tfm_inst/inst_mulfp/Mshreg_sig00000894> is incomplete. The signal does not
+   drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <tfm_inst/inst_divfp/Mshreg_sig00000064> is incomplete. The signal does not
+   drive any load pins in the design.
 WARNING:PhysDesignRules:367 - The signal <inst_float2fixed/Mshreg_sig00000026>
    is incomplete. The signal does not drive any load pins in the design.
 WARNING:PhysDesignRules:367 - The signal <tfm_inst/inst_mulfp/sig00000060> is
@@ -172,81 +181,25 @@ WARNING:PhysDesignRules:367 - The signal
 WARNING:PhysDesignRules:367 - The signal
    <tfm_inst/inst_subfp/Mshreg_sig000002fb> is incomplete. The signal does not
    drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <tfm_inst/inst_mulfp/Mshreg_sig00000035> is incomplete. The signal does not
-   drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <tfm_inst/inst_mulfp/Mshreg_sig00000039> is incomplete. The signal does not
-   drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <tfm_inst/inst_mulfp/Mshreg_sig00000890> is incomplete. The signal does not
-   drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <tfm_inst/inst_mulfp/Mshreg_sig00000892> is incomplete. The signal does not
-   drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <tfm_inst/inst_mulfp/Mshreg_sig00000894> is incomplete. The signal does not
-   drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <tfm_inst/inst_mulfp/Mshreg_sig0000003a> is incomplete. The signal does not
-   drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <tfm_inst/inst_mulfp/Mshreg_sig0000003b> is incomplete. The signal does not
-   drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <tfm_inst/inst_mulfp/Mshreg_sig0000003c> is incomplete. The signal does not
-   drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <tfm_inst/inst_mulfp/Mshreg_sig0000003d> is incomplete. The signal does not
-   drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <tfm_inst/inst_divfp/Mshreg_sig00000034> is incomplete. The signal does not
-   drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <tfm_inst/inst_divfp/Mshreg_sig00000036> is incomplete. The signal does not
-   drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <tfm_inst/inst_divfp/Mshreg_sig00000038> is incomplete. The signal does not
-   drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <tfm_inst/inst_divfp/Mshreg_sig00000064> is incomplete. The signal does not
-   drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <tfm_inst/inst_divfp/Mshreg_sig0000003a> is incomplete. The signal does not
-   drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <tfm_inst/inst_divfp/Mshreg_sig0000003b> is incomplete. The signal does not
-   drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <tfm_inst/inst_divfp/Mshreg_sig0000003c> is incomplete. The signal does not
-   drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <tfm_inst/inst_divfp/Mshreg_sig0000003d> is incomplete. The signal does not
-   drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <tfm_inst/inst_divfp/Mshreg_sig0000006b> is incomplete. The signal does not
-   drive any load pins in the design.
 
 Design Summary
 --------------
 
 Design Summary:
 Number of errors:      0
-Number of warnings:   70
+Number of warnings:   55
 Logic Utilization:
-  Total Number Slice Registers:       9,085 out of  30,720   29%
-    Number used as Flip Flops:        9,080
-    Number used as Latches:               5
-  Number of 4 input LUTs:            13,285 out of  30,720   43%
+  Number of Slice Flip Flops:         9,081 out of  30,720   29%
+  Number of 4 input LUTs:            13,605 out of  30,720   44%
 Logic Distribution:
-  Number of occupied Slices:          9,085 out of  15,360   59%
-    Number of Slices containing only related logic:   9,085 out of   9,085 100%
-    Number of Slices containing unrelated logic:          0 out of   9,085   0%
+  Number of occupied Slices:          9,199 out of  15,360   59%
+    Number of Slices containing only related logic:   9,199 out of   9,199 100%
+    Number of Slices containing unrelated logic:          0 out of   9,199   0%
       *See NOTES below for an explanation of the effects of unrelated logic.
-  Total Number of 4 input LUTs:      13,432 out of  30,720   43%
-    Number used as logic:            13,024
+  Total Number of 4 input LUTs:      13,752 out of  30,720   44%
+    Number used as logic:            13,363
     Number used as a route-thru:        147
-    Number used as Shift registers:     261
+    Number used as Shift registers:     242
 
   The Slice Logic Distribution report is not meaningful if the design is
   over-mapped for a non-slice resource or if Placement fails.
@@ -256,11 +209,11 @@ Logic Distribution:
   Number of FIFO16/RAMB16s:              38 out of     192   19%
     Number used as RAMB16s:              38
 
-Average Fanout of Non-Clock Nets:                3.49
+Average Fanout of Non-Clock Nets:                3.47
 
-Peak Memory Usage:  909 MB
-Total REAL time to MAP completion:  1 mins 16 secs 
-Total CPU time to MAP completion:   1 mins 13 secs 
+Peak Memory Usage:  908 MB
+Total REAL time to MAP completion:  1 mins 17 secs 
+Total CPU time to MAP completion:   1 mins 14 secs 
 
 NOTES:
 
