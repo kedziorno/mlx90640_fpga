@@ -2072,7 +2072,7 @@ addfprdy => CalculateGetImage_addfprdy
 --mulfpclk <= i_clock;
 --divfpclk <= i_clock;
 
-pfpclock : process (i_clock, fixed2floatce, addfpce, subfpce, mulfpce, divfpce) is
+pfpclock : process (i_clock, fixed2floatce, addfpce, subfpce, mulfpce, divfpce) is --XXX 108mhz with latches
   variable s : std_logic_vector (4 downto 0);
 begin
   s := fixed2floatce&addfpce&subfpce&mulfpce&divfpce;
@@ -2090,6 +2090,51 @@ begin
       divfpclk <= '0';
   end case;
 end process pfpclock;
+
+--pfpclock : process (fixed2floatce, addfpce, subfpce, mulfpce, divfpce) is
+--begin
+--  if (fixed2floatce = '1') then
+--    fixed2floatclk <= i_clock;
+--    addfpclk <= '0';
+--    subfpclk <= '0';
+--    mulfpclk <= '0';
+--    divfpclk <= '0';
+--  elsif (addfpce = '1') then
+--    addfpclk <= i_clock;
+--          fixed2floatclk <= '0';
+--      subfpclk <= '0';
+--      mulfpclk <= '0';
+--      divfpclk <= '0';
+--
+--  elsif (subfpce = '1') then
+--    subfpclk <= i_clock;
+--      fixed2floatclk <= '0';
+--      addfpclk <= '0';
+--      mulfpclk <= '0';
+--      divfpclk <= '0';
+--
+--  elsif (mulfpce = '1') then
+--    mulfpclk <= i_clock;
+--      fixed2floatclk <= '0';
+--      addfpclk <= '0';
+--      subfpclk <= '0';
+--      divfpclk <= '0';
+--
+--  elsif (divfpce = '1') then
+--    divfpclk <= i_clock;
+--      fixed2floatclk <= '0';
+--      addfpclk <= '0';
+--      subfpclk <= '0';
+--      mulfpclk <= '0';
+--else
+--      fixed2floatclk <= '0';
+--      addfpclk <= '0';
+--      subfpclk <= '0';
+--      mulfpclk <= '0';
+--      divfpclk <= '0';
+--
+--  end if;
+--end process pfpclock;
 
 --fixed2floatclk <= i_clock when (fixed2floatce = '1') else '0';
 --addfpclk <= i_clock when (addfpce = '1') else '0';
