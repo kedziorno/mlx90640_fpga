@@ -2072,69 +2072,69 @@ addfprdy => CalculateGetImage_addfprdy
 --mulfpclk <= i_clock;
 --divfpclk <= i_clock;
 
-pfpclock : process (i_clock, fixed2floatce, addfpce, subfpce, mulfpce, divfpce) is --XXX 108mhz with latches
-  variable s : std_logic_vector (4 downto 0);
+--pfpclock : process (i_clock, fixed2floatce, addfpce, subfpce, mulfpce, divfpce) is --XXX 108mhz with latches
+--  variable s : std_logic_vector (4 downto 0);
+--begin
+--  s := fixed2floatce&addfpce&subfpce&mulfpce&divfpce;
+--  case (s) is
+--    when "10000" => fixed2floatclk <= i_clock;
+--    when "01000" => addfpclk <= i_clock;
+--    when "00100" => subfpclk <= i_clock;
+--    when "00010" => mulfpclk <= i_clock;
+--    when "00001" => divfpclk <= i_clock;
+--    when others =>
+--      fixed2floatclk <= '0';
+--      addfpclk <= '0';
+--      subfpclk <= '0';
+--      mulfpclk <= '0';
+--      divfpclk <= '0';
+--  end case;
+--end process pfpclock;
+
+pfpclock : process (fixed2floatce, addfpce, subfpce, mulfpce, divfpce) is
 begin
-  s := fixed2floatce&addfpce&subfpce&mulfpce&divfpce;
-  case (s) is
-    when "10000" => fixed2floatclk <= i_clock;
-    when "01000" => addfpclk <= i_clock;
-    when "00100" => subfpclk <= i_clock;
-    when "00010" => mulfpclk <= i_clock;
-    when "00001" => divfpclk <= i_clock;
-    when others =>
+  if (fixed2floatce = '1') then
+    fixed2floatclk <= i_clock;
+    addfpclk <= '0';
+    subfpclk <= '0';
+    mulfpclk <= '0';
+    divfpclk <= '0';
+  elsif (addfpce = '1') then
+    addfpclk <= i_clock;
+          fixed2floatclk <= '0';
+      subfpclk <= '0';
+      mulfpclk <= '0';
+      divfpclk <= '0';
+
+  elsif (subfpce = '1') then
+    subfpclk <= i_clock;
+      fixed2floatclk <= '0';
+      addfpclk <= '0';
+      mulfpclk <= '0';
+      divfpclk <= '0';
+
+  elsif (mulfpce = '1') then
+    mulfpclk <= i_clock;
+      fixed2floatclk <= '0';
+      addfpclk <= '0';
+      subfpclk <= '0';
+      divfpclk <= '0';
+
+  elsif (divfpce = '1') then
+    divfpclk <= i_clock;
+      fixed2floatclk <= '0';
+      addfpclk <= '0';
+      subfpclk <= '0';
+      mulfpclk <= '0';
+else
       fixed2floatclk <= '0';
       addfpclk <= '0';
       subfpclk <= '0';
       mulfpclk <= '0';
       divfpclk <= '0';
-  end case;
-end process pfpclock;
 
---pfpclock : process (fixed2floatce, addfpce, subfpce, mulfpce, divfpce) is
---begin
---  if (fixed2floatce = '1') then
---    fixed2floatclk <= i_clock;
---    addfpclk <= '0';
---    subfpclk <= '0';
---    mulfpclk <= '0';
---    divfpclk <= '0';
---  elsif (addfpce = '1') then
---    addfpclk <= i_clock;
---          fixed2floatclk <= '0';
---      subfpclk <= '0';
---      mulfpclk <= '0';
---      divfpclk <= '0';
---
---  elsif (subfpce = '1') then
---    subfpclk <= i_clock;
---      fixed2floatclk <= '0';
---      addfpclk <= '0';
---      mulfpclk <= '0';
---      divfpclk <= '0';
---
---  elsif (mulfpce = '1') then
---    mulfpclk <= i_clock;
---      fixed2floatclk <= '0';
---      addfpclk <= '0';
---      subfpclk <= '0';
---      divfpclk <= '0';
---
---  elsif (divfpce = '1') then
---    divfpclk <= i_clock;
---      fixed2floatclk <= '0';
---      addfpclk <= '0';
---      subfpclk <= '0';
---      mulfpclk <= '0';
---else
---      fixed2floatclk <= '0';
---      addfpclk <= '0';
---      subfpclk <= '0';
---      mulfpclk <= '0';
---      divfpclk <= '0';
---
---  end if;
---end process pfpclock;
+  end if;
+end process pfpclock;
 
 --fixed2floatclk <= i_clock when (fixed2floatce = '1') else '0';
 --addfpclk <= i_clock when (addfpce = '1') else '0';
