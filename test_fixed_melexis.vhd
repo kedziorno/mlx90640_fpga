@@ -2066,13 +2066,7 @@ addfprdy => CalculateGetImage_addfprdy
 
 );
 
---fixed2floatclk <= i_clock;
---addfpclk <= i_clock;
---subfpclk <= i_clock;
---mulfpclk <= i_clock;
---divfpclk <= i_clock;
-
---pfpclock : process (i_clock, fixed2floatce, addfpce, subfpce, mulfpce, divfpce) is --XXX 108mhz with latches
+--pfpclock : process (i_clock, fixed2floatce, addfpce, subfpce, mulfpce, divfpce) is --XXX 108mhz with latches, white screen in sim
 --  variable s : std_logic_vector (4 downto 0);
 --begin
 --  s := fixed2floatce&addfpce&subfpce&mulfpce&divfpce;
@@ -2091,60 +2085,66 @@ addfprdy => CalculateGetImage_addfprdy
 --  end case;
 --end process pfpclock;
 
-pfpclock : process (i_clock, fixed2floatce, addfpce, subfpce, mulfpce, divfpce) is -- XXX 100mhz,without latches
-begin
+--pfpclock : process (i_clock, fixed2floatce, addfpce, subfpce, mulfpce, divfpce) is -- XXX 100mhz,without latches
+--begin
+----      fixed2floatclk <= '0';
+----      addfpclk <= '0';
+----      subfpclk <= '0';
+----      mulfpclk <= '0';
+----      divfpclk <= '0';
+--  if (fixed2floatce = '1') then
+--    fixed2floatclk <= i_clock;
+--    addfpclk <= '0';
+--    subfpclk <= '0';
+--    mulfpclk <= '0';
+--    divfpclk <= '0';
+--elsif (addfpce = '1') then
+--    addfpclk <= i_clock;
+--          fixed2floatclk <= '0';
+--      subfpclk <= '0';
+--      mulfpclk <= '0';
+--      divfpclk <= '0';
+--
+--elsif (subfpce = '1') then
+--    subfpclk <= i_clock;
+--      fixed2floatclk <= '0';
+--      addfpclk <= '0';
+--      mulfpclk <= '0';
+--      divfpclk <= '0';
+--
+--elsif (mulfpce = '1') then
+--    mulfpclk <= i_clock;
+--      fixed2floatclk <= '0';
+--      addfpclk <= '0';
+--      subfpclk <= '0';
+--      divfpclk <= '0';
+--
+--elsif (divfpce = '1') then
+--    divfpclk <= i_clock;
 --      fixed2floatclk <= '0';
 --      addfpclk <= '0';
 --      subfpclk <= '0';
 --      mulfpclk <= '0';
---      divfpclk <= '0';
-  if (fixed2floatce = '1') then
-    fixed2floatclk <= i_clock;
-    addfpclk <= '0';
-    subfpclk <= '0';
-    mulfpclk <= '0';
-    divfpclk <= '0';
-elsif (addfpce = '1') then
-    addfpclk <= i_clock;
-          fixed2floatclk <= '0';
-      subfpclk <= '0';
-      mulfpclk <= '0';
-      divfpclk <= '0';
+--else
+--divfpclk <= '0';
+--      fixed2floatclk <= '0';
+--      addfpclk <= '0';
+--      subfpclk <= '0';
+--      mulfpclk <= '0';
+--  end if;
+--end process pfpclock;
 
-elsif (subfpce = '1') then
-    subfpclk <= i_clock;
-      fixed2floatclk <= '0';
-      addfpclk <= '0';
-      mulfpclk <= '0';
-      divfpclk <= '0';
-
-elsif (mulfpce = '1') then
-    mulfpclk <= i_clock;
-      fixed2floatclk <= '0';
-      addfpclk <= '0';
-      subfpclk <= '0';
-      divfpclk <= '0';
-
-elsif (divfpce = '1') then
-    divfpclk <= i_clock;
-      fixed2floatclk <= '0';
-      addfpclk <= '0';
-      subfpclk <= '0';
-      mulfpclk <= '0';
-else
-divfpclk <= '0';
-      fixed2floatclk <= '0';
-      addfpclk <= '0';
-      subfpclk <= '0';
-      mulfpclk <= '0';
-  end if;
-end process pfpclock;
-
---fixed2floatclk <= i_clock when (fixed2floatce = '1') else '0';
+--fixed2floatclk <= i_clock when (fixed2floatce = '1') else '0'; -- XXX gated
 --addfpclk <= i_clock when (addfpce = '1') else '0';
 --subfpclk <= i_clock when (subfpce = '1') else '0';
 --mulfpclk <= i_clock when (mulfpce = '1') else '0';
 --divfpclk <= i_clock when (divfpce = '1') else '0';
+
+fixed2floatclk <= i_clock; -- XXX original, not gated
+addfpclk <= i_clock;
+subfpclk <= i_clock;
+mulfpclk <= i_clock;
+divfpclk <= i_clock;
 
 b0 : block
 attribute loc : string;
