@@ -108,7 +108,8 @@ i_reset <= '0';
 i_run <= '1';
 wait for clock_period*1;
 i_run <= '0';
-wait; -- will wait forever
+wait for 16 ms; -- will wait forever
+report "tb - end tfm 16 ms - tb" severity failure;
 END PROCESS tb_run;
 --  End Test Bench
 

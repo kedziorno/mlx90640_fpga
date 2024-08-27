@@ -20,8 +20,8 @@ operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+--rdy : OUT STD_LOGIC
 );
 END COMPONENT;
 signal divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -30,7 +30,7 @@ signal divfpond : STD_LOGIC;
 signal divfpce : STD_LOGIC;
 signal divfpsclr : STD_LOGIC;
 signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy : STD_LOGIC;
+--signal divfprdy : STD_LOGIC;
 
 COMPONENT mulfp
 PORT (
@@ -40,8 +40,8 @@ operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+--rdy : OUT STD_LOGIC
 );
 END COMPONENT;
 signal mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -50,7 +50,7 @@ signal mulfpond : STD_LOGIC;
 signal mulfpce : STD_LOGIC;
 signal mulfpsclr : STD_LOGIC;
 signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy : STD_LOGIC;
+--signal mulfprdy : STD_LOGIC;
 
 COMPONENT tb_i2c_mem
 PORT (
@@ -199,8 +199,8 @@ operation_nd => CalculateAlphaCP_divfpond,
 clk => CalculateAlphaCP_divfpclk,
 sclr => CalculateAlphaCP_divfpsclr,
 ce => CalculateAlphaCP_divfpce,
-result => CalculateAlphaCP_divfpr,
-rdy => CalculateAlphaCP_divfprdy
+result => CalculateAlphaCP_divfpr
+--rdy => CalculateAlphaCP_divfprdy
 );
 
 CalculateAlphaCP_mulfpclk <= CalculateAlphaCP_clock;
@@ -212,8 +212,8 @@ operation_nd => CalculateAlphaCP_mulfpond,
 clk => CalculateAlphaCP_mulfpclk,
 sclr => CalculateAlphaCP_mulfpsclr,
 ce => CalculateAlphaCP_mulfpce,
-result => CalculateAlphaCP_mulfpr,
-rdy => CalculateAlphaCP_mulfprdy
+result => CalculateAlphaCP_mulfpr
+--rdy => CalculateAlphaCP_mulfprdy
 );
 
 END architecture behavior;

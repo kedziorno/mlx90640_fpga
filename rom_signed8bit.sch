@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="virtex4" name="DeviceFamilyName">
+    <attr value="spartan3e" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -19,8 +19,8 @@
         <port polarity="Output" name="o_value(31:0)" />
         <port polarity="Input" name="i_clock" />
         <port polarity="Input" name="i_reset" />
-        <blockdef name="ramb16">
-            <timestamp>2007-9-26T16:56:25</timestamp>
+        <blockdef name="RAMB16_S36_S36">
+            <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
             <rect width="64" x="0" y="-588" height="24" />
@@ -82,7 +82,7 @@
             <line x2="64" y1="0" y2="-32" x1="64" />
             <line x2="32" y1="-64" y2="-64" x1="96" />
         </blockdef>
-        <block symbolname="ramb16" name="mem_signed8bit">
+        <block symbolname="RAMB16_S36_S36" name="ROM_mem_signed8bit">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -342,7 +342,7 @@
                 <trait vhdl="all:0 gm:1nosynth wa:1 wd:1" />
                 <trait valuetype="BitVector 256 hexadecimal" />
             </attr>
-            <attr value="40e0000040c0000040a000004080000040400000400000003f80000000000000" name="INIT_00">
+            <attr value="40e0000040c0000040a000004080000040400000400000003f80000022000000" name="INIT_00">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
                 <trait verilog="all:0 dp:1nosynth wsynop:1 wsynth:1" />
@@ -389,7 +389,7 @@
         </block>
     </netlist>
     <sheet sheetnum="1" width="3520" height="2720">
-        <instance x="1504" y="1392" name="mem_signed8bit" orien="R0">
+        <instance x="1504" y="1392" name="ROM_mem_signed8bit" orien="R0">
             <attrtext style="fontsize:28;fontname:Arial" attrname="InstName" x="0" y="0" type="instance" />
             <attrtext style="fontsize:28;fontname:Arial;displayformat:NAMEEQUALSVALUE" attrname="INIT_1F" x="0" y="28" type="instance" />
             <attrtext style="fontsize:28;fontname:Arial;displayformat:NAMEEQUALSVALUE" attrname="INIT_1E" x="0" y="60" type="instance" />

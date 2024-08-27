@@ -52,7 +52,7 @@
         <signal name="addfpsclr" />
         <signal name="addfpce" />
         <signal name="i2c_mem_addra(11:0)" />
-        <signal name="fixed2floata(63:0)" />
+        <signal name="fixed2floata(15:0)" />
         <signal name="mulfpa(31:0)" />
         <signal name="mulfpb(31:0)" />
         <signal name="addfpa(31:0)" />
@@ -84,7 +84,7 @@
         <port polarity="Output" name="addfpsclr" />
         <port polarity="Output" name="addfpce" />
         <port polarity="Output" name="i2c_mem_addra(11:0)" />
-        <port polarity="Output" name="fixed2floata(63:0)" />
+        <port polarity="Output" name="fixed2floata(15:0)" />
         <port polarity="Output" name="mulfpa(31:0)" />
         <port polarity="Output" name="mulfpb(31:0)" />
         <port polarity="Output" name="addfpa(31:0)" />
@@ -116,8 +116,8 @@
             <line x2="64" y1="0" y2="-64" x1="64" />
             <circle r="16" cx="144" cy="-32" />
         </blockdef>
-        <blockdef name="ramb16">
-            <timestamp>2007-9-26T16:56:25</timestamp>
+        <blockdef name="ramb16_s36_s36">
+            <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
             <rect width="64" x="0" y="-588" height="24" />
@@ -170,7 +170,7 @@
             <line x2="96" y1="-160" y2="-160" x1="0" />
         </blockdef>
         <blockdef name="ExtractOffsetParameters_process_p0">
-            <timestamp>2023-6-13T19:19:45</timestamp>
+            <timestamp>2023-9-16T15:20:28</timestamp>
             <rect width="448" x="64" y="-1536" height="1536" />
             <line x2="0" y1="-1504" y2="-1504" x1="64" />
             <line x2="0" y1="-1408" y2="-1408" x1="64" />
@@ -299,7 +299,7 @@
             <blockpin signalname="mux_addr1(9)" name="I" />
             <blockpin signalname="XLXN_59" name="O" />
         </block>
-        <block symbolname="ramb16" name="mem_extroffparam_2">
+        <block symbolname="ramb16_s36_s36" name="mem_extroffparam_2">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -367,7 +367,7 @@
             <blockpin name="DOPA(3:0)" />
             <blockpin name="DOPB(3:0)" />
         </block>
-        <block symbolname="ramb16" name="mem_extroffparam_1">
+        <block symbolname="ramb16_s36_s36" name="mem_extroffparam_1">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -435,7 +435,7 @@
             <blockpin name="DOPA(3:0)" />
             <blockpin name="DOPB(3:0)" />
         </block>
-        <block symbolname="m2_1" name="MUX_DO(31:0)">
+        <block symbolname="m2_1" name="ExtractOffsetParameters_MUX_DO(31:0)">
             <blockpin signalname="doa1(31:0)" name="D0" />
             <blockpin signalname="doa2(31:0)" name="D1" />
             <blockpin signalname="mux_addr1(9)" name="S0" />
@@ -480,25 +480,25 @@
             <blockpin signalname="nibble_out3(5:0)" name="nibble_out3(5:0)" />
             <blockpin signalname="o_dia(31:0)" name="o_dia(31:0)" />
             <blockpin signalname="o_addra(9:0)" name="o_addra(9:0)" />
-            <blockpin signalname="fixed2floata(63:0)" name="fixed2floata(63:0)" />
+            <blockpin signalname="fixed2floata(15:0)" name="fixed2floata(15:0)" />
             <blockpin signalname="mulfpa(31:0)" name="mulfpa(31:0)" />
             <blockpin signalname="mulfpb(31:0)" name="mulfpb(31:0)" />
             <blockpin signalname="addfpa(31:0)" name="addfpa(31:0)" />
             <blockpin signalname="addfpb(31:0)" name="addfpb(31:0)" />
         </block>
-        <block symbolname="rom_unsigned4bit" name="XLXI_49">
+        <block symbolname="rom_unsigned4bit" name="extractoffsetparameters_rom_unsigned4bit">
             <blockpin signalname="nibble_out1(3:0)" name="nibble_in(3:0)" />
             <blockpin signalname="nibble_in1(31:0)" name="nibble_out(31:0)" />
         </block>
-        <block symbolname="rom_signed4bit" name="XLXI_50">
+        <block symbolname="rom_signed4bit" name="extractoffsetparameters_rom_signed4bit">
             <blockpin signalname="nibble_out2(3:0)" name="nibble_in(3:0)" />
             <blockpin signalname="nibble_in2(31:0)" name="nibble_out(31:0)" />
         </block>
-        <block symbolname="rom_signed6bit" name="XLXI_53">
+        <block symbolname="rom_signed6bit" name="extractoffsetparameters_rom_signed6bit">
             <blockpin signalname="nibble_out3(5:0)" name="nibble_in(5:0)" />
             <blockpin signalname="nibble_in3(31:0)" name="nibble_out(31:0)" />
         </block>
-        <block symbolname="rom_unsigned4bit_2powx" name="XLXI_54">
+        <block symbolname="rom_unsigned4bit_2powx" name="extractoffsetparameters_rom_unsigned4bit_2powx">
             <blockpin signalname="nibble_out4(3:0)" name="nibble_in(3:0)" />
             <blockpin signalname="nibble_in4(31:0)" name="nibble_out(31:0)" />
         </block>
@@ -508,14 +508,14 @@
             <blockpin signalname="i_addr(9:0)" name="i_addr(9:0)" />
             <blockpin signalname="mux_addr1(9:0)" name="mux_addr(9:0)" />
         </block>
-        <block symbolname="m2_1" name="XLXI_56(31:0)">
+        <block symbolname="m2_1" name="ExtractOffsetParameters_MUX_DO_MAIN(31:0)">
             <blockpin signalname="XLXN_179(31:0)" name="D0" />
             <blockpin signalname="XLXN_180(31:0)" name="D1" />
             <blockpin signalname="o_rdy" name="S0" />
             <blockpin signalname="o_do(31:0)" name="O" />
         </block>
         <block symbolname="constant" name="XLXI_57">
-            <attr value="00000000" name="CValue">
+            <attr value="22000000" name="CValue">
                 <trait delete="all:1 sym:0" />
                 <trait editname="all:1 sch:0" />
                 <trait valuetype="BitVector 32 Hexadecimal" />
@@ -629,7 +629,7 @@
         <instance x="2224" y="3264" name="mem_extroffparam_1" orien="R0">
             <attrtext style="fontsize:28;fontname:Arial" attrname="InstName" x="0" y="0" type="instance" />
         </instance>
-        <instance x="4016" y="2976" name="MUX_DO(31:0)" orien="R0" />
+        <instance x="4016" y="2976" name="ExtractOffsetParameters_MUX_DO(31:0)" orien="R0" />
         <instance x="1952" y="3168" name="XLXI_29(3:0)" orien="M180" />
         <branch name="i_reset">
             <wire x2="1312" y1="240" y2="240" x1="1248" />
@@ -663,13 +663,13 @@
         </branch>
         <instance x="2272" y="1648" name="inst_ExtrOffParam_proc0" orien="R0">
         </instance>
-        <instance x="2784" y="1680" name="XLXI_49" orien="R180">
+        <instance x="2784" y="1680" name="extractoffsetparameters_rom_unsigned4bit" orien="R180">
         </instance>
-        <instance x="2784" y="1792" name="XLXI_50" orien="R180">
+        <instance x="2784" y="1792" name="extractoffsetparameters_rom_signed4bit" orien="R180">
         </instance>
-        <instance x="2784" y="1904" name="XLXI_53" orien="R180">
+        <instance x="2784" y="1904" name="extractoffsetparameters_rom_signed6bit" orien="R180">
         </instance>
-        <instance x="2784" y="2016" name="XLXI_54" orien="R180">
+        <instance x="2784" y="2016" name="extractoffsetparameters_rom_unsigned4bit_2powx" orien="R180">
         </instance>
         <branch name="nibble_out2(3:0)">
             <wire x2="2928" y1="1824" y2="1824" x1="2784" />
@@ -786,7 +786,7 @@
         <branch name="i2c_mem_addra(11:0)">
             <wire x2="3024" y1="912" y2="912" x1="2848" />
         </branch>
-        <branch name="fixed2floata(63:0)">
+        <branch name="fixed2floata(15:0)">
             <wire x2="3024" y1="1360" y2="1360" x1="2848" />
         </branch>
         <branch name="mulfpa(31:0)">
@@ -801,7 +801,7 @@
         <branch name="addfpb(31:0)">
             <wire x2="3024" y1="1616" y2="1616" x1="2848" />
         </branch>
-        <iomarker fontsize="28" x="3024" y="1360" name="fixed2floata(63:0)" orien="R0" />
+        <iomarker fontsize="28" x="3024" y="1360" name="fixed2floata(15:0)" orien="R0" />
         <iomarker fontsize="28" x="3024" y="1424" name="mulfpa(31:0)" orien="R0" />
         <iomarker fontsize="28" x="3024" y="1488" name="mulfpb(31:0)" orien="R0" />
         <iomarker fontsize="28" x="3024" y="1552" name="addfpa(31:0)" orien="R0" />
@@ -836,7 +836,7 @@
             <wire x2="4448" y1="2976" y2="2976" x1="4384" />
             <wire x2="4384" y1="2976" y2="3440" x1="4384" />
         </branch>
-        <instance x="4448" y="3008" name="XLXI_56(31:0)" orien="R0" />
+        <instance x="4448" y="3008" name="ExtractOffsetParameters_MUX_DO_MAIN(31:0)" orien="R0" />
         <instance x="4112" y="3040" name="XLXI_57" orien="R0">
         </instance>
         <iomarker fontsize="28" x="4848" y="2880" name="o_do(31:0)" orien="R0" />

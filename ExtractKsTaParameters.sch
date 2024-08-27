@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="virtex4" name="DeviceFamilyName">
+    <attr value="spartan3e" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -20,7 +20,6 @@
         <signal name="i_reset" />
         <signal name="i_run" />
         <signal name="i2c_mem_douta(7:0)" />
-        <signal name="XLXN_97" />
         <port polarity="Output" name="i2c_mem_ena" />
         <port polarity="Output" name="o_rdy" />
         <port polarity="Output" name="i2c_mem_addra(11:0)" />
@@ -38,8 +37,8 @@
             <line x2="64" y1="-64" y2="-80" x1="64" />
             <line x2="64" y1="-128" y2="-96" x1="64" />
         </blockdef>
-        <blockdef name="ramb16">
-            <timestamp>2007-9-26T16:56:25</timestamp>
+        <blockdef name="RAMB16_S36_S36">
+            <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
             <rect width="64" x="0" y="-588" height="24" />
@@ -103,8 +102,8 @@
             <rect width="64" x="512" y="-44" height="24" />
             <line x2="576" y1="-32" y2="-32" x1="512" />
         </blockdef>
-        <block symbolname="ramb16" name="ROM_KSTA">
-            <attr value="3a6000003a4000003a2000003a00000039c00000398000003900000000000000" name="INIT_00">
+        <block symbolname="RAMB16_S36_S36" name="ROM_KSTA">
+            <attr value="3a6000003a4000003a2000003a00000039c00000398000003900000022000000" name="INIT_00">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
                 <trait verilog="all:0 dp:1nosynth wsynop:1 wsynth:1" />
@@ -404,7 +403,7 @@
         <block symbolname="vcc" name="XLXI_5">
             <blockpin signalname="XLXN_10" name="P" />
         </block>
-        <block symbolname="ExtractKsTaParameter_process_p0" name="XLXI_6">
+        <block symbolname="ExtractKsTaParameter_process_p0" name="extractkstaparameter_process_p0_inst">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="i_run" name="i_run" />
@@ -421,92 +420,92 @@
         <attr value="Inch" name="LengthUnitName" />
         <attr value="10" name="GridsPerUnit" />
         <branch name="XLXN_1(14:0)">
-            <wire x2="1504" y1="1156" y2="1156" x1="1488" />
-            <wire x2="1536" y1="1156" y2="1156" x1="1504" />
-            <wire x2="1568" y1="1156" y2="1156" x1="1536" />
-            <wire x2="1760" y1="1156" y2="1156" x1="1568" />
+            <wire x2="1504" y1="1152" y2="1152" x1="1488" />
+            <wire x2="1536" y1="1152" y2="1152" x1="1504" />
+            <wire x2="1568" y1="1152" y2="1152" x1="1536" />
+            <wire x2="1760" y1="1152" y2="1152" x1="1568" />
         </branch>
         <branch name="XLXN_1(12:5)">
-            <wire x2="1504" y1="996" y2="1060" x1="1504" />
-            <wire x2="2368" y1="996" y2="996" x1="1504" />
-            <wire x2="2368" y1="580" y2="580" x1="2080" />
-            <wire x2="2368" y1="580" y2="996" x1="2368" />
+            <wire x2="1504" y1="992" y2="1056" x1="1504" />
+            <wire x2="2368" y1="992" y2="992" x1="1504" />
+            <wire x2="2368" y1="576" y2="576" x1="2080" />
+            <wire x2="2368" y1="576" y2="992" x1="2368" />
         </branch>
         <branch name="XLXN_1(4:0)">
-            <wire x2="1536" y1="1252" y2="1268" x1="1536" />
+            <wire x2="1536" y1="1248" y2="1264" x1="1536" />
         </branch>
         <branch name="XLXN_1(14:13)">
-            <wire x2="1568" y1="1332" y2="1332" x1="1536" />
-            <wire x2="1568" y1="1252" y2="1332" x1="1568" />
+            <wire x2="1568" y1="1328" y2="1328" x1="1536" />
+            <wire x2="1568" y1="1248" y2="1328" x1="1568" />
         </branch>
         <branch name="XLXN_10">
-            <wire x2="1760" y1="1476" y2="1476" x1="1728" />
+            <wire x2="1760" y1="1472" y2="1472" x1="1728" />
         </branch>
-        <instance x="1760" y="1732" name="ROM_KSTA" orien="R0">
+        <instance x="1760" y="1728" name="ROM_KSTA" orien="R0">
             <attrtext style="fontsize:28;fontname:Arial" attrname="InstName" x="0" y="0" type="instance" />
         </instance>
-        <bustap x2="1504" y1="1156" y2="1060" x1="1504" />
-        <bustap x2="1536" y1="1156" y2="1252" x1="1536" />
-        <bustap x2="1568" y1="1156" y2="1252" x1="1568" />
-        <instance x="1408" y="1204" name="XLXI_3(4:0)" orien="R90" />
-        <instance x="1408" y="1268" name="XLXI_4(1:0)" orien="R90" />
-        <instance x="1728" y="1540" name="XLXI_5" orien="R270" />
-        <instance x="1504" y="740" name="XLXI_6" orien="R0">
+        <bustap x2="1504" y1="1152" y2="1056" x1="1504" />
+        <bustap x2="1536" y1="1152" y2="1248" x1="1536" />
+        <bustap x2="1568" y1="1152" y2="1248" x1="1568" />
+        <instance x="1408" y="1200" name="XLXI_3(4:0)" orien="R90" />
+        <instance x="1408" y="1264" name="XLXI_4(1:0)" orien="R90" />
+        <instance x="1728" y="1536" name="XLXI_5" orien="R270" />
+        <instance x="1504" y="736" name="extractkstaparameter_process_p0_inst" orien="R0">
         </instance>
         <branch name="XLXN_84(31:0)">
-            <wire x2="1504" y1="644" y2="644" x1="1424" />
-            <wire x2="1424" y1="644" y2="788" x1="1424" />
-            <wire x2="2240" y1="788" y2="788" x1="1424" />
-            <wire x2="2240" y1="788" y2="1348" x1="2240" />
-            <wire x2="2240" y1="1348" y2="1348" x1="2144" />
+            <wire x2="1504" y1="640" y2="640" x1="1424" />
+            <wire x2="1424" y1="640" y2="784" x1="1424" />
+            <wire x2="2240" y1="784" y2="784" x1="1424" />
+            <wire x2="2240" y1="784" y2="1344" x1="2240" />
+            <wire x2="2240" y1="1344" y2="1344" x1="2144" />
         </branch>
         <branch name="i2c_mem_ena">
-            <wire x2="2096" y1="452" y2="452" x1="2080" />
-            <wire x2="2416" y1="452" y2="452" x1="2096" />
+            <wire x2="2096" y1="448" y2="448" x1="2080" />
+            <wire x2="2416" y1="448" y2="448" x1="2096" />
         </branch>
         <branch name="o_rdy">
-            <wire x2="2096" y1="516" y2="516" x1="2080" />
-            <wire x2="2416" y1="516" y2="516" x1="2096" />
+            <wire x2="2096" y1="512" y2="512" x1="2080" />
+            <wire x2="2416" y1="512" y2="512" x1="2096" />
         </branch>
         <branch name="i2c_mem_addra(11:0)">
-            <wire x2="2096" y1="644" y2="644" x1="2080" />
-            <wire x2="2416" y1="644" y2="644" x1="2096" />
+            <wire x2="2096" y1="640" y2="640" x1="2080" />
+            <wire x2="2416" y1="640" y2="640" x1="2096" />
         </branch>
         <branch name="o_ksta(31:0)">
-            <wire x2="2096" y1="708" y2="708" x1="2080" />
-            <wire x2="2416" y1="708" y2="708" x1="2096" />
+            <wire x2="2096" y1="704" y2="704" x1="2080" />
+            <wire x2="2416" y1="704" y2="704" x1="2096" />
         </branch>
         <branch name="i_clock">
-            <wire x2="1408" y1="452" y2="452" x1="1312" />
-            <wire x2="1488" y1="452" y2="452" x1="1408" />
-            <wire x2="1504" y1="452" y2="452" x1="1488" />
-            <wire x2="1408" y1="452" y2="820" x1="1408" />
-            <wire x2="1648" y1="820" y2="820" x1="1408" />
-            <wire x2="1648" y1="820" y2="1284" x1="1648" />
-            <wire x2="1760" y1="1284" y2="1284" x1="1648" />
+            <wire x2="1408" y1="448" y2="448" x1="1312" />
+            <wire x2="1488" y1="448" y2="448" x1="1408" />
+            <wire x2="1504" y1="448" y2="448" x1="1488" />
+            <wire x2="1408" y1="448" y2="816" x1="1408" />
+            <wire x2="1648" y1="816" y2="816" x1="1408" />
+            <wire x2="1648" y1="816" y2="1280" x1="1648" />
+            <wire x2="1760" y1="1280" y2="1280" x1="1648" />
         </branch>
         <branch name="i_reset">
-            <wire x2="1376" y1="516" y2="516" x1="1312" />
-            <wire x2="1488" y1="516" y2="516" x1="1376" />
-            <wire x2="1504" y1="516" y2="516" x1="1488" />
-            <wire x2="1376" y1="516" y2="1604" x1="1376" />
-            <wire x2="1760" y1="1604" y2="1604" x1="1376" />
+            <wire x2="1376" y1="512" y2="512" x1="1312" />
+            <wire x2="1488" y1="512" y2="512" x1="1376" />
+            <wire x2="1504" y1="512" y2="512" x1="1488" />
+            <wire x2="1376" y1="512" y2="1600" x1="1376" />
+            <wire x2="1760" y1="1600" y2="1600" x1="1376" />
         </branch>
         <branch name="i_run">
-            <wire x2="1488" y1="580" y2="580" x1="1312" />
-            <wire x2="1504" y1="580" y2="580" x1="1488" />
+            <wire x2="1488" y1="576" y2="576" x1="1312" />
+            <wire x2="1504" y1="576" y2="576" x1="1488" />
         </branch>
         <branch name="i2c_mem_douta(7:0)">
-            <wire x2="1488" y1="708" y2="708" x1="1312" />
-            <wire x2="1504" y1="708" y2="708" x1="1488" />
+            <wire x2="1488" y1="704" y2="704" x1="1312" />
+            <wire x2="1504" y1="704" y2="704" x1="1488" />
         </branch>
-        <iomarker fontsize="28" x="1312" y="452" name="i_clock" orien="R180" />
-        <iomarker fontsize="28" x="1312" y="516" name="i_reset" orien="R180" />
-        <iomarker fontsize="28" x="1312" y="580" name="i_run" orien="R180" />
-        <iomarker fontsize="28" x="1312" y="708" name="i2c_mem_douta(7:0)" orien="R180" />
-        <iomarker fontsize="28" x="2416" y="452" name="i2c_mem_ena" orien="R0" />
-        <iomarker fontsize="28" x="2416" y="516" name="o_rdy" orien="R0" />
-        <iomarker fontsize="28" x="2416" y="644" name="i2c_mem_addra(11:0)" orien="R0" />
-        <iomarker fontsize="28" x="2416" y="708" name="o_ksta(31:0)" orien="R0" />
+        <iomarker fontsize="28" x="1312" y="448" name="i_clock" orien="R180" />
+        <iomarker fontsize="28" x="1312" y="512" name="i_reset" orien="R180" />
+        <iomarker fontsize="28" x="1312" y="576" name="i_run" orien="R180" />
+        <iomarker fontsize="28" x="1312" y="704" name="i2c_mem_douta(7:0)" orien="R180" />
+        <iomarker fontsize="28" x="2416" y="448" name="i2c_mem_ena" orien="R0" />
+        <iomarker fontsize="28" x="2416" y="512" name="o_rdy" orien="R0" />
+        <iomarker fontsize="28" x="2416" y="640" name="i2c_mem_addra(11:0)" orien="R0" />
+        <iomarker fontsize="28" x="2416" y="704" name="o_ksta(31:0)" orien="R0" />
     </sheet>
 </drawing>
