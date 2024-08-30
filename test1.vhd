@@ -392,6 +392,7 @@ begin
 					float2fixedond <= '1';
 					float2fixedce <= '1';
 					float2fixeda <= test_fixed_melexis_do;
+          --report_error ("CalculateGetImage "&integer'image(i), test_fixed_melexis_do, 0.0);
 --					float2fixeda <= x"477FFF00"; -- xxx debug white, val 65535
 				when s7 =>
 if (fl2fi_wait = C_FL2FI_WAIT-1) then
@@ -424,7 +425,7 @@ end if;
 					dualmem_ena <= '1';
 --synthesis translate_off
 --          data1 := to_sfixed (std_logic_vector(float2fixedr));
---          report_error       ("test1 test_fixed_melexis_do "&integer'image(i), test_fixed_melexis_do, 0.0);
+          report_error       ("CalculateGetImage "&integer'image(i), test_fixed_melexis_do, 0.0);
 --          report_fixed_value ("test1 float2fixedr          "&integer'image(i), to_sfixed(std_logic_vector(float2fixedr),float2fixedr'left,0));
 --          report_error ("test1 float2fixedr : ", to_sfixed(std_logic_vector(float2fixedr),data1));
 --          report_error ("test1 tout        ", tout, 0.0);
