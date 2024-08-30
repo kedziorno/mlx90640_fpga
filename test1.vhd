@@ -211,6 +211,71 @@ signal fl2fi_run,fl2fi_rdy : std_logic;
 
 signal rdata : std_logic_vector(23 downto 0);
 
+component streamScaler
+generic (
+constant DATA_WIDTH : integer := 8; -- Width of input/output data
+constant CHANNELS : integer := 1; -- Number of channels of DATA_WIDTH, for color images
+constant DISCARD_CNT_WIDTH : integer := 8; -- Width of inputDiscardCnt
+constant INPUT_X_RES_WIDTH : integer := 11; -- Widths of input/output resolution control signals
+constant INPUT_Y_RES_WIDTH : integer := 11;
+constant OUTPUT_X_RES_WIDTH : integer := 11;
+constant OUTPUT_Y_RES_WIDTH : integer := 11;
+constant FRACTION_BITS : integer := 8; -- Number of bits for fractional component of coefficients.
+constant SCALE_INT_BITS : integer := 4; -- Width of integer component of scaling factor. The maximum input data width to multipliers created will be SCALE_INT_BITS + SCALE_FRAC_BITS. Typically these values will sum to 18 to match multipliers available in FPGAs.
+constant SCALE_FRAC_BITS : integer := 14; -- Width of fractional component of scaling factor
+constant BUFFER_SIZE : integer := 4; -- Depth of RFIFO
+constant COEFF_WIDTH : integer := 9; -- FRACTION_BITS + 1;
+constant SCALE_BITS : integer := 19; -- SCALE_INT_BITS + SCALE_FRAC_BITS;
+--constant BUFFER_SIZE_WIDTH : integer := 1 -- BUFFER_SIZE+1 <= 2 wide enough to hold value BUFFER_SIZE + 1
+--constant BUFFER_SIZE_WIDTH : integer := 2 -- BUFFER_SIZE+1 <= 4
+constant BUFFER_SIZE_WIDTH : integer := 3 -- BUFFER_SIZE+1 <= 8
+--constant BUFFER_SIZE_WIDTH : integer := 4 -- BUFFER_SIZE+1 <= 16
+--constant BUFFER_SIZE_WIDTH : integer := 5 -- BUFFER_SIZE+1 <= 32
+--constant BUFFER_SIZE_WIDTH : integer := 6 -- BUFFER_SIZE+1 <= 64
+--constant BUFFER_SIZE_WIDTH : integer := 7 -- BUFFER_SIZE+1 > 64
+);
+port (
+signal clk : in std_logic;
+signal rst : in std_logic;
+signal dIn : in std_logic_vector (DATA_WIDTH*CHANNELS-1 downto 0);
+signal dInValid : in std_logic;
+signal nextDin : out std_logic;
+signal start : in std_logic;
+signal dOut : out std_logic_vector (DATA_WIDTH*CHANNELS-1 downto 0);
+signal dOutValid : out std_logic; -- latency of 4 clock cycles after nextDout is asserted
+signal nextDout : in std_logic;
+signal inputDiscardCnt : in std_logic_vector (DISCARD_CNT_WIDTH-1 downto 0); -- Number of input pixels to discard before processing data. Used for clipping
+signal inputXRes : in std_logic_vector (INPUT_X_RES_WIDTH-1 downto 0); -- Resolution of input data minus 1
+signal inputYRes : in std_logic_vector (INPUT_Y_RES_WIDTH-1 downto 0);
+signal outputXRes : in std_logic_vector (OUTPUT_X_RES_WIDTH-1 downto 0);-- Resolution of output data minus 1
+signal outputYRes : in std_logic_vector (OUTPUT_Y_RES_WIDTH-1 downto 0);
+signal xScale : in std_logic_vector (SCALE_BITS-1 downto 0); -- Scaling factors. Input resolution scaled up by 1/xScale. Format Q SCALE_INT_BITS.SCALE_FRAC_BITS
+signal yScale : in std_logic_vector (SCALE_BITS-1 downto 0); -- Scaling factors. Input resolution scaled up by 1/yScale. Format Q SCALE_INT_BITS.SCALE_FRAC_BITS
+signal leftOffset : in std_logic_vector (OUTPUT_X_RES_WIDTH-1+SCALE_FRAC_BITS downto 0); -- Integer/fraction of input pixel to offset output data horizontally right. Format Q OUTPUT_X_RES_WIDTH.SCALE_FRAC_BITS
+signal topFracOffset : in std_logic_vector (SCALE_FRAC_BITS-1 downto 0); -- Fraction of input pixel to offset data vertically down. Format Q0.SCALE_FRAC_BITS
+signal nearestNeighbor : in std_logic -- Use nearest neighbor resize instead of bilinear
+);
+end component streamScaler;
+signal streamScaler_clk : std_logic;
+signal streamScaler_rst : std_logic;
+signal streamScaler_dIn : std_logic_vector (DATA_WIDTH*CHANNELS-1 downto 0);
+signal streamScaler_dInValid : std_logic;
+signal streamScaler_nextDIn : std_logic;
+signal streamScaler_start : std_logic;
+signal streamScaler_dOut : std_logic_vector (DATA_WIDTH*CHANNELS-1 downto 0);
+signal streamScaler_dOutValid : std_logic;
+signal streamScaler_nextDout : std_logic;
+signal streamScaler_inputDiscardCnt : std_logic_vector (DISCARD_CNT_WIDTH-1 downto 0);
+signal streamScaler_inputXRes : std_logic_vector (INPUT_X_RES_WIDTH-1 downto 0);
+signal streamScaler_inputYRes : std_logic_vector (INPUT_Y_RES_WIDTH-1 downto 0);
+signal streamScaler_outputXRes : std_logic_vector (OUTPUT_X_RES_WIDTH-1 downto 0);
+signal streamScaler_outputYRes : std_logic_vector (OUTPUT_Y_RES_WIDTH-1 downto 0);
+signal streamScaler_xScale : std_logic_vector (SCALE_BITS-1 downto 0);
+signal streamScaler_yScale : std_logic_vector (SCALE_BITS-1 downto 0);
+signal streamScaler_leftOffset : std_logic_vector (OUTPUT_X_RES_WIDTH-1+SCALE_FRAC_BITS downto 0);
+signal streamScaler_topFracOffset : std_logic_vector (SCALE_FRAC_BITS-1 downto 0);
+signal streamScaler_nearestNeighbor : std_logic;
+
 begin
 
 vga_syncn <= '1';
@@ -605,6 +670,29 @@ rdata <= colormap_rom (to_integer (signed (dualmem_doutb (8 downto 0)))); -- xxx
 vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 vga_g <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+
+inst_streamScaler : streamScaler
+port map (
+clk => streamScaler_clk,
+rst => streamScaler_rst,
+dIn => streamScaler_dIn,
+dInValid => streamScaler_dInValid,
+nextDIn => streamScaler_nextDIn,
+start => streamScaler_start,
+dOut => streamScaler_dOut,
+dOutValid => streamScaler_dOutValid,
+nextDout => streamScaler_nextDout,
+inputDiscardCnt => streamScaler_inputDiscardCnt,
+inputXRes => streamScaler_inputXRes,
+inputYRes => streamScaler_inputYRes,
+outputXRes => streamScaler_outputXRes,
+outputYRes => streamScaler_outputYRes,
+xScale => streamScaler_xScale,
+yScale => streamScaler_yScale,
+leftOffset => streamScaler_leftOffset,
+topFracOffset => streamScaler_topFracOffset,
+nearestNeighbor => streamScaler_nearestNeighbor
+);
 
 end Behavioral;
 
