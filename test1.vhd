@@ -126,6 +126,7 @@ signal address_generator_enable : STD_LOGIC;
 signal address_generator_vsync : STD_LOGIC;
 signal address_generator_activeh : STD_LOGIC;
 signal address_generator_address : STD_LOGIC_VECTOR (ADDRESS1-1 downto 0);
+signal streamScaler_ag : integer range 0 to PIXELS-1;
 
 component VGA_timing_synch is
 Port (
@@ -208,26 +209,69 @@ signal dualmem_enb : STD_LOGIC;
 signal dualmem_addrb : STD_LOGIC_VECTOR(9 DOWNTO 0);
 signal dualmem_doutb : STD_LOGIC_VECTOR(8 DOWNTO 0);
 
+COMPONENT dualmem2
+PORT (
+clka : IN STD_LOGIC;
+ena : IN STD_LOGIC;
+wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+addra : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
+dina : IN STD_LOGIC_VECTOR(8 DOWNTO 0);
+clkb : IN STD_LOGIC;
+enb : IN STD_LOGIC;
+addrb : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
+doutb : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
+);
+END COMPONENT;
+signal dualmem2_clka : STD_LOGIC;
+signal dualmem2_ena : STD_LOGIC;
+signal dualmem2_wea : STD_LOGIC_VECTOR(0 DOWNTO 0);
+signal dualmem2_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal dualmem2_dina : STD_LOGIC_VECTOR(8 DOWNTO 0);
+signal dualmem2_clkb : STD_LOGIC;
+signal dualmem2_enb : STD_LOGIC;
+signal dualmem2_addrb : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal dualmem2_doutb : STD_LOGIC_VECTOR(8 DOWNTO 0);
+
 signal fl2fi_wait : integer range 0 to C_FL2FI_WAIT-1;
 signal fl2fi_run,fl2fi_rdy : std_logic;
 
 signal rdata : std_logic_vector(23 downto 0);
 
-component streamScaler
-generic (
-constant DATA_WIDTH : integer := 8; -- Width of input/output data
+constant DATA_WIDTH : integer := 9; -- Width of input/output data
 constant CHANNELS : integer := 1; -- Number of channels of DATA_WIDTH, for color images
 constant DISCARD_CNT_WIDTH : integer := 8; -- Width of inputDiscardCnt
-constant INPUT_X_RES_WIDTH : integer := 11; -- Widths of input/output resolution control signals
-constant INPUT_Y_RES_WIDTH : integer := 11;
-constant OUTPUT_X_RES_WIDTH : integer := 11;
-constant OUTPUT_Y_RES_WIDTH : integer := 11;
+constant INPUT_X_RES_WIDTH : integer := 5; -- Widths of input/output resolution control signals
+constant INPUT_Y_RES_WIDTH : integer := 5;
+constant OUTPUT_X_RES_WIDTH : integer := 6;
+constant OUTPUT_Y_RES_WIDTH : integer := 6;
 constant FRACTION_BITS : integer := 8; -- Number of bits for fractional component of coefficients.
 constant SCALE_INT_BITS : integer := 4; -- Width of integer component of scaling factor. The maximum input data width to multipliers created will be SCALE_INT_BITS + SCALE_FRAC_BITS. Typically these values will sum to 18 to match multipliers available in FPGAs.
 constant SCALE_FRAC_BITS : integer := 14; -- Width of fractional component of scaling factor
 constant BUFFER_SIZE : integer := 4; -- Depth of RFIFO
-constant COEFF_WIDTH : integer := 9; -- FRACTION_BITS + 1;
-constant SCALE_BITS : integer := 19; -- SCALE_INT_BITS + SCALE_FRAC_BITS;
+constant COEFF_WIDTH : integer := FRACTION_BITS+1; -- FRACTION_BITS + 1;
+constant SCALE_BITS : integer := SCALE_INT_BITS + SCALE_FRAC_BITS; -- SCALE_INT_BITS + SCALE_FRAC_BITS;
+--constant BUFFER_SIZE_WIDTH : integer := 1; -- BUFFER_SIZE+1 <= 2 wide enough to hold value BUFFER_SIZE + 1
+--constant BUFFER_SIZE_WIDTH : integer := 2; -- BUFFER_SIZE+1 <= 4
+constant BUFFER_SIZE_WIDTH : integer := 3; -- BUFFER_SIZE+1 <= 8
+--constant BUFFER_SIZE_WIDTH : integer := 4; -- BUFFER_SIZE+1 <= 16
+--constant BUFFER_SIZE_WIDTH : integer := 5; -- BUFFER_SIZE+1 <= 32
+--constant BUFFER_SIZE_WIDTH : integer := 6; -- BUFFER_SIZE+1 <= 64
+--constant BUFFER_SIZE_WIDTH : integer := 7; -- BUFFER_SIZE+1 > 64
+component streamScaler
+generic (
+constant DATA_WIDTH : integer := DATA_WIDTH; -- Width of input/output data
+constant CHANNELS : integer := CHANNELS; -- Number of channels of DATA_WIDTH, for color images
+constant DISCARD_CNT_WIDTH : integer := DISCARD_CNT_WIDTH; -- Width of inputDiscardCnt
+constant INPUT_X_RES_WIDTH : integer := INPUT_X_RES_WIDTH; -- Widths of input/output resolution control signals
+constant INPUT_Y_RES_WIDTH : integer := INPUT_Y_RES_WIDTH;
+constant OUTPUT_X_RES_WIDTH : integer := OUTPUT_X_RES_WIDTH;
+constant OUTPUT_Y_RES_WIDTH : integer := OUTPUT_Y_RES_WIDTH;
+constant FRACTION_BITS : integer := FRACTION_BITS; -- Number of bits for fractional component of coefficients.
+constant SCALE_INT_BITS : integer := SCALE_INT_BITS; -- Width of integer component of scaling factor. The maximum input data width to multipliers created will be SCALE_INT_BITS + SCALE_FRAC_BITS. Typically these values will sum to 18 to match multipliers available in FPGAs.
+constant SCALE_FRAC_BITS : integer := SCALE_FRAC_BITS; -- Width of fractional component of scaling factor
+constant BUFFER_SIZE : integer := BUFFER_SIZE; -- Depth of RFIFO
+constant COEFF_WIDTH : integer := COEFF_WIDTH; -- FRACTION_BITS + 1;
+constant SCALE_BITS : integer := SCALE_BITS; -- SCALE_INT_BITS + SCALE_FRAC_BITS;
 --constant BUFFER_SIZE_WIDTH : integer := 1 -- BUFFER_SIZE+1 <= 2 wide enough to hold value BUFFER_SIZE + 1
 --constant BUFFER_SIZE_WIDTH : integer := 2 -- BUFFER_SIZE+1 <= 4
 constant BUFFER_SIZE_WIDTH : integer := 3 -- BUFFER_SIZE+1 <= 8
@@ -255,7 +299,7 @@ signal xScale : in std_logic_vector (SCALE_BITS-1 downto 0); -- Scaling factors.
 signal yScale : in std_logic_vector (SCALE_BITS-1 downto 0); -- Scaling factors. Input resolution scaled up by 1/yScale. Format Q SCALE_INT_BITS.SCALE_FRAC_BITS
 signal leftOffset : in std_logic_vector (OUTPUT_X_RES_WIDTH-1+SCALE_FRAC_BITS downto 0); -- Integer/fraction of input pixel to offset output data horizontally right. Format Q OUTPUT_X_RES_WIDTH.SCALE_FRAC_BITS
 signal topFracOffset : in std_logic_vector (SCALE_FRAC_BITS-1 downto 0); -- Fraction of input pixel to offset data vertically down. Format Q0.SCALE_FRAC_BITS
-signal nearestNeighbor : in std_logic -- Use nearest neighbor resize instead of bilinear
+signal nearestNeighbor_in : in std_logic -- Use nearest neighbor resize instead of bilinear
 );
 end component streamScaler;
 signal streamScaler_clk : std_logic;
@@ -277,6 +321,8 @@ signal streamScaler_yScale : std_logic_vector (SCALE_BITS-1 downto 0);
 signal streamScaler_leftOffset : std_logic_vector (OUTPUT_X_RES_WIDTH-1+SCALE_FRAC_BITS downto 0);
 signal streamScaler_topFracOffset : std_logic_vector (SCALE_FRAC_BITS-1 downto 0);
 signal streamScaler_nearestNeighbor : std_logic;
+
+signal streamScaler_run : std_logic;
 
 begin
 
@@ -336,6 +382,7 @@ begin
 				when s3 => state := s4;
 				when s4 => state := s5;
 					test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
+--          streamScaler_run <= '1';
 				when s5 => state := s6;
 				when s6 => state := s7;
 					float2fixedond <= '1';
@@ -390,6 +437,7 @@ end if;
 					end if;
 				when s10 =>
 					dualmem_enb <= '1';
+          streamScaler_run <= '1';
 				when others => null;
 			end case;
 		end if;
@@ -415,6 +463,23 @@ begin
 		end if;
 	end if;
 end process pvgaclk;
+
+p_sc_ag: process (i_clock) is
+begin
+	if (rising_edge (i_clock)) then
+		if (i_reset = '1') then
+      streamScaler_ag <= 0;
+		else
+      if (dualmem_enb = '1') then
+        if (streamScaler_ag = PIXELS-1) then
+          streamScaler_ag <= 0;
+        else
+          streamScaler_ag <= streamScaler_ag + 1;
+        end if;
+      end if;
+		end if;
+	end if;
+end process p_sc_ag;
 
 --synthesis translate_off
 --pdualmemdoutb : process (address_generator_clk) is
@@ -652,8 +717,10 @@ result => float2fixedr
 );
 
 dualmem_clka <= i_clock;
-dualmem_clkb <= agclk;
-dualmem_addrb <= address_generator_address;
+--dualmem_clkb <= agclk;
+--dualmem_addrb <= address_generator_address;
+dualmem_clkb <= i_clock;
+dualmem_addrb <= std_logic_vector (to_unsigned (streamScaler_ag, 10));
 dualmem_inst : dualmem PORT MAP (
 clka => dualmem_clka,
 ena => dualmem_ena,
@@ -666,13 +733,27 @@ addrb => dualmem_addrb,
 doutb => dualmem_doutb
 );
 
+dualmem2_clka <= i_clock;
+dualmem2_clkb <= i_clock;
+dualmem_inst2 : dualmem2 PORT MAP (
+clka => dualmem2_clka,
+ena => dualmem2_ena,
+wea => dualmem2_wea,
+addra => dualmem2_addra,
+dina => dualmem2_dina,
+clkb => dualmem2_clkb,
+enb => dualmem2_enb,
+addrb => dualmem2_addrb,
+doutb => dualmem2_doutb
+);
+
 -- xxx 9 bit signed heatmap, in simulation show all BGYW colors, on board 'only' YW colors, test image have range -172 to 17
-rdata <= colormap_rom (to_integer (signed (dualmem_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
+rdata <= colormap_rom (to_integer (signed (dualmem2_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
 
 -- xxx on board last 3 bits is connected to GND, so we have 'only' RGB555 : (
-vga_ri <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_gi <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_bi <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_g <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
 --INPUT_X_RES => 32-1,
 --INPUT_Y_RES => 24-1,
@@ -689,59 +770,115 @@ vga_bi <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' els
 --OUTPUT_Y_RES_WIDTH => 6,
 --BUFFER_SIZE => 1
 
-p_streamScaler : process (i_clock) is
+p_streamScaler_din : process (i_clock) is
+  type states is (idle, a, b, c);
+  variable state : states := idle;
 begin
   if (rising_edge (i_clock)) then
     if (i_reset = '1') then
-    
+      state := idle;
+      streamScaler_dIn <= (others => '0');
+            streamScaler_nextDout <= '0';
+            streamScaler_dInValid <= '0';
+            streamScaler_start <= '0';
     else
       case (state) is
         when idle =>
           if (streamScaler_run = '1') then
-            state <= a;
-            streamScaler_dInValid <= '1';
+            state := a;
             streamScaler_start <= '1';
+            streamScaler_nextDout <= '1';
+            streamScaler_dInValid <= '1';
           else
-            state <= idle;
+            state := idle;
           end if;
         when a =>
-          streamScaler_start <= '1';
-          streamScaler_dIn <= vga_ri & vga_gi & vga_bi;
+          streamScaler_start <= '0';
+          streamScaler_dInValid <= '0';
+
+          streamScaler_nextDout <= '0';
+          if (streamScaler_nextDin = '1') then
+            state := b;
+          else
+            state := a;
+          end if;
+        when b =>
+          streamScaler_start <= '0';
+          streamScaler_dIn <= dualmem_doutb (8 downto 0);
+                      streamScaler_dInValid <= '1';
+
+          state := c;
+        when c =>
+          state := a;
       end case;
     end if;
   end if;
-end process p_streamScaler;
+end process p_streamScaler_din;
 
-streamScaler_dInValid <= ;
-streamScaler_nextDIn <= ;
-streamScaler_start <= ;
-streamScaler_dOut <= ;
-streamScaler_dOutValid <= ;
-streamScaler_nextDout <= ;
-streamScaler_inputDiscardCnt <= ;
-streamScaler_inputXRes <= std_logic_vector (to_unsigned (32-1, 5));
-streamScaler_inputYRes <= std_logic_vector (to_unsigned (24-1, 5));
-streamScaler_outputXRes <= std_logic_vector (to_unsigned (64-1, 5));
-streamScaler_outputYRes <= std_logic_vector (to_unsigned (48-1, 5));
+p_streamScaler_dout : process (i_clock) is
+  type states is (idle, a, b, c);
+  variable state : states := idle;
+  variable douti : integer range 0 to 64*48-1;
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      state := idle;
+      douti := 0;
+      dualmem2_ena <= '0';
+      dualmem2_wea <= "0";
+      dualmem2_addra <= (others => '0');
+      dualmem2_dina <= (others => '0');
+      dualmem2_enb <= '0';
+      dualmem2_addrb <= (others => '0');
+      dualmem2_doutb <= (others => '0');
+--      streamScaler_nextDout <= '0';
+    else
+      case (state) is
+        when idle =>
+          if (streamScaler_run = '1') then
+            state := a;
+--            streamScaler_nextDout <= '0';
+          else
+            state := idle;
+          end if;
+        when a =>
+          if (douti < 64+1*48+1) then
+            state := c;
+          else
+            state := a;
+          end if;
+        when b =>
+          --streamScaler_start <= '0';
+          --streamScaler_dIn <= dualmem_doutb (8 downto 0);
+          --state := c;
+        when c =>
+          if (streamScaler_dOutValid = '1') then
+            dualmem2_ena <= '1';
+            dualmem2_wea <= "1";
+            dualmem2_addra <= std_logic_vector (to_unsigned (douti, 12));
+            dualmem2_dina <= streamScaler_dOut;
+            state := a;
+            douti := douti + 1;
+          end if;
+      end case;
+    end if;
+  end if;
+end process p_streamScaler_dout;
+
+streamScaler_inputDiscardCnt <= std_logic_vector (to_unsigned (0, 8));
+streamScaler_inputXRes <= std_logic_vector (to_unsigned (32-1, INPUT_X_RES_WIDTH));
+streamScaler_inputYRes <= std_logic_vector (to_unsigned (24-1, INPUT_Y_RES_WIDTH));
+streamScaler_outputXRes <= std_logic_vector (to_unsigned (64-1, OUTPUT_X_RES_WIDTH));
+streamScaler_outputYRes <= std_logic_vector (to_unsigned (48-1, OUTPUT_Y_RES_WIDTH));
 streamScaler_xScale <= std_logic_vector (to_unsigned (16384 * (32-1) / (64-1)-1, 18));
 streamScaler_yScale <= std_logic_vector (to_unsigned (16384 * (24-1) / (48-1)-1, 18));
-streamScaler_leftOffset <= ;
-streamScaler_topFracOffset <= ;
-streamScaler_nearestNeighbor <= ;
+streamScaler_leftOffset <= std_logic_vector (to_unsigned (0, 6+14));
+streamScaler_topFracOffset <= std_logic_vector (to_unsigned (0, 14));
+streamScaler_nearestNeighbor <= '0';
 
 streamScaler_clk <= i_clock;
 streamScaler_rst <= i_reset;
 inst_streamScaler : streamScaler
-generic map (
-DATA_WIDTH => 8,
-CHANNELS => 3,
-DISCARD_CNT_WIDTH => 8,
-INPUT_X_RES_WIDTH => 5,
-INPUT_Y_RES_WIDTH => 5,
-OUTPUT_X_RES_WIDTH => 6,
-OUTPUT_Y_RES_WIDTH => 6,
-BUFFER_SIZE => 1
-)
 port map (
 clk => streamScaler_clk,
 rst => streamScaler_rst,
@@ -761,7 +898,7 @@ xScale => streamScaler_xScale,
 yScale => streamScaler_yScale,
 leftOffset => streamScaler_leftOffset,
 topFracOffset => streamScaler_topFracOffset,
-nearestNeighbor => streamScaler_nearestNeighbor
+nearestNeighbor_in => streamScaler_nearestNeighbor
 );
 
 end Behavioral;

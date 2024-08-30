@@ -102,7 +102,7 @@ input wire [SCALE_BITS-1:0]			yScale,				//Scaling factors. Input resolution sca
 input wire [OUTPUT_X_RES_WIDTH-1+SCALE_FRAC_BITS:0]
 									leftOffset,			//Integer/fraction of input pixel to offset output data horizontally right. Format Q OUTPUT_X_RES_WIDTH.SCALE_FRAC_BITS
 input wire [SCALE_FRAC_BITS-1:0]	topFracOffset,		//Fraction of input pixel to offset data vertically down. Format Q0.SCALE_FRAC_BITS
-input wire							nearestNeighbor		//Use nearest neighbor resize instead of bilinear
+input wire							nearestNeighbor_in		//Use nearest neighbor resize instead of bilinear
 );
 //-----------------------Internal signals and registers------------------------
 reg								advanceRead1;
@@ -146,13 +146,15 @@ reg 							readState;
 parameter RS_START = 0;
 parameter RS_READ_LINE = 1;
 
+wire asyn_rst_start;
+assign asyn_rst_start = rst || start;
 //Read state machine
 //Controls the RFIFO(ram FIFO) readout and generates output data valid signals
-always @ (posedge clk or posedge rst or posedge start)
+always @ (posedge clk or posedge asyn_rst_start)
 begin
-	if(rst | start)
+	if(asyn_rst_start)
 	begin
-		outputLine <= 0;
+    outputLine <= 0;
 		outputColumn <= 0;
 		xScaleAmount <= 0;
 		yScaleAmount <= 0;
@@ -285,9 +287,21 @@ wire [COEFF_WIDTH-1:0]	coeffHalf = {2'b01, {(COEFF_WIDTH-2){1'b0}}};
 
 //Compute bilinear interpolation coefficinets. Done here because these pre-registerd values are used twice.
 //Adding coeffHalf to get the nearest value.
-wire [COEFF_WIDTH-1:0]	preCoeff00 = (((coeffOne - xBlend) * (coeffOne - yBlend) + (coeffHalf - 1)) >> FRACTION_BITS) & 	{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
-wire [COEFF_WIDTH-1:0]	preCoeff01 = ((xBlend * (coeffOne - yBlend) + (coeffHalf - 1)) >> FRACTION_BITS) & 				{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
-wire [COEFF_WIDTH-1:0]	preCoeff10 = (((coeffOne - xBlend) * yBlend + (coeffHalf - 1)) >> FRACTION_BITS) &				{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
+//wire [COEFF_WIDTH-1:0]	preCoeff00 = (((coeffOne - xBlend) * (coeffOne - yBlend) + (coeffHalf - 1)) >> FRACTION_BITS) & 	{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
+//wire [COEFF_WIDTH-1:0]	preCoeff01 = ((xBlend * (coeffOne - yBlend) + (coeffHalf - 1)) >> FRACTION_BITS) & 				{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
+//wire [COEFF_WIDTH-1:0]	preCoeff10 = (((coeffOne - xBlend) * yBlend + (coeffHalf - 1)) >> FRACTION_BITS) &				{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
+reg [COEFF_WIDTH-1:0]	preCoeff00;
+reg [COEFF_WIDTH-1:0]	preCoeff01;
+reg [COEFF_WIDTH-1:0]	preCoeff10;
+always @(clk) // XXX nearestNeighbor = 0
+begin
+preCoeff00 <= (((coeffOne - xBlend) * (coeffOne - yBlend) + (coeffHalf - 1)) >> FRACTION_BITS) & 	{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
+preCoeff01 <= ((xBlend * (coeffOne - yBlend) + (coeffHalf - 1)) >> FRACTION_BITS) & 				{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
+preCoeff10 <= (((coeffOne - xBlend) * yBlend + (coeffHalf - 1)) >> FRACTION_BITS) &				{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
+end
+
+wire nearestNeighbor;
+assign nearestNeighbor = 1'b0;
 
 //Compute the coefficients
 always @(posedge clk or posedge rst)
@@ -330,7 +344,7 @@ reg [(DATA_WIDTH+COEFF_WIDTH)*CHANNELS-1:0]	product00, product01, product10, pro
 
 generate
 genvar channel;
-	for(channel = 0; channel < CHANNELS; channel = channel + 1)
+	for(channel = 0; channel <= CHANNELS; channel = channel + 1)
 		begin : blend_mult_generate
 			always @(posedge clk or posedge rst)
 			begin
@@ -393,9 +407,9 @@ reg								getNextPlusOne;		//Flag so that writeNextPlusOne is captured only onc
 //Determine which lines to read out and which to discard.
 //writeNextValidLine is the next valid line number that needs to be read out above current value writeRowCount
 //writeNextPlusOne also needs to be read out (to do interpolation), this may or may not be equal to writeNextValidLine
-always @(posedge clk or posedge rst or posedge start)
+always @(posedge clk or posedge asyn_rst_start)
 begin
-	if(rst | start)
+	if(asyn_rst_start)
 	begin
 		writeOutputLine <= 0;
 		writeNextValidLine <= 0;
@@ -440,9 +454,9 @@ parameter	WS_READ = 2;
 parameter	WS_DONE = 3;
 
 //Control write and address signals to write data into ram FIFO
-always @ (posedge clk or posedge rst or posedge start)
+always @ (posedge clk or posedge asyn_rst_start)
 begin
-	if(rst | start)
+	if(asyn_rst_start)
 	begin
 		writeState <= WS_START;
 		enableNextDin <= 0;
