@@ -257,6 +257,10 @@ constant BUFFER_SIZE_WIDTH : integer := 3; -- BUFFER_SIZE+1 <= 8
 --constant BUFFER_SIZE_WIDTH : integer := 5; -- BUFFER_SIZE+1 <= 32
 --constant BUFFER_SIZE_WIDTH : integer := 6; -- BUFFER_SIZE+1 <= 64
 --constant BUFFER_SIZE_WIDTH : integer := 7; -- BUFFER_SIZE+1 > 64
+constant OUTPUT_X_RES : integer := 64;
+constant OUTPUT_Y_RES : integer := 48;
+constant INPUT_X_RES : integer := 32;
+constant INPUT_Y_RES : integer := 24;
 component streamScaler
 generic (
 constant DATA_WIDTH : integer := DATA_WIDTH; -- Width of input/output data
@@ -470,6 +474,7 @@ begin
 		if (i_reset = '1') then
       streamScaler_ag <= 0;
 		else
+--      if (dualmem_enb = '1' and streamScaler_dOutValid = '1') then
       if (dualmem_enb = '1') then
         if (streamScaler_ag = PIXELS-1) then
           streamScaler_ag <= 0;
@@ -770,6 +775,33 @@ vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else
 --OUTPUT_Y_RES_WIDTH => 6,
 --BUFFER_SIZE => 1
 
+p_sc_ndo : process (i_clock) is
+  type states is (idle, a, b, c);
+  variable state : states := idle;
+  variable i : integer;
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      i := 0;
+      streamScaler_nextDout <= '0';
+      streamScaler_nextDout <= '0';
+    else
+      if (dualmem_enb = '1') then
+        if (i <= (10*(OUTPUT_X_RES+1)*4)) then
+          streamScaler_nextDout <= '0';
+        else
+          streamScaler_nextDout <= '1';
+        end if;
+        if (i = (10*(OUTPUT_X_RES+1)*5) - 1) then
+          i := 0;
+        else
+          i := i + 1;
+        end if;
+      end if;
+    end if;
+  end if;
+end process p_sc_ndo;
+
 p_streamScaler_din : process (i_clock) is
   type states is (idle, a, b, c);
   variable state : states := idle;
@@ -778,8 +810,8 @@ begin
     if (i_reset = '1') then
       state := idle;
       streamScaler_dIn <= (others => '0');
-            streamScaler_nextDout <= '0';
-            streamScaler_dInValid <= '0';
+--            streamScaler_nextDout <= '0';
+--            streamScaler_dInValid <= '0';
             streamScaler_start <= '0';
     else
       case (state) is
@@ -787,16 +819,16 @@ begin
           if (streamScaler_run = '1') then
             state := a;
             streamScaler_start <= '1';
-            streamScaler_nextDout <= '1';
+           -- streamScaler_nextDout <= '1';
             streamScaler_dInValid <= '1';
           else
             state := idle;
           end if;
         when a =>
           streamScaler_start <= '0';
-          streamScaler_dInValid <= '0';
+--          streamScaler_dInValid <= '0';
 
-          streamScaler_nextDout <= '0';
+--          streamScaler_nextDout <= '0';
           if (streamScaler_nextDin = '1') then
             state := b;
           else
@@ -805,11 +837,13 @@ begin
         when b =>
           streamScaler_start <= '0';
           streamScaler_dIn <= dualmem_doutb (8 downto 0);
-                      streamScaler_dInValid <= '1';
+--                      streamScaler_dInValid <= '1';
+          
 
           state := c;
         when c =>
           state := a;
+--          streamScaler_nextDout <= '1';
       end case;
     end if;
   end if;
@@ -866,12 +900,12 @@ begin
 end process p_streamScaler_dout;
 
 streamScaler_inputDiscardCnt <= std_logic_vector (to_unsigned (0, 8));
-streamScaler_inputXRes <= std_logic_vector (to_unsigned (32-1, INPUT_X_RES_WIDTH));
-streamScaler_inputYRes <= std_logic_vector (to_unsigned (24-1, INPUT_Y_RES_WIDTH));
-streamScaler_outputXRes <= std_logic_vector (to_unsigned (64-1, OUTPUT_X_RES_WIDTH));
-streamScaler_outputYRes <= std_logic_vector (to_unsigned (48-1, OUTPUT_Y_RES_WIDTH));
-streamScaler_xScale <= std_logic_vector (to_unsigned (16384 * (32-1) / (64-1)-1, 18));
-streamScaler_yScale <= std_logic_vector (to_unsigned (16384 * (24-1) / (48-1)-1, 18));
+streamScaler_inputXRes <= std_logic_vector (to_unsigned (INPUT_X_RES-1, INPUT_X_RES_WIDTH));
+streamScaler_inputYRes <= std_logic_vector (to_unsigned (INPUT_Y_RES-1, INPUT_Y_RES_WIDTH));
+streamScaler_outputXRes <= std_logic_vector (to_unsigned (OUTPUT_X_RES-1, OUTPUT_X_RES_WIDTH));
+streamScaler_outputYRes <= std_logic_vector (to_unsigned (OUTPUT_Y_RES-1, OUTPUT_Y_RES_WIDTH));
+streamScaler_xScale <= std_logic_vector (to_unsigned (16384 * (INPUT_Y_RES-1) / (OUTPUT_X_RES-1)-1, 18));
+streamScaler_yScale <= std_logic_vector (to_unsigned (16384 * (INPUT_Y_RES-1) / (OUTPUT_Y_RES-1)-1, 18));
 streamScaler_leftOffset <= std_logic_vector (to_unsigned (0, 6+14));
 streamScaler_topFracOffset <= std_logic_vector (to_unsigned (0, 14));
 streamScaler_nearestNeighbor <= '0';
