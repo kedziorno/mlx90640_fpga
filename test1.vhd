@@ -55,7 +55,8 @@ constant PIXELS : integer := 768;
 constant ADDRESS1 : integer := 10;
 constant BITS : integer := 24;
 
-component test_fixed_melexis is
+--component test_fixed_melexis is
+component tfm_mock is -- XXX module with calculated values in FP numbers
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -67,7 +68,8 @@ o_rdy : out std_logic;
 i_addr : in std_logic_vector(9 downto 0);
 o_do : out std_logic_vector(31 downto 0)
 );
-end component test_fixed_melexis;
+--end component test_fixed_melexis;
+end component tfm_mock;
 signal test_fixed_melexis_clock : std_logic;
 signal test_fixed_melexis_reset : std_logic;
 signal test_fixed_melexis_run : std_logic;
@@ -415,17 +417,17 @@ begin
 end process pvgaclk;
 
 --synthesis translate_off
-pdualmemdoutb : process (address_generator_clk) is
-  variable data2 : sfixed (dualmem_doutb'left downto 0);
+--pdualmemdoutb : process (address_generator_clk) is
+--  variable data2 : sfixed (dualmem_doutb'left downto 0);
 --  variable prev_hsync : std_logic;
-begin
-  if (rising_edge (address_generator_clk)) then
+--begin
+--  if (rising_edge (address_generator_clk)) then
 --    if (prev_hsync = '0' and VGA_timing_synch_Hsync = '1') then
 --      report_fixed_value ("test1 dualmemdoutb", to_sfixed(std_logic_vector(dualmem_doutb (dualmem_doutb'range)),data2));
 --    end if;
 --    prev_hsync := VGA_timing_synch_Hsync;
-  end if;
-end process pdualmemdoutb;
+--  end if;
+--end process pdualmemdoutb;
 --synthesis translate_on
 
 pagclk : process (i_clock) is
@@ -480,7 +482,8 @@ end process pagclk;
 test_fixed_melexis_clock <= i_clock;
 test_fixed_melexis_reset <= i_reset;
 --test_fixed_melexis_addr <= address_generator_address;
-tfm_inst : test_fixed_melexis port map (
+--tfm_inst : test_fixed_melexis port map (
+tfm_inst : tfm_mock port map ( -- XXX calculated values
 i_clock => test_fixed_melexis_clock,
 i_reset => test_fixed_melexis_reset,
 i_run => test_fixed_melexis_run,
@@ -667,11 +670,78 @@ doutb => dualmem_doutb
 rdata <= colormap_rom (to_integer (signed (dualmem_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
 
 -- xxx on board last 3 bits is connected to GND, so we have 'only' RGB555 : (
-vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_g <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_ri <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_gi <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_bi <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
+--INPUT_X_RES => 32-1,
+--INPUT_Y_RES => 24-1,
+--OUTPUT_X_RES => 64-1,
+--OUTPUT_Y_RES => 48-1,
+--X_SCALE => 16384 * (32-1) / (64-1)-1,
+--Y_SCALE => 16384 * (24-1) / (48-1)-1,
+--DATA_WIDTH => 8,
+--CHANNELS => 3,
+--DISCARD_CNT_WIDTH => 8,
+--INPUT_X_RES_WIDTH => 5,
+--INPUT_Y_RES_WIDTH => 5,
+--OUTPUT_X_RES_WIDTH => 6,
+--OUTPUT_Y_RES_WIDTH => 6,
+--BUFFER_SIZE => 1
+
+p_streamScaler : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+    
+    else
+      case (state) is
+        when idle =>
+          if (streamScaler_run = '1') then
+            state <= a;
+            streamScaler_dInValid <= '1';
+            streamScaler_start <= '1';
+          else
+            state <= idle;
+          end if;
+        when a =>
+          streamScaler_start <= '1';
+          streamScaler_dIn <= vga_ri & vga_gi & vga_bi;
+      end case;
+    end if;
+  end if;
+end process p_streamScaler;
+
+streamScaler_dInValid <= ;
+streamScaler_nextDIn <= ;
+streamScaler_start <= ;
+streamScaler_dOut <= ;
+streamScaler_dOutValid <= ;
+streamScaler_nextDout <= ;
+streamScaler_inputDiscardCnt <= ;
+streamScaler_inputXRes <= std_logic_vector (to_unsigned (32-1, 5));
+streamScaler_inputYRes <= std_logic_vector (to_unsigned (24-1, 5));
+streamScaler_outputXRes <= std_logic_vector (to_unsigned (64-1, 5));
+streamScaler_outputYRes <= std_logic_vector (to_unsigned (48-1, 5));
+streamScaler_xScale <= std_logic_vector (to_unsigned (16384 * (32-1) / (64-1)-1, 18));
+streamScaler_yScale <= std_logic_vector (to_unsigned (16384 * (24-1) / (48-1)-1, 18));
+streamScaler_leftOffset <= ;
+streamScaler_topFracOffset <= ;
+streamScaler_nearestNeighbor <= ;
+
+streamScaler_clk <= i_clock;
+streamScaler_rst <= i_reset;
 inst_streamScaler : streamScaler
+generic map (
+DATA_WIDTH => 8,
+CHANNELS => 3,
+DISCARD_CNT_WIDTH => 8,
+INPUT_X_RES_WIDTH => 5,
+INPUT_Y_RES_WIDTH => 5,
+OUTPUT_X_RES_WIDTH => 6,
+OUTPUT_Y_RES_WIDTH => 6,
+BUFFER_SIZE => 1
+)
 port map (
 clk => streamScaler_clk,
 rst => streamScaler_rst,
