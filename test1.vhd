@@ -106,8 +106,10 @@ END COMPONENT;
 
 component address_generator is
 Generic (
-PIXELS : integer := PIXELS;
-ADDRESS1 : integer := ADDRESS1
+--PIXELS : integer := PIXELS;
+--ADDRESS1 : integer := ADDRESS1
+PIXELS : integer := (64+1)*(48+1);
+ADDRESS1 : integer := 12
 );
 Port ( 
 reset : in std_logic;
@@ -125,7 +127,8 @@ signal address_generator_clk25 : STD_LOGIC;
 signal address_generator_enable : STD_LOGIC;
 signal address_generator_vsync : STD_LOGIC;
 signal address_generator_activeh : STD_LOGIC;
-signal address_generator_address : STD_LOGIC_VECTOR (ADDRESS1-1 downto 0);
+--signal address_generator_address : STD_LOGIC_VECTOR (ADDRESS1-1 downto 0);
+signal address_generator_address : STD_LOGIC_VECTOR (11 downto 0);
 signal streamScaler_ag : integer range 0 to PIXELS-1;
 
 component VGA_timing_synch is
@@ -740,7 +743,9 @@ doutb => dualmem_doutb
 );
 
 dualmem2_clka <= i_clock;
-dualmem2_clkb <= i_clock;
+dualmem2_clkb <= agclk;
+dualmem2_enb <= '1';
+dualmem2_addrb <= address_generator_address;
 dualmem_inst2 : dualmem2 PORT MAP (
 clka => dualmem2_clka,
 ena => dualmem2_ena,
@@ -755,6 +760,7 @@ doutb => dualmem2_doutb
 
 -- xxx 9 bit signed heatmap, in simulation show all BGYW colors, on board 'only' YW colors, test image have range -172 to 17
 rdata <= colormap_rom (to_integer (signed (dualmem2_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
+--rdata <= colormap_rom (to_integer (unsigned (dualmem2_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
 
 -- xxx on board last 3 bits is connected to GND, so we have 'only' RGB555 : (
 vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
@@ -840,7 +846,7 @@ end process p_streamScaler_din;
 p_streamScaler_dout : process (i_clock) is
   type states is (idle, a, b);
   variable state : states := idle;
-  variable douti : integer range 0 to 64*48-1;
+  variable douti : integer range 0 to (64+1)*(48+1)-1;
 begin
   if (rising_edge (i_clock)) then
     if (i_reset = '1') then
@@ -850,9 +856,6 @@ begin
       dualmem2_wea <= "0";
       dualmem2_addra <= (others => '0');
       dualmem2_dina <= (others => '0');
-      dualmem2_enb <= '0';
-      dualmem2_addrb <= (others => '0');
-      dualmem2_doutb <= (others => '0');
     else
       case (state) is
         when idle =>

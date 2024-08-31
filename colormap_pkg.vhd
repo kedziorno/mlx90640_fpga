@@ -4,6 +4,7 @@ use IEEE.STD_LOGIC_1164.all;
 package colormap_pkg is
 
 type rom_type is array (-256 to 255) of std_logic_vector (23 downto 0);
+--type rom_type is array (0 to 511) of std_logic_vector (23 downto 0);
 constant colormap_rom : rom_type := ( -- xxx generated from gradient.py
 x"000005",
 x"000005",
