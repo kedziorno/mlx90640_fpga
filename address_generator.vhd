@@ -62,18 +62,18 @@ process (clk25)
 
 variable va : std_logic_vector(address'range);
 variable addr1 : std_logic_vector(address'range);
-constant CCOUNT1 : integer := 32;
---constant CCOUNT1 : integer := 64;
+--constant CCOUNT1 : integer := 32;
+constant CCOUNT1 : integer := 64;
 variable count1 : integer range 0 to CCOUNT1-1;
 
 variable state : states;
-constant C_ROWS : integer := 19;
---constant C_ROWS : integer := 9; -- XXX (480/rows)-1
+--constant C_ROWS : integer := 19;
+constant C_ROWS : integer := 9; -- XXX (480/rows)-1
 variable rows : integer range 0 to C_ROWS-1;
 constant CW8 : integer := 159; -- must wait on HFP/HBP
 variable w8 : integer range 0 to CW8-1;
-constant CW81 : integer := 19; -- must wait on HFP/HBP
---constant CW81 : integer := 9; -- must wait on HFP/HBP
+--constant CW81 : integer := 19; -- must wait on HFP/HBP
+constant CW81 : integer := 9; -- must wait on HFP/HBP
 variable w81 : integer range 0 to CW8-1;
 
 begin

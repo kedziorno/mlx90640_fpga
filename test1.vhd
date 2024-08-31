@@ -505,7 +505,8 @@ end process p_sc_ag;
 --synthesis translate_on
 
 pagclk : process (i_clock) is
-	constant CMAX : integer := 40; -- 1.25
+--	constant CMAX : integer := 40; -- 1.25
+	constant CMAX : integer := 20; -- 1.25
 --	constant CMAX : integer := 63; -- 1260ns
 	variable vmax : integer range 0 to CMAX-1;
 begin
