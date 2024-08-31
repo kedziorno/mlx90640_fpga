@@ -250,12 +250,12 @@ constant OUTPUT_Y_RES_WIDTH : integer := 6;
 constant FRACTION_BITS : integer := 8; -- Number of bits for fractional component of coefficients.
 constant SCALE_INT_BITS : integer := 4; -- Width of integer component of scaling factor. The maximum input data width to multipliers created will be SCALE_INT_BITS + SCALE_FRAC_BITS. Typically these values will sum to 18 to match multipliers available in FPGAs.
 constant SCALE_FRAC_BITS : integer := 14; -- Width of fractional component of scaling factor
-constant BUFFER_SIZE : integer := 4; -- Depth of RFIFO
+constant BUFFER_SIZE : integer := 3; -- Depth of RFIFO
 constant COEFF_WIDTH : integer := FRACTION_BITS+1; -- FRACTION_BITS + 1;
 constant SCALE_BITS : integer := SCALE_INT_BITS + SCALE_FRAC_BITS; -- SCALE_INT_BITS + SCALE_FRAC_BITS;
 --constant BUFFER_SIZE_WIDTH : integer := 1; -- BUFFER_SIZE+1 <= 2 wide enough to hold value BUFFER_SIZE + 1
---constant BUFFER_SIZE_WIDTH : integer := 2; -- BUFFER_SIZE+1 <= 4
-constant BUFFER_SIZE_WIDTH : integer := 3; -- BUFFER_SIZE+1 <= 8
+constant BUFFER_SIZE_WIDTH : integer := 2; -- BUFFER_SIZE+1 <= 4
+--constant BUFFER_SIZE_WIDTH : integer := 3; -- BUFFER_SIZE+1 <= 8
 --constant BUFFER_SIZE_WIDTH : integer := 4; -- BUFFER_SIZE+1 <= 16
 --constant BUFFER_SIZE_WIDTH : integer := 5; -- BUFFER_SIZE+1 <= 32
 --constant BUFFER_SIZE_WIDTH : integer := 6; -- BUFFER_SIZE+1 <= 64
@@ -795,12 +795,12 @@ begin
       streamScaler_nextDout <= '0';
     else
       if (dualmem_enb = '1') then
-        if (i <= (10*(OUTPUT_X_RES+1)*4)) then
+        if (i < (OUTPUT_X_RES+1)) then
           streamScaler_nextDout <= '0';
         else
           streamScaler_nextDout <= '1';
         end if;
-        if (i = (10*(OUTPUT_X_RES+1)*5) - 1) then
+        if (i = ((OUTPUT_X_RES+1)*2) - 1) then
           i := 0;
         else
           i := i + 1;
@@ -847,7 +847,7 @@ end process p_streamScaler_din;
 p_streamScaler_dout : process (i_clock) is
   type states is (idle, a, b);
   variable state : states := idle;
-  variable douti : integer range 0 to 64*48-1;
+  variable douti : integer range 0 to (OUTPUT_X_RES+1)*(OUTPUT_Y_RES+1)-1;
 begin
   if (rising_edge (i_clock)) then
     if (i_reset = '1') then
@@ -870,14 +870,14 @@ begin
             state := idle;
           end if;
         when a =>
-          if (douti < 64*48) then
+          if (douti = (OUTPUT_X_RES+1)*(OUTPUT_Y_RES+1) - 1) then
+            state := idle;
+          else
             state := b;
             dualmem2_ena <= '0';
             dualmem2_wea <= "0";
             dualmem2_addra <= (others => '0');
             dualmem2_dina <= (others => '0');
-          else
-            state := idle;
           end if;
         when b =>
           if (streamScaler_dOutValid = '1') then
@@ -893,15 +893,15 @@ begin
   end if;
 end process p_streamScaler_dout;
 
-streamScaler_inputDiscardCnt <= std_logic_vector (to_unsigned (0, 8));
+streamScaler_inputDiscardCnt <= std_logic_vector (to_unsigned (0, DISCARD_CNT_WIDTH));
 streamScaler_inputXRes <= std_logic_vector (to_unsigned (INPUT_X_RES-1, INPUT_X_RES_WIDTH));
 streamScaler_inputYRes <= std_logic_vector (to_unsigned (INPUT_Y_RES-1, INPUT_Y_RES_WIDTH));
 streamScaler_outputXRes <= std_logic_vector (to_unsigned (OUTPUT_X_RES-1, OUTPUT_X_RES_WIDTH));
 streamScaler_outputYRes <= std_logic_vector (to_unsigned (OUTPUT_Y_RES-1, OUTPUT_Y_RES_WIDTH));
-streamScaler_xScale <= std_logic_vector (to_unsigned (16384 * (INPUT_Y_RES-1) / (OUTPUT_X_RES-1)-1, 18));
-streamScaler_yScale <= std_logic_vector (to_unsigned (16384 * (INPUT_Y_RES-1) / (OUTPUT_Y_RES-1)-1, 18));
-streamScaler_leftOffset <= std_logic_vector (to_unsigned (0, 6+14));
-streamScaler_topFracOffset <= std_logic_vector (to_unsigned (0, 14));
+streamScaler_xScale <= std_logic_vector (to_unsigned (16384 * (INPUT_X_RES-1) / (OUTPUT_X_RES-1)-1, SCALE_BITS));
+streamScaler_yScale <= std_logic_vector (to_unsigned (16384 * (INPUT_Y_RES-1) / (OUTPUT_Y_RES-1)-1, SCALE_BITS));
+streamScaler_leftOffset <= std_logic_vector (to_unsigned (0, OUTPUT_X_RES_WIDTH+SCALE_FRAC_BITS));
+streamScaler_topFracOffset <= std_logic_vector (to_unsigned (0, SCALE_FRAC_BITS));
 streamScaler_nearestNeighbor <= '0';
 
 streamScaler_clk <= i_clock;
