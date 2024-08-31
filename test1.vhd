@@ -278,7 +278,7 @@ constant COEFF_WIDTH : integer := COEFF_WIDTH; -- FRACTION_BITS + 1;
 constant SCALE_BITS : integer := SCALE_BITS; -- SCALE_INT_BITS + SCALE_FRAC_BITS;
 --constant BUFFER_SIZE_WIDTH : integer := 1 -- BUFFER_SIZE+1 <= 2 wide enough to hold value BUFFER_SIZE + 1
 --constant BUFFER_SIZE_WIDTH : integer := 2 -- BUFFER_SIZE+1 <= 4
-constant BUFFER_SIZE_WIDTH : integer := 3 -- BUFFER_SIZE+1 <= 8
+constant BUFFER_SIZE_WIDTH : integer := BUFFER_SIZE_WIDTH -- BUFFER_SIZE+1 <= 8
 --constant BUFFER_SIZE_WIDTH : integer := 4 -- BUFFER_SIZE+1 <= 16
 --constant BUFFER_SIZE_WIDTH : integer := 5 -- BUFFER_SIZE+1 <= 32
 --constant BUFFER_SIZE_WIDTH : integer := 6 -- BUFFER_SIZE+1 <= 64
@@ -804,54 +804,41 @@ begin
 end process p_sc_ndo;
 
 p_streamScaler_din : process (i_clock) is
-  type states is (idle, a, b, c);
+  type states is (idle, a, b);
   variable state : states := idle;
 begin
   if (rising_edge (i_clock)) then
     if (i_reset = '1') then
       state := idle;
       streamScaler_dIn <= (others => '0');
---            streamScaler_nextDout <= '0';
---            streamScaler_dInValid <= '0';
-            streamScaler_start <= '0';
+      streamScaler_start <= '1';
     else
       case (state) is
         when idle =>
           if (streamScaler_run = '1') then
             state := a;
-            streamScaler_start <= '1';
-           -- streamScaler_nextDout <= '1';
-            streamScaler_dInValid <= '1';
+            streamScaler_start <= '0';
           else
             state := idle;
           end if;
         when a =>
+          streamScaler_dInValid <= '1';
           streamScaler_start <= '0';
---          streamScaler_dInValid <= '0';
-
---          streamScaler_nextDout <= '0';
           if (streamScaler_nextDin = '1') then
             state := b;
           else
             state := a;
           end if;
         when b =>
-          streamScaler_start <= '0';
           streamScaler_dIn <= dualmem_doutb (8 downto 0);
---                      streamScaler_dInValid <= '1';
-          
-
-          state := c;
-        when c =>
           state := a;
---          streamScaler_nextDout <= '1';
       end case;
     end if;
   end if;
 end process p_streamScaler_din;
 
 p_streamScaler_dout : process (i_clock) is
-  type states is (idle, a, b, c);
+  type states is (idle, a, b);
   variable state : states := idle;
   variable douti : integer range 0 to 64*48-1;
 begin
@@ -866,27 +853,29 @@ begin
       dualmem2_enb <= '0';
       dualmem2_addrb <= (others => '0');
       dualmem2_doutb <= (others => '0');
---      streamScaler_nextDout <= '0';
     else
       case (state) is
         when idle =>
+          dualmem2_ena <= '0';
+          dualmem2_wea <= "0";
+          dualmem2_addra <= (others => '0');
+          dualmem2_dina <= (others => '0');
           if (streamScaler_run = '1') then
             state := a;
---            streamScaler_nextDout <= '0';
           else
             state := idle;
           end if;
         when a =>
-          if (douti < 64+1*48+1) then
-            state := c;
+          if (douti < (64+1)*(48+1)) then
+            state := b;
+            dualmem2_ena <= '0';
+            dualmem2_wea <= "0";
+            dualmem2_addra <= (others => '0');
+            dualmem2_dina <= (others => '0');
           else
-            state := a;
+            state := idle;
           end if;
         when b =>
-          --streamScaler_start <= '0';
-          --streamScaler_dIn <= dualmem_doutb (8 downto 0);
-          --state := c;
-        when c =>
           if (streamScaler_dOutValid = '1') then
             dualmem2_ena <= '1';
             dualmem2_wea <= "1";
