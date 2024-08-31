@@ -108,7 +108,7 @@ component address_generator is
 Generic (
 --PIXELS : integer := PIXELS;
 --ADDRESS1 : integer := ADDRESS1
-PIXELS : integer := (64+1)*(48+1);
+PIXELS : integer := 64*48;
 ADDRESS1 : integer := 12
 );
 Port ( 
@@ -847,7 +847,7 @@ end process p_streamScaler_din;
 p_streamScaler_dout : process (i_clock) is
   type states is (idle, a, b);
   variable state : states := idle;
-  variable douti : integer range 0 to (64+1)*(48+1)-1;
+  variable douti : integer range 0 to 64*48-1;
 begin
   if (rising_edge (i_clock)) then
     if (i_reset = '1') then
@@ -870,7 +870,7 @@ begin
             state := idle;
           end if;
         when a =>
-          if (douti < (64+1)*(48+1)) then
+          if (douti < 64*48) then
             state := b;
             dualmem2_ena <= '0';
             dualmem2_wea <= "0";
