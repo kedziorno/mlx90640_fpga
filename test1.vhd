@@ -297,7 +297,7 @@ signal streamScaler_topFracOffset : std_logic_vector (SCALE_FRAC_BITS-1 downto 0
 signal streamScaler_nearestNeighbor : std_logic;
 
 signal streamScaler_run : std_logic;
-
+signal streamScaler_start_dout : std_logic;
 
 component address_generator is
 Generic (
@@ -466,24 +466,6 @@ begin
 		end if;
 	end if;
 end process pvgaclk;
-
-p_sc_ag: process (i_clock) is
-begin
-	if (rising_edge (i_clock)) then
-		if (i_reset = '1') then
-      streamScaler_ag <= 0;
-		else
---      if (dualmem_enb = '1' and streamScaler_dOutValid = '1') then
-      if (dualmem_enb = '1') then
-        if (streamScaler_ag = PIXELS-1) then
-          streamScaler_ag <= 0;
-        else
-          streamScaler_ag <= streamScaler_ag + 1;
-        end if;
-      end if;
-		end if;
-	end if;
-end process p_sc_ag;
 
 --synthesis translate_off
 --pdualmemdoutb : process (address_generator_clk) is
@@ -738,22 +720,6 @@ addrb => dualmem_addrb,
 doutb => dualmem_doutb
 );
 
-dualmem2_clka <= i_clock;
-dualmem2_clkb <= agclk;
-dualmem2_enb <= '1';
-dualmem2_addrb <= address_generator_address;
-dualmem_inst2 : dualmem2 PORT MAP (
-clka => dualmem2_clka,
-ena => dualmem2_ena,
-wea => dualmem2_wea,
-addra => dualmem2_addra,
-dina => dualmem2_dina,
-clkb => dualmem2_clkb,
-enb => dualmem2_enb,
-addrb => dualmem2_addrb,
-doutb => dualmem2_doutb
-);
-
 -- xxx 9 bit signed heatmap, in simulation show all BGYW colors, on board 'only' YW colors, test image have range -172 to 17
 rdata <= colormap_rom (to_integer (signed (dualmem2_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
 --rdata <= colormap_rom (to_integer (unsigned (dualmem2_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
@@ -778,72 +744,158 @@ vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else
 --OUTPUT_Y_RES_WIDTH => 6,
 --BUFFER_SIZE => 1
 
+dualmem2_clka <= i_clock;
+dualmem2_clkb <= agclk;
+dualmem2_enb <= '1';
+dualmem2_addrb <= address_generator_address;
+dualmem_inst2 : dualmem2 PORT MAP (
+clka => dualmem2_clka,
+ena => dualmem2_ena,
+wea => dualmem2_wea,
+addra => dualmem2_addra,
+dina => dualmem2_dina,
+clkb => dualmem2_clkb,
+enb => dualmem2_enb,
+addrb => dualmem2_addrb,
+doutb => dualmem2_doutb
+);
+
+p_sc_ag: process (i_clock) is
+begin
+	if (rising_edge (i_clock)) then
+		if (i_reset = '1') then
+      streamScaler_ag <= 0;
+		else
+--      if (dualmem_enb = '1' and streamScaler_dOutValid = '1') then
+      if (dualmem_enb = '1') then
+        if (streamScaler_nextDin = '1') then
+          if (streamScaler_ag = PIXELS-1) then
+            streamScaler_ag <= 0;
+          else
+            streamScaler_ag <= streamScaler_ag + 1;
+          end if;
+        end if;
+      end if;
+		end if;
+	end if;
+end process p_sc_ag;
+
 p_sc_ndo : process (i_clock) is
   type states is (idle, a, b, c);
   variable state : states := idle;
-  variable i : integer;
+  variable i : integer range 0 to (1*(OUTPUT_X_RES+1)*4)-1;
+  variable j : integer;
 begin
   if (rising_edge (i_clock)) then
     if (i_reset = '1') then
       i := 0;
-      streamScaler_nextDout <= '0';
+      j := 0;
       streamScaler_nextDout <= '0';
     else
-      if (dualmem_enb = '1') then
-        if (i < (OUTPUT_X_RES+1)) then
+      j := j + 1;
+      if (dualmem2_enb = '1') then
+--        if (j >= 16913+500 and j <= 16913+8000) then
+--        if (j >= 16913+500 and j <= 16913+8200) then
+        if (j >= 16913+500) then
+          if (i < (1*(OUTPUT_X_RES+1)*4)) then
+            streamScaler_nextDout <= '1';
+          else
+            streamScaler_nextDout <= '0';
+          end if;
+          if (i = (1*(OUTPUT_X_RES+1)*5) - 1) then
+            i := 0;
+          else
+            i := i + 1;
+          end if;
+        else
           streamScaler_nextDout <= '0';
-        else
-          streamScaler_nextDout <= '1';
-        end if;
-        if (i = ((OUTPUT_X_RES+1)*2) - 1) then
-          i := 0;
-        else
-          i := i + 1;
         end if;
       end if;
     end if;
   end if;
 end process p_sc_ndo;
 
+--p_streamScaler_din : process (i_clock) is
+--  type states is (idle, a, b, c);
+--  variable state : states := idle;
+--  variable i : integer range 0 to PIXELS-1;
+--begin
+--  if (rising_edge (i_clock)) then
+--    if (i_reset = '1') then
+--      state := idle;
+--      streamScaler_dIn <= (others => '0');
+--      streamScaler_start <= '1';
+--      i := 0;
+--      streamScaler_start_dout <= '0';
+--    else
+--      case (state) is
+--        when idle =>
+--          streamScaler_start <= '0';
+--          if (streamScaler_run = '1') then
+--            state := a;
+--          else
+--            state := idle;
+--          end if;
+--        when a =>
+--          streamScaler_dInValid <= '1';
+--          streamScaler_start <= '0';
+--          if (streamScaler_nextDin = '1') then
+--            state := b;
+--          else
+--            state := a;
+--          end if;
+--        when b =>
+----          streamScaler_dIn <= dualmem_doutb (8 downto 0)&dualmem_doutb (8 downto 0)&dualmem_doutb (8 downto 0);
+--          streamScaler_dIn <= dualmem_doutb (8 downto 0);
+--          state := a;
+--        when c =>
+----          if (i = 263 - 1) then -- XXX const
+----            state := idle;
+----            i := 0;
+----            streamScaler_start_dout <= '1';
+----          else
+----            i := i + 1;
+----            report "i aaa " & integer'image (i);
+----            state := a;
+----          end if;
+--      end case;
+--    end if;
+--  end if;
+--end process p_streamScaler_din;
+
 p_streamScaler_din : process (i_clock) is
-  type states is (idle, a, b);
+  type states is (idle, a);
   variable state : states := idle;
+  variable i : integer range 0 to PIXELS-1;
 begin
-  if (rising_edge (i_clock)) then
-    if (i_reset = '1') then
-      state := idle;
-      streamScaler_dIn <= (others => '0');
-      streamScaler_start <= '1';
-    else
-      case (state) is
-        when idle =>
-          if (streamScaler_run = '1') then
-            state := a;
-            streamScaler_start <= '0';
-          else
-            state := idle;
-          end if;
-        when a =>
-          streamScaler_dInValid <= '1';
-          streamScaler_start <= '0';
-          if (streamScaler_nextDin = '1') then
-            state := b;
-          else
-            state := a;
-          end if;
-        when b =>
-          streamScaler_dIn <= dualmem_doutb (8 downto 0);
+  if (i_reset = '1') then
+    streamScaler_dInValid <= '0';
+    streamScaler_start <= '1';
+    streamScaler_dIn <= (others => '0');
+  elsif (rising_edge (i_clock)) then
+    case (state) is
+      when idle =>
+        streamScaler_start <= '0';
+        if (streamScaler_run = '1') then
           state := a;
-      end case;
-    end if;
+        else
+          state := idle;
+        end if;
+      when a =>
+        streamScaler_dInValid <= '1';
+        if (streamScaler_nextDin = '1') then
+--        streamScaler_dIn <= dualmem_doutb (8 downto 0)&dualmem_doutb (8 downto 0)&dualmem_doutb (8 downto 0);
+          streamScaler_dIn <= dualmem_doutb (8 downto 0);
+        end if;
+    end case;
   end if;
 end process p_streamScaler_din;
 
 p_streamScaler_dout : process (i_clock) is
   type states is (idle, a, b);
   variable state : states := idle;
---  variable douti : integer range 0 to (OUTPUT_X_RES+1)*(OUTPUT_Y_RES+1)-1;
-  variable douti : integer range 0 to OUTPUT_X_RES*OUTPUT_Y_RES-1;
+  variable douti : integer range 0 to (OUTPUT_X_RES+1)*(OUTPUT_Y_RES+1)-1;
+--  variable douti : integer range 0 to OUTPUT_X_RES*OUTPUT_Y_RES-1;
 begin
   if (rising_edge (i_clock)) then
     if (i_reset = '1') then
@@ -866,14 +918,14 @@ begin
             state := idle;
           end if;
         when a =>
---          if (douti = (OUTPUT_X_RES+1)*(OUTPUT_Y_RES+1) - 1) then
-          if (douti = OUTPUT_X_RES*OUTPUT_Y_RES - 1) then
+          if (douti = (OUTPUT_X_RES+1)*(OUTPUT_Y_RES+1) - 1) then
+--          if (douti = OUTPUT_X_RES*OUTPUT_Y_RES - 1) then
             state := idle;
           else
             state := b;
             dualmem2_ena <= '0';
             dualmem2_wea <= "0";
-            dualmem2_addra <= (others => '0');
+--            dualmem2_addra <= (others => '0');
             dualmem2_dina <= (others => '0');
           end if;
         when b =>
