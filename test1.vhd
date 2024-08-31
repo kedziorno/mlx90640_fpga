@@ -104,33 +104,6 @@ END COMPONENT;
 --signal tb_data_calculateTo_addra : STD_LOGIC_VECTOR(9 DOWNTO 0);
 --signal tb_data_calculateTo_douta : STD_LOGIC_VECTOR(31 DOWNTO 0);
 
-component address_generator is
-Generic (
---PIXELS : integer := PIXELS;
---ADDRESS1 : integer := ADDRESS1
-PIXELS : integer := 64*48;
-ADDRESS1 : integer := 12
-);
-Port ( 
-reset : in std_logic;
-clk : in STD_LOGIC;
-clk25 : in STD_LOGIC;
-enable : in STD_LOGIC;
-vsync : in STD_LOGIC;
-activeh : in STD_LOGIC;
-address : out STD_LOGIC_VECTOR (ADDRESS1-1 downto 0)
-);  
-end component address_generator;
-signal address_generator_reset : std_logic;
-signal address_generator_clk : STD_LOGIC;
-signal address_generator_clk25 : STD_LOGIC;
-signal address_generator_enable : STD_LOGIC;
-signal address_generator_vsync : STD_LOGIC;
-signal address_generator_activeh : STD_LOGIC;
---signal address_generator_address : STD_LOGIC_VECTOR (ADDRESS1-1 downto 0);
-signal address_generator_address : STD_LOGIC_VECTOR (11 downto 0);
-signal streamScaler_ag : integer range 0 to PIXELS-1;
-
 component VGA_timing_synch is
 Port (
 reset : in std_logic;
@@ -242,20 +215,20 @@ signal rdata : std_logic_vector(23 downto 0);
 
 constant DATA_WIDTH : integer := 9; -- Width of input/output data
 constant CHANNELS : integer := 1; -- Number of channels of DATA_WIDTH, for color images
-constant DISCARD_CNT_WIDTH : integer := 8; -- Width of inputDiscardCnt
-constant INPUT_X_RES_WIDTH : integer := 5; -- Widths of input/output resolution control signals
-constant INPUT_Y_RES_WIDTH : integer := 5;
-constant OUTPUT_X_RES_WIDTH : integer := 6;
-constant OUTPUT_Y_RES_WIDTH : integer := 6;
+constant DISCARD_CNT_WIDTH : integer := 1; -- Width of inputDiscardCnt
+constant INPUT_X_RES_WIDTH : integer := 11; -- Widths of input/output resolution control signals
+constant INPUT_Y_RES_WIDTH : integer := 11;
+constant OUTPUT_X_RES_WIDTH : integer := 11;
+constant OUTPUT_Y_RES_WIDTH : integer := 11;
 constant FRACTION_BITS : integer := 8; -- Number of bits for fractional component of coefficients.
 constant SCALE_INT_BITS : integer := 4; -- Width of integer component of scaling factor. The maximum input data width to multipliers created will be SCALE_INT_BITS + SCALE_FRAC_BITS. Typically these values will sum to 18 to match multipliers available in FPGAs.
 constant SCALE_FRAC_BITS : integer := 14; -- Width of fractional component of scaling factor
-constant BUFFER_SIZE : integer := 3; -- Depth of RFIFO
+constant BUFFER_SIZE : integer := 4; -- Depth of RFIFO
 constant COEFF_WIDTH : integer := FRACTION_BITS+1; -- FRACTION_BITS + 1;
 constant SCALE_BITS : integer := SCALE_INT_BITS + SCALE_FRAC_BITS; -- SCALE_INT_BITS + SCALE_FRAC_BITS;
 --constant BUFFER_SIZE_WIDTH : integer := 1; -- BUFFER_SIZE+1 <= 2 wide enough to hold value BUFFER_SIZE + 1
-constant BUFFER_SIZE_WIDTH : integer := 2; -- BUFFER_SIZE+1 <= 4
---constant BUFFER_SIZE_WIDTH : integer := 3; -- BUFFER_SIZE+1 <= 8
+--constant BUFFER_SIZE_WIDTH : integer := 2; -- BUFFER_SIZE+1 <= 4
+constant BUFFER_SIZE_WIDTH : integer := 3; -- BUFFER_SIZE+1 <= 8
 --constant BUFFER_SIZE_WIDTH : integer := 4; -- BUFFER_SIZE+1 <= 16
 --constant BUFFER_SIZE_WIDTH : integer := 5; -- BUFFER_SIZE+1 <= 32
 --constant BUFFER_SIZE_WIDTH : integer := 6; -- BUFFER_SIZE+1 <= 64
@@ -279,13 +252,7 @@ constant SCALE_FRAC_BITS : integer := SCALE_FRAC_BITS; -- Width of fractional co
 constant BUFFER_SIZE : integer := BUFFER_SIZE; -- Depth of RFIFO
 constant COEFF_WIDTH : integer := COEFF_WIDTH; -- FRACTION_BITS + 1;
 constant SCALE_BITS : integer := SCALE_BITS; -- SCALE_INT_BITS + SCALE_FRAC_BITS;
---constant BUFFER_SIZE_WIDTH : integer := 1 -- BUFFER_SIZE+1 <= 2 wide enough to hold value BUFFER_SIZE + 1
---constant BUFFER_SIZE_WIDTH : integer := 2 -- BUFFER_SIZE+1 <= 4
-constant BUFFER_SIZE_WIDTH : integer := BUFFER_SIZE_WIDTH -- BUFFER_SIZE+1 <= 8
---constant BUFFER_SIZE_WIDTH : integer := 4 -- BUFFER_SIZE+1 <= 16
---constant BUFFER_SIZE_WIDTH : integer := 5 -- BUFFER_SIZE+1 <= 32
---constant BUFFER_SIZE_WIDTH : integer := 6 -- BUFFER_SIZE+1 <= 64
---constant BUFFER_SIZE_WIDTH : integer := 7 -- BUFFER_SIZE+1 > 64
+constant BUFFER_SIZE_WIDTH : integer := BUFFER_SIZE_WIDTH -- BUFFER_SIZE+1 see above
 );
 port (
 signal clk : in std_logic;
@@ -330,6 +297,34 @@ signal streamScaler_topFracOffset : std_logic_vector (SCALE_FRAC_BITS-1 downto 0
 signal streamScaler_nearestNeighbor : std_logic;
 
 signal streamScaler_run : std_logic;
+
+
+component address_generator is
+Generic (
+--PIXELS : integer := PIXELS;
+--ADDRESS1 : integer := ADDRESS1
+PIXELS : integer := OUTPUT_X_RES*OUTPUT_Y_RES;
+ADDRESS1 : integer := 12
+);
+Port ( 
+reset : in std_logic;
+clk : in STD_LOGIC;
+clk25 : in STD_LOGIC;
+enable : in STD_LOGIC;
+vsync : in STD_LOGIC;
+activeh : in STD_LOGIC;
+address : out STD_LOGIC_VECTOR (ADDRESS1-1 downto 0)
+);  
+end component address_generator;
+signal address_generator_reset : std_logic;
+signal address_generator_clk : STD_LOGIC;
+signal address_generator_clk25 : STD_LOGIC;
+signal address_generator_enable : STD_LOGIC;
+signal address_generator_vsync : STD_LOGIC;
+signal address_generator_activeh : STD_LOGIC;
+--signal address_generator_address : STD_LOGIC_VECTOR (ADDRESS1-1 downto 0);
+signal address_generator_address : STD_LOGIC_VECTOR (11 downto 0);
+signal streamScaler_ag : integer range 0 to PIXELS-1;
 
 begin
 
@@ -847,7 +842,8 @@ end process p_streamScaler_din;
 p_streamScaler_dout : process (i_clock) is
   type states is (idle, a, b);
   variable state : states := idle;
-  variable douti : integer range 0 to (OUTPUT_X_RES+1)*(OUTPUT_Y_RES+1)-1;
+--  variable douti : integer range 0 to (OUTPUT_X_RES+1)*(OUTPUT_Y_RES+1)-1;
+  variable douti : integer range 0 to OUTPUT_X_RES*OUTPUT_Y_RES-1;
 begin
   if (rising_edge (i_clock)) then
     if (i_reset = '1') then
@@ -870,7 +866,8 @@ begin
             state := idle;
           end if;
         when a =>
-          if (douti = (OUTPUT_X_RES+1)*(OUTPUT_Y_RES+1) - 1) then
+--          if (douti = (OUTPUT_X_RES+1)*(OUTPUT_Y_RES+1) - 1) then
+          if (douti = OUTPUT_X_RES*OUTPUT_Y_RES - 1) then
             state := idle;
           else
             state := b;
