@@ -47,7 +47,7 @@ x"4d000000" when x"0", x"4d800000" when x"1", x"4e000000" when x"2", x"4e800000"
 x"4f000000" when x"4", x"4f800000" when x"5", x"50000000" when x"6", x"50800000" when x"7",
 x"51000000" when x"8", x"51800000" when x"9", x"52000000" when x"a", x"52800000" when x"b",
 x"53000000" when x"c", x"53800000" when x"d", x"54000000" when x"e", x"54800000" when x"f",
-x"00000000" when others;
+x"22000000" when others;
 
 end Behavioral;
 

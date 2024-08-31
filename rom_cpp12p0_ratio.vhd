@@ -65,7 +65,7 @@ x"3f660000" when "110011",x"3f640000" when "110010",x"3f620000" when "110001",x"
 x"3f6e0000" when "110111",x"3f6c0000" when "110110",x"3f6a0000" when "110101",x"3f680000" when "110100",
 x"3f760000" when "111011",x"3f740000" when "111010",x"3f720000" when "111001",x"3f700000" when "111000",
 x"3f7e0000" when "111111",x"3f7c0000" when "111110",x"3f7a0000" when "111101",x"3f780000" when "111100",
-x"00000000" when others;
+x"22000000" when others;
 
 end Behavioral;
 

@@ -43,7 +43,7 @@ begin
 --INIT_7f => X"41700000 41600000 41500000 41400000 41300000 41200000 41100000 41000000", -- unsigned 0-15 for accremscale,accrowscale,acccolscale
 --INIT_7e => X"40e00000 40c00000 40a00000 40800000 40400000 40000000 3f800000 22000000",
 with nibble_in select nibble_out <= -- x - accremscale,accrowscale,acccolscale unsigned 4bit
-x"00000000" when x"0",
+x"22000000" when x"0",
 x"3f800000" when x"1",
 x"40000000" when x"2",
 x"40400000" when x"3",
@@ -59,7 +59,7 @@ x"41400000" when x"c",
 x"41500000" when x"d",
 x"41600000" when x"e",
 x"41700000" when x"f",
-x"00000000" when others;
+x"22000000" when others;
 
 end Behavioral;
 

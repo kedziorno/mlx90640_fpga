@@ -92,8 +92,8 @@
             <line x2="64" y1="0" y2="-64" x1="64" />
             <circle r="16" cx="144" cy="-32" />
         </blockdef>
-        <blockdef name="ramb16">
-            <timestamp>2007-9-26T16:56:25</timestamp>
+        <blockdef name="ramb16_s36_s36">
+            <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
             <rect width="64" x="0" y="-588" height="24" />
@@ -146,7 +146,7 @@
             <line x2="96" y1="-160" y2="-160" x1="0" />
         </blockdef>
         <blockdef name="ExtractKvParameters_process_p0">
-            <timestamp>2023-6-14T13:35:0</timestamp>
+            <timestamp>2023-9-16T15:20:49</timestamp>
             <rect width="448" x="64" y="-1216" height="1216" />
             <line x2="0" y1="-1184" y2="-1184" x1="64" />
             <line x2="0" y1="-1040" y2="-1040" x1="64" />
@@ -255,7 +255,7 @@
             <blockpin signalname="mux_addr1(9)" name="I" />
             <blockpin signalname="XLXN_59" name="O" />
         </block>
-        <block symbolname="ramb16" name="mem_extrkvparam_1">
+        <block symbolname="ramb16_s36_s36" name="mem_extrkvparam_1">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -323,7 +323,7 @@
             <blockpin name="DOPA(3:0)" />
             <blockpin name="DOPB(3:0)" />
         </block>
-        <block symbolname="m2_1" name="MUX_DO(31:0)">
+        <block symbolname="m2_1" name="extractkvparameters_MUX_DO(31:0)">
             <blockpin signalname="XLXN_79(31:0)" name="D0" />
             <blockpin signalname="XLXN_78(31:0)" name="D1" />
             <blockpin signalname="mux_addr1(9)" name="S0" />
@@ -333,13 +333,13 @@
             <blockpin signalname="XLXN_216" name="I" />
             <blockpin signalname="XLXN_139(3:0)" name="O" />
         </block>
-        <block symbolname="m2_1" name="MUX_ADDR(9:0)">
+        <block symbolname="m2_1" name="extractkvparameters_MUX_ADDR(9:0)">
             <blockpin signalname="XLXN_210(9:0)" name="D0" />
             <blockpin signalname="i_addr(9:0)" name="D1" />
             <blockpin signalname="o_rdy" name="S0" />
             <blockpin signalname="mux_addr1(9:0)" name="O" />
         </block>
-        <block symbolname="ramb16" name="mem_extrkvparam_2">
+        <block symbolname="ramb16_s36_s36" name="mem_extrkvparam_2">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -407,7 +407,7 @@
             <blockpin name="DOPA(3:0)" />
             <blockpin name="DOPB(3:0)" />
         </block>
-        <block symbolname="ExtractKvParameters_process_p0" name="inst_extrkvparam_proc0">
+        <block symbolname="ExtractKvParameters_process_p0" name="inst_extrkvparam_proc0_inst">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="i_run" name="i_run" />
@@ -437,21 +437,21 @@
             <blockpin signalname="divfpa(31:0)" name="divfpa(31:0)" />
             <blockpin signalname="divfpb(31:0)" name="divfpb(31:0)" />
         </block>
-        <block symbolname="rom_unsigned4bit_2powx" name="XLXI_110">
+        <block symbolname="rom_unsigned4bit_2powx" name="extractkvparameters_rom_unsigned4bit_2powx">
             <blockpin signalname="XLXN_194(3:0)" name="nibble_in(3:0)" />
             <blockpin signalname="XLXN_200(31:0)" name="nibble_out(31:0)" />
         </block>
-        <block symbolname="rom_signed4bit" name="XLXI_111">
+        <block symbolname="rom_signed4bit" name="extractkvparameters_rom_signed4bit">
             <blockpin signalname="XLXN_195(3:0)" name="nibble_in(3:0)" />
             <blockpin signalname="XLXN_201(31:0)" name="nibble_out(31:0)" />
         </block>
-        <block symbolname="colrow_even" name="XLXI_112">
+        <block symbolname="colrow_even" name="extractkvparameters_colrow_even">
             <blockpin signalname="XLXN_189(0:4)" name="col(0:4)" />
             <blockpin signalname="XLXN_188(0:4)" name="row(0:4)" />
             <blockpin signalname="XLXN_187" name="cole" />
             <blockpin signalname="XLXN_186" name="rowe" />
         </block>
-        <block symbolname="ExtractKvParameters_process_p1" name="XLXI_113">
+        <block symbolname="ExtractKvParameters_process_p1" name="extractkvparameters_process_p1_inst">
             <blockpin signalname="XLXN_187" name="cole" />
             <blockpin signalname="XLXN_186" name="rowe" />
             <blockpin signalname="XLXN_205(3:0)" name="kvijee_oo(3:0)" />
@@ -533,7 +533,7 @@
         <instance x="1904" y="3328" name="mem_extrkvparam_1" orien="R0">
             <attrtext style="fontsize:28;fontname:Arial" attrname="InstName" x="0" y="0" type="instance" />
         </instance>
-        <instance x="3696" y="3040" name="MUX_DO(31:0)" orien="R0" />
+        <instance x="3696" y="3040" name="extractkvparameters_MUX_DO(31:0)" orien="R0" />
         <instance x="1632" y="3232" name="XLXI_29(3:0)" orien="M180" />
         <branch name="i_addr(9:0)">
             <wire x2="1200" y1="2528" y2="2528" x1="1024" />
@@ -547,7 +547,7 @@
             <wire x2="1920" y1="2512" y2="2560" x1="1920" />
             <wire x2="2784" y1="2560" y2="2560" x1="1920" />
         </branch>
-        <instance x="1200" y="2432" name="MUX_ADDR(9:0)" orien="M180" />
+        <instance x="1200" y="2432" name="extractkvparameters_MUX_ADDR(9:0)" orien="M180" />
         <instance x="3088" y="3328" name="mem_extrkvparam_2" orien="R0">
             <attrtext style="fontsize:28;fontname:Arial" attrname="InstName" x="0" y="0" type="instance" />
         </instance>
@@ -556,15 +556,15 @@
         </branch>
         <iomarker fontsize="28" x="1024" y="2528" name="i_addr(9:0)" orien="R180" />
         <iomarker fontsize="28" x="4048" y="2912" name="o_do(31:0)" orien="R0" />
-        <instance x="2320" y="1424" name="inst_extrkvparam_proc0" orien="R0">
+        <instance x="2320" y="1424" name="inst_extrkvparam_proc0_inst" orien="R0">
         </instance>
-        <instance x="2832" y="1440" name="XLXI_110" orien="R180">
+        <instance x="2832" y="1440" name="extractkvparameters_rom_unsigned4bit_2powx" orien="R180">
         </instance>
-        <instance x="2832" y="1536" name="XLXI_111" orien="R180">
+        <instance x="2832" y="1536" name="extractkvparameters_rom_signed4bit" orien="R180">
         </instance>
-        <instance x="2816" y="1648" name="XLXI_112" orien="R180">
+        <instance x="2816" y="1648" name="extractkvparameters_colrow_even" orien="R180">
         </instance>
-        <instance x="2816" y="1904" name="XLXI_113" orien="R180">
+        <instance x="2816" y="1904" name="extractkvparameters_process_p1_inst" orien="R180">
         </instance>
         <branch name="XLXN_186">
             <wire x2="2432" y1="1680" y2="1680" x1="2400" />

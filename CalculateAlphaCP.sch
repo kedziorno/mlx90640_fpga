@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="virtex4" name="DeviceFamilyName">
+    <attr value="spartan3e" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -133,7 +133,7 @@
             <rect width="64" x="320" y="-172" height="24" />
             <line x2="384" y1="-160" y2="-160" x1="320" />
         </blockdef>
-        <block symbolname="CalculateAlphaCP_process_p0" name="XLXI_1">
+        <block symbolname="CalculateAlphaCP_process_p0" name="CalculateAlphaCP_process_p0_inst">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="i_run" name="i_run" />
@@ -164,15 +164,15 @@
             <blockpin signalname="mulfpa(31:0)" name="mulfpa(31:0)" />
             <blockpin signalname="mulfpb(31:0)" name="mulfpb(31:0)" />
         </block>
-        <block symbolname="rom_alphascalepow27" name="XLXI_2">
+        <block symbolname="rom_alphascalepow27" name="CalculateAlphaCP_rom_alphascalepow27">
             <blockpin signalname="XLXN_3(3:0)" name="nibble_in(3:0)" />
             <blockpin signalname="XLXN_1(31:0)" name="nibble_out(31:0)" />
         </block>
-        <block symbolname="rom_cpp12p0_ratio" name="XLXI_3">
+        <block symbolname="rom_cpp12p0_ratio" name="CalculateAlphaCP_rom_cpp12p0_ratio">
             <blockpin signalname="XLXN_4(5:0)" name="nibble_in(5:0)" />
             <blockpin signalname="XLXN_2(31:0)" name="nibble_out(31:0)" />
         </block>
-        <block symbolname="rom_signed10bit" name="XLXI_4">
+        <block symbolname="rom_signed10bit" name="CalculateAlphaCP_rom_signed10bit">
             <blockpin signalname="XLXN_7(9:0)" name="address(9:0)" />
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
@@ -180,11 +180,11 @@
         </block>
     </netlist>
     <sheet sheetnum="1" width="3520" height="2720">
-        <instance x="1232" y="1456" name="XLXI_1" orien="R0">
+        <instance x="1232" y="1456" name="CalculateAlphaCP_process_p0_inst" orien="R0">
         </instance>
-        <instance x="1744" y="1744" name="XLXI_2" orien="R180">
+        <instance x="1744" y="1744" name="CalculateAlphaCP_rom_alphascalepow27" orien="R180">
         </instance>
-        <instance x="1744" y="1904" name="XLXI_3" orien="R180">
+        <instance x="1744" y="1904" name="CalculateAlphaCP_rom_cpp12p0_ratio" orien="R180">
         </instance>
         <branch name="XLXN_1(31:0)">
             <wire x2="1184" y1="1104" y2="1776" x1="1184" />
@@ -196,7 +196,7 @@
             <wire x2="1296" y1="1936" y2="1936" x1="1168" />
             <wire x2="1232" y1="1008" y2="1008" x1="1168" />
         </branch>
-        <instance x="1712" y="1472" name="XLXI_4" orien="R180">
+        <instance x="1712" y="1472" name="CalculateAlphaCP_rom_signed10bit" orien="R180">
         </instance>
         <branch name="i_clock">
             <wire x2="1168" y1="336" y2="336" x1="1152" />

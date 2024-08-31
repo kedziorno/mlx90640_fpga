@@ -1,49 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="virtex4" name="DeviceFamilyName">
+    <attr value="spartan3e" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
     </attr>
     <netlist>
-        <signal name="XLXN_3(14:5)" />
-        <signal name="XLXN_6(14:5)" />
-        <signal name="XLXN_10" />
-        <signal name="XLXN_15(3:0)" />
-        <signal name="XLXN_21(31:0)" />
-        <signal name="XLXN_25" />
         <signal name="XLXN_45(4:0)" />
         <signal name="XLXN_45(14:5)" />
-        <signal name="XLXN_245(14:5)" />
         <signal name="XLXN_44(4:0)" />
         <signal name="XLXN_44(14:5)" />
-        <signal name="XLXN_248(14:5)" />
         <signal name="XLXN_59" />
         <signal name="XLXN_45(14:0)" />
         <signal name="XLXN_44(14:0)" />
-        <signal name="XLXN_252" />
         <signal name="mux_addr1(9)" />
         <signal name="XLXN_78(31:0)" />
         <signal name="XLXN_79(31:0)" />
         <signal name="XLXN_139(3:0)" />
-        <signal name="XLXN_257(3:0)" />
         <signal name="i_addr(9:0)" />
         <signal name="mux_addr1(9:0)" />
         <signal name="o_do(31:0)" />
-        <signal name="XLXN_236" />
         <signal name="XLXN_239(31:0)" />
-        <signal name="XLXN_263(31:0)" />
         <signal name="o_rdy" />
         <signal name="i_clock" />
         <signal name="XLXN_241(9:0)" />
-        <signal name="XLXN_267" />
         <signal name="i_reset" />
         <signal name="XLXN_269" />
         <signal name="XLXN_270" />
-        <signal name="XLXN_271" />
-        <signal name="XLXN_272" />
-        <signal name="XLXN_273" />
-        <signal name="XLXN_274" />
         <signal name="XLXN_275(7:0)" />
         <signal name="XLXN_276(31:0)" />
         <signal name="XLXN_277(31:0)" />
@@ -52,11 +35,9 @@
         <signal name="XLXN_280(11:0)" />
         <signal name="XLXN_281(11:0)" />
         <signal name="XLXN_282" />
-        <signal name="XLXN_283" />
         <signal name="i2c_mem_ena" />
         <signal name="i2c_mem_addra(11:0)" />
         <signal name="i2c_mem_douta(7:0)" />
-        <signal name="XLXN_287" />
         <signal name="XLXN_288" />
         <signal name="divfpond" />
         <signal name="divfpsclr" />
@@ -172,8 +153,8 @@
             <line x2="64" y1="0" y2="-64" x1="64" />
             <circle r="16" cx="144" cy="-32" />
         </blockdef>
-        <blockdef name="ramb16">
-            <timestamp>2007-9-26T16:56:25</timestamp>
+        <blockdef name="RAMB16_S36_S36">
+            <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
             <rect width="64" x="0" y="-588" height="24" />
@@ -335,7 +316,7 @@
             <rect width="64" x="848" y="-44" height="24" />
             <line x2="912" y1="-32" y2="-32" x1="848" />
         </blockdef>
-        <block symbolname="CalculateTo_process_p0" name="XLXI_32">
+        <block symbolname="CalculateTo_process_p0" name="CalculateTo_process_p0_inst">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="i_run" name="i_run" />
@@ -410,7 +391,7 @@
             <blockpin signalname="mux_addr1(9)" name="I" />
             <blockpin signalname="XLXN_59" name="O" />
         </block>
-        <block symbolname="ramb16" name="mem_To_1">
+        <block symbolname="RAMB16_S36_S36" name="mem_To_1">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -478,7 +459,7 @@
             <blockpin name="DOPA(3:0)" />
             <blockpin name="DOPB(3:0)" />
         </block>
-        <block symbolname="m2_1" name="MUX_DO(31:0)">
+        <block symbolname="m2_1" name="CalculateTo_MUX_DO(31:0)">
             <blockpin signalname="XLXN_79(31:0)" name="D0" />
             <blockpin signalname="XLXN_78(31:0)" name="D1" />
             <blockpin signalname="mux_addr1(9)" name="S0" />
@@ -488,13 +469,13 @@
             <blockpin signalname="XLXN_288" name="I" />
             <blockpin signalname="XLXN_139(3:0)" name="O" />
         </block>
-        <block symbolname="m2_1" name="MUX_ADDR(9:0)">
+        <block symbolname="m2_1" name="CalculateTo_MUX_ADDR(9:0)">
             <blockpin signalname="XLXN_241(9:0)" name="D0" />
             <blockpin signalname="i_addr(9:0)" name="D1" />
             <blockpin signalname="o_rdy" name="S0" />
             <blockpin signalname="mux_addr1(9:0)" name="O" />
         </block>
-        <block symbolname="ramb16" name="mem_To_2">
+        <block symbolname="RAMB16_S36_S36" name="mem_To_2">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -562,7 +543,7 @@
             <blockpin name="DOPA(3:0)" />
             <blockpin name="DOPB(3:0)" />
         </block>
-        <block symbolname="ExtractKsToScaleParameter" name="XLXI_30">
+        <block symbolname="ExtractKsToScaleParameter" name="CalculateTo_extractkstoscaleparameter">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="XLXN_270" name="i_run" />
@@ -572,19 +553,19 @@
             <blockpin signalname="XLXN_280(11:0)" name="i2c_mem_addra(11:0)" />
             <blockpin signalname="XLXN_277(31:0)" name="o_kstoscale(31:0)" />
         </block>
-        <block symbolname="rom_signed8bit" name="XLXI_31">
+        <block symbolname="rom_signed8bit" name="CalculateTo_rom_signed8bit">
             <blockpin signalname="XLXN_275(7:0)" name="i_value(7:0)" />
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="XLXN_276(31:0)" name="o_value(31:0)" />
         </block>
-        <block symbolname="m2_1" name="XLXI_61">
+        <block symbolname="m2_1" name="CalculateTo_MUX_i2c_mem_ena">
             <blockpin signalname="XLXN_279" name="D0" />
             <blockpin signalname="XLXN_278" name="D1" />
             <blockpin signalname="XLXN_282" name="S0" />
             <blockpin signalname="i2c_mem_ena" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_62(11:0)">
+        <block symbolname="m2_1" name="CalculateTo_MUX_i2c_mem_addra(11:0)">
             <blockpin signalname="XLXN_281(11:0)" name="D0" />
             <blockpin signalname="XLXN_280(11:0)" name="D1" />
             <blockpin signalname="XLXN_282" name="S0" />
@@ -704,19 +685,19 @@
         <instance x="2976" y="5200" name="mem_To_1" orien="R0">
             <attrtext style="fontsize:28;fontname:Arial" attrname="InstName" x="0" y="0" type="instance" />
         </instance>
-        <instance x="4768" y="4912" name="MUX_DO(31:0)" orien="R0" />
+        <instance x="4768" y="4912" name="CalculateTo_MUX_DO(31:0)" orien="R0" />
         <instance x="2704" y="5104" name="XLXI_29(3:0)" orien="M180" />
-        <instance x="2272" y="4304" name="MUX_ADDR(9:0)" orien="M180" />
+        <instance x="2272" y="4304" name="CalculateTo_MUX_ADDR(9:0)" orien="M180" />
         <instance x="4160" y="5200" name="mem_To_2" orien="R0">
             <attrtext style="fontsize:28;fontname:Arial" attrname="InstName" x="0" y="0" type="instance" />
         </instance>
         <iomarker fontsize="28" x="2096" y="4400" name="i_addr(9:0)" orien="R180" />
         <iomarker fontsize="28" x="5120" y="4784" name="o_do(31:0)" orien="R0" />
-        <instance x="704" y="2528" name="XLXI_32" orien="R0">
+        <instance x="704" y="2528" name="CalculateTo_process_p0_inst" orien="R0">
         </instance>
-        <instance x="2704" y="480" name="XLXI_30" orien="R0">
+        <instance x="2704" y="480" name="CalculateTo_extractkstoscaleparameter" orien="R0">
         </instance>
-        <instance x="2784" y="512" name="XLXI_31" orien="M180">
+        <instance x="2784" y="512" name="CalculateTo_rom_signed8bit" orien="M180">
         </instance>
         <branch name="XLXN_269">
             <wire x2="3344" y1="128" y2="128" x1="576" />
@@ -747,7 +728,7 @@
             <wire x2="3376" y1="96" y2="448" x1="3376" />
             <wire x2="3376" y1="448" y2="448" x1="3280" />
         </branch>
-        <instance x="3584" y="160" name="XLXI_61" orien="M180" />
+        <instance x="3584" y="160" name="CalculateTo_MUX_i2c_mem_ena" orien="M180" />
         <branch name="XLXN_278">
             <wire x2="3584" y1="256" y2="256" x1="3280" />
         </branch>
@@ -758,7 +739,7 @@
             <wire x2="3584" y1="320" y2="320" x1="3392" />
             <wire x2="1680" y1="80" y2="256" x1="1680" />
         </branch>
-        <instance x="3584" y="416" name="XLXI_62(11:0)" orien="M180" />
+        <instance x="3584" y="416" name="CalculateTo_MUX_i2c_mem_addra(11:0)" orien="M180" />
         <branch name="XLXN_280(11:0)">
             <wire x2="3392" y1="384" y2="384" x1="3280" />
             <wire x2="3392" y1="384" y2="512" x1="3392" />

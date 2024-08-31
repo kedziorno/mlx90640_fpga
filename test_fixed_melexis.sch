@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="virtex4" name="DeviceFamilyName">
+    <attr value="spartan3e" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
     </attr>
     <netlist>
         <blockdef name="addfp">
-            <timestamp>2023-3-4T21:17:48</timestamp>
+            <timestamp>2023-8-23T15:47:39</timestamp>
             <rect width="448" x="32" y="32" height="352" />
             <line x2="32" y1="80" y2="80" style="linewidth:W" x1="0" />
             <line x2="32" y1="112" y2="112" style="linewidth:W" x1="0" />
@@ -19,7 +19,7 @@
             <line x2="480" y1="240" y2="240" x1="512" />
         </blockdef>
         <blockdef name="divfp">
-            <timestamp>2023-3-4T21:7:43</timestamp>
+            <timestamp>2023-8-23T15:38:46</timestamp>
             <rect width="448" x="32" y="32" height="352" />
             <line x2="32" y1="80" y2="80" style="linewidth:W" x1="0" />
             <line x2="32" y1="112" y2="112" style="linewidth:W" x1="0" />
@@ -31,7 +31,7 @@
             <line x2="480" y1="240" y2="240" x1="512" />
         </blockdef>
         <blockdef name="fixed2float">
-            <timestamp>2023-3-4T20:55:2</timestamp>
+            <timestamp>2023-8-23T15:31:40</timestamp>
             <rect width="448" x="32" y="32" height="352" />
             <line x2="32" y1="80" y2="80" style="linewidth:W" x1="0" />
             <line x2="32" y1="208" y2="208" x1="0" />
@@ -42,7 +42,7 @@
             <line x2="480" y1="240" y2="240" x1="512" />
         </blockdef>
         <blockdef name="mulfp">
-            <timestamp>2023-3-4T20:52:5</timestamp>
+            <timestamp>2023-8-23T15:35:27</timestamp>
             <rect width="448" x="32" y="32" height="352" />
             <line x2="32" y1="80" y2="80" style="linewidth:W" x1="0" />
             <line x2="32" y1="112" y2="112" style="linewidth:W" x1="0" />
@@ -54,7 +54,7 @@
             <line x2="480" y1="240" y2="240" x1="512" />
         </blockdef>
         <blockdef name="sqrtfp2">
-            <timestamp>2023-3-4T21:34:22</timestamp>
+            <timestamp>2023-8-23T15:57:9</timestamp>
             <rect width="448" x="32" y="32" height="352" />
             <line x2="32" y1="80" y2="80" style="linewidth:W" x1="0" />
             <line x2="32" y1="208" y2="208" x1="0" />
@@ -65,7 +65,7 @@
             <line x2="480" y1="240" y2="240" x1="512" />
         </blockdef>
         <blockdef name="subfp">
-            <timestamp>2023-3-4T21:30:45</timestamp>
+            <timestamp>2023-8-23T15:52:25</timestamp>
             <rect width="448" x="32" y="32" height="352" />
             <line x2="32" y1="80" y2="80" style="linewidth:W" x1="0" />
             <line x2="32" y1="112" y2="112" style="linewidth:W" x1="0" />
@@ -77,7 +77,7 @@
             <line x2="480" y1="240" y2="240" x1="512" />
         </blockdef>
         <blockdef name="float2fixed">
-            <timestamp>2023-3-5T21:54:34</timestamp>
+            <timestamp>2023-9-2T11:49:12</timestamp>
             <rect width="448" x="32" y="32" height="352" />
             <line x2="32" y1="80" y2="80" style="linewidth:W" x1="0" />
             <line x2="32" y1="208" y2="208" x1="0" />
@@ -85,7 +85,6 @@
             <line x2="32" y1="336" y2="336" x1="0" />
             <line x2="144" y1="416" y2="384" x1="144" />
             <line x2="480" y1="80" y2="80" style="linewidth:W" x1="512" />
-            <line x2="480" y1="240" y2="240" x1="512" />
         </blockdef>
         <blockdef name="CalculateVDD">
             <timestamp>2023-6-16T16:43:18</timestamp>
@@ -679,7 +678,6 @@
             <blockpin name="ce" />
             <blockpin name="clk" />
             <blockpin name="result(63:0)" />
-            <blockpin name="rdy" />
         </block>
         <block symbolname="mulfp" name="XLXI_5">
             <blockpin name="a(31:0)" />
@@ -1121,37 +1119,37 @@
     <sheet sheetnum="1" width="5382" height="7609">
         <attr value="CM" name="LengthUnitName" />
         <attr value="4" name="GridsPerUnit" />
-        <instance x="4870" y="4417" name="XLXI_3" orien="R0">
+        <instance x="4864" y="4416" name="XLXI_3" orien="R0">
         </instance>
-        <instance x="4870" y="4817" name="XLXI_8" orien="R0">
+        <instance x="4864" y="4816" name="XLXI_8" orien="R0">
         </instance>
-        <instance x="4870" y="5217" name="XLXI_5" orien="R0">
+        <instance x="4864" y="5216" name="XLXI_5" orien="R0">
         </instance>
-        <instance x="4870" y="4017" name="XLXI_2" orien="R0">
+        <instance x="4864" y="4016" name="XLXI_2" orien="R0">
         </instance>
-        <instance x="4870" y="3617" name="XLXI_1" orien="R0">
+        <instance x="4864" y="3616" name="XLXI_1" orien="R0">
         </instance>
-        <instance x="4870" y="5617" name="XLXI_6" orien="R0">
+        <instance x="4864" y="5616" name="XLXI_6" orien="R0">
         </instance>
-        <instance x="4870" y="6017" name="XLXI_7" orien="R0">
+        <instance x="4864" y="6016" name="XLXI_7" orien="R0">
         </instance>
-        <instance x="3974" y="3713" name="XLXI_66" orien="M180">
+        <instance x="3968" y="3712" name="XLXI_66" orien="M180">
         </instance>
-        <instance x="3990" y="5041" name="XLXI_64" orien="M180">
+        <instance x="3984" y="5040" name="XLXI_64" orien="M180">
         </instance>
-        <instance x="3206" y="5089" name="XLXI_60" orien="M180">
+        <instance x="3200" y="5088" name="XLXI_60" orien="M180">
         </instance>
-        <instance x="3270" y="3873" name="XLXI_62" orien="M180">
+        <instance x="3264" y="3872" name="XLXI_62" orien="M180">
         </instance>
-        <instance x="2262" y="3873" name="XLXI_67" orien="M180">
+        <instance x="2256" y="3872" name="XLXI_67" orien="M180">
         </instance>
-        <instance x="1558" y="3889" name="XLXI_59" orien="M180">
+        <instance x="1552" y="3888" name="XLXI_59" orien="M180">
         </instance>
-        <instance x="2342" y="5889" name="XLXI_65" orien="M180">
+        <instance x="2336" y="5888" name="XLXI_65" orien="M180">
         </instance>
-        <instance x="1510" y="5889" name="XLXI_61" orien="M180">
+        <instance x="1504" y="5888" name="XLXI_61" orien="M180">
         </instance>
-        <instance x="934" y="6385" name="XLXI_63" orien="M180">
+        <instance x="928" y="6384" name="XLXI_63" orien="M180">
         </instance>
     </sheet>
 </drawing>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="virtex4" name="DeviceFamilyName">
+    <attr value="spartan3e" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -64,7 +64,7 @@
             <blockpin signalname="do" name="I" />
             <blockpin signalname="o_pattern" name="O" />
         </block>
-        <block symbolname="ramb16_s1" name="XLXI_10">
+        <block symbolname="ramb16_s1" name="ROM_mem_switchpattern">
             <attr value="0101010101010101010101010101010110101010101010101010101010101010" name="INIT_0B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -209,7 +209,7 @@
             <wire x2="2400" y1="2704" y2="2704" x1="2208" />
             <wire x2="2400" y1="2464" y2="2704" x1="2400" />
         </branch>
-        <instance x="1792" y="2640" name="XLXI_10" orien="R0">
+        <instance x="1792" y="2640" name="ROM_mem_switchpattern" orien="R0">
             <attrtext style="fontsize:28;fontname:Arial;displayformat:NAMEEQUALSVALUE" attrname="INIT_00" x="0" y="32" type="instance" />
         </instance>
         <branch name="XLXN_44">
