@@ -629,9 +629,9 @@ begin
 (vPos = 440) or
 (vPos = 450) or
 (vPos = 460) or
-(vPos = 470)
---(vPos = 470) or
---(vPos = 480)
+--(vPos = 470)
+(vPos = 470) or
+(vPos = 480)
 
 		)) then
 --		if(hPos < HD and vPos < VD and vPos mod 24 = 0)then

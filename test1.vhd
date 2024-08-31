@@ -216,10 +216,10 @@ signal rdata : std_logic_vector(23 downto 0);
 constant DATA_WIDTH : integer := 9; -- Width of input/output data
 constant CHANNELS : integer := 1; -- Number of channels of DATA_WIDTH, for color images
 constant DISCARD_CNT_WIDTH : integer := 1; -- Width of inputDiscardCnt
-constant INPUT_X_RES_WIDTH : integer := 11; -- Widths of input/output resolution control signals
-constant INPUT_Y_RES_WIDTH : integer := 11;
-constant OUTPUT_X_RES_WIDTH : integer := 11;
-constant OUTPUT_Y_RES_WIDTH : integer := 11;
+constant INPUT_X_RES_WIDTH : integer := 5; -- Widths of input/output resolution control signals
+constant INPUT_Y_RES_WIDTH : integer := 5;
+constant OUTPUT_X_RES_WIDTH : integer := 6;
+constant OUTPUT_Y_RES_WIDTH : integer := 6;
 constant FRACTION_BITS : integer := 8; -- Number of bits for fractional component of coefficients.
 constant SCALE_INT_BITS : integer := 4; -- Width of integer component of scaling factor. The maximum input data width to multipliers created will be SCALE_INT_BITS + SCALE_FRAC_BITS. Typically these values will sum to 18 to match multipliers available in FPGAs.
 constant SCALE_FRAC_BITS : integer := 14; -- Width of fractional component of scaling factor
@@ -466,20 +466,6 @@ begin
 		end if;
 	end if;
 end process pvgaclk;
-
---synthesis translate_off
---pdualmemdoutb : process (address_generator_clk) is
---  variable data2 : sfixed (dualmem_doutb'left downto 0);
---  variable prev_hsync : std_logic;
---begin
---  if (rising_edge (address_generator_clk)) then
---    if (prev_hsync = '0' and VGA_timing_synch_Hsync = '1') then
---      report_fixed_value ("test1 dualmemdoutb", to_sfixed(std_logic_vector(dualmem_doutb (dualmem_doutb'range)),data2));
---    end if;
---    prev_hsync := VGA_timing_synch_Hsync;
---  end if;
---end process pdualmemdoutb;
---synthesis translate_on
 
 pagclk : process (i_clock) is
 --	constant CMAX : integer := 40; -- 1.25
@@ -729,21 +715,6 @@ vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_activeArea1 = '1' el
 vga_g <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
---INPUT_X_RES => 32-1,
---INPUT_Y_RES => 24-1,
---OUTPUT_X_RES => 64-1,
---OUTPUT_Y_RES => 48-1,
---X_SCALE => 16384 * (32-1) / (64-1)-1,
---Y_SCALE => 16384 * (24-1) / (48-1)-1,
---DATA_WIDTH => 8,
---CHANNELS => 3,
---DISCARD_CNT_WIDTH => 8,
---INPUT_X_RES_WIDTH => 5,
---INPUT_Y_RES_WIDTH => 5,
---OUTPUT_X_RES_WIDTH => 6,
---OUTPUT_Y_RES_WIDTH => 6,
---BUFFER_SIZE => 1
-
 dualmem2_clka <= i_clock;
 dualmem2_clkb <= agclk;
 dualmem2_enb <= '1';
@@ -783,7 +754,7 @@ end process p_sc_ag;
 p_sc_ndo : process (i_clock) is
   type states is (idle, a, b, c);
   variable state : states := idle;
-  variable i : integer range 0 to (1*(OUTPUT_X_RES+1)*4)-1;
+  variable i : integer;
   variable j : integer;
 begin
   if (rising_edge (i_clock)) then
@@ -792,11 +763,11 @@ begin
       j := 0;
       streamScaler_nextDout <= '0';
     else
-      j := j + 1;
+--      j := j + 1;
       if (dualmem2_enb = '1') then
 --        if (j >= 16913+500 and j <= 16913+8000) then
 --        if (j >= 16913+500 and j <= 16913+8200) then
-        if (j >= 16913+500) then
+--        if (j >= 16913+500) then
           if (i < (1*(OUTPUT_X_RES+1)*4)) then
             streamScaler_nextDout <= '1';
           else
@@ -807,61 +778,13 @@ begin
           else
             i := i + 1;
           end if;
-        else
-          streamScaler_nextDout <= '0';
-        end if;
+--        else
+--          streamScaler_nextDout <= '0';
+--        end if;
       end if;
     end if;
   end if;
 end process p_sc_ndo;
-
---p_streamScaler_din : process (i_clock) is
---  type states is (idle, a, b, c);
---  variable state : states := idle;
---  variable i : integer range 0 to PIXELS-1;
---begin
---  if (rising_edge (i_clock)) then
---    if (i_reset = '1') then
---      state := idle;
---      streamScaler_dIn <= (others => '0');
---      streamScaler_start <= '1';
---      i := 0;
---      streamScaler_start_dout <= '0';
---    else
---      case (state) is
---        when idle =>
---          streamScaler_start <= '0';
---          if (streamScaler_run = '1') then
---            state := a;
---          else
---            state := idle;
---          end if;
---        when a =>
---          streamScaler_dInValid <= '1';
---          streamScaler_start <= '0';
---          if (streamScaler_nextDin = '1') then
---            state := b;
---          else
---            state := a;
---          end if;
---        when b =>
-----          streamScaler_dIn <= dualmem_doutb (8 downto 0)&dualmem_doutb (8 downto 0)&dualmem_doutb (8 downto 0);
---          streamScaler_dIn <= dualmem_doutb (8 downto 0);
---          state := a;
---        when c =>
-----          if (i = 263 - 1) then -- XXX const
-----            state := idle;
-----            i := 0;
-----            streamScaler_start_dout <= '1';
-----          else
-----            i := i + 1;
-----            report "i aaa " & integer'image (i);
-----            state := a;
-----          end if;
---      end case;
---    end if;
---  end if;
---end process p_streamScaler_din;
 
 p_streamScaler_din : process (i_clock) is
   type states is (idle, a);
@@ -892,10 +815,9 @@ begin
 end process p_streamScaler_din;
 
 p_streamScaler_dout : process (i_clock) is
-  type states is (idle, a, b);
+  type states is (idle, a);
   variable state : states := idle;
-  variable douti : integer range 0 to (OUTPUT_X_RES+1)*(OUTPUT_Y_RES+1)-1;
---  variable douti : integer range 0 to OUTPUT_X_RES*OUTPUT_Y_RES-1;
+  variable douti : integer range 0 to OUTPUT_X_RES*OUTPUT_Y_RES-1;
 begin
   if (rising_edge (i_clock)) then
     if (i_reset = '1') then
@@ -918,24 +840,17 @@ begin
             state := idle;
           end if;
         when a =>
-          if (douti = (OUTPUT_X_RES+1)*(OUTPUT_Y_RES+1) - 1) then
---          if (douti = OUTPUT_X_RES*OUTPUT_Y_RES - 1) then
+          if (douti = OUTPUT_X_RES*OUTPUT_Y_RES - 1) then
             state := idle;
           else
-            state := b;
-            dualmem2_ena <= '0';
-            dualmem2_wea <= "0";
---            dualmem2_addra <= (others => '0');
-            dualmem2_dina <= (others => '0');
-          end if;
-        when b =>
-          if (streamScaler_dOutValid = '1') then
-            dualmem2_ena <= '1';
-            dualmem2_wea <= "1";
-            dualmem2_addra <= std_logic_vector (to_unsigned (douti, 12));
-            dualmem2_dina <= streamScaler_dOut;
-            state := a;
-            douti := douti + 1;
+            if (streamScaler_dOutValid = '1') then
+              dualmem2_ena <= '1';
+              dualmem2_wea <= "1";
+              dualmem2_addra <= std_logic_vector (to_unsigned (douti, 12));
+              dualmem2_dina <= streamScaler_dOut;
+              state := a;
+              douti := douti + 1;
+            end if;
           end if;
       end case;
     end if;
