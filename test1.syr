@@ -1299,24 +1299,26 @@ Design Statistics
 # IOs                              : 32
 
 Cell Usage :
-# BELS                             : 1722
+# BELS                             : 1682
 #      GND                         : 5
 #      INV                         : 54
 #      LUT1                        : 106
-#      LUT2                        : 146
-#      LUT2_L                      : 4
-#      LUT3                        : 256
-#      LUT3_D                      : 8
-#      LUT3_L                      : 24
-#      LUT4                        : 539
-#      LUT4_D                      : 11
-#      LUT4_L                      : 10
-#      MUXCY                       : 247
+#      LUT2                        : 145
+#      LUT2_D                      : 1
+#      LUT2_L                      : 8
+#      LUT3                        : 250
+#      LUT3_D                      : 3
+#      LUT3_L                      : 19
+#      LUT4                        : 530
+#      LUT4_D                      : 12
+#      LUT4_L                      : 9
+#      MULT_AND                    : 1
+#      MUXCY                       : 236
 #      MUXF5                       : 120
 #      MUXF6                       : 2
 #      MUXF7                       : 1
 #      VCC                         : 2
-#      XORCY                       : 187
+#      XORCY                       : 178
 # FlipFlops/Latches                : 660
 #      FDC                         : 207
 #      FDCE                        : 53
@@ -1348,10 +1350,10 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                      651  out of  15360     4%  
+ Number of Slices:                      639  out of  15360     4%  
  Number of Slice Flip Flops:            660  out of  30720     2%  
- Number of 4 input LUTs:               1162  out of  30720     3%  
-    Number used as logic:              1158
+ Number of 4 input LUTs:               1141  out of  30720     3%  
+    Number used as logic:              1137
     Number used as Shift registers:       4
  Number of IOs:                          32
  Number of bonded IOBs:                  32  out of    448     7%  
@@ -1404,7 +1406,7 @@ Timing Summary:
 ---------------
 Speed Grade: -10
 
-   Minimum period: 8.945ns (Maximum Frequency: 111.796MHz)
+   Minimum period: 8.963ns (Maximum Frequency: 111.565MHz)
    Minimum input arrival time before clock: 5.970ns
    Maximum output required time after clock: 12.852ns
    Maximum combinational path delay: No path found
@@ -1415,23 +1417,23 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 8.945ns (frequency: 111.796MHz)
-  Total number of paths / destination ports: 76323 / 1104
+  Clock period: 8.963ns (frequency: 111.565MHz)
+  Total number of paths / destination ports: 74730 / 1104
 -------------------------------------------------------------------------
-Delay:               8.945ns (Levels of Logic = 21)
-  Source:            inst_streamScaler/yScaleAmount_8 (FF)
+Delay:               8.963ns (Levels of Logic = 21)
+  Source:            inst_streamScaler/yScaleAmount_9 (FF)
   Destination:       inst_streamScaler/coeff01_8 (FF)
   Source Clock:      i_clock rising
   Destination Clock: i_clock rising
 
-  Data Path: inst_streamScaler/yScaleAmount_8 to inst_streamScaler/coeff01_8
+  Data Path: inst_streamScaler/yScaleAmount_9 to inst_streamScaler/coeff01_8
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDC:C->Q              7   0.360   0.744  inst_streamScaler/yScaleAmount_8 (inst_streamScaler/yScaleAmount_8)
-     LUT3_D:I0->O          3   0.195   0.538  inst_streamScaler/Madd_preCoeff00_sub0000_xor<3>111 (inst_streamScaler/N171)
-     LUT4:I3->O            2   0.195   0.377  inst_streamScaler/Madd_preCoeff00_sub0000_xor<5>11 (inst_streamScaler/preCoeff00_sub0000<5>)
-     DSP48:B5->P0          1   4.402   0.360  inst_streamScaler/Mmult_preCoeff00_mult0000 (inst_streamScaler/preCoeff00_mult0000<0>)
+     FDC:C->Q              5   0.360   0.764  inst_streamScaler/yScaleAmount_9 (inst_streamScaler/yScaleAmount_9)
+     LUT4_D:I0->O          4   0.195   0.537  inst_streamScaler/Madd_preCoeff00_sub0000_cy<7>31 (inst_streamScaler/Madd_preCoeff00_sub0000_cy<7>_bdd2)
+     LUT2:I1->O            2   0.195   0.377  inst_streamScaler/preCoeff00_sub0000<4>1 (inst_streamScaler/preCoeff00_sub0000<4>)
+     DSP48:B4->P0          1   4.402   0.360  inst_streamScaler/Mmult_preCoeff00_mult0000 (inst_streamScaler/preCoeff00_mult0000<0>)
      INV:I->O              1   0.358   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_lut<0>_INV_0 (inst_streamScaler/Madd_preCoeff00_add0000_Madd_lut<0>)
      MUXCY:S->O            1   0.366   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<0> (inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<0>)
      MUXCY:CI->O           1   0.044   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<1> (inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<1>)
@@ -1452,15 +1454,15 @@ Delay:               8.945ns (Levels of Logic = 21)
      XORCY:CI->O           1   0.360   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_xor<16> (inst_streamScaler/preCoeff00<8>)
      FDC:D                     0.022          inst_streamScaler/coeff00_8
     ----------------------------------------
-    Total                      8.945ns (6.926ns logic, 2.019ns route)
-                                       (77.4% logic, 22.6% route)
+    Total                      8.963ns (6.926ns logic, 2.038ns route)
+                                       (77.3% logic, 22.7% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'vgaclk251'
-  Clock period: 8.108ns (frequency: 123.337MHz)
+  Clock period: 7.867ns (frequency: 127.115MHz)
   Total number of paths / destination ports: 2325 / 151
 -------------------------------------------------------------------------
-Delay:               8.108ns (Levels of Logic = 10)
+Delay:               7.867ns (Levels of Logic = 9)
   Source:            vts_inst/hPos_1 (FF)
   Destination:       vts_inst/videoOn (FF)
   Source Clock:      vgaclk251 rising
@@ -1471,27 +1473,26 @@ Delay:               8.108ns (Levels of Logic = 10)
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
      FDR:C->Q              6   0.360   0.622  vts_inst/hPos_1 (vts_inst/hPos_1)
-     LUT2:I0->O            2   0.195   0.540  vts_inst/activeArea16_SW0 (N120)
-     LUT4_D:I3->LO         1   0.195   0.163  vts_inst/activeArea16 (N380)
-     LUT3:I2->O            3   0.195   0.538  vts_inst/videoOn_or000071 (vts_inst/videoOn_or0000_bdd19)
-     LUT4_D:I3->O          1   0.195   0.523  vts_inst/videoOn_or000019 (vts_inst/videoOn_or0000_bdd32)
-     LUT4_D:I3->O          2   0.195   0.540  vts_inst/videoOn_or000015 (vts_inst/videoOn_or0000_bdd9)
-     LUT3:I2->O            1   0.195   0.000  vts_inst/videoOn_or00001179_G (N159)
-     MUXF5:I1->O           1   0.374   0.523  vts_inst/videoOn_or00001179 (vts_inst/videoOn_or00001179)
+     LUT2_D:I0->O          1   0.195   0.585  vts_inst/activeArea16_SW0 (N126)
+     LUT4:I2->O            2   0.195   0.540  vts_inst/videoOn_or00008_SW0 (N118)
+     LUT4_D:I3->O          1   0.195   0.523  vts_inst/videoOn_or00008 (vts_inst/videoOn_or0000_bdd15)
+     LUT4_D:I3->O          2   0.195   0.602  vts_inst/videoOn_or00004 (vts_inst/videoOn_or0000_bdd8)
+     LUT3:I1->O            1   0.195   0.000  vts_inst/videoOn_or00001179_F (N156)
+     MUXF5:I0->O           1   0.382   0.523  vts_inst/videoOn_or00001179 (vts_inst/videoOn_or00001179)
      LUT4_L:I3->LO         1   0.195   0.163  vts_inst/videoOn_or00001232 (vts_inst/videoOn_or00001232)
      LUT4:I3->O            1   0.195   0.585  vts_inst/videoOn_or00001273 (vts_inst/videoOn_or00001273)
      LUT4:I2->O            1   0.195   0.360  vts_inst/videoOn_or00001310 (vts_inst/videoOn_or0000)
      FDR:R                     1.062          vts_inst/videoOn
     ----------------------------------------
-    Total                      8.108ns (3.551ns logic, 4.557ns route)
-                                       (43.8% logic, 56.2% route)
+    Total                      7.867ns (3.364ns logic, 4.503ns route)
+                                       (42.8% logic, 57.2% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'agclk'
-  Clock period: 4.965ns (frequency: 201.392MHz)
+  Clock period: 5.210ns (frequency: 191.924MHz)
   Total number of paths / destination ports: 222 / 24
 -------------------------------------------------------------------------
-Delay:               4.965ns (Levels of Logic = 4)
+Delay:               5.210ns (Levels of Logic = 4)
   Source:            ag_inst/addr_4 (FF)
   Destination:       ag_inst/addr_11 (FF)
   Source Clock:      agclk rising
@@ -1502,20 +1503,20 @@ Delay:               4.965ns (Levels of Logic = 4)
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
      FDRE:C->Q             4   0.360   0.755  ag_inst/addr_4 (ag_inst/addr_4)
-     LUT4:I0->O            1   0.195   0.585  ag_inst/addr_or000023 (ag_inst/addr_or000023)
-     LUT4:I2->O            1   0.195   0.741  ag_inst/addr_or000033_SW0 (N214)
-     LUT4_L:I0->LO         1   0.195   0.163  ag_inst/addr_or000033 (ag_inst/addr_or000033)
+     LUT4:I0->O            1   0.195   0.688  ag_inst/addr_or000015 (ag_inst/addr_or000015)
+     LUT4:I1->O            1   0.195   0.523  ag_inst/addr_or000034_SW0 (N210)
+     LUT4:I3->O            1   0.195   0.523  ag_inst/addr_or000034 (ag_inst/addr_or000034)
      LUT3:I2->O           12   0.195   0.520  ag_inst/addr_or000043 (ag_inst/addr_or0000)
      FDRE:R                    1.062          ag_inst/addr_0
     ----------------------------------------
-    Total                      4.965ns (2.202ns logic, 2.763ns route)
-                                       (44.3% logic, 55.7% route)
+    Total                      5.210ns (2.202ns logic, 3.008ns route)
+                                       (42.3% logic, 57.7% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
   Total number of paths / destination ports: 190 / 180
 -------------------------------------------------------------------------
-Offset:              5.215ns (Levels of Logic = 3)
+Offset:              5.207ns (Levels of Logic = 3)
   Source:            i_reset (PAD)
   Destination:       streamScaler_ag_0 (FF)
   Destination Clock: i_clock rising
@@ -1525,11 +1526,11 @@ Offset:              5.215ns (Levels of Logic = 3)
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
      IBUF:I->O           296   0.965   2.123  i_reset_IBUF (i_reset_IBUF)
-     LUT4:I3->O            1   0.195   0.000  streamScaler_ag_or0000391 (streamScaler_ag_or000039)
-     MUXF5:I0->O          10   0.382   0.488  streamScaler_ag_or000039_f5 (streamScaler_ag_or0000)
+     LUT4:I3->O            1   0.195   0.000  streamScaler_ag_or0000381 (streamScaler_ag_or000038)
+     MUXF5:I1->O          10   0.374   0.488  streamScaler_ag_or000038_f5 (streamScaler_ag_or0000)
      FDRE:R                    1.062          streamScaler_ag_0
     ----------------------------------------
-    Total                      5.215ns (2.604ns logic, 2.611ns route)
+    Total                      5.207ns (2.596ns logic, 2.611ns route)
                                        (49.9% logic, 50.1% route)
 
 =========================================================================
@@ -1597,7 +1598,7 @@ Offset:              4.694ns (Levels of Logic = 1)
 Timing constraint: Default OFFSET OUT AFTER for Clock 'vgaclk251'
   Total number of paths / destination ports: 1322 / 18
 -------------------------------------------------------------------------
-Offset:              12.089ns (Levels of Logic = 11)
+Offset:              11.746ns (Levels of Logic = 11)
   Source:            vts_inst/hPos_1 (FF)
   Destination:       vga_b<5> (PAD)
   Source Clock:      vgaclk251 rising
@@ -1607,11 +1608,11 @@ Offset:              12.089ns (Levels of Logic = 11)
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
      FDR:C->Q              6   0.360   0.622  vts_inst/hPos_1 (vts_inst/hPos_1)
-     LUT2:I0->O            2   0.195   0.540  vts_inst/activeArea16_SW0 (N120)
-     LUT4_D:I3->O          1   0.195   0.523  vts_inst/activeArea16 (vts_inst/activeArea1_bdd13)
-     LUT4_D:I3->O          1   0.195   0.523  vts_inst/activeArea1316 (vts_inst/activeArea1_bdd7)
+     LUT2_D:I0->LO         1   0.195   0.163  vts_inst/activeArea16_SW0 (N359)
+     LUT4:I3->O            2   0.195   0.540  vts_inst/activeArea16 (vts_inst/activeArea1_bdd13)
+     LUT4:I3->O            2   0.195   0.540  vts_inst/activeArea1316 (vts_inst/activeArea1_bdd7)
      LUT4:I3->O            1   0.195   0.688  vts_inst/activeArea182 (vts_inst/activeArea182)
-     LUT4:I1->O            1   0.195   0.000  vts_inst/activeArea1144_G (N317)
+     LUT4:I1->O            1   0.195   0.000  vts_inst/activeArea1144_G (N309)
      MUXF5:I1->O           5   0.374   0.546  vts_inst/activeArea1144 (vts_inst/activeArea1144)
      LUT3:I2->O           20   0.195   0.974  vts_inst/activeArea1193 (vga_blankn_OBUF)
      LUT3:I0->O            1   0.195   0.000  vga_b<5>12191 (vga_b<5>12191)
@@ -1619,8 +1620,8 @@ Offset:              12.089ns (Levels of Logic = 11)
      LUT3:I0->O            1   0.195   0.360  vga_b<5>1233 (vga_b_5_OBUF)
      OBUF:I->O                 3.957          vga_b_5_OBUF (vga_b<5>)
     ----------------------------------------
-    Total                     12.089ns (6.625ns logic, 5.464ns route)
-                                       (54.8% logic, 45.2% route)
+    Total                     11.746ns (6.625ns logic, 5.121ns route)
+                                       (56.4% logic, 43.6% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'agclk'
@@ -1653,13 +1654,13 @@ Offset:              12.852ns (Levels of Logic = 10)
 =========================================================================
 
 
-Total REAL time to Xst completion: 48.00 secs
-Total CPU time to Xst completion: 45.02 secs
+Total REAL time to Xst completion: 46.00 secs
+Total CPU time to Xst completion: 43.26 secs
  
 --> 
 
 
-Total memory usage is 607760 kilobytes
+Total memory usage is 606728 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :   86 (   0 filtered)
