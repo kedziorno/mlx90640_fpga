@@ -5,14 +5,14 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.07 secs
+Total CPU time to Xst completion: 0.09 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.07 secs
+Total CPU time to Xst completion: 0.09 secs
  
 --> 
 Reading design: test1.prj
@@ -967,6 +967,7 @@ WARNING:Xst:646 - Signal <VGA_timing_synch_blank> is assigned but never used. Th
     Found 12-bit up counter for signal <douti>.
     Found 12-bit register for signal <dualmem2_addra>.
     Found 9-bit register for signal <dualmem2_dina>.
+    Found 8-bit xor3 for signal <dualmem2_dina$xor0000> created at line 852.
     Found 1-bit register for signal <dualmem2_ena>.
     Found 10-bit register for signal <dualmem_addra>.
     Found 9-bit register for signal <dualmem_dina>.
@@ -1002,6 +1003,7 @@ WARNING:Xst:646 - Signal <VGA_timing_synch_blank> is assigned but never used. Th
 	inferred 142 D-type flip-flop(s).
 	inferred   1 Adder/Subtractor(s).
 	inferred   1 Comparator(s).
+	inferred   8 Xor(s).
 Unit <test1> synthesized.
 
 INFO:Xst:1767 - HDL ADVISOR - Resource sharing has identified that some arithmetic operations in this design can share the same physical resources for reduced device utilization. For improved clock frequency you may try to disable resource sharing.
@@ -1072,6 +1074,8 @@ Macro Statistics
 # Multiplexers                                         : 5
  24-bit 16-to-1 multiplexer                            : 4
  32-bit 4-to-1 multiplexer                             : 1
+# Xors                                                 : 1
+ 8-bit xor3                                            : 1
 
 =========================================================================
 
@@ -1259,6 +1263,8 @@ Macro Statistics
 # Multiplexers                                         : 5
  24-bit 16-to-1 multiplexer                            : 4
  32-bit 4-to-1 multiplexer                             : 1
+# Xors                                                 : 1
+ 8-bit xor3                                            : 1
 
 =========================================================================
 
@@ -1335,12 +1341,12 @@ Cell Usage :
 #      GND                         : 5
 #      INV                         : 56
 #      LUT1                        : 131
-#      LUT2                        : 238
+#      LUT2                        : 240
 #      LUT2_L                      : 8
 #      LUT3                        : 324
 #      LUT3_D                      : 2
 #      LUT3_L                      : 19
-#      LUT4                        : 678
+#      LUT4                        : 676
 #      LUT4_D                      : 14
 #      LUT4_L                      : 11
 #      MULT_AND                    : 1
@@ -1449,7 +1455,7 @@ All values displayed in nanoseconds (ns)
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
   Clock period: 8.963ns (frequency: 111.565MHz)
-  Total number of paths / destination ports: 136652 / 1409
+  Total number of paths / destination ports: 136623 / 1409
 -------------------------------------------------------------------------
 Delay:               8.963ns (Levels of Logic = 21)
   Source:            inst_streamScaler/yScaleAmount_9 (FF)
@@ -1683,13 +1689,13 @@ Offset:              12.994ns (Levels of Logic = 9)
 =========================================================================
 
 
-Total REAL time to Xst completion: 57.00 secs
-Total CPU time to Xst completion: 53.65 secs
+Total REAL time to Xst completion: 67.00 secs
+Total CPU time to Xst completion: 61.04 secs
  
 --> 
 
 
-Total memory usage is 629016 kilobytes
+Total memory usage is 629076 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :   95 (   0 filtered)

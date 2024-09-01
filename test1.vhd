@@ -849,7 +849,7 @@ begin
               dualmem2_ena <= '1';
               dualmem2_wea <= "1";
               dualmem2_addra <= std_logic_vector (to_unsigned (douti, 12));
-              dualmem2_dina <= (streamScaler_dOut (23 downto 16) and streamScaler_dOut (15 downto 8) and streamScaler_dOut (7 downto 0)) & '0';
+              dualmem2_dina <= (streamScaler_dOut (23 downto 16) xor streamScaler_dOut (15 downto 8) xor streamScaler_dOut (7 downto 0)) & '0';
               state := a;
               douti := douti + 1;
             end if;
