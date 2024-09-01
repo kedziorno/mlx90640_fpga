@@ -707,6 +707,7 @@ doutb => dualmem_doutb
 );
 
 -- xxx 9 bit signed heatmap, in simulation show all BGYW colors, on board 'only' YW colors, test image have range -172 to 17
+-- XXX by using colormap we can use less channels in scaler
 rdata <= colormap_rom (to_integer (signed (dualmem2_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
 --rdata <= colormap_rom (to_integer (unsigned (dualmem2_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
 
