@@ -339,6 +339,8 @@ $display ("DATA_WIDTH = ",DATA_WIDTH);
 $display ("CEOFF_WIDTH = ",COEFF_WIDTH);
 $display ("CHANNELS = ",CHANNELS);
 $display ((DATA_WIDTH+COEFF_WIDTH)*CHANNELS-1);
+$display ("xScale = ",xScale);
+$display ("yScale = ",yScale);
 end
 
 generate

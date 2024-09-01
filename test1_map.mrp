@@ -10,24 +10,24 @@ Target Device  : xc4vsx35
 Target Package : ff668
 Target Speed   : -10
 Mapper Version : virtex4 -- $Revision: 1.55 $
-Mapped Date    : Sun Sep  1 14:52:22 2024
+Mapped Date    : Sun Sep  1 15:13:44 2024
 
 Design Summary
 --------------
 Number of errors:      0
 Number of warnings:    3
 Logic Utilization:
-  Number of Slice Flip Flops:           652 out of  30,720    2%
-  Number of 4 input LUTs:             1,029 out of  30,720    3%
+  Number of Slice Flip Flops:           582 out of  30,720    1%
+  Number of 4 input LUTs:               884 out of  30,720    2%
 Logic Distribution:
-  Number of occupied Slices:            752 out of  15,360    4%
-    Number of Slices containing only related logic:     752 out of     752 100%
-    Number of Slices containing unrelated logic:          0 out of     752   0%
+  Number of occupied Slices:            667 out of  15,360    4%
+    Number of Slices containing only related logic:     667 out of     667 100%
+    Number of Slices containing unrelated logic:          0 out of     667   0%
       *See NOTES below for an explanation of the effects of unrelated logic.
-  Total Number of 4 input LUTs:       1,143 out of  30,720    3%
-    Number used as logic:             1,020
+  Total Number of 4 input LUTs:         998 out of  30,720    3%
+    Number used as logic:               874
     Number used as a route-thru:        114
-    Number used as Shift registers:       9
+    Number used as Shift registers:      10
 
   The Slice Logic Distribution report is not meaningful if the design is
   over-mapped for a non-slice resource or if Placement fails.
@@ -36,13 +36,13 @@ Logic Distribution:
     Number used as BUFGs:                 2
   Number of FIFO16/RAMB16s:               9 out of     192    4%
     Number used as RAMB16s:               9
-  Number of DSP48s:                      10 out of     192    5%
+  Number of DSP48s:                       8 out of     192    4%
 
-Average Fanout of Non-Clock Nets:                3.08
+Average Fanout of Non-Clock Nets:                3.02
 
-Peak Memory Usage:  705 MB
-Total REAL time to MAP completion:  19 secs 
-Total CPU time to MAP completion:   19 secs 
+Peak Memory Usage:  703 MB
+Total REAL time to MAP completion:  21 secs 
+Total CPU time to MAP completion:   20 secs 
 
 NOTES:
 
@@ -92,6 +92,8 @@ WARNING:PhysDesignRules:367 - The signal <inst_float2fixed/Mshreg_sig00000026>
 
 Section 3 - Informational
 -------------------------
+INFO:Xst:2261 - The FF/Latch <vts_inst/vPos_0> in Unit <test1> is equivalent to
+   the following FF/Latch, which will be removed : <vts_inst/vPos_0_1> 
 INFO:LIT:243 - Logical network i_clock_BUFGP/N2 has no load.
 INFO:LIT:243 - Logical network i_clock_BUFGP/N3 has no load.
 INFO:MapLib:562 - No environment variables are currently set.
@@ -135,19 +137,20 @@ VCC 		XST_VCC
 
 Redundant Block(s):
 TYPE 		BLOCK
+LOCALBUF 		vts_inst/videoOn_or000071_SW2/LUT4_L_BUF
+LOCALBUF 		vts_inst/videoOn_or0000181_SW1/LUT4_L_BUF
 LOCALBUF 		vts_inst/activeArea112_SW0/LUT2_L_BUF
-LOCALBUF 		inst_streamScaler/Madd_preCoeff00_sub0000_cy<7>21_SW0/LUT2_L_BUF
-LOCALBUF 		inst_streamScaler/Madd_preCoeff00_sub0000_cy<7>21_SW1/LUT2_L_BUF
-LOCALBUF 		inst_streamScaler/Madd_preCoeff00_sub0001_cy<7>21_SW0/LUT2_L_BUF
-LOCALBUF 		inst_streamScaler/Madd_preCoeff00_sub0001_cy<7>21_SW1/LUT2_L_BUF
-LOCALBUF 		vts_inst/videoOn_or00008_SW0_SW0/LUT4_L_BUF
-LOCALBUF 		vts_inst/videoOn_or0000181_SW0/LUT4_L_BUF
-LOCALBUF 		inst_streamScaler/dOutValidInt_cmp_eq0000692_SW0/LUT4_L_BUF
-LOCALBUF 		inst_streamScaler/dOutValidInt_mux000059/LUT4_L_BUF
+LOCALBUF 		vts_inst/videoOn_or00004_SW0/LUT4_L_BUF
+LOCALBUF 		ag_inst/addr_or000018/LUT4_L_BUF
+LOCALBUF 		ag_inst/addr_or000033/LUT4_L_BUF
 LOCALBUF 		vts_inst/activeArea1371/LUT4_L_BUF
-LOCALBUF 		vts_inst/videoOn_or00001102/LUT4_L_BUF
-LOCALBUF 		vts_inst/videoOn_or00001232/LUT4_L_BUF
-LOCALBUF 		vts_inst/videoOn_or00002860/LUT3_L_BUF
+LOCALBUF 		vts_inst/videoOn_or00001142/LUT4_L_BUF
+LOCALBUF 		vts_inst/videoOn_or00001159/LUT3_L_BUF
+LOCALBUF 		vts_inst/videoOn_or00001179/LUT3_L_BUF
+LOCALBUF 		vts_inst/videoOn_or0000241/LUT3_L_BUF
+LOCALBUF 		vts_inst/videoOn_or000027/LUT4_L_BUF
+LOCALBUF 		vts_inst/videoOn_or0000291/LUT2_L_BUF
+LOCALBUF 		vts_inst/videoOn_or0000331/LUT3_L_BUF
 LOCALBUF 		inst_float2fixed/blk0000010d/LUT4_L_BUF
 LOCALBUF 		inst_float2fixed/blk00000110/LUT4_L_BUF
 LOCALBUF 		inst_float2fixed/blk00000118/LUT3_L_BUF
@@ -229,15 +232,6 @@ LUT1 		vts_inst/Mcount_hPos_cy<4>_rt
 LUT1 		vts_inst/Mcount_hPos_cy<3>_rt
 LUT1 		vts_inst/Mcount_hPos_cy<2>_rt
 LUT1 		vts_inst/Mcount_hPos_cy<1>_rt
-LUT1 		inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<15>_rt
-LUT1 		inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<14>_rt
-LUT1 		inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<13>_rt
-LUT1 		inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<12>_rt
-LUT1 		inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<11>_rt
-LUT1 		inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<10>_rt
-LUT1 		inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<9>_rt
-LUT1 		inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<8>_rt
-LUT1 		inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<7>_rt
 LUT1 		inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<15>_rt
 LUT1 		inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<14>_rt
 LUT1 		inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<13>_rt
@@ -256,6 +250,15 @@ LUT1 		inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<10>_rt
 LUT1 		inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<9>_rt
 LUT1 		inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<8>_rt
 LUT1 		inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<7>_rt
+LUT1 		inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<15>_rt
+LUT1 		inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<14>_rt
+LUT1 		inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<13>_rt
+LUT1 		inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<12>_rt
+LUT1 		inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<11>_rt
+LUT1 		inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<10>_rt
+LUT1 		inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<9>_rt
+LUT1 		inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<8>_rt
+LUT1 		inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<7>_rt
 LUT1 		inst_streamScaler/Madd_coeff11_add0000_Madd_cy<15>_rt
 LUT1 		inst_streamScaler/Madd_coeff11_add0000_Madd_cy<14>_rt
 LUT1 		inst_streamScaler/Madd_coeff11_add0000_Madd_cy<13>_rt
@@ -274,9 +277,8 @@ LUT1 		vts_inst/Mcount_vPos_xor<9>_rt
 LUT1 		vts_inst/Mcount_hPos_xor<9>_rt
 INV 		vgaclk25_not00011_INV_0
 INV 		inst_streamScaler/Mcount_writeRowCount_xor<0>11_INV_0
-INV 		inst_streamScaler/Mcount_writeOutputLine_xor<0>11_INV_0
 INV 		inst_streamScaler/Mcount_writeColCount_xor<0>11_INV_0
-INV 		inst_streamScaler/Madd_writeNextPlusOne_add0000_xor<0>11_INV_0
+INV 		inst_streamScaler/Mcount_outputColumn_xor<0>11_INV_0
 INV 		agclk_not00011_INV_0
 INV 		Mcount_vmax0_xor<0>11_INV_0
 INV 		Mcount_fl2fi_wait_xor<0>11_INV_0
@@ -1242,36 +1244,6 @@ SUBTRACTREG:0
 
 
 
-DSP48 "inst_streamScaler/Mmult_xScaleAmount_mult0001":
-AREG:0
-BREG:0
-B_INPUT:DIRECT
-CARRYINREG:0
-CARRYINSELREG:0
-CREG:0
-LEGACY_MODE:MULT18X18
-MREG:0
-OPMODEREG:0
-PREG:0
-SUBTRACTREG:0
-
-
-
-DSP48 "inst_streamScaler/Mmult_yScaleAmountNext_mult0001":
-AREG:0
-BREG:0
-B_INPUT:DIRECT
-CARRYINREG:0
-CARRYINSELREG:0
-CREG:0
-LEGACY_MODE:MULT18X18
-MREG:0
-OPMODEREG:0
-PREG:0
-SUBTRACTREG:0
-
-
-
 RAMB16 "inst_streamScaler/ramRB/ram_generate[0].ram_inst_i/Mram_ram":
 DOA_REG:0
 DOB_REG:0
@@ -1846,7 +1818,7 @@ Section 13 - Utilization by Hierarchy
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Module                            | Partition | Slices        | Slice Reg     | LUTs          | LUTRAM        | BRAM/FIFO | DSP48   | BUFG  | BUFIO | BUFR  | DCM_ADV   | Full Hierarchical Name                                                                                                |
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| test1/                            |           | 219/802       | 177/652       | 276/1131      | 0/9           | 0/9       | 0/10    | 2/2   | 0/0   | 0/0   | 0/0       | test1                                                                                                                 |
+| test1/                            |           | 222/717       | 180/582       | 276/987       | 0/10          | 0/9       | 0/8     | 2/2   | 0/0   | 0/0   | 0/0       | test1                                                                                                                 |
 | +ag_inst                          |           | 75/75         | 78/78         | 115/115       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/ag_inst                                                                                                         |
 | +dualmem_inst                     |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/dualmem_inst                                                                                                    |
 | ++U0                              |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/dualmem_inst/U0                                                                                                 |
@@ -1867,15 +1839,16 @@ Section 13 - Utilization by Hierarchy
 | ++++++ramloop[1].ram.r            |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r                |
 | +++++++v4_noinit.ram              |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram  |
 | +inst_float2fixed                 |           | 95/95         | 107/107       | 122/122       | 9/9           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_float2fixed                                                                                                |
-| +inst_streamScaler                |           | 240/323       | 251/262       | 311/466       | 0/0           | 0/4       | 10/10   | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_streamScaler                                                                                               |
-| ++ramRB                           |           | 83/83         | 11/11         | 155/155       | 0/0           | 0/4       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_streamScaler/ramRB                                                                                         |
+| +inst_streamScaler                |           | 155/232       | 178/189       | 172/316       | 0/1           | 0/4       | 8/8     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_streamScaler                                                                                               |
+| ++Mshreg_dOutValid                |           | 1/1           | 0/0           | 1/1           | 1/1           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_streamScaler/Mshreg_dOutValid                                                                              |
+| ++ramRB                           |           | 76/76         | 11/11         | 143/143       | 0/0           | 0/4       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_streamScaler/ramRB                                                                                         |
 | +++ram_generate[0].ram_inst_i     |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_streamScaler/ramRB/ram_generate[0].ram_inst_i                                                              |
 | +++ram_generate[1].ram_inst_i     |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_streamScaler/ramRB/ram_generate[1].ram_inst_i                                                              |
 | +++ram_generate[2].ram_inst_i     |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_streamScaler/ramRB/ram_generate[2].ram_inst_i                                                              |
 | +++ram_generate[3].ram_inst_i     |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_streamScaler/ramRB/ram_generate[3].ram_inst_i                                                              |
 | +tfm_inst                         |           | 2/20          | 2/4           | 0/32          | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst                                                                                                        |
 | ++inst_calculated_to              |           | 18/18         | 2/2           | 32/32         | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_calculated_to                                                                                     |
-| +vts_inst                         |           | 59/59         | 23/23         | 109/109       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/vts_inst                                                                                                        |
+| +vts_inst                         |           | 62/62         | 23/23         | 115/115       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/vts_inst                                                                                                        |
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 * Slices can be packed with basic elements from multiple hierarchies.

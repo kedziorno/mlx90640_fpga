@@ -29,649 +29,341 @@ INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on
 Timing constraint: NET "i_clock_BUFGP/IBUFG" PERIOD = 10 ns HIGH 50%;
 For more information, see Period Analysis in the Timing Closure User Guide (UG612).
 
- 74655 paths analyzed, 1890 endpoints analyzed, 0 failing endpoints
+ 47978 paths analyzed, 1535 endpoints analyzed, 0 failing endpoints
  0 timing errors detected. (0 setup errors, 0 hold errors, 0 component switching limit errors)
- Minimum period is   9.545ns.
+ Minimum period is   7.627ns.
 --------------------------------------------------------------------------------
 
-Paths for end point inst_streamScaler/coeff10_8 (SLICE_X66Y120.CIN), 832 paths
+Paths for end point inst_streamScaler/product00_10 (SLICE_X36Y171.BY), 18 paths
 --------------------------------------------------------------------------------
-Slack (setup path):     0.455ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               inst_streamScaler/xBlend_0 (FF)
-  Destination:          inst_streamScaler/coeff10_8 (FF)
+Slack (setup path):     2.373ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               inst_streamScaler/readData00Reg_7 (FF)
+  Destination:          inst_streamScaler/product00_10 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.545ns (Levels of Logic = 12)
-  Clock Path Skew:      0.000ns
+  Data Path Delay:      7.476ns (Levels of Logic = 1)
+  Clock Path Skew:      -0.151ns (0.762 - 0.913)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: inst_streamScaler/xBlend_0 to inst_streamScaler/coeff10_8
+  Maximum Data Path: inst_streamScaler/readData00Reg_7 to inst_streamScaler/product00_10
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X70Y120.YQ     Tcko                  0.360   inst_streamScaler/xBlend<1>
-                                                       inst_streamScaler/xBlend_0
-    SLICE_X69Y120.G1     net (fanout=8)        0.649   inst_streamScaler/xBlend<0>
-    SLICE_X69Y120.Y      Tilo                  0.194   inst_streamScaler/preCoeff00_sub0001<4>
-                                                       inst_streamScaler/Madd_preCoeff00_sub0001_cy<7>31
-    SLICE_X67Y121.G2     net (fanout=5)        0.642   inst_streamScaler/Madd_preCoeff00_sub0001_cy<7>_bdd2
-    SLICE_X67Y121.Y      Tilo                  0.194   inst_streamScaler/preCoeff00_sub0001<6>
-                                                       inst_streamScaler/preCoeff00_sub0001<5>1
-    DSP48_X3Y29.A5       net (fanout=2)        0.806   inst_streamScaler/preCoeff00_sub0001<5>
-    DSP48_X3Y29.P1       Tdspdo_APL            4.402   inst_streamScaler/Mmult_preCoeff10_mult0000
-                                                       inst_streamScaler/Mmult_preCoeff10_mult0000
-    SLICE_X66Y112.G1     net (fanout=1)        0.691   inst_streamScaler/preCoeff10_mult0000<1>
-    SLICE_X66Y112.COUT   Topcyg                0.561   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<1>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_lut<1>_INV_0
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<1>
-    SLICE_X66Y113.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<1>
-    SLICE_X66Y113.COUT   Tbyp                  0.089   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<3>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<2>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<3>
-    SLICE_X66Y114.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<3>
-    SLICE_X66Y114.COUT   Tbyp                  0.089   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<5>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<4>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<5>
-    SLICE_X66Y115.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<5>
-    SLICE_X66Y115.COUT   Tbyp                  0.089   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<7>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<6>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<7>
-    SLICE_X66Y116.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<7>
-    SLICE_X66Y116.COUT   Tbyp                  0.089   inst_streamScaler/coeff10<0>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<8>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<9>
-    SLICE_X66Y117.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<9>
-    SLICE_X66Y117.COUT   Tbyp                  0.089   inst_streamScaler/coeff10<2>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<10>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<11>
-    SLICE_X66Y118.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<11>
-    SLICE_X66Y118.COUT   Tbyp                  0.089   inst_streamScaler/coeff10<4>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<12>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<13>
-    SLICE_X66Y119.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<13>
-    SLICE_X66Y119.COUT   Tbyp                  0.089   inst_streamScaler/coeff10<6>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<14>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<15>
-    SLICE_X66Y120.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<15>
-    SLICE_X66Y120.CLK    Tcinck                0.423   inst_streamScaler/coeff10<8>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_xor<16>
-                                                       inst_streamScaler/coeff10_8
+    SLICE_X29Y175.XQ     Tcko                  0.340   inst_streamScaler/readData00Reg<7>
+                                                       inst_streamScaler/readData00Reg_7
+    DSP48_X1Y43.A7       net (fanout=1)        1.305   inst_streamScaler/readData00Reg<7>
+    DSP48_X1Y43.P10      Tdspdo_APL            4.402   inst_streamScaler/Mmult_product00_mult0000
+                                                       inst_streamScaler/Mmult_product00_mult0000
+    SLICE_X36Y171.BY     net (fanout=1)        1.149   inst_streamScaler/product00_mult0000<10>
+    SLICE_X36Y171.CLK    Tdick                 0.280   inst_streamScaler/product00<11>
+                                                       inst_streamScaler/product00_10
     -------------------------------------------------  ---------------------------
-    Total                                      9.545ns (6.757ns logic, 2.788ns route)
-                                                       (70.8% logic, 29.2% route)
+    Total                                      7.476ns (5.022ns logic, 2.454ns route)
+                                                       (67.2% logic, 32.8% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     0.552ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               inst_streamScaler/xBlend_0 (FF)
-  Destination:          inst_streamScaler/coeff10_8 (FF)
+Slack (setup path):     2.924ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               inst_streamScaler/readData00Reg_1 (FF)
+  Destination:          inst_streamScaler/product00_10 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.448ns (Levels of Logic = 9)
-  Clock Path Skew:      0.000ns
+  Data Path Delay:      6.974ns (Levels of Logic = 1)
+  Clock Path Skew:      -0.102ns (0.762 - 0.864)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: inst_streamScaler/xBlend_0 to inst_streamScaler/coeff10_8
+  Maximum Data Path: inst_streamScaler/readData00Reg_1 to inst_streamScaler/product00_10
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X70Y120.YQ     Tcko                  0.360   inst_streamScaler/xBlend<1>
-                                                       inst_streamScaler/xBlend_0
-    SLICE_X69Y120.G1     net (fanout=8)        0.649   inst_streamScaler/xBlend<0>
-    SLICE_X69Y120.Y      Tilo                  0.194   inst_streamScaler/preCoeff00_sub0001<4>
-                                                       inst_streamScaler/Madd_preCoeff00_sub0001_cy<7>31
-    SLICE_X67Y121.G2     net (fanout=5)        0.642   inst_streamScaler/Madd_preCoeff00_sub0001_cy<7>_bdd2
-    SLICE_X67Y121.Y      Tilo                  0.194   inst_streamScaler/preCoeff00_sub0001<6>
-                                                       inst_streamScaler/preCoeff00_sub0001<5>1
-    DSP48_X3Y29.A5       net (fanout=2)        0.806   inst_streamScaler/preCoeff00_sub0001<5>
-    DSP48_X3Y29.P7       Tdspdo_APL            4.402   inst_streamScaler/Mmult_preCoeff10_mult0000
-                                                       inst_streamScaler/Mmult_preCoeff10_mult0000
-    SLICE_X66Y115.G1     net (fanout=1)        0.861   inst_streamScaler/preCoeff10_mult0000<7>
-    SLICE_X66Y115.COUT   Topcyg                0.561   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<7>
-                                                       inst_streamScaler/preCoeff10_mult0000<7>_rt
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<7>
-    SLICE_X66Y116.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<7>
-    SLICE_X66Y116.COUT   Tbyp                  0.089   inst_streamScaler/coeff10<0>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<8>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<9>
-    SLICE_X66Y117.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<9>
-    SLICE_X66Y117.COUT   Tbyp                  0.089   inst_streamScaler/coeff10<2>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<10>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<11>
-    SLICE_X66Y118.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<11>
-    SLICE_X66Y118.COUT   Tbyp                  0.089   inst_streamScaler/coeff10<4>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<12>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<13>
-    SLICE_X66Y119.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<13>
-    SLICE_X66Y119.COUT   Tbyp                  0.089   inst_streamScaler/coeff10<6>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<14>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<15>
-    SLICE_X66Y120.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<15>
-    SLICE_X66Y120.CLK    Tcinck                0.423   inst_streamScaler/coeff10<8>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_xor<16>
-                                                       inst_streamScaler/coeff10_8
+    SLICE_X31Y172.XQ     Tcko                  0.340   inst_streamScaler/readData00Reg<1>
+                                                       inst_streamScaler/readData00Reg_1
+    DSP48_X1Y43.A1       net (fanout=1)        0.803   inst_streamScaler/readData00Reg<1>
+    DSP48_X1Y43.P10      Tdspdo_APL            4.402   inst_streamScaler/Mmult_product00_mult0000
+                                                       inst_streamScaler/Mmult_product00_mult0000
+    SLICE_X36Y171.BY     net (fanout=1)        1.149   inst_streamScaler/product00_mult0000<10>
+    SLICE_X36Y171.CLK    Tdick                 0.280   inst_streamScaler/product00<11>
+                                                       inst_streamScaler/product00_10
     -------------------------------------------------  ---------------------------
-    Total                                      9.448ns (6.490ns logic, 2.958ns route)
-                                                       (68.7% logic, 31.3% route)
+    Total                                      6.974ns (5.022ns logic, 1.952ns route)
+                                                       (72.0% logic, 28.0% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     0.556ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               inst_streamScaler/xBlend_1 (FF)
-  Destination:          inst_streamScaler/coeff10_8 (FF)
+Slack (setup path):     2.943ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               inst_streamScaler/coeff00_1 (FF)
+  Destination:          inst_streamScaler/product00_10 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.444ns (Levels of Logic = 12)
-  Clock Path Skew:      0.000ns
+  Data Path Delay:      6.892ns (Levels of Logic = 1)
+  Clock Path Skew:      -0.165ns (0.762 - 0.927)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: inst_streamScaler/xBlend_1 to inst_streamScaler/coeff10_8
+  Maximum Data Path: inst_streamScaler/coeff00_1 to inst_streamScaler/product00_10
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X70Y120.XQ     Tcko                  0.360   inst_streamScaler/xBlend<1>
-                                                       inst_streamScaler/xBlend_1
-    SLICE_X69Y120.G2     net (fanout=6)        0.548   inst_streamScaler/xBlend<1>
-    SLICE_X69Y120.Y      Tilo                  0.194   inst_streamScaler/preCoeff00_sub0001<4>
-                                                       inst_streamScaler/Madd_preCoeff00_sub0001_cy<7>31
-    SLICE_X67Y121.G2     net (fanout=5)        0.642   inst_streamScaler/Madd_preCoeff00_sub0001_cy<7>_bdd2
-    SLICE_X67Y121.Y      Tilo                  0.194   inst_streamScaler/preCoeff00_sub0001<6>
-                                                       inst_streamScaler/preCoeff00_sub0001<5>1
-    DSP48_X3Y29.A5       net (fanout=2)        0.806   inst_streamScaler/preCoeff00_sub0001<5>
-    DSP48_X3Y29.P1       Tdspdo_APL            4.402   inst_streamScaler/Mmult_preCoeff10_mult0000
-                                                       inst_streamScaler/Mmult_preCoeff10_mult0000
-    SLICE_X66Y112.G1     net (fanout=1)        0.691   inst_streamScaler/preCoeff10_mult0000<1>
-    SLICE_X66Y112.COUT   Topcyg                0.561   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<1>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_lut<1>_INV_0
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<1>
-    SLICE_X66Y113.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<1>
-    SLICE_X66Y113.COUT   Tbyp                  0.089   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<3>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<2>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<3>
-    SLICE_X66Y114.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<3>
-    SLICE_X66Y114.COUT   Tbyp                  0.089   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<5>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<4>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<5>
-    SLICE_X66Y115.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<5>
-    SLICE_X66Y115.COUT   Tbyp                  0.089   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<7>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<6>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<7>
-    SLICE_X66Y116.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<7>
-    SLICE_X66Y116.COUT   Tbyp                  0.089   inst_streamScaler/coeff10<0>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<8>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<9>
-    SLICE_X66Y117.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<9>
-    SLICE_X66Y117.COUT   Tbyp                  0.089   inst_streamScaler/coeff10<2>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<10>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<11>
-    SLICE_X66Y118.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<11>
-    SLICE_X66Y118.COUT   Tbyp                  0.089   inst_streamScaler/coeff10<4>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<12>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<13>
-    SLICE_X66Y119.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<13>
-    SLICE_X66Y119.COUT   Tbyp                  0.089   inst_streamScaler/coeff10<6>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<14>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<15>
-    SLICE_X66Y120.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<15>
-    SLICE_X66Y120.CLK    Tcinck                0.423   inst_streamScaler/coeff10<8>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_xor<16>
-                                                       inst_streamScaler/coeff10_8
+    SLICE_X27Y166.YQ     Tcko                  0.340   inst_streamScaler/coeff00<0>
+                                                       inst_streamScaler/coeff00_1
+    DSP48_X1Y43.B1       net (fanout=1)        0.721   inst_streamScaler/coeff00<1>
+    DSP48_X1Y43.P10      Tdspdo_BPL            4.402   inst_streamScaler/Mmult_product00_mult0000
+                                                       inst_streamScaler/Mmult_product00_mult0000
+    SLICE_X36Y171.BY     net (fanout=1)        1.149   inst_streamScaler/product00_mult0000<10>
+    SLICE_X36Y171.CLK    Tdick                 0.280   inst_streamScaler/product00<11>
+                                                       inst_streamScaler/product00_10
     -------------------------------------------------  ---------------------------
-    Total                                      9.444ns (6.757ns logic, 2.687ns route)
-                                                       (71.5% logic, 28.5% route)
+    Total                                      6.892ns (5.022ns logic, 1.870ns route)
+                                                       (72.9% logic, 27.1% route)
 
 --------------------------------------------------------------------------------
 
-Paths for end point inst_streamScaler/coeff01_8 (SLICE_X67Y120.CIN), 832 paths
+Paths for end point inst_streamScaler/product10_10 (SLICE_X39Y172.BY), 18 paths
 --------------------------------------------------------------------------------
-Slack (setup path):     0.482ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               inst_streamScaler/yScaleAmount_10 (FF)
-  Destination:          inst_streamScaler/coeff01_8 (FF)
+Slack (setup path):     2.468ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               inst_streamScaler/coeff10_6 (FF)
+  Destination:          inst_streamScaler/product10_10 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.499ns (Levels of Logic = 11)
-  Clock Path Skew:      -0.019ns (0.967 - 0.986)
+  Data Path Delay:      7.356ns (Levels of Logic = 1)
+  Clock Path Skew:      -0.176ns (0.756 - 0.932)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: inst_streamScaler/yScaleAmount_10 to inst_streamScaler/coeff01_8
+  Maximum Data Path: inst_streamScaler/coeff10_6 to inst_streamScaler/product10_10
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X68Y116.YQ     Tcko                  0.360   inst_streamScaler/yScaleAmount<11>
-                                                       inst_streamScaler/yScaleAmount_10
-    SLICE_X69Y119.F1     net (fanout=8)        1.323   inst_streamScaler/yScaleAmount<10>
-    SLICE_X69Y119.X      Tilo                  0.194   inst_streamScaler/preCoeff00_sub0000<6>
-                                                       inst_streamScaler/preCoeff00_sub0000<6>1
-    DSP48_X3Y28.B6       net (fanout=2)        0.853   inst_streamScaler/preCoeff00_sub0000<6>
-    DSP48_X3Y28.P1       Tdspdo_BPL            4.402   inst_streamScaler/Mmult_preCoeff01_mult0000
-                                                       inst_streamScaler/Mmult_preCoeff01_mult0000
-    SLICE_X67Y112.G2     net (fanout=1)        0.779   inst_streamScaler/preCoeff01_mult0000<1>
-    SLICE_X67Y112.COUT   Topcyg                0.559   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<1>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_lut<1>_INV_0
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<1>
-    SLICE_X67Y113.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<1>
-    SLICE_X67Y113.COUT   Tbyp                  0.086   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<3>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<2>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<3>
-    SLICE_X67Y114.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<3>
-    SLICE_X67Y114.COUT   Tbyp                  0.086   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<5>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<4>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<5>
-    SLICE_X67Y115.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<5>
-    SLICE_X67Y115.COUT   Tbyp                  0.086   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<7>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<6>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<7>
-    SLICE_X67Y116.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<7>
-    SLICE_X67Y116.COUT   Tbyp                  0.086   inst_streamScaler/coeff01<0>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<8>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<9>
-    SLICE_X67Y117.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<9>
-    SLICE_X67Y117.COUT   Tbyp                  0.086   inst_streamScaler/coeff01<2>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<10>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<11>
-    SLICE_X67Y118.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<11>
-    SLICE_X67Y118.COUT   Tbyp                  0.086   inst_streamScaler/coeff01<4>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<12>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<13>
-    SLICE_X67Y119.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<13>
-    SLICE_X67Y119.COUT   Tbyp                  0.086   inst_streamScaler/coeff01<6>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<14>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<15>
-    SLICE_X67Y120.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<15>
-    SLICE_X67Y120.CLK    Tcinck                0.427   inst_streamScaler/coeff01<8>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_xor<16>
-                                                       inst_streamScaler/coeff01_8
+    SLICE_X29Y189.XQ     Tcko                  0.340   inst_streamScaler/coeff10<6>
+                                                       inst_streamScaler/coeff10_6
+    DSP48_X1Y45.B6       net (fanout=1)        0.979   inst_streamScaler/coeff10<6>
+    DSP48_X1Y45.P10      Tdspdo_BPL            4.402   inst_streamScaler/Mmult_product10_mult0000
+                                                       inst_streamScaler/Mmult_product10_mult0000
+    SLICE_X39Y172.BY     net (fanout=1)        1.343   inst_streamScaler/product10_mult0000<10>
+    SLICE_X39Y172.CLK    Tdick                 0.292   inst_streamScaler/product10<11>
+                                                       inst_streamScaler/product10_10
     -------------------------------------------------  ---------------------------
-    Total                                      9.499ns (6.544ns logic, 2.955ns route)
-                                                       (68.9% logic, 31.1% route)
+    Total                                      7.356ns (5.034ns logic, 2.322ns route)
+                                                       (68.4% logic, 31.6% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     0.498ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               inst_streamScaler/yScaleAmount_6 (FF)
-  Destination:          inst_streamScaler/coeff01_8 (FF)
+Slack (setup path):     2.493ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               inst_streamScaler/coeff10_2 (FF)
+  Destination:          inst_streamScaler/product10_10 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.487ns (Levels of Logic = 12)
-  Clock Path Skew:      -0.015ns (0.967 - 0.982)
+  Data Path Delay:      7.333ns (Levels of Logic = 1)
+  Clock Path Skew:      -0.174ns (0.756 - 0.930)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: inst_streamScaler/yScaleAmount_6 to inst_streamScaler/coeff01_8
+  Maximum Data Path: inst_streamScaler/coeff10_2 to inst_streamScaler/product10_10
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X68Y115.YQ     Tcko                  0.360   inst_streamScaler/yScaleAmount<7>
-                                                       inst_streamScaler/yScaleAmount_6
-    SLICE_X68Y117.G1     net (fanout=9)        0.683   inst_streamScaler/yScaleAmount<6>
-    SLICE_X68Y117.Y      Tilo                  0.195   inst_streamScaler/preCoeff00_sub0000<4>
-                                                       inst_streamScaler/Madd_preCoeff00_sub0000_cy<7>31
-    SLICE_X69Y119.F3     net (fanout=5)        0.433   inst_streamScaler/Madd_preCoeff00_sub0000_cy<7>_bdd2
-    SLICE_X69Y119.X      Tilo                  0.194   inst_streamScaler/preCoeff00_sub0000<6>
-                                                       inst_streamScaler/preCoeff00_sub0000<6>1
-    DSP48_X3Y28.B6       net (fanout=2)        0.853   inst_streamScaler/preCoeff00_sub0000<6>
-    DSP48_X3Y28.P1       Tdspdo_BPL            4.402   inst_streamScaler/Mmult_preCoeff01_mult0000
-                                                       inst_streamScaler/Mmult_preCoeff01_mult0000
-    SLICE_X67Y112.G2     net (fanout=1)        0.779   inst_streamScaler/preCoeff01_mult0000<1>
-    SLICE_X67Y112.COUT   Topcyg                0.559   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<1>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_lut<1>_INV_0
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<1>
-    SLICE_X67Y113.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<1>
-    SLICE_X67Y113.COUT   Tbyp                  0.086   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<3>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<2>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<3>
-    SLICE_X67Y114.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<3>
-    SLICE_X67Y114.COUT   Tbyp                  0.086   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<5>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<4>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<5>
-    SLICE_X67Y115.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<5>
-    SLICE_X67Y115.COUT   Tbyp                  0.086   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<7>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<6>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<7>
-    SLICE_X67Y116.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<7>
-    SLICE_X67Y116.COUT   Tbyp                  0.086   inst_streamScaler/coeff01<0>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<8>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<9>
-    SLICE_X67Y117.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<9>
-    SLICE_X67Y117.COUT   Tbyp                  0.086   inst_streamScaler/coeff01<2>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<10>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<11>
-    SLICE_X67Y118.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<11>
-    SLICE_X67Y118.COUT   Tbyp                  0.086   inst_streamScaler/coeff01<4>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<12>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<13>
-    SLICE_X67Y119.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<13>
-    SLICE_X67Y119.COUT   Tbyp                  0.086   inst_streamScaler/coeff01<6>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<14>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<15>
-    SLICE_X67Y120.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<15>
-    SLICE_X67Y120.CLK    Tcinck                0.427   inst_streamScaler/coeff01<8>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_xor<16>
-                                                       inst_streamScaler/coeff01_8
+    SLICE_X29Y187.XQ     Tcko                  0.340   inst_streamScaler/coeff10<2>
+                                                       inst_streamScaler/coeff10_2
+    DSP48_X1Y45.B2       net (fanout=1)        0.956   inst_streamScaler/coeff10<2>
+    DSP48_X1Y45.P10      Tdspdo_BPL            4.402   inst_streamScaler/Mmult_product10_mult0000
+                                                       inst_streamScaler/Mmult_product10_mult0000
+    SLICE_X39Y172.BY     net (fanout=1)        1.343   inst_streamScaler/product10_mult0000<10>
+    SLICE_X39Y172.CLK    Tdick                 0.292   inst_streamScaler/product10<11>
+                                                       inst_streamScaler/product10_10
     -------------------------------------------------  ---------------------------
-    Total                                      9.487ns (6.739ns logic, 2.748ns route)
-                                                       (71.0% logic, 29.0% route)
-
---------------------------------------------------------------------------------
-Slack (setup path):     0.551ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               inst_streamScaler/yScaleAmount_10 (FF)
-  Destination:          inst_streamScaler/coeff01_8 (FF)
-  Requirement:          10.000ns
-  Data Path Delay:      9.430ns (Levels of Logic = 10)
-  Clock Path Skew:      -0.019ns (0.967 - 0.986)
-  Source Clock:         i_clock_BUFGP rising at 0.000ns
-  Destination Clock:    i_clock_BUFGP rising at 10.000ns
-  Clock Uncertainty:    0.000ns
-
-  Maximum Data Path: inst_streamScaler/yScaleAmount_10 to inst_streamScaler/coeff01_8
-    Location             Delay type         Delay(ns)  Physical Resource
-                                                       Logical Resource(s)
-    -------------------------------------------------  -------------------
-    SLICE_X68Y116.YQ     Tcko                  0.360   inst_streamScaler/yScaleAmount<11>
-                                                       inst_streamScaler/yScaleAmount_10
-    SLICE_X69Y119.F1     net (fanout=8)        1.323   inst_streamScaler/yScaleAmount<10>
-    SLICE_X69Y119.X      Tilo                  0.194   inst_streamScaler/preCoeff00_sub0000<6>
-                                                       inst_streamScaler/preCoeff00_sub0000<6>1
-    DSP48_X3Y28.B6       net (fanout=2)        0.853   inst_streamScaler/preCoeff00_sub0000<6>
-    DSP48_X3Y28.P3       Tdspdo_BPL            4.402   inst_streamScaler/Mmult_preCoeff01_mult0000
-                                                       inst_streamScaler/Mmult_preCoeff01_mult0000
-    SLICE_X67Y113.G2     net (fanout=1)        0.796   inst_streamScaler/preCoeff01_mult0000<3>
-    SLICE_X67Y113.COUT   Topcyg                0.559   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<3>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_lut<3>_INV_0
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<3>
-    SLICE_X67Y114.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<3>
-    SLICE_X67Y114.COUT   Tbyp                  0.086   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<5>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<4>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<5>
-    SLICE_X67Y115.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<5>
-    SLICE_X67Y115.COUT   Tbyp                  0.086   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<7>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<6>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<7>
-    SLICE_X67Y116.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<7>
-    SLICE_X67Y116.COUT   Tbyp                  0.086   inst_streamScaler/coeff01<0>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<8>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<9>
-    SLICE_X67Y117.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<9>
-    SLICE_X67Y117.COUT   Tbyp                  0.086   inst_streamScaler/coeff01<2>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<10>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<11>
-    SLICE_X67Y118.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<11>
-    SLICE_X67Y118.COUT   Tbyp                  0.086   inst_streamScaler/coeff01<4>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<12>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<13>
-    SLICE_X67Y119.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<13>
-    SLICE_X67Y119.COUT   Tbyp                  0.086   inst_streamScaler/coeff01<6>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<14>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<15>
-    SLICE_X67Y120.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff01_add0000_Madd_cy<15>
-    SLICE_X67Y120.CLK    Tcinck                0.427   inst_streamScaler/coeff01<8>
-                                                       inst_streamScaler/Madd_preCoeff01_add0000_Madd_xor<16>
-                                                       inst_streamScaler/coeff01_8
-    -------------------------------------------------  ---------------------------
-    Total                                      9.430ns (6.458ns logic, 2.972ns route)
-                                                       (68.5% logic, 31.5% route)
-
---------------------------------------------------------------------------------
-
-Paths for end point inst_streamScaler/coeff10_7 (SLICE_X66Y119.CIN), 728 paths
---------------------------------------------------------------------------------
-Slack (setup path):     0.489ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               inst_streamScaler/xBlend_0 (FF)
-  Destination:          inst_streamScaler/coeff10_7 (FF)
-  Requirement:          10.000ns
-  Data Path Delay:      9.511ns (Levels of Logic = 11)
-  Clock Path Skew:      0.000ns
-  Source Clock:         i_clock_BUFGP rising at 0.000ns
-  Destination Clock:    i_clock_BUFGP rising at 10.000ns
-  Clock Uncertainty:    0.000ns
-
-  Maximum Data Path: inst_streamScaler/xBlend_0 to inst_streamScaler/coeff10_7
-    Location             Delay type         Delay(ns)  Physical Resource
-                                                       Logical Resource(s)
-    -------------------------------------------------  -------------------
-    SLICE_X70Y120.YQ     Tcko                  0.360   inst_streamScaler/xBlend<1>
-                                                       inst_streamScaler/xBlend_0
-    SLICE_X69Y120.G1     net (fanout=8)        0.649   inst_streamScaler/xBlend<0>
-    SLICE_X69Y120.Y      Tilo                  0.194   inst_streamScaler/preCoeff00_sub0001<4>
-                                                       inst_streamScaler/Madd_preCoeff00_sub0001_cy<7>31
-    SLICE_X67Y121.G2     net (fanout=5)        0.642   inst_streamScaler/Madd_preCoeff00_sub0001_cy<7>_bdd2
-    SLICE_X67Y121.Y      Tilo                  0.194   inst_streamScaler/preCoeff00_sub0001<6>
-                                                       inst_streamScaler/preCoeff00_sub0001<5>1
-    DSP48_X3Y29.A5       net (fanout=2)        0.806   inst_streamScaler/preCoeff00_sub0001<5>
-    DSP48_X3Y29.P1       Tdspdo_APL            4.402   inst_streamScaler/Mmult_preCoeff10_mult0000
-                                                       inst_streamScaler/Mmult_preCoeff10_mult0000
-    SLICE_X66Y112.G1     net (fanout=1)        0.691   inst_streamScaler/preCoeff10_mult0000<1>
-    SLICE_X66Y112.COUT   Topcyg                0.561   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<1>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_lut<1>_INV_0
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<1>
-    SLICE_X66Y113.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<1>
-    SLICE_X66Y113.COUT   Tbyp                  0.089   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<3>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<2>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<3>
-    SLICE_X66Y114.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<3>
-    SLICE_X66Y114.COUT   Tbyp                  0.089   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<5>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<4>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<5>
-    SLICE_X66Y115.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<5>
-    SLICE_X66Y115.COUT   Tbyp                  0.089   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<7>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<6>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<7>
-    SLICE_X66Y116.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<7>
-    SLICE_X66Y116.COUT   Tbyp                  0.089   inst_streamScaler/coeff10<0>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<8>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<9>
-    SLICE_X66Y117.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<9>
-    SLICE_X66Y117.COUT   Tbyp                  0.089   inst_streamScaler/coeff10<2>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<10>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<11>
-    SLICE_X66Y118.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<11>
-    SLICE_X66Y118.COUT   Tbyp                  0.089   inst_streamScaler/coeff10<4>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<12>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<13>
-    SLICE_X66Y119.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<13>
-    SLICE_X66Y119.CLK    Tcinck                0.478   inst_streamScaler/coeff10<6>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<14>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_xor<15>
-                                                       inst_streamScaler/coeff10_7
-    -------------------------------------------------  ---------------------------
-    Total                                      9.511ns (6.723ns logic, 2.788ns route)
-                                                       (70.7% logic, 29.3% route)
-
---------------------------------------------------------------------------------
-Slack (setup path):     0.586ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               inst_streamScaler/xBlend_0 (FF)
-  Destination:          inst_streamScaler/coeff10_7 (FF)
-  Requirement:          10.000ns
-  Data Path Delay:      9.414ns (Levels of Logic = 8)
-  Clock Path Skew:      0.000ns
-  Source Clock:         i_clock_BUFGP rising at 0.000ns
-  Destination Clock:    i_clock_BUFGP rising at 10.000ns
-  Clock Uncertainty:    0.000ns
-
-  Maximum Data Path: inst_streamScaler/xBlend_0 to inst_streamScaler/coeff10_7
-    Location             Delay type         Delay(ns)  Physical Resource
-                                                       Logical Resource(s)
-    -------------------------------------------------  -------------------
-    SLICE_X70Y120.YQ     Tcko                  0.360   inst_streamScaler/xBlend<1>
-                                                       inst_streamScaler/xBlend_0
-    SLICE_X69Y120.G1     net (fanout=8)        0.649   inst_streamScaler/xBlend<0>
-    SLICE_X69Y120.Y      Tilo                  0.194   inst_streamScaler/preCoeff00_sub0001<4>
-                                                       inst_streamScaler/Madd_preCoeff00_sub0001_cy<7>31
-    SLICE_X67Y121.G2     net (fanout=5)        0.642   inst_streamScaler/Madd_preCoeff00_sub0001_cy<7>_bdd2
-    SLICE_X67Y121.Y      Tilo                  0.194   inst_streamScaler/preCoeff00_sub0001<6>
-                                                       inst_streamScaler/preCoeff00_sub0001<5>1
-    DSP48_X3Y29.A5       net (fanout=2)        0.806   inst_streamScaler/preCoeff00_sub0001<5>
-    DSP48_X3Y29.P7       Tdspdo_APL            4.402   inst_streamScaler/Mmult_preCoeff10_mult0000
-                                                       inst_streamScaler/Mmult_preCoeff10_mult0000
-    SLICE_X66Y115.G1     net (fanout=1)        0.861   inst_streamScaler/preCoeff10_mult0000<7>
-    SLICE_X66Y115.COUT   Topcyg                0.561   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<7>
-                                                       inst_streamScaler/preCoeff10_mult0000<7>_rt
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<7>
-    SLICE_X66Y116.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<7>
-    SLICE_X66Y116.COUT   Tbyp                  0.089   inst_streamScaler/coeff10<0>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<8>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<9>
-    SLICE_X66Y117.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<9>
-    SLICE_X66Y117.COUT   Tbyp                  0.089   inst_streamScaler/coeff10<2>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<10>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<11>
-    SLICE_X66Y118.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<11>
-    SLICE_X66Y118.COUT   Tbyp                  0.089   inst_streamScaler/coeff10<4>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<12>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<13>
-    SLICE_X66Y119.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<13>
-    SLICE_X66Y119.CLK    Tcinck                0.478   inst_streamScaler/coeff10<6>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<14>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_xor<15>
-                                                       inst_streamScaler/coeff10_7
-    -------------------------------------------------  ---------------------------
-    Total                                      9.414ns (6.456ns logic, 2.958ns route)
+    Total                                      7.333ns (5.034ns logic, 2.299ns route)
                                                        (68.6% logic, 31.4% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     0.590ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               inst_streamScaler/xBlend_1 (FF)
-  Destination:          inst_streamScaler/coeff10_7 (FF)
+Slack (setup path):     2.649ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               inst_streamScaler/coeff10_1 (FF)
+  Destination:          inst_streamScaler/product10_10 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.410ns (Levels of Logic = 11)
-  Clock Path Skew:      0.000ns
+  Data Path Delay:      7.177ns (Levels of Logic = 1)
+  Clock Path Skew:      -0.174ns (0.756 - 0.930)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: inst_streamScaler/xBlend_1 to inst_streamScaler/coeff10_7
+  Maximum Data Path: inst_streamScaler/coeff10_1 to inst_streamScaler/product10_10
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X70Y120.XQ     Tcko                  0.360   inst_streamScaler/xBlend<1>
-                                                       inst_streamScaler/xBlend_1
-    SLICE_X69Y120.G2     net (fanout=6)        0.548   inst_streamScaler/xBlend<1>
-    SLICE_X69Y120.Y      Tilo                  0.194   inst_streamScaler/preCoeff00_sub0001<4>
-                                                       inst_streamScaler/Madd_preCoeff00_sub0001_cy<7>31
-    SLICE_X67Y121.G2     net (fanout=5)        0.642   inst_streamScaler/Madd_preCoeff00_sub0001_cy<7>_bdd2
-    SLICE_X67Y121.Y      Tilo                  0.194   inst_streamScaler/preCoeff00_sub0001<6>
-                                                       inst_streamScaler/preCoeff00_sub0001<5>1
-    DSP48_X3Y29.A5       net (fanout=2)        0.806   inst_streamScaler/preCoeff00_sub0001<5>
-    DSP48_X3Y29.P1       Tdspdo_APL            4.402   inst_streamScaler/Mmult_preCoeff10_mult0000
-                                                       inst_streamScaler/Mmult_preCoeff10_mult0000
-    SLICE_X66Y112.G1     net (fanout=1)        0.691   inst_streamScaler/preCoeff10_mult0000<1>
-    SLICE_X66Y112.COUT   Topcyg                0.561   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<1>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_lut<1>_INV_0
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<1>
-    SLICE_X66Y113.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<1>
-    SLICE_X66Y113.COUT   Tbyp                  0.089   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<3>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<2>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<3>
-    SLICE_X66Y114.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<3>
-    SLICE_X66Y114.COUT   Tbyp                  0.089   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<5>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<4>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<5>
-    SLICE_X66Y115.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<5>
-    SLICE_X66Y115.COUT   Tbyp                  0.089   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<7>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<6>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<7>
-    SLICE_X66Y116.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<7>
-    SLICE_X66Y116.COUT   Tbyp                  0.089   inst_streamScaler/coeff10<0>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<8>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<9>
-    SLICE_X66Y117.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<9>
-    SLICE_X66Y117.COUT   Tbyp                  0.089   inst_streamScaler/coeff10<2>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<10>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<11>
-    SLICE_X66Y118.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<11>
-    SLICE_X66Y118.COUT   Tbyp                  0.089   inst_streamScaler/coeff10<4>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<12>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<13>
-    SLICE_X66Y119.CIN    net (fanout=1)        0.000   inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<13>
-    SLICE_X66Y119.CLK    Tcinck                0.478   inst_streamScaler/coeff10<6>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_cy<14>
-                                                       inst_streamScaler/Madd_preCoeff10_add0000_Madd_xor<15>
-                                                       inst_streamScaler/coeff10_7
+    SLICE_X29Y186.YQ     Tcko                  0.340   inst_streamScaler/coeff10<0>
+                                                       inst_streamScaler/coeff10_1
+    DSP48_X1Y45.B1       net (fanout=1)        0.800   inst_streamScaler/coeff10<1>
+    DSP48_X1Y45.P10      Tdspdo_BPL            4.402   inst_streamScaler/Mmult_product10_mult0000
+                                                       inst_streamScaler/Mmult_product10_mult0000
+    SLICE_X39Y172.BY     net (fanout=1)        1.343   inst_streamScaler/product10_mult0000<10>
+    SLICE_X39Y172.CLK    Tdick                 0.292   inst_streamScaler/product10<11>
+                                                       inst_streamScaler/product10_10
     -------------------------------------------------  ---------------------------
-    Total                                      9.410ns (6.723ns logic, 2.687ns route)
-                                                       (71.4% logic, 28.6% route)
+    Total                                      7.177ns (5.034ns logic, 2.143ns route)
+                                                       (70.1% logic, 29.9% route)
+
+--------------------------------------------------------------------------------
+
+Paths for end point inst_streamScaler/product00_12 (SLICE_X34Y173.BY), 18 paths
+--------------------------------------------------------------------------------
+Slack (setup path):     2.514ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               inst_streamScaler/readData00Reg_7 (FF)
+  Destination:          inst_streamScaler/product00_12 (FF)
+  Requirement:          10.000ns
+  Data Path Delay:      7.368ns (Levels of Logic = 1)
+  Clock Path Skew:      -0.118ns (0.795 - 0.913)
+  Source Clock:         i_clock_BUFGP rising at 0.000ns
+  Destination Clock:    i_clock_BUFGP rising at 10.000ns
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: inst_streamScaler/readData00Reg_7 to inst_streamScaler/product00_12
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X29Y175.XQ     Tcko                  0.340   inst_streamScaler/readData00Reg<7>
+                                                       inst_streamScaler/readData00Reg_7
+    DSP48_X1Y43.A7       net (fanout=1)        1.305   inst_streamScaler/readData00Reg<7>
+    DSP48_X1Y43.P12      Tdspdo_APL            4.402   inst_streamScaler/Mmult_product00_mult0000
+                                                       inst_streamScaler/Mmult_product00_mult0000
+    SLICE_X34Y173.BY     net (fanout=1)        1.041   inst_streamScaler/product00_mult0000<12>
+    SLICE_X34Y173.CLK    Tdick                 0.280   inst_streamScaler/product00<13>
+                                                       inst_streamScaler/product00_12
+    -------------------------------------------------  ---------------------------
+    Total                                      7.368ns (5.022ns logic, 2.346ns route)
+                                                       (68.2% logic, 31.8% route)
+
+--------------------------------------------------------------------------------
+Slack (setup path):     3.065ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               inst_streamScaler/readData00Reg_1 (FF)
+  Destination:          inst_streamScaler/product00_12 (FF)
+  Requirement:          10.000ns
+  Data Path Delay:      6.866ns (Levels of Logic = 1)
+  Clock Path Skew:      -0.069ns (0.795 - 0.864)
+  Source Clock:         i_clock_BUFGP rising at 0.000ns
+  Destination Clock:    i_clock_BUFGP rising at 10.000ns
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: inst_streamScaler/readData00Reg_1 to inst_streamScaler/product00_12
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X31Y172.XQ     Tcko                  0.340   inst_streamScaler/readData00Reg<1>
+                                                       inst_streamScaler/readData00Reg_1
+    DSP48_X1Y43.A1       net (fanout=1)        0.803   inst_streamScaler/readData00Reg<1>
+    DSP48_X1Y43.P12      Tdspdo_APL            4.402   inst_streamScaler/Mmult_product00_mult0000
+                                                       inst_streamScaler/Mmult_product00_mult0000
+    SLICE_X34Y173.BY     net (fanout=1)        1.041   inst_streamScaler/product00_mult0000<12>
+    SLICE_X34Y173.CLK    Tdick                 0.280   inst_streamScaler/product00<13>
+                                                       inst_streamScaler/product00_12
+    -------------------------------------------------  ---------------------------
+    Total                                      6.866ns (5.022ns logic, 1.844ns route)
+                                                       (73.1% logic, 26.9% route)
+
+--------------------------------------------------------------------------------
+Slack (setup path):     3.084ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               inst_streamScaler/coeff00_1 (FF)
+  Destination:          inst_streamScaler/product00_12 (FF)
+  Requirement:          10.000ns
+  Data Path Delay:      6.784ns (Levels of Logic = 1)
+  Clock Path Skew:      -0.132ns (0.795 - 0.927)
+  Source Clock:         i_clock_BUFGP rising at 0.000ns
+  Destination Clock:    i_clock_BUFGP rising at 10.000ns
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: inst_streamScaler/coeff00_1 to inst_streamScaler/product00_12
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X27Y166.YQ     Tcko                  0.340   inst_streamScaler/coeff00<0>
+                                                       inst_streamScaler/coeff00_1
+    DSP48_X1Y43.B1       net (fanout=1)        0.721   inst_streamScaler/coeff00<1>
+    DSP48_X1Y43.P12      Tdspdo_BPL            4.402   inst_streamScaler/Mmult_product00_mult0000
+                                                       inst_streamScaler/Mmult_product00_mult0000
+    SLICE_X34Y173.BY     net (fanout=1)        1.041   inst_streamScaler/product00_mult0000<12>
+    SLICE_X34Y173.CLK    Tdick                 0.280   inst_streamScaler/product00<13>
+                                                       inst_streamScaler/product00_12
+    -------------------------------------------------  ---------------------------
+    Total                                      6.784ns (5.022ns logic, 1.762ns route)
+                                                       (74.0% logic, 26.0% route)
 
 --------------------------------------------------------------------------------
 
 Hold Paths: NET "i_clock_BUFGP/IBUFG" PERIOD = 10 ns HIGH 50%;
 --------------------------------------------------------------------------------
 
-Paths for end point dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (RAMB16_X7Y18.ADDRA9), 1 path
+Paths for end point tfm_inst/inst_calculated_to/RAMB16_S36_inst1 (RAMB16_X3Y18.ADDRA5), 1 path
 --------------------------------------------------------------------------------
-Slack (hold path):      0.366ns (requirement - (clock path skew + uncertainty - data path))
-  Source:               dualmem2_addra_6 (FF)
-  Destination:          dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (RAM)
+Slack (hold path):      0.325ns (requirement - (clock path skew + uncertainty - data path))
+  Source:               test_fixed_melexis_addr_0 (FF)
+  Destination:          tfm_inst/inst_calculated_to/RAMB16_S36_inst1 (RAM)
   Requirement:          0.000ns
-  Data Path Delay:      0.336ns (Levels of Logic = 0)
-  Clock Path Skew:      -0.030ns (0.924 - 0.954)
+  Data Path Delay:      0.326ns (Levels of Logic = 0)
+  Clock Path Skew:      0.001ns (0.815 - 0.814)
   Source Clock:         i_clock_BUFGP rising at 10.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Minimum Data Path: dualmem2_addra_6 to dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
+  Minimum Data Path: test_fixed_melexis_addr_0 to tfm_inst/inst_calculated_to/RAMB16_S36_inst1
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X71Y149.YQ     Tcko                  0.313   dualmem2_addra<7>
-                                                       dualmem2_addra_6
-    RAMB16_X7Y18.ADDRA9  net (fanout=2)        0.345   dualmem2_addra<6>
-    RAMB16_X7Y18.CLKA    Trckc_ADDRA (-Th)     0.322   dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
-                                                       dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
+    SLICE_X33Y147.YQ     Tcko                  0.313   test_fixed_melexis_addr<1>
+                                                       test_fixed_melexis_addr_0
+    RAMB16_X3Y18.ADDRA5  net (fanout=2)        0.335   test_fixed_melexis_addr<0>
+    RAMB16_X3Y18.CLKA    Trckc_ADDRA (-Th)     0.322   tfm_inst/inst_calculated_to/RAMB16_S36_inst1
+                                                       tfm_inst/inst_calculated_to/RAMB16_S36_inst1
     -------------------------------------------------  ---------------------------
-    Total                                      0.336ns (-0.009ns logic, 0.345ns route)
-                                                       (-2.7% logic, 102.7% route)
+    Total                                      0.326ns (-0.009ns logic, 0.335ns route)
+                                                       (-2.8% logic, 102.8% route)
 
 --------------------------------------------------------------------------------
 
-Paths for end point dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (RAMB16_X6Y14.ADDRA5), 1 path
+Paths for end point inst_streamScaler/ramRB/ram_generate[3].ram_inst_i/Mram_ram (RAMB16_X3Y20.DIA2), 1 path
 --------------------------------------------------------------------------------
-Slack (hold path):      0.366ns (requirement - (clock path skew + uncertainty - data path))
-  Source:               dualmem_addra_2 (FF)
-  Destination:          dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (RAM)
+Slack (hold path):      0.333ns (requirement - (clock path skew + uncertainty - data path))
+  Source:               streamScaler_dIn_2 (FF)
+  Destination:          inst_streamScaler/ramRB/ram_generate[3].ram_inst_i/Mram_ram (RAM)
   Requirement:          0.000ns
-  Data Path Delay:      0.330ns (Levels of Logic = 0)
-  Clock Path Skew:      -0.036ns (0.865 - 0.901)
+  Data Path Delay:      0.350ns (Levels of Logic = 0)
+  Clock Path Skew:      0.017ns (0.833 - 0.816)
   Source Clock:         i_clock_BUFGP rising at 10.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Minimum Data Path: dualmem_addra_2 to dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
+  Minimum Data Path: streamScaler_dIn_2 to inst_streamScaler/ramRB/ram_generate[3].ram_inst_i/Mram_ram
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X63Y113.YQ     Tcko                  0.313   dualmem_addra<3>
-                                                       dualmem_addra_2
-    RAMB16_X6Y14.ADDRA5  net (fanout=1)        0.339   dualmem_addra<2>
-    RAMB16_X6Y14.CLKA    Trckc_ADDRA (-Th)     0.322   dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
-                                                       dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
+    SLICE_X32Y161.YQ     Tcko                  0.331   streamScaler_dIn<3>
+                                                       streamScaler_dIn_2
+    RAMB16_X3Y20.DIA2    net (fanout=4)        0.341   streamScaler_dIn<2>
+    RAMB16_X3Y20.CLKA    Trckd_DIA   (-Th)     0.322   inst_streamScaler/ramRB/ram_generate[3].ram_inst_i/Mram_ram
+                                                       inst_streamScaler/ramRB/ram_generate[3].ram_inst_i/Mram_ram
     -------------------------------------------------  ---------------------------
-    Total                                      0.330ns (-0.009ns logic, 0.339ns route)
-                                                       (-2.7% logic, 102.7% route)
+    Total                                      0.350ns (0.009ns logic, 0.341ns route)
+                                                       (2.6% logic, 97.4% route)
 
 --------------------------------------------------------------------------------
 
-Paths for end point dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (RAMB16_X7Y18.ADDRA10), 1 path
+Paths for end point tfm_inst/inst_calculated_to/RAMB16_S36_inst1 (RAMB16_X3Y18.ADDRA6), 1 path
 --------------------------------------------------------------------------------
-Slack (hold path):      0.367ns (requirement - (clock path skew + uncertainty - data path))
-  Source:               dualmem2_addra_7 (FF)
-  Destination:          dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (RAM)
+Slack (hold path):      0.336ns (requirement - (clock path skew + uncertainty - data path))
+  Source:               test_fixed_melexis_addr_1 (FF)
+  Destination:          tfm_inst/inst_calculated_to/RAMB16_S36_inst1 (RAM)
   Requirement:          0.000ns
   Data Path Delay:      0.337ns (Levels of Logic = 0)
-  Clock Path Skew:      -0.030ns (0.924 - 0.954)
+  Clock Path Skew:      0.001ns (0.815 - 0.814)
   Source Clock:         i_clock_BUFGP rising at 10.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Minimum Data Path: dualmem2_addra_7 to dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
+  Minimum Data Path: test_fixed_melexis_addr_1 to tfm_inst/inst_calculated_to/RAMB16_S36_inst1
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X71Y149.XQ     Tcko                  0.313   dualmem2_addra<7>
-                                                       dualmem2_addra_7
-    RAMB16_X7Y18.ADDRA10 net (fanout=2)        0.346   dualmem2_addra<7>
-    RAMB16_X7Y18.CLKA    Trckc_ADDRA (-Th)     0.322   dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
-                                                       dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
+    SLICE_X33Y147.XQ     Tcko                  0.313   test_fixed_melexis_addr<1>
+                                                       test_fixed_melexis_addr_1
+    RAMB16_X3Y18.ADDRA6  net (fanout=2)        0.346   test_fixed_melexis_addr<1>
+    RAMB16_X3Y18.CLKA    Trckc_ADDRA (-Th)     0.322   tfm_inst/inst_calculated_to/RAMB16_S36_inst1
+                                                       tfm_inst/inst_calculated_to/RAMB16_S36_inst1
     -------------------------------------------------  ---------------------------
     Total                                      0.337ns (-0.009ns logic, 0.346ns route)
                                                        (-2.7% logic, 102.7% route)
@@ -685,7 +377,7 @@ Slack: 7.500ns (period - min period limit)
   Min period limit: 2.500ns (400.000MHz) (Trper_CLKA)
   Physical resource: dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP/CLKA
   Logical resource: dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP/CLKA
-  Location pin: RAMB16_X7Y19.CLKA
+  Location pin: RAMB16_X6Y20.CLKA
   Clock network: i_clock_BUFGP
 --------------------------------------------------------------------------------
 Slack: 7.500ns (period - min period limit)
@@ -693,7 +385,7 @@ Slack: 7.500ns (period - min period limit)
   Min period limit: 2.500ns (400.000MHz) (Trper_CLKA)
   Physical resource: dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP/CLKA
   Logical resource: dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP/CLKA
-  Location pin: RAMB16_X7Y18.CLKA
+  Location pin: RAMB16_X6Y19.CLKA
   Clock network: i_clock_BUFGP
 --------------------------------------------------------------------------------
 Slack: 7.500ns (period - min period limit)
@@ -701,7 +393,7 @@ Slack: 7.500ns (period - min period limit)
   Min period limit: 2.500ns (400.000MHz) (Trper_CLKA)
   Physical resource: dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP/CLKA
   Logical resource: dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP/CLKA
-  Location pin: RAMB16_X6Y14.CLKA
+  Location pin: RAMB16_X3Y19.CLKA
   Clock network: i_clock_BUFGP
 --------------------------------------------------------------------------------
 
@@ -718,7 +410,7 @@ Clock to Setup on destination clock i_clock
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-i_clock        |    9.545|         |         |         |
+i_clock        |    7.627|         |         |         |
 ---------------+---------+---------+---------+---------+
 
 
@@ -727,23 +419,23 @@ Timing summary:
 
 Timing errors: 0  Score: 0  (Setup/Max: 0, Hold: 0)
 
-Constraints cover 74655 paths, 0 nets, and 3443 connections
+Constraints cover 47978 paths, 0 nets, and 2659 connections
 
 Design statistics:
-   Minimum period:   9.545ns{1}   (Maximum frequency: 104.767MHz)
+   Minimum period:   7.627ns{1}   (Maximum frequency: 131.113MHz)
 
 
 ------------------------------------Footnotes-----------------------------------
 1)  The minimum period statistic assumes all single cycle delays.
 
-Analysis completed Sun Sep  1 14:53:24 2024 
+Analysis completed Sun Sep  1 15:14:44 2024 
 --------------------------------------------------------------------------------
 
 Trace Settings:
 -------------------------
 Trace Settings 
 
-Peak Memory Usage: 506 MB
+Peak Memory Usage: 504 MB
 
 
 

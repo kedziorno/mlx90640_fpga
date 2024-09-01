@@ -5,14 +5,14 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.09 secs
+Total CPU time to Xst completion: 0.08 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.09 secs
+Total CPU time to Xst completion: 0.08 secs
  
 --> 
 Reading design: test1.prj
@@ -351,7 +351,7 @@ Analyzing Entity <test1> in library <work> (Architecture <behavioral>).
 WARNING:Xst:2211 - "/home/user/workspace/kedziorno/mlx90640_fpga/test1.vhd" line 536: Instantiating black box module <tb_i2c_mem>.
 WARNING:Xst:2211 - "/home/user/workspace/kedziorno/mlx90640_fpga/test1.vhd" line 682: Instantiating black box module <float2fixed>.
 WARNING:Xst:2211 - "/home/user/workspace/kedziorno/mlx90640_fpga/test1.vhd" line 697: Instantiating black box module <dualmem>.
-WARNING:Xst:2211 - "/home/user/workspace/kedziorno/mlx90640_fpga/test1.vhd" line 722: Instantiating black box module <dualmem2>.
+WARNING:Xst:2211 - "/home/user/workspace/kedziorno/mlx90640_fpga/test1.vhd" line 723: Instantiating black box module <dualmem2>.
 INFO:Xst:2679 - Register <streamScaler_run> in unit <test1> has a constant value of 1 during circuit operation. The register is replaced by logic.
 Entity <test1> analyzed. Unit <test1> generated.
 
@@ -689,6 +689,10 @@ Analyzing module <streamScaler> in library <work>.
 "scaler.v" line 339: $display : CEOFF_WIDTH =          9
 "scaler.v" line 340: $display : CHANNELS =          1
 "scaler.v" line 341: $display :         17
+WARNING:Xst:2323 - "scaler.v" line 342: Parameter 2 is not constant in call of system task $display.
+"scaler.v" line 342: $display : xScale = 
+WARNING:Xst:2323 - "scaler.v" line 343: Parameter 2 is not constant in call of system task $display.
+"scaler.v" line 343: $display : yScale = 
 Module <streamScaler> is correct for synthesis.
  
 Analyzing module <ramFifo> in library <work>.
@@ -835,13 +839,13 @@ WARNING:Xst:647 - Input <outputYRes> is never used. This port will be preserved 
 WARNING:Xst:647 - Input <leftOffset<19>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
 WARNING:Xst:646 - Signal <yScaleAmount<5:0>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <xScaleAmount<5:0>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:643 - "scaler.v" line 216: The result of a 7x18-bit multiplication is partially used. Only the 19 least significant bits are used. If you are doing this on purpose, you may safely ignore this warning. Otherwise, make sure you are not losing information, leading to unexpected circuit behavior.
-WARNING:Xst:643 - "scaler.v" line 243: The result of a 7x18-bit multiplication is partially used. Only the 19 least significant bits are used. If you are doing this on purpose, you may safely ignore this warning. Otherwise, make sure you are not losing information, leading to unexpected circuit behavior.
+WARNING:Xst:643 - "scaler.v" line 216: The result of a 18x7-bit multiplication is partially used. Only the 19 least significant bits are used. If you are doing this on purpose, you may safely ignore this warning. Otherwise, make sure you are not losing information, leading to unexpected circuit behavior.
+WARNING:Xst:643 - "scaler.v" line 243: The result of a 18x7-bit multiplication is partially used. Only the 19 least significant bits are used. If you are doing this on purpose, you may safely ignore this warning. Otherwise, make sure you are not losing information, leading to unexpected circuit behavior.
     Found 1-bit register for signal <dOutValid>.
     Found 9-bit register for signal <dOut>.
-    Found 3-bit subtractor for signal <$sub0000> created at line 497.
+    Found 3-bit subtractor for signal <$sub0000> created at line 499.
     Found 5-bit adder carry out for signal <add0000$addsub0000> created at line 191.
-    Found 5-bit adder carry out for signal <add0001$addsub0000> created at line 511.
+    Found 5-bit adder carry out for signal <add0001$addsub0000> created at line 513.
     Found 1-bit register for signal <advanceRead1>.
     Found 6-bit comparator not equal for signal <advanceRead1$cmp_ne0000> created at line 191.
     Found 1-bit register for signal <advanceRead2>.
@@ -853,13 +857,13 @@ WARNING:Xst:643 - "scaler.v" line 243: The result of a 7x18-bit multiplication i
     Found 20-bit adder for signal <coeff11$add0000> created at line 318.
     Found 9x9-bit multiplier for signal <coeff11$mult0000> created at line 318.
     Found 1-bit register for signal <discardCountReg<0>>.
-    Found 1-bit subtractor for signal <discardCountReg_0$addsub0000> created at line 496.
+    Found 1-bit subtractor for signal <discardCountReg_0$addsub0000> created at line 498.
     Found 1-bit register for signal <discardInput>.
-    Found 6-bit comparator equal for signal <discardInput$cmp_eq0000> created at line 511.
-    Found 6-bit comparator equal for signal <discardInput$cmp_eq0001> created at line 511.
-    Found 18-bit adder for signal <dOut$add0000> created at line 386.
-    Found 18-bit adder for signal <dOut$addsub0000> created at line 386.
-    Found 18-bit adder for signal <dOut$addsub0001> created at line 386.
+    Found 6-bit comparator equal for signal <discardInput$cmp_eq0000> created at line 513.
+    Found 6-bit comparator equal for signal <discardInput$cmp_eq0001> created at line 513.
+    Found 18-bit adder for signal <dOut$add0000> created at line 388.
+    Found 18-bit adder for signal <dOut$addsub0000> created at line 388.
+    Found 18-bit adder for signal <dOut$addsub0001> created at line 388.
     Found 1-bit register for signal <dOutValid_1>.
     Found 1-bit register for signal <dOutValid_2>.
     Found 1-bit register for signal <dOutValid_3>.
@@ -873,7 +877,7 @@ WARNING:Xst:643 - "scaler.v" line 243: The result of a 7x18-bit multiplication i
     Found 1-bit register for signal <forceRead>.
     Found 1-bit register for signal <getNextPlusOne>.
     Found 1-bit register for signal <lineSwitchOutputDisable>.
-    Found 4-bit comparator less for signal <nextDin$cmp_lt0000> created at line 556.
+    Found 4-bit comparator less for signal <nextDin$cmp_lt0000> created at line 558.
     Found 6-bit up counter for signal <outputColumn>.
     Found 6-bit up counter for signal <outputLine>.
     Found 21-bit adder for signal <preCoeff00$add0000> created at line 290.
@@ -885,13 +889,13 @@ WARNING:Xst:643 - "scaler.v" line 243: The result of a 7x18-bit multiplication i
     Found 21-bit adder for signal <preCoeff10$add0000> created at line 292.
     Found 10x10-bit multiplier for signal <preCoeff10$mult0000> created at line 292.
     Found 18-bit register for signal <product00>.
-    Found 9x9-bit multiplier for signal <product00$mult0000> created at line 377.
+    Found 9x9-bit multiplier for signal <product00$mult0000> created at line 379.
     Found 18-bit register for signal <product01>.
-    Found 9x9-bit multiplier for signal <product01$mult0000> created at line 378.
+    Found 9x9-bit multiplier for signal <product01$mult0000> created at line 380.
     Found 18-bit register for signal <product10>.
-    Found 9x9-bit multiplier for signal <product10$mult0000> created at line 379.
+    Found 9x9-bit multiplier for signal <product10$mult0000> created at line 381.
     Found 18-bit register for signal <product11>.
-    Found 9x9-bit multiplier for signal <product11$mult0000> created at line 380.
+    Found 9x9-bit multiplier for signal <product11$mult0000> created at line 382.
     Found 9-bit register for signal <readData00Reg>.
     Found 9-bit register for signal <readData01Reg>.
     Found 9-bit register for signal <readData10Reg>.
@@ -900,22 +904,22 @@ WARNING:Xst:643 - "scaler.v" line 243: The result of a 7x18-bit multiplication i
     Found 1-bit register for signal <readyForRead>.
     Found 5-bit up counter for signal <writeColCount>.
     Found 5-bit register for signal <writeNextPlusOne>.
-    Found 5-bit adder for signal <writeNextPlusOne$add0000> created at line 425.
-    Found 5-bit comparator less for signal <writeNextPlusOne$cmp_lt0000> created at line 421.
+    Found 5-bit adder for signal <writeNextPlusOne$add0000> created at line 427.
+    Found 5-bit comparator less for signal <writeNextPlusOne$cmp_lt0000> created at line 423.
     Found 5-bit register for signal <writeNextValidLine>.
-    Found 6x18-bit multiplier for signal <writeNextValidLine$add0000> created at line 429.
+    Found 18x6-bit multiplier for signal <writeNextValidLine$add0000> created at line 431.
     Found 6-bit up counter for signal <writeOutputLine>.
-    Found 5-bit comparator greatequal for signal <writeOutputLine$cmp_ge0000> created at line 421.
+    Found 5-bit comparator greatequal for signal <writeOutputLine$cmp_ge0000> created at line 423.
     Found 5-bit up counter for signal <writeRowCount>.
     Found 2-bit register for signal <writeState>.
     Found 9-bit register for signal <xBlend>.
     Found 19-bit register for signal <xScaleAmount>.
     Found 6-bit adder carry out for signal <xScaleAmount$addsub0001> created at line 216.
-    Found 7x18-bit multiplier for signal <xScaleAmount$mult0001> created at line 216.
+    Found 18x7-bit multiplier for signal <xScaleAmount$mult0001> created at line 216.
     Found 19-bit register for signal <yScaleAmount>.
     Found 19-bit register for signal <yScaleAmountNext>.
     Found 6-bit adder carry out for signal <yScaleAmountNext$addsub0001> created at line 243.
-    Found 7x18-bit multiplier for signal <yScaleAmountNext$mult0001> created at line 243.
+    Found 18x7-bit multiplier for signal <yScaleAmountNext$mult0001> created at line 243.
     Summary:
 	inferred   5 Counter(s).
 	inferred 241 D-type flip-flop(s).
@@ -927,6 +931,8 @@ Unit <streamScaler> synthesized.
 
 Synthesizing Unit <test1>.
     Related source file is "/home/user/workspace/kedziorno/mlx90640_fpga/test1.vhd".
+WARNING:Xst:653 - Signal <streamScaler_yScale> is used but never assigned. This sourceless signal will be automatically connected to value 000000000000000000.
+WARNING:Xst:653 - Signal <streamScaler_xScale> is used but never assigned. This sourceless signal will be automatically connected to value 000000000000000000.
 WARNING:Xst:1780 - Signal <streamScaler_start_dout> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <rdata<23:21>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <rdata<15:13>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
@@ -973,7 +979,7 @@ WARNING:Xst:646 - Signal <VGA_timing_synch_blank> is assigned but never used. Th
     Found 9-bit register for signal <streamScaler_dIn>.
     Found 1-bit register for signal <streamScaler_dInValid>.
     Found 1-bit register for signal <streamScaler_nextDout>.
-    Found 9-bit comparator greatequal for signal <streamScaler_nextDout$cmp_ge0000> created at line 771.
+    Found 9-bit comparator greatequal for signal <streamScaler_nextDout$cmp_ge0000> created at line 772.
     Found 1-bit register for signal <streamScaler_start>.
     Found 10-bit register for signal <test_fixed_melexis_addr>.
     Found 1-bit register for signal <test_fixed_melexis_run>.
@@ -999,8 +1005,8 @@ Macro Statistics
  32x9-bit dual-port RAM                                : 4
 # Multipliers                                          : 11
  10x10-bit multiplier                                  : 3
- 6x18-bit multiplier                                   : 1
- 7x18-bit multiplier                                   : 2
+ 18x6-bit multiplier                                   : 1
+ 18x7-bit multiplier                                   : 2
  9x9-bit multiplier                                    : 5
 # Adders/Subtractors                                   : 23
  1-bit subtractor                                      : 1
@@ -1187,8 +1193,8 @@ Macro Statistics
 # Multipliers                                          : 11
  10x10-bit multiplier                                  : 1
  10x9-bit multiplier                                   : 1
- 6x18-bit multiplier                                   : 1
- 7x18-bit multiplier                                   : 2
+ 18x6-bit multiplier                                   : 1
+ 18x7-bit multiplier                                   : 2
  9x10-bit multiplier                                   : 1
  9x9-bit multiplier                                    : 5
 # Adders/Subtractors                                   : 22
@@ -1240,8 +1246,67 @@ Macro Statistics
 =========================================================================
 WARNING:Xst:1426 - The value init of the FF/Latch state1_0 hinder the constant cleaning in the block test1.
    You should achieve better results by setting this init to 1.
+WARNING:Xst:1710 - FF/Latch <yScaleAmount_15> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmount_16> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmount_17> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmount_18> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <writeNextValidLine_0> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <writeNextValidLine_1> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <writeNextValidLine_2> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <writeNextValidLine_3> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <writeNextValidLine_4> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmountNext_6> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmountNext_7> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmountNext_8> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmountNext_9> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmountNext_10> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmountNext_11> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmountNext_12> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmountNext_13> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmountNext_14> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmountNext_15> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmountNext_16> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmountNext_17> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmountNext_18> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <xScaleAmount_6> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <xScaleAmount_7> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <xScaleAmount_8> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <xScaleAmount_9> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <xScaleAmount_10> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <xScaleAmount_11> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <xScaleAmount_12> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <xScaleAmount_13> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <xScaleAmount_14> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <xScaleAmount_15> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <xScaleAmount_16> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <xScaleAmount_17> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <xScaleAmount_18> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmount_14> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmount_13> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmount_12> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmount_11> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmount_10> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmount_9> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmount_8> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmount_7> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <yScaleAmount_6> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <xBlend_0> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <xBlend_1> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <xBlend_2> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <xBlend_3> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <xBlend_7> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <xBlend_6> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <xBlend_5> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <xBlend_4> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <writeNextPlusOne_4> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <writeNextPlusOne_3> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <writeNextPlusOne_1> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <writeNextPlusOne_0> (without init value) has a constant value of 1 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <writeNextPlusOne_2> (without init value) has a constant value of 0 in block <streamScaler>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1898 - Due to constant pushing, FF/Latch <getNextPlusOne> is unconnected in block <streamScaler>.
 INFO:Xst:1901 - Instance RAMB16_S36_inst1 in unit mem_ramb16_s36_x2 of type RAMB16_S36 has been replaced by RAMB16
 INFO:Xst:1901 - Instance RAMB16_S36_inst2 in unit mem_ramb16_s36_x2 of type RAMB16_S36 has been replaced by RAMB16
+INFO:Xst:2261 - The FF/Latch <advanceRead1> in Unit <streamScaler> is equivalent to the following FF/Latch, which will be removed : <advanceRead2> 
 
 Optimizing unit <test1> ...
 
@@ -1258,15 +1323,22 @@ Optimizing unit <streamScaler> ...
 Mapping all equations...
 Building and optimizing final netlist ...
 Found area constraint ratio of 100 (+ 5) on block test1, actual ratio is 4.
+FlipFlop vts_inst/vPos_0 has been replicated 1 time(s)
 
 Final Macro Processing ...
+
+Processing Unit <test1> :
+	Found 4-bit shift register for signal <inst_streamScaler/dOutValid>.
+Unit <test1> processed.
 
 =========================================================================
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 545
- Flip-Flops                                            : 545
+# Registers                                            : 471
+ Flip-Flops                                            : 471
+# Shift Registers                                      : 1
+ 4-bit shift register                                  : 1
 
 =========================================================================
 
@@ -1295,41 +1367,39 @@ Design Statistics
 # IOs                              : 32
 
 Cell Usage :
-# BELS                             : 1682
+# BELS                             : 1516
 #      GND                         : 5
-#      INV                         : 54
+#      INV                         : 49
 #      LUT1                        : 106
-#      LUT2                        : 145
-#      LUT2_D                      : 1
-#      LUT2_L                      : 8
-#      LUT3                        : 250
-#      LUT3_D                      : 3
-#      LUT3_L                      : 19
-#      LUT4                        : 530
-#      LUT4_D                      : 12
-#      LUT4_L                      : 9
-#      MULT_AND                    : 1
-#      MUXCY                       : 236
-#      MUXF5                       : 120
+#      LUT2                        : 126
+#      LUT2_L                      : 5
+#      LUT3                        : 192
+#      LUT3_L                      : 22
+#      LUT4                        : 479
+#      LUT4_D                      : 10
+#      LUT4_L                      : 10
+#      MUXCY                       : 218
+#      MUXF5                       : 116
 #      MUXF6                       : 2
 #      MUXF7                       : 1
 #      VCC                         : 2
-#      XORCY                       : 178
-# FlipFlops/Latches                : 660
-#      FDC                         : 207
-#      FDCE                        : 53
+#      XORCY                       : 173
+# FlipFlops/Latches                : 591
+#      FD                          : 1
+#      FDC                         : 160
+#      FDCE                        : 31
 #      FDE                         : 181
-#      FDP                         : 1
-#      FDPE                        : 3
+#      FDPE                        : 2
 #      FDR                         : 89
-#      FDRE                        : 116
+#      FDRE                        : 117
 #      FDRS                        : 3
 #      FDRSE                       : 4
 #      FDS                         : 2
 #      FDSE                        : 1
 # RAMS                             : 11
 #      RAMB16                      : 11
-# Shift Registers                  : 4
+# Shift Registers                  : 5
+#      SRL16                       : 1
 #      SRL16E                      : 4
 # Clock Buffers                    : 2
 #      BUFG                        : 1
@@ -1337,8 +1407,8 @@ Cell Usage :
 # IO Buffers                       : 31
 #      IBUF                        : 1
 #      OBUF                        : 30
-# DSPs                             : 10
-#      DSP48                       : 10
+# DSPs                             : 8
+#      DSP48                       : 8
 =========================================================================
 
 Device utilization summary:
@@ -1346,17 +1416,17 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                      639  out of  15360     4%  
- Number of Slice Flip Flops:            660  out of  30720     2%  
- Number of 4 input LUTs:               1141  out of  30720     3%  
-    Number used as logic:              1137
-    Number used as Shift registers:       4
+ Number of Slices:                      588  out of  15360     3%  
+ Number of Slice Flip Flops:            591  out of  30720     1%  
+ Number of 4 input LUTs:               1004  out of  30720     3%  
+    Number used as logic:               999
+    Number used as Shift registers:       5
  Number of IOs:                          32
  Number of bonded IOBs:                  32  out of    448     7%  
  Number of FIFO16/RAMB16s:               11  out of    192     5%  
     Number used as RAMB16s:              11
  Number of GCLKs:                         2  out of     32     6%  
- Number of DSP48s:                       10  out of    192     5%  
+ Number of DSP48s:                        8  out of    192     4%  
 
 ---------------------------
 Partition Resource Summary:
@@ -1379,10 +1449,10 @@ Clock Information:
 -----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)                                                                                                                 | Load  |
 -----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------+-------+
-i_clock                            | BUFGP                                                                                                                                 | 573   |
+i_clock                            | BUFGP                                                                                                                                 | 504   |
 inst_tb_i2c_mem/N1                 | NONE(inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_init.ram/SP.SINGLE_PRIM.SP)| 2     |
 agclk                              | NONE(dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/has_mux_b.B/sel_pipe_0)                          | 15    |
-vgaclk251                          | BUFG                                                                                                                                  | 89    |
+vgaclk251                          | BUFG                                                                                                                                  | 90    |
 -----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------+-------+
 INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
 
@@ -1391,8 +1461,8 @@ Asynchronous Control Signals Information:
 ---------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------+-------+
 Control Signal                                                       | Buffer(FF name)                                                                                                                         | Load  |
 ---------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------+-------+
-i_reset                                                              | IBUF                                                                                                                                    | 163   |
-inst_streamScaler/asyn_rst_start(inst_streamScaler/asyn_rst_start1:O)| NONE(inst_streamScaler/advanceRead1)                                                                                                    | 101   |
+i_reset                                                              | IBUF                                                                                                                                    | 155   |
+inst_streamScaler/asyn_rst_start(inst_streamScaler/asyn_rst_start1:O)| NONE(inst_streamScaler/advanceRead1)                                                                                                    | 38    |
 dualmem_inst2/N1(dualmem_inst2/XST_GND:G)                            | NONE(dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP)| 8     |
 inst_tb_i2c_mem/N1(inst_tb_i2c_mem/XST_GND:G)                        | NONE(inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_init.ram/SP.SINGLE_PRIM.SP)  | 8     |
 dualmem_inst/N1(dualmem_inst/XST_GND:G)                              | NONE(dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP) | 2     |
@@ -1402,8 +1472,8 @@ Timing Summary:
 ---------------
 Speed Grade: -10
 
-   Minimum period: 8.963ns (Maximum Frequency: 111.565MHz)
-   Minimum input arrival time before clock: 5.970ns
+   Minimum period: 7.877ns (Maximum Frequency: 126.960MHz)
+   Minimum input arrival time before clock: 6.153ns
    Maximum output required time after clock: 12.852ns
    Maximum combinational path delay: No path found
 
@@ -1413,82 +1483,63 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 8.963ns (frequency: 111.565MHz)
-  Total number of paths / destination ports: 74730 / 1104
+  Clock period: 5.504ns (frequency: 181.689MHz)
+  Total number of paths / destination ports: 48054 / 955
 -------------------------------------------------------------------------
-Delay:               8.963ns (Levels of Logic = 21)
-  Source:            inst_streamScaler/yScaleAmount_9 (FF)
-  Destination:       inst_streamScaler/coeff01_8 (FF)
+Delay:               5.504ns (Levels of Logic = 1)
+  Source:            inst_streamScaler/readData11Reg_5 (FF)
+  Destination:       inst_streamScaler/product11_16 (FF)
   Source Clock:      i_clock rising
   Destination Clock: i_clock rising
 
-  Data Path: inst_streamScaler/yScaleAmount_9 to inst_streamScaler/coeff01_8
+  Data Path: inst_streamScaler/readData11Reg_5 to inst_streamScaler/product11_16
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDC:C->Q              5   0.360   0.764  inst_streamScaler/yScaleAmount_9 (inst_streamScaler/yScaleAmount_9)
-     LUT4_D:I0->O          4   0.195   0.537  inst_streamScaler/Madd_preCoeff00_sub0000_cy<7>31 (inst_streamScaler/Madd_preCoeff00_sub0000_cy<7>_bdd2)
-     LUT2:I1->O            2   0.195   0.377  inst_streamScaler/preCoeff00_sub0000<4>1 (inst_streamScaler/preCoeff00_sub0000<4>)
-     DSP48:B4->P0          1   4.402   0.360  inst_streamScaler/Mmult_preCoeff00_mult0000 (inst_streamScaler/preCoeff00_mult0000<0>)
-     INV:I->O              1   0.358   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_lut<0>_INV_0 (inst_streamScaler/Madd_preCoeff00_add0000_Madd_lut<0>)
-     MUXCY:S->O            1   0.366   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<0> (inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<0>)
-     MUXCY:CI->O           1   0.044   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<1> (inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<1>)
-     MUXCY:CI->O           1   0.045   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<2> (inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<2>)
-     MUXCY:CI->O           1   0.044   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<3> (inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<3>)
-     MUXCY:CI->O           1   0.044   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<4> (inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<4>)
-     MUXCY:CI->O           1   0.044   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<5> (inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<5>)
-     MUXCY:CI->O           1   0.044   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<6> (inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<6>)
-     MUXCY:CI->O           1   0.044   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<7> (inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<7>)
-     MUXCY:CI->O           1   0.044   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<8> (inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<8>)
-     MUXCY:CI->O           1   0.044   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<9> (inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<9>)
-     MUXCY:CI->O           1   0.044   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<10> (inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<10>)
-     MUXCY:CI->O           1   0.044   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<11> (inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<11>)
-     MUXCY:CI->O           1   0.044   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<12> (inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<12>)
-     MUXCY:CI->O           1   0.044   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<13> (inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<13>)
-     MUXCY:CI->O           1   0.044   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<14> (inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<14>)
-     MUXCY:CI->O           0   0.044   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<15> (inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<15>)
-     XORCY:CI->O           1   0.360   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_xor<16> (inst_streamScaler/preCoeff00<8>)
-     FDC:D                     0.022          inst_streamScaler/coeff00_8
+     FDC:C->Q              1   0.360   0.360  inst_streamScaler/readData11Reg_5 (inst_streamScaler/readData11Reg_5)
+     DSP48:A5->P15         1   4.402   0.360  inst_streamScaler/Mmult_product11_mult0000 (inst_streamScaler/product11_mult0000<15>)
+     FDC:D                     0.022          inst_streamScaler/product11_15
     ----------------------------------------
-    Total                      8.963ns (6.926ns logic, 2.038ns route)
-                                       (77.3% logic, 22.7% route)
+    Total                      5.504ns (4.784ns logic, 0.720ns route)
+                                       (86.9% logic, 13.1% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'vgaclk251'
-  Clock period: 7.867ns (frequency: 127.115MHz)
-  Total number of paths / destination ports: 2325 / 151
+  Clock period: 7.877ns (frequency: 126.960MHz)
+  Total number of paths / destination ports: 2430 / 154
 -------------------------------------------------------------------------
-Delay:               7.867ns (Levels of Logic = 9)
-  Source:            vts_inst/hPos_1 (FF)
+Delay:               7.877ns (Levels of Logic = 10)
+  Source:            vts_inst/vPos_4 (FF)
   Destination:       vts_inst/videoOn (FF)
   Source Clock:      vgaclk251 rising
   Destination Clock: vgaclk251 rising
 
-  Data Path: vts_inst/hPos_1 to vts_inst/videoOn
+  Data Path: vts_inst/vPos_4 to vts_inst/videoOn
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDR:C->Q              6   0.360   0.622  vts_inst/hPos_1 (vts_inst/hPos_1)
-     LUT2_D:I0->O          1   0.195   0.585  vts_inst/activeArea16_SW0 (N126)
-     LUT4:I2->O            2   0.195   0.540  vts_inst/videoOn_or00008_SW0 (N118)
-     LUT4_D:I3->O          1   0.195   0.523  vts_inst/videoOn_or00008 (vts_inst/videoOn_or0000_bdd15)
-     LUT4_D:I3->O          2   0.195   0.602  vts_inst/videoOn_or00004 (vts_inst/videoOn_or0000_bdd8)
-     LUT3:I1->O            1   0.195   0.000  vts_inst/videoOn_or00001179_F (N156)
-     MUXF5:I0->O           1   0.382   0.523  vts_inst/videoOn_or00001179 (vts_inst/videoOn_or00001179)
-     LUT4_L:I3->LO         1   0.195   0.163  vts_inst/videoOn_or00001232 (vts_inst/videoOn_or00001232)
-     LUT4:I3->O            1   0.195   0.585  vts_inst/videoOn_or00001273 (vts_inst/videoOn_or00001273)
-     LUT4:I2->O            1   0.195   0.360  vts_inst/videoOn_or00001310 (vts_inst/videoOn_or0000)
+     FDRE:C->Q            17   0.360   0.908  vts_inst/vPos_4 (vts_inst/vPos_4)
+     LUT3_L:I0->LO         1   0.195   0.163  vts_inst/videoOn_or0000331 (vts_inst/videoOn_or0000_bdd65)
+     LUT3:I2->O            3   0.195   0.538  vts_inst/videoOn_or0000411 (vts_inst/videoOn_or0000_bdd78)
+     LUT4:I3->O            1   0.195   0.000  vts_inst/videoOn_or00002860_G (N181)
+     MUXF5:I1->O           2   0.374   0.705  vts_inst/videoOn_or00002860 (vts_inst/videoOn_or00002860)
+     LUT3:I0->O            1   0.195   0.000  vts_inst/videoOn_or0000129_F (N366)
+     MUXF5:I0->O           3   0.382   0.600  vts_inst/videoOn_or0000129 (vts_inst/videoOn_or0000129)
+     LUT2:I0->O            1   0.195   0.000  vts_inst/videoOn_or00001142_SW0_SW1_G (N369)
+     MUXF5:I1->O           1   0.374   0.523  vts_inst/videoOn_or00001142_SW0_SW1 (N150)
+     LUT4_L:I3->LO         1   0.195   0.163  vts_inst/videoOn_or00001142 (vts_inst/videoOn_or00001142)
+     LUT4:I3->O            1   0.195   0.360  vts_inst/videoOn_or00001310 (vts_inst/videoOn_or0000)
      FDR:R                     1.062          vts_inst/videoOn
     ----------------------------------------
-    Total                      7.867ns (3.364ns logic, 4.503ns route)
-                                       (42.8% logic, 57.2% route)
+    Total                      7.877ns (3.917ns logic, 3.960ns route)
+                                       (49.7% logic, 50.3% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'agclk'
-  Clock period: 5.210ns (frequency: 191.924MHz)
+  Clock period: 4.965ns (frequency: 201.392MHz)
   Total number of paths / destination ports: 222 / 24
 -------------------------------------------------------------------------
-Delay:               5.210ns (Levels of Logic = 4)
+Delay:               4.965ns (Levels of Logic = 4)
   Source:            ag_inst/addr_4 (FF)
   Destination:       ag_inst/addr_11 (FF)
   Source Clock:      agclk rising
@@ -1499,20 +1550,20 @@ Delay:               5.210ns (Levels of Logic = 4)
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
      FDRE:C->Q             4   0.360   0.755  ag_inst/addr_4 (ag_inst/addr_4)
-     LUT4:I0->O            1   0.195   0.688  ag_inst/addr_or000015 (ag_inst/addr_or000015)
-     LUT4:I1->O            1   0.195   0.523  ag_inst/addr_or000034_SW0 (N210)
-     LUT4:I3->O            1   0.195   0.523  ag_inst/addr_or000034 (ag_inst/addr_or000034)
+     LUT4:I0->O            1   0.195   0.585  ag_inst/addr_or000023 (ag_inst/addr_or000023)
+     LUT4:I2->O            1   0.195   0.741  ag_inst/addr_or000033_SW0 (N234)
+     LUT4_L:I0->LO         1   0.195   0.163  ag_inst/addr_or000033 (ag_inst/addr_or000033)
      LUT3:I2->O           12   0.195   0.520  ag_inst/addr_or000043 (ag_inst/addr_or0000)
      FDRE:R                    1.062          ag_inst/addr_0
     ----------------------------------------
-    Total                      5.210ns (2.202ns logic, 3.008ns route)
-                                       (42.3% logic, 57.7% route)
+    Total                      4.965ns (2.202ns logic, 2.763ns route)
+                                       (44.3% logic, 55.7% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
   Total number of paths / destination ports: 190 / 180
 -------------------------------------------------------------------------
-Offset:              5.207ns (Levels of Logic = 3)
+Offset:              5.179ns (Levels of Logic = 3)
   Source:            i_reset (PAD)
   Destination:       streamScaler_ag_0 (FF)
   Destination Clock: i_clock rising
@@ -1521,19 +1572,19 @@ Offset:              5.207ns (Levels of Logic = 3)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           296   0.965   2.123  i_reset_IBUF (i_reset_IBUF)
-     LUT4:I3->O            1   0.195   0.000  streamScaler_ag_or0000381 (streamScaler_ag_or000038)
-     MUXF5:I1->O          10   0.374   0.488  streamScaler_ag_or000038_f5 (streamScaler_ag_or0000)
+     IBUF:I->O           287   0.965   2.088  i_reset_IBUF (i_reset_IBUF)
+     LUT4:I3->O            1   0.195   0.000  streamScaler_ag_or0000391 (streamScaler_ag_or000039)
+     MUXF5:I0->O          10   0.382   0.488  streamScaler_ag_or000039_f5 (streamScaler_ag_or0000)
      FDRE:R                    1.062          streamScaler_ag_0
     ----------------------------------------
-    Total                      5.207ns (2.596ns logic, 2.611ns route)
-                                       (49.9% logic, 50.1% route)
+    Total                      5.179ns (2.604ns logic, 2.575ns route)
+                                       (50.3% logic, 49.7% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'vgaclk251'
-  Total number of paths / destination ports: 120 / 97
+  Total number of paths / destination ports: 112 / 98
 -------------------------------------------------------------------------
-Offset:              5.970ns (Levels of Logic = 4)
+Offset:              6.153ns (Levels of Logic = 4)
   Source:            i_reset (PAD)
   Destination:       vts_inst/videoOn (FF)
   Destination Clock: vgaclk251 rising
@@ -1542,20 +1593,20 @@ Offset:              5.970ns (Levels of Logic = 4)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           296   0.965   2.123  i_reset_IBUF (i_reset_IBUF)
-     LUT4:I3->O            1   0.195   0.000  vts_inst/videoOn_or00001162 (vts_inst/videoOn_or00001162)
-     MUXF5:I0->O           1   0.382   0.688  vts_inst/videoOn_or0000116_f5 (vts_inst/videoOn_or0000116)
+     IBUF:I->O           287   0.965   2.306  i_reset_IBUF (i_reset_IBUF)
+     LUT4:I0->O            1   0.195   0.000  vts_inst/videoOn_or0000116_F (N182)
+     MUXF5:I0->O           1   0.382   0.688  vts_inst/videoOn_or0000116 (vts_inst/videoOn_or0000116)
      LUT4:I1->O            1   0.195   0.360  vts_inst/videoOn_or00001310 (vts_inst/videoOn_or0000)
      FDR:R                     1.062          vts_inst/videoOn
     ----------------------------------------
-    Total                      5.970ns (2.799ns logic, 3.171ns route)
-                                       (46.9% logic, 53.1% route)
+    Total                      6.153ns (2.799ns logic, 3.354ns route)
+                                       (45.5% logic, 54.5% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'agclk'
   Total number of paths / destination ports: 12 / 12
 -------------------------------------------------------------------------
-Offset:              5.030ns (Levels of Logic = 2)
+Offset:              4.995ns (Levels of Logic = 2)
   Source:            i_reset (PAD)
   Destination:       ag_inst/addr_11 (FF)
   Destination Clock: agclk rising
@@ -1564,12 +1615,12 @@ Offset:              5.030ns (Levels of Logic = 2)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           296   0.965   2.288  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O           287   0.965   2.253  i_reset_IBUF (i_reset_IBUF)
      LUT3:I0->O           12   0.195   0.520  ag_inst/addr_or000043 (ag_inst/addr_or0000)
      FDRE:R                    1.062          ag_inst/addr_0
     ----------------------------------------
-    Total                      5.030ns (2.222ns logic, 2.808ns route)
-                                       (44.2% logic, 55.8% route)
+    Total                      4.995ns (2.222ns logic, 2.773ns route)
+                                       (44.5% logic, 55.5% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
@@ -1594,21 +1645,20 @@ Offset:              4.694ns (Levels of Logic = 1)
 Timing constraint: Default OFFSET OUT AFTER for Clock 'vgaclk251'
   Total number of paths / destination ports: 1322 / 18
 -------------------------------------------------------------------------
-Offset:              11.746ns (Levels of Logic = 11)
-  Source:            vts_inst/hPos_1 (FF)
+Offset:              11.715ns (Levels of Logic = 10)
+  Source:            vts_inst/hPos_0 (FF)
   Destination:       vga_b<5> (PAD)
   Source Clock:      vgaclk251 rising
 
-  Data Path: vts_inst/hPos_1 to vga_b<5>
+  Data Path: vts_inst/hPos_0 to vga_b<5>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDR:C->Q              6   0.360   0.622  vts_inst/hPos_1 (vts_inst/hPos_1)
-     LUT2_D:I0->LO         1   0.195   0.163  vts_inst/activeArea16_SW0 (N359)
-     LUT4:I3->O            2   0.195   0.540  vts_inst/activeArea16 (vts_inst/activeArea1_bdd13)
-     LUT4:I3->O            2   0.195   0.540  vts_inst/activeArea1316 (vts_inst/activeArea1_bdd7)
-     LUT4:I3->O            1   0.195   0.688  vts_inst/activeArea182 (vts_inst/activeArea182)
-     LUT4:I1->O            1   0.195   0.000  vts_inst/activeArea1144_G (N309)
+     FDR:C->Q              6   0.360   0.778  vts_inst/hPos_0 (vts_inst/hPos_0)
+     LUT4_D:I0->O          5   0.195   0.546  vts_inst/activeArea191 (vts_inst/activeArea1_bdd18)
+     LUT4:I3->O            2   0.195   0.705  vts_inst/activeArea181 (vts_inst/activeArea1_bdd5)
+     LUT4:I1->O            1   0.195   0.688  vts_inst/activeArea182 (vts_inst/activeArea182)
+     LUT4:I1->O            1   0.195   0.000  vts_inst/activeArea1144_G (N327)
      MUXF5:I1->O           5   0.374   0.546  vts_inst/activeArea1144 (vts_inst/activeArea1144)
      LUT3:I2->O           20   0.195   0.974  vts_inst/activeArea1193 (vga_blankn_OBUF)
      LUT3:I0->O            1   0.195   0.000  vga_b<5>12191 (vga_b<5>12191)
@@ -1616,8 +1666,8 @@ Offset:              11.746ns (Levels of Logic = 11)
      LUT3:I0->O            1   0.195   0.360  vga_b<5>1233 (vga_b_5_OBUF)
      OBUF:I->O                 3.957          vga_b_5_OBUF (vga_b<5>)
     ----------------------------------------
-    Total                     11.746ns (6.625ns logic, 5.121ns route)
-                                       (56.4% logic, 43.6% route)
+    Total                     11.715ns (6.430ns logic, 5.285ns route)
+                                       (54.9% logic, 45.1% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'agclk'
@@ -1651,14 +1701,14 @@ Offset:              12.852ns (Levels of Logic = 10)
 
 
 Total REAL time to Xst completion: 44.00 secs
-Total CPU time to Xst completion: 41.81 secs
+Total CPU time to Xst completion: 41.65 secs
  
 --> 
 
 
-Total memory usage is 606728 kilobytes
+Total memory usage is 613492 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :   84 (   0 filtered)
-Number of infos    :    6 (   0 filtered)
+Number of warnings :  146 (   0 filtered)
+Number of infos    :    7 (   0 filtered)
 
