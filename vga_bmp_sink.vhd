@@ -121,8 +121,8 @@ begin
             else
                 if eol = '1' then
                     x <= 0;
-                    bmp_save( sink_bmp, FILENAME );
-                    report "x reset, line save to bmp";
+--                    bmp_save( sink_bmp, FILENAME );
+--                    report "x reset, line save to bmp";
                     if is_active_line = '1' then
                         if (y = BMP_MAX_HEIGHT-1) then
                         y <= 0;

@@ -301,7 +301,7 @@ preCoeff10 <= (((coeffOne - xBlend) * yBlend + (coeffHalf - 1)) >> FRACTION_BITS
 end
 
 wire nearestNeighbor;
-assign nearestNeighbor = 1'b0;
+assign nearestNeighbor = nearestNeighbor_in;
 
 //Compute the coefficients
 always @(posedge clk or posedge rst)
