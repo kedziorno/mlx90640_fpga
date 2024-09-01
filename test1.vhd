@@ -55,8 +55,8 @@ constant PIXELS : integer := 768;
 constant ADDRESS1 : integer := 10;
 constant BITS : integer := 24;
 
---component test_fixed_melexis is
-component tfm_mock is -- XXX module with calculated values in FP numbers
+component test_fixed_melexis is
+--component tfm_mock is -- XXX module with calculated values in FP numbers
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -68,8 +68,8 @@ o_rdy : out std_logic;
 i_addr : in std_logic_vector(9 downto 0);
 o_do : out std_logic_vector(31 downto 0)
 );
---end component test_fixed_melexis;
-end component tfm_mock;
+end component test_fixed_melexis;
+--end component tfm_mock;
 signal test_fixed_melexis_clock : std_logic;
 signal test_fixed_melexis_reset : std_logic;
 signal test_fixed_melexis_run : std_logic;
@@ -520,8 +520,8 @@ end process pagclk;
 test_fixed_melexis_clock <= i_clock;
 test_fixed_melexis_reset <= i_reset;
 --test_fixed_melexis_addr <= address_generator_address;
---tfm_inst : test_fixed_melexis port map (
-tfm_inst : tfm_mock port map ( -- XXX calculated values
+tfm_inst : test_fixed_melexis port map (
+--tfm_inst : tfm_mock port map ( -- XXX calculated values
 i_clock => test_fixed_melexis_clock,
 i_reset => test_fixed_melexis_reset,
 i_run => test_fixed_melexis_run,
