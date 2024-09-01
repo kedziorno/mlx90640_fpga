@@ -5,14 +5,14 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.08 secs
+Total CPU time to Xst completion: 0.07 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.08 secs
+Total CPU time to Xst completion: 0.07 secs
  
 --> 
 Reading design: test1.prj
@@ -142,7 +142,8 @@ Architecture dualmem_a of Entity dualmem is up to date.
 Compiling vhdl file "/home/user/workspace/kedziorno/mlx90640_fpga/ipcore_dir/dualmem2.vhd" in Library work.
 Architecture dualmem2_a of Entity dualmem2 is up to date.
 Compiling vhdl file "/home/user/workspace/kedziorno/mlx90640_fpga/test1.vhd" in Library work.
-Architecture behavioral of Entity test1 is up to date.
+Entity <test1> compiled.
+Entity <test1> (Architecture <behavioral>) compiled.
 Compiling verilog file "scaler.v" in library work
 Module <streamScaler> compiled
 Module <ramFifo> compiled
@@ -351,7 +352,6 @@ WARNING:Xst:2211 - "/home/user/workspace/kedziorno/mlx90640_fpga/test1.vhd" line
 WARNING:Xst:2211 - "/home/user/workspace/kedziorno/mlx90640_fpga/test1.vhd" line 682: Instantiating black box module <float2fixed>.
 WARNING:Xst:2211 - "/home/user/workspace/kedziorno/mlx90640_fpga/test1.vhd" line 697: Instantiating black box module <dualmem>.
 WARNING:Xst:2211 - "/home/user/workspace/kedziorno/mlx90640_fpga/test1.vhd" line 722: Instantiating black box module <dualmem2>.
-WARNING:Xst:1610 - "/home/user/workspace/kedziorno/mlx90640_fpga/test1.vhd" line 852: Width mismatch. <dualmem2_dina> has a width of 9 bits but assigned expression is 8-bit wide.
 INFO:Xst:2679 - Register <streamScaler_run> in unit <test1> has a constant value of 1 during circuit operation. The register is replaced by logic.
 Entity <test1> analyzed. Unit <test1> generated.
 
@@ -1118,7 +1118,7 @@ Loading core <dualmem2> for timing and area information for instance <dualmem_in
 WARNING:Xst:1426 - The value init of the FF/Latch state1_0 hinder the constant cleaning in the block test1.
    You should achieve better results by setting this init to 1.
 WARNING:Xst:1710 - FF/Latch <xBlend_8> (without init value) has a constant value of 0 in block <inst_streamScaler>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem2_dina_8> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem2_dina_0> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:2677 - Node <xScaleAmount_0> of sequential type is unconnected in block <inst_streamScaler>.
 WARNING:Xst:2677 - Node <xScaleAmount_1> of sequential type is unconnected in block <inst_streamScaler>.
 WARNING:Xst:2677 - Node <xScaleAmount_2> of sequential type is unconnected in block <inst_streamScaler>.
@@ -1137,7 +1137,6 @@ WARNING:Xst:2677 - Node <yScaleAmountNext_2> of sequential type is unconnected i
 WARNING:Xst:2677 - Node <yScaleAmountNext_3> of sequential type is unconnected in block <inst_streamScaler>.
 WARNING:Xst:2677 - Node <yScaleAmountNext_4> of sequential type is unconnected in block <inst_streamScaler>.
 WARNING:Xst:2677 - Node <yScaleAmountNext_5> of sequential type is unconnected in block <inst_streamScaler>.
-WARNING:Xst:2404 -  FFs/Latches <dualmem2_dina<8:8>> (without init value) have a constant value of 0 in block <test1>.
 WARNING:Xst:2404 -  FFs/Latches <xBlend<8:8>> (without init value) have a constant value of 0 in block <streamScaler>.
 
 Synthesizing (advanced) Unit <ramDualPort>.
@@ -1241,8 +1240,8 @@ Macro Statistics
  8-bit up counter                                      : 1
 # Accumulators                                         : 1
  3-bit updown accumulator                              : 1
-# Registers                                            : 640
- Flip-Flops                                            : 640
+# Registers                                            : 641
+ Flip-Flops                                            : 641
 # Comparators                                          : 21
  10-bit comparator greatequal                          : 2
  10-bit comparator greater                             : 2
@@ -1268,6 +1267,7 @@ Macro Statistics
 =========================================================================
 WARNING:Xst:1426 - The value init of the FF/Latch state1_0 hinder the constant cleaning in the block test1.
    You should achieve better results by setting this init to 1.
+WARNING:Xst:1710 - FF/Latch <dualmem2_dina_0> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 INFO:Xst:2261 - The FF/Latch <streamScaler_dIn_6> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <streamScaler_dIn_14> <streamScaler_dIn_22> 
 INFO:Xst:2261 - The FF/Latch <streamScaler_dIn_0> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <streamScaler_dIn_8> <streamScaler_dIn_16> 
 INFO:Xst:2261 - The FF/Latch <streamScaler_dIn_5> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <streamScaler_dIn_13> <streamScaler_dIn_21> 
@@ -1683,15 +1683,15 @@ Offset:              12.994ns (Levels of Logic = 9)
 =========================================================================
 
 
-Total REAL time to Xst completion: 55.00 secs
-Total CPU time to Xst completion: 52.55 secs
+Total REAL time to Xst completion: 57.00 secs
+Total CPU time to Xst completion: 53.65 secs
  
 --> 
 
 
-Total memory usage is 629028 kilobytes
+Total memory usage is 629016 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :   96 (   0 filtered)
+Number of warnings :   95 (   0 filtered)
 Number of infos    :   14 (   0 filtered)
 
