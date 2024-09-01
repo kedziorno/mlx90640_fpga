@@ -287,18 +287,9 @@ wire [COEFF_WIDTH-1:0]	coeffHalf = {2'b01, {(COEFF_WIDTH-2){1'b0}}};
 
 //Compute bilinear interpolation coefficinets. Done here because these pre-registerd values are used twice.
 //Adding coeffHalf to get the nearest value.
-//wire [COEFF_WIDTH-1:0]	preCoeff00 = (((coeffOne - xBlend) * (coeffOne - yBlend) + (coeffHalf - 1)) >> FRACTION_BITS) & 	{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
-//wire [COEFF_WIDTH-1:0]	preCoeff01 = ((xBlend * (coeffOne - yBlend) + (coeffHalf - 1)) >> FRACTION_BITS) & 				{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
-//wire [COEFF_WIDTH-1:0]	preCoeff10 = (((coeffOne - xBlend) * yBlend + (coeffHalf - 1)) >> FRACTION_BITS) &				{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
-reg [COEFF_WIDTH-1:0]	preCoeff00;
-reg [COEFF_WIDTH-1:0]	preCoeff01;
-reg [COEFF_WIDTH-1:0]	preCoeff10;
-always @(clk) // XXX nearestNeighbor = 0
-begin
-preCoeff00 <= (((coeffOne - xBlend) * (coeffOne - yBlend) + (coeffHalf - 1)) >> FRACTION_BITS) & 	{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
-preCoeff01 <= ((xBlend * (coeffOne - yBlend) + (coeffHalf - 1)) >> FRACTION_BITS) & 				{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
-preCoeff10 <= (((coeffOne - xBlend) * yBlend + (coeffHalf - 1)) >> FRACTION_BITS) &				{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
-end
+wire [COEFF_WIDTH-1:0]	preCoeff00 = (((coeffOne - xBlend) * (coeffOne - yBlend) + (coeffHalf - 1)) >> FRACTION_BITS) & 	{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
+wire [COEFF_WIDTH-1:0]	preCoeff01 = ((xBlend * (coeffOne - yBlend) + (coeffHalf - 1)) >> FRACTION_BITS) & 				{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
+wire [COEFF_WIDTH-1:0]	preCoeff10 = (((coeffOne - xBlend) * yBlend + (coeffHalf - 1)) >> FRACTION_BITS) &				{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
 
 wire nearestNeighbor;
 assign nearestNeighbor = nearestNeighbor_in;
@@ -342,9 +333,18 @@ end
 //Generate the blending multipliers
 reg [(DATA_WIDTH+COEFF_WIDTH)*CHANNELS-1:0]	product00, product01, product10, product11;
 
+initial
+begin
+$display ("DATA_WIDTH = ",DATA_WIDTH);
+$display ("CEOFF_WIDTH = ",COEFF_WIDTH);
+$display ("CHANNELS = ",CHANNELS);
+$display ((DATA_WIDTH+COEFF_WIDTH)*CHANNELS-1);
+end
+
 generate
 genvar channel;
-	for(channel = 0; channel <= CHANNELS; channel = channel + 1)
+//	for(channel = 0; channel <= CHANNELS; channel = channel + 1)
+	for(channel = 0; channel < CHANNELS; channel = channel + 1)
 		begin : blend_mult_generate
 			always @(posedge clk or posedge rst)
 			begin
