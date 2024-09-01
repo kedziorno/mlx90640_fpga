@@ -168,10 +168,10 @@ Analyzing hierarchy for entity <VGA_timing_synch> in library <work> (architectur
 Analyzing hierarchy for module <streamScaler> in library <work> with parameters.
 	BUFFER_SIZE = "00000000000000000000000000000100"
 	BUFFER_SIZE_WIDTH = "00000000000000000000000000000011"
-	CHANNELS = "00000000000000000000000000000011"
+	CHANNELS = "00000000000000000000000000000001"
 	COEFF_WIDTH = "00000000000000000000000000001001"
-	DATA_WIDTH = "00000000000000000000000000001000"
-	DISCARD_CNT_WIDTH = "00000000000000000000000000001000"
+	DATA_WIDTH = "00000000000000000000000000001001"
+	DISCARD_CNT_WIDTH = "00000000000000000000000000000001"
 	FRACTION_BITS = "00000000000000000000000000001000"
 	INPUT_X_RES_WIDTH = "00000000000000000000000000000101"
 	INPUT_Y_RES_WIDTH = "00000000000000000000000000000101"
@@ -337,11 +337,11 @@ Analyzing hierarchy for module <ramFifo> in library <work> with parameters.
 	ADDRESS_WIDTH = "00000000000000000000000000000101"
 	BUFFER_SIZE = "00000000000000000000000000000100"
 	BUFFER_SIZE_WIDTH = "00000000000000000000000000000011"
-	DATA_WIDTH = "00000000000000000000000000011000"
+	DATA_WIDTH = "00000000000000000000000000001001"
 
 Analyzing hierarchy for module <ramDualPort> in library <work> with parameters.
 	ADDRESS_WIDTH = "00000000000000000000000000000101"
-	DATA_WIDTH = "00000000000000000000000000011000"
+	DATA_WIDTH = "00000000000000000000000000001001"
 
 
 =========================================================================
@@ -667,10 +667,10 @@ Entity <VGA_timing_synch> analyzed. Unit <VGA_timing_synch> generated.
 Analyzing module <streamScaler> in library <work>.
 	BUFFER_SIZE = 32'sb00000000000000000000000000000100
 	BUFFER_SIZE_WIDTH = 32'sb00000000000000000000000000000011
-	CHANNELS = 32'sb00000000000000000000000000000011
+	CHANNELS = 32'sb00000000000000000000000000000001
 	COEFF_WIDTH = 32'sb00000000000000000000000000001001
-	DATA_WIDTH = 32'sb00000000000000000000000000001000
-	DISCARD_CNT_WIDTH = 32'sb00000000000000000000000000001000
+	DATA_WIDTH = 32'sb00000000000000000000000000001001
+	DISCARD_CNT_WIDTH = 32'sb00000000000000000000000000000001
 	FRACTION_BITS = 32'sb00000000000000000000000000001000
 	INPUT_X_RES_WIDTH = 32'sb00000000000000000000000000000101
 	INPUT_Y_RES_WIDTH = 32'sb00000000000000000000000000000101
@@ -685,22 +685,22 @@ Analyzing module <streamScaler> in library <work>.
 	WS_DONE = 32'sb00000000000000000000000000000011
 	WS_READ = 32'sb00000000000000000000000000000010
 	WS_START = 32'sb00000000000000000000000000000000
-"scaler.v" line 338: $display : DATA_WIDTH =          8
+"scaler.v" line 338: $display : DATA_WIDTH =          9
 "scaler.v" line 339: $display : CEOFF_WIDTH =          9
-"scaler.v" line 340: $display : CHANNELS =          3
-"scaler.v" line 341: $display :         50
+"scaler.v" line 340: $display : CHANNELS =          1
+"scaler.v" line 341: $display :         17
 Module <streamScaler> is correct for synthesis.
  
 Analyzing module <ramFifo> in library <work>.
 	ADDRESS_WIDTH = 32'sb00000000000000000000000000000101
 	BUFFER_SIZE = 32'sb00000000000000000000000000000100
 	BUFFER_SIZE_WIDTH = 32'sb00000000000000000000000000000011
-	DATA_WIDTH = 32'sb00000000000000000000000000011000
+	DATA_WIDTH = 32'sb00000000000000000000000000001001
 Module <ramFifo> is correct for synthesis.
  
 Analyzing module <ramDualPort> in library <work>.
 	ADDRESS_WIDTH = 32'sb00000000000000000000000000000101
-	DATA_WIDTH = 32'sb00000000000000000000000000011000
+	DATA_WIDTH = 32'sb00000000000000000000000000001001
 Module <ramDualPort> is correct for synthesis.
  
 
@@ -772,12 +772,12 @@ Unit <VGA_timing_synch> synthesized.
 
 Synthesizing Unit <ramDualPort>.
     Related source file is "scaler.v".
-    Found 32x24-bit dual-port RAM <Mram_ram> for signal <ram>.
-    Found 24-bit register for signal <qA>.
-    Found 24-bit register for signal <qB>.
+    Found 32x9-bit dual-port RAM <Mram_ram> for signal <ram>.
+    Found 9-bit register for signal <qA>.
+    Found 9-bit register for signal <qB>.
     Summary:
 	inferred   1 RAM(s).
-	inferred  48 D-type flip-flop(s).
+	inferred  18 D-type flip-flop(s).
 Unit <ramDualPort> synthesized.
 
 
@@ -796,18 +796,18 @@ Unit <mem_ramb16_s36_x2> synthesized.
 
 Synthesizing Unit <ramFifo>.
     Related source file is "scaler.v".
-WARNING:Xst:653 - Signal <ramDataOutB<15:9>> is used but never assigned. This sourceless signal will be automatically connected to value 000000000000000000000000.
-WARNING:Xst:653 - Signal <ramDataOutB<7:5>> is used but never assigned. This sourceless signal will be automatically connected to value 000000000000000000000000.
-WARNING:Xst:653 - Signal <ramDataOutB<3>> is used but never assigned. This sourceless signal will be automatically connected to value 000000000000000000000000.
-WARNING:Xst:653 - Signal <ramDataOutB<0>> is used but never assigned. This sourceless signal will be automatically connected to value 000000000000000000000000.
-WARNING:Xst:653 - Signal <ramDataOutA<15:9>> is used but never assigned. This sourceless signal will be automatically connected to value 000000000000000000000000.
-WARNING:Xst:653 - Signal <ramDataOutA<7:5>> is used but never assigned. This sourceless signal will be automatically connected to value 000000000000000000000000.
-WARNING:Xst:653 - Signal <ramDataOutA<3>> is used but never assigned. This sourceless signal will be automatically connected to value 000000000000000000000000.
-WARNING:Xst:653 - Signal <ramDataOutA<0>> is used but never assigned. This sourceless signal will be automatically connected to value 000000000000000000000000.
-    Found 24-bit 16-to-1 multiplexer for signal <readData00>.
-    Found 24-bit 16-to-1 multiplexer for signal <readData01>.
-    Found 24-bit 16-to-1 multiplexer for signal <readData10>.
-    Found 24-bit 16-to-1 multiplexer for signal <readData11>.
+WARNING:Xst:653 - Signal <ramDataOutB<15:9>> is used but never assigned. This sourceless signal will be automatically connected to value 000000000.
+WARNING:Xst:653 - Signal <ramDataOutB<7:5>> is used but never assigned. This sourceless signal will be automatically connected to value 000000000.
+WARNING:Xst:653 - Signal <ramDataOutB<3>> is used but never assigned. This sourceless signal will be automatically connected to value 000000000.
+WARNING:Xst:653 - Signal <ramDataOutB<0>> is used but never assigned. This sourceless signal will be automatically connected to value 000000000.
+WARNING:Xst:653 - Signal <ramDataOutA<15:9>> is used but never assigned. This sourceless signal will be automatically connected to value 000000000.
+WARNING:Xst:653 - Signal <ramDataOutA<7:5>> is used but never assigned. This sourceless signal will be automatically connected to value 000000000.
+WARNING:Xst:653 - Signal <ramDataOutA<3>> is used but never assigned. This sourceless signal will be automatically connected to value 000000000.
+WARNING:Xst:653 - Signal <ramDataOutA<0>> is used but never assigned. This sourceless signal will be automatically connected to value 000000000.
+    Found 9-bit 16-to-1 multiplexer for signal <readData00>.
+    Found 9-bit 16-to-1 multiplexer for signal <readData01>.
+    Found 9-bit 16-to-1 multiplexer for signal <readData10>.
+    Found 9-bit 16-to-1 multiplexer for signal <readData11>.
     Found 3-bit register for signal <fillCount>.
     Found 3-bit addsub for signal <fillCount$mux0000>.
     Found 4-bit register for signal <readSelect>.
@@ -815,7 +815,7 @@ WARNING:Xst:653 - Signal <ramDataOutA<0>> is used but never assigned. This sourc
     Summary:
 	inferred   3 D-type flip-flop(s).
 	inferred   2 Adder/Subtractor(s).
-	inferred  96 Multiplexer(s).
+	inferred  36 Multiplexer(s).
 Unit <ramFifo> synthesized.
 
 
@@ -838,20 +838,8 @@ WARNING:Xst:646 - Signal <xScaleAmount<5:0>> is assigned but never used. This un
 WARNING:Xst:643 - "scaler.v" line 216: The result of a 7x18-bit multiplication is partially used. Only the 19 least significant bits are used. If you are doing this on purpose, you may safely ignore this warning. Otherwise, make sure you are not losing information, leading to unexpected circuit behavior.
 WARNING:Xst:643 - "scaler.v" line 243: The result of a 7x18-bit multiplication is partially used. Only the 19 least significant bits are used. If you are doing this on purpose, you may safely ignore this warning. Otherwise, make sure you are not losing information, leading to unexpected circuit behavior.
     Found 1-bit register for signal <dOutValid>.
-    Found 24-bit register for signal <dOut>.
-    Found 9x8-bit multiplier for signal <$mult0000> created at line 377.
-    Found 9x8-bit multiplier for signal <$mult0001> created at line 378.
-    Found 9x8-bit multiplier for signal <$mult0002> created at line 379.
-    Found 9x8-bit multiplier for signal <$mult0003> created at line 380.
-    Found 9x8-bit multiplier for signal <$mult0004> created at line 377.
-    Found 9x8-bit multiplier for signal <$mult0005> created at line 378.
-    Found 9x8-bit multiplier for signal <$mult0006> created at line 379.
-    Found 9x8-bit multiplier for signal <$mult0007> created at line 380.
-    Found 9x8-bit multiplier for signal <$mult0008> created at line 377.
-    Found 9x8-bit multiplier for signal <$mult0009> created at line 378.
-    Found 9x8-bit multiplier for signal <$mult0010> created at line 379.
-    Found 9x8-bit multiplier for signal <$mult0011> created at line 380.
-    Found 10-bit subtractor for signal <$sub0000> created at line 497.
+    Found 9-bit register for signal <dOut>.
+    Found 3-bit subtractor for signal <$sub0000> created at line 497.
     Found 5-bit adder carry out for signal <add0000$addsub0000> created at line 191.
     Found 5-bit adder carry out for signal <add0001$addsub0000> created at line 511.
     Found 1-bit register for signal <advanceRead1>.
@@ -864,20 +852,14 @@ WARNING:Xst:643 - "scaler.v" line 243: The result of a 7x18-bit multiplication i
     Found 9-bit register for signal <coeff11>.
     Found 20-bit adder for signal <coeff11$add0000> created at line 318.
     Found 9x9-bit multiplier for signal <coeff11$mult0000> created at line 318.
-    Found 8-bit register for signal <discardCountReg>.
-    Found 8-bit subtractor for signal <discardCountReg$addsub0000> created at line 496.
+    Found 1-bit register for signal <discardCountReg<0>>.
+    Found 1-bit subtractor for signal <discardCountReg_0$addsub0000> created at line 496.
     Found 1-bit register for signal <discardInput>.
     Found 6-bit comparator equal for signal <discardInput$cmp_eq0000> created at line 511.
     Found 6-bit comparator equal for signal <discardInput$cmp_eq0001> created at line 511.
-    Found 17-bit adder for signal <dOut_15_8$add0000> created at line 386.
-    Found 17-bit adder for signal <dOut_15_8$addsub0000> created at line 386.
-    Found 17-bit adder for signal <dOut_15_8$addsub0001> created at line 386.
-    Found 17-bit adder for signal <dOut_23_16$add0000> created at line 386.
-    Found 17-bit adder for signal <dOut_23_16$addsub0000> created at line 386.
-    Found 17-bit adder for signal <dOut_23_16$addsub0001> created at line 386.
-    Found 17-bit adder for signal <dOut_7_0$add0000> created at line 386.
-    Found 17-bit adder for signal <dOut_7_0$addsub0000> created at line 386.
-    Found 17-bit adder for signal <dOut_7_0$addsub0001> created at line 386.
+    Found 18-bit adder for signal <dOut$add0000> created at line 386.
+    Found 18-bit adder for signal <dOut$addsub0000> created at line 386.
+    Found 18-bit adder for signal <dOut$addsub0001> created at line 386.
     Found 1-bit register for signal <dOutValid_1>.
     Found 1-bit register for signal <dOutValid_2>.
     Found 1-bit register for signal <dOutValid_3>.
@@ -902,14 +884,18 @@ WARNING:Xst:643 - "scaler.v" line 243: The result of a 7x18-bit multiplication i
     Found 10x10-bit multiplier for signal <preCoeff01$mult0000> created at line 291.
     Found 21-bit adder for signal <preCoeff10$add0000> created at line 292.
     Found 10x10-bit multiplier for signal <preCoeff10$mult0000> created at line 292.
-    Found 51-bit register for signal <product00>.
-    Found 51-bit register for signal <product01>.
-    Found 51-bit register for signal <product10>.
-    Found 51-bit register for signal <product11>.
-    Found 24-bit register for signal <readData00Reg>.
-    Found 24-bit register for signal <readData01Reg>.
-    Found 24-bit register for signal <readData10Reg>.
-    Found 24-bit register for signal <readData11Reg>.
+    Found 18-bit register for signal <product00>.
+    Found 9x9-bit multiplier for signal <product00$mult0000> created at line 377.
+    Found 18-bit register for signal <product01>.
+    Found 9x9-bit multiplier for signal <product01$mult0000> created at line 378.
+    Found 18-bit register for signal <product10>.
+    Found 9x9-bit multiplier for signal <product10$mult0000> created at line 379.
+    Found 18-bit register for signal <product11>.
+    Found 9x9-bit multiplier for signal <product11$mult0000> created at line 380.
+    Found 9-bit register for signal <readData00Reg>.
+    Found 9-bit register for signal <readData01Reg>.
+    Found 9-bit register for signal <readData10Reg>.
+    Found 9-bit register for signal <readData11Reg>.
     Found 1-bit register for signal <readState>.
     Found 1-bit register for signal <readyForRead>.
     Found 5-bit up counter for signal <writeColCount>.
@@ -932,9 +918,9 @@ WARNING:Xst:643 - "scaler.v" line 243: The result of a 7x18-bit multiplication i
     Found 7x18-bit multiplier for signal <yScaleAmountNext$mult0001> created at line 243.
     Summary:
 	inferred   5 Counter(s).
-	inferred 455 D-type flip-flop(s).
-	inferred  22 Adder/Subtractor(s).
-	inferred  19 Multiplier(s).
+	inferred 241 D-type flip-flop(s).
+	inferred  16 Adder/Subtractor(s).
+	inferred  11 Multiplier(s).
 	inferred  12 Comparator(s).
 Unit <streamScaler> synthesized.
 
@@ -945,7 +931,6 @@ WARNING:Xst:1780 - Signal <streamScaler_start_dout> is never used or assigned. T
 WARNING:Xst:646 - Signal <rdata<23:21>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <rdata<15:13>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <rdata<7:5>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:646 - Signal <dualmem_doutb<0>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <VGA_timing_synch_blank> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
     Register <dualmem2_wea<0>> equivalent to <dualmem2_ena> has been removed
     Register <float2fixedond> equivalent to <float2fixedce> has been removed
@@ -967,7 +952,6 @@ WARNING:Xst:646 - Signal <VGA_timing_synch_blank> is assigned but never used. Th
     Found 12-bit up counter for signal <douti>.
     Found 12-bit register for signal <dualmem2_addra>.
     Found 9-bit register for signal <dualmem2_dina>.
-    Found 8-bit xor3 for signal <dualmem2_dina$xor0000> created at line 852.
     Found 1-bit register for signal <dualmem2_ena>.
     Found 10-bit register for signal <dualmem_addra>.
     Found 9-bit register for signal <dualmem_dina>.
@@ -982,14 +966,14 @@ WARNING:Xst:646 - Signal <VGA_timing_synch_blank> is assigned but never used. Th
     Found 1-bit register for signal <float2fixedsclr>.
     Found 10-bit register for signal <i>.
     Found 10-bit adder for signal <i$addsub0000> created at line 439.
-    Found 32-bit up counter for signal <i0>.
+    Found 9-bit up counter for signal <i0>.
     Found 1-bit register for signal <state1<0>>.
     Found 1-bit register for signal <state2<0>>.
     Found 10-bit up counter for signal <streamScaler_ag>.
-    Found 24-bit register for signal <streamScaler_dIn>.
+    Found 9-bit register for signal <streamScaler_dIn>.
     Found 1-bit register for signal <streamScaler_dInValid>.
     Found 1-bit register for signal <streamScaler_nextDout>.
-    Found 32-bit comparator greatequal for signal <streamScaler_nextDout$cmp_ge0000> created at line 771.
+    Found 9-bit comparator greatequal for signal <streamScaler_nextDout$cmp_ge0000> created at line 771.
     Found 1-bit register for signal <streamScaler_start>.
     Found 10-bit register for signal <test_fixed_melexis_addr>.
     Found 1-bit register for signal <test_fixed_melexis_run>.
@@ -1000,10 +984,9 @@ WARNING:Xst:646 - Signal <VGA_timing_synch_blank> is assigned but never used. Th
     Summary:
 	inferred   1 Finite State Machine(s).
 	inferred   5 Counter(s).
-	inferred 142 D-type flip-flop(s).
+	inferred 127 D-type flip-flop(s).
 	inferred   1 Adder/Subtractor(s).
 	inferred   1 Comparator(s).
-	inferred   8 Xor(s).
 Unit <test1> synthesized.
 
 INFO:Xst:1767 - HDL ADVISOR - Resource sharing has identified that some arithmetic operations in this design can share the same physical resources for reduced device utilization. For improved clock frequency you may try to disable resource sharing.
@@ -1013,57 +996,55 @@ HDL Synthesis Report
 
 Macro Statistics
 # RAMs                                                 : 4
- 32x24-bit dual-port RAM                               : 4
-# Multipliers                                          : 19
+ 32x9-bit dual-port RAM                                : 4
+# Multipliers                                          : 11
  10x10-bit multiplier                                  : 3
  6x18-bit multiplier                                   : 1
  7x18-bit multiplier                                   : 2
- 9x8-bit multiplier                                    : 12
- 9x9-bit multiplier                                    : 1
-# Adders/Subtractors                                   : 29
+ 9x9-bit multiplier                                    : 5
+# Adders/Subtractors                                   : 23
+ 1-bit subtractor                                      : 1
  10-bit adder                                          : 3
- 10-bit subtractor                                     : 1
  12-bit adder                                          : 1
- 17-bit adder                                          : 9
+ 18-bit adder                                          : 3
  20-bit adder                                          : 1
  21-bit adder                                          : 3
  3-bit addsub                                          : 1
+ 3-bit subtractor                                      : 1
  4-bit adder                                           : 1
  5-bit adder                                           : 2
  5-bit adder carry out                                 : 2
  6-bit adder                                           : 1
  6-bit adder carry out                                 : 2
  8-bit adder                                           : 1
- 8-bit subtractor                                      : 1
 # Counters                                             : 14
  10-bit up counter                                     : 3
  12-bit up counter                                     : 2
- 32-bit up counter                                     : 1
  4-bit up counter                                      : 1
  5-bit up counter                                      : 3
  6-bit up counter                                      : 3
  8-bit up counter                                      : 1
-# Registers                                            : 401
- 1-bit register                                        : 363
+ 9-bit up counter                                      : 1
+# Registers                                            : 86
+ 1-bit register                                        : 40
  10-bit register                                       : 3
  12-bit register                                       : 4
+ 18-bit register                                       : 4
  19-bit register                                       : 3
  2-bit register                                        : 1
- 24-bit register                                       : 9
  3-bit register                                        : 1
  32-bit register                                       : 1
  4-bit register                                        : 3
  5-bit register                                        : 2
  6-bit register                                        : 1
- 8-bit register                                        : 2
- 9-bit register                                        : 8
+ 8-bit register                                        : 1
+ 9-bit register                                        : 22
 # Comparators                                          : 21
  10-bit comparator greatequal                          : 2
  10-bit comparator greater                             : 2
  10-bit comparator lessequal                           : 4
  3-bit comparator greatequal                           : 1
  3-bit comparator less                                 : 2
- 32-bit comparator greatequal                          : 1
  4-bit comparator less                                 : 1
  5-bit comparator greatequal                           : 1
  5-bit comparator less                                 : 1
@@ -1071,11 +1052,10 @@ Macro Statistics
  6-bit comparator greater                              : 1
  6-bit comparator lessequal                            : 1
  6-bit comparator not equal                            : 1
+ 9-bit comparator greatequal                           : 1
 # Multiplexers                                         : 5
- 24-bit 16-to-1 multiplexer                            : 4
  32-bit 4-to-1 multiplexer                             : 1
-# Xors                                                 : 1
- 8-bit xor3                                            : 1
+ 9-bit 16-to-1 multiplexer                             : 4
 
 =========================================================================
 
@@ -1122,7 +1102,6 @@ Loading core <dualmem2> for timing and area information for instance <dualmem_in
 WARNING:Xst:1426 - The value init of the FF/Latch state1_0 hinder the constant cleaning in the block test1.
    You should achieve better results by setting this init to 1.
 WARNING:Xst:1710 - FF/Latch <xBlend_8> (without init value) has a constant value of 0 in block <inst_streamScaler>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem2_dina_0> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:2677 - Node <xScaleAmount_0> of sequential type is unconnected in block <inst_streamScaler>.
 WARNING:Xst:2677 - Node <xScaleAmount_1> of sequential type is unconnected in block <inst_streamScaler>.
 WARNING:Xst:2677 - Node <xScaleAmount_2> of sequential type is unconnected in block <inst_streamScaler>.
@@ -1149,7 +1128,7 @@ INFO:Xst:3226 - The RAM <Mram_ram> will be implemented as a BLOCK RAM, absorbing
     | ram_type           | Block                               |          |
     -----------------------------------------------------------------------
     | Port A                                                              |
-    |     aspect ratio   | 32-word x 24-bit                    |          |
+    |     aspect ratio   | 32-word x 9-bit                     |          |
     |     mode           | write-first                         |          |
     |     clkA           | connected to signal <clk>           | rise     |
     |     weA            | connected to signal <weA>           | high     |
@@ -1160,7 +1139,7 @@ INFO:Xst:3226 - The RAM <Mram_ram> will be implemented as a BLOCK RAM, absorbing
     | optimization       | speed                               |          |
     -----------------------------------------------------------------------
     | Port B                                                              |
-    |     aspect ratio   | 32-word x 24-bit                    |          |
+    |     aspect ratio   | 32-word x 9-bit                     |          |
     |     mode           | write-first                         |          |
     |     clkB           | connected to signal <clk>           | rise     |
     |     weB            | connected to signal <weB>           | high     |
@@ -1193,18 +1172,10 @@ WARNING:Xst:2677 - Node <yScaleAmountNext_2> of sequential type is unconnected i
 WARNING:Xst:2677 - Node <yScaleAmountNext_3> of sequential type is unconnected in block <streamScaler>.
 WARNING:Xst:2677 - Node <yScaleAmountNext_4> of sequential type is unconnected in block <streamScaler>.
 WARNING:Xst:2677 - Node <yScaleAmountNext_5> of sequential type is unconnected in block <streamScaler>.
-WARNING:Xst:2677 - Node <_mult0000_16> of sequential type is unconnected in block <streamScaler>.
-WARNING:Xst:2677 - Node <_mult0002_16> of sequential type is unconnected in block <streamScaler>.
-WARNING:Xst:2677 - Node <_mult0004_16> of sequential type is unconnected in block <streamScaler>.
-WARNING:Xst:2677 - Node <_mult0006_16> of sequential type is unconnected in block <streamScaler>.
-WARNING:Xst:2677 - Node <_mult0008_16> of sequential type is unconnected in block <streamScaler>.
-WARNING:Xst:2677 - Node <_mult0010_16> of sequential type is unconnected in block <streamScaler>.
-WARNING:Xst:2677 - Node <_mult0001_16> of sequential type is unconnected in block <streamScaler>.
-WARNING:Xst:2677 - Node <_mult0003_16> of sequential type is unconnected in block <streamScaler>.
-WARNING:Xst:2677 - Node <_mult0005_16> of sequential type is unconnected in block <streamScaler>.
-WARNING:Xst:2677 - Node <_mult0007_16> of sequential type is unconnected in block <streamScaler>.
-WARNING:Xst:2677 - Node <_mult0009_16> of sequential type is unconnected in block <streamScaler>.
-WARNING:Xst:2677 - Node <_mult0011_16> of sequential type is unconnected in block <streamScaler>.
+WARNING:Xst:2677 - Node <product00_17> of sequential type is unconnected in block <streamScaler>.
+WARNING:Xst:2677 - Node <product10_17> of sequential type is unconnected in block <streamScaler>.
+WARNING:Xst:2677 - Node <product01_17> of sequential type is unconnected in block <streamScaler>.
+WARNING:Xst:2677 - Node <product11_17> of sequential type is unconnected in block <streamScaler>.
 
 =========================================================================
 Advanced HDL Synthesis Report
@@ -1212,47 +1183,44 @@ Advanced HDL Synthesis Report
 Macro Statistics
 # FSMs                                                 : 2
 # RAMs                                                 : 4
- 32x24-bit dual-port block RAM                         : 4
-# Multipliers                                          : 19
+ 32x9-bit dual-port block RAM                          : 4
+# Multipliers                                          : 11
  10x10-bit multiplier                                  : 1
  10x9-bit multiplier                                   : 1
  6x18-bit multiplier                                   : 1
  7x18-bit multiplier                                   : 2
  9x10-bit multiplier                                   : 1
- 9x8-bit multiplier                                    : 12
- 9x9-bit multiplier                                    : 1
-# Adders/Subtractors                                   : 28
+ 9x9-bit multiplier                                    : 5
+# Adders/Subtractors                                   : 22
+ 1-bit subtractor                                      : 1
  10-bit adder                                          : 3
- 10-bit subtractor                                     : 1
  12-bit adder                                          : 1
- 16-bit adder                                          : 9
- 17-bit adder                                          : 4
+ 17-bit adder                                          : 7
+ 3-bit subtractor                                      : 1
  4-bit adder                                           : 1
  5-bit adder                                           : 2
  5-bit adder carry out                                 : 2
  6-bit adder                                           : 1
  6-bit adder carry out                                 : 2
  8-bit adder                                           : 1
- 8-bit subtractor                                      : 1
 # Counters                                             : 14
  10-bit up counter                                     : 3
  12-bit up counter                                     : 2
- 32-bit up counter                                     : 1
  4-bit up counter                                      : 1
  5-bit up counter                                      : 3
  6-bit up counter                                      : 3
  8-bit up counter                                      : 1
+ 9-bit up counter                                      : 1
 # Accumulators                                         : 1
  3-bit updown accumulator                              : 1
-# Registers                                            : 641
- Flip-Flops                                            : 641
+# Registers                                            : 420
+ Flip-Flops                                            : 420
 # Comparators                                          : 21
  10-bit comparator greatequal                          : 2
  10-bit comparator greater                             : 2
  10-bit comparator lessequal                           : 4
  3-bit comparator greatequal                           : 1
  3-bit comparator less                                 : 2
- 32-bit comparator greatequal                          : 1
  4-bit comparator less                                 : 1
  5-bit comparator greatequal                           : 1
  5-bit comparator less                                 : 1
@@ -1260,11 +1228,10 @@ Macro Statistics
  6-bit comparator greater                              : 1
  6-bit comparator lessequal                            : 1
  6-bit comparator not equal                            : 1
+ 9-bit comparator greatequal                           : 1
 # Multiplexers                                         : 5
- 24-bit 16-to-1 multiplexer                            : 4
  32-bit 4-to-1 multiplexer                             : 1
-# Xors                                                 : 1
- 8-bit xor3                                            : 1
+ 9-bit 16-to-1 multiplexer                             : 4
 
 =========================================================================
 
@@ -1273,15 +1240,6 @@ Macro Statistics
 =========================================================================
 WARNING:Xst:1426 - The value init of the FF/Latch state1_0 hinder the constant cleaning in the block test1.
    You should achieve better results by setting this init to 1.
-WARNING:Xst:1710 - FF/Latch <dualmem2_dina_0> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-INFO:Xst:2261 - The FF/Latch <streamScaler_dIn_6> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <streamScaler_dIn_14> <streamScaler_dIn_22> 
-INFO:Xst:2261 - The FF/Latch <streamScaler_dIn_0> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <streamScaler_dIn_8> <streamScaler_dIn_16> 
-INFO:Xst:2261 - The FF/Latch <streamScaler_dIn_5> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <streamScaler_dIn_13> <streamScaler_dIn_21> 
-INFO:Xst:2261 - The FF/Latch <streamScaler_dIn_4> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <streamScaler_dIn_12> <streamScaler_dIn_20> 
-INFO:Xst:2261 - The FF/Latch <streamScaler_dIn_3> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <streamScaler_dIn_11> <streamScaler_dIn_19> 
-INFO:Xst:2261 - The FF/Latch <streamScaler_dIn_2> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <streamScaler_dIn_10> <streamScaler_dIn_18> 
-INFO:Xst:2261 - The FF/Latch <streamScaler_dIn_7> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <streamScaler_dIn_15> <streamScaler_dIn_23> 
-INFO:Xst:2261 - The FF/Latch <streamScaler_dIn_1> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <streamScaler_dIn_9> <streamScaler_dIn_17> 
 INFO:Xst:1901 - Instance RAMB16_S36_inst1 in unit mem_ramb16_s36_x2 of type RAMB16_S36 has been replaced by RAMB16
 INFO:Xst:1901 - Instance RAMB16_S36_inst2 in unit mem_ramb16_s36_x2 of type RAMB16_S36 has been replaced by RAMB16
 
@@ -1299,7 +1257,7 @@ Optimizing unit <streamScaler> ...
 
 Mapping all equations...
 Building and optimizing final netlist ...
-Found area constraint ratio of 100 (+ 5) on block test1, actual ratio is 5.
+Found area constraint ratio of 100 (+ 5) on block test1, actual ratio is 4.
 
 Final Macro Processing ...
 
@@ -1307,8 +1265,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 772
- Flip-Flops                                            : 772
+# Registers                                            : 545
+ Flip-Flops                                            : 545
 
 =========================================================================
 
@@ -1337,33 +1295,34 @@ Design Statistics
 # IOs                              : 32
 
 Cell Usage :
-# BELS                             : 2308
+# BELS                             : 1682
 #      GND                         : 5
-#      INV                         : 56
-#      LUT1                        : 131
-#      LUT2                        : 240
+#      INV                         : 54
+#      LUT1                        : 106
+#      LUT2                        : 145
+#      LUT2_D                      : 1
 #      LUT2_L                      : 8
-#      LUT3                        : 324
-#      LUT3_D                      : 2
+#      LUT3                        : 250
+#      LUT3_D                      : 3
 #      LUT3_L                      : 19
-#      LUT4                        : 676
-#      LUT4_D                      : 14
-#      LUT4_L                      : 11
+#      LUT4                        : 530
+#      LUT4_D                      : 12
+#      LUT4_L                      : 9
 #      MULT_AND                    : 1
-#      MUXCY                       : 357
-#      MUXF5                       : 181
+#      MUXCY                       : 236
+#      MUXF5                       : 120
 #      MUXF6                       : 2
 #      MUXF7                       : 1
 #      VCC                         : 2
-#      XORCY                       : 278
-# FlipFlops/Latches                : 887
-#      FDC                         : 413
+#      XORCY                       : 178
+# FlipFlops/Latches                : 660
+#      FDC                         : 207
 #      FDCE                        : 53
 #      FDE                         : 181
 #      FDP                         : 1
 #      FDPE                        : 3
-#      FDR                         : 112
-#      FDRE                        : 114
+#      FDR                         : 89
+#      FDRE                        : 116
 #      FDRS                        : 3
 #      FDRSE                       : 4
 #      FDS                         : 2
@@ -1378,8 +1337,8 @@ Cell Usage :
 # IO Buffers                       : 31
 #      IBUF                        : 1
 #      OBUF                        : 30
-# DSPs                             : 18
-#      DSP48                       : 18
+# DSPs                             : 10
+#      DSP48                       : 10
 =========================================================================
 
 Device utilization summary:
@@ -1387,17 +1346,17 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                      870  out of  15360     5%  
- Number of Slice Flip Flops:            887  out of  30720     2%  
- Number of 4 input LUTs:               1485  out of  30720     4%  
-    Number used as logic:              1481
+ Number of Slices:                      639  out of  15360     4%  
+ Number of Slice Flip Flops:            660  out of  30720     2%  
+ Number of 4 input LUTs:               1141  out of  30720     3%  
+    Number used as logic:              1137
     Number used as Shift registers:       4
  Number of IOs:                          32
  Number of bonded IOBs:                  32  out of    448     7%  
  Number of FIFO16/RAMB16s:               11  out of    192     5%  
     Number used as RAMB16s:              11
  Number of GCLKs:                         2  out of     32     6%  
- Number of DSP48s:                       18  out of    192     9%  
+ Number of DSP48s:                       10  out of    192     5%  
 
 ---------------------------
 Partition Resource Summary:
@@ -1420,7 +1379,7 @@ Clock Information:
 -----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)                                                                                                                 | Load  |
 -----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------+-------+
-i_clock                            | BUFGP                                                                                                                                 | 800   |
+i_clock                            | BUFGP                                                                                                                                 | 573   |
 inst_tb_i2c_mem/N1                 | NONE(inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_init.ram/SP.SINGLE_PRIM.SP)| 2     |
 agclk                              | NONE(dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/has_mux_b.B/sel_pipe_0)                          | 15    |
 vgaclk251                          | BUFG                                                                                                                                  | 89    |
@@ -1432,8 +1391,8 @@ Asynchronous Control Signals Information:
 ---------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------+-------+
 Control Signal                                                       | Buffer(FF name)                                                                                                                         | Load  |
 ---------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------+-------+
-i_reset                                                              | IBUF                                                                                                                                    | 362   |
-inst_streamScaler/asyn_rst_start(inst_streamScaler/asyn_rst_start1:O)| NONE(inst_streamScaler/advanceRead1)                                                                                                    | 108   |
+i_reset                                                              | IBUF                                                                                                                                    | 163   |
+inst_streamScaler/asyn_rst_start(inst_streamScaler/asyn_rst_start1:O)| NONE(inst_streamScaler/advanceRead1)                                                                                                    | 101   |
 dualmem_inst2/N1(dualmem_inst2/XST_GND:G)                            | NONE(dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP)| 8     |
 inst_tb_i2c_mem/N1(inst_tb_i2c_mem/XST_GND:G)                        | NONE(inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_init.ram/SP.SINGLE_PRIM.SP)  | 8     |
 dualmem_inst/N1(dualmem_inst/XST_GND:G)                              | NONE(dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP) | 2     |
@@ -1444,8 +1403,8 @@ Timing Summary:
 Speed Grade: -10
 
    Minimum period: 8.963ns (Maximum Frequency: 111.565MHz)
-   Minimum input arrival time before clock: 6.744ns
-   Maximum output required time after clock: 12.994ns
+   Minimum input arrival time before clock: 5.970ns
+   Maximum output required time after clock: 12.852ns
    Maximum combinational path delay: No path found
 
 Timing Detail:
@@ -1455,7 +1414,7 @@ All values displayed in nanoseconds (ns)
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
   Clock period: 8.963ns (frequency: 111.565MHz)
-  Total number of paths / destination ports: 136623 / 1409
+  Total number of paths / destination ports: 74730 / 1104
 -------------------------------------------------------------------------
 Delay:               8.963ns (Levels of Logic = 21)
   Source:            inst_streamScaler/yScaleAmount_9 (FF)
@@ -1469,8 +1428,8 @@ Delay:               8.963ns (Levels of Logic = 21)
     ----------------------------------------  ------------
      FDC:C->Q              5   0.360   0.764  inst_streamScaler/yScaleAmount_9 (inst_streamScaler/yScaleAmount_9)
      LUT4_D:I0->O          4   0.195   0.537  inst_streamScaler/Madd_preCoeff00_sub0000_cy<7>31 (inst_streamScaler/Madd_preCoeff00_sub0000_cy<7>_bdd2)
-     LUT3:I2->O            2   0.195   0.377  inst_streamScaler/preCoeff00_sub0000<5>1 (inst_streamScaler/preCoeff00_sub0000<5>)
-     DSP48:B5->P0          1   4.402   0.360  inst_streamScaler/Mmult_preCoeff00_mult0000 (inst_streamScaler/preCoeff00_mult0000<0>)
+     LUT2:I1->O            2   0.195   0.377  inst_streamScaler/preCoeff00_sub0000<4>1 (inst_streamScaler/preCoeff00_sub0000<4>)
+     DSP48:B4->P0          1   4.402   0.360  inst_streamScaler/Mmult_preCoeff00_mult0000 (inst_streamScaler/preCoeff00_mult0000<0>)
      INV:I->O              1   0.358   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_lut<0>_INV_0 (inst_streamScaler/Madd_preCoeff00_add0000_Madd_lut<0>)
      MUXCY:S->O            1   0.366   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<0> (inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<0>)
      MUXCY:CI->O           1   0.044   0.000  inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<1> (inst_streamScaler/Madd_preCoeff00_add0000_Madd_cy<1>)
@@ -1496,10 +1455,10 @@ Delay:               8.963ns (Levels of Logic = 21)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'vgaclk251'
-  Clock period: 8.116ns (frequency: 123.216MHz)
-  Total number of paths / destination ports: 2333 / 151
+  Clock period: 7.867ns (frequency: 127.115MHz)
+  Total number of paths / destination ports: 2325 / 151
 -------------------------------------------------------------------------
-Delay:               8.116ns (Levels of Logic = 10)
+Delay:               7.867ns (Levels of Logic = 9)
   Source:            vts_inst/hPos_1 (FF)
   Destination:       vts_inst/videoOn (FF)
   Source Clock:      vgaclk251 rising
@@ -1510,27 +1469,26 @@ Delay:               8.116ns (Levels of Logic = 10)
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
      FDR:C->Q              6   0.360   0.622  vts_inst/hPos_1 (vts_inst/hPos_1)
-     LUT2:I0->O            2   0.195   0.540  vts_inst/activeArea16_SW0 (N136)
-     LUT4_D:I3->LO         1   0.195   0.163  vts_inst/activeArea16 (N366)
-     LUT3:I2->O            3   0.195   0.538  vts_inst/videoOn_or000071 (vts_inst/videoOn_or0000_bdd19)
-     LUT4_D:I3->O          1   0.195   0.523  vts_inst/videoOn_or000019 (vts_inst/videoOn_or0000_bdd32)
-     LUT4_D:I3->O          2   0.195   0.540  vts_inst/videoOn_or000015 (vts_inst/videoOn_or0000_bdd9)
-     LUT3:I2->O            1   0.195   0.000  vts_inst/videoOn_or0000190_F (N168)
-     MUXF5:I0->O           1   0.382   0.523  vts_inst/videoOn_or0000190 (vts_inst/videoOn_or0000190)
-     LUT4_L:I3->LO         1   0.195   0.163  vts_inst/videoOn_or00001102 (vts_inst/videoOn_or00001102)
-     LUT4:I3->O            1   0.195   0.585  vts_inst/videoOn_or00001142 (vts_inst/videoOn_or00001142)
+     LUT2_D:I0->O          1   0.195   0.585  vts_inst/activeArea16_SW0 (N126)
+     LUT4:I2->O            2   0.195   0.540  vts_inst/videoOn_or00008_SW0 (N118)
+     LUT4_D:I3->O          1   0.195   0.523  vts_inst/videoOn_or00008 (vts_inst/videoOn_or0000_bdd15)
+     LUT4_D:I3->O          2   0.195   0.602  vts_inst/videoOn_or00004 (vts_inst/videoOn_or0000_bdd8)
+     LUT3:I1->O            1   0.195   0.000  vts_inst/videoOn_or00001179_F (N156)
+     MUXF5:I0->O           1   0.382   0.523  vts_inst/videoOn_or00001179 (vts_inst/videoOn_or00001179)
+     LUT4_L:I3->LO         1   0.195   0.163  vts_inst/videoOn_or00001232 (vts_inst/videoOn_or00001232)
+     LUT4:I3->O            1   0.195   0.585  vts_inst/videoOn_or00001273 (vts_inst/videoOn_or00001273)
      LUT4:I2->O            1   0.195   0.360  vts_inst/videoOn_or00001310 (vts_inst/videoOn_or0000)
      FDR:R                     1.062          vts_inst/videoOn
     ----------------------------------------
-    Total                      8.116ns (3.559ns logic, 4.557ns route)
-                                       (43.9% logic, 56.1% route)
+    Total                      7.867ns (3.364ns logic, 4.503ns route)
+                                       (42.8% logic, 57.2% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'agclk'
-  Clock period: 4.965ns (frequency: 201.392MHz)
+  Clock period: 5.210ns (frequency: 191.924MHz)
   Total number of paths / destination ports: 222 / 24
 -------------------------------------------------------------------------
-Delay:               4.965ns (Levels of Logic = 4)
+Delay:               5.210ns (Levels of Logic = 4)
   Source:            ag_inst/addr_4 (FF)
   Destination:       ag_inst/addr_11 (FF)
   Source Clock:      agclk rising
@@ -1541,40 +1499,41 @@ Delay:               4.965ns (Levels of Logic = 4)
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
      FDRE:C->Q             4   0.360   0.755  ag_inst/addr_4 (ag_inst/addr_4)
-     LUT4:I0->O            1   0.195   0.585  ag_inst/addr_or000023 (ag_inst/addr_or000023)
-     LUT4:I2->O            1   0.195   0.741  ag_inst/addr_or000033_SW0 (N228)
-     LUT4_L:I0->LO         1   0.195   0.163  ag_inst/addr_or000033 (ag_inst/addr_or000033)
+     LUT4:I0->O            1   0.195   0.688  ag_inst/addr_or000015 (ag_inst/addr_or000015)
+     LUT4:I1->O            1   0.195   0.523  ag_inst/addr_or000034_SW0 (N210)
+     LUT4:I3->O            1   0.195   0.523  ag_inst/addr_or000034 (ag_inst/addr_or000034)
      LUT3:I2->O           12   0.195   0.520  ag_inst/addr_or000043 (ag_inst/addr_or0000)
      FDRE:R                    1.062          ag_inst/addr_0
     ----------------------------------------
-    Total                      4.965ns (2.202ns logic, 2.763ns route)
-                                       (44.3% logic, 55.7% route)
+    Total                      5.210ns (2.202ns logic, 3.008ns route)
+                                       (42.3% logic, 57.7% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 211 / 201
+  Total number of paths / destination ports: 190 / 180
 -------------------------------------------------------------------------
-Offset:              6.047ns (Levels of Logic = 2)
+Offset:              5.207ns (Levels of Logic = 3)
   Source:            i_reset (PAD)
-  Destination:       i0_0 (FF)
+  Destination:       streamScaler_ag_0 (FF)
   Destination Clock: i_clock rising
 
-  Data Path: i_reset to i0_0
+  Data Path: i_reset to streamScaler_ag_0
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           494   0.965   2.897  i_reset_IBUF (i_reset_IBUF)
-     LUT3:I2->O           32   0.195   0.928  i0_or0000187 (i0_or0000)
-     FDR:R                     1.062          i0_0
+     IBUF:I->O           296   0.965   2.123  i_reset_IBUF (i_reset_IBUF)
+     LUT4:I3->O            1   0.195   0.000  streamScaler_ag_or0000381 (streamScaler_ag_or000038)
+     MUXF5:I1->O          10   0.374   0.488  streamScaler_ag_or000038_f5 (streamScaler_ag_or0000)
+     FDRE:R                    1.062          streamScaler_ag_0
     ----------------------------------------
-    Total                      6.047ns (2.222ns logic, 3.825ns route)
-                                       (36.7% logic, 63.3% route)
+    Total                      5.207ns (2.596ns logic, 2.611ns route)
+                                       (49.9% logic, 50.1% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'vgaclk251'
   Total number of paths / destination ports: 120 / 97
 -------------------------------------------------------------------------
-Offset:              6.744ns (Levels of Logic = 4)
+Offset:              5.970ns (Levels of Logic = 4)
   Source:            i_reset (PAD)
   Destination:       vts_inst/videoOn (FF)
   Destination Clock: vgaclk251 rising
@@ -1583,20 +1542,20 @@ Offset:              6.744ns (Levels of Logic = 4)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           494   0.965   2.897  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O           296   0.965   2.123  i_reset_IBUF (i_reset_IBUF)
      LUT4:I3->O            1   0.195   0.000  vts_inst/videoOn_or00001162 (vts_inst/videoOn_or00001162)
      MUXF5:I0->O           1   0.382   0.688  vts_inst/videoOn_or0000116_f5 (vts_inst/videoOn_or0000116)
      LUT4:I1->O            1   0.195   0.360  vts_inst/videoOn_or00001310 (vts_inst/videoOn_or0000)
      FDR:R                     1.062          vts_inst/videoOn
     ----------------------------------------
-    Total                      6.744ns (2.799ns logic, 3.945ns route)
-                                       (41.5% logic, 58.5% route)
+    Total                      5.970ns (2.799ns logic, 3.171ns route)
+                                       (46.9% logic, 53.1% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'agclk'
   Total number of paths / destination ports: 12 / 12
 -------------------------------------------------------------------------
-Offset:              5.804ns (Levels of Logic = 2)
+Offset:              5.030ns (Levels of Logic = 2)
   Source:            i_reset (PAD)
   Destination:       ag_inst/addr_11 (FF)
   Destination Clock: agclk rising
@@ -1605,12 +1564,12 @@ Offset:              5.804ns (Levels of Logic = 2)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           494   0.965   3.062  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O           296   0.965   2.288  i_reset_IBUF (i_reset_IBUF)
      LUT3:I0->O           12   0.195   0.520  ag_inst/addr_or000043 (ag_inst/addr_or0000)
      FDRE:R                    1.062          ag_inst/addr_0
     ----------------------------------------
-    Total                      5.804ns (2.222ns logic, 3.582ns route)
-                                       (38.3% logic, 61.7% route)
+    Total                      5.030ns (2.222ns logic, 2.808ns route)
+                                       (44.2% logic, 55.8% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
@@ -1633,71 +1592,73 @@ Offset:              4.694ns (Levels of Logic = 1)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'vgaclk251'
-  Total number of paths / destination ports: 1484 / 18
+  Total number of paths / destination ports: 1322 / 18
 -------------------------------------------------------------------------
-Offset:              11.144ns (Levels of Logic = 10)
+Offset:              11.746ns (Levels of Logic = 11)
   Source:            vts_inst/hPos_1 (FF)
-  Destination:       vga_g<7> (PAD)
+  Destination:       vga_b<5> (PAD)
   Source Clock:      vgaclk251 rising
 
-  Data Path: vts_inst/hPos_1 to vga_g<7>
+  Data Path: vts_inst/hPos_1 to vga_b<5>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
      FDR:C->Q              6   0.360   0.622  vts_inst/hPos_1 (vts_inst/hPos_1)
-     LUT2:I0->O            2   0.195   0.540  vts_inst/activeArea16_SW0 (N136)
-     LUT4_D:I3->O          1   0.195   0.523  vts_inst/activeArea16 (vts_inst/activeArea1_bdd13)
+     LUT2_D:I0->LO         1   0.195   0.163  vts_inst/activeArea16_SW0 (N359)
+     LUT4:I3->O            2   0.195   0.540  vts_inst/activeArea16 (vts_inst/activeArea1_bdd13)
      LUT4:I3->O            2   0.195   0.540  vts_inst/activeArea1316 (vts_inst/activeArea1_bdd7)
-     LUT4:I3->O            2   0.195   0.602  vts_inst/activeArea182 (vts_inst/activeArea182)
-     LUT4:I2->O            1   0.195   0.000  vts_inst/activeArea1144_F (N320)
-     MUXF5:I0->O           4   0.382   0.537  vts_inst/activeArea1144 (vts_inst/activeArea1144)
-     LUT3:I2->O           16   0.195   0.974  vts_inst/activeArea1193 (vga_blankn_OBUF)
-     LUT4:I0->O            1   0.195   0.000  vga_g<7>1_F (N316)
-     MUXF5:I0->O           1   0.382   0.360  vga_g<7>1 (vga_g_7_OBUF)
-     OBUF:I->O                 3.957          vga_g_7_OBUF (vga_g<7>)
+     LUT4:I3->O            1   0.195   0.688  vts_inst/activeArea182 (vts_inst/activeArea182)
+     LUT4:I1->O            1   0.195   0.000  vts_inst/activeArea1144_G (N309)
+     MUXF5:I1->O           5   0.374   0.546  vts_inst/activeArea1144 (vts_inst/activeArea1144)
+     LUT3:I2->O           20   0.195   0.974  vts_inst/activeArea1193 (vga_blankn_OBUF)
+     LUT3:I0->O            1   0.195   0.000  vga_b<5>12191 (vga_b<5>12191)
+     MUXF5:I1->O           1   0.374   0.688  vga_b<5>1219_f5 (vga_b<5>1219)
+     LUT3:I0->O            1   0.195   0.360  vga_b<5>1233 (vga_b_5_OBUF)
+     OBUF:I->O                 3.957          vga_b_5_OBUF (vga_b<5>)
     ----------------------------------------
-    Total                     11.144ns (6.446ns logic, 4.698ns route)
-                                       (57.8% logic, 42.2% route)
+    Total                     11.746ns (6.625ns logic, 5.121ns route)
+                                       (56.4% logic, 43.6% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'agclk'
-  Total number of paths / destination ports: 2109 / 15
+  Total number of paths / destination ports: 2103 / 15
 -------------------------------------------------------------------------
-Offset:              12.994ns (Levels of Logic = 9)
+Offset:              12.852ns (Levels of Logic = 10)
   Source:            dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (RAM)
-  Destination:       vga_r<4> (PAD)
+  Destination:       vga_b<4> (PAD)
   Source Clock:      agclk rising
 
-  Data Path: dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP to vga_r<4>
+  Data Path: dualmem_inst2/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP to vga_b<4>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     RAMB16:CLKB->DOB2     1   2.100   0.585  U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.ram_doutb<2>)
-     LUT3:I1->O           59   0.195   1.361  U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/has_mux_b.B/Mmux_dout_mux31 (doutb<2>)
+     RAMB16:CLKB->DOB1     1   2.100   0.585  U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.ram_doutb<1>)
+     LUT3:I1->O           36   0.195   1.168  U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/has_mux_b.B/Mmux_dout_mux21 (doutb<1>)
      end scope: 'dualmem_inst2'
-     LUT3:I0->O           11   0.195   0.500  vga_b<3>371 (vga_b<3>_bdd64)
-     MUXF5:S->O            1   0.527   0.523  vga_r<4>1227_SW1_f5 (N294)
-     LUT4:I3->O            1   0.195   0.741  vga_r<4>1227 (vga_r<4>1227)
-     LUT4:I0->O            1   0.195   0.585  vga_r<4>1251 (vga_r<4>1251)
-     LUT4:I2->O            1   0.195   0.585  vga_r<4>1275_SW0 (N274)
-     LUT4:I2->O            1   0.195   0.360  vga_r<4>1275 (vga_r_4_OBUF)
-     OBUF:I->O                 3.957          vga_r_4_OBUF (vga_r<4>)
+     LUT2:I0->O            4   0.195   0.537  vga_b<3>91 (vga_b<3>_bdd17)
+     LUT4:I3->O            2   0.195   0.602  vga_b<4>31 (vga_b<4>_bdd5)
+     LUT2:I0->O            1   0.195   0.000  vga_b<4>11042 (vga_b<4>11042)
+     MUXF5:I0->O           1   0.382   0.688  vga_b<4>1104_f5 (vga_b<4>1104)
+     LUT3:I0->O            1   0.195   0.523  vga_b<4>1110 (vga_b<4>1110)
+     LUT4:I3->O            1   0.195   0.585  vga_b<4>1157 (vga_b<4>1157)
+     LUT4:I2->O            1   0.195   0.360  vga_b<4>1331 (vga_b_4_OBUF)
+     OBUF:I->O                 3.957          vga_b_4_OBUF (vga_b<4>)
     ----------------------------------------
-    Total                     12.994ns (7.754ns logic, 5.240ns route)
-                                       (59.7% logic, 40.3% route)
+    Total                     12.852ns (7.804ns logic, 5.048ns route)
+                                       (60.7% logic, 39.3% route)
 
 =========================================================================
 
 
-Total REAL time to Xst completion: 67.00 secs
-Total CPU time to Xst completion: 61.04 secs
+Total REAL time to Xst completion: 44.00 secs
+Total CPU time to Xst completion: 41.81 secs
  
 --> 
 
 
-Total memory usage is 629076 kilobytes
+Total memory usage is 606728 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :   95 (   0 filtered)
-Number of infos    :   14 (   0 filtered)
+Number of warnings :   84 (   0 filtered)
+Number of infos    :    6 (   0 filtered)
 

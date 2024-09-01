@@ -213,9 +213,9 @@ signal fl2fi_run,fl2fi_rdy : std_logic;
 
 signal rdata : std_logic_vector(23 downto 0);
 
-constant DATA_WIDTH : integer := 8; -- Width of input/output data
-constant CHANNELS : integer := 3; -- Number of channels of DATA_WIDTH, for color images
-constant DISCARD_CNT_WIDTH : integer := 8; -- Width of inputDiscardCnt
+constant DATA_WIDTH : integer := 9; -- Width of input/output data
+constant CHANNELS : integer := 1; -- Number of channels of DATA_WIDTH, for color images
+constant DISCARD_CNT_WIDTH : integer := 1; -- Width of inputDiscardCnt
 constant INPUT_X_RES_WIDTH : integer := 5; -- Widths of input/output resolution control signals
 constant INPUT_Y_RES_WIDTH : integer := 5;
 constant OUTPUT_X_RES_WIDTH : integer := 6;
@@ -754,13 +754,13 @@ end process p_sc_ag;
 p_sc_ndo : process (i_clock) is
   type states is (idle, a, b, c);
   variable state : states := idle;
-  variable i : integer;
-  variable j : integer;
+  variable i : integer range 0 to (1*(OUTPUT_X_RES+1)*5) - 1;
+--  variable j : integer;
 begin
   if (rising_edge (i_clock)) then
     if (i_reset = '1') then
       i := 0;
-      j := 0;
+--      j := 0;
       streamScaler_nextDout <= '0';
     else
 --      j := j + 1;
@@ -808,8 +808,8 @@ begin
         when a =>
           streamScaler_dInValid <= '1';
           if (streamScaler_nextDin = '1') then
-            streamScaler_dIn <= dualmem_doutb (8 downto 1)&dualmem_doutb (8 downto 1)&dualmem_doutb (8 downto 1);
---            streamScaler_dIn <= dualmem_doutb (8 downto 0);
+--            streamScaler_dIn <= dualmem_doutb (8 downto 1)&dualmem_doutb (8 downto 1)&dualmem_doutb (8 downto 1);
+            streamScaler_dIn <= dualmem_doutb (8 downto 0);
           end if;
       end case;
     end if;
@@ -849,7 +849,7 @@ begin
               dualmem2_ena <= '1';
               dualmem2_wea <= "1";
               dualmem2_addra <= std_logic_vector (to_unsigned (douti, 12));
-              dualmem2_dina <= (streamScaler_dOut (23 downto 16) xor streamScaler_dOut (15 downto 8) xor streamScaler_dOut (7 downto 0)) & '0';
+              dualmem2_dina <= streamScaler_dOut (8 downto 0);
               state := a;
               douti := douti + 1;
             end if;
