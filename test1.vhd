@@ -867,9 +867,11 @@ streamScaler_outputXRes <= std_logic_vector (to_unsigned (OUTPUT_X_RES-1, OUTPUT
 streamScaler_outputYRes <= std_logic_vector (to_unsigned (OUTPUT_Y_RES-1, OUTPUT_Y_RES_WIDTH));
 --streamScaler_xScale <= std_logic_vector (to_unsigned (16384 * (INPUT_X_RES-1) / (OUTPUT_X_RES-1)-1, SCALE_BITS));
 --streamScaler_yScale <= std_logic_vector (to_unsigned (16384 * (INPUT_Y_RES-1) / (OUTPUT_Y_RES-1)-1, SCALE_BITS));
+streamScaler_xScale <= std_logic_vector (to_unsigned (1, SCALE_BITS));
+streamScaler_yScale <= std_logic_vector (to_unsigned (1, SCALE_BITS));
 streamScaler_leftOffset <= std_logic_vector (to_unsigned (0, OUTPUT_X_RES_WIDTH+SCALE_FRAC_BITS));
 streamScaler_topFracOffset <= std_logic_vector (to_unsigned (0, SCALE_FRAC_BITS));
-streamScaler_nearestNeighbor <= '0'; -- XXX 0 - nearest neighbor, 1 - bilinear
+streamScaler_nearestNeighbor <= '0'; -- XXX 1 - nearest neighbor, 0 - bilinear
 
 streamScaler_clk <= i_clock;
 streamScaler_rst <= i_reset;
