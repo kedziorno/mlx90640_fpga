@@ -28,9 +28,8 @@ use ieee.std_logic_1164.all;
 --use ieee_proposed.fixed_pkg.all;
 --use ieee_proposed.fixed_synth.all;
 
-
---library UNISIM;
---use UNISIM.VComponents.all;
+library UNISIM;
+use UNISIM.VComponents.all;
 
 use work.p_fphdl_package1.all;
 
@@ -957,7 +956,11 @@ signal CalculatePixOS_mux,CalculatePixOsCPSP_mux,CalculateVirCompensated_mux,Ext
 signal ExtractAlphaParameters_mux,CalculateAlphaComp_mux,CalculateAlphaCP_mux : std_logic;
 signal CalculateVdd_mux,CalculateTa_mux,CalculateGetImage_mux : std_logic;
 
+signal clock_buf : std_logic;
+
 begin
+
+clock_buf <= i_clock;
 
 fixed2floata <=
 CalculateVdd_fixed2floata when CalculateVdd_mux = '1'
@@ -1472,13 +1475,13 @@ CalculateVdd_i2c_mem_douta <= i2c_mem_douta when CalculateVdd_mux = '1' else (ot
 CalculateTa_i2c_mem_douta <= i2c_mem_douta when CalculateTa_mux = '1' else (others => '0');
 
 	-- purpose: main test loop
-	tester : process (i_clock,i_reset) is
+	tester : process (clock_buf,i_reset) is
 		type states is (idle,
 		s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,
 		ending);
 		variable state : states;
 	begin
-		if (rising_edge(i_clock)) then
+		if (rising_edge(clock_buf)) then
 			if (i_reset = '1') then
 				state := idle;
 				-- reset
@@ -1618,7 +1621,7 @@ end if;
 end if;
 end process tester;
 
-calculateVdd_clock <= i_clock;
+calculateVdd_clock <= clock_buf;
 calculateVdd_reset <= i_reset;
 inst_CalculateVDD : CalculateVDD port map (
 i_clock => CalculateVdd_clock,
@@ -1665,7 +1668,7 @@ subfpr => CalculateVdd_subfpr,
 subfprdy  => CalculateVdd_subfprdy
 );
 
-calculateTa_clock <= i_clock;
+calculateTa_clock <= clock_buf;
 calculateTa_reset <= i_reset;
 calculateTa_Vdd <= calculateVdd_Vdd;
 inst_calculateTa : calculateTa port map (
@@ -1714,7 +1717,7 @@ subfpr => CalculateTa_subfpr,
 subfprdy  => CalculateTa_subfprdy
 );
 
-ExtractAlphaParameters_clock <= i_clock;
+ExtractAlphaParameters_clock <= clock_buf;
 ExtractAlphaParameters_reset <= i_reset;
 inst_ExtractAlphaParameters : ExtractAlphaParameters port map (
 i_clock => ExtractAlphaParameters_clock,
@@ -1762,7 +1765,7 @@ divfpr => ExtractAlphaParameters_divfpr,
 divfprdy => ExtractAlphaParameters_divfprdy
 );
 
-CalculateAlphaCP_clock <= i_clock;
+CalculateAlphaCP_clock <= clock_buf;
 CalculateAlphaCP_reset <= i_reset;
 inst_CalculateAlphaCP : CalculateAlphaCP
 port map (
@@ -1793,7 +1796,7 @@ mulfpr => CalculateAlphaCP_mulfpr,
 mulfprdy => CalculateAlphaCP_mulfprdy
 );
 
-CalculatePixOS_clock <= i_clock;
+CalculatePixOS_clock <= clock_buf;
 CalculatePixOS_reset <= i_reset;
 CalculatePixOS_const1 <= x"3F800000"; -- 1
 CalculatePixOS_Ta <= CalculateTa_Ta; -- xxx
@@ -1851,7 +1854,7 @@ divfpr => CalculatePixOS_divfpr,
 divfprdy => CalculatePixOS_divfprdy
 );
 
-CalculatePixOsCPSP_clock <= i_clock;
+CalculatePixOsCPSP_clock <= clock_buf;
 CalculatePixOsCPSP_reset <= i_reset;
 CalculatePixOsCPSP_Ta <= CalculateTa_Ta; -- xxx
 CalculatePixOsCPSP_Ta0 <= x"41C80000"; -- xxx const 25 from datasheet
@@ -1923,7 +1926,7 @@ subfprdy => CalculatePixOSCPSP_subfprdy
 CalculateVirCompensated_Emissivity <= x"3F733333"; -- 0.95 -- xxx human body
 CalculateVirCompensated_pixoscpsp0 <= CalculatePixOsCPSP_pixoscpsp0;
 CalculateVirCompensated_pixoscpsp1 <= CalculatePixOsCPSP_pixoscpsp1;
-CalculateVirCompensated_clock <= i_clock;
+CalculateVirCompensated_clock <= clock_buf;
 CalculateVirCompensated_reset <= i_reset;
 CalculateVirCompensated_pixos_do <= CalculatePixOS_do;
 CalculatePixOS_addr <= CalculateVirCompensated_pixos_addr;
@@ -1976,7 +1979,7 @@ subfpr => CalculateVirCompensated_subfpr,
 subfprdy => CalculateVirCompensated_subfprdy
 );
 
-CalculateAlphaComp_clock <= i_clock;
+CalculateAlphaComp_clock <= clock_buf;
 CalculateAlphaComp_reset <= i_reset;
 CalculateAlphaComp_Ta <= CalculateTa_Ta;
 CalculateAlphaComp_Ta0 <= x"41C80000"; -- 25
@@ -2028,7 +2031,7 @@ subfpr => CalculateAlphaComp_subfpr,
 subfprdy => CalculateAlphaComp_subfprdy
 );
 
-CalculateGetImage_clock <= i_clock;
+CalculateGetImage_clock <= clock_buf;
 CalculateGetImage_reset <= i_reset;
 CalculateGetImage_vircompensated_do <= CalculateVirCompensated_do;
 CalculateVirCompensated_addr <= CalculateGetImage_vircompensated_addr;
@@ -2066,16 +2069,16 @@ addfprdy => CalculateGetImage_addfprdy
 
 );
 
---pfpclock : process (i_clock, fixed2floatce, addfpce, subfpce, mulfpce, divfpce) is --XXX 108mhz with latches, white screen in sim
+--pfpclock : process (clock_buf, fixed2floatce, addfpce, subfpce, mulfpce, divfpce) is --XXX 108mhz with latches, white screen in sim
 --  variable s : std_logic_vector (4 downto 0);
 --begin
 --  s := fixed2floatce&addfpce&subfpce&mulfpce&divfpce;
 --  case (s) is
---    when "10000" => fixed2floatclk <= i_clock;
---    when "01000" => addfpclk <= i_clock;
---    when "00100" => subfpclk <= i_clock;
---    when "00010" => mulfpclk <= i_clock;
---    when "00001" => divfpclk <= i_clock;
+--    when "10000" => fixed2floatclk <= clock_buf;
+--    when "01000" => addfpclk <= clock_buf;
+--    when "00100" => subfpclk <= clock_buf;
+--    when "00010" => mulfpclk <= clock_buf;
+--    when "00001" => divfpclk <= clock_buf;
 --    when others =>
 --      fixed2floatclk <= '0';
 --      addfpclk <= '0';
@@ -2085,7 +2088,7 @@ addfprdy => CalculateGetImage_addfprdy
 --  end case;
 --end process pfpclock;
 
---pfpclock : process (i_clock, fixed2floatce, addfpce, subfpce, mulfpce, divfpce) is -- XXX 100mhz,without latches
+--pfpclock : process (clock_buf, fixed2floatce, addfpce, subfpce, mulfpce, divfpce) is -- XXX 100mhz,without latches
 --begin
 ----      fixed2floatclk <= '0';
 ----      addfpclk <= '0';
@@ -2093,34 +2096,34 @@ addfprdy => CalculateGetImage_addfprdy
 ----      mulfpclk <= '0';
 ----      divfpclk <= '0';
 --  if (fixed2floatce = '1') then
---    fixed2floatclk <= i_clock;
+--    fixed2floatclk <= clock_buf;
 --    addfpclk <= '0';
 --    subfpclk <= '0';
 --    mulfpclk <= '0';
 --    divfpclk <= '0';
 --elsif (addfpce = '1') then
---    addfpclk <= i_clock;
+--    addfpclk <= clock_buf;
 --          fixed2floatclk <= '0';
 --      subfpclk <= '0';
 --      mulfpclk <= '0';
 --      divfpclk <= '0';
 --
 --elsif (subfpce = '1') then
---    subfpclk <= i_clock;
+--    subfpclk <= clock_buf;
 --      fixed2floatclk <= '0';
 --      addfpclk <= '0';
 --      mulfpclk <= '0';
 --      divfpclk <= '0';
 --
 --elsif (mulfpce = '1') then
---    mulfpclk <= i_clock;
+--    mulfpclk <= clock_buf;
 --      fixed2floatclk <= '0';
 --      addfpclk <= '0';
 --      subfpclk <= '0';
 --      divfpclk <= '0';
 --
 --elsif (divfpce = '1') then
---    divfpclk <= i_clock;
+--    divfpclk <= clock_buf;
 --      fixed2floatclk <= '0';
 --      addfpclk <= '0';
 --      subfpclk <= '0';
@@ -2140,11 +2143,33 @@ addfprdy => CalculateGetImage_addfprdy
 --mulfpclk <= i_clock when (mulfpce = '1') else '0';
 --divfpclk <= i_clock when (divfpce = '1') else '0';
 
-fixed2floatclk <= i_clock; -- XXX original, not gated
-addfpclk <= i_clock;
-subfpclk <= i_clock;
-mulfpclk <= i_clock;
-divfpclk <= i_clock;
+--fixed2float_BUFGMUX_VIRTEX4_inst : BUFGMUX_VIRTEX4
+--port map (O => fixed2floatclk, I0 => '0', I1 => clock_buf, S => fixed2floatce);
+--addfp_BUFGMUX_VIRTEX4_inst : BUFGMUX_VIRTEX4
+--port map (O => addfpclk, I0 => '0', I1 => clock_buf, S => addfpce);
+--subfp_BUFGMUX_VIRTEX4_inst : BUFGMUX_VIRTEX4
+--port map (O => subfpclk, I0 => '0', I1 => clock_buf, S => subfpce);
+--mulfp_BUFGMUX_VIRTEX4_inst : BUFGMUX_VIRTEX4
+--port map (O => mulfpclk, I0 => '0', I1 => clock_buf, S => mulfpce);
+--divfp_BUFGMUX_VIRTEX4_inst : BUFGMUX_VIRTEX4
+--port map (O => divfpclk, I0 => '0', I1 => clock_buf, S => divfpce);
+
+fixed2float_BUFGMUX_VIRTEX4_inst : BUFGCE
+port map (O => fixed2floatclk, I => clock_buf, CE => fixed2floatce);
+addfp_BUFGMUX_VIRTEX4_inst : BUFGCE
+port map (O => addfpclk, I => clock_buf, CE => addfpce);
+subfp_BUFGMUX_VIRTEX4_inst : BUFGCE
+port map (O => subfpclk, I => clock_buf, CE => subfpce);
+mulfp_BUFGMUX_VIRTEX4_inst : BUFGCE
+port map (O => mulfpclk, I => clock_buf, CE => mulfpce);
+divfp_BUFGMUX_VIRTEX4_inst : BUFGCE
+port map (O => divfpclk, I => clock_buf, CE => divfpce);
+
+--fixed2floatclk <= clock_buf; -- XXX original, not gated
+--addfpclk <= clock_buf;
+--subfpclk <= clock_buf;
+--mulfpclk <= clock_buf;
+--divfpclk <= clock_buf;
 
 b0 : block
 attribute loc : string;

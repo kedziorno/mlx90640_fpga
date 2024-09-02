@@ -21,6 +21,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+library UNISIM;
+use UNISIM.VComponents.all;
+
 --synthesis translate_off
 library ieee_proposed;
 use ieee_proposed.float_pkg.all;
@@ -211,7 +214,12 @@ signal fl2fi_run,fl2fi_rdy : std_logic;
 
 signal rdata : std_logic_vector(23 downto 0);
 
+signal clock_buf : std_logic;
+
 begin
+
+i_clock_IBUFG_inst : IBUFG
+port map (O => clock_buf, I => i_clock);
 
 vga_syncn <= '1';
 vga_blankn <= VGA_timing_synch_activeArea1;
@@ -221,9 +229,9 @@ vga_psaven <= '1';
 --vga_blankn <= '1';
 --vga_psaven <= '1';
 
-p1_counter_fl2fi : process (i_clock) is
+p1_counter_fl2fi : process (clock_buf) is
 begin
-  if (rising_edge (i_clock)) then
+  if (rising_edge (clock_buf)) then
     if (i_reset = '1') then
       fl2fi_wait <= 0;
     elsif (fl2fi_rdy = '1') then
@@ -234,14 +242,14 @@ begin
   end if;
 end process p1_counter_fl2fi;
 
-pTo : process (i_clock) is
+pTo : process (clock_buf) is
 	variable i : integer range 0 to PIXELS-1;
 	variable tout : std_logic_vector (dualmem_dina'left downto 0);
 	type states is (idle,
 	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10);
 	variable state : states;
 begin
-	if (rising_edge (i_clock)) then
+	if (rising_edge (clock_buf)) then
 		if (i_reset = '1') then
 			state := idle;
 			float2fixedsclr <= '1';
@@ -330,11 +338,11 @@ end if;
 	end if;
 end process pTo;
 
-pvgaclk : process (i_clock) is
+pvgaclk : process (clock_buf) is
 	constant CMAX : integer := 2; -- 25
 	variable vmax : integer range 0 to CMAX-1;
 begin
-	if (rising_edge (i_clock)) then
+	if (rising_edge (clock_buf)) then
 		if (i_reset = '1') then
 			vgaclk25 <= '0';
 			vmax := 0;
@@ -364,12 +372,12 @@ begin
 end process pdualmemdoutb;
 --synthesis translate_on
 
-pagclk : process (i_clock) is
+pagclk : process (clock_buf) is
 	constant CMAX : integer := 40; -- 1.25
 --	constant CMAX : integer := 63; -- 1260ns
 	variable vmax : integer range 0 to CMAX-1;
 begin
-	if (rising_edge (i_clock)) then
+	if (rising_edge (clock_buf)) then
 		if (i_reset = '1') then
 			agclk <= '0';
 			vmax := 0;
@@ -385,13 +393,13 @@ begin
 	end if;
 end process pagclk;
 
---p0 : process (i_clock) is
+--p0 : process (clock_buf) is
 --	type states is (idle,
 --	s1,
 --	ending);
 --	variable state : states;
 --begin
---	if (rising_edge (i_clock)) then
+--	if (rising_edge (clock_buf)) then
 --		if (i_reset = '1') then
 --			state := idle;
 --			test_fixed_melexis_run <= '0';
@@ -413,7 +421,7 @@ end process pagclk;
 --	end if;
 --end process p0;
 
-test_fixed_melexis_clock <= i_clock;
+test_fixed_melexis_clock <= clock_buf;
 test_fixed_melexis_reset <= i_reset;
 --test_fixed_melexis_addr <= address_generator_address;
 tfm_inst : test_fixed_melexis port map (
@@ -563,7 +571,7 @@ blank => VGA_timing_synch_blank
 --RGB_out => vga_imagegenerator_RGB_out
 --);
 
---tb_data_calculateTo_clka <= i_clock;
+--tb_data_calculateTo_clka <= clock_buf;
 --tb_data_calculateTo_ena <= '1';
 ----tb_data_calculateTo_addra <= address_generator_address;
 --tb_data_calculateTo_inst : tb_data_calculateTo PORT MAP (
@@ -573,7 +581,7 @@ blank => VGA_timing_synch_blank
 --douta => tb_data_calculateTo_douta
 --);
 
-float2fixedclk <= i_clock;
+float2fixedclk <= clock_buf;
 inst_float2fixed : float2fixed PORT MAP (
 a => float2fixeda,
 operation_nd => float2fixedond,
@@ -584,7 +592,7 @@ result => float2fixedr
 --rdy => float2fixedrdy
 );
 
-dualmem_clka <= i_clock;
+dualmem_clka <= clock_buf;
 dualmem_clkb <= agclk;
 dualmem_addrb <= address_generator_address;
 dualmem_inst : dualmem PORT MAP (
