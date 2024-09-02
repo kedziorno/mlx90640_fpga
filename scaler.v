@@ -47,6 +47,7 @@ coeff11 to 1.0 - other coefficients, but this caused timing issues.
 `default_nettype none
 
 module streamScaler #(
+parameter NEAREST_NEIGHBOR = 0, //Use nearest neighbor resize instead of bilinear
 //---------------------------Parameters----------------------------------------
 parameter	DATA_WIDTH =			8,		//Width of input/output data
 parameter	CHANNELS =				1,		//Number of channels of DATA_WIDTH, for color images
@@ -101,8 +102,7 @@ input wire [SCALE_BITS-1:0]			yScale,				//Scaling factors. Input resolution sca
 
 input wire [OUTPUT_X_RES_WIDTH-1+SCALE_FRAC_BITS:0]
 									leftOffset,			//Integer/fraction of input pixel to offset output data horizontally right. Format Q OUTPUT_X_RES_WIDTH.SCALE_FRAC_BITS
-input wire [SCALE_FRAC_BITS-1:0]	topFracOffset,		//Fraction of input pixel to offset data vertically down. Format Q0.SCALE_FRAC_BITS
-input wire							nearestNeighbor_in		//Use nearest neighbor resize instead of bilinear
+input wire [SCALE_FRAC_BITS-1:0]	topFracOffset		//Fraction of input pixel to offset data vertically down. Format Q0.SCALE_FRAC_BITS
 );
 //-----------------------Internal signals and registers------------------------
 reg								advanceRead1;
@@ -145,6 +145,12 @@ reg 							readState;
 //States for read state machine
 parameter RS_START = 0;
 parameter RS_READ_LINE = 1;
+
+initial
+begin
+$display("xScale = ", xScale);
+$display("yScale = ", yScale);
+end
 
 wire asyn_rst_start;
 assign asyn_rst_start = rst || start;
@@ -290,9 +296,15 @@ wire [COEFF_WIDTH-1:0]	coeffHalf = {2'b01, {(COEFF_WIDTH-2){1'b0}}};
 wire [COEFF_WIDTH-1:0]	preCoeff00 = (((coeffOne - xBlend) * (coeffOne - yBlend) + (coeffHalf - 1)) >> FRACTION_BITS) & 	{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
 wire [COEFF_WIDTH-1:0]	preCoeff01 = ((xBlend * (coeffOne - yBlend) + (coeffHalf - 1)) >> FRACTION_BITS) & 				{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
 wire [COEFF_WIDTH-1:0]	preCoeff10 = (((coeffOne - xBlend) * yBlend + (coeffHalf - 1)) >> FRACTION_BITS) &				{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
-
-wire nearestNeighbor;
-assign nearestNeighbor = nearestNeighbor_in;
+//reg [COEFF_WIDTH-1:0]	preCoeff00;
+//reg [COEFF_WIDTH-1:0]	preCoeff01;
+//reg [COEFF_WIDTH-1:0]	preCoeff10;
+//always @(posedge clk) // XXX nearestNeighbor = 0
+//begin
+//preCoeff00 <= (((coeffOne - xBlend) * (coeffOne - yBlend) + (coeffHalf - 1)) >> FRACTION_BITS) & 	{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
+//preCoeff01 <= ((xBlend * (coeffOne - yBlend) + (coeffHalf - 1)) >> FRACTION_BITS) & 				{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
+//preCoeff10 <= (((coeffOne - xBlend) * yBlend + (coeffHalf - 1)) >> FRACTION_BITS) &				{{COEFF_WIDTH{1'b0}}, {COEFF_WIDTH{1'b1}}};
+//end
 
 //Compute the coefficients
 always @(posedge clk or posedge rst)
@@ -309,7 +321,7 @@ begin
 	begin
 		xBlend <= {1'b0, xScaleAmount[SCALE_FRAC_BITS-1:SCALE_FRAC_BITS-FRACTION_BITS]};	//Changed to registered to improve timing
 		
-		if(nearestNeighbor == 1'b0)
+		if(NEAREST_NEIGHBOR == 0)
 		begin
 			//Normal bilinear interpolation
 			coeff00 <= preCoeff00;
@@ -333,19 +345,8 @@ end
 //Generate the blending multipliers
 reg [(DATA_WIDTH+COEFF_WIDTH)*CHANNELS-1:0]	product00, product01, product10, product11;
 
-initial
-begin
-$display ("DATA_WIDTH = ",DATA_WIDTH);
-$display ("CEOFF_WIDTH = ",COEFF_WIDTH);
-$display ("CHANNELS = ",CHANNELS);
-$display ((DATA_WIDTH+COEFF_WIDTH)*CHANNELS-1);
-$display ("xScale = ",xScale);
-$display ("yScale = ",yScale);
-end
-
 generate
 genvar channel;
-//	for(channel = 0; channel <= CHANNELS; channel = channel + 1)
 	for(channel = 0; channel < CHANNELS; channel = channel + 1)
 		begin : blend_mult_generate
 			always @(posedge clk or posedge rst)
