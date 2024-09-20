@@ -89,7 +89,9 @@ begin
 				when s4 => state := s5;
 				when s5 => state := ending;
 					o_tgc  <= odata_tgc;
+          --synthesis translate_off
 					report "================ extractTGCparameters tgc : " & real'image (ap_slv2fp (odata_tgc));
+          --synthesis translate_on
 				when ending => state := idle;
 					rdy <= '1';
 				when others => null;

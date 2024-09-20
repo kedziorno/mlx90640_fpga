@@ -223,7 +223,9 @@ begin
 						divfpond_internal <= '0';
 						divfpsclr_internal <= '1';
 						o_acpsubpage0 <= fptmp1;
+            --synthesis translate_off
 						report "================ calculateAlphaCP o_acpsubpage0 : " & real'image (ap_slv2fp (fptmp1));
+            --synthesis translate_on
 					else state := s9; end if;
 				when s10 => state := s11;
 					divfpsclr_internal <= '0';
@@ -238,7 +240,9 @@ begin
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
 						o_acpsubpage1 <= fptmp1;
+            --synthesis translate_off
 						report "================ calculateAlphaCP o_acpsubpage1 : " & real'image (ap_slv2fp (fptmp1));
+            --synthesis translate_on
 					else state := s11; end if;
 				when ending => state := idle;
 					mulfpsclr_internal <= '0';

@@ -1078,8 +1078,9 @@ when s24 => state := s25; 	--22
 	write_enable <= '1';
 	addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vAlphaPixel_ft
 	dia <= vAlphaPixel_ft;
-	report "================vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
-	------report_error (vAlphaPixel_ft,0.0);
+	--synthesis translate_off
+  report "================vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
+  --synthesis translate_on
 	i := i + 1;
 when s25 =>
 	if (col = C_COL-1) then

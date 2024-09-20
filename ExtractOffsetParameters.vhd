@@ -1028,8 +1028,10 @@ when s22 => state := s23; 	--22
 	write_enable <= '1';
 	addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vOffset_ft
 	dia <= vOffset_ft;
+  --synthesis translate_off
 	report "================vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
-	i := i + 1;
+	--synthesis translate_on
+  i := i + 1;
 when s23 =>
 	if (col = C_COL-1) then
 		col := 0;

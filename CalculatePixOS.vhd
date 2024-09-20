@@ -1018,7 +1018,9 @@ when s29 => state := s30;
 	write_enable <= '1';
 	addra <= std_logic_vector (to_unsigned (i, 10)); -- pixos
 	dia <= fptmp1;
+  --synthesis translate_off
 	report "================pixos : " & real'image (ap_slv2fp (fptmp1));
+  --synthesis translate_on
 when s30 =>
 	write_enable <= '0';
 	if (i = (C_ROW*C_COL)-1) then

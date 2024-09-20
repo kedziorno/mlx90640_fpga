@@ -1,11 +1,17 @@
-library IEEE,ieee_proposed;
+--synthesis translate_off
+library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.numeric_std.all;
 USE IEEE.math_real.all;
+--synthesis translate_on
+
+--synthesis translate_off
+library ieee_proposed;
 use ieee_proposed.float_pkg.all;
 use ieee_proposed.numeric_std_additions.all;
 use ieee_proposed.standard_additions.all;
 use ieee_proposed.std_logic_1164_additions.all;
+--synthesis translate_on
 
 package p_fphdl_package3 is
 
