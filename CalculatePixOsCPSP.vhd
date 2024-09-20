@@ -31,7 +31,7 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 use work.p_fphdl_package1.all;
---use work.p_fphdl_package3.all;
+use work.p_fphdl_package3.all;
 
 entity CalculatePixOsCPSP is
 port (
@@ -789,7 +789,7 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 				when s90 =>
 					if (subfprdy_internal = '1') then state := s91;
 						o_pixoscpsp1 <= subfpr_internal;
---						--report "================ CalculatePixOsCPSP o_pixoscpsp1 : " & real'image (ap_slv2fp (subfpr));
+						report "================ CalculatePixOsCPSP o_pixoscpsp1 : " & real'image (ap_slv2fp (subfpr));
 						subfpce_internal <= '0';
 						subfpond_internal <= '0';
 						subfpsclr_internal <= '1';

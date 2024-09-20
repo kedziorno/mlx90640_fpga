@@ -23,7 +23,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use ieee_proposed.fixed_pkg.all;
 
 USE work.p_fphdl_package1.all;
---USE work.p_fphdl_package3.all;
+USE work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -1078,7 +1078,7 @@ when s24 => state := s25; 	--22
 	write_enable <= '1';
 	addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vAlphaPixel_ft
 	dia <= vAlphaPixel_ft;
---	----report "================vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
+	report "================vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
 	------report_error (vAlphaPixel_ft,0.0);
 	i := i + 1;
 when s25 =>

@@ -29,7 +29,7 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
---use work.p_fphdl_package3.all;
+use work.p_fphdl_package3.all;
 
 entity CalculateTo is
 port (
@@ -922,7 +922,7 @@ begin
 		write_enable <= '1';
 		addra <= std_logic_vector (to_unsigned (i, 10)); -- To
 		dia <= fttmp1;
-		--report_error ("To " & integer'image (i), fttmp1, 0.0);
+		report_error ("To " & integer'image (i), fttmp1, 0.0);
 	when s71 =>
 		write_enable <= '0';
 		if (i = (C_ROW*C_COL)-1) then

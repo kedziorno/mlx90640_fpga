@@ -410,7 +410,7 @@ when kv12 => state := kv13; 	--22
 	write_enable <= '1';
 	addra <= std_logic_vector (to_unsigned (i, 10)); -- kv
 	dia <= kv_ft;
---	report "================kv_ft : " & real'image (ap_slv2fp (kv_ft));
+	report "================kv_ft : " & real'image (ap_slv2fp (kv_ft));
 --	report_error (kv_ft,0.0);
 when kv13 =>
 	i := i + 1;

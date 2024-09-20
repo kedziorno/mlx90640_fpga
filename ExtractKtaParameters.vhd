@@ -547,7 +547,7 @@ when kta26 => state := kta27; 	--22
 	write_enable <= '1';
 	addra <= std_logic_vector (to_unsigned (i, 10)); -- kta
 	dia <= kta_ft;
---	report "================kta_ft : " & real'image (ap_slv2fp (kta_ft));
+	report "================kta_ft : " & real'image (ap_slv2fp (kta_ft));
 --	report_error (kta_ft,0.0);
 when kta27 =>
 	i := i + 1;
