@@ -20,6 +20,7 @@ package p_fphdl_package3 is
 	function ap_slv2int (sl:std_logic_vector) return integer;
 	function to_string_1 ( s : std_logic_vector ) return string;
 	procedure report_error (constant str : string; sl : std_logic_vector; constant ec : real);
+  procedure warning_neq_fp (a, b : in float32; info : in string := "");
   procedure warning_neq_fp (a : in std_logic_vector (31 downto 0); b : in real; info : in string := "");
   procedure warning_neq_fp (a, b : in std_logic_vector (31 downto 0); info : in string := "");
 --synthesis translate_on
@@ -96,24 +97,22 @@ package body p_fphdl_package3 is
 		return r ;
 	end function ;
 
-  procedure warning_neq_fp (a : in std_logic_vector (31 downto 0); b : in real; info : in string := "") is
-    variable src : float32 := to_float (a);
-    variable dst : float32 := to_float (b);
+  procedure warning_neq_fp (a, b : in float32; info : in string := "") is
+    variable src : float32 := a;
+    variable dst : float32 := b;
   begin
-    assert (src = dst)
-      report info & " " &
-        real'image (to_real (src)) & " /= " & real'image (to_real (dst)) & " " &
-          "" severity warning;
+    assert not (src = dst) report info & HT & " current == expected " & HT & real'image (to_real(src)) & " == " & real'image (to_real(dst)) severity note;
+    assert     (src = dst) report info & HT & " current /= expected " & HT & real'image (to_real(src)) & " /= " & real'image (to_real(dst)) severity warning;
+  end procedure;
+
+  procedure warning_neq_fp (a : in std_logic_vector (31 downto 0); b : in real; info : in string := "") is
+  begin
+    warning_neq_fp (to_float (a), to_float (b), info);
   end procedure;
 
   procedure warning_neq_fp (a, b : in std_logic_vector (31 downto 0); info : in string := "") is
-    variable src : float32 := to_float (a);
-    variable dst : float32 := to_float (b);
   begin
-    assert (src = dst)
-      report info & " " &
-        real'image (to_real (src)) & " /= " & real'image (to_real (dst)) & " " &
-          "" severity warning;
+    warning_neq_fp (to_float (a), to_float (b), info);
   end procedure;
 --synthesis translate_on
 
