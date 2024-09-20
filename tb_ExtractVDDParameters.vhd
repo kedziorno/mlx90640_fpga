@@ -124,8 +124,8 @@ wait for i_clock_period*10;
 -- insert stimulus here
 ExtractVDDParameters_run <= '1'; wait for i_clock_period; ExtractVDDParameters_run <= '0';
 wait until ExtractVDDParameters_rdy = '1';
-warning_neq_fp (ExtractVDDParameters_kvdd, -3200.0);
-warning_neq_fp (ExtractVDDParameters_vdd25, -12544.0);
+warning_neq_fp (ExtractVDDParameters_kvdd, -3200.0, "kvdd");
+warning_neq_fp (ExtractVDDParameters_vdd25, -12544.0, "vdd25");
 wait for 100 ps;
 report "tb done" severity failure;
 end process;
