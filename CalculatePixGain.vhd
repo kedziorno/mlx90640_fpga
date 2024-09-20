@@ -483,8 +483,10 @@ begin
 				when s8 => state := s9;
 					mulfpsclr_internal <= '0';
 					write_enable <= '0';
+          --synthesis translate_off
 					report "================ CalculatePixGain PixGain " & integer'image (pixgain_index) & " : " & real'image (ap_slv2fp (mulfpr));
-				when s9 =>
+          --synthesis translate_on
+        when s9 =>
 					if (pixgain_index = PIXGAIN_SZ - 1) then
 						state := ending;
 						pixgain_index := 0;

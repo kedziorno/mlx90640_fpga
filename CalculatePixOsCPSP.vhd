@@ -743,7 +743,9 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 						subfpce_internal <= '0';
 						subfpond_internal <= '0';
 						subfpsclr_internal <= '1';
---						--report "================ CalculatePixOsCPSP o_pixoscpsp0 : " & real'image (ap_slv2fp (subfpr));
+            --synthesis translate_off
+						report "================ CalculatePixOsCPSP o_pixoscpsp0 : " & real'image (ap_slv2fp (subfpr));
+            --synthesis translate_on
 					else state := s81; end if;
 				when s82 => state := s83;
 					subfpsclr_internal <= '0';
@@ -789,7 +791,9 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 				when s90 =>
 					if (subfprdy_internal = '1') then state := s91;
 						o_pixoscpsp1 <= subfpr_internal;
+            --synthesis translate_off
 						report "================ CalculatePixOsCPSP o_pixoscpsp1 : " & real'image (ap_slv2fp (subfpr));
+            --synthesis translate_on
 						subfpce_internal <= '0';
 						subfpond_internal <= '0';
 						subfpsclr_internal <= '1';

@@ -243,7 +243,9 @@ begin
 			divfpce_internal <= '0';
 			divfpond_internal <= '0';
 			divfpsclr_internal <= '1';
+      --synthesis translate_off
 			report "================ calculateKGain gain : " & real'image (ap_slv2fp (fttmp1));
+      --synthesis translate_on
 		else state := s14; end if;
 	when ending => state := idle;
 		divfpsclr_internal <= '0';
