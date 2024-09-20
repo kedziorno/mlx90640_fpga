@@ -20,6 +20,8 @@ package p_fphdl_package3 is
 	function ap_slv2int (sl:std_logic_vector) return integer;
 	function to_string_1 ( s : std_logic_vector ) return string;
 	procedure report_error (constant str : string; sl : std_logic_vector; constant ec : real);
+  procedure warning_neq_fp (a : in std_logic_vector (31 downto 0); b : in real; info : in string := "");
+  procedure warning_neq_fp (a, b : in std_logic_vector (31 downto 0); info : in string := "");
 --synthesis translate_on
 
 end p_fphdl_package3;
@@ -67,21 +69,20 @@ package body p_fphdl_package3 is
 
 	-- https://opencores.org/websvn/filedetails?repname=raytrac&path=%2Fraytrac%2Fbranches%2Ffp%2Farithpack.vhd&rev=163
   function ap_slv2fp(sl:std_logic_vector) return real is
-	 variable frc:integer;
-	 alias s: std_logic_vector(31 downto 0) is sl;
-	 variable f,expo: real;
+    variable frc:integer;
+    alias s: std_logic_vector(31 downto 0) is sl;
+    variable f,expo: real;
   begin
-	 expo:=real(ap_slv2int(s(30 downto 23)) - 127);
-	 expo:=2.0**expo;
-	 frc:=ap_slv2int('1'&s(22 downto 0));
-	 f:=real(frc)*(2.0**real(-23.0));
-	 f:=f*real(expo);
-	 if s(31)='1' then
-		return -f;
-	 else
-		return f;
-	 end if;
---	return 0.0;
+    expo:=real(ap_slv2int(s(30 downto 23)) - 127);
+    expo:=(2.0)**(expo);
+    frc:=ap_slv2int('1'&s(22 downto 0));
+    f:=real(frc)*(2.0**(-23.0));
+    f:=f*real(expo);
+    if s(31)='1' then
+      return -f;
+    else
+      return f;
+    end if;
   end function;
 
 	function to_string_1 ( s : std_logic_vector )
@@ -94,6 +95,26 @@ package body p_fphdl_package3 is
 		end loop ;
 		return r ;
 	end function ;
+
+  procedure warning_neq_fp (a : in std_logic_vector (31 downto 0); b : in real; info : in string := "") is
+    variable src : float32 := to_float (a);
+    variable dst : float32 := to_float (b);
+  begin
+    assert (src = dst)
+      report info & " " &
+        real'image (to_real (src)) & " /= " & real'image (to_real (dst)) & " " &
+          "" severity warning;
+  end procedure;
+
+  procedure warning_neq_fp (a, b : in std_logic_vector (31 downto 0); info : in string := "") is
+    variable src : float32 := to_float (a);
+    variable dst : float32 := to_float (b);
+  begin
+    assert (src = dst)
+      report info & " " &
+        real'image (to_real (src)) & " /= " & real'image (to_real (dst)) & " " &
+          "" severity warning;
+  end procedure;
 --synthesis translate_on
 
 end p_fphdl_package3;
