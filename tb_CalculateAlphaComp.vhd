@@ -293,11 +293,15 @@ CalculateAlphaComp_const1 <= x"3f800000"; -- 1
 wait for i_clock_period;
 CalculateAlphaComp_run <= '1'; wait for i_clock_period; CalculateAlphaComp_run <= '0';
 wait until CalculateAlphaComp_rdy = '1';
+--report "rdy at 645.945us";
+report "rdy at 599.795us";
 for i in 0 to 1024 loop
 	CalculateAlphaComp_addr <= std_logic_vector (to_unsigned (i, 10));
 	wait for i_clock_period*2;
 end loop;
 wait for 1 ps;
+--report "end at 666.445us";
+report "end at 620.295us";
 report "done" severity failure;
 end process;
 
