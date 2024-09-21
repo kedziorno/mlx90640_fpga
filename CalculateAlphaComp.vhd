@@ -381,14 +381,6 @@ else (others => '0');
 ExtractTGCParameters_i2c_mem_douta <= i2c_mem_douta when ExtractTGCParameters_mux = '1' else (others => '0');
 ExtractKsTaParameters_i2c_mem_douta <= i2c_mem_douta when ExtractKsTaParameters_mux = '1' else (others => '0');
 
-with mem_switchpattern_pattern select pattern_ft <=
-x"3f800000" when '1',
-x"00000000" when others;
-
-with mem_switchpattern_pattern select pattern_neg_ft <=
-x"00000000" when '1',
-x"3f800000" when others;
-
 o_rdy <= rdy;
 o_do <= doa when rdy = '1' else (others => '0');
 mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0');
@@ -399,11 +391,9 @@ p0 : process (i_clock) is
 	constant C_COL : integer := 32;
 	variable i : integer range 0 to C_ROW*C_COL-1;
 	type states is (idle,
-	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,
-	s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,
-	s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,
-	s31,
-	ending);
+	s2,s4,s6,s8,s10,
+	s11,s12,s14,s15,s16,s17,s19,s20,
+	s22,s23,s25,s26,s28,s29,s31);
 	variable state : states;
 	variable fptmp1,fptmp2,fptmp3 : std_logic_vector (31 downto 0);
 begin
@@ -431,87 +421,76 @@ begin
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := s1;
+						state := s2;
+            addfpsclr_internal <= '0';
+            subfpsclr_internal <= '0';
+            mulfpsclr_internal <= '0';
+            ExtractTGCParameters_run <= '1';
+            ExtractTGCParameters_mux <= '1';
 					else
 						state := idle;
 					end if;
 					i := 0;
-					addfpsclr_internal <= '0';
-					subfpsclr_internal <= '0';
-					mulfpsclr_internal <= '0';
-				when s1 => state := s2;
-					ExtractTGCParameters_run <= '1';
-					ExtractTGCParameters_mux <= '1';
 				when s2 => 
 					ExtractTGCParameters_run <= '0';
 					if (ExtractTGCParameters_rdy = '1') then
-						state := s3;
+						state := s4;
 						ExtractTGCParameters_mux <= '0';
+            ExtractKsTaParameters_run <= '1';
+            ExtractKsTaParameters_mux <= '1';
 					else
 						state := s2;
 						ExtractTGCParameters_mux <= '1';
 					end if;
-				when s3 => state := s4;
-					ExtractKsTaParameters_run <= '1';
-					ExtractKsTaParameters_mux <= '1';
 				when s4 => 
 					ExtractKsTaParameters_run <= '0';
 					if (ExtractKsTaParameters_rdy = '1') then
-						state := s5;
+						state := s6;
 						ExtractKsTaParameters_mux <= '0';
+            subfpce_internal <= '1';
+            subfpa_internal <= i_Ta;
+            subfpb_internal <= i_Ta0;
+            subfpond_internal <= '1';
 					else
 						state := s4;
 						ExtractKsTaParameters_mux <= '1';
 					end if;
-				when s5 => state := s6;
-					subfpce_internal <= '1';
-					subfpa_internal <= i_Ta;
-					subfpb_internal <= i_Ta0;
-					subfpond_internal <= '1';
 				when s6 =>
-					if (subfprdy_internal = '1') then state := s7;
+					if (subfprdy_internal = '1') then state := s8;
 						fptmp1 := subfpr_internal;
 						subfpce_internal <= '0';
 						subfpond_internal <= '0';
 						subfpsclr_internal <= '1';
+            mulfpce_internal <= '1';
+            mulfpa_internal <= fptmp1;
+            mulfpb_internal <= ExtractKsTaParameters_ksta;
+            mulfpond_internal <= '1';
 					else state := s6; end if;
-				when s7 => state := s8;
-					subfpsclr_internal <= '0';
-
-					mulfpce_internal <= '1';
-					mulfpa_internal <= fptmp1;
-					mulfpb_internal <= ExtractKsTaParameters_ksta;
-					mulfpond_internal <= '1';
 				when s8 =>
-					if (mulfprdy_internal = '1') then state := s9;
+					subfpsclr_internal <= '0';
+					if (mulfprdy_internal = '1') then state := s10;
 						fptmp1 := mulfpr_internal;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
+            addfpce_internal <= '1';
+            addfpa_internal <= fptmp1;
+            addfpb_internal <= i_const1;
+            addfpond_internal <= '1';
 					else state := s8; end if;
-				when s9 => state := s10;
-					mulfpsclr_internal <= '0';
-
-					addfpce_internal <= '1';
-					addfpa_internal <= fptmp1;
-					addfpb_internal <= i_const1;
-					addfpond_internal <= '1';
 				when s10 =>
-					if (addfprdy_internal = '1') then state := s11;
+          mulfpsclr_internal <= '0';
+					if (addfprdy_internal = '1') then state := s12;
 						fptmp3 := addfpr_internal;
 						addfpce_internal <= '0';
 						addfpond_internal <= '0';
 						addfpsclr_internal <= '1';
 					else state := s10; end if;
-				when s11 => state := s12;
+				when s12 => state := s14;
 					addfpsclr_internal <= '0';
-
-				when s12 => state := s13;
 					o_alpha_addr <= std_logic_vector (to_unsigned (i, 10));
 					mem_switchpattern_pixel <= std_logic_vector (to_unsigned (i, 14));
-				when s13 => state := s14;
 				when s14 => state := s15;
-					
 					mulfpce_internal <= '1';
 					mulfpa_internal <= pattern_ft;
 					mulfpb_internal <= i_acpsubpage1;
@@ -523,100 +502,88 @@ begin
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
 					else state := s15; end if;
-				when s16 => state := s17;
+				when s16 => state := s17; -- XXX mul
 					mulfpsclr_internal <= '0';
-
 					mulfpce_internal <= '1';
 					mulfpa_internal <= pattern_neg_ft;
 					mulfpb_internal <= i_acpsubpage0;
 					mulfpond_internal <= '1';
 				when s17 =>
-					if (mulfprdy_internal = '1') then state := s18;
+					if (mulfprdy_internal = '1') then state := s19;
 						fptmp2 := mulfpr_internal;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
 					else state := s17; end if;
-				when s18 => state := s19;
-					mulfpsclr_internal <= '0';
-
 				when s19 => state := s20;
+					mulfpsclr_internal <= '0';
 					addfpce_internal <= '1';
 					addfpa_internal <= fptmp1;
 					addfpb_internal <= fptmp2;
 					addfpond_internal <= '1';
 				when s20 =>
-					if (addfprdy_internal = '1') then state := s21;
+					if (addfprdy_internal = '1') then state := s22;
 						fptmp1 := addfpr_internal;
 						addfpce_internal <= '0';
 						addfpond_internal <= '0';
 						addfpsclr_internal <= '1';
 					else state := s20; end if;
-				when s21 => state := s22;
-					addfpsclr_internal <= '0';
-
 				when s22 => state := s23;
+					addfpsclr_internal <= '0';
 					mulfpce_internal <= '1';
 					mulfpa_internal <= ExtractTGCParameters_tgc;
 					mulfpb_internal <= fptmp1;
 					mulfpond_internal <= '1';
 				when s23 =>
-					if (mulfprdy_internal = '1') then state := s24;
+					if (mulfprdy_internal = '1') then state := s25;
 						fptmp1 := mulfpr_internal;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
 					else state := s23; end if;
-				when s24 => state := s25;
-					mulfpsclr_internal <= '0';
-
 				when s25 => state := s26;
+					mulfpsclr_internal <= '0';
 					subfpce_internal <= '1';
 					subfpa_internal <= i_alpha_do;
 					subfpb_internal <= fptmp1;
 					subfpond_internal <= '1';
 				when s26 =>
-					if (subfprdy_internal = '1') then state := s27;
+					if (subfprdy_internal = '1') then state := s28;
 						fptmp1 := subfpr_internal;
 						subfpce_internal <= '0';
 						subfpond_internal <= '0';
 						subfpsclr_internal <= '1';
 					else state := s26; end if;
-				when s27 => state := s28;
-					subfpsclr_internal <= '0';
-
 				when s28 => state := s29;
+					subfpsclr_internal <= '0';
 					mulfpce_internal <= '1';
 					mulfpa_internal <= fptmp1;
 					mulfpb_internal <= fptmp3;
 					mulfpond_internal <= '1';
 				when s29 =>
-					if (mulfprdy_internal = '1') then state := s30;
+					if (mulfprdy_internal = '1') then state := s31;
 						fptmp1 := mulfpr_internal;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
+            write_enable <= '1';
+            addra <= std_logic_vector (to_unsigned (i, 10)); -- alphacomp
+            dia <= fptmp1;
+            --synthesis translate_off
+            report "================alphacomp : " & real'image (ap_slv2fp (fptmp1));
+            --synthesis translate_on
 					else state := s29; end if;
-				when s30 => state := s31;
-					mulfpsclr_internal <= '0';
-					write_enable <= '1';
-					addra <= std_logic_vector (to_unsigned (i, 10)); -- alphacomp
-					dia <= fptmp1;
-          --synthesis translate_off
-					report "================alphacomp : " & real'image (ap_slv2fp (fptmp1));
-          --synthesis translate_on
 				when s31 =>
+					mulfpsclr_internal <= '0';
 					write_enable <= '0';
 					if (i = (C_ROW*C_COL)-1) then
-						state := ending;
 						i := 0;
+            state := idle;
+            rdy <= '1';
 					else
 						state := s12;
 						i := i + 1;
 					end if;
-
-				when ending => state := idle;
-					rdy <= '1';
 				when others => null;
 			end case;
 		end if;
@@ -657,6 +624,14 @@ i_reset => mem_switchpattern_reset,
 i_pixel => mem_switchpattern_pixel,
 o_pattern => mem_switchpattern_pattern
 );
+
+with mem_switchpattern_pattern select pattern_ft <=
+x"3f800000" when '1',
+x"00000000" when others;
+
+with mem_switchpattern_pattern select pattern_neg_ft <=
+x"00000000" when '1',
+x"3f800000" when others;
 
 inst_mem_alphacomp : mem_ramb16_s36_x2
 GENERIC MAP (
