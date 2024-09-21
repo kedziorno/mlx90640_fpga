@@ -6,6 +6,7 @@ USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
 use work.p_fphdl_package1.all;
+use work.p_fphdl_package3.all;
 
 ENTITY tb_CalculateAlphaCP IS
 END tb_CalculateAlphaCP;
@@ -186,6 +187,8 @@ wait for clockperiod*10;
 CalculateAlphaCP_run <= '1'; wait for clockperiod; CalculateAlphaCP_run <= '0';
 wait until CalculateAlphaCP_rdy = '1';
 wait for 1 ps;
+warning_neq_fp (CalculateAlphaCP_acpsubpage0, x"31460000", "acpsubpage0 585ns");
+warning_neq_fp (CalculateAlphaCP_acpsubpage1, x"31478c00", "acpsubpage1 695ns");
 report "done" severity failure;
 END PROCESS tbprocess;
 --  End Test Bench 
