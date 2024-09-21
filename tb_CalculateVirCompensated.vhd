@@ -223,12 +223,33 @@ signal CalculateVirCompensated_subfpclk : std_logic;
 signal CalculateVirCompensated_mulfpclk : std_logic;
 signal CalculateVirCompensated_divfpclk : std_logic;
 
+COMPONENT tb_i2c_mem
+PORT (
+clka : IN STD_LOGIC;
+ena : IN STD_LOGIC;
+wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+addra : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
+dina : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+);
+END COMPONENT;
+
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
 
 signal out1r : real;
 
 BEGIN
+
+inst_tb_i2c_mem : tb_i2c_mem
+PORT MAP (
+clka => CalculateVirCompensated_clock,
+ena => CalculateVirCompensated_i2c_mem_ena,
+wea => "0",
+addra => CalculateVirCompensated_i2c_mem_addra,
+dina => (others => '0'),
+douta => CalculateVirCompensated_i2c_mem_douta
+);
 
 out1r <= ap_slv2fp (CalculateVirCompensated_do); -- output data
 

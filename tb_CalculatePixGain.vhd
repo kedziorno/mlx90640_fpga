@@ -75,7 +75,6 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
-o_done : out std_logic;
 
 o_rdy : out std_logic;
 
@@ -113,7 +112,6 @@ signal CalculatePixGain_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal CalculatePixGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal CalculatePixGain_do : std_logic_vector (31 downto 0);
 signal CalculatePixGain_addr : std_logic_vector (9 downto 0);
-signal CalculatePixGain_done : std_logic;
 signal CalculatePixGain_rdy : std_logic;
 
 signal CalculatePixGain_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
@@ -179,7 +177,6 @@ i2c_mem_addra => CalculatePixGain_i2c_mem_addra,
 i2c_mem_douta => CalculatePixGain_i2c_mem_douta,
 o_do => CalculatePixGain_do,
 i_addr => CalculatePixGain_addr,
-o_done => CalculatePixGain_done,
 o_rdy => CalculatePixGain_rdy,
 
 fixed2floata => CalculatePixGain_fixed2floata,

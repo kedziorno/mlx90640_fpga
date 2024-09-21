@@ -91,8 +91,8 @@ wait for i_clock_period*10;
 -- insert stimulus here 
 i_ee0x2432 <= x"5952";
 wait for i_clock_period*2;
-i_ee0x2432 <= x"5f52";
-wait for i_clock_period*2;
+--i_ee0x2432 <= x"5f52";
+--wait for i_clock_period*2;
 report "done" severity failure;
 end process;
 

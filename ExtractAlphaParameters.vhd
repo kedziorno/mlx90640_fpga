@@ -969,6 +969,9 @@ when s5 => state := s6; 	--5
 --	----report "vaccRemScale : " & real'image (ap_slv2fp (vaccRemScale));
 when s6 => 			--6
 	if (mulfprdy_internal = '1') then state := s7;
+    --report_error ("mulfpa 1 : ",   mulfpa_internal,0.0);
+    --report_error ("mulfpb 1 : ",   mulfpb_internal,0.0);
+    --report_error ("* mulfpr 1 : ", mulfpr_internal,0.0);
 		vAlphaPixel_ft := mulfpr_internal;
 		mulfpce_internal <= '0';
 		mulfpond_internal <= '0';
@@ -984,6 +987,9 @@ when s7 => state := s8; 	--7
 --	----report "vaccColumnScale : " & real'image (ap_slv2fp (vaccColumnScale));
 when s8 => 			--8
 	if (mulfprdy_internal = '1') then state := s9;
+    --report_error ("mulfpa 2 : ",   mulfpa_internal,0.0);
+    --report_error ("mulfpb 2 : ",   mulfpb_internal,0.0);
+    --report_error ("* mulfpr 2 : ", mulfpr_internal,0.0);
 		vaccColumnJ := mulfpr_internal;
 		mulfpce_internal <= '0';
 		mulfpond_internal <= '0';
@@ -1001,6 +1007,9 @@ when s10 => state := s11; 	--10
 --	----report "vaccRowScale : " & real'image (ap_slv2fp (vaccRowScale));
 when s11 => 			--11
 	if (mulfprdy_internal = '1') then state := s12;
+    --report_error ("mulfpa 3 : ",   mulfpa_internal,0.0);
+    --report_error ("mulfpb 3 : ",   mulfpb_internal,0.0);
+    --report_error ("* mulfpr 3 : ", mulfpr_internal,0.0);
 		vaccRowI := mulfpr_internal;
 		mulfpce_internal <= '0';
 		mulfpond_internal <= '0';
@@ -1018,6 +1027,9 @@ when s13 => state := s14; 	--13
 --	----report "vaccColumnJ : " & real'image (ap_slv2fp (vaccColumnJ));
 when s14 => 			--14
 	if (addfprdy_internal = '1') then state := s15;
+    --report_error ("addfpa 1 : ",   addfpa_internal,0.0);
+    --report_error ("addfpb 1 : ",   addfpb_internal,0.0);
+    --report_error ("* addfpr 1 : ", addfpr_internal,0.0);
 		vAlphaPixel_ft := addfpr_internal;
 		addfpce_internal <= '0';
 		addfpond_internal <= '0';
@@ -1035,6 +1047,9 @@ when s16 => state := s17; 	--16
 --	----report "vaccRowI : " & real'image (ap_slv2fp (vaccRowI));
 when s17 => 			--17
 	if (addfprdy_internal = '1') then state := s18;
+    --report_error ("addfpa 2 : ",   addfpa_internal,0.0);
+    --report_error ("addfpb 2 : ",   addfpb_internal,0.0);
+    --report_error ("* addfpr 2 : ", addfpr_internal,0.0);
 		vAlphaPixel_ft := addfpr_internal;
 		addfpce_internal <= '0';
 		addfpond_internal <= '0';
@@ -1067,6 +1082,9 @@ when s21 => state := s22; 	--21
 --	----report "out_nibble5 : " & real'image (ap_slv2fp (out_nibble5));
 when s22 =>
 	if (divfprdy_internal = '1') then state := s23;
+    --report_error ("divfpa 1 : ",   divfpa_internal,0.0);
+    --report_error ("divfpb 1 : ",   divfpb_internal,0.0);
+    --report_error ("* divfpr 1 : ", divfpr_internal,0.0);
 		vAlphaPixel_ft := divfpr_internal;
 		divfpce_internal <= '0';
 		divfpond_internal <= '0';
