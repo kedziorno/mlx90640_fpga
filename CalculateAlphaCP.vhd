@@ -159,8 +159,7 @@ x"00000000" when others;
 p0 : process (i_clock,i_reset) is
 	variable fptmp1,fptmp2 : fd2ft;
 	type states is (idle,
-	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,
-	ending);
+	s2,s3,s4,s5,s6,s8,s9,s10,s11);
 	variable state : states;
 	variable ee0x2439 : std_logic_vector (15 downto 0);
 begin
@@ -188,16 +187,15 @@ begin
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := s1;
+						state := s2;
 						i2c_mem_ena <= '1';
+            i2c_mem_addra <= std_logic_vector (to_unsigned (32*2+0, 12)); -- 2420 MSB Ascalecp 4bit
 					else
 						state := idle;
 						i2c_mem_ena <= '0';
 					end if;
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
-				when s1 => state := s2;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (32*2+0, 12)); -- 2420 MSB Ascalecp 4bit
 				when s2 => state := s3;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (57*2+0, 12)); -- 2439 MSB Acpsubpage0 10bit/CP_P12P0_ratio 6bit
 				when s3 => state := s4;
@@ -207,10 +205,9 @@ begin
 					ee0x2439 (15 downto 8) := i2c_mem_douta;
 				when s5 => state := s6;
 					ee0x2439 (7 downto 0) := i2c_mem_douta;
-				when s6 => state := s7;
+				when s6 => state := s8;
 					nibble1 <= ee0x2439 (15 downto 10); -- CP_P12P0_ratio 6bit
 					mem_signed1024_ivalue <= ee0x2439 (9 downto 0); -- Acpsubpage0 10bit
-				when s7 => state := s8;
 				when s8 => state := s9;
 					divfpce_internal <= '1';
 					divfpa_internal <= mem_signed1024_ovalue; -- Acpsubpage0
@@ -228,13 +225,13 @@ begin
             --synthesis translate_on
 					else state := s9; end if;
 				when s10 => state := s11;
-					divfpsclr_internal <= '0';
+					divfpsclr_internal <= '0'; -- xxx to s9
 					mulfpce_internal <= '1';
 					mulfpa_internal <= fptmp1; -- Acpsubpage0/(2^(Ascalecp+27))
 					mulfpb_internal <= out_nibble1; -- (1 + (CP_P12P0_ratio/2^7))
 					mulfpond_internal <= '1';
 				when s11 =>
-					if (mulfprdy_internal = '1') then state := ending;
+					if (mulfprdy_internal = '1') then state := idle;
 						fptmp1 := mulfpr_internal;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
@@ -243,10 +240,8 @@ begin
             --synthesis translate_off
 						report "================ calculateAlphaCP o_acpsubpage1 : " & real'image (ap_slv2fp (fptmp1));
             --synthesis translate_on
+            o_rdy <= '1';
 					else state := s11; end if;
-				when ending => state := idle;
-					mulfpsclr_internal <= '0';
-					o_rdy <= '1';
 				when others => null;
 			end case;
 		end if;
