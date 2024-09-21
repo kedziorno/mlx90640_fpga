@@ -22,7 +22,6 @@ library ieee;
 use ieee.std_logic_1164.all;
 --use ieee_proposed.fixed_pkg.all;
 
-use work.p_fphdl_package1.all;
 use work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
@@ -44,7 +43,7 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-o_Vdd : out fd2ft; -- output Vdd
+o_Vdd : out std_logic_vector (31 downto 0); -- output Vdd
 o_rdy : out std_logic;
 
 fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
@@ -139,7 +138,7 @@ p0 : process (i_clock) is
 --	variable eeprom16slv,ram16slv : slv16;
 --	variable eeprom16sf,ram16sf : sfixed16;
 --	variable eeprom16uf,ram16uf : ufixed16;
-	variable fttmp1,fttmp2 : fd2ft;
+	variable fttmp1,fttmp2 : std_logic_vector (31 downto 0);
 --	variable fptmp1,fptmp2 : st_sfixed_max;
 --	variable fracas : fracas;
 --	variable fracbs : fracbs;
@@ -151,7 +150,7 @@ p0 : process (i_clock) is
 	s21,s22,s23,
 	ending);
 	variable state : states;
-	constant const3dot3_ft : fd2ft := x"40533333";
+	constant const3dot3_ft : std_logic_vector (31 downto 0) := x"40533333";
 	variable ram072a : std_logic_vector (15 downto 0);
 	constant resreg : std_logic_vector (15 downto 0) := x"1901" and x"0c00";
 begin

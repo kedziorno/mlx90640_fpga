@@ -11,7 +11,7 @@ use ieee_proposed.standard_additions.all;
 --use ieee_proposed.standard_textio_additions.all;
 use ieee_proposed.std_logic_1164_additions.all;
 
-USE work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 USE work.p_fphdl_package3.all;
 
 ENTITY tb_calculateVdd IS
@@ -105,7 +105,7 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-o_Vdd : out fd2ft; -- output Vdd
+o_Vdd : out std_logic_vector (31 downto 0); -- output Vdd
 o_rdy : out std_logic;
 
 fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
@@ -155,7 +155,7 @@ signal calculateVdd_run : std_logic;
 signal calculateVdd_i2c_mem_ena : STD_LOGIC;
 signal calculateVdd_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal calculateVdd_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal calculateVdd_Vdd : fd2ft; -- output Vdd
+signal calculateVdd_Vdd : std_logic_vector (31 downto 0); -- output Vdd
 signal calculateVdd_rdy : std_logic;
 signal calculateVdd_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal calculateVdd_fixed2floatond : STD_LOGIC;

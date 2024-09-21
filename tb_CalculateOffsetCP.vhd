@@ -72,7 +72,8 @@ wait until CalculateOffsetCP_rdy = '1';
 wait for 1 ps;
 warning_neq_fp (CalculateOffsetCP_offcpsubpage0, x"c2960000", "offcpsubpage0");
 warning_neq_fp (CalculateOffsetCP_offcpsubpage1, x"c29a0000", "offcpsubpage1");
-report "end at 415ns";
+--report "end at 415ns";
+report "end at 375ns";
 report "done" severity failure;
 END PROCESS tbprocess;
 --  End Test Bench 
