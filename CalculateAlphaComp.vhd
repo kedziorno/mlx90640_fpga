@@ -285,7 +285,7 @@ signal mem_switchpattern_reset : std_logic;
 signal mem_switchpattern_pixel : std_logic_vector(13 downto 0);
 signal mem_switchpattern_pattern : std_logic;
 
-component ExtractTGCParameter is
+component ExtractTGCParameters is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -296,7 +296,7 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_tgc : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic
 );
-end component ExtractTGCParameter;
+end component ExtractTGCParameters;
 
 signal ExtractTGCParameters_clock : std_logic;
 signal ExtractTGCParameters_reset : std_logic;
@@ -625,7 +625,7 @@ end process p0;
 
 ExtractTGCParameters_clock <= i_clock;
 ExtractTGCParameters_reset <= i_reset;
-inst_ExtractTGCParameters : ExtractTGCParameter port map (
+inst_ExtractTGCParameters : ExtractTGCParameters port map (
 i_clock => ExtractTGCParameters_clock,
 i_reset => ExtractTGCParameters_reset,
 i_run => ExtractTGCParameters_run,
