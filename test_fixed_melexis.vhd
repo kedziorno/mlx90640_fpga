@@ -96,6 +96,8 @@ signal divfpsclr : STD_LOGIC;
 signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy : STD_LOGIC;
 
+--attribute RLOC of divfp : component is "SLICE_X40Y112:SLICE_X79Y143";
+
 COMPONENT mulfp
 PORT (
 a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -115,6 +117,8 @@ signal mulfpce : STD_LOGIC;
 signal mulfpsclr : STD_LOGIC;
 signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfprdy : STD_LOGIC;
+
+--attribute RLOC of mulfp : component is "SLICE_X40Y80:SLICE_X79Y111";
 
 COMPONENT addfp
 PORT (
@@ -136,6 +140,8 @@ signal addfpsclr : STD_LOGIC;
 signal addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfprdy : STD_LOGIC;
 
+--attribute RLOC of addfp : component is "SLICE_X40Y144:SLICE_X79Y175";
+
 COMPONENT subfp
 PORT (
 a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -155,6 +161,8 @@ signal subfpce : STD_LOGIC;
 signal subfpsclr : STD_LOGIC;
 signal subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfprdy : STD_LOGIC;
+
+--attribute RLOC of subfp : component is "SLICE_X40Y48:SLICE_X79Y79";
 
 COMPONENT sqrtfp2
 PORT (
@@ -2196,6 +2204,13 @@ mulfpclk <= i_clock;
 divfpclk <= i_clock;
 sqrtfp2clk <= i_clock;
 
+b0 : block
+attribute loc : string;
+--attribute loc of inst_fixed2float : label is "SLICE_X40Y176:SLICE_X79Y191";
+--attribute loc of inst_fixed2float : label is "SLICE_X40Y176:SLICE_X75Y191";
+--attribute loc of inst_fixed2float : label is "SLICE_X40Y176:SLICE_X71Y191";
+
+begin
 inst_fixed2float : fixed2float
 PORT MAP (
 a => fixed2floata,
@@ -2206,6 +2221,7 @@ ce => fixed2floatce,
 result => fixed2floatr,
 rdy => fixed2floatrdy
 );
+end block b0;
 
 inst_divfp : divfp
 PORT MAP (

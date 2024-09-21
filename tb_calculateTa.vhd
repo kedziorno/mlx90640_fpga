@@ -94,61 +94,52 @@ douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
 );
 END COMPONENT;
 
-component calculateTa is
-port (
-i_clock : in std_logic;
-i_reset : in std_logic;
-i_run : in std_logic;
-
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-
-i_Vdd : in fd2ft;
-
-o_Ta : out fd2ft; -- output Ta
-o_rdy : out std_logic;
-
-fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
-fixed2floatond : out STD_LOGIC;
-fixed2floatce : out STD_LOGIC;
-fixed2floatsclr : out STD_LOGIC;
-fixed2floatr :  in STD_LOGIC_VECTOR(31 DOWNTO 0);
-fixed2floatrdy : in STD_LOGIC;
-
-divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-divfpond : out STD_LOGIC;
-divfpce : out STD_LOGIC;
-divfpsclr : out STD_LOGIC;
-divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-divfprdy : in STD_LOGIC;
-
-mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-mulfpond : out STD_LOGIC;
-mulfpce : out STD_LOGIC;
-mulfpsclr : out STD_LOGIC;
-mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-mulfprdy : in STD_LOGIC;
-
-addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-addfpond : out STD_LOGIC;
-addfpce : out STD_LOGIC;
-addfpsclr : out STD_LOGIC;
-addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-addfprdy : in STD_LOGIC;
-
-subfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-subfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-subfpond : out STD_LOGIC;
-subfpce : out STD_LOGIC;
-subfpsclr : out STD_LOGIC;
-subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-subfprdy : in STD_LOGIC
-);
-end component calculateTa;
+COMPONENT CalculateTa
+PORT(
+i_clock	:	IN	STD_LOGIC; 
+i_reset	:	IN	STD_LOGIC; 
+i_run	:	IN	STD_LOGIC; 
+fixed2floatrdy	:	IN	STD_LOGIC; 
+divfprdy	:	IN	STD_LOGIC; 
+mulfprdy	:	IN	STD_LOGIC; 
+addfprdy	:	IN	STD_LOGIC; 
+subfprdy	:	IN	STD_LOGIC; 
+i2c_mem_douta	:	IN	STD_LOGIC_VECTOR (7 DOWNTO 0); 
+i_Vdd	:	IN	STD_LOGIC_VECTOR (31 DOWNTO 0); 
+fixed2floatr	:	IN	STD_LOGIC_VECTOR (31 DOWNTO 0); 
+divfpr	:	IN	STD_LOGIC_VECTOR (31 DOWNTO 0); 
+mulfpr	:	IN	STD_LOGIC_VECTOR (31 DOWNTO 0); 
+addfpr	:	IN	STD_LOGIC_VECTOR (31 DOWNTO 0); 
+subfpr	:	IN	STD_LOGIC_VECTOR (31 DOWNTO 0); 
+i2c_mem_ena	:	OUT	STD_LOGIC; 
+o_rdy	:	OUT	STD_LOGIC; 
+fixed2floatond	:	OUT	STD_LOGIC; 
+fixed2floatce	:	OUT	STD_LOGIC; 
+fixed2floatsclr	:	OUT	STD_LOGIC; 
+divfpond	:	OUT	STD_LOGIC; 
+divfpce	:	OUT	STD_LOGIC; 
+divfpsclr	:	OUT	STD_LOGIC; 
+mulfpond	:	OUT	STD_LOGIC; 
+mulfpce	:	OUT	STD_LOGIC; 
+mulfpsclr	:	OUT	STD_LOGIC; 
+addfpond	:	OUT	STD_LOGIC; 
+addfpce	:	OUT	STD_LOGIC; 
+addfpsclr	:	OUT	STD_LOGIC; 
+subfpond	:	OUT	STD_LOGIC; 
+subfpce	:	OUT	STD_LOGIC; 
+subfpsclr	:	OUT	STD_LOGIC; 
+i2c_mem_addra	:	OUT	STD_LOGIC_VECTOR (11 DOWNTO 0); 
+o_Ta	:	OUT	STD_LOGIC_VECTOR (31 DOWNTO 0); 
+fixed2floata	:	OUT	STD_LOGIC_VECTOR (63 DOWNTO 0); 
+divfpa	:	OUT	STD_LOGIC_VECTOR (31 DOWNTO 0); 
+divfpb	:	OUT	STD_LOGIC_VECTOR (31 DOWNTO 0); 
+mulfpa	:	OUT	STD_LOGIC_VECTOR (31 DOWNTO 0); 
+mulfpb	:	OUT	STD_LOGIC_VECTOR (31 DOWNTO 0); 
+addfpa	:	OUT	STD_LOGIC_VECTOR (31 DOWNTO 0); 
+addfpb	:	OUT	STD_LOGIC_VECTOR (31 DOWNTO 0); 
+subfpa	:	OUT	STD_LOGIC_VECTOR (31 DOWNTO 0); 
+subfpb	:	OUT	STD_LOGIC_VECTOR (31 DOWNTO 0));
+END COMPONENT;
 signal CalculateTa_clock : std_logic;
 signal CalculateTa_reset : std_logic;
 signal CalculateTa_run : std_logic;
