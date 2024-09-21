@@ -28,7 +28,7 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
-use work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -46,8 +46,8 @@ PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
 i_ee0x243f : IN  slv16;
-o_ct3 : OUT  fd2ft;
-o_ct4 : OUT  fd2ft
+o_ct3 : OUT  std_logic_vector (31 downto 0);
+o_ct4 : OUT  std_logic_vector (31 downto 0)
 );
 END COMPONENT;
 

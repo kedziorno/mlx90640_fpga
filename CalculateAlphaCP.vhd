@@ -20,7 +20,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-use work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 use work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
@@ -42,8 +42,8 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-o_acpsubpage0 : out fd2ft;
-o_acpsubpage1 : out fd2ft;
+o_acpsubpage0 : out std_logic_vector (31 downto 0);
+o_acpsubpage1 : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic;
 
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -157,7 +157,7 @@ x"53000000" when x"c", x"53800000" when x"d", x"54000000" when x"e", x"54800000"
 x"00000000" when others;
 
 p0 : process (i_clock,i_reset) is
-	variable fptmp1,fptmp2 : fd2ft;
+	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
 	type states is (idle,
 	s2,s3,s4,s5,s6,s8,s9,s10,s11);
 	variable state : states;

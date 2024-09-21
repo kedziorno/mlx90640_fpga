@@ -21,7 +21,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 --use ieee_proposed.fixed_pkg.all;
 
-use work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 use work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
@@ -247,7 +247,7 @@ i_run : in std_logic;
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-o_KGain : out fd2ft;
+o_KGain : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic;
 
 signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
@@ -273,7 +273,7 @@ signal calculateKGain_run : std_logic;
 signal calculateKGain_i2c_mem_ena : STD_LOGIC;
 signal calculateKGain_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal calculateKGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal calculateKGain_KGain : fd2ft;
+signal calculateKGain_KGain : std_logic_vector (31 downto 0);
 signal calculateKGain_rdy : std_logic;
 
 signal calculateKGain_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
@@ -387,7 +387,7 @@ p0 : process (i_clock) is
 	variable eeprom16slv,ram16slv : std_logic_vector (15 downto 0);
 --	variable eeprom16sf,ram16sf : sfixed16;
 --	variable eeprom16uf,ram16uf : ufixed16;
-	variable pixgain_ft : fd2ft;
+	variable pixgain_ft : std_logic_vector (31 downto 0);
 --	variable fracas : fracas;
 --	variable fracbs : fracbs;
 --	variable fracau : fracau;

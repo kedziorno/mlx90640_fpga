@@ -22,7 +22,6 @@ library ieee;
 use ieee.std_logic_1164.all;
 --use ieee_proposed.fixed_pkg.all;
 
-use work.p_fphdl_package1.all;
 use work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
@@ -44,9 +43,9 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-i_Vdd : in fd2ft;
+i_Vdd : in std_logic_vector (31 downto 0);
 
-o_Ta : out fd2ft; -- output Ta
+o_Ta : out std_logic_vector (31 downto 0); -- output Ta
 o_rdy : out std_logic;
 
 fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
@@ -142,14 +141,14 @@ p0 : process (i_clock) is
 --	variable eeprom16slv,ram16slv : slv16;
 --	variable eeprom16sf,ram16sf : sfixed16;
 --	variable eeprom16uf,ram16uf : ufixed16;
-	variable fttmp1,fttmp2 : fd2ft;
+	variable fttmp1,fttmp2 : std_logic_vector (31 downto 0);
 --	variable fptmp1,fptmp2 : st_sfixed_max;
 --	variable fracas : fracas;
 --	variable fracbs : fracbs;
 --	variable fracau : fracau;
 --	variable fracbu : fracbu;
 --	variable vbe,vptat,vptat25 : st_sfixed_max;
-	variable vbe_ft,vptat_ft,vptat25_ft,deltaV,vptatart : fd2ft;
+	variable vbe_ft,vptat_ft,vptat25_ft,deltaV,vptatart : std_logic_vector (31 downto 0);
 	type states is (idle,
 	s0,s1,
 	s1a,s1b,s1c,s1d,s1e,s1f,s1g,s1h,s1i,s1j,s1k,s1l,s1m,s1n,
@@ -160,10 +159,10 @@ p0 : process (i_clock) is
 	s21,s22,s23,s24,s25,s26,
 	s27,s28,s29,s30,ending);
 	variable state : states;
-	constant const3dot3_ft : fd2ft := x"40533333";
-	constant const2pow18_ft : fd2ft := x"48800000";
-	constant const1_ft : fd2ft := x"3F800000";
-	constant const25_ft : fd2ft := x"41C80000";
+	constant const3dot3_ft : std_logic_vector (31 downto 0) := x"40533333";
+	constant const2pow18_ft : std_logic_vector (31 downto 0) := x"48800000";
+	constant const1_ft : std_logic_vector (31 downto 0) := x"3F800000";
+	constant const25_ft : std_logic_vector (31 downto 0) := x"41C80000";
 begin
 	if (rising_edge (i_clock)) then
 	if (i_reset = '1') then

@@ -20,7 +20,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-use work.p_fphdl_package1.all;
 use work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
@@ -37,9 +36,9 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-i_ee0x243a : in slv16; -- offcpsubpage1delta/offcpsubpage0 - 6/10bit
-o_offcpsubpage0 : out fd2ft;
-o_offcpsubpage1 : out fd2ft;
+i_ee0x243a : in std_logic_vector (15 downto 0); -- offcpsubpage1delta/offcpsubpage0 - 6/10bit
+o_offcpsubpage0 : out std_logic_vector (31 downto 0);
+o_offcpsubpage1 : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic
 );
 end CalculateOffsetCP;
@@ -100,9 +99,9 @@ x"bf800000" when "111111",x"c0000000" when "111110",x"c0400000" when "111101",x"
 x"00000000" when others;
 
 p0 : process (i_clock,i_reset) is
-	variable fptmp1,fptmp2 : fd2ft;
+	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
 	type states is (idle,
-	s1,s2,s3,s4,s5,s6,s7);
+	s1,s2);
 	variable state : states;
 begin
 	if (rising_edge (i_clock)) then
@@ -123,33 +122,26 @@ begin
 				when idle =>
 					if (i_run = '1') then
 						state := s1;
+            nibble1 <= i_ee0x243a (15 downto 10); -- offcpsubpage1delta 6bit
+            mem_signed1024_ivalue <= i_ee0x243a (9 downto 0); -- offcpsubpage0 10bit
 					else
 						state := idle;
 					end if;
 					addfpsclr <= '0';
-				when s1 => state := s2;
-					nibble1 <= i_ee0x243a (15 downto 10); -- offcpsubpage1delta 6bit
-					mem_signed1024_ivalue <= i_ee0x243a (9 downto 0); -- offcpsubpage0 10bit
-				when s2 => state := s3;
-					--wait 1 clk
-				when s3 => state := s4;
-					--wait 1 clk
-				when s4 => state := s5;
+        when s1 => state := s2;
 					addfpce <= '1';
 					addfpa <= mem_signed1024_ovalue; -- offcpsubpage0
 					addfpb <= out_nibble1; -- offcpsubpage1delta
 					addfpond <= '1';
 					o_offcpsubpage0 <= mem_signed1024_ovalue;
-				when s5 =>
-					if (addfprdy = '1') then state := s6;
+				when s2 =>
+					if (addfprdy = '1') then state := idle;
 						o_offcpsubpage1 <= addfpr;
 						addfpce <= '0';
 						addfpond <= '0';
 						addfpsclr <= '1';
-					else state := s5; end if;
-				when s6 => state := idle;
-					addfpsclr <= '0';
-					o_rdy <= '1';
+            o_rdy <= '1';
+					else state := s2; end if;
 				when others => null;
 			end case;
 		end if;

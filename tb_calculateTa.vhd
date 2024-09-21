@@ -11,7 +11,7 @@ use ieee_proposed.standard_additions.all;
 --use ieee_proposed.standard_textio_additions.all;
 use ieee_proposed.std_logic_1164_additions.all;
 
-USE work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 USE work.p_fphdl_package3.all;
 
 ENTITY tb_calculateTa IS
@@ -146,8 +146,8 @@ signal CalculateTa_run : std_logic;
 signal CalculateTa_i2c_mem_ena : STD_LOGIC;
 signal CalculateTa_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal CalculateTa_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal CalculateTa_Vdd : fd2ft;
-signal CalculateTa_Ta : fd2ft; -- output Ta
+signal CalculateTa_Vdd : std_logic_vector (31 downto 0);
+signal CalculateTa_Ta : std_logic_vector (31 downto 0); -- output Ta
 signal CalculateTa_rdy : std_logic;
 signal CalculateTa_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal CalculateTa_fixed2floatond : STD_LOGIC;
