@@ -9,7 +9,7 @@ use IEEE.STD_LOGIC_1164.all;
 --use ieee_proposed.standard_textio_additions.all;
 --use ieee_proposed.std_logic_1164_additions.all;
 
-use work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 
 package p_fphdl_package2 is
 

@@ -32,7 +32,7 @@ use ieee.std_logic_1164.all;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-use work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 
 entity test_fixed_melexis is
 port (
@@ -208,7 +208,7 @@ i_run : in std_logic;
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-o_Vdd : out fd2ft; -- output Vdd
+o_Vdd : out std_logic_vector (31 downto 0); -- output Vdd
 o_rdy : out std_logic;
 fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
@@ -252,7 +252,7 @@ signal calculateVdd_run : std_logic;
 signal calculateVdd_i2c_mem_ena : STD_LOGIC;
 signal calculateVdd_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal calculateVdd_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal calculateVdd_Vdd : fd2ft; -- output Vdd
+signal calculateVdd_Vdd : std_logic_vector (31 downto 0); -- output Vdd
 signal calculateVdd_rdy : std_logic;
 signal calculateVdd_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal calculateVdd_fixed2floatond : STD_LOGIC;
@@ -302,8 +302,8 @@ i_run : in std_logic;
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-i_Vdd : in fd2ft;
-o_Ta : out fd2ft; -- output Ta
+i_Vdd : in std_logic_vector (31 downto 0);
+o_Ta : out std_logic_vector (31 downto 0); -- output Ta
 o_rdy : out std_logic;
 fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
@@ -387,8 +387,8 @@ signal CalculateTa_addfpclk : std_logic;
 signal CalculateTa_subfpclk : std_logic;
 signal CalculateTa_mulfpclk : std_logic;
 signal CalculateTa_divfpclk : std_logic;
-signal calculateTa_Vdd : fd2ft; -- from VDD
-signal calculateTa_Ta : fd2ft; -- output Ta
+signal calculateTa_Vdd : std_logic_vector (31 downto 0); -- from VDD
+signal calculateTa_Ta : std_logic_vector (31 downto 0); -- output Ta
 
 component ExtractAlphaParameters is
 port (
@@ -477,8 +477,8 @@ i_run : in std_logic;
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-o_acpsubpage0 : out fd2ft;
-o_acpsubpage1 : out fd2ft;
+o_acpsubpage0 : out std_logic_vector (31 downto 0);
+o_acpsubpage1 : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic;
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -502,8 +502,8 @@ signal CalculateAlphaCP_run : std_logic;
 signal CalculateAlphaCP_i2c_mem_ena : STD_LOGIC;
 signal CalculateAlphaCP_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal CalculateAlphaCP_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal CalculateAlphaCP_acpsubpage0 : fd2ft;
-signal CalculateAlphaCP_acpsubpage1 : fd2ft;
+signal CalculateAlphaCP_acpsubpage0 : std_logic_vector (31 downto 0);
+signal CalculateAlphaCP_acpsubpage1 : std_logic_vector (31 downto 0);
 signal CalculateAlphaCP_rdy : std_logic;
 signal CalculateAlphaCP_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaCP_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);

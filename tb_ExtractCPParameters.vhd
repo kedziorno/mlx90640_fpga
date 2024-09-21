@@ -12,7 +12,7 @@ use ieee_proposed.fixed_pkg.all;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-use work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 
 ENTITY tb_ExtractCPParameters IS
 END tb_ExtractCPParameters;
@@ -30,12 +30,12 @@ i_ee0x2438 : in slv16; -- ktaScale1,kvScale
 i_ee0x2439 : in slv16; -- alphasp0,alphasp1
 i_ee0x243a : in slv16; -- offsetsp0,offsetsp1
 i_ee0x243b : in slv16; -- cpKta,cpKv
-o_cpAlpha0 : out fd2ft;
-o_cpAlpha1 : out fd2ft;
-o_cpOffset0 : out fd2ft;
-o_cpOffset1 : out fd2ft;
-o_cpKv : out fd2ft;
-o_cpKta : out fd2ft;
+o_cpAlpha0 : out std_logic_vector (31 downto 0);
+o_cpAlpha1 : out std_logic_vector (31 downto 0);
+o_cpOffset0 : out std_logic_vector (31 downto 0);
+o_cpOffset1 : out std_logic_vector (31 downto 0);
+o_cpKv : out std_logic_vector (31 downto 0);
+o_cpKta : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic
 );
 end component ExtractCPParameters;
@@ -48,12 +48,12 @@ signal ExtractCPParameters_ee0x2438 : slv16 := (others => '0'); -- ktaScale1,kvS
 signal ExtractCPParameters_ee0x2439 : slv16 := (others => '0'); -- alphasp0,alphasp1
 signal ExtractCPParameters_ee0x243a : slv16 := (others => '0'); -- offsetsp0,offsetsp1
 signal ExtractCPParameters_ee0x243b : slv16 := (others => '0'); -- cpKta,cpKv
-signal ExtractCPParameters_cpAlpha0 : fd2ft := (others => '0');
-signal ExtractCPParameters_cpAlpha1 : fd2ft := (others => '0');
-signal ExtractCPParameters_cpOffset0 : fd2ft := (others => '0');
-signal ExtractCPParameters_cpOffset1 : fd2ft := (others => '0');
-signal ExtractCPParameters_cpKv : fd2ft := (others => '0');
-signal ExtractCPParameters_cpKta : fd2ft := (others => '0');
+signal ExtractCPParameters_cpAlpha0 : std_logic_vector (31 downto 0) := (others => '0');
+signal ExtractCPParameters_cpAlpha1 : std_logic_vector (31 downto 0) := (others => '0');
+signal ExtractCPParameters_cpOffset0 : std_logic_vector (31 downto 0) := (others => '0');
+signal ExtractCPParameters_cpOffset1 : std_logic_vector (31 downto 0) := (others => '0');
+signal ExtractCPParameters_cpKv : std_logic_vector (31 downto 0) := (others => '0');
+signal ExtractCPParameters_cpKta : std_logic_vector (31 downto 0) := (others => '0');
 signal ExtractCPParameters_rdy : std_logic := '0';
 
 constant clockperiod : time := 10 ns;

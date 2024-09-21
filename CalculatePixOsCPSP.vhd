@@ -30,7 +30,7 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-use work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 use work.p_fphdl_package3.all;
 
 entity CalculatePixOsCPSP is
@@ -134,7 +134,7 @@ i_run : in std_logic;
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-o_KGain : out fd2ft;
+o_KGain : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic;
 
 signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
@@ -160,7 +160,7 @@ signal calculateKGain_run : std_logic;
 signal calculateKGain_i2c_mem_ena : STD_LOGIC;
 signal calculateKGain_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal calculateKGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal calculateKGain_KGain : fd2ft;
+signal calculateKGain_KGain : std_logic_vector (31 downto 0);
 signal calculateKGain_rdy : std_logic;
 
 signal calculateKGain_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);

@@ -5,7 +5,7 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
-use work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 use work.p_fphdl_package3.all;
 
 ENTITY tb_CalculateAlphaCP IS
@@ -75,8 +75,8 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-o_acpsubpage0 : out fd2ft;
-o_acpsubpage1 : out fd2ft;
+o_acpsubpage0 : out std_logic_vector (31 downto 0);
+o_acpsubpage1 : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic;
 
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -102,8 +102,8 @@ signal CalculateAlphaCP_run : std_logic;
 signal CalculateAlphaCP_i2c_mem_ena : STD_LOGIC;
 signal CalculateAlphaCP_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal CalculateAlphaCP_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal CalculateAlphaCP_acpsubpage0 : fd2ft;
-signal CalculateAlphaCP_acpsubpage1 : fd2ft;
+signal CalculateAlphaCP_acpsubpage0 : std_logic_vector (31 downto 0);
+signal CalculateAlphaCP_acpsubpage1 : std_logic_vector (31 downto 0);
 signal CalculateAlphaCP_rdy : std_logic;
 signal CalculateAlphaCP_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaCP_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
