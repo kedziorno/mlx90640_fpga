@@ -332,18 +332,8 @@ fixed2floata <= CalculateKGain_fixed2floata when CalculateKGain_mux = '1' else f
 fixed2floatond <= CalculateKGain_fixed2floatond when CalculateKGain_mux = '1' else fixed2floatond_internal;
 fixed2floatce <= CalculateKGain_fixed2floatce when CalculateKGain_mux = '1' else fixed2floatce_internal;
 fixed2floatsclr <= CalculateKGain_fixed2floatsclr when CalculateKGain_mux = '1' else fixed2floatsclr_internal;
---CalculateKGain_fixed2floatr <= fixed2floatr when CalculateKGain_mux = '1' else (others => '0');
---CalculateKGain_fixed2floatrdy <= fixed2floatrdy when CalculateKGain_mux = '1' else '0';
 CalculateKGain_fixed2floatr <= fixed2floatr;
 CalculateKGain_fixed2floatrdy <= fixed2floatrdy;
-
---divfpa <= CalculateKGain_divfpa when CalculateKGain_mux = '1' else (others => '0');
---divfpb <= CalculateKGain_divfpb when CalculateKGain_mux = '1' else (others => '0');
---divfpond <= CalculateKGain_divfpond when CalculateKGain_mux = '1' else '0';
---divfpsclr <= CalculateKGain_divfpsclr when CalculateKGain_mux = '1' else '0';
---divfpce <= CalculateKGain_divfpce when CalculateKGain_mux = '1' else '0';
---CalculateKGain_divfpr <= divfpr when CalculateKGain_mux = '1' else (others => '0');
---CalculateKGain_divfprdy <= divfprdy when CalculateKGain_mux = '1' else '0';
 
 divfpa <= CalculateKGain_divfpa;
 divfpb <= CalculateKGain_divfpb;
@@ -379,19 +369,11 @@ p0 : process (i_clock) is
 	constant PIXGAIN_ST : integer := 1665; -- pixgain start - eeprom max + 1
 	constant PIXGAIN_SZ : integer := 24*32; -- pixgain size
 	variable pixgain_index : integer range 0 to PIXGAIN_SZ - 1;
-	type states is (idle,s0,s0a,
-	s1,s2,s3,s4,s5,s6,s7,s8,s9,
-	ending);
+	type states is (idle,
+  s0a,s1,s2,s3,s4,s5,s6,s7,s8,s9);
 	variable state : states;
---	variable pixgain : st_sfixed_max;
 	variable eeprom16slv,ram16slv : std_logic_vector (15 downto 0);
---	variable eeprom16sf,ram16sf : sfixed16;
---	variable eeprom16uf,ram16uf : ufixed16;
 	variable pixgain_ft : std_logic_vector (31 downto 0);
---	variable fracas : fracas;
---	variable fracbs : fracbs;
---	variable fracau : fracau;
---	variable fracbu : fracbu;
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -417,18 +399,16 @@ begin
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := s0;
+						state := s0a;
 						i2c_mem_ena_internal <= '1';
+            CalculateKGain_run <= '1';
+            CalculateKGain_mux <= '1';
 					else
 						state := idle;
 						i2c_mem_ena_internal <= '0';
 					end if;
 					fixed2floatsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
-
-				when s0 => state := s0a;
-					CalculateKGain_run <= '1';
-					CalculateKGain_mux <= '1';
 				when s0a => 
 					CalculateKGain_run <= '0';
 					if (CalculateKGain_rdy = '1') then
@@ -438,36 +418,26 @@ begin
 						state := s0a;
 						CalculateKGain_mux <= '1';
 					end if;
-
 				when s1 => state := s2;
 					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (PIXGAIN_ST+(pixgain_index*2)+0, 12)); -- MSB
 				when s2 => state := s3;
 					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (PIXGAIN_ST+(pixgain_index*2)+1, 12)); -- LSB
 					eeprom16slv (15 downto 8) := i2c_mem_douta_internal; -- pixgain MSB
-				when s3 => state := s4;
+				when s3 => state := s5;
 					eeprom16slv (7 downto 0) := i2c_mem_douta_internal; -- pixgain LSB
-				when s4 => state := s5;
---					pixgain := resize (to_sfixed (eeprom16slv, eeprom16sf), pixgain);
---					fixed2floatce_internal <= '1';
---					fixed2floatond_internal <= '1';
---					fixed2floata_internal <= 
---					to_slv (to_sfixed (to_slv (pixgain (fracas'high downto fracas'low)), fracas)) & 
---					to_slv (to_sfixed (to_slv (pixgain (fracbs'high downto fracbs'low)), fracbs));
-
-		fixed2floatce_internal <= '1';
-		fixed2floatond_internal <= '1';
-		fixed2floata_internal <=
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv & "00000000000000000000000000000";
-
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <=
+          eeprom16slv (15) & eeprom16slv (15) & 
+          eeprom16slv (15) & eeprom16slv (15) & 
+          eeprom16slv (15) & eeprom16slv (15) & 
+          eeprom16slv (15) & eeprom16slv (15) & 
+          eeprom16slv (15) & eeprom16slv (15) & 
+          eeprom16slv (15) & eeprom16slv (15) & 
+          eeprom16slv (15) & eeprom16slv (15) & 
+          eeprom16slv (15) & eeprom16slv (15) & 
+          eeprom16slv (15) & eeprom16slv (15) & 
+          eeprom16slv (15) & eeprom16slv & "00000000000000000000000000000";
 				when s5 =>
 					if (fixed2floatrdy = '1') then state := s6;
 						pixgain_ft := fixed2floatr;
@@ -498,14 +468,14 @@ begin
           --synthesis translate_on
         when s9 =>
 					if (pixgain_index = PIXGAIN_SZ - 1) then
-						state := ending;
+						state := idle;
+            rdy <= '1';
 						pixgain_index := 0;
 					else
 						state := s1;
 						pixgain_index := pixgain_index + 1;
 					end if;
-				when ending => state := idle;
-					rdy <= '1';
+        when others => null;
 			end case;
 		end if;
 	end if;
