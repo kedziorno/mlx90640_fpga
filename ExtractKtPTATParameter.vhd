@@ -353,7 +353,7 @@ ADDR => address_ktptat,
 CLK => i_clock,
 DI => (others => '0'),
 DIP => (others => '0'),
-EN => '1',
+EN => i_clock,
 SSR => i_reset,
 WE => '0'
 );
