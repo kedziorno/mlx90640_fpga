@@ -9,5 +9,5 @@ if [[ $? -ne 0 ]]; then
 echo "fuse error";
 exit 1;
 fi
-./${PROJECT}_isim_beh.exe -log isim_output.txt -tclbatch isim.cmd
+./${PROJECT}_isim_beh.exe -log isim_output.txt -tclbatch simulation.cmd
 
