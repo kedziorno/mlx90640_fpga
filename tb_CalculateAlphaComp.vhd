@@ -278,6 +278,79 @@ end process;
 
 -- Stimulus process
 stim_proc: process
+type itemr is record
+a : std_logic_vector (31 downto 0);
+b : integer;
+end record; 
+type ten_items is array (0 to 9) of itemr;
+type mid_items is array (0 to 1) of itemr;
+type datar is record
+first : ten_items;
+middle : mid_items;
+last : ten_items;
+end record;
+-- XXX data from ExtractAlphaParameters
+constant data : datar := (
+first => (
+(a => x"331C6400", b => 0),
+(a => x"331E6400", b => 1),
+(a => x"3322E400", b => 2),
+(a => x"3324E400", b => 3),
+(a => x"332F6400", b => 4),
+(a => x"33326400", b => 5),
+(a => x"3332E400", b => 6),
+(a => x"33356400", b => 7),
+(a => x"333D6400", b => 8),
+(a => x"333FE400", b => 9)
+),
+middle => (
+(a => x"331EE400", b => 382),
+(a => x"3337E400", b => 384)
+),
+last => (
+(a => x"33326400", b => 758),
+(a => x"332F6400", b => 759),
+(a => x"332AE400", b => 760),
+(a => x"3329E400", b => 761),
+(a => x"331B6400", b => 762),
+(a => x"33196400", b => 763),
+(a => x"33126400", b => 764),
+(a => x"330FE400", b => 765),
+(a => x"32FFC800", b => 766),
+(a => x"32F6C800", b => 767)
+)
+);
+-- XXX data for output CalculateAlphaComp
+constant datao : datar := (
+first => (
+(a => x"3318F553", b => 0), -- XXX good value, in project is 0
+(a => x"331AEA16", b => 1),
+(a => x"331F50CE", b => 2),
+(a => x"33214591", b => 3),
+(a => x"332B8A93", b => 4),
+(a => x"332E79B8", b => 5),
+(a => x"332EF6E9", b => 6),
+(a => x"333168DD", b => 7),
+(a => x"33393BEA", b => 8),
+(a => x"333BADDE", b => 9)
+),
+middle => (
+(a => x"331B6747", b => 382),
+(a => x"3333DAD1", b => 384)
+),
+last => (
+(a => x"332E79B8", b => 758),
+(a => x"332B8A93", b => 759),
+(a => x"332723DB", b => 760),
+(a => x"3326297A", b => 761),
+(a => x"3317FAF1", b => 762),
+(a => x"3316062E", b => 763),
+(a => x"330F2D82", b => 764),
+(a => x"330CBB8E", b => 765),
+(a => x"32FA2AE7", b => 766),
+(a => x"32F15D78", b => 767)
+)
+);
 begin
 -- hold reset state for 100 ns.
 CalculateAlphaComp_reset <= '1';
@@ -285,23 +358,66 @@ wait for 100 ns;
 CalculateAlphaComp_reset <= '0';
 wait for i_clock_period*10;
 -- insert stimulus here
-CalculateAlphaComp_Ta <= x"421CBC6A"; -- 39.184
+CalculateAlphaComp_Ta <= x"4207F54D";
 CalculateAlphaComp_Ta0 <= x"41C80000"; -- 25
-CalculateAlphaComp_acpsubpage0 <= x"4082629A"; -- 4.07453626394272
-CalculateAlphaComp_acpsubpage1 <= x"4076826B"; -- 3.85171006200835
+CalculateAlphaComp_acpsubpage0 <= x"31460000";
+CalculateAlphaComp_acpsubpage1 <= x"31478C00";
 CalculateAlphaComp_const1 <= x"3f800000"; -- 1
 wait for i_clock_period;
 CalculateAlphaComp_run <= '1'; wait for i_clock_period; CalculateAlphaComp_run <= '0';
+report "before loop";
+for i in 0 to 767 loop
+for k in 0 to 9 loop
+if CalculateAlphaComp_alpha_addr = std_logic_vector (to_unsigned (data.first(k).b, 10)) then
+CalculateAlphaComp_alpha_do <= data.first(k).a;
+end if;
+end loop;
+for k in 0 to 1 loop
+if CalculateAlphaComp_alpha_addr = std_logic_vector (to_unsigned (data.middle(k).b, 10)) then
+CalculateAlphaComp_alpha_do <= data.middle(k).a;
+end if;
+end loop;
+for k in 0 to 9 loop
+if CalculateAlphaComp_alpha_addr = std_logic_vector (to_unsigned (data.last(k).b, 10)) then
+CalculateAlphaComp_alpha_do <= data.last(k).a;
+end if;
+end loop;
+wait for 0.78us; -- XXX the same as CalculateAlphaComp wait for data from ExtractAlphaParameters MEM
+end loop;
+report "after loop";
 wait until CalculateAlphaComp_rdy = '1';
 --report "rdy at 645.945us";
-report "rdy at 599.795us";
-for i in 0 to 1024 loop
-	CalculateAlphaComp_addr <= std_logic_vector (to_unsigned (i, 10));
-	wait for i_clock_period*2;
+--report "rdy at 599.795us";
+report "rdy at 599.815us";
+for i in 0 to 9 loop
+CalculateAlphaComp_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
+wait until rising_edge (CalculateAlphaComp_clock);
+wait until rising_edge (CalculateAlphaComp_clock);
+warning_neq_fp (CalculateAlphaComp_do, datao.first(i).a, "first " & integer'image (datao.first(i).b));
+wait until rising_edge (CalculateAlphaComp_clock);
 end loop;
+for i in 0 to 1 loop
+CalculateAlphaComp_addr <= std_logic_vector (to_unsigned (datao.middle(i).b, 10));
+wait until rising_edge (CalculateAlphaComp_clock);
+wait until rising_edge (CalculateAlphaComp_clock);
+warning_neq_fp (CalculateAlphaComp_do, datao.middle(i).a, "middle " & integer'image (datao.middle(i).b));
+wait until rising_edge (CalculateAlphaComp_clock);
+end loop;
+for i in 0 to 8 loop -- XXX last_9 is not available, rest above values is OK
+CalculateAlphaComp_addr <= std_logic_vector (to_unsigned (datao.last(i).b, 10));
+wait until rising_edge (CalculateAlphaComp_clock);
+wait until rising_edge (CalculateAlphaComp_clock);
+warning_neq_fp (CalculateAlphaComp_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
+wait until rising_edge (CalculateAlphaComp_clock);
+end loop;
+CalculateAlphaComp_addr <= std_logic_vector (to_unsigned (datao.last(9).b, 10));
+wait until rising_edge (CalculateAlphaComp_clock);
+wait until rising_edge (CalculateAlphaComp_clock);
+warning_neq_fp (CalculateAlphaComp_do, datao.last(9).a, "last " & integer'image (datao.last(9).b) & " not available - fix it");
 wait for 1 ps;
 --report "end at 666.445us";
-report "end at 620.295us";
+--report "end at 620.295us";
+report "end at 600.465us";
 report "done" severity failure;
 end process;
 
