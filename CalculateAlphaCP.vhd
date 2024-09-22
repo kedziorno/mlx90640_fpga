@@ -159,7 +159,7 @@ x"00000000" when others;
 p0 : process (i_clock,i_reset) is
 	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
 	type states is (idle,
-	s2,s3,s4,s5,s6,s8,s9,s10,s11);
+	s2,s3,s4,s5,s6,s9,s11);
 	variable state : states;
 	variable ee0x2439 : std_logic_vector (15 downto 0);
 begin
@@ -205,16 +205,15 @@ begin
 					ee0x2439 (15 downto 8) := i2c_mem_douta;
 				when s5 => state := s6;
 					ee0x2439 (7 downto 0) := i2c_mem_douta;
-				when s6 => state := s8;
+				when s6 => state := s9;
 					nibble1 <= ee0x2439 (15 downto 10); -- CP_P12P0_ratio 6bit
 					mem_signed1024_ivalue <= ee0x2439 (9 downto 0); -- Acpsubpage0 10bit
-				when s8 => state := s9;
+				when s9 =>
 					divfpce_internal <= '1';
 					divfpa_internal <= mem_signed1024_ovalue; -- Acpsubpage0
 					divfpb_internal <= out_nibble2; -- 2^(Ascalecp+27)
 					divfpond_internal <= '1';
-				when s9 =>
-					if (divfprdy_internal = '1') then state := s10;
+					if (divfprdy_internal = '1') then state := s11;
 						fptmp1 := divfpr_internal;
 						divfpce_internal <= '0';
 						divfpond_internal <= '0';
@@ -224,14 +223,13 @@ begin
 						report "================ calculateAlphaCP o_acpsubpage0 : " & real'image (ap_slv2fp (fptmp1));
             --synthesis translate_on
 					else state := s9; end if;
-				when s10 => state := s11;
+				when s11 =>
 					divfpsclr_internal <= '0'; -- xxx to s9
 					mulfpce_internal <= '1';
 					mulfpa_internal <= fptmp1; -- Acpsubpage0/(2^(Ascalecp+27))
 					mulfpb_internal <= out_nibble1; -- (1 + (CP_P12P0_ratio/2^7))
 					mulfpond_internal <= '1';
-				when s11 =>
-					if (mulfprdy_internal = '1') then state := idle;
+          if (mulfprdy_internal = '1') then state := idle;
 						fptmp1 := mulfpr_internal;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
@@ -242,7 +240,6 @@ begin
             --synthesis translate_on
             o_rdy <= '1';
 					else state := s11; end if;
-				when others => null;
 			end case;
 		end if;
 	end if;
