@@ -192,6 +192,8 @@ wait for clock_period*10;
 calculateKGain_run <= '1'; wait for clock_period; calculateKGain_run <= '0';
 wait until calculateKGain_rdy = '1';
 wait for 1 ps;
+warning_neq_fp (calculateKGain_KGain, x"3f81ac57", "kgain");
+report "rdy at 955ns";
 report "done" severity failure;
 END PROCESS tbprocess;
 --  End Test Bench 
