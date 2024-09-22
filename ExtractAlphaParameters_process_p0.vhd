@@ -916,7 +916,7 @@ when s24 => state := s25; 	--22
 	o_write_enable <= '1';
 	o_addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vAlphaPixel_ft
 	o_dia <= vAlphaPixel_ft;
-       report_error ("================vAlphaPixel_ft : ",vAlphaPixel_ft,0.0);
+       report_error ("================vAlphaPixel_ft " & integer'image(i),vAlphaPixel_ft,0.0);
 	i := i + 1;
 when s25 =>
 	if (col = C_COL-1) then

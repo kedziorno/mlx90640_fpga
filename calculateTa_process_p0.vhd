@@ -509,7 +509,7 @@ begin
 		addfpsclr <= '0';
 		o_Ta <= fttmp1;
 --		o_Ta <= x"4207F54F"; -- example 33.989559
-               report_error ("================ CalculateTa Ta : ",fttmp1,0.0);
+     report_error ("================ CalculateTa Ta : ",fttmp1,0.0);
 		o_rdy <= '1';
 	when others => null;
 	end case;

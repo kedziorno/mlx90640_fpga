@@ -55,7 +55,7 @@ package body p_fphdl_package2 is
 --		assert actual /= expected report errmes & CR & "********* OK SFIXED ACTUAL = EXPECTED *********" & CR &  "Actual   : " & to_string(actual) & "  (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & "Expected : " & to_string(expected) & " (" & real'image(to_real(expected)) & ")" & HT & "(" & to_hstring(expected) & ") " & CR & "-----------------------------------------------" & CR severity note;
 --		assert actual = expected report errmes & CR & "Actual: " & to_string(actual) & " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & "     /= " & to_string(expected) & " (" & real'image(to_real(expected)) & ")" & HT & "(" & to_hstring(expected) & ") " severity error;
 --		return;
---	end procedure report_error;
+--end procedure report_error;
 
 --	procedure report_error_normalize (constant errmes : in string; actual : in sfixed; constant expected : in sfixed) is
 --		subtype sta is sfixed (FP_INTEGER_EXPECTED-1 downto -FP_FRACTION_EXPECTED);
@@ -84,7 +84,7 @@ package body p_fphdl_package2 is
 --		assert actual /= expected report errmes & CR & "********* OK UFIXED ACTUAL = EXPECTED *********" severity note;
 --		assert actual = expected  report errmes & CR & "Actual: " & to_string(actual) & " (" & real'image(to_real(actual)) & ")" & HT & "(" & to_hstring(actual) & ") " & CR & "     /= " & to_string(expected) & " (" & real'image(to_real(expected)) & ")" & HT & "(" & to_hstring(expected) & ") " severity warning;
 --		return;
---	end procedure report_error;
+--end procedure report_error;
 
 --	procedure report_all (constant errmes : in string; actual : in sfixed; constant expected : in sfixed) is
 --	begin

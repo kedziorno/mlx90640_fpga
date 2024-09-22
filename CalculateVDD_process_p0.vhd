@@ -284,12 +284,11 @@ begin
         when ending => state := idle;
           addfpsclr <= '0';
           o_Vdd <= fttmp1;
-                         report_error ("================ CalculateVdd o_Vdd : ",fttmp1,0.0);
-
-          --  report "================ CalculateVdd o_Vdd : " & real'image (ap_slv2fp (fttmp1));
-          --  report "================ CalculateVdd o_kvdd : " & real'image (ap_slv2fp (ExtractVDDParameters_kvdd));
-          --  report "================ CalculateVdd o_vdd25 : " & real'image (ap_slv2fp (ExtractVDDParameters_vdd25));
-          --  report "================ CalculateVdd o_ram0x072a : " & real'image (ap_slv2fp (fttmp2));
+          report_error ("================ CalculateVdd o_Vdd : ", fttmp1, 0.0);
+          report_error ("================ CalculateVdd o_Vdd : ", fttmp1, 0.0);
+          report_error ("================ CalculateVdd o_kvdd : ", ExtractVDDParameters_kvdd, 0.0);
+          report_error ("================ CalculateVdd o_vdd25 : ", ExtractVDDParameters_vdd25, 0.0);
+          report_error ("================ CalculateVdd o_ram0x072a : ", fttmp2, 0.0);
           o_rdy <= '1';
         when others => null;
       end case;

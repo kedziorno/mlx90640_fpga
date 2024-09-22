@@ -92,7 +92,7 @@ begin
 				when s7 => state := ending;
 					o_kvdd <= data_kvdd;
 					o_vdd25 <= data_vdd25;
-                    report_error ("======================= kvdd : ",data_kvdd,0.0);
+          report_error ("======================= kvdd : ",data_kvdd,0.0);
           report_error ("======================= vdd25 : ",data_vdd25,0.0);
 				when ending => state := idle;
 					o_rdy <= '1';
