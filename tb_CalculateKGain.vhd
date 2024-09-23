@@ -14,10 +14,10 @@ use ieee_proposed.std_logic_1164_additions.all;
 --use work.p_fphdl_package1.all;
 USE work.p_fphdl_package3.all;
 
-ENTITY tb_calculateKGain IS
-END tb_calculateKGain;
+ENTITY tb_CalculateKGain IS
+END tb_CalculateKGain;
 
-ARCHITECTURE tb OF tb_calculateKGain IS 
+ARCHITECTURE tb OF tb_CalculateKGain IS 
 
 COMPONENT fixed2float
 PORT (
@@ -56,7 +56,7 @@ douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
 END COMPONENT;
 
 -- Component Declaration
-component calculateKGain is
+component CalculateKGain is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -83,7 +83,7 @@ signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy : in STD_LOGIC
 
 );
-end component calculateKGain;
+end component CalculateKGain;
 signal calculateKGain_clock : std_logic;
 signal calculateKGain_reset : std_logic;
 signal calculateKGain_run : std_logic;
@@ -193,7 +193,8 @@ calculateKGain_run <= '1'; wait for clock_period; calculateKGain_run <= '0';
 wait until calculateKGain_rdy = '1';
 wait for 1 ps;
 warning_neq_fp (calculateKGain_KGain, x"3f81ac57", "kgain");
-report "rdy at 955ns";
+--report "rdy at 955ns";
+report "rdy at 925ns";
 report "done" severity failure;
 END PROCESS tbprocess;
 --  End Test Bench 
