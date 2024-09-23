@@ -103,7 +103,7 @@ divfprdy_internal <= divfprdy;
 p0 : process (i_clock) is
 	variable fttmp1,fttmp2 : std_logic_vector (31 downto 0);
 	type states is (idle,
-	s1,s2,s3,s4,s5,s6,s7,s8,s9,s11,s12,s14);
+	s2,s3,s4,s5,s6,s9,s10,s11,s14);
 	variable state : states;
 	variable ee2430,ram070a : std_logic_vector (15 downto 0);
 begin
@@ -127,29 +127,26 @@ begin
 	case (state) is
 	when idle =>
 		if (i_run = '1') then
-			state := s1;
+			state := s2;
 			i2c_mem_ena <= '1';
+      i2c_mem_addra <= std_logic_vector (to_unsigned (48*2+0, 12)); -- 2430 MSB ee gain
 		else
 			state := idle;
 			i2c_mem_ena <= '0';
 		end if;
 		fixed2floatsclr_internal <= '0';
 		divfpsclr_internal <= '0';
-	when s1 => state := s2;
-		i2c_mem_addra <= std_logic_vector (to_unsigned (48*2+0, 12)); -- 2430 MSB ee gain
 	when s2 => state := s3;
 		i2c_mem_addra <= std_logic_vector (to_unsigned (48*2+1, 12)); -- 2430 LSB ee gain
 	when s3 => state := s4;
+		i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(778*2)+0, 12)); -- ram070a MSB ram gain
 		ee2430 (15 downto 8) := i2c_mem_douta; -- ee gain
 	when s4 => state := s5;
+		i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(778*2)+1, 12)); -- ram070a LSB ram gain
 		ee2430 (7 downto 0) := i2c_mem_douta; -- ee gain
 	when s5 => state := s6;
-		i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(778*2)+0, 12)); -- ram070a MSB ram gain
-	when s6 => state := s7;
-		i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(778*2)+1, 12)); -- ram070a LSB ram gain
-	when s7 => state := s8;
 		ram070a (15 downto 8) := i2c_mem_douta; -- ram gain
-	when s8 => state := s9;
+	when s6 => state := s9;
 		ram070a (7 downto 0) := i2c_mem_douta; -- ram gain
 	when s9 =>
     i2c_mem_ena <= '0';
@@ -167,16 +164,17 @@ begin
 		ram070a (15) & ram070a (15) & 
 		ram070a (15) & ram070a (15) & 
 		ram070a (15) & ram070a & "00000000000000000000000000000";
-    if (fixed2floatrdy_internal = '1') then state := s11;
+    if (fixed2floatrdy_internal = '1') then state := s10;
 			fttmp1 := fixed2floatr_internal;
 			fixed2floatce_internal <= '0';
 			fixed2floatond_internal <= '0';
 			fixed2floatsclr_internal <= '1';
-      --synthesis transalte_off
+      --synthesis translate_off
 			report "================ calculateKGain gainEE 1 : " & real'image (ap_slv2fp (fttmp1));
-      --synthesis transalte_on
+      --synthesis translate_on
     else state := s9; end if;
-	when s11 => state := s12;
+  when s10 => state := s11; -- XXX must be - fi2fl module
+	when s11 =>
 		fixed2floatsclr_internal <= '0';
 		fixed2floatce_internal <= '1';
 		fixed2floatond_internal <= '1';
@@ -191,23 +189,22 @@ begin
 		ee2430 (15) & ee2430 (15) & 
 		ee2430 (15) & ee2430 (15) & 
 		ee2430 (15) & ee2430 & "00000000000000000000000000000";
-	when s12 =>
-		if (fixed2floatrdy_internal = '1') then state := s14;
+    if (fixed2floatrdy_internal = '1') then state := s14;
 			fttmp2 := fixed2floatr_internal;
 			fixed2floatce_internal <= '0';
 			fixed2floatond_internal <= '0';
 			fixed2floatsclr_internal <= '1';
-      divfpce_internal <= '1';
-      divfpa_internal <= fttmp2;
-      divfpb_internal <= fttmp1;
-      divfpond_internal <= '1';
-      --synthesis transalte_off
-			report "================ calculateKGain gainEE 2 : " & real'image (ap_slv2fp (fttmp2));
-      --synthesis transalte_on
-		else state := s12; end if;
+      --synthesis translate_off
+      report "================ calculateKGain gainEE 2 : " & real'image (ap_slv2fp (fttmp2));
+      --synthesis translate_on      
+		else state := s11; end if;
 	when s14 =>
 		fixed2floatsclr_internal <= '0';
-		if (divfprdy_internal = '1') then state := idle;
+		divfpce_internal <= '1';
+    divfpa_internal <= fttmp2;
+    divfpb_internal <= fttmp1;
+    divfpond_internal <= '1';
+    if (divfprdy_internal = '1') then state := idle;
 			divfpce_internal <= '0';
 			divfpond_internal <= '0';
 			divfpsclr_internal <= '1';
