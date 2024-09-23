@@ -388,7 +388,8 @@ report "after loop";
 wait until CalculateAlphaComp_rdy = '1';
 --report "rdy at 645.945us";
 --report "rdy at 599.795us";
-report "rdy at 599.815us";
+--report "rdy at 599.815us";
+report "rdy at 599.755us";
 for i in 0 to 9 loop
 CalculateAlphaComp_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
 wait until rising_edge (CalculateAlphaComp_clock);
@@ -417,7 +418,8 @@ warning_neq_fp (CalculateAlphaComp_do, datao.last(9).a, "last " & integer'image 
 wait for 1 ps;
 --report "end at 666.445us";
 --report "end at 620.295us";
-report "end at 600.465us";
+--report "end at 600.465us";
+report "end at 600.405us";
 report "done" severity failure;
 end process;
 
