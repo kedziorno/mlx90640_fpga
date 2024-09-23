@@ -392,7 +392,7 @@ p0 : process (i_clock) is
 	variable i : integer range 0 to C_ROW*C_COL-1;
 	type states is (idle,
 	s2,s4,s8,s10,
-	s12,s15,s16,s17,s19,
+	s12,s15,s17,s19,
 	s22,s25,s28,s31);
 	variable state : states;
 	variable fptmp1,fptmp2,fptmp3 : std_logic_vector (31 downto 0);
@@ -489,27 +489,25 @@ begin
 					addfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					subfpsclr_internal <= '0';
-					o_alpha_addr <= std_logic_vector (to_unsigned (i, 10));
 					mem_switchpattern_pixel <= std_logic_vector (to_unsigned (i, 14));
 				when s15 =>
 					mulfpce_internal <= '1';
 					mulfpa_internal <= pattern_ft;
 					mulfpb_internal <= i_acpsubpage1;
 					mulfpond_internal <= '1';
-          if (mulfprdy_internal = '1') then state := s16;
+          if (mulfprdy_internal = '1') then state := s17;
 						fptmp1 := mulfpr_internal;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
 					else state := s15; end if;
-				when s16 => state := s17; -- XXX mul
+				when s17 =>
 					mulfpsclr_internal <= '0';
 					mulfpce_internal <= '1';
 					mulfpa_internal <= pattern_neg_ft;
 					mulfpb_internal <= i_acpsubpage0;
 					mulfpond_internal <= '1';
-				when s17 =>
-					if (mulfprdy_internal = '1') then state := s19;
+          if (mulfprdy_internal = '1') then state := s19;
 						fptmp2 := mulfpr_internal;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
@@ -534,6 +532,7 @@ begin
 					mulfpb_internal <= fptmp1;
 					mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s25;
+            o_alpha_addr <= std_logic_vector (to_unsigned (i, 10)); -- XXX s12
 						fptmp1 := mulfpr_internal;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
