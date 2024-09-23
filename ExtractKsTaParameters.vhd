@@ -56,8 +56,7 @@ begin
 
 p0 : process (i_clock) is
 	type states is (idle,
-	s1,s2,s3,s4,s5,
-	ending);
+	s1,s2,s3,s4);
 	variable state : states;
 begin
 	if (rising_edge (i_clock)) then
@@ -70,23 +69,23 @@ begin
 					if (i_run = '1') then
 						state := s1;
 						i2c_mem_ena <= '1';
+            i2c_mem_addra <= std_logic_vector (to_unsigned (60*2+0, 12)); -- 243c MSB kstaee 8bit
+            report "ExtractKsTaParameters";
 					else
 						state := idle;
 						i2c_mem_ena <= '0';
 					end if;
 				when s1 => state := s2;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (60*2+0, 12)); -- 243c MSB kstaee 8bit
+          i2c_mem_ena <= '0';
 				when s2 => state := s3;
-				when s3 => state := s4;
 					address_ksta <= "0"&i2c_mem_douta; -- kstaee
-				when s4 => state := s5;
-				when s5 => state := ending;
+				when s3 => state := s4;
+          o_rdy <= '1';
+        when s4 => state := idle;
 					o_ksta <= odata_ksta;
           --synthesis translate_off
 					report "================ extractKsTaParameters ksta : " & real'image (ap_slv2fp (odata_ksta));
-          --synthesis translate_on
-        when ending => state := idle;
-					o_rdy <= '1';
+          --synthesis translate_on	
 			end case;
 		end if;
 	end if;
@@ -172,7 +171,7 @@ ADDR => address_ksta, -- 14-bit Address Input
 CLK => i_clock, -- Clock
 DI => (others => '0'), -- 1-bit Data Input
 DIP => (others => '0'), -- 1-bit Data Input
-EN => '1', -- RAM Enable Input
+EN => i_clock, -- RAM Enable Input
 SSR => i_reset, -- Synchronous Set/Reset Input
 WE => '0' -- Write Enable Input
 );
