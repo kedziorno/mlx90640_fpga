@@ -101,7 +101,7 @@ x"00000000" when others;
 p0 : process (i_clock,i_reset) is
 	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
 	type states is (idle,
-	s1,s2);
+	s1);
 	variable state : states;
 begin
 	if (rising_edge (i_clock)) then
@@ -128,21 +128,19 @@ begin
 						state := idle;
 					end if;
 					addfpsclr <= '0';
-        when s1 => state := s2;
+        when s1 =>
 					addfpce <= '1';
 					addfpa <= mem_signed1024_ovalue; -- offcpsubpage0
 					addfpb <= out_nibble1; -- offcpsubpage1delta
 					addfpond <= '1';
 					o_offcpsubpage0 <= mem_signed1024_ovalue;
-				when s2 =>
 					if (addfprdy = '1') then state := idle;
 						o_offcpsubpage1 <= addfpr;
 						addfpce <= '0';
 						addfpond <= '0';
 						addfpsclr <= '1';
             o_rdy <= '1';
-					else state := s2; end if;
-				when others => null;
+					else state := s1; end if;
 			end case;
 		end if;
 	end if;
