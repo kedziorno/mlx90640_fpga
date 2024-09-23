@@ -208,6 +208,7 @@ signal EN_i : std_logic;
 begin
 
 EN_i <= not CLK;
+--EN_i <= '1'; -- XXX always enabled, check differents in syn report
 
 ADDR1 <= ADDR (8 downto 0);
 ADDR2 <= ADDR (8 downto 0);
