@@ -243,7 +243,7 @@ end component mem_ramb16_s36_x2;
 signal addra,mux_addr : std_logic_vector (9 downto 0);
 signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
 
--- xxx nibbles must out in next clock xyxle
+-- xxx nibbles must out in next clock cycle
 signal nibble1,nibble2,nibble4 : std_logic_vector (3 downto 0);
 signal nibble3 : std_logic_vector (5 downto 0);
 signal out_nibble1,out_nibble2,out_nibble3,out_nibble4 : std_logic_vector (31 downto 0);
@@ -348,26 +348,14 @@ p0 : process (i_clock) is
 	variable voccRemScale : std_logic_vector (31 downto 0);
 	variable voccColumnScale : std_logic_vector (31 downto 0);
 	variable voccRowScale : std_logic_vector (31 downto 0);
-
 	variable voccRemScale1 : std_logic_vector (3 downto 0);
 	variable voccColumnScale1 : std_logic_vector (3 downto 0);
 	variable voccRowScale1 : std_logic_vector (3 downto 0);
-
 	variable voffsetRef1: std_logic_vector (15 downto 0);
 	variable voffsetRef : std_logic_vector (15 downto 0);
 	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
 	variable vocccolumnj,occrowi,voccrowi,vOffsetAverage,voffset_ft : std_logic_vector (31 downto 0);
 	variable temp1,voffset : std_logic_vector (15 downto 0);
-
---	variable fracas : fracas;
---	variable fracbs : fracbs;
---	variable fracau : fracau;
---	variable fracbu : fracbu;
---	variable vOffset_sf,voffsetRef_sf : st_sfixed_max;
---	variable eeprom16slv,ram16slv : slv16;
---	variable eeprom16sf,ram16sf : sfixed16;
---	variable eeprom16uf,ram16uf : ufixed16;
-
 	variable col : integer range 0 to C_COL-1;
 	variable row : integer range 0 to C_ROW-1;
 	variable i : integer range 0 to (C_ROW*C_COL)-1;
@@ -411,7 +399,6 @@ begin
 					mulfpsclr_internal <= '0';
 					fixed2floatsclr_internal <= '0';
 					rdy <= '0';
-					
 				when occ1 => state := occ2;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+0, 12)); -- 2410 LSB
 				when occ2 => state := occ3;
@@ -421,26 +408,19 @@ begin
 				when occ4 => state := occ5;
 				when occ5 => state := occ6;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					----report_error (temp1, 0.0);
 				when occ6 => state := occ7;
 					nibble1 <= temp1 (3 downto 0); -- occ scale remnant
 				when occ7 => state := occ8;
-				
 					voccRemScale := out_nibble1; -- out occ scale remnant signed
 					voccRemScale1 := temp1 (3 downto 0); -- occ scale remnant for 2^x
-					
 					nibble1 <= temp1 (7 downto 4); -- occ scale column
 				when occ8 => state := occ9;
-				
 					voccColumnScale := out_nibble1; -- out occ scale column signed
 					voccColumnScale1 := temp1 (7 downto 4); -- occ scale column for 2^x
-
 					nibble1 <= temp1 (11 downto 8); -- occ scale row
-				when occ9 => state := occ10;
-					
+				when occ9 => state := occ10;					
 					voccRowScale := out_nibble1; -- out occ row column signed
 					voccRowScale1 := temp1 (11 downto 8); -- occ scale row for 2^x
-
 				when occ10 => state := occ11;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+2, 12)); -- 2411 LSB
 				when occ11 => state := occ12;
@@ -450,9 +430,6 @@ begin
 				when occ13 => state := occ14;
 				when occ14 => state := occ15;
 					voffsetRef (7 downto 0) := i2c_mem_douta; -- offsetref MSB
-					----report_error (voffsetRef, 0.0);
-				
-					
 				when occ15 => state := occ16;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+4, 12)); -- 2412 LSB -- occrow1-4
 				when occ16 => state := occ17;
@@ -462,7 +439,6 @@ begin
 				when occ18 => state := occ19;
 				when occ19 => state := occ20;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					----report_error (temp1, 0.0);
 					nibble2 <= temp1 (3 downto 0); -- occrowA
 				when occ20 => state := occ21;
 					dia <= out_nibble2;
@@ -479,12 +455,7 @@ begin
 				when occ23 => state := occ24;
 					dia <= out_nibble2;
 					addra <= std_logic_vector (to_unsigned (3, 10));
-
-
-
-
 				when occ24 => state := occ25;
---					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+6, 12)); -- 2413 LSB -- occrow5-8
 				when occ25 => state := occ26;
 				when occ26 => state := occ27;
@@ -493,7 +464,6 @@ begin
 				when occ27 => state := occ28;
 				when occ28 => state := occ29;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					----report_error (temp1, 0.0);
 					nibble2 <= temp1 (3 downto 0); -- occrowA
 				when occ29 => state := occ30;
 					dia <= out_nibble2;
@@ -510,10 +480,7 @@ begin
 				when occ32 => state := occ33;
 					dia <= out_nibble2;
 					addra <= std_logic_vector (to_unsigned (7, 10));
-
-
 				when occ33 => state := occ34;
---					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+8, 12)); -- 2414 LSB -- occrow9-12
 				when occ34 => state := occ35;
 				when occ35 => state := occ36;
@@ -538,9 +505,6 @@ begin
 				when occ41 => state := occ42;
 					dia <= out_nibble2;
 					addra <= std_logic_vector (to_unsigned (11, 10));
-
-
-
 				when occ42 => state := occ43;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+10, 12)); -- 2415 LSB -- occrow13-16
 				when occ43 => state := occ44;
@@ -566,9 +530,6 @@ begin
 				when occ50 => state := occ51;
 					dia <= out_nibble2;
 					addra <= std_logic_vector (to_unsigned (15, 10));
-
-
-
 				when occ51 => state := occ52;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+12, 12)); -- 2416 LSB -- occrow17-20
 				when occ52 => state := occ53;
@@ -594,10 +555,7 @@ begin
 				when occ59 => state := occ60;
 					dia <= out_nibble2;
 					addra <= std_logic_vector (to_unsigned (19, 10));
-
-
 				when occ60 => state := occ61;
---					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+14, 12)); -- 2417 LSB -- occrow21-24
 				when occ61 => state := occ62;
 				when occ62 => state := occ63;
@@ -622,10 +580,7 @@ begin
 				when occ68 => state := occ69;
 					dia <= out_nibble2;
 					addra <= std_logic_vector (to_unsigned (23, 10));
-
-
 				when occ69 => state := occ70;
---					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+16, 12)); -- 2418 LSB -- occcol1-4
 				when occ70 => state := occ71;
 				when occ71 => state := occ72;
@@ -650,10 +605,7 @@ begin
 				when occ77 => state := occ78;
 					dia <= out_nibble2;
 					addra <= std_logic_vector (to_unsigned (27, 10));
-
-
 				when occ78 => state := occ79;
---					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+18, 12)); -- 2419 LSB -- occcol5-8
 				when occ79 => state := occ80;
 				when occ80 => state := occ81;
@@ -678,10 +630,7 @@ begin
 				when occ86 => state := occ87;
 					dia <= out_nibble2;
 					addra <= std_logic_vector (to_unsigned (31, 10));
-
-
 				when occ87 => state := occ88;
---					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+20, 12)); -- 241a LSB -- occcol9-12
 				when occ88 => state := occ89;
 				when occ89 => state := occ90;
@@ -706,10 +655,7 @@ begin
 				when occ95 => state := occ96;
 					dia <= out_nibble2;
 					addra <= std_logic_vector (to_unsigned (35, 10));
-
-
 				when occ96 => state := occ97;
---					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+22, 12)); -- 241b LSB -- occcol13-16
 				when occ97 => state := occ98;
 				when occ98 => state := occ99;
@@ -734,10 +680,7 @@ begin
 				when occ104 => state := occ105;
 					dia <= out_nibble2;
 					addra <= std_logic_vector (to_unsigned (39, 10));
-
-
 				when occ105 => state := occ106;
---					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+24, 12)); -- 241c LSB -- occcol17-20
 				when occ106 => state := occ107;
 				when occ107 => state := occ108;
@@ -762,11 +705,7 @@ begin
 				when occ113 => state := occ114;
 					dia <= out_nibble2;
 					addra <= std_logic_vector (to_unsigned (43, 10));
-
-
-
 				when occ114 => state := occ115;
---					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+26, 12)); -- 241d LSB -- occcol21-24
 				when occ115 => state := occ116;
 				when occ116 => state := occ117;
@@ -791,11 +730,7 @@ begin
 				when occ122 => state := occ123;
 					dia <= out_nibble2;
 					addra <= std_logic_vector (to_unsigned (47, 10));
-
-
-
 				when occ123 => state := occ124;
---					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+28, 12)); -- 241e LSB -- occcol25-28
 				when occ124 => state := occ125;
 				when occ125 => state := occ126;
@@ -820,11 +755,7 @@ begin
 				when occ131 => state := occ132;
 					dia <= out_nibble2;
 					addra <= std_logic_vector (to_unsigned (51, 10));
-
-
-
 				when occ132 => state := occ133;
---					addra <= (others => '0');
 					i2c_mem_addra <= std_logic_vector (to_unsigned (32+30, 12)); -- 241f LSB -- occcol29-32
 				when occ133 => state := occ134;
 				when occ134 => state := occ135;
@@ -833,7 +764,6 @@ begin
 				when occ135 => state := occ136;
 				when occ136 => state := occ137;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					----report_error (temp1, 0.0);
 					nibble2 <= temp1 (3 downto 0); -- occcolA
 				when occ137 => state := occ138;
 					nibble2 <= temp1 (7 downto 4); -- occcolB
@@ -852,8 +782,6 @@ begin
 					addra <= std_logic_vector (to_unsigned (55, 10));
 				when occ141 => state := pow0;
 					write_enable <= '0';
-
-
 				when pow0 => state := pow1;
 					addra <= (others => '0');
 					nibble4 <= voccRemScale1;
@@ -868,26 +796,19 @@ begin
 				when pow3 => state := pow4;
 					voccRowScale := out_nibble4; -- 2^occscalerow
 					--report "voccRowScale : " & real'image (ap_slv2fp (voccRowScale));
---					voffsetRef_sf := resize (to_sfixed (voffsetRef, eeprom16sf), voffsetRef_sf);
---					----report_error (voffsetRef, 0.0);
---					fixed2floatce_internal <= '1';
---					fixed2floatond_internal <= '1';
---					fixed2floata_internal <= 
---					to_slv (to_sfixed (to_slv (voffsetRef_sf (fracas'high downto fracas'low)), fracas))&
---					to_slv (to_sfixed (to_slv (voffsetRef_sf (fracbs'high downto fracbs'low)), fracbs));
-fixed2floatce_internal <= '1';
-fixed2floatond_internal <= '1';
-fixed2floata_internal <=
-voffsetRef (15) & voffsetRef (15) & 
-voffsetRef (15) & voffsetRef (15) & 
-voffsetRef (15) & voffsetRef (15) & 
-voffsetRef (15) & voffsetRef (15) & 
-voffsetRef (15) & voffsetRef (15) & 
-voffsetRef (15) & voffsetRef (15) & 
-voffsetRef (15) & voffsetRef (15) & 
-voffsetRef (15) & voffsetRef (15) & 
-voffsetRef (15) & voffsetRef (15) & 
-voffsetRef (15) & voffsetRef & "00000000000000000000000000000";
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <=
+          voffsetRef (15) & voffsetRef (15) & 
+          voffsetRef (15) & voffsetRef (15) & 
+          voffsetRef (15) & voffsetRef (15) & 
+          voffsetRef (15) & voffsetRef (15) & 
+          voffsetRef (15) & voffsetRef (15) & 
+          voffsetRef (15) & voffsetRef (15) & 
+          voffsetRef (15) & voffsetRef (15) & 
+          voffsetRef (15) & voffsetRef (15) & 
+          voffsetRef (15) & voffsetRef (15) & 
+          voffsetRef (15) & voffsetRef & "00000000000000000000000000000";
 				when pow4 =>
 					if (fixed2floatrdy_internal = '1') then state := pow5;
 						vOffsetAverage := fixed2floatr_internal;
@@ -898,162 +819,159 @@ voffsetRef (15) & voffsetRef & "00000000000000000000000000000";
 					else state := pow4; end if;
 				when pow5 => state := s0;
 					fixed2floatsclr_internal <= '0';
-	row := 0;
-	col := 0;
-	i := 0;
-when s0 => state := s1; 	--1
-	--report "====================";
-	vOffset_ft := (others => '0');
-	write_enable <= '0';
-	i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i)+0, 12)); -- offset LSB 0
-	addra <= std_logic_vector (to_unsigned (col+C_ROW, 10)); -- OCCColumnJ
-when s1 => state := s2;	--2
-	i2c_mem_addra <= (others => '0');
-	addra <= (others => '0');
-when s2 => state := s3;	--2
-	i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i)+1, 12)); -- offset MSB 1
-	addra <= std_logic_vector (to_unsigned (row, 10)); -- OCCrowI
-	vOCCColumnJ := doa;
-	--report "vOCCColumnJ : " & real'image (ap_slv2fp (vOCCColumnJ));
-	vOffset (15 downto 8) := i2c_mem_douta;
-when s3 => state := s4; 	--3
-	i2c_mem_addra <= (others => '0');
-	addra <= (others => '0');
-when s4 => state := s5; 	--3
-	vOCCRowI := doa;
-	--report "vOCCRowI : " & real'image (ap_slv2fp (vOCCRowI));
-	vOffset (7 downto 0) := i2c_mem_douta;
-	--report_error (vOffset, 0.0);
-	nibble3 <= vOffset (15 downto 10);
-when s5 => state := s6; 	--5
-	mulfpce_internal <= '1';
-	mulfpa_internal <= out_nibble3;
-	mulfpb_internal <= voccRemScale;
-	mulfpond_internal <= '1';
-	--report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
-	--report "voccRemScale : " & real'image (ap_slv2fp (voccRemScale));
-when s6 => 			--6
-	if (mulfprdy_internal = '1') then state := s7;
-		vOffset_ft := mulfpr_internal;
-		mulfpce_internal <= '0';
-		mulfpond_internal <= '0';
-		mulfpsclr_internal <= '1';
-	else state := s6; end if;
-when s7 => state := s8; 	--7
-	mulfpsclr_internal <= '0';
-	mulfpce_internal <= '1';
-	mulfpa_internal <= vOCCColumnJ;
-	mulfpb_internal <= voccColumnScale;
-	mulfpond_internal <= '1';
-	--report "vOCCColumnJ : " & real'image (ap_slv2fp (vOCCColumnJ));
-	--report "voccColumnScale : " & real'image (ap_slv2fp (voccColumnScale));
-when s8 => 			--8
-	if (mulfprdy_internal = '1') then state := s9;
-		vOCCColumnJ := mulfpr_internal;
-		mulfpce_internal <= '0';
-		mulfpond_internal <= '0';
-		mulfpsclr_internal <= '1';
-	else state := s8; end if;
-when s9 => state := s10; 	--9
-	mulfpsclr_internal <= '0';
-when s10 => state := s11; 	--10
-	mulfpsclr_internal <= '0';
-	mulfpce_internal <= '1';
-	mulfpa_internal <= vOCCRowI;
-	mulfpb_internal <= voccRowScale;
-	mulfpond_internal <= '1';
-	--report "vOCCRowI : " & real'image (ap_slv2fp (vOCCRowI));
-	--report "voccRowScale : " & real'image (ap_slv2fp (voccRowScale));
-when s11 => 			--11
-	if (mulfprdy_internal = '1') then state := s12;
-		vOCCRowI := mulfpr_internal;
-		mulfpce_internal <= '0';
-		mulfpond_internal <= '0';
-		mulfpsclr_internal <= '1';
-	else state := s11; end if;
-when s12 => state := s13; 	--12
-	mulfpsclr_internal <= '0';
-when s13 => state := s14; 	--13
-	addfpsclr_internal <= '0';
-	addfpce_internal <= '1';
-	addfpa_internal <= vOffset_ft;
-	addfpb_internal <= vOCCColumnJ;
-	addfpond_internal <= '1';
-	--report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
-	--report "vOCCColumnJ : " & real'image (ap_slv2fp (vOCCColumnJ));
-when s14 => 			--14
-	if (addfprdy_internal = '1') then state := s15;
-		vOffset_ft := addfpr_internal;
-		addfpce_internal <= '0';
-		addfpond_internal <= '0';
-		addfpsclr_internal <= '1';
-	else state := s14; end if;
-when s15 => state := s16; 	--15
-	addfpsclr_internal <= '0';
-when s16 => state := s17; 	--16
-	addfpsclr_internal <= '0';
-	addfpce_internal <= '1';
-	addfpa_internal <= vOffset_ft;
-	addfpb_internal <= vOCCRowI;
-	addfpond_internal <= '1';
-	--report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
-	--report "vOCCRowI : " & real'image (ap_slv2fp (vOCCRowI));
-when s17 => 			--17
-	if (addfprdy_internal = '1') then state := s18;
-		vOffset_ft := addfpr_internal;
-		addfpce_internal <= '0';
-		addfpond_internal <= '0';
-		addfpsclr_internal <= '1';
-	else state := s17; end if;
-when s18 => state := s19; 	--18
-	addfpsclr_internal <= '0';
-when s19 => state := s20; 	--19
-	addfpsclr_internal <= '0';
-	addfpce_internal <= '1';
-	addfpa_internal <= vOffset_ft;
-	addfpb_internal <= vOffsetAverage;
-	addfpond_internal <= '1';
-	--report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
-	--report "vOffsetAverage : " & real'image (ap_slv2fp (vOffsetAverage));
-when s20 => 			--20
-	if (addfprdy_internal = '1') then state := s21;
-		vOffset_ft := addfpr_internal;
-		addfpce_internal <= '0';
-		addfpond_internal <= '0';
-		addfpsclr_internal <= '1';
-	else state := s20; end if;
-when s21 => state := s22; 	--21
-	addfpsclr_internal <= '0';
-when s22 => state := s23; 	--22
-	write_enable <= '1';
-	addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vOffset_ft
-	dia <= vOffset_ft;
-  --synthesis translate_off
-	report "================vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
-	--synthesis translate_on
-  i := i + 1;
-when s23 =>
-	if (col = C_COL-1) then
-		col := 0;
-		state := s24;
-	else
-		col := col + 1;
-		state := s0;
-	end if;
-when s24 =>
-	if (row = C_ROW-1) then
-		row := 0;
-		state := ending;
-	else
-		row := row + 1;
-		state := s0;
-	end if;
-
+          row := 0;
+          col := 0;
+          i := 0;
+        when s0 => state := s1; 	--1
+          vOffset_ft := (others => '0');
+          write_enable <= '0';
+          i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i)+0, 12)); -- offset LSB 0
+          addra <= std_logic_vector (to_unsigned (col+C_ROW, 10)); -- OCCColumnJ
+        when s1 => state := s2;	--2
+          i2c_mem_addra <= (others => '0');
+          addra <= (others => '0');
+        when s2 => state := s3;	--2
+          i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i)+1, 12)); -- offset MSB 1
+          addra <= std_logic_vector (to_unsigned (row, 10)); -- OCCrowI
+          vOCCColumnJ := doa;
+          --report "vOCCColumnJ : " & real'image (ap_slv2fp (vOCCColumnJ));
+          vOffset (15 downto 8) := i2c_mem_douta;
+        when s3 => state := s4; 	--3
+          i2c_mem_addra <= (others => '0');
+          addra <= (others => '0');
+        when s4 => state := s5; 	--3
+          vOCCRowI := doa;
+          --report "vOCCRowI : " & real'image (ap_slv2fp (vOCCRowI));
+          vOffset (7 downto 0) := i2c_mem_douta;
+          --report_error (vOffset, 0.0);
+          nibble3 <= vOffset (15 downto 10);
+        when s5 => state := s6; 	--5
+          mulfpce_internal <= '1';
+          mulfpa_internal <= out_nibble3;
+          mulfpb_internal <= voccRemScale;
+          mulfpond_internal <= '1';
+          --report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
+          --report "voccRemScale : " & real'image (ap_slv2fp (voccRemScale));
+        when s6 => 			--6
+          if (mulfprdy_internal = '1') then state := s7;
+            vOffset_ft := mulfpr_internal;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s6; end if;
+        when s7 => state := s8; 	--7
+          mulfpsclr_internal <= '0';
+          mulfpce_internal <= '1';
+          mulfpa_internal <= vOCCColumnJ;
+          mulfpb_internal <= voccColumnScale;
+          mulfpond_internal <= '1';
+          --report "vOCCColumnJ : " & real'image (ap_slv2fp (vOCCColumnJ));
+          --report "voccColumnScale : " & real'image (ap_slv2fp (voccColumnScale));
+        when s8 => 			--8
+          if (mulfprdy_internal = '1') then state := s9;
+            vOCCColumnJ := mulfpr_internal;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s8; end if;
+        when s9 => state := s10; 	--9
+          mulfpsclr_internal <= '0';
+        when s10 => state := s11; 	--10
+          mulfpsclr_internal <= '0';
+          mulfpce_internal <= '1';
+          mulfpa_internal <= vOCCRowI;
+          mulfpb_internal <= voccRowScale;
+          mulfpond_internal <= '1';
+          --report "vOCCRowI : " & real'image (ap_slv2fp (vOCCRowI));
+          --report "voccRowScale : " & real'image (ap_slv2fp (voccRowScale));
+        when s11 => 			--11
+          if (mulfprdy_internal = '1') then state := s12;
+            vOCCRowI := mulfpr_internal;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s11; end if;
+        when s12 => state := s13; 	--12
+          mulfpsclr_internal <= '0';
+        when s13 => state := s14; 	--13
+          addfpsclr_internal <= '0';
+          addfpce_internal <= '1';
+          addfpa_internal <= vOffset_ft;
+          addfpb_internal <= vOCCColumnJ;
+          addfpond_internal <= '1';
+          --report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
+          --report "vOCCColumnJ : " & real'image (ap_slv2fp (vOCCColumnJ));
+        when s14 => 			--14
+          if (addfprdy_internal = '1') then state := s15;
+            vOffset_ft := addfpr_internal;
+            addfpce_internal <= '0';
+            addfpond_internal <= '0';
+            addfpsclr_internal <= '1';
+          else state := s14; end if;
+        when s15 => state := s16; 	--15
+          addfpsclr_internal <= '0';
+        when s16 => state := s17; 	--16
+          addfpsclr_internal <= '0';
+          addfpce_internal <= '1';
+          addfpa_internal <= vOffset_ft;
+          addfpb_internal <= vOCCRowI;
+          addfpond_internal <= '1';
+          --report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
+          --report "vOCCRowI : " & real'image (ap_slv2fp (vOCCRowI));
+        when s17 => 			--17
+          if (addfprdy_internal = '1') then state := s18;
+            vOffset_ft := addfpr_internal;
+            addfpce_internal <= '0';
+            addfpond_internal <= '0';
+            addfpsclr_internal <= '1';
+          else state := s17; end if;
+        when s18 => state := s19; 	--18
+          addfpsclr_internal <= '0';
+        when s19 => state := s20; 	--19
+          addfpsclr_internal <= '0';
+          addfpce_internal <= '1';
+          addfpa_internal <= vOffset_ft;
+          addfpb_internal <= vOffsetAverage;
+          addfpond_internal <= '1';
+          --report "vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
+          --report "vOffsetAverage : " & real'image (ap_slv2fp (vOffsetAverage));
+        when s20 => 			--20
+          if (addfprdy_internal = '1') then state := s21;
+            vOffset_ft := addfpr_internal;
+            addfpce_internal <= '0';
+            addfpond_internal <= '0';
+            addfpsclr_internal <= '1';
+          else state := s20; end if;
+        when s21 => state := s22; 	--21
+          addfpsclr_internal <= '0';
+        when s22 => state := s23; 	--22
+          write_enable <= '1';
+          addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vOffset_ft
+          dia <= vOffset_ft;
+          --synthesis translate_off
+          report "================vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
+          --synthesis translate_on
+          i := i + 1;
+        when s23 =>
+          if (col = C_COL-1) then
+            col := 0;
+            state := s24;
+          else
+            col := col + 1;
+            state := s0;
+          end if;
+        when s24 =>
+          if (row = C_ROW-1) then
+            row := 0;
+            state := ending;
+          else
+            row := row + 1;
+            state := s0;
+          end if;
 				when ending => state := idle;
 					rdy <= '1';
 				when others => null;
 			end case;
---			stemp1 <= temp1;
 		end if;
 	end if;
 end process p0;
@@ -1111,4 +1029,3 @@ x"45800000" when x"c", x"46000000" when x"d", x"46800000" when x"e", x"47000000"
 x"00000000" when others;
 
 end Behavioral;
-

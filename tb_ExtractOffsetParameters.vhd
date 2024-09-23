@@ -261,10 +261,7 @@ wait for 105 ns;
 -- insert stimulus here
 ExtractOffsetParameters_run <= '1'; wait for i_clock_period; ExtractOffsetParameters_run <= '0';
 wait until ExtractOffsetParameters_rdy = '1';
-for i in 0 to 1024 loop
-	ExtractOffsetParameters_addr <= std_logic_vector (to_unsigned (i, 10));
-	wait for i_clock_period*2;
-end loop;
+report "rdy at 716.155ns";
 wait for 1 ps; -- must be for write
 report "done" severity failure;
 --wait on o_done;
