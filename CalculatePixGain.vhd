@@ -370,7 +370,7 @@ p0 : process (i_clock) is
 	constant PIXGAIN_SZ : integer := 24*32; -- pixgain size
 	variable pixgain_index : integer range 0 to PIXGAIN_SZ - 1;
 	type states is (idle,
-  s0a,s1,s2,s3,s4,s5,s6,s7,s8,s9);
+  s0a,s1,s2,s3,s3a,s6,s8,s9);
 	variable state : states;
 	variable eeprom16slv,ram16slv : std_logic_vector (15 downto 0);
 	variable pixgain_ft : std_logic_vector (31 downto 0);
@@ -418,13 +418,14 @@ begin
 						state := s0a;
 						CalculateKGain_mux <= '1';
 					end if;
-				when s1 => state := s2;
+				when s1 => state := s2; -- XXX in loop, i2c_mem_addra_internal must be here
 					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (PIXGAIN_ST+(pixgain_index*2)+0, 12)); -- MSB
 				when s2 => state := s3;
 					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (PIXGAIN_ST+(pixgain_index*2)+1, 12)); -- LSB
 					eeprom16slv (15 downto 8) := i2c_mem_douta_internal; -- pixgain MSB
-				when s3 => state := s5;
+        when s3 => state := s3a;
 					eeprom16slv (7 downto 0) := i2c_mem_douta_internal; -- pixgain LSB
+        when s3a =>
           fixed2floatce_internal <= '1';
           fixed2floatond_internal <= '1';
           fixed2floata_internal <=
@@ -438,20 +439,18 @@ begin
           eeprom16slv (15) & eeprom16slv (15) & 
           eeprom16slv (15) & eeprom16slv (15) & 
           eeprom16slv (15) & eeprom16slv & "00000000000000000000000000000";
-				when s5 =>
 					if (fixed2floatrdy = '1') then state := s6;
 						pixgain_ft := fixed2floatr;
 						fixed2floatce_internal <= '0';
 						fixed2floatond_internal <= '0';
 						fixed2floatsclr_internal <= '1';
-					else state := s5; end if;
-				when s6 => state := s7;
+					else state := s3a; end if;
+				when s6 =>
 					fixed2floatsclr_internal <= '0';
 					mulfpce_internal <= '1';
 					mulfpa_internal <= pixgain_ft;
 					mulfpb_internal <= CalculateKGain_KGain;
 					mulfpond_internal <= '1';
-				when s7 =>
 					if (mulfprdy = '1') then state := s8;
 						addra <= std_logic_vector (to_unsigned (pixgain_index, 10));
 						dia <= mulfpr;
@@ -459,7 +458,7 @@ begin
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
-					else state := s7; end if;
+					else state := s6; end if;
 				when s8 => state := s9;
 					mulfpsclr_internal <= '0';
 					write_enable <= '0';
@@ -475,7 +474,6 @@ begin
 						state := s1;
 						pixgain_index := pixgain_index + 1;
 					end if;
-        when others => null;
 			end case;
 		end if;
 	end if;

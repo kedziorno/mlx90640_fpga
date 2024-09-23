@@ -213,6 +213,9 @@ CalculatePixGain_reset <= '0';
 wait for clockperiod*10;
 CalculatePixGain_run <= '1'; wait for clockperiod; CalculatePixGain_run <= '0';
 wait until CalculatePixGain_rdy = '1';
+--report "rdy at 200.515us";
+--report "rdy at 192.815";
+report "rdy at 200.465";
 for i in 0 to 1024 loop
 	CalculatePixGain_addr <= std_logic_vector (to_unsigned (i, 10));
 -- DO after 2 cycles
@@ -247,10 +250,9 @@ if (i = 767) then wait until rising_edge (CalculatePixGain_clock); wait until ri
 wait until rising_edge (CalculatePixGain_clock); wait until rising_edge (CalculatePixGain_clock); -- XXX can be disabled, then _addr depend on i condition and dont have slide
 end loop;
 wait for 1 ps; -- must be for write
---report "rdy at 200.515us";
-report "rdy at 192.815";
 --report "end at 210.765us";
-report "end at 767 is 208.385us";
+--report "end at 767 is 208.385us";
+report "end at 767 is 216.045us";
 report "done" severity failure;
 END PROCESS tb;
 --  End Test Bench 
