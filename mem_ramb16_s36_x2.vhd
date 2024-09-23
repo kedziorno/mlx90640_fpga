@@ -203,8 +203,11 @@ signal DIP1,DIP2 : std_logic_vector (3 downto 0);
 signal EN1,EN2 : std_logic;
 signal SSR1,SSR2 : std_logic;
 signal WE1,WE2 : std_logic;
+signal EN_i : std_logic;
 
 begin
+
+EN_i <= not CLK;
 
 ADDR1 <= ADDR (8 downto 0);
 ADDR2 <= ADDR (8 downto 0);
@@ -223,14 +226,14 @@ p0 : process (CLK) is
 begin
 	if (rising_edge (CLK)) then
 		if (ADDR (9) = '0') then
-			EN1 <= EN;
+			EN1 <= EN_i;
 			EN2 <= '0';
 --			SSR1 <= '0';
 --			SSR2 <= SSR;
 		end if;
 		if (ADDR (9) = '1') then
 			EN1 <= '0';
-			EN2 <= EN;
+			EN2 <= EN_i;
 --			SSR1 <= SSR;
 --			SSR2 <= '0';
 		end if;
