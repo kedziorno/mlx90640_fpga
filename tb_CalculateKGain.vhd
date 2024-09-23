@@ -11,13 +11,13 @@ use ieee_proposed.standard_additions.all;
 --use ieee_proposed.standard_textio_additions.all;
 use ieee_proposed.std_logic_1164_additions.all;
 
-USE work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 USE work.p_fphdl_package3.all;
 
-ENTITY tb_calculateKGain IS
-END tb_calculateKGain;
+ENTITY tb_CalculateKGain IS
+END tb_CalculateKGain;
 
-ARCHITECTURE tb OF tb_calculateKGain IS 
+ARCHITECTURE tb OF tb_CalculateKGain IS 
 
 COMPONENT fixed2float
 PORT (
@@ -56,7 +56,7 @@ douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
 END COMPONENT;
 
 -- Component Declaration
-component calculateKGain is
+component CalculateKGain is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -64,7 +64,7 @@ i_run : in std_logic;
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-o_KGain : out fd2ft;
+o_KGain : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic;
 
 signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
@@ -83,14 +83,14 @@ signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy : in STD_LOGIC
 
 );
-end component calculateKGain;
+end component CalculateKGain;
 signal calculateKGain_clock : std_logic;
 signal calculateKGain_reset : std_logic;
 signal calculateKGain_run : std_logic;
 signal calculateKGain_i2c_mem_ena : STD_LOGIC;
 signal calculateKGain_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal calculateKGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal calculateKGain_KGain : fd2ft;
+signal calculateKGain_KGain : std_logic_vector (31 downto 0);
 signal calculateKGain_rdy : std_logic;
 
 signal calculateKGain_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
@@ -192,6 +192,9 @@ wait for clock_period*10;
 calculateKGain_run <= '1'; wait for clock_period; calculateKGain_run <= '0';
 wait until calculateKGain_rdy = '1';
 wait for 1 ps;
+warning_neq_fp (calculateKGain_KGain, x"3f81ac57", "kgain");
+--report "rdy at 955ns";
+report "rdy at 925ns";
 report "done" severity failure;
 END PROCESS tbprocess;
 --  End Test Bench 

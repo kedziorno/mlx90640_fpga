@@ -4,7 +4,7 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
-USE work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 
 ENTITY tb_p_fphdl_package1 IS
 END tb_p_fphdl_package1;

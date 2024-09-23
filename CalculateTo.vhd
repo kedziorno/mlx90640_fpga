@@ -29,7 +29,7 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
---use work.p_fphdl_package3.all;
+use work.p_fphdl_package3.all;
 
 entity CalculateTo is
 port (
@@ -922,7 +922,9 @@ begin
 		write_enable <= '1';
 		addra <= std_logic_vector (to_unsigned (i, 10)); -- To
 		dia <= fttmp1;
-		--report_error ("To " & integer'image (i), fttmp1, 0.0);
+		--synthesis translate_off
+    report_error ("To " & integer'image (i), fttmp1, 0.0);
+    --synthesis translate_on
 	when s71 =>
 		write_enable <= '0';
 		if (i = (C_ROW*C_COL)-1) then
@@ -975,7 +977,7 @@ ADDR => mux_addr,
 CLK => i_clock,
 DI => mux_dia,
 DIP => (others => '0'),
-EN => '1',
+EN => i_clock,
 SSR => i_reset,
 WE => write_enable
 );

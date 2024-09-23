@@ -22,8 +22,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 --use ieee_proposed.fixed_pkg.all;
 
-use work.p_fphdl_package1.all;
---use work.p_fphdl_package3.all;
+use work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -44,9 +43,9 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-i_Vdd : in fd2ft;
+i_Vdd : in std_logic_vector (31 downto 0);
 
-o_Ta : out fd2ft; -- output Ta
+o_Ta : out std_logic_vector (31 downto 0); -- output Ta
 o_rdy : out std_logic;
 
 fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
@@ -142,14 +141,14 @@ p0 : process (i_clock) is
 --	variable eeprom16slv,ram16slv : slv16;
 --	variable eeprom16sf,ram16sf : sfixed16;
 --	variable eeprom16uf,ram16uf : ufixed16;
-	variable fttmp1,fttmp2 : fd2ft;
+	variable fttmp1,fttmp2 : std_logic_vector (31 downto 0);
 --	variable fptmp1,fptmp2 : st_sfixed_max;
 --	variable fracas : fracas;
 --	variable fracbs : fracbs;
 --	variable fracau : fracau;
 --	variable fracbu : fracbu;
 --	variable vbe,vptat,vptat25 : st_sfixed_max;
-	variable vbe_ft,vptat_ft,vptat25_ft,deltaV,vptatart : fd2ft;
+	variable vbe_ft,vptat_ft,vptat25_ft,deltaV,vptatart : std_logic_vector (31 downto 0);
 	type states is (idle,
 	s0,s1,
 	s1a,s1b,s1c,s1d,s1e,s1f,s1g,s1h,s1i,s1j,s1k,s1l,s1m,s1n,
@@ -160,10 +159,10 @@ p0 : process (i_clock) is
 	s21,s22,s23,s24,s25,s26,
 	s27,s28,s29,s30,ending);
 	variable state : states;
-	constant const3dot3_ft : fd2ft := x"40533333";
-	constant const2pow18_ft : fd2ft := x"48800000";
-	constant const1_ft : fd2ft := x"3F800000";
-	constant const25_ft : fd2ft := x"41C80000";
+	constant const3dot3_ft : std_logic_vector (31 downto 0) := x"40533333";
+	constant const2pow18_ft : std_logic_vector (31 downto 0) := x"48800000";
+	constant const1_ft : std_logic_vector (31 downto 0) := x"3F800000";
+	constant const25_ft : std_logic_vector (31 downto 0) := x"41C80000";
 begin
 	if (rising_edge (i_clock)) then
 	if (i_reset = '1') then
@@ -308,7 +307,7 @@ begin
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
---			--report "================ CalculateTa deltaV : " & real'image (ap_slv2fp (deltaV));
+--			report "================ CalculateTa deltaV : " & real'image (ap_slv2fp (deltaV));
 		else state := s2; end if;
 	when s3 => state := s6;
 		subfpsclr <= '0';
@@ -340,7 +339,7 @@ begin
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
---			--report "================ CalculateTa vptat25 : " & real'image (ap_slv2fp (vptat25_ft));
+--			report "================ CalculateTa vptat25 : " & real'image (ap_slv2fp (vptat25_ft));
 		else state := s6; end if;
 	when s7 => state := s8;
 		fixed2floatsclr <= '0';
@@ -371,7 +370,7 @@ begin
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
---			--report "================ CalculateTa vptat : " & real'image (ap_slv2fp (vptat_ft));
+--			report "================ CalculateTa vptat : " & real'image (ap_slv2fp (vptat_ft));
 		else state := s8; end if;
 	when s9 => state := s10;
 		fixed2floatsclr <= '0';
@@ -402,7 +401,7 @@ begin
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
---			--report "================ CalculateTa vbe : " & real'image (ap_slv2fp (vbe_ft));
+--			report "================ CalculateTa vbe : " & real'image (ap_slv2fp (vbe_ft));
 		else state := s10; end if;
 	when s11 => state := s12;
 		fixed2floatsclr <= '0';
@@ -411,7 +410,7 @@ begin
 		mulfpa <= vptat_ft;
 		mulfpb <= ExtractAlphaPtatParameter_alphaptat;
 		mulfpond <= '1';
---		--report "================ CalculateTa alphaptat : " & real'image (ap_slv2fp (ExtractAlphaPtatParameter_alphaptat));
+--		report "================ CalculateTa alphaptat : " & real'image (ap_slv2fp (ExtractAlphaPtatParameter_alphaptat));
 	when s12 =>
 		if (mulfprdy = '1') then state := s13;
 			fttmp2 := mulfpr; -- vptat*alphaptat
@@ -468,14 +467,14 @@ begin
 		mulfpa <= ExtractKvPTATParameter_kvptat;
 		mulfpb <= deltaV;
 		mulfpond <= '1';
---		--report "================ CalculateTa ExtractKvPTATParameter_kvptat : " & real'image (ap_slv2fp (ExtractKvPTATParameter_kvptat));
+--		report "================ CalculateTa ExtractKvPTATParameter_kvptat : " & real'image (ap_slv2fp (ExtractKvPTATParameter_kvptat));
 	when s20 =>
 		if (mulfprdy = '1') then state := s21;
 			fttmp1 := mulfpr; -- kvptat*deltaV
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
---			--report "================ CalculateTa 1 : " & real'image (ap_slv2fp (fttmp1));
+--			report "================ CalculateTa 1 : " & real'image (ap_slv2fp (fttmp1));
 		else state := s20; end if;
 	when s21 => state := s22;
 		mulfpsclr <= '0';
@@ -490,7 +489,7 @@ begin
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
---			--report "================ CalculateTa 2 : " & real'image (ap_slv2fp (fttmp1));
+--			report "================ CalculateTa 2 : " & real'image (ap_slv2fp (fttmp1));
 		else state := s22; end if;
 	when s23 => state := s24;
 		addfpsclr <= '0';
@@ -505,7 +504,7 @@ begin
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
---			--report "================ CalculateTa 3 : " & real'image (ap_slv2fp (fttmp1));
+--			report "================ CalculateTa 3 : " & real'image (ap_slv2fp (fttmp1));
 		else state := s24; end if;
 	when s25 => state := s26;
 		divfpsclr <= '0';
@@ -520,7 +519,7 @@ begin
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
---			--report "================ CalculateTa 4 : " & real'image (ap_slv2fp (fttmp1));
+--			report "================ CalculateTa 4 : " & real'image (ap_slv2fp (fttmp1));
 		else state := s26; end if;
 	when s27 => state := s28;
 		subfpsclr <= '0';
@@ -529,14 +528,14 @@ begin
 		divfpa <= fttmp1;
 		divfpb <= ExtractKtPTATParameter_ktptat;
 		divfpond <= '1';
---		--report "================ CalculateTa ExtractKtPTATParameter_ktptat : " & real'image (ap_slv2fp (ExtractKtPTATParameter_ktptat));
+--		report "================ CalculateTa ExtractKtPTATParameter_ktptat : " & real'image (ap_slv2fp (ExtractKtPTATParameter_ktptat));
 	when s28 =>
 		if (divfprdy = '1') then state := s29;
 			fttmp1 := divfpr; -- ((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
---			--report "================ CalculateTa 5 : " & real'image (ap_slv2fp (fttmp1));
+--			report "================ CalculateTa 5 : " & real'image (ap_slv2fp (fttmp1));
 		else state := s28; end if;
 	when s29 => state := s30;
 		divfpsclr <= '0';
@@ -551,14 +550,16 @@ begin
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
---			--report "================ CalculateTa 6 : " & real'image (ap_slv2fp (fttmp1));
+--			report "================ CalculateTa 6 : " & real'image (ap_slv2fp (fttmp1));
 		else state := s30; end if;
 	when ending => state := idle;
 		addfpsclr <= '0';
 		o_Ta <= fttmp1;
 --		o_Ta <= x"4207F54F"; -- example 33.989559
---		--report "================ CalculateTa Ta : " & real'image (ap_slv2fp (fttmp1));
-		o_rdy <= '1';
+    --synthesis translate_off
+		report "================ CalculateTa Ta : " & real'image (ap_slv2fp (fttmp1));
+		--synthesis translate_on
+    o_rdy <= '1';
 	when others => null;
 	end case;
 end if;

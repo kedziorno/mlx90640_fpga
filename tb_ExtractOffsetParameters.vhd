@@ -28,7 +28,7 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
-USE work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 USE work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
@@ -261,10 +261,7 @@ wait for 105 ns;
 -- insert stimulus here
 ExtractOffsetParameters_run <= '1'; wait for i_clock_period; ExtractOffsetParameters_run <= '0';
 wait until ExtractOffsetParameters_rdy = '1';
-for i in 0 to 1024 loop
-	ExtractOffsetParameters_addr <= std_logic_vector (to_unsigned (i, 10));
-	wait for i_clock_period*2;
-end loop;
+report "rdy at 716.155ns";
 wait for 1 ps; -- must be for write
 report "done" severity failure;
 --wait on o_done;

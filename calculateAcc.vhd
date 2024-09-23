@@ -1042,7 +1042,7 @@ ADDR => mux_addr,
 CLK => i_clock,
 DI => mux_dia,
 DIP => (others => '0'),
-EN => ena_mux1,
+EN => i_clock,
 SSR => i_reset,
 WE => write_enable
 );

@@ -198,8 +198,8 @@ signal dualmem_doutb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 begin
 
 vga_syncn <= '1';
---vga_blankn <= VGA_timing_synch_blank;
-vga_blankn <= '1';
+vga_blankn <= VGA_timing_synch_blank;
+--vga_blankn <= '1';
 vga_psave <= '1';
 
 pTo : process (i_clock) is

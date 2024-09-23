@@ -5,7 +5,7 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
-use work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 
 ENTITY tb_ExtractKsTo1234Parameters IS
 END tb_ExtractKsTo1234Parameters;
@@ -21,10 +21,10 @@ i_run : in std_logic;
 i_ee0x243f : in slv16; -- kstoscale
 i_ee0x243d : in slv16; -- ksto1ee,ksto2ee
 i_ee0x243e : in slv16; -- ksto3ee,ksto4ee
-o_ksto1 : out fd2ft;
-o_ksto2 : out fd2ft;
-o_ksto3 : out fd2ft;
-o_ksto4 : out fd2ft;
+o_ksto1 : out std_logic_vector (31 downto 0);
+o_ksto2 : out std_logic_vector (31 downto 0);
+o_ksto3 : out std_logic_vector (31 downto 0);
+o_ksto4 : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic
 );
 end component ExtractKsTo1234Parameters;
@@ -35,10 +35,10 @@ signal ExtractKsTo1234Parameters_run : std_logic := '0';
 signal ExtractKsTo1234Parameters_ee0x243f : slv16 := (others => '0'); -- kstoscale
 signal ExtractKsTo1234Parameters_ee0x243d : slv16 := (others => '0'); -- ksto1ee,ksto2ee
 signal ExtractKsTo1234Parameters_ee0x243e : slv16 := (others => '0'); -- ksto3ee,ksto4ee
-signal ExtractKsTo1234Parameters_ksto1 : fd2ft := (others => '0');
-signal ExtractKsTo1234Parameters_ksto2 : fd2ft := (others => '0');
-signal ExtractKsTo1234Parameters_ksto3 : fd2ft := (others => '0');
-signal ExtractKsTo1234Parameters_ksto4 : fd2ft := (others => '0');
+signal ExtractKsTo1234Parameters_ksto1 : std_logic_vector (31 downto 0) := (others => '0');
+signal ExtractKsTo1234Parameters_ksto2 : std_logic_vector (31 downto 0) := (others => '0');
+signal ExtractKsTo1234Parameters_ksto3 : std_logic_vector (31 downto 0) := (others => '0');
+signal ExtractKsTo1234Parameters_ksto4 : std_logic_vector (31 downto 0) := (others => '0');
 signal ExtractKsTo1234Parameters_rdy : std_logic := '0';
 
 constant clockperiod : time := 10 ns;

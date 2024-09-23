@@ -22,7 +22,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 --use ieee_proposed.fixed_pkg.all;
 
-USE work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 USE work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
@@ -452,7 +452,7 @@ begin
 				when acc4 => state := acc5;
 				when acc5 => state := acc6;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					------------report_error (temp1, 0.0);
+					----------report_error (temp1, 0.0);
 				when acc6 => state := acc7;
 					nibble1 <= temp1 (3 downto 0); -- acc scale remnant
 				when acc7 => state := acc8;
@@ -483,7 +483,7 @@ begin
 				when acc13 => state := acc14;
 				when acc14 => state := acc15;
 					valphaRef (7 downto 0) := i2c_mem_douta; -- alpharef MSB
-					--------report_error (valphaRef, 0.0);
+					------report_error (valphaRef, 0.0);
 				
 					
 				when acc15 => state := acc16;
@@ -495,7 +495,7 @@ begin
 				when acc18 => state := acc19;
 				when acc19 => state := acc20;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					------------report_error (temp1, 0.0);
+					----------report_error (temp1, 0.0);
 					nibble2 <= temp1 (3 downto 0); -- accrowA
 				when acc20 => state := acc21;
 					dia <= out_nibble2;
@@ -526,7 +526,7 @@ begin
 				when acc27 => state := acc28;
 				when acc28 => state := acc29;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					------------report_error (temp1, 0.0);
+					----------report_error (temp1, 0.0);
 					nibble2 <= temp1 (3 downto 0); -- accrowA
 				when acc29 => state := acc30;
 					dia <= out_nibble2;
@@ -868,7 +868,7 @@ begin
 				when acc135 => state := acc136;
 				when acc136 => state := acc137;
 					temp1 (7 downto 0) := i2c_mem_douta;
-					------------report_error (temp1, 0.0);
+					----------report_error (temp1, 0.0);
 					nibble2 <= temp1 (3 downto 0); -- acccolA
 				when acc137 => state := acc138;
 					nibble2 <= temp1 (7 downto 4); -- acccolB
@@ -904,7 +904,7 @@ begin
 					vaccRowScale := out_nibble4; -- 2^accscalerow
 					----report "vaccRowScale : " & real'image (ap_slv2fp (vaccRowScale));
 --					valphaRef_sf := resize (to_sfixed (valphaRef, eeprom16sf), valphaRef_sf);
---					------------report_error (valphaRef, 0.0);
+--					----------report_error (valphaRef, 0.0);
 --					fixed2floatce_internal <= '1';
 --					fixed2floatond_internal <= '1';
 --					fixed2floata_internal <= 
@@ -958,7 +958,7 @@ when s4 => state := s5; 	--3
 	vaccRowI := doa;
 --	----report "vaccRowI : " & real'image (ap_slv2fp (vaccRowI));
 	vAlphaPixel (7 downto 0) := i2c_mem_douta;
---	--------report_error (vAlphaPixel, 0.0);
+--	------report_error (vAlphaPixel, 0.0);
 	nibble3 <= vAlphaPixel (9 downto 4);
 when s5 => state := s6; 	--5
 	mulfpce_internal <= '1';
@@ -1067,9 +1067,6 @@ when s19 => state := s20; 	--19
 --	----report "valphaReference_ft : " & real'image (ap_slv2fp (valphaReference_ft));
 when s20 => 			--20
 	if (addfprdy_internal = '1') then state := s21;
-    --report_error ("addfpa 3 : ",   addfpa_internal,0.0);
-    --report_error ("addfpb 3 : ",   addfpb_internal,0.0);
-    --report_error ("* addfpr 3 : ", addfpr_internal,0.0);
 		vAlphaPixel_ft := addfpr_internal;
 		addfpce_internal <= '0';
 		addfpond_internal <= '0';
@@ -1099,11 +1096,10 @@ when s24 => state := s25; 	--22
 	write_enable <= '1';
 	addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vAlphaPixel_ft
 	dia <= vAlphaPixel_ft;
+	--synthesis translate_off
+  report "================vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
+  --synthesis translate_on
 	i := i + 1;
-  -- synthesis translate_off
---	report "================vAlphaPixel_ft : " & real'image (ap_slv2fp (vAlphaPixel_ft));
-	--report_error ("================vAlphaPixel_ft : ",vAlphaPixel_ft,0.0);
-  -- synthesis translate_on
 when s25 =>
 	if (col = C_COL-1) then
 		col := 0;
@@ -1141,7 +1137,7 @@ ADDR => mux_addr,
 CLK => i_clock,
 DI => mux_dia,
 DIP => (others => '0'),
-EN => '1',
+EN => i_clock,
 SSR => i_reset,
 WE => write_enable
 );

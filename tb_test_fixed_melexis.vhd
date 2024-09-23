@@ -10,7 +10,7 @@ USE ieee.numeric_std.ALL;
 --use ieee_proposed.standard_textio_additions.all;
 --use ieee_proposed.std_logic_1164_additions.all;
 
---USE work.p_fphdl_package1.all;
+----use work.p_fphdl_package1.all;
 USE work.p_fphdl_package3.all;
 
 ENTITY tb_test_fixed_melexis IS
