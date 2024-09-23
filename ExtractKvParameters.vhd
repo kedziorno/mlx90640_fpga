@@ -22,7 +22,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 --use ieee_proposed.fixed_pkg.all;
 
---use work.p_fphdl_package1.all;
+use work.p_fphdl_package2.all;
 USE work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
@@ -306,7 +306,6 @@ end process p1;
 
 
 p0 : process (i_clock) is
-
 	type states is (idle,
 	kv0,kv1,kv2,kv3,kv4,
 	kv5,kv6,kv7,kv8,kv9,
@@ -316,26 +315,14 @@ p0 : process (i_clock) is
 	variable vkvRemScale : std_logic_vector (31 downto 0);
 	variable vkvColumnScale : std_logic_vector (31 downto 0);
 	variable vkvRowScale : std_logic_vector (31 downto 0);
-
 	variable vkvRemScale1 : std_logic_vector (3 downto 0);
 	variable vkvColumnScale1 : std_logic_vector (3 downto 0);
 	variable vkvRowScale1 : std_logic_vector (3 downto 0);
-
 	variable valphaRef1: std_logic_vector (15 downto 0);
 	variable valphaRef : std_logic_vector (15 downto 0);
 	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
 	variable vkvcolumnj,kvrowi,vkvrowi,valphaReference_ft,vAlphaPixel_ft,kvijee_ft,kv_ft : std_logic_vector (31 downto 0);
 	variable temp1,vAlphaPixel : std_logic_vector (15 downto 0);
-
---	variable fracas : fracas;
---	variable fracbs : fracbs;
---	variable fracau : fracau;
---	variable fracbu : fracbu;
---	variable vAlphaPixel_sf,valphaRef_sf : st_sfixed_max;
---	variable eeprom16slv,ram16slv : slv16;
---	variable eeprom16sf,ram16sf : sfixed16;
---	variable eeprom16uf,ram16uf : ufixed16;
-
 	variable i : integer range 0 to (C_ROW*C_COL)-1;
 begin
 	if (rising_edge (i_clock)) then
@@ -368,16 +355,14 @@ begin
 						i2c_mem_ena <= '0';
 						write_enable <= '0';
 					end if;
-
 				when kv0 => state := kv1;
 					divfpsclr_internal <= '0';
 					rdy <= '0';
-				when kv1 => state := kv2;
+				when kv1 => state := kv2; -- XXX loop
 					i2c_mem_addra <= std_logic_vector (to_unsigned (112, 12)); -- 2438 MSB - kvscale 56*2+0
 				when kv2 => state := kv3;
 				when kv3 => state := kv4;
 					nibble1 <= i2c_mem_douta (3 downto 0);
-
 				when kv4 => state := kv5;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (104, 12)); -- 2434 LSB - kvijee 52*2+0
 				when kv5 => state := kv6;
@@ -390,51 +375,45 @@ begin
 					kvijee_ee <= i2c_mem_douta (3 downto 0);
 				when kv8 => state := kv9;
 					nibble2 <= kvijee;
-
-when kv9 => state := kv10;
-	divfpce_internal <= '1';
-	divfpa_internal <= out_nibble2; -- kvij 
-	divfpb_internal <= out_nibble1; -- 2^kvscale
-	divfpond_internal <= '1';
-when kv10 => 			--6
-	if (divfprdy_internal = '1') then state := kv11;
-		kv_ft := divfpr_internal;
-		divfpce_internal <= '0';
-		divfpond_internal <= '0';
-		divfpsclr_internal <= '1';
-	else state := kv10; end if;
-when kv11 => state := kv12; 	--7
-	divfpsclr_internal <= '0';
-
-when kv12 => state := kv13; 	--22
-	write_enable <= '1';
-	addra <= std_logic_vector (to_unsigned (i, 10)); -- kv
-	dia <= kv_ft;
-  --synthesis translate_off
-	report "================kv_ft : " & real'image (ap_slv2fp (kv_ft));
-  --synthesis translate_on
-when kv13 =>
-	i := i + 1;
-	write_enable <= '0';
-	if (col = C_COL-1) then
-		col <= 0;
-		state := kv14;
-	else
-		col <= col + 1;
-		state := kv1;
-	end if;
-when kv14 =>
-	write_enable <= '0';
-	if (row = C_ROW-1) then
-		row <= 0;
-		state := ending;
-	else
-		row <= row + 1;
-		state := kv1;
-	end if;
-
-				when ending => state := idle;
-					rdy <= '1';
+        when kv9 =>
+          divfpce_internal <= '1';
+          divfpa_internal <= out_nibble2; -- kvij 
+          divfpb_internal <= out_nibble1; -- 2^kvscale
+          divfpond_internal <= '1';
+          if (divfprdy_internal = '1') then state := kv11;
+            kv_ft := divfpr_internal;
+            divfpce_internal <= '0';
+            divfpond_internal <= '0';
+            divfpsclr_internal <= '1';
+          else state := kv9; end if;
+        when kv11 => state := kv13; 	--7
+          divfpsclr_internal <= '0';
+          write_enable <= '1';
+          addra <= std_logic_vector (to_unsigned (i, 10)); -- kv
+          dia <= kv_ft;
+          --synthesis translate_off
+          report "================kv_ft : " & real'image (ap_slv2fp (kv_ft));
+          --synthesis translate_on
+        when kv13 =>
+          i := i + 1;
+          write_enable <= '0';
+          if (col = C_COL-1) then
+            col <= 0;
+            state := kv14;
+          else
+            col <= col + 1;
+            state := kv1;
+          end if;
+        when kv14 =>
+          write_enable <= '0';
+          if (row = C_ROW-1) then
+            row <= 0;
+            state := idle;
+            rdy <= '1';
+          else
+            row <= row + 1;
+            state := kv1;
+          end if;
 				when others => null;
 			end case;
 		end if;

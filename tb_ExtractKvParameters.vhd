@@ -170,19 +170,83 @@ ExtractKvParameters_reset <= '1', '0' after 100 ns ;
 
 -- Stimulus process
 stim_proc: process
+type itemr is record
+a : std_logic_vector (31 downto 0);
+b : integer;
+end record; 
+type ten_items is array (0 to 9) of itemr;
+type mid_items is array (0 to 1) of itemr;
+type datar is record
+first : ten_items;
+middle : mid_items;
+last : ten_items;
+end record;
+-- XXX data from ExtractKvParameters
+constant datao : datar := (
+first => ( -- XXX beginig from 0x3ec00000
+(a => x"3ec00000", b => 30),
+(a => x"3ec00000", b => 31),
+(a => x"3ec00000", b => 32),
+(a => x"3ee00000", b => 33),
+(a => x"3ec00000", b => 34),
+(a => x"3ee00000", b => 35),
+(a => x"3ec00000", b => 36),
+(a => x"3ee00000", b => 37),
+(a => x"3ec00000", b => 38),
+(a => x"3ee00000", b => 39)
+),
+middle => (
+(a => x"3ec00000", b => 382),
+(a => x"3ee00000", b => 383)
+),
+last => (
+(a => x"3ec00000", b => 758),
+(a => x"3ee00000", b => 759),
+(a => x"3ec00000", b => 760),
+(a => x"3ee00000", b => 761),
+(a => x"3ec00000", b => 762),
+(a => x"3ee00000", b => 763),
+(a => x"3ec00000", b => 764),
+(a => x"3ee00000", b => 765),
+(a => x"3ec00000", b => 766),
+(a => x"3ee00000", b => 767)
+)
+);
 begin
 -- hold reset state for 100 ns.
 wait for 105 ns;
 -- insert stimulus here
 ExtractKvParameters_run <= '1'; wait for i_clock_period; ExtractKvParameters_run <= '0';
 wait until ExtractKvParameters_rdy = '1';
+report "rdy at 315.235us";
 for i in 0 to 1024 loop
 	ExtractKvParameters_addr <= std_logic_vector (to_unsigned (i, 10));
 	wait for i_clock_period*2;
 end loop;
+for i in 0 to 9 loop
+ExtractKvParameters_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
+wait until rising_edge (ExtractKvParameters_clock);
+wait until rising_edge (ExtractKvParameters_clock);
+warning_neq_fp (ExtractKvParameters_do, datao.first(i).a, "first " & integer'image (datao.first(i).b));
+wait until rising_edge (ExtractKvParameters_clock);
+end loop;
+for i in 0 to 1 loop
+ExtractKvParameters_addr <= std_logic_vector (to_unsigned (datao.middle(i).b, 10));
+wait until rising_edge (ExtractKvParameters_clock);
+wait until rising_edge (ExtractKvParameters_clock);
+warning_neq_fp (ExtractKvParameters_do, datao.middle(i).a, "middle " & integer'image (datao.middle(i).b));
+wait until rising_edge (ExtractKvParameters_clock);
+end loop;
+for i in 0 to 9 loop -- XXX last_9 is OK here (tb_CalculateAlphaComp)
+ExtractKvParameters_addr <= std_logic_vector (to_unsigned (datao.last(i).b, 10));
+wait until rising_edge (ExtractKvParameters_clock);
+wait until rising_edge (ExtractKvParameters_clock);
+warning_neq_fp (ExtractKvParameters_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
+wait until rising_edge (ExtractKvParameters_clock);
+end loop;
 wait for 1 ps; -- must be for write
+report "end at 336.385us";
 report "done" severity failure;
---wait on o_done;
 end process;
 
 ExtractKvParameters_divfpclk <= ExtractKvParameters_clock;
