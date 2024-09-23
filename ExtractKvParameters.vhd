@@ -307,10 +307,9 @@ end process p1;
 
 p0 : process (i_clock) is
 	type states is (idle,
-	kv0,kv1,kv2,kv3,kv4,
-	kv5,kv6,kv7,kv8,kv9,
-	kv10,kv11,kv12,kv13,kv14,
-	ending);
+	kv1,kv2,kv3,kv4,
+	kv5,kv6,kv7,kv9,
+	kv11,kv13);
 	variable state : states;
 	variable vkvRemScale : std_logic_vector (31 downto 0);
 	variable vkvColumnScale : std_logic_vector (31 downto 0);
@@ -321,9 +320,10 @@ p0 : process (i_clock) is
 	variable valphaRef1: std_logic_vector (15 downto 0);
 	variable valphaRef : std_logic_vector (15 downto 0);
 	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
-	variable vkvcolumnj,kvrowi,vkvrowi,valphaReference_ft,vAlphaPixel_ft,kvijee_ft,kv_ft : std_logic_vector (31 downto 0);
+	variable vkvcolumnj,kvrowi,vkvrowi,valphaReference_ft,vAlphaPixel_ft,kvijee_ft : std_logic_vector (31 downto 0);
 	variable temp1,vAlphaPixel : std_logic_vector (15 downto 0);
 	variable i : integer range 0 to (C_ROW*C_COL)-1;
+  variable v_kvijee_oo,v_kvijee_oe,v_kvijee_eo,v_kvijee_ee : std_logic_vector (3 downto 0);
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -347,20 +347,16 @@ begin
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := kv0;
+						state := kv1;
 						i2c_mem_ena <= '1';
-						write_enable <= '1';
 					else
 						state := idle;
 						i2c_mem_ena <= '0';
-						write_enable <= '0';
 					end if;
-				when kv0 => state := kv1;
 					divfpsclr_internal <= '0';
-					rdy <= '0';
-				when kv1 => state := kv2; -- XXX loop
-					i2c_mem_addra <= std_logic_vector (to_unsigned (112, 12)); -- 2438 MSB - kvscale 56*2+0
-				when kv2 => state := kv3;
+        when kv1 => state := kv2;
+          i2c_mem_addra <= std_logic_vector (to_unsigned (112, 12)); -- 2438 MSB - kvscale 56*2+0
+        when kv2 => state := kv3;
 				when kv3 => state := kv4;
 					nibble1 <= i2c_mem_douta (3 downto 0);
 				when kv4 => state := kv5;
@@ -368,12 +364,15 @@ begin
 				when kv5 => state := kv6;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (105, 12)); -- 2434 MSB - kvijee 52*2+1
 				when kv6 => state := kv7;
-					kvijee_oo <= i2c_mem_douta (7 downto 4);
-					kvijee_eo <= i2c_mem_douta (3 downto 0);
-				when kv7 => state := kv8;
-					kvijee_oe <= i2c_mem_douta (7 downto 4);
-					kvijee_ee <= i2c_mem_douta (3 downto 0);
-				when kv8 => state := kv9;
+          v_kvijee_oo := i2c_mem_douta (7 downto 4);
+					v_kvijee_eo := i2c_mem_douta (3 downto 0);
+				when kv7 => state := kv9; -- XXX v_ with more regs, but without read items once again from i2c mem (jump to kv7 in loop)
+					v_kvijee_oe := i2c_mem_douta (7 downto 4);
+					v_kvijee_ee := i2c_mem_douta (3 downto 0);
+          kvijee_oo <= v_kvijee_oo;
+					kvijee_eo <= v_kvijee_eo;
+					kvijee_oe <= v_kvijee_oe;
+					kvijee_ee <= v_kvijee_ee;
 					nibble2 <= kvijee;
         when kv9 =>
           divfpce_internal <= '1';
@@ -381,7 +380,6 @@ begin
           divfpb_internal <= out_nibble1; -- 2^kvscale
           divfpond_internal <= '1';
           if (divfprdy_internal = '1') then state := kv11;
-            kv_ft := divfpr_internal;
             divfpce_internal <= '0';
             divfpond_internal <= '0';
             divfpsclr_internal <= '1';
@@ -390,31 +388,27 @@ begin
           divfpsclr_internal <= '0';
           write_enable <= '1';
           addra <= std_logic_vector (to_unsigned (i, 10)); -- kv
-          dia <= kv_ft;
+          dia <= divfpr_internal;
           --synthesis translate_off
-          report "================kv_ft : " & real'image (ap_slv2fp (kv_ft));
+          report "================kv_ft : " & real'image (ap_slv2fp (divfpr_internal));
           --synthesis translate_on
         when kv13 =>
           i := i + 1;
           write_enable <= '0';
           if (col = C_COL-1) then
             col <= 0;
-            state := kv14;
+            if (row = C_ROW-1) then
+              row <= 0;
+              state := idle;
+              rdy <= '1';
+            else
+              row <= row + 1;
+              state := kv7;
+            end if;
           else
             col <= col + 1;
-            state := kv1;
+            state := kv7;
           end if;
-        when kv14 =>
-          write_enable <= '0';
-          if (row = C_ROW-1) then
-            row <= 0;
-            state := idle;
-            rdy <= '1';
-          else
-            row <= row + 1;
-            state := kv1;
-          end if;
-				when others => null;
 			end case;
 		end if;
 	end if;

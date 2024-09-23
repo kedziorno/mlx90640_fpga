@@ -218,11 +218,9 @@ wait for 105 ns;
 -- insert stimulus here
 ExtractKvParameters_run <= '1'; wait for i_clock_period; ExtractKvParameters_run <= '0';
 wait until ExtractKvParameters_rdy = '1';
-report "rdy at 315.235us";
-for i in 0 to 1024 loop
-	ExtractKvParameters_addr <= std_logic_vector (to_unsigned (i, 10));
-	wait for i_clock_period*2;
-end loop;
+--report "rdy at 315.235us";
+--report "rdy at 261.515us";
+report "rdy at 261.285us";
 for i in 0 to 9 loop
 ExtractKvParameters_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
 wait until rising_edge (ExtractKvParameters_clock);
@@ -245,7 +243,9 @@ warning_neq_fp (ExtractKvParameters_do, datao.last(i).a, "last " & integer'image
 wait until rising_edge (ExtractKvParameters_clock);
 end loop;
 wait for 1 ps; -- must be for write
-report "end at 336.385us";
+--report "end at 336.385us";
+--report "end at 282.665us";
+report "end at 261.945us";
 report "done" severity failure;
 end process;
 
