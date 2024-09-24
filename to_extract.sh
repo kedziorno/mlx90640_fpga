@@ -1,5 +1,10 @@
 #!/bin/bash
-asd=`awk -F " " '{print $8}' $1`
+if [[ $# -ne 2 ]]; then
+echo "Usage: [logfile.txt with \"To XXX : \" format] [output.csv]"
+exit 1;
+fi
+asd=`grep -E "To [0-9]+" $1 | awk -F " " '{print $8}'`
+#asd=`awk -F " " '{print $8}' $1`
 #echo $asd
 i=1
 b=""
