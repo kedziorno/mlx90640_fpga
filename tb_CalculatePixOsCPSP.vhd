@@ -304,6 +304,7 @@ CalculatePixOSCPSP_Vdd <= x"40D2F5C3"; -- 6.5925
 CalculatePixOSCPSP_VddV0 <= x"40533333"; -- 3.3
 CalculatePixOsCPSP_run <= '1'; wait for clockperiod; CalculatePixOsCPSP_run <= '0';
 wait until CalculatePixOsCPSP_rdy = '1';
+report "rdy at 4.165us";
 warning_neq_fp (CalculatePixOsCPSP_pixoscpsp0, x"42b06005", "pixoscpsp0");
 warning_neq_fp (CalculatePixOsCPSP_pixoscpsp1, x"42a9f7c2", "pixoscpsp1");
 wait for 1 ps;
