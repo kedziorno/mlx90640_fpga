@@ -288,8 +288,10 @@ wait for clock_period*10;
 -- Add user defined stimulus here
 calculateVdd_run <= '1'; wait for clock_period; calculateVdd_run <= '0';
 wait until calculateVdd_rdy = '1';
-warning_neq_fp (CalculateVdd_Vdd, x"4052B852", "Vdd");
-report "rdy at 1.695us";
+warning_neq_fp (CalculateVdd_Vdd, x"4052b852", "Vdd");
+--report "rdy at 1.695us";
+--report "rdy at 1.645us";
+report "rdy at 1.605us";
 wait for 100 ns;
 report "done" severity failure;
 END PROCESS tbprocess;
