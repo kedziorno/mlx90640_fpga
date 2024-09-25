@@ -325,16 +325,13 @@ END COMPONENT;
 
 signal odata_kvdd : std_logic_vector (31 downto 0);
 signal odata_vdd25 : std_logic_vector (31 downto 0);
---signal address_kvdd : std_logic_vector (14 downto 0);
---signal address_vdd25 : std_logic_vector (14 downto 0);
 signal address_kvdd : std_logic_vector (8 downto 0);
 signal address_vdd25 : std_logic_vector (8 downto 0);
 
 begin
 
 p0 : process (i_clock) is
-	variable ee2433 : std_logic_vector (15 downto 0);
-	type states is (idle,s1,s2,s3,s4,s5,s6,s7,ending);
+	type states is (idle,s1,s2,s3,s4,s5);
 	variable state : states;
 begin
 	if (rising_edge (i_clock)) then
@@ -342,35 +339,30 @@ begin
 			state := idle;
 			i2c_mem_ena <= '0';
 			o_rdy <= '0';
+      address_kvdd <= (others => '0');
+      address_vdd25 <= (others => '0');
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
 						state := s1;
 						i2c_mem_ena <= '1';
+            i2c_mem_addra <= std_logic_vector (to_unsigned (51*2+0, 12)); -- 2433 MSB kvdd
 					else
 						state := idle;
 						i2c_mem_ena <= '0';
 					end if;
 				when s1 => state := s2;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (51*2+0, 12)); -- 2433 MSB kvdd
-				when s2 => state := s3;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (51*2+1, 12)); -- 2433 LSB vdd25
+				when s2 => state := s3;
+					address_kvdd  <= "0"&i2c_mem_douta;
 				when s3 => state := s4;
-					ee2433 (15 downto 8) := i2c_mem_douta;
+					address_vdd25 <= "1"&i2c_mem_douta;
 				when s4 => state := s5;
-					ee2433 (7 downto 0) := i2c_mem_douta;
-				when s5 => state := s6;
-					address_kvdd  <= "0"&ee2433 (15 downto 8);
-					address_vdd25 <= "1"&ee2433 (7 downto 0);
-				when s6 => state := s7;
-				when s7 => state := ending;
---					o_kvdd <= odata_kvdd (19 downto 0)&x"000";
---					o_vdd25 <= odata_vdd25 (19 downto 0)&x"000";
+          o_rdy <= '1';
+        when s5 => state := idle;
 					o_kvdd <= odata_kvdd;
 					o_vdd25 <= odata_vdd25;
-				when ending => state := idle;
-					o_rdy <= '1';
 			end case;
 		end if;
 	end if;
