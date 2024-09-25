@@ -101,8 +101,8 @@ package body p_fphdl_package3 is
     variable src : float32 := a;
     variable dst : float32 := b;
   begin
-    assert not (src = dst) report info & HT & " current == expected " & HT & real'image (to_real(src)) & " == " & real'image (to_real(dst)) severity note;
-    assert     (src = dst) report info & HT & " current /= expected " & HT & real'image (to_real(src)) & " /= " & real'image (to_real(dst)) severity warning;
+    assert not (src = dst) report info & HT & " current == expected " & HT & real'image (to_real(src)) & " == " & real'image (to_real(dst)) & HT & to_hex_string(src) & " == " & (to_hex_string(dst)) severity note;
+    assert     (src = dst) report info & HT & " current /= expected " & HT & real'image (to_real(src)) & " /= " & real'image (to_real(dst)) & HT & to_hex_string(src) & " /= " & (to_hex_string(dst)) severity warning;
   end procedure;
 
   procedure warning_neq_fp (a : in std_logic_vector (31 downto 0); b : in real; info : in string := "") is
