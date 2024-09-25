@@ -398,7 +398,7 @@ wait for i_clock_period*10;
 CalculateVirCompensated_run <= '1'; wait for i_clock_period; CalculateVirCompensated_run <= '0';
 report "before loop";
 for i in 0 to 767 loop
-wait for 1.04us; -- XXX the same as CalculateVirCompensated wait for data from CalculatePixOS MEM
+wait for 0.890us; -- XXX the same as CalculateVirCompensated wait for data from CalculatePixOS MEM
 for k in 0 to 9 loop
 if CalculateVirCompensated_pixos_addr = std_logic_vector (to_unsigned (data.first(k).b, 10)) then
 CalculateVirCompensated_pixos_do <= data.first(k).a;
@@ -418,7 +418,8 @@ end loop;
 report "after loop";
 wait until CalculateVirCompensated_rdy = '1';
 --report "rdy at 806.665us";
-report "rdy at 798.975us";
+--report "rdy at 798.975us";
+report "rdy at 683.765us";
 CalculateVirCompensated_addr <= std_logic_vector (to_unsigned (0, 10)); -- XXX data start at addr 1 TODO FIX
 wait until rising_edge (CalculateVirCompensated_clock);
 wait until rising_edge (CalculateVirCompensated_clock);
@@ -445,7 +446,8 @@ warning_neq_fp (CalculateVirCompensated_do, datao.last(i).a, "last " & integer'i
 wait until rising_edge (CalculateVirCompensated_clock);
 end loop;
 --report "done at 807.345us";
-report "done at 799.655us";
+--report "done at 799.655us";
+report "done at 684.445us";
 wait for 1 ps;
 report "done" severity failure;
 end process stim_proc;
