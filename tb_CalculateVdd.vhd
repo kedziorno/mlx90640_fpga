@@ -14,10 +14,10 @@ use ieee_proposed.std_logic_1164_additions.all;
 --use work.p_fphdl_package1.all;
 USE work.p_fphdl_package3.all;
 
-ENTITY tb_calculateVdd IS
-END tb_calculateVdd;
+ENTITY tb_CalculateVdd IS
+END tb_CalculateVdd;
 
-ARCHITECTURE tb OF tb_calculateVdd IS 
+ARCHITECTURE tb OF tb_CalculateVdd IS 
 
 COMPONENT fixed2float
 PORT (
@@ -198,12 +198,6 @@ signal CalculateVdd_subfpclk : std_logic;
 signal CalculateVdd_mulfpclk : std_logic;
 signal CalculateVdd_divfpclk : std_logic;
 
---signal CalculateVdd_fixed2floatsclr : std_logic;
---signal CalculateVdd_addfpsclr : std_logic;
---signal CalculateVdd_subfpsclr : std_logic;
---signal CalculateVdd_mulfpsclr : std_logic;
---signal CalculateVdd_divfpsclr : std_logic;
-
 constant clock_period : time := 10 ns;
 
 signal out1r : real;
@@ -294,6 +288,8 @@ wait for clock_period*10;
 -- Add user defined stimulus here
 calculateVdd_run <= '1'; wait for clock_period; calculateVdd_run <= '0';
 wait until calculateVdd_rdy = '1';
+warning_neq_fp (CalculateVdd_Vdd, x"4052B852", "Vdd");
+report "rdy at 1.695us";
 wait for 100 ns;
 report "done" severity failure;
 END PROCESS tbprocess;
@@ -304,12 +300,6 @@ CalculateVdd_addfpclk <= calculateVdd_clock;
 CalculateVdd_subfpclk <= calculateVdd_clock;
 CalculateVdd_mulfpclk <= calculateVdd_clock;
 CalculateVdd_divfpclk <= calculateVdd_clock;
-
---CalculateVdd_fixed2floatsclr <= calculateVdd_reset;
---CalculateVdd_addfpsclr <= calculateVdd_reset;
---CalculateVdd_subfpsclr <= calculateVdd_reset;
---CalculateVdd_mulfpsclr <= calculateVdd_reset;
---CalculateVdd_divfpsclr <= calculateVdd_reset;
 
 inst_fixed2float : fixed2float
 PORT MAP (

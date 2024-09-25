@@ -33,7 +33,7 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity calculateVdd is
+entity CalculateVdd is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -85,9 +85,9 @@ subfpsclr : out STD_LOGIC;
 subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 subfprdy : in STD_LOGIC
 );
-end calculateVdd;
+end CalculateVdd;
 
-architecture Behavioral of calculateVdd is
+architecture Behavioral of CalculateVdd is
 
 COMPONENT ExtractVDDParameters
 PORT(
@@ -135,20 +135,10 @@ ExtractVDDParameters_i2c_mem_douta <= i2c_mem_douta when ExtractVDDParameters_mu
 i2c_mem_douta_internal <= i2c_mem_douta;
 
 p0 : process (i_clock) is
---	variable eeprom16slv,ram16slv : slv16;
---	variable eeprom16sf,ram16sf : sfixed16;
---	variable eeprom16uf,ram16uf : ufixed16;
-	variable fttmp1,fttmp2 : std_logic_vector (31 downto 0);
---	variable fptmp1,fptmp2 : st_sfixed_max;
---	variable fracas : fracas;
---	variable fracbs : fracbs;
---	variable fracau : fracau;
---	variable fracbu : fracbu;
 	type states is (idle,
-	s1,s2,s3,s4,s5,s6,s7a,s9,s10,
-	s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,
-	s21,s22,s23,
-	ending);
+	s2,s4,s5,s9,s10,
+	s11,s12,s13,s15,s17,s19,
+	s21,s23);
 	variable state : states;
 	constant const3dot3_ft : std_logic_vector (31 downto 0) := x"40533333";
 	variable ram072a : std_logic_vector (15 downto 0);
@@ -162,39 +152,17 @@ begin
 		subfpsclr <= '1';
 		mulfpsclr <= '1';
 		divfpsclr <= '1';
---		fixed2floata <= (others => '0');
---		fixed2floatce <= '0';
---		fixed2floatond <= '0';
---		mulfpa <= (others => '0');
---		mulfpb <= (others => '0');
---		mulfpce <= '0';
---		mulfpond <= '0';
---		addfpa <= (others => '0');
---		addfpb <= (others => '0');
---		addfpce <= '0';
---		addfpond <= '0';
---		subfpce <= '0';
---		subfpond <= '0';
---		subfpa <= (others => '0');
---		subfpb <= (others => '0');
---		divfpce <= '0';
---		divfpond <= '0';
---		divfpa <= (others => '0');
---		divfpb <= (others => '0');
---		eeprom16slv := (others => '0');
---		ram16slv := (others => '0');
 		o_Vdd <= (others => '0');
---		o_kvdd <= (others => '0');
---		o_vdd25 <= (others => '0');
---		o_ram0x072a <= (others => '0');
 		o_rdy <= '0';
 		i2c_mem_ena_internal <= '0';
 	else
 	case (state) is
 	when idle =>
 		if (i_run = '1') then
-			state := s1;
+			state := s2;
 			i2c_mem_ena_internal <= '1';
+      ExtractVDDParameters_run <= '1';
+      ExtractVDDParameters_mux <= '1';
 		else
 			state := idle;
 			i2c_mem_ena_internal <= '0';
@@ -204,36 +172,31 @@ begin
 		subfpsclr <= '0';
 		mulfpsclr <= '0';
 		divfpsclr <= '0';
-	when s1 => state := s2;
-		ExtractVDDParameters_run <= '1';
-		ExtractVDDParameters_mux <= '1';
 	when s2 => 
 		ExtractVDDParameters_run <= '0';
 		if (ExtractVDDParameters_rdy = '1') then
-			state := s3;
+			state := s4;
 			ExtractVDDParameters_mux <= '0';
+      i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+0, 12)); -- 2438 MSB resolutionee 2bit & 3000
 		else
 			state := s2;
 			ExtractVDDParameters_mux <= '1';
 		end if;
-	when s3 => state := s4;
-		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+0, 12)); -- 2438 MSB resolutionee 2bit & 3000
 	when s4 => state := s5;
-		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1, 12)); -- xxx request ram800d & 0c00 resolutionreg 2bit or constant
-	when s5 => state := s6;
+    resolutionreg <= resreg (11 downto 10);
+		--i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1, 12)); -- xxx request ram800d & 0c00 resolutionreg 2bit or constant
+	when s5 => state := s9;
 		resolutionee <= i2c_mem_douta_internal (5 downto 4);
-	when s6 => state := s7a;
---		resolutionreg <= i2c_mem_douta_internal (3 downto 2); --0x0c00=0000 1100 0000 0000
-		resolutionreg <= resreg (11 downto 10);
-	when s7a => state := s9;
+	--when s6 => state := s9;
+    --resolutionreg <= i2c_mem_douta_internal (3 downto 2); --0x0c00=0000 1100 0000 0000
+		--resolutionreg <= resreg (11 downto 10); -- XXX s4
+	when s9 =>
 		-- resolutioncorr
 		divfpce <= '1';
 		divfpa <= out_resolutionee;
 		divfpb <= out_resolutionreg;
 		divfpond <= '1';
-	when s9 =>
 		if (divfprdy = '1') then state := s10;
-			fttmp1 := divfpr;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -245,16 +208,9 @@ begin
 		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(810*2)+1, 12)); -- ram072a LSB
 	when s12 => state := s13;
 		ram072a (15 downto 8) := i2c_mem_douta_internal;
-	when s13 => state := s14;
-		ram072a (7 downto 0) := i2c_mem_douta_internal;
-	when s14 => state := s15;
-		-- ram[0x072a]
---		fptmp2 := resize (to_sfixed (ram072a, eeprom16sf), fptmp2);
---		fixed2floatce <= '1';
---		fixed2floatond <= '1';
---		fixed2floata <= 
---		to_slv (to_sfixed (to_slv (fptmp2 (fracas'high downto fracas'low)), fracas)) & 
---		to_slv (to_sfixed (to_slv (fptmp2 (fracbs'high downto fracbs'low)), fracbs));
+	when s13 => state := s15;
+		ram072a (7 downto 0) := i2c_mem_douta_internal;		
+	when s15 =>
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <=
@@ -268,75 +224,63 @@ begin
 		ram072a (15) & ram072a (15) & 
 		ram072a (15) & ram072a (15) & 
 		ram072a (15) & ram072a & "00000000000000000000000000000";
-	when s15 =>
-		if (fixed2floatrdy = '1') then state := s16;
-			fttmp2 := fixed2floatr;
+    if (fixed2floatrdy = '1') then state := s17;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
 		else state := s15; end if;
-	when s16 => state := s17;
+	when s17 =>
 		fixed2floatsclr <= '0';
 		mulfpce <= '1';
-		mulfpa <= fttmp1; -- resolutioncorr
-		mulfpb <= fttmp2; -- ram[0x072a]
+		mulfpa <= divfpr; -- resolutioncorr
+		mulfpb <= fixed2floatr; -- ram[0x072a]
 		mulfpond <= '1';
-	when s17 =>
-		if (mulfprdy = '1') then state := s18;
-			fttmp1 := mulfpr;
+		if (mulfprdy = '1') then state := s19;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
 		else state := s17; end if;
-	when s18 => state := s19;
-		subfpce <= '1';
-		subfpa <= fttmp1;
+	when s19 =>
+		mulfpsclr <= '0';
+    subfpce <= '1';
+		subfpa <= mulfpr;
 		subfpb <= ExtractVDDParameters_vdd25;
 		subfpond <= '1';
-	when s19 =>
-		if (subfprdy = '1') then state := s20;
-			fttmp1 := subfpr;
+		if (subfprdy = '1') then state := s21;
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
 		else state := s19; end if;
-	when s20 => state := s21;
+	when s21 =>
 		subfpsclr <= '0';
 		divfpce <= '1';
-		divfpa <= fttmp1;
+		divfpa <= subfpr;
 		divfpb <= ExtractVDDParameters_kvdd;
 		divfpond <= '1';
-	when s21 =>
-		if (divfprdy = '1') then state := s22;
-			fttmp1 := divfpr;
+		if (divfprdy = '1') then state := s23;
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
 		else state := s21; end if;
-	when s22 => state := s23;
+	when s23 =>
 		divfpsclr <= '0';
 		addfpce <= '1';
-		addfpa <= fttmp1;
+		addfpa <= divfpr;
 		addfpb <= const3dot3_ft;
 		addfpond <= '1';
-	when s23 =>
-		if (addfprdy = '1') then state := ending;
-			fttmp1 := addfpr;
+		if (addfprdy = '1') then state := idle;
+      o_rdy <= '1';
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
+      o_Vdd <= addfpr;
+      --synthesis translate_off
+      report "================ CalculateVdd o_Vdd : " & real'image (ap_slv2fp (addfpr));
+      report "================ CalculateVdd o_kvdd : " & real'image (ap_slv2fp (ExtractVDDParameters_kvdd));
+      report "================ CalculateVdd o_vdd25 : " & real'image (ap_slv2fp (ExtractVDDParameters_vdd25));
+      report "================ CalculateVdd o_ram0x072a : " & real'image (ap_slv2fp (addfpr));
+      --synthesis translate_on
 		else state := s23; end if;
-	when ending => state := idle;
-		addfpsclr <= '0';
-		o_Vdd <= fttmp1;
-    --synthesis translate_off
-		report "================ CalculateVdd o_Vdd : " & real'image (ap_slv2fp (fttmp1));
-		report "================ CalculateVdd o_kvdd : " & real'image (ap_slv2fp (ExtractVDDParameters_kvdd));
-		report "================ CalculateVdd o_vdd25 : " & real'image (ap_slv2fp (ExtractVDDParameters_vdd25));
-		report "================ CalculateVdd o_ram0x072a : " & real'image (ap_slv2fp (fttmp2));
-    --synthesis translate_on
-		o_rdy <= '1';
-	when others => null;
 	end case;
 end if;
 end if;
