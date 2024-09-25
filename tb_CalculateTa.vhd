@@ -290,6 +290,8 @@ wait for clock_period*10;
 calculateTa_Vdd <= x"4052B852"; -- 3.292500
 calculateTa_run <= '1'; wait for clock_period; calculateTa_run <= '0';
 wait until calculateTa_rdy = '1';
+warning_neq_fp (calculateTa_Ta, x"4207f54d", "Ta");
+report "rdy at 2.965us";
 report "done" severity failure;
 END PROCESS tbprocess;
 --  End Test Bench 
@@ -299,12 +301,6 @@ CalculateTa_addfpclk <= CalculateTa_clock;
 CalculateTa_subfpclk <= CalculateTa_clock;
 CalculateTa_mulfpclk <= CalculateTa_clock;
 CalculateTa_divfpclk <= CalculateTa_clock;
-
---CalculateTa_fixed2floatsclr <= CalculateTa_reset;
---CalculateTa_addfpsclr <= CalculateTa_reset;
---CalculateTa_subfpsclr <= CalculateTa_reset;
---CalculateTa_mulfpsclr <= CalculateTa_reset;
---CalculateTa_divfpsclr <= CalculateTa_reset;
 
 inst_fixed2float : fixed2float
 PORT MAP (
