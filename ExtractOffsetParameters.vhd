@@ -312,13 +312,34 @@ mux_dia <= dia when rdy = '0' else (others => '0');
 
 p0 : process (i_clock) is
 	type states is (idle,
-	occ1,occ2,occ3,occ4,
-	occ5,occ6,occ19,
-	occ20,occ21,occ22,occ23,occ24,
-	occ25,occ26,occ27,occ28,occ29,
-	occ30,occ31,occ139,
-	pow0,pow1,pow2,pow4,
-	s0,s1,s2,s3,s6,s7,s8,s9,s11,s14,s15,s17,s18,s20,s23);
+  occ1,occ2,occ3,occ4,
+  occ5,occ6,occ19,
+  occ20,occ21,occ22,occ23,occ24,
+  occ25,occ26,occ27,occ28,occ29,
+  occ30,occ33,occ34,
+  occ35,occ36,occ37,occ38,occ39,
+  occ42,occ43,occ44,
+  occ45,occ46,occ47,occ48,
+  occ51,occ52,occ53,occ54,
+  occ55,occ56,occ57,
+  occ60,occ61,occ62,occ63,occ64,
+  occ65,occ66,occ69,
+  occ70,occ71,occ72,occ73,occ74,
+  occ75,occ78,occ79,
+  occ80,occ81,occ82,occ83,occ84,
+  occ87,occ88,occ89,
+  occ90,occ91,occ92,occ93,
+  occ96,occ97,occ98,occ99,
+  occ100,occ101,occ102,
+  occ105,occ106,occ107,occ108,occ109,
+  occ110,occ111,occ114,
+  occ115,occ116,occ117,occ118,occ119,
+  occ120,occ123,occ124,
+  occ125,occ126,occ127,occ128,occ129,
+  occ132,occ133,occ134,
+  occ135,occ136,occ137,occ138,occ139,
+  pow0,pow1,pow2,pow4,
+  s0,s1,s2,s3,s6,s7,s8,s9,s11,s14,s15,s17,s18,s20,s23);
 	variable state : states;
 	variable voccRemScale : std_logic_vector (31 downto 0);
 	variable voccColumnScale : std_logic_vector (31 downto 0);
@@ -333,9 +354,7 @@ p0 : process (i_clock) is
 	variable temp1,voffset : std_logic_vector (15 downto 0);
 	variable col : integer range 0 to C_COL-1;
 	variable row : integer range 0 to C_ROW-1;
-	variable i : integer range 0 to (C_ROW*C_COL)-1 := 1;
-  variable m : integer range 0 to 31 := 0;
-  variable n : integer range 0 to 55 := 0;
+	variable i : integer range 0 to (C_ROW*C_COL)-1;
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -384,6 +403,7 @@ begin
           i2c_mem_addra <= std_logic_vector (to_unsigned (32+3, 12)); -- 2411 MSB pix_os_average
 					temp1 (7 downto 0) := i2c_mem_douta; -- out 2410 MSB [k_ptat,scale_occ_row]
 					nibble1 <= temp1 (3 downto 0); -- 2410 LSB scale_occ_remnand
+				
 				when occ4 => state := occ5;
           i2c_mem_addra <= std_logic_vector (to_unsigned (32+5, 12)); -- 2412 MSB [occ_rows_04,occ_rows_03],occ_rows_02,occ_rows_01
 					voffsetRef (15 downto 8) := i2c_mem_douta; -- 2411 LSB offsetref
@@ -419,43 +439,361 @@ begin
 				when occ23 => state := occ24;
 					dia <= out_nibble2; -- out 2412 MSB occ_rows_04 signed
 					addra <= std_logic_vector (to_unsigned (3, 10));
-					i := 1;
-        when occ24 => state := occ25;
-          m := 2*i;
-          i2c_mem_addra <= std_logic_vector (to_unsigned (32+m+4+1, 12)); -- 2413 MSB -- occrow5-8
-        when occ25 => state := occ26;
-          i2c_mem_addra <= std_logic_vector (to_unsigned (32+m+4, 12)); -- 2413 LSB -- occrow5-8
-        when occ26 => state := occ27;
-          temp1 (7 downto 0) := i2c_mem_douta;
-          nibble2 <= temp1 (3 downto 0); -- occrowA
-        when occ27 => state := occ28;
-          n := i*4;
-          temp1 (15 downto 8) := i2c_mem_douta;
-          dia <= out_nibble2;
-          addra <= std_logic_vector (to_unsigned (n+0, 10));
-          nibble2 <= temp1 (7 downto 4); -- occrowB
-        when occ28 => state := occ29;
-          dia <= out_nibble2;
-          addra <= std_logic_vector (to_unsigned (n+1, 10));
-          nibble2 <= temp1 (11 downto 8); -- occrowC
-        when occ29 => state := occ30;
-          dia <= out_nibble2;
-          addra <= std_logic_vector (to_unsigned (n+2, 10));
-          nibble2 <= temp1 (15 downto 12); -- occrowD
-        when occ30 => state := occ31;
-          dia <= out_nibble2;
-          addra <= std_logic_vector (to_unsigned (n+3, 10));
-        when occ31 =>
-          if i = 13 then
-            i := 0;
-            state := occ139;
-          else
-            i := i + 1;
-            state := occ24;
-          end if;
+
+--        -- XXX disabled, image slighty differ around pix line 17 (look better) 
+--          i := 1;
+--        when occ24 => state := occ25;
+--          m := 2*i;
+--          i2c_mem_addra <= std_logic_vector (to_unsigned (32+m+4+1, 12)); -- 2413 MSB -- occrow5-8
+--        when occ25 => state := occ26;
+--          i2c_mem_addra <= std_logic_vector (to_unsigned (32+m+4, 12)); -- 2413 LSB -- occrow5-8
+--        when occ26 => state := occ27;
+--          temp1 (7 downto 0) := i2c_mem_douta;
+--          nibble2 <= temp1 (3 downto 0); -- occrowA
+--        when occ27 => state := occ28;
+--          n := i*4;
+--          temp1 (15 downto 8) := i2c_mem_douta;
+--          dia <= out_nibble2;
+--          addra <= std_logic_vector (to_unsigned (n+0, 10));
+--          nibble2 <= temp1 (7 downto 4); -- occrowB
+--        when occ28 => state := occ29;
+--          dia <= out_nibble2;
+--          addra <= std_logic_vector (to_unsigned (n+1, 10));
+--          nibble2 <= temp1 (11 downto 8); -- occrowC
+--        when occ29 => state := occ30;
+--          dia <= out_nibble2;
+--          addra <= std_logic_vector (to_unsigned (n+2, 10));
+--          nibble2 <= temp1 (15 downto 12); -- occrowD
+--        when occ30 => state := occ31;
+--          dia <= out_nibble2;
+--          addra <= std_logic_vector (to_unsigned (n+3, 10));
+--        when occ31 =>
+--          if i = 13 then
+--            i := 0;
+--            state := occ139;
+--          else
+--            i := i + 1;
+--            state := occ24;
+--          end if;
+
+        -- XXX revert from cd6acc6844d250cbf2d8c28e7c47aded423dd9b8
+				when occ24 => state := occ25;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+7, 12)); -- 2413 MSB -- occrow5-8
+				when occ25 => state := occ26;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+6, 12)); -- 2413 LSB -- occrow5-8
+				when occ26 => state := occ27;
+					temp1 (7 downto 0) := i2c_mem_douta;
+					nibble2 <= temp1 (3 downto 0); -- occrowA
+				when occ27 => state := occ28;
+					temp1 (15 downto 8) := i2c_mem_douta;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (4, 10));
+					nibble2 <= temp1 (7 downto 4); -- occrowB
+				when occ28 => state := occ29;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (5, 10));
+					nibble2 <= temp1 (11 downto 8); -- occrowC
+				when occ29 => state := occ30;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (6, 10));
+					nibble2 <= temp1 (15 downto 12); -- occrowD
+				when occ30 => state := occ33;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (7, 10));
+				
+				when occ33 => state := occ34;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+9, 12)); -- 2414 MSB -- occrow9-12
+				when occ34 => state := occ35;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+8, 12)); -- 2414 LSB -- occrow9-12
+				when occ35 => state := occ36;
+					temp1 (7 downto 0) := i2c_mem_douta;
+					nibble2 <= temp1 (3 downto 0); -- occrowA
+				when occ36 => state := occ37;
+					temp1 (15 downto 8) := i2c_mem_douta;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (8, 10));
+					nibble2 <= temp1 (7 downto 4); -- occrowB
+				when occ37 => state := occ38;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (9, 10));
+					nibble2 <= temp1 (11 downto 8); -- occrowC
+				when occ38 => state := occ39;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (10, 10));
+					nibble2 <= temp1 (15 downto 12); -- occrowD
+				when occ39 => state := occ42;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (11, 10));
+				
+				when occ42 => state := occ43;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+11, 12)); -- 2415 MSB -- occrow13-16
+				when occ43 => state := occ44;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+10, 12)); -- 2415 LSB -- occrow13-16
+				when occ44 => state := occ45;
+					temp1 (7 downto 0) := i2c_mem_douta;
+					nibble2 <= temp1 (3 downto 0); -- occrowA
+				when occ45 => state := occ46;
+					temp1 (15 downto 8) := i2c_mem_douta;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (12, 10));
+					nibble2 <= temp1 (7 downto 4); -- occrowB
+				when occ46 => state := occ47;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (13, 10));
+					nibble2 <= temp1 (11 downto 8); -- occrowC
+				when occ47 => state := occ48;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (14, 10));
+					nibble2 <= temp1 (15 downto 12); -- occrowD
+				when occ48 => state := occ51;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (15, 10));
+				
+				when occ51 => state := occ52;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+13, 12)); -- 2416 MSB -- occrow17-20
+				when occ52 => state := occ53;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+12, 12)); -- 2416 LSB -- occrow17-20
+				when occ53 => state := occ54;
+					temp1 (7 downto 0) := i2c_mem_douta;
+					nibble2 <= temp1 (3 downto 0); -- occrowA
+				when occ54 => state := occ55;
+					temp1 (15 downto 8) := i2c_mem_douta;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (32, 10));
+					nibble2 <= temp1 (7 downto 4); -- occrowB
+				when occ55 => state := occ56;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (17, 10));
+					nibble2 <= temp1 (11 downto 8); -- occrowC
+				when occ56 => state := occ57;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (18, 10));
+					nibble2 <= temp1 (15 downto 12); -- occrowD
+				when occ57 => state := occ60;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (19, 10));
+				
+				when occ60 => state := occ61;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+15, 12)); -- 2417 MSB -- occrow21-24
+				when occ61 => state := occ62;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+14, 12)); -- 2417 LSB -- occrow21-24
+				when occ62 => state := occ63;
+					temp1 (7 downto 0) := i2c_mem_douta;
+					nibble2 <= temp1 (3 downto 0); -- occrowA
+				when occ63 => state := occ64;
+					temp1 (15 downto 8) := i2c_mem_douta;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (20, 10));
+					nibble2 <= temp1 (7 downto 4); -- occrowB
+				when occ64 => state := occ65;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (21, 10));
+					nibble2 <= temp1 (11 downto 8); -- occrowC
+				when occ65 => state := occ66;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (22, 10));
+					nibble2 <= temp1 (15 downto 12); -- occrowD
+				when occ66 => state := occ69;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (23, 10));
+				
+				when occ69 => state := occ70;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+17, 12)); -- 2418 MSB -- occcol1-4
+				when occ70 => state := occ71;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+16, 12)); -- 2418 LSB -- occcol1-4
+				when occ71 => state := occ72;
+					temp1 (7 downto 0) := i2c_mem_douta;
+					nibble2 <= temp1 (3 downto 0); -- occcolA
+				when occ72 => state := occ73;
+					temp1 (15 downto 8) := i2c_mem_douta;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (24, 10));
+					nibble2 <= temp1 (7 downto 4); -- occcolB
+				when occ73 => state := occ74;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (25, 10));
+					nibble2 <= temp1 (11 downto 8); -- occcolC
+				when occ74 => state := occ75;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (26, 10));
+					nibble2 <= temp1 (15 downto 12); -- occcolD
+				when occ75 => state := occ78;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (27, 10));
+				
+				when occ78 => state := occ79;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+19, 12)); -- 2419 MSB -- occcol5-8
+				when occ79 => state := occ80;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+18, 12)); -- 2419 LSB -- occcol5-8
+				when occ80 => state := occ81;
+					temp1 (7 downto 0) := i2c_mem_douta;
+					nibble2 <= temp1 (3 downto 0); -- occcolA
+				when occ81 => state := occ82;
+					temp1 (15 downto 8) := i2c_mem_douta;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (28, 10));
+					nibble2 <= temp1 (7 downto 4); -- occcolB
+				when occ82 => state := occ83;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (29, 10));
+					nibble2 <= temp1 (11 downto 8); -- occcolC
+				when occ83 => state := occ84;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (30, 10));
+					nibble2 <= temp1 (15 downto 12); -- occcolD
+				when occ84 => state := occ87;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (31, 10));
+				
+				when occ87 => state := occ88;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+21, 12)); -- 241a MSB -- occcol9-12
+				when occ88 => state := occ89;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+20, 12)); -- 241a LSB -- occcol9-12
+				when occ89 => state := occ90;
+					temp1 (7 downto 0) := i2c_mem_douta;
+					nibble2 <= temp1 (3 downto 0); -- occcolA
+				when occ90 => state := occ91;
+					temp1 (15 downto 8) := i2c_mem_douta;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (32, 10));
+					nibble2 <= temp1 (7 downto 4); -- occcolB
+				when occ91 => state := occ92;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (33, 10));
+					nibble2 <= temp1 (11 downto 8); -- occcolC
+				when occ92 => state := occ93;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (34, 10));
+					nibble2 <= temp1 (15 downto 12); -- occcolD
+				when occ93 => state := occ96;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (35, 10));
+				
+				when occ96 => state := occ97;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+23, 12)); -- 241b MSB -- occcol13-16
+				when occ97 => state := occ98;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+22, 12)); -- 241b LSB -- occcol13-16
+				when occ98 => state := occ99;
+					temp1 (7 downto 0) := i2c_mem_douta;
+					nibble2 <= temp1 (3 downto 0); -- occcolA
+				when occ99 => state := occ100;
+					temp1 (15 downto 8) := i2c_mem_douta;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (36, 10));
+					nibble2 <= temp1 (7 downto 4); -- occcolB
+				when occ100 => state := occ101;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (37, 10));
+					nibble2 <= temp1 (11 downto 8); -- occcolC
+				when occ101 => state := occ102;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (38, 10));
+					nibble2 <= temp1 (15 downto 12); -- occcolD
+				when occ102 => state := occ105;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (39, 10));
+				
+				when occ105 => state := occ106;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+25, 12)); -- 241c MSB -- occcol17-20
+				when occ106 => state := occ107;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+24, 12)); -- 241c LSB -- occcol17-20
+				when occ107 => state := occ108;
+					temp1 (7 downto 0) := i2c_mem_douta;
+					nibble2 <= temp1 (3 downto 0); -- occcolA
+				when occ108 => state := occ109;
+					temp1 (15 downto 8) := i2c_mem_douta;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (40, 10));
+					nibble2 <= temp1 (7 downto 4); -- occcolB
+				when occ109 => state := occ110;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (41, 10));
+					nibble2 <= temp1 (11 downto 8); -- occcolC
+				when occ110 => state := occ111;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (42, 10));
+					nibble2 <= temp1 (15 downto 12); -- occcolD
+				when occ111 => state := occ114;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (43, 10));
+				
+				when occ114 => state := occ115;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+27, 12)); -- 241d MSB -- occcol21-24
+				when occ115 => state := occ116;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+26, 12)); -- 241d LSB -- occcol21-24
+				when occ116 => state := occ117;
+					temp1 (7 downto 0) := i2c_mem_douta;
+					nibble2 <= temp1 (3 downto 0); -- occcolA
+				when occ117 => state := occ118;
+					temp1 (15 downto 8) := i2c_mem_douta;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (44, 10));
+					nibble2 <= temp1 (7 downto 4); -- occcolB
+				when occ118 => state := occ119;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (45, 10));
+					nibble2 <= temp1 (11 downto 8); -- occcolC
+				when occ119 => state := occ120;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (46, 10));
+					nibble2 <= temp1 (15 downto 12); -- occcolD
+				when occ120 => state := occ123;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (47, 10));
+					
+				when occ123 => state := occ124;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+29, 12)); -- 241e MSB -- occcol25-28
+				when occ124 => state := occ125;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+28, 12)); -- 241e LSB -- occcol25-28
+				when occ125 => state := occ126;
+					temp1 (7 downto 0) := i2c_mem_douta;
+					nibble2 <= temp1 (3 downto 0); -- occcolA
+				when occ126 => state := occ127;
+					temp1 (15 downto 8) := i2c_mem_douta;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (48, 10));
+					nibble2 <= temp1 (7 downto 4); -- occcolB
+				when occ127 => state := occ128;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (49, 10));
+					nibble2 <= temp1 (11 downto 8); -- occcolC
+				when occ128 => state := occ129;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (50, 10));
+					nibble2 <= temp1 (15 downto 12); -- occcolD
+				when occ129 => state := occ132;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (51, 10));
+
+				when occ132 => state := occ133;
+					i2c_mem_addra <= std_logic_vector (to_unsigned (32+31, 12)); -- 241f MSB -- occcol29-32
+				when occ133 => state := occ134;
+				  i2c_mem_addra <= std_logic_vector (to_unsigned (32+30, 12)); -- 241f LSB -- occcol29-32
+				when occ134 => state := occ135;
+					temp1 (7 downto 0) := i2c_mem_douta;
+					nibble2 <= temp1 (3 downto 0); -- occcolA
+				when occ135 => state := occ136;
+					temp1 (15 downto 8) := i2c_mem_douta;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (52, 10));
+					nibble2 <= temp1 (7 downto 4); -- occcolB
+				when occ136 => state := occ137;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (53, 10));
+					nibble2 <= temp1 (11 downto 8); -- occcolC
+				when occ137 => state := occ138;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (54, 10));
+				  nibble2 <= temp1 (15 downto 12); -- occcolD
+				when occ138 => state := occ139;
+					dia <= out_nibble2;
+					addra <= std_logic_vector (to_unsigned (55, 10));
+					
 				when occ139 => state := pow0;
 					write_enable <= '0';
-          i := 0;
+
+
+
 				when pow0 => state := pow1;
 					addra <= (others => '0');
 					nibble4 <= voccRemScale1;
