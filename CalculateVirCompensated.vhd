@@ -394,10 +394,9 @@ p0 : process (i_clock) is
 	type states is (idle,s0,s0a,
 	s1,s2,s3,s4,s5,s8,s9,s10,
 	s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,
-	s21,s22,s23,
-	ending);
+	s21,s22,s23);
 	variable state : states;
-	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
+	variable fptmp1 : std_logic_vector (31 downto 0);
 	variable emissivity_compensated : std_logic_vector (31 downto 0);
 begin
 	if (rising_edge (i_clock)) then
@@ -464,39 +463,34 @@ begin
 					divfpb_internal <= i_Emissivity;
 					divfpond_internal <= '1';
 				when s4 =>
-					if (divfprdy_internal = '1') then state := s5;
+					if (divfprdy_internal = '1') then state := s9;
 						emissivity_compensated := divfpr_internal;
 						divfpce_internal <= '0';
 						divfpond_internal <= '0';
 						divfpsclr_internal <= '1';
 					else state := s4; end if;
-				when s5 => state := s8;
+
+				when s9 =>
 					divfpsclr_internal <= '0';
-
-
-				when s8 => state := s9;
 					mulfpce_internal <= '1';
 					mulfpa_internal <= i_pixoscpsp1;
 					mulfpb_internal <= pattern_ft;
 					mulfpond_internal <= '1';
-				when s9 =>
-					if (mulfprdy_internal = '1') then state := s10;
+          if (mulfprdy_internal = '1') then state := s10;
 						fptmp1 := mulfpr_internal;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
 					else state := s9; end if;
-				when s10 => state := s11;
+				when s10 => state := s12;
 					mulfpsclr_internal <= '0';
 
-				when s11 => state := s12;
+				when s12 =>
 					mulfpce_internal <= '1';
 					mulfpa_internal <= i_pixoscpsp0;
 					mulfpb_internal <= pattern_neg_ft;
 					mulfpond_internal <= '1';
-				when s12 =>
 					if (mulfprdy_internal = '1') then state := s13;
-						fptmp2 := mulfpr_internal;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
@@ -506,12 +500,11 @@ begin
 
 				when s14 => state := s15;
 					addfpce_internal <= '1';
-					addfpa_internal <= fptmp1;
-					addfpb_internal <= fptmp2;
+					addfpa_internal <= fptmp1; -- XX s9
+					addfpb_internal <= mulfpr_internal; -- XXX s12
 					addfpond_internal <= '1';
 				when s15 =>
 					if (addfprdy_internal = '1') then state := s16;
-						fptmp1 := addfpr_internal;
 						addfpce_internal <= '0';
 						addfpond_internal <= '0';
 						addfpsclr_internal <= '1';
@@ -521,12 +514,11 @@ begin
 
 				when s17 => state := s18;
 					mulfpce_internal <= '1';
-					mulfpa_internal <= fptmp1;
+					mulfpa_internal <= addfpr_internal;
 					mulfpb_internal <= ExtractTGCParameters_tgc;
 					mulfpond_internal <= '1';
 				when s18 =>
 					if (mulfprdy_internal = '1') then state := s19;
-						fptmp1 := mulfpr_internal;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
@@ -537,37 +529,33 @@ begin
 				when s20 => state := s21;
 					subfpce_internal <= '1';
 					subfpa_internal <= emissivity_compensated;
-					subfpb_internal <= fptmp1;
+					subfpb_internal <= mulfpr_internal;
 					subfpond_internal <= '1';
 				when s21 =>
 					if (subfprdy_internal = '1') then state := s22;
-						fptmp1 := subfpr_internal;
 						subfpce_internal <= '0';
 						subfpond_internal <= '0';
 						subfpsclr_internal <= '1';
 					else state := s21; end if;
 				when s22 => state := s23;
 					subfpsclr_internal <= '0';
-
 					write_enable <= '1';
 					addra <= std_logic_vector (to_unsigned (i, 10)); -- pixos
-					dia <= fptmp1;
+					dia <= subfpr_internal;
           --synthesis translate_off
-					report "================vircompensated : " & real'image (ap_slv2fp (fptmp1));
+					report "================vircompensated " & integer'image (i) & " : " & real'image (ap_slv2fp (subfpr_internal));
           --synthesis translate_on
         when s23 =>
 					write_enable <= '0';
 					if (i = (C_ROW*C_COL)-1) then
-						state := ending;
+						state := idle;
+            rdy <= '1';
 						i := 0;
 					else
 						state := s1;
 						i := i + 1;
 					end if;
-
-				when ending => state := idle;
-					rdy <= '1';
-				when others => null;
+          when others=>null;
 			end case;
 		end if;
 	end if;
