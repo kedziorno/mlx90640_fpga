@@ -368,7 +368,8 @@ wait until rising_edge (ExtractAlphaParameters_clock);
 wait until rising_edge (ExtractAlphaParameters_clock);
 warning_neq_fp (ExtractAlphaParameters_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
 end loop;
-report "end at 974.735us";
+--report "end at 974.735us";
+report "end at 954.675us";
 wait for 1 ps; -- must be for write
 report "done" severity failure;
 --wait on o_done;

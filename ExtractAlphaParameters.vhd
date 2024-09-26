@@ -366,7 +366,7 @@ p0 : process (i_clock) is
 	acc135,acc136,acc137,acc138,acc139,
 	acc140,acc141,
 	pow0,pow1,pow2,pow3,pow4,pow5,
-	s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,
+	s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s13a,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,
 	ending);
 	variable state : states;
 	variable vaccRemScale : std_logic_vector (31 downto 0);
@@ -380,7 +380,7 @@ p0 : process (i_clock) is
 	variable valphaRef1: std_logic_vector (15 downto 0);
 	variable valphaRef : std_logic_vector (15 downto 0);
 	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
-	variable vacccolumnj,accrowi,vaccrowi,valphaReference_ft,vAlphaPixel_ft : std_logic_vector (31 downto 0);
+	variable vacccolumnj,accrowi,vaccrowi,valphaReference_ft : std_logic_vector (31 downto 0);
 	variable temp1,vAlphaPixel : std_logic_vector (15 downto 0);
 
 	variable col : integer range 0 to C_COL-1;
@@ -393,6 +393,8 @@ begin
 			nibble1 <= (others => '0');
 			nibble2 <= (others => '0');
 			nibble3 <= (others => '0');
+			nibble4 <= (others => '0');
+			nibble5 <= (others => '0');
 			write_enable <= '0';
 			rdy <= '0';
 			addfpsclr_internal <= '1';
@@ -405,18 +407,21 @@ begin
 			addfpb_internal <= (others => '0');
 			divfpa_internal <= (others => '0');
 			divfpb_internal <= (others => '0');
+      fixed2floata_internal <= (others => '0');
 			addfpond_internal <= '0';
 			mulfpond_internal <= '0';
 			divfpond_internal <= '0';
+			fixed2floatond_internal <= '0';
 			addfpce_internal <= '0';
 			mulfpce_internal <= '0';
 			divfpce_internal <= '0';
+      fixed2floatce_internal <= '0';
 			addra <= (others => '0');
 --			mux_addr <= (others => '0');
 			dia <= (others => '0');
 			o_done <= '0';
 			i2c_mem_ena <= '0';
---      i2c_mem_addra <= (others => '0');
+      i2c_mem_addra <= (others => '0');
 		else
 			case (state) is
 				when idle =>
@@ -934,54 +939,34 @@ valphaRef (15) & valphaRef & "00000000000000000000000000000";
 	col := 0;
 	i := 0;
 when s0 => state := s1; 	--1
-	vAlphaPixel_ft := (others => '0');
-	write_enable <= '0';
+  addfpsclr_internal <= '0';
+  mulfpsclr_internal <= '0';
+  divfpsclr_internal <= '0';
+  fixed2floatsclr_internal <= '0';
 	i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i), 12)); -- offset LSB 0
 	addra <= std_logic_vector (to_unsigned (col+C_ROW, 10)); -- accColumnJ
 when s1 => state := s2;	--2
-	i2c_mem_addra <= (others => '0');
-	addra <= (others => '0');
-when s2 => state := s3;	--2
 	i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i)+1, 12)); -- offset MSB 1
 	addra <= std_logic_vector (to_unsigned (row, 10)); -- accrowI
-	vaccColumnJ := doa;
-	--report_error("accColumnJ", vaccColumnJ, 0.0);
-	vAlphaPixel (15 downto 8) := i2c_mem_douta;
-when s3 => state := s4; 	--3
+when s2 => state := s3;	--2
 	i2c_mem_addra <= (others => '0');
 	addra <= (others => '0');
-when s4 => state := s5; 	--3
+	vAlphaPixel (15 downto 8) := i2c_mem_douta;
+	vaccColumnJ := doa;
+	--report_error("accColumnJ", vaccColumnJ, 0.0);
+when s3 => state := s8; 	--3
+	vAlphaPixel (7 downto 0) := i2c_mem_douta;
+	nibble3 <= vAlphaPixel (9 downto 4);
 	vaccRowI := doa;
 	--report_error("accRowI", vaccRowI, 0.0);
-	vAlphaPixel (7 downto 0) := i2c_mem_douta;
 	--report_error("alphaPixel", vAlphaPixel, 0.0);
-	nibble3 <= vAlphaPixel (9 downto 4);
-when s5 => state := s6; 	--5
-	mulfpce_internal <= '1';
-	mulfpa_internal <= out_nibble3;
-	mulfpb_internal <= vaccRemScale;
-	mulfpond_internal <= '1';
-	--report_error("AlphaPixel", out_nibble3, 0.0);
-	--report_error("accRemScale", vaccRemScale, 0.0);
-when s6 => 			--6
-	if (mulfprdy_internal = '1') then state := s7;
-    --report_error ("mulfpa 1 : ",   mulfpa_internal,0.0);
-    --report_error ("mulfpb 1 : ",   mulfpb_internal,0.0);
-    --report_error ("* mulfpr 1 : ", mulfpr_internal,0.0);
-		vAlphaPixel_ft := mulfpr_internal;
-		mulfpce_internal <= '0';
-		mulfpond_internal <= '0';
-		mulfpsclr_internal <= '1';
-	else state := s6; end if;
-when s7 => state := s8; 	--7
-	mulfpsclr_internal <= '0';
+when s8 => 			--8
 	mulfpce_internal <= '1';
 	mulfpa_internal <= vaccColumnJ;
 	mulfpb_internal <= vaccColumnScale;
 	mulfpond_internal <= '1';
 	--report_error("accColumnJ", vaccColumnJ, 0.0);
 	--report_error("accColumnScale", vaccColumnScale, 0.0);
-when s8 => 			--8
 	if (mulfprdy_internal = '1') then state := s9;
     --report_error ("mulfpa 2 : ",   mulfpa_internal,0.0);
     --report_error ("mulfpb 2 : ",   mulfpb_internal,0.0);
@@ -991,17 +976,15 @@ when s8 => 			--8
 		mulfpond_internal <= '0';
 		mulfpsclr_internal <= '1';
 	else state := s8; end if;
-when s9 => state := s10; 	--9
+when s9 => state := s11; 	--9
 	mulfpsclr_internal <= '0';
-when s10 => state := s11; 	--10
-	mulfpsclr_internal <= '0';
+when s11 => 			--11
 	mulfpce_internal <= '1';
 	mulfpa_internal <= vaccRowI;
 	mulfpb_internal <= vaccRowScale;
 	mulfpond_internal <= '1';
 	--report_error("accRowI", vaccRowI, 0.0);
 	--report_error("accRowScale", vaccRowScale, 0.0);
-when s11 => 			--11
 	if (mulfprdy_internal = '1') then state := s12;
     --report_error ("mulfpa 3 : ",   mulfpa_internal,0.0);
     --report_error ("mulfpb 3 : ",   mulfpb_internal,0.0);
@@ -1011,110 +994,109 @@ when s11 => 			--11
 		mulfpond_internal <= '0';
 		mulfpsclr_internal <= '1';
 	else state := s11; end if;
-when s12 => state := s13; 	--12
+when s12 => state := s13;
 	mulfpsclr_internal <= '0';
-when s13 => state := s14; 	--13
-	addfpsclr_internal <= '0';
+when s13 =>
+	mulfpce_internal <= '1';
+	mulfpa_internal <= out_nibble3;
+	mulfpb_internal <= vaccRemScale;
+	mulfpond_internal <= '1';
+	--report_error("AlphaPixel", out_nibble3, 0.0);
+	--report_error("accRemScale", vaccRemScale, 0.0);
+	if (mulfprdy_internal = '1') then state := s14;
+    --report_error ("mulfpa 1 : ",   mulfpa_internal,0.0);
+    --report_error ("mulfpb 1 : ",   mulfpb_internal,0.0);
+    --report_error ("* mulfpr 1 : ", mulfpr_internal,0.0);
+		mulfpce_internal <= '0';
+		mulfpond_internal <= '0';
+		mulfpsclr_internal <= '1';
+	else state := s13; end if;
+when s14 => 			--14
+	mulfpsclr_internal <= '0';
 	addfpce_internal <= '1';
-	addfpa_internal <= vAlphaPixel_ft;
+	addfpa_internal <= mulfpr_internal;
 	addfpb_internal <= vaccColumnJ;
 	addfpond_internal <= '1';
 	--report_error("AlphaPixel", vAlphaPixel_ft, 0.0);
 	--report_error("accColumnJ", vaccColumnJ, 0.0);
-when s14 => 			--14
-	if (addfprdy_internal = '1') then state := s15;
+	if (addfprdy_internal = '1') then state := s16;
     --report_error ("addfpa 1 : ",   addfpa_internal,0.0);
     --report_error ("addfpb 1 : ",   addfpb_internal,0.0);
     --report_error ("* addfpr 1 : ", addfpr_internal,0.0);
-		vAlphaPixel_ft := addfpr_internal;
 		addfpce_internal <= '0';
 		addfpond_internal <= '0';
 		addfpsclr_internal <= '1';
 	else state := s14; end if;
-when s15 => state := s16; 	--15
+when s16 => state := s17;
 	addfpsclr_internal <= '0';
-when s16 => state := s17; 	--16
-	addfpsclr_internal <= '0';
+when s17 => 			--17
 	addfpce_internal <= '1';
-	addfpa_internal <= vAlphaPixel_ft;
+	addfpa_internal <= addfpr_internal;
 	addfpb_internal <= vaccRowI;
 	addfpond_internal <= '1';
 	--report_error("AlphaPixel", vAlphaPixel_ft, 0.0);
 	--report_error("accRowI", vaccRowI, 0.0);
-when s17 => 			--17
-	if (addfprdy_internal = '1') then state := s18;
+	if (addfprdy_internal = '1') then state := s19;
     --report_error ("addfpa 2 : ",   addfpa_internal,0.0);
     --report_error ("addfpb 2 : ",   addfpb_internal,0.0);
     --report_error ("* addfpr 2 : ", addfpr_internal,0.0);
-		vAlphaPixel_ft := addfpr_internal;
 		addfpce_internal <= '0';
 		addfpond_internal <= '0';
 		addfpsclr_internal <= '1';
 	else state := s17; end if;
-when s18 => state := s19; 	--18
+when s19 => state := s20;
 	addfpsclr_internal <= '0';
-when s19 => state := s20; 	--19
-	addfpsclr_internal <= '0';
+when s20 => 			--20
 	addfpce_internal <= '1';
-	addfpa_internal <= vAlphaPixel_ft;
+	addfpa_internal <= addfpr_internal;
 	addfpb_internal <= valphaReference_ft;
 	addfpond_internal <= '1';
 	--report_error("AlphaPixel", vAlphaPixel_ft, 0.0);
 	--report_error("alphaReference", valphaReference_ft, 0.0);
-when s20 => 			--20
-	if (addfprdy_internal = '1') then state := s21;
-		vAlphaPixel_ft := addfpr_internal;
+	if (addfprdy_internal = '1') then state := s22;
 		addfpce_internal <= '0';
 		addfpond_internal <= '0';
 		addfpsclr_internal <= '1';
 	else state := s20; end if;
-when s21 => state := s22; 	--21
+when s22 =>
 	addfpsclr_internal <= '0';
 	divfpce_internal <= '1';
-	divfpa_internal <= vAlphaPixel_ft;
+	divfpa_internal <= addfpr_internal;
 	divfpb_internal <= out_nibble5;
 	divfpond_internal <= '1';
 	--report_error("AlphaPixel", vAlphaPixel_ft, 0.0);
 	--report_error("out_nibble5", out_nibble5, 0.0);
-when s22 =>
-	if (divfprdy_internal = '1') then state := s23;
+	if (divfprdy_internal = '1') then state := s25;
     --report_error ("divfpa 1 : ",   divfpa_internal,0.0);
     --report_error ("divfpb 1 : ",   divfpb_internal,0.0);
     --report_error ("* divfpr 1 : ", divfpr_internal,0.0);
-		vAlphaPixel_ft := divfpr_internal;
 		divfpce_internal <= '0';
 		divfpond_internal <= '0';
 		divfpsclr_internal <= '1';
+    write_enable <= '1';
+    addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vAlphaPixel_ft
+    dia <= divfpr_internal;
+    --synthesis translate_off
+    --report "================vAlphaPixel_ft " & integer'image(i) & " : " & real'image (ap_slv2fp (divfpr_internal));
+    --synthesis translate_on
 	else state := s22; end if;
-when s23 => state := s24;
-	divfpsclr_internal <= '0';
-when s24 => state := s25; 	--22
-	write_enable <= '1';
-	addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vAlphaPixel_ft
-	dia <= vAlphaPixel_ft;
-	--synthesis translate_off
-  report "================vAlphaPixel_ft " & integer'image(i) & " : " & real'image (ap_slv2fp (vAlphaPixel_ft));
-  --synthesis translate_on
-	i := i + 1;
 when s25 =>
+  i := i + 1;
+  write_enable <= '0';
 	if (col = C_COL-1) then
 		col := 0;
-		state := s26;
+		if (row = C_ROW-1) then
+      row := 0;
+      state := idle;
+      rdy <= '1';
+    else
+      row := row + 1;
+      state := s0;
+    end if;
 	else
 		col := col + 1;
 		state := s0;
 	end if;
-when s26 =>
-	if (row = C_ROW-1) then
-		row := 0;
-		state := ending;
-	else
-		row := row + 1;
-		state := s0;
-	end if;
-
-				when ending => state := idle;
-					rdy <= '1';
 				when others => null;
 			end case;
 		end if;
