@@ -349,8 +349,9 @@ wait for 105 ns;
 -- insert stimulus here
 ExtractAlphaParameters_run <= '1'; wait for i_clock_period; ExtractAlphaParameters_run <= '0';
 wait until ExtractAlphaParameters_rdy = '1';
-report "rdy at 954.235us";
-report "rdy at 930.805us - with acc loop";
+--report "rdy at 954.235us";
+--report "rdy at 930.805us - with acc loop";
+report "rdy at 930.945us";
 for i in 0 to 9 loop
 ExtractAlphaParameters_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
 wait until rising_edge (ExtractAlphaParameters_clock);
@@ -370,8 +371,9 @@ wait until rising_edge (ExtractAlphaParameters_clock);
 warning_neq_fp (ExtractAlphaParameters_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
 end loop;
 --report "end at 974.735us";
-report "end at 954.675us";
-report "end at 931.245us - with acc loop";
+--report "end at 954.675us";
+--report "end at 931.245us - with acc loop";
+report "end at 931.385us";
 wait for 1 ps; -- must be for write
 report "done" severity failure;
 --wait on o_done;
