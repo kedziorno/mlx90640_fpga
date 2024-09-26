@@ -315,32 +315,32 @@ end record;
 -- XXX data from ExtractAlphaParameters
 constant datao : datar := (
 first => (
-(a => x"330C6400", b => 0),
-(a => x"33066400", b => 1),
-(a => x"3302E400", b => 2),
-(a => x"3304E400", b => 3),
-(a => x"33076400", b => 4),
-(a => x"330A6400", b => 5),
-(a => x"3302E400", b => 6),
-(a => x"33056400", b => 7),
-(a => x"33056400", b => 8),
-(a => x"3307E400", b => 9)
+(a => x"331C6400", b => 0),
+(a => x"331E6400", b => 1),
+(a => x"3322E400", b => 2),
+(a => x"3324E400", b => 3),
+(a => x"332F6400", b => 4),
+(a => x"33326400", b => 5),
+(a => x"3332E400", b => 6),
+(a => x"33356400", b => 7),
+(a => x"333D6400", b => 8),
+(a => x"333FE400", b => 9)
 ),
 middle => (
-(a => x"3306E400", b => 382),
-(a => x"330C6400", b => 383)
+(a => x"331EE400", b => 382),
+(a => x"3337E400", b => 384)
 ),
 last => (
-(a => x"33426400", b => 758),
-(a => x"333F6400", b => 759),
-(a => x"333AE400", b => 760),
-(a => x"3341E400", b => 761),
-(a => x"333B6400", b => 762),
-(a => x"33416400", b => 763),
-(a => x"33426400", b => 764),
-(a => x"333FE400", b => 765),
-(a => x"333FE400", b => 766),
-(a => x"33436400", b => 767)
+(a => x"33326400", b => 758),
+(a => x"332F6400", b => 759),
+(a => x"332AE400", b => 760),
+(a => x"3329E400", b => 761),
+(a => x"331B6400", b => 762),
+(a => x"33196400", b => 763),
+(a => x"33126400", b => 764),
+(a => x"330FE400", b => 765),
+(a => x"32FFC800", b => 766),
+(a => x"32F6C800", b => 767)
 )
 );
 begin
@@ -353,25 +353,20 @@ report "rdy at 954.235us";
 for i in 0 to 9 loop
 ExtractAlphaParameters_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
 wait until rising_edge (ExtractAlphaParameters_clock);
---wait until rising_edge (ExtractAlphaParameters_clock);
---wait until rising_edge (ExtractAlphaParameters_clock);
---wait until rising_edge (ExtractAlphaParameters_clock);
+wait until rising_edge (ExtractAlphaParameters_clock);
 warning_neq_fp (ExtractAlphaParameters_do, datao.first(i).a, "first " & integer'image (datao.first(i).b));
---wait until rising_edge (ExtractAlphaParameters_clock);
 end loop;
 for i in 0 to 1 loop
 ExtractAlphaParameters_addr <= std_logic_vector (to_unsigned (datao.middle(i).b, 10));
 wait until rising_edge (ExtractAlphaParameters_clock);
---wait until rising_edge (ExtractAlphaParameters_clock);
+wait until rising_edge (ExtractAlphaParameters_clock);
 warning_neq_fp (ExtractAlphaParameters_do, datao.middle(i).a, "middle " & integer'image (datao.middle(i).b));
---wait until rising_edge (ExtractAlphaParameters_clock);
 end loop;
 for i in 0 to 9 loop
 ExtractAlphaParameters_addr <= std_logic_vector (to_unsigned (datao.last(i).b, 10));
 wait until rising_edge (ExtractAlphaParameters_clock);
---wait until rising_edge (ExtractAlphaParameters_clock);
+wait until rising_edge (ExtractAlphaParameters_clock);
 warning_neq_fp (ExtractAlphaParameters_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
---wait until rising_edge (ExtractAlphaParameters_clock);
 end loop;
 report "end at 974.735us";
 wait for 1 ps; -- must be for write

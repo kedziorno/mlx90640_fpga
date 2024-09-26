@@ -412,11 +412,11 @@ begin
 			mulfpce_internal <= '0';
 			divfpce_internal <= '0';
 			addra <= (others => '0');
-			mux_addr <= (others => '0');
+--			mux_addr <= (others => '0');
 			dia <= (others => '0');
 			o_done <= '0';
 			i2c_mem_ena <= '0';
-      i2c_mem_addra <= (others => '0');
+--      i2c_mem_addra <= (others => '0');
 		else
 			case (state) is
 				when idle =>
@@ -1093,8 +1093,7 @@ when s24 => state := s25; 	--22
 	addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vAlphaPixel_ft
 	dia <= vAlphaPixel_ft;
 	--synthesis translate_off
-  --report "================vAlphaPixel_ft " & integer'image(i) & " : " & real'image (ap_slv2fp (vAlphaPixel_ft));
-  report_error("================vAlphaPixel_ft " & integer'image(i), vAlphaPixel_ft, 0.0);
+  report "================vAlphaPixel_ft " & integer'image(i) & " : " & real'image (ap_slv2fp (vAlphaPixel_ft));
   --synthesis translate_on
 	i := i + 1;
 when s25 =>
