@@ -253,7 +253,7 @@ signal addra,mux_addr : std_logic_vector (9 downto 0);
 signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
 
 
--- xxx nibbles must out in next clock xyxle
+-- xxx nibbles must out in next clock cycle
 signal nibble1,nibble2,nibble5,nibble4 : std_logic_vector (3 downto 0);
 signal nibble3 : std_logic_vector (5 downto 0);
 signal out_nibble1,out_nibble2,out_nibble3,out_nibble4,out_nibble5 : std_logic_vector (31 downto 0);
@@ -412,9 +412,11 @@ begin
 			mulfpce_internal <= '0';
 			divfpce_internal <= '0';
 			addra <= (others => '0');
+			mux_addr <= (others => '0');
 			dia <= (others => '0');
 			o_done <= '0';
 			i2c_mem_ena <= '0';
+      i2c_mem_addra <= (others => '0');
 		else
 			case (state) is
 				when idle =>
@@ -1091,7 +1093,8 @@ when s24 => state := s25; 	--22
 	addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vAlphaPixel_ft
 	dia <= vAlphaPixel_ft;
 	--synthesis translate_off
-  report "================vAlphaPixel_ft " & integer'image(i) & " : " & real'image (ap_slv2fp (vAlphaPixel_ft));
+  --report "================vAlphaPixel_ft " & integer'image(i) & " : " & real'image (ap_slv2fp (vAlphaPixel_ft));
+  report_error("================vAlphaPixel_ft " & integer'image(i), vAlphaPixel_ft, 0.0);
   --synthesis translate_on
 	i := i + 1;
 when s25 =>
