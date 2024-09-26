@@ -307,10 +307,12 @@ wait for 105 ns;
 -- insert stimulus here
 ExtractAlphaParameters_run <= '1'; wait for i_clock_period; ExtractAlphaParameters_run <= '0';
 wait until ExtractAlphaParameters_rdy = '1';
+report "rdy at 954.235us";
 for i in 0 to 1024 loop
 	ExtractAlphaParameters_addr <= std_logic_vector (to_unsigned (i, 10));
 	wait for i_clock_period*2;
 end loop;
+report "end at 974.735us";
 wait for 1 ps; -- must be for write
 report "done" severity failure;
 --wait on o_done;
