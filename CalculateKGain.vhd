@@ -170,7 +170,7 @@ begin
 			fixed2floatond_internal <= '0';
 			fixed2floatsclr_internal <= '1';
       --synthesis translate_off
-			report "================ calculateKGain gainEE 1 : " & real'image (ap_slv2fp (fttmp1));
+			report_error("================ calculateKGain gainEE 1", fttmp1, 0.0);
       --synthesis translate_on
     else state := s9; end if;
   when s10 => state := s11; -- XXX must be - fi2fl module
@@ -195,7 +195,7 @@ begin
 			fixed2floatond_internal <= '0';
 			fixed2floatsclr_internal <= '1';
       --synthesis translate_off
-      report "================ calculateKGain gainEE 2 : " & real'image (ap_slv2fp (fttmp2));
+      report_error("================ calculateKGain gainEE 2", fttmp2, 0.0);
       --synthesis translate_on      
 		else state := s11; end if;
 	when s14 =>
@@ -209,7 +209,7 @@ begin
 			divfpond_internal <= '0';
 			divfpsclr_internal <= '1';
       --synthesis translate_off
-			report "================ calculateKGain gain : " & real'image (ap_slv2fp (divfpr_internal));
+			report_error("================ calculateKGain gain", divfpr_internal, 0.0);
       --synthesis translate_on
       o_KGain <= divfpr_internal;
       o_rdy <= '1';

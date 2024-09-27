@@ -292,7 +292,7 @@ begin
 --			divfpce <= '0';
 --			divfpond <= '0';
 --			divfpsclr <= '1';
---			--report "================ CalculateTa deltaV : " & real'image (ap_slv2fp (deltaV));
+--			--report_error("================ CalculateTa deltaV", deltaV, 0.0);
 --		else state := s4; end if;
 --	when s5 => state := s5a;
 --		divfpsclr <= '0';
@@ -307,7 +307,7 @@ begin
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
---			report "================ CalculateTa deltaV : " & real'image (ap_slv2fp (deltaV));
+			report_error("================ CalculateTa deltaV", deltaV, 0.0);
 		else state := s2; end if;
 	when s3 => state := s6;
 		subfpsclr <= '0';
@@ -339,7 +339,7 @@ begin
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
---			report "================ CalculateTa vptat25 : " & real'image (ap_slv2fp (vptat25_ft));
+			report_error("================ CalculateTa vptat25", vptat25_ft, 0.0);
 		else state := s6; end if;
 	when s7 => state := s8;
 		fixed2floatsclr <= '0';
@@ -370,7 +370,7 @@ begin
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
---			report "================ CalculateTa vptat : " & real'image (ap_slv2fp (vptat_ft));
+			report_error("================ CalculateTa vptat", vptat_ft, 0.0);
 		else state := s8; end if;
 	when s9 => state := s10;
 		fixed2floatsclr <= '0';
@@ -401,7 +401,7 @@ begin
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
---			report "================ CalculateTa vbe : " & real'image (ap_slv2fp (vbe_ft));
+			report_error("================ CalculateTa vbe", vbe_ft, 0.0);
 		else state := s10; end if;
 	when s11 => state := s12;
 		fixed2floatsclr <= '0';
@@ -410,7 +410,7 @@ begin
 		mulfpa <= vptat_ft;
 		mulfpb <= ExtractAlphaPtatParameter_alphaptat;
 		mulfpond <= '1';
---		report "================ CalculateTa alphaptat : " & real'image (ap_slv2fp (ExtractAlphaPtatParameter_alphaptat));
+		report_error("================ CalculateTa alphaptat", ExtractAlphaPtatParameter_alphaptat, 0.0);
 	when s12 =>
 		if (mulfprdy = '1') then state := s13;
 			fttmp2 := mulfpr; -- vptat*alphaptat
@@ -467,14 +467,14 @@ begin
 		mulfpa <= ExtractKvPTATParameter_kvptat;
 		mulfpb <= deltaV;
 		mulfpond <= '1';
---		report "================ CalculateTa ExtractKvPTATParameter_kvptat : " & real'image (ap_slv2fp (ExtractKvPTATParameter_kvptat));
+		report_error("================ CalculateTa ExtractKvPTATParameter_kvptat", ExtractKvPTATParameter_kvptat, 0.0);
 	when s20 =>
 		if (mulfprdy = '1') then state := s21;
 			fttmp1 := mulfpr; -- kvptat*deltaV
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
---			report "================ CalculateTa 1 : " & real'image (ap_slv2fp (fttmp1));
+			report_error("================ CalculateTa 1", fttmp1, 0.0);
 		else state := s20; end if;
 	when s21 => state := s22;
 		mulfpsclr <= '0';
@@ -489,7 +489,7 @@ begin
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
---			report "================ CalculateTa 2 : " & real'image (ap_slv2fp (fttmp1));
+			report_error("================ CalculateTa 2", fttmp1, 0.0);
 		else state := s22; end if;
 	when s23 => state := s24;
 		addfpsclr <= '0';
@@ -504,7 +504,7 @@ begin
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
---			report "================ CalculateTa 3 : " & real'image (ap_slv2fp (fttmp1));
+			report_error("================ CalculateTa 3", fttmp1, 0.0);
 		else state := s24; end if;
 	when s25 => state := s26;
 		divfpsclr <= '0';
@@ -519,7 +519,7 @@ begin
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
---			report "================ CalculateTa 4 : " & real'image (ap_slv2fp (fttmp1));
+			report_error("================ CalculateTa 4", fttmp1, 0.0);
 		else state := s26; end if;
 	when s27 => state := s28;
 		subfpsclr <= '0';
@@ -528,14 +528,14 @@ begin
 		divfpa <= fttmp1;
 		divfpb <= ExtractKtPTATParameter_ktptat;
 		divfpond <= '1';
---		report "================ CalculateTa ExtractKtPTATParameter_ktptat : " & real'image (ap_slv2fp (ExtractKtPTATParameter_ktptat));
+		report_error("================ CalculateTa ExtractKtPTATParameter_ktptat", ExtractKtPTATParameter_ktptat, 0.0);
 	when s28 =>
 		if (divfprdy = '1') then state := s29;
 			fttmp1 := divfpr; -- ((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
---			report "================ CalculateTa 5 : " & real'image (ap_slv2fp (fttmp1));
+			report_error("================ CalculateTa 5", fttmp1, 0.0);
 		else state := s28; end if;
 	when s29 => state := s30;
 		divfpsclr <= '0';
@@ -550,14 +550,14 @@ begin
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
---			report "================ CalculateTa 6 : " & real'image (ap_slv2fp (fttmp1));
+			report_error("================ CalculateTa 6", fttmp1, 0.0);
 		else state := s30; end if;
 	when ending => state := idle;
 		addfpsclr <= '0';
 		o_Ta <= fttmp1;
 --		o_Ta <= x"4207F54F"; -- example 33.989559
     --synthesis translate_off
-		report "================ CalculateTa Ta : " & real'image (ap_slv2fp (fttmp1));
+		report_error("================ CalculateTa Ta", fttmp1, 0.0);
 		--synthesis translate_on
     o_rdy <= '1';
 	when others => null;

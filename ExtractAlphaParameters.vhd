@@ -1052,7 +1052,7 @@ begin
             addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vAlphaPixel_ft
             dia <= divfpr_internal;
             --synthesis translate_off
-            report "================vAlphaPixel_ft " & integer'image(i) & " : " & real'image (ap_slv2fp (divfpr_internal));
+            report_error("================vAlphaPixel_ft " & integer'image(i), divfpr_internal, 0.0);
             --synthesis translate_on
           else state := s22; end if;
         when s25 =>

@@ -84,7 +84,7 @@ begin
         when s4 => state := idle;
 					o_ksta <= odata_ksta;
           --synthesis translate_off
-					report "================ extractKsTaParameters ksta : " & real'image (ap_slv2fp (odata_ksta));
+					report_error("================ extractKsTaParameters ksta", odata_ksta, 0.0);
           --synthesis translate_on	
 			end case;
 		end if;

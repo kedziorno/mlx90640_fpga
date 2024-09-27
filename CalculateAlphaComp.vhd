@@ -565,7 +565,7 @@ begin
             addra <= std_logic_vector (to_unsigned (i, 10)); -- alphacomp
             dia <= fptmp1;
             --synthesis translate_off
-            report "================alphacomp : " & real'image (ap_slv2fp (fptmp1));
+            report_error("================alphacomp " & integer'image(i), fptmp1, 0.0);
             --synthesis translate_on
 					else state := s28; end if;
 				when s31 =>

@@ -275,10 +275,10 @@ begin
 			addfpsclr <= '1';
       o_Vdd <= addfpr;
       --synthesis translate_off
-      report "================ CalculateVdd o_Vdd : " & real'image (ap_slv2fp (addfpr));
-      report "================ CalculateVdd o_kvdd : " & real'image (ap_slv2fp (ExtractVDDParameters_kvdd));
-      report "================ CalculateVdd o_vdd25 : " & real'image (ap_slv2fp (ExtractVDDParameters_vdd25));
-      report "================ CalculateVdd o_ram0x072a : " & real'image (ap_slv2fp (addfpr));
+      report_error("================ CalculateVdd o_Vdd", addfpr, 0.0);
+      report_error("================ CalculateVdd o_kvdd", ExtractVDDParameters_kvdd, 0.0);
+      report_error("================ CalculateVdd o_vdd25", ExtractVDDParameters_vdd25, 0.0);
+      report_error("================ CalculateVdd o_ram0x072a", addfpr, 0.0);
       --synthesis translate_on
 		else state := s23; end if;
 	end case;

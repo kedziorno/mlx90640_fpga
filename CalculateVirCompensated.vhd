@@ -524,7 +524,7 @@ begin
             addra <= std_logic_vector (to_unsigned (i, 10)); -- pixos
             dia <= subfpr_internal;
             --synthesis translate_off
-            report "================vircompensated " & integer'image (i) & " : " & real'image (ap_slv2fp (subfpr_internal));
+            report_error("================ vircompensated " & integer'image (i), subfpr_internal, 0.0);
             --synthesis translate_on
 					else state := s21; end if;
         when s23 =>

@@ -463,7 +463,7 @@ begin
 					mulfpsclr_internal <= '0';
 					write_enable <= '0';
           --synthesis translate_off
-					report "================ CalculatePixGain PixGain " & integer'image (pixgain_index) & " : " & real'image (ap_slv2fp (mulfpr));
+					report_error("================ CalculatePixGain PixGain " & integer'image (pixgain_index), mulfpr, 0.0);
           --synthesis translate_on
         when s9 =>
 					if (pixgain_index = PIXGAIN_SZ - 1) then

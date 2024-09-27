@@ -511,7 +511,7 @@ begin
 						divfpce_internal <= '0';
 						divfpond_internal <= '0';
 						divfpsclr_internal <= '1';
-            --report "================ CalculatePixOsCPSP ktacp : " & real'image (ap_slv2fp (ktacp_ft));
+            report_error("================ CalculatePixOsCPSP ktacp", ktacp_ft, 0.0);
 					else state := s52; end if;
 				when s53 => state := s55;
 					divfpsclr_internal <= '0';
@@ -528,7 +528,7 @@ begin
 					else state := s55; end if;
 				when s57 =>
 					divfpsclr_internal <= '0';
-					--report "================ CalculatePixOsCPSP kvcp : " & real'image (ap_slv2fp (kvcp_ft));
+					report_error("================ CalculatePixOsCPSP kvcp", kvcp_ft, 0.0);
 					subfpce_internal <= '1';
 					subfpa_internal <= i_Vdd;
 					subfpb_internal <= i_VddV0;
@@ -632,7 +632,7 @@ begin
 						subfpond_internal <= '0';
 						subfpsclr_internal <= '1';
             --synthesis translate_off
-						report "================ CalculatePixOsCPSP o_pixoscpsp0 : " & real'image (ap_slv2fp (subfpr));
+						report_error("================ CalculatePixOsCPSP o_pixoscpsp0", subfpr, 0.0);
             --synthesis translate_on
 					else state := s81; end if;
 				when s84 =>
@@ -668,7 +668,7 @@ begin
             rdy <= '1';
 						o_pixoscpsp1 <= subfpr_internal;
             --synthesis translate_off
-						report "================ CalculatePixOsCPSP o_pixoscpsp1 : " & real'image (ap_slv2fp (subfpr_internal));
+						report_error("================ CalculatePixOsCPSP o_pixoscpsp1", subfpr_internal, 0.0);
             --synthesis translate_on
 						subfpce_internal <= '0';
 						subfpond_internal <= '0';

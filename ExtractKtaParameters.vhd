@@ -511,7 +511,7 @@ begin
             addra <= std_logic_vector (to_unsigned (i, 10)); -- kta
             dia <= divfpr_internal;
             --synthesis translate_off
-            report "================kta_ft " & integer'image (i) & " " & real'image (ap_slv2fp (divfpr_internal));
+            report_error("================kta_ft " & integer'image (i), divfpr_internal, 0.0);
             --synthesis translate_on
           else state := kta23; end if;
         when kta27 =>
