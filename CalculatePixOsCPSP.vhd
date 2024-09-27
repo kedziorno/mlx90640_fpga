@@ -399,10 +399,14 @@ begin
 					mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacpee
 				when s13 => state := s14;
 					kvcpee_ft := mem_signed256_ovalue;
+          --synthesis translate_off
           report_error ("kvcpee", kvcpee_ft, 0.0);
+          --synthesis translate_on
 				when s14 => state := s15;
 					ktacpee_ft := mem_signed256_ovalue;
+          --synthesis translate_off
           report_error ("ktacpee", ktacpee_ft, 0.0);
+          --synthesis translate_on
 				when s15 =>
 					fixed2floatce_internal <= '1';
           fixed2floatond_internal <= '1';
@@ -511,7 +515,9 @@ begin
 						divfpce_internal <= '0';
 						divfpond_internal <= '0';
 						divfpsclr_internal <= '1';
+            --synthesis translate_off
             report_error("================ CalculatePixOsCPSP ktacp", ktacp_ft, 0.0);
+            --synthesis translate_on
 					else state := s52; end if;
 				when s53 => state := s55;
 					divfpsclr_internal <= '0';
@@ -528,7 +534,9 @@ begin
 					else state := s55; end if;
 				when s57 =>
 					divfpsclr_internal <= '0';
+          --synthesis translate_off
 					report_error("================ CalculatePixOsCPSP kvcp", kvcp_ft, 0.0);
+          --synthesis translate_on
 					subfpce_internal <= '1';
 					subfpa_internal <= i_Vdd;
 					subfpb_internal <= i_VddV0;
