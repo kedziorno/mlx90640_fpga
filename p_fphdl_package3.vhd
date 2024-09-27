@@ -23,6 +23,7 @@ package p_fphdl_package3 is
   procedure warning_neq_fp (a, b : in float32; info : in string := "");
   procedure warning_neq_fp (a : in std_logic_vector (31 downto 0); b : in real; info : in string := "");
   procedure warning_neq_fp (a, b : in std_logic_vector (31 downto 0); info : in string := "");
+  procedure assertEpsilon (x, y : in real; epsilon : in real := 1.0E-5; message : in string := "");
 --synthesis translate_on
 
 end p_fphdl_package3;
@@ -97,12 +98,25 @@ package body p_fphdl_package3 is
 		return r ;
 	end function ;
 
+  procedure assertEpsilon (x, y : in real; epsilon : in real := 1.0E-5; message : in string := "") is
+    variable vabs : real := 0.0;
+  begin
+    vabs := abs (x - y);
+    assert     (vabs < epsilon) report message & " " & real'image (epsilon) & " <  " & real'image (vabs) severity note;
+    assert not (vabs < epsilon) report message & " " & real'image (epsilon) & " >= " & real'image (vabs) severity warning;
+  end procedure assertEpsilon;
+
   procedure warning_neq_fp (a, b : in float32; info : in string := "") is
     variable src : float32 := a;
     variable dst : float32 := b;
   begin
+    --if (abs (dst - src) >= 1.0E-02) then
     assert not (src = dst) report info & HT & " current == expected " & HT & real'image (to_real(src)) & " == " & real'image (to_real(dst)) & HT & to_hex_string(src) & " == " & (to_hex_string(dst)) severity note;
     assert     (src = dst) report info & HT & " current /= expected " & HT & real'image (to_real(src)) & " /= " & real'image (to_real(dst)) & HT & to_hex_string(src) & " /= " & (to_hex_string(dst)) severity warning;
+    --end if;
+    --assert not (ieee.math_real.round(to_real(src)) = ieee.math_real.round(to_real(dst))) report info & HT & " current == expected " & HT & real'image (to_real(src)) & " == " & real'image (to_real(dst)) & HT & to_hex_string(src) & " == " & (to_hex_string(dst)) severity note;
+    --assert     (ieee.math_real.round(to_real(src)) = ieee.math_real.round(to_real(dst))) report info & HT & " current /= expected " & HT & real'image (to_real(src)) & " /= " & real'image (to_real(dst)) & HT & to_hex_string(src) & " /= " & (to_hex_string(dst)) severity warning;
+    --assertEpsilon (to_real(src), to_real(dst), 1.0E-2, info);
   end procedure;
 
   procedure warning_neq_fp (a : in std_logic_vector (31 downto 0); b : in real; info : in string := "") is
