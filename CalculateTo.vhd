@@ -408,6 +408,8 @@ p0 : process (i_clock) is
 	variable i : integer range 0 to C_ROW*C_COL-1;
 	constant constTr : std_logic_vector (31 downto 0) := x"41000000"; -- 8
 	constant const27315 : std_logic_vector (31 downto 0) := x"43889333"; -- 273.15
+	--constant constEmissivity : std_logic_vector (31 downto 0) := x"3f866666"; -- 1.05
+	--constant constEmissivity : std_logic_vector (31 downto 0) := x"3f8147ae"; -- 1.01
 	constant constEmissivity : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
 	--constant constEmissivity : std_logic_vector (31 downto 0) := x"3f733333"; -- 0.95
 	--constant constEmissivity : std_logic_vector (31 downto 0) := x"3f7d70a4"; -- 0.99

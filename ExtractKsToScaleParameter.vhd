@@ -20,6 +20,8 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
+use work.p_fphdl_package3.all;
+
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
@@ -89,6 +91,7 @@ begin
 				when s4 => state := idle;
 					o_rdy <= '1';
           o_kstoscale <= odata_kstoscale;
+          report_error("==================== kstoscale", odata_kstoscale, 0.0);
 			end case;
 		end if;
 	end if;
