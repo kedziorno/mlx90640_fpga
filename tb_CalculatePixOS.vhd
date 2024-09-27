@@ -134,23 +134,29 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
+
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+
 i_const1 : in std_logic_vector (31 downto 0);
 i_Ta : in std_logic_vector (31 downto 0);
 i_Ta0 : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
 i_VddV0 : in std_logic_vector (31 downto 0);
+
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
+
 o_rdy : out std_logic;
+
 fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
 fixed2floatsclr : out STD_LOGIC;
 fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 fixed2floatrdy : in STD_LOGIC;
+
 mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 mulfpond : out STD_LOGIC;
@@ -158,6 +164,7 @@ mulfpsclr : out STD_LOGIC;
 mulfpce : out STD_LOGIC;
 mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 mulfprdy : in STD_LOGIC;
+
 addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 addfpond : out STD_LOGIC;
@@ -165,6 +172,7 @@ addfpsclr : out STD_LOGIC;
 addfpce : out STD_LOGIC;
 addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 addfprdy : in STD_LOGIC;
+
 subfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 subfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 subfpond : out STD_LOGIC;
@@ -172,6 +180,7 @@ subfpsclr : out STD_LOGIC;
 subfpce : out STD_LOGIC;
 subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 subfprdy : in STD_LOGIC;
+
 divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 divfpond : out STD_LOGIC;
@@ -181,6 +190,7 @@ divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 divfprdy : in STD_LOGIC
 );
 end component CalculatePixOS;
+
 signal CalculatePixOS_clock : std_logic;
 signal CalculatePixOS_reset : std_logic;
 signal CalculatePixOS_run : std_logic;
@@ -317,22 +327,83 @@ wait for i_clock_period/2;
 end process;
 
 tb : PROCESS IS
+type itemr is record
+a : std_logic_vector (31 downto 0);
+b : integer;
+end record; 
+type ten_items is array (0 to 9) of itemr;
+type mid_items is array (0 to 1) of itemr;
+type datar is record
+first : ten_items;
+middle : mid_items;
+last : ten_items;
+end record;
+-- XXX data from CalculatePixOS
+constant datao : datar := (
+first => (
+(a => x"436E2F29", b => 0),
+(a => x"C1C67C98", b => 1),
+(a => x"C1C24FD4", b => 2),
+(a => x"C1BF07CA", b => 3),
+(a => x"C1CC2AD6", b => 4),
+(a => x"C1C87294", b => 5),
+(a => x"C1C4A626", b => 6),
+(a => x"C1CF3D56", b => 7),
+(a => x"C1DCAB6A", b => 8),
+(a => x"C1E06EE2", b => 9)
+),
+middle => (
+(a => x"C1AE48B0", b => 382),
+(a => x"C1D1355A", b => 384)
+),
+last => (
+(a => x"C1C8AA24", b => 758),
+(a => x"C1C1C800", b => 759),
+(a => x"C12A65C0", b => 760),
+(a => x"C17F93A8", b => 761),
+(a => x"C0BAB5F0", b => 762),
+(a => x"C09902B0", b => 763),
+(a => x"C06E3E20", b => 764),
+(a => x"C09902B0", b => 765),
+(a => x"C11E3128", b => 766),
+(a => x"C0B4CDC0", b => 767)
+)
+);
 BEGIN
 CalculatePixOS_reset <= '1';
 wait for 100 ns; -- wait until global set/reset completes
 CalculatePixOS_reset <= '0';
 wait for i_clock_period*10;
 CalculatePixOS_const1 <= x"3F800000"; -- 1
-CalculatePixOS_Ta <= x"421CBC6A"; -- 39.184
+CalculatePixOS_Ta <= x"4207F54D"; -- 3.398955e+01
 CalculatePixOS_Ta0 <= x"41C80000"; -- 25
-CalculatePixOS_Vdd <= x"40546A7F"; -- 3.319
+CalculatePixOS_Vdd <= x"4052B852"; -- 3.292500e+00
 CalculatePixOS_VddV0 <= x"40533333"; -- 3.3
 CalculatePixOS_run <= '1'; wait for i_clock_period; CalculatePixOS_run <= '0';
 wait until CalculatePixOS_rdy = '1';
-for i in 0 to 1024 loop
-	CalculatePixOS_addr <= std_logic_vector (to_unsigned (i, 10));
-	wait for i_clock_period*2;
+report "rdy at 2597.975us";
+for i in 0 to 9 loop
+CalculatePixOS_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
+wait until rising_edge (CalculatePixOS_clock);
+wait until rising_edge (CalculatePixOS_clock);
+warning_neq_fp (CalculatePixOS_do, datao.first(i).a, "first " & integer'image (datao.first(i).b));
+--wait until rising_edge (CalculatePixOS_clock);
 end loop;
+for i in 0 to 1 loop
+CalculatePixOS_addr <= std_logic_vector (to_unsigned (datao.middle(i).b, 10));
+wait until rising_edge (CalculatePixOS_clock);
+wait until rising_edge (CalculatePixOS_clock);
+warning_neq_fp (CalculatePixOS_do, datao.middle(i).a, "middle " & integer'image (datao.middle(i).b));
+--wait until rising_edge (CalculatePixOS_clock);
+end loop;
+for i in 0 to 9 loop -- XXX last_9 is OK here (tb_CalculateAlphaComp)
+CalculatePixOS_addr <= std_logic_vector (to_unsigned (datao.last(i).b, 10));
+wait until rising_edge (CalculatePixOS_clock);
+wait until rising_edge (CalculatePixOS_clock);
+warning_neq_fp (CalculatePixOS_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
+--wait until rising_edge (CalculatePixOS_clock);
+end loop;
+report "end at 2618.475us";
 wait for 1 ps; -- must be for write
 report "done" severity failure;
 END PROCESS tb;
