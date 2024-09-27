@@ -938,7 +938,7 @@ begin
             addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vOffset_ft
             dia <= vOffset_ft;
             --synthesis translate_off
-            report "================vOffset_ft : " & real'image (ap_slv2fp (vOffset_ft));
+            report_error("================vOffset " & integer'image(i), vOffset_ft, 0.0);
             --synthesis translate_on
             i := i + 1;
           else state := s20; end if;

@@ -295,7 +295,7 @@ begin
 						divfpond <= '0';
 						divfpsclr <= '1';
             --synthesis translate_off
-						report "================ extractCPParameters cpKta : " & real'image (ap_slv2fp (divfpr));
+						report_error("================ extractCPParameters cpKta", divfpr, 0.0);
             --synthesis translate_on
           else state := s14; end if;
 				when s15 => state := s16;
@@ -311,7 +311,7 @@ begin
 						divfpond <= '0';
 						divfpsclr <= '1';
             --synthesis translate_off
-						report "================ extractCPParameters cpKv : " & real'image (ap_slv2fp (divfpr));
+						report_error("================ extractCPParameters cpKv", divfpr, 0.0);
             --synthesis translate_on
           else state := s16; end if;
 				when s17 => state := idle;

@@ -91,7 +91,7 @@ begin
 				when s4 => state := idle;
 					o_tgc  <= odata_tgc;
           --synthesis translate_off
-					report "================ extractTGCparameters tgc : " & real'image (ap_slv2fp (odata_tgc));
+					report_error("================ extractTGCparameters tgc", odata_tgc, 0.0);
           --synthesis translate_on
 			end case;
 		end if;

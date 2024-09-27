@@ -390,7 +390,7 @@ begin
           addra <= std_logic_vector (to_unsigned (i, 10)); -- kv
           dia <= divfpr_internal;
           --synthesis translate_off
-          report "================kv_ft : " & real'image (ap_slv2fp (divfpr_internal));
+          report_error("================kv_ft " & integer'image(i), divfpr_internal, 0.0);
           --synthesis translate_on
         when kv13 =>
           i := i + 1;

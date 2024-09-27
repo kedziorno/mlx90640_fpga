@@ -220,7 +220,7 @@ begin
 						divfpsclr_internal <= '1';
 						o_acpsubpage0 <= fptmp1;
             --synthesis translate_off
-						report "================ calculateAlphaCP o_acpsubpage0 : " & real'image (ap_slv2fp (fptmp1));
+						report_error("================ calculateAlphaCP o_acpsubpage0", fptmp1, 0.0);
             --synthesis translate_on
 					else state := s9; end if;
 				when s11 =>
@@ -236,7 +236,7 @@ begin
 						mulfpsclr_internal <= '1';
 						o_acpsubpage1 <= fptmp1;
             --synthesis translate_off
-						report "================ calculateAlphaCP o_acpsubpage1 : " & real'image (ap_slv2fp (fptmp1));
+						report_error("================ calculateAlphaCP o_acpsubpage1", fptmp1, 0.0);
             --synthesis translate_on
             o_rdy <= '1';
 					else state := s11; end if;
