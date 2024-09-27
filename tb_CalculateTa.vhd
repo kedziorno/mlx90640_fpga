@@ -271,15 +271,6 @@ subfpr => CalculateTa_subfpr,
 subfprdy => CalculateTa_subfprdy
 );
 
---i_ee0x2432 => x"5952",
---i_ee0x2431 => x"2ff1",
---i_ee0x2410 => x"4210",
---i_kvdd => x"C5480000",
---i_vdd25 => x"C6440000",
---i_ram0x072a => x"c64cec00",
---i_ram0x0720 => x"06af",
---i_ram0x0700 => x"4bf2",
-
 tbprocess : PROCESS
 BEGIN
 calculateTa_reset <= '1';
@@ -291,7 +282,8 @@ calculateTa_Vdd <= x"4052B852"; -- 3.292500
 calculateTa_run <= '1'; wait for clock_period; calculateTa_run <= '0';
 wait until calculateTa_rdy = '1';
 warning_neq_fp (calculateTa_Ta, x"4207f54d", "Ta");
-report "rdy at 2.965us";
+--report "rdy at 2.965us";
+report "rdy at 2.845us";
 report "done" severity failure;
 END PROCESS tbprocess;
 --  End Test Bench 
