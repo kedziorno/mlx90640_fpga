@@ -381,7 +381,8 @@ CalculatePixOS_Vdd <= x"4052B852"; -- 3.292500e+00
 CalculatePixOS_VddV0 <= x"40533333"; -- 3.3
 CalculatePixOS_run <= '1'; wait for i_clock_period; CalculatePixOS_run <= '0';
 wait until CalculatePixOS_rdy = '1';
-report "rdy at 2597.975us";
+--report "rdy at 2597.975us";
+report "rdy at 2352.505us";
 for i in 0 to 9 loop
 CalculatePixOS_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
 wait until rising_edge (CalculatePixOS_clock);
@@ -403,7 +404,8 @@ wait until rising_edge (CalculatePixOS_clock);
 warning_neq_fp (CalculatePixOS_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
 --wait until rising_edge (CalculatePixOS_clock);
 end loop;
-report "end at 2618.475us";
+--report "end at 2618.475us";
+report "end at 2352.945us";
 wait for 1 ps; -- must be for write
 report "done" severity failure;
 END PROCESS tb;
