@@ -91,7 +91,9 @@ begin
 				when s4 => state := idle;
 					o_rdy <= '1';
           o_kstoscale <= odata_kstoscale;
+          --synthesis translate_off
           report_error("==================== kstoscale", odata_kstoscale, 0.0);
+          --synthesis translate_on
 			end case;
 		end if;
 	end if;
