@@ -1019,7 +1019,7 @@ when s29 => state := s30;
 	addra <= std_logic_vector (to_unsigned (i, 10)); -- pixos
 	dia <= fptmp1;
   --synthesis translate_off
-	report "================pixos : " & real'image (ap_slv2fp (fptmp1));
+	report_error("================pixos " & integer'image(i), fptmp1, 0.0);
   --synthesis translate_on
 when s30 =>
 	write_enable <= '0';
