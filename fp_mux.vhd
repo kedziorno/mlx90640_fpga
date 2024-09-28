@@ -99,7 +99,9 @@ begin
 
 --s <= addfpce & subfpce & mulfpce & divfpce & sqrtfp2ce & fixed2floatce;
 
-p1 : process (addfpce,subfpce,mulfpce,divfpce,sqrtfp2ce,fixed2floatce) is
+p1 : process (
+addfpce,subfpce,mulfpce,divfpce,sqrtfp2ce,fixed2floatce,
+addfpsclr,subfpsclr,mulfpsclr,divfpsclr,sqrtfp2sclr,fixed2floatsclr) is
 begin
   sclr <= '0';
   if (addfpce = '0') then
@@ -134,6 +136,58 @@ begin
 --  rdy <= '0';
   t <= (others => '0');
   ce <= '0';
+  if (addfpce = '1') then
+    a <= addfpa;
+    b <= addfpb;
+    ond <= addfpond;
+    addfpr <= r;
+    addfprdy <= rdy;
+    t <= "000001";
+    ce <= addfpce;
+  end if;
+  if (subfpce = '1') then
+    a <= subfpa;
+    b <= subfpb;
+    ond <= subfpond;
+    subfpr <= r;
+    subfprdy <= rdy;
+    t <= "000010";
+    ce <= subfpce;
+  end if;
+  if (mulfpce = '1') then
+    a <= mulfpa;
+    b <= mulfpb;
+    ond <= mulfpond;
+    mulfpr <= r;
+    mulfprdy <= rdy;
+    t <= "000100";
+    ce <= mulfpce;
+  end if;
+  if (divfpce = '1') then
+    a <= divfpa;
+    b <= divfpb;
+    ond <= divfpond;
+    divfpr <= r;
+    divfprdy <= rdy;
+    t <= "001000";
+    ce <= divfpce;
+  end if;
+  if (sqrtfp2ce = '1') then
+    a <= sqrtfp2a;
+    ond <= sqrtfp2ond;
+    sqrtfp2r <= r;
+    sqrtfp2rdy <= rdy;
+    t <= "010000";
+    ce <= sqrtfp2ce;
+  end if;
+  if (fixed2floatce = '1') then
+    a <= fixed2floata;
+    ond <= fixed2floatond;
+    fixed2floatr <= r;
+    fixed2floatrdy <= rdy;
+    t <= "100000";
+    ce <= fixed2floatce;
+  end if;
 --  case (s) is
 --    when "100000" =>
 --      a <= addfpa;
@@ -188,58 +242,6 @@ begin
 --      t <= "100000";
 --      ce <= fixed2floatce;
 --  end case;
-  if (addfpce = '1') then
-    a <= addfpa;
-    b <= addfpb;
-    ond <= addfpond;
-    addfpr <= r;
-    addfprdy <= rdy;
-    t <= "000001";
-    ce <= addfpce;
-  end if;
-  if (subfpce = '1') then
-    a <= subfpa;
-    b <= subfpb;
-    ond <= subfpond;
-    subfpr <= r;
-    subfprdy <= rdy;
-    t <= "000010";
-    ce <= subfpce;
-  end if;
-  if (mulfpce = '1') then
-    a <= mulfpa;
-    b <= mulfpb;
-    ond <= mulfpond;
-    mulfpr <= r;
-    mulfprdy <= rdy;
-    t <= "000100";
-    ce <= mulfpce;
-  end if;
-  if (divfpce = '1') then
-    a <= divfpa;
-    b <= divfpb;
-    ond <= divfpond;
-    divfpr <= r;
-    divfprdy <= rdy;
-    t <= "001000";
-    ce <= divfpce;
-  end if;
-  if (sqrtfp2ce = '1') then
-    a <= sqrtfp2a;
-    ond <= sqrtfp2ond;
-    sqrtfp2r <= r;
-    sqrtfp2rdy <= rdy;
-    t <= "010000";
-    ce <= sqrtfp2ce;
-  end if;
-  if (fixed2floatce = '1') then
-    a <= fixed2floata;
-    ond <= fixed2floatond;
-    fixed2floatr <= r;
-    fixed2floatrdy <= rdy;
-    t <= "100000";
-    ce <= fixed2floatce;
-  end if;
 end process p0;
 
 end architecture Behavioral;

@@ -495,9 +495,30 @@ end process pagclk;
 --	end if;
 --end process p0;
 
+p_mlx90640_core_sclr : process (
+mlx90640_core_sclr,
+mlx90640_core_ce
+) is
+begin
+  addfpsclr <= '0';
+  subfpsclr <= '0';
+  mulfpsclr <= '0';
+  divfpsclr <= '0';
+  sqrtfp2sclr <= '0';
+  fixed2floatsclr <= '0';
+  if (mlx90640_core_ce = '0') then
+    addfpsclr <= mlx90640_core_sclr;
+    subfpsclr <= mlx90640_core_sclr;
+    mulfpsclr <= mlx90640_core_sclr;
+    divfpsclr <= mlx90640_core_sclr;
+    sqrtfp2sclr <= mlx90640_core_sclr;
+    fixed2floatsclr <= mlx90640_core_sclr;
+  end if;
+end process p_mlx90640_core_sclr;
+
 p_mlx90640_core_t : process (
 mlx90640_core_t,
-mlx90640_core_a,mlx90640_core_b,mlx90640_core_ce,mlx90640_core_sclr,mlx90640_core_ond,
+mlx90640_core_a,mlx90640_core_b,mlx90640_core_ce,mlx90640_core_ond,
 addfpr,addfprdy,
 subfpr,subfprdy,
 mulfpr,mulfprdy,
@@ -511,36 +532,29 @@ begin
   addfpa <= (others => '0');
   addfpb <= (others => '0');
   addfpce <= '0';
-  addfpsclr <= '0';
   addfpond <= '0';
   subfpa <= (others => '0');
   subfpb <= (others => '0');
   subfpce <= '0';
-  subfpsclr <= '0';
   subfpond <= '0';
   mulfpa <= (others => '0');
   mulfpb <= (others => '0');
   mulfpce <= '0';
-  mulfpsclr <= '0';
   mulfpond <= '0';
   divfpa <= (others => '0');
   divfpb <= (others => '0');
   divfpce <= '0';
-  divfpsclr <= '0';
   divfpond <= '0';
   sqrtfp2a <= (others => '0');
   sqrtfp2ce <= '0';
-  sqrtfp2sclr <= '0';
   sqrtfp2ond <= '0';
   fixed2floata <= (others => '0');
   fixed2floatce <= '0';
-  fixed2floatsclr <= '0';
   fixed2floatond <= '0';
   if (mlx90640_core_t = "000001") then
     addfpa <= mlx90640_core_a;
     addfpb <= mlx90640_core_b;
     addfpce <= mlx90640_core_ce;
-    addfpsclr <= mlx90640_core_sclr;
     addfpond <= mlx90640_core_ond;
     mlx90640_core_r <= addfpr;
     mlx90640_core_rdy <= addfprdy;
@@ -549,7 +563,6 @@ begin
     subfpa <= mlx90640_core_a;
     subfpb <= mlx90640_core_b;
     subfpce <= mlx90640_core_ce;
-    subfpsclr <= mlx90640_core_sclr;
     subfpond <= mlx90640_core_ond;
     mlx90640_core_r <= subfpr;
     mlx90640_core_rdy <= subfprdy;
@@ -558,7 +571,6 @@ begin
     mulfpa <= mlx90640_core_a;
     mulfpb <= mlx90640_core_b;
     mulfpce <= mlx90640_core_ce;
-    mulfpsclr <= mlx90640_core_sclr;
     mulfpond <= mlx90640_core_ond;
     mlx90640_core_r <= mulfpr;
     mlx90640_core_rdy <= mulfprdy;
@@ -567,7 +579,6 @@ begin
     divfpa <= mlx90640_core_a;
     divfpb <= mlx90640_core_b;
     divfpce <= mlx90640_core_ce;
-    divfpsclr <= mlx90640_core_sclr;
     divfpond <= mlx90640_core_ond;
     mlx90640_core_r <= divfpr;
     mlx90640_core_rdy <= divfprdy;
@@ -575,7 +586,6 @@ begin
   if (mlx90640_core_t = "010000") then
     sqrtfp2a <= mlx90640_core_a;
     sqrtfp2ce <= mlx90640_core_ce;
-    sqrtfp2sclr <= mlx90640_core_sclr;
     sqrtfp2ond <= mlx90640_core_ond;
     mlx90640_core_r <= sqrtfp2r;
     mlx90640_core_rdy <= sqrtfp2rdy;
@@ -583,7 +593,6 @@ begin
   if (mlx90640_core_t = "100000") then
     fixed2floata <= mlx90640_core_a;
     fixed2floatce <= mlx90640_core_ce;
-    fixed2floatsclr <= mlx90640_core_sclr;
     fixed2floatond <= mlx90640_core_ond;
     mlx90640_core_r <= fixed2floatr;
     mlx90640_core_rdy <= fixed2floatrdy;
