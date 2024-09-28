@@ -550,7 +550,7 @@ begin
   sqrtfp2a <= (others => '0');
   sqrtfp2ce <= '0';
   sqrtfp2ond <= '0';
-  fixed2floata63 <= (others => '0');
+  fixed2floata <= (others => '0');
   fixed2floatce <= '0';
   fixed2floatond <= '0';
   if (mlx90640_core_t = "000001") then
