@@ -92,30 +92,62 @@ sqrtfp2rdy : out STD_LOGIC
 );
 end entity fp_mux;
 
---signal s : std_logic_vector (5 downto 0);
-
 architecture Behavioral of fp_mux is
+
+--signal s : std_logic_vector (5 downto 0);
+signal rdy_prev1,rdy_prev2 : std_logic;
+signal addfpce_prev,subfpce_prev,mulfpce_prev,divfpce_prev,sqrtfp2ce_prev,fixed2floatce_prev : std_logic;
 
 begin
 
 --s <= addfpce & subfpce & mulfpce & divfpce & sqrtfp2ce & fixed2floatce;
 
+p3 : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    addfpce_prev <= addfpce;
+    subfpce_prev <= subfpce;
+    mulfpce_prev <= mulfpce;
+    divfpce_prev <= divfpce;
+    sqrtfp2ce_prev <= sqrtfp2ce;
+    fixed2floatce_prev <= fixed2floatce;
+  end if;
+end process p3;
+
+p2 : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    rdy_prev2 <= rdy_prev1;
+    rdy_prev1 <= rdy;
+  end if;
+end process p2;
+
 p1 : process (
 addfpce,subfpce,mulfpce,divfpce,sqrtfp2ce,fixed2floatce,
-addfpsclr,subfpsclr,mulfpsclr,divfpsclr,sqrtfp2sclr,fixed2floatsclr) is
+addfpsclr,subfpsclr,mulfpsclr,divfpsclr,sqrtfp2sclr,fixed2floatsclr,
+--addfprdy,subfprdy,mulfprdy,divfprdy,sqrtfp2rdy,fixed2floatrdy
+rdy_prev1,rdy_prev2,
+addfpce_prev,subfpce_prev,mulfpce_prev,divfpce_prev,sqrtfp2ce_prev,fixed2floatce_prev
+) is
 begin
   sclr <= '0';
-  if (addfpce = '0') then
+--  if (addfpce = '0' and addfprdy = '1') then
+  if (addfpce = '0' and addfpce_prev = '1' and rdy_prev1 = '1' and rdy_prev2 = '1') then
     sclr <= addfpsclr;
-  elsif (subfpce = '0') then
+--  elsif (subfpce = '0' and subfprdy = '1') then
+  elsif (subfpce = '0' and subfpce_prev = '1' and rdy_prev1 = '1' and rdy_prev2 = '1') then
     sclr <= subfpsclr;
-  elsif (mulfpce = '0') then
+--  elsif (mulfpce = '0' and mulfprdy = '1') then
+  elsif (mulfpce = '0' and mulfpce_prev = '1' and rdy_prev1 = '1' and rdy_prev2 = '1') then
     sclr <= mulfpsclr;
-  elsif (divfpce = '0') then
+--  elsif (divfpce = '0' and divfprdy = '1') then
+  elsif (divfpce = '0' and divfpce_prev = '1' and rdy_prev1 = '1' and rdy_prev2 = '0') then
     sclr <= divfpsclr;
-  elsif (sqrtfp2ce = '0') then
+--  elsif (sqrtfp2ce = '0' and sqrtfp2rdy = '1') then
+  elsif (sqrtfp2ce = '0' and sqrtfp2ce_prev = '1' and rdy_prev1 = '1' and rdy_prev2 = '1') then
     sclr <= sqrtfp2sclr;
-  elsif (fixed2floatce = '0') then
+--  elsif (fixed2floatce = '0' and fixed2floatrdy = '1') then
+  elsif (fixed2floatce = '0' and fixed2floatce_prev = '1' and rdy_prev1 = '1' and rdy_prev2 = '1') then
     sclr <= fixed2floatsclr;
   end if;
 end process p1;
