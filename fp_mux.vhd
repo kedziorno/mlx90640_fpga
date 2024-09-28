@@ -35,6 +35,7 @@ i_clock : in std_logic;
 i_reset : in std_logic;
 a : out std_logic_vector (31 downto 0);
 b : out std_logic_vector (31 downto 0);
+a63 : out std_logic_vector (63 downto 0);
 ce : out std_logic;
 sclr : out std_logic;
 ond : out std_logic;
@@ -139,6 +140,7 @@ begin
   if (addfpce = '1') then
     a <= addfpa;
     b <= addfpb;
+    a63 <= (others => '0');
     ond <= addfpond;
     addfpr <= r;
     addfprdy <= rdy;
@@ -148,6 +150,7 @@ begin
   if (subfpce = '1') then
     a <= subfpa;
     b <= subfpb;
+    a63 <= (others => '0');
     ond <= subfpond;
     subfpr <= r;
     subfprdy <= rdy;
@@ -157,6 +160,7 @@ begin
   if (mulfpce = '1') then
     a <= mulfpa;
     b <= mulfpb;
+    a63 <= (others => '0');
     ond <= mulfpond;
     mulfpr <= r;
     mulfprdy <= rdy;
@@ -166,6 +170,7 @@ begin
   if (divfpce = '1') then
     a <= divfpa;
     b <= divfpb;
+    a63 <= (others => '0');
     ond <= divfpond;
     divfpr <= r;
     divfprdy <= rdy;
@@ -174,6 +179,7 @@ begin
   end if;
   if (sqrtfp2ce = '1') then
     a <= sqrtfp2a;
+    a63 <= (others => '0');
     ond <= sqrtfp2ond;
     sqrtfp2r <= r;
     sqrtfp2rdy <= rdy;
@@ -181,7 +187,8 @@ begin
     ce <= sqrtfp2ce;
   end if;
   if (fixed2floatce = '1') then
-    a <= fixed2floata;
+    a <= (others => '0');
+    a63 <= fixed2floata;
     ond <= fixed2floatond;
     fixed2floatr <= r;
     fixed2floatrdy <= rdy;

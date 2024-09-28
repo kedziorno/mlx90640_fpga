@@ -42,6 +42,7 @@ data_addr : in std_logic_vector(9 downto 0);
 data_out : out std_logic_vector(31 downto 0);
 a : out std_logic_vector (31 downto 0);
 b : out std_logic_vector (31 downto 0);
+a63 : out std_logic_vector (63 downto 0);
 ce : out std_logic;
 sclr : out std_logic;
 ond : out std_logic;
@@ -123,6 +124,7 @@ i_clock : in std_logic;
 i_reset : in std_logic;
 a : out std_logic_vector (31 downto 0);
 b : out std_logic_vector (31 downto 0);
+a63 : out std_logic_vector (63 downto 0);
 ce : out std_logic;
 sclr : out std_logic;
 ond : out std_logic;
@@ -251,6 +253,7 @@ i_clock => i_clock,
 i_reset => i_reset,
 a => a,
 b => b,
+a63 => a63,
 ce => ce,
 sclr => sclr,
 ond => ond,

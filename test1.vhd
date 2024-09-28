@@ -57,6 +57,7 @@ data_addr : in std_logic_vector(9 downto 0);
 data_out : out std_logic_vector(31 downto 0);
 a : out std_logic_vector (31 downto 0);
 b : out std_logic_vector (31 downto 0);
+a63 : out std_logic_vector (63 downto 0);
 ce : out std_logic;
 sclr : out std_logic;
 ond : out std_logic;
@@ -76,6 +77,7 @@ signal mlx90640_core_data_addr : std_logic_vector(9 downto 0);
 signal mlx90640_core_data_out : std_logic_vector(31 downto 0);
 signal mlx90640_core_a : std_logic_vector (31 downto 0);
 signal mlx90640_core_b : std_logic_vector (31 downto 0);
+signal mlx90640_core_a63 : std_logic_vector (63 downto 0);
 signal mlx90640_core_ce : std_logic;
 signal mlx90640_core_sclr : std_logic;
 signal mlx90640_core_ond : std_logic;
@@ -548,7 +550,7 @@ begin
   sqrtfp2a <= (others => '0');
   sqrtfp2ce <= '0';
   sqrtfp2ond <= '0';
-  fixed2floata <= (others => '0');
+  fixed2floata63 <= (others => '0');
   fixed2floatce <= '0';
   fixed2floatond <= '0';
   if (mlx90640_core_t = "000001") then
@@ -591,7 +593,7 @@ begin
     mlx90640_core_rdy <= sqrtfp2rdy;
   end if;
   if (mlx90640_core_t = "100000") then
-    fixed2floata <= mlx90640_core_a;
+    fixed2floata <= mlx90640_core_a63;
     fixed2floatce <= mlx90640_core_ce;
     fixed2floatond <= mlx90640_core_ond;
     mlx90640_core_r <= fixed2floatr;
@@ -661,6 +663,7 @@ data_addr => mlx90640_core_data_addr,
 data_out => mlx90640_core_data_out,
 a => mlx90640_core_a,
 b => mlx90640_core_b,
+a63 => mlx90640_core_a63,
 ce => mlx90640_core_ce,
 sclr => mlx90640_core_sclr,
 ond => mlx90640_core_ond,
