@@ -1455,6 +1455,33 @@ CalculateTo_i2c_mem_douta <= i2c_mem_douta when CalculateTo_mux = '1' else (othe
 				state := idle;
 				-- reset
 				o_rdy <= '0';
+--fixed2floata <= (others => '0');
+--divfpa <= (others => '0');
+--divfpb <= (others => '0');
+--mulfpa <= (others => '0');
+--mulfpb <= (others => '0');
+--addfpa <= (others => '0');
+--addfpb <= (others => '0');
+--subfpa <= (others => '0');
+--subfpb <= (others => '0');
+--sqrtfp2a <= (others => '0');
+--fixed2floata <= (others => '0');
+--divfpond <= '0';
+--divfpsclr <= '0';
+--divfpce <= '0';
+--mulfpond <= '0';
+--mulfpsclr <= '0';
+--mulfpce <= '0';
+--addfpond <= '0';
+--addfpsclr <= '0';
+--addfpce <= '0';
+--subfpond <= '0';
+--subfpsclr <= '0';
+--subfpce <= '0';
+--sqrtfp2ond <= '0';
+--sqrtfp2sclr <= '0';
+--sqrtfp2ce <= '0';
+        
 			else
 case (state) is
 	when idle =>

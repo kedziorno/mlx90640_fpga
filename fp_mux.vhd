@@ -196,7 +196,7 @@ begin
     mulfprdy <= rdy;
     t <= "000100";
     ce <= mulfpce;
-  elsif (divfpce = '1') then
+  elsif (divfpce = '1' or (divfpce = '0' and addfpce = '0' and mulfpce = '0' and subfpce = '0' and sqrtfp2ce = '0' and fixed2floatce = '0')) then
     a <= divfpa;
     b <= divfpb;
     a63 <= (others => '0');

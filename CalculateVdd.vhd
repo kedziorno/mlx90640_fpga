@@ -155,6 +155,24 @@ begin
 		o_Vdd <= (others => '0');
 		o_rdy <= '0';
 		i2c_mem_ena_internal <= '0';
+fixed2floata <= (others => '0');
+divfpa <= (others => '0');
+divfpb <= (others => '0');
+mulfpa <= (others => '0');
+mulfpb <= (others => '0');
+addfpa <= (others => '0');
+addfpb <= (others => '0');
+subfpa <= (others => '0');
+subfpb <= (others => '0');
+divfpond <= '0';
+divfpce <= '0';
+mulfpond <= '0';
+mulfpce <= '0';
+addfpond <= '0';
+addfpce <= '0';
+subfpond <= '0';
+subfpce <= '0';
+
 	else
 	case (state) is
 	when idle =>
