@@ -891,7 +891,7 @@ signal CalculateTo_sqrtfp2ce : STD_LOGIC;
 signal CalculateTo_sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateTo_sqrtfp2rdy : STD_LOGIC;
 
-signal CalculatePixOS_mux,CalculatePixOsCPSP_mux,CalculateVirCompensated_mux,ExtractOffsetParameters_mux,ExtractAlphaParameters_mux,CalculateAlphaComp_mux,CalculateAlphaCP_mux,CalculateVdd_mux,CalculateTa_mux,CalculateTo_mux : std_logic;
+signal CalculatePixOS_mux,CalculatePixOsCPSP_mux,CalculateVirCompensated_mux,ExtractAlphaParameters_mux,CalculateAlphaComp_mux,CalculateAlphaCP_mux,CalculateVdd_mux,CalculateTa_mux,CalculateTo_mux : std_logic;
 
 begin
 
