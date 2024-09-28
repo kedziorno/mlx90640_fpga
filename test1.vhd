@@ -44,7 +44,7 @@ constant PIXELS : integer := 768;
 constant ADDRESS1 : integer := 10;
 constant BITS : integer := 24;
 
-component test_fixed_melexis is
+component mlx90640_core is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -53,19 +53,35 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_rdy : out std_logic;
-i_addr : in std_logic_vector(9 downto 0);
-o_do : out std_logic_vector(31 downto 0)
+data_addr : in std_logic_vector(9 downto 0);
+data_out : out std_logic_vector(31 downto 0);
+a : out std_logic_vector (31 downto 0);
+b : out std_logic_vector (31 downto 0);
+ce : out std_logic;
+sclr : out std_logic;
+ond : out std_logic;
+r : in std_logic_vector (31 downto 0);
+rdy : in std_logic;
+t : out std_logic_vector (5 downto 0)
 );
-end component test_fixed_melexis;
-signal test_fixed_melexis_clock : std_logic;
-signal test_fixed_melexis_reset : std_logic;
-signal test_fixed_melexis_run : std_logic;
-signal test_fixed_melexis_i2c_mem_ena : STD_LOGIC;
-signal test_fixed_melexis_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal test_fixed_melexis_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal test_fixed_melexis_rdy : std_logic;
-signal test_fixed_melexis_addr : std_logic_vector(9 downto 0);
-signal test_fixed_melexis_do : std_logic_vector(31 downto 0);
+end component mlx90640_core;
+signal mlx90640_core_clock : std_logic;
+signal mlx90640_core_reset : std_logic;
+signal mlx90640_core_run : std_logic;
+signal mlx90640_core_i2c_mem_ena : STD_LOGIC;
+signal mlx90640_core_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal mlx90640_core_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal mlx90640_core_ordy : std_logic;
+signal mlx90640_core_data_addr : std_logic_vector(9 downto 0);
+signal mlx90640_core_data_out : std_logic_vector(31 downto 0);
+signal mlx90640_core_a : std_logic_vector (31 downto 0);
+signal mlx90640_core_b : std_logic_vector (31 downto 0);
+signal mlx90640_core_ce : std_logic;
+signal mlx90640_core_sclr : std_logic;
+signal mlx90640_core_ond : std_logic;
+signal mlx90640_core_r : std_logic_vector (31 downto 0);
+signal mlx90640_core_rdy : std_logic;
+signal mlx90640_core_t : std_logic_vector (5 downto 0);
 
 COMPONENT tb_i2c_mem
 PORT (
@@ -195,6 +211,141 @@ signal dualmem_enb : STD_LOGIC;
 signal dualmem_addrb : STD_LOGIC_VECTOR(9 DOWNTO 0);
 signal dualmem_doutb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 
+--attribute RlOC : string;
+
+COMPONENT fixed2float
+PORT (
+a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : STD_LOGIC;
+signal fixed2floatce : STD_LOGIC;
+signal fixed2floatsclr : STD_LOGIC;
+signal fixed2floatr :  STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : STD_LOGIC;
+
+--attribute RLOC of fixed2float : component is "SLICE_X40Y174:SLICE_X79Y191";
+
+COMPONENT divfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : STD_LOGIC;
+signal divfpce : STD_LOGIC;
+signal divfpsclr : STD_LOGIC;
+signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : STD_LOGIC;
+
+--attribute RLOC of divfp : component is "SLICE_X40Y112:SLICE_X79Y143";
+
+COMPONENT mulfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : STD_LOGIC;
+signal mulfpce : STD_LOGIC;
+signal mulfpsclr : STD_LOGIC;
+signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy : STD_LOGIC;
+
+--attribute RLOC of mulfp : component is "SLICE_X40Y80:SLICE_X79Y111";
+
+COMPONENT addfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : STD_LOGIC;
+signal addfpce : STD_LOGIC;
+signal addfpsclr : STD_LOGIC;
+signal addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : STD_LOGIC;
+
+--attribute RLOC of addfp : component is "SLICE_X40Y144:SLICE_X79Y175";
+
+COMPONENT subfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpond : STD_LOGIC;
+signal subfpce : STD_LOGIC;
+signal subfpsclr : STD_LOGIC;
+signal subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfprdy : STD_LOGIC;
+
+--attribute RLOC of subfp : component is "SLICE_X40Y48:SLICE_X79Y79";
+
+COMPONENT sqrtfp2
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal sqrtfp2a : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal sqrtfp2ond : STD_LOGIC;
+signal sqrtfp2clk : STD_LOGIC;
+signal sqrtfp2sclr : STD_LOGIC;
+signal sqrtfp2ce : STD_LOGIC;
+signal sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal sqrtfp2rdy : STD_LOGIC;
+
+signal fixed2floatclk : std_logic;
+signal addfpclk : std_logic;
+signal subfpclk : std_logic;
+signal mulfpclk : std_logic;
+signal divfpclk : std_logic;
+
 begin
 
 vga_syncn <= '1';
@@ -220,10 +371,10 @@ begin
 		else
 			case (state) is
 				when idle => state := s1;
-					test_fixed_melexis_run <= '1';
+					mlx90640_core_run <= '1';
 				when s1 =>
-					test_fixed_melexis_run <= '0';
-					if (test_fixed_melexis_rdy = '1') then
+					mlx90640_core_run <= '0';
+					if (mlx90640_core_ordy = '1') then
 						state := s2;
 					else
 						state := s1;
@@ -234,12 +385,12 @@ begin
 					tout := (others => '0');
 				when s3 => state := s4;
 				when s4 => state := s5;
-					test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
+					mlx90640_core_data_addr <= std_logic_vector (to_unsigned (i, 10));
 				when s5 => state := s6;
 				when s6 => state := s7;
 					float2fixedond <= '1';
 					float2fixedce <= '1';
-					float2fixeda <= test_fixed_melexis_do;
+					float2fixeda <= mlx90640_core_data_out;
 				when s7 =>
 					if (float2fixedrdy = '1') then state := s8;
 --						tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
@@ -344,29 +495,179 @@ end process pagclk;
 --	end if;
 --end process p0;
 
-test_fixed_melexis_clock <= i_clock;
-test_fixed_melexis_reset <= i_reset;
---test_fixed_melexis_addr <= address_generator_address;
-tfm_inst : test_fixed_melexis port map (
-i_clock => test_fixed_melexis_clock,
-i_reset => test_fixed_melexis_reset,
-i_run => test_fixed_melexis_run,
-i2c_mem_ena => test_fixed_melexis_i2c_mem_ena,
-i2c_mem_addra => test_fixed_melexis_i2c_mem_addra,
-i2c_mem_douta => test_fixed_melexis_i2c_mem_douta,
-o_rdy => test_fixed_melexis_rdy,
-i_addr => test_fixed_melexis_addr,
-o_do => test_fixed_melexis_do
+p_mlx90640_core_t : process (
+mlx90640_core_t,
+mlx90640_core_a,mlx90640_core_b,mlx90640_core_ce,mlx90640_core_sclr,mlx90640_core_ond,
+addfpr,addfprdy,
+subfpr,subfprdy,
+mulfpr,mulfprdy,
+divfpr,divfprdy,
+sqrtfp2r,sqrtfp2rdy,
+fixed2floatr,fixed2floatrdy
+) is
+begin
+  mlx90640_core_r <= (others => '0');
+  mlx90640_core_rdy <= '0';
+  addfpa <= (others => '0');
+  addfpb <= (others => '0');
+  addfpce <= '0';
+  addfpsclr <= '0';
+  addfpond <= '0';
+  subfpa <= (others => '0');
+  subfpb <= (others => '0');
+  subfpce <= '0';
+  subfpsclr <= '0';
+  subfpond <= '0';
+  mulfpa <= (others => '0');
+  mulfpb <= (others => '0');
+  mulfpce <= '0';
+  mulfpsclr <= '0';
+  mulfpond <= '0';
+  divfpa <= (others => '0');
+  divfpb <= (others => '0');
+  divfpce <= '0';
+  divfpsclr <= '0';
+  divfpond <= '0';
+  sqrtfp2a <= (others => '0');
+  sqrtfp2ce <= '0';
+  sqrtfp2sclr <= '0';
+  sqrtfp2ond <= '0';
+  fixed2floata <= (others => '0');
+  fixed2floatce <= '0';
+  fixed2floatsclr <= '0';
+  fixed2floatond <= '0';
+  if (mlx90640_core_t = "000001") then
+    addfpa <= mlx90640_core_a;
+    addfpb <= mlx90640_core_b;
+    addfpce <= mlx90640_core_ce;
+    addfpsclr <= mlx90640_core_sclr;
+    addfpond <= mlx90640_core_ond;
+    mlx90640_core_r <= addfpr;
+    mlx90640_core_rdy <= addfprdy;
+  end if;
+  if (mlx90640_core_t = "000010") then
+    subfpa <= mlx90640_core_a;
+    subfpb <= mlx90640_core_b;
+    subfpce <= mlx90640_core_ce;
+    subfpsclr <= mlx90640_core_sclr;
+    subfpond <= mlx90640_core_ond;
+    mlx90640_core_r <= subfpr;
+    mlx90640_core_rdy <= subfprdy;
+  end if;
+  if (mlx90640_core_t = "000100") then
+    mulfpa <= mlx90640_core_a;
+    mulfpb <= mlx90640_core_b;
+    mulfpce <= mlx90640_core_ce;
+    mulfpsclr <= mlx90640_core_sclr;
+    mulfpond <= mlx90640_core_ond;
+    mlx90640_core_r <= mulfpr;
+    mlx90640_core_rdy <= mulfprdy;
+  end if;
+  if (mlx90640_core_t = "001000") then
+    divfpa <= mlx90640_core_a;
+    divfpb <= mlx90640_core_b;
+    divfpce <= mlx90640_core_ce;
+    divfpsclr <= mlx90640_core_sclr;
+    divfpond <= mlx90640_core_ond;
+    mlx90640_core_r <= divfpr;
+    mlx90640_core_rdy <= divfprdy;
+  end if;
+  if (mlx90640_core_t = "010000") then
+    sqrtfp2a <= mlx90640_core_a;
+    sqrtfp2ce <= mlx90640_core_ce;
+    sqrtfp2sclr <= mlx90640_core_sclr;
+    sqrtfp2ond <= mlx90640_core_ond;
+    mlx90640_core_r <= sqrtfp2r;
+    mlx90640_core_rdy <= sqrtfp2rdy;
+  end if;
+  if (mlx90640_core_t = "100000") then
+    fixed2floata <= mlx90640_core_a;
+    fixed2floatce <= mlx90640_core_ce;
+    fixed2floatsclr <= mlx90640_core_sclr;
+    fixed2floatond <= mlx90640_core_ond;
+    mlx90640_core_r <= fixed2floatr;
+    mlx90640_core_rdy <= fixed2floatrdy;
+  end if;
+--  case (mlx90640_core_t) is
+--    when "000001" =>
+--      addfpa <= mlx90640_core_a;
+--      addfpb <= mlx90640_core_b;
+--      addfpce <= mlx90640_core_ce;
+--      addfpsclr <= mlx90640_core_sclr;
+--      addfpond <= mlx90640_core_ond;
+--      mlx90640_core_r <= addfpr;
+--      mlx90640_core_rdy <= addfprdy;
+--    when "000010" =>
+--      subfpa <= mlx90640_core_a;
+--      subfpb <= mlx90640_core_b;
+--      subfpce <= mlx90640_core_ce;
+--      subfpsclr <= mlx90640_core_sclr;
+--      subfpond <= mlx90640_core_ond;
+--      mlx90640_core_r <= subfpr;
+--      mlx90640_core_rdy <= subfprdy;
+--    when "000100" =>
+--      mulfpa <= mlx90640_core_a;
+--      mulfpb <= mlx90640_core_b;
+--      mulfpce <= mlx90640_core_ce;
+--      mulfpsclr <= mlx90640_core_sclr;
+--      mulfpond <= mlx90640_core_ond;
+--      mlx90640_core_r <= mulfpr;
+--      mlx90640_core_rdy <= mulfprdy;
+--    when "001000" =>
+--      divfpa <= mlx90640_core_a;
+--      divfpb <= mlx90640_core_b;
+--      divfpce <= mlx90640_core_ce;
+--      divfpsclr <= mlx90640_core_sclr;
+--      divfpond <= mlx90640_core_ond;
+--      mlx90640_core_r <= divfpr;
+--      mlx90640_core_rdy <= divfprdy;
+--    when "010000" =>
+--      sqrtfp2a <= mlx90640_core_a;
+--      sqrtfp2ce <= mlx90640_core_ce;
+--      sqrtfp2sclr <= mlx90640_core_sclr;
+--      sqrtfp2ond <= mlx90640_core_ond;
+--      mlx90640_core_r <= sqrtfp2r;
+--      mlx90640_core_rdy <= sqrtfp2rdy;
+--    when others =>
+--      fixed2floata <= mlx90640_core_a;
+--      fixed2floatce <= mlx90640_core_ce;
+--      fixed2floatsclr <= mlx90640_core_sclr;
+--      fixed2floatond <= mlx90640_core_ond;
+--      mlx90640_core_r <= fixed2floatr;
+--      mlx90640_core_rdy <= fixed2floatrdy;
+--  end case;
+end process p_mlx90640_core_t;
+
+mlx90640_core_clock <= i_clock;
+mlx90640_core_reset <= i_reset;
+inst_mlx90640_core : mlx90640_core port map (
+i_clock => mlx90640_core_clock, --
+i_reset => mlx90640_core_reset, --
+i_run => mlx90640_core_run, -- 
+i2c_mem_ena => mlx90640_core_i2c_mem_ena, --
+i2c_mem_addra => mlx90640_core_i2c_mem_addra, --
+i2c_mem_douta => mlx90640_core_i2c_mem_douta, --
+o_rdy => mlx90640_core_ordy, --
+data_addr => mlx90640_core_data_addr,
+data_out => mlx90640_core_data_out,
+a => mlx90640_core_a,
+b => mlx90640_core_b,
+ce => mlx90640_core_ce,
+sclr => mlx90640_core_sclr,
+ond => mlx90640_core_ond,
+r => mlx90640_core_r,
+rdy => mlx90640_core_rdy,
+t => mlx90640_core_t
 );
 
 inst_tb_i2c_mem : tb_i2c_mem
 PORT MAP (
-clka => test_fixed_melexis_clock,
-ena => test_fixed_melexis_i2c_mem_ena,
+clka => i_clock,
+ena => mlx90640_core_i2c_mem_ena,
 wea => "0",
-addra => test_fixed_melexis_i2c_mem_addra,
+addra => mlx90640_core_i2c_mem_addra,
 dina => (others => '0'),
-douta => test_fixed_melexis_i2c_mem_douta
+douta => mlx90640_core_i2c_mem_douta
 );
 
 address_generator_clk <= agclk;
@@ -465,6 +766,91 @@ clkb => dualmem_clkb,
 enb => dualmem_enb,
 addrb => dualmem_addrb,
 doutb => dualmem_doutb
+);
+
+fixed2floatclk <= i_clock;
+addfpclk <= i_clock;
+subfpclk <= i_clock;
+mulfpclk <= i_clock;
+divfpclk <= i_clock;
+sqrtfp2clk <= i_clock;
+
+b0 : block
+attribute loc : string;
+--attribute loc of inst_fixed2float : label is "SLICE_X40Y176:SLICE_X79Y191";
+--attribute loc of inst_fixed2float : label is "SLICE_X40Y176:SLICE_X75Y191";
+--attribute loc of inst_fixed2float : label is "SLICE_X40Y176:SLICE_X71Y191";
+
+begin
+inst_fixed2float : fixed2float
+PORT MAP (
+a => fixed2floata,
+operation_nd => fixed2floatond,
+clk => fixed2floatclk,
+sclr => fixed2floatsclr,
+ce => fixed2floatce,
+result => fixed2floatr,
+rdy => fixed2floatrdy
+);
+end block b0;
+
+inst_divfp : divfp
+PORT MAP (
+a => divfpa,
+b => divfpb,
+operation_nd => divfpond,
+clk => divfpclk,
+sclr => divfpsclr,
+ce => divfpce,
+result => divfpr,
+rdy => divfprdy
+);
+
+inst_mulfp : mulfp
+PORT MAP (
+a => mulfpa,
+b => mulfpb,
+operation_nd => mulfpond,
+clk => mulfpclk,
+sclr => mulfpsclr,
+ce => mulfpce,
+result => mulfpr,
+rdy => mulfprdy
+);
+
+inst_addfp : addfp
+PORT MAP (
+a => addfpa,
+b => addfpb,
+operation_nd => addfpond,
+clk => addfpclk,
+sclr => addfpsclr,
+ce => addfpce,
+result => addfpr,
+rdy => addfprdy
+);
+
+inst_subfp : subfp
+PORT MAP (
+a => subfpa,
+b => subfpb,
+operation_nd => subfpond,
+clk => subfpclk,
+sclr => subfpsclr,
+ce => subfpce,
+result => subfpr,
+rdy => subfprdy
+);
+
+inst_sqrtfp2 : sqrtfp2
+PORT MAP (
+a => sqrtfp2a,
+operation_nd => sqrtfp2ond,
+clk => sqrtfp2clk,
+sclr => sqrtfp2sclr,
+ce => sqrtfp2ce,
+result => sqrtfp2r,
+rdy => sqrtfp2rdy
 );
 
 end Behavioral;
