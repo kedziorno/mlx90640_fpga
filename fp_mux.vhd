@@ -202,14 +202,34 @@ begin
           sqrtfp2rdy <= rdy;
           t1 <= c_fpsqrt;
           ce <= sqrtfp2ce;
-        when others =>
-          a <= fixed2floata;
+        when "000001" =>
+          a63 <= fixed2floata;
           ond <= fixed2floatond;
 --          sclr <= fixed2floatsclr;
           fixed2floatr <= r;
           fixed2floatrdy <= rdy;
           t1 <= c_fpfi2fl;
           ce <= fixed2floatce;
+        when others =>
+          a <= (others => '0');
+          b <= (others => '0');
+          a63 <= (others => '0');
+          ond <= '0';
+--          sclr <= '0';
+          t1 <= (others => '0');
+          ce <= '0';
+          addfpr <= (others => '0');
+          addfprdy <= '0';
+          subfpr <= (others => '0');
+          subfprdy <= '0';
+          mulfpr <= (others => '0');
+          mulfprdy <= '0';
+          divfpr <= (others => '0');
+          divfprdy <= '0';
+          sqrtfp2r <= (others => '0');
+          sqrtfp2rdy <= '0';
+          fixed2floatr <= (others => '0');
+          fixed2floatrdy <= '0';
       end case;
     end if;
   end if;

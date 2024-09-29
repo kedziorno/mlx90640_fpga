@@ -176,7 +176,6 @@ begin
       subfpce <= '0';
       ExtractVDDParameters_run <= '0';
       ExtractVDDParameters_mux <= '0';
-      i2c_mem_ena_internal <= '0';
       i2c_mem_addra_internal <= (others => '0');
       resolutionee <= (others => '0');
       resolutionreg <= (others => '0');
