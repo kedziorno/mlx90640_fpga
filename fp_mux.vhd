@@ -39,8 +39,9 @@ a63 : out std_logic_vector (63 downto 0);
 ce : out std_logic;
 sclr : out std_logic;
 ond : out std_logic;
-r : in std_logic_vector (31 downto 0);
+rfd : in std_logic;
 rdy : in std_logic;
+r : in std_logic_vector (31 downto 0);
 t : out std_logic_vector (5 downto 0);
 
 fixed2floata : in STD_LOGIC_VECTOR(63 DOWNTO 0);
@@ -98,6 +99,8 @@ architecture Behavioral of fp_mux is
 signal rdy_prev1,rdy_prev2 : std_logic;
 signal addfpce_prev,subfpce_prev,mulfpce_prev,divfpce_prev,sqrtfp2ce_prev,fixed2floatce_prev : std_logic;
 
+signal t1 : std_logic_vector (5 downto 0);
+
 begin
 
 --s <= addfpce & subfpce & mulfpce & divfpce & sqrtfp2ce & fixed2floatce;
@@ -126,31 +129,30 @@ p1 : process (
 addfpce,subfpce,mulfpce,divfpce,sqrtfp2ce,fixed2floatce,
 addfpsclr,subfpsclr,mulfpsclr,divfpsclr,sqrtfp2sclr,fixed2floatsclr,
 --addfprdy,subfprdy,mulfprdy,divfprdy,sqrtfp2rdy,fixed2floatrdy
-rdy_prev1,rdy_prev2,
-addfpce_prev,subfpce_prev,mulfpce_prev,divfpce_prev,sqrtfp2ce_prev,fixed2floatce_prev
+t1
 ) is
 begin
-  sclr <= '0';
---  if (addfpce = '0' and addfprdy = '1') then
-  if (addfpce = '0' and addfpce_prev = '1' and rdy_prev1 = '1' and rdy_prev2 = '0') then
-    sclr <= addfpsclr;
---  elsif (subfpce = '0' and subfprdy = '1') then
-  elsif (subfpce = '0' and subfpce_prev = '1' and rdy_prev1 = '1' and rdy_prev2 = '0') then
-    sclr <= subfpsclr;
---  elsif (mulfpce = '0' and mulfprdy = '1') then
-  elsif (mulfpce = '0' and mulfpce_prev = '1' and rdy_prev1 = '1' and rdy_prev2 = '0') then
-    sclr <= mulfpsclr;
---  elsif (divfpce = '0' and divfprdy = '1') then
-  elsif (divfpce = '0' and divfpce_prev = '1' and rdy_prev1 = '1' and rdy_prev2 = '0') then
-    sclr <= divfpsclr;
---  elsif (sqrtfp2ce = '0' and sqrtfp2rdy = '1') then
-  elsif (sqrtfp2ce = '0' and sqrtfp2ce_prev = '1' and rdy_prev1 = '1' and rdy_prev2 = '0') then
-    sclr <= sqrtfp2sclr;
---  elsif (fixed2floatce = '0' and fixed2floatrdy = '1') then
-  elsif (fixed2floatce = '0' and fixed2floatce_prev = '1' and rdy_prev1 = '1' and rdy_prev2 = '0') then
-    sclr <= fixed2floatsclr;
+  if (i_reset = '1') then
+    sclr <= '1';
+  else
+    sclr <= '0';
+    if (addfpce = '0' and t1 = "000001") then
+      sclr <= addfpsclr;
+    elsif (subfpce = '0' and t1 = "000010") then
+      sclr <= subfpsclr;
+    elsif (mulfpce = '0' and t1 = "000100") then
+      sclr <= mulfpsclr;
+    elsif (divfpce = '0' and t1 = "001000") then
+      sclr <= divfpsclr;
+    elsif (sqrtfp2ce = '0' and t1 = "010000") then
+      sclr <= sqrtfp2sclr;
+    elsif (fixed2floatce = '0' and t1 = "100000") then
+      sclr <= fixed2floatsclr;
+    end if;
   end if;
 end process p1;
+
+t <= t1;
 
 p0 : process (
 --s,
@@ -158,16 +160,15 @@ addfpce,subfpce,mulfpce,divfpce,sqrtfp2ce,fixed2floatce,
 addfpa,subfpa,mulfpa,divfpa,sqrtfp2a,fixed2floata,
 addfpb,subfpb,mulfpb,divfpb,
 addfpond,subfpond,mulfpond,divfpond,sqrtfp2ond,fixed2floatond,
-addfpsclr,subfpsclr,mulfpsclr,divfpsclr,sqrtfp2sclr,fixed2floatsclr,
 r,rdy
 ) is
 begin
   a <= (others => '0');
   b <= (others => '0');
   ond <= '0';
---  r <= (others => '0');
---  rdy <= '0';
-  t <= (others => '0');
+  --r <= (others => '0');
+  --rdy <= '0';
+  --t1 <= (others => '0');
   ce <= '0';
   if (addfpce = '1') then
     a <= addfpa;
@@ -176,7 +177,7 @@ begin
     ond <= addfpond;
     addfpr <= r;
     addfprdy <= rdy;
-    t <= "000001";
+    t1 <= "000001";
     ce <= addfpce;
   elsif (subfpce = '1') then
     a <= subfpa;
@@ -185,7 +186,7 @@ begin
     ond <= subfpond;
     subfpr <= r;
     subfprdy <= rdy;
-    t <= "000010";
+    t1 <= "000010";
     ce <= subfpce;
   elsif (mulfpce = '1') then
     a <= mulfpa;
@@ -194,16 +195,16 @@ begin
     ond <= mulfpond;
     mulfpr <= r;
     mulfprdy <= rdy;
-    t <= "000100";
+    t1 <= "000100";
     ce <= mulfpce;
-  elsif (divfpce = '1' or (divfpce = '0' and addfpce = '0' and mulfpce = '0' and subfpce = '0' and sqrtfp2ce = '0' and fixed2floatce = '0')) then
+  elsif (divfpce = '1') then
     a <= divfpa;
     b <= divfpb;
     a63 <= (others => '0');
     ond <= divfpond;
     divfpr <= r;
     divfprdy <= rdy;
-    t <= "001000";
+    t1 <= "001000";
     ce <= divfpce;
   elsif (sqrtfp2ce = '1') then
     a <= sqrtfp2a;
@@ -211,7 +212,7 @@ begin
     ond <= sqrtfp2ond;
     sqrtfp2r <= r;
     sqrtfp2rdy <= rdy;
-    t <= "010000";
+    t1 <= "010000";
     ce <= sqrtfp2ce;
   elsif (fixed2floatce = '1') then
     a <= (others => '0');
@@ -219,7 +220,7 @@ begin
     ond <= fixed2floatond;
     fixed2floatr <= r;
     fixed2floatrdy <= rdy;
-    t <= "100000";
+    t1 <= "100000";
     ce <= fixed2floatce;
   end if;
 --  case (s) is

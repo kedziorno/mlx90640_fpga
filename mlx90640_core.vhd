@@ -46,6 +46,7 @@ a63 : out std_logic_vector (63 downto 0);
 ce : out std_logic;
 sclr : out std_logic;
 ond : out std_logic;
+rfd : in std_logic;
 r : in std_logic_vector (31 downto 0);
 rdy : in std_logic;
 t : out std_logic_vector (5 downto 0)
@@ -128,6 +129,7 @@ a63 : out std_logic_vector (63 downto 0);
 ce : out std_logic;
 sclr : out std_logic;
 ond : out std_logic;
+rfd : in std_logic;
 r : in std_logic_vector (31 downto 0);
 rdy : in std_logic;
 t : out std_logic_vector (5 downto 0);
@@ -257,6 +259,7 @@ a63 => a63,
 ce => ce,
 sclr => sclr,
 ond => ond,
+rfd => rfd,
 r => r,
 rdy => rdy,
 t => t,
@@ -308,5 +311,5 @@ sqrtfp2r => sqrtfp2r,
 sqrtfp2rdy => sqrtfp2rdy
 );
 
-end Behavioral;
+end architecture Behavioral;
 
