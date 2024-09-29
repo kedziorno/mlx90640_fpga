@@ -145,163 +145,170 @@ p0 : process (i_clock) is
 	constant resreg : std_logic_vector (15 downto 0) := x"1901" and x"0c00";
 begin
 	if (rising_edge (i_clock)) then
-	if (i_reset = '1') then
-		state := idle;
-		fixed2floatsclr <= '1';
-		addfpsclr <= '1';
-		subfpsclr <= '1';
-		mulfpsclr <= '1';
-		divfpsclr <= '1';
-		o_Vdd <= (others => '0');
-		o_rdy <= '0';
-		i2c_mem_ena_internal <= '0';
-fixed2floata <= (others => '0');
-divfpa <= (others => '0');
-divfpb <= (others => '0');
-mulfpa <= (others => '0');
-mulfpb <= (others => '0');
-addfpa <= (others => '0');
-addfpb <= (others => '0');
-subfpa <= (others => '0');
-subfpb <= (others => '0');
-divfpond <= '0';
-divfpce <= '0';
-mulfpond <= '0';
-mulfpce <= '0';
-addfpond <= '0';
-addfpce <= '0';
-subfpond <= '0';
-subfpce <= '0';
-
-	else
-	case (state) is
-	when idle =>
-		if (i_run = '1') then
-			state := s2;
-			i2c_mem_ena_internal <= '1';
-      ExtractVDDParameters_run <= '1';
-      ExtractVDDParameters_mux <= '1';
-		else
-			state := idle;
-			i2c_mem_ena_internal <= '0';
-		end if;
-		fixed2floatsclr <= '0';
-		addfpsclr <= '0';
-		subfpsclr <= '0';
-		mulfpsclr <= '0';
-		divfpsclr <= '0';
-	when s2 => 
-		ExtractVDDParameters_run <= '0';
-		if (ExtractVDDParameters_rdy = '1') then
-			state := s4;
-			ExtractVDDParameters_mux <= '0';
-      i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+0, 12)); -- 2438 MSB resolutionee 2bit & 3000
-		else
-			state := s2;
-			ExtractVDDParameters_mux <= '1';
-		end if;
-	when s4 => state := s5;
-    resolutionreg <= resreg (11 downto 10);
-		--i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1, 12)); -- xxx request ram800d & 0c00 resolutionreg 2bit or constant
-	when s5 => state := s9;
-		resolutionee <= i2c_mem_douta_internal (5 downto 4);
-	--when s6 => state := s9;
-    --resolutionreg <= i2c_mem_douta_internal (3 downto 2); --0x0c00=0000 1100 0000 0000
-		--resolutionreg <= resreg (11 downto 10); -- XXX s4
-	when s9 =>
-		-- resolutioncorr
-		divfpce <= '1';
-		divfpa <= out_resolutionee;
-		divfpb <= out_resolutionreg;
-		divfpond <= '1';
-		if (divfprdy = '1') then state := s10;
-			divfpce <= '0';
-			divfpond <= '0';
-			divfpsclr <= '1';
-		else state := s9; end if;
-	when s10 => state := s11;
-		divfpsclr <= '0';
-		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(810*2)+0, 12)); -- ram072a MSB
-	when s11 => state := s12;
-		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(810*2)+1, 12)); -- ram072a LSB
-	when s12 => state := s13;
-		ram072a (15 downto 8) := i2c_mem_douta_internal;
-	when s13 => state := s15;
-		ram072a (7 downto 0) := i2c_mem_douta_internal;		
-	when s15 =>
-		fixed2floatce <= '1';
-		fixed2floatond <= '1';
-		fixed2floata <=
-		ram072a (15) & ram072a (15) & 
-		ram072a (15) & ram072a (15) & 
-		ram072a (15) & ram072a (15) & 
-		ram072a (15) & ram072a (15) & 
-		ram072a (15) & ram072a (15) & 
-		ram072a (15) & ram072a (15) & 
-		ram072a (15) & ram072a (15) & 
-		ram072a (15) & ram072a (15) & 
-		ram072a (15) & ram072a (15) & 
-		ram072a (15) & ram072a & "00000000000000000000000000000";
-    if (fixed2floatrdy = '1') then state := s17;
-			fixed2floatce <= '0';
-			fixed2floatond <= '0';
-			fixed2floatsclr <= '1';
-		else state := s15; end if;
-	when s17 =>
-		fixed2floatsclr <= '0';
-		mulfpce <= '1';
-		mulfpa <= divfpr; -- resolutioncorr
-		mulfpb <= fixed2floatr; -- ram[0x072a]
-		mulfpond <= '1';
-		if (mulfprdy = '1') then state := s19;
-			mulfpce <= '0';
-			mulfpond <= '0';
-			mulfpsclr <= '1';
-		else state := s17; end if;
-	when s19 =>
-		mulfpsclr <= '0';
-    subfpce <= '1';
-		subfpa <= mulfpr;
-		subfpb <= ExtractVDDParameters_vdd25;
-		subfpond <= '1';
-		if (subfprdy = '1') then state := s21;
-			subfpce <= '0';
-			subfpond <= '0';
-			subfpsclr <= '1';
-		else state := s19; end if;
-	when s21 =>
-		subfpsclr <= '0';
-		divfpce <= '1';
-		divfpa <= subfpr;
-		divfpb <= ExtractVDDParameters_kvdd;
-		divfpond <= '1';
-		if (divfprdy = '1') then state := s23;
-			divfpce <= '0';
-			divfpond <= '0';
-			divfpsclr <= '1';
-		else state := s21; end if;
-	when s23 =>
-		divfpsclr <= '0';
-		addfpce <= '1';
-		addfpa <= divfpr;
-		addfpb <= const3dot3_ft;
-		addfpond <= '1';
-		if (addfprdy = '1') then state := idle;
-      o_rdy <= '1';
-			addfpce <= '0';
-			addfpond <= '0';
-			addfpsclr <= '1';
-      o_Vdd <= addfpr;
-      --synthesis translate_off
-      report_error("================ CalculateVdd o_Vdd", addfpr, 0.0);
-      report_error("================ CalculateVdd o_kvdd", ExtractVDDParameters_kvdd, 0.0);
-      report_error("================ CalculateVdd o_vdd25", ExtractVDDParameters_vdd25, 0.0);
-      report_error("================ CalculateVdd o_ram0x072a", addfpr, 0.0);
-      --synthesis translate_on
-		else state := s23; end if;
-	end case;
-end if;
-end if;
+    if (i_reset = '1') then
+      state := idle;
+      fixed2floatsclr <= '1';
+      addfpsclr <= '1';
+      subfpsclr <= '1';
+      mulfpsclr <= '1';
+      divfpsclr <= '1';
+      o_Vdd <= (others => '0');
+      o_rdy <= '0';
+      i2c_mem_ena_internal <= '0';
+      fixed2floata <= (others => '0');
+      divfpa <= (others => '0');
+      divfpb <= (others => '0');
+      mulfpa <= (others => '0');
+      mulfpb <= (others => '0');
+      addfpa <= (others => '0');
+      addfpb <= (others => '0');
+      subfpa <= (others => '0');
+      subfpb <= (others => '0');
+      fixed2floatond <= '0';
+      fixed2floatce <= '0';
+      divfpond <= '0';
+      divfpce <= '0';
+      mulfpond <= '0';
+      mulfpce <= '0';
+      addfpond <= '0';
+      addfpce <= '0';
+      subfpond <= '0';
+      subfpce <= '0';
+      ExtractVDDParameters_run <= '0';
+      ExtractVDDParameters_mux <= '0';
+      i2c_mem_ena_internal <= '0';
+      i2c_mem_addra_internal <= (others => '0');
+      resolutionee <= (others => '0');
+      resolutionreg <= (others => '0');
+    else
+      case (state) is
+      when idle =>
+        if (i_run = '1') then
+          state := s2;
+          i2c_mem_ena_internal <= '1';
+          ExtractVDDParameters_run <= '1';
+          ExtractVDDParameters_mux <= '1';
+        else
+          state := idle;
+          i2c_mem_ena_internal <= '0';
+        end if;
+        fixed2floatsclr <= '0';
+        addfpsclr <= '0';
+        subfpsclr <= '0';
+        mulfpsclr <= '0';
+        divfpsclr <= '0';
+      when s2 => 
+        ExtractVDDParameters_run <= '0';
+        if (ExtractVDDParameters_rdy = '1') then
+          state := s4;
+          ExtractVDDParameters_mux <= '0';
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+0, 12)); -- 2438 MSB resolutionee 2bit & 3000
+        else
+          state := s2;
+          ExtractVDDParameters_mux <= '1';
+        end if;
+      when s4 => state := s5;
+        resolutionreg <= resreg (11 downto 10);
+        --i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1, 12)); -- xxx request ram800d & 0c00 resolutionreg 2bit or constant
+      when s5 => state := s9;
+        resolutionee <= i2c_mem_douta_internal (5 downto 4);
+      --when s6 => state := s9;
+        --resolutionreg <= i2c_mem_douta_internal (3 downto 2); --0x0c00=0000 1100 0000 0000
+        --resolutionreg <= resreg (11 downto 10); -- XXX s4
+      when s9 =>
+        -- resolutioncorr
+        divfpce <= '1';
+        divfpa <= out_resolutionee;
+        divfpb <= out_resolutionreg;
+        divfpond <= '1';
+        if (divfprdy = '1') then state := s10;
+          divfpce <= '0';
+          divfpond <= '0';
+          divfpsclr <= '1';
+        else state := s9; end if;
+      when s10 => state := s11;
+        divfpsclr <= '0';
+        i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(810*2)+0, 12)); -- ram072a MSB
+      when s11 => state := s12;
+        i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(810*2)+1, 12)); -- ram072a LSB
+      when s12 => state := s13;
+        ram072a (15 downto 8) := i2c_mem_douta_internal;
+      when s13 => state := s15;
+        ram072a (7 downto 0) := i2c_mem_douta_internal;		
+      when s15 =>
+        fixed2floatce <= '1';
+        fixed2floatond <= '1';
+        fixed2floata <=
+        ram072a (15) & ram072a (15) & 
+        ram072a (15) & ram072a (15) & 
+        ram072a (15) & ram072a (15) & 
+        ram072a (15) & ram072a (15) & 
+        ram072a (15) & ram072a (15) & 
+        ram072a (15) & ram072a (15) & 
+        ram072a (15) & ram072a (15) & 
+        ram072a (15) & ram072a (15) & 
+        ram072a (15) & ram072a (15) & 
+        ram072a (15) & ram072a & "00000000000000000000000000000";
+        if (fixed2floatrdy = '1') then state := s17;
+          fixed2floatce <= '0';
+          fixed2floatond <= '0';
+          fixed2floatsclr <= '1';
+        else state := s15; end if;
+      when s17 =>
+        fixed2floatsclr <= '0';
+        mulfpce <= '1';
+        mulfpa <= divfpr; -- resolutioncorr
+        mulfpb <= fixed2floatr; -- ram[0x072a]
+        mulfpond <= '1';
+        if (mulfprdy = '1') then state := s19;
+          mulfpce <= '0';
+          mulfpond <= '0';
+          mulfpsclr <= '1';
+        else state := s17; end if;
+      when s19 =>
+        mulfpsclr <= '0';
+        subfpce <= '1';
+        subfpa <= mulfpr;
+        subfpb <= ExtractVDDParameters_vdd25;
+        subfpond <= '1';
+        if (subfprdy = '1') then state := s21;
+          subfpce <= '0';
+          subfpond <= '0';
+          subfpsclr <= '1';
+        else state := s19; end if;
+      when s21 =>
+        subfpsclr <= '0';
+        divfpce <= '1';
+        divfpa <= subfpr;
+        divfpb <= ExtractVDDParameters_kvdd;
+        divfpond <= '1';
+        if (divfprdy = '1') then state := s23;
+          divfpce <= '0';
+          divfpond <= '0';
+          divfpsclr <= '1';
+        else state := s21; end if;
+      when s23 =>
+        divfpsclr <= '0';
+        addfpce <= '1';
+        addfpa <= divfpr;
+        addfpb <= const3dot3_ft;
+        addfpond <= '1';
+        if (addfprdy = '1') then state := idle;
+          o_rdy <= '1';
+          addfpce <= '0';
+          addfpond <= '0';
+          addfpsclr <= '1';
+          o_Vdd <= addfpr;
+          --synthesis translate_off
+          report_error("================ CalculateVdd o_Vdd", addfpr, 0.0);
+          report_error("================ CalculateVdd o_kvdd", ExtractVDDParameters_kvdd, 0.0);
+          report_error("================ CalculateVdd o_vdd25", ExtractVDDParameters_vdd25, 0.0);
+          report_error("================ CalculateVdd o_ram0x072a", addfpr, 0.0);
+          --synthesis translate_on
+        else state := s23; end if;
+      end case;
+    end if;
+  end if;
 end process p0;
 
 -- 0-3 2^x - EE[0x2438] & 0x3000 - resolutionee

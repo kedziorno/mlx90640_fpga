@@ -10,7 +10,14 @@ use IEEE.STD_LOGIC_1164.all;
 --use ieee_proposed.std_logic_1164_additions.all;
 
 package p_fphdl_package1 is
-
+  subtype t_fpop is std_logic_vector (6 downto 0);
+  constant c_fpadd    : t_fpop := "0000001";
+  constant c_fpsub    : t_fpop := "0000010";
+  constant c_fpmul    : t_fpop := "0000100";
+  constant c_fpdiv    : t_fpop := "0001000";
+  constant c_fpsqrt   : t_fpop := "0010000";
+  constant c_fpfi2fl  : t_fpop := "0100000";
+  constant c_fpfl2fi  : t_fpop := "1000000";
 --	constant FP_INTEGER : integer := 35; -- FP_INTEGER-1 to 0
 --	constant FP_FRACTION : integer := 29; -- -1 to -FP_FRACTION
 --	constant FP_INTEGER_EXPECTED : integer := 35; -- FP_INTEGER_EXPECTED-1 to 0
@@ -90,7 +97,7 @@ package p_fphdl_package1 is
 --	subtype slv4 is std_logic_vector (3 downto 0);
 --	subtype slv5 is std_logic_vector (4 downto 0);
 --	subtype slv6 is std_logic_vector (5 downto 0);
---	subtype slv7 is std_logic_vector (6 downto 0);
+--	subtype slv7 is t_fpop;
 --	subtype slv8 is std_logic_vector (7 downto 0);
 --	subtype slv9 is std_logic_vector (8 downto 0);
 --	subtype slv10 is std_logic_vector (9 downto 0);

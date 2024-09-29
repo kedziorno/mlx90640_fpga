@@ -1481,7 +1481,11 @@ CalculateTo_i2c_mem_douta <= i2c_mem_douta when CalculateTo_mux = '1' else (othe
 --sqrtfp2ond <= '0';
 --sqrtfp2sclr <= '0';
 --sqrtfp2ce <= '0';
-        
+        i2c_mem_addra <= (others => '0');
+        CalculateVdd_run <= '0';
+        CalculateVdd_mux <= '0';
+        CalculateTa_run <= '0';
+        CalculateTa_mux <= '0';
 			else
 case (state) is
 	when idle =>

@@ -29,6 +29,8 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
+use work.p_fphdl_package1.all;
+
 entity mlx90640_core is
 port (
 i_clock : in std_logic;
@@ -49,7 +51,7 @@ ond : out std_logic;
 rfd : in std_logic;
 r : in std_logic_vector (31 downto 0);
 rdy : in std_logic;
-t : out std_logic_vector (5 downto 0)
+t : out t_fpop
 );
 end mlx90640_core;
 
@@ -132,7 +134,7 @@ ond : out std_logic;
 rfd : in std_logic;
 r : in std_logic_vector (31 downto 0);
 rdy : in std_logic;
-t : out std_logic_vector (5 downto 0);
+t : out t_fpop;
 
 fixed2floata : in STD_LOGIC_VECTOR(63 DOWNTO 0);
 fixed2floatond : in STD_LOGIC;

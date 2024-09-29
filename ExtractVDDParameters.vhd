@@ -341,6 +341,9 @@ begin
 			o_rdy <= '0';
       address_kvdd <= (others => '0');
       address_vdd25 <= (others => '0');
+      o_kvdd <= (others => '0');
+      o_vdd25 <= (others => '0');
+      i2c_mem_addra <= (others => '0');
 		else
 			case (state) is
 				when idle =>

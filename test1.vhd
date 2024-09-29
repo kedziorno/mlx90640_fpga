@@ -22,6 +22,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 --use work.p_fphdl_package3.all;
+use work.p_fphdl_package1.all;
 
 entity test1 is
 port (
@@ -64,7 +65,7 @@ ond : out std_logic;
 rfd : in std_logic;
 r : in std_logic_vector (31 downto 0);
 rdy : in std_logic;
-t : out std_logic_vector (5 downto 0)
+t : out t_fpop
 );
 end component mlx90640_core;
 signal mlx90640_core_clock : std_logic;
@@ -85,7 +86,7 @@ signal mlx90640_core_ond : std_logic;
 signal mlx90640_core_rfd : std_logic;
 signal mlx90640_core_r : std_logic_vector (31 downto 0);
 signal mlx90640_core_rdy : std_logic;
-signal mlx90640_core_t : std_logic_vector (5 downto 0);
+signal mlx90640_core_t : t_fpop;
 
 COMPONENT tb_i2c_mem
 PORT (
@@ -532,12 +533,12 @@ end process pagclk;
 --  end if;
 --end process p_mlx90640_core_sclr;
 
-addfpsclr <= mlx90640_core_sclr when mlx90640_core_t = "000001" else '1' when i_reset = '1' else '0';
-subfpsclr <= mlx90640_core_sclr when mlx90640_core_t = "000010" else '1' when i_reset = '1' else '0';
-mulfpsclr <= mlx90640_core_sclr when mlx90640_core_t = "000100" else '1' when i_reset = '1' else '0';
-divfpsclr <= mlx90640_core_sclr when mlx90640_core_t = "001000" else '1' when i_reset = '1' else '0';
-sqrtfp2sclr <= mlx90640_core_sclr when mlx90640_core_t = "010000" else '1' when i_reset = '1' else '0';
-fixed2floatsclr <= mlx90640_core_sclr when mlx90640_core_t = "100000" else '1' when i_reset = '1' else '0';
+addfpsclr <= mlx90640_core_sclr when mlx90640_core_t = c_fpadd else '1' when i_reset = '1' else '0';
+subfpsclr <= mlx90640_core_sclr when mlx90640_core_t = c_fpsub else '1' when i_reset = '1' else '0';
+mulfpsclr <= mlx90640_core_sclr when mlx90640_core_t = c_fpmul else '1' when i_reset = '1' else '0';
+divfpsclr <= mlx90640_core_sclr when mlx90640_core_t = c_fpdiv else '1' when i_reset = '1' else '0';
+sqrtfp2sclr <= mlx90640_core_sclr when mlx90640_core_t = c_fpsqrt else '1' when i_reset = '1' else '0';
+fixed2floatsclr <= mlx90640_core_sclr when mlx90640_core_t = c_fpfi2fl else '1' when i_reset = '1' else '0';
 
 p_mlx90640_core_t : process (
 mlx90640_core_t,
@@ -574,41 +575,41 @@ begin
   fixed2floata <= (others => '0');
   fixed2floatce <= '0';
   fixed2floatond <= '0';
-  if (mlx90640_core_t = "000001") then
+  if (mlx90640_core_t = c_fpadd) then
     addfpa <= mlx90640_core_a;
     addfpb <= mlx90640_core_b;
     addfpce <= mlx90640_core_ce;
     addfpond <= mlx90640_core_ond;
     mlx90640_core_r <= addfpr;
     mlx90640_core_rdy <= addfprdy;
-  elsif (mlx90640_core_t = "000010") then
+  elsif (mlx90640_core_t = c_fpsub) then
     subfpa <= mlx90640_core_a;
     subfpb <= mlx90640_core_b;
     subfpce <= mlx90640_core_ce;
     subfpond <= mlx90640_core_ond;
     mlx90640_core_r <= subfpr;
     mlx90640_core_rdy <= subfprdy;
-  elsif (mlx90640_core_t = "000100") then
+  elsif (mlx90640_core_t = c_fpmul) then
     mulfpa <= mlx90640_core_a;
     mulfpb <= mlx90640_core_b;
     mulfpce <= mlx90640_core_ce;
     mulfpond <= mlx90640_core_ond;
     mlx90640_core_r <= mulfpr;
     mlx90640_core_rdy <= mulfprdy;
-  elsif (mlx90640_core_t = "001000") then
+  elsif (mlx90640_core_t = c_fpdiv) then
     divfpa <= mlx90640_core_a;
     divfpb <= mlx90640_core_b;
     divfpce <= mlx90640_core_ce;
     divfpond <= mlx90640_core_ond;
     mlx90640_core_r <= divfpr;
     mlx90640_core_rdy <= divfprdy;
-  elsif (mlx90640_core_t = "010000") then
+  elsif (mlx90640_core_t = c_fpsqrt) then
     sqrtfp2a <= mlx90640_core_a;
     sqrtfp2ce <= mlx90640_core_ce;
     sqrtfp2ond <= mlx90640_core_ond;
     mlx90640_core_r <= sqrtfp2r;
     mlx90640_core_rdy <= sqrtfp2rdy;
-  elsif (mlx90640_core_t = "100000") then
+  elsif (mlx90640_core_t = c_fpfi2fl) then
     fixed2floata <= mlx90640_core_a63;
     fixed2floatce <= mlx90640_core_ce;
     fixed2floatond <= mlx90640_core_ond;
