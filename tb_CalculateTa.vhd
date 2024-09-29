@@ -14,10 +14,10 @@ use ieee_proposed.std_logic_1164_additions.all;
 --use work.p_fphdl_package1.all;
 USE work.p_fphdl_package3.all;
 
-ENTITY tb_calculateTa IS
-END tb_calculateTa;
+ENTITY tb_CalculateTa IS
+END tb_CalculateTa;
 
-ARCHITECTURE tb OF tb_calculateTa IS 
+ARCHITECTURE tb OF tb_CalculateTa IS 
 
 COMPONENT fixed2float
 PORT (
@@ -283,7 +283,8 @@ calculateTa_run <= '1'; wait for clock_period; calculateTa_run <= '0';
 wait until calculateTa_rdy = '1';
 warning_neq_fp (calculateTa_Ta, x"4207f54d", "Ta");
 --report "rdy at 2.965us";
-report "rdy at 2.845us";
+--report "rdy at 2.845us";
+report "rdy at 2.915us - less regs";
 report "done" severity failure;
 END PROCESS tbprocess;
 --  End Test Bench 

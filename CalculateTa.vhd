@@ -138,15 +138,13 @@ signal ee2432,ee2431,ram0720,ram0700,ee2410 : std_logic_vector (15 downto 0);
 begin
 
 p0 : process (i_clock) is
-	variable fttmp1,fttmp2 : std_logic_vector (31 downto 0);
-	variable vbe_ft,vptat_ft,vptat25_ft,vptatart : std_logic_vector (31 downto 0);
 	type states is (idle,
 	s0,s1,
 	s1a,s1b,s1c,s1d,s1e,s1f,s1g,s1h,
-	s2,s6,s7,s8,
-	s9,s10,s12,s14,
-	s16,s18,s19,s20,
-	s22,s24,s26,
+	s2,s8,
+	s12,s13,s14,s15,
+	s16,s18,
+	s22,s23,s24,s25,s26,
 	s28,s30);
 	variable state : states;
 	constant const3dot3_ft : std_logic_vector (31 downto 0) := x"40533333";
@@ -234,7 +232,7 @@ begin
           subfpa <= i_Vdd;
           subfpb <= const3dot3_ft;
           subfpond <= '1';
-          if (subfprdy = '1') then state := s6;
+          if (subfprdy = '1') then state := s8;
             -- XXX duplicate calculation
             subfpce <= '0';
             subfpond <= '0';
@@ -243,33 +241,8 @@ begin
             report_error("================ CalculateTa deltaV", subfpr, 0.0);
             --synthesis translate_on
           else state := s2; end if;
-        when s6 =>
-          subfpsclr <= '0';
-          fixed2floatce <= '1';
-          fixed2floatond <= '1';
-          fixed2floata <=
-          ee2431 (15) & ee2431 (15) & 
-          ee2431 (15) & ee2431 (15) & 
-          ee2431 (15) & ee2431 (15) & 
-          ee2431 (15) & ee2431 (15) & 
-          ee2431 (15) & ee2431 (15) & 
-          ee2431 (15) & ee2431 (15) & 
-          ee2431 (15) & ee2431 (15) & 
-          ee2431 (15) & ee2431 (15) & 
-          ee2431 (15) & ee2431 (15) & 
-          ee2431 (15) & ee2431 & "00000000000000000000000000000";
-          if (fixed2floatrdy = '1') then state := s7;
-            vptat25_ft := fixed2floatr;
-            fixed2floatce <= '0';
-            fixed2floatond <= '0';
-            fixed2floatsclr <= '1';
-            --synthesis translate_off
-            report_error("================ CalculateTa vptat25", vptat25_ft, 0.0);
-            --synthesis translate_on
-          else state := s6; end if;
-        when s7 => state := s8;
-          fixed2floatsclr <= '0';
         when s8 =>
+          subfpsclr <= '0';
           fixed2floatce <= '1';
           fixed2floatond <= '1';
           fixed2floata <=
@@ -283,18 +256,31 @@ begin
           ram0720 (15) & ram0720 (15) & 
           ram0720 (15) & ram0720 (15) & 
           ram0720 (15) & ram0720 & "00000000000000000000000000000";
-          if (fixed2floatrdy = '1') then state := s9;
-            vptat_ft := fixed2floatr;
+          if (fixed2floatrdy = '1') then state := s12;
             fixed2floatce <= '0';
             fixed2floatond <= '0';
             fixed2floatsclr <= '1';
             --synthesis translate_off
-            report_error("================ CalculateTa vptat", vptat_ft, 0.0);
+            report_error("================ CalculateTa vptat", fixed2floatr, 0.0);
             --synthesis translate_on
           else state := s8; end if;
-        when s9 => state := s10;
+        when s12 =>
           fixed2floatsclr <= '0';
-        when s10 =>
+          -- vptat*alphaptat
+          mulfpce <= '1';
+          mulfpa <= fixed2floatr;
+          mulfpb <= ExtractAlphaPtatParameter_alphaptat;
+          mulfpond <= '1';
+          --synthesis translate_off
+          report_error("================ CalculateTa alphaptat", ExtractAlphaPtatParameter_alphaptat, 0.0);
+          --synthesis translate_on
+          if (mulfprdy = '1') then state := s13;
+            mulfpce <= '0';
+            mulfpond <= '0';
+            mulfpsclr <= '1';
+          else state := s12; end if;
+        when s13 =>
+          mulfpsclr <= '0';
           fixed2floatce <= '1';
           fixed2floatond <= '1';
           fixed2floata <=
@@ -308,73 +294,64 @@ begin
           ram0700 (15) & ram0700 (15) & 
           ram0700 (15) & ram0700 (15) & 
           ram0700 (15) & ram0700 & "00000000000000000000000000000";
-          if (fixed2floatrdy = '1') then state := s12;
-            vbe_ft := fixed2floatr;
+          if (fixed2floatrdy = '1') then state := s14;
             fixed2floatce <= '0';
             fixed2floatond <= '0';
             fixed2floatsclr <= '1';
             --synthesis translate_off
-            report_error("================ CalculateTa vbe", vbe_ft, 0.0);
+            report_error("================ CalculateTa vbe", fixed2floatr, 0.0);
             --synthesis translate_on
-          else state := s10; end if;
-        when s12 =>
-          fixed2floatsclr <= '0';
-          -- vptat*alphaptat
-          mulfpce <= '1';
-          mulfpa <= vptat_ft;
-          mulfpb <= ExtractAlphaPtatParameter_alphaptat;
-          mulfpond <= '1';
-          --synthesis translate_off
-          report_error("================ CalculateTa alphaptat", ExtractAlphaPtatParameter_alphaptat, 0.0);
-          --synthesis translate_on
-          if (mulfprdy = '1') then state := s14;
-            fttmp2 := mulfpr; -- vptat*alphaptat
-            mulfpce <= '0';
-            mulfpond <= '0';
-            mulfpsclr <= '1';
-          else state := s12; end if;
+          else state := s13; end if;
         when s14 =>
-          mulfpsclr <= '0';
+          fixed2floatsclr <= '0';
           -- vptat*alphaptat+vbe
           addfpce <= '1';
-          addfpa <= fttmp2;
-          addfpb <= vbe_ft;
+          addfpa <= mulfpr; -- vptat*alphaptat
+          addfpb <= fixed2floatr;
           addfpond <= '1';
-          if (addfprdy = '1') then state := s16;
-            fttmp2 := addfpr; -- vptat*alphaptat+vbe
+          if (addfprdy = '1') then state := s15;
             addfpce <= '0';
             addfpond <= '0';
             addfpsclr <= '1';
           else state := s14; end if;
-        when s16 =>
+        when s15 => -- XXX fi2fl ram0720 twice for remove vptat_ft reg (compare syn)
           addfpsclr <= '0';
+          fixed2floatce <= '1';
+          fixed2floatond <= '1';
+          fixed2floata <=
+          ram0720 (15) & ram0720 (15) & 
+          ram0720 (15) & ram0720 (15) & 
+          ram0720 (15) & ram0720 (15) & 
+          ram0720 (15) & ram0720 (15) & 
+          ram0720 (15) & ram0720 (15) & 
+          ram0720 (15) & ram0720 (15) & 
+          ram0720 (15) & ram0720 (15) & 
+          ram0720 (15) & ram0720 (15) & 
+          ram0720 (15) & ram0720 (15) & 
+          ram0720 (15) & ram0720 & "00000000000000000000000000000";
+          if (fixed2floatrdy = '1') then state := s16;
+            fixed2floatce <= '0';
+            fixed2floatond <= '0';
+            fixed2floatsclr <= '1';
+            --synthesis translate_off
+            report_error("================ CalculateTa vptat", fixed2floatr, 0.0);
+            --synthesis translate_on
+          else state := s15; end if;
+        when s16 =>
+          fixed2floatsclr <= '0';
           -- vptat/(vptat*alphaptat+vbe)
           divfpce <= '1';
-          divfpa <= vptat_ft;
-          divfpb <= fttmp2;
+          divfpa <= fixed2floatr;
+          divfpb <= addfpr; -- vptat*alphaptat+vbe
           divfpond <= '1';
           if (divfprdy = '1') then state := s18;
-            fttmp2 := divfpr; -- vptat/(vptat*alphaptat+vbe)
             divfpce <= '0';
             divfpond <= '0';
             divfpsclr <= '1';
           else state := s16; end if;
         when s18 =>
           divfpsclr <= '0';
-          -- vptat/(vptat*alphaptat+vbe)*2^18
-          mulfpce <= '1';
-          mulfpa <= fttmp2;
-          mulfpb <= const2pow18_ft;
-          mulfpond <= '1';
-          if (mulfprdy = '1') then state := s19;
-            vptatart := mulfpr; -- vptatart =  (vptat/(vptat*alphaptat+vbe))*2^18
-            mulfpce <= '0';
-            mulfpond <= '0';
-            mulfpsclr <= '1';
-          else state := s18; end if;
-        when s19 => state := s20;
-          mulfpsclr <= '0';
-        when s20 =>
+          -- xxx move to s23
           -- kvptat*deltaV
           mulfpce <= '1';
           mulfpa <= ExtractKvPTATParameter_kvptat;
@@ -384,86 +361,116 @@ begin
           report_error("================ CalculateTa ExtractKvPTATParameter_kvptat", ExtractKvPTATParameter_kvptat, 0.0);
           --synthesis translate_on
           if (mulfprdy = '1') then state := s22;
-            fttmp1 := mulfpr; -- kvptat*deltaV
             mulfpce <= '0';
             mulfpond <= '0';
             mulfpsclr <= '1';
             --synthesis translate_off
-            report_error("================ CalculateTa 1", fttmp1, 0.0);
+            report_error("================ CalculateTa 1", mulfpr, 0.0);
             --synthesis translate_on
-          else state := s20; end if;
+          else state := s18; end if;
         when s22 =>
           mulfpsclr <= '0';
           -- 1+kvptat*deltaV
           addfpce <= '1';
           addfpa <= const1_ft;
-          addfpb <= fttmp1;
+          addfpb <= mulfpr; -- kvptat*deltaV
           addfpond <= '1';
-          if (addfprdy = '1') then state := s24;
-            fttmp1 := addfpr; -- 1+kvptat*deltaV
+          if (addfprdy = '1') then state := s23;
             addfpce <= '0';
             addfpond <= '0';
             addfpsclr <= '1';
             --synthesis translate_off
-            report_error("================ CalculateTa 2", fttmp1, 0.0);
+            report_error("================ CalculateTa 2", addfpr, 0.0);
             --synthesis translate_on
           else state := s22; end if;
-        when s24 =>
+        when s23 => -- XXX move from s18
           addfpsclr <= '0';
+          -- vptat/(vptat*alphaptat+vbe)*2^18
+          mulfpce <= '1';
+          mulfpa <= divfpr; -- vptat/(vptat*alphaptat+vbe)
+          mulfpb <= const2pow18_ft;
+          mulfpond <= '1';
+          if (mulfprdy = '1') then state := s24;
+            mulfpce <= '0';
+            mulfpond <= '0';
+            mulfpsclr <= '1';
+          else state := s23; end if;
+        when s24 =>
+          mulfpsclr <= '0';
           -- vptatart/(1+kvptat*deltaV)
           divfpce <= '1';
-          divfpa <= vptatart;
-          divfpb <= fttmp1;
+          divfpa <= mulfpr; -- vptatart =  (vptat/(vptat*alphaptat+vbe))*2^18
+          divfpb <= addfpr; -- 1+kvptat*deltaV
           divfpond <= '1';
-          if (divfprdy = '1') then state := s26;
-            fttmp1 := divfpr; -- vptatart/(1+kvptat*deltaV)
+          if (divfprdy = '1') then state := s25;
             divfpce <= '0';
             divfpond <= '0';
             divfpsclr <= '1';
             --synthesis translate_off
-            report_error("================ CalculateTa 3", fttmp1, 0.0);
+            report_error("================ CalculateTa 3", divfpr, 0.0);
             --synthesis translate_on
           else state := s24; end if;
-        when s26 =>
+        when s25 =>
           divfpsclr <= '0';
+          fixed2floatce <= '1';
+          fixed2floatond <= '1';
+          fixed2floata <=
+          ee2431 (15) & ee2431 (15) & 
+          ee2431 (15) & ee2431 (15) & 
+          ee2431 (15) & ee2431 (15) & 
+          ee2431 (15) & ee2431 (15) & 
+          ee2431 (15) & ee2431 (15) & 
+          ee2431 (15) & ee2431 (15) & 
+          ee2431 (15) & ee2431 (15) & 
+          ee2431 (15) & ee2431 (15) & 
+          ee2431 (15) & ee2431 (15) & 
+          ee2431 (15) & ee2431 & "00000000000000000000000000000";
+          if (fixed2floatrdy = '1') then state := s26;
+            fixed2floatce <= '0';
+            fixed2floatond <= '0';
+            fixed2floatsclr <= '1';
+            --synthesis translate_off
+            report_error("================ CalculateTa vptat25", fixed2floatr, 0.0);
+            --synthesis translate_on
+          else state := s25; end if;
+        when s26 =>
+          fixed2floatsclr <= '0';
           -- (vptatart/(1+kvptat*deltaV))-vptat25
           subfpce <= '1';
-          subfpa <= fttmp1;
-          subfpb <= vptat25_ft;
+          subfpa <= divfpr; -- vptatart/(1+kvptat*deltaV)
+          subfpb <= fixed2floatr;
           subfpond <= '1';
           if (subfprdy = '1') then state := s28;
-            fttmp1 := subfpr; -- (vptatart/(1+kvptat*deltaV))-vptat25
             subfpce <= '0';
             subfpond <= '0';
             subfpsclr <= '1';
             --synthesis translate_off
-            report_error("================ CalculateTa 4", fttmp1, 0.0);
+            report_error("================ CalculateTa 4", subfpr, 0.0);
             --synthesis translate_on
           else state := s26; end if;
         when s28 =>
           subfpsclr <= '0';
           -- ((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat
           divfpce <= '1';
-          divfpa <= fttmp1;
+          divfpa <= subfpr; -- (vptatart/(1+kvptat*deltaV))-vptat25
           divfpb <= ExtractKtPTATParameter_ktptat;
           divfpond <= '1';
           --synthesis translate_off
           report_error("================ CalculateTa ExtractKtPTATParameter_ktptat", ExtractKtPTATParameter_ktptat, 0.0);
           --synthesis translate_on
           if (divfprdy = '1') then state := s30;
-            fttmp1 := divfpr; -- ((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat
             divfpce <= '0';
             divfpond <= '0';
             divfpsclr <= '1';
             --synthesis translate_off
-            report_error("================ CalculateTa 5", fttmp1, 0.0);
+            report_error("================ CalculateTa 5", divfpr, 0.0);
             --synthesis translate_on
           else state := s28; end if;
         when s30 =>
           divfpsclr <= '0';
           -- (((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat)+25
           addfpce <= '1';
-          addfpa <= fttmp1;
+          addfpa <= divfpr; -- ((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat
           addfpb <= const25_ft;
           addfpond <= '1';
           if (addfprdy = '1') then state := idle;
