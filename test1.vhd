@@ -542,7 +542,7 @@ fixed2floatsclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
 
 p_mlx90640_core_t : process (
 mlx90640_core_t,
-mlx90640_core_a,mlx90640_core_b,mlx90640_core_ce,mlx90640_core_ond,
+mlx90640_core_a,mlx90640_core_b,mlx90640_core_ce,mlx90640_core_ond,mlx90640_core_a63,
 addfpr,addfprdy,
 subfpr,subfprdy,
 mulfpr,mulfprdy,

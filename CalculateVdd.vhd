@@ -142,7 +142,7 @@ p0 : process (i_clock) is
 	variable state : states;
 	constant const3dot3_ft : std_logic_vector (31 downto 0) := x"40533333";
 	variable ram072a : std_logic_vector (15 downto 0);
-	variable fptmp1 : std_logic_vector (31 downto 0);
+	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
 	constant resreg : std_logic_vector (15 downto 0) := x"1901" and x"0c00";
 begin
 	if (rising_edge (i_clock)) then
@@ -251,6 +251,7 @@ begin
         ram072a (15) & ram072a (15) & 
         ram072a (15) & ram072a & "00000000000000000000000000000";
         if (fixed2floatrdy = '1') then state := s17;
+          fptmp2 := fixed2floatr;
           fixed2floatce <= '0';
           fixed2floatond <= '0';
           fixed2floatsclr <= '1';
@@ -259,7 +260,7 @@ begin
         fixed2floatsclr <= '0';
         mulfpce <= '1';
         mulfpa <= fptmp1; -- resolutioncorr
-        mulfpb <= fixed2floatr; -- ram[0x072a]
+        mulfpb <= fptmp2; -- ram[0x072a]
         mulfpond <= '1';
         if (mulfprdy = '1') then state := s19;
           fptmp1 := mulfpr;
