@@ -142,7 +142,6 @@ p0 : process (i_clock) is
 	variable state : states;
 	constant const3dot3_ft : std_logic_vector (31 downto 0) := x"40533333";
 	variable ram072a : std_logic_vector (15 downto 0);
-	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
 	constant resreg : std_logic_vector (15 downto 0) := x"1901" and x"0c00";
 begin
 	if (rising_edge (i_clock)) then
@@ -222,7 +221,6 @@ begin
         divfpb <= out_resolutionreg;
         divfpond <= '1';
         if (divfprdy = '1') then state := s10;
-          fptmp1 := divfpr;
           divfpce <= '0';
           divfpond <= '0';
           divfpsclr <= '1';
@@ -251,7 +249,6 @@ begin
         ram072a (15) & ram072a (15) & 
         ram072a (15) & ram072a & "00000000000000000000000000000";
         if (fixed2floatrdy = '1') then state := s17;
-          fptmp2 := fixed2floatr;
           fixed2floatce <= '0';
           fixed2floatond <= '0';
           fixed2floatsclr <= '1';
@@ -259,11 +256,10 @@ begin
       when s17 =>
         fixed2floatsclr <= '0';
         mulfpce <= '1';
-        mulfpa <= fptmp1; -- resolutioncorr
-        mulfpb <= fptmp2; -- ram[0x072a]
+        mulfpa <= divfpr; -- resolutioncorr
+        mulfpb <= fixed2floatr; -- ram[0x072a]
         mulfpond <= '1';
         if (mulfprdy = '1') then state := s19;
-          fptmp1 := mulfpr;
           mulfpce <= '0';
           mulfpond <= '0';
           mulfpsclr <= '1';
@@ -271,11 +267,10 @@ begin
       when s19 =>
         mulfpsclr <= '0';
         subfpce <= '1';
-        subfpa <= fptmp1;
+        subfpa <= mulfpr;
         subfpb <= ExtractVDDParameters_vdd25;
         subfpond <= '1';
         if (subfprdy = '1') then state := s21;
-          fptmp1 := subfpr;
           subfpce <= '0';
           subfpond <= '0';
           subfpsclr <= '1';
@@ -283,11 +278,10 @@ begin
       when s21 =>
         subfpsclr <= '0';
         divfpce <= '1';
-        divfpa <= fptmp1;
+        divfpa <= subfpr;
         divfpb <= ExtractVDDParameters_kvdd;
         divfpond <= '1';
         if (divfprdy = '1') then state := s23;
-          fptmp1 := divfpr;
           divfpce <= '0';
           divfpond <= '0';
           divfpsclr <= '1';
@@ -295,7 +289,7 @@ begin
       when s23 =>
         divfpsclr <= '0';
         addfpce <= '1';
-        addfpa <= fptmp1;
+        addfpa <= divfpr;
         addfpb <= const3dot3_ft;
         addfpond <= '1';
         if (addfprdy = '1') then state := idle;

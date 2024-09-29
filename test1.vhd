@@ -482,6 +482,161 @@ begin
 	end if;
 end process pagclk;
 
+addfpsclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
+subfpsclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
+mulfpsclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
+divfpsclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
+sqrtfp2sclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
+fixed2floatsclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
+
+p_mlx90640_core_t : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+  if (i_reset = '1') then
+  mlx90640_core_r <= (others => '0');
+  mlx90640_core_rdy <= '0';
+  addfpa <= (others => '0');
+  addfpb <= (others => '0');
+  addfpce <= '0';
+  addfpond <= '0';
+  subfpa <= (others => '0');
+  subfpb <= (others => '0');
+  subfpce <= '0';
+  subfpond <= '0';
+  mulfpa <= (others => '0');
+  mulfpb <= (others => '0');
+  mulfpce <= '0';
+  mulfpond <= '0';
+  divfpa <= (others => '0');
+  divfpb <= (others => '0');
+  divfpce <= '0';
+  divfpond <= '0';
+  sqrtfp2a <= (others => '0');
+  sqrtfp2ce <= '0';
+  sqrtfp2ond <= '0';
+  fixed2floata <= (others => '0');
+  fixed2floatce <= '0';
+  fixed2floatond <= '0';
+  else
+  case (mlx90640_core_t) is
+  when c_fpadd =>
+    addfpa <= mlx90640_core_a;
+    addfpb <= mlx90640_core_b;
+    addfpce <= mlx90640_core_ce;
+    addfpond <= mlx90640_core_ond;
+    mlx90640_core_r <= addfpr;
+    mlx90640_core_rdy <= addfprdy;
+  when c_fpsub =>
+    subfpa <= mlx90640_core_a;
+    subfpb <= mlx90640_core_b;
+    subfpce <= mlx90640_core_ce;
+    subfpond <= mlx90640_core_ond;
+    mlx90640_core_r <= subfpr;
+    mlx90640_core_rdy <= subfprdy;
+  when c_fpmul =>
+    mulfpa <= mlx90640_core_a;
+    mulfpb <= mlx90640_core_b;
+    mulfpce <= mlx90640_core_ce;
+    mulfpond <= mlx90640_core_ond;
+    mlx90640_core_r <= mulfpr;
+    mlx90640_core_rdy <= mulfprdy;
+  when c_fpdiv =>
+    divfpa <= mlx90640_core_a;
+    divfpb <= mlx90640_core_b;
+    divfpce <= mlx90640_core_ce;
+    divfpond <= mlx90640_core_ond;
+    mlx90640_core_r <= divfpr;
+    mlx90640_core_rdy <= divfprdy;
+  when c_fpsqrt =>
+    sqrtfp2a <= mlx90640_core_a;
+    sqrtfp2ce <= mlx90640_core_ce;
+    sqrtfp2ond <= mlx90640_core_ond;
+    mlx90640_core_r <= sqrtfp2r;
+    mlx90640_core_rdy <= sqrtfp2rdy;
+  when c_fpfi2fl =>
+    fixed2floata <= mlx90640_core_a63;
+    fixed2floatce <= mlx90640_core_ce;
+    fixed2floatond <= mlx90640_core_ond;
+    mlx90640_core_r <= fixed2floatr;
+    mlx90640_core_rdy <= fixed2floatrdy;
+  when others =>
+    mlx90640_core_r <= (others => '0');
+    mlx90640_core_rdy <= '0';
+    addfpa <= (others => '0');
+    addfpb <= (others => '0');
+    addfpce <= '0';
+    addfpond <= '0';
+    subfpa <= (others => '0');
+    subfpb <= (others => '0');
+    subfpce <= '0';
+    subfpond <= '0';
+    mulfpa <= (others => '0');
+    mulfpb <= (others => '0');
+    mulfpce <= '0';
+    mulfpond <= '0';
+    divfpa <= (others => '0');
+    divfpb <= (others => '0');
+    divfpce <= '0';
+    divfpond <= '0';
+    sqrtfp2a <= (others => '0');
+    sqrtfp2ce <= '0';
+    sqrtfp2ond <= '0';
+    fixed2floata <= (others => '0');
+    fixed2floatce <= '0';
+    fixed2floatond <= '0';
+  end case;
+  end if;
+  end if;
+--  case (mlx90640_core_t) is
+--    when "000001" =>
+--      addfpa <= mlx90640_core_a;
+--      addfpb <= mlx90640_core_b;
+--      addfpce <= mlx90640_core_ce;
+--      addfpsclr <= mlx90640_core_sclr;
+--      addfpond <= mlx90640_core_ond;
+--      mlx90640_core_r <= addfpr;
+--      mlx90640_core_rdy <= addfprdy;
+--    when "000010" =>
+--      subfpa <= mlx90640_core_a;
+--      subfpb <= mlx90640_core_b;
+--      subfpce <= mlx90640_core_ce;
+--      subfpsclr <= mlx90640_core_sclr;
+--      subfpond <= mlx90640_core_ond;
+--      mlx90640_core_r <= subfpr;
+--      mlx90640_core_rdy <= subfprdy;
+--    when "000100" =>
+--      mulfpa <= mlx90640_core_a;
+--      mulfpb <= mlx90640_core_b;
+--      mulfpce <= mlx90640_core_ce;
+--      mulfpsclr <= mlx90640_core_sclr;
+--      mulfpond <= mlx90640_core_ond;
+--      mlx90640_core_r <= mulfpr;
+--      mlx90640_core_rdy <= mulfprdy;
+--    when "001000" =>
+--      divfpa <= mlx90640_core_a;
+--      divfpb <= mlx90640_core_b;
+--      divfpce <= mlx90640_core_ce;
+--      divfpsclr <= mlx90640_core_sclr;
+--      divfpond <= mlx90640_core_ond;
+--      mlx90640_core_r <= divfpr;
+--      mlx90640_core_rdy <= divfprdy;
+--    when "010000" =>
+--      sqrtfp2a <= mlx90640_core_a;
+--      sqrtfp2ce <= mlx90640_core_ce;
+--      sqrtfp2sclr <= mlx90640_core_sclr;
+--      sqrtfp2ond <= mlx90640_core_ond;
+--      mlx90640_core_r <= sqrtfp2r;
+--      mlx90640_core_rdy <= sqrtfp2rdy;
+--    when others =>
+--      fixed2floata <= mlx90640_core_a;
+--      fixed2floatce <= mlx90640_core_ce;
+--      fixed2floatsclr <= mlx90640_core_sclr;
+--      fixed2floatond <= mlx90640_core_ond;
+--      mlx90640_core_r <= fixed2floatr;
+--      mlx90640_core_rdy <= fixed2floatrdy;
+--  end case;
+end process p_mlx90640_core_t;
+
 --p0 : process (i_clock) is
 --	type states is (idle,
 --	s1,
@@ -533,138 +688,138 @@ end process pagclk;
 --  end if;
 --end process p_mlx90640_core_sclr;
 
-addfpsclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
-subfpsclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
-mulfpsclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
-divfpsclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
-sqrtfp2sclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
-fixed2floatsclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
-
-p_mlx90640_core_t : process (
-mlx90640_core_t,
-mlx90640_core_a,mlx90640_core_b,mlx90640_core_ce,mlx90640_core_ond,mlx90640_core_a63,
-addfpr,addfprdy,
-subfpr,subfprdy,
-mulfpr,mulfprdy,
-divfpr,divfprdy,
-sqrtfp2r,sqrtfp2rdy,
-fixed2floatr,fixed2floatrdy
-) is
-begin
-  mlx90640_core_r <= (others => '0');
-  mlx90640_core_rdy <= '0';
-  addfpa <= (others => '0');
-  addfpb <= (others => '0');
-  addfpce <= '0';
-  addfpond <= '0';
-  subfpa <= (others => '0');
-  subfpb <= (others => '0');
-  subfpce <= '0';
-  subfpond <= '0';
-  mulfpa <= (others => '0');
-  mulfpb <= (others => '0');
-  mulfpce <= '0';
-  mulfpond <= '0';
-  divfpa <= (others => '0');
-  divfpb <= (others => '0');
-  divfpce <= '0';
-  divfpond <= '0';
-  sqrtfp2a <= (others => '0');
-  sqrtfp2ce <= '0';
-  sqrtfp2ond <= '0';
-  fixed2floata <= (others => '0');
-  fixed2floatce <= '0';
-  fixed2floatond <= '0';
-  if (mlx90640_core_t = c_fpadd) then
-    addfpa <= mlx90640_core_a;
-    addfpb <= mlx90640_core_b;
-    addfpce <= mlx90640_core_ce;
-    addfpond <= mlx90640_core_ond;
-    mlx90640_core_r <= addfpr;
-    mlx90640_core_rdy <= addfprdy;
-  elsif (mlx90640_core_t = c_fpsub) then
-    subfpa <= mlx90640_core_a;
-    subfpb <= mlx90640_core_b;
-    subfpce <= mlx90640_core_ce;
-    subfpond <= mlx90640_core_ond;
-    mlx90640_core_r <= subfpr;
-    mlx90640_core_rdy <= subfprdy;
-  elsif (mlx90640_core_t = c_fpmul) then
-    mulfpa <= mlx90640_core_a;
-    mulfpb <= mlx90640_core_b;
-    mulfpce <= mlx90640_core_ce;
-    mulfpond <= mlx90640_core_ond;
-    mlx90640_core_r <= mulfpr;
-    mlx90640_core_rdy <= mulfprdy;
-  elsif (mlx90640_core_t = c_fpdiv) then
-    divfpa <= mlx90640_core_a;
-    divfpb <= mlx90640_core_b;
-    divfpce <= mlx90640_core_ce;
-    divfpond <= mlx90640_core_ond;
-    mlx90640_core_r <= divfpr;
-    mlx90640_core_rdy <= divfprdy;
-  elsif (mlx90640_core_t = c_fpsqrt) then
-    sqrtfp2a <= mlx90640_core_a;
-    sqrtfp2ce <= mlx90640_core_ce;
-    sqrtfp2ond <= mlx90640_core_ond;
-    mlx90640_core_r <= sqrtfp2r;
-    mlx90640_core_rdy <= sqrtfp2rdy;
-  elsif (mlx90640_core_t = c_fpfi2fl) then
-    fixed2floata <= mlx90640_core_a63;
-    fixed2floatce <= mlx90640_core_ce;
-    fixed2floatond <= mlx90640_core_ond;
-    mlx90640_core_r <= fixed2floatr;
-    mlx90640_core_rdy <= fixed2floatrdy;
-  end if;
---  case (mlx90640_core_t) is
---    when "000001" =>
---      addfpa <= mlx90640_core_a;
---      addfpb <= mlx90640_core_b;
---      addfpce <= mlx90640_core_ce;
---      addfpsclr <= mlx90640_core_sclr;
---      addfpond <= mlx90640_core_ond;
---      mlx90640_core_r <= addfpr;
---      mlx90640_core_rdy <= addfprdy;
---    when "000010" =>
---      subfpa <= mlx90640_core_a;
---      subfpb <= mlx90640_core_b;
---      subfpce <= mlx90640_core_ce;
---      subfpsclr <= mlx90640_core_sclr;
---      subfpond <= mlx90640_core_ond;
---      mlx90640_core_r <= subfpr;
---      mlx90640_core_rdy <= subfprdy;
---    when "000100" =>
---      mulfpa <= mlx90640_core_a;
---      mulfpb <= mlx90640_core_b;
---      mulfpce <= mlx90640_core_ce;
---      mulfpsclr <= mlx90640_core_sclr;
---      mulfpond <= mlx90640_core_ond;
---      mlx90640_core_r <= mulfpr;
---      mlx90640_core_rdy <= mulfprdy;
---    when "001000" =>
---      divfpa <= mlx90640_core_a;
---      divfpb <= mlx90640_core_b;
---      divfpce <= mlx90640_core_ce;
---      divfpsclr <= mlx90640_core_sclr;
---      divfpond <= mlx90640_core_ond;
---      mlx90640_core_r <= divfpr;
---      mlx90640_core_rdy <= divfprdy;
---    when "010000" =>
---      sqrtfp2a <= mlx90640_core_a;
---      sqrtfp2ce <= mlx90640_core_ce;
---      sqrtfp2sclr <= mlx90640_core_sclr;
---      sqrtfp2ond <= mlx90640_core_ond;
---      mlx90640_core_r <= sqrtfp2r;
---      mlx90640_core_rdy <= sqrtfp2rdy;
---    when others =>
---      fixed2floata <= mlx90640_core_a;
---      fixed2floatce <= mlx90640_core_ce;
---      fixed2floatsclr <= mlx90640_core_sclr;
---      fixed2floatond <= mlx90640_core_ond;
---      mlx90640_core_r <= fixed2floatr;
---      mlx90640_core_rdy <= fixed2floatrdy;
---  end case;
-end process p_mlx90640_core_t;
+--addfpsclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
+--subfpsclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
+--mulfpsclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
+--divfpsclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
+--sqrtfp2sclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
+--fixed2floatsclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
+--
+--p_mlx90640_core_t : process (
+--mlx90640_core_t,
+--mlx90640_core_a,mlx90640_core_b,mlx90640_core_ce,mlx90640_core_ond,mlx90640_core_a63,
+--addfpr,addfprdy,
+--subfpr,subfprdy,
+--mulfpr,mulfprdy,
+--divfpr,divfprdy,
+--sqrtfp2r,sqrtfp2rdy,
+--fixed2floatr,fixed2floatrdy
+--) is
+--begin
+--  mlx90640_core_r <= (others => '0');
+--  mlx90640_core_rdy <= '0';
+--  addfpa <= (others => '0');
+--  addfpb <= (others => '0');
+--  addfpce <= '0';
+--  addfpond <= '0';
+--  subfpa <= (others => '0');
+--  subfpb <= (others => '0');
+--  subfpce <= '0';
+--  subfpond <= '0';
+--  mulfpa <= (others => '0');
+--  mulfpb <= (others => '0');
+--  mulfpce <= '0';
+--  mulfpond <= '0';
+--  divfpa <= (others => '0');
+--  divfpb <= (others => '0');
+--  divfpce <= '0';
+--  divfpond <= '0';
+--  sqrtfp2a <= (others => '0');
+--  sqrtfp2ce <= '0';
+--  sqrtfp2ond <= '0';
+--  fixed2floata <= (others => '0');
+--  fixed2floatce <= '0';
+--  fixed2floatond <= '0';
+--  if (mlx90640_core_t = c_fpadd) then
+--    addfpa <= mlx90640_core_a;
+--    addfpb <= mlx90640_core_b;
+--    addfpce <= mlx90640_core_ce;
+--    addfpond <= mlx90640_core_ond;
+--    mlx90640_core_r <= addfpr;
+--    mlx90640_core_rdy <= addfprdy;
+--  elsif (mlx90640_core_t = c_fpsub) then
+--    subfpa <= mlx90640_core_a;
+--    subfpb <= mlx90640_core_b;
+--    subfpce <= mlx90640_core_ce;
+--    subfpond <= mlx90640_core_ond;
+--    mlx90640_core_r <= subfpr;
+--    mlx90640_core_rdy <= subfprdy;
+--  elsif (mlx90640_core_t = c_fpmul) then
+--    mulfpa <= mlx90640_core_a;
+--    mulfpb <= mlx90640_core_b;
+--    mulfpce <= mlx90640_core_ce;
+--    mulfpond <= mlx90640_core_ond;
+--    mlx90640_core_r <= mulfpr;
+--    mlx90640_core_rdy <= mulfprdy;
+--  elsif (mlx90640_core_t = c_fpdiv) then
+--    divfpa <= mlx90640_core_a;
+--    divfpb <= mlx90640_core_b;
+--    divfpce <= mlx90640_core_ce;
+--    divfpond <= mlx90640_core_ond;
+--    mlx90640_core_r <= divfpr;
+--    mlx90640_core_rdy <= divfprdy;
+--  elsif (mlx90640_core_t = c_fpsqrt) then
+--    sqrtfp2a <= mlx90640_core_a;
+--    sqrtfp2ce <= mlx90640_core_ce;
+--    sqrtfp2ond <= mlx90640_core_ond;
+--    mlx90640_core_r <= sqrtfp2r;
+--    mlx90640_core_rdy <= sqrtfp2rdy;
+--  elsif (mlx90640_core_t = c_fpfi2fl) then
+--    fixed2floata <= mlx90640_core_a63;
+--    fixed2floatce <= mlx90640_core_ce;
+--    fixed2floatond <= mlx90640_core_ond;
+--    mlx90640_core_r <= fixed2floatr;
+--    mlx90640_core_rdy <= fixed2floatrdy;
+--  end if;
+----  case (mlx90640_core_t) is
+----    when "000001" =>
+----      addfpa <= mlx90640_core_a;
+----      addfpb <= mlx90640_core_b;
+----      addfpce <= mlx90640_core_ce;
+----      addfpsclr <= mlx90640_core_sclr;
+----      addfpond <= mlx90640_core_ond;
+----      mlx90640_core_r <= addfpr;
+----      mlx90640_core_rdy <= addfprdy;
+----    when "000010" =>
+----      subfpa <= mlx90640_core_a;
+----      subfpb <= mlx90640_core_b;
+----      subfpce <= mlx90640_core_ce;
+----      subfpsclr <= mlx90640_core_sclr;
+----      subfpond <= mlx90640_core_ond;
+----      mlx90640_core_r <= subfpr;
+----      mlx90640_core_rdy <= subfprdy;
+----    when "000100" =>
+----      mulfpa <= mlx90640_core_a;
+----      mulfpb <= mlx90640_core_b;
+----      mulfpce <= mlx90640_core_ce;
+----      mulfpsclr <= mlx90640_core_sclr;
+----      mulfpond <= mlx90640_core_ond;
+----      mlx90640_core_r <= mulfpr;
+----      mlx90640_core_rdy <= mulfprdy;
+----    when "001000" =>
+----      divfpa <= mlx90640_core_a;
+----      divfpb <= mlx90640_core_b;
+----      divfpce <= mlx90640_core_ce;
+----      divfpsclr <= mlx90640_core_sclr;
+----      divfpond <= mlx90640_core_ond;
+----      mlx90640_core_r <= divfpr;
+----      mlx90640_core_rdy <= divfprdy;
+----    when "010000" =>
+----      sqrtfp2a <= mlx90640_core_a;
+----      sqrtfp2ce <= mlx90640_core_ce;
+----      sqrtfp2sclr <= mlx90640_core_sclr;
+----      sqrtfp2ond <= mlx90640_core_ond;
+----      mlx90640_core_r <= sqrtfp2r;
+----      mlx90640_core_rdy <= sqrtfp2rdy;
+----    when others =>
+----      fixed2floata <= mlx90640_core_a;
+----      fixed2floatce <= mlx90640_core_ce;
+----      fixed2floatsclr <= mlx90640_core_sclr;
+----      fixed2floatond <= mlx90640_core_ond;
+----      mlx90640_core_r <= fixed2floatr;
+----      mlx90640_core_rdy <= fixed2floatrdy;
+----  end case;
+--end process p_mlx90640_core_t;
 
 mlx90640_core_clock <= i_clock;
 mlx90640_core_reset <= i_reset;
