@@ -222,7 +222,7 @@ COMPONENT fixed2float
 PORT (
 a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
-operation_rfd : OUT STD_LOGIC;
+--operation_rfd : OUT STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
@@ -245,7 +245,7 @@ PORT (
 a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
-operation_rfd : OUT STD_LOGIC;
+--operation_rfd : OUT STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
@@ -269,7 +269,7 @@ PORT (
 a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
-operation_rfd : OUT STD_LOGIC;
+--operation_rfd : OUT STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
@@ -293,7 +293,7 @@ PORT (
 a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
-operation_rfd : OUT STD_LOGIC;
+--operation_rfd : OUT STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
@@ -317,7 +317,7 @@ PORT (
 a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
-operation_rfd : OUT STD_LOGIC;
+--operation_rfd : OUT STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
@@ -328,7 +328,7 @@ END COMPONENT;
 signal subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfpond : STD_LOGIC;
-signal subfprfd : STD_LOGIC;
+--signal subfprfd : STD_LOGIC;
 signal subfpce : STD_LOGIC;
 signal subfpsclr : STD_LOGIC;
 signal subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -533,12 +533,12 @@ end process pagclk;
 --  end if;
 --end process p_mlx90640_core_sclr;
 
-addfpsclr <= mlx90640_core_sclr when mlx90640_core_t = c_fpadd else '1' when i_reset = '1' else '0';
-subfpsclr <= mlx90640_core_sclr when mlx90640_core_t = c_fpsub else '1' when i_reset = '1' else '0';
-mulfpsclr <= mlx90640_core_sclr when mlx90640_core_t = c_fpmul else '1' when i_reset = '1' else '0';
-divfpsclr <= mlx90640_core_sclr when mlx90640_core_t = c_fpdiv else '1' when i_reset = '1' else '0';
-sqrtfp2sclr <= mlx90640_core_sclr when mlx90640_core_t = c_fpsqrt else '1' when i_reset = '1' else '0';
-fixed2floatsclr <= mlx90640_core_sclr when mlx90640_core_t = c_fpfi2fl else '1' when i_reset = '1' else '0';
+addfpsclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
+subfpsclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
+mulfpsclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
+divfpsclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
+sqrtfp2sclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
+fixed2floatsclr <= '1' when i_reset = '1' else mlx90640_core_sclr;
 
 p_mlx90640_core_t : process (
 mlx90640_core_t,
@@ -816,7 +816,7 @@ inst_fixed2float : fixed2float
 PORT MAP (
 a => fixed2floata,
 operation_nd => fixed2floatond,
-operation_rfd => fixed2floatrfd,
+--operation_rfd => fixed2floatrfd,
 clk => fixed2floatclk,
 sclr => fixed2floatsclr,
 ce => fixed2floatce,
@@ -830,7 +830,7 @@ PORT MAP (
 a => divfpa,
 b => divfpb,
 operation_nd => divfpond,
-operation_rfd => divfprfd,
+--operation_rfd => divfprfd,
 clk => divfpclk,
 sclr => divfpsclr,
 ce => divfpce,
@@ -843,7 +843,7 @@ PORT MAP (
 a => mulfpa,
 b => mulfpb,
 operation_nd => mulfpond,
-operation_rfd => mulfprfd,
+--operation_rfd => mulfprfd,
 clk => mulfpclk,
 sclr => mulfpsclr,
 ce => mulfpce,
@@ -856,7 +856,7 @@ PORT MAP (
 a => addfpa,
 b => addfpb,
 operation_nd => addfpond,
-operation_rfd => addfprfd,
+--operation_rfd => addfprfd,
 clk => addfpclk,
 sclr => addfpsclr,
 ce => addfpce,
@@ -869,7 +869,7 @@ PORT MAP (
 a => subfpa,
 b => subfpb,
 operation_nd => subfpond,
-operation_rfd => subfprfd,
+--operation_rfd => subfprfd,
 clk => subfpclk,
 sclr => subfpsclr,
 ce => subfpce,
@@ -888,5 +888,5 @@ result => sqrtfp2r,
 rdy => sqrtfp2rdy
 );
 
-end Behavioral;
+end architecture Behavioral;
 
