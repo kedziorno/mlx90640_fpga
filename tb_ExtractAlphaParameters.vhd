@@ -356,7 +356,8 @@ wait until ExtractAlphaParameters_rdy = '1';
 --report "rdy at 930.705us";
 --report "end at 1007.415us - move fi2fl, rm valphareference reg";
 --report "end at 1007.415us - move fi2fl, rm valphareference reg";
-report "end at 1107.255us - rm valphareference reg, rm vaccrowi, rm vacccolumnj";
+--report "end at 1107.255us - rm valphareference reg, rm vaccrowi, rm vacccolumnj";
+report "end at 1114.935us - rm valphareference reg, rm vaccrowi, rm vacccolumnj, rm fixed reg";
 for i in 0 to 9 loop
 ExtractAlphaParameters_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
 wait until rising_edge (ExtractAlphaParameters_clock);
@@ -382,7 +383,8 @@ end loop;
 --report "end at 931.235us";
 --report "end at 931.145us";
 --report "end at 1007.855us - move fi2fl, rm valphareference reg";
-report "end at 1107.695us - rm valphareference reg, rm vaccrowi, rm vacccolumnj";
+--report "end at 1107.695us - rm valphareference reg, rm vaccrowi, rm vacccolumnj";
+report "end at 1115.375us - rm valphareference reg, rm vaccrowi, rm vacccolumnj, rm fixed reg";
 wait for 1 ps; -- must be for write
 report "done" severity failure;
 --wait on o_done;
