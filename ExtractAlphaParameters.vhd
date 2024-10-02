@@ -296,37 +296,6 @@ signal divfpce_internal : STD_LOGIC;
 signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy_internal : STD_LOGIC;
 
-	type states is (idle,
-	acc15,acc16,acc17,acc18,acc19,
-	acc20,acc21,acc22,
---  acc24,acc25,acc26,acc27,acc28,acc29,
---	acc30,acc31,acc33,acc34,
---	acc35,acc36,acc37,acc38,acc39,
---	acc40,acc42,acc43,acc44,
---	acc45,acc46,acc47,acc48,acc49,
---	acc51,acc52,acc53,acc54,
---	acc55,acc56,acc57,acc58,	
---	acc60,acc61,acc62,acc63,acc64,
---	acc65,acc66,acc67,acc69,
---	acc70,acc71,acc72,acc73,acc74,
---	acc75,acc76,acc78,acc79,
---	acc80,acc81,acc82,acc83,acc84,
---	acc85,acc87,acc88,acc89,
---	acc90,acc91,acc92,acc93,acc94,
---	acc96,acc97,acc98,acc99,
---	acc100,acc101,acc102,acc103,
---	acc105,acc106,acc107,acc108,acc109,
---	acc110,acc111,acc112,acc114,
---	acc115,acc116,acc117,acc118,acc119,
---	acc120,acc121,acc123,acc124,
---	acc125,acc126,acc127,acc128,acc129,
---	acc130,acc132,acc133,acc134,
---	acc135,acc136,acc137,acc138,acc139,
-  pow3,
-	s0,s1,s2,s3,s4,s7,s8,s11,s13,s14,s16,s17,s19,s20,s22,s25);
-
-signal tstate : states;
-
 begin
 
 fixed2floata <= fixed2floata_internal;
@@ -366,6 +335,34 @@ mux_addr <= addra when rdy = '0' else std_logic_vector (to_unsigned (to_integer(
 mux_dia <= dia when rdy = '0' else (others => '0');
 
 p0 : process (i_clock) is
+	type states is (idle,
+	acc15,acc16,acc17,acc18,acc19,
+	acc20,acc21,acc22,
+--  acc24,acc25,acc26,acc27,acc28,acc29,
+--	acc30,acc31,acc33,acc34,
+--	acc35,acc36,acc37,acc38,acc39,
+--	acc40,acc42,acc43,acc44,
+--	acc45,acc46,acc47,acc48,acc49,
+--	acc51,acc52,acc53,acc54,
+--	acc55,acc56,acc57,acc58,	
+--	acc60,acc61,acc62,acc63,acc64,
+--	acc65,acc66,acc67,acc69,
+--	acc70,acc71,acc72,acc73,acc74,
+--	acc75,acc76,acc78,acc79,
+--	acc80,acc81,acc82,acc83,acc84,
+--	acc85,acc87,acc88,acc89,
+--	acc90,acc91,acc92,acc93,acc94,
+--	acc96,acc97,acc98,acc99,
+--	acc100,acc101,acc102,acc103,
+--	acc105,acc106,acc107,acc108,acc109,
+--	acc110,acc111,acc112,acc114,
+--	acc115,acc116,acc117,acc118,acc119,
+--	acc120,acc121,acc123,acc124,
+--	acc125,acc126,acc127,acc128,acc129,
+--	acc130,acc132,acc133,acc134,
+--	acc135,acc136,acc137,acc138,acc139,
+  pow3,
+	s0,s1,s2,s3,s4,s7,s8,s11,s13,s14,s16,s17,s19,s20,s22,s25);
 	variable state : states;
 
 	variable valphaRef : std_logic_vector (7 downto 0);
@@ -414,7 +411,6 @@ begin
 			i2c_mem_ena <= '0';
       i2c_mem_addra <= (others => '0');
 		else
-      tstate <= state;
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
