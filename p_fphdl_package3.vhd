@@ -109,10 +109,12 @@ package body p_fphdl_package3 is
   procedure warning_neq_fp (a, b : in float32; info : in string := "") is
     variable src : float32 := a;
     variable dst : float32 := b;
+    variable dif : float32;
   begin
     --if (abs (dst - src) >= 1.0E-02) then
+    dif := abs (dst - src);
     assert not (src = dst) report info & HT & " current == expected " & HT & real'image (to_real(src)) & " == " & real'image (to_real(dst)) & HT & to_hex_string(src) & " == " & (to_hex_string(dst)) severity note;
-    assert     (src = dst) report info & HT & " current /= expected " & HT & real'image (to_real(src)) & " /= " & real'image (to_real(dst)) & HT & to_hex_string(src) & " /= " & (to_hex_string(dst)) severity warning;
+    assert     (src = dst) report info & HT & " current /= expected " & HT & real'image (to_real(src)) & " /= " & real'image (to_real(dst)) & HT & to_hex_string(src) & " /= " & (to_hex_string(dst)) & HT & "differ : " & real'image (to_real(dif)) severity warning;
     --end if;
     --assert not (ieee.math_real.round(to_real(src)) = ieee.math_real.round(to_real(dst))) report info & HT & " current == expected " & HT & real'image (to_real(src)) & " == " & real'image (to_real(dst)) & HT & to_hex_string(src) & " == " & (to_hex_string(dst)) severity note;
     --assert     (ieee.math_real.round(to_real(src)) = ieee.math_real.round(to_real(dst))) report info & HT & " current /= expected " & HT & real'image (to_real(src)) & " /= " & real'image (to_real(dst)) & HT & to_hex_string(src) & " /= " & (to_hex_string(dst)) severity warning;
