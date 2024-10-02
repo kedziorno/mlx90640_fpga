@@ -214,8 +214,9 @@ wait for clockperiod*10;
 CalculatePixGain_run <= '1'; wait for clockperiod; CalculatePixGain_run <= '0';
 wait until CalculatePixGain_rdy = '1';
 --report "rdy at 200.515us";
---report "rdy at 192.815";
-report "rdy at 200.465";
+--report "rdy at 192.815us";
+--report "rdy at 200.465us";
+report "rdy at 193.075us - rm states,rm reg";
 for i in 0 to 1024 loop
 	CalculatePixGain_addr <= std_logic_vector (to_unsigned (i, 10));
 -- DO after 2 cycles
@@ -252,7 +253,8 @@ end loop;
 wait for 1 ps; -- must be for write
 --report "end at 210.765us";
 --report "end at 767 is 208.385us";
-report "end at 767 is 216.045us";
+--report "end at 767 is 216.045us";
+report "end at 213.835us - rm states,rm reg";
 report "done" severity failure;
 END PROCESS tb;
 --  End Test Bench 

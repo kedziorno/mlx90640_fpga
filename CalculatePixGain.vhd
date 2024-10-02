@@ -370,10 +370,9 @@ p0 : process (i_clock) is
 	constant PIXGAIN_SZ : integer := 24*32; -- pixgain size
 	variable pixgain_index : integer range 0 to PIXGAIN_SZ - 1;
 	type states is (idle,
-  s0a,s1,s2,s3,s3a,s6,s8,s9);
+  s0a,s1,s2,s3,s3a,s6,s9);
 	variable state : states;
-	variable eeprom16slv,ram16slv : std_logic_vector (15 downto 0);
-	variable pixgain_ft : std_logic_vector (31 downto 0);
+	variable eeprom16slv : std_logic_vector (7 downto 0);
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -419,28 +418,26 @@ begin
 						CalculateKGain_mux <= '1';
 					end if;
 				when s1 => state := s2; -- XXX in loop, i2c_mem_addra_internal must be here
-					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (PIXGAIN_ST+(pixgain_index*2)+0, 12)); -- MSB
-				when s2 => state := s3;
 					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (PIXGAIN_ST+(pixgain_index*2)+1, 12)); -- LSB
-					eeprom16slv (15 downto 8) := i2c_mem_douta_internal; -- pixgain MSB
+				when s2 => state := s3;
+					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (PIXGAIN_ST+(pixgain_index*2)+0, 12)); -- MSB
         when s3 => state := s3a;
 					eeprom16slv (7 downto 0) := i2c_mem_douta_internal; -- pixgain LSB
         when s3a =>
           fixed2floatce_internal <= '1';
           fixed2floatond_internal <= '1';
           fixed2floata_internal <=
-          eeprom16slv (15) & eeprom16slv (15) & 
-          eeprom16slv (15) & eeprom16slv (15) & 
-          eeprom16slv (15) & eeprom16slv (15) & 
-          eeprom16slv (15) & eeprom16slv (15) & 
-          eeprom16slv (15) & eeprom16slv (15) & 
-          eeprom16slv (15) & eeprom16slv (15) & 
-          eeprom16slv (15) & eeprom16slv (15) & 
-          eeprom16slv (15) & eeprom16slv (15) & 
-          eeprom16slv (15) & eeprom16slv (15) & 
-          eeprom16slv (15) & eeprom16slv & "00000000000000000000000000000";
+          eeprom16slv (7) & eeprom16slv (7) & 
+          eeprom16slv (7) & eeprom16slv (7) & 
+          eeprom16slv (7) & eeprom16slv (7) & 
+          eeprom16slv (7) & eeprom16slv (7) & 
+          eeprom16slv (7) & eeprom16slv (7) & 
+          eeprom16slv (7) & eeprom16slv (7) & 
+          eeprom16slv (7) & eeprom16slv (7) & 
+          eeprom16slv (7) & eeprom16slv (7) & 
+          eeprom16slv (7) & eeprom16slv (7) & 
+          eeprom16slv (7) & eeprom16slv & i2c_mem_douta_internal & "00000000000000000000000000000";
 					if (fixed2floatrdy = '1') then state := s6;
-						pixgain_ft := fixed2floatr;
 						fixed2floatce_internal <= '0';
 						fixed2floatond_internal <= '0';
 						fixed2floatsclr_internal <= '1';
@@ -448,24 +445,23 @@ begin
 				when s6 =>
 					fixed2floatsclr_internal <= '0';
 					mulfpce_internal <= '1';
-					mulfpa_internal <= pixgain_ft;
+					mulfpa_internal <= fixed2floatr;
 					mulfpb_internal <= CalculateKGain_KGain;
 					mulfpond_internal <= '1';
-					if (mulfprdy = '1') then state := s8;
+					if (mulfprdy = '1') then state := s9;
 						addra <= std_logic_vector (to_unsigned (pixgain_index, 10));
 						dia <= mulfpr;
 						write_enable <= '1';
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
+            --synthesis translate_off
+            report_error("================ CalculatePixGain PixGain " & integer'image (pixgain_index), mulfpr, 0.0);
+            --synthesis translate_on
 					else state := s6; end if;
-				when s8 => state := s9;
+        when s9 =>
 					mulfpsclr_internal <= '0';
 					write_enable <= '0';
-          --synthesis translate_off
-					report_error("================ CalculatePixGain PixGain " & integer'image (pixgain_index), mulfpr, 0.0);
-          --synthesis translate_on
-        when s9 =>
 					if (pixgain_index = PIXGAIN_SZ - 1) then
 						state := idle;
             rdy <= '1';
