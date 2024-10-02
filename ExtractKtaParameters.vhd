@@ -277,8 +277,6 @@ signal write_enable : std_logic;
 
 signal rdy : std_logic;
 
-signal stemp1 : std_logic_vector (15 downto 0);
-
 component mem_signed256 is
 port (
 i_clock : in std_logic;
@@ -379,25 +377,12 @@ p0 : process (i_clock) is
 	type states is (idle,
 	kta1,kta2,kta3,
 	kta5,kta7,kta8,
-	kta10,
-  kta16,kta19,
+	kta10,kta11,
+  kta19,
 	kta21,kta23,
 	kta27);
 	variable state : states;
-	variable vktaRemScale : std_logic_vector (31 downto 0);
-	variable vktaColumnScale : std_logic_vector (31 downto 0);
-	variable vktaRowScale : std_logic_vector (31 downto 0);
-	variable vktaRemScale1 : std_logic_vector (3 downto 0);
-	variable vktaColumnScale1 : std_logic_vector (3 downto 0);
-	variable vktaRowScale1 : std_logic_vector (3 downto 0);
-	variable valphaRef1: std_logic_vector (15 downto 0);
-	variable valphaRef : std_logic_vector (15 downto 0);
-	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
-	variable vktacolumnj,ktarowi,vktarowi,valphaReference_ft,vAlphaPixel_ft : std_logic_vector (31 downto 0);
-	variable temp1,vAlphaPixel : std_logic_vector (15 downto 0);
 	variable i : integer range 0 to (C_ROW*C_COL)-1;
-  variable v_nibble1,v_nibble2 : std_logic_vector (3 downto 0);
-  variable v_ktarcee_oo, v_ktarcee_eo, v_ktarcee_oe, v_ktarcee_ee : std_logic_vector (7 downto 0);
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -445,38 +430,29 @@ begin
 				when kta1 => state := kta2;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (109, 12)); -- 2436 MSB - ktarcee_eo 54*2+1
 				when kta2 => state := kta3;
+          ktarcee_oo <= i2c_mem_douta;
           i2c_mem_addra <= std_logic_vector (to_unsigned (110, 12)); -- 2437 LSB - ktarcee_oe 54*2+2
-          v_ktarcee_oo := i2c_mem_douta;
         when kta3 => state := kta5;
+					ktarcee_eo <= i2c_mem_douta;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (111, 12)); -- 2437 MSB - ktarcee_ee 54*2+3
-					v_ktarcee_eo := i2c_mem_douta;
 				when kta5 => state := kta7;
+					ktarcee_oe <= i2c_mem_douta;
           i2c_mem_addra <= std_logic_vector (to_unsigned (113, 12)); -- 2438 LSB - ktascale1/ktascale2	54*2+5
-					v_ktarcee_oe := i2c_mem_douta;
 				when kta7 => state := kta8;
-					v_ktarcee_ee := i2c_mem_douta;
+					ktarcee_ee <= i2c_mem_douta;
 				when kta8 => state := kta10;
-          v_nibble1 := i2c_mem_douta (7 downto 4); -- ktascale1
-					v_nibble2 := i2c_mem_douta (3 downto 0); -- ktascale2
-				when kta10 => state := kta16;
+          nibble1 <= i2c_mem_douta (7 downto 4); -- ktascale1
+					nibble2 <= i2c_mem_douta (3 downto 0); -- ktascale2
+				when kta10 => state := kta11;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (129+(2*i), 12)); -- kta LSB 1
-				when kta16 => state := kta19;
-				when kta19 =>
-          -- XXX v_ more resources, less execute, check syn report - maybe state for pipe (nibbleX, ktarcee_X)
-          nibble3 <= i2c_mem_douta (3 downto 1); -- kta_ee 3bit
-          nibble2 <= v_nibble2;
-          nibble1 <= v_nibble1;
-          ktarcee_oo <= v_ktarcee_oo;
-          ktarcee_oe <= v_ktarcee_oe;
-          ktarcee_eo <= v_ktarcee_eo;
-          ktarcee_ee <= v_ktarcee_ee;
+        when kta11 => state := kta19;
 					mem_signed256_ivalue <= ktarcee;
+				when kta19 =>
+          nibble3 <= i2c_mem_douta (3 downto 1); -- kta_ee 3bit
           mulfpce_internal <= '1';
           mulfpa_internal <= out_nibble3; -- kta_ee
           mulfpb_internal <= out_nibble2; -- 2^ktascale2
           mulfpond_internal <= '1';
-          --report "vAlphaPixel : " & real'image (ap_slv2fp (out_nibble3));
-          --report "vktaRemScale : " & real'image (ap_slv2fp (vktaRemScale));
           if (mulfprdy_internal = '1') then state := kta21;
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
@@ -488,8 +464,6 @@ begin
           addfpa_internal <= mulfpr_internal; -- kta_ee*2^ktascale2
           addfpb_internal <= mem_signed256_ovalue; -- ktarcee
           addfpond_internal <= '1';
-          --report "vAlphaPixel : " & real'image (ap_slv2fp (out_nibble3));
-          --report "vktaRemScale : " & real'image (ap_slv2fp (vktaRemScale));
           if (addfprdy_internal = '1') then state := kta23;
             addfpce_internal <= '0';
             addfpond_internal <= '0';
@@ -501,8 +475,6 @@ begin
           divfpa_internal <= addfpr_internal; -- ktarcee+kta_ee*2^ktascale2
           divfpb_internal <= out_nibble1; -- 2^ktascale1
           divfpond_internal <= '1';
-          --report "vAlphaPixel : " & real'image (ap_slv2fp (out_nibble3));
-          --report "vktaRemScale : " & real'image (ap_slv2fp (vktaRemScale));
           if (divfprdy_internal = '1') then state := kta27;
             divfpce_internal <= '0';
             divfpond_internal <= '0';
