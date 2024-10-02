@@ -311,19 +311,7 @@ p0 : process (i_clock) is
 	kv5,kv6,kv7,kv9,
 	kv11,kv13);
 	variable state : states;
-	variable vkvRemScale : std_logic_vector (31 downto 0);
-	variable vkvColumnScale : std_logic_vector (31 downto 0);
-	variable vkvRowScale : std_logic_vector (31 downto 0);
-	variable vkvRemScale1 : std_logic_vector (3 downto 0);
-	variable vkvColumnScale1 : std_logic_vector (3 downto 0);
-	variable vkvRowScale1 : std_logic_vector (3 downto 0);
-	variable valphaRef1: std_logic_vector (15 downto 0);
-	variable valphaRef : std_logic_vector (15 downto 0);
-	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
-	variable vkvcolumnj,kvrowi,vkvrowi,valphaReference_ft,vAlphaPixel_ft,kvijee_ft : std_logic_vector (31 downto 0);
-	variable temp1,vAlphaPixel : std_logic_vector (15 downto 0);
 	variable i : integer range 0 to (C_ROW*C_COL)-1;
-  variable v_kvijee_oo,v_kvijee_oe,v_kvijee_eo,v_kvijee_ee : std_logic_vector (3 downto 0);
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -364,17 +352,13 @@ begin
 				when kv5 => state := kv6;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (105, 12)); -- 2434 MSB - kvijee 52*2+1
 				when kv6 => state := kv7;
-          v_kvijee_oo := i2c_mem_douta (7 downto 4);
-					v_kvijee_eo := i2c_mem_douta (3 downto 0);
-				when kv7 => state := kv9; -- XXX v_ with more regs, but without read items once again from i2c mem (jump to kv7 in loop)
-					v_kvijee_oe := i2c_mem_douta (7 downto 4);
-					v_kvijee_ee := i2c_mem_douta (3 downto 0);
-          kvijee_oo <= v_kvijee_oo;
-					kvijee_eo <= v_kvijee_eo;
-					kvijee_oe <= v_kvijee_oe;
-					kvijee_ee <= v_kvijee_ee;
-					nibble2 <= kvijee;
+          kvijee_oo <= i2c_mem_douta (7 downto 4);
+					kvijee_eo <= i2c_mem_douta (3 downto 0);
+				when kv7 => state := kv9;
+					kvijee_oe <= i2c_mem_douta (7 downto 4);
+					kvijee_ee <= i2c_mem_douta (3 downto 0);
         when kv9 =>
+          nibble2 <= kvijee;
           divfpce_internal <= '1';
           divfpa_internal <= out_nibble2; -- kvij 
           divfpb_internal <= out_nibble1; -- 2^kvscale
