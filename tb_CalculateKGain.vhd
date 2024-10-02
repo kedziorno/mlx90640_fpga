@@ -191,10 +191,12 @@ wait for clock_period*10;
 -- Add user defined stimulus here
 calculateKGain_run <= '1'; wait for clock_period; calculateKGain_run <= '0';
 wait until calculateKGain_rdy = '1';
-wait for 1 ps;
 warning_neq_fp (calculateKGain_KGain, x"3f81ac57", "kgain");
 --report "rdy at 955ns";
-report "rdy at 925ns";
+--report "rdy at 925ns";
+--report "rdy at 1.225us - rm fttmp1,fttmp2 reg";
+report "rdy at 1.205us - rm fttmp1 fttmp2 reg,rm redundant regs,rm states";
+wait for 1 ps;
 report "done" severity failure;
 END PROCESS tbprocess;
 --  End Test Bench 
