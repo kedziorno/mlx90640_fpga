@@ -307,7 +307,10 @@ wait until ExtractOffsetParameters_rdy = '1';
 --report "rdy at 715.905ns";
 --report "rdy at 692.715ns";
 --report "rdy at 692.465ns";
-report "rdy at 692.595ns"; -- XXX occrows loop
+--report "rdy at 692.595ns"; -- XXX occrows loop
+--report "rdy at 800.115ns - rm occrow,occcol regs";
+--report "rdy at 869.145ns - rm occrow,occcol regs,rm pix_os_average reg";
+report "rdy at 853.985us - rm occrow,occcol regs,rm pix_os_average reg,rm rest reg";
 for i in 0 to 9 loop
 ExtractOffsetParameters_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
 wait until rising_edge (ExtractOffsetParameters_clock);
@@ -334,7 +337,10 @@ wait for 1 ps; -- must be for write
 --report "end at 716.565ns";
 --report "end at 693.375ns";
 --report "end at 693.125ns";
-report "end at 693.255ns"; -- XXX occrows loop
+--report "end at 693.255ns"; -- XXX occrows loop
+--report "end at 800.775us - rm occrow,occcol regs";
+--report "end at 869.805us - rm occrow,occcol regs,rm pix_os_average reg";
+report "end at 854.645us - rm occrow,occcol regs,rm pix_os_average reg,rm rest reg";
 report "done" severity failure;
 --wait on o_done;
 end process;
