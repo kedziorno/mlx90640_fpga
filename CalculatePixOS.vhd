@@ -743,16 +743,19 @@ ExtractKvParameters_divfprdy <= divfprdy when ExtractKvParameters_mux = '1' else
 mulfpr_internal <= mulfpr;
 mulfprdy_internal <= mulfprdy;
 
+divfpr_internal <= divfpr;
+divfprdy_internal <= divfprdy;
+
 p0 : process (i_clock) is
 	constant C_ROW : integer := 24;
 	constant C_COL : integer := 32;
 	variable i : integer range 0 to C_ROW*C_COL-1;
 	type states is (idle,
   s3,s5,s7,s9,s9a,s9b,s9c,
-  s10,s14,s16,s20,
+  s10,s14,s16,s17,s20,
 	s22,s24,s25,s26,s28,s30);
 	variable state : states;
-	variable fptmp1,vddDiff,taDiff : std_logic_vector (31 downto 0);
+  constant const1 : std_logic_vector (31 downto 0) := x"3f800000";
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -852,32 +855,7 @@ begin
             state := s9;
             ExtractKvParameters_mux <= '1';
           end if;
-        when s9a =>
-          subfpce_internal <= '1';
-          subfpa_internal <= i_Vdd;
-          subfpb_internal <= i_VddV0;
-          subfpond_internal <= '1';
-          if (subfprdy_internal = '1') then state := s9b;
-            vddDiff := subfpr_internal;
-            subfpce_internal <= '0';
-            subfpond_internal <= '0';
-            subfpsclr_internal <= '1';
-          else state := s9a; end if;
-        when s9b => state := s9c;
-          subfpsclr_internal <= '0';
-        when s9c =>
-          subfpsclr_internal <= '0';
-          subfpce_internal <= '1';
-          subfpa_internal <= i_Ta;
-          subfpb_internal <= i_Ta0;
-          subfpond_internal <= '1';
-          if (subfprdy_internal = '1') then state := s10;
-            taDiff := subfpr_internal;
-            subfpce_internal <= '0';
-            subfpond_internal <= '0';
-            subfpsclr_internal <= '1';
-          else state := s9c; end if;
-        when s10 => state := s14;
+        when s9a => state := s9b;
           CalculatePixGain_addr <= std_logic_vector (to_unsigned (i, 10));
           ExtractOffsetParameters_addr <= std_logic_vector (to_unsigned (i, 10));
           ExtractKtaParameters_addr <= std_logic_vector (to_unsigned (i, 10));
@@ -886,14 +864,46 @@ begin
           subfpsclr_internal <= '0';		
           divfpsclr_internal <= '0';		
           mulfpsclr_internal <= '0';		
-          fixed2floatsclr_internal <= '0';		
+          fixed2floatsclr_internal <= '0';
+        when s9b =>
+          subfpce_internal <= '1';
+          subfpa_internal <= i_Ta;
+          subfpb_internal <= i_Ta0;
+          subfpond_internal <= '1';
+          if (subfprdy_internal = '1') then state := s9c;
+            subfpce_internal <= '0';
+            subfpond_internal <= '0';
+            subfpsclr_internal <= '1';
+          else state := s9b; end if;
+        when s9c =>
+          subfpsclr_internal <= '0';
+          divfpce_internal <= '1';
+          divfpa_internal <= subfpr_internal;
+          divfpb_internal <= const1;
+          divfpond_internal <= '1';
+          if (divfprdy_internal = '1') then state := s10;
+            divfpce_internal <= '0';
+            divfpond_internal <= '0';
+            divfpsclr_internal <= '1';
+          else state := s9c; end if;
+        when s10 =>
+          divfpsclr_internal <= '0';
+          subfpce_internal <= '1';
+          subfpa_internal <= i_Vdd;
+          subfpb_internal <= i_VddV0;
+          subfpond_internal <= '1';
+          if (subfprdy_internal = '1') then state := s14;
+            subfpce_internal <= '0';
+            subfpond_internal <= '0';
+            subfpsclr_internal <= '1';
+          else state := s10; end if;
         when s14 =>
+          subfpsclr_internal <= '0';
           mulfpce_internal <= '1';
-          mulfpa_internal <= vddDiff;
+          mulfpa_internal <= subfpr_internal; -- XXX vddDiff
           mulfpb_internal <= ExtractKvParameters_do;
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s16;
-            fptmp1 := mulfpr_internal;
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
@@ -901,19 +911,29 @@ begin
         when s16 =>
           mulfpsclr_internal <= '0';
           addfpce_internal <= '1';
-          addfpa_internal <= fptmp1;
+          addfpa_internal <= mulfpr_internal;
           addfpb_internal <= i_const1;
           addfpond_internal <= '1';
-          if (addfprdy_internal = '1') then state := s20;
-            fptmp1 := addfpr_internal;
+          if (addfprdy_internal = '1') then state := s17;
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
           else state := s16; end if;
-        when s20 =>
+        when s17 => -- XXX empty state/calculate for rm fptmp1 reg
           addfpsclr_internal <= '0';
+          subfpce_internal <= '1';
+          subfpa_internal <= addfpr_internal;
+          subfpb_internal <= x"00000000";
+          subfpond_internal <= '1';
+          if (subfprdy_internal = '1') then state := s20;
+            subfpce_internal <= '0';
+            subfpond_internal <= '0';
+            subfpsclr_internal <= '1';
+          else state := s17; end if;
+        when s20 =>
+          subfpsclr_internal <= '0';
           mulfpce_internal <= '1';
-          mulfpa_internal <= taDiff;
+          mulfpa_internal <= divfpr_internal;
           mulfpb_internal <= ExtractKtaParameters_do;
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s22;
@@ -935,7 +955,7 @@ begin
         when s24 =>
           addfpsclr_internal <= '0';
           mulfpce_internal <= '1';
-          mulfpa_internal <= fptmp1;
+          mulfpa_internal <= subfpr_internal; -- XXX s17
           mulfpb_internal <= addfpr_internal;
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s25;
@@ -979,7 +999,7 @@ begin
             i := 0;
             rdy <= '1';
           else
-            state := s10;
+            state := s9a;
             i := i + 1;
           end if;
       end case;

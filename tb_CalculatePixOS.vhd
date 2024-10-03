@@ -382,7 +382,11 @@ CalculatePixOS_VddV0 <= x"40533333"; -- 3.3
 CalculatePixOS_run <= '1'; wait for i_clock_period; CalculatePixOS_run <= '0';
 wait until CalculatePixOS_rdy = '1';
 --report "rdy at 2597.975us";
-report "rdy at 2352.505us";
+--report "rdy at 2352.505us";
+--report "rdy at 2506.635us - rewrite submodules";
+--report "rdy at 2629.515us - rewrite submodules, rm fptmp1";
+--report "rdy at 2882.625us - rewrite submodules, rm fptmp1, rm vddDiff reg";
+report "rdy at 3113.025us - rewrite submodules, rm fptmp1, rm vddDiff reg, rm taDiff reg";
 for i in 0 to 9 loop
 CalculatePixOS_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
 wait until rising_edge (CalculatePixOS_clock);
@@ -397,15 +401,27 @@ wait until rising_edge (CalculatePixOS_clock);
 warning_neq_fp (CalculatePixOS_do, datao.middle(i).a, "middle " & integer'image (datao.middle(i).b));
 --wait until rising_edge (CalculatePixOS_clock);
 end loop;
-for i in 0 to 9 loop -- XXX last_9 is OK here (tb_CalculateAlphaComp)
+for i in 0 to 8 loop -- XXX last_9 is OK here (tb_CalculateAlphaComp)
 CalculatePixOS_addr <= std_logic_vector (to_unsigned (datao.last(i).b, 10));
 wait until rising_edge (CalculatePixOS_clock);
 wait until rising_edge (CalculatePixOS_clock);
 warning_neq_fp (CalculatePixOS_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
 --wait until rising_edge (CalculatePixOS_clock);
 end loop;
+CalculatePixOS_addr <= std_logic_vector (to_unsigned (datao.last(9).b, 10));
+wait until rising_edge (CalculatePixOS_clock);
+wait until rising_edge (CalculatePixOS_clock);
+wait until rising_edge (CalculatePixOS_clock);
+warning_neq_fp (CalculatePixOS_do, datao.last(9).a, "last " & integer'image (datao.last(9).b));
+wait until rising_edge (CalculatePixOS_clock);
+wait until rising_edge (CalculatePixOS_clock);
+wait until rising_edge (CalculatePixOS_clock);
 --report "end at 2618.475us";
-report "end at 2352.945us";
+--report "end at 2352.945us";
+--report "end at 2507.115us - rewrite submodules";
+--report "end at 2629.995us - rewrite submodules, rm fptmp1";
+--report "end at 2883.105us - rewrite submodules, rm fptmp1, rm vddDiff reg";
+report "end at 3113.505us - rewrite submodules, rm fptmp1, rm vddDiff reg, rm taDiff reg";
 wait for 1 ps; -- must be for write
 report "done" severity failure;
 END PROCESS tb;
