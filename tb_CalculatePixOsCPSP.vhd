@@ -305,7 +305,10 @@ CalculatePixOSCPSP_VddV0 <= x"40533333"; -- 3.3
 CalculatePixOsCPSP_run <= '1'; wait for clockperiod; CalculatePixOsCPSP_run <= '0';
 wait until CalculatePixOsCPSP_rdy = '1';
 --report "rdy at 4.165us";
-report "rdy at 3.795us";
+--report "rdy at 3.795us";
+--report "rdy at 17.635us - rewrite calculation without regs";
+--report "rdy at 17.475us - rewrite calculation without regs, cleanup";
+report "rdy at 17.355us - rewrite calculation without regs, cleanup";
 warning_neq_fp (CalculatePixOsCPSP_pixoscpsp0, x"42b06005", "pixoscpsp0");
 warning_neq_fp (CalculatePixOsCPSP_pixoscpsp1, x"42a9f7c2", "pixoscpsp1");
 wait for 1 ps;
