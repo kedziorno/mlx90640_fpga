@@ -5,14 +5,14 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.07 secs
+Total CPU time to Xst completion: 0.08 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.07 secs
+Total CPU time to Xst completion: 0.08 secs
  
 --> 
 Reading design: CalculateAlphaComp.prj
@@ -124,7 +124,8 @@ Architecture behavioral of Entity mem_switchpattern is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/mem_ramb16_s36_x2.vhd" in Library work.
 Architecture behavioral of Entity mem_ramb16_s36_x2 is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateAlphaComp.vhd" in Library work.
-Architecture behavioral of Entity calculatealphacomp is up to date.
+Entity <calculatealphacomp> compiled.
+Entity <calculatealphacomp> (Architecture <behavioral>) compiled.
 
 =========================================================================
 *                     Design Hierarchy Analysis                         *
@@ -288,8 +289,7 @@ Analyzing hierarchy for entity <mem_ramb16_s36_x2> in library <work> (architectu
 *                            HDL Analysis                               *
 =========================================================================
 Analyzing Entity <CalculateAlphaComp> in library <work> (Architecture <behavioral>).
-INFO:Xst:1749 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateAlphaComp.vhd" line 427: report: CalculateAlphaComp
-WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateAlphaComp.vhd" line 629: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
+WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateAlphaComp.vhd" line 654: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
 Entity <CalculateAlphaComp> analyzed. Unit <CalculateAlphaComp> generated.
 
 Analyzing Entity <ExtractTGCParameters> in library <work> (Architecture <behavioral>).
@@ -903,20 +903,21 @@ Unit <mem_ramb16_s36_x2> synthesized.
 
 Synthesizing Unit <CalculateAlphaComp>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateAlphaComp.vhd".
+WARNING:Xst:647 - Input <i_const1> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
     Register <addfpond_internal> equivalent to <addfpce_internal> has been removed
     Register <mulfpond_internal> equivalent to <mulfpce_internal> has been removed
     Register <subfpond_internal> equivalent to <subfpce_internal> has been removed
     Found finite state machine <FSM_2> for signal <state>.
     -----------------------------------------------------------------------
-    | States             | 13                                             |
-    | Transitions        | 26                                             |
+    | States             | 17                                             |
+    | Transitions        | 32                                             |
     | Inputs             | 7                                              |
-    | Outputs            | 19                                             |
+    | Outputs            | 20                                             |
     | Clock              | i_clock                   (rising_edge)        |
     | Reset              | i_reset                   (positive)           |
     | Reset type         | synchronous                                    |
-    | Reset State        | 0000                                           |
-    | Power Up State     | 0000                                           |
+    | Reset State        | 00000                                          |
+    | Power Up State     | 00000                                          |
     | Encoding           | automatic                                      |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
@@ -931,11 +932,8 @@ Synthesizing Unit <CalculateAlphaComp>.
     Found 1-bit register for signal <ExtractKsTaParameters_run>.
     Found 1-bit register for signal <ExtractTGCParameters_mux>.
     Found 1-bit register for signal <ExtractTGCParameters_run>.
-    Found 32-bit register for signal <fptmp1>.
-    Found 32-bit register for signal <fptmp2>.
-    Found 32-bit register for signal <fptmp3>.
     Found 10-bit register for signal <i>.
-    Found 10-bit adder for signal <i$addsub0000> created at line 579.
+    Found 10-bit adder for signal <i$addsub0000> created at line 604.
     Found 14-bit register for signal <mem_switchpattern_pixel>.
     Found 32-bit register for signal <mulfpa_internal>.
     Found 32-bit register for signal <mulfpb_internal>.
@@ -949,7 +947,7 @@ Synthesizing Unit <CalculateAlphaComp>.
     Found 1-bit register for signal <write_enable>.
     Summary:
 	inferred   1 Finite State Machine(s).
-	inferred 376 D-type flip-flop(s).
+	inferred 280 D-type flip-flop(s).
 	inferred   1 Adder/Subtractor(s).
 Unit <CalculateAlphaComp> synthesized.
 
@@ -961,12 +959,12 @@ Macro Statistics
 # Adders/Subtractors                                   : 2
  10-bit adder                                          : 1
  12-bit subtractor                                     : 1
-# Registers                                            : 36
+# Registers                                            : 33
  1-bit register                                        : 17
  10-bit register                                       : 3
  12-bit register                                       : 1
  14-bit register                                       : 1
- 32-bit register                                       : 12
+ 32-bit register                                       : 9
  9-bit register                                        : 2
 # Multiplexers                                         : 1
  32-bit 4-to-1 multiplexer                             : 1
@@ -978,24 +976,28 @@ Macro Statistics
 =========================================================================
 
 Analyzing FSM <FSM_2> for best encoding.
-Optimizing FSM <state/FSM> on signal <state[1:13]> with one-hot encoding.
-------------------------
+Optimizing FSM <state/FSM> on signal <state[1:17]> with one-hot encoding.
+----------------------------
  State | Encoding
-------------------------
- 0000  | 0000000000001
- 0001  | 0000000000010
- 0010  | 0000000000100
- 0011  | 0000000001000
- 0100  | 0000000010000
- 0101  | 0000000100000
- 0110  | 0000001000000
- 0111  | 0000010000000
- 1000  | 0000100000000
- 1001  | 0001000000000
- 1010  | 0010000000000
- 1011  | 0100000000000
- 1100  | 1000000000000
-------------------------
+----------------------------
+ 00000 | 00000000000000001
+ 00001 | 00000000000000010
+ 00010 | 00000000000000100
+ 00011 | 00000000000001000
+ 00100 | 00000000000010000
+ 00101 | 00000000000100000
+ 00110 | 00000000001000000
+ 00111 | 00000000010000000
+ 01000 | 00000000100000000
+ 01001 | 00000001000000000
+ 01010 | 00000010000000000
+ 01011 | 00000100000000000
+ 01100 | 00001000000000000
+ 01101 | 00010000000000000
+ 01110 | 00100000000000000
+ 01111 | 01000000000000000
+ 10000 | 10000000000000000
+----------------------------
 Analyzing FSM <FSM_1> for best encoding.
 Optimizing FSM <inst_ExtractKsTaParameters/state/FSM> on signal <state[1:5]> with one-hot encoding.
 -------------------
@@ -1040,8 +1042,8 @@ Macro Statistics
 # Adders/Subtractors                                   : 2
  10-bit adder                                          : 1
  12-bit subtractor                                     : 1
-# Registers                                            : 464
- Flip-Flops                                            : 464
+# Registers                                            : 368
+ Flip-Flops                                            : 368
 # Multiplexers                                         : 1
  32-bit 4-to-1 multiplexer                             : 1
 
@@ -1053,6 +1055,16 @@ Macro Statistics
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <ExtractTGCParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_2> (without init value) has a constant value of 0 in block <ExtractTGCParameters>. This FF/Latch will be trimmed during the optimization process.
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_0> in Unit <ExtractTGCParameters> is equivalent to the following 4 FFs/Latches, which will be removed : <i2c_mem_addra_3> <i2c_mem_addra_4> <i2c_mem_addra_5> <i2c_mem_addra_6> 
+INFO:Xst:2261 - The FF/Latch <o_alpha_addr_0> in Unit <CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_0> 
+INFO:Xst:2261 - The FF/Latch <o_alpha_addr_1> in Unit <CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_1> 
+INFO:Xst:2261 - The FF/Latch <o_alpha_addr_2> in Unit <CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_2> 
+INFO:Xst:2261 - The FF/Latch <o_alpha_addr_3> in Unit <CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_3> 
+INFO:Xst:2261 - The FF/Latch <o_alpha_addr_4> in Unit <CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_4> 
+INFO:Xst:2261 - The FF/Latch <o_alpha_addr_5> in Unit <CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_5> 
+INFO:Xst:2261 - The FF/Latch <o_alpha_addr_6> in Unit <CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_6> 
+INFO:Xst:2261 - The FF/Latch <o_alpha_addr_7> in Unit <CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_7> 
+INFO:Xst:2261 - The FF/Latch <o_alpha_addr_8> in Unit <CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_8> 
+INFO:Xst:2261 - The FF/Latch <o_alpha_addr_9> in Unit <CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_9> 
 INFO:Xst:1901 - Instance inst_mem_tgc in unit ExtractTGCParameters of type RAMB16_S36 has been replaced by RAMB16
 INFO:Xst:1901 - Instance inst_mem_ksta in unit ExtractKsTaParameters of type RAMB16_S36 has been replaced by RAMB16
 INFO:Xst:1901 - Instance RAMB16_S36_inst1 in unit mem_ramb16_s36_x2 of type RAMB16_S36 has been replaced by RAMB16
@@ -1069,15 +1081,14 @@ Optimizing unit <mem_ramb16_s36_x2> ...
 
 Mapping all equations...
 Building and optimizing final netlist ...
-Found area constraint ratio of 100 (+ 5) on block CalculateAlphaComp, actual ratio is 3.
-FlipFlop state_FSM_FFd10 has been replicated 2 time(s)
-FlipFlop state_FSM_FFd11 has been replicated 1 time(s)
-FlipFlop state_FSM_FFd2 has been replicated 1 time(s)
-FlipFlop state_FSM_FFd3 has been replicated 2 time(s)
-FlipFlop state_FSM_FFd4 has been replicated 1 time(s)
-FlipFlop state_FSM_FFd5 has been replicated 2 time(s)
+Found area constraint ratio of 100 (+ 5) on block CalculateAlphaComp, actual ratio is 2.
+FlipFlop state_FSM_FFd10 has been replicated 1 time(s)
+FlipFlop state_FSM_FFd12 has been replicated 1 time(s)
+FlipFlop state_FSM_FFd2 has been replicated 2 time(s)
+FlipFlop state_FSM_FFd3 has been replicated 1 time(s)
+FlipFlop state_FSM_FFd4 has been replicated 2 time(s)
 FlipFlop state_FSM_FFd6 has been replicated 1 time(s)
-FlipFlop state_FSM_FFd9 has been replicated 1 time(s)
+FlipFlop state_FSM_FFd8 has been replicated 1 time(s)
 
 Final Macro Processing ...
 
@@ -1085,8 +1096,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 492
- Flip-Flops                                            : 492
+# Registers                                            : 388
+ Flip-Flops                                            : 388
 
 =========================================================================
 
@@ -1115,33 +1126,32 @@ Design Statistics
 # IOs                              : 569
 
 Cell Usage :
-# BELS                             : 800
+# BELS                             : 668
 #      GND                         : 1
 #      INV                         : 3
-#      LUT2                        : 132
-#      LUT2_D                      : 4
+#      LUT2                        : 115
 #      LUT2_L                      : 1
-#      LUT3                        : 102
-#      LUT3_D                      : 1
-#      LUT3_L                      : 39
-#      LUT4                        : 358
-#      LUT4_D                      : 18
-#      LUT4_L                      : 108
-#      MUXF5                       : 32
+#      LUT3                        : 93
+#      LUT3_D                      : 3
+#      LUT3_L                      : 2
+#      LUT4                        : 337
+#      LUT4_D                      : 11
+#      LUT4_L                      : 68
+#      MUXF5                       : 33
 #      VCC                         : 1
-# FlipFlops/Latches                : 492
-#      FDE                         : 244
-#      FDR                         : 63
-#      FDRE                        : 13
-#      FDRS                        : 163
-#      FDRSE                       : 3
+# FlipFlops/Latches                : 388
+#      FDE                         : 138
+#      FDR                         : 91
+#      FDRE                        : 11
+#      FDRS                        : 138
+#      FDRSE                       : 4
 #      FDS                         : 6
 # RAMS                             : 5
 #      RAMB16                      : 5
 # Clock Buffers                    : 1
 #      BUFG                        : 1
-# IO Buffers                       : 569
-#      IBUF                        : 312
+# IO Buffers                       : 537
+#      IBUF                        : 280
 #      OBUF                        : 257
 =========================================================================
 
@@ -1150,11 +1160,11 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                      437  out of  15360     2%  
- Number of Slice Flip Flops:            492  out of  30720     1%  
- Number of 4 input LUTs:                766  out of  30720     2%  
+ Number of Slices:                      363  out of  15360     2%  
+ Number of Slice Flip Flops:            388  out of  30720     1%  
+ Number of 4 input LUTs:                633  out of  30720     2%  
  Number of IOs:                         569
- Number of bonded IOBs:                 569  out of    448   127% (*) 
+ Number of bonded IOBs:                 537  out of    448   119% (*) 
  Number of FIFO16/RAMB16s:                5  out of    192     2%  
     Number used as RAMB16s:               5
  Number of GCLKs:                         1  out of     32     3%  
@@ -1182,7 +1192,7 @@ Clock Information:
 -----------------------------------+------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)  | Load  |
 -----------------------------------+------------------------+-------+
-i_clock                            | IBUF+BUFG              | 497   |
+i_clock                            | IBUF+BUFG              | 393   |
 -----------------------------------+------------------------+-------+
 
 Asynchronous Control Signals Information:
@@ -1193,8 +1203,8 @@ Timing Summary:
 ---------------
 Speed Grade: -10
 
-   Minimum period: 4.311ns (Maximum Frequency: 231.946MHz)
-   Minimum input arrival time before clock: 4.942ns
+   Minimum period: 4.296ns (Maximum Frequency: 232.761MHz)
+   Minimum input arrival time before clock: 4.810ns
    Maximum output required time after clock: 7.674ns
    Maximum combinational path delay: No path found
 
@@ -1204,50 +1214,45 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 4.311ns (frequency: 231.946MHz)
-  Total number of paths / destination ports: 4698 / 885
+  Clock period: 4.296ns (frequency: 232.761MHz)
+  Total number of paths / destination ports: 4501 / 746
 -------------------------------------------------------------------------
-Delay:               4.311ns (Levels of Logic = 3)
-  Source:            state_FSM_FFd6_1 (FF)
-  Destination:       subfpb_internal_3 (FF)
+Delay:               4.296ns (Levels of Logic = 1)
+  Source:            inst_mem_switchpattern/inst_mem_switchpattern (RAM)
+  Destination:       mulfpa_internal_23 (FF)
   Source Clock:      i_clock rising
   Destination Clock: i_clock rising
 
-  Data Path: state_FSM_FFd6_1 to subfpb_internal_3
+  Data Path: inst_mem_switchpattern/inst_mem_switchpattern to mulfpa_internal_23
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDRE:C->Q             1   0.360   0.741  state_FSM_FFd6_1 (state_FSM_FFd6_1)
-     LUT4:I0->O            2   0.195   0.540  subfpa_internal_mux0000<0>111_SW0 (N252)
-     LUT4_D:I3->O         11   0.195   0.663  subfpa_internal_mux0000<0>111_1 (subfpa_internal_mux0000<0>111)
-     LUT4:I3->O            1   0.195   0.360  subfpb_internal_mux0000<9>_SW0 (N8)
-     FDRS:S                    1.062          subfpb_internal_9
+     RAMB16:CLKA->DOA0     1   2.100   0.523  inst_mem_switchpattern/inst_mem_switchpattern (mem_switchpattern_pattern)
+     LUT3:I2->O            7   0.195   0.416  mulfpa_internal_mux0000<23>21 (N111)
+     FDRS:S                    1.062          mulfpa_internal_23
     ----------------------------------------
-    Total                      4.311ns (2.007ns logic, 2.304ns route)
-                                       (46.6% logic, 53.4% route)
+    Total                      4.296ns (3.357ns logic, 0.939ns route)
+                                       (78.1% logic, 21.9% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 1315 / 825
+  Total number of paths / destination ports: 971 / 714
 -------------------------------------------------------------------------
-Offset:              4.942ns (Levels of Logic = 5)
-  Source:            addfprdy (PAD)
-  Destination:       fptmp1_0 (FF)
+Offset:              4.810ns (Levels of Logic = 2)
+  Source:            i_reset (PAD)
+  Destination:       dia_0 (FF)
   Destination Clock: i_clock rising
 
-  Data Path: addfprdy to fptmp1_0
+  Data Path: i_reset to dia_0
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O            40   0.965   1.340  addfprdy_IBUF (addfprdy_IBUF)
-     LUT4_L:I0->LO         1   0.195   0.225  fptmp1_mux0000<0>616 (fptmp1_mux0000<0>616)
-     LUT4:I2->O            1   0.195   0.523  fptmp1_mux0000<0>643_SW0 (N488)
-     LUT4_D:I3->O         31   0.195   1.087  fptmp1_mux0000<0>643 (N02)
-     LUT4:I3->O            1   0.195   0.000  fptmp1_mux0000<8>21 (fptmp1_mux0000<8>)
-     FDE:D                     0.022          fptmp1_8
+     IBUF:I->O           259   0.965   2.143  i_reset_IBUF (i_reset_IBUF)
+     LUT3:I0->O           42   0.195   0.967  dia_not00011 (dia_not0001)
+     FDE:CE                    0.540          dia_0
     ----------------------------------------
-    Total                      4.942ns (1.767ns logic, 3.175ns route)
-                                       (35.8% logic, 64.2% route)
+    Total                      4.810ns (1.700ns logic, 3.110ns route)
+                                       (35.3% logic, 64.7% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
@@ -1273,15 +1278,15 @@ Offset:              7.674ns (Levels of Logic = 3)
 =========================================================================
 
 
-Total REAL time to Xst completion: 21.00 secs
-Total CPU time to Xst completion: 19.09 secs
+Total REAL time to Xst completion: 17.00 secs
+Total CPU time to Xst completion: 15.62 secs
  
 --> 
 
 
-Total memory usage is 572120 kilobytes
+Total memory usage is 571704 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :   19 (   0 filtered)
-Number of infos    :   13 (   0 filtered)
+Number of warnings :   20 (   0 filtered)
+Number of infos    :   22 (   0 filtered)
 

@@ -323,32 +323,32 @@ last => (
 -- XXX data for output CalculateAlphaComp
 constant datao : datar := (
 first => (
-(a => x"3318F553", b => 0), -- XXX good value, in project is 0
-(a => x"331AEA16", b => 1),
-(a => x"331F50CE", b => 2),
-(a => x"33214591", b => 3),
-(a => x"332B8A93", b => 4),
-(a => x"332E79B8", b => 5),
-(a => x"332EF6E9", b => 6),
-(a => x"333168DD", b => 7),
-(a => x"33393BEA", b => 8),
-(a => x"333BADDE", b => 9)
+(a => x"3318F553", b => 1), -- XXX good value, in project is 0, address from +1
+(a => x"331AEA16", b => 2),
+(a => x"331F50CE", b => 3),
+(a => x"33214591", b => 4),
+(a => x"332B8A93", b => 5),
+(a => x"332E79B8", b => 6),
+(a => x"332EF6E9", b => 7),
+(a => x"333168DD", b => 8),
+(a => x"33393BEA", b => 9),
+(a => x"333BADDE", b => 10)
 ),
 middle => (
-(a => x"331B6747", b => 382),
-(a => x"3333DAD1", b => 384)
+(a => x"331B6747", b => 383),
+(a => x"3333DAD1", b => 385)
 ),
 last => (
-(a => x"332E79B8", b => 758),
-(a => x"332B8A93", b => 759),
-(a => x"332723DB", b => 760),
-(a => x"3326297A", b => 761),
-(a => x"3317FAF1", b => 762),
-(a => x"3316062E", b => 763),
-(a => x"330F2D82", b => 764),
-(a => x"330CBB8E", b => 765),
-(a => x"32FA2AE7", b => 766),
-(a => x"32F15D78", b => 767)
+(a => x"332E79B8", b => 759),
+(a => x"332B8A93", b => 760),
+(a => x"332723DB", b => 761),
+(a => x"3326297A", b => 762),
+(a => x"3317FAF1", b => 763),
+(a => x"3316062E", b => 764),
+(a => x"330F2D82", b => 765),
+(a => x"330CBB8E", b => 766),
+(a => x"32FA2AE7", b => 767),
+(a => x"32F15D78", b => 768) -- XXX unreachable
 )
 );
 begin
@@ -382,14 +382,15 @@ report "before loop";
         CalculateAlphaComp_alpha_do <= data.last(k).a;
       end if;
     end loop;
-    wait for 0.68us; -- XXX the same as CalculateAlphaComp wait for data from ExtractAlphaParameters MEM
+    wait for 1.370us; -- XXX the same as CalculateAlphaComp wait for data from ExtractAlphaParameters MEM
   end loop;
 report "after loop";
 --wait until CalculateAlphaComp_rdy = '1';
 --report "rdy at 645.945us";
 --report "rdy at 599.795us";
 --report "rdy at 599.815us";
-report "rdy at 599.755us";
+--report "rdy at 599.755us";
+report "rdy 767 at 1144.615us - rm all regs";
   for i in 0 to 9 loop
     CalculateAlphaComp_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
     wait until rising_edge (CalculateAlphaComp_clock);
@@ -416,10 +417,12 @@ report "rdy at 599.755us";
   wait until rising_edge (CalculateAlphaComp_clock);
   warning_neq_fp (CalculateAlphaComp_do, datao.last(9).a, "last " & integer'image (datao.last(9).b) & " not available - fix it");
 wait for 1 ps;
+-- XXX outputs differ around e-9 and e-10 (output have e-8)
 --report "end at 666.445us";
 --report "end at 620.295us";
 --report "end at 600.465us";
-report "end at 600.405us";
+--report "end at 600.405us";
+report "end at 1403.745us - rm all regs";
 report "done" severity failure;
 end process;
 
