@@ -557,15 +557,14 @@ begin
 					mulfpb_internal <= fptmp3;
 					mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s31;
-            fptmp1 := mulfpr_internal;
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
             write_enable <= '1';
             addra <= std_logic_vector (to_unsigned (i, 10)); -- alphacomp
-            dia <= fptmp1;
+            dia <= mulfpr_internal;
             --synthesis translate_off
-            report_error("================alphacomp " & integer'image(i), fptmp1, 0.0);
+            report_error("================alphacomp " & integer'image(i), mulfpr_internal, 0.0);
             --synthesis translate_on
 					else state := s28; end if;
 				when s31 =>

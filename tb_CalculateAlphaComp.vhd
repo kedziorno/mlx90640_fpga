@@ -366,55 +366,55 @@ CalculateAlphaComp_const1 <= x"3f800000"; -- 1
 wait for i_clock_period;
 CalculateAlphaComp_run <= '1'; wait for i_clock_period; CalculateAlphaComp_run <= '0';
 report "before loop";
-for i in 0 to 767 loop
-for k in 0 to 9 loop
-if CalculateAlphaComp_alpha_addr = std_logic_vector (to_unsigned (data.first(k).b, 10)) then
-CalculateAlphaComp_alpha_do <= data.first(k).a;
-end if;
-end loop;
-for k in 0 to 1 loop
-if CalculateAlphaComp_alpha_addr = std_logic_vector (to_unsigned (data.middle(k).b, 10)) then
-CalculateAlphaComp_alpha_do <= data.middle(k).a;
-end if;
-end loop;
-for k in 0 to 9 loop
-if CalculateAlphaComp_alpha_addr = std_logic_vector (to_unsigned (data.last(k).b, 10)) then
-CalculateAlphaComp_alpha_do <= data.last(k).a;
-end if;
-end loop;
-wait for 0.78us; -- XXX the same as CalculateAlphaComp wait for data from ExtractAlphaParameters MEM
-end loop;
+  for i in 0 to 1023 loop
+    for k in 0 to 9 loop
+      if CalculateAlphaComp_alpha_addr = std_logic_vector (to_unsigned (data.first(k).b, 10)) then
+        CalculateAlphaComp_alpha_do <= data.first(k).a;
+      end if;
+    end loop;
+    for k in 0 to 1 loop
+      if CalculateAlphaComp_alpha_addr = std_logic_vector (to_unsigned (data.middle(k).b, 10)) then
+        CalculateAlphaComp_alpha_do <= data.middle(k).a;
+      end if;
+    end loop;
+    for k in 0 to 9 loop
+      if CalculateAlphaComp_alpha_addr = std_logic_vector (to_unsigned (data.last(k).b, 10)) then
+        CalculateAlphaComp_alpha_do <= data.last(k).a;
+      end if;
+    end loop;
+    wait for 0.68us; -- XXX the same as CalculateAlphaComp wait for data from ExtractAlphaParameters MEM
+  end loop;
 report "after loop";
-wait until CalculateAlphaComp_rdy = '1';
+--wait until CalculateAlphaComp_rdy = '1';
 --report "rdy at 645.945us";
 --report "rdy at 599.795us";
 --report "rdy at 599.815us";
 report "rdy at 599.755us";
-for i in 0 to 9 loop
-CalculateAlphaComp_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
-wait until rising_edge (CalculateAlphaComp_clock);
-wait until rising_edge (CalculateAlphaComp_clock);
-warning_neq_fp (CalculateAlphaComp_do, datao.first(i).a, "first " & integer'image (datao.first(i).b));
-wait until rising_edge (CalculateAlphaComp_clock);
-end loop;
-for i in 0 to 1 loop
-CalculateAlphaComp_addr <= std_logic_vector (to_unsigned (datao.middle(i).b, 10));
-wait until rising_edge (CalculateAlphaComp_clock);
-wait until rising_edge (CalculateAlphaComp_clock);
-warning_neq_fp (CalculateAlphaComp_do, datao.middle(i).a, "middle " & integer'image (datao.middle(i).b));
-wait until rising_edge (CalculateAlphaComp_clock);
-end loop;
-for i in 0 to 8 loop -- XXX last_9 is not available, rest above values is OK
-CalculateAlphaComp_addr <= std_logic_vector (to_unsigned (datao.last(i).b, 10));
-wait until rising_edge (CalculateAlphaComp_clock);
-wait until rising_edge (CalculateAlphaComp_clock);
-warning_neq_fp (CalculateAlphaComp_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
-wait until rising_edge (CalculateAlphaComp_clock);
-end loop;
-CalculateAlphaComp_addr <= std_logic_vector (to_unsigned (datao.last(9).b, 10));
-wait until rising_edge (CalculateAlphaComp_clock);
-wait until rising_edge (CalculateAlphaComp_clock);
-warning_neq_fp (CalculateAlphaComp_do, datao.last(9).a, "last " & integer'image (datao.last(9).b) & " not available - fix it");
+  for i in 0 to 9 loop
+    CalculateAlphaComp_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
+    wait until rising_edge (CalculateAlphaComp_clock);
+    wait until rising_edge (CalculateAlphaComp_clock);
+    warning_neq_fp (CalculateAlphaComp_do, datao.first(i).a, "first " & integer'image (datao.first(i).b));
+    wait until rising_edge (CalculateAlphaComp_clock);
+  end loop;
+  for i in 0 to 1 loop
+    CalculateAlphaComp_addr <= std_logic_vector (to_unsigned (datao.middle(i).b, 10));
+    wait until rising_edge (CalculateAlphaComp_clock);
+    wait until rising_edge (CalculateAlphaComp_clock);
+    warning_neq_fp (CalculateAlphaComp_do, datao.middle(i).a, "middle " & integer'image (datao.middle(i).b));
+    wait until rising_edge (CalculateAlphaComp_clock);
+  end loop;
+  for i in 0 to 8 loop -- XXX last_9 is not available, rest above values is OK
+    CalculateAlphaComp_addr <= std_logic_vector (to_unsigned (datao.last(i).b, 10));
+    wait until rising_edge (CalculateAlphaComp_clock);
+    wait until rising_edge (CalculateAlphaComp_clock);
+    warning_neq_fp (CalculateAlphaComp_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
+    wait until rising_edge (CalculateAlphaComp_clock);
+  end loop;
+  CalculateAlphaComp_addr <= std_logic_vector (to_unsigned (datao.last(9).b, 10));
+  wait until rising_edge (CalculateAlphaComp_clock);
+  wait until rising_edge (CalculateAlphaComp_clock);
+  warning_neq_fp (CalculateAlphaComp_do, datao.last(9).a, "last " & integer'image (datao.last(9).b) & " not available - fix it");
 wait for 1 ps;
 --report "end at 666.445us";
 --report "end at 620.295us";
