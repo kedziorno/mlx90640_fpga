@@ -179,15 +179,15 @@ signal CalculateVirCompensated_clock : std_logic;
 signal CalculateVirCompensated_reset : std_logic;
 signal CalculateVirCompensated_run : std_logic;
 signal CalculateVirCompensated_Emissivity : std_logic_vector(31 downto 0) := x"3f800000"; -- 1
-signal CalculateVirCompensated_pixoscpsp0 : std_logic_vector(31 downto 0) := x"41CD5551"; -- 25.6666575059956
-signal CalculateVirCompensated_pixoscpsp1 : std_logic_vector(31 downto 0) := x"41AD0D7D"; -- 21.6315865670509
-signal CalculateVirCompensated_i2c_mem_douta : std_logic_vector(7 downto 0);
+signal CalculateVirCompensated_pixoscpsp0 : std_logic_vector(31 downto 0) := x"BEF58000"; -- -4.794922e-01
+signal CalculateVirCompensated_pixoscpsp1 : std_logic_vector(31 downto 0) := x"3FBA7EC0"; -- 1.456993e+00
+signal CalculateVirCompensated_i2c_mem_douta : std_logic_vector(7 downto 0) := (others => '0');
 signal CalculateVirCompensated_pixos_do : std_logic_vector(31 downto 0) := (others => '0');
-signal CalculateVirCompensated_addr : std_logic_vector(9 downto 0);
+signal CalculateVirCompensated_addr : std_logic_vector(9 downto 0) := (others => '0');
 signal CalculateVirCompensated_i2c_mem_ena : std_logic;
-signal CalculateVirCompensated_i2c_mem_addra : std_logic_vector(11 downto 0);
-signal CalculateVirCompensated_pixos_addr : std_logic_vector(9 downto 0);
-signal CalculateVirCompensated_do : std_logic_vector(31 downto 0);
+signal CalculateVirCompensated_i2c_mem_addra : std_logic_vector(11 downto 0) := (others => '0');
+signal CalculateVirCompensated_pixos_addr : std_logic_vector(9 downto 0) := (others => '0');
+signal CalculateVirCompensated_do : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateVirCompensated_rdy : std_logic;
 signal CalculateVirCompensated_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateVirCompensated_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -397,57 +397,60 @@ wait for i_clock_period*10;
 -- insert stimulus here
 CalculateVirCompensated_run <= '1'; wait for i_clock_period; CalculateVirCompensated_run <= '0';
 report "before loop";
-for i in 0 to 767 loop
-wait for 0.890us; -- XXX the same as CalculateVirCompensated wait for data from CalculatePixOS MEM
-for k in 0 to 9 loop
-if CalculateVirCompensated_pixos_addr = std_logic_vector (to_unsigned (data.first(k).b, 10)) then
-CalculateVirCompensated_pixos_do <= data.first(k).a;
-end if;
-end loop;
-for k in 0 to 1 loop
-if CalculateVirCompensated_pixos_addr = std_logic_vector (to_unsigned (data.middle(k).b, 10)) then
-CalculateVirCompensated_pixos_do <= data.middle(k).a;
-end if;
-end loop;
-for k in 0 to 9 loop
-if CalculateVirCompensated_pixos_addr = std_logic_vector (to_unsigned (data.last(k).b, 10)) then
-CalculateVirCompensated_pixos_do <= data.last(k).a;
-end if;
-end loop;
-end loop;
+  for i in 0 to 1023 loop
+    for k in 0 to 9 loop
+      if CalculateVirCompensated_pixos_addr = std_logic_vector (to_unsigned (data.first(k).b, 10)) then
+        CalculateVirCompensated_pixos_do <= data.first(k).a;
+      end if;
+    end loop;
+    for k in 0 to 1 loop
+      if CalculateVirCompensated_pixos_addr = std_logic_vector (to_unsigned (data.middle(k).b, 10)) then
+        CalculateVirCompensated_pixos_do <= data.middle(k).a;
+      end if;
+    end loop;
+    for k in 0 to 9 loop
+      if CalculateVirCompensated_pixos_addr = std_logic_vector (to_unsigned (data.last(k).b, 10)) then
+        CalculateVirCompensated_pixos_do <= data.last(k).a;
+      end if;
+    end loop;
+    wait for 0.890us; -- XXX the same as CalculateVirCompensated wait for data from CalculatePixOS MEM
+  end loop;
 report "after loop";
-wait until CalculateVirCompensated_rdy = '1';
+--wait until CalculateVirCompensated_rdy = '1';
 --report "rdy at 806.665us";
 --report "rdy at 798.975us";
-report "rdy at 683.765us";
-CalculateVirCompensated_addr <= std_logic_vector (to_unsigned (0, 10)); -- XXX data start at addr 1 TODO FIX
-wait until rising_edge (CalculateVirCompensated_clock);
-wait until rising_edge (CalculateVirCompensated_clock);
-warning_neq_fp (CalculateVirCompensated_do, x"00000000", "omit first 0");
-for i in 0 to 9 loop
-CalculateVirCompensated_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
-wait until rising_edge (CalculateVirCompensated_clock);
-wait until rising_edge (CalculateVirCompensated_clock);
-warning_neq_fp (CalculateVirCompensated_do, datao.first(i).a, "first " & integer'image (datao.first(i).b));
-wait until rising_edge (CalculateVirCompensated_clock);
-end loop;
-for i in 0 to 1 loop
-CalculateVirCompensated_addr <= std_logic_vector (to_unsigned (datao.middle(i).b, 10));
-wait until rising_edge (CalculateVirCompensated_clock);
-wait until rising_edge (CalculateVirCompensated_clock);
-warning_neq_fp (CalculateVirCompensated_do, datao.middle(i).a, "middle " & integer'image (datao.middle(i).b));
-wait until rising_edge (CalculateVirCompensated_clock);
-end loop;
-for i in 0 to 9 loop
-CalculateVirCompensated_addr <= std_logic_vector (to_unsigned (datao.last(i).b, 10));
-wait until rising_edge (CalculateVirCompensated_clock);
-wait until rising_edge (CalculateVirCompensated_clock);
-warning_neq_fp (CalculateVirCompensated_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
-wait until rising_edge (CalculateVirCompensated_clock);
-end loop;
+--report "rdy at 683.765us";
+report "rdy at 883.445us - rm tmp regs";
+  CalculateVirCompensated_addr <= std_logic_vector (to_unsigned (0, 10)); -- XXX data start at addr 1 TODO FIX
+  wait until rising_edge (CalculateVirCompensated_clock);
+  wait until rising_edge (CalculateVirCompensated_clock);
+  warning_neq_fp (CalculateVirCompensated_do, x"00000000", "omit first 0");
+  for i in 0 to 9 loop
+    CalculateVirCompensated_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
+    wait until rising_edge (CalculateVirCompensated_clock);
+    wait until rising_edge (CalculateVirCompensated_clock);
+    warning_neq_fp (CalculateVirCompensated_do, datao.first(i).a, "first " & integer'image (datao.first(i).b));
+    wait until rising_edge (CalculateVirCompensated_clock);
+  end loop;
+  for i in 0 to 1 loop
+    CalculateVirCompensated_addr <= std_logic_vector (to_unsigned (datao.middle(i).b, 10));
+    wait until rising_edge (CalculateVirCompensated_clock);
+    wait until rising_edge (CalculateVirCompensated_clock);
+    warning_neq_fp (CalculateVirCompensated_do, datao.middle(i).a, "middle " & integer'image (datao.middle(i).b));
+    wait until rising_edge (CalculateVirCompensated_clock);
+  end loop;
+  for i in 0 to 9 loop
+    CalculateVirCompensated_addr <= std_logic_vector (to_unsigned (datao.last(i).b, 10));
+    wait until rising_edge (CalculateVirCompensated_clock);
+    wait until rising_edge (CalculateVirCompensated_clock);
+    warning_neq_fp (CalculateVirCompensated_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
+    wait until rising_edge (CalculateVirCompensated_clock);
+    CalculateVirCompensated_addr <= (others => '0');
+  end loop;
 --report "done at 807.345us";
 --report "done at 799.655us";
-report "done at 684.445us";
+--report "done at 684.445us";
+report "done at 912.215us - rm tmp regs";
 wait for 1 ps;
 report "done" severity failure;
 end process stim_proc;
