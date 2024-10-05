@@ -20,9 +20,9 @@ package p_fphdl_package3 is
 	function ap_slv2int (sl:std_logic_vector) return integer;
 	function to_string_1 ( s : std_logic_vector ) return string;
 	procedure report_error (constant str : string; sl : std_logic_vector; constant ec : real);
-  procedure warning_neq_fp (a, b : in float32; info : in string := "");
-  procedure warning_neq_fp (a : in std_logic_vector (31 downto 0); b : in real; info : in string := "");
-  procedure warning_neq_fp (a, b : in std_logic_vector (31 downto 0); info : in string := "");
+  procedure warning_neq_fp (a, b : in float32; info : in string := ""; use_epsilon : boolean := false);
+  procedure warning_neq_fp (a : in std_logic_vector (31 downto 0); b : in real; info : in string := ""; use_epsilon : boolean := false);
+  procedure warning_neq_fp (a, b : in std_logic_vector (31 downto 0); info : in string := ""; use_epsilon : boolean := false);
   procedure assertEpsilon (x, y : in real; epsilon : in real := 1.0E-5; message : in string := "");
 --synthesis translate_on
 
@@ -106,29 +106,35 @@ package body p_fphdl_package3 is
     assert not (vabs < epsilon) report message & " " & real'image (epsilon) & " >= " & real'image (vabs) severity warning;
   end procedure assertEpsilon;
 
-  procedure warning_neq_fp (a, b : in float32; info : in string := "") is
+  procedure warning_neq_fp (a, b : in float32; info : in string := ""; use_epsilon : boolean := false) is
     variable src : float32 := a;
     variable dst : float32 := b;
     variable dif : float32;
+    constant epsilon : real := 1.0E-02;
   begin
-    --if (abs (dst - src) >= 1.0E-02) then
     dif := abs (dst - src);
-    assert not (src = dst) report info & HT & " current == expected " & HT & real'image (to_real(src)) & " == " & real'image (to_real(dst)) & HT & to_hex_string(src) & " == " & (to_hex_string(dst)) severity note;
-    assert     (src = dst) report info & HT & " current /= expected " & HT & real'image (to_real(src)) & " /= " & real'image (to_real(dst)) & HT & to_hex_string(src) & " /= " & (to_hex_string(dst)) & HT & "differ : " & real'image (to_real(dif)) severity warning;
-    --end if;
+    if (use_epsilon = true) then
+      if (dif >= epsilon) then
+        assert not (src = dst) report info & HT & " current == expected " & HT & real'image (to_real(src)) & " == " & real'image (to_real(dst)) & HT & to_hex_string(src) & " == " & (to_hex_string(dst)) severity note;
+        assert     (src = dst) report info & HT & " current /= expected " & HT & real'image (to_real(src)) & " /= " & real'image (to_real(dst)) & HT & to_hex_string(src) & " /= " & (to_hex_string(dst)) & HT & "differ > epsilon : " & real'image (to_real(dif)) & " > " & real'image (epsilon) severity warning;
+      end if;
+    else
+      assert not (src = dst) report info & HT & " current == expected " & HT & real'image (to_real(src)) & " == " & real'image (to_real(dst)) & HT & to_hex_string(src) & " == " & (to_hex_string(dst)) severity note;
+      assert     (src = dst) report info & HT & " current /= expected " & HT & real'image (to_real(src)) & " /= " & real'image (to_real(dst)) & HT & to_hex_string(src) & " /= " & (to_hex_string(dst)) & HT & "differ : " & real'image (to_real(dif)) severity warning;
+    end if;
     --assert not (ieee.math_real.round(to_real(src)) = ieee.math_real.round(to_real(dst))) report info & HT & " current == expected " & HT & real'image (to_real(src)) & " == " & real'image (to_real(dst)) & HT & to_hex_string(src) & " == " & (to_hex_string(dst)) severity note;
     --assert     (ieee.math_real.round(to_real(src)) = ieee.math_real.round(to_real(dst))) report info & HT & " current /= expected " & HT & real'image (to_real(src)) & " /= " & real'image (to_real(dst)) & HT & to_hex_string(src) & " /= " & (to_hex_string(dst)) severity warning;
     --assertEpsilon (to_real(src), to_real(dst), 1.0E-2, info);
   end procedure;
 
-  procedure warning_neq_fp (a : in std_logic_vector (31 downto 0); b : in real; info : in string := "") is
+  procedure warning_neq_fp (a : in std_logic_vector (31 downto 0); b : in real; info : in string := ""; use_epsilon : boolean := false) is
   begin
-    warning_neq_fp (to_float (a), to_float (b), info);
+    warning_neq_fp (to_float (a), to_float (b), info, use_epsilon);
   end procedure;
 
-  procedure warning_neq_fp (a, b : in std_logic_vector (31 downto 0); info : in string := "") is
+  procedure warning_neq_fp (a, b : in std_logic_vector (31 downto 0); info : in string := ""; use_epsilon : boolean := false) is
   begin
-    warning_neq_fp (to_float (a), to_float (b), info);
+    warning_neq_fp (to_float (a), to_float (b), info, use_epsilon);
   end procedure;
 --synthesis translate_on
 
