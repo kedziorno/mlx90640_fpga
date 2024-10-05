@@ -420,12 +420,12 @@ p0 : process (i_clock) is
 	s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,
 	s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,
 	s41,s42,s43,s44,s45,s46,s47,s48,s49,s50,
-	s51,s52,s53,s54,s55,s56,s57,s58,s59,s60,
+	s51,s51a,s52,s53,s54,s55,s56,s57,s58,s59,s60,
 	s61,s62,s63,s64,s65,s66,s67,s68,s69,s70,
 	s71,
 	ending);
 	variable state : states;
-	variable fttmp1,fttmp2,ksto2,tak4,trk4,tar,sx,acomp_pow3,acomp_pow4,tr : std_logic_vector (31 downto 0);
+	variable fttmp1,fttmp2,tak4,trk4,tar,sx,acomp_pow3,acomp_pow4,tr : std_logic_vector (31 downto 0);
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -468,7 +468,6 @@ begin
 						i2c_mem_ena_internal <= '1';
             ExtractKsToScaleParameter_run <= '1';
             ExtractKsToScaleParameter_mux <= '1';
-            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (61*2+0, 12)); -- ee243d MSB ksto2ee 0xff00
 					else
 						state := idle;
 						i2c_mem_ena_internal <= '0';
@@ -482,25 +481,12 @@ begin
         when s5 => 
           ExtractKsToScaleParameter_run <= '0';
           if (ExtractKsToScaleParameter_rdy = '1') then
-            state := s7;
+            state := s9;
             ExtractKsToScaleParameter_mux <= '0';
-            mem_signed256_ivalue <= i2c_mem_douta_internal; -- ksto2ee
           else
             state := s5;
             ExtractKsToScaleParameter_mux <= '1';
           end if;
-        when s7 =>
-          divfpce_internal <= '1';
-          divfpa_internal <= mem_signed256_ovalue;
-          divfpb_internal <= ExtractKsToScaleParameter_kstoscale;
-          divfpond_internal <= '1';
-          if (divfprdy_internal = '1') then state := s9;
-            ksto2 := divfpr_internal;
-            --report_error("================ To ksto2", ksto2, 0.0);
-            divfpce_internal <= '0';
-            divfpond_internal <= '0';
-            divfpsclr_internal <= '1';
-          else state := s7; end if;
         when s9 =>
           divfpsclr_internal <= '0';
           subfpce_internal <= '1';
@@ -750,29 +736,46 @@ begin
           sqrtfp2ce_internal <= '1';
           sqrtfp2a_internal <= fttmp1;
           sqrtfp2ond_internal <= '1';
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (61*2+0, 12)); -- ee243d MSB ksto2ee 0xff00
           if (sqrtfp2rdy_internal = '1') then state := s51;
             sx := sqrtfp2r_internal; -- sqrt2(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar)))
             sqrtfp2ce_internal <= '0';
             sqrtfp2ond_internal <= '0';
             sqrtfp2sclr_internal <= '1';
+            mem_signed256_ivalue <= i2c_mem_douta_internal; -- ksto2ee
           else state := s49; end if;
         when s51 =>
           sqrtfp2sclr_internal <= '0';
+          
+          divfpce_internal <= '1';
+          divfpa_internal <= mem_signed256_ovalue;
+          divfpb_internal <= ExtractKsToScaleParameter_kstoscale;
+          divfpond_internal <= '1';
+          if (divfprdy_internal = '1') then state := s51a;
+--            ksto2 := divfpr_internal;
+            --report_error("================ To ksto2", ksto2, 0.0);
+            divfpce_internal <= '0';
+            divfpond_internal <= '0';
+            divfpsclr_internal <= '1';
+          else state := s51; end if;
+        when s51a =>
+          divfpsclr_internal <= '0';
+          
           mulfpce_internal <= '1';
           mulfpa_internal <= sx;
-          mulfpb_internal <= ksto2;
+          mulfpb_internal <= divfpr_internal;
           mulfpond_internal <= '1';
-          if (mulfprdy_internal = '1') then state := s53;
+          if (mulfprdy_internal = '1') then state := s52;
             sx := mulfpr_internal; -- ksto2*sqrt2(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar)))
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
-          else state := s51; end if;
+          else state := s51a; end if;
         when s52 => state := s53;
           mulfpsclr_internal <= '0';
         when s53 =>
           mulfpce_internal <= '1';
-          mulfpa_internal <= ksto2;
+          mulfpa_internal <= divfpr_internal;
           mulfpb_internal <= const27315;
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s55;
