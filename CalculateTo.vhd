@@ -742,11 +742,12 @@ begin
             sqrtfp2ce_internal <= '0';
             sqrtfp2ond_internal <= '0';
             sqrtfp2sclr_internal <= '1';
-            mem_signed256_ivalue <= i2c_mem_douta_internal; -- ksto2ee
           else state := s49; end if;
         when s51 =>
           sqrtfp2sclr_internal <= '0';
           
+                      mem_signed256_ivalue <= i2c_mem_douta_internal; -- ksto2ee
+
           divfpce_internal <= '1';
           divfpa_internal <= mem_signed256_ovalue;
           divfpb_internal <= ExtractKsToScaleParameter_kstoscale;
