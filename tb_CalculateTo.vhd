@@ -507,7 +507,7 @@ wait until rising_edge (CalculateTo_clock);
 CalculateTo_alphacomp_do <= datao_ac.last(k).a;
 end if;
 end loop;
-wait for 3.22us; -- XXX wait for AlphaComp and VirCompensated Addr MEM
+wait for 3.64us; -- XXX wait for AlphaComp and VirCompensated Addr MEM
 end loop;
 report "after loop";
 wait until CalculateTo_rdy = '1';
@@ -517,7 +517,7 @@ for i in 0 to 9 loop
 CalculateTo_addr <= std_logic_vector (to_unsigned (datao_to.first(i).b, 10));
 wait until rising_edge (CalculateTo_clock);
 wait until rising_edge (CalculateTo_clock);
-warning_neq_fp (CalculateTo_do, datao_to.first(i).a, "first " & integer'image (datao_to.first(i).b));
+warning_neq_fp (CalculateTo_do, datao_to.first(i).a, "first " & integer'image (datao_to.first(i).b), true);
 end loop;
 for i in 0 to 1 loop
 CalculateTo_addr <= std_logic_vector (to_unsigned (datao_to.middle(i).b, 10));
@@ -529,7 +529,7 @@ for i in 0 to 9 loop -- XXX last_9 is OK here (tb_CalculateAlphaComp)
 CalculateTo_addr <= std_logic_vector (to_unsigned (datao_to.last(i).b, 10));
 wait until rising_edge (CalculateTo_clock);
 wait until rising_edge (CalculateTo_clock);
-warning_neq_fp (CalculateTo_do, datao_to.last(i).a, "last " & integer'image (datao_to.last(i).b));
+warning_neq_fp (CalculateTo_do, datao_to.last(i).a, "last " & integer'image (datao_to.last(i).b), true);
 end loop;
 --report "end at 2534.255us";
 report "end at 2475.775us";
