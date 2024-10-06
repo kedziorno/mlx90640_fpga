@@ -418,12 +418,12 @@ p0 : process (i_clock) is
 	s5,s9,s10,s10a,s10b,
 	s12,s13,s16,s17,s18,s20,
 	s21,s24,s26,s28,s30,
-	s33,s34,s35,s36,s37,s38,s39,s40,
+	s35,s36,s37,s38,s39,s40,
 	s41,s42,s43,s44,s45,s47,s48,s49,
 	s51,s51a,s52,s53,s55,s57,s59,
 	s61,s63,s65,s66,s67,s69,s71);
 	variable state : states;
-	variable fttmp1,fttmp2,tar : std_logic_vector (31 downto 0);
+	variable fttmp2,tar : std_logic_vector (31 downto 0);
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -499,8 +499,7 @@ begin
           subfpb_internal <= constTr;
           subfpond_internal <= '1';
           i2c_mem_addra_internal <= std_logic_vector (to_unsigned (61*2+0, 12)); -- ee243d MSB ksto2ee 0xff00
-          if (subfprdy_internal = '1') then state := s10a;
---            Tr := subfpr_internal; -- Tr~=Ta-8
+          if (subfprdy_internal = '1') then state := s10a; -- Tr=Ta-8
             subfpce_internal <= '0';
             subfpond_internal <= '0';
             subfpsclr_internal <= '1';
@@ -512,7 +511,7 @@ begin
           addfpa_internal <= i_Ta;
           addfpb_internal <= const27315;
           addfpond_internal <= '1';
-          if (addfprdy_internal = '1') then state := s10b;
+          if (addfprdy_internal = '1') then state := s10b; -- Ta+273.15
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
@@ -521,7 +520,7 @@ begin
           addfpsclr_internal <= '0';
           
           divfpce_internal <= '1';
-          divfpa_internal <= subfpr_internal;
+          divfpa_internal <= subfpr_internal; -- Tr=Ta-8 - s10
           divfpb_internal <= const1;
           divfpond_internal <= '1';
           if (divfprdy_internal = '1') then state := s12;
@@ -535,8 +534,8 @@ begin
           divfpsclr_internal <= '0';
 
           mulfpce_internal <= '1';
-          mulfpa_internal <= addfpr_internal; -- Ta + 273.15
-          mulfpb_internal <= addfpr_internal; -- Ta + 273.15
+          mulfpa_internal <= addfpr_internal; -- Ta + 273.15 - s10a
+          mulfpb_internal <= addfpr_internal; -- Ta + 273.15 - s10a
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s13;
             mulfpce_internal <= '0';
@@ -547,8 +546,8 @@ begin
           mulfpsclr_internal <= '0';
         when s16 =>
           mulfpce_internal <= '1';
-          mulfpa_internal <= mulfpr_internal; -- (Ta + 273.15)^2
-          mulfpb_internal <= mulfpr_internal; -- (Ta + 273.15)^2
+          mulfpa_internal <= mulfpr_internal; -- (Ta + 273.15)^2 - s12
+          mulfpb_internal <= mulfpr_internal; -- (Ta + 273.15)^2 - s12
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s17;
             mulfpce_internal <= '0';
@@ -561,7 +560,7 @@ begin
           subfpa_internal <= mulfpr_internal;
           subfpb_internal <= x"00000000";
           subfpond_internal <= '1';
-          if (subfprdy_internal = '1') then state := s18;
+          if (subfprdy_internal = '1') then state := s18; -- (Ta + 273.15)^4 - s16
             subfpce_internal <= '0';
             subfpond_internal <= '0';
             subfpsclr_internal <= '1';
@@ -569,10 +568,10 @@ begin
         when s18 =>
           subfpsclr_internal <= '0';
           addfpce_internal <= '1';
-          addfpa_internal <= divfpr_internal;
+          addfpa_internal <= divfpr_internal; -- Tr=Ta-8 - s10b
           addfpb_internal <= const27315;
           addfpond_internal <= '1';
-          if (addfprdy_internal = '1') then state := s20;
+          if (addfprdy_internal = '1') then state := s20; -- Tr + 273.15
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
@@ -580,8 +579,8 @@ begin
         when s20 =>
           addfpsclr_internal <= '0';
           mulfpce_internal <= '1';
-          mulfpa_internal <= addfpr_internal; -- Tr + 273.15
-          mulfpb_internal <= addfpr_internal; -- Tr + 273.15
+          mulfpa_internal <= addfpr_internal; -- Tr + 273.15 - s18
+          mulfpb_internal <= addfpr_internal; -- Tr + 273.15 - s18
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s21;
             mulfpce_internal <= '0';
@@ -592,8 +591,8 @@ begin
           mulfpsclr_internal <= '0';
         when s24 =>
           mulfpce_internal <= '1';
-          mulfpa_internal <= mulfpr_internal; -- (Tr + 273.15)^2
-          mulfpb_internal <= mulfpr_internal; -- (Tr + 273.15)^2
+          mulfpa_internal <= mulfpr_internal; -- (Tr + 273.15)^2 - s20
+          mulfpb_internal <= mulfpr_internal; -- (Tr + 273.15)^2 - s20
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s26;
             mulfpce_internal <= '0';
@@ -603,11 +602,10 @@ begin
         when s26 =>
           mulfpsclr_internal <= '0';
           subfpce_internal <= '1';
-          subfpa_internal <= mulfpr_internal; -- TrK4=(Tr + 273.15)^4
-          subfpb_internal <= subfpr_internal; -- TaK4=(Ta + 273.15)^4
+          subfpa_internal <= mulfpr_internal; -- TrK4=(Tr + 273.15)^4 - s24
+          subfpb_internal <= subfpr_internal; -- TaK4=(Ta + 273.15)^4 - s17
           subfpond_internal <= '1';
           if (subfprdy_internal = '1') then state := s28;
---            fttmp1 := subfpr_internal; -- TrK4-TaK4
             subfpce_internal <= '0';
             subfpond_internal <= '0';
             subfpsclr_internal <= '1';
@@ -615,11 +613,10 @@ begin
         when s28 =>
           subfpsclr_internal <= '0';
           divfpce_internal <= '1';
-          divfpa_internal <= subfpr_internal; -- TrK4-TaK4
+          divfpa_internal <= subfpr_internal; -- TrK4-TaK4 - s26
           divfpb_internal <= constEmissivity; -- Emissivity
           divfpond_internal <= '1';
           if (divfprdy_internal = '1') then state := s30;
---            fttmp1 := divfpr_internal; -- (TrK4-TaK4)/Emissivity
             divfpce_internal <= '0';
             divfpond_internal <= '0';
             divfpsclr_internal <= '1';
@@ -627,32 +624,22 @@ begin
         when s30 =>
           divfpsclr_internal <= '0';
           subfpce_internal <= '1';
-          subfpa_internal <= mulfpr_internal; -- TrK4=(Tr + 273.15)^4
-          subfpb_internal <= divfpr_internal;
+          subfpa_internal <= mulfpr_internal; -- TrK4=(Tr + 273.15)^4 - s20
+          subfpb_internal <= divfpr_internal; -- (TrK4-TaK4)/Emissivity - s28
           subfpond_internal <= '1';
-          if (subfprdy_internal = '1') then state := s33;
+          if (subfprdy_internal = '1') then state := s35;
             tar := subfpr_internal; -- TrK4-((TrK4-TaK4)/Emissivity)
             subfpce_internal <= '0';
             subfpond_internal <= '0';
             subfpsclr_internal <= '1';
           else state := s30; end if;
-        when s33 => state := s34;
---          o_vircompensated_addr <= std_logic_vector (to_unsigned (i, 10));
---          o_alphacomp_addr <= std_logic_vector (to_unsigned (i, 10));
-        when s34 => state := s35;
---          addfpsclr_internal <= '0';
---          subfpsclr_internal <= '0';
---          divfpsclr_internal <= '0';
---          mulfpsclr_internal <= '0';
---          sqrtfp2sclr_internal <= '0';
         when s35 =>
           subfpsclr_internal <= '0';
           mulfpce_internal <= '1';
           mulfpa_internal <= i_alphacomp_do;
           mulfpb_internal <= i_alphacomp_do;
           mulfpond_internal <= '1';
-          if (mulfprdy_internal = '1') then state := s36;
-            fttmp1 := mulfpr_internal; -- alphacomp^2
+          if (mulfprdy_internal = '1') then state := s36; -- alphacomp^2
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
@@ -661,24 +648,35 @@ begin
           mulfpsclr_internal <= '0';
         when s37 =>
           mulfpce_internal <= '1';
-          mulfpa_internal <= fttmp1;
+          mulfpa_internal <= mulfpr_internal; -- alphacomp^2
           mulfpb_internal <= i_alphacomp_do;
           mulfpond_internal <= '1';
-          if (mulfprdy_internal = '1') then state := s38;
---            acomp_pow3 := mulfpr_internal; -- alphacomp^3
+          if (mulfprdy_internal = '1') then state := s38; -- alphacomp^3
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
           else state := s37; end if;
-        when s38 => state := s39;
+        when s38 => -- XXX empty state
           mulfpsclr_internal <= '0';
+          
+          subfpce_internal <= '1';
+          subfpa_internal <= mulfpr_internal; -- alphacomp^3
+          subfpb_internal <= x"00000000";
+          subfpond_internal <= '1';
+          if (subfprdy_internal = '1') then state := s39;
+            subfpce_internal <= '0';
+            subfpond_internal <= '0';
+            subfpsclr_internal <= '1';
+          else state := s38; end if;
+          
         when s39 =>
+          subfpsclr_internal <= '0';
+        
           mulfpce_internal <= '1';
           mulfpa_internal <= mulfpr_internal; -- alphacomp^3
           mulfpb_internal <= i_alphacomp_do;
           mulfpond_internal <= '1';
-          if (mulfprdy_internal = '1') then state := s40;
---            acomp_pow4 := mulfpr_internal; -- alphacomp^4
+          if (mulfprdy_internal = '1') then state := s40; -- alphacomp^4
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
@@ -686,38 +684,49 @@ begin
         when s40 => -- XXX empty state
           mulfpsclr_internal <= '0';
           
-          addfpce_internal <= '1';
-          addfpa_internal <= mulfpr_internal;
-          addfpb_internal <= x"00000000";
-          addfpond_internal <= '1';
-          if (addfprdy_internal = '1') then state := s41;
-            addfpce_internal <= '0';
-            addfpond_internal <= '0';
-            addfpsclr_internal <= '1';
+          divfpce_internal <= '1';
+          divfpa_internal <= mulfpr_internal; -- alphacomp^4
+          divfpb_internal <= const1;
+          divfpond_internal <= '1';
+          if (divfprdy_internal = '1') then state := s41;
+            divfpce_internal <= '0';
+            divfpond_internal <= '0';
+            divfpsclr_internal <= '1';
           else state := s40; end if;
           
         when s41 =>
-          addfpsclr_internal <= '0';
+          divfpsclr_internal <= '0';
           
           mulfpce_internal <= '1';
-          mulfpa_internal <= mulfpr_internal; -- alphacomp^3
+          mulfpa_internal <= subfpr_internal; -- alphacomp^3 - s38
           mulfpb_internal <= i_vircompensated_do;
           mulfpond_internal <= '1';
-          if (mulfprdy_internal = '1') then state := s42;
---            fttmp1 := mulfpr_internal; -- alphacomp^3*vircompensated
+          if (mulfprdy_internal = '1') then state := s42; -- alphacomp^3*vircompensated
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
           else state := s41; end if;
-        when s42 => state := s43;
+        when s42 =>
           mulfpsclr_internal <= '0';
+          
+          addfpce_internal <= '1';
+          addfpa_internal <= mulfpr_internal; -- alphacomp^3*vircompensated
+          addfpb_internal <= x"00000000";
+          addfpond_internal <= '1';
+          if (addfprdy_internal = '1') then state := s43;
+            addfpce_internal <= '0';
+            addfpond_internal <= '0';
+            addfpsclr_internal <= '1';
+          else state := s42; end if;
+          
         when s43 =>
+          addfpsclr_internal <= '0';
+          
           mulfpce_internal <= '1';
-          mulfpa_internal <= addfpr_internal; -- alphacomp^4
-          mulfpb_internal <= subfpr_internal; -- tar
+          mulfpa_internal <= divfpr_internal; -- alphacomp^4 - s40
+          mulfpb_internal <= tar; -- tar
           mulfpond_internal <= '1';
-          if (mulfprdy_internal = '1') then state := s44;
---            fttmp2 := mulfpr_internal; -- alphacomp^4*Tar
+          if (mulfprdy_internal = '1') then state := s44; -- alphacomp^4*Tar
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
@@ -726,7 +735,7 @@ begin
           mulfpsclr_internal <= '0';
 
           subfpce_internal <= '1';
-          subfpa_internal <= mulfpr_internal;
+          subfpa_internal <= mulfpr_internal; -- alphacomp^4*Tar
           subfpb_internal <= x"00000000";
           subfpond_internal <= '1';
           if (subfprdy_internal = '1') then state := s45;
@@ -738,11 +747,10 @@ begin
         when s45 =>
           subfpsclr_internal <= '0';
           addfpce_internal <= '1';
-          addfpa_internal <= mulfpr_internal; -- alphacomp^3*vircompensated 
-          addfpb_internal <= subfpr_internal; -- alphacomp^4*Tar
+          addfpa_internal <= mulfpr_internal; -- alphacomp^3*vircompensated - s41
+          addfpb_internal <= subfpr_internal; -- alphacomp^4*Tar - s44
           addfpond_internal <= '1';
-          if (addfprdy_internal = '1') then state := s47;
---            fttmp1 := addfpr_internal; -- (alphacomp^3*vircompensated)+(alphacomp^4*Tar)
+          if (addfprdy_internal = '1') then state := s47; -- (alphacomp^3*vircompensated)+(alphacomp^4*Tar)
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
@@ -750,10 +758,9 @@ begin
         when s47 =>
           addfpsclr_internal <= '0';
           sqrtfp2ce_internal <= '1';
-          sqrtfp2a_internal <= addfpr_internal;
+          sqrtfp2a_internal <= addfpr_internal; -- (alphacomp^3*vircompensated)+(alphacomp^4*Tar)
           sqrtfp2ond_internal <= '1';
-          if (sqrtfp2rdy_internal = '1') then state := s48;
---            fttmp1 := sqrtfp2r_internal; -- sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar))
+          if (sqrtfp2rdy_internal = '1') then state := s48; -- sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar))
             sqrtfp2ce_internal <= '0';
             sqrtfp2ond_internal <= '0';
             sqrtfp2sclr_internal <= '1';
@@ -762,10 +769,9 @@ begin
           sqrtfp2sclr_internal <= '0';
         when s49 =>
           sqrtfp2ce_internal <= '1';
-          sqrtfp2a_internal <= sqrtfp2r_internal;
+          sqrtfp2a_internal <= sqrtfp2r_internal; -- sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar))
           sqrtfp2ond_internal <= '1';
-          if (sqrtfp2rdy_internal = '1') then state := s51;
---            sx := sqrtfp2r_internal; -- sqrt2(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar)))
+          if (sqrtfp2rdy_internal = '1') then state := s51; -- sqrt2(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar)))
             sqrtfp2ce_internal <= '0';
             sqrtfp2ond_internal <= '0';
             sqrtfp2sclr_internal <= '1';
@@ -785,11 +791,10 @@ begin
         when s51a =>
           divfpsclr_internal <= '0';
           mulfpce_internal <= '1';
-          mulfpa_internal <= sqrtfp2r_internal;
-          mulfpb_internal <= divfpr_internal;
+          mulfpa_internal <= sqrtfp2r_internal; -- sqrt2(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar))) - s49
+          mulfpb_internal <= divfpr_internal; -- ksto2 - s51
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s52;
---            sx := mulfpr_internal; -- ksto2*sqrt2(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar)))
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
@@ -797,11 +802,10 @@ begin
         when s52 => -- XXX empty state
           mulfpsclr_internal <= '0';
           addfpce_internal <= '1';
-          addfpa_internal <= mulfpr_internal;
+          addfpa_internal <= mulfpr_internal;  -- ksto2*sqrt2(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar)))
           addfpb_internal <= x"00000000";
           addfpond_internal <= '1';
           if (addfprdy_internal = '1') then state := s53;
---            sx := mulfpr_internal; -- ksto2*sqrt2(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar)))
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
@@ -810,11 +814,10 @@ begin
           addfpsclr_internal <= '0';
 
           mulfpce_internal <= '1';
-          mulfpa_internal <= divfpr_internal;
+          mulfpa_internal <= divfpr_internal; -- ksto2 - s51
           mulfpb_internal <= const27315;
           mulfpond_internal <= '1';
-          if (mulfprdy_internal = '1') then state := s55;
-            fttmp2 := mulfpr_internal; -- ksto2*273.15
+          if (mulfprdy_internal = '1') then state := s55; -- ksto2*273.15
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
@@ -823,10 +826,10 @@ begin
           mulfpsclr_internal <= '0';
           subfpce_internal <= '1';
           subfpa_internal <= const1;
-          subfpb_internal <= fttmp2;
+          subfpb_internal <= mulfpr_internal;
           subfpond_internal <= '1';
-          if (subfprdy_internal = '1') then state := s57;
-            fttmp2 := subfpr_internal; -- 1-ksto2*273.15
+          if (subfprdy_internal = '1') then state := s57; -- 1-ksto2*273.15
+            fttmp2 := subfpr_internal;
             subfpce_internal <= '0';
             subfpond_internal <= '0';
             subfpsclr_internal <= '1';
@@ -835,10 +838,9 @@ begin
           subfpsclr_internal <= '0';
           mulfpce_internal <= '1';
           mulfpa_internal <= i_alphacomp_do;
-          mulfpb_internal <= fttmp2;
+          mulfpb_internal <= subfpr_internal; -- s55
           mulfpond_internal <= '1';
-          if (mulfprdy_internal = '1') then state := s59;
-            fttmp2 := mulfpr_internal; -- alphacomp*(1-ksto2*273.15)
+          if (mulfprdy_internal = '1') then state := s59; -- alphacomp*(1-ksto2*273.15)
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
@@ -846,11 +848,10 @@ begin
         when s59 =>
           mulfpsclr_internal <= '0';
           addfpce_internal <= '1';
-          addfpa_internal <= fttmp2;
-          addfpb_internal <= addfpr_internal;
+          addfpa_internal <= mulfpr_internal; -- s57
+          addfpb_internal <= addfpr_internal; -- s52
           addfpond_internal <= '1';
-          if (addfprdy_internal = '1') then state := s61;
---            fttmp1 := addfpr_internal; -- alphacomp*(1-ksto2*273.15)+sx
+          if (addfprdy_internal = '1') then state := s61; -- alphacomp*(1-ksto2*273.15)+sx
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
@@ -859,10 +860,9 @@ begin
           addfpsclr_internal <= '0';
           divfpce_internal <= '1';
           divfpa_internal <= i_vircompensated_do;
-          divfpb_internal <= addfpr_internal;
+          divfpb_internal <= addfpr_internal; -- s59
           divfpond_internal <= '1';
-          if (divfprdy_internal = '1') then state := s63;
---            fttmp1 := divfpr_internal; -- vircompensated/(alphacomp*(1-ksto2*273.15)+sx)
+          if (divfprdy_internal = '1') then state := s63; -- vircompensated/(alphacomp*(1-ksto2*273.15)+sx)
             divfpce_internal <= '0';
             divfpond_internal <= '0';
             divfpsclr_internal <= '1';
@@ -870,11 +870,10 @@ begin
         when s63 =>
           divfpsclr_internal <= '0';
           addfpce_internal <= '1';
-          addfpa_internal <= divfpr_internal;
+          addfpa_internal <= divfpr_internal; -- s63
           addfpb_internal <= tar;
           addfpond_internal <= '1';
-          if (addfprdy_internal = '1') then state := s65;
---            fttmp1 := addfpr_internal; -- (vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar
+          if (addfprdy_internal = '1') then state := s65; -- (vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
@@ -882,10 +881,9 @@ begin
         when s65 =>
           addfpsclr_internal <= '0';
           sqrtfp2ce_internal <= '1';
-          sqrtfp2a_internal <= addfpr_internal;
+          sqrtfp2a_internal <= addfpr_internal; -- (vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar
           sqrtfp2ond_internal <= '1';
-          if (sqrtfp2rdy_internal = '1') then state := s66;
---            fttmp1 := sqrtfp2r_internal; -- sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar)
+          if (sqrtfp2rdy_internal = '1') then state := s66; -- sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar)
             sqrtfp2ce_internal <= '0';
             sqrtfp2ond_internal <= '0';
             sqrtfp2sclr_internal <= '1';
@@ -894,10 +892,9 @@ begin
           sqrtfp2sclr_internal <= '0';
         when s67 =>
           sqrtfp2ce_internal <= '1';
-          sqrtfp2a_internal <= sqrtfp2r_internal;
+          sqrtfp2a_internal <= sqrtfp2r_internal; -- sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar)
           sqrtfp2ond_internal <= '1';
-          if (sqrtfp2rdy_internal = '1') then state := s69;
---            fttmp1 := sqrtfp2r_internal; -- sqrt2(sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar))
+          if (sqrtfp2rdy_internal = '1') then state := s69; -- sqrt2(sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar))
             sqrtfp2ce_internal <= '0';
             sqrtfp2ond_internal <= '0';
             sqrtfp2sclr_internal <= '1';
@@ -905,7 +902,7 @@ begin
         when s69 =>
           sqrtfp2sclr_internal <= '0';
           subfpce_internal <= '1';
-          subfpa_internal <= sqrtfp2r_internal;
+          subfpa_internal <= sqrtfp2r_internal; -- sqrt2(sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar))
           subfpb_internal <= const27315;
           subfpond_internal <= '1';
           if (subfprdy_internal = '1') then state := s71;

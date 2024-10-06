@@ -4,15 +4,15 @@ Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 Parameter TMPDIR set to xst/projnav.tmp
 
 
-Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.09 secs
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.07 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
-Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.09 secs
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.07 secs
  
 --> 
 Reading design: CalculateTo.prj
@@ -114,7 +114,8 @@ Cores Search Directories           : {"ipcore_dir"  }
 *                          HDL Compilation                              *
 =========================================================================
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/p_fphdl_package3.vhd" in Library work.
-Architecture p_fphdl_package3 of Entity p_fphdl_package3 is up to date.
+Package <p_fphdl_package3> compiled.
+Package body <p_fphdl_package3> compiled.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/mem_signedFF.vhd" in Library work.
 Architecture behavioral of Entity mem_signed256 is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractKsToScaleParameter.vhd" in Library work.
@@ -285,7 +286,7 @@ Analyzing hierarchy for entity <mem_ramb16_s36_x2> in library <work> (architectu
 *                            HDL Analysis                               *
 =========================================================================
 Analyzing Entity <CalculateTo> in library <work> (Architecture <behavioral>).
-WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateTo.vhd" line 959: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
+WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateTo.vhd" line 956: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
 INFO:Xst:2679 - Register <i2c_mem_addra_internal> in unit <CalculateTo> has a constant value of 000001111010 during circuit operation. The register is replaced by logic.
 Entity <CalculateTo> analyzed. Unit <CalculateTo> generated.
 
@@ -807,10 +808,10 @@ Synthesizing Unit <CalculateTo>.
     Register <subfpond_internal> equivalent to <subfpce_internal> has been removed
     Found finite state machine <FSM_1> for signal <state>.
     -----------------------------------------------------------------------
-    | States             | 47                                             |
+    | States             | 45                                             |
     | Transitions        | 84                                             |
     | Inputs             | 8                                              |
-    | Outputs            | 52                                             |
+    | Outputs            | 49                                             |
     | Clock              | i_clock                   (rising_edge)        |
     | Reset              | i_reset                   (positive)           |
     | Reset type         | synchronous                                    |
@@ -832,10 +833,8 @@ Synthesizing Unit <CalculateTo>.
     Found 1-bit register for signal <divfpsclr_internal>.
     Found 1-bit register for signal <ExtractKsToScaleParameter_mux>.
     Found 1-bit register for signal <ExtractKsToScaleParameter_run>.
-    Found 32-bit register for signal <fttmp1>.
-    Found 32-bit register for signal <fttmp2>.
     Found 10-bit register for signal <i>.
-    Found 10-bit adder for signal <i$addsub0000> created at line 930.
+    Found 10-bit adder for signal <i$addsub0000> created at line 927.
     Found 1-bit register for signal <i2c_mem_ena_internal>.
     Found 8-bit register for signal <mem_signed256_ivalue>.
     Found 32-bit register for signal <mulfpa_internal>.
@@ -854,7 +853,7 @@ Synthesizing Unit <CalculateTo>.
     Found 1-bit register for signal <write_enable>.
     Summary:
 	inferred   1 Finite State Machine(s).
-	inferred 469 D-type flip-flop(s).
+	inferred 405 D-type flip-flop(s).
 	inferred   1 Adder/Subtractor(s).
 Unit <CalculateTo> synthesized.
 
@@ -865,11 +864,11 @@ HDL Synthesis Report
 Macro Statistics
 # Adders/Subtractors                                   : 1
  10-bit adder                                          : 1
-# Registers                                            : 39
+# Registers                                            : 37
  1-bit register                                        : 19
  10-bit register                                       : 3
  12-bit register                                       : 1
- 32-bit register                                       : 14
+ 32-bit register                                       : 12
  8-bit register                                        : 1
  9-bit register                                        : 1
 # Multiplexers                                         : 1
@@ -882,58 +881,56 @@ Macro Statistics
 =========================================================================
 
 Analyzing FSM <FSM_1> for best encoding.
-Optimizing FSM <state/FSM> on signal <state[1:47]> with one-hot encoding.
------------------------------------------------------------
+Optimizing FSM <state/FSM> on signal <state[1:45]> with one-hot encoding.
+---------------------------------------------------------
  State  | Encoding
------------------------------------------------------------
- 000000 | 00000000000000000000000000000000000000000000001
- 000001 | 00000000000000000000000000000000000000000000010
- 000010 | 00000000000000000000000000000000000000000000100
- 000011 | 00000000000000000000000000000000000000000001000
- 000100 | 00000000000000000000000000000000000000000010000
- 000101 | 00000000000000000000000000000000000000000100000
- 000110 | 00000000000000000000000000000000000000001000000
- 000111 | 00000000000000000000000000000000000000010000000
- 001000 | 00000000000000000000000000000000000000100000000
- 001001 | 00000000000000000000000000000000000001000000000
- 001010 | 00000000000000000000000000000000000010000000000
- 001011 | 00000000000000000000000000000000000100000000000
- 001100 | 00000000000000000000000000000000001000000000000
- 001101 | 00000000000000000000000000000000010000000000000
- 001110 | 00000000000000000000000000000000100000000000000
- 001111 | 00000000000000000000000000000001000000000000000
- 010000 | 00000000000000000000000000000010000000000000000
- 010001 | 00000000000000000000000000000100000000000000000
- 010010 | 00000000000000000000000000001000000000000000000
- 010011 | 00000000000000000000000000010000000000000000000
- 010100 | 00000000000000000000000000100000000000000000000
- 010101 | 00000000000000000000000001000000000000000000000
- 010110 | 00000000000000000000000010000000000000000000000
- 010111 | 00000000000000000000000100000000000000000000000
- 011000 | 00000000000000000000001000000000000000000000000
- 011001 | 00000000000000000000010000000000000000000000000
- 011010 | 00000000000000000000100000000000000000000000000
- 011011 | 00000000000000000001000000000000000000000000000
- 011100 | 00000000000000000010000000000000000000000000000
- 011101 | 00000000000000000100000000000000000000000000000
- 011110 | 00000000000000001000000000000000000000000000000
- 011111 | 00000000000000010000000000000000000000000000000
- 100000 | 00000000000000100000000000000000000000000000000
- 100001 | 00000000000001000000000000000000000000000000000
- 100010 | 00000000000010000000000000000000000000000000000
- 100011 | 00000000000100000000000000000000000000000000000
- 100100 | 00000000001000000000000000000000000000000000000
- 100101 | 00000000010000000000000000000000000000000000000
- 100110 | 00000000100000000000000000000000000000000000000
- 100111 | 00000001000000000000000000000000000000000000000
- 101000 | 00000010000000000000000000000000000000000000000
- 101001 | 00000100000000000000000000000000000000000000000
- 101010 | 00001000000000000000000000000000000000000000000
- 101011 | 00010000000000000000000000000000000000000000000
- 101100 | 00100000000000000000000000000000000000000000000
- 101101 | 01000000000000000000000000000000000000000000000
- 101110 | 10000000000000000000000000000000000000000000000
------------------------------------------------------------
+---------------------------------------------------------
+ 000000 | 000000000000000000000000000000000000000000001
+ 000001 | 000000000000000000000000000000000000000000010
+ 000010 | 000000000000000000000000000000000000000000100
+ 000011 | 000000000000000000000000000000000000000001000
+ 000100 | 000000000000000000000000000000000000000010000
+ 000101 | 000000000000000000000000000000000000000100000
+ 000110 | 000000000000000000000000000000000000001000000
+ 000111 | 000000000000000000000000000000000000010000000
+ 001000 | 000000000000000000000000000000000000100000000
+ 001001 | 000000000000000000000000000000000001000000000
+ 001010 | 000000000000000000000000000000000010000000000
+ 001011 | 000000000000000000000000000000000100000000000
+ 001100 | 000000000000000000000000000000001000000000000
+ 001101 | 000000000000000000000000000000010000000000000
+ 001110 | 000000000000000000000000000000100000000000000
+ 001111 | 000000000000000000000000000001000000000000000
+ 010000 | 000000000000000000000000000010000000000000000
+ 010001 | 000000000000000000000000000100000000000000000
+ 010010 | 000000000000000000000000001000000000000000000
+ 010011 | 000000000000000000000000010000000000000000000
+ 010100 | 000000000000000000000000100000000000000000000
+ 010101 | 000000000000000000000001000000000000000000000
+ 010110 | 000000000000000000000010000000000000000000000
+ 010111 | 000000000000000000000100000000000000000000000
+ 011000 | 000000000000000000001000000000000000000000000
+ 011001 | 000000000000000000010000000000000000000000000
+ 011010 | 000000000000000000100000000000000000000000000
+ 011011 | 000000000000000001000000000000000000000000000
+ 011100 | 000000000000000010000000000000000000000000000
+ 011101 | 000000000000000100000000000000000000000000000
+ 011110 | 000000000000001000000000000000000000000000000
+ 011111 | 000000000000010000000000000000000000000000000
+ 100000 | 000000000000100000000000000000000000000000000
+ 100001 | 000000000001000000000000000000000000000000000
+ 100010 | 000000000010000000000000000000000000000000000
+ 100011 | 000000000100000000000000000000000000000000000
+ 100100 | 000000001000000000000000000000000000000000000
+ 100101 | 000000010000000000000000000000000000000000000
+ 100110 | 000000100000000000000000000000000000000000000
+ 100111 | 000001000000000000000000000000000000000000000
+ 101000 | 000010000000000000000000000000000000000000000
+ 101001 | 000100000000000000000000000000000000000000000
+ 101010 | 001000000000000000000000000000000000000000000
+ 101011 | 010000000000000000000000000000000000000000000
+ 101100 | 100000000000000000000000000000000000000000000
+---------------------------------------------------------
 Analyzing FSM <FSM_0> for best encoding.
 Optimizing FSM <inst_ExtractKsToScaleParameter/state/FSM> on signal <state[1:5]> with one-hot encoding.
 -------------------
@@ -962,8 +959,8 @@ Macro Statistics
 # FSMs                                                 : 2
 # Adders/Subtractors                                   : 1
  10-bit adder                                          : 1
-# Registers                                            : 521
- Flip-Flops                                            : 521
+# Registers                                            : 457
+ Flip-Flops                                            : 457
 # Multiplexers                                         : 1
  32-bit 4-to-1 multiplexer                             : 1
 
@@ -991,23 +988,19 @@ Optimizing unit <mem_ramb16_s36_x2> ...
 
 Mapping all equations...
 Building and optimizing final netlist ...
-Found area constraint ratio of 100 (+ 5) on block CalculateTo, actual ratio is 5.
+Found area constraint ratio of 100 (+ 5) on block CalculateTo, actual ratio is 4.
 FlipFlop state_FSM_FFd10 has been replicated 1 time(s)
-FlipFlop state_FSM_FFd11 has been replicated 1 time(s)
-FlipFlop state_FSM_FFd12 has been replicated 1 time(s)
 FlipFlop state_FSM_FFd13 has been replicated 1 time(s)
-FlipFlop state_FSM_FFd14 has been replicated 1 time(s)
 FlipFlop state_FSM_FFd18 has been replicated 1 time(s)
-FlipFlop state_FSM_FFd2 has been replicated 1 time(s)
 FlipFlop state_FSM_FFd20 has been replicated 1 time(s)
 FlipFlop state_FSM_FFd22 has been replicated 1 time(s)
-FlipFlop state_FSM_FFd23 has been replicated 1 time(s)
-FlipFlop state_FSM_FFd31 has been replicated 1 time(s)
-FlipFlop state_FSM_FFd33 has been replicated 1 time(s)
-FlipFlop state_FSM_FFd44 has been replicated 1 time(s)
-FlipFlop state_FSM_FFd6 has been replicated 2 time(s)
-FlipFlop state_FSM_FFd7 has been replicated 3 time(s)
-FlipFlop state_FSM_FFd8 has been replicated 1 time(s)
+FlipFlop state_FSM_FFd28 has been replicated 1 time(s)
+FlipFlop state_FSM_FFd29 has been replicated 1 time(s)
+FlipFlop state_FSM_FFd30 has been replicated 1 time(s)
+FlipFlop state_FSM_FFd35 has been replicated 1 time(s)
+FlipFlop state_FSM_FFd41 has been replicated 1 time(s)
+FlipFlop state_FSM_FFd6 has been replicated 1 time(s)
+FlipFlop state_FSM_FFd7 has been replicated 1 time(s)
 FlipFlop state_FSM_FFd9 has been replicated 1 time(s)
 
 Final Macro Processing ...
@@ -1016,8 +1009,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 582
- Flip-Flops                                            : 582
+# Registers                                            : 509
+ Flip-Flops                                            : 509
 
 =========================================================================
 
@@ -1046,26 +1039,27 @@ Design Statistics
 # IOs                              : 651
 
 Cell Usage :
-# BELS                             : 1284
+# BELS                             : 1169
 #      GND                         : 1
 #      INV                         : 2
-#      LUT2                        : 146
-#      LUT2_D                      : 6
+#      LUT2                        : 109
+#      LUT2_D                      : 4
 #      LUT2_L                      : 9
-#      LUT3                        : 175
-#      LUT3_D                      : 12
-#      LUT3_L                      : 15
-#      LUT4                        : 669
-#      LUT4_D                      : 22
-#      LUT4_L                      : 193
-#      MUXF5                       : 33
+#      LUT3                        : 138
+#      LUT3_D                      : 3
+#      LUT3_L                      : 17
+#      LUT4                        : 665
+#      LUT4_D                      : 15
+#      LUT4_L                      : 166
+#      MUXCY                       : 5
+#      MUXF5                       : 34
 #      VCC                         : 1
-# FlipFlops/Latches                : 582
-#      FDE                         : 149
-#      FDR                         : 108
+# FlipFlops/Latches                : 509
+#      FDE                         : 85
+#      FDR                         : 107
 #      FDRE                        : 14
-#      FDRS                        : 291
-#      FDRSE                       : 13
+#      FDRS                        : 290
+#      FDRSE                       : 6
 #      FDS                         : 7
 # RAMS                             : 4
 #      RAMB16                      : 4
@@ -1081,9 +1075,9 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                      686  out of  15360     4%  
- Number of Slice Flip Flops:            582  out of  30720     1%  
- Number of 4 input LUTs:               1249  out of  30720     4%  
+ Number of Slices:                      624  out of  15360     4%  
+ Number of Slice Flip Flops:            509  out of  30720     1%  
+ Number of 4 input LUTs:               1128  out of  30720     3%  
  Number of IOs:                         651
  Number of bonded IOBs:                 651  out of    448   145% (*) 
  Number of FIFO16/RAMB16s:                4  out of    192     2%  
@@ -1113,7 +1107,7 @@ Clock Information:
 -----------------------------------+------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)  | Load  |
 -----------------------------------+------------------------+-------+
-i_clock                            | IBUF+BUFG              | 586   |
+i_clock                            | IBUF+BUFG              | 513   |
 -----------------------------------+------------------------+-------+
 
 Asynchronous Control Signals Information:
@@ -1124,8 +1118,8 @@ Timing Summary:
 ---------------
 Speed Grade: -10
 
-   Minimum period: 4.973ns (Maximum Frequency: 201.103MHz)
-   Minimum input arrival time before clock: 5.415ns
+   Minimum period: 6.097ns (Maximum Frequency: 164.015MHz)
+   Minimum input arrival time before clock: 5.376ns
    Maximum output required time after clock: 7.674ns
    Maximum combinational path delay: No path found
 
@@ -1135,35 +1129,35 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 4.973ns (frequency: 201.103MHz)
-  Total number of paths / destination ports: 17336 / 999
+  Clock period: 6.097ns (frequency: 164.015MHz)
+  Total number of paths / destination ports: 14867 / 925
 -------------------------------------------------------------------------
-Delay:               4.973ns (Levels of Logic = 5)
-  Source:            state_FSM_FFd45 (FF)
+Delay:               6.097ns (Levels of Logic = 5)
+  Source:            state_FSM_FFd28_1 (FF)
   Destination:       sqrtfp2a_internal_0 (FF)
   Source Clock:      i_clock rising
   Destination Clock: i_clock rising
 
-  Data Path: state_FSM_FFd45 to sqrtfp2a_internal_0
+  Data Path: state_FSM_FFd28_1 to sqrtfp2a_internal_0
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDRS:C->Q            18   0.360   0.756  state_FSM_FFd45 (state_FSM_FFd45)
-     LUT4:I3->O            1   0.195   0.523  addfpa_internal_mux0000<0>11_SW0 (N287)
-     LUT4:I3->O            2   0.195   0.705  mulfpce_internal_mux00001_SW1 (N3611)
-     LUT4_D:I1->O          2   0.195   0.540  addfpa_internal_mux0000<0>11_1 (addfpa_internal_mux0000<0>111)
-     LUT4_D:I3->O         32   0.195   1.091  sqrtfp2a_internal_mux0000<0>11 (N5)
-     LUT2:I1->O            1   0.195   0.000  sqrtfp2a_internal_mux0000<3>1 (sqrtfp2a_internal_mux0000<3>1)
-     FDRS:D                    0.022          sqrtfp2a_internal_3
+     FDR:C->Q              1   0.360   0.741  state_FSM_FFd28_1 (state_FSM_FFd28_1)
+     LUT4:I0->O            1   0.195   0.741  subfpsclr_internal_mux00001213_SW1 (N317)
+     LUT4:I0->O            1   0.195   0.000  ExtractKsToScaleParameter_mux_mux0000111_wg_lut<4> (ExtractKsToScaleParameter_mux_mux0000111_wg_lut<4>)
+     MUXCY:S->O            8   0.691   0.608  ExtractKsToScaleParameter_mux_mux0000111_wg_cy<4> (ExtractKsToScaleParameter_mux_mux0000111_wg_cy<4>)
+     LUT4_D:I3->O         15   0.195   0.754  sqrtfp2a_internal_mux0000<0>11_1 (sqrtfp2a_internal_mux0000<0>11)
+     LUT4:I3->O            1   0.195   0.360  sqrtfp2a_internal_mux0000<24>_SW0 (N277)
+     FDRS:S                    1.062          sqrtfp2a_internal_24
     ----------------------------------------
-    Total                      4.973ns (1.357ns logic, 3.616ns route)
-                                       (27.3% logic, 72.7% route)
+    Total                      6.097ns (2.893ns logic, 3.204ns route)
+                                       (47.4% logic, 52.6% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 1974 / 1226
+  Total number of paths / destination ports: 1733 / 1141
 -------------------------------------------------------------------------
-Offset:              5.415ns (Levels of Logic = 2)
+Offset:              5.376ns (Levels of Logic = 2)
   Source:            i_reset (PAD)
   Destination:       dia_0 (FF)
   Destination Clock: i_clock rising
@@ -1172,12 +1166,12 @@ Offset:              5.415ns (Levels of Logic = 2)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           440   0.965   2.748  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O           430   0.965   2.709  i_reset_IBUF (i_reset_IBUF)
      LUT3:I1->O           42   0.195   0.967  dia_not00011 (dia_not0001)
      FDE:CE                    0.540          dia_0
     ----------------------------------------
-    Total                      5.415ns (1.700ns logic, 3.715ns route)
-                                       (31.4% logic, 68.6% route)
+    Total                      5.376ns (1.700ns logic, 3.676ns route)
+                                       (31.6% logic, 68.4% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
@@ -1203,13 +1197,13 @@ Offset:              7.674ns (Levels of Logic = 3)
 =========================================================================
 
 
-Total REAL time to Xst completion: 34.00 secs
-Total CPU time to Xst completion: 31.01 secs
+Total REAL time to Xst completion: 26.00 secs
+Total CPU time to Xst completion: 23.83 secs
  
 --> 
 
 
-Total memory usage is 612680 kilobytes
+Total memory usage is 604304 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :   18 (   0 filtered)
