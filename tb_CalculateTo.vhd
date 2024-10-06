@@ -513,7 +513,7 @@ report "before loop";
         CalculateTo_alphacomp_do <= datao_ac.last(k).a;
       end if;
     end loop;
-    wait for 6.150us; -- XXX wait for AlphaComp and VirCompensated Addr MEM
+    wait for 6.580us; -- XXX wait for AlphaComp and VirCompensated Addr MEM
   end loop;
 report "after loop";
 wait until CalculateTo_rdy = '1';
