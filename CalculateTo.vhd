@@ -423,7 +423,7 @@ p0 : process (i_clock) is
 	s51,s51a,s52,s53,s55,s57,s59,
 	s61,s63,s65,s66,s67,s69,s71);
 	variable state : states;
-	variable fttmp2,tar : std_logic_vector (31 downto 0);
+	variable tar : std_logic_vector (31 downto 0);
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -829,7 +829,6 @@ begin
           subfpb_internal <= mulfpr_internal;
           subfpond_internal <= '1';
           if (subfprdy_internal = '1') then state := s57; -- 1-ksto2*273.15
-            fttmp2 := subfpr_internal;
             subfpce_internal <= '0';
             subfpond_internal <= '0';
             subfpsclr_internal <= '1';

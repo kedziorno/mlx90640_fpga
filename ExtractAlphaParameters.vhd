@@ -350,7 +350,7 @@ p0 : process (i_clock) is
 	variable i : integer range 0 to (C_ROW*C_COL)-1;
   variable m : integer range 0 to 31 := 0;
   variable n : integer range 0 to 55 := 0;
-  variable j : integer range 0 to 15 := 0;
+  variable j : integer range 0 to 13 := 0;
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then

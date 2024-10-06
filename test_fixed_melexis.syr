@@ -2256,7 +2256,7 @@ INFO:Xst:2679 - Register <o_rdy> in unit <ExtractKsTaParameters> has a constant 
 Entity <ExtractKsTaParameters> analyzed. Unit <ExtractKsTaParameters> generated.
 
 Analyzing Entity <CalculateTo> in library <work> (Architecture <behavioral>).
-WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateTo.vhd" line 956: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
+WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateTo.vhd" line 955: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
 INFO:Xst:2679 - Register <i2c_mem_addra_internal> in unit <CalculateTo> has a constant value of 000001111010 during circuit operation. The register is replaced by logic.
 Entity <CalculateTo> analyzed. Unit <CalculateTo> generated.
 
@@ -2835,7 +2835,7 @@ Synthesizing Unit <CalculateTo>.
     Found 1-bit register for signal <ExtractKsToScaleParameter_mux>.
     Found 1-bit register for signal <ExtractKsToScaleParameter_run>.
     Found 10-bit register for signal <i>.
-    Found 10-bit adder for signal <i$addsub0000> created at line 927.
+    Found 10-bit adder for signal <i$addsub0000> created at line 926.
     Found 1-bit register for signal <i2c_mem_ena_internal>.
     Found 8-bit register for signal <mem_signed256_ivalue>.
     Found 32-bit register for signal <mulfpa_internal>.
@@ -2968,11 +2968,11 @@ Synthesizing Unit <ExtractOffsetParameters>.
     Found 10-bit register for signal <i>.
     Found 10-bit adder for signal <i$share0000> created at line 348.
     Found 7-bit adder for signal <i2c_mem_addra$add0000> created at line 362.
+    Found 6-bit adder for signal <i2c_mem_addra$add0001> created at line 373.
     Found 11-bit adder for signal <i2c_mem_addra$add0002> created at line 409.
     Found 6-bit adder for signal <i2c_mem_addra$addsub0000> created at line 373.
     Found 6-bit adder for signal <i2c_mem_addra$addsub0001> created at line 362.
-    Found 6-bit adder carry out for signal <i2c_mem_addra$addsub0003> created at line 373.
-    Found 6-bit adder carry out for signal <i2c_mem_addra$addsub0004> created at line 362.
+    Found 6-bit adder carry out for signal <i2c_mem_addra$addsub0003> created at line 362.
     Found 5-bit register for signal <m>.
     Found 32-bit register for signal <mulfpa_internal>.
     Found 32-bit register for signal <mulfpb_internal>.
@@ -3448,8 +3448,8 @@ Macro Statistics
  4-bit adder                                           : 1
  5-bit adder                                           : 2
  5-bit adder carry out                                 : 2
- 6-bit adder                                           : 8
- 6-bit adder carry out                                 : 2
+ 6-bit adder                                           : 9
+ 6-bit adder carry out                                 : 1
  7-bit adder                                           : 2
  7-bit adder carry out                                 : 1
 # Counters                                             : 9
@@ -4315,8 +4315,8 @@ Macro Statistics
  4-bit adder                                           : 1
  5-bit adder                                           : 2
  5-bit adder carry out                                 : 2
- 6-bit adder                                           : 8
- 6-bit adder carry out                                 : 2
+ 6-bit adder                                           : 9
+ 6-bit adder carry out                                 : 1
  7-bit adder                                           : 2
  7-bit adder carry out                                 : 1
 # Counters                                             : 9
@@ -5081,7 +5081,7 @@ Design Statistics
 # IOs                              : 67
 
 Cell Usage :
-# BELS                             : 18904
+# BELS                             : 18900
 #      BUF                         : 13
 #      GND                         : 8
 #      INV                         : 118
@@ -5089,7 +5089,7 @@ Cell Usage :
 #      LUT2                        : 2978
 #      LUT2_D                      : 7
 #      LUT2_L                      : 10
-#      LUT3                        : 3394
+#      LUT3                        : 3391
 #      LUT3_D                      : 124
 #      LUT3_L                      : 172
 #      LUT4                        : 6699
@@ -5097,7 +5097,7 @@ Cell Usage :
 #      LUT4_L                      : 349
 #      MULT_AND                    : 225
 #      MUXCY                       : 2137
-#      MUXF5                       : 565
+#      MUXF5                       : 564
 #      MUXF6                       : 19
 #      MUXF7                       : 2
 #      VCC                         : 7
@@ -5127,10 +5127,10 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                     8384  out of  15360    54%  
+ Number of Slices:                     8383  out of  15360    54%  
  Number of Slice Flip Flops:           9051  out of  30720    29%  
- Number of 4 input LUTs:              14244  out of  30720    46%  
-    Number used as logic:             14000
+ Number of 4 input LUTs:              14241  out of  30720    46%  
+    Number used as logic:             13997
     Number used as Shift registers:     244
  Number of IOs:                          67
  Number of bonded IOBs:                  67  out of    448    14%  
@@ -5186,7 +5186,7 @@ All values displayed in nanoseconds (ns)
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
   Clock period: 11.957ns (frequency: 83.636MHz)
-  Total number of paths / destination ports: 490666 / 18819
+  Total number of paths / destination ports: 490659 / 18819
 -------------------------------------------------------------------------
 Delay:               11.957ns (Levels of Logic = 7)
   Source:            CalculateAlphaCP_mux (FF)
@@ -5201,7 +5201,7 @@ Delay:               11.957ns (Levels of Logic = 7)
      FDE:C->Q            244   0.360   1.982  CalculateAlphaCP_mux (CalculateAlphaCP_mux)
      LUT2_D:I0->O         48   0.195   1.215  mulfpa<0>152 (N306)
      LUT4:I2->O            2   0.195   0.540  divfpond36 (divfpce36)
-     LUT3:I2->O            1   0.195   0.523  divfpce46_SW0 (N2799)
+     LUT3:I2->O            1   0.195   0.523  divfpce46_SW0 (N2801)
      LUT4_L:I3->LO         1   0.195   0.163  divfpce46 (divfpce46)
      LUT4:I3->O          472   0.195   2.648  divfpce106 (divfpce)
      begin scope: 'inst_divfp'
@@ -5246,11 +5246,11 @@ Offset:              11.465ns (Levels of Logic = 7)
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
      FDE:C->Q            451   0.360   2.894  CalculateTo_mux (CalculateTo_mux)
-     LUT4:I1->O            1   0.195   0.585  i2c_mem_ena138_SW0_SW0 (N4013)
-     LUT4:I2->O            1   0.195   0.523  i2c_mem_ena138_SW0 (N3273)
+     LUT4:I1->O            1   0.195   0.585  i2c_mem_ena138_SW0_SW0 (N4015)
+     LUT4:I2->O            1   0.195   0.523  i2c_mem_ena138_SW0 (N3275)
      LUT4:I3->O            1   0.195   0.688  i2c_mem_ena138 (i2c_mem_ena138)
      LUT4:I1->O            1   0.195   0.741  i2c_mem_ena192 (i2c_mem_ena192)
-     LUT4:I0->O            1   0.195   0.000  i2c_mem_ena218_F (N4801)
+     LUT4:I0->O            1   0.195   0.000  i2c_mem_ena218_F (N4803)
      MUXF5:I0->O           1   0.382   0.360  i2c_mem_ena218 (i2c_mem_ena_OBUF)
      OBUF:I->O                 3.957          i2c_mem_ena_OBUF (i2c_mem_ena)
     ----------------------------------------
@@ -5260,13 +5260,13 @@ Offset:              11.465ns (Levels of Logic = 7)
 =========================================================================
 
 
-Total REAL time to Xst completion: 268.00 secs
-Total CPU time to Xst completion: 251.42 secs
+Total REAL time to Xst completion: 311.00 secs
+Total CPU time to Xst completion: 261.17 secs
  
 --> 
 
 
-Total memory usage is 1054812 kilobytes
+Total memory usage is 1056176 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :  933 (   0 filtered)

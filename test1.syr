@@ -5,14 +5,14 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.10 secs
+Total CPU time to Xst completion: 0.06 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.10 secs
+Total CPU time to Xst completion: 0.06 secs
  
 --> 
 Reading design: test1.prj
@@ -140,7 +140,8 @@ Architecture behavioral of Entity mem_signed1024 is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculatePixGain.vhd" in Library work.
 Architecture behavioral of Entity calculatepixgain is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractOffsetParameters.vhd" in Library work.
-Architecture behavioral of Entity extractoffsetparameters is up to date.
+Entity <extractoffsetparameters> compiled.
+Entity <extractoffsetparameters> (Architecture <behavioral>) compiled.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractKtaParameters.vhd" in Library work.
 Architecture behavioral of Entity extractktaparameters is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractKvParameters.vhd" in Library work.
@@ -158,9 +159,11 @@ Architecture behavioral of Entity calculatevdd is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateTa.vhd" in Library work.
 Architecture behavioral of Entity calculateta is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractAlphaParameters.vhd" in Library work.
-Architecture behavioral of Entity extractalphaparameters is up to date.
+Entity <extractalphaparameters> compiled.
+Entity <extractalphaparameters> (Architecture <behavioral>) compiled.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateAlphaCP.vhd" in Library work.
-Architecture behavioral of Entity calculatealphacp is up to date.
+Entity <calculatealphacp> compiled.
+Entity <calculatealphacp> (Architecture <behavioral>) compiled.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculatePixOS.vhd" in Library work.
 Architecture behavioral of Entity calculatepixos is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculatePixOsCPSP.vhd" in Library work.
@@ -2287,7 +2290,7 @@ INFO:Xst:2679 - Register <o_rdy> in unit <ExtractKsTaParameters> has a constant 
 Entity <ExtractKsTaParameters> analyzed. Unit <ExtractKsTaParameters> generated.
 
 Analyzing Entity <CalculateTo> in library <work> (Architecture <behavioral>).
-WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateTo.vhd" line 956: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
+WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateTo.vhd" line 955: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
 INFO:Xst:2679 - Register <i2c_mem_addra_internal> in unit <CalculateTo> has a constant value of 000001111010 during circuit operation. The register is replaced by logic.
 Entity <CalculateTo> analyzed. Unit <CalculateTo> generated.
 
@@ -2959,7 +2962,7 @@ Synthesizing Unit <CalculateTo>.
     Found 1-bit register for signal <ExtractKsToScaleParameter_mux>.
     Found 1-bit register for signal <ExtractKsToScaleParameter_run>.
     Found 10-bit register for signal <i>.
-    Found 10-bit adder for signal <i$addsub0000> created at line 927.
+    Found 10-bit adder for signal <i$addsub0000> created at line 926.
     Found 1-bit register for signal <i2c_mem_ena_internal>.
     Found 8-bit register for signal <mem_signed256_ivalue>.
     Found 32-bit register for signal <mulfpa_internal>.
@@ -3092,11 +3095,11 @@ Synthesizing Unit <ExtractOffsetParameters>.
     Found 10-bit register for signal <i>.
     Found 10-bit adder for signal <i$share0000> created at line 348.
     Found 7-bit adder for signal <i2c_mem_addra$add0000> created at line 362.
+    Found 6-bit adder for signal <i2c_mem_addra$add0001> created at line 373.
     Found 11-bit adder for signal <i2c_mem_addra$add0002> created at line 409.
     Found 6-bit adder for signal <i2c_mem_addra$addsub0000> created at line 373.
     Found 6-bit adder for signal <i2c_mem_addra$addsub0001> created at line 362.
-    Found 6-bit adder carry out for signal <i2c_mem_addra$addsub0003> created at line 373.
-    Found 6-bit adder carry out for signal <i2c_mem_addra$addsub0004> created at line 362.
+    Found 6-bit adder carry out for signal <i2c_mem_addra$addsub0003> created at line 362.
     Found 5-bit register for signal <m>.
     Found 32-bit register for signal <mulfpa_internal>.
     Found 32-bit register for signal <mulfpb_internal>.
@@ -3620,8 +3623,8 @@ Macro Statistics
  4-bit adder                                           : 1
  5-bit adder                                           : 4
  5-bit adder carry out                                 : 2
- 6-bit adder                                           : 8
- 6-bit adder carry out                                 : 2
+ 6-bit adder                                           : 9
+ 6-bit adder carry out                                 : 1
  7-bit adder                                           : 2
  7-bit adder carry out                                 : 1
  8-bit adder                                           : 1
@@ -4548,8 +4551,8 @@ Macro Statistics
  4-bit adder                                           : 1
  5-bit adder                                           : 4
  5-bit adder carry out                                 : 2
- 6-bit adder                                           : 8
- 6-bit adder carry out                                 : 2
+ 6-bit adder                                           : 9
+ 6-bit adder carry out                                 : 1
  7-bit adder                                           : 2
  7-bit adder carry out                                 : 1
  8-bit adder                                           : 1
@@ -5347,20 +5350,20 @@ Design Statistics
 # IOs                              : 32
 
 Cell Usage :
-# BELS                             : 19920
+# BELS                             : 19917
 #      BUF                         : 13
 #      GND                         : 11
 #      INV                         : 127
 #      LUT1                        : 149
-#      LUT2                        : 3110
+#      LUT2                        : 3111
 #      LUT2_D                      : 9
 #      LUT2_L                      : 11
-#      LUT3                        : 3754
+#      LUT3                        : 3749
 #      LUT3_D                      : 125
-#      LUT3_L                      : 184
-#      LUT4                        : 6868
+#      LUT3_L                      : 186
+#      LUT4                        : 6869
 #      LUT4_D                      : 43
-#      LUT4_L                      : 341
+#      LUT4_L                      : 339
 #      MULT_AND                    : 225
 #      MUXCY                       : 2261
 #      MUXF5                       : 615
@@ -5393,10 +5396,10 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                     8802  out of  15360    57%  
+ Number of Slices:                     8801  out of  15360    57%  
  Number of Slice Flip Flops:           9674  out of  30720    31%  
- Number of 4 input LUTs:              14972  out of  30720    48%  
-    Number used as logic:             14721
+ Number of 4 input LUTs:              14969  out of  30720    48%  
+    Number used as logic:             14718
     Number used as Shift registers:     251
  Number of IOs:                          32
  Number of bonded IOBs:                  32  out of    448     7%  
@@ -5458,7 +5461,7 @@ All values displayed in nanoseconds (ns)
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
   Clock period: 11.949ns (frequency: 83.690MHz)
-  Total number of paths / destination ports: 501518 / 19930
+  Total number of paths / destination ports: 501514 / 19930
 -------------------------------------------------------------------------
 Delay:               11.949ns (Levels of Logic = 7)
   Source:            tfm_inst/CalculateAlphaCP_mux (FF)
@@ -5665,13 +5668,13 @@ Offset:              7.150ns (Levels of Logic = 3)
 =========================================================================
 
 
-Total REAL time to Xst completion: 336.00 secs
-Total CPU time to Xst completion: 300.36 secs
+Total REAL time to Xst completion: 353.00 secs
+Total CPU time to Xst completion: 300.80 secs
  
 --> 
 
 
-Total memory usage is 1072000 kilobytes
+Total memory usage is 1072808 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :  997 (   0 filtered)

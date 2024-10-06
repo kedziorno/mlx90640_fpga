@@ -319,7 +319,7 @@ p0 : process (i_clock) is
 	variable col : integer range 0 to C_COL-1;
 	variable row : integer range 0 to C_ROW-1;
 	variable i : integer range 0 to (C_ROW*C_COL)-1;
-  variable m : integer range 0 to 31 := 0;
+  variable m : integer range 0 to 27 := 0;
   variable n : integer range 0 to 55 := 0;
 begin
 	if (rising_edge (i_clock)) then
