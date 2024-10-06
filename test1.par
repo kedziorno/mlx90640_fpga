@@ -1,7 +1,7 @@
 Release 14.7 par P.20131013 (lin64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-work::  Sun Oct 06 18:18:14 2024
+work::  Sun Oct 06 20:59:03 2024
 
 par -w -intstyle ise -pl std -rl std -t 1 test1_map.ncd test1.ncd test1.pcf 
 
@@ -31,43 +31,43 @@ Device Utilization Summary:
       Number of LOCed IOBs                  20 out of 32     62%
 
    Number of RAMB16s                        41 out of 192    21%
-   Number of Slices                       9982 out of 15360  64%
-      Number of SLICEMs                    205 out of 7680    2%
+   Number of Slices                       8715 out of 15360  56%
+      Number of SLICEMs                    191 out of 7680    2%
 
 
 
 Overall effort level (-ol):   Not applicable because -pl and -rl switches are used
 Router effort level (-rl):    Standard 
 
-Starting initial Timing Analysis.  REAL time: 18 secs 
-Finished initial Timing Analysis.  REAL time: 19 secs 
+Starting initial Timing Analysis.  REAL time: 25 secs 
+Finished initial Timing Analysis.  REAL time: 27 secs 
 
 Starting Router
 
 
-Phase  1  : 73314 unrouted;      REAL time: 21 secs 
+Phase  1  : 72129 unrouted;      REAL time: 29 secs 
 
-Phase  2  : 63569 unrouted;      REAL time: 22 secs 
+Phase  2  : 62855 unrouted;      REAL time: 30 secs 
 
-Phase  3  : 25790 unrouted;      REAL time: 35 secs 
+Phase  3  : 28118 unrouted;      REAL time: 47 secs 
 
-Phase  4  : 26031 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 2 secs 
+Phase  4  : 28224 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 6 secs 
 
 Updating file: test1.ncd with current fully routed design.
 
-Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 29 secs 
+Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 43 secs 
 
-Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 29 secs 
+Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 43 secs 
 
-Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 29 secs 
+Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 43 secs 
 
-Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 29 secs 
+Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 43 secs 
 
-Phase  9  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 29 secs 
+Phase  9  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 43 secs 
 
-Phase 10  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 35 secs 
-Total REAL time to Router completion: 1 mins 35 secs 
-Total CPU time to Router completion: 1 mins 31 secs 
+Phase 10  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 50 secs 
+Total REAL time to Router completion: 1 mins 50 secs 
+Total CPU time to Router completion: 1 mins 39 secs 
 
 Partition Implementation Status
 -------------------------------
@@ -85,11 +85,11 @@ Generating Clock Report
 +---------------------+--------------+------+------+------------+-------------+
 |        Clock Net    |   Resource   |Locked|Fanout|Net Skew(ns)|Max Delay(ns)|
 +---------------------+--------------+------+------+------------+-------------+
-|        i_clock_IBUF | BUFGCTRL_X0Y0| No   | 7515 |  0.606     |  3.160      |
+|        i_clock_IBUF | BUFGCTRL_X0Y0| No   | 7043 |  0.624     |  3.176      |
 +---------------------+--------------+------+------+------------+-------------+
-|            vgaclk25 |BUFGCTRL_X0Y31| No   |   62 |  0.070     |  2.904      |
+|            vgaclk25 |BUFGCTRL_X0Y31| No   |   62 |  0.290     |  2.857      |
 +---------------------+--------------+------+------+------------+-------------+
-|               agclk |         Local|      |    8 |  0.423     |  1.244      |
+|               agclk |         Local|      |    8 |  0.999     |  1.565      |
 +---------------------+--------------+------+------+------------+-------------+
 
 * Net Skew is the difference between the minimum and maximum routing
@@ -109,8 +109,8 @@ Asterisk (*) preceding a constraint indicates it was not met.
   Constraint                                |    Check    | Worst Case |  Best Case | Timing |   Timing   
                                             |             |    Slack   | Achievable | Errors |    Score   
 ----------------------------------------------------------------------------------------------------------
-  NET "i_clock_IBUF1" PERIOD = 10 ns HIGH 5 | SETUP       |     0.056ns|     9.944ns|       0|           0
-  0%                                        | HOLD        |     0.372ns|            |       0|           0
+  NET "i_clock_IBUF1" PERIOD = 10 ns HIGH 5 | SETUP       |     0.180ns|     9.820ns|       0|           0
+  0%                                        | HOLD        |     0.358ns|            |       0|           0
 ----------------------------------------------------------------------------------------------------------
 
 
@@ -121,10 +121,10 @@ Generating Pad Report.
 
 All signals are completely routed.
 
-Total REAL time to PAR completion: 1 mins 41 secs 
-Total CPU time to PAR completion: 1 mins 37 secs 
+Total REAL time to PAR completion: 1 mins 58 secs 
+Total CPU time to PAR completion: 1 mins 47 secs 
 
-Peak Memory Usage:  896 MB
+Peak Memory Usage:  889 MB
 
 Placer: Placement generated during map.
 Routing: Completed - No errors found.

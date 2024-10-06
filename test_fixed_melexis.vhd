@@ -47,147 +47,58 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_rdy : out std_logic;
 
 i_addr : in std_logic_vector(9 downto 0);
-o_do : out std_logic_vector(31 downto 0)
+o_do : out std_logic_vector(31 downto 0);
+
+signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC;
+
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC;
+
+signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : out STD_LOGIC;
+signal mulfpce : out STD_LOGIC;
+signal mulfpsclr : out STD_LOGIC;
+signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy : in STD_LOGIC;
+
+signal addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : out STD_LOGIC;
+signal addfpce : out STD_LOGIC;
+signal addfpsclr : out STD_LOGIC;
+signal addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : in STD_LOGIC;
+
+signal subfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpond : out STD_LOGIC;
+signal subfpce : out STD_LOGIC;
+signal subfpsclr : out STD_LOGIC;
+signal subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfprdy : in STD_LOGIC;
+
+signal sqrtfp2a : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal sqrtfp2ond : out STD_LOGIC;
+signal sqrtfp2sclr : out STD_LOGIC;
+signal sqrtfp2ce : out STD_LOGIC;
+signal sqrtfp2r : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal sqrtfp2rdy : in STD_LOGIC
 
 );
-end test_fixed_melexis;
+end entity test_fixed_melexis;
 
 architecture testbench of test_fixed_melexis is
-
---attribute RlOC : string;
-
-COMPONENT fixed2float
-PORT (
-a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
-signal fixed2floatond : STD_LOGIC;
-signal fixed2floatce : STD_LOGIC;
-signal fixed2floatsclr : STD_LOGIC;
-signal fixed2floatr :  STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal fixed2floatrdy : STD_LOGIC;
-
---attribute RLOC of fixed2float : component is "SLICE_X40Y174:SLICE_X79Y191";
-
-COMPONENT divfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-signal divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpond : STD_LOGIC;
-signal divfpce : STD_LOGIC;
-signal divfpsclr : STD_LOGIC;
-signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy : STD_LOGIC;
-
---attribute RLOC of divfp : component is "SLICE_X40Y112:SLICE_X79Y143";
-
-COMPONENT mulfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-signal mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfpond : STD_LOGIC;
-signal mulfpce : STD_LOGIC;
-signal mulfpsclr : STD_LOGIC;
-signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy : STD_LOGIC;
-
---attribute RLOC of mulfp : component is "SLICE_X40Y80:SLICE_X79Y111";
-
-COMPONENT addfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-signal addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfpond : STD_LOGIC;
-signal addfpce : STD_LOGIC;
-signal addfpsclr : STD_LOGIC;
-signal addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfprdy : STD_LOGIC;
-
---attribute RLOC of addfp : component is "SLICE_X40Y144:SLICE_X79Y175";
-
-COMPONENT subfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-signal subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal subfpond : STD_LOGIC;
-signal subfpce : STD_LOGIC;
-signal subfpsclr : STD_LOGIC;
-signal subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal subfprdy : STD_LOGIC;
-
---attribute RLOC of subfp : component is "SLICE_X40Y48:SLICE_X79Y79";
-
-COMPONENT sqrtfp2
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-signal sqrtfp2a : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal sqrtfp2ond : STD_LOGIC;
-signal sqrtfp2clk : STD_LOGIC;
-signal sqrtfp2sclr : STD_LOGIC;
-signal sqrtfp2ce : STD_LOGIC;
-signal sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal sqrtfp2rdy : STD_LOGIC;
-
-signal fixed2floatclk : std_logic;
-signal addfpclk : std_logic;
-signal subfpclk : std_logic;
-signal mulfpclk : std_logic;
-signal divfpclk : std_logic;
 
 COMPONENT tb_i2c_mem
 PORT (
@@ -2197,90 +2108,4 @@ sqrtfp2r => CalculateTo_sqrtfp2r,
 sqrtfp2rdy => CalculateTo_sqrtfp2rdy
 );
 
-fixed2floatclk <= i_clock;
-addfpclk <= i_clock;
-subfpclk <= i_clock;
-mulfpclk <= i_clock;
-divfpclk <= i_clock;
-sqrtfp2clk <= i_clock;
-
-b0 : block
-attribute loc : string;
---attribute loc of inst_fixed2float : label is "SLICE_X40Y176:SLICE_X79Y191";
---attribute loc of inst_fixed2float : label is "SLICE_X40Y176:SLICE_X75Y191";
---attribute loc of inst_fixed2float : label is "SLICE_X40Y176:SLICE_X71Y191";
-
-begin
-inst_fixed2float : fixed2float
-PORT MAP (
-a => fixed2floata,
-operation_nd => fixed2floatond,
-clk => fixed2floatclk,
-sclr => fixed2floatsclr,
-ce => fixed2floatce,
-result => fixed2floatr,
-rdy => fixed2floatrdy
-);
-end block b0;
-
-inst_divfp : divfp
-PORT MAP (
-a => divfpa,
-b => divfpb,
-operation_nd => divfpond,
-clk => divfpclk,
-sclr => divfpsclr,
-ce => divfpce,
-result => divfpr,
-rdy => divfprdy
-);
-
-inst_mulfp : mulfp
-PORT MAP (
-a => mulfpa,
-b => mulfpb,
-operation_nd => mulfpond,
-clk => mulfpclk,
-sclr => mulfpsclr,
-ce => mulfpce,
-result => mulfpr,
-rdy => mulfprdy
-);
-
-inst_addfp : addfp
-PORT MAP (
-a => addfpa,
-b => addfpb,
-operation_nd => addfpond,
-clk => addfpclk,
-sclr => addfpsclr,
-ce => addfpce,
-result => addfpr,
-rdy => addfprdy
-);
-
-inst_subfp : subfp
-PORT MAP (
-a => subfpa,
-b => subfpb,
-operation_nd => subfpond,
-clk => subfpclk,
-sclr => subfpsclr,
-ce => subfpce,
-result => subfpr,
-rdy => subfprdy
-);
-
-inst_sqrtfp2 : sqrtfp2
-PORT MAP (
-a => sqrtfp2a,
-operation_nd => sqrtfp2ond,
-clk => sqrtfp2clk,
-sclr => sqrtfp2sclr,
-ce => sqrtfp2ce,
-result => sqrtfp2r,
-rdy => sqrtfp2rdy
-);
-
 end architecture testbench;
-
