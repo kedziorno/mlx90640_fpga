@@ -23,7 +23,7 @@ USE ieee.std_logic_1164.ALL;
 use ieee_proposed.fixed_pkg.all;
 --use ieee_proposed.fixed_synth.all;
 
-use work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -42,10 +42,10 @@ i_run : in std_logic;
 i_ee0x243d : in slv16; -- ksto1ee,ksto2ee
 i_ee0x243e : in slv16; -- ksto3ee,ksto4ee
 i_ee0x243f : in slv16; -- kstoscale,ct34param
-o_alphacorrrange1 : out fd2ft;
-o_alphacorrrange2 : out fd2ft;
-o_alphacorrrange3 : out fd2ft;
-o_alphacorrrange4 : out fd2ft;
+o_alphacorrrange1 : out std_logic_vector (31 downto 0);
+o_alphacorrrange2 : out std_logic_vector (31 downto 0);
+o_alphacorrrange3 : out std_logic_vector (31 downto 0);
+o_alphacorrrange4 : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic
 );
 end ExtractAlphaCorrRange1234;
@@ -57,16 +57,16 @@ PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
 i_ee0x243f : IN  slv16;
-o_ct3 : OUT  fd2ft;
-o_ct4 : OUT  fd2ft
+o_ct3 : OUT  std_logic_vector (31 downto 0);
+o_ct4 : OUT  std_logic_vector (31 downto 0)
 );
 END COMPONENT;
 
 signal ExtractCT34Parameter_clock : std_logic;
 signal ExtractCT34Parameter_reset : std_logic;
 signal ExtractCT34Parameter_ee0x243f : slv16;
-signal ExtractCT34Parameter_ct3 : fd2ft;
-signal ExtractCT34Parameter_ct4 : fd2ft;
+signal ExtractCT34Parameter_ct3 : std_logic_vector (31 downto 0);
+signal ExtractCT34Parameter_ct4 : std_logic_vector (31 downto 0);
 
 component ExtractKsTo1234Parameters is
 port (
@@ -76,10 +76,10 @@ i_run : in std_logic;
 i_ee0x243f : in slv16; -- kstoscale
 i_ee0x243d : in slv16; -- ksto1ee,ksto2ee
 i_ee0x243e : in slv16; -- ksto3ee,ksto4ee
-o_ksto1 : out fd2ft;
-o_ksto2 : out fd2ft;
-o_ksto3 : out fd2ft;
-o_ksto4 : out fd2ft;
+o_ksto1 : out std_logic_vector (31 downto 0);
+o_ksto2 : out std_logic_vector (31 downto 0);
+o_ksto3 : out std_logic_vector (31 downto 0);
+o_ksto4 : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic
 );
 end component ExtractKsTo1234Parameters;
@@ -90,10 +90,10 @@ signal ExtractKsTo1234Parameters_run : std_logic;
 signal ExtractKsTo1234Parameters_ee0x243f : slv16; -- kstoscale
 signal ExtractKsTo1234Parameters_ee0x243d : slv16; -- ksto1ee,ksto2ee
 signal ExtractKsTo1234Parameters_ee0x243e : slv16; -- ksto3ee,ksto4ee
-signal ExtractKsTo1234Parameters_ksto1 : fd2ft;
-signal ExtractKsTo1234Parameters_ksto2 : fd2ft;
-signal ExtractKsTo1234Parameters_ksto3 : fd2ft;
-signal ExtractKsTo1234Parameters_ksto4 : fd2ft;
+signal ExtractKsTo1234Parameters_ksto1 : std_logic_vector (31 downto 0);
+signal ExtractKsTo1234Parameters_ksto2 : std_logic_vector (31 downto 0);
+signal ExtractKsTo1234Parameters_ksto3 : std_logic_vector (31 downto 0);
+signal ExtractKsTo1234Parameters_ksto4 : std_logic_vector (31 downto 0);
 signal ExtractKsTo1234Parameters_rdy : std_logic;
 
 COMPONENT divfp
@@ -187,12 +187,12 @@ signal subfprdy : STD_LOGIC;
 begin
 
 p0 : process (i_clock) is
-	variable const1 : fd2ft := x"3F800000";
-	variable const40 : fd2ft := x"42200000";
-	variable valphacorrrange1 : fd2ft;
-	variable valphacorrrange2 : fd2ft;
-	variable valphacorrrange3 : fd2ft;
-	variable valphacorrrange4 : fd2ft;
+	variable const1 : std_logic_vector (31 downto 0) := x"3F800000";
+	variable const40 : std_logic_vector (31 downto 0) := x"42200000";
+	variable valphacorrrange1 : std_logic_vector (31 downto 0);
+	variable valphacorrrange2 : std_logic_vector (31 downto 0);
+	variable valphacorrrange3 : std_logic_vector (31 downto 0);
+	variable valphacorrrange4 : std_logic_vector (31 downto 0);
 	type states is (idle,
 	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,
 	ending);

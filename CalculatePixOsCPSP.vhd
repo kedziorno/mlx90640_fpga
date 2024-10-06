@@ -14,6 +14,7 @@
 --
 -- Revision: 
 -- Revision 0.01 - File Created
+-- Revision 0.02 - Rewrite Calculation, without regs
 -- Additional Comments: 
 --
 ----------------------------------------------------------------------------------
@@ -30,8 +31,8 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-use work.p_fphdl_package1.all;
---use work.p_fphdl_package3.all;
+--use work.p_fphdl_package1.all;
+use work.p_fphdl_package3.all;
 
 entity CalculatePixOsCPSP is
 port (
@@ -134,7 +135,7 @@ i_run : in std_logic;
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-o_KGain : out fd2ft;
+o_KGain : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic;
 
 signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
@@ -160,7 +161,7 @@ signal calculateKGain_run : std_logic;
 signal calculateKGain_i2c_mem_ena : STD_LOGIC;
 signal calculateKGain_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal calculateKGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal calculateKGain_KGain : fd2ft;
+signal calculateKGain_KGain : std_logic_vector (31 downto 0);
 signal calculateKGain_rdy : std_logic;
 
 signal calculateKGain_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
@@ -288,33 +289,22 @@ i2c_mem_douta_internal <= i2c_mem_douta;
 o_rdy <= rdy;
 
 p0 : process (i_clock) is
---	variable eeprom16slv,ram16slv : slv16;
---	variable eeprom16sf,ram16sf : sfixed16;
---	variable eeprom16uf,ram16uf : ufixed16;
-	constant C_ROW : integer := 24;
-	constant C_COL : integer := 32;
-	variable i : integer range 0 to C_ROW*C_COL-1;
-	type states is (idle,s0,s0a,
-	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,
-	s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,
-	s21,s21a,s22,s23,s24,s25,s26,s27,s28,s29,s30,
-	s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,
-	s41,s42,s43,s44,s45,s46,s47,s48,s49,s50,
-	s51,s52,s53,s54,s55,s56,s57,s58,s59,s60,
-	s61,s62,s63,s64,s65,s66,s67,s68,s69,s70,
-	s71,s72,s73,s74,s75,s76,s77,s78,s79,s80,
-	s81,s82,s83,s84,s85,s86,s87,s88,s89,s90,
-	s91,
-	ending);
-	variable state : states;
-	variable fttmp1,fttmp2,ram0708_ft,ram0728_ft,pixoscpsp0_ft,pixoscpsp1_ft,pixgaincpsp0_ft,pixgaincpsp1_ft,offcpsubpage0_ft,offcpsubpage1delta_ft,offcpsubpage1_ft,kvcpee_ft,ktacpee_ft,kvcp_ft,ktacp_ft : std_logic_vector (31 downto 0);
-	variable ram0708,ram0728 : std_logic_vector (15 downto 0);
-	variable offcpsubpage0 : std_logic_vector (15 downto 0);
---	variable ram0708_fd,ram0728_fd : st_sfixed_max;
---	variable fracas : fracas;
---	variable fracbs : fracbs;
---	variable fracau : fracau;
---	variable fracbu : fracbu;
+	type states is (idle,s0,s1,s1b,s1c,s1d,
+	s2,s3a,s4,s6,s7,s8,s9,s10,
+	s12,s13,s14,s16,s17,s18,s19,s20,
+	s21,s22,s24,s25,s26,s27,s28,s29,s30,
+	s31,s32,s34,s35,s36,s37,s38,s40,
+	s41,s42,s43,s44,s45,s46,s47,s48,s50,
+	s51,s52,s53,s54,s55,s56,s58,s59,
+	s61,s63,s64,s64a,s64b,s65,s67,
+	s71,d58,d59,d59a,d62a,
+  d63,d64,d64a,d64b,d65,d67,
+	d71);
+  variable state : states;
+	variable ram : std_logic_vector (7 downto 0);
+  variable calc : std_logic_vector (31 downto 0);
+  constant const_minus1 : std_logic_vector (31 downto 0) := x"bf800000";
+  constant const_plus1 : std_logic_vector (31 downto 0) := x"3f800000";
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -324,7 +314,6 @@ begin
 			mulfpsclr_internal <= '1';
 			divfpsclr_internal <= '1';
 			fixed2floatsclr_internal <= '1';
-			rdy <= '0';
 			mulfpa_internal <= (others => '0');
 			mulfpb_internal <= (others => '0');
 			addfpa_internal <= (others => '0');
@@ -333,26 +322,28 @@ begin
 			subfpb_internal <= (others => '0');
 			divfpa_internal <= (others => '0');
 			divfpb_internal <= (others => '0');
+			fixed2floata_internal <= (others => '0');
 			mulfpond_internal <= '0';
 			addfpond_internal <= '0';
 			subfpond_internal <= '0';
 			divfpond_internal <= '0';
+			fixed2floatond_internal <= '0';
 			mulfpce_internal <= '0';
 			addfpce_internal <= '0';
 			subfpce_internal <= '0';
 			divfpce_internal <= '0';
-			i2c_mem_ena_internal <= '0';
-			i2c_mem_addra_internal <= (others => '0');
-			o_pixoscpsp0 <= (others => '0');
-			o_pixoscpsp1 <= (others => '0');
-			fixed2floata_internal <= (others => '0');
-			fixed2floatond_internal <= '0';
 			fixed2floatce_internal <= '0';
 			mem_signed1024_ivalue <= (others => '0');
 			mem_signed256_ivalue <= (others => '0');
 			nibble1 <= (others => '0');
 			nibble2 <= (others => '0');
 			nibble3 <= (others => '0');
+			i2c_mem_ena_internal <= '0';
+			i2c_mem_addra_internal <= (others => '0');
+			o_pixoscpsp0 <= (others => '0');
+			o_pixoscpsp1 <= (others => '0');
+			rdy <= '0';
+      calc := (others => '0');
 		else
 			case (state) is
 				when idle =>
@@ -363,442 +354,706 @@ begin
 						state := idle;
 						i2c_mem_ena_internal <= '0';
 					end if;
-					i := 0;
 					addfpsclr_internal <= '0';
 					subfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
 					fixed2floatsclr_internal <= '0';
-					
-				when s0 => state := s0a;
+				when s0 => state := s1;
 					CalculateKGain_run <= '1';
 					CalculateKGain_mux <= '1';
-				when s0a => 
+				when s1 => 
 					CalculateKGain_run <= '0';
 					if (CalculateKGain_rdy = '1') then
-						state := s1;
+						state := s1b;
 						CalculateKGain_mux <= '0';
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+1, 12)); -- ee2438 LSB - ktascale1
 					else
-						state := s0a;
+						state := s1;
 						CalculateKGain_mux <= '1';
 					end if;
-
-					
-					
-				when s1 => state := s2;
-					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(776*2)+0, 12)); -- ram0708 - pixgain_cp_sp0
-				when s2 => state := s3;
-				when s3 => state := s4;
-					ram0708 (15 downto 8) := i2c_mem_douta_internal;
-				when s4 => state := s5;
-					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(776*2)+1, 12)); -- ram0708 - pixgain_cp_sp0
-				when s5 => state := s6;
-				when s6 => state := s7;
-					ram0708 (7 downto 0) := i2c_mem_douta_internal;
-
-				when s7 => state := s8;
-					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(808*2)+0, 12)); -- ram0728 - pixgain_cp_sp1
-				when s8 => state := s9;
-				when s9 => state := s10;
-					ram0728 (15 downto 8) := i2c_mem_douta_internal;
-				when s10 => state := s11;
-					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(808*2)+1, 12)); -- ram0728 - pixgain_cp_sp1
-				when s11 => state := s12;
-				when s12 => state := s13;
-					ram0728 (7 downto 0) := i2c_mem_douta_internal;
-
-				when s13 => state := s14;
---					ram0708_fd := resize (to_sfixed (ram0708, eeprom16sf), ram0708_fd);
---					fixed2floatce_internal <= '1';
---					fixed2floatond_internal <= '1';
---					fixed2floata_internal <= 
---					to_slv (to_sfixed (to_slv (ram0708_fd (fracas'high downto fracas'low)), fracas)) & 
---					to_slv (to_sfixed (to_slv (ram0708_fd (fracbs'high downto fracbs'low)), fracbs));
-fixed2floatce_internal <= '1';
-fixed2floatond_internal <= '1';
-fixed2floata_internal <=
-ram0708 (15) & ram0708 (15) & 
-ram0708 (15) & ram0708 (15) & 
-ram0708 (15) & ram0708 (15) & 
-ram0708 (15) & ram0708 (15) & 
-ram0708 (15) & ram0708 (15) & 
-ram0708 (15) & ram0708 (15) & 
-ram0708 (15) & ram0708 (15) & 
-ram0708 (15) & ram0708 (15) & 
-ram0708 (15) & ram0708 (15) & 
-ram0708 (15) & ram0708 & "00000000000000000000000000000";
-				when s14 =>
-					if (fixed2floatrdy_internal = '1') then state := s15;
-						ram0708_ft := fixed2floatr_internal;
-						fixed2floatce_internal <= '0';
-						fixed2floatond_internal <= '0';
-						fixed2floatsclr_internal <= '1';
-					else state := s14; end if;
-				when s15 => state := s16;
-					fixed2floatsclr_internal <= '0';
-
-				when s16 => state := s17;
---					ram0728_fd := resize (to_sfixed (ram0728, eeprom16sf), ram0728_fd);
---					fixed2floatce_internal <= '1';
---					fixed2floatond_internal <= '1';
---					fixed2floata_internal <= 
---					to_slv (to_sfixed (to_slv (ram0728_fd (fracas'high downto fracas'low)), fracas)) & 
---					to_slv (to_sfixed (to_slv (ram0728_fd (fracbs'high downto fracbs'low)), fracbs));
-fixed2floatce_internal <= '1';
-fixed2floatond_internal <= '1';
-fixed2floata_internal <=
-ram0728 (15) & ram0728 (15) & 
-ram0728 (15) & ram0728 (15) & 
-ram0728 (15) & ram0728 (15) & 
-ram0728 (15) & ram0728 (15) & 
-ram0728 (15) & ram0728 (15) & 
-ram0728 (15) & ram0728 (15) & 
-ram0728 (15) & ram0728 (15) & 
-ram0728 (15) & ram0728 (15) & 
-ram0728 (15) & ram0728 (15) & 
-ram0728 (15) & ram0728 & "00000000000000000000000000000";
-				when s17 =>
-					if (fixed2floatrdy_internal = '1') then state := s18;
-						ram0728_ft := fixed2floatr_internal;
-						fixed2floatce_internal <= '0';
-						fixed2floatond_internal <= '0';
-						fixed2floatsclr_internal <= '1';
-					else state := s17; end if;
-				when s18 => state := s19;
-					fixed2floatsclr_internal <= '0';
-
-				when s19 => state := s20;
-					mulfpce_internal <= '1';
-					mulfpa_internal <= ram0708_ft;
-					mulfpb_internal <= calculateKGain_KGain;
-					mulfpond_internal <= '1';
-				--	--report ": " & real'image (ap_slv2fp (mulfpa));
-				--	--report ": " & real'image (ap_slv2fp (mulfpb));
-				when s20 =>
-					if (mulfprdy_internal = '1') then state := s21;
-						pixgaincpsp0_ft := mulfpr_internal;
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-					else state := s20; end if;
-				when s21 => state := s21a;
-					mulfpsclr_internal <= '0';
-
-				when s21a => state := s22;
-					mulfpce_internal <= '1';
-					mulfpa_internal <= ram0728_ft;
-					mulfpb_internal <= calculateKGain_KGain;
-					mulfpond_internal <= '1';
-				--	--report ": " & real'image (ap_slv2fp (mulfpa));
-				--	--report ": " & real'image (ap_slv2fp (mulfpb));
-				when s22 =>
-					if (mulfprdy_internal = '1') then state := s23;
-						pixgaincpsp1_ft := mulfpr_internal;
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-					else state := s22; end if;
-				when s23 => state := s24;
-					mulfpsclr_internal <= '0';
-
-
-				when s24 => state := s25;
-					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (58*2+0, 12)); -- ee243a - offcpsubpage0
-				when s25 => state := s26;
-				when s26 => state := s27;
-					offcpsubpage0 (15 downto 8) := i2c_mem_douta_internal;
-				when s27 => state := s28;
-					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (58*2+1, 12)); -- ee243a - offcpsubpage0
-				when s28 => state := s29;
-				when s29 => state := s30;
-					offcpsubpage0 (7 downto 0) := i2c_mem_douta_internal;
-
-
-				when s30 => state := s31;
-					mem_signed1024_ivalue <= offcpsubpage0 (9 downto 0); -- ee243a 0x03ff
-					nibble1 <= offcpsubpage0 (15 downto 10); -- ee243a 0xfc00
-				when s31 => state := s32;
-				when s32 => state := s33;
-					offcpsubpage0_ft := mem_signed1024_ovalue; -- offcpsubpage0
---					--report "================ CalculatePixOsCPSP offcpsubpage0 : " & real'image (ap_slv2fp (offcpsubpage0_ft));
-					offcpsubpage1delta_ft := out_nibble1;
-					addfpce_internal <= '1';
-					addfpa_internal <= offcpsubpage0_ft;
-					addfpb_internal <= offcpsubpage1delta_ft;
-					addfpond_internal <= '1';
-				when s33 =>
-					if (addfprdy_internal = '1') then state := s34;
-						offcpsubpage1_ft := addfpr_internal; -- offcpsubpage1
---						--report "================ CalculatePixOsCPSP offcpsubpage1 : " & real'image (ap_slv2fp (offcpsubpage1_ft));
-						addfpce_internal <= '0';
-						addfpond_internal <= '0';
-						addfpsclr_internal <= '1';
-					else state := s33; end if;
-				when s34 => state := s35;
-					addfpsclr_internal <= '0';
-
-
-
-				when s35 => state := s36;
-					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+0, 12)); -- ee2438 MSB - kvscale
-				when s36 => state := s37;
-				when s37 => state := s38;
-					nibble3 <= i2c_mem_douta_internal (3 downto 0); -- ee2438 0f00
-
-
-				when s38 => state := s39;
-					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+1, 12)); -- ee2438 LSB - ktascale1
-				when s39 => state := s40;
-				when s40 => state := s41;
-					nibble2 <= i2c_mem_douta_internal (7 downto 4); -- ee2438 00f0
-
-
-				when s41 => state := s42;
-					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
-				when s42 => state := s43;
-				when s43 => state := s44;
-					mem_signed256_ivalue <= i2c_mem_douta_internal;
-				when s44 => state := s45;
-				when s45 => state := s46;
-					kvcpee_ft := mem_signed256_ovalue;
-				
-				
-				when s46 => state := s47;
-					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
-				when s47 => state := s48;
-				when s48 => state := s49;
-					mem_signed256_ivalue <= i2c_mem_douta_internal;
-				when s49 => state := s50;
-				when s50 => state := s51;
-					ktacpee_ft := mem_signed256_ovalue;
-
-				when s51 => state := s52;
+        when s1b => state := s1c;
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+0, 12)); -- ee2438 MSB - kvscale
+        when s1c => state := s1d;
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
+          nibble2 <= i2c_mem_douta_internal (7 downto 4); -- ee2438 00f0 - ktascale1
+        when s1d => state := s2;
+          nibble3 <= i2c_mem_douta_internal (3 downto 0); -- ee2438 0f00 - kvscale
+        when s2 => state := s3a;
+          mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
+        when s3a =>
 					divfpce_internal <= '1';
-					divfpa_internal <= ktacpee_ft; -- ktacpee
-					divfpb_internal <= out_nibble2; -- 2^(ktascale1+8);
-					divfpond_internal <= '1';
-				when s52 =>
-					if (divfprdy_internal = '1') then state := s53;
-						ktacp_ft := divfpr_internal;
-						divfpce_internal <= '0';
-						divfpond_internal <= '0';
-						divfpsclr_internal <= '1';
-					else state := s52; end if;
-				when s53 => state := s54;
-					divfpsclr_internal <= '0';
---					--report "================ CalculatePixOsCPSP ktacp : " & real'image (ap_slv2fp (ktacp_ft));
-
-
-				when s54 => state := s55;
-					divfpce_internal <= '1';
-					divfpa_internal <= kvcpee_ft; -- kvcpee
+					divfpa_internal <= mem_signed256_ovalue; -- kvcpee
 					divfpb_internal <= out_nibble3; -- 2^kvscale;
 					divfpond_internal <= '1';
-				when s55 =>
-					if (divfprdy_internal = '1') then state := s56;
-						kvcp_ft := divfpr_internal;
+					if (divfprdy_internal = '1') then state := s4;
+            --report "kvcp 1 " & real'image(ap_slv2fp(divfpr_internal));
 						divfpce_internal <= '0';
 						divfpond_internal <= '0';
 						divfpsclr_internal <= '1';
-					else state := s55; end if;
-				when s56 => state := s57;
-					divfpsclr_internal <= '0';
---					--report "================ CalculatePixOsCPSP kvcp : " & real'image (ap_slv2fp (kvcp_ft));
-
-					subfpce_internal <= '1';
-					subfpa_internal <= i_Vdd;
-					subfpb_internal <= i_VddV0;
-					subfpond_internal <= '1';
-				when s57 =>
-					if (subfprdy_internal = '1') then state := s58;
-						fttmp1 := subfpr_internal;
-						subfpce_internal <= '0';
-						subfpond_internal <= '0';
-						subfpsclr_internal <= '1';
-					else state := s57; end if;
-				when s58 => state := s59;
-					subfpsclr_internal <= '0';
-
-
-				when s59 => state := s60;
-					subfpce_internal <= '1';
-					subfpa_internal <= i_Ta;
-					subfpb_internal <= i_Ta0;
-					subfpond_internal <= '1';
-				when s60 =>
-					if (subfprdy_internal = '1') then state := s61;
-						fttmp2 := subfpr_internal;
-						subfpce_internal <= '0';
-						subfpond_internal <= '0';
-						subfpsclr_internal <= '1';
-					else state := s60; end if;
-				when s61 => state := s62;
-					subfpsclr_internal <= '0';
-
-
-				when s62 => state := s63;
-					mulfpce_internal <= '1';
-					mulfpa_internal <= fttmp1;
-					mulfpb_internal <= kvcp_ft;
-					mulfpond_internal <= '1';
-				when s63 =>
-					if (mulfprdy_internal = '1') then state := s64;
-						fttmp1 := mulfpr_internal;
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-					else state := s63; end if;
-				when s64 => state := s65;
-					mulfpsclr_internal <= '0';
-
-
-				when s65 => state := s66;
-					addfpce_internal <= '1';
-					addfpa_internal <= fttmp1;
-					addfpb_internal <= i_const1;
-					addfpond_internal <= '1';
-				when s66 =>
-					if (addfprdy_internal = '1') then state := s67;
-						fttmp1 := addfpr_internal;
-						addfpce_internal <= '0';
-						addfpond_internal <= '0';
-						addfpsclr_internal <= '1';
-					else state := s66; end if;
-				when s67 => state := s68;
-					addfpsclr_internal <= '0';
-
-
-				when s68 => state := s69;
-					mulfpce_internal <= '1';
-					mulfpa_internal <= fttmp2;
-					mulfpb_internal <= ktacp_ft;
-					mulfpond_internal <= '1';
-				when s69 =>
-					if (mulfprdy_internal = '1') then state := s70;
-						fttmp2 := mulfpr_internal;
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-					else state := s69; end if;
-				when s70 => state := s71;
-					mulfpsclr_internal <= '0';
-
-
-				when s71 => state := s72;
-					addfpce_internal <= '1';
-					addfpa_internal <= fttmp2;
-					addfpb_internal <= i_const1;
-					addfpond_internal <= '1';
-				when s72 =>
-					if (addfprdy_internal = '1') then state := s73;
-						fttmp2 := addfpr_internal;
-						addfpce_internal <= '0';
-						addfpond_internal <= '0';
-						addfpsclr_internal <= '1';
-					else state := s72; end if;
-				when s73 => state := s74;
-					addfpsclr_internal <= '0';
-
-
-				when s74 => state := s75;
-					mulfpce_internal <= '1';
-					mulfpa_internal <= fttmp1;
-					mulfpb_internal <= fttmp2;
-					mulfpond_internal <= '1';
-				when s75 =>
-					if (mulfprdy_internal = '1') then state := s76;
-						pixoscpsp0_ft := mulfpr_internal;
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-					else state := s75; end if;
-				when s76 => state := s77;
-					mulfpsclr_internal <= '0';
-
-
-				when s77 => state := s78;
-					mulfpce_internal <= '1';
-					mulfpa_internal <= pixoscpsp0_ft;
-					mulfpb_internal <= offcpsubpage0_ft;
-					mulfpond_internal <= '1';
-				when s78 =>
-					if (mulfprdy_internal = '1') then state := s79;
-						pixoscpsp0_ft := mulfpr_internal;
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-					else state := s78; end if;
-				when s79 => state := s80;
-					mulfpsclr_internal <= '0';
-
-
-				when s80 => state := s81;
-					subfpce_internal <= '1';
-					subfpa_internal <= pixgaincpsp0_ft;
-					subfpb_internal <= pixoscpsp0_ft;
-					subfpond_internal <= '1';
-				when s81 =>
-					if (subfprdy_internal = '1') then state := s82;
-						o_pixoscpsp0 <= subfpr_internal;
-						subfpce_internal <= '0';
-						subfpond_internal <= '0';
-						subfpsclr_internal <= '1';
---						--report "================ CalculatePixOsCPSP o_pixoscpsp0 : " & real'image (ap_slv2fp (subfpr));
-					else state := s81; end if;
-				when s82 => state := s83;
-					subfpsclr_internal <= '0';
-
-
-				when s83 => state := s84;
-					mulfpce_internal <= '1';
-					mulfpa_internal <= fttmp1;
-					mulfpb_internal <= fttmp2;
-					mulfpond_internal <= '1';
-				when s84 =>
-					if (mulfprdy_internal = '1') then state := s85;
-						pixoscpsp1_ft := mulfpr_internal;
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-					else state := s84; end if;
-				when s85 => state := s86;
-					mulfpsclr_internal <= '0';
-
-
-				when s86 => state := s87;
-					mulfpce_internal <= '1';
-					mulfpa_internal <= pixoscpsp1_ft;
-					mulfpb_internal <= offcpsubpage1_ft;
-					mulfpond_internal <= '1';
-				when s87 =>
-					if (mulfprdy_internal = '1') then state := s88;
-						pixoscpsp1_ft := mulfpr_internal;
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-					else state := s87; end if;
-				when s88 => state := s89;
-					mulfpsclr_internal <= '0';
-
-
-				when s89 => state := s90;
-					subfpce_internal <= '1';
-					subfpa_internal <= pixgaincpsp1_ft;
-					subfpb_internal <= pixoscpsp1_ft;
-					subfpond_internal <= '1';
-				when s90 =>
-					if (subfprdy_internal = '1') then state := s91;
-						o_pixoscpsp1 <= subfpr_internal;
---						--report "================ CalculatePixOsCPSP o_pixoscpsp1 : " & real'image (ap_slv2fp (subfpr));
-						subfpce_internal <= '0';
-						subfpond_internal <= '0';
-						subfpsclr_internal <= '1';
-					else state := s90; end if;
-				when s91 => state := ending;
-					subfpsclr_internal <= '0';
-				when ending => state := idle;
-					rdy <= '1';
-				when others => null;
+					else state := s3a; end if;
+        when s4 =>
+          divfpsclr_internal <= '0';
+          mulfpce_internal <= '1';
+          mulfpa_internal <= divfpr_internal; -- kvcp
+          mulfpb_internal <= i_Vdd;
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s6;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s4; end if;
+        when s6 =>
+          mulfpsclr_internal <= '0';
+          addfpce_internal <= '1';
+          addfpa_internal <= mulfpr_internal;
+          addfpb_internal <= const_plus1;
+          addfpond_internal <= '1';
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
+          if (addfprdy_internal = '1') then state := s7;
+            --warning_neq_fp(addfpr_internal,3.4721875,"1+kvcp*vdd"); -- XXX OK
+            addfpce_internal <= '0';
+            addfpond_internal <= '0';
+            addfpsclr_internal <= '1';
+            mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
+          else state := s6; end if;
+        when s7 =>
+          addfpsclr_internal <= '0';
+					divfpce_internal <= '1';
+					divfpa_internal <= mem_signed256_ovalue; -- kvcp
+					divfpb_internal <= out_nibble3; -- 2^kvscale;
+					divfpond_internal <= '1';
+					if (divfprdy_internal = '1') then state := s8;
+            --report "kvcp " & real'image(ap_slv2fp(divfpr_internal));
+						divfpce_internal <= '0';
+						divfpond_internal <= '0';
+						divfpsclr_internal <= '1';
+					else state := s7; end if;
+        when s8 =>
+          divfpsclr_internal <= '0';
+          mulfpce_internal <= '1';
+          mulfpa_internal <= divfpr_internal; -- kvcp
+          mulfpb_internal <= i_VddV0;
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s9;
+            --warning_neq_fp(mulfpr_internal,1.2375000,"kvcp*vdd0"); -- XXX OK
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s8; end if;
+        when s9 => state := s10;
+          mulfpsclr_internal <= '0';
+        when s10 =>
+          mulfpce_internal <= '1';
+          mulfpa_internal <= mulfpr_internal;
+          mulfpb_internal <= const_minus1;
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s12;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s10; end if;
+        when s12 =>
+          mulfpsclr_internal <= '0';
+          addfpce_internal <= '1';
+          addfpa_internal <= addfpr_internal;
+          addfpb_internal <= mulfpr_internal;
+          addfpond_internal <= '1';
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
+          if (addfprdy_internal = '1') then state := s13;
+            addfpce_internal <= '0';
+            addfpond_internal <= '0';
+            addfpsclr_internal <= '1';
+            mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
+          else state := s12; end if;
+        when s13 =>
+          addfpsclr_internal <= '0';
+					divfpce_internal <= '1';
+					divfpa_internal <= mem_signed256_ovalue; -- ktacp
+					divfpb_internal <= out_nibble2; -- 2^ktascale1;
+					divfpond_internal <= '1';
+					if (divfprdy_internal = '1') then state := s14;
+            --report "ktacp fgfhgfhgfhgfhf " & real'image(ap_slv2fp(divfpr_internal));
+						divfpce_internal <= '0';
+						divfpond_internal <= '0';
+						divfpsclr_internal <= '1';
+					else state := s13; end if;
+        when s14 =>
+          divfpsclr_internal <= '0';
+          mulfpce_internal <= '1';
+          mulfpa_internal <= divfpr_internal; -- ktacp
+          mulfpb_internal <= i_Ta;
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s16;
+            --warning_neq_fp(mulfpr_internal,0.145219065234699,"ktacp*ta  "); -- XXX OK
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s14; end if;
+        when s16 =>
+          mulfpsclr_internal <= '0';
+          addfpce_internal <= '1';
+          addfpa_internal <= addfpr_internal;
+          addfpb_internal <= mulfpr_internal;
+          addfpond_internal <= '1';
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
+          if (addfprdy_internal = '1') then state := s17;
+            addfpce_internal <= '0';
+            addfpond_internal <= '0';
+            addfpsclr_internal <= '1';
+            mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
+          else state := s16; end if;
+        when s17 =>
+          addfpsclr_internal <= '0';
+					divfpce_internal <= '1';
+					divfpa_internal <= mem_signed256_ovalue; -- ktacp
+					divfpb_internal <= out_nibble2; -- 2^ktascale1;
+					divfpond_internal <= '1';
+					if (divfprdy_internal = '1') then state := s18;
+            --report "ktacp " & real'image(ap_slv2fp(divfpr_internal));
+						divfpce_internal <= '0';
+						divfpond_internal <= '0';
+						divfpsclr_internal <= '1';
+					else state := s17; end if;
+        when s18 =>
+          divfpsclr_internal <= '0';
+          mulfpce_internal <= '1';
+          mulfpa_internal <= divfpr_internal; -- ktacp
+          mulfpb_internal <= i_Ta;
+          mulfpond_internal <= '1';
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
+          if (mulfprdy_internal = '1') then state := s19;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+            mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
+          else state := s18; end if;
+        when s19 =>
+          mulfpsclr_internal <= '0';
+					divfpce_internal <= '1';
+					divfpa_internal <= mem_signed256_ovalue; -- kvcp
+					divfpb_internal <= out_nibble3; -- 2^kvscale;
+					divfpond_internal <= '1';
+					if (divfprdy_internal = '1') then state := s20;
+            --report "kvcp " & real'image(ap_slv2fp(divfpr_internal));
+						divfpce_internal <= '0';
+						divfpond_internal <= '0';
+						divfpsclr_internal <= '1';
+					else state := s19; end if;
+        when s20 =>
+          divfpsclr_internal <= '0';
+          mulfpce_internal <= '1';
+          mulfpa_internal <= mulfpr_internal;
+          mulfpb_internal <= divfpr_internal; -- kvcp
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s21;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s20; end if;
+        when s21 => state := s22;
+          mulfpsclr_internal <= '0';
+        when s22 =>
+          mulfpce_internal <= '1';
+          mulfpa_internal <= mulfpr_internal;
+          mulfpb_internal <= i_Vdd;
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s24;
+            --warning_neq_fp(mulfpr_internal,0.35900875783490743406,"ktacp*ta*kvcp*vdd"); -- XXX OK
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s22; end if;
+        when s24 =>
+          mulfpsclr_internal <= '0';
+          addfpce_internal <= '1';
+          addfpa_internal <= addfpr_internal;
+          addfpb_internal <= mulfpr_internal;
+          addfpond_internal <= '1';
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
+          if (addfprdy_internal = '1') then state := s25;
+            addfpce_internal <= '0';
+            addfpond_internal <= '0';
+            addfpsclr_internal <= '1';
+            mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
+          else state := s24; end if;
+        when s25 =>
+          addfpsclr_internal <= '0';
+					divfpce_internal <= '1';
+					divfpa_internal <= mem_signed256_ovalue; -- ktacp
+					divfpb_internal <= out_nibble2; -- 2^ktascale1;
+					divfpond_internal <= '1';
+					if (divfprdy_internal = '1') then state := s26;
+            --report "ktacp " & real'image(ap_slv2fp(divfpr_internal));
+						divfpce_internal <= '0';
+						divfpond_internal <= '0';
+						divfpsclr_internal <= '1';
+					else state := s25; end if;
+        when s26 =>
+          divfpsclr_internal <= '0';
+          mulfpce_internal <= '1';
+          mulfpa_internal <= divfpr_internal; -- ktacp
+          mulfpb_internal <= i_Ta;
+          mulfpond_internal <= '1';
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
+          if (mulfprdy_internal = '1') then state := s27;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+            mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
+          else state := s26; end if;
+        when s27 =>
+          mulfpsclr_internal <= '0';
+					divfpce_internal <= '1';
+					divfpa_internal <= mem_signed256_ovalue; -- kvcp
+					divfpb_internal <= out_nibble3; -- 2^kvscale;
+					divfpond_internal <= '1';
+					if (divfprdy_internal = '1') then state := s28;
+            --report "kvcp " & real'image(ap_slv2fp(divfpr_internal));
+						divfpce_internal <= '0';
+						divfpond_internal <= '0';
+						divfpsclr_internal <= '1';
+					else state := s27; end if;
+        when s28 =>
+          divfpsclr_internal <= '0';
+          mulfpce_internal <= '1';
+          mulfpa_internal <= mulfpr_internal;
+          mulfpb_internal <= divfpr_internal; -- kvcp
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s29;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s28; end if;
+        when s29 => state := s30;
+          mulfpsclr_internal <= '0';
+        when s30 =>
+          mulfpce_internal <= '1';
+          mulfpa_internal <= mulfpr_internal;
+          mulfpb_internal <= i_VddV0;
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s31;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s30; end if;
+        when s31 => state := s32;
+          mulfpsclr_internal <= '0';
+        when s32 =>
+          mulfpce_internal <= '1';
+          mulfpa_internal <= mulfpr_internal;
+          mulfpb_internal <= const_minus1;
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s34;
+            --warning_neq_fp(mulfpr_internal,-0.17970859322794001250,"minus ktacp * ta * kvcp * vdd0"); -- XXX OK
+            --warning_neq_fp(mulfpr_internal,-0.179708590,"-ktacp*ta*kvcp*vdd0"); -- XXX OK
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s32; end if;
+        when s34 =>
+          mulfpsclr_internal <= '0';
+          addfpce_internal <= '1';
+          addfpa_internal <= addfpr_internal;
+          addfpb_internal <= mulfpr_internal;
+          addfpond_internal <= '1';
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
+          if (addfprdy_internal = '1') then state := s35;
+            addfpce_internal <= '0';
+            addfpond_internal <= '0';
+            addfpsclr_internal <= '1';
+            mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
+          else state := s34; end if;
+        when s35 =>
+          addfpsclr_internal <= '0';
+					divfpce_internal <= '1';
+					divfpa_internal <= mem_signed256_ovalue; -- ktacp
+					divfpb_internal <= out_nibble2; -- 2^ktascale1;
+					divfpond_internal <= '1';
+					if (divfprdy_internal = '1') then state := s36;
+            --report "ktacp " & real'image(ap_slv2fp(divfpr_internal));
+						divfpce_internal <= '0';
+						divfpond_internal <= '0';
+						divfpsclr_internal <= '1';
+					else state := s35; end if;
+        when s36 =>
+          divfpsclr_internal <= '0';
+          mulfpce_internal <= '1';
+          mulfpa_internal <= divfpr_internal; -- ktacp
+          mulfpb_internal <= i_Ta0;
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s37;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s36; end if;
+        when s37 => state := s38;
+          mulfpsclr_internal <= '0';
+        when s38 =>
+          mulfpce_internal <= '1';
+          mulfpa_internal <= mulfpr_internal;
+          mulfpb_internal <= const_minus1;
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s40;
+            --warning_neq_fp(mulfpr_internal,-0.106811525,"-ktacp*ta0"); -- XXX OK
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s38; end if;
+        when s40 =>
+          mulfpsclr_internal <= '0';
+          addfpce_internal <= '1';
+          addfpa_internal <= addfpr_internal;
+          addfpb_internal <= mulfpr_internal;
+          addfpond_internal <= '1';
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
+          if (addfprdy_internal = '1') then state := s41;
+            addfpce_internal <= '0';
+            addfpond_internal <= '0';
+            addfpsclr_internal <= '1';
+            mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
+          else state := s40; end if;
+        when s41 =>
+          addfpsclr_internal <= '0';
+					divfpce_internal <= '1';
+					divfpa_internal <= mem_signed256_ovalue; -- ktacp
+					divfpb_internal <= out_nibble2; -- 2^ktascale1;
+					divfpond_internal <= '1';
+					if (divfprdy_internal = '1') then state := s42;
+            --report "ktacp 1 " & real'image(ap_slv2fp(divfpr_internal));
+						divfpce_internal <= '0';
+						divfpond_internal <= '0';
+            divfpsclr_internal <= '1';
+					else state := s41; end if;
+        when s42 =>
+          divfpsclr_internal <= '0';
+          mulfpce_internal <= '1';
+          mulfpa_internal <= divfpr_internal; -- ktacp
+          mulfpb_internal <= i_Ta0;
+          mulfpond_internal <= '1';
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
+          if (mulfprdy_internal = '1') then state := s43;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+            mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
+          else state := s42; end if;
+        when s43 =>
+          mulfpsclr_internal <= '0';
+					divfpce_internal <= '1';
+					divfpa_internal <= mem_signed256_ovalue; -- kvcp
+					divfpb_internal <= out_nibble3; -- 2^kvscale;
+					divfpond_internal <= '1';
+					if (divfprdy_internal = '1') then state := s44;
+            --report "kvcp 2 " & real'image(ap_slv2fp(divfpr_internal));
+						divfpce_internal <= '0';
+						divfpond_internal <= '0';
+						divfpsclr_internal <= '1';
+					else state := s43; end if;
+        when s44 =>
+          divfpsclr_internal <= '0';
+          mulfpce_internal <= '1';
+          mulfpa_internal <= mulfpr_internal;
+          mulfpb_internal <= divfpr_internal; -- kvcp
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s45;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s44; end if;
+        when s45 => state := s46;
+          mulfpsclr_internal <= '0';
+        when s46 =>
+          mulfpce_internal <= '1';
+          mulfpa_internal <= mulfpr_internal;
+          mulfpb_internal <= i_Vdd;
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s47;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s46; end if;
+        when s47 => state := s48;
+          mulfpsclr_internal <= '0';
+        when s48 =>
+          mulfpce_internal <= '1';
+          mulfpa_internal <= mulfpr_internal;
+          mulfpb_internal <= const_minus1;
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s50;
+            --warning_neq_fp(mulfpr_internal,-0.26405811696093750000,"-ktacp*ta0*kvcp*vdd"); -- XXX OK
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s48; end if;
+        when s50 =>
+          mulfpsclr_internal <= '0';
+          addfpce_internal <= '1';
+          addfpa_internal <= addfpr_internal;
+          addfpb_internal <= mulfpr_internal;
+          addfpond_internal <= '1';
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
+          if (addfprdy_internal = '1') then state := s51;
+            addfpce_internal <= '0';
+            addfpond_internal <= '0';
+            addfpsclr_internal <= '1';
+          mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
+          else state := s50; end if;
+        when s51 =>
+          addfpsclr_internal <= '0';
+					divfpce_internal <= '1';
+					divfpa_internal <= mem_signed256_ovalue; -- ktacp
+					divfpb_internal <= out_nibble2; -- 2^ktascale1;
+					divfpond_internal <= '1';
+					if (divfprdy_internal = '1') then state := s52;
+            --report "ktacp 1 " & real'image(ap_slv2fp(divfpr_internal));
+						divfpce_internal <= '0';
+						divfpond_internal <= '0';
+            divfpsclr_internal <= '1';
+					else state := s51; end if;
+        when s52 =>
+          divfpsclr_internal <= '0';
+          mulfpce_internal <= '1';
+          mulfpa_internal <= divfpr_internal; -- ktacp
+          mulfpb_internal <= i_Ta0;
+          mulfpond_internal <= '1';
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
+          if (mulfprdy_internal = '1') then state := s53;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+            mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
+          else state := s52; end if;
+        when s53 =>
+          mulfpsclr_internal <= '0';
+					divfpce_internal <= '1';
+					divfpa_internal <= mem_signed256_ovalue; -- kvcp
+					divfpb_internal <= out_nibble3; -- 2^kvscale;
+					divfpond_internal <= '1';
+					if (divfprdy_internal = '1') then state := s54;
+            --report "kvcp 2 " & real'image(ap_slv2fp(divfpr_internal));
+						divfpce_internal <= '0';
+						divfpond_internal <= '0';
+						divfpsclr_internal <= '1';
+					else state := s53; end if;
+        when s54 =>
+          divfpsclr_internal <= '0';
+          mulfpce_internal <= '1';
+          mulfpa_internal <= mulfpr_internal;
+          mulfpb_internal <= divfpr_internal; -- kvcp
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s55;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s54; end if;
+        when s55 => state := s56;
+          mulfpsclr_internal <= '0';
+        when s56 =>
+          mulfpce_internal <= '1';
+          mulfpa_internal <= mulfpr_internal;
+          mulfpb_internal <= i_VddV0;
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s58;
+            --warning_neq_fp(mulfpr_internal,0.13217926218750000,"ktacp*ta0*kvcp*vdd0"); -- XXX OK
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s56; end if;
+        when s58 =>
+          mulfpsclr_internal <= '0';
+          addfpce_internal <= '1';
+          addfpa_internal <= addfpr_internal;
+          addfpb_internal <= mulfpr_internal;
+          addfpond_internal <= '1';
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (58*2+0, 12)); -- ee243a MSB - ram
+          if (addfprdy_internal = '1') then state := s59;
+            calc := addfpr_internal;
+            addfpce_internal <= '0';
+            addfpond_internal <= '0';
+            addfpsclr_internal <= '1';
+            --warning_neq_fp(addfpr_internal,2.3205166,"calc end"); -- XXX OK
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (58*2+1, 12)); -- ee243a LSB - ram
+          else state := s58; end if;
+        when s59 => state := s61;
+          addfpsclr_internal <= '0';
+        when s61 => state := s63;
+          ram (7 downto 0) := i2c_mem_douta_internal;
+        when s63 =>
+          mem_signed1024_ivalue <= i2c_mem_douta_internal (1 downto 0) & ram; -- ee243a 0x03ff - 10bit - ram
+          mulfpce_internal <= '1';
+          mulfpa_internal <= mem_signed1024_ovalue; -- ram
+          mulfpb_internal <= calc; -- (...)
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s64; -- -- --
+            --warning_neq_fp(mem_signed1024_ovalue,0.0,"ram mem"); -- XXX OK
+            --warning_neq_fp(mulfpr_internal,0.0,"ram"); -- XXX OK
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s63; end if;
+        when s64 => -- XXX empty state
+          mulfpsclr_internal <= '0';
+          subfpce_internal <= '1';
+          subfpa_internal <= mulfpr_internal;
+          subfpb_internal <= x"00000000";
+          subfpond_internal <= '1';
+          if (subfprdy_internal = '1') then state := s64a;
+            subfpce_internal <= '0';
+            subfpond_internal <= '0';
+            subfpsclr_internal <= '1';
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(776*2)+0, 12)); -- ram0708 - pixgain_cp_sp0
+          else state := s64; end if;
+        when s64a => state := s64b;
+          subfpsclr_internal <= '0';
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(776*2)+1, 12)); -- ram0708 - pixgain_cp_sp0
+        when s64b => state := s65;
+          ram (7 downto 0) := i2c_mem_douta_internal;
+        when s65 =>
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <=
+          ram (7) & ram (7) & 
+          ram (7) & ram (7) & 
+          ram (7) & ram (7) & 
+          ram (7) & ram (7) & 
+          ram (7) & ram (7) & 
+          ram (7) & ram (7) & 
+          ram (7) & ram (7) & 
+          ram (7) & ram (7) & 
+          ram (7) & ram (7) & 
+          ram (7) & ram & i2c_mem_douta_internal & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := s67;
+            --warning_neq_fp(fixed2floatr_internal,0.0,"ram"); -- XXX OK  
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+          else state := s65; end if;
+        when s67 =>
+          fixed2floatsclr_internal <= '0';
+          mulfpce_internal <= '1';
+          mulfpa_internal <= fixed2floatr_internal;
+          mulfpb_internal <= CalculateKGain_KGain;
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s71;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s67; end if;
+        when s71 =>
+          mulfpsclr_internal <= '0';
+          subfpce_internal <= '1';
+          subfpa_internal <= mulfpr_internal;
+          subfpb_internal <= subfpr_internal;
+          subfpond_internal <= '1';
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
+          if (subfprdy_internal = '1') then state := d58;
+            --synthesis translate_off
+            warning_neq_fp(subfpr_internal,0.0,"o_pixoscpsp0");
+            --synthesis translate_on
+            o_pixoscpsp0 <= subfpr_internal;
+            subfpce_internal <= '0';
+            subfpond_internal <= '0';
+            subfpsclr_internal <= '1';
+          else state := s71; end if;
+        -- XXX second calc
+        when d58 => state := d59;
+          subfpsclr_internal <= '0';
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (58*2+1, 12)); -- ee243a LSB - ram
+        when d59 => state := d59a;
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (58*2+0, 12)); -- ee243a MSB - ram
+        when d59a => state := d62a;
+          ram (7 downto 0) := i2c_mem_douta_internal;
+        when d62a =>
+          mem_signed1024_ivalue <= i2c_mem_douta_internal (1 downto 0) & ram; -- ee243a 0x03ff - 10bit - ram
+          nibble1 <= i2c_mem_douta_internal (7 downto 2); -- ee243a 0xfc00 - 6bit - offcpsubpage1delta
+          addfpce_internal <= '1';
+          addfpa_internal <= mem_signed1024_ovalue; -- ram
+          addfpb_internal <= out_nibble1; -- offcpsubpage1delta
+          addfpond_internal <= '1';
+          if (addfprdy_internal = '1') then state := d63; -- offcpsubpage1
+            --warning_neq_fp(addfpr_internal,0.0,"offcpsubpage1 second");
+            --warning_neq_fp(mem_signed1024_ovalue,0.0,"ram mem second"); -- XXX OK
+            addfpce_internal <= '0';
+            addfpond_internal <= '0';
+            addfpsclr_internal <= '1';
+          else state := d62a; end if;
+        when d63 =>
+          addfpsclr_internal <= '0';
+          mulfpce_internal <= '1';
+          mulfpa_internal <= addfpr_internal; -- offcpsubpage1
+          mulfpb_internal <= calc; -- (...) calc
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := d64; -- -- --
+            --warning_neq_fp(mulfpr_internal,0.0,"offcpsubpage1 second"); -- XXX OK
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := d63; end if;
+        when d64 => -- XXX empty state
+          mulfpsclr_internal <= '0';
+          subfpce_internal <= '1';
+          subfpa_internal <= mulfpr_internal;
+          subfpb_internal <= x"00000000";
+          subfpond_internal <= '1';
+          if (subfprdy_internal = '1') then state := d64a;
+            subfpce_internal <= '0';
+            subfpond_internal <= '0';
+            subfpsclr_internal <= '1';
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(808*2)+0, 12)); -- ram0728 - pixgain_cp_sp1
+          else state := d64; end if;
+        when d64a => state := d64b;
+          subfpsclr_internal <= '0';
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(808*2)+1, 12)); -- ram0728 - pixgain_cp_sp1
+        when d64b => state := d65;
+          ram (7 downto 0) := i2c_mem_douta_internal;
+        when d65 =>
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <=
+          ram (7) & ram (7) & 
+          ram (7) & ram (7) & 
+          ram (7) & ram (7) & 
+          ram (7) & ram (7) & 
+          ram (7) & ram (7) & 
+          ram (7) & ram (7) & 
+          ram (7) & ram (7) & 
+          ram (7) & ram (7) & 
+          ram (7) & ram (7) & 
+          ram (7) & ram & i2c_mem_douta_internal & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := d67;
+            --warning_neq_fp(fixed2floatr_internal,0.0,"ram"); -- XXX OK
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+          else state := d65; end if;
+        when d67 =>
+          fixed2floatsclr_internal <= '0';
+          mulfpce_internal <= '1';
+          mulfpa_internal <= fixed2floatr_internal;
+          mulfpb_internal <= CalculateKGain_KGain;
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := d71;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := d67; end if;
+        when d71 =>
+          mulfpsclr_internal <= '0';
+          subfpce_internal <= '1';
+          subfpa_internal <= mulfpr_internal;
+          subfpb_internal <= subfpr_internal;
+          subfpond_internal <= '1';
+          if (subfprdy_internal = '1') then state := idle;
+            --synthesis translate_off
+            warning_neq_fp(subfpr_internal,0.0,"o_pixoscpsp1");
+            --synthesis translate_on
+            o_pixoscpsp1 <= subfpr_internal;
+            rdy <= '1';
+            subfpce_internal <= '0';
+            subfpond_internal <= '0';
+            subfpsclr_internal <= '1';
+          else state := d71; end if;
 			end case;
 		end if;
 	end if;
@@ -882,4 +1137,3 @@ divfprdy => calculateKGain_divfprdy
 );
 
 end Behavioral;
-

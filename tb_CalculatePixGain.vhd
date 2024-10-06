@@ -5,7 +5,7 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
-use work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 use work.p_fphdl_package3.all;
 
 ENTITY tb_CalculatePixGain IS
@@ -213,11 +213,48 @@ CalculatePixGain_reset <= '0';
 wait for clockperiod*10;
 CalculatePixGain_run <= '1'; wait for clockperiod; CalculatePixGain_run <= '0';
 wait until CalculatePixGain_rdy = '1';
+--report "rdy at 200.515us";
+--report "rdy at 192.815us";
+--report "rdy at 200.465us";
+report "rdy at 193.075us - rm states,rm reg";
 for i in 0 to 1024 loop
 	CalculatePixGain_addr <= std_logic_vector (to_unsigned (i, 10));
-	wait for clockperiod;
+-- DO after 2 cycles
+-- +--------------------------------------------------------------------------------------------------------------------+
+-- |                |-ADDRESS-------------------------------------------+                                               |
+-- |                                          |-DATA----------------------------------------------+                     |
+-- |___              ____________              ____________              ____________              ____________         |
+-- |   \____________/            \____________/            \____________/            \____________/            \________|
+-- |_______________   _________________________________________________   ______________________________________________|
+-- |               \ /                                                 \ /                                              |
+-- | PIXGAIN_ADDR-1 X                    PIXGAIN_ADDR                   X                   PIXGAIN_ADDR+1              |
+-- |_______________/ \_________________________________________________/ \______________________________________________|
+-- |_________________________________________   _________________________________________________   ____________________|
+-- |                                         \ /                                                 \ /                    |
+-- |            PIXGAIN_DO PREV               X                   PIXGAIN_DO CURR                 X     PIXGAIN_DO NEXT |
+-- |_________________________________________/ \_________________________________________________/ \____________________|
+-- +--------------------------------------------------------------------------------------------------------------------+
+--
+if (i = 0)   then wait until rising_edge (CalculatePixGain_clock); wait until rising_edge (CalculatePixGain_clock); warning_neq_fp (CalculatePixGain_do, x"c2d0b15c", "pixgain do 0 - bad val for prj"); end if; -- XXX first pix have bad value
+if (i = 2)   then wait until rising_edge (CalculatePixGain_clock); wait until rising_edge (CalculatePixGain_clock); warning_neq_fp (CalculatePixGain_do, x"c299fca7", "pixgain do 2"); end if;
+if (i = 4)   then wait until rising_edge (CalculatePixGain_clock); wait until rising_edge (CalculatePixGain_clock); warning_neq_fp (CalculatePixGain_do, x"c29c0359", "pixgain do 4"); end if;
+if (i = 6)   then wait until rising_edge (CalculatePixGain_clock); wait until rising_edge (CalculatePixGain_clock); warning_neq_fp (CalculatePixGain_do, x"c295ef45", "pixgain do 6"); end if;
+if (i = 8)   then wait until rising_edge (CalculatePixGain_clock); wait until rising_edge (CalculatePixGain_clock); warning_neq_fp (CalculatePixGain_do, x"c29e0a0a", "pixgain do 8"); end if;
+if (i = 10)  then wait until rising_edge (CalculatePixGain_clock); wait until rising_edge (CalculatePixGain_clock); warning_neq_fp (CalculatePixGain_do, x"c299fca7", "pixgain do 10"); end if;
+if (i = 383) then wait until rising_edge (CalculatePixGain_clock); wait until rising_edge (CalculatePixGain_clock); warning_neq_fp (CalculatePixGain_do, x"c2ceaaab", "pixgain do 383 - mid pix"); end if; -- XXX middle pix
+if (i = 384) then wait until rising_edge (CalculatePixGain_clock); wait until rising_edge (CalculatePixGain_clock); warning_neq_fp (CalculatePixGain_do, x"c2a624cf", "pixgain do 384 - mid pix+1"); end if; -- XXX middle pix + 1
+if (i = 759) then wait until rising_edge (CalculatePixGain_clock); wait until rising_edge (CalculatePixGain_clock); warning_neq_fp (CalculatePixGain_do, x"c2e6fafb", "pixgain do 759"); end if;
+if (i = 761) then wait until rising_edge (CalculatePixGain_clock); wait until rising_edge (CalculatePixGain_clock); warning_neq_fp (CalculatePixGain_do, x"c2dcd984", "pixgain do 761"); end if;
+if (i = 763) then wait until rising_edge (CalculatePixGain_clock); wait until rising_edge (CalculatePixGain_clock); warning_neq_fp (CalculatePixGain_do, x"c2c89697", "pixgain do 763"); end if;
+if (i = 765) then wait until rising_edge (CalculatePixGain_clock); wait until rising_edge (CalculatePixGain_clock); warning_neq_fp (CalculatePixGain_do, x"c2c89697", "pixgain do 765"); end if;
+if (i = 767) then wait until rising_edge (CalculatePixGain_clock); wait until rising_edge (CalculatePixGain_clock); warning_neq_fp (CalculatePixGain_do, x"c2d0b15c", "pixgain do 767 - last pix"); end if;
+wait until rising_edge (CalculatePixGain_clock); wait until rising_edge (CalculatePixGain_clock); -- XXX can be disabled, then _addr depend on i condition and dont have slide
 end loop;
 wait for 1 ps; -- must be for write
+--report "end at 210.765us";
+--report "end at 767 is 208.385us";
+--report "end at 767 is 216.045us";
+report "end at 213.835us - rm states,rm reg";
 report "done" severity failure;
 END PROCESS tb;
 --  End Test Bench 

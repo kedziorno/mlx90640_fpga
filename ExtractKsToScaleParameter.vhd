@@ -20,6 +20,8 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
+use work.p_fphdl_package3.all;
+
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
@@ -48,40 +50,50 @@ architecture Behavioral of ExtractKsToScaleParameter is
 
 signal odata_kstoscale : std_logic_vector (31 downto 0);
 signal address_kstoscale : std_logic_vector (8 downto 0);
+signal en : std_logic;
 
 begin
 
 p0 : process (i_clock) is
 	type states is (idle,
-	s1,s2,s3,s4,s5,
-	ending);
+	s1,s2,s3,s4);
 	variable state : states;
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
 			state := idle;
 			i2c_mem_ena <= '0';
+      i2c_mem_addra <= (others => '0');
 			o_rdy <= '0';
+      en <= '0';
+      address_kstoscale <= (others => '0');
+      o_kstoscale <= (others => '0');
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
 						state := s1;
 						i2c_mem_ena <= '1';
+            i2c_mem_addra <= std_logic_vector (to_unsigned (63*2+1, 12)); -- ee243f LSB kstoscale 0x000f
+            en <= '1';
 					else
 						state := idle;
 						i2c_mem_ena <= '0';
+            en <= '0';
 					end if;
+          o_rdy <= '0';
 				when s1 => state := s2;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (63*2+1, 12)); -- ee243f LSB kstoscale 0x000f
+          address_kstoscale <= "00000"&i2c_mem_douta (3 downto 0);
 				when s2 => state := s3;
+          address_kstoscale <= "00000"&i2c_mem_douta (3 downto 0);
 				when s3 => state := s4;
-					address_kstoscale <= "00000"&i2c_mem_douta (3 downto 0);
-				when s4 => state := s5;
-				when s5 => state := ending;
-					o_kstoscale <= odata_kstoscale;
-				when ending => state := idle;
+          o_kstoscale <= odata_kstoscale;
+				when s4 => state := idle;
 					o_rdy <= '1';
+          o_kstoscale <= odata_kstoscale;
+          --synthesis translate_off
+          report_error("==================== kstoscale", odata_kstoscale, 0.0);
+          --synthesis translate_on
 			end case;
 		end if;
 	end if;
@@ -102,7 +114,7 @@ ADDR => address_kstoscale, -- 14-bit Address Input
 CLK => i_clock, -- Clock
 DI => (others => '0'), -- 1-bit Data Input
 DIP => (others => '0'), -- 1-bit Data Input
-EN => '1', -- RAM Enable Input
+EN => en, -- RAM Enable Input
 SSR => i_reset, -- Synchronous Set/Reset Input
 WE => '0' -- Write Enable Input,
 );

@@ -3,45 +3,45 @@ Xilinx Mapping Report File for Design 'test1'
 
 Design Information
 ------------------
-Command Line   : map -intstyle ise -p xc4vsx25-ff668-10 -timing -logic_opt off
+Command Line   : map -intstyle ise -p xc4vsx35-ff668-10 -timing -logic_opt off
 -ol std -t 1 -register_duplication off -global_opt off -cm area -ir off -pr off
 -power off -o test1_map.ncd test1.ngd test1.pcf 
-Target Device  : xc4vsx25
+Target Device  : xc4vsx35
 Target Package : ff668
 Target Speed   : -10
 Mapper Version : virtex4 -- $Revision: 1.55 $
-Mapped Date    : Mon Jun 19 15:12:03 2023
+Mapped Date    : Fri Sep 27 22:51:39 2024
 
 Design Summary
 --------------
 Number of errors:      0
 Number of warnings:    4
 Logic Utilization:
-  Number of Slice Flip Flops:        12,107 out of  20,480   59%
-  Number of 4 input LUTs:            16,007 out of  20,480   78%
+  Number of Slice Flip Flops:        11,389 out of  30,720   37%
+  Number of 4 input LUTs:            16,217 out of  30,720   52%
 Logic Distribution:
-  Number of occupied Slices:          9,584 out of  10,240   93%
-    Number of Slices containing only related logic:   9,584 out of   9,584 100%
-    Number of Slices containing unrelated logic:          0 out of   9,584   0%
+  Number of occupied Slices:          9,840 out of  15,360   64%
+    Number of Slices containing only related logic:   9,840 out of   9,840 100%
+    Number of Slices containing unrelated logic:          0 out of   9,840   0%
       *See NOTES below for an explanation of the effects of unrelated logic.
-  Total Number of 4 input LUTs:      16,272 out of  20,480   79%
-    Number used as logic:            15,757
-    Number used as a route-thru:        265
+  Total Number of 4 input LUTs:      16,449 out of  30,720   53%
+    Number used as logic:            15,967
+    Number used as a route-thru:        232
     Number used as Shift registers:     250
 
   The Slice Logic Distribution report is not meaningful if the design is
   over-mapped for a non-slice resource or if Placement fails.
-  Number of bonded IOBs:                 32 out of     320   10%
+  Number of bonded IOBs:                 32 out of     448    7%
   Number of BUFG/BUFGCTRLs:               2 out of      32    6%
     Number used as BUFGs:                 2
-  Number of FIFO16/RAMB16s:              41 out of     128   32%
+  Number of FIFO16/RAMB16s:              41 out of     192   21%
     Number used as RAMB16s:              41
 
-Average Fanout of Non-Clock Nets:                3.36
+Average Fanout of Non-Clock Nets:                3.33
 
-Peak Memory Usage:  1101 MB
-Total REAL time to MAP completion:  4 mins 10 secs 
-Total CPU time to MAP completion:   4 mins 3 secs 
+Peak Memory Usage:  1122 MB
+Total REAL time to MAP completion:  5 mins 3 secs 
+Total CPU time to MAP completion:   4 mins 34 secs 
 
 Table of Contents
 -----------------
@@ -121,9 +121,9 @@ INFO:Pack:1650 - Map created a placed design.
 
 Section 4 - Removed Logic Summary
 ---------------------------------
- 360 block(s) removed
- 531 block(s) optimized away
- 271 signal(s) removed
+ 343 block(s) removed
+  61 block(s) optimized away
+ 258 signal(s) removed
 
 Section 5 - Removed Logic
 -------------------------
@@ -213,12 +213,6 @@ Loadless block "tfm_inst/inst_addfp/blk00000273" (MUX) removed.
       Loadless block "tfm_inst/inst_addfp/blk00000291" (MUX) removed.
        The signal "tfm_inst/inst_addfp/sig00000465" is loadless and has been removed.
         Loadless block "tfm_inst/inst_addfp/blk0000038c" (ROM) removed.
-Loadless block "tfm_inst/inst_calculateTa/XLXI_3/BUF_10" (BUF) removed.
-Loadless block "tfm_inst/inst_calculateTa/XLXI_3/BUF_11" (BUF) removed.
-Loadless block "tfm_inst/inst_calculateTa/XLXI_3/BUF_12" (BUF) removed.
-Loadless block "tfm_inst/inst_calculateTa/XLXI_3/BUF_13" (BUF) removed.
-Loadless block "tfm_inst/inst_calculateTa/XLXI_3/BUF_14" (BUF) removed.
-Loadless block "tfm_inst/inst_calculateTa/XLXI_3/BUF_15" (BUF) removed.
 Loadless block "tfm_inst/inst_divfp/blk00000244" (XOR) removed.
 Loadless block "tfm_inst/inst_divfp/blk00000246" (XOR) removed.
 Loadless block "tfm_inst/inst_divfp/blk00000248" (XOR) removed.
@@ -788,48 +782,6 @@ The signal "tfm_inst/inst_addfp/sig00000173" is sourceless and has been removed.
 The signal "tfm_inst/inst_mulfp/sig00000107" is sourceless and has been removed.
 The signal "tfm_inst/inst_mulfp/sig00000108" is sourceless and has been removed.
 The signal "tfm_inst/inst_mulfp/sig00000109" is sourceless and has been removed.
-
-The trimmed logic reported below is either:
-   1. part of a cycle
-   2. part of disabled logic
-   3. a side-effect of other trimmed logic
-
-The signal "N2130" is unused and has been removed.
- Unused block "tfm_inst/fixed2floata<28>_SW0" (ROM) removed.
-The signal "tfm_inst/inst_calculateVdd/XLXI_6/ADDRA<0>" is unused and has been
-removed.
- Unused block "tfm_inst/inst_calculateVdd/XLXI_6/BUF_kvdd_0" (BUF) removed.
-The signal "tfm_inst/inst_calculateVdd/XLXI_6/ADDRA<14>" is unused and has been
-removed.
-The signal "tfm_inst/inst_calculateVdd/XLXI_6/ADDRA<1>" is unused and has been
-removed.
- Unused block "tfm_inst/inst_calculateVdd/XLXI_6/BUF_kvdd_1" (BUF) removed.
-The signal "tfm_inst/inst_calculateVdd/XLXI_6/ADDRA<2>" is unused and has been
-removed.
- Unused block "tfm_inst/inst_calculateVdd/XLXI_6/BUF_kvdd_2" (BUF) removed.
-The signal "tfm_inst/inst_calculateVdd/XLXI_6/ADDRA<3>" is unused and has been
-removed.
- Unused block "tfm_inst/inst_calculateVdd/XLXI_6/BUF_kvdd_3" (BUF) removed.
-The signal "tfm_inst/inst_calculateVdd/XLXI_6/ADDRA<4>" is unused and has been
-removed.
- Unused block "tfm_inst/inst_calculateVdd/XLXI_6/BUF_kvdd_4" (BUF) removed.
-The signal "tfm_inst/inst_calculateVdd/XLXI_6/ADDRB<0>" is unused and has been
-removed.
- Unused block "tfm_inst/inst_calculateVdd/XLXI_6/BUF_vdd25_0" (BUF) removed.
-The signal "tfm_inst/inst_calculateVdd/XLXI_6/ADDRB<14>" is unused and has been
-removed.
-The signal "tfm_inst/inst_calculateVdd/XLXI_6/ADDRB<1>" is unused and has been
-removed.
- Unused block "tfm_inst/inst_calculateVdd/XLXI_6/BUF_vdd25_1" (BUF) removed.
-The signal "tfm_inst/inst_calculateVdd/XLXI_6/ADDRB<2>" is unused and has been
-removed.
- Unused block "tfm_inst/inst_calculateVdd/XLXI_6/BUF_vdd25_2" (BUF) removed.
-The signal "tfm_inst/inst_calculateVdd/XLXI_6/ADDRB<3>" is unused and has been
-removed.
- Unused block "tfm_inst/inst_calculateVdd/XLXI_6/BUF_vdd25_3" (BUF) removed.
-The signal "tfm_inst/inst_calculateVdd/XLXI_6/ADDRB<4>" is unused and has been
-removed.
- Unused block "tfm_inst/inst_calculateVdd/XLXI_6/BUF_vdd25_4" (BUF) removed.
 Unused block "inst_float2fixed/blk00000011" (MUX) removed.
 Unused block "inst_float2fixed/blk0000002c" (XOR) removed.
 Unused block "inst_float2fixed/blk0000002e" (XOR) removed.
@@ -890,510 +842,10 @@ FDE 		inst_float2fixed/blk00000023
 GND 		inst_tb_i2c_mem/XST_GND
 GND 		tfm_inst/b0.inst_fixed2float/blk00000001
 VCC 		tfm_inst/b0.inst_fixed2float/blk00000002
-LUT4 		tfm_inst/fixed2floata<0>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<10>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<11>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<12>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<13>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<14>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<15>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<16>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<17>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<18>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<19>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<1>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<20>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<21>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<22>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<23>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<24>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<25>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<26>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<27>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<28>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<2>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<3>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<4>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<5>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<6>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<7>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<8>
-   optimized to 0
-LUT4 		tfm_inst/fixed2floata<9>
-   optimized to 0
-LUT2 		tfm_inst/i2c_mem_addra<8>57
-   optimized to 0
-LUT2 		tfm_inst/i2c_mem_addra<9>57
-   optimized to 0
-BUF 		tfm_inst/inst_CalculateAlphaComp/XLXI_30/XLXI_13_10
-BUF 		tfm_inst/inst_CalculateAlphaComp/XLXI_30/XLXI_13_11
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_140_0/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_140_1/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_140_2/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_140_3/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_140_4/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_140_5/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_140_6/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_140_7/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_141_0/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_141_1/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_141_2/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_141_3/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_141_4/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_141_5/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_141_6/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_141_7/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_142_0/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_142_1/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_142_2/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_142_3/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_142_4/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_142_5/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_142_6/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_142_7/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_143_0/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_143_1/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_143_2/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_143_3/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_143_4/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_143_5/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_143_6/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/XLXI_143_7/I_36_7
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_0/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_1/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_10/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_11/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_12/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_13/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_14/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_15/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_16/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_17/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_18/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_19/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_2/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_20/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_21/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_22/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_23/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_24/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_25/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_26/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_27/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_28/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_29/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_3/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_30/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_31/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_4/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_5/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_6/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_7/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_8/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_DIA_9/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_0/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_0/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_0/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_1/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_1/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_1/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_10/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_10/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_10/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_11/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_11/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_11/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_12/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_12/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_12/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_13/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_13/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_13/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_14/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_14/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_14/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_15/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_15/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_15/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_16/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_16/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_16/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_17/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_17/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_17/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_18/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_18/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_18/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_19/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_19/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_19/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_2/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_2/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_2/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_20/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_20/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_20/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_21/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_21/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_21/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_22/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_22/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_22/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_23/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_23/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_23/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_24/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_24/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_24/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_25/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_25/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_25/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_26/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_26/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_26/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_27/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_27/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_27/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_28/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_28/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_28/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_3/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_3/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_3/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_4/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_4/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_4/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_5/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_5/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_5/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_6/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_6/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_6/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_7/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_7/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_7/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_8/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_8/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_8/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_9/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_9/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_F2FA_9/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_I2C_ADDR_1/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_I2C_ADDR_3/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_I2C_ADDR_8/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOS/inst_CalcPixGain/MUX_I2C_ADDR_9/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_0/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_1/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_10/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_11/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_12/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_13/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_14/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_15/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_16/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_17/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_18/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_19/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_2/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_20/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_21/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_22/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_23/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_24/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_25/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_26/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_27/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_28/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_29/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_3/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_30/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_31/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_4/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_5/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_6/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_7/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_8/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOS/inst_ExtrOffParam/XLXI_56_9/I_36_7
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_0/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_0/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_0/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_1/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_1/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_1/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_10/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_10/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_10/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_11/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_11/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_11/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_12/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_12/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_12/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_13/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_13/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_13/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_14/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_14/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_14/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_15/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_15/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_15/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_16/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_16/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_16/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_17/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_17/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_17/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_18/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_18/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_18/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_19/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_19/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_19/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_2/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_2/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_2/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_20/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_20/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_20/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_21/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_21/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_21/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_22/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_22/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_22/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_23/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_23/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_23/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_24/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_24/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_24/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_25/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_25/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_25/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_26/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_26/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_26/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_27/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_27/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_27/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_28/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_28/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_28/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_3/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_3/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_3/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_4/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_4/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_4/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_5/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_5/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_5/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_6/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_6/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_6/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_7/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_7/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_7/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_8/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_8/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_8/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_9/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_9/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_14_9/I_36_9
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_24_1/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_24_3/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_24_3/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_24_3/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_24_8/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_24_8/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_24_8/I_36_9
-AND2B1 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_24_9/I_36_7
-OR2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_24_9/I_36_8
-AND2 		tfm_inst/inst_CalculatePixOsCPSP/XLXI_24_9/I_36_9
-BUF 		tfm_inst/inst_CalculateTo/XLXI_31/XLXI_5_0
-BUF 		tfm_inst/inst_CalculateTo/XLXI_31/XLXI_5_1
-BUF 		tfm_inst/inst_CalculateTo/XLXI_31/XLXI_5_2
-BUF 		tfm_inst/inst_CalculateTo/XLXI_31/XLXI_5_3
-BUF 		tfm_inst/inst_CalculateTo/XLXI_31/XLXI_5_4
-BUF 		tfm_inst/inst_CalculateTo/XLXI_31/XLXI_5_5
-BUF 		tfm_inst/inst_CalculateTo/XLXI_31/XLXI_5_6
-BUF 		tfm_inst/inst_CalculateTo/XLXI_31/XLXI_5_7
-AND2B1 		tfm_inst/inst_CalculateTo/XLXI_61/I_36_7
-AND2B1 		tfm_inst/inst_CalculateTo/XLXI_62_0/I_36_7
-AND2B1 		tfm_inst/inst_CalculateTo/XLXI_62_1/I_36_7
-AND2B1 		tfm_inst/inst_CalculateTo/XLXI_62_10/I_36_7
-OR2 		tfm_inst/inst_CalculateTo/XLXI_62_10/I_36_8
-AND2 		tfm_inst/inst_CalculateTo/XLXI_62_10/I_36_9
-AND2B1 		tfm_inst/inst_CalculateTo/XLXI_62_11/I_36_7
-OR2 		tfm_inst/inst_CalculateTo/XLXI_62_11/I_36_8
-AND2 		tfm_inst/inst_CalculateTo/XLXI_62_11/I_36_9
-AND2B1 		tfm_inst/inst_CalculateTo/XLXI_62_2/I_36_7
-AND2B1 		tfm_inst/inst_CalculateTo/XLXI_62_3/I_36_7
-AND2B1 		tfm_inst/inst_CalculateTo/XLXI_62_4/I_36_7
-AND2B1 		tfm_inst/inst_CalculateTo/XLXI_62_5/I_36_7
-AND2B1 		tfm_inst/inst_CalculateTo/XLXI_62_6/I_36_7
-AND2B1 		tfm_inst/inst_CalculateTo/XLXI_62_7/I_36_7
-OR2 		tfm_inst/inst_CalculateTo/XLXI_62_7/I_36_8
-AND2 		tfm_inst/inst_CalculateTo/XLXI_62_7/I_36_9
-AND2B1 		tfm_inst/inst_CalculateTo/XLXI_62_8/I_36_7
-OR2 		tfm_inst/inst_CalculateTo/XLXI_62_8/I_36_8
-AND2 		tfm_inst/inst_CalculateTo/XLXI_62_8/I_36_9
-AND2B1 		tfm_inst/inst_CalculateTo/XLXI_62_9/I_36_7
-OR2 		tfm_inst/inst_CalculateTo/XLXI_62_9/I_36_8
-AND2 		tfm_inst/inst_CalculateTo/XLXI_62_9/I_36_9
-BUF 		tfm_inst/inst_CalculateVirCompensated/XLXI_32/XLXI_13_10
-BUF 		tfm_inst/inst_CalculateVirCompensated/XLXI_32/XLXI_13_11
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_0/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_1/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_10/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_11/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_12/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_13/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_14/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_15/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_16/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_17/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_18/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_19/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_2/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_20/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_21/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_22/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_23/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_24/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_25/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_26/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_27/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_28/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_29/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_3/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_30/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_31/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_4/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_5/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_6/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_7/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_8/I_36_9
-AND2 		tfm_inst/inst_ExtractAlphaParameters/MUX_DIA_9/I_36_9
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_0/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_1/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_10/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_11/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_12/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_13/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_14/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_15/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_16/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_17/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_18/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_19/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_2/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_20/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_21/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_22/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_23/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_24/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_25/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_26/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_27/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_28/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_29/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_3/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_30/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_31/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_4/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_5/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_6/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_7/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_8/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/MUX_DO_9/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_0/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_1/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_10/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_11/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_12/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_13/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_14/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_15/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_16/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_17/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_18/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_19/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_2/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_20/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_21/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_22/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_23/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_24/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_25/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_26/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_27/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_28/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_29/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_3/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_30/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_31/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_4/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_5/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_6/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_7/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_8/I_36_7
-AND2B1 		tfm_inst/inst_ExtractAlphaParameters/XLXI_40_9/I_36_7
 GND 		tfm_inst/inst_addfp/blk00000001
 VCC 		tfm_inst/inst_addfp/blk00000002
-AND2 		tfm_inst/inst_calculateVdd/XLXI_14_0/I_36_9
-AND2 		tfm_inst/inst_calculateVdd/XLXI_14_1/I_36_9
-AND2 		tfm_inst/inst_calculateVdd/XLXI_14_2/I_36_9
-AND2 		tfm_inst/inst_calculateVdd/XLXI_14_3/I_36_9
-AND2 		tfm_inst/inst_calculateVdd/XLXI_14_4/I_36_9
-AND2 		tfm_inst/inst_calculateVdd/XLXI_14_5/I_36_9
-AND2 		tfm_inst/inst_calculateVdd/XLXI_14_6/I_36_9
-AND2 		tfm_inst/inst_calculateVdd/XLXI_14_7/I_36_9
-AND2B1 		tfm_inst/inst_calculateVdd/XLXI_16_1/I_36_7
-AND2 		tfm_inst/inst_calculateVdd/XLXI_16_10/I_36_9
-AND2 		tfm_inst/inst_calculateVdd/XLXI_16_11/I_36_9
-AND2B1 		tfm_inst/inst_calculateVdd/XLXI_16_3/I_36_7
-OR2 		tfm_inst/inst_calculateVdd/XLXI_16_3/I_36_8
-AND2 		tfm_inst/inst_calculateVdd/XLXI_16_3/I_36_9
-AND2 		tfm_inst/inst_calculateVdd/XLXI_16_4/I_36_9
-AND2 		tfm_inst/inst_calculateVdd/XLXI_16_7/I_36_9
-AND2B1 		tfm_inst/inst_calculateVdd/XLXI_16_8/I_36_7
-OR2 		tfm_inst/inst_calculateVdd/XLXI_16_8/I_36_8
-AND2 		tfm_inst/inst_calculateVdd/XLXI_16_8/I_36_9
-AND2B1 		tfm_inst/inst_calculateVdd/XLXI_16_9/I_36_7
-OR2 		tfm_inst/inst_calculateVdd/XLXI_16_9/I_36_8
-AND2 		tfm_inst/inst_calculateVdd/XLXI_16_9/I_36_9
-BUF 		tfm_inst/inst_calculateVdd/XLXI_6/BUF_kvdd_13
-BUF 		tfm_inst/inst_calculateVdd/XLXI_6/BUF_kvdd_14
-BUF 		tfm_inst/inst_calculateVdd/XLXI_6/BUF_vdd25_14
+GND
+		tfm_inst/inst_calculateVdd/inst_ExtractVDDParameters/rom_kvdd_vdd25/XST_GND
 GND 		tfm_inst/inst_divfp/blk00000001
 VCC 		tfm_inst/inst_divfp/blk00000002
 GND 		tfm_inst/inst_mulfp/blk00000001

@@ -29,6 +29,8 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
+use work.p_fphdl_package3.all;
+
 entity CalculateVirCompensated is
 port (
 i_clock : in std_logic;
@@ -296,7 +298,7 @@ signal mem_switchpattern_reset : std_logic;
 signal mem_switchpattern_pixel : std_logic_vector(13 downto 0);
 signal mem_switchpattern_pattern : std_logic;
 
-component ExtractTGCParameter is
+component ExtractTGCParameters is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -307,7 +309,7 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_tgc : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic
 );
-end component ExtractTGCParameter;
+end component ExtractTGCParameters;
 signal ExtractTGCParameters_clock : std_logic;
 signal ExtractTGCParameters_reset : std_logic;
 signal ExtractTGCParameters_run : std_logic;
@@ -389,14 +391,11 @@ p0 : process (i_clock) is
 	constant C_ROW : integer := 24;
 	constant C_COL : integer := 32;
 	variable i : integer range 0 to C_ROW*C_COL-1;
-	type states is (idle,s0,s0a,
-	s1,s2,s3,s4,s5,s8,s9,s10,
-	s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,
-	s21,s22,s23,
-	ending);
+  type states is (idle,s0a,
+	s3,s4,s9,s10,
+	s12,s15,s18,
+	s21,s23);
 	variable state : states;
-	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
-	variable emissivity_compensated : std_logic_vector (31 downto 0);
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -425,11 +424,18 @@ begin
 			ExtractTGCParameters_run <= '0';
 			ExtractTGCParameters_mux <= '0';
 			write_enable <= '0';
+      addra <= (others => '0');
+      dia <= (others => '0');
+      mem_switchpattern_pixel <= (others => '0');
+      o_pixos_addr <= (others => '0');
+      i := 0;
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := s0;
+						state := s0a;
+            ExtractTGCParameters_run <= '1';
+            ExtractTGCParameters_mux <= '1';
 					else
 						state := idle;
 					end if;
@@ -438,132 +444,117 @@ begin
 					subfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
-				when s0 => state := s0a;
-					ExtractTGCParameters_run <= '1';
-					ExtractTGCParameters_mux <= '1';
-				when s0a => 
+          i := 0;
+				when s0a =>
 					ExtractTGCParameters_run <= '0';
 					if (ExtractTGCParameters_rdy = '1') then
-						state := s1;
+						state := s3;
 						ExtractTGCParameters_mux <= '0';
 					else
 						state := s0a;
 						ExtractTGCParameters_mux <= '1';
 					end if;
-
-				when s1 => state := s2;
+				when s3 => state := s4;
 					o_pixos_addr <= std_logic_vector (to_unsigned (i, 10));
 					mem_switchpattern_pixel <= std_logic_vector (to_unsigned (i, 14));
-				when s2 => state := s3;
-				when s3 => state := s4;
-
+          divfpsclr_internal <= '0';
+          addfpsclr_internal <= '0';
+          subfpsclr_internal <= '0';
+          mulfpsclr_internal <= '0';
+				when s4 =>
 					divfpce_internal <= '1';
 					divfpa_internal <= i_pixos_do;
 					divfpb_internal <= i_Emissivity;
 					divfpond_internal <= '1';
-				when s4 =>
-					if (divfprdy_internal = '1') then state := s5;
-						emissivity_compensated := divfpr_internal;
+					if (divfprdy_internal = '1') then state := s9;
 						divfpce_internal <= '0';
 						divfpond_internal <= '0';
 						divfpsclr_internal <= '1';
 					else state := s4; end if;
-				when s5 => state := s8;
+				when s9 =>
 					divfpsclr_internal <= '0';
-
-
-				when s8 => state := s9;
 					mulfpce_internal <= '1';
 					mulfpa_internal <= i_pixoscpsp1;
 					mulfpb_internal <= pattern_ft;
 					mulfpond_internal <= '1';
-				when s9 =>
-					if (mulfprdy_internal = '1') then state := s10;
-						fptmp1 := mulfpr_internal;
+          if (mulfprdy_internal = '1') then state := s10;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
 					else state := s9; end if;
-				when s10 => state := s11;
+        when s10 => -- XXX empty state for rm tmp reg
+          mulfpsclr_internal <= '0';
+          subfpce_internal <= '1';
+					subfpa_internal <= mulfpr_internal;
+					subfpb_internal <= x"00000000";
+					subfpond_internal <= '1';
+          if (subfprdy_internal = '1') then state := s12;
+						subfpce_internal <= '0';
+						subfpond_internal <= '0';
+						subfpsclr_internal <= '1';
+					else state := s10; end if;
+				when s12 =>
+          subfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
-
-				when s11 => state := s12;
 					mulfpce_internal <= '1';
 					mulfpa_internal <= i_pixoscpsp0;
 					mulfpb_internal <= pattern_neg_ft;
 					mulfpond_internal <= '1';
-				when s12 =>
-					if (mulfprdy_internal = '1') then state := s13;
-						fptmp2 := mulfpr_internal;
+					if (mulfprdy_internal = '1') then state := s15;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
 					else state := s12; end if;
-				when s13 => state := s14;
-					mulfpsclr_internal <= '0';
-
-				when s14 => state := s15;
-					addfpce_internal <= '1';
-					addfpa_internal <= fptmp1;
-					addfpb_internal <= fptmp2;
-					addfpond_internal <= '1';
 				when s15 =>
-					if (addfprdy_internal = '1') then state := s16;
-						fptmp1 := addfpr_internal;
+					mulfpsclr_internal <= '0';
+					addfpce_internal <= '1';
+					addfpa_internal <= addfpr_internal; -- XX s10
+					addfpb_internal <= mulfpr_internal; -- XXX s12
+					addfpond_internal <= '1';
+					if (addfprdy_internal = '1') then state := s18;
 						addfpce_internal <= '0';
 						addfpond_internal <= '0';
 						addfpsclr_internal <= '1';
 					else state := s15; end if;
-				when s16 => state := s17;
+				when s18 =>
 					addfpsclr_internal <= '0';
-
-				when s17 => state := s18;
 					mulfpce_internal <= '1';
-					mulfpa_internal <= fptmp1;
+					mulfpa_internal <= addfpr_internal;
 					mulfpb_internal <= ExtractTGCParameters_tgc;
 					mulfpond_internal <= '1';
-				when s18 =>
-					if (mulfprdy_internal = '1') then state := s19;
-						fptmp1 := mulfpr_internal;
+					if (mulfprdy_internal = '1') then state := s21;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
 					else state := s18; end if;
-				when s19 => state := s20;
-					mulfpsclr_internal <= '0';
-
-				when s20 => state := s21;
-					subfpce_internal <= '1';
-					subfpa_internal <= emissivity_compensated;
-					subfpb_internal <= fptmp1;
-					subfpond_internal <= '1';
 				when s21 =>
-					if (subfprdy_internal = '1') then state := s22;
-						fptmp1 := subfpr_internal;
+					mulfpsclr_internal <= '0';
+					subfpce_internal <= '1';
+					subfpa_internal <= divfpr_internal;
+					subfpb_internal <= mulfpr_internal;
+					subfpond_internal <= '1';
+					if (subfprdy_internal = '1') then state := s23;
 						subfpce_internal <= '0';
 						subfpond_internal <= '0';
 						subfpsclr_internal <= '1';
+            write_enable <= '1';
+            addra <= std_logic_vector (to_unsigned (i, 10)); -- pixos
+            dia <= subfpr_internal;
+            --synthesis translate_off
+            report_error("================ vircompensated " & integer'image (i), subfpr_internal, 0.0);
+            --synthesis translate_on
 					else state := s21; end if;
-				when s22 => state := s23;
+        when s23 =>
 					subfpsclr_internal <= '0';
-
-					write_enable <= '1';
-					addra <= std_logic_vector (to_unsigned (i, 10)); -- pixos
-					dia <= fptmp1;
-					----report "================vircompensated : " & real'image (ap_slv2fp (fptmp1));
-				when s23 =>
 					write_enable <= '0';
 					if (i = (C_ROW*C_COL)-1) then
-						state := ending;
+						state := idle;
+            rdy <= '1';
 						i := 0;
 					else
-						state := s1;
+						state := s3;
 						i := i + 1;
 					end if;
-
-				when ending => state := idle;
-					rdy <= '1';
-				when others => null;
 			end case;
 		end if;
 	end if;
@@ -571,7 +562,7 @@ end process p0;
 
 ExtractTGCParameters_clock <= i_clock;
 ExtractTGCParameters_reset <= i_reset;
-inst_ExtractTGCParameters : ExtractTGCParameter port map (
+inst_ExtractTGCParameters : ExtractTGCParameters port map (
 i_clock => ExtractTGCParameters_clock,
 i_reset => ExtractTGCParameters_reset,
 i_run => ExtractTGCParameters_run,
@@ -602,7 +593,7 @@ ADDR => mux_addr,
 CLK => i_clock,
 DI => mux_dia,
 DIP => (others => '0'),
-EN => '1',
+EN => i_clock,
 SSR => i_reset,
 WE => write_enable
 );
