@@ -431,6 +431,58 @@ signal CalculateAlphaCP_mulfpce : STD_LOGIC;
 signal CalculateAlphaCP_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaCP_mulfprdy : STD_LOGIC;
 
+component CalculateKGain is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+o_KGain : out std_logic_vector (31 downto 0);
+o_rdy : out std_logic;
+
+signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC;
+
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC
+
+);
+end component CalculateKGain;
+signal CalculateKGain_clock : std_logic;
+signal CalculateKGain_reset : std_logic;
+signal CalculateKGain_run : std_logic;
+signal CalculateKGain_i2c_mem_ena : STD_LOGIC;
+signal CalculateKGain_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal CalculateKGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal CalculateKGain_KGain : std_logic_vector (31 downto 0);
+signal CalculateKGain_rdy : std_logic;
+
+signal CalculateKGain_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculateKGain_fixed2floatond : STD_LOGIC;
+signal CalculateKGain_fixed2floatsclr : STD_LOGIC;
+signal CalculateKGain_fixed2floatce : STD_LOGIC;
+signal CalculateKGain_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateKGain_fixed2floatrdy : STD_LOGIC;
+
+signal CalculateKGain_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateKGain_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateKGain_divfpond : STD_LOGIC;
+signal CalculateKGain_divfpsclr : STD_LOGIC;
+signal CalculateKGain_divfpce : STD_LOGIC;
+signal CalculateKGain_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateKGain_divfprdy : STD_LOGIC;
+
 component CalculatePixOS is
 port (
 i_clock : in std_logic;
@@ -444,6 +496,7 @@ i_Ta : in std_logic_vector (31 downto 0);
 i_Ta0 : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
 i_VddV0 : in std_logic_vector (31 downto 0);
+i_KGain : in std_logic_vector (31 downto 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 o_rdy : out std_logic;
@@ -494,6 +547,7 @@ signal CalculatePixOS_Ta : std_logic_vector (31 downto 0);
 signal CalculatePixOS_Ta0 : std_logic_vector (31 downto 0);
 signal CalculatePixOS_Vdd : std_logic_vector (31 downto 0);
 signal CalculatePixOS_VddV0 : std_logic_vector (31 downto 0);
+signal CalculatePixOS_KGain : std_logic_vector (31 downto 0);
 signal CalculatePixOS_do : std_logic_vector (31 downto 0);
 signal CalculatePixOS_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal CalculatePixOS_rdy : std_logic;
@@ -547,6 +601,7 @@ i_Ta0 : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
 i_VddV0 : in std_logic_vector (31 downto 0);
 i_const1 : in std_logic_vector (31 downto 0);
+i_KGain : in std_logic_vector (31 downto 0);
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -597,6 +652,7 @@ signal CalculatePixOsCPSP_Ta0 : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_Vdd : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_VddV0 : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_const1 : std_logic_vector (31 downto 0);
+signal CalculatePixOsCPSP_KGain : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_i2c_mem_ena : STD_LOGIC;
 signal CalculatePixOsCPSP_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal CalculatePixOsCPSP_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -931,15 +987,17 @@ signal CalculateTo_sqrtfp2ce : STD_LOGIC;
 signal CalculateTo_sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateTo_sqrtfp2rdy : STD_LOGIC;
 
-signal rdyrecover : std_logic; -- signal for tb when rdy not appear
-
 signal CalculatePixOS_mux,CalculatePixOsCPSP_mux,CalculateVirCompensated_mux,ExtractOffsetParameters_mux : std_logic;
 signal ExtractAlphaParameters_mux,CalculateAlphaComp_mux,CalculateAlphaCP_mux : std_logic;
 signal CalculateVdd_mux,CalculateTa_mux,CalculateTo_mux : std_logic;
 
+signal CalculateKGain_mux : std_logic;
+
 begin
 
 fixed2floata <=
+CalculateKGain_fixed2floata when CalculateKGain_mux = '1'
+else
 CalculateVdd_fixed2floata when CalculateVdd_mux = '1'
 else
 CalculateTa_fixed2floata when CalculateTa_mux = '1'
@@ -952,6 +1010,8 @@ ExtractAlphaParameters_fixed2floata when ExtractAlphaParameters_mux = '1'
 else (others => '0');
 
 fixed2floatond <=
+CalculateKGain_fixed2floatond when CalculateKGain_mux = '1'
+else
 CalculateVdd_fixed2floatond when CalculateVdd_mux = '1' 
 else
 CalculateTa_fixed2floatond when CalculateTa_mux = '1' 
@@ -964,6 +1024,8 @@ ExtractAlphaParameters_fixed2floatond when ExtractAlphaParameters_mux = '1'
 else '0';
 
 fixed2floatce <=
+CalculateKGain_fixed2floatce when CalculateKGain_mux = '1'
+else
 CalculateVdd_fixed2floatce when CalculateVdd_mux = '1' 
 else
 CalculateTa_fixed2floatce when CalculateTa_mux = '1' 
@@ -976,6 +1038,8 @@ ExtractAlphaParameters_fixed2floatce when ExtractAlphaParameters_mux = '1'
 else '0';
 
 fixed2floatsclr <=
+CalculateKGain_fixed2floatsclr when CalculateKGain_mux = '1'
+else
 CalculateVdd_fixed2floatsclr when CalculateVdd_mux = '1' 
 else
 CalculateTa_fixed2floatsclr when CalculateTa_mux = '1' 
@@ -988,6 +1052,8 @@ ExtractAlphaParameters_fixed2floatsclr when ExtractAlphaParameters_mux = '1'
 else '0';
 
 divfpa <=
+CalculateKGain_divfpa when CalculateKGain_mux = '1'
+else
 CalculateVdd_divfpa when CalculateVdd_mux = '1' 
 else
 CalculateTa_divfpa when CalculateTa_mux = '1' 
@@ -1006,6 +1072,8 @@ CalculateTo_divfpa when CalculateTo_mux = '1'
 else (others => '0');
 
 divfpb <=
+CalculateKGain_divfpb when CalculateKGain_mux = '1'
+else
 CalculateVdd_divfpb when CalculateVdd_mux = '1' 
 else
 CalculateTa_divfpb when CalculateTa_mux = '1' 
@@ -1024,6 +1092,8 @@ CalculateTo_divfpb when CalculateTo_mux = '1'
 else (others => '0');
 
 divfpond <=
+CalculateKGain_divfpond when CalculateKGain_mux = '1'
+else
 CalculateVdd_divfpond when CalculateVdd_mux = '1' 
 else
 CalculateTa_divfpond when CalculateTa_mux = '1' 
@@ -1042,6 +1112,8 @@ CalculateTo_divfpond when CalculateTo_mux = '1'
 else '0';
 
 divfpce <=
+CalculateKGain_divfpce when CalculateKGain_mux = '1'
+else
 CalculateVdd_divfpce when CalculateVdd_mux = '1' 
 else
 CalculateTa_divfpce when CalculateTa_mux = '1' 
@@ -1060,6 +1132,8 @@ CalculateTo_divfpce when CalculateTo_mux = '1'
 else '0';
 
 divfpsclr <=
+CalculateKGain_divfpsclr when CalculateKGain_mux = '1'
+else
 CalculateVdd_divfpsclr when CalculateVdd_mux = '1' 
 else
 CalculateTa_divfpsclr when CalculateTa_mux = '1' 
@@ -1352,6 +1426,11 @@ sqrtfp2ond <= CalculateTo_sqrtfp2ond when CalculateTo_mux = '1' else '0';
 sqrtfp2sclr <= CalculateTo_sqrtfp2sclr when CalculateTo_mux = '1' else '0';
 sqrtfp2ce <= CalculateTo_sqrtfp2ce when CalculateTo_mux = '1' else '0';
 
+CalculateKGain_fixed2floatr <= fixed2floatr when CalculateKGain_mux = '1' else (others => '0');
+CalculateKGain_fixed2floatrdy <= fixed2floatrdy when CalculateKGain_mux = '1' else '0';
+CalculateKGain_divfpr <= divfpr when CalculateKGain_mux = '1' else (others => '0');
+CalculateKGain_divfprdy <= divfprdy when CalculateKGain_mux = '1' else '0';
+
 CalculateVdd_fixed2floatr <= fixed2floatr when CalculateVdd_mux = '1' else (others => '0');
 CalculateVdd_fixed2floatrdy <= fixed2floatrdy when CalculateVdd_mux = '1' else '0';
 CalculateVdd_divfpr <= divfpr when CalculateVdd_mux = '1' else (others => '0');
@@ -1438,14 +1517,14 @@ CalculateTo_sqrtfp2r <= sqrtfp2r when CalculateTo_mux = '1' else (others => '0')
 CalculateTo_sqrtfp2rdy <= sqrtfp2rdy when CalculateTo_mux = '1' else '0';
 
 i2c_mem_ena <=
+CalculateKGain_i2c_mem_ena when CalculateKGain_mux = '1'
+else
 CalculatePixOS_i2c_mem_ena when CalculatePixOS_mux = '1'
 else
 CalculatePixOsCPSP_i2c_mem_ena when CalculatePixOsCPSP_mux = '1'
 else
 CalculateVirCompensated_i2c_mem_ena when CalculateVirCompensated_mux = '1'
 else
---ExtractOffsetParameters_i2c_mem_ena when ExtractOffsetParameters_mux = '1'
---else
 CalculateAlphaCP_i2c_mem_ena when CalculateAlphaCP_mux = '1'
 else
 ExtractAlphaParameters_i2c_mem_ena when ExtractAlphaParameters_mux = '1'
@@ -1460,14 +1539,14 @@ CalculateTo_i2c_mem_ena when CalculateTo_mux = '1'
 else '0';
 
 i2c_mem_addra <=
+CalculateKGain_i2c_mem_addra when CalculateKGain_mux = '1'
+else
 CalculatePixOS_i2c_mem_addra when CalculatePixOS_mux = '1'
 else
 CalculatePixOsCPSP_i2c_mem_addra when CalculatePixOsCPSP_mux = '1'
 else
 CalculateVirCompensated_i2c_mem_addra when CalculateVirCompensated_mux = '1'
 else
---ExtractOffsetParameters_i2c_mem_addra when ExtractOffsetParameters_mux = '1'
---else
 CalculateAlphaCP_i2c_mem_addra when CalculateAlphaCP_mux = '1'
 else
 ExtractAlphaParameters_i2c_mem_addra when ExtractAlphaParameters_mux = '1'
@@ -1481,10 +1560,10 @@ else
 CalculateTo_i2c_mem_addra when CalculateTo_mux = '1'
 else (others => '0');
 
+CalculateKGain_i2c_mem_douta <= i2c_mem_douta when CalculateKGain_mux = '1' else (others => '0');
 CalculatePixOS_i2c_mem_douta <= i2c_mem_douta when CalculatePixOS_mux = '1' else (others => '0');
 CalculatePixOsCPSP_i2c_mem_douta <= i2c_mem_douta when CalculatePixOsCPSP_mux = '1' else (others => '0');
 CalculateVirCompensated_i2c_mem_douta <= i2c_mem_douta when CalculateVirCompensated_mux = '1' else (others => '0');
---ExtractOffsetParameters_i2c_mem_douta <= i2c_mem_douta when ExtractOffsetParameters_mux = '1' else (others => '0');
 CalculateAlphaCP_i2c_mem_douta <= i2c_mem_douta when CalculateAlphaCP_mux = '1' else (others => '0');
 ExtractAlphaParameters_i2c_mem_douta <= i2c_mem_douta when ExtractAlphaParameters_mux = '1' else (others => '0');
 CalculateAlphaComp_i2c_mem_douta <= i2c_mem_douta when CalculateAlphaComp_mux = '1' else (others => '0');
@@ -1494,7 +1573,7 @@ CalculateTo_i2c_mem_douta <= i2c_mem_douta when CalculateTo_mux = '1' else (othe
 
 	-- purpose: main test loop
 	tester : process (i_clock,i_reset) is
-		type states is (idle,
+		type states is (idle,s0,s0a,
 		s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,
 		ending);
 		variable state : states;
@@ -1508,10 +1587,23 @@ CalculateTo_i2c_mem_douta <= i2c_mem_douta when CalculateTo_mux = '1' else (othe
 case (state) is
 	when idle =>
 			if (i_run = '1') then
-				state := s1;
+				state := s0;
 			else
 				state := idle;
 			end if;
+
+	when s0 => state := s0a;
+		CalculateKGain_run <= '1';
+		CalculateKGain_mux <= '1';
+	when s0a => 
+		CalculateKGain_run <= '0';
+		if (CalculateKGain_rdy = '1') then
+			state := s1;
+			CalculateKGain_mux <= '0';
+		else
+			state := s0a;
+			CalculateKGain_mux <= '1';
+		end if;
 
 	when s1 => state := s2;
 		CalculateVdd_run <= '1';
@@ -1638,6 +1730,34 @@ end case;
 end if;
 end if;
 end process tester;
+
+CalculateKGain_clock <= i_clock;
+CalculateKGain_reset <= i_reset;
+inst_CalculateKGain : CalculateKGain port map (
+i_clock => CalculateKGain_clock,
+i_reset => CalculateKGain_reset,
+i_run => CalculateKGain_run,
+i2c_mem_ena => CalculateKGain_i2c_mem_ena,
+i2c_mem_addra => CalculateKGain_i2c_mem_addra,
+i2c_mem_douta => CalculateKGain_i2c_mem_douta,
+o_KGain => CalculateKGain_KGain,
+o_rdy => CalculateKGain_rdy,
+
+fixed2floata => CalculateKGain_fixed2floata,
+fixed2floatond => CalculateKGain_fixed2floatond,
+fixed2floatsclr => CalculateKGain_fixed2floatsclr,
+fixed2floatce => CalculateKGain_fixed2floatce,
+fixed2floatr => CalculateKGain_fixed2floatr,
+fixed2floatrdy => CalculateKGain_fixed2floatrdy,
+
+divfpa => CalculateKGain_divfpa,
+divfpb => CalculateKGain_divfpb,
+divfpond => CalculateKGain_divfpond,
+divfpsclr => CalculateKGain_divfpsclr,
+divfpce => CalculateKGain_divfpce,
+divfpr => CalculateKGain_divfpr,
+divfprdy => CalculateKGain_divfprdy
+);
 
 calculateVdd_clock <= i_clock;
 calculateVdd_reset <= i_reset;
@@ -1821,6 +1941,7 @@ CalculatePixOS_Ta <= CalculateTa_Ta; -- xxx
 CalculatePixOS_Ta0 <= x"41C80000"; -- 25
 CalculatePixOS_Vdd <= CalculateVdd_Vdd; -- xxx
 CalculatePixOS_VddV0 <= x"40533333"; -- 3.3
+CalculatePixOS_KGain <= CalculateKGain_KGain;
 inst_CalculatePixOS : CalculatePixOS port map (
 i_clock => CalculatePixOS_clock,
 i_reset => CalculatePixOS_reset,
@@ -1833,6 +1954,7 @@ i_Ta => CalculatePixOS_Ta,
 i_Ta0 => CalculatePixOS_Ta0,
 i_Vdd => CalculatePixOS_Vdd,
 i_VddV0 => CalculatePixOS_VddV0,
+i_KGain => CalculatePixOS_KGain,
 o_do => CalculatePixOS_do,
 i_addr => CalculatePixOS_addr,
 o_rdy => CalculatePixOS_rdy,
@@ -1879,6 +2001,7 @@ CalculatePixOsCPSP_Ta0 <= x"41C80000"; -- 25
 CalculatePixOsCPSP_Vdd <= CalculateVdd_Vdd; -- xxx
 CalculatePixOsCPSP_VddV0 <= x"40533333"; -- 3.3
 CalculatePixOsCPSP_const1 <= x"3F800000"; -- 1
+CalculatePixOsCPSP_KGain <= CalculateKGain_KGain;
 inst_CalculatePixOsCPSP : CalculatePixOsCPSP port map (
 i_clock => CalculatePixOsCPSP_clock,
 i_reset => CalculatePixOsCPSP_reset,
@@ -1888,6 +2011,7 @@ i_Ta0 => CalculatePixOsCPSP_Ta0,
 i_Vdd => CalculatePixOsCPSP_Vdd,
 i_VddV0 => CalculatePixOsCPSP_VddV0,
 i_const1 => CalculatePixOsCPSP_const1,
+i_KGain => CalculatePixOsCPSP_KGain,
 i2c_mem_ena => CalculatePixOsCPSP_i2c_mem_ena,
 i2c_mem_addra => CalculatePixOsCPSP_i2c_mem_addra,
 i2c_mem_douta => CalculatePixOsCPSP_i2c_mem_douta,

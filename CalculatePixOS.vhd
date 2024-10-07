@@ -47,6 +47,7 @@ i_Ta : in std_logic_vector (31 downto 0);
 i_Ta0 : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
 i_VddV0 : in std_logic_vector (31 downto 0);
+i_KGain : in std_logic_vector (31 downto 0);
 
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
@@ -293,6 +294,7 @@ i_run : in std_logic;
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+i_KGain : in std_logic_vector (31 downto 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 o_rdy : out std_logic;
@@ -308,14 +310,7 @@ mulfpond : out STD_LOGIC;
 mulfpce : out STD_LOGIC;
 mulfpsclr : out STD_LOGIC;
 mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-mulfprdy : in STD_LOGIC;
-signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpond : out STD_LOGIC;
-signal divfpsclr : out STD_LOGIC;
-signal divfpce : out STD_LOGIC;
-signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy : in STD_LOGIC
+mulfprdy : in STD_LOGIC
 );
 end component CalculatePixGain;
 signal CalculatePixGain_clock : std_logic;
@@ -324,6 +319,7 @@ signal CalculatePixGain_run : std_logic;
 signal CalculatePixGain_i2c_mem_ena : STD_LOGIC;
 signal CalculatePixGain_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal CalculatePixGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal CalculatePixGain_KGain : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixGain_do : std_logic_vector (31 downto 0);
 signal CalculatePixGain_addr : std_logic_vector (9 downto 0);
 signal CalculatePixGain_rdy : std_logic;
@@ -340,16 +336,8 @@ signal CalculatePixGain_mulfpce : STD_LOGIC;
 signal CalculatePixGain_mulfpsclr : STD_LOGIC;
 signal CalculatePixGain_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixGain_mulfprdy : STD_LOGIC;
-signal CalculatePixGain_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculatePixGain_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculatePixGain_divfpond : STD_LOGIC;
-signal CalculatePixGain_divfpce : STD_LOGIC;
-signal CalculatePixGain_divfpsclr : STD_LOGIC;
-signal CalculatePixGain_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculatePixGain_divfprdy : STD_LOGIC;
 signal CalculatePixGain_fixed2floatclk : std_logic;
 signal CalculatePixGain_mulfpclk : std_logic;
-signal CalculatePixGain_divfpclk : std_logic;
 
 component mem_ramb16_s36_x2 is
 generic (
@@ -627,40 +615,30 @@ ExtractKtaParameters_mulfpce when ExtractKtaParameters_mux = '1'
 else mulfpce_internal;
 
 divfpa <=
-CalculatePixGain_divfpa when CalculatePixGain_mux = '1'
-else
 ExtractKtaParameters_divfpa when ExtractKtaParameters_mux = '1'
 else
 ExtractKvParameters_divfpa when ExtractKvParameters_mux = '1'
 else divfpa_internal;
 
 divfpb <=
-CalculatePixGain_divfpb when CalculatePixGain_mux = '1'
-else
 ExtractKtaParameters_divfpb when ExtractKtaParameters_mux = '1'
 else
 ExtractKvParameters_divfpb when ExtractKvParameters_mux = '1'
 else divfpb_internal;
 
 divfpond <=
-CalculatePixGain_divfpond when CalculatePixGain_mux = '1'
-else
 ExtractKtaParameters_divfpond when ExtractKtaParameters_mux = '1'
 else
 ExtractKvParameters_divfpond when ExtractKvParameters_mux = '1'
 else divfpond_internal;
 
 divfpsclr <=
-CalculatePixGain_divfpsclr when CalculatePixGain_mux = '1'
-else
 ExtractKtaParameters_divfpsclr when ExtractKtaParameters_mux = '1'
 else
 ExtractKvParameters_divfpsclr when ExtractKvParameters_mux = '1'
 else divfpsclr_internal;
 
 divfpce <=
-CalculatePixGain_divfpce when CalculatePixGain_mux = '1'
-else
 ExtractKtaParameters_divfpce when ExtractKtaParameters_mux = '1'
 else
 ExtractKvParameters_divfpce when ExtractKvParameters_mux = '1'
@@ -720,8 +698,6 @@ CalculatePixGain_fixed2floatr <= fixed2floatr when CalculatePixGain_mux = '1' el
 CalculatePixGain_fixed2floatrdy <= fixed2floatrdy when CalculatePixGain_mux = '1' else '0';
 CalculatePixGain_mulfpr <= mulfpr when CalculatePixGain_mux = '1' else (others => '0');
 CalculatePixGain_mulfprdy <= mulfprdy when CalculatePixGain_mux = '1' else '0';
-CalculatePixGain_divfpr <= divfpr when CalculatePixGain_mux = '1' else (others => '0');
-CalculatePixGain_divfprdy <= divfprdy when CalculatePixGain_mux = '1' else '0';
 
 ExtractOffsetParameters_fixed2floatr <= fixed2floatr when ExtractOffsetParameters_mux = '1' else (others => '0');
 ExtractOffsetParameters_fixed2floatrdy <= fixed2floatrdy when ExtractOffsetParameters_mux = '1' else '0';
@@ -1039,6 +1015,7 @@ ExtractKvParameters_i2c_mem_douta <= i2c_mem_douta when ExtractKvParameters_mux 
 
 CalculatePixGain_clock <= i_clock;
 CalculatePixGain_reset <= i_reset;
+CalculatePixGain_KGain <= i_KGain;
 inst_CalculatePixGain : CalculatePixGain port map (
 i_clock => CalculatePixGain_clock,
 i_reset => CalculatePixGain_reset,
@@ -1046,6 +1023,7 @@ i_run => CalculatePixGain_run,
 i2c_mem_ena => CalculatePixGain_i2c_mem_ena,
 i2c_mem_addra => CalculatePixGain_i2c_mem_addra,
 i2c_mem_douta => CalculatePixGain_i2c_mem_douta,
+i_KGain => CalculatePixGain_KGain,
 o_do => CalculatePixGain_do,
 i_addr => CalculatePixGain_addr,
 o_rdy => CalculatePixGain_rdy,
@@ -1063,15 +1041,7 @@ mulfpond => CalculatePixGain_mulfpond,
 mulfpce => CalculatePixGain_mulfpce,
 mulfpsclr => CalculatePixGain_mulfpsclr,
 mulfpr => CalculatePixGain_mulfpr,
-mulfprdy => CalculatePixGain_mulfprdy,
-
-divfpa => CalculatePixGain_divfpa,
-divfpb => CalculatePixGain_divfpb,
-divfpond => CalculatePixGain_divfpond,
-divfpce => CalculatePixGain_divfpce,
-divfpsclr => CalculatePixGain_divfpsclr,
-divfpr => CalculatePixGain_divfpr,
-divfprdy => CalculatePixGain_divfprdy
+mulfprdy => CalculatePixGain_mulfprdy
 );
 
 ExtractOffsetParameters_clock <= i_clock;
