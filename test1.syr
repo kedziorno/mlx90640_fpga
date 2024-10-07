@@ -4,15 +4,15 @@ Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 Parameter TMPDIR set to xst/projnav.tmp
 
 
-Total REAL time to Xst completion: 1.00 secs
-Total CPU time to Xst completion: 0.08 secs
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.07 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
-Total REAL time to Xst completion: 1.00 secs
-Total CPU time to Xst completion: 0.08 secs
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.07 secs
  
 --> 
 Reading design: test1.prj
@@ -166,16 +166,13 @@ Architecture behavioral of Entity calculatepixos is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculatePixOsCPSP.vhd" in Library work.
 Architecture behavioral of Entity calculatepixoscpsp is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateVirCompensated.vhd" in Library work.
-Entity <calculatevircompensated> compiled.
-Entity <calculatevircompensated> (Architecture <behavioral>) compiled.
+Architecture behavioral of Entity calculatevircompensated is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateAlphaComp.vhd" in Library work.
-Entity <calculatealphacomp> compiled.
-Entity <calculatealphacomp> (Architecture <behavioral>) compiled.
+Architecture behavioral of Entity calculatealphacomp is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateTo.vhd" in Library work.
 Architecture behavioral of Entity calculateto is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test_fixed_melexis.vhd" in Library work.
-Entity <test_fixed_melexis> compiled.
-Entity <test_fixed_melexis> (Architecture <testbench>) compiled.
+Architecture testbench of Entity test_fixed_melexis is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ipcore_dir/tb_i2c_mem.vhd" in Library work.
 Architecture tb_i2c_mem_a of Entity tb_i2c_mem is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/address_generator.vhd" in Library work.
@@ -2695,10 +2692,10 @@ Synthesizing Unit <calculateVdd>.
     Register <subfpond> equivalent to <subfpce> has been removed
     Found finite state machine <FSM_6> for signal <state>.
     -----------------------------------------------------------------------
-    | States             | 14                                             |
-    | Transitions        | 22                                             |
+    | States             | 13                                             |
+    | Transitions        | 21                                             |
     | Inputs             | 7                                              |
-    | Outputs            | 21                                             |
+    | Outputs            | 19                                             |
     | Clock              | i_clock                   (rising_edge)        |
     | Reset              | i_reset                   (positive)           |
     | Reset type         | synchronous                                    |
@@ -2732,12 +2729,12 @@ Synthesizing Unit <calculateVdd>.
     Found 1-bit register for signal <ExtractVDDParameters_run>.
     Found 12-bit register for signal <i2c_mem_addra_internal>.
     Found 1-bit register for signal <i2c_mem_ena_internal>.
-    Found 16-bit register for signal <ram072a>.
+    Found 8-bit register for signal <ram>.
     Found 2-bit register for signal <resolutionee>.
     Summary:
 	inferred   1 Finite State Machine(s).
 	inferred   1 ROM(s).
-	inferred 364 D-type flip-flop(s).
+	inferred 356 D-type flip-flop(s).
 Unit <calculateVdd> synthesized.
 
 
@@ -3619,8 +3616,8 @@ Macro Statistics
  5-bit up counter                                      : 6
  6-bit up counter                                      : 1
  8-bit up counter                                      : 1
-# Registers                                            : 513
- 1-bit register                                        : 307
+# Registers                                            : 498
+ 1-bit register                                        : 291
  10-bit register                                       : 27
  12-bit register                                       : 13
  14-bit register                                       : 2
@@ -3631,7 +3628,7 @@ Macro Statistics
  5-bit register                                        : 6
  6-bit register                                        : 6
  64-bit register                                       : 7
- 8-bit register                                        : 13
+ 8-bit register                                        : 14
  9-bit register                                        : 5
 # Comparators                                          : 10
  10-bit comparator greatequal                          : 4
@@ -4048,25 +4045,24 @@ Optimizing FSM <tfm_inst/inst_ExtractAlphaParameters/state/FSM> on signal <state
  11011 | 1000000000000000000000000000
 ---------------------------------------
 Analyzing FSM <FSM_6> for best encoding.
-Optimizing FSM <tfm_inst/inst_calculateVdd/state/FSM> on signal <state[1:14]> with one-hot encoding.
--------------------------
+Optimizing FSM <tfm_inst/inst_calculateVdd/state/FSM> on signal <state[1:13]> with one-hot encoding.
+------------------------
  State | Encoding
--------------------------
- 0000  | 00000000000001
- 0001  | 00000000000010
- 0010  | 00000000000100
- 0011  | 00000000001000
- 0100  | 00000000010000
- 0101  | 00000000100000
- 0110  | 00000001000000
- 0111  | 00000010000000
- 1000  | 00000100000000
- 1001  | 00001000000000
- 1010  | 00010000000000
- 1011  | 00100000000000
- 1100  | 01000000000000
- 1101  | 10000000000000
--------------------------
+------------------------
+ 0000  | 0000000000001
+ 0001  | 0000000000010
+ 0010  | 0000000000100
+ 0011  | 0000000001000
+ 0100  | 0000000010000
+ 0101  | 0000000100000
+ 0110  | 0000001000000
+ 0111  | 0000010000000
+ 1000  | 0000100000000
+ 1001  | 0001000000000
+ 1010  | 0010000000000
+ 1011  | 0100000000000
+ 1100  | 1000000000000
+------------------------
 Analyzing FSM <FSM_5> for best encoding.
 Optimizing FSM <tfm_inst/inst_CalculateTo/inst_ExtractKsToScaleParameter/state/FSM> on signal <state[1:5]> with one-hot encoding.
 -------------------
@@ -4508,8 +4504,8 @@ Macro Statistics
  5-bit up counter                                      : 6
  6-bit up counter                                      : 1
  8-bit up counter                                      : 1
-# Registers                                            : 4836
- Flip-Flops                                            : 4836
+# Registers                                            : 4828
+ Flip-Flops                                            : 4828
 # Comparators                                          : 10
  10-bit comparator greatequal                          : 4
  10-bit comparator greater                             : 2
@@ -5252,15 +5248,16 @@ INFO:Xst:2260 - The FF/Latch <blk00000296> in Unit <inst_subfp> is equivalent to
 INFO:Xst:2260 - The FF/Latch <blk00000084> in Unit <inst_mulfp> is equivalent to the following FF/Latch : <blk00000553> 
 INFO:Xst:2260 - The FF/Latch <blk00000296> in Unit <inst_addfp> is equivalent to the following FF/Latch : <blk000004d7> 
 INFO:Xst:2260 - The FF/Latch <blk00000296> in Unit <inst_subfp> is equivalent to the following FF/Latch : <blk000004d7> 
+FlipFlop tfm_inst/CalculateAlphaCP_mux has been replicated 2 time(s)
 FlipFlop tfm_inst/CalculateAlphaComp_mux has been replicated 1 time(s)
 FlipFlop tfm_inst/CalculatePixOS_mux has been replicated 1 time(s)
-FlipFlop tfm_inst/CalculatePixOsCPSP_mux has been replicated 2 time(s)
+FlipFlop tfm_inst/CalculatePixOsCPSP_mux has been replicated 3 time(s)
 FlipFlop tfm_inst/CalculateTa_mux has been replicated 1 time(s)
 FlipFlop tfm_inst/CalculateTo_mux has been replicated 1 time(s)
-FlipFlop tfm_inst/CalculateVdd_mux has been replicated 1 time(s)
+FlipFlop tfm_inst/CalculateVdd_mux has been replicated 2 time(s)
 FlipFlop tfm_inst/CalculateVirCompensated_mux has been replicated 1 time(s)
 FlipFlop tfm_inst/ExtractAlphaParameters_mux has been replicated 1 time(s)
-FlipFlop tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_mux has been replicated 1 time(s)
+FlipFlop tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_mux has been replicated 2 time(s)
 FlipFlop tfm_inst/inst_CalculatePixOS/ExtractOffsetParameters_mux has been replicated 2 time(s)
 
 Final Macro Processing ...
@@ -5269,8 +5266,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 4564
- Flip-Flops                                            : 4564
+# Registers                                            : 4560
+ Flip-Flops                                            : 4560
 
 =========================================================================
 
@@ -5299,32 +5296,32 @@ Design Statistics
 # IOs                              : 32
 
 Cell Usage :
-# BELS                             : 19689
+# BELS                             : 19734
 #      BUF                         : 13
 #      GND                         : 11
 #      INV                         : 127
 #      LUT1                        : 149
-#      LUT2                        : 2921
-#      LUT2_D                      : 5
-#      LUT2_L                      : 10
-#      LUT3                        : 3615
-#      LUT3_D                      : 125
-#      LUT3_L                      : 173
-#      LUT4                        : 6698
-#      LUT4_D                      : 37
-#      LUT4_L                      : 487
+#      LUT2                        : 2912
+#      LUT2_D                      : 24
+#      LUT2_L                      : 9
+#      LUT3                        : 3603
+#      LUT3_D                      : 130
+#      LUT3_L                      : 177
+#      LUT4                        : 6611
+#      LUT4_D                      : 44
+#      LUT4_L                      : 573
 #      MULT_AND                    : 225
 #      MUXCY                       : 2261
-#      MUXF5                       : 758
+#      MUXF5                       : 791
 #      MUXF6                       : 21
 #      MUXF7                       : 3
 #      VCC                         : 8
 #      XORCY                       : 2042
-# FlipFlops/Latches                : 9443
-#      FDE                         : 5358
-#      FDR                         : 949
+# FlipFlops/Latches                : 9439
+#      FDE                         : 5354
+#      FDR                         : 948
 #      FDRE                        : 1464
-#      FDRS                        : 1395
+#      FDRS                        : 1396
 #      FDRSE                       : 186
 #      FDS                         : 69
 #      FDSE                        : 22
@@ -5345,10 +5342,10 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                     8582  out of  15360    55%  
- Number of Slice Flip Flops:           9443  out of  30720    30%  
- Number of 4 input LUTs:              14598  out of  30720    47%  
-    Number used as logic:             14347
+ Number of Slices:                     8588  out of  15360    55%  
+ Number of Slice Flip Flops:           9439  out of  30720    30%  
+ Number of 4 input LUTs:              14610  out of  30720    47%  
+    Number used as logic:             14359
     Number used as Shift registers:     251
  Number of IOs:                          32
  Number of bonded IOBs:                  32  out of    448     7%  
@@ -5377,7 +5374,7 @@ Clock Information:
 -----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)                                                                                                                  | Load  |
 -----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
-i_clock                            | IBUF+BUFG                                                                                                                              | 9641  |
+i_clock                            | IBUF+BUFG                                                                                                                              | 9637  |
 inst_tb_i2c_mem/N1                 | NONE(inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_init.ram/SP.SINGLE_PRIM.SP) | 2     |
 agclk                              | NONE(dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP)| 12    |
 vgaclk251                          | BUFG                                                                                                                                   | 83    |
@@ -5398,7 +5395,7 @@ Timing Summary:
 ---------------
 Speed Grade: -10
 
-   Minimum period: 11.598ns (Maximum Frequency: 86.225MHz)
+   Minimum period: 10.833ns (Maximum Frequency: 92.309MHz)
    Minimum input arrival time before clock: 10.653ns
    Maximum output required time after clock: 9.020ns
    Maximum combinational path delay: No path found
@@ -5409,30 +5406,29 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 11.598ns (frequency: 86.225MHz)
-  Total number of paths / destination ports: 441569 / 19534
+  Clock period: 10.833ns (frequency: 92.309MHz)
+  Total number of paths / destination ports: 441781 / 19523
 -------------------------------------------------------------------------
-Delay:               11.598ns (Levels of Logic = 6)
-  Source:            tfm_inst/CalculateAlphaCP_mux (FF)
+Delay:               10.833ns (Levels of Logic = 5)
+  Source:            tfm_inst/CalculatePixOS_mux (FF)
   Destination:       inst_divfp/blk00000196 (FF)
   Source Clock:      i_clock rising
   Destination Clock: i_clock rising
 
-  Data Path: tfm_inst/CalculateAlphaCP_mux to inst_divfp/blk00000196
+  Data Path: tfm_inst/CalculatePixOS_mux to inst_divfp/blk00000196
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDE:C->Q            277   0.360   2.049  tfm_inst/CalculateAlphaCP_mux (tfm_inst/CalculateAlphaCP_mux)
-     LUT4_D:I3->O         34   0.195   1.099  tfm_inst/divfpa<0>161 (tfm_inst/N409)
-     LUT4:I3->O            1   0.195   0.585  tfm_inst/divfpond94_SW0 (N2384)
-     LUT4:I2->O            1   0.195   0.523  tfm_inst/divfpond105_SW0 (N4482)
+     FDE:C->Q            522   0.360   2.921  tfm_inst/CalculatePixOS_mux (tfm_inst/CalculatePixOS_mux)
+     LUT3:I2->O            2   0.195   0.602  tfm_inst/addfpa<0>33_1 (tfm_inst/addfpa<0>33)
+     LUT4_L:I2->LO         1   0.195   0.163  tfm_inst/divfpond105_SW0 (N4440)
      LUT4:I3->O          473   0.195   2.652  tfm_inst/divfpond105 (divfpce)
      begin scope: 'inst_divfp'
      BUF:I->O            473   0.358   2.652  ce_2 (ce_2)
      FDE:CE                    0.540          blk000005eb
     ----------------------------------------
-    Total                     11.598ns (2.038ns logic, 9.560ns route)
-                                       (17.6% logic, 82.4% route)
+    Total                     10.833ns (1.843ns logic, 8.990ns route)
+                                       (17.0% logic, 83.0% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'vgaclk251'
@@ -5477,7 +5473,7 @@ Delay:               4.522ns (Levels of Logic = 3)
     ----------------------------------------  ------------
      FDRE:C->Q             4   0.360   0.755  ag_inst/addr_7 (ag_inst/addr_7)
      LUT4:I0->O            1   0.195   0.688  ag_inst/addr_or000018 (ag_inst/addr_or000018)
-     LUT4:I1->O            1   0.195   0.585  ag_inst/addr_or000039_SW0 (N3742)
+     LUT4:I1->O            1   0.195   0.585  ag_inst/addr_or000039_SW0 (N3674)
      LUT4:I2->O           10   0.195   0.488  ag_inst/addr_or000039 (ag_inst/addr_or0000)
      FDRE:R                    1.062          ag_inst/addr_0
     ----------------------------------------
@@ -5486,9 +5482,9 @@ Delay:               4.522ns (Levels of Logic = 3)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 4521 / 4521
+  Total number of paths / destination ports: 4517 / 4517
 -------------------------------------------------------------------------
-Offset:              9.016ns (Levels of Logic = 3)
+Offset:              9.032ns (Levels of Logic = 3)
   Source:            i_reset (PAD)
   Destination:       test_fixed_melexis_run (FF)
   Destination Clock: i_clock rising
@@ -5499,10 +5495,10 @@ Offset:              9.016ns (Levels of Logic = 3)
     ----------------------------------------  ------------
      IBUF:I->O           449   0.965   2.558  i_reset_IBUF (i_reset_IBUF)
      BUF:I->O            449   0.358   2.558  i_reset_IBUF_2 (i_reset_IBUF_2)
-     INV:I->O            224   0.358   1.679  tfm_inst/inst_calculateVdd/inst_ExtractVDDParameters/i_reset_inv1_INV_0 (ag_inst/reset_inv)
+     INV:I->O            228   0.358   1.694  tfm_inst/inst_calculateVdd/inst_ExtractVDDParameters/i_reset_inv1_INV_0 (ag_inst/reset_inv)
      FDE:CE                    0.540          test_fixed_melexis_run
     ----------------------------------------
-    Total                      9.016ns (2.221ns logic, 6.795ns route)
+    Total                      9.032ns (2.221ns logic, 6.811ns route)
                                        (24.6% logic, 75.4% route)
 
 =========================================================================
@@ -5584,7 +5580,7 @@ Offset:              9.020ns (Levels of Logic = 6)
      FDR:C->Q              4   0.360   0.755  vts_inst/hPos_2 (vts_inst/hPos_2)
      LUT4:I0->O            2   0.195   0.758  vts_inst/activeArea1_and00002111 (vts_inst/N29)
      LUT4:I0->O            1   0.195   0.585  vts_inst/activeArea1_and000013 (vts_inst/activeArea1_and000013)
-     LUT4:I2->O            1   0.195   0.585  vts_inst/activeArea1_and0000106_SW0 (N2540)
+     LUT4:I2->O            1   0.195   0.585  vts_inst/activeArea1_and0000106_SW0 (N2474)
      LUT4:I2->O            8   0.195   0.670  vts_inst/activeArea1_and0000106 (VGA_timing_synch_activeArea1)
      LUT2:I0->O            3   0.195   0.375  vig_inst/RGB_out<9>1 (vga_r_3_OBUF)
      OBUF:I->O                 3.957          vga_b_3_OBUF (vga_b<3>)
@@ -5616,13 +5612,13 @@ Offset:              7.150ns (Levels of Logic = 3)
 =========================================================================
 
 
-Total REAL time to Xst completion: 346.00 secs
-Total CPU time to Xst completion: 318.28 secs
+Total REAL time to Xst completion: 336.00 secs
+Total CPU time to Xst completion: 313.03 secs
  
 --> 
 
 
-Total memory usage is 1067112 kilobytes
+Total memory usage is 1065960 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :  951 (   0 filtered)

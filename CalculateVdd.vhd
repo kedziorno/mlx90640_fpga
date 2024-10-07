@@ -137,11 +137,11 @@ i2c_mem_douta_internal <= i2c_mem_douta;
 p0 : process (i_clock) is
 	type states is (idle,
 	s2,s4,s5,s9,s10,
-	s11,s12,s13,s15,s17,s19,
+	s11,s12,s15,s17,s19,
 	s21,s23);
 	variable state : states;
 	constant const3dot3_ft : std_logic_vector (31 downto 0) := x"40533333";
-	variable ram072a : std_logic_vector (15 downto 0);
+	variable ram : std_logic_vector (7 downto 0); -- XXX ram072a
 	constant resreg : std_logic_vector (15 downto 0) := x"1901" and x"0c00";
 begin
 	if (rising_edge (i_clock)) then
@@ -203,27 +203,25 @@ begin
 		else state := s9; end if;
 	when s10 => state := s11;
 		divfpsclr <= '0';
-		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(810*2)+0, 12)); -- ram072a MSB
+		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(810*2)+0, 12)); -- ram MSB
 	when s11 => state := s12;
-		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(810*2)+1, 12)); -- ram072a LSB
-	when s12 => state := s13;
-		ram072a (15 downto 8) := i2c_mem_douta_internal;
-	when s13 => state := s15;
-		ram072a (7 downto 0) := i2c_mem_douta_internal;		
+		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(810*2)+1, 12)); -- ram LSB
+	when s12 => state := s15;
+		ram (7 downto 0) := i2c_mem_douta_internal;		
 	when s15 =>
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <=
-		ram072a (15) & ram072a (15) & 
-		ram072a (15) & ram072a (15) & 
-		ram072a (15) & ram072a (15) & 
-		ram072a (15) & ram072a (15) & 
-		ram072a (15) & ram072a (15) & 
-		ram072a (15) & ram072a (15) & 
-		ram072a (15) & ram072a (15) & 
-		ram072a (15) & ram072a (15) & 
-		ram072a (15) & ram072a (15) & 
-		ram072a (15) & ram072a & "00000000000000000000000000000";
+		ram (7) & ram (7) & 
+		ram (7) & ram (7) & 
+		ram (7) & ram (7) & 
+		ram (7) & ram (7) & 
+		ram (7) & ram (7) & 
+		ram (7) & ram (7) & 
+		ram (7) & ram (7) & 
+		ram (7) & ram (7) & 
+		ram (7) & ram (7) & 
+		ram (7) & ram & i2c_mem_douta_internal & "00000000000000000000000000000";
     if (fixed2floatrdy = '1') then state := s17;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
