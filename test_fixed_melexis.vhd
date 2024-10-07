@@ -707,6 +707,7 @@ i_run : in std_logic;
 i_Emissivity : in std_logic_vector (31 downto 0);
 i_pixoscpsp0 : in std_logic_vector (31 downto 0);
 i_pixoscpsp1 : in std_logic_vector (31 downto 0);
+i_tgc : in std_logic_vector (31 downto 0);
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -751,6 +752,7 @@ signal CalculateVirCompensated_run : std_logic;
 signal CalculateVirCompensated_Emissivity : std_logic_vector(31 downto 0) := x"3f800000"; -- 1
 signal CalculateVirCompensated_pixoscpsp0 : std_logic_vector(31 downto 0) := x"41CD5551"; -- 25.6666575059956
 signal CalculateVirCompensated_pixoscpsp1 : std_logic_vector(31 downto 0) := x"41AD0D7D"; -- 21.6315865670509
+signal CalculateVirCompensated_tgc : std_logic_vector(31 downto 0);
 signal CalculateVirCompensated_i2c_mem_douta : std_logic_vector(7 downto 0);
 signal CalculateVirCompensated_pixos_do : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateVirCompensated_addr : std_logic_vector(9 downto 0);
@@ -788,6 +790,27 @@ signal CalculateVirCompensated_subfpce : STD_LOGIC;
 signal CalculateVirCompensated_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateVirCompensated_subfprdy : STD_LOGIC;
 
+component ExtractTGCParameters is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+o_tgc : out std_logic_vector (31 downto 0);
+o_rdy : out std_logic
+);
+end component ExtractTGCParameters;
+signal ExtractTGCParameters_clock : std_logic;
+signal ExtractTGCParameters_reset : std_logic;
+signal ExtractTGCParameters_run : std_logic;
+signal ExtractTGCParameters_i2c_mem_ena : STD_LOGIC;
+signal ExtractTGCParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal ExtractTGCParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal ExtractTGCParameters_tgc : std_logic_vector (31 downto 0);
+signal ExtractTGCParameters_rdy : std_logic;
+
 COMPONENT CalculateAlphaComp
 PORT(
 i_clock : in std_logic;
@@ -803,6 +826,7 @@ i_Ta0 : in std_logic_vector (31 downto 0);
 i_acpsubpage0 : in std_logic_vector (31 downto 0);
 i_acpsubpage1 : in std_logic_vector (31 downto 0);
 i_const1 : in std_logic_vector (31 downto 0);
+i_tgc : in std_logic_vector (31 downto 0);
 
 i_alpha_do : in std_logic_vector (31 downto 0);
 o_alpha_addr : out std_logic_vector (9 downto 0); -- 10bit-1024
@@ -846,6 +870,7 @@ signal CalculateAlphaComp_Ta0 : std_logic_vector(31 downto 0) := (others => '0')
 signal CalculateAlphaComp_acpsubpage0 : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_acpsubpage1 : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_const1 : std_logic_vector(31 downto 0) := (others => '0');
+signal CalculateAlphaComp_tgc : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_alpha_do : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_addr : std_logic_vector(9 downto 0) := (others => '0');
 signal CalculateAlphaComp_i2c_mem_ena : std_logic;
@@ -987,11 +1012,12 @@ signal CalculateTo_sqrtfp2ce : STD_LOGIC;
 signal CalculateTo_sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateTo_sqrtfp2rdy : STD_LOGIC;
 
+signal CalculateKGain_mux : std_logic;
+signal ExtractTGCParameters_mux : std_logic;
+
 signal CalculatePixOS_mux,CalculatePixOsCPSP_mux,CalculateVirCompensated_mux,ExtractOffsetParameters_mux : std_logic;
 signal ExtractAlphaParameters_mux,CalculateAlphaComp_mux,CalculateAlphaCP_mux : std_logic;
 signal CalculateVdd_mux,CalculateTa_mux,CalculateTo_mux : std_logic;
-
-signal CalculateKGain_mux : std_logic;
 
 begin
 
@@ -1517,6 +1543,8 @@ CalculateTo_sqrtfp2r <= sqrtfp2r when CalculateTo_mux = '1' else (others => '0')
 CalculateTo_sqrtfp2rdy <= sqrtfp2rdy when CalculateTo_mux = '1' else '0';
 
 i2c_mem_ena <=
+ExtractTGCParameters_i2c_mem_ena when ExtractTGCParameters_mux = '1'
+else
 CalculateKGain_i2c_mem_ena when CalculateKGain_mux = '1'
 else
 CalculatePixOS_i2c_mem_ena when CalculatePixOS_mux = '1'
@@ -1539,6 +1567,8 @@ CalculateTo_i2c_mem_ena when CalculateTo_mux = '1'
 else '0';
 
 i2c_mem_addra <=
+ExtractTGCParameters_i2c_mem_addra when ExtractTGCParameters_mux = '1'
+else
 CalculateKGain_i2c_mem_addra when CalculateKGain_mux = '1'
 else
 CalculatePixOS_i2c_mem_addra when CalculatePixOS_mux = '1'
@@ -1560,6 +1590,7 @@ else
 CalculateTo_i2c_mem_addra when CalculateTo_mux = '1'
 else (others => '0');
 
+ExtractTGCParameters_i2c_mem_douta <= i2c_mem_douta when ExtractTGCParameters_mux = '1' else (others => '0');
 CalculateKGain_i2c_mem_douta <= i2c_mem_douta when CalculateKGain_mux = '1' else (others => '0');
 CalculatePixOS_i2c_mem_douta <= i2c_mem_douta when CalculatePixOS_mux = '1' else (others => '0');
 CalculatePixOsCPSP_i2c_mem_douta <= i2c_mem_douta when CalculatePixOsCPSP_mux = '1' else (others => '0');
@@ -1573,7 +1604,7 @@ CalculateTo_i2c_mem_douta <= i2c_mem_douta when CalculateTo_mux = '1' else (othe
 
 	-- purpose: main test loop
 	tester : process (i_clock,i_reset) is
-		type states is (idle,s0,s0a,
+		type states is (idle,s0,s0a,s0b,s0c,
 		s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,
 		ending);
 		variable state : states;
@@ -1584,8 +1615,9 @@ CalculateTo_i2c_mem_douta <= i2c_mem_douta when CalculateTo_mux = '1' else (othe
 				-- reset
 				o_rdy <= '0';
 			else
-case (state) is
-	when idle =>
+  case (state) is
+	
+  when idle =>
 			if (i_run = '1') then
 				state := s0;
 			else
@@ -1598,11 +1630,24 @@ case (state) is
 	when s0a => 
 		CalculateKGain_run <= '0';
 		if (CalculateKGain_rdy = '1') then
-			state := s1;
+			state := s0b;
 			CalculateKGain_mux <= '0';
 		else
 			state := s0a;
 			CalculateKGain_mux <= '1';
+		end if;
+
+	when s0b => state := s0c;
+		ExtractTGCParameters_run <= '1';
+		ExtractTGCParameters_mux <= '1';
+	when s0c => 
+		ExtractTGCParameters_run <= '0';
+		if (ExtractTGCParameters_rdy = '1') then
+			state := s1;
+			ExtractTGCParameters_mux <= '0';
+		else
+			state := s0c;
+			ExtractTGCParameters_mux <= '1';
 		end if;
 
 	when s1 => state := s2;
@@ -1730,6 +1775,19 @@ end case;
 end if;
 end if;
 end process tester;
+
+ExtractTGCParameters_clock <= i_clock;
+ExtractTGCParameters_reset <= i_reset;
+inst_ExtractTGCParameters : ExtractTGCParameters port map (
+i_clock => ExtractTGCParameters_clock,
+i_reset => ExtractTGCParameters_reset,
+i_run => ExtractTGCParameters_run,
+i2c_mem_ena => ExtractTGCParameters_i2c_mem_ena,
+i2c_mem_addra => ExtractTGCParameters_i2c_mem_addra,
+i2c_mem_douta => ExtractTGCParameters_i2c_mem_douta,
+o_tgc => ExtractTGCParameters_tgc,
+o_rdy => ExtractTGCParameters_rdy
+);
 
 CalculateKGain_clock <= i_clock;
 CalculateKGain_reset <= i_reset;
@@ -2062,6 +2120,7 @@ subfprdy => CalculatePixOSCPSP_subfprdy
 CalculateVirCompensated_Emissivity <= x"3f800000"; -- 1
 CalculateVirCompensated_pixoscpsp0 <= CalculatePixOsCPSP_pixoscpsp0;
 CalculateVirCompensated_pixoscpsp1 <= CalculatePixOsCPSP_pixoscpsp1;
+CalculateVirCompensated_tgc <= ExtractTGCParameters_tgc;
 CalculateVirCompensated_clock <= i_clock;
 CalculateVirCompensated_reset <= i_reset;
 CalculateVirCompensated_pixos_do <= CalculatePixOS_do;
@@ -2073,6 +2132,7 @@ i_run => CalculateVirCompensated_run,
 i_Emissivity => CalculateVirCompensated_Emissivity,
 i_pixoscpsp0 => CalculateVirCompensated_pixoscpsp0,
 i_pixoscpsp1 => CalculateVirCompensated_pixoscpsp1,
+i_tgc => CalculateVirCompensated_tgc,
 i2c_mem_ena => CalculateVirCompensated_i2c_mem_ena,
 i2c_mem_addra => CalculateVirCompensated_i2c_mem_addra,
 i2c_mem_douta => CalculateVirCompensated_i2c_mem_douta,
@@ -2122,6 +2182,7 @@ CalculateAlphaComp_Ta0 <= x"41C80000"; -- 25
 CalculateAlphaComp_acpsubpage0 <= CalculateAlphaCP_acpsubpage0;
 CalculateAlphaComp_acpsubpage1 <= CalculateAlphaCP_acpsubpage1;
 CalculateAlphaComp_const1 <= x"3f800000";
+CalculateAlphaComp_tgc <= ExtractTGCParameters_tgc;
 CalculateAlphaComp_alpha_do <= ExtractAlphaParameters_do;
 ExtractAlphaParameters_addr <= CalculateAlphaComp_alpha_addr;
 inst_CalculateAlphaComp : CalculateAlphaComp PORT MAP (
@@ -2136,6 +2197,7 @@ i_Ta0 => CalculateAlphaComp_Ta0,
 i_acpsubpage0 => CalculateAlphaComp_acpsubpage0,
 i_acpsubpage1 => CalculateAlphaComp_acpsubpage1,
 i_const1 => CalculateAlphaComp_const1,
+i_tgc => CalculateAlphaComp_tgc,
 i_alpha_do => CalculateAlphaComp_alpha_do,
 o_alpha_addr => CalculateAlphaComp_alpha_addr,
 o_do => CalculateAlphaComp_do,

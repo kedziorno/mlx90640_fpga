@@ -46,6 +46,7 @@ i_Ta0 : in std_logic_vector (31 downto 0);
 i_acpsubpage0 : in std_logic_vector (31 downto 0);
 i_acpsubpage1 : in std_logic_vector (31 downto 0);
 i_const1 : in std_logic_vector (31 downto 0);
+i_tgc : in std_logic_vector (31 downto 0);
 
 i_alpha_do : in std_logic_vector (31 downto 0);
 o_alpha_addr : out std_logic_vector (9 downto 0); -- 10bit-1024
@@ -285,28 +286,6 @@ signal mem_switchpattern_reset : std_logic;
 signal mem_switchpattern_pixel : std_logic_vector(13 downto 0);
 signal mem_switchpattern_pattern : std_logic;
 
-component ExtractTGCParameters is
-port (
-i_clock : in std_logic;
-i_reset : in std_logic;
-i_run : in std_logic;
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-o_tgc : out std_logic_vector (31 downto 0);
-o_rdy : out std_logic
-);
-end component ExtractTGCParameters;
-
-signal ExtractTGCParameters_clock : std_logic;
-signal ExtractTGCParameters_reset : std_logic;
-signal ExtractTGCParameters_run : std_logic;
-signal ExtractTGCParameters_i2c_mem_ena : STD_LOGIC;
-signal ExtractTGCParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal ExtractTGCParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal ExtractTGCParameters_tgc : std_logic_vector (31 downto 0);
-signal ExtractTGCParameters_rdy : std_logic;
-
 COMPONENT ExtractKsTaParameters
 PORT(
 i_clock : in std_logic;
@@ -366,19 +345,12 @@ subfprdy_internal <= subfprdy;
 
 o_rdy <= rdy;
 
-i2c_mem_ena <=
-ExtractTGCParameters_i2c_mem_ena when ExtractTGCParameters_mux = '1'
-else
-ExtractKsTaParameters_i2c_mem_ena when ExtractKsTaParameters_mux = '1'
+i2c_mem_ena <= ExtractKsTaParameters_i2c_mem_ena when ExtractKsTaParameters_mux = '1'
 else '0';
 
-i2c_mem_addra <=
-ExtractTGCParameters_i2c_mem_addra when ExtractTGCParameters_mux = '1'
-else
-ExtractKsTaParameters_i2c_mem_addra when ExtractKsTaParameters_mux = '1'
+i2c_mem_addra <= ExtractKsTaParameters_i2c_mem_addra when ExtractKsTaParameters_mux = '1'
 else (others => '0');
 
-ExtractTGCParameters_i2c_mem_douta <= i2c_mem_douta when ExtractTGCParameters_mux = '1' else (others => '0');
 ExtractKsTaParameters_i2c_mem_douta <= i2c_mem_douta when ExtractKsTaParameters_mux = '1' else (others => '0');
 
 o_rdy <= rdy;
@@ -391,7 +363,7 @@ p0 : process (i_clock) is
 	constant C_COL : integer := 32;
 	variable i : integer range 0 to C_ROW*C_COL-1;
 	type states is (idle,
-	s2,s4,s6,s7,s8,s10,
+	s4,s6,s7,s8,s10,
 	s15,s16,s17,s19,
 	s22,s25,s25a,s26,s28,s31);
 	variable state : states;
@@ -422,10 +394,10 @@ begin
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := s2;
-            ExtractTGCParameters_run <= '1';
-            ExtractTGCParameters_mux <= '1';
+						state := s4;
             --report "CalculateAlphaComp";
+            ExtractKsTaParameters_run <= '1';
+            ExtractKsTaParameters_mux <= '1';
 					else
 						state := idle;
 					end if;
@@ -433,17 +405,6 @@ begin
           addfpsclr_internal <= '0';
           subfpsclr_internal <= '0';
           mulfpsclr_internal <= '0';
-				when s2 => 
-					ExtractTGCParameters_run <= '0';
-					if (ExtractTGCParameters_rdy = '1') then
-						state := s4;
-						ExtractTGCParameters_mux <= '0';
-            ExtractKsTaParameters_run <= '1';
-            ExtractKsTaParameters_mux <= '1';
-					else
-						state := s2;
-						ExtractTGCParameters_mux <= '1';
-					end if;
 				when s4 => 
 					ExtractKsTaParameters_run <= '0';
 					if (ExtractKsTaParameters_rdy = '1') then
@@ -541,7 +502,7 @@ begin
 				when s22 =>
 					addfpsclr_internal <= '0';
 					mulfpce_internal <= '1';
-					mulfpa_internal <= ExtractTGCParameters_tgc;
+					mulfpa_internal <= i_tgc;
 					mulfpb_internal <= addfpr_internal;
 					mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s25;
@@ -608,19 +569,6 @@ begin
 	end if;
 end process p0;
 
-ExtractTGCParameters_clock <= i_clock;
-ExtractTGCParameters_reset <= i_reset;
-inst_ExtractTGCParameters : ExtractTGCParameters port map (
-i_clock => ExtractTGCParameters_clock,
-i_reset => ExtractTGCParameters_reset,
-i_run => ExtractTGCParameters_run,
-i2c_mem_ena => ExtractTGCParameters_i2c_mem_ena,
-i2c_mem_addra => ExtractTGCParameters_i2c_mem_addra,
-i2c_mem_douta => ExtractTGCParameters_i2c_mem_douta,
-o_tgc => ExtractTGCParameters_tgc,
-o_rdy => ExtractTGCParameters_rdy
-);
-
 ExtractKsTaParameters_clock <= i_clock;
 ExtractKsTaParameters_reset <= i_reset;
 inst_ExtractKsTaParameters : ExtractKsTaParameters PORT MAP (
@@ -667,5 +615,4 @@ SSR => i_reset,
 WE => write_enable
 );
 
-end Behavioral;
-
+end architecture Behavioral;

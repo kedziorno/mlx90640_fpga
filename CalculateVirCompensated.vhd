@@ -40,6 +40,7 @@ i_run : in std_logic;
 i_Emissivity : in std_logic_vector (31 downto 0);
 i_pixoscpsp0 : in std_logic_vector (31 downto 0);
 i_pixoscpsp1 : in std_logic_vector (31 downto 0);
+i_tgc : in std_logic_vector (31 downto 0);
 
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
@@ -298,29 +299,6 @@ signal mem_switchpattern_reset : std_logic;
 signal mem_switchpattern_pixel : std_logic_vector(13 downto 0);
 signal mem_switchpattern_pattern : std_logic;
 
-component ExtractTGCParameters is
-port (
-i_clock : in std_logic;
-i_reset : in std_logic;
-i_run : in std_logic;
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-o_tgc : out std_logic_vector (31 downto 0);
-o_rdy : out std_logic
-);
-end component ExtractTGCParameters;
-signal ExtractTGCParameters_clock : std_logic;
-signal ExtractTGCParameters_reset : std_logic;
-signal ExtractTGCParameters_run : std_logic;
-signal ExtractTGCParameters_i2c_mem_ena : STD_LOGIC;
-signal ExtractTGCParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal ExtractTGCParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal ExtractTGCParameters_tgc : std_logic_vector (31 downto 0);
-signal ExtractTGCParameters_rdy : std_logic;
-
-signal ExtractTGCParameters_mux : std_logic;
-
 signal addra,mux_addr : std_logic_vector (9 downto 0);
 signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
 
@@ -364,15 +342,8 @@ subfprdy_internal <= subfprdy;
 
 o_rdy <= rdy;
 
-i2c_mem_ena <=
-ExtractTGCParameters_i2c_mem_ena when ExtractTGCParameters_mux = '1'
-else '0';
-
-i2c_mem_addra <=
-ExtractTGCParameters_i2c_mem_addra when ExtractTGCParameters_mux = '1'
-else (others => '0');
-
-ExtractTGCParameters_i2c_mem_douta <= i2c_mem_douta;
+i2c_mem_ena <= '0';
+i2c_mem_addra <= (others => '0');
 
 with mem_switchpattern_pattern select pattern_ft <=
 x"3f800000" when '1',
@@ -391,7 +362,7 @@ p0 : process (i_clock) is
 	constant C_ROW : integer := 24;
 	constant C_COL : integer := 32;
 	variable i : integer range 0 to C_ROW*C_COL-1;
-  type states is (idle,s0a,
+  type states is (idle,
 	s3,s4,s9,s10,
 	s12,s15,s18,
 	s21,s23);
@@ -421,8 +392,6 @@ begin
 			addfpce_internal <= '0';
 			subfpce_internal <= '0';
 			divfpce_internal <= '0';
-			ExtractTGCParameters_run <= '0';
-			ExtractTGCParameters_mux <= '0';
 			write_enable <= '0';
       addra <= (others => '0');
       dia <= (others => '0');
@@ -433,9 +402,7 @@ begin
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := s0a;
-            ExtractTGCParameters_run <= '1';
-            ExtractTGCParameters_mux <= '1';
+						state := s3;
 					else
 						state := idle;
 					end if;
@@ -445,15 +412,6 @@ begin
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
           i := 0;
-				when s0a =>
-					ExtractTGCParameters_run <= '0';
-					if (ExtractTGCParameters_rdy = '1') then
-						state := s3;
-						ExtractTGCParameters_mux <= '0';
-					else
-						state := s0a;
-						ExtractTGCParameters_mux <= '1';
-					end if;
 				when s3 => state := s4;
 					o_pixos_addr <= std_logic_vector (to_unsigned (i, 10));
 					mem_switchpattern_pixel <= std_logic_vector (to_unsigned (i, 14));
@@ -520,7 +478,7 @@ begin
 					addfpsclr_internal <= '0';
 					mulfpce_internal <= '1';
 					mulfpa_internal <= addfpr_internal;
-					mulfpb_internal <= ExtractTGCParameters_tgc;
+					mulfpb_internal <= i_tgc;
 					mulfpond_internal <= '1';
 					if (mulfprdy_internal = '1') then state := s21;
 						mulfpce_internal <= '0';
@@ -559,19 +517,6 @@ begin
 		end if;
 	end if;
 end process p0;
-
-ExtractTGCParameters_clock <= i_clock;
-ExtractTGCParameters_reset <= i_reset;
-inst_ExtractTGCParameters : ExtractTGCParameters port map (
-i_clock => ExtractTGCParameters_clock,
-i_reset => ExtractTGCParameters_reset,
-i_run => ExtractTGCParameters_run,
-i2c_mem_ena => ExtractTGCParameters_i2c_mem_ena,
-i2c_mem_addra => ExtractTGCParameters_i2c_mem_addra,
-i2c_mem_douta => ExtractTGCParameters_i2c_mem_douta,
-o_tgc => ExtractTGCParameters_tgc,
-o_rdy => ExtractTGCParameters_rdy
-);
 
 mem_switchpattern_clock <= i_clock;
 mem_switchpattern_reset <= i_reset;

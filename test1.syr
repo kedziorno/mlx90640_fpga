@@ -4,15 +4,15 @@ Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 Parameter TMPDIR set to xst/projnav.tmp
 
 
-Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.06 secs
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.08 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
-Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.06 secs
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.08 secs
  
 --> 
 Reading design: test1.prj
@@ -127,8 +127,6 @@ Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ipcore_dir/i
 Architecture inst_mem_kvdd_vdd25_a of Entity inst_mem_kvdd_vdd25 is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractKsToScaleParameter.vhd" in Library work.
 Architecture behavioral of Entity extractkstoscaleparameter is up to date.
-Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractTGCParameters.vhd" in Library work.
-Architecture behavioral of Entity extracttgcparameters is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractKsTaParameters.vhd" in Library work.
 Architecture behavioral of Entity extractkstaparameters is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/mem_switchpattern.vhd" in Library work.
@@ -151,6 +149,8 @@ Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractAlpha
 Architecture behavioral of Entity extractalphaptatparameter is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractVDDParameters.vhd" in Library work.
 Architecture behavioral of Entity extractvddparameters is up to date.
+Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractTGCParameters.vhd" in Library work.
+Architecture behavioral of Entity extracttgcparameters is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateKGain.vhd" in Library work.
 Architecture behavioral of Entity calculatekgain is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateVdd.vhd" in Library work.
@@ -162,18 +162,20 @@ Architecture behavioral of Entity extractalphaparameters is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateAlphaCP.vhd" in Library work.
 Architecture behavioral of Entity calculatealphacp is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculatePixOS.vhd" in Library work.
-Entity <calculatepixos> compiled.
-Entity <calculatepixos> (Architecture <behavioral>) compiled.
+Architecture behavioral of Entity calculatepixos is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculatePixOsCPSP.vhd" in Library work.
 Architecture behavioral of Entity calculatepixoscpsp is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateVirCompensated.vhd" in Library work.
-Architecture behavioral of Entity calculatevircompensated is up to date.
+Entity <calculatevircompensated> compiled.
+Entity <calculatevircompensated> (Architecture <behavioral>) compiled.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateAlphaComp.vhd" in Library work.
-Architecture behavioral of Entity calculatealphacomp is up to date.
+Entity <calculatealphacomp> compiled.
+Entity <calculatealphacomp> (Architecture <behavioral>) compiled.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateTo.vhd" in Library work.
 Architecture behavioral of Entity calculateto is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test_fixed_melexis.vhd" in Library work.
-Architecture testbench of Entity test_fixed_melexis is up to date.
+Entity <test_fixed_melexis> compiled.
+Entity <test_fixed_melexis> (Architecture <testbench>) compiled.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ipcore_dir/tb_i2c_mem.vhd" in Library work.
 Architecture tb_i2c_mem_a of Entity tb_i2c_mem is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/address_generator.vhd" in Library work.
@@ -216,6 +218,8 @@ Analyzing hierarchy for entity <VGA_timing_synch> in library <work> (architectur
 
 Analyzing hierarchy for entity <vga_imagegenerator> in library <work> (architecture <behavioral>) with generics.
 	BITS = 24
+
+Analyzing hierarchy for entity <ExtractTGCParameters> in library <work> (architecture <behavioral>).
 
 Analyzing hierarchy for entity <CalculateKGain> in library <work> (architecture <behavioral>).
 
@@ -402,8 +406,6 @@ Analyzing hierarchy for entity <ExtractKtaParameters> in library <work> (archite
 Analyzing hierarchy for entity <ExtractKvParameters> in library <work> (architecture <behavioral>).
 
 Analyzing hierarchy for entity <mem_signed256> in library <work> (architecture <behavioral>).
-
-Analyzing hierarchy for entity <ExtractTGCParameters> in library <work> (architecture <behavioral>).
 
 Analyzing hierarchy for entity <mem_switchpattern> in library <work> (architecture <behavioral>).
 
@@ -867,6 +869,85 @@ Entity <test1> analyzed. Unit <test1> generated.
 
 Analyzing Entity <test_fixed_melexis> in library <work> (Architecture <testbench>).
 Entity <test_fixed_melexis> analyzed. Unit <test_fixed_melexis> generated.
+
+Analyzing Entity <ExtractTGCParameters> in library <work> (Architecture <behavioral>).
+INFO:Xst:1749 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractTGCParameters.vhd" line 80: report: ExtractTGCParameters
+    Set user-defined property "INIT =  000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INITP_00 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INITP_01 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INITP_02 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INITP_03 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INITP_04 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INITP_05 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INITP_06 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INITP_07 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_00 =  3E6000003E4000003E2000003E0000003DC000003D8000003D00000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_01 =  3EF000003EE000003ED000003EC000003EB000003EA000003E9000003E800000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_02 =  3F3800003F3000003F2800003F2000003F1800003F1000003F0800003F000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_03 =  3F7800003F7000003F6800003F6000003F5800003F5000003F4800003F400000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_04 =  3F9C00003F9800003F9400003F9000003F8C00003F8800003F8400003F800000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_05 =  3FBC00003FB800003FB400003FB000003FAC00003FA800003FA400003FA00000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_06 =  3FDC00003FD800003FD400003FD000003FCC00003FC800003FC400003FC00000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_07 =  3FFC00003FF800003FF400003FF000003FEC00003FE800003FE400003FE00000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_08 =  400E0000400C0000400A00004008000040060000400400004002000040000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_09 =  401E0000401C0000401A00004018000040160000401400004012000040100000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_0A =  402E0000402C0000402A00004028000040260000402400004022000040200000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_0B =  403E0000403C0000403A00004038000040360000403400004032000040300000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_0C =  404E0000404C0000404A00004048000040460000404400004042000040400000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_0D =  405E0000405C0000405A00004058000040560000405400004052000040500000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_0E =  406E0000406C0000406A00004068000040660000406400004062000040600000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_0F =  407E0000407C0000407A00004078000040760000407400004072000040700000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_10 =  C0720000C0740000C0760000C0780000C07A0000C07C0000C07E0000C0800000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_11 =  C0620000C0640000C0660000C0680000C06A0000C06C0000C06E0000C0700000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_12 =  C0520000C0540000C0560000C0580000C05A0000C05C0000C05E0000C0600000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_13 =  C0420000C0440000C0460000C0480000C04A0000C04C0000C04E0000C0500000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_14 =  C0320000C0340000C0360000C0380000C03A0000C03C0000C03E0000C0400000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_15 =  C0220000C0240000C0260000C0280000C02A0000C02C0000C02E0000C0300000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_16 =  C0120000C0140000C0160000C0180000C01A0000C01C0000C01E0000C0200000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_17 =  C0020000C0040000C0060000C0080000C00A0000C00C0000C00E0000C0100000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_18 =  BFE40000BFE80000BFEC0000BFF00000BFF40000BFF80000BFFC0000C0000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_19 =  BFC40000BFC80000BFCC0000BFD00000BFD40000BFD80000BFDC0000BFE00000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_1A =  BFA40000BFA80000BFAC0000BFB00000BFB40000BFB80000BFBC0000BFC00000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_1B =  BF840000BF880000BF8C0000BF900000BF940000BF980000BF9C0000BFA00000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_1C =  BF480000BF500000BF580000BF600000BF680000BF700000BF780000BF800000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_1D =  BF080000BF100000BF180000BF200000BF280000BF300000BF380000BF400000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_1E =  BE900000BEA00000BEB00000BEC00000BED00000BEE00000BEF00000BF000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_1F =  BD000000BD800000BDC00000BE000000BE200000BE400000BE600000BE800000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_20 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_21 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_22 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_23 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_24 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_25 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_26 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_27 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_28 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_29 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_2A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_2B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_2C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_2D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_2E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_2F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_30 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_31 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_32 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_33 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_34 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_35 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_36 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_37 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_38 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_39 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_3A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_3B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_3C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_3D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_3E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "INIT_3F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "SRVAL =  000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+    Set user-defined property "WRITE_MODE =  WRITE_FIRST" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
+Entity <ExtractTGCParameters> analyzed. Unit <ExtractTGCParameters> generated.
 
 Analyzing Entity <CalculateKGain> in library <work> (Architecture <behavioral>).
 Entity <CalculateKGain> analyzed. Unit <CalculateKGain> generated.
@@ -2050,87 +2131,8 @@ Analyzing Entity <CalculatePixOsCPSP> in library <work> (Architecture <behaviora
 Entity <CalculatePixOsCPSP> analyzed. Unit <CalculatePixOsCPSP> generated.
 
 Analyzing Entity <CalculateVirCompensated> in library <work> (Architecture <behavioral>).
-WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateVirCompensated.vhd" line 585: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
+WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateVirCompensated.vhd" line 530: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
 Entity <CalculateVirCompensated> analyzed. Unit <CalculateVirCompensated> generated.
-
-Analyzing Entity <ExtractTGCParameters> in library <work> (Architecture <behavioral>).
-INFO:Xst:1749 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractTGCParameters.vhd" line 80: report: ExtractTGCParameters
-    Set user-defined property "INIT =  000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INITP_00 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INITP_01 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INITP_02 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INITP_03 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INITP_04 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INITP_05 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INITP_06 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INITP_07 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_00 =  3E6000003E4000003E2000003E0000003DC000003D8000003D00000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_01 =  3EF000003EE000003ED000003EC000003EB000003EA000003E9000003E800000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_02 =  3F3800003F3000003F2800003F2000003F1800003F1000003F0800003F000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_03 =  3F7800003F7000003F6800003F6000003F5800003F5000003F4800003F400000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_04 =  3F9C00003F9800003F9400003F9000003F8C00003F8800003F8400003F800000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_05 =  3FBC00003FB800003FB400003FB000003FAC00003FA800003FA400003FA00000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_06 =  3FDC00003FD800003FD400003FD000003FCC00003FC800003FC400003FC00000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_07 =  3FFC00003FF800003FF400003FF000003FEC00003FE800003FE400003FE00000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_08 =  400E0000400C0000400A00004008000040060000400400004002000040000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_09 =  401E0000401C0000401A00004018000040160000401400004012000040100000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_0A =  402E0000402C0000402A00004028000040260000402400004022000040200000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_0B =  403E0000403C0000403A00004038000040360000403400004032000040300000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_0C =  404E0000404C0000404A00004048000040460000404400004042000040400000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_0D =  405E0000405C0000405A00004058000040560000405400004052000040500000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_0E =  406E0000406C0000406A00004068000040660000406400004062000040600000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_0F =  407E0000407C0000407A00004078000040760000407400004072000040700000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_10 =  C0720000C0740000C0760000C0780000C07A0000C07C0000C07E0000C0800000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_11 =  C0620000C0640000C0660000C0680000C06A0000C06C0000C06E0000C0700000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_12 =  C0520000C0540000C0560000C0580000C05A0000C05C0000C05E0000C0600000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_13 =  C0420000C0440000C0460000C0480000C04A0000C04C0000C04E0000C0500000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_14 =  C0320000C0340000C0360000C0380000C03A0000C03C0000C03E0000C0400000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_15 =  C0220000C0240000C0260000C0280000C02A0000C02C0000C02E0000C0300000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_16 =  C0120000C0140000C0160000C0180000C01A0000C01C0000C01E0000C0200000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_17 =  C0020000C0040000C0060000C0080000C00A0000C00C0000C00E0000C0100000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_18 =  BFE40000BFE80000BFEC0000BFF00000BFF40000BFF80000BFFC0000C0000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_19 =  BFC40000BFC80000BFCC0000BFD00000BFD40000BFD80000BFDC0000BFE00000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_1A =  BFA40000BFA80000BFAC0000BFB00000BFB40000BFB80000BFBC0000BFC00000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_1B =  BF840000BF880000BF8C0000BF900000BF940000BF980000BF9C0000BFA00000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_1C =  BF480000BF500000BF580000BF600000BF680000BF700000BF780000BF800000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_1D =  BF080000BF100000BF180000BF200000BF280000BF300000BF380000BF400000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_1E =  BE900000BEA00000BEB00000BEC00000BED00000BEE00000BEF00000BF000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_1F =  BD000000BD800000BDC00000BE000000BE200000BE400000BE600000BE800000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_20 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_21 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_22 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_23 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_24 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_25 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_26 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_27 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_28 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_29 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_2A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_2B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_2C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_2D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_2E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_2F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_30 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_31 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_32 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_33 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_34 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_35 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_36 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_37 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_38 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_39 =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_3A =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_3B =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_3C =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_3D =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_3E =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "INIT_3F =  0000000000000000000000000000000000000000000000000000000000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "SRVAL =  000000000" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-    Set user-defined property "WRITE_MODE =  WRITE_FIRST" for instance <inst_mem_tgc> in unit <ExtractTGCParameters>.
-Entity <ExtractTGCParameters> analyzed. Unit <ExtractTGCParameters> generated.
 
 Analyzing Entity <mem_switchpattern> in library <work> (Architecture <behavioral>).
     Set user-defined property "INIT =  000000000" for instance <inst_mem_switchpattern> in unit <mem_switchpattern>.
@@ -2203,7 +2205,7 @@ Analyzing Entity <mem_switchpattern> in library <work> (Architecture <behavioral
 Entity <mem_switchpattern> analyzed. Unit <mem_switchpattern> generated.
 
 Analyzing Entity <CalculateAlphaComp> in library <work> (Architecture <behavioral>).
-WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateAlphaComp.vhd" line 654: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
+WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateAlphaComp.vhd" line 602: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
 Entity <CalculateAlphaComp> analyzed. Unit <CalculateAlphaComp> generated.
 
 Analyzing Entity <ExtractKsTaParameters> in library <work> (Architecture <behavioral>).
@@ -2506,9 +2508,36 @@ Synthesizing Unit <CalculateKGain>.
 Unit <CalculateKGain> synthesized.
 
 
+Synthesizing Unit <ExtractTGCParameters>.
+    Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractTGCParameters.vhd".
+    Found finite state machine <FSM_2> for signal <state>.
+    -----------------------------------------------------------------------
+    | States             | 5                                              |
+    | Transitions        | 6                                              |
+    | Inputs             | 1                                              |
+    | Outputs            | 7                                              |
+    | Clock              | i_clock                   (rising_edge)        |
+    | Reset              | i_reset                   (positive)           |
+    | Reset type         | synchronous                                    |
+    | Reset State        | 000                                            |
+    | Power Up State     | 000                                            |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found 12-bit register for signal <i2c_mem_addra>.
+    Found 32-bit register for signal <o_tgc>.
+    Found 1-bit register for signal <i2c_mem_ena>.
+    Found 9-bit register for signal <address_N>.
+    Found 1-bit register for signal <rdy>.
+    Summary:
+	inferred   1 Finite State Machine(s).
+	inferred  55 D-type flip-flop(s).
+Unit <ExtractTGCParameters> synthesized.
+
+
 Synthesizing Unit <ExtractVDDParameters>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractVDDParameters.vhd".
-    Found finite state machine <FSM_2> for signal <state>.
+    Found finite state machine <FSM_3> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 6                                              |
     | Transitions        | 7                                              |
@@ -2592,33 +2621,6 @@ Unit <mem_ramb16_s36_x2_3> synthesized.
 Synthesizing Unit <mem_signed256>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/mem_signedFF.vhd".
 Unit <mem_signed256> synthesized.
-
-
-Synthesizing Unit <ExtractTGCParameters>.
-    Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractTGCParameters.vhd".
-    Found finite state machine <FSM_3> for signal <state>.
-    -----------------------------------------------------------------------
-    | States             | 5                                              |
-    | Transitions        | 6                                              |
-    | Inputs             | 1                                              |
-    | Outputs            | 7                                              |
-    | Clock              | i_clock                   (rising_edge)        |
-    | Reset              | i_reset                   (positive)           |
-    | Reset type         | synchronous                                    |
-    | Reset State        | 000                                            |
-    | Power Up State     | 000                                            |
-    | Encoding           | automatic                                      |
-    | Implementation     | LUT                                            |
-    -----------------------------------------------------------------------
-    Found 12-bit register for signal <i2c_mem_addra>.
-    Found 32-bit register for signal <o_tgc>.
-    Found 1-bit register for signal <i2c_mem_ena>.
-    Found 9-bit register for signal <address_N>.
-    Found 1-bit register for signal <rdy>.
-    Summary:
-	inferred   1 Finite State Machine(s).
-	inferred  55 D-type flip-flop(s).
-Unit <ExtractTGCParameters> synthesized.
 
 
 Synthesizing Unit <mem_switchpattern>.
@@ -2821,16 +2823,17 @@ Unit <ExtractAlphaParameters> synthesized.
 
 Synthesizing Unit <CalculateVirCompensated>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateVirCompensated.vhd".
+WARNING:Xst:647 - Input <i2c_mem_douta> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
     Register <addfpond_internal> equivalent to <addfpce_internal> has been removed
     Register <divfpond_internal> equivalent to <divfpce_internal> has been removed
     Register <mulfpond_internal> equivalent to <mulfpce_internal> has been removed
     Register <subfpond_internal> equivalent to <subfpce_internal> has been removed
     Found finite state machine <FSM_8> for signal <state>.
     -----------------------------------------------------------------------
-    | States             | 11                                             |
-    | Transitions        | 21                                             |
-    | Inputs             | 7                                              |
-    | Outputs            | 13                                             |
+    | States             | 10                                             |
+    | Transitions        | 19                                             |
+    | Inputs             | 6                                              |
+    | Outputs            | 12                                             |
     | Clock              | i_clock                   (rising_edge)        |
     | Reset              | i_reset                   (positive)           |
     | Reset type         | synchronous                                    |
@@ -2850,10 +2853,8 @@ Synthesizing Unit <CalculateVirCompensated>.
     Found 32-bit register for signal <divfpb_internal>.
     Found 1-bit register for signal <divfpce_internal>.
     Found 1-bit register for signal <divfpsclr_internal>.
-    Found 1-bit register for signal <ExtractTGCParameters_mux>.
-    Found 1-bit register for signal <ExtractTGCParameters_run>.
     Found 10-bit register for signal <i>.
-    Found 10-bit adder for signal <i$addsub0000> created at line 556.
+    Found 10-bit adder for signal <i$addsub0000> created at line 514.
     Found 14-bit register for signal <mem_switchpattern_pixel>.
     Found 32-bit register for signal <mulfpa_internal>.
     Found 32-bit register for signal <mulfpb_internal>.
@@ -2867,7 +2868,7 @@ Synthesizing Unit <CalculateVirCompensated>.
     Found 1-bit register for signal <write_enable>.
     Summary:
 	inferred   1 Finite State Machine(s).
-	inferred 344 D-type flip-flop(s).
+	inferred 342 D-type flip-flop(s).
 	inferred   1 Adder/Subtractor(s).
 Unit <CalculateVirCompensated> synthesized.
 
@@ -2875,20 +2876,21 @@ Unit <CalculateVirCompensated> synthesized.
 Synthesizing Unit <CalculateAlphaComp>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateAlphaComp.vhd".
 WARNING:Xst:647 - Input <i_const1> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:1780 - Signal <ExtractTGCParameters_mux> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
     Register <addfpond_internal> equivalent to <addfpce_internal> has been removed
     Register <mulfpond_internal> equivalent to <mulfpce_internal> has been removed
     Register <subfpond_internal> equivalent to <subfpce_internal> has been removed
     Found finite state machine <FSM_9> for signal <state>.
     -----------------------------------------------------------------------
-    | States             | 17                                             |
-    | Transitions        | 32                                             |
-    | Inputs             | 7                                              |
-    | Outputs            | 20                                             |
+    | States             | 16                                             |
+    | Transitions        | 30                                             |
+    | Inputs             | 6                                              |
+    | Outputs            | 19                                             |
     | Clock              | i_clock                   (rising_edge)        |
     | Reset              | i_reset                   (positive)           |
     | Reset type         | synchronous                                    |
-    | Reset State        | 00000                                          |
-    | Power Up State     | 00000                                          |
+    | Reset State        | 0000                                           |
+    | Power Up State     | 0000                                           |
     | Encoding           | automatic                                      |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
@@ -2901,10 +2903,8 @@ WARNING:Xst:647 - Input <i_const1> is never used. This port will be preserved an
     Found 32-bit register for signal <dia>.
     Found 1-bit register for signal <ExtractKsTaParameters_mux>.
     Found 1-bit register for signal <ExtractKsTaParameters_run>.
-    Found 1-bit register for signal <ExtractTGCParameters_mux>.
-    Found 1-bit register for signal <ExtractTGCParameters_run>.
     Found 10-bit register for signal <i>.
-    Found 10-bit adder for signal <i$addsub0000> created at line 604.
+    Found 10-bit adder for signal <i$addsub0000> created at line 565.
     Found 14-bit register for signal <mem_switchpattern_pixel>.
     Found 32-bit register for signal <mulfpa_internal>.
     Found 32-bit register for signal <mulfpb_internal>.
@@ -2918,7 +2918,7 @@ WARNING:Xst:647 - Input <i_const1> is never used. This port will be preserved an
     Found 1-bit register for signal <write_enable>.
     Summary:
 	inferred   1 Finite State Machine(s).
-	inferred 280 D-type flip-flop(s).
+	inferred 278 D-type flip-flop(s).
 	inferred   1 Adder/Subtractor(s).
 Unit <CalculateAlphaComp> synthesized.
 
@@ -3502,10 +3502,10 @@ WARNING:Xst:1780 - Signal <CalculatePixOS_divfpclk> is never used or assigned. T
 WARNING:Xst:1780 - Signal <CalculatePixOS_addfpclk> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
     Found finite state machine <FSM_19> for signal <state>.
     -----------------------------------------------------------------------
-    | States             | 22                                             |
-    | Transitions        | 33                                             |
-    | Inputs             | 11                                             |
-    | Outputs            | 21                                             |
+    | States             | 24                                             |
+    | Transitions        | 36                                             |
+    | Inputs             | 12                                             |
+    | Outputs            | 23                                             |
     | Clock              | i_clock                   (rising_edge)        |
     | Reset              | i_reset                   (positive)           |
     | Reset type         | synchronous                                    |
@@ -3535,9 +3535,11 @@ WARNING:Xst:1780 - Signal <CalculatePixOS_addfpclk> is never used or assigned. T
     Found 1-bit register for signal <CalculateVirCompensated_run>.
     Found 1-bit register for signal <ExtractAlphaParameters_mux>.
     Found 1-bit register for signal <ExtractAlphaParameters_run>.
+    Found 1-bit register for signal <ExtractTGCParameters_mux>.
+    Found 1-bit register for signal <ExtractTGCParameters_run>.
     Summary:
 	inferred   1 Finite State Machine(s).
-	inferred  21 D-type flip-flop(s).
+	inferred  23 D-type flip-flop(s).
 Unit <test_fixed_melexis> synthesized.
 
 
@@ -3617,20 +3619,20 @@ Macro Statistics
  5-bit up counter                                      : 6
  6-bit up counter                                      : 1
  8-bit up counter                                      : 1
-# Registers                                            : 520
- 1-bit register                                        : 311
+# Registers                                            : 513
+ 1-bit register                                        : 307
  10-bit register                                       : 27
- 12-bit register                                       : 14
+ 12-bit register                                       : 13
  14-bit register                                       : 2
  2-bit register                                        : 3
  3-bit register                                        : 1
- 32-bit register                                       : 107
+ 32-bit register                                       : 106
  4-bit register                                        : 17
  5-bit register                                        : 6
  6-bit register                                        : 6
  64-bit register                                       : 7
  8-bit register                                        : 13
- 9-bit register                                        : 6
+ 9-bit register                                        : 5
 # Comparators                                          : 10
  10-bit comparator greatequal                          : 4
  10-bit comparator greater                             : 2
@@ -3665,33 +3667,35 @@ Optimizing FSM <state/FSM> on signal <state[1:11]> with one-hot encoding.
  1010  | 10000000000
 ----------------------
 Analyzing FSM <FSM_19> for best encoding.
-Optimizing FSM <tfm_inst/state/FSM> on signal <state[1:22]> with one-hot encoding.
----------------------------------
+Optimizing FSM <tfm_inst/state/FSM> on signal <state[1:24]> with one-hot encoding.
+-----------------------------------
  State | Encoding
----------------------------------
- 00000 | 0000000000000000000001
- 00001 | 0000000000000000000010
- 00010 | 0000000000000000000100
- 00011 | 0000000000000000001000
- 00100 | 0000000000000000010000
- 00101 | 0000000000000000100000
- 00110 | 0000000000000001000000
- 00111 | 0000000000000010000000
- 01000 | 0000000000000100000000
- 01001 | 0000000000001000000000
- 01010 | 0000000000010000000000
- 01011 | 0000000000100000000000
- 01100 | 0000000001000000000000
- 01101 | 0000000010000000000000
- 01110 | 0000000100000000000000
- 01111 | 0000001000000000000000
- 10000 | 0000010000000000000000
- 10001 | 0000100000000000000000
- 10010 | 0001000000000000000000
- 10011 | 0010000000000000000000
- 10100 | 0100000000000000000000
- 10101 | 1000000000000000000000
----------------------------------
+-----------------------------------
+ 00000 | 000000000000000000000001
+ 00001 | 000000000000000000000010
+ 00010 | 000000000000000000000100
+ 00011 | 000000000000000000001000
+ 00100 | 000000000000000000010000
+ 00101 | 000000000000000000100000
+ 00110 | 000000000000000001000000
+ 00111 | 000000000000000010000000
+ 01000 | 000000000000000100000000
+ 01001 | 000000000000001000000000
+ 01010 | 000000000000010000000000
+ 01011 | 000000000000100000000000
+ 01100 | 000000000001000000000000
+ 01101 | 000000000010000000000000
+ 01110 | 000000000100000000000000
+ 01111 | 000000001000000000000000
+ 10000 | 000000010000000000000000
+ 10001 | 000000100000000000000000
+ 10010 | 000001000000000000000000
+ 10011 | 000010000000000000000000
+ 10100 | 000100000000000000000000
+ 10101 | 001000000000000000000000
+ 10110 | 010000000000000000000000
+ 10111 | 100000000000000000000000
+-----------------------------------
 Analyzing FSM <FSM_18> for best encoding.
 Optimizing FSM <tfm_inst/inst_CalculatePixOsCPSP/state/FSM> on signal <state[1:74]> with one-hot encoding.
 ---------------------------------------------------------------------------------------
@@ -3972,45 +3976,43 @@ Optimizing FSM <tfm_inst/inst_CalculateTo/state/FSM> on signal <state[1:45]> wit
  101100 | 100000000000000000000000000000000000000000000
 ---------------------------------------------------------
 Analyzing FSM <FSM_9> for best encoding.
-Optimizing FSM <tfm_inst/inst_CalculateAlphaComp/state/FSM> on signal <state[1:17]> with one-hot encoding.
-----------------------------
+Optimizing FSM <tfm_inst/inst_CalculateAlphaComp/state/FSM> on signal <state[1:16]> with one-hot encoding.
+---------------------------
  State | Encoding
-----------------------------
- 00000 | 00000000000000001
- 00001 | 00000000000000010
- 00010 | 00000000000000100
- 00011 | 00000000000001000
- 00100 | 00000000000010000
- 00101 | 00000000000100000
- 00110 | 00000000001000000
- 00111 | 00000000010000000
- 01000 | 00000000100000000
- 01001 | 00000001000000000
- 01010 | 00000010000000000
- 01011 | 00000100000000000
- 01100 | 00001000000000000
- 01101 | 00010000000000000
- 01110 | 00100000000000000
- 01111 | 01000000000000000
- 10000 | 10000000000000000
-----------------------------
+---------------------------
+ 0000  | 0000000000000001
+ 0001  | 0000000000000010
+ 0010  | 0000000000000100
+ 0011  | 0000000000001000
+ 0100  | 0000000000010000
+ 0101  | 0000000000100000
+ 0110  | 0000000001000000
+ 0111  | 0000000010000000
+ 1000  | 0000000100000000
+ 1001  | 0000001000000000
+ 1010  | 0000010000000000
+ 1011  | 0000100000000000
+ 1100  | 0001000000000000
+ 1101  | 0010000000000000
+ 1110  | 0100000000000000
+ 1111  | 1000000000000000
+---------------------------
 Analyzing FSM <FSM_8> for best encoding.
-Optimizing FSM <tfm_inst/inst_CalculateVirCompensated/state/FSM> on signal <state[1:11]> with one-hot encoding.
-----------------------
+Optimizing FSM <tfm_inst/inst_CalculateVirCompensated/state/FSM> on signal <state[1:10]> with one-hot encoding.
+---------------------
  State | Encoding
-----------------------
- 0000  | 00000000001
- 0001  | 00000000010
- 0010  | 00000000100
- 0011  | 00000001000
- 0100  | 00000010000
- 0101  | 00000100000
- 0110  | 00001000000
- 0111  | 00010000000
- 1000  | 00100000000
- 1001  | 01000000000
- 1010  | 10000000000
-----------------------
+---------------------
+ 0000  | 0000000001
+ 0001  | 0000000010
+ 0010  | 0000000100
+ 0011  | 0000001000
+ 0100  | 0000010000
+ 0101  | 0000100000
+ 0110  | 0001000000
+ 0111  | 0010000000
+ 1000  | 0100000000
+ 1001  | 1000000000
+---------------------
 Analyzing FSM <FSM_7> for best encoding.
 Optimizing FSM <tfm_inst/inst_ExtractAlphaParameters/state/FSM> on signal <state[1:28]> with one-hot encoding.
 ---------------------------------------
@@ -4088,18 +4090,6 @@ Optimizing FSM <tfm_inst/inst_CalculateAlphaComp/inst_ExtractKsTaParameters/stat
  100   | 10000
 -------------------
 Analyzing FSM <FSM_3> for best encoding.
-Optimizing FSM <tfm_inst/inst_CalculateVirCompensated/inst_ExtractTGCParameters/state/FSM> on signal <state[1:5]> with one-hot encoding.
-Optimizing FSM <tfm_inst/inst_CalculateAlphaComp/inst_ExtractTGCParameters/state/FSM> on signal <state[1:5]> with one-hot encoding.
--------------------
- State | Encoding
--------------------
- 000   | 00001
- 001   | 00010
- 010   | 00100
- 011   | 01000
- 100   | 10000
--------------------
-Analyzing FSM <FSM_2> for best encoding.
 Optimizing FSM <tfm_inst/inst_calculateVdd/inst_ExtractVDDParameters/state/FSM> on signal <state[1:6]> with one-hot encoding.
 -------------------
  State | Encoding
@@ -4110,6 +4100,17 @@ Optimizing FSM <tfm_inst/inst_calculateVdd/inst_ExtractVDDParameters/state/FSM> 
  011   | 001000
  100   | 010000
  101   | 100000
+-------------------
+Analyzing FSM <FSM_2> for best encoding.
+Optimizing FSM <tfm_inst/inst_ExtractTGCParameters/state/FSM> on signal <state[1:5]> with one-hot encoding.
+-------------------
+ State | Encoding
+-------------------
+ 000   | 00001
+ 001   | 00010
+ 010   | 00100
+ 011   | 01000
+ 100   | 10000
 -------------------
 Analyzing FSM <FSM_1> for best encoding.
 Optimizing FSM <tfm_inst/inst_CalculateKGain/state/FSM> on signal <state[1:9]> with one-hot encoding.
@@ -4157,6 +4158,8 @@ Loading core <addfp> for timing and area information for instance <inst_addfp>.
 Loading core <subfp> for timing and area information for instance <inst_subfp>.
 Loading core <sqrtfp2> for timing and area information for instance <inst_sqrtfp2>.
 Loading core <inst_mem_kvdd_vdd25> for timing and area information for instance <rom_kvdd_vdd25>.
+INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_0> in Unit <inst_ExtractTGCParameters> is equivalent to the following 4 FFs/Latches, which will be removed : <i2c_mem_addra_3> <i2c_mem_addra_4> <i2c_mem_addra_5> <i2c_mem_addra_6> 
+INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_1> in Unit <inst_ExtractTGCParameters> is equivalent to the following 6 FFs/Latches, which will be removed : <i2c_mem_addra_2> <i2c_mem_addra_7> <i2c_mem_addra_8> <i2c_mem_addra_9> <i2c_mem_addra_10> <i2c_mem_addra_11> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_44> in Unit <inst_calculateVdd> is equivalent to the following 19 FFs/Latches, which will be removed : <fixed2floata_45> <fixed2floata_46> <fixed2floata_47> <fixed2floata_48> <fixed2floata_49> <fixed2floata_50> <fixed2floata_51> <fixed2floata_52> <fixed2floata_53> <fixed2floata_54> <fixed2floata_55> <fixed2floata_56> <fixed2floata_57> <fixed2floata_58> <fixed2floata_59> <fixed2floata_60> <fixed2floata_61> <fixed2floata_62> <fixed2floata_63> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_0> in Unit <inst_calculateVdd> is equivalent to the following 28 FFs/Latches, which will be removed : <fixed2floata_1> <fixed2floata_2> <fixed2floata_3> <fixed2floata_4> <fixed2floata_5> <fixed2floata_6> <fixed2floata_7> <fixed2floata_8> <fixed2floata_9> <fixed2floata_10> <fixed2floata_11> <fixed2floata_12> <fixed2floata_13> <fixed2floata_14> <fixed2floata_15> <fixed2floata_16> <fixed2floata_17> <fixed2floata_18> <fixed2floata_19> <fixed2floata_20> <fixed2floata_21> <fixed2floata_22> <fixed2floata_23> <fixed2floata_24> <fixed2floata_25> <fixed2floata_26> <fixed2floata_27> <fixed2floata_28> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_44> in Unit <inst_ExtractAlphaParameters> is equivalent to the following 19 FFs/Latches, which will be removed : <fixed2floata_internal_45> <fixed2floata_internal_46> <fixed2floata_internal_47> <fixed2floata_internal_48> <fixed2floata_internal_49> <fixed2floata_internal_50> <fixed2floata_internal_51> <fixed2floata_internal_52> <fixed2floata_internal_53> <fixed2floata_internal_54> <fixed2floata_internal_55> <fixed2floata_internal_56> <fixed2floata_internal_57> <fixed2floata_internal_58> <fixed2floata_internal_59> <fixed2floata_internal_60> <fixed2floata_internal_61> <fixed2floata_internal_62> <fixed2floata_internal_63> 
@@ -4169,24 +4172,19 @@ INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_44> in Unit <inst_ExtractOff
 INFO:Xst:2261 - The FF/Latch <n_0> in Unit <inst_ExtractOffsetParameters> is equivalent to the following FF/Latch, which will be removed : <n_1> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_23> in Unit <inst_CalculatePixOS> is equivalent to the following 6 FFs/Latches, which will be removed : <divfpb_internal_24> <divfpb_internal_25> <divfpb_internal_26> <divfpb_internal_27> <divfpb_internal_28> <divfpb_internal_29> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_0> in Unit <inst_CalculatePixOS> is equivalent to the following 24 FFs/Latches, which will be removed : <divfpb_internal_1> <divfpb_internal_2> <divfpb_internal_3> <divfpb_internal_4> <divfpb_internal_5> <divfpb_internal_6> <divfpb_internal_7> <divfpb_internal_8> <divfpb_internal_9> <divfpb_internal_10> <divfpb_internal_11> <divfpb_internal_12> <divfpb_internal_13> <divfpb_internal_14> <divfpb_internal_15> <divfpb_internal_16> <divfpb_internal_17> <divfpb_internal_18> <divfpb_internal_19> <divfpb_internal_20> <divfpb_internal_21> <divfpb_internal_22> <divfpb_internal_30> <divfpb_internal_31> 
-INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_0> in Unit <inst_ExtractTGCParameters> is equivalent to the following 4 FFs/Latches, which will be removed : <i2c_mem_addra_3> <i2c_mem_addra_4> <i2c_mem_addra_5> <i2c_mem_addra_6> 
-INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_1> in Unit <inst_ExtractTGCParameters> is equivalent to the following 6 FFs/Latches, which will be removed : <i2c_mem_addra_2> <i2c_mem_addra_7> <i2c_mem_addra_8> <i2c_mem_addra_9> <i2c_mem_addra_10> <i2c_mem_addra_11> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_6> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_6> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_0> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_0> 
-INFO:Xst:2261 - The FF/Latch <o_pixos_addr_5> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_5> 
+INFO:Xst:2261 - The FF/Latch <divfpb_internal_23> in Unit <inst_CalculateVirCompensated> is equivalent to the following 6 FFs/Latches, which will be removed : <divfpb_internal_24> <divfpb_internal_25> <divfpb_internal_26> <divfpb_internal_27> <divfpb_internal_28> <divfpb_internal_29> 
 INFO:Xst:2261 - The FF/Latch <mem_switchpattern_pixel_10> in Unit <inst_CalculateVirCompensated> is equivalent to the following 3 FFs/Latches, which will be removed : <mem_switchpattern_pixel_11> <mem_switchpattern_pixel_12> <mem_switchpattern_pixel_13> 
+INFO:Xst:2261 - The FF/Latch <o_pixos_addr_5> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_5> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_4> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_4> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_9> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_9> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_3> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_3> 
-INFO:Xst:2261 - The FF/Latch <divfpb_internal_23> in Unit <inst_CalculateVirCompensated> is equivalent to the following 6 FFs/Latches, which will be removed : <divfpb_internal_24> <divfpb_internal_25> <divfpb_internal_26> <divfpb_internal_27> <divfpb_internal_28> <divfpb_internal_29> 
-INFO:Xst:2261 - The FF/Latch <divfpb_internal_0> in Unit <inst_CalculateVirCompensated> is equivalent to the following 24 FFs/Latches, which will be removed : <divfpb_internal_1> <divfpb_internal_2> <divfpb_internal_3> <divfpb_internal_4> <divfpb_internal_5> <divfpb_internal_6> <divfpb_internal_7> <divfpb_internal_8> <divfpb_internal_9> <divfpb_internal_10> <divfpb_internal_11> <divfpb_internal_12> <divfpb_internal_13> <divfpb_internal_14> <divfpb_internal_15> <divfpb_internal_16> <divfpb_internal_17> <divfpb_internal_18> <divfpb_internal_19> <divfpb_internal_20> <divfpb_internal_21> <divfpb_internal_22> <divfpb_internal_30> <divfpb_internal_31> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_8> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_8> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_2> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_2> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_7> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_7> 
+INFO:Xst:2261 - The FF/Latch <divfpb_internal_0> in Unit <inst_CalculateVirCompensated> is equivalent to the following 24 FFs/Latches, which will be removed : <divfpb_internal_1> <divfpb_internal_2> <divfpb_internal_3> <divfpb_internal_4> <divfpb_internal_5> <divfpb_internal_6> <divfpb_internal_7> <divfpb_internal_8> <divfpb_internal_9> <divfpb_internal_10> <divfpb_internal_11> <divfpb_internal_12> <divfpb_internal_13> <divfpb_internal_14> <divfpb_internal_15> <divfpb_internal_16> <divfpb_internal_17> <divfpb_internal_18> <divfpb_internal_19> <divfpb_internal_20> <divfpb_internal_21> <divfpb_internal_22> <divfpb_internal_30> <divfpb_internal_31> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_1> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_1> 
-INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_0> in Unit <inst_ExtractTGCParameters> is equivalent to the following 4 FFs/Latches, which will be removed : <i2c_mem_addra_3> <i2c_mem_addra_4> <i2c_mem_addra_5> <i2c_mem_addra_6> 
-INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_1> in Unit <inst_ExtractTGCParameters> is equivalent to the following 6 FFs/Latches, which will be removed : <i2c_mem_addra_2> <i2c_mem_addra_7> <i2c_mem_addra_8> <i2c_mem_addra_9> <i2c_mem_addra_10> <i2c_mem_addra_11> 
-INFO:Xst:2261 - The FF/Latch <mem_switchpattern_pixel_10> in Unit <inst_CalculateAlphaComp> is equivalent to the following 3 FFs/Latches, which will be removed : <mem_switchpattern_pixel_11> <mem_switchpattern_pixel_12> <mem_switchpattern_pixel_13> 
 INFO:Xst:2261 - The FF/Latch <o_alpha_addr_0> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_0> 
 INFO:Xst:2261 - The FF/Latch <o_alpha_addr_1> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_1> 
 INFO:Xst:2261 - The FF/Latch <o_alpha_addr_2> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_2> 
@@ -4197,8 +4195,12 @@ INFO:Xst:2261 - The FF/Latch <o_alpha_addr_6> in Unit <inst_CalculateAlphaComp> 
 INFO:Xst:2261 - The FF/Latch <o_alpha_addr_7> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_7> 
 INFO:Xst:2261 - The FF/Latch <o_alpha_addr_8> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_8> 
 INFO:Xst:2261 - The FF/Latch <o_alpha_addr_9> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_9> 
+INFO:Xst:2261 - The FF/Latch <mem_switchpattern_pixel_10> in Unit <inst_CalculateAlphaComp> is equivalent to the following 3 FFs/Latches, which will be removed : <mem_switchpattern_pixel_11> <mem_switchpattern_pixel_12> <mem_switchpattern_pixel_13> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_0> in Unit <inst_ExtractKsToScaleParameter> is equivalent to the following 6 FFs/Latches, which will be removed : <i2c_mem_addra_1> <i2c_mem_addra_2> <i2c_mem_addra_3> <i2c_mem_addra_4> <i2c_mem_addra_5> <i2c_mem_addra_6> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_7> in Unit <inst_ExtractKsToScaleParameter> is equivalent to the following 4 FFs/Latches, which will be removed : <i2c_mem_addra_8> <i2c_mem_addra_9> <i2c_mem_addra_10> <i2c_mem_addra_11> 
+WARNING:Xst:1710 - FF/Latch <addfpb_internal_17> (without init value) has a constant value of 0 in block <inst_CalculatePixOS>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <addfpb_internal_18> (without init value) has a constant value of 0 in block <inst_CalculatePixOS>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <addfpb_internal_19> (without init value) has a constant value of 0 in block <inst_CalculatePixOS>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_20> (without init value) has a constant value of 0 in block <inst_CalculatePixOS>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_21> (without init value) has a constant value of 0 in block <inst_CalculatePixOS>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_22> (without init value) has a constant value of 0 in block <inst_CalculatePixOS>. This FF/Latch will be trimmed during the optimization process.
@@ -4220,9 +4222,9 @@ WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_11> (without init value) has 
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_12> (without init value) has a constant value of 0 in block <inst_CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_13> (without init value) has a constant value of 0 in block <inst_CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_14> (without init value) has a constant value of 0 in block <inst_CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_15> (without init value) has a constant value of 0 in block <inst_CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_16> (without init value) has a constant value of 0 in block <inst_CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_17> (without init value) has a constant value of 0 in block <inst_CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_2> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_7> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_8> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_9> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_10> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
@@ -4244,9 +4246,6 @@ WARNING:Xst:1710 - FF/Latch <addfpb_internal_13> (without init value) has a cons
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_14> (without init value) has a constant value of 0 in block <inst_CalculatePixOS>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_15> (without init value) has a constant value of 0 in block <inst_CalculatePixOS>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_16> (without init value) has a constant value of 0 in block <inst_CalculatePixOS>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <addfpb_internal_17> (without init value) has a constant value of 0 in block <inst_CalculatePixOS>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <addfpb_internal_18> (without init value) has a constant value of 0 in block <inst_CalculatePixOS>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <addfpb_internal_19> (without init value) has a constant value of 0 in block <inst_CalculatePixOS>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <subfpb_internal_4> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <subfpb_internal_5> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <subfpb_internal_6> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
@@ -4271,6 +4270,9 @@ WARNING:Xst:1710 - FF/Latch <address_kstoscale_6> (without init value) has a con
 WARNING:Xst:1710 - FF/Latch <address_kstoscale_7> (without init value) has a constant value of 0 in block <inst_ExtractKsToScaleParameter>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <address_kstoscale_8> (without init value) has a constant value of 0 in block <inst_ExtractKsToScaleParameter>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_7> (without init value) has a constant value of 0 in block <inst_ExtractKsToScaleParameter>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_15> (without init value) has a constant value of 0 in block <inst_CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_16> (without init value) has a constant value of 0 in block <inst_CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_17> (without init value) has a constant value of 0 in block <inst_CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_18> (without init value) has a constant value of 0 in block <inst_CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_19> (without init value) has a constant value of 0 in block <inst_CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_20> (without init value) has a constant value of 0 in block <inst_CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
@@ -4285,17 +4287,16 @@ WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_28> (without init value) has 
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_3> (without init value) has a constant value of 0 in block <inst_CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_8> (without init value) has a constant value of 0 in block <inst_CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_9> (without init value) has a constant value of 0 in block <inst_CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <address_N_8> (without init value) has a constant value of 0 in block <inst_ExtractTGCParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <inst_ExtractTGCParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <divfpb_internal_0> (without init value) has a constant value of 0 in block <inst_CalculateVirCompensated>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <mem_switchpattern_pixel_10> (without init value) has a constant value of 0 in block <inst_CalculateVirCompensated>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <address_N_8> (without init value) has a constant value of 0 in block <inst_ExtractTGCParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <inst_ExtractTGCParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <address_ksta_8> (without init value) has a constant value of 0 in block <inst_ExtractKsTaParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <subfpb_internal_0> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <subfpb_internal_1> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <subfpb_internal_2> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <subfpb_internal_3> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_22> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_23> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_24> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_25> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_26> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_27> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
@@ -4317,9 +4318,8 @@ WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_3> (without init value) has 
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_8> (without init value) has a constant value of 0 in block <inst_calculateVdd>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_9> (without init value) has a constant value of 0 in block <inst_calculateVdd>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_0> (without init value) has a constant value of 0 in block <inst_calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_0> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_1> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_2> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <address_N_8> (without init value) has a constant value of 0 in block <inst_ExtractTGCParameters>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <inst_ExtractTGCParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_0> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_1> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_2> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
@@ -4342,9 +4342,9 @@ WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_18> (without init value) has 
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_19> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_20> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_21> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_22> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_23> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_24> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <fixed2floata_25> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <fixed2floata_26> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <fixed2floata_27> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_28> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_3> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_4> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
@@ -4366,9 +4366,9 @@ WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_0> (without init value) has a
 WARNING:Xst:1293 - FF/Latch <m_0> has a constant value of 0 in block <inst_ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <n_0> has a constant value of 0 in block <inst_ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_11> (without init value) has a constant value of 0 in block <inst_ExtractKtaParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_2> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_7> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <fixed2floata_0> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <fixed2floata_1> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <fixed2floata_2> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_3> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_4> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_5> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
@@ -4378,12 +4378,6 @@ WARNING:Xst:1710 - FF/Latch <fixed2floata_8> (without init value) has a constant
 WARNING:Xst:1710 - FF/Latch <fixed2floata_9> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_10> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_11> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_12> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_13> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_14> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_27> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_26> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_25> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_24> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_23> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_22> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
@@ -4394,6 +4388,9 @@ WARNING:Xst:1710 - FF/Latch <fixed2floata_18> (without init value) has a constan
 WARNING:Xst:1710 - FF/Latch <fixed2floata_17> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_16> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_15> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <fixed2floata_14> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <fixed2floata_13> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <fixed2floata_12> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_31> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_30> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <tout_29> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -4414,9 +4411,9 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_28> (w
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_29> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_30> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_31> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:2404 -  FFs/Latches <address_kvdd<8:8>> (without init value) have a constant value of 0 in block <ExtractVDDParameters>.
 WARNING:Xst:2404 -  FFs/Latches <address_N<8:8>> (without init value) have a constant value of 0 in block <ExtractTGCParameters>.
 WARNING:Xst:2404 -  FFs/Latches <i2c_mem_addra<11:7>> (without init value) have a constant value of 0 in block <ExtractTGCParameters>.
+WARNING:Xst:2404 -  FFs/Latches <address_kvdd<8:8>> (without init value) have a constant value of 0 in block <ExtractVDDParameters>.
 WARNING:Xst:2404 -  FFs/Latches <address_ksta<8:8>> (without init value) have a constant value of 0 in block <ExtractKsTaParameters>.
 WARNING:Xst:2404 -  FFs/Latches <i2c_mem_addra<11:7>> (without init value) have a constant value of 0 in block <ExtractKsToScaleParameter>.
 WARNING:Xst:2404 -  FFs/Latches <divfpb_internal<31:30>> (without init value) have a constant value of 0 in block <CalculateVirCompensated>.
@@ -4511,8 +4508,8 @@ Macro Statistics
  5-bit up counter                                      : 6
  6-bit up counter                                      : 1
  8-bit up counter                                      : 1
-# Registers                                            : 4887
- Flip-Flops                                            : 4887
+# Registers                                            : 4836
+ Flip-Flops                                            : 4836
 # Comparators                                          : 10
  10-bit comparator greatequal                          : 4
  10-bit comparator greater                             : 2
@@ -4562,6 +4559,8 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_intern
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_14> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_15> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_16> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <ExtractTGCParameters>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_2> (without init value) has a constant value of 0 in block <ExtractTGCParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_3> (without init value) has a constant value of 0 in block <ExtractVDDParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_4> (without init value) has a constant value of 0 in block <ExtractVDDParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_7> (without init value) has a constant value of 0 in block <ExtractVDDParameters>. This FF/Latch will be trimmed during the optimization process.
@@ -4569,8 +4568,6 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_8> (w
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_9> (without init value) has a constant value of 0 in block <ExtractVDDParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_10> (without init value) has a constant value of 0 in block <ExtractVDDParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_11> (without init value) has a constant value of 0 in block <ExtractVDDParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <ExtractTGCParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_2> (without init value) has a constant value of 0 in block <ExtractTGCParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <address_kstoscale_4> (without init value) has a constant value of 0 in block <ExtractKsToScaleParameter>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <address_kstoscale_5> (without init value) has a constant value of 0 in block <ExtractKsToScaleParameter>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <address_kstoscale_6> (without init value) has a constant value of 0 in block <ExtractKsToScaleParameter>. This FF/Latch will be trimmed during the optimization process.
@@ -4901,11 +4898,11 @@ INFO:Xst:2261 - The FF/Latch <fixed2floata_44> in Unit <calculateVdd> is equival
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_44> in Unit <ExtractAlphaParameters> is equivalent to the following 19 FFs/Latches, which will be removed : <fixed2floata_internal_45> <fixed2floata_internal_46> <fixed2floata_internal_47> <fixed2floata_internal_48> <fixed2floata_internal_49> <fixed2floata_internal_50> <fixed2floata_internal_51> <fixed2floata_internal_52> <fixed2floata_internal_53> <fixed2floata_internal_54> <fixed2floata_internal_55> <fixed2floata_internal_56> <fixed2floata_internal_57> <fixed2floata_internal_58> <fixed2floata_internal_59> <fixed2floata_internal_60> <fixed2floata_internal_61> <fixed2floata_internal_62> <fixed2floata_internal_63> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_6> in Unit <CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_6> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_0> in Unit <CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_0> 
+INFO:Xst:2261 - The FF/Latch <divfpb_internal_23> in Unit <CalculateVirCompensated> is equivalent to the following 6 FFs/Latches, which will be removed : <divfpb_internal_24> <divfpb_internal_25> <divfpb_internal_26> <divfpb_internal_27> <divfpb_internal_28> <divfpb_internal_29> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_5> in Unit <CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_5> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_4> in Unit <CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_4> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_9> in Unit <CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_9> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_3> in Unit <CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_3> 
-INFO:Xst:2261 - The FF/Latch <divfpb_internal_23> in Unit <CalculateVirCompensated> is equivalent to the following 6 FFs/Latches, which will be removed : <divfpb_internal_24> <divfpb_internal_25> <divfpb_internal_26> <divfpb_internal_27> <divfpb_internal_28> <divfpb_internal_29> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_8> in Unit <CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_8> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_2> in Unit <CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_2> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_7> in Unit <CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_7> 
@@ -5175,13 +5172,13 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_2> 
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_1> (without init value) has a constant value of 0 in block <CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_0> (without init value) has a constant value of 0 in block <CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_11> (without init value) has a constant value of 0 in block <ExtractAlphaParameters>. This FF/Latch will be trimmed during the optimization process.
+INFO:Xst:1901 - Instance inst_mem_tgc in unit ExtractTGCParameters of type RAMB16_S36 has been replaced by RAMB16
 INFO:Xst:1901 - Instance RAMB16_S36_inst1 in unit mem_ramb16_s36_x2_2 of type RAMB16_S36 has been replaced by RAMB16
 INFO:Xst:1901 - Instance RAMB16_S36_inst2 in unit mem_ramb16_s36_x2_2 of type RAMB16_S36 has been replaced by RAMB16
 INFO:Xst:1901 - Instance RAMB16_S36_inst1 in unit mem_ramb16_s36_x2_1 of type RAMB16_S36 has been replaced by RAMB16
 INFO:Xst:1901 - Instance RAMB16_S36_inst2 in unit mem_ramb16_s36_x2_1 of type RAMB16_S36 has been replaced by RAMB16
 INFO:Xst:1901 - Instance RAMB16_S36_inst1 in unit mem_ramb16_s36_x2_3 of type RAMB16_S36 has been replaced by RAMB16
 INFO:Xst:1901 - Instance RAMB16_S36_inst2 in unit mem_ramb16_s36_x2_3 of type RAMB16_S36 has been replaced by RAMB16
-INFO:Xst:1901 - Instance inst_mem_tgc in unit ExtractTGCParameters of type RAMB16_S36 has been replaced by RAMB16
 INFO:Xst:1901 - Instance inst_mem_ksta in unit ExtractKsTaParameters of type RAMB16_S36 has been replaced by RAMB16
 INFO:Xst:1901 - Instance inst_mem_kstoscale in unit ExtractKsToScaleParameter of type RAMB16_S36 has been replaced by RAMB16
 INFO:Xst:1901 - Instance inst_mem_switchpattern/inst_mem_switchpattern in unit CalculateVirCompensated of type RAMB16_S1 has been replaced by RAMB16
@@ -5204,6 +5201,8 @@ Optimizing unit <VGA_timing_synch> ...
 
 Optimizing unit <CalculateKGain> ...
 
+Optimizing unit <ExtractTGCParameters> ...
+
 Optimizing unit <ExtractVDDParameters> ...
 
 Optimizing unit <mem_ramb16_s36_x2_2> ...
@@ -5211,8 +5210,6 @@ Optimizing unit <mem_ramb16_s36_x2_2> ...
 Optimizing unit <mem_ramb16_s36_x2_1> ...
 
 Optimizing unit <mem_ramb16_s36_x2_3> ...
-
-Optimizing unit <ExtractTGCParameters> ...
 
 Optimizing unit <ExtractKsTaParameters> ...
 
@@ -5255,7 +5252,7 @@ INFO:Xst:2260 - The FF/Latch <blk00000296> in Unit <inst_subfp> is equivalent to
 INFO:Xst:2260 - The FF/Latch <blk00000084> in Unit <inst_mulfp> is equivalent to the following FF/Latch : <blk00000553> 
 INFO:Xst:2260 - The FF/Latch <blk00000296> in Unit <inst_addfp> is equivalent to the following FF/Latch : <blk000004d7> 
 INFO:Xst:2260 - The FF/Latch <blk00000296> in Unit <inst_subfp> is equivalent to the following FF/Latch : <blk000004d7> 
-FlipFlop tfm_inst/CalculateAlphaCP_mux has been replicated 2 time(s)
+FlipFlop tfm_inst/CalculateAlphaComp_mux has been replicated 1 time(s)
 FlipFlop tfm_inst/CalculatePixOS_mux has been replicated 1 time(s)
 FlipFlop tfm_inst/CalculatePixOsCPSP_mux has been replicated 2 time(s)
 FlipFlop tfm_inst/CalculateTa_mux has been replicated 1 time(s)
@@ -5272,8 +5269,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 4615
- Flip-Flops                                            : 4615
+# Registers                                            : 4564
+ Flip-Flops                                            : 4564
 
 =========================================================================
 
@@ -5302,37 +5299,37 @@ Design Statistics
 # IOs                              : 32
 
 Cell Usage :
-# BELS                             : 19804
+# BELS                             : 19689
 #      BUF                         : 13
 #      GND                         : 11
 #      INV                         : 127
 #      LUT1                        : 149
-#      LUT2                        : 2936
-#      LUT2_D                      : 7
-#      LUT2_L                      : 9
-#      LUT3                        : 3647
+#      LUT2                        : 2921
+#      LUT2_D                      : 5
+#      LUT2_L                      : 10
+#      LUT3                        : 3615
 #      LUT3_D                      : 125
-#      LUT3_L                      : 167
-#      LUT4                        : 6778
+#      LUT3_L                      : 173
+#      LUT4                        : 6698
 #      LUT4_D                      : 37
-#      LUT4_L                      : 484
+#      LUT4_L                      : 487
 #      MULT_AND                    : 225
 #      MUXCY                       : 2261
-#      MUXF5                       : 754
+#      MUXF5                       : 758
 #      MUXF6                       : 21
 #      MUXF7                       : 3
 #      VCC                         : 8
 #      XORCY                       : 2042
-# FlipFlops/Latches                : 9494
-#      FDE                         : 5391
-#      FDR                         : 955
-#      FDRE                        : 1474
-#      FDRS                        : 1397
-#      FDRSE                       : 185
-#      FDS                         : 70
+# FlipFlops/Latches                : 9443
+#      FDE                         : 5358
+#      FDR                         : 949
+#      FDRE                        : 1464
+#      FDRS                        : 1395
+#      FDRSE                       : 186
+#      FDS                         : 69
 #      FDSE                        : 22
-# RAMS                             : 41
-#      RAMB16                      : 41
+# RAMS                             : 40
+#      RAMB16                      : 40
 # Shift Registers                  : 251
 #      SRL16E                      : 218
 #      SRLC16E                     : 33
@@ -5348,15 +5345,15 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                     8654  out of  15360    56%  
- Number of Slice Flip Flops:           9494  out of  30720    30%  
- Number of 4 input LUTs:              14717  out of  30720    47%  
-    Number used as logic:             14466
+ Number of Slices:                     8582  out of  15360    55%  
+ Number of Slice Flip Flops:           9443  out of  30720    30%  
+ Number of 4 input LUTs:              14598  out of  30720    47%  
+    Number used as logic:             14347
     Number used as Shift registers:     251
  Number of IOs:                          32
  Number of bonded IOBs:                  32  out of    448     7%  
- Number of FIFO16/RAMB16s:               41  out of    192    21%  
-    Number used as RAMB16s:              41
+ Number of FIFO16/RAMB16s:               40  out of    192    20%  
+    Number used as RAMB16s:              40
  Number of GCLKs:                         2  out of     32     6%  
 
 ---------------------------
@@ -5380,7 +5377,7 @@ Clock Information:
 -----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)                                                                                                                  | Load  |
 -----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
-i_clock                            | IBUF+BUFG                                                                                                                              | 9693  |
+i_clock                            | IBUF+BUFG                                                                                                                              | 9641  |
 inst_tb_i2c_mem/N1                 | NONE(inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_init.ram/SP.SINGLE_PRIM.SP) | 2     |
 agclk                              | NONE(dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP)| 12    |
 vgaclk251                          | BUFG                                                                                                                                   | 83    |
@@ -5401,8 +5398,8 @@ Timing Summary:
 ---------------
 Speed Grade: -10
 
-   Minimum period: 11.130ns (Maximum Frequency: 89.845MHz)
-   Minimum input arrival time before clock: 10.677ns
+   Minimum period: 11.598ns (Maximum Frequency: 86.225MHz)
+   Minimum input arrival time before clock: 10.653ns
    Maximum output required time after clock: 9.020ns
    Maximum combinational path delay: No path found
 
@@ -5412,30 +5409,30 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 11.130ns (frequency: 89.845MHz)
-  Total number of paths / destination ports: 450823 / 19634
+  Clock period: 11.598ns (frequency: 86.225MHz)
+  Total number of paths / destination ports: 441569 / 19534
 -------------------------------------------------------------------------
-Delay:               11.130ns (Levels of Logic = 6)
-  Source:            tfm_inst/ExtractAlphaParameters_mux (FF)
+Delay:               11.598ns (Levels of Logic = 6)
+  Source:            tfm_inst/CalculateAlphaCP_mux (FF)
   Destination:       inst_divfp/blk00000196 (FF)
   Source Clock:      i_clock rising
   Destination Clock: i_clock rising
 
-  Data Path: tfm_inst/ExtractAlphaParameters_mux to inst_divfp/blk00000196
+  Data Path: tfm_inst/CalculateAlphaCP_mux to inst_divfp/blk00000196
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDE:C->Q            473   0.360   2.877  tfm_inst/ExtractAlphaParameters_mux (tfm_inst/ExtractAlphaParameters_mux)
-     LUT4_L:I2->LO         1   0.195   0.225  tfm_inst/divfpond71_SW0 (N2653)
-     LUT4:I2->O            1   0.195   0.523  tfm_inst/divfpond71 (tfm_inst/divfpce71)
-     LUT4_L:I3->LO         1   0.195   0.163  tfm_inst/divfpond105_SW0 (N4529)
+     FDE:C->Q            277   0.360   2.049  tfm_inst/CalculateAlphaCP_mux (tfm_inst/CalculateAlphaCP_mux)
+     LUT4_D:I3->O         34   0.195   1.099  tfm_inst/divfpa<0>161 (tfm_inst/N409)
+     LUT4:I3->O            1   0.195   0.585  tfm_inst/divfpond94_SW0 (N2384)
+     LUT4:I2->O            1   0.195   0.523  tfm_inst/divfpond105_SW0 (N4482)
      LUT4:I3->O          473   0.195   2.652  tfm_inst/divfpond105 (divfpce)
      begin scope: 'inst_divfp'
      BUF:I->O            473   0.358   2.652  ce_2 (ce_2)
      FDE:CE                    0.540          blk000005eb
     ----------------------------------------
-    Total                     11.130ns (2.038ns logic, 9.092ns route)
-                                       (18.3% logic, 81.7% route)
+    Total                     11.598ns (2.038ns logic, 9.560ns route)
+                                       (17.6% logic, 82.4% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'vgaclk251'
@@ -5480,7 +5477,7 @@ Delay:               4.522ns (Levels of Logic = 3)
     ----------------------------------------  ------------
      FDRE:C->Q             4   0.360   0.755  ag_inst/addr_7 (ag_inst/addr_7)
      LUT4:I0->O            1   0.195   0.688  ag_inst/addr_or000018 (ag_inst/addr_or000018)
-     LUT4:I1->O            1   0.195   0.585  ag_inst/addr_or000039_SW0 (N3887)
+     LUT4:I1->O            1   0.195   0.585  ag_inst/addr_or000039_SW0 (N3742)
      LUT4:I2->O           10   0.195   0.488  ag_inst/addr_or000039 (ag_inst/addr_or0000)
      FDRE:R                    1.062          ag_inst/addr_0
     ----------------------------------------
@@ -5489,9 +5486,9 @@ Delay:               4.522ns (Levels of Logic = 3)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 4574 / 4574
+  Total number of paths / destination ports: 4521 / 4521
 -------------------------------------------------------------------------
-Offset:              9.043ns (Levels of Logic = 3)
+Offset:              9.016ns (Levels of Logic = 3)
   Source:            i_reset (PAD)
   Destination:       test_fixed_melexis_run (FF)
   Destination Clock: i_clock rising
@@ -5500,19 +5497,19 @@ Offset:              9.043ns (Levels of Logic = 3)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           452   0.965   2.570  i_reset_IBUF (i_reset_IBUF)
-     BUF:I->O            452   0.358   2.570  i_reset_IBUF_2 (i_reset_IBUF_2)
-     INV:I->O            225   0.358   1.682  tfm_inst/inst_calculateVdd/inst_ExtractVDDParameters/i_reset_inv1_INV_0 (ag_inst/reset_inv)
+     IBUF:I->O           449   0.965   2.558  i_reset_IBUF (i_reset_IBUF)
+     BUF:I->O            449   0.358   2.558  i_reset_IBUF_2 (i_reset_IBUF_2)
+     INV:I->O            224   0.358   1.679  tfm_inst/inst_calculateVdd/inst_ExtractVDDParameters/i_reset_inv1_INV_0 (ag_inst/reset_inv)
      FDE:CE                    0.540          test_fixed_melexis_run
     ----------------------------------------
-    Total                      9.043ns (2.221ns logic, 6.822ns route)
+    Total                      9.016ns (2.221ns logic, 6.795ns route)
                                        (24.6% logic, 75.4% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'vgaclk251'
   Total number of paths / destination ports: 91 / 91
 -------------------------------------------------------------------------
-Offset:              10.677ns (Levels of Logic = 6)
+Offset:              10.653ns (Levels of Logic = 6)
   Source:            i_reset (PAD)
   Destination:       vts_inst/videoOn (FF)
   Destination Clock: vgaclk251 rising
@@ -5521,22 +5518,22 @@ Offset:              10.677ns (Levels of Logic = 6)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           452   0.965   2.570  i_reset_IBUF (i_reset_IBUF)
-     BUF:I->O            452   0.358   2.733  i_reset_IBUF_1 (i_reset_IBUF_1)
+     IBUF:I->O           449   0.965   2.558  i_reset_IBUF (i_reset_IBUF)
+     BUF:I->O            449   0.358   2.721  i_reset_IBUF_1 (i_reset_IBUF_1)
      LUT4:I3->O            1   0.195   0.523  vts_inst/videoOn_or00004 (vts_inst/videoOn_or00004)
      LUT4:I3->O            1   0.195   0.585  vts_inst/videoOn_or000012 (vts_inst/videoOn_or000012)
      LUT4:I2->O            1   0.195   0.741  vts_inst/videoOn_or000068 (vts_inst/videoOn_or000068)
      LUT4:I0->O            1   0.195   0.360  vts_inst/videoOn_or0000465 (vts_inst/videoOn_or0000)
      FDR:R                     1.062          vts_inst/videoOn
     ----------------------------------------
-    Total                     10.677ns (3.165ns logic, 7.512ns route)
-                                       (29.6% logic, 70.4% route)
+    Total                     10.653ns (3.165ns logic, 7.488ns route)
+                                       (29.7% logic, 70.3% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'agclk'
   Total number of paths / destination ports: 10 / 10
 -------------------------------------------------------------------------
-Offset:              5.443ns (Levels of Logic = 2)
+Offset:              5.431ns (Levels of Logic = 2)
   Source:            i_reset (PAD)
   Destination:       ag_inst/addr_9 (FF)
   Destination Clock: agclk rising
@@ -5545,12 +5542,12 @@ Offset:              5.443ns (Levels of Logic = 2)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           452   0.965   2.733  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O           449   0.965   2.721  i_reset_IBUF (i_reset_IBUF)
      LUT4:I3->O           10   0.195   0.488  ag_inst/addr_or000039 (ag_inst/addr_or0000)
      FDRE:R                    1.062          ag_inst/addr_0
     ----------------------------------------
-    Total                      5.443ns (2.222ns logic, 3.221ns route)
-                                       (40.8% logic, 59.2% route)
+    Total                      5.431ns (2.222ns logic, 3.209ns route)
+                                       (40.9% logic, 59.1% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
@@ -5587,7 +5584,7 @@ Offset:              9.020ns (Levels of Logic = 6)
      FDR:C->Q              4   0.360   0.755  vts_inst/hPos_2 (vts_inst/hPos_2)
      LUT4:I0->O            2   0.195   0.758  vts_inst/activeArea1_and00002111 (vts_inst/N29)
      LUT4:I0->O            1   0.195   0.585  vts_inst/activeArea1_and000013 (vts_inst/activeArea1_and000013)
-     LUT4:I2->O            1   0.195   0.585  vts_inst/activeArea1_and0000106_SW0 (N2501)
+     LUT4:I2->O            1   0.195   0.585  vts_inst/activeArea1_and0000106_SW0 (N2540)
      LUT4:I2->O            8   0.195   0.670  vts_inst/activeArea1_and0000106 (VGA_timing_synch_activeArea1)
      LUT2:I0->O            3   0.195   0.375  vig_inst/RGB_out<9>1 (vga_r_3_OBUF)
      OBUF:I->O                 3.957          vga_b_3_OBUF (vga_b<3>)
@@ -5619,15 +5616,15 @@ Offset:              7.150ns (Levels of Logic = 3)
 =========================================================================
 
 
-Total REAL time to Xst completion: 328.00 secs
-Total CPU time to Xst completion: 299.44 secs
+Total REAL time to Xst completion: 346.00 secs
+Total CPU time to Xst completion: 318.28 secs
  
 --> 
 
 
-Total memory usage is 1071664 kilobytes
+Total memory usage is 1067112 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :  951 (   0 filtered)
-Number of infos    :  127 (   0 filtered)
+Number of infos    :  125 (   0 filtered)
 
