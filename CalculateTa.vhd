@@ -52,6 +52,10 @@ o_kvptat_ena : out std_logic;
 o_kvptat_adr : out std_logic_vector (5 downto 0);
 i_kvptat_val : in std_logic_vector (31 downto 0);
 
+o_alphaptat_ena : out std_logic;
+o_alphaptat_adr : out std_logic_vector (3 downto 0);
+i_alphaptat_val : in std_logic_vector (31 downto 0);
+
 fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
@@ -108,19 +112,6 @@ signal ExtractKtPTATParameter_reset : std_logic;
 signal ExtractKtPTATParameter_ee0x2432 : std_logic_vector (15 downto 0);
 signal ExtractKtPTATParameter_ktptat : std_logic_vector (31 downto 0);
 
-component ExtractAlphaPtatParameter is
-port (
-i_clock : IN  std_logic;
-i_reset : IN  std_logic;
-i_ee0x2410 : IN  std_logic_vector (15 downto 0);
-o_alphaptat: OUT  std_logic_vector (31 downto 0)
-);
-end component ExtractAlphaPtatParameter;
-signal ExtractAlphaPtatParameter_clock : std_logic;
-signal ExtractAlphaPtatParameter_reset : std_logic;
-signal ExtractAlphaPtatParameter_ee0x2410 : std_logic_vector (15 downto 0);
-signal ExtractAlphaPtatParameter_alphaptat : std_logic_vector (31 downto 0);
-
 signal ee2432,ee2410 : std_logic_vector (15 downto 0);
 
 begin
@@ -171,6 +162,10 @@ begin
       o_Ta <= (others => '0');
       o_rdy <= '0';
       i2c_mem_ena <= '0';
+      o_kvptat_ena <= '0';
+      o_kvptat_adr <= (others => '0');
+      o_alphaptat_ena <= '0';
+      o_alphaptat_adr <= (others => '0');
     else
       case (state) is
         when idle =>
@@ -244,13 +239,16 @@ begin
           -- vptat*alphaptat
           mulfpce <= '1';
           mulfpa <= fixed2floatr;
-          mulfpb <= ExtractAlphaPtatParameter_alphaptat;
+          o_alphaptat_ena <= '1';
+          o_alphaptat_adr <= ee2410 (15 downto 12);
+          mulfpb <= i_alphaptat_val;
           mulfpond <= '1';
           --synthesis translate_off
-          report_error("================ CalculateTa alphaptat", ExtractAlphaPtatParameter_alphaptat, 0.0);
+          report_error("================ CalculateTa alphaptat", i_alphaptat_val, 0.0);
           --synthesis translate_on
           i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(768*2)+0, 12)); -- ram0700 MSB vbe
           if (mulfprdy = '1') then state := s13;
+            o_alphaptat_ena <= '0';
             mulfpce <= '0';
             mulfpond <= '0';
             mulfpsclr <= '1';
@@ -486,16 +484,4 @@ i_ee0x2432 => ExtractKtPTATParameter_ee0x2432,
 o_ktptat => ExtractKtPTATParameter_ktptat
 );
 
-ExtractAlphaPtatParameter_clock <= i_clock;
-ExtractAlphaPtatParameter_reset <= i_reset;
-ExtractAlphaPtatParameter_ee0x2410 <= ee2410;
-inst_ExtractAlphaPtatParameter : ExtractAlphaPtatParameter
-port map (
-i_clock => ExtractAlphaPtatParameter_clock,
-i_reset => ExtractAlphaPtatParameter_reset,
-i_ee0x2410 => ExtractAlphaPtatParameter_ee0x2410,
-o_alphaptat => ExtractAlphaPtatParameter_alphaptat
-);
-
-end Behavioral;
-
+end architecture Behavioral;
