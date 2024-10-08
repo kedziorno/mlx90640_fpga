@@ -276,14 +276,14 @@ COMPONENT mem_switchpattern
 PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
-i_pixel : IN  std_logic_vector(13 downto 0);
+i_pixel : IN  std_logic_vector(9 downto 0);
 o_pattern : OUT  std_logic
 );
 END COMPONENT;
 
 signal mem_switchpattern_clock : std_logic;
 signal mem_switchpattern_reset : std_logic;
-signal mem_switchpattern_pixel : std_logic_vector(13 downto 0);
+signal mem_switchpattern_pixel : std_logic_vector(9 downto 0);
 signal mem_switchpattern_pattern : std_logic;
 
 COMPONENT ExtractKsTaParameters
@@ -418,7 +418,7 @@ begin
 					addfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					subfpsclr_internal <= '0';
-          mem_switchpattern_pixel <= std_logic_vector (to_unsigned (i, 14));
+          mem_switchpattern_pixel <= std_logic_vector (to_unsigned (i, 10));
           o_alpha_addr <= std_logic_vector (to_unsigned (i, 10));
         when s7 =>
           subfpce_internal <= '1';

@@ -290,13 +290,13 @@ COMPONENT mem_switchpattern
 PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
-i_pixel : IN  std_logic_vector(13 downto 0);
+i_pixel : IN  std_logic_vector(9 downto 0);
 o_pattern : OUT  std_logic
 );
 END COMPONENT;
 signal mem_switchpattern_clock : std_logic;
 signal mem_switchpattern_reset : std_logic;
-signal mem_switchpattern_pixel : std_logic_vector(13 downto 0);
+signal mem_switchpattern_pixel : std_logic_vector(9 downto 0);
 signal mem_switchpattern_pattern : std_logic;
 
 signal addra,mux_addr : std_logic_vector (9 downto 0);
@@ -414,7 +414,7 @@ begin
           i := 0;
 				when s3 => state := s4;
 					o_pixos_addr <= std_logic_vector (to_unsigned (i, 10));
-					mem_switchpattern_pixel <= std_logic_vector (to_unsigned (i, 14));
+					mem_switchpattern_pixel <= std_logic_vector (to_unsigned (i, 10));
           divfpsclr_internal <= '0';
           addfpsclr_internal <= '0';
           subfpsclr_internal <= '0';
