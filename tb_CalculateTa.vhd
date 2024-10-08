@@ -138,7 +138,10 @@ mulfpb	:	OUT	STD_LOGIC_VECTOR (31 DOWNTO 0);
 addfpa	:	OUT	STD_LOGIC_VECTOR (31 DOWNTO 0); 
 addfpb	:	OUT	STD_LOGIC_VECTOR (31 DOWNTO 0); 
 subfpa	:	OUT	STD_LOGIC_VECTOR (31 DOWNTO 0); 
-subfpb	:	OUT	STD_LOGIC_VECTOR (31 DOWNTO 0));
+subfpb	:	OUT	STD_LOGIC_VECTOR (31 DOWNTO 0);
+o_kvptat_ena : out std_logic;
+o_kvptat_adr : out std_logic_vector (5 downto 0);
+i_kvptat_val : in std_logic_vector (31 downto 0));
 END COMPONENT;
 signal CalculateTa_clock : std_logic;
 signal CalculateTa_reset : std_logic;
@@ -183,12 +186,67 @@ signal CalculateTa_subfpce : STD_LOGIC;
 signal CalculateTa_subfpsclr : STD_LOGIC;
 signal CalculateTa_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateTa_subfprdy : STD_LOGIC;
+signal CalculateTa_kvptat_ena : STD_LOGIC;
+signal CalculateTa_kvptat_adr : std_logic_vector (5 downto 0);
+signal CalculateTa_kvptat_val : std_logic_vector (31 downto 0);
 
 signal CalculateTa_fixed2floatclk : std_logic;
 signal CalculateTa_addfpclk : std_logic;
 signal CalculateTa_subfpclk : std_logic;
 signal CalculateTa_mulfpclk : std_logic;
 signal CalculateTa_divfpclk : std_logic;
+
+COMPONENT rom_constants
+PORT(
+i_clock : IN  std_logic;
+i_reset : IN  std_logic;
+i_kvptat_en : IN  std_logic;
+i_kvptat_adr : IN  std_logic_vector(5 downto 0);
+i_alphaptat_en : IN  std_logic;
+i_alphaptat_adr : IN  std_logic_vector(3 downto 0);
+i_signed4bit_en : IN  std_logic;
+i_signed4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed6bit_en : IN  std_logic;
+i_signed6bit_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_1_en : IN  std_logic;
+i_alphascale_1_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_4bit_en : IN  std_logic;
+i_2powx_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_cpratio_en : IN  std_logic;
+i_cpratio_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_2_en : IN  std_logic;
+i_alphascale_2_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_p8_4bit_en : IN  std_logic;
+i_2powx_p8_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed3bit_en : IN  std_logic;
+i_signed3bit_adr : IN  std_logic_vector(2 downto 0);
+o_float : OUT  std_logic_vector(31 downto 0)
+);
+END COMPONENT rom_constants;
+
+signal i_clock : std_logic;
+signal i_reset : std_logic;
+signal i_kvptat_en : std_logic;
+signal i_kvptat_adr : std_logic_vector(5 downto 0);
+signal i_alphaptat_en : std_logic;
+signal i_alphaptat_adr : std_logic_vector(3 downto 0);
+signal i_signed4bit_en : std_logic;
+signal i_signed4bit_adr : std_logic_vector(3 downto 0);
+signal i_signed6bit_en : std_logic;
+signal i_signed6bit_adr : std_logic_vector(5 downto 0);
+signal i_alphascale_1_en : std_logic;
+signal i_alphascale_1_adr : std_logic_vector(3 downto 0);
+signal i_2powx_4bit_en : std_logic;
+signal i_2powx_4bit_adr : std_logic_vector(3 downto 0);
+signal i_cpratio_en : std_logic;
+signal i_cpratio_adr : std_logic_vector(5 downto 0);
+signal i_alphascale_2_en : std_logic;
+signal i_alphascale_2_adr : std_logic_vector(3 downto 0);
+signal i_2powx_p8_4bit_en : std_logic;
+signal i_2powx_p8_4bit_adr : std_logic_vector(3 downto 0);
+signal i_signed3bit_en : std_logic;
+signal i_signed3bit_adr : std_logic_vector(2 downto 0);
+signal o_float : std_logic_vector(31 downto 0);
 
 constant clock_period : time := 10 ns;
 
@@ -268,7 +326,11 @@ subfpond => CalculateTa_subfpond,
 subfpce => CalculateTa_subfpce,
 subfpsclr => CalculateTa_subfpsclr,
 subfpr => CalculateTa_subfpr,
-subfprdy => CalculateTa_subfprdy
+subfprdy => CalculateTa_subfprdy,
+
+o_kvptat_ena => CalculateTa_kvptat_ena,
+o_kvptat_adr => CalculateTa_kvptat_adr,
+i_kvptat_val => CalculateTa_kvptat_val
 );
 
 tbprocess : PROCESS
@@ -352,6 +414,32 @@ sclr => CalculateTa_subfpsclr,
 ce => CalculateTa_subfpce,
 result => CalculateTa_subfpr,
 rdy => CalculateTa_subfprdy
+);
+
+inst_rom_constants : rom_constants PORT MAP (
+i_clock => CalculateTa_clock,
+i_reset => CalculateTa_reset,
+i_kvptat_en => CalculateTa_kvptat_ena,
+i_kvptat_adr => CalculateTa_kvptat_adr,
+i_alphaptat_en => i_alphaptat_en,
+i_alphaptat_adr => i_alphaptat_adr,
+i_signed4bit_en => i_signed4bit_en,
+i_signed4bit_adr => i_signed4bit_adr,
+i_signed6bit_en => i_signed6bit_en,
+i_signed6bit_adr => i_signed6bit_adr,
+i_alphascale_1_en => i_alphascale_1_en,
+i_alphascale_1_adr => i_alphascale_1_adr,
+i_2powx_4bit_en => i_2powx_4bit_en,
+i_2powx_4bit_adr => i_2powx_4bit_adr,
+i_cpratio_en => i_cpratio_en,
+i_cpratio_adr => i_cpratio_adr,
+i_alphascale_2_en => i_alphascale_2_en,
+i_alphascale_2_adr => i_alphascale_2_adr,
+i_2powx_p8_4bit_en => i_2powx_p8_4bit_en,
+i_2powx_p8_4bit_adr => i_2powx_p8_4bit_adr,
+i_signed3bit_en => i_signed3bit_en,
+i_signed3bit_adr => i_signed3bit_adr,
+o_float => CalculateTa_kvptat_val
 );
 
 END tb;

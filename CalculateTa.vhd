@@ -48,6 +48,10 @@ i_Vdd : in std_logic_vector (31 downto 0);
 o_Ta : out std_logic_vector (31 downto 0); -- output Ta
 o_rdy : out std_logic;
 
+o_kvptat_ena : out std_logic;
+o_kvptat_adr : out std_logic_vector (5 downto 0);
+i_kvptat_val : in std_logic_vector (31 downto 0);
+
 fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
@@ -99,25 +103,10 @@ i_ee0x2432 : IN  std_logic_vector(15 downto 0);
 o_ktptat : OUT  std_logic_vector(31 downto 0)
 );
 END COMPONENT;
-
 signal ExtractKtPTATParameter_clock : std_logic;
 signal ExtractKtPTATParameter_reset : std_logic;
 signal ExtractKtPTATParameter_ee0x2432 : std_logic_vector (15 downto 0);
 signal ExtractKtPTATParameter_ktptat : std_logic_vector (31 downto 0);
-
-COMPONENT ExtractKvPTATParameter
-PORT(
-i_clock : IN  std_logic;
-i_reset : IN  std_logic;
-i_ee0x2432 : IN  std_logic_vector(15 downto 0);
-o_kvptat : OUT  std_logic_vector(31 downto 0)
-);
-END COMPONENT;
-
-signal ExtractKvPTATParameter_clock : std_logic;
-signal ExtractKvPTATParameter_reset : std_logic;
-signal ExtractKvPTATParameter_ee0x2432 : std_logic_vector (15 downto 0);
-signal ExtractKvPTATParameter_kvptat : std_logic_vector (31 downto 0);
 
 component ExtractAlphaPtatParameter is
 port (
@@ -127,7 +116,6 @@ i_ee0x2410 : IN  std_logic_vector (15 downto 0);
 o_alphaptat: OUT  std_logic_vector (31 downto 0)
 );
 end component ExtractAlphaPtatParameter;
-
 signal ExtractAlphaPtatParameter_clock : std_logic;
 signal ExtractAlphaPtatParameter_reset : std_logic;
 signal ExtractAlphaPtatParameter_ee0x2410 : std_logic_vector (15 downto 0);
@@ -347,13 +335,16 @@ begin
           -- xxx move to s23
           -- kvptat*deltaV
           mulfpce <= '1';
-          mulfpa <= ExtractKvPTATParameter_kvptat;
+          o_kvptat_ena <= '1';
+          o_kvptat_adr <= ee2432 (15 downto 10);
+          mulfpa <= i_kvptat_val;
           mulfpb <= subfpr; -- XXX deltaV = Vdd - 3.3 
           mulfpond <= '1';
           --synthesis translate_off
-          report_error("================ CalculateTa ExtractKvPTATParameter_kvptat", ExtractKvPTATParameter_kvptat, 0.0);
+          report_error("================ CalculateTa ExtractKvPTATParameter_kvptat", i_kvptat_val, 0.0);
           --synthesis translate_on
           if (mulfprdy = '1') then state := s22;
+            o_kvptat_ena <= '0';
             mulfpce <= '0';
             mulfpond <= '0';
             mulfpsclr <= '1';
@@ -484,16 +475,6 @@ begin
     end if;
   end if;
 end process p0;
-
-ExtractKvPTATParameter_clock <= i_clock;
-ExtractKvPTATParameter_reset <= i_reset;
-ExtractKvPTATParameter_ee0x2432 <= ee2432;
-inst_ExtractKvPTATParameter : ExtractKvPTATParameter PORT MAP (
-i_clock => ExtractKvPTATParameter_clock,
-i_reset => ExtractKvPTATParameter_reset,
-i_ee0x2432 => ExtractKvPTATParameter_ee0x2432,
-o_kvptat => ExtractKvPTATParameter_kvptat
-);
 
 ExtractKtPTATParameter_clock <= i_clock;
 ExtractKtPTATParameter_reset <= i_reset;

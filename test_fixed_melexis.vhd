@@ -100,6 +100,57 @@ end entity test_fixed_melexis;
 
 architecture testbench of test_fixed_melexis is
 
+COMPONENT rom_constants
+PORT(
+i_clock : IN  std_logic;
+i_reset : IN  std_logic;
+i_kvptat_en : IN  std_logic;
+i_kvptat_adr : IN  std_logic_vector(5 downto 0);
+i_alphaptat_en : IN  std_logic;
+i_alphaptat_adr : IN  std_logic_vector(3 downto 0);
+i_signed4bit_en : IN  std_logic;
+i_signed4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed6bit_en : IN  std_logic;
+i_signed6bit_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_1_en : IN  std_logic;
+i_alphascale_1_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_4bit_en : IN  std_logic;
+i_2powx_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_cpratio_en : IN  std_logic;
+i_cpratio_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_2_en : IN  std_logic;
+i_alphascale_2_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_p8_4bit_en : IN  std_logic;
+i_2powx_p8_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed3bit_en : IN  std_logic;
+i_signed3bit_adr : IN  std_logic_vector(2 downto 0);
+o_float : OUT  std_logic_vector(31 downto 0)
+);
+END COMPONENT rom_constants;
+signal rom_constants_clock : std_logic;
+signal rom_constants_reset : std_logic;
+signal rom_constants_kvptat_en : std_logic;
+signal rom_constants_kvptat_adr : std_logic_vector(5 downto 0);
+signal rom_constants_alphaptat_en : std_logic;
+signal rom_constants_alphaptat_adr : std_logic_vector(3 downto 0);
+signal rom_constants_signed4bit_en : std_logic;
+signal rom_constants_signed4bit_adr : std_logic_vector(3 downto 0);
+signal rom_constants_signed6bit_en : std_logic;
+signal rom_constants_signed6bit_adr : std_logic_vector(5 downto 0);
+signal rom_constants_alphascale_1_en : std_logic;
+signal rom_constants_alphascale_1_adr : std_logic_vector(3 downto 0);
+signal rom_constants_2powx_4bit_en : std_logic;
+signal rom_constants_2powx_4bit_adr : std_logic_vector(3 downto 0);
+signal rom_constants_cpratio_en : std_logic;
+signal rom_constants_cpratio_adr : std_logic_vector(5 downto 0);
+signal rom_constants_alphascale_2_en : std_logic;
+signal rom_constants_alphascale_2_adr : std_logic_vector(3 downto 0);
+signal rom_constants_2powx_p8_4bit_en : std_logic;
+signal rom_constants_2powx_p8_4bit_adr : std_logic_vector(3 downto 0);
+signal rom_constants_signed3bit_en : std_logic;
+signal rom_constants_signed3bit_adr : std_logic_vector(2 downto 0);
+signal rom_constants_float : std_logic_vector(31 downto 0);
+
 COMPONENT tb_i2c_mem
 PORT (
 clka : IN STD_LOGIC;
@@ -205,7 +256,7 @@ signal CalculateVdd_subfpclk : std_logic;
 signal CalculateVdd_mulfpclk : std_logic;
 signal CalculateVdd_divfpclk : std_logic;
 
-component calculateTa is
+component CalculateTa is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -216,6 +267,9 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 i_Vdd : in std_logic_vector (31 downto 0);
 o_Ta : out std_logic_vector (31 downto 0); -- output Ta
 o_rdy : out std_logic;
+o_kvptat_ena : out std_logic;
+o_kvptat_adr : out std_logic_vector (5 downto 0);
+i_kvptat_val : in std_logic_vector (31 downto 0);
 fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
@@ -251,7 +305,7 @@ subfpsclr : out STD_LOGIC;
 subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 subfprdy : in STD_LOGIC
 );
-end component calculateTa;
+end component CalculateTa;
 signal CalculateTa_clock : std_logic;
 signal CalculateTa_reset : std_logic;
 signal CalculateTa_run : std_logic;
@@ -259,6 +313,9 @@ signal CalculateTa_i2c_mem_ena : STD_LOGIC;
 signal CalculateTa_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal CalculateTa_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal CalculateTa_rdy : std_logic;
+signal CalculateTa_kvptat_ena : std_logic;
+signal CalculateTa_kvptat_adr : std_logic_vector (5 downto 0);
+signal CalculateTa_kvptat_val : std_logic_vector (31 downto 0);
 signal CalculateTa_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal CalculateTa_fixed2floatond : STD_LOGIC;
 signal CalculateTa_fixed2floatce : STD_LOGIC;
@@ -298,8 +355,8 @@ signal CalculateTa_addfpclk : std_logic;
 signal CalculateTa_subfpclk : std_logic;
 signal CalculateTa_mulfpclk : std_logic;
 signal CalculateTa_divfpclk : std_logic;
-signal calculateTa_Vdd : std_logic_vector (31 downto 0); -- from VDD
-signal calculateTa_Ta : std_logic_vector (31 downto 0); -- output Ta
+signal CalculateTa_Vdd : std_logic_vector (31 downto 0); -- from VDD
+signal CalculateTa_Ta : std_logic_vector (31 downto 0); -- output Ta
 
 component ExtractAlphaParameters is
 port (
@@ -1867,6 +1924,9 @@ subfprdy  => CalculateVdd_subfprdy
 calculateTa_clock <= i_clock;
 calculateTa_reset <= i_reset;
 calculateTa_Vdd <= calculateVdd_Vdd;
+rom_constants_kvptat_en <= CalculateTa_kvptat_ena;
+rom_constants_kvptat_adr <= CalculateTa_kvptat_adr;
+CalculateTa_kvptat_val <= rom_constants_float;
 inst_calculateTa : calculateTa port map (
 i_clock => CalculateTa_clock,
 i_reset => CalculateTa_reset,
@@ -1877,6 +1937,9 @@ i2c_mem_douta => CalculateTa_i2c_mem_douta,
 i_Vdd => CalculateTa_Vdd, -- output Vdd
 o_Ta => CalculateTa_Ta, -- output Ta
 o_rdy => CalculateTa_rdy,
+o_kvptat_ena => CalculateTa_kvptat_ena,
+o_kvptat_adr => CalculateTa_kvptat_adr,
+i_kvptat_val => CalculateTa_kvptat_val,
 fixed2floata => CalculateTa_fixed2floata,
 fixed2floatond => CalculateTa_fixed2floatond,
 fixed2floatce => CalculateTa_fixed2floatce,
@@ -2292,6 +2355,32 @@ sqrtfp2sclr => CalculateTo_sqrtfp2sclr,
 sqrtfp2ce => CalculateTo_sqrtfp2ce,
 sqrtfp2r => CalculateTo_sqrtfp2r,
 sqrtfp2rdy => CalculateTo_sqrtfp2rdy
+);
+
+inst_rom_constants : rom_constants port map (
+i_clock => rom_constants_clock,
+i_reset => rom_constants_reset,
+i_kvptat_en => rom_constants_kvptat_en,
+i_kvptat_adr => rom_constants_kvptat_adr,
+i_alphaptat_en => rom_constants_alphaptat_en,
+i_alphaptat_adr => rom_constants_alphaptat_adr,
+i_signed4bit_en => rom_constants_signed4bit_en,
+i_signed4bit_adr => rom_constants_signed4bit_adr,
+i_signed6bit_en => rom_constants_signed6bit_en,
+i_signed6bit_adr => rom_constants_signed6bit_adr,
+i_alphascale_1_en => rom_constants_alphascale_1_en,
+i_alphascale_1_adr => rom_constants_alphascale_1_adr,
+i_2powx_4bit_en => rom_constants_2powx_4bit_en,
+i_2powx_4bit_adr => rom_constants_2powx_4bit_adr,
+i_cpratio_en => rom_constants_cpratio_en,
+i_cpratio_adr => rom_constants_cpratio_adr,
+i_alphascale_2_en => rom_constants_alphascale_2_en,
+i_alphascale_2_adr => rom_constants_alphascale_2_adr,
+i_2powx_p8_4bit_en => rom_constants_2powx_p8_4bit_en,
+i_2powx_p8_4bit_adr => rom_constants_2powx_p8_4bit_adr,
+i_signed3bit_en => rom_constants_signed3bit_en,
+i_signed3bit_adr => rom_constants_signed3bit_adr,
+o_float => rom_constants_float
 );
 
 end architecture testbench;
