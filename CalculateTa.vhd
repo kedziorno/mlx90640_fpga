@@ -112,14 +112,15 @@ signal ExtractKtPTATParameter_reset : std_logic;
 signal ExtractKtPTATParameter_ee0x2432 : std_logic_vector (15 downto 0);
 signal ExtractKtPTATParameter_ktptat : std_logic_vector (31 downto 0);
 
-signal ee2432,ee2410 : std_logic_vector (15 downto 0);
+signal ee2432 : std_logic_vector (15 downto 0);
+signal ee2410 : std_logic_vector (7 downto 0);
 
 begin
 
 p0 : process (i_clock) is
 	type states is (idle,
 	s0,s1,
-	s1a,s1b,s1c,
+	s1a,s1b,
 	s2,s8,
 	s12,s13,s14,s15,
 	s16,s18,
@@ -189,10 +190,7 @@ begin
           i2c_mem_addra <= std_logic_vector (to_unsigned (16*2+0, 12)); -- ee2410 MSB kptat
         when s1a => state := s1b;
           ee2432 (7 downto 0) <= i2c_mem_douta;
-          i2c_mem_addra <= std_logic_vector (to_unsigned (16*2+1, 12)); -- ee2410 LSB kptat
-        when s1b => state := s1c;
-          ee2410 (15 downto 8) <= i2c_mem_douta;
-        when s1c => state := s2;
+        when s1b => state := s2;
           ee2410 (7 downto 0) <= i2c_mem_douta;
         when s2 =>
           subfpce <= '1';
@@ -240,7 +238,7 @@ begin
           mulfpce <= '1';
           mulfpa <= fixed2floatr;
           o_alphaptat_ena <= '1';
-          o_alphaptat_adr <= ee2410 (15 downto 12);
+          o_alphaptat_adr <= ee2410 (7 downto 4);
           mulfpb <= i_alphaptat_val;
           mulfpond <= '1';
           --synthesis translate_off
