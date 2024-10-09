@@ -5,7 +5,7 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
-use work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 
 ENTITY tb_ExtractAlphaCorrRange1234 IS
 END tb_ExtractAlphaCorrRange1234;
@@ -21,10 +21,10 @@ i_run : in std_logic;
 i_ee0x243d : in slv16; -- ksto1ee,ksto2ee
 i_ee0x243e : in slv16; -- ksto3ee,ksto4ee
 i_ee0x243f : in slv16; -- kstoscale,ct34param
-o_alphacorrrange1 : out fd2ft;
-o_alphacorrrange2 : out fd2ft;
-o_alphacorrrange3 : out fd2ft;
-o_alphacorrrange4 : out fd2ft;
+o_alphacorrrange1 : out std_logic_vector (31 downto 0);
+o_alphacorrrange2 : out std_logic_vector (31 downto 0);
+o_alphacorrrange3 : out std_logic_vector (31 downto 0);
+o_alphacorrrange4 : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic
 );
 end component ExtractAlphaCorrRange1234;
@@ -35,10 +35,10 @@ signal ExtractAlphaCorrRange1234_run : std_logic := '0';
 signal ExtractAlphaCorrRange1234_ee0x243d : slv16 := (others => '0'); -- ksto1ee,ksto2ee
 signal ExtractAlphaCorrRange1234_ee0x243e : slv16 := (others => '0'); -- ksto3ee,ksto4ee
 signal ExtractAlphaCorrRange1234_ee0x243f : slv16 := (others => '0'); -- kstoscale,ct34param
-signal ExtractAlphaCorrRange1234_alphacorrrange1 : fd2ft;
-signal ExtractAlphaCorrRange1234_alphacorrrange2 : fd2ft;
-signal ExtractAlphaCorrRange1234_alphacorrrange3 : fd2ft;
-signal ExtractAlphaCorrRange1234_alphacorrrange4 : fd2ft;
+signal ExtractAlphaCorrRange1234_alphacorrrange1 : std_logic_vector (31 downto 0);
+signal ExtractAlphaCorrRange1234_alphacorrrange2 : std_logic_vector (31 downto 0);
+signal ExtractAlphaCorrRange1234_alphacorrrange3 : std_logic_vector (31 downto 0);
+signal ExtractAlphaCorrRange1234_alphacorrrange4 : std_logic_vector (31 downto 0);
 signal ExtractAlphaCorrRange1234_rdy : std_logic;
 
 

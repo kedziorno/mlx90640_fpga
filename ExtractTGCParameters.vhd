@@ -20,7 +20,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-use work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 use work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
@@ -60,8 +60,7 @@ o_rdy <= rdy;
 
 p0 : process (i_clock) is
 	type states is (idle,
-	s1,s2,s3,s4,s5,
-	ending);
+	s1,s2,s3,s4);
 	variable state : states;
 begin
 	if (rising_edge (i_clock)) then
@@ -77,22 +76,23 @@ begin
 					if (i_run = '1') then
 						state := s1;
 						i2c_mem_ena <= '1';
+            i2c_mem_addra <= std_logic_vector (to_unsigned (60*2+1, 12)); -- ee243c LSB - tgcee
+            report "ExtractTGCParameters";
 					else
 						state := idle;
 						i2c_mem_ena <= '0';
 					end if;
-				when s1 => state := s2;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (60*2+1, 12)); -- ee243c LSB - tgcee
+        when s1 => state := s2;
+          i2c_mem_ena <= '0';
 				when s2 => state := s3;
-				when s3 => state := s4;
 					address_N <= "0"&i2c_mem_douta;
-				when s4 => state := s5;
-				when s5 => state := ending;
+        when s3 => state := s4;
+          rdy <= '1';
+				when s4 => state := idle;
 					o_tgc  <= odata_tgc;
---					report "================ extractTGCparameters tgc : " & real'image (ap_slv2fp (odata_tgc));
-				when ending => state := idle;
-					rdy <= '1';
-				when others => null;
+          --synthesis translate_off
+					report_error("================ extractTGCparameters tgc", odata_tgc, 0.0);
+          --synthesis translate_on
 			end case;
 		end if;
 	end if;
@@ -179,7 +179,7 @@ ADDR => address_N, -- 14-bit Address Input
 CLK => i_clock, -- Clock
 DI => (others => '0'), -- 1-bit Data Input
 DIP => (others => '0'), -- 1-bit Data Input
-EN => '1', -- RAM Enable Input
+EN => i_clock, -- RAM Enable Input
 SSR => i_reset, -- Synchronous Set/Reset Input
 WE => '0' -- Write Enable Input
 );

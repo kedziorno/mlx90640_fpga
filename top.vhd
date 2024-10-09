@@ -32,7 +32,7 @@ use ieee_proposed.float_pkg.all;
 use work.p_package1_constants.all;
 use work.fpupack.all;
 
-use work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx primitives in this code.
@@ -236,7 +236,7 @@ i_ee0x243d : in slv16;
 i_ee0x243f : in slv16;
 i_pixelpattern : in slv14; -- 12x16
 -----
-o_To : out fd2ft; -- output Temp
+o_To : out std_logic_vector (31 downto 0); -- output Temp
 o_rdy : out std_logic
 );
 end component test_fixed_melexis;
@@ -244,7 +244,7 @@ end component test_fixed_melexis;
 signal tfm_clock,tfm_reset,tfm_rdy,tfm_run : std_logic;
 signal tfm_ee0x2433,tfm_ram0x072a,tfm_ee0x2438,tfm_ram0x800d,tfm_ee0x2432,tfm_ee0x2431,tfm_ee0x2410,tfm_ram0x0720,tfm_ram0x0700,tfm_ram0x070a,tfm_ee0x2430,tfm_ram0x056f,tfm_ee0x2411,tfm_ee0x2414,tfm_ee0x241b,tfm_ee0x25af,tfm_ee0x2437,tfm_ee0x2434,tfm_ram0x0708,tfm_ram0x0728,tfm_ee0x243a,tfm_ee0x243b,tfm_ee0x243c,tfm_ee0x2439,tfm_ee0x2420,tfm_ee0x2421,tfm_ee0x2424,tfm_ee0x242b,tfm_ee0x258f,tfm_ee0x243d,tfm_ee0x243f : slv16;
 signal tfm_pixelpattern : slv14; 
-signal tfm_to : fd2ft;
+signal tfm_to : std_logic_vector (31 downto 0);
 
 signal tfm_calculate : std_logic;
 signal i2c_mem_addra_tfm : std_logic_vector (11 downto 0);

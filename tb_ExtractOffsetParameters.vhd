@@ -28,7 +28,7 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
-USE work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 USE work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
@@ -255,17 +255,92 @@ ExtractOffsetParameters_reset <= '1', '0' after 100 ns ;
 
 -- Stimulus process
 stim_proc: process
+type itemr is record
+a : std_logic_vector (31 downto 0);
+b : integer;
+end record; 
+type ten_items is array (0 to 9) of itemr;
+type mid_items is array (0 to 1) of itemr;
+type datar is record
+first : ten_items;
+middle : mid_items;
+last : ten_items;
+end record;
+-- XXX data from ExtractKvParameters
+constant datao : datar := (
+first => ( -- XXX beginig from 0x0000
+(a => x"c2580000", b => 0),
+(a => x"c2600000", b => 1),
+(a => x"c2480000", b => 2),
+(a => x"c2700000", b => 3),
+(a => x"c2480000", b => 4),
+(a => x"c2600000", b => 5),
+(a => x"c2400000", b => 6),
+(a => x"c2700000", b => 7),
+(a => x"c2440000", b => 8),
+(a => x"c2640000", b => 9)
+),
+middle => (
+(a => x"c2860000", b => 382),
+(a => x"c29a0000", b => 383)
+),
+last => (
+(a => x"c2ae0000", b => 758),
+(a => x"c2ac0000", b => 759),
+(a => x"c2980000", b => 760),
+(a => x"c2b20000", b => 761),
+(a => x"c2ae0000", b => 762),
+(a => x"c2b40000", b => 763),
+(a => x"c2a00000", b => 764),
+(a => x"c2b40000", b => 765),
+(a => x"c2ae0000", b => 766),
+(a => x"c2ba0000", b => 767)
+)
+);
 begin
 -- hold reset state for 100 ns.
 wait for 105 ns;
 -- insert stimulus here
 ExtractOffsetParameters_run <= '1'; wait for i_clock_period; ExtractOffsetParameters_run <= '0';
 wait until ExtractOffsetParameters_rdy = '1';
-for i in 0 to 1024 loop
-	ExtractOffsetParameters_addr <= std_logic_vector (to_unsigned (i, 10));
-	wait for i_clock_period*2;
+--report "rdy at 716.155ns";
+--report "rdy at 715.905ns";
+--report "rdy at 692.715ns";
+--report "rdy at 692.465ns";
+--report "rdy at 692.595ns"; -- XXX occrows loop
+--report "rdy at 800.115ns - rm occrow,occcol regs";
+--report "rdy at 869.145ns - rm occrow,occcol regs,rm pix_os_average reg";
+report "rdy at 853.985us - rm occrow,occcol regs,rm pix_os_average reg,rm rest reg";
+for i in 0 to 9 loop
+ExtractOffsetParameters_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
+wait until rising_edge (ExtractOffsetParameters_clock);
+wait until rising_edge (ExtractOffsetParameters_clock);
+warning_neq_fp (ExtractOffsetParameters_do, datao.first(i).a, "first " & integer'image (datao.first(i).b));
+wait until rising_edge (ExtractOffsetParameters_clock);
+end loop;
+for i in 0 to 1 loop
+ExtractOffsetParameters_addr <= std_logic_vector (to_unsigned (datao.middle(i).b, 10));
+wait until rising_edge (ExtractOffsetParameters_clock);
+wait until rising_edge (ExtractOffsetParameters_clock);
+warning_neq_fp (ExtractOffsetParameters_do, datao.middle(i).a, "middle " & integer'image (datao.middle(i).b));
+wait until rising_edge (ExtractOffsetParameters_clock);
+end loop;
+for i in 0 to 9 loop
+ExtractOffsetParameters_addr <= std_logic_vector (to_unsigned (datao.last(i).b, 10));
+wait until rising_edge (ExtractOffsetParameters_clock);
+wait until rising_edge (ExtractOffsetParameters_clock);
+warning_neq_fp (ExtractOffsetParameters_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
+wait until rising_edge (ExtractOffsetParameters_clock);
 end loop;
 wait for 1 ps; -- must be for write
+--report "end at 716.815ns";
+--report "end at 716.565ns";
+--report "end at 693.375ns";
+--report "end at 693.125ns";
+--report "end at 693.255ns"; -- XXX occrows loop
+--report "end at 800.775us - rm occrow,occcol regs";
+--report "end at 869.805us - rm occrow,occcol regs,rm pix_os_average reg";
+report "end at 854.645us - rm occrow,occcol regs,rm pix_os_average reg,rm rest reg";
 report "done" severity failure;
 --wait on o_done;
 end process;

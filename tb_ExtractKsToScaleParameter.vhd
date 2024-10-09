@@ -32,6 +32,8 @@ USE ieee.std_logic_1164.ALL;
 -- arithmetic functions with Signed or Unsigned values
 --USE ieee.numeric_std.ALL;
 
+use work.p_fphdl_package3.all;
+
 ENTITY tb_ExtractKsToScaleParameter IS
 END tb_ExtractKsToScaleParameter;
 
@@ -118,6 +120,9 @@ wait for i_clock_period*10;
 -- insert stimulus here
 ExtractKsToScaleParameter_run <= '1'; wait for i_clock_period; ExtractKsToScaleParameter_run <= '0';
 wait until ExtractKsToScaleParameter_rdy = '1';
+--report "rdy at 0.265us";
+report "rdy at 0.245us";
+warning_neq_fp (ExtractKsToScaleParameter_kstoscale, x"49000000", "kstoscale");
 wait for 1 ps;
 report "done" severity failure;
 end process;
