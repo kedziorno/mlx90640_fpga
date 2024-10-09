@@ -162,7 +162,7 @@ douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
 );
 END COMPONENT;
 
-component calculateVdd is
+component CalculateVdd is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -207,49 +207,49 @@ subfpsclr : out STD_LOGIC;
 subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 subfprdy : in STD_LOGIC
 );
-end component calculateVdd;
-signal calculateVdd_clock : std_logic;
-signal calculateVdd_reset : std_logic;
-signal calculateVdd_run : std_logic;
-signal calculateVdd_i2c_mem_ena : STD_LOGIC;
-signal calculateVdd_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal calculateVdd_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal calculateVdd_Vdd : std_logic_vector (31 downto 0); -- output Vdd
-signal calculateVdd_rdy : std_logic;
-signal calculateVdd_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
-signal calculateVdd_fixed2floatond : STD_LOGIC;
-signal calculateVdd_fixed2floatce : STD_LOGIC;
-signal calculateVdd_fixed2floatsclr : STD_LOGIC;
-signal calculateVdd_fixed2floatr :  STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_fixed2floatrdy : STD_LOGIC;
-signal calculateVdd_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_divfpond : STD_LOGIC;
-signal calculateVdd_divfpce : STD_LOGIC;
-signal calculateVdd_divfpsclr : STD_LOGIC;
-signal calculateVdd_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_divfprdy : STD_LOGIC;
-signal calculateVdd_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_mulfpond : STD_LOGIC;
-signal calculateVdd_mulfpce : STD_LOGIC;
-signal calculateVdd_mulfpsclr : STD_LOGIC;
-signal calculateVdd_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_mulfprdy : STD_LOGIC;
-signal calculateVdd_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_addfpond : STD_LOGIC;
-signal calculateVdd_addfpce : STD_LOGIC;
-signal calculateVdd_addfpsclr : STD_LOGIC;
-signal calculateVdd_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_addfprdy : STD_LOGIC;
-signal calculateVdd_subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_subfpond : STD_LOGIC;
-signal calculateVdd_subfpce : STD_LOGIC;
-signal calculateVdd_subfpsclr : STD_LOGIC;
-signal calculateVdd_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_subfprdy : STD_LOGIC;
+end component CalculateVdd;
+signal CalculateVdd_clock : std_logic;
+signal CalculateVdd_reset : std_logic;
+signal CalculateVdd_run : std_logic;
+signal CalculateVdd_i2c_mem_ena : STD_LOGIC;
+signal CalculateVdd_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal CalculateVdd_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal CalculateVdd_Vdd : std_logic_vector (31 downto 0); -- output Vdd
+signal CalculateVdd_rdy : std_logic;
+signal CalculateVdd_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculateVdd_fixed2floatond : STD_LOGIC;
+signal CalculateVdd_fixed2floatce : STD_LOGIC;
+signal CalculateVdd_fixed2floatsclr : STD_LOGIC;
+signal CalculateVdd_fixed2floatr :  STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_fixed2floatrdy : STD_LOGIC;
+signal CalculateVdd_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_divfpond : STD_LOGIC;
+signal CalculateVdd_divfpce : STD_LOGIC;
+signal CalculateVdd_divfpsclr : STD_LOGIC;
+signal CalculateVdd_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_divfprdy : STD_LOGIC;
+signal CalculateVdd_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_mulfpond : STD_LOGIC;
+signal CalculateVdd_mulfpce : STD_LOGIC;
+signal CalculateVdd_mulfpsclr : STD_LOGIC;
+signal CalculateVdd_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_mulfprdy : STD_LOGIC;
+signal CalculateVdd_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_addfpond : STD_LOGIC;
+signal CalculateVdd_addfpce : STD_LOGIC;
+signal CalculateVdd_addfpsclr : STD_LOGIC;
+signal CalculateVdd_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_addfprdy : STD_LOGIC;
+signal CalculateVdd_subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_subfpond : STD_LOGIC;
+signal CalculateVdd_subfpce : STD_LOGIC;
+signal CalculateVdd_subfpsclr : STD_LOGIC;
+signal CalculateVdd_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_subfprdy : STD_LOGIC;
 signal CalculateVdd_fixed2floatclk : std_logic;
 signal CalculateVdd_addfpclk : std_logic;
 signal CalculateVdd_subfpclk : std_logic;
@@ -563,6 +563,21 @@ i_KGain : in std_logic_vector (31 downto 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 o_rdy : out std_logic;
+o_signed4bit_ena : out std_logic;
+o_signed4bit_adr : out std_logic_vector (3 downto 0);
+i_signed4bit_val : in std_logic_vector (31 downto 0);
+o_signed6bit_ena : out std_logic;
+o_signed6bit_adr : out std_logic_vector (5 downto 0);
+i_signed6bit_val : in std_logic_vector (31 downto 0);
+o_2powx_4bit_ena : out std_logic;
+o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
+i_2powx_4bit_val : in std_logic_vector (31 downto 0);
+o_2powx_p8_4bit_ena : out std_logic;
+o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
+i_2powx_p8_4bit_val : in std_logic_vector (31 downto 0);
+o_signed3bit_ena : out std_logic;
+o_signed3bit_adr : out std_logic_vector (2 downto 0);
+i_signed3bit_val : in std_logic_vector (31 downto 0);
 fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
@@ -614,6 +629,21 @@ signal CalculatePixOS_KGain : std_logic_vector (31 downto 0);
 signal CalculatePixOS_do : std_logic_vector (31 downto 0);
 signal CalculatePixOS_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal CalculatePixOS_rdy : std_logic;
+signal CalculatePixOS_signed4bit_ena : std_logic;
+signal CalculatePixOS_signed4bit_adr : std_logic_vector (3 downto 0);
+signal CalculatePixOS_signed4bit_val : std_logic_vector (31 downto 0);
+signal CalculatePixOS_signed6bit_ena : std_logic;
+signal CalculatePixOS_signed6bit_adr : std_logic_vector (5 downto 0);
+signal CalculatePixOS_signed6bit_val : std_logic_vector (31 downto 0);
+signal CalculatePixOS_2powx_4bit_ena : std_logic;
+signal CalculatePixOS_2powx_4bit_adr : std_logic_vector (3 downto 0);
+signal CalculatePixOS_2powx_4bit_val : std_logic_vector (31 downto 0);
+signal CalculatePixOS_2powx_p8_4bit_ena : std_logic;
+signal CalculatePixOS_2powx_p8_4bit_adr : std_logic_vector (3 downto 0);
+signal CalculatePixOS_2powx_p8_4bit_val : std_logic_vector (31 downto 0);
+signal CalculatePixOS_signed3bit_ena : std_logic;
+signal CalculatePixOS_signed3bit_adr : std_logic_vector (2 downto 0);
+signal CalculatePixOS_signed3bit_val : std_logic_vector (31 downto 0);
 signal CalculatePixOS_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal CalculatePixOS_fixed2floatond : STD_LOGIC;
 signal CalculatePixOS_fixed2floatce : STD_LOGIC;
@@ -1880,9 +1910,9 @@ divfpr => CalculateKGain_divfpr,
 divfprdy => CalculateKGain_divfprdy
 );
 
-calculateVdd_clock <= i_clock;
-calculateVdd_reset <= i_reset;
-inst_calculateVdd : calculateVdd port map (
+CalculateVdd_clock <= i_clock;
+CalculateVdd_reset <= i_reset;
+inst_CalculateVdd : CalculateVdd port map (
 i_clock => CalculateVdd_clock,
 i_reset => CalculateVdd_reset,
 i_run => CalculateVdd_run,
@@ -1929,7 +1959,7 @@ subfprdy  => CalculateVdd_subfprdy
 
 calculateTa_clock <= i_clock;
 calculateTa_reset <= i_reset;
-calculateTa_Vdd <= calculateVdd_Vdd;
+calculateTa_Vdd <= CalculateVdd_Vdd;
 rom_constants_kvptat_en <= CalculateTa_kvptat_ena;
 rom_constants_kvptat_adr <= CalculateTa_kvptat_adr;
 CalculateTa_kvptat_val <= rom_constants_float;
@@ -2075,6 +2105,21 @@ CalculatePixOS_Ta0 <= x"41C80000"; -- 25
 CalculatePixOS_Vdd <= CalculateVdd_Vdd; -- xxx
 CalculatePixOS_VddV0 <= x"40533333"; -- 3.3
 CalculatePixOS_KGain <= CalculateKGain_KGain;
+rom_constants_signed4bit_en <= CalculatePixOS_signed4bit_ena;
+rom_constants_signed4bit_adr <= CalculatePixOS_signed4bit_adr;
+CalculatePixOS_signed4bit_val <= rom_constants_float;
+rom_constants_signed6bit_en <= CalculatePixOS_signed6bit_ena;
+rom_constants_signed6bit_adr <= CalculatePixOS_signed6bit_adr;
+CalculatePixOS_signed6bit_val <= rom_constants_float;
+rom_constants_2powx_4bit_en <= CalculatePixOS_2powx_4bit_ena;
+rom_constants_2powx_4bit_adr <= CalculatePixOS_2powx_4bit_adr;
+CalculatePixOS_2powx_4bit_val <= rom_constants_float;
+rom_constants_2powx_p8_4bit_en <= CalculatePixOS_2powx_p8_4bit_ena;
+rom_constants_2powx_p8_4bit_adr <= CalculatePixOS_2powx_p8_4bit_adr;
+CalculatePixOS_2powx_p8_4bit_val <= rom_constants_float;
+rom_constants_signed3bit_en <= CalculatePixOS_signed3bit_ena;
+rom_constants_signed3bit_adr <= CalculatePixOS_signed3bit_adr;
+CalculatePixOS_signed3bit_val <= rom_constants_float;
 inst_CalculatePixOS : CalculatePixOS port map (
 i_clock => CalculatePixOS_clock,
 i_reset => CalculatePixOS_reset,
@@ -2091,6 +2136,21 @@ i_KGain => CalculatePixOS_KGain,
 o_do => CalculatePixOS_do,
 i_addr => CalculatePixOS_addr,
 o_rdy => CalculatePixOS_rdy,
+o_signed4bit_ena => CalculatePixOS_signed4bit_ena,
+o_signed4bit_adr => CalculatePixOS_signed4bit_adr,
+i_signed4bit_val => CalculatePixOS_signed4bit_val,
+o_signed6bit_ena => CalculatePixOS_signed6bit_ena,
+o_signed6bit_adr => CalculatePixOS_signed6bit_adr,
+i_signed6bit_val => CalculatePixOS_signed6bit_val,
+o_2powx_4bit_ena => CalculatePixOS_2powx_4bit_ena,
+o_2powx_4bit_adr => CalculatePixOS_2powx_4bit_adr,
+i_2powx_4bit_val => CalculatePixOS_2powx_4bit_val,
+o_2powx_p8_4bit_ena => CalculatePixOS_2powx_p8_4bit_ena,
+o_2powx_p8_4bit_adr => CalculatePixOS_2powx_p8_4bit_adr,
+i_2powx_p8_4bit_val => CalculatePixOS_2powx_p8_4bit_val,
+o_signed3bit_ena => CalculatePixOS_signed3bit_ena,
+o_signed3bit_adr => CalculatePixOS_signed3bit_adr,
+i_signed3bit_val => CalculatePixOS_signed3bit_val,
 fixed2floata => CalculatePixOS_fixed2floata,
 fixed2floatond => CalculatePixOS_fixed2floatond,
 fixed2floatce => CalculatePixOS_fixed2floatce,

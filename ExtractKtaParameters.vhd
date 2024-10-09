@@ -49,6 +49,16 @@ i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
 
+signal o_2powx_p8_4bit_ena : out std_logic;
+signal o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
+signal i_2powx_p8_4bit_val : in std_logic_vector (31 downto 0);
+signal o_2powx_4bit_ena : out std_logic;
+signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
+signal i_2powx_4bit_val : in std_logic_vector (31 downto 0);
+signal o_signed3bit_ena : out std_logic;
+signal o_signed3bit_adr : out std_logic_vector (2 downto 0);
+signal i_signed3bit_val : in std_logic_vector (31 downto 0);
+
 signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpond : out STD_LOGIC;
@@ -268,11 +278,6 @@ end component mem_ramb16_s36_x2;
 signal addra,mux_addr : std_logic_vector (9 downto 0);
 signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
 
--- xxx nibbles must out in next clock xyxle
-signal nibble1,nibble2,nibble5,nibble4 : std_logic_vector (3 downto 0);
-signal nibble3 : std_logic_vector (2 downto 0);
-signal out_nibble1,out_nibble2,out_nibble3,out_nibble4,out_nibble5 : std_logic_vector (31 downto 0);
-
 signal write_enable : std_logic;
 
 signal rdy : std_logic;
@@ -285,7 +290,6 @@ i_value : in std_logic_vector (7 downto 0); -- input hex from 0 to 255
 o_value : out std_logic_vector (31 downto 0) -- output signed -128 to 127 in SP float
 );
 end component mem_signed256;
-
 signal mem_signed256_clock : std_logic;
 signal mem_signed256_reset : std_logic;
 signal mem_signed256_ivalue : std_logic_vector (7 downto 0); -- input hex from 0 to 255
@@ -300,6 +304,8 @@ signal colo,cole : std_logic;
 signal rowo,rowe : std_logic;
 
 signal ktarcee_oo,ktarcee_eo,ktarcee_oe,ktarcee_ee,ktarcee : std_logic_vector (7 downto 0);
+
+signal out_nibble1,out_nibble2 : std_logic_vector (31 downto 0);
 
 begin
 
@@ -332,31 +338,6 @@ o_do <= doa when rdy = '1' else (others => '0');
 mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0');
 mux_dia <= dia when rdy = '0' else (others => '0');
 
---INIT_01 => X"4b000000 4a800000 4a000000 49800000 49000000 48800000 48000000 47800000",
---INIT_00 => X"47000000 46800000 46000000 45800000 45000000 44800000 44000000 43800000",
-with nibble1 select out_nibble1 <= -- 2^(x+8) unsigned 0-15 - ktascale1
-x"43800000" when x"0", x"44000000" when x"1", x"44800000" when x"2", x"45000000" when x"3",
-x"45800000" when x"4", x"46000000" when x"5", x"46800000" when x"6", x"47000000" when x"7",
-x"47800000" when x"8", x"48000000" when x"9", x"48800000" when x"a", x"49000000" when x"b",
-x"49800000" when x"c", x"4a000000" when x"d", x"4a800000" when x"e", x"4b000000" when x"f",
-x"00000000" when others;
-
---INIT_01 => X"47000000 46800000 46000000 45800000 45000000 44800000 44000000 43800000",
---INIT_00 => X"43000000 42800000 42000000 41800000 41000000 40800000 40000000 3f800000",
-with nibble2 select out_nibble2 <= -- 2^x unsigned 0-15 - ktascale2
-x"3f800000" when x"0", x"40000000" when x"1", x"40800000" when x"2", x"41000000" when x"3",
-x"41800000" when x"4", x"42000000" when x"5", x"42800000" when x"6", x"43000000" when x"7",
-x"43800000" when x"8", x"44000000" when x"9", x"44800000" when x"a", x"45000000" when x"b",
-x"45800000" when x"c", x"46000000" when x"d", x"46800000" when x"e", x"47000000" when x"f",
-x"00000000" when others;
-
---INIT_01 => X"40e00000 40c00000 40a00000 40800000 40400000 40000000 3f800000 00000000",
---INIT_00 => X"bf800000 c0000000 c0400000 c0800000 40400000 40000000 3f800000 00000000",
-with nibble3 select out_nibble3 <= -- x signed (000e / 2) 0-7, >3,-8 - kta(i,j)_ee
-x"00000000" when "000", x"3f800000" when "001", x"40000000" when "010", x"40400000" when "011",
-x"c0800000" when "100", x"c0400000" when "101", x"c0000000" when "110", x"bf800000" when "111",
-x"00000000" when others;
-
 cole <= '1' when (col mod 2) = 0 else '0' when (col mod 2) = 1 else '0'; -- column even
 rowe <= '1' when (row mod 2) = 0 else '0' when (row mod 2) = 1 else '0'; -- row even
 
@@ -375,10 +356,10 @@ end process p1;
 
 p0 : process (i_clock) is
 	type states is (idle,
-	kta1,kta2,kta3,
-	kta5,kta7,kta8,
-	kta10,kta11,
-  kta19,
+	kta1,kta2,kta3,kta4,
+	kta5,kta6,kta7,kta7a,kta7b,kta8,
+	kta9,kta10,kta11,
+  kta18,kta19,
 	kta21,kta23,
 	kta27);
 	variable state : states;
@@ -387,9 +368,6 @@ begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
 			state := idle;
-			nibble1 <= (others => '0');
-			nibble2 <= (others => '0');
-			nibble3 <= (others => '0');
 			write_enable <= '0';
 			rdy <= '0';
 			addfpsclr_internal <= '1';
@@ -432,25 +410,38 @@ begin
 				when kta2 => state := kta3;
           ktarcee_oo <= i2c_mem_douta;
           i2c_mem_addra <= std_logic_vector (to_unsigned (110, 12)); -- 2437 LSB - ktarcee_oe 54*2+2
-        when kta3 => state := kta5;
+        when kta3 => state := kta4;
 					ktarcee_eo <= i2c_mem_douta;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (111, 12)); -- 2437 MSB - ktarcee_ee 54*2+3
-				when kta5 => state := kta7;
+				when kta4 => state := kta5;
 					ktarcee_oe <= i2c_mem_douta;
           i2c_mem_addra <= std_logic_vector (to_unsigned (113, 12)); -- 2438 LSB - ktascale1/ktascale2	54*2+5
-				when kta7 => state := kta8;
+				when kta5 => state := kta6;
 					ktarcee_ee <= i2c_mem_douta;
-				when kta8 => state := kta10;
-          nibble1 <= i2c_mem_douta (7 downto 4); -- ktascale1
-					nibble2 <= i2c_mem_douta (3 downto 0); -- ktascale2
-				when kta10 => state := kta11;
+				when kta6 => state := kta7;
+          o_2powx_p8_4bit_ena <= '1';
+          o_2powx_p8_4bit_adr <= i2c_mem_douta (7 downto 4); -- ktascale1
+				when kta7 => state := kta7a;
+        when kta7a => state := kta7b;
+          out_nibble1 <= i_2powx_p8_4bit_val;
+          o_2powx_p8_4bit_ena <= '0';
+          o_2powx_4bit_ena <= '1';
+					o_2powx_4bit_adr <= i2c_mem_douta (3 downto 0); -- ktascale2
+				when kta7b => state := kta8;
+				when kta8 => state := kta9;
+          out_nibble2 <= i_2powx_4bit_val;
+          o_2powx_4bit_ena <= '0';
+				when kta9 => state := kta10;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (129+(2*i), 12)); -- kta LSB 1
-        when kta11 => state := kta19;
+        when kta10 => state := kta11;
 					mem_signed256_ivalue <= ktarcee;
+        when kta11 => state := kta18;
+          o_signed3bit_ena <= '1';
+          o_signed3bit_adr <= i2c_mem_douta (3 downto 1); -- kta_ee 3bit
+        when kta18 => state := kta19;
 				when kta19 =>
-          nibble3 <= i2c_mem_douta (3 downto 1); -- kta_ee 3bit
           mulfpce_internal <= '1';
-          mulfpa_internal <= out_nibble3; -- kta_ee
+          mulfpa_internal <= i_signed3bit_val; -- kta_ee
           mulfpb_internal <= out_nibble2; -- 2^ktascale2
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := kta21;
@@ -487,6 +478,7 @@ begin
             --synthesis translate_on
           else state := kta23; end if;
         when kta27 =>
+          o_signed3bit_ena <= '0';
           divfpsclr_internal <= '0';
           i := i + 1;
           write_enable <= '0';
@@ -498,11 +490,11 @@ begin
               rdy <= '1';
             else
               row <= row + 1;
-              state := kta10;
+              state := kta9;
             end if;
           else
             col <= col + 1;
-            state := kta10;
+            state := kta9;
           end if;
 			end case;
 		end if;
@@ -534,5 +526,4 @@ i_value => mem_signed256_ivalue,
 o_value => mem_signed256_ovalue
 );
 
-end Behavioral;
-
+end architecture Behavioral;

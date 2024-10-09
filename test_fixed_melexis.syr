@@ -5,14 +5,14 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.09 secs
+Total CPU time to Xst completion: 0.06 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.09 secs
+Total CPU time to Xst completion: 0.06 secs
  
 --> 
 Reading design: test_fixed_melexis.prj
@@ -181,7 +181,7 @@ Analyzing hierarchy for entity <ExtractTGCParameters> in library <work> (archite
 
 Analyzing hierarchy for entity <CalculateKGain> in library <work> (architecture <behavioral>).
 
-Analyzing hierarchy for entity <calculateVdd> in library <work> (architecture <behavioral>).
+Analyzing hierarchy for entity <CalculateVdd> in library <work> (architecture <behavioral>).
 
 Analyzing hierarchy for entity <CalculateTa> in library <work> (architecture <behavioral>).
 
@@ -896,10 +896,10 @@ Entity <ExtractTGCParameters> analyzed. Unit <ExtractTGCParameters> generated.
 Analyzing Entity <CalculateKGain> in library <work> (Architecture <behavioral>).
 Entity <CalculateKGain> analyzed. Unit <CalculateKGain> generated.
 
-Analyzing Entity <calculateVdd> in library <work> (Architecture <behavioral>).
-INFO:Xst:2679 - Register <resolutionreg> in unit <calculateVdd> has a constant value of 10 during circuit operation. The register is replaced by logic.
-INFO:Xst:2679 - Register <addfpb> in unit <calculateVdd> has a constant value of 01000000010100110011001100110011 during circuit operation. The register is replaced by logic.
-Entity <calculateVdd> analyzed. Unit <calculateVdd> generated.
+Analyzing Entity <CalculateVdd> in library <work> (Architecture <behavioral>).
+INFO:Xst:2679 - Register <resolutionreg> in unit <CalculateVdd> has a constant value of 10 during circuit operation. The register is replaced by logic.
+INFO:Xst:2679 - Register <addfpb> in unit <CalculateVdd> has a constant value of 01000000010100110011001100110011 during circuit operation. The register is replaced by logic.
+Entity <CalculateVdd> analyzed. Unit <CalculateVdd> generated.
 
 Analyzing Entity <ExtractVDDParameters> in library <work> (Architecture <behavioral>).
 WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractVDDParameters.vhd" line 371: Instantiating black box module <inst_mem_kvdd_vdd25>.
@@ -1816,7 +1816,7 @@ Analyzing generic Entity <mem_ramb16_s36_x2.3> in library <work> (Architecture <
 Entity <mem_ramb16_s36_x2.3> analyzed. Unit <mem_ramb16_s36_x2.3> generated.
 
 Analyzing Entity <CalculatePixOS> in library <work> (Architecture <behavioral>).
-WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculatePixOS.vhd" line 1152: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
+WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculatePixOS.vhd" line 1200: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
 Entity <CalculatePixOS> analyzed. Unit <CalculatePixOS> generated.
 
 Analyzing Entity <CalculatePixGain> in library <work> (Architecture <behavioral>).
@@ -1824,7 +1824,7 @@ WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculatePixGa
 Entity <CalculatePixGain> analyzed. Unit <CalculatePixGain> generated.
 
 Analyzing Entity <ExtractOffsetParameters> in library <work> (Architecture <behavioral>).
-WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractOffsetParameters.vhd" line 539: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
+WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractOffsetParameters.vhd" line 557: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
 Entity <ExtractOffsetParameters> analyzed. Unit <ExtractOffsetParameters> generated.
 
 Analyzing Entity <ExtractKtaParameters> in library <work> (Architecture <behavioral>).
@@ -2404,7 +2404,7 @@ WARNING:Xst:647 - Input <i2c_mem_douta<7:4>> is never used. This port will be pr
 Unit <ExtractKsToScaleParameter> synthesized.
 
 
-Synthesizing Unit <calculateVdd>.
+Synthesizing Unit <CalculateVdd>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateVdd.vhd".
     Register <addfpond> equivalent to <addfpce> has been removed
     Register <divfpond> equivalent to <divfpce> has been removed
@@ -2456,7 +2456,7 @@ Synthesizing Unit <calculateVdd>.
 	inferred   1 Finite State Machine(s).
 	inferred   1 ROM(s).
 	inferred 356 D-type flip-flop(s).
-Unit <calculateVdd> synthesized.
+Unit <CalculateVdd> synthesized.
 
 
 Synthesizing Unit <ExtractAlphaParameters>.
@@ -2762,10 +2762,10 @@ Synthesizing Unit <ExtractOffsetParameters>.
     Register <mulfpond_internal> equivalent to <mulfpce_internal> has been removed
     Found finite state machine <FSM_11> for signal <state>.
     -----------------------------------------------------------------------
-    | States             | 23                                             |
-    | Transitions        | 35                                             |
+    | States             | 22                                             |
+    | Transitions        | 34                                             |
     | Inputs             | 7                                              |
-    | Outputs            | 29                                             |
+    | Outputs            | 28                                             |
     | Clock              | i_clock                   (rising_edge)        |
     | Reset              | i_reset                   (positive)           |
     | Reset type         | synchronous                                    |
@@ -2774,54 +2774,55 @@ Synthesizing Unit <ExtractOffsetParameters>.
     | Encoding           | automatic                                      |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
-    Found 16x32-bit ROM for signal <out_nibble4>.
-    Found 64x32-bit ROM for signal <out_nibble3>.
-    Found 16x32-bit ROM for signal <out_nibble2>.
+    Found 1-bit register for signal <o_signed4bit_ena>.
     Found 12-bit register for signal <i2c_mem_addra>.
+    Found 4-bit register for signal <o_2powx_4bit_adr>.
+    Found 4-bit register for signal <o_signed4bit_adr>.
+    Found 1-bit register for signal <o_signed6bit_ena>.
+    Found 1-bit register for signal <o_2powx_4bit_ena>.
     Found 1-bit register for signal <i2c_mem_ena>.
+    Found 6-bit register for signal <o_signed6bit_adr>.
     Found 32-bit register for signal <addfpa_internal>.
     Found 32-bit register for signal <addfpb_internal>.
     Found 1-bit register for signal <addfpce_internal>.
     Found 1-bit register for signal <addfpsclr_internal>.
     Found 10-bit register for signal <addra>.
-    Found 6-bit adder for signal <addra$add0000> created at line 377.
-    Found 6-bit adder for signal <addra$add0001> created at line 381.
-    Found 6-bit adder for signal <addra$add0002> created at line 385.
-    Found 10-bit adder for signal <addra$addsub0000> created at line 511.
-    Found 5-bit adder carry out for signal <addra$addsub0001> created at line 402.
+    Found 6-bit adder for signal <addra$add0000> created at line 386.
+    Found 6-bit adder for signal <addra$add0001> created at line 389.
+    Found 6-bit adder for signal <addra$add0002> created at line 392.
+    Found 10-bit adder for signal <addra$addsub0000> created at line 529.
+    Found 5-bit adder carry out for signal <addra$addsub0001> created at line 410.
     Found 5-bit up counter for signal <col>.
     Found 32-bit register for signal <dia>.
     Found 64-bit register for signal <fixed2floata_internal>.
     Found 1-bit register for signal <fixed2floatce_internal>.
     Found 1-bit register for signal <fixed2floatsclr_internal>.
     Found 10-bit register for signal <i>.
-    Found 10-bit adder for signal <i$share0000> created at line 348.
-    Found 7-bit adder for signal <i2c_mem_addra$add0000> created at line 362.
-    Found 6-bit adder for signal <i2c_mem_addra$add0001> created at line 373.
-    Found 11-bit adder for signal <i2c_mem_addra$add0002> created at line 409.
-    Found 6-bit adder for signal <i2c_mem_addra$addsub0000> created at line 373.
-    Found 6-bit adder for signal <i2c_mem_addra$addsub0001> created at line 362.
-    Found 6-bit adder carry out for signal <i2c_mem_addra$addsub0003> created at line 362.
+    Found 10-bit adder for signal <i$share0000> created at line 353.
+    Found 7-bit adder for signal <i2c_mem_addra$add0000> created at line 370.
+    Found 6-bit adder for signal <i2c_mem_addra$add0001> created at line 372.
+    Found 11-bit adder for signal <i2c_mem_addra$add0002> created at line 418.
+    Found 6-bit adder for signal <i2c_mem_addra$addsub0000> created at line 372.
+    Found 6-bit adder for signal <i2c_mem_addra$addsub0001> created at line 370.
+    Found 6-bit adder carry out for signal <i2c_mem_addra$addsub0003> created at line 370.
     Found 5-bit register for signal <m>.
     Found 32-bit register for signal <mulfpa_internal>.
     Found 32-bit register for signal <mulfpb_internal>.
     Found 1-bit register for signal <mulfpce_internal>.
     Found 1-bit register for signal <mulfpsclr_internal>.
-    Found 10-bit adder for signal <mux_addr$addsub0000> created at line 308.
-    Found 10-bit adder for signal <mux_addr$addsub0001> created at line 308.
+    Found 10-bit adder for signal <mux_addr$addsub0000> created at line 313.
+    Found 10-bit adder for signal <mux_addr$addsub0001> created at line 313.
     Found 6-bit register for signal <n>.
-    Found 4-bit register for signal <nibble2>.
-    Found 6-bit register for signal <nibble3>.
-    Found 4-bit register for signal <nibble4>.
+    Found 32-bit register for signal <out_nibble3>.
     Found 1-bit register for signal <rdy>.
     Found 5-bit up counter for signal <row>.
+    Found 4-bit register for signal <tmp1>.
     Found 8-bit register for signal <voffsetRef>.
     Found 1-bit register for signal <write_enable>.
     Summary:
 	inferred   1 Finite State Machine(s).
-	inferred   3 ROM(s).
 	inferred   2 Counter(s).
-	inferred 298 D-type flip-flop(s).
+	inferred 337 D-type flip-flop(s).
 	inferred  14 Adder/Subtractor(s).
 Unit <ExtractOffsetParameters> synthesized.
 
@@ -2951,7 +2952,7 @@ Unit <ExtractKvParameters> synthesized.
 
 Synthesizing Unit <CalculateTa>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateTa.vhd".
-WARNING:Xst:646 - Signal <ee2410<11:0>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <ee2410<3:0>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
     Register <addfpond> equivalent to <addfpce> has been removed
     Register <divfpond> equivalent to <divfpce> has been removed
     Register <fixed2floatond> equivalent to <fixed2floatce> has been removed
@@ -2959,10 +2960,10 @@ WARNING:Xst:646 - Signal <ee2410<11:0>> is assigned but never used. This unconne
     Register <subfpond> equivalent to <subfpce> has been removed
     Found finite state machine <FSM_14> for signal <state>.
     -----------------------------------------------------------------------
-    | States             | 21                                             |
-    | Transitions        | 37                                             |
+    | States             | 20                                             |
+    | Transitions        | 36                                             |
     | Inputs             | 6                                              |
-    | Outputs            | 25                                             |
+    | Outputs            | 24                                             |
     | Clock              | i_clock                   (rising_edge)        |
     | Reset              | i_reset                   (positive)           |
     | Reset type         | synchronous                                    |
@@ -2998,12 +2999,12 @@ WARNING:Xst:646 - Signal <ee2410<11:0>> is assigned but never used. This unconne
     Found 1-bit register for signal <subfpsclr>.
     Found 6-bit register for signal <o_kvptat_adr>.
     Found 32-bit register for signal <o_Ta>.
-    Found 4-bit register for signal <ee2410<15:12>>.
+    Found 8-bit register for signal <ee2410>.
     Found 16-bit register for signal <ee2432>.
     Found 8-bit register for signal <ram>.
     Summary:
 	inferred   1 Finite State Machine(s).
-	inferred 416 D-type flip-flop(s).
+	inferred 420 D-type flip-flop(s).
 Unit <CalculateTa> synthesized.
 
 
@@ -3115,7 +3116,7 @@ WARNING:Xst:1780 - Signal <CalculatePixGain_fixed2floatclk> is never used or ass
     Found 1-bit register for signal <ExtractOffsetParameters_mux>.
     Found 1-bit register for signal <ExtractOffsetParameters_run>.
     Found 10-bit register for signal <i>.
-    Found 10-bit adder for signal <i$addsub0000> created at line 979.
+    Found 10-bit adder for signal <i$addsub0000> created at line 1008.
     Found 32-bit register for signal <mulfpa_internal>.
     Found 32-bit register for signal <mulfpb_internal>.
     Found 1-bit register for signal <mulfpce_internal>.
@@ -3199,10 +3200,6 @@ Unit <CalculatePixOsCPSP> synthesized.
 
 Synthesizing Unit <test_fixed_melexis>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test_fixed_melexis.vhd".
-WARNING:Xst:653 - Signal <rom_constants_signed6bit_en> is used but never assigned. This sourceless signal will be automatically connected to value 0.
-WARNING:Xst:653 - Signal <rom_constants_signed6bit_adr> is used but never assigned. This sourceless signal will be automatically connected to value 000000.
-WARNING:Xst:653 - Signal <rom_constants_signed4bit_en> is used but never assigned. This sourceless signal will be automatically connected to value 0.
-WARNING:Xst:653 - Signal <rom_constants_signed4bit_adr> is used but never assigned. This sourceless signal will be automatically connected to value 0000.
 WARNING:Xst:653 - Signal <rom_constants_signed3bit_en> is used but never assigned. This sourceless signal will be automatically connected to value 0.
 WARNING:Xst:653 - Signal <rom_constants_signed3bit_adr> is used but never assigned. This sourceless signal will be automatically connected to value 000.
 WARNING:Xst:653 - Signal <rom_constants_cpratio_en> is used but never assigned. This sourceless signal will be automatically connected to value 0.
@@ -3213,8 +3210,6 @@ WARNING:Xst:653 - Signal <rom_constants_alphascale_1_en> is used but never assig
 WARNING:Xst:653 - Signal <rom_constants_alphascale_1_adr> is used but never assigned. This sourceless signal will be automatically connected to value 0000.
 WARNING:Xst:653 - Signal <rom_constants_2powx_p8_4bit_en> is used but never assigned. This sourceless signal will be automatically connected to value 0.
 WARNING:Xst:653 - Signal <rom_constants_2powx_p8_4bit_adr> is used but never assigned. This sourceless signal will be automatically connected to value 0000.
-WARNING:Xst:653 - Signal <rom_constants_2powx_4bit_en> is used but never assigned. This sourceless signal will be automatically connected to value 0.
-WARNING:Xst:653 - Signal <rom_constants_2powx_4bit_adr> is used but never assigned. This sourceless signal will be automatically connected to value 0000.
 WARNING:Xst:1780 - Signal <ExtractOffsetParameters_mux> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <ExtractAlphaParameters_done> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:1780 - Signal <CalculateVdd_subfpclk> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
@@ -3267,7 +3262,7 @@ WARNING:Xst:1780 - Signal <CalculatePixOS_addfpclk> is never used or assigned. T
     Found 1-bit register for signal <CalculateTo_mux>.
     Found 1-bit register for signal <CalculateTo_run>.
     Found 1-bit register for signal <CalculateVdd_mux>.
-    Found 1-bit register for signal <calculateVdd_run>.
+    Found 1-bit register for signal <CalculateVdd_run>.
     Found 1-bit register for signal <CalculateVirCompensated_mux>.
     Found 1-bit register for signal <CalculateVirCompensated_run>.
     Found 1-bit register for signal <ExtractAlphaParameters_mux>.
@@ -3285,11 +3280,11 @@ INFO:Xst:1767 - HDL ADVISOR - Resource sharing has identified that some arithmet
 HDL Synthesis Report
 
 Macro Statistics
-# ROMs                                                 : 22
- 16x32-bit ROM                                         : 12
+# ROMs                                                 : 19
+ 16x32-bit ROM                                         : 10
  32x1-bit ROM                                          : 4
  4x32-bit ROM                                          : 1
- 64x32-bit ROM                                         : 4
+ 64x32-bit ROM                                         : 3
  8x32-bit ROM                                          : 1
 # Adders/Subtractors                                   : 51
  10-bit adder                                          : 12
@@ -3308,18 +3303,18 @@ Macro Statistics
 # Counters                                             : 9
  10-bit up counter                                     : 3
  5-bit up counter                                      : 6
-# Registers                                            : 416
- 1-bit register                                        : 220
+# Registers                                            : 418
+ 1-bit register                                        : 219
  10-bit register                                       : 21
  12-bit register                                       : 13
  2-bit register                                        : 3
  3-bit register                                        : 1
- 32-bit register                                       : 103
- 4-bit register                                        : 18
+ 32-bit register                                       : 104
+ 4-bit register                                        : 19
  5-bit register                                        : 4
  6-bit register                                        : 7
  64-bit register                                       : 7
- 8-bit register                                        : 14
+ 8-bit register                                        : 15
  9-bit register                                        : 5
 # Multiplexers                                         : 20
  32-bit 4-to-1 multiplexer                             : 17
@@ -3482,32 +3477,31 @@ Optimizing FSM <inst_CalculateAlphaCP/state/FSM> on signal <state[1:7]> with one
  110   | 1000000
 -------------------
 Analyzing FSM <FSM_14> for best encoding.
-Optimizing FSM <inst_calculateTa/state/FSM> on signal <state[1:21]> with one-hot encoding.
---------------------------------
+Optimizing FSM <inst_calculateTa/state/FSM> on signal <state[1:20]> with one-hot encoding.
+-------------------------------
  State | Encoding
---------------------------------
- 00000 | 000000000000000000001
- 00001 | 000000000000000000010
- 00010 | 000000000000000000100
- 00011 | 000000000000000001000
- 00100 | 000000000000000010000
- 00101 | 000000000000000100000
- 00110 | 000000000000001000000
- 00111 | 000000000000010000000
- 01000 | 000000000000100000000
- 01001 | 000000000001000000000
- 01010 | 000000000010000000000
- 01011 | 000000000100000000000
- 01100 | 000000001000000000000
- 01101 | 000000010000000000000
- 01110 | 000000100000000000000
- 01111 | 000001000000000000000
- 10000 | 000010000000000000000
- 10001 | 000100000000000000000
- 10010 | 001000000000000000000
- 10011 | 010000000000000000000
- 10100 | 100000000000000000000
---------------------------------
+-------------------------------
+ 00000 | 00000000000000000001
+ 00001 | 00000000000000000010
+ 00010 | 00000000000000000100
+ 00011 | 00000000000000001000
+ 00100 | 00000000000000010000
+ 00101 | 00000000000000100000
+ 00110 | 00000000000001000000
+ 00111 | 00000000000010000000
+ 01000 | 00000000000100000000
+ 01001 | 00000000001000000000
+ 01010 | 00000000010000000000
+ 01011 | 00000000100000000000
+ 01100 | 00000001000000000000
+ 01101 | 00000010000000000000
+ 01110 | 00000100000000000000
+ 01111 | 00001000000000000000
+ 10000 | 00010000000000000000
+ 10001 | 00100000000000000000
+ 10010 | 01000000000000000000
+ 10011 | 10000000000000000000
+-------------------------------
 Analyzing FSM <FSM_13> for best encoding.
 Optimizing FSM <inst_CalculatePixOS/inst_ExtractKvParameters/state/FSM> on signal <state[1:11]> with one-hot encoding.
 ----------------------
@@ -3545,34 +3539,33 @@ Optimizing FSM <inst_CalculatePixOS/inst_ExtractKtaParameters/state/FSM> on sign
  1100  | 1000000000000
 ------------------------
 Analyzing FSM <FSM_11> for best encoding.
-Optimizing FSM <inst_CalculatePixOS/inst_ExtractOffsetParameters/state/FSM> on signal <state[1:23]> with one-hot encoding.
-----------------------------------
+Optimizing FSM <inst_CalculatePixOS/inst_ExtractOffsetParameters/state/FSM> on signal <state[1:22]> with one-hot encoding.
+---------------------------------
  State | Encoding
-----------------------------------
- 00000 | 00000000000000000000001
- 00001 | 00000000000000000000010
- 00010 | 00000000000000000000100
- 00011 | 00000000000000000001000
- 00100 | 00000000000000000010000
- 00101 | 00000000000000000100000
- 00110 | 00000000000000001000000
- 00111 | 00000000000000010000000
- 01000 | 00000000000000100000000
- 01001 | 00000000000001000000000
- 01010 | 00000000000010000000000
- 01011 | 00000000000100000000000
- 01100 | 00000000001000000000000
- 01101 | 00000000010000000000000
- 01110 | 00000000100000000000000
- 01111 | 00000001000000000000000
- 10000 | 00000010000000000000000
- 10001 | 00000100000000000000000
- 10010 | 00001000000000000000000
- 10011 | 00010000000000000000000
- 10100 | 00100000000000000000000
- 10101 | 01000000000000000000000
- 10110 | 10000000000000000000000
-----------------------------------
+---------------------------------
+ 00000 | 0000000000000000000001
+ 00001 | 0000000000000000000010
+ 00010 | 0000000000000000000100
+ 00011 | 0000000000000000001000
+ 00100 | 0000000000000000010000
+ 00101 | 0000000000000000100000
+ 00110 | 0000000000000001000000
+ 00111 | 0000000000000010000000
+ 01000 | 0000000000000100000000
+ 01001 | 0000000000001000000000
+ 01010 | 0000000000010000000000
+ 01011 | 0000000000100000000000
+ 01100 | 0000000001000000000000
+ 01101 | 0000000010000000000000
+ 01110 | 0000000100000000000000
+ 01111 | 0000001000000000000000
+ 10000 | 0000010000000000000000
+ 10001 | 0000100000000000000000
+ 10010 | 0001000000000000000000
+ 10011 | 0010000000000000000000
+ 10100 | 0100000000000000000000
+ 10101 | 1000000000000000000000
+---------------------------------
 Analyzing FSM <FSM_10> for best encoding.
 Optimizing FSM <inst_CalculatePixOS/inst_CalculatePixGain/state/FSM> on signal <state[1:7]> with one-hot encoding.
 -------------------
@@ -3710,7 +3703,7 @@ Optimizing FSM <inst_ExtractAlphaParameters/state/FSM> on signal <state[1:28]> w
  11011 | 1000000000000000000000000000
 ---------------------------------------
 Analyzing FSM <FSM_5> for best encoding.
-Optimizing FSM <inst_calculateVdd/state/FSM> on signal <state[1:13]> with one-hot encoding.
+Optimizing FSM <inst_CalculateVdd/state/FSM> on signal <state[1:13]> with one-hot encoding.
 ------------------------
  State | Encoding
 ------------------------
@@ -3751,7 +3744,7 @@ Optimizing FSM <inst_CalculateAlphaComp/inst_ExtractKsTaParameters/state/FSM> on
  100   | 10000
 -------------------
 Analyzing FSM <FSM_2> for best encoding.
-Optimizing FSM <inst_calculateVdd/inst_ExtractVDDParameters/state/FSM> on signal <state[1:6]> with one-hot encoding.
+Optimizing FSM <inst_CalculateVdd/inst_ExtractVDDParameters/state/FSM> on signal <state[1:6]> with one-hot encoding.
 -------------------
  State | Encoding
 -------------------
@@ -3792,16 +3785,20 @@ Reading core <ipcore_dir/inst_mem_kvdd_vdd25.ngc>.
 Loading core <inst_mem_kvdd_vdd25> for timing and area information for instance <rom_kvdd_vdd25>.
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_0> in Unit <inst_ExtractTGCParameters> is equivalent to the following 4 FFs/Latches, which will be removed : <i2c_mem_addra_3> <i2c_mem_addra_4> <i2c_mem_addra_5> <i2c_mem_addra_6> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_1> in Unit <inst_ExtractTGCParameters> is equivalent to the following 6 FFs/Latches, which will be removed : <i2c_mem_addra_2> <i2c_mem_addra_7> <i2c_mem_addra_8> <i2c_mem_addra_9> <i2c_mem_addra_10> <i2c_mem_addra_11> 
-INFO:Xst:2261 - The FF/Latch <fixed2floata_44> in Unit <inst_calculateVdd> is equivalent to the following 19 FFs/Latches, which will be removed : <fixed2floata_45> <fixed2floata_46> <fixed2floata_47> <fixed2floata_48> <fixed2floata_49> <fixed2floata_50> <fixed2floata_51> <fixed2floata_52> <fixed2floata_53> <fixed2floata_54> <fixed2floata_55> <fixed2floata_56> <fixed2floata_57> <fixed2floata_58> <fixed2floata_59> <fixed2floata_60> <fixed2floata_61> <fixed2floata_62> <fixed2floata_63> 
-INFO:Xst:2261 - The FF/Latch <fixed2floata_0> in Unit <inst_calculateVdd> is equivalent to the following 28 FFs/Latches, which will be removed : <fixed2floata_1> <fixed2floata_2> <fixed2floata_3> <fixed2floata_4> <fixed2floata_5> <fixed2floata_6> <fixed2floata_7> <fixed2floata_8> <fixed2floata_9> <fixed2floata_10> <fixed2floata_11> <fixed2floata_12> <fixed2floata_13> <fixed2floata_14> <fixed2floata_15> <fixed2floata_16> <fixed2floata_17> <fixed2floata_18> <fixed2floata_19> <fixed2floata_20> <fixed2floata_21> <fixed2floata_22> <fixed2floata_23> <fixed2floata_24> <fixed2floata_25> <fixed2floata_26> <fixed2floata_27> <fixed2floata_28> 
+INFO:Xst:2261 - The FF/Latch <fixed2floata_44> in Unit <inst_CalculateVdd> is equivalent to the following 19 FFs/Latches, which will be removed : <fixed2floata_45> <fixed2floata_46> <fixed2floata_47> <fixed2floata_48> <fixed2floata_49> <fixed2floata_50> <fixed2floata_51> <fixed2floata_52> <fixed2floata_53> <fixed2floata_54> <fixed2floata_55> <fixed2floata_56> <fixed2floata_57> <fixed2floata_58> <fixed2floata_59> <fixed2floata_60> <fixed2floata_61> <fixed2floata_62> <fixed2floata_63> 
+INFO:Xst:2261 - The FF/Latch <fixed2floata_0> in Unit <inst_CalculateVdd> is equivalent to the following 28 FFs/Latches, which will be removed : <fixed2floata_1> <fixed2floata_2> <fixed2floata_3> <fixed2floata_4> <fixed2floata_5> <fixed2floata_6> <fixed2floata_7> <fixed2floata_8> <fixed2floata_9> <fixed2floata_10> <fixed2floata_11> <fixed2floata_12> <fixed2floata_13> <fixed2floata_14> <fixed2floata_15> <fixed2floata_16> <fixed2floata_17> <fixed2floata_18> <fixed2floata_19> <fixed2floata_20> <fixed2floata_21> <fixed2floata_22> <fixed2floata_23> <fixed2floata_24> <fixed2floata_25> <fixed2floata_26> <fixed2floata_27> <fixed2floata_28> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_44> in Unit <inst_ExtractAlphaParameters> is equivalent to the following 19 FFs/Latches, which will be removed : <fixed2floata_internal_45> <fixed2floata_internal_46> <fixed2floata_internal_47> <fixed2floata_internal_48> <fixed2floata_internal_49> <fixed2floata_internal_50> <fixed2floata_internal_51> <fixed2floata_internal_52> <fixed2floata_internal_53> <fixed2floata_internal_54> <fixed2floata_internal_55> <fixed2floata_internal_56> <fixed2floata_internal_57> <fixed2floata_internal_58> <fixed2floata_internal_59> <fixed2floata_internal_60> <fixed2floata_internal_61> <fixed2floata_internal_62> <fixed2floata_internal_63> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_0> in Unit <inst_ExtractAlphaParameters> is equivalent to the following 28 FFs/Latches, which will be removed : <fixed2floata_internal_1> <fixed2floata_internal_2> <fixed2floata_internal_3> <fixed2floata_internal_4> <fixed2floata_internal_5> <fixed2floata_internal_6> <fixed2floata_internal_7> <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> <fixed2floata_internal_16> <fixed2floata_internal_17> <fixed2floata_internal_18> <fixed2floata_internal_19> <fixed2floata_internal_20> <fixed2floata_internal_21> <fixed2floata_internal_22> <fixed2floata_internal_23> <fixed2floata_internal_24> <fixed2floata_internal_25> <fixed2floata_internal_26> <fixed2floata_internal_27> <fixed2floata_internal_28> 
 INFO:Xst:2261 - The FF/Latch <n_0> in Unit <inst_ExtractAlphaParameters> is equivalent to the following FF/Latch, which will be removed : <n_1> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_0> in Unit <inst_CalculatePixGain> is equivalent to the following 28 FFs/Latches, which will be removed : <fixed2floata_internal_1> <fixed2floata_internal_2> <fixed2floata_internal_3> <fixed2floata_internal_4> <fixed2floata_internal_5> <fixed2floata_internal_6> <fixed2floata_internal_7> <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> <fixed2floata_internal_16> <fixed2floata_internal_17> <fixed2floata_internal_18> <fixed2floata_internal_19> <fixed2floata_internal_20> <fixed2floata_internal_21> <fixed2floata_internal_22> <fixed2floata_internal_23> <fixed2floata_internal_24> <fixed2floata_internal_25> <fixed2floata_internal_26> <fixed2floata_internal_27> <fixed2floata_internal_28> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_44> in Unit <inst_CalculatePixGain> is equivalent to the following 19 FFs/Latches, which will be removed : <fixed2floata_internal_45> <fixed2floata_internal_46> <fixed2floata_internal_47> <fixed2floata_internal_48> <fixed2floata_internal_49> <fixed2floata_internal_50> <fixed2floata_internal_51> <fixed2floata_internal_52> <fixed2floata_internal_53> <fixed2floata_internal_54> <fixed2floata_internal_55> <fixed2floata_internal_56> <fixed2floata_internal_57> <fixed2floata_internal_58> <fixed2floata_internal_59> <fixed2floata_internal_60> <fixed2floata_internal_61> <fixed2floata_internal_62> <fixed2floata_internal_63> 
+INFO:Xst:2261 - The FF/Latch <m_3> in Unit <inst_ExtractOffsetParameters> is equivalent to the following FF/Latch, which will be removed : <n_4> 
+INFO:Xst:2261 - The FF/Latch <m_4> in Unit <inst_ExtractOffsetParameters> is equivalent to the following FF/Latch, which will be removed : <n_5> 
+INFO:Xst:2261 - The FF/Latch <m_0> in Unit <inst_ExtractOffsetParameters> is equivalent to the following 2 FFs/Latches, which will be removed : <n_0> <n_1> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_0> in Unit <inst_ExtractOffsetParameters> is equivalent to the following 28 FFs/Latches, which will be removed : <fixed2floata_internal_1> <fixed2floata_internal_2> <fixed2floata_internal_3> <fixed2floata_internal_4> <fixed2floata_internal_5> <fixed2floata_internal_6> <fixed2floata_internal_7> <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> <fixed2floata_internal_16> <fixed2floata_internal_17> <fixed2floata_internal_18> <fixed2floata_internal_19> <fixed2floata_internal_20> <fixed2floata_internal_21> <fixed2floata_internal_22> <fixed2floata_internal_23> <fixed2floata_internal_24> <fixed2floata_internal_25> <fixed2floata_internal_26> <fixed2floata_internal_27> <fixed2floata_internal_28> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_44> in Unit <inst_ExtractOffsetParameters> is equivalent to the following 19 FFs/Latches, which will be removed : <fixed2floata_internal_45> <fixed2floata_internal_46> <fixed2floata_internal_47> <fixed2floata_internal_48> <fixed2floata_internal_49> <fixed2floata_internal_50> <fixed2floata_internal_51> <fixed2floata_internal_52> <fixed2floata_internal_53> <fixed2floata_internal_54> <fixed2floata_internal_55> <fixed2floata_internal_56> <fixed2floata_internal_57> <fixed2floata_internal_58> <fixed2floata_internal_59> <fixed2floata_internal_60> <fixed2floata_internal_61> <fixed2floata_internal_62> <fixed2floata_internal_63> 
-INFO:Xst:2261 - The FF/Latch <n_0> in Unit <inst_ExtractOffsetParameters> is equivalent to the following FF/Latch, which will be removed : <n_1> 
+INFO:Xst:2261 - The FF/Latch <m_1> in Unit <inst_ExtractOffsetParameters> is equivalent to the following FF/Latch, which will be removed : <n_2> 
+INFO:Xst:2261 - The FF/Latch <m_2> in Unit <inst_ExtractOffsetParameters> is equivalent to the following FF/Latch, which will be removed : <n_3> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_23> in Unit <inst_CalculatePixOS> is equivalent to the following 6 FFs/Latches, which will be removed : <divfpb_internal_24> <divfpb_internal_25> <divfpb_internal_26> <divfpb_internal_27> <divfpb_internal_28> <divfpb_internal_29> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_0> in Unit <inst_CalculatePixOS> is equivalent to the following 24 FFs/Latches, which will be removed : <divfpb_internal_1> <divfpb_internal_2> <divfpb_internal_3> <divfpb_internal_4> <divfpb_internal_5> <divfpb_internal_6> <divfpb_internal_7> <divfpb_internal_8> <divfpb_internal_9> <divfpb_internal_10> <divfpb_internal_11> <divfpb_internal_12> <divfpb_internal_13> <divfpb_internal_14> <divfpb_internal_15> <divfpb_internal_16> <divfpb_internal_17> <divfpb_internal_18> <divfpb_internal_19> <divfpb_internal_20> <divfpb_internal_21> <divfpb_internal_22> <divfpb_internal_30> <divfpb_internal_31> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_23> in Unit <inst_CalculateVirCompensated> is equivalent to the following 6 FFs/Latches, which will be removed : <divfpb_internal_24> <divfpb_internal_25> <divfpb_internal_26> <divfpb_internal_27> <divfpb_internal_28> <divfpb_internal_29> 
@@ -3922,11 +3919,10 @@ WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_8> (without init value) has a constan
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_9> (without init value) has a constant value of 0 in block <inst_ExtractVDDParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_10> (without init value) has a constant value of 0 in block <inst_ExtractVDDParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_11> (without init value) has a constant value of 0 in block <inst_ExtractVDDParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_1> (without init value) has a constant value of 0 in block <inst_calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_3> (without init value) has a constant value of 0 in block <inst_calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_8> (without init value) has a constant value of 0 in block <inst_calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_9> (without init value) has a constant value of 0 in block <inst_calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_0> (without init value) has a constant value of 0 in block <inst_calculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_1> (without init value) has a constant value of 0 in block <inst_CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_3> (without init value) has a constant value of 0 in block <inst_CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_8> (without init value) has a constant value of 0 in block <inst_CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_9> (without init value) has a constant value of 0 in block <inst_CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <address_N_8> (without init value) has a constant value of 0 in block <inst_ExtractTGCParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <inst_ExtractTGCParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_0> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
@@ -3951,6 +3947,7 @@ WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_18> (without init value) has 
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_19> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_20> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_21> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <fixed2floata_23> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_24> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_25> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_26> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
@@ -3972,9 +3969,9 @@ WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_10> (without init value) has a consta
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_11> (without init value) has a constant value of 0 in block <inst_CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_0> (without init value) has a constant value of 0 in block <inst_CalculatePixGain>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_11> (without init value) has a constant value of 0 in block <inst_ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_0> (without init value) has a constant value of 0 in block <inst_ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <m_0> has a constant value of 0 in block <inst_ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <n_0> has a constant value of 0 in block <inst_ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_0> (without init value) has a constant value of 0 in block <inst_ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <fixed2floata_0> (without init value) has a constant value of 0 in block <inst_CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_0> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_1> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_2> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
@@ -3998,7 +3995,10 @@ WARNING:Xst:1710 - FF/Latch <fixed2floata_19> (without init value) has a constan
 WARNING:Xst:1710 - FF/Latch <fixed2floata_20> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_21> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_22> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_23> (without init value) has a constant value of 0 in block <inst_calculateTa>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:2677 - Node <ee2410_0> of sequential type is unconnected in block <inst_calculateTa>.
+WARNING:Xst:2677 - Node <ee2410_1> of sequential type is unconnected in block <inst_calculateTa>.
+WARNING:Xst:2677 - Node <ee2410_2> of sequential type is unconnected in block <inst_calculateTa>.
+WARNING:Xst:2677 - Node <ee2410_3> of sequential type is unconnected in block <inst_calculateTa>.
 WARNING:Xst:2404 -  FFs/Latches <address_N<8:8>> (without init value) have a constant value of 0 in block <ExtractTGCParameters>.
 WARNING:Xst:2404 -  FFs/Latches <i2c_mem_addra<11:7>> (without init value) have a constant value of 0 in block <ExtractTGCParameters>.
 WARNING:Xst:2404 -  FFs/Latches <address_kvdd<8:8>> (without init value) have a constant value of 0 in block <ExtractVDDParameters>.
@@ -4036,6 +4036,10 @@ INFO:Xst:3021 - HDL ADVISOR - Asynchronous or synchronous initialization of the 
 INFO:Xst:3021 - HDL ADVISOR - Asynchronous or synchronous initialization of the register <nibble1> prevents it from being combined with the ROM <Mrom_out_nibble1> for implementation as read-only block RAM.
 Unit <CalculatePixOsCPSP> synthesized (advanced).
 
+Synthesizing (advanced) Unit <CalculateVdd>.
+INFO:Xst:3034 - In order to maximize performance and save block RAM resources, the small ROM <Mrom_out_resolutionee> will be implemented on LUT. If you want to force its implementation on block, use option/constraint rom_style.
+Unit <CalculateVdd> synthesized (advanced).
+
 Synthesizing (advanced) Unit <ExtractAlphaParameters>.
 INFO:Xst:3034 - In order to maximize performance and save block RAM resources, the small ROM <Mrom_out_nibble5> will be implemented on LUT. If you want to force its implementation on block, use option/constraint rom_style.
 INFO:Xst:3021 - HDL ADVISOR - Asynchronous or synchronous initialization of the register <nibble3> prevents it from being combined with the ROM <Mrom_out_nibble3> for implementation as read-only block RAM.
@@ -4053,16 +4057,10 @@ Synthesizing (advanced) Unit <ExtractKvParameters>.
 INFO:Xst:3034 - In order to maximize performance and save block RAM resources, the small ROM <Mrom_out_nibble2> will be implemented on LUT. If you want to force its implementation on block, use option/constraint rom_style.
 INFO:Xst:3034 - In order to maximize performance and save block RAM resources, the small ROM <Mrom_out_nibble1> will be implemented on LUT. If you want to force its implementation on block, use option/constraint rom_style.
 Unit <ExtractKvParameters> synthesized (advanced).
-
-Synthesizing (advanced) Unit <ExtractOffsetParameters>.
-INFO:Xst:3034 - In order to maximize performance and save block RAM resources, the small ROM <Mrom_out_nibble4> will be implemented on LUT. If you want to force its implementation on block, use option/constraint rom_style.
-INFO:Xst:3021 - HDL ADVISOR - Asynchronous or synchronous initialization of the register <nibble3> prevents it from being combined with the ROM <Mrom_out_nibble3> for implementation as read-only block RAM.
-INFO:Xst:3021 - HDL ADVISOR - Asynchronous or synchronous initialization of the register <nibble2> prevents it from being combined with the ROM <Mrom_out_nibble2> for implementation as read-only block RAM.
-Unit <ExtractOffsetParameters> synthesized (advanced).
-
-Synthesizing (advanced) Unit <calculateVdd>.
-INFO:Xst:3034 - In order to maximize performance and save block RAM resources, the small ROM <Mrom_out_resolutionee> will be implemented on LUT. If you want to force its implementation on block, use option/constraint rom_style.
-Unit <calculateVdd> synthesized (advanced).
+WARNING:Xst:2677 - Node <ee2410_0> of sequential type is unconnected in block <CalculateTa>.
+WARNING:Xst:2677 - Node <ee2410_1> of sequential type is unconnected in block <CalculateTa>.
+WARNING:Xst:2677 - Node <ee2410_2> of sequential type is unconnected in block <CalculateTa>.
+WARNING:Xst:2677 - Node <ee2410_3> of sequential type is unconnected in block <CalculateTa>.
 
 =========================================================================
 Advanced HDL Synthesis Report
@@ -4071,11 +4069,11 @@ Macro Statistics
 # FSMs                                                 : 19
 # RAMs                                                 : 1
  64x32-bit single-port block RAM                       : 1
-# ROMs                                                 : 21
- 16x32-bit ROM                                         : 12
+# ROMs                                                 : 18
+ 16x32-bit ROM                                         : 10
  32x1-bit ROM                                          : 4
  4x32-bit ROM                                          : 1
- 64x32-bit ROM                                         : 3
+ 64x32-bit ROM                                         : 2
  8x32-bit ROM                                          : 1
 # Adders/Subtractors                                   : 51
  10-bit adder                                          : 12
@@ -4094,8 +4092,8 @@ Macro Statistics
 # Counters                                             : 9
  10-bit up counter                                     : 3
  5-bit up counter                                      : 6
-# Registers                                            : 4581
- Flip-Flops                                            : 4581
+# Registers                                            : 4620
+ Flip-Flops                                            : 4620
 # Multiplexers                                         : 82
  1-bit 4-to-1 multiplexer                              : 64
  32-bit 4-to-1 multiplexer                             : 15
@@ -4155,39 +4153,39 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <address_kstoscale_5
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <address_kstoscale_6> (without init value) has a constant value of 0 in block <ExtractKsToScaleParameter>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <address_kstoscale_7> (without init value) has a constant value of 0 in block <ExtractKsToScaleParameter>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <address_kstoscale_8> (without init value) has a constant value of 0 in block <ExtractKsToScaleParameter>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <fixed2floata_28> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_27> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_26> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_25> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_24> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_23> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_22> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_21> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_20> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_19> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_18> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_17> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_16> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_15> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_14> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_13> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_internal_1> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_internal_3> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_internal_8> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_internal_9> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_0> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_1> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_2> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_3> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_4> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_5> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_6> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_7> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_8> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_9> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_10> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_11> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_12> (without init value) has a constant value of 0 in block <calculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <fixed2floata_28> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_27> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_26> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_25> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_24> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_23> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_22> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_21> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_20> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_19> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_18> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_17> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_16> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_15> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_14> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_13> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_internal_1> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_internal_3> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_internal_8> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_internal_9> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_0> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_1> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_2> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_3> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_4> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_5> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_6> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_7> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_8> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_9> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_10> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_11> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_12> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <n_1> has a constant value of 0 in block <ExtractAlphaParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <n_0> has a constant value of 0 in block <ExtractAlphaParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <m_0> has a constant value of 0 in block <ExtractAlphaParameters>. This FF/Latch will be trimmed during the optimization process.
@@ -4456,11 +4454,15 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_inter
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_internal_3> (without init value) has a constant value of 0 in block <CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_0> in Unit <ExtractTGCParameters> is equivalent to the following 4 FFs/Latches, which will be removed : <i2c_mem_addra_3> <i2c_mem_addra_4> <i2c_mem_addra_5> <i2c_mem_addra_6> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_0> in Unit <ExtractKsToScaleParameter> is equivalent to the following 6 FFs/Latches, which will be removed : <i2c_mem_addra_1> <i2c_mem_addra_2> <i2c_mem_addra_3> <i2c_mem_addra_4> <i2c_mem_addra_5> <i2c_mem_addra_6> 
-INFO:Xst:2261 - The FF/Latch <fixed2floata_44> in Unit <calculateVdd> is equivalent to the following 19 FFs/Latches, which will be removed : <fixed2floata_45> <fixed2floata_46> <fixed2floata_47> <fixed2floata_48> <fixed2floata_49> <fixed2floata_50> <fixed2floata_51> <fixed2floata_52> <fixed2floata_53> <fixed2floata_54> <fixed2floata_55> <fixed2floata_56> <fixed2floata_57> <fixed2floata_58> <fixed2floata_59> <fixed2floata_60> <fixed2floata_61> <fixed2floata_62> <fixed2floata_63> 
+INFO:Xst:2261 - The FF/Latch <fixed2floata_44> in Unit <CalculateVdd> is equivalent to the following 19 FFs/Latches, which will be removed : <fixed2floata_45> <fixed2floata_46> <fixed2floata_47> <fixed2floata_48> <fixed2floata_49> <fixed2floata_50> <fixed2floata_51> <fixed2floata_52> <fixed2floata_53> <fixed2floata_54> <fixed2floata_55> <fixed2floata_56> <fixed2floata_57> <fixed2floata_58> <fixed2floata_59> <fixed2floata_60> <fixed2floata_61> <fixed2floata_62> <fixed2floata_63> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_44> in Unit <ExtractAlphaParameters> is equivalent to the following 19 FFs/Latches, which will be removed : <fixed2floata_internal_45> <fixed2floata_internal_46> <fixed2floata_internal_47> <fixed2floata_internal_48> <fixed2floata_internal_49> <fixed2floata_internal_50> <fixed2floata_internal_51> <fixed2floata_internal_52> <fixed2floata_internal_53> <fixed2floata_internal_54> <fixed2floata_internal_55> <fixed2floata_internal_56> <fixed2floata_internal_57> <fixed2floata_internal_58> <fixed2floata_internal_59> <fixed2floata_internal_60> <fixed2floata_internal_61> <fixed2floata_internal_62> <fixed2floata_internal_63> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_23> in Unit <CalculateVirCompensated> is equivalent to the following 6 FFs/Latches, which will be removed : <divfpb_internal_24> <divfpb_internal_25> <divfpb_internal_26> <divfpb_internal_27> <divfpb_internal_28> <divfpb_internal_29> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_44> in Unit <CalculatePixGain> is equivalent to the following 19 FFs/Latches, which will be removed : <fixed2floata_internal_45> <fixed2floata_internal_46> <fixed2floata_internal_47> <fixed2floata_internal_48> <fixed2floata_internal_49> <fixed2floata_internal_50> <fixed2floata_internal_51> <fixed2floata_internal_52> <fixed2floata_internal_53> <fixed2floata_internal_54> <fixed2floata_internal_55> <fixed2floata_internal_56> <fixed2floata_internal_57> <fixed2floata_internal_58> <fixed2floata_internal_59> <fixed2floata_internal_60> <fixed2floata_internal_61> <fixed2floata_internal_62> <fixed2floata_internal_63> 
+INFO:Xst:2261 - The FF/Latch <n_4> in Unit <ExtractOffsetParameters> is equivalent to the following FF/Latch, which will be removed : <m_3> 
+INFO:Xst:2261 - The FF/Latch <n_5> in Unit <ExtractOffsetParameters> is equivalent to the following FF/Latch, which will be removed : <m_4> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_44> in Unit <ExtractOffsetParameters> is equivalent to the following 19 FFs/Latches, which will be removed : <fixed2floata_internal_45> <fixed2floata_internal_46> <fixed2floata_internal_47> <fixed2floata_internal_48> <fixed2floata_internal_49> <fixed2floata_internal_50> <fixed2floata_internal_51> <fixed2floata_internal_52> <fixed2floata_internal_53> <fixed2floata_internal_54> <fixed2floata_internal_55> <fixed2floata_internal_56> <fixed2floata_internal_57> <fixed2floata_internal_58> <fixed2floata_internal_59> <fixed2floata_internal_60> <fixed2floata_internal_61> <fixed2floata_internal_62> <fixed2floata_internal_63> 
+INFO:Xst:2261 - The FF/Latch <n_2> in Unit <ExtractOffsetParameters> is equivalent to the following FF/Latch, which will be removed : <m_1> 
+INFO:Xst:2261 - The FF/Latch <n_3> in Unit <ExtractOffsetParameters> is equivalent to the following FF/Latch, which will be removed : <m_2> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_23> in Unit <CalculatePixOS> is equivalent to the following 6 FFs/Latches, which will be removed : <divfpb_internal_24> <divfpb_internal_25> <divfpb_internal_26> <divfpb_internal_27> <divfpb_internal_28> <divfpb_internal_29> 
 WARNING:Xst:1710 - FF/Latch <divfpb_internal_1> (without init value) has a constant value of 0 in block <ExtractAlphaParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_2> (without init value) has a constant value of 0 in block <ExtractAlphaParameters>. This FF/Latch will be trimmed during the optimization process.
@@ -4511,30 +4513,6 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_21>
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_22> (without init value) has a constant value of 0 in block <ExtractAlphaParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_31> (without init value) has a constant value of 0 in block <ExtractAlphaParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_0> (without init value) has a constant value of 0 in block <ExtractAlphaParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <mulfpb_internal_31> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_22> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_21> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_20> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_19> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_18> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_17> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_16> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_15> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_14> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_13> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_12> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_11> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_10> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_9> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_8> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_7> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_6> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_5> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_4> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_3> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_2> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_1> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <mulfpb_internal_0> (without init value) has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <divfpb_internal_7> (without init value) has a constant value of 0 in block <ExtractKtaParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_6> (without init value) has a constant value of 0 in block <ExtractKtaParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_5> (without init value) has a constant value of 0 in block <ExtractKtaParameters>. This FF/Latch will be trimmed during the optimization process.
@@ -4740,7 +4718,7 @@ Optimizing unit <ExtractKsTaParameters> ...
 
 Optimizing unit <ExtractKsToScaleParameter> ...
 
-Optimizing unit <calculateVdd> ...
+Optimizing unit <CalculateVdd> ...
 
 Optimizing unit <ExtractAlphaParameters> ...
 
@@ -4772,19 +4750,36 @@ Found area constraint ratio of 100 (+ 5) on block test_fixed_melexis, actual rat
 FlipFlop CalculatePixOS_mux has been replicated 2 time(s)
 FlipFlop CalculatePixOsCPSP_mux has been replicated 1 time(s)
 FlipFlop CalculateTa_mux has been replicated 2 time(s)
-FlipFlop CalculateTo_mux has been replicated 1 time(s)
+FlipFlop CalculateTo_mux has been replicated 9 time(s)
 FlipFlop CalculateVdd_mux has been replicated 1 time(s)
+FlipFlop inst_CalculateAlphaComp/state_FSM_FFd12 has been replicated 1 time(s)
 FlipFlop inst_CalculateAlphaComp/state_FSM_FFd2 has been replicated 1 time(s)
+FlipFlop inst_CalculateAlphaComp/state_FSM_FFd4 has been replicated 1 time(s)
 FlipFlop inst_CalculateAlphaComp/state_FSM_FFd6 has been replicated 1 time(s)
 FlipFlop inst_CalculateAlphaComp/state_FSM_FFd7 has been replicated 1 time(s)
-FlipFlop inst_CalculatePixOS/inst_ExtractOffsetParameters/state_FSM_FFd4 has been replicated 1 time(s)
+FlipFlop inst_CalculatePixOS/ExtractOffsetParameters_mux has been replicated 1 time(s)
+FlipFlop inst_CalculatePixOS/inst_ExtractOffsetParameters/state_FSM_FFd5 has been replicated 1 time(s)
+FlipFlop inst_CalculatePixOS/inst_ExtractOffsetParameters/state_FSM_FFd7 has been replicated 1 time(s)
+FlipFlop inst_CalculateTo/state_FSM_FFd10 has been replicated 1 time(s)
+FlipFlop inst_CalculateTo/state_FSM_FFd13 has been replicated 1 time(s)
+FlipFlop inst_CalculateTo/state_FSM_FFd14 has been replicated 1 time(s)
 FlipFlop inst_CalculateTo/state_FSM_FFd15 has been replicated 1 time(s)
+FlipFlop inst_CalculateTo/state_FSM_FFd18 has been replicated 1 time(s)
+FlipFlop inst_CalculateTo/state_FSM_FFd2 has been replicated 1 time(s)
+FlipFlop inst_CalculateTo/state_FSM_FFd22 has been replicated 1 time(s)
 FlipFlop inst_CalculateTo/state_FSM_FFd3 has been replicated 1 time(s)
 FlipFlop inst_CalculateTo/state_FSM_FFd31 has been replicated 1 time(s)
-FlipFlop inst_calculateTa/state_FSM_FFd11 has been replicated 1 time(s)
+FlipFlop inst_CalculateTo/state_FSM_FFd32 has been replicated 1 time(s)
+FlipFlop inst_CalculateTo/state_FSM_FFd35 has been replicated 1 time(s)
+FlipFlop inst_CalculateTo/state_FSM_FFd37 has been replicated 1 time(s)
+FlipFlop inst_CalculateTo/state_FSM_FFd41 has been replicated 1 time(s)
+FlipFlop inst_CalculateTo/state_FSM_FFd42 has been replicated 1 time(s)
+FlipFlop inst_CalculateTo/state_FSM_FFd6 has been replicated 1 time(s)
+FlipFlop inst_CalculateTo/state_FSM_FFd7 has been replicated 1 time(s)
+FlipFlop inst_CalculateTo/state_FSM_FFd8 has been replicated 1 time(s)
+FlipFlop inst_CalculateTo/state_FSM_FFd9 has been replicated 1 time(s)
+FlipFlop inst_ExtractAlphaParameters/state_FSM_FFd2 has been replicated 1 time(s)
 FlipFlop inst_calculateTa/state_FSM_FFd15 has been replicated 1 time(s)
-FlipFlop inst_calculateTa/state_FSM_FFd8 has been replicated 1 time(s)
-FlipFlop inst_calculateTa/state_FSM_FFd9 has been replicated 1 time(s)
 
 Final Macro Processing ...
 
@@ -4792,8 +4787,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 4303
- Flip-Flops                                            : 4303
+# Registers                                            : 4385
+ Flip-Flops                                            : 4385
 
 =========================================================================
 
@@ -4822,31 +4817,31 @@ Design Statistics
 # IOs                              : 635
 
 Cell Usage :
-# BELS                             : 10791
-#      BUF                         : 6
+# BELS                             : 10887
+#      BUF                         : 7
 #      GND                         : 2
 #      INV                         : 19
-#      LUT1                        : 33
-#      LUT2                        : 1820
-#      LUT2_D                      : 303
-#      LUT2_L                      : 198
-#      LUT3                        : 1431
-#      LUT3_D                      : 87
-#      LUT3_L                      : 148
-#      LUT4                        : 5483
-#      LUT4_D                      : 130
-#      LUT4_L                      : 413
+#      LUT1                        : 31
+#      LUT2                        : 1862
+#      LUT2_D                      : 329
+#      LUT2_L                      : 187
+#      LUT3                        : 1364
+#      LUT3_D                      : 71
+#      LUT3_L                      : 193
+#      LUT4                        : 5412
+#      LUT4_D                      : 192
+#      LUT4_L                      : 530
 #      MUXCY                       : 32
-#      MUXF5                       : 640
-#      MUXF6                       : 15
+#      MUXF5                       : 615
+#      MUXF6                       : 10
 #      VCC                         : 1
 #      XORCY                       : 30
-# FlipFlops/Latches                : 4303
-#      FDE                         : 823
+# FlipFlops/Latches                : 4385
+#      FDE                         : 876
 #      FDR                         : 859
-#      FDRE                        : 1158
-#      FDRS                        : 1341
-#      FDRSE                       : 55
+#      FDRE                        : 1152
+#      FDRS                        : 1374
+#      FDRSE                       : 57
 #      FDS                         : 67
 # RAMS                             : 33
 #      RAMB16                      : 33
@@ -4862,9 +4857,9 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                     5481  out of  15360    35%  
- Number of Slice Flip Flops:           4303  out of  30720    14%  
- Number of 4 input LUTs:              10065  out of  30720    32%  
+ Number of Slices:                     5540  out of  15360    36%  
+ Number of Slice Flip Flops:           4385  out of  30720    14%  
+ Number of 4 input LUTs:              10190  out of  30720    33%  
  Number of IOs:                         635
  Number of bonded IOBs:                 635  out of    448   141% (*) 
  Number of FIFO16/RAMB16s:               33  out of    192    17%  
@@ -4894,7 +4889,7 @@ Clock Information:
 -----------------------------------+------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)  | Load  |
 -----------------------------------+------------------------+-------+
-i_clock                            | IBUF+BUFG              | 4336  |
+i_clock                            | IBUF+BUFG              | 4418  |
 -----------------------------------+------------------------+-------+
 
 Asynchronous Control Signals Information:
@@ -4902,15 +4897,15 @@ Asynchronous Control Signals Information:
 -----------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
 Control Signal                                                                                                                     | Buffer(FF name)                                                                                                                                                                        | Load  |
 -----------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
-inst_calculateVdd/inst_ExtractVDDParameters/rom_kvdd_vdd25/N1(inst_calculateVdd/inst_ExtractVDDParameters/rom_kvdd_vdd25/XST_GND:G)| NONE(inst_calculateVdd/inst_ExtractVDDParameters/rom_kvdd_vdd25/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_init.ram/TRUE_DP.SINGLE_PRIM.TDP)| 2     |
+inst_CalculateVdd/inst_ExtractVDDParameters/rom_kvdd_vdd25/N1(inst_CalculateVdd/inst_ExtractVDDParameters/rom_kvdd_vdd25/XST_GND:G)| NONE(inst_CalculateVdd/inst_ExtractVDDParameters/rom_kvdd_vdd25/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_init.ram/TRUE_DP.SINGLE_PRIM.TDP)| 2     |
 -----------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
 
 Timing Summary:
 ---------------
 Speed Grade: -10
 
-   Minimum period: 6.826ns (Maximum Frequency: 146.488MHz)
-   Minimum input arrival time before clock: 9.384ns
+   Minimum period: 6.533ns (Maximum Frequency: 153.071MHz)
+   Minimum input arrival time before clock: 8.997ns
    Maximum output required time after clock: 12.701ns
    Maximum combinational path delay: No path found
 
@@ -4920,35 +4915,35 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 6.826ns (frequency: 146.488MHz)
-  Total number of paths / destination ports: 82936 / 8443
+  Clock period: 6.533ns (frequency: 153.071MHz)
+  Total number of paths / destination ports: 83388 / 8589
 -------------------------------------------------------------------------
-Delay:               6.826ns (Levels of Logic = 5)
-  Source:            inst_CalculateTo/state_FSM_FFd22 (FF)
+Delay:               6.533ns (Levels of Logic = 5)
+  Source:            inst_CalculateTo/state_FSM_FFd20 (FF)
   Destination:       inst_CalculateTo/sqrtfp2a_internal_31 (FF)
   Source Clock:      i_clock rising
   Destination Clock: i_clock rising
 
-  Data Path: inst_CalculateTo/state_FSM_FFd22 to inst_CalculateTo/sqrtfp2a_internal_31
+  Data Path: inst_CalculateTo/state_FSM_FFd20 to inst_CalculateTo/sqrtfp2a_internal_31
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDR:C->Q             68   0.360   1.232  inst_CalculateTo/state_FSM_FFd22 (inst_CalculateTo/state_FSM_FFd22)
-     LUT3:I2->O            2   0.195   0.705  inst_CalculateTo/subfpsclr_internal_mux00001213_SW0 (N2274)
-     LUT4:I1->O            1   0.195   0.000  inst_CalculateTo/ExtractKsToScaleParameter_mux_mux0000111_wg_lut<4> (inst_CalculateTo/ExtractKsToScaleParameter_mux_mux0000111_wg_lut<4>)
-     MUXCY:S->O            5   0.691   0.546  inst_CalculateTo/ExtractKsToScaleParameter_mux_mux0000111_wg_cy<4> (inst_CalculateTo/ExtractKsToScaleParameter_mux_mux0000111_wg_cy<4>)
-     LUT4_D:I3->O         32   0.195   1.091  inst_CalculateTo/sqrtfp2a_internal_mux0000<0>11 (inst_CalculateTo/N4)
-     LUT4:I3->O            1   0.195   0.360  inst_CalculateTo/sqrtfp2a_internal_mux0000<8>_SW0 (N2206)
+     FDR:C->Q             37   0.360   1.110  inst_CalculateTo/state_FSM_FFd20 (inst_CalculateTo/state_FSM_FFd20)
+     LUT4_D:I3->O          1   0.195   0.523  inst_CalculateTo/subfpsclr_internal_mux0000124 (inst_CalculateTo/subfpsclr_internal_mux0000124)
+     LUT4:I3->O            1   0.195   0.000  inst_CalculateTo/ExtractKsToScaleParameter_mux_mux0000111_wg_lut<4> (inst_CalculateTo/ExtractKsToScaleParameter_mux_mux0000111_wg_lut<4>)
+     MUXCY:S->O            6   0.691   0.560  inst_CalculateTo/ExtractKsToScaleParameter_mux_mux0000111_wg_cy<4> (inst_CalculateTo/ExtractKsToScaleParameter_mux_mux0000111_wg_cy<4>)
+     LUT4_D:I3->O         31   0.195   1.087  inst_CalculateTo/sqrtfp2a_internal_mux0000<0>11_1 (inst_CalculateTo/sqrtfp2a_internal_mux0000<0>11)
+     LUT4:I3->O            1   0.195   0.360  inst_CalculateTo/sqrtfp2a_internal_mux0000<8>_SW0 (N2321)
      FDRS:S                    1.062          inst_CalculateTo/sqrtfp2a_internal_8
     ----------------------------------------
-    Total                      6.826ns (2.893ns logic, 3.933ns route)
-                                       (42.4% logic, 57.6% route)
+    Total                      6.533ns (2.893ns logic, 3.640ns route)
+                                       (44.3% logic, 55.7% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 9564 / 8132
+  Total number of paths / destination ports: 9692 / 8200
 -------------------------------------------------------------------------
-Offset:              9.384ns (Levels of Logic = 3)
+Offset:              8.997ns (Levels of Logic = 3)
   Source:            i_reset (PAD)
   Destination:       CalculateVirCompensated_run (FF)
   Destination Clock: i_clock rising
@@ -4957,17 +4952,17 @@ Offset:              9.384ns (Levels of Logic = 3)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           500   0.965   2.758  i_reset_IBUF (i_reset_IBUF)
-     BUF:I->O            500   0.358   2.758  i_reset_IBUF_2 (i_reset_IBUF_2)
-     INV:I->O            216   0.358   1.647  inst_calculateVdd/inst_ExtractVDDParameters/i_reset_inv1_INV_0 (i_reset_inv)
+     IBUF:I->O           441   0.965   2.527  i_reset_IBUF (i_reset_IBUF)
+     BUF:I->O            441   0.358   2.527  i_reset_IBUF_4 (i_reset_IBUF_4)
+     INV:I->O            235   0.358   1.722  inst_calculateTa/i_reset_inv1_INV_0 (i_reset_inv)
      FDE:CE                    0.540          CalculateVirCompensated_run
     ----------------------------------------
-    Total                      9.384ns (2.221ns logic, 7.163ns route)
-                                       (23.7% logic, 76.3% route)
+    Total                      8.997ns (2.221ns logic, 6.776ns route)
+                                       (24.7% logic, 75.3% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
-  Total number of paths / destination ports: 9911 / 387
+  Total number of paths / destination ports: 10007 / 387
 -------------------------------------------------------------------------
 Offset:              12.701ns (Levels of Logic = 8)
   Source:            ExtractAlphaParameters_mux (FF)
@@ -4981,10 +4976,10 @@ Offset:              12.701ns (Levels of Logic = 8)
      FDE:C->Q            491   0.360   2.886  ExtractAlphaParameters_mux (ExtractAlphaParameters_mux)
      LUT3:I2->O           33   0.195   1.260  divfpa<0>122 (N383)
      LUT4:I1->O            1   0.195   0.523  mulfpb<30>48 (mulfpb<30>48)
-     LUT3:I2->O            2   0.195   0.540  mulfpb<30>58_SW0 (N3823)
+     LUT3:I2->O            2   0.195   0.540  mulfpb<30>58_SW0 (N3864)
      LUT4:I3->O            1   0.195   0.000  mulfpb<30>772 (mulfpb<30>772)
      MUXF5:I0->O           1   0.382   0.523  mulfpb<30>77_f5 (mulfpb<30>77)
-     LUT4:I3->O            1   0.195   0.741  mulfpb<30>111_SW0 (N4785)
+     LUT4:I3->O            1   0.195   0.741  mulfpb<30>111_SW0 (N4730)
      LUT4:I0->O            1   0.195   0.360  mulfpb<30>111 (mulfpb_30_OBUF)
      OBUF:I->O                 3.957          mulfpb_30_OBUF (mulfpb<30>)
     ----------------------------------------
@@ -4994,15 +4989,15 @@ Offset:              12.701ns (Levels of Logic = 8)
 =========================================================================
 
 
-Total REAL time to Xst completion: 208.00 secs
-Total CPU time to Xst completion: 194.94 secs
+Total REAL time to Xst completion: 169.00 secs
+Total CPU time to Xst completion: 162.38 secs
  
 --> 
 
 
-Total memory usage is 967924 kilobytes
+Total memory usage is 968212 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :  882 (   0 filtered)
-Number of infos    :   73 (   0 filtered)
+Number of warnings :  859 (   0 filtered)
+Number of infos    :   78 (   0 filtered)
 

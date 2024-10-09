@@ -144,11 +144,28 @@ i_Ta : in std_logic_vector (31 downto 0);
 i_Ta0 : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
 i_VddV0 : in std_logic_vector (31 downto 0);
+i_KGain : in std_logic_vector (31 downto 0);
 
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
+
+o_signed4bit_ena : out std_logic;
+o_signed4bit_adr : out std_logic_vector (3 downto 0);
+i_signed4bit_val : in std_logic_vector (31 downto 0);
+o_signed6bit_ena : out std_logic;
+o_signed6bit_adr : out std_logic_vector (5 downto 0);
+i_signed6bit_val : in std_logic_vector (31 downto 0);
+o_2powx_4bit_ena : out std_logic;
+o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
+i_2powx_4bit_val : in std_logic_vector (31 downto 0);
+o_2powx_p8_4bit_ena : out std_logic;
+o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
+i_2powx_p8_4bit_val : in std_logic_vector (31 downto 0);
+o_signed3bit_ena : out std_logic;
+o_signed3bit_adr : out std_logic_vector (2 downto 0);
+i_signed3bit_val : in std_logic_vector (31 downto 0);
 
 fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
@@ -202,9 +219,25 @@ signal CalculatePixOS_Ta : std_logic_vector (31 downto 0);
 signal CalculatePixOS_Ta0 : std_logic_vector (31 downto 0);
 signal CalculatePixOS_Vdd : std_logic_vector (31 downto 0);
 signal CalculatePixOS_VddV0 : std_logic_vector (31 downto 0);
+signal CalculatePixOS_KGain : std_logic_vector (31 downto 0);
 signal CalculatePixOS_do : std_logic_vector (31 downto 0);
 signal CalculatePixOS_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal CalculatePixOS_rdy : std_logic;
+signal CalculatePixOS_signed4bit_ena : std_logic;
+signal CalculatePixOS_signed4bit_adr : std_logic_vector (3 downto 0);
+signal CalculatePixOS_signed4bit_val : std_logic_vector (31 downto 0);
+signal CalculatePixOS_signed6bit_ena : std_logic;
+signal CalculatePixOS_signed6bit_adr : std_logic_vector (5 downto 0);
+signal CalculatePixOS_signed6bit_val : std_logic_vector (31 downto 0);
+signal CalculatePixOS_2powx_4bit_ena : std_logic;
+signal CalculatePixOS_2powx_4bit_adr : std_logic_vector (3 downto 0);
+signal CalculatePixOS_2powx_4bit_val : std_logic_vector (31 downto 0);
+signal CalculatePixOS_2powx_p8_4bit_ena : std_logic;
+signal CalculatePixOS_2powx_p8_4bit_adr : std_logic_vector (3 downto 0);
+signal CalculatePixOS_2powx_p8_4bit_val : std_logic_vector (31 downto 0);
+signal CalculatePixOS_signed3bit_ena : std_logic;
+signal CalculatePixOS_signed3bit_adr : std_logic_vector (2 downto 0);
+signal CalculatePixOS_signed3bit_val : std_logic_vector (31 downto 0);
 signal CalculatePixOS_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal CalculatePixOS_fixed2floatond : STD_LOGIC;
 signal CalculatePixOS_fixed2floatce : STD_LOGIC;
@@ -246,6 +279,56 @@ signal CalculatePixOS_subfpclk : std_logic;
 signal CalculatePixOS_mulfpclk : std_logic;
 signal CalculatePixOS_divfpclk : std_logic;
 
+COMPONENT rom_constants
+PORT(
+i_clock : IN  std_logic;
+i_reset : IN  std_logic;
+i_kvptat_en : IN  std_logic;
+i_kvptat_adr : IN  std_logic_vector(5 downto 0);
+i_alphaptat_en : IN  std_logic;
+i_alphaptat_adr : IN  std_logic_vector(3 downto 0);
+i_signed4bit_en : IN  std_logic;
+i_signed4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed6bit_en : IN  std_logic;
+i_signed6bit_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_1_en : IN  std_logic;
+i_alphascale_1_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_4bit_en : IN  std_logic;
+i_2powx_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_cpratio_en : IN  std_logic;
+i_cpratio_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_2_en : IN  std_logic;
+i_alphascale_2_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_p8_4bit_en : IN  std_logic;
+i_2powx_p8_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed3bit_en : IN  std_logic;
+i_signed3bit_adr : IN  std_logic_vector(2 downto 0);
+o_float : OUT  std_logic_vector(31 downto 0)
+);
+END COMPONENT rom_constants;
+
+signal i_kvptat_en : std_logic;
+signal i_kvptat_adr : std_logic_vector(5 downto 0);
+signal i_alphaptat_en : std_logic;
+signal i_alphaptat_adr : std_logic_vector(3 downto 0);
+signal i_signed4bit_en : std_logic;
+signal i_signed4bit_adr : std_logic_vector(3 downto 0);
+signal i_signed6bit_en : std_logic;
+signal i_signed6bit_adr : std_logic_vector(5 downto 0);
+signal i_alphascale_1_en : std_logic;
+signal i_alphascale_1_adr : std_logic_vector(3 downto 0);
+signal i_2powx_4bit_en : std_logic;
+signal i_2powx_4bit_adr : std_logic_vector(3 downto 0);
+signal i_cpratio_en : std_logic;
+signal i_cpratio_adr : std_logic_vector(5 downto 0);
+signal i_alphascale_2_en : std_logic;
+signal i_alphascale_2_adr : std_logic_vector(3 downto 0);
+signal i_2powx_p8_4bit_en : std_logic;
+signal i_2powx_p8_4bit_adr : std_logic_vector(3 downto 0);
+signal i_signed3bit_en : std_logic;
+signal i_signed3bit_adr : std_logic_vector(2 downto 0);
+signal o_float : std_logic_vector(31 downto 0);
+
 constant i_clock_period : time := 10 ns;
 signal i_clock : std_logic;
 
@@ -255,6 +338,22 @@ BEGIN
 
 out1r <= ap_slv2fp (CalculatePixOS_do); -- output data
 
+CalculatePixOS_KGain <= x"3F81AC57";
+i_signed4bit_en <= CalculatePixOS_signed4bit_ena;
+i_signed4bit_adr <= CalculatePixOS_signed4bit_adr;
+CalculatePixOS_signed4bit_val <= o_float;
+i_signed6bit_en <= CalculatePixOS_signed6bit_ena;
+i_signed6bit_adr <= CalculatePixOS_signed6bit_adr;
+CalculatePixOS_signed6bit_val <= o_float;
+i_2powx_4bit_en <= CalculatePixOS_2powx_4bit_ena;
+i_2powx_4bit_adr <= CalculatePixOS_2powx_4bit_adr;
+CalculatePixOS_2powx_4bit_val <= o_float;
+i_2powx_p8_4bit_en <= CalculatePixOS_2powx_p8_4bit_ena;
+i_2powx_p8_4bit_adr <= CalculatePixOS_2powx_p8_4bit_adr;
+CalculatePixOS_2powx_p8_4bit_val <= o_float;
+i_signed3bit_en <= CalculatePixOS_signed3bit_ena;
+i_signed3bit_adr <= CalculatePixOS_signed3bit_adr;
+CalculatePixOS_signed3bit_val <= o_float;
 uut : CalculatePixOS port map (
 i_clock => CalculatePixOS_clock,
 i_reset => CalculatePixOS_reset,
@@ -267,9 +366,25 @@ i_Ta => CalculatePixOS_Ta,
 i_Ta0 => CalculatePixOS_Ta0,
 i_Vdd => CalculatePixOS_Vdd,
 i_VddV0 => CalculatePixOS_VddV0,
+i_KGain => CalculatePixOS_KGain,
 o_do => CalculatePixOS_do,
 i_addr => CalculatePixOS_addr,
 o_rdy => CalculatePixOS_rdy,
+o_signed4bit_ena => CalculatePixOS_signed4bit_ena,
+o_signed4bit_adr => CalculatePixOS_signed4bit_adr,
+i_signed4bit_val => CalculatePixOS_signed4bit_val,
+o_signed6bit_ena => CalculatePixOS_signed6bit_ena,
+o_signed6bit_adr => CalculatePixOS_signed6bit_adr,
+i_signed6bit_val => CalculatePixOS_signed6bit_val,
+o_2powx_4bit_ena => CalculatePixOS_2powx_4bit_ena,
+o_2powx_4bit_adr => CalculatePixOS_2powx_4bit_adr,
+i_2powx_4bit_val => CalculatePixOS_2powx_4bit_val,
+o_2powx_p8_4bit_ena => CalculatePixOS_2powx_p8_4bit_ena,
+o_2powx_p8_4bit_adr => CalculatePixOS_2powx_p8_4bit_adr,
+i_2powx_p8_4bit_val => CalculatePixOS_2powx_p8_4bit_val,
+o_signed3bit_ena => CalculatePixOS_signed3bit_ena,
+o_signed3bit_adr => CalculatePixOS_signed3bit_adr,
+i_signed3bit_val => CalculatePixOS_signed3bit_val,
 fixed2floata => CalculatePixOS_fixed2floata,
 fixed2floatond => CalculatePixOS_fixed2floatond,
 fixed2floatce => CalculatePixOS_fixed2floatce,
@@ -489,6 +604,32 @@ sclr => CalculatePixOS_subfpsclr,
 ce => CalculatePixOS_subfpce,
 result => CalculatePixOS_subfpr,
 rdy => CalculatePixOS_subfprdy
+);
+
+inst_rom_constants : rom_constants PORT MAP (
+i_clock => CalculatePixOS_clock,
+i_reset => CalculatePixOS_reset,
+i_kvptat_en => '0',
+i_kvptat_adr => (others => '0'),
+i_alphaptat_en => '0',
+i_alphaptat_adr => (others => '0'),
+i_signed4bit_en => i_signed4bit_en,
+i_signed4bit_adr => i_signed4bit_adr,
+i_signed6bit_en => i_signed6bit_en,
+i_signed6bit_adr => i_signed6bit_adr,
+i_alphascale_1_en => '0',
+i_alphascale_1_adr => (others => '0'),
+i_2powx_4bit_en => i_2powx_4bit_en,
+i_2powx_4bit_adr => i_2powx_4bit_adr,
+i_cpratio_en => '0',
+i_cpratio_adr => (others => '0'),
+i_alphascale_2_en => '0',
+i_alphascale_2_adr => (others => '0'),
+i_2powx_p8_4bit_en => i_2powx_p8_4bit_en,
+i_2powx_p8_4bit_adr => i_2powx_p8_4bit_adr,
+i_signed3bit_en => i_signed3bit_en,
+i_signed3bit_adr => i_signed3bit_adr,
+o_float => o_float
 );
 
 END ARCHITECTURE behavior;
