@@ -141,10 +141,9 @@ subfpa	:	OUT	STD_LOGIC_VECTOR (31 DOWNTO 0);
 subfpb	:	OUT	STD_LOGIC_VECTOR (31 DOWNTO 0);
 o_kvptat_ena : out std_logic;
 o_kvptat_adr : out std_logic_vector (5 downto 0);
-i_kvptat_val : in std_logic_vector (31 downto 0);
 o_alphaptat_ena : out std_logic;
 o_alphaptat_adr : out std_logic_vector (3 downto 0);
-i_alphaptat_val : in std_logic_vector (31 downto 0)
+i_rom_constants_float : in std_logic_vector (31 downto 0)
 );
 END COMPONENT;
 signal CalculateTa_clock : std_logic;
@@ -192,10 +191,9 @@ signal CalculateTa_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateTa_subfprdy : STD_LOGIC;
 signal CalculateTa_kvptat_ena : STD_LOGIC;
 signal CalculateTa_kvptat_adr : std_logic_vector (5 downto 0);
-signal CalculateTa_kvptat_val : std_logic_vector (31 downto 0);
 signal CalculateTa_alphaptat_ena : STD_LOGIC;
 signal CalculateTa_alphaptat_adr : std_logic_vector (3 downto 0);
-signal CalculateTa_alphaptat_val : std_logic_vector (31 downto 0);
+signal CalculateTa_rom_constants_float : std_logic_vector (31 downto 0);
 
 signal CalculateTa_fixed2floatclk : std_logic;
 signal CalculateTa_addfpclk : std_logic;
@@ -337,14 +335,12 @@ subfprdy => CalculateTa_subfprdy,
 
 o_kvptat_ena => CalculateTa_kvptat_ena,
 o_kvptat_adr => CalculateTa_kvptat_adr,
-i_kvptat_val => CalculateTa_kvptat_val,
 o_alphaptat_ena => CalculateTa_alphaptat_ena,
 o_alphaptat_adr => CalculateTa_alphaptat_adr,
-i_alphaptat_val => CalculateTa_alphaptat_val
+i_rom_constants_float => CalculateTa_rom_constants_float
 );
 
-CalculateTa_kvptat_val <= o_float;
-CalculateTa_alphaptat_val <= o_float;
+CalculateTa_rom_constants_float <= o_float;
 
 tbprocess : PROCESS
 BEGIN

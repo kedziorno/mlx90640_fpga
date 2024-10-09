@@ -50,11 +50,11 @@ o_rdy : out std_logic;
 
 o_kvptat_ena : out std_logic;
 o_kvptat_adr : out std_logic_vector (5 downto 0);
-i_kvptat_val : in std_logic_vector (31 downto 0);
 
 o_alphaptat_ena : out std_logic;
 o_alphaptat_adr : out std_logic_vector (3 downto 0);
-i_alphaptat_val : in std_logic_vector (31 downto 0);
+
+i_rom_constants_float : in std_logic_vector (31 downto 0);
 
 fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
@@ -239,10 +239,10 @@ begin
           mulfpa <= fixed2floatr;
           o_alphaptat_ena <= '1';
           o_alphaptat_adr <= ee2410 (7 downto 4);
-          mulfpb <= i_alphaptat_val;
+          mulfpb <= i_rom_constants_float;
           mulfpond <= '1';
           --synthesis translate_off
-          report_error("================ CalculateTa alphaptat", i_alphaptat_val, 0.0);
+          report_error("================ CalculateTa alphaptat", i_rom_constants_float, 0.0);
           --synthesis translate_on
           i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(768*2)+0, 12)); -- ram0700 MSB vbe
           if (mulfprdy = '1') then state := s13;
@@ -333,11 +333,11 @@ begin
           mulfpce <= '1';
           o_kvptat_ena <= '1';
           o_kvptat_adr <= ee2432 (15 downto 10);
-          mulfpa <= i_kvptat_val;
+          mulfpa <= i_rom_constants_float;
           mulfpb <= subfpr; -- XXX deltaV = Vdd - 3.3 
           mulfpond <= '1';
           --synthesis translate_off
-          report_error("================ CalculateTa ExtractKvPTATParameter_kvptat", i_kvptat_val, 0.0);
+          report_error("================ CalculateTa ExtractKvPTATParameter_kvptat", i_rom_constants_float, 0.0);
           --synthesis translate_on
           if (mulfprdy = '1') then state := s22;
             o_kvptat_ena <= '0';
