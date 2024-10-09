@@ -218,13 +218,11 @@ o_rdy : out std_logic;
 
 signal o_2powx_p8_4bit_ena : out std_logic;
 signal o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
-signal i_2powx_p8_4bit_val : in std_logic_vector (31 downto 0);
 signal o_2powx_4bit_ena : out std_logic;
 signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
-signal i_2powx_4bit_val : in std_logic_vector (31 downto 0);
 signal o_signed3bit_ena : out std_logic;
 signal o_signed3bit_adr : out std_logic_vector (2 downto 0);
-signal i_signed3bit_val : in std_logic_vector (31 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
 signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -262,13 +260,11 @@ signal ExtractKtaParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal ExtractKtaParameters_rdy : std_logic;
 signal ExtractKtaParameters_2powx_p8_4bit_ena : std_logic;
 signal ExtractKtaParameters_2powx_p8_4bit_adr : std_logic_vector (3 downto 0);
-signal ExtractKtaParameters_2powx_p8_4bit_val : std_logic_vector (31 downto 0);
 signal ExtractKtaParameters_2powx_4bit_ena : std_logic;
 signal ExtractKtaParameters_2powx_4bit_adr : std_logic_vector (3 downto 0);
-signal ExtractKtaParameters_2powx_4bit_val : std_logic_vector (31 downto 0);
 signal ExtractKtaParameters_signed3bit_ena : std_logic;
 signal ExtractKtaParameters_signed3bit_adr : std_logic_vector (2 downto 0);
-signal ExtractKtaParameters_signed3bit_val : std_logic_vector (31 downto 0);
+signal ExtractKtaParameters_rom_constants_float : std_logic_vector (31 downto 0);
 signal ExtractKtaParameters_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractKtaParameters_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractKtaParameters_mulfpond : STD_LOGIC;
@@ -777,7 +773,7 @@ ExtractOffsetParameters_2powx_4bit_adr when ExtractOffsetParameters_mux = '1' el
 ExtractKtaParameters_2powx_4bit_adr when ExtractKtaParameters_mux = '1' else
 (others => '0');
 ExtractOffsetParameters_rom_constants_float <= i_rom_constants_float;
-ExtractKtaParameters_2powx_4bit_val <= i_rom_constants_float;
+ExtractKtaParameters_rom_constants_float <= i_rom_constants_float;
 
 p0 : process (i_clock) is
 	constant C_ROW : integer := 24;
@@ -1158,10 +1154,9 @@ ExtractKtaParameters_clock <= i_clock;
 ExtractKtaParameters_reset <= i_reset;
 o_2powx_p8_4bit_ena <= ExtractKtaParameters_2powx_p8_4bit_ena;
 o_2powx_p8_4bit_adr <= ExtractKtaParameters_2powx_p8_4bit_adr;
-ExtractKtaParameters_2powx_p8_4bit_val <= i_rom_constants_float;
 o_signed3bit_ena <= ExtractKtaParameters_signed3bit_ena;
 o_signed3bit_adr <= ExtractKtaParameters_signed3bit_adr;
-ExtractKtaParameters_signed3bit_val <= i_rom_constants_float;
+ExtractKtaParameters_rom_constants_float <= i_rom_constants_float;
 inst_ExtractKtaParameters : ExtractKtaParameters port map (
 i_clock => ExtractKtaParameters_clock,
 i_reset => ExtractKtaParameters_reset,
@@ -1178,13 +1173,11 @@ o_rdy => ExtractKtaParameters_rdy,
 
 o_2powx_p8_4bit_ena => ExtractKtaParameters_2powx_p8_4bit_ena,
 o_2powx_p8_4bit_adr => ExtractKtaParameters_2powx_p8_4bit_adr,
-i_2powx_p8_4bit_val => ExtractKtaParameters_2powx_p8_4bit_val,
 o_2powx_4bit_ena => ExtractKtaParameters_2powx_4bit_ena,
 o_2powx_4bit_adr => ExtractKtaParameters_2powx_4bit_adr,
-i_2powx_4bit_val => ExtractKtaParameters_2powx_4bit_val,
 o_signed3bit_ena => ExtractKtaParameters_signed3bit_ena,
 o_signed3bit_adr => ExtractKtaParameters_signed3bit_adr,
-i_signed3bit_val => ExtractKtaParameters_signed3bit_val,
+i_rom_constants_float => ExtractKtaParameters_rom_constants_float,
 
 mulfpa => ExtractKtaParameters_mulfpa,
 mulfpb => ExtractKtaParameters_mulfpb,

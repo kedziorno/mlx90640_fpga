@@ -51,13 +51,11 @@ o_rdy : out std_logic;
 
 signal o_2powx_p8_4bit_ena : out std_logic;
 signal o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
-signal i_2powx_p8_4bit_val : in std_logic_vector (31 downto 0);
 signal o_2powx_4bit_ena : out std_logic;
 signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
-signal i_2powx_4bit_val : in std_logic_vector (31 downto 0);
 signal o_signed3bit_ena : out std_logic;
 signal o_signed3bit_adr : out std_logic_vector (2 downto 0);
-signal i_signed3bit_val : in std_logic_vector (31 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
 signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -423,13 +421,13 @@ begin
           o_2powx_p8_4bit_adr <= i2c_mem_douta (7 downto 4); -- ktascale1
 				when kta7 => state := kta7a;
         when kta7a => state := kta7b;
-          out_nibble1 <= i_2powx_p8_4bit_val;
+          out_nibble1 <= i_rom_constants_float;
           o_2powx_p8_4bit_ena <= '0';
           o_2powx_4bit_ena <= '1';
 					o_2powx_4bit_adr <= i2c_mem_douta (3 downto 0); -- ktascale2
 				when kta7b => state := kta8;
 				when kta8 => state := kta9;
-          out_nibble2 <= i_2powx_4bit_val;
+          out_nibble2 <= i_rom_constants_float;
           o_2powx_4bit_ena <= '0';
 				when kta9 => state := kta10;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (129+(2*i), 12)); -- kta LSB 1
@@ -441,7 +439,7 @@ begin
         when kta18 => state := kta19;
 				when kta19 =>
           mulfpce_internal <= '1';
-          mulfpa_internal <= i_signed3bit_val; -- kta_ee
+          mulfpa_internal <= i_rom_constants_float; -- kta_ee
           mulfpb_internal <= out_nibble2; -- 2^ktascale2
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := kta21;
