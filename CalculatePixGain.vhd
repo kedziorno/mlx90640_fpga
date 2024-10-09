@@ -66,7 +66,7 @@ mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 mulfprdy : in STD_LOGIC
 
 );
-end CalculatePixGain;
+end entity CalculatePixGain;
 
 architecture Behavioral of CalculatePixGain is
 

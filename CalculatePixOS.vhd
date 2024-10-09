@@ -54,21 +54,17 @@ i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
 
-signal o_signed4bit_ena : out std_logic;
-signal o_signed4bit_adr : out std_logic_vector (3 downto 0);
-signal i_signed4bit_val : in std_logic_vector (31 downto 0);
-signal o_signed6bit_ena : out std_logic;
-signal o_signed6bit_adr : out std_logic_vector (5 downto 0);
-signal i_signed6bit_val : in std_logic_vector (31 downto 0);
-signal o_2powx_4bit_ena : out std_logic;
-signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
-signal i_2powx_4bit_val : in std_logic_vector (31 downto 0);
-signal o_2powx_p8_4bit_ena : out std_logic;
-signal o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
-signal i_2powx_p8_4bit_val : in std_logic_vector (31 downto 0);
-signal o_signed3bit_ena : out std_logic;
-signal o_signed3bit_adr : out std_logic_vector (2 downto 0);
-signal i_signed3bit_val : in std_logic_vector (31 downto 0);
+o_signed4bit_ena : out std_logic;
+o_signed4bit_adr : out std_logic_vector (3 downto 0);
+o_signed6bit_ena : out std_logic;
+o_signed6bit_adr : out std_logic_vector (5 downto 0);
+o_2powx_4bit_ena : out std_logic;
+o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
+o_2powx_p8_4bit_ena : out std_logic;
+o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
+o_signed3bit_ena : out std_logic;
+o_signed3bit_adr : out std_logic_vector (2 downto 0);
+i_rom_constants_float : in std_logic_vector (31 downto 0);
 
 fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
@@ -131,13 +127,11 @@ o_rdy : out std_logic;
 
 signal o_signed4bit_ena : out std_logic;
 signal o_signed4bit_adr : out std_logic_vector (3 downto 0);
-signal i_signed4bit_val : in std_logic_vector (31 downto 0);
 signal o_signed6bit_ena : out std_logic;
 signal o_signed6bit_adr : out std_logic_vector (5 downto 0);
-signal i_signed6bit_val : in std_logic_vector (31 downto 0);
 signal o_2powx_4bit_ena : out std_logic;
 signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
-signal i_2powx_4bit_val : in std_logic_vector (31 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
 signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
@@ -174,13 +168,11 @@ signal ExtractOffsetParameters_addr : std_logic_vector (9 downto 0); -- 10bit-10
 signal ExtractOffsetParameters_rdy : std_logic;
 signal ExtractOffsetParameters_signed4bit_ena : std_logic;
 signal ExtractOffsetParameters_signed4bit_adr : std_logic_vector (3 downto 0);
-signal ExtractOffsetParameters_signed4bit_val : std_logic_vector (31 downto 0);
 signal ExtractOffsetParameters_signed6bit_ena : std_logic;
 signal ExtractOffsetParameters_signed6bit_adr : std_logic_vector (5 downto 0);
-signal ExtractOffsetParameters_signed6bit_val : std_logic_vector (31 downto 0);
 signal ExtractOffsetParameters_2powx_4bit_ena : std_logic;
 signal ExtractOffsetParameters_2powx_4bit_adr : std_logic_vector (3 downto 0);
-signal ExtractOffsetParameters_2powx_4bit_val : std_logic_vector (31 downto 0);
+signal ExtractOffsetParameters_rom_constants_float : std_logic_vector (31 downto 0);
 signal ExtractOffsetParameters_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal ExtractOffsetParameters_fixed2floatond : STD_LOGIC;
 signal ExtractOffsetParameters_fixed2floatsclr : STD_LOGIC;
@@ -784,8 +776,8 @@ o_2powx_4bit_adr <=
 ExtractOffsetParameters_2powx_4bit_adr when ExtractOffsetParameters_mux = '1' else
 ExtractKtaParameters_2powx_4bit_adr when ExtractKtaParameters_mux = '1' else
 (others => '0');
-ExtractOffsetParameters_2powx_4bit_val <= i_2powx_4bit_val;
-ExtractKtaParameters_2powx_4bit_val <= i_2powx_4bit_val;
+ExtractOffsetParameters_rom_constants_float <= i_rom_constants_float;
+ExtractKtaParameters_2powx_4bit_val <= i_rom_constants_float;
 
 p0 : process (i_clock) is
 	constant C_ROW : integer := 24;
@@ -1113,10 +1105,9 @@ ExtractOffsetParameters_clock <= i_clock;
 ExtractOffsetParameters_reset <= i_reset;
 o_signed4bit_ena <= ExtractOffsetParameters_signed4bit_ena;
 o_signed4bit_adr <= ExtractOffsetParameters_signed4bit_adr;
-ExtractOffsetParameters_signed4bit_val <= i_signed4bit_val;
 o_signed6bit_ena <= ExtractOffsetParameters_signed6bit_ena;
 o_signed6bit_adr <= ExtractOffsetParameters_signed6bit_adr;
-ExtractOffsetParameters_signed6bit_val <= i_signed6bit_val;
+ExtractOffsetParameters_rom_constants_float <= i_rom_constants_float;
 inst_ExtractOffsetParameters : ExtractOffsetParameters port map (
 i_clock => ExtractOffsetParameters_clock,
 i_reset => ExtractOffsetParameters_reset,
@@ -1133,13 +1124,11 @@ o_rdy => ExtractOffsetParameters_rdy,
 
 o_signed4bit_ena => ExtractOffsetParameters_signed4bit_ena,
 o_signed4bit_adr => ExtractOffsetParameters_signed4bit_adr,
-i_signed4bit_val => ExtractOffsetParameters_signed4bit_val,
 o_signed6bit_ena => ExtractOffsetParameters_signed6bit_ena,
 o_signed6bit_adr => ExtractOffsetParameters_signed6bit_adr,
-i_signed6bit_val => ExtractOffsetParameters_signed6bit_val,
 o_2powx_4bit_ena => ExtractOffsetParameters_2powx_4bit_ena,
 o_2powx_4bit_adr => ExtractOffsetParameters_2powx_4bit_adr,
-i_2powx_4bit_val => ExtractOffsetParameters_2powx_4bit_val,
+i_rom_constants_float => ExtractOffsetParameters_rom_constants_float,
 
 fixed2floata => ExtractOffsetParameters_fixed2floata,
 fixed2floatond => ExtractOffsetParameters_fixed2floatond,
@@ -1169,10 +1158,10 @@ ExtractKtaParameters_clock <= i_clock;
 ExtractKtaParameters_reset <= i_reset;
 o_2powx_p8_4bit_ena <= ExtractKtaParameters_2powx_p8_4bit_ena;
 o_2powx_p8_4bit_adr <= ExtractKtaParameters_2powx_p8_4bit_adr;
-ExtractKtaParameters_2powx_p8_4bit_val <= i_2powx_p8_4bit_val;
+ExtractKtaParameters_2powx_p8_4bit_val <= i_rom_constants_float;
 o_signed3bit_ena <= ExtractKtaParameters_signed3bit_ena;
 o_signed3bit_adr <= ExtractKtaParameters_signed3bit_adr;
-ExtractKtaParameters_signed3bit_val <= i_signed3bit_val;
+ExtractKtaParameters_signed3bit_val <= i_rom_constants_float;
 inst_ExtractKtaParameters : ExtractKtaParameters port map (
 i_clock => ExtractKtaParameters_clock,
 i_reset => ExtractKtaParameters_reset,
@@ -1262,4 +1251,4 @@ SSR => i_reset,
 WE => write_enable
 );
 
-end Behavioral;
+end architecture Behavioral;
