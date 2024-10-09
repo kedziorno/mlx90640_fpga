@@ -269,10 +269,9 @@ o_Ta : out std_logic_vector (31 downto 0); -- output Ta
 o_rdy : out std_logic;
 o_kvptat_ena : out std_logic;
 o_kvptat_adr : out std_logic_vector (5 downto 0);
-i_kvptat_val : in std_logic_vector (31 downto 0);
 o_alphaptat_ena : out std_logic;
 o_alphaptat_adr : out std_logic_vector (3 downto 0);
-i_alphaptat_val : in std_logic_vector (31 downto 0);
+i_rom_constants_float : in std_logic_vector (31 downto 0);
 fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
@@ -318,10 +317,9 @@ signal CalculateTa_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal CalculateTa_rdy : std_logic;
 signal CalculateTa_kvptat_ena : std_logic;
 signal CalculateTa_kvptat_adr : std_logic_vector (5 downto 0);
-signal CalculateTa_kvptat_val : std_logic_vector (31 downto 0);
 signal CalculateTa_alphaptat_ena : std_logic;
 signal CalculateTa_alphaptat_adr : std_logic_vector (3 downto 0);
-signal CalculateTa_alphaptat_val : std_logic_vector (31 downto 0);
+signal CalculateTa_rom_constants_float : std_logic_vector (31 downto 0);
 signal CalculateTa_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal CalculateTa_fixed2floatond : STD_LOGIC;
 signal CalculateTa_fixed2floatce : STD_LOGIC;
@@ -1760,8 +1758,8 @@ CalculateTo_i2c_mem_douta <= i2c_mem_douta when CalculateTo_mux = '1' else (othe
 		CalculateTa_run <= '1';
 		CalculateTa_mux <= '1';
 	when s4 =>
-		calculateTa_run <= '0';
-		if (calculateTa_rdy = '1') then
+		CalculateTa_run <= '0';
+		if (CalculateTa_rdy = '1') then
 			state := s5;
 			CalculateTa_mux <= '0';
 		else
@@ -1957,16 +1955,15 @@ subfpr => CalculateVdd_subfpr,
 subfprdy  => CalculateVdd_subfprdy
 );
 
-calculateTa_clock <= i_clock;
-calculateTa_reset <= i_reset;
-calculateTa_Vdd <= CalculateVdd_Vdd;
+CalculateTa_clock <= i_clock;
+CalculateTa_reset <= i_reset;
+CalculateTa_Vdd <= CalculateVdd_Vdd;
 rom_constants_kvptat_en <= CalculateTa_kvptat_ena;
 rom_constants_kvptat_adr <= CalculateTa_kvptat_adr;
-CalculateTa_kvptat_val <= rom_constants_float;
 rom_constants_alphaptat_en <= CalculateTa_alphaptat_ena;
 rom_constants_alphaptat_adr <= CalculateTa_alphaptat_adr;
-CalculateTa_alphaptat_val <= rom_constants_float;
-inst_calculateTa : calculateTa port map (
+CalculateTa_rom_constants_float <= rom_constants_float;
+inst_CalculateTa : CalculateTa port map (
 i_clock => CalculateTa_clock,
 i_reset => CalculateTa_reset,
 i_run => CalculateTa_run,
@@ -1978,10 +1975,9 @@ o_Ta => CalculateTa_Ta, -- output Ta
 o_rdy => CalculateTa_rdy,
 o_kvptat_ena => CalculateTa_kvptat_ena,
 o_kvptat_adr => CalculateTa_kvptat_adr,
-i_kvptat_val => CalculateTa_kvptat_val,
 o_alphaptat_ena => CalculateTa_alphaptat_ena,
 o_alphaptat_adr => CalculateTa_alphaptat_adr,
-i_alphaptat_val => CalculateTa_alphaptat_val,
+i_rom_constants_float => CalculateTa_rom_constants_float,
 fixed2floata => CalculateTa_fixed2floata,
 fixed2floatond => CalculateTa_fixed2floatond,
 fixed2floatce => CalculateTa_fixed2floatce,
