@@ -61,7 +61,7 @@ end entity rom_constants;
 
 architecture Behavioral of rom_constants is
 
-signal address : std_logic_vector (8 downto 0);
+signal address : std_logic_vector (8 downto 0) := (others => '0');
 
 begin
 
@@ -161,7 +161,7 @@ ADDR => address,
 CLK => i_clock,
 DI => (others => '0'),
 DIP => (others => '0'),
-EN => '1',
+EN => i_clock,
 SSR => i_reset,
 WE => '0'
 );

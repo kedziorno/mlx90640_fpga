@@ -449,7 +449,6 @@ begin
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
-            o_signed6bit_ena <= '0';
             o_2powx_4bit_ena <= '0';
           else state := s13; end if;
         when s14 =>

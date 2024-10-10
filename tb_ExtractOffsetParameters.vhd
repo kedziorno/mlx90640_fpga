@@ -51,12 +51,6 @@ result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
-signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
-signal fixed2floatond : STD_LOGIC;
-signal fixed2floatce : STD_LOGIC;
-signal fixed2floatsclr : STD_LOGIC;
-signal fixed2floatr :  STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal fixed2floatrdy : STD_LOGIC;
 
 COMPONENT mulfp
 PORT (
@@ -70,13 +64,6 @@ result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
-signal mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfpond : STD_LOGIC;
-signal mulfpce : STD_LOGIC;
-signal mulfpsclr : STD_LOGIC;
-signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy : STD_LOGIC;
 
 COMPONENT addfp
 PORT (
@@ -90,13 +77,6 @@ result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
-signal addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfpond : STD_LOGIC;
-signal addfpce : STD_LOGIC;
-signal addfpsclr : STD_LOGIC;
-signal addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfprdy : STD_LOGIC;
 
 COMPONENT tb_i2c_mem
 PORT (
@@ -125,6 +105,14 @@ i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
 
+signal o_signed4bit_ena : out std_logic;
+signal o_signed4bit_adr : out std_logic_vector (3 downto 0);
+signal o_signed6bit_ena : out std_logic;
+signal o_signed6bit_adr : out std_logic_vector (5 downto 0);
+signal o_2powx_4bit_ena : out std_logic;
+signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
+
 signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -147,7 +135,6 @@ signal addfpsclr : out STD_LOGIC;
 signal addfpce : out STD_LOGIC;
 signal addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfprdy : in STD_LOGIC
-
 );
 end component ExtractOffsetParameters;
 signal ExtractOffsetParameters_clock : std_logic;
@@ -179,19 +166,75 @@ signal ExtractOffsetParameters_addfpsclr : STD_LOGIC;
 signal ExtractOffsetParameters_addfpce : STD_LOGIC;
 signal ExtractOffsetParameters_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractOffsetParameters_addfprdy : STD_LOGIC;
+signal ExtractOffsetParameters_signed4bit_ena : std_logic;
+signal ExtractOffsetParameters_signed4bit_adr : std_logic_vector (3 downto 0);
+signal ExtractOffsetParameters_signed6bit_ena : std_logic;
+signal ExtractOffsetParameters_signed6bit_adr : std_logic_vector (5 downto 0);
+signal ExtractOffsetParameters_2powx_4bit_ena : std_logic;
+signal ExtractOffsetParameters_2powx_4bit_adr : std_logic_vector (3 downto 0);
+signal ExtractOffsetParameters_rom_constants_float : std_logic_vector (31 downto 0);
 
 signal ExtractOffsetParameters_fixed2floatclk : std_logic;
 signal ExtractOffsetParameters_addfpclk : std_logic;
 signal ExtractOffsetParameters_mulfpclk : std_logic;
 
+COMPONENT rom_constants
+PORT(
+i_clock : IN  std_logic;
+i_reset : IN  std_logic;
+i_kvptat_en : IN  std_logic;
+i_kvptat_adr : IN  std_logic_vector(5 downto 0);
+i_alphaptat_en : IN  std_logic;
+i_alphaptat_adr : IN  std_logic_vector(3 downto 0);
+i_signed4bit_en : IN  std_logic;
+i_signed4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed6bit_en : IN  std_logic;
+i_signed6bit_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_1_en : IN  std_logic;
+i_alphascale_1_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_4bit_en : IN  std_logic;
+i_2powx_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_cpratio_en : IN  std_logic;
+i_cpratio_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_2_en : IN  std_logic;
+i_alphascale_2_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_p8_4bit_en : IN  std_logic;
+i_2powx_p8_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed3bit_en : IN  std_logic;
+i_signed3bit_adr : IN  std_logic_vector(2 downto 0);
+o_float : OUT  std_logic_vector(31 downto 0)
+);
+END COMPONENT rom_constants;
+signal i_kvptat_en : std_logic := '0';
+signal i_kvptat_adr : std_logic_vector(5 downto 0) := (others => '0');
+signal i_alphaptat_en : std_logic := '0';
+signal i_alphaptat_adr : std_logic_vector(3 downto 0) := (others => '0');
+signal i_signed4bit_en : std_logic := '0';
+signal i_signed4bit_adr : std_logic_vector(3 downto 0) := (others => '0');
+signal i_signed6bit_en : std_logic := '0';
+signal i_signed6bit_adr : std_logic_vector(5 downto 0) := (others => '0');
+signal i_alphascale_1_en : std_logic := '0';
+signal i_alphascale_1_adr : std_logic_vector(3 downto 0) := (others => '0');
+signal i_2powx_4bit_en : std_logic := '0';
+signal i_2powx_4bit_adr : std_logic_vector(3 downto 0) := (others => '0');
+signal i_cpratio_en : std_logic := '0';
+signal i_cpratio_adr : std_logic_vector(5 downto 0) := (others => '0');
+signal i_alphascale_2_en : std_logic := '0';
+signal i_alphascale_2_adr : std_logic_vector(3 downto 0) := (others => '0');
+signal i_2powx_p8_4bit_en : std_logic := '0';
+signal i_2powx_p8_4bit_adr : std_logic_vector(3 downto 0) := (others => '0');
+signal i_signed3bit_en : std_logic := '0';
+signal i_signed3bit_adr : std_logic_vector(2 downto 0) := (others => '0');
+signal o_float : std_logic_vector(31 downto 0);
+
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
 
-signal out1r : real;
+--signal out1r : real;
 
 BEGIN
 
-out1r <= ap_slv2fp (ExtractOffsetParameters_do); -- output data
+--out1r <= ap_slv2fp (ExtractOffsetParameters_do); -- output data
 
 inst_tb_i2c_mem : tb_i2c_mem
 PORT MAP (
@@ -204,7 +247,7 @@ douta => ExtractOffsetParameters_i2c_mem_douta
 );
 
 -- Instantiate the Unit Under Test (UUT)
-uut: ExtractOffsetParameters PORT MAP (
+uut : ExtractOffsetParameters PORT MAP (
 i_clock => ExtractOffsetParameters_clock,
 i_reset => ExtractOffsetParameters_reset,
 i_run => ExtractOffsetParameters_run,
@@ -217,6 +260,14 @@ o_do => ExtractOffsetParameters_do,
 i_addr => ExtractOffsetParameters_addr, -- 10bit-1024
 
 o_rdy => ExtractOffsetParameters_rdy,
+
+o_signed4bit_ena => ExtractOffsetParameters_signed4bit_ena,
+o_signed4bit_adr => ExtractOffsetParameters_signed4bit_adr,
+o_signed6bit_ena => ExtractOffsetParameters_signed6bit_ena,
+o_signed6bit_adr => ExtractOffsetParameters_signed6bit_adr,
+o_2powx_4bit_ena => ExtractOffsetParameters_2powx_4bit_ena,
+o_2powx_4bit_adr => ExtractOffsetParameters_2powx_4bit_adr,
+i_rom_constants_float => ExtractOffsetParameters_rom_constants_float,
 
 fixed2floata => ExtractOffsetParameters_fixed2floata,
 fixed2floatond => ExtractOffsetParameters_fixed2floatond,
@@ -250,8 +301,6 @@ wait for i_clock_period/2;
 ExtractOffsetParameters_clock <= '1';
 wait for i_clock_period/2;
 end process;
-
-ExtractOffsetParameters_reset <= '1', '0' after 100 ns ;	
 
 -- Stimulus process
 stim_proc: process
@@ -299,6 +348,9 @@ last => (
 );
 begin
 -- hold reset state for 100 ns.
+ExtractOffsetParameters_reset <= '1';
+wait for 105 ns;
+ExtractOffsetParameters_reset <= '0';
 wait for 105 ns;
 -- insert stimulus here
 ExtractOffsetParameters_run <= '1'; wait for i_clock_period; ExtractOffsetParameters_run <= '0';
@@ -345,15 +397,11 @@ report "done" severity failure;
 --wait on o_done;
 end process;
 
-ExtractOffsetParameters_fixed2floatclk <= ExtractOffsetParameters_clock;
-ExtractOffsetParameters_addfpclk <= ExtractOffsetParameters_clock;
-ExtractOffsetParameters_mulfpclk <= ExtractOffsetParameters_clock;
-
 inst_fixed2float : fixed2float
 PORT MAP (
 a => ExtractOffsetParameters_fixed2floata,
 operation_nd => ExtractOffsetParameters_fixed2floatond,
-clk => ExtractOffsetParameters_fixed2floatclk,
+clk => ExtractOffsetParameters_clock,
 sclr => ExtractOffsetParameters_fixed2floatsclr,
 ce => ExtractOffsetParameters_fixed2floatce,
 result => ExtractOffsetParameters_fixed2floatr,
@@ -365,7 +413,7 @@ PORT MAP (
 a => ExtractOffsetParameters_mulfpa,
 b => ExtractOffsetParameters_mulfpb,
 operation_nd => ExtractOffsetParameters_mulfpond,
-clk => ExtractOffsetParameters_mulfpclk,
+clk => ExtractOffsetParameters_clock,
 sclr => ExtractOffsetParameters_mulfpsclr,
 ce => ExtractOffsetParameters_mulfpce,
 result => ExtractOffsetParameters_mulfpr,
@@ -377,11 +425,37 @@ PORT MAP (
 a => ExtractOffsetParameters_addfpa,
 b => ExtractOffsetParameters_addfpb,
 operation_nd => ExtractOffsetParameters_addfpond,
-clk => ExtractOffsetParameters_addfpclk,
+clk => ExtractOffsetParameters_clock,
 sclr => ExtractOffsetParameters_addfpsclr,
 ce => ExtractOffsetParameters_addfpce,
 result => ExtractOffsetParameters_addfpr,
 rdy => ExtractOffsetParameters_addfprdy
+);
+
+inst_rom_constants : rom_constants PORT MAP (
+i_clock => ExtractOffsetParameters_clock,
+i_reset => ExtractOffsetParameters_reset,
+i_kvptat_en => '0',
+i_kvptat_adr => (others => '0'),
+i_alphaptat_en => '0',
+i_alphaptat_adr => (others => '0'),
+i_signed4bit_en => ExtractOffsetParameters_signed4bit_ena,
+i_signed4bit_adr => ExtractOffsetParameters_signed4bit_adr,
+i_signed6bit_en => ExtractOffsetParameters_signed6bit_ena,
+i_signed6bit_adr => ExtractOffsetParameters_signed6bit_adr,
+i_alphascale_1_en => '0',
+i_alphascale_1_adr => (others => '0'),
+i_2powx_4bit_en => ExtractOffsetParameters_2powx_4bit_ena,
+i_2powx_4bit_adr => ExtractOffsetParameters_2powx_4bit_adr,
+i_cpratio_en => '0',
+i_cpratio_adr => (others => '0'),
+i_alphascale_2_en => '0',
+i_alphascale_2_adr => (others => '0'),
+i_2powx_p8_4bit_en => '0',
+i_2powx_p8_4bit_adr => (others => '0'),
+i_signed3bit_en => '0',
+i_signed3bit_adr => (others => '0'),
+o_float => ExtractOffsetParameters_rom_constants_float
 );
 
 END;
