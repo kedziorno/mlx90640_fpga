@@ -302,6 +302,12 @@ i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
 
+signal o_2powx_4bit_ena : out std_logic;
+signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
+signal o_signed4bit_ena : out std_logic;
+signal o_signed4bit_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
+
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpond : out STD_LOGIC;
@@ -320,6 +326,11 @@ signal ExtractKvParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal ExtractKvParameters_do : std_logic_vector (31 downto 0);
 signal ExtractKvParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal ExtractKvParameters_rdy : std_logic;
+signal ExtractKvParameters_2powx_4bit_ena : std_logic;
+signal ExtractKvParameters_2powx_4bit_adr : std_logic_vector (3 downto 0);
+signal ExtractKvParameters_signed4bit_ena : std_logic;
+signal ExtractKvParameters_signed4bit_adr : std_logic_vector (3 downto 0);
+signal ExtractKvParameters_rom_constants_float : std_logic_vector (31 downto 0);
 signal ExtractKvParameters_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractKvParameters_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractKvParameters_divfpond : STD_LOGIC;
@@ -767,13 +778,16 @@ divfprdy_internal <= divfprdy;
 o_2powx_4bit_ena <=
 ExtractOffsetParameters_2powx_4bit_ena when ExtractOffsetParameters_mux = '1' else
 ExtractKtaParameters_2powx_4bit_ena when ExtractKtaParameters_mux = '1' else
+ExtractKvParameters_2powx_4bit_ena when ExtractKvParameters_mux = '1' else
 '0';
 o_2powx_4bit_adr <=
 ExtractOffsetParameters_2powx_4bit_adr when ExtractOffsetParameters_mux = '1' else
 ExtractKtaParameters_2powx_4bit_adr when ExtractKtaParameters_mux = '1' else
+ExtractKvParameters_2powx_4bit_adr when ExtractKvParameters_mux = '1' else
 (others => '0');
 ExtractOffsetParameters_rom_constants_float <= i_rom_constants_float;
 ExtractKtaParameters_rom_constants_float <= i_rom_constants_float;
+ExtractKvParameters_rom_constants_float <= i_rom_constants_float;
 
 p0 : process (i_clock) is
 	constant C_ROW : integer := 24;
@@ -1099,8 +1113,14 @@ mulfprdy => CalculatePixGain_mulfprdy
 
 ExtractOffsetParameters_clock <= i_clock;
 ExtractOffsetParameters_reset <= i_reset;
-o_signed4bit_ena <= ExtractOffsetParameters_signed4bit_ena;
-o_signed4bit_adr <= ExtractOffsetParameters_signed4bit_adr;
+o_signed4bit_ena <=
+ExtractOffsetParameters_signed4bit_ena when ExtractOffsetParameters_mux = '1' else
+ExtractKvParameters_signed4bit_ena when ExtractKvParameters_mux = '1' else
+'0';
+o_signed4bit_adr <=
+ExtractOffsetParameters_signed4bit_adr when ExtractOffsetParameters_mux = '1' else
+ExtractKvParameters_signed4bit_adr when ExtractKvParameters_mux = '1' else
+(others => '0');
 o_signed6bit_ena <= ExtractOffsetParameters_signed6bit_ena;
 o_signed6bit_adr <= ExtractOffsetParameters_signed6bit_adr;
 ExtractOffsetParameters_rom_constants_float <= i_rom_constants_float;
@@ -1218,6 +1238,12 @@ i2c_mem_douta => ExtractKvParameters_i2c_mem_douta,
 o_do => ExtractKvParameters_do,
 i_addr => ExtractKvParameters_addr,
 o_rdy => ExtractKvParameters_rdy,
+
+o_2powx_4bit_ena => ExtractKvParameters_2powx_4bit_ena,
+o_2powx_4bit_adr => ExtractKvParameters_2powx_4bit_adr,
+o_signed4bit_ena => ExtractKvParameters_signed4bit_ena,
+o_signed4bit_adr => ExtractKvParameters_signed4bit_adr,
+i_rom_constants_float => ExtractKvParameters_rom_constants_float,
 
 divfpa => ExtractKvParameters_divfpa,
 divfpb => ExtractKvParameters_divfpb,
