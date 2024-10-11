@@ -374,6 +374,15 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 o_done : out std_logic;
 o_rdy : out std_logic;
+signal o_signed4bit_ena : out std_logic;
+signal o_signed4bit_adr : out std_logic_vector (3 downto 0);
+signal o_signed6bit_ena : out std_logic;
+signal o_signed6bit_adr : out std_logic_vector (5 downto 0);
+signal o_alphascale_1_ena : out std_logic;
+signal o_alphascale_1_adr : out std_logic_vector (3 downto 0);
+signal o_2powx_4bit_ena : out std_logic;
+signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -413,6 +422,15 @@ signal ExtractAlphaParameters_do : std_logic_vector (31 downto 0);
 signal ExtractAlphaParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal ExtractAlphaParameters_done : std_logic;
 signal ExtractAlphaParameters_rdy : std_logic;
+signal ExtractAlphaParameters_signed4bit_ena : std_logic;
+signal ExtractAlphaParameters_signed4bit_adr : std_logic_vector (3 downto 0);
+signal ExtractAlphaParameters_signed6bit_ena : std_logic;
+signal ExtractAlphaParameters_signed6bit_adr : std_logic_vector (5 downto 0);
+signal ExtractAlphaParameters_alphascale_1_ena : std_logic;
+signal ExtractAlphaParameters_alphascale_1_adr : std_logic_vector (3 downto 0);
+signal ExtractAlphaParameters_2powx_4bit_ena : std_logic;
+signal ExtractAlphaParameters_2powx_4bit_adr : std_logic_vector (3 downto 0);
+signal ExtractAlphaParameters_rom_constants_float : std_logic_vector (31 downto 0);
 signal ExtractAlphaParameters_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal ExtractAlphaParameters_fixed2floatond : STD_LOGIC;
 signal ExtractAlphaParameters_fixed2floatsclr : STD_LOGIC;
@@ -1685,6 +1703,43 @@ CalculateVdd_i2c_mem_douta <= i2c_mem_douta when CalculateVdd_mux = '1' else (ot
 CalculateTa_i2c_mem_douta <= i2c_mem_douta when CalculateTa_mux = '1' else (others => '0');
 CalculateTo_i2c_mem_douta <= i2c_mem_douta when CalculateTo_mux = '1' else (others => '0');
 
+rom_constants_2powx_4bit_en <=
+CalculatePixOS_2powx_4bit_ena when CalculatePixOS_mux = '1' else
+ExtractAlphaParameters_2powx_4bit_ena when ExtractAlphaParameters_mux = '1' else
+'0';
+rom_constants_2powx_4bit_adr <=
+CalculatePixOS_2powx_4bit_adr when CalculatePixOS_mux = '1' else
+ExtractAlphaParameters_2powx_4bit_adr when ExtractAlphaParameters_mux = '1' else
+(others => '0');
+
+rom_constants_signed4bit_en <=
+CalculatePixOS_signed4bit_ena when CalculatePixOS_mux = '1' else
+ExtractAlphaParameters_signed4bit_ena when ExtractAlphaParameters_mux = '1' else
+'0';
+rom_constants_signed4bit_adr <=
+CalculatePixOS_signed4bit_adr when CalculatePixOS_mux = '1' else
+ExtractAlphaParameters_signed4bit_adr when ExtractAlphaParameters_mux = '1' else
+(others => '0');
+
+rom_constants_signed6bit_en <=
+CalculatePixOS_signed6bit_ena when CalculatePixOS_mux = '1' else
+ExtractAlphaParameters_signed6bit_ena when ExtractAlphaParameters_mux = '1' else
+'0';
+rom_constants_signed6bit_adr <=
+CalculatePixOS_signed6bit_adr when CalculatePixOS_mux = '1' else
+ExtractAlphaParameters_signed6bit_adr when ExtractAlphaParameters_mux = '1' else
+(others => '0');
+
+rom_constants_alphascale_1_en <=
+ExtractAlphaParameters_alphascale_1_ena when ExtractAlphaParameters_mux = '1' else
+'0';
+rom_constants_alphascale_1_adr <=
+ExtractAlphaParameters_alphascale_1_adr when ExtractAlphaParameters_mux = '1' else
+(others => '0');
+
+CalculatePixOS_rom_constants_float <= rom_constants_float;
+ExtractAlphaParameters_rom_constants_float <= rom_constants_float;
+
 	-- purpose: main test loop
 	tester : process (i_clock,i_reset) is
 		type states is (idle,s0,s0a,s0b,s0c,
@@ -2021,6 +2076,16 @@ o_do => ExtractAlphaParameters_do,
 i_addr => ExtractAlphaParameters_addr,
 o_done => ExtractAlphaParameters_done,
 o_rdy => ExtractAlphaParameters_rdy,
+
+o_signed4bit_ena => ExtractAlphaParameters_signed4bit_ena,
+o_signed4bit_adr => ExtractAlphaParameters_signed4bit_adr,
+o_signed6bit_ena => ExtractAlphaParameters_signed6bit_ena,
+o_signed6bit_adr => ExtractAlphaParameters_signed6bit_adr,
+o_alphascale_1_ena => ExtractAlphaParameters_alphascale_1_ena,
+o_alphascale_1_adr => ExtractAlphaParameters_alphascale_1_adr,
+o_2powx_4bit_ena => ExtractAlphaParameters_2powx_4bit_ena,
+o_2powx_4bit_adr => ExtractAlphaParameters_2powx_4bit_adr,
+i_rom_constants_float => ExtractAlphaParameters_rom_constants_float,
 
 fixed2floata => ExtractAlphaParameters_fixed2floata,
 fixed2floatond => ExtractAlphaParameters_fixed2floatond,
