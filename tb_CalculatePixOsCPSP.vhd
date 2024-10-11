@@ -99,6 +99,7 @@ i_Ta0 : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
 i_VddV0 : in std_logic_vector (31 downto 0);
 i_const1 : in std_logic_vector (31 downto 0);
+i_KGain : in std_logic_vector (31 downto 0);
 
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
@@ -108,6 +109,14 @@ o_pixoscpsp0 : out std_logic_vector (31 downto 0);
 o_pixoscpsp1 : out std_logic_vector (31 downto 0);
 
 o_rdy : out std_logic;
+
+signal o_signed6bit_ena : out std_logic;
+signal o_signed6bit_adr : out std_logic_vector (5 downto 0);
+signal o_2powx_p8_4bit_ena : out std_logic;
+signal o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
+signal o_2powx_4bit_ena : out std_logic;
+signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
 signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
@@ -157,12 +166,21 @@ signal CalculatePixOsCPSP_Ta0 : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_Vdd : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_VddV0 : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_const1 : std_logic_vector (31 downto 0);
+signal CalculatePixOsCPSP_KGain : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_i2c_mem_ena : STD_LOGIC;
 signal CalculatePixOsCPSP_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal CalculatePixOsCPSP_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal CalculatePixOsCPSP_pixoscpsp0 : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_pixoscpsp1 : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_rdy : std_logic;
+
+signal CalculatePixOsCPSP_signed6bit_ena : std_logic;
+signal CalculatePixOsCPSP_signed6bit_adr : std_logic_vector (5 downto 0);
+signal CalculatePixOsCPSP_2powx_p8_4bit_ena : std_logic;
+signal CalculatePixOsCPSP_2powx_p8_4bit_adr : std_logic_vector (3 downto 0);
+signal CalculatePixOsCPSP_2powx_4bit_ena : std_logic;
+signal CalculatePixOsCPSP_2powx_4bit_adr : std_logic_vector (3 downto 0);
+signal CalculatePixOsCPSP_rom_constants_float : std_logic_vector (31 downto 0);
 
 signal CalculatePixOsCPSP_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal CalculatePixOsCPSP_fixed2floatond : STD_LOGIC;
@@ -209,6 +227,34 @@ signal CalculatePixOsCPSP_subfpclk : STD_LOGIC;
 signal CalculatePixOsCPSP_mulfpclk : STD_LOGIC;
 signal CalculatePixOsCPSP_divfpclk : STD_LOGIC;
 
+COMPONENT rom_constants
+PORT(
+i_clock : IN  std_logic;
+i_reset : IN  std_logic;
+i_kvptat_en : IN  std_logic;
+i_kvptat_adr : IN  std_logic_vector(5 downto 0);
+i_alphaptat_en : IN  std_logic;
+i_alphaptat_adr : IN  std_logic_vector(3 downto 0);
+i_signed4bit_en : IN  std_logic;
+i_signed4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed6bit_en : IN  std_logic;
+i_signed6bit_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_1_en : IN  std_logic;
+i_alphascale_1_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_4bit_en : IN  std_logic;
+i_2powx_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_cpratio_en : IN  std_logic;
+i_cpratio_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_2_en : IN  std_logic;
+i_alphascale_2_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_p8_4bit_en : IN  std_logic;
+i_2powx_p8_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed3bit_en : IN  std_logic;
+i_signed3bit_adr : IN  std_logic_vector(2 downto 0);
+o_float : OUT  std_logic_vector(31 downto 0)
+);
+END COMPONENT;
+
 constant clockperiod : time := 10 ns;
 
 BEGIN
@@ -232,6 +278,7 @@ begin
 end process cp;
 
 -- Component Instantiation
+CalculatePixOsCPSP_KGain <= x"3F81AC57";
 uut : CalculatePixOsCPSP port map (
 i_clock => CalculatePixOsCPSP_clock,
 i_reset => CalculatePixOsCPSP_reset,
@@ -241,12 +288,21 @@ i_Ta0 => CalculatePixOsCPSP_Ta0,
 i_Vdd => CalculatePixOsCPSP_Vdd,
 i_VddV0 => CalculatePixOsCPSP_VddV0,
 i_const1 => CalculatePixOsCPSP_const1,
+i_KGain => CalculatePixOsCPSP_KGain,
 i2c_mem_ena => CalculatePixOsCPSP_i2c_mem_ena,
 i2c_mem_addra => CalculatePixOsCPSP_i2c_mem_addra,
 i2c_mem_douta => CalculatePixOsCPSP_i2c_mem_douta,
 o_pixoscpsp0 => CalculatePixOsCPSP_pixoscpsp0,
 o_pixoscpsp1 => CalculatePixOsCPSP_pixoscpsp1,
 o_rdy => CalculatePixOsCPSP_rdy,
+
+o_signed6bit_ena => CalculatePixOsCPSP_signed6bit_ena,
+o_signed6bit_adr => CalculatePixOsCPSP_signed6bit_adr,
+o_2powx_p8_4bit_ena => CalculatePixOsCPSP_2powx_p8_4bit_ena,
+o_2powx_p8_4bit_adr => CalculatePixOsCPSP_2powx_p8_4bit_adr,
+o_2powx_4bit_ena => CalculatePixOsCPSP_2powx_4bit_ena,
+o_2powx_4bit_adr => CalculatePixOsCPSP_2powx_4bit_adr,
+i_rom_constants_float => CalculatePixOsCPSP_rom_constants_float,
 
 fixed2floata => CalculatePixOSCPSP_fixed2floata,
 fixed2floatond => CalculatePixOSCPSP_fixed2floatond,
@@ -379,6 +435,32 @@ sclr => CalculatePixOsCPSP_subfpsclr,
 ce => CalculatePixOsCPSP_subfpce,
 result => CalculatePixOsCPSP_subfpr,
 rdy => CalculatePixOsCPSP_subfprdy
+);
+
+inst_rom_constants : rom_constants PORT MAP (
+i_clock => CalculatePixOsCPSP_clock,
+i_reset => CalculatePixOsCPSP_reset,
+i_kvptat_en => '0',
+i_kvptat_adr => (others => '0'),
+i_alphaptat_en => '0',
+i_alphaptat_adr => (others => '0'),
+i_signed4bit_en => '0',
+i_signed4bit_adr => (others => '0'),
+i_signed6bit_en => CalculatePixOsCPSP_signed6bit_ena,
+i_signed6bit_adr => CalculatePixOsCPSP_signed6bit_adr,
+i_alphascale_1_en => '0',
+i_alphascale_1_adr => (others => '0'),
+i_2powx_4bit_en => CalculatePixOsCPSP_2powx_4bit_ena,
+i_2powx_4bit_adr => CalculatePixOsCPSP_2powx_4bit_adr,
+i_cpratio_en => '0',
+i_cpratio_adr => (others => '0'),
+i_alphascale_2_en => '0',
+i_alphascale_2_adr => (others => '0'),
+i_2powx_p8_4bit_en => CalculatePixOsCPSP_2powx_p8_4bit_ena,
+i_2powx_p8_4bit_adr => CalculatePixOsCPSP_2powx_p8_4bit_adr,
+i_signed3bit_en => '0',
+i_signed3bit_adr => (others => '0'),
+o_float => CalculatePixOsCPSP_rom_constants_float
 );
 
 END ARCHITECTURE behavior;

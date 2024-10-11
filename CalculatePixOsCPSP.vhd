@@ -56,6 +56,14 @@ o_pixoscpsp1 : out std_logic_vector (31 downto 0);
 
 o_rdy : out std_logic;
 
+signal o_signed6bit_ena : out std_logic;
+signal o_signed6bit_adr : out std_logic_vector (5 downto 0);
+signal o_2powx_p8_4bit_ena : out std_logic;
+signal o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
+signal o_2powx_4bit_ena : out std_logic;
+signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
+
 signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -130,9 +138,8 @@ signal mem_signed256_ovalue : std_logic_vector (31 downto 0);
 
 signal rdy : std_logic;
 
-signal nibble1 : std_logic_vector (5 downto 0);
 signal nibble2,nibble3 : std_logic_vector (3 downto 0);
-signal out_nibble1,out_nibble2,out_nibble3 : std_logic_vector (31 downto 0);
+signal out_nibble2,out_nibble3 : std_logic_vector (31 downto 0);
 
 signal i2c_mem_ena_internal : STD_LOGIC;
 signal i2c_mem_addra_internal : STD_LOGIC_VECTOR(11 DOWNTO 0);
@@ -225,15 +232,15 @@ i2c_mem_douta_internal <= i2c_mem_douta;
 o_rdy <= rdy;
 
 p0 : process (i_clock) is
-	type states is (idle,s0,s1b,s1c,s1d,
-	s2,s3a,s4,s6,s7,s8,s9,s10,
+	type states is (idle,s0,s1a,s1b,s1c,s1d,
+	s1e,s1f,s2,s4,s6,s7,s8,s9,s10,
 	s12,s13,s14,s16,s17,s18,s19,s20,
 	s21,s22,s24,s25,s26,s27,s28,s29,s30,
 	s31,s32,s34,s35,s36,s37,s38,s40,
 	s41,s42,s43,s44,s45,s46,s47,s48,s50,
 	s51,s52,s53,s54,s55,s56,s58,s59,
 	s61,s63,s64,s64a,s64b,s65,s67,
-	s71,d58,d59,d59a,d62a,
+	s71,d58,d59,d59a,d62c,
   d63,d64,d64a,d64b,d65,d67,
 	d71);
   variable state : states;
@@ -271,7 +278,6 @@ begin
 			fixed2floatce_internal <= '0';
 			mem_signed1024_ivalue <= (others => '0');
 			mem_signed256_ivalue <= (others => '0');
-			nibble1 <= (others => '0');
 			nibble2 <= (others => '0');
 			nibble3 <= (others => '0');
 			i2c_mem_ena_internal <= '0';
@@ -295,28 +301,37 @@ begin
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
 					fixed2floatsclr_internal <= '0';
-				when s0 => state := s1b;
+				when s0 => state := s1a;
           i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+1, 12)); -- ee2438 LSB - ktascale1
-        when s1b => state := s1c;
+        when s1a => state := s1b;
           i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+0, 12)); -- ee2438 MSB - kvscale
+        when s1b => state := s1c;
+          o_2powx_p8_4bit_ena <= '1';
+          o_2powx_p8_4bit_adr <= i2c_mem_douta_internal (7 downto 4); -- ee2438 00f0 - ktascale1
         when s1c => state := s1d;
           i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
-          nibble2 <= i2c_mem_douta_internal (7 downto 4); -- ee2438 00f0 - ktascale1
-        when s1d => state := s2;
-          nibble3 <= i2c_mem_douta_internal (3 downto 0); -- ee2438 0f00 - kvscale
-        when s2 => state := s3a;
+        when s1d => state := s1e;
+          out_nibble2 <= i_rom_constants_float; -- ktascale
+          o_2powx_p8_4bit_ena <= '0';
+          o_2powx_4bit_ena <= '1';
+          o_2powx_4bit_adr <= i2c_mem_douta_internal (3 downto 0); -- ee2438 0f00 - kvscale
+        when s1e => state := s1f;
           mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
-        when s3a =>
+        when s1f => state := s2;
+          out_nibble3 <= i_rom_constants_float; -- kvscale
+          o_2powx_4bit_ena <= '0';
+        when s2 =>
 					divfpce_internal <= '1';
 					divfpa_internal <= mem_signed256_ovalue; -- kvcpee
 					divfpb_internal <= out_nibble3; -- 2^kvscale;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s4;
+            o_2powx_4bit_ena <= '0';
             --report "kvcp 1 " & real'image(ap_slv2fp(divfpr_internal));
 						divfpce_internal <= '0';
 						divfpond_internal <= '0';
 						divfpsclr_internal <= '1';
-					else state := s3a; end if;
+					else state := s2; end if;
         when s4 =>
           divfpsclr_internal <= '0';
           mulfpce_internal <= '1';
@@ -871,7 +886,8 @@ begin
           subfpa_internal <= mulfpr_internal;
           subfpb_internal <= subfpr_internal;
           subfpond_internal <= '1';
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
+--          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (58*2+1, 12)); -- ee243a LSB - ram
           if (subfprdy_internal = '1') then state := d58;
             --synthesis translate_off
             warning_neq_fp(subfpr_internal,0.0,"o_pixoscpsp0");
@@ -880,29 +896,30 @@ begin
             subfpce_internal <= '0';
             subfpond_internal <= '0';
             subfpsclr_internal <= '1';
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (58*2+0, 12)); -- ee243a MSB - ram
           else state := s71; end if;
         -- XXX second calc
         when d58 => state := d59;
-          subfpsclr_internal <= '0';
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (58*2+1, 12)); -- ee243a LSB - ram
-        when d59 => state := d59a;
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (58*2+0, 12)); -- ee243a MSB - ram
-        when d59a => state := d62a;
           ram (7 downto 0) := i2c_mem_douta_internal;
-        when d62a =>
+          subfpsclr_internal <= '0';
+        when d59 => state := d59a;
+          o_signed6bit_ena <= '1';
+          o_signed6bit_adr <= i2c_mem_douta_internal (7 downto 2); -- ee243a 0xfc00 - 6bit - offcpsubpage1delta
+        when d59a => state := d62c;
           mem_signed1024_ivalue <= i2c_mem_douta_internal (1 downto 0) & ram; -- ee243a 0x03ff - 10bit - ram
-          nibble1 <= i2c_mem_douta_internal (7 downto 2); -- ee243a 0xfc00 - 6bit - offcpsubpage1delta
+        when d62c =>
           addfpce_internal <= '1';
           addfpa_internal <= mem_signed1024_ovalue; -- ram
-          addfpb_internal <= out_nibble1; -- offcpsubpage1delta
+          addfpb_internal <= i_rom_constants_float; -- offcpsubpage1delta
           addfpond_internal <= '1';
           if (addfprdy_internal = '1') then state := d63; -- offcpsubpage1
+            o_signed6bit_ena <= '0';
             --warning_neq_fp(addfpr_internal,0.0,"offcpsubpage1 second");
             --warning_neq_fp(mem_signed1024_ovalue,0.0,"ram mem second"); -- XXX OK
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-          else state := d62a; end if;
+          else state := d62c; end if;
         when d63 =>
           addfpsclr_internal <= '0';
           mulfpce_internal <= '1';
@@ -1004,33 +1021,22 @@ i_value => mem_signed1024_ivalue,
 o_value => mem_signed1024_ovalue
 );
 
-with nibble1 select out_nibble1 <= -- >31,-64 - offsetSP1 floatSP
-x"40e00000" when "000111",x"40c00000" when "000110",x"40a00000" when "000101",x"40800000" when "000100",x"40400000" when "000011",x"40000000" when "000010",x"3f800000" when "000001",x"22000000" when "000000",
-x"41700000" when "001111",x"41600000" when "001110",x"41500000" when "001101",x"41400000" when "001100",x"41300000" when "001011",x"41200000" when "001010",x"41100000" when "001001",x"41000000" when "001000",
-x"41b80000" when "010111",x"41b00000" when "010110",x"41a80000" when "010101",x"41a00000" when "010100",x"41980000" when "010011",x"41900000" when "010010",x"41880000" when "010001",x"41800000" when "010000",
-x"41f80000" when "011111",x"41f00000" when "011110",x"41e80000" when "011101",x"41e00000" when "011100",x"41d80000" when "011011",x"41d00000" when "011010",x"41c80000" when "011001",x"41c00000" when "011000",
-x"c1c80000" when "100111",x"c1d00000" when "100110",x"c1d80000" when "100101",x"c1e00000" when "100100",x"c1e80000" when "100011",x"c1f00000" when "100010",x"c1f80000" when "100001",x"c2000000" when "100000",
-x"c1880000" when "101111",x"c1900000" when "101110",x"c1980000" when "101101",x"c1a00000" when "101100",x"c1a80000" when "101011",x"c1b00000" when "101010",x"c1b80000" when "101001",x"c1c00000" when "101000",
-x"c1100000" when "110111",x"c1200000" when "110110",x"c1300000" when "110101",x"c1400000" when "110100",x"c1500000" when "110011",x"c1600000" when "110010",x"c1700000" when "110001",x"c1800000" when "110000",
-x"bf800000" when "111111",x"c0000000" when "111110",x"c0400000" when "111101",x"c0800000" when "111100",x"c0a00000" when "111011",x"c0c00000" when "111010",x"c0e00000" when "111001",x"c1000000" when "111000",
-x"00000000" when others;
+----INIT_01 => X"4b000000 4a800000 4a000000 49800000 49000000 48800000 48000000 47800000",
+----INIT_00 => X"47000000 46800000 46000000 45800000 45000000 44800000 44000000 43800000",
+--with nibble2 select out_nibble2 <= -- 2^(x+8) - ktascale1
+--x"43800000" when x"0", x"44000000" when x"1", x"44800000" when x"2", x"45000000" when x"3",
+--x"45800000" when x"4", x"46000000" when x"5", x"46800000" when x"6", x"47000000" when x"7",
+--x"47800000" when x"8", x"48000000" when x"9", x"48800000" when x"a", x"49000000" when x"b",
+--x"49800000" when x"c", x"4a000000" when x"d", x"4a800000" when x"e", x"4b000000" when x"f",
+--x"00000000" when others;
 
---INIT_01 => X"4b000000 4a800000 4a000000 49800000 49000000 48800000 48000000 47800000",
---INIT_00 => X"47000000 46800000 46000000 45800000 45000000 44800000 44000000 43800000",
-with nibble2 select out_nibble2 <= -- 2^(x+8) - ktascale1
-x"43800000" when x"0", x"44000000" when x"1", x"44800000" when x"2", x"45000000" when x"3",
-x"45800000" when x"4", x"46000000" when x"5", x"46800000" when x"6", x"47000000" when x"7",
-x"47800000" when x"8", x"48000000" when x"9", x"48800000" when x"a", x"49000000" when x"b",
-x"49800000" when x"c", x"4a000000" when x"d", x"4a800000" when x"e", x"4b000000" when x"f",
-x"00000000" when others;
-
---INIT_01 => X"47000000 46800000 46000000 45800000 45000000 44800000 44000000 43800000",
---INIT_00 => X"43000000 42800000 42000000 41800000 41000000 40800000 40000000 3f800000",
-with nibble3 select out_nibble3 <= -- 2^x - kvscale
-x"3f800000" when x"0", x"40000000" when x"1", x"40800000" when x"2", x"41000000" when x"3",
-x"41800000" when x"4", x"42000000" when x"5", x"42800000" when x"6", x"43000000" when x"7",
-x"43800000" when x"8", x"44000000" when x"9", x"44800000" when x"a", x"45000000" when x"b",
-x"45800000" when x"c", x"46000000" when x"d", x"46800000" when x"e", x"47000000" when x"f",
-x"00000000" when others;
+----INIT_01 => X"47000000 46800000 46000000 45800000 45000000 44800000 44000000 43800000",
+----INIT_00 => X"43000000 42800000 42000000 41800000 41000000 40800000 40000000 3f800000",
+--with nibble3 select out_nibble3 <= -- 2^x - kvscale
+--x"3f800000" when x"0", x"40000000" when x"1", x"40800000" when x"2", x"41000000" when x"3",
+--x"41800000" when x"4", x"42000000" when x"5", x"42800000" when x"6", x"43000000" when x"7",
+--x"43800000" when x"8", x"44000000" when x"9", x"44800000" when x"a", x"45000000" when x"b",
+--x"45800000" when x"c", x"46000000" when x"d", x"46800000" when x"e", x"47000000" when x"f",
+--x"00000000" when others;
 
 end architecture Behavioral;

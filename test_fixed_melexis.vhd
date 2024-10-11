@@ -719,6 +719,13 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_pixoscpsp0 : out std_logic_vector (31 downto 0);
 o_pixoscpsp1 : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic;
+signal o_signed6bit_ena : out std_logic;
+signal o_signed6bit_adr : out std_logic_vector (5 downto 0);
+signal o_2powx_p8_4bit_ena : out std_logic;
+signal o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
+signal o_2powx_4bit_ena : out std_logic;
+signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -770,6 +777,13 @@ signal CalculatePixOsCPSP_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal CalculatePixOsCPSP_pixoscpsp0 : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_pixoscpsp1 : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_rdy : std_logic;
+signal CalculatePixOsCPSP_signed6bit_ena : std_logic;
+signal CalculatePixOsCPSP_signed6bit_adr : std_logic_vector (5 downto 0);
+signal CalculatePixOsCPSP_2powx_p8_4bit_ena : std_logic;
+signal CalculatePixOsCPSP_2powx_p8_4bit_adr : std_logic_vector (3 downto 0);
+signal CalculatePixOsCPSP_2powx_4bit_ena : std_logic;
+signal CalculatePixOsCPSP_2powx_4bit_adr : std_logic_vector (3 downto 0);
+signal CalculatePixOsCPSP_rom_constants_float : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal CalculatePixOsCPSP_fixed2floatond : STD_LOGIC;
 signal CalculatePixOsCPSP_fixed2floatsclr : STD_LOGIC;
@@ -1715,10 +1729,12 @@ CalculateTo_i2c_mem_douta <= i2c_mem_douta when CalculateTo_mux = '1' else (othe
 
 rom_constants_2powx_4bit_en <=
 CalculatePixOS_2powx_4bit_ena when CalculatePixOS_mux = '1' else
+CalculatePixOSCPSP_2powx_4bit_ena when CalculatePixOSCPSP_mux = '1' else
 ExtractAlphaParameters_2powx_4bit_ena when ExtractAlphaParameters_mux = '1' else
 '0';
 rom_constants_2powx_4bit_adr <=
 CalculatePixOS_2powx_4bit_adr when CalculatePixOS_mux = '1' else
+CalculatePixOSCPSP_2powx_4bit_adr when CalculatePixOSCPSP_mux = '1' else
 ExtractAlphaParameters_2powx_4bit_adr when ExtractAlphaParameters_mux = '1' else
 (others => '0');
 
@@ -1733,10 +1749,12 @@ ExtractAlphaParameters_signed4bit_adr when ExtractAlphaParameters_mux = '1' else
 
 rom_constants_signed6bit_en <=
 CalculatePixOS_signed6bit_ena when CalculatePixOS_mux = '1' else
+CalculatePixOSCPSP_signed6bit_ena when CalculatePixOSCPSP_mux = '1' else
 ExtractAlphaParameters_signed6bit_ena when ExtractAlphaParameters_mux = '1' else
 '0';
 rom_constants_signed6bit_adr <=
 CalculatePixOS_signed6bit_adr when CalculatePixOS_mux = '1' else
+CalculatePixOSCPSP_signed6bit_adr when CalculatePixOSCPSP_mux = '1' else
 ExtractAlphaParameters_signed6bit_adr when ExtractAlphaParameters_mux = '1' else
 (others => '0');
 
@@ -1747,7 +1765,17 @@ rom_constants_alphascale_1_adr <=
 ExtractAlphaParameters_alphascale_1_adr when ExtractAlphaParameters_mux = '1' else
 (others => '0');
 
+rom_constants_2powx_p8_4bit_en <=
+CalculatePixOS_2powx_p8_4bit_ena when CalculatePixOS_mux = '1' else
+CalculatePixOSCPSP_2powx_p8_4bit_ena when CalculatePixOSCPSP_mux = '1' else
+'0';
+rom_constants_2powx_p8_4bit_adr <=
+CalculatePixOS_2powx_p8_4bit_adr when CalculatePixOS_mux = '1' else
+CalculatePixOSCPSP_2powx_p8_4bit_adr when CalculatePixOSCPSP_mux = '1' else
+(others => '0');
+
 CalculatePixOS_rom_constants_float <= rom_constants_float;
+CalculatePixOSCPSP_rom_constants_float <= rom_constants_float;
 ExtractAlphaParameters_rom_constants_float <= rom_constants_float;
 
 	-- purpose: main test loop
@@ -2179,8 +2207,6 @@ CalculatePixOS_Ta0 <= x"41C80000"; -- 25
 CalculatePixOS_Vdd <= CalculateVdd_Vdd; -- xxx
 CalculatePixOS_VddV0 <= x"40533333"; -- 3.3
 CalculatePixOS_KGain <= CalculateKGain_KGain;
-rom_constants_2powx_p8_4bit_en <= CalculatePixOS_2powx_p8_4bit_ena;
-rom_constants_2powx_p8_4bit_adr <= CalculatePixOS_2powx_p8_4bit_adr;
 rom_constants_signed3bit_en <= CalculatePixOS_signed3bit_ena;
 rom_constants_signed3bit_adr <= CalculatePixOS_signed3bit_adr;
 CalculatePixOS_rom_constants_float <= rom_constants_float;
@@ -2271,6 +2297,14 @@ i2c_mem_douta => CalculatePixOsCPSP_i2c_mem_douta,
 o_pixoscpsp0 => CalculatePixOsCPSP_pixoscpsp0,
 o_pixoscpsp1 => CalculatePixOsCPSP_pixoscpsp1,
 o_rdy => CalculatePixOsCPSP_rdy,
+
+o_signed6bit_ena => CalculatePixOsCPSP_signed6bit_ena,
+o_signed6bit_adr => CalculatePixOsCPSP_signed6bit_adr,
+o_2powx_p8_4bit_ena => CalculatePixOsCPSP_2powx_p8_4bit_ena,
+o_2powx_p8_4bit_adr => CalculatePixOsCPSP_2powx_p8_4bit_adr,
+o_2powx_4bit_ena => CalculatePixOsCPSP_2powx_4bit_ena,
+o_2powx_4bit_adr => CalculatePixOsCPSP_2powx_4bit_adr,
+i_rom_constants_float => CalculatePixOsCPSP_rom_constants_float,
 
 fixed2floata => CalculatePixOSCPSP_fixed2floata,
 fixed2floatond => CalculatePixOSCPSP_fixed2floatond,

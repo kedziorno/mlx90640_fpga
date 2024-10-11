@@ -273,24 +273,6 @@ o_do <= doa when rdy = '1' else (others => '0');
 mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0');
 mux_dia <= dia when rdy = '0' else (others => '0');
 
-----INIT_01 => X"47000000 46800000 46000000 45800000 45000000 44800000 44000000 43800000",
-----INIT_00 => X"43000000 42800000 42000000 41800000 41000000 40800000 40000000 3f800000",
---with nibble1 select out_nibble1 <= -- 2^x unsigned 0-15 - kvscale
---x"3f800000" when x"0", x"40000000" when x"1", x"40800000" when x"2", x"41000000" when x"3",
---x"41800000" when x"4", x"42000000" when x"5", x"42800000" when x"6", x"43000000" when x"7",
---x"43800000" when x"8", x"44000000" when x"9", x"44800000" when x"a", x"45000000" when x"b",
---x"45800000" when x"c", x"46000000" when x"d", x"46800000" when x"e", x"47000000" when x"f",
---x"00000000" when others;
---
-----INIT_01 => X"bf800000 c0000000 c0400000 c0800000 c0a00000 c0c00000 c0e00000 c1000000",
-----INIT_00 => X"40e00000 40c00000 40a00000 40800000 40400000 40000000 3f800000 00000000",
---with nibble2 select out_nibble2 <= -- x signed 0-15 - kv(i,j)
---x"00000000" when x"0", x"3f800000" when x"1", x"40000000" when x"2", x"40400000" when x"3",
---x"40800000" when x"4", x"40a00000" when x"5", x"40c00000" when x"6", x"40e00000" when x"7",
---x"c1000000" when x"8", x"c0e00000" when x"9", x"c0c00000" when x"a", x"c0a00000" when x"b",
---x"c0800000" when x"c", x"c0400000" when x"d", x"c0000000" when x"e", x"bf800000" when x"f",
---x"00000000" when others;
-
 cole <= '1' when (col mod 2) = 0 else '0' when (col mod 2) = 1 else '0'; -- column even
 rowe <= '1' when (row mod 2) = 0 else '0' when (row mod 2) = 1 else '0'; -- row even
 
