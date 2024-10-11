@@ -470,6 +470,11 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_acpsubpage0 : out std_logic_vector (31 downto 0);
 o_acpsubpage1 : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic;
+signal o_cpratio_ena : out std_logic;
+signal o_cpratio_adr : out std_logic_vector (5 downto 0);
+signal o_alphascale_2_ena : out std_logic;
+signal o_alphascale_2_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpond : out STD_LOGIC;
@@ -495,6 +500,11 @@ signal CalculateAlphaCP_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal CalculateAlphaCP_acpsubpage0 : std_logic_vector (31 downto 0);
 signal CalculateAlphaCP_acpsubpage1 : std_logic_vector (31 downto 0);
 signal CalculateAlphaCP_rdy : std_logic;
+signal CalculateAlphaCP_cpratio_ena : std_logic;
+signal CalculateAlphaCP_cpratio_adr : std_logic_vector (5 downto 0);
+signal CalculateAlphaCP_alphascale_2_ena : std_logic;
+signal CalculateAlphaCP_alphascale_2_adr : std_logic_vector (3 downto 0);
+signal CalculateAlphaCP_rom_constants_float : std_logic_vector (31 downto 0);
 signal CalculateAlphaCP_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaCP_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaCP_divfpond : STD_LOGIC;
@@ -2121,6 +2131,11 @@ divfprdy => ExtractAlphaParameters_divfprdy
 
 CalculateAlphaCP_clock <= i_clock;
 CalculateAlphaCP_reset <= i_reset;
+rom_constants_cpratio_en <= CalculateAlphaCP_cpratio_ena;
+rom_constants_cpratio_adr <= CalculateAlphaCP_cpratio_adr;
+rom_constants_alphascale_2_en <= CalculateAlphaCP_alphascale_2_ena;
+rom_constants_alphascale_2_adr <= CalculateAlphaCP_alphascale_2_adr;
+CalculateAlphaCP_rom_constants_float <= rom_constants_float;
 inst_CalculateAlphaCP : CalculateAlphaCP
 port map (
 i_clock => CalculateAlphaCP_clock,
@@ -2132,6 +2147,12 @@ i2c_mem_douta => CalculateAlphaCP_i2c_mem_douta,
 o_acpsubpage0 => CalculateAlphaCP_acpsubpage0,
 o_acpsubpage1 => CalculateAlphaCP_acpsubpage1,
 o_rdy => CalculateAlphaCP_rdy,
+
+o_cpratio_ena => CalculateAlphaCP_cpratio_ena,
+o_cpratio_adr => CalculateAlphaCP_cpratio_adr,
+o_alphascale_2_ena => CalculateAlphaCP_alphascale_2_ena,
+o_alphascale_2_adr => CalculateAlphaCP_alphascale_2_adr,
+i_rom_constants_float => CalculateAlphaCP_rom_constants_float,
 
 divfpa => CalculateAlphaCP_divfpa,
 divfpb => CalculateAlphaCP_divfpb,
