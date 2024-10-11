@@ -50,6 +50,16 @@ i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 o_done : out std_logic;
 o_rdy : out std_logic;
 
+signal o_signed4bit_ena : out std_logic;
+signal o_signed4bit_adr : out std_logic_vector (3 downto 0);
+signal o_signed6bit_ena : out std_logic;
+signal o_signed6bit_adr : out std_logic_vector (5 downto 0);
+signal o_alphascale_1_ena : out std_logic;
+signal o_alphascale_1_adr : out std_logic_vector (3 downto 0);
+signal o_2powx_4bit_ena : out std_logic;
+signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
+
 signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -253,10 +263,7 @@ signal addra,mux_addr : std_logic_vector (9 downto 0);
 signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
 
 
--- xxx nibbles must out in next clock cycle
-signal nibble2,nibble5,nibble4 : std_logic_vector (3 downto 0);
-signal nibble3 : std_logic_vector (5 downto 0);
-signal out_nibble2,out_nibble3,out_nibble4,out_nibble5 : std_logic_vector (31 downto 0);
+signal out_nibble3 : std_logic_vector (31 downto 0);
 
 signal write_enable : std_logic;
 
@@ -336,8 +343,8 @@ mux_dia <= dia when rdy = '0' else (others => '0');
 
 p0 : process (i_clock) is
 	type states is (idle,
-	acc15,acc16,acc17,acc18,acc18a,acc18b,acc19,
-	acc20,acc21,acc22,
+	acc15,acc16,acc17,acc18,acc19,
+	acc20,acc21,acc22,acc23,
   pow3,
 	s0,s1,s2,s3,s4,s7,s8,s11,s13,s14,s16,s17,s19,s20,s22,s25);
 	variable state : states;
@@ -351,14 +358,12 @@ p0 : process (i_clock) is
   variable m : integer range 0 to 31 := 0;
   variable n : integer range 0 to 55 := 0;
   variable j : integer range 0 to 13 := 0;
+  
+  variable tmp1 : std_logic_vector (3 downto 0);
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
 			state := idle;
-			nibble2 <= (others => '0');
-			nibble3 <= (others => '0');
-			nibble4 <= (others => '0');
-			nibble5 <= (others => '0');
 			write_enable <= '0';
 			rdy <= '0';
 			addfpsclr_internal <= '1';
@@ -392,50 +397,51 @@ begin
 					if (i_run = '1') then
 						state := acc15;
 						i2c_mem_ena <= '1';
-						write_enable <= '1';
             i := 2;
             j := 0;
 					else
 						state := idle;
 						i2c_mem_ena <= '0';
-						write_enable <= '0';
 					end if;
 					addfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
 					fixed2floatsclr_internal <= '0';
-				
-        -- XXX disabled, image is similar (occ loop disabled - ExtractOffsetParameters) (check syn report)
+          write_enable <= '0';
+
         when acc15 => state := acc16;
           m := 2*i;
-          i2c_mem_addra <= std_logic_vector (to_unsigned (32*2+m+1, 12)); -- 2422 MSB -- accrow
-        when acc16 => state := acc17;
---          i2c_mem_addra <= std_logic_vector (to_unsigned (32*2+m+1, 12)); -- 2422 MSB -- accrow - empty state
-        when acc17 => state := acc18;
-          nibble2 <= i2c_mem_douta (3 downto 0); -- accrowA
-        when acc18 => state := acc18a;
           n := j*4;
-          dia <= out_nibble2;
-          addra <= std_logic_vector (to_unsigned (n+0, 10));
-          nibble2 <= i2c_mem_douta (7 downto 4); -- accrowB
---          write_enable <= '1';
-        when acc18a => state := acc18b;
-          i2c_mem_addra <= std_logic_vector (to_unsigned (32*2+m+0, 12)); -- 2422 LSB -- accrow
-        when acc18b => state := acc19;
---          i2c_mem_addra <= std_logic_vector (to_unsigned (32*2+m+0, 12)); -- 2422 LSB -- accrow - empty state
+          i2c_mem_ena <= '1';
+          o_signed4bit_ena <= '1';
+          write_enable <= '1';
+          i2c_mem_addra <= std_logic_vector (to_unsigned (32*2+m+1, 12)); -- 2422 MSB -- accrow B,A
+        when acc16 => state := acc17;
+          i2c_mem_addra <= std_logic_vector (to_unsigned (32*2+m+0, 12)); -- 2422 LSB -- accrow D,C
+        when acc17 => state := acc18;
+          i2c_mem_ena <= '0';
+          o_signed4bit_adr <= i2c_mem_douta (3 downto 0); -- accrowA
+          tmp1 := i2c_mem_douta (7 downto 4); -- accrowB
+        when acc18 => state := acc19;
+          o_signed4bit_adr <= tmp1; -- accrowB
+          tmp1 := i2c_mem_douta (3 downto 0); -- accrowC
         when acc19 => state := acc20;
-          dia <= out_nibble2;
-          addra <= std_logic_vector (to_unsigned (n+1, 10));
-          nibble2 <= i2c_mem_douta (3 downto 0); -- accrowC
+          o_signed4bit_adr <= tmp1; -- accrowC
+          dia <= i_rom_constants_float; -- out accrowA
+          addra <= std_logic_vector (to_unsigned (n+0, 10));
         when acc20 => state := acc21;
-          dia <= out_nibble2;
-          addra <= std_logic_vector (to_unsigned (n+2, 10));
-          nibble2 <= i2c_mem_douta (7 downto 4); -- accrowD
+          o_signed4bit_adr <= i2c_mem_douta (7 downto 4); -- accrowD
+          dia <= i_rom_constants_float; -- out accrowB
+          addra <= std_logic_vector (to_unsigned (n+1, 10));
         when acc21 => state := acc22;
-          dia <= out_nibble2;
+          dia <= i_rom_constants_float; -- out accrowC
+          addra <= std_logic_vector (to_unsigned (n+2, 10));
+        when acc22 => state := acc23;
+          dia <= i_rom_constants_float; -- out accrowD
           addra <= std_logic_vector (to_unsigned (n+3, 10));
-        when acc22 =>
---          write_enable <= '0';
+        when acc23 =>
+          o_signed4bit_ena <= '0';
+          write_enable <= '0';
           if j = 13 then
             j := 0;
             i := 0;
@@ -450,7 +456,6 @@ begin
           row := 0;
           col := 0;
           i := 0;
-          write_enable <= '0';
        when s0 => state := s1; 	--1
           addfpsclr_internal <= '0';
           mulfpsclr_internal <= '0';
@@ -465,13 +470,14 @@ begin
           vAlphaPixel := i2c_mem_douta (1 downto 0); -- offset LSB 0
         when s3 => state := s4; 	--3
           i2c_mem_addra <= std_logic_vector (to_unsigned (32*2+3, 12)); -- 2421 MSB
-          nibble3 <= vAlphaPixel & i2c_mem_douta (7 downto 4);  -- offset MSB 1
+          o_signed6bit_ena <= '1';
+          o_signed6bit_adr <= vAlphaPixel & i2c_mem_douta (7 downto 4);  -- offset MSB 1
           --report_error("alphaPixel", vAlphaPixel, 0.0);
         when s4 => state := s7;
           valphaRef := i2c_mem_douta; -- alpharef LSB
           addra <= (others => '0');
         when s7 =>
-          i2c_mem_ena <= '0';
+          out_nibble3 <= i_rom_constants_float;
           i2c_mem_addra <= (others => '0');
           fixed2floatce_internal <= '1';
           fixed2floatond_internal <= '1';
@@ -487,21 +493,21 @@ begin
           valphaRef (7) & valphaRef (7) & 
           valphaRef (7) & valphaRef (7 downto 0) & i2c_mem_douta & "00000000000000000000000000000"; -- alpharef MSB
           i2c_mem_addra <= std_logic_vector (to_unsigned (32*2+1, 12)); -- 2420 LSB
-          i2c_mem_ena <= '1';
+          o_signed6bit_ena <= '0';
           if (fixed2floatrdy_internal = '1') then state := s8;
 						--report_error("alphaReference", fixed2floatr_internal, 0.0);
 						fixed2floatce_internal <= '0';
 						fixed2floatond_internal <= '0';
 						fixed2floatsclr_internal <= '1';
             addra <= std_logic_vector (to_unsigned (col+C_ROW, 10)); -- accColumnJ
-          nibble4 <= i2c_mem_douta (7 downto 4); -- acc scale column for 2^x
-          i2c_mem_ena <= '0';
+            o_2powx_4bit_ena <= '1';
+            o_2powx_4bit_adr <= i2c_mem_douta (7 downto 4); -- acc scale column for 2^x
 					else state := s7; end if;
         when s8 => 			--8
           fixed2floatsclr_internal <= '0';
           mulfpce_internal <= '1';
           mulfpa_internal <= doa; -- vaccColumnJ
-          mulfpb_internal <= out_nibble4; --vaccColumnScale;
+          mulfpb_internal <= i_rom_constants_float; --vaccColumnScale;
           mulfpond_internal <= '1';
           --report_error("accColumnJ", doa, 0.0);
           --report_error("accColumnScale", vaccColumnScale, 0.0);
@@ -516,7 +522,6 @@ begin
           else state := s8; end if;
         when s11 => -- XXX empty calculate/state for rm vaccColumnJ reg
           i2c_mem_addra <= std_logic_vector (to_unsigned (32*2+1, 12)); -- 2420 LSB
-          i2c_mem_ena <= '1';
           mulfpsclr_internal <= '0';
           addfpce_internal <= '1';
           addfpa_internal <= mulfpr_internal; -- vaccColumnJ
@@ -526,14 +531,13 @@ begin
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            i2c_mem_ena <= '0';
-					nibble4 <= i2c_mem_douta (3 downto 0); -- acc scale remnant for 2^x
+            o_2powx_4bit_adr <= i2c_mem_douta (3 downto 0); -- acc scale remnant for 2^x
           else state := s11; end if;
         when s13 =>
           addfpsclr_internal <= '0';
           mulfpce_internal <= '1';
           mulfpa_internal <= out_nibble3;
-          mulfpb_internal <= out_nibble4; -- 2^accscaleremnant vaccRemScale;
+          mulfpb_internal <= i_rom_constants_float; -- 2^accscaleremnant vaccRemScale;
           mulfpond_internal <= '1';
           --report_error("AlphaPixel", out_nibble3, 0.0);
           --report_error("accRemScale", vaccRemScale, 0.0);
@@ -555,7 +559,6 @@ begin
           --report_error("accColumnJ", vaccColumnJ, 0.0);
           addra <= std_logic_vector (to_unsigned (row, 10)); -- accrowI
           i2c_mem_addra <= std_logic_vector (to_unsigned (32*2+0, 12)); -- 2420 LSB
-          i2c_mem_ena <= '1';
           if (addfprdy_internal = '1') then state := s16;
             --report_error ("addfpa 1 : ",   addfpa_internal,0.0);
             --report_error ("addfpb 1 : ",   addfpb_internal,0.0);
@@ -563,14 +566,13 @@ begin
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            nibble4 <= i2c_mem_douta (3 downto 0); -- acc scale row for 2^x
-            i2c_mem_ena <= '0';
+            o_2powx_4bit_adr <= i2c_mem_douta (3 downto 0); -- acc scale row for 2^x
           else state := s14; end if;
         when s16 =>
           addfpsclr_internal <= '0';
           mulfpce_internal <= '1';
           mulfpa_internal <= doa; -- vaccRowI
-          mulfpb_internal <= out_nibble4; -- 2^accscalerow vaccRowScale;
+          mulfpb_internal <= i_rom_constants_float; -- 2^accscalerow vaccRowScale;
           mulfpond_internal <= '1';
           --report_error("accRowI", doa, 0.0);
           --report_error("accRowScale", vaccRowScale, 0.0);
@@ -584,6 +586,7 @@ begin
             mulfpsclr_internal <= '1';
           else state := s16; end if;
         when s17 => 			--17
+          o_2powx_4bit_ena <= '0';
           mulfpsclr_internal <= '0';
           addfpce_internal <= '1';
           addfpa_internal <= addfpr_internal;
@@ -612,13 +615,15 @@ begin
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
+            o_alphascale_1_ena <= '1';
+            o_alphascale_1_adr <= i2c_mem_douta (7 downto 4); -- alpha scale
           else state := s20; end if;
         when s22 =>
-          nibble5 <= i2c_mem_douta (7 downto 4); -- alpha scale
           addfpsclr_internal <= '0';
           divfpce_internal <= '1';
           divfpa_internal <= addfpr_internal;
-          divfpb_internal <= out_nibble5;
+          divfpb_internal <= i_rom_constants_float;
+          o_alphascale_1_ena <= '0';
           divfpond_internal <= '1';
           --report_error("AlphaPixel", vAlphaPixel_ft, 0.0);
           --report_error("out_nibble5", out_nibble5, 0.0);
@@ -639,6 +644,7 @@ begin
         when s25 =>
           i := i + 1;
           write_enable <= '0';
+          i2c_mem_ena <= '0';
           if (col = C_COL-1) then
             col := 0;
             if (row = C_ROW-1) then
@@ -674,40 +680,41 @@ SSR => i_reset,
 WE => write_enable
 );
 
-with nibble2 select out_nibble2 <= -- >7,-16 - rows1-24,cols1-32 signed 4bit
-x"00000000" when x"0", x"3f800000" when x"1", x"40000000" when x"2", x"40400000" when x"3",
-x"40800000" when x"4", x"40a00000" when x"5", x"40c00000" when x"6", x"40e00000" when x"7",
-x"c1000000" when x"8", x"c0e00000" when x"9", x"c0c00000" when x"a", x"c0a00000" when x"b",
-x"c0800000" when x"c", x"c0400000" when x"d", x"c0000000" when x"e", x"bf800000" when x"f",
-x"00000000" when others;
+--with nibble2 select out_nibble2 <= -- >7,-16 - rows1-24,cols1-32 signed 4bit
+--x"00000000" when x"0", x"3f800000" when x"1", x"40000000" when x"2", x"40400000" when x"3",
+--x"40800000" when x"4", x"40a00000" when x"5", x"40c00000" when x"6", x"40e00000" when x"7",
+--x"c1000000" when x"8", x"c0e00000" when x"9", x"c0c00000" when x"a", x"c0a00000" when x"b",
+--x"c0800000" when x"c", x"c0400000" when x"d", x"c0000000" when x"e", x"bf800000" when x"f",
+--x"00000000" when others;
+--
+--with nibble3 select out_nibble3 <= -- >31,-64 - alphapixel raw
+--x"40e00000" when "000111",x"40c00000" when "000110",x"40a00000" when "000101",x"40800000" when "000100",x"40400000" when "000011",x"40000000" when "000010",x"3f800000" when "000001",x"00000000" when "000000",
+--x"41700000" when "001111",x"41600000" when "001110",x"41500000" when "001101",x"41400000" when "001100",x"41300000" when "001011",x"41200000" when "001010",x"41100000" when "001001",x"41000000" when "001000",
+--x"41b80000" when "010111",x"41b00000" when "010110",x"41a80000" when "010101",x"41a00000" when "010100",x"41980000" when "010011",x"41900000" when "010010",x"41880000" when "010001",x"41800000" when "010000",
+--x"41f80000" when "011111",x"41f00000" when "011110",x"41e80000" when "011101",x"41e00000" when "011100",x"41d80000" when "011011",x"41d00000" when "011010",x"41c80000" when "011001",x"41c00000" when "011000",
+--x"c1c80000" when "100111",x"c1d00000" when "100110",x"c1d80000" when "100101",x"c1e00000" when "100100",x"c1e80000" when "100011",x"c1f00000" when "100010",x"c1f80000" when "100001",x"c2000000" when "100000",
+--x"c1880000" when "101111",x"c1900000" when "101110",x"c1980000" when "101101",x"c1a00000" when "101100",x"c1a80000" when "101011",x"c1b00000" when "101010",x"c1b80000" when "101001",x"c1c00000" when "101000",
+--x"c1100000" when "110111",x"c1200000" when "110110",x"c1300000" when "110101",x"c1400000" when "110100",x"c1500000" when "110011",x"c1600000" when "110010",x"c1700000" when "110001",x"c1800000" when "110000",
+--x"bf800000" when "111111",x"c0000000" when "111110",x"c0400000" when "111101",x"c0800000" when "111100",x"c0a00000" when "111011",x"c0c00000" when "111010",x"c0e00000" when "111001",x"c1000000" when "111000",
+--x"00000000" when others;
+--
+----INIT_01 => X"56000000 55800000 55000000 54800000 54000000 53800000 53000000 52800000", -- unsigned 0-15 - 2^(x+30)
+----INIT_00 => X"52000000 51800000 51000000 50800000 50000000 4f800000 4f000000 4e800000", 
+--with nibble5 select out_nibble5 <= -- 2^(x+30) - 2^alphascale
+--x"4e800000" when x"0", x"4f000000" when x"1", x"4f800000" when x"2", x"50000000" when x"3",
+--x"50800000" when x"4", x"51000000" when x"5", x"51800000" when x"6", x"52000000" when x"7",
+--x"52800000" when x"8", x"53000000" when x"9", x"53800000" when x"a", x"54000000" when x"b",
+--x"54800000" when x"c", x"55000000" when x"d", x"55800000" when x"e", x"56000000" when x"f",
+--x"00000000" when others;
+--
+--
+----INIT_01 => X"47000000 46800000 46000000 45800000 45000000 44800000 44000000 43800000",
+----INIT_00 => X"43000000 42800000 42000000 41800000 41000000 40800000 40000000 3f800000",
+--with nibble4 select out_nibble4 <= -- 2^x unsigned 0-15
+--x"3f800000" when x"0", x"40000000" when x"1", x"40800000" when x"2", x"41000000" when x"3",
+--x"41800000" when x"4", x"42000000" when x"5", x"42800000" when x"6", x"43000000" when x"7",
+--x"43800000" when x"8", x"44000000" when x"9", x"44800000" when x"a", x"45000000" when x"b",
+--x"45800000" when x"c", x"46000000" when x"d", x"46800000" when x"e", x"47000000" when x"f",
+--x"00000000" when others;
 
-with nibble3 select out_nibble3 <= -- >31,-64 - alphapixel raw
-x"40e00000" when "000111",x"40c00000" when "000110",x"40a00000" when "000101",x"40800000" when "000100",x"40400000" when "000011",x"40000000" when "000010",x"3f800000" when "000001",x"00000000" when "000000",
-x"41700000" when "001111",x"41600000" when "001110",x"41500000" when "001101",x"41400000" when "001100",x"41300000" when "001011",x"41200000" when "001010",x"41100000" when "001001",x"41000000" when "001000",
-x"41b80000" when "010111",x"41b00000" when "010110",x"41a80000" when "010101",x"41a00000" when "010100",x"41980000" when "010011",x"41900000" when "010010",x"41880000" when "010001",x"41800000" when "010000",
-x"41f80000" when "011111",x"41f00000" when "011110",x"41e80000" when "011101",x"41e00000" when "011100",x"41d80000" when "011011",x"41d00000" when "011010",x"41c80000" when "011001",x"41c00000" when "011000",
-x"c1c80000" when "100111",x"c1d00000" when "100110",x"c1d80000" when "100101",x"c1e00000" when "100100",x"c1e80000" when "100011",x"c1f00000" when "100010",x"c1f80000" when "100001",x"c2000000" when "100000",
-x"c1880000" when "101111",x"c1900000" when "101110",x"c1980000" when "101101",x"c1a00000" when "101100",x"c1a80000" when "101011",x"c1b00000" when "101010",x"c1b80000" when "101001",x"c1c00000" when "101000",
-x"c1100000" when "110111",x"c1200000" when "110110",x"c1300000" when "110101",x"c1400000" when "110100",x"c1500000" when "110011",x"c1600000" when "110010",x"c1700000" when "110001",x"c1800000" when "110000",
-x"bf800000" when "111111",x"c0000000" when "111110",x"c0400000" when "111101",x"c0800000" when "111100",x"c0a00000" when "111011",x"c0c00000" when "111010",x"c0e00000" when "111001",x"c1000000" when "111000",
-x"00000000" when others;
-
---INIT_01 => X"56000000 55800000 55000000 54800000 54000000 53800000 53000000 52800000", -- unsigned 0-15 - 2^(x+30)
---INIT_00 => X"52000000 51800000 51000000 50800000 50000000 4f800000 4f000000 4e800000", 
-with nibble5 select out_nibble5 <= -- 2^(x+30) - 2^alphascale
-x"4e800000" when x"0", x"4f000000" when x"1", x"4f800000" when x"2", x"50000000" when x"3",
-x"50800000" when x"4", x"51000000" when x"5", x"51800000" when x"6", x"52000000" when x"7",
-x"52800000" when x"8", x"53000000" when x"9", x"53800000" when x"a", x"54000000" when x"b",
-x"54800000" when x"c", x"55000000" when x"d", x"55800000" when x"e", x"56000000" when x"f",
-x"00000000" when others;
-
---INIT_01 => X"47000000 46800000 46000000 45800000 45000000 44800000 44000000 43800000",
---INIT_00 => X"43000000 42800000 42000000 41800000 41000000 40800000 40000000 3f800000",
-with nibble4 select out_nibble4 <= -- 2^x unsigned 0-15
-x"3f800000" when x"0", x"40000000" when x"1", x"40800000" when x"2", x"41000000" when x"3",
-x"41800000" when x"4", x"42000000" when x"5", x"42800000" when x"6", x"43000000" when x"7",
-x"43800000" when x"8", x"44000000" when x"9", x"44800000" when x"a", x"45000000" when x"b",
-x"45800000" when x"c", x"46000000" when x"d", x"46800000" when x"e", x"47000000" when x"f",
-x"00000000" when others;
-
-end Behavioral;
+end architecture Behavioral;

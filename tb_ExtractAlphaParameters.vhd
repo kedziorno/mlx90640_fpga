@@ -146,6 +146,16 @@ i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 o_done : out std_logic;
 o_rdy : out std_logic;
 
+signal o_signed4bit_ena : out std_logic;
+signal o_signed4bit_adr : out std_logic_vector (3 downto 0);
+signal o_signed6bit_ena : out std_logic;
+signal o_signed6bit_adr : out std_logic_vector (5 downto 0);
+signal o_alphascale_1_ena : out std_logic;
+signal o_alphascale_1_adr : out std_logic_vector (3 downto 0);
+signal o_2powx_4bit_ena : out std_logic;
+signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
+
 signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -189,6 +199,15 @@ signal ExtractAlphaParameters_do : std_logic_vector (31 downto 0);
 signal ExtractAlphaParameters_addr : std_logic_vector (9 downto 0) := (others => '0'); -- 10bit-1024
 signal ExtractAlphaParameters_done : std_logic;
 signal ExtractAlphaParameters_rdy : std_logic;
+signal ExtractAlphaParameters_signed4bit_ena : std_logic;
+signal ExtractAlphaParameters_signed4bit_adr : std_logic_vector (3 downto 0);
+signal ExtractAlphaParameters_signed6bit_ena : std_logic;
+signal ExtractAlphaParameters_signed6bit_adr : std_logic_vector (5 downto 0);
+signal ExtractAlphaParameters_alphascale_1_ena : std_logic;
+signal ExtractAlphaParameters_alphascale_1_adr : std_logic_vector (3 downto 0);
+signal ExtractAlphaParameters_2powx_4bit_ena : std_logic;
+signal ExtractAlphaParameters_2powx_4bit_adr : std_logic_vector (3 downto 0);
+signal ExtractAlphaParameters_rom_constants_float : std_logic_vector (31 downto 0);
 signal ExtractAlphaParameters_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal ExtractAlphaParameters_fixed2floatond : STD_LOGIC;
 signal ExtractAlphaParameters_fixed2floatsclr : STD_LOGIC;
@@ -222,6 +241,34 @@ signal ExtractAlphaParameters_addfpclk : std_logic;
 signal ExtractAlphaParameters_mulfpclk : std_logic;
 signal ExtractAlphaParameters_divfpclk : std_logic;
 
+COMPONENT rom_constants
+PORT(
+i_clock : IN  std_logic;
+i_reset : IN  std_logic;
+i_kvptat_en : IN  std_logic;
+i_kvptat_adr : IN  std_logic_vector(5 downto 0);
+i_alphaptat_en : IN  std_logic;
+i_alphaptat_adr : IN  std_logic_vector(3 downto 0);
+i_signed4bit_en : IN  std_logic;
+i_signed4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed6bit_en : IN  std_logic;
+i_signed6bit_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_1_en : IN  std_logic;
+i_alphascale_1_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_4bit_en : IN  std_logic;
+i_2powx_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_cpratio_en : IN  std_logic;
+i_cpratio_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_2_en : IN  std_logic;
+i_alphascale_2_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_p8_4bit_en : IN  std_logic;
+i_2powx_p8_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed3bit_en : IN  std_logic;
+i_signed3bit_adr : IN  std_logic_vector(2 downto 0);
+o_float : OUT  std_logic_vector(31 downto 0)
+);
+END COMPONENT;
+
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
 
@@ -254,6 +301,16 @@ o_do => ExtractAlphaParameters_do,
 i_addr => ExtractAlphaParameters_addr,
 o_done => ExtractAlphaParameters_done,
 o_rdy => ExtractAlphaParameters_rdy,
+
+o_signed4bit_ena => ExtractAlphaParameters_signed4bit_ena,
+o_signed4bit_adr => ExtractAlphaParameters_signed4bit_adr,
+o_signed6bit_ena => ExtractAlphaParameters_signed6bit_ena,
+o_signed6bit_adr => ExtractAlphaParameters_signed6bit_adr,
+o_alphascale_1_ena => ExtractAlphaParameters_alphascale_1_ena,
+o_alphascale_1_adr => ExtractAlphaParameters_alphascale_1_adr,
+o_2powx_4bit_ena => ExtractAlphaParameters_2powx_4bit_ena,
+o_2powx_4bit_adr => ExtractAlphaParameters_2powx_4bit_adr,
+i_rom_constants_float => ExtractAlphaParameters_rom_constants_float,
 
 fixed2floata => ExtractAlphaParameters_fixed2floata,
 fixed2floatond => ExtractAlphaParameters_fixed2floatond,
@@ -414,7 +471,7 @@ end loop;
 ExtractAlphaParameters_addr <= std_logic_vector (to_unsigned (datao.last(9).b, 10));
 wait until rising_edge (ExtractAlphaParameters_clock);
 wait until rising_edge (ExtractAlphaParameters_clock);
-warning_neq_fp (ExtractAlphaParameters_do, datao.last(9).a, "last " & integer'image (datao.last(9).b) & " different 2.473826e-10 - compare with prev");
+warning_neq_fp (ExtractAlphaParameters_do, datao.last(9).a, "last " & integer'image (datao.last(9).b) & " different 2.473826e-10 - compare with prev", true);
 --report "end at 974.735us";
 --report "end at 954.675us";
 --report "end at 931.245us - with acc loop";
@@ -480,6 +537,32 @@ sclr => ExtractAlphaParameters_addfpsclr,
 ce => ExtractAlphaParameters_addfpce,
 result => ExtractAlphaParameters_addfpr,
 rdy => ExtractAlphaParameters_addfprdy
+);
+
+inst_rom_constants : rom_constants PORT MAP (
+i_clock => ExtractAlphaParameters_clock,
+i_reset => ExtractAlphaParameters_reset,
+i_kvptat_en => '0',
+i_kvptat_adr => (others => '0'),
+i_alphaptat_en => '0',
+i_alphaptat_adr => (others => '0'),
+i_signed4bit_en => ExtractAlphaParameters_signed4bit_ena,
+i_signed4bit_adr => ExtractAlphaParameters_signed4bit_adr,
+i_signed6bit_en => ExtractAlphaParameters_signed6bit_ena,
+i_signed6bit_adr => ExtractAlphaParameters_signed6bit_adr,
+i_alphascale_1_en => ExtractAlphaParameters_alphascale_1_ena,
+i_alphascale_1_adr => ExtractAlphaParameters_alphascale_1_adr,
+i_2powx_4bit_en => ExtractAlphaParameters_2powx_4bit_ena,
+i_2powx_4bit_adr => ExtractAlphaParameters_2powx_4bit_adr,
+i_cpratio_en => '0',
+i_cpratio_adr => (others => '0'),
+i_alphascale_2_en => '0',
+i_alphascale_2_adr => (others => '0'),
+i_2powx_p8_4bit_en => '0',
+i_2powx_p8_4bit_adr => (others => '0'),
+i_signed3bit_en => '0',
+i_signed3bit_adr => (others => '0'),
+o_float => ExtractAlphaParameters_rom_constants_float
 );
 
 END;
