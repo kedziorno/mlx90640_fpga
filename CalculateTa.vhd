@@ -99,39 +99,24 @@ end CalculateTa;
 
 architecture Behavioral of CalculateTa is
 
-COMPONENT ExtractKtPTATParameter
-PORT(
-i_clock : IN  std_logic;
-i_reset : IN  std_logic;
-i_ee0x2432 : IN  std_logic_vector(15 downto 0);
-o_ktptat : OUT  std_logic_vector(31 downto 0)
-);
-END COMPONENT;
-signal ExtractKtPTATParameter_clock : std_logic;
-signal ExtractKtPTATParameter_reset : std_logic;
-signal ExtractKtPTATParameter_ee0x2432 : std_logic_vector (15 downto 0);
-signal ExtractKtPTATParameter_ktptat : std_logic_vector (31 downto 0);
-
-signal ee2432 : std_logic_vector (15 downto 0);
-signal ee2410 : std_logic_vector (7 downto 0);
-
 begin
 
 p0 : process (i_clock) is
 	type states is (idle,
-	s0,s1,
-	s1a,s1b,
-	s2,s8,
+	s1c,
+	s8,s9,
 	s12,s13,s14,s15,
 	s16,s18,
-	s22,s23,s24,s25,s26,
+	s22,s23,s24,s25,s26,s26a,s26b,s26c,
 	s28,s30);
 	variable state : states;
 	constant const3dot3_ft : std_logic_vector (31 downto 0) := x"40533333";
 	constant const2pow18_ft : std_logic_vector (31 downto 0) := x"48800000";
 	constant const1_ft : std_logic_vector (31 downto 0) := x"3F800000";
 	constant const25_ft : std_logic_vector (31 downto 0) := x"41C80000";
+	constant const2pow3_ft : std_logic_vector (31 downto 0) := x"41000000";
   variable ram : std_logic_vector (7 downto 0);
+  variable tmp : std_logic_vector (1 downto 0);
 begin
 	if (rising_edge (i_clock)) then
     if (i_reset = '1') then
@@ -171,9 +156,8 @@ begin
       case (state) is
         when idle =>
           if (i_run = '1') then
-            state := s0;
+            state := s1c;
             i2c_mem_ena <= '1';
-            i2c_mem_addra <= std_logic_vector (to_unsigned (50*2+0, 12)); -- ee2432 MSB kvptat,ktptat-6/10
           else
             state := idle;
             i2c_mem_ena <= '0';
@@ -183,16 +167,7 @@ begin
           subfpsclr <= '0';
           mulfpsclr <= '0';
           divfpsclr <= '0';
-        when s0 => state := s1;
-          i2c_mem_addra <= std_logic_vector (to_unsigned (50*2+1, 12)); -- ee2432 LSB kvptat,ktptat-6/10
-        when s1 => state := s1a;
-          ee2432 (15 downto 8) <= i2c_mem_douta;
-          i2c_mem_addra <= std_logic_vector (to_unsigned (16*2+0, 12)); -- ee2410 MSB kptat
-        when s1a => state := s1b;
-          ee2432 (7 downto 0) <= i2c_mem_douta;
-        when s1b => state := s2;
-          ee2410 (7 downto 0) <= i2c_mem_douta;
-        when s2 =>
+        when s1c =>
           subfpce <= '1';
           subfpa <= i_Vdd;
           subfpb <= const3dot3_ft;
@@ -208,7 +183,7 @@ begin
             --synthesis translate_on
             i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(800*2)+1, 12)); -- ram0720 LSB vptat
             ram := i2c_mem_douta;
-          else state := s2; end if;
+          else state := s1c; end if;
         when s8 =>
           subfpsclr <= '0';
           fixed2floatce <= '1';
@@ -224,28 +199,30 @@ begin
           ram (7) & ram (7) & 
           ram (7) & ram (7) & 
           ram (7) & ram & i2c_mem_douta & "00000000000000000000000000000";
-          if (fixed2floatrdy = '1') then state := s12;
+          if (fixed2floatrdy = '1') then state := s9;
             fixed2floatce <= '0';
             fixed2floatond <= '0';
             fixed2floatsclr <= '1';
             --synthesis translate_off
             report_error("================ CalculateTa vptat", fixed2floatr, 0.0);
             --synthesis translate_on
+            i2c_mem_addra <= std_logic_vector (to_unsigned (16*2+0, 12)); -- ee2410 MSB kptat
           else state := s8; end if;
-        when s12 =>
+        when s9 => state := s12;
           fixed2floatsclr <= '0';
+        when s12 =>
+          o_alphaptat_ena <= '1';
+          o_alphaptat_adr <= i2c_mem_douta (7 downto 4);
           -- vptat*alphaptat
           mulfpce <= '1';
           mulfpa <= fixed2floatr;
-          o_alphaptat_ena <= '1';
-          o_alphaptat_adr <= ee2410 (7 downto 4);
           mulfpb <= i_rom_constants_float;
           mulfpond <= '1';
-          --synthesis translate_off
-          report_error("================ CalculateTa alphaptat", i_rom_constants_float, 0.0);
-          --synthesis translate_on
           i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(768*2)+0, 12)); -- ram0700 MSB vbe
           if (mulfprdy = '1') then state := s13;
+            --synthesis translate_off
+            report_error("================ CalculateTa alphaptat", i_rom_constants_float, 0.0);
+            --synthesis translate_on
             o_alphaptat_ena <= '0';
             mulfpce <= '0';
             mulfpond <= '0';
@@ -325,6 +302,7 @@ begin
             divfpce <= '0';
             divfpond <= '0';
             divfpsclr <= '1';
+            i2c_mem_addra <= std_logic_vector (to_unsigned (50*2+0, 12)); -- ee2432 MSB kvptat-6bit,ktptat-10bit
           else state := s16; end if;
         when s18 =>
           divfpsclr <= '0';
@@ -332,18 +310,18 @@ begin
           -- kvptat*deltaV
           mulfpce <= '1';
           o_kvptat_ena <= '1';
-          o_kvptat_adr <= ee2432 (15 downto 10);
+          o_kvptat_adr <= i2c_mem_douta (7 downto 2);
           mulfpa <= i_rom_constants_float;
           mulfpb <= subfpr; -- XXX deltaV = Vdd - 3.3 
           mulfpond <= '1';
-          --synthesis translate_off
-          report_error("================ CalculateTa ExtractKvPTATParameter_kvptat", i_rom_constants_float, 0.0);
-          --synthesis translate_on
           if (mulfprdy = '1') then state := s22;
             o_kvptat_ena <= '0';
             mulfpce <= '0';
             mulfpond <= '0';
             mulfpsclr <= '1';
+            --synthesis translate_off
+            report_error("================ CalculateTa ExtractKvPTATParameter_kvptat", i_rom_constants_float, 0.0);
+            --synthesis translate_on
             --synthesis translate_off
             report_error("================ CalculateTa 1", mulfpr, 0.0);
             --synthesis translate_on
@@ -423,23 +401,64 @@ begin
           subfpa <= divfpr; -- vptatart/(1+kvptat*deltaV)
           subfpb <= fixed2floatr;
           subfpond <= '1';
-          if (subfprdy = '1') then state := s28;
+          i2c_mem_addra <= std_logic_vector (to_unsigned (50*2+0, 12)); -- ee2432 MSB kvptat-6bit,ktptat-10bit
+          if (subfprdy = '1') then state := s26a;
             subfpce <= '0';
             subfpond <= '0';
             subfpsclr <= '1';
             --synthesis translate_off
             report_error("================ CalculateTa 4", subfpr, 0.0);
             --synthesis translate_on
+            i2c_mem_addra <= std_logic_vector (to_unsigned (50*2+1, 12)); -- ee2432 LSB kvptat-6bit,ktptat-10bit
+            tmp (1 downto 0) := i2c_mem_douta (1 downto 0); -- ee2432 msb
           else state := s26; end if;
-        when s28 =>
+        when s26a =>
           subfpsclr <= '0';
+          fixed2floatce <= '1';
+          fixed2floatond <= '1';
+          fixed2floata <=
+          tmp (1) & tmp (1) & 
+          tmp (1) & tmp (1) & 
+          tmp (1) & tmp (1) & 
+          tmp (1) & tmp (1) & 
+          tmp (1) & tmp (1) & 
+          tmp (1) & tmp (1) & 
+          tmp (1) & tmp (1) & 
+          tmp (1) & tmp (1) & 
+          tmp (1) & tmp (1) & 
+          tmp (1) & tmp (1) & 
+          tmp (1) & tmp (1) & 
+          tmp (1) & tmp (1) & 
+          tmp (1) & tmp (1 downto 0) & i2c_mem_douta & "00000000000000000000000000000";
+          if (fixed2floatrdy = '1') then state := s26b;
+            fixed2floatce <= '0';
+            fixed2floatond <= '0';
+            fixed2floatsclr <= '1';
+            --synthesis translate_off
+            report_error("================ KtPTAT fi2fl", fixed2floatr, 0.0);
+            --synthesis translate_on
+          else state := s26a; end if;
+        when s26b =>
+          fixed2floatsclr <= '0';
+          divfpce <= '1';
+          divfpa <= fixed2floatr;
+          divfpb <= const2pow3_ft;
+          divfpond <= '1';
+          if (divfprdy = '1') then state := s26c;
+            divfpce <= '0';
+            divfpond <= '0';
+            divfpsclr <= '1';
+          else state := s26b; end if;
+        when s26c => state := s28;
+          divfpsclr <= '0';
+        when s28 =>
           -- ((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat
           divfpce <= '1';
           divfpa <= subfpr; -- (vptatart/(1+kvptat*deltaV))-vptat25
-          divfpb <= ExtractKtPTATParameter_ktptat;
+          divfpb <= divfpr; --ktptat
           divfpond <= '1';
           --synthesis translate_off
-          report_error("================ CalculateTa ExtractKtPTATParameter_ktptat", ExtractKtPTATParameter_ktptat, 0.0);
+          report_error("================ CalculateTa ExtractKtPTATParameter_ktptat", divfpr, 0.0);
           --synthesis translate_on
           if (divfprdy = '1') then state := s30;
             divfpce <= '0';
@@ -471,15 +490,5 @@ begin
     end if;
   end if;
 end process p0;
-
-ExtractKtPTATParameter_clock <= i_clock;
-ExtractKtPTATParameter_reset <= i_reset;
-ExtractKtPTATParameter_ee0x2432 <= ee2432;
-inst_ExtractKtPTATParameter : ExtractKtPTATParameter PORT MAP (
-i_clock => ExtractKtPTATParameter_clock,
-i_reset => ExtractKtPTATParameter_reset,
-i_ee0x2432 => ExtractKtPTATParameter_ee0x2432,
-o_ktptat => ExtractKtPTATParameter_ktptat
-);
 
 end architecture Behavioral;
