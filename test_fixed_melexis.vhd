@@ -475,6 +475,8 @@ signal o_cpratio_adr : out std_logic_vector (5 downto 0);
 signal o_alphascale_2_ena : out std_logic;
 signal o_alphascale_2_adr : out std_logic_vector (3 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
+signal o_mem_signed1024_ivalue : out std_logic_vector (9 downto 0); -- input hex from 0 to 1024
+signal i_mem_signed1024_ovalue : in std_logic_vector (31 downto 0); -- output signed 0 to 1024 in SP float
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpond : out STD_LOGIC;
@@ -505,6 +507,8 @@ signal CalculateAlphaCP_cpratio_adr : std_logic_vector (5 downto 0);
 signal CalculateAlphaCP_alphascale_2_ena : std_logic;
 signal CalculateAlphaCP_alphascale_2_adr : std_logic_vector (3 downto 0);
 signal CalculateAlphaCP_rom_constants_float : std_logic_vector (31 downto 0);
+signal CalculateAlphaCP_mem_signed1024_ivalue : std_logic_vector (9 downto 0);
+signal CalculateAlphaCP_mem_signed1024_ovalue : std_logic_vector (31 downto 0);
 signal CalculateAlphaCP_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaCP_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaCP_divfpond : STD_LOGIC;
@@ -1152,6 +1156,19 @@ signal CalculatePixOS_mux,CalculatePixOsCPSP_mux,CalculateVirCompensated_mux,Ext
 signal ExtractAlphaParameters_mux,CalculateAlphaComp_mux,CalculateAlphaCP_mux : std_logic;
 signal CalculateVdd_mux,CalculateTa_mux,CalculateTo_mux : std_logic;
 
+component mem_signed1024 is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_value : in std_logic_vector (9 downto 0); -- input hex from 0 to 1024
+o_value : out std_logic_vector (31 downto 0) -- output signed 0 to 1024 in SP float
+);
+end component mem_signed1024;
+signal mem_signed1024_clock : std_logic;
+signal mem_signed1024_reset : std_logic;
+signal mem_signed1024_ivalue : std_logic_vector (9 downto 0); -- input hex from 0 to 1024
+signal mem_signed1024_ovalue : std_logic_vector (31 downto 0); -- output signed 0 to 1024 in SP float
+
 begin
 
 fixed2floata <=
@@ -1789,6 +1806,11 @@ CalculatePixOSCPSP_rom_constants_float <= rom_constants_float;
 ExtractAlphaParameters_rom_constants_float <= rom_constants_float;
 CalculateTo_rom_constants_float <= rom_constants_float;
 
+mem_signed1024_ivalue <=
+CalculateAlphaCP_mem_signed1024_ivalue when CalculateAlphaCP_mux = '1' else
+(others => '0');
+CalculateAlphaCP_mem_signed1024_ovalue <= mem_signed1024_ovalue;
+
 	-- purpose: main test loop
 	tester : process (i_clock,i_reset) is
 		type states is (idle,s0,s0a,s0b,s0c,
@@ -2193,6 +2215,9 @@ o_alphascale_2_ena => CalculateAlphaCP_alphascale_2_ena,
 o_alphascale_2_adr => CalculateAlphaCP_alphascale_2_adr,
 i_rom_constants_float => CalculateAlphaCP_rom_constants_float,
 
+o_mem_signed1024_ivalue => CalculateAlphaCP_mem_signed1024_ivalue,
+i_mem_signed1024_ovalue => CalculateAlphaCP_mem_signed1024_ovalue,
+
 divfpa => CalculateAlphaCP_divfpa,
 divfpb => CalculateAlphaCP_divfpb,
 divfpond => CalculateAlphaCP_divfpond,
@@ -2564,6 +2589,16 @@ i_2powx_p8_4bit_adr => rom_constants_2powx_p8_4bit_adr,
 i_signed3bit_en => rom_constants_signed3bit_en,
 i_signed3bit_adr => rom_constants_signed3bit_adr,
 o_float => rom_constants_float
+);
+
+mem_signed1024_clock <= i_clock;
+mem_signed1024_reset <= i_reset;
+inst_mem_signed1024 : mem_signed1024
+port map (
+i_clock => mem_signed1024_clock,
+i_reset => mem_signed1024_reset,
+i_value => mem_signed1024_ivalue,
+o_value => mem_signed1024_ovalue
 );
 
 end architecture testbench;

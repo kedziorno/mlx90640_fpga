@@ -52,6 +52,9 @@ signal o_alphascale_2_ena : out std_logic;
 signal o_alphascale_2_adr : out std_logic_vector (3 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
+signal o_mem_signed1024_ivalue : out std_logic_vector (9 downto 0); -- input hex from 0 to 1024
+signal i_mem_signed1024_ovalue : in std_logic_vector (31 downto 0); -- output signed 0 to 1024 in SP float
+
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpond : out STD_LOGIC;
@@ -88,20 +91,6 @@ signal mulfpsclr_internal : STD_LOGIC;
 signal mulfpce_internal : STD_LOGIC;
 signal mulfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfprdy_internal : STD_LOGIC;
-
-component mem_signed1024 is
-port (
-i_clock : in std_logic;
-i_reset : in std_logic;
-i_value : in std_logic_vector (9 downto 0); -- input hex from 0 to 1024
-o_value : out std_logic_vector (31 downto 0) -- output signed 0 to 1024 in SP float
-);
-end component mem_signed1024;
-
-signal mem_signed1024_clock : std_logic;
-signal mem_signed1024_reset : std_logic;
-signal mem_signed1024_ivalue : std_logic_vector (9 downto 0); -- input hex from 0 to 1024
-signal mem_signed1024_ovalue : std_logic_vector (31 downto 0); -- output signed 0 to 1024 in SP float
 
 begin
 
@@ -143,7 +132,7 @@ begin
 			mulfpb_internal <= (others => '0');
 			mulfpce_internal <= '0';
 			mulfpond_internal <= '0';
-			mem_signed1024_ivalue <= (others => '0');
+			o_mem_signed1024_ivalue <= (others => '0');
 			i2c_mem_ena <= '0';
 		else
 			case (state) is
@@ -165,14 +154,14 @@ begin
           acpsp0 := i2c_mem_douta (1 downto 0); -- Acpsubpage0 MSB 10-8bit
           i2c_mem_addra <= std_logic_vector (to_unsigned (32*2+0, 12)); -- 2420 MSB Ascalecp 4bit
 				when s5 => state := s6;
-					mem_signed1024_ivalue <= acpsp0 & i2c_mem_douta (7 downto 0); -- Acpsubpage0 MSB 10-8 & LSB 7-0
+					o_mem_signed1024_ivalue <= acpsp0 & i2c_mem_douta (7 downto 0); -- Acpsubpage0 MSB 10-8 & LSB 7-0
         when s6 => state := s9;
 					o_alphascale_2_ena <= '1';
 					o_alphascale_2_adr <= i2c_mem_douta (7 downto 4); -- 2420 MSB Ascalecp 4bit
           i2c_mem_addra <= std_logic_vector (to_unsigned (57*2+0, 12)); -- 2439 MSB Acpsubpage0 10bit/CP_P12P0_ratio 6bit
         when s9 =>
 					divfpce_internal <= '1';
-					divfpa_internal <= mem_signed1024_ovalue; -- Acpsubpage0
+					divfpa_internal <= i_mem_signed1024_ovalue; -- Acpsubpage0
 					divfpb_internal <= i_rom_constants_float; -- 2^(Ascalecp+27)
 					divfpond_internal <= '1';
           if (divfprdy_internal = '1') then state := s11;
@@ -208,15 +197,5 @@ begin
 		end if;
 	end if;
 end process p0;
-
-mem_signed1024_clock <= i_clock;
-mem_signed1024_reset <= i_reset;
-inst_mem_signed1024 : mem_signed1024
-port map (
-i_clock => mem_signed1024_clock,
-i_reset => mem_signed1024_reset,
-i_value => mem_signed1024_ivalue,
-o_value => mem_signed1024_ovalue
-);
 
 end architecture Behavioral;
