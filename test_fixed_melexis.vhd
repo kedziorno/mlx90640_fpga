@@ -940,7 +940,20 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_tgc : out std_logic_vector (31 downto 0);
-o_rdy : out std_logic
+o_rdy : out std_logic;
+signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC;
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC
 );
 end component ExtractTGCParameters;
 signal ExtractTGCParameters_clock : std_logic;
@@ -951,6 +964,19 @@ signal ExtractTGCParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal ExtractTGCParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal ExtractTGCParameters_tgc : std_logic_vector (31 downto 0);
 signal ExtractTGCParameters_rdy : std_logic;
+signal ExtractTGCParameters_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal ExtractTGCParameters_fixed2floatond : STD_LOGIC;
+signal ExtractTGCParameters_fixed2floatsclr : STD_LOGIC;
+signal ExtractTGCParameters_fixed2floatce : STD_LOGIC;
+signal ExtractTGCParameters_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractTGCParameters_fixed2floatrdy : STD_LOGIC;
+signal ExtractTGCParameters_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractTGCParameters_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractTGCParameters_divfpond : STD_LOGIC;
+signal ExtractTGCParameters_divfpsclr : STD_LOGIC;
+signal ExtractTGCParameters_divfpce : STD_LOGIC;
+signal ExtractTGCParameters_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractTGCParameters_divfprdy : STD_LOGIC;
 
 COMPONENT CalculateAlphaComp
 PORT(
@@ -1203,6 +1229,8 @@ signal mem_signed256_ovalue : std_logic_vector (31 downto 0); -- output signed -
 begin
 
 fixed2floata <=
+ExtractTGCParameters_fixed2floata when ExtractTGCParameters_mux = '1'
+else
 CalculateKGain_fixed2floata when CalculateKGain_mux = '1'
 else
 CalculateVdd_fixed2floata when CalculateVdd_mux = '1'
@@ -1217,6 +1245,8 @@ ExtractAlphaParameters_fixed2floata when ExtractAlphaParameters_mux = '1'
 else (others => '0');
 
 fixed2floatond <=
+ExtractTGCParameters_fixed2floatond when ExtractTGCParameters_mux = '1'
+else
 CalculateKGain_fixed2floatond when CalculateKGain_mux = '1'
 else
 CalculateVdd_fixed2floatond when CalculateVdd_mux = '1' 
@@ -1231,6 +1261,8 @@ ExtractAlphaParameters_fixed2floatond when ExtractAlphaParameters_mux = '1'
 else '0';
 
 fixed2floatce <=
+ExtractTGCParameters_fixed2floatce when ExtractTGCParameters_mux = '1'
+else
 CalculateKGain_fixed2floatce when CalculateKGain_mux = '1'
 else
 CalculateVdd_fixed2floatce when CalculateVdd_mux = '1' 
@@ -1245,6 +1277,8 @@ ExtractAlphaParameters_fixed2floatce when ExtractAlphaParameters_mux = '1'
 else '0';
 
 fixed2floatsclr <=
+ExtractTGCParameters_fixed2floatsclr when ExtractTGCParameters_mux = '1'
+else
 CalculateKGain_fixed2floatsclr when CalculateKGain_mux = '1'
 else
 CalculateVdd_fixed2floatsclr when CalculateVdd_mux = '1' 
@@ -1259,6 +1293,8 @@ ExtractAlphaParameters_fixed2floatsclr when ExtractAlphaParameters_mux = '1'
 else '0';
 
 divfpa <=
+ExtractTGCParameters_divfpa when ExtractTGCParameters_mux = '1'
+else
 CalculateKGain_divfpa when CalculateKGain_mux = '1'
 else
 CalculateVdd_divfpa when CalculateVdd_mux = '1' 
@@ -1279,6 +1315,8 @@ CalculateTo_divfpa when CalculateTo_mux = '1'
 else (others => '0');
 
 divfpb <=
+ExtractTGCParameters_divfpb when ExtractTGCParameters_mux = '1'
+else
 CalculateKGain_divfpb when CalculateKGain_mux = '1'
 else
 CalculateVdd_divfpb when CalculateVdd_mux = '1' 
@@ -1299,6 +1337,8 @@ CalculateTo_divfpb when CalculateTo_mux = '1'
 else (others => '0');
 
 divfpond <=
+ExtractTGCParameters_divfpond when ExtractTGCParameters_mux = '1'
+else
 CalculateKGain_divfpond when CalculateKGain_mux = '1'
 else
 CalculateVdd_divfpond when CalculateVdd_mux = '1' 
@@ -1319,6 +1359,8 @@ CalculateTo_divfpond when CalculateTo_mux = '1'
 else '0';
 
 divfpce <=
+ExtractTGCParameters_divfpce when ExtractTGCParameters_mux = '1'
+else
 CalculateKGain_divfpce when CalculateKGain_mux = '1'
 else
 CalculateVdd_divfpce when CalculateVdd_mux = '1' 
@@ -1339,6 +1381,8 @@ CalculateTo_divfpce when CalculateTo_mux = '1'
 else '0';
 
 divfpsclr <=
+ExtractTGCParameters_divfpsclr when ExtractTGCParameters_mux = '1'
+else
 CalculateKGain_divfpsclr when CalculateKGain_mux = '1'
 else
 CalculateVdd_divfpsclr when CalculateVdd_mux = '1' 
@@ -1632,6 +1676,11 @@ sqrtfp2a <= CalculateTo_sqrtfp2a when CalculateTo_mux = '1' else (others => '0')
 sqrtfp2ond <= CalculateTo_sqrtfp2ond when CalculateTo_mux = '1' else '0';
 sqrtfp2sclr <= CalculateTo_sqrtfp2sclr when CalculateTo_mux = '1' else '0';
 sqrtfp2ce <= CalculateTo_sqrtfp2ce when CalculateTo_mux = '1' else '0';
+
+ExtractTGCParameters_fixed2floatr <= fixed2floatr when ExtractTGCParameters_mux = '1' else (others => '0');
+ExtractTGCParameters_fixed2floatrdy <= fixed2floatrdy when ExtractTGCParameters_mux = '1' else '0';
+ExtractTGCParameters_divfpr <= divfpr when ExtractTGCParameters_mux = '1' else (others => '0');
+ExtractTGCParameters_divfprdy <= divfprdy when ExtractTGCParameters_mux = '1' else '0';
 
 CalculateKGain_fixed2floatr <= fixed2floatr when CalculateKGain_mux = '1' else (others => '0');
 CalculateKGain_fixed2floatrdy <= fixed2floatrdy when CalculateKGain_mux = '1' else '0';
@@ -2037,7 +2086,20 @@ i2c_mem_ena => ExtractTGCParameters_i2c_mem_ena,
 i2c_mem_addra => ExtractTGCParameters_i2c_mem_addra,
 i2c_mem_douta => ExtractTGCParameters_i2c_mem_douta,
 o_tgc => ExtractTGCParameters_tgc,
-o_rdy => ExtractTGCParameters_rdy
+o_rdy => ExtractTGCParameters_rdy,
+fixed2floata => ExtractTGCParameters_fixed2floata,
+fixed2floatond => ExtractTGCParameters_fixed2floatond,
+fixed2floatsclr => ExtractTGCParameters_fixed2floatsclr,
+fixed2floatce => ExtractTGCParameters_fixed2floatce,
+fixed2floatr => ExtractTGCParameters_fixed2floatr,
+fixed2floatrdy => ExtractTGCParameters_fixed2floatrdy,
+divfpa => ExtractTGCParameters_divfpa,
+divfpb => ExtractTGCParameters_divfpb,
+divfpond => ExtractTGCParameters_divfpond,
+divfpsclr => ExtractTGCParameters_divfpsclr,
+divfpce => ExtractTGCParameters_divfpce,
+divfpr => ExtractTGCParameters_divfpr,
+divfprdy => ExtractTGCParameters_divfprdy
 );
 
 CalculateKGain_clock <= i_clock;
