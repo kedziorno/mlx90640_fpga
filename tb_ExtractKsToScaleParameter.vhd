@@ -59,6 +59,9 @@ i_run : in std_logic;
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+o_2powx_p8_ena : out std_logic;
+o_2powx_p8_adr : out std_logic_vector (3 downto 0);
+i_rom_constants_float : in std_logic_vector (31 downto 0);
 o_kstoscale : OUT  std_logic_vector (31 downto 0);
 o_rdy : out std_logic
 );
@@ -69,8 +72,39 @@ signal ExtractKsToScaleParameter_run : std_logic;
 signal ExtractKsToScaleParameter_i2c_mem_ena : STD_LOGIC;
 signal ExtractKsToScaleParameter_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal ExtractKsToScaleParameter_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal ExtractKsToScaleParameter_2powx_p8_ena : std_logic;
+signal ExtractKsToScaleParameter_2powx_p8_adr : std_logic_vector (3 downto 0);
+signal ExtractKsToScaleParameter_rom_constants_float : std_logic_vector (31 downto 0);
 signal ExtractKsToScaleParameter_kstoscale : std_logic_vector (31 downto 0);
 signal ExtractKsToScaleParameter_rdy : std_logic;
+
+COMPONENT rom_constants
+PORT(
+i_clock : IN  std_logic;
+i_reset : IN  std_logic;
+i_kvptat_en : IN  std_logic;
+i_kvptat_adr : IN  std_logic_vector(5 downto 0);
+i_alphaptat_en : IN  std_logic;
+i_alphaptat_adr : IN  std_logic_vector(3 downto 0);
+i_signed4bit_en : IN  std_logic;
+i_signed4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed6bit_en : IN  std_logic;
+i_signed6bit_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_1_en : IN  std_logic;
+i_alphascale_1_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_4bit_en : IN  std_logic;
+i_2powx_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_cpratio_en : IN  std_logic;
+i_cpratio_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_2_en : IN  std_logic;
+i_alphascale_2_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_p8_4bit_en : IN  std_logic;
+i_2powx_p8_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed3bit_en : IN  std_logic;
+i_signed3bit_adr : IN  std_logic_vector(2 downto 0);
+o_float : OUT  std_logic_vector(31 downto 0)
+);
+END COMPONENT;
 
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
@@ -95,6 +129,9 @@ i_run => ExtractKsToScaleParameter_run,
 i2c_mem_ena => ExtractKsToScaleParameter_i2c_mem_ena,
 i2c_mem_addra => ExtractKsToScaleParameter_i2c_mem_addra,
 i2c_mem_douta => ExtractKsToScaleParameter_i2c_mem_douta,
+o_2powx_p8_ena => ExtractKsToScaleParameter_2powx_p8_ena,
+o_2powx_p8_adr => ExtractKsToScaleParameter_2powx_p8_adr,
+i_rom_constants_float => ExtractKsToScaleParameter_rom_constants_float,
 o_kstoscale => ExtractKsToScaleParameter_kstoscale,
 o_rdy => ExtractKsToScaleParameter_rdy
 );
@@ -126,5 +163,31 @@ warning_neq_fp (ExtractKsToScaleParameter_kstoscale, x"49000000", "kstoscale");
 wait for 1 ps;
 report "done" severity failure;
 end process;
+
+inst_rom_constants : rom_constants PORT MAP (
+i_clock => ExtractKsToScaleParameter_clock,
+i_reset => ExtractKsToScaleParameter_reset,
+i_kvptat_en => '0',
+i_kvptat_adr => (others => '0'),
+i_alphaptat_en => '0',
+i_alphaptat_adr => (others => '0'),
+i_signed4bit_en => '0',
+i_signed4bit_adr => (others => '0'),
+i_signed6bit_en => '0',
+i_signed6bit_adr => (others => '0'),
+i_alphascale_1_en => '0',
+i_alphascale_1_adr => (others => '0'),
+i_2powx_4bit_en => '0',
+i_2powx_4bit_adr => (others => '0'),
+i_cpratio_en => '0',
+i_cpratio_adr => (others => '0'),
+i_alphascale_2_en => '0',
+i_alphascale_2_adr => (others => '0'),
+i_2powx_p8_4bit_en => ExtractKsToScaleParameter_2powx_p8_ena,
+i_2powx_p8_4bit_adr => ExtractKsToScaleParameter_2powx_p8_adr,
+i_signed3bit_en => '0',
+i_signed3bit_adr => (others => '0'),
+o_float => ExtractKsToScaleParameter_rom_constants_float
+);
 
 END;

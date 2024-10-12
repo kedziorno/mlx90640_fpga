@@ -173,6 +173,10 @@ i_addr : IN  std_logic_vector(9 downto 0);
 
 o_rdy : OUT  std_logic;
 
+signal o_2powx_p8_ena : out std_logic;
+signal o_2powx_p8_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
+
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpond : out STD_LOGIC;
@@ -229,6 +233,10 @@ signal CalculateTo_alphacomp_addr : std_logic_vector(9 downto 0);
 signal CalculateTo_do : std_logic_vector(31 downto 0);
 signal CalculateTo_rdy : std_logic;
 
+signal CalculateTo_2powx_p8_ena : std_logic;
+signal CalculateTo_2powx_p8_adr : std_logic_vector (3 downto 0);
+signal CalculateTo_rom_constants_float : std_logic_vector (31 downto 0);
+
 signal CalculateTo_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateTo_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateTo_divfpond : STD_LOGIC;
@@ -274,6 +282,34 @@ signal CalculateTo_divfpclk : std_logic;
 signal CalculateTo_addfpclk : std_logic;
 signal CalculateTo_subfpclk : std_logic;
 
+COMPONENT rom_constants
+PORT(
+i_clock : IN  std_logic;
+i_reset : IN  std_logic;
+i_kvptat_en : IN  std_logic;
+i_kvptat_adr : IN  std_logic_vector(5 downto 0);
+i_alphaptat_en : IN  std_logic;
+i_alphaptat_adr : IN  std_logic_vector(3 downto 0);
+i_signed4bit_en : IN  std_logic;
+i_signed4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed6bit_en : IN  std_logic;
+i_signed6bit_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_1_en : IN  std_logic;
+i_alphascale_1_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_4bit_en : IN  std_logic;
+i_2powx_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_cpratio_en : IN  std_logic;
+i_cpratio_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_2_en : IN  std_logic;
+i_alphascale_2_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_p8_4bit_en : IN  std_logic;
+i_2powx_p8_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed3bit_en : IN  std_logic;
+i_signed3bit_adr : IN  std_logic_vector(2 downto 0);
+o_float : OUT  std_logic_vector(31 downto 0)
+);
+END COMPONENT;
+
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
 
@@ -309,6 +345,10 @@ o_alphacomp_addr => CalculateTo_alphacomp_addr,
 o_do => CalculateTo_do,
 i_addr => CalculateTo_addr,
 o_rdy => CalculateTo_rdy,
+
+o_2powx_p8_ena => CalculateTo_2powx_p8_ena,
+o_2powx_p8_adr => CalculateTo_2powx_p8_adr,
+i_rom_constants_float => CalculateTo_rom_constants_float,
 
 divfpa => CalculateTo_divfpa,
 divfpb => CalculateTo_divfpb,
@@ -606,6 +646,32 @@ sclr => CalculateTo_sqrtfp2sclr,
 ce => CalculateTo_sqrtfp2ce,
 result => CalculateTo_sqrtfp2r,
 rdy => CalculateTo_sqrtfp2rdy
+);
+
+inst_rom_constants : rom_constants PORT MAP (
+i_clock => CalculateTo_clock,
+i_reset => CalculateTo_reset,
+i_kvptat_en => '0',
+i_kvptat_adr => (others => '0'),
+i_alphaptat_en => '0',
+i_alphaptat_adr => (others => '0'),
+i_signed4bit_en => '0',
+i_signed4bit_adr => (others => '0'),
+i_signed6bit_en => '0',
+i_signed6bit_adr => (others => '0'),
+i_alphascale_1_en => '0',
+i_alphascale_1_adr => (others => '0'),
+i_2powx_4bit_en => '0',
+i_2powx_4bit_adr => (others => '0'),
+i_cpratio_en => '0',
+i_cpratio_adr => (others => '0'),
+i_alphascale_2_en => '0',
+i_alphascale_2_adr => (others => '0'),
+i_2powx_p8_4bit_en => CalculateTo_2powx_p8_ena,
+i_2powx_p8_4bit_adr => CalculateTo_2powx_p8_adr,
+i_signed3bit_en => '0',
+i_signed3bit_adr => (others => '0'),
+o_float => CalculateTo_rom_constants_float
 );
 
 END;

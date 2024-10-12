@@ -54,6 +54,10 @@ i_addr : IN  std_logic_vector(9 downto 0);
 
 o_rdy : out std_logic;
 
+signal o_2powx_p8_ena : out std_logic;
+signal o_2powx_p8_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
+
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpond : out STD_LOGIC;
@@ -321,6 +325,9 @@ i_run : in std_logic;
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+o_2powx_p8_ena : out std_logic;
+o_2powx_p8_adr : out std_logic_vector (3 downto 0);
+i_rom_constants_float : in std_logic_vector (31 downto 0);
 o_kstoscale : OUT  std_logic_vector (31 downto 0);
 o_rdy : out std_logic
 );
@@ -331,6 +338,9 @@ signal ExtractKsToScaleParameter_run : std_logic;
 signal ExtractKsToScaleParameter_i2c_mem_ena : STD_LOGIC;
 signal ExtractKsToScaleParameter_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal ExtractKsToScaleParameter_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal ExtractKsToScaleParameter_2powx_p8_ena : std_logic;
+signal ExtractKsToScaleParameter_2powx_p8_adr : std_logic_vector (3 downto 0);
+signal ExtractKsToScaleParameter_rom_constants_float : std_logic_vector (31 downto 0);
 signal ExtractKsToScaleParameter_kstoscale : std_logic_vector (31 downto 0);
 signal ExtractKsToScaleParameter_rdy : std_logic;
 
@@ -941,6 +951,9 @@ o_value => mem_signed256_ovalue
 
 ExtractKsToScaleParameter_clock <= i_clock;
 ExtractKsToScaleParameter_reset <= i_reset;
+o_2powx_p8_ena <= ExtractKsToScaleParameter_2powx_p8_ena;
+o_2powx_p8_adr <= ExtractKsToScaleParameter_2powx_p8_adr;
+ExtractKsToScaleParameter_rom_constants_float <= i_rom_constants_float;
 inst_ExtractKsToScaleParameter : ExtractKsToScaleParameter port map (
 i_clock => ExtractKsToScaleParameter_clock,
 i_reset => ExtractKsToScaleParameter_reset,
@@ -948,6 +961,9 @@ i_run => ExtractKsToScaleParameter_run,
 i2c_mem_ena => ExtractKsToScaleParameter_i2c_mem_ena,
 i2c_mem_addra => ExtractKsToScaleParameter_i2c_mem_addra,
 i2c_mem_douta => ExtractKsToScaleParameter_i2c_mem_douta,
+o_2powx_p8_ena => ExtractKsToScaleParameter_2powx_p8_ena,
+o_2powx_p8_adr => ExtractKsToScaleParameter_2powx_p8_adr,
+i_rom_constants_float => ExtractKsToScaleParameter_rom_constants_float,
 o_kstoscale => ExtractKsToScaleParameter_kstoscale,
 o_rdy => ExtractKsToScaleParameter_rdy
 );

@@ -1042,6 +1042,10 @@ o_do : OUT  std_logic_vector(31 downto 0);
 i_addr : IN  std_logic_vector(9 downto 0);
 o_rdy : OUT  std_logic;
 
+signal o_2powx_p8_ena : out std_logic;
+signal o_2powx_p8_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
+
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpond : out STD_LOGIC;
@@ -1097,6 +1101,10 @@ signal CalculateTo_vircompensated_addr : std_logic_vector(9 downto 0);
 signal CalculateTo_alphacomp_addr : std_logic_vector(9 downto 0);
 signal CalculateTo_do : std_logic_vector(31 downto 0);
 signal CalculateTo_rdy : std_logic;
+
+signal CalculateTo_2powx_p8_ena : std_logic;
+signal CalculateTo_2powx_p8_adr : std_logic_vector (3 downto 0);
+signal CalculateTo_rom_constants_float : std_logic_vector (31 downto 0);
 
 signal CalculateTo_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateTo_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -1768,15 +1776,18 @@ ExtractAlphaParameters_alphascale_1_adr when ExtractAlphaParameters_mux = '1' el
 rom_constants_2powx_p8_4bit_en <=
 CalculatePixOS_2powx_p8_4bit_ena when CalculatePixOS_mux = '1' else
 CalculatePixOSCPSP_2powx_p8_4bit_ena when CalculatePixOSCPSP_mux = '1' else
+CalculateTo_2powx_p8_ena when CalculateTo_mux = '1' else
 '0';
 rom_constants_2powx_p8_4bit_adr <=
 CalculatePixOS_2powx_p8_4bit_adr when CalculatePixOS_mux = '1' else
 CalculatePixOSCPSP_2powx_p8_4bit_adr when CalculatePixOSCPSP_mux = '1' else
+CalculateTo_2powx_p8_adr when CalculateTo_mux = '1' else
 (others => '0');
 
 CalculatePixOS_rom_constants_float <= rom_constants_float;
 CalculatePixOSCPSP_rom_constants_float <= rom_constants_float;
 ExtractAlphaParameters_rom_constants_float <= rom_constants_float;
+CalculateTo_rom_constants_float <= rom_constants_float;
 
 	-- purpose: main test loop
 	tester : process (i_clock,i_reset) is
@@ -2482,6 +2493,10 @@ o_alphacomp_addr => CalculateTo_alphacomp_addr,
 o_do => CalculateTo_do,
 i_addr => CalculateTo_addr,
 o_rdy => CalculateTo_rdy,
+
+o_2powx_p8_ena => CalculateTo_2powx_p8_ena,
+o_2powx_p8_adr => CalculateTo_2powx_p8_adr,
+i_rom_constants_float => CalculateTo_rom_constants_float,
 
 divfpa => CalculateTo_divfpa,
 divfpb => CalculateTo_divfpb,
