@@ -57,6 +57,9 @@ signal o_signed3bit_ena : out std_logic;
 signal o_signed3bit_adr : out std_logic_vector (2 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
+signal o_mem_signed256_ivalue : out std_logic_vector (7 downto 0); -- input hex from 0 to 255
+signal i_mem_signed256_ovalue : in std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
+
 signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpond : out STD_LOGIC;
@@ -432,7 +435,7 @@ begin
 				when kta9 => state := kta10;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (129+(2*i), 12)); -- kta LSB 1
         when kta10 => state := kta11;
-					mem_signed256_ivalue <= ktarcee;
+					o_mem_signed256_ivalue <= ktarcee;
         when kta11 => state := kta18;
           o_signed3bit_ena <= '1';
           o_signed3bit_adr <= i2c_mem_douta (3 downto 1); -- kta_ee 3bit
@@ -451,7 +454,7 @@ begin
           mulfpsclr_internal <= '0';
           addfpce_internal <= '1';
           addfpa_internal <= mulfpr_internal; -- kta_ee*2^ktascale2
-          addfpb_internal <= mem_signed256_ovalue; -- ktarcee
+          addfpb_internal <= i_mem_signed256_ovalue; -- ktarcee
           addfpond_internal <= '1';
           if (addfprdy_internal = '1') then state := kta23;
             addfpce_internal <= '0';
@@ -515,13 +518,13 @@ SSR => i_reset,
 WE => write_enable
 );
 
-mem_signed256_clock <= i_clock;
-mem_signed256_reset <= i_reset;
-inst_mem_signed256_ktarcee : mem_signed256 port map (
-i_clock => mem_signed256_clock,
-i_reset => mem_signed256_reset,
-i_value => mem_signed256_ivalue,
-o_value => mem_signed256_ovalue
-);
+--mem_signed256_clock <= i_clock;
+--mem_signed256_reset <= i_reset;
+--inst_mem_signed256_ktarcee : mem_signed256 port map (
+--i_clock => mem_signed256_clock,
+--i_reset => mem_signed256_reset,
+--i_value => mem_signed256_ivalue,
+--o_value => mem_signed256_ovalue
+--);
 
 end architecture Behavioral;

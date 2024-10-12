@@ -604,6 +604,8 @@ o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
 o_signed3bit_ena : out std_logic;
 o_signed3bit_adr : out std_logic_vector (2 downto 0);
 i_rom_constants_float : in std_logic_vector (31 downto 0);
+o_mem_signed256_ivalue : out std_logic_vector (7 downto 0); -- input hex from 0 to 255
+i_mem_signed256_ovalue : in std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
 fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
@@ -666,6 +668,8 @@ signal CalculatePixOS_2powx_p8_4bit_adr : std_logic_vector (3 downto 0);
 signal CalculatePixOS_signed3bit_ena : std_logic;
 signal CalculatePixOS_signed3bit_adr : std_logic_vector (2 downto 0);
 signal CalculatePixOS_rom_constants_float : std_logic_vector (31 downto 0);
+signal CalculatePixOS_mem_signed256_ivalue : std_logic_vector (7 downto 0); -- input hex from 0 to 255
+signal CalculatePixOS_mem_signed256_ovalue : std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
 signal CalculatePixOS_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal CalculatePixOS_fixed2floatond : STD_LOGIC;
 signal CalculatePixOS_fixed2floatce : STD_LOGIC;
@@ -1168,6 +1172,19 @@ signal mem_signed1024_clock : std_logic;
 signal mem_signed1024_reset : std_logic;
 signal mem_signed1024_ivalue : std_logic_vector (9 downto 0); -- input hex from 0 to 1024
 signal mem_signed1024_ovalue : std_logic_vector (31 downto 0); -- output signed 0 to 1024 in SP float
+
+component mem_signed256 is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_value : in std_logic_vector (7 downto 0); -- input hex from 0 to 255
+o_value : out std_logic_vector (31 downto 0) -- output signed -128 to 127 in SP float
+);
+end component mem_signed256;
+signal mem_signed256_clock : std_logic;
+signal mem_signed256_reset : std_logic;
+signal mem_signed256_ivalue : std_logic_vector (7 downto 0); -- input hex from 0 to 255
+signal mem_signed256_ovalue : std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
 
 begin
 
@@ -1806,6 +1823,11 @@ CalculatePixOSCPSP_rom_constants_float <= rom_constants_float;
 ExtractAlphaParameters_rom_constants_float <= rom_constants_float;
 CalculateTo_rom_constants_float <= rom_constants_float;
 
+mem_signed256_ivalue <=
+CalculatePixOS_mem_signed256_ivalue when CalculatePixOS_mux = '1' else
+(others => '0');
+CalculatePixOS_mem_signed256_ovalue <= mem_signed256_ovalue;
+
 mem_signed1024_ivalue <=
 CalculateAlphaCP_mem_signed1024_ivalue when CalculateAlphaCP_mux = '1' else
 (others => '0');
@@ -2273,6 +2295,8 @@ o_2powx_p8_4bit_adr => CalculatePixOS_2powx_p8_4bit_adr,
 o_signed3bit_ena => CalculatePixOS_signed3bit_ena,
 o_signed3bit_adr => CalculatePixOS_signed3bit_adr,
 i_rom_constants_float => CalculatePixOS_rom_constants_float,
+o_mem_signed256_ivalue => CalculatePixOS_mem_signed256_ivalue,
+i_mem_signed256_ovalue => CalculatePixOS_mem_signed256_ovalue,
 fixed2floata => CalculatePixOS_fixed2floata,
 fixed2floatond => CalculatePixOS_fixed2floatond,
 fixed2floatce => CalculatePixOS_fixed2floatce,
@@ -2599,6 +2623,15 @@ i_clock => mem_signed1024_clock,
 i_reset => mem_signed1024_reset,
 i_value => mem_signed1024_ivalue,
 o_value => mem_signed1024_ovalue
+);
+
+mem_signed256_clock <= i_clock;
+mem_signed256_reset <= i_reset;
+inst_mem_signed256_ktarcee : mem_signed256 port map (
+i_clock => mem_signed256_clock,
+i_reset => mem_signed256_reset,
+i_value => mem_signed256_ivalue,
+o_value => mem_signed256_ovalue
 );
 
 end architecture testbench;

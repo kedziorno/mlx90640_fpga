@@ -135,6 +135,9 @@ signal o_signed3bit_ena : out std_logic;
 signal o_signed3bit_adr : out std_logic_vector (2 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
+signal o_mem_signed256_ivalue : out std_logic_vector (7 downto 0); -- input hex from 0 to 255
+signal i_mem_signed256_ovalue : in std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
+
 signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpond : out STD_LOGIC;
@@ -176,6 +179,8 @@ signal ExtractKtaParameters_2powx_4bit_adr : std_logic_vector (3 downto 0);
 signal ExtractKtaParameters_signed3bit_ena : std_logic;
 signal ExtractKtaParameters_signed3bit_adr : std_logic_vector (2 downto 0);
 signal ExtractKtaParameters_rom_constants_float : std_logic_vector (31 downto 0);
+signal ExtractKtaParameters_mem_signed256_ivalue : std_logic_vector (7 downto 0); -- input hex from 0 to 255
+signal ExtractKtaParameters_mem_signed256_ovalue : std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
 signal ExtractKtaParameters_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractKtaParameters_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractKtaParameters_mulfpond : STD_LOGIC;
@@ -253,6 +258,19 @@ signal i_signed3bit_en : std_logic := '0';
 signal i_signed3bit_adr : std_logic_vector(2 downto 0) := (others => '0');
 signal o_float : std_logic_vector(31 downto 0);
 
+component mem_signed256 is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_value : in std_logic_vector (7 downto 0); -- input hex from 0 to 255
+o_value : out std_logic_vector (31 downto 0) -- output signed -128 to 127 in SP float
+);
+end component mem_signed256;
+signal mem_signed256_clock : std_logic;
+signal mem_signed256_reset : std_logic;
+signal mem_signed256_ivalue : std_logic_vector (7 downto 0); -- input hex from 0 to 255
+signal mem_signed256_ovalue : std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
+
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
 
@@ -293,6 +311,9 @@ o_2powx_4bit_adr => ExtractKtaParameters_2powx_4bit_adr,
 o_signed3bit_ena => ExtractKtaParameters_signed3bit_ena,
 o_signed3bit_adr => ExtractKtaParameters_signed3bit_adr,
 i_rom_constants_float => ExtractKtaParameters_rom_constants_float,
+
+o_mem_signed256_ivalue => ExtractKtaParameters_mem_signed256_ivalue,
+i_mem_signed256_ovalue => ExtractKtaParameters_mem_signed256_ovalue,
 
 mulfpa => ExtractKtaParameters_mulfpa,
 mulfpb => ExtractKtaParameters_mulfpb,
@@ -474,6 +495,15 @@ i_2powx_p8_4bit_adr => ExtractKtaParameters_2powx_p8_4bit_adr,
 i_signed3bit_en => ExtractKtaParameters_signed3bit_ena,
 i_signed3bit_adr => ExtractKtaParameters_signed3bit_adr,
 o_float => ExtractKtaParameters_rom_constants_float
+);
+
+mem_signed256_clock <= ExtractKtaParameters_clock;
+mem_signed256_reset <= ExtractKtaParameters_reset;
+inst_mem_signed256_ktarcee : mem_signed256 port map (
+i_clock => mem_signed256_clock,
+i_reset => mem_signed256_reset,
+i_value => ExtractKtaParameters_mem_signed256_ivalue,
+o_value => ExtractKtaParameters_mem_signed256_ovalue
 );
 
 END;
