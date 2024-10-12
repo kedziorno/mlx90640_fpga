@@ -64,6 +64,11 @@ signal o_2powx_4bit_ena : out std_logic;
 signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
+signal o_mem_signed256_ivalue : out std_logic_vector (7 downto 0);
+signal i_mem_signed256_ovalue : in std_logic_vector (31 downto 0);
+signal o_mem_signed1024_ivalue : out std_logic_vector(9 downto 0);
+signal i_mem_signed1024_ovalue : in std_logic_vector(31 downto 0);
+
 signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -107,34 +112,6 @@ signal subfprdy : in STD_LOGIC
 end CalculatePixOsCPSP;
 
 architecture Behavioral of CalculatePixOsCPSP is
-
-COMPONENT mem_signed1024 -- 1024 - -512-511 - offsetSP0 floatSP
-PORT(
-i_clock : IN  std_logic;
-i_reset : IN  std_logic;
-i_value : IN  std_logic_vector(9 downto 0);
-o_value : OUT  std_logic_vector(31 downto 0)
-);
-END COMPONENT mem_signed1024;
-
-signal mem_signed1024_clock : std_logic;
-signal mem_signed1024_reset : std_logic;
-signal mem_signed1024_ivalue : std_logic_vector(9 downto 0);
-signal mem_signed1024_ovalue : std_logic_vector(31 downto 0);
-
-component mem_signed256 is -- for Kta,Kv,cpKta,cpKv
-port (
-i_clock : in std_logic;
-i_reset : in std_logic;
-i_value : in std_logic_vector (7 downto 0); -- input hex from 0 to 255
-o_value : out std_logic_vector (31 downto 0) -- output signed -128 to 127 in SP float
-);
-end component mem_signed256;
-
-signal mem_signed256_clock : std_logic;
-signal mem_signed256_reset : std_logic;
-signal mem_signed256_ivalue : std_logic_vector (7 downto 0);
-signal mem_signed256_ovalue : std_logic_vector (31 downto 0);
 
 signal rdy : std_logic;
 
@@ -275,8 +252,8 @@ begin
 			subfpce_internal <= '0';
 			divfpce_internal <= '0';
 			fixed2floatce_internal <= '0';
-			mem_signed1024_ivalue <= (others => '0');
-			mem_signed256_ivalue <= (others => '0');
+			o_mem_signed1024_ivalue <= (others => '0');
+			o_mem_signed256_ivalue <= (others => '0');
 			i2c_mem_ena_internal <= '0';
 			i2c_mem_addra_internal <= (others => '0');
 			o_pixoscpsp0 <= (others => '0');
@@ -313,13 +290,13 @@ begin
           o_2powx_4bit_ena <= '1';
           o_2powx_4bit_adr <= i2c_mem_douta_internal (3 downto 0); -- ee2438 0f00 - kvscale
         when s1e => state := s1f;
-          mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
+          o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
         when s1f => state := s2;
           out_nibble3 <= i_rom_constants_float; -- kvscale
           o_2powx_4bit_ena <= '0';
         when s2 =>
 					divfpce_internal <= '1';
-					divfpa_internal <= mem_signed256_ovalue; -- kvcpee
+					divfpa_internal <= i_mem_signed256_ovalue; -- kvcpee
 					divfpb_internal <= out_nibble3; -- 2^kvscale;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s4;
@@ -352,12 +329,12 @@ begin
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
+            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
           else state := s6; end if;
         when s7 =>
           addfpsclr_internal <= '0';
 					divfpce_internal <= '1';
-					divfpa_internal <= mem_signed256_ovalue; -- kvcp
+					divfpa_internal <= i_mem_signed256_ovalue; -- kvcp
 					divfpb_internal <= out_nibble3; -- 2^kvscale;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s8;
@@ -401,12 +378,12 @@ begin
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
+            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
           else state := s12; end if;
         when s13 =>
           addfpsclr_internal <= '0';
 					divfpce_internal <= '1';
-					divfpa_internal <= mem_signed256_ovalue; -- ktacp
+					divfpa_internal <= i_mem_signed256_ovalue; -- ktacp
 					divfpb_internal <= out_nibble2; -- 2^ktascale1;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s14;
@@ -438,12 +415,12 @@ begin
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
+            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
           else state := s16; end if;
         when s17 =>
           addfpsclr_internal <= '0';
 					divfpce_internal <= '1';
-					divfpa_internal <= mem_signed256_ovalue; -- ktacp
+					divfpa_internal <= i_mem_signed256_ovalue; -- ktacp
 					divfpb_internal <= out_nibble2; -- 2^ktascale1;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s18;
@@ -463,12 +440,12 @@ begin
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
-            mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
+            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
           else state := s18; end if;
         when s19 =>
           mulfpsclr_internal <= '0';
 					divfpce_internal <= '1';
-					divfpa_internal <= mem_signed256_ovalue; -- kvcp
+					divfpa_internal <= i_mem_signed256_ovalue; -- kvcp
 					divfpb_internal <= out_nibble3; -- 2^kvscale;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s20;
@@ -512,12 +489,12 @@ begin
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
+            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
           else state := s24; end if;
         when s25 =>
           addfpsclr_internal <= '0';
 					divfpce_internal <= '1';
-					divfpa_internal <= mem_signed256_ovalue; -- ktacp
+					divfpa_internal <= i_mem_signed256_ovalue; -- ktacp
 					divfpb_internal <= out_nibble2; -- 2^ktascale1;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s26;
@@ -537,12 +514,12 @@ begin
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
-            mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
+            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
           else state := s26; end if;
         when s27 =>
           mulfpsclr_internal <= '0';
 					divfpce_internal <= '1';
-					divfpa_internal <= mem_signed256_ovalue; -- kvcp
+					divfpa_internal <= i_mem_signed256_ovalue; -- kvcp
 					divfpb_internal <= out_nibble3; -- 2^kvscale;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s28;
@@ -599,12 +576,12 @@ begin
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
+            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
           else state := s34; end if;
         when s35 =>
           addfpsclr_internal <= '0';
 					divfpce_internal <= '1';
-					divfpa_internal <= mem_signed256_ovalue; -- ktacp
+					divfpa_internal <= i_mem_signed256_ovalue; -- ktacp
 					divfpb_internal <= out_nibble2; -- 2^ktascale1;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s36;
@@ -648,12 +625,12 @@ begin
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
+            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
           else state := s40; end if;
         when s41 =>
           addfpsclr_internal <= '0';
 					divfpce_internal <= '1';
-					divfpa_internal <= mem_signed256_ovalue; -- ktacp
+					divfpa_internal <= i_mem_signed256_ovalue; -- ktacp
 					divfpb_internal <= out_nibble2; -- 2^ktascale1;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s42;
@@ -673,12 +650,12 @@ begin
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
-            mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
+            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
           else state := s42; end if;
         when s43 =>
           mulfpsclr_internal <= '0';
 					divfpce_internal <= '1';
-					divfpa_internal <= mem_signed256_ovalue; -- kvcp
+					divfpa_internal <= i_mem_signed256_ovalue; -- kvcp
 					divfpb_internal <= out_nibble3; -- 2^kvscale;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s44;
@@ -734,12 +711,12 @@ begin
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-          mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
+            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
           else state := s50; end if;
         when s51 =>
           addfpsclr_internal <= '0';
 					divfpce_internal <= '1';
-					divfpa_internal <= mem_signed256_ovalue; -- ktacp
+					divfpa_internal <= i_mem_signed256_ovalue; -- ktacp
 					divfpb_internal <= out_nibble2; -- 2^ktascale1;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s52;
@@ -759,12 +736,12 @@ begin
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
-            mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
+            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
           else state := s52; end if;
         when s53 =>
           mulfpsclr_internal <= '0';
 					divfpce_internal <= '1';
-					divfpa_internal <= mem_signed256_ovalue; -- kvcp
+					divfpa_internal <= i_mem_signed256_ovalue; -- kvcp
 					divfpb_internal <= out_nibble3; -- 2^kvscale;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s54;
@@ -817,9 +794,9 @@ begin
         when s61 => state := s63;
           ram (7 downto 0) := i2c_mem_douta_internal;
         when s63 =>
-          mem_signed1024_ivalue <= i2c_mem_douta_internal (1 downto 0) & ram; -- ee243a 0x03ff - 10bit - ram
+          o_mem_signed1024_ivalue <= i2c_mem_douta_internal (1 downto 0) & ram; -- ee243a 0x03ff - 10bit - ram
           mulfpce_internal <= '1';
-          mulfpa_internal <= mem_signed1024_ovalue; -- ram
+          mulfpa_internal <= i_mem_signed1024_ovalue; -- ram
           mulfpb_internal <= calc; -- (...)
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s64; -- -- --
@@ -903,10 +880,10 @@ begin
           o_signed6bit_ena <= '1';
           o_signed6bit_adr <= i2c_mem_douta_internal (7 downto 2); -- ee243a 0xfc00 - 6bit - offcpsubpage1delta
         when d59a => state := d62c;
-          mem_signed1024_ivalue <= i2c_mem_douta_internal (1 downto 0) & ram; -- ee243a 0x03ff - 10bit - ram
+          o_mem_signed1024_ivalue <= i2c_mem_douta_internal (1 downto 0) & ram; -- ee243a 0x03ff - 10bit - ram
         when d62c =>
           addfpce_internal <= '1';
-          addfpa_internal <= mem_signed1024_ovalue; -- ram
+          addfpa_internal <= i_mem_signed1024_ovalue; -- ram
           addfpb_internal <= i_rom_constants_float; -- offcpsubpage1delta
           addfpond_internal <= '1';
           if (addfprdy_internal = '1') then state := d63; -- offcpsubpage1
@@ -997,25 +974,5 @@ begin
 		end if;
 	end if;
 end process p0;
-
-mem_signed256_clock <= i_clock;
-mem_signed256_reset <= i_reset;
-inst_mem_signed256_ktacpee_kvcpee : mem_signed256
-port map (
-i_clock => mem_signed256_clock,
-i_reset => mem_signed256_reset,
-i_value => mem_signed256_ivalue,
-o_value => mem_signed256_ovalue
-);
-
-mem_signed1024_clock <= i_clock;
-mem_signed1024_reset <= i_reset;
-inst_mem_signed1024_offsetSP0 : mem_signed1024 -- 1024 - -512-511 - offsetSP0 floatSP
-port map (
-i_clock => mem_signed1024_clock,
-i_reset => mem_signed1024_reset,
-i_value => mem_signed1024_ivalue,
-o_value => mem_signed1024_ovalue
-);
 
 end architecture Behavioral;

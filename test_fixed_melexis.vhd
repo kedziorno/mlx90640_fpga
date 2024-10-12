@@ -734,6 +734,10 @@ signal o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
 signal o_2powx_4bit_ena : out std_logic;
 signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
+signal o_mem_signed256_ivalue : out std_logic_vector (7 downto 0);
+signal i_mem_signed256_ovalue : in std_logic_vector (31 downto 0);
+signal o_mem_signed1024_ivalue : out std_logic_vector(9 downto 0);
+signal i_mem_signed1024_ovalue : in std_logic_vector(31 downto 0);
 signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -792,6 +796,10 @@ signal CalculatePixOsCPSP_2powx_p8_4bit_adr : std_logic_vector (3 downto 0);
 signal CalculatePixOsCPSP_2powx_4bit_ena : std_logic;
 signal CalculatePixOsCPSP_2powx_4bit_adr : std_logic_vector (3 downto 0);
 signal CalculatePixOsCPSP_rom_constants_float : std_logic_vector (31 downto 0);
+signal CalculatePixOsCPSP_mem_signed256_ivalue : std_logic_vector (7 downto 0);
+signal CalculatePixOsCPSP_mem_signed256_ovalue : std_logic_vector (31 downto 0);
+signal CalculatePixOsCPSP_mem_signed1024_ivalue : std_logic_vector(9 downto 0);
+signal CalculatePixOsCPSP_mem_signed1024_ovalue : std_logic_vector(31 downto 0);
 signal CalculatePixOsCPSP_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal CalculatePixOsCPSP_fixed2floatond : STD_LOGIC;
 signal CalculatePixOsCPSP_fixed2floatsclr : STD_LOGIC;
@@ -1825,13 +1833,17 @@ CalculateTo_rom_constants_float <= rom_constants_float;
 
 mem_signed256_ivalue <=
 CalculatePixOS_mem_signed256_ivalue when CalculatePixOS_mux = '1' else
+CalculatePixOSCPSP_mem_signed256_ivalue when CalculatePixOSCPSP_mux = '1' else
 (others => '0');
 CalculatePixOS_mem_signed256_ovalue <= mem_signed256_ovalue;
+CalculatePixOSCPSP_mem_signed256_ovalue <= mem_signed256_ovalue;
 
 mem_signed1024_ivalue <=
 CalculateAlphaCP_mem_signed1024_ivalue when CalculateAlphaCP_mux = '1' else
+CalculatePixOSCPSP_mem_signed1024_ivalue when CalculatePixOSCPSP_mux = '1' else
 (others => '0');
 CalculateAlphaCP_mem_signed1024_ovalue <= mem_signed1024_ovalue;
+CalculatePixOSCPSP_mem_signed1024_ovalue <= mem_signed1024_ovalue;
 
 	-- purpose: main test loop
 	tester : process (i_clock,i_reset) is
@@ -2365,6 +2377,11 @@ o_2powx_p8_4bit_adr => CalculatePixOsCPSP_2powx_p8_4bit_adr,
 o_2powx_4bit_ena => CalculatePixOsCPSP_2powx_4bit_ena,
 o_2powx_4bit_adr => CalculatePixOsCPSP_2powx_4bit_adr,
 i_rom_constants_float => CalculatePixOsCPSP_rom_constants_float,
+
+o_mem_signed256_ivalue => CalculatePixOsCPSP_mem_signed256_ivalue,
+i_mem_signed256_ovalue => CalculatePixOsCPSP_mem_signed256_ovalue,
+o_mem_signed1024_ivalue => CalculatePixOsCPSP_mem_signed1024_ivalue,
+i_mem_signed1024_ovalue => CalculatePixOsCPSP_mem_signed1024_ovalue,
 
 fixed2floata => CalculatePixOSCPSP_fixed2floata,
 fixed2floatond => CalculatePixOSCPSP_fixed2floatond,
