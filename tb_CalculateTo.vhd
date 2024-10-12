@@ -177,6 +177,9 @@ signal o_2powx_p8_ena : out std_logic;
 signal o_2powx_p8_adr : out std_logic_vector (3 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
+signal o_mem_signed256_ivalue : out std_logic_vector (7 downto 0); -- input hex from 0 to 255
+signal i_mem_signed256_ovalue : in std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
+
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpond : out STD_LOGIC;
@@ -236,6 +239,9 @@ signal CalculateTo_rdy : std_logic;
 signal CalculateTo_2powx_p8_ena : std_logic;
 signal CalculateTo_2powx_p8_adr : std_logic_vector (3 downto 0);
 signal CalculateTo_rom_constants_float : std_logic_vector (31 downto 0);
+
+signal CalculateTo_mem_signed256_ivalue : std_logic_vector (7 downto 0); -- input hex from 0 to 255
+signal CalculateTo_mem_signed256_ovalue : std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
 
 signal CalculateTo_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateTo_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -310,6 +316,19 @@ o_float : OUT  std_logic_vector(31 downto 0)
 );
 END COMPONENT;
 
+component mem_signed256 is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_value : in std_logic_vector (7 downto 0); -- input hex from 0 to 255
+o_value : out std_logic_vector (31 downto 0) -- output signed -128 to 127 in SP float
+);
+end component mem_signed256;
+signal mem_signed256_clock : std_logic;
+signal mem_signed256_reset : std_logic;
+signal mem_signed256_ivalue : std_logic_vector (7 downto 0); -- input hex from 0 to 255
+signal mem_signed256_ovalue : std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
+
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
 
@@ -349,6 +368,9 @@ o_rdy => CalculateTo_rdy,
 o_2powx_p8_ena => CalculateTo_2powx_p8_ena,
 o_2powx_p8_adr => CalculateTo_2powx_p8_adr,
 i_rom_constants_float => CalculateTo_rom_constants_float,
+
+o_mem_signed256_ivalue => CalculateTo_mem_signed256_ivalue,
+i_mem_signed256_ovalue => CalculateTo_mem_signed256_ovalue,
 
 divfpa => CalculateTo_divfpa,
 divfpb => CalculateTo_divfpb,
@@ -672,6 +694,13 @@ i_2powx_p8_4bit_adr => CalculateTo_2powx_p8_adr,
 i_signed3bit_en => '0',
 i_signed3bit_adr => (others => '0'),
 o_float => CalculateTo_rom_constants_float
+);
+
+inst_mem_signed256_fp32 : mem_signed256 port map (
+i_clock => CalculateTo_clock,
+i_reset => CalculateTo_reset,
+i_value => CalculateTo_mem_signed256_ivalue,
+o_value => CalculateTo_mem_signed256_ovalue
 );
 
 END;

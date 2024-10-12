@@ -1062,6 +1062,9 @@ signal o_2powx_p8_ena : out std_logic;
 signal o_2powx_p8_adr : out std_logic_vector (3 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
+signal o_mem_signed256_ivalue : out std_logic_vector (7 downto 0); -- input hex from 0 to 255
+signal i_mem_signed256_ovalue : in std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
+
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpond : out STD_LOGIC;
@@ -1121,6 +1124,9 @@ signal CalculateTo_rdy : std_logic;
 signal CalculateTo_2powx_p8_ena : std_logic;
 signal CalculateTo_2powx_p8_adr : std_logic_vector (3 downto 0);
 signal CalculateTo_rom_constants_float : std_logic_vector (31 downto 0);
+
+signal CalculateTo_mem_signed256_ivalue : std_logic_vector (7 downto 0); -- input hex from 0 to 255
+signal CalculateTo_mem_signed256_ovalue : std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
 
 signal CalculateTo_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateTo_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -1834,9 +1840,11 @@ CalculateTo_rom_constants_float <= rom_constants_float;
 mem_signed256_ivalue <=
 CalculatePixOS_mem_signed256_ivalue when CalculatePixOS_mux = '1' else
 CalculatePixOSCPSP_mem_signed256_ivalue when CalculatePixOSCPSP_mux = '1' else
+CalculateTo_mem_signed256_ivalue when CalculateTo_mux = '1' else
 (others => '0');
 CalculatePixOS_mem_signed256_ovalue <= mem_signed256_ovalue;
 CalculatePixOSCPSP_mem_signed256_ovalue <= mem_signed256_ovalue;
+CalculateTo_mem_signed256_ovalue <= mem_signed256_ovalue;
 
 mem_signed1024_ivalue <=
 CalculateAlphaCP_mem_signed1024_ivalue when CalculateAlphaCP_mux = '1' else
@@ -2564,6 +2572,9 @@ o_2powx_p8_ena => CalculateTo_2powx_p8_ena,
 o_2powx_p8_adr => CalculateTo_2powx_p8_adr,
 i_rom_constants_float => CalculateTo_rom_constants_float,
 
+o_mem_signed256_ivalue => CalculateTo_mem_signed256_ivalue,
+i_mem_signed256_ovalue => CalculateTo_mem_signed256_ovalue,
+
 divfpa => CalculateTo_divfpa,
 divfpb => CalculateTo_divfpb,
 divfpond => CalculateTo_divfpond,
@@ -2634,7 +2645,7 @@ o_float => rom_constants_float
 
 mem_signed1024_clock <= i_clock;
 mem_signed1024_reset <= i_reset;
-inst_mem_signed1024 : mem_signed1024
+inst_mem_signed1024_fp32 : mem_signed1024
 port map (
 i_clock => mem_signed1024_clock,
 i_reset => mem_signed1024_reset,
@@ -2644,7 +2655,7 @@ o_value => mem_signed1024_ovalue
 
 mem_signed256_clock <= i_clock;
 mem_signed256_reset <= i_reset;
-inst_mem_signed256_ktarcee : mem_signed256 port map (
+inst_mem_signed256_fp32 : mem_signed256 port map (
 i_clock => mem_signed256_clock,
 i_reset => mem_signed256_reset,
 i_value => mem_signed256_ivalue,

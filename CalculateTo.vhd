@@ -54,6 +54,9 @@ i_addr : IN  std_logic_vector(9 downto 0);
 
 o_rdy : out std_logic;
 
+signal o_mem_signed256_ivalue : out std_logic_vector (7 downto 0); -- input hex from 0 to 255
+signal i_mem_signed256_ovalue : in std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
+
 signal o_2powx_p8_ena : out std_logic;
 signal o_2powx_p8_adr : out std_logic_vector (3 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
@@ -304,19 +307,6 @@ signal WE : in std_logic
 );
 end component mem_ramb16_s36_x2;
 
-component mem_signed256 is
-port (
-i_clock : in std_logic;
-i_reset : in std_logic;
-i_value : in std_logic_vector (7 downto 0); -- input hex from 0 to 255
-o_value : out std_logic_vector (31 downto 0) -- output signed -128 to 127 in SP float
-);
-end component mem_signed256;
-signal mem_signed256_clock : std_logic;
-signal mem_signed256_reset : std_logic;
-signal mem_signed256_ivalue : std_logic_vector (7 downto 0); -- input hex from 0 to 255
-signal mem_signed256_ovalue : std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
-
 COMPONENT ExtractKsToScaleParameter
 PORT(
 i_clock : IN  std_logic;
@@ -513,7 +503,7 @@ begin
             subfpce_internal <= '0';
             subfpond_internal <= '0';
             subfpsclr_internal <= '1';
-            mem_signed256_ivalue <= i2c_mem_douta_internal; -- ksto2ee
+            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- ksto2ee
           else state := s10; end if;
         when s10a =>
           subfpsclr_internal <= '0';
@@ -789,7 +779,7 @@ begin
         when s51 =>
           sqrtfp2sclr_internal <= '0';
           divfpce_internal <= '1';
-          divfpa_internal <= mem_signed256_ovalue;
+          divfpa_internal <= i_mem_signed256_ovalue;
           divfpb_internal <= ExtractKsToScaleParameter_kstoscale;
           divfpond_internal <= '1';
           if (divfprdy_internal = '1') then state := s51a;
@@ -939,15 +929,6 @@ begin
 		end if;
 	end if;
 end process p0;
-
-mem_signed256_clock <= i_clock;
-mem_signed256_reset <= i_reset;
-inst_mem_signed256 : mem_signed256 port map (
-i_clock => mem_signed256_clock,
-i_reset => mem_signed256_reset,
-i_value => mem_signed256_ivalue,
-o_value => mem_signed256_ovalue
-);
 
 ExtractKsToScaleParameter_clock <= i_clock;
 ExtractKsToScaleParameter_reset <= i_reset;
