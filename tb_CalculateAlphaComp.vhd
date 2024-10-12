@@ -59,6 +59,26 @@ signal mulfpsclr : STD_LOGIC;
 signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfprdy : STD_LOGIC;
 
+COMPONENT divfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : STD_LOGIC;
+signal divfpce : STD_LOGIC;
+signal divfpsclr : STD_LOGIC;
+signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : STD_LOGIC;
+
 COMPONENT addfp
 PORT (
 a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -99,6 +119,24 @@ signal subfpsclr : STD_LOGIC;
 signal subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfprdy : STD_LOGIC;
 
+COMPONENT fixed2float
+PORT (
+a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : STD_LOGIC;
+signal fixed2floatce : STD_LOGIC;
+signal fixed2floatsclr : STD_LOGIC;
+signal fixed2floatr :  STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : STD_LOGIC;
+
 -- Component Declaration for the Unit Under Test (UUT)
 COMPONENT CalculateAlphaComp
 PORT(
@@ -115,6 +153,7 @@ i_Ta0 : in std_logic_vector (31 downto 0);
 i_acpsubpage0 : in std_logic_vector (31 downto 0);
 i_acpsubpage1 : in std_logic_vector (31 downto 0);
 i_const1 : in std_logic_vector (31 downto 0);
+i_tgc : in std_logic_vector (31 downto 0);
 
 i_alpha_do : in std_logic_vector (31 downto 0);
 o_alpha_addr : out std_logic_vector (9 downto 0); -- 10bit-1024
@@ -132,6 +171,14 @@ signal mulfpce : out STD_LOGIC;
 signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfprdy : in STD_LOGIC;
 
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC;
+
 signal addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfpond : out STD_LOGIC;
@@ -146,7 +193,14 @@ signal subfpond : out STD_LOGIC;
 signal subfpsclr : out STD_LOGIC;
 signal subfpce : out STD_LOGIC;
 signal subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal subfprdy : in STD_LOGIC
+signal subfprdy : in STD_LOGIC;
+
+signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC
 );
 END COMPONENT;
 signal CalculateAlphaComp_clock : std_logic := '0';
@@ -158,6 +212,7 @@ signal CalculateAlphaComp_Ta0 : std_logic_vector(31 downto 0) := (others => '0')
 signal CalculateAlphaComp_acpsubpage0 : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_acpsubpage1 : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_const1 : std_logic_vector(31 downto 0) := (others => '0');
+signal CalculateAlphaComp_tgc : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_alpha_do : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_addr : std_logic_vector(9 downto 0) := (others => '0');
 signal CalculateAlphaComp_i2c_mem_ena : std_logic;
@@ -172,6 +227,13 @@ signal CalculateAlphaComp_mulfpsclr : STD_LOGIC;
 signal CalculateAlphaComp_mulfpce : STD_LOGIC;
 signal CalculateAlphaComp_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaComp_mulfprdy : STD_LOGIC;
+signal CalculateAlphaComp_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaComp_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaComp_divfpond : STD_LOGIC;
+signal CalculateAlphaComp_divfpsclr : STD_LOGIC;
+signal CalculateAlphaComp_divfpce : STD_LOGIC;
+signal CalculateAlphaComp_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaComp_divfprdy : STD_LOGIC;
 signal CalculateAlphaComp_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaComp_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaComp_addfpond : STD_LOGIC;
@@ -186,10 +248,18 @@ signal CalculateAlphaComp_subfpsclr : STD_LOGIC;
 signal CalculateAlphaComp_subfpce : STD_LOGIC;
 signal CalculateAlphaComp_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaComp_subfprdy : STD_LOGIC;
+signal CalculateAlphaComp_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculateAlphaComp_fixed2floatond : STD_LOGIC;
+signal CalculateAlphaComp_fixed2floatsclr : STD_LOGIC;
+signal CalculateAlphaComp_fixed2floatce : STD_LOGIC;
+signal CalculateAlphaComp_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaComp_fixed2floatrdy : STD_LOGIC;
 
 signal CalculateAlphaComp_mulfpclk : std_logic;
+signal CalculateAlphaComp_divfpclk : std_logic;
 signal CalculateAlphaComp_addfpclk : std_logic;
 signal CalculateAlphaComp_subfpclk : std_logic;
+signal CalculateAlphaComp_fixed2floatclk : std_logic;
 
 COMPONENT tb_i2c_mem
 PORT (
@@ -221,6 +291,7 @@ dina => (others => '0'),
 douta => CalculateAlphaComp_i2c_mem_douta
 );
 
+CalculateAlphaComp_tgc <= x"00000000";
 -- Instantiate the Unit Under Test (UUT)
 uut: CalculateAlphaComp PORT MAP (
 i_clock => CalculateAlphaComp_clock,
@@ -234,6 +305,7 @@ i_Ta0 => CalculateAlphaComp_Ta0,
 i_acpsubpage0 => CalculateAlphaComp_acpsubpage0,
 i_acpsubpage1 => CalculateAlphaComp_acpsubpage1,
 i_const1 => CalculateAlphaComp_const1,
+i_tgc => CalculateAlphaComp_tgc,
 i_alpha_do => CalculateAlphaComp_alpha_do,
 o_alpha_addr => CalculateAlphaComp_alpha_addr,
 o_do => CalculateAlphaComp_do,
@@ -247,6 +319,14 @@ mulfpsclr => CalculateAlphaComp_mulfpsclr,
 mulfpce => CalculateAlphaComp_mulfpce,
 mulfpr => CalculateAlphaComp_mulfpr,
 mulfprdy => CalculateAlphaComp_mulfprdy,
+
+divfpa => CalculateAlphaComp_divfpa,
+divfpb => CalculateAlphaComp_divfpb,
+divfpond => CalculateAlphaComp_divfpond,
+divfpsclr => CalculateAlphaComp_divfpsclr,
+divfpce => CalculateAlphaComp_divfpce,
+divfpr => CalculateAlphaComp_divfpr,
+divfprdy => CalculateAlphaComp_divfprdy,
 
 addfpa => CalculateAlphaComp_addfpa,
 addfpb => CalculateAlphaComp_addfpb,
@@ -262,7 +342,14 @@ subfpond => CalculateAlphaComp_subfpond,
 subfpsclr => CalculateAlphaComp_subfpsclr,
 subfpce => CalculateAlphaComp_subfpce,
 subfpr => CalculateAlphaComp_subfpr,
-subfprdy => CalculateAlphaComp_subfprdy
+subfprdy => CalculateAlphaComp_subfprdy,
+
+fixed2floata => CalculateAlphaComp_fixed2floata,
+fixed2floatond => CalculateAlphaComp_fixed2floatond,
+fixed2floatsclr => CalculateAlphaComp_fixed2floatsclr,
+fixed2floatce => CalculateAlphaComp_fixed2floatce,
+fixed2floatr => CalculateAlphaComp_fixed2floatr,
+fixed2floatrdy => CalculateAlphaComp_fixed2floatrdy
 
 );
 
@@ -382,7 +469,7 @@ report "before loop";
         CalculateAlphaComp_alpha_do <= data.last(k).a;
       end if;
     end loop;
-    wait for 1.370us; -- XXX the same as CalculateAlphaComp wait for data from ExtractAlphaParameters MEM
+    wait for 1.910us; -- XXX the same as CalculateAlphaComp wait for data from ExtractAlphaParameters MEM
   end loop;
 report "after loop";
 --wait until CalculateAlphaComp_rdy = '1';
@@ -427,8 +514,10 @@ report "done" severity failure;
 end process;
 
 CalculateAlphaComp_mulfpclk <= CalculateAlphaComp_clock;
+CalculateAlphaComp_divfpclk <= CalculateAlphaComp_clock;
 CalculateAlphaComp_addfpclk <= CalculateAlphaComp_clock;
 CalculateAlphaComp_subfpclk <= CalculateAlphaComp_clock;
+CalculateAlphaComp_fixed2floatclk <= CalculateAlphaComp_clock;
 
 inst_mulfp : mulfp
 PORT MAP (
@@ -440,6 +529,18 @@ sclr => CalculateAlphaComp_mulfpsclr,
 ce => CalculateAlphaComp_mulfpce,
 result => CalculateAlphaComp_mulfpr,
 rdy => CalculateAlphaComp_mulfprdy
+);
+
+inst_divfp : divfp
+PORT MAP (
+a => CalculateAlphaComp_divfpa,
+b => CalculateAlphaComp_divfpb,
+operation_nd => CalculateAlphaComp_divfpond,
+clk => CalculateAlphaComp_divfpclk,
+sclr => CalculateAlphaComp_divfpsclr,
+ce => CalculateAlphaComp_divfpce,
+result => CalculateAlphaComp_divfpr,
+rdy => CalculateAlphaComp_divfprdy
 );
 
 inst_addfp : addfp
@@ -464,6 +565,17 @@ sclr => CalculateAlphaComp_subfpsclr,
 ce => CalculateAlphaComp_subfpce,
 result => CalculateAlphaComp_subfpr,
 rdy => CalculateAlphaComp_subfprdy
+);
+
+inst_fixed2float : fixed2float
+PORT MAP (
+a => CalculateAlphaComp_fixed2floata,
+operation_nd => CalculateAlphaComp_fixed2floatond,
+clk => CalculateAlphaComp_fixed2floatclk,
+sclr => CalculateAlphaComp_fixed2floatsclr,
+ce => CalculateAlphaComp_fixed2floatce,
+result => CalculateAlphaComp_fixed2floatr,
+rdy => CalculateAlphaComp_fixed2floatrdy
 );
 
 END;
