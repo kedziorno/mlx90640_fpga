@@ -138,7 +138,6 @@ signal mem_signed256_ovalue : std_logic_vector (31 downto 0);
 
 signal rdy : std_logic;
 
-signal nibble2,nibble3 : std_logic_vector (3 downto 0);
 signal out_nibble2,out_nibble3 : std_logic_vector (31 downto 0);
 
 signal i2c_mem_ena_internal : STD_LOGIC;
@@ -278,8 +277,6 @@ begin
 			fixed2floatce_internal <= '0';
 			mem_signed1024_ivalue <= (others => '0');
 			mem_signed256_ivalue <= (others => '0');
-			nibble2 <= (others => '0');
-			nibble3 <= (others => '0');
 			i2c_mem_ena_internal <= '0';
 			i2c_mem_addra_internal <= (others => '0');
 			o_pixoscpsp0 <= (others => '0');
@@ -1020,23 +1017,5 @@ i_reset => mem_signed1024_reset,
 i_value => mem_signed1024_ivalue,
 o_value => mem_signed1024_ovalue
 );
-
-----INIT_01 => X"4b000000 4a800000 4a000000 49800000 49000000 48800000 48000000 47800000",
-----INIT_00 => X"47000000 46800000 46000000 45800000 45000000 44800000 44000000 43800000",
---with nibble2 select out_nibble2 <= -- 2^(x+8) - ktascale1
---x"43800000" when x"0", x"44000000" when x"1", x"44800000" when x"2", x"45000000" when x"3",
---x"45800000" when x"4", x"46000000" when x"5", x"46800000" when x"6", x"47000000" when x"7",
---x"47800000" when x"8", x"48000000" when x"9", x"48800000" when x"a", x"49000000" when x"b",
---x"49800000" when x"c", x"4a000000" when x"d", x"4a800000" when x"e", x"4b000000" when x"f",
---x"00000000" when others;
-
-----INIT_01 => X"47000000 46800000 46000000 45800000 45000000 44800000 44000000 43800000",
-----INIT_00 => X"43000000 42800000 42000000 41800000 41000000 40800000 40000000 3f800000",
---with nibble3 select out_nibble3 <= -- 2^x - kvscale
---x"3f800000" when x"0", x"40000000" when x"1", x"40800000" when x"2", x"41000000" when x"3",
---x"41800000" when x"4", x"42000000" when x"5", x"42800000" when x"6", x"43000000" when x"7",
---x"43800000" when x"8", x"44000000" when x"9", x"44800000" when x"a", x"45000000" when x"b",
---x"45800000" when x"c", x"46000000" when x"d", x"46800000" when x"e", x"47000000" when x"f",
---x"00000000" when others;
 
 end architecture Behavioral;
