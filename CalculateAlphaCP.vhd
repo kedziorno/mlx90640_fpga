@@ -52,9 +52,6 @@ signal o_alphascale_2_ena : out std_logic;
 signal o_alphascale_2_adr : out std_logic_vector (3 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
-signal o_mem_signed1024_ivalue : out std_logic_vector (9 downto 0); -- input hex from 0 to 1024
-signal i_mem_signed1024_ovalue : in std_logic_vector (31 downto 0); -- output signed 0 to 1024 in SP float
-
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpond : out STD_LOGIC;
@@ -69,7 +66,14 @@ signal mulfpond : out STD_LOGIC;
 signal mulfpsclr : out STD_LOGIC;
 signal mulfpce : out STD_LOGIC;
 signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy : in STD_LOGIC
+signal mulfprdy : in STD_LOGIC;
+
+signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC
 
 );
 end CalculateAlphaCP;
@@ -92,6 +96,13 @@ signal mulfpce_internal : STD_LOGIC;
 signal mulfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfprdy_internal : STD_LOGIC;
 
+signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond_internal : STD_LOGIC;
+signal fixed2floatce_internal : STD_LOGIC;
+signal fixed2floatsclr_internal : STD_LOGIC;
+signal fixed2floatr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy_internal : STD_LOGIC;
+
 begin
 
 divfpa <= divfpa_internal;
@@ -110,6 +121,13 @@ mulfpce <= mulfpce_internal;
 mulfpr_internal <= mulfpr;
 mulfprdy_internal <= mulfprdy;
 
+fixed2floata <= fixed2floata_internal;
+fixed2floatond <= fixed2floatond_internal;
+fixed2floatsclr <= fixed2floatsclr_internal;
+fixed2floatce <= fixed2floatce_internal;
+fixed2floatr_internal <= fixed2floatr;
+fixed2floatrdy_internal <= fixed2floatrdy;
+
 p0 : process (i_clock,i_reset) is
 	type states is (idle,
 	s2,s3,s4,s5,s6,s9,s11);
@@ -121,6 +139,7 @@ begin
 			state := idle;
 			mulfpsclr_internal <= '1';
 			divfpsclr_internal <= '1';
+			fixed2floatsclr_internal <= '1';
 			o_acpsubpage0 <= (others => '0');
 			o_acpsubpage1 <= (others => '0');
 			o_rdy <= '0';
@@ -132,7 +151,6 @@ begin
 			mulfpb_internal <= (others => '0');
 			mulfpce_internal <= '0';
 			mulfpond_internal <= '0';
-			o_mem_signed1024_ivalue <= (others => '0');
 			i2c_mem_ena <= '0';
 		else
 			case (state) is
@@ -146,22 +164,47 @@ begin
 					end if;
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
+					fixed2floatsclr_internal <= '0';
 				when s2 => state := s3;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (57*2+0, 12)); -- 2439 MSB Acpsubpage0 10bit/CP_P12P0_ratio 6bit
 				when s3 => state := s4;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (57*2+1, 12)); -- 2439 LSB Acpsubpage0 10bit/CP_P12P0_ratio 6bit
 				when s4 => state := s5;
           acpsp0 := i2c_mem_douta (1 downto 0); -- Acpsubpage0 MSB 10-8bit
-          i2c_mem_addra <= std_logic_vector (to_unsigned (32*2+0, 12)); -- 2420 MSB Ascalecp 4bit
-				when s5 => state := s6;
-					o_mem_signed1024_ivalue <= acpsp0 & i2c_mem_douta (7 downto 0); -- Acpsubpage0 MSB 10-8 & LSB 7-0
+				when s5 =>
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <=
+          acpsp0 (1) & acpsp0 (1) & 
+          acpsp0 (1) & acpsp0 (1) & 
+          acpsp0 (1) & acpsp0 (1) & 
+          acpsp0 (1) & acpsp0 (1) & 
+          acpsp0 (1) & acpsp0 (1) & 
+          acpsp0 (1) & acpsp0 (1) & 
+          acpsp0 (1) & acpsp0 (1) & 
+          acpsp0 (1) & acpsp0 (1) & 
+          acpsp0 (1) & acpsp0 (1) & 
+          acpsp0 (1) & acpsp0 (1) & 
+          acpsp0 (1) & acpsp0 (1) & 
+          acpsp0 (1) & acpsp0 (1) & 
+          acpsp0 (1) & acpsp0 & i2c_mem_douta (7 downto 0) & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := s6; -- Acpsubpage0 MSB 10-8 & LSB 7-0
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+            --synthesis translate_off
+            report_error("================ CalulateAlphaCP acpsp0", fixed2floatr_internal, 0.0);
+            --synthesis translate_on      
+            i2c_mem_addra <= std_logic_vector (to_unsigned (32*2+0, 12)); -- 2420 MSB Ascalecp 4bit
+          else state := s5; end if;
         when s6 => state := s9;
+          fixed2floatsclr_internal <= '0';
 					o_alphascale_2_ena <= '1';
 					o_alphascale_2_adr <= i2c_mem_douta (7 downto 4); -- 2420 MSB Ascalecp 4bit
           i2c_mem_addra <= std_logic_vector (to_unsigned (57*2+0, 12)); -- 2439 MSB Acpsubpage0 10bit/CP_P12P0_ratio 6bit
         when s9 =>
 					divfpce_internal <= '1';
-					divfpa_internal <= i_mem_signed1024_ovalue; -- Acpsubpage0
+					divfpa_internal <= fixed2floatr_internal; -- Acpsubpage0
 					divfpb_internal <= i_rom_constants_float; -- 2^(Ascalecp+27)
 					divfpond_internal <= '1';
           if (divfprdy_internal = '1') then state := s11;
