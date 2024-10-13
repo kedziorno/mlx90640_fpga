@@ -89,33 +89,31 @@ end CalculateVdd;
 
 architecture Behavioral of CalculateVdd is
 
-COMPONENT ExtractVDDParameters
-PORT(
-i_clock : IN  std_logic;
-i_reset : IN  std_logic;
-i_run : in std_logic;
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-o_kvdd : OUT  std_logic_vector (31 downto 0);
-o_vdd25 : OUT  std_logic_vector (31 downto 0);
-o_rdy : out std_logic
-);
-END COMPONENT;
-signal ExtractVDDParameters_clock : std_logic;
-signal ExtractVDDParameters_reset : std_logic;
-signal ExtractVDDParameters_run : std_logic;
-signal ExtractVDDParameters_i2c_mem_ena : STD_LOGIC;
-signal ExtractVDDParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal ExtractVDDParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal ExtractVDDParameters_kvdd : std_logic_vector(31 downto 0);
-signal ExtractVDDParameters_vdd25 : std_logic_vector(31 downto 0);
-signal ExtractVDDParameters_rdy : std_logic;
+--COMPONENT ExtractVDDParameters
+--PORT(
+--i_clock : IN  std_logic;
+--i_reset : IN  std_logic;
+--i_run : in std_logic;
+--i2c_mem_ena : out STD_LOGIC;
+--i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+--i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+--o_kvdd : OUT  std_logic_vector (31 downto 0);
+--o_vdd25 : OUT  std_logic_vector (31 downto 0);
+--o_rdy : out std_logic
+--);
+--END COMPONENT;
+--signal ExtractVDDParameters_clock : std_logic;
+--signal ExtractVDDParameters_reset : std_logic;
+--signal ExtractVDDParameters_run : std_logic;
+--signal ExtractVDDParameters_i2c_mem_ena : STD_LOGIC;
+--signal ExtractVDDParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+--signal ExtractVDDParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+--signal ExtractVDDParameters_kvdd : std_logic_vector(31 downto 0);
+--signal ExtractVDDParameters_vdd25 : std_logic_vector(31 downto 0);
+--signal ExtractVDDParameters_rdy : std_logic;
 
 signal out_resolutionee,out_resolutionreg : std_logic_vector (31 downto 0);
 signal resolutionee,resolutionreg : std_logic_vector (1 downto 0);
-
-signal ExtractVDDParameters_mux : std_logic;
 
 signal i2c_mem_ena_internal : std_logic;
 signal i2c_mem_addra_internal : STD_LOGIC_VECTOR(11 DOWNTO 0);
@@ -123,24 +121,20 @@ signal i2c_mem_douta_internal : STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 begin
 
-i2c_mem_ena <=
-ExtractVDDParameters_i2c_mem_ena when ExtractVDDParameters_mux = '1'
-else i2c_mem_ena_internal;
-
-i2c_mem_addra <=
-ExtractVDDParameters_i2c_mem_addra when ExtractVDDParameters_mux = '1'
-else i2c_mem_addra_internal;
-
-ExtractVDDParameters_i2c_mem_douta <= i2c_mem_douta when ExtractVDDParameters_mux = '1' else (others => '0');
+i2c_mem_ena <= i2c_mem_ena_internal;
+i2c_mem_addra <= i2c_mem_addra_internal;
 i2c_mem_douta_internal <= i2c_mem_douta;
 
 p0 : process (i_clock) is
 	type states is (idle,
-	s2,s4,s5,s9,s10,
-	s11,s12,s15,s17,s19,
-	s21,s23);
-	variable state : states;
+  s2,s4,s5,s9,s10,
+  s11,s12,s13,s14,s14a,s15,s16,s17,s18,s19,
+  s20,s21,s22,s23);
+  variable state : states;
 	constant const3dot3_ft : std_logic_vector (31 downto 0) := x"40533333";
+	constant const2pow5_ft : std_logic_vector (31 downto 0) := x"42000000";
+	constant const2pow13_ft : std_logic_vector (31 downto 0) := x"46000000";
+	constant const256_ft : std_logic_vector (31 downto 0) := x"43800000";
 	variable ram : std_logic_vector (7 downto 0); -- XXX ram072a
 	constant resreg : std_logic_vector (15 downto 0) := x"1901" and x"0c00";
 begin
@@ -155,14 +149,13 @@ begin
 		o_Vdd <= (others => '0');
 		o_rdy <= '0';
 		i2c_mem_ena_internal <= '0';
+		i2c_mem_addra_internal <= (others => '0');
 	else
 	case (state) is
 	when idle =>
 		if (i_run = '1') then
 			state := s2;
 			i2c_mem_ena_internal <= '1';
-      ExtractVDDParameters_run <= '1';
-      ExtractVDDParameters_mux <= '1';
 		else
 			state := idle;
 			i2c_mem_ena_internal <= '0';
@@ -172,24 +165,13 @@ begin
 		subfpsclr <= '0';
 		mulfpsclr <= '0';
 		divfpsclr <= '0';
-	when s2 => 
-		ExtractVDDParameters_run <= '0';
-		if (ExtractVDDParameters_rdy = '1') then
-			state := s4;
-			ExtractVDDParameters_mux <= '0';
-      i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+0, 12)); -- 2438 MSB resolutionee 2bit & 3000
-		else
-			state := s2;
-			ExtractVDDParameters_mux <= '1';
-		end if;
+    fixed2floatsclr <= '0';
+	when s2 => state := s4;
+    i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+0, 12)); -- 2438 MSB resolutionee 2bit & 3000
 	when s4 => state := s5;
     resolutionreg <= resreg (11 downto 10);
-		--i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1, 12)); -- xxx request ram800d & 0c00 resolutionreg 2bit or constant
 	when s5 => state := s9;
 		resolutionee <= i2c_mem_douta_internal (5 downto 4);
-	--when s6 => state := s9;
-    --resolutionreg <= i2c_mem_douta_internal (3 downto 2); --0x0c00=0000 1100 0000 0000
-		--resolutionreg <= resreg (11 downto 10); -- XXX s4
 	when s9 =>
 		-- resolutioncorr
 		divfpce <= '1';
@@ -206,9 +188,9 @@ begin
 		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(810*2)+0, 12)); -- ram MSB
 	when s11 => state := s12;
 		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(810*2)+1, 12)); -- ram LSB
-	when s12 => state := s15;
+	when s12 => state := s13;
 		ram (7 downto 0) := i2c_mem_douta_internal;		
-	when s15 =>
+	when s13 =>
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <=
@@ -222,38 +204,133 @@ begin
 		ram (7) & ram (7) & 
 		ram (7) & ram (7) & 
 		ram (7) & ram & i2c_mem_douta_internal & "00000000000000000000000000000";
-    if (fixed2floatrdy = '1') then state := s17;
+    if (fixed2floatrdy = '1') then state := s14;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
-		else state := s15; end if;
-	when s17 =>
+		else state := s13; end if;
+	when s14 =>
 		fixed2floatsclr <= '0';
 		mulfpce <= '1';
 		mulfpa <= divfpr; -- resolutioncorr
 		mulfpb <= fixed2floatr; -- ram[0x072a]
 		mulfpond <= '1';
-		if (mulfprdy = '1') then state := s19;
+    i2c_mem_addra_internal <= std_logic_vector (to_unsigned (51*2+1, 12)); -- 2433 LSB vdd25
+		if (mulfprdy = '1') then state := s14a; -- res_corr * ram072a
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
-		else state := s17; end if;
-	when s19 =>
+    else state := s14; end if;
+  when s14a => -- XXX empty state
+    mulfpsclr <= '0';
+    addfpce <= '1';
+		addfpa <= mulfpr;
+		addfpb <= x"00000000";
+		addfpond <= '1';
+    if (addfprdy = '1') then state := s15;
+			addfpce <= '0';
+			addfpond <= '0';
+			addfpsclr <= '1';
+    else state := s14a; end if;
+  when s15 =>
+    addfpsclr <= '0';
+    fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= -- XXX vdd25
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal & "00000000000000000000000000000";
+    if (fixed2floatrdy = '1') then state := s16;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s15; end if;
+  when s16 =>
+    fixed2floatsclr <= '0';
+    mulfpce <= '1';
+		mulfpa <= fixed2floatr;
+		mulfpb <= const2pow5_ft;
+		mulfpond <= '1';
+		if (mulfprdy = '1') then state := s17;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s16; end if;
+	when s17 =>
 		mulfpsclr <= '0';
     subfpce <= '1';
 		subfpa <= mulfpr;
-		subfpb <= ExtractVDDParameters_vdd25;
+		subfpb <= const2pow13_ft;
 		subfpond <= '1';
-		if (subfprdy = '1') then state := s21;
+		if (subfprdy = '1') then state := s18; -- vdd25
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
-		else state := s19; end if;
-	when s21 =>
+		else state := s17; end if;
+	when s18 => state := s19;
 		subfpsclr <= '0';
+  when s19 =>
+		subfpce <= '1';
+		subfpa <= addfpr; -- s14a
+		subfpb <= subfpr; -- vdd25
+		subfpond <= '1';
+		if (subfprdy = '1') then state := s20;
+			subfpce <= '0';
+			subfpond <= '0';
+			subfpsclr <= '1';
+      i2c_mem_addra_internal <= std_logic_vector (to_unsigned (51*2+0, 12)); -- 2433 MSB kvdd
+		else state := s19; end if;
+  when s20 =>
+		subfpsclr <= '0';
+    fixed2floatce <= '1';
+		fixed2floatond <= '1';
+		fixed2floata <= -- XXX kvdd
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+		i2c_mem_douta_internal (7) & i2c_mem_douta_internal & "00000000000000000000000000000";
+    if (fixed2floatrdy = '1') then state := s21;
+			fixed2floatce <= '0';
+			fixed2floatond <= '0';
+			fixed2floatsclr <= '1';
+		else state := s20; end if;
+  when s21 =>
+    fixed2floatsclr <= '0';
+    mulfpce <= '1';
+		mulfpa <= fixed2floatr; -- kvdd
+		mulfpb <= const2pow5_ft;
+		mulfpond <= '1';
+		if (mulfprdy = '1') then state := s22;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s21; end if;
+	when s22 =>
+		mulfpsclr <= '0';
 		divfpce <= '1';
 		divfpa <= subfpr;
-		divfpb <= ExtractVDDParameters_kvdd;
+		divfpb <= mulfpr; -- kvdd
 		divfpond <= '1';
 		if (divfprdy = '1') then state := s23;
 			divfpce <= '0';
@@ -274,9 +351,6 @@ begin
       o_Vdd <= addfpr;
       --synthesis translate_off
       report_error("================ CalculateVdd o_Vdd", addfpr, 0.0);
-      report_error("================ CalculateVdd o_kvdd", ExtractVDDParameters_kvdd, 0.0);
-      report_error("================ CalculateVdd o_vdd25", ExtractVDDParameters_vdd25, 0.0);
-      report_error("================ CalculateVdd o_ram0x072a", addfpr, 0.0);
       --synthesis translate_on
 		else state := s23; end if;
 	end case;
@@ -293,19 +367,4 @@ with resolutionreg select out_resolutionreg <=
 x"3f800000" when "00", x"40000000" when "01", x"40800000" when "10", x"41000000" when "11",
 x"00000000" when others;
 
-ExtractVDDParameters_clock <= i_clock;
-ExtractVDDParameters_reset <= i_reset;
-inst_ExtractVDDParameters : ExtractVDDParameters port map (
-i_clock => ExtractVDDParameters_clock,
-i_reset => ExtractVDDParameters_reset,
-i_run => ExtractVDDParameters_run,
-i2c_mem_ena => ExtractVDDParameters_i2c_mem_ena,
-i2c_mem_addra => ExtractVDDParameters_i2c_mem_addra,
-i2c_mem_douta => ExtractVDDParameters_i2c_mem_douta,
-o_kvdd => ExtractVDDParameters_kvdd,
-o_vdd25 => ExtractVDDParameters_vdd25,
-o_rdy => ExtractVDDParameters_rdy
-);
-
-end Behavioral;
-
+end architecture Behavioral;
