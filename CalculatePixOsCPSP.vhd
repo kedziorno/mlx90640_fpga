@@ -41,10 +41,7 @@ i_reset : in std_logic;
 i_run : in std_logic;
 
 i_Ta : in std_logic_vector (31 downto 0);
-i_Ta0 : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
-i_VddV0 : in std_logic_vector (31 downto 0);
-i_const1 : in std_logic_vector (31 downto 0);
 i_KGain : in std_logic_vector (31 downto 0);
 
 i2c_mem_ena : out STD_LOGIC;
@@ -224,6 +221,8 @@ p0 : process (i_clock) is
   variable calc : std_logic_vector (31 downto 0);
   constant const_minus1 : std_logic_vector (31 downto 0) := x"bf800000";
   constant const_plus1 : std_logic_vector (31 downto 0) := x"3f800000";
+  constant const_Ta0 : std_logic_vector (31 downto 0) := x"41C80000"; -- 25
+  constant const_VddV0 : std_logic_vector (31 downto 0) := x"40533333"; -- 3.3
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -347,7 +346,7 @@ begin
           divfpsclr_internal <= '0';
           mulfpce_internal <= '1';
           mulfpa_internal <= divfpr_internal; -- kvcp
-          mulfpb_internal <= i_VddV0;
+          mulfpb_internal <= const_VddV0;
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s9;
             --warning_neq_fp(mulfpr_internal,1.2375000,"kvcp*vdd0"); -- XXX OK
@@ -544,7 +543,7 @@ begin
         when s30 =>
           mulfpce_internal <= '1';
           mulfpa_internal <= mulfpr_internal;
-          mulfpb_internal <= i_VddV0;
+          mulfpb_internal <= const_VddV0;
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s31;
             mulfpce_internal <= '0';
@@ -594,7 +593,7 @@ begin
           divfpsclr_internal <= '0';
           mulfpce_internal <= '1';
           mulfpa_internal <= divfpr_internal; -- ktacp
-          mulfpb_internal <= i_Ta0;
+          mulfpb_internal <= const_Ta0;
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s37;
             mulfpce_internal <= '0';
@@ -643,7 +642,7 @@ begin
           divfpsclr_internal <= '0';
           mulfpce_internal <= '1';
           mulfpa_internal <= divfpr_internal; -- ktacp
-          mulfpb_internal <= i_Ta0;
+          mulfpb_internal <= const_Ta0;
           mulfpond_internal <= '1';
           i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
           if (mulfprdy_internal = '1') then state := s43;
@@ -729,7 +728,7 @@ begin
           divfpsclr_internal <= '0';
           mulfpce_internal <= '1';
           mulfpa_internal <= divfpr_internal; -- ktacp
-          mulfpb_internal <= i_Ta0;
+          mulfpb_internal <= const_Ta0;
           mulfpond_internal <= '1';
           i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
           if (mulfprdy_internal = '1') then state := s53;
@@ -766,7 +765,7 @@ begin
         when s56 =>
           mulfpce_internal <= '1';
           mulfpa_internal <= mulfpr_internal;
-          mulfpb_internal <= i_VddV0;
+          mulfpb_internal <= const_VddV0;
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s58;
             --warning_neq_fp(mulfpr_internal,0.13217926218750000,"ktacp*ta0*kvcp*vdd0"); -- XXX OK

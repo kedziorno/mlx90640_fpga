@@ -95,10 +95,7 @@ i_reset : in std_logic;
 i_run : in std_logic;
 
 i_Ta : in std_logic_vector (31 downto 0);
-i_Ta0 : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
-i_VddV0 : in std_logic_vector (31 downto 0);
-i_const1 : in std_logic_vector (31 downto 0);
 i_KGain : in std_logic_vector (31 downto 0);
 
 i2c_mem_ena : out STD_LOGIC;
@@ -167,10 +164,7 @@ signal CalculatePixOsCPSP_clock : std_logic;
 signal CalculatePixOsCPSP_reset : std_logic;
 signal CalculatePixOsCPSP_run : std_logic;
 signal CalculatePixOsCPSP_Ta : std_logic_vector (31 downto 0);
-signal CalculatePixOsCPSP_Ta0 : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_Vdd : std_logic_vector (31 downto 0);
-signal CalculatePixOsCPSP_VddV0 : std_logic_vector (31 downto 0);
-signal CalculatePixOsCPSP_const1 : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_KGain : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_i2c_mem_ena : STD_LOGIC;
 signal CalculatePixOsCPSP_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
@@ -320,10 +314,7 @@ i_clock => CalculatePixOsCPSP_clock,
 i_reset => CalculatePixOsCPSP_reset,
 i_run => CalculatePixOsCPSP_run,
 i_Ta => CalculatePixOsCPSP_Ta,
-i_Ta0 => CalculatePixOsCPSP_Ta0,
 i_Vdd => CalculatePixOsCPSP_Vdd,
-i_VddV0 => CalculatePixOsCPSP_VddV0,
-i_const1 => CalculatePixOsCPSP_const1,
 i_KGain => CalculatePixOsCPSP_KGain,
 i2c_mem_ena => CalculatePixOsCPSP_i2c_mem_ena,
 i2c_mem_addra => CalculatePixOsCPSP_i2c_mem_addra,
@@ -394,11 +385,8 @@ wait for 100 ns; -- wait until global set/reset completes
 CalculatePixOsCPSP_reset <= '0';
 wait for clockperiod*10;
 -- Add user defined stimulus here
-CalculatePixOSCPSP_const1 <= x"3F800000"; -- 1
 CalculatePixOSCPSP_Ta <= x"4207F54F"; -- 33.989559
-CalculatePixOSCPSP_Ta0 <= x"41C80000"; -- 25
 CalculatePixOSCPSP_Vdd <= x"40D2F5C3"; -- 6.5925
-CalculatePixOSCPSP_VddV0 <= x"40533333"; -- 3.3
 CalculatePixOsCPSP_run <= '1'; wait for clockperiod; CalculatePixOsCPSP_run <= '0';
 wait until CalculatePixOsCPSP_rdy = '1';
 --report "rdy at 4.165us";
