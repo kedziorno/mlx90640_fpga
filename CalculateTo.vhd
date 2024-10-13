@@ -362,6 +362,10 @@ o_do <= doa when rdy = '1' else (others => '0');
 mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0');
 mux_dia <= dia when rdy = '0' else (others => '0');
 
+i2c_mem_ena <= i2c_mem_ena_internal;
+i2c_mem_addra <= i2c_mem_addra_internal;
+i2c_mem_douta_internal <= i2c_mem_douta;
+
 p0 : process (i_clock) is
 	constant C_ROW : integer := 24;
 	constant C_COL : integer := 32;
@@ -720,13 +724,13 @@ begin
           sqrtfp2ce_internal <= '1';
           sqrtfp2a_internal <= sqrtfp2r_internal; -- sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar))
           sqrtfp2ond_internal <= '1';
-          i2c_mem_addra <= std_logic_vector (to_unsigned (63*2+1, 12)); -- ee243f LSB kstoscale 0x000f
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (63*2+1, 12)); -- ee243f LSB kstoscale 0x000f
           if (sqrtfp2rdy_internal = '1') then state := s51; -- sqrt2(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar)))
             sqrtfp2ce_internal <= '0';
             sqrtfp2ond_internal <= '0';
             sqrtfp2sclr_internal <= '1';
             o_2powx_p8_ena <= '1';
-            o_2powx_p8_adr <= i2c_mem_douta (3 downto 0);
+            o_2powx_p8_adr <= i2c_mem_douta_internal (3 downto 0);
           else state := s49; end if;
         when s51 =>
           sqrtfp2sclr_internal <= '0';
