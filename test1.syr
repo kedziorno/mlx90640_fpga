@@ -5,14 +5,14 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.06 secs
+Total CPU time to Xst completion: 0.10 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.06 secs
+Total CPU time to Xst completion: 0.11 secs
  
 --> 
 Reading design: test1.prj
@@ -113,16 +113,14 @@ Cores Search Directories           : {"ipcore_dir"  }
 =========================================================================
 *                          HDL Compilation                              *
 =========================================================================
-Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/p_fphdl_package3.vhd" in Library work.
-Architecture p_fphdl_package3 of Entity p_fphdl_package3 is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/p_fphdl_package2.vhd" in Library work.
 Architecture p_fphdl_package2 of Entity p_fphdl_package2 is up to date.
+Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/p_fphdl_package3.vhd" in Library work.
+Architecture p_fphdl_package3 of Entity p_fphdl_package3 is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/mem_ramb16_s36_x2.vhd" in Library work.
 Architecture behavioral of Entity mem_ramb16_s36_x2 is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ipcore_dir/inst_mem_kvdd_vdd25.vhd" in Library work.
 Architecture inst_mem_kvdd_vdd25_a of Entity inst_mem_kvdd_vdd25 is up to date.
-Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractKsToScaleParameter.vhd" in Library work.
-Architecture behavioral of Entity extractkstoscaleparameter is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/mem_switchpattern.vhd" in Library work.
 Architecture behavioral of Entity mem_switchpattern is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculatePixGain.vhd" in Library work.
@@ -154,8 +152,7 @@ Architecture behavioral of Entity calculatepixoscpsp is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateVirCompensated.vhd" in Library work.
 Architecture behavioral of Entity calculatevircompensated is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateAlphaComp.vhd" in Library work.
-Entity <calculatealphacomp> compiled.
-Entity <calculatealphacomp> (Architecture <behavioral>) compiled.
+Architecture behavioral of Entity calculatealphacomp is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateTo.vhd" in Library work.
 Architecture behavioral of Entity calculateto is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/rom_constants.vhd" in Library work.
@@ -165,8 +162,7 @@ Architecture behavioral of Entity mem_signed1024 is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/mem_signedFF.vhd" in Library work.
 Architecture behavioral of Entity mem_signed256 is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test_fixed_melexis.vhd" in Library work.
-Entity <test_fixed_melexis> compiled.
-Entity <test_fixed_melexis> (Architecture <testbench>) compiled.
+Architecture testbench of Entity test_fixed_melexis is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ipcore_dir/tb_i2c_mem.vhd" in Library work.
 Architecture tb_i2c_mem_a of Entity tb_i2c_mem is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/address_generator.vhd" in Library work.
@@ -395,8 +391,6 @@ Analyzing hierarchy for entity <ExtractKtaParameters> in library <work> (archite
 Analyzing hierarchy for entity <ExtractKvParameters> in library <work> (architecture <behavioral>).
 
 Analyzing hierarchy for entity <mem_switchpattern> in library <work> (architecture <behavioral>).
-
-Analyzing hierarchy for entity <ExtractKsToScaleParameter> in library <work> (architecture <behavioral>).
 
 Analyzing hierarchy for entity <mem_ramb16_s36_x2> in library <work> (architecture <behavioral>) with generics.
 	INITP_00 = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
@@ -1072,13 +1066,10 @@ INFO:Xst:2679 - Register <divfpb_internal> in unit <CalculateAlphaComp> has a co
 Entity <CalculateAlphaComp> analyzed. Unit <CalculateAlphaComp> generated.
 
 Analyzing Entity <CalculateTo> in library <work> (Architecture <behavioral>).
-WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateTo.vhd" line 952: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
+WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateTo.vhd" line 886: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
 INFO:Xst:2679 - Register <i2c_mem_addra_internal> in unit <CalculateTo> has a constant value of 000001111010 during circuit operation. The register is replaced by logic.
+INFO:Xst:2679 - Register <i2c_mem_addra> in unit <CalculateTo> has a constant value of 000001111111 during circuit operation. The register is replaced by logic.
 Entity <CalculateTo> analyzed. Unit <CalculateTo> generated.
-
-Analyzing Entity <ExtractKsToScaleParameter> in library <work> (Architecture <behavioral>).
-INFO:Xst:2679 - Register <address_kstoscale> in unit <ExtractKsToScaleParameter> has a constant value of 000000000 during circuit operation. The register is replaced by logic.
-Entity <ExtractKsToScaleParameter> analyzed. Unit <ExtractKsToScaleParameter> generated.
 
 Analyzing Entity <rom_constants> in library <work> (Architecture <behavioral>).
     Set user-defined property "INIT =  000000000" for instance <inst_rom_constants> in unit <rom_constants>.
@@ -1884,38 +1875,6 @@ WARNING:Xst:647 - Input <i_clock> is never used. This port will be preserved and
 Unit <mem_switchpattern> synthesized.
 
 
-Synthesizing Unit <ExtractKsToScaleParameter>.
-    Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractKsToScaleParameter.vhd".
-WARNING:Xst:647 - Input <i2c_mem_douta<7:4>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
-WARNING:Xst:1780 - Signal <odata_kstoscale> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:646 - Signal <en> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:646 - Signal <address_kstoscale> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
-    Found finite state machine <FSM_6> for signal <state>.
-    -----------------------------------------------------------------------
-    | States             | 5                                              |
-    | Transitions        | 6                                              |
-    | Inputs             | 1                                              |
-    | Outputs            | 7                                              |
-    | Clock              | i_clock                   (rising_edge)        |
-    | Reset              | i_reset                   (positive)           |
-    | Reset type         | synchronous                                    |
-    | Reset State        | 000                                            |
-    | Power Up State     | 000                                            |
-    | Encoding           | automatic                                      |
-    | Implementation     | LUT                                            |
-    -----------------------------------------------------------------------
-    Found 12-bit register for signal <i2c_mem_addra>.
-    Found 1-bit register for signal <o_rdy>.
-    Found 1-bit register for signal <o_2powx_p8_ena>.
-    Found 4-bit register for signal <o_2powx_p8_adr>.
-    Found 32-bit register for signal <o_kstoscale>.
-    Found 1-bit register for signal <i2c_mem_ena>.
-    Summary:
-	inferred   1 Finite State Machine(s).
-	inferred  51 D-type flip-flop(s).
-Unit <ExtractKsToScaleParameter> synthesized.
-
-
 Synthesizing Unit <rom_constants>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/rom_constants.vhd".
     Found 7-bit adder for signal <address$add0000> created at line 85.
@@ -1945,7 +1904,7 @@ Unit <mem_signed256> synthesized.
 
 Synthesizing Unit <ExtractVDDParameters>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractVDDParameters.vhd".
-    Found finite state machine <FSM_7> for signal <state>.
+    Found finite state machine <FSM_6> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 6                                              |
     | Transitions        | 7                                              |
@@ -2007,7 +1966,7 @@ Synthesizing Unit <CalculateVdd>.
     Register <fixed2floatond> equivalent to <fixed2floatce> has been removed
     Register <mulfpond> equivalent to <mulfpce> has been removed
     Register <subfpond> equivalent to <subfpce> has been removed
-    Found finite state machine <FSM_8> for signal <state>.
+    Found finite state machine <FSM_7> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 13                                             |
     | Transitions        | 21                                             |
@@ -2061,7 +2020,7 @@ Synthesizing Unit <ExtractAlphaParameters>.
     Register <divfpond_internal> equivalent to <divfpce_internal> has been removed
     Register <fixed2floatond_internal> equivalent to <fixed2floatce_internal> has been removed
     Register <mulfpond_internal> equivalent to <mulfpce_internal> has been removed
-    Found finite state machine <FSM_9> for signal <state>.
+    Found finite state machine <FSM_8> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 27                                             |
     | Transitions        | 40                                             |
@@ -2144,7 +2103,7 @@ WARNING:Xst:647 - Input <i2c_mem_douta> is never used. This port will be preserv
     Register <o_pixos_addr> equivalent to <mem_switchpattern_pixel> has been removed
     Register <mulfpond_internal> equivalent to <mulfpce_internal> has been removed
     Register <subfpond_internal> equivalent to <subfpce_internal> has been removed
-    Found finite state machine <FSM_10> for signal <state>.
+    Found finite state machine <FSM_9> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 10                                             |
     | Transitions        | 19                                             |
@@ -2197,7 +2156,7 @@ WARNING:Xst:647 - Input <i_const1> is never used. This port will be preserved an
     Register <o_alpha_addr> equivalent to <mem_switchpattern_pixel> has been removed
     Register <mulfpond_internal> equivalent to <mulfpce_internal> has been removed
     Register <subfpond_internal> equivalent to <subfpce_internal> has been removed
-    Found finite state machine <FSM_11> for signal <state>.
+    Found finite state machine <FSM_10> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 18                                             |
     | Transitions        | 33                                             |
@@ -2246,17 +2205,22 @@ Unit <CalculateAlphaComp> synthesized.
 
 Synthesizing Unit <CalculateTo>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateTo.vhd".
+WARNING:Xst:647 - Input <i2c_mem_douta<7:4>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:1305 - Output <i2c_mem_ena> is never assigned. Tied to value 0.
+WARNING:Xst:646 - Signal <i2c_mem_ena_internal> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:653 - Signal <i2c_mem_douta_internal> is used but never assigned. This sourceless signal will be automatically connected to value 00000000.
+WARNING:Xst:646 - Signal <i2c_mem_addra_internal> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
     Register <addfpond_internal> equivalent to <addfpce_internal> has been removed
     Register <divfpond_internal> equivalent to <divfpce_internal> has been removed
     Register <mulfpond_internal> equivalent to <mulfpce_internal> has been removed
     Register <o_vircompensated_addr> equivalent to <o_alphacomp_addr> has been removed
     Register <sqrtfp2ond_internal> equivalent to <sqrtfp2ce_internal> has been removed
     Register <subfpond_internal> equivalent to <subfpce_internal> has been removed
-    Found finite state machine <FSM_12> for signal <state>.
+    Found finite state machine <FSM_11> for signal <state>.
     -----------------------------------------------------------------------
-    | States             | 45                                             |
-    | Transitions        | 84                                             |
-    | Inputs             | 8                                              |
+    | States             | 44                                             |
+    | Transitions        | 82                                             |
+    | Inputs             | 7                                              |
     | Outputs            | 49                                             |
     | Clock              | i_clock                   (rising_edge)        |
     | Reset              | i_reset                   (positive)           |
@@ -2266,8 +2230,10 @@ Synthesizing Unit <CalculateTo>.
     | Encoding           | automatic                                      |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
+    Found 1-bit register for signal <o_2powx_p8_ena>.
     Found 10-bit register for signal <o_alphacomp_addr>.
     Found 8-bit register for signal <o_mem_signed256_ivalue>.
+    Found 4-bit register for signal <o_2powx_p8_adr>.
     Found 32-bit register for signal <addfpa_internal>.
     Found 32-bit register for signal <addfpb_internal>.
     Found 1-bit register for signal <addfpce_internal>.
@@ -2278,11 +2244,8 @@ Synthesizing Unit <CalculateTo>.
     Found 32-bit register for signal <divfpb_internal>.
     Found 1-bit register for signal <divfpce_internal>.
     Found 1-bit register for signal <divfpsclr_internal>.
-    Found 1-bit register for signal <ExtractKsToScaleParameter_mux>.
-    Found 1-bit register for signal <ExtractKsToScaleParameter_run>.
     Found 10-bit register for signal <i>.
-    Found 10-bit adder for signal <i$addsub0000> created at line 926.
-    Found 1-bit register for signal <i2c_mem_ena_internal>.
+    Found 10-bit adder for signal <i$addsub0000> created at line 879.
     Found 32-bit register for signal <mulfpa_internal>.
     Found 32-bit register for signal <mulfpb_internal>.
     Found 1-bit register for signal <mulfpce_internal>.
@@ -2299,7 +2262,7 @@ Synthesizing Unit <CalculateTo>.
     Found 1-bit register for signal <write_enable>.
     Summary:
 	inferred   1 Finite State Machine(s).
-	inferred 405 D-type flip-flop(s).
+	inferred 407 D-type flip-flop(s).
 	inferred   1 Adder/Subtractor(s).
 Unit <CalculateTo> synthesized.
 
@@ -2313,7 +2276,7 @@ Synthesizing Unit <CalculatePixGain>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculatePixGain.vhd".
     Register <fixed2floatond_internal> equivalent to <fixed2floatce_internal> has been removed
     Register <mulfpond_internal> equivalent to <mulfpce_internal> has been removed
-    Found finite state machine <FSM_13> for signal <state>.
+    Found finite state machine <FSM_12> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 7                                              |
     | Transitions        | 11                                             |
@@ -2357,7 +2320,7 @@ Synthesizing Unit <ExtractOffsetParameters>.
     Register <addfpond_internal> equivalent to <addfpce_internal> has been removed
     Register <fixed2floatond_internal> equivalent to <fixed2floatce_internal> has been removed
     Register <mulfpond_internal> equivalent to <mulfpce_internal> has been removed
-    Found finite state machine <FSM_14> for signal <state>.
+    Found finite state machine <FSM_13> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 22                                             |
     | Transitions        | 34                                             |
@@ -2435,7 +2398,7 @@ WARNING:Xst:1780 - Signal <colo> is never used or assigned. This unconnected sig
     Register <addfpond_internal> equivalent to <addfpce_internal> has been removed
     Register <divfpond_internal> equivalent to <divfpce_internal> has been removed
     Register <mulfpond_internal> equivalent to <mulfpce_internal> has been removed
-    Found finite state machine <FSM_15> for signal <state>.
+    Found finite state machine <FSM_14> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 19                                             |
     | Transitions        | 25                                             |
@@ -2499,7 +2462,7 @@ Synthesizing Unit <ExtractKvParameters>.
 WARNING:Xst:1780 - Signal <rowo> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:1780 - Signal <colo> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
     Register <divfpond_internal> equivalent to <divfpce_internal> has been removed
-    Found finite state machine <FSM_16> for signal <state>.
+    Found finite state machine <FSM_15> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 10                                             |
     | Transitions        | 14                                             |
@@ -2568,7 +2531,7 @@ WARNING:Xst:1780 - Signal <CalculatePixGain_fixed2floatclk> is never used or ass
     Register <divfpond_internal> equivalent to <divfpce_internal> has been removed
     Register <mulfpond_internal> equivalent to <mulfpce_internal> has been removed
     Register <subfpond_internal> equivalent to <subfpce_internal> has been removed
-    Found finite state machine <FSM_17> for signal <state>.
+    Found finite state machine <FSM_16> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 19                                             |
     | Transitions        | 36                                             |
@@ -2651,7 +2614,7 @@ WARNING:Xst:1780 - Signal <CalculatePixOS_mulfpclk> is never used or assigned. T
 WARNING:Xst:1780 - Signal <CalculatePixOS_fixed2floatclk> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:1780 - Signal <CalculatePixOS_divfpclk> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:1780 - Signal <CalculatePixOS_addfpclk> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-    Found finite state machine <FSM_18> for signal <state>.
+    Found finite state machine <FSM_17> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 24                                             |
     | Transitions        | 36                                             |
@@ -2703,7 +2666,7 @@ WARNING:Xst:646 - Signal <float2fixedr<63:35>> is assigned but never used. This 
 WARNING:Xst:646 - Signal <float2fixedr<12:0>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <dualmem_doutb<31:24>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
     Register <float2fixedond> equivalent to <float2fixedce> has been removed
-    Found finite state machine <FSM_19> for signal <state>.
+    Found finite state machine <FSM_18> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 11                                             |
     | Transitions        | 14                                             |
@@ -2769,13 +2732,13 @@ Macro Statistics
  5-bit up counter                                      : 6
  6-bit up counter                                      : 1
  8-bit up counter                                      : 1
-# Registers                                            : 453
- 1-bit register                                        : 233
+# Registers                                            : 446
+ 1-bit register                                        : 228
  10-bit register                                       : 27
- 12-bit register                                       : 13
+ 12-bit register                                       : 12
  2-bit register                                        : 4
  3-bit register                                        : 1
- 32-bit register                                       : 115
+ 32-bit register                                       : 114
  4-bit register                                        : 21
  5-bit register                                        : 6
  6-bit register                                        : 7
@@ -2798,7 +2761,7 @@ Macro Statistics
 *                       Advanced HDL Synthesis                          *
 =========================================================================
 
-Analyzing FSM <FSM_19> for best encoding.
+Analyzing FSM <FSM_18> for best encoding.
 Optimizing FSM <state/FSM> on signal <state[1:11]> with one-hot encoding.
 ----------------------
  State | Encoding
@@ -2815,7 +2778,7 @@ Optimizing FSM <state/FSM> on signal <state[1:11]> with one-hot encoding.
  1001  | 01000000000
  1010  | 10000000000
 ----------------------
-Analyzing FSM <FSM_18> for best encoding.
+Analyzing FSM <FSM_17> for best encoding.
 Optimizing FSM <tfm_inst/state/FSM> on signal <state[1:24]> with one-hot encoding.
 -----------------------------------
  State | Encoding
@@ -2845,7 +2808,7 @@ Optimizing FSM <tfm_inst/state/FSM> on signal <state[1:24]> with one-hot encodin
  10110 | 010000000000000000000000
  10111 | 100000000000000000000000
 -----------------------------------
-Analyzing FSM <FSM_17> for best encoding.
+Analyzing FSM <FSM_16> for best encoding.
 Optimizing FSM <tfm_inst/inst_CalculatePixOS/state/FSM> on signal <state[1:19]> with one-hot encoding.
 ------------------------------
  State | Encoding
@@ -2870,7 +2833,7 @@ Optimizing FSM <tfm_inst/inst_CalculatePixOS/state/FSM> on signal <state[1:19]> 
  10001 | 0100000000000000000
  10010 | 1000000000000000000
 ------------------------------
-Analyzing FSM <FSM_16> for best encoding.
+Analyzing FSM <FSM_15> for best encoding.
 Optimizing FSM <tfm_inst/inst_CalculatePixOS/inst_ExtractKvParameters/state/FSM> on signal <state[1:10]> with one-hot encoding.
 ---------------------
  State | Encoding
@@ -2886,7 +2849,7 @@ Optimizing FSM <tfm_inst/inst_CalculatePixOS/inst_ExtractKvParameters/state/FSM>
  1000  | 0100000000
  1001  | 1000000000
 ---------------------
-Analyzing FSM <FSM_15> for best encoding.
+Analyzing FSM <FSM_14> for best encoding.
 Optimizing FSM <tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/state/FSM> on signal <state[1:19]> with one-hot encoding.
 ------------------------------
  State | Encoding
@@ -2911,7 +2874,7 @@ Optimizing FSM <tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/state/FSM
  10001 | 0100000000000000000
  10010 | 1000000000000000000
 ------------------------------
-Analyzing FSM <FSM_14> for best encoding.
+Analyzing FSM <FSM_13> for best encoding.
 Optimizing FSM <tfm_inst/inst_CalculatePixOS/inst_ExtractOffsetParameters/state/FSM> on signal <state[1:22]> with one-hot encoding.
 ---------------------------------
  State | Encoding
@@ -2939,7 +2902,7 @@ Optimizing FSM <tfm_inst/inst_CalculatePixOS/inst_ExtractOffsetParameters/state/
  10100 | 0100000000000000000000
  10101 | 1000000000000000000000
 ---------------------------------
-Analyzing FSM <FSM_13> for best encoding.
+Analyzing FSM <FSM_12> for best encoding.
 Optimizing FSM <tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain/state/FSM> on signal <state[1:7]> with one-hot encoding.
 -------------------
  State | Encoding
@@ -2952,58 +2915,57 @@ Optimizing FSM <tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain/state/FSM> on
  101   | 0100000
  110   | 1000000
 -------------------
-Analyzing FSM <FSM_12> for best encoding.
-Optimizing FSM <tfm_inst/inst_CalculateTo/state/FSM> on signal <state[1:45]> with one-hot encoding.
----------------------------------------------------------
- State  | Encoding
----------------------------------------------------------
- 000000 | 000000000000000000000000000000000000000000001
- 000001 | 000000000000000000000000000000000000000000010
- 000010 | 000000000000000000000000000000000000000000100
- 000011 | 000000000000000000000000000000000000000001000
- 000100 | 000000000000000000000000000000000000000010000
- 000101 | 000000000000000000000000000000000000000100000
- 000110 | 000000000000000000000000000000000000001000000
- 000111 | 000000000000000000000000000000000000010000000
- 001000 | 000000000000000000000000000000000000100000000
- 001001 | 000000000000000000000000000000000001000000000
- 001010 | 000000000000000000000000000000000010000000000
- 001011 | 000000000000000000000000000000000100000000000
- 001100 | 000000000000000000000000000000001000000000000
- 001101 | 000000000000000000000000000000010000000000000
- 001110 | 000000000000000000000000000000100000000000000
- 001111 | 000000000000000000000000000001000000000000000
- 010000 | 000000000000000000000000000010000000000000000
- 010001 | 000000000000000000000000000100000000000000000
- 010010 | 000000000000000000000000001000000000000000000
- 010011 | 000000000000000000000000010000000000000000000
- 010100 | 000000000000000000000000100000000000000000000
- 010101 | 000000000000000000000001000000000000000000000
- 010110 | 000000000000000000000010000000000000000000000
- 010111 | 000000000000000000000100000000000000000000000
- 011000 | 000000000000000000001000000000000000000000000
- 011001 | 000000000000000000010000000000000000000000000
- 011010 | 000000000000000000100000000000000000000000000
- 011011 | 000000000000000001000000000000000000000000000
- 011100 | 000000000000000010000000000000000000000000000
- 011101 | 000000000000000100000000000000000000000000000
- 011110 | 000000000000001000000000000000000000000000000
- 011111 | 000000000000010000000000000000000000000000000
- 100000 | 000000000000100000000000000000000000000000000
- 100001 | 000000000001000000000000000000000000000000000
- 100010 | 000000000010000000000000000000000000000000000
- 100011 | 000000000100000000000000000000000000000000000
- 100100 | 000000001000000000000000000000000000000000000
- 100101 | 000000010000000000000000000000000000000000000
- 100110 | 000000100000000000000000000000000000000000000
- 100111 | 000001000000000000000000000000000000000000000
- 101000 | 000010000000000000000000000000000000000000000
- 101001 | 000100000000000000000000000000000000000000000
- 101010 | 001000000000000000000000000000000000000000000
- 101011 | 010000000000000000000000000000000000000000000
- 101100 | 100000000000000000000000000000000000000000000
----------------------------------------------------------
 Analyzing FSM <FSM_11> for best encoding.
+Optimizing FSM <tfm_inst/inst_CalculateTo/state/FSM> on signal <state[1:44]> with one-hot encoding.
+--------------------------------------------------------
+ State  | Encoding
+--------------------------------------------------------
+ 000000 | 00000000000000000000000000000000000000000001
+ 000001 | 00000000000000000000000000000000000000000010
+ 000010 | 00000000000000000000000000000000000000000100
+ 000011 | 00000000000000000000000000000000000000001000
+ 000100 | 00000000000000000000000000000000000000010000
+ 000101 | 00000000000000000000000000000000000000100000
+ 000110 | 00000000000000000000000000000000000001000000
+ 000111 | 00000000000000000000000000000000000010000000
+ 001000 | 00000000000000000000000000000000000100000000
+ 001001 | 00000000000000000000000000000000001000000000
+ 001010 | 00000000000000000000000000000000010000000000
+ 001011 | 00000000000000000000000000000000100000000000
+ 001100 | 00000000000000000000000000000001000000000000
+ 001101 | 00000000000000000000000000000010000000000000
+ 001110 | 00000000000000000000000000000100000000000000
+ 001111 | 00000000000000000000000000001000000000000000
+ 010000 | 00000000000000000000000000010000000000000000
+ 010001 | 00000000000000000000000000100000000000000000
+ 010010 | 00000000000000000000000001000000000000000000
+ 010011 | 00000000000000000000000010000000000000000000
+ 010100 | 00000000000000000000000100000000000000000000
+ 010101 | 00000000000000000000001000000000000000000000
+ 010110 | 00000000000000000000010000000000000000000000
+ 010111 | 00000000000000000000100000000000000000000000
+ 011000 | 00000000000000000001000000000000000000000000
+ 011001 | 00000000000000000010000000000000000000000000
+ 011010 | 00000000000000000100000000000000000000000000
+ 011011 | 00000000000000001000000000000000000000000000
+ 011100 | 00000000000000010000000000000000000000000000
+ 011101 | 00000000000000100000000000000000000000000000
+ 011110 | 00000000000001000000000000000000000000000000
+ 011111 | 00000000000010000000000000000000000000000000
+ 100000 | 00000000000100000000000000000000000000000000
+ 100001 | 00000000001000000000000000000000000000000000
+ 100010 | 00000000010000000000000000000000000000000000
+ 100011 | 00000000100000000000000000000000000000000000
+ 100100 | 00000001000000000000000000000000000000000000
+ 100101 | 00000010000000000000000000000000000000000000
+ 100110 | 00000100000000000000000000000000000000000000
+ 100111 | 00001000000000000000000000000000000000000000
+ 101000 | 00010000000000000000000000000000000000000000
+ 101001 | 00100000000000000000000000000000000000000000
+ 101010 | 01000000000000000000000000000000000000000000
+ 101011 | 10000000000000000000000000000000000000000000
+--------------------------------------------------------
+Analyzing FSM <FSM_10> for best encoding.
 Optimizing FSM <tfm_inst/inst_CalculateAlphaComp/state/FSM> on signal <state[1:18]> with one-hot encoding.
 -----------------------------
  State | Encoding
@@ -3027,7 +2989,7 @@ Optimizing FSM <tfm_inst/inst_CalculateAlphaComp/state/FSM> on signal <state[1:1
  10000 | 010000000000000000
  10001 | 100000000000000000
 -----------------------------
-Analyzing FSM <FSM_10> for best encoding.
+Analyzing FSM <FSM_9> for best encoding.
 Optimizing FSM <tfm_inst/inst_CalculateVirCompensated/state/FSM> on signal <state[1:10]> with one-hot encoding.
 ---------------------
  State | Encoding
@@ -3043,7 +3005,7 @@ Optimizing FSM <tfm_inst/inst_CalculateVirCompensated/state/FSM> on signal <stat
  1000  | 0100000000
  1001  | 1000000000
 ---------------------
-Analyzing FSM <FSM_9> for best encoding.
+Analyzing FSM <FSM_8> for best encoding.
 Optimizing FSM <tfm_inst/inst_ExtractAlphaParameters/state/FSM> on signal <state[1:27]> with one-hot encoding.
 --------------------------------------
  State | Encoding
@@ -3076,7 +3038,7 @@ Optimizing FSM <tfm_inst/inst_ExtractAlphaParameters/state/FSM> on signal <state
  11001 | 010000000000000000000000000
  11010 | 100000000000000000000000000
 --------------------------------------
-Analyzing FSM <FSM_8> for best encoding.
+Analyzing FSM <FSM_7> for best encoding.
 Optimizing FSM <tfm_inst/inst_CalculateVdd/state/FSM> on signal <state[1:13]> with one-hot encoding.
 ------------------------
  State | Encoding
@@ -3095,7 +3057,7 @@ Optimizing FSM <tfm_inst/inst_CalculateVdd/state/FSM> on signal <state[1:13]> wi
  1011  | 0100000000000
  1100  | 1000000000000
 ------------------------
-Analyzing FSM <FSM_7> for best encoding.
+Analyzing FSM <FSM_6> for best encoding.
 Optimizing FSM <tfm_inst/inst_CalculateVdd/inst_ExtractVDDParameters/state/FSM> on signal <state[1:6]> with one-hot encoding.
 -------------------
  State | Encoding
@@ -3106,17 +3068,6 @@ Optimizing FSM <tfm_inst/inst_CalculateVdd/inst_ExtractVDDParameters/state/FSM> 
  011   | 001000
  100   | 010000
  101   | 100000
--------------------
-Analyzing FSM <FSM_6> for best encoding.
-Optimizing FSM <tfm_inst/inst_CalculateTo/inst_ExtractKsToScaleParameter/state/FSM> on signal <state[1:5]> with one-hot encoding.
--------------------
- State | Encoding
--------------------
- 000   | 00001
- 001   | 00010
- 010   | 00100
- 011   | 01000
- 100   | 10000
 -------------------
 Analyzing FSM <FSM_5> for best encoding.
 Optimizing FSM <tfm_inst/inst_CalculatePixOsCPSP/state/FSM> on signal <state[1:76]> with one-hot encoding.
@@ -3322,8 +3273,7 @@ INFO:Xst:2261 - The FF/Latch <divfpb_internal_23> in Unit <inst_CalculateVirComp
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_0> in Unit <inst_CalculateVirCompensated> is equivalent to the following 24 FFs/Latches, which will be removed : <divfpb_internal_1> <divfpb_internal_2> <divfpb_internal_3> <divfpb_internal_4> <divfpb_internal_5> <divfpb_internal_6> <divfpb_internal_7> <divfpb_internal_8> <divfpb_internal_9> <divfpb_internal_10> <divfpb_internal_11> <divfpb_internal_12> <divfpb_internal_13> <divfpb_internal_14> <divfpb_internal_15> <divfpb_internal_16> <divfpb_internal_17> <divfpb_internal_18> <divfpb_internal_19> <divfpb_internal_20> <divfpb_internal_21> <divfpb_internal_22> <divfpb_internal_30> <divfpb_internal_31> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_36> in Unit <inst_CalculateAlphaComp> is equivalent to the following 27 FFs/Latches, which will be removed : <fixed2floata_internal_37> <fixed2floata_internal_38> <fixed2floata_internal_39> <fixed2floata_internal_40> <fixed2floata_internal_41> <fixed2floata_internal_42> <fixed2floata_internal_43> <fixed2floata_internal_44> <fixed2floata_internal_45> <fixed2floata_internal_46> <fixed2floata_internal_47> <fixed2floata_internal_48> <fixed2floata_internal_49> <fixed2floata_internal_50> <fixed2floata_internal_51> <fixed2floata_internal_52> <fixed2floata_internal_53> <fixed2floata_internal_54> <fixed2floata_internal_55> <fixed2floata_internal_56> <fixed2floata_internal_57> <fixed2floata_internal_58> <fixed2floata_internal_59> <fixed2floata_internal_60> <fixed2floata_internal_61> <fixed2floata_internal_62> <fixed2floata_internal_63> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_0> in Unit <inst_CalculateAlphaComp> is equivalent to the following 28 FFs/Latches, which will be removed : <fixed2floata_internal_1> <fixed2floata_internal_2> <fixed2floata_internal_3> <fixed2floata_internal_4> <fixed2floata_internal_5> <fixed2floata_internal_6> <fixed2floata_internal_7> <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> <fixed2floata_internal_16> <fixed2floata_internal_17> <fixed2floata_internal_18> <fixed2floata_internal_19> <fixed2floata_internal_20> <fixed2floata_internal_21> <fixed2floata_internal_22> <fixed2floata_internal_23> <fixed2floata_internal_24> <fixed2floata_internal_25> <fixed2floata_internal_26> <fixed2floata_internal_27> <fixed2floata_internal_28> 
-INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_0> in Unit <inst_ExtractKsToScaleParameter> is equivalent to the following 6 FFs/Latches, which will be removed : <i2c_mem_addra_1> <i2c_mem_addra_2> <i2c_mem_addra_3> <i2c_mem_addra_4> <i2c_mem_addra_5> <i2c_mem_addra_6> 
-INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_7> in Unit <inst_ExtractKsToScaleParameter> is equivalent to the following 4 FFs/Latches, which will be removed : <i2c_mem_addra_8> <i2c_mem_addra_9> <i2c_mem_addra_10> <i2c_mem_addra_11> 
+INFO:Xst:2261 - The FF/Latch <o_mem_signed256_ivalue_0> in Unit <inst_CalculateTo> is equivalent to the following 7 FFs/Latches, which will be removed : <o_mem_signed256_ivalue_1> <o_mem_signed256_ivalue_2> <o_mem_signed256_ivalue_3> <o_mem_signed256_ivalue_4> <o_mem_signed256_ivalue_5> <o_mem_signed256_ivalue_6> <o_mem_signed256_ivalue_7> 
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_13> (without init value) has a constant value of 0 in block <inst_CalculatePixOS>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_14> (without init value) has a constant value of 0 in block <inst_CalculatePixOS>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_15> (without init value) has a constant value of 0 in block <inst_CalculatePixOS>. This FF/Latch will be trimmed during the optimization process.
@@ -3392,7 +3342,7 @@ WARNING:Xst:1710 - FF/Latch <subfpb_internal_18> (without init value) has a cons
 WARNING:Xst:1710 - FF/Latch <subfpb_internal_20> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <subfpb_internal_21> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_0> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_7> (without init value) has a constant value of 0 in block <inst_ExtractKsToScaleParameter>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <o_mem_signed256_ivalue_0> (without init value) has a constant value of 0 in block <inst_CalculateTo>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_7> (without init value) has a constant value of 0 in block <inst_CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_8> (without init value) has a constant value of 0 in block <inst_CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <fixed2floata_internal_9> (without init value) has a constant value of 0 in block <inst_CalculatePixOsCPSP>. This FF/Latch will be trimmed during the optimization process.
@@ -3531,9 +3481,9 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_30> (w
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_31> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:2404 -  FFs/Latches <divfpb_internal<31:31>> (without init value) have a constant value of 0 in block <ExtractTGCParameters>.
 WARNING:Xst:2404 -  FFs/Latches <i2c_mem_addra<11:7>> (without init value) have a constant value of 0 in block <ExtractTGCParameters>.
-WARNING:Xst:2404 -  FFs/Latches <i2c_mem_addra<11:7>> (without init value) have a constant value of 0 in block <ExtractKsToScaleParameter>.
 WARNING:Xst:2404 -  FFs/Latches <address_kvdd<8:8>> (without init value) have a constant value of 0 in block <ExtractVDDParameters>.
 WARNING:Xst:2404 -  FFs/Latches <divfpb_internal<31:30>> (without init value) have a constant value of 0 in block <CalculateVirCompensated>.
+WARNING:Xst:2404 -  FFs/Latches <o_mem_signed256_ivalue<7:0>> (without init value) have a constant value of 0 in block <CalculateTo>.
 WARNING:Xst:2404 -  FFs/Latches <divfpb_internal<31:30>> (without init value) have a constant value of 0 in block <CalculatePixOS>.
 
 Synthesizing (advanced) Unit <CalculateVdd>.
@@ -3544,7 +3494,7 @@ Unit <CalculateVdd> synthesized (advanced).
 Advanced HDL Synthesis Report
 
 Macro Statistics
-# FSMs                                                 : 20
+# FSMs                                                 : 19
 # ROMs                                                 : 5
  32x1-bit ROM                                          : 4
  4x32-bit ROM                                          : 1
@@ -3567,8 +3517,8 @@ Macro Statistics
  5-bit up counter                                      : 6
  6-bit up counter                                      : 1
  8-bit up counter                                      : 1
-# Registers                                            : 5204
- Flip-Flops                                            : 5204
+# Registers                                            : 5152
+ Flip-Flops                                            : 5152
 # Comparators                                          : 10
  10-bit comparator greatequal                          : 4
  10-bit comparator greater                             : 2
@@ -4036,7 +3986,6 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <dualmem_dina_22> (w
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_36> in Unit <ExtractTGCParameters> is equivalent to the following 27 FFs/Latches, which will be removed : <fixed2floata_internal_37> <fixed2floata_internal_38> <fixed2floata_internal_39> <fixed2floata_internal_40> <fixed2floata_internal_41> <fixed2floata_internal_42> <fixed2floata_internal_43> <fixed2floata_internal_44> <fixed2floata_internal_45> <fixed2floata_internal_46> <fixed2floata_internal_47> <fixed2floata_internal_48> <fixed2floata_internal_49> <fixed2floata_internal_50> <fixed2floata_internal_51> <fixed2floata_internal_52> <fixed2floata_internal_53> <fixed2floata_internal_54> <fixed2floata_internal_55> <fixed2floata_internal_56> <fixed2floata_internal_57> <fixed2floata_internal_58> <fixed2floata_internal_59> <fixed2floata_internal_60> <fixed2floata_internal_61> <fixed2floata_internal_62> <fixed2floata_internal_63> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_25> in Unit <ExtractTGCParameters> is equivalent to the following FF/Latch, which will be removed : <divfpb_internal_30> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_0> in Unit <ExtractTGCParameters> is equivalent to the following 4 FFs/Latches, which will be removed : <i2c_mem_addra_3> <i2c_mem_addra_4> <i2c_mem_addra_5> <i2c_mem_addra_6> 
-INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_0> in Unit <ExtractKsToScaleParameter> is equivalent to the following 6 FFs/Latches, which will be removed : <i2c_mem_addra_1> <i2c_mem_addra_2> <i2c_mem_addra_3> <i2c_mem_addra_4> <i2c_mem_addra_5> <i2c_mem_addra_6> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_44> in Unit <CalculateVdd> is equivalent to the following 19 FFs/Latches, which will be removed : <fixed2floata_45> <fixed2floata_46> <fixed2floata_47> <fixed2floata_48> <fixed2floata_49> <fixed2floata_50> <fixed2floata_51> <fixed2floata_52> <fixed2floata_53> <fixed2floata_54> <fixed2floata_55> <fixed2floata_56> <fixed2floata_57> <fixed2floata_58> <fixed2floata_59> <fixed2floata_60> <fixed2floata_61> <fixed2floata_62> <fixed2floata_63> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_44> in Unit <ExtractAlphaParameters> is equivalent to the following 19 FFs/Latches, which will be removed : <fixed2floata_internal_45> <fixed2floata_internal_46> <fixed2floata_internal_47> <fixed2floata_internal_48> <fixed2floata_internal_49> <fixed2floata_internal_50> <fixed2floata_internal_51> <fixed2floata_internal_52> <fixed2floata_internal_53> <fixed2floata_internal_54> <fixed2floata_internal_55> <fixed2floata_internal_56> <fixed2floata_internal_57> <fixed2floata_internal_58> <fixed2floata_internal_59> <fixed2floata_internal_60> <fixed2floata_internal_61> <fixed2floata_internal_62> <fixed2floata_internal_63> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_23> in Unit <CalculateVirCompensated> is equivalent to the following 6 FFs/Latches, which will be removed : <divfpb_internal_24> <divfpb_internal_25> <divfpb_internal_26> <divfpb_internal_27> <divfpb_internal_28> <divfpb_internal_29> 
@@ -4088,8 +4037,6 @@ Optimizing unit <CalculateAlphaCP> ...
 
 Optimizing unit <CalculatePixOsCPSP> ...
 
-Optimizing unit <ExtractKsToScaleParameter> ...
-
 Optimizing unit <rom_constants> ...
 
 Optimizing unit <ExtractVDDParameters> ...
@@ -4128,13 +4075,17 @@ INFO:Xst:2260 - The FF/Latch <blk00000084> in Unit <inst_mulfp> is equivalent to
 INFO:Xst:2260 - The FF/Latch <blk00000296> in Unit <inst_addfp> is equivalent to the following FF/Latch : <blk000004d7> 
 INFO:Xst:2260 - The FF/Latch <blk00000296> in Unit <inst_subfp> is equivalent to the following FF/Latch : <blk000004d7> 
 FlipFlop tfm_inst/CalculateAlphaCP_mux has been replicated 2 time(s)
-FlipFlop tfm_inst/CalculatePixOS_mux has been replicated 3 time(s)
+FlipFlop tfm_inst/CalculateAlphaComp_mux has been replicated 2 time(s)
+FlipFlop tfm_inst/CalculateKGain_mux has been replicated 1 time(s)
+FlipFlop tfm_inst/CalculatePixOS_mux has been replicated 4 time(s)
 FlipFlop tfm_inst/CalculatePixOsCPSP_mux has been replicated 3 time(s)
 FlipFlop tfm_inst/CalculateTa_mux has been replicated 3 time(s)
 FlipFlop tfm_inst/CalculateTo_mux has been replicated 2 time(s)
 FlipFlop tfm_inst/CalculateVdd_mux has been replicated 3 time(s)
 FlipFlop tfm_inst/CalculateVirCompensated_mux has been replicated 3 time(s)
 FlipFlop tfm_inst/ExtractAlphaParameters_mux has been replicated 2 time(s)
+FlipFlop tfm_inst/ExtractTGCParameters_mux has been replicated 1 time(s)
+FlipFlop tfm_inst/inst_CalculatePixOS/CalculatePixGain_mux has been replicated 1 time(s)
 FlipFlop tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_mux has been replicated 1 time(s)
 FlipFlop tfm_inst/inst_CalculatePixOS/ExtractOffsetParameters_mux has been replicated 1 time(s)
 
@@ -4144,8 +4095,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 5079
- Flip-Flops                                            : 5079
+# Registers                                            : 5033
+ Flip-Flops                                            : 5033
 
 =========================================================================
 
@@ -4174,34 +4125,34 @@ Design Statistics
 # IOs                              : 32
 
 Cell Usage :
-# BELS                             : 20205
+# BELS                             : 20203
 #      BUF                         : 13
 #      GND                         : 11
 #      INV                         : 117
 #      LUT1                        : 143
-#      LUT2                        : 2827
-#      LUT2_D                      : 10
-#      LUT2_L                      : 20
-#      LUT3                        : 3700
-#      LUT3_D                      : 141
-#      LUT3_L                      : 116
-#      LUT4                        : 7141
-#      LUT4_D                      : 48
-#      LUT4_L                      : 573
+#      LUT2                        : 2858
+#      LUT2_D                      : 9
+#      LUT2_L                      : 22
+#      LUT3                        : 3792
+#      LUT3_D                      : 139
+#      LUT3_L                      : 108
+#      LUT4                        : 7102
+#      LUT4_D                      : 55
+#      LUT4_L                      : 553
 #      MULT_AND                    : 225
-#      MUXCY                       : 2261
-#      MUXF5                       : 800
+#      MUXCY                       : 2262
+#      MUXF5                       : 735
 #      MUXF6                       : 6
 #      MUXF7                       : 3
 #      VCC                         : 8
 #      XORCY                       : 2042
-# FlipFlops/Latches                : 9958
-#      FDE                         : 5596
-#      FDR                         : 883
-#      FDRE                        : 1728
+# FlipFlops/Latches                : 9912
+#      FDE                         : 5591
+#      FDR                         : 878
+#      FDRE                        : 1693
 #      FDRS                        : 1472
 #      FDRSE                       : 188
-#      FDS                         : 69
+#      FDS                         : 68
 #      FDSE                        : 22
 # RAMS                             : 27
 #      RAMB16                      : 27
@@ -4220,10 +4171,10 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                     8881  out of  15360    57%  
- Number of Slice Flip Flops:           9958  out of  30720    32%  
- Number of 4 input LUTs:              15087  out of  30720    49%  
-    Number used as logic:             14836
+ Number of Slices:                     8896  out of  15360    57%  
+ Number of Slice Flip Flops:           9912  out of  30720    32%  
+ Number of 4 input LUTs:              15149  out of  30720    49%  
+    Number used as logic:             14898
     Number used as Shift registers:     251
  Number of IOs:                          32
  Number of bonded IOBs:                  32  out of    448     7%  
@@ -4252,7 +4203,7 @@ Clock Information:
 -----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)                                                                                                                  | Load  |
 -----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
-i_clock                            | IBUF+BUFG                                                                                                                              | 10143 |
+i_clock                            | IBUF+BUFG                                                                                                                              | 10097 |
 inst_tb_i2c_mem/N1                 | NONE(inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_init.ram/SP.SINGLE_PRIM.SP) | 2     |
 agclk                              | NONE(dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP)| 12    |
 vgaclk251                          | BUFG                                                                                                                                   | 83    |
@@ -4273,8 +4224,8 @@ Timing Summary:
 ---------------
 Speed Grade: -10
 
-   Minimum period: 11.413ns (Maximum Frequency: 87.618MHz)
-   Minimum input arrival time before clock: 10.919ns
+   Minimum period: 10.939ns (Maximum Frequency: 91.413MHz)
+   Minimum input arrival time before clock: 10.880ns
    Maximum output required time after clock: 8.864ns
    Maximum combinational path delay: No path found
 
@@ -4284,30 +4235,30 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 11.413ns (frequency: 87.618MHz)
-  Total number of paths / destination ports: 566215 / 20464
+  Clock period: 10.939ns (frequency: 91.413MHz)
+  Total number of paths / destination ports: 565102 / 20376
 -------------------------------------------------------------------------
-Delay:               11.413ns (Levels of Logic = 6)
-  Source:            tfm_inst/CalculatePixOS_mux (FF)
+Delay:               10.939ns (Levels of Logic = 6)
+  Source:            tfm_inst/ExtractAlphaParameters_mux (FF)
   Destination:       inst_divfp/blk00000196 (FF)
   Source Clock:      i_clock rising
   Destination Clock: i_clock rising
 
-  Data Path: tfm_inst/CalculatePixOS_mux to inst_divfp/blk00000196
+  Data Path: tfm_inst/ExtractAlphaParameters_mux to inst_divfp/blk00000196
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDE:C->Q            485   0.360   2.862  tfm_inst/CalculatePixOS_mux (tfm_inst/CalculatePixOS_mux)
-     LUT4:I3->O            1   0.195   0.523  tfm_inst/divfpond46 (tfm_inst/divfpce46)
+     FDE:C->Q            440   0.360   2.748  tfm_inst/ExtractAlphaParameters_mux (tfm_inst/ExtractAlphaParameters_mux)
+     LUT4_L:I2->LO         1   0.195   0.163  tfm_inst/divfpond80 (tfm_inst/divfpce80)
      LUT4:I3->O            1   0.195   0.523  tfm_inst/divfpond98 (tfm_inst/divfpce98)
-     LUT4_L:I3->LO         1   0.195   0.163  tfm_inst/divfpond131_SW0 (N4319)
+     LUT4_L:I3->LO         1   0.195   0.163  tfm_inst/divfpond131_SW0 (N4210)
      LUT4:I3->O          473   0.195   2.652  tfm_inst/divfpond131 (divfpce)
      begin scope: 'inst_divfp'
      BUF:I->O            473   0.358   2.652  ce_2 (ce_2)
      FDE:CE                    0.540          blk000005eb
     ----------------------------------------
-    Total                     11.413ns (2.038ns logic, 9.375ns route)
-                                       (17.9% logic, 82.1% route)
+    Total                     10.939ns (2.038ns logic, 8.901ns route)
+                                       (18.6% logic, 81.4% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'vgaclk251'
@@ -4326,7 +4277,7 @@ Delay:               6.102ns (Levels of Logic = 7)
     ----------------------------------------  ------------
      FDR:C->Q              6   0.360   0.725  ag_inst/w8_2 (ag_inst/w8_2)
      LUT3:I0->O            4   0.195   0.599  ag_inst/w8_mux0000<0>61 (ag_inst/N21)
-     LUT3:I1->O            1   0.195   0.523  ag_inst/state_cmp_eq0002_SW0 (N2186)
+     LUT3:I1->O            1   0.195   0.523  ag_inst/state_cmp_eq0002_SW0 (N2171)
      LUT4:I3->O            8   0.195   0.826  ag_inst/state_cmp_eq0002 (ag_inst/state_cmp_eq0002)
      LUT4:I0->O            6   0.195   0.560  ag_inst/w8_mux0000<6>21 (ag_inst/N48)
      LUT3:I2->O            3   0.195   0.600  ag_inst/w8_mux0000<0>21 (ag_inst/N13)
@@ -4354,7 +4305,7 @@ Delay:               4.522ns (Levels of Logic = 3)
     ----------------------------------------  ------------
      FDRE:C->Q             4   0.360   0.755  ag_inst/addr_7 (ag_inst/addr_7)
      LUT4:I0->O            1   0.195   0.688  ag_inst/addr_or000018 (ag_inst/addr_or000018)
-     LUT4:I1->O            1   0.195   0.585  ag_inst/addr_or000039_SW0 (N3667)
+     LUT4:I1->O            1   0.195   0.585  ag_inst/addr_or000039_SW0 (N3556)
      LUT4:I2->O           10   0.195   0.488  ag_inst/addr_or000039 (ag_inst/addr_or0000)
      FDRE:R                    1.062          ag_inst/addr_0
     ----------------------------------------
@@ -4363,9 +4314,9 @@ Delay:               4.522ns (Levels of Logic = 3)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 5019 / 5019
+  Total number of paths / destination ports: 4973 / 4973
 -------------------------------------------------------------------------
-Offset:              9.513ns (Levels of Logic = 3)
+Offset:              9.485ns (Levels of Logic = 3)
   Source:            i_reset (PAD)
   Destination:       test_fixed_melexis_run (FF)
   Destination Clock: i_clock rising
@@ -4374,19 +4325,19 @@ Offset:              9.513ns (Levels of Logic = 3)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           483   0.965   2.691  i_reset_IBUF (i_reset_IBUF)
-     BUF:I->O            483   0.358   2.691  i_reset_IBUF_1 (i_reset_IBUF_1)
-     INV:I->O            283   0.358   1.909  tfm_inst/inst_ExtractAlphaParameters/i_reset_inv1_INV_0 (ag_inst/reset_inv)
+     IBUF:I->O           478   0.965   2.672  i_reset_IBUF (i_reset_IBUF)
+     BUF:I->O            478   0.358   2.672  i_reset_IBUF_1 (i_reset_IBUF_1)
+     INV:I->O            286   0.358   1.921  tfm_inst/inst_ExtractAlphaParameters/i_reset_inv1_INV_0 (ag_inst/reset_inv)
      FDE:CE                    0.540          test_fixed_melexis_run
     ----------------------------------------
-    Total                      9.513ns (2.221ns logic, 7.292ns route)
-                                       (23.3% logic, 76.7% route)
+    Total                      9.485ns (2.221ns logic, 7.264ns route)
+                                       (23.4% logic, 76.6% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'vgaclk251'
   Total number of paths / destination ports: 91 / 91
 -------------------------------------------------------------------------
-Offset:              10.919ns (Levels of Logic = 6)
+Offset:              10.880ns (Levels of Logic = 6)
   Source:            i_reset (PAD)
   Destination:       vts_inst/videoOn (FF)
   Destination Clock: vgaclk251 rising
@@ -4395,22 +4346,22 @@ Offset:              10.919ns (Levels of Logic = 6)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           483   0.965   2.691  i_reset_IBUF (i_reset_IBUF)
-     BUF:I->O            483   0.358   2.854  i_reset_IBUF_1 (i_reset_IBUF_1)
+     IBUF:I->O           478   0.965   2.672  i_reset_IBUF (i_reset_IBUF)
+     BUF:I->O            478   0.358   2.835  i_reset_IBUF_1 (i_reset_IBUF_1)
      LUT4:I3->O            1   0.195   0.523  vts_inst/videoOn_or00004 (vts_inst/videoOn_or00004)
      LUT4:I3->O            1   0.195   0.585  vts_inst/videoOn_or000012 (vts_inst/videoOn_or000012)
      LUT4:I2->O            1   0.195   0.741  vts_inst/videoOn_or000068 (vts_inst/videoOn_or000068)
      LUT4:I0->O            1   0.195   0.360  vts_inst/videoOn_or0000465 (vts_inst/videoOn_or0000)
      FDR:R                     1.062          vts_inst/videoOn
     ----------------------------------------
-    Total                     10.919ns (3.165ns logic, 7.754ns route)
-                                       (29.0% logic, 71.0% route)
+    Total                     10.880ns (3.165ns logic, 7.715ns route)
+                                       (29.1% logic, 70.9% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'agclk'
   Total number of paths / destination ports: 10 / 10
 -------------------------------------------------------------------------
-Offset:              5.564ns (Levels of Logic = 2)
+Offset:              5.544ns (Levels of Logic = 2)
   Source:            i_reset (PAD)
   Destination:       ag_inst/addr_9 (FF)
   Destination Clock: agclk rising
@@ -4419,12 +4370,12 @@ Offset:              5.564ns (Levels of Logic = 2)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           483   0.965   2.854  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O           478   0.965   2.835  i_reset_IBUF (i_reset_IBUF)
      LUT4:I3->O           10   0.195   0.488  ag_inst/addr_or000039 (ag_inst/addr_or0000)
      FDRE:R                    1.062          ag_inst/addr_0
     ----------------------------------------
-    Total                      5.564ns (2.222ns logic, 3.342ns route)
-                                       (39.9% logic, 60.1% route)
+    Total                      5.544ns (2.222ns logic, 3.322ns route)
+                                       (40.1% logic, 59.9% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
@@ -4461,7 +4412,7 @@ Offset:              8.864ns (Levels of Logic = 6)
      FDR:C->Q              4   0.360   0.755  vts_inst/hPos_2 (vts_inst/hPos_2)
      LUT4:I0->O            2   0.195   0.602  vts_inst/activeArea1_and00002111 (vts_inst/N29)
      LUT4:I2->O            1   0.195   0.585  vts_inst/activeArea1_and000013 (vts_inst/activeArea1_and000013)
-     LUT4:I2->O            1   0.195   0.585  vts_inst/activeArea1_and0000106_SW0 (N2819)
+     LUT4:I2->O            1   0.195   0.585  vts_inst/activeArea1_and0000106_SW0 (N2846)
      LUT4:I2->O            8   0.195   0.670  vts_inst/activeArea1_and0000106 (VGA_timing_synch_activeArea1)
      LUT2:I0->O            3   0.195   0.375  vig_inst/RGB_out<9>1 (vga_r_3_OBUF)
      OBUF:I->O                 3.957          vga_b_3_OBUF (vga_b<3>)
@@ -4493,15 +4444,15 @@ Offset:              7.150ns (Levels of Logic = 3)
 =========================================================================
 
 
-Total REAL time to Xst completion: 271.00 secs
-Total CPU time to Xst completion: 261.34 secs
+Total REAL time to Xst completion: 330.00 secs
+Total CPU time to Xst completion: 299.84 secs
  
 --> 
 
 
-Total memory usage is 1072856 kilobytes
+Total memory usage is 1069924 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :  763 (   0 filtered)
-Number of infos    :   84 (   0 filtered)
+Number of warnings :  764 (   0 filtered)
+Number of infos    :   82 (   0 filtered)
 
