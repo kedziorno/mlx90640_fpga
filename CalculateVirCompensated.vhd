@@ -37,7 +37,6 @@ i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
 
-i_Emissivity : in std_logic_vector (31 downto 0);
 i_pixoscpsp0 : in std_logic_vector (31 downto 0);
 i_pixoscpsp1 : in std_logic_vector (31 downto 0);
 i_tgc : in std_logic_vector (31 downto 0);
@@ -367,6 +366,7 @@ p0 : process (i_clock) is
 	s12,s15,s18,
 	s21,s23);
 	variable state : states;
+  constant const_Emissivity : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -422,7 +422,7 @@ begin
 				when s4 =>
 					divfpce_internal <= '1';
 					divfpa_internal <= i_pixos_do;
-					divfpb_internal <= i_Emissivity;
+					divfpb_internal <= const_Emissivity;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s9;
 						divfpce_internal <= '0';

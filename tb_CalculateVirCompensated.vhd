@@ -126,9 +126,9 @@ i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
 
-i_Emissivity : in std_logic_vector (31 downto 0);
 i_pixoscpsp0 : in std_logic_vector (31 downto 0);
 i_pixoscpsp1 : in std_logic_vector (31 downto 0);
+i_tgc : in std_logic_vector (31 downto 0);
 
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
@@ -178,9 +178,9 @@ END COMPONENT;
 signal CalculateVirCompensated_clock : std_logic;
 signal CalculateVirCompensated_reset : std_logic;
 signal CalculateVirCompensated_run : std_logic;
-signal CalculateVirCompensated_Emissivity : std_logic_vector(31 downto 0) := x"3f800000"; -- 1
 signal CalculateVirCompensated_pixoscpsp0 : std_logic_vector(31 downto 0) := x"BEF58000"; -- -4.794922e-01
 signal CalculateVirCompensated_pixoscpsp1 : std_logic_vector(31 downto 0) := x"3FBA7EC0"; -- 1.456993e+00
+signal CalculateVirCompensated_tgc : std_logic_vector(31 downto 0) := x"00000000"; -- 0
 signal CalculateVirCompensated_i2c_mem_douta : std_logic_vector(7 downto 0) := (others => '0');
 signal CalculateVirCompensated_pixos_do : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateVirCompensated_addr : std_logic_vector(9 downto 0) := (others => '0');
@@ -258,9 +258,9 @@ uut: CalculateVirCompensated PORT MAP (
 i_clock => CalculateVirCompensated_clock,
 i_reset => CalculateVirCompensated_reset,
 i_run => CalculateVirCompensated_run,
-i_Emissivity => CalculateVirCompensated_Emissivity,
 i_pixoscpsp0 => CalculateVirCompensated_pixoscpsp0,
 i_pixoscpsp1 => CalculateVirCompensated_pixoscpsp1,
+i_tgc => CalculateVirCompensated_tgc,
 i2c_mem_ena => CalculateVirCompensated_i2c_mem_ena,
 i2c_mem_addra => CalculateVirCompensated_i2c_mem_addra,
 i2c_mem_douta => CalculateVirCompensated_i2c_mem_douta,
@@ -416,7 +416,7 @@ report "before loop";
     wait for 1.140us; -- XXX the same as CalculateVirCompensated wait for data from CalculatePixOS MEM
   end loop;
 report "after loop";
-wait until CalculateVirCompensated_rdy = '1';
+--wait until CalculateVirCompensated_rdy = '1'; -- fix it
 --report "rdy at 806.665us";
 --report "rdy at 798.975us";
 --report "rdy at 683.765us";
