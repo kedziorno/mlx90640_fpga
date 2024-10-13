@@ -29,206 +29,19 @@ INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on
 Timing constraint: NET "i_clock_IBUF1" PERIOD = 10 ns HIGH 50%;
 For more information, see Period Analysis in the Timing Closure User Guide (UG612).
 
- 555656 paths analyzed, 39468 endpoints analyzed, 0 failing endpoints
+ 557648 paths analyzed, 39647 endpoints analyzed, 0 failing endpoints
  0 timing errors detected. (0 setup errors, 0 hold errors, 0 component switching limit errors)
- Minimum period is   9.905ns.
+ Minimum period is   9.856ns.
 --------------------------------------------------------------------------------
 
-Paths for end point inst_mulfp/blk000000bc (SLICE_X17Y61.BX), 1081 paths
+Paths for end point tfm_inst/inst_rom_constants/inst_rom_constants (RAMB16_X5Y7.ADDRA5), 110 paths
 --------------------------------------------------------------------------------
-Slack (setup path):     0.095ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               tfm_inst/ExtractAlphaParameters_mux_2 (FF)
-  Destination:          inst_mulfp/blk000000bc (FF)
-  Requirement:          10.000ns
-  Data Path Delay:      9.905ns (Levels of Logic = 6)
-  Clock Path Skew:      0.000ns
-  Source Clock:         i_clock_IBUF rising at 0.000ns
-  Destination Clock:    i_clock_IBUF rising at 10.000ns
-  Clock Uncertainty:    0.000ns
-
-  Maximum Data Path: tfm_inst/ExtractAlphaParameters_mux_2 to inst_mulfp/blk000000bc
-    Location             Delay type         Delay(ns)  Physical Resource
-                                                       Logical Resource(s)
-    -------------------------------------------------  -------------------
-    SLICE_X40Y71.XQ      Tcko                  0.360   tfm_inst/ExtractAlphaParameters_mux_2
-                                                       tfm_inst/ExtractAlphaParameters_mux_2
-    SLICE_X29Y87.G2      net (fanout=3)        1.681   tfm_inst/ExtractAlphaParameters_mux_2
-    SLICE_X29Y87.Y       Tilo                  0.194   divfpr<8>
-                                                       tfm_inst/mulfpa<0>122
-    SLICE_X18Y105.F2     net (fanout=131)      2.329   tfm_inst/N520
-    SLICE_X18Y105.X      Tilo                  0.195   tfm_inst/inst_CalculateAlphaCP/mulfpb_internal<23>
-                                                       tfm_inst/mulfpb<10>56
-    SLICE_X21Y97.F3      net (fanout=1)        0.780   tfm_inst/mulfpb<10>56
-    SLICE_X21Y97.X       Tilo                  0.194   tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/addfpb_internal<18>
-                                                       tfm_inst/mulfpb<10>78
-    SLICE_X15Y54.F1      net (fanout=1)        1.779   tfm_inst/mulfpb<10>78
-    SLICE_X15Y54.X       Tilo                  0.194   tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/mulfpb_internal<13>
-                                                       tfm_inst/mulfpb<10>99
-    SLICE_X17Y59.F4      net (fanout=4)        0.603   mulfpb<10>
-    SLICE_X17Y59.COUT    Topcyf                0.573   inst_mulfp/sig0000003e
-                                                       inst_mulfp/blk000009ad
-                                                       inst_mulfp/blk000000b9
-                                                       inst_mulfp/blk000000b8
-    SLICE_X17Y60.CIN     net (fanout=1)        0.000   inst_mulfp/sig0000003e
-    SLICE_X17Y60.COUT    Tbyp                  0.086   tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/out_nibble2<22>
-                                                       inst_mulfp/blk000000b7
-                                                       inst_mulfp/blk000000b6
-    SLICE_X17Y61.BX      net (fanout=1)        0.656   inst_mulfp/sig00000040
-    SLICE_X17Y61.CLK     Tdick                 0.281   inst_mulfp/sig0000009a
-                                                       inst_mulfp/blk000000bc
-    -------------------------------------------------  ---------------------------
-    Total                                      9.905ns (2.077ns logic, 7.828ns route)
-                                                       (21.0% logic, 79.0% route)
-
---------------------------------------------------------------------------------
-Slack (setup path):     0.128ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               tfm_inst/ExtractAlphaParameters_mux_2 (FF)
-  Destination:          inst_mulfp/blk000000bc (FF)
-  Requirement:          10.000ns
-  Data Path Delay:      9.872ns (Levels of Logic = 7)
-  Clock Path Skew:      0.000ns
-  Source Clock:         i_clock_IBUF rising at 0.000ns
-  Destination Clock:    i_clock_IBUF rising at 10.000ns
-  Clock Uncertainty:    0.000ns
-
-  Maximum Data Path: tfm_inst/ExtractAlphaParameters_mux_2 to inst_mulfp/blk000000bc
-    Location             Delay type         Delay(ns)  Physical Resource
-                                                       Logical Resource(s)
-    -------------------------------------------------  -------------------
-    SLICE_X40Y71.XQ      Tcko                  0.360   tfm_inst/ExtractAlphaParameters_mux_2
-                                                       tfm_inst/ExtractAlphaParameters_mux_2
-    SLICE_X31Y93.G2      net (fanout=3)        1.857   tfm_inst/ExtractAlphaParameters_mux_2
-    SLICE_X31Y93.Y       Tilo                  0.194   tfm_inst/mulfpb<31>66
-                                                       tfm_inst/mulfpa<0>172
-    SLICE_X19Y91.G3      net (fanout=66)       2.369   tfm_inst/N550
-    SLICE_X19Y91.Y       Tilo                  0.194   mulfpr<20>
-                                                       tfm_inst/mulfpb<1>66
-    SLICE_X19Y91.F2      net (fanout=1)        0.726   tfm_inst/mulfpb<1>66/O
-    SLICE_X19Y91.X       Tilo                  0.194   mulfpr<20>
-                                                       tfm_inst/mulfpb<1>78
-    SLICE_X20Y63.F4      net (fanout=1)        0.998   tfm_inst/mulfpb<1>78
-    SLICE_X20Y63.X       Tilo                  0.195   mulfpb<1>
-                                                       tfm_inst/mulfpb<1>99
-    SLICE_X17Y58.F4      net (fanout=4)        1.103   mulfpb<1>
-    SLICE_X17Y58.COUT    Topcyf                0.573   inst_mulfp/sig0000003c
-                                                       inst_mulfp/blk000009b1
-                                                       inst_mulfp/blk000000bb
-                                                       inst_mulfp/blk000000ba
-    SLICE_X17Y59.CIN     net (fanout=1)        0.000   inst_mulfp/sig0000003c
-    SLICE_X17Y59.COUT    Tbyp                  0.086   inst_mulfp/sig0000003e
-                                                       inst_mulfp/blk000000b9
-                                                       inst_mulfp/blk000000b8
-    SLICE_X17Y60.CIN     net (fanout=1)        0.000   inst_mulfp/sig0000003e
-    SLICE_X17Y60.COUT    Tbyp                  0.086   tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/out_nibble2<22>
-                                                       inst_mulfp/blk000000b7
-                                                       inst_mulfp/blk000000b6
-    SLICE_X17Y61.BX      net (fanout=1)        0.656   inst_mulfp/sig00000040
-    SLICE_X17Y61.CLK     Tdick                 0.281   inst_mulfp/sig0000009a
-                                                       inst_mulfp/blk000000bc
-    -------------------------------------------------  ---------------------------
-    Total                                      9.872ns (2.163ns logic, 7.709ns route)
-                                                       (21.9% logic, 78.1% route)
-
---------------------------------------------------------------------------------
-Slack (setup path):     0.187ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               tfm_inst/CalculateAlphaComp_mux_1 (FF)
-  Destination:          inst_mulfp/blk000000bc (FF)
-  Requirement:          10.000ns
-  Data Path Delay:      9.813ns (Levels of Logic = 6)
-  Clock Path Skew:      0.000ns
-  Source Clock:         i_clock_IBUF rising at 0.000ns
-  Destination Clock:    i_clock_IBUF rising at 10.000ns
-  Clock Uncertainty:    0.000ns
-
-  Maximum Data Path: tfm_inst/CalculateAlphaComp_mux_1 to inst_mulfp/blk000000bc
-    Location             Delay type         Delay(ns)  Physical Resource
-                                                       Logical Resource(s)
-    -------------------------------------------------  -------------------
-    SLICE_X50Y62.YQ      Tcko                  0.360   tfm_inst/CalculateAlphaComp_mux_1
-                                                       tfm_inst/CalculateAlphaComp_mux_1
-    SLICE_X29Y87.G4      net (fanout=6)        1.589   tfm_inst/CalculateAlphaComp_mux_1
-    SLICE_X29Y87.Y       Tilo                  0.194   divfpr<8>
-                                                       tfm_inst/mulfpa<0>122
-    SLICE_X18Y105.F2     net (fanout=131)      2.329   tfm_inst/N520
-    SLICE_X18Y105.X      Tilo                  0.195   tfm_inst/inst_CalculateAlphaCP/mulfpb_internal<23>
-                                                       tfm_inst/mulfpb<10>56
-    SLICE_X21Y97.F3      net (fanout=1)        0.780   tfm_inst/mulfpb<10>56
-    SLICE_X21Y97.X       Tilo                  0.194   tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/addfpb_internal<18>
-                                                       tfm_inst/mulfpb<10>78
-    SLICE_X15Y54.F1      net (fanout=1)        1.779   tfm_inst/mulfpb<10>78
-    SLICE_X15Y54.X       Tilo                  0.194   tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/mulfpb_internal<13>
-                                                       tfm_inst/mulfpb<10>99
-    SLICE_X17Y59.F4      net (fanout=4)        0.603   mulfpb<10>
-    SLICE_X17Y59.COUT    Topcyf                0.573   inst_mulfp/sig0000003e
-                                                       inst_mulfp/blk000009ad
-                                                       inst_mulfp/blk000000b9
-                                                       inst_mulfp/blk000000b8
-    SLICE_X17Y60.CIN     net (fanout=1)        0.000   inst_mulfp/sig0000003e
-    SLICE_X17Y60.COUT    Tbyp                  0.086   tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/out_nibble2<22>
-                                                       inst_mulfp/blk000000b7
-                                                       inst_mulfp/blk000000b6
-    SLICE_X17Y61.BX      net (fanout=1)        0.656   inst_mulfp/sig00000040
-    SLICE_X17Y61.CLK     Tdick                 0.281   inst_mulfp/sig0000009a
-                                                       inst_mulfp/blk000000bc
-    -------------------------------------------------  ---------------------------
-    Total                                      9.813ns (2.077ns logic, 7.736ns route)
-                                                       (21.2% logic, 78.8% route)
-
---------------------------------------------------------------------------------
-
-Paths for end point tfm_inst/inst_rom_constants/inst_rom_constants (RAMB16_X3Y7.ADDRA6), 110 paths
---------------------------------------------------------------------------------
-Slack (setup path):     0.201ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               tfm_inst/ExtractAlphaParameters_mux (FF)
-  Destination:          tfm_inst/inst_rom_constants/inst_rom_constants (RAM)
-  Requirement:          10.000ns
-  Data Path Delay:      9.638ns (Levels of Logic = 6)
-  Clock Path Skew:      -0.161ns (1.772 - 1.933)
-  Source Clock:         i_clock_IBUF rising at 0.000ns
-  Destination Clock:    i_clock_IBUF rising at 10.000ns
-  Clock Uncertainty:    0.000ns
-
-  Maximum Data Path: tfm_inst/ExtractAlphaParameters_mux to tfm_inst/inst_rom_constants/inst_rom_constants
-    Location             Delay type         Delay(ns)  Physical Resource
-                                                       Logical Resource(s)
-    -------------------------------------------------  -------------------
-    SLICE_X25Y98.YQ      Tcko                  0.340   tfm_inst/ExtractAlphaParameters_mux
-                                                       tfm_inst/ExtractAlphaParameters_mux
-    SLICE_X34Y74.G4      net (fanout=440)      2.203   tfm_inst/ExtractAlphaParameters_mux
-    SLICE_X34Y74.Y       Tilo                  0.195   tfm_inst/inst_CalculatePixOsCPSP/o_2powx_4bit_adr<2>
-                                                       tfm_inst/inst_rom_constants/address<1>93_SW0
-    SLICE_X34Y74.F3      net (fanout=1)        0.386   tfm_inst/inst_rom_constants/address<1>93_SW0/O
-    SLICE_X34Y74.X       Tilo                  0.195   tfm_inst/inst_CalculatePixOsCPSP/o_2powx_4bit_adr<2>
-                                                       tfm_inst/inst_rom_constants/address<1>93
-    SLICE_X37Y62.F1      net (fanout=1)        0.803   tfm_inst/inst_rom_constants/address<1>93
-    SLICE_X37Y62.XMUX    Tif5x                 0.566   tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/divfpb_internal<9>
-                                                       tfm_inst/inst_rom_constants/address<1>171_G
-                                                       tfm_inst/inst_rom_constants/address<1>171
-    SLICE_X38Y60.G1      net (fanout=1)        0.621   tfm_inst/inst_rom_constants/address<1>171
-    SLICE_X38Y60.XMUX    Tif5x                 0.560   tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/o_2powx_4bit_adr<1>
-                                                       tfm_inst/inst_rom_constants/address<1>254_F
-                                                       tfm_inst/inst_rom_constants/address<1>254
-    SLICE_X39Y54.F4      net (fanout=1)        0.547   tfm_inst/inst_rom_constants/address<1>254
-    SLICE_X39Y54.X       Tilo                  0.194   fixed2floatr<4>
-                                                       tfm_inst/inst_rom_constants/address<1>298
-    SLICE_X36Y53.G3      net (fanout=1)        0.706   tfm_inst/inst_rom_constants/address<1>298
-    SLICE_X36Y53.XMUX    Tif5x                 0.560   tfm_inst/inst_CalculatePixOS/inst_ExtractKvParameters/out_nibble1<7>
-                                                       tfm_inst/inst_rom_constants/address<1>3401
-                                                       tfm_inst/inst_rom_constants/address<1>340_f5
-    RAMB16_X3Y7.ADDRA6   net (fanout=1)        1.336   tfm_inst/inst_rom_constants/address<1>
-    RAMB16_X3Y7.CLKA     Trcck_ADDRA           0.426   tfm_inst/inst_rom_constants/inst_rom_constants
-                                                       tfm_inst/inst_rom_constants/inst_rom_constants
-    -------------------------------------------------  ---------------------------
-    Total                                      9.638ns (3.036ns logic, 6.602ns route)
-                                                       (31.5% logic, 68.5% route)
-
---------------------------------------------------------------------------------
-Slack (setup path):     0.285ns (requirement - (data path - clock path skew + uncertainty))
+Slack (setup path):     0.144ns (requirement - (data path - clock path skew + uncertainty))
   Source:               tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_mux (FF)
   Destination:          tfm_inst/inst_rom_constants/inst_rom_constants (RAM)
   Requirement:          10.000ns
-  Data Path Delay:      9.611ns (Levels of Logic = 7)
-  Clock Path Skew:      -0.104ns (0.822 - 0.926)
+  Data Path Delay:      9.796ns (Levels of Logic = 7)
+  Clock Path Skew:      -0.060ns (1.740 - 1.800)
   Source Clock:         i_clock_IBUF rising at 0.000ns
   Destination Clock:    i_clock_IBUF rising at 10.000ns
   Clock Uncertainty:    0.000ns
@@ -237,273 +50,440 @@ Slack (setup path):     0.285ns (requirement - (data path - clock path skew + un
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X28Y62.YQ      Tcko                  0.360   tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_mux
+    SLICE_X30Y76.YQ      Tcko                  0.360   tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_mux
                                                        tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_mux
-    SLICE_X32Y60.G4      net (fanout=315)      0.993   tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_mux
-    SLICE_X32Y60.Y       Tilo                  0.195   tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_mux_1
+    SLICE_X51Y47.G3      net (fanout=313)      1.794   tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_mux
+    SLICE_X51Y47.Y       Tilo                  0.194   inst_subfp/sig000005cc
                                                        tfm_inst/inst_CalculatePixOS/divfpce11
-    SLICE_X32Y60.F4      net (fanout=5)        0.164   tfm_inst/inst_CalculatePixOS/N31
-    SLICE_X32Y60.X       Tilo                  0.195   tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_mux_1
+    SLICE_X51Y47.F4      net (fanout=5)        0.164   tfm_inst/inst_CalculatePixOS/N31
+    SLICE_X51Y47.X       Tilo                  0.194   inst_subfp/sig000005cc
                                                        tfm_inst/rom_constants_2powx_4bit_en22
-    SLICE_X37Y65.F3      net (fanout=1)        1.026   tfm_inst/rom_constants_2powx_4bit_en22
-    SLICE_X37Y65.XMUX    Tif5x                 0.566   tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/out_nibble1<27>
+    SLICE_X58Y44.F4      net (fanout=1)        0.683   tfm_inst/rom_constants_2powx_4bit_en22
+    SLICE_X58Y44.XMUX    Tif5x                 0.555   tfm_inst/inst_CalculateVdd/inst_ExtractVDDParameters/address_kvdd<0>
                                                        tfm_inst/rom_constants_2powx_4bit_en41_G
                                                        tfm_inst/rom_constants_2powx_4bit_en41
-    SLICE_X37Y62.BX      net (fanout=12)       0.651   tfm_inst/rom_constants_2powx_4bit_en
-    SLICE_X37Y62.XMUX    Tbxx                  0.511   tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/divfpb_internal<9>
-                                                       tfm_inst/inst_rom_constants/address<1>171
-    SLICE_X38Y60.G1      net (fanout=1)        0.621   tfm_inst/inst_rom_constants/address<1>171
-    SLICE_X38Y60.XMUX    Tif5x                 0.560   tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/o_2powx_4bit_adr<1>
-                                                       tfm_inst/inst_rom_constants/address<1>254_F
-                                                       tfm_inst/inst_rom_constants/address<1>254
-    SLICE_X39Y54.F4      net (fanout=1)        0.547   tfm_inst/inst_rom_constants/address<1>254
-    SLICE_X39Y54.X       Tilo                  0.194   fixed2floatr<4>
-                                                       tfm_inst/inst_rom_constants/address<1>298
-    SLICE_X36Y53.G3      net (fanout=1)        0.706   tfm_inst/inst_rom_constants/address<1>298
-    SLICE_X36Y53.XMUX    Tif5x                 0.560   tfm_inst/inst_CalculatePixOS/inst_ExtractKvParameters/out_nibble1<7>
-                                                       tfm_inst/inst_rom_constants/address<1>3401
-                                                       tfm_inst/inst_rom_constants/address<1>340_f5
-    RAMB16_X3Y7.ADDRA6   net (fanout=1)        1.336   tfm_inst/inst_rom_constants/address<1>
-    RAMB16_X3Y7.CLKA     Trcck_ADDRA           0.426   tfm_inst/inst_rom_constants/inst_rom_constants
+    SLICE_X60Y41.BX      net (fanout=12)       0.953   tfm_inst/rom_constants_2powx_4bit_en
+    SLICE_X60Y41.XMUX    Tbxx                  0.513   tfm_inst/inst_CalculatePixOsCPSP/o_2powx_4bit_adr<2>
+                                                       tfm_inst/inst_rom_constants/address<0>171
+    SLICE_X61Y40.G1      net (fanout=1)        0.584   tfm_inst/inst_rom_constants/address<0>171
+    SLICE_X61Y40.XMUX    Tif5x                 0.574   tfm_inst/inst_rom_constants/address<0>254
+                                                       tfm_inst/inst_rom_constants/address<0>254_F
+                                                       tfm_inst/inst_rom_constants/address<0>254
+    SLICE_X61Y44.F3      net (fanout=1)        0.606   tfm_inst/inst_rom_constants/address<0>254
+    SLICE_X61Y44.X       Tilo                  0.194   tfm_inst/inst_rom_constants/address<0>298
+                                                       tfm_inst/inst_rom_constants/address<0>298
+    SLICE_X57Y56.G1      net (fanout=1)        0.830   tfm_inst/inst_rom_constants/address<0>298
+    SLICE_X57Y56.XMUX    Tif5x                 0.574   tfm_inst/inst_rom_constants/address<0>
+                                                       tfm_inst/inst_rom_constants/address<0>3401
+                                                       tfm_inst/inst_rom_constants/address<0>340_f5
+    RAMB16_X5Y7.ADDRA5   net (fanout=1)        0.598   tfm_inst/inst_rom_constants/address<0>
+    RAMB16_X5Y7.CLKA     Trcck_ADDRA           0.426   tfm_inst/inst_rom_constants/inst_rom_constants
                                                        tfm_inst/inst_rom_constants/inst_rom_constants
     -------------------------------------------------  ---------------------------
-    Total                                      9.611ns (3.567ns logic, 6.044ns route)
-                                                       (37.1% logic, 62.9% route)
+    Total                                      9.796ns (3.584ns logic, 6.212ns route)
+                                                       (36.6% logic, 63.4% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     0.295ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/o_2powx_p8_4bit_ena (FF)
+Slack (setup path):     0.196ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               tfm_inst/inst_CalculatePixOS/ExtractOffsetParameters_mux (FF)
   Destination:          tfm_inst/inst_rom_constants/inst_rom_constants (RAM)
   Requirement:          10.000ns
-  Data Path Delay:      9.656ns (Levels of Logic = 7)
-  Clock Path Skew:      -0.049ns (0.822 - 0.871)
+  Data Path Delay:      9.732ns (Levels of Logic = 5)
+  Clock Path Skew:      -0.072ns (1.740 - 1.812)
   Source Clock:         i_clock_IBUF rising at 0.000ns
   Destination Clock:    i_clock_IBUF rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/o_2powx_p8_4bit_ena to tfm_inst/inst_rom_constants/inst_rom_constants
+  Maximum Data Path: tfm_inst/inst_CalculatePixOS/ExtractOffsetParameters_mux to tfm_inst/inst_rom_constants/inst_rom_constants
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X39Y51.XQ      Tcko                  0.340   tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/o_2powx_p8_4bit_ena
-                                                       tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/o_2powx_p8_4bit_ena
-    SLICE_X40Y83.F1      net (fanout=2)        2.040   tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/o_2powx_p8_4bit_ena
-    SLICE_X40Y83.X       Tilo                  0.195   tfm_inst/inst_CalculateAlphaCP/divfpb_internal<31>
-                                                       tfm_inst/rom_constants_2powx_p8_4bit_en_SW0
-    SLICE_X38Y70.G3      net (fanout=2)        1.157   N2175
-    SLICE_X38Y70.Y       Tilo                  0.195   tfm_inst/inst_CalculateTa/state_FSM_FFd11
-                                                       tfm_inst/rom_constants_2powx_p8_4bit_en
-    SLICE_X38Y70.F4      net (fanout=6)        0.178   tfm_inst/rom_constants_2powx_p8_4bit_en
-    SLICE_X38Y70.X       Tilo                  0.195   tfm_inst/inst_CalculateTa/state_FSM_FFd11
-                                                       tfm_inst/inst_rom_constants/address<1>216_SW0
-    SLICE_X39Y63.F4      net (fanout=1)        0.571   N3370
-    SLICE_X39Y63.X       Tilo                  0.194   tfm_inst/inst_CalculateTa/mulfpa<10>
-                                                       tfm_inst/inst_rom_constants/address<1>216
-    SLICE_X38Y60.BX      net (fanout=1)        0.309   tfm_inst/inst_rom_constants/address<1>216
-    SLICE_X38Y60.XMUX    Tbxx                  0.513   tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/o_2powx_4bit_adr<1>
-                                                       tfm_inst/inst_rom_constants/address<1>254
-    SLICE_X39Y54.F4      net (fanout=1)        0.547   tfm_inst/inst_rom_constants/address<1>254
-    SLICE_X39Y54.X       Tilo                  0.194   fixed2floatr<4>
-                                                       tfm_inst/inst_rom_constants/address<1>298
-    SLICE_X36Y53.G3      net (fanout=1)        0.706   tfm_inst/inst_rom_constants/address<1>298
-    SLICE_X36Y53.XMUX    Tif5x                 0.560   tfm_inst/inst_CalculatePixOS/inst_ExtractKvParameters/out_nibble1<7>
-                                                       tfm_inst/inst_rom_constants/address<1>3401
-                                                       tfm_inst/inst_rom_constants/address<1>340_f5
-    RAMB16_X3Y7.ADDRA6   net (fanout=1)        1.336   tfm_inst/inst_rom_constants/address<1>
-    RAMB16_X3Y7.CLKA     Trcck_ADDRA           0.426   tfm_inst/inst_rom_constants/inst_rom_constants
+    SLICE_X30Y70.YQ      Tcko                  0.360   tfm_inst/inst_CalculatePixOS/ExtractOffsetParameters_mux
+                                                       tfm_inst/inst_CalculatePixOS/ExtractOffsetParameters_mux
+    SLICE_X66Y36.F2      net (fanout=343)      3.294   tfm_inst/inst_CalculatePixOS/ExtractOffsetParameters_mux
+    SLICE_X66Y36.X       Tilo                  0.195   tfm_inst/inst_rom_constants/address<0>108
+                                                       tfm_inst/inst_rom_constants/address<0>108
+    SLICE_X60Y41.F2      net (fanout=1)        0.942   tfm_inst/inst_rom_constants/address<0>108
+    SLICE_X60Y41.XMUX    Tif5x                 0.555   tfm_inst/inst_CalculatePixOsCPSP/o_2powx_4bit_adr<2>
+                                                       tfm_inst/inst_rom_constants/address<0>171_G
+                                                       tfm_inst/inst_rom_constants/address<0>171
+    SLICE_X61Y40.G1      net (fanout=1)        0.584   tfm_inst/inst_rom_constants/address<0>171
+    SLICE_X61Y40.XMUX    Tif5x                 0.574   tfm_inst/inst_rom_constants/address<0>254
+                                                       tfm_inst/inst_rom_constants/address<0>254_F
+                                                       tfm_inst/inst_rom_constants/address<0>254
+    SLICE_X61Y44.F3      net (fanout=1)        0.606   tfm_inst/inst_rom_constants/address<0>254
+    SLICE_X61Y44.X       Tilo                  0.194   tfm_inst/inst_rom_constants/address<0>298
+                                                       tfm_inst/inst_rom_constants/address<0>298
+    SLICE_X57Y56.G1      net (fanout=1)        0.830   tfm_inst/inst_rom_constants/address<0>298
+    SLICE_X57Y56.XMUX    Tif5x                 0.574   tfm_inst/inst_rom_constants/address<0>
+                                                       tfm_inst/inst_rom_constants/address<0>3401
+                                                       tfm_inst/inst_rom_constants/address<0>340_f5
+    RAMB16_X5Y7.ADDRA5   net (fanout=1)        0.598   tfm_inst/inst_rom_constants/address<0>
+    RAMB16_X5Y7.CLKA     Trcck_ADDRA           0.426   tfm_inst/inst_rom_constants/inst_rom_constants
                                                        tfm_inst/inst_rom_constants/inst_rom_constants
     -------------------------------------------------  ---------------------------
-    Total                                      9.656ns (2.812ns logic, 6.844ns route)
-                                                       (29.1% logic, 70.9% route)
+    Total                                      9.732ns (2.878ns logic, 6.854ns route)
+                                                       (29.6% logic, 70.4% route)
 
 --------------------------------------------------------------------------------
-
-Paths for end point inst_addfp/blk00000104 (SLICE_X6Y183.CE), 35 paths
---------------------------------------------------------------------------------
-Slack (setup path):     0.215ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               tfm_inst/CalculateAlphaComp_mux_1 (FF)
-  Destination:          inst_addfp/blk00000104 (FF)
+Slack (setup path):     0.395ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               tfm_inst/CalculatePixOS_mux_3 (FF)
+  Destination:          tfm_inst/inst_rom_constants/inst_rom_constants (RAM)
   Requirement:          10.000ns
-  Data Path Delay:      9.785ns (Levels of Logic = 4)
+  Data Path Delay:      9.605ns (Levels of Logic = 8)
   Clock Path Skew:      0.000ns
   Source Clock:         i_clock_IBUF rising at 0.000ns
   Destination Clock:    i_clock_IBUF rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: tfm_inst/CalculateAlphaComp_mux_1 to inst_addfp/blk00000104
+  Maximum Data Path: tfm_inst/CalculatePixOS_mux_3 to tfm_inst/inst_rom_constants/inst_rom_constants
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X50Y62.YQ      Tcko                  0.360   tfm_inst/CalculateAlphaComp_mux_1
-                                                       tfm_inst/CalculateAlphaComp_mux_1
-    SLICE_X25Y99.G4      net (fanout=6)        1.754   tfm_inst/CalculateAlphaComp_mux_1
-    SLICE_X25Y99.Y       Tilo                  0.194   tfm_inst/N551
-                                                       tfm_inst/mulfpa<0>142
-    SLICE_X29Y111.F4     net (fanout=68)       0.948   tfm_inst/N541
-    SLICE_X29Y111.X      Tilo                  0.194   N2740
-                                                       tfm_inst/addfpce86_SW0
-    SLICE_X22Y110.G1     net (fanout=1)        1.091   N2740
-    SLICE_X22Y110.Y      Tilo                  0.195   tfm_inst/inst_ExtractAlphaParameters/out_nibble3<29>
-                                                       tfm_inst/addfpce86
-    SLICE_X22Y110.F4     net (fanout=1)        0.159   tfm_inst/addfpce86/O
-    SLICE_X22Y110.X      Tilo                  0.195   tfm_inst/inst_ExtractAlphaParameters/out_nibble3<29>
-                                                       tfm_inst/addfpce109
-    SLICE_X6Y183.CE      net (fanout=462)      4.141   addfpce
-    SLICE_X6Y183.CLK     Tceck                 0.554   inst_addfp/sig000001d8
-                                                       inst_addfp/blk00000104
+    SLICE_X43Y51.YQ      Tcko                  0.340   tfm_inst/CalculatePixOS_mux_3
+                                                       tfm_inst/CalculatePixOS_mux_3
+    SLICE_X53Y59.G1      net (fanout=6)        1.685   tfm_inst/CalculatePixOS_mux_3
+    SLICE_X53Y59.Y       Tilo                  0.194   N2186
+                                                       tfm_inst/mem_signed256_ivalue<0>11
+    SLICE_X53Y59.F2      net (fanout=17)       0.539   tfm_inst/N512
+    SLICE_X53Y59.X       Tilo                  0.194   N2186
+                                                       tfm_inst/rom_constants_2powx_p8_4bit_en_SW0
+    SLICE_X59Y45.G4      net (fanout=2)        0.867   N2186
+    SLICE_X59Y45.Y       Tilo                  0.194   tfm_inst/inst_CalculateVdd/inst_ExtractVDDParameters/o_kvdd<12>
+                                                       tfm_inst/rom_constants_2powx_p8_4bit_en
+    SLICE_X61Y41.G2      net (fanout=6)        0.746   tfm_inst/rom_constants_2powx_p8_4bit_en
+    SLICE_X61Y41.Y       Tilo                  0.194   tfm_inst/inst_rom_constants/address<0>216
+                                                       tfm_inst/inst_rom_constants/address<0>216_SW0
+    SLICE_X61Y41.F4      net (fanout=1)        0.159   tfm_inst/inst_rom_constants/address<0>216_SW0/O
+    SLICE_X61Y41.X       Tilo                  0.194   tfm_inst/inst_rom_constants/address<0>216
+                                                       tfm_inst/inst_rom_constants/address<0>216
+    SLICE_X61Y40.BX      net (fanout=1)        0.560   tfm_inst/inst_rom_constants/address<0>216
+    SLICE_X61Y40.XMUX    Tbxx                  0.511   tfm_inst/inst_rom_constants/address<0>254
+                                                       tfm_inst/inst_rom_constants/address<0>254
+    SLICE_X61Y44.F3      net (fanout=1)        0.606   tfm_inst/inst_rom_constants/address<0>254
+    SLICE_X61Y44.X       Tilo                  0.194   tfm_inst/inst_rom_constants/address<0>298
+                                                       tfm_inst/inst_rom_constants/address<0>298
+    SLICE_X57Y56.G1      net (fanout=1)        0.830   tfm_inst/inst_rom_constants/address<0>298
+    SLICE_X57Y56.XMUX    Tif5x                 0.574   tfm_inst/inst_rom_constants/address<0>
+                                                       tfm_inst/inst_rom_constants/address<0>3401
+                                                       tfm_inst/inst_rom_constants/address<0>340_f5
+    RAMB16_X5Y7.ADDRA5   net (fanout=1)        0.598   tfm_inst/inst_rom_constants/address<0>
+    RAMB16_X5Y7.CLKA     Trcck_ADDRA           0.426   tfm_inst/inst_rom_constants/inst_rom_constants
+                                                       tfm_inst/inst_rom_constants/inst_rom_constants
     -------------------------------------------------  ---------------------------
-    Total                                      9.785ns (1.692ns logic, 8.093ns route)
-                                                       (17.3% logic, 82.7% route)
+    Total                                      9.605ns (3.015ns logic, 6.590ns route)
+                                                       (31.4% logic, 68.6% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     0.273ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               tfm_inst/inst_CalculateTa/addfpce (FF)
-  Destination:          inst_addfp/blk00000104 (FF)
+
+Paths for end point tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_27 (SLICE_X46Y152.BY), 19 paths
+--------------------------------------------------------------------------------
+Slack (setup path):     0.150ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               tfm_inst/CalculateAlphaComp_mux (FF)
+  Destination:          tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_27 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.727ns (Levels of Logic = 3)
+  Data Path Delay:      9.780ns (Levels of Logic = 2)
+  Clock Path Skew:      -0.070ns (1.742 - 1.812)
+  Source Clock:         i_clock_IBUF rising at 0.000ns
+  Destination Clock:    i_clock_IBUF rising at 10.000ns
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: tfm_inst/CalculateAlphaComp_mux to tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_27
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X54Y42.YQ      Tcko                  0.360   tfm_inst/inst_CalculateTa/i2c_mem_addra<5>
+                                                       tfm_inst/CalculateAlphaComp_mux
+    SLICE_X48Y153.F3     net (fanout=339)      6.538   tfm_inst/CalculateAlphaComp_mux
+    SLICE_X48Y153.XMUX   Tif5x                 0.555   tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_mux0000<27>4
+                                                       tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_mux0000<27>41
+                                                       tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_mux0000<27>4_f5
+    SLICE_X47Y152.F2     net (fanout=1)        0.747   tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_mux0000<27>4
+    SLICE_X47Y152.X      Tilo                  0.194   tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_mux0000<27>18
+                                                       tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_mux0000<27>18
+    SLICE_X46Y152.BY     net (fanout=1)        0.308   tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_mux0000<27>18
+    SLICE_X46Y152.CLK    Tsrck                 1.078   tfm_inst/inst_CalculateAlphaComp/mulfpa_internal<27>
+                                                       tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_27
+    -------------------------------------------------  ---------------------------
+    Total                                      9.780ns (2.187ns logic, 7.593ns route)
+                                                       (22.4% logic, 77.6% route)
+
+--------------------------------------------------------------------------------
+Slack (setup path):     0.231ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               tfm_inst/CalculateAlphaComp_mux (FF)
+  Destination:          tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_27 (FF)
+  Requirement:          10.000ns
+  Data Path Delay:      9.699ns (Levels of Logic = 2)
+  Clock Path Skew:      -0.070ns (1.742 - 1.812)
+  Source Clock:         i_clock_IBUF rising at 0.000ns
+  Destination Clock:    i_clock_IBUF rising at 10.000ns
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: tfm_inst/CalculateAlphaComp_mux to tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_27
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X54Y42.YQ      Tcko                  0.360   tfm_inst/inst_CalculateTa/i2c_mem_addra<5>
+                                                       tfm_inst/CalculateAlphaComp_mux
+    SLICE_X48Y153.G1     net (fanout=339)      6.452   tfm_inst/CalculateAlphaComp_mux
+    SLICE_X48Y153.XMUX   Tif5x                 0.560   tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_mux0000<27>4
+                                                       tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_mux0000<27>42
+                                                       tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_mux0000<27>4_f5
+    SLICE_X47Y152.F2     net (fanout=1)        0.747   tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_mux0000<27>4
+    SLICE_X47Y152.X      Tilo                  0.194   tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_mux0000<27>18
+                                                       tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_mux0000<27>18
+    SLICE_X46Y152.BY     net (fanout=1)        0.308   tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_mux0000<27>18
+    SLICE_X46Y152.CLK    Tsrck                 1.078   tfm_inst/inst_CalculateAlphaComp/mulfpa_internal<27>
+                                                       tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_27
+    -------------------------------------------------  ---------------------------
+    Total                                      9.699ns (2.192ns logic, 7.507ns route)
+                                                       (22.6% logic, 77.4% route)
+
+--------------------------------------------------------------------------------
+Slack (setup path):     2.740ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               tfm_inst/CalculateAlphaComp_mux (FF)
+  Destination:          tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_27 (FF)
+  Requirement:          10.000ns
+  Data Path Delay:      7.190ns (Levels of Logic = 3)
+  Clock Path Skew:      -0.070ns (1.742 - 1.812)
+  Source Clock:         i_clock_IBUF rising at 0.000ns
+  Destination Clock:    i_clock_IBUF rising at 10.000ns
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: tfm_inst/CalculateAlphaComp_mux to tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_27
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X54Y42.YQ      Tcko                  0.360   tfm_inst/inst_CalculateTa/i2c_mem_addra<5>
+                                                       tfm_inst/CalculateAlphaComp_mux
+    SLICE_X46Y143.G2     net (fanout=339)      3.882   tfm_inst/CalculateAlphaComp_mux
+    SLICE_X46Y143.Y      Tilo                  0.195   tfm_inst/inst_CalculateAlphaCP/mulfpb_internal<27>
+                                                       tfm_inst/CalculateAlphaComp_addfpr<27>1
+    SLICE_X47Y152.G2     net (fanout=2)        0.757   tfm_inst/CalculateAlphaComp_addfpr<27>
+    SLICE_X47Y152.Y      Tilo                  0.194   tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_mux0000<27>18
+                                                       tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_mux0000<27>9
+    SLICE_X47Y152.F3     net (fanout=1)        0.222   tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_mux0000<27>9
+    SLICE_X47Y152.X      Tilo                  0.194   tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_mux0000<27>18
+                                                       tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_mux0000<27>18
+    SLICE_X46Y152.BY     net (fanout=1)        0.308   tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_mux0000<27>18
+    SLICE_X46Y152.CLK    Tsrck                 1.078   tfm_inst/inst_CalculateAlphaComp/mulfpa_internal<27>
+                                                       tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_27
+    -------------------------------------------------  ---------------------------
+    Total                                      7.190ns (2.021ns logic, 5.169ns route)
+                                                       (28.1% logic, 71.9% route)
+
+--------------------------------------------------------------------------------
+
+Paths for end point inst_divfp/blk000004ae (SLICE_X1Y36.CE), 40 paths
+--------------------------------------------------------------------------------
+Slack (setup path):     0.160ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               tfm_inst/ExtractAlphaParameters_mux_1 (FF)
+  Destination:          inst_divfp/blk000004ae (FF)
+  Requirement:          10.000ns
+  Data Path Delay:      9.840ns (Levels of Logic = 6)
   Clock Path Skew:      0.000ns
   Source Clock:         i_clock_IBUF rising at 0.000ns
   Destination Clock:    i_clock_IBUF rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: tfm_inst/inst_CalculateTa/addfpce to inst_addfp/blk00000104
+  Maximum Data Path: tfm_inst/ExtractAlphaParameters_mux_1 to inst_divfp/blk000004ae
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X50Y72.XQ      Tcko                  0.360   tfm_inst/inst_CalculateTa/addfpce
-                                                       tfm_inst/inst_CalculateTa/addfpce
-    SLICE_X40Y78.G1      net (fanout=2)        1.244   tfm_inst/inst_CalculateTa/addfpce
-    SLICE_X40Y78.Y       Tilo                  0.195   tfm_inst/inst_CalculatePixOS/addfpa_internal<13>
-                                                       tfm_inst/addfpond11
-    SLICE_X28Y79.F2      net (fanout=1)        1.422   tfm_inst/addfpce11
-    SLICE_X28Y79.X       Tilo                  0.195   tfm_inst/addfpce47
-                                                       tfm_inst/addfpond47
-    SLICE_X22Y110.F2     net (fanout=2)        1.421   tfm_inst/addfpce47
-    SLICE_X22Y110.X      Tilo                  0.195   tfm_inst/inst_ExtractAlphaParameters/out_nibble3<29>
-                                                       tfm_inst/addfpce109
-    SLICE_X6Y183.CE      net (fanout=462)      4.141   addfpce
-    SLICE_X6Y183.CLK     Tceck                 0.554   inst_addfp/sig000001d8
-                                                       inst_addfp/blk00000104
+    SLICE_X53Y84.YQ      Tcko                  0.340   tfm_inst/ExtractAlphaParameters_mux_1
+                                                       tfm_inst/ExtractAlphaParameters_mux_1
+    SLICE_X52Y77.F4      net (fanout=4)        0.772   tfm_inst/ExtractAlphaParameters_mux_1
+    SLICE_X52Y77.X       Tilo                  0.195   tfm_inst/inst_CalculateTo/subfpa_internal<0>
+                                                       tfm_inst/mulfpa<0>132
+    SLICE_X54Y73.F4      net (fanout=41)       0.568   tfm_inst/N532
+    SLICE_X54Y73.X       Tilo                  0.195   N2259
+                                                       tfm_inst/divfpond80_SW0
+    SLICE_X50Y68.G3      net (fanout=1)        0.871   N2259
+    SLICE_X50Y68.Y       Tilo                  0.195   tfm_inst/divfpce98
+                                                       tfm_inst/divfpond80
+    SLICE_X50Y68.F4      net (fanout=1)        0.159   tfm_inst/divfpond80/O
+    SLICE_X50Y68.X       Tilo                  0.195   tfm_inst/divfpce98
+                                                       tfm_inst/divfpond98
+    SLICE_X48Y69.G3      net (fanout=1)        0.403   tfm_inst/divfpce98
+    SLICE_X48Y69.Y       Tilo                  0.195   tfm_inst/inst_CalculatePixOS/addra<2>
+                                                       tfm_inst/divfpond131_SW0
+    SLICE_X48Y69.F3      net (fanout=1)        0.213   tfm_inst/divfpond131_SW0/O
+    SLICE_X48Y69.X       Tilo                  0.195   tfm_inst/inst_CalculatePixOS/addra<2>
+                                                       tfm_inst/divfpond131
+    SLICE_X1Y36.CE       net (fanout=858)      4.791   divfpce
+    SLICE_X1Y36.CLK      Tceck                 0.553   inst_divfp/sig00000471
+                                                       inst_divfp/blk000004ae
     -------------------------------------------------  ---------------------------
-    Total                                      9.727ns (1.499ns logic, 8.228ns route)
-                                                       (15.4% logic, 84.6% route)
+    Total                                      9.840ns (2.063ns logic, 7.777ns route)
+                                                       (21.0% logic, 79.0% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     0.566ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               tfm_inst/CalculateTa_mux (FF)
-  Destination:          inst_addfp/blk00000104 (FF)
+Slack (setup path):     0.263ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               tfm_inst/CalculateVirCompensated_mux_1 (FF)
+  Destination:          inst_divfp/blk000004ae (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.434ns (Levels of Logic = 3)
+  Data Path Delay:      9.737ns (Levels of Logic = 6)
   Clock Path Skew:      0.000ns
   Source Clock:         i_clock_IBUF rising at 0.000ns
   Destination Clock:    i_clock_IBUF rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: tfm_inst/CalculateTa_mux to inst_addfp/blk00000104
+  Maximum Data Path: tfm_inst/CalculateVirCompensated_mux_1 to inst_divfp/blk000004ae
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X44Y71.XQ      Tcko                  0.360   tfm_inst/CalculateTa_mux
-                                                       tfm_inst/CalculateTa_mux
-    SLICE_X40Y78.G4      net (fanout=378)      0.951   tfm_inst/CalculateTa_mux
-    SLICE_X40Y78.Y       Tilo                  0.195   tfm_inst/inst_CalculatePixOS/addfpa_internal<13>
-                                                       tfm_inst/addfpond11
-    SLICE_X28Y79.F2      net (fanout=1)        1.422   tfm_inst/addfpce11
-    SLICE_X28Y79.X       Tilo                  0.195   tfm_inst/addfpce47
-                                                       tfm_inst/addfpond47
-    SLICE_X22Y110.F2     net (fanout=2)        1.421   tfm_inst/addfpce47
-    SLICE_X22Y110.X      Tilo                  0.195   tfm_inst/inst_ExtractAlphaParameters/out_nibble3<29>
-                                                       tfm_inst/addfpce109
-    SLICE_X6Y183.CE      net (fanout=462)      4.141   addfpce
-    SLICE_X6Y183.CLK     Tceck                 0.554   inst_addfp/sig000001d8
-                                                       inst_addfp/blk00000104
+    SLICE_X53Y81.YQ      Tcko                  0.340   tfm_inst/CalculateVirCompensated_mux_1
+                                                       tfm_inst/CalculateVirCompensated_mux_1
+    SLICE_X54Y73.G1      net (fanout=4)        1.002   tfm_inst/CalculateVirCompensated_mux_1
+    SLICE_X54Y73.Y       Tilo                  0.195   N2259
+                                                       tfm_inst/divfpa<0>1111
+    SLICE_X54Y73.F3      net (fanout=66)       0.235   tfm_inst/N515
+    SLICE_X54Y73.X       Tilo                  0.195   N2259
+                                                       tfm_inst/divfpond80_SW0
+    SLICE_X50Y68.G3      net (fanout=1)        0.871   N2259
+    SLICE_X50Y68.Y       Tilo                  0.195   tfm_inst/divfpce98
+                                                       tfm_inst/divfpond80
+    SLICE_X50Y68.F4      net (fanout=1)        0.159   tfm_inst/divfpond80/O
+    SLICE_X50Y68.X       Tilo                  0.195   tfm_inst/divfpce98
+                                                       tfm_inst/divfpond98
+    SLICE_X48Y69.G3      net (fanout=1)        0.403   tfm_inst/divfpce98
+    SLICE_X48Y69.Y       Tilo                  0.195   tfm_inst/inst_CalculatePixOS/addra<2>
+                                                       tfm_inst/divfpond131_SW0
+    SLICE_X48Y69.F3      net (fanout=1)        0.213   tfm_inst/divfpond131_SW0/O
+    SLICE_X48Y69.X       Tilo                  0.195   tfm_inst/inst_CalculatePixOS/addra<2>
+                                                       tfm_inst/divfpond131
+    SLICE_X1Y36.CE       net (fanout=858)      4.791   divfpce
+    SLICE_X1Y36.CLK      Tceck                 0.553   inst_divfp/sig00000471
+                                                       inst_divfp/blk000004ae
     -------------------------------------------------  ---------------------------
-    Total                                      9.434ns (1.499ns logic, 7.935ns route)
-                                                       (15.9% logic, 84.1% route)
+    Total                                      9.737ns (2.063ns logic, 7.674ns route)
+                                                       (21.2% logic, 78.8% route)
+
+--------------------------------------------------------------------------------
+Slack (setup path):     0.303ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               tfm_inst/CalculateVirCompensated_mux_1 (FF)
+  Destination:          inst_divfp/blk000004ae (FF)
+  Requirement:          10.000ns
+  Data Path Delay:      9.697ns (Levels of Logic = 6)
+  Clock Path Skew:      0.000ns
+  Source Clock:         i_clock_IBUF rising at 0.000ns
+  Destination Clock:    i_clock_IBUF rising at 10.000ns
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: tfm_inst/CalculateVirCompensated_mux_1 to inst_divfp/blk000004ae
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X53Y81.YQ      Tcko                  0.340   tfm_inst/CalculateVirCompensated_mux_1
+                                                       tfm_inst/CalculateVirCompensated_mux_1
+    SLICE_X52Y77.F3      net (fanout=4)        0.629   tfm_inst/CalculateVirCompensated_mux_1
+    SLICE_X52Y77.X       Tilo                  0.195   tfm_inst/inst_CalculateTo/subfpa_internal<0>
+                                                       tfm_inst/mulfpa<0>132
+    SLICE_X54Y73.F4      net (fanout=41)       0.568   tfm_inst/N532
+    SLICE_X54Y73.X       Tilo                  0.195   N2259
+                                                       tfm_inst/divfpond80_SW0
+    SLICE_X50Y68.G3      net (fanout=1)        0.871   N2259
+    SLICE_X50Y68.Y       Tilo                  0.195   tfm_inst/divfpce98
+                                                       tfm_inst/divfpond80
+    SLICE_X50Y68.F4      net (fanout=1)        0.159   tfm_inst/divfpond80/O
+    SLICE_X50Y68.X       Tilo                  0.195   tfm_inst/divfpce98
+                                                       tfm_inst/divfpond98
+    SLICE_X48Y69.G3      net (fanout=1)        0.403   tfm_inst/divfpce98
+    SLICE_X48Y69.Y       Tilo                  0.195   tfm_inst/inst_CalculatePixOS/addra<2>
+                                                       tfm_inst/divfpond131_SW0
+    SLICE_X48Y69.F3      net (fanout=1)        0.213   tfm_inst/divfpond131_SW0/O
+    SLICE_X48Y69.X       Tilo                  0.195   tfm_inst/inst_CalculatePixOS/addra<2>
+                                                       tfm_inst/divfpond131
+    SLICE_X1Y36.CE       net (fanout=858)      4.791   divfpce
+    SLICE_X1Y36.CLK      Tceck                 0.553   inst_divfp/sig00000471
+                                                       inst_divfp/blk000004ae
+    -------------------------------------------------  ---------------------------
+    Total                                      9.697ns (2.063ns logic, 7.634ns route)
+                                                       (21.3% logic, 78.7% route)
 
 --------------------------------------------------------------------------------
 
 Hold Paths: NET "i_clock_IBUF1" PERIOD = 10 ns HIGH 50%;
 --------------------------------------------------------------------------------
 
-Paths for end point dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (RAMB16_X7Y20.DIPA0), 1 path
+Paths for end point dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (RAMB16_X6Y21.ADDRA6), 1 path
 --------------------------------------------------------------------------------
-Slack (hold path):      0.376ns (requirement - (clock path skew + uncertainty - data path))
-  Source:               dualmem_dina_8 (FF)
+Slack (hold path):      0.458ns (requirement - (clock path skew + uncertainty - data path))
+  Source:               dualmem_addra_2 (FF)
   Destination:          dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (RAM)
   Requirement:          0.000ns
-  Data Path Delay:      0.299ns (Levels of Logic = 0)
-  Clock Path Skew:      -0.077ns (0.936 - 1.013)
+  Data Path Delay:      0.326ns (Levels of Logic = 0)
+  Clock Path Skew:      -0.132ns (0.868 - 1.000)
   Source Clock:         i_clock_IBUF rising at 10.000ns
   Destination Clock:    i_clock_IBUF rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Minimum Data Path: dualmem_dina_8 to dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
+  Minimum Data Path: dualmem_addra_2 to dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X71Y161.YQ     Tcko                  0.313   dualmem_dina<8>
-                                                       dualmem_dina_8
-    RAMB16_X7Y20.DIPA0   net (fanout=1)        0.308   dualmem_dina<8>
-    RAMB16_X7Y20.CLKA    Trckd_DIPA  (-Th)     0.322   dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
+    SLICE_X65Y171.XQ     Tcko                  0.313   dualmem_addra<2>
+                                                       dualmem_addra_2
+    RAMB16_X6Y21.ADDRA6  net (fanout=2)        0.335   dualmem_addra<2>
+    RAMB16_X6Y21.CLKA    Trckc_ADDRA (-Th)     0.322   dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
                                                        dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
     -------------------------------------------------  ---------------------------
-    Total                                      0.299ns (-0.009ns logic, 0.308ns route)
-                                                       (-3.0% logic, 103.0% route)
+    Total                                      0.326ns (-0.009ns logic, 0.335ns route)
+                                                       (-2.8% logic, 102.8% route)
 
 --------------------------------------------------------------------------------
 
-Paths for end point dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (RAMB16_X7Y21.DIA3), 1 path
+Paths for end point inst_sqrtfp2/blk000000a2 (SLICE_X78Y158.BY), 1 path
 --------------------------------------------------------------------------------
-Slack (hold path):      0.390ns (requirement - (clock path skew + uncertainty - data path))
-  Source:               dualmem_dina_21 (FF)
-  Destination:          dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (RAM)
+Slack (hold path):      0.458ns (requirement - (clock path skew + uncertainty - data path))
+  Source:               inst_sqrtfp2/blk000000ef (FF)
+  Destination:          inst_sqrtfp2/blk000000a2 (FF)
   Requirement:          0.000ns
-  Data Path Delay:      0.317ns (Levels of Logic = 0)
-  Clock Path Skew:      -0.073ns (0.928 - 1.001)
+  Data Path Delay:      0.563ns (Levels of Logic = 0)
+  Clock Path Skew:      0.105ns (2.088 - 1.983)
   Source Clock:         i_clock_IBUF rising at 10.000ns
   Destination Clock:    i_clock_IBUF rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Minimum Data Path: dualmem_dina_21 to dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
+  Minimum Data Path: inst_sqrtfp2/blk000000ef to inst_sqrtfp2/blk000000a2
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X70Y169.YQ     Tcko                  0.331   dualmem_dina<12>
-                                                       dualmem_dina_21
-    RAMB16_X7Y21.DIA3    net (fanout=1)        0.308   dualmem_dina<21>
-    RAMB16_X7Y21.CLKA    Trckd_DIA   (-Th)     0.322   dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
-                                                       dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
+    SLICE_X78Y161.YQ     Tcko                  0.331   inst_sqrtfp2/sig000001bb
+                                                       inst_sqrtfp2/blk000000ef
+    SLICE_X78Y158.BY     net (fanout=2)        0.313   inst_sqrtfp2/sig000001bb
+    SLICE_X78Y158.CLK    Tckdi       (-Th)     0.081   inst_sqrtfp2/sig00000212
+                                                       inst_sqrtfp2/blk000000a2
     -------------------------------------------------  ---------------------------
-    Total                                      0.317ns (0.009ns logic, 0.308ns route)
-                                                       (2.8% logic, 97.2% route)
+    Total                                      0.563ns (0.250ns logic, 0.313ns route)
+                                                       (44.4% logic, 55.6% route)
 
 --------------------------------------------------------------------------------
 
-Paths for end point dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (RAMB16_X7Y21.DIA2), 1 path
+Paths for end point dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (RAMB16_X6Y22.ADDRA11), 1 path
 --------------------------------------------------------------------------------
-Slack (hold path):      0.399ns (requirement - (clock path skew + uncertainty - data path))
-  Source:               dualmem_dina_20 (FF)
+Slack (hold path):      0.466ns (requirement - (clock path skew + uncertainty - data path))
+  Source:               dualmem_addra_7 (FF)
   Destination:          dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (RAM)
   Requirement:          0.000ns
-  Data Path Delay:      0.330ns (Levels of Logic = 0)
-  Clock Path Skew:      -0.069ns (0.928 - 0.997)
+  Data Path Delay:      0.334ns (Levels of Logic = 0)
+  Clock Path Skew:      -0.132ns (0.865 - 0.997)
   Source Clock:         i_clock_IBUF rising at 10.000ns
   Destination Clock:    i_clock_IBUF rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Minimum Data Path: dualmem_dina_20 to dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
+  Minimum Data Path: dualmem_addra_7 to dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X71Y170.XQ     Tcko                  0.313   dualmem_dina<20>
-                                                       dualmem_dina_20
-    RAMB16_X7Y21.DIA2    net (fanout=1)        0.339   dualmem_dina<20>
-    RAMB16_X7Y21.CLKA    Trckd_DIA   (-Th)     0.322   dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
+    SLICE_X62Y181.YQ     Tcko                  0.331   dualmem_addra<6>
+                                                       dualmem_addra_7
+    RAMB16_X6Y22.ADDRA11 net (fanout=2)        0.325   dualmem_addra<7>
+    RAMB16_X6Y22.CLKA    Trckc_ADDRA (-Th)     0.322   dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
                                                        dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP
     -------------------------------------------------  ---------------------------
-    Total                                      0.330ns (-0.009ns logic, 0.339ns route)
-                                                       (-2.7% logic, 102.7% route)
+    Total                                      0.334ns (0.009ns logic, 0.325ns route)
+                                                       (2.7% logic, 97.3% route)
 
 --------------------------------------------------------------------------------
 
@@ -514,7 +494,7 @@ Slack: 7.500ns (period - min period limit)
   Min period limit: 2.500ns (400.000MHz) (Trper_CLKA)
   Physical resource: dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP/CLKA
   Logical resource: dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP/CLKA
-  Location pin: RAMB16_X7Y21.CLKA
+  Location pin: RAMB16_X6Y22.CLKA
   Clock network: i_clock_IBUF
 --------------------------------------------------------------------------------
 Slack: 7.500ns (period - min period limit)
@@ -522,7 +502,7 @@ Slack: 7.500ns (period - min period limit)
   Min period limit: 2.500ns (400.000MHz) (Trper_CLKA)
   Physical resource: dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP/CLKA
   Logical resource: dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP/CLKA
-  Location pin: RAMB16_X7Y20.CLKA
+  Location pin: RAMB16_X6Y21.CLKA
   Clock network: i_clock_IBUF
 --------------------------------------------------------------------------------
 Slack: 7.500ns (period - min period limit)
@@ -530,7 +510,7 @@ Slack: 7.500ns (period - min period limit)
   Min period limit: 2.500ns (400.000MHz) (Trper_CLKA)
   Physical resource: tfm_inst/inst_CalculateVirCompensated/inst_mem_vir_compensated/RAMB16_S36_inst1/CLKA
   Logical resource: tfm_inst/inst_CalculateVirCompensated/inst_mem_vir_compensated/RAMB16_S36_inst1/CLKA
-  Location pin: RAMB16_X2Y14.CLKA
+  Location pin: RAMB16_X6Y12.CLKA
   Clock network: i_clock_IBUF
 --------------------------------------------------------------------------------
 
@@ -547,7 +527,7 @@ Clock to Setup on destination clock i_clock
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-i_clock        |    9.905|         |         |         |
+i_clock        |    9.856|         |         |         |
 ---------------+---------+---------+---------+---------+
 
 
@@ -556,23 +536,23 @@ Timing summary:
 
 Timing errors: 0  Score: 0  (Setup/Max: 0, Hold: 0)
 
-Constraints cover 555656 paths, 0 nets, and 68147 connections
+Constraints cover 557648 paths, 0 nets, and 68560 connections
 
 Design statistics:
-   Minimum period:   9.905ns{1}   (Maximum frequency: 100.959MHz)
+   Minimum period:   9.856ns{1}   (Maximum frequency: 101.461MHz)
 
 
 ------------------------------------Footnotes-----------------------------------
 1)  The minimum period statistic assumes all single cycle delays.
 
-Analysis completed Sun Oct 13 12:48:49 2024 
+Analysis completed Sun Oct 13 14:16:27 2024 
 --------------------------------------------------------------------------------
 
 Trace Settings:
 -------------------------
 Trace Settings 
 
-Peak Memory Usage: 727 MB
+Peak Memory Usage: 726 MB
 
 
 
