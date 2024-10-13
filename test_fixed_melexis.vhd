@@ -584,11 +584,8 @@ i_run : in std_logic;
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-i_const1 : in std_logic_vector (31 downto 0);
 i_Ta : in std_logic_vector (31 downto 0);
-i_Ta0 : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
-i_VddV0 : in std_logic_vector (31 downto 0);
 i_KGain : in std_logic_vector (31 downto 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
@@ -648,11 +645,8 @@ signal CalculatePixOS_run : std_logic;
 signal CalculatePixOS_i2c_mem_ena : STD_LOGIC;
 signal CalculatePixOS_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal CalculatePixOS_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal CalculatePixOS_const1 : std_logic_vector (31 downto 0);
 signal CalculatePixOS_Ta : std_logic_vector (31 downto 0);
-signal CalculatePixOS_Ta0 : std_logic_vector (31 downto 0);
 signal CalculatePixOS_Vdd : std_logic_vector (31 downto 0);
-signal CalculatePixOS_VddV0 : std_logic_vector (31 downto 0);
 signal CalculatePixOS_KGain : std_logic_vector (31 downto 0);
 signal CalculatePixOS_do : std_logic_vector (31 downto 0);
 signal CalculatePixOS_addr : std_logic_vector (9 downto 0); -- 10bit-1024
@@ -716,10 +710,7 @@ i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
 i_Ta : in std_logic_vector (31 downto 0);
-i_Ta0 : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
-i_VddV0 : in std_logic_vector (31 downto 0);
-i_const1 : in std_logic_vector (31 downto 0);
 i_KGain : in std_logic_vector (31 downto 0);
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
@@ -778,10 +769,7 @@ signal CalculatePixOsCPSP_clock : std_logic;
 signal CalculatePixOsCPSP_reset : std_logic;
 signal CalculatePixOsCPSP_run : std_logic;
 signal CalculatePixOsCPSP_Ta : std_logic_vector (31 downto 0);
-signal CalculatePixOsCPSP_Ta0 : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_Vdd : std_logic_vector (31 downto 0);
-signal CalculatePixOsCPSP_VddV0 : std_logic_vector (31 downto 0);
-signal CalculatePixOsCPSP_const1 : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_KGain : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_i2c_mem_ena : STD_LOGIC;
 signal CalculatePixOsCPSP_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
@@ -845,7 +833,6 @@ PORT(
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-i_Emissivity : in std_logic_vector (31 downto 0);
 i_pixoscpsp0 : in std_logic_vector (31 downto 0);
 i_pixoscpsp1 : in std_logic_vector (31 downto 0);
 i_tgc : in std_logic_vector (31 downto 0);
@@ -890,7 +877,6 @@ END COMPONENT;
 signal CalculateVirCompensated_clock : std_logic;
 signal CalculateVirCompensated_reset : std_logic;
 signal CalculateVirCompensated_run : std_logic;
-signal CalculateVirCompensated_Emissivity : std_logic_vector(31 downto 0) := x"3f800000"; -- 1
 signal CalculateVirCompensated_pixoscpsp0 : std_logic_vector(31 downto 0) := x"41CD5551"; -- 25.6666575059956
 signal CalculateVirCompensated_pixoscpsp1 : std_logic_vector(31 downto 0) := x"41AD0D7D"; -- 21.6315865670509
 signal CalculateVirCompensated_tgc : std_logic_vector(31 downto 0);
@@ -989,10 +975,8 @@ i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 i_Ta : in std_logic_vector (31 downto 0);
-i_Ta0 : in std_logic_vector (31 downto 0);
 i_acpsubpage0 : in std_logic_vector (31 downto 0);
 i_acpsubpage1 : in std_logic_vector (31 downto 0);
-i_const1 : in std_logic_vector (31 downto 0);
 i_tgc : in std_logic_vector (31 downto 0);
 
 i_alpha_do : in std_logic_vector (31 downto 0);
@@ -1048,10 +1032,8 @@ signal CalculateAlphaComp_reset : std_logic := '0';
 signal CalculateAlphaComp_run : std_logic := '0';
 signal CalculateAlphaComp_i2c_mem_douta : std_logic_vector(7 downto 0) := (others => '0');
 signal CalculateAlphaComp_Ta : std_logic_vector(31 downto 0) := (others => '0');
-signal CalculateAlphaComp_Ta0 : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_acpsubpage0 : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_acpsubpage1 : std_logic_vector(31 downto 0) := (others => '0');
-signal CalculateAlphaComp_const1 : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_tgc : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_alpha_do : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_addr : std_logic_vector(9 downto 0) := (others => '0');
@@ -2392,11 +2374,8 @@ mulfprdy => CalculateAlphaCP_mulfprdy
 
 CalculatePixOS_clock <= i_clock;
 CalculatePixOS_reset <= i_reset;
-CalculatePixOS_const1 <= x"3F800000"; -- 1
 CalculatePixOS_Ta <= CalculateTa_Ta; -- xxx
-CalculatePixOS_Ta0 <= x"41C80000"; -- 25
 CalculatePixOS_Vdd <= CalculateVdd_Vdd; -- xxx
-CalculatePixOS_VddV0 <= x"40533333"; -- 3.3
 CalculatePixOS_KGain <= CalculateKGain_KGain;
 rom_constants_signed3bit_en <= CalculatePixOS_signed3bit_ena;
 rom_constants_signed3bit_adr <= CalculatePixOS_signed3bit_adr;
@@ -2408,11 +2387,8 @@ i_run => CalculatePixOS_run,
 i2c_mem_ena => CalculatePixOS_i2c_mem_ena,
 i2c_mem_addra => CalculatePixOS_i2c_mem_addra,
 i2c_mem_douta => CalculatePixOS_i2c_mem_douta,
-i_const1 => CalculatePixOS_const1,
 i_Ta => CalculatePixOS_Ta,
-i_Ta0 => CalculatePixOS_Ta0,
 i_Vdd => CalculatePixOS_Vdd,
-i_VddV0 => CalculatePixOS_VddV0,
 i_KGain => CalculatePixOS_KGain,
 o_do => CalculatePixOS_do,
 i_addr => CalculatePixOS_addr,
@@ -2469,20 +2445,14 @@ divfprdy => CalculatePixOS_divfprdy
 CalculatePixOsCPSP_clock <= i_clock;
 CalculatePixOsCPSP_reset <= i_reset;
 CalculatePixOsCPSP_Ta <= CalculateTa_Ta; -- xxx
-CalculatePixOsCPSP_Ta0 <= x"41C80000"; -- 25
 CalculatePixOsCPSP_Vdd <= CalculateVdd_Vdd; -- xxx
-CalculatePixOsCPSP_VddV0 <= x"40533333"; -- 3.3
-CalculatePixOsCPSP_const1 <= x"3F800000"; -- 1
 CalculatePixOsCPSP_KGain <= CalculateKGain_KGain;
 inst_CalculatePixOsCPSP : CalculatePixOsCPSP port map (
 i_clock => CalculatePixOsCPSP_clock,
 i_reset => CalculatePixOsCPSP_reset,
 i_run => CalculatePixOsCPSP_run,
 i_Ta => CalculatePixOsCPSP_Ta,
-i_Ta0 => CalculatePixOsCPSP_Ta0,
 i_Vdd => CalculatePixOsCPSP_Vdd,
-i_VddV0 => CalculatePixOsCPSP_VddV0,
-i_const1 => CalculatePixOsCPSP_const1,
 i_KGain => CalculatePixOsCPSP_KGain,
 i2c_mem_ena => CalculatePixOsCPSP_i2c_mem_ena,
 i2c_mem_addra => CalculatePixOsCPSP_i2c_mem_addra,
@@ -2544,7 +2514,6 @@ subfpr => CalculatePixOSCPSP_subfpr,
 subfprdy => CalculatePixOSCPSP_subfprdy
 );
 
-CalculateVirCompensated_Emissivity <= x"3f800000"; -- 1
 CalculateVirCompensated_pixoscpsp0 <= CalculatePixOsCPSP_pixoscpsp0;
 CalculateVirCompensated_pixoscpsp1 <= CalculatePixOsCPSP_pixoscpsp1;
 CalculateVirCompensated_tgc <= ExtractTGCParameters_tgc;
@@ -2556,7 +2525,6 @@ inst_CalculateVirCompensated : CalculateVirCompensated PORT MAP (
 i_clock => CalculateVirCompensated_clock,
 i_reset => CalculateVirCompensated_reset,
 i_run => CalculateVirCompensated_run,
-i_Emissivity => CalculateVirCompensated_Emissivity,
 i_pixoscpsp0 => CalculateVirCompensated_pixoscpsp0,
 i_pixoscpsp1 => CalculateVirCompensated_pixoscpsp1,
 i_tgc => CalculateVirCompensated_tgc,
@@ -2605,10 +2573,8 @@ subfprdy => CalculateVirCompensated_subfprdy
 CalculateAlphaComp_clock <= i_clock;
 CalculateAlphaComp_reset <= i_reset;
 CalculateAlphaComp_Ta <= CalculateTa_Ta;
-CalculateAlphaComp_Ta0 <= x"41C80000"; -- 25
 CalculateAlphaComp_acpsubpage0 <= CalculateAlphaCP_acpsubpage0;
 CalculateAlphaComp_acpsubpage1 <= CalculateAlphaCP_acpsubpage1;
-CalculateAlphaComp_const1 <= x"3f800000";
 CalculateAlphaComp_tgc <= ExtractTGCParameters_tgc;
 CalculateAlphaComp_alpha_do <= ExtractAlphaParameters_do;
 ExtractAlphaParameters_addr <= CalculateAlphaComp_alpha_addr;
@@ -2620,10 +2586,8 @@ i2c_mem_ena => CalculateAlphaComp_i2c_mem_ena,
 i2c_mem_addra => CalculateAlphaComp_i2c_mem_addra,
 i2c_mem_douta => CalculateAlphaComp_i2c_mem_douta,
 i_Ta => CalculateAlphaComp_Ta,
-i_Ta0 => CalculateAlphaComp_Ta0,
 i_acpsubpage0 => CalculateAlphaComp_acpsubpage0,
 i_acpsubpage1 => CalculateAlphaComp_acpsubpage1,
-i_const1 => CalculateAlphaComp_const1,
 i_tgc => CalculateAlphaComp_tgc,
 i_alpha_do => CalculateAlphaComp_alpha_do,
 o_alpha_addr => CalculateAlphaComp_alpha_addr,
