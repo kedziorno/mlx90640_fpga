@@ -307,35 +307,6 @@ signal WE : in std_logic
 );
 end component mem_ramb16_s36_x2;
 
---COMPONENT ExtractKsToScaleParameter
---PORT(
---i_clock : IN  std_logic;
---i_reset : IN  std_logic;
---i_run : in std_logic;
---i2c_mem_ena : out STD_LOGIC;
---i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
---i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
---o_2powx_p8_ena : out std_logic;
---o_2powx_p8_adr : out std_logic_vector (3 downto 0);
---i_rom_constants_float : in std_logic_vector (31 downto 0);
---o_kstoscale : OUT  std_logic_vector (31 downto 0);
---o_rdy : out std_logic
---);
---END COMPONENT;
---signal ExtractKsToScaleParameter_clock : std_logic;
---signal ExtractKsToScaleParameter_reset : std_logic;
---signal ExtractKsToScaleParameter_run : std_logic;
---signal ExtractKsToScaleParameter_i2c_mem_ena : STD_LOGIC;
---signal ExtractKsToScaleParameter_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
---signal ExtractKsToScaleParameter_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
---signal ExtractKsToScaleParameter_2powx_p8_ena : std_logic;
---signal ExtractKsToScaleParameter_2powx_p8_adr : std_logic_vector (3 downto 0);
---signal ExtractKsToScaleParameter_rom_constants_float : std_logic_vector (31 downto 0);
---signal ExtractKsToScaleParameter_kstoscale : std_logic_vector (31 downto 0);
---signal ExtractKsToScaleParameter_rdy : std_logic;
-
-signal ExtractKsToScaleParameter_mux : std_logic;
-
 signal addra,mux_addr : std_logic_vector (9 downto 0);
 signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
 
@@ -386,10 +357,6 @@ sqrtfp2ce <= sqrtfp2ce_internal;
 sqrtfp2r_internal <= sqrtfp2r;
 sqrtfp2rdy_internal <= sqrtfp2rdy;
 
---i2c_mem_ena <= i2c_mem_ena_internal;
---i2c_mem_addra <= i2c_mem_addra_internal;
---i2c_mem_douta_internal <= i2c_mem_douta;
-
 o_rdy <= rdy;
 o_do <= doa when rdy = '1' else (others => '0');
 mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0');
@@ -408,7 +375,7 @@ p0 : process (i_clock) is
 	--constant constEmissivity : std_logic_vector (31 downto 0) := x"3f7d70a4"; -- 0.99
 	constant const1 : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
   type states is (idle,
-	s5,s6,s9,s10,s10a,s10b,
+	s9,s10,s10a,s10b,
 	s12,s13,s16,s17,s18,s20,
 	s21,s24,s26,s28,s30,
 	s35,s36,s37,s38,s39,s40,
@@ -455,11 +422,8 @@ begin
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := s5;
+						state := s9;
 						i2c_mem_ena_internal <= '1';
---            ExtractKsToScaleParameter_run <= '1';
---            ExtractKsToScaleParameter_mux <= '1';
-            --i2c_mem_addra <= std_logic_vector (to_unsigned (63*2+1, 12)); -- ee243f LSB kstoscale 0x000f
 					else
 						state := idle;
 						i2c_mem_ena_internal <= '0';
@@ -470,19 +434,6 @@ begin
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
 					sqrtfp2sclr_internal <= '0';
-        when s5 => state := s6;
-          o_2powx_p8_ena <= '1';
-          o_2powx_p8_adr <= i2c_mem_douta (3 downto 0);
---          ExtractKsToScaleParameter_run <= '0';
---          if (ExtractKsToScaleParameter_rdy = '1') then
---            state := s9;
---            ExtractKsToScaleParameter_mux <= '0';
---          else
---            state := s5;
---            ExtractKsToScaleParameter_mux <= '1';
---          end if;
-        when s6 => state := s9;
-          o_2powx_p8_ena <= '0';
         when s9 => state := s10;
           o_vircompensated_addr <= std_logic_vector (to_unsigned (i, 10));
           o_alphacomp_addr <= std_logic_vector (to_unsigned (i, 10));
@@ -932,25 +883,6 @@ begin
 	end if;
 end process p0;
 
---ExtractKsToScaleParameter_clock <= i_clock;
---ExtractKsToScaleParameter_reset <= i_reset;
---o_2powx_p8_ena <= ExtractKsToScaleParameter_2powx_p8_ena;
---o_2powx_p8_adr <= ExtractKsToScaleParameter_2powx_p8_adr;
---ExtractKsToScaleParameter_rom_constants_float <= i_rom_constants_float;
---inst_ExtractKsToScaleParameter : ExtractKsToScaleParameter port map (
---i_clock => ExtractKsToScaleParameter_clock,
---i_reset => ExtractKsToScaleParameter_reset,
---i_run => ExtractKsToScaleParameter_run,
---i2c_mem_ena => ExtractKsToScaleParameter_i2c_mem_ena,
---i2c_mem_addra => ExtractKsToScaleParameter_i2c_mem_addra,
---i2c_mem_douta => ExtractKsToScaleParameter_i2c_mem_douta,
---o_2powx_p8_ena => ExtractKsToScaleParameter_2powx_p8_ena,
---o_2powx_p8_adr => ExtractKsToScaleParameter_2powx_p8_adr,
---i_rom_constants_float => ExtractKsToScaleParameter_rom_constants_float,
---o_kstoscale => ExtractKsToScaleParameter_kstoscale,
---o_rdy => ExtractKsToScaleParameter_rdy
---);
-
 inst_mem_To : mem_ramb16_s36_x2
 GENERIC MAP (
 INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000" -- start 0's
@@ -967,4 +899,4 @@ SSR => i_reset,
 WE => write_enable
 );
 
-end Behavioral;
+end architecture Behavioral;
