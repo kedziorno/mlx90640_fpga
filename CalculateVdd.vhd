@@ -89,29 +89,6 @@ end CalculateVdd;
 
 architecture Behavioral of CalculateVdd is
 
---COMPONENT ExtractVDDParameters
---PORT(
---i_clock : IN  std_logic;
---i_reset : IN  std_logic;
---i_run : in std_logic;
---i2c_mem_ena : out STD_LOGIC;
---i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
---i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
---o_kvdd : OUT  std_logic_vector (31 downto 0);
---o_vdd25 : OUT  std_logic_vector (31 downto 0);
---o_rdy : out std_logic
---);
---END COMPONENT;
---signal ExtractVDDParameters_clock : std_logic;
---signal ExtractVDDParameters_reset : std_logic;
---signal ExtractVDDParameters_run : std_logic;
---signal ExtractVDDParameters_i2c_mem_ena : STD_LOGIC;
---signal ExtractVDDParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
---signal ExtractVDDParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
---signal ExtractVDDParameters_kvdd : std_logic_vector(31 downto 0);
---signal ExtractVDDParameters_vdd25 : std_logic_vector(31 downto 0);
---signal ExtractVDDParameters_rdy : std_logic;
-
 signal out_resolutionee,out_resolutionreg : std_logic_vector (31 downto 0);
 signal resolutionee,resolutionreg : std_logic_vector (1 downto 0);
 
