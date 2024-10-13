@@ -57,9 +57,6 @@ signal o_signed3bit_ena : out std_logic;
 signal o_signed3bit_adr : out std_logic_vector (2 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
-signal o_mem_signed256_ivalue : out std_logic_vector (7 downto 0); -- input hex from 0 to 255
-signal i_mem_signed256_ovalue : in std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
-
 signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpond : out STD_LOGIC;
@@ -82,7 +79,14 @@ signal divfpond : out STD_LOGIC;
 signal divfpsclr : out STD_LOGIC;
 signal divfpce : out STD_LOGIC;
 signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy : in STD_LOGIC
+signal divfprdy : in STD_LOGIC;
+
+signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC
 
 );
 end ExtractKtaParameters;
@@ -112,6 +116,13 @@ signal divfpsclr_internal : STD_LOGIC;
 signal divfpce_internal : STD_LOGIC;
 signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy_internal : STD_LOGIC;
+
+signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond_internal : STD_LOGIC;
+signal fixed2floatce_internal : STD_LOGIC;
+signal fixed2floatsclr_internal :STD_LOGIC;
+signal fixed2floatr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy_internal : STD_LOGIC;
 
 component mem_ramb16_s36_x2 is
 generic (
@@ -283,19 +294,6 @@ signal write_enable : std_logic;
 
 signal rdy : std_logic;
 
-component mem_signed256 is
-port (
-i_clock : in std_logic;
-i_reset : in std_logic;
-i_value : in std_logic_vector (7 downto 0); -- input hex from 0 to 255
-o_value : out std_logic_vector (31 downto 0) -- output signed -128 to 127 in SP float
-);
-end component mem_signed256;
-signal mem_signed256_clock : std_logic;
-signal mem_signed256_reset : std_logic;
-signal mem_signed256_ivalue : std_logic_vector (7 downto 0); -- input hex from 0 to 255
-signal mem_signed256_ovalue : std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
-
 constant C_COL : integer := 32;
 constant C_ROW : integer := 24;
 signal col : integer range 0 to C_COL-1;
@@ -333,6 +331,13 @@ divfpsclr <= divfpsclr_internal;
 divfpce <= divfpce_internal;
 divfpr_internal <= divfpr;
 divfprdy_internal <= divfprdy;
+
+fixed2floata <= fixed2floata_internal;
+fixed2floatond <= fixed2floatond_internal;
+fixed2floatsclr <= fixed2floatsclr_internal;
+fixed2floatce <= fixed2floatce_internal;
+fixed2floatr_internal <= fixed2floatr;
+fixed2floatrdy_internal <= fixed2floatrdy;
 
 o_rdy <= rdy;
 o_do <= doa when rdy = '1' else (others => '0');
@@ -374,6 +379,7 @@ begin
 			addfpsclr_internal <= '1';
 			mulfpsclr_internal <= '1';
 			divfpsclr_internal <= '1';
+			fixed2floatsclr_internal <= '1';
 			mulfpa_internal <= (others => '0');
 			mulfpb_internal <= (others => '0');
 			addfpa_internal <= (others => '0');
@@ -406,6 +412,7 @@ begin
           addfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
+          fixed2floatsclr_internal <= '0';
 				when kta1 => state := kta2;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (109, 12)); -- 2436 MSB - ktarcee_eo 54*2+1
 				when kta2 => state := kta3;
@@ -434,9 +441,33 @@ begin
           o_2powx_4bit_ena <= '0';
 				when kta9 => state := kta10;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (129+(2*i), 12)); -- kta LSB 1
-        when kta10 => state := kta11;
-					o_mem_signed256_ivalue <= ktarcee;
+        when kta10 =>
+
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <=
+          ktarcee (7) & ktarcee (7) & 
+          ktarcee (7) & ktarcee (7) & 
+          ktarcee (7) & ktarcee (7) & 
+          ktarcee (7) & ktarcee (7) & 
+          ktarcee (7) & ktarcee (7) & 
+          ktarcee (7) & ktarcee (7) & 
+          ktarcee (7) & ktarcee (7) & 
+          ktarcee (7) & ktarcee (7) & 
+          ktarcee (7) & ktarcee (7) & 
+          ktarcee (7) & ktarcee (7) & 
+          ktarcee (7) & ktarcee (7) & 
+          ktarcee (7) & ktarcee (7) & 
+          ktarcee (7) & ktarcee (7) & 
+          ktarcee (7) & ktarcee (7 downto 0) & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := kta11;
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+          else state := kta10; end if;
+
         when kta11 => state := kta18;
+          fixed2floatsclr_internal <= '0';
           o_signed3bit_ena <= '1';
           o_signed3bit_adr <= i2c_mem_douta (3 downto 1); -- kta_ee 3bit
         when kta18 => state := kta19;
@@ -454,7 +485,7 @@ begin
           mulfpsclr_internal <= '0';
           addfpce_internal <= '1';
           addfpa_internal <= mulfpr_internal; -- kta_ee*2^ktascale2
-          addfpb_internal <= i_mem_signed256_ovalue; -- ktarcee
+          addfpb_internal <= fixed2floatr_internal; -- ktarcee
           addfpond_internal <= '1';
           if (addfprdy_internal = '1') then state := kta23;
             addfpce_internal <= '0';
@@ -517,14 +548,5 @@ EN => i_clock,
 SSR => i_reset,
 WE => write_enable
 );
-
---mem_signed256_clock <= i_clock;
---mem_signed256_reset <= i_reset;
---inst_mem_signed256_ktarcee : mem_signed256 port map (
---i_clock => mem_signed256_clock,
---i_reset => mem_signed256_reset,
---i_value => mem_signed256_ivalue,
---o_value => mem_signed256_ovalue
---);
 
 end architecture Behavioral;
