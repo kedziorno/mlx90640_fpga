@@ -42,10 +42,8 @@ i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 i_Ta : in std_logic_vector (31 downto 0);
-i_Ta0 : in std_logic_vector (31 downto 0);
 i_acpsubpage0 : in std_logic_vector (31 downto 0);
 i_acpsubpage1 : in std_logic_vector (31 downto 0);
-i_const1 : in std_logic_vector (31 downto 0);
 i_tgc : in std_logic_vector (31 downto 0);
 
 i_alpha_do : in std_logic_vector (31 downto 0);
@@ -414,6 +412,7 @@ p0 : process (i_clock) is
   constant const_plus1 : std_logic_vector (31 downto 0) := x"3F800000";
   constant const_minus1 : std_logic_vector (31 downto 0) := x"BF800000";
   constant const_2pow13 : std_logic_vector (31 downto 0) := x"46000000";
+  constant const_Ta0 : std_logic_vector (31 downto 0) := x"41C80000"; -- 25
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -506,7 +505,7 @@ begin
           divfpsclr_internal <= '0';
           subfpce_internal <= '1';
           subfpa_internal <= i_Ta;
-          subfpb_internal <= i_Ta0;
+          subfpb_internal <= const_Ta0;
           subfpond_internal <= '1';
           if (subfprdy_internal = '1') then state := s8;
             subfpce_internal <= '0';

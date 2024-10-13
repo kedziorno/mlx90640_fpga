@@ -149,10 +149,8 @@ i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 i_Ta : in std_logic_vector (31 downto 0);
-i_Ta0 : in std_logic_vector (31 downto 0);
 i_acpsubpage0 : in std_logic_vector (31 downto 0);
 i_acpsubpage1 : in std_logic_vector (31 downto 0);
-i_const1 : in std_logic_vector (31 downto 0);
 i_tgc : in std_logic_vector (31 downto 0);
 
 i_alpha_do : in std_logic_vector (31 downto 0);
@@ -208,10 +206,8 @@ signal CalculateAlphaComp_reset : std_logic := '0';
 signal CalculateAlphaComp_run : std_logic := '0';
 signal CalculateAlphaComp_i2c_mem_douta : std_logic_vector(7 downto 0) := (others => '0');
 signal CalculateAlphaComp_Ta : std_logic_vector(31 downto 0) := (others => '0');
-signal CalculateAlphaComp_Ta0 : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_acpsubpage0 : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_acpsubpage1 : std_logic_vector(31 downto 0) := (others => '0');
-signal CalculateAlphaComp_const1 : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_tgc : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_alpha_do : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_addr : std_logic_vector(9 downto 0) := (others => '0');
@@ -301,10 +297,8 @@ i2c_mem_ena => CalculateAlphaComp_i2c_mem_ena,
 i2c_mem_addra => CalculateAlphaComp_i2c_mem_addra,
 i2c_mem_douta => CalculateAlphaComp_i2c_mem_douta,
 i_Ta => CalculateAlphaComp_Ta,
-i_Ta0 => CalculateAlphaComp_Ta0,
 i_acpsubpage0 => CalculateAlphaComp_acpsubpage0,
 i_acpsubpage1 => CalculateAlphaComp_acpsubpage1,
-i_const1 => CalculateAlphaComp_const1,
 i_tgc => CalculateAlphaComp_tgc,
 i_alpha_do => CalculateAlphaComp_alpha_do,
 o_alpha_addr => CalculateAlphaComp_alpha_addr,
@@ -446,10 +440,8 @@ CalculateAlphaComp_reset <= '0';
 wait for i_clock_period*10;
 -- insert stimulus here
 CalculateAlphaComp_Ta <= x"4207F54D";
-CalculateAlphaComp_Ta0 <= x"41C80000"; -- 25
 CalculateAlphaComp_acpsubpage0 <= x"31460000";
 CalculateAlphaComp_acpsubpage1 <= x"31478C00";
-CalculateAlphaComp_const1 <= x"3f800000"; -- 1
 wait for i_clock_period;
 CalculateAlphaComp_run <= '1'; wait for i_clock_period; CalculateAlphaComp_run <= '0';
 report "before loop";
