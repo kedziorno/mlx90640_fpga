@@ -185,9 +185,9 @@ begin
 		else state := s9; end if;
 	when s10 => state := s11;
 		divfpsclr <= '0';
-		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(810*2)+0, 12)); -- ram MSB
+		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(810*2)+0, 12)); -- ram072a MSB
 	when s11 => state := s12;
-		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(810*2)+1, 12)); -- ram LSB
+		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(810*2)+1, 12)); -- ram072a LSB
 	when s12 => state := s13;
 		ram (7 downto 0) := i2c_mem_douta_internal;		
 	when s13 =>
@@ -213,9 +213,8 @@ begin
 		fixed2floatsclr <= '0';
 		mulfpce <= '1';
 		mulfpa <= divfpr; -- resolutioncorr
-		mulfpb <= fixed2floatr; -- ram[0x072a]
+		mulfpb <= fixed2floatr; -- ram072a
 		mulfpond <= '1';
-    i2c_mem_addra_internal <= std_logic_vector (to_unsigned (51*2+1, 12)); -- 2433 LSB vdd25
 		if (mulfprdy = '1') then state := s14a; -- res_corr * ram072a
 			mulfpce <= '0';
 			mulfpond <= '0';
@@ -227,7 +226,8 @@ begin
 		addfpa <= mulfpr;
 		addfpb <= x"00000000";
 		addfpond <= '1';
-    if (addfprdy = '1') then state := s15;
+    i2c_mem_addra_internal <= std_logic_vector (to_unsigned (51*2+1, 12)); -- 2433 LSB vdd25
+    if (addfprdy = '1') then state := s15; -- res_corr * ram072a
 			addfpce <= '0';
 			addfpond <= '0';
 			addfpsclr <= '1';
@@ -259,7 +259,7 @@ begin
   when s16 =>
     fixed2floatsclr <= '0';
     mulfpce <= '1';
-		mulfpa <= fixed2floatr;
+		mulfpa <= fixed2floatr; -- vdd25
 		mulfpb <= const2pow5_ft;
 		mulfpond <= '1';
 		if (mulfprdy = '1') then state := s17;
@@ -282,14 +282,14 @@ begin
 		subfpsclr <= '0';
   when s19 =>
 		subfpce <= '1';
-		subfpa <= addfpr; -- s14a
+		subfpa <= addfpr; -- res_corr * ram072a - s14a
 		subfpb <= subfpr; -- vdd25
 		subfpond <= '1';
+    i2c_mem_addra_internal <= std_logic_vector (to_unsigned (51*2+0, 12)); -- 2433 MSB kvdd
 		if (subfprdy = '1') then state := s20;
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
-      i2c_mem_addra_internal <= std_logic_vector (to_unsigned (51*2+0, 12)); -- 2433 MSB kvdd
 		else state := s19; end if;
   when s20 =>
 		subfpsclr <= '0';
@@ -329,7 +329,7 @@ begin
 	when s22 =>
 		mulfpsclr <= '0';
 		divfpce <= '1';
-		divfpa <= subfpr;
+		divfpa <= subfpr; -- res_corr * ram072a - vdd25
 		divfpb <= mulfpr; -- kvdd
 		divfpond <= '1';
 		if (divfprdy = '1') then state := s23;
