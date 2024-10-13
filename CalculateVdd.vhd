@@ -128,7 +128,7 @@ i2c_mem_douta_internal <= i2c_mem_douta;
 p0 : process (i_clock) is
 	type states is (idle,
   s2,s4,s5,s9,s10,
-  s11,s12,s13,s14,s14a,s15,s16,s17,s18,s19,
+  s11,s12,s13,s14,s14a,s15,s16,s16a,s17,s18,s19,
   s20,s21,s22,s23);
   variable state : states;
 	constant const3dot3_ft : std_logic_vector (31 downto 0) := x"40533333";
@@ -258,15 +258,26 @@ begin
 		else state := s15; end if;
   when s16 =>
     fixed2floatsclr <= '0';
+    subfpce <= '1';
+		subfpa <= fixed2floatr; -- vdd25
+		subfpb <= const256_ft;
+		subfpond <= '1';
+		if (subfprdy = '1') then state := s16a;
+			subfpce <= '0';
+			subfpond <= '0';
+			subfpsclr <= '1';
+		else state := s16; end if;
+  when s16a =>
+		subfpsclr <= '0';
     mulfpce <= '1';
-		mulfpa <= fixed2floatr; -- vdd25
+		mulfpa <= subfpr; -- vdd25-256
 		mulfpb <= const2pow5_ft;
 		mulfpond <= '1';
 		if (mulfprdy = '1') then state := s17;
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
-		else state := s16; end if;
+		else state := s16a; end if;
 	when s17 =>
 		mulfpsclr <= '0';
     subfpce <= '1';
