@@ -51,9 +51,6 @@ i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
 
-o_mem_signed256_ivalue : out std_logic_vector (7 downto 0); -- input hex from 0 to 255
-i_mem_signed256_ovalue : in std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
-
 o_signed4bit_ena : out std_logic;
 o_signed4bit_adr : out std_logic_vector (3 downto 0);
 o_signed6bit_ena : out std_logic;
@@ -224,9 +221,6 @@ signal o_signed3bit_ena : out std_logic;
 signal o_signed3bit_adr : out std_logic_vector (2 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
-signal o_mem_signed256_ivalue : out std_logic_vector (7 downto 0); -- input hex from 0 to 255
-signal i_mem_signed256_ovalue : in std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
-
 signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpond : out STD_LOGIC;
@@ -249,7 +243,14 @@ signal divfpond : out STD_LOGIC;
 signal divfpsclr : out STD_LOGIC;
 signal divfpce : out STD_LOGIC;
 signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy : in STD_LOGIC
+signal divfprdy : in STD_LOGIC;
+
+signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC
 );
 end component ExtractKtaParameters;
 signal ExtractKtaParameters_clock : std_logic;
@@ -268,8 +269,6 @@ signal ExtractKtaParameters_2powx_4bit_adr : std_logic_vector (3 downto 0);
 signal ExtractKtaParameters_signed3bit_ena : std_logic;
 signal ExtractKtaParameters_signed3bit_adr : std_logic_vector (2 downto 0);
 signal ExtractKtaParameters_rom_constants_float : std_logic_vector (31 downto 0);
-signal ExtractKtaParameters_mem_signed256_ivalue : std_logic_vector (7 downto 0); -- input hex from 0 to 255
-signal ExtractKtaParameters_mem_signed256_ovalue : std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
 signal ExtractKtaParameters_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractKtaParameters_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractKtaParameters_mulfpond : STD_LOGIC;
@@ -291,6 +290,12 @@ signal ExtractKtaParameters_divfpsclr : STD_LOGIC;
 signal ExtractKtaParameters_divfpce : STD_LOGIC;
 signal ExtractKtaParameters_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractKtaParameters_divfprdy : STD_LOGIC;
+signal ExtractKtaParameters_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal ExtractKtaParameters_fixed2floatond : STD_LOGIC;
+signal ExtractKtaParameters_fixed2floatce : STD_LOGIC;
+signal ExtractKtaParameters_fixed2floatsclr : STD_LOGIC;
+signal ExtractKtaParameters_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractKtaParameters_fixed2floatrdy : STD_LOGIC;
 
 component ExtractKvParameters is
 port (
@@ -612,24 +617,32 @@ fixed2floata <=
 CalculatePixGain_fixed2floata when CalculatePixGain_mux = '1'
 else
 ExtractOffsetParameters_fixed2floata when ExtractOffsetParameters_mux = '1'
+else
+ExtractKtaParameters_fixed2floata when ExtractKtaParameters_mux = '1'
 else (others => '0');
 
 fixed2floatond <=
 CalculatePixGain_fixed2floatond when CalculatePixGain_mux = '1'
 else
 ExtractOffsetParameters_fixed2floatond when ExtractOffsetParameters_mux = '1'
+else
+ExtractKtaParameters_fixed2floatond when ExtractKtaParameters_mux = '1'
 else '0';
 
 fixed2floatce <=
 CalculatePixGain_fixed2floatce when CalculatePixGain_mux = '1'
 else
 ExtractOffsetParameters_fixed2floatce when ExtractOffsetParameters_mux = '1'
+else
+ExtractKtaParameters_fixed2floatce when ExtractKtaParameters_mux = '1'
 else '0';
 
 fixed2floatsclr <=
 CalculatePixGain_fixed2floatsclr when CalculatePixGain_mux = '1'
 else
 ExtractOffsetParameters_fixed2floatsclr when ExtractOffsetParameters_mux = '1'
+else
+ExtractKtaParameters_fixed2floatsclr when ExtractKtaParameters_mux = '1'
 else '0';
 
 mulfpa <=
@@ -770,6 +783,8 @@ ExtractKtaParameters_mulfpr <= mulfpr when ExtractKtaParameters_mux = '1' else (
 ExtractKtaParameters_mulfprdy <= mulfprdy when ExtractKtaParameters_mux = '1' else '0';
 ExtractKtaParameters_addfpr <= addfpr when ExtractKtaParameters_mux = '1' else (others => '0');
 ExtractKtaParameters_addfprdy <= addfprdy when ExtractKtaParameters_mux = '1' else '0';
+ExtractKtaParameters_fixed2floatr <= fixed2floatr when ExtractKtaParameters_mux = '1' else (others => '0');
+ExtractKtaParameters_fixed2floatrdy <= fixed2floatrdy when ExtractKtaParameters_mux = '1' else '0';
 
 ExtractKvParameters_divfpr <= divfpr when ExtractKvParameters_mux = '1' else (others => '0');
 ExtractKvParameters_divfprdy <= divfprdy when ExtractKvParameters_mux = '1' else '0';
@@ -1183,8 +1198,6 @@ o_2powx_p8_4bit_ena <= ExtractKtaParameters_2powx_p8_4bit_ena;
 o_2powx_p8_4bit_adr <= ExtractKtaParameters_2powx_p8_4bit_adr;
 o_signed3bit_ena <= ExtractKtaParameters_signed3bit_ena;
 o_signed3bit_adr <= ExtractKtaParameters_signed3bit_adr;
-o_mem_signed256_ivalue <= ExtractKtaParameters_mem_signed256_ivalue;
-ExtractKtaParameters_mem_signed256_ovalue <= i_mem_signed256_ovalue;
 ExtractKtaParameters_rom_constants_float <= i_rom_constants_float;
 inst_ExtractKtaParameters : ExtractKtaParameters port map (
 i_clock => ExtractKtaParameters_clock,
@@ -1208,9 +1221,6 @@ o_signed3bit_ena => ExtractKtaParameters_signed3bit_ena,
 o_signed3bit_adr => ExtractKtaParameters_signed3bit_adr,
 i_rom_constants_float => ExtractKtaParameters_rom_constants_float,
 
-o_mem_signed256_ivalue => ExtractKtaParameters_mem_signed256_ivalue,
-i_mem_signed256_ovalue => ExtractKtaParameters_mem_signed256_ovalue,
-
 mulfpa => ExtractKtaParameters_mulfpa,
 mulfpb => ExtractKtaParameters_mulfpb,
 mulfpond => ExtractKtaParameters_mulfpond,
@@ -1233,7 +1243,14 @@ divfpond => ExtractKtaParameters_divfpond,
 divfpsclr => ExtractKtaParameters_divfpsclr,
 divfpce => ExtractKtaParameters_divfpce,
 divfpr => ExtractKtaParameters_divfpr,
-divfprdy => ExtractKtaParameters_divfprdy
+divfprdy => ExtractKtaParameters_divfprdy,
+
+fixed2floata => ExtractKtaParameters_fixed2floata,
+fixed2floatond => ExtractKtaParameters_fixed2floatond,
+fixed2floatsclr => ExtractKtaParameters_fixed2floatsclr,
+fixed2floatce => ExtractKtaParameters_fixed2floatce,
+fixed2floatr => ExtractKtaParameters_fixed2floatr,
+fixed2floatrdy => ExtractKtaParameters_fixed2floatrdy
 );
 
 ExtractKvParameters_clock <= i_clock;
