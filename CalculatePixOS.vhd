@@ -42,11 +42,8 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-i_const1 : in std_logic_vector (31 downto 0);
 i_Ta : in std_logic_vector (31 downto 0);
-i_Ta0 : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
-i_VddV0 : in std_logic_vector (31 downto 0);
 i_KGain : in std_logic_vector (31 downto 0);
 
 o_do : out std_logic_vector (31 downto 0);
@@ -807,6 +804,8 @@ p0 : process (i_clock) is
 	s22,s24,s25,s26,s28,s30);
 	variable state : states;
   constant const1 : std_logic_vector (31 downto 0) := x"3f800000";
+  constant const_Ta0 : std_logic_vector (31 downto 0) := x"41C80000"; -- 25
+  constant const_VddV0 : std_logic_vector (31 downto 0) := x"40533333"; -- 3.3
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -919,7 +918,7 @@ begin
         when s9b =>
           subfpce_internal <= '1';
           subfpa_internal <= i_Ta;
-          subfpb_internal <= i_Ta0;
+          subfpb_internal <= const_Ta0;
           subfpond_internal <= '1';
           if (subfprdy_internal = '1') then state := s9c;
             subfpce_internal <= '0';
@@ -941,7 +940,7 @@ begin
           divfpsclr_internal <= '0';
           subfpce_internal <= '1';
           subfpa_internal <= i_Vdd;
-          subfpb_internal <= i_VddV0;
+          subfpb_internal <= const_VddV0;
           subfpond_internal <= '1';
           if (subfprdy_internal = '1') then state := s14;
             subfpce_internal <= '0';
@@ -963,7 +962,7 @@ begin
           mulfpsclr_internal <= '0';
           addfpce_internal <= '1';
           addfpa_internal <= mulfpr_internal;
-          addfpb_internal <= i_const1;
+          addfpb_internal <= const1;
           addfpond_internal <= '1';
           if (addfprdy_internal = '1') then state := s17;
             addfpce_internal <= '0';
@@ -996,7 +995,7 @@ begin
           mulfpsclr_internal <= '0';
           addfpce_internal <= '1';
           addfpa_internal <= mulfpr_internal;
-          addfpb_internal <= i_const1;
+          addfpb_internal <= const1;
           addfpond_internal <= '1';
           if (addfprdy_internal = '1') then state := s24;
             addfpce_internal <= '0';

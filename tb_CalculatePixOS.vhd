@@ -139,11 +139,8 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-i_const1 : in std_logic_vector (31 downto 0);
 i_Ta : in std_logic_vector (31 downto 0);
-i_Ta0 : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
-i_VddV0 : in std_logic_vector (31 downto 0);
 i_KGain : in std_logic_vector (31 downto 0);
 
 o_do : out std_logic_vector (31 downto 0);
@@ -366,11 +363,8 @@ i_run => CalculatePixOS_run,
 i2c_mem_ena => CalculatePixOS_i2c_mem_ena,
 i2c_mem_addra => CalculatePixOS_i2c_mem_addra,
 i2c_mem_douta => CalculatePixOS_i2c_mem_douta,
-i_const1 => CalculatePixOS_const1,
 i_Ta => CalculatePixOS_Ta,
-i_Ta0 => CalculatePixOS_Ta0,
 i_Vdd => CalculatePixOS_Vdd,
-i_VddV0 => CalculatePixOS_VddV0,
 i_KGain => CalculatePixOS_KGain,
 o_do => CalculatePixOS_do,
 i_addr => CalculatePixOS_addr,
@@ -494,9 +488,9 @@ CalculatePixOS_reset <= '0';
 wait for i_clock_period*10;
 CalculatePixOS_const1 <= x"3F800000"; -- 1
 CalculatePixOS_Ta <= x"4207F54D"; -- 3.398955e+01
-CalculatePixOS_Ta0 <= x"41C80000"; -- 25
+--CalculatePixOS_Ta0 <= x"41C80000"; -- 25
 CalculatePixOS_Vdd <= x"4052B852"; -- 3.292500e+00
-CalculatePixOS_VddV0 <= x"40533333"; -- 3.3
+--CalculatePixOS_VddV0 <= x"40533333"; -- 3.3
 CalculatePixOS_run <= '1'; wait for i_clock_period; CalculatePixOS_run <= '0';
 wait until CalculatePixOS_rdy = '1';
 --report "rdy at 2597.975us";
