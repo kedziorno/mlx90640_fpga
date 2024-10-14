@@ -288,14 +288,39 @@ begin
           o_2powx_p8_4bit_ena <= '0';
           o_2powx_4bit_ena <= '1';
           o_2powx_4bit_adr <= i2c_mem_douta_internal (3 downto 0); -- ee2438 0f00 - kvscale
-        when s1e => state := s1f;
+        when s1e =>
+        
           o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <=
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7 downto 0) & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := s1f;
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+          else state := s1e; end if;
+
         when s1f => state := s2;
+          fixed2floatsclr_internal <= '0';
           out_nibble3 <= i_rom_constants_float; -- kvscale
           o_2powx_4bit_ena <= '0';
         when s2 =>
 					divfpce_internal <= '1';
-					divfpa_internal <= i_mem_signed256_ovalue; -- kvcpee
+					divfpa_internal <= fixed2floatr_internal; -- kvcpee
 					divfpb_internal <= out_nibble3; -- 2^kvscale;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s4;
