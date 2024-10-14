@@ -590,11 +590,11 @@ elsif((hPos <= HD and vPos <= VD) and (
 	end if;
 end process;
 activeRender1 <= videoOn;
---blank <= '1' when hPos >= HD or vPos >= VD else '0';
-blank <=
---display_flag when activeh = '1' else
-h when activeh = '1' else
-'1' when v = '1';
+blank <= '1' when hPos >= HD or vPos >= VD else '0';
+--blank <=
+----display_flag when activeh = '1' else
+--h when activeh = '1' else
+--'1' when v = '1';
 --blank <= '1';
 
 end Behavioral;

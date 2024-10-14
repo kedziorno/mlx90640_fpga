@@ -1,0 +1,489 @@
+Release 14.7 - xst P.20131013 (lin64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+--> 
+Parameter TMPDIR set to xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.06 secs
+ 
+--> 
+Parameter xsthdpdir set to xst
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.06 secs
+ 
+--> 
+Reading design: CalculateKGain.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Compilation
+  3) Design Hierarchy Analysis
+  4) HDL Analysis
+  5) HDL Synthesis
+     5.1) HDL Synthesis Report
+  6) Advanced HDL Synthesis
+     6.1) Advanced HDL Synthesis Report
+  7) Low Level Synthesis
+  8) Partition Report
+  9) Final Report
+	9.1) Device utilization summary
+	9.2) Partition Resource Summary
+	9.3) TIMING REPORT
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "CalculateKGain.prj"
+Input Format                       : mixed
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "CalculateKGain"
+Output Format                      : NGC
+Target Device                      : xc4vsx35-10-ff668
+
+---- Source Options
+Top Module Name                    : CalculateKGain
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : No
+FSM Style                          : LUT
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Mux Style                          : Auto
+Decoder Extraction                 : YES
+Priority Encoder Extraction        : Yes
+Shift Register Extraction          : YES
+Logical Shifter Extraction         : YES
+XOR Collapsing                     : YES
+ROM Style                          : Auto
+Mux Extraction                     : Yes
+Resource Sharing                   : YES
+Asynchronous To Synchronous        : NO
+Use DSP Block                      : Auto
+Automatic Register Balancing       : No
+
+---- Target Options
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 500
+Add Generic Clock Buffer(BUFG)     : 32
+Number of Regional Clock Buffers   : 24
+Register Duplication               : YES
+Slice Packing                      : YES
+Optimize Instantiated Primitives   : NO
+Use Clock Enable                   : Yes
+Use Synchronous Set                : Yes
+Use Synchronous Reset              : Yes
+Pack IO Registers into IOBs        : Auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Power Reduction                    : NO
+Keep Hierarchy                     : No
+Netlist Hierarchy                  : As_Optimized
+RTL Output                         : Yes
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : Maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+DSP48 Utilization Ratio            : 100
+Verilog 2001                       : YES
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+---- Other Options
+Cores Search Directories           : {"ipcore_dir"  }
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Compilation                              *
+=========================================================================
+Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/p_fphdl_package3.vhd" in Library work.
+Architecture p_fphdl_package3 of Entity p_fphdl_package3 is up to date.
+Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateKGain.vhd" in Library work.
+Entity <calculatekgain> compiled.
+Entity <calculatekgain> (Architecture <behavioral>) compiled.
+
+=========================================================================
+*                     Design Hierarchy Analysis                         *
+=========================================================================
+Analyzing hierarchy for entity <CalculateKGain> in library <work> (architecture <behavioral>).
+
+
+=========================================================================
+*                            HDL Analysis                               *
+=========================================================================
+Analyzing Entity <CalculateKGain> in library <work> (Architecture <behavioral>).
+Entity <CalculateKGain> analyzed. Unit <CalculateKGain> generated.
+
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Performing bidirectional port resolution...
+
+Synthesizing Unit <CalculateKGain>.
+    Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateKGain.vhd".
+    Register <divfpond_internal> equivalent to <divfpce_internal> has been removed
+    Register <fixed2floatond_internal> equivalent to <fixed2floatce_internal> has been removed
+    Found finite state machine <FSM_0> for signal <state>.
+    -----------------------------------------------------------------------
+    | States             | 9                                              |
+    | Transitions        | 14                                             |
+    | Inputs             | 3                                              |
+    | Outputs            | 12                                             |
+    | Clock              | i_clock                   (rising_edge)        |
+    | Reset              | i_reset                   (positive)           |
+    | Reset type         | synchronous                                    |
+    | Reset State        | 0000                                           |
+    | Power Up State     | 0000                                           |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found 1-bit register for signal <i2c_mem_ena>.
+    Found 12-bit register for signal <i2c_mem_addra>.
+    Found 32-bit register for signal <o_KGain>.
+    Found 1-bit register for signal <o_rdy>.
+    Found 32-bit register for signal <divfpa_internal>.
+    Found 32-bit register for signal <divfpb_internal>.
+    Found 1-bit register for signal <divfpce_internal>.
+    Found 1-bit register for signal <divfpsclr_internal>.
+    Found 8-bit register for signal <ee2430>.
+    Found 64-bit register for signal <fixed2floata_internal>.
+    Found 1-bit register for signal <fixed2floatce_internal>.
+    Found 1-bit register for signal <fixed2floatsclr_internal>.
+    Found 8-bit register for signal <ram070a>.
+    Summary:
+	inferred   1 Finite State Machine(s).
+	inferred 194 D-type flip-flop(s).
+Unit <CalculateKGain> synthesized.
+
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# Registers                                            : 13
+ 1-bit register                                        : 6
+ 12-bit register                                       : 1
+ 32-bit register                                       : 3
+ 64-bit register                                       : 1
+ 8-bit register                                        : 2
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+Analyzing FSM <FSM_0> for best encoding.
+Optimizing FSM <state/FSM> on signal <state[1:9]> with one-hot encoding.
+--------------------
+ State | Encoding
+--------------------
+ 0000  | 000000001
+ 0001  | 000000010
+ 0010  | 000000100
+ 0011  | 000001000
+ 0100  | 000010000
+ 0101  | 000100000
+ 0110  | 001000000
+ 0111  | 010000000
+ 1000  | 100000000
+--------------------
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_9> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_8> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_3> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_28> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_27> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_26> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_25> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_24> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_23> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_22> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_21> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_20> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_19> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_18> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_17> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_0> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_1> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_2> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_3> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_4> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_5> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_6> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_7> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_8> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_9> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_10> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_11> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_12> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_13> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_14> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_15> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_16> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# FSMs                                                 : 1
+# Registers                                            : 194
+ Flip-Flops                                            : 194
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_9> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_8> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_3> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_28> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_27> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_26> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_25> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_24> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_23> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_22> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_21> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_20> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_19> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_18> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_17> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_0> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_1> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_2> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_3> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_4> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_5> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_6> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_7> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_8> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_9> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_10> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_11> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_12> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_13> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_14> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_15> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <fixed2floata_internal_16> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
+
+Optimizing unit <CalculateKGain> ...
+
+Mapping all equations...
+Building and optimizing final netlist ...
+Found area constraint ratio of 100 (+ 5) on block CalculateKGain, actual ratio is 0.
+FlipFlop state_FSM_FFd1 has been replicated 2 time(s)
+
+Final Macro Processing ...
+
+=========================================================================
+Final Register Report
+
+Macro Statistics
+# Registers                                            : 172
+ Flip-Flops                                            : 172
+
+=========================================================================
+
+=========================================================================
+*                           Partition Report                            *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Final Report                               *
+=========================================================================
+Final Results
+RTL Top Level Output File Name     : CalculateKGain.ngr
+Top Level Output File Name         : CalculateKGain
+Output Format                      : NGC
+Optimization Goal                  : Speed
+Keep Hierarchy                     : No
+
+Design Statistics
+# IOs                              : 257
+
+Cell Usage :
+# BELS                             : 148
+#      GND                         : 1
+#      LUT2                        : 35
+#      LUT2_D                      : 2
+#      LUT3                        : 3
+#      LUT3_D                      : 1
+#      LUT3_L                      : 1
+#      LUT4                        : 95
+#      LUT4_D                      : 8
+#      LUT4_L                      : 1
+#      VCC                         : 1
+# FlipFlops/Latches                : 172
+#      FDE                         : 16
+#      FDR                         : 74
+#      FDRE                        : 34
+#      FDRS                        : 43
+#      FDRSE                       : 2
+#      FDS                         : 3
+# Clock Buffers                    : 1
+#      BUFGP                       : 1
+# IO Buffers                       : 256
+#      IBUF                        : 76
+#      OBUF                        : 180
+=========================================================================
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 4vsx35ff668-10 
+
+ Number of Slices:                      105  out of  15360     0%  
+ Number of Slice Flip Flops:            172  out of  30720     0%  
+ Number of 4 input LUTs:                146  out of  30720     0%  
+ Number of IOs:                         257
+ Number of bonded IOBs:                 257  out of    448    57%  
+ Number of GCLKs:                         1  out of     32     3%  
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+TIMING REPORT
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+i_clock                            | BUFGP                  | 172   |
+-----------------------------------+------------------------+-------+
+
+Asynchronous Control Signals Information:
+----------------------------------------
+No asynchronous control signals found in this design
+
+Timing Summary:
+---------------
+Speed Grade: -10
+
+   Minimum period: 3.170ns (Maximum Frequency: 315.443MHz)
+   Minimum input arrival time before clock: 3.791ns
+   Maximum output required time after clock: 4.694ns
+   Maximum combinational path delay: No path found
+
+Timing Detail:
+--------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'i_clock'
+  Clock period: 3.170ns (frequency: 315.443MHz)
+  Total number of paths / destination ports: 1202 / 215
+-------------------------------------------------------------------------
+Delay:               3.170ns (Levels of Logic = 3)
+  Source:            state_FSM_FFd3 (FF)
+  Destination:       divfpce_internal (FF)
+  Source Clock:      i_clock rising
+  Destination Clock: i_clock rising
+
+  Data Path: state_FSM_FFd3 to divfpce_internal
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDR:C->Q              5   0.360   0.764  state_FSM_FFd3 (state_FSM_FFd3)
+     LUT4_D:I0->O         12   0.195   0.683  i2c_mem_addra_mux0000<11>111 (N9)
+     LUT4_D:I3->O         16   0.195   0.756  divfpa_internal_mux0000<0>11_3 (divfpa_internal_mux0000<0>112)
+     LUT4:I3->O            1   0.195   0.000  divfpb_internal_mux0000<18>1 (divfpb_internal_mux0000<18>)
+     FDR:D                     0.022          divfpb_internal_18
+    ----------------------------------------
+    Total                      3.170ns (0.967ns logic, 2.203ns route)
+                                       (30.5% logic, 69.5% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
+  Total number of paths / destination ports: 360 / 355
+-------------------------------------------------------------------------
+Offset:              3.791ns (Levels of Logic = 2)
+  Source:            i_reset (PAD)
+  Destination:       ee2430_0 (FF)
+  Destination Clock: i_clock rising
+
+  Data Path: i_reset to ee2430_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O           158   0.965   1.645  i_reset_IBUF (i_reset_IBUF)
+     LUT2:I0->O            8   0.195   0.445  ram070a_not00011 (ram070a_not0001)
+     FDE:CE                    0.540          ram070a_0
+    ----------------------------------------
+    Total                      3.791ns (1.700ns logic, 2.091ns route)
+                                       (44.8% logic, 55.2% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
+  Total number of paths / destination ports: 147 / 147
+-------------------------------------------------------------------------
+Offset:              4.694ns (Levels of Logic = 1)
+  Source:            divfpsclr_internal (FF)
+  Destination:       divfpsclr (PAD)
+  Source Clock:      i_clock rising
+
+  Data Path: divfpsclr_internal to divfpsclr
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDS:C->Q              2   0.360   0.377  divfpsclr_internal (divfpsclr_internal)
+     OBUF:I->O                 3.957          divfpsclr_OBUF (divfpsclr)
+    ----------------------------------------
+    Total                      4.694ns (4.317ns logic, 0.377ns route)
+                                       (92.0% logic, 8.0% route)
+
+=========================================================================
+
+
+Total REAL time to Xst completion: 7.00 secs
+Total CPU time to Xst completion: 6.66 secs
+ 
+--> 
+
+
+Total memory usage is 540172 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :   66 (   0 filtered)
+Number of infos    :    0 (   0 filtered)
+

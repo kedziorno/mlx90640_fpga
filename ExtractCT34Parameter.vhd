@@ -23,7 +23,7 @@ USE ieee.std_logic_1164.ALL;
 use ieee_proposed.fixed_pkg.all;
 --use ieee_proposed.fixed_synth.all;
 
-use work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -39,8 +39,8 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_ee0x243f : in slv16;
-o_ct3 : out fd2ft;
-o_ct4 : out fd2ft
+o_ct3 : out std_logic_vector (31 downto 0);
+o_ct4 : out std_logic_vector (31 downto 0)
 );
 end ExtractCT34Parameter;
 

@@ -28,7 +28,7 @@ use ieee_proposed.fixed_pkg.all;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-use work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 use work.p_fphdl_package3.all;
 
 entity ExtractCPParameters is
@@ -41,12 +41,12 @@ i_ee0x2438 : in slv16; -- ktaScale1,kvScale
 i_ee0x2439 : in slv16; -- alphasp0,alphasp1
 i_ee0x243a : in slv16; -- offsetsp0,offsetsp1 - offcpsubpage0,offcpsubpage1
 i_ee0x243b : in slv16; -- cpKta,cpKv
-o_cpAlpha0 : out fd2ft; -- acpsubpage0
-o_cpAlpha1 : out fd2ft; -- acpsubpage1
-o_cpOffset0 : out fd2ft; -- offcpsubpage0
-o_cpOffset1 : out fd2ft; -- offcpsubpage1
-o_cpKv : out fd2ft; -- kvcp
-o_cpKta : out fd2ft; -- ktacp
+o_cpAlpha0 : out std_logic_vector (31 downto 0); -- acpsubpage0
+o_cpAlpha1 : out std_logic_vector (31 downto 0); -- acpsubpage1
+o_cpOffset0 : out std_logic_vector (31 downto 0); -- offcpsubpage0
+o_cpOffset1 : out std_logic_vector (31 downto 0); -- offcpsubpage1
+o_cpKv : out std_logic_vector (31 downto 0); -- kvcp
+o_cpKta : out std_logic_vector (31 downto 0); -- ktacp
 o_rdy : out std_logic
 );
 end ExtractCPParameters;
@@ -154,10 +154,10 @@ signal out_nibble1,out_nibble2,out_nibble3,out_nibble4 : std_logic_vector (31 do
 begin
 
 p0 : process (i_clock) is
-	constant const1 : fd2ft := x"3f800000";
-	constant const128 : fd2ft := x"43000000";
-	variable offsetSP01 : fd2ft;
-	variable alphaSP0,alphaSP1 : fd2ft;
+	constant const1 : std_logic_vector (31 downto 0) := x"3f800000";
+	constant const128 : std_logic_vector (31 downto 0) := x"43000000";
+	variable offsetSP01 : std_logic_vector (31 downto 0);
+	variable alphaSP0,alphaSP1 : std_logic_vector (31 downto 0);
 	type states is (idle,
 	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17);
 	variable state : states;
@@ -294,8 +294,10 @@ begin
 						divfpce <= '0';
 						divfpond <= '0';
 						divfpsclr <= '1';
-						report "================ extractCPParameters cpKta : " & real'image (ap_slv2fp (divfpr));
-					else state := s14; end if;
+            --synthesis translate_off
+						report_error("================ extractCPParameters cpKta", divfpr, 0.0);
+            --synthesis translate_on
+          else state := s14; end if;
 				when s15 => state := s16;
 					divfpsclr <= '0';
 					divfpce <= '1';
@@ -308,8 +310,10 @@ begin
 						divfpce <= '0';
 						divfpond <= '0';
 						divfpsclr <= '1';
-						report "================ extractCPParameters cpKv : " & real'image (ap_slv2fp (divfpr));
-					else state := s16; end if;
+            --synthesis translate_off
+						report_error("================ extractCPParameters cpKv", divfpr, 0.0);
+            --synthesis translate_on
+          else state := s16; end if;
 				when s17 => state := idle;
 					divfpsclr <= '0';
 					o_rdy <= '1';

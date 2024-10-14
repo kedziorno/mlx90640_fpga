@@ -27,6 +27,9 @@
 --------------------------------------------------------------------------------
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
+use ieee.math_real.all;
+
+use work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -121,8 +124,10 @@ wait for i_clock_period*10;
 -- insert stimulus here
 ExtractVDDParameters_run <= '1'; wait for i_clock_period; ExtractVDDParameters_run <= '0';
 wait until ExtractVDDParameters_rdy = '1';
-wait for 1 ps;
-report "done" severity failure;
+warning_neq_fp (ExtractVDDParameters_kvdd, -3200.0, "kvdd");
+warning_neq_fp (ExtractVDDParameters_vdd25, -12544.0, "vdd25");
+wait for 100 ps;
+report "tb done" severity failure;
 end process;
 
 END;
