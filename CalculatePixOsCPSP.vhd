@@ -1219,11 +1219,35 @@ begin
         when d59 => state := d59a;
           o_signed6bit_ena <= '1';
           o_signed6bit_adr <= i2c_mem_douta_internal (7 downto 2); -- ee243a 0xfc00 - 6bit - offcpsubpage1delta
-        when d59a => state := d62c;
-          o_mem_signed1024_ivalue <= i2c_mem_douta_internal (1 downto 0) & ram; -- ee243a 0x03ff - 10bit - ram
+        when d59a =>
+          
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <= -- ee243a 0x03ff - 10bit - ram
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1 downto 0) & ram & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := d62c;
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+          else state := d59a; end if;
+
         when d62c =>
+          fixed2floatsclr_internal <= '0';
+
           addfpce_internal <= '1';
-          addfpa_internal <= i_mem_signed1024_ovalue; -- ram
+          addfpa_internal <= fixed2floatr_internal; -- ee243a
           addfpb_internal <= i_rom_constants_float; -- offcpsubpage1delta
           addfpond_internal <= '1';
           if (addfprdy_internal = '1') then state := d63; -- offcpsubpage1
