@@ -61,11 +61,6 @@ signal o_2powx_4bit_ena : out std_logic;
 signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
-signal o_mem_signed256_ivalue : out std_logic_vector (7 downto 0);
-signal i_mem_signed256_ovalue : in std_logic_vector (31 downto 0);
-signal o_mem_signed1024_ivalue : out std_logic_vector(9 downto 0);
-signal i_mem_signed1024_ovalue : in std_logic_vector(31 downto 0);
-
 signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -206,13 +201,13 @@ o_rdy <= rdy;
 
 p0 : process (i_clock) is
 	type states is (idle,s0,s1a,s1b,s1c,s1d,
-	s1e,s1f,s2,s4,s6,s7,s8,s9,s10,
-	s12,s13,s14,s16,s17,s18,s19,s20,
-	s21,s22,s24,s25,s26,s27,s28,s29,s30,
-	s31,s32,s34,s35,s36,s37,s38,s40,
-	s41,s42,s43,s44,s45,s46,s47,s48,s50,
-	s51,s52,s53,s54,s55,s56,s58,s59,
-	s61,s63,s64,s64a,s64b,s65,s67,
+	s1e,s1f,s2,s4,s6,s6a,s7,s8,s9,s10,
+	s12,s12a,s13,s14,s16,s16a,s17,s18,s18a,s19,s20,
+	s21,s22,s24,s24a,s25,s26,s26a,s27,s28,s29,s30,
+	s31,s32,s34,s34a,s35,s36,s37,s38,s40,s40a,
+	s41,s42,s42a,s43,s44,s45,s46,s47,s48,s50,s50a,
+	s51,s52,s52a,s53,s54,s55,s56,s58,s59,
+	s61,s62,s63,s64,s64a,s64b,s65,s67,
 	s71,d58,d59,d59a,d62c,
   d63,d64,d64a,d64b,d65,d67,
 	d71);
@@ -251,8 +246,6 @@ begin
 			subfpce_internal <= '0';
 			divfpce_internal <= '0';
 			fixed2floatce_internal <= '0';
-			o_mem_signed1024_ivalue <= (others => '0');
-			o_mem_signed256_ivalue <= (others => '0');
 			i2c_mem_ena_internal <= '0';
 			i2c_mem_addra_internal <= (others => '0');
 			o_pixoscpsp0 <= (others => '0');
@@ -288,14 +281,38 @@ begin
           o_2powx_p8_4bit_ena <= '0';
           o_2powx_4bit_ena <= '1';
           o_2powx_4bit_adr <= i2c_mem_douta_internal (3 downto 0); -- ee2438 0f00 - kvscale
-        when s1e => state := s1f;
-          o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
-        when s1f => state := s2;
+        when s1e =>
+        
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <= -- kvcp
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7 downto 0) & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := s1f;
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+          else state := s1e; end if;
+
+        when s1f => state := s2; -- xxx
+          fixed2floatsclr_internal <= '0';
           out_nibble3 <= i_rom_constants_float; -- kvscale
           o_2powx_4bit_ena <= '0';
         when s2 =>
 					divfpce_internal <= '1';
-					divfpa_internal <= i_mem_signed256_ovalue; -- kvcpee
+					divfpa_internal <= fixed2floatr_internal; -- kvcpee
 					divfpb_internal <= out_nibble3; -- 2^kvscale;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s4;
@@ -322,18 +339,43 @@ begin
           addfpa_internal <= mulfpr_internal;
           addfpb_internal <= const_plus1;
           addfpond_internal <= '1';
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
-          if (addfprdy_internal = '1') then state := s7;
+          if (addfprdy_internal = '1') then state := s6a;
             --warning_neq_fp(addfpr_internal,3.4721875,"1+kvcp*vdd"); -- XXX OK
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
           else state := s6; end if;
-        when s7 =>
+        when s6a =>
           addfpsclr_internal <= '0';
+          
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <= -- kvcpee
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7 downto 0) & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := s7;
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+          else state := s6a; end if;
+          
+        when s7 =>
+          fixed2floatsclr_internal <= '0';
 					divfpce_internal <= '1';
-					divfpa_internal <= i_mem_signed256_ovalue; -- kvcp
+					divfpa_internal <= fixed2floatr_internal; -- kvcp
 					divfpb_internal <= out_nibble3; -- 2^kvscale;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s8;
@@ -372,17 +414,42 @@ begin
           addfpa_internal <= addfpr_internal;
           addfpb_internal <= mulfpr_internal;
           addfpond_internal <= '1';
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
-          if (addfprdy_internal = '1') then state := s13;
+          if (addfprdy_internal = '1') then state := s12a;
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
           else state := s12; end if;
-        when s13 =>
+        when s12a =>
           addfpsclr_internal <= '0';
+          
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <= -- ktacpee
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7 downto 0) & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := s13;
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+          else state := s12a; end if;
+        when s13 =>
+          fixed2floatsclr_internal <= '0';
+
 					divfpce_internal <= '1';
-					divfpa_internal <= i_mem_signed256_ovalue; -- ktacp
+					divfpa_internal <= fixed2floatr_internal; -- ktacp
 					divfpb_internal <= out_nibble2; -- 2^ktascale1;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s14;
@@ -409,17 +476,42 @@ begin
           addfpa_internal <= addfpr_internal;
           addfpb_internal <= mulfpr_internal;
           addfpond_internal <= '1';
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
-          if (addfprdy_internal = '1') then state := s17;
+          if (addfprdy_internal = '1') then state := s16a;
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
           else state := s16; end if;
-        when s17 =>
+        when s16a =>
           addfpsclr_internal <= '0';
+
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <= -- ktacp
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7 downto 0) & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := s17;
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+          else state := s16a; end if;
+
+        when s17 =>
+          fixed2floatsclr_internal <= '0';
 					divfpce_internal <= '1';
-					divfpa_internal <= i_mem_signed256_ovalue; -- ktacp
+					divfpa_internal <= fixed2floatr_internal; -- ktacp
 					divfpb_internal <= out_nibble2; -- 2^ktascale1;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s18;
@@ -434,17 +526,43 @@ begin
           mulfpa_internal <= divfpr_internal; -- ktacp
           mulfpb_internal <= i_Ta;
           mulfpond_internal <= '1';
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
-          if (mulfprdy_internal = '1') then state := s19;
+          if (mulfprdy_internal = '1') then state := s18a;
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
-            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
           else state := s18; end if;
-        when s19 =>
+        
+        when s18a =>
           mulfpsclr_internal <= '0';
+
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <= -- kvcpee
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7 downto 0) & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := s19;
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+          else state := s18a; end if;
+
+        when s19 =>
+          fixed2floatsclr_internal <= '0';
 					divfpce_internal <= '1';
-					divfpa_internal <= i_mem_signed256_ovalue; -- kvcp
+					divfpa_internal <= fixed2floatr_internal; -- kvcp
 					divfpb_internal <= out_nibble3; -- 2^kvscale;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s20;
@@ -483,17 +601,44 @@ begin
           addfpa_internal <= addfpr_internal;
           addfpb_internal <= mulfpr_internal;
           addfpond_internal <= '1';
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
-          if (addfprdy_internal = '1') then state := s25;
+          if (addfprdy_internal = '1') then state := s24a;
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
           else state := s24; end if;
-        when s25 =>
+          
+        when s24a =>
           addfpsclr_internal <= '0';
-					divfpce_internal <= '1';
-					divfpa_internal <= i_mem_signed256_ovalue; -- ktacp
+				
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <= -- ktacp
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7 downto 0) & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := s25;
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+          else state := s24a; end if;
+      
+        when s25 =>
+          fixed2floatsclr_internal <= '0';
+
+        	divfpce_internal <= '1';
+					divfpa_internal <= fixed2floatr_internal; -- ktacp
 					divfpb_internal <= out_nibble2; -- 2^ktascale1;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s26;
@@ -508,17 +653,44 @@ begin
           mulfpa_internal <= divfpr_internal; -- ktacp
           mulfpb_internal <= i_Ta;
           mulfpond_internal <= '1';
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
-          if (mulfprdy_internal = '1') then state := s27;
+          if (mulfprdy_internal = '1') then state := s26a;
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
-            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
           else state := s26; end if;
-        when s27 =>
+        
+        when s26a =>
           mulfpsclr_internal <= '0';
-					divfpce_internal <= '1';
-					divfpa_internal <= i_mem_signed256_ovalue; -- kvcp
+					
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <= -- kvcpee
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7 downto 0) & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := s27;
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+          else state := s26a; end if;
+
+        when s27 =>
+          fixed2floatsclr_internal <= '0';
+
+          divfpce_internal <= '1';
+					divfpa_internal <= fixed2floatr_internal; -- kvcp
 					divfpb_internal <= out_nibble3; -- 2^kvscale;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s28;
@@ -570,17 +742,44 @@ begin
           addfpa_internal <= addfpr_internal;
           addfpb_internal <= mulfpr_internal;
           addfpond_internal <= '1';
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
-          if (addfprdy_internal = '1') then state := s35;
+          if (addfprdy_internal = '1') then state := s34a;
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
           else state := s34; end if;
-        when s35 =>
+          
+        when s34a =>
           addfpsclr_internal <= '0';
-					divfpce_internal <= '1';
-					divfpa_internal <= i_mem_signed256_ovalue; -- ktacp
+					
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <= -- ktacp
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7 downto 0) & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := s35;
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+          else state := s34a; end if;
+
+        when s35 =>
+          fixed2floatsclr_internal <= '0';
+
+          divfpce_internal <= '1';
+					divfpa_internal <= fixed2floatr_internal; -- ktacp
 					divfpb_internal <= out_nibble2; -- 2^ktascale1;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s36;
@@ -619,17 +818,44 @@ begin
           addfpa_internal <= addfpr_internal;
           addfpb_internal <= mulfpr_internal;
           addfpond_internal <= '1';
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
-          if (addfprdy_internal = '1') then state := s41;
+          if (addfprdy_internal = '1') then state := s40a;
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
           else state := s40; end if;
-        when s41 =>
+          
+        when s40a =>
           addfpsclr_internal <= '0';
-					divfpce_internal <= '1';
-					divfpa_internal <= i_mem_signed256_ovalue; -- ktacp
+					
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <= -- ktacp
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7 downto 0) & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := s41;
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+          else state := s40a; end if;
+
+        when s41 =>
+          fixed2floatsclr_internal <= '0';
+
+          divfpce_internal <= '1';
+					divfpa_internal <= fixed2floatr_internal; -- ktacp
 					divfpb_internal <= out_nibble2; -- 2^ktascale1;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s42;
@@ -644,17 +870,44 @@ begin
           mulfpa_internal <= divfpr_internal; -- ktacp
           mulfpb_internal <= const_Ta0;
           mulfpond_internal <= '1';
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
-          if (mulfprdy_internal = '1') then state := s43;
+          if (mulfprdy_internal = '1') then state := s42a;
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
-            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
           else state := s42; end if;
-        when s43 =>
+          
+        when s42a =>
           mulfpsclr_internal <= '0';
-					divfpce_internal <= '1';
-					divfpa_internal <= i_mem_signed256_ovalue; -- kvcp
+					
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <= -- kvcpee
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7 downto 0) & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := s43;
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+          else state := s42a; end if;
+
+        when s43 =>
+          fixed2floatsclr_internal <= '0';
+
+          divfpce_internal <= '1';
+					divfpa_internal <= fixed2floatr_internal; -- kvcp
 					divfpb_internal <= out_nibble3; -- 2^kvscale;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s44;
@@ -705,17 +958,44 @@ begin
           addfpa_internal <= addfpr_internal;
           addfpb_internal <= mulfpr_internal;
           addfpond_internal <= '1';
-            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
-          if (addfprdy_internal = '1') then state := s51;
+          if (addfprdy_internal = '1') then state := s50a;
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- ktacp
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
           else state := s50; end if;
-        when s51 =>
+          
+        when s50a =>
           addfpsclr_internal <= '0';
-					divfpce_internal <= '1';
-					divfpa_internal <= i_mem_signed256_ovalue; -- ktacp
+
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <= -- ktacp
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7 downto 0) & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := s51;
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+          else state := s50a; end if;
+					
+        when s51 =>
+          fixed2floatsclr_internal <= '0';
+
+          divfpce_internal <= '1';
+					divfpa_internal <= fixed2floatr_internal; -- ktacp
 					divfpb_internal <= out_nibble2; -- 2^ktascale1;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s52;
@@ -730,17 +1010,44 @@ begin
           mulfpa_internal <= divfpr_internal; -- ktacp
           mulfpb_internal <= const_Ta0;
           mulfpond_internal <= '1';
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
-          if (mulfprdy_internal = '1') then state := s53;
+          if (mulfprdy_internal = '1') then state := s52a;
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
-            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
           else state := s52; end if;
-        when s53 =>
+          
+        when s52a =>
           mulfpsclr_internal <= '0';
-					divfpce_internal <= '1';
-					divfpa_internal <= i_mem_signed256_ovalue; -- kvcp
+					
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <= -- kvcp
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7 downto 0) & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := s53;
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+          else state := s52a; end if;
+
+        when s53 =>
+          fixed2floatsclr_internal <= '0';
+
+          divfpce_internal <= '1';
+					divfpa_internal <= fixed2floatr_internal; -- kvcp
 					divfpb_internal <= out_nibble3; -- 2^kvscale;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s54;
@@ -790,16 +1097,43 @@ begin
           else state := s58; end if;
         when s59 => state := s61;
           addfpsclr_internal <= '0';
-        when s61 => state := s63;
+        when s61 => state := s62;
           ram (7 downto 0) := i2c_mem_douta_internal;
+          
+        when s62 =>
+        
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <= -- ee243a 0x03ff - 10bit - ram
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1 downto 0) & ram & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := s63;
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+          else state := s62; end if;
+
+        
         when s63 =>
-          o_mem_signed1024_ivalue <= i2c_mem_douta_internal (1 downto 0) & ram; -- ee243a 0x03ff - 10bit - ram
+          fixed2floatsclr_internal <= '0';
+
           mulfpce_internal <= '1';
-          mulfpa_internal <= i_mem_signed1024_ovalue; -- ram
+          mulfpa_internal <= fixed2floatr_internal; -- ee243a
           mulfpb_internal <= calc; -- (...)
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s64; -- -- --
-            --warning_neq_fp(mem_signed1024_ovalue,0.0,"ram mem"); -- XXX OK
+            --warning_neq_fp(fixed2floatr_internal,0.0,"ram mem"); -- XXX OK
             --warning_neq_fp(mulfpr_internal,0.0,"ram"); -- XXX OK
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
@@ -878,17 +1212,41 @@ begin
         when d59 => state := d59a;
           o_signed6bit_ena <= '1';
           o_signed6bit_adr <= i2c_mem_douta_internal (7 downto 2); -- ee243a 0xfc00 - 6bit - offcpsubpage1delta
-        when d59a => state := d62c;
-          o_mem_signed1024_ivalue <= i2c_mem_douta_internal (1 downto 0) & ram; -- ee243a 0x03ff - 10bit - ram
+        when d59a =>
+          
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <= -- ee243a 0x03ff - 10bit - ram
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1 downto 0) & ram & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := d62c;
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+          else state := d59a; end if;
+
         when d62c =>
+          fixed2floatsclr_internal <= '0';
+
           addfpce_internal <= '1';
-          addfpa_internal <= i_mem_signed1024_ovalue; -- ram
+          addfpa_internal <= fixed2floatr_internal; -- ee243a
           addfpb_internal <= i_rom_constants_float; -- offcpsubpage1delta
           addfpond_internal <= '1';
           if (addfprdy_internal = '1') then state := d63; -- offcpsubpage1
             o_signed6bit_ena <= '0';
             --warning_neq_fp(addfpr_internal,0.0,"offcpsubpage1 second");
-            --warning_neq_fp(mem_signed1024_ovalue,0.0,"ram mem second"); -- XXX OK
+            --warning_neq_fp(fixed2floatr_internal,0.0,"ram mem second"); -- XXX OK
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
