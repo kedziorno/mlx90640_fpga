@@ -138,6 +138,24 @@ signal sqrtfp2ce : STD_LOGIC;
 signal sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal sqrtfp2rdy : STD_LOGIC;
 
+COMPONENT fixed2float
+PORT (
+a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : STD_LOGIC;
+signal fixed2floatce : STD_LOGIC;
+signal fixed2floatsclr : STD_LOGIC;
+signal fixed2floatr :  STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : STD_LOGIC;
+
 COMPONENT tb_i2c_mem
 PORT (
 clka : IN STD_LOGIC;
@@ -217,7 +235,14 @@ signal sqrtfp2ond : out STD_LOGIC;
 signal sqrtfp2sclr : out STD_LOGIC;
 signal sqrtfp2ce : out STD_LOGIC;
 signal sqrtfp2r : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal sqrtfp2rdy : in STD_LOGIC
+signal sqrtfp2rdy : in STD_LOGIC;
+
+signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC
 
 );
 END COMPONENT;
@@ -282,11 +307,19 @@ signal CalculateTo_sqrtfp2ce : STD_LOGIC;
 signal CalculateTo_sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateTo_sqrtfp2rdy : STD_LOGIC;
 
+signal CalculateTo_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculateTo_fixed2floatond : STD_LOGIC;
+signal CalculateTo_fixed2floatce : STD_LOGIC;
+signal CalculateTo_fixed2floatsclr : STD_LOGIC;
+signal CalculateTo_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTo_fixed2floatrdy : STD_LOGIC;
+
 signal CalculateTo_sqrtfp2clk : std_logic;
 signal CalculateTo_mulfpclk : std_logic;
 signal CalculateTo_divfpclk : std_logic;
 signal CalculateTo_addfpclk : std_logic;
 signal CalculateTo_subfpclk : std_logic;
+signal CalculateTo_fixed2floatclk : std_logic;
 
 COMPONENT rom_constants
 PORT(
@@ -409,7 +442,14 @@ sqrtfp2ond => CalculateTo_sqrtfp2ond,
 sqrtfp2sclr => CalculateTo_sqrtfp2sclr,
 sqrtfp2ce => CalculateTo_sqrtfp2ce,
 sqrtfp2r => CalculateTo_sqrtfp2r,
-sqrtfp2rdy => CalculateTo_sqrtfp2rdy
+sqrtfp2rdy => CalculateTo_sqrtfp2rdy,
+
+fixed2floata => CalculateTo_fixed2floata,
+fixed2floatond => CalculateTo_fixed2floatond,
+fixed2floatsclr => CalculateTo_fixed2floatsclr,
+fixed2floatce => CalculateTo_fixed2floatce,
+fixed2floatr => CalculateTo_fixed2floatr,
+fixed2floatrdy => CalculateTo_fixed2floatrdy
 
 );
 
@@ -575,7 +615,7 @@ report "before loop";
         CalculateTo_alphacomp_do <= datao_ac.last(k).a;
       end if;
     end loop;
-    wait for 6.580us; -- XXX wait for AlphaComp and VirCompensated Addr MEM
+    wait for 6.680us; -- XXX wait for AlphaComp and VirCompensated Addr MEM
   end loop;
 report "after loop";
 wait until CalculateTo_rdy = '1';
@@ -610,6 +650,7 @@ CalculateTo_mulfpclk <= CalculateTo_clock;
 CalculateTo_divfpclk <= CalculateTo_clock;
 CalculateTo_addfpclk <= CalculateTo_clock;
 CalculateTo_subfpclk <= CalculateTo_clock;
+CalculateTo_fixed2floatclk <= CalculateTo_clock;
 
 inst_divfp : divfp
 PORT MAP (
@@ -668,6 +709,17 @@ sclr => CalculateTo_sqrtfp2sclr,
 ce => CalculateTo_sqrtfp2ce,
 result => CalculateTo_sqrtfp2r,
 rdy => CalculateTo_sqrtfp2rdy
+);
+
+inst_fixed2float : fixed2float
+PORT MAP (
+a => CalculateTo_fixed2floata,
+operation_nd => CalculateTo_fixed2floatond,
+clk => CalculateTo_fixed2floatclk,
+sclr => CalculateTo_fixed2floatsclr,
+ce => CalculateTo_fixed2floatce,
+result => CalculateTo_fixed2floatr,
+rdy => CalculateTo_fixed2floatrdy
 );
 
 inst_rom_constants : rom_constants PORT MAP (

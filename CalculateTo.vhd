@@ -98,7 +98,14 @@ signal sqrtfp2ond : out STD_LOGIC;
 signal sqrtfp2sclr : out STD_LOGIC;
 signal sqrtfp2ce : out STD_LOGIC;
 signal sqrtfp2r : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal sqrtfp2rdy : in STD_LOGIC
+signal sqrtfp2rdy : in STD_LOGIC;
+
+signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC
 
 );
 end CalculateTo;
@@ -143,6 +150,13 @@ signal sqrtfp2sclr_internal : STD_LOGIC;
 signal sqrtfp2ce_internal : STD_LOGIC;
 signal sqrtfp2r_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal sqrtfp2rdy_internal : STD_LOGIC;
+
+signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond_internal : STD_LOGIC;
+signal fixed2floatce_internal : STD_LOGIC;
+signal fixed2floatsclr_internal :STD_LOGIC;
+signal fixed2floatr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy_internal : STD_LOGIC;
 
 component mem_ramb16_s36_x2 is
 generic (
@@ -357,6 +371,13 @@ sqrtfp2ce <= sqrtfp2ce_internal;
 sqrtfp2r_internal <= sqrtfp2r;
 sqrtfp2rdy_internal <= sqrtfp2rdy;
 
+fixed2floata <= fixed2floata_internal;
+fixed2floatond <= fixed2floatond_internal;
+fixed2floatsclr <= fixed2floatsclr_internal;
+fixed2floatce <= fixed2floatce_internal;
+fixed2floatr_internal <= fixed2floatr;
+fixed2floatrdy_internal <= fixed2floatrdy;
+
 o_rdy <= rdy;
 o_do <= doa when rdy = '1' else (others => '0');
 mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0');
@@ -383,7 +404,7 @@ p0 : process (i_clock) is
 	s12,s13,s16,s17,s18,s20,
 	s21,s24,s26,s28,s30,
 	s35,s36,s37,s38,s39,s40,
-	s41,s42,s43,s44,s45,s47,s48,s49,
+	s41,s42,s43,s44,s45,s47,s48,s49,s50,
 	s51,s51a,s52,s53,s55,s57,s59,
 	s61,s63,s65,s66,s67,s69,s71);
 	variable state : states;
@@ -400,6 +421,7 @@ begin
 			mulfpsclr_internal <= '1';
 			divfpsclr_internal <= '1';
 			sqrtfp2sclr_internal <= '1';
+			fixed2floatsclr_internal <= '1';
 			rdy <= '0';
 			mulfpa_internal <= (others => '0');
 			mulfpb_internal <= (others => '0');
@@ -438,6 +460,7 @@ begin
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
 					sqrtfp2sclr_internal <= '0';
+          fixed2floatsclr_internal <= '0';
         when s9 => state := s10;
           o_vircompensated_addr <= std_logic_vector (to_unsigned (i, 10));
           o_alphacomp_addr <= std_logic_vector (to_unsigned (i, 10));
@@ -446,17 +469,18 @@ begin
           divfpsclr_internal <= '0';
           mulfpsclr_internal <= '0';
           sqrtfp2sclr_internal <= '0';
+          fixed2floatsclr_internal <= '0';
         when s10 =>
           subfpce_internal <= '1';
           subfpa_internal <= i_Ta;
           subfpb_internal <= constTr;
           subfpond_internal <= '1';
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (61*2+0, 12)); -- ee243d MSB ksto2ee 0xff00
+--          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (61*2+0, 12)); -- ee243d MSB ksto2ee 0xff00
           if (subfprdy_internal = '1') then state := s10a; -- Tr=Ta-8
             subfpce_internal <= '0';
             subfpond_internal <= '0';
             subfpsclr_internal <= '1';
-            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- ksto2ee
+--            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- ksto2ee
           else state := s10; end if;
         when s10a =>
           subfpsclr_internal <= '0';
@@ -725,17 +749,46 @@ begin
           sqrtfp2a_internal <= sqrtfp2r_internal; -- sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar))
           sqrtfp2ond_internal <= '1';
           i2c_mem_addra_internal <= std_logic_vector (to_unsigned (63*2+1, 12)); -- ee243f LSB kstoscale 0x000f
-          if (sqrtfp2rdy_internal = '1') then state := s51; -- sqrt2(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar)))
+          if (sqrtfp2rdy_internal = '1') then state := s50; -- sqrt2(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar)))
             sqrtfp2ce_internal <= '0';
             sqrtfp2ond_internal <= '0';
             sqrtfp2sclr_internal <= '1';
             o_2powx_p8_ena <= '1';
             o_2powx_p8_adr <= i2c_mem_douta_internal (3 downto 0);
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (61*2+0, 12)); -- ee243d MSB ksto2ee 0xff00
           else state := s49; end if;
-        when s51 =>
+          
+        when s50 =>
           sqrtfp2sclr_internal <= '0';
+        
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <= -- ee243d MSB ksto2ee 0xff00
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
+          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7 downto 0) & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := s51;
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+          else state := s50; end if;
+
+        when s51 =>
+          fixed2floatsclr_internal <= '0';
+
           divfpce_internal <= '1';
-          divfpa_internal <= i_mem_signed256_ovalue;
+          divfpa_internal <= fixed2floatr_internal; -- ksto2
           divfpb_internal <= i_rom_constants_float; -- kstoscale
           divfpond_internal <= '1';
           if (divfprdy_internal = '1') then state := s51a;
