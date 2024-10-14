@@ -1094,9 +1094,6 @@ signal o_2powx_p8_ena : out std_logic;
 signal o_2powx_p8_adr : out std_logic_vector (3 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
-signal o_mem_signed256_ivalue : out std_logic_vector (7 downto 0); -- input hex from 0 to 255
-signal i_mem_signed256_ovalue : in std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
-
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpond : out STD_LOGIC;
@@ -1134,7 +1131,14 @@ signal sqrtfp2ond : out STD_LOGIC;
 signal sqrtfp2sclr : out STD_LOGIC;
 signal sqrtfp2ce : out STD_LOGIC;
 signal sqrtfp2r : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal sqrtfp2rdy : in STD_LOGIC
+signal sqrtfp2rdy : in STD_LOGIC;
+
+signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC
 
 );
 END COMPONENT;
@@ -1156,9 +1160,6 @@ signal CalculateTo_rdy : std_logic;
 signal CalculateTo_2powx_p8_ena : std_logic;
 signal CalculateTo_2powx_p8_adr : std_logic_vector (3 downto 0);
 signal CalculateTo_rom_constants_float : std_logic_vector (31 downto 0);
-
-signal CalculateTo_mem_signed256_ivalue : std_logic_vector (7 downto 0); -- input hex from 0 to 255
-signal CalculateTo_mem_signed256_ovalue : std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
 
 signal CalculateTo_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateTo_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -1199,6 +1200,13 @@ signal CalculateTo_sqrtfp2ce : STD_LOGIC;
 signal CalculateTo_sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateTo_sqrtfp2rdy : STD_LOGIC;
 
+signal CalculateTo_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculateTo_fixed2floatond : STD_LOGIC;
+signal CalculateTo_fixed2floatce : STD_LOGIC;
+signal CalculateTo_fixed2floatsclr : STD_LOGIC;
+signal CalculateTo_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTo_fixed2floatrdy : STD_LOGIC;
+
 signal CalculateKGain_mux : std_logic;
 signal ExtractTGCParameters_mux : std_logic;
 
@@ -1206,35 +1214,11 @@ signal CalculatePixOS_mux,CalculatePixOsCPSP_mux,CalculateVirCompensated_mux,Ext
 signal ExtractAlphaParameters_mux,CalculateAlphaComp_mux,CalculateAlphaCP_mux : std_logic;
 signal CalculateVdd_mux,CalculateTa_mux,CalculateTo_mux : std_logic;
 
-component mem_signed1024 is
-port (
-i_clock : in std_logic;
-i_reset : in std_logic;
-i_value : in std_logic_vector (9 downto 0); -- input hex from 0 to 1024
-o_value : out std_logic_vector (31 downto 0) -- output signed 0 to 1024 in SP float
-);
-end component mem_signed1024;
-signal mem_signed1024_clock : std_logic;
-signal mem_signed1024_reset : std_logic;
-signal mem_signed1024_ivalue : std_logic_vector (9 downto 0); -- input hex from 0 to 1024
-signal mem_signed1024_ovalue : std_logic_vector (31 downto 0); -- output signed 0 to 1024 in SP float
-
-component mem_signed256 is
-port (
-i_clock : in std_logic;
-i_reset : in std_logic;
-i_value : in std_logic_vector (7 downto 0); -- input hex from 0 to 255
-o_value : out std_logic_vector (31 downto 0) -- output signed -128 to 127 in SP float
-);
-end component mem_signed256;
-signal mem_signed256_clock : std_logic;
-signal mem_signed256_reset : std_logic;
-signal mem_signed256_ivalue : std_logic_vector (7 downto 0); -- input hex from 0 to 255
-signal mem_signed256_ovalue : std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
-
 begin
 
 fixed2floata <=
+CalculateTo_fixed2floata when CalculateTo_mux = '1'
+else
 CalculateAlphaCP_fixed2floata when CalculateAlphaCP_mux = '1'
 else
 CalculateAlphaComp_fixed2floata when CalculateAlphaComp_mux = '1'
@@ -1255,6 +1239,8 @@ ExtractAlphaParameters_fixed2floata when ExtractAlphaParameters_mux = '1'
 else (others => '0');
 
 fixed2floatond <=
+CalculateTo_fixed2floatond when CalculateTo_mux = '1'
+else
 CalculateAlphaCP_fixed2floatond when CalculateAlphaCP_mux = '1'
 else
 CalculateAlphaComp_fixed2floatond when CalculateAlphaComp_mux = '1'
@@ -1275,6 +1261,8 @@ ExtractAlphaParameters_fixed2floatond when ExtractAlphaParameters_mux = '1'
 else '0';
 
 fixed2floatce <=
+CalculateTo_fixed2floatce when CalculateTo_mux = '1'
+else
 CalculateAlphaCP_fixed2floatce when CalculateAlphaCP_mux = '1'
 else
 CalculateAlphaComp_fixed2floatce when CalculateAlphaComp_mux = '1'
@@ -1295,6 +1283,8 @@ ExtractAlphaParameters_fixed2floatce when ExtractAlphaParameters_mux = '1'
 else '0';
 
 fixed2floatsclr <=
+CalculateTo_fixed2floatsclr when CalculateTo_mux = '1'
+else
 CalculateAlphaCP_fixed2floatsclr when CalculateAlphaCP_mux = '1'
 else
 CalculateAlphaComp_fixed2floatsclr when CalculateAlphaComp_mux = '1'
@@ -1810,6 +1800,8 @@ CalculateTo_subfpr <= subfpr when CalculateTo_mux = '1' else (others => '0');
 CalculateTo_subfprdy <= subfprdy when CalculateTo_mux = '1' else '0';
 CalculateTo_sqrtfp2r <= sqrtfp2r when CalculateTo_mux = '1' else (others => '0');
 CalculateTo_sqrtfp2rdy <= sqrtfp2rdy when CalculateTo_mux = '1' else '0';
+CalculateTo_fixed2floatr <= fixed2floatr when CalculateTo_mux = '1' else (others => '0');
+CalculateTo_fixed2floatrdy <= fixed2floatrdy when CalculateTo_mux = '1' else '0';
 
 i2c_mem_ena <=
 ExtractTGCParameters_i2c_mem_ena when ExtractTGCParameters_mux = '1'
@@ -1924,11 +1916,6 @@ CalculatePixOS_rom_constants_float <= rom_constants_float;
 CalculatePixOSCPSP_rom_constants_float <= rom_constants_float;
 ExtractAlphaParameters_rom_constants_float <= rom_constants_float;
 CalculateTo_rom_constants_float <= rom_constants_float;
-
-mem_signed256_ivalue <=
-CalculateTo_mem_signed256_ivalue when CalculateTo_mux = '1' else
-(others => '0');
-CalculateTo_mem_signed256_ovalue <= mem_signed256_ovalue;
 
 	-- purpose: main test loop
 	tester : process (i_clock,i_reset) is
@@ -2656,9 +2643,6 @@ o_2powx_p8_ena => CalculateTo_2powx_p8_ena,
 o_2powx_p8_adr => CalculateTo_2powx_p8_adr,
 i_rom_constants_float => CalculateTo_rom_constants_float,
 
-o_mem_signed256_ivalue => CalculateTo_mem_signed256_ivalue,
-i_mem_signed256_ovalue => CalculateTo_mem_signed256_ovalue,
-
 divfpa => CalculateTo_divfpa,
 divfpb => CalculateTo_divfpb,
 divfpond => CalculateTo_divfpond,
@@ -2696,7 +2680,14 @@ sqrtfp2ond => CalculateTo_sqrtfp2ond,
 sqrtfp2sclr => CalculateTo_sqrtfp2sclr,
 sqrtfp2ce => CalculateTo_sqrtfp2ce,
 sqrtfp2r => CalculateTo_sqrtfp2r,
-sqrtfp2rdy => CalculateTo_sqrtfp2rdy
+sqrtfp2rdy => CalculateTo_sqrtfp2rdy,
+
+fixed2floata => CalculateTo_fixed2floata,
+fixed2floatond => CalculateTo_fixed2floatond,
+fixed2floatsclr => CalculateTo_fixed2floatsclr,
+fixed2floatce => CalculateTo_fixed2floatce,
+fixed2floatr => CalculateTo_fixed2floatr,
+fixed2floatrdy => CalculateTo_fixed2floatrdy
 );
 
 rom_constants_clock <= i_clock;
@@ -2725,25 +2716,6 @@ i_2powx_p8_4bit_adr => rom_constants_2powx_p8_4bit_adr,
 i_signed3bit_en => rom_constants_signed3bit_en,
 i_signed3bit_adr => rom_constants_signed3bit_adr,
 o_float => rom_constants_float
-);
-
-mem_signed1024_clock <= i_clock;
-mem_signed1024_reset <= i_reset;
-inst_mem_signed1024_fp32 : mem_signed1024
-port map (
-i_clock => mem_signed1024_clock,
-i_reset => mem_signed1024_reset,
-i_value => mem_signed1024_ivalue,
-o_value => mem_signed1024_ovalue
-);
-
-mem_signed256_clock <= i_clock;
-mem_signed256_reset <= i_reset;
-inst_mem_signed256_fp32 : mem_signed256 port map (
-i_clock => mem_signed256_clock,
-i_reset => mem_signed256_reset,
-i_value => mem_signed256_ivalue,
-o_value => mem_signed256_ovalue
 );
 
 end architecture testbench;

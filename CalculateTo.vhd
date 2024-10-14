@@ -54,9 +54,6 @@ i_addr : IN  std_logic_vector(9 downto 0);
 
 o_rdy : out std_logic;
 
-signal o_mem_signed256_ivalue : out std_logic_vector (7 downto 0); -- input hex from 0 to 255
-signal i_mem_signed256_ovalue : in std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
-
 signal o_2powx_p8_ena : out std_logic;
 signal o_2powx_p8_adr : out std_logic_vector (3 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
@@ -475,12 +472,10 @@ begin
           subfpa_internal <= i_Ta;
           subfpb_internal <= constTr;
           subfpond_internal <= '1';
---          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (61*2+0, 12)); -- ee243d MSB ksto2ee 0xff00
           if (subfprdy_internal = '1') then state := s10a; -- Tr=Ta-8
             subfpce_internal <= '0';
             subfpond_internal <= '0';
             subfpsclr_internal <= '1';
---            o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- ksto2ee
           else state := s10; end if;
         when s10a =>
           subfpsclr_internal <= '0';
