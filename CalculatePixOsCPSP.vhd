@@ -1253,7 +1253,7 @@ begin
           if (addfprdy_internal = '1') then state := d63; -- offcpsubpage1
             o_signed6bit_ena <= '0';
             --warning_neq_fp(addfpr_internal,0.0,"offcpsubpage1 second");
-            --warning_neq_fp(mem_signed1024_ovalue,0.0,"ram mem second"); -- XXX OK
+            --warning_neq_fp(fixed2floatr_internal,0.0,"ram mem second"); -- XXX OK
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
