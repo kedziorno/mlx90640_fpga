@@ -290,10 +290,9 @@ begin
           o_2powx_4bit_adr <= i2c_mem_douta_internal (3 downto 0); -- ee2438 0f00 - kvscale
         when s1e =>
         
-          o_mem_signed256_ivalue <= i2c_mem_douta_internal; -- kvcp
           fixed2floatce_internal <= '1';
           fixed2floatond_internal <= '1';
-          fixed2floata_internal <=
+          fixed2floata_internal <= -- kvcp
           i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
           i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
           i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
