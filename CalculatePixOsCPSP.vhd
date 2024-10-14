@@ -61,11 +61,6 @@ signal o_2powx_4bit_ena : out std_logic;
 signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
-signal o_mem_signed256_ivalue : out std_logic_vector (7 downto 0);
-signal i_mem_signed256_ovalue : in std_logic_vector (31 downto 0);
-signal o_mem_signed1024_ivalue : out std_logic_vector(9 downto 0);
-signal i_mem_signed1024_ovalue : in std_logic_vector(31 downto 0);
-
 signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -251,8 +246,6 @@ begin
 			subfpce_internal <= '0';
 			divfpce_internal <= '0';
 			fixed2floatce_internal <= '0';
-			o_mem_signed1024_ivalue <= (others => '0');
-			o_mem_signed256_ivalue <= (others => '0');
 			i2c_mem_ena_internal <= '0';
 			i2c_mem_addra_internal <= (others => '0');
 			o_pixoscpsp0 <= (others => '0');
