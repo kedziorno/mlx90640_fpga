@@ -1140,7 +1140,7 @@ begin
           mulfpb_internal <= calc; -- (...)
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s64; -- -- --
-            --warning_neq_fp(mem_signed1024_ovalue,0.0,"ram mem"); -- XXX OK
+            --warning_neq_fp(fixed2floatr_internal,0.0,"ram mem"); -- XXX OK
             --warning_neq_fp(mulfpr_internal,0.0,"ram"); -- XXX OK
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
