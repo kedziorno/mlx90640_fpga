@@ -245,8 +245,8 @@ constant C_ROW : integer := 24;
 signal col : integer range 0 to C_COL-1;
 signal row : integer range 0 to C_ROW-1;
 
-signal colo,cole : std_logic;
-signal rowo,rowe : std_logic;
+signal cole : std_logic;
+signal rowe : std_logic;
 
 signal kvijee_oo,kvijee_eo,kvijee_oe,kvijee_ee,kvijee : std_logic_vector (3 downto 0);
 
@@ -320,11 +320,15 @@ begin
 						state := kv1;
 						i2c_mem_ena <= '1';
             i2c_mem_addra <= std_logic_vector (to_unsigned (112, 12)); -- 2438 MSB - kvscale 56*2+0
+            rdy <= '0';
           else
 						state := idle;
 						i2c_mem_ena <= '0';
 					end if;
 					divfpsclr_internal <= '0';
+          i := 0;
+          col <= 0;
+          row <= 0;
         when kv1 => state := kv2;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (104, 12)); -- 2434 LSB - kvijee 52*2+0
         when kv2 => state := kv3;
@@ -395,7 +399,7 @@ ADDR => mux_addr,
 CLK => i_clock,
 DI => mux_dia,
 DIP => (others => '0'),
-EN => i_clock,
+EN => '1',
 SSR => i_reset,
 WE => write_enable
 );

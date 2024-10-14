@@ -41,9 +41,9 @@ i_pixoscpsp0 : in std_logic_vector (31 downto 0);
 i_pixoscpsp1 : in std_logic_vector (31 downto 0);
 i_tgc : in std_logic_vector (31 downto 0);
 
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+i2c_mem_ena : out STD_LOGIC; -- unused
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0); -- unused
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0); -- unused
 
 i_pixos_do : in std_logic_vector (31 downto 0);
 o_pixos_addr : out std_logic_vector (9 downto 0); -- 10bit-1024
@@ -403,10 +403,10 @@ begin
 				when idle =>
 					if (i_run = '1') then
 						state := s3;
+            rdy <= '0';
 					else
 						state := idle;
 					end if;
-					i := 0;
 					addfpsclr_internal <= '0';
 					subfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
@@ -538,7 +538,7 @@ ADDR => mux_addr,
 CLK => i_clock,
 DI => mux_dia,
 DIP => (others => '0'),
-EN => i_clock,
+EN => '1',
 SSR => i_reset,
 WE => write_enable
 );

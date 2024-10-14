@@ -21,7 +21,7 @@ ARCHITECTURE tb OF tb_CalculateTa IS
 
 COMPONENT fixed2float
 PORT (
-a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+a : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
@@ -130,7 +130,7 @@ subfpce	:	OUT	STD_LOGIC;
 subfpsclr	:	OUT	STD_LOGIC; 
 i2c_mem_addra	:	OUT	STD_LOGIC_VECTOR (11 DOWNTO 0); 
 o_Ta	:	OUT	STD_LOGIC_VECTOR (31 DOWNTO 0); 
-fixed2floata	:	OUT	STD_LOGIC_VECTOR (63 DOWNTO 0); 
+fixed2floata	:	OUT	STD_LOGIC_VECTOR (15 DOWNTO 0); 
 divfpa	:	OUT	STD_LOGIC_VECTOR (31 DOWNTO 0); 
 divfpb	:	OUT	STD_LOGIC_VECTOR (31 DOWNTO 0); 
 mulfpa	:	OUT	STD_LOGIC_VECTOR (31 DOWNTO 0); 
@@ -155,7 +155,7 @@ signal CalculateTa_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal CalculateTa_Vdd : std_logic_vector (31 downto 0);
 signal CalculateTa_Ta : std_logic_vector (31 downto 0); -- output Ta
 signal CalculateTa_rdy : std_logic;
-signal CalculateTa_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculateTa_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal CalculateTa_fixed2floatond : STD_LOGIC;
 signal CalculateTa_fixed2floatce : STD_LOGIC;
 signal CalculateTa_fixed2floatsclr : STD_LOGIC;

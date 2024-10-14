@@ -63,7 +63,7 @@ o_signed3bit_ena : out std_logic;
 o_signed3bit_adr : out std_logic_vector (2 downto 0);
 i_rom_constants_float : in std_logic_vector (31 downto 0);
 
-fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
 fixed2floatsclr : out STD_LOGIC;
@@ -130,7 +130,7 @@ signal o_2powx_4bit_ena : out std_logic;
 signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
@@ -170,7 +170,7 @@ signal ExtractOffsetParameters_signed6bit_adr : std_logic_vector (5 downto 0);
 signal ExtractOffsetParameters_2powx_4bit_ena : std_logic;
 signal ExtractOffsetParameters_2powx_4bit_adr : std_logic_vector (3 downto 0);
 signal ExtractOffsetParameters_rom_constants_float : std_logic_vector (31 downto 0);
-signal ExtractOffsetParameters_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal ExtractOffsetParameters_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal ExtractOffsetParameters_fixed2floatond : STD_LOGIC;
 signal ExtractOffsetParameters_fixed2floatsclr : STD_LOGIC;
 signal ExtractOffsetParameters_fixed2floatce : STD_LOGIC;
@@ -190,13 +190,6 @@ signal ExtractOffsetParameters_addfpsclr : STD_LOGIC;
 signal ExtractOffsetParameters_addfpce : STD_LOGIC;
 signal ExtractOffsetParameters_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractOffsetParameters_addfprdy : STD_LOGIC;
-signal ExtractOffsetParameters_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal ExtractOffsetParameters_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal ExtractOffsetParameters_divfpond : STD_LOGIC;
-signal ExtractOffsetParameters_divfpsclr : STD_LOGIC;
-signal ExtractOffsetParameters_divfpce : STD_LOGIC;
-signal ExtractOffsetParameters_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal ExtractOffsetParameters_divfprdy : STD_LOGIC;
 
 component ExtractKtaParameters is
 port (
@@ -245,7 +238,7 @@ signal divfpce : out STD_LOGIC;
 signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy : in STD_LOGIC;
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -290,7 +283,7 @@ signal ExtractKtaParameters_divfpsclr : STD_LOGIC;
 signal ExtractKtaParameters_divfpce : STD_LOGIC;
 signal ExtractKtaParameters_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractKtaParameters_divfprdy : STD_LOGIC;
-signal ExtractKtaParameters_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal ExtractKtaParameters_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal ExtractKtaParameters_fixed2floatond : STD_LOGIC;
 signal ExtractKtaParameters_fixed2floatce : STD_LOGIC;
 signal ExtractKtaParameters_fixed2floatsclr : STD_LOGIC;
@@ -361,7 +354,7 @@ i_KGain : in std_logic_vector (31 downto 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 o_rdy : out std_logic;
-fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
 fixed2floatsclr : out STD_LOGIC;
@@ -386,7 +379,7 @@ signal CalculatePixGain_KGain : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixGain_do : std_logic_vector (31 downto 0);
 signal CalculatePixGain_addr : std_logic_vector (9 downto 0);
 signal CalculatePixGain_rdy : std_logic;
-signal CalculatePixGain_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculatePixGain_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal CalculatePixGain_fixed2floatond : STD_LOGIC;
 signal CalculatePixGain_fixed2floatce : STD_LOGIC;
 signal CalculatePixGain_fixed2floatsclr : STD_LOGIC;
@@ -399,8 +392,6 @@ signal CalculatePixGain_mulfpce : STD_LOGIC;
 signal CalculatePixGain_mulfpsclr : STD_LOGIC;
 signal CalculatePixGain_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixGain_mulfprdy : STD_LOGIC;
-signal CalculatePixGain_fixed2floatclk : std_logic;
-signal CalculatePixGain_mulfpclk : std_logic;
 
 component mem_ramb16_s36_x2 is
 generic (
@@ -571,13 +562,6 @@ signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
 signal rdy,write_enable : std_logic;
 
 signal CalculatePixGain_mux,ExtractOffsetParameters_mux,ExtractKtaParameters_mux,ExtractKvParameters_mux : std_logic;
-
-signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
-signal fixed2floatond_internal : STD_LOGIC;
-signal fixed2floatce_internal : STD_LOGIC;
-signal fixed2floatsclr_internal : STD_LOGIC;
-signal fixed2floatr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal fixed2floatrdy_internal : STD_LOGIC;
 
 signal mulfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -830,7 +814,6 @@ begin
 			subfpsclr_internal <= '1';
 			mulfpsclr_internal <= '1';
 			divfpsclr_internal <= '1';
-			fixed2floatsclr_internal <= '1';
 			rdy <= '0';
 			CalculatePixGain_run <= '0';
 			ExtractOffsetParameters_run <= '0';
@@ -869,6 +852,7 @@ begin
 						state := s3;
             CalculatePixGain_run <= '1';
             CalculatePixGain_mux <= '1';
+            rdy <= '0';
 					else
 						state := idle;
 					end if;
@@ -877,7 +861,6 @@ begin
 					subfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
-					fixed2floatsclr_internal <= '0';
         when s3 =>
           CalculatePixGain_run <= '0';
           if (CalculatePixGain_rdy = '1') then
@@ -925,11 +908,10 @@ begin
           ExtractOffsetParameters_addr <= std_logic_vector (to_unsigned (i, 10));
           ExtractKtaParameters_addr <= std_logic_vector (to_unsigned (i, 10));
           ExtractKvParameters_addr <= std_logic_vector (to_unsigned (i, 10));
-          addfpsclr_internal <= '0';		
-          subfpsclr_internal <= '0';		
-          divfpsclr_internal <= '0';		
-          mulfpsclr_internal <= '0';		
-          fixed2floatsclr_internal <= '0';
+          addfpsclr_internal <= '0';
+          subfpsclr_internal <= '0';
+          divfpsclr_internal <= '0';
+          mulfpsclr_internal <= '0';
         when s9b =>
           subfpce_internal <= '1';
           subfpa_internal <= i_Ta;
@@ -1294,7 +1276,7 @@ ADDR => mux_addr,
 CLK => i_clock,
 DI => mux_dia,
 DIP => (others => '0'),
-EN => i_clock,
+EN => '1',
 SSR => i_reset,
 WE => write_enable
 );

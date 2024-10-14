@@ -86,7 +86,7 @@ signal subfpce : out STD_LOGIC;
 signal subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfprdy : in STD_LOGIC;
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
@@ -130,7 +130,7 @@ signal subfpce_internal : STD_LOGIC;
 signal subfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfprdy_internal : STD_LOGIC;
 
-signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata_internal : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond_internal : STD_LOGIC;
 signal fixed2floatsclr_internal : STD_LOGIC;
 signal fixed2floatce_internal : STD_LOGIC;
@@ -434,12 +434,14 @@ begin
 			addfpce_internal <= '0';
 			subfpce_internal <= '0';
 			write_enable <= '0';
+      i := 0;
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
 						state := s0;
             --report "CalculateAlphaComp";
+            rdy <= '0';
 					else
 						state := idle;
             i2c_mem_ena <= '0';
@@ -469,16 +471,7 @@ begin
           i2c_mem_douta (7) & i2c_mem_douta (7) & 
           i2c_mem_douta (7) & i2c_mem_douta (7) & 
           i2c_mem_douta (7) & i2c_mem_douta (7) & 
-          i2c_mem_douta (7) & i2c_mem_douta (7) & 
-          i2c_mem_douta (7) & i2c_mem_douta (7) & 
-          i2c_mem_douta (7) & i2c_mem_douta (7) & 
-          i2c_mem_douta (7) & i2c_mem_douta (7) & 
-          i2c_mem_douta (7) & i2c_mem_douta (7) & 
-          i2c_mem_douta (7) & i2c_mem_douta (7) & 
-          i2c_mem_douta (7) & i2c_mem_douta (7) & 
-          i2c_mem_douta (7) & i2c_mem_douta (7) & 
-          i2c_mem_douta (7) & i2c_mem_douta (7) & 
-          i2c_mem_douta (7) & i2c_mem_douta (7 downto 0) & "00000000000000000000000000000";
+          i2c_mem_douta (7 downto 0);
           if (fixed2floatrdy_internal = '1') then state := s3;
             fixed2floatce_internal <= '0';
             fixed2floatond_internal <= '0';
@@ -692,7 +685,7 @@ ADDR => mux_addr,
 CLK => i_clock,
 DI => mux_dia,
 DIP => (others => '0'),
-EN => i_clock,
+EN => '1',
 SSR => i_reset,
 WE => write_enable
 );

@@ -81,7 +81,7 @@ signal divfpce : out STD_LOGIC;
 signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy : in STD_LOGIC;
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -117,7 +117,7 @@ signal divfpce_internal : STD_LOGIC;
 signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy_internal : STD_LOGIC;
 
-signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata_internal : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond_internal : STD_LOGIC;
 signal fixed2floatce_internal : STD_LOGIC;
 signal fixed2floatsclr_internal :STD_LOGIC;
@@ -299,8 +299,8 @@ constant C_ROW : integer := 24;
 signal col : integer range 0 to C_COL-1;
 signal row : integer range 0 to C_ROW-1;
 
-signal colo,cole : std_logic;
-signal rowo,rowe : std_logic;
+signal cole : std_logic;
+signal rowe : std_logic;
 
 signal ktarcee_oo,ktarcee_eo,ktarcee_oe,ktarcee_ee,ktarcee : std_logic_vector (7 downto 0);
 
@@ -405,6 +405,7 @@ begin
 						state := kta1;
 						i2c_mem_ena <= '1';
             i2c_mem_addra <= std_logic_vector (to_unsigned (108, 12)); -- 2436 LSB - ktarcee_oo 54*2+0
+            rdy <= '0';
 					else
 						state := idle;
 						i2c_mem_ena <= '0';
@@ -413,6 +414,9 @@ begin
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
           fixed2floatsclr_internal <= '0';
+          col <= 0;
+          row <= 0;
+          i := 0;
 				when kta1 => state := kta2;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (109, 12)); -- 2436 MSB - ktarcee_eo 54*2+1
 				when kta2 => state := kta3;
@@ -450,16 +454,7 @@ begin
           ktarcee (7) & ktarcee (7) & 
           ktarcee (7) & ktarcee (7) & 
           ktarcee (7) & ktarcee (7) & 
-          ktarcee (7) & ktarcee (7) & 
-          ktarcee (7) & ktarcee (7) & 
-          ktarcee (7) & ktarcee (7) & 
-          ktarcee (7) & ktarcee (7) & 
-          ktarcee (7) & ktarcee (7) & 
-          ktarcee (7) & ktarcee (7) & 
-          ktarcee (7) & ktarcee (7) & 
-          ktarcee (7) & ktarcee (7) & 
-          ktarcee (7) & ktarcee (7) & 
-          ktarcee (7) & ktarcee (7 downto 0) & "00000000000000000000000000000";
+          ktarcee (7 downto 0);
           if (fixed2floatrdy_internal = '1') then state := kta11;
             fixed2floatce_internal <= '0';
             fixed2floatond_internal <= '0';
@@ -544,7 +539,7 @@ ADDR => mux_addr,
 CLK => i_clock,
 DI => mux_dia,
 DIP => (others => '0'),
-EN => i_clock,
+EN => '1',
 SSR => i_reset,
 WE => write_enable
 );

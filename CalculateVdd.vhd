@@ -46,7 +46,7 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_Vdd : out std_logic_vector (31 downto 0); -- output Vdd
 o_rdy : out std_logic;
 
-fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
 fixed2floatsclr : out STD_LOGIC;
@@ -143,6 +143,7 @@ begin
 		mulfpsclr <= '0';
 		divfpsclr <= '0';
     fixed2floatsclr <= '0';
+    o_rdy <= '0';
 	when s2 => state := s4;
     i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+0, 12)); -- 2438 MSB resolutionee 2bit & 3000
 	when s4 => state := s5;
@@ -171,16 +172,7 @@ begin
 		fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <=
-		ram (7) & ram (7) & 
-		ram (7) & ram (7) & 
-		ram (7) & ram (7) & 
-		ram (7) & ram (7) & 
-		ram (7) & ram (7) & 
-		ram (7) & ram (7) & 
-		ram (7) & ram (7) & 
-		ram (7) & ram (7) & 
-		ram (7) & ram (7) & 
-		ram (7) & ram & i2c_mem_douta_internal & "00000000000000000000000000000";
+		ram & i2c_mem_douta_internal;
     if (fixed2floatrdy = '1') then state := s14;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
@@ -218,16 +210,7 @@ begin
 		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
 		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
 		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-		i2c_mem_douta_internal (7) & i2c_mem_douta_internal & "00000000000000000000000000000";
+		i2c_mem_douta_internal;
     if (fixed2floatrdy = '1') then state := s16;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
@@ -288,16 +271,7 @@ begin
 		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
 		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
 		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-		i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-		i2c_mem_douta_internal (7) & i2c_mem_douta_internal & "00000000000000000000000000000";
+		i2c_mem_douta_internal;
     if (fixed2floatrdy = '1') then state := s21;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';

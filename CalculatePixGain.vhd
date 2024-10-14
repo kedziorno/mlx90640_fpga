@@ -50,7 +50,7 @@ i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
 
-fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
 fixed2floatsclr : out STD_LOGIC;
@@ -243,7 +243,7 @@ signal i2c_mem_ena_internal : STD_LOGIC;
 signal i2c_mem_addra_internal : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal i2c_mem_douta_internal : STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata_internal : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond_internal : STD_LOGIC;
 signal fixed2floatce_internal : STD_LOGIC;
 signal fixed2floatsclr_internal : STD_LOGIC;
@@ -318,12 +318,14 @@ begin
 					if (i_run = '1') then
 						state := s1;
 						i2c_mem_ena_internal <= '1';
+            rdy <= '0';
 					else
 						state := idle;
 						i2c_mem_ena_internal <= '0';
 					end if;
 					fixed2floatsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
+          pixgain_index := 0;
 				when s1 => state := s2; -- XXX in loop, i2c_mem_addra_internal must be here
 					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (PIXGAIN_ST+(pixgain_index*2)+1, 12)); -- LSB
 				when s2 => state := s3;
@@ -334,16 +336,7 @@ begin
           fixed2floatce_internal <= '1';
           fixed2floatond_internal <= '1';
           fixed2floata_internal <=
-          eeprom16slv (7) & eeprom16slv (7) & 
-          eeprom16slv (7) & eeprom16slv (7) & 
-          eeprom16slv (7) & eeprom16slv (7) & 
-          eeprom16slv (7) & eeprom16slv (7) & 
-          eeprom16slv (7) & eeprom16slv (7) & 
-          eeprom16slv (7) & eeprom16slv (7) & 
-          eeprom16slv (7) & eeprom16slv (7) & 
-          eeprom16slv (7) & eeprom16slv (7) & 
-          eeprom16slv (7) & eeprom16slv (7) & 
-          eeprom16slv (7) & eeprom16slv & i2c_mem_douta_internal & "00000000000000000000000000000";
+          eeprom16slv & i2c_mem_douta_internal;
 					if (fixed2floatrdy_internal = '1') then state := s6;
 						fixed2floatce_internal <= '0';
 						fixed2floatond_internal <= '0';
@@ -393,7 +386,7 @@ ADDR => mux_addr,
 CLK => i_clock,
 DI => mux_dia,
 DIP => (others => '0'),
-EN => i_clock,
+EN => '1',
 SSR => i_reset,
 WE => write_enable
 );

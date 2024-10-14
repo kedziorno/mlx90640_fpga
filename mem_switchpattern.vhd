@@ -148,7 +148,7 @@ end architecture Behavioral;
 --ADDR => pixel, -- 14-bit Address Input
 --CLK => i_clock, -- Clock
 --DI => (others => '0'), -- 1-bit Data Input
---EN => i_clock, -- RAM Enable Input
+--EN => '1', -- RAM Enable Input
 --SSR => i_reset, -- Synchronous Set/Reset Input
 --WE => '0' -- Write Enable Input
 --);

@@ -140,7 +140,7 @@ signal sqrtfp2rdy : STD_LOGIC;
 
 COMPONENT fixed2float
 PORT (
-a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+a : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
@@ -149,7 +149,7 @@ result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
-signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : STD_LOGIC;
 signal fixed2floatce : STD_LOGIC;
 signal fixed2floatsclr : STD_LOGIC;
@@ -234,7 +234,7 @@ signal sqrtfp2ce : out STD_LOGIC;
 signal sqrtfp2r : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal sqrtfp2rdy : in STD_LOGIC;
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -301,7 +301,7 @@ signal CalculateTo_sqrtfp2ce : STD_LOGIC;
 signal CalculateTo_sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateTo_sqrtfp2rdy : STD_LOGIC;
 
-signal CalculateTo_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculateTo_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal CalculateTo_fixed2floatond : STD_LOGIC;
 signal CalculateTo_fixed2floatce : STD_LOGIC;
 signal CalculateTo_fixed2floatsclr : STD_LOGIC;
@@ -593,7 +593,7 @@ report "before loop";
         CalculateTo_alphacomp_do <= datao_ac.last(k).a;
       end if;
     end loop;
-    wait for 6.680us; -- XXX wait for AlphaComp and VirCompensated Addr MEM
+    wait for 6.670us; -- XXX wait for AlphaComp and VirCompensated Addr MEM
   end loop;
 report "after loop";
 wait until CalculateTo_rdy = '1';

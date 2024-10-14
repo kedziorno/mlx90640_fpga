@@ -68,7 +68,7 @@ signal mulfpce : out STD_LOGIC;
 signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfprdy : in STD_LOGIC;
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -96,7 +96,7 @@ signal mulfpce_internal : STD_LOGIC;
 signal mulfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfprdy_internal : STD_LOGIC;
 
-signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata_internal : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond_internal : STD_LOGIC;
 signal fixed2floatce_internal : STD_LOGIC;
 signal fixed2floatsclr_internal :STD_LOGIC;
@@ -158,6 +158,7 @@ begin
 					if (i_run = '1') then
 						state := s2;
 						i2c_mem_ena <= '1';
+            o_rdy <= '0';
 					else
 						state := idle;
 						i2c_mem_ena <= '0';
@@ -178,16 +179,7 @@ begin
           acpsp0 (1) & acpsp0 (1) & 
           acpsp0 (1) & acpsp0 (1) & 
           acpsp0 (1) & acpsp0 (1) & 
-          acpsp0 (1) & acpsp0 (1) & 
-          acpsp0 (1) & acpsp0 (1) & 
-          acpsp0 (1) & acpsp0 (1) & 
-          acpsp0 (1) & acpsp0 (1) & 
-          acpsp0 (1) & acpsp0 (1) & 
-          acpsp0 (1) & acpsp0 (1) & 
-          acpsp0 (1) & acpsp0 (1) & 
-          acpsp0 (1) & acpsp0 (1) & 
-          acpsp0 (1) & acpsp0 (1) & 
-          acpsp0 (1) & acpsp0 & i2c_mem_douta (7 downto 0) & "00000000000000000000000000000";
+          acpsp0 & i2c_mem_douta (7 downto 0);
           if (fixed2floatrdy_internal = '1') then state := s5a;
             fixed2floatce_internal <= '0';
             fixed2floatond_internal <= '0';

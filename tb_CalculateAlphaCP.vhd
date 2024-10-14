@@ -55,7 +55,7 @@ signal mulfprdy : STD_LOGIC;
 
 COMPONENT fixed2float
 PORT (
-a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+a : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
@@ -64,7 +64,7 @@ result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
-signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : STD_LOGIC;
 signal fixed2floatce : STD_LOGIC;
 signal fixed2floatsclr : STD_LOGIC;
@@ -119,7 +119,7 @@ signal mulfpce : out STD_LOGIC;
 signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfprdy : in STD_LOGIC;
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -156,7 +156,7 @@ signal CalculateAlphaCP_mulfpsclr : STD_LOGIC;
 signal CalculateAlphaCP_mulfpce : STD_LOGIC;
 signal CalculateAlphaCP_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaCP_mulfprdy : STD_LOGIC;
-signal CalculateAlphaCP_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculateAlphaCP_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal CalculateAlphaCP_fixed2floatond : STD_LOGIC;
 signal CalculateAlphaCP_fixed2floatce : STD_LOGIC;
 signal CalculateAlphaCP_fixed2floatsclr : STD_LOGIC;

@@ -194,8 +194,8 @@ end mem_ramb16_s36_x2;
 
 architecture Behavioral of mem_ramb16_s36_x2 is
 
-signal DO1,DO2,DOR : std_logic_vector (31 downto 0);
-signal DOP1,DOP2,DOPR : std_logic_vector (3 downto 0);
+signal DO1,DO2 : std_logic_vector (31 downto 0);
+signal DOP1,DOP2 : std_logic_vector (3 downto 0);
 signal ADDR1,ADDR2 : std_logic_vector (8 downto 0);
 signal CLK1,CLK2 : std_logic;
 signal DI1,DI2 : std_logic_vector (31 downto 0);
@@ -207,8 +207,9 @@ signal EN_i : std_logic;
 
 begin
 
-EN_i <= not CLK;
+--EN_i <= not CLK;
 --EN_i <= '1'; -- XXX always enabled, check differents in syn report
+EN_i <= EN;
 
 ADDR1 <= ADDR (8 downto 0);
 ADDR2 <= ADDR (8 downto 0);
@@ -223,23 +224,37 @@ DIP1 <= DIP;
 DI2 <= DI;
 DIP2 <= DIP;
 
-p0 : process (CLK) is
+p3 : process (ADDR(9), EN_i) is
 begin
-	if (rising_edge (CLK)) then
-		if (ADDR (9) = '0') then
-			EN1 <= EN_i;
-			EN2 <= '0';
---			SSR1 <= '0';
---			SSR2 <= SSR;
-		end if;
-		if (ADDR (9) = '1') then
-			EN1 <= '0';
-			EN2 <= EN_i;
---			SSR1 <= SSR;
---			SSR2 <= '0';
-		end if;
-	end if;
-end process p0;
+  EN1 <= '0';
+  EN2 <= '0';
+  if (ADDR (9) = '0') then
+    EN1 <= EN_i;
+    EN2 <= '0';
+  end if;
+  if (ADDR (9) = '1') then
+    EN1 <= '0';
+    EN2 <= EN_i;
+  end if;
+end process p3;
+
+--p0 : process (CLK) is
+--begin
+--	if (rising_edge (CLK)) then
+--		if (ADDR (9) = '0') then
+--			EN1 <= EN_i;
+--			EN2 <= '0';
+----			SSR1 <= '0';
+----			SSR2 <= SSR;
+--		end if;
+--		if (ADDR (9) = '1') then
+--			EN1 <= '0';
+--			EN2 <= EN_i;
+----			SSR1 <= SSR;
+----			SSR2 <= '0';
+--		end if;
+--	end if;
+--end process p0;
 
 --p2 : process (CLK,SSR) is
 --begin
@@ -247,14 +262,16 @@ end process p0;
 --		DO <= (others => '0');
 --		DOP <= (others => '0');
 --	elsif (rising_edge (CLK)) then
---	if (EN1 = '1' and EN2 = '0') then
---		DO <= DO1;
---		DOP <= DOP1;
---	end if;
---	if (EN1 = '0' and EN2 = '1') then
---		DO <= DO2;
---		DOP <= DOP2;
---	end if;
+--    if (EN1 = '1' and EN2 = '0') then
+--      DO <= DO1;
+--      DOP <= DOP1;
+--    elsif (EN1 = '0' and EN2 = '1') then
+--      DO <= DO2;
+--      DOP <= DOP2;
+--    else
+--      DO <= (others => '0');
+--      DOP <= (others => '0');
+--    end if;
 --	end if;
 --end process p2;
 
@@ -276,7 +293,7 @@ RAMB16_S36_inst1 : RAMB16_S36
 generic map (
 INIT => X"000000000", -- Value of output RAM registers at startup
 SRVAL => X"000000000", -- Output value upon SSR assertion
-WRITE_MODE => "READ_FIRST", -- WRITE_FIRST, READ_FIRST or NO_CHANGE
+WRITE_MODE => "NO_CHANGE", -- WRITE_FIRST, READ_FIRST or NO_CHANGE
 -- The following INIT_xx declarations specify the initial contents of the RAM
 -- Address 0 to 127
 INIT_00 => INIT_00,
@@ -376,7 +393,7 @@ RAMB16_S36_inst2 : RAMB16_S36
 generic map (
 INIT => X"000000000", -- Value of output RAM registers at startup
 SRVAL => X"000000000", -- Output value upon SSR assertion
-WRITE_MODE => "READ_FIRST", -- WRITE_FIRST, READ_FIRST or NO_CHANGE
+WRITE_MODE => "NO_CHANGE", -- WRITE_FIRST, READ_FIRST or NO_CHANGE
 -- The following INIT_xx declarations specify the initial contents of the RAM
 -- Address 0 to 127
 INIT_00 => INIT_40,

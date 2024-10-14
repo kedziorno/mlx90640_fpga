@@ -72,7 +72,8 @@ signal vga_g : std_logic_vector(7 downto 0);
 signal vga_b : std_logic_vector(7 downto 0);
 
 -- Clock period definitions
-constant i_clock_period : time := 10 ns;
+constant i_clock_period : time := 20 ns;
+--constant i_clock_period : time := 10 ns;
 
 component vga_bmp_sink is
 generic (
@@ -123,7 +124,8 @@ wait for 100 ns;
 i_reset <= '0';
 wait for i_clock_period*10;
 -- insert stimulus here
-wait for 34 ms;
+--wait for 34 ms;
+wait for 51 ms;
 --wait for 15.776ms * 10;
 --wait for 1 ms;
 --wait for 610 us;
@@ -134,7 +136,10 @@ vga_bmp : entity work.vga_bmp_sink
 generic map ( FILENAME => "vga.bmp" )
 port map (
 clk_i           => vga_clock,
-dat_i           => vga_r & vga_g & vga_b,
+dat_i           =>
+vga_r &
+vga_g &
+vga_b ,
 active_vid_i    => not vga_blankn,
 h_sync_i        => vga_hsync,
 v_sync_i        => vga_vsync

@@ -21,7 +21,7 @@ ARCHITECTURE tb OF tb_CalculateKGain IS
 
 COMPONENT fixed2float
 PORT (
-a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+a : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
@@ -67,7 +67,7 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_KGain : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic;
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
@@ -93,7 +93,7 @@ signal calculateKGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal calculateKGain_KGain : std_logic_vector (31 downto 0);
 signal calculateKGain_rdy : std_logic;
 
-signal calculateKGain_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal calculateKGain_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal calculateKGain_fixed2floatond : STD_LOGIC;
 signal calculateKGain_fixed2floatsclr : STD_LOGIC;
 signal calculateKGain_fixed2floatce : STD_LOGIC;
@@ -108,7 +108,7 @@ signal calculateKGain_divfpce : STD_LOGIC;
 signal calculateKGain_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal calculateKGain_divfprdy : STD_LOGIC;
 
-signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : STD_LOGIC;
 signal fixed2floatce : STD_LOGIC;
 signal fixed2floatsclr : STD_LOGIC;

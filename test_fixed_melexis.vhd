@@ -49,7 +49,7 @@ o_rdy : out std_logic;
 i_addr : in std_logic_vector(9 downto 0);
 o_do : out std_logic_vector(31 downto 0);
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -172,7 +172,7 @@ i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_Vdd : out std_logic_vector (31 downto 0); -- output Vdd
 o_rdy : out std_logic;
-fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
 fixed2floatsclr : out STD_LOGIC;
@@ -216,7 +216,7 @@ signal CalculateVdd_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal CalculateVdd_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal CalculateVdd_Vdd : std_logic_vector (31 downto 0); -- output Vdd
 signal CalculateVdd_rdy : std_logic;
-signal CalculateVdd_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculateVdd_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal CalculateVdd_fixed2floatond : STD_LOGIC;
 signal CalculateVdd_fixed2floatce : STD_LOGIC;
 signal CalculateVdd_fixed2floatsclr : STD_LOGIC;
@@ -250,11 +250,6 @@ signal CalculateVdd_subfpce : STD_LOGIC;
 signal CalculateVdd_subfpsclr : STD_LOGIC;
 signal CalculateVdd_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateVdd_subfprdy : STD_LOGIC;
-signal CalculateVdd_fixed2floatclk : std_logic;
-signal CalculateVdd_addfpclk : std_logic;
-signal CalculateVdd_subfpclk : std_logic;
-signal CalculateVdd_mulfpclk : std_logic;
-signal CalculateVdd_divfpclk : std_logic;
 
 component CalculateTa is
 port (
@@ -272,7 +267,7 @@ o_kvptat_adr : out std_logic_vector (5 downto 0);
 o_alphaptat_ena : out std_logic;
 o_alphaptat_adr : out std_logic_vector (3 downto 0);
 i_rom_constants_float : in std_logic_vector (31 downto 0);
-fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
 fixed2floatsclr : out STD_LOGIC;
@@ -320,7 +315,7 @@ signal CalculateTa_kvptat_adr : std_logic_vector (5 downto 0);
 signal CalculateTa_alphaptat_ena : std_logic;
 signal CalculateTa_alphaptat_adr : std_logic_vector (3 downto 0);
 signal CalculateTa_rom_constants_float : std_logic_vector (31 downto 0);
-signal CalculateTa_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculateTa_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal CalculateTa_fixed2floatond : STD_LOGIC;
 signal CalculateTa_fixed2floatce : STD_LOGIC;
 signal CalculateTa_fixed2floatsclr : STD_LOGIC;
@@ -354,11 +349,6 @@ signal CalculateTa_subfpce : STD_LOGIC;
 signal CalculateTa_subfpsclr : STD_LOGIC;
 signal CalculateTa_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateTa_subfprdy : STD_LOGIC;
-signal CalculateTa_fixed2floatclk : std_logic;
-signal CalculateTa_addfpclk : std_logic;
-signal CalculateTa_subfpclk : std_logic;
-signal CalculateTa_mulfpclk : std_logic;
-signal CalculateTa_divfpclk : std_logic;
 signal CalculateTa_Vdd : std_logic_vector (31 downto 0); -- from VDD
 signal CalculateTa_Ta : std_logic_vector (31 downto 0); -- output Ta
 
@@ -383,7 +373,7 @@ signal o_alphascale_1_adr : out std_logic_vector (3 downto 0);
 signal o_2powx_4bit_ena : out std_logic;
 signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
@@ -420,7 +410,6 @@ signal ExtractAlphaParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal ExtractAlphaParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal ExtractAlphaParameters_do : std_logic_vector (31 downto 0);
 signal ExtractAlphaParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
-signal ExtractAlphaParameters_done : std_logic;
 signal ExtractAlphaParameters_rdy : std_logic;
 signal ExtractAlphaParameters_signed4bit_ena : std_logic;
 signal ExtractAlphaParameters_signed4bit_adr : std_logic_vector (3 downto 0);
@@ -431,7 +420,7 @@ signal ExtractAlphaParameters_alphascale_1_adr : std_logic_vector (3 downto 0);
 signal ExtractAlphaParameters_2powx_4bit_ena : std_logic;
 signal ExtractAlphaParameters_2powx_4bit_adr : std_logic_vector (3 downto 0);
 signal ExtractAlphaParameters_rom_constants_float : std_logic_vector (31 downto 0);
-signal ExtractAlphaParameters_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal ExtractAlphaParameters_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal ExtractAlphaParameters_fixed2floatond : STD_LOGIC;
 signal ExtractAlphaParameters_fixed2floatsclr : STD_LOGIC;
 signal ExtractAlphaParameters_fixed2floatce : STD_LOGIC;
@@ -489,7 +478,7 @@ signal mulfpsclr : out STD_LOGIC;
 signal mulfpce : out STD_LOGIC;
 signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfprdy : in STD_LOGIC;
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -525,7 +514,7 @@ signal CalculateAlphaCP_mulfpsclr : STD_LOGIC;
 signal CalculateAlphaCP_mulfpce : STD_LOGIC;
 signal CalculateAlphaCP_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaCP_mulfprdy : STD_LOGIC;
-signal CalculateAlphaCP_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculateAlphaCP_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal CalculateAlphaCP_fixed2floatond : STD_LOGIC;
 signal CalculateAlphaCP_fixed2floatce : STD_LOGIC;
 signal CalculateAlphaCP_fixed2floatsclr : STD_LOGIC;
@@ -543,7 +532,7 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_KGain : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic;
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
@@ -569,7 +558,7 @@ signal CalculateKGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal CalculateKGain_KGain : std_logic_vector (31 downto 0);
 signal CalculateKGain_rdy : std_logic;
 
-signal CalculateKGain_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculateKGain_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal CalculateKGain_fixed2floatond : STD_LOGIC;
 signal CalculateKGain_fixed2floatsclr : STD_LOGIC;
 signal CalculateKGain_fixed2floatce : STD_LOGIC;
@@ -609,7 +598,7 @@ o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
 o_signed3bit_ena : out std_logic;
 o_signed3bit_adr : out std_logic_vector (2 downto 0);
 i_rom_constants_float : in std_logic_vector (31 downto 0);
-fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
 fixed2floatsclr : out STD_LOGIC;
@@ -668,7 +657,7 @@ signal CalculatePixOS_2powx_p8_4bit_adr : std_logic_vector (3 downto 0);
 signal CalculatePixOS_signed3bit_ena : std_logic;
 signal CalculatePixOS_signed3bit_adr : std_logic_vector (2 downto 0);
 signal CalculatePixOS_rom_constants_float : std_logic_vector (31 downto 0);
-signal CalculatePixOS_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculatePixOS_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal CalculatePixOS_fixed2floatond : STD_LOGIC;
 signal CalculatePixOS_fixed2floatce : STD_LOGIC;
 signal CalculatePixOS_fixed2floatsclr : STD_LOGIC;
@@ -702,11 +691,6 @@ signal CalculatePixOS_subfpsclr : STD_LOGIC;
 signal CalculatePixOS_subfpce : STD_LOGIC;
 signal CalculatePixOS_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixOS_subfprdy : STD_LOGIC;
-signal CalculatePixOS_fixed2floatclk : std_logic;
-signal CalculatePixOS_addfpclk : std_logic;
-signal CalculatePixOS_subfpclk : std_logic;
-signal CalculatePixOS_mulfpclk : std_logic;
-signal CalculatePixOS_divfpclk : std_logic;
 
 component CalculatePixOsCPSP is
 port (
@@ -729,7 +713,7 @@ signal o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
 signal o_2powx_4bit_ena : out std_logic;
 signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
@@ -784,7 +768,7 @@ signal CalculatePixOsCPSP_2powx_p8_4bit_adr : std_logic_vector (3 downto 0);
 signal CalculatePixOsCPSP_2powx_4bit_ena : std_logic;
 signal CalculatePixOsCPSP_2powx_4bit_adr : std_logic_vector (3 downto 0);
 signal CalculatePixOsCPSP_rom_constants_float : std_logic_vector (31 downto 0);
-signal CalculatePixOsCPSP_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculatePixOsCPSP_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal CalculatePixOsCPSP_fixed2floatond : STD_LOGIC;
 signal CalculatePixOsCPSP_fixed2floatsclr : STD_LOGIC;
 signal CalculatePixOsCPSP_fixed2floatce : STD_LOGIC;
@@ -818,11 +802,6 @@ signal CalculatePixOsCPSP_subfpsclr : STD_LOGIC;
 signal CalculatePixOsCPSP_subfpce : STD_LOGIC;
 signal CalculatePixOsCPSP_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixOsCPSP_subfprdy : STD_LOGIC;
-signal CalculatePixOsCPSP_fixed2floatclk : STD_LOGIC;
-signal CalculatePixOsCPSP_addfpclk : STD_LOGIC;
-signal CalculatePixOsCPSP_subfpclk : STD_LOGIC;
-signal CalculatePixOsCPSP_mulfpclk : STD_LOGIC;
-signal CalculatePixOsCPSP_divfpclk : STD_LOGIC;
 
 COMPONENT CalculateVirCompensated
 PORT(
@@ -923,7 +902,7 @@ i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_tgc : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic;
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -946,7 +925,7 @@ signal ExtractTGCParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal ExtractTGCParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal ExtractTGCParameters_tgc : std_logic_vector (31 downto 0);
 signal ExtractTGCParameters_rdy : std_logic;
-signal ExtractTGCParameters_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal ExtractTGCParameters_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal ExtractTGCParameters_fixed2floatond : STD_LOGIC;
 signal ExtractTGCParameters_fixed2floatsclr : STD_LOGIC;
 signal ExtractTGCParameters_fixed2floatce : STD_LOGIC;
@@ -1015,7 +994,7 @@ signal subfpce : out STD_LOGIC;
 signal subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfprdy : in STD_LOGIC;
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
@@ -1066,7 +1045,7 @@ signal CalculateAlphaComp_subfpsclr : STD_LOGIC;
 signal CalculateAlphaComp_subfpce : STD_LOGIC;
 signal CalculateAlphaComp_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaComp_subfprdy : STD_LOGIC;
-signal CalculateAlphaComp_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculateAlphaComp_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal CalculateAlphaComp_fixed2floatond : STD_LOGIC;
 signal CalculateAlphaComp_fixed2floatsclr : STD_LOGIC;
 signal CalculateAlphaComp_fixed2floatce : STD_LOGIC;
@@ -1133,7 +1112,7 @@ signal sqrtfp2ce : out STD_LOGIC;
 signal sqrtfp2r : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal sqrtfp2rdy : in STD_LOGIC;
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -1200,7 +1179,7 @@ signal CalculateTo_sqrtfp2ce : STD_LOGIC;
 signal CalculateTo_sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateTo_sqrtfp2rdy : STD_LOGIC;
 
-signal CalculateTo_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculateTo_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal CalculateTo_fixed2floatond : STD_LOGIC;
 signal CalculateTo_fixed2floatce : STD_LOGIC;
 signal CalculateTo_fixed2floatsclr : STD_LOGIC;
@@ -1210,7 +1189,7 @@ signal CalculateTo_fixed2floatrdy : STD_LOGIC;
 signal CalculateKGain_mux : std_logic;
 signal ExtractTGCParameters_mux : std_logic;
 
-signal CalculatePixOS_mux,CalculatePixOsCPSP_mux,CalculateVirCompensated_mux,ExtractOffsetParameters_mux : std_logic;
+signal CalculatePixOS_mux,CalculatePixOsCPSP_mux,CalculateVirCompensated_mux : std_logic;
 signal ExtractAlphaParameters_mux,CalculateAlphaComp_mux,CalculateAlphaCP_mux : std_logic;
 signal CalculateVdd_mux,CalculateTa_mux,CalculateTo_mux : std_logic;
 
@@ -1918,7 +1897,7 @@ ExtractAlphaParameters_rom_constants_float <= rom_constants_float;
 CalculateTo_rom_constants_float <= rom_constants_float;
 
 	-- purpose: main test loop
-	tester : process (i_clock,i_reset) is
+	tester : process (i_clock) is
 		type states is (idle,s0,s0a,s0b,s0c,
 		s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,
 		ending);
@@ -1938,6 +1917,7 @@ CalculateTo_rom_constants_float <= rom_constants_float;
 			else
 				state := idle;
 			end if;
+        o_rdy <= '0';
 
 	when s0 => state := s0a;
 		CalculateKGain_run <= '1';
@@ -2264,7 +2244,6 @@ i2c_mem_douta => ExtractAlphaParameters_i2c_mem_douta,
 
 o_do => ExtractAlphaParameters_do,
 i_addr => ExtractAlphaParameters_addr,
-o_done => ExtractAlphaParameters_done,
 o_rdy => ExtractAlphaParameters_rdy,
 
 o_signed4bit_ena => ExtractAlphaParameters_signed4bit_ena,

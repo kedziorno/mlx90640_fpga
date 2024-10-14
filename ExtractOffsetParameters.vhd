@@ -57,7 +57,7 @@ signal o_2powx_4bit_ena : out std_logic;
 signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
@@ -258,7 +258,7 @@ signal rdy : std_logic;
 constant C_COL : integer := 32;
 constant C_ROW : integer := 24;
 
-signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata_internal : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond_internal : STD_LOGIC;
 signal fixed2floatsclr_internal : STD_LOGIC;
 signal fixed2floatce_internal : STD_LOGIC;
@@ -353,6 +353,7 @@ begin
 					if (i_run = '1') then
 						state := occ24;
 						i2c_mem_ena <= '1';
+            rdy <= '0';
 					else
 						state := idle;
 						i2c_mem_ena <= '0';
@@ -360,6 +361,11 @@ begin
 					addfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					fixed2floatsclr_internal <= '0';
+          i := 0;
+          m := 0;
+          n := 0;
+          row := 0;
+          col := 0;
         when occ24 => state := occ25;
           m := 2*i;
           n := i*4;
@@ -497,16 +503,7 @@ begin
           fixed2floatce_internal <= '1';
           fixed2floatond_internal <= '1';
           fixed2floata_internal <=
-          voffsetRef (7) & voffsetRef (7) & 
-          voffsetRef (7) & voffsetRef (7) & 
-          voffsetRef (7) & voffsetRef (7) & 
-          voffsetRef (7) & voffsetRef (7) & 
-          voffsetRef (7) & voffsetRef (7) & 
-          voffsetRef (7) & voffsetRef (7) & 
-          voffsetRef (7) & voffsetRef (7) & 
-          voffsetRef (7) & voffsetRef (7) & 
-          voffsetRef (7) & voffsetRef (7) & 
-          voffsetRef (7) & voffsetRef & i2c_mem_douta & "00000000000000000000000000000";
+          voffsetRef & i2c_mem_douta;
 					if (fixed2floatrdy_internal = '1') then state := s20;
 						fixed2floatce_internal <= '0';
 						fixed2floatond_internal <= '0';
@@ -562,7 +559,7 @@ ADDR => mux_addr,
 CLK => i_clock,
 DI => mux_dia,
 DIP => (others => '0'),
-EN => i_clock,
+EN => '1',
 SSR => i_reset,
 WE => write_enable
 );
