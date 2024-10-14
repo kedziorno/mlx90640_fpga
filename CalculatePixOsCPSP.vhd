@@ -212,7 +212,7 @@ p0 : process (i_clock) is
 	s31,s32,s34,s34a,s35,s36,s37,s38,s40,s40a,
 	s41,s42,s42a,s43,s44,s45,s46,s47,s48,s50,s50a,
 	s51,s52,s52a,s53,s54,s55,s56,s58,s59,
-	s61,s63,s64,s64a,s64b,s65,s67,
+	s61,s62,s63,s64,s64a,s64b,s65,s67,
 	s71,d58,d59,d59a,d62c,
   d63,d64,d64a,d64b,d65,d67,
 	d71);
@@ -1104,12 +1104,39 @@ begin
           else state := s58; end if;
         when s59 => state := s61;
           addfpsclr_internal <= '0';
-        when s61 => state := s63;
+        when s61 => state := s62;
           ram (7 downto 0) := i2c_mem_douta_internal;
+          
+        when s62 =>
+        
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <= -- ee243a 0x03ff - 10bit - ram
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1) & 
+          i2c_mem_douta_internal (1) & i2c_mem_douta_internal (1 downto 0) & ram & "00000000000000000000000000000";
+          if (fixed2floatrdy_internal = '1') then state := s63;
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+          else state := s62; end if;
+
+        
         when s63 =>
-          o_mem_signed1024_ivalue <= i2c_mem_douta_internal (1 downto 0) & ram; -- ee243a 0x03ff - 10bit - ram
+          fixed2floatsclr_internal <= '0';
+
           mulfpce_internal <= '1';
-          mulfpa_internal <= i_mem_signed1024_ovalue; -- ram
+          mulfpa_internal <= fixed2floatr_internal; -- ee243a
           mulfpb_internal <= calc; -- (...)
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s64; -- -- --
