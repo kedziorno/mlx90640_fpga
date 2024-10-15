@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : rom_signed10bit.vhf
--- /___/   /\     Timestamp : 09/22/2024 19:44:29
+-- /___/   /\     Timestamp : 10/15/2024 22:04:15
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -867,38 +867,38 @@ architecture BEHAVIORAL of rom_signed10bit is
    attribute WRITE_MODE_A of mem_half2 : label is "READ_FIRST";
    attribute READ_WIDTH_B of mem_half2 : label is "36";
    attribute READ_WIDTH_A of mem_half2 : label is "36";
-   attribute HU_SET of XLXI_16_0 : label is "XLXI_16_0_276";
-   attribute HU_SET of XLXI_16_1 : label is "XLXI_16_1_275";
-   attribute HU_SET of XLXI_16_2 : label is "XLXI_16_2_274";
-   attribute HU_SET of XLXI_16_3 : label is "XLXI_16_3_273";
-   attribute HU_SET of XLXI_16_4 : label is "XLXI_16_4_272";
-   attribute HU_SET of XLXI_16_5 : label is "XLXI_16_5_271";
-   attribute HU_SET of XLXI_16_6 : label is "XLXI_16_6_270";
-   attribute HU_SET of XLXI_16_7 : label is "XLXI_16_7_269";
-   attribute HU_SET of XLXI_16_8 : label is "XLXI_16_8_268";
-   attribute HU_SET of XLXI_16_9 : label is "XLXI_16_9_267";
-   attribute HU_SET of XLXI_16_10 : label is "XLXI_16_10_266";
-   attribute HU_SET of XLXI_16_11 : label is "XLXI_16_11_265";
-   attribute HU_SET of XLXI_16_12 : label is "XLXI_16_12_264";
-   attribute HU_SET of XLXI_16_13 : label is "XLXI_16_13_263";
-   attribute HU_SET of XLXI_16_14 : label is "XLXI_16_14_262";
-   attribute HU_SET of XLXI_16_15 : label is "XLXI_16_15_261";
-   attribute HU_SET of XLXI_16_16 : label is "XLXI_16_16_260";
-   attribute HU_SET of XLXI_16_17 : label is "XLXI_16_17_259";
-   attribute HU_SET of XLXI_16_18 : label is "XLXI_16_18_258";
-   attribute HU_SET of XLXI_16_19 : label is "XLXI_16_19_257";
-   attribute HU_SET of XLXI_16_20 : label is "XLXI_16_20_256";
-   attribute HU_SET of XLXI_16_21 : label is "XLXI_16_21_255";
-   attribute HU_SET of XLXI_16_22 : label is "XLXI_16_22_254";
-   attribute HU_SET of XLXI_16_23 : label is "XLXI_16_23_253";
-   attribute HU_SET of XLXI_16_24 : label is "XLXI_16_24_252";
-   attribute HU_SET of XLXI_16_25 : label is "XLXI_16_25_251";
-   attribute HU_SET of XLXI_16_26 : label is "XLXI_16_26_250";
-   attribute HU_SET of XLXI_16_27 : label is "XLXI_16_27_249";
-   attribute HU_SET of XLXI_16_28 : label is "XLXI_16_28_248";
-   attribute HU_SET of XLXI_16_29 : label is "XLXI_16_29_247";
-   attribute HU_SET of XLXI_16_30 : label is "XLXI_16_30_246";
-   attribute HU_SET of XLXI_16_31 : label is "XLXI_16_31_245";
+   attribute HU_SET of XLXI_16_0 : label is "XLXI_16_0_757";
+   attribute HU_SET of XLXI_16_1 : label is "XLXI_16_1_756";
+   attribute HU_SET of XLXI_16_2 : label is "XLXI_16_2_755";
+   attribute HU_SET of XLXI_16_3 : label is "XLXI_16_3_754";
+   attribute HU_SET of XLXI_16_4 : label is "XLXI_16_4_753";
+   attribute HU_SET of XLXI_16_5 : label is "XLXI_16_5_752";
+   attribute HU_SET of XLXI_16_6 : label is "XLXI_16_6_751";
+   attribute HU_SET of XLXI_16_7 : label is "XLXI_16_7_750";
+   attribute HU_SET of XLXI_16_8 : label is "XLXI_16_8_749";
+   attribute HU_SET of XLXI_16_9 : label is "XLXI_16_9_748";
+   attribute HU_SET of XLXI_16_10 : label is "XLXI_16_10_747";
+   attribute HU_SET of XLXI_16_11 : label is "XLXI_16_11_746";
+   attribute HU_SET of XLXI_16_12 : label is "XLXI_16_12_745";
+   attribute HU_SET of XLXI_16_13 : label is "XLXI_16_13_744";
+   attribute HU_SET of XLXI_16_14 : label is "XLXI_16_14_743";
+   attribute HU_SET of XLXI_16_15 : label is "XLXI_16_15_742";
+   attribute HU_SET of XLXI_16_16 : label is "XLXI_16_16_741";
+   attribute HU_SET of XLXI_16_17 : label is "XLXI_16_17_740";
+   attribute HU_SET of XLXI_16_18 : label is "XLXI_16_18_739";
+   attribute HU_SET of XLXI_16_19 : label is "XLXI_16_19_738";
+   attribute HU_SET of XLXI_16_20 : label is "XLXI_16_20_737";
+   attribute HU_SET of XLXI_16_21 : label is "XLXI_16_21_736";
+   attribute HU_SET of XLXI_16_22 : label is "XLXI_16_22_735";
+   attribute HU_SET of XLXI_16_23 : label is "XLXI_16_23_734";
+   attribute HU_SET of XLXI_16_24 : label is "XLXI_16_24_733";
+   attribute HU_SET of XLXI_16_25 : label is "XLXI_16_25_732";
+   attribute HU_SET of XLXI_16_26 : label is "XLXI_16_26_731";
+   attribute HU_SET of XLXI_16_27 : label is "XLXI_16_27_730";
+   attribute HU_SET of XLXI_16_28 : label is "XLXI_16_28_729";
+   attribute HU_SET of XLXI_16_29 : label is "XLXI_16_29_728";
+   attribute HU_SET of XLXI_16_30 : label is "XLXI_16_30_727";
+   attribute HU_SET of XLXI_16_31 : label is "XLXI_16_31_726";
 begin
    mem_half1 : RAMB16
    -- synopsys translate_off

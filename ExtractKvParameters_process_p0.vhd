@@ -187,8 +187,10 @@ when kv12 => state := kv13; 	--22
 	o_write_enable <= '1';
 	o_addra <= std_logic_vector (to_unsigned (i, 10)); -- kv
 	o_dia <= kv_ft;
+--synthesis translate_off
      report_error ("================kv_ft "&integer'image(i)&" ",kv_ft,0.0);
-when kv13 =>
+--synthesis translate_on
+          when kv13 =>
 	i := i + 1;
 	o_write_enable <= '0';
 	if (col = C_COL-1) then

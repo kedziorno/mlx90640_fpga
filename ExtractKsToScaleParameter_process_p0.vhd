@@ -83,7 +83,9 @@ begin
 				when s4 => state := s5;
 				when s5 => state := ending;
 					o_kstoscale <= odata_kstoscale;
+          --synthesis translate_off
                     report_error ("================= kstoscale : ",odata_kstoscale,0.0);
+          --synthesis translate_on
 
 				when ending => state := idle;
 					o_rdy <= '1';

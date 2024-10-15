@@ -409,6 +409,8 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 				when s31 => state := s32;
 				when s32 => state := s33;
 					offcpsubpage0_ft := mem_signed1024_ovalue; -- offcpsubpage0
+                    --synthesis translate_off
+
          report_error ("================ CalculatePixOsCPSP offcpsubpage0 : ",offcpsubpage0_ft,0.0);
 					offcpsubpage1delta_ft := nibble_in1;
 					addfpce_internal <= '1';
@@ -418,6 +420,7 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 				when s33 =>
 					if (addfprdy_internal = '1') then state := s34;
 						offcpsubpage1_ft := addfpr_internal; -- offcpsubpage1
+            --synthesis translate_off
            report_error ("================ CalculatePixOsCPSP offcpsubpage1 : ",offcpsubpage1_ft,0.0);
 						addfpce_internal <= '0';
 						addfpond_internal <= '0';
@@ -475,8 +478,10 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 					else state := s52; end if;
 				when s53 => state := s54;
 					divfpsclr_internal <= '0';
+          --synthesis translate_off
          report_error ("================ CalculatePixOsCPSP ktacp : ",ktacp_ft,0.0);
-
+--synthesis translate_on
+          
 
 				when s54 => state := s55;
 					divfpce_internal <= '1';
@@ -492,8 +497,10 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 					else state := s55; end if;
 				when s56 => state := s57;
 					divfpsclr_internal <= '0';
+          --synthesis translate_off
          report_error ("================ CalculatePixOsCPSP kvcp : ",kvcp_ft,0.0);
-
+--synthesis translate_on
+          
 					subfpce_internal <= '1';
 					subfpa_internal <= i_Vdd;
 					subfpb_internal <= i_VddV0;
@@ -632,8 +639,10 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 						subfpce_internal <= '0';
 						subfpond_internal <= '0';
 						subfpsclr_internal <= '1';
+            --synthesis translate_off
            report_error ("================ CalculatePixOsCPSP o_pixoscpsp0 : ",subfpr_internal,0.0);
-					else state := s81; end if;
+					--synthesis translate_on
+          else state := s81; end if;
 				when s82 => state := s83;
 					subfpsclr_internal <= '0';
 
@@ -678,8 +687,10 @@ ram0728 (15) & ram0728 & "00000000000000000000000000000";
 				when s90 =>
 					if (subfprdy_internal = '1') then state := s91;
 						o_pixoscpsp1 <= subfpr_internal;
+            --synthesis translate_off
            report_error ("================ CalculatePixOsCPSP o_pixoscpsp1 : ",subfpr_internal,0.0);
-						subfpce_internal <= '0';
+						--synthesis translate_on
+            subfpce_internal <= '0';
 						subfpond_internal <= '0';
 						subfpsclr_internal <= '1';
 					else state := s90; end if;

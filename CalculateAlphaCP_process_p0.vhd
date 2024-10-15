@@ -176,8 +176,10 @@ begin
 						divfpond_internal <= '0';
 						divfpsclr_internal <= '1';
 						o_acpsubpage0 <= fptmp1;
+            --synthesis translate_off
             report_error ("================ calculateAlphaCP o_acpsubpage0 : ",fptmp1,0.0);
-					else state := s9; end if;
+--synthesis translate_on
+          					else state := s9; end if;
 				when s10 => state := s11;
 					divfpsclr_internal <= '0';
 					mulfpce_internal <= '1';
@@ -191,7 +193,11 @@ begin
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
 						o_acpsubpage1 <= fptmp1;
+            --synthesis translate_off
+          
             report_error ("================ calculateAlphaCP o_acpsubpage1 : ",fptmp1,0.0);
+            --synthesis translate_on
+          
 					else state := s11; end if;
 				when ending => state := idle;
 					mulfpsclr_internal <= '0';

@@ -82,7 +82,10 @@ begin
 				when s4 => state := s5;
 				when s5 => state := ending;
 					o_ksta <= odata_ksta;
+                    --synthesis translate_off
+
                                     report_error ("================ extractKsTaParameters ksta : ",odata_ksta,0.0);
+          --synthesis translate_on
 				when ending => state := idle;
 					o_rdy <= '1';
 			end case;

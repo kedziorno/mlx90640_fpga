@@ -354,7 +354,10 @@ begin
 					o_write_enable <= '1';
 					o_addra <= std_logic_vector (to_unsigned (i, 10)); -- alphacomp
 					o_dia <= fptmp1;
+                    --synthesis translate_off
+
           report_error ("================alphacomp " & integer'image (i),fptmp1,0.0);
+          --synthesis translate_on
 				when s31 =>
 					o_write_enable <= '0';
 					if (i = (C_ROW*C_COL)-1) then

@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : CalculateAlphaComp.vhf
--- /___/   /\     Timestamp : 09/22/2024 19:44:39
+-- /___/   /\     Timestamp : 10/15/2024 22:04:24
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -2741,48 +2741,48 @@ architecture BEHAVIORAL of CalculateAlphaComp is
    attribute WRITE_MODE_A of mem_alphacomp_2 : label is "READ_FIRST";
    attribute READ_WIDTH_B of mem_alphacomp_2 : label is "36";
    attribute READ_WIDTH_A of mem_alphacomp_2 : label is "36";
-   attribute HU_SET of MUX_ADDR_0 : label is "MUX_ADDR_0_2490";
-   attribute HU_SET of MUX_ADDR_1 : label is "MUX_ADDR_1_2489";
-   attribute HU_SET of MUX_ADDR_2 : label is "MUX_ADDR_2_2488";
-   attribute HU_SET of MUX_ADDR_3 : label is "MUX_ADDR_3_2487";
-   attribute HU_SET of MUX_ADDR_4 : label is "MUX_ADDR_4_2486";
-   attribute HU_SET of MUX_ADDR_5 : label is "MUX_ADDR_5_2485";
-   attribute HU_SET of MUX_ADDR_6 : label is "MUX_ADDR_6_2484";
-   attribute HU_SET of MUX_ADDR_7 : label is "MUX_ADDR_7_2483";
-   attribute HU_SET of MUX_ADDR_8 : label is "MUX_ADDR_8_2482";
-   attribute HU_SET of MUX_ADDR_9 : label is "MUX_ADDR_9_2481";
-   attribute HU_SET of MUX_DO_0 : label is "MUX_DO_0_2480";
-   attribute HU_SET of MUX_DO_1 : label is "MUX_DO_1_2479";
-   attribute HU_SET of MUX_DO_2 : label is "MUX_DO_2_2478";
-   attribute HU_SET of MUX_DO_3 : label is "MUX_DO_3_2477";
-   attribute HU_SET of MUX_DO_4 : label is "MUX_DO_4_2476";
-   attribute HU_SET of MUX_DO_5 : label is "MUX_DO_5_2475";
-   attribute HU_SET of MUX_DO_6 : label is "MUX_DO_6_2474";
-   attribute HU_SET of MUX_DO_7 : label is "MUX_DO_7_2473";
-   attribute HU_SET of MUX_DO_8 : label is "MUX_DO_8_2472";
-   attribute HU_SET of MUX_DO_9 : label is "MUX_DO_9_2471";
-   attribute HU_SET of MUX_DO_10 : label is "MUX_DO_10_2470";
-   attribute HU_SET of MUX_DO_11 : label is "MUX_DO_11_2469";
-   attribute HU_SET of MUX_DO_12 : label is "MUX_DO_12_2468";
-   attribute HU_SET of MUX_DO_13 : label is "MUX_DO_13_2467";
-   attribute HU_SET of MUX_DO_14 : label is "MUX_DO_14_2466";
-   attribute HU_SET of MUX_DO_15 : label is "MUX_DO_15_2465";
-   attribute HU_SET of MUX_DO_16 : label is "MUX_DO_16_2464";
-   attribute HU_SET of MUX_DO_17 : label is "MUX_DO_17_2463";
-   attribute HU_SET of MUX_DO_18 : label is "MUX_DO_18_2462";
-   attribute HU_SET of MUX_DO_19 : label is "MUX_DO_19_2461";
-   attribute HU_SET of MUX_DO_20 : label is "MUX_DO_20_2460";
-   attribute HU_SET of MUX_DO_21 : label is "MUX_DO_21_2459";
-   attribute HU_SET of MUX_DO_22 : label is "MUX_DO_22_2458";
-   attribute HU_SET of MUX_DO_23 : label is "MUX_DO_23_2457";
-   attribute HU_SET of MUX_DO_24 : label is "MUX_DO_24_2456";
-   attribute HU_SET of MUX_DO_25 : label is "MUX_DO_25_2455";
-   attribute HU_SET of MUX_DO_26 : label is "MUX_DO_26_2454";
-   attribute HU_SET of MUX_DO_27 : label is "MUX_DO_27_2453";
-   attribute HU_SET of MUX_DO_28 : label is "MUX_DO_28_2452";
-   attribute HU_SET of MUX_DO_29 : label is "MUX_DO_29_2451";
-   attribute HU_SET of MUX_DO_30 : label is "MUX_DO_30_2450";
-   attribute HU_SET of MUX_DO_31 : label is "MUX_DO_31_2449";
+   attribute HU_SET of MUX_ADDR_0 : label is "MUX_ADDR_0_2290";
+   attribute HU_SET of MUX_ADDR_1 : label is "MUX_ADDR_1_2289";
+   attribute HU_SET of MUX_ADDR_2 : label is "MUX_ADDR_2_2288";
+   attribute HU_SET of MUX_ADDR_3 : label is "MUX_ADDR_3_2287";
+   attribute HU_SET of MUX_ADDR_4 : label is "MUX_ADDR_4_2286";
+   attribute HU_SET of MUX_ADDR_5 : label is "MUX_ADDR_5_2285";
+   attribute HU_SET of MUX_ADDR_6 : label is "MUX_ADDR_6_2284";
+   attribute HU_SET of MUX_ADDR_7 : label is "MUX_ADDR_7_2283";
+   attribute HU_SET of MUX_ADDR_8 : label is "MUX_ADDR_8_2282";
+   attribute HU_SET of MUX_ADDR_9 : label is "MUX_ADDR_9_2281";
+   attribute HU_SET of MUX_DO_0 : label is "MUX_DO_0_2280";
+   attribute HU_SET of MUX_DO_1 : label is "MUX_DO_1_2279";
+   attribute HU_SET of MUX_DO_2 : label is "MUX_DO_2_2278";
+   attribute HU_SET of MUX_DO_3 : label is "MUX_DO_3_2277";
+   attribute HU_SET of MUX_DO_4 : label is "MUX_DO_4_2276";
+   attribute HU_SET of MUX_DO_5 : label is "MUX_DO_5_2275";
+   attribute HU_SET of MUX_DO_6 : label is "MUX_DO_6_2274";
+   attribute HU_SET of MUX_DO_7 : label is "MUX_DO_7_2273";
+   attribute HU_SET of MUX_DO_8 : label is "MUX_DO_8_2272";
+   attribute HU_SET of MUX_DO_9 : label is "MUX_DO_9_2271";
+   attribute HU_SET of MUX_DO_10 : label is "MUX_DO_10_2270";
+   attribute HU_SET of MUX_DO_11 : label is "MUX_DO_11_2269";
+   attribute HU_SET of MUX_DO_12 : label is "MUX_DO_12_2268";
+   attribute HU_SET of MUX_DO_13 : label is "MUX_DO_13_2267";
+   attribute HU_SET of MUX_DO_14 : label is "MUX_DO_14_2266";
+   attribute HU_SET of MUX_DO_15 : label is "MUX_DO_15_2265";
+   attribute HU_SET of MUX_DO_16 : label is "MUX_DO_16_2264";
+   attribute HU_SET of MUX_DO_17 : label is "MUX_DO_17_2263";
+   attribute HU_SET of MUX_DO_18 : label is "MUX_DO_18_2262";
+   attribute HU_SET of MUX_DO_19 : label is "MUX_DO_19_2261";
+   attribute HU_SET of MUX_DO_20 : label is "MUX_DO_20_2260";
+   attribute HU_SET of MUX_DO_21 : label is "MUX_DO_21_2259";
+   attribute HU_SET of MUX_DO_22 : label is "MUX_DO_22_2258";
+   attribute HU_SET of MUX_DO_23 : label is "MUX_DO_23_2257";
+   attribute HU_SET of MUX_DO_24 : label is "MUX_DO_24_2256";
+   attribute HU_SET of MUX_DO_25 : label is "MUX_DO_25_2255";
+   attribute HU_SET of MUX_DO_26 : label is "MUX_DO_26_2254";
+   attribute HU_SET of MUX_DO_27 : label is "MUX_DO_27_2253";
+   attribute HU_SET of MUX_DO_28 : label is "MUX_DO_28_2252";
+   attribute HU_SET of MUX_DO_29 : label is "MUX_DO_29_2251";
+   attribute HU_SET of MUX_DO_30 : label is "MUX_DO_30_2250";
+   attribute HU_SET of MUX_DO_31 : label is "MUX_DO_31_2249";
 begin
    XLXN_273 <= '0';
    XLXN_274(11 downto 0) <= x"000";

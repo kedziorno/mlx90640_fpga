@@ -86,7 +86,10 @@ begin
 				when s4 => state := s5;
 				when s5 => state := ending;
 					o_tgc  <= i_data;
+                    --synthesis translate_off
+
                                    report_error ("================ extractTGCparameters tgc : ",i_data,0.0);
+          --synthesis translate_on
 				when ending => state := idle;
 					o_rdy <= '1';
 				when others => null;

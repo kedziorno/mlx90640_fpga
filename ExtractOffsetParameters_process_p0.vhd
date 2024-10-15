@@ -837,9 +837,12 @@ when s22 => state := s23; 	--22
 	o_write_enable <= '1';
 	o_addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vOffset_ft
 	o_dia <= vOffset_ft;
+  --synthesis translate_off
+          
 --    report_error ("================vOffset_ft voffset_ft + vOffsetAverage,param i="&integer'image(i)&",i+off="&integer'image(i+C_ROW+C_COL),vOffset_ft,0.0);
     report_error ("================vOffset_ft voffset_ft "&integer'image(i),vOffset_ft,0.0);
-	i := i + 1;
+--synthesis translate_on
+          	i := i + 1;
 when s23 =>
 	if (col = C_COL-1) then
 		col := 0;

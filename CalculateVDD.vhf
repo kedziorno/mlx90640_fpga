@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : CalculateVDD.vhf
--- /___/   /\     Timestamp : 09/22/2024 19:44:35
+-- /___/   /\     Timestamp : 10/15/2024 22:04:25
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -1412,27 +1412,27 @@ architecture BEHAVIORAL of CalculateVDD is
              o_vdd25       : out   std_logic_vector (31 downto 0));
    end component;
    
-   attribute HU_SET of MUX_i2c_ena : label is "MUX_i2c_ena_1325";
-   attribute HU_SET of XLXI_14_0 : label is "XLXI_14_0_1312";
-   attribute HU_SET of XLXI_14_1 : label is "XLXI_14_1_1311";
-   attribute HU_SET of XLXI_14_2 : label is "XLXI_14_2_1310";
-   attribute HU_SET of XLXI_14_3 : label is "XLXI_14_3_1309";
-   attribute HU_SET of XLXI_14_4 : label is "XLXI_14_4_1308";
-   attribute HU_SET of XLXI_14_5 : label is "XLXI_14_5_1307";
-   attribute HU_SET of XLXI_14_6 : label is "XLXI_14_6_1306";
-   attribute HU_SET of XLXI_14_7 : label is "XLXI_14_7_1305";
-   attribute HU_SET of XLXI_16_0 : label is "XLXI_16_0_1324";
-   attribute HU_SET of XLXI_16_1 : label is "XLXI_16_1_1323";
-   attribute HU_SET of XLXI_16_2 : label is "XLXI_16_2_1322";
-   attribute HU_SET of XLXI_16_3 : label is "XLXI_16_3_1321";
-   attribute HU_SET of XLXI_16_4 : label is "XLXI_16_4_1320";
-   attribute HU_SET of XLXI_16_5 : label is "XLXI_16_5_1319";
-   attribute HU_SET of XLXI_16_6 : label is "XLXI_16_6_1318";
-   attribute HU_SET of XLXI_16_7 : label is "XLXI_16_7_1317";
-   attribute HU_SET of XLXI_16_8 : label is "XLXI_16_8_1316";
-   attribute HU_SET of XLXI_16_9 : label is "XLXI_16_9_1315";
-   attribute HU_SET of XLXI_16_10 : label is "XLXI_16_10_1314";
-   attribute HU_SET of XLXI_16_11 : label is "XLXI_16_11_1313";
+   attribute HU_SET of MUX_i2c_ena : label is "MUX_i2c_ena_2490";
+   attribute HU_SET of XLXI_14_0 : label is "XLXI_14_0_2477";
+   attribute HU_SET of XLXI_14_1 : label is "XLXI_14_1_2476";
+   attribute HU_SET of XLXI_14_2 : label is "XLXI_14_2_2475";
+   attribute HU_SET of XLXI_14_3 : label is "XLXI_14_3_2474";
+   attribute HU_SET of XLXI_14_4 : label is "XLXI_14_4_2473";
+   attribute HU_SET of XLXI_14_5 : label is "XLXI_14_5_2472";
+   attribute HU_SET of XLXI_14_6 : label is "XLXI_14_6_2471";
+   attribute HU_SET of XLXI_14_7 : label is "XLXI_14_7_2470";
+   attribute HU_SET of XLXI_16_0 : label is "XLXI_16_0_2489";
+   attribute HU_SET of XLXI_16_1 : label is "XLXI_16_1_2488";
+   attribute HU_SET of XLXI_16_2 : label is "XLXI_16_2_2487";
+   attribute HU_SET of XLXI_16_3 : label is "XLXI_16_3_2486";
+   attribute HU_SET of XLXI_16_4 : label is "XLXI_16_4_2485";
+   attribute HU_SET of XLXI_16_5 : label is "XLXI_16_5_2484";
+   attribute HU_SET of XLXI_16_6 : label is "XLXI_16_6_2483";
+   attribute HU_SET of XLXI_16_7 : label is "XLXI_16_7_2482";
+   attribute HU_SET of XLXI_16_8 : label is "XLXI_16_8_2481";
+   attribute HU_SET of XLXI_16_9 : label is "XLXI_16_9_2480";
+   attribute HU_SET of XLXI_16_10 : label is "XLXI_16_10_2479";
+   attribute HU_SET of XLXI_16_11 : label is "XLXI_16_11_2478";
 begin
    CONST0(7 downto 0) <= x"00";
    MUX_i2c_ena : M2_1_MXILINX_CalculateVDD

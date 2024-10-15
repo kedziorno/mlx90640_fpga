@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : ExtractKtPTATParameter.vhf
--- /___/   /\     Timestamp : 09/22/2024 19:44:28
+-- /___/   /\     Timestamp : 10/15/2024 22:04:15
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -842,38 +842,38 @@ architecture BEHAVIORAL of ExtractKtPTATParameter is
          "c2788000c2790000c2798000c27a0000c27a8000c27b0000c27b8000c27c0000";
    attribute INIT_00 of ROM_KTPTAT_40to7f : label is 
          "c27c8000c27d0000c27d8000c27e0000c27e8000c27f0000c27f8000c2800000";
-   attribute HU_SET of XLXI_40_0 : label is "XLXI_40_0_52";
-   attribute HU_SET of XLXI_40_1 : label is "XLXI_40_1_51";
-   attribute HU_SET of XLXI_40_2 : label is "XLXI_40_2_50";
-   attribute HU_SET of XLXI_40_3 : label is "XLXI_40_3_49";
-   attribute HU_SET of XLXI_40_4 : label is "XLXI_40_4_48";
-   attribute HU_SET of XLXI_40_5 : label is "XLXI_40_5_47";
-   attribute HU_SET of XLXI_40_6 : label is "XLXI_40_6_46";
-   attribute HU_SET of XLXI_40_7 : label is "XLXI_40_7_45";
-   attribute HU_SET of XLXI_40_8 : label is "XLXI_40_8_44";
-   attribute HU_SET of XLXI_40_9 : label is "XLXI_40_9_43";
-   attribute HU_SET of XLXI_40_10 : label is "XLXI_40_10_42";
-   attribute HU_SET of XLXI_40_11 : label is "XLXI_40_11_41";
-   attribute HU_SET of XLXI_40_12 : label is "XLXI_40_12_40";
-   attribute HU_SET of XLXI_40_13 : label is "XLXI_40_13_39";
-   attribute HU_SET of XLXI_40_14 : label is "XLXI_40_14_38";
-   attribute HU_SET of XLXI_40_15 : label is "XLXI_40_15_37";
-   attribute HU_SET of XLXI_40_16 : label is "XLXI_40_16_36";
-   attribute HU_SET of XLXI_40_17 : label is "XLXI_40_17_35";
-   attribute HU_SET of XLXI_40_18 : label is "XLXI_40_18_34";
-   attribute HU_SET of XLXI_40_19 : label is "XLXI_40_19_33";
-   attribute HU_SET of XLXI_40_20 : label is "XLXI_40_20_32";
-   attribute HU_SET of XLXI_40_21 : label is "XLXI_40_21_31";
-   attribute HU_SET of XLXI_40_22 : label is "XLXI_40_22_30";
-   attribute HU_SET of XLXI_40_23 : label is "XLXI_40_23_29";
-   attribute HU_SET of XLXI_40_24 : label is "XLXI_40_24_28";
-   attribute HU_SET of XLXI_40_25 : label is "XLXI_40_25_27";
-   attribute HU_SET of XLXI_40_26 : label is "XLXI_40_26_26";
-   attribute HU_SET of XLXI_40_27 : label is "XLXI_40_27_25";
-   attribute HU_SET of XLXI_40_28 : label is "XLXI_40_28_24";
-   attribute HU_SET of XLXI_40_29 : label is "XLXI_40_29_23";
-   attribute HU_SET of XLXI_40_30 : label is "XLXI_40_30_22";
-   attribute HU_SET of XLXI_40_31 : label is "XLXI_40_31_21";
+   attribute HU_SET of XLXI_40_0 : label is "XLXI_40_0_725";
+   attribute HU_SET of XLXI_40_1 : label is "XLXI_40_1_724";
+   attribute HU_SET of XLXI_40_2 : label is "XLXI_40_2_723";
+   attribute HU_SET of XLXI_40_3 : label is "XLXI_40_3_722";
+   attribute HU_SET of XLXI_40_4 : label is "XLXI_40_4_721";
+   attribute HU_SET of XLXI_40_5 : label is "XLXI_40_5_720";
+   attribute HU_SET of XLXI_40_6 : label is "XLXI_40_6_719";
+   attribute HU_SET of XLXI_40_7 : label is "XLXI_40_7_718";
+   attribute HU_SET of XLXI_40_8 : label is "XLXI_40_8_717";
+   attribute HU_SET of XLXI_40_9 : label is "XLXI_40_9_716";
+   attribute HU_SET of XLXI_40_10 : label is "XLXI_40_10_715";
+   attribute HU_SET of XLXI_40_11 : label is "XLXI_40_11_714";
+   attribute HU_SET of XLXI_40_12 : label is "XLXI_40_12_713";
+   attribute HU_SET of XLXI_40_13 : label is "XLXI_40_13_712";
+   attribute HU_SET of XLXI_40_14 : label is "XLXI_40_14_711";
+   attribute HU_SET of XLXI_40_15 : label is "XLXI_40_15_710";
+   attribute HU_SET of XLXI_40_16 : label is "XLXI_40_16_709";
+   attribute HU_SET of XLXI_40_17 : label is "XLXI_40_17_708";
+   attribute HU_SET of XLXI_40_18 : label is "XLXI_40_18_707";
+   attribute HU_SET of XLXI_40_19 : label is "XLXI_40_19_706";
+   attribute HU_SET of XLXI_40_20 : label is "XLXI_40_20_705";
+   attribute HU_SET of XLXI_40_21 : label is "XLXI_40_21_704";
+   attribute HU_SET of XLXI_40_22 : label is "XLXI_40_22_703";
+   attribute HU_SET of XLXI_40_23 : label is "XLXI_40_23_702";
+   attribute HU_SET of XLXI_40_24 : label is "XLXI_40_24_701";
+   attribute HU_SET of XLXI_40_25 : label is "XLXI_40_25_700";
+   attribute HU_SET of XLXI_40_26 : label is "XLXI_40_26_699";
+   attribute HU_SET of XLXI_40_27 : label is "XLXI_40_27_698";
+   attribute HU_SET of XLXI_40_28 : label is "XLXI_40_28_697";
+   attribute HU_SET of XLXI_40_29 : label is "XLXI_40_29_696";
+   attribute HU_SET of XLXI_40_30 : label is "XLXI_40_30_695";
+   attribute HU_SET of XLXI_40_31 : label is "XLXI_40_31_694";
 begin
    BUF_MEM1_ADDRA_5 : BUF
       port map (I=>XLXN_41(0),
