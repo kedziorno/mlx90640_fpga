@@ -48,7 +48,7 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_KGain : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic;
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
@@ -68,7 +68,7 @@ end CalculateKGain;
 
 architecture Behavioral of CalculateKGain is
 
-signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata_internal : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond_internal : STD_LOGIC;
 signal fixed2floatsclr_internal : STD_LOGIC;
 signal fixed2floatce_internal : STD_LOGIC;
@@ -145,16 +145,7 @@ begin
           fixed2floatce_internal <= '1';
           fixed2floatond_internal <= '1';
           fixed2floata_internal <=
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram & i2c_mem_douta & "00000000000000000000000000000";
+          ram & i2c_mem_douta;
           if (fixed2floatrdy_internal = '1') then state := s10;
             fixed2floatce_internal <= '0';
             fixed2floatond_internal <= '0';
@@ -184,16 +175,7 @@ begin
           fixed2floatce_internal <= '1';
           fixed2floatond_internal <= '1';
           fixed2floata_internal <=
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram & i2c_mem_douta & "00000000000000000000000000000";
+          ram & i2c_mem_douta;
           if (fixed2floatrdy_internal = '1') then state := s14;
             fixed2floatce_internal <= '0';
             fixed2floatond_internal <= '0';

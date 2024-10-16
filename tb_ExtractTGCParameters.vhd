@@ -61,7 +61,7 @@ i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_tgc : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic;
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -89,7 +89,7 @@ signal ExtractTGCParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal ExtractTGCParameters_tgc : std_logic_vector (31 downto 0);
 signal ExtractTGCParameters_rdy : std_logic;
 
-signal ExtractTGCParameters_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal ExtractTGCParameters_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal ExtractTGCParameters_fixed2floatond : STD_LOGIC;
 signal ExtractTGCParameters_fixed2floatsclr : STD_LOGIC;
 signal ExtractTGCParameters_fixed2floatce : STD_LOGIC;
@@ -106,7 +106,7 @@ signal ExtractTGCParameters_divfprdy : STD_LOGIC;
 
 COMPONENT fixed2float
 PORT (
-a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+a : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;

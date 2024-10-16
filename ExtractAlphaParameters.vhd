@@ -60,7 +60,7 @@ signal o_2powx_4bit_ena : out std_logic;
 signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
@@ -272,7 +272,7 @@ signal rdy : std_logic;
 constant C_COL : integer := 32;
 constant C_ROW : integer := 24;
 
-signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata_internal : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond_internal : STD_LOGIC;
 signal fixed2floatsclr_internal : STD_LOGIC;
 signal fixed2floatce_internal : STD_LOGIC;
@@ -482,16 +482,7 @@ begin
           fixed2floatce_internal <= '1';
           fixed2floatond_internal <= '1';
           fixed2floata_internal <=
-          valphaRef (7) & valphaRef (7) & 
-          valphaRef (7) & valphaRef (7) & 
-          valphaRef (7) & valphaRef (7) & 
-          valphaRef (7) & valphaRef (7) & 
-          valphaRef (7) & valphaRef (7) & 
-          valphaRef (7) & valphaRef (7) & 
-          valphaRef (7) & valphaRef (7) & 
-          valphaRef (7) & valphaRef (7) & 
-          valphaRef (7) & valphaRef (7) & 
-          valphaRef (7) & valphaRef (7 downto 0) & i2c_mem_douta & "00000000000000000000000000000"; -- alpharef MSB
+          valphaRef (7 downto 0) & i2c_mem_douta; -- alpharef MSB
           i2c_mem_addra <= std_logic_vector (to_unsigned (32*2+1, 12)); -- 2420 LSB
           o_signed6bit_ena <= '0';
           if (fixed2floatrdy_internal = '1') then state := s8;

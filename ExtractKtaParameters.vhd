@@ -81,7 +81,7 @@ signal divfpce : out STD_LOGIC;
 signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy : in STD_LOGIC;
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -117,7 +117,7 @@ signal divfpce_internal : STD_LOGIC;
 signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy_internal : STD_LOGIC;
 
-signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata_internal : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond_internal : STD_LOGIC;
 signal fixed2floatce_internal : STD_LOGIC;
 signal fixed2floatsclr_internal :STD_LOGIC;
@@ -450,16 +450,7 @@ begin
           ktarcee (7) & ktarcee (7) & 
           ktarcee (7) & ktarcee (7) & 
           ktarcee (7) & ktarcee (7) & 
-          ktarcee (7) & ktarcee (7) & 
-          ktarcee (7) & ktarcee (7) & 
-          ktarcee (7) & ktarcee (7) & 
-          ktarcee (7) & ktarcee (7) & 
-          ktarcee (7) & ktarcee (7) & 
-          ktarcee (7) & ktarcee (7) & 
-          ktarcee (7) & ktarcee (7) & 
-          ktarcee (7) & ktarcee (7) & 
-          ktarcee (7) & ktarcee (7) & 
-          ktarcee (7) & ktarcee (7 downto 0) & "00000000000000000000000000000";
+          ktarcee (7 downto 0);
           if (fixed2floatrdy_internal = '1') then state := kta11;
             fixed2floatce_internal <= '0';
             fixed2floatond_internal <= '0';

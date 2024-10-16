@@ -42,7 +42,7 @@ port (
 	i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 	i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-  signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+  signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
   signal fixed2floatond : out STD_LOGIC;
   signal fixed2floatce : out STD_LOGIC;
   signal fixed2floatsclr : out STD_LOGIC;
@@ -67,7 +67,7 @@ architecture Behavioral of ExtractTGCParameters is
 --signal odata_tgc : std_logic_vector (31 downto 0);
 --signal address_N : std_logic_vector (8 downto 0);
 
-signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata_internal : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond_internal : STD_LOGIC;
 signal fixed2floatsclr_internal : STD_LOGIC;
 signal fixed2floatce_internal : STD_LOGIC;
@@ -146,16 +146,7 @@ begin
           i2c_mem_douta (7) & i2c_mem_douta (7) & 
           i2c_mem_douta (7) & i2c_mem_douta (7) & 
           i2c_mem_douta (7) & i2c_mem_douta (7) & 
-          i2c_mem_douta (7) & i2c_mem_douta (7) & 
-          i2c_mem_douta (7) & i2c_mem_douta (7) & 
-          i2c_mem_douta (7) & i2c_mem_douta (7) & 
-          i2c_mem_douta (7) & i2c_mem_douta (7) & 
-          i2c_mem_douta (7) & i2c_mem_douta (7) & 
-          i2c_mem_douta (7) & i2c_mem_douta (7) & 
-          i2c_mem_douta (7) & i2c_mem_douta (7) & 
-          i2c_mem_douta (7) & i2c_mem_douta (7) & 
-          i2c_mem_douta (7) & i2c_mem_douta (7) & 
-          i2c_mem_douta (7) & i2c_mem_douta (7 downto 0) & "00000000000000000000000000000";
+          i2c_mem_douta (7 downto 0);
           if (fixed2floatrdy_internal = '1') then state := s3;
             fixed2floatce_internal <= '0';
             fixed2floatond_internal <= '0';

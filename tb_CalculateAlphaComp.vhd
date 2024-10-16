@@ -121,7 +121,7 @@ signal subfprdy : STD_LOGIC;
 
 COMPONENT fixed2float
 PORT (
-a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+a : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
@@ -130,7 +130,7 @@ result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
-signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : STD_LOGIC;
 signal fixed2floatce : STD_LOGIC;
 signal fixed2floatsclr : STD_LOGIC;
@@ -193,7 +193,7 @@ signal subfpce : out STD_LOGIC;
 signal subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfprdy : in STD_LOGIC;
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
@@ -244,7 +244,7 @@ signal CalculateAlphaComp_subfpsclr : STD_LOGIC;
 signal CalculateAlphaComp_subfpce : STD_LOGIC;
 signal CalculateAlphaComp_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaComp_subfprdy : STD_LOGIC;
-signal CalculateAlphaComp_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculateAlphaComp_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal CalculateAlphaComp_fixed2floatond : STD_LOGIC;
 signal CalculateAlphaComp_fixed2floatsclr : STD_LOGIC;
 signal CalculateAlphaComp_fixed2floatce : STD_LOGIC;
@@ -445,7 +445,7 @@ CalculateAlphaComp_acpsubpage1 <= x"31478C00";
 wait for i_clock_period;
 CalculateAlphaComp_run <= '1'; wait for i_clock_period; CalculateAlphaComp_run <= '0';
 report "before loop";
-  for i in 0 to 1023 loop
+  for i in 0 to 768 loop
     for k in 0 to 9 loop
       if CalculateAlphaComp_alpha_addr = std_logic_vector (to_unsigned (data.first(k).b, 10)) then
         CalculateAlphaComp_alpha_do <= data.first(k).a;
@@ -461,7 +461,7 @@ report "before loop";
         CalculateAlphaComp_alpha_do <= data.last(k).a;
       end if;
     end loop;
-    wait for 1.910us; -- XXX the same as CalculateAlphaComp wait for data from ExtractAlphaParameters MEM
+    wait for 1.900us; -- XXX the same as CalculateAlphaComp wait for data from ExtractAlphaParameters MEM
   end loop;
 report "after loop";
 --wait until CalculateAlphaComp_rdy = '1';

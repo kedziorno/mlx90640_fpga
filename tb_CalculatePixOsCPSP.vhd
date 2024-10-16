@@ -14,7 +14,7 @@ ARCHITECTURE behavior OF tb_CalculatePixOsCPSP IS
 
 COMPONENT fixed2float
 PORT (
-a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+a : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
@@ -115,7 +115,7 @@ signal o_2powx_4bit_ena : out std_logic;
 signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
 signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
@@ -176,7 +176,7 @@ signal CalculatePixOsCPSP_2powx_4bit_ena : std_logic;
 signal CalculatePixOsCPSP_2powx_4bit_adr : std_logic_vector (3 downto 0);
 signal CalculatePixOsCPSP_rom_constants_float : std_logic_vector (31 downto 0);
 
-signal CalculatePixOsCPSP_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculatePixOsCPSP_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal CalculatePixOsCPSP_fixed2floatond : STD_LOGIC;
 signal CalculatePixOsCPSP_fixed2floatsclr : STD_LOGIC;
 signal CalculatePixOsCPSP_fixed2floatce : STD_LOGIC;

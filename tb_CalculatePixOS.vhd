@@ -15,7 +15,7 @@ ARCHITECTURE behavior OF tb_CalculatePixOS IS
 
 COMPONENT fixed2float
 PORT (
-a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+a : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
@@ -77,7 +77,7 @@ rdy : OUT STD_LOGIC
 );
 END COMPONENT;
 
-signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : STD_LOGIC;
 signal fixed2floatce : STD_LOGIC;
 signal fixed2floatsclr : STD_LOGIC;
@@ -160,7 +160,7 @@ o_signed3bit_ena : out std_logic;
 o_signed3bit_adr : out std_logic_vector (2 downto 0);
 i_rom_constants_float : in std_logic_vector (31 downto 0);
 
-fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
 fixed2floatsclr : out STD_LOGIC;
@@ -227,7 +227,7 @@ signal CalculatePixOS_2powx_p8_4bit_adr : std_logic_vector (3 downto 0) := (othe
 signal CalculatePixOS_signed3bit_ena : std_logic := '0';
 signal CalculatePixOS_signed3bit_adr : std_logic_vector (2 downto 0) := (others => '0');
 signal CalculatePixOS_rom_constants_float : std_logic_vector (31 downto 0) := (others => '0');
-signal CalculatePixOS_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculatePixOS_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal CalculatePixOS_fixed2floatond : STD_LOGIC;
 signal CalculatePixOS_fixed2floatce : STD_LOGIC;
 signal CalculatePixOS_fixed2floatsclr : STD_LOGIC;

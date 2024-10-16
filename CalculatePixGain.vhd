@@ -50,7 +50,7 @@ i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
 
-fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
 fixed2floatsclr : out STD_LOGIC;
@@ -243,7 +243,7 @@ signal i2c_mem_ena_internal : STD_LOGIC;
 signal i2c_mem_addra_internal : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal i2c_mem_douta_internal : STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata_internal : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond_internal : STD_LOGIC;
 signal fixed2floatce_internal : STD_LOGIC;
 signal fixed2floatsclr_internal : STD_LOGIC;
@@ -334,16 +334,7 @@ begin
           fixed2floatce_internal <= '1';
           fixed2floatond_internal <= '1';
           fixed2floata_internal <=
-          eeprom16slv (7) & eeprom16slv (7) & 
-          eeprom16slv (7) & eeprom16slv (7) & 
-          eeprom16slv (7) & eeprom16slv (7) & 
-          eeprom16slv (7) & eeprom16slv (7) & 
-          eeprom16slv (7) & eeprom16slv (7) & 
-          eeprom16slv (7) & eeprom16slv (7) & 
-          eeprom16slv (7) & eeprom16slv (7) & 
-          eeprom16slv (7) & eeprom16slv (7) & 
-          eeprom16slv (7) & eeprom16slv (7) & 
-          eeprom16slv (7) & eeprom16slv & i2c_mem_douta_internal & "00000000000000000000000000000";
+          eeprom16slv & i2c_mem_douta_internal;
 					if (fixed2floatrdy_internal = '1') then state := s6;
 						fixed2floatce_internal <= '0';
 						fixed2floatond_internal <= '0';

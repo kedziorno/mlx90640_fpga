@@ -56,7 +56,7 @@ o_alphaptat_adr : out std_logic_vector (3 downto 0);
 
 i_rom_constants_float : in std_logic_vector (31 downto 0);
 
-fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
 fixed2floatsclr : out STD_LOGIC;
@@ -189,16 +189,7 @@ begin
           fixed2floatce <= '1';
           fixed2floatond <= '1';
           fixed2floata <=
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram & i2c_mem_douta & "00000000000000000000000000000";
+          ram & i2c_mem_douta;
           if (fixed2floatrdy = '1') then state := s9;
             fixed2floatce <= '0';
             fixed2floatond <= '0';
@@ -235,16 +226,7 @@ begin
           fixed2floatce <= '1';
           fixed2floatond <= '1';
           fixed2floata <=
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram & i2c_mem_douta & "00000000000000000000000000000";
+          ram & i2c_mem_douta;
           if (fixed2floatrdy = '1') then state := s14;
             fixed2floatce <= '0';
             fixed2floatond <= '0';
@@ -273,16 +255,7 @@ begin
           fixed2floatce <= '1';
           fixed2floatond <= '1';
           fixed2floata <=
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram & i2c_mem_douta & "00000000000000000000000000000";
+          ram & i2c_mem_douta;
           if (fixed2floatrdy = '1') then state := s16;
             fixed2floatce <= '0';
             fixed2floatond <= '0';
@@ -376,16 +349,7 @@ begin
           fixed2floatce <= '1';
           fixed2floatond <= '1';
           fixed2floata <=
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram (7) & 
-          ram (7) & ram & i2c_mem_douta & "00000000000000000000000000000";
+          ram & i2c_mem_douta;
           if (fixed2floatrdy = '1') then state := s26;
             fixed2floatce <= '0';
             fixed2floatond <= '0';
@@ -420,16 +384,7 @@ begin
           tmp (1) & tmp (1) & 
           tmp (1) & tmp (1) & 
           tmp (1) & tmp (1) & 
-          tmp (1) & tmp (1) & 
-          tmp (1) & tmp (1) & 
-          tmp (1) & tmp (1) & 
-          tmp (1) & tmp (1) & 
-          tmp (1) & tmp (1) & 
-          tmp (1) & tmp (1) & 
-          tmp (1) & tmp (1) & 
-          tmp (1) & tmp (1) & 
-          tmp (1) & tmp (1) & 
-          tmp (1) & tmp (1 downto 0) & i2c_mem_douta & "00000000000000000000000000000";
+          tmp (1 downto 0) & i2c_mem_douta;
           if (fixed2floatrdy = '1') then state := s26b;
             fixed2floatce <= '0';
             fixed2floatond <= '0';

@@ -97,7 +97,7 @@ signal sqrtfp2ce : out STD_LOGIC;
 signal sqrtfp2r : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal sqrtfp2rdy : in STD_LOGIC;
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
@@ -148,7 +148,7 @@ signal sqrtfp2ce_internal : STD_LOGIC;
 signal sqrtfp2r_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal sqrtfp2rdy_internal : STD_LOGIC;
 
-signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata_internal : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond_internal : STD_LOGIC;
 signal fixed2floatce_internal : STD_LOGIC;
 signal fixed2floatsclr_internal :STD_LOGIC;
@@ -763,16 +763,7 @@ begin
           i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
           i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
           i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7) & 
-          i2c_mem_douta_internal (7) & i2c_mem_douta_internal (7 downto 0) & "00000000000000000000000000000";
+          i2c_mem_douta_internal (7 downto 0);
           if (fixed2floatrdy_internal = '1') then state := s51;
             fixed2floatce_internal <= '0';
             fixed2floatond_internal <= '0';
