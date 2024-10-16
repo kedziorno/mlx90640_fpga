@@ -683,7 +683,7 @@ ADDR => mux_addr,
 CLK => i_clock,
 DI => mux_dia,
 DIP => (others => '0'),
-EN => i_clock,
+EN => '1',
 SSR => i_reset,
 WE => write_enable
 );

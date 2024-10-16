@@ -164,7 +164,7 @@ ADDR => address,
 CLK => i_clock,
 DI => (others => '0'),
 DIP => (others => '0'),
-EN => i_clock,
+EN => '1',
 SSR => i_reset,
 WE => '0'
 );

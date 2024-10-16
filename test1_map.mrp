@@ -3,29 +3,30 @@ Xilinx Mapping Report File for Design 'test1'
 
 Design Information
 ------------------
-Command Line   : map -intstyle ise -p xc4vsx35-ff668-10 -global_opt off -cm area
--detail -ir off -pr off -c 100 -o test1_map.ncd test1.ngd test1.pcf 
+Command Line   : map -intstyle ise -p xc4vsx35-ff668-10 -timing -logic_opt off
+-ol std -t 1 -register_duplication off -global_opt off -cm area -detail -ir off
+-pr off -power off -o test1_map.ncd test1.ngd test1.pcf 
 Target Device  : xc4vsx35
 Target Package : ff668
 Target Speed   : -10
 Mapper Version : virtex4 -- $Revision: 1.55 $
-Mapped Date    : Wed Oct 16 14:28:50 2024
+Mapped Date    : Wed Oct 16 22:51:26 2024
 
 Design Summary
 --------------
 Number of errors:      0
-Number of warnings:    1
+Number of warnings:    4
 Logic Utilization:
   Number of Slice Flip Flops:         9,395 out of  30,720   30%
-  Number of 4 input LUTs:            15,072 out of  30,720   49%
+  Number of 4 input LUTs:            15,067 out of  30,720   49%
 Logic Distribution:
-  Number of occupied Slices:         10,012 out of  15,360   65%
-    Number of Slices containing only related logic:  10,012 out of  10,012 100%
-    Number of Slices containing unrelated logic:          0 out of  10,012   0%
+  Number of occupied Slices:         10,272 out of  15,360   66%
+    Number of Slices containing only related logic:  10,272 out of  10,272 100%
+    Number of Slices containing unrelated logic:          0 out of  10,272   0%
       *See NOTES below for an explanation of the effects of unrelated logic.
-  Total Number of 4 input LUTs:      15,263 out of  30,720   49%
-    Number used as logic:            14,824
-    Number used as a route-thru:        191
+  Total Number of 4 input LUTs:      15,255 out of  30,720   49%
+    Number used as logic:            14,819
+    Number used as a route-thru:        188
     Number used as Shift registers:     248
 
   The Slice Logic Distribution report is not meaningful if the design is
@@ -36,29 +37,11 @@ Logic Distribution:
   Number of FIFO16/RAMB16s:              23 out of     192   11%
     Number used as RAMB16s:              23
 
-Average Fanout of Non-Clock Nets:                3.48
+Average Fanout of Non-Clock Nets:                3.49
 
-Peak Memory Usage:  809 MB
-Total REAL time to MAP completion:  22 secs 
-Total CPU time to MAP completion:   21 secs 
-
-NOTES:
-
-   Related logic is defined as being logic that shares connectivity - e.g. two
-   LUTs are "related" if they share common inputs.  When assembling slices,
-   Map gives priority to combine logic that is related.  Doing so results in
-   the best timing performance.
-
-   Unrelated logic shares no connectivity.  Map will only begin packing
-   unrelated logic into a slice once 99% of the slices are occupied through
-   related logic packing.
-
-   Note that once logic distribution reaches the 99% level through related
-   logic packing, this does not mean the device is completely utilized.
-   Unrelated logic packing will then begin, continuing until all usable LUTs
-   and FFs are occupied.  Depending on your timing budget, increased levels of
-   unrelated logic packing may adversely affect the overall timing performance
-   of your design.
+Peak Memory Usage:  1081 MB
+Total REAL time to MAP completion:  2 mins 50 secs 
+Total CPU time to MAP completion:   2 mins 43 secs 
 
 Table of Contents
 -----------------
@@ -84,6 +67,24 @@ Section 2 - Warnings
 WARNING:Pack:266 - The function generator inst_float2fixed/blk00000302 failed to
    merge with F5 multiplexer inst_float2fixed/blk000003fd.  There is more than
    one F5MUX.  The design will exhibit suboptimal timing.
+WARNING:Place:837 - Partially locked IO Bus is found. 
+    Following components of the bus are not locked: 
+   	 Comp: vga_b<2>
+   	 Comp: vga_b<1>
+   	 Comp: vga_b<0>
+
+WARNING:Place:837 - Partially locked IO Bus is found. 
+    Following components of the bus are not locked: 
+   	 Comp: vga_g<2>
+   	 Comp: vga_g<1>
+   	 Comp: vga_g<0>
+
+WARNING:Place:837 - Partially locked IO Bus is found. 
+    Following components of the bus are not locked: 
+   	 Comp: vga_r<2>
+   	 Comp: vga_r<1>
+   	 Comp: vga_r<0>
+
 
 Section 3 - Informational
 -------------------------
@@ -238,8 +239,6 @@ INFO:LIT:243 - Logical network dualmem_inst/doutb<4> has no load.
 INFO:LIT:243 - Logical network dualmem_inst/doutb<3> has no load.
 INFO:LIT:243 - Logical network dualmem_inst/doutb<2> has no load.
 INFO:MapLib:562 - No environment variables are currently set.
-INFO:MapLib:159 - Net Timing constraints on signal i_clock are pushed forward
-   through input buffer.
 INFO:MapLib:797 - Your design is targeting LX/SX Production Step 0/1/ES devices.
    Please note that there are new specifications for the DCMs to guarantee
    maximum frequency performance. If the DCM input clock might stop or if the
@@ -248,13 +247,21 @@ INFO:MapLib:797 - Your design is targeting LX/SX Production Step 0/1/ES devices.
 INFO:LIT:244 - All of the single ended outputs in this design are using slew
    rate limited output drivers. The delay on speed critical single ended outputs
    can be dramatically reduced by designating them as fast outputs.
+INFO:Pack:1716 - Initializing temperature to 85.000 Celsius. (default - Range:
+   0.000 to 85.000 Celsius)
+INFO:Pack:1720 - Initializing voltage to 1.140 Volts. (default - Range: 1.140 to
+   1.260 Volts)
+INFO:Place:834 - Only a subset of IOs are locked. Out of 32 IOs, 20 are locked
+   and 12 are not locked. If you would like to print the names of these IOs,
+   please set the environment variable XIL_PAR_DESIGN_CHECK_VERBOSE to 1. 
+INFO:Pack:1650 - Map created a placed design.
 
 Section 4 - Removed Logic Summary
 ---------------------------------
  339 block(s) removed
   62 block(s) optimized away
  272 signal(s) removed
- 866 Block(s) redundant
+ 865 Block(s) redundant
 
 Section 5 - Removed Logic
 -------------------------
@@ -1327,8 +1334,6 @@ LOCALBUF 		tfm_inst/mulfpa<4>63/LUT2_L_BUF
 LOCALBUF 		tfm_inst/mulfpb<9>63/LUT2_L_BUF
 LOCALBUF 		tfm_inst/mulfpa<9>63/LUT2_L_BUF
 LOCALBUF 		tfm_inst/mulfpa<30>63/LUT2_L_BUF
-LOCALBUF 		tfm_inst/addfpa<16>27/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<23>27/LUT4_L_BUF
 LOCALBUF 		tfm_inst/mulfpb<0>63/LUT2_L_BUF
 LOCALBUF 		tfm_inst/mulfpa<0>63/LUT2_L_BUF
 LOCALBUF 		tfm_inst/mulfpb<5>63/LUT2_L_BUF
@@ -1336,7 +1341,8 @@ LOCALBUF 		tfm_inst/mulfpa<5>63/LUT2_L_BUF
 LOCALBUF 		tfm_inst/addfpa<1>27/LUT4_L_BUF
 LOCALBUF 		tfm_inst/mulfpa<29>63/LUT2_L_BUF
 LOCALBUF 		tfm_inst/mulfpb<30>63/LUT2_L_BUF
-LOCALBUF 		tfm_inst/inst_CalculateTo/sqrtfp2a_internal_mux0000<0>1111/LUT4_D_BUF
+LOCALBUF
+		tfm_inst/inst_CalculateTo/sqrtfp2a_internal_mux0000<0>11127/LUT4_D_BUF
 LOCALBUF 		tfm_inst/mulfpb<1>63/LUT2_L_BUF
 LOCALBUF 		tfm_inst/mulfpa<1>63/LUT2_L_BUF
 LOCALBUF 		tfm_inst/addfpa<0>27/LUT4_L_BUF
@@ -1463,8 +1469,7 @@ LOCALBUF 		tfm_inst/inst_rom_constants/address<1>46/LUT4_D_BUF
 LOCALBUF 		tfm_inst/inst_rom_constants/address<1>107/LUT4_L_BUF
 LOCALBUF 		tfm_inst/inst_rom_constants/address<0>46/LUT4_D_BUF
 LOCALBUF 		tfm_inst/inst_rom_constants/address<0>107/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculateTo/subfpsclr_internal_mux00001315_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/inst_CalculateTo/subfpsclr_internal_mux00001315/LUT4_D_BUF
 LOCALBUF 		tfm_inst/fixed2floata<15>27/LUT3_L_BUF
 LOCALBUF 		tfm_inst/fixed2floata<0>27/LUT3_L_BUF
 LOCALBUF 		tfm_inst/fixed2floata<1>27/LUT3_L_BUF
@@ -1473,6 +1478,7 @@ LOCALBUF
 		tfm_inst/inst_CalculatePixOsCPSP/subfpa_internal_mux0000<0>11/LUT4_D_BUF
 LOCALBUF 		tfm_inst/inst_CalculatePixOS/i2c_mem_addra<0>11/LUT3_D_BUF
 LOCALBUF 		tfm_inst/fixed2floata<0>111/LUT4_D_BUF
+LOCALBUF 		tfm_inst/inst_rom_constants/address<3>220/LUT4_L_BUF
 LOCALBUF 		tfm_inst/inst_rom_constants/address<2>242/LUT4_L_BUF
 LOCALBUF 		tfm_inst/inst_rom_constants/address<1>242/LUT4_L_BUF
 LOCALBUF 		tfm_inst/inst_rom_constants/address<0>242/LUT4_L_BUF
@@ -1526,7 +1532,6 @@ LOCALBUF 		tfm_inst/fixed2floata<5>48_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<14>18_SW0/LUT3_L_BUF
 LOCALBUF 		tfm_inst/fixed2floata<5>24_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/rom_constants_2powx_4bit_en41/LUT4_D_BUF
-LOCALBUF 		tfm_inst/inst_rom_constants/address<3>171/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<23>70_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpce87/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpb<16>60/LUT4_L_BUF
@@ -1664,6 +1669,8 @@ LOCALBUF 		tfm_inst/subfpb<21>44_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/subfpb<4>44_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/subfpb<5>44_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/subfpb<6>44_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<23>47_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<16>47_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<2>47_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<24>47_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<17>47_SW0/LUT4_L_BUF
@@ -1820,7 +1827,6 @@ LUT1
 _rt
 LUT1 		tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/Mcount_i_xor<9>_rt
 LUT1 		tfm_inst/inst_CalculatePixOS/inst_ExtractKvParameters/Mcount_i_xor<9>_rt
-INV 		tfm_inst/inst_ExtractAlphaParameters/inst_mem_acc/EN_i1_INV_0
 INV 		vgaclk25_not00011_INV_0
 INV
 		tfm_inst/inst_CalculatePixOS/inst_ExtractOffsetParameters/Mcount_row_xor<0>11_
@@ -2021,7 +2027,15 @@ Area Group Information
 
 Section 10 - Timing Report
 --------------------------
-This design was not run using timing mode.
+A logic-level (pre-route) timing report can be generated by using Xilinx static
+timing analysis tools, Timing Analyzer (GUI) or TRCE (command line), with the
+mapped NCD and PCF files. Please note that this timing report will be generated
+using estimated delay information. For accurate numbers, please generate a
+timing report with the post Place and Route NCD file.
+
+For more information about the Timing Analyzer, consult the Xilinx Timing
+Analyzer Reference Manual; for more information about TRCE, consult the Xilinx
+Command Line Tools User Guide "TRACE" chapter.
 
 Section 11 - Configuration String Details
 -----------------------------------------
@@ -4697,9 +4711,9 @@ Section 13 - Utilization by Hierarchy
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Module                            | Partition | Slices        | Slice Reg     | LUTs          | LUTRAM        | BRAM/FIFO | DSP48   | BUFG  | BUFIO | BUFR  | DCM_ADV   | Full Hierarchical Name                                                                                                |
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| test1/                            |           | 113/11553     | 132/9395      | 80/15109      | 0/248         | 0/23      | 0/0     | 2/2   | 0/0   | 0/0   | 0/0       | test1                                                                                                                 |
-| +ag_inst                          |           | 78/78         | 70/70         | 125/125       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/ag_inst                                                                                                         |
-| +b0.inst_fixed2float              |           | 102/102       | 139/139       | 154/154       | 4/4           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/b0.inst_fixed2float                                                                                             |
+| test1/                            |           | 125/13455     | 132/9395      | 80/15106      | 0/248         | 0/23      | 0/0     | 2/2   | 0/0   | 0/0   | 0/0       | test1                                                                                                                 |
+| +ag_inst                          |           | 81/81         | 70/70         | 125/125       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/ag_inst                                                                                                         |
+| +b0.inst_fixed2float              |           | 120/120       | 139/139       | 154/154       | 4/4           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/b0.inst_fixed2float                                                                                             |
 | +dualmem_inst                     |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/dualmem_inst                                                                                                    |
 | ++U0                              |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/dualmem_inst/U0                                                                                                 |
 | +++xst_blk_mem_generator          |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/dualmem_inst/U0/xst_blk_mem_generator                                                                           |
@@ -4709,12 +4723,12 @@ Section 13 - Utilization by Hierarchy
 | +++++++v4_noinit.ram              |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram   |
 | ++++++ramloop[1].ram.r            |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r                 |
 | +++++++v4_noinit.ram              |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram   |
-| +inst_addfp                       |           | 492/492       | 589/589       | 612/612       | 45/45         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_addfp                                                                                                      |
-| +inst_divfp                       |           | 879/879       | 1356/1356     | 819/819       | 59/59         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_divfp                                                                                                      |
-| +inst_float2fixed                 |           | 276/276       | 312/312       | 475/475       | 7/7           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_float2fixed                                                                                                |
-| +inst_mulfp                       |           | 435/435       | 696/696       | 644/644       | 43/43         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_mulfp                                                                                                      |
-| +inst_sqrtfp2                     |           | 539/539       | 819/819       | 528/528       | 45/45         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_sqrtfp2                                                                                                    |
-| +inst_subfp                       |           | 489/489       | 589/589       | 612/612       | 45/45         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_subfp                                                                                                      |
+| +inst_addfp                       |           | 539/539       | 589/589       | 612/612       | 45/45         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_addfp                                                                                                      |
+| +inst_divfp                       |           | 840/840       | 1356/1356     | 819/819       | 59/59         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_divfp                                                                                                      |
+| +inst_float2fixed                 |           | 287/287       | 312/312       | 475/475       | 7/7           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_float2fixed                                                                                                |
+| +inst_mulfp                       |           | 467/467       | 696/696       | 644/644       | 43/43         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_mulfp                                                                                                      |
+| +inst_sqrtfp2                     |           | 569/569       | 819/819       | 525/525       | 45/45         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_sqrtfp2                                                                                                    |
+| +inst_subfp                       |           | 529/529       | 589/589       | 612/612       | 45/45         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_subfp                                                                                                      |
 | +inst_tb_i2c_mem                  |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_tb_i2c_mem                                                                                                 |
 | ++U0                              |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_tb_i2c_mem/U0                                                                                              |
 | +++xst_blk_mem_generator          |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_tb_i2c_mem/U0/xst_blk_mem_generator                                                                        |
@@ -4724,36 +4738,36 @@ Section 13 - Utilization by Hierarchy
 | +++++++v4_init.ram                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_init.ram  |
 | ++++++ramloop[1].ram.r            |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r              |
 | +++++++v4_init.ram                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_init.ram  |
-| +tfm_inst                         |           | 2566/8103     | 58/4670       | 3893/10983    | 0/0           | 0/19      | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst                                                                                                        |
-| ++inst_CalculateAlphaCP           |           | 138/138       | 238/238       | 33/33         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaCP                                                                                  |
-| ++inst_CalculateAlphaComp         |           | 459/463       | 304/306       | 597/599       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaComp                                                                                |
+| +tfm_inst                         |           | 2799/9848     | 58/4670       | 3893/10983    | 0/0           | 0/19      | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst                                                                                                        |
+| ++inst_CalculateAlphaCP           |           | 230/230       | 238/238       | 33/33         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaCP                                                                                  |
+| ++inst_CalculateAlphaComp         |           | 535/539       | 304/306       | 597/599       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaComp                                                                                |
 | +++inst_mem_alphacomp             |           | 3/3           | 2/2           | 1/1           | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaComp/inst_mem_alphacomp                                                             |
 | +++inst_mem_switchpattern         |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaComp/inst_mem_switchpattern                                                         |
-| ++inst_CalculateKGain             |           | 118/118       | 143/143       | 155/155       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateKGain                                                                                    |
-| ++inst_CalculatePixOS             |           | 682/1654      | 300/1406      | 1026/2000     | 0/0           | 0/10      | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS                                                                                    |
-| +++inst_CalculatePixGain          |           | 152/155       | 166/168       | 110/111       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain                                                              |
+| ++inst_CalculateKGain             |           | 163/163       | 143/143       | 155/155       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateKGain                                                                                    |
+| ++inst_CalculatePixOS             |           | 860/2179      | 300/1406      | 1026/2000     | 0/0           | 0/10      | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS                                                                                    |
+| +++inst_CalculatePixGain          |           | 198/201       | 166/168       | 110/111       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain                                                              |
 | ++++inst_mem_KGain                |           | 3/3           | 2/2           | 1/1           | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain/inst_mem_KGain                                               |
-| +++inst_ExtractKtaParameters      |           | 271/274       | 413/415       | 156/157       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters                                                          |
+| +++inst_ExtractKtaParameters      |           | 432/435       | 413/415       | 156/157       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters                                                          |
 | ++++inst_mem_kta                  |           | 3/3           | 2/2           | 1/1           | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/inst_mem_kta                                             |
-| +++inst_ExtractKvParameters       |           | 162/165       | 204/206       | 104/105       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_ExtractKvParameters                                                           |
+| +++inst_ExtractKvParameters       |           | 208/211       | 204/206       | 104/105       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_ExtractKvParameters                                                           |
 | ++++inst_mem_kv                   |           | 3/3           | 2/2           | 1/1           | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_ExtractKvParameters/inst_mem_kv                                               |
-| +++inst_ExtractOffsetParameters   |           | 356/375       | 313/315       | 567/600       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_ExtractOffsetParameters                                                       |
-| ++++inst_mem_occ                  |           | 19/19         | 2/2           | 33/33         | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_ExtractOffsetParameters/inst_mem_occ                                          |
+| +++inst_ExtractOffsetParameters   |           | 438/469       | 313/315       | 567/600       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_ExtractOffsetParameters                                                       |
+| ++++inst_mem_occ                  |           | 31/31         | 2/2           | 33/33         | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_ExtractOffsetParameters/inst_mem_occ                                          |
 | +++inst_mem_pixos                 |           | 3/3           | 2/2           | 1/1           | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_mem_pixos                                                                     |
-| ++inst_CalculatePixOsCPSP         |           | 623/623       | 566/566       | 861/861       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP                                                                                |
-| ++inst_CalculateTa                |           | 461/461       | 366/366       | 632/632       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateTa                                                                                       |
-| ++inst_CalculateTo                |           | 775/778       | 456/458       | 1111/1112     | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateTo                                                                                       |
+| ++inst_CalculatePixOsCPSP         |           | 810/810       | 566/566       | 861/861       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP                                                                                |
+| ++inst_CalculateTa                |           | 535/535       | 366/366       | 632/632       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateTa                                                                                       |
+| ++inst_CalculateTo                |           | 874/877       | 456/458       | 1111/1112     | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateTo                                                                                       |
 | +++inst_mem_To                    |           | 3/3           | 2/2           | 1/1           | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateTo/inst_mem_To                                                                           |
-| ++inst_CalculateVdd               |           | 342/342       | 337/337       | 549/549       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVdd                                                                                      |
-| ++inst_CalculateVirCompensated    |           | 321/325       | 307/309       | 324/326       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVirCompensated                                                                           |
+| ++inst_CalculateVdd               |           | 478/478       | 337/337       | 549/549       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVdd                                                                                      |
+| ++inst_CalculateVirCompensated    |           | 427/431       | 307/309       | 324/326       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVirCompensated                                                                           |
 | +++inst_mem_switchpattern         |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVirCompensated/inst_mem_switchpattern                                                    |
 | +++inst_mem_vir_compensated       |           | 3/3           | 2/2           | 1/1           | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVirCompensated/inst_mem_vir_compensated                                                  |
-| ++inst_ExtractAlphaParameters     |           | 480/515       | 399/401       | 664/697       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters                                                                            |
+| ++inst_ExtractAlphaParameters     |           | 610/645       | 399/401       | 664/697       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters                                                                            |
 | +++inst_mem_acc                   |           | 35/35         | 2/2           | 33/33         | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters/inst_mem_acc                                                               |
-| ++inst_ExtractTGCParameters       |           | 48/48         | 82/82         | 10/10         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractTGCParameters                                                                              |
-| ++inst_rom_constants              |           | 72/72         | 0/0           | 116/116       | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_rom_constants                                                                                     |
-| +vig_inst                         |           | 5/5           | 0/0           | 8/8           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/vig_inst                                                                                                        |
-| +vts_inst                         |           | 42/42         | 23/23         | 69/69         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/vts_inst                                                                                                        |
+| ++inst_ExtractTGCParameters       |           | 81/81         | 82/82         | 10/10         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractTGCParameters                                                                              |
+| ++inst_rom_constants              |           | 81/81         | 0/0           | 116/116       | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_rom_constants                                                                                     |
+| +vig_inst                         |           | 7/7           | 0/0           | 8/8           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/vig_inst                                                                                                        |
+| +vts_inst                         |           | 43/43         | 23/23         | 69/69         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/vts_inst                                                                                                        |
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 * Slices can be packed with basic elements from multiple hierarchies.
