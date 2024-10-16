@@ -190,13 +190,13 @@ signal ExtractOffsetParameters_addfpsclr : STD_LOGIC;
 signal ExtractOffsetParameters_addfpce : STD_LOGIC;
 signal ExtractOffsetParameters_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractOffsetParameters_addfprdy : STD_LOGIC;
-signal ExtractOffsetParameters_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal ExtractOffsetParameters_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal ExtractOffsetParameters_divfpond : STD_LOGIC;
-signal ExtractOffsetParameters_divfpsclr : STD_LOGIC;
-signal ExtractOffsetParameters_divfpce : STD_LOGIC;
-signal ExtractOffsetParameters_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal ExtractOffsetParameters_divfprdy : STD_LOGIC;
+--signal ExtractOffsetParameters_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+--signal ExtractOffsetParameters_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+--signal ExtractOffsetParameters_divfpond : STD_LOGIC;
+--signal ExtractOffsetParameters_divfpsclr : STD_LOGIC;
+--signal ExtractOffsetParameters_divfpce : STD_LOGIC;
+--signal ExtractOffsetParameters_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+--signal ExtractOffsetParameters_divfprdy : STD_LOGIC;
 
 component ExtractKtaParameters is
 port (
@@ -399,8 +399,8 @@ signal CalculatePixGain_mulfpce : STD_LOGIC;
 signal CalculatePixGain_mulfpsclr : STD_LOGIC;
 signal CalculatePixGain_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixGain_mulfprdy : STD_LOGIC;
-signal CalculatePixGain_fixed2floatclk : std_logic;
-signal CalculatePixGain_mulfpclk : std_logic;
+--signal CalculatePixGain_fixed2floatclk : std_logic;
+--signal CalculatePixGain_mulfpclk : std_logic;
 
 component mem_ramb16_s36_x2 is
 generic (
@@ -572,12 +572,12 @@ signal rdy,write_enable : std_logic;
 
 signal CalculatePixGain_mux,ExtractOffsetParameters_mux,ExtractKtaParameters_mux,ExtractKvParameters_mux : std_logic;
 
-signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
-signal fixed2floatond_internal : STD_LOGIC;
-signal fixed2floatce_internal : STD_LOGIC;
-signal fixed2floatsclr_internal : STD_LOGIC;
-signal fixed2floatr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal fixed2floatrdy_internal : STD_LOGIC;
+--signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+--signal fixed2floatond_internal : STD_LOGIC;
+--signal fixed2floatce_internal : STD_LOGIC;
+--signal fixed2floatsclr_internal : STD_LOGIC;
+--signal fixed2floatr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+--signal fixed2floatrdy_internal : STD_LOGIC;
 
 signal mulfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -830,7 +830,7 @@ begin
 			subfpsclr_internal <= '1';
 			mulfpsclr_internal <= '1';
 			divfpsclr_internal <= '1';
-			fixed2floatsclr_internal <= '1';
+--			fixed2floatsclr_internal <= '1';
 			rdy <= '0';
 			CalculatePixGain_run <= '0';
 			ExtractOffsetParameters_run <= '0';
@@ -877,7 +877,7 @@ begin
 					subfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
-					fixed2floatsclr_internal <= '0';
+--					fixed2floatsclr_internal <= '0';
         when s3 =>
           CalculatePixGain_run <= '0';
           if (CalculatePixGain_rdy = '1') then
@@ -929,7 +929,7 @@ begin
           subfpsclr_internal <= '0';		
           divfpsclr_internal <= '0';		
           mulfpsclr_internal <= '0';		
-          fixed2floatsclr_internal <= '0';
+--          fixed2floatsclr_internal <= '0';
         when s9b =>
           subfpce_internal <= '1';
           subfpa_internal <= i_Ta;

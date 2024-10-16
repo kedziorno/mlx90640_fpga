@@ -64,8 +64,8 @@ end ExtractTGCParameters;
 
 architecture Behavioral of ExtractTGCParameters is
 
-signal odata_tgc : std_logic_vector (31 downto 0);
-signal address_N : std_logic_vector (8 downto 0);
+--signal odata_tgc : std_logic_vector (31 downto 0);
+--signal address_N : std_logic_vector (8 downto 0);
 
 signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal fixed2floatond_internal : STD_LOGIC;
