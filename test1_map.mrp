@@ -9,24 +9,24 @@ Target Device  : xc4vsx35
 Target Package : ff668
 Target Speed   : -10
 Mapper Version : virtex4 -- $Revision: 1.55 $
-Mapped Date    : Tue Oct 15 18:29:53 2024
+Mapped Date    : Wed Oct 16 14:28:50 2024
 
 Design Summary
 --------------
 Number of errors:      0
 Number of warnings:    1
 Logic Utilization:
-  Number of Slice Flip Flops:         9,754 out of  30,720   31%
-  Number of 4 input LUTs:            15,537 out of  30,720   50%
+  Number of Slice Flip Flops:         9,395 out of  30,720   30%
+  Number of 4 input LUTs:            15,072 out of  30,720   49%
 Logic Distribution:
-  Number of occupied Slices:         10,400 out of  15,360   67%
-    Number of Slices containing only related logic:  10,400 out of  10,400 100%
-    Number of Slices containing unrelated logic:          0 out of  10,400   0%
+  Number of occupied Slices:         10,012 out of  15,360   65%
+    Number of Slices containing only related logic:  10,012 out of  10,012 100%
+    Number of Slices containing unrelated logic:          0 out of  10,012   0%
       *See NOTES below for an explanation of the effects of unrelated logic.
-  Total Number of 4 input LUTs:      15,813 out of  30,720   51%
-    Number used as logic:            15,287
-    Number used as a route-thru:        276
-    Number used as Shift registers:     250
+  Total Number of 4 input LUTs:      15,263 out of  30,720   49%
+    Number used as logic:            14,824
+    Number used as a route-thru:        191
+    Number used as Shift registers:     248
 
   The Slice Logic Distribution report is not meaningful if the design is
   over-mapped for a non-slice resource or if Placement fails.
@@ -36,11 +36,11 @@ Logic Distribution:
   Number of FIFO16/RAMB16s:              23 out of     192   11%
     Number used as RAMB16s:              23
 
-Average Fanout of Non-Clock Nets:                3.51
+Average Fanout of Non-Clock Nets:                3.48
 
-Peak Memory Usage:  818 MB
-Total REAL time to MAP completion:  38 secs 
-Total CPU time to MAP completion:   34 secs 
+Peak Memory Usage:  809 MB
+Total REAL time to MAP completion:  22 secs 
+Total CPU time to MAP completion:   21 secs 
 
 NOTES:
 
@@ -251,10 +251,10 @@ INFO:LIT:244 - All of the single ended outputs in this design are using slew
 
 Section 4 - Removed Logic Summary
 ---------------------------------
- 343 block(s) removed
-  60 block(s) optimized away
- 258 signal(s) removed
-1063 Block(s) redundant
+ 339 block(s) removed
+  62 block(s) optimized away
+ 272 signal(s) removed
+ 866 Block(s) redundant
 
 Section 5 - Removed Logic
 -------------------------
@@ -269,19 +269,11 @@ To quickly locate the original cause for the removal of a chain of logic, look
 above the place where that logic is listed in the trimming report, then locate
 the lines that are least indented (begin at the leftmost edge).
 
-Loadless block "b0.inst_fixed2float/blk00000016" (MUX) removed.
- The signal "b0.inst_fixed2float/sig0000011c" is loadless and has been removed.
-  Loadless block "b0.inst_fixed2float/blk000002b3" (ROM) removed.
- The signal "b0.inst_fixed2float/sig0000011d" is loadless and has been removed.
-  Loadless block "b0.inst_fixed2float/blk000002b2" (ROM) removed.
-   The signal "b0.inst_fixed2float/sig00000103" is loadless and has been removed.
-    Loadless block "b0.inst_fixed2float/blk0000004e" (FF) removed.
-     The signal "b0.inst_fixed2float/sig0000010f" is loadless and has been removed.
-      Loadless block "b0.inst_fixed2float/blk00000047" (MUX) removed.
-       The signal "b0.inst_fixed2float/sig00000107" is loadless and has been removed.
-        Loadless block "b0.inst_fixed2float/blk000002c6" (ROM) removed.
-       The signal "b0.inst_fixed2float/sig0000010b" is loadless and has been removed.
-        Loadless block "b0.inst_fixed2float/blk000002c0" (ROM) removed.
+Loadless block "b0.inst_fixed2float/blk0000001d" (MUX) removed.
+ The signal "b0.inst_fixed2float/sig00000055" is loadless and has been removed.
+  Loadless block "b0.inst_fixed2float/blk000000d4" (ROM) removed.
+ The signal "b0.inst_fixed2float/sig00000056" is loadless and has been removed.
+  Loadless block "b0.inst_fixed2float/blk000000d3" (ROM) removed.
 Loadless block "inst_addfp/blk00000206" (XOR) removed.
  The signal "inst_addfp/sig0000050d" is loadless and has been removed.
   Loadless block "inst_addfp/blk00000208" (MUX) removed.
@@ -902,6 +894,24 @@ The signal "dualmem_inst/doutb<5>" is sourceless and has been removed.
 The signal "dualmem_inst/doutb<4>" is sourceless and has been removed.
 The signal "dualmem_inst/doutb<3>" is sourceless and has been removed.
 The signal "dualmem_inst/doutb<2>" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig00000113" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig00000112" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig00000111" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig00000110" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig0000010f" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig0000010e" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig0000010d" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig0000010a" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig00000147" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig00000101" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig00000102" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig00000103" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig00000104" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig00000105" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig00000106" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig00000107" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig00000144" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig00000145" is sourceless and has been removed.
 The signal "inst_mulfp/sig00000107" is sourceless and has been removed.
 The signal "inst_mulfp/sig00000108" is sourceless and has been removed.
 The signal "inst_mulfp/sig00000109" is sourceless and has been removed.
@@ -961,6 +971,22 @@ GND 		XST_GND
 VCC 		XST_VCC
 GND 		b0.inst_fixed2float/blk00000001
 VCC 		b0.inst_fixed2float/blk00000002
+FDE 		b0.inst_fixed2float/blk00000045
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk00000046
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk00000047
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk00000048
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk00000049
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk0000004a
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk0000004b
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk0000004c
+   optimized to 0
 GND 		dualmem_inst/XST_GND
 GND 		inst_addfp/blk00000001
 VCC 		inst_addfp/blk00000002
@@ -1007,97 +1033,48 @@ VCC 		inst_sqrtfp2/blk00000002
 GND 		inst_subfp/blk00000001
 VCC 		inst_subfp/blk00000002
 GND 		inst_tb_i2c_mem/XST_GND
-MUXCY 		b0.inst_fixed2float/blk000000c3
-MUXCY 		b0.inst_fixed2float/blk000000c4
-MUXCY 		b0.inst_fixed2float/blk000000c5
-MUXCY 		b0.inst_fixed2float/blk000000c6
-MUXCY 		b0.inst_fixed2float/blk000000c7
-MUXCY 		b0.inst_fixed2float/blk000000c8
-MUXCY 		b0.inst_fixed2float/blk000000c9
-MUXCY 		b0.inst_fixed2float/blk000000ca
-MUXCY 		b0.inst_fixed2float/blk000000cb
-MUXCY 		b0.inst_fixed2float/blk000000cc
-MUXCY 		b0.inst_fixed2float/blk000000cd
-MUXCY 		b0.inst_fixed2float/blk000000ce
-MUXCY 		b0.inst_fixed2float/blk000000cf
 MUXCY 		b0.inst_fixed2float/blk000000d0
 MUXCY 		b0.inst_fixed2float/blk000000d1
 MUXCY 		b0.inst_fixed2float/blk000000d2
-MUXCY 		b0.inst_fixed2float/blk000000d3
-MUXCY 		b0.inst_fixed2float/blk000000d4
-MUXCY 		b0.inst_fixed2float/blk000000d5
-MUXCY 		b0.inst_fixed2float/blk000000d6
-MUXCY 		b0.inst_fixed2float/blk000000d7
-MUXCY 		b0.inst_fixed2float/blk000000d8
-MUXCY 		b0.inst_fixed2float/blk000000d9
-MUXCY 		b0.inst_fixed2float/blk000000da
-MUXCY 		b0.inst_fixed2float/blk000000db
+XORCY 		b0.inst_fixed2float/blk0000004e
+MUXCY 		b0.inst_fixed2float/blk0000004d
+XORCY 		b0.inst_fixed2float/blk00000050
+MUXCY 		b0.inst_fixed2float/blk0000004f
+XORCY 		b0.inst_fixed2float/blk00000052
+MUXCY 		b0.inst_fixed2float/blk00000051
+XORCY 		b0.inst_fixed2float/blk00000054
+MUXCY 		b0.inst_fixed2float/blk00000053
+XORCY 		b0.inst_fixed2float/blk00000056
+MUXCY 		b0.inst_fixed2float/blk00000055
+XORCY 		b0.inst_fixed2float/blk00000058
+MUXCY 		b0.inst_fixed2float/blk00000057
+XORCY 		b0.inst_fixed2float/blk0000005a
+MUXCY 		b0.inst_fixed2float/blk00000059
+XORCY 		b0.inst_fixed2float/blk0000005c
+MUXCY 		b0.inst_fixed2float/blk0000005b
 MUXCY 		inst_float2fixed/blk0000001d
 
 Redundant Block(s):
 TYPE 		BLOCK
-LOCALBUF 		b0.inst_fixed2float/blk00000493/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk00000494/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk00000495/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk00000496/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk00000497/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk00000498/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk00000499/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk0000049a/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk0000049b/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk0000049c/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk0000049d/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk0000049e/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk0000049f/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004a0/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004a1/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004a2/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004a3/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004a4/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004a5/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004a6/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004a7/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004a8/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004a9/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004aa/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004ab/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004ac/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004ad/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004ae/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004af/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004b0/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004b1/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004b2/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004b3/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004b4/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004b5/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004b6/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004b7/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004b8/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004b9/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004ba/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004bb/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004bc/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004bd/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004be/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004bf/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004c0/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004c1/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004c2/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004c3/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004c4/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004c5/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004c6/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004c7/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004c8/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004c9/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004ca/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004cb/LUT3_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004cc/LUT2_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004cd/LUT3_L_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004ce/LUT4_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004cf/LUT4_D_BUF
-LOCALBUF 		b0.inst_fixed2float/blk000004d0/LUT4_D_BUF
+LOCALBUF 		b0.inst_fixed2float/blk00000176/LUT3_L_BUF
+LOCALBUF 		b0.inst_fixed2float/blk00000177/LUT3_D_BUF
+LOCALBUF 		b0.inst_fixed2float/blk00000178/LUT3_D_BUF
+LOCALBUF 		b0.inst_fixed2float/blk00000179/LUT3_D_BUF
+LOCALBUF 		b0.inst_fixed2float/blk0000017a/LUT3_D_BUF
+LOCALBUF 		b0.inst_fixed2float/blk0000017b/LUT3_D_BUF
+LOCALBUF 		b0.inst_fixed2float/blk0000017c/LUT3_D_BUF
+LOCALBUF 		b0.inst_fixed2float/blk0000017d/LUT3_D_BUF
+LOCALBUF 		b0.inst_fixed2float/blk0000017e/LUT3_D_BUF
+LOCALBUF 		b0.inst_fixed2float/blk0000017f/LUT3_L_BUF
+LOCALBUF 		b0.inst_fixed2float/blk00000180/LUT3_L_BUF
+LOCALBUF 		b0.inst_fixed2float/blk00000181/LUT3_L_BUF
+LOCALBUF 		b0.inst_fixed2float/blk00000182/LUT2_D_BUF
+LOCALBUF 		b0.inst_fixed2float/blk00000183/LUT4_D_BUF
+LOCALBUF 		b0.inst_fixed2float/blk00000184/LUT3_L_BUF
+LOCALBUF 		b0.inst_fixed2float/blk00000185/LUT3_L_BUF
+LOCALBUF 		b0.inst_fixed2float/blk00000186/LUT3_L_BUF
+LOCALBUF 		b0.inst_fixed2float/blk00000187/LUT3_L_BUF
+LOCALBUF 		b0.inst_fixed2float/blk00000188/LUT4_L_BUF
 LOCALBUF 		inst_divfp/blk00000d6d/LUT3_L_BUF
 LOCALBUF 		inst_divfp/blk00000d6e/LUT4_D_BUF
 LOCALBUF 		inst_divfp/blk00000d6f/LUT4_L_BUF
@@ -1291,306 +1268,129 @@ LOCALBUF 		inst_subfp/blk0000056f/LUT3_L_BUF
 LOCALBUF 		inst_subfp/blk00000570/LUT3_L_BUF
 LOCALBUF 		inst_subfp/blk00000571/LUT3_L_BUF
 LOCALBUF 		inst_subfp/blk00000572/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculateAlphaComp/addfpa_internal_mux0000<0>21/LUT3_D_BUF
-LOCALBUF
-		tfm_inst/inst_CalculateAlphaComp/subfpsclr_internal_mux00001/LUT4_D_BUF
 LOCALBUF 		tfm_inst/CalculatePixOsCPSP_addfprdy1/LUT2_D_BUF
 LOCALBUF 		tfm_inst/subfpond12/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpb<31>34/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<31>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<31>16/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpond11/LUT4_D_BUF
 LOCALBUF 		tfm_inst/addfpond27/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpond63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/i2c_mem_addra<0>121/LUT3_D_BUF
-LOCALBUF 		tfm_inst/subfpa<14>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/inst_CalculateTo/divfpsclr_internal_mux000011/LUT2_D_BUF
-LOCALBUF 		tfm_inst/inst_CalculateTo/mulfpa_internal_mux0000<0>1119/LUT4_L_BUF
-LOCALBUF 		tfm_inst/inst_CalculateTo/mulfpa_internal_mux0000<0>1136/LUT3_D_BUF
-LOCALBUF 		tfm_inst/subfpa<15>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<31>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<11>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<31>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<14>16/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<14>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<29>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<7>34/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_ExtractAlphaParameters/mulfpb_internal_mux0000<0>11/LUT3_D_BUF
-LOCALBUF 		tfm_inst/inst_CalculateTo/addfpa_internal_mux0000<0>11/LUT4_D_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<8>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<7>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<6>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<5>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<4>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<3>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<31>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<30>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<2>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<22>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<21>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<20>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<1>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<19>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<18>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<17>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<16>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<15>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<14>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<13>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<12>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<11>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<10>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<0>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<29>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<28>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<27>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<26>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<25>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<24>_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpb_internal_mux0000<23>_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/inst_CalculateTo/mulfpa_internal_mux0000<0>1137/LUT4_D_BUF
+LOCALBUF 		tfm_inst/rom_constants_signed4bit_en_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpond85/LUT4_L_BUF
+LOCALBUF 		tfm_inst/inst_CalculateTo/sqrtfp2a_internal_mux0000<0>12/LUT3_D_BUF
 LOCALBUF 		tfm_inst/inst_CalculateTo/sqrtfp2a_internal_mux0000<0>1115/LUT3_D_BUF
 LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/divfpsclr_internal_mux0000117/LUT4_D_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpsclr_internal_mux00001166/LUT2_L_BUF
-LOCALBUF 		tfm_inst/addfpb<15>16/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<15>63/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_ExtractAlphaParameters/o_2powx_4bit_adr_mux0000<2>4/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_ExtractAlphaParameters/o_2powx_4bit_adr_mux0000<1>4/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_ExtractAlphaParameters/o_2powx_4bit_adr_mux0000<0>4/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<21>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<28>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpb<22>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<6>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<11>16/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<20>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<27>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpb<28>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<10>16/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<11>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<19>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<12>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<4>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpb<27>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<10>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<20>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<20>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<25>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<13>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpb<19>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpb<26>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpsclr63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<18>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<18>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<24>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<21>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<21>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<9>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpb<25>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<7>16/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<30>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<8>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<14>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<14>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<16>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<19>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<19>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<1>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpb<24>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<6>16/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<22>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<29>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<7>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<10>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<10>73/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_ExtractAlphaParameters/o_signed4bit_adr_mux0000<0>1111/LUT2_D_BU
-F
-LOCALBUF
-		tfm_inst/inst_ExtractAlphaParameters/addfpa_internal_mux0000<0>11/LUT3_D_BUF
-LOCALBUF
-		tfm_inst/inst_ExtractAlphaParameters/o_signed4bit_ena_mux00001111/LUT4_D_BUF
-LOCALBUF 		tfm_inst/inst_ExtractAlphaParameters/addra_mux0000<2>23/LUT4_D_BUF
-LOCALBUF 		tfm_inst/inst_CalculatePixOsCPSP/ram_mux0000<0>1/LUT4_D_BUF
-LOCALBUF
-		tfm_inst/inst_ExtractAlphaParameters/o_signed4bit_adr_mux0000<0>11210/LUT4_L_B
-UF
-LOCALBUF 		tfm_inst/mulfpb<15>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<15>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<0>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpb<23>34/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<21>63/LUT4_L_BUF
+		tfm_inst/inst_ExtractAlphaParameters/divfpsclr_internal_mux00001121/LUT4_D_BUF
+LOCALBUF 		tfm_inst/subfpa<19>30/LUT2_L_BUF
+LOCALBUF 		tfm_inst/subfpa<26>30/LUT2_L_BUF
+LOCALBUF 		tfm_inst/rom_constants_signed6bit_en_SW0/LUT4_D_BUF
+LOCALBUF 		tfm_inst/subfpa<4>30/LUT2_L_BUF
+LOCALBUF 		tfm_inst/subfpb<27>30/LUT2_L_BUF
+LOCALBUF 		tfm_inst/subfpa<18>30/LUT2_L_BUF
+LOCALBUF 		tfm_inst/subfpa<25>30/LUT2_L_BUF
+LOCALBUF 		tfm_inst/subfpb<19>30/LUT2_L_BUF
+LOCALBUF 		tfm_inst/subfpa<3>30/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<14>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/inst_CalculateTo/subfpa_internal_mux0000<23>1_SW0/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<15>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<15>63/LUT2_L_BUF
 LOCALBUF 		tfm_inst/subfpa<0>132/LUT4_D_BUF
-LOCALBUF 		tfm_inst/addfpa<28>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<22>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<22>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<6>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<29>16/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<6>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<6>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<11>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<11>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<20>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<27>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<16>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<16>73/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<22>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<22>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<6>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<6>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<0>51/LUT2_D_BUF
+LOCALBUF 		tfm_inst/mulfpb<11>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<11>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<16>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<16>63/LUT2_L_BUF
 LOCALBUF 		tfm_inst/divfpa<31>20/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<21>16/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<5>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<28>16/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<2>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<2>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<7>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<7>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<3>16/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<19>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<26>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<12>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<12>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<17>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<17>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<4>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<27>16/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpb<31>15/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<2>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<2>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<7>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<7>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<12>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<12>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<17>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<17>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/divfpb<31>10/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpond36/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<3>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<3>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<2>16/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<18>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<25>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<8>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<8>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<13>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<13>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<19>16/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<3>63/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<26>16/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpsclr73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<1>31/LUT2_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<4>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<4>85/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<9>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<9>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<30>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<0>31/LUT2_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<0>85/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<0>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<5>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<5>85/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<17>31/LUT2_L_BUF
-LOCALBUF 		tfm_inst/addfpb<24>28/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<29>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<30>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<1>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<1>85/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<16>31/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<3>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<3>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<8>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<8>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<13>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<13>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpsclr63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<4>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<4>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<9>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<9>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<30>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/addfpa<16>27/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<23>27/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<0>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<0>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<5>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<5>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/addfpa<1>27/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<29>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<30>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/inst_CalculateTo/sqrtfp2a_internal_mux0000<0>1111/LUT4_D_BUF
+LOCALBUF 		tfm_inst/mulfpb<1>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<1>63/LUT2_L_BUF
 LOCALBUF 		tfm_inst/addfpa<0>27/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<23>28/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<28>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<29>14/LUT3_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<29>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<27>14/LUT3_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<27>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<28>14/LUT3_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<28>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<26>14/LUT3_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<26>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<27>14/LUT3_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<27>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<25>14/LUT3_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<25>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<26>14/LUT3_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<26>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<24>14/LUT3_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<24>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<25>14/LUT3_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<25>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<23>14/LUT3_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<23>73/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpce85/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<24>85/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpsclr_internal_mux00001112/LUT3_D_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/o_signed6bit_ena_mux000011/LUT4_D_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/o_2powx_4bit_ena_mux0000112/LUT4_D_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/o_2powx_4bit_ena_mux0000_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/inst_CalculatePixOS/i2c_mem_addra<0>21/LUT3_D_BUF
+LOCALBUF 		tfm_inst/mulfpa<28>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<29>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<27>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<28>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<26>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<27>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<25>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<26>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<24>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<25>63/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<23>63/LUT2_L_BUF
 LOCALBUF 		tfm_inst/mulfpa<0>181/LUT2_D_BUF
 LOCALBUF 		tfm_inst/mulfpa<0>122/LUT3_D_BUF
 LOCALBUF 		tfm_inst/mulfpa<0>142/LUT4_D_BUF
+LOCALBUF 		tfm_inst/fixed2floata<0>131/LUT3_D_BUF
 LOCALBUF 		tfm_inst/divfpsclr20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpsclr36/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<22>10/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<30>17/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<21>10/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<29>10/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<30>20/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<29>26/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<30>36/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<22>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<22>36/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<20>10/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<28>10/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<28>26/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<29>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<29>36/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<21>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<21>36/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<19>10/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<27>10/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<27>26/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<28>20/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<28>36/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<20>20/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<20>36/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<18>10/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<26>12/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<26>28/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<27>20/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<27>36/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<19>20/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<19>36/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<17>10/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<25>17/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOsCPSP/o_2powx_4bit_ena_mux0000112/LUT4_D_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOsCPSP/i2c_mem_addra_internal_mux0000<4>0/LUT2_L_BUF
 LOCALBUF 		tfm_inst/divfpa<26>20/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<26>36/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<18>20/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<18>36/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<16>10/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<24>10/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<24>26/LUT4_L_BUF
@@ -1598,8 +1398,6 @@ LOCALBUF 		tfm_inst/divfpa<25>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<25>36/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<17>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<17>36/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/mulfpb_internal_mux0000<23>18/LUT4_D_BUF
 LOCALBUF 		tfm_inst/divfpb<15>10/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<23>10/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<23>26/LUT4_L_BUF
@@ -1607,7 +1405,6 @@ LOCALBUF 		tfm_inst/divfpa<24>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<24>36/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<16>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<16>36/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpce98/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<14>10/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<23>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<23>36/LUT4_L_BUF
@@ -1623,19 +1420,11 @@ LOCALBUF 		tfm_inst/divfpa<13>36/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<11>10/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<12>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<12>36/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<62>1/LUT2_D_BUF
-LOCALBUF 		tfm_inst/divfpb<10>10/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<11>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<11>36/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<9>10/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<10>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<10>36/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/i2c_mem_addra_internal_mux0000<0>142/LUT4_D_B
-UF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpsclr_internal_mux00001132/LUT4_D_BUF
-LOCALBUF 		tfm_inst/inst_CalculatePixOsCPSP/ram_mux0000<0>111/LUT4_D_BUF
 LOCALBUF 		tfm_inst/divfpb<8>10/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<9>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<9>36/LUT4_L_BUF
@@ -1643,287 +1432,311 @@ LOCALBUF 		tfm_inst/divfpb<7>10/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<8>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<8>36/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<6>10/LUT4_L_BUF
-LOCALBUF 		tfm_inst/rom_constants_2powx_p8_4bit_en0/LUT2_L_BUF
 LOCALBUF 		tfm_inst/divfpa<7>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<7>36/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<0>121/LUT3_D_BUF
 LOCALBUF 		tfm_inst/divfpb<5>10/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<0>41/LUT3_D_BUF
-LOCALBUF 		tfm_inst/divfpa<6>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<6>36/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<4>10/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<5>20/LUT4_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOsCPSP/mulfpb_internal_mux0000<23>18/LUT4_D_BUF
 LOCALBUF 		tfm_inst/divfpa<5>36/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<3>10/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<4>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<4>36/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<2>10/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<3>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<3>36/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpa<0>141/LUT2_D_BUF
 LOCALBUF 		tfm_inst/divfpb<1>10/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<2>36/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<2>98/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<0>1111/LUT3_D_BUF
-LOCALBUF 		tfm_inst/divfpb<0>10/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<1>20/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<1>36/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<0>20/LUT4_L_BUF
+LOCALBUF 		tfm_inst/rom_constants_2powx_4bit_adr<0>11/LUT3_D_BUF
 LOCALBUF 		tfm_inst/divfpa<0>36/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<0>51/LUT2_D_BUF
-LOCALBUF 		tfm_inst/divfpa<0>42/LUT2_D_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOsCPSP/addfpsclr_internal_mux00001132/LUT4_D_BUF
 LOCALBUF 		tfm_inst/inst_CalculatePixOS/divfpce11/LUT2_D_BUF
-LOCALBUF 		tfm_inst/inst_rom_constants/address<3>180/LUT2_L_BUF
-LOCALBUF 		tfm_inst/inst_rom_constants/address<2>180/LUT2_L_BUF
-LOCALBUF 		tfm_inst/inst_rom_constants/address<1>180/LUT2_L_BUF
-LOCALBUF 		tfm_inst/inst_rom_constants/address<0>191/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<37>8/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<36>8/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<35>8/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<34>8/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<33>8/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<32>8/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<31>8/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<0>131/LUT3_D_BUF
-LOCALBUF 		tfm_inst/fixed2floata<30>8/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<0>142/LUT2_D_BUF
+LOCALBUF 		tfm_inst/inst_rom_constants/address<3>46/LUT4_D_BUF
+LOCALBUF 		tfm_inst/inst_rom_constants/address<3>107/LUT4_L_BUF
+LOCALBUF 		tfm_inst/inst_rom_constants/address<3>191/LUT4_L_BUF
+LOCALBUF 		tfm_inst/inst_rom_constants/address<2>46/LUT4_D_BUF
+LOCALBUF 		tfm_inst/inst_rom_constants/address<2>107/LUT4_L_BUF
+LOCALBUF 		tfm_inst/inst_rom_constants/address<1>46/LUT4_D_BUF
+LOCALBUF 		tfm_inst/inst_rom_constants/address<1>107/LUT4_L_BUF
+LOCALBUF 		tfm_inst/inst_rom_constants/address<0>46/LUT4_D_BUF
+LOCALBUF 		tfm_inst/inst_rom_constants/address<0>107/LUT4_L_BUF
 LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpsclr_internal_mux00001122/LUT4_D_BUF
+		tfm_inst/inst_CalculateTo/subfpsclr_internal_mux00001315_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<15>27/LUT3_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<0>27/LUT3_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<1>27/LUT3_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<2>27/LUT3_L_BUF
+LOCALBUF
+		tfm_inst/inst_CalculatePixOsCPSP/subfpa_internal_mux0000<0>11/LUT4_D_BUF
+LOCALBUF 		tfm_inst/inst_CalculatePixOS/i2c_mem_addra<0>11/LUT3_D_BUF
 LOCALBUF 		tfm_inst/fixed2floata<0>111/LUT4_D_BUF
-LOCALBUF 		tfm_inst/fixed2floata<0>121/LUT4_D_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpa_internal_mux0000<0>1/LUT4_D_BUF
-LOCALBUF
-		tfm_inst/inst_CalculatePixOsCPSP/addfpsclr_internal_mux0000115/LUT4_D_BUF
-LOCALBUF 		tfm_inst/fixed2floata<62>48_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<63>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/inst_CalculateTo/subfpsclr_internal_mux00001315/LUT4_D_BUF
-LOCALBUF 		tfm_inst/divfpa<0>80_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<1>80_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<2>80_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<3>80_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<4>80_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<5>80_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<6>80_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<7>80_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<8>80_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<9>80_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<10>80_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<11>80_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<12>80_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/inst_rom_constants/address<2>242/LUT4_L_BUF
+LOCALBUF 		tfm_inst/inst_rom_constants/address<1>242/LUT4_L_BUF
+LOCALBUF 		tfm_inst/inst_rom_constants/address<0>242/LUT4_L_BUF
+LOCALBUF 		tfm_inst/rom_constants_2powx_p8_4bit_en22_SW0/LUT4_D_BUF
+LOCALBUF 		tfm_inst/rom_constants_2powx_p8_4bit_en22/LUT3_D_BUF
+LOCALBUF 		tfm_inst/fixed2floata<3>27/LUT3_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<4>27/LUT3_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<5>27/LUT3_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<6>27/LUT3_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<0>171/LUT3_D_BUF
+LOCALBUF 		tfm_inst/divfpb<0>18/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<1>18_SW0/LUT3_L_BUF
+LOCALBUF 		tfm_inst/divfpb<2>18_SW0/LUT3_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<0>161/LUT4_D_BUF
+LOCALBUF 		tfm_inst/fixed2floata<7>27/LUT3_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<8>27/LUT3_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<9>27/LUT3_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<10>27/LUT3_L_BUF
+LOCALBUF 		tfm_inst/divfpb<4>18_SW0/LUT3_L_BUF
+LOCALBUF 		tfm_inst/divfpb<5>18_SW0/LUT3_L_BUF
+LOCALBUF 		tfm_inst/divfpa<7>80_SW1/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<6>18_SW0/LUT3_L_BUF
+LOCALBUF 		tfm_inst/divfpa<8>80_SW1/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<7>18_SW0/LUT3_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<15>48_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpa<9>80_SW1/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<15>24_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<8>18_SW0/LUT3_L_BUF
+LOCALBUF 		tfm_inst/divfpa<10>80_SW1/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<0>48_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<9>18_SW0/LUT3_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<0>24_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpa<11>80_SW1/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<1>48_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<10>18/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<1>24_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpa<12>80_SW1/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<2>48_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<11>18_SW0/LUT3_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<2>24_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpa<0>80/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<3>48_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<12>18_SW0/LUT3_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<3>24_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpa<1>80/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<4>48_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<13>18_SW0/LUT3_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<4>24_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpa<2>80/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<5>48_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<14>18_SW0/LUT3_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<5>24_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/rom_constants_2powx_4bit_en41/LUT4_D_BUF
+LOCALBUF 		tfm_inst/inst_rom_constants/address<3>171/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<23>70_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpce87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<16>60/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<0>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<17>60/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<1>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<23>41_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<13>80_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<14>80_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<23>80_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<15>80_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpa<3>80/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpond80/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<24>80_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<16>80_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<6>48_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<15>18_SW0/LUT3_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<6>24_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpa<4>80/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<25>80_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<17>80_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpce87/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<23>40/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<16>60_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/addfpa<0>87/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<24>40/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<17>60_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/addfpa<1>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<24>70_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<24>85_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<23>87/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<0>60_SW0/LUT3_L_BUF
+LOCALBUF 		tfm_inst/addfpb<0>60/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<16>87/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<25>40/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<18>40/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<2>87/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<24>87/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpb<1>60_SW0/LUT3_L_BUF
+LOCALBUF 		tfm_inst/addfpb<1>60/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<17>87/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<0>171/LUT3_D_BUF
-LOCALBUF 		tfm_inst/inst_ExtractAlphaParameters/i_or000014_SW0/LUT4_L_BUF
-LOCALBUF
-		tfm_inst/inst_ExtractAlphaParameters/o_2powx_4bit_adr_mux0000<0>223/LUT4_D_BUF
-LOCALBUF 		tfm_inst/mulfpond24/LUT4_D_BUF
-LOCALBUF 		tfm_inst/mulfpond62/LUT4_D_BUF
-LOCALBUF 		tfm_inst/i2c_mem_addra<7>32/LUT4_L_BUF
-LOCALBUF 		tfm_inst/i2c_mem_addra<10>32/LUT4_L_BUF
-LOCALBUF 		tfm_inst/i2c_mem_addra<5>56/LUT4_L_BUF
-LOCALBUF 		tfm_inst/inst_rom_constants/address<3>93_SW0/LUT2_L_BUF
-LOCALBUF 		tfm_inst/inst_rom_constants/address<2>93_SW0/LUT2_L_BUF
-LOCALBUF 		tfm_inst/inst_rom_constants/address<1>93_SW0/LUT2_L_BUF
-LOCALBUF 		tfm_inst/inst_rom_constants/address<0>93_SW0/LUT2_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<29>48_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<29>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<30>48_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<30>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<31>48_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<31>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<32>48_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<32>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<33>48_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<33>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<34>48_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<34>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<35>48_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<35>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<36>48_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<36>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<37>48_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<37>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<38>48_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<38>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<39>48_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpb<0>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<39>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<40>48_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpb<1>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<40>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<41>48_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpb<2>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<41>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<42>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpb<3>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<43>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpb<4>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<44>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpb<5>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<45>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpb<6>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<46>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpb<7>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<47>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpb<8>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<48>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpb<9>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<49>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpb<10>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<50>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpb<11>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<51>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpb<12>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<52>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpb<13>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<53>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpb<14>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floatond24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<54>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpb<15>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<55>24/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<23>41/LUT3_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<25>41/LUT3_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<24>41/LUT3_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<7>48_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<16>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<56>24/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<7>24_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpa<5>80/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<8>48_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<17>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<57>24/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<8>24_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpa<6>80/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpa<5>20_SW0/LUT2_L_BUF
+LOCALBUF 		tfm_inst/addfpb<18>40_SW1_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<26>72_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<27>70_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<28>70_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<29>70_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpond8_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<26>40/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<19>40/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<3>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<25>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<2>40/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<18>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<27>40/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<20>60/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<4>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<26>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<3>40/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<19>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<28>40/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<21>40/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<5>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<27>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<4>60/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<20>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<29>40/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<22>60/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<6>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<28>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<5>60/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<21>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<30>60/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<7>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<29>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<6>40/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<22>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<8>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<30>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<7>40/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<9>60/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<9>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpsclr87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<8>60/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<13>60/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<13>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<10>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<12>60/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<12>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<11>87/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<10>40/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<11>40/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<15>40/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<23>73/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<24>73/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<25>73/LUT4_L_BUF
+LOCALBUF 		tfm_inst/i2c_mem_addra<7>52/LUT4_L_BUF
+LOCALBUF 		tfm_inst/i2c_mem_addra<10>52/LUT4_L_BUF
+LOCALBUF 		tfm_inst/inst_rom_constants/address<3>111/LUT4_D_BUF
 LOCALBUF 		tfm_inst/divfpb<18>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<58>24/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<9>24_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<19>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<59>24/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<10>24_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpa<29>80_SW1/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpa<21>80_SW1/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<11>48/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<20>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<60>24/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<11>24_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpa<30>80/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpa<22>80_SW1/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<12>48/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<21>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<61>24/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<12>24_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<13>48/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpb<22>18_SW0/LUT3_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<62>24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floatsclr24/LUT4_L_BUF
-LOCALBUF 		tfm_inst/rom_constants_signed6bit_en_SW1/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpb<30>25_SW0/LUT3_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<13>24_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floatond48/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floatond24_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<14>48/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<14>24_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floatsclr48/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpsclr80_SW1/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floatsclr24_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<23>76/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<16>44_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<17>44_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<0>44_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<18>44_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<1>44_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<2>44_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<20>44_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<3>44_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<21>44_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<4>44_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<5>44_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<6>44_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<2>47_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<24>47_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<17>47_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<3>47_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<25>47_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<18>47_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<4>47_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<26>47_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpa<19>47_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<11>65/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<12>65/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<13>65/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floatond65/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floata<14>65/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floatsclr65/LUT4_L_BUF
 LOCALBUF
 		tfm_inst/inst_CalculatePixOsCPSP/i2c_mem_addra_internal_mux0000<2>10_SW0/LUT4_
 L_BUF
-LOCALBUF 		tfm_inst/i2c_mem_addra<4>77_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<3>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<25>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<18>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<4>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<26>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<19>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<5>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<27>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<20>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<6>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<28>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<21>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<7>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<29>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<22>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<8>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<30>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<9>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpsclr107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<13>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<10>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<12>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<11>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<15>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/addfpa<14>107_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/addfpa<31>107_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/inst_rom_constants/address<3>259/LUT4_L_BUF
-LOCALBUF 		tfm_inst/mulfpb<23>76/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floatond8_SW1/LUT4_D_BUF
-LOCALBUF 		tfm_inst/i2c_mem_addra<0>1112/LUT3_D_BUF
-LOCALBUF 		tfm_inst/inst_ExtractAlphaParameters/col_mux0000<1>11/LUT3_D_BUF
-LOCALBUF 		tfm_inst/fixed2floata<42>48_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floata<43>48_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floatond48_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floatsclr48_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/inst_rom_constants/address<2>75/LUT4_L_BUF
-LOCALBUF 		tfm_inst/inst_rom_constants/address<1>75/LUT4_L_BUF
-LOCALBUF 		tfm_inst/inst_rom_constants/address<0>75/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpond7_SW0/LUT4_D_BUF
-LOCALBUF 		tfm_inst/subfpb<16>57_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpb<17>57_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/i2c_mem_addra<6>100/LUT4_L_BUF
-LOCALBUF 		tfm_inst/i2c_mem_addra<5>100/LUT4_L_BUF
-LOCALBUF 		tfm_inst/i2c_mem_addra<6>68/LUT4_L_BUF
-LOCALBUF 		tfm_inst/i2c_mem_addra<5>68/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpond78_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<23>78_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<2>78_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<17>78_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<3>78_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<18>78_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<26>78_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<5>78_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpb<29>78_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpb<30>78_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<22>78_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<8>78_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<30>78_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<9>78_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpsclr78_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<13>78_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<10>78_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/subfpa<12>78_SW1/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpb<31>72/LUT4_L_BUF
-LOCALBUF 		tfm_inst/i2c_mem_addra<7>71_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/i2c_mem_addra<10>71_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<3>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<4>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<5>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<6>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<7>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<8>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<9>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<10>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<11>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<12>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<13>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<14>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<23>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<15>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<24>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<16>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floatond98_SW0/LUT4_D_BUF
-LOCALBUF 		tfm_inst/divfpa<25>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<17>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<26>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<18>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<27>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<19>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<28>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<20>131_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/divfpa<31>80_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<26>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<25>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<27>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<26>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/fixed2floatond8_SW1/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<16>59_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<17>59_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<0>59_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<18>59_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<1>59_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<2>59_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<20>59_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<3>59_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<21>59_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<4>59_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<5>59_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<6>59_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/addfpb<18>69_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/i2c_mem_addra<0>78/LUT4_L_BUF
+LOCALBUF 		tfm_inst/i2c_mem_ena118_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/inst_rom_constants/address<4>93_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpce79_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<28>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<27>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<29>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<28>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<1>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<1>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<30>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<29>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<5>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<5>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<0>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<0>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<30>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<9>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<9>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<4>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<4>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpsclr41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<8>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<17>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/mulfpb<2>41/LUT4_L_BUF
+LOCALBUF 		tfm_inst/i2c_mem_ena63_SW1/LUT4_L_BUF
+LOCALBUF 		tfm_inst/i2c_mem_ena85_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<29>131_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<21>131_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<30>131_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<22>131_SW0/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpsclr131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/fixed2floatsclr98_SW0/LUT4_L_BUF
+LOCALBUF 		tfm_inst/subfpb<31>78_SW1/LUT4_L_BUF
 LOCALBUF 		tfm_inst/divfpa<31>131_SW0/LUT4_L_BUF
-LOCALBUF 		tfm_inst/divfpa<0>121_1/LUT3_L_BUF
-LOCALBUF 		tfm_inst/mulfpa<0>181_1/LUT2_L_BUF
+LOCALBUF 		tfm_inst/mulfpa<0>161_1/LUT4_L_BUF
 LUT1 		ag_inst/Mcount_w81_cy<6>_rt
 LUT1 		ag_inst/Mcount_w81_cy<5>_rt
 LUT1 		ag_inst/Mcount_w81_cy<4>_rt
@@ -2025,33 +1838,22 @@ INV 		tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/Result<0>11_INV_0
 INV 		ag_inst/vsync_inv1_INV_0
 LUT1 		inst_float2fixed/blk000003bd
 INV 		inst_float2fixed/blk000003c7
-LUT1 		b0.inst_fixed2float/blk000003ad
-LUT1 		b0.inst_fixed2float/blk000003ae
-LUT1 		b0.inst_fixed2float/blk000003af
-LUT1 		b0.inst_fixed2float/blk000003b0
-LUT1 		b0.inst_fixed2float/blk000003b1
-LUT1 		b0.inst_fixed2float/blk000003b2
-LUT1 		b0.inst_fixed2float/blk000003b3
-LUT1 		b0.inst_fixed2float/blk000003b4
-LUT1 		b0.inst_fixed2float/blk000003b5
-LUT1 		b0.inst_fixed2float/blk000003b6
-LUT1 		b0.inst_fixed2float/blk000003b7
-LUT1 		b0.inst_fixed2float/blk000003b8
-LUT1 		b0.inst_fixed2float/blk000003c4
-LUT1 		b0.inst_fixed2float/blk000003b9
-LUT1 		b0.inst_fixed2float/blk000003ba
-LUT1 		b0.inst_fixed2float/blk000003bb
-LUT1 		b0.inst_fixed2float/blk000003bc
-LUT1 		b0.inst_fixed2float/blk000003bd
-LUT1 		b0.inst_fixed2float/blk000003be
-LUT1 		b0.inst_fixed2float/blk000003bf
-LUT1 		b0.inst_fixed2float/blk000003c0
-LUT1 		b0.inst_fixed2float/blk000003c1
-LUT1 		b0.inst_fixed2float/blk000003c2
-LUT1 		b0.inst_fixed2float/blk000003c3
-LUT1 		b0.inst_fixed2float/blk000003c5
-INV 		b0.inst_fixed2float/blk000003d7
-INV 		b0.inst_fixed2float/blk000003d8
+LUT1 		b0.inst_fixed2float/blk0000010d
+LUT1 		b0.inst_fixed2float/blk0000010e
+LUT1 		b0.inst_fixed2float/blk0000010f
+LUT1 		b0.inst_fixed2float/blk00000110
+LUT1 		b0.inst_fixed2float/blk00000111
+LUT1 		b0.inst_fixed2float/blk00000112
+LUT1 		b0.inst_fixed2float/blk00000113
+LUT1 		b0.inst_fixed2float/blk00000114
+LUT1 		b0.inst_fixed2float/blk00000115
+LUT1 		b0.inst_fixed2float/blk00000116
+LUT1 		b0.inst_fixed2float/blk00000117
+LUT1 		b0.inst_fixed2float/blk00000118
+LUT1 		b0.inst_fixed2float/blk00000119
+LUT1 		b0.inst_fixed2float/blk0000011a
+LUT1 		b0.inst_fixed2float/blk0000011b
+INV 		b0.inst_fixed2float/blk00000175
 LUT1 		inst_divfp/blk00000d63
 INV 		inst_divfp/blk00000d68
 LUT3 		inst_mulfp/blk00000255
@@ -2117,35 +1919,6 @@ LUT1 		inst_sqrtfp2/blk0000083a
 LUT1 		inst_sqrtfp2/blk0000083c
 INV 		inst_sqrtfp2/blk0000083d
 INV 		inst_sqrtfp2/blk0000083e
-LUT2 		b0.inst_fixed2float/blk0000038e
-LUT2 		b0.inst_fixed2float/blk0000038f
-LUT2 		b0.inst_fixed2float/blk00000390
-LUT2 		b0.inst_fixed2float/blk00000391
-LUT2 		b0.inst_fixed2float/blk00000392
-LUT2 		b0.inst_fixed2float/blk00000393
-LUT2 		b0.inst_fixed2float/blk00000394
-LUT2 		b0.inst_fixed2float/blk00000395
-LUT2 		b0.inst_fixed2float/blk00000396
-LUT2 		b0.inst_fixed2float/blk00000397
-LUT2 		b0.inst_fixed2float/blk0000039a
-LUT2 		b0.inst_fixed2float/blk0000039b
-LUT2 		b0.inst_fixed2float/blk0000039c
-LUT2 		b0.inst_fixed2float/blk0000039d
-LUT2 		b0.inst_fixed2float/blk0000039e
-LUT2 		b0.inst_fixed2float/blk0000039f
-LUT2 		b0.inst_fixed2float/blk000003a0
-LUT2 		b0.inst_fixed2float/blk000003a1
-LUT2 		b0.inst_fixed2float/blk000003a2
-LUT2 		b0.inst_fixed2float/blk000003a3
-LUT2 		b0.inst_fixed2float/blk000003a4
-LUT2 		b0.inst_fixed2float/blk000003a5
-LUT2 		b0.inst_fixed2float/blk000003a6
-LUT2 		b0.inst_fixed2float/blk000003a7
-LUT2 		b0.inst_fixed2float/blk000003a8
-LUT2 		b0.inst_fixed2float/blk000003a9
-LUT2 		b0.inst_fixed2float/blk000003aa
-LUT2 		b0.inst_fixed2float/blk000003ab
-LUT2 		b0.inst_fixed2float/blk000003ac
 MUXF7 		inst_float2fixed/blk00000012
 LUT2 		inst_mulfp/blk00000639
 MUXF7 		inst_addfp/blk0000009a
@@ -4924,9 +4697,9 @@ Section 13 - Utilization by Hierarchy
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Module                            | Partition | Slices        | Slice Reg     | LUTs          | LUTRAM        | BRAM/FIFO | DSP48   | BUFG  | BUFIO | BUFR  | DCM_ADV   | Full Hierarchical Name                                                                                                |
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| test1/                            |           | 113/11932     | 132/9754      | 80/15646      | 0/250         | 0/23      | 0/0     | 2/2   | 0/0   | 0/0   | 0/0       | test1                                                                                                                 |
-| +ag_inst                          |           | 80/80         | 70/70         | 125/125       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/ag_inst                                                                                                         |
-| +b0.inst_fixed2float              |           | 372/372       | 420/420       | 493/493       | 6/6           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/b0.inst_fixed2float                                                                                             |
+| test1/                            |           | 113/11553     | 132/9395      | 80/15109      | 0/248         | 0/23      | 0/0     | 2/2   | 0/0   | 0/0   | 0/0       | test1                                                                                                                 |
+| +ag_inst                          |           | 78/78         | 70/70         | 125/125       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/ag_inst                                                                                                         |
+| +b0.inst_fixed2float              |           | 102/102       | 139/139       | 154/154       | 4/4           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/b0.inst_fixed2float                                                                                             |
 | +dualmem_inst                     |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/dualmem_inst                                                                                                    |
 | ++U0                              |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/dualmem_inst/U0                                                                                                 |
 | +++xst_blk_mem_generator          |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/dualmem_inst/U0/xst_blk_mem_generator                                                                           |
@@ -4936,12 +4709,12 @@ Section 13 - Utilization by Hierarchy
 | +++++++v4_noinit.ram              |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram   |
 | ++++++ramloop[1].ram.r            |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r                 |
 | +++++++v4_noinit.ram              |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram   |
-| +inst_addfp                       |           | 488/488       | 589/589       | 612/612       | 45/45         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_addfp                                                                                                      |
-| +inst_divfp                       |           | 881/881       | 1356/1356     | 819/819       | 59/59         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_divfp                                                                                                      |
+| +inst_addfp                       |           | 492/492       | 589/589       | 612/612       | 45/45         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_addfp                                                                                                      |
+| +inst_divfp                       |           | 879/879       | 1356/1356     | 819/819       | 59/59         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_divfp                                                                                                      |
 | +inst_float2fixed                 |           | 276/276       | 312/312       | 475/475       | 7/7           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_float2fixed                                                                                                |
-| +inst_mulfp                       |           | 432/432       | 696/696       | 644/644       | 43/43         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_mulfp                                                                                                      |
-| +inst_sqrtfp2                     |           | 538/538       | 819/819       | 528/528       | 45/45         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_sqrtfp2                                                                                                    |
-| +inst_subfp                       |           | 479/479       | 589/589       | 612/612       | 45/45         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_subfp                                                                                                      |
+| +inst_mulfp                       |           | 435/435       | 696/696       | 644/644       | 43/43         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_mulfp                                                                                                      |
+| +inst_sqrtfp2                     |           | 539/539       | 819/819       | 528/528       | 45/45         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_sqrtfp2                                                                                                    |
+| +inst_subfp                       |           | 489/489       | 589/589       | 612/612       | 45/45         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_subfp                                                                                                      |
 | +inst_tb_i2c_mem                  |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_tb_i2c_mem                                                                                                 |
 | ++U0                              |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_tb_i2c_mem/U0                                                                                              |
 | +++xst_blk_mem_generator          |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_tb_i2c_mem/U0/xst_blk_mem_generator                                                                        |
@@ -4951,36 +4724,36 @@ Section 13 - Utilization by Hierarchy
 | +++++++v4_init.ram                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_init.ram  |
 | ++++++ramloop[1].ram.r            |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r              |
 | +++++++v4_init.ram                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_init.ram  |
-| +tfm_inst                         |           | 2603/8227     | 60/4748       | 3956/11182    | 0/0           | 0/19      | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst                                                                                                        |
-| ++inst_CalculateAlphaCP           |           | 135/135       | 238/238       | 33/33         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaCP                                                                                  |
-| ++inst_CalculateAlphaComp         |           | 472/476       | 304/306       | 603/605       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaComp                                                                                |
+| +tfm_inst                         |           | 2566/8103     | 58/4670       | 3893/10983    | 0/0           | 0/19      | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst                                                                                                        |
+| ++inst_CalculateAlphaCP           |           | 138/138       | 238/238       | 33/33         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaCP                                                                                  |
+| ++inst_CalculateAlphaComp         |           | 459/463       | 304/306       | 597/599       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaComp                                                                                |
 | +++inst_mem_alphacomp             |           | 3/3           | 2/2           | 1/1           | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaComp/inst_mem_alphacomp                                                             |
 | +++inst_mem_switchpattern         |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateAlphaComp/inst_mem_switchpattern                                                         |
-| ++inst_CalculateKGain             |           | 132/132       | 162/162       | 175/175       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateKGain                                                                                    |
-| ++inst_CalculatePixOS             |           | 626/1674      | 300/1406      | 991/1996      | 0/0           | 0/10      | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS                                                                                    |
-| +++inst_CalculatePixGain          |           | 133/136       | 166/168       | 110/111       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain                                                              |
+| ++inst_CalculateKGain             |           | 118/118       | 143/143       | 155/155       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateKGain                                                                                    |
+| ++inst_CalculatePixOS             |           | 682/1654      | 300/1406      | 1026/2000     | 0/0           | 0/10      | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS                                                                                    |
+| +++inst_CalculatePixGain          |           | 152/155       | 166/168       | 110/111       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain                                                              |
 | ++++inst_mem_KGain                |           | 3/3           | 2/2           | 1/1           | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain/inst_mem_KGain                                               |
-| +++inst_ExtractKtaParameters      |           | 269/272       | 413/415       | 152/153       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters                                                          |
+| +++inst_ExtractKtaParameters      |           | 271/274       | 413/415       | 156/157       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters                                                          |
 | ++++inst_mem_kta                  |           | 3/3           | 2/2           | 1/1           | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/inst_mem_kta                                             |
 | +++inst_ExtractKvParameters       |           | 162/165       | 204/206       | 104/105       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_ExtractKvParameters                                                           |
 | ++++inst_mem_kv                   |           | 3/3           | 2/2           | 1/1           | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_ExtractKvParameters/inst_mem_kv                                               |
-| +++inst_ExtractOffsetParameters   |           | 437/472       | 313/315       | 602/635       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_ExtractOffsetParameters                                                       |
-| ++++inst_mem_occ                  |           | 35/35         | 2/2           | 33/33         | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_ExtractOffsetParameters/inst_mem_occ                                          |
+| +++inst_ExtractOffsetParameters   |           | 356/375       | 313/315       | 567/600       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_ExtractOffsetParameters                                                       |
+| ++++inst_mem_occ                  |           | 19/19         | 2/2           | 33/33         | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_ExtractOffsetParameters/inst_mem_occ                                          |
 | +++inst_mem_pixos                 |           | 3/3           | 2/2           | 1/1           | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOS/inst_mem_pixos                                                                     |
-| ++inst_CalculatePixOsCPSP         |           | 618/618       | 585/585       | 878/878       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP                                                                                |
-| ++inst_CalculateTa                |           | 465/465       | 385/385       | 652/652       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateTa                                                                                       |
-| ++inst_CalculateTo                |           | 816/819       | 456/458       | 1184/1185     | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateTo                                                                                       |
+| ++inst_CalculatePixOsCPSP         |           | 623/623       | 566/566       | 861/861       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculatePixOsCPSP                                                                                |
+| ++inst_CalculateTa                |           | 461/461       | 366/366       | 632/632       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateTa                                                                                       |
+| ++inst_CalculateTo                |           | 775/778       | 456/458       | 1111/1112     | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateTo                                                                                       |
 | +++inst_mem_To                    |           | 3/3           | 2/2           | 1/1           | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateTo/inst_mem_To                                                                           |
-| ++inst_CalculateVdd               |           | 369/369       | 356/356       | 569/569       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVdd                                                                                      |
-| ++inst_CalculateVirCompensated    |           | 330/334       | 307/309       | 356/358       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVirCompensated                                                                           |
+| ++inst_CalculateVdd               |           | 342/342       | 337/337       | 549/549       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVdd                                                                                      |
+| ++inst_CalculateVirCompensated    |           | 321/325       | 307/309       | 324/326       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVirCompensated                                                                           |
 | +++inst_mem_switchpattern         |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVirCompensated/inst_mem_switchpattern                                                    |
 | +++inst_mem_vir_compensated       |           | 3/3           | 2/2           | 1/1           | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_CalculateVirCompensated/inst_mem_vir_compensated                                                  |
-| ++inst_ExtractAlphaParameters     |           | 458/493       | 399/401       | 630/663       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters                                                                            |
+| ++inst_ExtractAlphaParameters     |           | 480/515       | 399/401       | 664/697       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters                                                                            |
 | +++inst_mem_acc                   |           | 35/35         | 2/2           | 33/33         | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractAlphaParameters/inst_mem_acc                                                               |
-| ++inst_ExtractTGCParameters       |           | 47/47         | 82/82         | 10/10         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractTGCParameters                                                                              |
-| ++inst_rom_constants              |           | 62/62         | 0/0           | 102/102       | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_rom_constants                                                                                     |
+| ++inst_ExtractTGCParameters       |           | 48/48         | 82/82         | 10/10         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_ExtractTGCParameters                                                                              |
+| ++inst_rom_constants              |           | 72/72         | 0/0           | 116/116       | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/tfm_inst/inst_rom_constants                                                                                     |
 | +vig_inst                         |           | 5/5           | 0/0           | 8/8           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/vig_inst                                                                                                        |
-| +vts_inst                         |           | 41/41         | 23/23         | 68/68         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/vts_inst                                                                                                        |
+| +vts_inst                         |           | 42/42         | 23/23         | 69/69         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | test1/vts_inst                                                                                                        |
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 * Slices can be packed with basic elements from multiple hierarchies.
