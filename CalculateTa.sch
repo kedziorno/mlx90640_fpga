@@ -44,7 +44,7 @@
         <signal name="subfpsclr" />
         <signal name="i2c_mem_addra(11:0)" />
         <signal name="o_Ta(31:0)" />
-        <signal name="fixed2floata(63:0)" />
+        <signal name="fixed2floata(15:0)" />
         <signal name="divfpa(31:0)" />
         <signal name="divfpb(31:0)" />
         <signal name="mulfpa(31:0)" />
@@ -88,7 +88,7 @@
         <port polarity="Output" name="subfpsclr" />
         <port polarity="Output" name="i2c_mem_addra(11:0)" />
         <port polarity="Output" name="o_Ta(31:0)" />
-        <port polarity="Output" name="fixed2floata(63:0)" />
+        <port polarity="Output" name="fixed2floata(15:0)" />
         <port polarity="Output" name="divfpa(31:0)" />
         <port polarity="Output" name="divfpb(31:0)" />
         <port polarity="Output" name="mulfpa(31:0)" />
@@ -98,7 +98,7 @@
         <port polarity="Output" name="subfpa(31:0)" />
         <port polarity="Output" name="subfpb(31:0)" />
         <blockdef name="calculateTa_process_p0">
-            <timestamp>2023-6-10T20:32:26</timestamp>
+            <timestamp>2023-9-16T15:16:9</timestamp>
             <rect width="64" x="736" y="20" height="24" />
             <line x2="800" y1="32" y2="32" x1="736" />
             <rect width="64" x="736" y="84" height="24" />
@@ -173,7 +173,7 @@
             <rect width="672" x="64" y="-1792" height="1920" />
         </blockdef>
         <blockdef name="ExtractAlphaPTATParameter">
-            <timestamp>2023-6-10T20:32:11</timestamp>
+            <timestamp>2023-9-17T15:5:1</timestamp>
             <rect width="384" x="64" y="-192" height="192" />
             <rect width="64" x="0" y="-172" height="24" />
             <line x2="0" y1="-160" y2="-160" x1="64" />
@@ -183,7 +183,7 @@
             <line x2="512" y1="-160" y2="-160" x1="448" />
         </blockdef>
         <blockdef name="ExtractKtPTATParameter">
-            <timestamp>2023-6-10T20:32:1</timestamp>
+            <timestamp>2023-9-17T15:5:21</timestamp>
             <rect width="352" x="64" y="-192" height="192" />
             <line x2="0" y1="-160" y2="-160" x1="64" />
             <line x2="0" y1="-96" y2="-96" x1="64" />
@@ -193,7 +193,7 @@
             <line x2="480" y1="-160" y2="-160" x1="416" />
         </blockdef>
         <blockdef name="ExtractKvPTATParameter">
-            <timestamp>2023-6-10T20:31:52</timestamp>
+            <timestamp>2023-9-17T15:5:27</timestamp>
             <rect width="352" x="64" y="-192" height="192" />
             <rect width="64" x="0" y="-172" height="24" />
             <line x2="0" y1="-160" y2="-160" x1="64" />
@@ -202,7 +202,7 @@
             <rect width="64" x="416" y="-172" height="24" />
             <line x2="480" y1="-160" y2="-160" x1="416" />
         </blockdef>
-        <block symbolname="calculateTa_process_p0" name="XLXI_1">
+        <block symbolname="calculateTa_process_p0" name="CalculateTa_process_p0_inst">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="i_run" name="i_run" />
@@ -242,7 +242,7 @@
             <blockpin signalname="ee0x2432(15:0)" name="o_ee2432(15:0)" />
             <blockpin signalname="i2c_mem_addra(11:0)" name="i2c_mem_addra(11:0)" />
             <blockpin signalname="o_Ta(31:0)" name="o_Ta(31:0)" />
-            <blockpin signalname="fixed2floata(63:0)" name="fixed2floata(63:0)" />
+            <blockpin signalname="fixed2floata(15:0)" name="fixed2floata(15:0)" />
             <blockpin signalname="divfpa(31:0)" name="divfpa(31:0)" />
             <blockpin signalname="divfpb(31:0)" name="divfpb(31:0)" />
             <blockpin signalname="mulfpa(31:0)" name="mulfpa(31:0)" />
@@ -252,19 +252,19 @@
             <blockpin signalname="subfpa(31:0)" name="subfpa(31:0)" />
             <blockpin signalname="subfpb(31:0)" name="subfpb(31:0)" />
         </block>
-        <block symbolname="ExtractKtPTATParameter" name="XLXI_3">
+        <block symbolname="ExtractKtPTATParameter" name="CalculateTa_etractktptatparameter">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="ee0x2432(15:0)" name="i_ee0x2432(15:0)" />
             <blockpin signalname="XLXN_4(31:0)" name="o_ktptat(31:0)" />
         </block>
-        <block symbolname="ExtractKvPTATParameter" name="XLXI_4">
+        <block symbolname="ExtractKvPTATParameter" name="CalculateTa_extractkvptatparameter">
             <blockpin signalname="ee0x2432(15:0)" name="i_ee0x2432(15:0)" />
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="XLXN_5(31:0)" name="o_kvptat(31:0)" />
         </block>
-        <block symbolname="ExtractAlphaPTATParameter" name="XLXI_2">
+        <block symbolname="ExtractAlphaPTATParameter" name="CalculateTa_extractalphaptatparameter">
             <blockpin signalname="ee0x2410(15:0)" name="i_ee0x2410(15:0)" />
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
@@ -272,7 +272,7 @@
         </block>
     </netlist>
     <sheet sheetnum="1" width="5440" height="3520">
-        <instance x="2288" y="1904" name="XLXI_1" orien="R0">
+        <instance x="2288" y="1904" name="CalculateTa_process_p0_inst" orien="R0">
         </instance>
         <branch name="XLXN_4(31:0)">
             <wire x2="1904" y1="1104" y2="2208" x1="1904" />
@@ -443,10 +443,10 @@
             <wire x2="3120" y1="1296" y2="1296" x1="3088" />
         </branch>
         <iomarker fontsize="28" x="3120" y="1296" name="o_Ta(31:0)" orien="R0" />
-        <branch name="fixed2floata(63:0)">
+        <branch name="fixed2floata(15:0)">
             <wire x2="3120" y1="1360" y2="1360" x1="3088" />
         </branch>
-        <iomarker fontsize="28" x="3120" y="1360" name="fixed2floata(63:0)" orien="R0" />
+        <iomarker fontsize="28" x="3120" y="1360" name="fixed2floata(15:0)" orien="R0" />
         <branch name="divfpa(31:0)">
             <wire x2="3120" y1="1424" y2="1424" x1="3088" />
         </branch>
@@ -483,11 +483,11 @@
         <iomarker fontsize="28" x="2224" y="240" name="i_reset" orien="R180" />
         <iomarker fontsize="28" x="3120" y="208" name="o_rdy" orien="R0" />
         <iomarker fontsize="28" x="3120" y="912" name="addfpce" orien="R0" />
-        <instance x="2928" y="2592" name="XLXI_2" orien="R180">
+        <instance x="2928" y="2592" name="CalculateTa_extractalphaptatparameter" orien="R180">
         </instance>
-        <instance x="2928" y="2320" name="XLXI_4" orien="R180">
+        <instance x="2928" y="2320" name="CalculateTa_extractkvptatparameter" orien="R180">
         </instance>
-        <instance x="2928" y="2048" name="XLXI_3" orien="R180">
+        <instance x="2928" y="2048" name="CalculateTa_etractktptatparameter" orien="R180">
         </instance>
         <branch name="ee0x2432(15:0)">
             <wire x2="3056" y1="2080" y2="2080" x1="2928" />

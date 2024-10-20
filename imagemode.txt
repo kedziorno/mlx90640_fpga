@@ -1,0 +1,25 @@
+13.3. Using the device in “image mode”
+
+In some applications may not be necessary to calculate the temperature but rather to have just and image (for instance in machine vision systems). In this case it is not necessary to carry out all calculations which would save computation time or allow the one to use weaker CPU. In order to get thermal image only following computation flow is to be used:
+
+Supply voltage value calculation (common for all pixels) - 11.2.2.2 *
+vdd
+
+Ambient temperature calculation (common for all pixels) - 11.2.2.3 *
+ta
+
+Gain compensation - 11.2.2.5.1 *
+pixgain
+
+IR data compensation – offset, VDD and Ta - 11.2.2.5.3 *
+pixos,kta,kv
+
+IR data gradient compensation - 11.2.2.7 *
+pattern,tgc,vircompensated
+
+Normalizing to sensitivity - 11.2.2.8 *
+alphacomp,acpsubpage01,ksta,alpha
+
+Image (data) processing
+
+

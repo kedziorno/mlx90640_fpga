@@ -30,7 +30,7 @@ type states is (idle,
 a0,a,a1,b,b1,c,c1,d,d1,e,e1,f,f1,g,g1,h,h1,i,i1,j,j1,k,k1,l,l1,m,m1,n,n1,o,o1,p,p1,r,r1,s,s1,t,t1,u,u1,w,w1,y,y1,z,z1,x,x1
 );
 
-signal tstate : states;
+--signal tstate : states;
 signal penable : std_logic;
 begin
 
@@ -62,15 +62,18 @@ process (clk25)
 
 variable va : std_logic_vector(address'range);
 variable addr1 : std_logic_vector(address'range);
-constant CCOUNT1 : integer := 32;
+--constant CCOUNT1 : integer := 32;
+constant CCOUNT1 : integer := 64;
 variable count1 : integer range 0 to CCOUNT1-1;
 
 variable state : states;
-constant C_ROWS : integer := 19;
+--constant C_ROWS : integer := 19;
+constant C_ROWS : integer := 9; -- XXX (480/rows)-1
 variable rows : integer range 0 to C_ROWS-1;
 constant CW8 : integer := 159; -- must wait on HFP/HBP
 variable w8 : integer range 0 to CW8-1;
-constant CW81 : integer := 19; -- must wait on HFP/HBP
+--constant CW81 : integer := 19; -- must wait on HFP/HBP
+constant CW81 : integer := 9; -- must wait on HFP/HBP
 variable w81 : integer range 0 to CW8-1;
 
 begin
@@ -85,7 +88,7 @@ if rising_edge (clk25) then
 		w8 := 0;
 	else
 --  address <= addr;
-tstate <= state;
+--tstate <= state;
 penable <= enable;
 			case (state) is
 				when idle =>

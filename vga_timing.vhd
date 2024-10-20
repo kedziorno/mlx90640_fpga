@@ -29,22 +29,22 @@ constant VFP : INTEGER := 10;
 constant VSP : INTEGER := 2;
 constant VBP : INTEGER := 33;
 
-signal clk_vga : STD_LOGIC;
-signal hcnt,vcnt : INTEGER range 0 to 1023 := 0;
+--signal clk_vga : STD_LOGIC;
+--signal hcnt,vcnt : INTEGER range 0 to 1023 := 0;
 signal hPos,vPos : integer range 0 to 1023 := 0;
-signal thPos,tvPos : std_logic_vector(9 downto 0);
+--signal thPos,tvPos : std_logic_vector(9 downto 0);
 signal videoOn : std_logic;
-signal thsync,tvsync : std_logic;
+--signal thsync,tvsync : std_logic;
 
 signal h,v : std_logic;
 
-signal ph,pv : std_logic;
+--signal ph,pv : std_logic;
 
-signal v120 : std_logic;
+--signal v120 : std_logic;
 
 signal display_flag,activeh : std_logic;
 
-signal tactiveArea1 : std_logic;
+--signal tactiveArea1 : std_logic;
 
 begin
 
@@ -447,10 +447,10 @@ activeh <= '1';
 activeArea1 <= '1' when (hPos <= HD) and (vPos <= VD) else '0';
 --
 hsync_gen : process(vgaclk25,reset) begin
-	if rising_edge(vgaclk25) then
-if (reset = '1') then
-h <= '0';
-elsif (hPos >= (HD+HFP) and hPos <= (HD+HFP+HSP)) then 
+  if rising_edge(vgaclk25) then
+    if (reset = '1') then
+      h <= '0';
+    elsif (hPos >= (HD+HFP) and hPos <= (HD+HFP+HSP)) then 
 			h <= '0';
 		else
 			h <= '1';
@@ -459,10 +459,10 @@ elsif (hPos >= (HD+HFP) and hPos <= (HD+HFP+HSP)) then
 end process hsync_gen;
 
 vsync_gen : process(vgaclk25,reset) begin
-	if rising_edge(vgaclk25) then
-if (reset = '1') then
-v <= '0';
-elsif (vPos >= (VD+VFP) and vPos <= (VD+VFP+VSP)) then
+  if rising_edge(vgaclk25) then
+  if (reset = '1') then
+  v <= '0';
+  elsif (vPos >= (VD+VFP) and vPos <= (VD+VFP+VSP)) then
 			v <= '0';
 		else
 			v <= '1';
@@ -472,10 +472,10 @@ end process vsync_gen;
 
 Horizontal_position_counter:process(vgaclk25, reset)
 begin
-	if(rising_edge(vgaclk25))then
-	if(reset = '1')then
+  if(rising_edge(vgaclk25))then
+  if(reset = '1')then
 		hpos <= 0;
-elsif (hPos = (HD + HFP + HSP + HBP)-1) then
+  elsif (hPos = (HD + HFP + HSP + HBP)-1) then
 				hPos <= 0;
 			else
 				hPos <= hPos + 1;
@@ -488,7 +488,7 @@ begin
 	if(rising_edge(vgaclk25))then
 	if(reset = '1')then
 		vPos <= 0;
-elsif(hPos = (HD + HFP + HSP + HBP)-1)then
+  elsif(hPos = (HD + HFP + HSP + HBP)-1)then
 				if (vPos = (VD + VFP + VSP + VBP)-1) then
 					vPos <= 0;
 				else
@@ -530,10 +530,10 @@ end process;
 
 video_on:process(vgaclk25, reset, hPos, vPos)
 begin
-	if(rising_edge(vgaclk25))then
-	if(reset = '1')then
+  if(rising_edge(vgaclk25))then
+  if(reset = '1')then
 		videoOn <= '0';
-elsif((hPos <= HD and vPos <= VD) and (
+  elsif((hPos <= HD and vPos <= VD) and (
 --		if((hPos >= 145 and hPos < 785) and (
 
 --(vPos = 1) or
@@ -557,30 +557,82 @@ elsif((hPos <= HD and vPos <= VD) and (
 --(vPos = 432) or
 --(vPos = 456)
 
+--(vPos = 0) or
+--(vPos = 20) or
+--(vPos = 40) or
+--(vPos = 60) or
+--(vPos = 80) or
+--(vPos = 100) or
+--(vPos = 120) or
+--(vPos = 140) or
+--(vPos = 160) or
+--(vPos = 180) or
+--(vPos = 200) or
+--(vPos = 220) or
+--(vPos = 240) or
+--(vPos = 260) or
+--(vPos = 280) or
+--(vPos = 300) or
+--(vPos = 320) or
+--(vPos = 340) or
+--(vPos = 360) or
+--(vPos = 380) or
+--(vPos = 400) or
+--(vPos = 420) or
+--(vPos = 440) or
+--(vPos = 460)
+
 (vPos = 0) or
+(vPos = 10) or
 (vPos = 20) or
+(vPos = 30) or
 (vPos = 40) or
+(vPos = 50) or
 (vPos = 60) or
+(vPos = 70) or
 (vPos = 80) or
+(vPos = 90) or
 (vPos = 100) or
+(vPos = 110) or
 (vPos = 120) or
+(vPos = 130) or
 (vPos = 140) or
+(vPos = 150) or
 (vPos = 160) or
+(vPos = 170) or
 (vPos = 180) or
+(vPos = 190) or
 (vPos = 200) or
+(vPos = 210) or
 (vPos = 220) or
+(vPos = 230) or
 (vPos = 240) or
+(vPos = 250) or
 (vPos = 260) or
+(vPos = 270) or
 (vPos = 280) or
+(vPos = 290) or
 (vPos = 300) or
+(vPos = 310) or
 (vPos = 320) or
+(vPos = 330) or
 (vPos = 340) or
+(vPos = 350) or
 (vPos = 360) or
+(vPos = 370) or
 (vPos = 380) or
+(vPos = 390) or
 (vPos = 400) or
+(vPos = 410) or
 (vPos = 420) or
+(vPos = 430) or
 (vPos = 440) or
-(vPos = 460)
+(vPos = 450) or
+(vPos = 460) or
+--(vPos = 470)
+(vPos = 470) or
+(vPos = 480)
+
 		)) then
 --		if(hPos < HD and vPos < VD and vPos mod 24 = 0)then
 			videoOn <= '1';

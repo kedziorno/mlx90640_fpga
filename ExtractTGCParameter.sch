@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="virtex4" name="DeviceFamilyName">
+    <attr value="spartan3e" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -21,8 +21,6 @@
         <signal name="o_rdy" />
         <signal name="i2c_mem_addra(11:0)" />
         <signal name="o_tgc(31:0)" />
-        <signal name="XLXN_22" />
-        <signal name="XLXN_23" />
         <port polarity="Input" name="i_clock" />
         <port polarity="Input" name="i_reset" />
         <port polarity="Input" name="i_run" />
@@ -31,8 +29,8 @@
         <port polarity="Output" name="o_rdy" />
         <port polarity="Output" name="i2c_mem_addra(11:0)" />
         <port polarity="Output" name="o_tgc(31:0)" />
-        <blockdef name="ramb16">
-            <timestamp>2007-9-26T16:56:25</timestamp>
+        <blockdef name="RAMB16_S36_S36">
+            <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
             <rect width="64" x="0" y="-588" height="24" />
@@ -113,7 +111,7 @@
             <rect width="64" x="512" y="-44" height="24" />
             <line x2="576" y1="-32" y2="-32" x1="512" />
         </blockdef>
-        <block symbolname="ramb16" name="ROM_TGC">
+        <block symbolname="RAMB16_S36_S36" name="ROM_TGC">
             <attr value="3ffc00003ff800003ff400003ff000003fec00003fe800003fe400003fe00000" name="INIT_07">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -163,7 +161,7 @@
                 <trait vhdl="all:0 gm:1nosynth wa:1 wd:1" />
                 <trait valuetype="BitVector 256 hexadecimal" />
             </attr>
-            <attr value="3e6000003e4000003e2000003e0000003dc000003d8000003d00000000000000" name="INIT_00">
+            <attr value="3e6000003e4000003e2000003e0000003dc000003d8000003d00000022000000" name="INIT_00">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
                 <trait verilog="all:0 dp:1nosynth wsynop:1 wsynth:1" />
@@ -418,7 +416,7 @@
         <block symbolname="vcc" name="XLXI_7">
             <blockpin signalname="XLXN_11" name="P" />
         </block>
-        <block symbolname="ExtractTGCParameter_process_p0" name="XLXI_8">
+        <block symbolname="ExtractTGCParameter_process_p0" name="ExtractTGCParameter_process_p0_inst">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="i_run" name="i_run" />
@@ -479,7 +477,7 @@
             <wire x2="1776" y1="2320" y2="2320" x1="1376" />
         </branch>
         <instance x="1664" y="2256" name="XLXI_7" orien="R270" />
-        <instance x="1408" y="1520" name="XLXI_8" orien="R0">
+        <instance x="1408" y="1520" name="ExtractTGCParameter_process_p0_inst" orien="R0">
         </instance>
         <branch name="XLXN_12(7:0)">
             <wire x2="1424" y1="1712" y2="1760" x1="1424" />

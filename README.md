@@ -4,3 +4,10 @@
 ![Calculated temperatures](333506035_680609170477392_5402465778520738655_n.jpg)
 ![Display on VGA](333014955_740028757714962_8963736502072594292_n.jpg)
 ### I am not responsible for incorrect operation or misuse of the project
+### UPDATE: use less resourcess, speed calculations, add color heatmap
+![Display from simulation](01cdcc5a16eb4adb588599b45d8a1d491c0c27ac.bmp)
+git diff b2ffe6056c2d7b9b2d4b3ed917050d28610628cc..1eae55edd3fda56ed9e449b763673da1b78408de test1.syr (CalculateTo vs CalculateGetImage)
+### UPDATE: add scaler from https://opencores.org/projects/video_stream_scaler
+![Display from simulation](70c935de1967df3d8713fe05f360b8cc9a610466.bmp)
+git diff b2ffe6056c2d7b9b2d4b3ed917050d28610628cc..9e5d9761c55ec0083cb870a94dca373ed8429668 test1.syr (CalculateTo vs CalculateGetImage + scaler)
+

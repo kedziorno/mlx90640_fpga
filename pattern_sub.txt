@@ -1,0 +1,14 @@
+		subfpce <= '1';
+		subfpa <= _ft;
+		subfpb <= _ft;
+		subfpond <= '1';
+	when s =>
+		if (subfprdy = '1') then state := s;
+			_ft := subfpr;
+			o_out1 <= subfpr;
+			subfpce <= '0';
+			subfpond <= '0';
+			subfpsclr <= '1';
+		else state := s; end if;
+	when s => state := s;
+		subfpsclr <= '0';

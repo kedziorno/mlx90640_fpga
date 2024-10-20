@@ -52,7 +52,7 @@ o_write_enable : out std_logic;
 o_addra : out std_logic_vector (9 downto 0);
 o_dia : out std_logic_vector (31 downto 0);
 
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
@@ -76,12 +76,12 @@ signal i2c_mem_ena_internal : STD_LOGIC;
 signal i2c_mem_addra_internal : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal i2c_mem_douta_internal : STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-signal fixed2floata_internal : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal fixed2floata_internal : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond_internal : STD_LOGIC;
 signal fixed2floatce_internal : STD_LOGIC;
 signal fixed2floatsclr_internal : STD_LOGIC;
 signal fixed2floatr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal fixed2floatrdy_internal : STD_LOGIC;
+--signal fixed2floatrdy_internal : STD_LOGIC;
 
 signal mulfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -89,7 +89,12 @@ signal mulfpond_internal : STD_LOGIC;
 signal mulfpce_internal : STD_LOGIC;
 signal mulfpsclr_internal : STD_LOGIC;
 signal mulfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy_internal : STD_LOGIC;
+--signal mulfprdy_internal : STD_LOGIC;
+
+signal mulfp_wait : integer range 0 to C_MULFP_WAIT-1;
+signal fi2fl_wait : integer range 0 to C_FI2FL_WAIT-1;
+signal mulfp_run,mulfp_rdy : std_logic;
+signal fi2fl_run,fi2fl_rdy : std_logic;
 
 begin
 
@@ -98,7 +103,7 @@ fixed2floatond <= fixed2floatond_internal;
 fixed2floatce <= fixed2floatce_internal;
 fixed2floatsclr <= fixed2floatsclr_internal;
 fixed2floatr_internal <= fixed2floatr;
-fixed2floatrdy_internal <= fixed2floatrdy;
+--fixed2floatrdy_internal <= fixed2floatrdy;
 
 mulfpa <= mulfpa_internal;
 mulfpb <= mulfpb_internal;
@@ -106,11 +111,37 @@ mulfpond <= mulfpond_internal;
 mulfpce <= mulfpce_internal;
 mulfpsclr <= mulfpsclr_internal;
 mulfpr_internal <= mulfpr;
-mulfprdy_internal <= mulfprdy;
+--mulfprdy_internal <= mulfprdy;
 
 i2c_mem_ena <= i2c_mem_ena_internal;
 i2c_mem_addra <= i2c_mem_addra_internal;
 i2c_mem_douta_internal <= i2c_mem_douta;
+
+p1_counter_mulfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      mulfp_wait <= 0;
+    elsif (mulfp_rdy = '1') then
+      mulfp_wait <= 0;
+    elsif (mulfp_run = '1') then
+      mulfp_wait <= mulfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_mulfp;
+
+p1_counter_fi2fl : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      fi2fl_wait <= 0;
+    elsif (fi2fl_rdy = '1') then
+      fi2fl_wait <= 0;
+    elsif (fi2fl_run = '1') then
+      fi2fl_wait <= fi2fl_wait + 1;
+    end if;
+  end if;
+end process p1_counter_fi2fl;
 
 p0 : process (i_clock) is
 	constant PIXGAIN_ST : integer := 1665; -- pixgain start - eeprom max + 1
@@ -143,6 +174,10 @@ begin
 			CalculateKGain_mux <= '0';
 			i2c_mem_ena_internal <= '0';
 			i2c_mem_addra_internal <= (others => '0');
+      mulfp_run <= '0';
+      mulfp_rdy <= '0';
+      fi2fl_run <= '0';
+      fi2fl_rdy <= '0';
 		else
 			case (state) is
 				when idle =>
@@ -180,44 +215,62 @@ begin
 
 		fixed2floatce_internal <= '1';
 		fixed2floatond_internal <= '1';
-		fixed2floata_internal <=
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv (15) & 
-		eeprom16slv (15) & eeprom16slv & "00000000000000000000000000000";
+		fixed2floata_internal <= eeprom16slv;
 
 				when s5 =>
-					if (fixed2floatrdy_internal = '1') then state := s6;
-						pixgain_ft := fixed2floatr;
-						fixed2floatce_internal <= '0';
-						fixed2floatond_internal <= '0';
-						fixed2floatsclr_internal <= '1';
-					else state := s5; end if;
+if (fi2fl_wait = C_FI2FL_WAIT-1) then
+pixgain_ft := fixed2floatr_internal;
+fixed2floatce_internal <= '0';
+fixed2floatond_internal <= '0';
+fixed2floatsclr_internal <= '1';
+state := s6;
+fi2fl_run <= '0';
+fi2fl_rdy <= '1';
+else
+state := s5;
+fi2fl_run <= '1';
+end if;
+--					if (fixed2floatrdy_internal = '1') then state := s6;
+--						pixgain_ft := fixed2floatr;
+--						fixed2floatce_internal <= '0';
+--						fixed2floatond_internal <= '0';
+--						fixed2floatsclr_internal <= '1';
+--					else state := s5; end if;
 				when s6 => state := s7;
+        fi2fl_rdy <= '0';
 					fixed2floatsclr_internal <= '0';
 					mulfpce_internal <= '1';
 					mulfpa_internal <= pixgain_ft;
 					mulfpb_internal <= CalculateKGain_KGain;
 					mulfpond_internal <= '1';
 				when s7 =>
-					if (mulfprdy_internal = '1') then state := s8;
-						o_addra <= std_logic_vector (to_unsigned (pixgain_index, 10));
-						o_dia <= mulfpr;
-						o_write_enable <= '1';
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-					else state := s7; end if;
+if (mulfp_wait = C_MULFP_WAIT-1) then
+o_addra <= std_logic_vector (to_unsigned (pixgain_index, 10));
+o_dia <= mulfpr_internal;
+o_write_enable <= '1';
+mulfpce_internal <= '0';
+mulfpond_internal <= '0';
+mulfpsclr_internal <= '1';
+state := s8;
+mulfp_run <= '0';
+mulfp_rdy <= '1';
+else
+state := s7;
+mulfp_run <= '1';
+end if;
+--					if (mulfprdy_internal = '1') then state := s8;
+--						o_addra <= std_logic_vector (to_unsigned (pixgain_index, 10));
+--						o_dia <= mulfpr;
+--						o_write_enable <= '1';
+--						mulfpce_internal <= '0';
+--						mulfpond_internal <= '0';
+--						mulfpsclr_internal <= '1';
+--					else state := s7; end if;
 				when s8 => state := s9;
+        mulfp_rdy <= '0';
 					mulfpsclr_internal <= '0';
 					o_write_enable <= '0';
-          report_error ("================ CalculatePixGain PixGain " & integer'image (pixgain_index) & " : ",mulfpr,0.0);
+--          report_error ("================ CalculatePixGain PixGain " & integer'image (pixgain_index) & " : ",mulfpr,0.0);
 				when s9 =>
 					if (pixgain_index = PIXGAIN_SZ - 1) then
 						state := ending;
