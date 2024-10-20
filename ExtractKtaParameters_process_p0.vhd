@@ -100,7 +100,7 @@ signal mulfpond_internal : STD_LOGIC;
 signal mulfpsclr_internal : STD_LOGIC;
 signal mulfpce_internal : STD_LOGIC;
 signal mulfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy_internal : STD_LOGIC;
+--signal mulfprdy_internal : STD_LOGIC;
 
 signal addfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -108,7 +108,7 @@ signal addfpond_internal : STD_LOGIC;
 signal addfpsclr_internal : STD_LOGIC;
 signal addfpce_internal : STD_LOGIC;
 signal addfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfprdy_internal : STD_LOGIC;
+--signal addfprdy_internal : STD_LOGIC;
 
 signal divfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -116,10 +116,17 @@ signal divfpond_internal : STD_LOGIC;
 signal divfpsclr_internal : STD_LOGIC;
 signal divfpce_internal : STD_LOGIC;
 signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy_internal : STD_LOGIC;
+--signal divfprdy_internal : STD_LOGIC;
 
 signal col : integer range 0 to C_COL-1;
 signal row : integer range 0 to C_ROW-1;
+
+signal divfp_wait : integer range 0 to C_DIVFP_WAIT-1;
+signal addfp_wait : integer range 0 to C_ADDFP_WAIT-1;
+signal mulfp_wait : integer range 0 to C_MULFP_WAIT-1;
+signal divfp_run,divfp_rdy : std_logic;
+signal addfp_run,addfp_rdy : std_logic;
+signal mulfp_run,mulfp_rdy : std_logic;
 
 begin
 
@@ -129,7 +136,7 @@ mulfpond <= mulfpond_internal;
 mulfpsclr <= mulfpsclr_internal;
 mulfpce <= mulfpce_internal;
 mulfpr_internal <= mulfpr;
-mulfprdy_internal <= mulfprdy;
+--mulfprdy_internal <= mulfprdy;
 
 addfpa <= addfpa_internal;
 addfpb <= addfpb_internal;
@@ -137,7 +144,7 @@ addfpond <= addfpond_internal;
 addfpsclr <= addfpsclr_internal;
 addfpce <= addfpce_internal;
 addfpr_internal <= addfpr;
-addfprdy_internal <= addfprdy;
+--addfprdy_internal <= addfprdy;
 
 divfpa <= divfpa_internal;
 divfpb <= divfpb_internal;
@@ -145,7 +152,46 @@ divfpond <= divfpond_internal;
 divfpsclr <= divfpsclr_internal;
 divfpce <= divfpce_internal;
 divfpr_internal <= divfpr;
-divfprdy_internal <= divfprdy;
+--divfprdy_internal <= divfprdy;
+
+p1_counter_divfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      divfp_wait <= 0;
+    elsif (divfp_rdy = '1') then
+      divfp_wait <= 0;
+    elsif (divfp_run = '1') then
+      divfp_wait <= divfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_divfp;
+
+p1_counter_mulfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      mulfp_wait <= 0;
+    elsif (mulfp_rdy = '1') then
+      mulfp_wait <= 0;
+    elsif (mulfp_run = '1') then
+      mulfp_wait <= mulfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_mulfp;
+
+p1_counter_addfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      addfp_wait <= 0;
+    elsif (addfp_rdy = '1') then
+      addfp_wait <= 0;
+    elsif (addfp_run = '1') then
+      addfp_wait <= addfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_addfp;
 
 p0 : process (i_clock) is
 	type states is (idle,
@@ -201,8 +247,14 @@ begin
 			i2c_mem_ena <= '0';
 			i2c_mem_addra <= (others => '0');
 			i := 0;
-			o_col <= (others => '0');
-			o_row <= (others => '0');
+--			o_col <= (others => '0');
+--			o_row <= (others => '0');
+      divfp_run <= '0';
+      divfp_rdy <= '0';
+      mulfp_run <= '0';
+      mulfp_rdy <= '0';
+      addfp_run <= '0';
+      addfp_rdy <= '0';
 		else
 			case (state) is
 				when idle =>
@@ -263,13 +315,26 @@ when kta19 => state := kta20;
 --	--report "vAlphaPixel : " & real'image (ap_slv2fp (out_nibble3));
 --	--report "vktaRemScale : " & real'image (ap_slv2fp (vktaRemScale));
 when kta20 => 			--6
-	if (mulfprdy_internal = '1') then state := kta21;
-		kta_ft := mulfpr_internal;
-		mulfpce_internal <= '0';
-		mulfpond_internal <= '0';
-		mulfpsclr_internal <= '1';
-	else state := kta20; end if;
+if (mulfp_wait = C_MULFP_WAIT-1) then
+kta_ft := mulfpr_internal;
+mulfpce_internal <= '0';
+mulfpond_internal <= '0';
+mulfpsclr_internal <= '1';
+state := kta21;
+mulfp_run <= '0';
+mulfp_rdy <= '1';
+else
+state := kta20;
+mulfp_run <= '1';
+end if;
+--if (mulfprdy_internal = '1') then state := kta21;
+--kta_ft := mulfpr_internal;
+--mulfpce_internal <= '0';
+--mulfpond_internal <= '0';
+--mulfpsclr_internal <= '1';
+--else state := kta20; end if;
 when kta21 => state := kta22; 	--7
+mulfp_rdy <= '0';
 	mulfpsclr_internal <= '0';
 
 	addfpce_internal <= '1';
@@ -279,13 +344,26 @@ when kta21 => state := kta22; 	--7
 --	--report "vAlphaPixel : " & real'image (ap_slv2fp (out_nibble3));
 --	--report "vktaRemScale : " & real'image (ap_slv2fp (vktaRemScale));
 when kta22 => 			--6
-	if (addfprdy_internal = '1') then state := kta23;
-		kta_ft := addfpr_internal;
-		addfpce_internal <= '0';
-		addfpond_internal <= '0';
-		addfpsclr_internal <= '1';
-	else state := kta22; end if;
+if (addfp_wait = C_ADDFP_WAIT-1) then
+kta_ft := addfpr_internal;
+addfpce_internal <= '0';
+addfpond_internal <= '0';
+addfpsclr_internal <= '1';
+state := kta23;
+addfp_run <= '0';
+addfp_rdy <= '1';
+else
+state := kta22;
+addfp_run <= '1';
+end if;
+--if (addfprdy_internal = '1') then state := kta23;
+--kta_ft := addfpr_internal;
+--addfpce_internal <= '0';
+--addfpond_internal <= '0';
+--addfpsclr_internal <= '1';
+--else state := kta22; end if;
 when kta23 => state := kta24; 	--7
+addfp_rdy <= '0';
 	addfpsclr_internal <= '0';
 
 
@@ -296,20 +374,33 @@ when kta23 => state := kta24; 	--7
 --	--report "vAlphaPixel : " & real'image (ap_slv2fp (out_nibble3));
 --	--report "vktaRemScale : " & real'image (ap_slv2fp (vktaRemScale));
 when kta24 => 			--6
-	if (divfprdy_internal = '1') then state := kta25;
-		kta_ft := divfpr_internal;
-		divfpce_internal <= '0';
-		divfpond_internal <= '0';
-		divfpsclr_internal <= '1';
-	else state := kta24; end if;
+if (divfp_wait = C_DIVFP_WAIT-1) then
+kta_ft := divfpr_internal;
+divfpce_internal <= '0';
+divfpond_internal <= '0';
+divfpsclr_internal <= '1';
+state := kta25;
+divfp_run <= '0';
+divfp_rdy <= '1';
+else
+state := kta24;
+divfp_run <= '1';
+end if;
+--if (divfprdy_internal = '1') then state := kta25;
+--kta_ft := divfpr_internal;
+--divfpce_internal <= '0';
+--divfpond_internal <= '0';
+--divfpsclr_internal <= '1';
+--else state := kta24; end if;
 when kta25 => state := kta26; 	--7
+divfp_rdy <= '0';
 	divfpsclr_internal <= '0';
 
 when kta26 => state := kta27; 	--22
 	o_write_enable <= '1';
 	o_addra <= std_logic_vector (to_unsigned (i, 10)); -- kta
 	o_dia <= kta_ft;
-     report_error ("================kta_ft "&integer'image(i)&" ",kta_ft,0.0);
+--     report_error ("================kta_ft "&integer'image(i)&" ",kta_ft,0.0);
 when kta27 =>
 	i := i + 1;
 	o_write_enable <= '0';
@@ -320,7 +411,6 @@ when kta27 =>
 		col <= col + 1;
 		state := kta10;
 	end if;
-  o_col <= std_logic_vector (to_unsigned (col, 5));
 when kta28 =>
 	o_write_enable <= '0';
 	if (row = C_ROW-1) then
@@ -330,7 +420,6 @@ when kta28 =>
 		row <= row + 1;
 		state := kta10;
 	end if;
-  o_row <= std_logic_vector (to_unsigned (row, 5));
 
 				when ending => state := idle;
 					o_rdy <= '1';
@@ -339,6 +428,9 @@ when kta28 =>
 		end if;
 	end if;
 end process p0;
+
+o_row <= std_logic_vector (to_unsigned (row, 5));
+o_col <= std_logic_vector (to_unsigned (col, 5));
 
 end Behavioral;
 

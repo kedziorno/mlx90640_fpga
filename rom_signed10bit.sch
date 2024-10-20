@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="virtex4" name="DeviceFamilyName">
+    <attr value="spartan3e" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -25,8 +25,8 @@
         <port polarity="Output" name="o_data(31:0)" />
         <port polarity="Input" name="i_clock" />
         <port polarity="Input" name="i_reset" />
-        <blockdef name="ramb16">
-            <timestamp>2007-9-26T16:56:25</timestamp>
+        <blockdef name="RAMB16_S36_S36">
+            <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
             <rect width="64" x="0" y="-588" height="24" />
@@ -110,7 +110,7 @@
             <line x2="64" y1="0" y2="-32" x1="64" />
             <line x2="32" y1="-64" y2="-64" x1="96" />
         </blockdef>
-        <block symbolname="ramb16" name="mem_half1">
+        <block symbolname="RAMB16_S36_S36" name="rom_signed_10bit_mem_half1">
             <attr value="36" name="WRITE_WIDTH_B">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -594,7 +594,7 @@
                 <trait vhdl="all:0 gm:1nosynth wa:1 wd:1" />
                 <trait valuetype="BitVector 256 hexadecimal" />
             </attr>
-            <attr value="40e0000040c0000040a000004080000040400000400000003f80000000000000" name="INIT_00">
+            <attr value="40e0000040c0000040a000004080000040400000400000003f80000022000000" name="INIT_00">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
                 <trait verilog="all:0 dp:1nosynth wsynop:1 wsynth:1" />
@@ -629,7 +629,7 @@
         <block symbolname="gnd" name="XLXI_8(4:0)">
             <blockpin signalname="XLXN_3(4:0)" name="G" />
         </block>
-        <block symbolname="ramb16" name="mem_half2">
+        <block symbolname="RAMB16_S36_S36" name="rom_signed_10bit_mem_half2">
             <attr value="bf800000c0000000c0400000c0800000c0a00000c0c00000c0e00000c1000000" name="INIT_3F">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -1160,7 +1160,7 @@
             <blockpin signalname="address(9)" name="I" />
             <blockpin signalname="XLXN_24" name="O" />
         </block>
-        <block symbolname="m2_1" name="XLXI_16(31:0)">
+        <block symbolname="m2_1" name="MUX_rom_signed_10bit(31:0)">
             <blockpin signalname="XLXN_32(31:0)" name="D0" />
             <blockpin signalname="XLXN_33(31:0)" name="D1" />
             <blockpin signalname="address(9)" name="S0" />
@@ -1171,7 +1171,7 @@
         </block>
     </netlist>
     <sheet sheetnum="1" width="3520" height="2720">
-        <instance x="816" y="960" name="mem_half1" orien="R0">
+        <instance x="816" y="960" name="rom_signed_10bit_mem_half1" orien="R0">
             <attrtext style="fontsize:28;fontname:Arial" attrname="InstName" x="-96" y="0" type="instance" />
             <attrtext style="fontsize:28;fontname:Arial;displayformat:NAMEEQUALSVALUE" attrname="INIT_3F" x="-96" y="28" type="instance" />
             <attrtext style="fontsize:28;fontname:Arial;displayformat:NAMEEQUALSVALUE" attrname="INIT_3E" x="-96" y="60" type="instance" />
@@ -1190,7 +1190,7 @@
             <wire x2="752" y1="176" y2="288" x1="752" />
         </branch>
         <instance x="912" y="336" name="XLXI_8(4:0)" orien="R270" />
-        <instance x="1696" y="960" name="mem_half2" orien="R0">
+        <instance x="1696" y="960" name="rom_signed_10bit_mem_half2" orien="R0">
             <attrtext style="fontsize:28;fontname:Arial" attrname="InstName" x="0" y="0" type="instance" />
             <attrtext style="fontsize:28;fontname:Arial;displayformat:NAMEEQUALSVALUE" attrname="INIT_3F" x="0" y="28" type="instance" />
             <attrtext style="fontsize:28;fontname:Arial;displayformat:NAMEEQUALSVALUE" attrname="INIT_3E" x="0" y="60" type="instance" />
@@ -1239,21 +1239,9 @@
             <wire x2="784" y1="384" y2="384" x1="752" />
             <wire x2="816" y1="384" y2="384" x1="784" />
         </branch>
-        <instance x="2256" y="1120" name="XLXI_16(31:0)" orien="R0" />
-        <branch name="XLXN_32(31:0)">
-            <wire x2="1280" y1="576" y2="576" x1="1200" />
-            <wire x2="1280" y1="576" y2="1024" x1="1280" />
-            <wire x2="2144" y1="1024" y2="1024" x1="1280" />
-            <wire x2="2144" y1="960" y2="1024" x1="2144" />
-            <wire x2="2256" y1="960" y2="960" x1="2144" />
-        </branch>
-        <branch name="XLXN_33(31:0)">
-            <wire x2="2160" y1="576" y2="576" x1="2080" />
-            <wire x2="2160" y1="576" y2="1024" x1="2160" />
-            <wire x2="2256" y1="1024" y2="1024" x1="2160" />
-        </branch>
         <branch name="o_data(31:0)">
-            <wire x2="2608" y1="992" y2="992" x1="2576" />
+            <wire x2="2592" y1="992" y2="992" x1="2576" />
+            <wire x2="2608" y1="992" y2="992" x1="2592" />
         </branch>
         <iomarker fontsize="28" x="2608" y="992" name="o_data(31:0)" orien="R0" />
         <branch name="i_clock">
@@ -1277,6 +1265,8 @@
             <wire x2="816" y1="800" y2="800" x1="784" />
         </branch>
         <instance x="784" y="864" name="XLXI_17" orien="R270" />
+        <iomarker fontsize="28" x="736" y="512" name="i_clock" orien="R180" />
+        <iomarker fontsize="28" x="656" y="848" name="i_reset" orien="R180" />
         <branch name="address(9)">
             <attrtext style="alignment:SOFT-TVCENTER;fontsize:28;fontname:Arial" attrname="Name" x="240" y="288" type="branch" />
             <wire x2="240" y1="272" y2="288" x1="240" />
@@ -1287,7 +1277,20 @@
             <wire x2="1264" y1="704" y2="1024" x1="1264" />
             <wire x2="1696" y1="704" y2="704" x1="1264" />
         </branch>
-        <iomarker fontsize="28" x="736" y="512" name="i_clock" orien="R180" />
-        <iomarker fontsize="28" x="656" y="848" name="i_reset" orien="R180" />
+        <branch name="XLXN_33(31:0)">
+            <wire x2="2096" y1="576" y2="576" x1="2080" />
+            <wire x2="2160" y1="576" y2="576" x1="2096" />
+            <wire x2="2160" y1="576" y2="1024" x1="2160" />
+            <wire x2="2256" y1="1024" y2="1024" x1="2160" />
+        </branch>
+        <branch name="XLXN_32(31:0)">
+            <wire x2="1216" y1="576" y2="576" x1="1200" />
+            <wire x2="1280" y1="576" y2="576" x1="1216" />
+            <wire x2="1280" y1="576" y2="1024" x1="1280" />
+            <wire x2="2144" y1="1024" y2="1024" x1="1280" />
+            <wire x2="2144" y1="960" y2="1024" x1="2144" />
+            <wire x2="2256" y1="960" y2="960" x1="2144" />
+        </branch>
+        <instance x="2256" y="1120" name="MUX_rom_signed_10bit(31:0)" orien="R0" />
     </sheet>
 </drawing>

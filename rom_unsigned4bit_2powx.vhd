@@ -47,7 +47,7 @@ x"3f800000" when x"0", x"40000000" when x"1", x"40800000" when x"2", x"41000000"
 x"41800000" when x"4", x"42000000" when x"5", x"42800000" when x"6", x"43000000" when x"7",
 x"43800000" when x"8", x"44000000" when x"9", x"44800000" when x"a", x"45000000" when x"b",
 x"45800000" when x"c", x"46000000" when x"d", x"46800000" when x"e", x"47000000" when x"f",
-x"00000000" when others;
+x"22000000" when others;
 
 end Behavioral;
 

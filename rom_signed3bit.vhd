@@ -43,9 +43,9 @@ begin
 --INIT_01 => X"40e00000 40c00000 40a00000 40800000 40400000 40000000 3f800000 00000000",
 --INIT_00 => X"bf800000 c0000000 c0400000 c0800000 40400000 40000000 3f800000 00000000",
 with nibble_in select nibble_out <= -- x signed (000e / 2) 0-7, >3,-8 - kta(i,j)_ee
-x"00000000" when "000", x"3f800000" when "001", x"40000000" when "010", x"40400000" when "011",
+x"22000000" when "000", x"3f800000" when "001", x"40000000" when "010", x"40400000" when "011",
 x"c0800000" when "100", x"c0400000" when "101", x"c0000000" when "110", x"bf800000" when "111",
-x"00000000" when others;
+x"22000000" when others;
 
 end Behavioral;
 

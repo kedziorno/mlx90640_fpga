@@ -1,0 +1,15 @@
+		mulfpce <= '1';
+		mulfpa <= _ft;
+		mulfpb <= _ft;
+		mulfpond <= '1';
+	when s =>
+		if (mulfprdy = '1') then state := s;
+			_ft := mulfpr;
+			o_out1 <= mulfpr;
+			mulfpce <= '0';
+			mulfpond <= '0';
+			mulfpsclr <= '1';
+		else state := s; end if;
+	when s => state := s;
+		mulfpsclr <= '0';
+

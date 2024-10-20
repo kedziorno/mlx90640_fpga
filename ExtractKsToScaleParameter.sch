@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawing version="7">
-    <attr value="virtex4" name="DeviceFamilyName">
+    <attr value="spartan3e" name="DeviceFamilyName">
         <trait delete="all:0" />
         <trait editname="all:0" />
         <trait edittrait="all:0" />
@@ -28,8 +28,8 @@
         <port polarity="Output" name="i2c_mem_addra(11:0)" />
         <port polarity="Output" name="o_kstoscale(31:0)" />
         <port polarity="Input" name="i2c_mem_douta(7:0)" />
-        <blockdef name="ramb16">
-            <timestamp>2007-9-26T16:56:25</timestamp>
+        <blockdef name="RAMB16_S36_S36">
+            <timestamp>2023-9-3T15:37:13</timestamp>
             <rect width="256" x="64" y="-608" height="608" />
             <line x2="0" y1="-576" y2="-576" x1="64" />
             <rect width="64" x="0" y="-588" height="24" />
@@ -102,7 +102,7 @@
             <rect width="64" x="544" y="-44" height="24" />
             <line x2="608" y1="-32" y2="-32" x1="544" />
         </blockdef>
-        <block symbolname="ramb16" name="ROM_KSTOSCALE">
+        <block symbolname="RAMB16_S36_S36" name="ROM_KSTOSCALE">
             <attr value="4700000046800000460000004580000045000000448000004400000043800000" name="INIT_00">
                 <trait editname="all:1 sch:0" />
                 <trait edittrait="all:1 sch:0" />
@@ -193,7 +193,7 @@
         <block symbolname="vcc" name="XLXI_5">
             <blockpin signalname="XLXN_10" name="P" />
         </block>
-        <block symbolname="ExtractKsToScaleParameter_process_p0" name="XLXI_6">
+        <block symbolname="ExtractKsToScaleParameter_process_p0" name="Extractkstoscaleparameter_process_p0_inst">
             <blockpin signalname="i_clock" name="i_clock" />
             <blockpin signalname="i_reset" name="i_reset" />
             <blockpin signalname="i_run" name="i_run" />
@@ -211,20 +211,22 @@
             <attrtext style="fontsize:28;fontname:Arial" attrname="InstName" x="0" y="0" type="instance" />
         </instance>
         <branch name="XLXN_1(14:0)">
-            <wire x2="1696" y1="2000" y2="2000" x1="1424" />
+            <wire x2="1440" y1="2000" y2="2000" x1="1424" />
+            <wire x2="1472" y1="2000" y2="2000" x1="1440" />
+            <wire x2="1504" y1="2000" y2="2000" x1="1472" />
+            <wire x2="1696" y1="2000" y2="2000" x1="1504" />
         </branch>
         <bustap x2="1472" y1="2000" y2="2096" x1="1472" />
         <branch name="XLXN_1(4:0)">
-            <attrtext style="alignment:SOFT-TVCENTER;fontsize:28;fontname:Arial" attrname="Name" x="1472" y="2104" type="branch" />
-            <wire x2="1472" y1="2096" y2="2104" x1="1472" />
-            <wire x2="1472" y1="2104" y2="2112" x1="1472" />
+            <attrtext style="alignment:SOFT-LEFT;fontsize:28;fontname:Arial" attrname="Name" x="1472" y="2104" type="branch" />
+            <wire x2="1472" y1="2096" y2="2112" x1="1472" />
         </branch>
         <bustap x2="1504" y1="2000" y2="2096" x1="1504" />
         <branch name="XLXN_1(14:9)">
-            <attrtext style="alignment:SOFT-TVCENTER;fontsize:28;fontname:Arial" attrname="Name" x="1504" y="2104" type="branch" />
+            <attrtext style="alignment:SOFT-LEFT;fontsize:28;fontname:Arial" attrname="Name" x="1504" y="2104" type="branch" />
             <wire x2="1504" y1="2176" y2="2176" x1="1472" />
-            <wire x2="1504" y1="2096" y2="2104" x1="1504" />
-            <wire x2="1504" y1="2104" y2="2176" x1="1504" />
+            <wire x2="1504" y1="2096" y2="2112" x1="1504" />
+            <wire x2="1504" y1="2112" y2="2176" x1="1504" />
         </branch>
         <instance x="1344" y="2048" name="XLXI_3(4:0)" orien="R90" />
         <instance x="1344" y="2112" name="XLXI_4(5:0)" orien="R90" />
@@ -234,14 +236,13 @@
         <instance x="1664" y="2384" name="XLXI_5" orien="R270" />
         <bustap x2="1440" y1="2000" y2="1904" x1="1440" />
         <branch name="XLXN_1(8:5)">
-            <attrtext style="alignment:SOFT-TVCENTER;fontsize:28;fontname:Arial" attrname="Name" x="1440" y="1896" type="branch" />
-            <wire x2="1440" y1="1840" y2="1896" x1="1440" />
-            <wire x2="1440" y1="1896" y2="1904" x1="1440" />
+            <attrtext style="alignment:SOFT-LEFT;fontsize:28;fontname:Arial" attrname="Name" x="1440" y="1896" type="branch" />
+            <wire x2="1440" y1="1840" y2="1904" x1="1440" />
             <wire x2="2224" y1="1840" y2="1840" x1="1440" />
             <wire x2="2224" y1="1600" y2="1600" x1="2176" />
             <wire x2="2224" y1="1600" y2="1840" x1="2224" />
         </branch>
-        <instance x="1568" y="1696" name="XLXI_6" orien="R0">
+        <instance x="1568" y="1696" name="Extractkstoscaleparameter_process_p0_inst" orien="R0">
         </instance>
         <branch name="i_clock">
             <wire x2="1296" y1="1408" y2="1408" x1="1264" />

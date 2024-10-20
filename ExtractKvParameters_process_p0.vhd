@@ -74,13 +74,16 @@ signal divfpond_internal : STD_LOGIC;
 signal divfpsclr_internal : STD_LOGIC;
 signal divfpce_internal : STD_LOGIC;
 signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy_internal : STD_LOGIC;
+--signal divfprdy_internal : STD_LOGIC;
  
 constant C_COL : integer := 32;
 constant C_ROW : integer := 24;
 	
 signal col : integer range 0 to C_COL-1;
 signal row : integer range 0 to C_ROW-1;
+
+signal divfp_wait : integer range 0 to C_DIVFP_WAIT-1;
+signal divfp_run,divfp_rdy : std_logic;
 
 begin
 
@@ -90,7 +93,20 @@ divfpond <= divfpond_internal;
 divfpsclr <= divfpsclr_internal;
 divfpce <= divfpce_internal;
 divfpr_internal <= divfpr;
-divfprdy_internal <= divfprdy;
+--divfprdy_internal <= divfprdy;
+
+p1_counter_divfp : process (i_clock) is
+begin
+  if (rising_edge (i_clock)) then
+    if (i_reset = '1') then
+      divfp_wait <= 0;
+    elsif (divfp_rdy = '1') then
+      divfp_wait <= 0;
+    elsif (divfp_run = '1') then
+      divfp_wait <= divfp_wait + 1;
+    end if;
+  end if;
+end process p1_counter_divfp;
 
 p0 : process (i_clock) is
 	type states is (idle,
@@ -129,10 +145,12 @@ begin
 			i2c_mem_ena <= '0';
 			i2c_mem_addra <= (others => '0');
 			i := 0;
-			o_col <= (others => '0');
-			o_row <= (others => '0');
+--			o_col <= (others => '0');
+--			o_row <= (others => '0');
       col <= 0;
       row <= 0;
+      divfp_run <= '0';
+      divfp_rdy <= '0';
 		else
 			case (state) is
 				when idle =>
@@ -174,20 +192,33 @@ when kv9 => state := kv10;
 	divfpb_internal <= nibble_in1; -- 2^kvscale
 	divfpond_internal <= '1';
 when kv10 => 			--6
-	if (divfprdy_internal = '1') then state := kv11;
-		kv_ft := divfpr_internal;
-		divfpce_internal <= '0';
-		divfpond_internal <= '0';
-		divfpsclr_internal <= '1';
-	else state := kv10; end if;
+if (divfp_wait = C_DIVFP_WAIT-1) then
+kv_ft := divfpr_internal;
+divfpce_internal <= '0';
+divfpond_internal <= '0';
+divfpsclr_internal <= '1';
+state := kv11;
+divfp_run <= '0';
+divfp_rdy <= '1';
+else
+state := kv10;
+divfp_run <= '1';
+end if;
+--if (divfprdy_internal = '1') then state := kv11;
+--kv_ft := divfpr_internal;
+--divfpce_internal <= '0';
+--divfpond_internal <= '0';
+--divfpsclr_internal <= '1';
+--else state := kv10; end if;
 when kv11 => state := kv12; 	--7
+divfp_rdy <= '0';
 	divfpsclr_internal <= '0';
 
 when kv12 => state := kv13; 	--22
 	o_write_enable <= '1';
 	o_addra <= std_logic_vector (to_unsigned (i, 10)); -- kv
 	o_dia <= kv_ft;
-     report_error ("================kv_ft "&integer'image(i)&" ",kv_ft,0.0);
+--     report_error ("================kv_ft "&integer'image(i)&" ",kv_ft,0.0);
 when kv13 =>
 	i := i + 1;
 	o_write_enable <= '0';
@@ -198,7 +229,6 @@ when kv13 =>
 		col <= col + 1;
 		state := kv1;
 	end if;
-  o_col <= std_logic_vector (to_unsigned (col, 5));
 when kv14 =>
 	o_write_enable <= '0';
 	if (row = C_ROW-1) then
@@ -208,7 +238,6 @@ when kv14 =>
 		row <= row + 1;
 		state := kv1;
 	end if;
-  o_row <= std_logic_vector (to_unsigned (row, 5));
 when ending => state := idle;
   o_rdy <= '1';
 				when others => null;
@@ -216,6 +245,9 @@ when ending => state := idle;
 		end if;
 	end if;
 end process p0;
+
+o_row <= std_logic_vector (to_unsigned (row, 5));
+o_col <= std_logic_vector (to_unsigned (col, 5));
 
 end Behavioral;
 
