@@ -32,7 +32,7 @@ use ieee.std_logic_1164.all;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-use work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 
 entity test_fixed_melexis is
 port (
@@ -47,147 +47,109 @@ i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_rdy : out std_logic;
 
 i_addr : in std_logic_vector(9 downto 0);
-o_do : out std_logic_vector(31 downto 0)
+o_do : out std_logic_vector(31 downto 0);
+
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC;
+
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC;
+
+signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : out STD_LOGIC;
+signal mulfpce : out STD_LOGIC;
+signal mulfpsclr : out STD_LOGIC;
+signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy : in STD_LOGIC;
+
+signal addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : out STD_LOGIC;
+signal addfpce : out STD_LOGIC;
+signal addfpsclr : out STD_LOGIC;
+signal addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : in STD_LOGIC;
+
+signal subfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpond : out STD_LOGIC;
+signal subfpce : out STD_LOGIC;
+signal subfpsclr : out STD_LOGIC;
+signal subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfprdy : in STD_LOGIC;
+
+signal sqrtfp2a : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal sqrtfp2ond : out STD_LOGIC;
+signal sqrtfp2sclr : out STD_LOGIC;
+signal sqrtfp2ce : out STD_LOGIC;
+signal sqrtfp2r : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal sqrtfp2rdy : in STD_LOGIC
 
 );
-end test_fixed_melexis;
+end entity test_fixed_melexis;
 
 architecture testbench of test_fixed_melexis is
 
---attribute RlOC : string;
-
-COMPONENT fixed2float
-PORT (
-a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
+COMPONENT rom_constants
+PORT(
+i_clock : IN  std_logic;
+i_reset : IN  std_logic;
+i_kvptat_en : IN  std_logic;
+i_kvptat_adr : IN  std_logic_vector(5 downto 0);
+i_alphaptat_en : IN  std_logic;
+i_alphaptat_adr : IN  std_logic_vector(3 downto 0);
+i_signed4bit_en : IN  std_logic;
+i_signed4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed6bit_en : IN  std_logic;
+i_signed6bit_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_1_en : IN  std_logic;
+i_alphascale_1_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_4bit_en : IN  std_logic;
+i_2powx_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_cpratio_en : IN  std_logic;
+i_cpratio_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_2_en : IN  std_logic;
+i_alphascale_2_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_p8_4bit_en : IN  std_logic;
+i_2powx_p8_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed3bit_en : IN  std_logic;
+i_signed3bit_adr : IN  std_logic_vector(2 downto 0);
+o_float : OUT  std_logic_vector(31 downto 0)
 );
-END COMPONENT;
-signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
-signal fixed2floatond : STD_LOGIC;
-signal fixed2floatce : STD_LOGIC;
-signal fixed2floatsclr : STD_LOGIC;
-signal fixed2floatr :  STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal fixed2floatrdy : STD_LOGIC;
-
---attribute RLOC of fixed2float : component is "SLICE_X40Y174:SLICE_X79Y191";
-
-COMPONENT divfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-signal divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpond : STD_LOGIC;
-signal divfpce : STD_LOGIC;
-signal divfpsclr : STD_LOGIC;
-signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy : STD_LOGIC;
-
---attribute RLOC of divfp : component is "SLICE_X40Y112:SLICE_X79Y143";
-
-COMPONENT mulfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-signal mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfpond : STD_LOGIC;
-signal mulfpce : STD_LOGIC;
-signal mulfpsclr : STD_LOGIC;
-signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy : STD_LOGIC;
-
---attribute RLOC of mulfp : component is "SLICE_X40Y80:SLICE_X79Y111";
-
-COMPONENT addfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-signal addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfpond : STD_LOGIC;
-signal addfpce : STD_LOGIC;
-signal addfpsclr : STD_LOGIC;
-signal addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfprdy : STD_LOGIC;
-
---attribute RLOC of addfp : component is "SLICE_X40Y144:SLICE_X79Y175";
-
-COMPONENT subfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-signal subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal subfpond : STD_LOGIC;
-signal subfpce : STD_LOGIC;
-signal subfpsclr : STD_LOGIC;
-signal subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal subfprdy : STD_LOGIC;
-
---attribute RLOC of subfp : component is "SLICE_X40Y48:SLICE_X79Y79";
-
-COMPONENT sqrtfp2
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-signal sqrtfp2a : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal sqrtfp2ond : STD_LOGIC;
-signal sqrtfp2clk : STD_LOGIC;
-signal sqrtfp2sclr : STD_LOGIC;
-signal sqrtfp2ce : STD_LOGIC;
-signal sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal sqrtfp2rdy : STD_LOGIC;
-
-signal fixed2floatclk : std_logic;
-signal addfpclk : std_logic;
-signal subfpclk : std_logic;
-signal mulfpclk : std_logic;
-signal divfpclk : std_logic;
+END COMPONENT rom_constants;
+signal rom_constants_clock : std_logic;
+signal rom_constants_reset : std_logic;
+signal rom_constants_kvptat_en : std_logic;
+signal rom_constants_kvptat_adr : std_logic_vector(5 downto 0);
+signal rom_constants_alphaptat_en : std_logic;
+signal rom_constants_alphaptat_adr : std_logic_vector(3 downto 0);
+signal rom_constants_signed4bit_en : std_logic;
+signal rom_constants_signed4bit_adr : std_logic_vector(3 downto 0);
+signal rom_constants_signed6bit_en : std_logic;
+signal rom_constants_signed6bit_adr : std_logic_vector(5 downto 0);
+signal rom_constants_alphascale_1_en : std_logic;
+signal rom_constants_alphascale_1_adr : std_logic_vector(3 downto 0);
+signal rom_constants_2powx_4bit_en : std_logic;
+signal rom_constants_2powx_4bit_adr : std_logic_vector(3 downto 0);
+signal rom_constants_cpratio_en : std_logic;
+signal rom_constants_cpratio_adr : std_logic_vector(5 downto 0);
+signal rom_constants_alphascale_2_en : std_logic;
+signal rom_constants_alphascale_2_adr : std_logic_vector(3 downto 0);
+signal rom_constants_2powx_p8_4bit_en : std_logic;
+signal rom_constants_2powx_p8_4bit_adr : std_logic_vector(3 downto 0);
+signal rom_constants_signed3bit_en : std_logic;
+signal rom_constants_signed3bit_adr : std_logic_vector(2 downto 0);
+signal rom_constants_float : std_logic_vector(31 downto 0);
 
 COMPONENT tb_i2c_mem
 PORT (
@@ -200,7 +162,7 @@ douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
 );
 END COMPONENT;
 
-component calculateVdd is
+component CalculateVdd is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -208,9 +170,9 @@ i_run : in std_logic;
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-o_Vdd : out fd2ft; -- output Vdd
+o_Vdd : out std_logic_vector (31 downto 0); -- output Vdd
 o_rdy : out std_logic;
-fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
 fixed2floatsclr : out STD_LOGIC;
@@ -245,56 +207,51 @@ subfpsclr : out STD_LOGIC;
 subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 subfprdy : in STD_LOGIC
 );
-end component calculateVdd;
-signal calculateVdd_clock : std_logic;
-signal calculateVdd_reset : std_logic;
-signal calculateVdd_run : std_logic;
-signal calculateVdd_i2c_mem_ena : STD_LOGIC;
-signal calculateVdd_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal calculateVdd_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal calculateVdd_Vdd : fd2ft; -- output Vdd
-signal calculateVdd_rdy : std_logic;
-signal calculateVdd_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
-signal calculateVdd_fixed2floatond : STD_LOGIC;
-signal calculateVdd_fixed2floatce : STD_LOGIC;
-signal calculateVdd_fixed2floatsclr : STD_LOGIC;
-signal calculateVdd_fixed2floatr :  STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_fixed2floatrdy : STD_LOGIC;
-signal calculateVdd_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_divfpond : STD_LOGIC;
-signal calculateVdd_divfpce : STD_LOGIC;
-signal calculateVdd_divfpsclr : STD_LOGIC;
-signal calculateVdd_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_divfprdy : STD_LOGIC;
-signal calculateVdd_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_mulfpond : STD_LOGIC;
-signal calculateVdd_mulfpce : STD_LOGIC;
-signal calculateVdd_mulfpsclr : STD_LOGIC;
-signal calculateVdd_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_mulfprdy : STD_LOGIC;
-signal calculateVdd_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_addfpond : STD_LOGIC;
-signal calculateVdd_addfpce : STD_LOGIC;
-signal calculateVdd_addfpsclr : STD_LOGIC;
-signal calculateVdd_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_addfprdy : STD_LOGIC;
-signal calculateVdd_subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_subfpond : STD_LOGIC;
-signal calculateVdd_subfpce : STD_LOGIC;
-signal calculateVdd_subfpsclr : STD_LOGIC;
-signal calculateVdd_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateVdd_subfprdy : STD_LOGIC;
-signal CalculateVdd_fixed2floatclk : std_logic;
-signal CalculateVdd_addfpclk : std_logic;
-signal CalculateVdd_subfpclk : std_logic;
-signal CalculateVdd_mulfpclk : std_logic;
-signal CalculateVdd_divfpclk : std_logic;
+end component CalculateVdd;
+signal CalculateVdd_clock : std_logic;
+signal CalculateVdd_reset : std_logic;
+signal CalculateVdd_run : std_logic;
+signal CalculateVdd_i2c_mem_ena : STD_LOGIC;
+signal CalculateVdd_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal CalculateVdd_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal CalculateVdd_Vdd : std_logic_vector (31 downto 0); -- output Vdd
+signal CalculateVdd_rdy : std_logic;
+signal CalculateVdd_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal CalculateVdd_fixed2floatond : STD_LOGIC;
+signal CalculateVdd_fixed2floatce : STD_LOGIC;
+signal CalculateVdd_fixed2floatsclr : STD_LOGIC;
+signal CalculateVdd_fixed2floatr :  STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_fixed2floatrdy : STD_LOGIC;
+signal CalculateVdd_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_divfpond : STD_LOGIC;
+signal CalculateVdd_divfpce : STD_LOGIC;
+signal CalculateVdd_divfpsclr : STD_LOGIC;
+signal CalculateVdd_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_divfprdy : STD_LOGIC;
+signal CalculateVdd_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_mulfpond : STD_LOGIC;
+signal CalculateVdd_mulfpce : STD_LOGIC;
+signal CalculateVdd_mulfpsclr : STD_LOGIC;
+signal CalculateVdd_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_mulfprdy : STD_LOGIC;
+signal CalculateVdd_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_addfpond : STD_LOGIC;
+signal CalculateVdd_addfpce : STD_LOGIC;
+signal CalculateVdd_addfpsclr : STD_LOGIC;
+signal CalculateVdd_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_addfprdy : STD_LOGIC;
+signal CalculateVdd_subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_subfpond : STD_LOGIC;
+signal CalculateVdd_subfpce : STD_LOGIC;
+signal CalculateVdd_subfpsclr : STD_LOGIC;
+signal CalculateVdd_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateVdd_subfprdy : STD_LOGIC;
 
-component calculateTa is
+component CalculateTa is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -302,10 +259,15 @@ i_run : in std_logic;
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-i_Vdd : in fd2ft;
-o_Ta : out fd2ft; -- output Ta
+i_Vdd : in std_logic_vector (31 downto 0);
+o_Ta : out std_logic_vector (31 downto 0); -- output Ta
 o_rdy : out std_logic;
-fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+o_kvptat_ena : out std_logic;
+o_kvptat_adr : out std_logic_vector (5 downto 0);
+o_alphaptat_ena : out std_logic;
+o_alphaptat_adr : out std_logic_vector (3 downto 0);
+i_rom_constants_float : in std_logic_vector (31 downto 0);
+fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
 fixed2floatsclr : out STD_LOGIC;
@@ -340,7 +302,7 @@ subfpsclr : out STD_LOGIC;
 subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 subfprdy : in STD_LOGIC
 );
-end component calculateTa;
+end component CalculateTa;
 signal CalculateTa_clock : std_logic;
 signal CalculateTa_reset : std_logic;
 signal CalculateTa_run : std_logic;
@@ -348,7 +310,12 @@ signal CalculateTa_i2c_mem_ena : STD_LOGIC;
 signal CalculateTa_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal CalculateTa_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal CalculateTa_rdy : std_logic;
-signal CalculateTa_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculateTa_kvptat_ena : std_logic;
+signal CalculateTa_kvptat_adr : std_logic_vector (5 downto 0);
+signal CalculateTa_alphaptat_ena : std_logic;
+signal CalculateTa_alphaptat_adr : std_logic_vector (3 downto 0);
+signal CalculateTa_rom_constants_float : std_logic_vector (31 downto 0);
+signal CalculateTa_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal CalculateTa_fixed2floatond : STD_LOGIC;
 signal CalculateTa_fixed2floatce : STD_LOGIC;
 signal CalculateTa_fixed2floatsclr : STD_LOGIC;
@@ -382,13 +349,8 @@ signal CalculateTa_subfpce : STD_LOGIC;
 signal CalculateTa_subfpsclr : STD_LOGIC;
 signal CalculateTa_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateTa_subfprdy : STD_LOGIC;
-signal CalculateTa_fixed2floatclk : std_logic;
-signal CalculateTa_addfpclk : std_logic;
-signal CalculateTa_subfpclk : std_logic;
-signal CalculateTa_mulfpclk : std_logic;
-signal CalculateTa_divfpclk : std_logic;
-signal calculateTa_Vdd : fd2ft; -- from VDD
-signal calculateTa_Ta : fd2ft; -- output Ta
+signal CalculateTa_Vdd : std_logic_vector (31 downto 0); -- from VDD
+signal CalculateTa_Ta : std_logic_vector (31 downto 0); -- output Ta
 
 component ExtractAlphaParameters is
 port (
@@ -402,7 +364,16 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 o_done : out std_logic;
 o_rdy : out std_logic;
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal o_signed4bit_ena : out std_logic;
+signal o_signed4bit_adr : out std_logic_vector (3 downto 0);
+signal o_signed6bit_ena : out std_logic;
+signal o_signed6bit_adr : out std_logic_vector (5 downto 0);
+signal o_alphascale_1_ena : out std_logic;
+signal o_alphascale_1_adr : out std_logic_vector (3 downto 0);
+signal o_2powx_4bit_ena : out std_logic;
+signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
@@ -439,9 +410,17 @@ signal ExtractAlphaParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal ExtractAlphaParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal ExtractAlphaParameters_do : std_logic_vector (31 downto 0);
 signal ExtractAlphaParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
-signal ExtractAlphaParameters_done : std_logic;
 signal ExtractAlphaParameters_rdy : std_logic;
-signal ExtractAlphaParameters_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal ExtractAlphaParameters_signed4bit_ena : std_logic;
+signal ExtractAlphaParameters_signed4bit_adr : std_logic_vector (3 downto 0);
+signal ExtractAlphaParameters_signed6bit_ena : std_logic;
+signal ExtractAlphaParameters_signed6bit_adr : std_logic_vector (5 downto 0);
+signal ExtractAlphaParameters_alphascale_1_ena : std_logic;
+signal ExtractAlphaParameters_alphascale_1_adr : std_logic_vector (3 downto 0);
+signal ExtractAlphaParameters_2powx_4bit_ena : std_logic;
+signal ExtractAlphaParameters_2powx_4bit_adr : std_logic_vector (3 downto 0);
+signal ExtractAlphaParameters_rom_constants_float : std_logic_vector (31 downto 0);
+signal ExtractAlphaParameters_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal ExtractAlphaParameters_fixed2floatond : STD_LOGIC;
 signal ExtractAlphaParameters_fixed2floatsclr : STD_LOGIC;
 signal ExtractAlphaParameters_fixed2floatce : STD_LOGIC;
@@ -477,9 +456,14 @@ i_run : in std_logic;
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-o_acpsubpage0 : out fd2ft;
-o_acpsubpage1 : out fd2ft;
+o_acpsubpage0 : out std_logic_vector (31 downto 0);
+o_acpsubpage1 : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic;
+signal o_cpratio_ena : out std_logic;
+signal o_cpratio_adr : out std_logic_vector (5 downto 0);
+signal o_alphascale_2_ena : out std_logic;
+signal o_alphascale_2_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpond : out STD_LOGIC;
@@ -493,7 +477,13 @@ signal mulfpond : out STD_LOGIC;
 signal mulfpsclr : out STD_LOGIC;
 signal mulfpce : out STD_LOGIC;
 signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy : in STD_LOGIC
+signal mulfprdy : in STD_LOGIC;
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC
 );
 end component CalculateAlphaCP;
 signal CalculateAlphaCP_clock : std_logic;
@@ -502,9 +492,14 @@ signal CalculateAlphaCP_run : std_logic;
 signal CalculateAlphaCP_i2c_mem_ena : STD_LOGIC;
 signal CalculateAlphaCP_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal CalculateAlphaCP_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal CalculateAlphaCP_acpsubpage0 : fd2ft;
-signal CalculateAlphaCP_acpsubpage1 : fd2ft;
+signal CalculateAlphaCP_acpsubpage0 : std_logic_vector (31 downto 0);
+signal CalculateAlphaCP_acpsubpage1 : std_logic_vector (31 downto 0);
 signal CalculateAlphaCP_rdy : std_logic;
+signal CalculateAlphaCP_cpratio_ena : std_logic;
+signal CalculateAlphaCP_cpratio_adr : std_logic_vector (5 downto 0);
+signal CalculateAlphaCP_alphascale_2_ena : std_logic;
+signal CalculateAlphaCP_alphascale_2_adr : std_logic_vector (3 downto 0);
+signal CalculateAlphaCP_rom_constants_float : std_logic_vector (31 downto 0);
 signal CalculateAlphaCP_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaCP_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaCP_divfpond : STD_LOGIC;
@@ -519,6 +514,64 @@ signal CalculateAlphaCP_mulfpsclr : STD_LOGIC;
 signal CalculateAlphaCP_mulfpce : STD_LOGIC;
 signal CalculateAlphaCP_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaCP_mulfprdy : STD_LOGIC;
+signal CalculateAlphaCP_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal CalculateAlphaCP_fixed2floatond : STD_LOGIC;
+signal CalculateAlphaCP_fixed2floatce : STD_LOGIC;
+signal CalculateAlphaCP_fixed2floatsclr : STD_LOGIC;
+signal CalculateAlphaCP_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaCP_fixed2floatrdy : STD_LOGIC;
+
+component CalculateKGain is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+o_KGain : out std_logic_vector (31 downto 0);
+o_rdy : out std_logic;
+
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC;
+
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC
+
+);
+end component CalculateKGain;
+signal CalculateKGain_clock : std_logic;
+signal CalculateKGain_reset : std_logic;
+signal CalculateKGain_run : std_logic;
+signal CalculateKGain_i2c_mem_ena : STD_LOGIC;
+signal CalculateKGain_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal CalculateKGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal CalculateKGain_KGain : std_logic_vector (31 downto 0);
+signal CalculateKGain_rdy : std_logic;
+
+signal CalculateKGain_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal CalculateKGain_fixed2floatond : STD_LOGIC;
+signal CalculateKGain_fixed2floatsclr : STD_LOGIC;
+signal CalculateKGain_fixed2floatce : STD_LOGIC;
+signal CalculateKGain_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateKGain_fixed2floatrdy : STD_LOGIC;
+
+signal CalculateKGain_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateKGain_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateKGain_divfpond : STD_LOGIC;
+signal CalculateKGain_divfpsclr : STD_LOGIC;
+signal CalculateKGain_divfpce : STD_LOGIC;
+signal CalculateKGain_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateKGain_divfprdy : STD_LOGIC;
 
 component CalculatePixOS is
 port (
@@ -528,15 +581,24 @@ i_run : in std_logic;
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-i_const1 : in std_logic_vector (31 downto 0);
 i_Ta : in std_logic_vector (31 downto 0);
-i_Ta0 : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
-i_VddV0 : in std_logic_vector (31 downto 0);
+i_KGain : in std_logic_vector (31 downto 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 o_rdy : out std_logic;
-fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+o_signed4bit_ena : out std_logic;
+o_signed4bit_adr : out std_logic_vector (3 downto 0);
+o_signed6bit_ena : out std_logic;
+o_signed6bit_adr : out std_logic_vector (5 downto 0);
+o_2powx_4bit_ena : out std_logic;
+o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
+o_2powx_p8_4bit_ena : out std_logic;
+o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
+o_signed3bit_ena : out std_logic;
+o_signed3bit_adr : out std_logic_vector (2 downto 0);
+i_rom_constants_float : in std_logic_vector (31 downto 0);
+fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
 fixed2floatsclr : out STD_LOGIC;
@@ -578,15 +640,24 @@ signal CalculatePixOS_run : std_logic;
 signal CalculatePixOS_i2c_mem_ena : STD_LOGIC;
 signal CalculatePixOS_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal CalculatePixOS_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal CalculatePixOS_const1 : std_logic_vector (31 downto 0);
 signal CalculatePixOS_Ta : std_logic_vector (31 downto 0);
-signal CalculatePixOS_Ta0 : std_logic_vector (31 downto 0);
 signal CalculatePixOS_Vdd : std_logic_vector (31 downto 0);
-signal CalculatePixOS_VddV0 : std_logic_vector (31 downto 0);
+signal CalculatePixOS_KGain : std_logic_vector (31 downto 0);
 signal CalculatePixOS_do : std_logic_vector (31 downto 0);
 signal CalculatePixOS_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal CalculatePixOS_rdy : std_logic;
-signal CalculatePixOS_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculatePixOS_signed4bit_ena : std_logic;
+signal CalculatePixOS_signed4bit_adr : std_logic_vector (3 downto 0);
+signal CalculatePixOS_signed6bit_ena : std_logic;
+signal CalculatePixOS_signed6bit_adr : std_logic_vector (5 downto 0);
+signal CalculatePixOS_2powx_4bit_ena : std_logic;
+signal CalculatePixOS_2powx_4bit_adr : std_logic_vector (3 downto 0);
+signal CalculatePixOS_2powx_p8_4bit_ena : std_logic;
+signal CalculatePixOS_2powx_p8_4bit_adr : std_logic_vector (3 downto 0);
+signal CalculatePixOS_signed3bit_ena : std_logic;
+signal CalculatePixOS_signed3bit_adr : std_logic_vector (2 downto 0);
+signal CalculatePixOS_rom_constants_float : std_logic_vector (31 downto 0);
+signal CalculatePixOS_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal CalculatePixOS_fixed2floatond : STD_LOGIC;
 signal CalculatePixOS_fixed2floatce : STD_LOGIC;
 signal CalculatePixOS_fixed2floatsclr : STD_LOGIC;
@@ -620,11 +691,6 @@ signal CalculatePixOS_subfpsclr : STD_LOGIC;
 signal CalculatePixOS_subfpce : STD_LOGIC;
 signal CalculatePixOS_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixOS_subfprdy : STD_LOGIC;
-signal CalculatePixOS_fixed2floatclk : std_logic;
-signal CalculatePixOS_addfpclk : std_logic;
-signal CalculatePixOS_subfpclk : std_logic;
-signal CalculatePixOS_mulfpclk : std_logic;
-signal CalculatePixOS_divfpclk : std_logic;
 
 component CalculatePixOsCPSP is
 port (
@@ -632,17 +698,22 @@ i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
 i_Ta : in std_logic_vector (31 downto 0);
-i_Ta0 : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
-i_VddV0 : in std_logic_vector (31 downto 0);
-i_const1 : in std_logic_vector (31 downto 0);
+i_KGain : in std_logic_vector (31 downto 0);
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_pixoscpsp0 : out std_logic_vector (31 downto 0);
 o_pixoscpsp1 : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic;
-signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal o_signed6bit_ena : out std_logic;
+signal o_signed6bit_adr : out std_logic_vector (5 downto 0);
+signal o_2powx_p8_4bit_ena : out std_logic;
+signal o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
+signal o_2powx_4bit_ena : out std_logic;
+signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
@@ -682,17 +753,22 @@ signal CalculatePixOsCPSP_clock : std_logic;
 signal CalculatePixOsCPSP_reset : std_logic;
 signal CalculatePixOsCPSP_run : std_logic;
 signal CalculatePixOsCPSP_Ta : std_logic_vector (31 downto 0);
-signal CalculatePixOsCPSP_Ta0 : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_Vdd : std_logic_vector (31 downto 0);
-signal CalculatePixOsCPSP_VddV0 : std_logic_vector (31 downto 0);
-signal CalculatePixOsCPSP_const1 : std_logic_vector (31 downto 0);
+signal CalculatePixOsCPSP_KGain : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_i2c_mem_ena : STD_LOGIC;
 signal CalculatePixOsCPSP_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal CalculatePixOsCPSP_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal CalculatePixOsCPSP_pixoscpsp0 : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_pixoscpsp1 : std_logic_vector (31 downto 0);
 signal CalculatePixOsCPSP_rdy : std_logic;
-signal CalculatePixOsCPSP_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
+signal CalculatePixOsCPSP_signed6bit_ena : std_logic;
+signal CalculatePixOsCPSP_signed6bit_adr : std_logic_vector (5 downto 0);
+signal CalculatePixOsCPSP_2powx_p8_4bit_ena : std_logic;
+signal CalculatePixOsCPSP_2powx_p8_4bit_adr : std_logic_vector (3 downto 0);
+signal CalculatePixOsCPSP_2powx_4bit_ena : std_logic;
+signal CalculatePixOsCPSP_2powx_4bit_adr : std_logic_vector (3 downto 0);
+signal CalculatePixOsCPSP_rom_constants_float : std_logic_vector (31 downto 0);
+signal CalculatePixOsCPSP_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal CalculatePixOsCPSP_fixed2floatond : STD_LOGIC;
 signal CalculatePixOsCPSP_fixed2floatsclr : STD_LOGIC;
 signal CalculatePixOsCPSP_fixed2floatce : STD_LOGIC;
@@ -726,20 +802,15 @@ signal CalculatePixOsCPSP_subfpsclr : STD_LOGIC;
 signal CalculatePixOsCPSP_subfpce : STD_LOGIC;
 signal CalculatePixOsCPSP_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixOsCPSP_subfprdy : STD_LOGIC;
-signal CalculatePixOsCPSP_fixed2floatclk : STD_LOGIC;
-signal CalculatePixOsCPSP_addfpclk : STD_LOGIC;
-signal CalculatePixOsCPSP_subfpclk : STD_LOGIC;
-signal CalculatePixOsCPSP_mulfpclk : STD_LOGIC;
-signal CalculatePixOsCPSP_divfpclk : STD_LOGIC;
 
 COMPONENT CalculateVirCompensated
 PORT(
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-i_Emissivity : in std_logic_vector (31 downto 0);
 i_pixoscpsp0 : in std_logic_vector (31 downto 0);
 i_pixoscpsp1 : in std_logic_vector (31 downto 0);
+i_tgc : in std_logic_vector (31 downto 0);
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -781,9 +852,9 @@ END COMPONENT;
 signal CalculateVirCompensated_clock : std_logic;
 signal CalculateVirCompensated_reset : std_logic;
 signal CalculateVirCompensated_run : std_logic;
-signal CalculateVirCompensated_Emissivity : std_logic_vector(31 downto 0) := x"3f800000"; -- 1
 signal CalculateVirCompensated_pixoscpsp0 : std_logic_vector(31 downto 0) := x"41CD5551"; -- 25.6666575059956
 signal CalculateVirCompensated_pixoscpsp1 : std_logic_vector(31 downto 0) := x"41AD0D7D"; -- 21.6315865670509
+signal CalculateVirCompensated_tgc : std_logic_vector(31 downto 0);
 signal CalculateVirCompensated_i2c_mem_douta : std_logic_vector(7 downto 0);
 signal CalculateVirCompensated_pixos_do : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateVirCompensated_addr : std_logic_vector(9 downto 0);
@@ -821,6 +892,53 @@ signal CalculateVirCompensated_subfpce : STD_LOGIC;
 signal CalculateVirCompensated_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateVirCompensated_subfprdy : STD_LOGIC;
 
+component ExtractTGCParameters is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_run : in std_logic;
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+o_tgc : out std_logic_vector (31 downto 0);
+o_rdy : out std_logic;
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC;
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC
+);
+end component ExtractTGCParameters;
+signal ExtractTGCParameters_clock : std_logic;
+signal ExtractTGCParameters_reset : std_logic;
+signal ExtractTGCParameters_run : std_logic;
+signal ExtractTGCParameters_i2c_mem_ena : STD_LOGIC;
+signal ExtractTGCParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal ExtractTGCParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal ExtractTGCParameters_tgc : std_logic_vector (31 downto 0);
+signal ExtractTGCParameters_rdy : std_logic;
+signal ExtractTGCParameters_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal ExtractTGCParameters_fixed2floatond : STD_LOGIC;
+signal ExtractTGCParameters_fixed2floatsclr : STD_LOGIC;
+signal ExtractTGCParameters_fixed2floatce : STD_LOGIC;
+signal ExtractTGCParameters_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractTGCParameters_fixed2floatrdy : STD_LOGIC;
+signal ExtractTGCParameters_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractTGCParameters_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractTGCParameters_divfpond : STD_LOGIC;
+signal ExtractTGCParameters_divfpsclr : STD_LOGIC;
+signal ExtractTGCParameters_divfpce : STD_LOGIC;
+signal ExtractTGCParameters_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal ExtractTGCParameters_divfprdy : STD_LOGIC;
+
 COMPONENT CalculateAlphaComp
 PORT(
 i_clock : in std_logic;
@@ -832,10 +950,9 @@ i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 i_Ta : in std_logic_vector (31 downto 0);
-i_Ta0 : in std_logic_vector (31 downto 0);
 i_acpsubpage0 : in std_logic_vector (31 downto 0);
 i_acpsubpage1 : in std_logic_vector (31 downto 0);
-i_const1 : in std_logic_vector (31 downto 0);
+i_tgc : in std_logic_vector (31 downto 0);
 
 i_alpha_do : in std_logic_vector (31 downto 0);
 o_alpha_addr : out std_logic_vector (9 downto 0); -- 10bit-1024
@@ -853,6 +970,14 @@ signal mulfpce : out STD_LOGIC;
 signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfprdy : in STD_LOGIC;
 
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC;
+
 signal addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfpond : out STD_LOGIC;
@@ -867,7 +992,14 @@ signal subfpond : out STD_LOGIC;
 signal subfpsclr : out STD_LOGIC;
 signal subfpce : out STD_LOGIC;
 signal subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal subfprdy : in STD_LOGIC
+signal subfprdy : in STD_LOGIC;
+
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC
 );
 END COMPONENT;
 signal CalculateAlphaComp_clock : std_logic := '0';
@@ -875,10 +1007,9 @@ signal CalculateAlphaComp_reset : std_logic := '0';
 signal CalculateAlphaComp_run : std_logic := '0';
 signal CalculateAlphaComp_i2c_mem_douta : std_logic_vector(7 downto 0) := (others => '0');
 signal CalculateAlphaComp_Ta : std_logic_vector(31 downto 0) := (others => '0');
-signal CalculateAlphaComp_Ta0 : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_acpsubpage0 : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_acpsubpage1 : std_logic_vector(31 downto 0) := (others => '0');
-signal CalculateAlphaComp_const1 : std_logic_vector(31 downto 0) := (others => '0');
+signal CalculateAlphaComp_tgc : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_alpha_do : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateAlphaComp_addr : std_logic_vector(9 downto 0) := (others => '0');
 signal CalculateAlphaComp_i2c_mem_ena : std_logic;
@@ -893,6 +1024,13 @@ signal CalculateAlphaComp_mulfpsclr : STD_LOGIC;
 signal CalculateAlphaComp_mulfpce : STD_LOGIC;
 signal CalculateAlphaComp_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaComp_mulfprdy : STD_LOGIC;
+signal CalculateAlphaComp_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaComp_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaComp_divfpond : STD_LOGIC;
+signal CalculateAlphaComp_divfpsclr : STD_LOGIC;
+signal CalculateAlphaComp_divfpce : STD_LOGIC;
+signal CalculateAlphaComp_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaComp_divfprdy : STD_LOGIC;
 signal CalculateAlphaComp_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaComp_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaComp_addfpond : STD_LOGIC;
@@ -907,6 +1045,12 @@ signal CalculateAlphaComp_subfpsclr : STD_LOGIC;
 signal CalculateAlphaComp_subfpce : STD_LOGIC;
 signal CalculateAlphaComp_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaComp_subfprdy : STD_LOGIC;
+signal CalculateAlphaComp_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal CalculateAlphaComp_fixed2floatond : STD_LOGIC;
+signal CalculateAlphaComp_fixed2floatsclr : STD_LOGIC;
+signal CalculateAlphaComp_fixed2floatce : STD_LOGIC;
+signal CalculateAlphaComp_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateAlphaComp_fixed2floatrdy : STD_LOGIC;
 
 COMPONENT CalculateTo
 PORT(
@@ -924,6 +1068,10 @@ o_alphacomp_addr : OUT  std_logic_vector(9 downto 0);
 o_do : OUT  std_logic_vector(31 downto 0);
 i_addr : IN  std_logic_vector(9 downto 0);
 o_rdy : OUT  std_logic;
+
+signal o_2powx_p8_ena : out std_logic;
+signal o_2powx_p8_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -962,7 +1110,14 @@ signal sqrtfp2ond : out STD_LOGIC;
 signal sqrtfp2sclr : out STD_LOGIC;
 signal sqrtfp2ce : out STD_LOGIC;
 signal sqrtfp2r : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal sqrtfp2rdy : in STD_LOGIC
+signal sqrtfp2rdy : in STD_LOGIC;
+
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC
 
 );
 END COMPONENT;
@@ -980,6 +1135,10 @@ signal CalculateTo_vircompensated_addr : std_logic_vector(9 downto 0);
 signal CalculateTo_alphacomp_addr : std_logic_vector(9 downto 0);
 signal CalculateTo_do : std_logic_vector(31 downto 0);
 signal CalculateTo_rdy : std_logic;
+
+signal CalculateTo_2powx_p8_ena : std_logic;
+signal CalculateTo_2powx_p8_adr : std_logic_vector (3 downto 0);
+signal CalculateTo_rom_constants_float : std_logic_vector (31 downto 0);
 
 signal CalculateTo_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateTo_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -1020,15 +1179,33 @@ signal CalculateTo_sqrtfp2ce : STD_LOGIC;
 signal CalculateTo_sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateTo_sqrtfp2rdy : STD_LOGIC;
 
-signal rdyrecover : std_logic; -- signal for tb when rdy not appear
+signal CalculateTo_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal CalculateTo_fixed2floatond : STD_LOGIC;
+signal CalculateTo_fixed2floatce : STD_LOGIC;
+signal CalculateTo_fixed2floatsclr : STD_LOGIC;
+signal CalculateTo_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTo_fixed2floatrdy : STD_LOGIC;
 
-signal CalculatePixOS_mux,CalculatePixOsCPSP_mux,CalculateVirCompensated_mux,ExtractOffsetParameters_mux : std_logic;
+signal CalculateKGain_mux : std_logic;
+signal ExtractTGCParameters_mux : std_logic;
+
+signal CalculatePixOS_mux,CalculatePixOsCPSP_mux,CalculateVirCompensated_mux : std_logic;
 signal ExtractAlphaParameters_mux,CalculateAlphaComp_mux,CalculateAlphaCP_mux : std_logic;
 signal CalculateVdd_mux,CalculateTa_mux,CalculateTo_mux : std_logic;
 
 begin
 
 fixed2floata <=
+CalculateTo_fixed2floata when CalculateTo_mux = '1'
+else
+CalculateAlphaCP_fixed2floata when CalculateAlphaCP_mux = '1'
+else
+CalculateAlphaComp_fixed2floata when CalculateAlphaComp_mux = '1'
+else
+ExtractTGCParameters_fixed2floata when ExtractTGCParameters_mux = '1'
+else
+CalculateKGain_fixed2floata when CalculateKGain_mux = '1'
+else
 CalculateVdd_fixed2floata when CalculateVdd_mux = '1'
 else
 CalculateTa_fixed2floata when CalculateTa_mux = '1'
@@ -1041,6 +1218,16 @@ ExtractAlphaParameters_fixed2floata when ExtractAlphaParameters_mux = '1'
 else (others => '0');
 
 fixed2floatond <=
+CalculateTo_fixed2floatond when CalculateTo_mux = '1'
+else
+CalculateAlphaCP_fixed2floatond when CalculateAlphaCP_mux = '1'
+else
+CalculateAlphaComp_fixed2floatond when CalculateAlphaComp_mux = '1'
+else
+ExtractTGCParameters_fixed2floatond when ExtractTGCParameters_mux = '1'
+else
+CalculateKGain_fixed2floatond when CalculateKGain_mux = '1'
+else
 CalculateVdd_fixed2floatond when CalculateVdd_mux = '1' 
 else
 CalculateTa_fixed2floatond when CalculateTa_mux = '1' 
@@ -1053,6 +1240,16 @@ ExtractAlphaParameters_fixed2floatond when ExtractAlphaParameters_mux = '1'
 else '0';
 
 fixed2floatce <=
+CalculateTo_fixed2floatce when CalculateTo_mux = '1'
+else
+CalculateAlphaCP_fixed2floatce when CalculateAlphaCP_mux = '1'
+else
+CalculateAlphaComp_fixed2floatce when CalculateAlphaComp_mux = '1'
+else
+ExtractTGCParameters_fixed2floatce when ExtractTGCParameters_mux = '1'
+else
+CalculateKGain_fixed2floatce when CalculateKGain_mux = '1'
+else
 CalculateVdd_fixed2floatce when CalculateVdd_mux = '1' 
 else
 CalculateTa_fixed2floatce when CalculateTa_mux = '1' 
@@ -1065,6 +1262,16 @@ ExtractAlphaParameters_fixed2floatce when ExtractAlphaParameters_mux = '1'
 else '0';
 
 fixed2floatsclr <=
+CalculateTo_fixed2floatsclr when CalculateTo_mux = '1'
+else
+CalculateAlphaCP_fixed2floatsclr when CalculateAlphaCP_mux = '1'
+else
+CalculateAlphaComp_fixed2floatsclr when CalculateAlphaComp_mux = '1'
+else
+ExtractTGCParameters_fixed2floatsclr when ExtractTGCParameters_mux = '1'
+else
+CalculateKGain_fixed2floatsclr when CalculateKGain_mux = '1'
+else
 CalculateVdd_fixed2floatsclr when CalculateVdd_mux = '1' 
 else
 CalculateTa_fixed2floatsclr when CalculateTa_mux = '1' 
@@ -1077,6 +1284,12 @@ ExtractAlphaParameters_fixed2floatsclr when ExtractAlphaParameters_mux = '1'
 else '0';
 
 divfpa <=
+CalculateAlphaComp_divfpa when CalculateAlphaComp_mux = '1'
+else
+ExtractTGCParameters_divfpa when ExtractTGCParameters_mux = '1'
+else
+CalculateKGain_divfpa when CalculateKGain_mux = '1'
+else
 CalculateVdd_divfpa when CalculateVdd_mux = '1' 
 else
 CalculateTa_divfpa when CalculateTa_mux = '1' 
@@ -1095,6 +1308,12 @@ CalculateTo_divfpa when CalculateTo_mux = '1'
 else (others => '0');
 
 divfpb <=
+CalculateAlphaComp_divfpb when CalculateAlphaComp_mux = '1'
+else
+ExtractTGCParameters_divfpb when ExtractTGCParameters_mux = '1'
+else
+CalculateKGain_divfpb when CalculateKGain_mux = '1'
+else
 CalculateVdd_divfpb when CalculateVdd_mux = '1' 
 else
 CalculateTa_divfpb when CalculateTa_mux = '1' 
@@ -1113,6 +1332,12 @@ CalculateTo_divfpb when CalculateTo_mux = '1'
 else (others => '0');
 
 divfpond <=
+CalculateAlphaComp_divfpond when CalculateAlphaComp_mux = '1'
+else
+ExtractTGCParameters_divfpond when ExtractTGCParameters_mux = '1'
+else
+CalculateKGain_divfpond when CalculateKGain_mux = '1'
+else
 CalculateVdd_divfpond when CalculateVdd_mux = '1' 
 else
 CalculateTa_divfpond when CalculateTa_mux = '1' 
@@ -1131,6 +1356,12 @@ CalculateTo_divfpond when CalculateTo_mux = '1'
 else '0';
 
 divfpce <=
+CalculateAlphaComp_divfpce when CalculateAlphaComp_mux = '1'
+else
+ExtractTGCParameters_divfpce when ExtractTGCParameters_mux = '1'
+else
+CalculateKGain_divfpce when CalculateKGain_mux = '1'
+else
 CalculateVdd_divfpce when CalculateVdd_mux = '1' 
 else
 CalculateTa_divfpce when CalculateTa_mux = '1' 
@@ -1149,6 +1380,12 @@ CalculateTo_divfpce when CalculateTo_mux = '1'
 else '0';
 
 divfpsclr <=
+CalculateAlphaComp_divfpsclr when CalculateAlphaComp_mux = '1'
+else
+ExtractTGCParameters_divfpsclr when ExtractTGCParameters_mux = '1'
+else
+CalculateKGain_divfpsclr when CalculateKGain_mux = '1'
+else
 CalculateVdd_divfpsclr when CalculateVdd_mux = '1' 
 else
 CalculateTa_divfpsclr when CalculateTa_mux = '1' 
@@ -1441,6 +1678,16 @@ sqrtfp2ond <= CalculateTo_sqrtfp2ond when CalculateTo_mux = '1' else '0';
 sqrtfp2sclr <= CalculateTo_sqrtfp2sclr when CalculateTo_mux = '1' else '0';
 sqrtfp2ce <= CalculateTo_sqrtfp2ce when CalculateTo_mux = '1' else '0';
 
+ExtractTGCParameters_fixed2floatr <= fixed2floatr when ExtractTGCParameters_mux = '1' else (others => '0');
+ExtractTGCParameters_fixed2floatrdy <= fixed2floatrdy when ExtractTGCParameters_mux = '1' else '0';
+ExtractTGCParameters_divfpr <= divfpr when ExtractTGCParameters_mux = '1' else (others => '0');
+ExtractTGCParameters_divfprdy <= divfprdy when ExtractTGCParameters_mux = '1' else '0';
+
+CalculateKGain_fixed2floatr <= fixed2floatr when CalculateKGain_mux = '1' else (others => '0');
+CalculateKGain_fixed2floatrdy <= fixed2floatrdy when CalculateKGain_mux = '1' else '0';
+CalculateKGain_divfpr <= divfpr when CalculateKGain_mux = '1' else (others => '0');
+CalculateKGain_divfprdy <= divfprdy when CalculateKGain_mux = '1' else '0';
+
 CalculateVdd_fixed2floatr <= fixed2floatr when CalculateVdd_mux = '1' else (others => '0');
 CalculateVdd_fixed2floatrdy <= fixed2floatrdy when CalculateVdd_mux = '1' else '0';
 CalculateVdd_divfpr <= divfpr when CalculateVdd_mux = '1' else (others => '0');
@@ -1489,6 +1736,8 @@ CalculateAlphaCP_divfpr <= divfpr when CalculateAlphaCP_mux = '1' else (others =
 CalculateAlphaCP_divfprdy <= divfprdy when CalculateAlphaCP_mux = '1' else '0';
 CalculateAlphaCP_mulfpr <= mulfpr when CalculateAlphaCP_mux = '1' else (others => '0');
 CalculateAlphaCP_mulfprdy <= mulfprdy when CalculateAlphaCP_mux = '1' else '0';
+CalculateAlphaCP_fixed2floatr <= fixed2floatr when CalculateAlphaCP_mux = '1' else (others => '0');
+CalculateAlphaCP_fixed2floatrdy <= fixed2floatrdy when CalculateAlphaCP_mux = '1' else '0';
 
 ExtractAlphaParameters_fixed2floatr <= fixed2floatr when ExtractAlphaParameters_mux = '1' else (others => '0');
 ExtractAlphaParameters_fixed2floatrdy <= fixed2floatrdy when ExtractAlphaParameters_mux = '1' else '0';
@@ -1515,6 +1764,11 @@ CalculateAlphaComp_addfprdy <= addfprdy when CalculateAlphaComp_mux = '1' else '
 CalculateAlphaComp_subfpr <= subfpr when CalculateAlphaComp_mux = '1' else (others => '0');
 CalculateAlphaComp_subfprdy <= subfprdy when CalculateAlphaComp_mux = '1' else '0';
 
+CalculateAlphaComp_divfpr <= divfpr when CalculateAlphaComp_mux = '1' else (others => '0');
+CalculateAlphaComp_divfprdy <= divfprdy when CalculateAlphaComp_mux = '1' else '0';
+CalculateAlphaComp_fixed2floatr <= fixed2floatr when CalculateAlphaComp_mux = '1' else (others => '0');
+CalculateAlphaComp_fixed2floatrdy <= fixed2floatrdy when CalculateAlphaComp_mux = '1' else '0';
+
 CalculateTo_divfpr <= divfpr when CalculateTo_mux = '1' else (others => '0');
 CalculateTo_divfprdy <= divfprdy when CalculateTo_mux = '1' else '0';
 CalculateTo_mulfpr <= mulfpr when CalculateTo_mux = '1' else (others => '0');
@@ -1525,16 +1779,20 @@ CalculateTo_subfpr <= subfpr when CalculateTo_mux = '1' else (others => '0');
 CalculateTo_subfprdy <= subfprdy when CalculateTo_mux = '1' else '0';
 CalculateTo_sqrtfp2r <= sqrtfp2r when CalculateTo_mux = '1' else (others => '0');
 CalculateTo_sqrtfp2rdy <= sqrtfp2rdy when CalculateTo_mux = '1' else '0';
+CalculateTo_fixed2floatr <= fixed2floatr when CalculateTo_mux = '1' else (others => '0');
+CalculateTo_fixed2floatrdy <= fixed2floatrdy when CalculateTo_mux = '1' else '0';
 
 i2c_mem_ena <=
+ExtractTGCParameters_i2c_mem_ena when ExtractTGCParameters_mux = '1'
+else
+CalculateKGain_i2c_mem_ena when CalculateKGain_mux = '1'
+else
 CalculatePixOS_i2c_mem_ena when CalculatePixOS_mux = '1'
 else
 CalculatePixOsCPSP_i2c_mem_ena when CalculatePixOsCPSP_mux = '1'
 else
 CalculateVirCompensated_i2c_mem_ena when CalculateVirCompensated_mux = '1'
 else
---ExtractOffsetParameters_i2c_mem_ena when ExtractOffsetParameters_mux = '1'
---else
 CalculateAlphaCP_i2c_mem_ena when CalculateAlphaCP_mux = '1'
 else
 ExtractAlphaParameters_i2c_mem_ena when ExtractAlphaParameters_mux = '1'
@@ -1549,14 +1807,16 @@ CalculateTo_i2c_mem_ena when CalculateTo_mux = '1'
 else '0';
 
 i2c_mem_addra <=
+ExtractTGCParameters_i2c_mem_addra when ExtractTGCParameters_mux = '1'
+else
+CalculateKGain_i2c_mem_addra when CalculateKGain_mux = '1'
+else
 CalculatePixOS_i2c_mem_addra when CalculatePixOS_mux = '1'
 else
 CalculatePixOsCPSP_i2c_mem_addra when CalculatePixOsCPSP_mux = '1'
 else
 CalculateVirCompensated_i2c_mem_addra when CalculateVirCompensated_mux = '1'
 else
---ExtractOffsetParameters_i2c_mem_addra when ExtractOffsetParameters_mux = '1'
---else
 CalculateAlphaCP_i2c_mem_addra when CalculateAlphaCP_mux = '1'
 else
 ExtractAlphaParameters_i2c_mem_addra when ExtractAlphaParameters_mux = '1'
@@ -1570,10 +1830,11 @@ else
 CalculateTo_i2c_mem_addra when CalculateTo_mux = '1'
 else (others => '0');
 
+ExtractTGCParameters_i2c_mem_douta <= i2c_mem_douta when ExtractTGCParameters_mux = '1' else (others => '0');
+CalculateKGain_i2c_mem_douta <= i2c_mem_douta when CalculateKGain_mux = '1' else (others => '0');
 CalculatePixOS_i2c_mem_douta <= i2c_mem_douta when CalculatePixOS_mux = '1' else (others => '0');
 CalculatePixOsCPSP_i2c_mem_douta <= i2c_mem_douta when CalculatePixOsCPSP_mux = '1' else (others => '0');
 CalculateVirCompensated_i2c_mem_douta <= i2c_mem_douta when CalculateVirCompensated_mux = '1' else (others => '0');
---ExtractOffsetParameters_i2c_mem_douta <= i2c_mem_douta when ExtractOffsetParameters_mux = '1' else (others => '0');
 CalculateAlphaCP_i2c_mem_douta <= i2c_mem_douta when CalculateAlphaCP_mux = '1' else (others => '0');
 ExtractAlphaParameters_i2c_mem_douta <= i2c_mem_douta when ExtractAlphaParameters_mux = '1' else (others => '0');
 CalculateAlphaComp_i2c_mem_douta <= i2c_mem_douta when CalculateAlphaComp_mux = '1' else (others => '0');
@@ -1581,9 +1842,63 @@ CalculateVdd_i2c_mem_douta <= i2c_mem_douta when CalculateVdd_mux = '1' else (ot
 CalculateTa_i2c_mem_douta <= i2c_mem_douta when CalculateTa_mux = '1' else (others => '0');
 CalculateTo_i2c_mem_douta <= i2c_mem_douta when CalculateTo_mux = '1' else (others => '0');
 
+rom_constants_2powx_4bit_en <=
+CalculatePixOS_2powx_4bit_ena when CalculatePixOS_mux = '1' else
+CalculatePixOSCPSP_2powx_4bit_ena when CalculatePixOSCPSP_mux = '1' else
+ExtractAlphaParameters_2powx_4bit_ena when ExtractAlphaParameters_mux = '1' else
+'0';
+rom_constants_2powx_4bit_adr <=
+CalculatePixOS_2powx_4bit_adr when CalculatePixOS_mux = '1' else
+CalculatePixOSCPSP_2powx_4bit_adr when CalculatePixOSCPSP_mux = '1' else
+ExtractAlphaParameters_2powx_4bit_adr when ExtractAlphaParameters_mux = '1' else
+(others => '0');
+
+rom_constants_signed4bit_en <=
+CalculatePixOS_signed4bit_ena when CalculatePixOS_mux = '1' else
+ExtractAlphaParameters_signed4bit_ena when ExtractAlphaParameters_mux = '1' else
+'0';
+rom_constants_signed4bit_adr <=
+CalculatePixOS_signed4bit_adr when CalculatePixOS_mux = '1' else
+ExtractAlphaParameters_signed4bit_adr when ExtractAlphaParameters_mux = '1' else
+(others => '0');
+
+rom_constants_signed6bit_en <=
+CalculatePixOS_signed6bit_ena when CalculatePixOS_mux = '1' else
+CalculatePixOSCPSP_signed6bit_ena when CalculatePixOSCPSP_mux = '1' else
+ExtractAlphaParameters_signed6bit_ena when ExtractAlphaParameters_mux = '1' else
+'0';
+rom_constants_signed6bit_adr <=
+CalculatePixOS_signed6bit_adr when CalculatePixOS_mux = '1' else
+CalculatePixOSCPSP_signed6bit_adr when CalculatePixOSCPSP_mux = '1' else
+ExtractAlphaParameters_signed6bit_adr when ExtractAlphaParameters_mux = '1' else
+(others => '0');
+
+rom_constants_alphascale_1_en <=
+ExtractAlphaParameters_alphascale_1_ena when ExtractAlphaParameters_mux = '1' else
+'0';
+rom_constants_alphascale_1_adr <=
+ExtractAlphaParameters_alphascale_1_adr when ExtractAlphaParameters_mux = '1' else
+(others => '0');
+
+rom_constants_2powx_p8_4bit_en <=
+CalculatePixOS_2powx_p8_4bit_ena when CalculatePixOS_mux = '1' else
+CalculatePixOSCPSP_2powx_p8_4bit_ena when CalculatePixOSCPSP_mux = '1' else
+CalculateTo_2powx_p8_ena when CalculateTo_mux = '1' else
+'0';
+rom_constants_2powx_p8_4bit_adr <=
+CalculatePixOS_2powx_p8_4bit_adr when CalculatePixOS_mux = '1' else
+CalculatePixOSCPSP_2powx_p8_4bit_adr when CalculatePixOSCPSP_mux = '1' else
+CalculateTo_2powx_p8_adr when CalculateTo_mux = '1' else
+(others => '0');
+
+CalculatePixOS_rom_constants_float <= rom_constants_float;
+CalculatePixOSCPSP_rom_constants_float <= rom_constants_float;
+ExtractAlphaParameters_rom_constants_float <= rom_constants_float;
+CalculateTo_rom_constants_float <= rom_constants_float;
+
 	-- purpose: main test loop
-	tester : process (i_clock,i_reset) is
-		type states is (idle,
+	tester : process (i_clock) is
+		type states is (idle,s0,s0a,s0b,s0c,
 		s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,
 		ending);
 		variable state : states;
@@ -1594,13 +1909,41 @@ CalculateTo_i2c_mem_douta <= i2c_mem_douta when CalculateTo_mux = '1' else (othe
 				-- reset
 				o_rdy <= '0';
 			else
-case (state) is
-	when idle =>
+  case (state) is
+	
+  when idle =>
 			if (i_run = '1') then
-				state := s1;
+				state := s0;
 			else
 				state := idle;
 			end if;
+        o_rdy <= '0';
+
+	when s0 => state := s0a;
+		CalculateKGain_run <= '1';
+		CalculateKGain_mux <= '1';
+	when s0a => 
+		CalculateKGain_run <= '0';
+		if (CalculateKGain_rdy = '1') then
+			state := s0b;
+			CalculateKGain_mux <= '0';
+		else
+			state := s0a;
+			CalculateKGain_mux <= '1';
+		end if;
+
+	when s0b => state := s0c;
+		ExtractTGCParameters_run <= '1';
+		ExtractTGCParameters_mux <= '1';
+	when s0c => 
+		ExtractTGCParameters_run <= '0';
+		if (ExtractTGCParameters_rdy = '1') then
+			state := s1;
+			ExtractTGCParameters_mux <= '0';
+		else
+			state := s0c;
+			ExtractTGCParameters_mux <= '1';
+		end if;
 
 	when s1 => state := s2;
 		CalculateVdd_run <= '1';
@@ -1619,8 +1962,8 @@ case (state) is
 		CalculateTa_run <= '1';
 		CalculateTa_mux <= '1';
 	when s4 =>
-		calculateTa_run <= '0';
-		if (calculateTa_rdy = '1') then
+		CalculateTa_run <= '0';
+		if (CalculateTa_rdy = '1') then
 			state := s5;
 			CalculateTa_mux <= '0';
 		else
@@ -1728,9 +2071,63 @@ end if;
 end if;
 end process tester;
 
-calculateVdd_clock <= i_clock;
-calculateVdd_reset <= i_reset;
-inst_calculateVdd : calculateVdd port map (
+ExtractTGCParameters_clock <= i_clock;
+ExtractTGCParameters_reset <= i_reset;
+inst_ExtractTGCParameters : ExtractTGCParameters port map (
+i_clock => ExtractTGCParameters_clock,
+i_reset => ExtractTGCParameters_reset,
+i_run => ExtractTGCParameters_run,
+i2c_mem_ena => ExtractTGCParameters_i2c_mem_ena,
+i2c_mem_addra => ExtractTGCParameters_i2c_mem_addra,
+i2c_mem_douta => ExtractTGCParameters_i2c_mem_douta,
+o_tgc => ExtractTGCParameters_tgc,
+o_rdy => ExtractTGCParameters_rdy,
+fixed2floata => ExtractTGCParameters_fixed2floata,
+fixed2floatond => ExtractTGCParameters_fixed2floatond,
+fixed2floatsclr => ExtractTGCParameters_fixed2floatsclr,
+fixed2floatce => ExtractTGCParameters_fixed2floatce,
+fixed2floatr => ExtractTGCParameters_fixed2floatr,
+fixed2floatrdy => ExtractTGCParameters_fixed2floatrdy,
+divfpa => ExtractTGCParameters_divfpa,
+divfpb => ExtractTGCParameters_divfpb,
+divfpond => ExtractTGCParameters_divfpond,
+divfpsclr => ExtractTGCParameters_divfpsclr,
+divfpce => ExtractTGCParameters_divfpce,
+divfpr => ExtractTGCParameters_divfpr,
+divfprdy => ExtractTGCParameters_divfprdy
+);
+
+CalculateKGain_clock <= i_clock;
+CalculateKGain_reset <= i_reset;
+inst_CalculateKGain : CalculateKGain port map (
+i_clock => CalculateKGain_clock,
+i_reset => CalculateKGain_reset,
+i_run => CalculateKGain_run,
+i2c_mem_ena => CalculateKGain_i2c_mem_ena,
+i2c_mem_addra => CalculateKGain_i2c_mem_addra,
+i2c_mem_douta => CalculateKGain_i2c_mem_douta,
+o_KGain => CalculateKGain_KGain,
+o_rdy => CalculateKGain_rdy,
+
+fixed2floata => CalculateKGain_fixed2floata,
+fixed2floatond => CalculateKGain_fixed2floatond,
+fixed2floatsclr => CalculateKGain_fixed2floatsclr,
+fixed2floatce => CalculateKGain_fixed2floatce,
+fixed2floatr => CalculateKGain_fixed2floatr,
+fixed2floatrdy => CalculateKGain_fixed2floatrdy,
+
+divfpa => CalculateKGain_divfpa,
+divfpb => CalculateKGain_divfpb,
+divfpond => CalculateKGain_divfpond,
+divfpsclr => CalculateKGain_divfpsclr,
+divfpce => CalculateKGain_divfpce,
+divfpr => CalculateKGain_divfpr,
+divfprdy => CalculateKGain_divfprdy
+);
+
+CalculateVdd_clock <= i_clock;
+CalculateVdd_reset <= i_reset;
+inst_CalculateVdd : CalculateVdd port map (
 i_clock => CalculateVdd_clock,
 i_reset => CalculateVdd_reset,
 i_run => CalculateVdd_run,
@@ -1775,10 +2172,15 @@ subfpr => CalculateVdd_subfpr,
 subfprdy  => CalculateVdd_subfprdy
 );
 
-calculateTa_clock <= i_clock;
-calculateTa_reset <= i_reset;
-calculateTa_Vdd <= calculateVdd_Vdd;
-inst_calculateTa : calculateTa port map (
+CalculateTa_clock <= i_clock;
+CalculateTa_reset <= i_reset;
+CalculateTa_Vdd <= CalculateVdd_Vdd;
+rom_constants_kvptat_en <= CalculateTa_kvptat_ena;
+rom_constants_kvptat_adr <= CalculateTa_kvptat_adr;
+rom_constants_alphaptat_en <= CalculateTa_alphaptat_ena;
+rom_constants_alphaptat_adr <= CalculateTa_alphaptat_adr;
+CalculateTa_rom_constants_float <= rom_constants_float;
+inst_CalculateTa : CalculateTa port map (
 i_clock => CalculateTa_clock,
 i_reset => CalculateTa_reset,
 i_run => CalculateTa_run,
@@ -1788,6 +2190,11 @@ i2c_mem_douta => CalculateTa_i2c_mem_douta,
 i_Vdd => CalculateTa_Vdd, -- output Vdd
 o_Ta => CalculateTa_Ta, -- output Ta
 o_rdy => CalculateTa_rdy,
+o_kvptat_ena => CalculateTa_kvptat_ena,
+o_kvptat_adr => CalculateTa_kvptat_adr,
+o_alphaptat_ena => CalculateTa_alphaptat_ena,
+o_alphaptat_adr => CalculateTa_alphaptat_adr,
+i_rom_constants_float => CalculateTa_rom_constants_float,
 fixed2floata => CalculateTa_fixed2floata,
 fixed2floatond => CalculateTa_fixed2floatond,
 fixed2floatce => CalculateTa_fixed2floatce,
@@ -1837,8 +2244,17 @@ i2c_mem_douta => ExtractAlphaParameters_i2c_mem_douta,
 
 o_do => ExtractAlphaParameters_do,
 i_addr => ExtractAlphaParameters_addr,
-o_done => ExtractAlphaParameters_done,
 o_rdy => ExtractAlphaParameters_rdy,
+
+o_signed4bit_ena => ExtractAlphaParameters_signed4bit_ena,
+o_signed4bit_adr => ExtractAlphaParameters_signed4bit_adr,
+o_signed6bit_ena => ExtractAlphaParameters_signed6bit_ena,
+o_signed6bit_adr => ExtractAlphaParameters_signed6bit_adr,
+o_alphascale_1_ena => ExtractAlphaParameters_alphascale_1_ena,
+o_alphascale_1_adr => ExtractAlphaParameters_alphascale_1_adr,
+o_2powx_4bit_ena => ExtractAlphaParameters_2powx_4bit_ena,
+o_2powx_4bit_adr => ExtractAlphaParameters_2powx_4bit_adr,
+i_rom_constants_float => ExtractAlphaParameters_rom_constants_float,
 
 fixed2floata => ExtractAlphaParameters_fixed2floata,
 fixed2floatond => ExtractAlphaParameters_fixed2floatond,
@@ -1874,6 +2290,11 @@ divfprdy => ExtractAlphaParameters_divfprdy
 
 CalculateAlphaCP_clock <= i_clock;
 CalculateAlphaCP_reset <= i_reset;
+rom_constants_cpratio_en <= CalculateAlphaCP_cpratio_ena;
+rom_constants_cpratio_adr <= CalculateAlphaCP_cpratio_adr;
+rom_constants_alphascale_2_en <= CalculateAlphaCP_alphascale_2_ena;
+rom_constants_alphascale_2_adr <= CalculateAlphaCP_alphascale_2_adr;
+CalculateAlphaCP_rom_constants_float <= rom_constants_float;
 inst_CalculateAlphaCP : CalculateAlphaCP
 port map (
 i_clock => CalculateAlphaCP_clock,
@@ -1885,6 +2306,12 @@ i2c_mem_douta => CalculateAlphaCP_i2c_mem_douta,
 o_acpsubpage0 => CalculateAlphaCP_acpsubpage0,
 o_acpsubpage1 => CalculateAlphaCP_acpsubpage1,
 o_rdy => CalculateAlphaCP_rdy,
+
+o_cpratio_ena => CalculateAlphaCP_cpratio_ena,
+o_cpratio_adr => CalculateAlphaCP_cpratio_adr,
+o_alphascale_2_ena => CalculateAlphaCP_alphascale_2_ena,
+o_alphascale_2_adr => CalculateAlphaCP_alphascale_2_adr,
+i_rom_constants_float => CalculateAlphaCP_rom_constants_float,
 
 divfpa => CalculateAlphaCP_divfpa,
 divfpb => CalculateAlphaCP_divfpb,
@@ -1900,16 +2327,24 @@ mulfpond => CalculateAlphaCP_mulfpond,
 mulfpsclr => CalculateAlphaCP_mulfpsclr,
 mulfpce => CalculateAlphaCP_mulfpce,
 mulfpr => CalculateAlphaCP_mulfpr,
-mulfprdy => CalculateAlphaCP_mulfprdy
+mulfprdy => CalculateAlphaCP_mulfprdy,
+
+fixed2floata => CalculateAlphaCP_fixed2floata,
+fixed2floatond => CalculateAlphaCP_fixed2floatond,
+fixed2floatsclr => CalculateAlphaCP_fixed2floatsclr,
+fixed2floatce => CalculateAlphaCP_fixed2floatce,
+fixed2floatr => CalculateAlphaCP_fixed2floatr,
+fixed2floatrdy => CalculateAlphaCP_fixed2floatrdy
 );
 
 CalculatePixOS_clock <= i_clock;
 CalculatePixOS_reset <= i_reset;
-CalculatePixOS_const1 <= x"3F800000"; -- 1
 CalculatePixOS_Ta <= CalculateTa_Ta; -- xxx
-CalculatePixOS_Ta0 <= x"41C80000"; -- 25
 CalculatePixOS_Vdd <= CalculateVdd_Vdd; -- xxx
-CalculatePixOS_VddV0 <= x"40533333"; -- 3.3
+CalculatePixOS_KGain <= CalculateKGain_KGain;
+rom_constants_signed3bit_en <= CalculatePixOS_signed3bit_ena;
+rom_constants_signed3bit_adr <= CalculatePixOS_signed3bit_adr;
+CalculatePixOS_rom_constants_float <= rom_constants_float;
 inst_CalculatePixOS : CalculatePixOS port map (
 i_clock => CalculatePixOS_clock,
 i_reset => CalculatePixOS_reset,
@@ -1917,14 +2352,23 @@ i_run => CalculatePixOS_run,
 i2c_mem_ena => CalculatePixOS_i2c_mem_ena,
 i2c_mem_addra => CalculatePixOS_i2c_mem_addra,
 i2c_mem_douta => CalculatePixOS_i2c_mem_douta,
-i_const1 => CalculatePixOS_const1,
 i_Ta => CalculatePixOS_Ta,
-i_Ta0 => CalculatePixOS_Ta0,
 i_Vdd => CalculatePixOS_Vdd,
-i_VddV0 => CalculatePixOS_VddV0,
+i_KGain => CalculatePixOS_KGain,
 o_do => CalculatePixOS_do,
 i_addr => CalculatePixOS_addr,
 o_rdy => CalculatePixOS_rdy,
+o_signed4bit_ena => CalculatePixOS_signed4bit_ena,
+o_signed4bit_adr => CalculatePixOS_signed4bit_adr,
+o_signed6bit_ena => CalculatePixOS_signed6bit_ena,
+o_signed6bit_adr => CalculatePixOS_signed6bit_adr,
+o_2powx_4bit_ena => CalculatePixOS_2powx_4bit_ena,
+o_2powx_4bit_adr => CalculatePixOS_2powx_4bit_adr,
+o_2powx_p8_4bit_ena => CalculatePixOS_2powx_p8_4bit_ena,
+o_2powx_p8_4bit_adr => CalculatePixOS_2powx_p8_4bit_adr,
+o_signed3bit_ena => CalculatePixOS_signed3bit_ena,
+o_signed3bit_adr => CalculatePixOS_signed3bit_adr,
+i_rom_constants_float => CalculatePixOS_rom_constants_float,
 fixed2floata => CalculatePixOS_fixed2floata,
 fixed2floatond => CalculatePixOS_fixed2floatond,
 fixed2floatce => CalculatePixOS_fixed2floatce,
@@ -1964,25 +2408,29 @@ divfprdy => CalculatePixOS_divfprdy
 CalculatePixOsCPSP_clock <= i_clock;
 CalculatePixOsCPSP_reset <= i_reset;
 CalculatePixOsCPSP_Ta <= CalculateTa_Ta; -- xxx
-CalculatePixOsCPSP_Ta0 <= x"41C80000"; -- 25
 CalculatePixOsCPSP_Vdd <= CalculateVdd_Vdd; -- xxx
-CalculatePixOsCPSP_VddV0 <= x"40533333"; -- 3.3
-CalculatePixOsCPSP_const1 <= x"3F800000"; -- 1
+CalculatePixOsCPSP_KGain <= CalculateKGain_KGain;
 inst_CalculatePixOsCPSP : CalculatePixOsCPSP port map (
 i_clock => CalculatePixOsCPSP_clock,
 i_reset => CalculatePixOsCPSP_reset,
 i_run => CalculatePixOsCPSP_run,
 i_Ta => CalculatePixOsCPSP_Ta,
-i_Ta0 => CalculatePixOsCPSP_Ta0,
 i_Vdd => CalculatePixOsCPSP_Vdd,
-i_VddV0 => CalculatePixOsCPSP_VddV0,
-i_const1 => CalculatePixOsCPSP_const1,
+i_KGain => CalculatePixOsCPSP_KGain,
 i2c_mem_ena => CalculatePixOsCPSP_i2c_mem_ena,
 i2c_mem_addra => CalculatePixOsCPSP_i2c_mem_addra,
 i2c_mem_douta => CalculatePixOsCPSP_i2c_mem_douta,
 o_pixoscpsp0 => CalculatePixOsCPSP_pixoscpsp0,
 o_pixoscpsp1 => CalculatePixOsCPSP_pixoscpsp1,
 o_rdy => CalculatePixOsCPSP_rdy,
+
+o_signed6bit_ena => CalculatePixOsCPSP_signed6bit_ena,
+o_signed6bit_adr => CalculatePixOsCPSP_signed6bit_adr,
+o_2powx_p8_4bit_ena => CalculatePixOsCPSP_2powx_p8_4bit_ena,
+o_2powx_p8_4bit_adr => CalculatePixOsCPSP_2powx_p8_4bit_adr,
+o_2powx_4bit_ena => CalculatePixOsCPSP_2powx_4bit_ena,
+o_2powx_4bit_adr => CalculatePixOsCPSP_2powx_4bit_adr,
+i_rom_constants_float => CalculatePixOsCPSP_rom_constants_float,
 
 fixed2floata => CalculatePixOSCPSP_fixed2floata,
 fixed2floatond => CalculatePixOSCPSP_fixed2floatond,
@@ -2024,9 +2472,9 @@ subfpr => CalculatePixOSCPSP_subfpr,
 subfprdy => CalculatePixOSCPSP_subfprdy
 );
 
-CalculateVirCompensated_Emissivity <= x"3f800000"; -- 1
 CalculateVirCompensated_pixoscpsp0 <= CalculatePixOsCPSP_pixoscpsp0;
 CalculateVirCompensated_pixoscpsp1 <= CalculatePixOsCPSP_pixoscpsp1;
+CalculateVirCompensated_tgc <= ExtractTGCParameters_tgc;
 CalculateVirCompensated_clock <= i_clock;
 CalculateVirCompensated_reset <= i_reset;
 CalculateVirCompensated_pixos_do <= CalculatePixOS_do;
@@ -2035,9 +2483,9 @@ inst_CalculateVirCompensated : CalculateVirCompensated PORT MAP (
 i_clock => CalculateVirCompensated_clock,
 i_reset => CalculateVirCompensated_reset,
 i_run => CalculateVirCompensated_run,
-i_Emissivity => CalculateVirCompensated_Emissivity,
 i_pixoscpsp0 => CalculateVirCompensated_pixoscpsp0,
 i_pixoscpsp1 => CalculateVirCompensated_pixoscpsp1,
+i_tgc => CalculateVirCompensated_tgc,
 i2c_mem_ena => CalculateVirCompensated_i2c_mem_ena,
 i2c_mem_addra => CalculateVirCompensated_i2c_mem_addra,
 i2c_mem_douta => CalculateVirCompensated_i2c_mem_douta,
@@ -2083,10 +2531,9 @@ subfprdy => CalculateVirCompensated_subfprdy
 CalculateAlphaComp_clock <= i_clock;
 CalculateAlphaComp_reset <= i_reset;
 CalculateAlphaComp_Ta <= CalculateTa_Ta;
-CalculateAlphaComp_Ta0 <= x"41C80000"; -- 25
 CalculateAlphaComp_acpsubpage0 <= CalculateAlphaCP_acpsubpage0;
 CalculateAlphaComp_acpsubpage1 <= CalculateAlphaCP_acpsubpage1;
-CalculateAlphaComp_const1 <= x"3f800000";
+CalculateAlphaComp_tgc <= ExtractTGCParameters_tgc;
 CalculateAlphaComp_alpha_do <= ExtractAlphaParameters_do;
 ExtractAlphaParameters_addr <= CalculateAlphaComp_alpha_addr;
 inst_CalculateAlphaComp : CalculateAlphaComp PORT MAP (
@@ -2097,10 +2544,9 @@ i2c_mem_ena => CalculateAlphaComp_i2c_mem_ena,
 i2c_mem_addra => CalculateAlphaComp_i2c_mem_addra,
 i2c_mem_douta => CalculateAlphaComp_i2c_mem_douta,
 i_Ta => CalculateAlphaComp_Ta,
-i_Ta0 => CalculateAlphaComp_Ta0,
 i_acpsubpage0 => CalculateAlphaComp_acpsubpage0,
 i_acpsubpage1 => CalculateAlphaComp_acpsubpage1,
-i_const1 => CalculateAlphaComp_const1,
+i_tgc => CalculateAlphaComp_tgc,
 i_alpha_do => CalculateAlphaComp_alpha_do,
 o_alpha_addr => CalculateAlphaComp_alpha_addr,
 o_do => CalculateAlphaComp_do,
@@ -2114,6 +2560,14 @@ mulfpsclr => CalculateAlphaComp_mulfpsclr,
 mulfpce => CalculateAlphaComp_mulfpce,
 mulfpr => CalculateAlphaComp_mulfpr,
 mulfprdy => CalculateAlphaComp_mulfprdy,
+
+divfpa => CalculateAlphaComp_divfpa,
+divfpb => CalculateAlphaComp_divfpb,
+divfpond => CalculateAlphaComp_divfpond,
+divfpsclr => CalculateAlphaComp_divfpsclr,
+divfpce => CalculateAlphaComp_divfpce,
+divfpr => CalculateAlphaComp_divfpr,
+divfprdy => CalculateAlphaComp_divfprdy,
 
 addfpa => CalculateAlphaComp_addfpa,
 addfpb => CalculateAlphaComp_addfpb,
@@ -2129,7 +2583,14 @@ subfpond => CalculateAlphaComp_subfpond,
 subfpsclr => CalculateAlphaComp_subfpsclr,
 subfpce => CalculateAlphaComp_subfpce,
 subfpr => CalculateAlphaComp_subfpr,
-subfprdy => CalculateAlphaComp_subfprdy
+subfprdy => CalculateAlphaComp_subfprdy,
+
+fixed2floata => CalculateAlphaComp_fixed2floata,
+fixed2floatond => CalculateAlphaComp_fixed2floatond,
+fixed2floatsclr => CalculateAlphaComp_fixed2floatsclr,
+fixed2floatce => CalculateAlphaComp_fixed2floatce,
+fixed2floatr => CalculateAlphaComp_fixed2floatr,
+fixed2floatrdy => CalculateAlphaComp_fixed2floatrdy
 );
 
 CalculateTo_clock <= i_clock;
@@ -2156,6 +2617,10 @@ o_alphacomp_addr => CalculateTo_alphacomp_addr,
 o_do => CalculateTo_do,
 i_addr => CalculateTo_addr,
 o_rdy => CalculateTo_rdy,
+
+o_2powx_p8_ena => CalculateTo_2powx_p8_ena,
+o_2powx_p8_adr => CalculateTo_2powx_p8_adr,
+i_rom_constants_float => CalculateTo_rom_constants_float,
 
 divfpa => CalculateTo_divfpa,
 divfpb => CalculateTo_divfpb,
@@ -2194,93 +2659,42 @@ sqrtfp2ond => CalculateTo_sqrtfp2ond,
 sqrtfp2sclr => CalculateTo_sqrtfp2sclr,
 sqrtfp2ce => CalculateTo_sqrtfp2ce,
 sqrtfp2r => CalculateTo_sqrtfp2r,
-sqrtfp2rdy => CalculateTo_sqrtfp2rdy
+sqrtfp2rdy => CalculateTo_sqrtfp2rdy,
+
+fixed2floata => CalculateTo_fixed2floata,
+fixed2floatond => CalculateTo_fixed2floatond,
+fixed2floatsclr => CalculateTo_fixed2floatsclr,
+fixed2floatce => CalculateTo_fixed2floatce,
+fixed2floatr => CalculateTo_fixed2floatr,
+fixed2floatrdy => CalculateTo_fixed2floatrdy
 );
 
-fixed2floatclk <= i_clock;
-addfpclk <= i_clock;
-subfpclk <= i_clock;
-mulfpclk <= i_clock;
-divfpclk <= i_clock;
-sqrtfp2clk <= i_clock;
-
-b0 : block
-attribute loc : string;
---attribute loc of inst_fixed2float : label is "SLICE_X40Y176:SLICE_X79Y191";
---attribute loc of inst_fixed2float : label is "SLICE_X40Y176:SLICE_X75Y191";
---attribute loc of inst_fixed2float : label is "SLICE_X40Y176:SLICE_X71Y191";
-
-begin
-inst_fixed2float : fixed2float
-PORT MAP (
-a => fixed2floata,
-operation_nd => fixed2floatond,
-clk => fixed2floatclk,
-sclr => fixed2floatsclr,
-ce => fixed2floatce,
-result => fixed2floatr,
-rdy => fixed2floatrdy
-);
-end block b0;
-
-inst_divfp : divfp
-PORT MAP (
-a => divfpa,
-b => divfpb,
-operation_nd => divfpond,
-clk => divfpclk,
-sclr => divfpsclr,
-ce => divfpce,
-result => divfpr,
-rdy => divfprdy
-);
-
-inst_mulfp : mulfp
-PORT MAP (
-a => mulfpa,
-b => mulfpb,
-operation_nd => mulfpond,
-clk => mulfpclk,
-sclr => mulfpsclr,
-ce => mulfpce,
-result => mulfpr,
-rdy => mulfprdy
-);
-
-inst_addfp : addfp
-PORT MAP (
-a => addfpa,
-b => addfpb,
-operation_nd => addfpond,
-clk => addfpclk,
-sclr => addfpsclr,
-ce => addfpce,
-result => addfpr,
-rdy => addfprdy
-);
-
-inst_subfp : subfp
-PORT MAP (
-a => subfpa,
-b => subfpb,
-operation_nd => subfpond,
-clk => subfpclk,
-sclr => subfpsclr,
-ce => subfpce,
-result => subfpr,
-rdy => subfprdy
-);
-
-inst_sqrtfp2 : sqrtfp2
-PORT MAP (
-a => sqrtfp2a,
-operation_nd => sqrtfp2ond,
-clk => sqrtfp2clk,
-sclr => sqrtfp2sclr,
-ce => sqrtfp2ce,
-result => sqrtfp2r,
-rdy => sqrtfp2rdy
+rom_constants_clock <= i_clock;
+rom_constants_reset <= i_reset;
+inst_rom_constants : rom_constants port map (
+i_clock => rom_constants_clock,
+i_reset => rom_constants_reset,
+i_kvptat_en => rom_constants_kvptat_en,
+i_kvptat_adr => rom_constants_kvptat_adr,
+i_alphaptat_en => rom_constants_alphaptat_en,
+i_alphaptat_adr => rom_constants_alphaptat_adr,
+i_signed4bit_en => rom_constants_signed4bit_en,
+i_signed4bit_adr => rom_constants_signed4bit_adr,
+i_signed6bit_en => rom_constants_signed6bit_en,
+i_signed6bit_adr => rom_constants_signed6bit_adr,
+i_alphascale_1_en => rom_constants_alphascale_1_en,
+i_alphascale_1_adr => rom_constants_alphascale_1_adr,
+i_2powx_4bit_en => rom_constants_2powx_4bit_en,
+i_2powx_4bit_adr => rom_constants_2powx_4bit_adr,
+i_cpratio_en => rom_constants_cpratio_en,
+i_cpratio_adr => rom_constants_cpratio_adr,
+i_alphascale_2_en => rom_constants_alphascale_2_en,
+i_alphascale_2_adr => rom_constants_alphascale_2_adr,
+i_2powx_p8_4bit_en => rom_constants_2powx_p8_4bit_en,
+i_2powx_p8_4bit_adr => rom_constants_2powx_p8_4bit_adr,
+i_signed3bit_en => rom_constants_signed3bit_en,
+i_signed3bit_adr => rom_constants_signed3bit_adr,
+o_float => rom_constants_float
 );
 
 end architecture testbench;
-

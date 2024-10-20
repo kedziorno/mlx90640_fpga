@@ -30,7 +30,6 @@ type states is (idle,
 a0,a,a1,b,b1,c,c1,d,d1,e,e1,f,f1,g,g1,h,h1,i,i1,j,j1,k,k1,l,l1,m,m1,n,n1,o,o1,p,p1,r,r1,s,s1,t,t1,u,u1,w,w1,y,y1,z,z1,x,x1
 );
 
-signal tstate : states;
 signal penable : std_logic;
 begin
 
@@ -85,7 +84,6 @@ if rising_edge (clk25) then
 		w8 := 0;
 	else
 --  address <= addr;
-tstate <= state;
 penable <= enable;
 			case (state) is
 				when idle =>

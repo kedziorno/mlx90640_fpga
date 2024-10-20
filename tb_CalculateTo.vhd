@@ -138,6 +138,24 @@ signal sqrtfp2ce : STD_LOGIC;
 signal sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal sqrtfp2rdy : STD_LOGIC;
 
+COMPONENT fixed2float
+PORT (
+a : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal fixed2floatond : STD_LOGIC;
+signal fixed2floatce : STD_LOGIC;
+signal fixed2floatsclr : STD_LOGIC;
+signal fixed2floatr :  STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : STD_LOGIC;
+
 COMPONENT tb_i2c_mem
 PORT (
 clka : IN STD_LOGIC;
@@ -155,17 +173,27 @@ PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
 i_run : IN  std_logic;
+
 i2c_mem_ena : OUT  std_logic;
 i2c_mem_addra : OUT  std_logic_vector(11 downto 0);
 i2c_mem_douta : IN  std_logic_vector(7 downto 0);
+
 i_Ta : IN  std_logic_vector(31 downto 0);
+
 i_vircompensated_do : IN  std_logic_vector(31 downto 0);
 o_vircompensated_addr : OUT  std_logic_vector(9 downto 0);
+
 i_alphacomp_do : IN  std_logic_vector(31 downto 0);
 o_alphacomp_addr : OUT  std_logic_vector(9 downto 0);
+
 o_do : OUT  std_logic_vector(31 downto 0);
 i_addr : IN  std_logic_vector(9 downto 0);
+
 o_rdy : OUT  std_logic;
+
+signal o_2powx_p8_ena : out std_logic;
+signal o_2powx_p8_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -204,7 +232,14 @@ signal sqrtfp2ond : out STD_LOGIC;
 signal sqrtfp2sclr : out STD_LOGIC;
 signal sqrtfp2ce : out STD_LOGIC;
 signal sqrtfp2r : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal sqrtfp2rdy : in STD_LOGIC
+signal sqrtfp2rdy : in STD_LOGIC;
+
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC
 
 );
 END COMPONENT;
@@ -222,6 +257,10 @@ signal CalculateTo_vircompensated_addr : std_logic_vector(9 downto 0);
 signal CalculateTo_alphacomp_addr : std_logic_vector(9 downto 0);
 signal CalculateTo_do : std_logic_vector(31 downto 0);
 signal CalculateTo_rdy : std_logic;
+
+signal CalculateTo_2powx_p8_ena : std_logic;
+signal CalculateTo_2powx_p8_adr : std_logic_vector (3 downto 0);
+signal CalculateTo_rom_constants_float : std_logic_vector (31 downto 0);
 
 signal CalculateTo_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateTo_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -262,11 +301,47 @@ signal CalculateTo_sqrtfp2ce : STD_LOGIC;
 signal CalculateTo_sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateTo_sqrtfp2rdy : STD_LOGIC;
 
+signal CalculateTo_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal CalculateTo_fixed2floatond : STD_LOGIC;
+signal CalculateTo_fixed2floatce : STD_LOGIC;
+signal CalculateTo_fixed2floatsclr : STD_LOGIC;
+signal CalculateTo_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateTo_fixed2floatrdy : STD_LOGIC;
+
 signal CalculateTo_sqrtfp2clk : std_logic;
 signal CalculateTo_mulfpclk : std_logic;
 signal CalculateTo_divfpclk : std_logic;
 signal CalculateTo_addfpclk : std_logic;
 signal CalculateTo_subfpclk : std_logic;
+signal CalculateTo_fixed2floatclk : std_logic;
+
+COMPONENT rom_constants
+PORT(
+i_clock : IN  std_logic;
+i_reset : IN  std_logic;
+i_kvptat_en : IN  std_logic;
+i_kvptat_adr : IN  std_logic_vector(5 downto 0);
+i_alphaptat_en : IN  std_logic;
+i_alphaptat_adr : IN  std_logic_vector(3 downto 0);
+i_signed4bit_en : IN  std_logic;
+i_signed4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed6bit_en : IN  std_logic;
+i_signed6bit_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_1_en : IN  std_logic;
+i_alphascale_1_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_4bit_en : IN  std_logic;
+i_2powx_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_cpratio_en : IN  std_logic;
+i_cpratio_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_2_en : IN  std_logic;
+i_alphascale_2_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_p8_4bit_en : IN  std_logic;
+i_2powx_p8_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed3bit_en : IN  std_logic;
+i_signed3bit_adr : IN  std_logic_vector(2 downto 0);
+o_float : OUT  std_logic_vector(31 downto 0)
+);
+END COMPONENT;
 
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
@@ -303,6 +378,10 @@ o_alphacomp_addr => CalculateTo_alphacomp_addr,
 o_do => CalculateTo_do,
 i_addr => CalculateTo_addr,
 o_rdy => CalculateTo_rdy,
+
+o_2powx_p8_ena => CalculateTo_2powx_p8_ena,
+o_2powx_p8_adr => CalculateTo_2powx_p8_adr,
+i_rom_constants_float => CalculateTo_rom_constants_float,
 
 divfpa => CalculateTo_divfpa,
 divfpb => CalculateTo_divfpb,
@@ -341,7 +420,14 @@ sqrtfp2ond => CalculateTo_sqrtfp2ond,
 sqrtfp2sclr => CalculateTo_sqrtfp2sclr,
 sqrtfp2ce => CalculateTo_sqrtfp2ce,
 sqrtfp2r => CalculateTo_sqrtfp2r,
-sqrtfp2rdy => CalculateTo_sqrtfp2rdy
+sqrtfp2rdy => CalculateTo_sqrtfp2rdy,
+
+fixed2floata => CalculateTo_fixed2floata,
+fixed2floatond => CalculateTo_fixed2floatond,
+fixed2floatsclr => CalculateTo_fixed2floatsclr,
+fixed2floatce => CalculateTo_fixed2floatce,
+fixed2floatr => CalculateTo_fixed2floatr,
+fixed2floatrdy => CalculateTo_fixed2floatrdy
 
 );
 
@@ -356,6 +442,110 @@ end process;
 
 -- Stimulus process
 stim_proc: process
+type itemr is record
+a : std_logic_vector (31 downto 0);
+b : integer;
+end record; 
+type ten_items is array (0 to 9) of itemr;
+type mid_items is array (0 to 1) of itemr;
+type datar is record
+first : ten_items;
+middle : mid_items;
+last : ten_items;
+end record;
+-- XXX data from CalculateVirCompensated
+constant datao_vc : datar := (
+first => (
+(a => x"436E2F29", b => 0),
+(a => x"C1C67C98", b => 1),
+(a => x"C1C24FD4", b => 2),
+(a => x"C1BF07CA", b => 3),
+(a => x"C1CC2AD6", b => 4),
+(a => x"C1C87294", b => 5),
+(a => x"C1C4A626", b => 6),
+(a => x"C1CF3D56", b => 7),
+(a => x"C1DCAB6A", b => 8),
+(a => x"C1E06EE2", b => 9)
+),
+middle => (
+(a => x"C1AE48B0", b => 382),
+(a => x"C1D1355A", b => 384)
+),
+last => (
+(a => x"C1C8AA24", b => 758),
+(a => x"C1C1C800", b => 759),
+(a => x"C12A65C0", b => 760),
+(a => x"C17F93A8", b => 761),
+(a => x"C0BAB5F0", b => 762),
+(a => x"C09902B0", b => 763),
+(a => x"C06E3E20", b => 764),
+(a => x"C09902B0", b => 765),
+(a => x"C11E3128", b => 766),
+(a => x"C0B4CDC0", b => 767)
+)
+);
+-- XXX data from CalculateAlphaComp
+constant datao_ac : datar := (
+first => (
+(a => x"3318F553", b => 0),
+(a => x"331AEA16", b => 1),
+(a => x"331F50CE", b => 2),
+(a => x"33214591", b => 3),
+(a => x"332B8A93", b => 4),
+(a => x"332E79B8", b => 5),
+(a => x"332EF6E9", b => 6),
+(a => x"333168DD", b => 7),
+(a => x"33393BEA", b => 8),
+(a => x"333BADDE", b => 9)
+),
+middle => (
+(a => x"331B6747", b => 382),
+(a => x"3333DAD1", b => 384)
+),
+last => (
+(a => x"332E79B8", b => 758),
+(a => x"332B8A93", b => 759),
+(a => x"332723DB", b => 760),
+(a => x"3326297A", b => 761),
+(a => x"3317FAF1", b => 762),
+(a => x"3316062E", b => 763),
+(a => x"330F2D82", b => 764),
+(a => x"330CBB8E", b => 765),
+(a => x"32FA2AE7", b => 766),
+(a => x"32F15D78", b => 767)
+)
+);
+-- XXX data from CalculateTo
+constant datao_to : datar := (
+first => (
+(a => x"42A19C8C", b => 0),
+(a => x"41DEB580", b => 1),
+(a => x"41E12450", b => 2),
+(a => x"41E286C0", b => 3),
+(a => x"41E24DA0", b => 4),
+(a => x"41E3EDF0", b => 5),
+(a => x"41E4E880", b => 6),
+(a => x"41E32BD0", b => 7),
+(a => x"41E24270", b => 8),
+(a => x"41E214C0", b => 9)
+),
+middle => (
+(a => x"41E50110", b => 382),
+(a => x"41E35D80", b => 384)
+),
+last => (
+(a => x"41E3E160", b => 758),
+(a => x"41E4AF20", b => 759),
+(a => x"41FCAE50", b => 760),
+(a => x"41F2B9C0", b => 761),
+(a => x"42023080", b => 762),
+(a => x"42032CB0", b => 763),
+(a => x"42040F60", b => 764),
+(a => x"4202DB58", b => 765),
+(a => x"41F7FD20", b => 766),
+(a => x"4200E9A8", b => 767)
+)
+);
 begin
 -- hold reset state for 100 ns.
 CalculateTo_reset <= '1';
@@ -363,13 +553,72 @@ wait for 100 ns;
 CalculateTo_reset <= '0';
 wait for i_clock_period*10;
 -- insert stimulus here
-CalculateTo_Ta <= x"421CBC6A"; -- 39.184
+CalculateTo_Ta <= x"4207F54D"; -- 3.398955e+01
 CalculateTo_run <= '1'; wait for i_clock_period; CalculateTo_run <= '0';
+report "before loop";
+  for i in 1 to 767 loop -- XXX without first pix - fix it
+    for k in 0 to 9 loop
+      if CalculateTo_vircompensated_addr = std_logic_vector (to_unsigned (datao_vc.first(k).b, 10)) then
+        wait until rising_edge (CalculateTo_clock);
+        wait until rising_edge (CalculateTo_clock);
+        CalculateTo_vircompensated_do <= datao_vc.first(k).a;
+      end if;
+      if CalculateTo_alphacomp_addr = std_logic_vector (to_unsigned (datao_ac.first(k).b, 10)) then
+        wait until rising_edge (CalculateTo_clock);
+        wait until rising_edge (CalculateTo_clock);
+        CalculateTo_alphacomp_do <= datao_ac.first(k).a;
+      end if;
+    end loop;
+    for k in 0 to 1 loop
+      if CalculateTo_vircompensated_addr = std_logic_vector (to_unsigned (datao_vc.middle(k).b, 10)) then
+        wait until rising_edge (CalculateTo_clock);
+        wait until rising_edge (CalculateTo_clock);
+        CalculateTo_vircompensated_do <= datao_vc.middle(k).a;
+      end if;
+      if CalculateTo_alphacomp_addr = std_logic_vector (to_unsigned (datao_ac.middle(k).b, 10)) then
+        wait until rising_edge (CalculateTo_clock);
+        wait until rising_edge (CalculateTo_clock);
+        CalculateTo_alphacomp_do <= datao_ac.middle(k).a;
+      end if;
+    end loop;
+    for k in 0 to 9 loop
+      if CalculateTo_vircompensated_addr = std_logic_vector (to_unsigned (datao_vc.last(k).b, 10)) then
+        wait until rising_edge (CalculateTo_clock);
+        wait until rising_edge (CalculateTo_clock);
+        CalculateTo_vircompensated_do <= datao_vc.last(k).a;
+      end if;
+      if CalculateTo_alphacomp_addr = std_logic_vector (to_unsigned (datao_ac.last(k).b, 10)) then
+        wait until rising_edge (CalculateTo_clock);
+        wait until rising_edge (CalculateTo_clock);
+        CalculateTo_alphacomp_do <= datao_ac.last(k).a;
+      end if;
+    end loop;
+    wait for 6.670us; -- XXX wait for AlphaComp and VirCompensated Addr MEM
+  end loop;
+report "after loop";
 wait until CalculateTo_rdy = '1';
-for i in 0 to 1024 loop
-	CalculateTo_addr <= std_logic_vector (to_unsigned (i, 10));
-	wait for i_clock_period*2;
-end loop;
+--report "rdy at 2513.755us";
+report "rdy at 2475.335us";
+  for i in 0 to 9 loop
+    CalculateTo_addr <= std_logic_vector (to_unsigned (datao_to.first(i).b, 10));
+    wait until rising_edge (CalculateTo_clock);
+    wait until rising_edge (CalculateTo_clock);
+    warning_neq_fp (CalculateTo_do, datao_to.first(i).a, "first " & integer'image (datao_to.first(i).b), true);
+  end loop;
+  for i in 0 to 1 loop
+    CalculateTo_addr <= std_logic_vector (to_unsigned (datao_to.middle(i).b, 10));
+    wait until rising_edge (CalculateTo_clock);
+    wait until rising_edge (CalculateTo_clock);
+    warning_neq_fp (CalculateTo_do, datao_to.middle(i).a, "middle " & integer'image (datao_to.middle(i).b));
+  end loop;
+  for i in 0 to 9 loop -- XXX last_9 is OK here (tb_CalculateAlphaComp)
+    CalculateTo_addr <= std_logic_vector (to_unsigned (datao_to.last(i).b, 10));
+    wait until rising_edge (CalculateTo_clock);
+    wait until rising_edge (CalculateTo_clock);
+    warning_neq_fp (CalculateTo_do, datao_to.last(i).a, "last " & integer'image (datao_to.last(i).b), true);
+  end loop;
+--report "end at 2534.255us";
+report "end at 2475.775us";
 wait for 1 ps;
 report "done" severity failure;
 end process;
@@ -379,6 +628,7 @@ CalculateTo_mulfpclk <= CalculateTo_clock;
 CalculateTo_divfpclk <= CalculateTo_clock;
 CalculateTo_addfpclk <= CalculateTo_clock;
 CalculateTo_subfpclk <= CalculateTo_clock;
+CalculateTo_fixed2floatclk <= CalculateTo_clock;
 
 inst_divfp : divfp
 PORT MAP (
@@ -437,6 +687,43 @@ sclr => CalculateTo_sqrtfp2sclr,
 ce => CalculateTo_sqrtfp2ce,
 result => CalculateTo_sqrtfp2r,
 rdy => CalculateTo_sqrtfp2rdy
+);
+
+inst_fixed2float : fixed2float
+PORT MAP (
+a => CalculateTo_fixed2floata,
+operation_nd => CalculateTo_fixed2floatond,
+clk => CalculateTo_fixed2floatclk,
+sclr => CalculateTo_fixed2floatsclr,
+ce => CalculateTo_fixed2floatce,
+result => CalculateTo_fixed2floatr,
+rdy => CalculateTo_fixed2floatrdy
+);
+
+inst_rom_constants : rom_constants PORT MAP (
+i_clock => CalculateTo_clock,
+i_reset => CalculateTo_reset,
+i_kvptat_en => '0',
+i_kvptat_adr => (others => '0'),
+i_alphaptat_en => '0',
+i_alphaptat_adr => (others => '0'),
+i_signed4bit_en => '0',
+i_signed4bit_adr => (others => '0'),
+i_signed6bit_en => '0',
+i_signed6bit_adr => (others => '0'),
+i_alphascale_1_en => '0',
+i_alphascale_1_adr => (others => '0'),
+i_2powx_4bit_en => '0',
+i_2powx_4bit_adr => (others => '0'),
+i_cpratio_en => '0',
+i_cpratio_adr => (others => '0'),
+i_alphascale_2_en => '0',
+i_alphascale_2_adr => (others => '0'),
+i_2powx_p8_4bit_en => CalculateTo_2powx_p8_ena,
+i_2powx_p8_4bit_adr => CalculateTo_2powx_p8_adr,
+i_signed3bit_en => '0',
+i_signed3bit_adr => (others => '0'),
+o_float => CalculateTo_rom_constants_float
 );
 
 END;

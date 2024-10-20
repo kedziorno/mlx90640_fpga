@@ -23,7 +23,7 @@ use ieee.std_logic_1164.all;
 use ieee_proposed.fixed_pkg.all;
 --use ieee_proposed.fixed_synth.all;
 
-use work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -42,10 +42,10 @@ i_run : in std_logic;
 i_ee0x243f : in slv16; -- kstoscale
 i_ee0x243d : in slv16; -- ksto1ee,ksto2ee
 i_ee0x243e : in slv16; -- ksto3ee,ksto4ee
-o_ksto1 : out fd2ft;
-o_ksto2 : out fd2ft;
-o_ksto3 : out fd2ft;
-o_ksto4 : out fd2ft;
+o_ksto1 : out std_logic_vector (31 downto 0);
+o_ksto2 : out std_logic_vector (31 downto 0);
+o_ksto3 : out std_logic_vector (31 downto 0);
+o_ksto4 : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic
 );
 end ExtractKsTo1234Parameters;
@@ -130,10 +130,10 @@ p0 : process (i_clock) is
 	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,
 	ending);
 	variable state : states;
-	variable vksto1 : fd2ft;
-	variable vksto2 : fd2ft;
-	variable vksto3 : fd2ft;
-	variable vksto4 : fd2ft;
+	variable vksto1 : std_logic_vector (31 downto 0);
+	variable vksto2 : std_logic_vector (31 downto 0);
+	variable vksto3 : std_logic_vector (31 downto 0);
+	variable vksto4 : std_logic_vector (31 downto 0);
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then

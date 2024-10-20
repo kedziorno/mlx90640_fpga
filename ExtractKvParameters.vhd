@@ -22,7 +22,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 --use ieee_proposed.fixed_pkg.all;
 
-USE work.p_fphdl_package1.all;
+use work.p_fphdl_package2.all;
 USE work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
@@ -48,6 +48,12 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
+
+signal o_2powx_4bit_ena : out std_logic;
+signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
+signal o_signed4bit_ena : out std_logic;
+signal o_signed4bit_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -228,9 +234,7 @@ end component mem_ramb16_s36_x2;
 signal addra,mux_addr : std_logic_vector (9 downto 0);
 signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
 
--- xxx nibbles must out in next clock xyxle
-signal nibble1,nibble2,nibble5,nibble4 : std_logic_vector (3 downto 0);
-signal out_nibble1,out_nibble2,out_nibble4,out_nibble5 : std_logic_vector (31 downto 0);
+signal out_nibble1 : std_logic_vector (31 downto 0);
 
 signal write_enable : std_logic;
 
@@ -241,8 +245,8 @@ constant C_ROW : integer := 24;
 signal col : integer range 0 to C_COL-1;
 signal row : integer range 0 to C_ROW-1;
 
-signal colo,cole : std_logic;
-signal rowo,rowe : std_logic;
+signal cole : std_logic;
+signal rowe : std_logic;
 
 signal kvijee_oo,kvijee_eo,kvijee_oe,kvijee_ee,kvijee : std_logic_vector (3 downto 0);
 
@@ -269,24 +273,6 @@ o_do <= doa when rdy = '1' else (others => '0');
 mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0');
 mux_dia <= dia when rdy = '0' else (others => '0');
 
---INIT_01 => X"47000000 46800000 46000000 45800000 45000000 44800000 44000000 43800000",
---INIT_00 => X"43000000 42800000 42000000 41800000 41000000 40800000 40000000 3f800000",
-with nibble1 select out_nibble1 <= -- 2^x unsigned 0-15 - kvscale
-x"3f800000" when x"0", x"40000000" when x"1", x"40800000" when x"2", x"41000000" when x"3",
-x"41800000" when x"4", x"42000000" when x"5", x"42800000" when x"6", x"43000000" when x"7",
-x"43800000" when x"8", x"44000000" when x"9", x"44800000" when x"a", x"45000000" when x"b",
-x"45800000" when x"c", x"46000000" when x"d", x"46800000" when x"e", x"47000000" when x"f",
-x"00000000" when others;
-
---INIT_01 => X"bf800000 c0000000 c0400000 c0800000 c0a00000 c0c00000 c0e00000 c1000000",
---INIT_00 => X"40e00000 40c00000 40a00000 40800000 40400000 40000000 3f800000 00000000",
-with nibble2 select out_nibble2 <= -- x signed 0-15 - kv(i,j)
-x"00000000" when x"0", x"3f800000" when x"1", x"40000000" when x"2", x"40400000" when x"3",
-x"40800000" when x"4", x"40a00000" when x"5", x"40c00000" when x"6", x"40e00000" when x"7",
-x"c1000000" when x"8", x"c0e00000" when x"9", x"c0c00000" when x"a", x"c0a00000" when x"b",
-x"c0800000" when x"c", x"c0400000" when x"d", x"c0000000" when x"e", x"bf800000" when x"f",
-x"00000000" when others;
-
 cole <= '1' when (col mod 2) = 0 else '0' when (col mod 2) = 1 else '0'; -- column even
 rowe <= '1' when (row mod 2) = 0 else '0' when (row mod 2) = 1 else '0'; -- row even
 
@@ -301,48 +287,19 @@ case (a) is
 	when "11" => kvijee <= kvijee_ee;
 	when others => kvijee <= (others => '0');
 end case;
-
 end process p1;
 
-
 p0 : process (i_clock) is
-
 	type states is (idle,
-	kv0,kv1,kv2,kv3,kv4,
-	kv5,kv6,kv7,kv8,kv9,
-	kv10,kv11,kv12,kv13,kv14,
-	ending);
+	kv1,kv2,kv3,kv4,
+	kv5,kv6,kv9,
+	kv11,kv13);
 	variable state : states;
-	variable vkvRemScale : std_logic_vector (31 downto 0);
-	variable vkvColumnScale : std_logic_vector (31 downto 0);
-	variable vkvRowScale : std_logic_vector (31 downto 0);
-
-	variable vkvRemScale1 : std_logic_vector (3 downto 0);
-	variable vkvColumnScale1 : std_logic_vector (3 downto 0);
-	variable vkvRowScale1 : std_logic_vector (3 downto 0);
-
-	variable valphaRef1: std_logic_vector (15 downto 0);
-	variable valphaRef : std_logic_vector (15 downto 0);
-	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
-	variable vkvcolumnj,kvrowi,vkvrowi,valphaReference_ft,vAlphaPixel_ft,kvijee_ft,kv_ft : std_logic_vector (31 downto 0);
-	variable temp1,vAlphaPixel : std_logic_vector (15 downto 0);
-
---	variable fracas : fracas;
---	variable fracbs : fracbs;
---	variable fracau : fracau;
---	variable fracbu : fracbu;
---	variable vAlphaPixel_sf,valphaRef_sf : st_sfixed_max;
---	variable eeprom16slv,ram16slv : slv16;
---	variable eeprom16sf,ram16sf : sfixed16;
---	variable eeprom16uf,ram16uf : ufixed16;
-
 	variable i : integer range 0 to (C_ROW*C_COL)-1;
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
 			state := idle;
-			nibble1 <= (others => '0');
-			nibble2 <= (others => '0');
 			write_enable <= '0';
 			rdy <= '0';
 			divfpsclr_internal <= '1';
@@ -360,81 +317,72 @@ begin
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := kv0;
+						state := kv1;
 						i2c_mem_ena <= '1';
-						write_enable <= '1';
-					else
+            i2c_mem_addra <= std_logic_vector (to_unsigned (112, 12)); -- 2438 MSB - kvscale 56*2+0
+            rdy <= '0';
+          else
 						state := idle;
 						i2c_mem_ena <= '0';
-						write_enable <= '0';
 					end if;
-
-				when kv0 => state := kv1;
 					divfpsclr_internal <= '0';
-					rdy <= '0';
-				when kv1 => state := kv2;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (112, 12)); -- 2438 MSB - kvscale 56*2+0
-				when kv2 => state := kv3;
-				when kv3 => state := kv4;
-					nibble1 <= i2c_mem_douta (3 downto 0);
-
-				when kv4 => state := kv5;
+          i := 0;
+          col <= 0;
+          row <= 0;
+        when kv1 => state := kv2;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (104, 12)); -- 2434 LSB - kvijee 52*2+0
-				when kv5 => state := kv6;
+        when kv2 => state := kv3;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (105, 12)); -- 2434 MSB - kvijee 52*2+1
-				when kv6 => state := kv7;
-					kvijee_oo <= i2c_mem_douta (7 downto 4);
+          o_2powx_4bit_ena <= '1';
+          o_2powx_4bit_adr <= i2c_mem_douta (3 downto 0);
+				when kv3 => state := kv4;
+          kvijee_oo <= i2c_mem_douta (7 downto 4);
 					kvijee_eo <= i2c_mem_douta (3 downto 0);
-				when kv7 => state := kv8;
+				when kv4 => state := kv5;
+          out_nibble1 <= i_rom_constants_float;
 					kvijee_oe <= i2c_mem_douta (7 downto 4);
 					kvijee_ee <= i2c_mem_douta (3 downto 0);
-				when kv8 => state := kv9;
-					nibble2 <= kvijee;
-
-when kv9 => state := kv10;
-	divfpce_internal <= '1';
-	divfpa_internal <= out_nibble2; -- kvij 
-	divfpb_internal <= out_nibble1; -- 2^kvscale
-	divfpond_internal <= '1';
-when kv10 => 			--6
-	if (divfprdy_internal = '1') then state := kv11;
-		kv_ft := divfpr_internal;
-		divfpce_internal <= '0';
-		divfpond_internal <= '0';
-		divfpsclr_internal <= '1';
-	else state := kv10; end if;
-when kv11 => state := kv12; 	--7
-	divfpsclr_internal <= '0';
-
-when kv12 => state := kv13; 	--22
-	write_enable <= '1';
-	addra <= std_logic_vector (to_unsigned (i, 10)); -- kv
-	dia <= kv_ft;
---	report "================kv_ft : " & real'image (ap_slv2fp (kv_ft));
---	report_error (kv_ft,0.0);
-when kv13 =>
-	i := i + 1;
-	write_enable <= '0';
-	if (col = C_COL-1) then
-		col <= 0;
-		state := kv14;
-	else
-		col <= col + 1;
-		state := kv1;
-	end if;
-when kv14 =>
-	write_enable <= '0';
-	if (row = C_ROW-1) then
-		row <= 0;
-		state := ending;
-	else
-		row <= row + 1;
-		state := kv1;
-	end if;
-
-				when ending => state := idle;
-					rdy <= '1';
-				when others => null;
+				when kv5 => state := kv6;
+          o_2powx_4bit_ena <= '0';
+				when kv6 => state := kv9;
+          o_signed4bit_ena <= '1';
+          o_signed4bit_adr <= kvijee;
+        when kv9 =>
+          divfpce_internal <= '1';
+          divfpa_internal <= i_rom_constants_float; -- kvij 
+          divfpb_internal <= out_nibble1; -- 2^kvscale
+          divfpond_internal <= '1';
+          if (divfprdy_internal = '1') then state := kv11;
+            o_signed4bit_ena <= '0';
+            divfpce_internal <= '0';
+            divfpond_internal <= '0';
+            divfpsclr_internal <= '1';
+          else state := kv9; end if;
+        when kv11 => state := kv13; 	--7
+          divfpsclr_internal <= '0';
+          write_enable <= '1';
+          addra <= std_logic_vector (to_unsigned (i, 10)); -- kv
+          dia <= divfpr_internal;
+          --synthesis translate_off
+          report_error("================kv_ft " & integer'image(i), divfpr_internal, 0.0);
+          --synthesis translate_on
+        when kv13 =>
+          i := i + 1;
+          write_enable <= '0';
+          if (col = C_COL-1) then
+            col <= 0;
+            if (row = C_ROW-1) then
+              row <= 0;
+              state := idle;
+              rdy <= '1';
+            else
+              row <= row + 1;
+              state := kv6;
+            end if;
+          else
+            col <= col + 1;
+            state := kv6;
+          end if;
 			end case;
 		end if;
 	end if;
@@ -456,5 +404,4 @@ SSR => i_reset,
 WE => write_enable
 );
 
-end Behavioral;
-
+end architecture Behavioral;

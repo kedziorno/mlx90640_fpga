@@ -1,0 +1,147 @@
+Release 14.7 par P.20131013 (lin64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+work::  Sun Oct 06 18:55:32 2024
+
+par -w -intstyle ise -pl std -rl std -t 1 test_fixed_melexis_map.ncd
+test_fixed_melexis.ncd test_fixed_melexis.pcf 
+
+
+Constraints file: test_fixed_melexis.pcf.
+Loading device for application Rf_Device from file '4vsx35.nph' in environment
+/home/user/.local/Xilinx/14.7/ISE_DS/ISE/.
+   "test_fixed_melexis" is an NCD, version 3.2, device xc4vsx35, package ff668, speed -10
+This design is using the default stepping level (major silicon revision) for this device (1). Unless your design is
+targeted at devices of this stepping level, it is recommended that you explicitly specify the stepping level of the
+parts you will be using. This will allow the tools to take advantage of any available performance and functional
+enhancements for this device. The latest stepping level for this device is '2'. Additional information on "stepping
+level" is available at support.xilinx.com.
+
+Initializing temperature to 85.000 Celsius. (default - Range: 0.000 to 85.000 Celsius)
+Initializing voltage to 1.140 Volts. (default - Range: 1.140 to 1.260 Volts)
+
+INFO:Par:282 - No user timing constraints were detected or you have set the option to ignore timing constraints ("par
+   -x"). Place and Route will run in "Performance Evaluation Mode" to automatically improve the performance of all
+   internal clocks in this design. Because there are not defined timing requirements, a timing score will not be
+   reported in the PAR report in this mode. The PAR timing summary will list the performance achieved for each clock.
+   Note: For the fastest runtime, set the effort level to "std".  For best performance, set the effort level to "high".
+
+Device speed data version:  "PRODUCTION 1.71 2013-10-13".
+
+
+
+Device Utilization Summary:
+
+   Number of BUFGs                           1 out of 32      3%
+   Number of External IOBs                  67 out of 448    14%
+      Number of LOCed IOBs                   0 out of 67      0%
+
+   Number of RAMB16s                        37 out of 192    19%
+   Number of Slices                       9904 out of 15360  64%
+      Number of SLICEMs                    202 out of 7680    2%
+
+
+
+Overall effort level (-ol):   Not applicable because -pl and -rl switches are used
+Router effort level (-rl):    Standard 
+
+Starting initial Timing Analysis.  REAL time: 18 secs 
+Finished initial Timing Analysis.  REAL time: 18 secs 
+
+Starting Router
+
+
+Phase  1  : 70298 unrouted;      REAL time: 20 secs 
+
+Phase  2  : 61003 unrouted;      REAL time: 20 secs 
+
+Phase  3  : 24522 unrouted;      REAL time: 34 secs 
+
+Phase  4  : 24620 unrouted; (Par is working to improve performance)     REAL time: 51 secs 
+
+Updating file: test_fixed_melexis.ncd with current fully routed design.
+
+Phase  5  : 0 unrouted; (Par is working to improve performance)     REAL time: 1 mins 11 secs 
+
+Phase  6  : 0 unrouted; (Par is working to improve performance)     REAL time: 1 mins 11 secs 
+
+Phase  7  : 0 unrouted; (Par is working to improve performance)     REAL time: 1 mins 11 secs 
+
+Phase  8  : 0 unrouted; (Par is working to improve performance)     REAL time: 1 mins 11 secs 
+
+Phase  9  : 0 unrouted; (Par is working to improve performance)     REAL time: 1 mins 13 secs 
+
+Phase 10  : 0 unrouted; (Par is working to improve performance)     REAL time: 1 mins 20 secs 
+Total REAL time to Router completion: 1 mins 20 secs 
+Total CPU time to Router completion: 1 mins 16 secs 
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+Generating "PAR" statistics.
+
+**************************
+Generating Clock Report
+**************************
+
++---------------------+--------------+------+------+------------+-------------+
+|        Clock Net    |   Resource   |Locked|Fanout|Net Skew(ns)|Max Delay(ns)|
++---------------------+--------------+------+------+------------+-------------+
+|        i_clock_IBUF | BUFGCTRL_X0Y0| No   | 7311 |  0.590     |  3.155      |
++---------------------+--------------+------+------+------------+-------------+
+
+* Net Skew is the difference between the minimum and maximum routing
+only delays for the net. Note this is different from Clock Skew which
+is reported in TRCE timing report. Clock Skew is the difference between
+the minimum and maximum path delays which includes logic delays.
+
+* The fanout is the number of component pins not the individual BEL loads,
+for example SLICE loads not FF loads.
+
+Timing Score: 0 (Setup: 0, Hold: 0)
+
+Asterisk (*) preceding a constraint indicates it was not met.
+   This may be due to a setup or hold violation.
+
+----------------------------------------------------------------------------------------------------------
+  Constraint                                |    Check    | Worst Case |  Best Case | Timing |   Timing   
+                                            |             |    Slack   | Achievable | Errors |    Score   
+----------------------------------------------------------------------------------------------------------
+  Autotimespec constraint for clock net i_c | SETUP       |         N/A|    11.917ns|     N/A|           0
+  lock_IBUF                                 | HOLD        |     0.401ns|            |       0|           0
+----------------------------------------------------------------------------------------------------------
+
+
+All constraints were met.
+INFO:Timing:2761 - N/A entries in the Constraints List may indicate that the 
+   constraint is not analyzed due to the following: No paths covered by this 
+   constraint; Other constraints intersect with this constraint; or This 
+   constraint was disabled by a Path Tracing Control. Please run the Timespec 
+   Interaction Report (TSI) via command line (trce tsi) or Timing Analyzer GUI.
+
+
+Generating Pad Report.
+
+All signals are completely routed.
+
+Total REAL time to PAR completion: 1 mins 28 secs 
+Total CPU time to PAR completion: 1 mins 24 secs 
+
+Peak Memory Usage:  877 MB
+
+Placer: Placement generated during map.
+Routing: Completed - No errors found.
+
+Number of error messages: 0
+Number of warning messages: 0
+Number of info messages: 1
+
+Writing design to file test_fixed_melexis.ncd
+
+
+
+PAR done!
