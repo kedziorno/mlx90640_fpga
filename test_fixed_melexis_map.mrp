@@ -1,0 +1,525 @@
+Release 14.7 Map P.20131013 (lin64)
+Xilinx Mapping Report File for Design 'test_fixed_melexis'
+
+Design Information
+------------------
+Command Line   : map -intstyle ise -p xc4vsx35-ff668-10 -timing -logic_opt off
+-ol std -t 1 -register_duplication off -global_opt off -cm area -ir off -pr off
+-power off -o test_fixed_melexis_map.ncd test_fixed_melexis.ngd
+test_fixed_melexis.pcf 
+Target Device  : xc4vsx35
+Target Package : ff668
+Target Speed   : -10
+Mapper Version : virtex4 -- $Revision: 1.55 $
+Mapped Date    : Sun Oct  6 18:51:24 2024
+
+Design Summary
+--------------
+Number of errors:      0
+Number of warnings:    0
+Logic Utilization:
+  Number of Slice Flip Flops:         9,038 out of  30,720   29%
+  Number of 4 input LUTs:            14,190 out of  30,720   46%
+Logic Distribution:
+  Number of occupied Slices:          9,904 out of  15,360   64%
+    Number of Slices containing only related logic:   9,904 out of   9,904 100%
+    Number of Slices containing unrelated logic:          0 out of   9,904   0%
+      *See NOTES below for an explanation of the effects of unrelated logic.
+  Total Number of 4 input LUTs:      14,368 out of  30,720   46%
+    Number used as logic:            13,947
+    Number used as a route-thru:        178
+    Number used as Shift registers:     243
+
+  The Slice Logic Distribution report is not meaningful if the design is
+  over-mapped for a non-slice resource or if Placement fails.
+  Number of bonded IOBs:                 67 out of     448   14%
+  Number of BUFG/BUFGCTRLs:               1 out of      32    3%
+    Number used as BUFGs:                 1
+  Number of FIFO16/RAMB16s:              37 out of     192   19%
+    Number used as RAMB16s:              37
+
+Average Fanout of Non-Clock Nets:                3.35
+
+Peak Memory Usage:  1059 MB
+Total REAL time to MAP completion:  4 mins 3 secs 
+Total CPU time to MAP completion:   3 mins 18 secs 
+
+Table of Contents
+-----------------
+Section 1 - Errors
+Section 2 - Warnings
+Section 3 - Informational
+Section 4 - Removed Logic Summary
+Section 5 - Removed Logic
+Section 6 - IOB Properties
+Section 7 - RPMs
+Section 8 - Guide Report
+Section 9 - Area Group and Partition Summary
+Section 10 - Timing Report
+Section 11 - Configuration String Information
+Section 12 - Control Set Information
+Section 13 - Utilization by Hierarchy
+
+Section 1 - Errors
+------------------
+
+Section 2 - Warnings
+--------------------
+
+Section 3 - Informational
+-------------------------
+INFO:MapLib:562 - No environment variables are currently set.
+INFO:MapLib:797 - Your design is targeting LX/SX Production Step 0/1/ES devices.
+   Please note that there are new specifications for the DCMs to guarantee
+   maximum frequency performance. If the DCM input clock might stop or if the
+   DCM reset might be asserted for an extended time, then use of the dcm_standby
+   macro may be required. Please see Answer Record 21127.
+INFO:LIT:244 - All of the single ended outputs in this design are using slew
+   rate limited output drivers. The delay on speed critical single ended outputs
+   can be dramatically reduced by designating them as fast outputs.
+INFO:Pack:1716 - Initializing temperature to 85.000 Celsius. (default - Range:
+   0.000 to 85.000 Celsius)
+INFO:Pack:1720 - Initializing voltage to 1.140 Volts. (default - Range: 1.140 to
+   1.260 Volts)
+INFO:Pack:1650 - Map created a placed design.
+
+Section 4 - Removed Logic Summary
+---------------------------------
+ 164 block(s) removed
+  55 block(s) optimized away
+  57 signal(s) removed
+
+Section 5 - Removed Logic
+-------------------------
+
+The trimmed logic report below shows the logic removed from your design due to
+sourceless or loadless signals, and VCC or ground connections.  If the removal
+of a signal or symbol results in the subsequent removal of an additional signal
+or symbol, the message explaining that second removal will be indented.  This
+indentation will be repeated as a chain of related logic is removed.
+
+To quickly locate the original cause for the removal of a chain of logic, look
+above the place where that logic is listed in the trimming report, then locate
+the lines that are least indented (begin at the leftmost edge).
+
+Loadless block "b0.inst_fixed2float/blk00000016" (MUX) removed.
+ The signal "b0.inst_fixed2float/sig0000011c" is loadless and has been removed.
+  Loadless block "b0.inst_fixed2float/blk000002b3" (ROM) removed.
+ The signal "b0.inst_fixed2float/sig0000011d" is loadless and has been removed.
+  Loadless block "b0.inst_fixed2float/blk000002b2" (ROM) removed.
+   The signal "b0.inst_fixed2float/sig00000103" is loadless and has been removed.
+    Loadless block "b0.inst_fixed2float/blk0000004e" (FF) removed.
+     The signal "b0.inst_fixed2float/sig0000010f" is loadless and has been removed.
+      Loadless block "b0.inst_fixed2float/blk00000047" (MUX) removed.
+       The signal "b0.inst_fixed2float/sig00000107" is loadless and has been removed.
+        Loadless block "b0.inst_fixed2float/blk000002c6" (ROM) removed.
+       The signal "b0.inst_fixed2float/sig0000010b" is loadless and has been removed.
+        Loadless block "b0.inst_fixed2float/blk000002c0" (ROM) removed.
+Loadless block "inst_addfp/blk00000206" (XOR) removed.
+ The signal "inst_addfp/sig0000050d" is loadless and has been removed.
+  Loadless block "inst_addfp/blk00000208" (MUX) removed.
+   The signal "inst_addfp/sig0000050c" is loadless and has been removed.
+    Loadless block "inst_addfp/blk0000020a" (MUX) removed.
+     The signal "inst_addfp/sig0000050b" is loadless and has been removed.
+      Loadless block "inst_addfp/blk0000020c" (MUX) removed.
+       The signal "inst_addfp/sig0000050a" is loadless and has been removed.
+        Loadless block "inst_addfp/blk0000020e" (MUX) removed.
+         The signal "inst_addfp/sig00000509" is loadless and has been removed.
+          Loadless block "inst_addfp/blk00000210" (MUX) removed.
+           The signal "inst_addfp/sig00000508" is loadless and has been removed.
+            Loadless block "inst_addfp/blk00000212" (MUX) removed.
+             The signal "inst_addfp/sig00000507" is loadless and has been removed.
+              Loadless block "inst_addfp/blk00000214" (MUX) removed.
+               The signal "inst_addfp/sig00000577" is loadless and has been removed.
+                Loadless block "inst_addfp/blk0000026c" (FF) removed.
+                 The signal "inst_addfp/sig00000557" is loadless and has been removed.
+                  Loadless block "inst_addfp/blk00000253" (XOR) removed.
+                   The signal "inst_addfp/sig0000054d" is loadless and has been removed.
+                    Loadless block "inst_addfp/blk00000255" (MUX) removed.
+Loadless block "inst_addfp/blk00000207" (XOR) removed.
+Loadless block "inst_addfp/blk00000209" (XOR) removed.
+Loadless block "inst_addfp/blk0000020b" (XOR) removed.
+Loadless block "inst_addfp/blk0000020d" (XOR) removed.
+Loadless block "inst_addfp/blk0000020f" (XOR) removed.
+Loadless block "inst_addfp/blk00000211" (XOR) removed.
+Loadless block "inst_addfp/blk00000213" (XOR) removed.
+Loadless block "inst_addfp/blk00000273" (MUX) removed.
+ The signal "inst_addfp/sig00000473" is loadless and has been removed.
+  Loadless block "inst_addfp/blk00000328" (ROM) removed.
+ The signal "inst_addfp/sig00000474" is loadless and has been removed.
+  Loadless block "inst_addfp/blk00000327" (ROM) removed.
+   The signal "inst_addfp/sig00000461" is loadless and has been removed.
+    Loadless block "inst_addfp/blk00000298" (FF) removed.
+     The signal "inst_addfp/sig0000046c" is loadless and has been removed.
+      Loadless block "inst_addfp/blk00000291" (MUX) removed.
+       The signal "inst_addfp/sig00000465" is loadless and has been removed.
+        Loadless block "inst_addfp/blk0000038c" (ROM) removed.
+Loadless block "inst_divfp/blk00000244" (XOR) removed.
+Loadless block "inst_divfp/blk00000246" (XOR) removed.
+Loadless block "inst_divfp/blk00000248" (XOR) removed.
+Loadless block "inst_divfp/blk0000024a" (XOR) removed.
+Loadless block "inst_divfp/blk0000024c" (XOR) removed.
+Loadless block "inst_divfp/blk0000024e" (XOR) removed.
+Loadless block "inst_divfp/blk00000250" (XOR) removed.
+Loadless block "inst_divfp/blk00000252" (XOR) removed.
+Loadless block "inst_divfp/blk00000254" (XOR) removed.
+Loadless block "inst_divfp/blk00000256" (XOR) removed.
+Loadless block "inst_divfp/blk00000258" (XOR) removed.
+Loadless block "inst_divfp/blk0000025a" (XOR) removed.
+Loadless block "inst_divfp/blk0000025c" (XOR) removed.
+Loadless block "inst_divfp/blk0000025e" (XOR) removed.
+Loadless block "inst_divfp/blk00000260" (XOR) removed.
+Loadless block "inst_divfp/blk00000262" (XOR) removed.
+Loadless block "inst_divfp/blk00000264" (XOR) removed.
+Loadless block "inst_divfp/blk00000266" (XOR) removed.
+Loadless block "inst_divfp/blk00000268" (XOR) removed.
+Loadless block "inst_divfp/blk0000026a" (XOR) removed.
+Loadless block "inst_divfp/blk0000026c" (XOR) removed.
+Loadless block "inst_divfp/blk0000026e" (XOR) removed.
+Loadless block "inst_divfp/blk00000270" (XOR) removed.
+Loadless block "inst_divfp/blk00000272" (XOR) removed.
+Loadless block "inst_divfp/blk000009e7" (XOR) removed.
+Loadless block "inst_mulfp/blk0000004f" (XOR) removed.
+Loadless block "inst_mulfp/blk0000012b" (FF) removed.
+ The signal "inst_mulfp/sig00000151" is loadless and has been removed.
+  Loadless block "inst_mulfp/blk0000012a" (XOR) removed.
+   The signal "inst_mulfp/sig0000011b" is loadless and has been removed.
+    Loadless block "inst_mulfp/blk00000127" (MUX) removed.
+   The signal "inst_mulfp/sig00000136" is loadless and has been removed.
+    Loadless block "inst_mulfp/blk00000129" (ROM) removed.
+     The signal "inst_mulfp/sig0000090f" is loadless and has been removed.
+      Loadless block "inst_mulfp/blk000001ee" (FF) removed.
+       The signal "inst_mulfp/sig000002b9" is loadless and has been removed.
+Loadless block "inst_mulfp/blk00000414" (AND) removed.
+Loadless block "inst_mulfp/blk00000416" (SFF) removed.
+ The signal "inst_mulfp/sig0000075d" is loadless and has been removed.
+  Loadless block "inst_mulfp/blk00000415" (XOR) removed.
+   The signal "inst_mulfp/sig00000712" is loadless and has been removed.
+    Loadless block "inst_mulfp/blk00000411" (MUX) removed.
+     The signal "inst_mulfp/sig00000711" is loadless and has been removed.
+      Loadless block "inst_mulfp/blk0000040d" (MUX) removed.
+       The signal "inst_mulfp/sig0000072a" is loadless and has been removed.
+        Loadless block "inst_mulfp/blk0000040c" (AND) removed.
+     The signal "inst_mulfp/sig0000072b" is loadless and has been removed.
+      Loadless block "inst_mulfp/blk00000410" (AND) removed.
+     The signal "inst_mulfp/sig00000744" is loadless and has been removed.
+      Loadless block "inst_mulfp/blk0000040f" (ROM) removed.
+   The signal "inst_mulfp/sig00000745" is loadless and has been removed.
+    Loadless block "inst_mulfp/blk00000413" (ROM) removed.
+ The signal "inst_mulfp/sig0000071b" is loadless and has been removed.
+Loadless block "inst_mulfp/blk00000417" (SFF) removed.
+ The signal "inst_mulfp/sig0000075c" is loadless and has been removed.
+  Loadless block "inst_mulfp/blk00000412" (XOR) removed.
+Loadless block "inst_mulfp/blk0000069e" (AND) removed.
+Loadless block "inst_mulfp/blk00000701" (AND) removed.
+Loadless block "inst_mulfp/blk00000764" (AND) removed.
+Loadless block "inst_mulfp/blk000007c7" (AND) removed.
+Loadless block "inst_mulfp/blk0000082a" (AND) removed.
+Loadless block "inst_mulfp/blk0000088d" (AND) removed.
+Loadless block "inst_mulfp/blk000008f0" (AND) removed.
+Loadless block "inst_mulfp/blk00000953" (AND) removed.
+Loadless block "inst_sqrtfp2/blk00000142" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk0000014e" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk0000015f" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk0000016c" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk00000182" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk0000019b" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000001b7" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000001e1" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000001f8" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk0000021d" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk00000245" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk00000270" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk0000029e" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000002cf" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk00000303" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk0000033a" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk00000374" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000003b1" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000003f1" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk00000434" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk0000047a" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000004c3" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk0000050f" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk0000055e" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005b0" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005b2" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005b4" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005b6" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005b8" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005ba" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005bc" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005be" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005c0" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005c2" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005c4" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005c6" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005c8" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005ca" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005cc" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005ce" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005d0" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005d2" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005d4" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005d6" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005d8" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005da" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005dc" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005de" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005e0" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005e2" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005e4" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005e6" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk000005fe" (FF) removed.
+ The signal "inst_sqrtfp2/sig0000082f" is loadless and has been removed.
+  Loadless block "inst_sqrtfp2/blk00000621" (XOR) removed.
+Loadless block "inst_sqrtfp2/blk00000620" (XOR) removed.
+ The signal "inst_sqrtfp2/sig00000825" is loadless and has been removed.
+  Loadless block "inst_sqrtfp2/blk0000061e" (MUX) removed.
+Loadless block "inst_subfp/blk00000206" (XOR) removed.
+ The signal "inst_subfp/sig0000050e" is loadless and has been removed.
+  Loadless block "inst_subfp/blk00000208" (MUX) removed.
+   The signal "inst_subfp/sig0000050d" is loadless and has been removed.
+    Loadless block "inst_subfp/blk0000020a" (MUX) removed.
+     The signal "inst_subfp/sig0000050c" is loadless and has been removed.
+      Loadless block "inst_subfp/blk0000020c" (MUX) removed.
+       The signal "inst_subfp/sig0000050b" is loadless and has been removed.
+        Loadless block "inst_subfp/blk0000020e" (MUX) removed.
+         The signal "inst_subfp/sig0000050a" is loadless and has been removed.
+          Loadless block "inst_subfp/blk00000210" (MUX) removed.
+           The signal "inst_subfp/sig00000509" is loadless and has been removed.
+            Loadless block "inst_subfp/blk00000212" (MUX) removed.
+             The signal "inst_subfp/sig00000508" is loadless and has been removed.
+              Loadless block "inst_subfp/blk00000214" (MUX) removed.
+               The signal "inst_subfp/sig00000578" is loadless and has been removed.
+                Loadless block "inst_subfp/blk0000026c" (FF) removed.
+                 The signal "inst_subfp/sig00000558" is loadless and has been removed.
+                  Loadless block "inst_subfp/blk00000253" (XOR) removed.
+                   The signal "inst_subfp/sig0000054e" is loadless and has been removed.
+                    Loadless block "inst_subfp/blk00000255" (MUX) removed.
+Loadless block "inst_subfp/blk00000207" (XOR) removed.
+Loadless block "inst_subfp/blk00000209" (XOR) removed.
+Loadless block "inst_subfp/blk0000020b" (XOR) removed.
+Loadless block "inst_subfp/blk0000020d" (XOR) removed.
+Loadless block "inst_subfp/blk0000020f" (XOR) removed.
+Loadless block "inst_subfp/blk00000211" (XOR) removed.
+Loadless block "inst_subfp/blk00000213" (XOR) removed.
+Loadless block "inst_subfp/blk00000273" (MUX) removed.
+ The signal "inst_subfp/sig00000474" is loadless and has been removed.
+  Loadless block "inst_subfp/blk00000328" (ROM) removed.
+ The signal "inst_subfp/sig00000475" is loadless and has been removed.
+  Loadless block "inst_subfp/blk00000327" (ROM) removed.
+   The signal "inst_subfp/sig00000462" is loadless and has been removed.
+    Loadless block "inst_subfp/blk00000298" (FF) removed.
+     The signal "inst_subfp/sig0000046d" is loadless and has been removed.
+      Loadless block "inst_subfp/blk00000291" (MUX) removed.
+       The signal "inst_subfp/sig00000466" is loadless and has been removed.
+        Loadless block "inst_subfp/blk0000038c" (ROM) removed.
+The signal "inst_mulfp/sig00000107" is sourceless and has been removed.
+The signal "inst_mulfp/sig00000108" is sourceless and has been removed.
+The signal "inst_mulfp/sig00000109" is sourceless and has been removed.
+The signal "inst_addfp/sig00000173" is sourceless and has been removed.
+The signal "inst_subfp/sig00000173" is sourceless and has been removed.
+Unused block "inst_addfp/blk0000009b" (MUX) removed.
+Unused block "inst_mulfp/blk000001ed" (SRLC16E) removed.
+Unused block "inst_subfp/blk0000009b" (MUX) removed.
+
+Optimized Block(s):
+TYPE 		BLOCK
+GND 		XST_GND
+VCC 		XST_VCC
+GND 		b0.inst_fixed2float/blk00000001
+VCC 		b0.inst_fixed2float/blk00000002
+GND 		inst_addfp/blk00000001
+VCC 		inst_addfp/blk00000002
+GND 		inst_calculateVdd/inst_ExtractVDDParameters/rom_kvdd_vdd25/XST_GND
+GND 		inst_divfp/blk00000001
+VCC 		inst_divfp/blk00000002
+GND 		inst_mulfp/blk00000001
+VCC 		inst_mulfp/blk00000002
+LUT4 		inst_mulfp/blk00000633
+   optimized to 0
+LUT4 		inst_mulfp/blk00000634
+   optimized to 0
+LUT4 		inst_mulfp/blk00000635
+   optimized to 0
+LUT4 		inst_mulfp/blk0000069d
+   optimized to 0
+LUT4 		inst_mulfp/blk00000700
+   optimized to 0
+LUT4 		inst_mulfp/blk00000763
+   optimized to 0
+LUT4 		inst_mulfp/blk000007c6
+   optimized to 0
+LUT4 		inst_mulfp/blk00000829
+   optimized to 0
+LUT4 		inst_mulfp/blk0000088c
+   optimized to 0
+LUT4 		inst_mulfp/blk000008ef
+   optimized to 0
+LUT4 		inst_mulfp/blk00000952
+   optimized to 0
+FDE 		inst_mulfp/blk00000983
+   optimized to 0
+FDE 		inst_mulfp/blk00000984
+   optimized to 0
+FDE 		inst_mulfp/blk00000985
+   optimized to 0
+LUT2 		inst_mulfp/blk000009d2
+   optimized to 0
+GND 		inst_sqrtfp2/blk00000001
+VCC 		inst_sqrtfp2/blk00000002
+GND 		inst_subfp/blk00000001
+VCC 		inst_subfp/blk00000002
+MUXCY 		b0.inst_fixed2float/blk000000c3
+MUXCY 		b0.inst_fixed2float/blk000000c4
+MUXCY 		b0.inst_fixed2float/blk000000c5
+MUXCY 		b0.inst_fixed2float/blk000000c6
+MUXCY 		b0.inst_fixed2float/blk000000c7
+MUXCY 		b0.inst_fixed2float/blk000000c8
+MUXCY 		b0.inst_fixed2float/blk000000c9
+MUXCY 		b0.inst_fixed2float/blk000000ca
+MUXCY 		b0.inst_fixed2float/blk000000cb
+MUXCY 		b0.inst_fixed2float/blk000000cc
+MUXCY 		b0.inst_fixed2float/blk000000cd
+MUXCY 		b0.inst_fixed2float/blk000000ce
+MUXCY 		b0.inst_fixed2float/blk000000cf
+MUXCY 		b0.inst_fixed2float/blk000000d0
+MUXCY 		b0.inst_fixed2float/blk000000d1
+MUXCY 		b0.inst_fixed2float/blk000000d2
+MUXCY 		b0.inst_fixed2float/blk000000d3
+MUXCY 		b0.inst_fixed2float/blk000000d4
+MUXCY 		b0.inst_fixed2float/blk000000d5
+MUXCY 		b0.inst_fixed2float/blk000000d6
+MUXCY 		b0.inst_fixed2float/blk000000d7
+MUXCY 		b0.inst_fixed2float/blk000000d8
+MUXCY 		b0.inst_fixed2float/blk000000d9
+MUXCY 		b0.inst_fixed2float/blk000000da
+MUXCY 		b0.inst_fixed2float/blk000000db
+
+To enable printing of redundant blocks removed and signals merged, set the
+detailed map report option and rerun map.
+
+Section 6 - IOB Properties
+--------------------------
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------+
+| IOB Name                           | Type             | Direction | IO Standard          | Diff  | Drive    | Slew | Reg (s)      | Resistor | IOB      |
+|                                    |                  |           |                      | Term  | Strength | Rate |              |          | Delay    |
++---------------------------------------------------------------------------------------------------------------------------------------------------------+
+| i2c_mem_addra<0>                   | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| i2c_mem_addra<1>                   | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| i2c_mem_addra<2>                   | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| i2c_mem_addra<3>                   | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| i2c_mem_addra<4>                   | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| i2c_mem_addra<5>                   | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| i2c_mem_addra<6>                   | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| i2c_mem_addra<7>                   | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| i2c_mem_addra<8>                   | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| i2c_mem_addra<9>                   | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| i2c_mem_addra<10>                  | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| i2c_mem_addra<11>                  | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| i2c_mem_douta<0>                   | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i2c_mem_douta<1>                   | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i2c_mem_douta<2>                   | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i2c_mem_douta<3>                   | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i2c_mem_douta<4>                   | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i2c_mem_douta<5>                   | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i2c_mem_douta<6>                   | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i2c_mem_douta<7>                   | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i2c_mem_ena                        | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| i_addr<0>                          | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_addr<1>                          | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_addr<2>                          | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_addr<3>                          | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_addr<4>                          | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_addr<5>                          | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_addr<6>                          | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_addr<7>                          | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_addr<8>                          | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_addr<9>                          | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_clock                            | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_reset                            | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_run                              | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| o_do<0>                            | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<1>                            | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<2>                            | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<3>                            | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<4>                            | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<5>                            | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<6>                            | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<7>                            | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<8>                            | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<9>                            | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<10>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<11>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<12>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<13>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<14>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<15>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<16>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<17>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<18>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<19>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<20>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<21>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<22>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<23>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<24>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<25>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<26>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<27>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<28>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<29>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<30>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_do<31>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_rdy                              | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
++---------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+Section 7 - RPMs
+----------------
+
+Section 8 - Guide Report
+------------------------
+Guide not run on this design.
+
+Section 9 - Area Group and Partition Summary
+--------------------------------------------
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+Area Group Information
+----------------------
+
+  No area groups were found in this design.
+
+----------------------
+
+Section 10 - Timing Report
+--------------------------
+A logic-level (pre-route) timing report can be generated by using Xilinx static
+timing analysis tools, Timing Analyzer (GUI) or TRCE (command line), with the
+mapped NCD and PCF files. Please note that this timing report will be generated
+using estimated delay information. For accurate numbers, please generate a
+timing report with the post Place and Route NCD file.
+
+For more information about the Timing Analyzer, consult the Xilinx Timing
+Analyzer Reference Manual; for more information about TRCE, consult the Xilinx
+Command Line Tools User Guide "TRACE" chapter.
+
+Section 11 - Configuration String Details
+-----------------------------------------
+Use the "-detail" map option to print out Configuration Strings
+
+Section 12 - Control Set Information
+------------------------------------
+No control set information for this architecture.
+
+Section 13 - Utilization by Hierarchy
+-------------------------------------
+Use the "-detail" map option to print out the Utilization by Hierarchy section.

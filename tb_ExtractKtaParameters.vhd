@@ -28,7 +28,7 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
-USE work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 USE work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
@@ -127,6 +127,17 @@ i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
 
+signal o_2powx_p8_4bit_ena : out std_logic;
+signal o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
+signal o_2powx_4bit_ena : out std_logic;
+signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
+signal o_signed3bit_ena : out std_logic;
+signal o_signed3bit_adr : out std_logic_vector (2 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
+
+signal o_mem_signed256_ivalue : out std_logic_vector (7 downto 0); -- input hex from 0 to 255
+signal i_mem_signed256_ovalue : in std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
+
 signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpond : out STD_LOGIC;
@@ -161,6 +172,15 @@ signal ExtractKtaParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal ExtractKtaParameters_do : std_logic_vector (31 downto 0);
 signal ExtractKtaParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal ExtractKtaParameters_rdy : std_logic;
+signal ExtractKtaParameters_2powx_p8_4bit_ena : std_logic;
+signal ExtractKtaParameters_2powx_p8_4bit_adr : std_logic_vector (3 downto 0);
+signal ExtractKtaParameters_2powx_4bit_ena : std_logic;
+signal ExtractKtaParameters_2powx_4bit_adr : std_logic_vector (3 downto 0);
+signal ExtractKtaParameters_signed3bit_ena : std_logic;
+signal ExtractKtaParameters_signed3bit_adr : std_logic_vector (2 downto 0);
+signal ExtractKtaParameters_rom_constants_float : std_logic_vector (31 downto 0);
+signal ExtractKtaParameters_mem_signed256_ivalue : std_logic_vector (7 downto 0); -- input hex from 0 to 255
+signal ExtractKtaParameters_mem_signed256_ovalue : std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
 signal ExtractKtaParameters_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractKtaParameters_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractKtaParameters_mulfpond : STD_LOGIC;
@@ -186,6 +206,70 @@ signal ExtractKtaParameters_divfprdy : STD_LOGIC;
 signal ExtractKtaParameters_divfpclk : std_logic;
 signal ExtractKtaParameters_mulfpclk : std_logic;
 signal ExtractKtaParameters_addfpclk : std_logic;
+
+COMPONENT rom_constants
+PORT(
+i_clock : IN  std_logic;
+i_reset : IN  std_logic;
+i_kvptat_en : IN  std_logic;
+i_kvptat_adr : IN  std_logic_vector(5 downto 0);
+i_alphaptat_en : IN  std_logic;
+i_alphaptat_adr : IN  std_logic_vector(3 downto 0);
+i_signed4bit_en : IN  std_logic;
+i_signed4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed6bit_en : IN  std_logic;
+i_signed6bit_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_1_en : IN  std_logic;
+i_alphascale_1_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_4bit_en : IN  std_logic;
+i_2powx_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_cpratio_en : IN  std_logic;
+i_cpratio_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_2_en : IN  std_logic;
+i_alphascale_2_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_p8_4bit_en : IN  std_logic;
+i_2powx_p8_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed3bit_en : IN  std_logic;
+i_signed3bit_adr : IN  std_logic_vector(2 downto 0);
+o_float : OUT  std_logic_vector(31 downto 0)
+);
+END COMPONENT rom_constants;
+signal i_clock : std_logic := '0';
+signal i_reset : std_logic := '0';
+signal i_kvptat_en : std_logic := '0';
+signal i_kvptat_adr : std_logic_vector(5 downto 0) := (others => '0');
+signal i_alphaptat_en : std_logic := '0';
+signal i_alphaptat_adr : std_logic_vector(3 downto 0) := (others => '0');
+signal i_signed4bit_en : std_logic := '0';
+signal i_signed4bit_adr : std_logic_vector(3 downto 0) := (others => '0');
+signal i_signed6bit_en : std_logic := '0';
+signal i_signed6bit_adr : std_logic_vector(5 downto 0) := (others => '0');
+signal i_alphascale_1_en : std_logic := '0';
+signal i_alphascale_1_adr : std_logic_vector(3 downto 0) := (others => '0');
+signal i_2powx_4bit_en : std_logic := '0';
+signal i_2powx_4bit_adr : std_logic_vector(3 downto 0) := (others => '0');
+signal i_cpratio_en : std_logic := '0';
+signal i_cpratio_adr : std_logic_vector(5 downto 0) := (others => '0');
+signal i_alphascale_2_en : std_logic := '0';
+signal i_alphascale_2_adr : std_logic_vector(3 downto 0) := (others => '0');
+signal i_2powx_p8_4bit_en : std_logic := '0';
+signal i_2powx_p8_4bit_adr : std_logic_vector(3 downto 0) := (others => '0');
+signal i_signed3bit_en : std_logic := '0';
+signal i_signed3bit_adr : std_logic_vector(2 downto 0) := (others => '0');
+signal o_float : std_logic_vector(31 downto 0);
+
+component mem_signed256 is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_value : in std_logic_vector (7 downto 0); -- input hex from 0 to 255
+o_value : out std_logic_vector (31 downto 0) -- output signed -128 to 127 in SP float
+);
+end component mem_signed256;
+signal mem_signed256_clock : std_logic;
+signal mem_signed256_reset : std_logic;
+signal mem_signed256_ivalue : std_logic_vector (7 downto 0); -- input hex from 0 to 255
+signal mem_signed256_ovalue : std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
 
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
@@ -219,6 +303,17 @@ o_do => ExtractKtaParameters_do,
 i_addr => ExtractKtaParameters_addr, -- 10bit-1024
 
 o_rdy => ExtractKtaParameters_rdy,
+
+o_2powx_p8_4bit_ena => ExtractKtaParameters_2powx_p8_4bit_ena,
+o_2powx_p8_4bit_adr => ExtractKtaParameters_2powx_p8_4bit_adr,
+o_2powx_4bit_ena => ExtractKtaParameters_2powx_4bit_ena,
+o_2powx_4bit_adr => ExtractKtaParameters_2powx_4bit_adr,
+o_signed3bit_ena => ExtractKtaParameters_signed3bit_ena,
+o_signed3bit_adr => ExtractKtaParameters_signed3bit_adr,
+i_rom_constants_float => ExtractKtaParameters_rom_constants_float,
+
+o_mem_signed256_ivalue => ExtractKtaParameters_mem_signed256_ivalue,
+i_mem_signed256_ovalue => ExtractKtaParameters_mem_signed256_ovalue,
 
 mulfpa => ExtractKtaParameters_mulfpa,
 mulfpb => ExtractKtaParameters_mulfpb,
@@ -258,16 +353,79 @@ ExtractKtaParameters_reset <= '1', '0' after 100 ns ;
 
 -- Stimulus process
 stim_proc: process
+type itemr is record
+a : std_logic_vector (31 downto 0);
+b : integer;
+end record; 
+type ten_items is array (0 to 9) of itemr;
+type mid_items is array (0 to 1) of itemr;
+type datar is record
+first : ten_items;
+middle : mid_items;
+last : ten_items;
+end record;
+-- XXX data from ExtractKtaParameters
+constant datao : datar := (
+first => (
+(a => x"3be00000", b => 1),
+(a => x"3bd00000", b => 2),
+(a => x"3bd00000", b => 3),
+(a => x"3bc00000", b => 4),
+(a => x"3bd00000", b => 5),
+(a => x"3bc00000", b => 6),
+(a => x"3bd00000", b => 7),
+(a => x"3bc00000", b => 8),
+(a => x"3bd00000", b => 9),
+(a => x"3bc00000", b => 10)
+),
+middle => (
+(a => x"3bc40000", b => 382),
+(a => x"3bfc0000", b => 383)
+),
+last => (
+(a => x"3bc40000", b => 758),
+(a => x"3bec0000", b => 759),
+(a => x"3be40000", b => 760),
+(a => x"3bec0000", b => 761),
+(a => x"3bc40000", b => 762),
+(a => x"3bec0000", b => 763),
+(a => x"3bd40000", b => 764),
+(a => x"3bec0000", b => 765),
+(a => x"3bc40000", b => 766),
+(a => x"3bec0000", b => 767)
+)
+);
 begin
 -- hold reset state for 100 ns.
 wait for 105 ns;
 -- insert stimulus here
 ExtractKtaParameters_run <= '1'; wait for i_clock_period; ExtractKtaParameters_run <= '0';
 wait until ExtractKtaParameters_rdy = '1';
-for i in 0 to 1024 loop
-	ExtractKtaParameters_addr <= std_logic_vector (to_unsigned (i, 10));
-	wait for i_clock_period*2;
+--report "rdy at 538.055ns";
+report "rdy at 468.645ns";
+for i in 0 to 9 loop
+ExtractKtaParameters_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
+wait until rising_edge (ExtractKtaParameters_clock);
+wait until rising_edge (ExtractKtaParameters_clock);
+warning_neq_fp (ExtractKtaParameters_do, datao.first(i).a, "first " & integer'image (datao.first(i).b));
+wait until rising_edge (ExtractKtaParameters_clock);
 end loop;
+for i in 0 to 1 loop
+ExtractKtaParameters_addr <= std_logic_vector (to_unsigned (datao.middle(i).b, 10));
+wait until rising_edge (ExtractKtaParameters_clock);
+wait until rising_edge (ExtractKtaParameters_clock);
+warning_neq_fp (ExtractKtaParameters_do, datao.middle(i).a, "middle " & integer'image (datao.middle(i).b));
+wait until rising_edge (ExtractKtaParameters_clock);
+end loop;
+for i in 0 to 9 loop -- XXX last_9 is OK here (tb_CalculateAlphaComp)
+ExtractKtaParameters_addr <= std_logic_vector (to_unsigned (datao.last(i).b, 10));
+wait until rising_edge (ExtractKtaParameters_clock);
+wait until rising_edge (ExtractKtaParameters_clock);
+warning_neq_fp (ExtractKtaParameters_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
+wait until rising_edge (ExtractKtaParameters_clock);
+end loop;
+--report "end at 538.715ns";
+report "end at 469.305ns";
 wait for 1 ps; -- must be for write
 report "done" severity failure;
 --wait on o_done;
@@ -311,6 +469,41 @@ sclr => ExtractKtaParameters_addfpsclr,
 ce => ExtractKtaParameters_addfpce,
 result => ExtractKtaParameters_addfpr,
 rdy => ExtractKtaParameters_addfprdy
+);
+
+inst_rom_constants : rom_constants PORT MAP (
+i_clock => ExtractKtaParameters_clock,
+i_reset => ExtractKtaParameters_reset,
+i_kvptat_en => i_kvptat_en,
+i_kvptat_adr => i_kvptat_adr,
+i_alphaptat_en => i_alphaptat_en,
+i_alphaptat_adr => i_alphaptat_adr,
+i_signed4bit_en => i_signed4bit_en,
+i_signed4bit_adr => i_signed4bit_adr,
+i_signed6bit_en => i_signed6bit_en,
+i_signed6bit_adr => i_signed6bit_adr,
+i_alphascale_1_en => i_alphascale_1_en,
+i_alphascale_1_adr => i_alphascale_1_adr,
+i_2powx_4bit_en => ExtractKtaParameters_2powx_4bit_ena,
+i_2powx_4bit_adr => ExtractKtaParameters_2powx_4bit_adr,
+i_cpratio_en => i_cpratio_en,
+i_cpratio_adr => i_cpratio_adr,
+i_alphascale_2_en => i_alphascale_2_en,
+i_alphascale_2_adr => i_alphascale_2_adr,
+i_2powx_p8_4bit_en => ExtractKtaParameters_2powx_p8_4bit_ena,
+i_2powx_p8_4bit_adr => ExtractKtaParameters_2powx_p8_4bit_adr,
+i_signed3bit_en => ExtractKtaParameters_signed3bit_ena,
+i_signed3bit_adr => ExtractKtaParameters_signed3bit_adr,
+o_float => ExtractKtaParameters_rom_constants_float
+);
+
+mem_signed256_clock <= ExtractKtaParameters_clock;
+mem_signed256_reset <= ExtractKtaParameters_reset;
+inst_mem_signed256_ktarcee : mem_signed256 port map (
+i_clock => mem_signed256_clock,
+i_reset => mem_signed256_reset,
+i_value => ExtractKtaParameters_mem_signed256_ivalue,
+o_value => ExtractKtaParameters_mem_signed256_ovalue
 );
 
 END;

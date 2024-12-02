@@ -29,7 +29,8 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-use work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
+use work.p_fphdl_package3.all;
 
 entity CalculatePixOS is
 port (
@@ -41,16 +42,29 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-i_const1 : in std_logic_vector (31 downto 0);
 i_Ta : in std_logic_vector (31 downto 0);
-i_Ta0 : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
-i_VddV0 : in std_logic_vector (31 downto 0);
+i_KGain : in std_logic_vector (31 downto 0);
 
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
+
+o_mem_signed256_ivalue : out std_logic_vector (7 downto 0); -- input hex from 0 to 255
+i_mem_signed256_ovalue : in std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
+
+o_signed4bit_ena : out std_logic;
+o_signed4bit_adr : out std_logic_vector (3 downto 0);
+o_signed6bit_ena : out std_logic;
+o_signed6bit_adr : out std_logic_vector (5 downto 0);
+o_2powx_4bit_ena : out std_logic;
+o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
+o_2powx_p8_4bit_ena : out std_logic;
+o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
+o_signed3bit_ena : out std_logic;
+o_signed3bit_adr : out std_logic_vector (2 downto 0);
+i_rom_constants_float : in std_logic_vector (31 downto 0);
 
 fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
@@ -92,7 +106,7 @@ divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 divfprdy : in STD_LOGIC
 
 );
-end CalculatePixOS;
+end entity CalculatePixOS;
 
 architecture Behavioral of CalculatePixOS is
 
@@ -110,6 +124,14 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
+
+signal o_signed4bit_ena : out std_logic;
+signal o_signed4bit_adr : out std_logic_vector (3 downto 0);
+signal o_signed6bit_ena : out std_logic;
+signal o_signed6bit_adr : out std_logic_vector (5 downto 0);
+signal o_2powx_4bit_ena : out std_logic;
+signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
 
 signal fixed2floata : out STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
@@ -144,6 +166,13 @@ signal ExtractOffsetParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal ExtractOffsetParameters_do : std_logic_vector (31 downto 0);
 signal ExtractOffsetParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal ExtractOffsetParameters_rdy : std_logic;
+signal ExtractOffsetParameters_signed4bit_ena : std_logic;
+signal ExtractOffsetParameters_signed4bit_adr : std_logic_vector (3 downto 0);
+signal ExtractOffsetParameters_signed6bit_ena : std_logic;
+signal ExtractOffsetParameters_signed6bit_adr : std_logic_vector (5 downto 0);
+signal ExtractOffsetParameters_2powx_4bit_ena : std_logic;
+signal ExtractOffsetParameters_2powx_4bit_adr : std_logic_vector (3 downto 0);
+signal ExtractOffsetParameters_rom_constants_float : std_logic_vector (31 downto 0);
 signal ExtractOffsetParameters_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal ExtractOffsetParameters_fixed2floatond : STD_LOGIC;
 signal ExtractOffsetParameters_fixed2floatsclr : STD_LOGIC;
@@ -187,6 +216,17 @@ i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
 
+signal o_2powx_p8_4bit_ena : out std_logic;
+signal o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
+signal o_2powx_4bit_ena : out std_logic;
+signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
+signal o_signed3bit_ena : out std_logic;
+signal o_signed3bit_adr : out std_logic_vector (2 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
+
+signal o_mem_signed256_ivalue : out std_logic_vector (7 downto 0); -- input hex from 0 to 255
+signal i_mem_signed256_ovalue : in std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
+
 signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpond : out STD_LOGIC;
@@ -221,6 +261,15 @@ signal ExtractKtaParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal ExtractKtaParameters_do : std_logic_vector (31 downto 0);
 signal ExtractKtaParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal ExtractKtaParameters_rdy : std_logic;
+signal ExtractKtaParameters_2powx_p8_4bit_ena : std_logic;
+signal ExtractKtaParameters_2powx_p8_4bit_adr : std_logic_vector (3 downto 0);
+signal ExtractKtaParameters_2powx_4bit_ena : std_logic;
+signal ExtractKtaParameters_2powx_4bit_adr : std_logic_vector (3 downto 0);
+signal ExtractKtaParameters_signed3bit_ena : std_logic;
+signal ExtractKtaParameters_signed3bit_adr : std_logic_vector (2 downto 0);
+signal ExtractKtaParameters_rom_constants_float : std_logic_vector (31 downto 0);
+signal ExtractKtaParameters_mem_signed256_ivalue : std_logic_vector (7 downto 0); -- input hex from 0 to 255
+signal ExtractKtaParameters_mem_signed256_ovalue : std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
 signal ExtractKtaParameters_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractKtaParameters_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractKtaParameters_mulfpond : STD_LOGIC;
@@ -258,6 +307,12 @@ i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
 
+signal o_2powx_4bit_ena : out std_logic;
+signal o_2powx_4bit_adr : out std_logic_vector (3 downto 0);
+signal o_signed4bit_ena : out std_logic;
+signal o_signed4bit_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
+
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpond : out STD_LOGIC;
@@ -276,6 +331,11 @@ signal ExtractKvParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal ExtractKvParameters_do : std_logic_vector (31 downto 0);
 signal ExtractKvParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal ExtractKvParameters_rdy : std_logic;
+signal ExtractKvParameters_2powx_4bit_ena : std_logic;
+signal ExtractKvParameters_2powx_4bit_adr : std_logic_vector (3 downto 0);
+signal ExtractKvParameters_signed4bit_ena : std_logic;
+signal ExtractKvParameters_signed4bit_adr : std_logic_vector (3 downto 0);
+signal ExtractKvParameters_rom_constants_float : std_logic_vector (31 downto 0);
 signal ExtractKvParameters_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractKvParameters_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractKvParameters_divfpond : STD_LOGIC;
@@ -292,6 +352,7 @@ i_run : in std_logic;
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+i_KGain : in std_logic_vector (31 downto 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 o_rdy : out std_logic;
@@ -307,14 +368,7 @@ mulfpond : out STD_LOGIC;
 mulfpce : out STD_LOGIC;
 mulfpsclr : out STD_LOGIC;
 mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-mulfprdy : in STD_LOGIC;
-signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpond : out STD_LOGIC;
-signal divfpsclr : out STD_LOGIC;
-signal divfpce : out STD_LOGIC;
-signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy : in STD_LOGIC
+mulfprdy : in STD_LOGIC
 );
 end component CalculatePixGain;
 signal CalculatePixGain_clock : std_logic;
@@ -323,6 +377,7 @@ signal CalculatePixGain_run : std_logic;
 signal CalculatePixGain_i2c_mem_ena : STD_LOGIC;
 signal CalculatePixGain_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal CalculatePixGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal CalculatePixGain_KGain : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixGain_do : std_logic_vector (31 downto 0);
 signal CalculatePixGain_addr : std_logic_vector (9 downto 0);
 signal CalculatePixGain_rdy : std_logic;
@@ -339,16 +394,8 @@ signal CalculatePixGain_mulfpce : STD_LOGIC;
 signal CalculatePixGain_mulfpsclr : STD_LOGIC;
 signal CalculatePixGain_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixGain_mulfprdy : STD_LOGIC;
-signal CalculatePixGain_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculatePixGain_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculatePixGain_divfpond : STD_LOGIC;
-signal CalculatePixGain_divfpce : STD_LOGIC;
-signal CalculatePixGain_divfpsclr : STD_LOGIC;
-signal CalculatePixGain_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculatePixGain_divfprdy : STD_LOGIC;
 signal CalculatePixGain_fixed2floatclk : std_logic;
 signal CalculatePixGain_mulfpclk : std_logic;
-signal CalculatePixGain_divfpclk : std_logic;
 
 component mem_ramb16_s36_x2 is
 generic (
@@ -626,50 +673,30 @@ ExtractKtaParameters_mulfpce when ExtractKtaParameters_mux = '1'
 else mulfpce_internal;
 
 divfpa <=
-CalculatePixGain_divfpa when CalculatePixGain_mux = '1'
-else
---ExtractOffsetParameters_divfpa when ExtractOffsetParameters_mux = '1'
---else
 ExtractKtaParameters_divfpa when ExtractKtaParameters_mux = '1'
 else
 ExtractKvParameters_divfpa when ExtractKvParameters_mux = '1'
 else divfpa_internal;
 
 divfpb <=
-CalculatePixGain_divfpb when CalculatePixGain_mux = '1'
-else
---ExtractOffsetParameters_divfpb when ExtractOffsetParameters_mux = '1'
---else
 ExtractKtaParameters_divfpb when ExtractKtaParameters_mux = '1'
 else
 ExtractKvParameters_divfpb when ExtractKvParameters_mux = '1'
 else divfpb_internal;
 
 divfpond <=
-CalculatePixGain_divfpond when CalculatePixGain_mux = '1'
-else
---ExtractOffsetParameters_divfpond when ExtractOffsetParameters_mux = '1'
---else
 ExtractKtaParameters_divfpond when ExtractKtaParameters_mux = '1'
 else
 ExtractKvParameters_divfpond when ExtractKvParameters_mux = '1'
 else divfpond_internal;
 
 divfpsclr <=
-CalculatePixGain_divfpsclr when CalculatePixGain_mux = '1'
-else
---ExtractOffsetParameters_divfpsclr when ExtractOffsetParameters_mux = '1'
---else
 ExtractKtaParameters_divfpsclr when ExtractKtaParameters_mux = '1'
 else
 ExtractKvParameters_divfpsclr when ExtractKvParameters_mux = '1'
 else divfpsclr_internal;
 
 divfpce <=
-CalculatePixGain_divfpce when CalculatePixGain_mux = '1'
-else
---ExtractOffsetParameters_divfpce when ExtractOffsetParameters_mux = '1'
---else
 ExtractKtaParameters_divfpce when ExtractKtaParameters_mux = '1'
 else
 ExtractKvParameters_divfpce when ExtractKvParameters_mux = '1'
@@ -725,23 +752,10 @@ subfpce <= subfpce_internal;
 subfpr_internal <= subfpr;
 subfprdy_internal <= subfprdy;
 
---addfpa <= CalculatePixGain_addfpa when CalculatePixGain_mux = '1' else (others => '0');
---addfpb <= CalculatePixGain_addfpb when CalculatePixGain_mux = '1' else (others => '0');
---addfpond <= CalculatePixGain_addfpond when CalculatePixGain_mux = '1' else '0';
---addfpsclr <= CalculatePixGain_addfpsclr when CalculatePixGain_mux = '1' else '0';
---addfpce <= CalculatePixGain_addfpce when CalculatePixGain_mux = '1' else '0';
---subfpa <= CalculatePixGain_subfpa when CalculatePixGain_mux = '1' else (others => '0');
---subfpb <= CalculatePixGain_subfpb when CalculatePixGain_mux = '1' else (others => '0');
---subfpond <= CalculatePixGain_subfpond when CalculatePixGain_mux = '1' else '0';
---subfpsclr <= CalculatePixGain_subfpsclr when CalculatePixGain_mux = '1' else '0';
---subfpce <= CalculatePixGain_subfpce when CalculatePixGain_mux = '1' else '0';
-
 CalculatePixGain_fixed2floatr <= fixed2floatr when CalculatePixGain_mux = '1' else (others => '0');
 CalculatePixGain_fixed2floatrdy <= fixed2floatrdy when CalculatePixGain_mux = '1' else '0';
 CalculatePixGain_mulfpr <= mulfpr when CalculatePixGain_mux = '1' else (others => '0');
 CalculatePixGain_mulfprdy <= mulfprdy when CalculatePixGain_mux = '1' else '0';
-CalculatePixGain_divfpr <= divfpr when CalculatePixGain_mux = '1' else (others => '0');
-CalculatePixGain_divfprdy <= divfprdy when CalculatePixGain_mux = '1' else '0';
 
 ExtractOffsetParameters_fixed2floatr <= fixed2floatr when ExtractOffsetParameters_mux = '1' else (others => '0');
 ExtractOffsetParameters_fixed2floatrdy <= fixed2floatrdy when ExtractOffsetParameters_mux = '1' else '0';
@@ -763,22 +777,35 @@ ExtractKvParameters_divfprdy <= divfprdy when ExtractKvParameters_mux = '1' else
 mulfpr_internal <= mulfpr;
 mulfprdy_internal <= mulfprdy;
 
---CalculatePixGain_addfpr <= addfpr when CalculatePixGain_mux = '1' else (others => '0');
---CalculatePixGain_addfprdy <= addfprdy when CalculatePixGain_mux = '1' else '0';
---CalculatePixGain_subfpr <= subfpr when CalculatePixGain_mux = '1' else (others => '0');
---CalculatePixGain_subfprdy <= subfprdy when CalculatePixGain_mux = '1' else '0';
+divfpr_internal <= divfpr;
+divfprdy_internal <= divfprdy;
+
+o_2powx_4bit_ena <=
+ExtractOffsetParameters_2powx_4bit_ena when ExtractOffsetParameters_mux = '1' else
+ExtractKtaParameters_2powx_4bit_ena when ExtractKtaParameters_mux = '1' else
+ExtractKvParameters_2powx_4bit_ena when ExtractKvParameters_mux = '1' else
+'0';
+o_2powx_4bit_adr <=
+ExtractOffsetParameters_2powx_4bit_adr when ExtractOffsetParameters_mux = '1' else
+ExtractKtaParameters_2powx_4bit_adr when ExtractKtaParameters_mux = '1' else
+ExtractKvParameters_2powx_4bit_adr when ExtractKvParameters_mux = '1' else
+(others => '0');
+ExtractOffsetParameters_rom_constants_float <= i_rom_constants_float;
+ExtractKtaParameters_rom_constants_float <= i_rom_constants_float;
+ExtractKvParameters_rom_constants_float <= i_rom_constants_float;
 
 p0 : process (i_clock) is
 	constant C_ROW : integer := 24;
 	constant C_COL : integer := 32;
 	variable i : integer range 0 to C_ROW*C_COL-1;
 	type states is (idle,
-	s2,s3,s4,s5,s6,s7,s8,s9,s10,
-	s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,
-	s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,
-	ending);
+  s3,s5,s7,s9,s9a,s9b,s9c,
+  s10,s14,s16,s17,s20,
+	s22,s24,s25,s26,s28,s30);
 	variable state : states;
-	variable fptmp1,fptmp2 : std_logic_vector (31 downto 0);
+  constant const1 : std_logic_vector (31 downto 0) := x"3f800000";
+  constant const_Ta0 : std_logic_vector (31 downto 0) := x"41C80000"; -- 25
+  constant const_VddV0 : std_logic_vector (31 downto 0) := x"40533333"; -- 3.3
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -787,6 +814,8 @@ begin
 			addfpsclr_internal <= '1';
 			subfpsclr_internal <= '1';
 			mulfpsclr_internal <= '1';
+			divfpsclr_internal <= '1';
+			fixed2floatsclr_internal <= '1';
 			rdy <= '0';
 			CalculatePixGain_run <= '0';
 			ExtractOffsetParameters_run <= '0';
@@ -812,22 +841,19 @@ begin
 			mulfpce_internal <= '0';
 			addfpce_internal <= '0';
 			subfpce_internal <= '0';
-			dia <= (others => '0');
-			write_enable <= '0';
---			fixed2floata_internal <= (others => '0');
---			fixed2floatond_internal <= '0';
---			fixed2floatce_internal <= '0';
---			fixed2floatsclr_internal <= '0';
 			divfpa_internal <= (others => '0');
 			divfpb_internal <= (others => '0');
 			divfpond_internal <= '0';
-			divfpsclr_internal <= '0';
 			divfpce_internal <= '0';
+			dia <= (others => '0');
+			write_enable <= '0';
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := s2;
+						state := s3;
+            CalculatePixGain_run <= '1';
+            CalculatePixGain_mux <= '1';
 					else
 						state := idle;
 					end if;
@@ -835,205 +861,201 @@ begin
 					addfpsclr_internal <= '0';
 					subfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
-
-	when s2 => state := s3;		
-		CalculatePixGain_run <= '1';
-		CalculatePixGain_mux <= '1';
-	when s3 => 
-		CalculatePixGain_run <= '0';
-		if (CalculatePixGain_rdy = '1') then
-			state := s4;
-			CalculatePixGain_mux <= '0';
-		else
-			state := s3;
-			CalculatePixGain_mux <= '1';
-		end if;
-
-	when s4 => state := s5;
-		ExtractOffsetParameters_run <= '1';
-		ExtractOffsetParameters_mux <= '1';
-	when s5 => 
-		ExtractOffsetParameters_run <= '0';
-		if (ExtractOffsetParameters_rdy = '1') then
-			state := s6;
-			ExtractOffsetParameters_mux <= '0';
-		else
-			state := s5;
-			ExtractOffsetParameters_mux <= '1';
-		end if;
-
-
-	when s6 => state := s7;
-		ExtractKtaParameters_run <= '1';
-		ExtractKtaParameters_mux <= '1';
-	when s7 => 
-		ExtractKtaParameters_run <= '0';
-		if (ExtractKtaParameters_rdy = '1') then
-			state := s8;
-			ExtractKtaParameters_mux <= '0';
-		else
-			state := s7;
-			ExtractKtaParameters_mux <= '1';
-		end if;
-
-
-	when s8 => state := s9;
-		ExtractKvParameters_run <= '1';
-		ExtractKvParameters_mux <= '1';
-	when s9 => 
-		ExtractKvParameters_run <= '0';
-		if (ExtractKvParameters_rdy = '1') then
-			state := s10;
-			ExtractKvParameters_mux <= '0';
-		else
-			state := s9;
-			ExtractKvParameters_mux <= '1';
-		end if;
-	when s10 => state := s11;
-		CalculatePixGain_addr <= std_logic_vector (to_unsigned (i, 10));
-		ExtractOffsetParameters_addr <= std_logic_vector (to_unsigned (i, 10));
-		ExtractKtaParameters_addr <= std_logic_vector (to_unsigned (i, 10));
-		ExtractKvParameters_addr <= std_logic_vector (to_unsigned (i, 10));
-					
-
-when s11 => state := s12;
-		subfpce_internal <= '1';
-		subfpa_internal <= i_Vdd;
-		subfpb_internal <= i_VddV0;
-		subfpond_internal <= '1';
-when s12 =>
-	if (subfprdy_internal = '1') then state := s13;
-		fptmp1 := subfpr_internal;
-		subfpce_internal <= '0';
-		subfpond_internal <= '0';
-		subfpsclr_internal <= '1';
-	else state := s12; end if;
-when s13 => state := s14;
-	subfpsclr_internal <= '0';
-	mulfpce_internal <= '1';
-	mulfpa_internal <= fptmp1;
-	mulfpb_internal <= ExtractKvParameters_do;
-	mulfpond_internal <= '1';
-when s14 =>
-	if (mulfprdy_internal = '1') then state := s15;
-		fptmp1 := mulfpr_internal;
-		mulfpce_internal <= '0';
-		mulfpond_internal <= '0';
-		mulfpsclr_internal <= '1';
-	else state := s14; end if;
-when s15 => state := s16;
-	mulfpsclr_internal <= '0';
-	addfpce_internal <= '1';
-	addfpa_internal <= fptmp1;
-	addfpb_internal <= i_const1;
-	addfpond_internal <= '1';
-when s16 =>
-	if (addfprdy_internal = '1') then state := s17;
-		fptmp1 := addfpr_internal;
-		addfpce_internal <= '0';
-		addfpond_internal <= '0';
-		addfpsclr_internal <= '1';
-	else state := s16; end if;
-when s17 => state := s18;
-	addfpsclr_internal <= '0';
-	subfpce_internal <= '1';
-	subfpa_internal <= i_Ta;
-	subfpb_internal <= i_Ta0;
-	subfpond_internal <= '1';
-when s18 =>
-	if (subfprdy_internal = '1') then state := s19;
-		fptmp2 := subfpr_internal;
-		subfpce_internal <= '0';
-		subfpond_internal <= '0';
-		subfpsclr_internal <= '1';
-	else state := s18; end if;
-when s19 => state := s20;
-	subfpsclr_internal <= '0';
-	mulfpce_internal <= '1';
-	mulfpa_internal <= fptmp2;
-	mulfpb_internal <= ExtractKtaParameters_do;
-	mulfpond_internal <= '1';
-when s20 =>
-	if (mulfprdy_internal = '1') then state := s21;
-		fptmp2 := mulfpr_internal;
-		mulfpce_internal <= '0';
-		mulfpond_internal <= '0';
-		mulfpsclr_internal <= '1';
-	else state := s20; end if;
-when s21 => state := s22;
-	mulfpsclr_internal <= '0';
-	addfpce_internal <= '1';
-	addfpa_internal <= fptmp2;
-	addfpb_internal <= i_const1;
-	addfpond_internal <= '1';
-when s22 =>
-	if (addfprdy_internal = '1') then state := s23;
-		fptmp2 := addfpr_internal;
-		addfpce_internal <= '0';
-		addfpond_internal <= '0';
-		addfpsclr_internal <= '1';
-	else state := s22; end if;
-when s23 => state := s24;
-	addfpsclr_internal <= '0';
-	mulfpce_internal <= '1';
-	mulfpa_internal <= fptmp1;
-	mulfpb_internal <= fptmp2;
-	mulfpond_internal <= '1';
-when s24 =>
-	if (mulfprdy_internal = '1') then state := s25;
-		fptmp1 := mulfpr_internal;
-		mulfpce_internal <= '0';
-		mulfpond_internal <= '0';
-		mulfpsclr_internal <= '1';
-	else state := s24; end if;
-when s25 => state := s26;
-	mulfpsclr_internal <= '0';
-	mulfpce_internal <= '1';
-	mulfpa_internal <= fptmp1;
-	mulfpb_internal <= ExtractOffsetParameters_do;
-	mulfpond_internal <= '1';
-when s26 =>
-	if (mulfprdy_internal = '1') then state := s27;
-		fptmp1 := mulfpr_internal;
-		mulfpce_internal <= '0';
-		mulfpond_internal <= '0';
-		mulfpsclr_internal <= '1';
-	else state := s26; end if;
-when s27 => state := s28;
-	mulfpsclr_internal <= '0';
-	subfpce_internal <= '1';
-	subfpa_internal <= CalculatePixGain_do;
-	subfpb_internal <= fptmp1;
-	subfpond_internal <= '1';
-when s28 =>
-	if (subfprdy_internal = '1') then state := s29;
-		fptmp1 := subfpr_internal;
-		subfpce_internal <= '0';
-		subfpond_internal <= '0';
-		subfpsclr_internal <= '1';
-	else state := s28; end if;
-when s29 => state := s30;
-	subfpsclr_internal <= '0';
-	write_enable <= '1';
-	addra <= std_logic_vector (to_unsigned (i, 10)); -- pixos
-	dia <= fptmp1;
-	----report "================pixos : " & real'image (ap_slv2fp (fptmp1));
-when s30 =>
-	write_enable <= '0';
-	if (i = (C_ROW*C_COL)-1) then
-		state := ending;
-		i := 0;
-	else
-		state := s10;
-		i := i + 1;
-	end if;
-when ending => state := idle;
-			rdy <= '1';
-	when others => null;
-	end case;
-	end if;
-	end if;
-	end process p0;
+					divfpsclr_internal <= '0';
+					fixed2floatsclr_internal <= '0';
+        when s3 =>
+          CalculatePixGain_run <= '0';
+          if (CalculatePixGain_rdy = '1') then
+            state := s5;
+            CalculatePixGain_mux <= '0';
+            ExtractOffsetParameters_run <= '1';
+            ExtractOffsetParameters_mux <= '1';
+          else
+            state := s3;
+            CalculatePixGain_mux <= '1';
+          end if;
+        when s5 => 
+          ExtractOffsetParameters_run <= '0';
+          if (ExtractOffsetParameters_rdy = '1') then
+            state := s7;
+            ExtractOffsetParameters_mux <= '0';
+            ExtractKtaParameters_run <= '1';
+            ExtractKtaParameters_mux <= '1';
+          else
+            state := s5;
+            ExtractOffsetParameters_mux <= '1';
+          end if;
+        when s7 => 
+          ExtractKtaParameters_run <= '0';
+          if (ExtractKtaParameters_rdy = '1') then
+            state := s9;
+            ExtractKtaParameters_mux <= '0';
+            ExtractKvParameters_run <= '1';
+            ExtractKvParameters_mux <= '1';
+          else
+            state := s7;
+            ExtractKtaParameters_mux <= '1';
+          end if;
+        when s9 => 
+          ExtractKvParameters_run <= '0';
+          if (ExtractKvParameters_rdy = '1') then
+            state := s9a;
+            ExtractKvParameters_mux <= '0';
+          else
+            state := s9;
+            ExtractKvParameters_mux <= '1';
+          end if;
+        when s9a => state := s9b;
+          CalculatePixGain_addr <= std_logic_vector (to_unsigned (i, 10));
+          ExtractOffsetParameters_addr <= std_logic_vector (to_unsigned (i, 10));
+          ExtractKtaParameters_addr <= std_logic_vector (to_unsigned (i, 10));
+          ExtractKvParameters_addr <= std_logic_vector (to_unsigned (i, 10));
+          addfpsclr_internal <= '0';		
+          subfpsclr_internal <= '0';		
+          divfpsclr_internal <= '0';		
+          mulfpsclr_internal <= '0';		
+          fixed2floatsclr_internal <= '0';
+        when s9b =>
+          subfpce_internal <= '1';
+          subfpa_internal <= i_Ta;
+          subfpb_internal <= const_Ta0;
+          subfpond_internal <= '1';
+          if (subfprdy_internal = '1') then state := s9c;
+            subfpce_internal <= '0';
+            subfpond_internal <= '0';
+            subfpsclr_internal <= '1';
+          else state := s9b; end if;
+        when s9c =>
+          subfpsclr_internal <= '0';
+          divfpce_internal <= '1';
+          divfpa_internal <= subfpr_internal;
+          divfpb_internal <= const1;
+          divfpond_internal <= '1';
+          if (divfprdy_internal = '1') then state := s10;
+            divfpce_internal <= '0';
+            divfpond_internal <= '0';
+            divfpsclr_internal <= '1';
+          else state := s9c; end if;
+        when s10 =>
+          divfpsclr_internal <= '0';
+          subfpce_internal <= '1';
+          subfpa_internal <= i_Vdd;
+          subfpb_internal <= const_VddV0;
+          subfpond_internal <= '1';
+          if (subfprdy_internal = '1') then state := s14;
+            subfpce_internal <= '0';
+            subfpond_internal <= '0';
+            subfpsclr_internal <= '1';
+          else state := s10; end if;
+        when s14 =>
+          subfpsclr_internal <= '0';
+          mulfpce_internal <= '1';
+          mulfpa_internal <= subfpr_internal; -- XXX vddDiff
+          mulfpb_internal <= ExtractKvParameters_do;
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s16;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s14; end if;
+        when s16 =>
+          mulfpsclr_internal <= '0';
+          addfpce_internal <= '1';
+          addfpa_internal <= mulfpr_internal;
+          addfpb_internal <= const1;
+          addfpond_internal <= '1';
+          if (addfprdy_internal = '1') then state := s17;
+            addfpce_internal <= '0';
+            addfpond_internal <= '0';
+            addfpsclr_internal <= '1';
+          else state := s16; end if;
+        when s17 => -- XXX empty state/calculate for rm fptmp1 reg
+          addfpsclr_internal <= '0';
+          subfpce_internal <= '1';
+          subfpa_internal <= addfpr_internal;
+          subfpb_internal <= x"00000000";
+          subfpond_internal <= '1';
+          if (subfprdy_internal = '1') then state := s20;
+            subfpce_internal <= '0';
+            subfpond_internal <= '0';
+            subfpsclr_internal <= '1';
+          else state := s17; end if;
+        when s20 =>
+          subfpsclr_internal <= '0';
+          mulfpce_internal <= '1';
+          mulfpa_internal <= divfpr_internal;
+          mulfpb_internal <= ExtractKtaParameters_do;
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s22;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s20; end if;
+        when s22 =>
+          mulfpsclr_internal <= '0';
+          addfpce_internal <= '1';
+          addfpa_internal <= mulfpr_internal;
+          addfpb_internal <= const1;
+          addfpond_internal <= '1';
+          if (addfprdy_internal = '1') then state := s24;
+            addfpce_internal <= '0';
+            addfpond_internal <= '0';
+            addfpsclr_internal <= '1';
+          else state := s22; end if;
+        when s24 =>
+          addfpsclr_internal <= '0';
+          mulfpce_internal <= '1';
+          mulfpa_internal <= subfpr_internal; -- XXX s17
+          mulfpb_internal <= addfpr_internal;
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s25;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s24; end if;
+        when s25 => state := s26;
+          mulfpsclr_internal <= '0';
+        when s26 =>
+          mulfpce_internal <= '1';
+          mulfpa_internal <= mulfpr_internal;
+          mulfpb_internal <= ExtractOffsetParameters_do;
+          mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s28;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+          else state := s26; end if;
+        when s28 =>
+          mulfpsclr_internal <= '0';
+          subfpce_internal <= '1';
+          subfpa_internal <= CalculatePixGain_do;
+          subfpb_internal <= mulfpr_internal;
+          subfpond_internal <= '1';
+          if (subfprdy_internal = '1') then state := s30;
+            subfpce_internal <= '0';
+            subfpond_internal <= '0';
+            subfpsclr_internal <= '1';
+            write_enable <= '1';
+            addra <= std_logic_vector (to_unsigned (i, 10)); -- pixos
+            dia <= subfpr_internal;
+            --synthesis translate_off
+            report_error("================pixos " & integer'image(i), subfpr_internal, 0.0);
+            --synthesis translate_on
+          else state := s28; end if;
+        when s30 =>
+          write_enable <= '0';
+          if (i = (C_ROW*C_COL)-1) then
+            state := idle;
+            i := 0;
+            rdy <= '1';
+          else
+            state := s9a;
+            i := i + 1;
+          end if;
+      end case;
+    end if;
+  end if;
+end process p0;
 
 o_rdy <= rdy;
 o_do <= doa when rdy = '1' else (others => '0');
@@ -1067,6 +1089,7 @@ ExtractKvParameters_i2c_mem_douta <= i2c_mem_douta when ExtractKvParameters_mux 
 
 CalculatePixGain_clock <= i_clock;
 CalculatePixGain_reset <= i_reset;
+CalculatePixGain_KGain <= i_KGain;
 inst_CalculatePixGain : CalculatePixGain port map (
 i_clock => CalculatePixGain_clock,
 i_reset => CalculatePixGain_reset,
@@ -1074,6 +1097,7 @@ i_run => CalculatePixGain_run,
 i2c_mem_ena => CalculatePixGain_i2c_mem_ena,
 i2c_mem_addra => CalculatePixGain_i2c_mem_addra,
 i2c_mem_douta => CalculatePixGain_i2c_mem_douta,
+i_KGain => CalculatePixGain_KGain,
 o_do => CalculatePixGain_do,
 i_addr => CalculatePixGain_addr,
 o_rdy => CalculatePixGain_rdy,
@@ -1091,19 +1115,22 @@ mulfpond => CalculatePixGain_mulfpond,
 mulfpce => CalculatePixGain_mulfpce,
 mulfpsclr => CalculatePixGain_mulfpsclr,
 mulfpr => CalculatePixGain_mulfpr,
-mulfprdy => CalculatePixGain_mulfprdy,
-
-divfpa => CalculatePixGain_divfpa,
-divfpb => CalculatePixGain_divfpb,
-divfpond => CalculatePixGain_divfpond,
-divfpce => CalculatePixGain_divfpce,
-divfpsclr => CalculatePixGain_divfpsclr,
-divfpr => CalculatePixGain_divfpr,
-divfprdy => CalculatePixGain_divfprdy
+mulfprdy => CalculatePixGain_mulfprdy
 );
 
 ExtractOffsetParameters_clock <= i_clock;
 ExtractOffsetParameters_reset <= i_reset;
+o_signed4bit_ena <=
+ExtractOffsetParameters_signed4bit_ena when ExtractOffsetParameters_mux = '1' else
+ExtractKvParameters_signed4bit_ena when ExtractKvParameters_mux = '1' else
+'0';
+o_signed4bit_adr <=
+ExtractOffsetParameters_signed4bit_adr when ExtractOffsetParameters_mux = '1' else
+ExtractKvParameters_signed4bit_adr when ExtractKvParameters_mux = '1' else
+(others => '0');
+o_signed6bit_ena <= ExtractOffsetParameters_signed6bit_ena;
+o_signed6bit_adr <= ExtractOffsetParameters_signed6bit_adr;
+ExtractOffsetParameters_rom_constants_float <= i_rom_constants_float;
 inst_ExtractOffsetParameters : ExtractOffsetParameters port map (
 i_clock => ExtractOffsetParameters_clock,
 i_reset => ExtractOffsetParameters_reset,
@@ -1117,6 +1144,14 @@ o_do => ExtractOffsetParameters_do,
 i_addr => ExtractOffsetParameters_addr, -- 10bit-1024
 
 o_rdy => ExtractOffsetParameters_rdy,
+
+o_signed4bit_ena => ExtractOffsetParameters_signed4bit_ena,
+o_signed4bit_adr => ExtractOffsetParameters_signed4bit_adr,
+o_signed6bit_ena => ExtractOffsetParameters_signed6bit_ena,
+o_signed6bit_adr => ExtractOffsetParameters_signed6bit_adr,
+o_2powx_4bit_ena => ExtractOffsetParameters_2powx_4bit_ena,
+o_2powx_4bit_adr => ExtractOffsetParameters_2powx_4bit_adr,
+i_rom_constants_float => ExtractOffsetParameters_rom_constants_float,
 
 fixed2floata => ExtractOffsetParameters_fixed2floata,
 fixed2floatond => ExtractOffsetParameters_fixed2floatond,
@@ -1144,6 +1179,13 @@ addfprdy => ExtractOffsetParameters_addfprdy
 
 ExtractKtaParameters_clock <= i_clock;
 ExtractKtaParameters_reset <= i_reset;
+o_2powx_p8_4bit_ena <= ExtractKtaParameters_2powx_p8_4bit_ena;
+o_2powx_p8_4bit_adr <= ExtractKtaParameters_2powx_p8_4bit_adr;
+o_signed3bit_ena <= ExtractKtaParameters_signed3bit_ena;
+o_signed3bit_adr <= ExtractKtaParameters_signed3bit_adr;
+o_mem_signed256_ivalue <= ExtractKtaParameters_mem_signed256_ivalue;
+ExtractKtaParameters_mem_signed256_ovalue <= i_mem_signed256_ovalue;
+ExtractKtaParameters_rom_constants_float <= i_rom_constants_float;
 inst_ExtractKtaParameters : ExtractKtaParameters port map (
 i_clock => ExtractKtaParameters_clock,
 i_reset => ExtractKtaParameters_reset,
@@ -1157,6 +1199,17 @@ o_do => ExtractKtaParameters_do,
 i_addr => ExtractKtaParameters_addr, -- 10bit-1024
 
 o_rdy => ExtractKtaParameters_rdy,
+
+o_2powx_p8_4bit_ena => ExtractKtaParameters_2powx_p8_4bit_ena,
+o_2powx_p8_4bit_adr => ExtractKtaParameters_2powx_p8_4bit_adr,
+o_2powx_4bit_ena => ExtractKtaParameters_2powx_4bit_ena,
+o_2powx_4bit_adr => ExtractKtaParameters_2powx_4bit_adr,
+o_signed3bit_ena => ExtractKtaParameters_signed3bit_ena,
+o_signed3bit_adr => ExtractKtaParameters_signed3bit_adr,
+i_rom_constants_float => ExtractKtaParameters_rom_constants_float,
+
+o_mem_signed256_ivalue => ExtractKtaParameters_mem_signed256_ivalue,
+i_mem_signed256_ovalue => ExtractKtaParameters_mem_signed256_ovalue,
 
 mulfpa => ExtractKtaParameters_mulfpa,
 mulfpb => ExtractKtaParameters_mulfpb,
@@ -1198,6 +1251,12 @@ o_do => ExtractKvParameters_do,
 i_addr => ExtractKvParameters_addr,
 o_rdy => ExtractKvParameters_rdy,
 
+o_2powx_4bit_ena => ExtractKvParameters_2powx_4bit_ena,
+o_2powx_4bit_adr => ExtractKvParameters_2powx_4bit_adr,
+o_signed4bit_ena => ExtractKvParameters_signed4bit_ena,
+o_signed4bit_adr => ExtractKvParameters_signed4bit_adr,
+i_rom_constants_float => ExtractKvParameters_rom_constants_float,
+
 divfpa => ExtractKvParameters_divfpa,
 divfpb => ExtractKvParameters_divfpb,
 divfpond => ExtractKvParameters_divfpond,
@@ -1218,10 +1277,9 @@ ADDR => mux_addr,
 CLK => i_clock,
 DI => mux_dia,
 DIP => (others => '0'),
-EN => '1',
+EN => i_clock,
 SSR => i_reset,
 WE => write_enable
 );
 
-end Behavioral;
-
+end architecture Behavioral;

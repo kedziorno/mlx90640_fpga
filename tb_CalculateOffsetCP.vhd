@@ -5,7 +5,7 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
-use work.p_fphdl_package1.all;
+use work.p_fphdl_package3.all;
 
 ENTITY tb_CalculateOffsetCP IS
 END tb_CalculateOffsetCP;
@@ -18,9 +18,9 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-i_ee0x243a : in slv16; -- offcpsubpage1delta/offcpsubpage0 - 6/10bit
-o_offcpsubpage0 : out fd2ft;
-o_offcpsubpage1 : out fd2ft;
+i_ee0x243a : in std_logic_vector (15 downto 0); -- offcpsubpage1delta/offcpsubpage0 - 6/10bit
+o_offcpsubpage0 : out std_logic_vector (31 downto 0);
+o_offcpsubpage1 : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic
 );
 end component CalculateOffsetCP;
@@ -28,9 +28,9 @@ end component CalculateOffsetCP;
 signal CalculateOffsetCP_clock : std_logic := '0';
 signal CalculateOffsetCP_reset : std_logic := '0';
 signal CalculateOffsetCP_run : std_logic := '0';
-signal CalculateOffsetCP_ee0x243a : slv16 := (others => '0');
-signal CalculateOffsetCP_offcpsubpage0 : fd2ft := (others => '0');
-signal CalculateOffsetCP_offcpsubpage1 : fd2ft := (others => '0');
+signal CalculateOffsetCP_ee0x243a : std_logic_vector (15 downto 0) := (others => '0');
+signal CalculateOffsetCP_offcpsubpage0 : std_logic_vector (31 downto 0) := (others => '0');
+signal CalculateOffsetCP_offcpsubpage1 : std_logic_vector (31 downto 0) := (others => '0');
 signal CalculateOffsetCP_rdy : std_logic := '0';
 
 constant clockperiod : time := 10 ns;
@@ -69,6 +69,11 @@ CalculateOffsetCP_ee0x243a <= x"fbb5";
 wait for clockperiod;
 CalculateOffsetCP_run <= '1'; wait for clockperiod; CalculateOffsetCP_run <= '0';
 wait until CalculateOffsetCP_rdy = '1';
+--report "end at 415ns";
+report "rdy at 375ns";
+wait for 1 ps;
+warning_neq_fp (CalculateOffsetCP_offcpsubpage0, x"c2960000", "offcpsubpage0");
+warning_neq_fp (CalculateOffsetCP_offcpsubpage1, x"c29a0000", "offcpsubpage1");
 report "done" severity failure;
 END PROCESS tbprocess;
 --  End Test Bench 

@@ -5,7 +5,8 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
-use work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
+use work.p_fphdl_package3.all;
 
 ENTITY tb_CalculateAlphaCP IS
 END tb_CalculateAlphaCP;
@@ -74,9 +75,18 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-o_acpsubpage0 : out fd2ft;
-o_acpsubpage1 : out fd2ft;
+o_acpsubpage0 : out std_logic_vector (31 downto 0);
+o_acpsubpage1 : out std_logic_vector (31 downto 0);
 o_rdy : out std_logic;
+
+signal o_cpratio_ena : out std_logic;
+signal o_cpratio_adr : out std_logic_vector (5 downto 0);
+signal o_alphascale_2_ena : out std_logic;
+signal o_alphascale_2_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
+
+signal o_mem_signed1024_ivalue : out std_logic_vector (9 downto 0); -- input hex from 0 to 1024
+signal i_mem_signed1024_ovalue : in std_logic_vector (31 downto 0); -- output signed 0 to 1024 in SP float
 
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -101,9 +111,16 @@ signal CalculateAlphaCP_run : std_logic;
 signal CalculateAlphaCP_i2c_mem_ena : STD_LOGIC;
 signal CalculateAlphaCP_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal CalculateAlphaCP_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal CalculateAlphaCP_acpsubpage0 : fd2ft;
-signal CalculateAlphaCP_acpsubpage1 : fd2ft;
+signal CalculateAlphaCP_acpsubpage0 : std_logic_vector (31 downto 0);
+signal CalculateAlphaCP_acpsubpage1 : std_logic_vector (31 downto 0);
 signal CalculateAlphaCP_rdy : std_logic;
+signal CalculateAlphaCP_cpratio_ena : std_logic;
+signal CalculateAlphaCP_cpratio_adr : std_logic_vector (5 downto 0);
+signal CalculateAlphaCP_alphascale_2_ena : std_logic;
+signal CalculateAlphaCP_alphascale_2_adr : std_logic_vector (3 downto 0);
+signal CalculateAlphaCP_rom_constants_float : std_logic_vector (31 downto 0);
+signal CalculateAlphaCP_mem_signed1024_ivalue : std_logic_vector (9 downto 0);
+signal CalculateAlphaCP_mem_signed1024_ovalue : std_logic_vector (31 downto 0);
 signal CalculateAlphaCP_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaCP_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaCP_divfpond : STD_LOGIC;
@@ -121,6 +138,47 @@ signal CalculateAlphaCP_mulfprdy : STD_LOGIC;
 
 signal CalculateAlphaCP_divfpclk : std_logic;
 signal CalculateAlphaCP_mulfpclk : std_logic;
+
+COMPONENT rom_constants
+PORT(
+i_clock : IN  std_logic;
+i_reset : IN  std_logic;
+i_kvptat_en : IN  std_logic;
+i_kvptat_adr : IN  std_logic_vector(5 downto 0);
+i_alphaptat_en : IN  std_logic;
+i_alphaptat_adr : IN  std_logic_vector(3 downto 0);
+i_signed4bit_en : IN  std_logic;
+i_signed4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed6bit_en : IN  std_logic;
+i_signed6bit_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_1_en : IN  std_logic;
+i_alphascale_1_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_4bit_en : IN  std_logic;
+i_2powx_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_cpratio_en : IN  std_logic;
+i_cpratio_adr : IN  std_logic_vector(5 downto 0);
+i_alphascale_2_en : IN  std_logic;
+i_alphascale_2_adr : IN  std_logic_vector(3 downto 0);
+i_2powx_p8_4bit_en : IN  std_logic;
+i_2powx_p8_4bit_adr : IN  std_logic_vector(3 downto 0);
+i_signed3bit_en : IN  std_logic;
+i_signed3bit_adr : IN  std_logic_vector(2 downto 0);
+o_float : OUT  std_logic_vector(31 downto 0)
+);
+END COMPONENT;
+
+component mem_signed1024 is
+port (
+i_clock : in std_logic;
+i_reset : in std_logic;
+i_value : in std_logic_vector (9 downto 0); -- input hex from 0 to 1024
+o_value : out std_logic_vector (31 downto 0) -- output signed 0 to 1024 in SP float
+);
+end component mem_signed1024;
+signal mem_signed1024_clock : std_logic;
+signal mem_signed1024_reset : std_logic;
+signal mem_signed1024_ivalue : std_logic_vector (9 downto 0); -- input hex from 0 to 1024
+signal mem_signed1024_ovalue : std_logic_vector (31 downto 0); -- output signed 0 to 1024 in SP float
 
 constant clockperiod : time := 10 ns;
 
@@ -148,6 +206,15 @@ i2c_mem_douta => CalculateAlphaCP_i2c_mem_douta,
 o_acpsubpage0 => CalculateAlphaCP_acpsubpage0,
 o_acpsubpage1 => CalculateAlphaCP_acpsubpage1,
 o_rdy => CalculateAlphaCP_rdy,
+
+o_cpratio_ena => CalculateAlphaCP_cpratio_ena,
+o_cpratio_adr => CalculateAlphaCP_cpratio_adr,
+o_alphascale_2_ena => CalculateAlphaCP_alphascale_2_ena,
+o_alphascale_2_adr => CalculateAlphaCP_alphascale_2_adr,
+i_rom_constants_float => CalculateAlphaCP_rom_constants_float,
+
+o_mem_signed1024_ivalue => CalculateAlphaCP_mem_signed1024_ivalue,
+i_mem_signed1024_ovalue => CalculateAlphaCP_mem_signed1024_ovalue,
 
 divfpa => CalculateAlphaCP_divfpa,
 divfpb => CalculateAlphaCP_divfpb,
@@ -185,6 +252,8 @@ CalculateAlphaCP_reset <= '0';
 wait for clockperiod*10;
 CalculateAlphaCP_run <= '1'; wait for clockperiod; CalculateAlphaCP_run <= '0';
 wait until CalculateAlphaCP_rdy = '1';
+warning_neq_fp (CalculateAlphaCP_acpsubpage0, x"31460000", "acpsubpage0 585ns");
+warning_neq_fp (CalculateAlphaCP_acpsubpage1, x"31478c00", "acpsubpage1 695ns");
 wait for 1 ps;
 report "done" severity failure;
 END PROCESS tbprocess;
@@ -214,6 +283,40 @@ sclr => CalculateAlphaCP_mulfpsclr,
 ce => CalculateAlphaCP_mulfpce,
 result => CalculateAlphaCP_mulfpr,
 rdy => CalculateAlphaCP_mulfprdy
+);
+
+inst_rom_constants : rom_constants PORT MAP (
+i_clock => CalculateAlphaCP_clock,
+i_reset => CalculateAlphaCP_reset,
+i_kvptat_en => '0',
+i_kvptat_adr => (others => '0'),
+i_alphaptat_en => '0',
+i_alphaptat_adr => (others => '0'),
+i_signed4bit_en => '0',
+i_signed4bit_adr => (others => '0'),
+i_signed6bit_en => '0',
+i_signed6bit_adr => (others => '0'),
+i_alphascale_1_en => '0',
+i_alphascale_1_adr => (others => '0'),
+i_2powx_4bit_en => '0',
+i_2powx_4bit_adr => (others => '0'),
+i_cpratio_en => CalculateAlphaCP_cpratio_ena,
+i_cpratio_adr => CalculateAlphaCP_cpratio_adr,
+i_alphascale_2_en => CalculateAlphaCP_alphascale_2_ena,
+i_alphascale_2_adr => CalculateAlphaCP_alphascale_2_adr,
+i_2powx_p8_4bit_en => '0',
+i_2powx_p8_4bit_adr => (others => '0'),
+i_signed3bit_en => '0',
+i_signed3bit_adr => (others => '0'),
+o_float => CalculateAlphaCP_rom_constants_float
+);
+
+inst_mem_signed1024 : mem_signed1024
+port map (
+i_clock => CalculateAlphaCP_clock,
+i_reset => CalculateAlphaCP_reset,
+i_value => CalculateAlphaCP_mem_signed1024_ivalue,
+o_value => CalculateAlphaCP_mem_signed1024_ovalue
 );
 
 END architecture behavior;
