@@ -28,7 +28,7 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
-USE work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 USE work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if using
@@ -186,7 +186,7 @@ signal ExtractAlphaParameters_i2c_mem_ena : STD_LOGIC;
 signal ExtractAlphaParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal ExtractAlphaParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal ExtractAlphaParameters_do : std_logic_vector (31 downto 0);
-signal ExtractAlphaParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
+signal ExtractAlphaParameters_addr : std_logic_vector (9 downto 0) := (others => '0'); -- 10bit-1024
 signal ExtractAlphaParameters_done : std_logic;
 signal ExtractAlphaParameters_rdy : std_logic;
 signal ExtractAlphaParameters_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
@@ -301,16 +301,83 @@ ExtractAlphaParameters_reset <= '1', '0' after 100 ns ;
 
 -- Stimulus process
 stim_proc: process
+type itemr is record
+a : std_logic_vector (31 downto 0);
+b : integer;
+end record; 
+type ten_items is array (0 to 9) of itemr;
+type mid_items is array (0 to 1) of itemr;
+type datar is record
+first : ten_items;
+middle : mid_items;
+last : ten_items;
+end record;
+-- XXX data from ExtractAlphaParameters
+constant datao : datar := (
+first => (
+(a => x"331C6400", b => 0),
+(a => x"331E6400", b => 1),
+(a => x"3322E400", b => 2),
+(a => x"3324E400", b => 3),
+(a => x"332F6400", b => 4),
+(a => x"33326400", b => 5),
+(a => x"3332E400", b => 6),
+(a => x"33356400", b => 7),
+(a => x"333D6400", b => 8),
+(a => x"333FE400", b => 9)
+),
+middle => (
+(a => x"331EE400", b => 382),
+(a => x"3337E400", b => 384)
+),
+last => (
+(a => x"33326400", b => 758),
+(a => x"332F6400", b => 759),
+(a => x"332AE400", b => 760),
+(a => x"3329E400", b => 761),
+(a => x"331B6400", b => 762),
+(a => x"33196400", b => 763),
+(a => x"33126400", b => 764),
+(a => x"330FE400", b => 765),
+(a => x"32FFC800", b => 766),
+(a => x"32F6C800", b => 767)
+)
+);
 begin
 -- hold reset state for 100 ns.
 wait for 105 ns;
 -- insert stimulus here
 ExtractAlphaParameters_run <= '1'; wait for i_clock_period; ExtractAlphaParameters_run <= '0';
 wait until ExtractAlphaParameters_rdy = '1';
-for i in 0 to 1024 loop
-	ExtractAlphaParameters_addr <= std_logic_vector (to_unsigned (i, 10));
-	wait for i_clock_period*2;
+--report "rdy at 954.235us";
+--report "rdy at 930.805us - with acc loop";
+--report "rdy at 930.945us";
+--report "rdy at 930.795us";
+report "rdy at 930.705us";
+for i in 0 to 9 loop
+ExtractAlphaParameters_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
+wait until rising_edge (ExtractAlphaParameters_clock);
+wait until rising_edge (ExtractAlphaParameters_clock);
+warning_neq_fp (ExtractAlphaParameters_do, datao.first(i).a, "first " & integer'image (datao.first(i).b));
 end loop;
+for i in 0 to 1 loop
+ExtractAlphaParameters_addr <= std_logic_vector (to_unsigned (datao.middle(i).b, 10));
+wait until rising_edge (ExtractAlphaParameters_clock);
+wait until rising_edge (ExtractAlphaParameters_clock);
+warning_neq_fp (ExtractAlphaParameters_do, datao.middle(i).a, "middle " & integer'image (datao.middle(i).b));
+end loop;
+for i in 0 to 9 loop
+ExtractAlphaParameters_addr <= std_logic_vector (to_unsigned (datao.last(i).b, 10));
+wait until rising_edge (ExtractAlphaParameters_clock);
+wait until rising_edge (ExtractAlphaParameters_clock);
+warning_neq_fp (ExtractAlphaParameters_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
+end loop;
+--report "end at 974.735us";
+--report "end at 954.675us";
+--report "end at 931.245us - with acc loop";
+--report "end at 931.385us";
+--report "end at 931.235us";
+report "end at 931.145us";
 wait for 1 ps; -- must be for write
 report "done" severity failure;
 --wait on o_done;

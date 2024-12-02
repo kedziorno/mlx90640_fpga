@@ -11,7 +11,7 @@ use ieee_proposed.standard_additions.all;
 --use ieee_proposed.standard_textio_additions.all;
 use ieee_proposed.std_logic_1164_additions.all;
 
-USE work.p_fphdl_package1.all;
+--use work.p_fphdl_package1.all;
 USE work.p_fphdl_package3.all;
 
 ENTITY tb_calculateTa IS
@@ -146,8 +146,8 @@ signal CalculateTa_run : std_logic;
 signal CalculateTa_i2c_mem_ena : STD_LOGIC;
 signal CalculateTa_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal CalculateTa_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal CalculateTa_Vdd : fd2ft;
-signal CalculateTa_Ta : fd2ft; -- output Ta
+signal CalculateTa_Vdd : std_logic_vector (31 downto 0);
+signal CalculateTa_Ta : std_logic_vector (31 downto 0); -- output Ta
 signal CalculateTa_rdy : std_logic;
 signal CalculateTa_fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
 signal CalculateTa_fixed2floatond : STD_LOGIC;
@@ -271,15 +271,6 @@ subfpr => CalculateTa_subfpr,
 subfprdy => CalculateTa_subfprdy
 );
 
---i_ee0x2432 => x"5952",
---i_ee0x2431 => x"2ff1",
---i_ee0x2410 => x"4210",
---i_kvdd => x"C5480000",
---i_vdd25 => x"C6440000",
---i_ram0x072a => x"c64cec00",
---i_ram0x0720 => x"06af",
---i_ram0x0700 => x"4bf2",
-
 tbprocess : PROCESS
 BEGIN
 calculateTa_reset <= '1';
@@ -290,6 +281,9 @@ wait for clock_period*10;
 calculateTa_Vdd <= x"4052B852"; -- 3.292500
 calculateTa_run <= '1'; wait for clock_period; calculateTa_run <= '0';
 wait until calculateTa_rdy = '1';
+warning_neq_fp (calculateTa_Ta, x"4207f54d", "Ta");
+--report "rdy at 2.965us";
+report "rdy at 2.845us";
 report "done" severity failure;
 END PROCESS tbprocess;
 --  End Test Bench 
@@ -299,12 +293,6 @@ CalculateTa_addfpclk <= CalculateTa_clock;
 CalculateTa_subfpclk <= CalculateTa_clock;
 CalculateTa_mulfpclk <= CalculateTa_clock;
 CalculateTa_divfpclk <= CalculateTa_clock;
-
---CalculateTa_fixed2floatsclr <= CalculateTa_reset;
---CalculateTa_addfpsclr <= CalculateTa_reset;
---CalculateTa_subfpsclr <= CalculateTa_reset;
---CalculateTa_mulfpsclr <= CalculateTa_reset;
---CalculateTa_divfpsclr <= CalculateTa_reset;
 
 inst_fixed2float : fixed2float
 PORT MAP (
