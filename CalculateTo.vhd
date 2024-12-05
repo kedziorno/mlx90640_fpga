@@ -327,6 +327,51 @@ signal i2c_mem_ena_internal : STD_LOGIC;
 signal i2c_mem_addra_internal : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal i2c_mem_douta_internal : STD_LOGIC_VECTOR(7 DOWNTO 0);
 
+component fast_inverse_sqrt is
+port (
+signal i_clock         : in  std_logic;
+signal i_reset         : in  std_logic;
+signal i_run           : in  std_logic;
+signal i_sqrt_original : in  std_logic_vector (31 downto 0);
+signal o_sqrt_inverse  : out std_logic_vector (31 downto 0);
+signal o_done          : out std_logic;
+signal subfpa          : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpb          : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpond        : out STD_LOGIC;
+signal subfpce         : out STD_LOGIC;
+signal subfpsclr       : out STD_LOGIC;
+signal subfpr          : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfprdy        : in STD_LOGIC;
+signal mulfpa          : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb          : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond        : out STD_LOGIC;
+signal mulfpce         : out STD_LOGIC;
+signal mulfpsclr       : out STD_LOGIC;
+signal mulfpr          : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy        : in STD_LOGIC
+);
+end component fast_inverse_sqrt;
+signal fast_inverse_sqrt_clock         : STD_LOGIC;
+signal fast_inverse_sqrt_reset         : STD_LOGIC;
+signal fast_inverse_sqrt_run           : std_logic;
+signal fast_inverse_sqrt_sqrt_original : std_logic_vector (31 downto 0);
+signal fast_inverse_sqrt_sqrt_inverse  : std_logic_vector (31 downto 0);
+signal fast_inverse_sqrt_done          : std_logic;
+signal fast_inverse_sqrt_subfpa        : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fast_inverse_sqrt_subfpb        : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fast_inverse_sqrt_subfpond      : STD_LOGIC;
+signal fast_inverse_sqrt_subfpce       : STD_LOGIC;
+signal fast_inverse_sqrt_subfpsclr     : STD_LOGIC;
+signal fast_inverse_sqrt_subfpr        : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fast_inverse_sqrt_subfprdy      : STD_LOGIC;
+signal fast_inverse_sqrt_mulfpa        : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fast_inverse_sqrt_mulfpb        : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fast_inverse_sqrt_mulfpond      : STD_LOGIC;
+signal fast_inverse_sqrt_mulfpce       : STD_LOGIC;
+signal fast_inverse_sqrt_mulfpsclr     : STD_LOGIC;
+signal fast_inverse_sqrt_mulfpr        : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fast_inverse_sqrt_mulfprdy      : STD_LOGIC;
+
 begin
 
 divfpa <= divfpa_internal;
@@ -337,13 +382,15 @@ divfpce <= divfpce_internal;
 divfpr_internal <= divfpr;
 divfprdy_internal <= divfprdy;
 
-mulfpa <= mulfpa_internal;
-mulfpb <= mulfpb_internal;
-mulfpond <= mulfpond_internal;
-mulfpsclr <= mulfpsclr_internal;
-mulfpce <= mulfpce_internal;
+mulfpa <= fast_inverse_sqrt_mulfpa when fast_inverse_sqrt_run = '1' else mulfpa_internal;
+mulfpb <= fast_inverse_sqrt_mulfpb when fast_inverse_sqrt_run = '1' else mulfpb_internal;
+mulfpond <= fast_inverse_sqrt_mulfpond when fast_inverse_sqrt_run = '1' else mulfpond_internal;
+mulfpsclr <= fast_inverse_sqrt_mulfpsclr when fast_inverse_sqrt_run = '1' else mulfpsclr_internal;
+mulfpce <= fast_inverse_sqrt_mulfpce when fast_inverse_sqrt_run = '1' else mulfpce_internal;
 mulfpr_internal <= mulfpr;
+fast_inverse_sqrt_mulfpr <= mulfpr;
 mulfprdy_internal <= mulfprdy;
+fast_inverse_sqrt_mulfprdy <= mulfprdy;
 
 addfpa <= addfpa_internal;
 addfpb <= addfpb_internal;
@@ -353,13 +400,15 @@ addfpce <= addfpce_internal;
 addfpr_internal <= addfpr;
 addfprdy_internal <= addfprdy;
 
-subfpa <= subfpa_internal;
-subfpb <= subfpb_internal;
-subfpond <= subfpond_internal;
-subfpsclr <= subfpsclr_internal;
-subfpce <= subfpce_internal;
+subfpa <= fast_inverse_sqrt_subfpa when fast_inverse_sqrt_run = '1' else subfpa_internal;
+subfpb <= fast_inverse_sqrt_subfpb when fast_inverse_sqrt_run = '1' else subfpb_internal;
+subfpond <= fast_inverse_sqrt_subfpond when fast_inverse_sqrt_run = '1' else subfpond_internal;
+subfpsclr <= fast_inverse_sqrt_subfpsclr when fast_inverse_sqrt_run = '1' else subfpsclr_internal;
+subfpce <= fast_inverse_sqrt_subfpce when fast_inverse_sqrt_run = '1' else subfpce_internal;
 subfpr_internal <= subfpr;
+fast_inverse_sqrt_subfpr <= subfpr;
 subfprdy_internal <= subfprdy;
+fast_inverse_sqrt_subfprdy <= subfprdy;
 
 sqrtfp2a <= sqrtfp2a_internal;
 sqrtfp2ond <= sqrtfp2ond_internal;
@@ -401,9 +450,9 @@ p0 : process (i_clock) is
 	s12,s13,s16,s17,s18,s20,
 	s21,s24,s26,s28,s30,
 	s35,s36,s37,s38,s39,s40,
-	s41,s42,s43,s44,s45,s47,s48,s49,s50,
+	s41,s42,s43,s44,s45,s47,s48,s49,s49a,s49b,s50,
 	s51,s51a,s52,s53,s55,s57,s59,
-	s61,s63,s65,s66,s67,s69,s71);
+	s61,s63,s65,s66,s67,s67a,s69,s71);
 	variable state : states;
 	variable tar : std_logic_vector (31 downto 0);
 begin
@@ -728,34 +777,57 @@ begin
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
           else state := s45; end if;
-        when s47 =>
+        when s47 => -- 1/sqrt(x)
           addfpsclr_internal <= '0';
-          sqrtfp2ce_internal <= '1';
-          sqrtfp2a_internal <= addfpr_internal; -- (alphacomp^3*vircompensated)+(alphacomp^4*Tar)
-          sqrtfp2ond_internal <= '1';
-          if (sqrtfp2rdy_internal = '1') then state := s48; -- sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar))
-            sqrtfp2ce_internal <= '0';
-            sqrtfp2ond_internal <= '0';
-            sqrtfp2sclr_internal <= '1';
+          fast_inverse_sqrt_run <= '1';
+          fast_inverse_sqrt_sqrt_original <= addfpr_internal; -- (alphacomp^3*vircompensated)+(alphacomp^4*Tar)
+          if (fast_inverse_sqrt_done = '1') then state := s48; -- 1/(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar)))
+            fast_inverse_sqrt_run <= '0';
           else state := s47; end if;
-        when s48 => state := s49;
-          sqrtfp2sclr_internal <= '0';
-        when s49 =>
-          sqrtfp2ce_internal <= '1';
-          sqrtfp2a_internal <= sqrtfp2r_internal; -- sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar))
-          sqrtfp2ond_internal <= '1';
+        when s48 => -- 1/(1/sqrt(x)) = sqrt(x)
+          divfpce_internal <= '1';
+          divfpa_internal <= const1;
+          divfpb_internal <= fast_inverse_sqrt_sqrt_inverse; -- 1/(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar)))
+          divfpond_internal <= '1';
+          if (divfprdy_internal = '1') then state := s49; -- sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar))
+            divfpce_internal <= '0';
+            divfpond_internal <= '0';
+            divfpsclr_internal <= '1';
+          else state := s48; end if;
+        when s49 => -- 1/sqrt(sqrt(x))
+          divfpsclr_internal <= '0';
+          fast_inverse_sqrt_run <= '1';
+          fast_inverse_sqrt_sqrt_original <= divfpr_internal; -- sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar))
           i2c_mem_addra_internal <= std_logic_vector (to_unsigned (63*2+1, 12)); -- ee243f LSB kstoscale 0x000f
-          if (sqrtfp2rdy_internal = '1') then state := s50; -- sqrt2(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar)))
-            sqrtfp2ce_internal <= '0';
-            sqrtfp2ond_internal <= '0';
-            sqrtfp2sclr_internal <= '1';
+          if (fast_inverse_sqrt_done = '1') then state := s49a; -- 1/(sqrt2(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar))))
+            fast_inverse_sqrt_run <= '0';
             o_2powx_p8_ena <= '1';
             o_2powx_p8_adr <= i2c_mem_douta_internal (3 downto 0);
             i2c_mem_addra_internal <= std_logic_vector (to_unsigned (61*2+0, 12)); -- ee243d MSB ksto2ee 0xff00
           else state := s49; end if;
-          
+        when s49a => -- 1/(1/sqrt(sqrt(x))) = sqrt(sqrt(x)) = sq4(x)
+          divfpce_internal <= '1';
+          divfpa_internal <= const1;
+          divfpb_internal <= fast_inverse_sqrt_sqrt_inverse; -- 1/(sqrt2(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar))))
+          divfpond_internal <= '1';
+          if (divfprdy_internal = '1') then state := s49b; -- sqrt2(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar)))
+            divfpce_internal <= '0';
+            divfpond_internal <= '0';
+            divfpsclr_internal <= '1';
+          else state := s49a; end if;
+        when s49b => -- XXX empty state for sq4(x)
+          divfpsclr_internal <= '0';
+          addfpce_internal <= '1';
+          addfpa_internal <= divfpr_internal;
+          addfpb_internal <= x"00000000";
+          addfpond_internal <= '1';
+          if (addfprdy_internal = '1') then state := s50; -- sq4(x)
+            addfpce_internal <= '0';
+            addfpond_internal <= '0';
+            addfpsclr_internal <= '1';
+          else state := s49b; end if;
         when s50 =>
-          sqrtfp2sclr_internal <= '0';
+          addfpsclr_internal <= '0';
         
           fixed2floatce_internal <= '1';
           fixed2floatond_internal <= '1';
@@ -788,7 +860,7 @@ begin
         when s51a =>
           divfpsclr_internal <= '0';
           mulfpce_internal <= '1';
-          mulfpa_internal <= sqrtfp2r_internal; -- sqrt2(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar))) - s49
+          mulfpa_internal <= addfpr_internal; -- sqrt2(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar))) - s49b
           mulfpb_internal <= divfpr_internal; -- ksto2 - s51
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s52;
@@ -876,29 +948,42 @@ begin
           else state := s63; end if;
         when s65 =>
           addfpsclr_internal <= '0';
-          sqrtfp2ce_internal <= '1';
-          sqrtfp2a_internal <= addfpr_internal; -- (vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar
-          sqrtfp2ond_internal <= '1';
-          if (sqrtfp2rdy_internal = '1') then state := s66; -- sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar)
-            sqrtfp2ce_internal <= '0';
-            sqrtfp2ond_internal <= '0';
-            sqrtfp2sclr_internal <= '1';
+          fast_inverse_sqrt_run <= '1';
+          fast_inverse_sqrt_sqrt_original <= addfpr_internal; -- (vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar
+          if (fast_inverse_sqrt_done = '1') then state := s66; -- 1/sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar)
+            fast_inverse_sqrt_run <= '0';
           else state := s65; end if;
-        when s66 => state := s67;
-          sqrtfp2sclr_internal <= '0';
-        when s67 =>
-          sqrtfp2ce_internal <= '1';
-          sqrtfp2a_internal <= sqrtfp2r_internal; -- sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar)
-          sqrtfp2ond_internal <= '1';
-          if (sqrtfp2rdy_internal = '1') then state := s69; -- sqrt2(sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar))
-            sqrtfp2ce_internal <= '0';
-            sqrtfp2ond_internal <= '0';
-            sqrtfp2sclr_internal <= '1';
+        when s66 => -- 1/(1/sqrt(x)) = sqrt(x)
+          divfpce_internal <= '1';
+          divfpa_internal <= const1;
+          divfpb_internal <= fast_inverse_sqrt_sqrt_inverse; -- 1/sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar)
+          divfpond_internal <= '1';
+          if (divfprdy_internal = '1') then state := s67; -- sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar)
+            divfpce_internal <= '0';
+            divfpond_internal <= '0';
+            divfpsclr_internal <= '1';
+          else state := s66; end if;
+        when s67 => -- 1/(sqrt(sqrt(x))
+          divfpsclr_internal <= '0';
+          fast_inverse_sqrt_run <= '1';
+          fast_inverse_sqrt_sqrt_original <= divfpr_internal; -- sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar)
+          if (fast_inverse_sqrt_done = '1') then state := s67a; -- 1/(sqrt2(sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar)))
+            fast_inverse_sqrt_run <= '0';
           else state := s67; end if;
+        when s67a => -- 1/(1/sqrt(sqrt(x))) = sqrt(sqrt(x)) = sq4(x)
+          divfpce_internal <= '1';
+          divfpa_internal <= const1;
+          divfpb_internal <= fast_inverse_sqrt_sqrt_inverse; -- 1/(sqrt2(sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar)))
+          divfpond_internal <= '1';
+          if (divfprdy_internal = '1') then state := s69; -- sqrt2(sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar))
+            divfpce_internal <= '0';
+            divfpond_internal <= '0';
+            divfpsclr_internal <= '1';
+          else state := s67a; end if;
         when s69 =>
-          sqrtfp2sclr_internal <= '0';
+          divfpsclr_internal <= '0';
           subfpce_internal <= '1';
-          subfpa_internal <= sqrtfp2r_internal; -- sqrt2(sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar))
+          subfpa_internal <= divfpr_internal; -- sqrt2(sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar))
           subfpb_internal <= const27315;
           subfpond_internal <= '1';
           if (subfprdy_internal = '1') then state := s71;
@@ -941,6 +1026,31 @@ DIP => (others => '0'),
 EN => '1',
 SSR => i_reset,
 WE => write_enable
+);
+
+fast_inverse_sqrt_clock <= i_clock;
+fast_inverse_sqrt_reset <= i_reset;
+inst_fast_inverse_sqrt : fast_inverse_sqrt port map (
+i_clock         => fast_inverse_sqrt_clock,
+i_reset         => fast_inverse_sqrt_reset,
+i_run           => fast_inverse_sqrt_run,
+i_sqrt_original => fast_inverse_sqrt_sqrt_original,
+o_sqrt_inverse  => fast_inverse_sqrt_sqrt_inverse,
+o_done          => fast_inverse_sqrt_done,
+subfpa          => fast_inverse_sqrt_subfpa,
+subfpb          => fast_inverse_sqrt_subfpb,
+subfpond        => fast_inverse_sqrt_subfpond,
+subfpce         => fast_inverse_sqrt_subfpce,
+subfpsclr       => fast_inverse_sqrt_subfpsclr,
+subfpr          => fast_inverse_sqrt_subfpr,
+subfprdy        => fast_inverse_sqrt_subfprdy,
+mulfpa          => fast_inverse_sqrt_mulfpa,
+mulfpb          => fast_inverse_sqrt_mulfpb,
+mulfpond        => fast_inverse_sqrt_mulfpond,
+mulfpce         => fast_inverse_sqrt_mulfpce,
+mulfpsclr       => fast_inverse_sqrt_mulfpsclr,
+mulfpr          => fast_inverse_sqrt_mulfpr,
+mulfprdy        => fast_inverse_sqrt_mulfprdy
 );
 
 end architecture Behavioral;
