@@ -46,11 +46,11 @@ ENTITY dualmem IS
     ena : IN STD_LOGIC;
     wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     addra : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-    dina : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+    dina : IN STD_LOGIC_VECTOR(8 DOWNTO 0);
     clkb : IN STD_LOGIC;
     enb : IN STD_LOGIC;
     addrb : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-    doutb : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+    doutb : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
   );
 END dualmem;
 
@@ -62,11 +62,11 @@ COMPONENT wrapped_dualmem
     ena : IN STD_LOGIC;
     wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     addra : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-    dina : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+    dina : IN STD_LOGIC_VECTOR(8 DOWNTO 0);
     clkb : IN STD_LOGIC;
     enb : IN STD_LOGIC;
     addrb : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-    doutb : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+    doutb : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
   );
 END COMPONENT;
 
@@ -75,7 +75,7 @@ END COMPONENT;
     GENERIC MAP (
       c_addra_width => 10,
       c_addrb_width => 10,
-      c_algorithm => 0,
+      c_algorithm => 1,
       c_axi_id_width => 4,
       c_axi_slave_type => 0,
       c_axi_type => 1,
@@ -108,11 +108,11 @@ END COMPONENT;
       c_load_init_file => 0,
       c_mem_type => 1,
       c_mux_pipeline_stages => 0,
-      c_prim_type => 4,
+      c_prim_type => 1,
       c_read_depth_a => 768,
       c_read_depth_b => 768,
-      c_read_width_a => 16,
-      c_read_width_b => 16,
+      c_read_width_a => 9,
+      c_read_width_b => 9,
       c_rst_priority_a => "CE",
       c_rst_priority_b => "CE",
       c_rst_type => "SYNC",
@@ -131,8 +131,8 @@ END COMPONENT;
       c_write_depth_b => 768,
       c_write_mode_a => "NO_CHANGE",
       c_write_mode_b => "NO_CHANGE",
-      c_write_width_a => 16,
-      c_write_width_b => 16,
+      c_write_width_a => 9,
+      c_write_width_b => 9,
       c_xdevicefamily => "spartan3e"
     );
 -- synthesis translate_on

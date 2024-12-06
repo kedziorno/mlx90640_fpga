@@ -22,6 +22,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 use work.p_fphdl_package3.all;
+use work.colormap_pkg.all;
 
 entity test1 is
 port (
@@ -207,7 +208,7 @@ operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+result : OUT STD_LOGIC_VECTOR(8 DOWNTO 0);
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
@@ -216,7 +217,7 @@ signal float2fixedond : STD_LOGIC;
 signal float2fixedclk : STD_LOGIC;
 signal float2fixedsclr : STD_LOGIC;
 signal float2fixedce : STD_LOGIC;
-signal float2fixedr : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal float2fixedr : STD_LOGIC_VECTOR(8 DOWNTO 0);
 signal float2fixedrdy : STD_LOGIC;
 
 COMPONENT dualmem
@@ -225,22 +226,22 @@ clka : IN STD_LOGIC;
 ena : IN STD_LOGIC;
 wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
 addra : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-dina : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+dina : IN STD_LOGIC_VECTOR(8 DOWNTO 0);
 clkb : IN STD_LOGIC;
 enb : IN STD_LOGIC;
 addrb : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-doutb : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+doutb : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
 );
 END COMPONENT;
 signal dualmem_clka : STD_LOGIC;
 signal dualmem_ena : STD_LOGIC;
 signal dualmem_wea : STD_LOGIC_VECTOR(0 DOWNTO 0);
 signal dualmem_addra : STD_LOGIC_VECTOR(9 DOWNTO 0);
-signal dualmem_dina : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal dualmem_dina : STD_LOGIC_VECTOR(8 DOWNTO 0);
 signal dualmem_clkb : STD_LOGIC;
 signal dualmem_enb : STD_LOGIC;
 signal dualmem_addrb : STD_LOGIC_VECTOR(9 DOWNTO 0);
-signal dualmem_doutb : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal dualmem_doutb : STD_LOGIC_VECTOR(8 DOWNTO 0);
 
 --attribute RlOC : string;
 
@@ -352,17 +353,17 @@ signal subfprdy : STD_LOGIC;
 
 --attribute RLOC of subfp : component is "SLICE_X40Y48:SLICE_X79Y79";
 
-COMPONENT sqrtfp2
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
+--COMPONENT sqrtfp2
+--PORT (
+--a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+--operation_nd : IN STD_LOGIC;
+--clk : IN STD_LOGIC;
+--sclr : IN STD_LOGIC;
+--ce : IN STD_LOGIC;
+--result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+--rdy : OUT STD_LOGIC
+--);
+--END COMPONENT;
 signal sqrtfp2a : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal sqrtfp2ond : STD_LOGIC;
 signal sqrtfp2clk : STD_LOGIC;
@@ -377,6 +378,8 @@ signal subfpclk : std_logic;
 signal mulfpclk : std_logic;
 signal divfpclk : std_logic;
 
+signal rdata : std_logic_vector(23 downto 0);
+
 begin
 
 vga_syncn <= '1';
@@ -386,7 +389,7 @@ vga_psave <= '1';
 
 pTo : process (i_clock) is
 	variable i : integer range 0 to PIXELS-1;
-	variable tout : std_logic_vector (15 downto 0);
+	variable tout : std_logic_vector (8 downto 0);
 	type states is (idle,
 	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10);
 	variable state : states;
@@ -443,7 +446,7 @@ begin
 					dualmem_dina <= tout;
 					dualmem_ena <= '1';
           --synthesis translate_off
-          report_error ("tout", tout, 0.0);
+          --report_error ("tout", tout, 0.0);
           --synthesis translate_on
 				when s9 =>
 					dualmem_wea <= "0";
@@ -658,9 +661,18 @@ blank => VGA_timing_synch_blank
 --vga_g <= vga_imagegenerator_RGB_out (18 downto 16) & vga_imagegenerator_RGB_out (10 downto 8) & vga_imagegenerator_RGB_out (1 downto 0);
 --vga_b <= vga_imagegenerator_RGB_out (18 downto 16) & vga_imagegenerator_RGB_out (10 downto 8) & vga_imagegenerator_RGB_out (1 downto 0);
 
-vga_r <= dualmem_doutb (12 downto 8) & dualmem_doutb (8 downto 6) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_g <= dualmem_doutb (12 downto 8) & dualmem_doutb (8 downto 6) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_b <= dualmem_doutb (12 downto 8) & dualmem_doutb (8 downto 6) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+--vga_r <= dualmem_doutb (12 downto 8) & dualmem_doutb (8 downto 6) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+--vga_g <= dualmem_doutb (12 downto 8) & dualmem_doutb (8 downto 6) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+--vga_b <= dualmem_doutb (12 downto 8) & dualmem_doutb (8 downto 6) when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+
+-- xxx 9 bit signed heatmap, in simulation show all BGYW colors, on board 'only' YW colors, test image have range -172 to 17
+-- XXX by using colormap we can use less channels in scaler
+rdata <= colormap_rom (to_integer (signed (dualmem_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
+--rdata <= colormap_rom (to_integer (unsigned (dualmem2_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
+
+vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_g <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
 
 ----vga_imagegenerator_active_area1 <= VGA_timing_synch_activeArea1;
 --vga_imagegenerator_active_area1 <= '1';
@@ -786,16 +798,16 @@ result => subfpr,
 rdy => subfprdy
 );
 
-inst_sqrtfp2 : sqrtfp2
-PORT MAP (
-a => sqrtfp2a,
-operation_nd => sqrtfp2ond,
-clk => sqrtfp2clk,
-sclr => sqrtfp2sclr,
-ce => sqrtfp2ce,
-result => sqrtfp2r,
-rdy => sqrtfp2rdy
-);
+--inst_sqrtfp2 : sqrtfp2
+--PORT MAP (
+--a => sqrtfp2a,
+--operation_nd => sqrtfp2ond,
+--clk => sqrtfp2clk,
+--sclr => sqrtfp2sclr,
+--ce => sqrtfp2ce,
+--result => sqrtfp2r,
+--rdy => sqrtfp2rdy
+--);
 
 end Behavioral;
 

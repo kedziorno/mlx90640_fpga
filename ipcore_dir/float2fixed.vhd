@@ -47,7 +47,7 @@ ENTITY float2fixed IS
     clk : IN STD_LOGIC;
     sclr : IN STD_LOGIC;
     ce : IN STD_LOGIC;
-    result : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+    result : OUT STD_LOGIC_VECTOR(8 DOWNTO 0);
     rdy : OUT STD_LOGIC
   );
 END float2fixed;
@@ -61,7 +61,7 @@ COMPONENT wrapped_float2fixed
     clk : IN STD_LOGIC;
     sclr : IN STD_LOGIC;
     ce : IN STD_LOGIC;
-    result : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+    result : OUT STD_LOGIC_VECTOR(8 DOWNTO 0);
     rdy : OUT STD_LOGIC
   );
 END COMPONENT;
@@ -107,8 +107,8 @@ END COMPONENT;
       c_mult_usage => 0,
       c_optimization => 1,
       c_rate => 1,
-      c_result_fraction_width => 8,
-      c_result_width => 16,
+      c_result_fraction_width => 0,
+      c_result_width => 9,
       c_speed => 2,
       c_status_early => 0,
       c_xdevicefamily => "spartan3e"
