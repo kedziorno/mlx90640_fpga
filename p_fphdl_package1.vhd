@@ -99,7 +99,7 @@ package p_fphdl_package1 is
 --	subtype slv13 is std_logic_vector (12 downto 0);
 --	subtype slv14 is std_logic_vector (13 downto 0);
 --	subtype slv15 is std_logic_vector (14 downto 0);
---	subtype slv16 is std_logic_vector (15 downto 0);
+	subtype slv16 is std_logic_vector (15 downto 0);
 	subtype fd2ft is std_logic_vector (31 downto 0);
 
 end p_fphdl_package1;

@@ -9,8 +9,8 @@ use ieee_proposed.fixed_pkg.all;
 --use ieee_proposed.fixed_synth.all;
 
 
---library UNISIM;
---use UNISIM.VComponents.all;
+----library UNISIM;
+----use UNISIM.VComponents.all;
 
 use work.p_fphdl_package1.all;
 

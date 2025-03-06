@@ -26,8 +26,8 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx primitives in this code.
-library UNISIM;
-use UNISIM.VComponents.all;
+--library UNISIM;
+--use UNISIM.VComponents.all;
 
 entity mem_ramb16_16bit_address is
 port (
@@ -55,6 +55,7 @@ I_SSRA         : in  std_ulogic;
 I_SSRB         : in  std_ulogic;
 I_WEA          : in  std_logic_vector (3 downto 0);
 I_WEB          : in  std_logic_vector (3 downto 0)
+);
 end entity mem_ramb16_16bit_address;
 
 architecture Behavioral of mem_16bit_address is

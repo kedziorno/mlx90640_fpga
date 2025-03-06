@@ -2,7 +2,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use STD.TEXTIO.ALL;
 
-use work.p_package1_constant.all;
+use work.p_package1_constants.all;
 
 package p_package2 is
 

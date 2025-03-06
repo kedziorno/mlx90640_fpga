@@ -29,8 +29,8 @@ use work.p_fphdl_package3.all;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+----library UNISIM;
+----use UNISIM.VComponents.all;
 
 entity CalculateOffsetCP is
 port (

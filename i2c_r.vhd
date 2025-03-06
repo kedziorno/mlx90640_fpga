@@ -27,8 +27,8 @@ use work.p_package1_constants.all;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+----library UNISIM;
+----use UNISIM.VComponents.all;
 
 -- MLX90641 16x12 IR array
 -- REVISION 3 - DECEMBER 9, 2019

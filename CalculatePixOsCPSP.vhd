@@ -27,8 +27,8 @@ use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+----library UNISIM;
+----use UNISIM.VComponents.all;
 
 use work.p_fphdl_package1.all;
 --use work.p_fphdl_package3.all;
