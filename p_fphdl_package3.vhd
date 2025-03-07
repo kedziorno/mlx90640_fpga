@@ -8,7 +8,7 @@ use ieee_proposed.standard_additions.all;
 use ieee_proposed.std_logic_1164_additions.all;
 
 package p_fphdl_package3 is
---synthesis translate_on
+--synthesis translate_off
 	function ap_slv2fp (sl:std_logic_vector) return real;
 	function ap_slv2int (sl:std_logic_vector) return integer;
 	function to_string_1 ( s : std_logic_vector ) return string;
@@ -17,7 +17,7 @@ package p_fphdl_package3 is
 end p_fphdl_package3;
 
 package body p_fphdl_package3 is
---synthesis translate_on
+--synthesis translate_off
 	procedure report_error (constant str : string; sl : std_logic_vector; constant ec : real) is
 		variable a : float32;
 		variable b : float32 := to_float (ec, a);
@@ -36,7 +36,7 @@ package body p_fphdl_package3 is
 			expecteds := real'image (expected);
 		end if;
 --		assert actual = expected report "actual = expected : " & CR & actuals & CR & expecteds & CR & to_hex_string (sl) & CR & to_hex_string (b) & CR & to_string_1 (sl) & CR & to_string_1 (to_slv (b)) severity note;
---		report str & " : " & actuals & " = " & expecteds & " " & to_hex_string ((sl)) & " " & to_hex_string ((b)) & " " & to_string_1 (sl) & " " & to_string_1 (to_slv (b)) severity note;
+		report str & " : " & actuals & " = " & expecteds & " " & to_hex_string ((sl)) & " " & to_hex_string ((b)) & " " & to_string_1 (sl) & " " & to_string_1 (to_slv (b)) severity note;
 		return;
 	end procedure report_error;
 
