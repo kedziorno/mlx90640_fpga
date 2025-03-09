@@ -13,10 +13,13 @@ package standard_textio_additions is
 
 --  procedure DEALLOCATE (P : inout LINE);
 
-  procedure FLUSH (file F : TEXT);
 
   function MINIMUM (L, R : SIDE) return SIDE;
   function MAXIMUM (L, R : SIDE) return SIDE;
+
+-- pragma synthesis_off
+
+  procedure FLUSH (file F : TEXT);
 
   function TO_STRING (VALUE : SIDE) return STRING;
 
@@ -49,6 +52,7 @@ package standard_textio_additions is
   procedure HWRITE (L         : inout LINE; VALUE : in BIT_VECTOR;
                     JUSTIFIED : in    SIDE := right; FIELD : in WIDTH := 0);
   alias HEX_WRITE is HWRITE [LINE, BIT_VECTOR, SIDE, WIDTH];
+-- pragma synthesis_on
 
 end package standard_textio_additions;
 

@@ -38,7 +38,7 @@
 
 set_global_assignment -name FAMILY "MAX 10"
 set_global_assignment -name DEVICE 10M08DAF256C8GES
-set_global_assignment -name TOP_LEVEL_ENTITY test1
+set_global_assignment -name TOP_LEVEL_ENTITY test_fixed_melexis
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 17.1.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "11:28:49  MARCH 06, 2025"
 set_global_assignment -name LAST_QUARTUS_VERSION "17.1.0 Lite Edition"
@@ -49,20 +49,25 @@ set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 256
 set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (VHDL)"
 set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulation
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name PROJECT_IP_REGENERATION_POLICY ALWAYS_REGENERATE_IP
 set_global_assignment -name SEARCH_PATH /home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ieee_proposed_altera
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS TEST_BENCH_MODE -section_id eda_simulation
+set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH tb_test_fixed_melexis -section_id eda_simulation
+set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_simulation
+set_global_assignment -name EDA_GENERATE_RTL_SIMULATION_COMMAND_SCRIPT ON -section_id eda_simulation
+set_global_assignment -name EDA_GENERATE_GATE_LEVEL_SIMULATION_COMMAND_SCRIPT OFF -section_id eda_simulation
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
-set_global_assignment -name VHDL_FILE wrapper.vhd
-set_global_assignment -name VHDL_FILE combined.vhd
-set_global_assignment -name VHDL_FILE tb_fpsub.vhd
-set_global_assignment -name VHDL_FILE tb_fpdiv.vhd
-set_global_assignment -name VHDL_FILE tb_fpmul.vhd
-set_global_assignment -name VHDL_FILE tb_fpadd.vhd
+set_global_assignment -name VHDL_FILE fixed2float.vhd
+set_global_assignment -name VHDL_FILE FloatingPointAdder_32bit.vhd
+set_global_assignment -name VHDL_FILE FloatingPointMultiplier_32bit.vhd
+set_global_assignment -name VHDL_FILE FloatingPointDivider_32bit.vhd
+set_global_assignment -name VHDL_FILE FloatingPointSubtractor_32bit.vhd
+set_global_assignment -name VHDL_FILE FloatingPointSQRT_32bit.vhd
 set_global_assignment -name VHDL_FILE RAMB16_S36.vhd
 set_global_assignment -name VHDL_FILE RAMB16_S36_S36.vhd
 set_global_assignment -name VHDL_FILE ieee_proposed_altera/standard_textio_additions_c.vhdl -library ieee_proposed
@@ -82,44 +87,29 @@ set_global_assignment -name VHDL_FILE p_package2.vhd
 set_global_assignment -name VHDL_FILE p_fphdl_package1.vhd
 set_global_assignment -name VHDL_FILE p_fphdl_package2.vhd
 set_global_assignment -name VHDL_FILE p_fphdl_package3.vhd
-set_global_assignment -name VHDL_FILE pre_norm_sqrt.vhd
-set_global_assignment -name VHDL_FILE fpu_add.vhd
 set_global_assignment -name VHDL_FILE CalculateAlphaCP.vhd
 set_global_assignment -name VHDL_FILE calculateVdd.vhd
 set_global_assignment -name VHDL_FILE ExtractKvParameters.vhd
 set_global_assignment -name VHDL_FILE CalculateOffsetCP.vhd
 set_global_assignment -name VHDL_FILE mem_float2powerN.vhd
 set_global_assignment -name VHDL_FILE CalculateVirCompensated.vhd
-set_global_assignment -name VHDL_FILE sqrt.vhd
-set_global_assignment -name VHDL_FILE pre_norm_addsub.vhd
 set_global_assignment -name VHDL_FILE mem_signed1024.vhd
 set_global_assignment -name VHDL_FILE address_generator.vhd
 set_global_assignment -name VHDL_FILE ExtractCPParameters.vhd
 set_global_assignment -name VHDL_FILE ExtractKsTaParameters.vhd
-set_global_assignment -name VHDL_FILE test_fixed_melexis.vhd
-set_global_assignment -name VHDL_FILE post_norm_div.vhd
-set_global_assignment -name VHDL_FILE mul_24.vhd
 set_global_assignment -name VHDL_FILE ExtractKsToScaleParameter.vhd
 set_global_assignment -name VHDL_FILE mem_switchpattern.vhd
-set_global_assignment -name VHDL_FILE post_norm_addsub.vhd
-set_global_assignment -name VHDL_FILE fpu_sub.vhd
-set_global_assignment -name VHDL_FILE fpu_div.vhd
 set_global_assignment -name VHDL_FILE ExtractTGCParameters.vhd
 set_global_assignment -name VHDL_FILE ExtractOffsetParameters.vhd
-set_global_assignment -name VHDL_FILE fpu_mul.vhd
 set_global_assignment -name VHDL_FILE calculateKGain.vhd
-set_global_assignment -name VHDL_FILE fpu_sqr.vhd
 set_global_assignment -name VHDL_FILE vga_timing.vhd
 set_global_assignment -name VHDL_FILE i2c_r.vhd
 set_global_assignment -name VHDL_FILE CalculatePixOS.vhd
 set_global_assignment -name VHDL_FILE CalculateTo.vhd
 set_global_assignment -name VHDL_FILE ExtractKtaParameters.vhd
 set_global_assignment -name VHDL_FILE ExtractAlphaParameters.vhd
-set_global_assignment -name VHDL_FILE fpupack.vhd
 set_global_assignment -name VHDL_FILE mem_kvptat_ktptat.vhd
-set_global_assignment -name VHDL_FILE ExtractKsTo1234Parameters.vhd
 set_global_assignment -name VHDL_FILE calculateTa.vhd
-set_global_assignment -name VHDL_FILE i2c_master_v01.vhd
 set_global_assignment -name VHDL_FILE mem_kvdd_vdd25.vhd
 set_global_assignment -name VHDL_FILE vga_imagegenerator.vhd
 set_global_assignment -name VHDL_FILE CalculateAlphaComp.vhd
@@ -127,25 +117,16 @@ set_global_assignment -name VHDL_FILE ExtractKvPTATParameter.vhd
 set_global_assignment -name VHDL_FILE mem_alphaptat.vhd
 set_global_assignment -name VHDL_FILE ExtractAlphaPtatParameter.vhd
 set_global_assignment -name VHDL_FILE CalculatePixGain.vhd
-set_global_assignment -name VHDL_FILE serial_div.vhd
-set_global_assignment -name VHDL_FILE txt_util.vhd
 set_global_assignment -name VHDL_FILE mem_signedFF.vhd
 set_global_assignment -name VHDL_FILE ExtractVDDParameters.vhd
 set_global_assignment -name VHDL_FILE ExtractKtPTATParameter.vhd
 set_global_assignment -name VHDL_FILE test1.vhd
-set_global_assignment -name VHDL_FILE fpu.vhd
-set_global_assignment -name VHDL_FILE i2c_core_v02.vhd
-set_global_assignment -name VHDL_FILE pre_norm_mul.vhd
-set_global_assignment -name VHDL_FILE serial_mul.vhd
 set_global_assignment -name VHDL_FILE CalculatePixOsCPSP.vhd
-set_global_assignment -name VHDL_FILE post_norm_sqrt.vhd
-set_global_assignment -name VHDL_FILE post_norm_mul.vhd
 set_global_assignment -name VHDL_FILE mem_ramb16_s36_x2.vhd
-set_global_assignment -name VHDL_FILE comppack.vhd
-set_global_assignment -name VHDL_FILE addsub_28.vhd
 set_global_assignment -name VHDL_FILE mem_unsigned1024.vhd
-set_global_assignment -name VHDL_FILE calculateAcc.vhd
-set_global_assignment -name VHDL_FILE ExtractAlphaCorrRange1234.vhd
-set_global_assignment -name VHDL_FILE ExtractCT34Parameter.vhd
-set_global_assignment -name VHDL_FILE pre_norm_div.vhd
+set_global_assignment -name VHDL_FILE test_fixed_melexis.vhd -hdl_version VHDL_2008
 set_global_assignment -name QIP_FILE RAMB16_S36_wrapper.qip
+set_global_assignment -name EDA_TEST_BENCH_NAME tb_test_fixed_melexis -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id tb_test_fixed_melexis
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME tb_test_fixed_melexis -section_id tb_test_fixed_melexis
+set_global_assignment -name EDA_TEST_BENCH_FILE tb_test_fixed_melexis.vhd -section_id tb_test_fixed_melexis

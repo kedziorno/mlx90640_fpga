@@ -28,6 +28,10 @@ use ieee.std_logic_1164.all;
 --use ieee_proposed.fixed_pkg.all;
 --use ieee_proposed.fixed_synth.all;
 
+library ieee_proposed;
+use ieee_proposed.fixed_float_types.all;
+use ieee_proposed.fixed_pkg.all;
+use ieee_proposed.float_pkg.all;
 
 ----library UNISIM;
 ----use UNISIM.VComponents.all;
@@ -54,17 +58,11 @@ end test_fixed_melexis;
 
 architecture testbench of test_fixed_melexis is
 
---attribute RlOC : string;
-
 COMPONENT fixed2float
 PORT (
-a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
+x : IN STD_LOGIC_VECTOR(FP_BITS-1 DOWNTO 0);
+y : OUT fd2ft
 );
 END COMPONENT;
 signal fixed2floata : STD_LOGIC_VECTOR(63 DOWNTO 0);
@@ -74,105 +72,73 @@ signal fixed2floatsclr : STD_LOGIC;
 signal fixed2floatr :  STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal fixed2floatrdy : STD_LOGIC;
 
---attribute RLOC of fixed2float : component is "SLICE_X40Y174:SLICE_X79Y191";
-
-COMPONENT divfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-signal divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+component FloatingPointDivider is
+    port (clk, ce_1, ce_2, ce_3, ce_4, ce_5 : in std_logic;
+          X : in  std_logic_vector(8+23+2 downto 0);
+          Y : in  std_logic_vector(8+23+2 downto 0);
+          R : out  std_logic_vector(8+23+2 downto 0)   );
+end component FloatingPointDivider;
+signal divfpa : STD_LOGIC_VECTOR(33 DOWNTO 0);
+signal divfpb : STD_LOGIC_VECTOR(33 DOWNTO 0);
 signal divfpond : STD_LOGIC;
 signal divfpce : STD_LOGIC;
 signal divfpsclr : STD_LOGIC;
-signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpr : STD_LOGIC_VECTOR(33 DOWNTO 0);
 signal divfprdy : STD_LOGIC;
 
-COMPONENT mulfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-signal mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+component FloatingPointMultiplier is
+    port (clk, ce_1 : in std_logic;
+          X : in  std_logic_vector(8+23+2 downto 0);
+          Y : in  std_logic_vector(8+23+2 downto 0);
+          R : out  std_logic_vector(8+23+2 downto 0)   );
+end component;
+signal mulfpa : STD_LOGIC_VECTOR(33 DOWNTO 0);
+signal mulfpb : STD_LOGIC_VECTOR(33 DOWNTO 0);
 signal mulfpond : STD_LOGIC;
 signal mulfpce : STD_LOGIC;
 signal mulfpsclr : STD_LOGIC;
-signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpr : STD_LOGIC_VECTOR(33 DOWNTO 0);
 signal mulfprdy : STD_LOGIC;
 
-COMPONENT addfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-signal addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+component FloatingPointAdder is
+    port (clk, ce_1, ce_2, ce_3 : in std_logic;
+          X : in  std_logic_vector(8+23+2 downto 0);
+          Y : in  std_logic_vector(8+23+2 downto 0);
+          R : out  std_logic_vector(8+23+2 downto 0)   );
+end component;
+signal addfpa : STD_LOGIC_VECTOR(33 DOWNTO 0);
+signal addfpb : STD_LOGIC_VECTOR(33 DOWNTO 0);
 signal addfpond : STD_LOGIC;
 signal addfpce : STD_LOGIC;
 signal addfpsclr : STD_LOGIC;
-signal addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpr : STD_LOGIC_VECTOR(33 DOWNTO 0);
 signal addfprdy : STD_LOGIC;
 
-COMPONENT subfp
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-signal subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+component FloatingPointSubtractor is
+    port (clk, ce_1, ce_2, ce_3 : in std_logic;
+          X : in  std_logic_vector(8+23+2 downto 0);
+          Y : in  std_logic_vector(8+23+2 downto 0);
+          R : out  std_logic_vector(8+23+2 downto 0)   );
+end component;
+signal subfpa : STD_LOGIC_VECTOR(33 DOWNTO 0);
+signal subfpb : STD_LOGIC_VECTOR(33 DOWNTO 0);
 signal subfpond : STD_LOGIC;
 signal subfpce : STD_LOGIC;
 signal subfpsclr : STD_LOGIC;
-signal subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpr : STD_LOGIC_VECTOR(33 DOWNTO 0);
 signal subfprdy : STD_LOGIC;
 
-COMPONENT sqrtfp2
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
-signal sqrtfp2a : STD_LOGIC_VECTOR(31 DOWNTO 0);
+component FloatingPointSQRT is
+    port (clk, ce_1, ce_2, ce_3, ce_4, ce_5, ce_6 : in std_logic;
+          X : in  std_logic_vector(8+23+2 downto 0);
+          R : out  std_logic_vector(8+23+2 downto 0)   );
+end component;
+signal sqrtfp2a : STD_LOGIC_VECTOR(33 DOWNTO 0);
 signal sqrtfp2ond : STD_LOGIC;
 signal sqrtfp2clk : STD_LOGIC;
 signal sqrtfp2sclr : STD_LOGIC;
 signal sqrtfp2ce : STD_LOGIC;
-signal sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal sqrtfp2r : STD_LOGIC_VECTOR(33 DOWNTO 0);
 signal sqrtfp2rdy : STD_LOGIC;
 
 signal fixed2floatclk : std_logic;
@@ -2198,72 +2164,66 @@ sqrtfp2clk <= i_clock;
 
 inst_fixed2float : fixed2float
 PORT MAP (
-a => fixed2floata,
-operation_nd => fixed2floatond,
+x => fixed2floata (31 downto 0),
 clk => fixed2floatclk,
-sclr => fixed2floatsclr,
-ce => fixed2floatce,
-result => fixed2floatr,
-rdy => fixed2floatrdy
+y => fixed2floatr
 );
 
-inst_divfp : divfp
+inst_divfp : FloatingPointDivider
 PORT MAP (
-a => divfpa,
-b => divfpb,
-operation_nd => divfpond,
+X => divfpa,
+Y => divfpb,
 clk => divfpclk,
-sclr => divfpsclr,
-ce => divfpce,
-result => divfpr,
-rdy => divfprdy
+ce_1 => divfpce,
+ce_2 => divfpce,
+ce_3 => divfpce,
+ce_4 => divfpce,
+ce_5 => divfpce,
+R => divfpr
 );
 
-inst_mulfp : mulfp
+inst_mulfp : FloatingPointMultiplier
 PORT MAP (
-a => mulfpa,
-b => mulfpb,
-operation_nd => mulfpond,
+X => mulfpa,
+Y => mulfpb,
 clk => mulfpclk,
-sclr => mulfpsclr,
-ce => mulfpce,
-result => mulfpr,
-rdy => mulfprdy
+ce_1 => mulfpce,
+R => mulfpr
 );
 
-inst_addfp : addfp
+inst_addfp : FloatingPointAdder
 PORT MAP (
-a => addfpa,
-b => addfpb,
-operation_nd => addfpond,
+X => addfpa,
+Y => addfpb,
 clk => addfpclk,
-sclr => addfpsclr,
-ce => addfpce,
-result => addfpr,
-rdy => addfprdy
+ce_1 => addfpce,
+ce_2 => addfpce,
+ce_3 => addfpce,
+R => addfpr
 );
 
-inst_subfp : subfp
+inst_subfp : FloatingPointSubtractor
 PORT MAP (
-a => subfpa,
-b => subfpb,
-operation_nd => subfpond,
+X => subfpa,
+Y => subfpb,
 clk => subfpclk,
-sclr => subfpsclr,
-ce => subfpce,
-result => subfpr,
-rdy => subfprdy
+ce_1 => subfpce,
+ce_2 => subfpce,
+ce_3 => subfpce,
+R => subfpr
 );
 
-inst_sqrtfp2 : sqrtfp2
+inst_sqrtfp : FloatingPointSQRT
 PORT MAP (
-a => sqrtfp2a,
-operation_nd => sqrtfp2ond,
+X => sqrtfp2a,
 clk => sqrtfp2clk,
-sclr => sqrtfp2sclr,
-ce => sqrtfp2ce,
-result => sqrtfp2r,
-rdy => sqrtfp2rdy
+ce_1 => sqrtfp2ce,
+ce_2 => sqrtfp2ce,
+ce_3 => sqrtfp2ce,
+ce_4 => sqrtfp2ce,
+ce_5 => sqrtfp2ce,
+ce_6 => sqrtfp2ce,
+R => sqrtfp2r
 );
 
 end architecture testbench;

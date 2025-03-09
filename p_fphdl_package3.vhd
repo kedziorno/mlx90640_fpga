@@ -8,9 +8,9 @@ use ieee_proposed.standard_additions.all;
 use ieee_proposed.std_logic_1164_additions.all;
 
 package p_fphdl_package3 is
---synthesis translate_off
 	function ap_slv2fp (sl:std_logic_vector) return real;
 	function ap_slv2int (sl:std_logic_vector) return integer;
+--synthesis translate_off
 	function to_string_1 ( s : std_logic_vector ) return string;
 	procedure report_error (constant str : string; sl : std_logic_vector; constant ec : real);
 --synthesis translate_on
@@ -39,6 +39,7 @@ package body p_fphdl_package3 is
 		report str & " : " & actuals & " = " & expecteds & " " & to_hex_string ((sl)) & " " & to_hex_string ((b)) & " " & to_string_1 (sl) & " " & to_string_1 (to_slv (b)) severity note;
 		return;
 	end procedure report_error;
+--synthesis translate_on
 
 	-- https://opencores.org/websvn/filedetails?repname=raytrac&path=%2Fraytrac%2Fbranches%2Ffp%2Farithpack.vhd&rev=163
 	function ap_slv2int (sl:std_logic_vector) return integer is
@@ -85,5 +86,4 @@ package body p_fphdl_package3 is
 		end loop ;
 		return r ;
 	end function ;
---synthesis translate_on
 end p_fphdl_package3;
