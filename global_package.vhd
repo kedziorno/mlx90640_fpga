@@ -44,10 +44,10 @@
 --
 -------------------------------------------------------------------------------
 
---synthesis translate_off
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.numeric_std.all;
+--synthesis translate_off
 USE IEEE.math_real.all;
 --synthesis translate_on
 
@@ -92,7 +92,6 @@ package global_package is
   constant C_2POW13 : std_logic_vector (31 downto 0) := x"46000000"; -- 2^13
   constant C_TA0 : std_logic_vector (31 downto 0) := x"41C80000"; -- Temperature ambient ~25st C
 
-
   --constant C_TB_DATA_FILE : string := "tb_data";
   --file fptr : text;
   constant GLOBAL_BOARD_FREQUENCY : natural := 100_000_000;
@@ -108,12 +107,12 @@ package global_package is
   constant I2C_BITS_LENGTH : natural := 9;
   constant C_DATA_SIZE : integer := 3340; -- number bytes from i2c
 
+--synthesis translate_off
   -- XXX https://comp.lang.vhdl.narkive.com/B8UInWjr/convert-boolean-to-std-logic
   function To_Std_Logic (L : BOOLEAN)   return std_ulogic;
   function To_Std_Logic (L : character) return boolean;
   function int2hex      (L : character) return natural;
 
---synthesis translate_off
 	-- https://opencores.org/websvn/filedetails?repname=raytrac&path=%2Fraytrac%2Fbranches%2Ffp%2Farithpack.vhd&rev=163
 	function ap_slv2fp (sl:std_logic_vector) return real;
 	-- https://opencores.org/websvn/filedetails?repname=raytrac&path=%2Fraytrac%2Fbranches%2Ffp%2Farithpack.vhd&rev=163
@@ -124,13 +123,13 @@ package global_package is
   procedure warning_neq_fp (a : in std_logic_vector (31 downto 0); b : in real; info : in string := ""; use_epsilon : boolean := false);
   procedure warning_neq_fp (a, b : in std_logic_vector (31 downto 0); info : in string := ""; use_epsilon : boolean := false);
   procedure assertEpsilon (x, y : in real; epsilon : in real := 1.0E-5; message : in string := "");
---synthesis translate_on
 
   procedure wait_idle(signal idle : out std_logic;constant n : natural;constant clock_period : in time);
   procedure sda_start(signal sda_data : out std_logic;constant clock_period : in time);
   procedure sda_stop(signal sda_data : out std_logic;constant clock_period : in time);
   procedure sda_address_7bit(signal sda_data : out std_logic;constant address : in std_logic_vector(I2C_ADDRESS_BITS - 1 downto 0);constant address_rw : in boolean;conclock_period : in time);
   procedure sda_data_8bit(signal sda_data : out std_logic;constant data : in std_logic_vector(I2C_DATA_BITS - 1 downto 0);constant data_ack : in boolean;constant clock_period : in time);
+--synthesis translate_on
 
 end package global_package;
 
@@ -244,6 +243,7 @@ package body global_package is
   end procedure;
 --synthesis translate_on
 
+--synthesis translate_off
 procedure wait_idle(
 	signal idle : out std_logic;
 	constant n : natural;
@@ -339,6 +339,7 @@ begin
 	end if;
 	return 0;
 end function int2hex;
+--synthesis translate_on
 
 end package body global_package;
 
