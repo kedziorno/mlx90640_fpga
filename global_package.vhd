@@ -13,7 +13,7 @@ use ieee_proposed.standard_additions.all;
 use ieee_proposed.std_logic_1164_additions.all;
 --synthesis translate_on
 
-package p_global_constants is
+package global_package is
 
   -- Color map - XXX TODO make more universal (MSB bit as sign)
   constant C_COLOR_MAP_RANGE_MIN_SIGNED : integer := -256;
@@ -26,6 +26,14 @@ package p_global_constants is
   type t_color_map_rom_type_unsigned is array (C_COLOR_MAP_RANGE_MIN_UNSIGNED to C_COLOR_MAP_RANGE_MAX_UNSIGNED-1) of color_bits;
 
   subtype constant_float is std_logic_vector (31 downto 0); -- Floating Point 32
+  
+  -- calculate_vdd
+  constant c_3dot3_ft : std_logic_vector (31 downto 0) := x"40533333";
+	constant c_2pow5_ft : std_logic_vector (31 downto 0) := x"42000000";
+	constant c_2pow13_ft : std_logic_vector (31 downto 0) := x"46000000";
+	constant c_256_ft : std_logic_vector (31 downto 0) := x"43800000";
+	constant resreg : std_logic_vector (15 downto 0) := x"1901" and x"0c00";
+
   -- CalcualteAcc
 	constant const2 : std_logic_vector (31 downto 0) := x"40000000";
 	constant SCALEALPHA : std_logic_vector (31 downto 0) := x"358637BD"; -- 0.000001
@@ -39,8 +47,8 @@ package p_global_constants is
   constant C_TA0 : std_logic_vector (31 downto 0) := x"41C80000"; -- Temperature ambient ~25st C
 
 
-  constant C_TB_DATA_FILE : string := "tb_data";
-  file fptr : text;
+  --constant C_TB_DATA_FILE : string := "tb_data";
+  --file fptr : text;
   constant GLOBAL_BOARD_FREQUENCY : natural := 100_000_000;
   constant GLOBAL_I2C_FREQUENCY : natural := 400_000;
   constant I2C_STRETCH : natural := GLOBAL_BOARD_FREQUENCY/GLOBAL_I2C_FREQUENCY;
@@ -78,9 +86,9 @@ package p_global_constants is
   procedure sda_address_7bit(signal sda_data : out std_logic;constant address : in std_logic_vector(I2C_ADDRESS_BITS - 1 downto 0);constant address_rw : in boolean;conclock_period : in time);
   procedure sda_data_8bit(signal sda_data : out std_logic;constant data : in std_logic_vector(I2C_DATA_BITS - 1 downto 0);constant data_ack : in boolean;constant clock_period : in time);
 
-end p_global_constants;
+end package global_package;
 
-package body p_global_constants is
+package body global_package is
 
 --synthesis translate_off
 	procedure report_error (constant str : string; sl : std_logic_vector; constant ec : real) is
@@ -286,4 +294,5 @@ begin
 	return 0;
 end function int2hex;
 
-end p_global_constants;
+end package body global_package;
+

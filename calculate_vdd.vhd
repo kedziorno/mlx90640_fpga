@@ -1,50 +1,72 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    14:29:35 02/02/2023 
--- Design Name: 
--- Module Name:    calculateVdd - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   14:29:35 02/02/2023
+-- Design Name:   mlx90640_fpga
+-- Module Name:   calculate_vdd
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   - 11.1.1. Restoring the VDD sensor parameters (p. 22)
+--                - 11.2.2.2. Supply voltage value calculation (p. 36)
+--                - 11.2.2.5.3. IR data compensation offset, VDD and Ta (p. 39)
+--                (Rest is in commented code)
 --
--- Dependencies: 
+-- Dependencies:
+--  - Files:
+--    global_package.vhd
+--  - Modules: -
 --
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules: -
+--    - Processes (Architecture: rtl):
+--      p0
 --
-----------------------------------------------------------------------------------
+-- Imporant objects:
+--  - Entity signals:
+--    - i2c_mem_* - memory with raw data
+--    - fixed2float* - conversion
+--    - divfp, mulfp, addfp, subfp - FP cores
+--    - o_vdd - main value
+--    - o_rdy - end of calculations
+--
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones: -
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
+
 library ieee;
---library ieee;
 use ieee.std_logic_1164.all;
---use ieee_proposed.fixed_pkg.all;
-
-use work.p_fphdl_package3.all;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+use work.global_package.all;
 
-entity CalculateVdd is
+entity calculate_vdd is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
+o_Vdd : out std_logic_vector (31 downto 0);
+o_rdy : out std_logic;
 
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-
-o_Vdd : out std_logic_vector (31 downto 0); -- output Vdd
-o_rdy : out std_logic;
 
 fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
@@ -85,9 +107,9 @@ subfpsclr : out STD_LOGIC;
 subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 subfprdy : in STD_LOGIC
 );
-end CalculateVdd;
+end entity calculate_vdd;
 
-architecture Behavioral of CalculateVdd is
+architecture rtl of calculate_vdd is
 
 signal out_resolutionee,out_resolutionreg : std_logic_vector (31 downto 0);
 signal resolutionee,resolutionreg : std_logic_vector (1 downto 0);
@@ -108,12 +130,7 @@ p0 : process (i_clock) is
   s11,s12,s13,s14,s14a,s15,s16,s16a,s17,s18,s19,
   s20,s21,s22,s23);
   variable state : states;
-	constant const3dot3_ft : std_logic_vector (31 downto 0) := x"40533333";
-	constant const2pow5_ft : std_logic_vector (31 downto 0) := x"42000000";
-	constant const2pow13_ft : std_logic_vector (31 downto 0) := x"46000000";
-	constant const256_ft : std_logic_vector (31 downto 0) := x"43800000";
-	variable ram : std_logic_vector (7 downto 0); -- XXX ram072a
-	constant resreg : std_logic_vector (15 downto 0) := x"1901" and x"0c00";
+  variable ram : std_logic_vector (7 downto 0); -- XXX ram072a
 begin
 	if (rising_edge (i_clock)) then
 	if (i_reset = '1') then
@@ -220,7 +237,7 @@ begin
     fixed2floatsclr <= '0';
     subfpce <= '1';
 		subfpa <= fixed2floatr; -- vdd25
-		subfpb <= const256_ft;
+		subfpb <= c_256_ft;
 		subfpond <= '1';
 		if (subfprdy = '1') then state := s16a;
 			subfpce <= '0';
@@ -231,7 +248,7 @@ begin
 		subfpsclr <= '0';
     mulfpce <= '1';
 		mulfpa <= subfpr; -- vdd25-256
-		mulfpb <= const2pow5_ft;
+		mulfpb <= c_2pow5_ft;
 		mulfpond <= '1';
 		if (mulfprdy = '1') then state := s17;
 			mulfpce <= '0';
@@ -242,7 +259,7 @@ begin
 		mulfpsclr <= '0';
     subfpce <= '1';
 		subfpa <= mulfpr;
-		subfpb <= const2pow13_ft;
+		subfpb <= c_2pow13_ft;
 		subfpond <= '1';
 		if (subfprdy = '1') then state := s18; -- vdd25
 			subfpce <= '0';
@@ -281,7 +298,7 @@ begin
     fixed2floatsclr <= '0';
     mulfpce <= '1';
 		mulfpa <= fixed2floatr; -- kvdd
-		mulfpb <= const2pow5_ft;
+		mulfpb <= c_2pow5_ft;
 		mulfpond <= '1';
 		if (mulfprdy = '1') then state := s22;
 			mulfpce <= '0';
@@ -303,7 +320,7 @@ begin
 		divfpsclr <= '0';
 		addfpce <= '1';
 		addfpa <= divfpr;
-		addfpb <= const3dot3_ft;
+		addfpb <= c_3dot3_ft;
 		addfpond <= '1';
 		if (addfprdy = '1') then state := idle;
       o_rdy <= '1';
@@ -329,4 +346,5 @@ with resolutionreg select out_resolutionreg <=
 x"3f800000" when "00", x"40000000" when "01", x"40800000" when "10", x"41000000" when "11",
 x"00000000" when others;
 
-end architecture Behavioral;
+end architecture rtl;
+
