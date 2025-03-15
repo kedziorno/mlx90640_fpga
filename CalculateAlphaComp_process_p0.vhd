@@ -29,7 +29,7 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-use work.p_fphdl_package3.all;
+use work.p_global_constants.all;
 
 entity CalculateAlphaComp_process_p0 is
 port (
@@ -147,8 +147,6 @@ subfpr_internal <= subfpr;
 subfprdy_internal <= subfprdy;
 
 p0 : process (i_clock) is
-	constant C_ROW : integer := 24;
-	constant C_COL : integer := 32;
 	variable i : integer range 0 to C_ROW*C_COL-1;
 	type states is (idle,
 	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,

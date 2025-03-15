@@ -1,0 +1,21 @@
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- "Good practices":
+--  - "top" as name of root module
+--  - (...) it is good to complement it (if empty, put '-' char after colon)
+--  - use internal signals for input/output entity (for better ILA debug)
+--  - When commented code:
+--    - "--string"     - code comment
+--    - "-- string"    - normal comment
+--    - "^--.*string"  - temporary comment
+--  - All names as lower case (portable between OS'es), snakecase version
+--  - Architecture name definitions:
+--    - tb - testbench only for test
+--    - behavioral - behavioral style of code, non-synthesizable
+--    - rtl - Synthesizable code
+--    - structural - for connect between modules, mostly in top
+--
+-------------------------------------------------------------------------------
+

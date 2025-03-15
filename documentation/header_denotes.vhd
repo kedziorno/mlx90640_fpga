@@ -1,0 +1,25 @@
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Denotes used in all code (only first/last prefix/suffix):
+--  - c_   - constant
+--  - g_   - generate
+--  - i_   - entity input signal
+--  - o_   - entity output signal
+--  - io_  - entity inout signal
+--  - p_   - processe
+--  - v_   - variable
+--  - lX_  - loop number X
+--  - _i   - internal signal
+--  - _iX  - instance number X
+--  - _m   - memory
+--  - _p   - package
+--  - _q   - register
+--  - _sr  - shift register
+--  - _t   - type
+--  - _dut - Device Under Test
+--  - _uut - Unit Under Test
+--
+-------------------------------------------------------------------------------
+
