@@ -1,45 +1,58 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    16:28:55 02/18/2023 
--- Design Name: 
--- Module Name:    CalculateAlphaComp - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   16:28:55 02/18/2023
+-- Design Name:   mlx90640_fpga
+-- Module Name:   calculate_alpha_compensation
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   (...)
+--                (Rest is in commented code)
 --
--- Dependencies: 
+-- Dependencies:
+--  - Files:
+--    global_package.vhd
+--  - Modules: -
 --
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules: -
+--    - Processes (Architecture: rtl):
+--      p0
 --
-----------------------------------------------------------------------------------
+-- Imporant objects: -
+--
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones: -
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
-
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
 
 use work.p_fphdl_package3.all;
 
-entity CalculateAlphaComp is
+entity calculate_alpha_compensation is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 i_Ta : in std_logic_vector (31 downto 0);
 i_acpsubpage0 : in std_logic_vector (31 downto 0);
@@ -53,6 +66,10 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
+
+signal i2c_mem_ena : out STD_LOGIC;
+signal i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -92,11 +109,10 @@ signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatce : out STD_LOGIC;
 signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal fixed2floatrdy : in STD_LOGIC
-
 );
-end CalculateAlphaComp;
+end entity calculate_alpha_compensation;
 
-architecture Behavioral of CalculateAlphaComp is
+architecture rtl of calculate_alpha_compensation is
 
 signal mulfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -307,35 +323,12 @@ i_reset : IN  std_logic;
 i_pixel : IN  std_logic_vector(9 downto 0);
 o_pattern : OUT  std_logic
 );
-END COMPONENT;
+END COMPONENT mem_sw;
 
 signal mem_switchpattern_clock : std_logic;
 signal mem_switchpattern_reset : std_logic;
 signal mem_switchpattern_pixel : std_logic_vector(9 downto 0);
 signal mem_switchpattern_pattern : std_logic;
-
---COMPONENT ExtractKsTaParameters
---PORT(
---i_clock : in std_logic;
---i_reset : in std_logic;
---i_run : in std_logic;
---i2c_mem_ena : out STD_LOGIC;
---i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
---i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
---o_ksta : out std_logic_vector (31 downto 0);
---o_rdy : out std_logic
---);
---END COMPONENT;
---signal ExtractKsTaParameters_clock : std_logic;
---signal ExtractKsTaParameters_reset : std_logic;
---signal ExtractKsTaParameters_run : std_logic;
---signal ExtractKsTaParameters_i2c_mem_ena : STD_LOGIC;
---signal ExtractKsTaParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
---signal ExtractKsTaParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
---signal ExtractKsTaParameters_ksta : std_logic_vector (31 downto 0);
---signal ExtractKsTaParameters_rdy : std_logic;
-
---signal ExtractTGCParameters_mux,ExtractKsTaParameters_mux : std_logic;
 
 signal addra,mux_addr : std_logic_vector (9 downto 0);
 signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
@@ -387,21 +380,12 @@ fixed2floatrdy_internal <= fixed2floatrdy;
 
 o_rdy <= rdy;
 
---i2c_mem_ena <= ExtractKsTaParameters_i2c_mem_ena when ExtractKsTaParameters_mux = '1'
---else '0';
-
---i2c_mem_addra <= ExtractKsTaParameters_i2c_mem_addra when ExtractKsTaParameters_mux = '1'
---else (others => '0');
-
---ExtractKsTaParameters_i2c_mem_douta <= i2c_mem_douta when ExtractKsTaParameters_mux = '1' else (others => '0');
-
-o_rdy <= rdy;
 o_do <= doa when rdy = '1' else (others => '0');
 mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0');
 mux_dia <= dia when rdy = '0' else (others => '0');
 
 p0 : process (i_clock) is
-	variable i : integer range 0 to C_ROW*C_COL-1;
+	variable i : integer range 0 to C_MATRIX_PIXELS-1;
 	type states is (idle,s0,s1,s2,s3,
 	s7,s8,s10,
 	s15,s16,s17,s19,
@@ -638,19 +622,6 @@ begin
 	end if;
 end process p0;
 
---ExtractKsTaParameters_clock <= i_clock;
---ExtractKsTaParameters_reset <= i_reset;
---inst_ExtractKsTaParameters : ExtractKsTaParameters PORT MAP (
---i_clock => ExtractKsTaParameters_clock,
---i_reset => ExtractKsTaParameters_reset,
---i_run => ExtractKsTaParameters_run,
---i2c_mem_ena => ExtractKsTaParameters_i2c_mem_ena,
---i2c_mem_addra => ExtractKsTaParameters_i2c_mem_addra,
---i2c_mem_douta => ExtractKsTaParameters_i2c_mem_douta,
---o_ksta => ExtractKsTaParameters_ksta,
---o_rdy => ExtractKsTaParameters_rdy
---);
-
 mem_switchpattern_clock <= i_clock;
 mem_switchpattern_reset <= i_reset;
 inst_mem_switchpattern : mem_switchpattern PORT MAP (
@@ -684,4 +655,5 @@ SSR => i_reset,
 WE => write_enable
 );
 
-end architecture Behavioral;
+end architecture rtl;
+

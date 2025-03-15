@@ -1,52 +1,81 @@
---------------------------------------------------------------------------------
--- Company: 
--- Engineer:
---
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
 -- Create Date:   16:13:29 01/19/2023
--- Design Name:   
--- Module Name:   /home/user/workspace/melexis_mlx90641/tb_mem_switchpattern.vhd
--- Project Name:  melexis_mlx90641
--- Target Device:  
--- Tool versions:  
--- Description:   
--- 
--- VHDL Test Bench Created by ISE for module: mem_switchpattern
--- 
--- Dependencies:
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
+-- Design Name:   mlx90640_fpga
+-- Module Name:   tb_mem_switchpattern
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   Testbench
+--                (Rest is in commented code)
 --
--- Notes: 
--- This testbench has been automatically generated using types std_logic and
--- std_logic_vector for the ports of the unit under test.  Xilinx recommends
--- that these types always be used for the top-level I/O of a design in order
--- to guarantee that the testbench will bind correctly to the post-implementation 
--- simulation model.
---------------------------------------------------------------------------------
+-- Dependencies:
+--  - Files:
+--    (...)
+--  - Modules:
+--    (...)
+--
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files:
+--      (...)
+--    - Modules:
+--      (...)
+--    - Processes (Architecture: (...)):
+--      (...)
+--
+-- Imporant objects:
+--  - (...)
+--
+-- Information from the software vendor:
+--  - Messeges:
+--    (...)
+--  - Bugs:
+--    (...)
+--  - Notices:
+--    (...)
+--  - Infos:
+--    (...)
+--  - Notes:
+--    (...)
+--  - Criticals/Failures:
+--    (...)
+--
+-- Concepts/Milestones:
+-- (...)
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
+
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 USE ieee.numeric_std.ALL;
+
+use work.global_package.all;
 
 ENTITY tb_mem_switchpattern IS
 END tb_mem_switchpattern;
 
-ARCHITECTURE behavior OF tb_mem_switchpattern IS
-
--- Component Declaration for the Unit Under Test (UUT)
+ARCHITECTURE tb OF tb_mem_switchpattern IS
 
 COMPONENT mem_switchpattern
+GENERIC (
+constant c_mem_type : integer := c_type_lut
+);
 PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
 i_pixel : IN  std_logic_vector(9 downto 0);
 o_pattern : OUT  std_logic
 );
-END COMPONENT;
+END COMPONENT mem_switchpattern;
 
 --Inputs
 signal i_clock : std_logic := '0';
@@ -62,7 +91,7 @@ constant i_clock_period : time := 10 ns;
 BEGIN
 
 -- Instantiate the Unit Under Test (UUT)
-uut: mem_switchpattern PORT MAP (
+mem_switchpattern_uut : mem_switchpattern PORT MAP (
 i_clock => i_clock,
 i_reset => i_reset,
 i_pixel => i_pixel,
@@ -70,16 +99,16 @@ o_pattern => o_pattern
 );
 
 -- Clock process definitions
-i_clock_process :process
+p_clock_process : process
 begin
 i_clock <= '0';
 wait for i_clock_period/2;
 i_clock <= '1';
 wait for i_clock_period/2;
-end process;
+end process p_clock_process;
 
 -- Stimulus process
-stim_proc: process
+p_tb : process
 begin
 -- hold reset state for 100 ns.
 i_reset <= '1';
@@ -107,6 +136,7 @@ i_pixel <= std_logic_vector (to_unsigned (768, 10)); wait for i_clock_period*10;
 --	i_pixel <= std_logic_vector (to_unsigned (i, 10)); wait for i_clock_period*10;
 --end loop;
 report "done tb" severity failure;
-end process;
+end process p_tb;
 
-END;
+end architecture tb;
+

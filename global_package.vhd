@@ -72,7 +72,12 @@ package global_package is
   type t_color_map_rom_type_unsigned is array (C_COLOR_MAP_RANGE_MIN_UNSIGNED to C_COLOR_MAP_RANGE_MAX_UNSIGNED-1) of color_bits;
 
   subtype constant_float is std_logic_vector (31 downto 0); -- Floating Point 32
-  
+
+  -- mem_switchpattern
+  constant c_type_lut : integer := 0;
+  constant c_type_rom1 : integer := 1;
+  constant c_type_rom2 : integer := 2;
+
   -- calculate_vdd
   constant c_3dot3_ft : std_logic_vector (31 downto 0) := x"40533333";
 	constant c_2pow5_ft : std_logic_vector (31 downto 0) := x"42000000";
