@@ -10,6 +10,7 @@
 -- Tool versions: Xilinx ISE 14.7, XST and ISIM
 -- Description:   Combinatorial module used for get chess/interlaved pattern
 --                  (p. 15, Figure 8-9)
+--                Used chess pattern mode.
 --                10.6. Reading patterns (p. 14)
 --                10.7.2. RAM (p. 18)
 --                11.1.3.1. Restoring the offset in case of Interleaved reading pattern (p. 23)
@@ -323,7 +324,7 @@ WE => '0' -- Write Enable Input
 );
 end generate g_mem_switchpattern_mem1;
 
-g_mem_switchpattern_mem2 : if (c_mem_type = c_type_rom2) generate
+g_mem_switchpattern_mem2 : if (c_mem_type = c_type_rom2) generate -- XXX xc4vsx35
 
 p0 : process (i_pixel) is
 begin

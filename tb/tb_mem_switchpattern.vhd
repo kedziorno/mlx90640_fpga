@@ -9,6 +9,7 @@
 -- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
 -- Tool versions: Xilinx ISE 14.7, XST and ISIM
 -- Description:   Testbench
+--                Test chess pattern mode
 --                (Rest is in commented code)
 --
 -- Dependencies:
@@ -67,7 +68,7 @@ ARCHITECTURE tb OF tb_mem_switchpattern IS
 
 COMPONENT mem_switchpattern
 GENERIC (
-constant c_mem_type : integer := c_type_lut
+constant c_mem_type : integer := c_type_rom2
 );
 PORT(
 i_clock : IN  std_logic;
@@ -114,24 +115,30 @@ begin
 i_reset <= '1';
 wait for 100 ns;
 i_reset <= '0';
-wait for i_clock_period*10;
+--wait for i_clock_period*10;
 -- insert stimulus here
-i_pixel <= std_logic_vector (to_unsigned (367, 10)); wait for i_clock_period*10;
-i_pixel <= std_logic_vector (to_unsigned (368, 10)); wait for i_clock_period*10;
-i_pixel <= std_logic_vector (to_unsigned (369, 10)); wait for i_clock_period*10;
-i_pixel <= std_logic_vector (to_unsigned (370, 10)); wait for i_clock_period*10;
-i_pixel <= std_logic_vector (to_unsigned (1, 10)); wait for i_clock_period*10;
-i_pixel <= std_logic_vector (to_unsigned (2, 10)); wait for i_clock_period*10;
-i_pixel <= std_logic_vector (to_unsigned (3, 10)); wait for i_clock_period*10;
-i_pixel <= std_logic_vector (to_unsigned (4, 10)); wait for i_clock_period*10;
-i_pixel <= std_logic_vector (to_unsigned (5, 10)); wait for i_clock_period*10;
-i_pixel <= std_logic_vector (to_unsigned (6, 10)); wait for i_clock_period*10;
-i_pixel <= std_logic_vector (to_unsigned (7, 10)); wait for i_clock_period*10;
-i_pixel <= std_logic_vector (to_unsigned (8, 10)); wait for i_clock_period*10;
-i_pixel <= std_logic_vector (to_unsigned (1, 10)); wait for i_clock_period*10;
-i_pixel <= std_logic_vector (to_unsigned (2, 10)); wait for i_clock_period*10;
-i_pixel <= std_logic_vector (to_unsigned (767, 10)); wait for i_clock_period*10;
-i_pixel <= std_logic_vector (to_unsigned (768, 10)); wait for i_clock_period*10;
+-- XXX chess pattern, todo heck this test for all mem types
+-- OK
+i_pixel <= std_logic_vector (to_unsigned (367, 10)); wait for i_clock_period*10; assert o_pattern /= '1' report "fail 367" severity note;
+i_pixel <= std_logic_vector (to_unsigned (368, 10)); wait for i_clock_period*10; assert o_pattern /= '0' report "fail 368" severity note;
+i_pixel <= std_logic_vector (to_unsigned (369, 10)); wait for i_clock_period*10; assert o_pattern /= '1' report "fail 369" severity note;
+i_pixel <= std_logic_vector (to_unsigned (370, 10)); wait for i_clock_period*10; assert o_pattern /= '0' report "fail 370" severity note;
+i_pixel <= std_logic_vector (to_unsigned (1, 10)); wait for i_clock_period*10; assert o_pattern /= '0' report "fail 1" severity note;
+i_pixel <= std_logic_vector (to_unsigned (2, 10)); wait for i_clock_period*10; assert o_pattern /= '1' report "fail 2" severity note;
+i_pixel <= std_logic_vector (to_unsigned (3, 10)); wait for i_clock_period*10; assert o_pattern /= '0' report "fail 3" severity note;
+i_pixel <= std_logic_vector (to_unsigned (4, 10)); wait for i_clock_period*10; assert o_pattern /= '1' report "fail 4" severity note;
+i_pixel <= std_logic_vector (to_unsigned (5, 10)); wait for i_clock_period*10; assert o_pattern /= '0' report "fail 5" severity note;
+i_pixel <= std_logic_vector (to_unsigned (6, 10)); wait for i_clock_period*10; assert o_pattern /= '1' report "fail 6" severity note;
+i_pixel <= std_logic_vector (to_unsigned (7, 10)); wait for i_clock_period*10; assert o_pattern /= '0' report "fail 7" severity note;
+i_pixel <= std_logic_vector (to_unsigned (8, 10)); wait for i_clock_period*10; assert o_pattern /= '1' report "fail 8" severity note;
+i_pixel <= std_logic_vector (to_unsigned (1, 10)); wait for i_clock_period*10; assert o_pattern /= '0' report "fail 1" severity note;
+i_pixel <= std_logic_vector (to_unsigned (2, 10)); wait for i_clock_period*10; assert o_pattern /= '1' report "fail 2" severity note;
+i_pixel <= std_logic_vector (to_unsigned (767, 10)); wait for i_clock_period*10; assert o_pattern /= '1' report "fail 767" severity note;
+i_pixel <= std_logic_vector (to_unsigned (768, 10)); wait for i_clock_period*10; assert o_pattern /= '0' report "fail 768" severity note;
+-- FAIL
+i_pixel <= std_logic_vector (to_unsigned (449, 10)); wait for i_clock_period*10; assert o_pattern /= '1' report "fail 449" severity note;
+i_pixel <= std_logic_vector (to_unsigned (450, 10)); wait for i_clock_period*10; assert o_pattern /= '0' report "fail 450" severity note;
+i_pixel <= std_logic_vector (to_unsigned (451, 10)); wait for i_clock_period*10; assert o_pattern /= '1' report "fail 451" severity note;
 --for i in 1 to 1024 loop
 --	i_pixel <= std_logic_vector (to_unsigned (i, 10)); wait for i_clock_period*10;
 --end loop;
