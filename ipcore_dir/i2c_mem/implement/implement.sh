@@ -30,7 +30,11 @@ cp ../example_design/i2c_mem_exdes.ucf results/
 cd results
 
 echo 'Running ngdbuild'
+<<<<<<< HEAD
 ngdbuild -p xc4vsx25-ff668-10 i2c_mem_exdes
+=======
+ngdbuild -p xc3s1200e-fg320-4 i2c_mem_exdes
+>>>>>>> merge_1
 
 echo 'Running map'
 map i2c_mem_exdes -o mapped.ncd -pr i

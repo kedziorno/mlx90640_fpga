@@ -111,7 +111,11 @@ END COMPONENT;
       c_result_width => 32,
       c_speed => 2,
       c_status_early => 0,
+<<<<<<< HEAD
       c_xdevicefamily => "virtex4"
+=======
+      c_xdevicefamily => "spartan3e"
+>>>>>>> merge_1
     );
 -- synthesis translate_on
 BEGIN

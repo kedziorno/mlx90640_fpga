@@ -109,13 +109,21 @@ COMPONENT dualmem_exdes
     ENA            : IN STD_LOGIC;  --opt port
     WEA            : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     ADDRA          : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+<<<<<<< HEAD
     DINA           : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+=======
+    DINA           : IN STD_LOGIC_VECTOR(8 DOWNTO 0);
+>>>>>>> merge_1
     CLKA       : IN STD_LOGIC;
 
       --Inputs - Port B
     ENB            : IN STD_LOGIC;  --opt port
     ADDRB          : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+<<<<<<< HEAD
     DOUTB          : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+=======
+    DOUTB          : OUT STD_LOGIC_VECTOR(8 DOWNTO 0);
+>>>>>>> merge_1
     CLKB           : IN STD_LOGIC
 
   );
@@ -131,15 +139,24 @@ END COMPONENT;
   SIGNAL WEA_R: STD_LOGIC_VECTOR(0 DOWNTO 0) := (OTHERS => '0');
   SIGNAL ADDRA: STD_LOGIC_VECTOR(9 DOWNTO 0) := (OTHERS => '0');
   SIGNAL ADDRA_R: STD_LOGIC_VECTOR(9 DOWNTO 0) := (OTHERS => '0');
+<<<<<<< HEAD
   SIGNAL DINA: STD_LOGIC_VECTOR(31 DOWNTO 0) := (OTHERS => '0');
   SIGNAL DINA_R: STD_LOGIC_VECTOR(31 DOWNTO 0) := (OTHERS => '0');
+=======
+  SIGNAL DINA: STD_LOGIC_VECTOR(8 DOWNTO 0) := (OTHERS => '0');
+  SIGNAL DINA_R: STD_LOGIC_VECTOR(8 DOWNTO 0) := (OTHERS => '0');
+>>>>>>> merge_1
   SIGNAL CLKB: STD_LOGIC := '0';
   SIGNAL RSTB: STD_LOGIC := '0';
   SIGNAL ENB: STD_LOGIC := '0';
   SIGNAL ENB_R: STD_LOGIC := '0';
   SIGNAL ADDRB: STD_LOGIC_VECTOR(9 DOWNTO 0) := (OTHERS => '0');
   SIGNAL ADDRB_R: STD_LOGIC_VECTOR(9 DOWNTO 0) := (OTHERS => '0');
+<<<<<<< HEAD
   SIGNAL DOUTB: STD_LOGIC_VECTOR(31 DOWNTO 0);
+=======
+  SIGNAL DOUTB: STD_LOGIC_VECTOR(8 DOWNTO 0);
+>>>>>>> merge_1
   SIGNAL CHECKER_EN : STD_LOGIC:='0';
   SIGNAL CHECKER_EN_R : STD_LOGIC:='0';
   SIGNAL STIMULUS_FLOW : STD_LOGIC_VECTOR(22 DOWNTO 0) := (OTHERS =>'0');
@@ -218,8 +235,13 @@ STATUS(7 DOWNTO 0) <= ISSUE_FLAG_STATUS;
 
    BMG_DATA_CHECKER_INST: ENTITY work.CHECKER
       GENERIC MAP ( 
+<<<<<<< HEAD
          WRITE_WIDTH => 32,
 		 READ_WIDTH  => 32      )
+=======
+         WRITE_WIDTH => 9,
+		 READ_WIDTH  => 9      )
+>>>>>>> merge_1
       PORT MAP (
          CLK      => clkb_in_i,
          RST      => RSTB, 

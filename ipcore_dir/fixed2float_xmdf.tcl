@@ -55,6 +55,13 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path fixed2float.
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type ngc
 incr fcount
 
+<<<<<<< HEAD
+=======
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path fixed2float.sym
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type symbol
+incr fcount
+
+>>>>>>> merge_1
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path fixed2float.vhd
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type vhdl
 incr fcount

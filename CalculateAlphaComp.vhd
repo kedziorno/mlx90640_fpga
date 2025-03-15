@@ -29,6 +29,8 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
+use work.p_fphdl_package3.all;
+
 entity CalculateAlphaComp is
 port (
 i_clock : in std_logic;
@@ -40,10 +42,9 @@ i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 i_Ta : in std_logic_vector (31 downto 0);
-i_Ta0 : in std_logic_vector (31 downto 0);
 i_acpsubpage0 : in std_logic_vector (31 downto 0);
 i_acpsubpage1 : in std_logic_vector (31 downto 0);
-i_const1 : in std_logic_vector (31 downto 0);
+i_tgc : in std_logic_vector (31 downto 0);
 
 i_alpha_do : in std_logic_vector (31 downto 0);
 o_alpha_addr : out std_logic_vector (9 downto 0); -- 10bit-1024
@@ -61,6 +62,14 @@ signal mulfpce : out STD_LOGIC;
 signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfprdy : in STD_LOGIC;
 
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC;
+
 signal addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfpond : out STD_LOGIC;
@@ -75,7 +84,14 @@ signal subfpond : out STD_LOGIC;
 signal subfpsclr : out STD_LOGIC;
 signal subfpce : out STD_LOGIC;
 signal subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal subfprdy : in STD_LOGIC
+signal subfprdy : in STD_LOGIC;
+
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC
 
 );
 end CalculateAlphaComp;
@@ -98,6 +114,14 @@ signal addfpce_internal : STD_LOGIC;
 signal addfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfprdy_internal : STD_LOGIC;
 
+signal divfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond_internal : STD_LOGIC;
+signal divfpsclr_internal : STD_LOGIC;
+signal divfpce_internal : STD_LOGIC;
+signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy_internal : STD_LOGIC;
+
 signal subfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfpond_internal : STD_LOGIC;
@@ -105,6 +129,13 @@ signal subfpsclr_internal : STD_LOGIC;
 signal subfpce_internal : STD_LOGIC;
 signal subfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfprdy_internal : STD_LOGIC;
+
+signal fixed2floata_internal : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal fixed2floatond_internal : STD_LOGIC;
+signal fixed2floatsclr_internal : STD_LOGIC;
+signal fixed2floatce_internal : STD_LOGIC;
+signal fixed2floatr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy_internal : STD_LOGIC;
 
 component mem_ramb16_s36_x2 is
 generic (
@@ -273,61 +304,38 @@ COMPONENT mem_switchpattern
 PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
-i_pixel : IN  std_logic_vector(13 downto 0);
+i_pixel : IN  std_logic_vector(9 downto 0);
 o_pattern : OUT  std_logic
 );
 END COMPONENT;
 
 signal mem_switchpattern_clock : std_logic;
 signal mem_switchpattern_reset : std_logic;
-signal mem_switchpattern_pixel : std_logic_vector(13 downto 0);
+signal mem_switchpattern_pixel : std_logic_vector(9 downto 0);
 signal mem_switchpattern_pattern : std_logic;
 
-component ExtractTGCParameter is
-port (
-i_clock : in std_logic;
-i_reset : in std_logic;
-i_run : in std_logic;
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-o_tgc : out std_logic_vector (31 downto 0);
-o_rdy : out std_logic
-);
-end component ExtractTGCParameter;
+--COMPONENT ExtractKsTaParameters
+--PORT(
+--i_clock : in std_logic;
+--i_reset : in std_logic;
+--i_run : in std_logic;
+--i2c_mem_ena : out STD_LOGIC;
+--i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+--i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+--o_ksta : out std_logic_vector (31 downto 0);
+--o_rdy : out std_logic
+--);
+--END COMPONENT;
+--signal ExtractKsTaParameters_clock : std_logic;
+--signal ExtractKsTaParameters_reset : std_logic;
+--signal ExtractKsTaParameters_run : std_logic;
+--signal ExtractKsTaParameters_i2c_mem_ena : STD_LOGIC;
+--signal ExtractKsTaParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+--signal ExtractKsTaParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+--signal ExtractKsTaParameters_ksta : std_logic_vector (31 downto 0);
+--signal ExtractKsTaParameters_rdy : std_logic;
 
-signal ExtractTGCParameters_clock : std_logic;
-signal ExtractTGCParameters_reset : std_logic;
-signal ExtractTGCParameters_run : std_logic;
-signal ExtractTGCParameters_i2c_mem_ena : STD_LOGIC;
-signal ExtractTGCParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal ExtractTGCParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal ExtractTGCParameters_tgc : std_logic_vector (31 downto 0);
-signal ExtractTGCParameters_rdy : std_logic;
-
-COMPONENT ExtractKsTaParameters
-PORT(
-i_clock : in std_logic;
-i_reset : in std_logic;
-i_run : in std_logic;
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-o_ksta : out std_logic_vector (31 downto 0);
-o_rdy : out std_logic
-);
-END COMPONENT;
-
-signal ExtractKsTaParameters_clock : std_logic;
-signal ExtractKsTaParameters_reset : std_logic;
-signal ExtractKsTaParameters_run : std_logic;
-signal ExtractKsTaParameters_i2c_mem_ena : STD_LOGIC;
-signal ExtractKsTaParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal ExtractKsTaParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal ExtractKsTaParameters_ksta : std_logic_vector (31 downto 0);
-signal ExtractKsTaParameters_rdy : std_logic;
-
-signal ExtractTGCParameters_mux,ExtractKsTaParameters_mux : std_logic;
+--signal ExtractTGCParameters_mux,ExtractKsTaParameters_mux : std_logic;
 
 signal addra,mux_addr : std_logic_vector (9 downto 0);
 signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
@@ -346,6 +354,14 @@ mulfpce <= mulfpce_internal;
 mulfpr_internal <= mulfpr;
 mulfprdy_internal <= mulfprdy;
 
+divfpa <= divfpa_internal;
+divfpb <= divfpb_internal;
+divfpond <= divfpond_internal;
+divfpsclr <= divfpsclr_internal;
+divfpce <= divfpce_internal;
+divfpr_internal <= divfpr;
+divfprdy_internal <= divfprdy;
+
 addfpa <= addfpa_internal;
 addfpb <= addfpb_internal;
 addfpond <= addfpond_internal;
@@ -362,30 +378,22 @@ subfpce <= subfpce_internal;
 subfpr_internal <= subfpr;
 subfprdy_internal <= subfprdy;
 
+fixed2floata <= fixed2floata_internal;
+fixed2floatond <= fixed2floatond_internal;
+fixed2floatsclr <= fixed2floatsclr_internal;
+fixed2floatce <= fixed2floatce_internal;
+fixed2floatr_internal <= fixed2floatr;
+fixed2floatrdy_internal <= fixed2floatrdy;
+
 o_rdy <= rdy;
 
-i2c_mem_ena <=
-ExtractTGCParameters_i2c_mem_ena when ExtractTGCParameters_mux = '1'
-else
-ExtractKsTaParameters_i2c_mem_ena when ExtractKsTaParameters_mux = '1'
-else '0';
+--i2c_mem_ena <= ExtractKsTaParameters_i2c_mem_ena when ExtractKsTaParameters_mux = '1'
+--else '0';
 
-i2c_mem_addra <=
-ExtractTGCParameters_i2c_mem_addra when ExtractTGCParameters_mux = '1'
-else
-ExtractKsTaParameters_i2c_mem_addra when ExtractKsTaParameters_mux = '1'
-else (others => '0');
+--i2c_mem_addra <= ExtractKsTaParameters_i2c_mem_addra when ExtractKsTaParameters_mux = '1'
+--else (others => '0');
 
-ExtractTGCParameters_i2c_mem_douta <= i2c_mem_douta when ExtractTGCParameters_mux = '1' else (others => '0');
-ExtractKsTaParameters_i2c_mem_douta <= i2c_mem_douta when ExtractKsTaParameters_mux = '1' else (others => '0');
-
-with mem_switchpattern_pattern select pattern_ft <=
-x"3f800000" when '1',
-x"00000000" when others;
-
-with mem_switchpattern_pattern select pattern_neg_ft <=
-x"00000000" when '1',
-x"3f800000" when others;
+--ExtractKsTaParameters_i2c_mem_douta <= i2c_mem_douta when ExtractKsTaParameters_mux = '1' else (others => '0');
 
 o_rdy <= rdy;
 o_do <= doa when rdy = '1' else (others => '0');
@@ -393,17 +401,12 @@ mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0')
 mux_dia <= dia when rdy = '0' else (others => '0');
 
 p0 : process (i_clock) is
-	constant C_ROW : integer := 24;
-	constant C_COL : integer := 32;
 	variable i : integer range 0 to C_ROW*C_COL-1;
-	type states is (idle,
-	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,
-	s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,
-	s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,
-	s31,
-	ending);
+	type states is (idle,s0,s1,s2,s3,
+	s7,s8,s10,
+	s15,s16,s17,s19,
+	s22,s25,s25a,s26,s28,s31);
 	variable state : states;
-	variable fptmp1,fptmp2,fptmp3 : std_logic_vector (31 downto 0);
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -425,225 +428,228 @@ begin
 			addfpce_internal <= '0';
 			subfpce_internal <= '0';
 			write_enable <= '0';
+      i := 0;
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := s1;
+						state := s0;
+            --report "CalculateAlphaComp";
+            rdy <= '0';
 					else
 						state := idle;
+            i2c_mem_ena <= '0';
 					end if;
 					i := 0;
-					addfpsclr_internal <= '0';
-					subfpsclr_internal <= '0';
+          addfpsclr_internal <= '0';
+          subfpsclr_internal <= '0';
+          mulfpsclr_internal <= '0';
+          divfpsclr_internal <= '0';
+          fixed2floatsclr_internal <= '0';
+				when s0 => state := s1;
+          i2c_mem_ena <= '1';
+          i2c_mem_addra <= std_logic_vector (to_unsigned (60*2+0, 12)); -- 243c MSB kstaee 8bit
+        when s1 => state := s2;
+          addfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
-				when s1 => state := s2;
-					ExtractTGCParameters_run <= '1';
-					ExtractTGCParameters_mux <= '1';
-				when s2 => 
-					ExtractTGCParameters_run <= '0';
-					if (ExtractTGCParameters_rdy = '1') then
-						state := s3;
-						ExtractTGCParameters_mux <= '0';
-					else
-						state := s2;
-						ExtractTGCParameters_mux <= '1';
-					end if;
-				when s3 => state := s4;
-					ExtractKsTaParameters_run <= '1';
-					ExtractKsTaParameters_mux <= '1';
-				when s4 => 
-					ExtractKsTaParameters_run <= '0';
-					if (ExtractKsTaParameters_rdy = '1') then
-						state := s5;
-						ExtractKsTaParameters_mux <= '0';
-					else
-						state := s4;
-						ExtractKsTaParameters_mux <= '1';
-					end if;
-				when s5 => state := s6;
-					subfpce_internal <= '1';
-					subfpa_internal <= i_Ta;
-					subfpb_internal <= i_Ta0;
-					subfpond_internal <= '1';
-				when s6 =>
-					if (subfprdy_internal = '1') then state := s7;
-						fptmp1 := subfpr_internal;
-						subfpce_internal <= '0';
-						subfpond_internal <= '0';
-						subfpsclr_internal <= '1';
-					else state := s6; end if;
-				when s7 => state := s8;
+					divfpsclr_internal <= '0';
 					subfpsclr_internal <= '0';
-
-					mulfpce_internal <= '1';
-					mulfpa_internal <= fptmp1;
-					mulfpb_internal <= ExtractKsTaParameters_ksta;
-					mulfpond_internal <= '1';
+          fixed2floatsclr_internal <= '0';
+          mem_switchpattern_pixel <= std_logic_vector (to_unsigned (i, 10));
+          o_alpha_addr <= std_logic_vector (to_unsigned (i, 10));
+        when s2 =>
+          fixed2floatce_internal <= '1';
+          fixed2floatond_internal <= '1';
+          fixed2floata_internal <=
+          i2c_mem_douta (7) & i2c_mem_douta (7) & 
+          i2c_mem_douta (7) & i2c_mem_douta (7) & 
+          i2c_mem_douta (7) & i2c_mem_douta (7) & 
+          i2c_mem_douta (7) & i2c_mem_douta (7) & 
+          i2c_mem_douta (7 downto 0);
+          if (fixed2floatrdy_internal = '1') then state := s3;
+            fixed2floatce_internal <= '0';
+            fixed2floatond_internal <= '0';
+            fixed2floatsclr_internal <= '1';
+            --synthesis translate_off
+            --report_error("================ KsTa fi2fl", fixed2floatr_internal, 0.0);
+            --synthesis translate_on
+          else state := s2; end if;
+        when s3 =>
+          fixed2floatsclr_internal <= '0';
+          divfpce_internal <= '1';
+          divfpa_internal <= fixed2floatr_internal;
+          divfpb_internal <= const_2pow13;
+          divfpond_internal <= '1';
+          if (divfprdy_internal = '1') then state := s7;
+            --synthesis translate_off
+            --report_error("================ KsTa", divfpr_internal, 0.0);
+            --synthesis translate_on
+            divfpce_internal <= '0';
+            divfpond_internal <= '0';
+            divfpsclr_internal <= '1';
+          else state := s3; end if;
+        when s7 =>
+          divfpsclr_internal <= '0';
+          subfpce_internal <= '1';
+          subfpa_internal <= i_Ta;
+          subfpb_internal <= const_Ta0;
+          subfpond_internal <= '1';
+          if (subfprdy_internal = '1') then state := s8;
+            subfpce_internal <= '0';
+            subfpond_internal <= '0';
+            subfpsclr_internal <= '1';
+          else state := s7; end if;
 				when s8 =>
-					if (mulfprdy_internal = '1') then state := s9;
-						fptmp1 := mulfpr_internal;
+					subfpsclr_internal <= '0';
+          mulfpce_internal <= '1';
+          mulfpa_internal <= subfpr_internal;
+          mulfpb_internal <= divfpr_internal; -- ksta
+          mulfpond_internal <= '1';
+					if (mulfprdy_internal = '1') then state := s10;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
 					else state := s8; end if;
-				when s9 => state := s10;
-					mulfpsclr_internal <= '0';
-
-					addfpce_internal <= '1';
-					addfpa_internal <= fptmp1;
-					addfpb_internal <= i_const1;
-					addfpond_internal <= '1';
 				when s10 =>
-					if (addfprdy_internal = '1') then state := s11;
-						fptmp3 := addfpr_internal;
-						addfpce_internal <= '0';
-						addfpond_internal <= '0';
-						addfpsclr_internal <= '1';
+          mulfpsclr_internal <= '0';
+          subfpce_internal <= '1';
+          subfpa_internal <= mulfpr_internal;
+          subfpb_internal <= const_minus1;
+          subfpond_internal <= '1';
+					if (subfprdy_internal = '1') then state := s15;
+--						fptmp3 := subfpr_internal;
+						subfpce_internal <= '0';
+						subfpond_internal <= '0';
+						subfpsclr_internal <= '1';
 					else state := s10; end if;
-				when s11 => state := s12;
-					addfpsclr_internal <= '0';
-
-				when s12 => state := s13;
-					o_alpha_addr <= std_logic_vector (to_unsigned (i, 10));
-					mem_switchpattern_pixel <= std_logic_vector (to_unsigned (i, 14));
-				when s13 => state := s14;
-				when s14 => state := s15;
-					
+          
+          
+				when s15 =>
+          subfpsclr_internal <= '0';
 					mulfpce_internal <= '1';
 					mulfpa_internal <= pattern_ft;
 					mulfpb_internal <= i_acpsubpage1;
 					mulfpond_internal <= '1';
-				when s15 =>
-					if (mulfprdy_internal = '1') then state := s16;
-						fptmp1 := mulfpr_internal;
+          if (mulfprdy_internal = '1') then state := s16;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
 					else state := s15; end if;
-				when s16 => state := s17;
-					mulfpsclr_internal <= '0';
-
+        when s16 => -- XXX empty state for rm tmp reg
+          mulfpsclr_internal <= '0';
+					addfpce_internal <= '1';
+					addfpa_internal <= mulfpr_internal;
+					addfpb_internal <= x"00000000";
+					addfpond_internal <= '1';
+          if (addfprdy_internal = '1') then state := s17;
+						addfpce_internal <= '0';
+						addfpond_internal <= '0';
+						addfpsclr_internal <= '1';
+					else state := s16; end if;
+				when s17 =>
+					addfpsclr_internal <= '0';
 					mulfpce_internal <= '1';
 					mulfpa_internal <= pattern_neg_ft;
 					mulfpb_internal <= i_acpsubpage0;
 					mulfpond_internal <= '1';
-				when s17 =>
-					if (mulfprdy_internal = '1') then state := s18;
-						fptmp2 := mulfpr_internal;
+          if (mulfprdy_internal = '1') then state := s19;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
 					else state := s17; end if;
-				when s18 => state := s19;
+				when s19 =>
 					mulfpsclr_internal <= '0';
-
-				when s19 => state := s20;
 					addfpce_internal <= '1';
-					addfpa_internal <= fptmp1;
-					addfpb_internal <= fptmp2;
+					addfpa_internal <= mulfpr_internal;
+					addfpb_internal <= addfpr_internal;
 					addfpond_internal <= '1';
-				when s20 =>
-					if (addfprdy_internal = '1') then state := s21;
-						fptmp1 := addfpr_internal;
+          if (addfprdy_internal = '1') then state := s22;
 						addfpce_internal <= '0';
 						addfpond_internal <= '0';
 						addfpsclr_internal <= '1';
-					else state := s20; end if;
-				when s21 => state := s22;
+					else state := s19; end if;
+				when s22 =>
 					addfpsclr_internal <= '0';
-
-				when s22 => state := s23;
 					mulfpce_internal <= '1';
-					mulfpa_internal <= ExtractTGCParameters_tgc;
-					mulfpb_internal <= fptmp1;
+					mulfpa_internal <= i_tgc;
+					mulfpb_internal <= addfpr_internal;
 					mulfpond_internal <= '1';
-				when s23 =>
-					if (mulfprdy_internal = '1') then state := s24;
-						fptmp1 := mulfpr_internal;
+          if (mulfprdy_internal = '1') then state := s25;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
-					else state := s23; end if;
-				when s24 => state := s25;
+					else state := s22; end if;
+				when s25 => state := s25a;
 					mulfpsclr_internal <= '0';
-
-				when s25 => state := s26;
-					subfpce_internal <= '1';
-					subfpa_internal <= i_alpha_do;
-					subfpb_internal <= fptmp1;
-					subfpond_internal <= '1';
+          
+        when s25a =>
+          mulfpce_internal <= '1';
+					mulfpa_internal <= mulfpr_internal;
+					mulfpb_internal <= const_minus1;
+					mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s26;
+						mulfpce_internal <= '0';
+						mulfpond_internal <= '0';
+						mulfpsclr_internal <= '1';
+					else state := s25a; end if;
 				when s26 =>
-					if (subfprdy_internal = '1') then state := s27;
-						fptmp1 := subfpr_internal;
-						subfpce_internal <= '0';
-						subfpond_internal <= '0';
-						subfpsclr_internal <= '1';
-					else state := s26; end if;
-				when s27 => state := s28;
-					subfpsclr_internal <= '0';
-
-				when s28 => state := s29;
-					mulfpce_internal <= '1';
-					mulfpa_internal <= fptmp1;
-					mulfpb_internal <= fptmp3;
-					mulfpond_internal <= '1';
-				when s29 =>
-					if (mulfprdy_internal = '1') then state := s30;
-						fptmp1 := mulfpr_internal;
-						mulfpce_internal <= '0';
-						mulfpond_internal <= '0';
-						mulfpsclr_internal <= '1';
-					else state := s29; end if;
-				when s30 => state := s31;
 					mulfpsclr_internal <= '0';
-					write_enable <= '1';
-					addra <= std_logic_vector (to_unsigned (i, 10)); -- alphacomp
-					dia <= fptmp1;
-					----report "================alphacomp : " & real'image (ap_slv2fp (fptmp1));
+          
+					addfpce_internal <= '1';
+					addfpa_internal <= mulfpr_internal;
+					addfpb_internal <= i_alpha_do;
+					addfpond_internal <= '1';
+          if (addfprdy_internal = '1') then state := s28;
+						addfpce_internal <= '0';
+						addfpond_internal <= '0';
+						addfpsclr_internal <= '1';
+					else state := s26; end if;
+          
+				when s28 =>
+					addfpsclr_internal <= '0';
+					mulfpce_internal <= '1';
+					mulfpa_internal <= addfpr_internal;
+					mulfpb_internal <= subfpr_internal;
+					mulfpond_internal <= '1';
+          if (mulfprdy_internal = '1') then state := s31;
+            mulfpce_internal <= '0';
+            mulfpond_internal <= '0';
+            mulfpsclr_internal <= '1';
+            write_enable <= '1';
+            addra <= std_logic_vector (to_unsigned (i, 10)); -- alphacomp
+            dia <= mulfpr_internal;
+            --synthesis translate_off
+            report_error("================alphacomp " & integer'image(i), mulfpr_internal, 0.0);
+            --warning_neq_fp(mulfpr_internal, 0.0, "================alphacomp " & integer'image(i));
+            --synthesis translate_on
+					else state := s28; end if;
 				when s31 =>
 					write_enable <= '0';
 					if (i = (C_ROW*C_COL)-1) then
-						state := ending;
 						i := 0;
+            state := idle;
+            rdy <= '1';
 					else
-						state := s12;
+						state := s0;
 						i := i + 1;
 					end if;
-
-				when ending => state := idle;
-					rdy <= '1';
-				when others => null;
 			end case;
 		end if;
 	end if;
 end process p0;
 
-ExtractTGCParameters_clock <= i_clock;
-ExtractTGCParameters_reset <= i_reset;
-inst_ExtractTGCParameters : ExtractTGCParameter port map (
-i_clock => ExtractTGCParameters_clock,
-i_reset => ExtractTGCParameters_reset,
-i_run => ExtractTGCParameters_run,
-i2c_mem_ena => ExtractTGCParameters_i2c_mem_ena,
-i2c_mem_addra => ExtractTGCParameters_i2c_mem_addra,
-i2c_mem_douta => ExtractTGCParameters_i2c_mem_douta,
-o_tgc => ExtractTGCParameters_tgc,
-o_rdy => ExtractTGCParameters_rdy
-);
-
-ExtractKsTaParameters_clock <= i_clock;
-ExtractKsTaParameters_reset <= i_reset;
-inst_ExtractKsTaParameters : ExtractKsTaParameters PORT MAP (
-i_clock => ExtractKsTaParameters_clock,
-i_reset => ExtractKsTaParameters_reset,
-i_run => ExtractKsTaParameters_run,
-i2c_mem_ena => ExtractKsTaParameters_i2c_mem_ena,
-i2c_mem_addra => ExtractKsTaParameters_i2c_mem_addra,
-i2c_mem_douta => ExtractKsTaParameters_i2c_mem_douta,
-o_ksta => ExtractKsTaParameters_ksta,
-o_rdy => ExtractKsTaParameters_rdy
-);
+--ExtractKsTaParameters_clock <= i_clock;
+--ExtractKsTaParameters_reset <= i_reset;
+--inst_ExtractKsTaParameters : ExtractKsTaParameters PORT MAP (
+--i_clock => ExtractKsTaParameters_clock,
+--i_reset => ExtractKsTaParameters_reset,
+--i_run => ExtractKsTaParameters_run,
+--i2c_mem_ena => ExtractKsTaParameters_i2c_mem_ena,
+--i2c_mem_addra => ExtractKsTaParameters_i2c_mem_addra,
+--i2c_mem_douta => ExtractKsTaParameters_i2c_mem_douta,
+--o_ksta => ExtractKsTaParameters_ksta,
+--o_rdy => ExtractKsTaParameters_rdy
+--);
 
 mem_switchpattern_clock <= i_clock;
 mem_switchpattern_reset <= i_reset;
@@ -653,6 +659,14 @@ i_reset => mem_switchpattern_reset,
 i_pixel => mem_switchpattern_pixel,
 o_pattern => mem_switchpattern_pattern
 );
+
+with mem_switchpattern_pattern select pattern_ft <=
+x"3f800000" when '1',
+x"00000000" when others;
+
+with mem_switchpattern_pattern select pattern_neg_ft <=
+x"00000000" when '1',
+x"3f800000" when others;
 
 inst_mem_alphacomp : mem_ramb16_s36_x2
 GENERIC MAP (
@@ -670,5 +684,4 @@ SSR => i_reset,
 WE => write_enable
 );
 
-end Behavioral;
-
+end architecture Behavioral;

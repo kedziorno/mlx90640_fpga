@@ -46,11 +46,19 @@ ENTITY dualmem IS
     ena : IN STD_LOGIC;
     wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     addra : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+<<<<<<< HEAD
     dina : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
     clkb : IN STD_LOGIC;
     enb : IN STD_LOGIC;
     addrb : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
     doutb : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+=======
+    dina : IN STD_LOGIC_VECTOR(8 DOWNTO 0);
+    clkb : IN STD_LOGIC;
+    enb : IN STD_LOGIC;
+    addrb : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+    doutb : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
+>>>>>>> merge_1
   );
 END dualmem;
 
@@ -62,11 +70,19 @@ COMPONENT wrapped_dualmem
     ena : IN STD_LOGIC;
     wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     addra : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+<<<<<<< HEAD
     dina : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
     clkb : IN STD_LOGIC;
     enb : IN STD_LOGIC;
     addrb : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
     doutb : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+=======
+    dina : IN STD_LOGIC_VECTOR(8 DOWNTO 0);
+    clkb : IN STD_LOGIC;
+    enb : IN STD_LOGIC;
+    addrb : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+    doutb : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
+>>>>>>> merge_1
   );
 END COMPONENT;
 
@@ -85,7 +101,11 @@ END COMPONENT;
       c_disable_warn_bhv_coll => 0,
       c_disable_warn_bhv_range => 0,
       c_enable_32bit_address => 0,
+<<<<<<< HEAD
       c_family => "virtex4",
+=======
+      c_family => "spartan3",
+>>>>>>> merge_1
       c_has_axi_id => 0,
       c_has_ena => 1,
       c_has_enb => 1,
@@ -111,8 +131,13 @@ END COMPONENT;
       c_prim_type => 1,
       c_read_depth_a => 768,
       c_read_depth_b => 768,
+<<<<<<< HEAD
       c_read_width_a => 32,
       c_read_width_b => 32,
+=======
+      c_read_width_a => 9,
+      c_read_width_b => 9,
+>>>>>>> merge_1
       c_rst_priority_a => "CE",
       c_rst_priority_b => "CE",
       c_rst_type => "SYNC",
@@ -131,9 +156,15 @@ END COMPONENT;
       c_write_depth_b => 768,
       c_write_mode_a => "NO_CHANGE",
       c_write_mode_b => "NO_CHANGE",
+<<<<<<< HEAD
       c_write_width_a => 32,
       c_write_width_b => 32,
       c_xdevicefamily => "virtex4"
+=======
+      c_write_width_a => 9,
+      c_write_width_b => 9,
+      c_xdevicefamily => "spartan3e"
+>>>>>>> merge_1
     );
 -- synthesis translate_on
 BEGIN

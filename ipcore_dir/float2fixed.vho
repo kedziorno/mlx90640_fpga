@@ -75,7 +75,11 @@ COMPONENT float2fixed
     clk : IN STD_LOGIC;
     sclr : IN STD_LOGIC;
     ce : IN STD_LOGIC;
+<<<<<<< HEAD
     result : OUT STD_LOGIC_VECTOR(63 DOWNTO 0);
+=======
+    result : OUT STD_LOGIC_VECTOR(8 DOWNTO 0);
+>>>>>>> merge_1
     rdy : OUT STD_LOGIC
   );
 END COMPONENT;

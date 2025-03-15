@@ -219,6 +219,13 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path dualmem.ngc
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type ngc
 incr fcount
 
+<<<<<<< HEAD
+=======
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path dualmem.sym
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type symbol
+incr fcount
+
+>>>>>>> merge_1
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path dualmem.vhd
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type vhdl
 incr fcount

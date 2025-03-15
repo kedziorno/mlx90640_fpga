@@ -70,7 +70,11 @@
 ------------- Begin Cut here for COMPONENT Declaration ------ COMP_TAG
 COMPONENT fixed2float
   PORT (
+<<<<<<< HEAD
     a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+=======
+    a : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+>>>>>>> merge_1
     operation_nd : IN STD_LOGIC;
     clk : IN STD_LOGIC;
     sclr : IN STD_LOGIC;

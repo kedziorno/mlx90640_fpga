@@ -124,7 +124,11 @@ ENTITY BMG_STIM_GEN IS
             CLKB : IN STD_LOGIC;
             TB_RST : IN STD_LOGIC;
             ADDRA: OUT  STD_LOGIC_VECTOR(9 DOWNTO 0) := (OTHERS => '0'); 
+<<<<<<< HEAD
             DINA : OUT  STD_LOGIC_VECTOR(31 DOWNTO 0) := (OTHERS => '0'); 
+=======
+            DINA : OUT  STD_LOGIC_VECTOR(8 DOWNTO 0) := (OTHERS => '0'); 
+>>>>>>> merge_1
             ENA : OUT STD_LOGIC :='0';
             WEA : OUT STD_LOGIC_VECTOR (0 DOWNTO 0) := (OTHERS => '0');
             ADDRB: OUT  STD_LOGIC_VECTOR(9 DOWNTO 0) := (OTHERS => '0');
@@ -139,7 +143,11 @@ ARCHITECTURE BEHAVIORAL OF BMG_STIM_GEN IS
 CONSTANT ZERO                    : STD_LOGIC_VECTOR(31 DOWNTO 0) := (OTHERS => '0');
 SIGNAL   WRITE_ADDR              : STD_LOGIC_VECTOR(31 DOWNTO 0) := (OTHERS => '0');
 SIGNAL   READ_ADDR               : STD_LOGIC_VECTOR(31 DOWNTO 0) := (OTHERS => '0');
+<<<<<<< HEAD
 SIGNAL   DINA_INT                : STD_LOGIC_VECTOR(31 DOWNTO 0) := (OTHERS => '0');
+=======
+SIGNAL   DINA_INT                : STD_LOGIC_VECTOR(8 DOWNTO 0) := (OTHERS => '0');
+>>>>>>> merge_1
 SIGNAL   DO_WRITE                : STD_LOGIC := '0';
 SIGNAL   DO_READ                 : STD_LOGIC := '0';
 SIGNAL   DO_READ_R               : STD_LOGIC := '0';
@@ -167,9 +175,15 @@ SIGNAL   PORTA_WR_R1             : STD_LOGIC  := '0';
 
 CONSTANT WR_RD_DEEP_COUNT :INTEGER :=8;
 CONSTANT WR_DEEP_COUNT    : INTEGER := if_then_else((10 <= 10),WR_RD_DEEP_COUNT,
+<<<<<<< HEAD
                                               ((32/32)*WR_RD_DEEP_COUNT));
 CONSTANT RD_DEEP_COUNT    : INTEGER := if_then_else((10 <= 10),WR_RD_DEEP_COUNT,
                                               ((32/32)*WR_RD_DEEP_COUNT));
+=======
+                                              ((9/9)*WR_RD_DEEP_COUNT));
+CONSTANT RD_DEEP_COUNT    : INTEGER := if_then_else((10 <= 10),WR_RD_DEEP_COUNT,
+                                              ((9/9)*WR_RD_DEEP_COUNT));
+>>>>>>> merge_1
 
 BEGIN
 
@@ -206,8 +220,13 @@ BEGIN
 
   WR_DATA_GEN_INST:ENTITY work.DATA_GEN 
     GENERIC MAP ( 
+<<<<<<< HEAD
        DATA_GEN_WIDTH => 32,
        DOUT_WIDTH     => 32 ,
+=======
+       DATA_GEN_WIDTH => 9,
+       DOUT_WIDTH     => 9 ,
+>>>>>>> merge_1
        DATA_PART_CNT  => 1,
        SEED           => 2)
     PORT MAP (

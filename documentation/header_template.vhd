@@ -1,0 +1,55 @@
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   (...)
+-- Design Name:   mlx90640_fpga
+-- Module Name:   (...)
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   (...)
+--                (Rest is in commented code)
+--
+-- Dependencies:
+--  - Files:
+--    (...)
+--  - Modules:
+--    (...)
+--
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files:
+--      (...)
+--    - Modules:
+--      (...)
+--    - Processes (Architecture: (...)):
+--      (...)
+--
+-- Imporant objects:
+--  - (...)
+--
+-- Information from the software vendor:
+--  - Messeges:
+--    (...)
+--  - Bugs:
+--    (...)
+--  - Notices:
+--    (...)
+--  - Infos:
+--    (...)
+--  - Notes:
+--    (...)
+--  - Criticals/Failures:
+--    (...)
+--
+-- Concepts/Milestones:
+-- (...)
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
+

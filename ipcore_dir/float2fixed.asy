@@ -24,7 +24,11 @@ PINATTR PinName clk
 PINATTR Polarity IN
 LINE Wide 512 80 480 80
 PIN 512 80 RIGHT 36
+<<<<<<< HEAD
 PINATTR PinName result[63:0]
+=======
+PINATTR PinName result[8:0]
+>>>>>>> merge_1
 PINATTR Polarity OUT
 LINE Normal 512 240 480 240
 PIN 512 240 RIGHT 36

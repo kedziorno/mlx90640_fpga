@@ -45,7 +45,11 @@
 # PART OF THIS FILE AT ALL TIMES.
 
 
+<<<<<<< HEAD
 set device xc4vsx25ff668-10
+=======
+set device xc3s1200efg320-4
+>>>>>>> merge_1
 set projName tb_data_calculateTo
 set design tb_data_calculateTo
 set projDir [file dirname [info script]]

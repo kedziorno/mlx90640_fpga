@@ -93,7 +93,11 @@ ENTITY dualmem_exdes IS
     WEA            : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     ADDRA          : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
   
+<<<<<<< HEAD
     DINA           : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+=======
+    DINA           : IN STD_LOGIC_VECTOR(8 DOWNTO 0);
+>>>>>>> merge_1
   
     CLKA       : IN STD_LOGIC;
 
@@ -101,7 +105,11 @@ ENTITY dualmem_exdes IS
       --Inputs - Port B
     ENB            : IN STD_LOGIC;  --opt port
     ADDRB          : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+<<<<<<< HEAD
     DOUTB          : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+=======
+    DOUTB          : OUT STD_LOGIC_VECTOR(8 DOWNTO 0);
+>>>>>>> merge_1
     CLKB           : IN STD_LOGIC
 
   );
@@ -126,7 +134,11 @@ ARCHITECTURE xilinx OF dualmem_exdes IS
     WEA        : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     ADDRA      : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
   
+<<<<<<< HEAD
     DINA       : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+=======
+    DINA       : IN STD_LOGIC_VECTOR(8 DOWNTO 0);
+>>>>>>> merge_1
 
   
     CLKA       : IN STD_LOGIC;
@@ -135,7 +147,11 @@ ARCHITECTURE xilinx OF dualmem_exdes IS
       --Port B
     ENB        : IN STD_LOGIC;  --opt port
     ADDRB      : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+<<<<<<< HEAD
     DOUTB      : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+=======
+    DOUTB      : OUT STD_LOGIC_VECTOR(8 DOWNTO 0);
+>>>>>>> merge_1
     CLKB       : IN STD_LOGIC
 
 

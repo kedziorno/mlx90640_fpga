@@ -1,0 +1,917 @@
+Release 14.7 Map P.20131013 (lin64)
+Xilinx Mapping Report File for Design 'test1'
+
+Design Information
+------------------
+Command Line   : map -intstyle ise -p xc3s1200e-fg320-4 -timing -logic_opt off
+-ol std -t 1 -register_duplication off -cm area -ir off -pr off -power off -o
+test1_map.ncd test1.ngd test1.pcf 
+Target Device  : xc3s1200e
+Target Package : fg320
+Target Speed   : -4
+Mapper Version : spartan3e -- $Revision: 1.55 $
+Mapped Date    : Fri Dec  6 16:26:17 2024
+
+Design Summary
+--------------
+Number of errors:      0
+Number of warnings:    3
+Logic Utilization:
+  Number of Slice Flip Flops:         8,058 out of  17,344   46%
+  Number of 4 input LUTs:            12,734 out of  17,344   73%
+Logic Distribution:
+  Number of occupied Slices:          7,498 out of   8,672   86%
+    Number of Slices containing only related logic:   7,498 out of   7,498 100%
+    Number of Slices containing unrelated logic:          0 out of   7,498   0%
+      *See NOTES below for an explanation of the effects of unrelated logic.
+  Total Number of 4 input LUTs:      12,988 out of  17,344   74%
+    Number used as logic:            12,531
+    Number used as a route-thru:        254
+    Number used as Shift registers:     203
+
+  The Slice Logic Distribution report is not meaningful if the design is
+  over-mapped for a non-slice resource or if Placement fails.
+
+  Number of bonded IOBs:                 32 out of     250   12%
+  Number of RAMB16s:                     22 out of      28   78%
+  Number of BUFGMUXs:                     2 out of      24    8%
+
+Average Fanout of Non-Clock Nets:                3.45
+
+Peak Memory Usage:  895 MB
+Total REAL time to MAP completion:  1 mins 37 secs 
+Total CPU time to MAP completion:   1 mins 34 secs 
+
+Table of Contents
+-----------------
+Section 1 - Errors
+Section 2 - Warnings
+Section 3 - Informational
+Section 4 - Removed Logic Summary
+Section 5 - Removed Logic
+Section 6 - IOB Properties
+Section 7 - RPMs
+Section 8 - Guide Report
+Section 9 - Area Group and Partition Summary
+Section 10 - Timing Report
+Section 11 - Configuration String Information
+Section 12 - Control Set Information
+Section 13 - Utilization by Hierarchy
+
+Section 1 - Errors
+------------------
+
+Section 2 - Warnings
+--------------------
+WARNING:Place:837 - Partially locked IO Bus is found. 
+    Following components of the bus are not locked: 
+   	 Comp: vga_b<7>
+   	 Comp: vga_b<6>
+   	 Comp: vga_b<5>
+   	 Comp: vga_b<4>
+   	 Comp: vga_b<3>
+   	 Comp: vga_b<2>
+
+WARNING:Place:837 - Partially locked IO Bus is found. 
+    Following components of the bus are not locked: 
+   	 Comp: vga_g<7>
+   	 Comp: vga_g<6>
+   	 Comp: vga_g<5>
+   	 Comp: vga_g<1>
+   	 Comp: vga_g<0>
+
+WARNING:Place:837 - Partially locked IO Bus is found. 
+    Following components of the bus are not locked: 
+   	 Comp: vga_r<4>
+   	 Comp: vga_r<3>
+   	 Comp: vga_r<2>
+   	 Comp: vga_r<1>
+   	 Comp: vga_r<0>
+
+
+Section 3 - Informational
+-------------------------
+INFO:MapLib:562 - No environment variables are currently set.
+INFO:MapLib:159 - Net Timing constraints on signal i_clock are pushed forward
+   through input buffer.
+INFO:LIT:244 - All of the single ended outputs in this design are using slew
+   rate limited output drivers. The delay on speed critical single ended outputs
+   can be dramatically reduced by designating them as fast outputs.
+INFO:Pack:1716 - Initializing temperature to 85.000 Celsius. (default - Range:
+   -40.000 to 100.000 Celsius)
+INFO:Pack:1720 - Initializing voltage to 1.140 Volts. (default - Range: 1.140 to
+   1.320 Volts)
+INFO:Place:834 - Only a subset of IOs are locked. Out of 30 IOs, 10 are locked
+   and 20 are not locked. If you would like to print the names of these IOs,
+   please set the environment variable XIL_PAR_DESIGN_CHECK_VERBOSE to 1. 
+INFO:Pack:1650 - Map created a placed design.
+
+Section 4 - Removed Logic Summary
+---------------------------------
+ 119 block(s) removed
+ 202 block(s) optimized away
+ 146 signal(s) removed
+
+Section 5 - Removed Logic
+-------------------------
+
+The trimmed logic report below shows the logic removed from your design due to
+sourceless or loadless signals, and VCC or ground connections.  If the removal
+of a signal or symbol results in the subsequent removal of an additional signal
+or symbol, the message explaining that second removal will be indented.  This
+indentation will be repeated as a chain of related logic is removed.
+
+To quickly locate the original cause for the removal of a chain of logic, look
+above the place where that logic is listed in the trimming report, then locate
+the lines that are least indented (begin at the leftmost edge).
+
+Loadless block "b0.inst_fixed2float/blk0000001d" (MUX) removed.
+ The signal "b0.inst_fixed2float/sig0000005b" is loadless and has been removed.
+  Loadless block "b0.inst_fixed2float/blk000000fc" (ROM) removed.
+ The signal "b0.inst_fixed2float/sig0000005c" is loadless and has been removed.
+  Loadless block "b0.inst_fixed2float/blk000000fb" (ROM) removed.
+Loadless block "inst_addfp/blk00000217" (XOR) removed.
+ The signal "inst_addfp/sig000004fd" is loadless and has been removed.
+  Loadless block "inst_addfp/blk00000219" (MUX) removed.
+   The signal "inst_addfp/sig000004fc" is loadless and has been removed.
+    Loadless block "inst_addfp/blk0000021b" (MUX) removed.
+     The signal "inst_addfp/sig000004fb" is loadless and has been removed.
+      Loadless block "inst_addfp/blk0000021d" (MUX) removed.
+       The signal "inst_addfp/sig000004fa" is loadless and has been removed.
+        Loadless block "inst_addfp/blk0000021f" (MUX) removed.
+         The signal "inst_addfp/sig000004f9" is loadless and has been removed.
+          Loadless block "inst_addfp/blk00000221" (MUX) removed.
+           The signal "inst_addfp/sig000004f8" is loadless and has been removed.
+            Loadless block "inst_addfp/blk00000223" (MUX) removed.
+             The signal "inst_addfp/sig000004f7" is loadless and has been removed.
+              Loadless block "inst_addfp/blk00000225" (MUX) removed.
+               The signal "inst_addfp/sig00000567" is loadless and has been removed.
+                Loadless block "inst_addfp/blk0000027d" (FF) removed.
+                 The signal "inst_addfp/sig00000547" is loadless and has been removed.
+                  Loadless block "inst_addfp/blk00000264" (XOR) removed.
+                   The signal "inst_addfp/sig0000053d" is loadless and has been removed.
+                    Loadless block "inst_addfp/blk00000266" (MUX) removed.
+Loadless block "inst_addfp/blk00000218" (XOR) removed.
+Loadless block "inst_addfp/blk0000021a" (XOR) removed.
+Loadless block "inst_addfp/blk0000021c" (XOR) removed.
+Loadless block "inst_addfp/blk0000021e" (XOR) removed.
+Loadless block "inst_addfp/blk00000220" (XOR) removed.
+Loadless block "inst_addfp/blk00000222" (XOR) removed.
+Loadless block "inst_addfp/blk00000224" (XOR) removed.
+Loadless block "inst_addfp/blk00000284" (MUX) removed.
+ The signal "inst_addfp/sig00000463" is loadless and has been removed.
+  Loadless block "inst_addfp/blk0000035e" (ROM) removed.
+ The signal "inst_addfp/sig00000464" is loadless and has been removed.
+  Loadless block "inst_addfp/blk0000035d" (ROM) removed.
+   The signal "inst_addfp/sig00000451" is loadless and has been removed.
+    Loadless block "inst_addfp/blk000002a9" (FF) removed.
+     The signal "inst_addfp/sig0000045c" is loadless and has been removed.
+      Loadless block "inst_addfp/blk000002a2" (MUX) removed.
+       The signal "inst_addfp/sig00000455" is loadless and has been removed.
+        Loadless block "inst_addfp/blk000003b8" (ROM) removed.
+Loadless block "inst_divfp/blk00000244" (XOR) removed.
+Loadless block "inst_divfp/blk00000246" (XOR) removed.
+Loadless block "inst_divfp/blk00000248" (XOR) removed.
+Loadless block "inst_divfp/blk0000024a" (XOR) removed.
+Loadless block "inst_divfp/blk0000024c" (XOR) removed.
+Loadless block "inst_divfp/blk0000024e" (XOR) removed.
+Loadless block "inst_divfp/blk00000250" (XOR) removed.
+Loadless block "inst_divfp/blk00000252" (XOR) removed.
+Loadless block "inst_divfp/blk00000254" (XOR) removed.
+Loadless block "inst_divfp/blk00000256" (XOR) removed.
+Loadless block "inst_divfp/blk00000258" (XOR) removed.
+Loadless block "inst_divfp/blk0000025a" (XOR) removed.
+Loadless block "inst_divfp/blk0000025c" (XOR) removed.
+Loadless block "inst_divfp/blk0000025e" (XOR) removed.
+Loadless block "inst_divfp/blk00000260" (XOR) removed.
+Loadless block "inst_divfp/blk00000262" (XOR) removed.
+Loadless block "inst_divfp/blk00000264" (XOR) removed.
+Loadless block "inst_divfp/blk00000266" (XOR) removed.
+Loadless block "inst_divfp/blk00000268" (XOR) removed.
+Loadless block "inst_divfp/blk0000026a" (XOR) removed.
+Loadless block "inst_divfp/blk0000026c" (XOR) removed.
+Loadless block "inst_divfp/blk0000026e" (XOR) removed.
+Loadless block "inst_divfp/blk00000270" (XOR) removed.
+Loadless block "inst_divfp/blk00000272" (XOR) removed.
+Loadless block "inst_divfp/blk000009e7" (XOR) removed.
+Loadless block "inst_float2fixed/blk00000028" (XOR) removed.
+Loadless block "inst_float2fixed/blk0000003b" (XOR) removed.
+ The signal "inst_float2fixed/sig000000c9" is loadless and has been removed.
+  Loadless block "inst_float2fixed/blk00000039" (MUX) removed.
+Loadless block "inst_float2fixed/blk00000089" (FF) removed.
+ The signal "inst_float2fixed/sig0000008e" is loadless and has been removed.
+  Loadless block "inst_float2fixed/blk00000083" (MUX) removed.
+   The signal "inst_float2fixed/sig0000008d" is loadless and has been removed.
+    Loadless block "inst_float2fixed/blk00000084" (MUX) removed.
+     The signal "inst_float2fixed/sig0000008c" is loadless and has been removed.
+      Loadless block "inst_float2fixed/blk00000085" (MUX) removed.
+       The signal "inst_float2fixed/sig0000008b" is loadless and has been removed.
+        Loadless block "inst_float2fixed/blk00000086" (MUX) removed.
+         The signal "inst_float2fixed/sig0000008a" is loadless and has been removed.
+          Loadless block "inst_float2fixed/blk00000087" (MUX) removed.
+           The signal "inst_float2fixed/sig00000089" is loadless and has been removed.
+            Loadless block "inst_float2fixed/blk00000088" (MUX) removed.
+             The signal "inst_float2fixed/sig0000008f" is loadless and has been removed.
+              Loadless block "inst_float2fixed/blk000000bc" (ROM) removed.
+         The signal "inst_float2fixed/sig00000091" is loadless and has been removed.
+          Loadless block "inst_float2fixed/blk000000bb" (ROM) removed.
+       The signal "inst_float2fixed/sig00000092" is loadless and has been removed.
+        Loadless block "inst_float2fixed/blk000000ae" (ROM) removed.
+   The signal "inst_float2fixed/sig00000094" is loadless and has been removed.
+    Loadless block "inst_float2fixed/blk000000aa" (ROM) removed.
+Loadless block "inst_mulfp/blk0000004f" (XOR) removed.
+Loadless block "inst_mulfp/blk0000012b" (FF) removed.
+ The signal "inst_mulfp/sig00000150" is loadless and has been removed.
+  Loadless block "inst_mulfp/blk0000012a" (XOR) removed.
+   The signal "inst_mulfp/sig0000011a" is loadless and has been removed.
+    Loadless block "inst_mulfp/blk00000127" (MUX) removed.
+   The signal "inst_mulfp/sig00000135" is loadless and has been removed.
+    Loadless block "inst_mulfp/blk00000129" (ROM) removed.
+     The signal "inst_mulfp/sig0000090e" is loadless and has been removed.
+      Loadless block "inst_mulfp/blk000001ee" (FF) removed.
+       The signal "inst_mulfp/sig000002b8" is loadless and has been removed.
+Loadless block "inst_mulfp/blk00000414" (AND) removed.
+Loadless block "inst_mulfp/blk00000416" (SFF) removed.
+ The signal "inst_mulfp/sig0000075c" is loadless and has been removed.
+  Loadless block "inst_mulfp/blk00000415" (XOR) removed.
+   The signal "inst_mulfp/sig00000711" is loadless and has been removed.
+    Loadless block "inst_mulfp/blk00000411" (MUX) removed.
+     The signal "inst_mulfp/sig00000710" is loadless and has been removed.
+      Loadless block "inst_mulfp/blk0000040d" (MUX) removed.
+       The signal "inst_mulfp/sig00000729" is loadless and has been removed.
+        Loadless block "inst_mulfp/blk0000040c" (AND) removed.
+     The signal "inst_mulfp/sig0000072a" is loadless and has been removed.
+      Loadless block "inst_mulfp/blk00000410" (AND) removed.
+     The signal "inst_mulfp/sig00000743" is loadless and has been removed.
+      Loadless block "inst_mulfp/blk0000040f" (ROM) removed.
+   The signal "inst_mulfp/sig00000744" is loadless and has been removed.
+    Loadless block "inst_mulfp/blk00000413" (ROM) removed.
+ The signal "inst_mulfp/sig0000071a" is loadless and has been removed.
+Loadless block "inst_mulfp/blk00000417" (SFF) removed.
+ The signal "inst_mulfp/sig0000075b" is loadless and has been removed.
+  Loadless block "inst_mulfp/blk00000412" (XOR) removed.
+Loadless block "inst_mulfp/blk0000069e" (AND) removed.
+Loadless block "inst_mulfp/blk00000701" (AND) removed.
+Loadless block "inst_mulfp/blk00000764" (AND) removed.
+Loadless block "inst_mulfp/blk000007c7" (AND) removed.
+Loadless block "inst_mulfp/blk0000082a" (AND) removed.
+Loadless block "inst_mulfp/blk0000088d" (AND) removed.
+Loadless block "inst_mulfp/blk000008f0" (AND) removed.
+Loadless block "inst_mulfp/blk00000953" (AND) removed.
+Loadless block "inst_subfp/blk00000217" (XOR) removed.
+ The signal "inst_subfp/sig000004fe" is loadless and has been removed.
+  Loadless block "inst_subfp/blk00000219" (MUX) removed.
+   The signal "inst_subfp/sig000004fd" is loadless and has been removed.
+    Loadless block "inst_subfp/blk0000021b" (MUX) removed.
+     The signal "inst_subfp/sig000004fc" is loadless and has been removed.
+      Loadless block "inst_subfp/blk0000021d" (MUX) removed.
+       The signal "inst_subfp/sig000004fb" is loadless and has been removed.
+        Loadless block "inst_subfp/blk0000021f" (MUX) removed.
+         The signal "inst_subfp/sig000004fa" is loadless and has been removed.
+          Loadless block "inst_subfp/blk00000221" (MUX) removed.
+           The signal "inst_subfp/sig000004f9" is loadless and has been removed.
+            Loadless block "inst_subfp/blk00000223" (MUX) removed.
+             The signal "inst_subfp/sig000004f8" is loadless and has been removed.
+              Loadless block "inst_subfp/blk00000225" (MUX) removed.
+               The signal "inst_subfp/sig00000568" is loadless and has been removed.
+                Loadless block "inst_subfp/blk0000027d" (FF) removed.
+                 The signal "inst_subfp/sig00000548" is loadless and has been removed.
+                  Loadless block "inst_subfp/blk00000264" (XOR) removed.
+                   The signal "inst_subfp/sig0000053e" is loadless and has been removed.
+                    Loadless block "inst_subfp/blk00000266" (MUX) removed.
+Loadless block "inst_subfp/blk00000218" (XOR) removed.
+Loadless block "inst_subfp/blk0000021a" (XOR) removed.
+Loadless block "inst_subfp/blk0000021c" (XOR) removed.
+Loadless block "inst_subfp/blk0000021e" (XOR) removed.
+Loadless block "inst_subfp/blk00000220" (XOR) removed.
+Loadless block "inst_subfp/blk00000222" (XOR) removed.
+Loadless block "inst_subfp/blk00000224" (XOR) removed.
+Loadless block "inst_subfp/blk00000284" (MUX) removed.
+ The signal "inst_subfp/sig00000464" is loadless and has been removed.
+  Loadless block "inst_subfp/blk0000035e" (ROM) removed.
+ The signal "inst_subfp/sig00000465" is loadless and has been removed.
+  Loadless block "inst_subfp/blk0000035d" (ROM) removed.
+   The signal "inst_subfp/sig00000452" is loadless and has been removed.
+    Loadless block "inst_subfp/blk000002a9" (FF) removed.
+     The signal "inst_subfp/sig0000045d" is loadless and has been removed.
+      Loadless block "inst_subfp/blk000002a2" (MUX) removed.
+       The signal "inst_subfp/sig00000456" is loadless and has been removed.
+        Loadless block "inst_subfp/blk000003b8" (ROM) removed.
+The signal "inst_float2fixed/sig00000070" is sourceless and has been removed.
+The signal "inst_float2fixed/sig00000055" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000ec" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000d5" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000eb" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000d4" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000ea" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000d3" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000e9" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000d2" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000e8" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000d1" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000e7" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000d0" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000e6" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000cd" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000e3" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000cc" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig00000120" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000da" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000db" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000dc" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000dd" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000de" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000df" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig000000e0" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig0000011d" is sourceless and has been removed.
+The signal "b0.inst_fixed2float/sig0000011e" is sourceless and has been removed.
+The signal "inst_mulfp/sig00000106" is sourceless and has been removed.
+The signal "inst_mulfp/sig00000107" is sourceless and has been removed.
+The signal "inst_mulfp/sig00000108" is sourceless and has been removed.
+The signal "inst_addfp/sig00000154" is sourceless and has been removed.
+The signal "inst_subfp/sig00000154" is sourceless and has been removed.
+
+The trimmed logic reported below is either:
+   1. part of a cycle
+   2. part of disabled logic
+   3. a side-effect of other trimmed logic
+
+The signal "tfm_inst/CalculateAlphaCP_fixed2floatr<0>" is unused and has been
+removed.
+The signal "tfm_inst/CalculateAlphaCP_fixed2floatr<1>" is unused and has been
+removed.
+The signal "tfm_inst/CalculateAlphaCP_fixed2floatr<2>" is unused and has been
+removed.
+The signal "tfm_inst/CalculateAlphaCP_fixed2floatr<3>" is unused and has been
+removed.
+The signal "tfm_inst/CalculateAlphaCP_fixed2floatr<4>" is unused and has been
+removed.
+The signal "tfm_inst/CalculateAlphaCP_fixed2floatr<5>" is unused and has been
+removed.
+The signal "tfm_inst/CalculateAlphaCP_fixed2floatr<6>" is unused and has been
+removed.
+The signal "tfm_inst/CalculateAlphaCP_fixed2floatr<7>" is unused and has been
+removed.
+The signal "tfm_inst/CalculateAlphaComp_fixed2floatr<0>" is unused and has been
+removed.
+The signal "tfm_inst/CalculateAlphaComp_fixed2floatr<1>" is unused and has been
+removed.
+The signal "tfm_inst/CalculateAlphaComp_fixed2floatr<2>" is unused and has been
+removed.
+The signal "tfm_inst/CalculateAlphaComp_fixed2floatr<3>" is unused and has been
+removed.
+The signal "tfm_inst/CalculateAlphaComp_fixed2floatr<4>" is unused and has been
+removed.
+The signal "tfm_inst/CalculateAlphaComp_fixed2floatr<5>" is unused and has been
+removed.
+The signal "tfm_inst/CalculateAlphaComp_fixed2floatr<6>" is unused and has been
+removed.
+The signal "tfm_inst/CalculateAlphaComp_fixed2floatr<7>" is unused and has been
+removed.
+The signal "tfm_inst/ExtractTGCParameters_fixed2floatr<0>" is unused and has
+been removed.
+The signal "tfm_inst/ExtractTGCParameters_fixed2floatr<1>" is unused and has
+been removed.
+The signal "tfm_inst/ExtractTGCParameters_fixed2floatr<2>" is unused and has
+been removed.
+The signal "tfm_inst/ExtractTGCParameters_fixed2floatr<3>" is unused and has
+been removed.
+The signal "tfm_inst/ExtractTGCParameters_fixed2floatr<4>" is unused and has
+been removed.
+The signal "tfm_inst/ExtractTGCParameters_fixed2floatr<5>" is unused and has
+been removed.
+The signal "tfm_inst/ExtractTGCParameters_fixed2floatr<6>" is unused and has
+been removed.
+The signal "tfm_inst/ExtractTGCParameters_fixed2floatr<7>" is unused and has
+been removed.
+The signal "tfm_inst/inst_CalculateAlphaComp/divfpa_internal<0>" is unused and
+has been removed.
+The signal "tfm_inst/inst_CalculateAlphaComp/divfpa_internal<1>" is unused and
+has been removed.
+The signal "tfm_inst/inst_CalculateAlphaComp/divfpa_internal<2>" is unused and
+has been removed.
+The signal "tfm_inst/inst_CalculateAlphaComp/divfpa_internal<3>" is unused and
+has been removed.
+The signal "tfm_inst/inst_CalculateAlphaComp/divfpa_internal<4>" is unused and
+has been removed.
+The signal "tfm_inst/inst_CalculateAlphaComp/divfpa_internal<5>" is unused and
+has been removed.
+The signal "tfm_inst/inst_CalculateAlphaComp/divfpa_internal<6>" is unused and
+has been removed.
+The signal "tfm_inst/inst_CalculateAlphaComp/divfpa_internal<7>" is unused and
+has been removed.
+The signal "tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<0>" is
+unused and has been removed.
+The signal "tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<1>" is
+unused and has been removed.
+The signal "tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<2>" is
+unused and has been removed.
+The signal "tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<3>" is
+unused and has been removed.
+The signal "tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<4>" is
+unused and has been removed.
+The signal "tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<5>" is
+unused and has been removed.
+The signal "tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<6>" is
+unused and has been removed.
+The signal "tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<7>" is
+unused and has been removed.
+The signal "tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<0>"
+is unused and has been removed.
+The signal "tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<1>"
+is unused and has been removed.
+The signal "tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<2>"
+is unused and has been removed.
+The signal "tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<3>"
+is unused and has been removed.
+The signal "tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<4>"
+is unused and has been removed.
+The signal "tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<5>"
+is unused and has been removed.
+The signal "tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<6>"
+is unused and has been removed.
+The signal "tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<7>"
+is unused and has been removed.
+The signal "tfm_inst/inst_ExtractTGCParameters/divfpa_internal<0>" is unused and
+has been removed.
+The signal "tfm_inst/inst_ExtractTGCParameters/divfpa_internal<1>" is unused and
+has been removed.
+The signal "tfm_inst/inst_ExtractTGCParameters/divfpa_internal<2>" is unused and
+has been removed.
+The signal "tfm_inst/inst_ExtractTGCParameters/divfpa_internal<3>" is unused and
+has been removed.
+The signal "tfm_inst/inst_ExtractTGCParameters/divfpa_internal<4>" is unused and
+has been removed.
+The signal "tfm_inst/inst_ExtractTGCParameters/divfpa_internal<5>" is unused and
+has been removed.
+The signal "tfm_inst/inst_ExtractTGCParameters/divfpa_internal<6>" is unused and
+has been removed.
+The signal "tfm_inst/inst_ExtractTGCParameters/divfpa_internal<7>" is unused and
+has been removed.
+Unused block "inst_addfp/blk000000aa" (MUX) removed.
+Unused block "inst_float2fixed/blk0000000f" (MUX) removed.
+Unused block "inst_mulfp/blk000001ed" (SRLC16E) removed.
+Unused block "inst_subfp/blk000000aa" (MUX) removed.
+
+Optimized Block(s):
+TYPE 		BLOCK
+GND 		XST_GND
+VCC 		XST_VCC
+GND 		b0.inst_fixed2float/blk00000001
+VCC 		b0.inst_fixed2float/blk00000002
+FDE 		b0.inst_fixed2float/blk00000045
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk00000046
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk00000047
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk00000048
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk00000049
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk0000004a
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk0000004b
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk0000004c
+   optimized to 0
+FDRSE 		b0.inst_fixed2float/blk0000007a
+   optimized to 0
+FDRSE 		b0.inst_fixed2float/blk0000007b
+   optimized to 0
+FDRSE 		b0.inst_fixed2float/blk0000007c
+   optimized to 0
+FDRSE 		b0.inst_fixed2float/blk0000007d
+   optimized to 0
+FDRSE 		b0.inst_fixed2float/blk0000007e
+   optimized to 0
+FDRSE 		b0.inst_fixed2float/blk0000007f
+   optimized to 0
+FDRSE 		b0.inst_fixed2float/blk00000080
+   optimized to 0
+FDRSE 		b0.inst_fixed2float/blk00000081
+   optimized to 0
+GND 		dualmem_inst/XST_GND
+GND 		inst_addfp/blk00000001
+VCC 		inst_addfp/blk00000002
+GND 		inst_divfp/blk00000001
+VCC 		inst_divfp/blk00000002
+GND 		inst_float2fixed/blk00000001
+VCC 		inst_float2fixed/blk00000002
+FDE 		inst_float2fixed/blk00000021
+   optimized to 0
+GND 		inst_mulfp/blk00000001
+VCC 		inst_mulfp/blk00000002
+LUT4 		inst_mulfp/blk00000633
+   optimized to 0
+LUT4 		inst_mulfp/blk00000634
+   optimized to 0
+LUT4 		inst_mulfp/blk00000635
+   optimized to 0
+LUT4 		inst_mulfp/blk0000069d
+   optimized to 0
+LUT4 		inst_mulfp/blk00000700
+   optimized to 0
+LUT4 		inst_mulfp/blk00000763
+   optimized to 0
+LUT4 		inst_mulfp/blk000007c6
+   optimized to 0
+LUT4 		inst_mulfp/blk00000829
+   optimized to 0
+LUT4 		inst_mulfp/blk0000088c
+   optimized to 0
+LUT4 		inst_mulfp/blk000008ef
+   optimized to 0
+LUT4 		inst_mulfp/blk00000952
+   optimized to 0
+FDE 		inst_mulfp/blk00000983
+   optimized to 0
+FDE 		inst_mulfp/blk00000984
+   optimized to 0
+FDE 		inst_mulfp/blk00000985
+   optimized to 0
+LUT2 		inst_mulfp/blk000009bd
+   optimized to 0
+GND 		inst_subfp/blk00000001
+VCC 		inst_subfp/blk00000002
+GND 		inst_tb_i2c_mem/XST_GND
+LUT2 		tfm_inst/CalculateAlphaCP_fixed2floatr<0>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateAlphaCP_fixed2floatr<1>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateAlphaCP_fixed2floatr<2>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateAlphaCP_fixed2floatr<3>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateAlphaCP_fixed2floatr<4>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateAlphaCP_fixed2floatr<5>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateAlphaCP_fixed2floatr<6>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateAlphaCP_fixed2floatr<7>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateAlphaComp_fixed2floatr<0>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateAlphaComp_fixed2floatr<1>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateAlphaComp_fixed2floatr<2>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateAlphaComp_fixed2floatr<3>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateAlphaComp_fixed2floatr<4>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateAlphaComp_fixed2floatr<5>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateAlphaComp_fixed2floatr<6>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateAlphaComp_fixed2floatr<7>1
+   optimized to 0
+LUT2 		tfm_inst/CalculatePixOS_fixed2floatr<2>1
+   optimized to 0
+LUT2 		tfm_inst/CalculatePixOS_fixed2floatr<3>1
+   optimized to 0
+LUT2 		tfm_inst/CalculatePixOS_fixed2floatr<4>1
+   optimized to 0
+LUT2 		tfm_inst/CalculatePixOS_fixed2floatr<5>1
+   optimized to 0
+LUT2 		tfm_inst/CalculatePixOS_fixed2floatr<6>1
+   optimized to 0
+LUT2 		tfm_inst/CalculatePixOS_fixed2floatr<7>1
+   optimized to 0
+LUT2 		tfm_inst/CalculatePixOsCPSP_fixed2floatr<0>1
+   optimized to 0
+LUT2 		tfm_inst/CalculatePixOsCPSP_fixed2floatr<1>1
+   optimized to 0
+LUT2 		tfm_inst/CalculatePixOsCPSP_fixed2floatr<2>1
+   optimized to 0
+LUT2 		tfm_inst/CalculatePixOsCPSP_fixed2floatr<3>1
+   optimized to 0
+LUT2 		tfm_inst/CalculatePixOsCPSP_fixed2floatr<4>1
+   optimized to 0
+LUT2 		tfm_inst/CalculatePixOsCPSP_fixed2floatr<5>1
+   optimized to 0
+LUT2 		tfm_inst/CalculatePixOsCPSP_fixed2floatr<6>1
+   optimized to 0
+LUT2 		tfm_inst/CalculatePixOsCPSP_fixed2floatr<7>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateTa_fixed2floatr<0>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateTa_fixed2floatr<1>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateTa_fixed2floatr<2>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateTa_fixed2floatr<3>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateTa_fixed2floatr<4>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateTa_fixed2floatr<5>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateTa_fixed2floatr<6>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateTa_fixed2floatr<7>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateVdd_fixed2floatr<0>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateVdd_fixed2floatr<1>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateVdd_fixed2floatr<2>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateVdd_fixed2floatr<3>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateVdd_fixed2floatr<4>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateVdd_fixed2floatr<5>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateVdd_fixed2floatr<6>1
+   optimized to 0
+LUT2 		tfm_inst/CalculateVdd_fixed2floatr<7>1
+   optimized to 0
+LUT2 		tfm_inst/ExtractTGCParameters_fixed2floatr<0>1
+   optimized to 0
+LUT2 		tfm_inst/ExtractTGCParameters_fixed2floatr<1>1
+   optimized to 0
+LUT2 		tfm_inst/ExtractTGCParameters_fixed2floatr<2>1
+   optimized to 0
+LUT2 		tfm_inst/ExtractTGCParameters_fixed2floatr<3>1
+   optimized to 0
+LUT2 		tfm_inst/ExtractTGCParameters_fixed2floatr<4>1
+   optimized to 0
+LUT2 		tfm_inst/ExtractTGCParameters_fixed2floatr<5>1
+   optimized to 0
+LUT2 		tfm_inst/ExtractTGCParameters_fixed2floatr<6>1
+   optimized to 0
+LUT2 		tfm_inst/ExtractTGCParameters_fixed2floatr<7>1
+   optimized to 0
+LUT4 		tfm_inst/divfpa<0>4
+   optimized to 0
+LUT4 		tfm_inst/divfpa<1>4
+   optimized to 0
+LUT4 		tfm_inst/divfpa<2>4
+   optimized to 0
+LUT4 		tfm_inst/divfpa<3>4
+   optimized to 0
+LUT4 		tfm_inst/divfpa<4>4
+   optimized to 0
+LUT4 		tfm_inst/divfpa<5>4
+   optimized to 0
+LUT4 		tfm_inst/divfpa<6>4
+   optimized to 0
+LUT4 		tfm_inst/divfpa<7>4
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculateAlphaCP/divfpa_internal_0
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculateAlphaCP/divfpa_internal_1
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculateAlphaCP/divfpa_internal_2
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculateAlphaCP/divfpa_internal_3
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculateAlphaCP/divfpa_internal_4
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculateAlphaCP/divfpa_internal_5
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculateAlphaCP/divfpa_internal_6
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculateAlphaCP/divfpa_internal_7
+   optimized to 0
+FDE 		tfm_inst/inst_CalculateAlphaComp/divfpa_internal_0
+   optimized to 0
+FDE 		tfm_inst/inst_CalculateAlphaComp/divfpa_internal_1
+   optimized to 0
+FDE 		tfm_inst/inst_CalculateAlphaComp/divfpa_internal_2
+   optimized to 0
+FDE 		tfm_inst/inst_CalculateAlphaComp/divfpa_internal_3
+   optimized to 0
+FDE 		tfm_inst/inst_CalculateAlphaComp/divfpa_internal_4
+   optimized to 0
+FDE 		tfm_inst/inst_CalculateAlphaComp/divfpa_internal_5
+   optimized to 0
+FDE 		tfm_inst/inst_CalculateAlphaComp/divfpa_internal_6
+   optimized to 0
+FDE 		tfm_inst/inst_CalculateAlphaComp/divfpa_internal_7
+   optimized to 0
+LUT4 		tfm_inst/inst_CalculateKGain/divfpa_internal_mux0000<0>1
+   optimized to 0
+LUT4 		tfm_inst/inst_CalculateKGain/divfpa_internal_mux0000<1>1
+   optimized to 0
+LUT4 		tfm_inst/inst_CalculateKGain/divfpa_internal_mux0000<2>1
+   optimized to 0
+LUT4 		tfm_inst/inst_CalculateKGain/divfpa_internal_mux0000<3>1
+   optimized to 0
+LUT4 		tfm_inst/inst_CalculateKGain/divfpa_internal_mux0000<4>1
+   optimized to 0
+LUT4 		tfm_inst/inst_CalculateKGain/divfpa_internal_mux0000<5>1
+   optimized to 0
+LUT4 		tfm_inst/inst_CalculateKGain/divfpa_internal_mux0000<6>1
+   optimized to 0
+LUT4 		tfm_inst/inst_CalculateKGain/divfpa_internal_mux0000<7>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<0>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<1>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<2>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<3>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<4>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<5>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<6>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<7>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<0>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<1>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<2>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<3>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<4>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<5>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<6>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<7>1
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain/mulfpa_internal_0
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain/mulfpa_internal_1
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain/mulfpa_internal_2
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain/mulfpa_internal_3
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain/mulfpa_internal_4
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain/mulfpa_internal_5
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain/mulfpa_internal_6
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain/mulfpa_internal_7
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/addfpb_internal_0
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/addfpb_internal_1
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/addfpb_internal_2
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/addfpb_internal_3
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/addfpb_internal_4
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/addfpb_internal_5
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/addfpb_internal_6
+   optimized to 0
+FDRE 		tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/addfpb_internal_7
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculateTa/addfpb_mux0000<0>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculateTa/addfpb_mux0000<1>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculateTa/addfpb_mux0000<2>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculateTa/addfpb_mux0000<3>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculateTa/addfpb_mux0000<4>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculateTa/addfpb_mux0000<5>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculateTa/addfpb_mux0000<6>1
+   optimized to 0
+LUT3 		tfm_inst/inst_CalculateTa/addfpb_mux0000<7>1
+   optimized to 0
+FDRE 		tfm_inst/inst_ExtractTGCParameters/divfpa_internal_0
+   optimized to 0
+FDRE 		tfm_inst/inst_ExtractTGCParameters/divfpa_internal_1
+   optimized to 0
+FDRE 		tfm_inst/inst_ExtractTGCParameters/divfpa_internal_2
+   optimized to 0
+FDRE 		tfm_inst/inst_ExtractTGCParameters/divfpa_internal_3
+   optimized to 0
+FDRE 		tfm_inst/inst_ExtractTGCParameters/divfpa_internal_4
+   optimized to 0
+FDRE 		tfm_inst/inst_ExtractTGCParameters/divfpa_internal_5
+   optimized to 0
+FDRE 		tfm_inst/inst_ExtractTGCParameters/divfpa_internal_6
+   optimized to 0
+FDRE 		tfm_inst/inst_ExtractTGCParameters/divfpa_internal_7
+   optimized to 0
+MUXCY 		b0.inst_fixed2float/blk000000f8
+MUXCY 		b0.inst_fixed2float/blk000000f9
+MUXCY 		b0.inst_fixed2float/blk000000fa
+XORCY 		b0.inst_fixed2float/blk0000004e
+MUXCY 		b0.inst_fixed2float/blk0000004d
+XORCY 		b0.inst_fixed2float/blk00000050
+MUXCY 		b0.inst_fixed2float/blk0000004f
+XORCY 		b0.inst_fixed2float/blk00000052
+MUXCY 		b0.inst_fixed2float/blk00000051
+XORCY 		b0.inst_fixed2float/blk00000054
+MUXCY 		b0.inst_fixed2float/blk00000053
+XORCY 		b0.inst_fixed2float/blk00000056
+MUXCY 		b0.inst_fixed2float/blk00000055
+XORCY 		b0.inst_fixed2float/blk00000058
+MUXCY 		b0.inst_fixed2float/blk00000057
+XORCY 		b0.inst_fixed2float/blk0000005a
+MUXCY 		b0.inst_fixed2float/blk00000059
+XORCY 		b0.inst_fixed2float/blk0000005c
+MUXCY 		b0.inst_fixed2float/blk0000005b
+MUXCY 		inst_float2fixed/blk0000001b
+
+To enable printing of redundant blocks removed and signals merged, set the
+detailed map report option and rerun map.
+
+Section 6 - IOB Properties
+--------------------------
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------+
+| IOB Name                           | Type             | Direction | IO Standard          | Diff  | Drive    | Slew | Reg (s)      | Resistor | IOB      |
+|                                    |                  |           |                      | Term  | Strength | Rate |              |          | Delay    |
++---------------------------------------------------------------------------------------------------------------------------------------------------------+
+| i_clock                            | IBUF             | INPUT     | LVCMOS25             |       |          |      |              |          | 0 / 0    |
+| i_reset                            | IBUF             | INPUT     | LVCMOS25             |       |          |      |              |          | 0 / 0    |
+| vga_b<0>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_b<1>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_b<2>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_b<3>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_b<4>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_b<5>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_b<6>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_b<7>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_blankn                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_clock                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_g<0>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_g<1>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_g<2>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_g<3>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_g<4>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_g<5>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_g<6>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_g<7>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_hsync                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_psave                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_r<0>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_r<1>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_r<2>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_r<3>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_r<4>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_r<5>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_r<6>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_r<7>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_syncn                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| vga_vsync                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
++---------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+Section 7 - RPMs
+----------------
+
+Section 8 - Guide Report
+------------------------
+Guide not run on this design.
+
+Section 9 - Area Group and Partition Summary
+--------------------------------------------
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+Area Group Information
+----------------------
+
+  No area groups were found in this design.
+
+----------------------
+
+Section 10 - Timing Report
+--------------------------
+A logic-level (pre-route) timing report can be generated by using Xilinx static
+timing analysis tools, Timing Analyzer (GUI) or TRCE (command line), with the
+mapped NCD and PCF files. Please note that this timing report will be generated
+using estimated delay information. For accurate numbers, please generate a
+timing report with the post Place and Route NCD file.
+
+For more information about the Timing Analyzer, consult the Xilinx Timing
+Analyzer Reference Manual; for more information about TRCE, consult the Xilinx
+Command Line Tools User Guide "TRACE" chapter.
+
+Section 11 - Configuration String Details
+-----------------------------------------
+Use the "-detail" map option to print out Configuration Strings
+
+Section 12 - Control Set Information
+------------------------------------
+No control set information for this architecture.
+
+Section 13 - Utilization by Hierarchy
+-------------------------------------
+Use the "-detail" map option to print out the Utilization by Hierarchy section.

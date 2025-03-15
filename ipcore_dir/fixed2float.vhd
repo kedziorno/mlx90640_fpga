@@ -42,7 +42,11 @@ LIBRARY XilinxCoreLib;
 -- synthesis translate_on
 ENTITY fixed2float IS
   PORT (
+<<<<<<< HEAD
     a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+=======
+    a : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+>>>>>>> merge_1
     operation_nd : IN STD_LOGIC;
     clk : IN STD_LOGIC;
     sclr : IN STD_LOGIC;
@@ -56,7 +60,11 @@ ARCHITECTURE fixed2float_a OF fixed2float IS
 -- synthesis translate_off
 COMPONENT wrapped_fixed2float
   PORT (
+<<<<<<< HEAD
     a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
+=======
+    a : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+>>>>>>> merge_1
     operation_nd : IN STD_LOGIC;
     clk : IN STD_LOGIC;
     sclr : IN STD_LOGIC;
@@ -69,10 +77,17 @@ END COMPONENT;
 -- Configuration specification
   FOR ALL : wrapped_fixed2float USE ENTITY XilinxCoreLib.floating_point_v5_0(behavioral)
     GENERIC MAP (
+<<<<<<< HEAD
       c_a_fraction_width => 29,
       c_a_width => 64,
       c_b_fraction_width => 29,
       c_b_width => 64,
+=======
+      c_a_fraction_width => 0,
+      c_a_width => 16,
+      c_b_fraction_width => 0,
+      c_b_width => 16,
+>>>>>>> merge_1
       c_compare_operation => 8,
       c_has_a_nd => 0,
       c_has_a_negate => 0,
@@ -103,7 +118,11 @@ END COMPONENT;
       c_has_status => 0,
       c_has_subtract => 0,
       c_has_underflow => 0,
+<<<<<<< HEAD
       c_latency => 7,
+=======
+      c_latency => 6,
+>>>>>>> merge_1
       c_mult_usage => 0,
       c_optimization => 1,
       c_rate => 1,
@@ -111,7 +130,11 @@ END COMPONENT;
       c_result_width => 32,
       c_speed => 2,
       c_status_early => 0,
+<<<<<<< HEAD
       c_xdevicefamily => "virtex4"
+=======
+      c_xdevicefamily => "spartan3e"
+>>>>>>> merge_1
     );
 -- synthesis translate_on
 BEGIN
