@@ -29,6 +29,8 @@ use IEEE.NUMERIC_STD.ALL;
 library UNISIM;
 use UNISIM.VComponents.all;
 
+use work.p_global_constants.all;
+
 entity calculateAcc is
 port (
 i_clock : in std_logic;
@@ -387,10 +389,6 @@ x"54800000" when x"c", x"55000000" when x"d", x"55800000" when x"e", x"56000000"
 x"22000000" when others;
 
 p0 : process (i_clock, i_reset) is
-	constant N_COLS : integer := 32;
-	constant N_ROWS : integer := 24;
-	constant const2 : std_logic_vector (31 downto 0) := x"40000000";
-	constant SCALEALPHA : std_logic_vector (31 downto 0) := x"358637BD"; -- 0.000001
 	variable i : integer range 0 to N_ROWS-1;
 	variable j : integer range 0 to N_COLS-1;
 	variable index : integer range 0 to 15;

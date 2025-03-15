@@ -401,18 +401,12 @@ mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0')
 mux_dia <= dia when rdy = '0' else (others => '0');
 
 p0 : process (i_clock) is
-	constant C_ROW : integer := 24;
-	constant C_COL : integer := 32;
 	variable i : integer range 0 to C_ROW*C_COL-1;
 	type states is (idle,s0,s1,s2,s3,
 	s7,s8,s10,
 	s15,s16,s17,s19,
 	s22,s25,s25a,s26,s28,s31);
 	variable state : states;
-  constant const_plus1 : std_logic_vector (31 downto 0) := x"3F800000";
-  constant const_minus1 : std_logic_vector (31 downto 0) := x"BF800000";
-  constant const_2pow13 : std_logic_vector (31 downto 0) := x"46000000";
-  constant const_Ta0 : std_logic_vector (31 downto 0) := x"41C80000"; -- 25
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then

@@ -6,9 +6,6 @@ use work.p_package1_constant.all;
 
 package p_package2 is
 
-constant C_TB_DATA_FILE : string := "tb_data";
-
-file fptr : text;
 
 end p_package2;
 
