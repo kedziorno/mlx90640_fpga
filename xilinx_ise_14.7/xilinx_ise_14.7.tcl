@@ -35,17 +35,22 @@
 #        when this script was generated.
 # 
 
-set myProject "xilinx_ise_14.7"
-set myScript "xilinx_ise_14.7.tcl"
-
 if { $argc != 2 } {
-  puts "Run ${myScript} [module_name] [option]."
+  puts "Run .tcl [module_name] [option]."
   puts "Please try again."
   exit 1
 }
 
+
 set module_name [lindex $argv 0]
 #puts ${module_name}
+
+set compile_directory "synthesis"
+set top_name "${module_name}"
+set constraints_file "${module_name}".ucf
+
+set myProject "xilinx_ise_14.7"
+set myScript "xilinx_ise_14.7.tcl"
 
 # 
 # Main (top-level) routines
