@@ -1,3 +1,49 @@
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   09:00:00 03/15/2025
+-- Design Name:   mlx90640_fpga
+-- Module Name:   global_package
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   Package with all constants, used in ALL modules
+--                (Rest is in commented code)
+--
+-- Dependencies:
+--  - Files:
+--    ieee_proposed library (fphdl)
+--  - Modules: -
+--
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules: -
+--
+-- Imporant objects:
+--  - For tests:
+--    - ap_slv2fp - convert std_logic_vector to float in tb 
+--    - report_error - display when current /= expected values
+--                      or for dump value when expected equal zero 
+--
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones: -
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
+
 --synthesis translate_off
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
