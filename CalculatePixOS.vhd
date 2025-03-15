@@ -190,6 +190,16 @@ signal ExtractOffsetParameters_addfpsclr : STD_LOGIC;
 signal ExtractOffsetParameters_addfpce : STD_LOGIC;
 signal ExtractOffsetParameters_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractOffsetParameters_addfprdy : STD_LOGIC;
+<<<<<<< HEAD
+=======
+--signal ExtractOffsetParameters_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+--signal ExtractOffsetParameters_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+--signal ExtractOffsetParameters_divfpond : STD_LOGIC;
+--signal ExtractOffsetParameters_divfpsclr : STD_LOGIC;
+--signal ExtractOffsetParameters_divfpce : STD_LOGIC;
+--signal ExtractOffsetParameters_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+--signal ExtractOffsetParameters_divfprdy : STD_LOGIC;
+>>>>>>> rewrite_fsms_p4_xc4vsx35
 
 component ExtractKtaParameters is
 port (
@@ -392,6 +402,11 @@ signal CalculatePixGain_mulfpce : STD_LOGIC;
 signal CalculatePixGain_mulfpsclr : STD_LOGIC;
 signal CalculatePixGain_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixGain_mulfprdy : STD_LOGIC;
+<<<<<<< HEAD
+=======
+--signal CalculatePixGain_fixed2floatclk : std_logic;
+--signal CalculatePixGain_mulfpclk : std_logic;
+>>>>>>> rewrite_fsms_p4_xc4vsx35
 
 component mem_ramb16_s36_x2 is
 generic (
@@ -563,6 +578,16 @@ signal rdy,write_enable : std_logic;
 
 signal CalculatePixGain_mux,ExtractOffsetParameters_mux,ExtractKtaParameters_mux,ExtractKvParameters_mux : std_logic;
 
+<<<<<<< HEAD
+=======
+--signal fixed2floata_internal : STD_LOGIC_VECTOR(15 DOWNTO 0);
+--signal fixed2floatond_internal : STD_LOGIC;
+--signal fixed2floatce_internal : STD_LOGIC;
+--signal fixed2floatsclr_internal : STD_LOGIC;
+--signal fixed2floatr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
+--signal fixed2floatrdy_internal : STD_LOGIC;
+
+>>>>>>> rewrite_fsms_p4_xc4vsx35
 signal mulfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpond_internal : STD_LOGIC;
@@ -814,6 +839,10 @@ begin
 			subfpsclr_internal <= '1';
 			mulfpsclr_internal <= '1';
 			divfpsclr_internal <= '1';
+<<<<<<< HEAD
+=======
+--			fixed2floatsclr_internal <= '1';
+>>>>>>> rewrite_fsms_p4_xc4vsx35
 			rdy <= '0';
 			CalculatePixGain_run <= '0';
 			ExtractOffsetParameters_run <= '0';
@@ -861,6 +890,10 @@ begin
 					subfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
+<<<<<<< HEAD
+=======
+--					fixed2floatsclr_internal <= '0';
+>>>>>>> rewrite_fsms_p4_xc4vsx35
         when s3 =>
           CalculatePixGain_run <= '0';
           if (CalculatePixGain_rdy = '1') then
@@ -908,10 +941,18 @@ begin
           ExtractOffsetParameters_addr <= std_logic_vector (to_unsigned (i, 10));
           ExtractKtaParameters_addr <= std_logic_vector (to_unsigned (i, 10));
           ExtractKvParameters_addr <= std_logic_vector (to_unsigned (i, 10));
+<<<<<<< HEAD
           addfpsclr_internal <= '0';
           subfpsclr_internal <= '0';
           divfpsclr_internal <= '0';
           mulfpsclr_internal <= '0';
+=======
+          addfpsclr_internal <= '0';		
+          subfpsclr_internal <= '0';		
+          divfpsclr_internal <= '0';		
+          mulfpsclr_internal <= '0';		
+--          fixed2floatsclr_internal <= '0';
+>>>>>>> rewrite_fsms_p4_xc4vsx35
         when s9b =>
           subfpce_internal <= '1';
           subfpa_internal <= i_Ta;

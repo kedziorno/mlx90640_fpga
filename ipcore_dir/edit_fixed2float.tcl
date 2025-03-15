@@ -22,7 +22,11 @@ proc findRtfPath { relativePath } {
 
 source [ findRtfPath "data/projnav/scripts/dpm_cgUtils.tcl" ]
 
+<<<<<<< HEAD
 set result [ run_cg_edit "fixed2float" xc3s1200e-4fg320 VHDL ]
+=======
+set result [ run_cg_edit "fixed2float" xc4vsx35-10ff668 VHDL ]
+>>>>>>> rewrite_fsms_p4_xc4vsx35
 
 if { $result == 0 } {
    puts "Core Generator edit command completed successfully."

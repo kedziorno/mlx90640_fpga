@@ -414,9 +414,12 @@ begin
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
           fixed2floatsclr_internal <= '0';
+<<<<<<< HEAD
           col <= 0;
           row <= 0;
           i := 0;
+=======
+>>>>>>> rewrite_fsms_p4_xc4vsx35
 				when kta1 => state := kta2;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (109, 12)); -- 2436 MSB - ktarcee_eo 54*2+1
 				when kta2 => state := kta3;

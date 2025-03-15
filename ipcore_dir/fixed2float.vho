@@ -71,10 +71,14 @@
 COMPONENT fixed2float
   PORT (
 <<<<<<< HEAD
+<<<<<<< HEAD
     a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
 =======
     a : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 >>>>>>> merge_1
+=======
+    a : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+>>>>>>> rewrite_fsms_p4_xc4vsx35
     operation_nd : IN STD_LOGIC;
     clk : IN STD_LOGIC;
     sclr : IN STD_LOGIC;

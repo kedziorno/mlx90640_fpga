@@ -43,10 +43,14 @@ LIBRARY XilinxCoreLib;
 ENTITY fixed2float IS
   PORT (
 <<<<<<< HEAD
+<<<<<<< HEAD
     a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
 =======
     a : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 >>>>>>> merge_1
+=======
+    a : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+>>>>>>> rewrite_fsms_p4_xc4vsx35
     operation_nd : IN STD_LOGIC;
     clk : IN STD_LOGIC;
     sclr : IN STD_LOGIC;
@@ -61,10 +65,14 @@ ARCHITECTURE fixed2float_a OF fixed2float IS
 COMPONENT wrapped_fixed2float
   PORT (
 <<<<<<< HEAD
+<<<<<<< HEAD
     a : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
 =======
     a : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 >>>>>>> merge_1
+=======
+    a : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+>>>>>>> rewrite_fsms_p4_xc4vsx35
     operation_nd : IN STD_LOGIC;
     clk : IN STD_LOGIC;
     sclr : IN STD_LOGIC;
@@ -78,16 +86,22 @@ END COMPONENT;
   FOR ALL : wrapped_fixed2float USE ENTITY XilinxCoreLib.floating_point_v5_0(behavioral)
     GENERIC MAP (
 <<<<<<< HEAD
+<<<<<<< HEAD
       c_a_fraction_width => 29,
       c_a_width => 64,
       c_b_fraction_width => 29,
       c_b_width => 64,
 =======
+=======
+>>>>>>> rewrite_fsms_p4_xc4vsx35
       c_a_fraction_width => 0,
       c_a_width => 16,
       c_b_fraction_width => 0,
       c_b_width => 16,
+<<<<<<< HEAD
 >>>>>>> merge_1
+=======
+>>>>>>> rewrite_fsms_p4_xc4vsx35
       c_compare_operation => 8,
       c_has_a_nd => 0,
       c_has_a_negate => 0,
@@ -119,10 +133,14 @@ END COMPONENT;
       c_has_subtract => 0,
       c_has_underflow => 0,
 <<<<<<< HEAD
+<<<<<<< HEAD
       c_latency => 7,
 =======
       c_latency => 6,
 >>>>>>> merge_1
+=======
+      c_latency => 6,
+>>>>>>> rewrite_fsms_p4_xc4vsx35
       c_mult_usage => 0,
       c_optimization => 1,
       c_rate => 1,

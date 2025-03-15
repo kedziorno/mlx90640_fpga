@@ -68,6 +68,12 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
+<<<<<<< HEAD:calculate_vdd.vhd
+=======
+o_Vdd : out std_logic_vector (31 downto 0); -- output Vdd
+o_rdy : out std_logic;
+
+>>>>>>> rewrite_fsms_p4_xc4vsx35:CalculateVdd.vhd
 fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;

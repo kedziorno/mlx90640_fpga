@@ -16,6 +16,7 @@ Environment Variable      Effect
 NONE                      No environment variables were set
 --------------------------------------------------------------------------------
 
+INFO:Timing:2698 - No timing constraints found, doing default enumeration.
 INFO:Timing:3412 - To improve timing, see the Timing Closure User Guide (UG612).
 INFO:Timing:2752 - To get complete path coverage, use the unconstrained paths 
    option. All paths that are not constrained will be reported in the 
@@ -33,6 +34,7 @@ INFO:Timing:3389 - This architecture does not support 'Discrete Jitter' and
    SYSTEM_JITTER to account for the unsupported Discrete Jitter and Phase 
    Error.
 
+<<<<<<< HEAD
 ================================================================================
 Timing constraint: NET "i_clock_BUFGP/IBUFG" PERIOD = 20 ns HIGH 50%;
 For more information, see Period Analysis in the Timing Closure User Guide (UG612).
@@ -562,17 +564,36 @@ Slack: 16.824ns (period - min period limit)
 
 
 All constraints were met.
+=======
+>>>>>>> rewrite_fsms_p4_xc4vsx35
 
 
 Data Sheet report:
 -----------------
 All values displayed in nanoseconds (ns)
 
+Setup/Hold to clock i_clock
+------------+------------+------------+------------------+--------+
+            |Max Setup to|Max Hold to |                  | Clock  |
+Source      | clk (edge) | clk (edge) |Internal Clock(s) | Phase  |
+------------+------------+------------+------------------+--------+
+i_reset     |   11.250(R)|    2.895(R)|i_clock_BUFGP     |   0.000|
+------------+------------+------------+------------------+--------+
+
+Clock i_clock to Pad
+------------+------------+------------------+--------+
+            | clk (edge) |                  | Clock  |
+Destination |   to PAD   |Internal Clock(s) | Phase  |
+------------+------------+------------------+--------+
+vga_clock   |   11.579(R)|i_clock_BUFGP     |   0.000|
+------------+------------+------------------+--------+
+
 Clock to Setup on destination clock i_clock
 ---------------+---------+---------+---------+---------+
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
+<<<<<<< HEAD
 i_clock        |   18.252|         |         |         |
 ---------------+---------+---------+---------+---------+
 
@@ -592,13 +613,24 @@ Design statistics:
 1)  The minimum period statistic assumes all single cycle delays.
 
 Analysis completed Fri Dec  6 16:29:48 2024 
+=======
+i_clock        |    8.630|         |         |         |
+---------------+---------+---------+---------+---------+
+
+
+Analysis completed Wed Oct 16 23:17:58 2024 
+>>>>>>> rewrite_fsms_p4_xc4vsx35
 --------------------------------------------------------------------------------
 
 Trace Settings:
 -------------------------
 Trace Settings 
 
+<<<<<<< HEAD
 Peak Memory Usage: 544 MB
+=======
+Peak Memory Usage: 716 MB
+>>>>>>> rewrite_fsms_p4_xc4vsx35
 
 
 

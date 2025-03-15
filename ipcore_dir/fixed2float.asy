@@ -5,10 +5,14 @@ RECTANGLE Normal 32 32 480 384
 LINE Wide 0 80 32 80
 PIN 0 80 LEFT 36
 <<<<<<< HEAD
+<<<<<<< HEAD
 PINATTR PinName a[63:0]
 =======
 PINATTR PinName a[15:0]
 >>>>>>> merge_1
+=======
+PINATTR PinName a[15:0]
+>>>>>>> rewrite_fsms_p4_xc4vsx35
 PINATTR Polarity IN
 LINE Normal 0 208 32 208
 PIN 0 208 LEFT 36
