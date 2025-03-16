@@ -73,6 +73,10 @@ package global_package is
 
   subtype constant_float is std_logic_vector (31 downto 0); -- Floating Point 32
 
+  -- mem_ramb16_s36_s36_x2
+  constant c_mode_com : integer := 0;
+  constant c_mode_seq : integer := 1;
+
   -- mem_switchpattern
   constant c_type_lut : integer := 0;
   constant c_type_rom1 : integer := 1;

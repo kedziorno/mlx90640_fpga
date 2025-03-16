@@ -6,6 +6,13 @@
 --  - "top" as name of root module
 --  - (...) it is good to complement it (if empty, put '-' char after colon)
 --  - use internal signals for input/output entity (for better ILA debug)
+--  - Abbreviations:
+--    - syn - synthesis
+--    - sim - simulation
+--    - com - combinatorial
+--    - seq - sequential
+--    - RE/re - rising edge
+--    - FE/fe - falling edge
 --  - When commented code:
 --    - "--string"     - code comment
 --    - "-- string"    - normal comment

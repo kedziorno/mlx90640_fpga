@@ -8,43 +8,40 @@
 -- Project Name:  mlx90640_fpga
 -- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
 -- Tool versions: Xilinx ISE 14.7, XST and ISIM
--- Description:   (...)
+-- Description:   Make synchronous RAM/ROM 1024x32bit from 2 Block RAMs
+--                Type of switch - c_mode_com, c_mode_seq
+--                Output and enable must be combinatorial (this works after syn)
+--                First half - INIT_00 to INIT_3F
+--                Second half - INIT_40 to INIT_7F
+--                Rest pins as normal (follow Xilinx datasheet)
 --                (Rest is in commented code)
 --
 -- Dependencies:
 --  - Files:
---    (...)
+--    global_package.vhd
 --  - Modules:
---    (...)
+--    RAMB16_S36
 --
 -- Revision:
 --  - Revision 0.01 - File created
---    - Files:
---      (...)
---    - Modules:
---      (...)
---    - Processes (Architecture: (...)):
---      (...)
+--    - Files: -
+--    - Modules: -
+--    - Processes (Architecture: rtl):
+--      - p0, p1 - combinatorial
+--      - p2, p3 - sequential
 --
--- Imporant objects:
---  - (...)
+-- Imporant objects: -
 --
 -- Information from the software vendor:
---  - Messeges:
---    (...)
---  - Bugs:
---    (...)
---  - Notices:
---    (...)
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
 --  - Infos:
---    (...)
---  - Notes:
---    (...)
---  - Criticals/Failures:
---    (...)
+--    - Synchronous version after synthesis dont see first/second half RAM
+--  - Notes: -
+--  - Criticals/Failures: -
 --
--- Concepts/Milestones:
--- (...)
+-- Concepts/Milestones: -
 --
 -- Additional Comments:
 --  - To read more about:
@@ -56,17 +53,14 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
-
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
 library UNISIM;
 use UNISIM.VComponents.all;
 
+use work.global_package.all;
+
 entity mem_ramb16_s36_x2 is
 generic (
+constant c_mode : integer := c_mode_com;
 INIT_00 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
 INIT_01 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
 INIT_02 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
@@ -228,7 +222,7 @@ signal WE : in std_logic
 );
 end mem_ramb16_s36_x2;
 
-architecture Behavioral of mem_ramb16_s36_x2 is
+architecture rtl of mem_ramb16_s36_x2 is
 
 signal DO1,DO2 : std_logic_vector (31 downto 0);
 signal DOP1,DOP2 : std_logic_vector (3 downto 0);
@@ -243,8 +237,8 @@ signal EN_i : std_logic;
 
 begin
 
---EN_i <= not CLK;
---EN_i <= '1'; -- XXX always enabled, check differents in syn report
+--EN_i <= not CLK; -- XXX BAD
+--EN_i <= '1'; -- XXX always enabled, check differents in syn report (more power)
 EN_i <= EN;
 
 ADDR1 <= ADDR (8 downto 0);
@@ -260,58 +254,10 @@ DIP1 <= DIP;
 DI2 <= DI;
 DIP2 <= DIP;
 
-p3 : process (ADDR(9), EN_i) is
-begin
-  EN1 <= '0';
-  EN2 <= '0';
-  if (ADDR (9) = '0') then
-    EN1 <= EN_i;
-    EN2 <= '0';
-  end if;
-  if (ADDR (9) = '1') then
-    EN1 <= '0';
-    EN2 <= EN_i;
-  end if;
-end process p3;
+-- XXX Combinatorial version
+g_mem_ramb16_s36_x2_1 : if (c_mode = c_mode_com) generate
 
---p0 : process (CLK) is
---begin
---	if (rising_edge (CLK)) then
---		if (ADDR (9) = '0') then
---			EN1 <= EN_i;
---			EN2 <= '0';
-----			SSR1 <= '0';
-----			SSR2 <= SSR;
---		end if;
---		if (ADDR (9) = '1') then
---			EN1 <= '0';
---			EN2 <= EN_i;
-----			SSR1 <= SSR;
-----			SSR2 <= '0';
---		end if;
---	end if;
---end process p0;
-
---p2 : process (CLK,SSR) is
---begin
---	if (SSR = '1') then
---		DO <= (others => '0');
---		DOP <= (others => '0');
---	elsif (rising_edge (CLK)) then
---    if (EN1 = '1' and EN2 = '0') then
---      DO <= DO1;
---      DOP <= DOP1;
---    elsif (EN1 = '0' and EN2 = '1') then
---      DO <= DO2;
---      DOP <= DOP2;
---    else
---      DO <= (others => '0');
---      DOP <= (others => '0');
---    end if;
---	end if;
---end process p2;
-
-p1 : process (EN1,EN2,DO1,DOP1,DO2,DOP2) is
+p0 : process (EN1, EN2, DO1, DOP1, DO2, DOP2) is -- XXX Switch output between banks
 begin
 	DO <= (others => '0');
 	DOP <= (others => '0');
@@ -323,9 +269,67 @@ begin
 		DO <= DO2;
 		DOP <= DOP2;
 	end if;
+end process p0;
+
+p1 : process (ADDR(9), EN_i) is -- XXX Enable bank depend on MSB ADDR (9)
+begin
+  EN1 <= '0';
+  EN2 <= '0';
+  if (ADDR (9) = '0') then
+    EN1 <= EN_i;
+    EN2 <= '0';
+  end if;
+  if (ADDR (9) = '1') then
+    EN1 <= '0';
+    EN2 <= EN_i;
+  end if;
 end process p1;
 
-RAMB16_S36_inst1 : RAMB16_S36
+end generate g_mem_ramb16_s36_x2_1;
+
+-- XXX Synchronous version, works in behavioral simulation
+g_mem_ramb16_s36_x2_2 : if (c_mode = c_mode_seq) generate
+
+p2 : process (CLK) is
+begin
+	if (rising_edge (CLK)) then
+		if (ADDR (9) = '0') then
+			EN1 <= EN_i;
+			EN2 <= '0';
+--			SSR1 <= '0';
+--			SSR2 <= SSR;
+		end if;
+		if (ADDR (9) = '1') then
+			EN1 <= '0';
+			EN2 <= EN_i;
+--			SSR1 <= SSR;
+--			SSR2 <= '0';
+		end if;
+	end if;
+end process p2;
+
+p3 : process (CLK,SSR) is
+begin
+	if (SSR = '1') then
+		DO <= (others => '0');
+		DOP <= (others => '0');
+	elsif (rising_edge (CLK)) then
+    if (EN1 = '1' and EN2 = '0') then
+      DO <= DO1;
+      DOP <= DOP1;
+    elsif (EN1 = '0' and EN2 = '1') then
+      DO <= DO2;
+      DOP <= DOP2;
+    else
+      DO <= (others => '0');
+      DOP <= (others => '0');
+    end if;
+	end if;
+end process p3;
+
+end generate g_mem_ramb16_s36_x2_2;
+
+RAMB16_S36_i1 : RAMB16_S36
 generic map (
 INIT => X"000000000", -- Value of output RAM registers at startup
 SRVAL => X"000000000", -- Output value upon SSR assertion
@@ -425,7 +429,7 @@ SSR => SSR1, -- Synchronous Set/Reset Input
 WE => WE1 -- Write Enable Input
 );
 
-RAMB16_S36_inst2 : RAMB16_S36
+RAMB16_S36_i2 : RAMB16_S36
 generic map (
 INIT => X"000000000", -- Value of output RAM registers at startup
 SRVAL => X"000000000", -- Output value upon SSR assertion
@@ -525,5 +529,5 @@ SSR => SSR2, -- Synchronous Set/Reset Input
 WE => WE2 -- Write Enable Input
 );
 
-end Behavioral;
+end architecture rtl;
 

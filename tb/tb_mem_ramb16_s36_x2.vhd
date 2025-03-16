@@ -1,46 +1,74 @@
---------------------------------------------------------------------------------
--- Company: 
--- Engineer:
---
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
 -- Create Date:   21:50:49 01/24/2023
--- Design Name:   
--- Module Name:   /home/user/workspace/melexis_mlx90641/tb_mem_ramb16_s36_x2.vhd
--- Project Name:  melexis_mlx90641
--- Target Device:  
--- Tool versions:  
--- Description:   
--- 
--- VHDL Test Bench Created by ISE for module: mem_ramb16_s36_x2
--- 
--- Dependencies:
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
+-- Design Name:   mlx90640_fpga
+-- Module Name:   tb_mem_ramb16_s36_x2
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   Testbench
+--                Memory is incremental initialize with FP32, step by 0.125
+--                First half - 0 - 63.875
+--                Second half - -64 - -0.125
+--                Address put on bus before RE clock
+--                  and data output available after 0.1 ns
+--                  otherwise (FE clock) we have glitches
+--                  and data output is available after half clock period + 0.1ns
+--                On c_mode_seq data is available at next RE clock
+--                  (address also on RE clock), but no glitches
+--                  When address on FE clock, data appear after 1.5 clock period
+--                (Rest is in commented code)
 --
--- Notes: 
--- This testbench has been automatically generated using types std_logic and
--- std_logic_vector for the ports of the unit under test.  Xilinx recommends
--- that these types always be used for the top-level I/O of a design in order
--- to guarantee that the testbench will bind correctly to the post-implementation 
--- simulation model.
---------------------------------------------------------------------------------
+-- Dependencies:
+--  - Files:
+--    global_package.vhd
+--  - Modules: -
+--
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules: -
+--    - Processes (Architecture: tb):
+--      p_clock_process, p_tb
+--
+-- Imporant objects: -
+--
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones: -
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
+
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 USE ieee.numeric_std.ALL;
+
+use work.global_package.all;
 
 ENTITY tb_mem_ramb16_s36_x2 IS
 END tb_mem_ramb16_s36_x2;
 
-ARCHITECTURE behavior OF tb_mem_ramb16_s36_x2 IS 
+ARCHITECTURE tb OF tb_mem_ramb16_s36_x2 IS
 
 -- Component Declaration for the Unit Under Test (UUT)
 
 COMPONENT mem_ramb16_s36_x2
 generic (
+constant c_mode : integer := c_mode_com;
 INIT_00 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
 INIT_01 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
 INIT_02 : bit_vector := X"0000000000000000000000000000000000000000000000000000000000000000";
@@ -202,7 +230,6 @@ WE : IN  std_logic
 );
 END COMPONENT;
 
-
 --Inputs
 signal ADDR : std_logic_vector(9 downto 0) := (others => '0');
 signal CLK : std_logic := '0';
@@ -222,7 +249,7 @@ constant CLK_period : time := 10 ns;
 BEGIN
 
 -- Instantiate the Unit Under Test (UUT)
-uut: mem_ramb16_s36_x2 
+mem_ramb16_s36_x2_uut : mem_ramb16_s36_x2
 GENERIC MAP (
 INIT_00 => X"3f6000003f4000003f2000003f0000003ec000003e8000003e00000022000000",       
 INIT_01 => X"3ff000003fe000003fd000003fc000003fb000003fa000003f9000003f800000",
@@ -366,17 +393,16 @@ WE => WE
 );
 
 -- Clock process definitions
-CLK_process :process
+p_clock_process : process
 begin
-CLK <= '0';
-wait for CLK_period/2;
 CLK <= '1';
 wait for CLK_period/2;
-end process;
-
+CLK <= '0';
+wait for CLK_period/2;
+end process p_clock_process;
 
 -- Stimulus process
-stim_proc: process
+p_tb : process
 begin		
 -- hold reset state for 100 ns.
 ssr <= '1';
@@ -415,6 +441,7 @@ addr <= std_logic_vector (to_unsigned (1025,10));
 wait for CLK_period*2;
 
 report "done" severity failure;
-end process;
+end process p_tb;
 
-END;
+end architecture tb;
+
