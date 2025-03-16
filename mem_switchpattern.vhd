@@ -19,7 +19,7 @@
 --
 -- Dependencies:
 --  - Files:
---    global_package
+--    global_package.vhd
 --  - Modules:
 --    RAMB16, RAMB16_S1
 --
@@ -43,10 +43,12 @@
 --  - Bugs: -
 --  - Notices: -
 --  - Infos: -
---  - Notes: -
+--  - Notes:
+--    - Synthesis flow on xc4vsx35 for c_type_rom1 and c_type_rom2 is the same
+--    - ngdbuild on xc3s1200e for c_type_rom2 FAIL 
 --  - Criticals/Failures: -
 --
--- Concepts/Milestones: -
+-- Concepts/Milestones:
 --  - Successfully replace Block RAM with combinatorial logic (1 LUT)
 --
 -- Additional Comments:
@@ -68,7 +70,7 @@ use work.global_package.all;
 
 entity mem_switchpattern is
 generic (
-  constant c_mem_type : integer := c_type_lut
+  constant c_mem_type : integer := c_type_rom2
 );
 port (
 	i_clock : in std_logic;
@@ -209,6 +211,7 @@ signal pixel2 : std_logic_vector (14 downto 0);
 begin
 
 g_mem_switchpattern_lut : if (c_mem_type = c_type_lut) generate
+
 begin
 p0 : process (i_pixel) is
   variable i : integer range 0 to 767;
@@ -227,6 +230,7 @@ begin
       o_pattern <= b (offset);
   end case;
 end process p0;
+
 end generate g_mem_switchpattern_lut;
 
 g_mem_switchpattern_mem1 : if (c_mem_type = c_type_rom1) generate
@@ -322,6 +326,7 @@ EN => '1', -- RAM Enable Input
 SSR => i_reset, -- Synchronous Set/Reset Input
 WE => '0' -- Write Enable Input
 );
+
 end generate g_mem_switchpattern_mem1;
 
 g_mem_switchpattern_mem2 : if (c_mem_type = c_type_rom2) generate -- XXX xc4vsx35

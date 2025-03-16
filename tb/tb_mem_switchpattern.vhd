@@ -14,38 +14,28 @@
 --
 -- Dependencies:
 --  - Files:
---    (...)
---  - Modules:
---    (...)
+--    global_package.vhd
+--  - Modules: -
 --
 -- Revision:
 --  - Revision 0.01 - File created
---    - Files:
---      (...)
---    - Modules:
---      (...)
---    - Processes (Architecture: (...)):
---      (...)
+--    - Files: -
+--    - Modules: 
+--    - Processes (Architecture: tb):
+--      p_clock_process, p_tb
 --
 -- Imporant objects:
---  - (...)
+--  - c_mem_type - c_type_lut, c_type_rom1, c_type_rom2
 --
 -- Information from the software vendor:
---  - Messeges:
---    (...)
---  - Bugs:
---    (...)
---  - Notices:
---    (...)
---  - Infos:
---    (...)
---  - Notes:
---    (...)
---  - Criticals/Failures:
---    (...)
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
 --
--- Concepts/Milestones:
--- (...)
+-- Concepts/Milestones: -
 --
 -- Additional Comments:
 --  - To read more about:
@@ -68,7 +58,7 @@ ARCHITECTURE tb OF tb_mem_switchpattern IS
 
 COMPONENT mem_switchpattern
 GENERIC (
-constant c_mem_type : integer := c_type_rom2
+constant c_mem_type : integer := c_type_lut
 );
 PORT(
 i_clock : IN  std_logic;
