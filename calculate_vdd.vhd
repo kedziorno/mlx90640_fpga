@@ -25,7 +25,7 @@
 --    - Processes (Architecture: rtl):
 --      p0
 --
--- Imporant objects:
+-- Important objects:
 --  - Entity signals:
 --    - i2c_mem_* - memory with raw data
 --    - fixed2float* - conversion

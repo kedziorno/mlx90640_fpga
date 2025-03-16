@@ -30,7 +30,7 @@
 --      - p0, p1 - combinatorial
 --      - p2, p3 - sequential
 --
--- Imporant objects:
+-- Important objects:
 --  - As Xilinx RAMB16 datasheet say, reset must be synchronous
 --
 -- Information from the software vendor:

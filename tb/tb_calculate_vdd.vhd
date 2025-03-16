@@ -24,7 +24,7 @@
 --    - Processes (Architecture: tb):
 --      p_clock_generation, p_tb
 --
--- Imporant objects:
+-- Important objects:
 --  - tb_i2c_mem_i - store raw data for calculates
 --  - calculate_vdd_vdd - output value in FP32 format
 --

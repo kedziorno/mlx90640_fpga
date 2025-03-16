@@ -25,7 +25,7 @@
 --    - Processes (Architecture: tb):
 --      p_clock_process, p_tb
 --
--- Imporant objects:
+-- Important objects:
 --  - tb_i2c_mem - raw data for calculates
 --
 -- Information from the software vendor:

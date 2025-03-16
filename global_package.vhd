@@ -21,7 +21,7 @@
 --    - Files: -
 --    - Modules: -
 --
--- Imporant objects:
+-- Important objects:
 --  - For tests:
 --    - ap_slv2fp - convert std_logic_vector to float in tb 
 --    - report_error - display when current /= expected values

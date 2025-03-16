@@ -26,7 +26,7 @@
 --    - Processes (Architecture: (...)):
 --      (...)
 --
--- Imporant objects:
+-- Important objects:
 --  - (...)
 --
 -- Information from the software vendor:

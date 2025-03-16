@@ -24,7 +24,7 @@
 --    - Processes (Architecture: tb):
 --      p_clock_process, p_tb
 --
--- Imporant objects:
+-- Important objects:
 --  - c_mem_type - c_type_lut, c_type_rom1, c_type_rom2
 --
 -- Information from the software vendor:

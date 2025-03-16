@@ -33,7 +33,7 @@
 --    - Processes (Architecture: tb):
 --      p_clock_process, p_tb
 --
--- Imporant objects: -
+-- Important objects: -
 --
 -- Information from the software vendor:
 --  - Messeges: -

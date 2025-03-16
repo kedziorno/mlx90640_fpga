@@ -9,6 +9,8 @@
 -- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
 -- Tool versions: Xilinx ISE 14.7, XST and ISIM
 -- Description:   11.2.2.8. Normalizing to sensitivity (p. 43)
+--                mem_switchpattern - c_type_lut
+--                mem_ramb16_s36_x2 - c_mode_com
 --                (Rest is in commented code)
 --
 -- Dependencies:
@@ -19,11 +21,12 @@
 -- Revision:
 --  - Revision 0.01 - File created
 --    - Files: -
---    - Modules: -
+--    - Modules:
+--      tb_i2c_mem, mulfp, divfp, addfp, subfp, fixed2float
 --    - Processes (Architecture: rtl):
 --      p0
 --
--- Imporant objects: -
+-- Important objects: -
 --
 -- Information from the software vendor:
 --  - Messeges: -

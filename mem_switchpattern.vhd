@@ -36,7 +36,7 @@
 --    - Processes (Architecture: rtl):
 --      p0
 --
--- Imporant objects: -
+-- Important objects: -
 --
 -- Information from the software vendor:
 --  - Messeges: -
