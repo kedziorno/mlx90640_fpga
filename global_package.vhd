@@ -77,6 +77,9 @@ package global_package is
 	constant C_COLS : integer := 32; -- Matrix Pixels X
 	constant C_MATRIX_PIXELS : integer := C_ROWS * C_COLS;
 
+  -- calculate_pixos_cp_sp
+  constant C_VDDV0 : std_logic_vector (31 downto 0) := x"40533333"; -- 3.3 V
+
   -- calculate_pix_gain
 	constant PIXGAIN_ST : integer := 1665; -- pixgain start - eeprom max + 1
 	constant PIXGAIN_SZ : integer := C_MATRIX_PIXELS; -- pixgain size

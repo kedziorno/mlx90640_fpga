@@ -1,40 +1,57 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    11:58:44 02/17/2023 
--- Design Name: 
--- Module Name:    CalculatePixOsCPSP - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   11:58:44 02/17/2023
+-- Design Name:   mlx90640_fpga
+-- Module Name:   calculate_pixos_cp_sp
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   11.2.2.6.2. Compensating offset, Ta and VDD of CP pixel (p. 40)
+--                (Rest is in commented code)
 --
--- Dependencies: 
+-- Dependencies:
+--  - Files:
+--    global_package.vhdl, rom_constants.vhd
+--  - Modules:
+--    rom_constants
 --
--- Revision: 
--- Revision 0.01 - File Created
--- Revision 0.02 - Rewrite Calculation, without regs
--- Additional Comments: 
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules:
+--      fixed2float, addfp, subfp, divfp, mulfp, rom_constants
+--    - Processes (Architecture: rtl):
+--      p0
 --
-----------------------------------------------------------------------------------
+-- Important objects:
+--  - rom_constants
+--
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones: -
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
---use ieee_proposed.fixed_pkg.all;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+use work.global_package.all;
 
---use work.p_fphdl_package1.all;
-use work.p_fphdl_package3.all;
-
-entity CalculatePixOsCPSP is
+entity calculate_pixos_cp_sp is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -44,14 +61,14 @@ i_Ta : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
 i_KGain : in std_logic_vector (31 downto 0);
 
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-
 o_pixoscpsp0 : out std_logic_vector (31 downto 0);
 o_pixoscpsp1 : out std_logic_vector (31 downto 0);
 
 o_rdy : out std_logic;
+
+signal i2c_mem_ena : out STD_LOGIC;
+signal i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 signal o_signed6bit_ena : out std_logic;
 signal o_signed6bit_adr : out std_logic_vector (5 downto 0);
@@ -99,11 +116,10 @@ signal subfpsclr : out STD_LOGIC;
 signal subfpce : out STD_LOGIC;
 signal subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfprdy : in STD_LOGIC
-
 );
-end CalculatePixOsCPSP;
+end entity calculate_pixos_cp_sp;
 
-architecture Behavioral of CalculatePixOsCPSP is
+architecture rtl of calculate_pixos_cp_sp is
 
 signal rdy : std_logic;
 
@@ -214,10 +230,6 @@ p0 : process (i_clock) is
   variable state : states;
 	variable ram : std_logic_vector (7 downto 0);
   variable calc : std_logic_vector (31 downto 0);
-  constant const_minus1 : std_logic_vector (31 downto 0) := x"bf800000";
-  constant const_plus1 : std_logic_vector (31 downto 0) := x"3f800000";
-  constant const_Ta0 : std_logic_vector (31 downto 0) := x"41C80000"; -- 25
-  constant const_VddV0 : std_logic_vector (31 downto 0) := x"40533333"; -- 3.3
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -329,7 +341,7 @@ begin
           mulfpsclr_internal <= '0';
           addfpce_internal <= '1';
           addfpa_internal <= mulfpr_internal;
-          addfpb_internal <= const_plus1;
+          addfpb_internal <= C_P1;
           addfpond_internal <= '1';
           if (addfprdy_internal = '1') then state := s6a;
             --warning_neq_fp(addfpr_internal,3.4721875,"1+kvcp*vdd"); -- XXX OK
@@ -371,7 +383,7 @@ begin
           divfpsclr_internal <= '0';
           mulfpce_internal <= '1';
           mulfpa_internal <= divfpr_internal; -- kvcp
-          mulfpb_internal <= const_VddV0;
+          mulfpb_internal <= C_VDDV0;
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s9;
             --warning_neq_fp(mulfpr_internal,1.2375000,"kvcp*vdd0"); -- XXX OK
@@ -384,7 +396,7 @@ begin
         when s10 =>
           mulfpce_internal <= '1';
           mulfpa_internal <= mulfpr_internal;
-          mulfpb_internal <= const_minus1;
+          mulfpb_internal <= C_M1;
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s12;
             mulfpce_internal <= '0';
@@ -653,7 +665,7 @@ begin
         when s30 =>
           mulfpce_internal <= '1';
           mulfpa_internal <= mulfpr_internal;
-          mulfpb_internal <= const_VddV0;
+          mulfpb_internal <= C_VDDV0;
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s31;
             mulfpce_internal <= '0';
@@ -665,7 +677,7 @@ begin
         when s32 =>
           mulfpce_internal <= '1';
           mulfpa_internal <= mulfpr_internal;
-          mulfpb_internal <= const_minus1;
+          mulfpb_internal <= C_M1;
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s34;
             --warning_neq_fp(mulfpr_internal,-0.17970859322794001250,"minus ktacp * ta * kvcp * vdd0"); -- XXX OK
@@ -721,7 +733,7 @@ begin
           divfpsclr_internal <= '0';
           mulfpce_internal <= '1';
           mulfpa_internal <= divfpr_internal; -- ktacp
-          mulfpb_internal <= const_Ta0;
+          mulfpb_internal <= C_TA0;
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s37;
             mulfpce_internal <= '0';
@@ -733,7 +745,7 @@ begin
         when s38 =>
           mulfpce_internal <= '1';
           mulfpa_internal <= mulfpr_internal;
-          mulfpb_internal <= const_minus1;
+          mulfpb_internal <= C_M1;
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s40;
             --warning_neq_fp(mulfpr_internal,-0.106811525,"-ktacp*ta0"); -- XXX OK
@@ -788,7 +800,7 @@ begin
           divfpsclr_internal <= '0';
           mulfpce_internal <= '1';
           mulfpa_internal <= divfpr_internal; -- ktacp
-          mulfpb_internal <= const_Ta0;
+          mulfpb_internal <= C_TA0;
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s42a;
             mulfpce_internal <= '0';
@@ -855,7 +867,7 @@ begin
         when s48 =>
           mulfpce_internal <= '1';
           mulfpa_internal <= mulfpr_internal;
-          mulfpb_internal <= const_minus1;
+          mulfpb_internal <= C_M1;
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s50;
             --warning_neq_fp(mulfpr_internal,-0.26405811696093750000,"-ktacp*ta0*kvcp*vdd"); -- XXX OK
@@ -910,7 +922,7 @@ begin
           divfpsclr_internal <= '0';
           mulfpce_internal <= '1';
           mulfpa_internal <= divfpr_internal; -- ktacp
-          mulfpb_internal <= const_Ta0;
+          mulfpb_internal <= C_TA0;
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s52a;
             mulfpce_internal <= '0';
@@ -965,7 +977,7 @@ begin
         when s56 =>
           mulfpce_internal <= '1';
           mulfpa_internal <= mulfpr_internal;
-          mulfpb_internal <= const_VddV0;
+          mulfpb_internal <= C_VDDV0;
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s58;
             --warning_neq_fp(mulfpr_internal,0.13217926218750000,"ktacp*ta0*kvcp*vdd0"); -- XXX OK
@@ -1189,4 +1201,5 @@ begin
 	end if;
 end process p0;
 
-end architecture Behavioral;
+end architecture rtl;
+
