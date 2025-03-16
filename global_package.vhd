@@ -73,6 +73,25 @@ package global_package is
 
   subtype constant_float is std_logic_vector (31 downto 0); -- Floating Point 32
 
+  -- calculate_raw_image
+  constant C_TR : std_logic_vector (31 downto 0) := x"41000000"; -- 8
+  constant C_273dot15 : std_logic_vector (31 downto 0) := x"43889333"; -- 273.15 Kelvins
+  constant C_EMISSIVITY : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
+  constant C_1 : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
+  --constant C_10E7 : std_logic_vector (31 downto 0) := x"4B189680"; -- 10e7
+  --constant C_10E7 : std_logic_vector (31 downto 0) := x"CB189680"; -- -10e7 - neg image
+  constant C_10E8 : std_logic_vector (31 downto 0) := x"4CBEBC20"; -- 10e8
+  --constant C_10E8 : std_logic_vector (31 downto 0) := x"CCBEBC20"; -- -10e8 - neg image
+  --constant C_UPPER : std_logic_vector (31 downto 0) := x"42800000"; -- xxx from datasheet, check TGC - 64
+  --constant C_UPPER : std_logic_vector (31 downto 0) := x"C2800000"; -- xxx from datasheet, check TGC - -64
+  constant C_UPPER : std_logic_vector (31 downto 0) := x"00000000"; -- xxx from datasheet, check TGC - 0
+  -- xxx syn
+  constant C_ADDFP_WAIT : integer := 32;
+  constant C_MULFP_WAIT : integer := 32;
+  -- xxx sim
+  --constant C_ADDFP_WAIT : integer := 16;
+  --constant C_MULFP_WAIT : integer := 16;
+
   -- mem_ramb16_s36_s36_x2
   constant c_mode_com : integer := 0;
   constant c_mode_seq : integer := 1;

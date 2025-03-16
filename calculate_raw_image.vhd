@@ -1,41 +1,64 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    14:35:11 09/14/2023 
--- Design Name: 
--- Module Name:    CalculateGetImage - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   14:35:11 09/14/2023
+-- Design Name:   mlx90640_fpga
+-- Module Name:   calculate_raw_image
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   Based on MLX90640_GetImage from mlx90640_library
+--                  Get RAW pixels, this module dont use SQRT FP,
+--                  use only MUL/ADD for VirCompensated/AlphaCompensated values
+--                  and some constants so we save some resources and much speed
+--                  calculations for each pixels.
+--                11.1.16. Restoring the TGC coefficient (p. 29)
+--                  - In this version of device, TGC is 0 (C_UPPER in state s6d)
+--                    or must be readed from EE 0x243C (8bit signed)
+--                Module DONT use RDY signal from FP, only counter - for tests
+--                (Rest is in commented code)
 --
--- Dependencies: 
+-- Dependencies:
+--  - Files:
+--    global_package.vhd
+--  - Modules: -
 --
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules:
+--      mem_ramb16_s36_x2, mulfp, addfp
+--    - Processes (Architecture: rtl):
+--      p1_counter_addfp, p1_counter_mulfp
 --
-----------------------------------------------------------------------------------
+-- Important objects:
+--  - C_UPPER - constant for TGC
+--
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones: -
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+use work.global_package.all;
 
-use work.p_fphdl_package3.all;
-
--- XXX based on MLX90640_GetImage from mlx90640_library - Get RAW pixels
--- XXX this module dont use sqrtfp2 (square root) module, only MUL/ADD VirCompensated/AlphaCompensated values and some constants
--- XXX so we save some resources and speed the calculations.
-
-entity CalculateGetImage is
+entity calculate_raw_image is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -67,19 +90,10 @@ signal addfpsclr : out STD_LOGIC;
 signal addfpce : out STD_LOGIC;
 signal addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfprdy : in STD_LOGIC
-
 );
-end CalculateGetImage;
+end entity calculate_raw_image;
 
-architecture Behavioral of CalculateGetImage is
-
--- xxx syn
-constant C_ADDFP_WAIT : integer := 32;
-constant C_MULFP_WAIT : integer := 32;
-
--- xxx sim
---constant C_ADDFP_WAIT : integer := 16;
---constant C_MULFP_WAIT : integer := 16;
+architecture rtl of calculate_raw_image is
 
 signal mulfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -251,11 +265,11 @@ port (
 signal DO : out std_logic_vector (31 downto 0);
 signal DOP : out std_logic_vector (3 downto 0);
 signal ADDR : in std_logic_vector (9 downto 0); -- 10bit-1024
-signal CLK : in std_logic;
+signal i_clock : in std_logic;
 signal DI : in std_logic_vector (31 downto 0);
 signal DIP : in std_logic_vector (3 downto 0);
 signal EN : in std_logic;
-signal SSR : in std_logic;
+signal i_reset : in std_logic;
 signal WE : in std_logic
 );
 end component mem_ramb16_s36_x2;
@@ -321,26 +335,13 @@ mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0')
 mux_dia <= dia when rdy = '0' else (others => '0');
 
 p0 : process (i_clock) is
-  constant C_ROW : integer := 24;
-  constant C_COL : integer := 32;
-  variable i : integer range 0 to C_ROW*C_COL-1;
-  constant constTr : std_logic_vector (31 downto 0) := x"41000000"; -- 8
-  constant const27315 : std_logic_vector (31 downto 0) := x"43889333"; -- 273.15
-  constant constEmissivity : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
-  constant const1 : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
-  --constant const10e7 : std_logic_vector (31 downto 0) := x"4B189680"; -- 10e7
-  --constant const10e7 : std_logic_vector (31 downto 0) := x"CB189680"; -- -10e7 - neg image
-  constant const10e8 : std_logic_vector (31 downto 0) := x"4CBEBC20"; -- 10e8
-  --constant const10e8 : std_logic_vector (31 downto 0) := x"CCBEBC20"; -- -10e8 - neg image
-  --constant constupper : std_logic_vector (31 downto 0) := x"42800000"; -- xxx from datasheet, check TGC - 64
-  --constant constupper : std_logic_vector (31 downto 0) := x"C2800000"; -- xxx from datasheet, check TGC - -64
-  constant constupper : std_logic_vector (31 downto 0) := x"00000000"; -- xxx from datasheet, check TGC - 0
+  variable i : integer range 0 to C_MATRIX_PIXELS-1;
   type states is (idle,
   s1,s2,s3,s4,s5,
   s6a,s6b,s6c,s6d,s6e,s6f,
   s6,ending);
   variable state : states;
-  variable fttmp1,fttmp2,ksto2,tak4,trk4,tar,sx,acomp_pow3,acomp_pow4,tr : std_logic_vector (31 downto 0);
+  variable fttmp1 : std_logic_vector (31 downto 0);
 begin
   if (rising_edge (i_clock)) then
     if (i_reset = '1') then
@@ -405,8 +406,8 @@ begin
           mulfp_rdy <= '0';
         when s6a => state := s6b;
           mulfpa_internal <= fttmp1;
-          --mulfpb_internal <= const10e7;
-          mulfpb_internal <= const10e8;
+          --mulfpb_internal <= C_10E7;
+          mulfpb_internal <= C_10E8;
           mulfpce_internal <= '1';
           mulfpond_internal <= '1';
         when s6b =>
@@ -427,12 +428,12 @@ begin
           mulfp_rdy <= '0';
         when s6d => state := s6e;
           addfpa_internal <= fttmp1;
-          addfpb_internal <= constupper;
+          addfpb_internal <= C_UPPER;
           addfpce_internal <= '1';
           addfpond_internal <= '1';
         when s6e =>
           if (addfp_wait = C_ADDFP_WAIT-1) then
-            fttmp1 := addfpr_internal; -- xxx add constupper - MLX90640_GetImage:77 - "irData = irData - params->tgc * irDataCP[subPage]"
+            fttmp1 := addfpr_internal; -- XXX add constupper - MLX90640_GetImage:77 - "irData = irData - params->tgc * irDataCP[subPage]"
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
@@ -454,7 +455,7 @@ begin
           --synthesis translate_on
         when s6 =>
           write_enable <= '0';
-          if (i = (C_ROW*C_COL)-1) then
+          if (i = C_MATRIX_PIXELS-1) then
             state := ending;
             i := 0;
           else
@@ -468,7 +469,7 @@ begin
   end if;
 end process p0;
 
-inst_mem_GetImage : mem_ramb16_s36_x2
+mem_raw_image_i0 : mem_ramb16_s36_x2
 GENERIC MAP (
 INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000" -- start 0's
 )
@@ -476,12 +477,13 @@ PORT MAP (
 DO => doa,
 DOP => open,
 ADDR => mux_addr,
-CLK => i_clock,
+i_clock => i_clock,
 DI => mux_dia,
 DIP => (others => '0'),
 EN => '1',
-SSR => i_reset,
+i_reset => i_reset,
 WE => write_enable
 );
 
-end architecture Behavioral;
+end architecture rtl;
+
