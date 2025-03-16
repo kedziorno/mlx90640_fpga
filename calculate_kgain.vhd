@@ -1,41 +1,55 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    15:32:39 02/03/2023 
--- Design Name: 
--- Module Name:    calculateKGain - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   15:32:39 02/03/2023
+-- Design Name:   mlx90640_fpga
+-- Module Name:   calculate_kgain
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   11.2.2.4. Gain parameter calculation (common for all pixels) (p. 37)
+--                (Rest is in commented code)
 --
--- Dependencies: 
+-- Dependencies:
+--  - Files:
+--    global_package.vhd
+--  - Modules: -
 --
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules:
+--      fixed2float, divfp
+--    - Processes (Architecture: rtl):
+--      p0
 --
-----------------------------------------------------------------------------------
+-- Important objects: -
+--
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones: -
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
+
 library ieee;
---library ieee;
 use ieee.std_logic_1164.all;
---use ieee_proposed.fixed_pkg.all;
-
---use work.p_fphdl_package1.all;
---use work.p_fphdl_package2.all;
-use work.p_fphdl_package3.all;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+use work.global_package.all;
 
-entity CalculateKGain is
+entity calculate_kgain is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -62,11 +76,10 @@ signal divfpsclr : out STD_LOGIC;
 signal divfpce : out STD_LOGIC;
 signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy : in STD_LOGIC
-
 );
-end CalculateKGain;
+end entity calculate_kgain;
 
-architecture Behavioral of CalculateKGain is
+architecture rtl of calculate_kgain is
 
 signal fixed2floata_internal : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond_internal : STD_LOGIC;
@@ -105,7 +118,6 @@ p0 : process (i_clock) is
 	s4,s5,s9,s10,s10a,s10b,s11,s14);
 	variable state : states;
   variable ram : std_logic_vector (7 downto 0);
-  constant const1 : std_logic_vector (31 downto 0) := x"3f800000";
 begin
 	if (rising_edge (i_clock)) then
     if (i_reset = '1') then
@@ -159,7 +171,7 @@ begin
           fixed2floatsclr_internal <= '0';
           divfpce_internal <= '1';
           divfpa_internal <= fixed2floatr_internal;
-          divfpb_internal <= const1;
+          divfpb_internal <= C_1;
           divfpond_internal <= '1';
           if (divfprdy_internal = '1') then state := s10a;
             divfpce_internal <= '0';
@@ -206,4 +218,5 @@ begin
   end if;
 end process p0;
 
-end architecture Behavioral;
+end architecture rtl;
+

@@ -1,23 +1,59 @@
--- TestBench Template 
--- calculateKGain
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   16:02:33 02/03/2023
+-- Design Name:   mlx90640_fpga
+-- Module Name:   tb_calculate_kgain
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   Testbench
+--                (Rest is in commented code)
+--
+-- Dependencies:
+--  - Files:
+--    global_package.vhd
+--  - Modules:
+--    fixed2float, divfp
+--
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules: -
+--    - Processes (Architecture: tb):
+--      p_clock_process, p_tb
+--
+-- Important objects:
+--  - tb_i2c_mem
+--
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones: -
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
 
-LIBRARY ieee,ieee_proposed;
+LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
-use ieee_proposed.fixed_float_types.all;
-use ieee_proposed.fixed_pkg.all;
-use ieee_proposed.numeric_std_additions.all;
-use ieee_proposed.standard_additions.all;
---use ieee_proposed.standard_textio_additions.all;
-use ieee_proposed.std_logic_1164_additions.all;
 
---use work.p_fphdl_package1.all;
-USE work.p_fphdl_package3.all;
+use work.global_package.all;
 
-ENTITY tb_CalculateKGain IS
-END tb_CalculateKGain;
+ENTITY tb_calculate_kgain IS
+END tb_calculate_kgain;
 
-ARCHITECTURE tb OF tb_CalculateKGain IS 
+ARCHITECTURE tb OF tb_calculate_kgain IS 
 
 COMPONENT fixed2float
 PORT (
@@ -56,7 +92,7 @@ douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
 END COMPONENT;
 
 -- Component Declaration
-component CalculateKGain is
+component calculate_kgain is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -81,50 +117,34 @@ signal divfpsclr : out STD_LOGIC;
 signal divfpce : out STD_LOGIC;
 signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy : in STD_LOGIC
-
 );
-end component CalculateKGain;
-signal calculateKGain_clock : std_logic;
-signal calculateKGain_reset : std_logic;
-signal calculateKGain_run : std_logic;
-signal calculateKGain_i2c_mem_ena : STD_LOGIC;
-signal calculateKGain_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal calculateKGain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal calculateKGain_KGain : std_logic_vector (31 downto 0);
-signal calculateKGain_rdy : std_logic;
+end component calculate_kgain;
+signal calculate_kgain_clock : std_logic;
+signal calculate_kgain_reset : std_logic;
+signal calculate_kgain_run : std_logic;
+signal calculate_kgain_i2c_mem_ena : STD_LOGIC;
+signal calculate_kgain_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal calculate_kgain_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal calculate_kgain_KGain : std_logic_vector (31 downto 0);
+signal calculate_kgain_rdy : std_logic;
 
-signal calculateKGain_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
-signal calculateKGain_fixed2floatond : STD_LOGIC;
-signal calculateKGain_fixed2floatsclr : STD_LOGIC;
-signal calculateKGain_fixed2floatce : STD_LOGIC;
-signal calculateKGain_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateKGain_fixed2floatrdy : STD_LOGIC;
+signal calculate_kgain_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal calculate_kgain_fixed2floatond : STD_LOGIC;
+signal calculate_kgain_fixed2floatsclr : STD_LOGIC;
+signal calculate_kgain_fixed2floatce : STD_LOGIC;
+signal calculate_kgain_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_kgain_fixed2floatrdy : STD_LOGIC;
 
-signal calculateKGain_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateKGain_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateKGain_divfpond : STD_LOGIC;
-signal calculateKGain_divfpsclr : STD_LOGIC;
-signal calculateKGain_divfpce : STD_LOGIC;
-signal calculateKGain_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculateKGain_divfprdy : STD_LOGIC;
+signal calculate_kgain_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_kgain_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_kgain_divfpond : STD_LOGIC;
+signal calculate_kgain_divfpsclr : STD_LOGIC;
+signal calculate_kgain_divfpce : STD_LOGIC;
+signal calculate_kgain_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_kgain_divfprdy : STD_LOGIC;
 
-signal fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
-signal fixed2floatond : STD_LOGIC;
-signal fixed2floatce : STD_LOGIC;
-signal fixed2floatsclr : STD_LOGIC;
-signal fixed2floatr :  STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal fixed2floatrdy : STD_LOGIC;
-
-signal divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpond : STD_LOGIC;
-signal divfpce : STD_LOGIC;
-signal divfpsclr : STD_LOGIC;
-signal divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy : STD_LOGIC;
-
-signal calculateKGain_fixed2floatclk : std_logic;
-signal calculateKGain_divfpclk : std_logic;
+signal calculate_kgain_fixed2floatclk : std_logic;
+signal calculate_kgain_divfpclk : std_logic;
 
 constant clock_period : time := 10 ns;
 
@@ -132,98 +152,96 @@ signal out1r : real;
 
 BEGIN
 
-out1r <= ap_slv2fp (calculateKGain_KGain);
+out1r <= ap_slv2fp (calculate_kgain_KGain);
 
-inst_tb_i2c_mem : tb_i2c_mem
+tb_i2c_mem_i0 : tb_i2c_mem
 PORT MAP (
-clka => calculateKGain_clock,
-ena => calculateKGain_i2c_mem_ena,
+clka => calculate_kgain_clock,
+ena => calculate_kgain_i2c_mem_ena,
 wea => "0",
-addra => calculateKGain_i2c_mem_addra,
+addra => calculate_kgain_i2c_mem_addra,
 dina => (others => '0'),
-douta => calculateKGain_i2c_mem_douta
+douta => calculate_kgain_i2c_mem_douta
 );
 
-cp : process
+p_clock_process : process
 begin
-	calculateKGain_clock <= '0';
+	calculate_kgain_clock <= '0';
 	wait for clock_period/2;
-	calculateKGain_clock <= '1';
+	calculate_kgain_clock <= '1';
 	wait for clock_period/2;
-end process cp;
+end process p_clock_process;
 
 -- Component Instantiation
-uut: calculateKGain port map (
-i_clock => calculateKGain_clock,
-i_reset => calculateKGain_reset,
-i_run => calculateKGain_run,
-i2c_mem_ena => calculateKGain_i2c_mem_ena,
-i2c_mem_addra => calculateKGain_i2c_mem_addra,
-i2c_mem_douta => calculateKGain_i2c_mem_douta,
-o_KGain => calculateKGain_KGain,
-o_rdy => calculateKGain_rdy,
+calculate_kgain_uut : calculate_kgain port map (
+i_clock => calculate_kgain_clock,
+i_reset => calculate_kgain_reset,
+i_run => calculate_kgain_run,
+i2c_mem_ena => calculate_kgain_i2c_mem_ena,
+i2c_mem_addra => calculate_kgain_i2c_mem_addra,
+i2c_mem_douta => calculate_kgain_i2c_mem_douta,
+o_KGain => calculate_kgain_KGain,
+o_rdy => calculate_kgain_rdy,
 
-fixed2floata => calculateKGain_fixed2floata,
-fixed2floatond => calculateKGain_fixed2floatond,
-fixed2floatsclr => calculateKGain_fixed2floatsclr,
-fixed2floatce => calculateKGain_fixed2floatce,
-fixed2floatr => calculateKGain_fixed2floatr,
-fixed2floatrdy => calculateKGain_fixed2floatrdy,
+fixed2floata => calculate_kgain_fixed2floata,
+fixed2floatond => calculate_kgain_fixed2floatond,
+fixed2floatsclr => calculate_kgain_fixed2floatsclr,
+fixed2floatce => calculate_kgain_fixed2floatce,
+fixed2floatr => calculate_kgain_fixed2floatr,
+fixed2floatrdy => calculate_kgain_fixed2floatrdy,
 
-divfpa => calculateKGain_divfpa,
-divfpb => calculateKGain_divfpb,
-divfpond => calculateKGain_divfpond,
-divfpsclr => calculateKGain_divfpsclr,
-divfpce => calculateKGain_divfpce,
-divfpr => calculateKGain_divfpr,
-divfprdy => calculateKGain_divfprdy
-
+divfpa => calculate_kgain_divfpa,
+divfpb => calculate_kgain_divfpb,
+divfpond => calculate_kgain_divfpond,
+divfpsclr => calculate_kgain_divfpsclr,
+divfpce => calculate_kgain_divfpce,
+divfpr => calculate_kgain_divfpr,
+divfprdy => calculate_kgain_divfprdy
 );
 
-
 --  Test Bench Statements
-tbprocess : PROCESS
+p_tb : PROCESS
 BEGIN
-calculateKGain_reset <= '1';
+calculate_kgain_reset <= '1';
 wait for 254.3 ns; -- wait until global set/reset completes
-calculateKGain_reset <= '0';
+calculate_kgain_reset <= '0';
 wait for clock_period*10;
 -- Add user defined stimulus here
-calculateKGain_run <= '1'; wait for clock_period; calculateKGain_run <= '0';
-wait until calculateKGain_rdy = '1';
-warning_neq_fp (calculateKGain_KGain, x"3f81ac57", "kgain");
+calculate_kgain_run <= '1'; wait for clock_period; calculate_kgain_run <= '0';
+wait until calculate_kgain_rdy = '1';
+warning_neq_fp (calculate_kgain_KGain, x"3f81ac57", "kgain");
 --report "rdy at 955ns";
 --report "rdy at 925ns";
 --report "rdy at 1.225us - rm fttmp1,fttmp2 reg";
 report "rdy at 1.205us - rm fttmp1 fttmp2 reg,rm redundant regs,rm states";
 wait for 1 ps;
 report "done" severity failure;
-END PROCESS tbprocess;
---  End Test Bench 
+END PROCESS p_tb;
 
-calculateKGain_fixed2floatclk <= calculateKGain_clock;
-inst_fixed2float : fixed2float
+calculate_kgain_fixed2floatclk <= calculate_kgain_clock;
+fixed2float_i0 : fixed2float
 PORT MAP (
-a => calculateKGain_fixed2floata,
-operation_nd => calculateKGain_fixed2floatond,
-clk => calculateKGain_fixed2floatclk,
-sclr => calculateKGain_fixed2floatsclr,
-ce => calculateKGain_fixed2floatce,
-result => calculateKGain_fixed2floatr,
-rdy => calculateKGain_fixed2floatrdy
+a => calculate_kgain_fixed2floata,
+operation_nd => calculate_kgain_fixed2floatond,
+clk => calculate_kgain_fixed2floatclk,
+sclr => calculate_kgain_fixed2floatsclr,
+ce => calculate_kgain_fixed2floatce,
+result => calculate_kgain_fixed2floatr,
+rdy => calculate_kgain_fixed2floatrdy
 );
 
-calculateKGain_divfpclk <= calculateKGain_clock;
-inst_divfp : divfp
+calculate_kgain_divfpclk <= calculate_kgain_clock;
+divfp_i0 : divfp
 PORT MAP (
-a => calculateKGain_divfpa,
-b => calculateKGain_divfpb,
-operation_nd => calculateKGain_divfpond,
-clk => calculateKGain_divfpclk,
-sclr => calculateKGain_divfpsclr,
-ce => calculateKGain_divfpce,
-result => calculateKGain_divfpr,
-rdy => calculateKGain_divfprdy
+a => calculate_kgain_divfpa,
+b => calculate_kgain_divfpb,
+operation_nd => calculate_kgain_divfpond,
+clk => calculate_kgain_divfpclk,
+sclr => calculate_kgain_divfpsclr,
+ce => calculate_kgain_divfpce,
+result => calculate_kgain_divfpr,
+rdy => calculate_kgain_divfprdy
 );
 
-END tb;
+end architecture tb;
+
