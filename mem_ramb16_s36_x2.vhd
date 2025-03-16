@@ -30,7 +30,8 @@
 --      - p0, p1 - combinatorial
 --      - p2, p3 - sequential
 --
--- Imporant objects: -
+-- Imporant objects:
+--  - As Xilinx RAMB16 datasheet say, reset must be synchronous
 --
 -- Information from the software vendor:
 --  - Messeges: -
@@ -213,11 +214,11 @@ port (
 signal DO : out std_logic_vector (31 downto 0);
 signal DOP : out std_logic_vector (3 downto 0);
 signal ADDR : in std_logic_vector (9 downto 0); -- 10bit-1024
-signal CLK : in std_logic;
+signal i_clock : in std_logic;
 signal DI : in std_logic_vector (31 downto 0);
 signal DIP : in std_logic_vector (3 downto 0);
 signal EN : in std_logic;
-signal SSR : in std_logic;
+signal i_reset : in std_logic; -- synchronous reset
 signal WE : in std_logic
 );
 end mem_ramb16_s36_x2;
@@ -242,15 +243,16 @@ begin
 EN_i <= EN;
 
 ADDR1 <= ADDR (8 downto 0);
-ADDR2 <= ADDR (8 downto 0);
-CLK1 <= CLK;
-SSR1 <= SSR;
+CLK1 <= i_clock;
+SSR1 <= i_reset;
 WE1 <= WE;
-CLK2 <= CLK;
-SSR2 <= SSR;
-WE2 <= WE;
 DI1 <= DI;
 DIP1 <= DIP;
+
+ADDR2 <= ADDR (8 downto 0);
+CLK2 <= i_clock;
+SSR2 <= i_reset;
+WE2 <= WE;
 DI2 <= DI;
 DIP2 <= DIP;
 
@@ -290,9 +292,9 @@ end generate g_mem_ramb16_s36_x2_1;
 -- XXX Synchronous version, works in behavioral simulation
 g_mem_ramb16_s36_x2_2 : if (c_mode = c_mode_seq) generate
 
-p2 : process (CLK) is
+p2 : process (i_clock) is
 begin
-	if (rising_edge (CLK)) then
+	if (rising_edge (i_clock)) then
 		if (ADDR (9) = '0') then
 			EN1 <= EN_i;
 			EN2 <= '0';
@@ -308,12 +310,12 @@ begin
 	end if;
 end process p2;
 
-p3 : process (CLK,SSR) is
+p3 : process (i_clock, i_reset) is
 begin
-	if (SSR = '1') then
+	if (i_reset = '1') then
 		DO <= (others => '0');
 		DOP <= (others => '0');
-	elsif (rising_edge (CLK)) then
+	elsif (rising_edge (i_clock)) then
     if (EN1 = '1' and EN2 = '0') then
       DO <= DO1;
       DOP <= DOP1;

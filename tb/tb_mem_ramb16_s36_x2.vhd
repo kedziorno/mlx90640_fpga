@@ -221,11 +221,11 @@ PORT(
 DO : OUT  std_logic_vector(31 downto 0);
 DOP : OUT  std_logic_vector(3 downto 0);
 ADDR : IN  std_logic_vector(9 downto 0);
-CLK : IN  std_logic;
+i_clock : IN  std_logic;
 DI : IN  std_logic_vector(31 downto 0);
 DIP : IN  std_logic_vector(3 downto 0);
 EN : IN  std_logic;
-SSR : IN  std_logic;
+i_reset : IN  std_logic;
 WE : IN  std_logic
 );
 END COMPONENT;
@@ -384,11 +384,11 @@ PORT MAP (
 DO => DO,
 DOP => DOP,
 ADDR => ADDR,
-CLK => CLK,
+i_clock => CLK,
 DI => DI,
 DIP => DIP,
 EN => EN,
-SSR => SSR,
+i_reset => SSR,
 WE => WE
 );
 
