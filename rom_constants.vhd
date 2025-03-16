@@ -8,7 +8,7 @@
 -- Project Name:  mlx90640_fpga
 -- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
 -- Tool versions: Xilinx ISE 14.7, XST and ISIM
--- Description:   Rest small but important FP32 constants picked up in
+-- Description:   Rest small but very important FP32 constants picked up in
 --                  one ROM memory for save resources on device.
 --                Treat as tools:
 --                  - Signed 3bit (-4 - 3)
@@ -30,39 +30,28 @@
 --                (Rest is in commented code)
 --
 -- Dependencies:
---  - Files:
---    (...)
+--  - Files: -
 --  - Modules:
---    (...)
+--    RAMB16_S36
 --
 -- Revision:
 --  - Revision 0.01 - File created
---    - Files:
---      (...)
---    - Modules:
---      (...)
---    - Processes (Architecture: (...)):
---      (...)
+--    - Files: -
+--    - Modules: -
+--    - Processes (Architecture: rtl):
+--      p0
 --
--- Important objects:
---  - (...)
+-- Important objects: -
 --
 -- Information from the software vendor:
---  - Messeges:
---    (...)
---  - Bugs:
---    (...)
---  - Notices:
---    (...)
---  - Infos:
---    (...)
---  - Notes:
---    (...)
---  - Criticals/Failures:
---    (...)
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
 --
--- Concepts/Milestones:
--- (...)
+-- Concepts/Milestones: -
 --
 -- Additional Comments:
 --  - To read more about:
@@ -78,8 +67,6 @@ use IEEE.NUMERIC_STD.ALL;
 
 library UNISIM;
 use UNISIM.VComponents.all;
-
-use work.global_package.all;
 
 -- ROM constants
 
@@ -111,7 +98,7 @@ o_float : out std_logic_vector (31 downto 0)
 );
 end entity rom_constants;
 
-architecture Behavioral of rom_constants is
+architecture rtl of rom_constants is
 
 signal address : std_logic_vector (8 downto 0) := (others => '0');
 
@@ -154,7 +141,7 @@ begin
   end if;
 end process p0;
 
-inst_rom_constants : RAMB16_S36
+rom_constants_i0 : RAMB16_S36
 generic map (
 INIT => X"000000000",
 SRVAL => X"000000000",
@@ -221,4 +208,5 @@ SSR => i_reset,
 WE => '0'
 );
 
-end architecture Behavioral;
+end architecture rtl;
+

@@ -1,41 +1,55 @@
---------------------------------------------------------------------------------
--- Company: 
--- Engineer:
---
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
 -- Create Date:   18:19:24 10/08/2024
--- Design Name:   
--- Module Name:   /home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/tb_rom_constants.vhd
--- Project Name:  melexis_mlx90641
--- Target Device:  
--- Tool versions:  
--- Description:   
--- 
--- VHDL Test Bench Created by ISE for module: rom_constants
--- 
--- Dependencies:
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
+-- Design Name:   mlx90640_fpga
+-- Module Name:   tb_rom_constants
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   Testbench
+--                (Rest is in commented code)
 --
--- Notes: 
--- This testbench has been automatically generated using types std_logic and
--- std_logic_vector for the ports of the unit under test.  Xilinx recommends
--- that these types always be used for the top-level I/O of a design in order
--- to guarantee that the testbench will bind correctly to the post-implementation 
--- simulation model.
---------------------------------------------------------------------------------
+-- Dependencies:
+--  - Files: -
+--  - Modules: -
+--
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules: -
+--    - Processes (Architecture: tb):
+--      p_clock_process, p_tb
+--
+-- Important objects: -
+--
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones: -
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
+
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 USE ieee.numeric_std.ALL;
 
 ENTITY tb_rom_constants IS
 END tb_rom_constants;
 
-ARCHITECTURE behavior OF tb_rom_constants IS
+ARCHITECTURE tb OF tb_rom_constants IS
 
 -- Component Declaration for the Unit Under Test (UUT)
 COMPONENT rom_constants
@@ -99,7 +113,7 @@ constant i_clock_period : time := 10 ns;
 BEGIN
 
 -- Instantiate the Unit Under Test (UUT)
-uut : rom_constants PORT MAP (
+rom_constants_uut : rom_constants PORT MAP (
 i_clock => i_clock,
 i_reset => i_reset,
 i_kvptat_en => i_kvptat_en,
@@ -126,16 +140,16 @@ o_float => o_float
 );
 
 -- Clock process definitions
-i_clock_process : process
+p_clock_process : process
 begin
 i_clock <= '0';
 wait for i_clock_period/2;
 i_clock <= '1';
 wait for i_clock_period/2;
-end process;
+end process p_clock_process;
 
 -- Stimulus process
-stim_proc : process
+p_tb : process
 begin
 -- hold reset state for 100 ns.
 i_reset <= '1';
@@ -216,6 +230,7 @@ assert (o_float = x"bf800000") report "signed3bit";
 
 wait for i_clock_period*2;
 report "tb done" severity failure;
-end process;
+end process p_tb;
 
-END;
+end architecture tb;
+
