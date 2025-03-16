@@ -73,6 +73,14 @@ package global_package is
 
   subtype constant_float is std_logic_vector (31 downto 0); -- Floating Point 32
 
+	constant C_ROWS : integer := 24; -- Matrix Pixels Y
+	constant C_COLS : integer := 32; -- Matrix Pixels X
+	constant C_MATRIX_PIXELS : integer := C_ROWS * C_COLS;
+
+  -- calculate_pix_gain
+	constant PIXGAIN_ST : integer := 1665; -- pixgain start - eeprom max + 1
+	constant PIXGAIN_SZ : integer := C_MATRIX_PIXELS; -- pixgain size
+
   -- calculate_raw_image
   constant C_TR : std_logic_vector (31 downto 0) := x"41000000"; -- 8
   constant C_273dot15 : std_logic_vector (31 downto 0) := x"43889333"; -- 273.15 Kelvins
@@ -113,9 +121,6 @@ package global_package is
 	constant SCALEALPHA : std_logic_vector (31 downto 0) := x"358637BD"; -- 0.000001
 
 	-- calculate_alpha_compensation
-	constant C_ROWS : integer := 24; -- Matrix Pixels Y
-	constant C_COLS : integer := 32; -- Matrix Pixels X
-	constant C_MATRIX_PIXELS : integer := C_ROWS * C_COLS;
 	constant C_P1 : std_logic_vector (31 downto 0) := x"3F800000"; -- +1
   constant C_M1 : std_logic_vector (31 downto 0) := x"BF800000"; -- -1
   constant C_2POW13 : std_logic_vector (31 downto 0) := x"46000000"; -- 2^13

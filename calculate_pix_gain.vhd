@@ -1,47 +1,60 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    15:08:49 02/11/2023 
--- Design Name: 
--- Module Name:    CalculatePixGain - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   15:08:49 02/11/2023
+-- Design Name:   mlx90640_fpga
+-- Module Name:   calculate_pix_gain
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   11.2.2.5.1. Gain compensation (p. 38)
+--                (Rest is in commented code)
 --
--- Dependencies: 
+-- Dependencies:
+--  - Files:
+--    global_package.vhd
+--  - Modules:
+--    mem_ramb16_s36_x2
 --
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules:
+--      fixed2float, mulfp
+--    - Processes (Architecture: rtl):
+--      p0
 --
-----------------------------------------------------------------------------------
+-- Important objects: -
+--
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones: -
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
---use ieee_proposed.fixed_pkg.all;
-
---use work.p_fphdl_package1.all;
-use work.p_fphdl_package3.all;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+use work.global_package.all;
 
-entity CalculatePixGain is
+entity calculate_pix_gain is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 i_KGain : in std_logic_vector (31 downto 0);
 
@@ -49,6 +62,10 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
+
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
@@ -64,11 +81,10 @@ mulfpce : out STD_LOGIC;
 mulfpsclr : out STD_LOGIC;
 mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 mulfprdy : in STD_LOGIC
-
 );
-end entity CalculatePixGain;
+end entity calculate_pix_gain;
 
-architecture Behavioral of CalculatePixGain is
+architecture rtl of calculate_pix_gain is
 
 component mem_ramb16_s36_x2 is
 generic (
@@ -285,8 +301,6 @@ mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0')
 mux_dia <= dia when rdy = '0' else (others => '0');
 
 p0 : process (i_clock) is
-	constant PIXGAIN_ST : integer := 1665; -- pixgain start - eeprom max + 1
-	constant PIXGAIN_SZ : integer := 24*32; -- pixgain size
 	variable pixgain_index : integer range 0 to PIXGAIN_SZ - 1;
 	type states is (idle,
   s1,s2,s3,s3a,s6,s9);
@@ -375,7 +389,7 @@ begin
 	end if;
 end process p0;
 
-inst_mem_KGain : mem_ramb16_s36_x2
+mem_pixgain_i0 : mem_ramb16_s36_x2
 GENERIC MAP (
 INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000" -- start 0's
 )
@@ -391,5 +405,5 @@ SSR => i_reset,
 WE => write_enable
 );
 
-end Behavioral;
+end architecture rtl;
 
