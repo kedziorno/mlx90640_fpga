@@ -8,7 +8,7 @@
 -- Project Name:  mlx90640_fpga
 -- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
 -- Tool versions: Xilinx ISE 14.7, XST and ISIM
--- Description:   (...)
+-- Description:   11.2.2.8. Normalizing to sensitivity (p. 43)
 --                (Rest is in commented code)
 --
 -- Dependencies:
@@ -46,7 +46,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
-use work.p_fphdl_package3.all;
+use work.global_package.all;
 
 entity calculate_alpha_compensation is
 port (
@@ -307,11 +307,11 @@ port (
 signal DO : out std_logic_vector (31 downto 0);
 signal DOP : out std_logic_vector (3 downto 0);
 signal ADDR : in std_logic_vector (9 downto 0); -- 10bit-1024
-signal CLK : in std_logic;
+signal i_clock : in std_logic;
 signal DI : in std_logic_vector (31 downto 0);
 signal DIP : in std_logic_vector (3 downto 0);
 signal EN : in std_logic;
-signal SSR : in std_logic;
+signal i_reset : in std_logic;
 signal WE : in std_logic
 );
 end component mem_ramb16_s36_x2;
@@ -323,7 +323,7 @@ i_reset : IN  std_logic;
 i_pixel : IN  std_logic_vector(9 downto 0);
 o_pattern : OUT  std_logic
 );
-END COMPONENT mem_sw;
+END COMPONENT mem_switchpattern;
 
 signal mem_switchpattern_clock : std_logic;
 signal mem_switchpattern_reset : std_logic;
@@ -462,7 +462,7 @@ begin
           fixed2floatsclr_internal <= '0';
           divfpce_internal <= '1';
           divfpa_internal <= fixed2floatr_internal;
-          divfpb_internal <= const_2pow13;
+          divfpb_internal <= c_2pow13;
           divfpond_internal <= '1';
           if (divfprdy_internal = '1') then state := s7;
             --synthesis translate_off
@@ -476,7 +476,7 @@ begin
           divfpsclr_internal <= '0';
           subfpce_internal <= '1';
           subfpa_internal <= i_Ta;
-          subfpb_internal <= const_Ta0;
+          subfpb_internal <= C_TA0;
           subfpond_internal <= '1';
           if (subfprdy_internal = '1') then state := s8;
             subfpce_internal <= '0';
@@ -498,10 +498,9 @@ begin
           mulfpsclr_internal <= '0';
           subfpce_internal <= '1';
           subfpa_internal <= mulfpr_internal;
-          subfpb_internal <= const_minus1;
+          subfpb_internal <= C_M1;
           subfpond_internal <= '1';
 					if (subfprdy_internal = '1') then state := s15;
---						fptmp3 := subfpr_internal;
 						subfpce_internal <= '0';
 						subfpond_internal <= '0';
 						subfpsclr_internal <= '1';
@@ -569,7 +568,7 @@ begin
         when s25a =>
           mulfpce_internal <= '1';
 					mulfpa_internal <= mulfpr_internal;
-					mulfpb_internal <= const_minus1;
+					mulfpb_internal <= C_M1;
 					mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s26;
 						mulfpce_internal <= '0';
@@ -609,7 +608,7 @@ begin
 					else state := s28; end if;
 				when s31 =>
 					write_enable <= '0';
-					if (i = (C_ROW*C_COL)-1) then
+					if (i = (C_ROWS*C_COLS)-1) then
 						i := 0;
             state := idle;
             rdy <= '1';
@@ -624,7 +623,7 @@ end process p0;
 
 mem_switchpattern_clock <= i_clock;
 mem_switchpattern_reset <= i_reset;
-inst_mem_switchpattern : mem_switchpattern PORT MAP (
+mem_switchpattern_i0 : mem_switchpattern PORT MAP (
 i_clock => mem_switchpattern_clock,
 i_reset => mem_switchpattern_reset,
 i_pixel => mem_switchpattern_pixel,
@@ -639,7 +638,7 @@ with mem_switchpattern_pattern select pattern_neg_ft <=
 x"00000000" when '1',
 x"3f800000" when others;
 
-inst_mem_alphacomp : mem_ramb16_s36_x2
+mem_alpha_compensation_i0 : mem_ramb16_s36_x2
 GENERIC MAP (
 INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000" -- start 0's
 )
@@ -647,11 +646,11 @@ PORT MAP (
 DO => doa,
 DOP => open,
 ADDR => mux_addr,
-CLK => i_clock,
+i_clock => i_clock,
 DI => mux_dia,
 DIP => (others => '0'),
 EN => '1',
-SSR => i_reset,
+i_reset => i_reset,
 WE => write_enable
 );
 

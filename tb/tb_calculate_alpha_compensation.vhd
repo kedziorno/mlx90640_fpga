@@ -9,6 +9,7 @@
 -- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
 -- Tool versions: Xilinx ISE 14.7, XST and ISIM
 -- Description:   Testbench
+--                Error between current/expected values ~ e-9/e-10
 --                (Rest is in commented code)
 --
 -- Dependencies:
@@ -25,7 +26,7 @@
 --      p_clock_process, p_tb
 --
 -- Imporant objects:
---  - tb_i2c_mem - raw data dla calculate
+--  - tb_i2c_mem - raw data for calculates
 --
 -- Information from the software vendor:
 --  - Messeges: -
@@ -46,6 +47,7 @@
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
+use ieee.numeric_std.all;
 
 USE work.global_package.all;
 
@@ -300,7 +302,7 @@ dina => (others => '0'),
 douta => calculate_alpha_compensation_i2c_mem_douta
 );
 
-calculate_alpha_compensation_tgc <= x"00000000";
+calculate_alpha_compensation_tgc <= C_ZERO;
 calculate_alpha_compensation_uut : calculate_alpha_compensation PORT MAP (
 i_clock => calculate_alpha_compensation_clock,
 i_reset => calculate_alpha_compensation_reset,
@@ -449,9 +451,9 @@ wait for 100 ns;
 calculate_alpha_compensation_reset <= '0';
 wait for i_clock_period*10;
 -- insert stimulus here
-calculate_alpha_compensation_Ta <= x"4207F54D";
-calculate_alpha_compensation_acpsubpage0 <= x"31460000";
-calculate_alpha_compensation_acpsubpage1 <= x"31478C00";
+calculate_alpha_compensation_Ta <= x"4207F54D"; -- Calculated temperature ambient ~33.98955 C
+calculate_alpha_compensation_acpsubpage0 <= x"31460000"; -- ~0.0000000028812792
+calculate_alpha_compensation_acpsubpage1 <= x"31478C00"; -- ~0.0000000029037892
 wait for i_clock_period;
 calculate_alpha_compensation_run <= '1'; wait for i_clock_period; calculate_alpha_compensation_run <= '0';
 report "before loop";

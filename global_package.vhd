@@ -92,7 +92,8 @@ package global_package is
   -- CalcualteAcc
 	constant const2 : std_logic_vector (31 downto 0) := x"40000000";
 	constant SCALEALPHA : std_logic_vector (31 downto 0) := x"358637BD"; -- 0.000001
-	-- CalculateAlphaComp
+
+	-- calculate_alpha_compensation
 	constant C_ROWS : integer := 24; -- Matrix Pixels Y
 	constant C_COLS : integer := 32; -- Matrix Pixels X
 	constant C_MATRIX_PIXELS : integer := C_ROWS * C_COLS;
@@ -100,6 +101,7 @@ package global_package is
   constant C_M1 : std_logic_vector (31 downto 0) := x"BF800000"; -- -1
   constant C_2POW13 : std_logic_vector (31 downto 0) := x"46000000"; -- 2^13
   constant C_TA0 : std_logic_vector (31 downto 0) := x"41C80000"; -- Temperature ambient ~25st C
+  constant C_ZERO : std_logic_vector (31 downto 0) := x"00000000";
 
   --constant C_TB_DATA_FILE : string := "tb_data";
   --file fptr : text;
