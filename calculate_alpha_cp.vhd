@@ -1,38 +1,57 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    11:25:31 02/09/2023 
--- Design Name: 
--- Module Name:    CalculateAlphaCP - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   11:25:31 02/09/2023
+-- Design Name:   mlx90640_fpga
+-- Module Name:   calculate_alpha_cp
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   11.1.12. Restoring the Sensitivity AlphaCP Compensation Pixel (p. 28)
+--                (Rest is in commented code)
 --
--- Dependencies: 
+-- Dependencies:
+--  - Files:
+--    global_package.vhd
+--    rom_constants.vhd
+--  - Modules: -
 --
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules:
+--      rom_constants, fixed2float, divfp, mulfp
+--    - Processes (Architecture: rtl):
+--      p0
 --
-----------------------------------------------------------------------------------
+-- Important objects: -
+--
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones: -
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
---use work.p_fphdl_package1.all;
-use work.p_fphdl_package3.all;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+use work.global_package.all;
 
-entity CalculateAlphaCP is
+entity calculate_alpha_cp is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -76,9 +95,9 @@ signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal fixed2floatrdy : in STD_LOGIC
 
 );
-end CalculateAlphaCP;
+end entity calculate_alpha_cp;
 
-architecture Behavioral of CalculateAlphaCP is
+architecture rtl of calculate_alpha_cp is
 
 signal divfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -232,5 +251,5 @@ begin
 	end if;
 end process p0;
 
-end architecture Behavioral;
+end architecture rtl;
 

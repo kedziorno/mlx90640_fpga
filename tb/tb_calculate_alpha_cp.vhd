@@ -13,38 +13,30 @@
 --
 -- Dependencies:
 --  - Files:
---    (...)
---  - Modules:
---    (...)
+--    global_package.vhd
+--  - Modules: -
 --
 -- Revision:
 --  - Revision 0.01 - File created
 --    - Files:
---      (...)
+--      rom_constants.vhd
 --    - Modules:
---      (...)
---    - Processes (Architecture: (...)):
---      (...)
+--      fixed2float, divfp, mulfp, tb_i2c_mem, rom_constants
+--    - Processes (Architecture: tb):
+--      p_clock_process, p_tb
 --
 -- Important objects:
---  - (...)
+--  - tb_i2c_mem, rom_constants
 --
 -- Information from the software vendor:
---  - Messeges:
---    (...)
---  - Bugs:
---    (...)
---  - Notices:
---    (...)
---  - Infos:
---    (...)
---  - Notes:
---    (...)
---  - Criticals/Failures:
---    (...)
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
 --
--- Concepts/Milestones:
--- (...)
+-- Concepts/Milestones: -
 --
 -- Additional Comments:
 --  - To read more about:
@@ -57,13 +49,12 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
---use work.p_fphdl_package1.all;
-use work.p_fphdl_package3.all;
+use work.global_package.all;
 
-ENTITY tb_CalculateAlphaCP IS
-END tb_CalculateAlphaCP;
+ENTITY tb_calculate_alpha_cp IS
+END tb_calculate_alpha_cp;
 
-ARCHITECTURE behavior OF tb_CalculateAlphaCP IS 
+ARCHITECTURE tb OF tb_calculate_alpha_cp IS 
 
 COMPONENT divfp
 PORT (
@@ -135,7 +126,7 @@ douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
 END COMPONENT;
 
 -- Component Declaration
-component CalculateAlphaCP is
+component calculate_alpha_cp is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -179,45 +170,45 @@ signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal fixed2floatrdy : in STD_LOGIC
 
 );
-end component CalculateAlphaCP;
-signal CalculateAlphaCP_clock : std_logic;
-signal CalculateAlphaCP_reset : std_logic;
-signal CalculateAlphaCP_run : std_logic;
-signal CalculateAlphaCP_i2c_mem_ena : STD_LOGIC;
-signal CalculateAlphaCP_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal CalculateAlphaCP_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal CalculateAlphaCP_acpsubpage0 : std_logic_vector (31 downto 0);
-signal CalculateAlphaCP_acpsubpage1 : std_logic_vector (31 downto 0);
-signal CalculateAlphaCP_rdy : std_logic;
-signal CalculateAlphaCP_cpratio_ena : std_logic;
-signal CalculateAlphaCP_cpratio_adr : std_logic_vector (5 downto 0);
-signal CalculateAlphaCP_alphascale_2_ena : std_logic;
-signal CalculateAlphaCP_alphascale_2_adr : std_logic_vector (3 downto 0);
-signal CalculateAlphaCP_rom_constants_float : std_logic_vector (31 downto 0);
-signal CalculateAlphaCP_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculateAlphaCP_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculateAlphaCP_divfpond : STD_LOGIC;
-signal CalculateAlphaCP_divfpsclr : STD_LOGIC;
-signal CalculateAlphaCP_divfpce : STD_LOGIC;
-signal CalculateAlphaCP_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculateAlphaCP_divfprdy : STD_LOGIC;
-signal CalculateAlphaCP_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculateAlphaCP_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculateAlphaCP_mulfpond : STD_LOGIC;
-signal CalculateAlphaCP_mulfpsclr : STD_LOGIC;
-signal CalculateAlphaCP_mulfpce : STD_LOGIC;
-signal CalculateAlphaCP_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculateAlphaCP_mulfprdy : STD_LOGIC;
-signal CalculateAlphaCP_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
-signal CalculateAlphaCP_fixed2floatond : STD_LOGIC;
-signal CalculateAlphaCP_fixed2floatce : STD_LOGIC;
-signal CalculateAlphaCP_fixed2floatsclr : STD_LOGIC;
-signal CalculateAlphaCP_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculateAlphaCP_fixed2floatrdy : STD_LOGIC;
+end component calculate_alpha_cp;
+signal calculate_alpha_cp_clock : std_logic;
+signal calculate_alpha_cp_reset : std_logic;
+signal calculate_alpha_cp_run : std_logic;
+signal calculate_alpha_cp_i2c_mem_ena : STD_LOGIC;
+signal calculate_alpha_cp_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal calculate_alpha_cp_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal calculate_alpha_cp_acpsubpage0 : std_logic_vector (31 downto 0);
+signal calculate_alpha_cp_acpsubpage1 : std_logic_vector (31 downto 0);
+signal calculate_alpha_cp_rdy : std_logic;
+signal calculate_alpha_cp_cpratio_ena : std_logic;
+signal calculate_alpha_cp_cpratio_adr : std_logic_vector (5 downto 0);
+signal calculate_alpha_cp_alphascale_2_ena : std_logic;
+signal calculate_alpha_cp_alphascale_2_adr : std_logic_vector (3 downto 0);
+signal calculate_alpha_cp_rom_constants_float : std_logic_vector (31 downto 0);
+signal calculate_alpha_cp_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_alpha_cp_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_alpha_cp_divfpond : STD_LOGIC;
+signal calculate_alpha_cp_divfpsclr : STD_LOGIC;
+signal calculate_alpha_cp_divfpce : STD_LOGIC;
+signal calculate_alpha_cp_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_alpha_cp_divfprdy : STD_LOGIC;
+signal calculate_alpha_cp_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_alpha_cp_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_alpha_cp_mulfpond : STD_LOGIC;
+signal calculate_alpha_cp_mulfpsclr : STD_LOGIC;
+signal calculate_alpha_cp_mulfpce : STD_LOGIC;
+signal calculate_alpha_cp_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_alpha_cp_mulfprdy : STD_LOGIC;
+signal calculate_alpha_cp_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal calculate_alpha_cp_fixed2floatond : STD_LOGIC;
+signal calculate_alpha_cp_fixed2floatce : STD_LOGIC;
+signal calculate_alpha_cp_fixed2floatsclr : STD_LOGIC;
+signal calculate_alpha_cp_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_alpha_cp_fixed2floatrdy : STD_LOGIC;
 
-signal CalculateAlphaCP_divfpclk : std_logic;
-signal CalculateAlphaCP_mulfpclk : std_logic;
-signal CalculateAlphaCP_fixed2floatclk : std_logic;
+signal calculate_alpha_cp_divfpclk : std_logic;
+signal calculate_alpha_cp_mulfpclk : std_logic;
+signal calculate_alpha_cp_fixed2floatclk : std_logic;
 
 COMPONENT rom_constants
 PORT(
@@ -245,132 +236,130 @@ i_signed3bit_en : IN  std_logic;
 i_signed3bit_adr : IN  std_logic_vector(2 downto 0);
 o_float : OUT  std_logic_vector(31 downto 0)
 );
-END COMPONENT;
+END COMPONENT rom_constants;
 
 constant clockperiod : time := 10 ns;
 
 BEGIN
 
-inst_tb_i2c_mem : tb_i2c_mem
+tb_i2c_mem_i0 : tb_i2c_mem
 PORT MAP (
-clka => CalculateAlphaCP_clock,
-ena => CalculateAlphaCP_i2c_mem_ena,
+clka => calculate_alpha_cp_clock,
+ena => calculate_alpha_cp_i2c_mem_ena,
 wea => "0",
-addra => CalculateAlphaCP_i2c_mem_addra,
+addra => calculate_alpha_cp_i2c_mem_addra,
 dina => (others => '0'),
-douta => CalculateAlphaCP_i2c_mem_douta
+douta => calculate_alpha_cp_i2c_mem_douta
 );
 
 -- Component Instantiation
-uut: CalculateAlphaCP
+calculate_alpha_cp_uut: calculate_alpha_cp
 port map (
-i_clock => CalculateAlphaCP_clock,
-i_reset => CalculateAlphaCP_reset,
-i_run => CalculateAlphaCP_run,
-i2c_mem_ena => CalculateAlphaCP_i2c_mem_ena,
-i2c_mem_addra => CalculateAlphaCP_i2c_mem_addra,
-i2c_mem_douta => CalculateAlphaCP_i2c_mem_douta,
-o_acpsubpage0 => CalculateAlphaCP_acpsubpage0,
-o_acpsubpage1 => CalculateAlphaCP_acpsubpage1,
-o_rdy => CalculateAlphaCP_rdy,
+i_clock => calculate_alpha_cp_clock,
+i_reset => calculate_alpha_cp_reset,
+i_run => calculate_alpha_cp_run,
+i2c_mem_ena => calculate_alpha_cp_i2c_mem_ena,
+i2c_mem_addra => calculate_alpha_cp_i2c_mem_addra,
+i2c_mem_douta => calculate_alpha_cp_i2c_mem_douta,
+o_acpsubpage0 => calculate_alpha_cp_acpsubpage0,
+o_acpsubpage1 => calculate_alpha_cp_acpsubpage1,
+o_rdy => calculate_alpha_cp_rdy,
 
-o_cpratio_ena => CalculateAlphaCP_cpratio_ena,
-o_cpratio_adr => CalculateAlphaCP_cpratio_adr,
-o_alphascale_2_ena => CalculateAlphaCP_alphascale_2_ena,
-o_alphascale_2_adr => CalculateAlphaCP_alphascale_2_adr,
-i_rom_constants_float => CalculateAlphaCP_rom_constants_float,
+o_cpratio_ena => calculate_alpha_cp_cpratio_ena,
+o_cpratio_adr => calculate_alpha_cp_cpratio_adr,
+o_alphascale_2_ena => calculate_alpha_cp_alphascale_2_ena,
+o_alphascale_2_adr => calculate_alpha_cp_alphascale_2_adr,
+i_rom_constants_float => calculate_alpha_cp_rom_constants_float,
 
-divfpa => CalculateAlphaCP_divfpa,
-divfpb => CalculateAlphaCP_divfpb,
-divfpond => CalculateAlphaCP_divfpond,
-divfpsclr => CalculateAlphaCP_divfpsclr,
-divfpce => CalculateAlphaCP_divfpce,
-divfpr => CalculateAlphaCP_divfpr,
-divfprdy => CalculateAlphaCP_divfprdy,
+divfpa => calculate_alpha_cp_divfpa,
+divfpb => calculate_alpha_cp_divfpb,
+divfpond => calculate_alpha_cp_divfpond,
+divfpsclr => calculate_alpha_cp_divfpsclr,
+divfpce => calculate_alpha_cp_divfpce,
+divfpr => calculate_alpha_cp_divfpr,
+divfprdy => calculate_alpha_cp_divfprdy,
 
-mulfpa => CalculateAlphaCP_mulfpa,
-mulfpb => CalculateAlphaCP_mulfpb,
-mulfpond => CalculateAlphaCP_mulfpond,
-mulfpsclr => CalculateAlphaCP_mulfpsclr,
-mulfpce => CalculateAlphaCP_mulfpce,
-mulfpr => CalculateAlphaCP_mulfpr,
-mulfprdy => CalculateAlphaCP_mulfprdy,
+mulfpa => calculate_alpha_cp_mulfpa,
+mulfpb => calculate_alpha_cp_mulfpb,
+mulfpond => calculate_alpha_cp_mulfpond,
+mulfpsclr => calculate_alpha_cp_mulfpsclr,
+mulfpce => calculate_alpha_cp_mulfpce,
+mulfpr => calculate_alpha_cp_mulfpr,
+mulfprdy => calculate_alpha_cp_mulfprdy,
 
-fixed2floata => CalculateAlphaCP_fixed2floata,
-fixed2floatond => CalculateAlphaCP_fixed2floatond,
-fixed2floatsclr => CalculateAlphaCP_fixed2floatsclr,
-fixed2floatce => CalculateAlphaCP_fixed2floatce,
-fixed2floatr => CalculateAlphaCP_fixed2floatr,
-fixed2floatrdy => CalculateAlphaCP_fixed2floatrdy
-
+fixed2floata => calculate_alpha_cp_fixed2floata,
+fixed2floatond => calculate_alpha_cp_fixed2floatond,
+fixed2floatsclr => calculate_alpha_cp_fixed2floatsclr,
+fixed2floatce => calculate_alpha_cp_fixed2floatce,
+fixed2floatr => calculate_alpha_cp_fixed2floatr,
+fixed2floatrdy => calculate_alpha_cp_fixed2floatrdy
 );
 
-cp : process is
+p_clock_process : process is
 begin
-	CalculateAlphaCP_clock <= '0';
+	calculate_alpha_cp_clock <= '0';
 	wait for clockperiod/2;
-	CalculateAlphaCP_clock <= '1';
+	calculate_alpha_cp_clock <= '1';
 	wait for clockperiod/2;
-end process cp;
+end process p_clock_process;
 
 --  Test Bench Statements
-tbprocess : PROCESS
+p_tb : PROCESS
 BEGIN
-CalculateAlphaCP_reset <= '1';
+calculate_alpha_cp_reset <= '1';
 wait for 100 ns; -- wait until global set/reset completes
-CalculateAlphaCP_reset <= '0';
+calculate_alpha_cp_reset <= '0';
 -- Add user defined stimulus here
 wait for clockperiod*10;
-CalculateAlphaCP_run <= '1'; wait for clockperiod; CalculateAlphaCP_run <= '0';
-wait until CalculateAlphaCP_rdy = '1';
-warning_neq_fp (CalculateAlphaCP_acpsubpage0, x"31460000", "acpsubpage0 585ns");
-warning_neq_fp (CalculateAlphaCP_acpsubpage1, x"31478c00", "acpsubpage1 695ns");
+calculate_alpha_cp_run <= '1'; wait for clockperiod; calculate_alpha_cp_run <= '0';
+wait until calculate_alpha_cp_rdy = '1';
+warning_neq_fp (calculate_alpha_cp_acpsubpage0, x"31460000", "acpsubpage0 585ns");
+warning_neq_fp (calculate_alpha_cp_acpsubpage1, x"31478c00", "acpsubpage1 695ns");
 wait for 1 ps;
 report "done" severity failure;
-END PROCESS tbprocess;
---  End Test Bench 
+END PROCESS p_tb;
 
-CalculateAlphaCP_divfpclk <= CalculateAlphaCP_clock;
-inst_divfp : divfp
+calculate_alpha_cp_divfpclk <= calculate_alpha_cp_clock;
+divfp_i0 : divfp
 PORT MAP (
-a => CalculateAlphaCP_divfpa,
-b => CalculateAlphaCP_divfpb,
-operation_nd => CalculateAlphaCP_divfpond,
-clk => CalculateAlphaCP_divfpclk,
-sclr => CalculateAlphaCP_divfpsclr,
-ce => CalculateAlphaCP_divfpce,
-result => CalculateAlphaCP_divfpr,
-rdy => CalculateAlphaCP_divfprdy
+a => calculate_alpha_cp_divfpa,
+b => calculate_alpha_cp_divfpb,
+operation_nd => calculate_alpha_cp_divfpond,
+clk => calculate_alpha_cp_divfpclk,
+sclr => calculate_alpha_cp_divfpsclr,
+ce => calculate_alpha_cp_divfpce,
+result => calculate_alpha_cp_divfpr,
+rdy => calculate_alpha_cp_divfprdy
 );
 
-CalculateAlphaCP_mulfpclk <= CalculateAlphaCP_clock;
-inst_mulfp : mulfp
+calculate_alpha_cp_mulfpclk <= calculate_alpha_cp_clock;
+mulfp_i0 : mulfp
 PORT MAP (
-a => CalculateAlphaCP_mulfpa,
-b => CalculateAlphaCP_mulfpb,
-operation_nd => CalculateAlphaCP_mulfpond,
-clk => CalculateAlphaCP_mulfpclk,
-sclr => CalculateAlphaCP_mulfpsclr,
-ce => CalculateAlphaCP_mulfpce,
-result => CalculateAlphaCP_mulfpr,
-rdy => CalculateAlphaCP_mulfprdy
+a => calculate_alpha_cp_mulfpa,
+b => calculate_alpha_cp_mulfpb,
+operation_nd => calculate_alpha_cp_mulfpond,
+clk => calculate_alpha_cp_mulfpclk,
+sclr => calculate_alpha_cp_mulfpsclr,
+ce => calculate_alpha_cp_mulfpce,
+result => calculate_alpha_cp_mulfpr,
+rdy => calculate_alpha_cp_mulfprdy
 );
 
-CalculateAlphaCP_fixed2floatclk <= CalculateAlphaCP_clock;
-inst_fixed2float : fixed2float
+calculate_alpha_cp_fixed2floatclk <= calculate_alpha_cp_clock;
+fixed2float_i0 : fixed2float
 PORT MAP (
-a => CalculateAlphaCP_fixed2floata,
-operation_nd => CalculateAlphaCP_fixed2floatond,
-clk => CalculateAlphaCP_fixed2floatclk,
-sclr => CalculateAlphaCP_fixed2floatsclr,
-ce => CalculateAlphaCP_fixed2floatce,
-result => CalculateAlphaCP_fixed2floatr,
-rdy => CalculateAlphaCP_fixed2floatrdy
+a => calculate_alpha_cp_fixed2floata,
+operation_nd => calculate_alpha_cp_fixed2floatond,
+clk => calculate_alpha_cp_fixed2floatclk,
+sclr => calculate_alpha_cp_fixed2floatsclr,
+ce => calculate_alpha_cp_fixed2floatce,
+result => calculate_alpha_cp_fixed2floatr,
+rdy => calculate_alpha_cp_fixed2floatrdy
 );
 
-inst_rom_constants : rom_constants PORT MAP (
-i_clock => CalculateAlphaCP_clock,
-i_reset => CalculateAlphaCP_reset,
+rom_constants_i0 : rom_constants PORT MAP (
+i_clock => calculate_alpha_cp_clock,
+i_reset => calculate_alpha_cp_reset,
 i_kvptat_en => '0',
 i_kvptat_adr => (others => '0'),
 i_alphaptat_en => '0',
@@ -383,15 +372,16 @@ i_alphascale_1_en => '0',
 i_alphascale_1_adr => (others => '0'),
 i_2powx_4bit_en => '0',
 i_2powx_4bit_adr => (others => '0'),
-i_cpratio_en => CalculateAlphaCP_cpratio_ena,
-i_cpratio_adr => CalculateAlphaCP_cpratio_adr,
-i_alphascale_2_en => CalculateAlphaCP_alphascale_2_ena,
-i_alphascale_2_adr => CalculateAlphaCP_alphascale_2_adr,
+i_cpratio_en => calculate_alpha_cp_cpratio_ena,
+i_cpratio_adr => calculate_alpha_cp_cpratio_adr,
+i_alphascale_2_en => calculate_alpha_cp_alphascale_2_ena,
+i_alphascale_2_adr => calculate_alpha_cp_alphascale_2_adr,
 i_2powx_p8_4bit_en => '0',
 i_2powx_p8_4bit_adr => (others => '0'),
 i_signed3bit_en => '0',
 i_signed3bit_adr => (others => '0'),
-o_float => CalculateAlphaCP_rom_constants_float
+o_float => calculate_alpha_cp_rom_constants_float
 );
 
-END architecture behavior;
+end architecture tb;
+
