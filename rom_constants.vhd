@@ -1,33 +1,85 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    18:18:24 10/08/2024 
--- Design Name: 
--- Module Name:    rom_constants - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   18:18:24 10/08/2024
+-- Design Name:   mlx90640_fpga
+-- Module Name:   rom_constants
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   Rest small but important FP32 constants picked up in
+--                  one ROM memory for save resources on device.
+--                Treat as tools:
+--                  - Signed 3bit (-4 - 3)
+--                  - Signed 4bit (-8 - 7)
+--                  - Signed 6bit (-32 - 31)
+--                  - Unsigned 4bit 2^x (1 - 2^15)
+--                11.1.6. Restoring the Kta(i,j) coefficient (p. 25)
+--                  - KTa_SCALE_1
+--                11.1.10. Restoring the KsTo coefficient (common for all pixels) (p. 27)
+--                  - KsTo_SCALE
+--                11.1.12. Restoring the Sensitivity AlphaCP (p. 28)
+--                  - CP_P1/P0_RATIO
+--                11.2.2.3. Ambient temperature calculation (common for all pixels) (p. 36)
+--                  - KVPTAT
+--                  - AlphaPTAT
+--                11.2.2.8. Normalizing to sensitivity (p. 43)
+--                  - AlphaCP_SUBPAGE_0 <- AlphaSCALE_CP (x + 27)
+--                  - Alpha (ROW, COL) <- AlphaSCALE (x + 30)
+--                (Rest is in commented code)
 --
--- Dependencies: 
+-- Dependencies:
+--  - Files:
+--    (...)
+--  - Modules:
+--    (...)
 --
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files:
+--      (...)
+--    - Modules:
+--      (...)
+--    - Processes (Architecture: (...)):
+--      (...)
 --
-----------------------------------------------------------------------------------
+-- Important objects:
+--  - (...)
+--
+-- Information from the software vendor:
+--  - Messeges:
+--    (...)
+--  - Bugs:
+--    (...)
+--  - Notices:
+--    (...)
+--  - Infos:
+--    (...)
+--  - Notes:
+--    (...)
+--  - Criticals/Failures:
+--    (...)
+--
+-- Concepts/Milestones:
+-- (...)
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
 library UNISIM;
 use UNISIM.VComponents.all;
+
+use work.global_package.all;
 
 -- ROM constants
 

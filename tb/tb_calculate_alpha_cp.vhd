@@ -1,5 +1,57 @@
--- TestBench Template 
--- CalculateAlphaCP
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   13:30:00 02/09/2023
+-- Design Name:   mlx90640_fpga
+-- Module Name:   tb_calculate_alpha_cp
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   Testbench
+--                (Rest is in commented code)
+--
+-- Dependencies:
+--  - Files:
+--    (...)
+--  - Modules:
+--    (...)
+--
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files:
+--      (...)
+--    - Modules:
+--      (...)
+--    - Processes (Architecture: (...)):
+--      (...)
+--
+-- Important objects:
+--  - (...)
+--
+-- Information from the software vendor:
+--  - Messeges:
+--    (...)
+--  - Bugs:
+--    (...)
+--  - Notices:
+--    (...)
+--  - Infos:
+--    (...)
+--  - Notes:
+--    (...)
+--  - Criticals/Failures:
+--    (...)
+--
+-- Concepts/Milestones:
+-- (...)
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
