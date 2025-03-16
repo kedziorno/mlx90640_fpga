@@ -1,17 +1,59 @@
--- TestBench Template 
--- CalculatePixOS
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   21:42:12 02/16/2023
+-- Design Name:   mlx90640_fpga
+-- Module Name:   tb_calculate_pixos
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   Testbench
+--                (Rest is in commented code)
+--
+-- Dependencies:
+--  - Files:
+--    global_package.vhd
+--  - Modules: -
+--
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules:
+--      tb_i2c_mem, divfp, mulfp, addfp, subfp, fixed2float, rom_constants
+--    - Processes (Architecture: tb):
+--      p_clock_process, p_tb
+--
+-- Important objects:
+--  - tb_i2c_mem, rom_constants
+--
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones: -
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
---use work.p_fphdl_package1.all;
-USE work.p_fphdl_package3.all;
+use work.global_package.all;
 
-ENTITY tb_CalculatePixOS IS
-END tb_CalculatePixOS;
+ENTITY tb_calculate_pixos IS
+END tb_calculate_pixos;
 
-ARCHITECTURE behavior OF tb_CalculatePixOS IS 
+ARCHITECTURE tb OF tb_calculate_pixos IS 
 
 COMPONENT fixed2float
 PORT (
@@ -135,10 +177,6 @@ i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
 
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-
 i_Ta : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
 i_KGain : in std_logic_vector (31 downto 0);
@@ -159,6 +197,10 @@ o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
 o_signed3bit_ena : out std_logic;
 o_signed3bit_adr : out std_logic_vector (2 downto 0);
 i_rom_constants_float : in std_logic_vector (31 downto 0);
+
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
@@ -327,7 +369,7 @@ BEGIN
 
 out1r <= ap_slv2fp (CalculatePixOS_do); -- output data
 
-CalculatePixOS_KGain <= x"3F81AC57";
+CalculatePixOS_KGain <= x"3F81AC57"; -- 1.0130719
 i_signed4bit_en <= CalculatePixOS_signed4bit_ena;
 i_signed4bit_adr <= CalculatePixOS_signed4bit_adr;
 i_signed6bit_en <= CalculatePixOS_signed6bit_ena;
@@ -338,7 +380,7 @@ i_2powx_p8_4bit_en <= CalculatePixOS_2powx_p8_4bit_ena;
 i_2powx_p8_4bit_adr <= CalculatePixOS_2powx_p8_4bit_adr;
 i_signed3bit_en <= CalculatePixOS_signed3bit_ena;
 i_signed3bit_adr <= CalculatePixOS_signed3bit_adr;
-uut : CalculatePixOS port map (
+calculate_pixos_uut : calculate_pixos port map (
 i_clock => CalculatePixOS_clock,
 i_reset => CalculatePixOS_reset,
 i_run => CalculatePixOS_run,
@@ -398,7 +440,7 @@ divfpr => CalculatePixOS_divfpr,
 divfprdy => CalculatePixOS_divfprdy
 );
 
-inst_tb_i2c_mem : tb_i2c_mem
+tb_i2c_mem_i0 : tb_i2c_mem
 PORT MAP (
 clka => i_clock,
 ena => CalculatePixOS_i2c_mem_ena,
@@ -410,15 +452,15 @@ douta => CalculatePixOS_i2c_mem_douta
 
 CalculatePixOS_clock <= i_clock;
 
-i_clock_process :process
+p_clock_process :process
 begin
 i_clock <= '0';
 wait for i_clock_period/2;
 i_clock <= '1';
 wait for i_clock_period/2;
-end process;
+end process p_clock_process;
 
-tb : PROCESS IS
+p_tb : PROCESS IS
 type itemr is record
 a : std_logic_vector (31 downto 0);
 b : integer;
@@ -516,7 +558,7 @@ wait until rising_edge (CalculatePixOS_clock);
 report "end at 3113.505us - rewrite submodules, rm fptmp1, rm vddDiff reg, rm taDiff reg";
 wait for 1 ps; -- must be for write
 report "done" severity failure;
-END PROCESS tb;
+END PROCESS p_tb;
 
 CalculatePixOS_fixed2floatclk <= i_clock;
 CalculatePixOS_addfpclk <= i_clock;
@@ -524,7 +566,7 @@ CalculatePixOS_subfpclk <= i_clock;
 CalculatePixOS_mulfpclk <= i_clock;
 CalculatePixOS_divfpclk <= i_clock;
 
-inst_fixed2float : fixed2float
+fixed2float_i0 : fixed2float
 PORT MAP (
 a => CalculatePixOS_fixed2floata,
 operation_nd => CalculatePixOS_fixed2floatond,
@@ -535,7 +577,7 @@ result => CalculatePixOS_fixed2floatr,
 rdy => CalculatePixOS_fixed2floatrdy
 );
 
-inst_divfp : divfp
+divfp_i0 : divfp
 PORT MAP (
 a => CalculatePixOS_divfpa,
 b => CalculatePixOS_divfpb,
@@ -547,7 +589,7 @@ result => CalculatePixOS_divfpr,
 rdy => CalculatePixOS_divfprdy
 );
 
-inst_mulfp : mulfp
+mulfp_i0 : mulfp
 PORT MAP (
 a => CalculatePixOS_mulfpa,
 b => CalculatePixOS_mulfpb,
@@ -559,7 +601,7 @@ result => CalculatePixOS_mulfpr,
 rdy => CalculatePixOS_mulfprdy
 );
 
-inst_addfp : addfp
+addfp_i0 : addfp
 PORT MAP (
 a => CalculatePixOS_addfpa,
 b => CalculatePixOS_addfpb,
@@ -571,7 +613,7 @@ result => CalculatePixOS_addfpr,
 rdy => CalculatePixOS_addfprdy
 );
 
-inst_subfp : subfp
+subfp_i0 : subfp
 PORT MAP (
 a => CalculatePixOS_subfpa,
 b => CalculatePixOS_subfpb,
@@ -583,7 +625,7 @@ result => CalculatePixOS_subfpr,
 rdy => CalculatePixOS_subfprdy
 );
 
-inst_rom_constants : rom_constants PORT MAP (
+rom_constants_i0 : rom_constants PORT MAP (
 i_clock => CalculatePixOS_clock,
 i_reset => CalculatePixOS_reset,
 i_kvptat_en => '0',
@@ -609,4 +651,5 @@ i_signed3bit_adr => CalculatePixOS_signed3bit_adr,
 o_float => CalculatePixOS_rom_constants_float
 );
 
-END ARCHITECTURE behavior;
+end architecture tb;
+

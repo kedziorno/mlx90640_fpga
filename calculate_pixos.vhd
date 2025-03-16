@@ -1,46 +1,60 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    19:58:15 02/16/2023 
--- Design Name: 
--- Module Name:    CalculatePixOS - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   19:58:15 02/16/2023
+-- Design Name:   mlx90640_fpga
+-- Module Name:   calculate_pixos
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   11.1.3.1. Restoring the offset in case of Interleaved reading pattern (p. 23)
+--                11.2.2.5.3. IR data compensation – offset, VDD and Ta (p. 39)
+--                (Rest is in commented code)
 --
--- Dependencies: 
+-- Dependencies:
+--  - Files:
+--    global_package.vhd
+--  - Modules: -
 --
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules:
+--      extract_offset_parameters, extract_kta_parameters, extract_kv_parameters, calculate_pix_gain, fixed2float, mulfp, addfp, subfp, divfp
+--    - Processes (Architecture: rtl):
+--      p0
 --
-----------------------------------------------------------------------------------
+-- Important objects: -
+--
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones: -
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+use work.global_package.all;
 
---use work.p_fphdl_package1.all;
-use work.p_fphdl_package3.all;
-
-entity CalculatePixOS is
+entity calculate_pixos is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 i_Ta : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
@@ -62,6 +76,10 @@ o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
 o_signed3bit_ena : out std_logic;
 o_signed3bit_adr : out std_logic_vector (2 downto 0);
 i_rom_constants_float : in std_logic_vector (31 downto 0);
+
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
@@ -103,9 +121,9 @@ divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 divfprdy : in STD_LOGIC
 
 );
-end entity CalculatePixOS;
+end entity calculate_pixos;
 
-architecture Behavioral of CalculatePixOS is
+architecture rtl of calculate_pixos is
 
 component ExtractOffsetParameters is
 port (
@@ -342,7 +360,7 @@ signal ExtractKvParameters_divfpce : STD_LOGIC;
 signal ExtractKvParameters_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractKvParameters_divfprdy : STD_LOGIC;
 
-component CalculatePixGain is
+component calculate_pix_gain is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -368,7 +386,7 @@ mulfpsclr : out STD_LOGIC;
 mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 mulfprdy : in STD_LOGIC
 );
-end component CalculatePixGain;
+end component calculate_pix_gain;
 signal CalculatePixGain_clock : std_logic;
 signal CalculatePixGain_reset : std_logic;
 signal CalculatePixGain_run : std_logic;
@@ -794,17 +812,12 @@ ExtractKtaParameters_rom_constants_float <= i_rom_constants_float;
 ExtractKvParameters_rom_constants_float <= i_rom_constants_float;
 
 p0 : process (i_clock) is
-	constant C_ROW : integer := 24;
-	constant C_COL : integer := 32;
-	variable i : integer range 0 to C_ROW*C_COL-1;
+	variable i : integer range 0 to C_MATRIX_PIXELS-1;
 	type states is (idle,
   s3,s5,s7,s9,s9a,s9b,s9c,
   s10,s14,s16,s17,s20,
 	s22,s24,s25,s26,s28,s30);
 	variable state : states;
-  constant const1 : std_logic_vector (31 downto 0) := x"3f800000";
-  constant const_Ta0 : std_logic_vector (31 downto 0) := x"41C80000"; -- 25
-  constant const_VddV0 : std_logic_vector (31 downto 0) := x"40533333"; -- 3.3
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -915,7 +928,7 @@ begin
         when s9b =>
           subfpce_internal <= '1';
           subfpa_internal <= i_Ta;
-          subfpb_internal <= const_Ta0;
+          subfpb_internal <= C_TA0;
           subfpond_internal <= '1';
           if (subfprdy_internal = '1') then state := s9c;
             subfpce_internal <= '0';
@@ -926,7 +939,7 @@ begin
           subfpsclr_internal <= '0';
           divfpce_internal <= '1';
           divfpa_internal <= subfpr_internal;
-          divfpb_internal <= const1;
+          divfpb_internal <= C_P1;
           divfpond_internal <= '1';
           if (divfprdy_internal = '1') then state := s10;
             divfpce_internal <= '0';
@@ -937,7 +950,7 @@ begin
           divfpsclr_internal <= '0';
           subfpce_internal <= '1';
           subfpa_internal <= i_Vdd;
-          subfpb_internal <= const_VddV0;
+          subfpb_internal <= C_VDDV0;
           subfpond_internal <= '1';
           if (subfprdy_internal = '1') then state := s14;
             subfpce_internal <= '0';
@@ -959,7 +972,7 @@ begin
           mulfpsclr_internal <= '0';
           addfpce_internal <= '1';
           addfpa_internal <= mulfpr_internal;
-          addfpb_internal <= const1;
+          addfpb_internal <= C_P1;
           addfpond_internal <= '1';
           if (addfprdy_internal = '1') then state := s17;
             addfpce_internal <= '0';
@@ -992,7 +1005,7 @@ begin
           mulfpsclr_internal <= '0';
           addfpce_internal <= '1';
           addfpa_internal <= mulfpr_internal;
-          addfpb_internal <= const1;
+          addfpb_internal <= C_P1;
           addfpond_internal <= '1';
           if (addfprdy_internal = '1') then state := s24;
             addfpce_internal <= '0';
@@ -1041,7 +1054,7 @@ begin
           else state := s28; end if;
         when s30 =>
           write_enable <= '0';
-          if (i = (C_ROW*C_COL)-1) then
+          if (i = C_MATRIX_PIXELS-1) then
             state := idle;
             i := 0;
             rdy <= '1';
@@ -1087,7 +1100,7 @@ ExtractKvParameters_i2c_mem_douta <= i2c_mem_douta when ExtractKvParameters_mux 
 CalculatePixGain_clock <= i_clock;
 CalculatePixGain_reset <= i_reset;
 CalculatePixGain_KGain <= i_KGain;
-inst_CalculatePixGain : CalculatePixGain port map (
+calculate_pix_gain_i0 : calculate_pix_gain port map (
 i_clock => CalculatePixGain_clock,
 i_reset => CalculatePixGain_reset,
 i_run => CalculatePixGain_run,
@@ -1128,7 +1141,7 @@ ExtractKvParameters_signed4bit_adr when ExtractKvParameters_mux = '1' else
 o_signed6bit_ena <= ExtractOffsetParameters_signed6bit_ena;
 o_signed6bit_adr <= ExtractOffsetParameters_signed6bit_adr;
 ExtractOffsetParameters_rom_constants_float <= i_rom_constants_float;
-inst_ExtractOffsetParameters : ExtractOffsetParameters port map (
+ExtractOffsetParameters_i0 : ExtractOffsetParameters port map (
 i_clock => ExtractOffsetParameters_clock,
 i_reset => ExtractOffsetParameters_reset,
 i_run => ExtractOffsetParameters_run,
@@ -1181,7 +1194,7 @@ o_2powx_p8_4bit_adr <= ExtractKtaParameters_2powx_p8_4bit_adr;
 o_signed3bit_ena <= ExtractKtaParameters_signed3bit_ena;
 o_signed3bit_adr <= ExtractKtaParameters_signed3bit_adr;
 ExtractKtaParameters_rom_constants_float <= i_rom_constants_float;
-inst_ExtractKtaParameters : ExtractKtaParameters port map (
+ExtractKtaParameters_i0 : ExtractKtaParameters port map (
 i_clock => ExtractKtaParameters_clock,
 i_reset => ExtractKtaParameters_reset,
 i_run => ExtractKtaParameters_run,
@@ -1237,7 +1250,7 @@ fixed2floatrdy => ExtractKtaParameters_fixed2floatrdy
 
 ExtractKvParameters_clock <= i_clock;
 ExtractKvParameters_reset <= i_reset;
-inst_ExtractKvParameters : ExtractKvParameters port map (
+ExtractKvParameters_i0 : ExtractKvParameters port map (
 i_clock => ExtractKvParameters_clock,
 i_reset => ExtractKvParameters_reset,
 i_run => ExtractKvParameters_run,
@@ -1265,7 +1278,7 @@ divfpr => ExtractKvParameters_divfpr,
 divfprdy => ExtractKvParameters_divfprdy
 );
 
-inst_mem_pixos : mem_ramb16_s36_x2
+mem_pixos_i0 : mem_ramb16_s36_x2
 GENERIC MAP (
 INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000" -- start 0's
 )
@@ -1281,4 +1294,5 @@ SSR => i_reset,
 WE => write_enable
 );
 
-end architecture Behavioral;
+end architecture rtl;
+
