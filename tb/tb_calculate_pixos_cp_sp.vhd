@@ -13,38 +13,29 @@
 --
 -- Dependencies:
 --  - Files:
---    (...)
---  - Modules:
---    (...)
+--    global_package.vhd
+--  - Modules: -
 --
 -- Revision:
 --  - Revision 0.01 - File created
---    - Files:
---      (...)
+--    - Files: -
 --    - Modules:
---      (...)
---    - Processes (Architecture: (...)):
---      (...)
+--      rom_constants, tb_i2c_mem
+--    - Processes (Architecture: tb):
+--      p_clock_process, p_tb
 --
 -- Important objects:
---  - (...)
+--  - rom_constants, tb_i2c_mem
 --
 -- Information from the software vendor:
---  - Messeges:
---    (...)
---  - Bugs:
---    (...)
---  - Notices:
---    (...)
---  - Infos:
---    (...)
---  - Notes:
---    (...)
---  - Criticals/Failures:
---    (...)
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
 --
--- Concepts/Milestones:
--- (...)
+-- Concepts/Milestones: -
 --
 -- Additional Comments:
 --  - To read more about:
@@ -150,14 +141,14 @@ i_Ta : in std_logic_vector (31 downto 0);
 i_Vdd : in std_logic_vector (31 downto 0);
 i_KGain : in std_logic_vector (31 downto 0);
 
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-
 o_pixoscpsp0 : out std_logic_vector (31 downto 0);
 o_pixoscpsp1 : out std_logic_vector (31 downto 0);
 
 o_rdy : out std_logic;
+
+signal i2c_mem_ena : out STD_LOGIC;
+signal i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 signal o_signed6bit_ena : out std_logic;
 signal o_signed6bit_adr : out std_logic_vector (5 downto 0);
