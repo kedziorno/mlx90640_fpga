@@ -25,7 +25,8 @@
 --    - Processes (Architecture: rtl):
 --      p0
 --
--- Important objects: -
+-- Important objects:
+--  - rom_constants
 --
 -- Information from the software vendor:
 --  - Messeges: -
