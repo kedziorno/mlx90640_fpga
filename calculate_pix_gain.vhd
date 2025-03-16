@@ -240,11 +240,11 @@ port (
 signal DO : out std_logic_vector (31 downto 0);
 signal DOP : out std_logic_vector (3 downto 0);
 signal ADDR : in std_logic_vector (9 downto 0); -- 10bit-1024
-signal CLK : in std_logic;
+signal i_reset : in std_logic;
 signal DI : in std_logic_vector (31 downto 0);
 signal DIP : in std_logic_vector (3 downto 0);
 signal EN : in std_logic;
-signal SSR : in std_logic;
+signal i_clock : in std_logic;
 signal WE : in std_logic
 );
 end component mem_ramb16_s36_x2;
@@ -397,11 +397,11 @@ PORT MAP (
 DO => doa,
 DOP => open,
 ADDR => mux_addr,
-CLK => i_clock,
+i_clock => i_clock,
 DI => mux_dia,
 DIP => (others => '0'),
 EN => '1',
-SSR => i_reset,
+i_reset => i_reset,
 WE => write_enable
 );
 
