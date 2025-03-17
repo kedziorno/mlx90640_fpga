@@ -8,7 +8,7 @@
 -- Project Name:  mlx90640_fpga
 -- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
 -- Tool versions: Xilinx ISE 14.7, XST and ISIM
--- Description:   (...)
+-- Description:   11.1.5. Restoring the Kv(i,j) coefficient (p. 25)
 --                (Rest is in commented code)
 --
 -- Dependencies:
