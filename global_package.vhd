@@ -85,10 +85,14 @@ package global_package is
   constant C_2POW18 : std_logic_vector (31 downto 0) := x"48800000";  -- calculate_pixos_cp_sp
   constant C_2POW3 : std_logic_vector (31 downto 0) := x"41000000";   -- calculate_pix_gain
 
-  -- calculate_raw_image
-  constant C_TR : std_logic_vector (31 downto 0) := x"41000000"; -- 8
-  constant C_273dot15 : std_logic_vector (31 downto 0) := x"43889333"; -- 273.15 Kelvins
+  -- calculate_raw_image, calculate_to
   constant C_EMISSIVITY : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
+  --constant C_EMISSIVITY : std_logic_vector (31 downto 0) := x"3f866666"; -- 1.05
+  --constant C_EMISSIVITY : std_logic_vector (31 downto 0) := x"3f8147ae"; -- 1.01
+  --constant C_EMISSIVITY : std_logic_vector (31 downto 0) := x"3f733333"; -- 0.95
+  --constant C_EMISSIVITY : std_logic_vector (31 downto 0) := x"3f7d70a4"; -- 0.99
+  constant C_TR : std_logic_vector (31 downto 0) := x"41000000"; -- 8
+  constant C_273DOT15 : std_logic_vector (31 downto 0) := x"43889333"; -- 273.15 Kelvins
   constant C_1 : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
   --constant C_10E7 : std_logic_vector (31 downto 0) := x"4B189680"; -- 10e7
   --constant C_10E7 : std_logic_vector (31 downto 0) := x"CB189680"; -- -10e7 - neg image

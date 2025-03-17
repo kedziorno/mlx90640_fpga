@@ -1,45 +1,59 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    16:16:58 02/19/2023 
--- Design Name: 
--- Module Name:    CalculateTo - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   16:16:58 02/19/2023
+-- Design Name:   mlx90640_fpga
+-- Module Name:   calculate_to
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   11.2.2.9. Calculating To for basic temperature range (0 C...CT3 C) (p. 44)
+--                (Rest is in commented code)
 --
--- Dependencies: 
+-- Dependencies:
+--  - Files:
+--    global_package.vhd
+--  - Modules: -
 --
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules:
+--      fixed2float, sqrtfp2, mulfp, addfp, divfp, subfp, rom_constants
+--    - Processes (Architecture: rtl):
+--      p0
 --
-----------------------------------------------------------------------------------
+-- Important objects: -
+--
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones: -
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+use work.global_package.all;
 
-use work.p_fphdl_package3.all;
-
-entity CalculateTo is
+entity calculate_to is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 i_Ta : IN  std_logic_vector(31 downto 0);
 
@@ -53,6 +67,10 @@ o_do : OUT  std_logic_vector(31 downto 0);
 i_addr : IN  std_logic_vector(9 downto 0);
 
 o_rdy : out std_logic;
+
+signal i2c_mem_ena : out STD_LOGIC;
+signal i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 signal o_2powx_p8_ena : out std_logic;
 signal o_2powx_p8_adr : out std_logic_vector (3 downto 0);
@@ -103,11 +121,10 @@ signal fixed2floatce : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal fixed2floatrdy : in STD_LOGIC
-
 );
-end CalculateTo;
+end entity calculate_to;
 
-architecture Behavioral of CalculateTo is
+architecture rtl of calculate_to is
 
 signal divfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -309,11 +326,11 @@ port (
 signal DO : out std_logic_vector (31 downto 0);
 signal DOP : out std_logic_vector (3 downto 0);
 signal ADDR : in std_logic_vector (9 downto 0); -- 10bit-1024
-signal CLK : in std_logic;
+signal i_clock : in std_logic;
 signal DI : in std_logic_vector (31 downto 0);
 signal DIP : in std_logic_vector (3 downto 0);
 signal EN : in std_logic;
-signal SSR : in std_logic;
+signal i_reset : in std_logic;
 signal WE : in std_logic
 );
 end component mem_ramb16_s36_x2;
@@ -385,27 +402,17 @@ i2c_mem_addra <= i2c_mem_addra_internal;
 i2c_mem_douta_internal <= i2c_mem_douta;
 
 p0 : process (i_clock) is
-	constant C_ROW : integer := 24;
-	constant C_COL : integer := 32;
-	variable i : integer range 0 to C_ROW*C_COL-1;
-	constant constTr : std_logic_vector (31 downto 0) := x"41000000"; -- 8
-	constant const27315 : std_logic_vector (31 downto 0) := x"43889333"; -- 273.15
-	--constant constEmissivity : std_logic_vector (31 downto 0) := x"3f866666"; -- 1.05
-	--constant constEmissivity : std_logic_vector (31 downto 0) := x"3f8147ae"; -- 1.01
-	constant constEmissivity : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
-	--constant constEmissivity : std_logic_vector (31 downto 0) := x"3f733333"; -- 0.95
-	--constant constEmissivity : std_logic_vector (31 downto 0) := x"3f7d70a4"; -- 0.99
-	constant const1 : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
+  variable i : integer range 0 to C_MATRIX_PIXELS-1;
   type states is (idle,
-	s9,s10,s10a,s10b,
-	s12,s13,s16,s17,s18,s20,
-	s21,s24,s26,s28,s30,
-	s35,s36,s37,s38,s39,s40,
-	s41,s42,s43,s44,s45,s47,s48,s49,s50,
-	s51,s51a,s52,s53,s55,s57,s59,
-	s61,s63,s65,s66,s67,s69,s71);
-	variable state : states;
-	variable tar : std_logic_vector (31 downto 0);
+  s9,s10,s10a,s10b,
+  s12,s13,s16,s17,s18,s20,
+  s21,s24,s26,s28,s30,
+  s35,s36,s37,s38,s39,s40,
+  s41,s42,s43,s44,s45,s47,s48,s49,s50,
+  s51,s51a,s52,s53,s55,s57,s59,
+  s61,s63,s65,s66,s67,s69,s71);
+  variable state : states;
+  variable tar : std_logic_vector (31 downto 0);
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -471,7 +478,7 @@ begin
         when s10 =>
           subfpce_internal <= '1';
           subfpa_internal <= i_Ta;
-          subfpb_internal <= constTr;
+          subfpb_internal <= C_TR;
           subfpond_internal <= '1';
           if (subfprdy_internal = '1') then state := s10a; -- Tr=Ta-8
             subfpce_internal <= '0';
@@ -482,7 +489,7 @@ begin
           subfpsclr_internal <= '0';
           addfpce_internal <= '1';
           addfpa_internal <= i_Ta;
-          addfpb_internal <= const27315;
+          addfpb_internal <= C_273DOT15;
           addfpond_internal <= '1';
           if (addfprdy_internal = '1') then state := s10b; -- Ta+273.15
             addfpce_internal <= '0';
@@ -494,7 +501,7 @@ begin
           
           divfpce_internal <= '1';
           divfpa_internal <= subfpr_internal; -- Tr=Ta-8 - s10
-          divfpb_internal <= const1;
+          divfpb_internal <= C_P1;
           divfpond_internal <= '1';
           if (divfprdy_internal = '1') then state := s12;
             divfpce_internal <= '0';
@@ -542,7 +549,7 @@ begin
           subfpsclr_internal <= '0';
           addfpce_internal <= '1';
           addfpa_internal <= divfpr_internal; -- Tr=Ta-8 - s10b
-          addfpb_internal <= const27315;
+          addfpb_internal <= C_273DOT15;
           addfpond_internal <= '1';
           if (addfprdy_internal = '1') then state := s20; -- Tr + 273.15
             addfpce_internal <= '0';
@@ -587,7 +594,7 @@ begin
           subfpsclr_internal <= '0';
           divfpce_internal <= '1';
           divfpa_internal <= subfpr_internal; -- TrK4-TaK4 - s26
-          divfpb_internal <= constEmissivity; -- Emissivity
+          divfpb_internal <= C_EMISSIVITY; -- Emissivity
           divfpond_internal <= '1';
           if (divfprdy_internal = '1') then state := s30;
             divfpce_internal <= '0';
@@ -659,7 +666,7 @@ begin
           
           divfpce_internal <= '1';
           divfpa_internal <= mulfpr_internal; -- alphacomp^4
-          divfpb_internal <= const1;
+          divfpb_internal <= C_P1;
           divfpond_internal <= '1';
           if (divfprdy_internal = '1') then state := s41;
             divfpce_internal <= '0';
@@ -812,7 +819,7 @@ begin
 
           mulfpce_internal <= '1';
           mulfpa_internal <= divfpr_internal; -- ksto2 - s51
-          mulfpb_internal <= const27315;
+          mulfpb_internal <= C_273DOT15;
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s55; -- ksto2*273.15
             mulfpce_internal <= '0';
@@ -822,7 +829,7 @@ begin
         when s55 =>
           mulfpsclr_internal <= '0';
           subfpce_internal <= '1';
-          subfpa_internal <= const1;
+          subfpa_internal <= C_P1;
           subfpb_internal <= mulfpr_internal;
           subfpond_internal <= '1';
           if (subfprdy_internal = '1') then state := s57; -- 1-ksto2*273.15
@@ -899,7 +906,7 @@ begin
           sqrtfp2sclr_internal <= '0';
           subfpce_internal <= '1';
           subfpa_internal <= sqrtfp2r_internal; -- sqrt2(sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar))
-          subfpb_internal <= const27315;
+          subfpb_internal <= C_273DOT15;
           subfpond_internal <= '1';
           if (subfprdy_internal = '1') then state := s71;
             subfpce_internal <= '0';
@@ -914,7 +921,7 @@ begin
           else state := s69; end if;
         when s71 =>
           write_enable <= '0';
-          if (i = (C_ROW*C_COL)-1) then
+          if (i = C_MATRIX_PIXELS-1) then
             state := idle;
             rdy <= '1';
             i := 0;
@@ -927,7 +934,7 @@ begin
 	end if;
 end process p0;
 
-inst_mem_To : mem_ramb16_s36_x2
+mem_calculate_to_i0 : mem_ramb16_s36_x2
 GENERIC MAP (
 INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000" -- start 0's
 )
@@ -935,12 +942,13 @@ PORT MAP (
 DO => doa,
 DOP => open,
 ADDR => mux_addr,
-CLK => i_clock,
+i_clock => i_clock,
 DI => mux_dia,
 DIP => (others => '0'),
 EN => '1',
-SSR => i_reset,
+i_reset => i_reset,
 WE => write_enable
 );
 
-end architecture Behavioral;
+end architecture rtl;
+
