@@ -1,47 +1,60 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    17:55:26 02/02/2023 
--- Design Name: 
--- Module Name:    calculateTa - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   17:55:26 02/02/2023
+-- Design Name:   mlx90640_fpga
+-- Module Name:   calculate_ta
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   11.1.2. Restoring the Ta sensor parameters (p. 22)
+--                11.2.2.3. Ambient temperature calculation (common for all pixels) (p. 37)
+--                (Rest is in commented code)
 --
--- Dependencies: 
+-- Dependencies:
+--  - Files:
+--    global_package.vhd
+--  - Modules: -
 --
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules:
+--      rom_constants
+--    - Processes (Architecture: rtl):
+--      p0
 --
-----------------------------------------------------------------------------------
+-- Important objects: -
+--
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones: -
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
+
 library ieee;
---library ieee;
 use ieee.std_logic_1164.all;
---use ieee_proposed.fixed_pkg.all;
-
-use work.p_fphdl_package3.all;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+use work.global_package.all;
 
-entity CalculateTa is
+entity calculate_ta is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 i_Vdd : in std_logic_vector (31 downto 0);
 
@@ -50,11 +63,13 @@ o_rdy : out std_logic;
 
 o_kvptat_ena : out std_logic;
 o_kvptat_adr : out std_logic_vector (5 downto 0);
-
 o_alphaptat_ena : out std_logic;
 o_alphaptat_adr : out std_logic_vector (3 downto 0);
-
 i_rom_constants_float : in std_logic_vector (31 downto 0);
+
+i2c_mem_ena : out STD_LOGIC;
+i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
@@ -95,9 +110,9 @@ subfpsclr : out STD_LOGIC;
 subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 subfprdy : in STD_LOGIC
 );
-end CalculateTa;
+end calculate_ta;
 
-architecture Behavioral of CalculateTa is
+architecture rtl of calculate_ta is
 
 begin
 
@@ -110,11 +125,6 @@ p0 : process (i_clock) is
 	s22,s23,s24,s25,s26,s26a,s26b,s26c,
 	s28,s30);
 	variable state : states;
-	constant const3dot3_ft : std_logic_vector (31 downto 0) := x"40533333";
-	constant const2pow18_ft : std_logic_vector (31 downto 0) := x"48800000";
-	constant const1_ft : std_logic_vector (31 downto 0) := x"3F800000";
-	constant const25_ft : std_logic_vector (31 downto 0) := x"41C80000";
-	constant const2pow3_ft : std_logic_vector (31 downto 0) := x"41000000";
   variable ram : std_logic_vector (7 downto 0);
   variable tmp : std_logic_vector (1 downto 0);
 begin
@@ -171,7 +181,7 @@ begin
         when s1c =>
           subfpce <= '1';
           subfpa <= i_Vdd;
-          subfpb <= const3dot3_ft;
+          subfpb <= C_3DOT3;
           subfpond <= '1';
           i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(800*2)+0, 12)); -- ram0720 MSB vptat
           if (subfprdy = '1') then state := s8;
@@ -304,7 +314,7 @@ begin
           mulfpsclr <= '0';
           -- 1+kvptat*deltaV
           addfpce <= '1';
-          addfpa <= const1_ft;
+          addfpa <= C_P1;
           addfpb <= mulfpr; -- kvptat*deltaV
           addfpond <= '1';
           if (addfprdy = '1') then state := s23;
@@ -320,7 +330,7 @@ begin
           -- vptat/(vptat*alphaptat+vbe)*2^18
           mulfpce <= '1';
           mulfpa <= divfpr; -- vptat/(vptat*alphaptat+vbe)
-          mulfpb <= const2pow18_ft;
+          mulfpb <= C_2POW18;
           mulfpond <= '1';
           if (mulfprdy = '1') then state := s24;
             mulfpce <= '0';
@@ -398,7 +408,7 @@ begin
           fixed2floatsclr <= '0';
           divfpce <= '1';
           divfpa <= fixed2floatr;
-          divfpb <= const2pow3_ft;
+          divfpb <= C_2POW3;
           divfpond <= '1';
           if (divfprdy = '1') then state := s26c;
             divfpce <= '0';
@@ -429,7 +439,7 @@ begin
           -- (((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat)+25
           addfpce <= '1';
           addfpa <= divfpr; -- ((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat
-          addfpb <= const25_ft;
+          addfpb <= C_TA0;
           addfpond <= '1';
           if (addfprdy = '1') then state := idle;
             addfpce <= '0';
@@ -447,4 +457,5 @@ begin
   end if;
 end process p0;
 
-end architecture Behavioral;
+end architecture rtl;
+

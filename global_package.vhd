@@ -73,16 +73,17 @@ package global_package is
 
   subtype constant_float is std_logic_vector (31 downto 0); -- Floating Point 32
 
-	constant C_ROWS : integer := 24; -- Matrix Pixels Y
-	constant C_COLS : integer := 32; -- Matrix Pixels X
-	constant C_MATRIX_PIXELS : integer := C_ROWS * C_COLS;
+  constant C_ROWS : integer := 24; -- Matrix Pixels Y
+  constant C_COLS : integer := 32; -- Matrix Pixels X
+  constant C_MATRIX_PIXELS : integer := C_ROWS * C_COLS;
 
-  -- calculate_pixos_cp_sp
-  constant C_VDDV0 : std_logic_vector (31 downto 0) := x"40533333"; -- 3.3 V
+  constant PIXGAIN_ST : integer := 1665; -- pixgain start - eeprom max + 1
+  constant PIXGAIN_SZ : integer := C_MATRIX_PIXELS; -- pixgain size
 
-  -- calculate_pix_gain
-	constant PIXGAIN_ST : integer := 1665; -- pixgain start - eeprom max + 1
-	constant PIXGAIN_SZ : integer := C_MATRIX_PIXELS; -- pixgain size
+  -- calculate_ta
+  constant C_3DOT3 : std_logic_vector (31 downto 0) := x"40533333";
+  constant C_2POW18 : std_logic_vector (31 downto 0) := x"48800000";  -- calculate_pixos_cp_sp
+  constant C_2POW3 : std_logic_vector (31 downto 0) := x"41000000";   -- calculate_pix_gain
 
   -- calculate_raw_image
   constant C_TR : std_logic_vector (31 downto 0) := x"41000000"; -- 8
