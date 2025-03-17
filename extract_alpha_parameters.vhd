@@ -1,54 +1,69 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    12:57:15 02/07/2023 
--- Design Name: 
--- Module Name:    ExtractAlphaParameters - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   12:57:15 02/07/2023 
+-- Design Name:   mlx90640_fpga
+-- Module Name:   extract_alpha_parameters
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   11.2.2.8. Normalizing to sensitivity (p. 43)
+--                (Rest is in commented code)
 --
--- Dependencies: 
+-- Dependencies:
+--  - Files:
+--    global_package.vhd
+--  - Modules: -
 --
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules:
+--      divfp, mulfp, addfp, rom_constants, tb_i2c_mem, fixed2float
+--    - Processes (Architecture: rtl):
+--      p0
 --
-----------------------------------------------------------------------------------
+-- Important objects: -
+--
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones: -
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-
---use ieee_proposed.fixed_pkg.all;
-
---use work.p_fphdl_package1.all;
-USE work.p_fphdl_package3.all;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+use work.global_package.all;
 
-entity ExtractAlphaParameters is
+entity extract_alpha_parameters is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_done : out std_logic;
 o_rdy : out std_logic;
+
+signal i2c_mem_ena : out STD_LOGIC;
+signal i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 signal o_signed4bit_ena : out std_logic;
 signal o_signed4bit_adr : out std_logic_vector (3 downto 0);
@@ -90,11 +105,10 @@ signal divfpsclr : out STD_LOGIC;
 signal divfpce : out STD_LOGIC;
 signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy : in STD_LOGIC
-
 );
-end ExtractAlphaParameters;
+end extract_alpha_parameters;
 
-architecture Behavioral of ExtractAlphaParameters is
+architecture rtl of extract_alpha_parameters is
 
 component mem_ramb16_s36_x2 is
 generic (
@@ -250,11 +264,11 @@ port (
 signal DO : out std_logic_vector (31 downto 0);
 signal DOP : out std_logic_vector (3 downto 0);
 signal ADDR : in std_logic_vector (9 downto 0); -- 10bit-1024
-signal CLK : in std_logic;
+signal i_clock : in std_logic;
 signal DI : in std_logic_vector (31 downto 0);
 signal DIP : in std_logic_vector (3 downto 0);
 signal EN : in std_logic;
-signal SSR : in std_logic;
+signal i_reset : in std_logic;
 signal WE : in std_logic
 );
 end component mem_ramb16_s36_x2;
@@ -262,15 +276,11 @@ end component mem_ramb16_s36_x2;
 signal addra,mux_addr : std_logic_vector (9 downto 0);
 signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
 
-
 signal out_nibble3 : std_logic_vector (31 downto 0);
 
 signal write_enable : std_logic;
 
 signal rdy : std_logic;
-
-constant C_COL : integer := 32;
-constant C_ROW : integer := 24;
 
 signal fixed2floata_internal : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond_internal : STD_LOGIC;
@@ -338,7 +348,7 @@ divfprdy_internal <= divfprdy;
 
 o_rdy <= rdy;
 o_do <= doa when rdy = '1' else (others => '0');
-mux_addr <= addra when rdy = '0' else std_logic_vector (to_unsigned (to_integer(unsigned (i_addr))+C_COL+C_ROW,10))  when rdy = '1' else (others => '0');
+mux_addr <= addra when rdy = '0' else std_logic_vector (to_unsigned (to_integer(unsigned (i_addr))+C_COLS+C_ROWS,10))  when rdy = '1' else (others => '0');
 mux_dia <= dia when rdy = '0' else (others => '0');
 
 p0 : process (i_clock) is
@@ -352,9 +362,9 @@ p0 : process (i_clock) is
 	variable valphaRef : std_logic_vector (7 downto 0);
 	variable vAlphaPixel : std_logic_vector (1 downto 0);
 
-	variable col : integer range 0 to C_COL-1;
-	variable row : integer range 0 to C_ROW-1;
-	variable i : integer range 0 to (C_ROW*C_COL)-1;
+	variable col : integer range 0 to C_COLS-1;
+	variable row : integer range 0 to C_ROWS-1;
+	variable i : integer range 0 to C_MATRIX_PIXELS-1;
   variable m : integer range 0 to 31 := 0;
   variable n : integer range 0 to 55 := 0;
   variable j : integer range 0 to 13 := 0;
@@ -415,7 +425,7 @@ begin
           j := 0;
           col := 0;
           row := 0;
-        when acc15 => state := acc16;
+        when acc15 => state := acc16; -- XXX start loop
           m := 2*i;
           n := j*4;
           --i2c_mem_ena <= '1';
@@ -445,7 +455,7 @@ begin
         when acc22 => state := acc23;
           dia <= i_rom_constants_float; -- out accrowD
           addra <= std_logic_vector (to_unsigned (n+3, 10));
-        when acc23 =>
+        when acc23 => -- XXX end loop
           o_signed4bit_ena <= '0';
           write_enable <= '0';
           if j = 13 then
@@ -496,7 +506,7 @@ begin
 						fixed2floatce_internal <= '0';
 						fixed2floatond_internal <= '0';
 						fixed2floatsclr_internal <= '1';
-            addra <= std_logic_vector (to_unsigned (col+C_ROW, 10)); -- accColumnJ
+            addra <= std_logic_vector (to_unsigned (col+C_ROWS, 10)); -- accColumnJ
             o_2powx_4bit_ena <= '1';
             o_2powx_4bit_adr <= i2c_mem_douta (7 downto 4); -- acc scale column for 2^x
 					else state := s7; end if;
@@ -632,7 +642,7 @@ begin
             divfpond_internal <= '0';
             divfpsclr_internal <= '1';
             write_enable <= '1';
-            addra <= std_logic_vector (to_unsigned (C_ROW+C_COL+i, 10)); -- vAlphaPixel_ft
+            addra <= std_logic_vector (to_unsigned (C_ROWS+C_COLS+i, 10)); -- vAlphaPixel_ft
             dia <= divfpr_internal;
             --synthesis translate_off
             report_error("================vAlphaPixel_ft " & integer'image(i), divfpr_internal, 0.0);
@@ -642,9 +652,9 @@ begin
           i := i + 1;
           write_enable <= '0';
           --i2c_mem_ena <= '0';
-          if (col = C_COL-1) then
+          if (col = C_COLS-1) then
             col := 0;
-            if (row = C_ROW-1) then
+            if (row = C_ROWS-1) then
               row := 0;
               state := idle;
               rdy <= '1';
@@ -661,7 +671,7 @@ begin
   end if;
 end process p0;
 
-inst_mem_acc : mem_ramb16_s36_x2
+mem_alpha_parameters_i0 : mem_ramb16_s36_x2
 GENERIC MAP (
 INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000" -- start 0's
 )
@@ -669,12 +679,13 @@ PORT MAP (
 DO => doa,
 DOP => open,
 ADDR => mux_addr,
-CLK => i_clock,
+i_clock => i_clock,
 DI => mux_dia,
 DIP => (others => '0'),
 EN => '1',
-SSR => i_reset,
+i_reset => i_reset,
 WE => write_enable
 );
 
-end architecture Behavioral;
+end architecture rtl;
+
