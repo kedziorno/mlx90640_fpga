@@ -125,7 +125,7 @@ end entity calculate_pixos;
 
 architecture rtl of calculate_pixos is
 
-component ExtractOffsetParameters is
+component extract_offset_parameters is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -171,43 +171,43 @@ signal addfpce : out STD_LOGIC;
 signal addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfprdy : in STD_LOGIC
 );
-end component ExtractOffsetParameters;
-signal ExtractOffsetParameters_clock : std_logic;
-signal ExtractOffsetParameters_reset : std_logic;
-signal ExtractOffsetParameters_run : std_logic;
-signal ExtractOffsetParameters_i2c_mem_ena : STD_LOGIC;
-signal ExtractOffsetParameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal ExtractOffsetParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal ExtractOffsetParameters_do : std_logic_vector (31 downto 0);
-signal ExtractOffsetParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
-signal ExtractOffsetParameters_rdy : std_logic;
-signal ExtractOffsetParameters_signed4bit_ena : std_logic;
-signal ExtractOffsetParameters_signed4bit_adr : std_logic_vector (3 downto 0);
-signal ExtractOffsetParameters_signed6bit_ena : std_logic;
-signal ExtractOffsetParameters_signed6bit_adr : std_logic_vector (5 downto 0);
-signal ExtractOffsetParameters_2powx_4bit_ena : std_logic;
-signal ExtractOffsetParameters_2powx_4bit_adr : std_logic_vector (3 downto 0);
-signal ExtractOffsetParameters_rom_constants_float : std_logic_vector (31 downto 0);
-signal ExtractOffsetParameters_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
-signal ExtractOffsetParameters_fixed2floatond : STD_LOGIC;
-signal ExtractOffsetParameters_fixed2floatsclr : STD_LOGIC;
-signal ExtractOffsetParameters_fixed2floatce : STD_LOGIC;
-signal ExtractOffsetParameters_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal ExtractOffsetParameters_fixed2floatrdy : STD_LOGIC;
-signal ExtractOffsetParameters_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal ExtractOffsetParameters_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal ExtractOffsetParameters_mulfpond : STD_LOGIC;
-signal ExtractOffsetParameters_mulfpsclr : STD_LOGIC;
-signal ExtractOffsetParameters_mulfpce : STD_LOGIC;
-signal ExtractOffsetParameters_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal ExtractOffsetParameters_mulfprdy : STD_LOGIC;
-signal ExtractOffsetParameters_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal ExtractOffsetParameters_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal ExtractOffsetParameters_addfpond : STD_LOGIC;
-signal ExtractOffsetParameters_addfpsclr : STD_LOGIC;
-signal ExtractOffsetParameters_addfpce : STD_LOGIC;
-signal ExtractOffsetParameters_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal ExtractOffsetParameters_addfprdy : STD_LOGIC;
+end component extract_offset_parameters;
+signal extract_offset_parameters_clock : std_logic;
+signal extract_offset_parameters_reset : std_logic;
+signal extract_offset_parameters_run : std_logic;
+signal extract_offset_parameters_i2c_mem_ena : STD_LOGIC;
+signal extract_offset_parameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal extract_offset_parameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal extract_offset_parameters_do : std_logic_vector (31 downto 0);
+signal extract_offset_parameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
+signal extract_offset_parameters_rdy : std_logic;
+signal extract_offset_parameters_signed4bit_ena : std_logic;
+signal extract_offset_parameters_signed4bit_adr : std_logic_vector (3 downto 0);
+signal extract_offset_parameters_signed6bit_ena : std_logic;
+signal extract_offset_parameters_signed6bit_adr : std_logic_vector (5 downto 0);
+signal extract_offset_parameters_2powx_4bit_ena : std_logic;
+signal extract_offset_parameters_2powx_4bit_adr : std_logic_vector (3 downto 0);
+signal extract_offset_parameters_rom_constants_float : std_logic_vector (31 downto 0);
+signal extract_offset_parameters_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal extract_offset_parameters_fixed2floatond : STD_LOGIC;
+signal extract_offset_parameters_fixed2floatsclr : STD_LOGIC;
+signal extract_offset_parameters_fixed2floatce : STD_LOGIC;
+signal extract_offset_parameters_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal extract_offset_parameters_fixed2floatrdy : STD_LOGIC;
+signal extract_offset_parameters_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal extract_offset_parameters_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal extract_offset_parameters_mulfpond : STD_LOGIC;
+signal extract_offset_parameters_mulfpsclr : STD_LOGIC;
+signal extract_offset_parameters_mulfpce : STD_LOGIC;
+signal extract_offset_parameters_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal extract_offset_parameters_mulfprdy : STD_LOGIC;
+signal extract_offset_parameters_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal extract_offset_parameters_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal extract_offset_parameters_addfpond : STD_LOGIC;
+signal extract_offset_parameters_addfpsclr : STD_LOGIC;
+signal extract_offset_parameters_addfpce : STD_LOGIC;
+signal extract_offset_parameters_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal extract_offset_parameters_addfprdy : STD_LOGIC;
 
 component ExtractKtaParameters is
 port (
@@ -579,7 +579,7 @@ signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
 
 signal rdy,write_enable : std_logic;
 
-signal CalculatePixGain_mux,ExtractOffsetParameters_mux,ExtractKtaParameters_mux,ExtractKvParameters_mux : std_logic;
+signal CalculatePixGain_mux,extract_offset_parameters_mux,ExtractKtaParameters_mux,ExtractKvParameters_mux : std_logic;
 
 signal mulfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -618,7 +618,7 @@ begin
 fixed2floata <=
 CalculatePixGain_fixed2floata when CalculatePixGain_mux = '1'
 else
-ExtractOffsetParameters_fixed2floata when ExtractOffsetParameters_mux = '1'
+extract_offset_parameters_fixed2floata when extract_offset_parameters_mux = '1'
 else
 ExtractKtaParameters_fixed2floata when ExtractKtaParameters_mux = '1'
 else (others => '0');
@@ -626,7 +626,7 @@ else (others => '0');
 fixed2floatond <=
 CalculatePixGain_fixed2floatond when CalculatePixGain_mux = '1'
 else
-ExtractOffsetParameters_fixed2floatond when ExtractOffsetParameters_mux = '1'
+extract_offset_parameters_fixed2floatond when extract_offset_parameters_mux = '1'
 else
 ExtractKtaParameters_fixed2floatond when ExtractKtaParameters_mux = '1'
 else '0';
@@ -634,7 +634,7 @@ else '0';
 fixed2floatce <=
 CalculatePixGain_fixed2floatce when CalculatePixGain_mux = '1'
 else
-ExtractOffsetParameters_fixed2floatce when ExtractOffsetParameters_mux = '1'
+extract_offset_parameters_fixed2floatce when extract_offset_parameters_mux = '1'
 else
 ExtractKtaParameters_fixed2floatce when ExtractKtaParameters_mux = '1'
 else '0';
@@ -642,7 +642,7 @@ else '0';
 fixed2floatsclr <=
 CalculatePixGain_fixed2floatsclr when CalculatePixGain_mux = '1'
 else
-ExtractOffsetParameters_fixed2floatsclr when ExtractOffsetParameters_mux = '1'
+extract_offset_parameters_fixed2floatsclr when extract_offset_parameters_mux = '1'
 else
 ExtractKtaParameters_fixed2floatsclr when ExtractKtaParameters_mux = '1'
 else '0';
@@ -650,7 +650,7 @@ else '0';
 mulfpa <=
 CalculatePixGain_mulfpa when CalculatePixGain_mux = '1'
 else
-ExtractOffsetParameters_mulfpa when ExtractOffsetParameters_mux = '1'
+extract_offset_parameters_mulfpa when extract_offset_parameters_mux = '1'
 else
 ExtractKtaParameters_mulfpa when ExtractKtaParameters_mux = '1'
 else mulfpa_internal;
@@ -658,7 +658,7 @@ else mulfpa_internal;
 mulfpb <=
 CalculatePixGain_mulfpb when CalculatePixGain_mux = '1'
 else
-ExtractOffsetParameters_mulfpb when ExtractOffsetParameters_mux = '1'
+extract_offset_parameters_mulfpb when extract_offset_parameters_mux = '1'
 else
 ExtractKtaParameters_mulfpb when ExtractKtaParameters_mux = '1'
 else mulfpb_internal;
@@ -666,7 +666,7 @@ else mulfpb_internal;
 mulfpond <=
 CalculatePixGain_mulfpond when CalculatePixGain_mux = '1'
 else
-ExtractOffsetParameters_mulfpond when ExtractOffsetParameters_mux = '1'
+extract_offset_parameters_mulfpond when extract_offset_parameters_mux = '1'
 else
 ExtractKtaParameters_mulfpond when ExtractKtaParameters_mux = '1'
 else mulfpond_internal;
@@ -674,7 +674,7 @@ else mulfpond_internal;
 mulfpsclr <=
 CalculatePixGain_mulfpsclr when CalculatePixGain_mux = '1'
 else
-ExtractOffsetParameters_mulfpsclr when ExtractOffsetParameters_mux = '1'
+extract_offset_parameters_mulfpsclr when extract_offset_parameters_mux = '1'
 else
 ExtractKtaParameters_mulfpsclr when ExtractKtaParameters_mux = '1'
 else mulfpsclr_internal;
@@ -682,7 +682,7 @@ else mulfpsclr_internal;
 mulfpce <=
 CalculatePixGain_mulfpce when CalculatePixGain_mux = '1'
 else
-ExtractOffsetParameters_mulfpce when ExtractOffsetParameters_mux = '1'
+extract_offset_parameters_mulfpce when extract_offset_parameters_mux = '1'
 else
 ExtractKtaParameters_mulfpce when ExtractKtaParameters_mux = '1'
 else mulfpce_internal;
@@ -718,43 +718,43 @@ ExtractKvParameters_divfpce when ExtractKvParameters_mux = '1'
 else divfpce_internal;
 
 addfpa <=
-ExtractOffsetParameters_addfpa when ExtractOffsetParameters_mux = '1'
+extract_offset_parameters_addfpa when extract_offset_parameters_mux = '1'
 else
 ExtractKtaParameters_addfpa when ExtractKtaParameters_mux = '1'
 else addfpa_internal;
 
 addfpb <=
-ExtractOffsetParameters_addfpb when ExtractOffsetParameters_mux = '1'
+extract_offset_parameters_addfpb when extract_offset_parameters_mux = '1'
 else
 ExtractKtaParameters_addfpb when ExtractKtaParameters_mux = '1'
 else addfpb_internal;
 
 addfpond <=
-ExtractOffsetParameters_addfpond when ExtractOffsetParameters_mux = '1'
+extract_offset_parameters_addfpond when extract_offset_parameters_mux = '1'
 else
 ExtractKtaParameters_addfpond when ExtractKtaParameters_mux = '1'
 else addfpond_internal;
 
 addfpsclr <=
-ExtractOffsetParameters_addfpsclr when ExtractOffsetParameters_mux = '1'
+extract_offset_parameters_addfpsclr when extract_offset_parameters_mux = '1'
 else
 ExtractKtaParameters_addfpsclr when ExtractKtaParameters_mux = '1'
 else addfpsclr_internal;
 
 addfpce <=
-ExtractOffsetParameters_addfpce when ExtractOffsetParameters_mux = '1'
+extract_offset_parameters_addfpce when extract_offset_parameters_mux = '1'
 else
 ExtractKtaParameters_addfpce when ExtractKtaParameters_mux = '1'
 else addfpce_internal;
 
 addfpr_internal <=
-ExtractOffsetParameters_addfpr when ExtractOffsetParameters_mux = '1'
+extract_offset_parameters_addfpr when extract_offset_parameters_mux = '1'
 else
 ExtractKtaParameters_addfpr when ExtractKtaParameters_mux = '1'
 else addfpr;
 
 addfprdy_internal <=
-ExtractOffsetParameters_addfprdy when ExtractOffsetParameters_mux = '1'
+extract_offset_parameters_addfprdy when extract_offset_parameters_mux = '1'
 else
 ExtractKtaParameters_addfprdy when ExtractKtaParameters_mux = '1'
 else addfprdy;
@@ -772,12 +772,12 @@ CalculatePixGain_fixed2floatrdy <= fixed2floatrdy when CalculatePixGain_mux = '1
 CalculatePixGain_mulfpr <= mulfpr when CalculatePixGain_mux = '1' else (others => '0');
 CalculatePixGain_mulfprdy <= mulfprdy when CalculatePixGain_mux = '1' else '0';
 
-ExtractOffsetParameters_fixed2floatr <= fixed2floatr when ExtractOffsetParameters_mux = '1' else (others => '0');
-ExtractOffsetParameters_fixed2floatrdy <= fixed2floatrdy when ExtractOffsetParameters_mux = '1' else '0';
-ExtractOffsetParameters_mulfpr <= mulfpr when ExtractOffsetParameters_mux = '1' else (others => '0');
-ExtractOffsetParameters_mulfprdy <= mulfprdy when ExtractOffsetParameters_mux = '1' else '0';
-ExtractOffsetParameters_addfpr <= addfpr when ExtractOffsetParameters_mux = '1' else (others => '0');
-ExtractOffsetParameters_addfprdy <= addfprdy when ExtractOffsetParameters_mux = '1' else '0';
+extract_offset_parameters_fixed2floatr <= fixed2floatr when extract_offset_parameters_mux = '1' else (others => '0');
+extract_offset_parameters_fixed2floatrdy <= fixed2floatrdy when extract_offset_parameters_mux = '1' else '0';
+extract_offset_parameters_mulfpr <= mulfpr when extract_offset_parameters_mux = '1' else (others => '0');
+extract_offset_parameters_mulfprdy <= mulfprdy when extract_offset_parameters_mux = '1' else '0';
+extract_offset_parameters_addfpr <= addfpr when extract_offset_parameters_mux = '1' else (others => '0');
+extract_offset_parameters_addfprdy <= addfprdy when extract_offset_parameters_mux = '1' else '0';
 
 ExtractKtaParameters_divfpr <= divfpr when ExtractKtaParameters_mux = '1' else (others => '0');
 ExtractKtaParameters_divfprdy <= divfprdy when ExtractKtaParameters_mux = '1' else '0';
@@ -798,16 +798,16 @@ divfpr_internal <= divfpr;
 divfprdy_internal <= divfprdy;
 
 o_2powx_4bit_ena <=
-ExtractOffsetParameters_2powx_4bit_ena when ExtractOffsetParameters_mux = '1' else
+extract_offset_parameters_2powx_4bit_ena when extract_offset_parameters_mux = '1' else
 ExtractKtaParameters_2powx_4bit_ena when ExtractKtaParameters_mux = '1' else
 ExtractKvParameters_2powx_4bit_ena when ExtractKvParameters_mux = '1' else
 '0';
 o_2powx_4bit_adr <=
-ExtractOffsetParameters_2powx_4bit_adr when ExtractOffsetParameters_mux = '1' else
+extract_offset_parameters_2powx_4bit_adr when extract_offset_parameters_mux = '1' else
 ExtractKtaParameters_2powx_4bit_adr when ExtractKtaParameters_mux = '1' else
 ExtractKvParameters_2powx_4bit_adr when ExtractKvParameters_mux = '1' else
 (others => '0');
-ExtractOffsetParameters_rom_constants_float <= i_rom_constants_float;
+extract_offset_parameters_rom_constants_float <= i_rom_constants_float;
 ExtractKtaParameters_rom_constants_float <= i_rom_constants_float;
 ExtractKvParameters_rom_constants_float <= i_rom_constants_float;
 
@@ -829,15 +829,15 @@ begin
 			divfpsclr_internal <= '1';
 			rdy <= '0';
 			CalculatePixGain_run <= '0';
-			ExtractOffsetParameters_run <= '0';
+			extract_offset_parameters_run <= '0';
 			ExtractKtaParameters_run <= '0';
 			ExtractKvParameters_run <= '0';
 			CalculatePixGain_mux <= '0';
-			ExtractOffsetParameters_mux <= '0';
+			extract_offset_parameters_mux <= '0';
 			ExtractKtaParameters_mux <= '0';
 			ExtractKvParameters_mux <= '0';
 			CalculatePixGain_addr <= (others => '0');
-			ExtractOffsetParameters_addr <= (others => '0');
+			extract_offset_parameters_addr <= (others => '0');
 			ExtractKtaParameters_addr <= (others => '0');
 			ExtractKvParameters_addr <= (others => '0');
 			mulfpa_internal <= (others => '0');
@@ -879,22 +879,22 @@ begin
           if (CalculatePixGain_rdy = '1') then
             state := s5;
             CalculatePixGain_mux <= '0';
-            ExtractOffsetParameters_run <= '1';
-            ExtractOffsetParameters_mux <= '1';
+            extract_offset_parameters_run <= '1';
+            extract_offset_parameters_mux <= '1';
           else
             state := s3;
             CalculatePixGain_mux <= '1';
           end if;
         when s5 => 
-          ExtractOffsetParameters_run <= '0';
-          if (ExtractOffsetParameters_rdy = '1') then
+          extract_offset_parameters_run <= '0';
+          if (extract_offset_parameters_rdy = '1') then
             state := s7;
-            ExtractOffsetParameters_mux <= '0';
+            extract_offset_parameters_mux <= '0';
             ExtractKtaParameters_run <= '1';
             ExtractKtaParameters_mux <= '1';
           else
             state := s5;
-            ExtractOffsetParameters_mux <= '1';
+            extract_offset_parameters_mux <= '1';
           end if;
         when s7 => 
           ExtractKtaParameters_run <= '0';
@@ -918,7 +918,7 @@ begin
           end if;
         when s9a => state := s9b;
           CalculatePixGain_addr <= std_logic_vector (to_unsigned (i, 10));
-          ExtractOffsetParameters_addr <= std_logic_vector (to_unsigned (i, 10));
+          extract_offset_parameters_addr <= std_logic_vector (to_unsigned (i, 10));
           ExtractKtaParameters_addr <= std_logic_vector (to_unsigned (i, 10));
           ExtractKvParameters_addr <= std_logic_vector (to_unsigned (i, 10));
           addfpsclr_internal <= '0';
@@ -1028,7 +1028,7 @@ begin
         when s26 =>
           mulfpce_internal <= '1';
           mulfpa_internal <= mulfpr_internal;
-          mulfpb_internal <= ExtractOffsetParameters_do;
+          mulfpb_internal <= extract_offset_parameters_do;
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := s28;
             mulfpce_internal <= '0';
@@ -1075,7 +1075,7 @@ mux_dia <= dia when rdy = '0' else (others => '0');
 i2c_mem_ena <=
 CalculatePixGain_i2c_mem_ena when CalculatePixGain_mux = '1'
 else
-ExtractOffsetParameters_i2c_mem_ena when ExtractOffsetParameters_mux = '1'
+extract_offset_parameters_i2c_mem_ena when extract_offset_parameters_mux = '1'
 else
 ExtractKtaParameters_i2c_mem_ena when ExtractKtaParameters_mux = '1'
 else
@@ -1085,7 +1085,7 @@ else '0';
 i2c_mem_addra <=
 CalculatePixGain_i2c_mem_addra when CalculatePixGain_mux = '1'
 else
-ExtractOffsetParameters_i2c_mem_addra when ExtractOffsetParameters_mux = '1'
+extract_offset_parameters_i2c_mem_addra when extract_offset_parameters_mux = '1'
 else
 ExtractKtaParameters_i2c_mem_addra when ExtractKtaParameters_mux = '1'
 else
@@ -1093,7 +1093,7 @@ ExtractKvParameters_i2c_mem_addra when ExtractKvParameters_mux = '1'
 else (others => '0');
 
 CalculatePixGain_i2c_mem_douta <= i2c_mem_douta when CalculatePixGain_mux = '1' else (others => '0');
-ExtractOffsetParameters_i2c_mem_douta <= i2c_mem_douta when ExtractOffsetParameters_mux = '1' else (others => '0');
+extract_offset_parameters_i2c_mem_douta <= i2c_mem_douta when extract_offset_parameters_mux = '1' else (others => '0');
 ExtractKtaParameters_i2c_mem_douta <= i2c_mem_douta when ExtractKtaParameters_mux = '1' else (others => '0');
 ExtractKvParameters_i2c_mem_douta <= i2c_mem_douta when ExtractKvParameters_mux = '1' else (others => '0');
 
@@ -1128,63 +1128,63 @@ mulfpr => CalculatePixGain_mulfpr,
 mulfprdy => CalculatePixGain_mulfprdy
 );
 
-ExtractOffsetParameters_clock <= i_clock;
-ExtractOffsetParameters_reset <= i_reset;
+extract_offset_parameters_clock <= i_clock;
+extract_offset_parameters_reset <= i_reset;
 o_signed4bit_ena <=
-ExtractOffsetParameters_signed4bit_ena when ExtractOffsetParameters_mux = '1' else
+extract_offset_parameters_signed4bit_ena when extract_offset_parameters_mux = '1' else
 ExtractKvParameters_signed4bit_ena when ExtractKvParameters_mux = '1' else
 '0';
 o_signed4bit_adr <=
-ExtractOffsetParameters_signed4bit_adr when ExtractOffsetParameters_mux = '1' else
+extract_offset_parameters_signed4bit_adr when extract_offset_parameters_mux = '1' else
 ExtractKvParameters_signed4bit_adr when ExtractKvParameters_mux = '1' else
 (others => '0');
-o_signed6bit_ena <= ExtractOffsetParameters_signed6bit_ena;
-o_signed6bit_adr <= ExtractOffsetParameters_signed6bit_adr;
-ExtractOffsetParameters_rom_constants_float <= i_rom_constants_float;
-ExtractOffsetParameters_i0 : ExtractOffsetParameters port map (
-i_clock => ExtractOffsetParameters_clock,
-i_reset => ExtractOffsetParameters_reset,
-i_run => ExtractOffsetParameters_run,
+o_signed6bit_ena <= extract_offset_parameters_signed6bit_ena;
+o_signed6bit_adr <= extract_offset_parameters_signed6bit_adr;
+extract_offset_parameters_rom_constants_float <= i_rom_constants_float;
+extract_offset_parameters_i0 : extract_offset_parameters port map (
+i_clock => extract_offset_parameters_clock,
+i_reset => extract_offset_parameters_reset,
+i_run => extract_offset_parameters_run,
 
-i2c_mem_ena => ExtractOffsetParameters_i2c_mem_ena,
-i2c_mem_addra => ExtractOffsetParameters_i2c_mem_addra,
-i2c_mem_douta => ExtractOffsetParameters_i2c_mem_douta,
+i2c_mem_ena => extract_offset_parameters_i2c_mem_ena,
+i2c_mem_addra => extract_offset_parameters_i2c_mem_addra,
+i2c_mem_douta => extract_offset_parameters_i2c_mem_douta,
 
-o_do => ExtractOffsetParameters_do,
-i_addr => ExtractOffsetParameters_addr, -- 10bit-1024
+o_do => extract_offset_parameters_do,
+i_addr => extract_offset_parameters_addr, -- 10bit-1024
 
-o_rdy => ExtractOffsetParameters_rdy,
+o_rdy => extract_offset_parameters_rdy,
 
-o_signed4bit_ena => ExtractOffsetParameters_signed4bit_ena,
-o_signed4bit_adr => ExtractOffsetParameters_signed4bit_adr,
-o_signed6bit_ena => ExtractOffsetParameters_signed6bit_ena,
-o_signed6bit_adr => ExtractOffsetParameters_signed6bit_adr,
-o_2powx_4bit_ena => ExtractOffsetParameters_2powx_4bit_ena,
-o_2powx_4bit_adr => ExtractOffsetParameters_2powx_4bit_adr,
-i_rom_constants_float => ExtractOffsetParameters_rom_constants_float,
+o_signed4bit_ena => extract_offset_parameters_signed4bit_ena,
+o_signed4bit_adr => extract_offset_parameters_signed4bit_adr,
+o_signed6bit_ena => extract_offset_parameters_signed6bit_ena,
+o_signed6bit_adr => extract_offset_parameters_signed6bit_adr,
+o_2powx_4bit_ena => extract_offset_parameters_2powx_4bit_ena,
+o_2powx_4bit_adr => extract_offset_parameters_2powx_4bit_adr,
+i_rom_constants_float => extract_offset_parameters_rom_constants_float,
 
-fixed2floata => ExtractOffsetParameters_fixed2floata,
-fixed2floatond => ExtractOffsetParameters_fixed2floatond,
-fixed2floatsclr => ExtractOffsetParameters_fixed2floatsclr,
-fixed2floatce => ExtractOffsetParameters_fixed2floatce,
-fixed2floatr => ExtractOffsetParameters_fixed2floatr,
-fixed2floatrdy => ExtractOffsetParameters_fixed2floatrdy,
+fixed2floata => extract_offset_parameters_fixed2floata,
+fixed2floatond => extract_offset_parameters_fixed2floatond,
+fixed2floatsclr => extract_offset_parameters_fixed2floatsclr,
+fixed2floatce => extract_offset_parameters_fixed2floatce,
+fixed2floatr => extract_offset_parameters_fixed2floatr,
+fixed2floatrdy => extract_offset_parameters_fixed2floatrdy,
 
-mulfpa => ExtractOffsetParameters_mulfpa,
-mulfpb => ExtractOffsetParameters_mulfpb,
-mulfpond => ExtractOffsetParameters_mulfpond,
-mulfpsclr => ExtractOffsetParameters_mulfpsclr,
-mulfpce => ExtractOffsetParameters_mulfpce,
-mulfpr => ExtractOffsetParameters_mulfpr,
-mulfprdy => ExtractOffsetParameters_mulfprdy,
+mulfpa => extract_offset_parameters_mulfpa,
+mulfpb => extract_offset_parameters_mulfpb,
+mulfpond => extract_offset_parameters_mulfpond,
+mulfpsclr => extract_offset_parameters_mulfpsclr,
+mulfpce => extract_offset_parameters_mulfpce,
+mulfpr => extract_offset_parameters_mulfpr,
+mulfprdy => extract_offset_parameters_mulfprdy,
 
-addfpa => ExtractOffsetParameters_addfpa,
-addfpb => ExtractOffsetParameters_addfpb,
-addfpond => ExtractOffsetParameters_addfpond,
-addfpsclr => ExtractOffsetParameters_addfpsclr,
-addfpce => ExtractOffsetParameters_addfpce,
-addfpr => ExtractOffsetParameters_addfpr,
-addfprdy => ExtractOffsetParameters_addfprdy
+addfpa => extract_offset_parameters_addfpa,
+addfpb => extract_offset_parameters_addfpb,
+addfpond => extract_offset_parameters_addfpond,
+addfpsclr => extract_offset_parameters_addfpsclr,
+addfpce => extract_offset_parameters_addfpce,
+addfpr => extract_offset_parameters_addfpr,
+addfprdy => extract_offset_parameters_addfprdy
 );
 
 ExtractKtaParameters_clock <= i_clock;
