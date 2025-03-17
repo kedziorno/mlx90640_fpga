@@ -17,13 +17,12 @@
 -- Additional Comments: 
 --
 ----------------------------------------------------------------------------------
-library ieee, ieee_proposed;
---library ieee;
+library ieee;
 USE ieee.std_logic_1164.ALL;
-use ieee_proposed.fixed_pkg.all;
+--use ieee_proposed.fixed_pkg.all;
 --use ieee_proposed.fixed_synth.all;
 
---use work.p_fphdl_package1.all;
+use work.global_package.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -200,11 +199,11 @@ PORT(
 DO : OUT  std_logic_vector(31 downto 0);
 DOP : OUT  std_logic_vector(3 downto 0);
 ADDR : IN  std_logic_vector(9 downto 0);
-CLK : IN  std_logic;
+i_clock : IN  std_logic;
 DI : IN  std_logic_vector(31 downto 0);
 DIP : IN  std_logic_vector(3 downto 0);
 EN : IN  std_logic;
-SSR : IN  std_logic;
+i_reset : IN  std_logic;
 WE : IN  std_logic
 );
 END COMPONENT mem_ramb16_s36_x2;
@@ -378,11 +377,11 @@ PORT MAP (
 DO => odata_ct34,
 DOP => open,
 ADDR => address_ct34,
-CLK => i_clock,
+i_clock => i_clock,
 DI => (others => '0'),
 DIP => (others => '0'),
 EN => '1',
-SSR => i_reset,
+i_reset => i_reset,
 WE => '0'
 );
 

@@ -72,6 +72,7 @@ package global_package is
   type t_color_map_rom_type_unsigned is array (C_COLOR_MAP_RANGE_MIN_UNSIGNED to C_COLOR_MAP_RANGE_MAX_UNSIGNED-1) of color_bits;
 
   subtype constant_float is std_logic_vector (31 downto 0); -- Floating Point 32
+  subtype slv16 is std_logic_vector (15 downto 0); -- Floating Point 32
 
   constant C_ROWS : integer := 24; -- Matrix Pixels Y
   constant C_COLS : integer := 32; -- Matrix Pixels X

@@ -34,6 +34,8 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
+use work.global_package.all;
+
 entity ExtractKsTo1234Parameters is
 port (
 i_clock : in std_logic;
@@ -42,6 +44,9 @@ i_run : in std_logic;
 i_ee0x243f : in slv16; -- kstoscale
 i_ee0x243d : in slv16; -- ksto1ee,ksto2ee
 i_ee0x243e : in slv16; -- ksto3ee,ksto4ee
+o_2powx_p8_ena : out std_logic;
+o_2powx_p8_adr : out std_logic_vector (3 downto 0);
+i_rom_constants_float : in std_logic_vector (31 downto 0);
 o_ksto1 : out std_logic_vector (31 downto 0);
 o_ksto2 : out std_logic_vector (31 downto 0);
 o_ksto3 : out std_logic_vector (31 downto 0);
@@ -58,6 +63,9 @@ i_clock : IN  std_logic;
 i_reset : IN  std_logic;
 i_run : in std_logic;
 i2c_mem_ena : out STD_LOGIC;
+o_2powx_p8_ena : out std_logic;
+o_2powx_p8_adr : out std_logic_vector (3 downto 0);
+i_rom_constants_float : in std_logic_vector (31 downto 0);
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 o_kstoscale : OUT  std_logic_vector (31 downto 0);
@@ -67,6 +75,9 @@ END COMPONENT;
 signal ExtractKsToScaleParameter_clock : std_logic;
 signal ExtractKsToScaleParameter_reset : std_logic;
 signal ExtractKsToScaleParameter_run : std_logic;
+signal ExtractKsToScaleParameter_2powx_p8_ena : std_logic;
+signal ExtractKsToScaleParameter_2powx_p8_adr : std_logic_vector (3 downto 0);
+signal ExtractKsToScaleParameter_rom_constants_float : std_logic_vector (31 downto 0);
 signal ExtractKsToScaleParameter_i2c_mem_ena : STD_LOGIC;
 signal ExtractKsToScaleParameter_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal ExtractKsToScaleParameter_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -155,16 +166,22 @@ begin
 				when idle =>
 					if (i_run = '1') then
 						state := s1;
-					else
-						state := idle;
+            ExtractKsToScaleParameter_run <= '1';                                                                                                                               
+						--state := idle;
 					end if;
 					divfpsclr <= '0';
 					vksto1 := (others => '0');
 					vksto2 := (others => '0');
 					vksto3 := (others => '0');
 					vksto4 := (others => '0');
-				when s1 => state := s2;
+				when s1 => --state := s2;
 --					ExtractKsToScaleParameter_ee0x243f <= i_ee0x243f;
+        ExtractKsToScaleParameter_run <= '0';                                                                                                                               
+        if (ExtractKsToScaleParameter_rdy = '1') then                                                                                                                       
+            state := s2;                                                                                                                                                    
+        else                                                                                                                                                                
+            state := s1;                                                                                                                                                    
+        end if;
 				when s2 => state := s3;
 					mem_signed256_ivalue <= i_ee0x243d (7 downto 0);
 				when s3 => state := s4;
@@ -241,12 +258,18 @@ begin
 	end if;
 end process p0;
 
+o_2powx_p8_ena <= ExtractKsToScaleParameter_2powx_p8_ena;
+o_2powx_p8_adr <= ExtractKsToScaleParameter_2powx_p8_adr;
+ExtractKsToScaleParameter_rom_constants_float <= i_rom_constants_float;
 ExtractKsToScaleParameter_clock <= i_clock;
 ExtractKsToScaleParameter_reset <= i_reset;
 inst_mem_kstoscale : ExtractKsToScaleParameter port map (
 i_clock => ExtractKsToScaleParameter_clock,
 i_reset => ExtractKsToScaleParameter_reset,
 i_run => ExtractKsToScaleParameter_run,
+o_2powx_p8_ena => ExtractKsToScaleParameter_2powx_p8_ena,
+o_2powx_p8_adr => ExtractKsToScaleParameter_2powx_p8_adr,
+i_rom_constants_float => ExtractKsToScaleParameter_rom_constants_float,
 i2c_mem_ena => ExtractKsToScaleParameter_i2c_mem_ena,
 i2c_mem_addra => ExtractKsToScaleParameter_i2c_mem_addra,
 i2c_mem_douta => ExtractKsToScaleParameter_i2c_mem_douta,

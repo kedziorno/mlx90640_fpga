@@ -1,8 +1,65 @@
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   14:27:40 02/06/2023
+-- Design Name:   mlx90640_fpga
+-- Module Name:   ExtractAlphaCorrRange1234
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   11.2.2.9.1.2. Restoring the sensitivity slope for each range (p. 45)
+--                *** --- MODULE NOT TESTED, NOT FINISHED, NOT WORK --- ***
+--                (Rest is in commented code)
+--
+-- Dependencies:
+--  - Files:
+--    (...)
+--  - Modules:
+--    (...)
+--
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files:
+--      (...)
+--    - Modules:
+--      (...)
+--    - Processes (Architecture: (...)):
+--      (...)
+--
+-- Important objects:
+--  - (...)
+--
+-- Information from the software vendor:
+--  - Messeges:
+--    (...)
+--  - Bugs:
+--    (...)
+--  - Notices:
+--    (...)
+--  - Infos:
+--    (...)
+--  - Notes:
+--    (...)
+--  - Criticals/Failures:
+--    (...)
+--
+-- Concepts/Milestones:
+-- (...)
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
+
+
 ----------------------------------------------------------------------------------
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date:    14:27:40 02/06/2023 
+-- Create Date:    14:27:40 02/06/2023
 -- Design Name: 
 -- Module Name:    ExtractAlphaCorrRange1234 - Behavioral 
 -- Project Name: 
@@ -17,13 +74,13 @@
 -- Additional Comments: 
 --
 ----------------------------------------------------------------------------------
-library ieee, ieee_proposed;
---library ieee;
+--library ieee, ieee_proposed;
+library ieee;
 USE ieee.std_logic_1164.ALL;
-use ieee_proposed.fixed_pkg.all;
+--use ieee_proposed.fixed_pkg.all;
 --use ieee_proposed.fixed_synth.all;
 
---use work.p_fphdl_package1.all;
+use work.global_package.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -42,6 +99,9 @@ i_run : in std_logic;
 i_ee0x243d : in slv16; -- ksto1ee,ksto2ee
 i_ee0x243e : in slv16; -- ksto3ee,ksto4ee
 i_ee0x243f : in slv16; -- kstoscale,ct34param
+o_2powx_p8_ena : out std_logic;
+o_2powx_p8_adr : out std_logic_vector (3 downto 0);
+i_rom_constants_float : in std_logic_vector (31 downto 0);
 o_alphacorrrange1 : out std_logic_vector (31 downto 0);
 o_alphacorrrange2 : out std_logic_vector (31 downto 0);
 o_alphacorrrange3 : out std_logic_vector (31 downto 0);
@@ -76,6 +136,9 @@ i_run : in std_logic;
 i_ee0x243f : in slv16; -- kstoscale
 i_ee0x243d : in slv16; -- ksto1ee,ksto2ee
 i_ee0x243e : in slv16; -- ksto3ee,ksto4ee
+o_2powx_p8_ena : out std_logic;
+o_2powx_p8_adr : out std_logic_vector (3 downto 0);
+i_rom_constants_float : in std_logic_vector (31 downto 0);
 o_ksto1 : out std_logic_vector (31 downto 0);
 o_ksto2 : out std_logic_vector (31 downto 0);
 o_ksto3 : out std_logic_vector (31 downto 0);
@@ -90,6 +153,9 @@ signal ExtractKsTo1234Parameters_run : std_logic;
 signal ExtractKsTo1234Parameters_ee0x243f : slv16; -- kstoscale
 signal ExtractKsTo1234Parameters_ee0x243d : slv16; -- ksto1ee,ksto2ee
 signal ExtractKsTo1234Parameters_ee0x243e : slv16; -- ksto3ee,ksto4ee
+signal ExtractKsTo1234Parameters_2powx_p8_ena : std_logic;
+signal ExtractKsTo1234Parameters_2powx_p8_adr : std_logic_vector (3 downto 0);
+signal ExtractKsTo1234Parameters_rom_constants_float : std_logic_vector (31 downto 0);
 signal ExtractKsTo1234Parameters_ksto1 : std_logic_vector (31 downto 0);
 signal ExtractKsTo1234Parameters_ksto2 : std_logic_vector (31 downto 0);
 signal ExtractKsTo1234Parameters_ksto3 : std_logic_vector (31 downto 0);
@@ -399,6 +465,9 @@ o_ct3 => ExtractCT34Parameter_ct3,
 o_ct4 => ExtractCT34Parameter_ct4
 );
 
+o_2powx_p8_ena <= ExtractKsTo1234Parameters_2powx_p8_ena;
+o_2powx_p8_adr <= ExtractKsTo1234Parameters_2powx_p8_adr;
+ExtractKsTo1234Parameters_rom_constants_float <= i_rom_constants_float;
 ExtractKsTo1234Parameters_clock <= i_clock;
 ExtractKsTo1234Parameters_reset <= i_reset;
 inst_ExtractKsTo1234Parameters : ExtractKsTo1234Parameters port map (
@@ -408,6 +477,9 @@ i_run => ExtractKsTo1234Parameters_run,
 i_ee0x243f => ExtractKsTo1234Parameters_ee0x243f,
 i_ee0x243d => ExtractKsTo1234Parameters_ee0x243d,
 i_ee0x243e => ExtractKsTo1234Parameters_ee0x243e,
+o_2powx_p8_ena => ExtractKsTo1234Parameters_2powx_p8_ena,
+o_2powx_p8_adr => ExtractKsTo1234Parameters_2powx_p8_adr,
+i_rom_constants_float => ExtractKsTo1234Parameters_rom_constants_float,
 o_ksto1 => ExtractKsTo1234Parameters_ksto1,
 o_ksto2 => ExtractKsTo1234Parameters_ksto2,
 o_ksto3 => ExtractKsTo1234Parameters_ksto3,
