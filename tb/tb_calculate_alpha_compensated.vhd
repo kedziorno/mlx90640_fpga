@@ -165,7 +165,7 @@ signal fixed2floatsclr : STD_LOGIC;
 signal fixed2floatr :  STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal fixed2floatrdy : STD_LOGIC;
 
-COMPONENT calculate_alpha_compensation
+COMPONENT calculate_alpha_compensated
 PORT(
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -228,61 +228,61 @@ signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal fixed2floatrdy : in STD_LOGIC
 );
 END COMPONENT;
-signal calculate_alpha_compensation_clock : std_logic := '0';
-signal calculate_alpha_compensation_reset : std_logic := '0';
-signal calculate_alpha_compensation_run : std_logic := '0';
-signal calculate_alpha_compensation_i2c_mem_douta : std_logic_vector(7 downto 0) := (others => '0');
-signal calculate_alpha_compensation_Ta : std_logic_vector(31 downto 0) := (others => '0');
-signal calculate_alpha_compensation_acpsubpage0 : std_logic_vector(31 downto 0) := (others => '0');
-signal calculate_alpha_compensation_acpsubpage1 : std_logic_vector(31 downto 0) := (others => '0');
-signal calculate_alpha_compensation_tgc : std_logic_vector(31 downto 0) := (others => '0');
-signal calculate_alpha_compensation_alpha_do : std_logic_vector(31 downto 0) := (others => '0');
-signal calculate_alpha_compensation_addr : std_logic_vector(9 downto 0) := (others => '0');
-signal calculate_alpha_compensation_i2c_mem_ena : std_logic;
-signal calculate_alpha_compensation_i2c_mem_addra : std_logic_vector(11 downto 0);
-signal calculate_alpha_compensation_alpha_addr : std_logic_vector(9 downto 0);
-signal calculate_alpha_compensation_do : std_logic_vector(31 downto 0);
-signal calculate_alpha_compensation_rdy : std_logic;
-signal calculate_alpha_compensation_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_alpha_compensation_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_alpha_compensation_mulfpond : STD_LOGIC;
-signal calculate_alpha_compensation_mulfpsclr : STD_LOGIC;
-signal calculate_alpha_compensation_mulfpce : STD_LOGIC;
-signal calculate_alpha_compensation_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_alpha_compensation_mulfprdy : STD_LOGIC;
-signal calculate_alpha_compensation_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_alpha_compensation_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_alpha_compensation_divfpond : STD_LOGIC;
-signal calculate_alpha_compensation_divfpsclr : STD_LOGIC;
-signal calculate_alpha_compensation_divfpce : STD_LOGIC;
-signal calculate_alpha_compensation_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_alpha_compensation_divfprdy : STD_LOGIC;
-signal calculate_alpha_compensation_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_alpha_compensation_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_alpha_compensation_addfpond : STD_LOGIC;
-signal calculate_alpha_compensation_addfpsclr : STD_LOGIC;
-signal calculate_alpha_compensation_addfpce : STD_LOGIC;
-signal calculate_alpha_compensation_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_alpha_compensation_addfprdy : STD_LOGIC;
-signal calculate_alpha_compensation_subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_alpha_compensation_subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_alpha_compensation_subfpond : STD_LOGIC;
-signal calculate_alpha_compensation_subfpsclr : STD_LOGIC;
-signal calculate_alpha_compensation_subfpce : STD_LOGIC;
-signal calculate_alpha_compensation_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_alpha_compensation_subfprdy : STD_LOGIC;
-signal calculate_alpha_compensation_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
-signal calculate_alpha_compensation_fixed2floatond : STD_LOGIC;
-signal calculate_alpha_compensation_fixed2floatsclr : STD_LOGIC;
-signal calculate_alpha_compensation_fixed2floatce : STD_LOGIC;
-signal calculate_alpha_compensation_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_alpha_compensation_fixed2floatrdy : STD_LOGIC;
+signal calculate_alpha_compensated_clock : std_logic := '0';
+signal calculate_alpha_compensated_reset : std_logic := '0';
+signal calculate_alpha_compensated_run : std_logic := '0';
+signal calculate_alpha_compensated_i2c_mem_douta : std_logic_vector(7 downto 0) := (others => '0');
+signal calculate_alpha_compensated_Ta : std_logic_vector(31 downto 0) := (others => '0');
+signal calculate_alpha_compensated_acpsubpage0 : std_logic_vector(31 downto 0) := (others => '0');
+signal calculate_alpha_compensated_acpsubpage1 : std_logic_vector(31 downto 0) := (others => '0');
+signal calculate_alpha_compensated_tgc : std_logic_vector(31 downto 0) := (others => '0');
+signal calculate_alpha_compensated_alpha_do : std_logic_vector(31 downto 0) := (others => '0');
+signal calculate_alpha_compensated_addr : std_logic_vector(9 downto 0) := (others => '0');
+signal calculate_alpha_compensated_i2c_mem_ena : std_logic;
+signal calculate_alpha_compensated_i2c_mem_addra : std_logic_vector(11 downto 0);
+signal calculate_alpha_compensated_alpha_addr : std_logic_vector(9 downto 0);
+signal calculate_alpha_compensated_do : std_logic_vector(31 downto 0);
+signal calculate_alpha_compensated_rdy : std_logic;
+signal calculate_alpha_compensated_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_alpha_compensated_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_alpha_compensated_mulfpond : STD_LOGIC;
+signal calculate_alpha_compensated_mulfpsclr : STD_LOGIC;
+signal calculate_alpha_compensated_mulfpce : STD_LOGIC;
+signal calculate_alpha_compensated_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_alpha_compensated_mulfprdy : STD_LOGIC;
+signal calculate_alpha_compensated_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_alpha_compensated_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_alpha_compensated_divfpond : STD_LOGIC;
+signal calculate_alpha_compensated_divfpsclr : STD_LOGIC;
+signal calculate_alpha_compensated_divfpce : STD_LOGIC;
+signal calculate_alpha_compensated_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_alpha_compensated_divfprdy : STD_LOGIC;
+signal calculate_alpha_compensated_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_alpha_compensated_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_alpha_compensated_addfpond : STD_LOGIC;
+signal calculate_alpha_compensated_addfpsclr : STD_LOGIC;
+signal calculate_alpha_compensated_addfpce : STD_LOGIC;
+signal calculate_alpha_compensated_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_alpha_compensated_addfprdy : STD_LOGIC;
+signal calculate_alpha_compensated_subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_alpha_compensated_subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_alpha_compensated_subfpond : STD_LOGIC;
+signal calculate_alpha_compensated_subfpsclr : STD_LOGIC;
+signal calculate_alpha_compensated_subfpce : STD_LOGIC;
+signal calculate_alpha_compensated_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_alpha_compensated_subfprdy : STD_LOGIC;
+signal calculate_alpha_compensated_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal calculate_alpha_compensated_fixed2floatond : STD_LOGIC;
+signal calculate_alpha_compensated_fixed2floatsclr : STD_LOGIC;
+signal calculate_alpha_compensated_fixed2floatce : STD_LOGIC;
+signal calculate_alpha_compensated_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_alpha_compensated_fixed2floatrdy : STD_LOGIC;
 
-signal calculate_alpha_compensation_mulfpclk : std_logic;
-signal calculate_alpha_compensation_divfpclk : std_logic;
-signal calculate_alpha_compensation_addfpclk : std_logic;
-signal calculate_alpha_compensation_subfpclk : std_logic;
-signal calculate_alpha_compensation_fixed2floatclk : std_logic;
+signal calculate_alpha_compensated_mulfpclk : std_logic;
+signal calculate_alpha_compensated_divfpclk : std_logic;
+signal calculate_alpha_compensated_addfpclk : std_logic;
+signal calculate_alpha_compensated_subfpclk : std_logic;
+signal calculate_alpha_compensated_fixed2floatclk : std_logic;
 
 constant i_clock_period : time := 10 ns;
 
@@ -290,83 +290,83 @@ signal out1r : real;
 
 BEGIN
 
-out1r <= ap_slv2fp (calculate_alpha_compensation_do); -- output data
+out1r <= ap_slv2fp (calculate_alpha_compensated_do); -- output data
 
 inst_tb_i2c_mem : tb_i2c_mem
 PORT MAP (
-clka => calculate_alpha_compensation_clock,
-ena => calculate_alpha_compensation_i2c_mem_ena,
+clka => calculate_alpha_compensated_clock,
+ena => calculate_alpha_compensated_i2c_mem_ena,
 wea => "0",
-addra => calculate_alpha_compensation_i2c_mem_addra,
+addra => calculate_alpha_compensated_i2c_mem_addra,
 dina => (others => '0'),
-douta => calculate_alpha_compensation_i2c_mem_douta
+douta => calculate_alpha_compensated_i2c_mem_douta
 );
 
-calculate_alpha_compensation_tgc <= C_ZERO;
-calculate_alpha_compensation_uut : calculate_alpha_compensation PORT MAP (
-i_clock => calculate_alpha_compensation_clock,
-i_reset => calculate_alpha_compensation_reset,
+calculate_alpha_compensated_tgc <= C_ZERO;
+calculate_alpha_compensated_uut : calculate_alpha_compensated PORT MAP (
+i_clock => calculate_alpha_compensated_clock,
+i_reset => calculate_alpha_compensated_reset,
 
-i_run => calculate_alpha_compensation_run,
-i_Ta => calculate_alpha_compensation_Ta,
-i_acpsubpage0 => calculate_alpha_compensation_acpsubpage0,
-i_acpsubpage1 => calculate_alpha_compensation_acpsubpage1,
-i_tgc => calculate_alpha_compensation_tgc,
-i_alpha_do => calculate_alpha_compensation_alpha_do,
-o_alpha_addr => calculate_alpha_compensation_alpha_addr,
-o_do => calculate_alpha_compensation_do,
-i_addr => calculate_alpha_compensation_addr,
-o_rdy => calculate_alpha_compensation_rdy,
+i_run => calculate_alpha_compensated_run,
+i_Ta => calculate_alpha_compensated_Ta,
+i_acpsubpage0 => calculate_alpha_compensated_acpsubpage0,
+i_acpsubpage1 => calculate_alpha_compensated_acpsubpage1,
+i_tgc => calculate_alpha_compensated_tgc,
+i_alpha_do => calculate_alpha_compensated_alpha_do,
+o_alpha_addr => calculate_alpha_compensated_alpha_addr,
+o_do => calculate_alpha_compensated_do,
+i_addr => calculate_alpha_compensated_addr,
+o_rdy => calculate_alpha_compensated_rdy,
 
-i2c_mem_ena => calculate_alpha_compensation_i2c_mem_ena,
-i2c_mem_addra => calculate_alpha_compensation_i2c_mem_addra,
-i2c_mem_douta => calculate_alpha_compensation_i2c_mem_douta,
+i2c_mem_ena => calculate_alpha_compensated_i2c_mem_ena,
+i2c_mem_addra => calculate_alpha_compensated_i2c_mem_addra,
+i2c_mem_douta => calculate_alpha_compensated_i2c_mem_douta,
 
-mulfpa => calculate_alpha_compensation_mulfpa,
-mulfpb => calculate_alpha_compensation_mulfpb,
-mulfpond => calculate_alpha_compensation_mulfpond,
-mulfpsclr => calculate_alpha_compensation_mulfpsclr,
-mulfpce => calculate_alpha_compensation_mulfpce,
-mulfpr => calculate_alpha_compensation_mulfpr,
-mulfprdy => calculate_alpha_compensation_mulfprdy,
+mulfpa => calculate_alpha_compensated_mulfpa,
+mulfpb => calculate_alpha_compensated_mulfpb,
+mulfpond => calculate_alpha_compensated_mulfpond,
+mulfpsclr => calculate_alpha_compensated_mulfpsclr,
+mulfpce => calculate_alpha_compensated_mulfpce,
+mulfpr => calculate_alpha_compensated_mulfpr,
+mulfprdy => calculate_alpha_compensated_mulfprdy,
 
-divfpa => calculate_alpha_compensation_divfpa,
-divfpb => calculate_alpha_compensation_divfpb,
-divfpond => calculate_alpha_compensation_divfpond,
-divfpsclr => calculate_alpha_compensation_divfpsclr,
-divfpce => calculate_alpha_compensation_divfpce,
-divfpr => calculate_alpha_compensation_divfpr,
-divfprdy => calculate_alpha_compensation_divfprdy,
+divfpa => calculate_alpha_compensated_divfpa,
+divfpb => calculate_alpha_compensated_divfpb,
+divfpond => calculate_alpha_compensated_divfpond,
+divfpsclr => calculate_alpha_compensated_divfpsclr,
+divfpce => calculate_alpha_compensated_divfpce,
+divfpr => calculate_alpha_compensated_divfpr,
+divfprdy => calculate_alpha_compensated_divfprdy,
 
-addfpa => calculate_alpha_compensation_addfpa,
-addfpb => calculate_alpha_compensation_addfpb,
-addfpond => calculate_alpha_compensation_addfpond,
-addfpsclr => calculate_alpha_compensation_addfpsclr,
-addfpce => calculate_alpha_compensation_addfpce,
-addfpr => calculate_alpha_compensation_addfpr,
-addfprdy => calculate_alpha_compensation_addfprdy,
+addfpa => calculate_alpha_compensated_addfpa,
+addfpb => calculate_alpha_compensated_addfpb,
+addfpond => calculate_alpha_compensated_addfpond,
+addfpsclr => calculate_alpha_compensated_addfpsclr,
+addfpce => calculate_alpha_compensated_addfpce,
+addfpr => calculate_alpha_compensated_addfpr,
+addfprdy => calculate_alpha_compensated_addfprdy,
 
-subfpa => calculate_alpha_compensation_subfpa,
-subfpb => calculate_alpha_compensation_subfpb,
-subfpond => calculate_alpha_compensation_subfpond,
-subfpsclr => calculate_alpha_compensation_subfpsclr,
-subfpce => calculate_alpha_compensation_subfpce,
-subfpr => calculate_alpha_compensation_subfpr,
-subfprdy => calculate_alpha_compensation_subfprdy,
+subfpa => calculate_alpha_compensated_subfpa,
+subfpb => calculate_alpha_compensated_subfpb,
+subfpond => calculate_alpha_compensated_subfpond,
+subfpsclr => calculate_alpha_compensated_subfpsclr,
+subfpce => calculate_alpha_compensated_subfpce,
+subfpr => calculate_alpha_compensated_subfpr,
+subfprdy => calculate_alpha_compensated_subfprdy,
 
-fixed2floata => calculate_alpha_compensation_fixed2floata,
-fixed2floatond => calculate_alpha_compensation_fixed2floatond,
-fixed2floatsclr => calculate_alpha_compensation_fixed2floatsclr,
-fixed2floatce => calculate_alpha_compensation_fixed2floatce,
-fixed2floatr => calculate_alpha_compensation_fixed2floatr,
-fixed2floatrdy => calculate_alpha_compensation_fixed2floatrdy
+fixed2floata => calculate_alpha_compensated_fixed2floata,
+fixed2floatond => calculate_alpha_compensated_fixed2floatond,
+fixed2floatsclr => calculate_alpha_compensated_fixed2floatsclr,
+fixed2floatce => calculate_alpha_compensated_fixed2floatce,
+fixed2floatr => calculate_alpha_compensated_fixed2floatr,
+fixed2floatrdy => calculate_alpha_compensated_fixed2floatrdy
 );
 
 p_clock_process : process
 begin
-calculate_alpha_compensation_clock <= '0';
+calculate_alpha_compensated_clock <= '0';
 wait for i_clock_period/2;
-calculate_alpha_compensation_clock <= '1';
+calculate_alpha_compensated_clock <= '1';
 wait for i_clock_period/2;
 end process p_clock_process;
 
@@ -446,67 +446,67 @@ last => (
 );
 begin
 -- hold reset state for 100 ns.
-calculate_alpha_compensation_reset <= '1';
+calculate_alpha_compensated_reset <= '1';
 wait for 100 ns;
-calculate_alpha_compensation_reset <= '0';
+calculate_alpha_compensated_reset <= '0';
 wait for i_clock_period*10;
 -- insert stimulus here
-calculate_alpha_compensation_Ta <= x"4207F54D"; -- Calculated temperature ambient ~33.98955 C
-calculate_alpha_compensation_acpsubpage0 <= x"31460000"; -- ~0.0000000028812792
-calculate_alpha_compensation_acpsubpage1 <= x"31478C00"; -- ~0.0000000029037892
+calculate_alpha_compensated_Ta <= x"4207F54D"; -- Calculated temperature ambient ~33.98955 C
+calculate_alpha_compensated_acpsubpage0 <= x"31460000"; -- ~0.0000000028812792
+calculate_alpha_compensated_acpsubpage1 <= x"31478C00"; -- ~0.0000000029037892
 wait for i_clock_period;
-calculate_alpha_compensation_run <= '1'; wait for i_clock_period; calculate_alpha_compensation_run <= '0';
+calculate_alpha_compensated_run <= '1'; wait for i_clock_period; calculate_alpha_compensated_run <= '0';
 report "before loop";
   for i in 0 to 768 loop
     for k in 0 to 9 loop
-      if calculate_alpha_compensation_alpha_addr = std_logic_vector (to_unsigned (data.first(k).b, 10)) then
-        calculate_alpha_compensation_alpha_do <= data.first(k).a;
+      if calculate_alpha_compensated_alpha_addr = std_logic_vector (to_unsigned (data.first(k).b, 10)) then
+        calculate_alpha_compensated_alpha_do <= data.first(k).a;
       end if;
     end loop;
     for k in 0 to 1 loop
-      if calculate_alpha_compensation_alpha_addr = std_logic_vector (to_unsigned (data.middle(k).b, 10)) then
-        calculate_alpha_compensation_alpha_do <= data.middle(k).a;
+      if calculate_alpha_compensated_alpha_addr = std_logic_vector (to_unsigned (data.middle(k).b, 10)) then
+        calculate_alpha_compensated_alpha_do <= data.middle(k).a;
       end if;
     end loop;
     for k in 0 to 9 loop
-      if calculate_alpha_compensation_alpha_addr = std_logic_vector (to_unsigned (data.last(k).b, 10)) then
-        calculate_alpha_compensation_alpha_do <= data.last(k).a;
+      if calculate_alpha_compensated_alpha_addr = std_logic_vector (to_unsigned (data.last(k).b, 10)) then
+        calculate_alpha_compensated_alpha_do <= data.last(k).a;
       end if;
     end loop;
     wait for 1.900us; -- XXX the same as CalculateAlphaComp wait for data from ExtractAlphaParameters MEM
   end loop;
 report "after loop";
---wait until calculate_alpha_compensation_rdy = '1';
+--wait until calculate_alpha_compensated_rdy = '1';
 --report "rdy at 645.945us";
 --report "rdy at 599.795us";
 --report "rdy at 599.815us";
 --report "rdy at 599.755us";
 report "rdy 767 at 1144.615us - rm all regs";
   for i in 0 to 9 loop
-    calculate_alpha_compensation_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
-    wait until rising_edge (calculate_alpha_compensation_clock);
-    wait until rising_edge (calculate_alpha_compensation_clock);
-    warning_neq_fp (calculate_alpha_compensation_do, datao.first(i).a, "first " & integer'image (datao.first(i).b));
-    wait until rising_edge (calculate_alpha_compensation_clock);
+    calculate_alpha_compensated_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
+    wait until rising_edge (calculate_alpha_compensated_clock);
+    wait until rising_edge (calculate_alpha_compensated_clock);
+    warning_neq_fp (calculate_alpha_compensated_do, datao.first(i).a, "first " & integer'image (datao.first(i).b));
+    wait until rising_edge (calculate_alpha_compensated_clock);
   end loop;
   for i in 0 to 1 loop
-    calculate_alpha_compensation_addr <= std_logic_vector (to_unsigned (datao.middle(i).b, 10));
-    wait until rising_edge (calculate_alpha_compensation_clock);
-    wait until rising_edge (calculate_alpha_compensation_clock);
-    warning_neq_fp (calculate_alpha_compensation_do, datao.middle(i).a, "middle " & integer'image (datao.middle(i).b));
-    wait until rising_edge (calculate_alpha_compensation_clock);
+    calculate_alpha_compensated_addr <= std_logic_vector (to_unsigned (datao.middle(i).b, 10));
+    wait until rising_edge (calculate_alpha_compensated_clock);
+    wait until rising_edge (calculate_alpha_compensated_clock);
+    warning_neq_fp (calculate_alpha_compensated_do, datao.middle(i).a, "middle " & integer'image (datao.middle(i).b));
+    wait until rising_edge (calculate_alpha_compensated_clock);
   end loop;
   for i in 0 to 8 loop -- XXX last_9 is not available, rest above values is OK
-    calculate_alpha_compensation_addr <= std_logic_vector (to_unsigned (datao.last(i).b, 10));
-    wait until rising_edge (calculate_alpha_compensation_clock);
-    wait until rising_edge (calculate_alpha_compensation_clock);
-    warning_neq_fp (calculate_alpha_compensation_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
-    wait until rising_edge (calculate_alpha_compensation_clock);
+    calculate_alpha_compensated_addr <= std_logic_vector (to_unsigned (datao.last(i).b, 10));
+    wait until rising_edge (calculate_alpha_compensated_clock);
+    wait until rising_edge (calculate_alpha_compensated_clock);
+    warning_neq_fp (calculate_alpha_compensated_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
+    wait until rising_edge (calculate_alpha_compensated_clock);
   end loop;
-  calculate_alpha_compensation_addr <= std_logic_vector (to_unsigned (datao.last(9).b, 10));
-  wait until rising_edge (calculate_alpha_compensation_clock);
-  wait until rising_edge (calculate_alpha_compensation_clock);
-  warning_neq_fp (calculate_alpha_compensation_do, datao.last(9).a, "last " & integer'image (datao.last(9).b) & " not available - fix it");
+  calculate_alpha_compensated_addr <= std_logic_vector (to_unsigned (datao.last(9).b, 10));
+  wait until rising_edge (calculate_alpha_compensated_clock);
+  wait until rising_edge (calculate_alpha_compensated_clock);
+  warning_neq_fp (calculate_alpha_compensated_do, datao.last(9).a, "last " & integer'image (datao.last(9).b) & " not available - fix it");
 wait for 1 ps;
 -- XXX outputs differ around e-9 and e-10 (output have e-8)
 --report "end at 666.445us";
@@ -517,69 +517,69 @@ report "end at 1403.745us - rm all regs";
 report "done" severity failure;
 end process p_tb;
 
-calculate_alpha_compensation_mulfpclk <= calculate_alpha_compensation_clock;
-calculate_alpha_compensation_divfpclk <= calculate_alpha_compensation_clock;
-calculate_alpha_compensation_addfpclk <= calculate_alpha_compensation_clock;
-calculate_alpha_compensation_subfpclk <= calculate_alpha_compensation_clock;
-calculate_alpha_compensation_fixed2floatclk <= calculate_alpha_compensation_clock;
+calculate_alpha_compensated_mulfpclk <= calculate_alpha_compensated_clock;
+calculate_alpha_compensated_divfpclk <= calculate_alpha_compensated_clock;
+calculate_alpha_compensated_addfpclk <= calculate_alpha_compensated_clock;
+calculate_alpha_compensated_subfpclk <= calculate_alpha_compensated_clock;
+calculate_alpha_compensated_fixed2floatclk <= calculate_alpha_compensated_clock;
 
 mulfp_i0 : mulfp
 PORT MAP (
-a => calculate_alpha_compensation_mulfpa,
-b => calculate_alpha_compensation_mulfpb,
-operation_nd => calculate_alpha_compensation_mulfpond,
-clk => calculate_alpha_compensation_mulfpclk,
-sclr => calculate_alpha_compensation_mulfpsclr,
-ce => calculate_alpha_compensation_mulfpce,
-result => calculate_alpha_compensation_mulfpr,
-rdy => calculate_alpha_compensation_mulfprdy
+a => calculate_alpha_compensated_mulfpa,
+b => calculate_alpha_compensated_mulfpb,
+operation_nd => calculate_alpha_compensated_mulfpond,
+clk => calculate_alpha_compensated_mulfpclk,
+sclr => calculate_alpha_compensated_mulfpsclr,
+ce => calculate_alpha_compensated_mulfpce,
+result => calculate_alpha_compensated_mulfpr,
+rdy => calculate_alpha_compensated_mulfprdy
 );
 
 divfp_i0 : divfp
 PORT MAP (
-a => calculate_alpha_compensation_divfpa,
-b => calculate_alpha_compensation_divfpb,
-operation_nd => calculate_alpha_compensation_divfpond,
-clk => calculate_alpha_compensation_divfpclk,
-sclr => calculate_alpha_compensation_divfpsclr,
-ce => calculate_alpha_compensation_divfpce,
-result => calculate_alpha_compensation_divfpr,
-rdy => calculate_alpha_compensation_divfprdy
+a => calculate_alpha_compensated_divfpa,
+b => calculate_alpha_compensated_divfpb,
+operation_nd => calculate_alpha_compensated_divfpond,
+clk => calculate_alpha_compensated_divfpclk,
+sclr => calculate_alpha_compensated_divfpsclr,
+ce => calculate_alpha_compensated_divfpce,
+result => calculate_alpha_compensated_divfpr,
+rdy => calculate_alpha_compensated_divfprdy
 );
 
 addfp_i0 : addfp
 PORT MAP (
-a => calculate_alpha_compensation_addfpa,
-b => calculate_alpha_compensation_addfpb,
-operation_nd => calculate_alpha_compensation_addfpond,
-clk => calculate_alpha_compensation_addfpclk,
-sclr => calculate_alpha_compensation_addfpsclr,
-ce => calculate_alpha_compensation_addfpce,
-result => calculate_alpha_compensation_addfpr,
-rdy => calculate_alpha_compensation_addfprdy
+a => calculate_alpha_compensated_addfpa,
+b => calculate_alpha_compensated_addfpb,
+operation_nd => calculate_alpha_compensated_addfpond,
+clk => calculate_alpha_compensated_addfpclk,
+sclr => calculate_alpha_compensated_addfpsclr,
+ce => calculate_alpha_compensated_addfpce,
+result => calculate_alpha_compensated_addfpr,
+rdy => calculate_alpha_compensated_addfprdy
 );
 
 subfp_i0 : subfp
 PORT MAP (
-a => calculate_alpha_compensation_subfpa,
-b => calculate_alpha_compensation_subfpb,
-operation_nd => calculate_alpha_compensation_subfpond,
-clk => calculate_alpha_compensation_subfpclk,
-sclr => calculate_alpha_compensation_subfpsclr,
-ce => calculate_alpha_compensation_subfpce,
-result => calculate_alpha_compensation_subfpr,
-rdy => calculate_alpha_compensation_subfprdy
+a => calculate_alpha_compensated_subfpa,
+b => calculate_alpha_compensated_subfpb,
+operation_nd => calculate_alpha_compensated_subfpond,
+clk => calculate_alpha_compensated_subfpclk,
+sclr => calculate_alpha_compensated_subfpsclr,
+ce => calculate_alpha_compensated_subfpce,
+result => calculate_alpha_compensated_subfpr,
+rdy => calculate_alpha_compensated_subfprdy
 );
 
 fixed2float_i0 : fixed2float
 PORT MAP (
-a => calculate_alpha_compensation_fixed2floata,
-operation_nd => calculate_alpha_compensation_fixed2floatond,
-clk => calculate_alpha_compensation_fixed2floatclk,
-sclr => calculate_alpha_compensation_fixed2floatsclr,
-ce => calculate_alpha_compensation_fixed2floatce,
-result => calculate_alpha_compensation_fixed2floatr,
-rdy => calculate_alpha_compensation_fixed2floatrdy
+a => calculate_alpha_compensated_fixed2floata,
+operation_nd => calculate_alpha_compensated_fixed2floatond,
+clk => calculate_alpha_compensated_fixed2floatclk,
+sclr => calculate_alpha_compensated_fixed2floatsclr,
+ce => calculate_alpha_compensated_fixed2floatce,
+result => calculate_alpha_compensated_fixed2floatr,
+rdy => calculate_alpha_compensated_fixed2floatrdy
 );
 
 end architecture tb;

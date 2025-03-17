@@ -641,7 +641,7 @@ with mem_switchpattern_pattern select pattern_neg_ft <=
 x"00000000" when '1',
 x"3f800000" when others;
 
-mem_alpha_compensation_i0 : mem_ramb16_s36_x2
+mem_alpha_compensated_i0 : mem_ramb16_s36_x2
 GENERIC MAP (
 INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000" -- start 0's
 )
