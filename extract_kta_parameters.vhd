@@ -1,53 +1,68 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    12:57:15 02/07/2023 
--- Design Name: 
--- Module Name:    ExtractKtaParameters - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   12:57:15 02/07/2023
+-- Design Name:   mlx90640_fpga
+-- Module Name:   extract_kta_parameters
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   11.1.6. Restoring the Kta(i,j) coefficient (p. 25)
+--                (Rest is in commented code)
 --
--- Dependencies: 
+-- Dependencies:
+--  - Files:
+--    global_package.vhd
+--  - Modules: -
 --
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules:
+--      mem_ramb16_s36_x2, rom_constants
+--    - Processes (Architecture: rtl):
+--      p0, p1
 --
-----------------------------------------------------------------------------------
+-- Important objects: -
+--
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones: -
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-
---use ieee_proposed.fixed_pkg.all;
-
-use work.p_fphdl_package2.all;
-USE work.p_fphdl_package3.all;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+use work.global_package.all;
 
-entity ExtractKtaParameters is
+entity extract_kta_parameters is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
 
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
+
+signal i2c_mem_ena : out STD_LOGIC;
+signal i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 signal o_2powx_p8_4bit_ena : out std_logic;
 signal o_2powx_p8_4bit_adr : out std_logic_vector (3 downto 0);
@@ -87,11 +102,10 @@ signal fixed2floatce : out STD_LOGIC;
 signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal fixed2floatrdy : in STD_LOGIC
-
 );
-end ExtractKtaParameters;
+end entity extract_kta_parameters;
 
-architecture Behavioral of ExtractKtaParameters is
+architecture rtl of extract_kta_parameters is
 
 signal mulfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -278,11 +292,11 @@ port (
 signal DO : out std_logic_vector (31 downto 0);
 signal DOP : out std_logic_vector (3 downto 0);
 signal ADDR : in std_logic_vector (9 downto 0); -- 10bit-1024
-signal CLK : in std_logic;
+signal i_clock : in std_logic;
 signal DI : in std_logic_vector (31 downto 0);
 signal DIP : in std_logic_vector (3 downto 0);
 signal EN : in std_logic;
-signal SSR : in std_logic;
+signal i_reset : in std_logic;
 signal WE : in std_logic
 );
 end component mem_ramb16_s36_x2;
@@ -294,10 +308,8 @@ signal write_enable : std_logic;
 
 signal rdy : std_logic;
 
-constant C_COL : integer := 32;
-constant C_ROW : integer := 24;
-signal col : integer range 0 to C_COL-1;
-signal row : integer range 0 to C_ROW-1;
+signal col : integer range 0 to C_COLS-1;
+signal row : integer range 0 to C_ROWS-1;
 
 signal cole : std_logic;
 signal rowe : std_logic;
@@ -369,7 +381,7 @@ p0 : process (i_clock) is
 	kta21,kta23,
 	kta27);
 	variable state : states;
-	variable i : integer range 0 to (C_ROW*C_COL)-1;
+	variable i : integer range 0 to C_MATRIX_PIXELS-1;
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -509,9 +521,9 @@ begin
           divfpsclr_internal <= '0';
           i := i + 1;
           write_enable <= '0';
-          if (col = C_COL-1) then
+          if (col = C_COLS-1) then
             col <= 0;
-            if (row = C_ROW-1) then
+            if (row = C_ROWS-1) then
               row <= 0;
               state := idle;
               rdy <= '1';
@@ -528,7 +540,7 @@ begin
 	end if;
 end process p0;
 
-inst_mem_kta : mem_ramb16_s36_x2
+mem_kta_parameters_i0 : mem_ramb16_s36_x2
 GENERIC MAP (
 INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000" -- start 0's
 )
@@ -536,12 +548,13 @@ PORT MAP (
 DO => doa,
 DOP => open,
 ADDR => mux_addr,
-CLK => i_clock,
+i_clock => i_clock,
 DI => mux_dia,
 DIP => (others => '0'),
 EN => '1',
-SSR => i_reset,
+i_reset => i_reset,
 WE => write_enable
 );
 
-end architecture Behavioral;
+end architecture rtl;
+
