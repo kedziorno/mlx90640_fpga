@@ -171,7 +171,7 @@ douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
 );
 END COMPONENT;
 
-component CalculatePixOS is
+component calculate_pixos is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -241,74 +241,74 @@ divfpce : out STD_LOGIC;
 divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 divfprdy : in STD_LOGIC
 );
-end component CalculatePixOS;
+end component calculate_pixos;
 
-signal CalculatePixOS_clock : std_logic;
-signal CalculatePixOS_reset : std_logic;
-signal CalculatePixOS_run : std_logic;
-signal CalculatePixOS_i2c_mem_ena : STD_LOGIC;
-signal CalculatePixOS_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal CalculatePixOS_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal CalculatePixOS_const1 : std_logic_vector (31 downto 0);
-signal CalculatePixOS_Ta : std_logic_vector (31 downto 0);
-signal CalculatePixOS_Ta0 : std_logic_vector (31 downto 0);
-signal CalculatePixOS_Vdd : std_logic_vector (31 downto 0);
-signal CalculatePixOS_VddV0 : std_logic_vector (31 downto 0);
-signal CalculatePixOS_KGain : std_logic_vector (31 downto 0);
-signal CalculatePixOS_do : std_logic_vector (31 downto 0);
-signal CalculatePixOS_addr : std_logic_vector (9 downto 0); -- 10bit-1024
-signal CalculatePixOS_rdy : std_logic;
-signal CalculatePixOS_signed4bit_ena : std_logic := '0';
-signal CalculatePixOS_signed4bit_adr : std_logic_vector (3 downto 0) := (others => '0');
-signal CalculatePixOS_signed6bit_ena : std_logic := '0';
-signal CalculatePixOS_signed6bit_adr : std_logic_vector (5 downto 0) := (others => '0');
-signal CalculatePixOS_2powx_4bit_ena : std_logic := '0';
-signal CalculatePixOS_2powx_4bit_adr : std_logic_vector (3 downto 0) := (others => '0');
-signal CalculatePixOS_2powx_p8_4bit_ena : std_logic := '0';
-signal CalculatePixOS_2powx_p8_4bit_adr : std_logic_vector (3 downto 0) := (others => '0');
-signal CalculatePixOS_signed3bit_ena : std_logic := '0';
-signal CalculatePixOS_signed3bit_adr : std_logic_vector (2 downto 0) := (others => '0');
-signal CalculatePixOS_rom_constants_float : std_logic_vector (31 downto 0) := (others => '0');
-signal CalculatePixOS_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
-signal CalculatePixOS_fixed2floatond : STD_LOGIC;
-signal CalculatePixOS_fixed2floatce : STD_LOGIC;
-signal CalculatePixOS_fixed2floatsclr : STD_LOGIC;
-signal CalculatePixOS_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculatePixOS_fixed2floatrdy : STD_LOGIC;
-signal CalculatePixOS_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculatePixOS_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculatePixOS_mulfpond : STD_LOGIC;
-signal CalculatePixOS_mulfpsclr : STD_LOGIC;
-signal CalculatePixOS_mulfpce : STD_LOGIC;
-signal CalculatePixOS_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculatePixOS_mulfprdy : STD_LOGIC;
-signal CalculatePixOS_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculatePixOS_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculatePixOS_divfpond : STD_LOGIC;
-signal CalculatePixOS_divfpsclr : STD_LOGIC;
-signal CalculatePixOS_divfpce : STD_LOGIC;
-signal CalculatePixOS_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculatePixOS_divfprdy : STD_LOGIC;
-signal CalculatePixOS_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculatePixOS_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculatePixOS_addfpond : STD_LOGIC;
-signal CalculatePixOS_addfpsclr : STD_LOGIC;
-signal CalculatePixOS_addfpce : STD_LOGIC;
-signal CalculatePixOS_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculatePixOS_addfprdy : STD_LOGIC;
-signal CalculatePixOS_subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculatePixOS_subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculatePixOS_subfpond : STD_LOGIC;
-signal CalculatePixOS_subfpsclr : STD_LOGIC;
-signal CalculatePixOS_subfpce : STD_LOGIC;
-signal CalculatePixOS_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculatePixOS_subfprdy : STD_LOGIC;
+signal calculate_pixos_clock : std_logic;
+signal calculate_pixos_reset : std_logic;
+signal calculate_pixos_run : std_logic;
+signal calculate_pixos_i2c_mem_ena : STD_LOGIC;
+signal calculate_pixos_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal calculate_pixos_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal calculate_pixos_const1 : std_logic_vector (31 downto 0);
+signal calculate_pixos_Ta : std_logic_vector (31 downto 0);
+signal calculate_pixos_Ta0 : std_logic_vector (31 downto 0);
+signal calculate_pixos_Vdd : std_logic_vector (31 downto 0);
+signal calculate_pixos_VddV0 : std_logic_vector (31 downto 0);
+signal calculate_pixos_KGain : std_logic_vector (31 downto 0);
+signal calculate_pixos_do : std_logic_vector (31 downto 0);
+signal calculate_pixos_addr : std_logic_vector (9 downto 0); -- 10bit-1024
+signal calculate_pixos_rdy : std_logic;
+signal calculate_pixos_signed4bit_ena : std_logic := '0';
+signal calculate_pixos_signed4bit_adr : std_logic_vector (3 downto 0) := (others => '0');
+signal calculate_pixos_signed6bit_ena : std_logic := '0';
+signal calculate_pixos_signed6bit_adr : std_logic_vector (5 downto 0) := (others => '0');
+signal calculate_pixos_2powx_4bit_ena : std_logic := '0';
+signal calculate_pixos_2powx_4bit_adr : std_logic_vector (3 downto 0) := (others => '0');
+signal calculate_pixos_2powx_p8_4bit_ena : std_logic := '0';
+signal calculate_pixos_2powx_p8_4bit_adr : std_logic_vector (3 downto 0) := (others => '0');
+signal calculate_pixos_signed3bit_ena : std_logic := '0';
+signal calculate_pixos_signed3bit_adr : std_logic_vector (2 downto 0) := (others => '0');
+signal calculate_pixos_rom_constants_float : std_logic_vector (31 downto 0) := (others => '0');
+signal calculate_pixos_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal calculate_pixos_fixed2floatond : STD_LOGIC;
+signal calculate_pixos_fixed2floatce : STD_LOGIC;
+signal calculate_pixos_fixed2floatsclr : STD_LOGIC;
+signal calculate_pixos_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_pixos_fixed2floatrdy : STD_LOGIC;
+signal calculate_pixos_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_pixos_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_pixos_mulfpond : STD_LOGIC;
+signal calculate_pixos_mulfpsclr : STD_LOGIC;
+signal calculate_pixos_mulfpce : STD_LOGIC;
+signal calculate_pixos_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_pixos_mulfprdy : STD_LOGIC;
+signal calculate_pixos_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_pixos_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_pixos_divfpond : STD_LOGIC;
+signal calculate_pixos_divfpsclr : STD_LOGIC;
+signal calculate_pixos_divfpce : STD_LOGIC;
+signal calculate_pixos_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_pixos_divfprdy : STD_LOGIC;
+signal calculate_pixos_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_pixos_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_pixos_addfpond : STD_LOGIC;
+signal calculate_pixos_addfpsclr : STD_LOGIC;
+signal calculate_pixos_addfpce : STD_LOGIC;
+signal calculate_pixos_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_pixos_addfprdy : STD_LOGIC;
+signal calculate_pixos_subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_pixos_subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_pixos_subfpond : STD_LOGIC;
+signal calculate_pixos_subfpsclr : STD_LOGIC;
+signal calculate_pixos_subfpce : STD_LOGIC;
+signal calculate_pixos_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_pixos_subfprdy : STD_LOGIC;
 
-signal CalculatePixOS_fixed2floatclk : std_logic;
-signal CalculatePixOS_addfpclk : std_logic;
-signal CalculatePixOS_subfpclk : std_logic;
-signal CalculatePixOS_mulfpclk : std_logic;
-signal CalculatePixOS_divfpclk : std_logic;
+signal calculate_pixos_fixed2floatclk : std_logic;
+signal calculate_pixos_addfpclk : std_logic;
+signal calculate_pixos_subfpclk : std_logic;
+signal calculate_pixos_mulfpclk : std_logic;
+signal calculate_pixos_divfpclk : std_logic;
 
 COMPONENT rom_constants
 PORT(
@@ -367,90 +367,90 @@ signal out1r : real;
 
 BEGIN
 
-out1r <= ap_slv2fp (CalculatePixOS_do); -- output data
+out1r <= ap_slv2fp (calculate_pixos_do); -- output data
 
-CalculatePixOS_KGain <= x"3F81AC57"; -- 1.0130719
-i_signed4bit_en <= CalculatePixOS_signed4bit_ena;
-i_signed4bit_adr <= CalculatePixOS_signed4bit_adr;
-i_signed6bit_en <= CalculatePixOS_signed6bit_ena;
-i_signed6bit_adr <= CalculatePixOS_signed6bit_adr;
-i_2powx_4bit_en <= CalculatePixOS_2powx_4bit_ena;
-i_2powx_4bit_adr <= CalculatePixOS_2powx_4bit_adr;
-i_2powx_p8_4bit_en <= CalculatePixOS_2powx_p8_4bit_ena;
-i_2powx_p8_4bit_adr <= CalculatePixOS_2powx_p8_4bit_adr;
-i_signed3bit_en <= CalculatePixOS_signed3bit_ena;
-i_signed3bit_adr <= CalculatePixOS_signed3bit_adr;
+calculate_pixos_KGain <= x"3F81AC57"; -- 1.0130719
+i_signed4bit_en <= calculate_pixos_signed4bit_ena;
+i_signed4bit_adr <= calculate_pixos_signed4bit_adr;
+i_signed6bit_en <= calculate_pixos_signed6bit_ena;
+i_signed6bit_adr <= calculate_pixos_signed6bit_adr;
+i_2powx_4bit_en <= calculate_pixos_2powx_4bit_ena;
+i_2powx_4bit_adr <= calculate_pixos_2powx_4bit_adr;
+i_2powx_p8_4bit_en <= calculate_pixos_2powx_p8_4bit_ena;
+i_2powx_p8_4bit_adr <= calculate_pixos_2powx_p8_4bit_adr;
+i_signed3bit_en <= calculate_pixos_signed3bit_ena;
+i_signed3bit_adr <= calculate_pixos_signed3bit_adr;
 calculate_pixos_uut : calculate_pixos port map (
-i_clock => CalculatePixOS_clock,
-i_reset => CalculatePixOS_reset,
-i_run => CalculatePixOS_run,
-i2c_mem_ena => CalculatePixOS_i2c_mem_ena,
-i2c_mem_addra => CalculatePixOS_i2c_mem_addra,
-i2c_mem_douta => CalculatePixOS_i2c_mem_douta,
-i_Ta => CalculatePixOS_Ta,
-i_Vdd => CalculatePixOS_Vdd,
-i_KGain => CalculatePixOS_KGain,
-o_do => CalculatePixOS_do,
-i_addr => CalculatePixOS_addr,
-o_rdy => CalculatePixOS_rdy,
-o_signed4bit_ena => CalculatePixOS_signed4bit_ena,
-o_signed4bit_adr => CalculatePixOS_signed4bit_adr,
-o_signed6bit_ena => CalculatePixOS_signed6bit_ena,
-o_signed6bit_adr => CalculatePixOS_signed6bit_adr,
-o_2powx_4bit_ena => CalculatePixOS_2powx_4bit_ena,
-o_2powx_4bit_adr => CalculatePixOS_2powx_4bit_adr,
-o_2powx_p8_4bit_ena => CalculatePixOS_2powx_p8_4bit_ena,
-o_2powx_p8_4bit_adr => CalculatePixOS_2powx_p8_4bit_adr,
-o_signed3bit_ena => CalculatePixOS_signed3bit_ena,
-o_signed3bit_adr => CalculatePixOS_signed3bit_adr,
-i_rom_constants_float => CalculatePixOS_rom_constants_float,
-fixed2floata => CalculatePixOS_fixed2floata,
-fixed2floatond => CalculatePixOS_fixed2floatond,
-fixed2floatce => CalculatePixOS_fixed2floatce,
-fixed2floatsclr => CalculatePixOS_fixed2floatsclr,
-fixed2floatr => CalculatePixOS_fixed2floatr,
-fixed2floatrdy => CalculatePixOS_fixed2floatrdy,
-mulfpa => CalculatePixOS_mulfpa,
-mulfpb => CalculatePixOS_mulfpb,
-mulfpond => CalculatePixOS_mulfpond,
-mulfpsclr => CalculatePixOS_mulfpsclr,
-mulfpce => CalculatePixOS_mulfpce,
-mulfpr => CalculatePixOS_mulfpr,
-mulfprdy => CalculatePixOS_mulfprdy,
-addfpa => CalculatePixOS_addfpa,
-addfpb => CalculatePixOS_addfpb,
-addfpond => CalculatePixOS_addfpond,
-addfpsclr => CalculatePixOS_addfpsclr,
-addfpce => CalculatePixOS_addfpce,
-addfpr => CalculatePixOS_addfpr,
-addfprdy => CalculatePixOS_addfprdy,
-subfpa => CalculatePixOS_subfpa,
-subfpb => CalculatePixOS_subfpb,
-subfpond => CalculatePixOS_subfpond,
-subfpsclr => CalculatePixOS_subfpsclr,
-subfpce => CalculatePixOS_subfpce,
-subfpr => CalculatePixOS_subfpr,
-subfprdy => CalculatePixOS_subfprdy,
-divfpa => CalculatePixOS_divfpa,
-divfpb => CalculatePixOS_divfpb,
-divfpond => CalculatePixOS_divfpond,
-divfpsclr => CalculatePixOS_divfpsclr,
-divfpce => CalculatePixOS_divfpce,
-divfpr => CalculatePixOS_divfpr,
-divfprdy => CalculatePixOS_divfprdy
+i_clock => calculate_pixos_clock,
+i_reset => calculate_pixos_reset,
+i_run => calculate_pixos_run,
+i2c_mem_ena => calculate_pixos_i2c_mem_ena,
+i2c_mem_addra => calculate_pixos_i2c_mem_addra,
+i2c_mem_douta => calculate_pixos_i2c_mem_douta,
+i_Ta => calculate_pixos_Ta,
+i_Vdd => calculate_pixos_Vdd,
+i_KGain => calculate_pixos_KGain,
+o_do => calculate_pixos_do,
+i_addr => calculate_pixos_addr,
+o_rdy => calculate_pixos_rdy,
+o_signed4bit_ena => calculate_pixos_signed4bit_ena,
+o_signed4bit_adr => calculate_pixos_signed4bit_adr,
+o_signed6bit_ena => calculate_pixos_signed6bit_ena,
+o_signed6bit_adr => calculate_pixos_signed6bit_adr,
+o_2powx_4bit_ena => calculate_pixos_2powx_4bit_ena,
+o_2powx_4bit_adr => calculate_pixos_2powx_4bit_adr,
+o_2powx_p8_4bit_ena => calculate_pixos_2powx_p8_4bit_ena,
+o_2powx_p8_4bit_adr => calculate_pixos_2powx_p8_4bit_adr,
+o_signed3bit_ena => calculate_pixos_signed3bit_ena,
+o_signed3bit_adr => calculate_pixos_signed3bit_adr,
+i_rom_constants_float => calculate_pixos_rom_constants_float,
+fixed2floata => calculate_pixos_fixed2floata,
+fixed2floatond => calculate_pixos_fixed2floatond,
+fixed2floatce => calculate_pixos_fixed2floatce,
+fixed2floatsclr => calculate_pixos_fixed2floatsclr,
+fixed2floatr => calculate_pixos_fixed2floatr,
+fixed2floatrdy => calculate_pixos_fixed2floatrdy,
+mulfpa => calculate_pixos_mulfpa,
+mulfpb => calculate_pixos_mulfpb,
+mulfpond => calculate_pixos_mulfpond,
+mulfpsclr => calculate_pixos_mulfpsclr,
+mulfpce => calculate_pixos_mulfpce,
+mulfpr => calculate_pixos_mulfpr,
+mulfprdy => calculate_pixos_mulfprdy,
+addfpa => calculate_pixos_addfpa,
+addfpb => calculate_pixos_addfpb,
+addfpond => calculate_pixos_addfpond,
+addfpsclr => calculate_pixos_addfpsclr,
+addfpce => calculate_pixos_addfpce,
+addfpr => calculate_pixos_addfpr,
+addfprdy => calculate_pixos_addfprdy,
+subfpa => calculate_pixos_subfpa,
+subfpb => calculate_pixos_subfpb,
+subfpond => calculate_pixos_subfpond,
+subfpsclr => calculate_pixos_subfpsclr,
+subfpce => calculate_pixos_subfpce,
+subfpr => calculate_pixos_subfpr,
+subfprdy => calculate_pixos_subfprdy,
+divfpa => calculate_pixos_divfpa,
+divfpb => calculate_pixos_divfpb,
+divfpond => calculate_pixos_divfpond,
+divfpsclr => calculate_pixos_divfpsclr,
+divfpce => calculate_pixos_divfpce,
+divfpr => calculate_pixos_divfpr,
+divfprdy => calculate_pixos_divfprdy
 );
 
 tb_i2c_mem_i0 : tb_i2c_mem
 PORT MAP (
 clka => i_clock,
-ena => CalculatePixOS_i2c_mem_ena,
+ena => calculate_pixos_i2c_mem_ena,
 wea => "0",
-addra => CalculatePixOS_i2c_mem_addra,
+addra => calculate_pixos_i2c_mem_addra,
 dina => (others => '0'),
-douta => CalculatePixOS_i2c_mem_douta
+douta => calculate_pixos_i2c_mem_douta
 );
 
-CalculatePixOS_clock <= i_clock;
+calculate_pixos_clock <= i_clock;
 
 p_clock_process :process
 begin
@@ -504,17 +504,17 @@ last => (
 )
 );
 BEGIN
-CalculatePixOS_reset <= '1';
+calculate_pixos_reset <= '1';
 wait for 100 ns; -- wait until global set/reset completes
-CalculatePixOS_reset <= '0';
+calculate_pixos_reset <= '0';
 wait for i_clock_period*10;
-CalculatePixOS_const1 <= x"3F800000"; -- 1
-CalculatePixOS_Ta <= x"4207F54D"; -- 3.398955e+01
---CalculatePixOS_Ta0 <= x"41C80000"; -- 25
-CalculatePixOS_Vdd <= x"4052B852"; -- 3.292500e+00
---CalculatePixOS_VddV0 <= x"40533333"; -- 3.3
-CalculatePixOS_run <= '1'; wait for i_clock_period; CalculatePixOS_run <= '0';
-wait until CalculatePixOS_rdy = '1';
+calculate_pixos_const1 <= x"3F800000"; -- 1
+calculate_pixos_Ta <= x"4207F54D"; -- 3.398955e+01
+--calculate_pixos_Ta0 <= x"41C80000"; -- 25
+calculate_pixos_Vdd <= x"4052B852"; -- 3.292500e+00
+--calculate_pixos_VddV0 <= x"40533333"; -- 3.3
+calculate_pixos_run <= '1'; wait for i_clock_period; calculate_pixos_run <= '0';
+wait until calculate_pixos_rdy = '1';
 --report "rdy at 2597.975us";
 --report "rdy at 2352.505us";
 --report "rdy at 2506.635us - rewrite submodules";
@@ -522,34 +522,34 @@ wait until CalculatePixOS_rdy = '1';
 --report "rdy at 2882.625us - rewrite submodules, rm fptmp1, rm vddDiff reg";
 report "rdy at 3113.025us - rewrite submodules, rm fptmp1, rm vddDiff reg, rm taDiff reg";
 for i in 0 to 9 loop
-CalculatePixOS_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
-wait until rising_edge (CalculatePixOS_clock);
-wait until rising_edge (CalculatePixOS_clock);
-warning_neq_fp (CalculatePixOS_do, datao.first(i).a, "first " & integer'image (datao.first(i).b));
---wait until rising_edge (CalculatePixOS_clock);
+calculate_pixos_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
+wait until rising_edge (calculate_pixos_clock);
+wait until rising_edge (calculate_pixos_clock);
+warning_neq_fp (calculate_pixos_do, datao.first(i).a, "first " & integer'image (datao.first(i).b));
+--wait until rising_edge (calculate_pixos_clock);
 end loop;
 for i in 0 to 1 loop
-CalculatePixOS_addr <= std_logic_vector (to_unsigned (datao.middle(i).b, 10));
-wait until rising_edge (CalculatePixOS_clock);
-wait until rising_edge (CalculatePixOS_clock);
-warning_neq_fp (CalculatePixOS_do, datao.middle(i).a, "middle " & integer'image (datao.middle(i).b));
---wait until rising_edge (CalculatePixOS_clock);
+calculate_pixos_addr <= std_logic_vector (to_unsigned (datao.middle(i).b, 10));
+wait until rising_edge (calculate_pixos_clock);
+wait until rising_edge (calculate_pixos_clock);
+warning_neq_fp (calculate_pixos_do, datao.middle(i).a, "middle " & integer'image (datao.middle(i).b));
+--wait until rising_edge (calculate_pixos_clock);
 end loop;
 for i in 0 to 8 loop -- XXX last_9 is OK here (tb_CalculateAlphaComp)
-CalculatePixOS_addr <= std_logic_vector (to_unsigned (datao.last(i).b, 10));
-wait until rising_edge (CalculatePixOS_clock);
-wait until rising_edge (CalculatePixOS_clock);
-warning_neq_fp (CalculatePixOS_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
---wait until rising_edge (CalculatePixOS_clock);
+calculate_pixos_addr <= std_logic_vector (to_unsigned (datao.last(i).b, 10));
+wait until rising_edge (calculate_pixos_clock);
+wait until rising_edge (calculate_pixos_clock);
+warning_neq_fp (calculate_pixos_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
+--wait until rising_edge (calculate_pixos_clock);
 end loop;
-CalculatePixOS_addr <= std_logic_vector (to_unsigned (datao.last(9).b, 10));
-wait until rising_edge (CalculatePixOS_clock);
-wait until rising_edge (CalculatePixOS_clock);
-wait until rising_edge (CalculatePixOS_clock);
-warning_neq_fp (CalculatePixOS_do, datao.last(9).a, "last " & integer'image (datao.last(9).b));
-wait until rising_edge (CalculatePixOS_clock);
-wait until rising_edge (CalculatePixOS_clock);
-wait until rising_edge (CalculatePixOS_clock);
+calculate_pixos_addr <= std_logic_vector (to_unsigned (datao.last(9).b, 10));
+wait until rising_edge (calculate_pixos_clock);
+wait until rising_edge (calculate_pixos_clock);
+wait until rising_edge (calculate_pixos_clock);
+warning_neq_fp (calculate_pixos_do, datao.last(9).a, "last " & integer'image (datao.last(9).b));
+wait until rising_edge (calculate_pixos_clock);
+wait until rising_edge (calculate_pixos_clock);
+wait until rising_edge (calculate_pixos_clock);
 --report "end at 2618.475us";
 --report "end at 2352.945us";
 --report "end at 2507.115us - rewrite submodules";
@@ -560,95 +560,95 @@ wait for 1 ps; -- must be for write
 report "done" severity failure;
 END PROCESS p_tb;
 
-CalculatePixOS_fixed2floatclk <= i_clock;
-CalculatePixOS_addfpclk <= i_clock;
-CalculatePixOS_subfpclk <= i_clock;
-CalculatePixOS_mulfpclk <= i_clock;
-CalculatePixOS_divfpclk <= i_clock;
+calculate_pixos_fixed2floatclk <= i_clock;
+calculate_pixos_addfpclk <= i_clock;
+calculate_pixos_subfpclk <= i_clock;
+calculate_pixos_mulfpclk <= i_clock;
+calculate_pixos_divfpclk <= i_clock;
 
 fixed2float_i0 : fixed2float
 PORT MAP (
-a => CalculatePixOS_fixed2floata,
-operation_nd => CalculatePixOS_fixed2floatond,
-clk => CalculatePixOS_fixed2floatclk,
-sclr => CalculatePixOS_fixed2floatsclr,
-ce => CalculatePixOS_fixed2floatce,
-result => CalculatePixOS_fixed2floatr,
-rdy => CalculatePixOS_fixed2floatrdy
+a => calculate_pixos_fixed2floata,
+operation_nd => calculate_pixos_fixed2floatond,
+clk => calculate_pixos_fixed2floatclk,
+sclr => calculate_pixos_fixed2floatsclr,
+ce => calculate_pixos_fixed2floatce,
+result => calculate_pixos_fixed2floatr,
+rdy => calculate_pixos_fixed2floatrdy
 );
 
 divfp_i0 : divfp
 PORT MAP (
-a => CalculatePixOS_divfpa,
-b => CalculatePixOS_divfpb,
-operation_nd => CalculatePixOS_divfpond,
-clk => CalculatePixOS_divfpclk,
-sclr => CalculatePixOS_divfpsclr,
-ce => CalculatePixOS_divfpce,
-result => CalculatePixOS_divfpr,
-rdy => CalculatePixOS_divfprdy
+a => calculate_pixos_divfpa,
+b => calculate_pixos_divfpb,
+operation_nd => calculate_pixos_divfpond,
+clk => calculate_pixos_divfpclk,
+sclr => calculate_pixos_divfpsclr,
+ce => calculate_pixos_divfpce,
+result => calculate_pixos_divfpr,
+rdy => calculate_pixos_divfprdy
 );
 
 mulfp_i0 : mulfp
 PORT MAP (
-a => CalculatePixOS_mulfpa,
-b => CalculatePixOS_mulfpb,
-operation_nd => CalculatePixOS_mulfpond,
-clk => CalculatePixOS_mulfpclk,
-sclr => CalculatePixOS_mulfpsclr,
-ce => CalculatePixOS_mulfpce,
-result => CalculatePixOS_mulfpr,
-rdy => CalculatePixOS_mulfprdy
+a => calculate_pixos_mulfpa,
+b => calculate_pixos_mulfpb,
+operation_nd => calculate_pixos_mulfpond,
+clk => calculate_pixos_mulfpclk,
+sclr => calculate_pixos_mulfpsclr,
+ce => calculate_pixos_mulfpce,
+result => calculate_pixos_mulfpr,
+rdy => calculate_pixos_mulfprdy
 );
 
 addfp_i0 : addfp
 PORT MAP (
-a => CalculatePixOS_addfpa,
-b => CalculatePixOS_addfpb,
-operation_nd => CalculatePixOS_addfpond,
-clk => CalculatePixOS_addfpclk,
-sclr => CalculatePixOS_addfpsclr,
-ce => CalculatePixOS_addfpce,
-result => CalculatePixOS_addfpr,
-rdy => CalculatePixOS_addfprdy
+a => calculate_pixos_addfpa,
+b => calculate_pixos_addfpb,
+operation_nd => calculate_pixos_addfpond,
+clk => calculate_pixos_addfpclk,
+sclr => calculate_pixos_addfpsclr,
+ce => calculate_pixos_addfpce,
+result => calculate_pixos_addfpr,
+rdy => calculate_pixos_addfprdy
 );
 
 subfp_i0 : subfp
 PORT MAP (
-a => CalculatePixOS_subfpa,
-b => CalculatePixOS_subfpb,
-operation_nd => CalculatePixOS_subfpond,
-clk => CalculatePixOS_subfpclk,
-sclr => CalculatePixOS_subfpsclr,
-ce => CalculatePixOS_subfpce,
-result => CalculatePixOS_subfpr,
-rdy => CalculatePixOS_subfprdy
+a => calculate_pixos_subfpa,
+b => calculate_pixos_subfpb,
+operation_nd => calculate_pixos_subfpond,
+clk => calculate_pixos_subfpclk,
+sclr => calculate_pixos_subfpsclr,
+ce => calculate_pixos_subfpce,
+result => calculate_pixos_subfpr,
+rdy => calculate_pixos_subfprdy
 );
 
 rom_constants_i0 : rom_constants PORT MAP (
-i_clock => CalculatePixOS_clock,
-i_reset => CalculatePixOS_reset,
+i_clock => calculate_pixos_clock,
+i_reset => calculate_pixos_reset,
 i_kvptat_en => '0',
 i_kvptat_adr => (others => '0'),
 i_alphaptat_en => '0',
 i_alphaptat_adr => (others => '0'),
-i_signed4bit_en => CalculatePixOS_signed4bit_ena,
-i_signed4bit_adr => CalculatePixOS_signed4bit_adr,
-i_signed6bit_en => CalculatePixOS_signed6bit_ena,
-i_signed6bit_adr => CalculatePixOS_signed6bit_adr,
+i_signed4bit_en => calculate_pixos_signed4bit_ena,
+i_signed4bit_adr => calculate_pixos_signed4bit_adr,
+i_signed6bit_en => calculate_pixos_signed6bit_ena,
+i_signed6bit_adr => calculate_pixos_signed6bit_adr,
 i_alphascale_1_en => '0',
 i_alphascale_1_adr => (others => '0'),
-i_2powx_4bit_en => CalculatePixOS_2powx_4bit_ena,
-i_2powx_4bit_adr => CalculatePixOS_2powx_4bit_adr,
+i_2powx_4bit_en => calculate_pixos_2powx_4bit_ena,
+i_2powx_4bit_adr => calculate_pixos_2powx_4bit_adr,
 i_cpratio_en => '0',
 i_cpratio_adr => (others => '0'),
 i_alphascale_2_en => '0',
 i_alphascale_2_adr => (others => '0'),
-i_2powx_p8_4bit_en => CalculatePixOS_2powx_p8_4bit_ena,
-i_2powx_p8_4bit_adr => CalculatePixOS_2powx_p8_4bit_adr,
-i_signed3bit_en => CalculatePixOS_signed3bit_ena,
-i_signed3bit_adr => CalculatePixOS_signed3bit_adr,
-o_float => CalculatePixOS_rom_constants_float
+i_2powx_p8_4bit_en => calculate_pixos_2powx_p8_4bit_ena,
+i_2powx_p8_4bit_adr => calculate_pixos_2powx_p8_4bit_adr,
+i_signed3bit_en => calculate_pixos_signed3bit_ena,
+i_signed3bit_adr => calculate_pixos_signed3bit_adr,
+o_float => calculate_pixos_rom_constants_float
 );
 
 end architecture tb;
