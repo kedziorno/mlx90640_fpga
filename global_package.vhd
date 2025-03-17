@@ -86,6 +86,7 @@ package global_package is
 
   -- calculate_ta
   constant C_3DOT3 : std_logic_vector (31 downto 0) := x"40533333";
+  constant C_VDDV0 : std_logic_vector (31 downto 0) := C_3DOT3;
   constant C_2POW18 : std_logic_vector (31 downto 0) := x"48800000";  -- calculate_pixos_cp_sp
   constant C_2POW3 : std_logic_vector (31 downto 0) := x"41000000";   -- calculate_pix_gain
 

@@ -162,7 +162,7 @@ douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
 );
 END COMPONENT;
 
-component CalculateVdd is
+component calculate_vdd is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -207,7 +207,7 @@ subfpsclr : out STD_LOGIC;
 subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 subfprdy : in STD_LOGIC
 );
-end component CalculateVdd;
+end component calculate_vdd;
 signal CalculateVdd_clock : std_logic;
 signal CalculateVdd_reset : std_logic;
 signal CalculateVdd_run : std_logic;
@@ -251,7 +251,7 @@ signal CalculateVdd_subfpsclr : STD_LOGIC;
 signal CalculateVdd_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateVdd_subfprdy : STD_LOGIC;
 
-component CalculateTa is
+component calculate_ta is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -302,7 +302,7 @@ subfpsclr : out STD_LOGIC;
 subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 subfprdy : in STD_LOGIC
 );
-end component CalculateTa;
+end component calculate_ta;
 signal CalculateTa_clock : std_logic;
 signal CalculateTa_reset : std_logic;
 signal CalculateTa_run : std_logic;
@@ -352,7 +352,7 @@ signal CalculateTa_subfprdy : STD_LOGIC;
 signal CalculateTa_Vdd : std_logic_vector (31 downto 0); -- from VDD
 signal CalculateTa_Ta : std_logic_vector (31 downto 0); -- output Ta
 
-component ExtractAlphaParameters is
+component extract_alpha_parameters is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -401,7 +401,7 @@ signal divfpce : out STD_LOGIC;
 signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy : in STD_LOGIC
 );
-end component ExtractAlphaParameters;
+end component extract_alpha_parameters;
 signal ExtractAlphaParameters_clock : std_logic;
 signal ExtractAlphaParameters_reset : std_logic;
 signal ExtractAlphaParameters_run : std_logic;
@@ -448,7 +448,7 @@ signal ExtractAlphaParameters_divfpce : STD_LOGIC;
 signal ExtractAlphaParameters_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractAlphaParameters_divfprdy : STD_LOGIC;
 
-component CalculateAlphaCP is
+component calculate_alpha_cp is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -485,7 +485,7 @@ signal fixed2floatsclr : out STD_LOGIC;
 signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal fixed2floatrdy : in STD_LOGIC
 );
-end component CalculateAlphaCP;
+end component calculate_alpha_cp;
 signal CalculateAlphaCP_clock : std_logic;
 signal CalculateAlphaCP_reset : std_logic;
 signal CalculateAlphaCP_run : std_logic;
@@ -521,7 +521,7 @@ signal CalculateAlphaCP_fixed2floatsclr : STD_LOGIC;
 signal CalculateAlphaCP_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaCP_fixed2floatrdy : STD_LOGIC;
 
-component CalculateKGain is
+component calculate_kgain is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -548,7 +548,7 @@ signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy : in STD_LOGIC
 
 );
-end component CalculateKGain;
+end component calculate_kgain;
 signal CalculateKGain_clock : std_logic;
 signal CalculateKGain_reset : std_logic;
 signal CalculateKGain_run : std_logic;
@@ -573,7 +573,7 @@ signal CalculateKGain_divfpce : STD_LOGIC;
 signal CalculateKGain_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateKGain_divfprdy : STD_LOGIC;
 
-component CalculatePixOS is
+component calculate_pixos is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -633,7 +633,7 @@ divfpce : out STD_LOGIC;
 divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 divfprdy : in STD_LOGIC
 );
-end component CalculatePixOS;
+end component calculate_pixos;
 signal CalculatePixOS_clock : std_logic;
 signal CalculatePixOS_reset : std_logic;
 signal CalculatePixOS_run : std_logic;
@@ -692,7 +692,7 @@ signal CalculatePixOS_subfpce : STD_LOGIC;
 signal CalculatePixOS_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixOS_subfprdy : STD_LOGIC;
 
-component CalculatePixOsCPSP is
+component calculate_pixos_cp_sp is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -748,7 +748,7 @@ signal subfpce : out STD_LOGIC;
 signal subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfprdy : in STD_LOGIC
 );
-end component CalculatePixOsCPSP;
+end component calculate_pixos_cp_sp;
 signal CalculatePixOsCPSP_clock : std_logic;
 signal CalculatePixOsCPSP_reset : std_logic;
 signal CalculatePixOsCPSP_run : std_logic;
@@ -803,7 +803,7 @@ signal CalculatePixOsCPSP_subfpce : STD_LOGIC;
 signal CalculatePixOsCPSP_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixOsCPSP_subfprdy : STD_LOGIC;
 
-COMPONENT CalculateVirCompensated
+COMPONENT calculate_vir_compensated
 PORT(
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -892,7 +892,7 @@ signal CalculateVirCompensated_subfpce : STD_LOGIC;
 signal CalculateVirCompensated_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateVirCompensated_subfprdy : STD_LOGIC;
 
-component ExtractTGCParameters is
+component extract_tgc_parameters is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -916,7 +916,7 @@ signal divfpce : out STD_LOGIC;
 signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy : in STD_LOGIC
 );
-end component ExtractTGCParameters;
+end component extract_tgc_parameters;
 signal ExtractTGCParameters_clock : std_logic;
 signal ExtractTGCParameters_reset : std_logic;
 signal ExtractTGCParameters_run : std_logic;
@@ -939,7 +939,7 @@ signal ExtractTGCParameters_divfpce : STD_LOGIC;
 signal ExtractTGCParameters_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal ExtractTGCParameters_divfprdy : STD_LOGIC;
 
-COMPONENT CalculateAlphaComp
+COMPONENT calculate_alpha_compensated
 PORT(
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -1052,7 +1052,7 @@ signal CalculateAlphaComp_fixed2floatce : STD_LOGIC;
 signal CalculateAlphaComp_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaComp_fixed2floatrdy : STD_LOGIC;
 
-COMPONENT CalculateGetImage
+COMPONENT calculate_raw_image
 PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
@@ -1948,7 +1948,7 @@ end process tester;
 
 ExtractTGCParameters_clock <= i_clock;
 ExtractTGCParameters_reset <= i_reset;
-inst_ExtractTGCParameters : ExtractTGCParameters port map (
+inst_extract_tgc_parameters : extract_tgc_parameters port map (
 i_clock => ExtractTGCParameters_clock,
 i_reset => ExtractTGCParameters_reset,
 i_run => ExtractTGCParameters_run,
@@ -1974,7 +1974,7 @@ divfprdy => ExtractTGCParameters_divfprdy
 
 CalculateKGain_clock <= i_clock;
 CalculateKGain_reset <= i_reset;
-inst_CalculateKGain : CalculateKGain port map (
+inst_CalculateKGain : calculate_kgain port map (
 i_clock => CalculateKGain_clock,
 i_reset => CalculateKGain_reset,
 i_run => CalculateKGain_run,
@@ -2002,7 +2002,7 @@ divfprdy => CalculateKGain_divfprdy
 
 CalculateVdd_clock <= i_clock;
 CalculateVdd_reset <= i_reset;
-inst_CalculateVdd : CalculateVdd port map (
+inst_CalculateVdd : calculate_vdd port map (
 i_clock => CalculateVdd_clock,
 i_reset => CalculateVdd_reset,
 i_run => CalculateVdd_run,
@@ -2055,7 +2055,7 @@ rom_constants_kvptat_adr <= CalculateTa_kvptat_adr;
 rom_constants_alphaptat_en <= CalculateTa_alphaptat_ena;
 rom_constants_alphaptat_adr <= CalculateTa_alphaptat_adr;
 CalculateTa_rom_constants_float <= rom_constants_float;
-inst_CalculateTa : CalculateTa port map (
+inst_CalculateTa : calculate_ta port map (
 i_clock => CalculateTa_clock,
 i_reset => CalculateTa_reset,
 i_run => CalculateTa_run,
@@ -2108,7 +2108,7 @@ subfprdy  => CalculateTa_subfprdy
 
 ExtractAlphaParameters_clock <= i_clock;
 ExtractAlphaParameters_reset <= i_reset;
-inst_ExtractAlphaParameters : ExtractAlphaParameters port map (
+inst_ExtractAlphaParameters : extract_alpha_parameters port map (
 i_clock => ExtractAlphaParameters_clock,
 i_reset => ExtractAlphaParameters_reset,
 i_run => ExtractAlphaParameters_run,
@@ -2170,7 +2170,7 @@ rom_constants_cpratio_adr <= CalculateAlphaCP_cpratio_adr;
 rom_constants_alphascale_2_en <= CalculateAlphaCP_alphascale_2_ena;
 rom_constants_alphascale_2_adr <= CalculateAlphaCP_alphascale_2_adr;
 CalculateAlphaCP_rom_constants_float <= rom_constants_float;
-inst_CalculateAlphaCP : CalculateAlphaCP
+inst_CalculateAlphaCP : calculate_alpha_cp
 port map (
 i_clock => CalculateAlphaCP_clock,
 i_reset => CalculateAlphaCP_reset,
@@ -2220,7 +2220,7 @@ CalculatePixOS_KGain <= CalculateKGain_KGain;
 rom_constants_signed3bit_en <= CalculatePixOS_signed3bit_ena;
 rom_constants_signed3bit_adr <= CalculatePixOS_signed3bit_adr;
 CalculatePixOS_rom_constants_float <= rom_constants_float;
-inst_CalculatePixOS : CalculatePixOS port map (
+inst_CalculatePixOS : calculate_pixos port map (
 i_clock => CalculatePixOS_clock,
 i_reset => CalculatePixOS_reset,
 i_run => CalculatePixOS_run,
@@ -2285,7 +2285,7 @@ CalculatePixOsCPSP_reset <= i_reset;
 CalculatePixOsCPSP_Ta <= CalculateTa_Ta; -- xxx
 CalculatePixOsCPSP_Vdd <= CalculateVdd_Vdd; -- xxx
 CalculatePixOsCPSP_KGain <= CalculateKGain_KGain;
-inst_CalculatePixOsCPSP : CalculatePixOsCPSP port map (
+inst_CalculatePixOsCPSP : calculate_pixos_cp_sp port map (
 i_clock => CalculatePixOsCPSP_clock,
 i_reset => CalculatePixOsCPSP_reset,
 i_run => CalculatePixOsCPSP_run,
@@ -2354,7 +2354,7 @@ CalculateVirCompensated_clock <= i_clock;
 CalculateVirCompensated_reset <= i_reset;
 CalculateVirCompensated_pixos_do <= CalculatePixOS_do;
 CalculatePixOS_addr <= CalculateVirCompensated_pixos_addr;
-inst_CalculateVirCompensated : CalculateVirCompensated PORT MAP (
+inst_CalculateVirCompensated : calculate_vir_compensated PORT MAP (
 i_clock => CalculateVirCompensated_clock,
 i_reset => CalculateVirCompensated_reset,
 i_run => CalculateVirCompensated_run,
@@ -2411,7 +2411,7 @@ CalculateAlphaComp_acpsubpage1 <= CalculateAlphaCP_acpsubpage1;
 CalculateAlphaComp_tgc <= ExtractTGCParameters_tgc;
 CalculateAlphaComp_alpha_do <= ExtractAlphaParameters_do;
 ExtractAlphaParameters_addr <= CalculateAlphaComp_alpha_addr;
-inst_CalculateAlphaComp : CalculateAlphaComp PORT MAP (
+inst_CalculateAlphaComp : calculate_alpha_compensated PORT MAP (
 i_clock => CalculateAlphaComp_clock,
 i_reset => CalculateAlphaComp_reset,
 i_run => CalculateAlphaComp_run,
@@ -2476,7 +2476,7 @@ CalculateAlphaComp_addr <= CalculateGetImage_alphacomp_addr;
 o_do <= CalculateGetImage_do;
 CalculateGetImage_addr <= i_addr;
 CalculateGetImage_alphacomp_do <= CalculateAlphaComp_do;
-inst_CalculateGetImage : CalculateGetImage PORT MAP (
+inst_CalculateGetImage : calculate_raw_image PORT MAP (
 i_clock => CalculateGetImage_clock,
 i_reset => CalculateGetImage_reset,
 i_run => CalculateGetImage_run,

@@ -1,7 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 
-use work.p_global_constants.all;
+use work.global_package.all;
 
 package colormap_pkg is
 

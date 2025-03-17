@@ -21,7 +21,8 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-use work.p_global_constants.all;
+use work.global_package.all;
+use work.colormap_pkg.all;
 
 entity test1 is
 port (
