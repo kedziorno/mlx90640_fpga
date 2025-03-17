@@ -81,6 +81,9 @@ package global_package is
   constant PIXGAIN_ST : integer := 1665; -- pixgain start - eeprom max + 1
   constant PIXGAIN_SZ : integer := C_MATRIX_PIXELS; -- pixgain size
 
+  -- extract_tgc_parameters
+  constant C_2POW5 : std_logic_vector (31 downto 0) := x"42000000";
+
   -- calculate_ta
   constant C_3DOT3 : std_logic_vector (31 downto 0) := x"40533333";
   constant C_2POW18 : std_logic_vector (31 downto 0) := x"48800000";  -- calculate_pixos_cp_sp
