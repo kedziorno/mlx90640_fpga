@@ -4,7 +4,7 @@
 -------------------------------------------------------------------------------
 -- Create Date:   16:36:12 02/18/2023
 -- Design Name:   mlx90640_fpga
--- Module Name:   tb_calculate_alpha_compensation
+-- Module Name:   tb_calculate_alpha_compensated
 -- Project Name:  mlx90640_fpga
 -- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
 -- Tool versions: Xilinx ISE 14.7, XST and ISIM
@@ -51,10 +51,10 @@ use ieee.numeric_std.all;
 
 USE work.global_package.all;
 
-ENTITY tb_calculate_alpha_compensation IS
-END tb_calculate_alpha_compensation;
+ENTITY tb_calculate_alpha_compensated IS
+END tb_calculate_alpha_compensated;
 
-ARCHITECTURE tb OF tb_calculate_alpha_compensation IS 
+ARCHITECTURE tb OF tb_calculate_alpha_compensated IS 
 
 COMPONENT tb_i2c_mem
 PORT (

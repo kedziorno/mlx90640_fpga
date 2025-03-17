@@ -4,7 +4,7 @@
 -------------------------------------------------------------------------------
 -- Create Date:   16:28:55 02/18/2023
 -- Design Name:   mlx90640_fpga
--- Module Name:   calculate_alpha_compensation
+-- Module Name:   calculate_alpha_compensated
 -- Project Name:  mlx90640_fpga
 -- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
 -- Tool versions: Xilinx ISE 14.7, XST and ISIM
@@ -51,7 +51,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 use work.global_package.all;
 
-entity calculate_alpha_compensation is
+entity calculate_alpha_compensated is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -113,9 +113,9 @@ signal fixed2floatce : out STD_LOGIC;
 signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal fixed2floatrdy : in STD_LOGIC
 );
-end entity calculate_alpha_compensation;
+end entity calculate_alpha_compensated;
 
-architecture rtl of calculate_alpha_compensation is
+architecture rtl of calculate_alpha_compensated is
 
 signal mulfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
