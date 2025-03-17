@@ -1,43 +1,59 @@
---------------------------------------------------------------------------------
--- Company: 
--- Engineer:
---
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
 -- Create Date:   20:33:32 02/17/2023
--- Design Name:   
--- Module Name:   /home/user/workspace/melexis_mlx90641/tb_CalculateVirCompensated.vhd
--- Project Name:  melexis_mlx90641
--- Target Device:  
--- Tool versions:  
--- Description:   
--- 
--- VHDL Test Bench Created by ISE for module: CalculateVirCompensated
--- 
--- Dependencies:
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
+-- Design Name:   mlx90640_fpga
+-- Module Name:   tb_calculate_vir_compensated
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   Testbench
+--                (Rest is in commented code)
 --
--- Notes: 
--- This testbench has been automatically generated using types std_logic and
--- std_logic_vector for the ports of the unit under test.  Xilinx recommends
--- that these types always be used for the top-level I/O of a design in order
--- to guarantee that the testbench will bind correctly to the post-implementation 
--- simulation model.
---------------------------------------------------------------------------------
+-- Dependencies:
+--  - Files:
+--    global_package.vhd
+--  - Modules: -
+--
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules:
+--      divfp, mulfp, addfp, subfp
+--    - Processes (Architecture: tb):
+--      p_clock_generator, p_tb
+--
+-- Important objects:
+--  - tb_i2c_mem
+--
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones: -
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
+
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 USE ieee.numeric_std.ALL;
 
-USE work.p_fphdl_package3.all;
+USE work.global_package.all;
 
-ENTITY tb_CalculateVirCompensated IS
-END tb_CalculateVirCompensated;
+ENTITY tb_calculate_vir_compensated IS
+END tb_calculate_vir_compensated;
 
-ARCHITECTURE behavior OF tb_CalculateVirCompensated IS 
+ARCHITECTURE tb OF tb_calculate_vir_compensated IS 
 
 COMPONENT divfp
 PORT (
@@ -120,7 +136,7 @@ signal subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfprdy : STD_LOGIC;
 
 -- Component Declaration for the Unit Under Test (UUT)
-COMPONENT CalculateVirCompensated
+COMPONENT calculate_vir_compensated
 PORT(
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -130,10 +146,6 @@ i_pixoscpsp0 : in std_logic_vector (31 downto 0);
 i_pixoscpsp1 : in std_logic_vector (31 downto 0);
 i_tgc : in std_logic_vector (31 downto 0);
 
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-
 i_pixos_do : in std_logic_vector (31 downto 0);
 o_pixos_addr : out std_logic_vector (9 downto 0); -- 10bit-1024
 
@@ -141,6 +153,10 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
+
+signal i2c_mem_ena : out STD_LOGIC;
+signal i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -175,53 +191,53 @@ signal subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfprdy : in STD_LOGIC
 );
 END COMPONENT;
-signal CalculateVirCompensated_clock : std_logic;
-signal CalculateVirCompensated_reset : std_logic;
-signal CalculateVirCompensated_run : std_logic;
-signal CalculateVirCompensated_pixoscpsp0 : std_logic_vector(31 downto 0) := x"BEF58000"; -- -4.794922e-01
-signal CalculateVirCompensated_pixoscpsp1 : std_logic_vector(31 downto 0) := x"3FBA7EC0"; -- 1.456993e+00
-signal CalculateVirCompensated_tgc : std_logic_vector(31 downto 0) := x"00000000"; -- 0
-signal CalculateVirCompensated_i2c_mem_douta : std_logic_vector(7 downto 0) := (others => '0');
-signal CalculateVirCompensated_pixos_do : std_logic_vector(31 downto 0) := (others => '0');
-signal CalculateVirCompensated_addr : std_logic_vector(9 downto 0) := (others => '0');
-signal CalculateVirCompensated_i2c_mem_ena : std_logic;
-signal CalculateVirCompensated_i2c_mem_addra : std_logic_vector(11 downto 0) := (others => '0');
-signal CalculateVirCompensated_pixos_addr : std_logic_vector(9 downto 0) := (others => '0');
-signal CalculateVirCompensated_do : std_logic_vector(31 downto 0) := (others => '0');
-signal CalculateVirCompensated_rdy : std_logic;
-signal CalculateVirCompensated_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculateVirCompensated_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculateVirCompensated_divfpond : STD_LOGIC;
-signal CalculateVirCompensated_divfpsclr : STD_LOGIC;
-signal CalculateVirCompensated_divfpce : STD_LOGIC;
-signal CalculateVirCompensated_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculateVirCompensated_divfprdy : STD_LOGIC;
-signal CalculateVirCompensated_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculateVirCompensated_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculateVirCompensated_mulfpond : STD_LOGIC;
-signal CalculateVirCompensated_mulfpsclr : STD_LOGIC;
-signal CalculateVirCompensated_mulfpce : STD_LOGIC;
-signal CalculateVirCompensated_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculateVirCompensated_mulfprdy : STD_LOGIC;
-signal CalculateVirCompensated_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculateVirCompensated_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculateVirCompensated_addfpond : STD_LOGIC;
-signal CalculateVirCompensated_addfpsclr : STD_LOGIC;
-signal CalculateVirCompensated_addfpce : STD_LOGIC;
-signal CalculateVirCompensated_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculateVirCompensated_addfprdy : STD_LOGIC;
-signal CalculateVirCompensated_subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculateVirCompensated_subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculateVirCompensated_subfpond : STD_LOGIC;
-signal CalculateVirCompensated_subfpsclr : STD_LOGIC;
-signal CalculateVirCompensated_subfpce : STD_LOGIC;
-signal CalculateVirCompensated_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal CalculateVirCompensated_subfprdy : STD_LOGIC;
+signal calculate_vir_compensated_clock : std_logic;
+signal calculate_vir_compensated_reset : std_logic;
+signal calculate_vir_compensated_run : std_logic;
+signal calculate_vir_compensated_pixoscpsp0 : std_logic_vector(31 downto 0) := x"BEF58000"; -- -4.794922e-01
+signal calculate_vir_compensated_pixoscpsp1 : std_logic_vector(31 downto 0) := x"3FBA7EC0"; -- 1.456993e+00
+signal calculate_vir_compensated_tgc : std_logic_vector(31 downto 0) := x"00000000"; -- 0
+signal calculate_vir_compensated_i2c_mem_douta : std_logic_vector(7 downto 0) := (others => '0');
+signal calculate_vir_compensated_pixos_do : std_logic_vector(31 downto 0) := (others => '0');
+signal calculate_vir_compensated_addr : std_logic_vector(9 downto 0) := (others => '0');
+signal calculate_vir_compensated_i2c_mem_ena : std_logic;
+signal calculate_vir_compensated_i2c_mem_addra : std_logic_vector(11 downto 0) := (others => '0');
+signal calculate_vir_compensated_pixos_addr : std_logic_vector(9 downto 0) := (others => '0');
+signal calculate_vir_compensated_do : std_logic_vector(31 downto 0) := (others => '0');
+signal calculate_vir_compensated_rdy : std_logic;
+signal calculate_vir_compensated_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_vir_compensated_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_vir_compensated_divfpond : STD_LOGIC;
+signal calculate_vir_compensated_divfpsclr : STD_LOGIC;
+signal calculate_vir_compensated_divfpce : STD_LOGIC;
+signal calculate_vir_compensated_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_vir_compensated_divfprdy : STD_LOGIC;
+signal calculate_vir_compensated_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_vir_compensated_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_vir_compensated_mulfpond : STD_LOGIC;
+signal calculate_vir_compensated_mulfpsclr : STD_LOGIC;
+signal calculate_vir_compensated_mulfpce : STD_LOGIC;
+signal calculate_vir_compensated_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_vir_compensated_mulfprdy : STD_LOGIC;
+signal calculate_vir_compensated_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_vir_compensated_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_vir_compensated_addfpond : STD_LOGIC;
+signal calculate_vir_compensated_addfpsclr : STD_LOGIC;
+signal calculate_vir_compensated_addfpce : STD_LOGIC;
+signal calculate_vir_compensated_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_vir_compensated_addfprdy : STD_LOGIC;
+signal calculate_vir_compensated_subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_vir_compensated_subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_vir_compensated_subfpond : STD_LOGIC;
+signal calculate_vir_compensated_subfpsclr : STD_LOGIC;
+signal calculate_vir_compensated_subfpce : STD_LOGIC;
+signal calculate_vir_compensated_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal calculate_vir_compensated_subfprdy : STD_LOGIC;
 
-signal CalculateVirCompensated_addfpclk : std_logic;
-signal CalculateVirCompensated_subfpclk : std_logic;
-signal CalculateVirCompensated_mulfpclk : std_logic;
-signal CalculateVirCompensated_divfpclk : std_logic;
+signal calculate_vir_compensated_addfpclk : std_logic;
+signal calculate_vir_compensated_subfpclk : std_logic;
+signal calculate_vir_compensated_mulfpclk : std_logic;
+signal calculate_vir_compensated_divfpclk : std_logic;
 
 COMPONENT tb_i2c_mem
 PORT (
@@ -241,80 +257,80 @@ signal out1r : real;
 
 BEGIN
 
-inst_tb_i2c_mem : tb_i2c_mem
+tb_i2c_mem_i0 : tb_i2c_mem
 PORT MAP (
-clka => CalculateVirCompensated_clock,
-ena => CalculateVirCompensated_i2c_mem_ena,
+clka => calculate_vir_compensated_clock,
+ena => calculate_vir_compensated_i2c_mem_ena,
 wea => "0",
-addra => CalculateVirCompensated_i2c_mem_addra,
+addra => calculate_vir_compensated_i2c_mem_addra,
 dina => (others => '0'),
-douta => CalculateVirCompensated_i2c_mem_douta
+douta => calculate_vir_compensated_i2c_mem_douta
 );
 
-out1r <= ap_slv2fp (CalculateVirCompensated_do); -- output data
+out1r <= ap_slv2fp (calculate_vir_compensated_do); -- output data
 
 -- Instantiate the Unit Under Test (UUT)
-uut: CalculateVirCompensated PORT MAP (
-i_clock => CalculateVirCompensated_clock,
-i_reset => CalculateVirCompensated_reset,
-i_run => CalculateVirCompensated_run,
-i_pixoscpsp0 => CalculateVirCompensated_pixoscpsp0,
-i_pixoscpsp1 => CalculateVirCompensated_pixoscpsp1,
-i_tgc => CalculateVirCompensated_tgc,
-i2c_mem_ena => CalculateVirCompensated_i2c_mem_ena,
-i2c_mem_addra => CalculateVirCompensated_i2c_mem_addra,
-i2c_mem_douta => CalculateVirCompensated_i2c_mem_douta,
-i_pixos_do => CalculateVirCompensated_pixos_do,
-o_pixos_addr => CalculateVirCompensated_pixos_addr,
-o_do => CalculateVirCompensated_do,
-i_addr => CalculateVirCompensated_addr,
-o_rdy => CalculateVirCompensated_rdy,
+calculate_vir_compensated_uut: calculate_vir_compensated PORT MAP (
+i_clock => calculate_vir_compensated_clock,
+i_reset => calculate_vir_compensated_reset,
+i_run => calculate_vir_compensated_run,
+i_pixoscpsp0 => calculate_vir_compensated_pixoscpsp0,
+i_pixoscpsp1 => calculate_vir_compensated_pixoscpsp1,
+i_tgc => calculate_vir_compensated_tgc,
+i_pixos_do => calculate_vir_compensated_pixos_do,
+o_pixos_addr => calculate_vir_compensated_pixos_addr,
+o_do => calculate_vir_compensated_do,
+i_addr => calculate_vir_compensated_addr,
+o_rdy => calculate_vir_compensated_rdy,
 
-divfpa => CalculateVirCompensated_divfpa,
-divfpb => CalculateVirCompensated_divfpb,
-divfpond => CalculateVirCompensated_divfpond,
-divfpsclr => CalculateVirCompensated_divfpsclr,
-divfpce => CalculateVirCompensated_divfpce,
-divfpr => CalculateVirCompensated_divfpr,
-divfprdy => CalculateVirCompensated_divfprdy,
+i2c_mem_ena => calculate_vir_compensated_i2c_mem_ena,
+i2c_mem_addra => calculate_vir_compensated_i2c_mem_addra,
+i2c_mem_douta => calculate_vir_compensated_i2c_mem_douta,
 
-mulfpa => CalculateVirCompensated_mulfpa,
-mulfpb => CalculateVirCompensated_mulfpb,
-mulfpond => CalculateVirCompensated_mulfpond,
-mulfpsclr => CalculateVirCompensated_mulfpsclr,
-mulfpce => CalculateVirCompensated_mulfpce,
-mulfpr => CalculateVirCompensated_mulfpr,
-mulfprdy => CalculateVirCompensated_mulfprdy,
+divfpa => calculate_vir_compensated_divfpa,
+divfpb => calculate_vir_compensated_divfpb,
+divfpond => calculate_vir_compensated_divfpond,
+divfpsclr => calculate_vir_compensated_divfpsclr,
+divfpce => calculate_vir_compensated_divfpce,
+divfpr => calculate_vir_compensated_divfpr,
+divfprdy => calculate_vir_compensated_divfprdy,
 
-addfpa => CalculateVirCompensated_addfpa,
-addfpb => CalculateVirCompensated_addfpb,
-addfpond => CalculateVirCompensated_addfpond,
-addfpsclr => CalculateVirCompensated_addfpsclr,
-addfpce => CalculateVirCompensated_addfpce,
-addfpr => CalculateVirCompensated_addfpr,
-addfprdy => CalculateVirCompensated_addfprdy,
+mulfpa => calculate_vir_compensated_mulfpa,
+mulfpb => calculate_vir_compensated_mulfpb,
+mulfpond => calculate_vir_compensated_mulfpond,
+mulfpsclr => calculate_vir_compensated_mulfpsclr,
+mulfpce => calculate_vir_compensated_mulfpce,
+mulfpr => calculate_vir_compensated_mulfpr,
+mulfprdy => calculate_vir_compensated_mulfprdy,
 
-subfpa => CalculateVirCompensated_subfpa,
-subfpb => CalculateVirCompensated_subfpb,
-subfpond => CalculateVirCompensated_subfpond,
-subfpsclr => CalculateVirCompensated_subfpsclr,
-subfpce => CalculateVirCompensated_subfpce,
-subfpr => CalculateVirCompensated_subfpr,
-subfprdy => CalculateVirCompensated_subfprdy
+addfpa => calculate_vir_compensated_addfpa,
+addfpb => calculate_vir_compensated_addfpb,
+addfpond => calculate_vir_compensated_addfpond,
+addfpsclr => calculate_vir_compensated_addfpsclr,
+addfpce => calculate_vir_compensated_addfpce,
+addfpr => calculate_vir_compensated_addfpr,
+addfprdy => calculate_vir_compensated_addfprdy,
 
+subfpa => calculate_vir_compensated_subfpa,
+subfpb => calculate_vir_compensated_subfpb,
+subfpond => calculate_vir_compensated_subfpond,
+subfpsclr => calculate_vir_compensated_subfpsclr,
+subfpce => calculate_vir_compensated_subfpce,
+subfpr => calculate_vir_compensated_subfpr,
+subfprdy => calculate_vir_compensated_subfprdy
 );
 
 -- Clock process definitions
-i_clock_process :process
+p_clock_generator :process
 begin
-CalculateVirCompensated_clock <= '0';
+calculate_vir_compensated_clock <= '0';
 wait for i_clock_period/2;
-CalculateVirCompensated_clock <= '1';
+calculate_vir_compensated_clock <= '1';
 wait for i_clock_period/2;
-end process;
+end process p_clock_generator;
 
 -- Stimulus process
-stim_proc: process
+p_tb : process
 type itemr is record
 a : std_logic_vector (31 downto 0);
 b : integer;
@@ -390,63 +406,63 @@ last => (
 );
 begin
 -- hold reset state for 100 ns.
-CalculateVirCompensated_reset <= '1';
+calculate_vir_compensated_reset <= '1';
 wait for 100 ns;
-CalculateVirCompensated_reset <= '0';
+calculate_vir_compensated_reset <= '0';
 wait for i_clock_period*10;
 -- insert stimulus here
-CalculateVirCompensated_run <= '1'; wait for i_clock_period; CalculateVirCompensated_run <= '0';
+calculate_vir_compensated_run <= '1'; wait for i_clock_period; calculate_vir_compensated_run <= '0';
 report "before loop";
   for i in 0 to 767 loop
     for k in 0 to 9 loop
-      if CalculateVirCompensated_pixos_addr = std_logic_vector (to_unsigned (data.first(k).b, 10)) then
-        CalculateVirCompensated_pixos_do <= data.first(k).a;
+      if calculate_vir_compensated_pixos_addr = std_logic_vector (to_unsigned (data.first(k).b, 10)) then
+        calculate_vir_compensated_pixos_do <= data.first(k).a;
       end if;
     end loop;
     for k in 0 to 1 loop
-      if CalculateVirCompensated_pixos_addr = std_logic_vector (to_unsigned (data.middle(k).b, 10)) then
-        CalculateVirCompensated_pixos_do <= data.middle(k).a;
+      if calculate_vir_compensated_pixos_addr = std_logic_vector (to_unsigned (data.middle(k).b, 10)) then
+        calculate_vir_compensated_pixos_do <= data.middle(k).a;
       end if;
     end loop;
     for k in 0 to 9 loop
-      if CalculateVirCompensated_pixos_addr = std_logic_vector (to_unsigned (data.last(k).b, 10)) then
-        CalculateVirCompensated_pixos_do <= data.last(k).a;
+      if calculate_vir_compensated_pixos_addr = std_logic_vector (to_unsigned (data.last(k).b, 10)) then
+        calculate_vir_compensated_pixos_do <= data.last(k).a;
       end if;
     end loop;
     wait for 1.140us; -- XXX the same as CalculateVirCompensated wait for data from CalculatePixOS MEM
   end loop;
 report "after loop";
---wait until CalculateVirCompensated_rdy = '1'; -- fix it
+--wait until calculate_vir_compensated_rdy = '1'; -- fix it
 --report "rdy at 806.665us";
 --report "rdy at 798.975us";
 --report "rdy at 683.765us";
 --report "rdy at 883.445us - rm tmp regs";
 report "rdy at 875.765us - rm tmp regs";
-  CalculateVirCompensated_addr <= std_logic_vector (to_unsigned (0, 10)); -- XXX data start at addr 1 TODO FIX
-  wait until rising_edge (CalculateVirCompensated_clock);
-  wait until rising_edge (CalculateVirCompensated_clock);
-  warning_neq_fp (CalculateVirCompensated_do, x"00000000", "omit first 0");
+  calculate_vir_compensated_addr <= std_logic_vector (to_unsigned (0, 10)); -- XXX data start at addr 1 TODO FIX
+  wait until rising_edge (calculate_vir_compensated_clock);
+  wait until rising_edge (calculate_vir_compensated_clock);
+  warning_neq_fp (calculate_vir_compensated_do, x"00000000", "omit first 0");
   for i in 0 to 9 loop
-    CalculateVirCompensated_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
-    wait until rising_edge (CalculateVirCompensated_clock);
-    wait until rising_edge (CalculateVirCompensated_clock);
-    warning_neq_fp (CalculateVirCompensated_do, datao.first(i).a, "first " & integer'image (datao.first(i).b));
-    wait until rising_edge (CalculateVirCompensated_clock);
+    calculate_vir_compensated_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
+    wait until rising_edge (calculate_vir_compensated_clock);
+    wait until rising_edge (calculate_vir_compensated_clock);
+    warning_neq_fp (calculate_vir_compensated_do, datao.first(i).a, "first " & integer'image (datao.first(i).b));
+    wait until rising_edge (calculate_vir_compensated_clock);
   end loop;
   for i in 0 to 1 loop
-    CalculateVirCompensated_addr <= std_logic_vector (to_unsigned (datao.middle(i).b, 10));
-    wait until rising_edge (CalculateVirCompensated_clock);
-    wait until rising_edge (CalculateVirCompensated_clock);
-    warning_neq_fp (CalculateVirCompensated_do, datao.middle(i).a, "middle " & integer'image (datao.middle(i).b));
-    wait until rising_edge (CalculateVirCompensated_clock);
+    calculate_vir_compensated_addr <= std_logic_vector (to_unsigned (datao.middle(i).b, 10));
+    wait until rising_edge (calculate_vir_compensated_clock);
+    wait until rising_edge (calculate_vir_compensated_clock);
+    warning_neq_fp (calculate_vir_compensated_do, datao.middle(i).a, "middle " & integer'image (datao.middle(i).b));
+    wait until rising_edge (calculate_vir_compensated_clock);
   end loop;
   for i in 0 to 9 loop
-    CalculateVirCompensated_addr <= std_logic_vector (to_unsigned (datao.last(i).b, 10));
-    wait until rising_edge (CalculateVirCompensated_clock);
-    wait until rising_edge (CalculateVirCompensated_clock);
-    warning_neq_fp (CalculateVirCompensated_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
-    wait until rising_edge (CalculateVirCompensated_clock);
-    CalculateVirCompensated_addr <= (others => '0');
+    calculate_vir_compensated_addr <= std_logic_vector (to_unsigned (datao.last(i).b, 10));
+    wait until rising_edge (calculate_vir_compensated_clock);
+    wait until rising_edge (calculate_vir_compensated_clock);
+    warning_neq_fp (calculate_vir_compensated_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
+    wait until rising_edge (calculate_vir_compensated_clock);
+    calculate_vir_compensated_addr <= (others => '0');
   end loop;
 --report "done at 807.345us";
 --report "done at 799.655us";
@@ -455,59 +471,60 @@ report "rdy at 875.765us - rm tmp regs";
 report "done at 876.385us - rm tmp regs";
 wait for 1 ps;
 report "done" severity failure;
-end process stim_proc;
+end process p_tb;
 
-CalculateVirCompensated_addfpclk <= CalculateVirCompensated_clock;
-CalculateVirCompensated_subfpclk <= CalculateVirCompensated_clock;
-CalculateVirCompensated_mulfpclk <= CalculateVirCompensated_clock;
-CalculateVirCompensated_divfpclk <= CalculateVirCompensated_clock;
+calculate_vir_compensated_addfpclk <= calculate_vir_compensated_clock;
+calculate_vir_compensated_subfpclk <= calculate_vir_compensated_clock;
+calculate_vir_compensated_mulfpclk <= calculate_vir_compensated_clock;
+calculate_vir_compensated_divfpclk <= calculate_vir_compensated_clock;
 
-inst_divfp : divfp
+divfp_i0 : divfp
 PORT MAP (
-a => CalculateVirCompensated_divfpa,
-b => CalculateVirCompensated_divfpb,
-operation_nd => CalculateVirCompensated_divfpond,
-clk => CalculateVirCompensated_divfpclk,
-sclr => CalculateVirCompensated_divfpsclr,
-ce => CalculateVirCompensated_divfpce,
-result => CalculateVirCompensated_divfpr,
-rdy => CalculateVirCompensated_divfprdy
+a => calculate_vir_compensated_divfpa,
+b => calculate_vir_compensated_divfpb,
+operation_nd => calculate_vir_compensated_divfpond,
+clk => calculate_vir_compensated_divfpclk,
+sclr => calculate_vir_compensated_divfpsclr,
+ce => calculate_vir_compensated_divfpce,
+result => calculate_vir_compensated_divfpr,
+rdy => calculate_vir_compensated_divfprdy
 );
 
-inst_mulfp : mulfp
+mulfp_i0 : mulfp
 PORT MAP (
-a => CalculateVirCompensated_mulfpa,
-b => CalculateVirCompensated_mulfpb,
-operation_nd => CalculateVirCompensated_mulfpond,
-clk => CalculateVirCompensated_mulfpclk,
-sclr => CalculateVirCompensated_mulfpsclr,
-ce => CalculateVirCompensated_mulfpce,
-result => CalculateVirCompensated_mulfpr,
-rdy => CalculateVirCompensated_mulfprdy
+a => calculate_vir_compensated_mulfpa,
+b => calculate_vir_compensated_mulfpb,
+operation_nd => calculate_vir_compensated_mulfpond,
+clk => calculate_vir_compensated_mulfpclk,
+sclr => calculate_vir_compensated_mulfpsclr,
+ce => calculate_vir_compensated_mulfpce,
+result => calculate_vir_compensated_mulfpr,
+rdy => calculate_vir_compensated_mulfprdy
 );
 
-inst_addfp : addfp
+addfp_i0 : addfp
 PORT MAP (
-a => CalculateVirCompensated_addfpa,
-b => CalculateVirCompensated_addfpb,
-operation_nd => CalculateVirCompensated_addfpond,
-clk => CalculateVirCompensated_addfpclk,
-sclr => CalculateVirCompensated_addfpsclr,
-ce => CalculateVirCompensated_addfpce,
-result => CalculateVirCompensated_addfpr,
-rdy => CalculateVirCompensated_addfprdy
+a => calculate_vir_compensated_addfpa,
+b => calculate_vir_compensated_addfpb,
+operation_nd => calculate_vir_compensated_addfpond,
+clk => calculate_vir_compensated_addfpclk,
+sclr => calculate_vir_compensated_addfpsclr,
+ce => calculate_vir_compensated_addfpce,
+result => calculate_vir_compensated_addfpr,
+rdy => calculate_vir_compensated_addfprdy
 );
 
-inst_subfp : subfp
+subfp_i0 : subfp
 PORT MAP (
-a => CalculateVirCompensated_subfpa,
-b => CalculateVirCompensated_subfpb,
-operation_nd => CalculateVirCompensated_subfpond,
-clk => CalculateVirCompensated_subfpclk,
-sclr => CalculateVirCompensated_subfpsclr,
-ce => CalculateVirCompensated_subfpce,
-result => CalculateVirCompensated_subfpr,
-rdy => CalculateVirCompensated_subfprdy
+a => calculate_vir_compensated_subfpa,
+b => calculate_vir_compensated_subfpb,
+operation_nd => calculate_vir_compensated_subfpond,
+clk => calculate_vir_compensated_subfpclk,
+sclr => calculate_vir_compensated_subfpsclr,
+ce => calculate_vir_compensated_subfpce,
+result => calculate_vir_compensated_subfpr,
+rdy => calculate_vir_compensated_subfprdy
 );
 
-END ARCHITECTURE behavior;
+END ARCHITECTURE tb;
+

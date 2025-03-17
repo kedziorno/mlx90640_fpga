@@ -1,37 +1,56 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    20:05:04 02/17/2023 
--- Design Name: 
--- Module Name:    CalculateVirCompensated - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   20:05:04 02/17/2023
+-- Design Name:   mlx90640_fpga
+-- Module Name:   calculate_vir_compensated
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   11.2.2.7. IR data gradient compensation (p. 42)
+--                11.2.2.5.4. IR data Emissivity compensation (p. 44)
+--                (Rest is in commented code)
 --
--- Dependencies: 
+-- Dependencies:
+--  - Files:
+--    global_package.vhd
+--  - Modules: -
 --
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules:
+--      divfp, mulfp, addfp, subfp, tb_i2c_mem, mem_ramb16_s36_x2, mem_switchpattern
+--    - Processes (Architecture: rtl):
+--      p0
 --
-----------------------------------------------------------------------------------
+-- Important objects: -
+--
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones: -
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+use work.global_package.all;
 
-use work.p_fphdl_package3.all;
-
-entity CalculateVirCompensated is
+entity calculate_vir_compensated is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -41,10 +60,6 @@ i_pixoscpsp0 : in std_logic_vector (31 downto 0);
 i_pixoscpsp1 : in std_logic_vector (31 downto 0);
 i_tgc : in std_logic_vector (31 downto 0);
 
-i2c_mem_ena : out STD_LOGIC; -- unused
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0); -- unused
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0); -- unused
-
 i_pixos_do : in std_logic_vector (31 downto 0);
 o_pixos_addr : out std_logic_vector (9 downto 0); -- 10bit-1024
 
@@ -52,6 +67,10 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
+
+signal i2c_mem_ena : out STD_LOGIC; -- unused
+signal i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0); -- unused
+signal i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0); -- unused
 
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -84,11 +103,10 @@ signal subfpsclr : out STD_LOGIC;
 signal subfpce : out STD_LOGIC;
 signal subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal subfprdy : in STD_LOGIC
-
 );
-end CalculateVirCompensated;
+end entity calculate_vir_compensated;
 
-architecture Behavioral of CalculateVirCompensated is
+architecture rtl of calculate_vir_compensated is
 
 signal divfpa_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -276,11 +294,11 @@ port (
 signal DO : out std_logic_vector (31 downto 0);
 signal DOP : out std_logic_vector (3 downto 0);
 signal ADDR : in std_logic_vector (9 downto 0); -- 10bit-1024
-signal CLK : in std_logic;
+signal i_clock : in std_logic;
 signal DI : in std_logic_vector (31 downto 0);
 signal DIP : in std_logic_vector (3 downto 0);
 signal EN : in std_logic;
-signal SSR : in std_logic;
+signal i_reset : in std_logic;
 signal WE : in std_logic
 );
 end component mem_ramb16_s36_x2;
@@ -358,15 +376,12 @@ mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0')
 mux_dia <= dia when rdy = '0' else (others => '0');
 
 p0 : process (i_clock) is
-	constant C_ROW : integer := 24;
-	constant C_COL : integer := 32;
-	variable i : integer range 0 to C_ROW*C_COL-1;
+  variable i : integer range 0 to C_MATRIX_PIXELS-1;
   type states is (idle,
-	s3,s4,s9,s10,
-	s12,s15,s18,
-	s21,s23);
-	variable state : states;
-  constant const_Emissivity : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
+  s3,s4,s9,s10,
+  s12,s15,s18,
+  s21,s23);
+  variable state : states;
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -422,7 +437,7 @@ begin
 				when s4 =>
 					divfpce_internal <= '1';
 					divfpa_internal <= i_pixos_do;
-					divfpb_internal <= const_Emissivity;
+					divfpb_internal <= C_EMISSIVITY;
 					divfpond_internal <= '1';
 					if (divfprdy_internal = '1') then state := s9;
 						divfpce_internal <= '0';
@@ -505,7 +520,7 @@ begin
         when s23 =>
 					subfpsclr_internal <= '0';
 					write_enable <= '0';
-					if (i = (C_ROW*C_COL)-1) then
+					if (i = C_MATRIX_PIXELS-1) then
 						state := idle;
             rdy <= '1';
 						i := 0;
@@ -520,14 +535,14 @@ end process p0;
 
 mem_switchpattern_clock <= i_clock;
 mem_switchpattern_reset <= i_reset;
-inst_mem_switchpattern : mem_switchpattern PORT MAP (
+mem_switchpattern_i0 : mem_switchpattern PORT MAP (
 i_clock => mem_switchpattern_clock,
 i_reset => mem_switchpattern_reset,
 i_pixel => mem_switchpattern_pixel,
 o_pattern => mem_switchpattern_pattern
 );
 
-inst_mem_vir_compensated : mem_ramb16_s36_x2
+mem_vir_compensated_i0 : mem_ramb16_s36_x2
 GENERIC MAP (
 INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000" -- start 0's
 )
@@ -535,13 +550,13 @@ PORT MAP (
 DO => doa,
 DOP => open,
 ADDR => mux_addr,
-CLK => i_clock,
+i_clock => i_clock,
 DI => mux_dia,
 DIP => (others => '0'),
 EN => '1',
-SSR => i_reset,
+i_reset => i_reset,
 WE => write_enable
 );
 
-end Behavioral;
+end architecture rtl;
 
