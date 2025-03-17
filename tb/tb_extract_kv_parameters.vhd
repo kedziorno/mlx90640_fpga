@@ -20,7 +20,7 @@
 --  - Revision 0.01 - File created
 --    - Files: -
 --    - Modules:
---      tb_i2c_mem, divfp
+--      rom_constants, tb_i2c_mem, divfp
 --    - Processes (Architecture: tb):
 --      p_clock_process, p_tb
 --
@@ -35,8 +35,7 @@
 --  - Notes: -
 --  - Criticals/Failures: -
 --
--- Concepts/Milestones:
--- (...)
+-- Concepts/Milestones: -
 --
 -- Additional Comments:
 --  - To read more about:
