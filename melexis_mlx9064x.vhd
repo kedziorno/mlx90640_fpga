@@ -1910,6 +1910,8 @@ else
 CalculateVdd_i2c_mem_ena when CalculateVdd_mux = '1'
 else
 CalculateTa_i2c_mem_ena when CalculateTa_mux = '1'
+else
+CalculateGetImage_i2c_mem_ena when CalculateGetImage_mux = '1'
 else '0';
 
 i2c_mem_addra <=
@@ -1932,6 +1934,8 @@ else
 CalculateVdd_i2c_mem_addra when CalculateVdd_mux = '1'
 else
 CalculateTa_i2c_mem_addra when CalculateTa_mux = '1'
+else
+CalculateGetImage_i2c_mem_addra when CalculateGetImage_mux = '1'
 else (others => '0');
 
 ExtractTGCParameters_i2c_mem_douta <= i2c_mem_douta when ExtractTGCParameters_mux = '1' else (others => '0');
@@ -1944,6 +1948,7 @@ ExtractAlphaParameters_i2c_mem_douta <= i2c_mem_douta when ExtractAlphaParameter
 CalculateAlphaComp_i2c_mem_douta <= i2c_mem_douta when CalculateAlphaComp_mux = '1' else (others => '0');
 CalculateVdd_i2c_mem_douta <= i2c_mem_douta when CalculateVdd_mux = '1' else (others => '0');
 CalculateTa_i2c_mem_douta <= i2c_mem_douta when CalculateTa_mux = '1' else (others => '0');
+CalculateGetImage_i2c_mem_douta <= i2c_mem_douta when CalculateGetImage_mux = '1' else (others => '0');
 
 rom_constants_2powx_4bit_en <=
 CalculatePixOS_2powx_4bit_ena when CalculatePixOS_mux = '1' else
@@ -2698,12 +2703,13 @@ fixed2floatrdy => CalculateAlphaComp_fixed2floatrdy
 
 CalculateGetImage_clock <= i_clock;
 CalculateGetImage_reset <= i_reset;
-CalculateVirCompensated_addr <= CalculateGetImage_vircompensated_addr;
 CalculateGetImage_vircompensated_do <= CalculateVirCompensated_do;
-CalculateAlphaComp_addr <= CalculateGetImage_alphacomp_addr;
-o_do <= CalculateGetImage_do;
-CalculateGetImage_addr <= i_addr;
+CalculateVirCompensated_addr <= CalculateGetImage_vircompensated_addr;
 CalculateGetImage_alphacomp_do <= CalculateAlphaComp_do;
+CalculateAlphaComp_addr <= CalculateGetImage_alphacomp_addr;
+CalculateGetImage_Ta <= CalculateTa_Ta;
+CalculateGetImage_addr <= i_addr;
+o_do <= CalculateGetImage_do;
 
 g_calculate_raw_image : if (calculate_type = "c_raws_images") generate
 
