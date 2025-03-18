@@ -1,38 +1,68 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    22:02:07 12/26/2022 
--- Design Name: 
--- Module Name:    test_fixed_melexis - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   22:02:07 12/26/2022
+-- Design Name:   mlx90640_fpga
+-- Module Name:   melexis_mlx9064x
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   Melexis MLX90640/MLX90641 IP Core
+--                For now version for device MLX90640 works and be tested, whereas rest configuration must be set in global_package.vhd file
+--                Core offer two modes to calculate (as string):
+--                  - c_device_type
+--                    - "mlx90640" (current)
+--                    - "mlx90641"
+--                  - c_calculate_type
+--                    - "c_temperature" (slow)
+--                    - "c_raws_images" (fast)
+--                How it works:
+--                  This core calculates sequentially coefficients based on datasheet provided by manufacturer device Melexis (R), step after step, so when one calculations from sub-module is ready by O_RDY signal, next calculations is started by tick I_RUN signal in FSM and so on to the end. All core calculations is starting with I_RUN tick signal and will finished with O_RDY signal.
+--                  Raws data for calculates is stored in one Block RAM and signals with i2c_mem_* is used to connect with it (see tb).
+--                (Rest is in commented code)
 --
--- Dependencies: 
+-- Dependencies:
+--  - Files:
+--    global_package.vhd
+--  - Modules: -
 --
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules:
+--      Floating Point cores : mul, div, add, sub, sqrt (in c_temperature mode)
+--    - Processes (Architecture: rtl):
+--      p_calculates
 --
--- Test vectors for the synthesis test for the fixed point math package
--- This test is designed to test fixed_synth and exercise much of the entity.
--- For fphdl vhdl-200x created by David Bishop (dbishop@vhdl.org)
-----------------------------------------------------------------------------------
+-- Important objects:
+--  - Entity signals:
+--    - i_run - start calculations
+--    - o_rdy - ready when done
+--    - i_addr, o_do - done values stored in Block RAM for use later (address from 0 - 767), access with RE i_clock
+--
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones:
+--  - Core works for device version MLX90640, some documentation, schematics, and output files also with scripts is provided with this core.
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
 
---library ieee, ieee_proposed;
 library ieee;
 use ieee.std_logic_1164.all;
---use ieee.numeric_std.all;
---use ieee_proposed.fixed_pkg.all;
---use ieee_proposed.fixed_synth.all;
 
-
---library UNISIM;
---use UNISIM.VComponents.all;
-
---use work.p_fphdl_package1.all;
+use work.global_package.all;
 
 entity melexis_mlx9064x is
 generic (
@@ -42,16 +72,16 @@ constant calculate_type : string (1 to 13) := "c_temperature" -- c_temperature,c
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
+
 i_run : in std_logic;
-
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-
 o_rdy : out std_logic;
 
 i_addr : in std_logic_vector(9 downto 0);
 o_do : out std_logic_vector(31 downto 0);
+
+signal i2c_mem_ena : out STD_LOGIC;
+signal i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal fixed2floatond : out STD_LOGIC;
@@ -98,7 +128,6 @@ signal sqrtfp2sclr : out STD_LOGIC;
 signal sqrtfp2ce : out STD_LOGIC;
 signal sqrtfp2r : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal sqrtfp2rdy : in STD_LOGIC
-
 );
 end entity melexis_mlx9064x;
 
@@ -1299,6 +1328,8 @@ else
 CalculatePixOSCPSP_fixed2floata when CalculatePixOSCPSP_mux = '1'
 else
 ExtractAlphaParameters_fixed2floata when ExtractAlphaParameters_mux = '1'
+else
+CalculateGetImage_fixed2floata when CalculateGetImage_mux = '1'
 else (others => '0');
 
 fixed2floatond <=
@@ -1319,6 +1350,8 @@ else
 CalculatePixOSCPSP_fixed2floatond when CalculatePixOSCPSP_mux = '1' 
 else
 ExtractAlphaParameters_fixed2floatond when ExtractAlphaParameters_mux = '1' 
+else
+CalculateGetImage_fixed2floatond when CalculateGetImage_mux = '1'
 else '0';
 
 fixed2floatce <=
@@ -1339,6 +1372,8 @@ else
 CalculatePixOSCPSP_fixed2floatce when CalculatePixOSCPSP_mux = '1' 
 else
 ExtractAlphaParameters_fixed2floatce when ExtractAlphaParameters_mux = '1' 
+else
+CalculateGetImage_fixed2floatce when CalculateGetImage_mux = '1'
 else '0';
 
 fixed2floatsclr <=
@@ -1359,6 +1394,8 @@ else
 CalculatePixOSCPSP_fixed2floatsclr when CalculatePixOSCPSP_mux = '1' 
 else
 ExtractAlphaParameters_fixed2floatsclr when ExtractAlphaParameters_mux = '1' 
+else
+CalculateGetImage_fixed2floatsclr when CalculateGetImage_mux = '1'
 else '0';
 
 divfpa <=
@@ -1381,6 +1418,8 @@ else
 ExtractAlphaParameters_divfpa when ExtractAlphaParameters_mux = '1' 
 else
 CalculateVirCompensated_divfpa when CalculateVirCompensated_mux = '1' 
+else
+CalculateGetImage_divfpa when CalculateGetImage_mux = '1' 
 else (others => '0');
 
 divfpb <=
@@ -1403,6 +1442,8 @@ else
 ExtractAlphaParameters_divfpb when ExtractAlphaParameters_mux = '1' 
 else
 CalculateVirCompensated_divfpb when CalculateVirCompensated_mux = '1' 
+else
+CalculateGetImage_divfpb when CalculateGetImage_mux = '1'
 else (others => '0');
 
 divfpond <=
@@ -1425,6 +1466,8 @@ else
 ExtractAlphaParameters_divfpond when ExtractAlphaParameters_mux = '1' 
 else
 CalculateVirCompensated_divfpond when CalculateVirCompensated_mux = '1' 
+else
+CalculateGetImage_divfpond when CalculateGetImage_mux = '1'
 else '0';
 
 divfpce <=
@@ -1447,6 +1490,8 @@ else
 ExtractAlphaParameters_divfpce when ExtractAlphaParameters_mux = '1' 
 else
 CalculateVirCompensated_divfpce when CalculateVirCompensated_mux = '1' 
+else
+CalculateGetImage_divfpce when CalculateGetImage_mux = '1'
 else '0';
 
 divfpsclr <=
@@ -1469,6 +1514,8 @@ else
 ExtractAlphaParameters_divfpsclr when ExtractAlphaParameters_mux = '1' 
 else
 CalculateVirCompensated_divfpsclr when CalculateVirCompensated_mux = '1' 
+else
+CalculateGetImage_divfpsclr when CalculateGetImage_mux = '1'
 else '0';
 
 mulfpa <=
@@ -1673,6 +1720,8 @@ else
 CalculateVirCompensated_subfpa when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_subfpa when CalculateAlphaComp_mux = '1' 
+else
+CalculateGetImage_subfpa when CalculateGetImage_mux = '1' 
 else (others => '0');
 
 subfpb <=
@@ -1687,6 +1736,8 @@ else
 CalculateVirCompensated_subfpb when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_subfpb when CalculateAlphaComp_mux = '1' 
+else
+CalculateGetImage_subfpb when CalculateGetImage_mux = '1' 
 else (others => '0');
 
 subfpond <=
@@ -1701,6 +1752,8 @@ else
 CalculateVirCompensated_subfpond when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_subfpond when CalculateAlphaComp_mux = '1' 
+else
+CalculateGetImage_subfpond when CalculateGetImage_mux = '1' 
 else '0';
 
 subfpce <=
@@ -1715,6 +1768,8 @@ else
 CalculateVirCompensated_subfpce when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_subfpce when CalculateAlphaComp_mux = '1' 
+else
+CalculateGetImage_subfpce when CalculateGetImage_mux = '1' 
 else '0';
 
 subfpsclr <=
@@ -1729,6 +1784,8 @@ else
 CalculateVirCompensated_subfpsclr when CalculateVirCompensated_mux = '1' 
 else
 CalculateAlphaComp_subfpsclr when CalculateAlphaComp_mux = '1' 
+else
+CalculateGetImage_subfpsclr when CalculateGetImage_mux = '1' 
 else '0';
 
 ExtractTGCParameters_fixed2floatr <= fixed2floatr when ExtractTGCParameters_mux = '1' else (others => '0');
@@ -1826,6 +1883,12 @@ CalculateGetImage_mulfpr <= mulfpr when CalculateGetImage_mux = '1' else (others
 CalculateGetImage_mulfprdy <= mulfprdy when CalculateGetImage_mux = '1' else '0';
 CalculateGetImage_addfpr <= addfpr when CalculateGetImage_mux = '1' else (others => '0');
 CalculateGetImage_addfprdy <= addfprdy when CalculateGetImage_mux = '1' else '0';
+CalculateGetImage_subfpr <= subfpr when CalculateGetImage_mux = '1' else (others => '0');
+CalculateGetImage_subfprdy <= subfprdy when CalculateGetImage_mux = '1' else '0';
+CalculateGetImage_divfpr <= divfpr when CalculateGetImage_mux = '1' else (others => '0');
+CalculateGetImage_divfprdy <= divfprdy when CalculateGetImage_mux = '1' else '0';
+CalculateGetImage_fixed2floatr <= fixed2floatr when CalculateGetImage_mux = '1' else (others => '0');
+CalculateGetImage_fixed2floatrdy <= fixed2floatrdy when CalculateGetImage_mux = '1' else '0';
 
 i2c_mem_ena <=
 ExtractTGCParameters_i2c_mem_ena when ExtractTGCParameters_mux = '1'
@@ -1923,15 +1986,18 @@ ExtractAlphaParameters_alphascale_1_adr when ExtractAlphaParameters_mux = '1' el
 rom_constants_2powx_p8_4bit_en <=
 CalculatePixOS_2powx_p8_4bit_ena when CalculatePixOS_mux = '1' else
 CalculatePixOSCPSP_2powx_p8_4bit_ena when CalculatePixOSCPSP_mux = '1' else
+CalculateGetImage_2powx_p8_ena when CalculateGetImage_mux = '1' else
 '0';
 rom_constants_2powx_p8_4bit_adr <=
 CalculatePixOS_2powx_p8_4bit_adr when CalculatePixOS_mux = '1' else
 CalculatePixOSCPSP_2powx_p8_4bit_adr when CalculatePixOSCPSP_mux = '1' else
+CalculateGetImage_2powx_p8_adr when CalculateGetImage_mux = '1' else
 (others => '0');
 
 CalculatePixOS_rom_constants_float <= rom_constants_float;
 CalculatePixOSCPSP_rom_constants_float <= rom_constants_float;
 ExtractAlphaParameters_rom_constants_float <= rom_constants_float;
+CalculateGetImage_rom_constants_float <= rom_constants_float;
 
 	-- purpose: main test loop
 	tester : process (i_clock) is
@@ -2641,7 +2707,7 @@ CalculateGetImage_alphacomp_do <= CalculateAlphaComp_do;
 
 g_calculate_raw_image : if (calculate_type = "c_raws_images") generate
 
-inst_CalculateGetImage : calculate_raw_image PORT MAP (
+calculate_raw_image_i0 : calculate_raw_image PORT MAP (
 i_clock => CalculateGetImage_clock,
 i_reset => CalculateGetImage_reset,
 i_run => CalculateGetImage_run,
@@ -2675,7 +2741,7 @@ end generate g_calculate_raw_image;
 
 g_calculate_to : if (calculate_type = "c_temperature") generate
 
-CalculateGetImage_uut : calculate_to PORT MAP (
+calculate_to_i0 : calculate_to PORT MAP (
 i_clock => CalculateGetImage_clock,
 i_reset => CalculateGetImage_reset,
 i_run => CalculateGetImage_run,

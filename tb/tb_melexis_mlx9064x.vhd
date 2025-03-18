@@ -1,4 +1,48 @@
--- TestBench Template 
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   14:59:22 01/06/2023
+-- Design Name:   mlx90640_fpga
+-- Module Name:   melexis_mlx9064x
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   Testbench of core module
+--                FIX THIS AND USE SOME VALUES TO ASSERT
+--                (Rest is in commented code)
+--
+-- Dependencies:
+--  - Files:
+--    global_package.vhd
+--  - Modules: -
+--
+-- Revision:
+--  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules:
+--      tb_i2c_mem
+--    - Processes (Architecture: tb):
+--      p_clock_generator, p_tb, p_tb_run
+--
+-- Important objects: -
+--
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones: -
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
@@ -6,10 +50,10 @@ USE ieee.numeric_std.ALL;
 
 USE work.global_package.all;
 
-ENTITY tb_test_fixed_melexis IS
-END tb_test_fixed_melexis;
+ENTITY tb_melexis_mlx9064x IS
+END tb_melexis_mlx9064x;
 
-ARCHITECTURE arch OF tb_test_fixed_melexis IS
+ARCHITECTURE tb OF tb_melexis_mlx9064x IS
 
 COMPONENT tb_i2c_mem
 PORT (
@@ -59,7 +103,7 @@ BEGIN
 
 out1r <= ap_slv2fp (o_do); -- output data
 
-inst_tb_i2c_mem : tb_i2c_mem
+tb_i2c_mem_i0 : tb_i2c_mem
 PORT MAP (
 clka => i_clock,
 ena => tb_i2c_mem_ena,
@@ -70,7 +114,7 @@ douta => tb_i2c_mem_douta
 );
 
 -- Component Instantiation
-uut : melexis_mlx9064x
+melexis_mlx9064x_uut : melexis_mlx9064x
 port map (
 i_clock => i_clock,
 i_reset => i_reset,
@@ -83,16 +127,16 @@ i_addr => i_addr,
 o_do => o_do
 );
 
-cp : process
+p_clock_generator: process
 begin
-	i_clock <= '0';
-	wait for clock_period/2;
-	i_clock <= '1';
-	wait for clock_period/2;
-end process cp;
+i_clock <= '0';
+wait for clock_period/2;
+i_clock <= '1';
+wait for clock_period/2;
+end process p_clock_generator;
 
 --  Test Bench Statements
-tb_run: PROCESS
+p_tb_run : PROCESS
 BEGIN
 i_reset <= '1';
 wait for 600 ns; -- wait until global set/reset completes
@@ -102,10 +146,9 @@ i_run <= '1';
 wait for clock_period*1;
 i_run <= '0';
 wait; -- will wait forever
-END PROCESS tb_run;
---  End Test Bench
+END PROCESS p_tb_run;
 
-tb_wait : PROCESS
+p_tb : PROCESS
 BEGIN
 --wait for 1.5 ms;
 wait until o_rdy = '1';
@@ -115,6 +158,7 @@ for i in 0 to 1024 loop
 end loop;
 wait for 1 ps; -- must be for write
 report "tb - To done simulation To - tb" severity failure;
-END PROCESS tb_wait;
+END PROCESS p_tb;
 
-END ARCHITECTURE arch;
+END ARCHITECTURE tb;
+

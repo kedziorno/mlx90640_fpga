@@ -25,6 +25,9 @@ use work.global_package.all;
 use work.colormap_pkg.all;
 
 entity test1 is
+generic (
+constant calculate_type : string (1 to 13) := "c_temperature" -- c_temperature,c_raws_images
+);
 port (
 i_clock,i_reset : in std_logic;
 vga_hsync : out std_logic;
@@ -45,7 +48,11 @@ constant PIXELS : integer := 768;
 constant ADDRESS1 : integer := 10;
 constant BITS : integer := 24;
 
-component test_fixed_melexis is
+component melexis_mlx9064x is
+generic (
+constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
+constant calculate_type : string (1 to 13) := "c_temperature" -- c_temperature,c_raws_images
+);
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -104,7 +111,7 @@ signal sqrtfp2r : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal sqrtfp2rdy : in STD_LOGIC
 
 );
-end component test_fixed_melexis;
+end component melexis_mlx9064x;
 signal test_fixed_melexis_clock : std_logic;
 signal test_fixed_melexis_reset : std_logic;
 signal test_fixed_melexis_run : std_logic;
@@ -353,17 +360,17 @@ signal subfprdy : STD_LOGIC;
 
 --attribute RLOC of subfp : component is "SLICE_X40Y48:SLICE_X79Y79";
 
---COMPONENT sqrtfp2
---PORT (
---a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
---operation_nd : IN STD_LOGIC;
---clk : IN STD_LOGIC;
---sclr : IN STD_LOGIC;
---ce : IN STD_LOGIC;
---result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
---rdy : OUT STD_LOGIC
---);
---END COMPONENT;
+COMPONENT sqrtfp2
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
 signal sqrtfp2a : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal sqrtfp2ond : STD_LOGIC;
 signal sqrtfp2clk : STD_LOGIC;
@@ -544,7 +551,11 @@ end process pagclk;
 test_fixed_melexis_clock <= i_clock;
 test_fixed_melexis_reset <= i_reset;
 --test_fixed_melexis_addr <= address_generator_address;
-tfm_inst : test_fixed_melexis port map (
+tfm_inst : melexis_mlx9064x
+generic map (
+calculate_type => calculate_type
+)
+port map (
 i_clock => test_fixed_melexis_clock,
 i_reset => test_fixed_melexis_reset,
 i_run => test_fixed_melexis_run,
@@ -798,16 +809,20 @@ result => subfpr,
 rdy => subfprdy
 );
 
---inst_sqrtfp2 : sqrtfp2
---PORT MAP (
---a => sqrtfp2a,
---operation_nd => sqrtfp2ond,
---clk => sqrtfp2clk,
---sclr => sqrtfp2sclr,
---ce => sqrtfp2ce,
---result => sqrtfp2r,
---rdy => sqrtfp2rdy
---);
+g_calculate_to : if (calculate_type = "c_temperature") generate
+
+inst_sqrtfp2 : sqrtfp2
+PORT MAP (
+a => sqrtfp2a,
+operation_nd => sqrtfp2ond,
+clk => sqrtfp2clk,
+sclr => sqrtfp2sclr,
+ce => sqrtfp2ce,
+result => sqrtfp2r,
+rdy => sqrtfp2rdy
+);
+
+end generate g_calculate_to;
 
 end Behavioral;
 
