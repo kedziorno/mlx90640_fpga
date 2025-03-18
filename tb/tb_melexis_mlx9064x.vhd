@@ -3,15 +3,8 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
---use ieee_proposed.fixed_float_types.all;
---use ieee_proposed.fixed_pkg.all;
---use ieee_proposed.numeric_std_additions.all;
---use ieee_proposed.standard_additions.all;
---use ieee_proposed.standard_textio_additions.all;
---use ieee_proposed.std_logic_1164_additions.all;
 
-----use work.p_fphdl_package1.all;
-USE work.p_fphdl_package3.all;
+USE work.global_package.all;
 
 ENTITY tb_test_fixed_melexis IS
 END tb_test_fixed_melexis;
@@ -37,7 +30,7 @@ signal tb_i2c_mem_dina : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal tb_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 -- Component Declaration
-component test_fixed_melexis is
+component melexis_mlx9064x is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -49,7 +42,7 @@ o_rdy : out std_logic;
 i_addr : in std_logic_vector(9 downto 0);
 o_do : out std_logic_vector(31 downto 0)
 );
-end component test_fixed_melexis;
+end component melexis_mlx9064x;
 
 SIGNAL i_clock :  std_logic;
 SIGNAL i_reset :  std_logic;
@@ -77,7 +70,7 @@ douta => tb_i2c_mem_douta
 );
 
 -- Component Instantiation
-uut : test_fixed_melexis
+uut : melexis_mlx9064x
 port map (
 i_clock => i_clock,
 i_reset => i_reset,

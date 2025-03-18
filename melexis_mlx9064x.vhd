@@ -34,7 +34,11 @@ use ieee.std_logic_1164.all;
 
 --use work.p_fphdl_package1.all;
 
-entity test_fixed_melexis is
+entity melexis_mlx9064x is
+generic (
+constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
+constant calculate_type : string (1 to 13) := "c_temperature" -- c_temperature,c_raws_images
+);
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -96,9 +100,9 @@ signal sqrtfp2r : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal sqrtfp2rdy : in STD_LOGIC
 
 );
-end entity test_fixed_melexis;
+end entity melexis_mlx9064x;
 
-architecture testbench of test_fixed_melexis is
+architecture rtl of melexis_mlx9064x is
 
 COMPONENT rom_constants
 PORT(
@@ -1083,16 +1087,133 @@ signal addfprdy : in STD_LOGIC
 
 );
 END COMPONENT;
+--signal CalculateGetImage_clock : std_logic := '0';
+--signal CalculateGetImage_reset : std_logic := '0';
+--signal CalculateGetImage_run : std_logic := '0';
+--signal CalculateGetImage_vircompensated_do : std_logic_vector(31 downto 0) := (others => '0');
+--signal CalculateGetImage_vircompensated_addr : std_logic_vector(9 downto 0);
+--signal CalculateGetImage_alphacomp_do : std_logic_vector(31 downto 0) := (others => '0');
+--signal CalculateGetImage_alphacomp_addr : std_logic_vector(9 downto 0);
+--signal CalculateGetImage_addr : std_logic_vector(9 downto 0) := (others => '0');
+--signal CalculateGetImage_do : std_logic_vector(31 downto 0);
+--signal CalculateGetImage_rdy : std_logic;
+--
+--signal CalculateGetImage_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+--signal CalculateGetImage_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+--signal CalculateGetImage_mulfpond : STD_LOGIC;
+--signal CalculateGetImage_mulfpsclr : STD_LOGIC;
+--signal CalculateGetImage_mulfpce : STD_LOGIC;
+--signal CalculateGetImage_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+--signal CalculateGetImage_mulfprdy : STD_LOGIC;
+--
+--signal CalculateGetImage_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+--signal CalculateGetImage_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+--signal CalculateGetImage_addfpond : STD_LOGIC;
+--signal CalculateGetImage_addfpsclr : STD_LOGIC;
+--signal CalculateGetImage_addfpce : STD_LOGIC;
+--signal CalculateGetImage_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+--signal CalculateGetImage_addfprdy : STD_LOGIC;
+
+COMPONENT calculate_to
+PORT(
+i_clock : IN  std_logic;
+i_reset : IN  std_logic;
+i_run : IN  std_logic;
+
+i_Ta : IN  std_logic_vector(31 downto 0);
+
+i_vircompensated_do : IN  std_logic_vector(31 downto 0);
+o_vircompensated_addr : OUT  std_logic_vector(9 downto 0);
+
+i_alphacomp_do : IN  std_logic_vector(31 downto 0);
+o_alphacomp_addr : OUT  std_logic_vector(9 downto 0);
+
+o_do : OUT  std_logic_vector(31 downto 0);
+i_addr : IN  std_logic_vector(9 downto 0);
+
+o_rdy : OUT  std_logic;
+
+signal i2c_mem_ena : OUT  std_logic;
+signal i2c_mem_addra : OUT  std_logic_vector(11 downto 0);
+signal i2c_mem_douta : IN  std_logic_vector(7 downto 0);
+
+signal o_2powx_p8_ena : out std_logic;
+signal o_2powx_p8_adr : out std_logic_vector (3 downto 0);
+signal i_rom_constants_float : in std_logic_vector (31 downto 0);
+
+signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfpond : out STD_LOGIC;
+signal divfpsclr : out STD_LOGIC;
+signal divfpce : out STD_LOGIC;
+signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal divfprdy : in STD_LOGIC;
+
+signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfpond : out STD_LOGIC;
+signal mulfpsclr : out STD_LOGIC;
+signal mulfpce : out STD_LOGIC;
+signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal mulfprdy : in STD_LOGIC;
+
+signal addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : out STD_LOGIC;
+signal addfpsclr : out STD_LOGIC;
+signal addfpce : out STD_LOGIC;
+signal addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : in STD_LOGIC;
+
+signal subfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfpond : out STD_LOGIC;
+signal subfpsclr : out STD_LOGIC;
+signal subfpce : out STD_LOGIC;
+signal subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal subfprdy : in STD_LOGIC;
+
+signal sqrtfp2a : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal sqrtfp2ond : out STD_LOGIC;
+signal sqrtfp2sclr : out STD_LOGIC;
+signal sqrtfp2ce : out STD_LOGIC;
+signal sqrtfp2r : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal sqrtfp2rdy : in STD_LOGIC;
+
+signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal fixed2floatond : out STD_LOGIC;
+signal fixed2floatce : out STD_LOGIC;
+signal fixed2floatsclr : out STD_LOGIC;
+signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal fixed2floatrdy : in STD_LOGIC
+);
+END COMPONENT calculate_to;
 signal CalculateGetImage_clock : std_logic := '0';
 signal CalculateGetImage_reset : std_logic := '0';
 signal CalculateGetImage_run : std_logic := '0';
+signal CalculateGetImage_i2c_mem_douta : std_logic_vector(7 downto 0) := (others => '0');
 signal CalculateGetImage_vircompensated_do : std_logic_vector(31 downto 0) := (others => '0');
-signal CalculateGetImage_vircompensated_addr : std_logic_vector(9 downto 0);
 signal CalculateGetImage_alphacomp_do : std_logic_vector(31 downto 0) := (others => '0');
-signal CalculateGetImage_alphacomp_addr : std_logic_vector(9 downto 0);
+signal CalculateGetImage_Ta : std_logic_vector(31 downto 0) := (others => '0');
 signal CalculateGetImage_addr : std_logic_vector(9 downto 0) := (others => '0');
+signal CalculateGetImage_i2c_mem_ena : std_logic;
+signal CalculateGetImage_i2c_mem_addra : std_logic_vector(11 downto 0);
+signal CalculateGetImage_vircompensated_addr : std_logic_vector(9 downto 0);
+signal CalculateGetImage_alphacomp_addr : std_logic_vector(9 downto 0);
 signal CalculateGetImage_do : std_logic_vector(31 downto 0);
 signal CalculateGetImage_rdy : std_logic;
+
+signal CalculateGetImage_2powx_p8_ena : std_logic;
+signal CalculateGetImage_2powx_p8_adr : std_logic_vector (3 downto 0);
+signal CalculateGetImage_rom_constants_float : std_logic_vector (31 downto 0);
+
+signal CalculateGetImage_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateGetImage_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateGetImage_divfpond : STD_LOGIC;
+signal CalculateGetImage_divfpsclr : STD_LOGIC;
+signal CalculateGetImage_divfpce : STD_LOGIC;
+signal CalculateGetImage_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateGetImage_divfprdy : STD_LOGIC;
 
 signal CalculateGetImage_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateGetImage_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -1110,12 +1231,53 @@ signal CalculateGetImage_addfpce : STD_LOGIC;
 signal CalculateGetImage_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateGetImage_addfprdy : STD_LOGIC;
 
+signal CalculateGetImage_subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateGetImage_subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateGetImage_subfpond : STD_LOGIC;
+signal CalculateGetImage_subfpsclr : STD_LOGIC;
+signal CalculateGetImage_subfpce : STD_LOGIC;
+signal CalculateGetImage_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateGetImage_subfprdy : STD_LOGIC;
+
+signal CalculateGetImage_sqrtfp2a : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateGetImage_sqrtfp2ond : STD_LOGIC;
+signal CalculateGetImage_sqrtfp2sclr : STD_LOGIC;
+signal CalculateGetImage_sqrtfp2ce : STD_LOGIC;
+signal CalculateGetImage_sqrtfp2r : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateGetImage_sqrtfp2rdy : STD_LOGIC;
+
+signal CalculateGetImage_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal CalculateGetImage_fixed2floatond : STD_LOGIC;
+signal CalculateGetImage_fixed2floatce : STD_LOGIC;
+signal CalculateGetImage_fixed2floatsclr : STD_LOGIC;
+signal CalculateGetImage_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateGetImage_fixed2floatrdy : STD_LOGIC;
+
+signal CalculateGetImage_sqrtfp2clk : std_logic;
+signal CalculateGetImage_mulfpclk : std_logic;
+signal CalculateGetImage_divfpclk : std_logic;
+signal CalculateGetImage_addfpclk : std_logic;
+signal CalculateGetImage_subfpclk : std_logic;
+signal CalculateGetImage_fixed2floatclk : std_logic;
+
 signal CalculateKGain_mux : std_logic;
 signal ExtractTGCParameters_mux : std_logic;
 
 signal CalculatePixOS_mux,CalculatePixOsCPSP_mux,CalculateVirCompensated_mux : std_logic;
 signal ExtractAlphaParameters_mux,CalculateAlphaComp_mux,CalculateAlphaCP_mux : std_logic;
 signal CalculateVdd_mux,CalculateTa_mux,CalculateGetImage_mux : std_logic;
+
+COMPONENT sqrtfp2
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
 
 begin
 
@@ -2476,6 +2638,9 @@ CalculateAlphaComp_addr <= CalculateGetImage_alphacomp_addr;
 o_do <= CalculateGetImage_do;
 CalculateGetImage_addr <= i_addr;
 CalculateGetImage_alphacomp_do <= CalculateAlphaComp_do;
+
+g_calculate_raw_image : if (calculate_type = "c_raws_images") generate
+
 inst_CalculateGetImage : calculate_raw_image PORT MAP (
 i_clock => CalculateGetImage_clock,
 i_reset => CalculateGetImage_reset,
@@ -2506,6 +2671,80 @@ addfprdy => CalculateGetImage_addfprdy
 
 );
 
+end generate g_calculate_raw_image;
+
+g_calculate_to : if (calculate_type = "c_temperature") generate
+
+CalculateGetImage_uut : calculate_to PORT MAP (
+i_clock => CalculateGetImage_clock,
+i_reset => CalculateGetImage_reset,
+i_run => CalculateGetImage_run,
+i_Ta => CalculateGetImage_Ta,
+i_vircompensated_do => CalculateGetImage_vircompensated_do,
+o_vircompensated_addr => CalculateGetImage_vircompensated_addr,
+i_alphacomp_do => CalculateGetImage_alphacomp_do,
+o_alphacomp_addr => CalculateGetImage_alphacomp_addr,
+o_do => CalculateGetImage_do,
+i_addr => CalculateGetImage_addr,
+o_rdy => CalculateGetImage_rdy,
+
+i2c_mem_ena => CalculateGetImage_i2c_mem_ena,
+i2c_mem_addra => CalculateGetImage_i2c_mem_addra,
+i2c_mem_douta => CalculateGetImage_i2c_mem_douta,
+
+o_2powx_p8_ena => CalculateGetImage_2powx_p8_ena,
+o_2powx_p8_adr => CalculateGetImage_2powx_p8_adr,
+i_rom_constants_float => CalculateGetImage_rom_constants_float,
+
+divfpa => CalculateGetImage_divfpa,
+divfpb => CalculateGetImage_divfpb,
+divfpond => CalculateGetImage_divfpond,
+divfpsclr => CalculateGetImage_divfpsclr,
+divfpce => CalculateGetImage_divfpce,
+divfpr => CalculateGetImage_divfpr,
+divfprdy => CalculateGetImage_divfprdy,
+
+mulfpa => CalculateGetImage_mulfpa,
+mulfpb => CalculateGetImage_mulfpb,
+mulfpond => CalculateGetImage_mulfpond,
+mulfpsclr => CalculateGetImage_mulfpsclr,
+mulfpce => CalculateGetImage_mulfpce,
+mulfpr => CalculateGetImage_mulfpr,
+mulfprdy => CalculateGetImage_mulfprdy,
+
+addfpa => CalculateGetImage_addfpa,
+addfpb => CalculateGetImage_addfpb,
+addfpond => CalculateGetImage_addfpond,
+addfpsclr => CalculateGetImage_addfpsclr,
+addfpce => CalculateGetImage_addfpce,
+addfpr => CalculateGetImage_addfpr,
+addfprdy => CalculateGetImage_addfprdy,
+
+subfpa => CalculateGetImage_subfpa,
+subfpb => CalculateGetImage_subfpb,
+subfpond => CalculateGetImage_subfpond,
+subfpsclr => CalculateGetImage_subfpsclr,
+subfpce => CalculateGetImage_subfpce,
+subfpr => CalculateGetImage_subfpr,
+subfprdy => CalculateGetImage_subfprdy,
+
+sqrtfp2a => sqrtfp2a,
+sqrtfp2ond => sqrtfp2ond,
+sqrtfp2sclr => sqrtfp2sclr,
+sqrtfp2ce => sqrtfp2ce,
+sqrtfp2r => sqrtfp2r,
+sqrtfp2rdy => sqrtfp2rdy,
+
+fixed2floata => CalculateGetImage_fixed2floata,
+fixed2floatond => CalculateGetImage_fixed2floatond,
+fixed2floatsclr => CalculateGetImage_fixed2floatsclr,
+fixed2floatce => CalculateGetImage_fixed2floatce,
+fixed2floatr => CalculateGetImage_fixed2floatr,
+fixed2floatrdy => CalculateGetImage_fixed2floatrdy
+);
+
+end generate g_calculate_to;
+
 rom_constants_clock <= i_clock;
 rom_constants_reset <= i_reset;
 inst_rom_constants : rom_constants port map (
@@ -2534,4 +2773,4 @@ i_signed3bit_adr => rom_constants_signed3bit_adr,
 o_float => rom_constants_float
 );
 
-end architecture testbench;
+end architecture rtl;
