@@ -8,3 +8,5 @@
 ## Update : Fit project in Digilent Nexys 2 (xc3s1200e-fg320-4) - only RGB332 color palette
 ![Example 1](IMG_20241018_123948081_HDR.jpg)
 ![Example 2](IMG_20241018_130700803_HDR.jpg)
+## Update : Fix VGA output (stable image).
+![Example 1](vga.bmp)
