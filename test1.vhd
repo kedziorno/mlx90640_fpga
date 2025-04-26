@@ -23,10 +23,11 @@ use ieee.numeric_std.all;
 
 use work.global_package.all;
 use work.colormap_pkg.all;
+use work.p_package1.all;
 
 entity test1 is
 generic (
-constant calculate_type : string (1 to 13) := "c_temperature" -- c_temperature,c_raws_images
+constant calculate_type : string (1 to 13) := "c_raws_images" -- c_temperature,c_raws_images
 );
 port (
 i_clock,i_reset : in std_logic;
@@ -146,41 +147,49 @@ END COMPONENT;
 --signal tb_data_calculateTo_addra : STD_LOGIC_VECTOR(9 DOWNTO 0);
 --signal tb_data_calculateTo_douta : STD_LOGIC_VECTOR(31 DOWNTO 0);
 
-component address_generator is
-Generic (
-PIXELS : integer := PIXELS;
-ADDRESS1 : integer := ADDRESS1
+component vga_address_generator is
+port (
+i_clock, i_reset : in  std_logic;
+i_vga_blank      : in  std_logic;
+i_vga_v_blank    : in  std_logic;
+o_vga_address    : out std_logic_vector (c_memory_address_bits - 1 downto 0)
 );
-Port ( 
-reset : in std_logic;
-clk : in STD_LOGIC;
-clk25 : in STD_LOGIC;
-enable : in STD_LOGIC;
-vsync : in STD_LOGIC;
-activeh : in STD_LOGIC;
-address : out STD_LOGIC_VECTOR (ADDRESS1-1 downto 0)
-);  
-end component address_generator;
+end component vga_address_generator;
 signal address_generator_reset : std_logic;
 signal address_generator_clk : STD_LOGIC;
-signal address_generator_clk25 : STD_LOGIC;
-signal address_generator_enable : STD_LOGIC;
 signal address_generator_vsync : STD_LOGIC;
 signal address_generator_activeh : STD_LOGIC;
-signal address_generator_address : STD_LOGIC_VECTOR (ADDRESS1-1 downto 0);
+signal address_generator_address : STD_LOGIC_VECTOR (c_memory_address_bits-1 downto 0);
 
-component VGA_timing_synch is
-Port (
-reset : in std_logic;
-vgaclk25 : in  STD_LOGIC;
-Hsync : out  STD_LOGIC;
-Vsync : out  STD_LOGIC;
-activeArea1 : out  STD_LOGIC;
-activehaaddrgen : out STD_LOGIC;
-activeRender1 : out  STD_LOGIC;
-blank : out STD_LOGIC
-);
-end component VGA_timing_synch;
+--component address_generator is
+--Generic (
+--PIXELS : integer := PIXELS;
+--ADDRESS1 : integer := ADDRESS1
+--);
+--Port ( 
+--reset : in std_logic;
+--clk : in STD_LOGIC;
+--clk25 : in STD_LOGIC;
+--enable : in STD_LOGIC;
+--vsync : in STD_LOGIC;
+--activeh : in STD_LOGIC;
+--address : out STD_LOGIC_VECTOR (ADDRESS1-1 downto 0)
+--);  
+--end component address_generator;
+--signal address_generator_clk25 : STD_LOGIC;
+
+--component VGA_timing_synch is
+--Port (
+--reset : in std_logic;
+--vgaclk25 : in  STD_LOGIC;
+--Hsync : out  STD_LOGIC;
+--Vsync : out  STD_LOGIC;
+--activeArea1 : out  STD_LOGIC;
+--activehaaddrgen : out STD_LOGIC;
+--activeRender1 : out  STD_LOGIC;
+--blank : out STD_LOGIC
+--);
+--end component VGA_timing_synch;
 signal VGA_timing_synch_reset : std_logic;
 signal VGA_timing_synch_vgaclk25 : STD_LOGIC;
 signal VGA_timing_synch_Hsync : STD_LOGIC;
@@ -189,6 +198,19 @@ signal VGA_timing_synch_activeArea1 : STD_LOGIC;
 signal VGA_timing_synch_activehaaddrgen : STD_LOGIC;
 signal VGA_timing_synch_activeRender1 : STD_LOGIC;
 signal VGA_timing_synch_blank : STD_LOGIC;
+signal VGA_timing_synch_V_Blank : std_logic;
+
+component vga_timing is
+port (
+i_clock   : in  std_logic;
+i_reset   : in  std_logic;
+o_hsync   : out std_logic;
+o_vsync   : out std_logic;
+o_blank   : out std_logic;
+o_v_blank : out std_logic;
+o_h_blank : out std_logic
+);
+end component vga_timing;
 
 --component vga_imagegenerator is
 --generic (BITS : integer := BITS);
@@ -623,38 +645,60 @@ dina => (others => '0'),
 douta => test_fixed_melexis_i2c_mem_douta
 );
 
-address_generator_clk <= agclk;
-address_generator_clk25 <= vgaclk25;
+--address_generator_clk <= i_clock;
+address_generator_clk <= vgaclk25;
 address_generator_reset <= i_reset;
-address_generator_vsync <= VGA_timing_synch_Vsync;
-address_generator_activeh <= VGA_timing_synch_activehaaddrgen;
-address_generator_enable <= VGA_timing_synch_activeRender1;
+address_generator_vsync <= not VGA_timing_synch_Vsync;
+address_generator_activeh <= VGA_timing_synch_blank;
+--address_generator_enable <= VGA_timing_synch_activeRender1;
 --address_generator_enable <= VGA_timing_synch_Hsync;
-ag_inst : address_generator port map (
-reset => address_generator_reset,
-clk => address_generator_clk,
-clk25 => address_generator_clk25,
-enable => address_generator_enable,
-vsync => address_generator_vsync,
-activeh => address_generator_activeh,
-address => address_generator_address
+vag_inst : vga_address_generator
+port map(
+i_clock => address_generator_clk,
+i_reset => address_generator_reset,
+i_vga_blank => address_generator_activeh,
+i_vga_v_blank => address_generator_vsync,
+o_vga_address => address_generator_address
 );
+
+--ag_inst : address_generator port map (
+--reset => address_generator_reset,
+--clk => address_generator_clk,
+--clk25 => address_generator_clk25,
+--enable => address_generator_enable,
+--vsync => address_generator_vsync,
+--activeh => address_generator_activeh,
+--address => address_generator_address
+--);
 
 VGA_timing_synch_vgaclk25 <= vgaclk25;
 vga_clock <= VGA_timing_synch_vgaclk25;
 vga_hsync <= VGA_timing_synch_Hsync;
 vga_vsync <= VGA_timing_synch_Vsync;
 VGA_timing_synch_reset <= i_reset;
-vts_inst : VGA_timing_synch port map (
-reset => VGA_timing_synch_reset,
-vgaclk25 => VGA_timing_synch_vgaclk25,
-Hsync => VGA_timing_synch_Hsync,
-Vsync => VGA_timing_synch_Vsync,
-activeArea1 => VGA_timing_synch_activeArea1,
-activehaaddrgen => VGA_timing_synch_activehaaddrgen,
-activeRender1 => VGA_timing_synch_activeRender1,
-blank => VGA_timing_synch_blank
+
+vts_inst : vga_timing
+port map (
+i_clock   => VGA_timing_synch_vgaclk25,
+i_reset   => VGA_timing_synch_reset,
+o_hsync   => VGA_timing_synch_Hsync,
+o_vsync   => VGA_timing_synch_Vsync,
+o_blank   => VGA_timing_synch_blank,
+o_v_blank => VGA_timing_synch_V_Blank,
+o_h_blank => open
 );
+
+
+--vts_inst : VGA_timing_synch port map (
+--reset => VGA_timing_synch_reset,
+--vgaclk25 => VGA_timing_synch_vgaclk25,
+--Hsync => VGA_timing_synch_Hsync,
+--Vsync => VGA_timing_synch_Vsync,
+--activeArea1 => VGA_timing_synch_activeArea1,
+--activehaaddrgen => VGA_timing_synch_activehaaddrgen,
+--activeRender1 => VGA_timing_synch_activeRender1,
+--blank => VGA_timing_synch_blank
+--);
 
 --vga_r <= vga_imagegenerator_RGB_out (7 downto 0);
 --vga_g <= vga_imagegenerator_RGB_out (15 downto 8);
@@ -681,9 +725,9 @@ blank => VGA_timing_synch_blank
 rdata <= colormap_rom (to_integer (signed (dualmem_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
 --rdata <= colormap_rom (to_integer (unsigned (dualmem2_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
 
-vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_g <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
+vga_g <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
+vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
 
 ----vga_imagegenerator_active_area1 <= VGA_timing_synch_activeArea1;
 --vga_imagegenerator_active_area1 <= '1';

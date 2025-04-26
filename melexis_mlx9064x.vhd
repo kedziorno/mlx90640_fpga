@@ -8,18 +8,29 @@
 -- Project Name:  mlx90640_fpga
 -- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
 -- Tool versions: Xilinx ISE 14.7, XST and ISIM
--- Description:   Melexis MLX90640/MLX90641 IP Core
---                For now version for device MLX90640 works and be tested, whereas rest configuration must be set in global_package.vhd file
+-- Description:   Melexis MLX90640/MLX90641 IP Core.
+--                For now version for device MLX90640 works and be tested,
+--                whereas rest configuration must be set in global_package.vhd.
 --                Core offer two modes to calculate (as string):
---                  - c_device_type
---                    - "mlx90640" (current)
---                    - "mlx90641"
 --                  - c_calculate_type
 --                    - "c_temperature" (slow)
 --                    - "c_raws_images" (fast)
+--                Two devices also are available:
+--                  - c_device_type
+--                    - "mlx90640" (current)
+--                    - "mlx90641" (not tested)
 --                How it works:
---                  This core calculates sequentially coefficients based on datasheet provided by manufacturer device Melexis (R), step after step, so when one calculations from sub-module is ready by O_RDY signal, next calculations is started by tick I_RUN signal in FSM and so on to the end. All core calculations is starting with I_RUN tick signal and will finished with O_RDY signal.
---                  Raws data for calculates is stored in one Block RAM and signals with i2c_mem_* is used to connect with it (see tb).
+--                  This core calculates sequentially coefficients based on
+--                  datasheet provided by manufacturer device Melexis (R),
+--                  step after step, so when one calculations from sub-module
+--                  is ready, next module to calculations is started by tick
+--                  run signal in FSM and so on to the end.
+--                  All calculations for this core is starting with I_RUN tick
+--                  signal and will finished with O_RDY signal, after this
+--                  calculated data is available as Block RAM at I_ADDR/O_DO
+--                  signals. Raws data for calculates is stored in one Block
+--                  RAM and signals with I2C_MEM_* is used to connect with it
+--                  (see tb).
 --                (Rest is in commented code)
 --
 -- Dependencies:
@@ -28,7 +39,7 @@
 --  - Modules: -
 --
 -- Revision:
---  - Revision 0.01 - File created
+--  - Revision 0.01a - File created
 --    - Files: -
 --    - Modules:
 --      Floating Point cores : mul, div, add, sub, sqrt (in c_temperature mode)
@@ -39,7 +50,8 @@
 --  - Entity signals:
 --    - i_run - start calculations
 --    - o_rdy - ready when done
---    - i_addr, o_do - done values stored in Block RAM for use later (address from 0 - 767), access with RE i_clock
+--    - i_addr, o_do - calculated values available in Block RAM for use later
+--                     (address from 0 - 767), access with RE i_clock
 --
 -- Information from the software vendor:
 --  - Messeges: -
@@ -50,7 +62,8 @@
 --  - Criticals/Failures: -
 --
 -- Concepts/Milestones:
---  - Core works for device version MLX90640, some documentation, schematics, and output files also with scripts is provided with this core.
+--  - Core works for device model MLX90640, some documentation, schematics and
+--    output files also with scripts is provided with this core.
 --
 -- Additional Comments:
 --  - To read more about:
@@ -2846,3 +2859,4 @@ o_float => rom_constants_float
 );
 
 end architecture rtl;
+
