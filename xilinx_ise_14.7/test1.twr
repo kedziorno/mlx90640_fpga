@@ -44,7 +44,7 @@ Setup/Hold to clock i_clock
             |Max Setup to|Max Hold to |                  | Clock  |
 Source      | clk (edge) | clk (edge) |Internal Clock(s) | Phase  |
 ------------+------------+------------+------------------+--------+
-i_reset     |   15.383(R)|   -0.282(R)|i_clock_BUFGP     |   0.000|
+i_reset     |   16.746(R)|    0.165(R)|i_clock_BUFGP     |   0.000|
 ------------+------------+------------+------------------+--------+
 
 Clock i_clock to Pad
@@ -52,7 +52,7 @@ Clock i_clock to Pad
             | clk (edge) |                  | Clock  |
 Destination |   to PAD   |Internal Clock(s) | Phase  |
 ------------+------------+------------------+--------+
-vga_clock   |    8.673(R)|i_clock_BUFGP     |   0.000|
+vga_clock   |    7.399(R)|i_clock_BUFGP     |   0.000|
 ------------+------------+------------------+--------+
 
 Clock to Setup on destination clock i_clock
@@ -60,11 +60,33 @@ Clock to Setup on destination clock i_clock
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-i_clock        |   12.438|         |         |         |
+i_clock        |   12.357|         |         |         |
 ---------------+---------+---------+---------+---------+
 
+Pad to Pad
+---------------+---------------+---------+
+Source Pad     |Destination Pad|  Delay  |
+---------------+---------------+---------+
+i_reset        |vga_b<3>       |   15.753|
+i_reset        |vga_b<4>       |   16.605|
+i_reset        |vga_b<5>       |   15.150|
+i_reset        |vga_b<6>       |   17.257|
+i_reset        |vga_b<7>       |   17.897|
+i_reset        |vga_blankn     |   16.961|
+i_reset        |vga_g<3>       |   18.239|
+i_reset        |vga_g<4>       |   17.519|
+i_reset        |vga_g<5>       |   18.803|
+i_reset        |vga_g<6>       |   18.159|
+i_reset        |vga_g<7>       |   18.884|
+i_reset        |vga_r<3>       |   18.490|
+i_reset        |vga_r<4>       |   17.330|
+i_reset        |vga_r<5>       |   18.731|
+i_reset        |vga_r<6>       |   18.064|
+i_reset        |vga_r<7>       |   16.746|
+---------------+---------------+---------+
 
-Analysis completed Tue Mar 18 15:38:17 2025 
+
+Analysis completed Sat Apr 26 11:50:55 2025 
 --------------------------------------------------------------------------------
 
 Trace Settings:
