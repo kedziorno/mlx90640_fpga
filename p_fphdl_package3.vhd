@@ -14,22 +14,22 @@ use ieee_proposed.numeric_std_additions.all; -- xxx 64bit
 package p_fphdl_package3 is
 
 ----   xxx syn
-  constant C_ADDFP_WAIT : integer := 32;
-  constant C_SUBFP_WAIT : integer := 32;
-  constant C_MULFP_WAIT : integer := 32;
-  constant C_DIVFP_WAIT : integer := 64;
-  constant C_SQRTFP2_WAIT : integer := 64;
-  constant C_FI2FL_WAIT : integer := 16;
-  constant C_FL2FI_WAIT : integer := 16;
+--  constant C_ADDFP_WAIT : integer := 32;
+--  constant C_SUBFP_WAIT : integer := 32;
+--  constant C_MULFP_WAIT : integer := 32;
+--  constant C_DIVFP_WAIT : integer := 64;
+--  constant C_SQRTFP2_WAIT : integer := 64;
+--  constant C_FI2FL_WAIT : integer := 16;
+--  constant C_FL2FI_WAIT : integer := 16;
 
 --  xxx sim
---  constant C_ADDFP_WAIT : integer := 16;
---  constant C_SUBFP_WAIT : integer := 16;
---  constant C_MULFP_WAIT : integer := 16;
---  constant C_DIVFP_WAIT : integer := 32;
---  constant C_SQRTFP2_WAIT : integer := 32;
---  constant C_FI2FL_WAIT : integer := 8;
---  constant C_FL2FI_WAIT : integer := 8;
+  constant C_ADDFP_WAIT : integer := 16;
+  constant C_SUBFP_WAIT : integer := 16;
+  constant C_MULFP_WAIT : integer := 16;
+  constant C_DIVFP_WAIT : integer := 32;
+  constant C_SQRTFP2_WAIT : integer := 32;
+  constant C_FI2FL_WAIT : integer := 8;
+  constant C_FL2FI_WAIT : integer := 8;
 
   constant fiexp : integer := 35;
   constant fifra : integer := 29;

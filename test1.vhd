@@ -33,6 +33,7 @@ use ieee_proposed.fixed_pkg.all;
 use work.p_fphdl_package2.all;
 use work.p_fphdl_package3.all;
 use work.colormap_pkg.all;
+use work.p_package1.all;
 
 entity test1 is
 port (
@@ -154,12 +155,12 @@ result : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
 --rdy : OUT STD_LOGIC
 );
 END COMPONENT;
-signal float2fixeda : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal float2fixedond : STD_LOGIC;
-signal float2fixedclk : STD_LOGIC;
-signal float2fixedsclr : STD_LOGIC;
-signal float2fixedce : STD_LOGIC;
-signal float2fixedr : STD_LOGIC_VECTOR(8 DOWNTO 0);
+signal float2fixeda : STD_LOGIC_VECTOR(31 DOWNTO 0) := (others => '0');
+signal float2fixedond : STD_LOGIC := '0';
+signal float2fixedclk : STD_LOGIC := '0';
+signal float2fixedsclr : STD_LOGIC := '0';
+signal float2fixedce : STD_LOGIC := '0';
+signal float2fixedr : STD_LOGIC_VECTOR(8 DOWNTO 0) := (others => '0');
 --signal float2fixedrdy : STD_LOGIC;
 
 COMPONENT dualmem
@@ -239,6 +240,7 @@ constant INPUT_X_RES : integer := 32;
 constant INPUT_Y_RES : integer := 24;
 component streamScaler
 generic (
+constant NEAREST_NEIGHBOR : integer := 0; -- Use nearest neighbor resize instead of bilinear
 constant DATA_WIDTH : integer := DATA_WIDTH; -- Width of input/output data
 constant CHANNELS : integer := CHANNELS; -- Number of channels of DATA_WIDTH, for color images
 constant DISCARD_CNT_WIDTH : integer := DISCARD_CNT_WIDTH; -- Width of inputDiscardCnt
@@ -272,8 +274,7 @@ signal outputYRes : in std_logic_vector (OUTPUT_Y_RES_WIDTH-1 downto 0);
 signal xScale : in std_logic_vector (SCALE_BITS-1 downto 0); -- Scaling factors. Input resolution scaled up by 1/xScale. Format Q SCALE_INT_BITS.SCALE_FRAC_BITS
 signal yScale : in std_logic_vector (SCALE_BITS-1 downto 0); -- Scaling factors. Input resolution scaled up by 1/yScale. Format Q SCALE_INT_BITS.SCALE_FRAC_BITS
 signal leftOffset : in std_logic_vector (OUTPUT_X_RES_WIDTH-1+SCALE_FRAC_BITS downto 0); -- Integer/fraction of input pixel to offset output data horizontally right. Format Q OUTPUT_X_RES_WIDTH.SCALE_FRAC_BITS
-signal topFracOffset : in std_logic_vector (SCALE_FRAC_BITS-1 downto 0); -- Fraction of input pixel to offset data vertically down. Format Q0.SCALE_FRAC_BITS
-signal nearestNeighbor_in : in std_logic -- Use nearest neighbor resize instead of bilinear
+signal topFracOffset : in std_logic_vector (SCALE_FRAC_BITS-1 downto 0) -- Fraction of input pixel to offset data vertically down. Format Q0.SCALE_FRAC_BITS
 );
 end component streamScaler;
 signal streamScaler_clk : std_logic;
@@ -299,23 +300,46 @@ signal streamScaler_nearestNeighbor : std_logic;
 signal streamScaler_run : std_logic;
 signal streamScaler_start_dout : std_logic;
 
-component address_generator is
-Generic (
---PIXELS : integer := PIXELS;
---ADDRESS1 : integer := ADDRESS1
-PIXELS : integer := OUTPUT_X_RES*OUTPUT_Y_RES;
-ADDRESS1 : integer := 12
+--component address_generator is
+--Generic (
+----PIXELS : integer := PIXELS;
+----ADDRESS1 : integer := ADDRESS1
+--PIXELS : integer := OUTPUT_X_RES*OUTPUT_Y_RES;
+--ADDRESS1 : integer := 12
+--);
+--Port ( 
+--reset : in std_logic;
+--clk : in STD_LOGIC;
+--clk25 : in STD_LOGIC;
+--enable : in STD_LOGIC;
+--vsync : in STD_LOGIC;
+--activeh : in STD_LOGIC;
+--address : out STD_LOGIC_VECTOR (ADDRESS1-1 downto 0)
+--);  
+--end component address_generator;
+
+component vga_timing is
+port (
+i_clock   : in  std_logic;
+i_reset   : in  std_logic;
+o_hsync   : out std_logic;
+o_vsync   : out std_logic;
+o_blank   : out std_logic;
+o_v_blank : out std_logic;
+o_h_blank : out std_logic
 );
-Port ( 
-reset : in std_logic;
-clk : in STD_LOGIC;
-clk25 : in STD_LOGIC;
-enable : in STD_LOGIC;
-vsync : in STD_LOGIC;
-activeh : in STD_LOGIC;
-address : out STD_LOGIC_VECTOR (ADDRESS1-1 downto 0)
-);  
-end component address_generator;
+end component vga_timing;
+
+component vga_address_generator is
+port (
+i_clock, i_reset : in  std_logic;
+i_vga_blank      : in  std_logic;
+i_vga_v_blank    : in  std_logic;
+o_vga_address    : out std_logic_vector (c_memory_address_bits - 1 downto 0)
+);
+end component;
+signal VGA_timing_synch_V_Blank : std_logic;
+signal address_generator_address : STD_LOGIC_VECTOR (c_memory_address_bits-1 downto 0);
 signal address_generator_reset : std_logic;
 signal address_generator_clk : STD_LOGIC;
 signal address_generator_clk25 : STD_LOGIC;
@@ -323,13 +347,12 @@ signal address_generator_enable : STD_LOGIC;
 signal address_generator_vsync : STD_LOGIC;
 signal address_generator_activeh : STD_LOGIC;
 --signal address_generator_address : STD_LOGIC_VECTOR (ADDRESS1-1 downto 0);
-signal address_generator_address : STD_LOGIC_VECTOR (11 downto 0);
 signal streamScaler_ag : integer range 0 to PIXELS-1;
 
 begin
 
 vga_syncn <= '1';
-vga_blankn <= VGA_timing_synch_activeArea1;
+vga_blankn <= not VGA_timing_synch_blank;
 vga_psaven <= '1';
 
 --vga_syncn <= '1';
@@ -469,7 +492,8 @@ end process pvgaclk;
 
 pagclk : process (i_clock) is
 --	constant CMAX : integer := 40; -- 1.25
-	constant CMAX : integer := 20; -- 1.25
+--	constant CMAX : integer := 20; -- 1.25
+	constant CMAX : integer := 10; -- 1.25
 --	constant CMAX : integer := 63; -- 1260ns
 	variable vmax : integer range 0 to CMAX-1;
 begin
@@ -543,37 +567,38 @@ dina => (others => '0'),
 douta => test_fixed_melexis_i2c_mem_douta
 );
 
-address_generator_clk <= agclk;
+vag_inst : vga_address_generator
+port map(
+i_clock => address_generator_clk,
+i_reset => address_generator_reset,
+i_vga_blank => address_generator_activeh,
+i_vga_v_blank => address_generator_vsync,
+o_vga_address => address_generator_address
+);
+
+address_generator_clk <= vgaclk25;
 address_generator_clk25 <= vgaclk25;
 address_generator_reset <= i_reset;
-address_generator_vsync <= VGA_timing_synch_Vsync;
-address_generator_activeh <= VGA_timing_synch_activehaaddrgen;
-address_generator_enable <= VGA_timing_synch_activeRender1;
+address_generator_vsync <= not VGA_timing_synch_Vsync;
+address_generator_activeh <= VGA_timing_synch_blank;
+--address_generator_enable <= VGA_timing_synch_activeRender1;
 --address_generator_enable <= VGA_timing_synch_Hsync;
-ag_inst : address_generator port map (
-reset => address_generator_reset,
-clk => address_generator_clk,
-clk25 => address_generator_clk25,
-enable => address_generator_enable,
-vsync => address_generator_vsync,
-activeh => address_generator_activeh,
-address => address_generator_address
-);
 
 VGA_timing_synch_vgaclk25 <= vgaclk25;
 vga_clock <= VGA_timing_synch_vgaclk25;
 vga_hsync <= VGA_timing_synch_Hsync;
 vga_vsync <= VGA_timing_synch_Vsync;
 VGA_timing_synch_reset <= i_reset;
-vts_inst : VGA_timing_synch port map (
-reset => VGA_timing_synch_reset,
-vgaclk25 => VGA_timing_synch_vgaclk25,
-Hsync => VGA_timing_synch_Hsync,
-Vsync => VGA_timing_synch_Vsync,
-activeArea1 => VGA_timing_synch_activeArea1,
-activehaaddrgen => VGA_timing_synch_activehaaddrgen,
-activeRender1 => VGA_timing_synch_activeRender1,
-blank => VGA_timing_synch_blank
+
+vts_inst : vga_timing
+port map (
+i_clock   => VGA_timing_synch_vgaclk25,
+i_reset   => VGA_timing_synch_reset,
+o_hsync   => VGA_timing_synch_Hsync,
+o_vsync   => VGA_timing_synch_Vsync,
+o_blank   => VGA_timing_synch_blank,
+o_v_blank => VGA_timing_synch_V_Blank,
+o_h_blank => open
 );
 
 -- xxx debug white screen with vga blankn,syncn,psave on
@@ -712,9 +737,9 @@ rdata <= colormap_rom (to_integer (signed (dualmem2_doutb (8 downto 0)))); -- xx
 --rdata <= colormap_rom (to_integer (unsigned (dualmem2_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
 
 -- xxx on board last 3 bits is connected to GND, so we have 'only' RGB555 : (
-vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_g <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
+vga_g <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
+vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
 
 dualmem2_clka <= i_clock;
 dualmem2_clkb <= agclk;
@@ -892,8 +917,7 @@ outputYRes => streamScaler_outputYRes,
 xScale => streamScaler_xScale,
 yScale => streamScaler_yScale,
 leftOffset => streamScaler_leftOffset,
-topFracOffset => streamScaler_topFracOffset,
-nearestNeighbor_in => streamScaler_nearestNeighbor
+topFracOffset => streamScaler_topFracOffset
 );
 
 end Behavioral;

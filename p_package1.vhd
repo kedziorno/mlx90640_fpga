@@ -4,6 +4,13 @@ use work.p_package1_constants.all;
 
 package p_package1 is
 
+constant c_x_step                     : integer := 10;
+constant c_y_step                     : integer := 10;
+constant c_x                          : integer := 640 / c_x_step; -- 32
+constant c_y                          : integer := 480 / c_y_step; -- 24
+constant c_all_pixels                 : integer := c_x * c_y; -- 768
+constant c_memory_address_bits        : integer := 12;
+
 procedure wait_idle(
 	signal idle : out std_logic;
 	constant n : natural;

@@ -14,7 +14,7 @@ use ieee_proposed.fixed_pkg.all;
 --synthesis translate_on
 
 package p_fphdl_package1 is
---synthesis translate_off
+  --synthesis translate_off
 	constant FP_INTEGER : integer := 35; -- FP_INTEGER-1 to 0
 	constant FP_FRACTION : integer := 29; -- -1 to -FP_FRACTION
 	constant FP_INTEGER_EXPECTED : integer := 35; -- FP_INTEGER_EXPECTED-1 to 0
