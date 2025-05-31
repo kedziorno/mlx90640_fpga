@@ -10,4 +10,5 @@ git diff b2ffe6056c2d7b9b2d4b3ed917050d28610628cc..1eae55edd3fda56ed9e449b763673
 ### UPDATE: add scaler from https://opencores.org/projects/video_stream_scaler
 ![Display from simulation](70c935de1967df3d8713fe05f360b8cc9a610466.bmp)
 git diff b2ffe6056c2d7b9b2d4b3ed917050d28610628cc..9e5d9761c55ec0083cb870a94dca373ed8429668 test1.syr (CalculateTo vs CalculateGetImage + scaler)
-
+### Fix VGA output
+![Fix VGA output](52acf48806cfba887767664a4f05b73c7b49546c.bmp)
