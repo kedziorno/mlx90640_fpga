@@ -80,7 +80,8 @@ use work.global_package.all;
 entity melexis_mlx9064x is
 generic (
 constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
-constant calculate_type : string (1 to 13) := "c_temperature" -- c_temperature,c_raws_images
+constant c_calculate_type : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
+constant c_use_fisqrt : string (1 to 3) := "yes" -- yes/no - depend from c_calculate_type(c_temperature)
 );
 port (
 i_clock : in std_logic;
@@ -1157,6 +1158,9 @@ END COMPONENT;
 --signal CalculateGetImage_addfprdy : STD_LOGIC;
 
 COMPONENT calculate_to
+GENERIC (
+constant c_use_fisqrt : string (1 to 3) := "yes" -- FISQRT, else FP SQRT Core
+);
 PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
@@ -1308,18 +1312,6 @@ signal ExtractTGCParameters_mux : std_logic;
 signal CalculatePixOS_mux,CalculatePixOsCPSP_mux,CalculateVirCompensated_mux : std_logic;
 signal ExtractAlphaParameters_mux,CalculateAlphaComp_mux,CalculateAlphaCP_mux : std_logic;
 signal CalculateVdd_mux,CalculateTa_mux,CalculateGetImage_mux : std_logic;
-
-COMPONENT sqrtfp2
-PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
-);
-END COMPONENT;
 
 begin
 
@@ -2724,7 +2716,7 @@ CalculateGetImage_Ta <= CalculateTa_Ta;
 CalculateGetImage_addr <= i_addr;
 o_do <= CalculateGetImage_do;
 
-g_calculate_raw_image : if (calculate_type = "c_raws_images") generate
+g_calculate_raw_image : if (c_calculate_type = "c_raws_images") generate
 
 calculate_raw_image_i0 : calculate_raw_image PORT MAP (
 i_clock => CalculateGetImage_clock,
@@ -2758,9 +2750,13 @@ addfprdy => CalculateGetImage_addfprdy
 
 end generate g_calculate_raw_image;
 
-g_calculate_to : if (calculate_type = "c_temperature") generate
+g_calculate_to : if (c_calculate_type = "c_temperature") generate
 
-calculate_to_i0 : calculate_to PORT MAP (
+calculate_to_i0 : calculate_to
+GENERIC MAP (
+c_use_fisqrt => c_use_fisqrt
+)
+PORT MAP (
 i_clock => CalculateGetImage_clock,
 i_reset => CalculateGetImage_reset,
 i_run => CalculateGetImage_run,

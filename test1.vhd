@@ -27,7 +27,9 @@ use work.p_package1.all;
 
 entity test1 is
 generic (
-constant calculate_type : string (1 to 13) := "c_raws_images" -- c_temperature,c_raws_images
+constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
+constant c_calculate_type : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
+constant c_use_fisqrt : string (1 to 3) := "yes" -- yes/no - depend from c_calculate_type(c_temperature)
 );
 port (
 i_clock,i_reset : in std_logic;
@@ -52,7 +54,8 @@ constant BITS : integer := 24;
 component melexis_mlx9064x is
 generic (
 constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
-constant calculate_type : string (1 to 13) := "c_temperature" -- c_temperature,c_raws_images
+constant c_calculate_type : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
+constant c_use_fisqrt : string (1 to 3) := "yes" -- yes/no - depend from c_calculate_type(c_temperature)
 );
 port (
 i_clock : in std_logic;
@@ -237,7 +240,7 @@ operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(8 DOWNTO 0);
+result : OUT STD_LOGIC_VECTOR(13 DOWNTO 0);
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
@@ -246,7 +249,7 @@ signal float2fixedond : STD_LOGIC;
 signal float2fixedclk : STD_LOGIC;
 signal float2fixedsclr : STD_LOGIC;
 signal float2fixedce : STD_LOGIC;
-signal float2fixedr : STD_LOGIC_VECTOR(8 DOWNTO 0);
+signal float2fixedr : STD_LOGIC_VECTOR(13 DOWNTO 0);
 signal float2fixedrdy : STD_LOGIC;
 
 COMPONENT dualmem
@@ -255,22 +258,22 @@ clka : IN STD_LOGIC;
 ena : IN STD_LOGIC;
 wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
 addra : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-dina : IN STD_LOGIC_VECTOR(8 DOWNTO 0);
+dina : IN STD_LOGIC_VECTOR(13 DOWNTO 0);
 clkb : IN STD_LOGIC;
 enb : IN STD_LOGIC;
 addrb : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-doutb : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
+doutb : OUT STD_LOGIC_VECTOR(13 DOWNTO 0)
 );
 END COMPONENT;
 signal dualmem_clka : STD_LOGIC;
 signal dualmem_ena : STD_LOGIC;
 signal dualmem_wea : STD_LOGIC_VECTOR(0 DOWNTO 0);
 signal dualmem_addra : STD_LOGIC_VECTOR(9 DOWNTO 0);
-signal dualmem_dina : STD_LOGIC_VECTOR(8 DOWNTO 0);
+signal dualmem_dina : STD_LOGIC_VECTOR(13 DOWNTO 0);
 signal dualmem_clkb : STD_LOGIC;
 signal dualmem_enb : STD_LOGIC;
 signal dualmem_addrb : STD_LOGIC_VECTOR(9 DOWNTO 0);
-signal dualmem_doutb : STD_LOGIC_VECTOR(8 DOWNTO 0);
+signal dualmem_doutb : STD_LOGIC_VECTOR(13 DOWNTO 0);
 
 --attribute RlOC : string;
 
@@ -409,6 +412,8 @@ signal divfpclk : std_logic;
 
 signal rdata : std_logic_vector(23 downto 0);
 
+signal cm : std_logic_vector (8 downto 0);
+
 begin
 
 vga_syncn <= '1';
@@ -418,7 +423,7 @@ vga_psave <= '1';
 
 pTo : process (i_clock) is
 	variable i : integer range 0 to PIXELS-1;
-	variable tout : std_logic_vector (8 downto 0);
+	variable tout : std_logic_vector (13 downto 0);
 	type states is (idle,
 	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10);
 	variable state : states;
@@ -573,9 +578,11 @@ end process pagclk;
 test_fixed_melexis_clock <= i_clock;
 test_fixed_melexis_reset <= i_reset;
 --test_fixed_melexis_addr <= address_generator_address;
-tfm_inst : melexis_mlx9064x
+melexis_mlx9064x_core_inst : melexis_mlx9064x
 generic map (
-calculate_type => calculate_type
+c_device => c_device,
+c_calculate_type => c_calculate_type,
+c_use_fisqrt => c_use_fisqrt
 )
 port map (
 i_clock => test_fixed_melexis_clock,
@@ -722,7 +729,8 @@ o_h_blank => open
 
 -- xxx 9 bit signed heatmap, in simulation show all BGYW colors, on board 'only' YW colors, test image have range -172 to 17
 -- XXX by using colormap we can use less channels in scaler
-rdata <= colormap_rom (to_integer (signed (dualmem_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
+cm <= dualmem_doutb (10 downto 2);
+rdata <= colormap_rom (to_integer (signed (cm))); -- xxx i don't know, problem with dualmem module ?
 --rdata <= colormap_rom (to_integer (unsigned (dualmem2_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
 
 vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
@@ -784,7 +792,9 @@ addfpclk <= i_clock;
 subfpclk <= i_clock;
 mulfpclk <= i_clock;
 divfpclk <= i_clock;
+g0_sqrtfp2_clk : if (c_use_fisqrt /= "yes") generate
 sqrtfp2clk <= i_clock;
+end generate g0_sqrtfp2_clk;
 
 b0 : block
 attribute loc : string;
@@ -853,7 +863,7 @@ result => subfpr,
 rdy => subfprdy
 );
 
-g_calculate_to : if (calculate_type = "c_temperature") generate
+g_calculate_to : if (c_calculate_type = "c_temperature" and c_use_fisqrt /= "yes") generate
 
 inst_sqrtfp2 : sqrtfp2
 PORT MAP (

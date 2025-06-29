@@ -41,6 +41,11 @@ ARCHITECTURE behavior OF tb_test1 IS
 
 -- Component Declaration for the Unit Under Test (UUT)
 COMPONENT test1
+GENERIC(
+constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
+constant c_calculate_type : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
+constant c_use_fisqrt : string (1 to 3) := "yes" -- yes/no - depend from c_calculate_type(c_temperature)
+);
 PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
@@ -125,7 +130,7 @@ i_reset <= '0';
 wait for i_clock_period*10;
 -- insert stimulus here
 --wait for 34 ms;
-wait for 51 ms;
+wait for 45 ms; -- 51 ms;
 --wait for 15.776ms * 10;
 --wait for 1 ms;
 --wait for 610 us;

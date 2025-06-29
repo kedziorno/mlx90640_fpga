@@ -22,7 +22,7 @@
 --    devices, or systems.  Use in such applications are expressly            --
 --    prohibited.                                                             --
 --                                                                            --
---    (c) Copyright 1995-2024 Xilinx, Inc.                                    --
+--    (c) Copyright 1995-2025 Xilinx, Inc.                                    --
 --    All rights reserved.                                                    --
 --------------------------------------------------------------------------------
 
@@ -75,7 +75,7 @@ COMPONENT float2fixed
     clk : IN STD_LOGIC;
     sclr : IN STD_LOGIC;
     ce : IN STD_LOGIC;
-    result : OUT STD_LOGIC_VECTOR(8 DOWNTO 0);
+    result : OUT STD_LOGIC_VECTOR(13 DOWNTO 0);
     rdy : OUT STD_LOGIC
   );
 END COMPONENT;
