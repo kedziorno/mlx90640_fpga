@@ -9,4 +9,6 @@
 ![Example 1](IMG_20241018_123948081_HDR.jpg)
 ![Example 2](IMG_20241018_130700803_HDR.jpg)
 ## Update : Fix VGA output (stable image).
-![Example 1](xilinx_ise_14.7/vga.bmp)
+![Example 1](xilinx_ise_14.7/vga_933f4e90d465e5a78492ab181647a4f10f6f1551.bmp)
+## Update : Use Fast Inverse Squareroot algorithm
+![Example 2](xilinx_ise_14.7/vga_665c92452941fbca5695d506cc1872887532d19b.bmp)
