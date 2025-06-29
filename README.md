@@ -12,3 +12,5 @@
 ![Example 1](xilinx_ise_14.7/vga_933f4e90d465e5a78492ab181647a4f10f6f1551.bmp)
 ## Update : Use Fast Inverse Squareroot algorithm
 ![Example 2](xilinx_ise_14.7/vga_665c92452941fbca5695d506cc1872887532d19b.bmp)
+## Update : To see example with Fix VGA Output and use upscaler
+https://github.com/kedziorno/mlx90640_fpga/tree/Calculate_MLX90640_GetImage_upscale?tab=readme-ov-file#fix-vga-output
