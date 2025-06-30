@@ -28,8 +28,8 @@ use work.p_package1.all;
 entity test1 is
 generic (
 constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
-constant c_calculate_type : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
-constant c_use_fisqrt : string (1 to 3) := " no" -- yes/no - depend from c_calculate_type(c_temperature)
+constant c_calculate_type : string (1 to 13) := "c_raws_images"; -- c_temperature,c_raws_images
+constant c_use_fisqrt : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type(c_temperature)
 );
 port (
 i_clock,i_reset : in std_logic;
@@ -729,7 +729,7 @@ o_h_blank => open
 
 -- xxx 9 bit signed heatmap, in simulation show all BGYW colors, on board 'only' YW colors, test image have range -172 to 17
 -- XXX by using colormap we can use less channels in scaler
-cm <= dualmem_doutb (10 downto 2);
+cm <= dualmem_doutb (11 downto 3);
 rdata <= colormap_rom (to_integer (signed (cm))); -- xxx i don't know, problem with dualmem module ?
 --rdata <= colormap_rom (to_integer (unsigned (dualmem2_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
 
