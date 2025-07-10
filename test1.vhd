@@ -22,7 +22,11 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 use work.global_package.all;
-use work.colormap_pkg.all;
+use work.colormap_viridis.all;
+use work.colormap_magma.all;
+use work.colormap_brewer_ygb.all;
+use work.colormap_rainbow.all;
+use work.colormap_heat.all;
 use work.p_package1.all;
 
 entity test1 is
@@ -730,7 +734,14 @@ o_h_blank => open
 -- xxx 9 bit signed heatmap, in simulation show all BGYW colors, on board 'only' YW colors, test image have range -172 to 17
 -- XXX by using colormap we can use less channels in scaler
 cm <= dualmem_doutb (11 downto 3);
-rdata <= colormap_rom (to_integer (signed (cm))); -- xxx i don't know, problem with dualmem module ?
+--rdata <= colormap_viridis (to_integer (512 - signed (cm))); -- xxx i don't know, problem with dualmem module ?
+--rdata <= colormap_magma (to_integer (512 - signed (cm))); -- xxx i don't know, problem with dualmem module ?
+--rdata <= colormap_brewer_ygb (to_integer (512 - signed (cm))); -- xxx i don't know, problem with dualmem module ?
+rdata <= colormap_rainbow (to_integer (signed (cm))); -- xxx i don't know, problem with dualmem module ?
+--rdata <= colormap_heat (to_integer (512 - signed (cm))); -- xxx i don't know, problem with dualmem module ?
+--rdata <= colormap_rom1 (to_integer (512 - signed (cm))); -- xxx i don't know, problem with dualmem module ?
+--rdata <= colormap_rom (to_integer (256 + signed (cm))); -- xxx i don't know, problem with dualmem module ?
+--rdata <= colormap_rom (to_integer (256 - signed (cm))); -- xxx i don't know, problem with dualmem module ?
 --rdata <= colormap_rom (to_integer (unsigned (dualmem2_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
 
 vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
