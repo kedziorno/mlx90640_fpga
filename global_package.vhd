@@ -53,6 +53,8 @@ USE IEEE.math_real.all;
 
 --synthesis translate_off
 library ieee_proposed;
+use ieee_proposed.fixed_float_types.all;
+use ieee_proposed.fixed_pkg.all;
 use ieee_proposed.float_pkg.all;
 use ieee_proposed.numeric_std_additions.all;
 use ieee_proposed.standard_additions.all;
@@ -167,6 +169,7 @@ package global_package is
 	function ap_slv2int (sl:std_logic_vector) return integer;
 	function to_string_1 ( s : std_logic_vector ) return string;
 	procedure report_error (constant str : string; sl : std_logic_vector; constant ec : real);
+	procedure report_error_sfixed (constant s1, s2 : integer; constant str : string; sl : std_logic_vector; constant ec : real);
   procedure warning_neq_fp (a, b : in float32; info : in string := ""; use_epsilon : boolean := false);
   procedure warning_neq_fp (a : in std_logic_vector (31 downto 0); b : in real; info : in string := ""; use_epsilon : boolean := false);
   procedure warning_neq_fp (a, b : in std_logic_vector (31 downto 0); info : in string := ""; use_epsilon : boolean := false);
@@ -205,6 +208,14 @@ package body global_package is
 		report str & " : " & actuals & " = " & expecteds & " " & to_hex_string (sl) & " " & to_hex_string (b) & " " & to_string_1 (sl) & " " & to_string_1 (to_slv (b)) severity note;
 		return;
 	end procedure report_error;
+
+	procedure report_error_sfixed (constant s1, s2 : integer; constant str : string; sl : std_logic_vector; constant ec : real) is
+		variable a : sfixed (s1 downto -s2+1);
+    variable b : sfixed (s1 downto -s2+1) := to_sfixed (sl, a);
+	begin
+		report str & " : " & to_string (to_real (b)) & " " & to_hex_string (b) & " " & to_hex_string (sl) & " " & to_string_1 (sl) & " " & to_string_1 (to_slv (b)) severity note;
+		return;
+	end procedure report_error_sfixed;
 
 	-- https://opencores.org/websvn/filedetails?repname=raytrac&path=%2Fraytrac%2Fbranches%2Ffp%2Farithpack.vhd&rev=163
 	function ap_slv2int (sl:std_logic_vector) return integer is

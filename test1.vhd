@@ -418,6 +418,10 @@ signal rdata : std_logic_vector(23 downto 0);
 
 signal cm : std_logic_vector (8 downto 0);
 
+type states is (idle,
+s1,s2,s3,s4,s5,s6,s7,s8,s9,s10);
+signal t_state : states := idle;
+
 begin
 
 vga_syncn <= '1';
@@ -428,11 +432,12 @@ vga_psave <= '1';
 pTo : process (i_clock) is
 	variable i : integer range 0 to PIXELS-1;
 	variable tout : std_logic_vector (13 downto 0);
-	type states is (idle,
-	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10);
 	variable state : states;
   constant c_some_wait : integer := 2**20;
   variable some_wait : integer range 0 to c_some_wait-1;
+  --synthesis translate_off
+  variable first : boolean := false;
+  --synthesis translate_on
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -444,6 +449,7 @@ begin
 			tout := (others => '0');
       some_wait := 0;
 		else
+      t_state <= state;
 			case (state) is
 				when idle => state := s1;
 					test_fixed_melexis_run <= '1';
@@ -461,6 +467,7 @@ begin
 					tout := (others => '0');
 				when s3 => state := s4;
 				when s4 => state := s5;
+          first := true;
 					test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
 				when s5 => state := s6;
 				when s6 => state := s7;
@@ -484,7 +491,10 @@ begin
 					dualmem_dina <= tout;
 					dualmem_ena <= '1';
           --synthesis translate_off
-          --report_error ("tout", tout, 0.0);
+          if (first = true) then
+            report_error_sfixed (7, 7, "================ Fixed out "&integer'image(i), tout, 0.0);
+            first := false;
+          end if;
           --synthesis translate_on
 				when s9 =>
 					dualmem_wea <= "0";
@@ -501,7 +511,7 @@ begin
 --          if (some_wait = c_some_wait-1) then
 --            some_wait := 0;
 --            state := idle;
-            state :=  s2;
+--            state :=  s2;
 --            float2fixedsclr <= '1';
 --          else
 --            some_wait := some_wait + 1;
@@ -733,11 +743,11 @@ o_h_blank => open
 
 -- xxx 9 bit signed heatmap, in simulation show all BGYW colors, on board 'only' YW colors, test image have range -172 to 17
 -- XXX by using colormap we can use less channels in scaler
-cm <= dualmem_doutb (13 downto 5);
+cm <= dualmem_doutb (12 downto 4);
 --rdata <= colormap_viridis (to_integer (512 - signed (cm))); -- xxx i don't know, problem with dualmem module ?
 --rdata <= colormap_magma (to_integer (512 - signed (cm))); -- xxx i don't know, problem with dualmem module ?
 --rdata <= colormap_brewer_ygb (to_integer (512 - signed (cm))); -- xxx i don't know, problem with dualmem module ?
-rdata <= colormap_rainbow (to_integer (unsigned (cm))); -- xxx i don't know, problem with dualmem module ?
+rdata <= colormap_rainbow (to_integer (signed (cm))); -- xxx i don't know, problem with dualmem module ?
 --rdata <= colormap_heat (to_integer (512 - signed (cm))); -- xxx i don't know, problem with dualmem module ?
 --rdata <= colormap_rom1 (to_integer (512 - signed (cm))); -- xxx i don't know, problem with dualmem module ?
 --rdata <= colormap_rom (to_integer (256 + signed (cm))); -- xxx i don't know, problem with dualmem module ?
