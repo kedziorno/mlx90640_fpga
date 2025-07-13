@@ -743,7 +743,7 @@ o_h_blank => open
 
 -- xxx 9 bit signed heatmap, in simulation show all BGYW colors, on board 'only' YW colors, test image have range -172 to 17
 -- XXX by using colormap we can use less channels in scaler
-cm <= '0' & dualmem_doutb (10 downto 3);
+cm <= '0' & dualmem_doutb (9 downto 2);
 --rdata <= colormap_viridis (to_integer (512 - signed (cm))); -- xxx i don't know, problem with dualmem module ?
 --rdata <= colormap_magma (to_integer (512 - signed (cm))); -- xxx i don't know, problem with dualmem module ?
 --rdata <= colormap_brewer_ygb (to_integer (512 - signed (cm))); -- xxx i don't know, problem with dualmem module ?
