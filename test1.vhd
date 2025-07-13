@@ -21,10 +21,20 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-use work.p_fphdl_package3.all;
-use work.colormap_pkg.all;
+use work.global_package.all;
+use work.colormap_viridis.all;
+use work.colormap_magma.all;
+use work.colormap_brewer_ygb.all;
+use work.colormap_rainbow.all;
+use work.colormap_heat.all;
+use work.p_package1.all;
 
 entity test1 is
+generic (
+constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
+constant c_calculate_type : string (1 to 13) := "c_raws_images"; -- c_temperature,c_raws_images
+constant c_use_fisqrt : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type(c_temperature)
+);
 port (
 i_clock,i_reset : in std_logic;
 vga_hsync : out std_logic;
@@ -45,7 +55,12 @@ constant PIXELS : integer := 768;
 constant ADDRESS1 : integer := 10;
 constant BITS : integer := 24;
 
-component test_fixed_melexis is
+component melexis_mlx9064x is
+generic (
+constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
+constant c_calculate_type : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
+constant c_use_fisqrt : string (1 to 3) := "yes" -- yes/no - depend from c_calculate_type(c_temperature)
+);
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
@@ -104,7 +119,7 @@ signal sqrtfp2r : in STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal sqrtfp2rdy : in STD_LOGIC
 
 );
-end component test_fixed_melexis;
+end component melexis_mlx9064x;
 signal test_fixed_melexis_clock : std_logic;
 signal test_fixed_melexis_reset : std_logic;
 signal test_fixed_melexis_run : std_logic;
@@ -139,41 +154,49 @@ END COMPONENT;
 --signal tb_data_calculateTo_addra : STD_LOGIC_VECTOR(9 DOWNTO 0);
 --signal tb_data_calculateTo_douta : STD_LOGIC_VECTOR(31 DOWNTO 0);
 
-component address_generator is
-Generic (
-PIXELS : integer := PIXELS;
-ADDRESS1 : integer := ADDRESS1
+component vga_address_generator is
+port (
+i_clock, i_reset : in  std_logic;
+i_vga_blank      : in  std_logic;
+i_vga_v_blank    : in  std_logic;
+o_vga_address    : out std_logic_vector (c_memory_address_bits - 1 downto 0)
 );
-Port ( 
-reset : in std_logic;
-clk : in STD_LOGIC;
-clk25 : in STD_LOGIC;
-enable : in STD_LOGIC;
-vsync : in STD_LOGIC;
-activeh : in STD_LOGIC;
-address : out STD_LOGIC_VECTOR (ADDRESS1-1 downto 0)
-);  
-end component address_generator;
+end component vga_address_generator;
 signal address_generator_reset : std_logic;
 signal address_generator_clk : STD_LOGIC;
-signal address_generator_clk25 : STD_LOGIC;
-signal address_generator_enable : STD_LOGIC;
 signal address_generator_vsync : STD_LOGIC;
 signal address_generator_activeh : STD_LOGIC;
-signal address_generator_address : STD_LOGIC_VECTOR (ADDRESS1-1 downto 0);
+signal address_generator_address : STD_LOGIC_VECTOR (c_memory_address_bits-1 downto 0);
 
-component VGA_timing_synch is
-Port (
-reset : in std_logic;
-vgaclk25 : in  STD_LOGIC;
-Hsync : out  STD_LOGIC;
-Vsync : out  STD_LOGIC;
-activeArea1 : out  STD_LOGIC;
-activehaaddrgen : out STD_LOGIC;
-activeRender1 : out  STD_LOGIC;
-blank : out STD_LOGIC
-);
-end component VGA_timing_synch;
+--component address_generator is
+--Generic (
+--PIXELS : integer := PIXELS;
+--ADDRESS1 : integer := ADDRESS1
+--);
+--Port ( 
+--reset : in std_logic;
+--clk : in STD_LOGIC;
+--clk25 : in STD_LOGIC;
+--enable : in STD_LOGIC;
+--vsync : in STD_LOGIC;
+--activeh : in STD_LOGIC;
+--address : out STD_LOGIC_VECTOR (ADDRESS1-1 downto 0)
+--);  
+--end component address_generator;
+--signal address_generator_clk25 : STD_LOGIC;
+
+--component VGA_timing_synch is
+--Port (
+--reset : in std_logic;
+--vgaclk25 : in  STD_LOGIC;
+--Hsync : out  STD_LOGIC;
+--Vsync : out  STD_LOGIC;
+--activeArea1 : out  STD_LOGIC;
+--activehaaddrgen : out STD_LOGIC;
+--activeRender1 : out  STD_LOGIC;
+--blank : out STD_LOGIC
+--);
+--end component VGA_timing_synch;
 signal VGA_timing_synch_reset : std_logic;
 signal VGA_timing_synch_vgaclk25 : STD_LOGIC;
 signal VGA_timing_synch_Hsync : STD_LOGIC;
@@ -182,6 +205,19 @@ signal VGA_timing_synch_activeArea1 : STD_LOGIC;
 signal VGA_timing_synch_activehaaddrgen : STD_LOGIC;
 signal VGA_timing_synch_activeRender1 : STD_LOGIC;
 signal VGA_timing_synch_blank : STD_LOGIC;
+signal VGA_timing_synch_V_Blank : std_logic;
+
+component vga_timing is
+port (
+i_clock   : in  std_logic;
+i_reset   : in  std_logic;
+o_hsync   : out std_logic;
+o_vsync   : out std_logic;
+o_blank   : out std_logic;
+o_v_blank : out std_logic;
+o_h_blank : out std_logic
+);
+end component vga_timing;
 
 --component vga_imagegenerator is
 --generic (BITS : integer := BITS);
@@ -208,7 +244,7 @@ operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(8 DOWNTO 0);
+result : OUT STD_LOGIC_VECTOR(13 DOWNTO 0);
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
@@ -217,7 +253,7 @@ signal float2fixedond : STD_LOGIC;
 signal float2fixedclk : STD_LOGIC;
 signal float2fixedsclr : STD_LOGIC;
 signal float2fixedce : STD_LOGIC;
-signal float2fixedr : STD_LOGIC_VECTOR(8 DOWNTO 0);
+signal float2fixedr : STD_LOGIC_VECTOR(13 DOWNTO 0);
 signal float2fixedrdy : STD_LOGIC;
 
 COMPONENT dualmem
@@ -226,22 +262,22 @@ clka : IN STD_LOGIC;
 ena : IN STD_LOGIC;
 wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
 addra : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-dina : IN STD_LOGIC_VECTOR(8 DOWNTO 0);
+dina : IN STD_LOGIC_VECTOR(13 DOWNTO 0);
 clkb : IN STD_LOGIC;
 enb : IN STD_LOGIC;
 addrb : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-doutb : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
+doutb : OUT STD_LOGIC_VECTOR(13 DOWNTO 0)
 );
 END COMPONENT;
 signal dualmem_clka : STD_LOGIC;
 signal dualmem_ena : STD_LOGIC;
 signal dualmem_wea : STD_LOGIC_VECTOR(0 DOWNTO 0);
 signal dualmem_addra : STD_LOGIC_VECTOR(9 DOWNTO 0);
-signal dualmem_dina : STD_LOGIC_VECTOR(8 DOWNTO 0);
+signal dualmem_dina : STD_LOGIC_VECTOR(13 DOWNTO 0);
 signal dualmem_clkb : STD_LOGIC;
 signal dualmem_enb : STD_LOGIC;
 signal dualmem_addrb : STD_LOGIC_VECTOR(9 DOWNTO 0);
-signal dualmem_doutb : STD_LOGIC_VECTOR(8 DOWNTO 0);
+signal dualmem_doutb : STD_LOGIC_VECTOR(13 DOWNTO 0);
 
 --attribute RlOC : string;
 
@@ -353,17 +389,17 @@ signal subfprdy : STD_LOGIC;
 
 --attribute RLOC of subfp : component is "SLICE_X40Y48:SLICE_X79Y79";
 
---COMPONENT sqrtfp2
---PORT (
---a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
---operation_nd : IN STD_LOGIC;
---clk : IN STD_LOGIC;
---sclr : IN STD_LOGIC;
---ce : IN STD_LOGIC;
---result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
---rdy : OUT STD_LOGIC
---);
---END COMPONENT;
+COMPONENT sqrtfp2
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
 signal sqrtfp2a : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal sqrtfp2ond : STD_LOGIC;
 signal sqrtfp2clk : STD_LOGIC;
@@ -380,6 +416,12 @@ signal divfpclk : std_logic;
 
 signal rdata : std_logic_vector(23 downto 0);
 
+signal cm : std_logic_vector (8 downto 0);
+
+type states is (idle,
+s1,s2,s3,s4,s5,s6,s7,s8,s9,s10);
+signal t_state : states := idle;
+
 begin
 
 vga_syncn <= '1';
@@ -389,12 +431,13 @@ vga_psave <= '1';
 
 pTo : process (i_clock) is
 	variable i : integer range 0 to PIXELS-1;
-	variable tout : std_logic_vector (8 downto 0);
-	type states is (idle,
-	s1,s2,s3,s4,s5,s6,s7,s8,s9,s10);
+	variable tout : std_logic_vector (13 downto 0);
 	variable state : states;
   constant c_some_wait : integer := 2**20;
   variable some_wait : integer range 0 to c_some_wait-1;
+  --synthesis translate_off
+  variable first : boolean := false;
+  --synthesis translate_on
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -406,6 +449,7 @@ begin
 			tout := (others => '0');
       some_wait := 0;
 		else
+      t_state <= state;
 			case (state) is
 				when idle => state := s1;
 					test_fixed_melexis_run <= '1';
@@ -423,6 +467,7 @@ begin
 					tout := (others => '0');
 				when s3 => state := s4;
 				when s4 => state := s5;
+          first := true;
 					test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
 				when s5 => state := s6;
 				when s6 => state := s7;
@@ -446,7 +491,10 @@ begin
 					dualmem_dina <= tout;
 					dualmem_ena <= '1';
           --synthesis translate_off
-          --report_error ("tout", tout, 0.0);
+          if (first = true) then
+            report_error_sfixed (6, 8, "================ Fixed out "&integer'image(i), tout, 0.0);
+            first := false;
+          end if;
           --synthesis translate_on
 				when s9 =>
 					dualmem_wea <= "0";
@@ -463,7 +511,7 @@ begin
 --          if (some_wait = c_some_wait-1) then
 --            some_wait := 0;
 --            state := idle;
-            state :=  s2;
+--            state :=  s2;
 --            float2fixedsclr <= '1';
 --          else
 --            some_wait := some_wait + 1;
@@ -544,7 +592,13 @@ end process pagclk;
 test_fixed_melexis_clock <= i_clock;
 test_fixed_melexis_reset <= i_reset;
 --test_fixed_melexis_addr <= address_generator_address;
-tfm_inst : test_fixed_melexis port map (
+melexis_mlx9064x_core_inst : melexis_mlx9064x
+generic map (
+c_device => c_device,
+c_calculate_type => c_calculate_type,
+c_use_fisqrt => c_use_fisqrt
+)
+port map (
 i_clock => test_fixed_melexis_clock,
 i_reset => test_fixed_melexis_reset,
 i_run => test_fixed_melexis_run,
@@ -612,38 +666,60 @@ dina => (others => '0'),
 douta => test_fixed_melexis_i2c_mem_douta
 );
 
-address_generator_clk <= agclk;
-address_generator_clk25 <= vgaclk25;
+--address_generator_clk <= i_clock;
+address_generator_clk <= vgaclk25;
 address_generator_reset <= i_reset;
-address_generator_vsync <= VGA_timing_synch_Vsync;
-address_generator_activeh <= VGA_timing_synch_activehaaddrgen;
-address_generator_enable <= VGA_timing_synch_activeRender1;
+address_generator_vsync <= not VGA_timing_synch_Vsync;
+address_generator_activeh <= VGA_timing_synch_blank;
+--address_generator_enable <= VGA_timing_synch_activeRender1;
 --address_generator_enable <= VGA_timing_synch_Hsync;
-ag_inst : address_generator port map (
-reset => address_generator_reset,
-clk => address_generator_clk,
-clk25 => address_generator_clk25,
-enable => address_generator_enable,
-vsync => address_generator_vsync,
-activeh => address_generator_activeh,
-address => address_generator_address
+vag_inst : vga_address_generator
+port map(
+i_clock => address_generator_clk,
+i_reset => address_generator_reset,
+i_vga_blank => address_generator_activeh,
+i_vga_v_blank => address_generator_vsync,
+o_vga_address => address_generator_address
 );
+
+--ag_inst : address_generator port map (
+--reset => address_generator_reset,
+--clk => address_generator_clk,
+--clk25 => address_generator_clk25,
+--enable => address_generator_enable,
+--vsync => address_generator_vsync,
+--activeh => address_generator_activeh,
+--address => address_generator_address
+--);
 
 VGA_timing_synch_vgaclk25 <= vgaclk25;
 vga_clock <= VGA_timing_synch_vgaclk25;
 vga_hsync <= VGA_timing_synch_Hsync;
 vga_vsync <= VGA_timing_synch_Vsync;
 VGA_timing_synch_reset <= i_reset;
-vts_inst : VGA_timing_synch port map (
-reset => VGA_timing_synch_reset,
-vgaclk25 => VGA_timing_synch_vgaclk25,
-Hsync => VGA_timing_synch_Hsync,
-Vsync => VGA_timing_synch_Vsync,
-activeArea1 => VGA_timing_synch_activeArea1,
-activehaaddrgen => VGA_timing_synch_activehaaddrgen,
-activeRender1 => VGA_timing_synch_activeRender1,
-blank => VGA_timing_synch_blank
+
+vts_inst : vga_timing
+port map (
+i_clock   => VGA_timing_synch_vgaclk25,
+i_reset   => VGA_timing_synch_reset,
+o_hsync   => VGA_timing_synch_Hsync,
+o_vsync   => VGA_timing_synch_Vsync,
+o_blank   => VGA_timing_synch_blank,
+o_v_blank => VGA_timing_synch_V_Blank,
+o_h_blank => open
 );
+
+
+--vts_inst : VGA_timing_synch port map (
+--reset => VGA_timing_synch_reset,
+--vgaclk25 => VGA_timing_synch_vgaclk25,
+--Hsync => VGA_timing_synch_Hsync,
+--Vsync => VGA_timing_synch_Vsync,
+--activeArea1 => VGA_timing_synch_activeArea1,
+--activehaaddrgen => VGA_timing_synch_activehaaddrgen,
+--activeRender1 => VGA_timing_synch_activeRender1,
+--blank => VGA_timing_synch_blank
+--);
 
 --vga_r <= vga_imagegenerator_RGB_out (7 downto 0);
 --vga_g <= vga_imagegenerator_RGB_out (15 downto 8);
@@ -667,12 +743,20 @@ blank => VGA_timing_synch_blank
 
 -- xxx 9 bit signed heatmap, in simulation show all BGYW colors, on board 'only' YW colors, test image have range -172 to 17
 -- XXX by using colormap we can use less channels in scaler
-rdata <= colormap_rom (to_integer (signed (dualmem_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
+cm <= dualmem_doutb (11 downto 4) & '0';
+--rdata <= colormap_viridis (to_integer (512 - signed (cm))); -- xxx i don't know, problem with dualmem module ?
+--rdata <= colormap_magma (to_integer (512 - signed (cm))); -- xxx i don't know, problem with dualmem module ?
+--rdata <= colormap_brewer_ygb (to_integer (512 - signed (cm))); -- xxx i don't know, problem with dualmem module ?
+rdata <= colormap_rainbow (to_integer (signed (cm))); -- xxx i don't know, problem with dualmem module ?
+--rdata <= colormap_heat (to_integer (512 - signed (cm))); -- xxx i don't know, problem with dualmem module ?
+--rdata <= colormap_rom1 (to_integer (512 - signed (cm))); -- xxx i don't know, problem with dualmem module ?
+--rdata <= colormap_rom (to_integer (256 + signed (cm))); -- xxx i don't know, problem with dualmem module ?
+--rdata <= colormap_rom (to_integer (256 - signed (cm))); -- xxx i don't know, problem with dualmem module ?
 --rdata <= colormap_rom (to_integer (unsigned (dualmem2_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
 
-vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_g <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
-vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_activeArea1 = '1' else (others => '0');
+vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
+vga_g <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
+vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
 
 ----vga_imagegenerator_active_area1 <= VGA_timing_synch_activeArea1;
 --vga_imagegenerator_active_area1 <= '1';
@@ -729,7 +813,9 @@ addfpclk <= i_clock;
 subfpclk <= i_clock;
 mulfpclk <= i_clock;
 divfpclk <= i_clock;
+g0_sqrtfp2_clk : if (c_use_fisqrt /= "yes") generate
 sqrtfp2clk <= i_clock;
+end generate g0_sqrtfp2_clk;
 
 b0 : block
 attribute loc : string;
@@ -798,16 +884,20 @@ result => subfpr,
 rdy => subfprdy
 );
 
---inst_sqrtfp2 : sqrtfp2
---PORT MAP (
---a => sqrtfp2a,
---operation_nd => sqrtfp2ond,
---clk => sqrtfp2clk,
---sclr => sqrtfp2sclr,
---ce => sqrtfp2ce,
---result => sqrtfp2r,
---rdy => sqrtfp2rdy
---);
+g_calculate_to : if (c_calculate_type = "c_temperature" and c_use_fisqrt /= "yes") generate
+
+inst_sqrtfp2 : sqrtfp2
+PORT MAP (
+a => sqrtfp2a,
+operation_nd => sqrtfp2ond,
+clk => sqrtfp2clk,
+sclr => sqrtfp2sclr,
+ce => sqrtfp2ce,
+result => sqrtfp2r,
+rdy => sqrtfp2rdy
+);
+
+end generate g_calculate_to;
 
 end Behavioral;
 
