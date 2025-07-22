@@ -245,7 +245,7 @@ operation_nd : IN STD_LOGIC;
 clk : IN STD_LOGIC;
 sclr : IN STD_LOGIC;
 ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(13 DOWNTO 0);
+result : OUT STD_LOGIC_VECTOR(8 DOWNTO 0);
 rdy : OUT STD_LOGIC
 );
 END COMPONENT;
@@ -254,7 +254,7 @@ signal float2fixedond : STD_LOGIC;
 signal float2fixedclk : STD_LOGIC;
 signal float2fixedsclr : STD_LOGIC;
 signal float2fixedce : STD_LOGIC;
-signal float2fixedr : STD_LOGIC_VECTOR(13 DOWNTO 0);
+signal float2fixedr : STD_LOGIC_VECTOR(8 DOWNTO 0);
 signal float2fixedrdy : STD_LOGIC;
 
 COMPONENT dualmem
@@ -263,22 +263,22 @@ clka : IN STD_LOGIC;
 ena : IN STD_LOGIC;
 wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
 addra : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-dina : IN STD_LOGIC_VECTOR(13 DOWNTO 0);
+dina : IN STD_LOGIC_VECTOR(8 DOWNTO 0);
 clkb : IN STD_LOGIC;
 enb : IN STD_LOGIC;
 addrb : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-doutb : OUT STD_LOGIC_VECTOR(13 DOWNTO 0)
+doutb : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
 );
 END COMPONENT;
 signal dualmem_clka : STD_LOGIC;
 signal dualmem_ena : STD_LOGIC;
 signal dualmem_wea : STD_LOGIC_VECTOR(0 DOWNTO 0);
 signal dualmem_addra : STD_LOGIC_VECTOR(9 DOWNTO 0);
-signal dualmem_dina : STD_LOGIC_VECTOR(13 DOWNTO 0);
+signal dualmem_dina : STD_LOGIC_VECTOR(8 DOWNTO 0);
 signal dualmem_clkb : STD_LOGIC;
 signal dualmem_enb : STD_LOGIC;
 signal dualmem_addrb : STD_LOGIC_VECTOR(9 DOWNTO 0);
-signal dualmem_doutb : STD_LOGIC_VECTOR(13 DOWNTO 0);
+signal dualmem_doutb : STD_LOGIC_VECTOR(8 DOWNTO 0);
 
 --attribute RlOC : string;
 
@@ -432,7 +432,7 @@ vga_psave <= '1';
 
 pTo : process (i_clock) is
 	variable i : integer range 0 to PIXELS-1;
-	variable tout : std_logic_vector (13 downto 0);
+	variable tout : std_logic_vector (8 downto 0);
 	variable state : states;
   constant c_some_wait : integer := 2**20;
   variable some_wait : integer range 0 to c_some_wait-1;
@@ -744,8 +744,7 @@ o_h_blank => open
 
 -- xxx 9 bit signed heatmap, in simulation show all BGYW colors, on board 'only' YW colors, test image have range -172 to 17
 -- XXX by using colormap we can use less channels in scaler
-cm <= dualmem_doutb (11 downto 3);
-rdata <= colormap_rom (to_integer (signed (cm))); -- xxx i don't know, problem with dualmem module ?
+rdata <= colormap_rom (to_integer (signed (dualmem_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
 --rdata <= colormap_rom (to_integer (unsigned (dualmem2_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
 
 vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
