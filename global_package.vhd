@@ -139,7 +139,7 @@ package global_package is
 	constant C_P1 : std_logic_vector (31 downto 0) := x"3F800000"; -- +1
   constant C_M1 : std_logic_vector (31 downto 0) := x"BF800000"; -- -1
   constant C_2POW13 : std_logic_vector (31 downto 0) := x"46000000"; -- 2^13
-  constant C_TA0 : std_logic_vector (31 downto 0) := x"41C80000"; -- Temperature ambient ~25st C
+  constant C_TA0 : std_logic_vector (31 downto 0) := x"41C80000"; -- Temperature ambient +25st C
   constant C_ZERO : std_logic_vector (31 downto 0) := x"00000000";
 
   --constant C_TB_DATA_FILE : string := "tb_data";
