@@ -232,6 +232,9 @@ begin
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
+      --synthesis translate_off
+      report_error ("vdd25", fixed2floatr, 0.0);
+      --synthesis translate_on
 		else state := s15; end if;
   when s16 =>
     fixed2floatsclr <= '0';
@@ -293,6 +296,9 @@ begin
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
+      --synthesis translate_off
+      report_error ("kvdd", fixed2floatr, 0.0);
+      --synthesis translate_on
 		else state := s20; end if;
   when s21 =>
     fixed2floatsclr <= '0';
