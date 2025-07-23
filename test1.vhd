@@ -468,8 +468,10 @@ begin
 					tout := (others => '0');
 				when s3 => state := s4;
 				when s4 => state := s5;
+          --synthesis translate_off
           first := true;
-					test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
+					--synthesis translate_on
+          test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
 				when s5 => state := s6;
 				when s6 => state := s7;
 					float2fixedond <= '1';
@@ -744,7 +746,8 @@ o_h_blank => open
 
 -- xxx 9 bit signed heatmap, in simulation show all BGYW colors, on board 'only' YW colors, test image have range -172 to 17
 -- XXX by using colormap we can use less channels in scaler
-rdata <= colormap_rom (to_integer (signed (dualmem_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
+cm <= dualmem_doutb (8 downto 0);
+rdata <= colormap_rom (to_integer (signed (cm))); -- xxx i don't know, problem with dualmem module ?
 --rdata <= colormap_rom (to_integer (unsigned (dualmem2_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
 
 vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
