@@ -17,14 +17,15 @@ ld = im.load()
 # [distance, (r, g, b)]
 # distance is percentage from left edge
 heatmap = [
-[0.01, (0xff/0x100, 0x00/0x100, 0x00/0x100)],
-[0.18, (0xff/0x100, 0xa5/0x100, 0x00/0x100)],
-[0.36, (0xff/0x100, 0xff/0x100, 0x00/0x100)],
-[0.54, (0x00/0x100, 0xff/0x100, 0x00/0x100)],
-[0.72, (0x00/0x100, 0xff/0x100, 0xff/0x100)],
-[0.90, (0x00/0x100, 0x00/0x100, 0xff/0x100)],
-[1.00, (0x90/0x100, 0x00/0x100, 0xff/0x100)],
+  [0.0, (0, 0, 0)],
+  [0.20, (0, 0, .5)],
+  [0.40, (0, .5, 0)],
+  [0.60, (.5, 0, 0)],
+  [0.80, (.75, .75, 0)],
+  [0.90, (1.0, .75, 0)],
+  [1.00, (1.0, 1.0, 1.0)],
 ]
+
 
 """heatmap = [
     [0.0,  (0.0, 0.0, 1.0)],
@@ -35,7 +36,7 @@ heatmap = [
 def gaussian(x, a, b, c, d=0):
     return a * math.exp(-(x - b)**2 / (2 * c**2)) + d
 
-def pixel(x, width=100, map=[], spread=2):
+def pixel(x, width=100, map=[], spread=1):
     width = float(width)
     r = sum([gaussian(x, p[1][0], p[0] * width, width/(spread*len(map))) for p in map])
     g = sum([gaussian(x, p[1][1], p[0] * width, width/(spread*len(map))) for p in map])

@@ -238,7 +238,7 @@ end component vga_timing;
 
 signal vgaclk25,agclk : std_logic;
 
-COMPONENT float2fixed
+COMPONENT float2fixed_rawimg
 PORT (
 a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 operation_nd : IN STD_LOGIC;
@@ -248,16 +248,28 @@ ce : IN STD_LOGIC;
 result : OUT STD_LOGIC_VECTOR(8 DOWNTO 0);
 rdy : OUT STD_LOGIC
 );
-END COMPONENT;
+END COMPONENT float2fixed_rawimg;
+COMPONENT float2fixed_temperature
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT float2fixed_temperature;
 signal float2fixeda : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal float2fixedond : STD_LOGIC;
 signal float2fixedclk : STD_LOGIC;
 signal float2fixedsclr : STD_LOGIC;
 signal float2fixedce : STD_LOGIC;
-signal float2fixedr : STD_LOGIC_VECTOR(8 DOWNTO 0);
+signal float2fixedr_t : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal float2fixedr_r : STD_LOGIC_VECTOR(8 DOWNTO 0);
 signal float2fixedrdy : STD_LOGIC;
 
-COMPONENT dualmem
+COMPONENT dualmem_rawimg
 PORT (
 clka : IN STD_LOGIC;
 ena : IN STD_LOGIC;
@@ -269,16 +281,31 @@ enb : IN STD_LOGIC;
 addrb : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
 doutb : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
 );
-END COMPONENT;
+END COMPONENT dualmem_rawimg;
+COMPONENT dualmem_temperature
+PORT (
+clka : IN STD_LOGIC;
+ena : IN STD_LOGIC;
+wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+addra : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+dina : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+clkb : IN STD_LOGIC;
+enb : IN STD_LOGIC;
+addrb : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+doutb : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+);
+END COMPONENT dualmem_temperature;
 signal dualmem_clka : STD_LOGIC;
 signal dualmem_ena : STD_LOGIC;
 signal dualmem_wea : STD_LOGIC_VECTOR(0 DOWNTO 0);
 signal dualmem_addra : STD_LOGIC_VECTOR(9 DOWNTO 0);
-signal dualmem_dina : STD_LOGIC_VECTOR(8 DOWNTO 0);
+signal dualmem_dina_t : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal dualmem_dina_r : STD_LOGIC_VECTOR(8 DOWNTO 0);
 signal dualmem_clkb : STD_LOGIC;
 signal dualmem_enb : STD_LOGIC;
 signal dualmem_addrb : STD_LOGIC_VECTOR(9 DOWNTO 0);
-signal dualmem_doutb : STD_LOGIC_VECTOR(8 DOWNTO 0);
+signal dualmem_doutb_t : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal dualmem_doutb_r : STD_LOGIC_VECTOR(8 DOWNTO 0);
 
 --attribute RlOC : string;
 
@@ -432,13 +459,14 @@ vga_psave <= '1';
 
 pTo : process (i_clock) is
 	variable i : integer range 0 to PIXELS-1;
-	variable tout : std_logic_vector (8 downto 0);
 	variable state : states;
   constant c_some_wait : integer := 2**20;
   variable some_wait : integer range 0 to c_some_wait-1;
   --synthesis translate_off
   variable first : boolean := false;
   --synthesis translate_on
+  variable tout_t : std_logic_vector (15 downto 0);
+  variable tout_r : std_logic_vector (8 downto 0);
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -447,7 +475,12 @@ begin
 			i := 0;
 			dualmem_ena <= '0';
 			dualmem_enb <= '0';
-			tout := (others => '0');
+			if (c_calculate_type = "c_raws_images") then
+        tout_r := (others => '0');
+      end if;
+      if (c_calculate_type = "c_temperature") then
+        tout_t := (others => '0');
+      end if;
       some_wait := 0;
 		else
       t_state <= state;
@@ -465,7 +498,12 @@ begin
 				when s2 => state := s3;
 					float2fixedsclr <= '0';
 					i := 0;
-					tout := (others => '0');
+          if (c_calculate_type = "c_raws_images") then
+            tout_r := (others => '0');
+          end if;
+          if (c_calculate_type = "c_temperature") then
+            tout_t := (others => '0');
+          end if;
 				when s3 => state := s4;
 				when s4 => state := s5;
           --synthesis translate_off
@@ -482,7 +520,12 @@ begin
 --						tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
 --						tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
 --						tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
-						tout := float2fixedr;
+            if (c_calculate_type = "c_raws_images") then
+              tout_r := float2fixedr_r;
+            end if;
+            if (c_calculate_type = "c_temperature") then
+              tout_t := float2fixedr_t;
+            end if;
 						float2fixedond <= '0';
 						float2fixedce <= '0';
 						float2fixedsclr <= '1';
@@ -491,11 +534,21 @@ begin
 					float2fixedsclr <= '0';
 					dualmem_wea <= "1";
 					dualmem_addra <= std_logic_vector (to_unsigned (i, 10));
-					dualmem_dina <= tout;
+          if (c_calculate_type = "c_raws_images") then
+            dualmem_dina_r <= tout_r;
+          end if;
+          if (c_calculate_type = "c_temperature") then
+            dualmem_dina_t <= tout_t;
+          end if;
 					dualmem_ena <= '1';
           --synthesis translate_off
           if (first = true) then
-            report_error_sfixed (6, 8, "================ Fixed out "&integer'image(i), tout, 0.0);
+            if (c_calculate_type = "c_raws_images") then
+              report_error_sfixed (9, 7, "================ Fixed out "&integer'image(i), tout_r, 0.0);
+            end if;
+            if (c_calculate_type = "c_temperature") then
+              report_error_sfixed (6, 8, "================ Fixed out "&integer'image(i), tout_t, 0.0);
+            end if;
             first := false;
           end if;
           --synthesis translate_on
@@ -746,8 +799,19 @@ o_h_blank => open
 
 -- xxx 9 bit signed heatmap, in simulation show all BGYW colors, on board 'only' YW colors, test image have range -172 to 17
 -- XXX by using colormap we can use less channels in scaler
-cm <= dualmem_doutb (8 downto 0);
+
+--constant c_calculate_type : string (1 to 13) := "c_raws_images"; -- c_temperature,c_raws_images
+--constant c_use_fisqrt : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type(c_temperature)
+
+
+g0_1 : if (c_calculate_type = "c_raws_images") generate
+cm <= dualmem_doutb_r (8 downto 0);
+end generate g0_1;
+g0_2 : if (c_calculate_type = "c_temperature") generate
+cm <= dualmem_doutb_t (12 downto 12) & '0' & dualmem_doutb_t (11 downto 5);
+end generate g0_2;
 rdata <= colormap_rom (to_integer (signed (cm))); -- xxx i don't know, problem with dualmem module ?
+
 --rdata <= colormap_rom (to_integer (unsigned (dualmem2_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
 
 vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
@@ -779,30 +843,58 @@ vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_blank = '0' else (othe
 --);
 
 float2fixedclk <= i_clock;
-inst_float2fixed : float2fixed PORT MAP (
+g0_fl2fi_temperature : if (c_calculate_type = "c_temperature") generate
+inst_float2fixed_t : float2fixed_temperature PORT MAP (
 a => float2fixeda,
 operation_nd => float2fixedond,
 clk => float2fixedclk,
 sclr => float2fixedsclr,
 ce => float2fixedce,
-result => float2fixedr,
+result => float2fixedr_t,
 rdy => float2fixedrdy
 );
+end generate g0_fl2fi_temperature;
+g1_fl2fi_raw_image : if (c_calculate_type = "c_raws_images") generate
+inst_float2fixed_r : float2fixed_rawimg PORT MAP (
+a => float2fixeda,
+operation_nd => float2fixedond,
+clk => float2fixedclk,
+sclr => float2fixedsclr,
+ce => float2fixedce,
+result => float2fixedr_r,
+rdy => float2fixedrdy
+);
+end generate g1_fl2fi_raw_image;
 
 dualmem_clka <= i_clock;
 dualmem_clkb <= agclk;
 dualmem_addrb <= address_generator_address;
-dualmem_inst : dualmem PORT MAP (
+g0_dualmem_temperature : if (c_calculate_type = "c_temperature") generate
+dualmem_inst_t : dualmem_temperature PORT MAP (
 clka => dualmem_clka,
 ena => dualmem_ena,
 wea => dualmem_wea,
 addra => dualmem_addra,
-dina => dualmem_dina,
+dina => dualmem_dina_t,
 clkb => dualmem_clkb,
 enb => dualmem_enb,
 addrb => dualmem_addrb,
-doutb => dualmem_doutb
+doutb => dualmem_doutb_t
 );
+end generate g0_dualmem_temperature;
+g1_dualmem_rawimg : if (c_calculate_type = "c_raws_images") generate
+dualmem_inst_r : dualmem_rawimg PORT MAP (
+clka => dualmem_clka,
+ena => dualmem_ena,
+wea => dualmem_wea,
+addra => dualmem_addra,
+dina => dualmem_dina_r,
+clkb => dualmem_clkb,
+enb => dualmem_enb,
+addrb => dualmem_addrb,
+doutb => dualmem_doutb_r
+);
+end generate g1_dualmem_rawimg;
 
 fixed2floatclk <= i_clock;
 addfpclk <= i_clock;
