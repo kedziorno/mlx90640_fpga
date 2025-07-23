@@ -141,7 +141,7 @@ begin
           if (i_run = '1') then
             state := s4;
             i2c_mem_ena <= '1';
-            i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(778*2)+0, 12)); -- ram070a MSB ram gain
+            i2c_mem_addra <= std_logic_vector (to_unsigned (ram_0x070a_msb, 12));
             o_rdy <= '0';
           else
             state := idle;
@@ -150,7 +150,7 @@ begin
           fixed2floatsclr_internal <= '0';
           divfpsclr_internal <= '0';
         when s4 => state := s5;
-          i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(778*2)+1, 12)); -- ram070a LSB ram gain
+          i2c_mem_addra <= std_logic_vector (to_unsigned (ram_0x070a_lsb, 12));
         when s5 => state := s9;
           ram (7 downto 0) := i2c_mem_douta; -- ram gain
         when s9 =>
@@ -177,10 +177,10 @@ begin
             divfpce_internal <= '0';
             divfpond_internal <= '0';
             divfpsclr_internal <= '1';
-            i2c_mem_addra <= std_logic_vector (to_unsigned (48*2+0, 12)); -- 2430 MSB ee gain
+            i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2430_msb, 12));
           else state := s10; end if;
         when s10a => state := s10b;
-            i2c_mem_addra <= std_logic_vector (to_unsigned (48*2+1, 12)); -- 2430 LSB ee gain
+            i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2430_lsb, 12));
         when s10b => state := s11;
           ram (7 downto 0) := i2c_mem_douta; -- ee2430 gain
         when s11 =>

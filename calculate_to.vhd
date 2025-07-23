@@ -833,14 +833,14 @@ begin
           sqrtfp2ce_internal <= '1';
           sqrtfp2a_internal <= sqrtfp2r_internal; -- sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar))
           sqrtfp2ond_internal <= '1';
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (63*2+1, 12)); -- ee243f LSB kstoscale 0x000f
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243f_lsb, 12));
           if (sqrtfp2rdy_internal = '1') then state := s50; -- sqrt2(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar)))
             sqrtfp2ce_internal <= '0';
             sqrtfp2ond_internal <= '0';
             sqrtfp2sclr_internal <= '1';
             o_2powx_p8_ena <= '1';
             o_2powx_p8_adr <= i2c_mem_douta_internal (3 downto 0);
-            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (61*2+0, 12)); -- ee243d MSB ksto2ee 0xff00
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243d_msb, 12));
           else state := s49; end if;
           
         when s50 =>
@@ -1374,12 +1374,12 @@ begin
           divfpsclr_internal <= '0';
           fast_inverse_sqrt_run <= '1';
           fast_inverse_sqrt_sqrt_original <= divfpr_internal; -- sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar))
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (63*2+1, 12)); -- ee243f LSB kstoscale 0x000f
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243f_lsb, 12));
           if (fast_inverse_sqrt_done = '1') then state := s49a; -- 1/(sqrt2(sqrt2((alphacomp^3*vircompensated)+(alphacomp^4*Tar))))
             fast_inverse_sqrt_run <= '0';
             o_2powx_p8_ena <= '1';
             o_2powx_p8_adr <= i2c_mem_douta_internal (3 downto 0);
-            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (61*2+0, 12)); -- ee243d MSB ksto2ee 0xff00
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243d_msb, 12));
           else state := s49; end if;
 
         when s49a => -- 1/(1/sqrt(sqrt(x))) = sqrt(sqrt(x)) = sq4(x)

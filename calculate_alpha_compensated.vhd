@@ -435,7 +435,7 @@ begin
           fixed2floatsclr_internal <= '0';
 				when s0 => state := s1;
           i2c_mem_ena <= '1';
-          i2c_mem_addra <= std_logic_vector (to_unsigned (60*2+0, 12)); -- 243c MSB kstaee 8bit
+          i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x243c_msb, 12));
         when s1 => state := s2;
           addfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';

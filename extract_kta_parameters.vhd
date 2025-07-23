@@ -416,7 +416,7 @@ begin
 					if (i_run = '1') then
 						state := kta1;
 						i2c_mem_ena <= '1';
-            i2c_mem_addra <= std_logic_vector (to_unsigned (108, 12)); -- 2436 LSB - ktarcee_oo 54*2+0
+            i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2436_lsb, 12));
             rdy <= '0';
 					else
 						state := idle;
@@ -430,16 +430,16 @@ begin
           row <= 0;
           i := 0;
 				when kta1 => state := kta2;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (109, 12)); -- 2436 MSB - ktarcee_eo 54*2+1
+					i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2436_msb, 12));
 				when kta2 => state := kta3;
           ktarcee_oo <= i2c_mem_douta;
-          i2c_mem_addra <= std_logic_vector (to_unsigned (110, 12)); -- 2437 LSB - ktarcee_oe 54*2+2
+          i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2437_lsb, 12));
         when kta3 => state := kta4;
 					ktarcee_eo <= i2c_mem_douta;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (111, 12)); -- 2437 MSB - ktarcee_ee 54*2+3
+					i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2437_msb, 12));
 				when kta4 => state := kta5;
 					ktarcee_oe <= i2c_mem_douta;
-          i2c_mem_addra <= std_logic_vector (to_unsigned (113, 12)); -- 2438 LSB - ktascale1/ktascale2	54*2+5
+          i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2438_lsb, 12));
 				when kta5 => state := kta6;
 					ktarcee_ee <= i2c_mem_douta;
 				when kta6 => state := kta7;
@@ -456,7 +456,7 @@ begin
           out_nibble2 <= i_rom_constants_float;
           o_2powx_4bit_ena <= '0';
 				when kta9 => state := kta10;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (129+(2*i), 12)); -- kta LSB 1
+					i2c_mem_addra <= std_logic_vector (to_unsigned (129+(2*i), 12)); -- XXX fixit kta LSB 1
         when kta10 =>
 
           fixed2floatce_internal <= '1';

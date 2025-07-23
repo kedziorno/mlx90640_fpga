@@ -183,7 +183,7 @@ begin
           subfpa <= i_Vdd;
           subfpb <= C_3DOT3;
           subfpond <= '1';
-          i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(800*2)+0, 12)); -- ram0720 MSB vptat
+          i2c_mem_addra <= std_logic_vector (to_unsigned (ram_0x0720_msb, 12));
           if (subfprdy = '1') then state := s8;
             -- XXX duplicate calculation
             subfpce <= '0';
@@ -192,7 +192,7 @@ begin
             --synthesis translate_off
             report_error("================ CalculateTa deltaV", subfpr, 0.0);
             --synthesis translate_on
-            i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(800*2)+1, 12)); -- ram0720 LSB vptat
+            i2c_mem_addra <= std_logic_vector (to_unsigned (ram_0x0720_lsb, 12));
             ram := i2c_mem_douta;
           else state := s1c; end if;
         when s8 =>
@@ -208,7 +208,7 @@ begin
             --synthesis translate_off
             report_error("================ CalculateTa vptat", fixed2floatr, 0.0);
             --synthesis translate_on
-            i2c_mem_addra <= std_logic_vector (to_unsigned (16*2+0, 12)); -- ee2410 MSB kptat
+            i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2410_msb, 12));
           else state := s8; end if;
         when s9 => state := s12;
           fixed2floatsclr <= '0';
@@ -220,7 +220,7 @@ begin
           mulfpa <= fixed2floatr;
           mulfpb <= i_rom_constants_float;
           mulfpond <= '1';
-          i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(768*2)+0, 12)); -- ram0700 MSB vbe
+          i2c_mem_addra <= std_logic_vector (to_unsigned (ram_0x0700_msb, 12));
           if (mulfprdy = '1') then state := s13;
             --synthesis translate_off
             report_error("================ CalculateTa alphaptat", i_rom_constants_float, 0.0);
@@ -229,7 +229,7 @@ begin
             mulfpce <= '0';
             mulfpond <= '0';
             mulfpsclr <= '1';
-            i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(768*2)+1, 12)); -- ram0700 LSB vbe
+            i2c_mem_addra <= std_logic_vector (to_unsigned (ram_0x0700_lsb, 12));
             ram := i2c_mem_douta;
           else state := s12; end if;
         when s13 =>
@@ -253,12 +253,12 @@ begin
           addfpa <= mulfpr; -- vptat*alphaptat
           addfpb <= fixed2floatr;
           addfpond <= '1';
-          i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(800*2)+0, 12)); -- ram0720 MSB vptat
+          i2c_mem_addra <= std_logic_vector (to_unsigned (ram_0x0720_msb, 12));
           if (addfprdy = '1') then state := s15;
             addfpce <= '0';
             addfpond <= '0';
             addfpsclr <= '1';
-            i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(800*2)+1, 12)); -- ram0720 LSB vptat
+            i2c_mem_addra <= std_logic_vector (to_unsigned (ram_0x0720_lsb, 12));
             ram := i2c_mem_douta;
           else state := s14; end if;
         when s15 => -- XXX fi2fl ram0720 twice for remove vptat_ft reg (compare syn)
@@ -286,7 +286,7 @@ begin
             divfpce <= '0';
             divfpond <= '0';
             divfpsclr <= '1';
-            i2c_mem_addra <= std_logic_vector (to_unsigned (50*2+0, 12)); -- ee2432 MSB kvptat-6bit,ktptat-10bit
+            i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2432_msb, 12));
           else state := s16; end if;
         when s18 =>
           divfpsclr <= '0';
@@ -344,7 +344,7 @@ begin
           divfpa <= mulfpr; -- vptatart =  (vptat/(vptat*alphaptat+vbe))*2^18
           divfpb <= addfpr; -- 1+kvptat*deltaV
           divfpond <= '1';
-          i2c_mem_addra <= std_logic_vector (to_unsigned (49*2+0, 12)); -- ee2431 MSB vptat25
+          i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2431_msb, 12));
           if (divfprdy = '1') then state := s25;
             divfpce <= '0';
             divfpond <= '0';
@@ -352,7 +352,7 @@ begin
             --synthesis translate_off
             report_error("================ CalculateTa 3", divfpr, 0.0);
             --synthesis translate_on
-            i2c_mem_addra <= std_logic_vector (to_unsigned (49*2+1, 12)); -- ee2431 LSB vptat25
+            i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2431_lsb, 12));
             ram := i2c_mem_douta;
           else state := s24; end if;
         when s25 =>
@@ -376,7 +376,7 @@ begin
           subfpa <= divfpr; -- vptatart/(1+kvptat*deltaV)
           subfpb <= fixed2floatr;
           subfpond <= '1';
-          i2c_mem_addra <= std_logic_vector (to_unsigned (50*2+0, 12)); -- ee2432 MSB kvptat-6bit,ktptat-10bit
+          i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2432_msb, 12));
           if (subfprdy = '1') then state := s26a;
             subfpce <= '0';
             subfpond <= '0';
@@ -384,7 +384,7 @@ begin
             --synthesis translate_off
             report_error("================ CalculateTa 4", subfpr, 0.0);
             --synthesis translate_on
-            i2c_mem_addra <= std_logic_vector (to_unsigned (50*2+1, 12)); -- ee2432 LSB kvptat-6bit,ktptat-10bit
+            i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2432_lsb, 12));
             tmp (1 downto 0) := i2c_mem_douta (1 downto 0); -- ee2432 msb
           else state := s26; end if;
         when s26a =>

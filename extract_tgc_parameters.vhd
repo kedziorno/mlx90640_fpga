@@ -141,7 +141,7 @@ begin
 					if (i_run = '1') then
 						state := s1;
 						i2c_mem_ena <= '1';
-            i2c_mem_addra <= std_logic_vector (to_unsigned (60*2+1, 12)); -- ee243c LSB - tgcee
+            i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x243c_lsb, 12));
             report "ExtractTGCParameters set to 0 - 11.1.16 Datasheet, 1 in example p. 34";
             o_rdy <= '0';
 					else

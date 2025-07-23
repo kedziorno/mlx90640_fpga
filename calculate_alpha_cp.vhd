@@ -187,9 +187,9 @@ begin
 					divfpsclr_internal <= '0';
           fixed2floatsclr_internal <= '0';
 				when s2 => state := s3;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (57*2+0, 12)); -- 2439 MSB Acpsubpage0 10bit/CP_P12P0_ratio 6bit
+					i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2439_msb, 12));
 				when s3 => state := s4;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (57*2+1, 12)); -- 2439 LSB Acpsubpage0 10bit/CP_P12P0_ratio 6bit
+					i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2439_lsb, 12));
 				when s4 => state := s5;
           acpsp0 := i2c_mem_douta (1 downto 0); -- Acpsubpage0 MSB 10-8bit
 				when s5 =>
@@ -204,7 +204,7 @@ begin
             fixed2floatce_internal <= '0';
             fixed2floatond_internal <= '0';
             fixed2floatsclr_internal <= '1';
-            i2c_mem_addra <= std_logic_vector (to_unsigned (32*2+0, 12)); -- 2420 MSB Ascalecp 4bit
+            i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2420_msb, 12));
           else state := s5; end if;
         when s5a => state := s6;
           fixed2floatsclr_internal <= '0';
@@ -216,7 +216,7 @@ begin
 					divfpa_internal <= fixed2floatr_internal; -- Acpsubpage0
 					divfpb_internal <= i_rom_constants_float; -- 2^(Ascalecp+27)
 					divfpond_internal <= '1';
-          i2c_mem_addra <= std_logic_vector (to_unsigned (57*2+0, 12)); -- 2439 MSB Acpsubpage0 10bit/CP_P12P0_ratio 6bit
+          i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2439_msb, 12));
           if (divfprdy_internal = '1') then state := s11;
             o_alphascale_2_ena <= '0';
             o_cpratio_ena <= '1';

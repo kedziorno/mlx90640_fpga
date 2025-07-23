@@ -331,7 +331,7 @@ begin
 					if (i_run = '1') then
 						state := kv1;
 						i2c_mem_ena <= '1';
-            i2c_mem_addra <= std_logic_vector (to_unsigned (112, 12)); -- 2438 MSB - kvscale 56*2+0
+            i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2438_msb, 12));
             rdy <= '0';
           else
 						state := idle;
@@ -342,9 +342,9 @@ begin
           col <= 0;
           row <= 0;
         when kv1 => state := kv2;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (104, 12)); -- 2434 LSB - kvijee 52*2+0
+					i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2434_lsb, 12));
         when kv2 => state := kv3;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (105, 12)); -- 2434 MSB - kvijee 52*2+1
+					i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2434_msb, 12));
           o_2powx_4bit_ena <= '1';
           o_2powx_4bit_adr <= i2c_mem_douta (3 downto 0);
 				when kv3 => state := kv4;

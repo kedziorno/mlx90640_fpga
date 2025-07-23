@@ -162,7 +162,7 @@ begin
     fixed2floatsclr <= '0';
     o_rdy <= '0';
 	when s2 => state := s4;
-    i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+0, 12)); -- 2438 MSB resolutionee 2bit & 3000
+    i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x2438_msb, 12));
 	when s4 => state := s5;
     resolutionreg <= resreg (11 downto 10);
 	when s5 => state := s9;
@@ -180,9 +180,9 @@ begin
 		else state := s9; end if;
 	when s10 => state := s11;
 		divfpsclr <= '0';
-		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(810*2)+0, 12)); -- ram072a MSB
+		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (ram_0x072a_msb, 12));
 	when s11 => state := s12;
-		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(810*2)+1, 12)); -- ram072a LSB
+		i2c_mem_addra_internal <= std_logic_vector (to_unsigned (ram_0x072a_lsb, 12));
 	when s12 => state := s13;
 		ram (7 downto 0) := i2c_mem_douta_internal;		
 	when s13 =>
@@ -212,7 +212,7 @@ begin
 		addfpa <= mulfpr;
 		addfpb <= x"00000000";
 		addfpond <= '1';
-    i2c_mem_addra_internal <= std_logic_vector (to_unsigned (51*2+1, 12)); -- 2433 LSB vdd25
+    i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x2433_lsb, 12));
     if (addfprdy = '1') then state := s15; -- res_corr * ram072a
 			addfpce <= '0';
 			addfpond <= '0';
@@ -276,7 +276,7 @@ begin
 		subfpa <= addfpr; -- res_corr * ram072a - s14a
 		subfpb <= subfpr; -- vdd25
 		subfpond <= '1';
-    i2c_mem_addra_internal <= std_logic_vector (to_unsigned (51*2+0, 12)); -- 2433 MSB kvdd
+    i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x2433_msb, 12));
 		if (subfprdy = '1') then state := s20;
 			subfpce <= '0';
 			subfpond <= '0';

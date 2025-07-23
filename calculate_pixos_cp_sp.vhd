@@ -281,14 +281,14 @@ begin
 					divfpsclr_internal <= '0';
 					fixed2floatsclr_internal <= '0';
 				when s0 => state := s1a;
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+1, 12)); -- ee2438 LSB - ktascale1
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x2438_lsb, 12));
         when s1a => state := s1b;
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+0, 12)); -- ee2438 MSB - kvscale
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x2438_msb, 12));
         when s1b => state := s1c;
           o_2powx_p8_4bit_ena <= '1';
           o_2powx_p8_4bit_adr <= i2c_mem_douta_internal (7 downto 4); -- ee2438 00f0 - ktascale1
         when s1c => state := s1d;
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243b_msb, 12));
         when s1d => state := s1e;
           out_nibble2 <= i_rom_constants_float; -- ktascale
           o_2powx_p8_4bit_ena <= '0';
@@ -348,7 +348,7 @@ begin
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243b_msb, 12));
           else state := s6; end if;
         when s6a =>
           addfpsclr_internal <= '0';
@@ -413,7 +413,7 @@ begin
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243b_lsb, 12));
           else state := s12; end if;
         when s12a =>
           addfpsclr_internal <= '0';
@@ -466,7 +466,7 @@ begin
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243b_lsb, 12));
           else state := s16; end if;
         when s16a =>
           addfpsclr_internal <= '0';
@@ -507,7 +507,7 @@ begin
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
-            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243b_msb, 12));
           else state := s18; end if;
         
         when s18a =>
@@ -573,7 +573,7 @@ begin
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243b_lsb, 12));
           else state := s24; end if;
           
         when s24a =>
@@ -616,7 +616,7 @@ begin
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
-            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243b_msb, 12));
           else state := s26; end if;
         
         when s26a =>
@@ -696,7 +696,7 @@ begin
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243b_lsb, 12));
           else state := s34; end if;
           
         when s34a =>
@@ -763,7 +763,7 @@ begin
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243b_lsb, 12));
           else state := s40; end if;
           
         when s40a =>
@@ -806,7 +806,7 @@ begin
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
-            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243b_msb, 12));
           else state := s42; end if;
           
         when s42a =>
@@ -885,7 +885,7 @@ begin
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+1, 12)); -- ee243b LSB - ktacpee
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243b_lsb, 12));
           else state := s50; end if;
           
         when s50a =>
@@ -928,7 +928,7 @@ begin
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
-            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243b_msb, 12));
           else state := s52; end if;
           
         when s52a =>
@@ -991,14 +991,14 @@ begin
           addfpa_internal <= addfpr_internal;
           addfpb_internal <= mulfpr_internal;
           addfpond_internal <= '1';
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (58*2+0, 12)); -- ee243a MSB - ram
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243a_msb, 12));
           if (addfprdy_internal = '1') then state := s59;
             calc := addfpr_internal;
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
             --warning_neq_fp(addfpr_internal,2.3205166,"calc end"); -- XXX OK
-            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (58*2+1, 12)); -- ee243a LSB - ram
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243a_lsb, 12));
           else state := s58; end if;
         when s59 => state := s61;
           addfpsclr_internal <= '0';
@@ -1045,11 +1045,11 @@ begin
             subfpce_internal <= '0';
             subfpond_internal <= '0';
             subfpsclr_internal <= '1';
-            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(776*2)+0, 12)); -- ram0708 - pixgain_cp_sp0
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (ram_0x0708_msb, 12));
           else state := s64; end if;
         when s64a => state := s64b;
           subfpsclr_internal <= '0';
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(776*2)+1, 12)); -- ram0708 - pixgain_cp_sp0
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (ram_0x0708_lsb, 12));
         when s64b => state := s65;
           ram (7 downto 0) := i2c_mem_douta_internal;
         when s65 =>
@@ -1080,8 +1080,8 @@ begin
           subfpa_internal <= mulfpr_internal;
           subfpb_internal <= subfpr_internal;
           subfpond_internal <= '1';
---          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (59*2+0, 12)); -- ee243b MSB - kvcpee
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (58*2+1, 12)); -- ee243a LSB - ram
+--          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243b_msb, 12));
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243a_lsb, 12));
           if (subfprdy_internal = '1') then state := d58;
             --synthesis translate_off
             warning_neq_fp(subfpr_internal,0.0,"o_pixoscpsp0");
@@ -1090,7 +1090,7 @@ begin
             subfpce_internal <= '0';
             subfpond_internal <= '0';
             subfpsclr_internal <= '1';
-            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (58*2+0, 12)); -- ee243a MSB - ram
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243a_msb, 12));
           else state := s71; end if;
         -- XXX second calc
         when d58 => state := d59;
@@ -1151,11 +1151,11 @@ begin
             subfpce_internal <= '0';
             subfpond_internal <= '0';
             subfpsclr_internal <= '1';
-            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(808*2)+0, 12)); -- ram0728 - pixgain_cp_sp1
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (ram_0x0728_msb, 12));
           else state := d64; end if;
         when d64a => state := d64b;
           subfpsclr_internal <= '0';
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (1664+(808*2)+1, 12)); -- ram0728 - pixgain_cp_sp1
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (ram_0x0728_lsb, 12));
         when d64b => state := d65;
           ram (7 downto 0) := i2c_mem_douta_internal;
         when d65 =>

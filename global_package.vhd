@@ -63,6 +63,58 @@ use ieee_proposed.std_logic_1164_additions.all;
 
 package global_package is
 
+  -- EEPROM constants
+  constant ram_0x0700_msb : integer := 1664 + (768 * 2) + 0; -- vbe
+  constant ram_0x0700_lsb : integer := 1664 + (768 * 2) + 1; -- vbe
+  constant ram_0x0708_msb : integer := 1664 + (776 * 2) + 0; -- pixgain_cp_sp0
+  constant ram_0x0708_lsb : integer := 1664 + (776 * 2) + 1; -- pixgain_cp_sp0
+  constant ram_0x070a_msb : integer := 1664 + (778 * 2) + 0; -- gain
+  constant ram_0x070a_lsb : integer := 1664 + (778 * 2) + 1; -- gain
+  constant ram_0x0720_msb : integer := 1664 + (800 * 2) + 0; -- vptat
+  constant ram_0x0720_lsb : integer := 1664 + (800 * 2) + 1; -- vptat
+  constant ram_0x0728_msb : integer := 1664 + (808 * 2) + 0; -- pixgain_cp_sp1
+  constant ram_0x0728_lsb : integer := 1664 + (808 * 2) + 1; -- pixgain_cp_sp1
+  constant ram_0x072a_msb : integer := 1664 + (810 * 2) + 0;
+  constant ram_0x072a_lsb : integer := 1664 + (810 * 2) + 1;
+  constant eeprom_0x2410_msb : integer := 16 * 2 + 0; -- kptat
+  constant eeprom_0x2410_lsb : integer := 16 * 2 + 1; -- [k_ptat,scale_occ_row],scale_occ_column,scale_occ_remnand 0x2410
+  constant eeprom_0x2411_lsb : integer := 16 * 2 + 2; -- pix_os_average
+  constant eeprom_0x2411_msb : integer := 16 * 2 + 3; -- pix_os_average
+  constant eeprom_0x2422_msb : integer := 32 * 2 + 1; -- accrow B,A
+  constant eeprom_0x2422_lsb : integer := 32 * 2 + 0; -- accrow D,C
+  constant eeprom_0x2420_msb : integer := 32 * 2 + 0; -- Ascalecp 4bit
+  constant eeprom_0x2420_lsb : integer := 32 * 2 + 1;
+  constant eeprom_0x2421_lsb : integer := 32 * 2 + 2;
+  constant eeprom_0x2421_msb : integer := 32 * 2 + 3;
+  constant eeprom_0x2413_msb : integer := 32 + 4 + 1; -- occrow B,A
+  constant eeprom_0x2413_lsb : integer := 32 + 4 + 0; -- occrow D,C
+  constant eeprom_0x2430_msb : integer := 48 * 2 + 0; -- ee gain
+  constant eeprom_0x2430_lsb : integer := 48 * 2 + 1; -- ee gain
+  constant eeprom_0x2431_msb : integer := 49 * 2 + 0; -- vptat25
+  constant eeprom_0x2431_lsb : integer := 49 * 2 + 1; -- vptat25
+  constant eeprom_0x2432_msb : integer := 50 * 2 + 0; -- kvptat-6bit,ktptat-10bit
+  constant eeprom_0x2432_lsb : integer := 50 * 2 + 1; -- kvptat-6bit,ktptat-10bit
+  constant eeprom_0x2433_lsb : integer := 51 * 2 + 1; -- vdd25
+  constant eeprom_0x2433_msb : integer := 51 * 2 + 0; -- kvdd
+  constant eeprom_0x2434_lsb : integer := 52 * 2 + 0; -- kvijee
+  constant eeprom_0x2434_msb : integer := 52 * 2 + 1; -- kvijee
+  constant eeprom_0x2436_lsb : integer := 54 * 2 + 0; -- ktarcee_oo
+  constant eeprom_0x2436_msb : integer := 54 * 2 + 1; -- ktarcee_eo
+  constant eeprom_0x2437_lsb : integer := 54 * 2 + 2; -- ktarcee_oe
+  constant eeprom_0x2437_msb : integer := 54 * 2 + 3; -- ktarcee_ee
+  constant eeprom_0x2438_lsb : integer := 54 * 2 + 5; -- ktascale1/ktascale2
+  constant eeprom_0x2438_msb : integer := 54 * 2 + 4; -- kvscale / resolutionee 2bit & 3000
+  constant eeprom_0x2439_msb : integer := 57 * 2 + 0; -- Acpsubpage0 10bit/CP_P12P0_ratio 6bit
+  constant eeprom_0x2439_lsb : integer := 57 * 2 + 1; -- Acpsubpage0 10bit/CP_P12P0_ratio 6bit
+  constant eeprom_0x243a_msb : integer := 58 * 2 + 0; -- ram
+  constant eeprom_0x243a_lsb : integer := 58 * 2 + 1; -- ram
+  constant eeprom_0x243b_msb : integer := 59 * 2 + 0; -- kvcpee
+  constant eeprom_0x243b_lsb : integer := 59 * 2 + 1; -- ktacpee
+  constant eeprom_0x243c_msb : integer := 60 * 2 + 0; -- kstaee
+  constant eeprom_0x243c_lsb : integer := 60 * 2 + 1; -- tgcee
+  constant eeprom_0x243d_msb : integer := 61 * 2 + 0; -- ksto2ee 0xff00
+  constant eeprom_0x243f_lsb : integer := 63 * 2 + 1; -- kstoscale 0x000f
+
   -- Color map - XXX TODO make more universal (MSB bit as sign)
   constant C_COLOR_MAP_RANGE_MIN_SIGNED : integer := -256;
   constant C_COLOR_MAP_RANGE_MAX_SIGNED : integer := 256;
