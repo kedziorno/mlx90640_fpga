@@ -85,16 +85,16 @@ package global_package is
   constant C_2POW5 : std_logic_vector (31 downto 0) := x"42000000";
 
   -- calculate_ta
-  constant C_3DOT3 : std_logic_vector (31 downto 0) := x"3f000000";
+  constant C_3DOT3 : std_logic_vector (31 downto 0) := x"40533333";
   constant C_VDDV0 : std_logic_vector (31 downto 0) := C_3DOT3;
   constant C_2POW18 : std_logic_vector (31 downto 0) := x"48800000";  -- calculate_pixos_cp_sp
   constant C_2POW3 : std_logic_vector (31 downto 0) := x"41000000";   -- calculate_pix_gain
 
   -- calculate_raw_image, calculate_to
-  --constant C_EMISSIVITY : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
+  constant C_EMISSIVITY : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
   --constant C_EMISSIVITY : std_logic_vector (31 downto 0) := x"3f866666"; -- 1.05
   --constant C_EMISSIVITY : std_logic_vector (31 downto 0) := x"3f8147ae"; -- 1.01
-  constant C_EMISSIVITY : std_logic_vector (31 downto 0) := x"3f733333"; -- 0.95
+  --constant C_EMISSIVITY : std_logic_vector (31 downto 0) := x"3f733333"; -- 0.95
   --constant C_EMISSIVITY : std_logic_vector (31 downto 0) := x"3f7d70a4"; -- 0.99
   constant C_TR : std_logic_vector (31 downto 0) := x"41000000"; -- 8
   constant C_273DOT15 : std_logic_vector (31 downto 0) := x"43889333"; -- 273.15 Kelvins
@@ -105,8 +105,8 @@ package global_package is
   --constant C_10E8 : std_logic_vector (31 downto 0) := x"CCBEBC20"; -- -10e8 - neg image
   --constant C_UPPER : std_logic_vector (31 downto 0) := x"42800000"; -- xxx from datasheet, check TGC - 64
   --constant C_UPPER : std_logic_vector (31 downto 0) := x"C2800000"; -- xxx from datasheet, check TGC - -64
-  --constant C_UPPER : std_logic_vector (31 downto 0) := x"00000000"; -- xxx from datasheet, check TGC - 0
-  constant C_UPPER : std_logic_vector (31 downto 0) := C_1; -- xxx from datasheet, check TGC - 1
+  constant C_UPPER : std_logic_vector (31 downto 0) := x"00000000"; -- xxx from datasheet, check TGC - 0
+  --constant C_UPPER : std_logic_vector (31 downto 0) := C_1; -- xxx from datasheet, check TGC - 1
   -- xxx syn
   constant C_ADDFP_WAIT : integer := 32;
   constant C_MULFP_WAIT : integer := 32;
@@ -124,11 +124,11 @@ package global_package is
   constant c_type_rom2 : integer := 2;
 
   -- calculate_vdd
-  constant c_3dot3_ft : std_logic_vector (31 downto 0) := x"3f000000";
-	constant c_2pow5_ft : std_logic_vector (31 downto 0) := x"42000000";
-	constant c_2pow13_ft : std_logic_vector (31 downto 0) := x"46000000";
-	constant c_256_ft : std_logic_vector (31 downto 0) := x"43800000";
-	constant resreg : std_logic_vector (15 downto 0) := x"1981" and x"0c00";
+  constant c_3dot3_ft : std_logic_vector (31 downto 0) := x"40533333";
+  constant c_2pow5_ft : std_logic_vector (31 downto 0) := x"42000000";
+  constant c_2pow13_ft : std_logic_vector (31 downto 0) := x"46000000";
+  constant c_256_ft : std_logic_vector (31 downto 0) := x"43800000";
+  constant resreg : std_logic_vector (15 downto 0) := x"1901" and x"0c00";
 
   -- CalcualteAcc
 	constant const2 : std_logic_vector (31 downto 0) := x"40000000";
@@ -138,7 +138,7 @@ package global_package is
 	constant C_P1 : std_logic_vector (31 downto 0) := x"3F800000"; -- +1
   constant C_M1 : std_logic_vector (31 downto 0) := x"BF800000"; -- -1
   constant C_2POW13 : std_logic_vector (31 downto 0) := x"46000000"; -- 2^13
-  constant C_TA0 : std_logic_vector (31 downto 0) := x"41f40000"; -- Temperature ambient ~ +30.5st C
+  constant C_TA0 : std_logic_vector (31 downto 0) := x"41C80000"; -- Temperature ambient ~25.0st C
   constant C_ZERO : std_logic_vector (31 downto 0) := x"00000000";
 
   --constant C_TB_DATA_FILE : string := "tb_data";

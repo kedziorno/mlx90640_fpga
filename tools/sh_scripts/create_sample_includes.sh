@@ -36,7 +36,7 @@ for ((k = 0 ; k < i ; k += 2))
 do
   msb=${set[$k+0]}
   lsb=${set[$k+1]}
-  echo "'\x${msb}${lsb}'," >> ${output_eeprom_file}
+  echo "0x${msb}${lsb}," >> ${output_eeprom_file}
 done
 echo -n "};" >> ${output_eeprom_file}
 
@@ -61,7 +61,7 @@ for ((k = 0 ; k < i ; k += 2))
 do
   msb=${set[$k+0]}
   lsb=${set[$k+1]}
-  echo "'\x${msb}${lsb}'," >> ${output_frame_raw}
+  echo "0x${msb}${lsb}," >> ${output_frame_raw}
 done
 echo -n "};" >> ${output_frame_raw}
 rm -rf ${eeprom_file}.tmp
