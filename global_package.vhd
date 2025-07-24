@@ -44,11 +44,11 @@
 --
 -------------------------------------------------------------------------------
 
-library IEEE;
-use IEEE.STD_LOGIC_1164.all;
-use IEEE.numeric_std.all;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 --synthesis translate_off
-USE IEEE.math_real.all;
+USE ieee.math_real.all;
 --synthesis translate_on
 
 --synthesis translate_off
@@ -63,49 +63,144 @@ use ieee_proposed.std_logic_1164_additions.all;
 
 package global_package is
 
-  -- EEPROM constants
-  constant ram_0x0700_msb : integer := 1664 + (768 * 2) + 0; -- vbe
-  constant ram_0x0700_lsb : integer := 1664 + (768 * 2) + 1; -- vbe
-  constant ram_0x0708_msb : integer := 1664 + (776 * 2) + 0; -- pixgain_cp_sp0
-  constant ram_0x0708_lsb : integer := 1664 + (776 * 2) + 1; -- pixgain_cp_sp0
-  constant ram_0x070a_msb : integer := 1664 + (778 * 2) + 0; -- gain
-  constant ram_0x070a_lsb : integer := 1664 + (778 * 2) + 1; -- gain
-  constant ram_0x0720_msb : integer := 1664 + (800 * 2) + 0; -- vptat
-  constant ram_0x0720_lsb : integer := 1664 + (800 * 2) + 1; -- vptat
-  constant ram_0x0728_msb : integer := 1664 + (808 * 2) + 0; -- pixgain_cp_sp1
-  constant ram_0x0728_lsb : integer := 1664 + (808 * 2) + 1; -- pixgain_cp_sp1
-  constant ram_0x072a_msb : integer := 1664 + (810 * 2) + 0;
-  constant ram_0x072a_lsb : integer := 1664 + (810 * 2) + 1;
-  constant eeprom_0x2410_msb : integer := 16 * 2 + 0; -- kptat
-  constant eeprom_0x2410_lsb : integer := 16 * 2 + 1; -- [k_ptat,scale_occ_row],scale_occ_column,scale_occ_remnand 0x2410
+  -- main constants
+  constant c_memory_i2c_address_bits  : integer := 12;
+  constant c_memory_i2c_data_bits     : integer := 8;
+  subtype  i2c_memory_address_bits_st is std_logic_vector (c_memory_i2c_address_bits - 1 downto 0);
+  subtype  i2c_memory_data_bits_st    is std_logic_vector (c_memory_i2c_data_bits - 1 downto 0);
+  subtype  fp32                       is std_logic_vector (31 downto 0); -- fp32
+  subtype  slv16                      is std_logic_vector (15 downto 0); -- fi -> fp32
+  subtype  slv8                       is std_logic_vector (7 downto 0);
+  subtype  slv6                       is std_logic_vector (5 downto 0);
+  subtype  slv4                       is std_logic_vector (3 downto 0);
+  subtype  slv2                       is std_logic_vector (1 downto 0);
+
+  constant c_rows           : integer := 24; -- matrix pixels y
+  constant c_cols           : integer := 32; -- matrix pixels x
+  constant c_matrix_pixels  : integer := c_rows * c_cols;
+
+  constant c_pixgain_st : integer := 1665; -- pixgain start - eeprom max + 1
+  constant c_pixgain_sz : integer := c_matrix_pixels; -- pixgain size
+
+  -- 10.7. address map, p. 16
+  -- _st - start, _ed - end, _sz - size
+  -- eeprom cell size have 2 bytes (16 bit) [(_ed - _st + 1) * 2]
+  constant c_rom_st       : integer := 16#0000#; -- 0x0000
+  constant c_rom_ed       : integer := 16#03ff#; -- 0x03ff
+  constant c_ram_st       : integer := 16#0400#; -- 0x0400
+  constant c_ram_ed       : integer := 16#07ff#; -- 0x07ff
+  constant c_eeprom_st    : integer := 16#2400#; -- 0x2400
+  constant c_eeprom_ed    : integer := 16#273f#; -- 0x273f
+  constant c_reg1_mlx_st  : integer := 16#8000#; -- 0x8000
+  constant c_reg1_mlx_ed  : integer := 16#800c#; -- 0x800c
+  constant c_reg_usr_st   : integer := 16#800d#; -- 0x800d
+  constant c_reg_usr_ed   : integer := 16#8010#; -- 0x8010
+  constant c_reg2_mlx_st  : integer := 16#8011#; -- 0x8011
+  constant c_reg2_mlx_ed  : integer := 16#8016#; -- 0x8016
+  constant c_rom_sz       : integer := (c_rom_ed      - c_rom_st      + 1) * 2;
+  constant c_ram_sz       : integer := (c_ram_ed      - c_ram_st      + 1) * 2;
+  constant c_eeprom_sz    : integer := (c_eeprom_ed   - c_eeprom_st   + 1) * 2;
+  constant c_reg1_mlx_sz  : integer := (c_reg1_mlx_ed - c_reg1_mlx_st + 1) * 2;
+  constant c_reg_usr_sz   : integer := (c_reg_usr_ed  - c_reg_usr_st  + 1) * 2;
+  constant c_reg2_mlx_sz  : integer := (c_reg2_mlx_ed - c_reg2_mlx_st + 1) * 2;
+
+  function extend_8_to_16 (a : slv8) return slv16;
+
+  signal i2c_mem_douta_i : i2c_memory_data_bits_st;
+  signal i2c_mem_addra_i : i2c_memory_address_bits_st;
+
+  -- 5. Glossary of Terms, p. 7
+  -- eeprom constants (16 bit each)
+  constant c_eeprom_x2410 : integer := 16#2410#; -- k_ptat,scale_occ_row,scale_occ_column,scale_occ_remnand[4/4/4/4]
+  constant c_eeprom_x2430 : integer := 16#2430#; -- gain[16]
+  constant c_eeprom_x2431 : integer := 16#2431#; -- vptat25[16]
+  constant c_eeprom_x2432 : integer := 16#2432#; -- kvptat,ktptat[6/10]
+  constant c_eeprom_x2433 : integer := 16#2433#; -- k_vdd,vdd_25[8/8]
+  constant c_eeprom_x2438 : integer := 16#2438#; -- resolution_control_cal,kv_scale,kta_scale_1,kta_scale_2[2/4/4/4]
+  constant c_eeprom_x243c : integer := 16#243c#; -- ksta,tgcee[8/8]
+  constant c_ram_x0700    : integer := 16#0700#; -- vbe[16]
+  constant c_ram_x070a    : integer := 16#070a#; -- gain[16]
+  constant c_ram_x0720    : integer := 16#0720#; -- ta_ptat[16] (vptat)
+  constant c_ram_x072a    : integer := 16#072a#; -- vddpix[16]
+  constant c_ram_x800d    : slv16   := x"1901"; -- manufacturer default value
+
+  -- 11.1.1. restoring the vdd sensor parameters, p. 22
+  constant c_eeprom_x2433_off : integer := c_eeprom_x2433 - c_eeprom_st;
+  constant c_eeprom_x2433_msb : integer := c_eeprom_x2433_off * 2 + 0;
+  constant c_eeprom_x2433_lsb : integer := c_eeprom_x2433_off * 2 + 1;
+
+  -- 11.2.2.1. resolution restore, p. 35
+  constant c_ram_x800d_and_x0c00 : slv16 := c_ram_x800d and x"0c00";
+  alias resolution_reg_a         : slv2 is c_ram_x800d_and_x0c00 (11 downto 10);
+  alias resolution_ee_a          : slv2 is i2c_mem_douta_i (5 downto 4);
+
+  -- 11.1.17. Restoring the resolution control coefficient, p. 29
+  constant c_eeprom_x2438_off : integer := c_eeprom_x2438 - c_eeprom_st;
+  constant c_eeprom_x2438_msb : integer := c_eeprom_x2438_off * 2 + 0;
+  constant c_eeprom_x2438_lsb : integer := c_eeprom_x2438_off * 2 + 1;
+
+  -- 11.2.2.2. supply voltage value calculation (common for all pixels), p. 36
+  constant c_ram_x072a_off : integer := c_ram_x072a - c_ram_st;
+  constant c_ram_x072a_msb : integer := c_eeprom_sz + (c_ram_x072a_off * 2) + 0;
+  constant c_ram_x072a_lsb : integer := c_eeprom_sz + (c_ram_x072a_off * 2) + 1;
+
+  -- 11.1.16. restoring the tgc coefficient, p. 29
+  constant c_eeprom_x243c_off : integer := c_eeprom_x243c - c_eeprom_st;
+  constant c_eeprom_x243c_msb : integer := c_eeprom_x243c_off * 2 + 0;
+  constant c_eeprom_x243c_lsb : integer := c_eeprom_x243c_off * 2 + 1;
+
+  -- 11.2.2.4. gain parameter calculation (common for all pixels), p. 37
+  constant c_ram_x070a_off : integer := c_ram_x070a - c_ram_st;
+  constant c_ram_x070a_msb : integer := c_eeprom_sz + (c_ram_x070a_off * 2) + 0;
+  constant c_ram_x070a_lsb : integer := c_eeprom_sz + (c_ram_x070a_off * 2) + 1;
+  constant c_eeprom_x2430_off : integer := c_eeprom_x2430 - c_eeprom_st;
+  constant c_eeprom_x2430_msb : integer := c_eeprom_x2430_off * 2 + 0;
+  constant c_eeprom_x2430_lsb : integer := c_eeprom_x2430_off * 2 + 1;
+
+  -- 11.1.2. Restoring the ta sensor parameters, p. 22
+  constant c_ram_x0720_off : integer := c_ram_x0720 - c_ram_st;
+  constant c_ram_x0720_msb : integer := c_eeprom_sz + (c_ram_x0720_off * 2) + 0;
+  constant c_ram_x0720_lsb : integer := c_eeprom_sz + (c_ram_x0720_off * 2) + 1;
+  constant c_eeprom_x2432_off : integer := c_eeprom_x2432 - c_eeprom_st;
+  constant c_eeprom_x2432_msb : integer := c_eeprom_x2432_off * 2 + 0;
+  constant c_eeprom_x2432_lsb : integer := c_eeprom_x2432_off * 2 + 1;
+  constant c_eeprom_x2431_off : integer := c_eeprom_x2431 - c_eeprom_st;
+  constant c_eeprom_x2431_msb : integer := c_eeprom_x2431_off * 2 + 0;
+  constant c_eeprom_x2431_lsb : integer := c_eeprom_x2431_off * 2 + 1;
+  alias alpha_ptat_ee_a       : slv4 is i2c_mem_douta_i (7 downto 4);
+  constant c_eeprom_x2410_off : integer := c_eeprom_x2410 - c_eeprom_st;
+  constant c_eeprom_x2410_msb : integer := c_eeprom_x2410_off * 2 + 0;
+  constant c_eeprom_x2410_lsb : integer := c_eeprom_x2410_off * 2 + 1;
+  constant c_ram_x0700_off : integer := c_ram_x0700 - c_ram_st;
+  constant c_ram_x0700_msb : integer := c_eeprom_sz + (c_ram_x0700_off * 2) + 0;
+  constant c_ram_x0700_lsb : integer := c_eeprom_sz + (c_ram_x0700_off * 2) + 1;
+  alias kvptat_ee_a        : slv6 is i2c_mem_douta_i (7 downto 2);
+  alias ktptat_msb_ee_a    : slv2 is i2c_mem_douta_i (1 downto 0);
+  
+
+
+  constant ram_0x0708_msb : integer := c_eeprom_sz + (776 * 2) + 0; -- pixgain_cp_sp0
+  constant ram_0x0708_lsb : integer := c_eeprom_sz + (776 * 2) + 1; -- pixgain_cp_sp0
+  constant ram_0x0728_msb : integer := c_eeprom_sz + (808 * 2) + 0; -- pixgain_cp_sp1
+  constant ram_0x0728_lsb : integer := c_eeprom_sz + (808 * 2) + 1; -- pixgain_cp_sp1
   constant eeprom_0x2411_lsb : integer := 16 * 2 + 2; -- pix_os_average
   constant eeprom_0x2411_msb : integer := 16 * 2 + 3; -- pix_os_average
-  constant eeprom_0x2422_msb : integer := 32 * 2 + 1; -- accrow B,A
-  constant eeprom_0x2422_lsb : integer := 32 * 2 + 0; -- accrow D,C
-  constant eeprom_0x2420_msb : integer := 32 * 2 + 0; -- Ascalecp 4bit
+  constant eeprom_0x2422_msb : integer := 32 * 2 + 1; -- accrow b,a
+  constant eeprom_0x2422_lsb : integer := 32 * 2 + 0; -- accrow d,c
+  constant eeprom_0x2420_msb : integer := 32 * 2 + 0; -- ascalecp 4bit
   constant eeprom_0x2420_lsb : integer := 32 * 2 + 1;
   constant eeprom_0x2421_lsb : integer := 32 * 2 + 2;
   constant eeprom_0x2421_msb : integer := 32 * 2 + 3;
-  constant eeprom_0x2413_msb : integer := 32 + 4 + 1; -- occrow B,A
-  constant eeprom_0x2413_lsb : integer := 32 + 4 + 0; -- occrow D,C
-  constant eeprom_0x2430_msb : integer := 48 * 2 + 0; -- ee gain
-  constant eeprom_0x2430_lsb : integer := 48 * 2 + 1; -- ee gain
-  constant eeprom_0x2431_msb : integer := 49 * 2 + 0; -- vptat25
-  constant eeprom_0x2431_lsb : integer := 49 * 2 + 1; -- vptat25
-  constant eeprom_0x2432_msb : integer := 50 * 2 + 0; -- kvptat-6bit,ktptat-10bit
-  constant eeprom_0x2432_lsb : integer := 50 * 2 + 1; -- kvptat-6bit,ktptat-10bit
-  constant eeprom_0x2433_lsb : integer := 51 * 2 + 1; -- vdd25
-  constant eeprom_0x2433_msb : integer := 51 * 2 + 0; -- kvdd
+  constant eeprom_0x2413_msb : integer := 32 + 4 + 1; -- occrow b,a
+  constant eeprom_0x2413_lsb : integer := 32 + 4 + 0; -- occrow d,c
   constant eeprom_0x2434_lsb : integer := 52 * 2 + 0; -- kvijee
   constant eeprom_0x2434_msb : integer := 52 * 2 + 1; -- kvijee
   constant eeprom_0x2436_lsb : integer := 54 * 2 + 0; -- ktarcee_oo
   constant eeprom_0x2436_msb : integer := 54 * 2 + 1; -- ktarcee_eo
   constant eeprom_0x2437_lsb : integer := 54 * 2 + 2; -- ktarcee_oe
   constant eeprom_0x2437_msb : integer := 54 * 2 + 3; -- ktarcee_ee
-  constant eeprom_0x2438_lsb : integer := 54 * 2 + 5; -- ktascale1/ktascale2
-  constant eeprom_0x2438_msb : integer := 54 * 2 + 4; -- kvscale / resolutionee 2bit & 3000
-  constant eeprom_0x2439_msb : integer := 57 * 2 + 0; -- Acpsubpage0 10bit/CP_P12P0_ratio 6bit
-  constant eeprom_0x2439_lsb : integer := 57 * 2 + 1; -- Acpsubpage0 10bit/CP_P12P0_ratio 6bit
+  constant eeprom_0x2439_msb : integer := 57 * 2 + 0; -- acpsubpage0 10bit/cp_p12p0_ratio 6bit
+  constant eeprom_0x2439_lsb : integer := 57 * 2 + 1; -- acpsubpage0 10bit/cp_p12p0_ratio 6bit
   constant eeprom_0x243a_msb : integer := 58 * 2 + 0; -- ram
   constant eeprom_0x243a_lsb : integer := 58 * 2 + 1; -- ram
   constant eeprom_0x243b_msb : integer := 59 * 2 + 0; -- kvcpee
@@ -115,58 +210,48 @@ package global_package is
   constant eeprom_0x243d_msb : integer := 61 * 2 + 0; -- ksto2ee 0xff00
   constant eeprom_0x243f_lsb : integer := 63 * 2 + 1; -- kstoscale 0x000f
 
-  -- Color map - XXX TODO make more universal (MSB bit as sign)
-  constant C_COLOR_MAP_RANGE_MIN_SIGNED : integer := -256;
-  constant C_COLOR_MAP_RANGE_MAX_SIGNED : integer := 256;
-  constant C_COLOR_MAP_RANGE_MIN_UNSIGNED : integer := 0;
-  constant C_COLOR_MAP_RANGE_MAX_UNSIGNED : integer := 512;
-  constant C_COLOR_MAP_COLOR_BITS : integer := 24;
-  subtype color_bits is std_logic_vector (C_COLOR_MAP_COLOR_BITS - 1 downto 0);
-  type t_color_map_rom_type_signed is array (C_COLOR_MAP_RANGE_MIN_SIGNED to C_COLOR_MAP_RANGE_MAX_SIGNED-1) of color_bits;
-  type t_color_map_rom_type_unsigned is array (C_COLOR_MAP_RANGE_MIN_UNSIGNED to C_COLOR_MAP_RANGE_MAX_UNSIGNED-1) of color_bits;
-
-  subtype constant_float is std_logic_vector (31 downto 0); -- Floating Point 32
-  subtype slv16 is std_logic_vector (15 downto 0); -- Floating Point 32
-
-  constant C_ROWS : integer := 24; -- Matrix Pixels Y
-  constant C_COLS : integer := 32; -- Matrix Pixels X
-  constant C_MATRIX_PIXELS : integer := C_ROWS * C_COLS;
-
-  constant PIXGAIN_ST : integer := 1665; -- pixgain start - eeprom max + 1
-  constant PIXGAIN_SZ : integer := C_MATRIX_PIXELS; -- pixgain size
+  -- color map - xxx todo make more universal (msb bit as sign)
+  constant c_color_map_range_min_signed : integer := -256;
+  constant c_color_map_range_max_signed : integer := 256;
+  constant c_color_map_range_min_unsigned : integer := 0;
+  constant c_color_map_range_max_unsigned : integer := 512;
+  constant c_color_map_color_bits : integer := 24;
+  subtype color_bits is std_logic_vector (c_color_map_color_bits - 1 downto 0);
+  type t_color_map_rom_type_signed is array (c_color_map_range_min_signed to c_color_map_range_max_signed-1) of color_bits;
+  type t_color_map_rom_type_unsigned is array (c_color_map_range_min_unsigned to c_color_map_range_max_unsigned-1) of color_bits;
 
   -- extract_tgc_parameters
-  constant C_2POW5 : std_logic_vector (31 downto 0) := x"42000000";
+  constant c_2pow5 : std_logic_vector (31 downto 0) := x"42000000";
 
   -- calculate_ta
-  constant C_3DOT3 : std_logic_vector (31 downto 0) := x"40533333";
-  constant C_VDDV0 : std_logic_vector (31 downto 0) := C_3DOT3;
-  constant C_2POW18 : std_logic_vector (31 downto 0) := x"48800000";  -- calculate_pixos_cp_sp
-  constant C_2POW3 : std_logic_vector (31 downto 0) := x"41000000";   -- calculate_pix_gain
+  constant c_3dot3 : std_logic_vector (31 downto 0) := x"40533333";
+  constant c_vddv0 : std_logic_vector (31 downto 0) := c_3dot3;
+  constant c_2pow18 : std_logic_vector (31 downto 0) := x"48800000";  -- calculate_pixos_cp_sp
+  constant c_2pow3 : std_logic_vector (31 downto 0) := x"41000000";   -- calculate_pix_gain
 
   -- calculate_raw_image, calculate_to
-  constant C_EMISSIVITY : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
-  --constant C_EMISSIVITY : std_logic_vector (31 downto 0) := x"3f866666"; -- 1.05
-  --constant C_EMISSIVITY : std_logic_vector (31 downto 0) := x"3f8147ae"; -- 1.01
-  --constant C_EMISSIVITY : std_logic_vector (31 downto 0) := x"3f733333"; -- 0.95
-  --constant C_EMISSIVITY : std_logic_vector (31 downto 0) := x"3f7d70a4"; -- 0.99
-  constant C_TR : std_logic_vector (31 downto 0) := x"41000000"; -- 8
-  constant C_273DOT15 : std_logic_vector (31 downto 0) := x"43889333"; -- 273.15 Kelvins
-  constant C_1 : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
-  constant C_10E7 : std_logic_vector (31 downto 0) := x"4B189680"; -- 10e7
-  --constant C_10E7 : std_logic_vector (31 downto 0) := x"CB189680"; -- -10e7 - neg image
-  constant C_10E8 : std_logic_vector (31 downto 0) := x"4CBEBC20"; -- 10e8
-  --constant C_10E8 : std_logic_vector (31 downto 0) := x"CCBEBC20"; -- -10e8 - neg image
-  --constant C_UPPER : std_logic_vector (31 downto 0) := x"42800000"; -- xxx from datasheet, check TGC - 64
-  --constant C_UPPER : std_logic_vector (31 downto 0) := x"C2800000"; -- xxx from datasheet, check TGC - -64
-  constant C_UPPER : std_logic_vector (31 downto 0) := x"00000000"; -- xxx from datasheet, check TGC - 0
-  --constant C_UPPER : std_logic_vector (31 downto 0) := C_1; -- xxx from datasheet, check TGC - 1
+  constant c_emissivity : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
+  --constant c_emissivity : std_logic_vector (31 downto 0) := x"3f866666"; -- 1.05
+  --constant c_emissivity : std_logic_vector (31 downto 0) := x"3f8147ae"; -- 1.01
+  --constant c_emissivity : std_logic_vector (31 downto 0) := x"3f733333"; -- 0.95
+  --constant c_emissivity : std_logic_vector (31 downto 0) := x"3f7d70a4"; -- 0.99
+  constant c_tr : std_logic_vector (31 downto 0) := x"41000000"; -- 8
+  constant c_273dot15 : std_logic_vector (31 downto 0) := x"43889333"; -- 273.15 kelvins
+  constant c_1 : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
+  constant c_10e7 : std_logic_vector (31 downto 0) := x"4b189680"; -- 10e7
+  --constant c_10e7 : std_logic_vector (31 downto 0) := x"cb189680"; -- -10e7 - neg image
+  constant c_10e8 : std_logic_vector (31 downto 0) := x"4cbebc20"; -- 10e8
+  --constant c_10e8 : std_logic_vector (31 downto 0) := x"ccbebc20"; -- -10e8 - neg image
+  --constant c_upper : std_logic_vector (31 downto 0) := x"42800000"; -- xxx from datasheet, check tgc - 64
+  --constant c_upper : std_logic_vector (31 downto 0) := x"c2800000"; -- xxx from datasheet, check tgc - -64
+  constant c_upper : std_logic_vector (31 downto 0) := x"00000000"; -- xxx from datasheet, check tgc - 0
+  --constant c_upper : std_logic_vector (31 downto 0) := c_1; -- xxx from datasheet, check tgc - 1
   -- xxx syn
-  constant C_ADDFP_WAIT : integer := 32;
-  constant C_MULFP_WAIT : integer := 32;
+  constant c_addfp_wait : integer := 32;
+  constant c_mulfp_wait : integer := 32;
   -- xxx sim
-  --constant C_ADDFP_WAIT : integer := 16;
-  --constant C_MULFP_WAIT : integer := 16;
+  --constant c_addfp_wait : integer := 16;
+  --constant c_mulfp_wait : integer := 16;
 
   -- mem_ramb16_s36_s36_x2
   constant c_mode_com : integer := 0;
@@ -184,41 +269,41 @@ package global_package is
   constant c_256_ft : std_logic_vector (31 downto 0) := x"43800000";
   constant resreg : std_logic_vector (15 downto 0) := x"1901" and x"0c00";
 
-  -- CalcualteAcc
+  -- calcualteacc
 	constant const2 : std_logic_vector (31 downto 0) := x"40000000";
-	constant SCALEALPHA : std_logic_vector (31 downto 0) := x"358637BD"; -- 0.000001
+	constant scalealpha : std_logic_vector (31 downto 0) := x"358637bd"; -- 0.000001
 
 	-- calculate_alpha_compensation
-	constant C_P1 : std_logic_vector (31 downto 0) := x"3F800000"; -- +1
-  constant C_M1 : std_logic_vector (31 downto 0) := x"BF800000"; -- -1
-  constant C_2POW13 : std_logic_vector (31 downto 0) := x"46000000"; -- 2^13
-  constant C_TA0 : std_logic_vector (31 downto 0) := x"41C80000"; -- Temperature ambient ~25.0st C
-  constant C_ZERO : std_logic_vector (31 downto 0) := x"00000000";
+	constant c_p1 : std_logic_vector (31 downto 0) := x"3f800000"; -- +1
+  constant c_m1 : std_logic_vector (31 downto 0) := x"bf800000"; -- -1
+  constant c_2pow13 : std_logic_vector (31 downto 0) := x"46000000"; -- 2^13
+  constant c_ta0 : std_logic_vector (31 downto 0) := x"41c80000"; -- temperature ambient ~25.0st c
+  constant c_zero : std_logic_vector (31 downto 0) := x"00000000";
 
-  --constant C_TB_DATA_FILE : string := "tb_data";
+  --constant c_tb_data_file : string := "tb_data";
   --file fptr : text;
-  constant GLOBAL_BOARD_FREQUENCY : natural := 100_000_000;
-  constant GLOBAL_I2C_FREQUENCY : natural := 400_000;
-  constant I2C_STRETCH : natural := GLOBAL_BOARD_FREQUENCY/GLOBAL_I2C_FREQUENCY;
-  constant I2C_CLOCK_DIVIDER : natural := 4;
-  constant I2C_ADDRESS_BITS : natural := 7;
-  constant I2C_DATA_BITS : natural := 8;
-  constant I2C_ADDRESS_READ : boolean := TRUE;
-  constant I2C_ADDRESS_WRITE : boolean := FALSE;
-  constant I2C_DATA_ACK : boolean := FALSE;
-  constant I2C_DATA_NAK : boolean := TRUE;
-  constant I2C_BITS_LENGTH : natural := 9;
-  constant C_DATA_SIZE : integer := 3340; -- number bytes from i2c
+  constant global_board_frequency : natural := 100_000_000;
+  constant global_i2c_frequency : natural := 400_000;
+  constant i2c_stretch : natural := global_board_frequency/global_i2c_frequency;
+  constant i2c_clock_divider : natural := 4;
+  constant i2c_address_bits : natural := 7;
+  constant i2c_data_bits : natural := 8;
+  constant i2c_address_read : boolean := true;
+  constant i2c_address_write : boolean := false;
+  constant i2c_data_ack : boolean := false;
+  constant i2c_data_nak : boolean := true;
+  constant i2c_bits_length : natural := 9;
+  constant c_data_size : integer := 3340; -- number bytes from i2c
 
 --synthesis translate_off
-  -- XXX https://comp.lang.vhdl.narkive.com/B8UInWjr/convert-boolean-to-std-logic
-  function To_Std_Logic (L : BOOLEAN)   return std_ulogic;
-  function To_Std_Logic (L : character) return boolean;
-  function int2hex      (L : character) return natural;
+  -- xxx https://comp.lang.vhdl.narkive.com/b8uinwjr/convert-boolean-to-std-logic
+  function to_std_logic (l : boolean)   return std_ulogic;
+  function to_std_logic (l : character) return boolean;
+  function int2hex      (l : character) return natural;
 
-	-- https://opencores.org/websvn/filedetails?repname=raytrac&path=%2Fraytrac%2Fbranches%2Ffp%2Farithpack.vhd&rev=163
+	-- https://opencores.org/websvn/filedetails?repname=raytrac&path=%2fraytrac%2fbranches%2ffp%2farithpack.vhd&rev=163
 	function ap_slv2fp (sl:std_logic_vector) return real;
-	-- https://opencores.org/websvn/filedetails?repname=raytrac&path=%2Fraytrac%2Fbranches%2Ffp%2Farithpack.vhd&rev=163
+	-- https://opencores.org/websvn/filedetails?repname=raytrac&path=%2fraytrac%2fbranches%2ffp%2farithpack.vhd&rev=163
 	function ap_slv2int (sl:std_logic_vector) return integer;
 	function to_string_1 ( s : std_logic_vector ) return string;
 	procedure report_error (constant str : string; sl : std_logic_vector; constant ec : real);
@@ -226,18 +311,23 @@ package global_package is
   procedure warning_neq_fp (a, b : in float32; info : in string := ""; use_epsilon : boolean := false);
   procedure warning_neq_fp (a : in std_logic_vector (31 downto 0); b : in real; info : in string := ""; use_epsilon : boolean := false);
   procedure warning_neq_fp (a, b : in std_logic_vector (31 downto 0); info : in string := ""; use_epsilon : boolean := false);
-  procedure assertEpsilon (x, y : in real; epsilon : in real := 1.0E-5; message : in string := "");
+  procedure assertepsilon (x, y : in real; epsilon : in real := 1.0e-5; message : in string := "");
 
   procedure wait_idle(signal idle : out std_logic;constant n : natural;constant clock_period : in time);
   procedure sda_start(signal sda_data : out std_logic;constant clock_period : in time);
   procedure sda_stop(signal sda_data : out std_logic;constant clock_period : in time);
-  procedure sda_address_7bit(signal sda_data : out std_logic;constant address : in std_logic_vector(I2C_ADDRESS_BITS - 1 downto 0);constant address_rw : in boolean;conclock_period : in time);
-  procedure sda_data_8bit(signal sda_data : out std_logic;constant data : in std_logic_vector(I2C_DATA_BITS - 1 downto 0);constant data_ack : in boolean;constant clock_period : in time);
+  procedure sda_address_7bit(signal sda_data : out std_logic;constant address : in std_logic_vector(i2c_address_bits - 1 downto 0);constant address_rw : in boolean;conclock_period : in time);
+  procedure sda_data_8bit(signal sda_data : out std_logic;constant data : in std_logic_vector(i2c_data_bits - 1 downto 0);constant data_ack : in boolean;constant clock_period : in time);
 --synthesis translate_on
 
 end package global_package;
 
 package body global_package is
+
+  function extend_8_to_16 (a : slv8) return slv16 is
+  begin
+    return a (7) & a (7) & a (7) & a (7) & a(7) & a(7) & a(7) & a(7) & a;
+  end function extend_8_to_16;
 
 --synthesis translate_off
 	procedure report_error (constant str : string; sl : std_logic_vector; constant ec : real) is
@@ -257,7 +347,7 @@ package body global_package is
 		else
 			expecteds := real'image (expected);
 		end if;
---		assert actual = expected report "actual = expected : " & CR & actuals & CR & expecteds & CR & to_hex_string (sl) & CR & to_hex_string (b) & CR & to_string_1 (sl) & CR & to_string_1 (to_slv (b)) severity note;
+--		assert actual = expected report "actual = expected : " & cr & actuals & cr & expecteds & cr & to_hex_string (sl) & cr & to_hex_string (b) & cr & to_string_1 (sl) & cr & to_string_1 (to_slv (b)) severity note;
 		report str & " : " & actuals & " = " & expecteds & " " & to_hex_string (sl) & " " & to_hex_string (b) & " " & to_string_1 (sl) & " " & to_string_1 (to_slv (b)) severity note;
 		return;
 	end procedure report_error;
@@ -270,7 +360,7 @@ package body global_package is
 		return;
 	end procedure report_error_sfixed;
 
-	-- https://opencores.org/websvn/filedetails?repname=raytrac&path=%2Fraytrac%2Fbranches%2Ffp%2Farithpack.vhd&rev=163
+	-- https://opencores.org/websvn/filedetails?repname=raytrac&path=%2fraytrac%2fbranches%2ffp%2farithpack.vhd&rev=163
 	function ap_slv2int (sl:std_logic_vector) return integer is
 		alias s : std_logic_vector (sl'high downto sl'low) is sl;
 		variable i : integer; 
@@ -286,7 +376,7 @@ package body global_package is
 		return i;
 	end function;
 
-	-- https://opencores.org/websvn/filedetails?repname=raytrac&path=%2Fraytrac%2Fbranches%2Ffp%2Farithpack.vhd&rev=163
+	-- https://opencores.org/websvn/filedetails?repname=raytrac&path=%2fraytrac%2fbranches%2ffp%2farithpack.vhd&rev=163
   function ap_slv2fp(sl:std_logic_vector) return real is
     variable frc:integer;
     alias s: std_logic_vector(31 downto 0) is sl;
@@ -315,33 +405,33 @@ package body global_package is
 		return r ;
 	end function ;
 
-  procedure assertEpsilon (x, y : in real; epsilon : in real := 1.0E-5; message : in string := "") is
+  procedure assertepsilon (x, y : in real; epsilon : in real := 1.0e-5; message : in string := "") is
     variable vabs : real := 0.0;
   begin
     vabs := abs (x - y);
     assert     (vabs < epsilon) report message & " " & real'image (epsilon) & " <  " & real'image (vabs) severity note;
     assert not (vabs < epsilon) report message & " " & real'image (epsilon) & " >= " & real'image (vabs) severity warning;
-  end procedure assertEpsilon;
+  end procedure assertepsilon;
 
   procedure warning_neq_fp (a, b : in float32; info : in string := ""; use_epsilon : boolean := false) is
     variable src : float32 := a;
     variable dst : float32 := b;
     variable dif : float32;
-    constant epsilon : real := 1.0E-02;
+    constant epsilon : real := 1.0e-02;
   begin
     dif := abs (dst - src);
     if (use_epsilon = true) then
       if (dif >= epsilon) then
-        assert not (src = dst) report info & HT & " current == expected " & HT & real'image (to_real(src)) & " == " & real'image (to_real(dst)) & HT & to_hex_string(src) & " == " & (to_hex_string(dst)) severity note;
-        assert     (src = dst) report info & HT & " current /= expected " & HT & real'image (to_real(src)) & " /= " & real'image (to_real(dst)) & HT & to_hex_string(src) & " /= " & (to_hex_string(dst)) & HT & "differ > epsilon : " & real'image (to_real(dif)) & " > " & real'image (epsilon) severity warning;
+        assert not (src = dst) report info & ht & " current == expected " & ht & real'image (to_real(src)) & " == " & real'image (to_real(dst)) & ht & to_hex_string(src) & " == " & (to_hex_string(dst)) severity note;
+        assert     (src = dst) report info & ht & " current /= expected " & ht & real'image (to_real(src)) & " /= " & real'image (to_real(dst)) & ht & to_hex_string(src) & " /= " & (to_hex_string(dst)) & ht & "differ > epsilon : " & real'image (to_real(dif)) & " > " & real'image (epsilon) severity warning;
       end if;
     else
-      assert not (src = dst) report info & HT & " current == expected " & HT & real'image (to_real(src)) & " == " & real'image (to_real(dst)) & HT & to_hex_string(src) & " == " & (to_hex_string(dst)) severity note;
-      assert     (src = dst) report info & HT & " current /= expected " & HT & real'image (to_real(src)) & " /= " & real'image (to_real(dst)) & HT & to_hex_string(src) & " /= " & (to_hex_string(dst)) & HT & "differ : " & real'image (to_real(dif)) severity warning;
+      assert not (src = dst) report info & ht & " current == expected " & ht & real'image (to_real(src)) & " == " & real'image (to_real(dst)) & ht & to_hex_string(src) & " == " & (to_hex_string(dst)) severity note;
+      assert     (src = dst) report info & ht & " current /= expected " & ht & real'image (to_real(src)) & " /= " & real'image (to_real(dst)) & ht & to_hex_string(src) & " /= " & (to_hex_string(dst)) & ht & "differ : " & real'image (to_real(dif)) severity warning;
     end if;
-    --assert not (ieee.math_real.round(to_real(src)) = ieee.math_real.round(to_real(dst))) report info & HT & " current == expected " & HT & real'image (to_real(src)) & " == " & real'image (to_real(dst)) & HT & to_hex_string(src) & " == " & (to_hex_string(dst)) severity note;
-    --assert     (ieee.math_real.round(to_real(src)) = ieee.math_real.round(to_real(dst))) report info & HT & " current /= expected " & HT & real'image (to_real(src)) & " /= " & real'image (to_real(dst)) & HT & to_hex_string(src) & " /= " & (to_hex_string(dst)) severity warning;
-    --assertEpsilon (to_real(src), to_real(dst), 1.0E-2, info);
+    --assert not (ieee.math_real.round(to_real(src)) = ieee.math_real.round(to_real(dst))) report info & ht & " current == expected " & ht & real'image (to_real(src)) & " == " & real'image (to_real(dst)) & ht & to_hex_string(src) & " == " & (to_hex_string(dst)) severity note;
+    --assert     (ieee.math_real.round(to_real(src)) = ieee.math_real.round(to_real(dst))) report info & ht & " current /= expected " & ht & real'image (to_real(src)) & " /= " & real'image (to_real(dst)) & ht & to_hex_string(src) & " /= " & (to_hex_string(dst)) severity warning;
+    --assertepsilon (to_real(src), to_real(dst), 1.0e-2, info);
   end procedure;
 
   procedure warning_neq_fp (a : in std_logic_vector (31 downto 0); b : in real; info : in string := ""; use_epsilon : boolean := false) is
@@ -363,7 +453,7 @@ procedure wait_idle(
 ) is
 begin
 	idle <= '1';
-	wait for n * clock_period * I2C_STRETCH;
+	wait for n * clock_period * i2c_stretch;
 	idle <= '0';
 end wait_idle;
 
@@ -371,80 +461,80 @@ procedure sda_start(
 	signal sda_data : out std_logic;
 	constant clock_period : in time
 ) is
-	variable scl_clock_period : time := clock_period / I2C_CLOCK_DIVIDER;
+	variable scl_clock_period : time := clock_period / i2c_clock_divider;
 begin
-	sda_data <= '0'; wait for 2 * scl_clock_period * I2C_STRETCH;
+	sda_data <= '0'; wait for 2 * scl_clock_period * i2c_stretch;
 end procedure sda_start;
 
 procedure sda_stop(
 	signal sda_data : out std_logic;
 	constant clock_period : in time
 ) is
-	variable scl_clock_period : time := clock_period / I2C_CLOCK_DIVIDER;
+	variable scl_clock_period : time := clock_period / i2c_clock_divider;
 begin
-	sda_data <= '0'; wait for 2 * scl_clock_period * I2C_STRETCH;
+	sda_data <= '0'; wait for 2 * scl_clock_period * i2c_stretch;
 end procedure sda_stop;
 
 procedure sda_address_7bit(
 	signal sda_data : out std_logic;
-	constant address : in std_logic_vector(I2C_ADDRESS_BITS - 1 downto 0);
+	constant address : in std_logic_vector(i2c_address_bits - 1 downto 0);
 	constant address_rw : in boolean;
 	constant clock_period : in time
 ) is
-	variable index : natural range 0 to I2C_ADDRESS_BITS - 1 := 0;
+	variable index : natural range 0 to i2c_address_bits - 1 := 0;
 begin
 	l0 : for i in address'range loop
-		sda_data <= address(i); wait for clock_period * I2C_STRETCH;
+		sda_data <= address(i); wait for clock_period * i2c_stretch;
 	end loop l0;
 	-- 1bit write
-	sda_data <= To_Std_Logic(address_rw); wait for clock_period * I2C_STRETCH;
+	sda_data <= to_std_logic(address_rw); wait for clock_period * i2c_stretch;
 	-- 1bit ack
-	sda_data <= '0'; wait for clock_period * I2C_STRETCH;
+	sda_data <= '0'; wait for clock_period * i2c_stretch;
 end procedure sda_address_7bit;
 
 procedure sda_data_8bit(
 	signal sda_data : out std_logic;
-	constant data : in std_logic_vector(I2C_DATA_BITS - 1 downto 0);
+	constant data : in std_logic_vector(i2c_data_bits - 1 downto 0);
 	constant data_ack : in boolean;
 	constant clock_period : in time
 ) is
-	variable index : natural range 0 to I2C_DATA_BITS - 1 := 0;
+	variable index : natural range 0 to i2c_data_bits - 1 := 0;
 begin
 	l0 : for i in data'range loop
-		sda_data <= data(i); wait for clock_period * I2C_STRETCH;
+		sda_data <= data(i); wait for clock_period * i2c_stretch;
 	end loop l0;
 	-- 1bit ack
-	sda_data <= To_Std_Logic(data_ack); wait for clock_period * I2C_STRETCH;
+	sda_data <= to_std_logic(data_ack); wait for clock_period * i2c_stretch;
 end procedure sda_data_8bit;
 
-function To_Std_Logic(L: BOOLEAN) return std_ulogic is
+function to_std_logic(l: boolean) return std_ulogic is
 begin
-	if L then
+	if l then
 		return('1');
 	else
 		return('0');
 	end if;
-end function To_Std_Logic;
+end function to_std_logic;
 
-function To_Std_Logic(L: character) return boolean is
+function to_std_logic(l: character) return boolean is
 begin
-	if character'pos(L) = 49 then -- L '1'
+	if character'pos(l) = 49 then -- l '1'
 		return true;
 	end if;
-	if character'pos(L) = 48 then -- L '0'
+	if character'pos(l) = 48 then -- l '0'
 		return false;
 	end if;
 	return false;
-end function To_Std_Logic;
+end function to_std_logic;
 
-function int2hex(L: character) return natural is
-	constant value : natural := character'pos(L);
+function int2hex(l: character) return natural is
+	constant value : natural := character'pos(l);
 begin
 	if (value >= character'pos('0') and value <= character'pos('9')) then
 		return value - character'pos('0');
 	end if;
-	if (value >= character'pos('A') and value <= character'pos('F')) then
-		return value - character'pos('A') + 10;
+	if (value >= character'pos('a') and value <= character'pos('f')) then
+		return value - character'pos('a') + 10;
 	end if;
 	if (value >= character'pos('a') and value <= character'pos('f')) then
 		return value - character'pos('a') + 10;

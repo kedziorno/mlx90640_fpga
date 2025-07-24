@@ -97,28 +97,31 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-o_KGain : out std_logic_vector (31 downto 0);
+
+i2c_mem_ena : out std_logic;
+i2c_mem_addra : out i2c_memory_address_bits_st;
+i2c_mem_douta : in i2c_memory_data_bits_st;
+
+o_kgain : out fp32;
 o_rdy : out std_logic;
 
-signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
-signal fixed2floatond : out STD_LOGIC;
-signal fixed2floatsclr : out STD_LOGIC;
-signal fixed2floatce : out STD_LOGIC;
-signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal fixed2floatrdy : in STD_LOGIC;
+signal fixed2floata : out slv16;
+signal fixed2floatond : out std_logic;
+signal fixed2floatsclr : out std_logic;
+signal fixed2floatce : out std_logic;
+signal fixed2floatr : in fp32;
+signal fixed2floatrdy : in std_logic;
 
-signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpond : out STD_LOGIC;
-signal divfpsclr : out STD_LOGIC;
-signal divfpce : out STD_LOGIC;
-signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy : in STD_LOGIC
+signal divfpa : out fp32;
+signal divfpb : out fp32;
+signal divfpond : out std_logic;
+signal divfpsclr : out std_logic;
+signal divfpce : out std_logic;
+signal divfpr : in fp32;
+signal divfprdy : in std_logic
 );
 end component calculate_kgain;
+
 signal calculate_kgain_clock : std_logic;
 signal calculate_kgain_reset : std_logic;
 signal calculate_kgain_run : std_logic;

@@ -44,8 +44,8 @@
 -------------------------------------------------------------------------------
 
 LIBRARY ieee;
-USE ieee.std_logic_1164.ALL;
-USE ieee.numeric_std.ALL;
+USE ieee.std_logic_1164.all;
+USE ieee.numeric_std.all;
 
 use work.global_package.all;
 
@@ -71,24 +71,28 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
-o_tgc : out std_logic_vector (31 downto 0);
+
+o_tgc : out fp32;
 o_rdy : out std_logic;
-signal i2c_mem_ena : out STD_LOGIC;
-signal i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
-signal fixed2floatond : out STD_LOGIC;
-signal fixed2floatce : out STD_LOGIC;
-signal fixed2floatsclr : out STD_LOGIC;
-signal fixed2floatr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal fixed2floatrdy : in STD_LOGIC;
-signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfpond : out STD_LOGIC;
-signal divfpsclr : out STD_LOGIC;
-signal divfpce : out STD_LOGIC;
-signal divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal divfprdy : in STD_LOGIC
+
+signal i2c_mem_ena : out std_logic;
+signal i2c_mem_addra : out i2c_memory_address_bits_st;
+signal i2c_mem_douta : in i2c_memory_data_bits_st;
+
+signal fixed2floata : out slv16;
+signal fixed2floatond : out std_logic;
+signal fixed2floatce : out std_logic;
+signal fixed2floatsclr : out std_logic;
+signal fixed2floatr : in fp32;
+signal fixed2floatrdy : in std_logic;
+
+signal divfpa : out fp32;
+signal divfpb : out fp32;
+signal divfpond : out std_logic;
+signal divfpsclr : out std_logic;
+signal divfpce : out std_logic;
+signal divfpr : in fp32;
+signal divfprdy : in std_logic
 );
 end component extract_tgc_parameters;
 
@@ -97,26 +101,26 @@ signal extract_tgc_parameters_clock : std_logic;
 signal extract_tgc_parameters_reset : std_logic;
 signal extract_tgc_parameters_run : std_logic;
 signal extract_tgc_parameters_i2c_mem_ena : STD_LOGIC;
-signal extract_tgc_parameters_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal extract_tgc_parameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal extract_tgc_parameters_i2c_mem_addra : i2c_memory_address_bits_st;
+signal extract_tgc_parameters_i2c_mem_douta : i2c_memory_data_bits_st;
 
 --Outputs
-signal extract_tgc_parameters_tgc : std_logic_vector (31 downto 0);
+signal extract_tgc_parameters_tgc : fp32;
 signal extract_tgc_parameters_rdy : std_logic;
 
-signal extract_tgc_parameters_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal extract_tgc_parameters_fixed2floata : slv16;
 signal extract_tgc_parameters_fixed2floatond : STD_LOGIC;
 signal extract_tgc_parameters_fixed2floatsclr : STD_LOGIC;
 signal extract_tgc_parameters_fixed2floatce : STD_LOGIC;
-signal extract_tgc_parameters_fixed2floatr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal extract_tgc_parameters_fixed2floatr : fp32;
 signal extract_tgc_parameters_fixed2floatrdy : STD_LOGIC;
 
-signal extract_tgc_parameters_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal extract_tgc_parameters_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal extract_tgc_parameters_divfpa : fp32;
+signal extract_tgc_parameters_divfpb : fp32;
 signal extract_tgc_parameters_divfpond : STD_LOGIC;
 signal extract_tgc_parameters_divfpsclr : STD_LOGIC;
 signal extract_tgc_parameters_divfpce : STD_LOGIC;
-signal extract_tgc_parameters_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal extract_tgc_parameters_divfpr : fp32;
 signal extract_tgc_parameters_divfprdy : STD_LOGIC;
 
 COMPONENT fixed2float

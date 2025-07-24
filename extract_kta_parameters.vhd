@@ -439,7 +439,7 @@ begin
 					i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2437_msb, 12));
 				when kta4 => state := kta5;
 					ktarcee_oe <= i2c_mem_douta;
-          i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2438_lsb, 12));
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2438_lsb, 12));
 				when kta5 => state := kta6;
 					ktarcee_ee <= i2c_mem_douta;
 				when kta6 => state := kta7;

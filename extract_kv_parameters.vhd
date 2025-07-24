@@ -331,7 +331,7 @@ begin
 					if (i_run = '1') then
 						state := kv1;
 						i2c_mem_ena <= '1';
-            i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2438_msb, 12));
+            i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2438_msb, 12));
             rdy <= '0';
           else
 						state := idle;

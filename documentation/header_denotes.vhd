@@ -11,12 +11,14 @@
 --  - p_   - processe
 --  - v_   - variable
 --  - lX_  - loop number X
+--  - _a   - alias
 --  - _i   - internal signal
 --  - _iX  - instance number X
 --  - _m   - memory
 --  - _p   - package
 --  - _q   - register
 --  - _sr  - shift register
+--  - _st  - sub-type
 --  - _t   - type
 --  - _dut - Device Under Test
 --  - _uut - Unit Under Test

@@ -281,9 +281,9 @@ begin
 					divfpsclr_internal <= '0';
 					fixed2floatsclr_internal <= '0';
 				when s0 => state := s1a;
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x2438_lsb, 12));
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (c_eeprom_x2438_lsb, 12));
         when s1a => state := s1b;
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x2438_msb, 12));
+          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (c_eeprom_x2438_msb, 12));
         when s1b => state := s1c;
           o_2powx_p8_4bit_ena <= '1';
           o_2powx_p8_4bit_adr <= i2c_mem_douta_internal (7 downto 4); -- ee2438 00f0 - ktascale1

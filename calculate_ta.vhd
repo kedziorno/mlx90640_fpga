@@ -46,7 +46,7 @@
 
 library ieee;
 use ieee.std_logic_1164.all;
-use IEEE.NUMERIC_STD.ALL;
+use ieee.numeric_std.all;
 
 use work.global_package.all;
 
@@ -56,58 +56,58 @@ i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
 
-i_Vdd : in std_logic_vector (31 downto 0);
+i_vdd : in fp32;
 
-o_Ta : out std_logic_vector (31 downto 0); -- output Ta
+o_ta : out fp32;
 o_rdy : out std_logic;
 
 o_kvptat_ena : out std_logic;
 o_kvptat_adr : out std_logic_vector (5 downto 0);
 o_alphaptat_ena : out std_logic;
 o_alphaptat_adr : out std_logic_vector (3 downto 0);
-i_rom_constants_float : in std_logic_vector (31 downto 0);
+i_rom_constants_float : in fp32;
 
 i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+i2c_mem_addra : out i2c_memory_address_bits_st;
+i2c_mem_douta : in i2c_memory_data_bits_st;
 
-fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
+fixed2floata : out slv16;
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
 fixed2floatsclr : out STD_LOGIC;
-fixed2floatr :  in STD_LOGIC_VECTOR(31 DOWNTO 0);
+fixed2floatr :  in fp32;
 fixed2floatrdy : in STD_LOGIC;
 
-divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+divfpa : out fp32;
+divfpb : out fp32;
 divfpond : out STD_LOGIC;
 divfpce : out STD_LOGIC;
 divfpsclr : out STD_LOGIC;
-divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+divfpr : in fp32;
 divfprdy : in STD_LOGIC;
 
-mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+mulfpa : out fp32;
+mulfpb : out fp32;
 mulfpond : out STD_LOGIC;
 mulfpce : out STD_LOGIC;
 mulfpsclr : out STD_LOGIC;
-mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+mulfpr : in fp32;
 mulfprdy : in STD_LOGIC;
 
-addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+addfpa : out fp32;
+addfpb : out fp32;
 addfpond : out STD_LOGIC;
 addfpce : out STD_LOGIC;
 addfpsclr : out STD_LOGIC;
-addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+addfpr : in fp32;
 addfprdy : in STD_LOGIC;
 
-subfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-subfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+subfpa : out fp32;
+subfpb : out fp32;
 subfpond : out STD_LOGIC;
 subfpce : out STD_LOGIC;
 subfpsclr : out STD_LOGIC;
-subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+subfpr : in fp32;
 subfprdy : in STD_LOGIC
 );
 end calculate_ta;
@@ -115,6 +115,8 @@ end calculate_ta;
 architecture rtl of calculate_ta is
 
 begin
+
+i2c_mem_douta_i <= i2c_mem_douta;
 
 p0 : process (i_clock) is
 	type states is (idle,
@@ -125,8 +127,8 @@ p0 : process (i_clock) is
 	s22,s23,s24,s25,s26,s26a,s26b,s26c,
 	s28,s30);
 	variable state : states;
-  variable ram : std_logic_vector (7 downto 0);
-  variable tmp : std_logic_vector (1 downto 0);
+  variable ram : slv8;
+  variable tmp : slv2;
 begin
 	if (rising_edge (i_clock)) then
     if (i_reset = '1') then
@@ -183,7 +185,7 @@ begin
           subfpa <= i_Vdd;
           subfpb <= C_3DOT3;
           subfpond <= '1';
-          i2c_mem_addra <= std_logic_vector (to_unsigned (ram_0x0720_msb, 12));
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_ram_x0720_msb, 12));
           if (subfprdy = '1') then state := s8;
             -- XXX duplicate calculation
             subfpce <= '0';
@@ -192,15 +194,14 @@ begin
             --synthesis translate_off
             report_error("================ CalculateTa deltaV", subfpr, 0.0);
             --synthesis translate_on
-            i2c_mem_addra <= std_logic_vector (to_unsigned (ram_0x0720_lsb, 12));
-            ram := i2c_mem_douta;
+            i2c_mem_addra <= std_logic_vector (to_unsigned (c_ram_x0720_lsb, 12));
+            ram := i2c_mem_douta_i;
           else state := s1c; end if;
         when s8 =>
           subfpsclr <= '0';
           fixed2floatce <= '1';
           fixed2floatond <= '1';
-          fixed2floata <=
-          ram & i2c_mem_douta;
+          fixed2floata <= ram & i2c_mem_douta_i; -- vptat msb & lsb
           if (fixed2floatrdy = '1') then state := s9;
             fixed2floatce <= '0';
             fixed2floatond <= '0';
@@ -208,19 +209,19 @@ begin
             --synthesis translate_off
             report_error("================ CalculateTa vptat", fixed2floatr, 0.0);
             --synthesis translate_on
-            i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2410_msb, 12));
+            i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2410_msb, 12));
           else state := s8; end if;
         when s9 => state := s12;
           fixed2floatsclr <= '0';
         when s12 =>
           o_alphaptat_ena <= '1';
-          o_alphaptat_adr <= i2c_mem_douta (7 downto 4);
+          o_alphaptat_adr <= alpha_ptat_ee_a;
           -- vptat*alphaptat
           mulfpce <= '1';
           mulfpa <= fixed2floatr;
           mulfpb <= i_rom_constants_float;
           mulfpond <= '1';
-          i2c_mem_addra <= std_logic_vector (to_unsigned (ram_0x0700_msb, 12));
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_ram_x0700_msb, 12));
           if (mulfprdy = '1') then state := s13;
             --synthesis translate_off
             report_error("================ CalculateTa alphaptat", i_rom_constants_float, 0.0);
@@ -229,15 +230,14 @@ begin
             mulfpce <= '0';
             mulfpond <= '0';
             mulfpsclr <= '1';
-            i2c_mem_addra <= std_logic_vector (to_unsigned (ram_0x0700_lsb, 12));
-            ram := i2c_mem_douta;
+            i2c_mem_addra <= std_logic_vector (to_unsigned (c_ram_x0700_lsb, 12));
+            ram := i2c_mem_douta_i;
           else state := s12; end if;
         when s13 =>
           mulfpsclr <= '0';
           fixed2floatce <= '1';
           fixed2floatond <= '1';
-          fixed2floata <=
-          ram & i2c_mem_douta;
+          fixed2floata <= ram & i2c_mem_douta_i; -- vbe msb & lsb
           if (fixed2floatrdy = '1') then state := s14;
             fixed2floatce <= '0';
             fixed2floatond <= '0';
@@ -253,20 +253,19 @@ begin
           addfpa <= mulfpr; -- vptat*alphaptat
           addfpb <= fixed2floatr;
           addfpond <= '1';
-          i2c_mem_addra <= std_logic_vector (to_unsigned (ram_0x0720_msb, 12));
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_ram_x0720_msb, 12));
           if (addfprdy = '1') then state := s15;
             addfpce <= '0';
             addfpond <= '0';
             addfpsclr <= '1';
-            i2c_mem_addra <= std_logic_vector (to_unsigned (ram_0x0720_lsb, 12));
-            ram := i2c_mem_douta;
+            i2c_mem_addra <= std_logic_vector (to_unsigned (c_ram_x0720_lsb, 12));
+            ram := i2c_mem_douta_i;
           else state := s14; end if;
         when s15 => -- XXX fi2fl ram0720 twice for remove vptat_ft reg (compare syn)
           addfpsclr <= '0';
           fixed2floatce <= '1';
           fixed2floatond <= '1';
-          fixed2floata <=
-          ram & i2c_mem_douta;
+          fixed2floata <= ram & i2c_mem_douta_i;
           if (fixed2floatrdy = '1') then state := s16;
             fixed2floatce <= '0';
             fixed2floatond <= '0';
@@ -286,7 +285,7 @@ begin
             divfpce <= '0';
             divfpond <= '0';
             divfpsclr <= '1';
-            i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2432_msb, 12));
+            i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2432_msb, 12));
           else state := s16; end if;
         when s18 =>
           divfpsclr <= '0';
@@ -294,7 +293,7 @@ begin
           -- kvptat*deltaV
           mulfpce <= '1';
           o_kvptat_ena <= '1';
-          o_kvptat_adr <= i2c_mem_douta (7 downto 2);
+          o_kvptat_adr <= kvptat_ee_a;
           mulfpa <= i_rom_constants_float;
           mulfpb <= subfpr; -- XXX deltaV = Vdd - 3.3 
           mulfpond <= '1';
@@ -344,7 +343,7 @@ begin
           divfpa <= mulfpr; -- vptatart =  (vptat/(vptat*alphaptat+vbe))*2^18
           divfpb <= addfpr; -- 1+kvptat*deltaV
           divfpond <= '1';
-          i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2431_msb, 12));
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2431_msb, 12));
           if (divfprdy = '1') then state := s25;
             divfpce <= '0';
             divfpond <= '0';
@@ -352,15 +351,14 @@ begin
             --synthesis translate_off
             report_error("================ CalculateTa 3", divfpr, 0.0);
             --synthesis translate_on
-            i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2431_lsb, 12));
-            ram := i2c_mem_douta;
+            i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2431_lsb, 12));
+            ram := i2c_mem_douta_i;
           else state := s24; end if;
         when s25 =>
           divfpsclr <= '0';
           fixed2floatce <= '1';
           fixed2floatond <= '1';
-          fixed2floata <=
-          ram & i2c_mem_douta;
+          fixed2floata <= ram & i2c_mem_douta_i; -- vptat25 msb & lsb
           if (fixed2floatrdy = '1') then state := s26;
             fixed2floatce <= '0';
             fixed2floatond <= '0';
@@ -376,7 +374,7 @@ begin
           subfpa <= divfpr; -- vptatart/(1+kvptat*deltaV)
           subfpb <= fixed2floatr;
           subfpond <= '1';
-          i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2432_msb, 12));
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2432_msb, 12));
           if (subfprdy = '1') then state := s26a;
             subfpce <= '0';
             subfpond <= '0';
@@ -384,8 +382,8 @@ begin
             --synthesis translate_off
             report_error("================ CalculateTa 4", subfpr, 0.0);
             --synthesis translate_on
-            i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2432_lsb, 12));
-            tmp (1 downto 0) := i2c_mem_douta (1 downto 0); -- ee2432 msb
+            i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2432_lsb, 12));
+            tmp := ktptat_msb_ee_a;
           else state := s26; end if;
         when s26a =>
           subfpsclr <= '0';
@@ -395,7 +393,7 @@ begin
           tmp (1) & tmp (1) & 
           tmp (1) & tmp (1) & 
           tmp (1) & tmp (1) & 
-          tmp (1 downto 0) & i2c_mem_douta;
+          tmp & i2c_mem_douta; -- ee2432 & 0x03ff
           if (fixed2floatrdy = '1') then state := s26b;
             fixed2floatce <= '0';
             fixed2floatond <= '0';

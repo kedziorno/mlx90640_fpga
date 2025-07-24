@@ -58,76 +58,76 @@ ARCHITECTURE tb OF tb_calculate_vdd IS
 
 COMPONENT fixed2float
 PORT (
-a : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
+a : IN std_logic_VECTOR(15 DOWNTO 0);
+operation_nd : IN std_logic;
+clk : IN std_logic;
+sclr : IN std_logic;
+ce : IN std_logic;
+result : OUT std_logic_VECTOR(31 DOWNTO 0);
+rdy : OUT std_logic
 );
 END COMPONENT;
 
 COMPONENT divfp
 PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
+a : IN std_logic_VECTOR(31 DOWNTO 0);
+b : IN std_logic_VECTOR(31 DOWNTO 0);
+operation_nd : IN std_logic;
+clk : IN std_logic;
+sclr : IN std_logic;
+ce : IN std_logic;
+result : OUT std_logic_VECTOR(31 DOWNTO 0);
+rdy : OUT std_logic
 );
 END COMPONENT;
 
 COMPONENT mulfp
 PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
+a : IN std_logic_VECTOR(31 DOWNTO 0);
+b : IN std_logic_VECTOR(31 DOWNTO 0);
+operation_nd : IN std_logic;
+clk : IN std_logic;
+sclr : IN std_logic;
+ce : IN std_logic;
+result : OUT std_logic_VECTOR(31 DOWNTO 0);
+rdy : OUT std_logic
 );
 END COMPONENT;
 
 COMPONENT addfp
 PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
+a : IN std_logic_VECTOR(31 DOWNTO 0);
+b : IN std_logic_VECTOR(31 DOWNTO 0);
+operation_nd : IN std_logic;
+clk : IN std_logic;
+sclr : IN std_logic;
+ce : IN std_logic;
+result : OUT std_logic_VECTOR(31 DOWNTO 0);
+rdy : OUT std_logic
 );
 END COMPONENT;
 
 COMPONENT subfp
 PORT (
-a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-operation_nd : IN STD_LOGIC;
-clk : IN STD_LOGIC;
-sclr : IN STD_LOGIC;
-ce : IN STD_LOGIC;
-result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-rdy : OUT STD_LOGIC
+a : IN std_logic_VECTOR(31 DOWNTO 0);
+b : IN std_logic_VECTOR(31 DOWNTO 0);
+operation_nd : IN std_logic;
+clk : IN std_logic;
+sclr : IN std_logic;
+ce : IN std_logic;
+result : OUT std_logic_VECTOR(31 DOWNTO 0);
+rdy : OUT std_logic
 );
 END COMPONENT;
 
 COMPONENT tb_i2c_mem
 PORT (
-clka : IN STD_LOGIC;
-ena : IN STD_LOGIC;
-wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
-addra : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
-dina : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
-douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+clka : IN std_logic;
+ena : IN std_logic;
+wea : IN std_logic_VECTOR(0 DOWNTO 0);
+addra : IN std_logic_VECTOR(11 DOWNTO 0);
+dina : IN std_logic_VECTOR(7 DOWNTO 0);
+douta : OUT std_logic_VECTOR(7 DOWNTO 0)
 );
 END COMPONENT;
 
@@ -137,96 +137,96 @@ i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
 
-i2c_mem_ena : out STD_LOGIC;
-i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
-i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+i2c_mem_ena : out std_logic;
+i2c_mem_addra : out i2c_memory_address_bits_st;
+i2c_mem_douta : in i2c_memory_data_bits_st;
 
 o_Vdd : out std_logic_vector (31 downto 0); -- output Vdd
 o_rdy : out std_logic;
 
-fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
-fixed2floatond : out STD_LOGIC;
-fixed2floatce : out STD_LOGIC;
-fixed2floatsclr : out STD_LOGIC;
-fixed2floatr :  in STD_LOGIC_VECTOR(31 DOWNTO 0);
-fixed2floatrdy : in STD_LOGIC;
+fixed2floata : out slv16;
+fixed2floatond : out std_logic;
+fixed2floatce : out std_logic;
+fixed2floatsclr : out std_logic;
+fixed2floatr :  in fp32;
+fixed2floatrdy : in std_logic;
 
-divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-divfpond : out STD_LOGIC;
-divfpce : out STD_LOGIC;
-divfpsclr : out STD_LOGIC;
-divfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-divfprdy : in STD_LOGIC;
+divfpa : out fp32;
+divfpb : out fp32;
+divfpond : out std_logic;
+divfpce : out std_logic;
+divfpsclr : out std_logic;
+divfpr : in fp32;
+divfprdy : in std_logic;
 
-mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-mulfpond : out STD_LOGIC;
-mulfpce : out STD_LOGIC;
-mulfpsclr : out STD_LOGIC;
-mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-mulfprdy : in STD_LOGIC;
+mulfpa : out fp32;
+mulfpb : out fp32;
+mulfpond : out std_logic;
+mulfpce : out std_logic;
+mulfpsclr : out std_logic;
+mulfpr : in fp32;
+mulfprdy : in std_logic;
 
-addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-addfpond : out STD_LOGIC;
-addfpce : out STD_LOGIC;
-addfpsclr : out STD_LOGIC;
-addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-addfprdy : in STD_LOGIC;
+addfpa : out fp32;
+addfpb : out fp32;
+addfpond : out std_logic;
+addfpce : out std_logic;
+addfpsclr : out std_logic;
+addfpr : in fp32;
+addfprdy : in std_logic;
 
-subfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-subfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
-subfpond : out STD_LOGIC;
-subfpce : out STD_LOGIC;
-subfpsclr : out STD_LOGIC;
-subfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-subfprdy : in STD_LOGIC
+subfpa : out fp32;
+subfpb : out fp32;
+subfpond : out std_logic;
+subfpce : out std_logic;
+subfpsclr : out std_logic;
+subfpr : in fp32;
+subfprdy : in std_logic
 );
 end component calculate_vdd;
 
 signal calculate_vdd_clock : std_logic;
 signal calculate_vdd_reset : std_logic;
 signal calculate_vdd_run : std_logic;
-signal calculate_vdd_i2c_mem_ena : STD_LOGIC;
-signal calculate_vdd_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal calculate_vdd_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal calculate_vdd_vdd : std_logic_vector (31 downto 0); -- output Vdd
+signal calculate_vdd_i2c_mem_ena : std_logic;
+signal calculate_vdd_i2c_mem_addra : i2c_memory_address_bits_st;
+signal calculate_vdd_i2c_mem_douta : i2c_memory_data_bits_st;
+signal calculate_vdd_vdd : fp32; -- output Vdd
 signal calculate_vdd_rdy : std_logic;
-signal calculate_vdd_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
-signal calculate_vdd_fixed2floatond : STD_LOGIC;
-signal calculate_vdd_fixed2floatce : STD_LOGIC;
-signal calculate_vdd_fixed2floatsclr : STD_LOGIC;
-signal calculate_vdd_fixed2floatr :  STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_vdd_fixed2floatrdy : STD_LOGIC;
-signal calculate_vdd_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_vdd_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_vdd_divfpond : STD_LOGIC;
-signal calculate_vdd_divfpce : STD_LOGIC;
-signal calculate_vdd_divfpsclr : STD_LOGIC;
-signal calculate_vdd_divfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_vdd_divfprdy : STD_LOGIC;
-signal calculate_vdd_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_vdd_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_vdd_mulfpond : STD_LOGIC;
-signal calculate_vdd_mulfpce : STD_LOGIC;
-signal calculate_vdd_mulfpsclr : STD_LOGIC;
-signal calculate_vdd_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_vdd_mulfprdy : STD_LOGIC;
-signal calculate_vdd_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_vdd_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_vdd_addfpond : STD_LOGIC;
-signal calculate_vdd_addfpce : STD_LOGIC;
-signal calculate_vdd_addfpsclr : STD_LOGIC;
-signal calculate_vdd_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_vdd_addfprdy : STD_LOGIC;
-signal calculate_vdd_subfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_vdd_subfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_vdd_subfpond : STD_LOGIC;
-signal calculate_vdd_subfpce : STD_LOGIC;
-signal calculate_vdd_subfpsclr : STD_LOGIC;
-signal calculate_vdd_subfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal calculate_vdd_subfprdy : STD_LOGIC;
+signal calculate_vdd_fixed2floata : slv16;
+signal calculate_vdd_fixed2floatond : std_logic;
+signal calculate_vdd_fixed2floatce : std_logic;
+signal calculate_vdd_fixed2floatsclr : std_logic;
+signal calculate_vdd_fixed2floatr : fp32;
+signal calculate_vdd_fixed2floatrdy : std_logic;
+signal calculate_vdd_divfpa : fp32;
+signal calculate_vdd_divfpb : fp32;
+signal calculate_vdd_divfpond : std_logic;
+signal calculate_vdd_divfpce : std_logic;
+signal calculate_vdd_divfpsclr : std_logic;
+signal calculate_vdd_divfpr : fp32;
+signal calculate_vdd_divfprdy : std_logic;
+signal calculate_vdd_mulfpa : fp32;
+signal calculate_vdd_mulfpb : fp32;
+signal calculate_vdd_mulfpond : std_logic;
+signal calculate_vdd_mulfpce : std_logic;
+signal calculate_vdd_mulfpsclr : std_logic;
+signal calculate_vdd_mulfpr : fp32;
+signal calculate_vdd_mulfprdy : std_logic;
+signal calculate_vdd_addfpa : fp32;
+signal calculate_vdd_addfpb : fp32;
+signal calculate_vdd_addfpond : std_logic;
+signal calculate_vdd_addfpce : std_logic;
+signal calculate_vdd_addfpsclr : std_logic;
+signal calculate_vdd_addfpr : fp32;
+signal calculate_vdd_addfprdy : std_logic;
+signal calculate_vdd_subfpa : fp32;
+signal calculate_vdd_subfpb : fp32;
+signal calculate_vdd_subfpond : std_logic;
+signal calculate_vdd_subfpce : std_logic;
+signal calculate_vdd_subfpsclr : std_logic;
+signal calculate_vdd_subfpr : fp32;
+signal calculate_vdd_subfprdy : std_logic;
 
 signal calculate_vdd_fixed2floatclk : std_logic;
 signal calculate_vdd_addfpclk : std_logic;

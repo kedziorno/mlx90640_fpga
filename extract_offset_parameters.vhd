@@ -416,7 +416,7 @@ begin
             state := occ24;
           end if;          
         when s0 => state := s5;
-          i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2410_lsb, 12));
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2410_lsb, 12));
         when s5 => state := s6;
           fixed2floatsclr_internal <= '0';
           addfpsclr_internal <= '0';
@@ -446,7 +446,7 @@ begin
           addfpa_internal <= mulfpr_internal;
           addfpb_internal <= x"00000000";
           addfpond_internal <= '1';
-					i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2410_lsb, 12));
+					i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2410_lsb, 12));
           if (addfprdy_internal = '1') then state := s13;
             o_signed6bit_ena <= '0';
             addfpce_internal <= '0';
@@ -456,7 +456,7 @@ begin
             o_2powx_4bit_adr <= i2c_mem_douta (3 downto 0);
           else state := s12; end if;
        when s13 =>
-					i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2410_msb, 12));
+					i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2410_msb, 12));
           addfpsclr_internal <= '0';
           mulfpce_internal <= '1';
           mulfpa_internal <= out_nibble3;
