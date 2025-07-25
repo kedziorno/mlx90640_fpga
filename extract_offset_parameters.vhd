@@ -382,9 +382,9 @@ begin
           n := i*4;
           o_signed4bit_ena <= '1';
           write_enable <= '1';
-          i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2413_msb + m, 12));
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2412_msb + m, 12));
         when occ25 => state := occ26;
-          i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2413_lsb + m, 12));
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2412_lsb + m, 12));
         when occ26 => state := occ26a;
           o_signed4bit_adr <= i2c_mem_douta (3 downto 0); -- occrowA
           tmp1 := i2c_mem_douta (7 downto 4); -- occrowB

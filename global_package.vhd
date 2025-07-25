@@ -110,6 +110,12 @@ package global_package is
   -- 11.2.1.2. example calibration data, p. 30
   -- eeprom constants (16 bit each)
   constant c_eeprom_x2410 : integer := 16#2410#; -- k_ptat,scale_occ_row,scale_occ_column,scale_occ_remnand[4/4/4/4]
+  constant c_eeprom_x2412 : integer := 16#2412#; -- occ_rows_04,occ_rows_03,occ_rows_02,occ_rows_01[4/4/4/4]
+  constant c_eeprom_x2413 : integer := c_eeprom_x2412 + 1; -- occ_rows_08,occ_rows_07,occ_rows_06,occ_rows_05[4/4/4/4]
+  constant c_eeprom_x2414 : integer := c_eeprom_x2412 + 2; -- occ_rows_12,occ_rows_11,occ_rows_10,occ_rows_09[4/4/4/4]
+  constant c_eeprom_x2415 : integer := c_eeprom_x2412 + 3; -- occ_rows_16,occ_rows_15,occ_rows_14,occ_rows_13[4/4/4/4]
+  constant c_eeprom_x2416 : integer := c_eeprom_x2412 + 4; -- occ_rows_20,occ_rows_19,occ_rows_18,occ_rows_17[4/4/4/4]
+  constant c_eeprom_x2417 : integer := c_eeprom_x2412 + 5; -- occ_rows_24,occ_rows_23,occ_rows_22,occ_rows_21[4/4/4/4]
   constant c_eeprom_x2420 : integer := 16#2420#; -- alpha_scale,scale_acc_row,scale_acc_column,acc_scale_remnand[4/4/4/4]
   constant c_eeprom_x2421 : integer := 16#2421#; -- pix_sensitivity_average[16] (alpha_reference)
   constant c_eeprom_x2422 : integer := 16#2422#; -- acc_rows_04,acc_rows_03,acc_rows_02,acc_rows_01[4/4/4/4]
@@ -221,6 +227,11 @@ package global_package is
   constant c_eeprom_x2439_msb : integer := c_eeprom_x2439_off * 2 + 0;
   constant c_eeprom_x2439_lsb : integer := c_eeprom_x2439_off * 2 + 1;
 
+  -- 11.2.2.5.2. offset calculation, p. 38
+  -- 11.1.3. restoring the offset, p. 23
+  constant c_eeprom_x2412_off : integer := c_eeprom_x2412 - c_eeprom_st;
+  constant c_eeprom_x2412_msb : integer := c_eeprom_x2412_off * 2 + 0;
+  constant c_eeprom_x2412_lsb : integer := c_eeprom_x2412_off * 2 + 1;
 
   constant ram_0x0708_msb : integer := c_eeprom_sz + (776 * 2) + 0; -- pixgain_cp_sp0
   constant ram_0x0708_lsb : integer := c_eeprom_sz + (776 * 2) + 1; -- pixgain_cp_sp0
