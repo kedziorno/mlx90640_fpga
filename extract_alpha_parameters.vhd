@@ -313,7 +313,20 @@ signal divfpce_internal : STD_LOGIC;
 signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy_internal : STD_LOGIC;
 
+signal i2c_mem_douta_i : i2c_memory_data_bits_st;
+alias offset_pixel : slv6 is i2c_mem_douta_i (7 downto 2);
+alias accrow_a : slv4 is i2c_mem_douta_i (3 downto 0);
+alias accrow_b : slv4 is i2c_mem_douta_i (7 downto 4);
+alias accrow_c : slv4 is i2c_mem_douta_i (3 downto 0);
+alias accrow_d : slv4 is i2c_mem_douta_i (7 downto 4);
+alias alpha_scale : slv4 is i2c_mem_douta_i (7 downto 4);
+alias acc_scale_row : slv4 is i2c_mem_douta_i (3 downto 0);
+alias acc_scale_column : slv4 is i2c_mem_douta_i (7 downto 4);
+alias acc_scale_remnand : slv4 is i2c_mem_douta_i (3 downto 0);
+
 begin
+
+i2c_mem_douta_i <= i2c_mem_douta;
 
 fixed2floata <= fixed2floata_internal;
 fixed2floatond <= fixed2floatond_internal;
@@ -431,22 +444,22 @@ begin
           --i2c_mem_ena <= '1';
           o_signed4bit_ena <= '1';
           write_enable <= '1';
-          i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2422_msb + m, 12));
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2422_msb + m, 12));
         when acc16 => state := acc17;
-          i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2422_msb + m, 12));
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2422_lsb + m, 12));
         when acc17 => state := acc18;
           --i2c_mem_ena <= '0';
-          o_signed4bit_adr <= i2c_mem_douta (3 downto 0); -- accrowA
-          tmp1 := i2c_mem_douta (7 downto 4); -- accrowB
+          o_signed4bit_adr <= accrow_a;
+          tmp1 := accrow_b;
         when acc18 => state := acc19;
-          o_signed4bit_adr <= tmp1; -- accrowB
-          tmp1 := i2c_mem_douta (3 downto 0); -- accrowC
+          o_signed4bit_adr <= tmp1;
+          tmp1 := accrow_c;
         when acc19 => state := acc20;
-          o_signed4bit_adr <= tmp1; -- accrowC
+          o_signed4bit_adr <= tmp1;
           dia <= i_rom_constants_float; -- out accrowA
           addra <= std_logic_vector (to_unsigned (n+0, 10));
         when acc20 => state := acc21;
-          o_signed4bit_adr <= i2c_mem_douta (7 downto 4); -- accrowD
+          o_signed4bit_adr <= accrow_d;
           dia <= i_rom_constants_float; -- out accrowB
           addra <= std_logic_vector (to_unsigned (n+1, 10));
         when acc21 => state := acc22;
@@ -478,28 +491,24 @@ begin
           divfpsclr_internal <= '0';
           fixed2floatsclr_internal <= '0';
           --i2c_mem_ena <= '1';
-          i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i)+0, 12)); -- XXX fixit offset LSB 0
-        when s1 => state := s2;	--2
-          i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i)+1, 12)); -- XXX fixit offset MSB 1
+        when s1 => state := s2;
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2440_msb+(2*i), 12));
         when s2 => state := s3;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2421_lsb, 12));
-          vAlphaPixel := i2c_mem_douta (1 downto 0); -- offset LSB 0
-        when s3 => state := s4; 	--3
-          i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2421_msb, 12));
+					i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2421_msb, 12));
+        when s3 => state := s4;
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2421_lsb, 12));
           o_signed6bit_ena <= '1';
-          o_signed6bit_adr <= vAlphaPixel & i2c_mem_douta (7 downto 4);  -- offset MSB 1
-          --report_error("alphaPixel", vAlphaPixel, 0.0);
+          o_signed6bit_adr <= offset_pixel;
         when s4 => state := s7;
-          valphaRef := i2c_mem_douta; -- alpharef LSB
+          valphaRef := i2c_mem_douta_i;
           addra <= (others => '0');
         when s7 =>
           out_nibble3 <= i_rom_constants_float;
           i2c_mem_addra <= (others => '0');
           fixed2floatce_internal <= '1';
           fixed2floatond_internal <= '1';
-          fixed2floata_internal <=
-          valphaRef (7 downto 0) & i2c_mem_douta; -- alpharef MSB
-          i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2420_lsb, 12));
+          fixed2floata_internal <= valphaRef & i2c_mem_douta_i; -- alpharef msb & lsb
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2420_lsb, 12));
           o_signed6bit_ena <= '0';
           if (fixed2floatrdy_internal = '1') then state := s8;
 						--report_error("alphaReference", fixed2floatr_internal, 0.0);
@@ -508,7 +517,7 @@ begin
 						fixed2floatsclr_internal <= '1';
             addra <= std_logic_vector (to_unsigned (col+C_ROWS, 10)); -- accColumnJ
             o_2powx_4bit_ena <= '1';
-            o_2powx_4bit_adr <= i2c_mem_douta (7 downto 4); -- acc scale column for 2^x
+            o_2powx_4bit_adr <= acc_scale_column;
 					else state := s7; end if;
         when s8 => 			--8
           fixed2floatsclr_internal <= '0';
@@ -528,7 +537,7 @@ begin
             mulfpsclr_internal <= '1';
           else state := s8; end if;
         when s11 => -- XXX empty calculate/state for rm vaccColumnJ reg
-          i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2420_lsb, 12));
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2420_lsb, 12));
           mulfpsclr_internal <= '0';
           addfpce_internal <= '1';
           addfpa_internal <= mulfpr_internal; -- vaccColumnJ
@@ -538,7 +547,7 @@ begin
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            o_2powx_4bit_adr <= i2c_mem_douta (3 downto 0); -- acc scale remnant for 2^x
+            o_2powx_4bit_adr <= acc_scale_remnand;
           else state := s11; end if;
         when s13 =>
           addfpsclr_internal <= '0';
@@ -565,7 +574,7 @@ begin
           --report_error("AlphaPixel", vAlphaPixel_ft, 0.0);
           --report_error("accColumnJ", vaccColumnJ, 0.0);
           addra <= std_logic_vector (to_unsigned (row, 10)); -- accrowI
-          i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2420_msb, 12));
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2420_msb, 12));
           if (addfprdy_internal = '1') then state := s16;
             --report_error ("addfpa 1 : ",   addfpa_internal,0.0);
             --report_error ("addfpb 1 : ",   addfpb_internal,0.0);
@@ -573,7 +582,7 @@ begin
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            o_2powx_4bit_adr <= i2c_mem_douta (3 downto 0); -- acc scale row for 2^x
+            o_2powx_4bit_adr <= acc_scale_row;
           else state := s14; end if;
         when s16 =>
           addfpsclr_internal <= '0';
@@ -623,7 +632,7 @@ begin
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
             o_alphascale_1_ena <= '1';
-            o_alphascale_1_adr <= i2c_mem_douta (7 downto 4); -- alpha scale
+            o_alphascale_1_adr <= alpha_scale;
           else state := s20; end if;
         when s22 =>
           addfpsclr_internal <= '0';

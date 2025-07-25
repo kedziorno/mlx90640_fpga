@@ -114,6 +114,11 @@ end calculate_ta;
 
 architecture rtl of calculate_ta is
 
+signal i2c_mem_douta_i : i2c_memory_data_bits_st;
+alias alpha_ptat_ee_a  : slv4 is i2c_mem_douta_i (7 downto 4);
+alias kvptat_ee_a      : slv6 is i2c_mem_douta_i (7 downto 2);
+alias ktptat_msb_ee_a  : slv2 is i2c_mem_douta_i (1 downto 0);
+
 begin
 
 i2c_mem_douta_i <= i2c_mem_douta;
@@ -215,7 +220,7 @@ begin
           fixed2floatsclr <= '0';
         when s12 =>
           o_alphaptat_ena <= '1';
-          o_alphaptat_adr <= alpha_ptat_ee_a;
+          o_alphaptat_adr <= i2c_mem_douta (7 downto 4);
           -- vptat*alphaptat
           mulfpce <= '1';
           mulfpa <= fixed2floatr;

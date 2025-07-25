@@ -79,7 +79,7 @@ package global_package is
   constant c_cols           : integer := 32; -- matrix pixels x
   constant c_matrix_pixels  : integer := c_rows * c_cols;
 
-  constant c_pixgain_st : integer := 1665; -- pixgain start - eeprom max + 1
+  constant c_pixgain_st : integer := 1664; -- pixgain start - eeprom max + 1
   constant c_pixgain_sz : integer := c_matrix_pixels; -- pixgain size
 
   -- 10.7. address map, p. 16
@@ -106,18 +106,26 @@ package global_package is
 
   function extend_8_to_16 (a : slv8) return slv16;
 
-  signal i2c_mem_douta_i : i2c_memory_data_bits_st;
-  signal i2c_mem_addra_i : i2c_memory_address_bits_st;
-
-  -- 5. Glossary of Terms, p. 7
+  -- 5. glossary of terms, p. 7
+  -- 11.2.1.2. example calibration data, p. 30
   -- eeprom constants (16 bit each)
   constant c_eeprom_x2410 : integer := 16#2410#; -- k_ptat,scale_occ_row,scale_occ_column,scale_occ_remnand[4/4/4/4]
+  constant c_eeprom_x2420 : integer := 16#2420#; -- alpha_scale,scale_acc_row,scale_acc_column,acc_scale_remnand[4/4/4/4]
+  constant c_eeprom_x2421 : integer := 16#2421#; -- pix_sensitivity_average[16] (alpha_reference)
+  constant c_eeprom_x2422 : integer := 16#2422#; -- acc_rows_04,acc_rows_03,acc_rows_02,acc_rows_01[4/4/4/4]
+  constant c_eeprom_x2423 : integer := c_eeprom_x2422 + 1; -- acc_rows_08,acc_rows_07,acc_rows_06,acc_rows_05[4/4/4/4]
+  constant c_eeprom_x2424 : integer := c_eeprom_x2422 + 2; -- acc_rows_12,acc_rows_11,acc_rows_10,acc_rows_09[4/4/4/4]
+  constant c_eeprom_x2425 : integer := c_eeprom_x2422 + 3; -- acc_rows_16,acc_rows_15,acc_rows_14,acc_rows_13[4/4/4/4]
+  constant c_eeprom_x2426 : integer := c_eeprom_x2422 + 4; -- acc_rows_20,acc_rows_19,acc_rows_18,acc_rows_17[4/4/4/4]
+  constant c_eeprom_x2427 : integer := c_eeprom_x2422 + 5; -- acc_rows_24,acc_rows_23,acc_rows_22,acc_rows_11[4/4/4/4]
   constant c_eeprom_x2430 : integer := 16#2430#; -- gain[16]
   constant c_eeprom_x2431 : integer := 16#2431#; -- vptat25[16]
   constant c_eeprom_x2432 : integer := 16#2432#; -- kvptat,ktptat[6/10]
   constant c_eeprom_x2433 : integer := 16#2433#; -- k_vdd,vdd_25[8/8]
   constant c_eeprom_x2438 : integer := 16#2438#; -- resolution_control_cal,kv_scale,kta_scale_1,kta_scale_2[2/4/4/4]
+  constant c_eeprom_x2439 : integer := 16#2439#; -- cp_sp_1/sp_0_ratio,alpha_cp_sp_0[6/10] (cp_p1_p0_ratio,alpha_cp_subpage_0)
   constant c_eeprom_x243c : integer := 16#243c#; -- ksta,tgcee[8/8]
+  constant c_eeprom_x2440 : integer := 16#2440#; -- offset_pixel_rc,alpha_pixel_rc,kta_rc,outlier[6/6/3/1]
   constant c_ram_x0700    : integer := 16#0700#; -- vbe[16]
   constant c_ram_x070a    : integer := 16#070a#; -- gain[16]
   constant c_ram_x0720    : integer := 16#0720#; -- ta_ptat[16] (vptat)
@@ -132,7 +140,6 @@ package global_package is
   -- 11.2.2.1. resolution restore, p. 35
   constant c_ram_x800d_and_x0c00 : slv16 := c_ram_x800d and x"0c00";
   alias resolution_reg_a         : slv2 is c_ram_x800d_and_x0c00 (11 downto 10);
-  alias resolution_ee_a          : slv2 is i2c_mem_douta_i (5 downto 4);
 
   -- 11.1.17. Restoring the resolution control coefficient, p. 29
   constant c_eeprom_x2438_off : integer := c_eeprom_x2438 - c_eeprom_st;
@@ -167,16 +174,52 @@ package global_package is
   constant c_eeprom_x2431_off : integer := c_eeprom_x2431 - c_eeprom_st;
   constant c_eeprom_x2431_msb : integer := c_eeprom_x2431_off * 2 + 0;
   constant c_eeprom_x2431_lsb : integer := c_eeprom_x2431_off * 2 + 1;
-  alias alpha_ptat_ee_a       : slv4 is i2c_mem_douta_i (7 downto 4);
   constant c_eeprom_x2410_off : integer := c_eeprom_x2410 - c_eeprom_st;
   constant c_eeprom_x2410_msb : integer := c_eeprom_x2410_off * 2 + 0;
   constant c_eeprom_x2410_lsb : integer := c_eeprom_x2410_off * 2 + 1;
   constant c_ram_x0700_off : integer := c_ram_x0700 - c_ram_st;
   constant c_ram_x0700_msb : integer := c_eeprom_sz + (c_ram_x0700_off * 2) + 0;
   constant c_ram_x0700_lsb : integer := c_eeprom_sz + (c_ram_x0700_off * 2) + 1;
-  alias kvptat_ee_a        : slv6 is i2c_mem_douta_i (7 downto 2);
-  alias ktptat_msb_ee_a    : slv2 is i2c_mem_douta_i (1 downto 0);
   
+  -- 11.2.2.8. normalizing to sensitivity, p. 43
+  -- 11.1.4. restoring the sensitivity, p. 24
+  constant c_eeprom_x2422_off : integer := c_eeprom_x2422 - c_eeprom_st;
+  constant c_eeprom_x2422_msb : integer := c_eeprom_x2422_off * 2 + 0;
+  constant c_eeprom_x2422_lsb : integer := c_eeprom_x2422_off * 2 + 1;
+  constant c_eeprom_x2423_off : integer := c_eeprom_x2422_off + 1;
+  constant c_eeprom_x2423_msb : integer := c_eeprom_x2423_off * 2 + 0;
+  constant c_eeprom_x2423_lsb : integer := c_eeprom_x2423_off * 2 + 1;
+  constant c_eeprom_x2424_off : integer := c_eeprom_x2422_off + 2;
+  constant c_eeprom_x2424_msb : integer := c_eeprom_x2424_off * 2 + 0;
+  constant c_eeprom_x2424_lsb : integer := c_eeprom_x2424_off * 2 + 1;
+  constant c_eeprom_x2425_off : integer := c_eeprom_x2422_off + 3;
+  constant c_eeprom_x2425_msb : integer := c_eeprom_x2425_off * 2 + 0;
+  constant c_eeprom_x2425_lsb : integer := c_eeprom_x2425_off * 2 + 1;
+  constant c_eeprom_x2426_off : integer := c_eeprom_x2422_off + 4;
+  constant c_eeprom_x2426_msb : integer := c_eeprom_x2426_off * 2 + 0;
+  constant c_eeprom_x2426_lsb : integer := c_eeprom_x2426_off * 2 + 1;
+  constant c_eeprom_x2427_off : integer := c_eeprom_x2422_off + 5;
+  constant c_eeprom_x2427_msb : integer := c_eeprom_x2427_off * 2 + 0;
+  constant c_eeprom_x2427_lsb : integer := c_eeprom_x2427_off * 2 + 1;
+
+  -- 11.2.2.8. normalizing to sensitivity, p. 43
+  -- 11.1.3. restoring the offset, p. 23
+  -- 11.2.2.5.2. offset calculation, p. 38
+  constant c_eeprom_x2421_off : integer := c_eeprom_x2421 - c_eeprom_st;
+  constant c_eeprom_x2421_msb : integer := c_eeprom_x2421_off * 2 + 0;
+  constant c_eeprom_x2421_lsb : integer := c_eeprom_x2421_off * 2 + 1;
+  constant c_eeprom_x2420_off : integer := c_eeprom_x2420 - c_eeprom_st;
+  constant c_eeprom_x2420_msb : integer := c_eeprom_x2420_off * 2 + 0;
+  constant c_eeprom_x2420_lsb : integer := c_eeprom_x2420_off * 2 + 1;
+  constant c_eeprom_x2440_off : integer := c_eeprom_x2440 - c_eeprom_st;
+  constant c_eeprom_x2440_msb : integer := c_eeprom_x2440_off * 2 + 0;
+  constant c_eeprom_x2440_lsb : integer := c_eeprom_x2440_off * 2 + 1;
+  
+  -- 11.2.2.8. normalizing to sensitivity, p. 43
+  -- 11.1.12. restoring the Sensitivity, p. 28
+  constant c_eeprom_x2439_off : integer := c_eeprom_x2439 - c_eeprom_st;
+  constant c_eeprom_x2439_msb : integer := c_eeprom_x2439_off * 2 + 0;
+  constant c_eeprom_x2439_lsb : integer := c_eeprom_x2439_off * 2 + 1;
 
 
   constant ram_0x0708_msb : integer := c_eeprom_sz + (776 * 2) + 0; -- pixgain_cp_sp0
@@ -187,8 +230,6 @@ package global_package is
   constant eeprom_0x2411_msb : integer := 16 * 2 + 3; -- pix_os_average
   constant eeprom_0x2422_msb : integer := 32 * 2 + 1; -- accrow b,a
   constant eeprom_0x2422_lsb : integer := 32 * 2 + 0; -- accrow d,c
-  constant eeprom_0x2420_msb : integer := 32 * 2 + 0; -- ascalecp 4bit
-  constant eeprom_0x2420_lsb : integer := 32 * 2 + 1;
   constant eeprom_0x2421_lsb : integer := 32 * 2 + 2;
   constant eeprom_0x2421_msb : integer := 32 * 2 + 3;
   constant eeprom_0x2413_msb : integer := 32 + 4 + 1; -- occrow b,a
@@ -199,8 +240,6 @@ package global_package is
   constant eeprom_0x2436_msb : integer := 54 * 2 + 1; -- ktarcee_eo
   constant eeprom_0x2437_lsb : integer := 54 * 2 + 2; -- ktarcee_oe
   constant eeprom_0x2437_msb : integer := 54 * 2 + 3; -- ktarcee_ee
-  constant eeprom_0x2439_msb : integer := 57 * 2 + 0; -- acpsubpage0 10bit/cp_p12p0_ratio 6bit
-  constant eeprom_0x2439_lsb : integer := 57 * 2 + 1; -- acpsubpage0 10bit/cp_p12p0_ratio 6bit
   constant eeprom_0x243a_msb : integer := 58 * 2 + 0; -- ram
   constant eeprom_0x243a_lsb : integer := 58 * 2 + 1; -- ram
   constant eeprom_0x243b_msb : integer := 59 * 2 + 0; -- kvcpee

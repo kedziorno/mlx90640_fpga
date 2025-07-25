@@ -116,6 +116,10 @@ signal resolutionee,resolutionreg : slv2;
 
 signal i2c_mem_ena_internal : std_logic;
 
+signal i2c_mem_addra_i : i2c_memory_address_bits_st;
+signal i2c_mem_douta_i : i2c_memory_data_bits_st;
+alias resolution_ee_a  : slv2 is i2c_mem_douta_i (5 downto 4);
+
 begin
 
 i2c_mem_ena <= i2c_mem_ena_internal;
