@@ -292,7 +292,15 @@ signal addfpce_internal : STD_LOGIC;
 signal addfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal addfprdy_internal : STD_LOGIC;
 
+signal i2c_mem_douta_i : i2c_memory_data_bits_st;
+alias occrow_a : slv4 is i2c_mem_douta_i (3 downto 0);
+alias occrow_b : slv4 is i2c_mem_douta_i (7 downto 4);
+alias occrow_c : slv4 is i2c_mem_douta_i (3 downto 0);
+alias occrow_d : slv4 is i2c_mem_douta_i (7 downto 4);
+
 begin
+
+i2c_mem_douta_i <= i2c_mem_douta;
 
 fixed2floata <= fixed2floata_internal;
 fixed2floatond <= fixed2floatond_internal;
@@ -386,24 +394,24 @@ begin
         when occ25 => state := occ26;
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2412_msb + m, 12));
         when occ26 => state := occ26a;
-          o_signed4bit_adr <= i2c_mem_douta (3 downto 0); -- occrowA
-          tmp1 := i2c_mem_douta (7 downto 4); -- occrowB
+          o_signed4bit_adr <= occrow_a;
+          tmp1 := occrow_b;
         when occ26a => state := occ27;
-          o_signed4bit_adr <= tmp1; -- occrowB
-          tmp1 := i2c_mem_douta (3 downto 0); -- occrowC
+          o_signed4bit_adr <= tmp1;
+          tmp1 := occrow_c;
         when occ27 => state := occ28;
-          o_signed4bit_adr <= tmp1; -- occrowC
-          dia <= i_rom_constants_float; -- out occrowA
+          o_signed4bit_adr <= tmp1;
+          dia <= i_rom_constants_float;
           addra <= std_logic_vector (to_unsigned (n+0, 10));
         when occ28 => state := occ29;
-          o_signed4bit_adr <= i2c_mem_douta (7 downto 4); -- occrowD
-          dia <= i_rom_constants_float; -- out occrowB
+          o_signed4bit_adr <= occrow_d;
+          dia <= i_rom_constants_float;
           addra <= std_logic_vector (to_unsigned (n+1, 10));
         when occ29 => state := occ30;
-          dia <= i_rom_constants_float; -- out occrowC
+          dia <= i_rom_constants_float;
           addra <= std_logic_vector (to_unsigned (n+2, 10));
         when occ30 => state := occ31;
-          dia <= i_rom_constants_float; -- out occrowD
+          dia <= i_rom_constants_float;
           addra <= std_logic_vector (to_unsigned (n+3, 10));
         when occ31 => -- XXX end loop
           write_enable <= '0';
@@ -430,7 +438,7 @@ begin
           mulfpa_internal <= doa; -- vOCCColumnJ
           mulfpb_internal <= i_rom_constants_float;
           mulfpond_internal <= '1';
-          i2c_mem_addra <= std_logic_vector (to_unsigned (128+(2*i)+0, 12)); -- XXX fixit offset LSB 0
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2440_msb+(2*i), 12));
           if (mulfprdy_internal = '1') then state := s12;
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
