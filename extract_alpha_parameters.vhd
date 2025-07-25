@@ -444,9 +444,9 @@ begin
           --i2c_mem_ena <= '1';
           o_signed4bit_ena <= '1';
           write_enable <= '1';
-          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2422_msb + m, 12));
-        when acc16 => state := acc17;
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2422_lsb + m, 12));
+        when acc16 => state := acc17;
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2422_msb + m, 12));
         when acc17 => state := acc18;
           --i2c_mem_ena <= '0';
           o_signed4bit_adr <= accrow_a;
