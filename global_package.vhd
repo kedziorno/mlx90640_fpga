@@ -109,7 +109,7 @@ package global_package is
   -- 5. glossary of terms, p. 7
   -- 11.2.1.2. example calibration data, p. 30
   -- eeprom constants (16 bit each)
-  constant c_eeprom_x2410 : integer := 16#2410#; -- k_ptat,scale_occ_row,scale_occ_column,scale_occ_remnand[4/4/4/4]
+  constant c_eeprom_x2410 : integer := 16#2410#; -- k_ptat(alpha_ptat),scale_occ_row,scale_occ_column,scale_occ_remnand[4/4/4/4]
   constant c_eeprom_x2412 : integer := 16#2412#; -- occ_rows_04,occ_rows_03,occ_rows_02,occ_rows_01[4/4/4/4]
   constant c_eeprom_x2413 : integer := c_eeprom_x2412 + 1; -- occ_rows_08,occ_rows_07,occ_rows_06,occ_rows_05[4/4/4/4]
   constant c_eeprom_x2414 : integer := c_eeprom_x2412 + 2; -- occ_rows_12,occ_rows_11,occ_rows_10,occ_rows_09[4/4/4/4]
@@ -134,7 +134,7 @@ package global_package is
   constant c_eeprom_x2440 : integer := 16#2440#; -- offset_pixel_rc,alpha_pixel_rc,kta_rc,outlier[6/6/3/1]
   constant c_ram_x0700    : integer := 16#0700#; -- vbe[16]
   constant c_ram_x070a    : integer := 16#070a#; -- gain[16]
-  constant c_ram_x0720    : integer := 16#0720#; -- ta_ptat[16] (vptat)
+  constant c_ram_x0720    : integer := 16#0720#; -- ta_ptat[16] (vptat,ptat)
   constant c_ram_x072a    : integer := 16#072a#; -- vddpix[16]
   constant c_ram_x800d    : slv16   := x"1901"; -- manufacturer default value
 

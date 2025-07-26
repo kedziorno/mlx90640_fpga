@@ -197,7 +197,11 @@ begin
             subfpond <= '0';
             subfpsclr <= '1';
             --synthesis translate_off
-            report_error("================ CalculateTa deltaV", subfpr, 0.0);
+            report_error("(input vdd 3.2925000190734863)", i_Vdd, 3.2925000190734863);
+            warning_neq_fp (i_Vdd, x"4052b852", "(input vdd 3.2925000190734863)");
+            --synthesis translate_on
+            --synthesis translate_off
+            report_error("vdd - 3.3", subfpr, (3.2925000190734863 - 3.3));
             --synthesis translate_on
             i2c_mem_addra <= std_logic_vector (to_unsigned (c_ram_x0720_lsb, 12));
             ram := i2c_mem_douta_i;
@@ -212,7 +216,8 @@ begin
             fixed2floatond <= '0';
             fixed2floatsclr <= '1';
             --synthesis translate_off
-            report_error("================ CalculateTa vptat", fixed2floatr, 0.0);
+            report_error("(vptat ram 1686)", fixed2floatr, 1686.0);
+            warning_neq_fp (fixed2floatr, x"44d2c000", "(vptat ram 1686)");
             --synthesis translate_on
             i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2410_msb, 12));
           else state := s8; end if;
@@ -223,13 +228,14 @@ begin
           o_alphaptat_adr <= i2c_mem_douta (7 downto 4);
           -- vptat*alphaptat
           mulfpce <= '1';
-          mulfpa <= fixed2floatr;
-          mulfpb <= i_rom_constants_float;
+          mulfpa <= fixed2floatr; -- vptat
+          mulfpb <= i_rom_constants_float; -- alphaptat
           mulfpond <= '1';
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_ram_x0700_msb, 12));
           if (mulfprdy = '1') then state := s13;
             --synthesis translate_off
-            report_error("================ CalculateTa alphaptat", i_rom_constants_float, 0.0);
+            report_error("(alphaptat eeprom 9.0)", i_rom_constants_float, 9.0);
+            warning_neq_fp (i_rom_constants_float, x"41100000", "(alphaptat eeprom 9.0");
             --synthesis translate_on
             o_alphaptat_ena <= '0';
             mulfpce <= '0';
@@ -248,7 +254,11 @@ begin
             fixed2floatond <= '0';
             fixed2floatsclr <= '1';
             --synthesis translate_off
-            report_error("================ CalculateTa vbe", fixed2floatr, 0.0);
+            report_error("(vbe ram 19962)", fixed2floatr, 19962.0);
+            warning_neq_fp (fixed2floatr, x"469bf400", "(vbe ram 19962)");
+            --synthesis translate_on
+            --synthesis translate_off
+            --report_error("================ CalculateTa vbe", fixed2floatr, 0.0);
             --synthesis translate_on
           else state := s13; end if;
         when s14 =>
@@ -256,7 +266,7 @@ begin
           -- vptat*alphaptat+vbe
           addfpce <= '1';
           addfpa <= mulfpr; -- vptat*alphaptat
-          addfpb <= fixed2floatr;
+          addfpb <= fixed2floatr; -- vbe
           addfpond <= '1';
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_ram_x0720_msb, 12));
           if (addfprdy = '1') then state := s15;
@@ -276,31 +286,39 @@ begin
             fixed2floatond <= '0';
             fixed2floatsclr <= '1';
             --synthesis translate_off
-            report_error("================ CalculateTa vptat", fixed2floatr, 0.0);
+            report_error("(vptat ram 1686) twice", fixed2floatr, 1686.0);
+            warning_neq_fp (fixed2floatr, x"44d2c000", "(vptat ram 1686) twice");
             --synthesis translate_on
+            --synthesis translate_off
+            --report_error("================ CalculateTa vptat", fixed2floatr, 0.0);
+            --synthesis translate_on
+            i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2432_msb, 12));
           else state := s15; end if;
         when s16 =>
           fixed2floatsclr <= '0';
           -- vptat/(vptat*alphaptat+vbe)
           divfpce <= '1';
-          divfpa <= fixed2floatr;
+          divfpa <= fixed2floatr; -- vptat
           divfpb <= addfpr; -- vptat*alphaptat+vbe
           divfpond <= '1';
+          o_kvptat_ena <= '1';
+          o_kvptat_adr <= kvptat_ee_a;
           if (divfprdy = '1') then state := s18;
             divfpce <= '0';
             divfpond <= '0';
             divfpsclr <= '1';
-            i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2432_msb, 12));
           else state := s16; end if;
         when s18 =>
           divfpsclr <= '0';
           -- xxx move to s23
           -- kvptat*deltaV
           mulfpce <= '1';
-          o_kvptat_ena <= '1';
-          o_kvptat_adr <= kvptat_ee_a;
-          mulfpa <= i_rom_constants_float;
-          mulfpb <= subfpr; -- XXX deltaV = Vdd - 3.3 
+          mulfpa <= i_rom_constants_float; -- kvptat
+          mulfpb <= subfpr; -- XXX s1c deltaV = Vdd - 3.3
+          --synthesis translate_off
+          report_error("(kvptat eeprom 0.0021972656250000)", i_rom_constants_float, 0.0021972656250000);
+          warning_neq_fp (i_rom_constants_float, x"3b100000", "(kvptat eeprom 0.0021972656250000)");
+          --synthesis translate_on
           mulfpond <= '1';
           if (mulfprdy = '1') then state := s22;
             o_kvptat_ena <= '0';
@@ -308,17 +326,17 @@ begin
             mulfpond <= '0';
             mulfpsclr <= '1';
             --synthesis translate_off
-            report_error("================ CalculateTa ExtractKvPTATParameter_kvptat", i_rom_constants_float, 0.0);
+            --report_error("================ CalculateTa ExtractKvPTATParameter_kvptat", i_rom_constants_float, 0.0);
             --synthesis translate_on
             --synthesis translate_off
-            report_error("================ CalculateTa 1", mulfpr, 0.0);
+            --report_error("================ CalculateTa 1", mulfpr, 0.0);
             --synthesis translate_on
           else state := s18; end if;
         when s22 =>
           mulfpsclr <= '0';
           -- 1+kvptat*deltaV
           addfpce <= '1';
-          addfpa <= C_P1;
+          addfpa <= C_P1; -- 1
           addfpb <= mulfpr; -- kvptat*deltaV
           addfpond <= '1';
           if (addfprdy = '1') then state := s23;
@@ -326,27 +344,31 @@ begin
             addfpond <= '0';
             addfpsclr <= '1';
             --synthesis translate_off
-            report_error("================ CalculateTa 2", addfpr, 0.0);
+            --report_error("================ CalculateTa 2", addfpr, 0.0);
             --synthesis translate_on
           else state := s22; end if;
         when s23 => -- XXX move from s18
           addfpsclr <= '0';
           -- vptat/(vptat*alphaptat+vbe)*2^18
           mulfpce <= '1';
-          mulfpa <= divfpr; -- vptat/(vptat*alphaptat+vbe)
-          mulfpb <= C_2POW18;
+          mulfpa <= divfpr; -- s16 vptat/(vptat*alphaptat+vbe)
+          mulfpb <= C_2POW18; -- 2^18
           mulfpond <= '1';
           if (mulfprdy = '1') then state := s24;
             mulfpce <= '0';
             mulfpond <= '0';
             mulfpsclr <= '1';
+            --synthesis translate_off
+            report_error("(vptatart/ptatart calc 12578.9726562500000000)", mulfpr, 12578.9726562500000000);
+            warning_neq_fp (mulfpr, x"46448be4", "(vptatart/ptatart calc 12578.9726562500000000)");
+            --synthesis translate_on
           else state := s23; end if;
         when s24 =>
           mulfpsclr <= '0';
           -- vptatart/(1+kvptat*deltaV)
           divfpce <= '1';
-          divfpa <= mulfpr; -- vptatart =  (vptat/(vptat*alphaptat+vbe))*2^18
-          divfpb <= addfpr; -- 1+kvptat*deltaV
+          divfpa <= mulfpr; -- s23 vptatart =  (vptat/(vptat*alphaptat+vbe))*2^18
+          divfpb <= addfpr; -- s22 1+kvptat*deltaV
           divfpond <= '1';
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2431_msb, 12));
           if (divfprdy = '1') then state := s25;
@@ -354,7 +376,7 @@ begin
             divfpond <= '0';
             divfpsclr <= '1';
             --synthesis translate_off
-            report_error("================ CalculateTa 3", divfpr, 0.0);
+            --report_error("================ CalculateTa 3", divfpr, 0.0);
             --synthesis translate_on
             i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2431_lsb, 12));
             ram := i2c_mem_douta_i;
@@ -369,7 +391,11 @@ begin
             fixed2floatond <= '0';
             fixed2floatsclr <= '1';
             --synthesis translate_off
-            report_error("================ CalculateTa vptat25", fixed2floatr, 0.0);
+            report_error("(vptat25 eeprom 12196)", fixed2floatr, 12196.0);
+            warning_neq_fp (fixed2floatr, x"463e9000", "(vptat25 eeprom 12196)");
+            --synthesis translate_on
+            --synthesis translate_off
+            --report_error("================ CalculateTa vptat25", fixed2floatr, 0.0);
             --synthesis translate_on
           else state := s25; end if;
         when s26 =>
@@ -377,7 +403,7 @@ begin
           -- (vptatart/(1+kvptat*deltaV))-vptat25
           subfpce <= '1';
           subfpa <= divfpr; -- vptatart/(1+kvptat*deltaV)
-          subfpb <= fixed2floatr;
+          subfpb <= fixed2floatr; -- vptat25
           subfpond <= '1';
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2432_msb, 12));
           if (subfprdy = '1') then state := s26a;
@@ -385,7 +411,7 @@ begin
             subfpond <= '0';
             subfpsclr <= '1';
             --synthesis translate_off
-            report_error("================ CalculateTa 4", subfpr, 0.0);
+            --report_error("================ CalculateTa 4", subfpr, 0.0);
             --synthesis translate_on
             i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2432_lsb, 12));
             tmp := ktptat_msb_ee_a;
@@ -404,37 +430,45 @@ begin
             fixed2floatond <= '0';
             fixed2floatsclr <= '1';
             --synthesis translate_off
-            report_error("================ KtPTAT fi2fl", fixed2floatr, 0.0);
+            --report_error("================ KtPTAT fi2fl", fixed2floatr, 0.0);
             --synthesis translate_on
           else state := s26a; end if;
         when s26b =>
           fixed2floatsclr <= '0';
           divfpce <= '1';
-          divfpa <= fixed2floatr;
+          divfpa <= fixed2floatr; -- ktptat
           divfpb <= C_2POW3;
           divfpond <= '1';
           if (divfprdy = '1') then state := s26c;
             divfpce <= '0';
             divfpond <= '0';
             divfpsclr <= '1';
+            --synthesis translate_off
+            report_error("(ktptat eeprom 42.6250000000000000)", divfpr, 42.6250000000000000);
+            warning_neq_fp (divfpr, x"422a8000", "(ktptat eeprom 42.6250000000000000)");
+            --synthesis translate_on
           else state := s26b; end if;
         when s26c => state := s28;
           divfpsclr <= '0';
         when s28 =>
           -- ((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat
           divfpce <= '1';
-          divfpa <= subfpr; -- (vptatart/(1+kvptat*deltaV))-vptat25
-          divfpb <= divfpr; --ktptat
+          divfpa <= subfpr; -- s26 (vptatart/(1+kvptat*deltaV))-vptat25
+          divfpb <= divfpr; -- s26b ktptat
           divfpond <= '1';
           --synthesis translate_off
-          report_error("================ CalculateTa ExtractKtPTATParameter_ktptat", divfpr, 0.0);
+          --report_error("================ CalculateTa ExtractKtPTATParameter_ktptat", divfpr, 0.0);
           --synthesis translate_on
           if (divfprdy = '1') then state := s30;
             divfpce <= '0';
             divfpond <= '0';
             divfpsclr <= '1';
             --synthesis translate_off
-            report_error("================ CalculateTa 5", divfpr, 0.0);
+            report_error("(ta calc 383.1799621582031250)", subfpr, 383.1799621582031250);
+            warning_neq_fp (subfpr, x"43bf9709", "(ta calc 383.1799621582031250)");
+            --synthesis translate_on
+            --synthesis translate_off
+            --report_error("================ CalculateTa 5", divfpr, 0.0);
             --synthesis translate_on
           else state := s28; end if;
         when s30 =>
@@ -451,7 +485,11 @@ begin
             o_Ta <= addfpr;
             --o_Ta <= x"4207F54F"; -- example 33.989559
             --synthesis translate_off
-            report_error("================ CalculateTa Ta", addfpr, 0.0); -- (((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat)+25
+            report_error("(output ta 33.9895591735839844)", addfpr, 33.9895591735839844);
+            warning_neq_fp (addfpr, x"4207f54f", "(output ta 33.9895591735839844)");
+            --synthesis translate_on
+            --synthesis translate_off
+            --report_error("================ CalculateTa Ta", addfpr, 0.0); -- (((vptatart/(1+kvptat*deltaV))-vptat25)/ktptat)+25
             --synthesis translate_on
             o_rdy <= '1';
           else state := s30; end if;
