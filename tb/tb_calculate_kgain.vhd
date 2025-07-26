@@ -212,7 +212,8 @@ wait for clock_period*10;
 -- Add user defined stimulus here
 calculate_kgain_run <= '1'; wait for clock_period; calculate_kgain_run <= '0';
 wait until calculate_kgain_rdy = '1';
-warning_neq_fp (calculate_kgain_KGain, x"3f81ac57", "kgain");
+report_error("(output kgain 1.0130718946456909)", calculate_kgain_KGain, 1.0130718946456909);
+warning_neq_fp (calculate_kgain_KGain, x"3f81ac57", "(output kgain 1.0130718946456909)");
 --report "rdy at 955ns";
 --report "rdy at 925ns";
 --report "rdy at 1.225us - rm fttmp1,fttmp2 reg";

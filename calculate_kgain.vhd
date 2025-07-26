@@ -143,6 +143,7 @@ begin
             i2c_mem_ena <= '1';
             i2c_mem_addra <= std_logic_vector (to_unsigned (c_ram_x070a_msb, c_memory_i2c_address_bits));
             o_rdy <= '0';
+            report "11.2.2.4. Gain parameter calculation (common for all pixels)";
           else
             state := idle;
             i2c_mem_ena <= '0';
@@ -163,7 +164,8 @@ begin
             fixed2floatond_internal <= '0';
             fixed2floatsclr_internal <= '1';
             --synthesis translate_off
-            report_error("================ gain fi2fl ram", fixed2floatr_internal, 0.0);
+            report_error("(gain ram 5508)", fixed2floatr_internal, 5508.0);
+            warning_neq_fp (fixed2floatr_internal, x"45ac2000", "(gain ram 5508)");
             --synthesis translate_on
           else state := s9; end if;
         when s10 => -- XXX empty state/calculate for rm fttmp1
@@ -192,8 +194,9 @@ begin
             fixed2floatond_internal <= '0';
             fixed2floatsclr_internal <= '1';
             --synthesis translate_off
-            report_error("================ gain fi2fl ee", fixed2floatr_internal, 0.0);
-            --synthesis translate_on      
+            report_error("(gain eeprom 5580)", fixed2floatr_internal, 5580.0);
+            warning_neq_fp (fixed2floatr_internal, x"45ae6000", "(gain eeprom 5580)");
+            --synthesis translate_on
           else state := s11; end if;
         when s14 =>
           fixed2floatsclr_internal <= '0';
@@ -206,7 +209,8 @@ begin
             divfpond_internal <= '0';
             divfpsclr_internal <= '1';
             --synthesis translate_off
-            report_error("================ gain", divfpr_internal, 0.0);
+            report_error("(output gain 1.0130718946456909)", divfpr_internal, 1.0130718946456909);
+            warning_neq_fp (divfpr_internal, x"3f81ac57", "(output gain 1.0130718946456909)");
             --synthesis translate_on
             o_kgain <= divfpr_internal;
             o_rdy <= '1';
