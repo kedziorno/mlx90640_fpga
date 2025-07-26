@@ -110,12 +110,21 @@ package global_package is
   -- 11.2.1.2. example calibration data, p. 30
   -- eeprom constants (16 bit each)
   constant c_eeprom_x2410 : integer := 16#2410#; -- k_ptat(alpha_ptat),scale_occ_row,scale_occ_column,scale_occ_remnand[4/4/4/4]
+  constant c_eeprom_x2411 : integer := 16#2411#; -- pix_os_average[16] (offset_average)
   constant c_eeprom_x2412 : integer := 16#2412#; -- occ_rows_04,occ_rows_03,occ_rows_02,occ_rows_01[4/4/4/4]
   constant c_eeprom_x2413 : integer := c_eeprom_x2412 + 1; -- occ_rows_08,occ_rows_07,occ_rows_06,occ_rows_05[4/4/4/4]
   constant c_eeprom_x2414 : integer := c_eeprom_x2412 + 2; -- occ_rows_12,occ_rows_11,occ_rows_10,occ_rows_09[4/4/4/4]
   constant c_eeprom_x2415 : integer := c_eeprom_x2412 + 3; -- occ_rows_16,occ_rows_15,occ_rows_14,occ_rows_13[4/4/4/4]
   constant c_eeprom_x2416 : integer := c_eeprom_x2412 + 4; -- occ_rows_20,occ_rows_19,occ_rows_18,occ_rows_17[4/4/4/4]
   constant c_eeprom_x2417 : integer := c_eeprom_x2412 + 5; -- occ_rows_24,occ_rows_23,occ_rows_22,occ_rows_21[4/4/4/4]
+  constant c_eeprom_x2418 : integer := 16#2418#; -- occ_columns_04,occ_columns_03,occ_columns_02,occ_columns_01[4/4/4/4]
+  constant c_eeprom_x2419 : integer := c_eeprom_x2418 + 1; -- occ_columns_08,occ_columns_07,occ_columns_06,occ_columns_05[4/4/4/4]
+  constant c_eeprom_x241a : integer := c_eeprom_x2418 + 2; -- occ_columns_12,occ_columns_11,occ_columns_10,occ_columns_09[4/4/4/4]
+  constant c_eeprom_x241b : integer := c_eeprom_x2418 + 3; -- occ_columns_16,occ_columns_15,occ_columns_14,occ_columns_13[4/4/4/4]
+  constant c_eeprom_x241c : integer := c_eeprom_x2418 + 4; -- occ_columns_20,occ_columns_19,occ_columns_18,occ_columns_17[4/4/4/4]
+  constant c_eeprom_x241d : integer := c_eeprom_x2418 + 5; -- occ_columns_24,occ_columns_23,occ_columns_22,occ_columns_21[4/4/4/4]
+  constant c_eeprom_x241e : integer := c_eeprom_x2418 + 6; -- occ_columns_28,occ_columns_27,occ_columns_26,occ_columns_25[4/4/4/4]
+  constant c_eeprom_x241f : integer := c_eeprom_x2418 + 7; -- occ_columns_32,occ_columns_31,occ_columns_30,occ_columns_29[4/4/4/4]
   constant c_eeprom_x2420 : integer := 16#2420#; -- alpha_scale,scale_acc_row,scale_acc_column,acc_scale_remnand[4/4/4/4]
   constant c_eeprom_x2421 : integer := 16#2421#; -- pix_sensitivity_average[16] (alpha_reference)
   constant c_eeprom_x2422 : integer := 16#2422#; -- acc_rows_04,acc_rows_03,acc_rows_02,acc_rows_01[4/4/4/4]
@@ -232,13 +241,20 @@ package global_package is
   constant c_eeprom_x2412_off : integer := c_eeprom_x2412 - c_eeprom_st;
   constant c_eeprom_x2412_msb : integer := c_eeprom_x2412_off * 2 + 0;
   constant c_eeprom_x2412_lsb : integer := c_eeprom_x2412_off * 2 + 1;
+  constant c_eeprom_x2418_off : integer := c_eeprom_x2418 - c_eeprom_st;
+  constant c_eeprom_x2418_msb : integer := c_eeprom_x2418_off * 2 + 0;
+  constant c_eeprom_x2418_lsb : integer := c_eeprom_x2418_off * 2 + 1;
+
+  -- 11.2.2.5.2. offset calculation, p. 38
+  -- 11.1.3. Restoring the offset, p. 23
+  constant c_eeprom_x2411_off : integer := c_eeprom_x2411 - c_eeprom_st;
+  constant c_eeprom_x2411_msb : integer := c_eeprom_x2411_off * 2 + 0;
+  constant c_eeprom_x2411_lsb : integer := c_eeprom_x2411_off * 2 + 1;
 
   constant ram_0x0708_msb : integer := c_eeprom_sz + (776 * 2) + 0; -- pixgain_cp_sp0
   constant ram_0x0708_lsb : integer := c_eeprom_sz + (776 * 2) + 1; -- pixgain_cp_sp0
   constant ram_0x0728_msb : integer := c_eeprom_sz + (808 * 2) + 0; -- pixgain_cp_sp1
   constant ram_0x0728_lsb : integer := c_eeprom_sz + (808 * 2) + 1; -- pixgain_cp_sp1
-  constant eeprom_0x2411_lsb : integer := 16 * 2 + 2; -- pix_os_average
-  constant eeprom_0x2411_msb : integer := 16 * 2 + 3; -- pix_os_average
   constant eeprom_0x2422_msb : integer := 32 * 2 + 1; -- accrow b,a
   constant eeprom_0x2422_lsb : integer := 32 * 2 + 0; -- accrow d,c
   constant eeprom_0x2421_lsb : integer := 32 * 2 + 2;
