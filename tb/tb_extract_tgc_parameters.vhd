@@ -208,7 +208,8 @@ wait for i_clock_period*10;
 -- insert stimulus here
 extract_tgc_parameters_run <= '1'; wait for i_clock_period; extract_tgc_parameters_run <= '0';
 wait until extract_tgc_parameters_rdy = '1';
-warning_neq_fp (extract_tgc_parameters_tgc, x"00000000", "tgc");
+report_error("(tgc output 0.0)", extract_tgc_parameters_tgc, 0.0);
+warning_neq_fp (extract_tgc_parameters_tgc, x"00000000", "(tgc output 0.0)");
 report "done" severity failure;
 end process;
 

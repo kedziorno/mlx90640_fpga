@@ -142,7 +142,8 @@ begin
 						state := s1;
 						i2c_mem_ena <= '1';
             i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x243c_lsb, c_memory_i2c_address_bits));
-            report "ExtractTGCParameters set to 0 - 11.1.16 Datasheet, 1 in example p. 34";
+            report "11.1.16. Restoring the TGC coefficient";
+            report "Set to 0, 1 in example p. 34";
             o_rdy <= '0';
 					else
 						state := idle;
@@ -161,7 +162,8 @@ begin
             fixed2floatond_internal <= '0';
             fixed2floatsclr_internal <= '1';
             --synthesis translate_off
-            report_error("================ TGC fi2fl", fixed2floatr_internal, 0.0);
+            report_error("(tgc eeprom 0.0)", fixed2floatr, 0.0);
+            warning_neq_fp (fixed2floatr_internal, x"00000000", "(tgc eeprom 0.0)");
             --synthesis translate_on
           else state := s2; end if;
         when s3 =>
@@ -175,7 +177,8 @@ begin
             --o_tgc <= x"3f800000"; -- 1
             o_rdy <= '1';
             --synthesis translate_off
-            report_error("================ TGC o_tgc", divfpr_internal, 0.0);
+            report_error("(tgc output 0.0)", divfpr_internal, 0.0);
+            warning_neq_fp (divfpr_internal, x"00000000", "(tgc output 0.0)");
             --synthesis translate_on
             divfpce_internal <= '0';
             divfpond_internal <= '0';
