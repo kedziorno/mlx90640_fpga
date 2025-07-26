@@ -133,6 +133,9 @@ package global_package is
   constant c_eeprom_x2425 : integer := c_eeprom_x2422 + 3; -- acc_rows_16,acc_rows_15,acc_rows_14,acc_rows_13[4/4/4/4]
   constant c_eeprom_x2426 : integer := c_eeprom_x2422 + 4; -- acc_rows_20,acc_rows_19,acc_rows_18,acc_rows_17[4/4/4/4]
   constant c_eeprom_x2427 : integer := c_eeprom_x2422 + 5; -- acc_rows_24,acc_rows_23,acc_rows_22,acc_rows_11[4/4/4/4]
+  
+  constant c_eeprom_x2428 : integer := 16#2428#;
+  
   constant c_eeprom_x2430 : integer := 16#2430#; -- gain[16]
   constant c_eeprom_x2431 : integer := 16#2431#; -- vptat25[16]
   constant c_eeprom_x2432 : integer := 16#2432#; -- kvptat,ktptat[6/10]
@@ -244,6 +247,9 @@ package global_package is
   constant c_eeprom_x2418_off : integer := c_eeprom_x2418 - c_eeprom_st;
   constant c_eeprom_x2418_msb : integer := c_eeprom_x2418_off * 2 + 0;
   constant c_eeprom_x2418_lsb : integer := c_eeprom_x2418_off * 2 + 1;
+  constant c_eeprom_x2428_off : integer := c_eeprom_x2428 - c_eeprom_st;
+  constant c_eeprom_x2428_msb : integer := c_eeprom_x2428_off * 2 + 0;
+  constant c_eeprom_x2428_lsb : integer := c_eeprom_x2428_off * 2 + 1;
 
   -- 11.2.2.5.2. offset calculation, p. 38
   -- 11.1.3. Restoring the offset, p. 23

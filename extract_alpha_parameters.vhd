@@ -368,6 +368,8 @@ p0 : process (i_clock) is
 	type states is (idle,
 	acc15,acc16,acc17,acc18,acc19,
 	acc20,acc21,acc22,acc23,
+	acccol15,acccol16,acccol17,acccol18,acccol19,
+	acccol20,acccol21,acccol22,acccol23,
   pow3,
 	s0,s1,s2,s3,s4,s7,s8,s11,s13,s14,s16,s17,s19,s20,s22,s25);
 	variable state : states;
@@ -378,10 +380,10 @@ p0 : process (i_clock) is
 	variable col : integer range 0 to C_COLS-1;
 	variable row : integer range 0 to C_ROWS-1;
 	variable i : integer range 0 to C_MATRIX_PIXELS-1;
-  variable m : integer range 0 to 31 := 0;
-  variable n : integer range 0 to 55 := 0;
-  variable j : integer range 0 to 13 := 0;
-  
+  variable j : integer range 0 to 7 := 0; -- XXX check this
+  variable m : integer range 0 to 15 := 0; -- XXX check this
+  variable n : integer range 0 to 31 := 0; -- XXX check this
+
   variable tmp1 : std_logic_vector (3 downto 0);
 begin
 	if (rising_edge (i_clock)) then
@@ -438,7 +440,7 @@ begin
           j := 0;
           col := 0;
           row := 0;
-        when acc15 => state := acc16; -- XXX start loop
+        when acc15 => state := acc16; -- XXX start loop - acc row 6x DCBA
           m := 2*i;
           n := j*4;
           --i2c_mem_ena <= '1';
@@ -458,27 +460,93 @@ begin
           o_signed4bit_adr <= tmp1;
           dia <= i_rom_constants_float; -- out accrowA
           addra <= std_logic_vector (to_unsigned (n+0, 10));
+          --synthesis translate_off
+          report_error("accrow " & integer'image (n+0), i_rom_constants_float, 0.0);
+          --synthesis translate_on
         when acc20 => state := acc21;
           o_signed4bit_adr <= accrow_d;
           dia <= i_rom_constants_float; -- out accrowB
           addra <= std_logic_vector (to_unsigned (n+1, 10));
+          --synthesis translate_off
+          report_error("accrow " & integer'image (n+1), i_rom_constants_float, 0.0);
+          --synthesis translate_on
         when acc21 => state := acc22;
           dia <= i_rom_constants_float; -- out accrowC
           addra <= std_logic_vector (to_unsigned (n+2, 10));
+          --synthesis translate_off
+          report_error("accrow " & integer'image (n+2), i_rom_constants_float, 0.0);
+          --synthesis translate_on
         when acc22 => state := acc23;
           dia <= i_rom_constants_float; -- out accrowD
           addra <= std_logic_vector (to_unsigned (n+3, 10));
+          --synthesis translate_off
+          report_error("accrow " & integer'image (n+3), i_rom_constants_float, 0.0);
+          --synthesis translate_on
         when acc23 => -- XXX end loop
           o_signed4bit_ena <= '0';
           write_enable <= '0';
-          if j = 13 then
+          if i = 5 then
+            j := 0;
+            i := 0;
+            state := acccol15;
+          else
+            j := j + 1;
+            i := i + 1;
+            state := acc15;
+          end if;
+        when acccol15 => state := acccol16; -- XXX start loop - acc column 8x DCBA
+          m := 2*i;
+          n := j*4;
+          --i2c_mem_ena <= '1';
+          o_signed4bit_ena <= '1';
+          write_enable <= '1';
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2428_lsb + m, 12));
+        when acccol16 => state := acccol17;
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2428_msb + m, 12));
+        when acccol17 => state := acccol18;
+          --i2c_mem_ena <= '0';
+          o_signed4bit_adr <= accrow_a;
+          tmp1 := accrow_b;
+        when acccol18 => state := acccol19;
+          o_signed4bit_adr <= tmp1;
+          tmp1 := accrow_c;
+        when acccol19 => state := acccol20;
+          o_signed4bit_adr <= tmp1;
+          dia <= i_rom_constants_float; -- out accrowA
+          addra <= std_logic_vector (to_unsigned (C_ROWS+n+0, 10));
+          --synthesis translate_off
+          report_error("acccol " & integer'image (C_ROWS+n+0), i_rom_constants_float, 0.0);
+          --synthesis translate_on
+        when acccol20 => state := acccol21;
+          o_signed4bit_adr <= accrow_d;
+          dia <= i_rom_constants_float; -- out accrowB
+          addra <= std_logic_vector (to_unsigned (C_ROWS+n+1, 10));
+          --synthesis translate_off
+          report_error("acccol " & integer'image (C_ROWS+n+1), i_rom_constants_float, 0.0);
+          --synthesis translate_on
+        when acccol21 => state := acccol22;
+          dia <= i_rom_constants_float; -- out accrowC
+          addra <= std_logic_vector (to_unsigned (C_ROWS+n+2, 10));
+          --synthesis translate_off
+          report_error("acccol " & integer'image (C_ROWS+n+2), i_rom_constants_float, 0.0);
+          --synthesis translate_on
+        when acccol22 => state := acccol23;
+          dia <= i_rom_constants_float; -- out accrowD
+          addra <= std_logic_vector (to_unsigned (C_ROWS+n+3, 10));
+          --synthesis translate_off
+          report_error("acccol " & integer'image (C_ROWS+n+3), i_rom_constants_float, 0.0);
+          --synthesis translate_on
+        when acccol23 => -- XXX end loop
+          o_signed4bit_ena <= '0';
+          write_enable <= '0';
+          if i = 7 then
             j := 0;
             i := 0;
             state := pow3;
           else
             j := j + 1;
             i := i + 1;
-            state := acc15;
+            state := acccol15;
           end if;
 
 				when pow3 => state := s0;
@@ -515,6 +583,9 @@ begin
 						fixed2floatce_internal <= '0';
 						fixed2floatond_internal <= '0';
 						fixed2floatsclr_internal <= '1';
+            --synthesis translate_off
+            report "address " & integer'image (col+C_ROWS);
+            --synthesis translate_on
             addra <= std_logic_vector (to_unsigned (col+C_ROWS, 10)); -- accColumnJ
             o_2powx_4bit_ena <= '1';
             o_2powx_4bit_adr <= acc_scale_column;
