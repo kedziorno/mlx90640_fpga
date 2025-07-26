@@ -152,7 +152,7 @@ begin
 		if (i_run = '1') then
 			state := s2;
 			i2c_mem_ena_internal <= '1';
-      report "calculate_vdd";
+      report "11.1.1. Restoring the VDD sensor parameters";
 		else
 			state := idle;
 			i2c_mem_ena_internal <= '0';
@@ -167,9 +167,9 @@ begin
 	when s2 => state := s4;
     i2c_mem_addra_i <= std_logic_vector (to_unsigned (c_eeprom_x2438_msb, c_memory_i2c_address_bits));
 	when s4 => state := s5;
-    resolutionreg <= resolution_reg_a;
+    resolutionreg <= resolution_reg_a; -- ram
 	when s5 => state := s9;
-		resolutionee <= resolution_ee_a;
+		resolutionee <= resolution_ee_a; -- ee
 	when s9 =>
 		-- resolutioncorr
 		divfpce <= '1';
@@ -177,6 +177,13 @@ begin
 		divfpb <= out_resolutionreg;
 		divfpond <= '1';
 		if (divfprdy = '1') then state := s10;
+      --synthesis translate_off
+      report_error ("(eeprom resolution 2.0)", resolutionee, 0.0);
+      report_error ("(ram resolution 2.0)", resolutionreg, 0.0);
+      warning_neq_fp (out_resolutionee, x"40800000", "(2 ^ eeprom resolution 4.0)");
+      warning_neq_fp (out_resolutionreg, x"40800000", "(2 ^ ram resolution 4.0)");
+      warning_neq_fp (divfpr, x"3f800000", "(resolution correction 1.0)");
+      --synthesis translate_on
 			divfpce <= '0';
 			divfpond <= '0';
 			divfpsclr <= '1';
@@ -196,12 +203,15 @@ begin
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
+      --synthesis translate_off
+      warning_neq_fp (fixed2floatr, x"c643a000", "(vdd ram 0x072a -12520)");
+      --synthesis translate_on
 		else state := s13; end if;
 	when s14 =>
 		fixed2floatsclr <= '0';
 		mulfpce <= '1';
-		mulfpa <= divfpr; -- s9
-		mulfpb <= fixed2floatr; -- s13
+		mulfpa <= divfpr; -- s9 resolution
+		mulfpb <= fixed2floatr; -- s13 frameData[810]
 		mulfpond <= '1';
 		if (mulfprdy = '1') then state := s14a;
 			mulfpce <= '0';
@@ -230,7 +240,7 @@ begin
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
       --synthesis translate_off
-      report_error ("vdd25", fixed2floatr, 0.0);
+      warning_neq_fp (fixed2floatr, x"42f00000", "(eeprom vdd25 120)");
       --synthesis translate_on
 		else state := s15; end if;
   when s16 =>
@@ -265,6 +275,9 @@ begin
 			subfpce <= '0';
 			subfpond <= '0';
 			subfpsclr <= '1';
+      --synthesis translate_off
+      warning_neq_fp (subfpr, x"c6440000", "(vdd25 -12544)");
+      --synthesis translate_on
 		else state := s17; end if;
 	when s18 => state := s19;
 		subfpsclr <= '0';
@@ -289,7 +302,7 @@ begin
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
       --synthesis translate_off
-      report_error ("kvdd", fixed2floatr, 0.0);
+      warning_neq_fp (fixed2floatr, x"c2c80000", "(eeprom kvdd -100)");
       --synthesis translate_on
 		else state := s20; end if;
   when s21 =>
@@ -299,6 +312,9 @@ begin
 		mulfpb <= c_2pow5_ft;
 		mulfpond <= '1';
 		if (mulfprdy = '1') then state := s22;
+      --synthesis translate_off
+      warning_neq_fp (mulfpr, x"c5480000", "(kvdd -3200)"); -- multiline
+      --synthesis translate_on
 			mulfpce <= '0';
 			mulfpond <= '0';
 			mulfpsclr <= '1';
@@ -327,7 +343,8 @@ begin
 			addfpsclr <= '1';
       o_Vdd <= addfpr;
       --synthesis translate_off
-      report_error("================ CalculateVdd o_Vdd", addfpr, 0.0);
+      report_error("(output vdd 3.292500019073486328125)", addfpr, 3.292500019073486328125);
+      warning_neq_fp (addfpr, x"4052b852", "(output vdd 3.2925000190734863)");
       --synthesis translate_on
 		else state := s23; end if;
 	end case;

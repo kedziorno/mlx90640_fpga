@@ -322,7 +322,8 @@ wait for clock_period*10;
 -- Add user defined stimulus here
 calculate_vdd_run <= '1'; wait for clock_period; calculate_vdd_run <= '0';
 wait until calculate_vdd_rdy = '1';
-warning_neq_fp (calculate_vdd_vdd, x"4052b852", "Vdd");
+report_error("(output vdd 3.292500019073486328125)", calculate_vdd_vdd, 3.292500019073486328125);
+warning_neq_fp (calculate_vdd_vdd, x"4052b852", "(output vdd 3.2925000190734863)");
 --report "rdy at 1.695us";
 --report "rdy at 1.645us";
 report "rdy at 1.605us";

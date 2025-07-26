@@ -127,7 +127,7 @@ package global_package is
   constant c_eeprom_x2430 : integer := 16#2430#; -- gain[16]
   constant c_eeprom_x2431 : integer := 16#2431#; -- vptat25[16]
   constant c_eeprom_x2432 : integer := 16#2432#; -- kvptat,ktptat[6/10]
-  constant c_eeprom_x2433 : integer := 16#2433#; -- k_vdd,vdd_25[8/8]
+  constant c_eeprom_x2433 : integer := 16#2433#; -- kvdd,vdd25[8/8]
   constant c_eeprom_x2438 : integer := 16#2438#; -- resolution_control_cal,kv_scale,kta_scale_1,kta_scale_2[2/4/4/4]
   constant c_eeprom_x2439 : integer := 16#2439#; -- cp_sp_1/sp_0_ratio,alpha_cp_sp_0[6/10] (cp_p1_p0_ratio,alpha_cp_subpage_0)
   constant c_eeprom_x243c : integer := 16#243c#; -- ksta,tgcee[8/8]
