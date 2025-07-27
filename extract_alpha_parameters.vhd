@@ -276,7 +276,7 @@ end component mem_ramb16_s36_x2;
 signal addra,mux_addr : std_logic_vector (9 downto 0);
 signal doa,dia,mux_dia : std_logic_vector (31 downto 0);
 
-signal out_nibble3 : std_logic_vector (31 downto 0);
+signal alpha_pixel : std_logic_vector (31 downto 0);
 
 signal write_enable : std_logic;
 
@@ -314,15 +314,19 @@ signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy_internal : STD_LOGIC;
 
 signal i2c_mem_douta_i : i2c_memory_data_bits_st;
-alias offset_pixel : slv6 is i2c_mem_douta_i (7 downto 2);
-alias accrow_a : slv4 is i2c_mem_douta_i (3 downto 0);
-alias accrow_b : slv4 is i2c_mem_douta_i (7 downto 4);
-alias accrow_c : slv4 is i2c_mem_douta_i (3 downto 0);
-alias accrow_d : slv4 is i2c_mem_douta_i (7 downto 4);
-alias alpha_scale : slv4 is i2c_mem_douta_i (7 downto 4);
-alias acc_scale_row : slv4 is i2c_mem_douta_i (3 downto 0);
-alias acc_scale_column : slv4 is i2c_mem_douta_i (7 downto 4);
-alias acc_scale_remnand : slv4 is i2c_mem_douta_i (3 downto 0);
+alias alpha_pixel_a : slv6 is i2c_mem_douta_i (7 downto 2);
+alias accrow_a_a : slv4 is i2c_mem_douta_i (3 downto 0);
+alias accrow_b_a : slv4 is i2c_mem_douta_i (7 downto 4);
+alias accrow_c_a : slv4 is i2c_mem_douta_i (3 downto 0);
+alias accrow_d_a : slv4 is i2c_mem_douta_i (7 downto 4);
+alias acccol_a_a : slv4 is i2c_mem_douta_i (3 downto 0);
+alias acccol_b_a : slv4 is i2c_mem_douta_i (7 downto 4);
+alias acccol_c_a : slv4 is i2c_mem_douta_i (3 downto 0);
+alias acccol_d_a : slv4 is i2c_mem_douta_i (7 downto 4);
+alias alpha_scale_a : slv4 is i2c_mem_douta_i (7 downto 4);
+alias acc_scale_row_a : slv4 is i2c_mem_douta_i (3 downto 0);
+alias acc_scale_column_a : slv4 is i2c_mem_douta_i (7 downto 4);
+alias acc_scale_remnand_a : slv4 is i2c_mem_douta_i (3 downto 0);
 
 begin
 
@@ -371,8 +375,9 @@ p0 : process (i_clock) is
 	acccol15,acccol16,acccol17,acccol18,acccol19,
 	acccol20,acccol21,acccol22,acccol23,
   pow3,
-	s0,s1,s2,s3,s4,s7,s8,s11,s13,s14,s16,s17,s19,s20,s22,s25);
+	s0,s1,s2,s3,s4,s7,s8,s11,s13,s14,s16,s17,s19,s20,s22,s25,s26 );
 	variable state : states;
+  variable tascale, tarow, tacol, tarem : slv4;
 
 	variable valphaRef : std_logic_vector (7 downto 0);
 	variable vAlphaPixel : std_logic_vector (1 downto 0);
@@ -384,7 +389,8 @@ p0 : process (i_clock) is
   variable m : integer range 0 to 15 := 0; -- XXX check this
   variable n : integer range 0 to 31 := 0; -- XXX check this
 
-  variable tmp1 : std_logic_vector (3 downto 0);
+  variable tmp1 : slv4;
+  variable alpha_pixel_tmp : slv2;
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -416,6 +422,7 @@ begin
 			o_done <= '0';
 			i2c_mem_ena <= '0';
       i2c_mem_addra <= (others => '0');
+      alpha_pixel_tmp := (others => '0');
 		else
 			case (state) is
 				when idle =>
@@ -446,41 +453,41 @@ begin
           --i2c_mem_ena <= '1';
           o_signed4bit_ena <= '1';
           write_enable <= '1';
-          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2422_lsb + m, 12));
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2422_lsb + m, 12)); -- BA
         when acc16 => state := acc17;
-          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2422_msb + m, 12));
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2422_msb + m, 12)); -- DC
         when acc17 => state := acc18;
           --i2c_mem_ena <= '0';
-          o_signed4bit_adr <= accrow_a;
-          tmp1 := accrow_b;
+          o_signed4bit_adr <= accrow_a_a; -- A
+          tmp1 := accrow_b_a; -- B
         when acc18 => state := acc19;
           o_signed4bit_adr <= tmp1;
-          tmp1 := accrow_c;
+          tmp1 := accrow_c_a; -- C
         when acc19 => state := acc20;
           o_signed4bit_adr <= tmp1;
           dia <= i_rom_constants_float; -- out accrowA
           addra <= std_logic_vector (to_unsigned (n+0, 10));
           --synthesis translate_off
-          report_error("accrow " & integer'image (n+0), i_rom_constants_float, 0.0);
+          report_error("accrow write address " & integer'image (n+0), i_rom_constants_float, 0.0);
           --synthesis translate_on
         when acc20 => state := acc21;
-          o_signed4bit_adr <= accrow_d;
+          o_signed4bit_adr <= accrow_d_a; -- D
           dia <= i_rom_constants_float; -- out accrowB
           addra <= std_logic_vector (to_unsigned (n+1, 10));
           --synthesis translate_off
-          report_error("accrow " & integer'image (n+1), i_rom_constants_float, 0.0);
+          report_error("accrow write address " & integer'image (n+1), i_rom_constants_float, 0.0);
           --synthesis translate_on
         when acc21 => state := acc22;
           dia <= i_rom_constants_float; -- out accrowC
           addra <= std_logic_vector (to_unsigned (n+2, 10));
           --synthesis translate_off
-          report_error("accrow " & integer'image (n+2), i_rom_constants_float, 0.0);
+          report_error("accrow write address " & integer'image (n+2), i_rom_constants_float, 0.0);
           --synthesis translate_on
         when acc22 => state := acc23;
           dia <= i_rom_constants_float; -- out accrowD
           addra <= std_logic_vector (to_unsigned (n+3, 10));
           --synthesis translate_off
-          report_error("accrow " & integer'image (n+3), i_rom_constants_float, 0.0);
+          report_error("accrow write address " & integer'image (n+3), i_rom_constants_float, 0.0);
           --synthesis translate_on
         when acc23 => -- XXX end loop
           o_signed4bit_ena <= '0';
@@ -500,41 +507,41 @@ begin
           --i2c_mem_ena <= '1';
           o_signed4bit_ena <= '1';
           write_enable <= '1';
-          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2428_lsb + m, 12));
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2428_lsb + m, 12)); -- BA
         when acccol16 => state := acccol17;
-          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2428_msb + m, 12));
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2428_msb + m, 12)); -- DC
         when acccol17 => state := acccol18;
           --i2c_mem_ena <= '0';
-          o_signed4bit_adr <= accrow_a;
-          tmp1 := accrow_b;
+          o_signed4bit_adr <= acccol_a_a; -- A
+          tmp1 := acccol_b_a; -- B
         when acccol18 => state := acccol19;
-          o_signed4bit_adr <= tmp1;
-          tmp1 := accrow_c;
+          o_signed4bit_adr <= tmp1; -- B
+          tmp1 := acccol_c_a; -- C
         when acccol19 => state := acccol20;
-          o_signed4bit_adr <= tmp1;
+          o_signed4bit_adr <= tmp1; -- C
           dia <= i_rom_constants_float; -- out accrowA
           addra <= std_logic_vector (to_unsigned (C_ROWS+n+0, 10));
           --synthesis translate_off
-          report_error("acccol " & integer'image (C_ROWS+n+0), i_rom_constants_float, 0.0);
+          report_error("acccol write address " & integer'image (C_ROWS+n+0), i_rom_constants_float, 0.0);
           --synthesis translate_on
         when acccol20 => state := acccol21;
-          o_signed4bit_adr <= accrow_d;
+          o_signed4bit_adr <= acccol_d_a; -- D
           dia <= i_rom_constants_float; -- out accrowB
           addra <= std_logic_vector (to_unsigned (C_ROWS+n+1, 10));
           --synthesis translate_off
-          report_error("acccol " & integer'image (C_ROWS+n+1), i_rom_constants_float, 0.0);
+          report_error("acccol write address " & integer'image (C_ROWS+n+1), i_rom_constants_float, 0.0);
           --synthesis translate_on
         when acccol21 => state := acccol22;
           dia <= i_rom_constants_float; -- out accrowC
           addra <= std_logic_vector (to_unsigned (C_ROWS+n+2, 10));
           --synthesis translate_off
-          report_error("acccol " & integer'image (C_ROWS+n+2), i_rom_constants_float, 0.0);
+          report_error("acccol write address " & integer'image (C_ROWS+n+2), i_rom_constants_float, 0.0);
           --synthesis translate_on
         when acccol22 => state := acccol23;
           dia <= i_rom_constants_float; -- out accrowD
           addra <= std_logic_vector (to_unsigned (C_ROWS+n+3, 10));
           --synthesis translate_off
-          report_error("acccol " & integer'image (C_ROWS+n+3), i_rom_constants_float, 0.0);
+          report_error("acccol write address " & integer'image (C_ROWS+n+3), i_rom_constants_float, 0.0);
           --synthesis translate_on
         when acccol23 => -- XXX end loop
           o_signed4bit_ena <= '0';
@@ -548,57 +555,69 @@ begin
             i := i + 1;
             state := acccol15;
           end if;
-
 				when pow3 => state := s0;
           row := 0;
           col := 0;
           i := 0;
-       when s0 => state := s1; 	--1
+        when s0 => state := s1; 	--1
           addfpsclr_internal <= '0';
           mulfpsclr_internal <= '0';
           divfpsclr_internal <= '0';
           fixed2floatsclr_internal <= '0';
           --i2c_mem_ena <= '1';
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2440_msb+(2*i), 12)); -- msb alpha_pixel
         when s1 => state := s2;
-          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2440_msb+(2*i), 12));
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2440_lsb+(2*i), 12)); -- lsb alpha_pixel
         when s2 => state := s3;
-					i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2421_msb, 12));
+					i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2421_msb, 12)); -- msb alpha_reference
+          alpha_pixel_tmp := i2c_mem_douta_i (1 downto 0); -- ......XX alpha_pixel
         when s3 => state := s4;
-          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2421_lsb, 12));
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2421_lsb, 12)); -- lsb alpha_reference
           o_signed6bit_ena <= '1';
-          o_signed6bit_adr <= offset_pixel;
+          o_signed6bit_adr <= alpha_pixel_tmp (1 downto 0) & i2c_mem_douta_i (7 downto 4); -- -- XXXX.... alpha_pixel
         when s4 => state := s7;
-          valphaRef := i2c_mem_douta_i;
+          valphaRef := i2c_mem_douta_i; -- alpha_reference msb
           addra <= (others => '0');
         when s7 =>
-          out_nibble3 <= i_rom_constants_float;
+          alpha_pixel <= i_rom_constants_float; -- alpha pixel
           i2c_mem_addra <= (others => '0');
           fixed2floatce_internal <= '1';
           fixed2floatond_internal <= '1';
-          fixed2floata_internal <= valphaRef & i2c_mem_douta_i; -- alpharef msb & lsb
-          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2420_lsb, 12));
+          fixed2floata_internal <= valphaRef & i2c_mem_douta_i; -- alpha_reference lsb
+          i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2420_msb, 12)); -- acc_scale_row
           o_signed6bit_ena <= '0';
           if (fixed2floatrdy_internal = '1') then state := s8;
+            tascale := i2c_mem_douta_i (7 downto 4);
+            tarow := i2c_mem_douta_i (3 downto 0);
+            report_error ("alpha scale", tascale, 0.0);
+            report_error ("alpha row", tarow, 0.0);
 						--report_error("alphaReference", fixed2floatr_internal, 0.0);
 						fixed2floatce_internal <= '0';
 						fixed2floatond_internal <= '0';
 						fixed2floatsclr_internal <= '1';
             --synthesis translate_off
-            report "address " & integer'image (col+C_ROWS);
+            report "address row " & integer'image (row);
             --synthesis translate_on
-            addra <= std_logic_vector (to_unsigned (col+C_ROWS, 10)); -- accColumnJ
+            addra <= std_logic_vector (to_unsigned (row, 10)); -- accRowI
             o_2powx_4bit_ena <= '1';
-            o_2powx_4bit_adr <= acc_scale_column;
+            o_2powx_4bit_adr <= tarow;
 					else state := s7; end if;
-        when s8 => 			--8
+        when s8 =>
           fixed2floatsclr_internal <= '0';
           mulfpce_internal <= '1';
-          mulfpa_internal <= doa; -- vaccColumnJ
-          mulfpb_internal <= i_rom_constants_float; --vaccColumnScale;
+          mulfpa_internal <= doa; -- acc_row
+          mulfpb_internal <= i_rom_constants_float; -- 2 ^ acc_scale_row;
           mulfpond_internal <= '1';
           --report_error("accColumnJ", doa, 0.0);
           --report_error("accColumnScale", vaccColumnScale, 0.0);
           if (mulfprdy_internal = '1') then state := s11;
+            --synthesis translate_off
+            report_error("(2^acc_scale_row 256.0)", i_rom_constants_float, 256.0);
+            warning_neq_fp (i_rom_constants_float, x"43800000", "(2^acc_scale_row 256.0)");
+            --synthesis translate_on
+            --synthesis translate_off
+            report_error("doa acc row" & integer'image (row), doa, 0.0);
+            --synthesis translate_on
             --report_error ("mulfpa 2 : ",   mulfpa_internal,0.0);
             --report_error ("mulfpb 2 : ",   mulfpb_internal,0.0);
             --report_error ("* mulfpr 2 : ", mulfpr_internal,0.0);
@@ -611,24 +630,32 @@ begin
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2420_lsb, 12));
           mulfpsclr_internal <= '0';
           addfpce_internal <= '1';
-          addfpa_internal <= mulfpr_internal; -- vaccColumnJ
+          addfpa_internal <= mulfpr_internal; -- s8
           addfpb_internal <= x"00000000";
           addfpond_internal <= '1';
           if (addfprdy_internal = '1') then state := s13;
+            tacol := i2c_mem_douta_i (7 downto 4);
+            tarem := i2c_mem_douta_i (3 downto 0);
+            report_error ("alpha column", tacol, 0.0);
+            report_error ("alpha remnand", tarem, 0.0);
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            o_2powx_4bit_adr <= acc_scale_remnand;
+            o_2powx_4bit_adr <= tarem;
           else state := s11; end if;
         when s13 =>
           addfpsclr_internal <= '0';
           mulfpce_internal <= '1';
-          mulfpa_internal <= out_nibble3;
+          mulfpa_internal <= alpha_pixel;
           mulfpb_internal <= i_rom_constants_float; -- 2^accscaleremnant vaccRemScale;
           mulfpond_internal <= '1';
-          --report_error("AlphaPixel", out_nibble3, 0.0);
+          --report_error("AlphaPixel", alpha_pixel, 0.0);
           --report_error("accRemScale", vaccRemScale, 0.0);
           if (mulfprdy_internal = '1') then state := s14;
+            --synthesis translate_off
+            report_error("(2^acc_scale_remnand 32.0)", i_rom_constants_float, 32.0);
+            warning_neq_fp (i_rom_constants_float, x"42000000", "(2^acc_scale_remnand 32.0)");
+            --synthesis translate_on
             --report_error ("mulfpa 1 : ",   mulfpa_internal,0.0);
             --report_error ("mulfpb 1 : ",   mulfpb_internal,0.0);
             --report_error ("* mulfpr 1 : ", mulfpr_internal,0.0);
@@ -644,26 +671,36 @@ begin
           addfpond_internal <= '1';
           --report_error("AlphaPixel", vAlphaPixel_ft, 0.0);
           --report_error("accColumnJ", vaccColumnJ, 0.0);
-          addra <= std_logic_vector (to_unsigned (row, 10)); -- accrowI
+          addra <= std_logic_vector (to_unsigned (col+C_ROWS, 10)); -- accrowI
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2420_msb, 12));
           if (addfprdy_internal = '1') then state := s16;
+            --synthesis translate_off
+            report "address col " & integer'image (col);
+            --synthesis translate_on
             --report_error ("addfpa 1 : ",   addfpa_internal,0.0);
             --report_error ("addfpb 1 : ",   addfpb_internal,0.0);
             --report_error ("* addfpr 1 : ", addfpr_internal,0.0);
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            o_2powx_4bit_adr <= acc_scale_row;
+            o_2powx_4bit_adr <= tacol;
           else state := s14; end if;
         when s16 =>
           addfpsclr_internal <= '0';
           mulfpce_internal <= '1';
-          mulfpa_internal <= doa; -- vaccRowI
-          mulfpb_internal <= i_rom_constants_float; -- 2^accscalerow vaccRowScale;
+          mulfpa_internal <= doa; -- acc_col
+          mulfpb_internal <= i_rom_constants_float; -- 2 ^ acc_scale_col
           mulfpond_internal <= '1';
           --report_error("accRowI", doa, 0.0);
           --report_error("accRowScale", vaccRowScale, 0.0);
           if (mulfprdy_internal = '1') then state := s17;
+            --synthesis translate_off
+            report_error("(2^acc_scale_column 512.0)", i_rom_constants_float, 512.0);
+            warning_neq_fp (i_rom_constants_float, x"44000000", "(2^acc_scale_column 512.0)");
+            --synthesis translate_on
+            --synthesis translate_off
+            report_error("doa acc col" & integer'image (col), doa, 0.0);
+            --synthesis translate_on
             --report_error ("mulfpa 3 : ",   mulfpa_internal,0.0);
             --report_error ("mulfpb 3 : ",   mulfpb_internal,0.0);
             --report_error ("* mulfpr 3 : ", mulfpr_internal,0.0);
@@ -703,18 +740,21 @@ begin
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
             o_alphascale_1_ena <= '1';
-            o_alphascale_1_adr <= alpha_scale;
+            o_alphascale_1_adr <= tascale;
           else state := s20; end if;
         when s22 =>
           addfpsclr_internal <= '0';
           divfpce_internal <= '1';
           divfpa_internal <= addfpr_internal;
           divfpb_internal <= i_rom_constants_float;
-          o_alphascale_1_ena <= '0';
           divfpond_internal <= '1';
           --report_error("AlphaPixel", vAlphaPixel_ft, 0.0);
           --report_error("out_nibble5", out_nibble5, 0.0);
           if (divfprdy_internal = '1') then state := s25;
+            --synthesis translate_off
+            report_error("(2^(alphascale+30) 274877906944.0)", i_rom_constants_float, 274877906944.0);
+            warning_neq_fp (i_rom_constants_float, x"52800000", "(2(^alphascale+30) 274877906944.0)");
+            --synthesis translate_on
             --report_error ("divfpa 1 : ",   divfpa_internal,0.0);
             --report_error ("divfpb 1 : ",   divfpb_internal,0.0);
             --report_error ("* divfpr 1 : ", divfpr_internal,0.0);
@@ -723,6 +763,9 @@ begin
             divfpsclr_internal <= '1';
             write_enable <= '1';
             addra <= std_logic_vector (to_unsigned (C_ROWS+C_COLS+i, 10)); -- vAlphaPixel_ft
+            --synthesis translate_off
+            report ("write address " & integer'image (C_ROWS+C_COLS+i));
+            --synthesis translate_on
             dia <= divfpr_internal;
             --synthesis translate_off
             report_error("================vAlphaPixel_ft " & integer'image(i), divfpr_internal, 0.0);
@@ -732,18 +775,21 @@ begin
           i := i + 1;
           write_enable <= '0';
           --i2c_mem_ena <= '0';
-          if (col = C_COLS-1) then
+          o_alphascale_1_ena <= '0';
+          if (col = C_COLS - 1) then
             col := 0;
-            if (row = C_ROWS-1) then
-              row := 0;
-              state := idle;
-              rdy <= '1';
-            else
-              row := row + 1;
-              state := s0;
-            end if;
+            state := s26;
           else
             col := col + 1;
+            state := s0;
+          end if;
+        when s26 =>
+          if (row = C_ROWS - 1) then
+            row := 0;
+            state := idle;
+            rdy <= '1';
+          else
+            row := row + 1;
             state := s0;
           end if;
       end case;

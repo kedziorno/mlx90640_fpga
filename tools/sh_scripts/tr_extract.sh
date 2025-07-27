@@ -1,9 +1,9 @@
 #!/bin/bash
-if [[ $# -ne 2 ]]; then
-echo "Usage: [logfile.txt with \"To XXX : \" format] [output.csv]"
+if [[ $# -ne 3 ]]; then
+echo "Usage: [logfile.txt with \"[RAW|To] XXX : \" format] [output.csv] [RAW|To]"
 exit 1;
 fi
-asd=`grep -E "To [0-9]+" $1 | awk -F " " '{print $8}'`
+asd=`grep -E "$3 [0-9]+" $1 | awk -F " " '{print $8}'`
 #asd=`awk -F " " '{print $8}' $1`
 #echo $asd
 i=1

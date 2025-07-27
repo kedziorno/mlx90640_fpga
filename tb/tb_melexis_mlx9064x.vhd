@@ -193,7 +193,7 @@ component melexis_mlx9064x is
 generic (
 constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
 constant c_calculate_type : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
-constant c_use_fisqrt : string (1 to 3) := "yes" -- yes/no - depend from c_calculate_type(c_temperature)
+constant c_use_fisqrt : string (1 to 3) := "no" -- yes/no - depend from c_calculate_type(c_temperature)
 );
 port (
 i_clock : in std_logic;
@@ -336,7 +336,10 @@ douta => melexis_mlx9064x_i2c_mem_douta
 melexis_mlx9064x_uut : melexis_mlx9064x
 generic map (
 c_calculate_type => "c_temperature",
+--c_calculate_type => "c_raws_images",
+--c_use_fisqrt => "yes"
 c_use_fisqrt => " no"
+--c_use_fisqrt => "xxx"
 )
 port map (
 i_clock => melexis_mlx9064x_clock,
