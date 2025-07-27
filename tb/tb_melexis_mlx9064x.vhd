@@ -193,7 +193,7 @@ component melexis_mlx9064x is
 generic (
 constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
 constant c_calculate_type : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
-constant c_use_fisqrt : string (1 to 3) := "no" -- yes/no - depend from c_calculate_type(c_temperature)
+constant c_use_fisqrt : string (1 to 3) := " no" -- yes/no - depend from c_calculate_type(c_temperature)
 );
 port (
 i_clock : in std_logic;
@@ -318,7 +318,30 @@ signal melexis_mlx9064x_subfpclk : std_logic;
 signal melexis_mlx9064x_mulfpclk : std_logic;
 signal melexis_mlx9064x_divfpclk : std_logic;
 
+COMPONENT tb_data_calculateTo
+PORT (
+clka : IN STD_LOGIC;
+ena : IN STD_LOGIC;
+addra : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+douta : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+);
+END COMPONENT;
+signal test_to_clka : STD_LOGIC := '0';
+signal test_to_ena : STD_LOGIC := '0';
+signal test_to_addra : STD_LOGIC_VECTOR(9 DOWNTO 0) := (others => '0');
+signal test_to_douta : STD_LOGIC_VECTOR(31 DOWNTO 0) := (others => '0');
+
 BEGIN
+
+test_to_clka <= melexis_mlx9064x_clock;
+test_to_ena <= '1';
+tb_data_calculateTo_i0 : COMPONENT tb_data_calculateTo -- original to
+PORT MAP (
+clka => test_to_clka, 
+ena => test_to_ena,
+addra => test_to_addra,
+douta => test_to_douta
+);
 
 out1r <= ap_slv2fp (melexis_mlx9064x_do); -- output data
 
@@ -418,11 +441,14 @@ p_tb : PROCESS
 BEGIN
 --wait for 1.5 ms;
 wait until melexis_mlx9064x_rdy = '1';
-for i in 0 to 1024 loop
+for i in 0 to 768 loop
+  test_to_addra <= std_logic_vector (to_unsigned (i, 10));
+  melexis_mlx9064x_addr <= std_logic_vector (to_unsigned (i, 10));
 	melexis_mlx9064x_addr <= std_logic_vector (to_unsigned (i, 10));
 	wait for clock_period*2;
+  warning_neq_fp (melexis_mlx9064x_do, test_to_douta, "TO compare " & integer'image(i), true, 0.4);
 end loop;
-wait for 1 ps; -- must be for write
+wait for clock_period*1;
 report "tb - To done simulation To - tb" severity failure;
 END PROCESS p_tb;
 

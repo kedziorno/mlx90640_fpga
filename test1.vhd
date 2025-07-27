@@ -450,8 +450,25 @@ signal rdata : std_logic_vector(23 downto 0);
 signal cm : std_logic_vector (8 downto 0);
 
 type states is (idle,
-s1,s2,s3,s4,s5,s6,s7,s8,s9,s10);
+s1,s2,s3,s4,s5,s6,s7,s8,s9,s10
+--synthesis transalte_off
+,s11,s12,s13,s14,s15
+--synthesis transalte_on
+);
 signal t_state : states := idle;
+
+COMPONENT tb_data_calculateTo
+PORT (
+clka : IN STD_LOGIC;
+ena : IN STD_LOGIC;
+addra : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+douta : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+);
+END COMPONENT;
+signal test_to_clka : STD_LOGIC := '0';
+signal test_to_ena : STD_LOGIC := '0';
+signal test_to_addra : STD_LOGIC_VECTOR(9 DOWNTO 0) := (others => '0');
+signal test_to_douta : STD_LOGIC_VECTOR(31 DOWNTO 0) := (others => '0');
 
 begin
 
@@ -567,6 +584,26 @@ begin
 						i := i + 1;
 					end if;
 				when s10 =>
+        --synthesis translate_off
+          if (c_calculate_type = "c_temperature") then
+            dualmem_ena <= '1';
+            test_to_addra <= std_logic_vector (to_unsigned (i, 10));
+            test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
+          end if;
+          state := s11;
+        when s11 => state := s12; -- wait for output
+        when s12 =>
+          warning_neq_fp (test_to_douta, test_fixed_melexis_do, "to compare "&integer'image(i));
+          if (i = 767) then
+            state := s13;
+            i := 0;
+          else
+            state := s10;
+            i := i + 1;
+          end if;
+        when s13 => state := s13;
+        when others => null;
+        --synthesis translate_on
 --          if (some_wait = c_some_wait-1) then
 --            some_wait := 0;
 --            state := idle;
@@ -844,6 +881,20 @@ vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_blank = '0' else (othe
 --addra => tb_data_calculateTo_addra,
 --douta => tb_data_calculateTo_douta
 --);
+
+--synthesis transalte_off
+g0_mem_temperature : if (c_calculate_type = "c_temperature") generate
+test_to_clka <= i_clock;
+test_to_ena <= '1';
+uut_test_to_i1 : tb_data_calculateTo
+PORT MAP (
+clka => test_to_clka, 
+ena => test_to_ena,
+addra => test_to_addra,
+douta => test_to_douta
+);
+end generate g0_mem_temperature;
+--syntheis  translate_on
 
 float2fixedclk <= i_clock;
 g0_fl2fi_temperature : if (c_calculate_type = "c_temperature") generate
