@@ -2287,7 +2287,7 @@ subfprdy  => CalculateVdd_subfprdy
 
 CalculateTa_clock <= i_clock;
 CalculateTa_reset <= i_reset;
-CalculateTa_Vdd <= CalculateVdd_Vdd;
+CalculateTa_Vdd <= x"4052B852"; -- CalculateVdd_Vdd;
 rom_constants_kvptat_en <= CalculateTa_kvptat_ena;
 rom_constants_kvptat_adr <= CalculateTa_kvptat_adr;
 rom_constants_alphaptat_en <= CalculateTa_alphaptat_ena;
@@ -2453,7 +2453,7 @@ fixed2floatrdy => CalculateAlphaCP_fixed2floatrdy
 CalculatePixOS_clock <= i_clock;
 CalculatePixOS_reset <= i_reset;
 CalculatePixOS_Ta <= CalculateTa_Ta; -- xxx
-CalculatePixOS_Vdd <= CalculateVdd_Vdd; -- xxx
+CalculatePixOS_Vdd <= x"4052B852"; -- CalculateVdd_Vdd; -- xxx
 CalculatePixOS_KGain <= CalculateKGain_KGain;
 rom_constants_signed3bit_en <= CalculatePixOS_signed3bit_ena;
 rom_constants_signed3bit_adr <= CalculatePixOS_signed3bit_adr;
@@ -2521,7 +2521,7 @@ divfprdy => CalculatePixOS_divfprdy
 CalculatePixOsCPSP_clock <= i_clock;
 CalculatePixOsCPSP_reset <= i_reset;
 CalculatePixOsCPSP_Ta <= CalculateTa_Ta; -- xxx
-CalculatePixOsCPSP_Vdd <= CalculateVdd_Vdd; -- xxx
+CalculatePixOsCPSP_Vdd <= x"4052B852"; -- CalculateVdd_Vdd; -- xxx
 CalculatePixOsCPSP_KGain <= CalculateKGain_KGain;
 inst_CalculatePixOsCPSP : calculate_pixos_cp_sp port map (
 i_clock => CalculatePixOsCPSP_clock,
