@@ -174,8 +174,6 @@ Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/vga_address_
 Architecture rtl of Entity vga_address_generator is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/vga_timing.vhd" in Library work.
 Architecture industry_standard_640x480_timing of Entity vga_timing is up to date.
-Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ipcore_dir/tb_data_calculateTo.vhd" in Library work.
-Architecture tb_data_calculateto_a of Entity tb_data_calculateto is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ipcore_dir/float2fixed_temperature.vhd" in Library work.
 Architecture float2fixed_temperature_a of Entity float2fixed_temperature is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ipcore_dir/float2fixed_rawimg.vhd" in Library work.
@@ -198,12 +196,14 @@ Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ipcore_dir/s
 Architecture sqrtfp2_a of Entity sqrtfp2 is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" in Library work.
 Entity <test1> compiled.
-Entity <test1> (Architecture <Behavioral>) compiled.
+Entity <test1> (Architecture <behavioral>) compiled.
+Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ipcore_dir/tb_data_calculateTo.vhd" in Library work.
+Architecture tb_data_calculateto_a of Entity tb_data_calculateto is up to date.
 
 =========================================================================
 *                     Design Hierarchy Analysis                         *
 =========================================================================
-Analyzing hierarchy for entity <test1> in library <work> (architecture <Behavioral>) with generics.
+Analyzing hierarchy for entity <test1> in library <work> (architecture <behavioral>) with generics.
 	c_calculate_type = "c_temperature"
 	c_device = "mlx90640"
 	c_use_fisqrt = " no"
@@ -551,13 +551,12 @@ Analyzing hierarchy for entity <mem_ramb16_s36_x2> in library <work> (architectu
 =========================================================================
 *                            HDL Analysis                               *
 =========================================================================
-Analyzing generic Entity <test1> in library <work> (Architecture <Behavioral>).
+Analyzing generic Entity <test1> in library <work> (Architecture <behavioral>).
 	c_calculate_type = "c_temperature"
 	c_device = "mlx90640"
 	c_use_fisqrt = " no"
 WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 755: Instantiating black box module <tb_i2c_mem>.
 WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 797: Unconnected output port 'o_h_blank' of component 'vga_timing'.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 890: Instantiating black box module <tb_data_calculateTo>.
 WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 902: Instantiating black box module <float2fixed_temperature>.
 WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 928: Instantiating black box module <dualmem_temperature>.
 WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 970: Instantiating black box module <fixed2float>.
@@ -2052,8 +2051,10 @@ Unit <melexis_mlx9064x> synthesized.
 
 Synthesizing Unit <test1>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd".
-WARNING:Xst:646 - Signal <test_to_douta> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:653 - Signal <test_to_addra> is used but never assigned. This sourceless signal will be automatically connected to value 0000000000.
+WARNING:Xst:1780 - Signal <test_to_ena> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:1780 - Signal <test_to_douta> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:1780 - Signal <test_to_clka> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:1780 - Signal <test_to_addra> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <t_state> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <rdata<23:21>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <rdata<15:13>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
@@ -2643,7 +2644,6 @@ Optimizing FSM <melexis_mlx9064x_core_inst/inst_extract_tgc_parameters/state/FSM
  11    | 10
 -------------------
 Reading core <../ipcore_dir/tb_i2c_mem.ngc>.
-Reading core <../ipcore_dir/tb_data_calculateTo.ngc>.
 Reading core <../ipcore_dir/float2fixed_temperature.ngc>.
 Reading core <../ipcore_dir/dualmem_temperature.ngc>.
 Reading core <../ipcore_dir/fixed2float.ngc>.
@@ -2653,7 +2653,6 @@ Reading core <../ipcore_dir/addfp.ngc>.
 Reading core <../ipcore_dir/subfp.ngc>.
 Reading core <../ipcore_dir/sqrtfp2.ngc>.
 Loading core <tb_i2c_mem> for timing and area information for instance <inst_tb_i2c_mem>.
-Loading core <tb_data_calculateTo> for timing and area information for instance <g0_mem_temperature.uut_test_to_i1>.
 Loading core <float2fixed_temperature> for timing and area information for instance <g0_fl2fi_temperature.inst_float2fixed_t>.
 Loading core <dualmem_temperature> for timing and area information for instance <g0_dualmem_temperature.dualmem_inst_t>.
 Loading core <fixed2float> for timing and area information for instance <b0.inst_fixed2float>.
@@ -3122,9 +3121,9 @@ Design Statistics
 # IOs                              : 32
 
 Cell Usage :
-# BELS                             : 18119
+# BELS                             : 18118
 #      BUF                         : 12
-#      GND                         : 11
+#      GND                         : 10
 #      INV                         : 85
 #      LUT1                        : 177
 #      LUT2                        : 2830
@@ -3153,8 +3152,8 @@ Cell Usage :
 #      FDRSE                       : 237
 #      FDS                         : 70
 #      FDSE                        : 23
-# RAMS                             : 24
-#      RAMB16_S18_S18              : 3
+# RAMS                             : 22
+#      RAMB16_S18_S18              : 1
 #      RAMB16_S36                  : 19
 #      RAMB16_S4_S4                : 2
 # Shift Registers                  : 213
@@ -3182,7 +3181,7 @@ Selected Device : 3s1200efg320-4
     Number used as Shift registers:     213
  Number of IOs:                          32
  Number of bonded IOBs:                  32  out of    250    12%  
- Number of BRAMs:                        24  out of     28    85%  
+ Number of BRAMs:                        22  out of     28    78%  
  Number of MULT18X18SIOs:                 4  out of     28    14%  
  Number of GCLKs:                         2  out of     24     8%  
 
@@ -3204,15 +3203,14 @@ NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
 
 Clock Information:
 ------------------
-------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
-Clock Signal                        | Clock buffer(FF name)                                                                                                                                         | Load  |
-------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
-i_clock                             | BUFGP                                                                                                                                                         | 8983  |
-inst_tb_i2c_mem/N1                  | NONE(inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_init.ram/dpram.dp4x4.ram)                          | 2     |
-g0_mem_temperature.uut_test_to_i1/N1| NONE(g0_mem_temperature.uut_test_to_i1/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_init.ram/dpram.dp18x18.ram)      | 2     |
-agclk                               | NONE(g0_dualmem_temperature.dualmem_inst_t/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram)| 1     |
-vgaclk251                           | BUFG                                                                                                                                                          | 62    |
-------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
+-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)                                                                                                                                         | Load  |
+-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
+i_clock                            | BUFGP                                                                                                                                                         | 8981  |
+inst_tb_i2c_mem/N1                 | NONE(inst_tb_i2c_mem/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_init.ram/dpram.dp4x4.ram)                          | 2     |
+agclk                              | NONE(g0_dualmem_temperature.dualmem_inst_t/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram)| 1     |
+vgaclk251                          | BUFG                                                                                                                                                          | 62    |
+-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
 INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
 
 Asynchronous Control Signals Information:
@@ -3433,15 +3431,15 @@ Delay:               12.544ns (Levels of Logic = 6)
 =========================================================================
 
 
-Total REAL time to Xst completion: 262.00 secs
-Total CPU time to Xst completion: 256.34 secs
+Total REAL time to Xst completion: 266.00 secs
+Total CPU time to Xst completion: 260.79 secs
  
 --> 
 
 
-Total memory usage is 1078488 kilobytes
+Total memory usage is 1078036 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :  373 (   0 filtered)
+Number of warnings :  374 (   0 filtered)
 Number of infos    :   41 (   0 filtered)
 
