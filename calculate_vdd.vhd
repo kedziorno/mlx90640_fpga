@@ -133,7 +133,11 @@ signal mem_signed_reset : std_logic;
 signal mem_signed_i_value : std_logic_vector (7 downto 0); -- input hex from 0 to 255
 signal mem_signed_o_value : std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
 
+signal fixed2floatr_i : fp32;
+
 begin
+
+fixed2floatr_i <= fixed2floatr;
 
 i2c_mem_ena <= i2c_mem_ena_internal;
 i2c_mem_addra <= i2c_mem_addra_i;
@@ -142,10 +146,11 @@ i2c_mem_douta_i <= i2c_mem_douta;
 p0 : process (i_clock) is
 	type states is (idle,
   s2,s4,s5,s9,s10,
-  s11,s12,s13,s14,s14a,s15,s15a,s16,s16a,s17,s18,s19,
+  s11,s12,s13,s14,s14a,s15,s16a,s17,s18,s19,
   s20,s21,s22,s23);
   variable state : states;
   variable ram : slv8; -- XXX ram072a
+  variable f2ft : fp32;
 begin
 	if (rising_edge (i_clock)) then
 	if (i_reset = '1') then
@@ -220,14 +225,14 @@ begin
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
       --synthesis translate_off
-      warning_neq_fp (fixed2floatr, x"c643a000", "(vdd ram 0x072a -12520)");
+      warning_neq_fp (fixed2floatr_i, x"c643a000", "(vdd ram 0x072a -12520)");
       --synthesis translate_on
 		else state := s13; end if;
 	when s14 =>
 		fixed2floatsclr <= '0';
 		mulfpce <= '1';
 		mulfpa <= divfpr; -- s9 resolution
-		mulfpb <= fixed2floatr; -- s13 frameData[810]
+		mulfpb <= fixed2floatr_i; -- s13 frameData[810]
 		mulfpond <= '1';
 		if (mulfprdy = '1') then state := s14a;
 			mulfpce <= '0';
@@ -251,63 +256,26 @@ begin
     fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= extend_8_to_16 (i2c_mem_douta_i); -- vdd25
-    if (fixed2floatrdy = '1') then state := s15a;
+    if (fixed2floatrdy = '1') then state := s16a;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
       --synthesis translate_off
-      warning_neq_fp (fixed2floatr, x"42f00000", "(eeprom vdd25 120)");
+      warning_neq_fp (fixed2floatr_i, x"42f00000", "(eeprom vdd25 120)");
       --synthesis translate_on
+      f2ft := fixed2floatr_i;
+      f2ft (31) := '0'; -- XXX treat vdd25 always as positive
 		else state := s15; end if;
-  when s15a =>
-    fixed2floatsclr <= '0';
-    if (fixed2floatr (31) = '1') then -- - / +
-      report "minus";
-      state := s16;
-    else
-      report "plus";
-      subfpce <= '1';
-      subfpa <= fixed2floatr; -- s15
-      subfpb <= c_256_ft;
-      subfpond <= '1';
-      if (subfprdy = '1') then state := s16;
-        --synthesis translate_off
-        warning_neq_fp (subfpr, x"c3080000", "(plus - vdd25 - 256)");
-        --synthesis translate_on
-        subfpce <= '0';
-        subfpond <= '0';
-        subfpsclr <= '1';
-      else state := s15a; end if;
-    end if;
-  when s16 =>
-    subfpsclr <= '0';
-    addfpce <= '1';
-		addfpa <= fixed2floatr; -- s15
-		addfpb <= c_256_ft;
-		addfpond <= '1';
-		if (addfprdy = '1') then state := s16a;
-      --synthesis translate_off
-      warning_neq_fp (addfpr, x"c3080000", "(minus - vdd25 + 256)");
-      --synthesis translate_on
-			addfpce <= '0';
-			addfpond <= '0';
-			addfpsclr <= '1';
-		else state := s16; end if;
   when s16a =>
-		addfpsclr <= '0';
+    fixed2floatsclr <= '0';
     mulfpce <= '1';
-    if (fixed2floatr (31) = '1') then -- - / +
-      report "minus";
-      mulfpa <= addfpr; -- s16
-    else
-      report "plus";
-      mulfpa <= subfpr; -- s16
-    end if;
-		mulfpb <= c_2pow5_ft;
+		mulfpa <= f2ft;
+    mulfpb <= c_2pow5_ft;
 		mulfpond <= '1';
 		if (mulfprdy = '1') then state := s17;
       --synthesis translate_off
       warning_neq_fp (mulfpr, x"c5880000", "vdd25*32");
+      warning_neq_fp (f2ft, x"00000000", "vdd25 as positive");
       --synthesis translate_on
 			mulfpce <= '0';
 			mulfpond <= '0';
@@ -316,7 +284,7 @@ begin
 	when s17 =>
 		mulfpsclr <= '0';
     subfpce <= '1';
-		subfpa <= mulfpr; -- s16a
+		subfpa <= '1' & mulfpr (30 downto 0); -- s16a
 		subfpb <= c_2pow13_ft;
 		subfpond <= '1';
 		if (subfprdy = '1') then state := s18;
@@ -350,13 +318,13 @@ begin
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
       --synthesis translate_off
-      warning_neq_fp (fixed2floatr, x"c2c80000", "(eeprom kvdd -100)");
+      warning_neq_fp (fixed2floatr_i, x"c2c80000", "(eeprom kvdd -100)");
       --synthesis translate_on
 		else state := s20; end if;
   when s21 =>
     fixed2floatsclr <= '0';
     mulfpce <= '1';
-		mulfpa <= fixed2floatr; -- s20
+		mulfpa <= fixed2floatr_i; -- s20
 		mulfpb <= c_2pow5_ft;
 		mulfpond <= '1';
 		if (mulfprdy = '1') then state := s22;

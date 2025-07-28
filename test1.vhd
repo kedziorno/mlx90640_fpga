@@ -848,7 +848,8 @@ g0_1 : if (c_calculate_type = "c_raws_images") generate
 cm <= dualmem_doutb_r (8 downto 0);
 end generate g0_1;
 g0_2 : if (c_calculate_type = "c_temperature") generate
-cm <= dualmem_doutb_t (12 downto 12) & '0' & dualmem_doutb_t (11 downto 5);
+--cm <= dualmem_doutb_t (12 downto 12) & '0' & dualmem_doutb_t (11 downto 5);
+cm <= dualmem_doutb_t (13 downto 5);
 end generate g0_2;
 rdata <= colormap_rom (to_integer (signed (cm))); -- xxx i don't know, problem with dualmem module ?
 
