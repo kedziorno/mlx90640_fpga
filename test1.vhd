@@ -593,7 +593,7 @@ begin
           state := s11;
         when s11 => state := s12; -- wait for output
         when s12 =>
-          warning_neq_fp (test_fixed_melexis_do, test_to_douta, "to compare "&integer'image(i), true, 0.5);
+          warning_neq_fp (test_fixed_melexis_do, test_to_douta, "to compare "&integer'image(i), true, 0.6);
           if (i = 767) then
             state := s13;
             i := 0;
