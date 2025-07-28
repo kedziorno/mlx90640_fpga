@@ -451,9 +451,9 @@ signal cm : std_logic_vector (8 downto 0);
 
 type states is (idle,
 s1,s2,s3,s4,s5,s6,s7,s8,s9,s10
---synthesis transalte_off
-,s11,s12,s13,s14,s15
---synthesis transalte_on
+--synthesis translate_off
+,s11,s12,s13,s14
+--synthesis translate_on
 );
 signal t_state : states := idle;
 
@@ -883,7 +883,7 @@ vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_blank = '0' else (othe
 --douta => tb_data_calculateTo_douta
 --);
 
---synthesis transalte_off
+--synthesis translate_off
 g0_mem_temperature : if (c_calculate_type = "c_temperature") generate
 test_to_clka <= i_clock;
 test_to_ena <= '1';
@@ -895,7 +895,7 @@ addra => test_to_addra,
 douta => test_to_douta
 );
 end generate g0_mem_temperature;
---syntheis  translate_on
+--synthesis translate_on
 
 float2fixedclk <= i_clock;
 g0_fl2fi_temperature : if (c_calculate_type = "c_temperature") generate

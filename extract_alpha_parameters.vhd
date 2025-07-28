@@ -589,8 +589,10 @@ begin
           if (fixed2floatrdy_internal = '1') then state := s8;
             tascale := i2c_mem_douta_i (7 downto 4);
             tarow := i2c_mem_douta_i (3 downto 0);
+            --synthesis translate_off
             report_error ("alpha scale", tascale, 0.0);
             report_error ("alpha row", tarow, 0.0);
+            --synthesis translate_on
 						--report_error("alphaReference", fixed2floatr_internal, 0.0);
 						fixed2floatce_internal <= '0';
 						fixed2floatond_internal <= '0';
@@ -636,8 +638,10 @@ begin
           if (addfprdy_internal = '1') then state := s13;
             tacol := i2c_mem_douta_i (7 downto 4);
             tarem := i2c_mem_douta_i (3 downto 0);
+            --synthesis translate_off
             report_error ("alpha column", tacol, 0.0);
             report_error ("alpha remnand", tarem, 0.0);
+            --synthesis translate_on
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
