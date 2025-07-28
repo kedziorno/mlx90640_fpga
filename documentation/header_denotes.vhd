@@ -3,25 +3,28 @@
 -- Engineer:      ko
 -------------------------------------------------------------------------------
 -- Denotes used in all code (only first/last prefix/suffix):
---  - c_   - constant
---  - g_   - generate
---  - i_   - entity input signal
---  - o_   - entity output signal
---  - io_  - entity inout signal
---  - p_   - processe
---  - v_   - variable
---  - lX_  - loop number X
---  - _a   - alias
---  - _i   - internal signal
---  - _iX  - instance number X
---  - _m   - memory
---  - _p   - package
---  - _q   - register
---  - _sr  - shift register
---  - _st  - sub-type
---  - _t   - type
---  - _dut - Device Under Test
---  - _uut - Unit Under Test
+--  - c_    - constant
+--  - g_    - generate
+--  - i_    - entity input signal
+--  - o_    - entity output signal
+--  - io_   - entity inout signal
+--  - p_    - processe
+--  - v_    - variable
+--  - lX_   - loop number X
+--  - _a    - alias
+--  - _i    - internal signal
+--  - _iX   - instance number X
+--  - _m    - memory
+--  - _p    - package
+--  - _q    - register
+--  - _sr   - shift register
+--  - _st   - sub-type
+--  - _t    - type
+--  - _dut  - Device Under Test
+--  - _uut  - Unit Under Test
+--  - _next - signal in next state decoder process (FSMs)
+--  - _reg  - signal register in synchronous process to assign *_next (FSMs)
+--            (register to hold the current state)
 --
 -------------------------------------------------------------------------------
 

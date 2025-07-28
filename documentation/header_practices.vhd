@@ -13,6 +13,7 @@
 --    - seq - sequential
 --    - RE/re - rising edge
 --    - FE/fe - falling edge
+--    - ctr - counter
 --  - When commented code:
 --    - "--string"     - code comment
 --    - "-- string"    - normal comment
