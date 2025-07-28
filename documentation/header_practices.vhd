@@ -23,6 +23,9 @@
 --    - behavioral - behavioral style of code, non-synthesizable
 --    - rtl - Synthesizable code
 --    - structural - for connect between modules, mostly in top
+-- Practices for work with GIT:
+--  - A significant change results in the creation of a new tag number with
+--    little comment (for example, vX.Yz)
 --
 -------------------------------------------------------------------------------
 

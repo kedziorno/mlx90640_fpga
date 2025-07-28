@@ -2,6 +2,11 @@
 
 #set -x
 
+if [[ $# -ne 2 ]]; then
+  echo "Usage: $0 number_frame comment"
+  exit 1;
+fi
+
 number_frame=${1:-0}
 comment=${2}
 

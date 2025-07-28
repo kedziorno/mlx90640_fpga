@@ -9,7 +9,7 @@
 -- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
 -- Tool versions: Xilinx ISE 14.7, XST and ISIM
 -- Description:   (...)
---                (Rest is in commented code)
+--                (Rest is in commented code with XXX)
 --
 -- Dependencies:
 --  - Files:

@@ -11,7 +11,7 @@
 -- Description:   - 11.1.1. Restoring the VDD sensor parameters (p. 22)
 --                - 11.2.2.2. Supply voltage value calculation (p. 36)
 --                - 11.2.2.5.3. IR data compensation offset, VDD and Ta (p. 39)
---                (Rest is in commented code)
+--                (Rest is in commented code with XXX)
 --
 -- Dependencies:
 --  - Files:
@@ -22,6 +22,11 @@
 --  - Revision 0.01 - File created
 --    - Files: -
 --    - Modules: -
+--    - Processes (Architecture: rtl):
+--      p0
+--  - Revision 0.02 - Fix calculations with vdd25 (sign)
+--    - Files: -
+--    - Modules: mem_signed256
 --    - Processes (Architecture: rtl):
 --      p0
 --
@@ -120,18 +125,18 @@ signal i2c_mem_addra_i : i2c_memory_address_bits_st;
 signal i2c_mem_douta_i : i2c_memory_data_bits_st;
 alias resolution_ee_a  : slv2 is i2c_mem_douta_i (5 downto 4);
 
-component mem_signed256 is
+component mem_minus256 is
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
-i_value : in std_logic_vector (7 downto 0); -- input hex from 0 to 255
-o_value : out std_logic_vector (31 downto 0) -- output signed -128 to 127 in SP float
+i_value : in std_logic_vector (7 downto 0);
+o_value : out std_logic_vector (31 downto 0)
 );
-end component mem_signed256;
-signal mem_signed_clock : std_logic;
-signal mem_signed_reset : std_logic;
-signal mem_signed_i_value : std_logic_vector (7 downto 0); -- input hex from 0 to 255
-signal mem_signed_o_value : std_logic_vector (31 downto 0); -- output signed -128 to 127 in SP float
+end component mem_minus256;
+signal mem_minus256_clock : std_logic;
+signal mem_minus256_reset : std_logic;
+signal mem_minus256_i_value : std_logic_vector (7 downto 0);
+signal mem_minus256_o_value : std_logic_vector (31 downto 0);
 
 signal fixed2floatr_i : fp32;
 
@@ -146,7 +151,7 @@ i2c_mem_douta_i <= i2c_mem_douta;
 p0 : process (i_clock) is
 	type states is (idle,
   s2,s4,s5,s9,s10,
-  s11,s12,s13,s14,s14a,s15,s16a,s17,s18,s19,
+  s11,s12,s13,s14,s14a,s15,s15a,s16,s16a,s17,s18,s19,
   s20,s21,s22,s23);
   variable state : states;
   variable ram : slv8; -- XXX ram072a
@@ -164,8 +169,8 @@ begin
 		o_rdy <= '0';
 		i2c_mem_ena_internal <= '0';
 		i2c_mem_addra_i <= (others => '0');
-    mem_signed_i_value <= (others => '0');
-    mem_signed_reset <= '1';
+    mem_minus256_i_value <= (others => '0');
+    mem_minus256_reset <= '1';
 	else
 	case (state) is
 	when idle =>
@@ -184,7 +189,7 @@ begin
 		divfpsclr <= '0';
     fixed2floatsclr <= '0';
     o_rdy <= '0';
-    mem_signed_reset <= '0';
+    mem_minus256_reset <= '0';
 	when s2 => state := s4;
     i2c_mem_addra_i <= std_logic_vector (to_unsigned (c_eeprom_x2438_msb, c_memory_i2c_address_bits));
 	when s4 => state := s5;
@@ -251,31 +256,52 @@ begin
 			addfpond <= '0';
 			addfpsclr <= '1';
     else state := s14a; end if;
-  when s15 => -- state := s15a;
+  when s15 =>
     addfpsclr <= '0';
     fixed2floatce <= '1';
 		fixed2floatond <= '1';
 		fixed2floata <= extend_8_to_16 (i2c_mem_douta_i); -- vdd25
-    if (fixed2floatrdy = '1') then state := s16a;
+    if (fixed2floatrdy = '1') then state := s15a;
 			fixed2floatce <= '0';
 			fixed2floatond <= '0';
 			fixed2floatsclr <= '1';
       --synthesis translate_off
       warning_neq_fp (fixed2floatr_i, x"42f00000", "(eeprom vdd25 120)");
       --synthesis translate_on
-      f2ft := fixed2floatr_i;
-      f2ft (31) := '0'; -- XXX treat vdd25 always as positive
+      --f2ft := fixed2floatr_i;
+      --f2ft (31) := '0'; -- XXX treat vdd25 always as positive
 		else state := s15; end if;
-  when s16a =>
+    mem_minus256_i_value <= i2c_mem_douta_i;
+  when s15a => state := s16;
     fixed2floatsclr <= '0';
+  when s16 => state := s16a;
+    --synthesis translate_off
+    warning_neq_fp (mem_minus256_o_value, x"c3080000", "mem_minus256 vdd25 - 256 = -136");
+    --synthesis translate_on
+
+--    fixed2floatsclr <= '0';
+--    subfpce <= '1';
+--    subfpa <= mem_minus256_o_value; -- fixed2floatr_i; -- s15
+--    subfpb <= c_256_ft;
+--    subfpond <= '1';
+--    if (subfprdy = '1') then state := s16a;
+--      subfpce <= '0';
+--      subfpond <= '0';
+--      subfpsclr <= '1';
+--      --synthesis translate_off
+--      warning_neq_fp (subfpr, x"c3080000", "vdd25 - 256 = -136");
+--      --synthesis translate_on
+--    else state := s16; end if;
+  when s16a =>
+--    subfpsclr <= '0';
     mulfpce <= '1';
-		mulfpa <= f2ft;
+--		mulfpa <= subfpr;
+		mulfpa <= mem_minus256_o_value;
     mulfpb <= c_2pow5_ft;
 		mulfpond <= '1';
 		if (mulfprdy = '1') then state := s17;
       --synthesis translate_off
-      warning_neq_fp (mulfpr, x"c5880000", "vdd25*32");
-      warning_neq_fp (f2ft, x"00000000", "vdd25 as positive");
+      warning_neq_fp (mulfpr, x"c5880000", "(vdd25 - 256) * 32 = -4352");
       --synthesis translate_on
 			mulfpce <= '0';
 			mulfpond <= '0';
@@ -284,7 +310,7 @@ begin
 	when s17 =>
 		mulfpsclr <= '0';
     subfpce <= '1';
-		subfpa <= '1' & mulfpr (30 downto 0); -- s16a
+		subfpa <= mulfpr (31 downto 0); -- s16a
 		subfpb <= c_2pow13_ft;
 		subfpond <= '1';
 		if (subfprdy = '1') then state := s18;
@@ -292,7 +318,7 @@ begin
 			subfpond <= '0';
 			subfpsclr <= '1';
       --synthesis translate_off
-      warning_neq_fp (subfpr, x"c6440000", "(vdd25 -12544)");
+      warning_neq_fp (subfpr, x"c6440000", "((vdd25 - 256) * 32) - 2^13 = -12544");
       --synthesis translate_on
 		else state := s17; end if;
 	when s18 => state := s19;
@@ -385,13 +411,13 @@ x"41000000" when "11",
 x"00000000" when others;
 
 -- XXX https://github.com/melexis/mlx90640-library/issues/113
-mem_signed_clock <= i_clock;
-mem_signed_vdd25_fix_negative_i0 : mem_signed256
+mem_minus256_clock <= i_clock;
+mem_minus256_vdd25_fix_negative_i0 : mem_minus256
 port map (
-i_clock => mem_signed_clock,
-i_reset => mem_signed_reset,
-i_value => mem_signed_i_value,
-o_value => mem_signed_o_value
+i_clock => mem_minus256_clock,
+i_reset => mem_minus256_reset,
+i_value => mem_minus256_i_value,
+o_value => mem_minus256_o_value
 );
 
 end architecture rtl;
