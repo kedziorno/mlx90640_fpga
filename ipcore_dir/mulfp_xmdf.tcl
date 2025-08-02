@@ -67,6 +67,10 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mulfp.xco
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type coregen_ip
 incr fcount
 
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mulfp_padded.ngc
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type ngc
+incr fcount
+
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mulfp_xmdf.tcl
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type AnyView
 incr fcount
