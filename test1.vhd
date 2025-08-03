@@ -33,11 +33,11 @@ use work.p_package1.all;
 entity test1 is
 generic (
 constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
-constant c_calculate_type : string (1 to 13) := "c_raws_images"; -- c_temperature,c_raws_images
---constant c_calculate_type : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
-constant c_use_fisqrt : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type(c_temperature)
+--constant c_calculate_type : string (1 to 13) := "c_raws_images"; -- c_temperature,c_raws_images
+constant c_calculate_type : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
+--constant c_use_fisqrt : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type(c_temperature)
 --constant c_use_fisqrt : string (1 to 3) := "yes" -- yes/no - depend from c_calculate_type(c_temperature)
---constant c_use_fisqrt : string (1 to 3) := " no" -- yes/no - depend from c_calculate_type(c_temperature)
+constant c_use_fisqrt : string (1 to 3) := " no" -- yes/no - depend from c_calculate_type(c_temperature)
 );
 port (
 i_clock,i_reset : in std_logic;
@@ -619,8 +619,8 @@ begin
 end process pTo;
 
 pvgaclk : process (i_clock,i_reset) is
-	constant CMAX : integer := 1; -- 50/25
---	constant CMAX : integer := 2; -- 100/25
+--	constant CMAX : integer := 1; -- 50/25 - nexys2
+	constant CMAX : integer := 2; -- 100/25 - ml402
 	variable vmax : integer range 0 to CMAX-1;
 begin
 		if (i_reset = '1') then
