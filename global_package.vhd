@@ -9,7 +9,7 @@
 -- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
 -- Tool versions: Xilinx ISE 14.7, XST and ISIM
 -- Description:   Package with all constants, used in ALL modules
---                (Rest is in commented code)
+--                (Rest is in commented code with XXX)
 --
 -- Dependencies:
 --  - Files:
@@ -18,6 +18,9 @@
 --
 -- Revision:
 --  - Revision 0.01 - File created
+--    - Files: -
+--    - Modules: -
+--  - Revision 0.02 - i2c constants for VHDL module
 --    - Files: -
 --    - Modules: -
 --
@@ -354,18 +357,22 @@ package global_package is
 
   --constant c_tb_data_file : string := "tb_data";
   --file fptr : text;
-  constant global_board_frequency : natural := 100_000_000;
-  constant global_i2c_frequency : natural := 400_000;
-  constant i2c_stretch : natural := global_board_frequency/global_i2c_frequency;
-  constant i2c_clock_divider : natural := 4;
-  constant i2c_address_bits : natural := 7;
-  constant i2c_data_bits : natural := 8;
-  constant i2c_address_read : boolean := true;
-  constant i2c_address_write : boolean := false;
-  constant i2c_data_ack : boolean := false;
-  constant i2c_data_nak : boolean := true;
-  constant i2c_bits_length : natural := 9;
-  constant c_data_size : integer := 3340; -- number bytes from i2c
+  constant c_byte_size : integer := 8;
+  type array1 is array(natural range <>) of std_logic_vector (c_byte_size - 1 downto 0);
+  
+  constant c_clock_board_frequency : natural := 100_000_000; -- XXX ml402/nexys2
+  --constant c_clock_board_frequency : natural := 50_000_000; -- XXX nexys2
+  constant c_clock_i2c_frequency : natural := 1_000_000; -- XXX mlx90640 have default 1us clock period
+  constant c_i2c_stretch : natural := c_clock_i2c_frequency/c_clock_board_frequency;
+  constant c_i2c_clock_divider : natural := 4;
+  constant c_i2c_address_bits : natural := 7;
+  constant c_i2c_data_bits : natural := 8;
+  constant c_i2c_address_read : boolean := true;
+  constant c_i2c_address_write : boolean := false;
+  constant c_i2c_data_ack : boolean := false;
+  constant c_i2c_data_nak : boolean := true;
+  constant c_i2c_bits_length : natural := 9;
+  constant c_i2c_packet_data_size : integer := 3340; -- number bytes from i2c
 
 --synthesis translate_off
   -- xxx https://comp.lang.vhdl.narkive.com/b8uinwjr/convert-boolean-to-std-logic
@@ -388,8 +395,8 @@ package global_package is
   procedure wait_idle(signal idle : out std_logic;constant n : natural;constant clock_period : in time);
   procedure sda_start(signal sda_data : out std_logic;constant clock_period : in time);
   procedure sda_stop(signal sda_data : out std_logic;constant clock_period : in time);
-  procedure sda_address_7bit(signal sda_data : out std_logic;constant address : in std_logic_vector(i2c_address_bits - 1 downto 0);constant address_rw : in boolean;conclock_period : in time);
-  procedure sda_data_8bit(signal sda_data : out std_logic;constant data : in std_logic_vector(i2c_data_bits - 1 downto 0);constant data_ack : in boolean;constant clock_period : in time);
+  procedure sda_address_7bit(signal sda_data : out std_logic;constant address : in std_logic_vector(c_i2c_address_bits - 1 downto 0);constant address_rw : in boolean;conclock_period : in time);
+  procedure sda_data_8bit(signal sda_data : out std_logic;constant data : in std_logic_vector(c_i2c_data_bits - 1 downto 0);constant data_ack : in boolean;constant clock_period : in time);
 --synthesis translate_on
 
 end package global_package;
@@ -524,7 +531,7 @@ procedure wait_idle(
 ) is
 begin
 	idle <= '1';
-	wait for n * clock_period * i2c_stretch;
+	wait for n * clock_period * c_i2c_stretch;
 	idle <= '0';
 end wait_idle;
 
@@ -532,50 +539,50 @@ procedure sda_start(
 	signal sda_data : out std_logic;
 	constant clock_period : in time
 ) is
-	variable scl_clock_period : time := clock_period / i2c_clock_divider;
+	variable scl_clock_period : time := clock_period / c_i2c_clock_divider;
 begin
-	sda_data <= '0'; wait for 2 * scl_clock_period * i2c_stretch;
+	sda_data <= '0'; wait for 2 * scl_clock_period * c_i2c_stretch;
 end procedure sda_start;
 
 procedure sda_stop(
 	signal sda_data : out std_logic;
 	constant clock_period : in time
 ) is
-	variable scl_clock_period : time := clock_period / i2c_clock_divider;
+	variable scl_clock_period : time := clock_period / c_i2c_clock_divider;
 begin
-	sda_data <= '0'; wait for 2 * scl_clock_period * i2c_stretch;
+	sda_data <= '0'; wait for 2 * scl_clock_period * c_i2c_stretch;
 end procedure sda_stop;
 
 procedure sda_address_7bit(
 	signal sda_data : out std_logic;
-	constant address : in std_logic_vector(i2c_address_bits - 1 downto 0);
+	constant address : in std_logic_vector(c_i2c_address_bits - 1 downto 0);
 	constant address_rw : in boolean;
 	constant clock_period : in time
 ) is
-	variable index : natural range 0 to i2c_address_bits - 1 := 0;
+	variable index : natural range 0 to c_i2c_address_bits - 1 := 0;
 begin
 	l0 : for i in address'range loop
-		sda_data <= address(i); wait for clock_period * i2c_stretch;
+		sda_data <= address(i); wait for clock_period * c_i2c_stretch;
 	end loop l0;
 	-- 1bit write
-	sda_data <= to_std_logic(address_rw); wait for clock_period * i2c_stretch;
+	sda_data <= to_std_logic(address_rw); wait for clock_period * c_i2c_stretch;
 	-- 1bit ack
-	sda_data <= '0'; wait for clock_period * i2c_stretch;
+	sda_data <= '0'; wait for clock_period * c_i2c_stretch;
 end procedure sda_address_7bit;
 
 procedure sda_data_8bit(
 	signal sda_data : out std_logic;
-	constant data : in std_logic_vector(i2c_data_bits - 1 downto 0);
+	constant data : in std_logic_vector(c_i2c_data_bits - 1 downto 0);
 	constant data_ack : in boolean;
 	constant clock_period : in time
 ) is
-	variable index : natural range 0 to i2c_data_bits - 1 := 0;
+	variable index : natural range 0 to c_i2c_data_bits - 1 := 0;
 begin
 	l0 : for i in data'range loop
-		sda_data <= data(i); wait for clock_period * i2c_stretch;
+		sda_data <= data(i); wait for clock_period * c_i2c_stretch;
 	end loop l0;
 	-- 1bit ack
-	sda_data <= to_std_logic(data_ack); wait for clock_period * i2c_stretch;
+	sda_data <= to_std_logic(data_ack); wait for clock_period * c_i2c_stretch;
 end procedure sda_data_8bit;
 
 function to_std_logic(l: boolean) return std_ulogic is
