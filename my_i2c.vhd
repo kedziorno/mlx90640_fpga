@@ -87,11 +87,15 @@ architecture rtl of my_i2c is
 	signal data_index_ctr : integer range 0 to c_i2c_data_bits - 1;
 	signal sda_width_ctr : integer range c_sda_width_max - 1 downto 0;
 
-  signal bytes_to_recv : std_logic_vector (0 to 15);
+  signal bytes_to_recv_i : std_logic_vector (0 to 15);
+
+  signal rw_i : std_logic;
 
 begin
 
-  o_bytes_to_recv <= bytes_to_recv;
+  rw_i <= not i_rw;
+
+  o_bytes_to_recv <= bytes_to_recv_i;
 
 	p_i2c_clock : process (i_clock, i_reset) is
 		variable count : integer range 0 to (c_i2c_counter_max * 4) - 1;
@@ -142,7 +146,7 @@ begin
 			sda_width_ctr <= c_sda_width_max - 1;
 			temp_sda <= 'Z';
 			temp_sck <= '1';
-      bytes_to_recv <= (others => '0');
+      bytes_to_recv_i <= (others => '0');
 		elsif (rising_edge(clock)) then
 			c_state <= n_state;
 			case c_state is
@@ -224,7 +228,11 @@ begin
 						temp_sck <= '1';
 					end if;
 					if (c_cmode = c0) then
-						temp_sda <= '0';
+            if (rw_i = '1') then
+              temp_sda <= '0';
+            else
+              temp_sda <= 'Z';
+            end if;
 						if (sda_width_ctr = 0) then
 							sda_width_ctr <= c_sda_width_max - 1;
 							n_state <= slave_ack;
@@ -241,11 +249,7 @@ begin
 						temp_sck <= '1';
 					end if;
 					if (c_cmode = c0) then
-            if (i_rw = '0') then
-              temp_sda <= 'Z';
-            else
-              temp_sda <= '0';
-            end if;
+            temp_sda <= '0';
 						if (sda_width_ctr = 0) then
 							sda_width_ctr <= c_sda_width_max - 1;
 							n_state <= rw;
@@ -265,7 +269,7 @@ begin
 					end if;
 
         when rw =>
-          if (i_rw = '0') then
+          if (rw_i = '0') then
             n_state <= read_data1;
             i := 0;
           else
@@ -290,7 +294,7 @@ begin
                 else
                   i := i + 1;
                   if (clock = '1') then
-                    bytes_to_recv (i) <= io_sda;
+                    bytes_to_recv_i (i) <= io_sda;
                   end if;
                 end if;
 							else
@@ -336,7 +340,7 @@ begin
               else
                 i := i + 1;
                 if (clock = '1') then
-                  bytes_to_recv (8 + i) <= io_sda;
+                  bytes_to_recv_i (8 + i) <= io_sda;
                 end if;
               end if;
             else
@@ -424,7 +428,7 @@ begin
 						temp_sck <= '1';
 					end if;
 					if (c_cmode = c0) then
-            if (i_rw = '0') then
+            if (rw_i = '0') then
               temp_sda <= 'Z';
             else
               temp_sda <= '0';
@@ -497,7 +501,7 @@ begin
 						temp_sck <= '1';
 					end if;
 					if (c_cmode = c0) then
-            if (i_rw = '0') then
+            if (rw_i = '0') then
               temp_sda <= 'Z';
             else
               temp_sda <= '0';
@@ -570,7 +574,7 @@ begin
 						temp_sck <= '1';
 					end if;
 					if (c_cmode = c0) then
-            if (i_rw = '0') then
+            if (rw_i = '0') then
               temp_sda <= 'Z';
             else
               temp_sda <= '0';
@@ -643,7 +647,7 @@ begin
 						temp_sck <= '1';
 					end if;
 					if (c_cmode = c0) then
-            if (i_rw = '0') then
+            if (rw_i = '0') then
               temp_sda <= 'Z';
             else
               temp_sda <= '0';
@@ -666,7 +670,7 @@ begin
 						temp_sck <= '1';
 					end if;
 					if (c_cmode = c0) then
-            if (i_rw = '0') then
+            if (rw_i = '0') then
               temp_sda <= 'Z';
             else
               temp_sda <= '0';

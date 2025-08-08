@@ -118,10 +118,10 @@ i_reset <= '1', '0' after 5*i_clock_period;
 stim_proc : process
 	type adata is array(0 to V-1) of std_logic_vector(0 to 32);
 	variable vdata : adata := ( -- w = 0, r = 1
-		x"800d"&'1'&x"1901",
-		x"ffff"&'1'&x"ffff",
-    x"aa55"&'0'&x"1111",
-    x"0000"&'0'&x"0000"
+		x"800d"&'0'&x"1901",
+		x"ffff"&'0'&x"ffff",
+    x"aa55"&'1'&x"1111",
+    x"0000"&'1'&x"0000"
 	);
 begin
 wait for i_clock_period*500; -- cold start
