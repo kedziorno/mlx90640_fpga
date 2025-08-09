@@ -30,14 +30,14 @@ USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 use work.global_package.all; 
  
-ENTITY tb_my_i2c IS
-END tb_my_i2c;
+ENTITY tb_melexis_mlx90640_i2c IS
+END tb_melexis_mlx90640_i2c;
 
-ARCHITECTURE sim OF tb_my_i2c IS
+ARCHITECTURE sim OF tb_melexis_mlx90640_i2c IS
 
 constant N : integer := 20;
 
-component my_i2c is
+component melexis_mlx90640_i2c is
 generic (
 c_board_clock : integer := c_clock_board_frequency;
 c_bus_clock : integer := c_clock_i2c_frequency
@@ -46,6 +46,9 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_slave_address : in std_logic_vector (c_i2c_address_bits - 1 downto 0);
+i_mode0 : in std_logic; -- W(A)/4b(A)
+i_mode1 : in std_logic; -- W(A)/2b(A),ST,R(A)/2b(NA)
+i_mode2 : in std_logic; -- W(A)/2b(A),ST,R(A)/2*N(NA)
 i_memory_address : in std_logic_vector (0 to 15);
 i_memory_data : in std_logic_vector (0 to 15);
 o_bytes_to_recv : out std_logic_vector (0 to 15);
@@ -55,17 +58,23 @@ o_busy : out std_logic;
 io_sda : inout std_logic;
 io_scl : inout std_logic
 );
-end component my_i2c;
+end component melexis_mlx90640_i2c;
 
 --Inputs
 signal i_clock : std_logic := '0';
 signal i_reset : std_logic := '0';
 signal i_slave_address : std_logic_vector (c_i2c_address_bits - 1 downto 0) := "0110011";
+--signal i_slave_address : std_logic_vector (c_i2c_address_bits - 1 downto 0) := "1111111";
+--signal i_slave_address : std_logic_vector (c_i2c_address_bits - 1 downto 0) := "0000000";
 signal i_memory_address : std_logic_vector (0 to 15);
 signal i_memory_data : std_logic_vector (0 to 15);
 signal o_bytes_to_recv : std_logic_vector (0 to 15);
 signal i_rw : std_logic;
 signal i_enable : std_logic := '0';
+
+signal i_mode0 : std_logic; -- W(A)/4b(A)
+signal i_mode1 : std_logic; -- W(A)/2b(A),ST,R(A)/2b(NA)
+signal i_mode2 : std_logic; -- W(A)/2b(A),ST,R(A)/2*N(NA)
 
 --Outputs
 signal o_busy : std_logic;
@@ -85,11 +94,14 @@ constant T : time := (1+7+1+(V*(8+1))+1) * i_clock_period; -- start,address,rw,a
 BEGIN
 
 -- Instantiate the Unit Under Test (UUT)
-uut : my_i2c
+uut : melexis_mlx90640_i2c
 PORT MAP (
 i_clock => i_clock,
 i_reset => i_reset,
 i_slave_address => i_slave_address,
+i_mode0 => i_mode0,
+i_mode1 => i_mode1,
+i_mode2 => i_mode2,
 i_memory_address => i_memory_address,
 i_memory_data => i_memory_data,
 o_bytes_to_recv => o_bytes_to_recv,
@@ -118,34 +130,60 @@ i_reset <= '1', '0' after 5*i_clock_period;
 stim_proc : process
 	type adata is array(0 to V-1) of std_logic_vector(0 to 32);
 	variable vdata : adata := ( -- w = 0, r = 1
-		x"800d"&'0'&x"1901",
-		x"ffff"&'0'&x"ffff",
     x"aa55"&'1'&x"1111",
-    x"0000"&'1'&x"0000"
+    x"0000"&'1'&x"0000",
+		x"800d"&'0'&x"1901",
+		x"ffff"&'0'&x"ffff"
 	);
 begin
 wait for i_clock_period*500; -- cold start
+--i_enable <= '1';
+i_mode0 <= '1';
+i_mode1 <= '0';
+i_mode2 <= '0';
 l0 : for i in 0 to V-1 loop
   i_enable <= '1';
 	i_memory_address <= vdata(i)(0 to 15);
-  i_memory_data <= vdata(i)(17 to 32);
   i_rw <= vdata(i)(16);
-  wait for 2 us;
+  i_memory_data <= vdata(i)(17 to 32);
+  wait for 1 us;
+  wait until o_busy = '0'; -- wait for address and data
   i_enable <= '0';
-  wait until o_busy = '1';
-  wait for 256 * 2 us; -- wait for address and data
+  wait for i_clock_period;
+--  wait for 100 us;
 end loop l0;
+wait for 1 ms;
+i_mode0 <= '0';
+i_mode1 <= '1';
+i_mode2 <= '0';
+l1 : for i in 0 to V-1 loop
+  i_enable <= '1';
+	i_memory_address <= vdata(i)(0 to 15);
+  i_rw <= vdata(i)(16);
+  i_memory_data <= vdata(i)(17 to 32);
+  wait for 1 us;
+  wait until o_busy = '0'; -- wait for address and data
+  i_enable <= '0';
+  wait for i_clock_period;
+--  wait for 100 us;
+end loop l1;
+wait for 1 ms;
+i_mode0 <= '0';
+i_mode1 <= '0';
+i_mode2 <= '1';
+l2 : for i in 0 to V-1 loop
+  i_enable <= '1';
+	i_memory_address <= vdata(i)(0 to 15);
+  i_rw <= vdata(i)(16);
+  i_memory_data <= vdata(i)(17 to 32);
+  wait for 1 us;
+  wait until o_busy = '0'; -- wait for address and data
+  i_enable <= '0';
+  wait for i_clock_period;
+--  wait for 100 us;
+end loop l2;
 wait for 2 us;
 report "done" severity failure;
 end process;
-
---stim_proc : process
---begin
---i_enable <= '1';
---wait for 10000*i_clock_period;
---i_enable <= '0';
---wait for i_clock_period;
---report "done" severity failure;
---end process;
 
 END;
