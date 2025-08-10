@@ -689,8 +689,8 @@ begin
           end if;
           if (c_cmode = c3) then
 --            bytes_to_recv_i (data_index_ctr) <= io_sda;
---            temp_sda <= 'Z';
-            temp_sda <= '0';
+            temp_sda <= 'Z';
+--            temp_sda <= '0';
             if (data_index_ctr = c_i2c_data_bits - 1) then
 --              c_state <= mode2_read_data_lastbit1;
               c_state <= mode2_read_data_ack1;
@@ -722,8 +722,8 @@ begin
 --            temp_sda <= 'Z';
 --          end if;
           if (c_cmode = c3) then
---                      temp_sda <= 'Z';
-                      temp_sda <= '0';
+                      temp_sda <= 'Z';
+--                      temp_sda <= '0';
 
             bytes_to_recv_i (8 + data_index_ctr) <= io_sda;
             
