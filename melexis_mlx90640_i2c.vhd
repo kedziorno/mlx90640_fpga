@@ -720,7 +720,7 @@ begin
             end if;
           end if;
         when mode2_read_data_lastbit2 =>
-          if (c_cmode = c3) then
+          if (c_cmode = c0) then
             bytes_to_recv_i (15) <= io_sda;
             c_state <= mode2_read_data_ack2;
           end if;
