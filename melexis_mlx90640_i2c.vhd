@@ -668,7 +668,8 @@ begin
           end if;
         when mode2_read_slave_ack =>
           if (c_cmode = c3) then
-            c_state <= state1;
+--            c_state <= state1;
+            c_state <= mode2_read_data1;
             temp_sda <= '0';
 --            temp_sda <= 'Z'; -- ok 1st AA read
             data_index_ctr <= 0;
@@ -703,7 +704,7 @@ begin
             temp_sda <= '0';
           end if;
         when mode2_read_data_ack1 =>
-          if (c_cmode = c2) then
+          if (c_cmode = c3) then
             c_state <= mode2_read_data2;
 --            temp_sda <= 'Z'; -- XXX ok read ffff, aa55, 55aa ...
             temp_sda <= '0';
@@ -711,25 +712,34 @@ begin
           end if;
 -- XXX mode2 i2c slave data read 2 - N
         when mode2_read_data2 =>
-          if (c_cmode = c0) then
-            o_mode2_ready <= '0';
-            bytes_to_recv_i (8 + data_index_ctr) <= io_sda;
-            temp_sda <= 'Z';
-          end if;
+--          if (c_cmode = c0) then
+--            o_mode2_ready <= '0';
+--            bytes_to_recv_i (8 + data_index_ctr) <= io_sda;
+--            temp_sda <= 'Z';
+--          end if;
           if (c_cmode = c3) then
-            data_index_ctr <= data_index_ctr + 1;
+                      temp_sda <= 'Z';
+
+            bytes_to_recv_i (8 + data_index_ctr) <= io_sda;
+            
             if (data_index_ctr = c_i2c_data_bits - 1) then
 --              c_state <= mode2_read_data_lastbit2;
               c_state <= mode2_read_data_ack2;
-              temp_sda <= '0';
+                          data_index_ctr <= 0;
+
+              else
+            data_index_ctr <= data_index_ctr + 1;
+                          o_mode2_ready <= '0';
+            temp_sda <= 'Z';
+
             end if;
           end if;
         when mode2_read_data_lastbit2 =>
-          if (c_cmode = c0) then
-            c_state <= mode2_read_data_ack2;
-            bytes_to_recv_i (15) <= io_sda;
-            data_index_ctr <= 0;
-          end if;
+--          if (c_cmode = c0) then
+--            c_state <= mode2_read_data_ack2;
+--            bytes_to_recv_i (15) <= io_sda;
+--            data_index_ctr <= 0;
+--          end if;
         when mode2_read_data_ack2 =>
               
           if (c_cmode = c0) then
@@ -742,6 +752,7 @@ begin
               o_mode2_ready_all <= '1';
             else
               c_state <= mode2_read_data1;
+--              c_state <= state1;
               mode2_read_data_index_ctr <= mode2_read_data_index_ctr + 1;
               o_mode2_ready <= '1';
               data_index_ctr <= 0;
@@ -781,11 +792,11 @@ begin
       count := 0;
     elsif (rising_edge (i_clock)) then
       if (count = (c_i2c_counter_max * 4) - 1) then
---        clock <= '1';
-        clock <= not clock;
+        clock <= '1';
+--        clock <= not clock;
         count := 0;
       else
---        clock <= '0';
+        clock <= '0';
         count := count + 1;
       end if;
     end if;
