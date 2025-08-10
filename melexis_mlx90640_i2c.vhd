@@ -490,22 +490,26 @@ begin
         when mode1_read_data2 =>
           if (data_index_ctr = c_i2c_data_bits - 1) then
             c_state <= mode1_read_data_lastbit2;
+            bytes_to_recv_i (8 + data_index_ctr1) <= io_sda;
             data_index_ctr <= 0;
           else
             if (c_cmode = c0) then
-              bytes_to_recv_i (8 + data_index_ctr) <= io_sda;
+              bytes_to_recv_i (8 + data_index_ctr1) <= io_sda;
             end if;
             if (c_cmode = c3) then
               data_index_ctr <= data_index_ctr + 1;
+              data_index_ctr1 <= data_index_ctr;
               temp_sda <= '1';
             end if;
           end if;
         when mode1_read_data_lastbit2 =>
           if (c_cmode = c3) then
             c_state <= mode1_read_data_nak;
-            bytes_to_recv_i (8 + 7) <= io_sda;
           end if;
         when mode1_read_data_nak =>
+          if (c_cmode = c0) then
+            bytes_to_recv_i (8 + data_index_ctr1 + 1) <= io_sda;
+          end if;
           if (c_cmode = c3) then
             c_state <= mode1_read_data_nak_empty;
             temp_sda <= '1';
@@ -658,22 +662,26 @@ begin
           end if;
           if (data_index_ctr = c_i2c_data_bits - 1) then
             c_state <= mode2_read_data_lastbit1;
+            bytes_to_recv_i (data_index_ctr1) <= io_sda;
             data_index_ctr <= 0;
           else
             if (c_cmode = c0) then
-              bytes_to_recv_i (data_index_ctr) <= io_sda;
+              bytes_to_recv_i (data_index_ctr1) <= io_sda;
             end if;
             if (c_cmode = c3) then
               data_index_ctr <= data_index_ctr + 1;
+              data_index_ctr1 <= data_index_ctr;
               temp_sda <= '1';
             end if;
           end if;
         when mode2_read_data_lastbit1 =>
           if (c_cmode = c3) then
             c_state <= mode2_read_data_ack1;
-            bytes_to_recv_i (7) <= io_sda;
           end if;
         when mode2_read_data_ack1 =>
+          if (c_cmode = c0) then
+            bytes_to_recv_i (data_index_ctr1 + 1) <= io_sda;
+          end if;
           if (c_cmode = c3) then
             c_state <= mode2_read_data2;
             temp_sda <= '0';
@@ -681,20 +689,21 @@ begin
         when mode2_read_data2 =>
           if (data_index_ctr = c_i2c_data_bits - 1) then
             c_state <= mode2_read_data_lastbit2;
+            bytes_to_recv_i (8 + data_index_ctr1) <= io_sda;
             data_index_ctr <= 0;
           else
             if (c_cmode = c0) then
-              bytes_to_recv_i (8 + data_index_ctr) <= io_sda;
+              bytes_to_recv_i (8 + data_index_ctr1) <= io_sda;
             end if;
             if (c_cmode = c3) then
               data_index_ctr <= data_index_ctr + 1;
+              data_index_ctr1 <= data_index_ctr;
               temp_sda <= '1';
             end if;
           end if;
         when mode2_read_data_lastbit2 =>
           if (c_cmode = c3) then
             c_state <= mode2_read_data_ack2;
-            bytes_to_recv_i (8 + 7) <= io_sda;
           end if;
         when mode2_read_data_ack2 =>
           if (c_cmode = c3) then
@@ -711,6 +720,7 @@ begin
           end if;
         when mode2_read_data_nak =>
           if (c_cmode = c0) then
+            bytes_to_recv_i (8 + data_index_ctr1 + 1) <= io_sda;
             o_mode2_ready_all <= '0';
           end if;
           if (c_cmode = c3) then
