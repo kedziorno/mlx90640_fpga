@@ -60,7 +60,9 @@ vga_g : OUT  std_logic_vector(7 downto 0);
 vga_b : OUT  std_logic_vector(7 downto 0);
 vga_syncn : out std_logic;
 vga_blankn : out std_logic;
-vga_psave : out std_logic
+vga_psave : out std_logic;
+io_sda : inout std_logic;
+io_scl : inout std_logic
 );
 END COMPONENT;
 
@@ -75,6 +77,8 @@ signal vga_clock : std_logic;
 signal vga_syncn : std_logic;
 signal vga_blankn : std_logic;
 signal vga_psave : std_logic;
+signal io_sda : std_logic;
+signal io_scl : std_logic;
 signal vga_r : std_logic_vector(7 downto 0);
 signal vga_g : std_logic_vector(7 downto 0);
 signal vga_b : std_logic_vector(7 downto 0);
@@ -111,7 +115,9 @@ vga_g => vga_g,
 vga_b => vga_b,
 vga_syncn => vga_syncn,
 vga_blankn => vga_blankn,
-vga_psave => vga_psave
+vga_psave => vga_psave,
+io_sda => io_sda,
+io_scl => io_scl
 );
 
 -- Clock process definitions
