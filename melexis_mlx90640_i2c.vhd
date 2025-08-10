@@ -43,7 +43,6 @@ port (
   i_memory_address : in std_logic_vector (0 to 15);
   i_memory_data : in std_logic_vector (0 to 15);
   o_bytes_to_recv : out std_logic_vector (0 to 15);
-  i_rw : in std_logic;
   i_enable : in std_logic;
   o_busy : out std_logic;
   io_sda : inout std_logic;
@@ -138,14 +137,14 @@ architecture rtl of melexis_mlx90640_i2c is
   signal clock : std_logic;
   signal temp_sda : std_logic;
   signal temp_sck : std_logic;
+  constant c_mode2_read_data_index : integer := 832;
+  signal mode2_read_data_index_ctr : integer range 0 to c_mode2_read_data_index - 1;
 begin
   o_bytes_to_recv <= bytes_to_recv_i;
   io_sda <= 'Z' when c_state = idle else temp_sda;
   io_scl <= 'Z' when (c_state = idle or c_state = start) else temp_sck;
 
   p_i2c_send_sequence_fsm : process (clock, i_reset) is
-    constant c_i : integer := 832;
-    variable i : integer range 0 to c_i - 1;
   begin
     if (i_reset = '1') then
       c_state <= idle;
@@ -153,7 +152,7 @@ begin
       slave_index_ctr <= c_i2c_address_bits - 1;
       temp_sda <= 'Z';
       bytes_to_recv_i <= (others => '0');
-      i := 0;
+      mode2_read_data_index_ctr <= 0;
     elsif (rising_edge (clock)) then
       case c_state is
         when idle =>
@@ -686,14 +685,14 @@ begin
           end if;
         when mode2_read_data_ack2 =>
           if (c_cmode = c3) then
-            if (i = c_i) then
+            if (mode2_read_data_index_ctr = c_mode2_read_data_index - 1) then
               c_state <= mode2_read_data_nak;
-              i := 0;
+              mode2_read_data_index_ctr <= 0;
               o_mode2_ready_all <= '1';
             else
               c_state <= mode2_read_data1;
               temp_sda <= '0';
-              i := i + 1;
+              mode2_read_data_index_ctr <= mode2_read_data_index_ctr + 1;
               o_mode2_ready <= '1';
             end if;
           end if;
