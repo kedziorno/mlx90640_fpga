@@ -28,7 +28,7 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
-use work.global_package.all; 
+--use work.global_package.all; 
  
 ENTITY tb_melexis_mlx90640_i2c IS
 END tb_melexis_mlx90640_i2c;
@@ -38,14 +38,10 @@ ARCHITECTURE sim OF tb_melexis_mlx90640_i2c IS
 constant N : integer := 20;
 
 component melexis_mlx90640_i2c is
-generic (
-c_board_clock : integer := c_clock_board_frequency;
-c_bus_clock : integer := c_clock_i2c_frequency
-);
 port (
 i_clock : in std_logic;
 i_reset : in std_logic;
-i_slave_address : in std_logic_vector (c_i2c_address_bits - 1 downto 0);
+i_slave_address : in std_logic_vector (6 downto 0);
 i_mode0 : in std_logic; -- W(A)/4b(A)
 i_mode1 : in std_logic; -- W(A)/2b(A),ST,R(A)/2b(NA)
 i_mode2 : in std_logic; -- W(A)/2b(A),ST,R(A)/2*N(NA)
@@ -64,7 +60,7 @@ end component melexis_mlx90640_i2c;
 --Inputs
 signal i_clock : std_logic := '0';
 signal i_reset : std_logic := '0';
-signal i_slave_address : std_logic_vector (c_i2c_address_bits - 1 downto 0) := "0110011";
+signal i_slave_address : std_logic_vector (6 downto 0) := "0110011";
 --signal i_slave_address : std_logic_vector (c_i2c_address_bits - 1 downto 0) := "1111111";
 --signal i_slave_address : std_logic_vector (c_i2c_address_bits - 1 downto 0) := "0000000";
 signal i_memory_address : std_logic_vector (0 to 15);
