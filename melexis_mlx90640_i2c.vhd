@@ -99,6 +99,7 @@ architecture rtl of melexis_mlx90640_i2c is
   mode1_read_data_nak,
   mode1_read_data_nak_empty,
 -- mode2
+state1,
   mode2_write_slave_address,
   mode2_write_slave_address_lastbit,
   mode2_write_slave_write,
@@ -132,7 +133,7 @@ architecture rtl of melexis_mlx90640_i2c is
   signal c_state : state;
   signal c_cmode : clock_mode;
   signal slave_index_ctr : integer range c_i2c_address_bits - 1 downto 0;
-  signal data_index_ctr, data_index_ctr1 : integer range c_i2c_data_bits - 1 downto 0;
+  signal data_index_ctr, data_index_ctr1 : integer range 0 to c_i2c_data_bits - 1;
   signal bytes_to_recv_i : std_logic_vector (0 to 15);
   signal clock : std_logic;
   signal temp_sda : std_logic;
@@ -141,7 +142,7 @@ architecture rtl of melexis_mlx90640_i2c is
   signal mode2_read_data_index_ctr : integer range 0 to c_mode2_read_data_index - 1;
 begin
   o_bytes_to_recv <= bytes_to_recv_i;
-  io_sda <= '0' when temp_sda = '0' else 'Z' when c_state = idle else 'Z';
+  io_sda <= '0' when temp_sda = '0' else 'Z' when c_state = idle else temp_sda;
   io_scl <= 'Z' when (c_state = idle or c_state = start) else temp_sck;
 
   p_i2c_send_sequence_fsm : process (clock, i_reset) is
@@ -626,18 +627,23 @@ begin
           end if;
 -- XXX mode2 i2c start
         when mode2_read_start =>
+--          if (c_cmode = c3) then
           c_state <= mode2_read_sda_start;
           temp_sda <= 'Z';
           slave_index_ctr <= c_i2c_address_bits - 1;
+--          end if;
         when mode2_read_sda_start =>
+--          if (c_cmode = c3) then
           c_state <= mode2_read_slave_address;
           temp_sda <= '0';
+--          end if;
 -- XXX mode2 i2c slave address read
         when mode2_read_slave_address =>
-          if (slave_index_ctr = 0) then
-            c_state <= mode2_read_slave_address_lastbit;
-          else
             if (c_cmode = c3) then
+          if (slave_index_ctr = 0) then
+            c_state <= mode2_read_slave_read; --mode2_read_slave_address_lastbit;
+--            c_state <= mode2_read_slave_address_lastbit;
+          else
               slave_index_ctr <= slave_index_ctr - 1;
               if (i_slave_address (slave_index_ctr) = '1') then
                 temp_sda <= 'Z';
@@ -662,31 +668,43 @@ begin
           end if;
         when mode2_read_slave_ack =>
           if (c_cmode = c3) then
+--            c_state <= mode2_read_data1; --state1;
+            c_state <= state1;
+--            temp_sda <= '0';
+            temp_sda <= 'Z'; -- ok 1st AA read
+            data_index_ctr <= 0;
+          end if;
+          when state1 =>
+          if (c_cmode = c3) then
             c_state <= mode2_read_data1;
-            temp_sda <= '0';
-            data_index_ctr <= c_i2c_data_bits - 1;
+            data_index_ctr <= data_index_ctr + 1;
+            
           end if;
 -- XXX mode2 i2c slave data read 1 - N
         when mode2_read_data1 =>
+--        temp_sda <= 'Z';
           if (c_cmode = c0) then
             o_mode2_ready <= '0';
+--              data_index_ctr <= data_index_ctr + 1;
+              bytes_to_recv_i (data_index_ctr-1) <= io_sda;
+              temp_sda <= 'Z';
           end if;
-          if (data_index_ctr = 0) then
+            if (c_cmode = c3) then
+              
+          if (data_index_ctr = c_i2c_data_bits - 1) then
             c_state <= mode2_read_data_lastbit1;
 --            bytes_to_recv_i (data_index_ctr1) <= io_sda;
-            data_index_ctr <= c_i2c_data_bits - 1;
+            data_index_ctr <= 0;
           else
-            if (c_cmode = c3) then
-              bytes_to_recv_i (8 - data_index_ctr) <= io_sda;
-              data_index_ctr <= data_index_ctr - 1;
 --              data_index_ctr1 <= data_index_ctr;
-              temp_sda <= 'Z';
             end if;
             if (c_cmode = c3) then
+              data_index_ctr <= data_index_ctr + 1;
             end if;
           end if;
         when mode2_read_data_lastbit1 =>
-          if (c_cmode = c3) then
+          if (c_cmode = c0) then
+              bytes_to_recv_i (7) <= io_sda;
             c_state <= mode2_read_data_ack1;
           end if;
         when mode2_read_data_ack1 =>

@@ -61,8 +61,8 @@ end component melexis_mlx90640_i2c;
 signal i_clock : std_logic := '0';
 signal i_reset : std_logic := '0';
 signal i_slave_address : std_logic_vector (6 downto 0) := "0110011";
---signal i_slave_address : std_logic_vector (c_i2c_address_bits - 1 downto 0) := "1111111";
---signal i_slave_address : std_logic_vector (c_i2c_address_bits - 1 downto 0) := "0000000";
+--signal i_slave_address : std_logic_vector (6 downto 0) := "1111111";
+--signal i_slave_address : std_logic_vector (6 downto 0) := "0000000";
 signal i_memory_address : std_logic_vector (0 to 15);
 signal i_memory_data : std_logic_vector (0 to 15);
 signal o_bytes_to_recv : std_logic_vector (0 to 15);
@@ -187,6 +187,7 @@ begin
 --  wait for 2443.24 us; -- c0
   io_sda <= 'Z';
 --  wait for 2443.00 us; -- c1
+--  wait for 42.76 us; -- c1
   wait for 42.52 us; -- c1
   
   io_sda <= '1'; wait for 0.96 us;
