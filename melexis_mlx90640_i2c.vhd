@@ -668,72 +668,60 @@ begin
           end if;
         when mode2_read_slave_ack =>
           if (c_cmode = c3) then
---            c_state <= mode2_read_data1; --state1;
             c_state <= state1;
---            temp_sda <= '0';
-            temp_sda <= 'Z'; -- ok 1st AA read
+            temp_sda <= '0';
+--            temp_sda <= 'Z'; -- ok 1st AA read
             data_index_ctr <= 0;
           end if;
           when state1 =>
-          if (c_cmode = c3) then
-            c_state <= mode2_read_data1;
-            data_index_ctr <= data_index_ctr + 1;
-            
-          end if;
+            if (c_cmode = c3) then
+              c_state <= mode2_read_data1;
+              data_index_ctr <= data_index_ctr + 1;
+              temp_sda <= 'Z';
+            end if;
 -- XXX mode2 i2c slave data read 1 - N
         when mode2_read_data1 =>
---        temp_sda <= 'Z';
           if (c_cmode = c0) then
             o_mode2_ready <= '0';
---              data_index_ctr <= data_index_ctr + 1;
-              bytes_to_recv_i (data_index_ctr-1) <= io_sda;
-              temp_sda <= 'Z';
+            bytes_to_recv_i (data_index_ctr - 1) <= io_sda;
+            temp_sda <= 'Z';
           end if;
-            if (c_cmode = c3) then
-              
-          if (data_index_ctr = c_i2c_data_bits - 1) then
-            c_state <= mode2_read_data_lastbit1;
---            bytes_to_recv_i (data_index_ctr1) <= io_sda;
-            data_index_ctr <= 0;
-          else
---              data_index_ctr1 <= data_index_ctr;
-            end if;
-            if (c_cmode = c3) then
-              data_index_ctr <= data_index_ctr + 1;
+          if (c_cmode = c3) then
+            data_index_ctr <= data_index_ctr + 1;
+            if (data_index_ctr = c_i2c_data_bits - 1) then
+              c_state <= mode2_read_data_lastbit1;
+              data_index_ctr <= 0;
             end if;
           end if;
         when mode2_read_data_lastbit1 =>
-          if (c_cmode = c0) then
-              bytes_to_recv_i (7) <= io_sda;
+          if (c_cmode = c3) then
             c_state <= mode2_read_data_ack1;
+            bytes_to_recv_i (7) <= io_sda;
           end if;
         when mode2_read_data_ack1 =>
-          if (c_cmode = c0) then
-          end if;
           if (c_cmode = c3) then
-            bytes_to_recv_i (data_index_ctr) <= io_sda;
             c_state <= mode2_read_data2;
+            bytes_to_recv_i (data_index_ctr) <= io_sda;
             temp_sda <= '0';
+            data_index_ctr <= 1;
           end if;
 -- XXX mode2 i2c slave data read 2 - N
         when mode2_read_data2 =>
-          if (data_index_ctr = c_i2c_data_bits - 1) then
-            c_state <= mode2_read_data_lastbit2;
---            bytes_to_recv_i (8 + data_index_ctr) <= io_sda;
-            data_index_ctr <= 0;
-          else
-            if (c_cmode = c3) then
-              bytes_to_recv_i (8 + data_index_ctr) <= io_sda;
-              data_index_ctr <= data_index_ctr + 1;
-              data_index_ctr1 <= data_index_ctr;
-            end if;
-            if (c_cmode = c3) then
-              temp_sda <= 'Z';
+          if (c_cmode = c0) then
+            o_mode2_ready <= '0';
+            bytes_to_recv_i (7 + data_index_ctr) <= io_sda;
+            temp_sda <= 'Z';
+          end if;
+          if (c_cmode = c3) then
+            data_index_ctr <= data_index_ctr + 1;
+            if (data_index_ctr = c_i2c_data_bits - 1) then
+              c_state <= mode2_read_data_lastbit2;
+              data_index_ctr <= 0;
             end if;
           end if;
         when mode2_read_data_lastbit2 =>
           if (c_cmode = c3) then
---              bytes_to_recv_i (8 + data_index_ctr) <= io_sda;
+            bytes_to_recv_i (15) <= io_sda;
             c_state <= mode2_read_data_ack2;
           end if;
         when mode2_read_data_ack2 =>
