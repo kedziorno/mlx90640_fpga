@@ -676,20 +676,21 @@ begin
           when state1 =>
             if (c_cmode = c3) then
               c_state <= mode2_read_data1;
-              data_index_ctr <= data_index_ctr + 1;
+--              data_index_ctr <= data_index_ctr + 1;
               temp_sda <= 'Z';
             end if;
 -- XXX mode2 i2c slave data read 1 - N
         when mode2_read_data1 =>
           if (c_cmode = c0) then
             o_mode2_ready <= '0';
-            bytes_to_recv_i (data_index_ctr - 1) <= io_sda;
+            bytes_to_recv_i (data_index_ctr) <= io_sda;
             temp_sda <= 'Z';
           end if;
           if (c_cmode = c3) then
             data_index_ctr <= data_index_ctr + 1;
             if (data_index_ctr = c_i2c_data_bits - 1) then
-              c_state <= mode2_read_data_lastbit1;
+--              c_state <= mode2_read_data_lastbit1;
+              c_state <= mode2_read_data_ack1;
               data_index_ctr <= 0;
             end if;
           end if;
@@ -701,21 +702,22 @@ begin
         when mode2_read_data_ack1 =>
           if (c_cmode = c3) then
             c_state <= mode2_read_data2;
-            bytes_to_recv_i (data_index_ctr) <= io_sda;
-            temp_sda <= '0';
-            data_index_ctr <= 1;
+            temp_sda <= 'Z'; -- XXX ok read ffff, aa55, 55aa ...
+--            temp_sda <= '0';
+            data_index_ctr <= 0;
           end if;
 -- XXX mode2 i2c slave data read 2 - N
         when mode2_read_data2 =>
           if (c_cmode = c0) then
             o_mode2_ready <= '0';
-            bytes_to_recv_i (7 + data_index_ctr) <= io_sda;
+            bytes_to_recv_i (8 + data_index_ctr) <= io_sda;
             temp_sda <= 'Z';
           end if;
           if (c_cmode = c3) then
             data_index_ctr <= data_index_ctr + 1;
             if (data_index_ctr = c_i2c_data_bits - 1) then
-              c_state <= mode2_read_data_lastbit2;
+--              c_state <= mode2_read_data_lastbit2;
+              c_state <= mode2_read_data_ack2;
               data_index_ctr <= 0;
             end if;
           end if;
