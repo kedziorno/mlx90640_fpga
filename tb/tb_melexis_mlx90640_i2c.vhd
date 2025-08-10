@@ -183,6 +183,32 @@ report "done" severity failure;
 end process;
 
 mode2_read : process is
+-- https://github.com/ghdl/ghdl/blob/69b0c75d726f6c5babe46eddbcb82f7269422821/testsuite/gna/issue1597/std_subs_pkg.vhdl#L23
+function klsfr(bv: std_logic_vector) return std_logic_vector is
+    alias v : std_logic_vector(bv'high downto 0) is bv;
+    variable rtn : std_logic_vector(bv'high downto 0);
+    variable len : integer := bv'length;
+  begin
+    for i in bv'range loop
+      if (bv(i) /= '1' and
+         bv(i) /= '0') then
+        report "klsfr got a none logic value passed ..." severity failure;
+      end if;
+    end loop;
+  
+    case len is
+      when 8 =>
+        rtn := v(6 downto 0) & ((v(7) xor v(4)) xor (v(1) xor v(2)));
+      when 16 =>
+        rtn := v(14 downto 0) & ((v(15) xor v(14)) xor (v(12) xor v(3)));
+      when 32 =>
+        rtn := v(30 downto 0) & ((v(31) xor v(6)) xor (v(5) xor v(1)));
+      when others =>
+        report "ERROR: LSFR size not implemented ..." severity failure;
+    end case;
+    return rtn;
+  end function;
+  variable pattern : std_logic_vector (15 downto 0) := x"0001";
 begin
 --  wait for 2443.24 us; -- c0
   io_sda <= 'Z';
@@ -193,30 +219,71 @@ begin
 --  wait for 42.52 us; -- c1
 --  wait for 80.44 us; -- c1
 --  wait for 79.96 us; -- c1
-  
-  io_sda <= '1'; wait for 0.96 us;
-  io_sda <= '1'; wait for 0.96 us;
-  io_sda <= '1'; wait for 0.96 us;
-  io_sda <= '1'; wait for 0.96 us;
-  io_sda <= '1'; wait for 0.96 us;
-  io_sda <= '1'; wait for 0.96 us;
-  io_sda <= '1'; wait for 0.96 us;
-  io_sda <= '1'; wait for 0.96 us;
-  
+  for i in 0 to 832 loop
+  pattern := klsfr (pattern);
+  io_sda <= pattern (0); wait for 0.96 us;
+  io_sda <= pattern (1); wait for 0.96 us;
+  io_sda <= pattern (2); wait for 0.96 us;
+  io_sda <= pattern (3); wait for 0.96 us;
+  io_sda <= pattern (4); wait for 0.96 us;
+  io_sda <= pattern (5); wait for 0.96 us;
+  io_sda <= pattern (6); wait for 0.96 us;
+  io_sda <= pattern (7); wait for 0.96 us;
   io_sda <= 'Z'; wait for 0.96 us; -- ack
-  
-  io_sda <= '1'; wait for 0.96 us;
-  io_sda <= '0'; wait for 0.96 us;
-  io_sda <= '1'; wait for 0.96 us;
-  io_sda <= '0'; wait for 0.96 us;
-  io_sda <= '1'; wait for 0.96 us;
-  io_sda <= '0'; wait for 0.96 us;
-  io_sda <= '1'; wait for 0.96 us;
-  io_sda <= '0'; wait for 0.96 us;
-  
+  io_sda <= pattern (8); wait for 0.96 us;
+  io_sda <= pattern (9); wait for 0.96 us;
+  io_sda <= pattern (10); wait for 0.96 us;
+  io_sda <= pattern (11); wait for 0.96 us;
+  io_sda <= pattern (12); wait for 0.96 us;
+  io_sda <= pattern (13); wait for 0.96 us;
+  io_sda <= pattern (14); wait for 0.96 us;
+  io_sda <= pattern (15); wait for 0.96 us;  
   io_sda <= 'Z'; wait for 0.96 us; -- ack
+--  wait for  1 us;
+
+--  pattern := x"ffff";
+--  io_sda <= pattern (0); wait for 0.96 us;
+--  io_sda <= pattern (1); wait for 0.96 us;
+--  io_sda <= pattern (2); wait for 0.96 us;
+--  io_sda <= pattern (3); wait for 0.96 us;
+--  io_sda <= pattern (4); wait for 0.96 us;
+--  io_sda <= pattern (5); wait for 0.96 us;
+--  io_sda <= pattern (6); wait for 0.96 us;
+--  io_sda <= pattern (7); wait for 0.96 us;
+--  io_sda <= 'Z'; wait for 0.96 us; -- ack  
+--  io_sda <= pattern (8); wait for 0.96 us;
+--  io_sda <= pattern (9); wait for 0.96 us;
+--  io_sda <= pattern (10); wait for 0.96 us;
+--  io_sda <= pattern (11); wait for 0.96 us;
+--  io_sda <= pattern (12); wait for 0.96 us;
+--  io_sda <= pattern (13); wait for 0.96 us;
+--  io_sda <= pattern (14); wait for 0.96 us;
+--  io_sda <= pattern (15); wait for 0.96 us;
+--  io_sda <= 'Z'; wait for 0.96 us; -- ack  
+--    pattern := x"ffff";
+--  io_sda <= pattern (0); wait for 0.96 us;
+--  io_sda <= pattern (1); wait for 0.96 us;
+--  io_sda <= pattern (2); wait for 0.96 us;
+--  io_sda <= pattern (3); wait for 0.96 us;
+--  io_sda <= pattern (4); wait for 0.96 us;
+--  io_sda <= pattern (5); wait for 0.96 us;
+--  io_sda <= pattern (6); wait for 0.96 us;
+--  io_sda <= pattern (7); wait for 0.96 us;
+--  io_sda <= 'Z'; wait for 0.96 us; -- ack  
+--  io_sda <= pattern (8); wait for 0.96 us;
+--  io_sda <= pattern (9); wait for 0.96 us;
+--  io_sda <= pattern (10); wait for 0.96 us;
+--  io_sda <= pattern (11); wait for 0.96 us;
+--  io_sda <= pattern (12); wait for 0.96 us;
+--  io_sda <= pattern (13); wait for 0.96 us;
+--  io_sda <= pattern (14); wait for 0.96 us;
+--  io_sda <= pattern (15); wait for 0.96 us;
+--  io_sda <= 'Z'; wait for 0.96 us; -- ack
+--  wait;
+  end loop;
   
   io_sda <= 'Z'; wait; -- rest Z
+  report "done" severity failure;
 end process mode2_read;
 
 END;
