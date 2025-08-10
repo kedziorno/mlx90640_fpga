@@ -733,6 +733,7 @@ begin
 --              c_state <= mode2_read_data_lastbit2;
               c_state <= mode2_read_data_ack2;
                           data_index_ctr <= 0;
+              o_mode2_ready <= '1';
 
               else
             data_index_ctr <= data_index_ctr + 1;
@@ -750,6 +751,7 @@ begin
         when mode2_read_data_ack2 =>
               
           if (c_cmode = c0) then
+          o_mode2_ready <= '0';
 --            bytes_to_recv_i (8 + data_index_ctr1) <= io_sda;
           end if;
           if (c_cmode = c3) then
@@ -761,7 +763,7 @@ begin
               c_state <= mode2_read_data1;
 --              c_state <= state1;
               mode2_read_data_index_ctr <= mode2_read_data_index_ctr + 1;
-              o_mode2_ready <= '1';
+--              o_mode2_ready <= '1';
               data_index_ctr <= 0;
 --              temp_sda <= '0';
               temp_sda <= 'Z';
