@@ -187,32 +187,34 @@ begin
 --  wait for 2443.24 us; -- c0
   io_sda <= 'Z';
 --  wait for 2443.00 us; -- c1
+--  wait for 42.28 us; -- c1
+  wait for 42.52 us; -- c1
 --  wait for 42.76 us; -- c1
 --  wait for 42.52 us; -- c1
 --  wait for 80.44 us; -- c1
-  wait for 79.96 us; -- c1
+--  wait for 79.96 us; -- c1
   
-  io_sda <= '0'; wait for 1.92 us;
-  io_sda <= '1'; wait for 1.92 us;
-  io_sda <= '0'; wait for 1.92 us;
-  io_sda <= '1'; wait for 1.92 us;
-  io_sda <= '0'; wait for 1.92 us;
-  io_sda <= '1'; wait for 1.92 us;
-  io_sda <= '0'; wait for 1.92 us;
-  io_sda <= '1'; wait for 1.92 us;
+  io_sda <= '1'; wait for 0.96 us;
+  io_sda <= '1'; wait for 0.96 us;
+  io_sda <= '1'; wait for 0.96 us;
+  io_sda <= '1'; wait for 0.96 us;
+  io_sda <= '1'; wait for 0.96 us;
+  io_sda <= '1'; wait for 0.96 us;
+  io_sda <= '1'; wait for 0.96 us;
+  io_sda <= '1'; wait for 0.96 us;
   
-  io_sda <= 'Z'; wait for 1.92 us; -- ack
+  io_sda <= 'Z'; wait for 0.96 us; -- ack
   
-  io_sda <= '1'; wait for 1.92 us;
-  io_sda <= '0'; wait for 1.92 us;
-  io_sda <= '1'; wait for 1.92 us;
-  io_sda <= '0'; wait for 1.92 us;
-  io_sda <= '1'; wait for 1.92 us;
-  io_sda <= '0'; wait for 1.92 us;
-  io_sda <= '1'; wait for 1.92 us;
-  io_sda <= '0'; wait for 1.92 us;
+  io_sda <= '1'; wait for 0.96 us;
+  io_sda <= '0'; wait for 0.96 us;
+  io_sda <= '1'; wait for 0.96 us;
+  io_sda <= '0'; wait for 0.96 us;
+  io_sda <= '1'; wait for 0.96 us;
+  io_sda <= '0'; wait for 0.96 us;
+  io_sda <= '1'; wait for 0.96 us;
+  io_sda <= '0'; wait for 0.96 us;
   
-  io_sda <= 'Z'; wait for 1.92 us; -- ack
+  io_sda <= 'Z'; wait for 0.96 us; -- ack
   
   io_sda <= 'Z'; wait; -- rest Z
 end process mode2_read;

@@ -672,6 +672,7 @@ begin
             c_state <= mode2_read_data1;
             temp_sda <= '0';
 --            temp_sda <= 'Z'; -- ok 1st AA read
+--            data_index_ctr <= 1;
             data_index_ctr <= 0;
           end if;
         when state1 =>
@@ -687,6 +688,7 @@ begin
             bytes_to_recv_i (data_index_ctr) <= io_sda;
           end if;
           if (c_cmode = c3) then
+--            bytes_to_recv_i (data_index_ctr) <= io_sda;
             temp_sda <= 'Z';
             if (data_index_ctr = c_i2c_data_bits - 1) then
 --              c_state <= mode2_read_data_lastbit1;
@@ -694,6 +696,7 @@ begin
               data_index_ctr <= 0;
             else
                         data_index_ctr <= data_index_ctr + 1;
+            o_mode2_ready <= '0';
 
             end if;
           end if;
