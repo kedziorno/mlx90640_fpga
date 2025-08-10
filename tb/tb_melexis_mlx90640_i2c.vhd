@@ -76,8 +76,8 @@ signal o_mode2_ready_all : std_logic;
 
 --Outputs
 signal o_busy : std_logic;
-signal io_sda : std_logic;
-signal io_scl : std_logic;
+signal io_sda : std_logic := 'Z';
+signal io_scl : std_logic := 'Z';
 
 -- Clock period definitions
 --constant i_clock_period : time := 18.368 us;
@@ -181,5 +181,36 @@ end loop l2;
 wait for 2 us;
 report "done" severity failure;
 end process;
+
+mode2_read : process is
+begin
+--  wait for 2443.24 us; -- c0
+  io_sda <= 'Z';
+  wait for 2443.00 us; -- c1
+  
+  io_sda <= '1'; wait for 0.96 us;
+  io_sda <= '0'; wait for 0.96 us;
+  io_sda <= '1'; wait for 0.96 us;
+  io_sda <= '0'; wait for 0.96 us;
+  io_sda <= '1'; wait for 0.96 us;
+  io_sda <= '0'; wait for 0.96 us;
+  io_sda <= '1'; wait for 0.96 us;
+  io_sda <= '0'; wait for 0.96 us;
+  
+  io_sda <= '0'; wait for 0.96 us; -- ack
+  
+  io_sda <= '0'; wait for 0.96 us;
+  io_sda <= '1'; wait for 0.96 us;
+  io_sda <= '0'; wait for 0.96 us;
+  io_sda <= '1'; wait for 0.96 us;
+  io_sda <= '0'; wait for 0.96 us;
+  io_sda <= '1'; wait for 0.96 us;
+  io_sda <= '0'; wait for 0.96 us;
+  io_sda <= '1'; wait for 0.96 us;
+  
+  io_sda <= '0'; wait for 0.96 us; -- ack
+  
+  io_sda <= 'Z'; wait; -- rest Z
+end process mode2_read;
 
 END;

@@ -141,8 +141,8 @@ architecture rtl of melexis_mlx90640_i2c is
   signal mode2_read_data_index_ctr : integer range 0 to c_mode2_read_data_index - 1;
 begin
   o_bytes_to_recv <= bytes_to_recv_i;
-  io_sda <= '1' when c_state = idle else temp_sda;
-  io_scl <= '1' when (c_state = idle or c_state = start) else temp_sck;
+  io_sda <= 'Z' when c_state = idle else temp_sda;
+  io_scl <= 'Z' when (c_state = idle or c_state = start) else temp_sck;
 
   p_i2c_send_sequence_fsm : process (clock, i_reset) is
   begin
@@ -150,12 +150,17 @@ begin
       c_state <= idle;
       data_index_ctr <= 0;
       slave_index_ctr <= c_i2c_address_bits - 1;
-      temp_sda <= '1';
       bytes_to_recv_i <= (others => '0');
       mode2_read_data_index_ctr <= 0;
+      temp_sda <= 'Z';
+      temp_sck <= 'Z';
+      o_mode2_ready <= '0';
+      o_mode2_ready_all <= '0';
     elsif (rising_edge (clock)) then
       case c_state is
         when idle =>
+          temp_sda <= 'Z';
+          temp_sck <= 'Z';
           if (c_cmode = c3) then -- XXX start from c0 clock state in next cycle
             c_state <= start;
             o_busy <= '1';
@@ -165,7 +170,7 @@ begin
           end if;
         when start =>
           c_state <= sda_start;
-          temp_sda <= '1';
+          temp_sda <= 'Z';
         when sda_start =>
           if (i_mode0 = '1') then
             c_state <= mode0_write_slave_address;
@@ -184,7 +189,7 @@ begin
             if (c_cmode = c3) then
               slave_index_ctr <= slave_index_ctr - 1;
               if (i_slave_address (slave_index_ctr) = '1') then
-                temp_sda <= '1';
+                temp_sda <= 'Z';
               else
                 temp_sda <= '0';
               end if;
@@ -194,7 +199,7 @@ begin
           if (c_cmode = c3) then
             c_state <= mode0_write_slave_write;
             if (i_slave_address (0) = '1') then
-              temp_sda <= '1';
+              temp_sda <= 'Z';
             else
               temp_sda <= '0';
             end if;
@@ -217,7 +222,7 @@ begin
             if (c_cmode = c3) then
               data_index_ctr <= data_index_ctr + 1;
               if (i_memory_address (data_index_ctr) = '1') then
-                temp_sda <= '1';
+                temp_sda <= 'Z';
               else
                 temp_sda <= '0';
               end if;
@@ -227,7 +232,7 @@ begin
           if (c_cmode = c3) then
             c_state <= mode0_write_data_ack1;
             if (i_memory_address (7) = '1') then
-              temp_sda <= '1';
+              temp_sda <= 'Z';
             else
               temp_sda <= '0';
             end if;
@@ -246,7 +251,7 @@ begin
             if (c_cmode = c3) then
               data_index_ctr <= data_index_ctr + 1;
               if (i_memory_address (8 + data_index_ctr) = '1') then
-                temp_sda <= '1';
+                temp_sda <= 'Z';
               else
                 temp_sda <= '0';
               end if;
@@ -256,7 +261,7 @@ begin
           if (c_cmode = c3) then
             c_state <= mode0_write_data_ack2;
             if (i_memory_address (15) = '1') then
-              temp_sda <= '1';
+              temp_sda <= 'Z';
             else
               temp_sda <= '0';
             end if;
@@ -275,7 +280,7 @@ begin
             if (c_cmode = c3) then
               data_index_ctr <= data_index_ctr + 1;
               if (i_memory_data (data_index_ctr) = '1') then
-                temp_sda <= '1';
+                temp_sda <= 'Z';
               else
                 temp_sda <= '0';
               end if;
@@ -285,7 +290,7 @@ begin
           if (c_cmode = c3) then
             c_state <= mode0_write_data_ack3;
             if (i_memory_data (7) = '1') then
-              temp_sda <= '1';
+              temp_sda <= 'Z';
             else
               temp_sda <= '0';
             end if;
@@ -303,7 +308,7 @@ begin
             if (c_cmode = c3) then
               data_index_ctr <= data_index_ctr + 1;
               if (i_memory_data (8 + data_index_ctr) = '1') then
-                temp_sda <= '1';
+                temp_sda <= 'Z';
               else
                 temp_sda <= '0';
               end if;
@@ -313,7 +318,7 @@ begin
           if (c_cmode = c3) then
             c_state <= mode0_write_data_ack4;
             if (i_memory_data (15) = '1') then
-              temp_sda <= '1';
+              temp_sda <= 'Z';
             else
               temp_sda <= '0';
             end if;
@@ -331,7 +336,7 @@ begin
             if (c_cmode = c3) then
               slave_index_ctr <= slave_index_ctr - 1;
               if (i_slave_address (slave_index_ctr) = '1') then
-                temp_sda <= '1';
+                temp_sda <= 'Z';
               else
                 temp_sda <= '0';
               end if;
@@ -341,7 +346,7 @@ begin
           if (c_cmode = c3) then
             c_state <= mode1_write_slave_write;
             if (i_slave_address (0) = '1') then
-              temp_sda <= '1';
+              temp_sda <= 'Z';
             else
               temp_sda <= '0';
             end if;
@@ -364,7 +369,7 @@ begin
             if (c_cmode = c3) then
               data_index_ctr <= data_index_ctr + 1;
               if (i_memory_address (data_index_ctr) = '1') then
-                temp_sda <= '1';
+                temp_sda <= 'Z';
               else
                 temp_sda <= '0';
               end if;
@@ -374,7 +379,7 @@ begin
           if (c_cmode = c3) then
             c_state <= mode1_write_data_ack1;
             if (i_memory_address (7) = '1') then
-              temp_sda <= '1';
+              temp_sda <= 'Z';
             else
               temp_sda <= '0';
             end if;
@@ -393,7 +398,7 @@ begin
             if (c_cmode = c3) then
               data_index_ctr <= data_index_ctr + 1;
               if (i_memory_address (8 + data_index_ctr) = '1') then
-                temp_sda <= '1';
+                temp_sda <= 'Z';
               else
                 temp_sda <= '0';
               end if;
@@ -403,7 +408,7 @@ begin
           if (c_cmode = c3) then
             c_state <= mode1_write_data_ack2;
             if (i_memory_address (15) = '1') then
-              temp_sda <= '1';
+              temp_sda <= 'Z';
             else
               temp_sda <= '0';
             end if;
@@ -422,7 +427,7 @@ begin
           end if;
         when mode1_read_start =>
           c_state <= mode1_read_sda_start;
-          temp_sda <= '1';
+          temp_sda <= 'Z';
           slave_index_ctr <= c_i2c_address_bits - 1;
         when mode1_read_sda_start =>
           c_state <= mode1_read_slave_address;
@@ -434,7 +439,7 @@ begin
             if (c_cmode = c3) then
               slave_index_ctr <= slave_index_ctr - 1;
               if (i_slave_address (slave_index_ctr) = '1') then
-                temp_sda <= '1';
+                temp_sda <= 'Z';
               else
                 temp_sda <= '0';
               end if;
@@ -444,7 +449,7 @@ begin
           if (c_cmode = c3) then
             c_state <= mode1_read_slave_read;
             if (i_slave_address (0) = '1') then
-              temp_sda <= '1';
+              temp_sda <= 'Z';
             else
               temp_sda <= '0';
             end if;
@@ -452,7 +457,7 @@ begin
         when mode1_read_slave_read =>
           if (c_cmode = c3) then
             c_state <= mode1_read_slave_ack;
-            temp_sda <= '1';
+            temp_sda <= 'Z';
           end if;
         when mode1_read_slave_ack =>
           if (c_cmode = c3) then
@@ -472,7 +477,7 @@ begin
             if (c_cmode = c3) then
               data_index_ctr <= data_index_ctr + 1;
               data_index_ctr1 <= data_index_ctr;
-              temp_sda <= '1';
+              temp_sda <= 'Z';
             end if;
           end if;
         when mode1_read_data_lastbit1 =>
@@ -499,7 +504,7 @@ begin
             if (c_cmode = c3) then
               data_index_ctr <= data_index_ctr + 1;
               data_index_ctr1 <= data_index_ctr;
-              temp_sda <= '1';
+              temp_sda <= 'Z';
             end if;
           end if;
         when mode1_read_data_lastbit2 =>
@@ -512,14 +517,14 @@ begin
           end if;
           if (c_cmode = c3) then
             c_state <= mode1_read_data_nak_empty;
-            temp_sda <= '1';
+            temp_sda <= 'Z';
           end if;
         when mode1_read_data_nak_empty =>
           if (c_cmode = c3) then
             c_state <= stop;
-            temp_sda <= '1';
+            temp_sda <= 'Z'; -- 'X';
           end if;
--- XXX mode2
+-- XXX mode2 i2c slave address write
         when mode2_write_slave_address =>
           if (slave_index_ctr = 0) then
             c_state <= mode2_write_slave_address_lastbit;
@@ -527,7 +532,7 @@ begin
             if (c_cmode = c3) then
               slave_index_ctr <= slave_index_ctr - 1;
               if (i_slave_address (slave_index_ctr) = '1') then
-                temp_sda <= '1';
+                temp_sda <= 'Z';
               else
                 temp_sda <= '0';
               end if;
@@ -537,7 +542,7 @@ begin
           if (c_cmode = c3) then
             c_state <= mode2_write_slave_write;
             if (i_slave_address (0) = '1') then
-              temp_sda <= '1';
+              temp_sda <= 'Z';
             else
               temp_sda <= '0';
             end if;
@@ -553,13 +558,14 @@ begin
             temp_sda <= '0';
             data_index_ctr <= 0;
           end if;
+-- XXX mode2 i2c write data 2b
         when mode2_write_data1 =>
           if (data_index_ctr = c_i2c_data_bits - 1) then
             c_state <= mode2_write_data_lastbit1;
           else
             if (c_cmode = c3) then
               if (i_memory_address (data_index_ctr) = '1') then
-                temp_sda <= '1';
+                temp_sda <= 'Z';
               else
                 temp_sda <= '0';
               end if;
@@ -570,7 +576,7 @@ begin
           if (c_cmode = c3) then
             c_state <= mode2_write_data_ack1;
             if (i_memory_address (7) = '1') then
-              temp_sda <= '1';
+              temp_sda <= 'Z';
             else
               temp_sda <= '0';
             end if;
@@ -589,7 +595,7 @@ begin
             if (c_cmode = c3) then
               data_index_ctr <= data_index_ctr + 1;
               if (i_memory_address (8 + data_index_ctr) = '1') then
-                temp_sda <= '1';
+                temp_sda <= 'Z';
               else
                 temp_sda <= '0';
               end if;
@@ -599,7 +605,7 @@ begin
           if (c_cmode = c3) then
             c_state <= mode2_write_data_ack2;
             if (i_memory_address (15) = '1') then
-              temp_sda <= '1';
+              temp_sda <= 'Z';
             else
               temp_sda <= '0';
             end if;
@@ -610,19 +616,21 @@ begin
             temp_sda <= '0';
             data_index_ctr <= 0;
           end if;
-        when mode2_write_data_ack2_empty =>
+        when mode2_write_data_ack2_empty => -- XXX empty
           if (c_cmode = c3) then
             c_state <= mode2_read_start;
             temp_sda <= '0';
             data_index_ctr <= 0;
           end if;
+-- XXX mode2 i2c start
         when mode2_read_start =>
           c_state <= mode2_read_sda_start;
-          temp_sda <= '1';
+          temp_sda <= 'Z';
           slave_index_ctr <= c_i2c_address_bits - 1;
         when mode2_read_sda_start =>
           c_state <= mode2_read_slave_address;
           temp_sda <= '0';
+-- XXX mode2 i2c slave address read
         when mode2_read_slave_address =>
           if (slave_index_ctr = 0) then
             c_state <= mode2_read_slave_address_lastbit;
@@ -630,7 +638,7 @@ begin
             if (c_cmode = c3) then
               slave_index_ctr <= slave_index_ctr - 1;
               if (i_slave_address (slave_index_ctr) = '1') then
-                temp_sda <= '1';
+                temp_sda <= 'Z';
               else
                 temp_sda <= '0';
               end if;
@@ -640,7 +648,7 @@ begin
           if (c_cmode = c3) then
             c_state <= mode2_read_slave_read;
             if (i_slave_address (0) = '1') then
-              temp_sda <= '1';
+              temp_sda <= 'Z';
             else
               temp_sda <= '0';
             end if;
@@ -648,7 +656,7 @@ begin
         when mode2_read_slave_read =>
           if (c_cmode = c3) then
             c_state <= mode2_read_slave_ack;
-            temp_sda <= '1';
+            temp_sda <= 'Z';
           end if;
         when mode2_read_slave_ack =>
           if (c_cmode = c3) then
@@ -656,22 +664,23 @@ begin
             temp_sda <= '0';
             data_index_ctr <= 0;
           end if;
+-- XXX mode2 i2c slave data read 1 - N
         when mode2_read_data1 =>
           if (c_cmode = c0) then
             o_mode2_ready <= '0';
           end if;
           if (data_index_ctr = c_i2c_data_bits - 1) then
             c_state <= mode2_read_data_lastbit1;
-            bytes_to_recv_i (data_index_ctr1) <= io_sda;
+--            bytes_to_recv_i (data_index_ctr1) <= io_sda;
             data_index_ctr <= 0;
           else
-            if (c_cmode = c0) then
-              bytes_to_recv_i (data_index_ctr1) <= io_sda;
+            if (c_cmode = c2) then
+              bytes_to_recv_i (data_index_ctr) <= io_sda;
+              data_index_ctr <= data_index_ctr + 1;
+--              data_index_ctr1 <= data_index_ctr;
+              temp_sda <= 'Z';
             end if;
             if (c_cmode = c3) then
-              data_index_ctr <= data_index_ctr + 1;
-              data_index_ctr1 <= data_index_ctr;
-              temp_sda <= '1';
             end if;
           end if;
         when mode2_read_data_lastbit1 =>
@@ -680,32 +689,37 @@ begin
           end if;
         when mode2_read_data_ack1 =>
           if (c_cmode = c0) then
-            bytes_to_recv_i (data_index_ctr1 + 1) <= io_sda;
           end if;
           if (c_cmode = c3) then
+            bytes_to_recv_i (data_index_ctr) <= io_sda;
             c_state <= mode2_read_data2;
             temp_sda <= '0';
           end if;
+-- XXX mode2 i2c slave data read 2 - N
         when mode2_read_data2 =>
           if (data_index_ctr = c_i2c_data_bits - 1) then
             c_state <= mode2_read_data_lastbit2;
-            bytes_to_recv_i (8 + data_index_ctr1) <= io_sda;
+--            bytes_to_recv_i (8 + data_index_ctr) <= io_sda;
             data_index_ctr <= 0;
           else
-            if (c_cmode = c0) then
-              bytes_to_recv_i (8 + data_index_ctr1) <= io_sda;
-            end if;
             if (c_cmode = c3) then
+              bytes_to_recv_i (8 + data_index_ctr) <= io_sda;
               data_index_ctr <= data_index_ctr + 1;
               data_index_ctr1 <= data_index_ctr;
-              temp_sda <= '1';
+            end if;
+            if (c_cmode = c3) then
+              temp_sda <= 'Z';
             end if;
           end if;
         when mode2_read_data_lastbit2 =>
           if (c_cmode = c3) then
+--              bytes_to_recv_i (8 + data_index_ctr) <= io_sda;
             c_state <= mode2_read_data_ack2;
           end if;
         when mode2_read_data_ack2 =>
+          if (c_cmode = c0) then
+--            bytes_to_recv_i (8 + data_index_ctr1) <= io_sda;
+          end if;
           if (c_cmode = c3) then
             if (mode2_read_data_index_ctr = c_mode2_read_data_index - 1) then
               c_state <= mode2_read_data_nak;
@@ -718,14 +732,15 @@ begin
               o_mode2_ready <= '1';
             end if;
           end if;
+-- XXX mode2 i2c slave data read - end
         when mode2_read_data_nak =>
           if (c_cmode = c0) then
-            bytes_to_recv_i (8 + data_index_ctr1 + 1) <= io_sda;
+--            bytes_to_recv_i (8 + data_index_ctr1) <= io_sda;
             o_mode2_ready_all <= '0';
           end if;
           if (c_cmode = c3) then
             c_state <= stop;
-            temp_sda <= '1';
+            temp_sda <= 'Z';
           end if;
         when sda_stop =>
           if (c_cmode = c3) then
@@ -735,7 +750,7 @@ begin
         when stop =>
           if (c_cmode = c1) then
             c_state <= idle;
-            temp_sda <= '1';
+            temp_sda <= 'Z';
             o_busy <= '0';
           end if;
       end case;
