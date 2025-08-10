@@ -132,7 +132,7 @@ architecture rtl of melexis_mlx90640_i2c is
   signal c_state : state;
   signal c_cmode : clock_mode;
   signal slave_index_ctr : integer range c_i2c_address_bits - 1 downto 0;
-  signal data_index_ctr, data_index_ctr1 : integer range 0 to c_i2c_data_bits - 1;
+  signal data_index_ctr, data_index_ctr1 : integer range c_i2c_data_bits - 1 downto 0;
   signal bytes_to_recv_i : std_logic_vector (0 to 15);
   signal clock : std_logic;
   signal temp_sda : std_logic;
@@ -141,7 +141,7 @@ architecture rtl of melexis_mlx90640_i2c is
   signal mode2_read_data_index_ctr : integer range 0 to c_mode2_read_data_index - 1;
 begin
   o_bytes_to_recv <= bytes_to_recv_i;
-  io_sda <= 'Z' when c_state = idle else temp_sda;
+  io_sda <= '0' when temp_sda = '0' else 'Z' when c_state = idle else 'Z';
   io_scl <= 'Z' when (c_state = idle or c_state = start) else temp_sck;
 
   p_i2c_send_sequence_fsm : process (clock, i_reset) is
@@ -174,9 +174,11 @@ begin
         when sda_start =>
           if (i_mode0 = '1') then
             c_state <= mode0_write_slave_address;
-          elsif (i_mode1 = '1') then
+          end if;
+          if (i_mode1 = '1') then
             c_state <= mode1_write_slave_address;
-          elsif (i_mode2 = '1') then
+          end if;
+          if (i_mode2 = '1') then
             c_state <= mode2_write_slave_address;
           end if;
           temp_sda <= '0';
@@ -662,21 +664,21 @@ begin
           if (c_cmode = c3) then
             c_state <= mode2_read_data1;
             temp_sda <= '0';
-            data_index_ctr <= 0;
+            data_index_ctr <= c_i2c_data_bits - 1;
           end if;
 -- XXX mode2 i2c slave data read 1 - N
         when mode2_read_data1 =>
           if (c_cmode = c0) then
             o_mode2_ready <= '0';
           end if;
-          if (data_index_ctr = c_i2c_data_bits - 1) then
+          if (data_index_ctr = 0) then
             c_state <= mode2_read_data_lastbit1;
 --            bytes_to_recv_i (data_index_ctr1) <= io_sda;
-            data_index_ctr <= 0;
+            data_index_ctr <= c_i2c_data_bits - 1;
           else
-            if (c_cmode = c2) then
-              bytes_to_recv_i (data_index_ctr) <= io_sda;
-              data_index_ctr <= data_index_ctr + 1;
+            if (c_cmode = c3) then
+              bytes_to_recv_i (8 - data_index_ctr) <= io_sda;
+              data_index_ctr <= data_index_ctr - 1;
 --              data_index_ctr1 <= data_index_ctr;
               temp_sda <= 'Z';
             end if;
@@ -812,7 +814,7 @@ begin
       temp_sck <= '0';
     end if;
     if ((c_cmode = c1 or c_cmode = c2) and c_cmode /= c0 and c_cmode /= c3) then
-      temp_sck <= '1';
+      temp_sck <= 'Z';
     end if;
   end process p_i2c_scl_generator_com;
 
