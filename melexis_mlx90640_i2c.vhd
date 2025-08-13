@@ -844,12 +844,11 @@ begin
     end if;
   end process p_i2c_clock_generator_fsm;
 
-  p_i2c_scl_generator_com : process (c_cmode) is
+  p_i2c_scl_generator_com : process (c_cmode, clock) is
   begin
     if (c_cmode /= c1 and c_cmode /= c2 and (c_cmode = c0 or c_cmode = c3)) then
       io_scl <= '0';
-    end if;
-    if ((c_cmode = c1 or c_cmode = c2) and c_cmode /= c0 and c_cmode /= c3) then
+    elsif ((c_cmode = c1 or c_cmode = c2) and c_cmode /= c0 and c_cmode /= c3) then
       io_scl <= 'Z';
     end if;
   end process p_i2c_scl_generator_com;

@@ -1,0 +1,850 @@
+Release 14.7 Map P.20131013 (lin64)
+Xilinx Mapping Report File for Design 'melexis_mlx90640_i2c'
+
+Design Information
+------------------
+Command Line   : map -intstyle ise -p xc4vsx35-ff668-10 -global_opt off -cm area
+-ir off -pr off -detail -c 100 -smartguide
+/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/melexis_mlx90640_
+i2c_guide.ncd -o melexis_mlx90640_i2c_map.ncd melexis_mlx90640_i2c.ngd
+melexis_mlx90640_i2c.pcf 
+Target Device  : xc4vsx35
+Target Package : ff668
+Target Speed   : -10
+Mapper Version : virtex4 -- $Revision: 1.55 $
+Mapped Date    : Wed Aug 13 21:47:34 2025
+
+Design Summary
+--------------
+Number of errors:      0
+Number of warnings:    2
+Logic Utilization:
+  Number of Slice Flip Flops:           123 out of  30,720    1%
+  Number of 4 input LUTs:               496 out of  30,720    1%
+Logic Distribution:
+  Number of occupied Slices:            313 out of  15,360    2%
+    Number of Slices containing only related logic:     313 out of     313 100%
+    Number of Slices containing unrelated logic:          0 out of     313   0%
+      *See NOTES below for an explanation of the effects of unrelated logic.
+  Total Number of 4 input LUTs:         509 out of  30,720    1%
+    Number used as logic:               496
+    Number used as a route-thru:         13
+
+  The Slice Logic Distribution report is not meaningful if the design is
+  over-mapped for a non-slice resource or if Placement fails.
+  Number of bonded IOBs:                 66 out of     448   14%
+  Number of BUFG/BUFGCTRLs:               2 out of      32    6%
+    Number used as BUFGs:                 2
+
+Average Fanout of Non-Clock Nets:                3.50
+
+Peak Memory Usage:  834 MB
+Total REAL time to MAP completion:  7 secs 
+Total CPU time to MAP completion:   7 secs 
+
+Table of Contents
+-----------------
+Section 1 - Errors
+Section 2 - Warnings
+Section 3 - Informational
+Section 4 - Removed Logic Summary
+Section 5 - Removed Logic
+Section 6 - IOB Properties
+Section 7 - RPMs
+Section 8 - Guide Report
+Section 9 - Area Group and Partition Summary
+Section 10 - Timing Report
+Section 11 - Configuration String Information
+Section 12 - Control Set Information
+Section 13 - Utilization by Hierarchy
+
+Section 1 - Errors
+------------------
+
+Section 2 - Warnings
+--------------------
+WARNING:Map:120 - The command line option -c can not be used when running in
+   timing mode.  The option will be ignored.
+WARNING:Security:42 - Your software subscription period has lapsed. Your current
+version of Xilinx tools will continue to function, but you no longer qualify for
+Xilinx software updates or new releases.
+WARNING:Pack:2609 - SmartGuide is more efficient (better guiding and runtime)
+   when used with explicit timing constraints. If you want the full benefit of
+   the SmartGuide flow, please add timing constraints to your design, then
+   re-create your guide file.
+
+Section 3 - Informational
+-------------------------
+INFO:Map:192 - SmartGuide automatically enables -timing. If SmartGuide is
+   disabled, -timing should be enabled if the resulting design will be used as a
+   guide file during a later run.
+INFO:Security:56 - Part 'xc4vsx35' is not a WebPack part.
+INFO:MapLib:562 - No environment variables are currently set.
+INFO:MapLib:980 - The following NGM file is used during SmartGuide:
+   "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/melexis_mlx90
+   640_i2c_map.ngm". The NGM file contains information on how the guide file was
+   originally mapped. It is required for the best SmartGuide results.
+INFO:MapLib:797 - Your design is targeting LX/SX Production Step 0/1/ES devices.
+   Please note that there are new specifications for the DCMs to guarantee
+   maximum frequency performance. If the DCM input clock might stop or if the
+   DCM reset might be asserted for an extended time, then use of the dcm_standby
+   macro may be required. Please see Answer Record 21127.
+INFO:LIT:244 - All of the single ended outputs in this design are using slew
+   rate limited output drivers. The delay on speed critical single ended outputs
+   can be dramatically reduced by designating them as fast outputs.
+INFO:Pack:1650 - Map created a placed design.
+
+Section 4 - Removed Logic Summary
+---------------------------------
+   2 block(s) optimized away
+ 112 Block(s) redundant
+
+Section 5 - Removed Logic
+-------------------------
+
+Optimized Block(s):
+TYPE 		BLOCK
+GND 		XST_GND
+VCC 		XST_VCC
+
+Redundant Block(s):
+TYPE 		BLOCK
+LOCALBUF 		data_index_ctr_mux0001<0>3_SW0/LUT4_L_BUF
+LOCALBUF 		bytes_to_recv_i_10_mux00011213/LUT4_L_BUF
+LOCALBUF 		bytes_to_recv_i_6_mux000012/LUT4_L_BUF
+LOCALBUF 		bytes_to_recv_i_5_mux000012/LUT4_L_BUF
+LOCALBUF 		bytes_to_recv_i_4_mux000012/LUT4_L_BUF
+LOCALBUF 		bytes_to_recv_i_3_mux000012/LUT4_L_BUF
+LOCALBUF 		bytes_to_recv_i_2_mux000012/LUT4_L_BUF
+LOCALBUF 		bytes_to_recv_i_1_mux000012/LUT4_L_BUF
+LOCALBUF 		bytes_to_recv_i_15_mux000112/LUT4_L_BUF
+LOCALBUF 		bytes_to_recv_i_14_mux000112/LUT4_L_BUF
+LOCALBUF 		bytes_to_recv_i_13_mux000112/LUT4_L_BUF
+LOCALBUF 		bytes_to_recv_i_12_mux000112/LUT4_L_BUF
+LOCALBUF 		bytes_to_recv_i_11_mux000112/LUT4_L_BUF
+LOCALBUF 		bytes_to_recv_i_10_mux000112/LUT4_L_BUF
+LOCALBUF 		data_index_ctr_mux0001<1>36/LUT4_L_BUF
+LOCALBUF 		i_slave_address_mux000064/LUT4_L_BUF
+LOCALBUF 		data_index_ctr_mux0001<0>43/LUT4_L_BUF
+LOCALBUF 		data_index_ctr1_mux0001<0>11/LUT4_L_BUF
+LOCALBUF 		slave_index_ctr_or00021/LUT4_D_BUF
+LOCALBUF 		bytes_to_recv_i_1_mux000021/LUT4_D_BUF
+LOCALBUF 		bytes_to_recv_i_10_mux000131/LUT4_D_BUF
+LOCALBUF 		Mtridata_io_sda_or00591011/LUT3_D_BUF
+LOCALBUF 		bytes_to_recv_i_0_cmp_eq00011/LUT3_D_BUF
+LOCALBUF 		bytes_to_recv_i_8_mux000168/LUT4_L_BUF
+LOCALBUF 		data_index_ctr_mux0001<0>21/LUT2_D_BUF
+LOCALBUF 		bytes_to_recv_i_0_mux00006/LUT4_L_BUF
+LOCALBUF 		bytes_to_recv_i_10_mux0001111130/LUT4_D_BUF
+LOCALBUF 		Mtridata_io_sda_or0059201/LUT2_D_BUF
+LOCALBUF 		Mtrien_io_sda_mux0000411/LUT4_D_BUF
+LOCALBUF 		data_index_ctr_mux0001<1>86/LUT4_L_BUF
+LOCALBUF 		bytes_to_recv_i_8_mux00011211/LUT2_L_BUF
+LOCALBUF 		c_state_cmp_eq00011/LUT3_D_BUF
+LOCALBUF 		Mtridata_io_sda_or0059171/LUT2_D_BUF
+LOCALBUF 		Mtridata_io_sda_or00591621/LUT3_D_BUF
+LOCALBUF 		Mtrien_io_sda_mux00002311/LUT2_D_BUF
+LOCALBUF 		Mtridata_io_sda_or0059421/LUT3_D_BUF
+LOCALBUF 		Mtrien_io_sda_mux0000261/LUT2_D_BUF
+LOCALBUF 		Mtrien_io_sda_mux000021211/LUT2_D_BUF
+LOCALBUF 		Mtrien_io_sda_mux000021221/LUT2_L_BUF
+LOCALBUF 		i_slave_address_mux000020/LUT4_D_BUF
+LOCALBUF 		Mtrien_io_sda_not0001103/LUT4_L_BUF
+LOCALBUF 		Mtrien_io_sda_not0001559/LUT2_L_BUF
+LOCALBUF 		Mtrien_io_sda_not0001654/LUT2_L_BUF
+LOCALBUF 		Mtrien_io_sda_not0001680/LUT3_D_BUF
+LOCALBUF 		Mtrien_io_sda_not0001756/LUT2_L_BUF
+LOCALBUF 		Mtrien_io_sda_not0001802/LUT4_L_BUF
+LOCALBUF 		Mtrien_io_sda_not0001871/LUT2_L_BUF
+LOCALBUF 		Mtrien_io_sda_mux000019/LUT4_L_BUF
+LOCALBUF 		Mtrien_io_sda_mux0000131/LUT2_L_BUF
+LOCALBUF 		Mtrien_io_sda_mux0000182/LUT4_L_BUF
+LOCALBUF 		Mtrien_io_sda_mux0000312/LUT3_L_BUF
+LOCALBUF 		Mtrien_io_sda_mux0000432/LUT3_D_BUF
+LOCALBUF 		Mtrien_io_sda_mux0000723/LUT2_L_BUF
+LOCALBUF 		Mtridata_io_sda_or00598_SW0/LUT3_L_BUF
+LOCALBUF 		bytes_to_recv_i_7_cmp_eq00021/LUT3_D_BUF
+LOCALBUF 		Mtridata_io_sda_or00592211/LUT4_L_BUF
+LOCALBUF 		Mtridata_io_sda_or005916/LUT4_D_BUF
+LOCALBUF 		Mtrien_io_sda_not00011039/LUT4_L_BUF
+LOCALBUF 		Mtridata_io_sda_or0059122/LUT4_D_BUF
+LOCALBUF 		Mtrien_io_sda_mux000054/LUT4_L_BUF
+LOCALBUF 		Mtrien_io_sda_mux0000470/LUT4_L_BUF
+LOCALBUF 		Mtrien_io_sda_mux0000641_SW0/LUT4_L_BUF
+LOCALBUF 		Mtridata_io_sda_or005991/LUT3_D_BUF
+LOCALBUF 		Mtrien_io_sda_mux0000388/LUT4_L_BUF
+LOCALBUF 		Mtridata_io_sda_or00592211_SW0/LUT4_L_BUF
+LOCALBUF 		Mtrien_io_sda_not0001965/LUT4_L_BUF
+LOCALBUF 		Mtrien_io_sda_not0001369/LUT4_L_BUF
+LOCALBUF 		Mtrien_io_sda_mux0000751/LUT4_L_BUF
+LOCALBUF 		slave_index_ctr_mux0000<0>2/LUT3_L_BUF
+LOCALBUF 		data_index_ctr_mux0001<0>811/LUT4_L_BUF
+LOCALBUF 		Mtrien_io_sda_not000118_SW0/LUT3_L_BUF
+LOCALBUF 		Mtrien_io_sda_not0001318/LUT4_D_BUF
+LOCALBUF 		Mtridata_io_sda_or0059191/LUT4_D_BUF
+LOCALBUF 		Mtrien_io_sda_mux0000806/LUT4_L_BUF
+LOCALBUF 		Mtrien_io_sda_mux0000413/LUT4_L_BUF
+LOCALBUF 		Mtrien_io_sda_not0001202_SW0_SW0/LUT4_L_BUF
+LOCALBUF 		Mtrien_io_sda_not0001780_SW0/LUT4_L_BUF
+LOCALBUF 		Mtrien_io_sda_not0001202_SW1/LUT4_L_BUF
+LOCALBUF 		Mtrien_io_sda_not00011098_SW0/LUT4_L_BUF
+LOCALBUF 		bytes_to_recv_i_0_mux0000112/LUT4_D_BUF
+LOCALBUF 		Mtrien_io_sda_not000149_SW0/LUT4_L_BUF
+LOCALBUF 		Mtrien_io_sda_mux0000409_SW0/LUT3_L_BUF
+LOCALBUF 		bytes_to_recv_i_10_mux000111122/LUT4_D_BUF
+LOCALBUF 		bytes_to_recv_i_0_mux000012/LUT4_D_BUF
+LOCALBUF 		o_mode2_ready_mux000138_SW0/LUT4_L_BUF
+LOCALBUF 		Mtrien_io_sda_mux0000272/LUT4_L_BUF
+LOCALBUF 		Mtrien_io_sda_not0001285_SW0/LUT4_L_BUF
+LOCALBUF 		slave_index_ctr_mux0000<1>60_SW0/LUT4_L_BUF
+LOCALBUF 		bytes_to_recv_i_8_mux000179/LUT4_L_BUF
+LOCALBUF 		Mtrien_io_sda_mux0000230_SW0/LUT4_L_BUF
+LOCALBUF 		bytes_to_recv_i_10_mux00011224/LUT4_D_BUF
+LOCALBUF 		Mtrien_io_sda_mux0000424/LUT4_D_BUF
+LOCALBUF 		data_index_ctr_mux0001<2>32_SW0/LUT4_D_BUF
+LOCALBUF 		data_index_ctr_mux0001<2>32/LUT4_L_BUF
+LOCALBUF 		bytes_to_recv_i_7_cmp_eq00021_1/LUT3_D_BUF
+LOCALBUF 		Mtrien_io_scl_or00051/LUT2_D_BUF
+LUT1 		Mcount_mode2_read_data_index_ctr_cy<1>_rt
+LUT1 		Mcount_mode2_read_data_index_ctr_cy<2>_rt
+LUT1 		Mcount_mode2_read_data_index_ctr_cy<3>_rt
+LUT1 		Mcount_mode2_read_data_index_ctr_cy<4>_rt
+LUT1 		Mcount_mode2_read_data_index_ctr_cy<5>_rt
+LUT1 		Mcount_mode2_read_data_index_ctr_cy<6>_rt
+LUT1 		Mcount_mode2_read_data_index_ctr_cy<7>_rt
+LUT1 		Mcount_mode2_read_data_index_ctr_cy<8>_rt
+LUT1 		Mcount_mode2_read_data_index_ctr_xor<9>_rt
+LUT1 		Mmux_i_memory_address_mux0000_3_f5_rt
+LUT1 		Mmux_i_memory_address_mux0001_3_f5_rt
+LUT1 		Mmux_i_memory_data_mux0000_3_f5_rt
+LUT1 		Mmux_i_memory_data_mux0001_3_f5_rt
+INV 		state_0_mux00001_INV_0
+INV 		Mcount_count_xor<0>11_INV_0
+INV 		i_reset_inv1_INV_0
+
+Section 6 - IOB Properties
+--------------------------
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------+
+| IOB Name                           | Type             | Direction | IO Standard          | Diff  | Drive    | Slew | Reg (s)      | Resistor | IOB      |
+|                                    |                  |           |                      | Term  | Strength | Rate |              |          | Delay    |
++---------------------------------------------------------------------------------------------------------------------------------------------------------+
+| i_clock                            | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_enable                           | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_address<0>                | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_address<1>                | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_address<2>                | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_address<3>                | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_address<4>                | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_address<5>                | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_address<6>                | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_address<7>                | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_address<8>                | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_address<9>                | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_address<10>               | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_address<11>               | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_address<12>               | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_address<13>               | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_address<14>               | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_address<15>               | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_data<0>                   | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_data<1>                   | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_data<2>                   | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_data<3>                   | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_data<4>                   | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_data<5>                   | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_data<6>                   | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_data<7>                   | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_data<8>                   | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_data<9>                   | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_data<10>                  | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_data<11>                  | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_data<12>                  | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_data<13>                  | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_data<14>                  | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_memory_data<15>                  | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_mode0                            | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_mode1                            | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_mode2                            | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_reset                            | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_slave_address<0>                 | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_slave_address<1>                 | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_slave_address<2>                 | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_slave_address<3>                 | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_slave_address<4>                 | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_slave_address<5>                 | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| i_slave_address<6>                 | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
+| io_scl                             | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| io_sda                             | IOB              | BIDIR     | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_busy                             | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_bytes_to_recv<0>                 | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_bytes_to_recv<1>                 | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_bytes_to_recv<2>                 | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_bytes_to_recv<3>                 | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_bytes_to_recv<4>                 | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_bytes_to_recv<5>                 | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_bytes_to_recv<6>                 | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_bytes_to_recv<7>                 | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_bytes_to_recv<8>                 | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_bytes_to_recv<9>                 | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_bytes_to_recv<10>                | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_bytes_to_recv<11>                | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_bytes_to_recv<12>                | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_bytes_to_recv<13>                | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_bytes_to_recv<14>                | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_bytes_to_recv<15>                | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_mode2_ready                      | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| o_mode2_ready_all                  | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
++---------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+Section 7 - RPMs
+----------------
+
+Section 8 - Guide Report
+------------------------
+
+Wed Aug 13 21:47:42 2025
+
+  Estimated SmartGuide Results
+  ----------------------------
+  This section describes the guide results after placement. Re-implemented 
+  components are components that were guided, but moved in order to satisfy
+  timing requirements.
+
+    Estimated Percentage of guided Components                 |  99.7%
+    Estimated Percentage of re-implemented Components         |   0.0%
+    Estimated Percentage of new/changed Components            |   0.3%
+    Estimated Percentage of fully guided Nets                 |  98.8%
+    Estimated Percentage of partially guided or unrouted Nets |   1.2%
+
+  A detailed SmartGuide report (.GRF) can be generated during PAR by
+  specifying the [-smartguide <guidefile[.ncd]>] switch on the PAR
+  command line. The GRF file contains all components and nets that were
+  not guided. A final summary report is always generated and is available
+  in the PAR report file and in the GRF regardless of the PAR -smartguide switch.
+
+
+Section 9 - Area Group and Partition Summary
+--------------------------------------------
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+Area Group Information
+----------------------
+
+  No area groups were found in this design.
+
+----------------------
+
+Section 10 - Timing Report
+--------------------------
+A logic-level (pre-route) timing report can be generated by using Xilinx static
+timing analysis tools, Timing Analyzer (GUI) or TRCE (command line), with the
+mapped NCD and PCF files. Please note that this timing report will be generated
+using estimated delay information. For accurate numbers, please generate a
+timing report with the post Place and Route NCD file.
+
+For more information about the Timing Analyzer, consult the Xilinx Timing
+Analyzer Reference Manual; for more information about TRCE, consult the Xilinx
+Command Line Tools User Guide "TRACE" chapter.
+
+Section 11 - Configuration String Details
+-----------------------------------------
+DCM_ADV "XIL_ML_UNUSED_DCM_1":
+BGM_CONFIG_REF_SEL:CLKIN
+BGM_DIVIDE:16
+BGM_LDLY:5
+BGM_MODE:BG_SNAPSHOT
+BGM_MULTIPLY:16
+BGM_SAMPLE_LEN:2
+BGM_SDLY:3
+BGM_VADJ:5
+BGM_VLDLY:7
+BGM_VSDLY:0
+CLKDV_DIVIDE:2.0
+CLKFX_DIVIDE:1
+CLKFX_MULTIPLY:4
+CLKIN_DIVIDE_BY_2:TRUE
+CLKOUT_PHASE_SHIFT:FIXED
+CLK_FEEDBACK:1X
+DCM_CLKDV_CLKFX_ALIGNMENT:TRUE
+DCM_EXT_FB_EN:FALSE
+DCM_LOCK_HIGH:FALSE
+DCM_PERFORMANCE_MODE:MAX_SPEED
+DCM_UNUSED_TAPS_POWERDOWN:FALSE
+DCM_VREF_SOURCE:VBG_DLL
+DCM_VREG_ENABLE:FALSE
+DESKEW_ADJUST:17
+DFS_AVE_FREQ_ADJ_INTERVAL:3
+DFS_AVE_FREQ_GAIN:2.0
+DFS_AVE_FREQ_SAMPLE_INTERVAL:2
+DFS_COARSE_SEL:LEGACY
+DFS_EARLY_LOCK:FALSE
+DFS_EN_RELRST:TRUE
+DFS_EXTEND_FLUSH_TIME:FALSE
+DFS_EXTEND_HALT_TIME:FALSE
+DFS_EXTEND_RUN_TIME:FALSE
+DFS_FINE_SEL:LEGACY
+DFS_FREQUENCY_MODE:LOW
+DFS_NON_STOP:FALSE
+DFS_OSCILLATOR_MODE:PHASE_FREQ_LOCK
+DFS_SKIP_FINE:FALSE
+DFS_TP_SEL:LEVEL
+DFS_TRACKMODE:1
+DLL_CONTROL_CLOCK_SPEED:HALF
+DLL_CTL_SEL_CLKIN_DIV2:FALSE
+DLL_DESKEW_LOCK_BY1:FALSE
+DLL_FREQUENCY_MODE:LOW
+DLL_PD_DLY_SEL:0
+DLL_PERIOD_LOCK_BY1:FALSE
+DLL_PHASE_DETECTOR_AUTO_RESET:TRUE
+DLL_PHASE_DETECTOR_MODE:ENHANCED
+DLL_PHASE_SHIFT_CALIBRATION:AUTO_DPS
+DLL_PHASE_SHIFT_LOCK_BY1:FALSE
+DUTY_CYCLE_CORRECTION:TRUE
+PMCD_SYNC:FALSE
+STARTUP_WAIT:FALSE
+CLKIN_PERIOD = 10.0
+FACTORY_JF = F0F0
+PHASE_SHIFT = 0
+
+
+DCM_ADV "XIL_ML_UNUSED_DCM_2":
+BGM_CONFIG_REF_SEL:CLKIN
+BGM_DIVIDE:16
+BGM_LDLY:5
+BGM_MODE:BG_SNAPSHOT
+BGM_MULTIPLY:16
+BGM_SAMPLE_LEN:2
+BGM_SDLY:3
+BGM_VADJ:5
+BGM_VLDLY:7
+BGM_VSDLY:0
+CLKDV_DIVIDE:2.0
+CLKFX_DIVIDE:1
+CLKFX_MULTIPLY:4
+CLKIN_DIVIDE_BY_2:TRUE
+CLKOUT_PHASE_SHIFT:FIXED
+CLK_FEEDBACK:1X
+DCM_CLKDV_CLKFX_ALIGNMENT:TRUE
+DCM_EXT_FB_EN:FALSE
+DCM_LOCK_HIGH:FALSE
+DCM_PERFORMANCE_MODE:MAX_SPEED
+DCM_UNUSED_TAPS_POWERDOWN:FALSE
+DCM_VREF_SOURCE:VBG_DLL
+DCM_VREG_ENABLE:FALSE
+DESKEW_ADJUST:17
+DFS_AVE_FREQ_ADJ_INTERVAL:3
+DFS_AVE_FREQ_GAIN:2.0
+DFS_AVE_FREQ_SAMPLE_INTERVAL:2
+DFS_COARSE_SEL:LEGACY
+DFS_EARLY_LOCK:FALSE
+DFS_EN_RELRST:TRUE
+DFS_EXTEND_FLUSH_TIME:FALSE
+DFS_EXTEND_HALT_TIME:FALSE
+DFS_EXTEND_RUN_TIME:FALSE
+DFS_FINE_SEL:LEGACY
+DFS_FREQUENCY_MODE:LOW
+DFS_NON_STOP:FALSE
+DFS_OSCILLATOR_MODE:PHASE_FREQ_LOCK
+DFS_SKIP_FINE:FALSE
+DFS_TP_SEL:LEVEL
+DFS_TRACKMODE:1
+DLL_CONTROL_CLOCK_SPEED:HALF
+DLL_CTL_SEL_CLKIN_DIV2:FALSE
+DLL_DESKEW_LOCK_BY1:FALSE
+DLL_FREQUENCY_MODE:LOW
+DLL_PD_DLY_SEL:0
+DLL_PERIOD_LOCK_BY1:FALSE
+DLL_PHASE_DETECTOR_AUTO_RESET:TRUE
+DLL_PHASE_DETECTOR_MODE:ENHANCED
+DLL_PHASE_SHIFT_CALIBRATION:AUTO_DPS
+DLL_PHASE_SHIFT_LOCK_BY1:FALSE
+DUTY_CYCLE_CORRECTION:TRUE
+PMCD_SYNC:FALSE
+STARTUP_WAIT:FALSE
+CLKIN_PERIOD = 10.0
+FACTORY_JF = F0F0
+PHASE_SHIFT = 0
+
+
+DCM_ADV "XIL_ML_UNUSED_DCM_3":
+BGM_CONFIG_REF_SEL:CLKIN
+BGM_DIVIDE:16
+BGM_LDLY:5
+BGM_MODE:BG_SNAPSHOT
+BGM_MULTIPLY:16
+BGM_SAMPLE_LEN:2
+BGM_SDLY:3
+BGM_VADJ:5
+BGM_VLDLY:7
+BGM_VSDLY:0
+CLKDV_DIVIDE:2.0
+CLKFX_DIVIDE:1
+CLKFX_MULTIPLY:4
+CLKIN_DIVIDE_BY_2:TRUE
+CLKOUT_PHASE_SHIFT:FIXED
+CLK_FEEDBACK:1X
+DCM_CLKDV_CLKFX_ALIGNMENT:TRUE
+DCM_EXT_FB_EN:FALSE
+DCM_LOCK_HIGH:FALSE
+DCM_PERFORMANCE_MODE:MAX_SPEED
+DCM_UNUSED_TAPS_POWERDOWN:FALSE
+DCM_VREF_SOURCE:VBG_DLL
+DCM_VREG_ENABLE:FALSE
+DESKEW_ADJUST:17
+DFS_AVE_FREQ_ADJ_INTERVAL:3
+DFS_AVE_FREQ_GAIN:2.0
+DFS_AVE_FREQ_SAMPLE_INTERVAL:2
+DFS_COARSE_SEL:LEGACY
+DFS_EARLY_LOCK:FALSE
+DFS_EN_RELRST:TRUE
+DFS_EXTEND_FLUSH_TIME:FALSE
+DFS_EXTEND_HALT_TIME:FALSE
+DFS_EXTEND_RUN_TIME:FALSE
+DFS_FINE_SEL:LEGACY
+DFS_FREQUENCY_MODE:LOW
+DFS_NON_STOP:FALSE
+DFS_OSCILLATOR_MODE:PHASE_FREQ_LOCK
+DFS_SKIP_FINE:FALSE
+DFS_TP_SEL:LEVEL
+DFS_TRACKMODE:1
+DLL_CONTROL_CLOCK_SPEED:HALF
+DLL_CTL_SEL_CLKIN_DIV2:FALSE
+DLL_DESKEW_LOCK_BY1:FALSE
+DLL_FREQUENCY_MODE:LOW
+DLL_PD_DLY_SEL:0
+DLL_PERIOD_LOCK_BY1:FALSE
+DLL_PHASE_DETECTOR_AUTO_RESET:TRUE
+DLL_PHASE_DETECTOR_MODE:ENHANCED
+DLL_PHASE_SHIFT_CALIBRATION:AUTO_DPS
+DLL_PHASE_SHIFT_LOCK_BY1:FALSE
+DUTY_CYCLE_CORRECTION:TRUE
+PMCD_SYNC:FALSE
+STARTUP_WAIT:FALSE
+CLKIN_PERIOD = 10.0
+FACTORY_JF = F0F0
+PHASE_SHIFT = 0
+
+
+DCM_ADV "XIL_ML_UNUSED_DCM_4":
+BGM_CONFIG_REF_SEL:CLKIN
+BGM_DIVIDE:16
+BGM_LDLY:5
+BGM_MODE:BG_SNAPSHOT
+BGM_MULTIPLY:16
+BGM_SAMPLE_LEN:2
+BGM_SDLY:3
+BGM_VADJ:5
+BGM_VLDLY:7
+BGM_VSDLY:0
+CLKDV_DIVIDE:2.0
+CLKFX_DIVIDE:1
+CLKFX_MULTIPLY:4
+CLKIN_DIVIDE_BY_2:TRUE
+CLKOUT_PHASE_SHIFT:FIXED
+CLK_FEEDBACK:1X
+DCM_CLKDV_CLKFX_ALIGNMENT:TRUE
+DCM_EXT_FB_EN:FALSE
+DCM_LOCK_HIGH:FALSE
+DCM_PERFORMANCE_MODE:MAX_SPEED
+DCM_UNUSED_TAPS_POWERDOWN:FALSE
+DCM_VREF_SOURCE:VBG_DLL
+DCM_VREG_ENABLE:FALSE
+DESKEW_ADJUST:17
+DFS_AVE_FREQ_ADJ_INTERVAL:3
+DFS_AVE_FREQ_GAIN:2.0
+DFS_AVE_FREQ_SAMPLE_INTERVAL:2
+DFS_COARSE_SEL:LEGACY
+DFS_EARLY_LOCK:FALSE
+DFS_EN_RELRST:TRUE
+DFS_EXTEND_FLUSH_TIME:FALSE
+DFS_EXTEND_HALT_TIME:FALSE
+DFS_EXTEND_RUN_TIME:FALSE
+DFS_FINE_SEL:LEGACY
+DFS_FREQUENCY_MODE:LOW
+DFS_NON_STOP:FALSE
+DFS_OSCILLATOR_MODE:PHASE_FREQ_LOCK
+DFS_SKIP_FINE:FALSE
+DFS_TP_SEL:LEVEL
+DFS_TRACKMODE:1
+DLL_CONTROL_CLOCK_SPEED:HALF
+DLL_CTL_SEL_CLKIN_DIV2:FALSE
+DLL_DESKEW_LOCK_BY1:FALSE
+DLL_FREQUENCY_MODE:LOW
+DLL_PD_DLY_SEL:0
+DLL_PERIOD_LOCK_BY1:FALSE
+DLL_PHASE_DETECTOR_AUTO_RESET:TRUE
+DLL_PHASE_DETECTOR_MODE:ENHANCED
+DLL_PHASE_SHIFT_CALIBRATION:AUTO_DPS
+DLL_PHASE_SHIFT_LOCK_BY1:FALSE
+DUTY_CYCLE_CORRECTION:TRUE
+PMCD_SYNC:FALSE
+STARTUP_WAIT:FALSE
+CLKIN_PERIOD = 10.0
+FACTORY_JF = F0F0
+PHASE_SHIFT = 0
+
+
+DCM_ADV "XIL_ML_UNUSED_DCM_5":
+BGM_CONFIG_REF_SEL:CLKIN
+BGM_DIVIDE:16
+BGM_LDLY:5
+BGM_MODE:BG_SNAPSHOT
+BGM_MULTIPLY:16
+BGM_SAMPLE_LEN:2
+BGM_SDLY:3
+BGM_VADJ:5
+BGM_VLDLY:7
+BGM_VSDLY:0
+CLKDV_DIVIDE:2.0
+CLKFX_DIVIDE:1
+CLKFX_MULTIPLY:4
+CLKIN_DIVIDE_BY_2:TRUE
+CLKOUT_PHASE_SHIFT:FIXED
+CLK_FEEDBACK:1X
+DCM_CLKDV_CLKFX_ALIGNMENT:TRUE
+DCM_EXT_FB_EN:FALSE
+DCM_LOCK_HIGH:FALSE
+DCM_PERFORMANCE_MODE:MAX_SPEED
+DCM_UNUSED_TAPS_POWERDOWN:FALSE
+DCM_VREF_SOURCE:VBG_DLL
+DCM_VREG_ENABLE:FALSE
+DESKEW_ADJUST:17
+DFS_AVE_FREQ_ADJ_INTERVAL:3
+DFS_AVE_FREQ_GAIN:2.0
+DFS_AVE_FREQ_SAMPLE_INTERVAL:2
+DFS_COARSE_SEL:LEGACY
+DFS_EARLY_LOCK:FALSE
+DFS_EN_RELRST:TRUE
+DFS_EXTEND_FLUSH_TIME:FALSE
+DFS_EXTEND_HALT_TIME:FALSE
+DFS_EXTEND_RUN_TIME:FALSE
+DFS_FINE_SEL:LEGACY
+DFS_FREQUENCY_MODE:LOW
+DFS_NON_STOP:FALSE
+DFS_OSCILLATOR_MODE:PHASE_FREQ_LOCK
+DFS_SKIP_FINE:FALSE
+DFS_TP_SEL:LEVEL
+DFS_TRACKMODE:1
+DLL_CONTROL_CLOCK_SPEED:HALF
+DLL_CTL_SEL_CLKIN_DIV2:FALSE
+DLL_DESKEW_LOCK_BY1:FALSE
+DLL_FREQUENCY_MODE:LOW
+DLL_PD_DLY_SEL:0
+DLL_PERIOD_LOCK_BY1:FALSE
+DLL_PHASE_DETECTOR_AUTO_RESET:TRUE
+DLL_PHASE_DETECTOR_MODE:ENHANCED
+DLL_PHASE_SHIFT_CALIBRATION:AUTO_DPS
+DLL_PHASE_SHIFT_LOCK_BY1:FALSE
+DUTY_CYCLE_CORRECTION:TRUE
+PMCD_SYNC:FALSE
+STARTUP_WAIT:FALSE
+CLKIN_PERIOD = 10.0
+FACTORY_JF = F0F0
+PHASE_SHIFT = 0
+
+
+DCM_ADV "XIL_ML_UNUSED_DCM_6":
+BGM_CONFIG_REF_SEL:CLKIN
+BGM_DIVIDE:16
+BGM_LDLY:5
+BGM_MODE:BG_SNAPSHOT
+BGM_MULTIPLY:16
+BGM_SAMPLE_LEN:2
+BGM_SDLY:3
+BGM_VADJ:5
+BGM_VLDLY:7
+BGM_VSDLY:0
+CLKDV_DIVIDE:2.0
+CLKFX_DIVIDE:1
+CLKFX_MULTIPLY:4
+CLKIN_DIVIDE_BY_2:TRUE
+CLKOUT_PHASE_SHIFT:FIXED
+CLK_FEEDBACK:1X
+DCM_CLKDV_CLKFX_ALIGNMENT:TRUE
+DCM_EXT_FB_EN:FALSE
+DCM_LOCK_HIGH:FALSE
+DCM_PERFORMANCE_MODE:MAX_SPEED
+DCM_UNUSED_TAPS_POWERDOWN:FALSE
+DCM_VREF_SOURCE:VBG_DLL
+DCM_VREG_ENABLE:FALSE
+DESKEW_ADJUST:17
+DFS_AVE_FREQ_ADJ_INTERVAL:3
+DFS_AVE_FREQ_GAIN:2.0
+DFS_AVE_FREQ_SAMPLE_INTERVAL:2
+DFS_COARSE_SEL:LEGACY
+DFS_EARLY_LOCK:FALSE
+DFS_EN_RELRST:TRUE
+DFS_EXTEND_FLUSH_TIME:FALSE
+DFS_EXTEND_HALT_TIME:FALSE
+DFS_EXTEND_RUN_TIME:FALSE
+DFS_FINE_SEL:LEGACY
+DFS_FREQUENCY_MODE:LOW
+DFS_NON_STOP:FALSE
+DFS_OSCILLATOR_MODE:PHASE_FREQ_LOCK
+DFS_SKIP_FINE:FALSE
+DFS_TP_SEL:LEVEL
+DFS_TRACKMODE:1
+DLL_CONTROL_CLOCK_SPEED:HALF
+DLL_CTL_SEL_CLKIN_DIV2:FALSE
+DLL_DESKEW_LOCK_BY1:FALSE
+DLL_FREQUENCY_MODE:LOW
+DLL_PD_DLY_SEL:0
+DLL_PERIOD_LOCK_BY1:FALSE
+DLL_PHASE_DETECTOR_AUTO_RESET:TRUE
+DLL_PHASE_DETECTOR_MODE:ENHANCED
+DLL_PHASE_SHIFT_CALIBRATION:AUTO_DPS
+DLL_PHASE_SHIFT_LOCK_BY1:FALSE
+DUTY_CYCLE_CORRECTION:TRUE
+PMCD_SYNC:FALSE
+STARTUP_WAIT:FALSE
+CLKIN_PERIOD = 10.0
+FACTORY_JF = F0F0
+PHASE_SHIFT = 0
+
+
+DCM_ADV "XIL_ML_UNUSED_DCM_7":
+BGM_CONFIG_REF_SEL:CLKIN
+BGM_DIVIDE:16
+BGM_LDLY:5
+BGM_MODE:BG_SNAPSHOT
+BGM_MULTIPLY:16
+BGM_SAMPLE_LEN:2
+BGM_SDLY:3
+BGM_VADJ:5
+BGM_VLDLY:7
+BGM_VSDLY:0
+CLKDV_DIVIDE:2.0
+CLKFX_DIVIDE:1
+CLKFX_MULTIPLY:4
+CLKIN_DIVIDE_BY_2:TRUE
+CLKOUT_PHASE_SHIFT:FIXED
+CLK_FEEDBACK:1X
+DCM_CLKDV_CLKFX_ALIGNMENT:TRUE
+DCM_EXT_FB_EN:FALSE
+DCM_LOCK_HIGH:FALSE
+DCM_PERFORMANCE_MODE:MAX_SPEED
+DCM_UNUSED_TAPS_POWERDOWN:FALSE
+DCM_VREF_SOURCE:VBG_DLL
+DCM_VREG_ENABLE:FALSE
+DESKEW_ADJUST:17
+DFS_AVE_FREQ_ADJ_INTERVAL:3
+DFS_AVE_FREQ_GAIN:2.0
+DFS_AVE_FREQ_SAMPLE_INTERVAL:2
+DFS_COARSE_SEL:LEGACY
+DFS_EARLY_LOCK:FALSE
+DFS_EN_RELRST:TRUE
+DFS_EXTEND_FLUSH_TIME:FALSE
+DFS_EXTEND_HALT_TIME:FALSE
+DFS_EXTEND_RUN_TIME:FALSE
+DFS_FINE_SEL:LEGACY
+DFS_FREQUENCY_MODE:LOW
+DFS_NON_STOP:FALSE
+DFS_OSCILLATOR_MODE:PHASE_FREQ_LOCK
+DFS_SKIP_FINE:FALSE
+DFS_TP_SEL:LEVEL
+DFS_TRACKMODE:1
+DLL_CONTROL_CLOCK_SPEED:HALF
+DLL_CTL_SEL_CLKIN_DIV2:FALSE
+DLL_DESKEW_LOCK_BY1:FALSE
+DLL_FREQUENCY_MODE:LOW
+DLL_PD_DLY_SEL:0
+DLL_PERIOD_LOCK_BY1:FALSE
+DLL_PHASE_DETECTOR_AUTO_RESET:TRUE
+DLL_PHASE_DETECTOR_MODE:ENHANCED
+DLL_PHASE_SHIFT_CALIBRATION:AUTO_DPS
+DLL_PHASE_SHIFT_LOCK_BY1:FALSE
+DUTY_CYCLE_CORRECTION:TRUE
+PMCD_SYNC:FALSE
+STARTUP_WAIT:FALSE
+CLKIN_PERIOD = 10.0
+FACTORY_JF = F0F0
+PHASE_SHIFT = 0
+
+
+DCM_ADV "XIL_ML_UNUSED_DCM_8":
+BGM_CONFIG_REF_SEL:CLKIN
+BGM_DIVIDE:16
+BGM_LDLY:5
+BGM_MODE:BG_SNAPSHOT
+BGM_MULTIPLY:16
+BGM_SAMPLE_LEN:2
+BGM_SDLY:3
+BGM_VADJ:5
+BGM_VLDLY:7
+BGM_VSDLY:0
+CLKDV_DIVIDE:2.0
+CLKFX_DIVIDE:1
+CLKFX_MULTIPLY:4
+CLKIN_DIVIDE_BY_2:TRUE
+CLKOUT_PHASE_SHIFT:FIXED
+CLK_FEEDBACK:1X
+DCM_CLKDV_CLKFX_ALIGNMENT:TRUE
+DCM_EXT_FB_EN:FALSE
+DCM_LOCK_HIGH:FALSE
+DCM_PERFORMANCE_MODE:MAX_SPEED
+DCM_UNUSED_TAPS_POWERDOWN:FALSE
+DCM_VREF_SOURCE:VBG_DLL
+DCM_VREG_ENABLE:FALSE
+DESKEW_ADJUST:17
+DFS_AVE_FREQ_ADJ_INTERVAL:3
+DFS_AVE_FREQ_GAIN:2.0
+DFS_AVE_FREQ_SAMPLE_INTERVAL:2
+DFS_COARSE_SEL:LEGACY
+DFS_EARLY_LOCK:FALSE
+DFS_EN_RELRST:TRUE
+DFS_EXTEND_FLUSH_TIME:FALSE
+DFS_EXTEND_HALT_TIME:FALSE
+DFS_EXTEND_RUN_TIME:FALSE
+DFS_FINE_SEL:LEGACY
+DFS_FREQUENCY_MODE:LOW
+DFS_NON_STOP:FALSE
+DFS_OSCILLATOR_MODE:PHASE_FREQ_LOCK
+DFS_SKIP_FINE:FALSE
+DFS_TP_SEL:LEVEL
+DFS_TRACKMODE:1
+DLL_CONTROL_CLOCK_SPEED:HALF
+DLL_CTL_SEL_CLKIN_DIV2:FALSE
+DLL_DESKEW_LOCK_BY1:FALSE
+DLL_FREQUENCY_MODE:LOW
+DLL_PD_DLY_SEL:0
+DLL_PERIOD_LOCK_BY1:FALSE
+DLL_PHASE_DETECTOR_AUTO_RESET:TRUE
+DLL_PHASE_DETECTOR_MODE:ENHANCED
+DLL_PHASE_SHIFT_CALIBRATION:AUTO_DPS
+DLL_PHASE_SHIFT_LOCK_BY1:FALSE
+DUTY_CYCLE_CORRECTION:TRUE
+PMCD_SYNC:FALSE
+STARTUP_WAIT:FALSE
+CLKIN_PERIOD = 10.0
+FACTORY_JF = F0F0
+PHASE_SHIFT = 0
+
+
+
+Section 12 - Control Set Information
+------------------------------------
+No control set information for this architecture.
+
+Section 13 - Utilization by Hierarchy
+-------------------------------------
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Module                | Partition | Slices        | Slice Reg     | LUTs          | LUTRAM        | BRAM/FIFO | DSP48   | BUFG  | BUFIO | BUFR  | DCM_ADV   | Full Hierarchical Nam |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| melexis_mlx90640_i2c/ |           | 313/313       | 123/123       | 507/507       | 0/0           | 0/0       | 0/0     | 2/2   | 0/0   | 0/0   | 0/0       | melexis_mlx90640_i2c  |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+* Slices can be packed with basic elements from multiple hierarchies.
+  Therefore, a slice will be counted in every hierarchical module
+  that each of its packed basic elements belong to.
+** For each column, there are two numbers reported <A>/<B>.
+   <A> is the number of elements that belong to that specific hierarchical module.
+   <B> is the total number of elements from that hierarchical module and any lower level
+   hierarchical modules below.
+*** The LUTRAM column counts all LUTs used as memory including RAM, ROM, and shift registers.

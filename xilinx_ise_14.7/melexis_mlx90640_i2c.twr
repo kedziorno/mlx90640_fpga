@@ -1,0 +1,921 @@
+--------------------------------------------------------------------------------
+Release 14.7 Trace  (lin64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+/home/user/.local/Xilinx/14.7/ISE_DS/ISE/bin/lin64/unwrapped/trce -intstyle ise
+-v 3 -tsi melexis_mlx90640_i2c.tsi -timegroups -a -s 10 -n 3 -fastpaths -xml
+melexis_mlx90640_i2c.twx melexis_mlx90640_i2c.ncd -o melexis_mlx90640_i2c.twr
+melexis_mlx90640_i2c.pcf -ucf melexis_mlx90640_i2c.ucf
+
+Design file:              melexis_mlx90640_i2c.ncd
+Physical constraint file: melexis_mlx90640_i2c.pcf
+Device,package,speed:     xc4vsx35,ff668,-10 (PRODUCTION 1.71 2013-10-13, STEPPING level 1)
+Report level:             verbose report
+
+Environment Variable      Effect 
+--------------------      ------ 
+NONE                      No environment variables were set
+--------------------------------------------------------------------------------
+
+INFO:Timing:2700 - Timing constraints ignored because advanced analysis with 
+   offsets was specified.
+INFO:Timing:3412 - To improve timing, see the Timing Closure User Guide (UG612).
+INFO:Timing:2752 - To get complete path coverage, use the unconstrained paths 
+   option. All paths that are not constrained will be reported in the 
+   unconstrained paths section(s) of the report.
+INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on 
+   a 50 Ohm transmission line loading model.  For the details of this model, 
+   and for more information on accounting for different loading conditions, 
+   please see the device datasheet.
+
+================================================================================
+Timing constraint: Default period analysis for net "clock" 
+
+ 4536 paths analyzed, 412 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 setup errors, 0 hold errors)
+ Minimum period is   7.679ns.
+--------------------------------------------------------------------------------
+
+Paths for end point Mtrien_io_sda (SLICE_X6Y38.CE), 483 paths
+--------------------------------------------------------------------------------
+Delay (setup path):     7.679ns (data path - clock path skew + uncertainty)
+  Source:               mode2_read_data_index_ctr_0 (FF)
+  Destination:          Mtrien_io_sda (FF)
+  Data Path Delay:      7.679ns (Levels of Logic = 7)
+  Clock Path Skew:      0.000ns
+  Source Clock:         clock rising
+  Destination Clock:    clock rising
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: mode2_read_data_index_ctr_0 to Mtrien_io_sda
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X41Y36.YQ      Tcko                  0.340   mode2_read_data_index_ctr<0>
+                                                       mode2_read_data_index_ctr_0
+    SLICE_X39Y38.G2      net (fanout=2)        1.027   mode2_read_data_index_ctr<0>
+    SLICE_X39Y38.Y       Tilo                  0.194   c_state_cmp_eq0003
+                                                       c_state_cmp_eq000322_SW0
+    SLICE_X39Y38.F1      net (fanout=1)        0.648   c_state_cmp_eq000322_SW0/O
+    SLICE_X39Y38.X       Tilo                  0.194   c_state_cmp_eq0003
+                                                       c_state_cmp_eq000322
+    SLICE_X14Y39.F4      net (fanout=15)       1.267   c_state_cmp_eq0003
+    SLICE_X14Y39.X       Tilo                  0.195   Mtrien_io_sda_not0001899
+                                                       Mtrien_io_sda_not0001899
+    SLICE_X12Y40.F3      net (fanout=1)        0.425   Mtrien_io_sda_not0001899
+    SLICE_X12Y40.X       Tilo                  0.195   Mtrien_io_sda_not00011008
+                                                       Mtrien_io_sda_not00011008
+    SLICE_X13Y39.G1      net (fanout=1)        0.557   Mtrien_io_sda_not00011008
+    SLICE_X13Y39.Y       Tilo                  0.194   Mtrien_io_sda_not00011086
+                                                       Mtrien_io_sda_not00011039
+    SLICE_X13Y39.F4      net (fanout=1)        0.159   Mtrien_io_sda_not00011039/O
+    SLICE_X13Y39.X       Tilo                  0.194   Mtrien_io_sda_not00011086
+                                                       Mtrien_io_sda_not00011086
+    SLICE_X9Y38.F1       net (fanout=1)        0.825   Mtrien_io_sda_not00011086
+    SLICE_X9Y38.X        Tilo                  0.194   Mtrien_io_sda_not0001
+                                                       Mtrien_io_sda_not00011122
+    SLICE_X6Y38.CE       net (fanout=1)        0.517   Mtrien_io_sda_not0001
+    SLICE_X6Y38.CLK      Tceck                 0.554   Mtrien_io_sda
+                                                       Mtrien_io_sda
+    -------------------------------------------------  ---------------------------
+    Total                                      7.679ns (2.254ns logic, 5.425ns route)
+                                                       (29.4% logic, 70.6% route)
+
+--------------------------------------------------------------------------------
+Delay (setup path):     7.663ns (data path - clock path skew + uncertainty)
+  Source:               mode2_read_data_index_ctr_5 (FF)
+  Destination:          Mtrien_io_sda (FF)
+  Data Path Delay:      7.663ns (Levels of Logic = 7)
+  Clock Path Skew:      0.000ns
+  Source Clock:         clock rising
+  Destination Clock:    clock rising
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: mode2_read_data_index_ctr_5 to Mtrien_io_sda
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X41Y38.YQ      Tcko                  0.340   mode2_read_data_index_ctr<4>
+                                                       mode2_read_data_index_ctr_5
+    SLICE_X39Y38.G1      net (fanout=2)        1.011   mode2_read_data_index_ctr<5>
+    SLICE_X39Y38.Y       Tilo                  0.194   c_state_cmp_eq0003
+                                                       c_state_cmp_eq000322_SW0
+    SLICE_X39Y38.F1      net (fanout=1)        0.648   c_state_cmp_eq000322_SW0/O
+    SLICE_X39Y38.X       Tilo                  0.194   c_state_cmp_eq0003
+                                                       c_state_cmp_eq000322
+    SLICE_X14Y39.F4      net (fanout=15)       1.267   c_state_cmp_eq0003
+    SLICE_X14Y39.X       Tilo                  0.195   Mtrien_io_sda_not0001899
+                                                       Mtrien_io_sda_not0001899
+    SLICE_X12Y40.F3      net (fanout=1)        0.425   Mtrien_io_sda_not0001899
+    SLICE_X12Y40.X       Tilo                  0.195   Mtrien_io_sda_not00011008
+                                                       Mtrien_io_sda_not00011008
+    SLICE_X13Y39.G1      net (fanout=1)        0.557   Mtrien_io_sda_not00011008
+    SLICE_X13Y39.Y       Tilo                  0.194   Mtrien_io_sda_not00011086
+                                                       Mtrien_io_sda_not00011039
+    SLICE_X13Y39.F4      net (fanout=1)        0.159   Mtrien_io_sda_not00011039/O
+    SLICE_X13Y39.X       Tilo                  0.194   Mtrien_io_sda_not00011086
+                                                       Mtrien_io_sda_not00011086
+    SLICE_X9Y38.F1       net (fanout=1)        0.825   Mtrien_io_sda_not00011086
+    SLICE_X9Y38.X        Tilo                  0.194   Mtrien_io_sda_not0001
+                                                       Mtrien_io_sda_not00011122
+    SLICE_X6Y38.CE       net (fanout=1)        0.517   Mtrien_io_sda_not0001
+    SLICE_X6Y38.CLK      Tceck                 0.554   Mtrien_io_sda
+                                                       Mtrien_io_sda
+    -------------------------------------------------  ---------------------------
+    Total                                      7.663ns (2.254ns logic, 5.409ns route)
+                                                       (29.4% logic, 70.6% route)
+
+--------------------------------------------------------------------------------
+Delay (setup path):     7.576ns (data path - clock path skew + uncertainty)
+  Source:               mode2_read_data_index_ctr_1 (FF)
+  Destination:          Mtrien_io_sda (FF)
+  Data Path Delay:      7.576ns (Levels of Logic = 7)
+  Clock Path Skew:      0.000ns
+  Source Clock:         clock rising
+  Destination Clock:    clock rising
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: mode2_read_data_index_ctr_1 to Mtrien_io_sda
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X41Y37.XQ      Tcko                  0.340   mode2_read_data_index_ctr<1>
+                                                       mode2_read_data_index_ctr_1
+    SLICE_X39Y38.G3      net (fanout=2)        0.924   mode2_read_data_index_ctr<1>
+    SLICE_X39Y38.Y       Tilo                  0.194   c_state_cmp_eq0003
+                                                       c_state_cmp_eq000322_SW0
+    SLICE_X39Y38.F1      net (fanout=1)        0.648   c_state_cmp_eq000322_SW0/O
+    SLICE_X39Y38.X       Tilo                  0.194   c_state_cmp_eq0003
+                                                       c_state_cmp_eq000322
+    SLICE_X14Y39.F4      net (fanout=15)       1.267   c_state_cmp_eq0003
+    SLICE_X14Y39.X       Tilo                  0.195   Mtrien_io_sda_not0001899
+                                                       Mtrien_io_sda_not0001899
+    SLICE_X12Y40.F3      net (fanout=1)        0.425   Mtrien_io_sda_not0001899
+    SLICE_X12Y40.X       Tilo                  0.195   Mtrien_io_sda_not00011008
+                                                       Mtrien_io_sda_not00011008
+    SLICE_X13Y39.G1      net (fanout=1)        0.557   Mtrien_io_sda_not00011008
+    SLICE_X13Y39.Y       Tilo                  0.194   Mtrien_io_sda_not00011086
+                                                       Mtrien_io_sda_not00011039
+    SLICE_X13Y39.F4      net (fanout=1)        0.159   Mtrien_io_sda_not00011039/O
+    SLICE_X13Y39.X       Tilo                  0.194   Mtrien_io_sda_not00011086
+                                                       Mtrien_io_sda_not00011086
+    SLICE_X9Y38.F1       net (fanout=1)        0.825   Mtrien_io_sda_not00011086
+    SLICE_X9Y38.X        Tilo                  0.194   Mtrien_io_sda_not0001
+                                                       Mtrien_io_sda_not00011122
+    SLICE_X6Y38.CE       net (fanout=1)        0.517   Mtrien_io_sda_not0001
+    SLICE_X6Y38.CLK      Tceck                 0.554   Mtrien_io_sda
+                                                       Mtrien_io_sda
+    -------------------------------------------------  ---------------------------
+    Total                                      7.576ns (2.254ns logic, 5.322ns route)
+                                                       (29.8% logic, 70.2% route)
+
+--------------------------------------------------------------------------------
+
+Paths for end point bytes_to_recv_i_7 (SLICE_X3Y12.G2), 76 paths
+--------------------------------------------------------------------------------
+Delay (setup path):     7.593ns (data path - clock path skew + uncertainty)
+  Source:               c_state_FSM_FFd13 (FF)
+  Destination:          bytes_to_recv_i_7 (FF)
+  Data Path Delay:      7.593ns (Levels of Logic = 6)
+  Clock Path Skew:      0.000ns
+  Source Clock:         clock rising
+  Destination Clock:    clock rising
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: c_state_FSM_FFd13 to bytes_to_recv_i_7
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X23Y51.YQ      Tcko                  0.340   c_state_FSM_FFd13
+                                                       c_state_FSM_FFd13
+    SLICE_X16Y49.F2      net (fanout=5)        1.035   c_state_FSM_FFd13
+    SLICE_X16Y49.X       Tilo                  0.195   bytes_to_recv_i_10_mux0001111115
+                                                       bytes_to_recv_i_10_mux0001111115
+    SLICE_X12Y44.F1      net (fanout=1)        1.002   bytes_to_recv_i_10_mux0001111115
+    SLICE_X12Y44.X       Tilo                  0.195   N55
+                                                       bytes_to_recv_i_10_mux0001111130
+    SLICE_X11Y34.F4      net (fanout=3)        0.975   N55
+    SLICE_X11Y34.X       Tilo                  0.194   N36
+                                                       bytes_to_recv_i_10_mux000111122
+    SLICE_X12Y25.F2      net (fanout=5)        0.983   N36
+    SLICE_X12Y25.X       Tilo                  0.195   N25
+                                                       bytes_to_recv_i_10_mux000111
+    SLICE_X9Y18.F3       net (fanout=2)        0.882   N25
+    SLICE_X9Y18.X        Tilo                  0.194   N39
+                                                       bytes_to_recv_i_1_mux000011
+    SLICE_X3Y12.G2       net (fanout=7)        1.172   N39
+    SLICE_X3Y12.CLK      Tgck                  0.231   bytes_to_recv_i<7>
+                                                       bytes_to_recv_i_7_mux000058
+                                                       bytes_to_recv_i_7
+    -------------------------------------------------  ---------------------------
+    Total                                      7.593ns (1.544ns logic, 6.049ns route)
+                                                       (20.3% logic, 79.7% route)
+
+--------------------------------------------------------------------------------
+Delay (setup path):     7.520ns (data path - clock path skew + uncertainty)
+  Source:               c_state_FSM_FFd7 (FF)
+  Destination:          bytes_to_recv_i_7 (FF)
+  Data Path Delay:      7.520ns (Levels of Logic = 6)
+  Clock Path Skew:      0.000ns
+  Source Clock:         clock rising
+  Destination Clock:    clock rising
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: c_state_FSM_FFd7 to bytes_to_recv_i_7
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X23Y37.YQ      Tcko                  0.340   c_state_FSM_FFd7
+                                                       c_state_FSM_FFd7
+    SLICE_X13Y45.F3      net (fanout=6)        1.491   c_state_FSM_FFd7
+    SLICE_X13Y45.X       Tilo                  0.194   bytes_to_recv_i_10_mux0001111120
+                                                       bytes_to_recv_i_10_mux0001111120
+    SLICE_X12Y44.F3      net (fanout=1)        0.474   bytes_to_recv_i_10_mux0001111120
+    SLICE_X12Y44.X       Tilo                  0.195   N55
+                                                       bytes_to_recv_i_10_mux0001111130
+    SLICE_X11Y34.F4      net (fanout=3)        0.975   N55
+    SLICE_X11Y34.X       Tilo                  0.194   N36
+                                                       bytes_to_recv_i_10_mux000111122
+    SLICE_X12Y25.F2      net (fanout=5)        0.983   N36
+    SLICE_X12Y25.X       Tilo                  0.195   N25
+                                                       bytes_to_recv_i_10_mux000111
+    SLICE_X9Y18.F3       net (fanout=2)        0.882   N25
+    SLICE_X9Y18.X        Tilo                  0.194   N39
+                                                       bytes_to_recv_i_1_mux000011
+    SLICE_X3Y12.G2       net (fanout=7)        1.172   N39
+    SLICE_X3Y12.CLK      Tgck                  0.231   bytes_to_recv_i<7>
+                                                       bytes_to_recv_i_7_mux000058
+                                                       bytes_to_recv_i_7
+    -------------------------------------------------  ---------------------------
+    Total                                      7.520ns (1.543ns logic, 5.977ns route)
+                                                       (20.5% logic, 79.5% route)
+
+--------------------------------------------------------------------------------
+Delay (setup path):     7.258ns (data path - clock path skew + uncertainty)
+  Source:               c_state_FSM_FFd4 (FF)
+  Destination:          bytes_to_recv_i_7 (FF)
+  Data Path Delay:      7.258ns (Levels of Logic = 6)
+  Clock Path Skew:      0.000ns
+  Source Clock:         clock rising
+  Destination Clock:    clock rising
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: c_state_FSM_FFd4 to bytes_to_recv_i_7
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X21Y36.YQ      Tcko                  0.340   c_state_FSM_FFd4
+                                                       c_state_FSM_FFd4
+    SLICE_X13Y45.F4      net (fanout=6)        1.229   c_state_FSM_FFd4
+    SLICE_X13Y45.X       Tilo                  0.194   bytes_to_recv_i_10_mux0001111120
+                                                       bytes_to_recv_i_10_mux0001111120
+    SLICE_X12Y44.F3      net (fanout=1)        0.474   bytes_to_recv_i_10_mux0001111120
+    SLICE_X12Y44.X       Tilo                  0.195   N55
+                                                       bytes_to_recv_i_10_mux0001111130
+    SLICE_X11Y34.F4      net (fanout=3)        0.975   N55
+    SLICE_X11Y34.X       Tilo                  0.194   N36
+                                                       bytes_to_recv_i_10_mux000111122
+    SLICE_X12Y25.F2      net (fanout=5)        0.983   N36
+    SLICE_X12Y25.X       Tilo                  0.195   N25
+                                                       bytes_to_recv_i_10_mux000111
+    SLICE_X9Y18.F3       net (fanout=2)        0.882   N25
+    SLICE_X9Y18.X        Tilo                  0.194   N39
+                                                       bytes_to_recv_i_1_mux000011
+    SLICE_X3Y12.G2       net (fanout=7)        1.172   N39
+    SLICE_X3Y12.CLK      Tgck                  0.231   bytes_to_recv_i<7>
+                                                       bytes_to_recv_i_7_mux000058
+                                                       bytes_to_recv_i_7
+    -------------------------------------------------  ---------------------------
+    Total                                      7.258ns (1.543ns logic, 5.715ns route)
+                                                       (21.3% logic, 78.7% route)
+
+--------------------------------------------------------------------------------
+
+Paths for end point bytes_to_recv_i_6 (SLICE_X5Y12.F2), 76 paths
+--------------------------------------------------------------------------------
+Delay (setup path):     7.590ns (data path - clock path skew + uncertainty)
+  Source:               c_state_FSM_FFd13 (FF)
+  Destination:          bytes_to_recv_i_6 (FF)
+  Data Path Delay:      7.590ns (Levels of Logic = 6)
+  Clock Path Skew:      0.000ns
+  Source Clock:         clock rising
+  Destination Clock:    clock rising
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: c_state_FSM_FFd13 to bytes_to_recv_i_6
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X23Y51.YQ      Tcko                  0.340   c_state_FSM_FFd13
+                                                       c_state_FSM_FFd13
+    SLICE_X16Y49.F2      net (fanout=5)        1.035   c_state_FSM_FFd13
+    SLICE_X16Y49.X       Tilo                  0.195   bytes_to_recv_i_10_mux0001111115
+                                                       bytes_to_recv_i_10_mux0001111115
+    SLICE_X12Y44.F1      net (fanout=1)        1.002   bytes_to_recv_i_10_mux0001111115
+    SLICE_X12Y44.X       Tilo                  0.195   N55
+                                                       bytes_to_recv_i_10_mux0001111130
+    SLICE_X11Y34.F4      net (fanout=3)        0.975   N55
+    SLICE_X11Y34.X       Tilo                  0.194   N36
+                                                       bytes_to_recv_i_10_mux000111122
+    SLICE_X12Y25.F2      net (fanout=5)        0.983   N36
+    SLICE_X12Y25.X       Tilo                  0.195   N25
+                                                       bytes_to_recv_i_10_mux000111
+    SLICE_X9Y18.F3       net (fanout=2)        0.882   N25
+    SLICE_X9Y18.X        Tilo                  0.194   N39
+                                                       bytes_to_recv_i_1_mux000011
+    SLICE_X5Y12.F2       net (fanout=7)        1.165   N39
+    SLICE_X5Y12.CLK      Tfck                  0.235   bytes_to_recv_i<6>
+                                                       bytes_to_recv_i_6_mux000057
+                                                       bytes_to_recv_i_6
+    -------------------------------------------------  ---------------------------
+    Total                                      7.590ns (1.548ns logic, 6.042ns route)
+                                                       (20.4% logic, 79.6% route)
+
+--------------------------------------------------------------------------------
+Delay (setup path):     7.517ns (data path - clock path skew + uncertainty)
+  Source:               c_state_FSM_FFd7 (FF)
+  Destination:          bytes_to_recv_i_6 (FF)
+  Data Path Delay:      7.517ns (Levels of Logic = 6)
+  Clock Path Skew:      0.000ns
+  Source Clock:         clock rising
+  Destination Clock:    clock rising
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: c_state_FSM_FFd7 to bytes_to_recv_i_6
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X23Y37.YQ      Tcko                  0.340   c_state_FSM_FFd7
+                                                       c_state_FSM_FFd7
+    SLICE_X13Y45.F3      net (fanout=6)        1.491   c_state_FSM_FFd7
+    SLICE_X13Y45.X       Tilo                  0.194   bytes_to_recv_i_10_mux0001111120
+                                                       bytes_to_recv_i_10_mux0001111120
+    SLICE_X12Y44.F3      net (fanout=1)        0.474   bytes_to_recv_i_10_mux0001111120
+    SLICE_X12Y44.X       Tilo                  0.195   N55
+                                                       bytes_to_recv_i_10_mux0001111130
+    SLICE_X11Y34.F4      net (fanout=3)        0.975   N55
+    SLICE_X11Y34.X       Tilo                  0.194   N36
+                                                       bytes_to_recv_i_10_mux000111122
+    SLICE_X12Y25.F2      net (fanout=5)        0.983   N36
+    SLICE_X12Y25.X       Tilo                  0.195   N25
+                                                       bytes_to_recv_i_10_mux000111
+    SLICE_X9Y18.F3       net (fanout=2)        0.882   N25
+    SLICE_X9Y18.X        Tilo                  0.194   N39
+                                                       bytes_to_recv_i_1_mux000011
+    SLICE_X5Y12.F2       net (fanout=7)        1.165   N39
+    SLICE_X5Y12.CLK      Tfck                  0.235   bytes_to_recv_i<6>
+                                                       bytes_to_recv_i_6_mux000057
+                                                       bytes_to_recv_i_6
+    -------------------------------------------------  ---------------------------
+    Total                                      7.517ns (1.547ns logic, 5.970ns route)
+                                                       (20.6% logic, 79.4% route)
+
+--------------------------------------------------------------------------------
+Delay (setup path):     7.255ns (data path - clock path skew + uncertainty)
+  Source:               c_state_FSM_FFd4 (FF)
+  Destination:          bytes_to_recv_i_6 (FF)
+  Data Path Delay:      7.255ns (Levels of Logic = 6)
+  Clock Path Skew:      0.000ns
+  Source Clock:         clock rising
+  Destination Clock:    clock rising
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: c_state_FSM_FFd4 to bytes_to_recv_i_6
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X21Y36.YQ      Tcko                  0.340   c_state_FSM_FFd4
+                                                       c_state_FSM_FFd4
+    SLICE_X13Y45.F4      net (fanout=6)        1.229   c_state_FSM_FFd4
+    SLICE_X13Y45.X       Tilo                  0.194   bytes_to_recv_i_10_mux0001111120
+                                                       bytes_to_recv_i_10_mux0001111120
+    SLICE_X12Y44.F3      net (fanout=1)        0.474   bytes_to_recv_i_10_mux0001111120
+    SLICE_X12Y44.X       Tilo                  0.195   N55
+                                                       bytes_to_recv_i_10_mux0001111130
+    SLICE_X11Y34.F4      net (fanout=3)        0.975   N55
+    SLICE_X11Y34.X       Tilo                  0.194   N36
+                                                       bytes_to_recv_i_10_mux000111122
+    SLICE_X12Y25.F2      net (fanout=5)        0.983   N36
+    SLICE_X12Y25.X       Tilo                  0.195   N25
+                                                       bytes_to_recv_i_10_mux000111
+    SLICE_X9Y18.F3       net (fanout=2)        0.882   N25
+    SLICE_X9Y18.X        Tilo                  0.194   N39
+                                                       bytes_to_recv_i_1_mux000011
+    SLICE_X5Y12.F2       net (fanout=7)        1.165   N39
+    SLICE_X5Y12.CLK      Tfck                  0.235   bytes_to_recv_i<6>
+                                                       bytes_to_recv_i_6_mux000057
+                                                       bytes_to_recv_i_6
+    -------------------------------------------------  ---------------------------
+    Total                                      7.255ns (1.547ns logic, 5.708ns route)
+                                                       (21.3% logic, 78.7% route)
+
+--------------------------------------------------------------------------------
+
+Hold Paths: Default period analysis for net "clock"
+
+--------------------------------------------------------------------------------
+
+Paths for end point c_state_FSM_FFd64 (SLICE_X7Y34.F4), 1 path
+--------------------------------------------------------------------------------
+Delay (hold path):      0.506ns (datapath - clock path skew - uncertainty)
+  Source:               c_state_FSM_FFd64 (FF)
+  Destination:          c_state_FSM_FFd64 (FF)
+  Data Path Delay:      0.506ns (Levels of Logic = 1)
+  Clock Path Skew:      0.000ns
+  Source Clock:         clock rising
+  Destination Clock:    clock rising
+  Clock Uncertainty:    0.000ns
+
+  Minimum Data Path: c_state_FSM_FFd64 to c_state_FSM_FFd64
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X7Y34.XQ       Tcko                  0.313   state_0_and0000
+                                                       c_state_FSM_FFd64
+    SLICE_X7Y34.F4       net (fanout=12)       0.314   c_state_FSM_FFd64
+    SLICE_X7Y34.CLK      Tckf        (-Th)     0.121   state_0_and0000
+                                                       c_state_FSM_FFd64-In1
+                                                       c_state_FSM_FFd64
+    -------------------------------------------------  ---------------------------
+    Total                                      0.506ns (0.192ns logic, 0.314ns route)
+                                                       (37.9% logic, 62.1% route)
+
+--------------------------------------------------------------------------------
+
+Paths for end point bytes_to_recv_i_10 (SLICE_X3Y18.F4), 1 path
+--------------------------------------------------------------------------------
+Delay (hold path):      0.517ns (datapath - clock path skew - uncertainty)
+  Source:               bytes_to_recv_i_10 (FF)
+  Destination:          bytes_to_recv_i_10 (FF)
+  Data Path Delay:      0.517ns (Levels of Logic = 1)
+  Clock Path Skew:      0.000ns
+  Source Clock:         clock rising
+  Destination Clock:    clock rising
+  Clock Uncertainty:    0.000ns
+
+  Minimum Data Path: bytes_to_recv_i_10 to bytes_to_recv_i_10
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X3Y18.XQ       Tcko                  0.313   bytes_to_recv_i<10>
+                                                       bytes_to_recv_i_10
+    SLICE_X3Y18.F4       net (fanout=2)        0.325   bytes_to_recv_i<10>
+    SLICE_X3Y18.CLK      Tckf        (-Th)     0.121   bytes_to_recv_i<10>
+                                                       bytes_to_recv_i_10_mux000157
+                                                       bytes_to_recv_i_10
+    -------------------------------------------------  ---------------------------
+    Total                                      0.517ns (0.192ns logic, 0.325ns route)
+                                                       (37.1% logic, 62.9% route)
+
+--------------------------------------------------------------------------------
+
+Paths for end point c_state_FSM_FFd37 (SLICE_X13Y60.G4), 1 path
+--------------------------------------------------------------------------------
+Delay (hold path):      0.513ns (datapath - clock path skew - uncertainty)
+  Source:               c_state_FSM_FFd37 (FF)
+  Destination:          c_state_FSM_FFd37 (FF)
+  Data Path Delay:      0.513ns (Levels of Logic = 1)
+  Clock Path Skew:      0.000ns
+  Source Clock:         clock rising
+  Destination Clock:    clock rising
+  Clock Uncertainty:    0.000ns
+
+  Minimum Data Path: c_state_FSM_FFd37 to c_state_FSM_FFd37
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X13Y60.YQ      Tcko                  0.313   c_state_FSM_FFd37
+                                                       c_state_FSM_FFd37
+    SLICE_X13Y60.G4      net (fanout=7)        0.325   c_state_FSM_FFd37
+    SLICE_X13Y60.CLK     Tckg        (-Th)     0.125   c_state_FSM_FFd37
+                                                       c_state_FSM_FFd37-In1
+                                                       c_state_FSM_FFd37
+    -------------------------------------------------  ---------------------------
+    Total                                      0.513ns (0.188ns logic, 0.325ns route)
+                                                       (36.6% logic, 63.4% route)
+
+--------------------------------------------------------------------------------
+
+================================================================================
+Timing constraint: Default period analysis for net "i_clock_BUFGP" 
+
+ 40 paths analyzed, 17 endpoints analyzed, 0 failing endpoints
+ 0 timing errors detected. (0 setup errors, 0 hold errors)
+ Minimum period is   2.763ns.
+--------------------------------------------------------------------------------
+
+Paths for end point count_4 (SLICE_X37Y88.G4), 8 paths
+--------------------------------------------------------------------------------
+Delay (setup path):     2.763ns (data path - clock path skew + uncertainty)
+  Source:               count_3 (FF)
+  Destination:          count_4 (FF)
+  Data Path Delay:      2.763ns (Levels of Logic = 4)
+  Clock Path Skew:      0.000ns
+  Source Clock:         i_clock_BUFGP rising
+  Destination Clock:    i_clock_BUFGP rising
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: count_3 to count_4
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X37Y89.XQ      Tcko                  0.340   count<3>
+                                                       count_3
+    SLICE_X36Y92.G2      net (fanout=3)        0.744   count<3>
+    SLICE_X36Y92.Y       Tilo                  0.195   clock1
+                                                       count_cmp_eq0000_SW0
+    SLICE_X36Y92.F4      net (fanout=1)        0.159   N4
+    SLICE_X36Y92.X       Tilo                  0.195   clock1
+                                                       count_cmp_eq0000
+    SLICE_X37Y89.G4      net (fanout=3)        0.374   count_cmp_eq0000
+    SLICE_X37Y89.Y       Tilo                  0.194   count<3>
+                                                       Mcount_count_cy<2>11
+    SLICE_X37Y88.G4      net (fanout=2)        0.331   Mcount_count_cy<2>
+    SLICE_X37Y88.CLK     Tgck                  0.231   count<0>
+                                                       Mcount_count_xor<4>11
+                                                       count_4
+    -------------------------------------------------  ---------------------------
+    Total                                      2.763ns (1.155ns logic, 1.608ns route)
+                                                       (41.8% logic, 58.2% route)
+
+--------------------------------------------------------------------------------
+Delay (setup path):     2.585ns (data path - clock path skew + uncertainty)
+  Source:               count_2 (FF)
+  Destination:          count_4 (FF)
+  Data Path Delay:      2.585ns (Levels of Logic = 4)
+  Clock Path Skew:      0.000ns
+  Source Clock:         i_clock_BUFGP rising
+  Destination Clock:    i_clock_BUFGP rising
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: count_2 to count_4
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X36Y88.YQ      Tcko                  0.360   count<2>
+                                                       count_2
+    SLICE_X36Y92.G4      net (fanout=3)        0.546   count<2>
+    SLICE_X36Y92.Y       Tilo                  0.195   clock1
+                                                       count_cmp_eq0000_SW0
+    SLICE_X36Y92.F4      net (fanout=1)        0.159   N4
+    SLICE_X36Y92.X       Tilo                  0.195   clock1
+                                                       count_cmp_eq0000
+    SLICE_X37Y89.G4      net (fanout=3)        0.374   count_cmp_eq0000
+    SLICE_X37Y89.Y       Tilo                  0.194   count<3>
+                                                       Mcount_count_cy<2>11
+    SLICE_X37Y88.G4      net (fanout=2)        0.331   Mcount_count_cy<2>
+    SLICE_X37Y88.CLK     Tgck                  0.231   count<0>
+                                                       Mcount_count_xor<4>11
+                                                       count_4
+    -------------------------------------------------  ---------------------------
+    Total                                      2.585ns (1.175ns logic, 1.410ns route)
+                                                       (45.5% logic, 54.5% route)
+
+--------------------------------------------------------------------------------
+Delay (setup path):     2.451ns (data path - clock path skew + uncertainty)
+  Source:               count_1 (FF)
+  Destination:          count_4 (FF)
+  Data Path Delay:      2.451ns (Levels of Logic = 3)
+  Clock Path Skew:      0.000ns
+  Source Clock:         i_clock_BUFGP rising
+  Destination Clock:    i_clock_BUFGP rising
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: count_1 to count_4
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X36Y86.YQ      Tcko                  0.360   count<1>
+                                                       count_1
+    SLICE_X36Y92.F2      net (fanout=4)        0.766   count<1>
+    SLICE_X36Y92.X       Tilo                  0.195   clock1
+                                                       count_cmp_eq0000
+    SLICE_X37Y89.G4      net (fanout=3)        0.374   count_cmp_eq0000
+    SLICE_X37Y89.Y       Tilo                  0.194   count<3>
+                                                       Mcount_count_cy<2>11
+    SLICE_X37Y88.G4      net (fanout=2)        0.331   Mcount_count_cy<2>
+    SLICE_X37Y88.CLK     Tgck                  0.231   count<0>
+                                                       Mcount_count_xor<4>11
+                                                       count_4
+    -------------------------------------------------  ---------------------------
+    Total                                      2.451ns (0.980ns logic, 1.471ns route)
+                                                       (40.0% logic, 60.0% route)
+
+--------------------------------------------------------------------------------
+
+Paths for end point count_3 (SLICE_X37Y89.F4), 8 paths
+--------------------------------------------------------------------------------
+Delay (setup path):     2.601ns (data path - clock path skew + uncertainty)
+  Source:               count_3 (FF)
+  Destination:          count_3 (FF)
+  Data Path Delay:      2.601ns (Levels of Logic = 4)
+  Clock Path Skew:      0.000ns
+  Source Clock:         i_clock_BUFGP rising
+  Destination Clock:    i_clock_BUFGP rising
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: count_3 to count_3
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X37Y89.XQ      Tcko                  0.340   count<3>
+                                                       count_3
+    SLICE_X36Y92.G2      net (fanout=3)        0.744   count<3>
+    SLICE_X36Y92.Y       Tilo                  0.195   clock1
+                                                       count_cmp_eq0000_SW0
+    SLICE_X36Y92.F4      net (fanout=1)        0.159   N4
+    SLICE_X36Y92.X       Tilo                  0.195   clock1
+                                                       count_cmp_eq0000
+    SLICE_X37Y89.G4      net (fanout=3)        0.374   count_cmp_eq0000
+    SLICE_X37Y89.Y       Tilo                  0.194   count<3>
+                                                       Mcount_count_cy<2>11
+    SLICE_X37Y89.F4      net (fanout=2)        0.165   Mcount_count_cy<2>
+    SLICE_X37Y89.CLK     Tfck                  0.235   count<3>
+                                                       Mcount_count_xor<3>11
+                                                       count_3
+    -------------------------------------------------  ---------------------------
+    Total                                      2.601ns (1.159ns logic, 1.442ns route)
+                                                       (44.6% logic, 55.4% route)
+
+--------------------------------------------------------------------------------
+Delay (setup path):     2.423ns (data path - clock path skew + uncertainty)
+  Source:               count_2 (FF)
+  Destination:          count_3 (FF)
+  Data Path Delay:      2.423ns (Levels of Logic = 4)
+  Clock Path Skew:      0.000ns
+  Source Clock:         i_clock_BUFGP rising
+  Destination Clock:    i_clock_BUFGP rising
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: count_2 to count_3
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X36Y88.YQ      Tcko                  0.360   count<2>
+                                                       count_2
+    SLICE_X36Y92.G4      net (fanout=3)        0.546   count<2>
+    SLICE_X36Y92.Y       Tilo                  0.195   clock1
+                                                       count_cmp_eq0000_SW0
+    SLICE_X36Y92.F4      net (fanout=1)        0.159   N4
+    SLICE_X36Y92.X       Tilo                  0.195   clock1
+                                                       count_cmp_eq0000
+    SLICE_X37Y89.G4      net (fanout=3)        0.374   count_cmp_eq0000
+    SLICE_X37Y89.Y       Tilo                  0.194   count<3>
+                                                       Mcount_count_cy<2>11
+    SLICE_X37Y89.F4      net (fanout=2)        0.165   Mcount_count_cy<2>
+    SLICE_X37Y89.CLK     Tfck                  0.235   count<3>
+                                                       Mcount_count_xor<3>11
+                                                       count_3
+    -------------------------------------------------  ---------------------------
+    Total                                      2.423ns (1.179ns logic, 1.244ns route)
+                                                       (48.7% logic, 51.3% route)
+
+--------------------------------------------------------------------------------
+Delay (setup path):     2.289ns (data path - clock path skew + uncertainty)
+  Source:               count_1 (FF)
+  Destination:          count_3 (FF)
+  Data Path Delay:      2.289ns (Levels of Logic = 3)
+  Clock Path Skew:      0.000ns
+  Source Clock:         i_clock_BUFGP rising
+  Destination Clock:    i_clock_BUFGP rising
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: count_1 to count_3
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X36Y86.YQ      Tcko                  0.360   count<1>
+                                                       count_1
+    SLICE_X36Y92.F2      net (fanout=4)        0.766   count<1>
+    SLICE_X36Y92.X       Tilo                  0.195   clock1
+                                                       count_cmp_eq0000
+    SLICE_X37Y89.G4      net (fanout=3)        0.374   count_cmp_eq0000
+    SLICE_X37Y89.Y       Tilo                  0.194   count<3>
+                                                       Mcount_count_cy<2>11
+    SLICE_X37Y89.F4      net (fanout=2)        0.165   Mcount_count_cy<2>
+    SLICE_X37Y89.CLK     Tfck                  0.235   count<3>
+                                                       Mcount_count_xor<3>11
+                                                       count_3
+    -------------------------------------------------  ---------------------------
+    Total                                      2.289ns (0.984ns logic, 1.305ns route)
+                                                       (43.0% logic, 57.0% route)
+
+--------------------------------------------------------------------------------
+
+Paths for end point count_4 (SLICE_X37Y88.G1), 5 paths
+--------------------------------------------------------------------------------
+Delay (setup path):     2.466ns (data path - clock path skew + uncertainty)
+  Source:               count_3 (FF)
+  Destination:          count_4 (FF)
+  Data Path Delay:      2.466ns (Levels of Logic = 3)
+  Clock Path Skew:      0.000ns
+  Source Clock:         i_clock_BUFGP rising
+  Destination Clock:    i_clock_BUFGP rising
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: count_3 to count_4
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X37Y89.XQ      Tcko                  0.340   count<3>
+                                                       count_3
+    SLICE_X36Y92.G2      net (fanout=3)        0.744   count<3>
+    SLICE_X36Y92.Y       Tilo                  0.195   clock1
+                                                       count_cmp_eq0000_SW0
+    SLICE_X36Y92.F4      net (fanout=1)        0.159   N4
+    SLICE_X36Y92.X       Tilo                  0.195   clock1
+                                                       count_cmp_eq0000
+    SLICE_X37Y88.G1      net (fanout=3)        0.602   count_cmp_eq0000
+    SLICE_X37Y88.CLK     Tgck                  0.231   count<0>
+                                                       Mcount_count_xor<4>11
+                                                       count_4
+    -------------------------------------------------  ---------------------------
+    Total                                      2.466ns (0.961ns logic, 1.505ns route)
+                                                       (39.0% logic, 61.0% route)
+
+--------------------------------------------------------------------------------
+Delay (setup path):     2.288ns (data path - clock path skew + uncertainty)
+  Source:               count_2 (FF)
+  Destination:          count_4 (FF)
+  Data Path Delay:      2.288ns (Levels of Logic = 3)
+  Clock Path Skew:      0.000ns
+  Source Clock:         i_clock_BUFGP rising
+  Destination Clock:    i_clock_BUFGP rising
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: count_2 to count_4
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X36Y88.YQ      Tcko                  0.360   count<2>
+                                                       count_2
+    SLICE_X36Y92.G4      net (fanout=3)        0.546   count<2>
+    SLICE_X36Y92.Y       Tilo                  0.195   clock1
+                                                       count_cmp_eq0000_SW0
+    SLICE_X36Y92.F4      net (fanout=1)        0.159   N4
+    SLICE_X36Y92.X       Tilo                  0.195   clock1
+                                                       count_cmp_eq0000
+    SLICE_X37Y88.G1      net (fanout=3)        0.602   count_cmp_eq0000
+    SLICE_X37Y88.CLK     Tgck                  0.231   count<0>
+                                                       Mcount_count_xor<4>11
+                                                       count_4
+    -------------------------------------------------  ---------------------------
+    Total                                      2.288ns (0.981ns logic, 1.307ns route)
+                                                       (42.9% logic, 57.1% route)
+
+--------------------------------------------------------------------------------
+Delay (setup path):     2.154ns (data path - clock path skew + uncertainty)
+  Source:               count_1 (FF)
+  Destination:          count_4 (FF)
+  Data Path Delay:      2.154ns (Levels of Logic = 2)
+  Clock Path Skew:      0.000ns
+  Source Clock:         i_clock_BUFGP rising
+  Destination Clock:    i_clock_BUFGP rising
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: count_1 to count_4
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X36Y86.YQ      Tcko                  0.360   count<1>
+                                                       count_1
+    SLICE_X36Y92.F2      net (fanout=4)        0.766   count<1>
+    SLICE_X36Y92.X       Tilo                  0.195   clock1
+                                                       count_cmp_eq0000
+    SLICE_X37Y88.G1      net (fanout=3)        0.602   count_cmp_eq0000
+    SLICE_X37Y88.CLK     Tgck                  0.231   count<0>
+                                                       Mcount_count_xor<4>11
+                                                       count_4
+    -------------------------------------------------  ---------------------------
+    Total                                      2.154ns (0.786ns logic, 1.368ns route)
+                                                       (36.5% logic, 63.5% route)
+
+--------------------------------------------------------------------------------
+
+Hold Paths: Default period analysis for net "i_clock_BUFGP"
+
+--------------------------------------------------------------------------------
+
+Paths for end point count_1 (SLICE_X36Y86.G4), 1 path
+--------------------------------------------------------------------------------
+Delay (hold path):      0.525ns (datapath - clock path skew - uncertainty)
+  Source:               count_1 (FF)
+  Destination:          count_1 (FF)
+  Data Path Delay:      0.525ns (Levels of Logic = 1)
+  Clock Path Skew:      0.000ns
+  Source Clock:         i_clock_BUFGP rising
+  Destination Clock:    i_clock_BUFGP rising
+  Clock Uncertainty:    0.000ns
+
+  Minimum Data Path: count_1 to count_1
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X36Y86.YQ      Tcko                  0.331   count<1>
+                                                       count_1
+    SLICE_X36Y86.G4      net (fanout=4)        0.337   count<1>
+    SLICE_X36Y86.CLK     Tckg        (-Th)     0.143   count<1>
+                                                       Mcount_count_xor<1>11
+                                                       count_1
+    -------------------------------------------------  ---------------------------
+    Total                                      0.525ns (0.188ns logic, 0.337ns route)
+                                                       (35.8% logic, 64.2% route)
+
+--------------------------------------------------------------------------------
+
+Paths for end point count_4 (SLICE_X37Y88.G3), 1 path
+--------------------------------------------------------------------------------
+Delay (hold path):      0.591ns (datapath - clock path skew - uncertainty)
+  Source:               count_3 (FF)
+  Destination:          count_4 (FF)
+  Data Path Delay:      0.591ns (Levels of Logic = 1)
+  Clock Path Skew:      0.000ns
+  Source Clock:         i_clock_BUFGP rising
+  Destination Clock:    i_clock_BUFGP rising
+  Clock Uncertainty:    0.000ns
+
+  Minimum Data Path: count_3 to count_4
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X37Y89.XQ      Tcko                  0.313   count<3>
+                                                       count_3
+    SLICE_X37Y88.G3      net (fanout=3)        0.403   count<3>
+    SLICE_X37Y88.CLK     Tckg        (-Th)     0.125   count<0>
+                                                       Mcount_count_xor<4>11
+                                                       count_4
+    -------------------------------------------------  ---------------------------
+    Total                                      0.591ns (0.188ns logic, 0.403ns route)
+                                                       (31.8% logic, 68.2% route)
+
+--------------------------------------------------------------------------------
+
+Paths for end point count_2 (SLICE_X36Y88.G3), 1 path
+--------------------------------------------------------------------------------
+Delay (hold path):      0.628ns (datapath - clock path skew - uncertainty)
+  Source:               count_1 (FF)
+  Destination:          count_2 (FF)
+  Data Path Delay:      0.631ns (Levels of Logic = 1)
+  Clock Path Skew:      0.003ns (0.129 - 0.126)
+  Source Clock:         i_clock_BUFGP rising
+  Destination Clock:    i_clock_BUFGP rising
+  Clock Uncertainty:    0.000ns
+
+  Minimum Data Path: count_1 to count_2
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X36Y86.YQ      Tcko                  0.331   count<1>
+                                                       count_1
+    SLICE_X36Y88.G3      net (fanout=4)        0.443   count<1>
+    SLICE_X36Y88.CLK     Tckg        (-Th)     0.143   count<2>
+                                                       Mcount_count_xor<2>11
+                                                       count_2
+    -------------------------------------------------  ---------------------------
+    Total                                      0.631ns (0.188ns logic, 0.443ns route)
+                                                       (29.8% logic, 70.2% route)
+
+--------------------------------------------------------------------------------
+
+
+All constraints were met.
+
+
+Data Sheet report:
+-----------------
+All values displayed in nanoseconds (ns)
+
+Clock to Setup on destination clock i_clock
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+i_clock        |    2.763|         |         |         |
+---------------+---------+---------+---------+---------+
+
+
+Timing summary:
+---------------
+
+Timing errors: 0  Score: 0  (Setup/Max: 0, Hold: 0)
+
+Constraints cover 4576 paths, 0 nets, and 1871 connections
+
+Design statistics:
+   Minimum period:   7.679ns{1}   (Maximum frequency: 130.225MHz)
+
+
+------------------------------------Footnotes-----------------------------------
+1)  The minimum period statistic assumes all single cycle delays.
+
+Analysis completed Wed Aug 13 21:48:17 2025 
+--------------------------------------------------------------------------------
+
+Trace Settings:
+-------------------------
+Trace Settings 
+
+Peak Memory Usage: 488 MB
+
+
+
