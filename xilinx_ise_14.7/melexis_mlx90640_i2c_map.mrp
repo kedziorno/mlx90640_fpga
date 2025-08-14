@@ -4,7 +4,7 @@ Xilinx Mapping Report File for Design 'melexis_mlx90640_i2c'
 Design Information
 ------------------
 Command Line   : map -intstyle ise -p xc4vsx35-ff668-10 -global_opt off -cm area
--ir off -pr off -detail -c 100 -smartguide
+-ir off -pr off -c 100 -smartguide
 /home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/melexis_mlx90640_
 i2c_guide.ncd -o melexis_mlx90640_i2c_map.ncd melexis_mlx90640_i2c.ngd
 melexis_mlx90640_i2c.pcf 
@@ -12,7 +12,7 @@ Target Device  : xc4vsx35
 Target Package : ff668
 Target Speed   : -10
 Mapper Version : virtex4 -- $Revision: 1.55 $
-Mapped Date    : Wed Aug 13 21:47:34 2025
+Mapped Date    : Thu Aug 14 22:52:56 2025
 
 Design Summary
 --------------
@@ -20,15 +20,15 @@ Number of errors:      0
 Number of warnings:    2
 Logic Utilization:
   Number of Slice Flip Flops:           123 out of  30,720    1%
-  Number of 4 input LUTs:               496 out of  30,720    1%
+  Number of 4 input LUTs:               455 out of  30,720    1%
 Logic Distribution:
-  Number of occupied Slices:            313 out of  15,360    2%
-    Number of Slices containing only related logic:     313 out of     313 100%
-    Number of Slices containing unrelated logic:          0 out of     313   0%
+  Number of occupied Slices:            314 out of  15,360    2%
+    Number of Slices containing only related logic:     314 out of     314 100%
+    Number of Slices containing unrelated logic:          0 out of     314   0%
       *See NOTES below for an explanation of the effects of unrelated logic.
-  Total Number of 4 input LUTs:         509 out of  30,720    1%
-    Number used as logic:               496
-    Number used as a route-thru:         13
+  Total Number of 4 input LUTs:         469 out of  30,720    1%
+    Number used as logic:               455
+    Number used as a route-thru:         14
 
   The Slice Logic Distribution report is not meaningful if the design is
   over-mapped for a non-slice resource or if Placement fails.
@@ -38,9 +38,9 @@ Logic Distribution:
 
 Average Fanout of Non-Clock Nets:                3.50
 
-Peak Memory Usage:  834 MB
-Total REAL time to MAP completion:  7 secs 
-Total CPU time to MAP completion:   7 secs 
+Peak Memory Usage:  832 MB
+Total REAL time to MAP completion:  10 secs 
+Total CPU time to MAP completion:   10 secs 
 
 Table of Contents
 -----------------
@@ -84,6 +84,9 @@ INFO:MapLib:980 - The following NGM file is used during SmartGuide:
    "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/melexis_mlx90
    640_i2c_map.ngm". The NGM file contains information on how the guide file was
    originally mapped. It is required for the best SmartGuide results.
+INFO:MapLib:930 - 59.00% of the input design components match those in the guide
+   design. SmartGuide will continue but guiding results are better when the
+   differences are less than 30%.
 INFO:MapLib:797 - Your design is targeting LX/SX Production Step 0/1/ES devices.
    Please note that there are new specifications for the DCMs to guarantee
    maximum frequency performance. If the DCM input clock might stop or if the
@@ -97,7 +100,6 @@ INFO:Pack:1650 - Map created a placed design.
 Section 4 - Removed Logic Summary
 ---------------------------------
    2 block(s) optimized away
- 112 Block(s) redundant
 
 Section 5 - Removed Logic
 -------------------------
@@ -107,120 +109,8 @@ TYPE 		BLOCK
 GND 		XST_GND
 VCC 		XST_VCC
 
-Redundant Block(s):
-TYPE 		BLOCK
-LOCALBUF 		data_index_ctr_mux0001<0>3_SW0/LUT4_L_BUF
-LOCALBUF 		bytes_to_recv_i_10_mux00011213/LUT4_L_BUF
-LOCALBUF 		bytes_to_recv_i_6_mux000012/LUT4_L_BUF
-LOCALBUF 		bytes_to_recv_i_5_mux000012/LUT4_L_BUF
-LOCALBUF 		bytes_to_recv_i_4_mux000012/LUT4_L_BUF
-LOCALBUF 		bytes_to_recv_i_3_mux000012/LUT4_L_BUF
-LOCALBUF 		bytes_to_recv_i_2_mux000012/LUT4_L_BUF
-LOCALBUF 		bytes_to_recv_i_1_mux000012/LUT4_L_BUF
-LOCALBUF 		bytes_to_recv_i_15_mux000112/LUT4_L_BUF
-LOCALBUF 		bytes_to_recv_i_14_mux000112/LUT4_L_BUF
-LOCALBUF 		bytes_to_recv_i_13_mux000112/LUT4_L_BUF
-LOCALBUF 		bytes_to_recv_i_12_mux000112/LUT4_L_BUF
-LOCALBUF 		bytes_to_recv_i_11_mux000112/LUT4_L_BUF
-LOCALBUF 		bytes_to_recv_i_10_mux000112/LUT4_L_BUF
-LOCALBUF 		data_index_ctr_mux0001<1>36/LUT4_L_BUF
-LOCALBUF 		i_slave_address_mux000064/LUT4_L_BUF
-LOCALBUF 		data_index_ctr_mux0001<0>43/LUT4_L_BUF
-LOCALBUF 		data_index_ctr1_mux0001<0>11/LUT4_L_BUF
-LOCALBUF 		slave_index_ctr_or00021/LUT4_D_BUF
-LOCALBUF 		bytes_to_recv_i_1_mux000021/LUT4_D_BUF
-LOCALBUF 		bytes_to_recv_i_10_mux000131/LUT4_D_BUF
-LOCALBUF 		Mtridata_io_sda_or00591011/LUT3_D_BUF
-LOCALBUF 		bytes_to_recv_i_0_cmp_eq00011/LUT3_D_BUF
-LOCALBUF 		bytes_to_recv_i_8_mux000168/LUT4_L_BUF
-LOCALBUF 		data_index_ctr_mux0001<0>21/LUT2_D_BUF
-LOCALBUF 		bytes_to_recv_i_0_mux00006/LUT4_L_BUF
-LOCALBUF 		bytes_to_recv_i_10_mux0001111130/LUT4_D_BUF
-LOCALBUF 		Mtridata_io_sda_or0059201/LUT2_D_BUF
-LOCALBUF 		Mtrien_io_sda_mux0000411/LUT4_D_BUF
-LOCALBUF 		data_index_ctr_mux0001<1>86/LUT4_L_BUF
-LOCALBUF 		bytes_to_recv_i_8_mux00011211/LUT2_L_BUF
-LOCALBUF 		c_state_cmp_eq00011/LUT3_D_BUF
-LOCALBUF 		Mtridata_io_sda_or0059171/LUT2_D_BUF
-LOCALBUF 		Mtridata_io_sda_or00591621/LUT3_D_BUF
-LOCALBUF 		Mtrien_io_sda_mux00002311/LUT2_D_BUF
-LOCALBUF 		Mtridata_io_sda_or0059421/LUT3_D_BUF
-LOCALBUF 		Mtrien_io_sda_mux0000261/LUT2_D_BUF
-LOCALBUF 		Mtrien_io_sda_mux000021211/LUT2_D_BUF
-LOCALBUF 		Mtrien_io_sda_mux000021221/LUT2_L_BUF
-LOCALBUF 		i_slave_address_mux000020/LUT4_D_BUF
-LOCALBUF 		Mtrien_io_sda_not0001103/LUT4_L_BUF
-LOCALBUF 		Mtrien_io_sda_not0001559/LUT2_L_BUF
-LOCALBUF 		Mtrien_io_sda_not0001654/LUT2_L_BUF
-LOCALBUF 		Mtrien_io_sda_not0001680/LUT3_D_BUF
-LOCALBUF 		Mtrien_io_sda_not0001756/LUT2_L_BUF
-LOCALBUF 		Mtrien_io_sda_not0001802/LUT4_L_BUF
-LOCALBUF 		Mtrien_io_sda_not0001871/LUT2_L_BUF
-LOCALBUF 		Mtrien_io_sda_mux000019/LUT4_L_BUF
-LOCALBUF 		Mtrien_io_sda_mux0000131/LUT2_L_BUF
-LOCALBUF 		Mtrien_io_sda_mux0000182/LUT4_L_BUF
-LOCALBUF 		Mtrien_io_sda_mux0000312/LUT3_L_BUF
-LOCALBUF 		Mtrien_io_sda_mux0000432/LUT3_D_BUF
-LOCALBUF 		Mtrien_io_sda_mux0000723/LUT2_L_BUF
-LOCALBUF 		Mtridata_io_sda_or00598_SW0/LUT3_L_BUF
-LOCALBUF 		bytes_to_recv_i_7_cmp_eq00021/LUT3_D_BUF
-LOCALBUF 		Mtridata_io_sda_or00592211/LUT4_L_BUF
-LOCALBUF 		Mtridata_io_sda_or005916/LUT4_D_BUF
-LOCALBUF 		Mtrien_io_sda_not00011039/LUT4_L_BUF
-LOCALBUF 		Mtridata_io_sda_or0059122/LUT4_D_BUF
-LOCALBUF 		Mtrien_io_sda_mux000054/LUT4_L_BUF
-LOCALBUF 		Mtrien_io_sda_mux0000470/LUT4_L_BUF
-LOCALBUF 		Mtrien_io_sda_mux0000641_SW0/LUT4_L_BUF
-LOCALBUF 		Mtridata_io_sda_or005991/LUT3_D_BUF
-LOCALBUF 		Mtrien_io_sda_mux0000388/LUT4_L_BUF
-LOCALBUF 		Mtridata_io_sda_or00592211_SW0/LUT4_L_BUF
-LOCALBUF 		Mtrien_io_sda_not0001965/LUT4_L_BUF
-LOCALBUF 		Mtrien_io_sda_not0001369/LUT4_L_BUF
-LOCALBUF 		Mtrien_io_sda_mux0000751/LUT4_L_BUF
-LOCALBUF 		slave_index_ctr_mux0000<0>2/LUT3_L_BUF
-LOCALBUF 		data_index_ctr_mux0001<0>811/LUT4_L_BUF
-LOCALBUF 		Mtrien_io_sda_not000118_SW0/LUT3_L_BUF
-LOCALBUF 		Mtrien_io_sda_not0001318/LUT4_D_BUF
-LOCALBUF 		Mtridata_io_sda_or0059191/LUT4_D_BUF
-LOCALBUF 		Mtrien_io_sda_mux0000806/LUT4_L_BUF
-LOCALBUF 		Mtrien_io_sda_mux0000413/LUT4_L_BUF
-LOCALBUF 		Mtrien_io_sda_not0001202_SW0_SW0/LUT4_L_BUF
-LOCALBUF 		Mtrien_io_sda_not0001780_SW0/LUT4_L_BUF
-LOCALBUF 		Mtrien_io_sda_not0001202_SW1/LUT4_L_BUF
-LOCALBUF 		Mtrien_io_sda_not00011098_SW0/LUT4_L_BUF
-LOCALBUF 		bytes_to_recv_i_0_mux0000112/LUT4_D_BUF
-LOCALBUF 		Mtrien_io_sda_not000149_SW0/LUT4_L_BUF
-LOCALBUF 		Mtrien_io_sda_mux0000409_SW0/LUT3_L_BUF
-LOCALBUF 		bytes_to_recv_i_10_mux000111122/LUT4_D_BUF
-LOCALBUF 		bytes_to_recv_i_0_mux000012/LUT4_D_BUF
-LOCALBUF 		o_mode2_ready_mux000138_SW0/LUT4_L_BUF
-LOCALBUF 		Mtrien_io_sda_mux0000272/LUT4_L_BUF
-LOCALBUF 		Mtrien_io_sda_not0001285_SW0/LUT4_L_BUF
-LOCALBUF 		slave_index_ctr_mux0000<1>60_SW0/LUT4_L_BUF
-LOCALBUF 		bytes_to_recv_i_8_mux000179/LUT4_L_BUF
-LOCALBUF 		Mtrien_io_sda_mux0000230_SW0/LUT4_L_BUF
-LOCALBUF 		bytes_to_recv_i_10_mux00011224/LUT4_D_BUF
-LOCALBUF 		Mtrien_io_sda_mux0000424/LUT4_D_BUF
-LOCALBUF 		data_index_ctr_mux0001<2>32_SW0/LUT4_D_BUF
-LOCALBUF 		data_index_ctr_mux0001<2>32/LUT4_L_BUF
-LOCALBUF 		bytes_to_recv_i_7_cmp_eq00021_1/LUT3_D_BUF
-LOCALBUF 		Mtrien_io_scl_or00051/LUT2_D_BUF
-LUT1 		Mcount_mode2_read_data_index_ctr_cy<1>_rt
-LUT1 		Mcount_mode2_read_data_index_ctr_cy<2>_rt
-LUT1 		Mcount_mode2_read_data_index_ctr_cy<3>_rt
-LUT1 		Mcount_mode2_read_data_index_ctr_cy<4>_rt
-LUT1 		Mcount_mode2_read_data_index_ctr_cy<5>_rt
-LUT1 		Mcount_mode2_read_data_index_ctr_cy<6>_rt
-LUT1 		Mcount_mode2_read_data_index_ctr_cy<7>_rt
-LUT1 		Mcount_mode2_read_data_index_ctr_cy<8>_rt
-LUT1 		Mcount_mode2_read_data_index_ctr_xor<9>_rt
-LUT1 		Mmux_i_memory_address_mux0000_3_f5_rt
-LUT1 		Mmux_i_memory_address_mux0001_3_f5_rt
-LUT1 		Mmux_i_memory_data_mux0000_3_f5_rt
-LUT1 		Mmux_i_memory_data_mux0001_3_f5_rt
-INV 		state_0_mux00001_INV_0
-INV 		Mcount_count_xor<0>11_INV_0
-INV 		i_reset_inv1_INV_0
+To enable printing of redundant blocks removed and signals merged, set the
+detailed map report option and rerun map.
 
 Section 6 - IOB Properties
 --------------------------
@@ -303,7 +193,7 @@ Section 7 - RPMs
 Section 8 - Guide Report
 ------------------------
 
-Wed Aug 13 21:47:42 2025
+Thu Aug 14 22:53:06 2025
 
   Estimated SmartGuide Results
   ----------------------------
@@ -311,11 +201,11 @@ Wed Aug 13 21:47:42 2025
   components are components that were guided, but moved in order to satisfy
   timing requirements.
 
-    Estimated Percentage of guided Components                 |  99.7%
-    Estimated Percentage of re-implemented Components         |   0.0%
-    Estimated Percentage of new/changed Components            |   0.3%
-    Estimated Percentage of fully guided Nets                 |  98.8%
-    Estimated Percentage of partially guided or unrouted Nets |   1.2%
+    Estimated Percentage of guided Components                 |  36.8%
+    Estimated Percentage of re-implemented Components         |   6.2%
+    Estimated Percentage of new/changed Components            |  57.1%
+    Estimated Percentage of fully guided Nets                 |  14.2%
+    Estimated Percentage of partially guided or unrouted Nets |  85.8%
 
   A detailed SmartGuide report (.GRF) can be generated during PAR by
   specifying the [-smartguide <guidefile[.ncd]>] switch on the PAR
@@ -355,478 +245,7 @@ Command Line Tools User Guide "TRACE" chapter.
 
 Section 11 - Configuration String Details
 -----------------------------------------
-DCM_ADV "XIL_ML_UNUSED_DCM_1":
-BGM_CONFIG_REF_SEL:CLKIN
-BGM_DIVIDE:16
-BGM_LDLY:5
-BGM_MODE:BG_SNAPSHOT
-BGM_MULTIPLY:16
-BGM_SAMPLE_LEN:2
-BGM_SDLY:3
-BGM_VADJ:5
-BGM_VLDLY:7
-BGM_VSDLY:0
-CLKDV_DIVIDE:2.0
-CLKFX_DIVIDE:1
-CLKFX_MULTIPLY:4
-CLKIN_DIVIDE_BY_2:TRUE
-CLKOUT_PHASE_SHIFT:FIXED
-CLK_FEEDBACK:1X
-DCM_CLKDV_CLKFX_ALIGNMENT:TRUE
-DCM_EXT_FB_EN:FALSE
-DCM_LOCK_HIGH:FALSE
-DCM_PERFORMANCE_MODE:MAX_SPEED
-DCM_UNUSED_TAPS_POWERDOWN:FALSE
-DCM_VREF_SOURCE:VBG_DLL
-DCM_VREG_ENABLE:FALSE
-DESKEW_ADJUST:17
-DFS_AVE_FREQ_ADJ_INTERVAL:3
-DFS_AVE_FREQ_GAIN:2.0
-DFS_AVE_FREQ_SAMPLE_INTERVAL:2
-DFS_COARSE_SEL:LEGACY
-DFS_EARLY_LOCK:FALSE
-DFS_EN_RELRST:TRUE
-DFS_EXTEND_FLUSH_TIME:FALSE
-DFS_EXTEND_HALT_TIME:FALSE
-DFS_EXTEND_RUN_TIME:FALSE
-DFS_FINE_SEL:LEGACY
-DFS_FREQUENCY_MODE:LOW
-DFS_NON_STOP:FALSE
-DFS_OSCILLATOR_MODE:PHASE_FREQ_LOCK
-DFS_SKIP_FINE:FALSE
-DFS_TP_SEL:LEVEL
-DFS_TRACKMODE:1
-DLL_CONTROL_CLOCK_SPEED:HALF
-DLL_CTL_SEL_CLKIN_DIV2:FALSE
-DLL_DESKEW_LOCK_BY1:FALSE
-DLL_FREQUENCY_MODE:LOW
-DLL_PD_DLY_SEL:0
-DLL_PERIOD_LOCK_BY1:FALSE
-DLL_PHASE_DETECTOR_AUTO_RESET:TRUE
-DLL_PHASE_DETECTOR_MODE:ENHANCED
-DLL_PHASE_SHIFT_CALIBRATION:AUTO_DPS
-DLL_PHASE_SHIFT_LOCK_BY1:FALSE
-DUTY_CYCLE_CORRECTION:TRUE
-PMCD_SYNC:FALSE
-STARTUP_WAIT:FALSE
-CLKIN_PERIOD = 10.0
-FACTORY_JF = F0F0
-PHASE_SHIFT = 0
-
-
-DCM_ADV "XIL_ML_UNUSED_DCM_2":
-BGM_CONFIG_REF_SEL:CLKIN
-BGM_DIVIDE:16
-BGM_LDLY:5
-BGM_MODE:BG_SNAPSHOT
-BGM_MULTIPLY:16
-BGM_SAMPLE_LEN:2
-BGM_SDLY:3
-BGM_VADJ:5
-BGM_VLDLY:7
-BGM_VSDLY:0
-CLKDV_DIVIDE:2.0
-CLKFX_DIVIDE:1
-CLKFX_MULTIPLY:4
-CLKIN_DIVIDE_BY_2:TRUE
-CLKOUT_PHASE_SHIFT:FIXED
-CLK_FEEDBACK:1X
-DCM_CLKDV_CLKFX_ALIGNMENT:TRUE
-DCM_EXT_FB_EN:FALSE
-DCM_LOCK_HIGH:FALSE
-DCM_PERFORMANCE_MODE:MAX_SPEED
-DCM_UNUSED_TAPS_POWERDOWN:FALSE
-DCM_VREF_SOURCE:VBG_DLL
-DCM_VREG_ENABLE:FALSE
-DESKEW_ADJUST:17
-DFS_AVE_FREQ_ADJ_INTERVAL:3
-DFS_AVE_FREQ_GAIN:2.0
-DFS_AVE_FREQ_SAMPLE_INTERVAL:2
-DFS_COARSE_SEL:LEGACY
-DFS_EARLY_LOCK:FALSE
-DFS_EN_RELRST:TRUE
-DFS_EXTEND_FLUSH_TIME:FALSE
-DFS_EXTEND_HALT_TIME:FALSE
-DFS_EXTEND_RUN_TIME:FALSE
-DFS_FINE_SEL:LEGACY
-DFS_FREQUENCY_MODE:LOW
-DFS_NON_STOP:FALSE
-DFS_OSCILLATOR_MODE:PHASE_FREQ_LOCK
-DFS_SKIP_FINE:FALSE
-DFS_TP_SEL:LEVEL
-DFS_TRACKMODE:1
-DLL_CONTROL_CLOCK_SPEED:HALF
-DLL_CTL_SEL_CLKIN_DIV2:FALSE
-DLL_DESKEW_LOCK_BY1:FALSE
-DLL_FREQUENCY_MODE:LOW
-DLL_PD_DLY_SEL:0
-DLL_PERIOD_LOCK_BY1:FALSE
-DLL_PHASE_DETECTOR_AUTO_RESET:TRUE
-DLL_PHASE_DETECTOR_MODE:ENHANCED
-DLL_PHASE_SHIFT_CALIBRATION:AUTO_DPS
-DLL_PHASE_SHIFT_LOCK_BY1:FALSE
-DUTY_CYCLE_CORRECTION:TRUE
-PMCD_SYNC:FALSE
-STARTUP_WAIT:FALSE
-CLKIN_PERIOD = 10.0
-FACTORY_JF = F0F0
-PHASE_SHIFT = 0
-
-
-DCM_ADV "XIL_ML_UNUSED_DCM_3":
-BGM_CONFIG_REF_SEL:CLKIN
-BGM_DIVIDE:16
-BGM_LDLY:5
-BGM_MODE:BG_SNAPSHOT
-BGM_MULTIPLY:16
-BGM_SAMPLE_LEN:2
-BGM_SDLY:3
-BGM_VADJ:5
-BGM_VLDLY:7
-BGM_VSDLY:0
-CLKDV_DIVIDE:2.0
-CLKFX_DIVIDE:1
-CLKFX_MULTIPLY:4
-CLKIN_DIVIDE_BY_2:TRUE
-CLKOUT_PHASE_SHIFT:FIXED
-CLK_FEEDBACK:1X
-DCM_CLKDV_CLKFX_ALIGNMENT:TRUE
-DCM_EXT_FB_EN:FALSE
-DCM_LOCK_HIGH:FALSE
-DCM_PERFORMANCE_MODE:MAX_SPEED
-DCM_UNUSED_TAPS_POWERDOWN:FALSE
-DCM_VREF_SOURCE:VBG_DLL
-DCM_VREG_ENABLE:FALSE
-DESKEW_ADJUST:17
-DFS_AVE_FREQ_ADJ_INTERVAL:3
-DFS_AVE_FREQ_GAIN:2.0
-DFS_AVE_FREQ_SAMPLE_INTERVAL:2
-DFS_COARSE_SEL:LEGACY
-DFS_EARLY_LOCK:FALSE
-DFS_EN_RELRST:TRUE
-DFS_EXTEND_FLUSH_TIME:FALSE
-DFS_EXTEND_HALT_TIME:FALSE
-DFS_EXTEND_RUN_TIME:FALSE
-DFS_FINE_SEL:LEGACY
-DFS_FREQUENCY_MODE:LOW
-DFS_NON_STOP:FALSE
-DFS_OSCILLATOR_MODE:PHASE_FREQ_LOCK
-DFS_SKIP_FINE:FALSE
-DFS_TP_SEL:LEVEL
-DFS_TRACKMODE:1
-DLL_CONTROL_CLOCK_SPEED:HALF
-DLL_CTL_SEL_CLKIN_DIV2:FALSE
-DLL_DESKEW_LOCK_BY1:FALSE
-DLL_FREQUENCY_MODE:LOW
-DLL_PD_DLY_SEL:0
-DLL_PERIOD_LOCK_BY1:FALSE
-DLL_PHASE_DETECTOR_AUTO_RESET:TRUE
-DLL_PHASE_DETECTOR_MODE:ENHANCED
-DLL_PHASE_SHIFT_CALIBRATION:AUTO_DPS
-DLL_PHASE_SHIFT_LOCK_BY1:FALSE
-DUTY_CYCLE_CORRECTION:TRUE
-PMCD_SYNC:FALSE
-STARTUP_WAIT:FALSE
-CLKIN_PERIOD = 10.0
-FACTORY_JF = F0F0
-PHASE_SHIFT = 0
-
-
-DCM_ADV "XIL_ML_UNUSED_DCM_4":
-BGM_CONFIG_REF_SEL:CLKIN
-BGM_DIVIDE:16
-BGM_LDLY:5
-BGM_MODE:BG_SNAPSHOT
-BGM_MULTIPLY:16
-BGM_SAMPLE_LEN:2
-BGM_SDLY:3
-BGM_VADJ:5
-BGM_VLDLY:7
-BGM_VSDLY:0
-CLKDV_DIVIDE:2.0
-CLKFX_DIVIDE:1
-CLKFX_MULTIPLY:4
-CLKIN_DIVIDE_BY_2:TRUE
-CLKOUT_PHASE_SHIFT:FIXED
-CLK_FEEDBACK:1X
-DCM_CLKDV_CLKFX_ALIGNMENT:TRUE
-DCM_EXT_FB_EN:FALSE
-DCM_LOCK_HIGH:FALSE
-DCM_PERFORMANCE_MODE:MAX_SPEED
-DCM_UNUSED_TAPS_POWERDOWN:FALSE
-DCM_VREF_SOURCE:VBG_DLL
-DCM_VREG_ENABLE:FALSE
-DESKEW_ADJUST:17
-DFS_AVE_FREQ_ADJ_INTERVAL:3
-DFS_AVE_FREQ_GAIN:2.0
-DFS_AVE_FREQ_SAMPLE_INTERVAL:2
-DFS_COARSE_SEL:LEGACY
-DFS_EARLY_LOCK:FALSE
-DFS_EN_RELRST:TRUE
-DFS_EXTEND_FLUSH_TIME:FALSE
-DFS_EXTEND_HALT_TIME:FALSE
-DFS_EXTEND_RUN_TIME:FALSE
-DFS_FINE_SEL:LEGACY
-DFS_FREQUENCY_MODE:LOW
-DFS_NON_STOP:FALSE
-DFS_OSCILLATOR_MODE:PHASE_FREQ_LOCK
-DFS_SKIP_FINE:FALSE
-DFS_TP_SEL:LEVEL
-DFS_TRACKMODE:1
-DLL_CONTROL_CLOCK_SPEED:HALF
-DLL_CTL_SEL_CLKIN_DIV2:FALSE
-DLL_DESKEW_LOCK_BY1:FALSE
-DLL_FREQUENCY_MODE:LOW
-DLL_PD_DLY_SEL:0
-DLL_PERIOD_LOCK_BY1:FALSE
-DLL_PHASE_DETECTOR_AUTO_RESET:TRUE
-DLL_PHASE_DETECTOR_MODE:ENHANCED
-DLL_PHASE_SHIFT_CALIBRATION:AUTO_DPS
-DLL_PHASE_SHIFT_LOCK_BY1:FALSE
-DUTY_CYCLE_CORRECTION:TRUE
-PMCD_SYNC:FALSE
-STARTUP_WAIT:FALSE
-CLKIN_PERIOD = 10.0
-FACTORY_JF = F0F0
-PHASE_SHIFT = 0
-
-
-DCM_ADV "XIL_ML_UNUSED_DCM_5":
-BGM_CONFIG_REF_SEL:CLKIN
-BGM_DIVIDE:16
-BGM_LDLY:5
-BGM_MODE:BG_SNAPSHOT
-BGM_MULTIPLY:16
-BGM_SAMPLE_LEN:2
-BGM_SDLY:3
-BGM_VADJ:5
-BGM_VLDLY:7
-BGM_VSDLY:0
-CLKDV_DIVIDE:2.0
-CLKFX_DIVIDE:1
-CLKFX_MULTIPLY:4
-CLKIN_DIVIDE_BY_2:TRUE
-CLKOUT_PHASE_SHIFT:FIXED
-CLK_FEEDBACK:1X
-DCM_CLKDV_CLKFX_ALIGNMENT:TRUE
-DCM_EXT_FB_EN:FALSE
-DCM_LOCK_HIGH:FALSE
-DCM_PERFORMANCE_MODE:MAX_SPEED
-DCM_UNUSED_TAPS_POWERDOWN:FALSE
-DCM_VREF_SOURCE:VBG_DLL
-DCM_VREG_ENABLE:FALSE
-DESKEW_ADJUST:17
-DFS_AVE_FREQ_ADJ_INTERVAL:3
-DFS_AVE_FREQ_GAIN:2.0
-DFS_AVE_FREQ_SAMPLE_INTERVAL:2
-DFS_COARSE_SEL:LEGACY
-DFS_EARLY_LOCK:FALSE
-DFS_EN_RELRST:TRUE
-DFS_EXTEND_FLUSH_TIME:FALSE
-DFS_EXTEND_HALT_TIME:FALSE
-DFS_EXTEND_RUN_TIME:FALSE
-DFS_FINE_SEL:LEGACY
-DFS_FREQUENCY_MODE:LOW
-DFS_NON_STOP:FALSE
-DFS_OSCILLATOR_MODE:PHASE_FREQ_LOCK
-DFS_SKIP_FINE:FALSE
-DFS_TP_SEL:LEVEL
-DFS_TRACKMODE:1
-DLL_CONTROL_CLOCK_SPEED:HALF
-DLL_CTL_SEL_CLKIN_DIV2:FALSE
-DLL_DESKEW_LOCK_BY1:FALSE
-DLL_FREQUENCY_MODE:LOW
-DLL_PD_DLY_SEL:0
-DLL_PERIOD_LOCK_BY1:FALSE
-DLL_PHASE_DETECTOR_AUTO_RESET:TRUE
-DLL_PHASE_DETECTOR_MODE:ENHANCED
-DLL_PHASE_SHIFT_CALIBRATION:AUTO_DPS
-DLL_PHASE_SHIFT_LOCK_BY1:FALSE
-DUTY_CYCLE_CORRECTION:TRUE
-PMCD_SYNC:FALSE
-STARTUP_WAIT:FALSE
-CLKIN_PERIOD = 10.0
-FACTORY_JF = F0F0
-PHASE_SHIFT = 0
-
-
-DCM_ADV "XIL_ML_UNUSED_DCM_6":
-BGM_CONFIG_REF_SEL:CLKIN
-BGM_DIVIDE:16
-BGM_LDLY:5
-BGM_MODE:BG_SNAPSHOT
-BGM_MULTIPLY:16
-BGM_SAMPLE_LEN:2
-BGM_SDLY:3
-BGM_VADJ:5
-BGM_VLDLY:7
-BGM_VSDLY:0
-CLKDV_DIVIDE:2.0
-CLKFX_DIVIDE:1
-CLKFX_MULTIPLY:4
-CLKIN_DIVIDE_BY_2:TRUE
-CLKOUT_PHASE_SHIFT:FIXED
-CLK_FEEDBACK:1X
-DCM_CLKDV_CLKFX_ALIGNMENT:TRUE
-DCM_EXT_FB_EN:FALSE
-DCM_LOCK_HIGH:FALSE
-DCM_PERFORMANCE_MODE:MAX_SPEED
-DCM_UNUSED_TAPS_POWERDOWN:FALSE
-DCM_VREF_SOURCE:VBG_DLL
-DCM_VREG_ENABLE:FALSE
-DESKEW_ADJUST:17
-DFS_AVE_FREQ_ADJ_INTERVAL:3
-DFS_AVE_FREQ_GAIN:2.0
-DFS_AVE_FREQ_SAMPLE_INTERVAL:2
-DFS_COARSE_SEL:LEGACY
-DFS_EARLY_LOCK:FALSE
-DFS_EN_RELRST:TRUE
-DFS_EXTEND_FLUSH_TIME:FALSE
-DFS_EXTEND_HALT_TIME:FALSE
-DFS_EXTEND_RUN_TIME:FALSE
-DFS_FINE_SEL:LEGACY
-DFS_FREQUENCY_MODE:LOW
-DFS_NON_STOP:FALSE
-DFS_OSCILLATOR_MODE:PHASE_FREQ_LOCK
-DFS_SKIP_FINE:FALSE
-DFS_TP_SEL:LEVEL
-DFS_TRACKMODE:1
-DLL_CONTROL_CLOCK_SPEED:HALF
-DLL_CTL_SEL_CLKIN_DIV2:FALSE
-DLL_DESKEW_LOCK_BY1:FALSE
-DLL_FREQUENCY_MODE:LOW
-DLL_PD_DLY_SEL:0
-DLL_PERIOD_LOCK_BY1:FALSE
-DLL_PHASE_DETECTOR_AUTO_RESET:TRUE
-DLL_PHASE_DETECTOR_MODE:ENHANCED
-DLL_PHASE_SHIFT_CALIBRATION:AUTO_DPS
-DLL_PHASE_SHIFT_LOCK_BY1:FALSE
-DUTY_CYCLE_CORRECTION:TRUE
-PMCD_SYNC:FALSE
-STARTUP_WAIT:FALSE
-CLKIN_PERIOD = 10.0
-FACTORY_JF = F0F0
-PHASE_SHIFT = 0
-
-
-DCM_ADV "XIL_ML_UNUSED_DCM_7":
-BGM_CONFIG_REF_SEL:CLKIN
-BGM_DIVIDE:16
-BGM_LDLY:5
-BGM_MODE:BG_SNAPSHOT
-BGM_MULTIPLY:16
-BGM_SAMPLE_LEN:2
-BGM_SDLY:3
-BGM_VADJ:5
-BGM_VLDLY:7
-BGM_VSDLY:0
-CLKDV_DIVIDE:2.0
-CLKFX_DIVIDE:1
-CLKFX_MULTIPLY:4
-CLKIN_DIVIDE_BY_2:TRUE
-CLKOUT_PHASE_SHIFT:FIXED
-CLK_FEEDBACK:1X
-DCM_CLKDV_CLKFX_ALIGNMENT:TRUE
-DCM_EXT_FB_EN:FALSE
-DCM_LOCK_HIGH:FALSE
-DCM_PERFORMANCE_MODE:MAX_SPEED
-DCM_UNUSED_TAPS_POWERDOWN:FALSE
-DCM_VREF_SOURCE:VBG_DLL
-DCM_VREG_ENABLE:FALSE
-DESKEW_ADJUST:17
-DFS_AVE_FREQ_ADJ_INTERVAL:3
-DFS_AVE_FREQ_GAIN:2.0
-DFS_AVE_FREQ_SAMPLE_INTERVAL:2
-DFS_COARSE_SEL:LEGACY
-DFS_EARLY_LOCK:FALSE
-DFS_EN_RELRST:TRUE
-DFS_EXTEND_FLUSH_TIME:FALSE
-DFS_EXTEND_HALT_TIME:FALSE
-DFS_EXTEND_RUN_TIME:FALSE
-DFS_FINE_SEL:LEGACY
-DFS_FREQUENCY_MODE:LOW
-DFS_NON_STOP:FALSE
-DFS_OSCILLATOR_MODE:PHASE_FREQ_LOCK
-DFS_SKIP_FINE:FALSE
-DFS_TP_SEL:LEVEL
-DFS_TRACKMODE:1
-DLL_CONTROL_CLOCK_SPEED:HALF
-DLL_CTL_SEL_CLKIN_DIV2:FALSE
-DLL_DESKEW_LOCK_BY1:FALSE
-DLL_FREQUENCY_MODE:LOW
-DLL_PD_DLY_SEL:0
-DLL_PERIOD_LOCK_BY1:FALSE
-DLL_PHASE_DETECTOR_AUTO_RESET:TRUE
-DLL_PHASE_DETECTOR_MODE:ENHANCED
-DLL_PHASE_SHIFT_CALIBRATION:AUTO_DPS
-DLL_PHASE_SHIFT_LOCK_BY1:FALSE
-DUTY_CYCLE_CORRECTION:TRUE
-PMCD_SYNC:FALSE
-STARTUP_WAIT:FALSE
-CLKIN_PERIOD = 10.0
-FACTORY_JF = F0F0
-PHASE_SHIFT = 0
-
-
-DCM_ADV "XIL_ML_UNUSED_DCM_8":
-BGM_CONFIG_REF_SEL:CLKIN
-BGM_DIVIDE:16
-BGM_LDLY:5
-BGM_MODE:BG_SNAPSHOT
-BGM_MULTIPLY:16
-BGM_SAMPLE_LEN:2
-BGM_SDLY:3
-BGM_VADJ:5
-BGM_VLDLY:7
-BGM_VSDLY:0
-CLKDV_DIVIDE:2.0
-CLKFX_DIVIDE:1
-CLKFX_MULTIPLY:4
-CLKIN_DIVIDE_BY_2:TRUE
-CLKOUT_PHASE_SHIFT:FIXED
-CLK_FEEDBACK:1X
-DCM_CLKDV_CLKFX_ALIGNMENT:TRUE
-DCM_EXT_FB_EN:FALSE
-DCM_LOCK_HIGH:FALSE
-DCM_PERFORMANCE_MODE:MAX_SPEED
-DCM_UNUSED_TAPS_POWERDOWN:FALSE
-DCM_VREF_SOURCE:VBG_DLL
-DCM_VREG_ENABLE:FALSE
-DESKEW_ADJUST:17
-DFS_AVE_FREQ_ADJ_INTERVAL:3
-DFS_AVE_FREQ_GAIN:2.0
-DFS_AVE_FREQ_SAMPLE_INTERVAL:2
-DFS_COARSE_SEL:LEGACY
-DFS_EARLY_LOCK:FALSE
-DFS_EN_RELRST:TRUE
-DFS_EXTEND_FLUSH_TIME:FALSE
-DFS_EXTEND_HALT_TIME:FALSE
-DFS_EXTEND_RUN_TIME:FALSE
-DFS_FINE_SEL:LEGACY
-DFS_FREQUENCY_MODE:LOW
-DFS_NON_STOP:FALSE
-DFS_OSCILLATOR_MODE:PHASE_FREQ_LOCK
-DFS_SKIP_FINE:FALSE
-DFS_TP_SEL:LEVEL
-DFS_TRACKMODE:1
-DLL_CONTROL_CLOCK_SPEED:HALF
-DLL_CTL_SEL_CLKIN_DIV2:FALSE
-DLL_DESKEW_LOCK_BY1:FALSE
-DLL_FREQUENCY_MODE:LOW
-DLL_PD_DLY_SEL:0
-DLL_PERIOD_LOCK_BY1:FALSE
-DLL_PHASE_DETECTOR_AUTO_RESET:TRUE
-DLL_PHASE_DETECTOR_MODE:ENHANCED
-DLL_PHASE_SHIFT_CALIBRATION:AUTO_DPS
-DLL_PHASE_SHIFT_LOCK_BY1:FALSE
-DUTY_CYCLE_CORRECTION:TRUE
-PMCD_SYNC:FALSE
-STARTUP_WAIT:FALSE
-CLKIN_PERIOD = 10.0
-FACTORY_JF = F0F0
-PHASE_SHIFT = 0
-
-
+Use the "-detail" map option to print out Configuration Strings
 
 Section 12 - Control Set Information
 ------------------------------------
@@ -834,17 +253,4 @@ No control set information for this architecture.
 
 Section 13 - Utilization by Hierarchy
 -------------------------------------
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Module                | Partition | Slices        | Slice Reg     | LUTs          | LUTRAM        | BRAM/FIFO | DSP48   | BUFG  | BUFIO | BUFR  | DCM_ADV   | Full Hierarchical Nam |
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| melexis_mlx90640_i2c/ |           | 313/313       | 123/123       | 507/507       | 0/0           | 0/0       | 0/0     | 2/2   | 0/0   | 0/0   | 0/0       | melexis_mlx90640_i2c  |
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-
-* Slices can be packed with basic elements from multiple hierarchies.
-  Therefore, a slice will be counted in every hierarchical module
-  that each of its packed basic elements belong to.
-** For each column, there are two numbers reported <A>/<B>.
-   <A> is the number of elements that belong to that specific hierarchical module.
-   <B> is the total number of elements from that hierarchical module and any lower level
-   hierarchical modules below.
-*** The LUTRAM column counts all LUTs used as memory including RAM, ROM, and shift registers.
+Use the "-detail" map option to print out the Utilization by Hierarchy section.

@@ -50,7 +50,7 @@ constant c_calculate_type : string (1 to 13) := "c_temperature"; -- c_temperatur
 constant c_use_fisqrt : string (1 to 3) := " no" -- yes/no - depend from c_calculate_type(c_temperature)
 );
 PORT(
-i_clock : IN  std_logic;
+i_clock1 : IN  std_logic;
 i_reset : IN  std_logic;
 vga_hsync : OUT  std_logic;
 vga_vsync : OUT  std_logic;
@@ -105,7 +105,7 @@ BEGIN
 
 -- Instantiate the Unit Under Test (UUT)
 uut: test1 PORT MAP (
-i_clock => i_clock,
+i_clock1 => i_clock,
 i_reset => i_reset,
 vga_hsync => vga_hsync,
 vga_vsync => vga_vsync,

@@ -139,34 +139,34 @@ stim_proc : process
 begin
 wait for i_clock_period*500; -- cold start
 --i_enable <= '1';
---i_mode0 <= '0';
---i_mode1 <= '0';
---i_mode2 <= '0';
---l0 : for i in 0 to V-1 loop
---  i_enable <= '1';
---	i_memory_address <= vdata(i)(0 to 15);
---  i_memory_data <= vdata(i)(17 to 32);
---  wait for 1 us;
---  wait until o_busy = '0'; -- wait for address and data
---  i_enable <= '0';
---  wait for i_clock_period;
-----  wait for 100 us;
---end loop l0;
---wait for 1 ms;
---i_mode0 <= '0';
---i_mode1 <= '0';
---i_mode2 <= '0';
---l1 : for i in 0 to V-1 loop
---  i_enable <= '1';
---	i_memory_address <= vdata(i)(0 to 15);
---  i_memory_data <= vdata(i)(17 to 32);
---  wait for 1 us;
---  wait until o_busy = '0'; -- wait for address and data
---  i_enable <= '0';
---  wait for i_clock_period;
-----  wait for 100 us;
---end loop l1;
---wait for 1 ms;
+i_mode0 <= '1';
+i_mode1 <= '0';
+i_mode2 <= '0';
+l0 : for i in 0 to V-1 loop
+  i_enable <= '1';
+	i_memory_address <= vdata(i)(0 to 15);
+  i_memory_data <= vdata(i)(17 to 32);
+  wait for 1 us;
+  wait until o_busy = '0'; -- wait for address and data
+  i_enable <= '0';
+  wait for i_clock_period;
+--  wait for 100 us;
+end loop l0;
+wait for 1 ms;
+i_mode0 <= '0';
+i_mode1 <= '1';
+i_mode2 <= '0';
+l1 : for i in 0 to V-1 loop
+  i_enable <= '1';
+	i_memory_address <= vdata(i)(0 to 15);
+  i_memory_data <= vdata(i)(17 to 32);
+  wait for 1 us;
+  wait until o_busy = '0'; -- wait for address and data
+  i_enable <= '0';
+  wait for i_clock_period;
+--  wait for 100 us;
+end loop l1;
+wait for 1 ms;
 i_mode0 <= '0';
 i_mode1 <= '0';
 i_mode2 <= '1';
@@ -216,9 +216,10 @@ begin
   io_sda <= 'Z';
 --  wait for 2443.00 us; -- c1
 --  wait for 42.28 us; -- c1
-  wait for 42.52 us; -- c1
+--  wait for 42.52 us; -- c1
 --  wait for 42.76 us; -- c1
 --  wait for 42.52 us; -- c1
+  wait for 59.80 us; -- c1
 --  wait for 80.44 us; -- c1
 --  wait for 79.96 us; -- c1
   
