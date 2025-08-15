@@ -11,6 +11,9 @@ package p_package1 is
   constant c_y                          : integer := 480 / c_y_step; -- 24
   constant c_all_pixels                 : integer := c_x * c_y; -- 768
   constant c_memory_address_bits        : integer := 10;
+  constant c_device                     : string (1 to 8)  := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
+  constant c_calculate_type             : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
+  constant c_use_fisqrt                 : string (1 to 3)  := " no"; -- yes/no/xxx - depend from c_calculate_type(c_temperature)
 
 end package p_package1;
 

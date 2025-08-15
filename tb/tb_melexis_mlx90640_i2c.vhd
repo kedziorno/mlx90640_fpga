@@ -212,16 +212,18 @@ function klsfr(bv: std_logic_vector) return std_logic_vector is
   end function;
   variable pattern : std_logic_vector (15 downto 0) := x"0001";
 begin
---  wait for 2443.24 us; -- c0
   io_sda <= 'Z';
 --  wait for 2443.00 us; -- c1
+--  wait for 2440.12 us; -- c1
+  wait for 2443.0 us; -- c1
 --  wait for 42.28 us; -- c1
 --  wait for 42.52 us; -- c1
 --  wait for 42.76 us; -- c1
 --  wait for 42.52 us; -- c1
-  wait for 59.80 us; -- c1
+--  wait for 59.80 us; -- c1
 --  wait for 80.44 us; -- c1
 --  wait for 79.96 us; -- c1
+--  wait for 2443.24 us; -- c0
   
   for i in 0 to 832 loop
 

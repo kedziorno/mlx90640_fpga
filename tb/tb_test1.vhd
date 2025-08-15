@@ -41,16 +41,8 @@ ARCHITECTURE behavior OF tb_test1 IS
 
 -- Component Declaration for the Unit Under Test (UUT)
 COMPONENT test1
-GENERIC(
-constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
---constant c_calculate_type : string (1 to 13) := "c_raws_images"; -- c_temperature,c_raws_images
-constant c_calculate_type : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
---constant c_use_fisqrt : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type(c_temperature)
---constant c_use_fisqrt : string (1 to 3) := "yes" -- yes/no - depend from c_calculate_type(c_temperature)
-constant c_use_fisqrt : string (1 to 3) := " no" -- yes/no - depend from c_calculate_type(c_temperature)
-);
 PORT(
-i_clock1 : IN  std_logic;
+i_clock : IN  std_logic;
 i_reset : IN  std_logic;
 vga_hsync : OUT  std_logic;
 vga_vsync : OUT  std_logic;
@@ -61,8 +53,10 @@ vga_b : OUT  std_logic_vector(7 downto 0);
 vga_syncn : out std_logic;
 vga_blankn : out std_logic;
 vga_psave : out std_logic;
-io_sda : inout std_logic;
-io_scl : inout std_logic
+io_scl_dd : inout STD_LOGIC;
+io_sda_dd : inout STD_LOGIC;
+io_scl_nl : inout STD_LOGIC;
+io_sda_nl : inout STD_LOGIC
 );
 END COMPONENT;
 
@@ -77,8 +71,10 @@ signal vga_clock : std_logic;
 signal vga_syncn : std_logic;
 signal vga_blankn : std_logic;
 signal vga_psave : std_logic;
-signal io_sda : std_logic;
-signal io_scl : std_logic;
+signal io_sda_dd : std_logic;
+signal io_scl_dd : std_logic;
+signal io_sda_nl : std_logic;
+signal io_scl_nl : std_logic;
 signal vga_r : std_logic_vector(7 downto 0);
 signal vga_g : std_logic_vector(7 downto 0);
 signal vga_b : std_logic_vector(7 downto 0);
@@ -105,7 +101,7 @@ BEGIN
 
 -- Instantiate the Unit Under Test (UUT)
 uut: test1 PORT MAP (
-i_clock1 => i_clock,
+i_clock => i_clock,
 i_reset => i_reset,
 vga_hsync => vga_hsync,
 vga_vsync => vga_vsync,
@@ -116,8 +112,10 @@ vga_b => vga_b,
 vga_syncn => vga_syncn,
 vga_blankn => vga_blankn,
 vga_psave => vga_psave,
-io_sda => io_sda,
-io_scl => io_scl
+io_scl_dd => io_scl_dd,
+io_sda_dd => io_sda_dd,
+io_scl_nl => io_scl_nl,
+io_sda_nl => io_sda_nl
 );
 
 -- Clock process definitions
