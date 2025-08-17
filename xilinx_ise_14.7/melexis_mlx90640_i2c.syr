@@ -118,7 +118,8 @@ Architecture global_package of Entity global_package is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ipcore_dir/tb_data_calculateTo.vhd" in Library work.
 Architecture tb_data_calculateto_a of Entity tb_data_calculateto is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/melexis_mlx90640_i2c.vhd" in Library work.
-Architecture rtl of Entity melexis_mlx90640_i2c is up to date.
+Entity <melexis_mlx90640_i2c> compiled.
+Entity <melexis_mlx90640_i2c> (Architecture <rtl>) compiled.
 
 =========================================================================
 *                     Design Hierarchy Analysis                         *
@@ -134,9 +135,6 @@ Analyzing hierarchy for entity <melexis_mlx90640_i2c> in library <work> (archite
 Analyzing generic Entity <melexis_mlx90640_i2c> in library <work> (Architecture <rtl>).
 	c_board_clock = 100000000
 	c_bus_clock = 1000000
-INFO:Xst:1607 - Contents of array <bytes_to_recv_i> may be accessed with an index that does not cover the full array size.
-INFO:Xst:1607 - Contents of array <bytes_to_recv_i> may be accessed with an index that does not cover the full array size.
-INFO:Xst:1607 - Contents of array <bytes_to_recv_i> may be accessed with an index that does not cover the full array size.
 Entity <melexis_mlx90640_i2c> analyzed. Unit <melexis_mlx90640_i2c> generated.
 
 
@@ -181,32 +179,32 @@ INFO:Xst:1799 - State mode2_read_slave_address_lastbit is never reached in FSM <
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
     Found 1-bit register for signal <o_busy>.
-    Found 16-bit register for signal <bytes_to_recv_i>.
+    Found 17-bit register for signal <bytes_to_recv_sr>.
     Found 1-bit register for signal <clock>.
-    Found 5-bit up counter for signal <count>.
+    Found 4-bit up counter for signal <count>.
     Found 3-bit register for signal <data_index_ctr>.
-    Found 3-bit adder for signal <data_index_ctr$add0000> created at line 689.
-    Found 3-bit register for signal <data_index_ctr1>.
-    Found 1-bit 7-to-1 multiplexer for signal <i_memory_address$mux0000> created at line 229.
-    Found 1-bit 7-to-1 multiplexer for signal <i_memory_address$mux0001> created at line 258.
-    Found 1-bit 7-to-1 multiplexer for signal <i_memory_data$mux0000> created at line 287.
-    Found 1-bit 7-to-1 multiplexer for signal <i_memory_data$mux0001> created at line 315.
+    Found 3-bit adder for signal <data_index_ctr$add0000> created at line 704.
+    Found 1-bit 7-to-1 multiplexer for signal <i_memory_address$mux0000> created at line 261.
+    Found 1-bit 7-to-1 multiplexer for signal <i_memory_address$mux0001> created at line 290.
+    Found 1-bit 7-to-1 multiplexer for signal <i_memory_data$mux0000> created at line 319.
+    Found 1-bit 7-to-1 multiplexer for signal <i_memory_data$mux0001> created at line 347.
+    Found 1-bit tristate buffer for signal <io_sda_i>.
     Found 10-bit up counter for signal <mode2_read_data_index_ctr>.
     Found 1-bit register for signal <mode2_ready_all_i>.
     Found 1-bit register for signal <mode2_ready_i>.
-    Found 1-bit register for signal <Mtridata_temp_sda> created at line 160.
-    Found 1-bit register for signal <Mtrien_temp_sda> created at line 160.
+    Found 1-bit register for signal <Mtridata_temp_sda> created at line 192.
+    Found 1-bit register for signal <Mtrien_temp_sda> created at line 192.
     Found 3-bit register for signal <slave_index_ctr>.
-    Found 3-bit subtractor for signal <slave_index_ctr$share0000> created at line 164.
+    Found 3-bit subtractor for signal <slave_index_ctr$share0000> created at line 197.
     Found 1-bit register for signal <state<0>>.
     Found 1-bit tristate buffer for signal <temp_sda>.
     Summary:
 	inferred   2 Finite State Machine(s).
 	inferred   2 Counter(s).
-	inferred  29 D-type flip-flop(s).
+	inferred  27 D-type flip-flop(s).
 	inferred   2 Adder/Subtractor(s).
 	inferred   4 Multiplexer(s).
-	inferred   1 Tristate(s).
+	inferred   2 Tristate(s).
 Unit <melexis_mlx90640_i2c> synthesized.
 
 INFO:Xst:1767 - HDL ADVISOR - Resource sharing has identified that some arithmetic operations in this design can share the same physical resources for reduced device utilization. For improved clock frequency you may try to disable resource sharing.
@@ -220,14 +218,15 @@ Macro Statistics
  3-bit subtractor                                      : 1
 # Counters                                             : 2
  10-bit up counter                                     : 1
- 5-bit up counter                                      : 1
-# Registers                                            : 26
- 1-bit register                                        : 23
- 3-bit register                                        : 3
+ 4-bit up counter                                      : 1
+# Registers                                            : 10
+ 1-bit register                                        : 7
+ 17-bit register                                       : 1
+ 3-bit register                                        : 2
 # Multiplexers                                         : 4
  1-bit 7-to-1 multiplexer                              : 4
-# Tristates                                            : 1
- 1-bit tristate buffer                                 : 1
+# Tristates                                            : 2
+ 1-bit tristate buffer                                 : 2
 
 =========================================================================
 
@@ -332,9 +331,9 @@ Macro Statistics
  3-bit subtractor                                      : 1
 # Counters                                             : 2
  10-bit up counter                                     : 1
- 5-bit up counter                                      : 1
-# Registers                                            : 32
- Flip-Flops                                            : 32
+ 4-bit up counter                                      : 1
+# Registers                                            : 30
+ Flip-Flops                                            : 30
 # Multiplexers                                         : 4
  1-bit 7-to-1 multiplexer                              : 4
 
@@ -343,19 +342,13 @@ Macro Statistics
 =========================================================================
 *                         Low Level Synthesis                           *
 =========================================================================
+WARNING:Xst:2041 - Unit melexis_mlx90640_i2c: 1 internal tristate is replaced by logic (pull-up yes): io_sda_i.
 
 Optimizing unit <melexis_mlx90640_i2c> ...
 
 Mapping all equations...
 Building and optimizing final netlist ...
 Found area constraint ratio of 100 (+ 5) on block melexis_mlx90640_i2c, actual ratio is 1.
-FlipFlop c_cmode_FSM_FFd1 has been replicated 2 time(s)
-FlipFlop c_cmode_FSM_FFd2 has been replicated 1 time(s)
-FlipFlop c_state_FSM_FFd3 has been replicated 1 time(s)
-FlipFlop c_state_FSM_FFd5 has been replicated 1 time(s)
-FlipFlop data_index_ctr_0 has been replicated 1 time(s)
-FlipFlop data_index_ctr_1 has been replicated 2 time(s)
-FlipFlop data_index_ctr_2 has been replicated 1 time(s)
 
 Final Macro Processing ...
 
@@ -363,8 +356,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 125
- Flip-Flops                                            : 125
+# Registers                                            : 113
+ Flip-Flops                                            : 113
 
 =========================================================================
 
@@ -393,29 +386,28 @@ Design Statistics
 # IOs                              : 66
 
 Cell Usage :
-# BELS                             : 576
+# BELS                             : 457
 #      GND                         : 1
 #      INV                         : 4
 #      LUT1                        : 13
-#      LUT2                        : 64
-#      LUT2_D                      : 11
-#      LUT2_L                      : 1
-#      LUT3                        : 81
-#      LUT3_D                      : 11
-#      LUT3_L                      : 3
-#      LUT4                        : 275
-#      LUT4_D                      : 10
-#      LUT4_L                      : 46
+#      LUT2                        : 67
+#      LUT2_D                      : 8
+#      LUT3                        : 58
+#      LUT3_D                      : 10
+#      LUT3_L                      : 1
+#      LUT4                        : 200
+#      LUT4_D                      : 11
+#      LUT4_L                      : 36
 #      MUXCY                       : 9
-#      MUXF5                       : 32
-#      MUXF6                       : 4
+#      MUXF5                       : 25
+#      MUXF6                       : 3
 #      VCC                         : 1
 #      XORCY                       : 10
-# FlipFlops/Latches                : 125
-#      FDC                         : 100
-#      FDCE                        : 16
-#      FDE                         : 5
-#      FDP                         : 3
+# FlipFlops/Latches                : 113
+#      FDC                         : 93
+#      FDCE                        : 14
+#      FDE                         : 1
+#      FDP                         : 4
 #      FDPE                        : 1
 # Clock Buffers                    : 2
 #      BUFG                        : 1
@@ -431,9 +423,9 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                      272  out of  15360     1%  
- Number of Slice Flip Flops:            125  out of  30720     0%  
- Number of 4 input LUTs:                519  out of  30720     1%  
+ Number of Slices:                      216  out of  15360     1%  
+ Number of Slice Flip Flops:            113  out of  30720     0%  
+ Number of 4 input LUTs:                408  out of  30720     1%  
  Number of IOs:                          66
  Number of bonded IOBs:                  66  out of    448    14%  
  Number of GCLKs:                         2  out of     32     6%  
@@ -456,28 +448,30 @@ NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
 
 Clock Information:
 ------------------
------------------------------------+------------------------+-------+
-Clock Signal                       | Clock buffer(FF name)  | Load  |
------------------------------------+------------------------+-------+
-i_clock                            | BUFGP                  | 6     |
-clock1                             | BUFG                   | 119   |
------------------------------------+------------------------+-------+
+-----------------------------------+-------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)   | Load  |
+-----------------------------------+-------------------------+-------+
+i_clock                            | BUFGP                   | 5     |
+clock1                             | BUFG                    | 91    |
+c_cmode_FSM_FFd2                   | NONE(bytes_to_recv_sr_0)| 17    |
+-----------------------------------+-------------------------+-------+
+INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
 
 Asynchronous Control Signals Information:
 ----------------------------------------
 -----------------------------------+------------------------+-------+
 Control Signal                     | Buffer(FF name)        | Load  |
 -----------------------------------+------------------------+-------+
-i_reset                            | IBUF                   | 120   |
+i_reset                            | IBUF                   | 112   |
 -----------------------------------+------------------------+-------+
 
 Timing Summary:
 ---------------
 Speed Grade: -10
 
-   Minimum period: 7.167ns (Maximum Frequency: 139.522MHz)
-   Minimum input arrival time before clock: 6.514ns
-   Maximum output required time after clock: 6.280ns
+   Minimum period: 7.954ns (Maximum Frequency: 125.716MHz)
+   Minimum input arrival time before clock: 6.820ns
+   Maximum output required time after clock: 6.355ns
    Maximum combinational path delay: No path found
 
 Timing Detail:
@@ -486,63 +480,82 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 3.980ns (frequency: 251.253MHz)
-  Total number of paths / destination ports: 45 / 6
+  Clock period: 2.210ns (frequency: 452.550MHz)
+  Total number of paths / destination ports: 16 / 6
 -------------------------------------------------------------------------
-Delay:               3.980ns (Levels of Logic = 4)
-  Source:            count_0 (FF)
-  Destination:       count_4 (FF)
+Delay:               2.210ns (Levels of Logic = 1)
+  Source:            count_1 (FF)
+  Destination:       clock (FF)
   Source Clock:      i_clock rising
   Destination Clock: i_clock rising
 
-  Data Path: count_0 to count_4
+  Data Path: count_1 to clock
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDC:C->Q              5   0.360   0.608  count_0 (count_0)
-     LUT2:I0->O            1   0.195   0.741  count_cmp_eq0000_SW0 (N132)
-     LUT4:I0->O            5   0.195   0.764  count_cmp_eq0000 (count_cmp_eq0000)
-     LUT4:I0->O            2   0.195   0.705  Mcount_count_cy<2>11 (Mcount_count_cy<2>)
-     LUT4:I1->O            1   0.195   0.000  Mcount_count_xor<4>11 (Mcount_count4)
-     FDC:D                     0.022          count_4
+     FDC:C->Q              4   0.360   0.755  count_1 (count_1)
+     LUT4:I0->O            1   0.195   0.360  clock_cmp_eq000011 (clock_cmp_eq0000)
+     FDCE:CE                   0.540          clock
     ----------------------------------------
-    Total                      3.980ns (1.162ns logic, 2.818ns route)
-                                       (29.2% logic, 70.8% route)
+    Total                      2.210ns (1.095ns logic, 1.115ns route)
+                                       (49.6% logic, 50.4% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'clock1'
-  Clock period: 7.167ns (frequency: 139.522MHz)
-  Total number of paths / destination ports: 4829 / 137
+  Clock period: 7.954ns (frequency: 125.716MHz)
+  Total number of paths / destination ports: 3726 / 106
 -------------------------------------------------------------------------
-Delay:               7.167ns (Levels of Logic = 8)
-  Source:            c_state_FSM_FFd22 (FF)
+Delay:               7.954ns (Levels of Logic = 8)
+  Source:            c_cmode_FSM_FFd2 (FF)
   Destination:       Mtrien_temp_sda (FF)
   Source Clock:      clock1 rising
   Destination Clock: clock1 rising
 
-  Data Path: c_state_FSM_FFd22 to Mtrien_temp_sda
+  Data Path: c_cmode_FSM_FFd2 to Mtrien_temp_sda
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDC:C->Q              5   0.360   0.764  c_state_FSM_FFd22 (c_state_FSM_FFd22)
-     LUT4:I0->O            1   0.195   0.523  Mtridata_temp_sda_not000111111 (Mtridata_temp_sda_not000111111)
-     LUT4:I3->O            2   0.195   0.377  Mtridata_temp_sda_not000111146 (Mtridata_temp_sda_not000111146)
-     MUXF5:S->O            1   0.527   0.523  Mtridata_temp_sda_not0001111101_SW1 (N175)
-     LUT4_D:I3->O          1   0.195   0.523  Mtridata_temp_sda_not000111224 (Mtridata_temp_sda_not000111224)
-     LUT4_L:I3->LO         1   0.195   0.225  Mtridata_temp_sda_not000112167 (Mtridata_temp_sda_not000112167)
-     LUT4:I2->O            2   0.195   0.540  Mtridata_temp_sda_not000112185 (N44)
-     LUT4:I3->O            1   0.195   0.523  Mtridata_temp_sda_not0001162 (Mtridata_temp_sda_not0001162)
-     LUT4:I3->O            2   0.195   0.377  Mtridata_temp_sda_not000137 (Mtridata_temp_sda_not0001)
-     FDPE:CE                   0.540          Mtridata_temp_sda
+     FDCE:C->Q            90   0.360   1.318  c_cmode_FSM_FFd2 (c_cmode_FSM_FFd2)
+     LUT4:I3->O            3   0.195   0.703  Mtridata_temp_sda_not00011311_SW1 (N86)
+     LUT3:I0->O            1   0.195   0.000  Mtridata_temp_sda_not0001152_SW0_G (N162)
+     MUXF5:I1->O           1   0.374   0.523  Mtridata_temp_sda_not0001152_SW0 (N281)
+     LUT4_D:I3->O          5   0.195   0.546  Mtridata_temp_sda_not0001193_SW0 (N461)
+     LUT4:I3->O            1   0.195   0.523  Mtridata_temp_sda_not00011232_SW1_SW1 (N139)
+     LUT4:I3->O            1   0.195   0.585  Mtridata_temp_sda_not00011140_SW3 (N108)
+     LUT4:I2->O            1   0.195   0.741  Mtridata_temp_sda_not0001367 (Mtridata_temp_sda_not0001367)
+     LUT4:I0->O            2   0.195   0.377  Mtridata_temp_sda_not000137 (Mtridata_temp_sda_not0001)
+     FDCE:CE                   0.540          Mtrien_temp_sda
     ----------------------------------------
-    Total                      7.167ns (2.792ns logic, 4.375ns route)
-                                       (39.0% logic, 61.0% route)
+    Total                      7.954ns (2.639ns logic, 5.315ns route)
+                                       (33.2% logic, 66.8% route)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'c_cmode_FSM_FFd2'
+  Clock period: 1.179ns (frequency: 848.033MHz)
+  Total number of paths / destination ports: 16 / 16
+-------------------------------------------------------------------------
+Delay:               1.179ns (Levels of Logic = 1)
+  Source:            bytes_to_recv_sr_0 (FF)
+  Destination:       bytes_to_recv_sr_1 (FF)
+  Source Clock:      c_cmode_FSM_FFd2 rising
+  Destination Clock: c_cmode_FSM_FFd2 rising
+
+  Data Path: bytes_to_recv_sr_0 to bytes_to_recv_sr_1
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDC:C->Q              2   0.360   0.602  bytes_to_recv_sr_0 (bytes_to_recv_sr_0)
+     LUT2:I0->O            1   0.195   0.000  bytes_to_recv_sr_mux0001<15>1 (bytes_to_recv_sr_mux0001<15>)
+     FDC:D                     0.022          bytes_to_recv_sr_1
+    ----------------------------------------
+    Total                      1.179ns (0.577ns logic, 0.602ns route)
+                                       (48.9% logic, 51.1% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'clock1'
-  Total number of paths / destination ports: 189 / 31
+  Total number of paths / destination ports: 132 / 8
 -------------------------------------------------------------------------
-Offset:              6.514ns (Levels of Logic = 9)
+Offset:              6.820ns (Levels of Logic = 10)
   Source:            i_slave_address<6> (PAD)
   Destination:       Mtridata_temp_sda (FF)
   Destination Clock: clock1 rising
@@ -553,23 +566,45 @@ Offset:              6.514ns (Levels of Logic = 9)
     ----------------------------------------  ------------
      IBUF:I->O             1   0.965   0.741  i_slave_address_6_IBUF (i_slave_address_6_IBUF)
      LUT4:I0->O            1   0.195   0.523  i_slave_address_mux000054 (i_slave_address_mux000054)
-     LUT4_L:I3->LO         1   0.195   0.163  i_slave_address_mux000060 (i_slave_address_mux000060)
-     LUT4:I3->O            6   0.195   0.560  i_slave_address_mux000085 (i_slave_address_mux0000)
-     LUT4:I3->O            1   0.195   0.585  Mtridata_temp_sda_mux0000517 (Mtridata_temp_sda_mux0000517)
-     LUT4:I2->O            2   0.195   0.377  Mtridata_temp_sda_mux0000532 (Mtridata_temp_sda_mux0000532)
-     MUXF5:S->O            1   0.527   0.523  Mtridata_temp_sda_mux0000547_SW1 (N249)
-     LUT4_L:I3->LO         1   0.195   0.163  Mtridata_temp_sda_mux0000604 (Mtridata_temp_sda_mux0000604)
-     LUT4:I3->O            1   0.195   0.000  Mtridata_temp_sda_mux0000914 (Mtridata_temp_sda_mux0000)
+     LUT4:I3->O            1   0.195   0.000  i_slave_address_mux000085_F (N197)
+     MUXF5:I0->O           5   0.382   0.546  i_slave_address_mux000085 (i_slave_address_mux0000)
+     LUT4:I3->O            2   0.195   0.377  Mtridata_temp_sda_mux0000216 (Mtridata_temp_sda_mux0000216)
+     MUXF5:S->O            1   0.527   0.523  Mtridata_temp_sda_mux0000331_SW0 (N92)
+     LUT4_L:I3->LO         1   0.195   0.163  Mtridata_temp_sda_mux0000386 (Mtridata_temp_sda_mux0000386)
+     LUT4:I3->O            1   0.195   0.523  Mtridata_temp_sda_mux0000566 (Mtridata_temp_sda_mux0000566)
+     LUT4_L:I3->LO         1   0.195   0.163  Mtridata_temp_sda_mux0000876 (Mtridata_temp_sda_mux0000876)
+     LUT4:I3->O            1   0.195   0.000  Mtridata_temp_sda_mux0000885 (Mtridata_temp_sda_mux0000)
      FDPE:D                    0.022          Mtridata_temp_sda
     ----------------------------------------
-    Total                      6.514ns (2.879ns logic, 3.635ns route)
-                                       (44.2% logic, 55.8% route)
+    Total                      6.820ns (3.261ns logic, 3.559ns route)
+                                       (47.8% logic, 52.2% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'c_cmode_FSM_FFd2'
+  Total number of paths / destination ports: 2 / 1
+-------------------------------------------------------------------------
+Offset:              2.261ns (Levels of Logic = 3)
+  Source:            io_sda (PAD)
+  Destination:       bytes_to_recv_sr_0 (FF)
+  Destination Clock: c_cmode_FSM_FFd2 rising
+
+  Data Path: io_sda to bytes_to_recv_sr_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IOBUF:IO->O           2   0.965   0.705  io_sda_IOBUF (N211)
+     LUT4:I1->O            1   0.195   0.000  bytes_to_recv_sr_mux0001<16>1_G (N194)
+     MUXF5:I1->O           1   0.374   0.000  bytes_to_recv_sr_mux0001<16>1 (bytes_to_recv_sr_mux0001<16>)
+     FDC:D                     0.022          bytes_to_recv_sr_0
+    ----------------------------------------
+    Total                      2.261ns (1.556ns logic, 0.705ns route)
+                                       (68.8% logic, 31.2% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'clock1'
-  Total number of paths / destination ports: 41 / 21
+  Total number of paths / destination ports: 25 / 21
 -------------------------------------------------------------------------
-Offset:              6.280ns (Levels of Logic = 2)
+Offset:              6.355ns (Levels of Logic = 2)
   Source:            c_cmode_FSM_FFd2 (FF)
   Destination:       io_scl (PAD)
   Source Clock:      clock1 rising
@@ -578,25 +613,45 @@ Offset:              6.280ns (Levels of Logic = 2)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDCE:C->Q            71   0.360   1.408  c_cmode_FSM_FFd2 (c_cmode_FSM_FFd2)
+     FDCE:C->Q            90   0.360   1.483  c_cmode_FSM_FFd2 (c_cmode_FSM_FFd2)
      LUT4:I1->O            1   0.195   0.360  io_scl1 (io_scl_OBUF)
      OBUF:I->O                 3.957          io_scl_OBUF (io_scl)
     ----------------------------------------
-    Total                      6.280ns (4.512ns logic, 1.768ns route)
-                                       (71.8% logic, 28.2% route)
+    Total                      6.355ns (4.512ns logic, 1.843ns route)
+                                       (71.0% logic, 29.0% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'c_cmode_FSM_FFd2'
+  Total number of paths / destination ports: 16 / 16
+-------------------------------------------------------------------------
+Offset:              5.412ns (Levels of Logic = 2)
+  Source:            bytes_to_recv_sr_15 (FF)
+  Destination:       o_bytes_to_recv<1> (PAD)
+  Source Clock:      c_cmode_FSM_FFd2 rising
+
+  Data Path: bytes_to_recv_sr_15 to o_bytes_to_recv<1>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDC:C->Q              2   0.360   0.540  bytes_to_recv_sr_15 (bytes_to_recv_sr_15)
+     LUT2:I1->O            1   0.195   0.360  o_bytes_to_recv<1>1 (o_bytes_to_recv_1_OBUF)
+     OBUF:I->O                 3.957          o_bytes_to_recv_1_OBUF (o_bytes_to_recv<1>)
+    ----------------------------------------
+    Total                      5.412ns (4.512ns logic, 0.900ns route)
+                                       (83.4% logic, 16.6% route)
 
 =========================================================================
 
 
-Total REAL time to Xst completion: 12.00 secs
-Total CPU time to Xst completion: 12.25 secs
+Total REAL time to Xst completion: 9.00 secs
+Total CPU time to Xst completion: 9.41 secs
  
 --> 
 
 
-Total memory usage is 578512 kilobytes
+Total memory usage is 577732 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :    0 (   0 filtered)
-Number of infos    :    7 (   0 filtered)
+Number of warnings :    1 (   0 filtered)
+Number of infos    :    5 (   0 filtered)
 
