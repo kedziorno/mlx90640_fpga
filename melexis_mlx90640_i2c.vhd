@@ -192,14 +192,14 @@ begin
       temp_sda <= '1';
       mode2_ready_i <= '0';
       mode2_ready_all_i <= '0';
-      o_busy <= '1';
+      o_busy <= '0';
     elsif (rising_edge (clock)) then
       case c_state is
         when idle =>
-          temp_sda <= '1';
-          if (c_cmode = c3) then -- XXX start from c0 clock state in next cycle
-            c_state <= start;
+          if (i_enable = '1') then
+            temp_sda <= '1';
             o_busy <= '1';
+            c_state <= start;
             data_index_ctr <= 0;
             slave_index_ctr <= c_i2c_address_bits - 1;
           end if;
@@ -249,7 +249,7 @@ begin
         when mode0_write_slave_ack =>
           if (c_cmode = c3) then
             c_state <= mode0_write_data1;
-            temp_sda <= '0';
+            temp_sda <= 'Z';
             data_index_ctr <= 0;
           end if;
         when mode0_write_data1 =>
@@ -278,7 +278,7 @@ begin
           if (c_cmode = c3) then
             c_state <= mode0_write_data2;
             data_index_ctr <= 0;
-            temp_sda <= '0';
+            temp_sda <= 'Z';
           end if;
         when mode0_write_data2 =>
           if (data_index_ctr = c_i2c_data_bits - 1) then
@@ -306,7 +306,7 @@ begin
         when mode0_write_data_ack2 =>
           if (c_cmode = c3) then
             c_state <= mode0_write_data3;
-            temp_sda <= '0';
+            temp_sda <= 'Z';
             data_index_ctr <= 0;
           end if;
         when mode0_write_data3 =>
@@ -335,7 +335,7 @@ begin
         when mode0_write_data_ack3 =>
           if (c_cmode = c3) then
             c_state <= mode0_write_data4;
-            temp_sda <= '0';
+            temp_sda <= 'Z';
           end if;
         when mode0_write_data4 =>
           if (data_index_ctr = c_i2c_data_bits - 1) then
@@ -363,7 +363,7 @@ begin
         when mode0_write_data_ack4 =>
           if (c_cmode = c3) then
             c_state <= sda_stop;
-            temp_sda <= '0';
+            temp_sda <= 'Z';
           end if;
 -- XXX mode1
         when mode1_write_slave_address =>
@@ -396,7 +396,7 @@ begin
         when mode1_write_slave_ack =>
           if (c_cmode = c3) then
             c_state <= mode1_write_data1;
-            temp_sda <= '0';
+            temp_sda <= 'Z';
             data_index_ctr <= 0;
           end if;
         when mode1_write_data1 =>
@@ -425,7 +425,7 @@ begin
           if (c_cmode = c3) then
             c_state <= mode1_write_data2;
             data_index_ctr <= 0;
-            temp_sda <= '0';
+            temp_sda <= 'Z';
           end if;
         when mode1_write_data2 =>
           if (data_index_ctr = c_i2c_data_bits - 1) then
@@ -453,13 +453,13 @@ begin
         when mode1_write_data_ack2 =>
           if (c_cmode = c3) then
             c_state <= mode1_write_data_ack2_empty;
-            temp_sda <= '0';
+            temp_sda <= 'Z';
             data_index_ctr <= 0;
           end if;
         when mode1_write_data_ack2_empty =>
           if (c_cmode = c3) then
             c_state <= mode1_read_start;
-            temp_sda <= '0';
+            temp_sda <= 'Z';
             data_index_ctr <= 0;
           end if;
         when mode1_read_start =>
@@ -499,7 +499,7 @@ begin
         when mode1_read_slave_ack =>
           if (c_cmode = c3) then
             c_state <= mode1_read_data1;
-            temp_sda <= '0';
+            temp_sda <= 'Z';
             data_index_ctr <= 0;
           end if;
         when mode1_read_data1 =>
@@ -538,12 +538,12 @@ begin
         when mode1_read_data_nak =>
           if (c_cmode = c3) then
             c_state <= mode1_read_data_nak_empty;
-            temp_sda <= '1';
+            temp_sda <= 'Z';
           end if;
         when mode1_read_data_nak_empty =>
           if (c_cmode = c3) then
             c_state <= stop;
-            temp_sda <= '1'; -- 'X';
+            temp_sda <= 'Z'; -- 'X';
           end if;
 -- XXX mode2 i2c slave address write
         when mode2_write_slave_address =>
@@ -634,13 +634,13 @@ begin
         when mode2_write_data_ack2 =>
           if (c_cmode = c3) then
             c_state <= mode2_write_data_ack2_empty;
-            temp_sda <= '0';
+            temp_sda <= 'Z';
             data_index_ctr <= 0;
           end if;
         when mode2_write_data_ack2_empty => -- XXX empty
           if (c_cmode = c3) then
             c_state <= mode2_read_start;
-            temp_sda <= '0';
+            temp_sda <= 'Z';
             data_index_ctr <= 0;
           end if;
 -- XXX mode2 i2c start

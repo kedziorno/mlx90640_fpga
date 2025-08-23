@@ -28,401 +28,385 @@ INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on
 Timing constraint: NET "clock_i1" PERIOD = 10 ns HIGH 50%;
 For more information, see Period Analysis in the Timing Closure User Guide (UG612).
 
- 291 paths analyzed, 106 endpoints analyzed, 0 failing endpoints
+ 667 paths analyzed, 125 endpoints analyzed, 0 failing endpoints
  0 timing errors detected. (0 setup errors, 0 hold errors, 0 component switching limit errors)
- Minimum period is   3.788ns.
+ Minimum period is   4.814ns.
 --------------------------------------------------------------------------------
 
-Paths for end point melexis_mlx90640_i2c_enable (SLICE_X32Y87.F3), 9 paths
+Paths for end point wait1_4 (SLICE_X35Y84.BX), 37 paths
 --------------------------------------------------------------------------------
-Slack (setup path):     6.212ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               wait1_0 (FF)
-  Destination:          melexis_mlx90640_i2c_enable (FF)
+Slack (setup path):     5.186ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               wait1_8 (FF)
+  Destination:          wait1_4 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      3.788ns (Levels of Logic = 5)
+  Data Path Delay:      4.814ns (Levels of Logic = 4)
   Clock Path Skew:      0.000ns
   Source Clock:         clock_i rising at 0.000ns
   Destination Clock:    clock_i rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: wait1_0 to melexis_mlx90640_i2c_enable
+  Maximum Data Path: wait1_8 to wait1_4
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X35Y84.XQ      Tcko                  0.340   wait1<0>
-                                                       wait1_0
-    SLICE_X39Y84.G1      net (fanout=6)        0.818   wait1<0>
-    SLICE_X39Y84.Y       Tilo                  0.194   state_cmp_eq0000
-                                                       state_cmp_eq0000_SW0
-    SLICE_X39Y84.F4      net (fanout=1)        0.322   N55
-    SLICE_X39Y84.X       Tilo                  0.194   state_cmp_eq0000
-                                                       state_cmp_eq0000
-    SLICE_X32Y86.G3      net (fanout=7)        0.704   state_cmp_eq0000
-    SLICE_X32Y86.Y       Tilo                  0.195   state_FSM_FFd2
-                                                       state_FSM_FFd4-In11
-    SLICE_X32Y87.G1      net (fanout=2)        0.398   N261
-    SLICE_X32Y87.Y       Tilo                  0.195   melexis_mlx90640_i2c_enable
-                                                       melexis_mlx90640_i2c_enable_mux000110
-    SLICE_X32Y87.F3      net (fanout=1)        0.213   melexis_mlx90640_i2c_enable_mux000110/O
-    SLICE_X32Y87.CLK     Tfck                  0.215   melexis_mlx90640_i2c_enable
-                                                       melexis_mlx90640_i2c_enable_mux000142
-                                                       melexis_mlx90640_i2c_enable
+    SLICE_X34Y84.XQ      Tcko                  0.360   wait1<8>
+                                                       wait1_8
+    SLICE_X32Y87.F3      net (fanout=3)        1.057   wait1<8>
+    SLICE_X32Y87.X       Tilo                  0.195   state_cmp_eq00004
+                                                       state_cmp_eq00004
+    SLICE_X32Y88.G1      net (fanout=5)        0.572   state_cmp_eq00004
+    SLICE_X32Y88.Y       Tilo                  0.195   state_FSM_FFd4
+                                                       state_cmp_eq000020
+    SLICE_X35Y84.G1      net (fanout=4)        0.777   state_cmp_eq0000
+    SLICE_X35Y84.Y       Tilo                  0.194   wait1<4>
+                                                       wait1_mux0000<0>11
+    SLICE_X35Y86.G1      net (fanout=9)        0.638   N5
+    SLICE_X35Y86.Y       Tilo                  0.194   wait1<5>
+                                                       wait1_mux0000<4>
+    SLICE_X35Y84.BX      net (fanout=1)        0.351   wait1_mux0000<4>
+    SLICE_X35Y84.CLK     Tdick                 0.281   wait1<4>
+                                                       wait1_4
     -------------------------------------------------  ---------------------------
-    Total                                      3.788ns (1.333ns logic, 2.455ns route)
-                                                       (35.2% logic, 64.8% route)
+    Total                                      4.814ns (1.419ns logic, 3.395ns route)
+                                                       (29.5% logic, 70.5% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     6.434ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               wait1_2 (FF)
-  Destination:          melexis_mlx90640_i2c_enable (FF)
+Slack (setup path):     5.324ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               wait1_4 (FF)
+  Destination:          wait1_4 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      3.566ns (Levels of Logic = 5)
+  Data Path Delay:      4.676ns (Levels of Logic = 4)
   Clock Path Skew:      0.000ns
   Source Clock:         clock_i rising at 0.000ns
   Destination Clock:    clock_i rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: wait1_2 to melexis_mlx90640_i2c_enable
+  Maximum Data Path: wait1_4 to wait1_4
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X36Y84.XQ      Tcko                  0.360   wait1<2>
-                                                       wait1_2
-    SLICE_X39Y84.G2      net (fanout=4)        0.576   wait1<2>
-    SLICE_X39Y84.Y       Tilo                  0.194   state_cmp_eq0000
-                                                       state_cmp_eq0000_SW0
-    SLICE_X39Y84.F4      net (fanout=1)        0.322   N55
-    SLICE_X39Y84.X       Tilo                  0.194   state_cmp_eq0000
-                                                       state_cmp_eq0000
-    SLICE_X32Y86.G3      net (fanout=7)        0.704   state_cmp_eq0000
-    SLICE_X32Y86.Y       Tilo                  0.195   state_FSM_FFd2
-                                                       state_FSM_FFd4-In11
-    SLICE_X32Y87.G1      net (fanout=2)        0.398   N261
-    SLICE_X32Y87.Y       Tilo                  0.195   melexis_mlx90640_i2c_enable
-                                                       melexis_mlx90640_i2c_enable_mux000110
-    SLICE_X32Y87.F3      net (fanout=1)        0.213   melexis_mlx90640_i2c_enable_mux000110/O
-    SLICE_X32Y87.CLK     Tfck                  0.215   melexis_mlx90640_i2c_enable
-                                                       melexis_mlx90640_i2c_enable_mux000142
-                                                       melexis_mlx90640_i2c_enable
+    SLICE_X35Y84.XQ      Tcko                  0.340   wait1<4>
+                                                       wait1_4
+    SLICE_X33Y86.F1      net (fanout=4)        1.098   wait1<4>
+    SLICE_X33Y86.X       Tilo                  0.194   state_cmp_eq000017
+                                                       state_cmp_eq000017
+    SLICE_X32Y88.G4      net (fanout=5)        0.414   state_cmp_eq000017
+    SLICE_X32Y88.Y       Tilo                  0.195   state_FSM_FFd4
+                                                       state_cmp_eq000020
+    SLICE_X35Y84.G1      net (fanout=4)        0.777   state_cmp_eq0000
+    SLICE_X35Y84.Y       Tilo                  0.194   wait1<4>
+                                                       wait1_mux0000<0>11
+    SLICE_X35Y86.G1      net (fanout=9)        0.638   N5
+    SLICE_X35Y86.Y       Tilo                  0.194   wait1<5>
+                                                       wait1_mux0000<4>
+    SLICE_X35Y84.BX      net (fanout=1)        0.351   wait1_mux0000<4>
+    SLICE_X35Y84.CLK     Tdick                 0.281   wait1<4>
+                                                       wait1_4
     -------------------------------------------------  ---------------------------
-    Total                                      3.566ns (1.353ns logic, 2.213ns route)
-                                                       (37.9% logic, 62.1% route)
+    Total                                      4.676ns (1.398ns logic, 3.278ns route)
+                                                       (29.9% logic, 70.1% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     6.557ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               wait1_1 (FF)
-  Destination:          melexis_mlx90640_i2c_enable (FF)
+Slack (setup path):     5.354ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               wait1_5 (FF)
+  Destination:          wait1_4 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      3.443ns (Levels of Logic = 5)
+  Data Path Delay:      4.643ns (Levels of Logic = 5)
+  Clock Path Skew:      -0.003ns (0.123 - 0.126)
+  Source Clock:         clock_i rising at 0.000ns
+  Destination Clock:    clock_i rising at 10.000ns
+  Clock Uncertainty:    0.000ns
+
+  Maximum Data Path: wait1_5 to wait1_4
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X35Y86.XQ      Tcko                  0.340   wait1<5>
+                                                       wait1_5
+    SLICE_X33Y86.G1      net (fanout=4)        0.649   wait1<5>
+    SLICE_X33Y86.Y       Tilo                  0.194   state_cmp_eq000017
+                                                       state_cmp_eq000013
+    SLICE_X33Y86.F3      net (fanout=1)        0.222   state_cmp_eq000013/O
+    SLICE_X33Y86.X       Tilo                  0.194   state_cmp_eq000017
+                                                       state_cmp_eq000017
+    SLICE_X32Y88.G4      net (fanout=5)        0.414   state_cmp_eq000017
+    SLICE_X32Y88.Y       Tilo                  0.195   state_FSM_FFd4
+                                                       state_cmp_eq000020
+    SLICE_X35Y84.G1      net (fanout=4)        0.777   state_cmp_eq0000
+    SLICE_X35Y84.Y       Tilo                  0.194   wait1<4>
+                                                       wait1_mux0000<0>11
+    SLICE_X35Y86.G1      net (fanout=9)        0.638   N5
+    SLICE_X35Y86.Y       Tilo                  0.194   wait1<5>
+                                                       wait1_mux0000<4>
+    SLICE_X35Y84.BX      net (fanout=1)        0.351   wait1_mux0000<4>
+    SLICE_X35Y84.CLK     Tdick                 0.281   wait1<4>
+                                                       wait1_4
+    -------------------------------------------------  ---------------------------
+    Total                                      4.643ns (1.592ns logic, 3.051ns route)
+                                                       (34.3% logic, 65.7% route)
+
+--------------------------------------------------------------------------------
+
+Paths for end point wait1_7 (SLICE_X35Y84.BY), 40 paths
+--------------------------------------------------------------------------------
+Slack (setup path):     5.761ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               wait1_8 (FF)
+  Destination:          wait1_7 (FF)
+  Requirement:          10.000ns
+  Data Path Delay:      4.239ns (Levels of Logic = 4)
   Clock Path Skew:      0.000ns
   Source Clock:         clock_i rising at 0.000ns
   Destination Clock:    clock_i rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: wait1_1 to melexis_mlx90640_i2c_enable
+  Maximum Data Path: wait1_8 to wait1_7
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X37Y84.XQ      Tcko                  0.340   wait1<1>
-                                                       wait1_1
-    SLICE_X39Y84.G3      net (fanout=5)        0.473   wait1<1>
-    SLICE_X39Y84.Y       Tilo                  0.194   state_cmp_eq0000
-                                                       state_cmp_eq0000_SW0
-    SLICE_X39Y84.F4      net (fanout=1)        0.322   N55
-    SLICE_X39Y84.X       Tilo                  0.194   state_cmp_eq0000
-                                                       state_cmp_eq0000
-    SLICE_X32Y86.G3      net (fanout=7)        0.704   state_cmp_eq0000
-    SLICE_X32Y86.Y       Tilo                  0.195   state_FSM_FFd2
-                                                       state_FSM_FFd4-In11
-    SLICE_X32Y87.G1      net (fanout=2)        0.398   N261
-    SLICE_X32Y87.Y       Tilo                  0.195   melexis_mlx90640_i2c_enable
-                                                       melexis_mlx90640_i2c_enable_mux000110
-    SLICE_X32Y87.F3      net (fanout=1)        0.213   melexis_mlx90640_i2c_enable_mux000110/O
-    SLICE_X32Y87.CLK     Tfck                  0.215   melexis_mlx90640_i2c_enable
-                                                       melexis_mlx90640_i2c_enable_mux000142
-                                                       melexis_mlx90640_i2c_enable
+    SLICE_X34Y84.XQ      Tcko                  0.360   wait1<8>
+                                                       wait1_8
+    SLICE_X32Y87.F3      net (fanout=3)        1.057   wait1<8>
+    SLICE_X32Y87.X       Tilo                  0.195   state_cmp_eq00004
+                                                       state_cmp_eq00004
+    SLICE_X32Y88.G1      net (fanout=5)        0.572   state_cmp_eq00004
+    SLICE_X32Y88.Y       Tilo                  0.195   state_FSM_FFd4
+                                                       state_cmp_eq000020
+    SLICE_X35Y84.G1      net (fanout=4)        0.777   state_cmp_eq0000
+    SLICE_X35Y84.Y       Tilo                  0.194   wait1<4>
+                                                       wait1_mux0000<0>11
+    SLICE_X35Y84.F3      net (fanout=9)        0.264   N5
+    SLICE_X35Y84.X       Tilo                  0.194   wait1<4>
+                                                       wait1_mux0000<1>1
+    SLICE_X35Y84.BY      net (fanout=1)        0.139   wait1_mux0000<1>
+    SLICE_X35Y84.CLK     Tdick                 0.292   wait1<4>
+                                                       wait1_7
     -------------------------------------------------  ---------------------------
-    Total                                      3.443ns (1.333ns logic, 2.110ns route)
-                                                       (38.7% logic, 61.3% route)
+    Total                                      4.239ns (1.430ns logic, 2.809ns route)
+                                                       (33.7% logic, 66.3% route)
 
 --------------------------------------------------------------------------------
-
-Paths for end point melexis_mlx90640_i2c_enable (SLICE_X32Y87.F1), 9 paths
---------------------------------------------------------------------------------
-Slack (setup path):     6.259ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               wait1_0 (FF)
-  Destination:          melexis_mlx90640_i2c_enable (FF)
+Slack (setup path):     5.899ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               wait1_4 (FF)
+  Destination:          wait1_7 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      3.741ns (Levels of Logic = 4)
+  Data Path Delay:      4.101ns (Levels of Logic = 4)
   Clock Path Skew:      0.000ns
   Source Clock:         clock_i rising at 0.000ns
   Destination Clock:    clock_i rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: wait1_0 to melexis_mlx90640_i2c_enable
+  Maximum Data Path: wait1_4 to wait1_7
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X35Y84.XQ      Tcko                  0.340   wait1<0>
-                                                       wait1_0
-    SLICE_X39Y84.G1      net (fanout=6)        0.818   wait1<0>
-    SLICE_X39Y84.Y       Tilo                  0.194   state_cmp_eq0000
-                                                       state_cmp_eq0000_SW0
-    SLICE_X39Y84.F4      net (fanout=1)        0.322   N55
-    SLICE_X39Y84.X       Tilo                  0.194   state_cmp_eq0000
-                                                       state_cmp_eq0000
-    SLICE_X33Y88.G3      net (fanout=7)        0.892   state_cmp_eq0000
-    SLICE_X33Y88.Y       Tilo                  0.194   melexis_mlx90640_i2c_memory_address<13>
-                                                       melexis_mlx90640_i2c_enable_mux000132
-    SLICE_X32Y87.F1      net (fanout=1)        0.572   melexis_mlx90640_i2c_enable_mux000132
-    SLICE_X32Y87.CLK     Tfck                  0.215   melexis_mlx90640_i2c_enable
-                                                       melexis_mlx90640_i2c_enable_mux000142
-                                                       melexis_mlx90640_i2c_enable
+    SLICE_X35Y84.XQ      Tcko                  0.340   wait1<4>
+                                                       wait1_4
+    SLICE_X33Y86.F1      net (fanout=4)        1.098   wait1<4>
+    SLICE_X33Y86.X       Tilo                  0.194   state_cmp_eq000017
+                                                       state_cmp_eq000017
+    SLICE_X32Y88.G4      net (fanout=5)        0.414   state_cmp_eq000017
+    SLICE_X32Y88.Y       Tilo                  0.195   state_FSM_FFd4
+                                                       state_cmp_eq000020
+    SLICE_X35Y84.G1      net (fanout=4)        0.777   state_cmp_eq0000
+    SLICE_X35Y84.Y       Tilo                  0.194   wait1<4>
+                                                       wait1_mux0000<0>11
+    SLICE_X35Y84.F3      net (fanout=9)        0.264   N5
+    SLICE_X35Y84.X       Tilo                  0.194   wait1<4>
+                                                       wait1_mux0000<1>1
+    SLICE_X35Y84.BY      net (fanout=1)        0.139   wait1_mux0000<1>
+    SLICE_X35Y84.CLK     Tdick                 0.292   wait1<4>
+                                                       wait1_7
     -------------------------------------------------  ---------------------------
-    Total                                      3.741ns (1.137ns logic, 2.604ns route)
-                                                       (30.4% logic, 69.6% route)
+    Total                                      4.101ns (1.409ns logic, 2.692ns route)
+                                                       (34.4% logic, 65.6% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     6.481ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               wait1_2 (FF)
-  Destination:          melexis_mlx90640_i2c_enable (FF)
+Slack (setup path):     5.929ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               wait1_5 (FF)
+  Destination:          wait1_7 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      3.519ns (Levels of Logic = 4)
-  Clock Path Skew:      0.000ns
+  Data Path Delay:      4.068ns (Levels of Logic = 5)
+  Clock Path Skew:      -0.003ns (0.123 - 0.126)
   Source Clock:         clock_i rising at 0.000ns
   Destination Clock:    clock_i rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: wait1_2 to melexis_mlx90640_i2c_enable
+  Maximum Data Path: wait1_5 to wait1_7
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X36Y84.XQ      Tcko                  0.360   wait1<2>
-                                                       wait1_2
-    SLICE_X39Y84.G2      net (fanout=4)        0.576   wait1<2>
-    SLICE_X39Y84.Y       Tilo                  0.194   state_cmp_eq0000
-                                                       state_cmp_eq0000_SW0
-    SLICE_X39Y84.F4      net (fanout=1)        0.322   N55
-    SLICE_X39Y84.X       Tilo                  0.194   state_cmp_eq0000
-                                                       state_cmp_eq0000
-    SLICE_X33Y88.G3      net (fanout=7)        0.892   state_cmp_eq0000
-    SLICE_X33Y88.Y       Tilo                  0.194   melexis_mlx90640_i2c_memory_address<13>
-                                                       melexis_mlx90640_i2c_enable_mux000132
-    SLICE_X32Y87.F1      net (fanout=1)        0.572   melexis_mlx90640_i2c_enable_mux000132
-    SLICE_X32Y87.CLK     Tfck                  0.215   melexis_mlx90640_i2c_enable
-                                                       melexis_mlx90640_i2c_enable_mux000142
-                                                       melexis_mlx90640_i2c_enable
+    SLICE_X35Y86.XQ      Tcko                  0.340   wait1<5>
+                                                       wait1_5
+    SLICE_X33Y86.G1      net (fanout=4)        0.649   wait1<5>
+    SLICE_X33Y86.Y       Tilo                  0.194   state_cmp_eq000017
+                                                       state_cmp_eq000013
+    SLICE_X33Y86.F3      net (fanout=1)        0.222   state_cmp_eq000013/O
+    SLICE_X33Y86.X       Tilo                  0.194   state_cmp_eq000017
+                                                       state_cmp_eq000017
+    SLICE_X32Y88.G4      net (fanout=5)        0.414   state_cmp_eq000017
+    SLICE_X32Y88.Y       Tilo                  0.195   state_FSM_FFd4
+                                                       state_cmp_eq000020
+    SLICE_X35Y84.G1      net (fanout=4)        0.777   state_cmp_eq0000
+    SLICE_X35Y84.Y       Tilo                  0.194   wait1<4>
+                                                       wait1_mux0000<0>11
+    SLICE_X35Y84.F3      net (fanout=9)        0.264   N5
+    SLICE_X35Y84.X       Tilo                  0.194   wait1<4>
+                                                       wait1_mux0000<1>1
+    SLICE_X35Y84.BY      net (fanout=1)        0.139   wait1_mux0000<1>
+    SLICE_X35Y84.CLK     Tdick                 0.292   wait1<4>
+                                                       wait1_7
     -------------------------------------------------  ---------------------------
-    Total                                      3.519ns (1.157ns logic, 2.362ns route)
-                                                       (32.9% logic, 67.1% route)
-
---------------------------------------------------------------------------------
-Slack (setup path):     6.604ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               wait1_1 (FF)
-  Destination:          melexis_mlx90640_i2c_enable (FF)
-  Requirement:          10.000ns
-  Data Path Delay:      3.396ns (Levels of Logic = 4)
-  Clock Path Skew:      0.000ns
-  Source Clock:         clock_i rising at 0.000ns
-  Destination Clock:    clock_i rising at 10.000ns
-  Clock Uncertainty:    0.000ns
-
-  Maximum Data Path: wait1_1 to melexis_mlx90640_i2c_enable
-    Location             Delay type         Delay(ns)  Physical Resource
-                                                       Logical Resource(s)
-    -------------------------------------------------  -------------------
-    SLICE_X37Y84.XQ      Tcko                  0.340   wait1<1>
-                                                       wait1_1
-    SLICE_X39Y84.G3      net (fanout=5)        0.473   wait1<1>
-    SLICE_X39Y84.Y       Tilo                  0.194   state_cmp_eq0000
-                                                       state_cmp_eq0000_SW0
-    SLICE_X39Y84.F4      net (fanout=1)        0.322   N55
-    SLICE_X39Y84.X       Tilo                  0.194   state_cmp_eq0000
-                                                       state_cmp_eq0000
-    SLICE_X33Y88.G3      net (fanout=7)        0.892   state_cmp_eq0000
-    SLICE_X33Y88.Y       Tilo                  0.194   melexis_mlx90640_i2c_memory_address<13>
-                                                       melexis_mlx90640_i2c_enable_mux000132
-    SLICE_X32Y87.F1      net (fanout=1)        0.572   melexis_mlx90640_i2c_enable_mux000132
-    SLICE_X32Y87.CLK     Tfck                  0.215   melexis_mlx90640_i2c_enable
-                                                       melexis_mlx90640_i2c_enable_mux000142
-                                                       melexis_mlx90640_i2c_enable
-    -------------------------------------------------  ---------------------------
-    Total                                      3.396ns (1.137ns logic, 2.259ns route)
-                                                       (33.5% logic, 66.5% route)
+    Total                                      4.068ns (1.603ns logic, 2.465ns route)
+                                                       (39.4% logic, 60.6% route)
 
 --------------------------------------------------------------------------------
 
-Paths for end point wait1_5 (SLICE_X36Y82.G1), 9 paths
+Paths for end point wait1_5 (SLICE_X35Y86.F1), 16 paths
 --------------------------------------------------------------------------------
-Slack (setup path):     6.475ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               wait1_0 (FF)
+Slack (setup path):     5.777ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               wait1_8 (FF)
   Destination:          wait1_5 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      3.517ns (Levels of Logic = 4)
-  Clock Path Skew:      -0.008ns (0.741 - 0.749)
+  Data Path Delay:      4.223ns (Levels of Logic = 4)
+  Clock Path Skew:      0.000ns
   Source Clock:         clock_i rising at 0.000ns
   Destination Clock:    clock_i rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: wait1_0 to wait1_5
+  Maximum Data Path: wait1_8 to wait1_5
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X35Y84.XQ      Tcko                  0.340   wait1<0>
-                                                       wait1_0
-    SLICE_X39Y84.G1      net (fanout=6)        0.818   wait1<0>
-    SLICE_X39Y84.Y       Tilo                  0.194   state_cmp_eq0000
-                                                       state_cmp_eq0000_SW0
-    SLICE_X39Y84.F4      net (fanout=1)        0.322   N55
-    SLICE_X39Y84.X       Tilo                  0.194   state_cmp_eq0000
-                                                       state_cmp_eq0000
-    SLICE_X35Y84.G1      net (fanout=7)        0.598   state_cmp_eq0000
-    SLICE_X35Y84.Y       Tilo                  0.194   wait1<0>
+    SLICE_X34Y84.XQ      Tcko                  0.360   wait1<8>
+                                                       wait1_8
+    SLICE_X32Y87.F3      net (fanout=3)        1.057   wait1<8>
+    SLICE_X32Y87.X       Tilo                  0.195   state_cmp_eq00004
+                                                       state_cmp_eq00004
+    SLICE_X32Y88.G1      net (fanout=5)        0.572   state_cmp_eq00004
+    SLICE_X32Y88.Y       Tilo                  0.195   state_FSM_FFd4
+                                                       state_cmp_eq000020
+    SLICE_X35Y84.G1      net (fanout=4)        0.777   state_cmp_eq0000
+    SLICE_X35Y84.Y       Tilo                  0.194   wait1<4>
                                                        wait1_mux0000<0>11
-    SLICE_X36Y82.G1      net (fanout=6)        0.644   N6
-    SLICE_X36Y82.CLK     Tgck                  0.213   wait1<5>
-                                                       wait1_mux0000<0>38
+    SLICE_X35Y86.F1      net (fanout=9)        0.638   N5
+    SLICE_X35Y86.CLK     Tfck                  0.235   wait1<5>
+                                                       wait1_mux0000<3>1
                                                        wait1_5
     -------------------------------------------------  ---------------------------
-    Total                                      3.517ns (1.135ns logic, 2.382ns route)
-                                                       (32.3% logic, 67.7% route)
+    Total                                      4.223ns (1.179ns logic, 3.044ns route)
+                                                       (27.9% logic, 72.1% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     6.702ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               wait1_2 (FF)
+Slack (setup path):     5.915ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               wait1_4 (FF)
   Destination:          wait1_5 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      3.295ns (Levels of Logic = 4)
-  Clock Path Skew:      -0.003ns (0.119 - 0.122)
+  Data Path Delay:      4.085ns (Levels of Logic = 4)
+  Clock Path Skew:      0.000ns
   Source Clock:         clock_i rising at 0.000ns
   Destination Clock:    clock_i rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: wait1_2 to wait1_5
+  Maximum Data Path: wait1_4 to wait1_5
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X36Y84.XQ      Tcko                  0.360   wait1<2>
-                                                       wait1_2
-    SLICE_X39Y84.G2      net (fanout=4)        0.576   wait1<2>
-    SLICE_X39Y84.Y       Tilo                  0.194   state_cmp_eq0000
-                                                       state_cmp_eq0000_SW0
-    SLICE_X39Y84.F4      net (fanout=1)        0.322   N55
-    SLICE_X39Y84.X       Tilo                  0.194   state_cmp_eq0000
-                                                       state_cmp_eq0000
-    SLICE_X35Y84.G1      net (fanout=7)        0.598   state_cmp_eq0000
-    SLICE_X35Y84.Y       Tilo                  0.194   wait1<0>
+    SLICE_X35Y84.XQ      Tcko                  0.340   wait1<4>
+                                                       wait1_4
+    SLICE_X33Y86.F1      net (fanout=4)        1.098   wait1<4>
+    SLICE_X33Y86.X       Tilo                  0.194   state_cmp_eq000017
+                                                       state_cmp_eq000017
+    SLICE_X32Y88.G4      net (fanout=5)        0.414   state_cmp_eq000017
+    SLICE_X32Y88.Y       Tilo                  0.195   state_FSM_FFd4
+                                                       state_cmp_eq000020
+    SLICE_X35Y84.G1      net (fanout=4)        0.777   state_cmp_eq0000
+    SLICE_X35Y84.Y       Tilo                  0.194   wait1<4>
                                                        wait1_mux0000<0>11
-    SLICE_X36Y82.G1      net (fanout=6)        0.644   N6
-    SLICE_X36Y82.CLK     Tgck                  0.213   wait1<5>
-                                                       wait1_mux0000<0>38
+    SLICE_X35Y86.F1      net (fanout=9)        0.638   N5
+    SLICE_X35Y86.CLK     Tfck                  0.235   wait1<5>
+                                                       wait1_mux0000<3>1
                                                        wait1_5
     -------------------------------------------------  ---------------------------
-    Total                                      3.295ns (1.155ns logic, 2.140ns route)
-                                                       (35.1% logic, 64.9% route)
+    Total                                      4.085ns (1.158ns logic, 2.927ns route)
+                                                       (28.3% logic, 71.7% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     6.825ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               wait1_1 (FF)
+Slack (setup path):     5.948ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               wait1_5 (FF)
   Destination:          wait1_5 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      3.172ns (Levels of Logic = 4)
-  Clock Path Skew:      -0.003ns (0.119 - 0.122)
+  Data Path Delay:      4.052ns (Levels of Logic = 5)
+  Clock Path Skew:      0.000ns
   Source Clock:         clock_i rising at 0.000ns
   Destination Clock:    clock_i rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Maximum Data Path: wait1_1 to wait1_5
+  Maximum Data Path: wait1_5 to wait1_5
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X37Y84.XQ      Tcko                  0.340   wait1<1>
-                                                       wait1_1
-    SLICE_X39Y84.G3      net (fanout=5)        0.473   wait1<1>
-    SLICE_X39Y84.Y       Tilo                  0.194   state_cmp_eq0000
-                                                       state_cmp_eq0000_SW0
-    SLICE_X39Y84.F4      net (fanout=1)        0.322   N55
-    SLICE_X39Y84.X       Tilo                  0.194   state_cmp_eq0000
-                                                       state_cmp_eq0000
-    SLICE_X35Y84.G1      net (fanout=7)        0.598   state_cmp_eq0000
-    SLICE_X35Y84.Y       Tilo                  0.194   wait1<0>
+    SLICE_X35Y86.XQ      Tcko                  0.340   wait1<5>
+                                                       wait1_5
+    SLICE_X33Y86.G1      net (fanout=4)        0.649   wait1<5>
+    SLICE_X33Y86.Y       Tilo                  0.194   state_cmp_eq000017
+                                                       state_cmp_eq000013
+    SLICE_X33Y86.F3      net (fanout=1)        0.222   state_cmp_eq000013/O
+    SLICE_X33Y86.X       Tilo                  0.194   state_cmp_eq000017
+                                                       state_cmp_eq000017
+    SLICE_X32Y88.G4      net (fanout=5)        0.414   state_cmp_eq000017
+    SLICE_X32Y88.Y       Tilo                  0.195   state_FSM_FFd4
+                                                       state_cmp_eq000020
+    SLICE_X35Y84.G1      net (fanout=4)        0.777   state_cmp_eq0000
+    SLICE_X35Y84.Y       Tilo                  0.194   wait1<4>
                                                        wait1_mux0000<0>11
-    SLICE_X36Y82.G1      net (fanout=6)        0.644   N6
-    SLICE_X36Y82.CLK     Tgck                  0.213   wait1<5>
-                                                       wait1_mux0000<0>38
+    SLICE_X35Y86.F1      net (fanout=9)        0.638   N5
+    SLICE_X35Y86.CLK     Tfck                  0.235   wait1<5>
+                                                       wait1_mux0000<3>1
                                                        wait1_5
     -------------------------------------------------  ---------------------------
-    Total                                      3.172ns (1.135ns logic, 2.037ns route)
-                                                       (35.8% logic, 64.2% route)
+    Total                                      4.052ns (1.352ns logic, 2.700ns route)
+                                                       (33.4% logic, 66.6% route)
 
 --------------------------------------------------------------------------------
 
 Hold Paths: NET "clock_i1" PERIOD = 10 ns HIGH 50%;
 --------------------------------------------------------------------------------
 
-Paths for end point melexis_mlx90640_i2c_memory_data_3 (SLICE_X31Y87.G4), 1 path
+Paths for end point melexis_mlx90640_i2c_memory_address_5 (SLICE_X32Y92.G4), 1 path
 --------------------------------------------------------------------------------
-Slack (hold path):      0.513ns (requirement - (clock path skew + uncertainty - data path))
-  Source:               melexis_mlx90640_i2c_memory_data_3 (FF)
-  Destination:          melexis_mlx90640_i2c_memory_data_3 (FF)
+Slack (hold path):      0.519ns (requirement - (clock path skew + uncertainty - data path))
+  Source:               melexis_mlx90640_i2c_memory_address_5 (FF)
+  Destination:          melexis_mlx90640_i2c_memory_address_5 (FF)
   Requirement:          0.000ns
-  Data Path Delay:      0.513ns (Levels of Logic = 1)
+  Data Path Delay:      0.519ns (Levels of Logic = 1)
   Clock Path Skew:      0.000ns
   Source Clock:         clock_i rising at 10.000ns
   Destination Clock:    clock_i rising at 10.000ns
   Clock Uncertainty:    0.000ns
 
-  Minimum Data Path: melexis_mlx90640_i2c_memory_data_3 to melexis_mlx90640_i2c_memory_data_3
+  Minimum Data Path: melexis_mlx90640_i2c_memory_address_5 to melexis_mlx90640_i2c_memory_address_5
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X31Y87.YQ      Tcko                  0.313   melexis_mlx90640_i2c_memory_data<3>
-                                                       melexis_mlx90640_i2c_memory_data_3
-    SLICE_X31Y87.G4      net (fanout=2)        0.325   melexis_mlx90640_i2c_memory_data<3>
-    SLICE_X31Y87.CLK     Tckg        (-Th)     0.125   melexis_mlx90640_i2c_memory_data<3>
-                                                       melexis_mlx90640_i2c_memory_data_mux0000<3>1
-                                                       melexis_mlx90640_i2c_memory_data_3
+    SLICE_X32Y92.YQ      Tcko                  0.331   melexis_mlx90640_i2c_memory_address<2>
+                                                       melexis_mlx90640_i2c_memory_address_5
+    SLICE_X32Y92.G4      net (fanout=2)        0.331   melexis_mlx90640_i2c_memory_address<5>
+    SLICE_X32Y92.CLK     Tckg        (-Th)     0.143   melexis_mlx90640_i2c_memory_address<2>
+                                                       melexis_mlx90640_i2c_memory_address_mux0000<5>1
+                                                       melexis_mlx90640_i2c_memory_address_5
     -------------------------------------------------  ---------------------------
-    Total                                      0.513ns (0.188ns logic, 0.325ns route)
-                                                       (36.6% logic, 63.4% route)
+    Total                                      0.519ns (0.188ns logic, 0.331ns route)
+                                                       (36.2% logic, 63.8% route)
 
 --------------------------------------------------------------------------------
 
-Paths for end point melexis_mlx90640_i2c_mode0 (SLICE_X27Y92.G4), 1 path
+Paths for end point melexis_mlx90640_i2c_memory_address_0 (SLICE_X32Y91.G4), 1 path
 --------------------------------------------------------------------------------
-Slack (hold path):      0.513ns (requirement - (clock path skew + uncertainty - data path))
-  Source:               melexis_mlx90640_i2c_mode0 (FF)
-  Destination:          melexis_mlx90640_i2c_mode0 (FF)
-  Requirement:          0.000ns
-  Data Path Delay:      0.513ns (Levels of Logic = 1)
-  Clock Path Skew:      0.000ns
-  Source Clock:         clock_i rising at 10.000ns
-  Destination Clock:    clock_i rising at 10.000ns
-  Clock Uncertainty:    0.000ns
-
-  Minimum Data Path: melexis_mlx90640_i2c_mode0 to melexis_mlx90640_i2c_mode0
-    Location             Delay type         Delay(ns)  Physical Resource
-                                                       Logical Resource(s)
-    -------------------------------------------------  -------------------
-    SLICE_X27Y92.YQ      Tcko                  0.313   melexis_mlx90640_i2c_mode0
-                                                       melexis_mlx90640_i2c_mode0
-    SLICE_X27Y92.G4      net (fanout=3)        0.325   melexis_mlx90640_i2c_mode0
-    SLICE_X27Y92.CLK     Tckg        (-Th)     0.125   melexis_mlx90640_i2c_mode0
-                                                       melexis_mlx90640_i2c_mode0_mux00001
-                                                       melexis_mlx90640_i2c_mode0
-    -------------------------------------------------  ---------------------------
-    Total                                      0.513ns (0.188ns logic, 0.325ns route)
-                                                       (36.6% logic, 63.4% route)
-
---------------------------------------------------------------------------------
-
-Paths for end point melexis_mlx90640_i2c_memory_address_0 (SLICE_X32Y90.F4), 1 path
---------------------------------------------------------------------------------
-Slack (hold path):      0.515ns (requirement - (clock path skew + uncertainty - data path))
+Slack (hold path):      0.525ns (requirement - (clock path skew + uncertainty - data path))
   Source:               melexis_mlx90640_i2c_memory_address_0 (FF)
   Destination:          melexis_mlx90640_i2c_memory_address_0 (FF)
   Requirement:          0.000ns
-  Data Path Delay:      0.515ns (Levels of Logic = 1)
+  Data Path Delay:      0.525ns (Levels of Logic = 1)
   Clock Path Skew:      0.000ns
   Source Clock:         clock_i rising at 10.000ns
   Destination Clock:    clock_i rising at 10.000ns
@@ -432,15 +416,43 @@ Slack (hold path):      0.515ns (requirement - (clock path skew + uncertainty - 
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X32Y90.XQ      Tcko                  0.331   melexis_mlx90640_i2c_memory_address<0>
+    SLICE_X32Y91.YQ      Tcko                  0.331   melexis_mlx90640_i2c_memory_address<0>
                                                        melexis_mlx90640_i2c_memory_address_0
-    SLICE_X32Y90.F4      net (fanout=2)        0.325   melexis_mlx90640_i2c_memory_address<0>
-    SLICE_X32Y90.CLK     Tckf        (-Th)     0.141   melexis_mlx90640_i2c_memory_address<0>
-                                                       melexis_mlx90640_i2c_memory_address_mux0000<0>1
+    SLICE_X32Y91.G4      net (fanout=2)        0.337   melexis_mlx90640_i2c_memory_address<0>
+    SLICE_X32Y91.CLK     Tckg        (-Th)     0.143   melexis_mlx90640_i2c_memory_address<0>
+                                                       melexis_mlx90640_i2c_memory_address_mux0000<0>
                                                        melexis_mlx90640_i2c_memory_address_0
     -------------------------------------------------  ---------------------------
-    Total                                      0.515ns (0.190ns logic, 0.325ns route)
-                                                       (36.9% logic, 63.1% route)
+    Total                                      0.525ns (0.188ns logic, 0.337ns route)
+                                                       (35.8% logic, 64.2% route)
+
+--------------------------------------------------------------------------------
+
+Paths for end point melexis_mlx90640_i2c_mode1 (SLICE_X30Y93.G4), 1 path
+--------------------------------------------------------------------------------
+Slack (hold path):      0.525ns (requirement - (clock path skew + uncertainty - data path))
+  Source:               melexis_mlx90640_i2c_mode1 (FF)
+  Destination:          melexis_mlx90640_i2c_mode1 (FF)
+  Requirement:          0.000ns
+  Data Path Delay:      0.525ns (Levels of Logic = 1)
+  Clock Path Skew:      0.000ns
+  Source Clock:         clock_i rising at 10.000ns
+  Destination Clock:    clock_i rising at 10.000ns
+  Clock Uncertainty:    0.000ns
+
+  Minimum Data Path: melexis_mlx90640_i2c_mode1 to melexis_mlx90640_i2c_mode1
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X30Y93.YQ      Tcko                  0.331   melexis_mlx90640_i2c_mode1
+                                                       melexis_mlx90640_i2c_mode1
+    SLICE_X30Y93.G4      net (fanout=3)        0.337   melexis_mlx90640_i2c_mode1
+    SLICE_X30Y93.CLK     Tckg        (-Th)     0.143   melexis_mlx90640_i2c_mode1
+                                                       melexis_mlx90640_i2c_mode1_mux00001
+                                                       melexis_mlx90640_i2c_mode1
+    -------------------------------------------------  ---------------------------
+    Total                                      0.525ns (0.188ns logic, 0.337ns route)
+                                                       (35.8% logic, 64.2% route)
 
 --------------------------------------------------------------------------------
 
@@ -486,7 +498,7 @@ Clock to Setup on destination clock i_clock
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-i_clock        |    3.788|         |         |         |
+i_clock        |    4.814|         |         |         |
 ---------------+---------+---------+---------+---------+
 
 
@@ -495,16 +507,16 @@ Timing summary:
 
 Timing errors: 0  Score: 0  (Setup/Max: 0, Hold: 0)
 
-Constraints cover 291 paths, 0 nets, and 192 connections
+Constraints cover 667 paths, 0 nets, and 271 connections
 
 Design statistics:
-   Minimum period:   3.788ns{1}   (Maximum frequency: 263.992MHz)
+   Minimum period:   4.814ns{1}   (Maximum frequency: 207.727MHz)
 
 
 ------------------------------------Footnotes-----------------------------------
 1)  The minimum period statistic assumes all single cycle delays.
 
-Analysis completed Sun Aug 17 16:42:14 2025 
+Analysis completed Fri Aug 22 23:02:46 2025 
 --------------------------------------------------------------------------------
 
 Trace Settings:

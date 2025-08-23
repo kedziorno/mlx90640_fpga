@@ -451,7 +451,7 @@ signal melexis_mlx90640_i2c_scl : std_logic;
 
 signal asd,asd1,clock_i,reset_i : std_logic;
 
-constant c_wait1 : integer := 46;
+constant c_wait1 : integer := 46*10;
 signal wait1 : integer range 0 to c_wait1 - 1;
 
 signal sda_i, scl_i : std_logic;
@@ -463,7 +463,7 @@ vga_blankn <= VGA_timing_synch_blank;
 --vga_blankn <= '1';
 vga_psave <= '1';
 
-pTo : process (clock_i) is
+pTo : process (clock_i,reset_i) is
 	variable i : integer range 0 to PIXELS-1;
 	variable state : states;
   constant c_some_wait : integer := 2**20;
@@ -474,10 +474,17 @@ pTo : process (clock_i) is
   variable tout_t : std_logic_vector (15 downto 0);
   variable tout_r : std_logic_vector (8 downto 0);
   variable camera_read : std_logic_vector (15 downto 0);
+--  constant c_cold_start : integer := 1_000_000 * 100; -- 10ms * 100
+  constant c_cold_start : integer := 1; -- sim
+  variable cold_start : integer range 0 to c_cold_start - 1;
+  constant c_wait2 : integer := 65535;
+  variable wait2 : integer range 0 to c_wait2 - 1;
 begin
 		if (reset_i = '1') then
-			state := idle1;
+			state := idle;
       wait1 <= 0;
+      cold_start := 0;
+      wait2 := 0;
       camera_read := (others => '0');
 			float2fixedsclr <= '1';
 			i := 0;
@@ -499,6 +506,13 @@ begin
 		elsif (rising_edge (clock_i)) then
       t_state <= state;
 			case (state) is
+        when idle =>
+          if (cold_start = c_cold_start - 1) then
+            state := idle1;
+            cold_start := 0;
+          else
+            cold_start := cold_start + 1;
+          end if;
         when idle1 =>
           melexis_mlx90640_i2c_mode0 <= '0';
           melexis_mlx90640_i2c_mode1 <= '1'; -- w800d/r1901
@@ -509,8 +523,10 @@ begin
           if (wait1 = c_wait1 - 1) then
             if (melexis_mlx90640_i2c_busy = '0') then
               camera_read := melexis_mlx90640_i2c_bytes_to_recv;
-              state := idle2;
-              wait1 <= 0;
+--              if (camera_read = x"1901") then
+                state := idle2;
+                wait1 <= 0;
+--              end if;
             end if;
           else
             wait1 <= wait1 + 1;
