@@ -30,6 +30,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 use work.global_package.all;
+use work.pack.all;
 
 entity test2 is
 port (
@@ -37,9 +38,11 @@ i_clock,i_reset : in std_logic;
 io_sda_dd : inout std_logic;
 io_scl_dd : inout std_logic;
 io_sda_nl : inout std_logic;
-io_scl_nl : inout std_logic;
+io_scl_nl : out std_logic;
 o_camera_read : out std_logic_vector (15 downto 0);
-o_ready, o_ready_all : out std_logic
+o_ready, o_ready_all : out std_logic;
+o_an : out std_logic_vector (3 downto 0);
+o_seg : out std_logic_vector (6 downto 0)
 );
 end test2;
 
@@ -84,8 +87,9 @@ i_memory_data : in std_logic_vector (0 to 15);
 o_bytes_to_recv : out std_logic_vector (0 to 15);
 i_enable : in std_logic;
 o_busy : out std_logic;
-io_sda : inout std_logic;
-io_scl : inout std_logic
+io_sda_o : out std_logic;
+io_sda_i : in std_logic;
+io_scl : out std_logic
 );
 end component melexis_mlx90640_i2c;
 signal melexis_mlx90640_i2c_clock : std_logic;
@@ -101,7 +105,8 @@ signal melexis_mlx90640_i2c_memory_data : std_logic_vector (0 to 15);
 signal melexis_mlx90640_i2c_bytes_to_recv : std_logic_vector (0 to 15);
 signal melexis_mlx90640_i2c_enable : std_logic;
 signal melexis_mlx90640_i2c_busy : std_logic;
-signal melexis_mlx90640_i2c_sda : std_logic;
+signal melexis_mlx90640_i2c_sda_o : std_logic;
+signal melexis_mlx90640_i2c_sda_i : std_logic;
 signal melexis_mlx90640_i2c_scl : std_logic;
 
 constant c_wait1 : integer := 46*10;
@@ -111,9 +116,69 @@ signal sda_i, scl_i : std_logic;
 
 signal camera_read : std_logic_vector (15 downto 0);
 
+component lcd_display is
+Generic (
+LCDClockDivider : integer := 200
+);
+Port (
+i_clock : in std_logic;
+i_LCDChar : LCDHex;
+o_anode : out std_logic_vector(3 downto 0);
+o_segment : out std_logic_vector(6 downto 0)
+);
+end component lcd_display;
+
+signal LCDChar : LCDHex;
+
+signal sda_nl_o, sda_nl_i, scl_nl : std_logic;
+
 begin
 
 o_camera_read <= melexis_mlx90640_i2c_bytes_to_recv;
+
+process (i_clock,i_reset) is
+begin
+if (i_reset = '1') then
+lcdchar (0) <= (others => '0');
+lcdchar (1) <= (others => '0');
+lcdchar (2) <= (others => '0');
+lcdchar (3) <= (others => '0');
+elsif (rising_edge (i_clock)) then
+--lcdchar (0)(0) <= '1';
+--lcdchar (0)(1) <= '1';
+--lcdchar (0)(2) <= '1';
+--lcdchar (0)(3) <= '1';
+--lcdchar (1)(0) <= '1';
+--lcdchar (1)(1) <= '1';
+--lcdchar (1)(2) <= '1';
+--lcdchar (1)(3) <= '1';
+--lcdchar (2)(0) <= '1';
+--lcdchar (2)(1) <= '1';
+--lcdchar (2)(2) <= '1';
+--lcdchar (2)(3) <= '1';
+--lcdchar (3)(0) <= '1';
+--lcdchar (3)(1) <= '1';
+--lcdchar (3)(2) <= '1';
+--lcdchar (3)(3) <= '1';
+
+lcdchar (0)(0) <= melexis_mlx90640_i2c_bytes_to_recv(0);
+lcdchar (0)(1) <= melexis_mlx90640_i2c_bytes_to_recv(1);
+lcdchar (0)(2) <= melexis_mlx90640_i2c_bytes_to_recv(2);
+lcdchar (0)(3) <= melexis_mlx90640_i2c_bytes_to_recv(3);
+lcdchar (1)(0) <= melexis_mlx90640_i2c_bytes_to_recv(4);
+lcdchar (1)(1) <= melexis_mlx90640_i2c_bytes_to_recv(5);
+lcdchar (1)(2) <= melexis_mlx90640_i2c_bytes_to_recv(6);
+lcdchar (1)(3) <= melexis_mlx90640_i2c_bytes_to_recv(7);
+lcdchar (2)(0) <= melexis_mlx90640_i2c_bytes_to_recv(8);
+lcdchar (2)(1) <= melexis_mlx90640_i2c_bytes_to_recv(9);
+lcdchar (2)(2) <= melexis_mlx90640_i2c_bytes_to_recv(10);
+lcdchar (2)(3) <= melexis_mlx90640_i2c_bytes_to_recv(11);
+lcdchar (3)(0) <= melexis_mlx90640_i2c_bytes_to_recv(12);
+lcdchar (3)(1) <= melexis_mlx90640_i2c_bytes_to_recv(13);
+lcdchar (3)(2) <= melexis_mlx90640_i2c_bytes_to_recv(14);
+lcdchar (3)(3) <= melexis_mlx90640_i2c_bytes_to_recv(15);
+end if;
+end process;
 
 p_i2c : process (i_clock,i_reset) is
 	variable state : states;
@@ -122,11 +187,11 @@ p_i2c : process (i_clock,i_reset) is
   --synthesis translate_off
   variable first : boolean := false;
   --synthesis translate_on
-  constant c_cold_start : integer := 1_000_000 * 10; -- 10ms * 10
---  constant c_cold_start : integer := 1; -- sim
+--  constant c_cold_start : integer := 1_000_000 * 10; -- 10ms * 10
+  constant c_cold_start : integer := 1000; -- sim
   variable cold_start : integer range 0 to c_cold_start - 1;
-  constant c_wait2 : integer := 65535;
---  constant c_wait2 : integer := 1; -- sim
+--  constant c_wait2 : integer := 65535;
+  constant c_wait2 : integer := 1000; -- sim
   variable wait2 : integer range 0 to c_wait2 - 1;
 begin
 		if (i_reset = '1') then
@@ -174,6 +239,7 @@ begin
         when idle0 =>
           if (wait2 = c_wait2 - 1) then
             state := w1;
+--            state := idle;
             wait2 := 0;
           else
             wait2 := wait2 + 1;
@@ -196,7 +262,8 @@ begin
           end if;
         when idle1 =>
           if (wait2 = c_wait2 - 1) then
-            state := wr2;
+--            state := wr2;
+            state := idle;
             wait2 := 0;
           else
             wait2 := wait2 + 1;
@@ -383,15 +450,16 @@ i_enable => melexis_mlx90640_i2c_enable,
 o_busy => melexis_mlx90640_i2c_busy,
 --io_sda => sda_i,
 --io_scl => scl_i
-io_sda => io_sda_nl,
-io_scl => io_scl_nl
+io_sda_o => sda_nl_o,
+io_sda_i => sda_nl_i,
+io_scl => scl_nl
 );
 
 --io_sda_dd <= '0' when sda_i = '0' else 'Z';
 --io_scl_dd <= '0' when scl_i = '0' else 'Z';
---io_sda_nl <= '0' when sda_i = '0' else 'Z';
---sda_i <= io_sda_nl;
---io_scl_nl <= '0' when scl_i = '0' else 'Z';
+io_sda_nl <= '0' when sda_nl_o = '0' else 'Z';
+sda_nl_i <= io_sda_nl;
+io_scl_nl <= '0' when scl_nl = '0' else 'Z';
 --io_sda_dd <= '0' when sda_i = '0' else 'Z';
 --io_scl_dd <= '0' when scl_i = '0' else 'Z';
 --io_sda_nl <= '0' when io_sda_dd = '0' else 'Z';
@@ -400,6 +468,14 @@ io_scl => io_scl_nl
 --io_scl_dd <= scl_i;
 --io_sda_nl <= io_sda_dd;
 --io_scl_nl <= io_scl_dd;
+
+c_lcd_display : lcd_display
+Port Map (
+i_clock => i_clock,
+i_LCDChar => LCDChar,
+o_anode => o_an,
+o_segment => o_seg
+);
 
 end Behavioral;
 

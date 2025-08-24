@@ -45,8 +45,9 @@ port (
   o_bytes_to_recv : out std_logic_vector (0 to 15);
   i_enable : in std_logic;
   o_busy : out std_logic;
-  io_sda : inout std_logic;
-  io_scl : inout std_logic
+  io_sda_o : out std_logic;
+  io_sda_i : in std_logic;
+  io_scl : out std_logic
 );
 end entity melexis_mlx90640_i2c;
 
@@ -143,7 +144,7 @@ state1,
   signal mode2_read_data_index_ctr : integer range 0 to c_mode2_read_data_index - 1;
   signal mode2_ready_i : std_logic;
   signal mode2_ready_all_i : std_logic;
-  signal io_sda_i : std_logic;
+  signal io_sda_ii : std_logic;
 
 begin
 
@@ -153,7 +154,7 @@ begin
     bytes_to_recv_sr (16 downto 9) & bytes_to_recv_sr (7 downto 0) when mode2_ready_i = '1'
     else
     (others => '0');
-  io_sda <=
+  io_sda_o <=
     '0' when temp_sda = '0'
     else
     '1' when c_state = idle
@@ -164,8 +165,9 @@ begin
     else
     temp_sck;
 
-  io_sda_i <=
-    io_sda when (c_state = mode2_read_data1 or c_state = mode2_read_data_ack1 or c_state = mode2_read_data2) 
+  io_sda_ii <=
+    io_sda_i when (c_state = mode1_read_data1 or c_state = mode1_read_data2 or c_state = mode2_read_data1 or c_state = mode2_read_data_ack1 or c_state = mode2_read_data2) 
+--    io_sda_i when (c_state = mode2_read_data1 or c_state = mode2_read_data_ack1 or c_state = mode2_read_data2) 
     else
     'Z';
 
@@ -177,7 +179,7 @@ begin
       if (c_state = mode2_read_data2 and c_cmode = c2 and data_index_ctr = 7) then
         bytes_to_recv_sr <= (others => '0');
       else
-        bytes_to_recv_sr <= bytes_to_recv_sr (15 downto 0) & io_sda_i;
+        bytes_to_recv_sr <= bytes_to_recv_sr (15 downto 0) & io_sda_ii;
       end if;
     end if;
   end process p_i2c_catch_bytes_to_recv;
@@ -536,11 +538,13 @@ begin
             c_state <= mode1_read_data_nak;
           end if;
         when mode1_read_data_nak =>
+          mode2_ready_i <= '1';
           if (c_cmode = c3) then
             c_state <= mode1_read_data_nak_empty;
             temp_sda <= 'Z';
           end if;
         when mode1_read_data_nak_empty =>
+          mode2_ready_i <= '0';
           if (c_cmode = c3) then
             c_state <= stop;
             temp_sda <= 'Z'; -- 'X';

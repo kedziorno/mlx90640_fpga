@@ -4,8 +4,7 @@ setMode -bs
 setCable -port auto
 identify -inferir
 identifympm
-assignfile -p 3 -file "./test2.bit"
-readidcode -p 3
-program -p 3
+assignfile -p 1 -file "./test2.bit"
+program -p 1
 quit
 

@@ -275,7 +275,7 @@ begin
   end loop;
   
   io_sda_nl <= 'Z'; -- rest Z
-  wait for 233721.575 us;
+--  wait for 233721.575 us;
 --  report "done" severity failure;
 end process mode2_read;
 
