@@ -58,7 +58,7 @@ signal i_reset : std_logic := '0';
 --Outputs
 signal io_sda_dd : std_logic;
 signal io_scl_dd : std_logic;
-signal io_sda_nl : std_logic;
+signal io_sda_nl : std_logic := 'Z';
 signal io_scl_nl : std_logic;
 signal o_ready : std_logic;
 signal o_ready_all : std_logic;
@@ -139,7 +139,49 @@ function klsfr(bv: std_logic_vector) return std_logic_vector is
   end function;
   variable pattern : std_logic_vector (15 downto 0) := x"0001";
 begin
+--wait;
   io_sda_nl <= 'Z';
+wait for 46.775 us;
+  pattern := x"1981";
+  io_sda_nl <= pattern (15); wait for 0.96 us;
+  io_sda_nl <= pattern (14); wait for 0.96 us;
+  io_sda_nl <= pattern (13); wait for 0.96 us;
+  io_sda_nl <= pattern (12); wait for 0.96 us;
+  io_sda_nl <= pattern (11); wait for 0.96 us;
+  io_sda_nl <= pattern (10); wait for 0.96 us;
+  io_sda_nl <= pattern (9); wait for 0.96 us;
+  io_sda_nl <= pattern (8); wait for 0.96 us;
+  io_sda_nl <= 'Z'; wait for 0.96 us; -- ack  
+  io_sda_nl <= pattern (7); wait for 0.96 us;
+  io_sda_nl <= pattern (6); wait for 0.96 us;
+  io_sda_nl <= pattern (5); wait for 0.96 us;
+  io_sda_nl <= pattern (4); wait for 0.96 us;
+  io_sda_nl <= pattern (3); wait for 0.96 us;
+  io_sda_nl <= pattern (2); wait for 0.96 us;
+  io_sda_nl <= pattern (1); wait for 0.96 us;
+  io_sda_nl <= pattern (0); wait for 0.96 us;
+  io_sda_nl <= 'Z'; wait for 0.96 us; -- ack  
+--  pattern := x"1981";
+--  io_sda_nl <= pattern (0); wait for 0.96 us;
+--  io_sda_nl <= pattern (1); wait for 0.96 us;
+--  io_sda_nl <= pattern (2); wait for 0.96 us;
+--  io_sda_nl <= pattern (3); wait for 0.96 us;
+--  io_sda_nl <= pattern (4); wait for 0.96 us;
+--  io_sda_nl <= pattern (5); wait for 0.96 us;
+--  io_sda_nl <= pattern (6); wait for 0.96 us;
+--  io_sda_nl <= pattern (7); wait for 0.96 us;
+--  io_sda_nl <= 'Z'; wait for 0.96 us; -- ack  
+--  io_sda_nl <= pattern (8); wait for 0.96 us;
+--  io_sda_nl <= pattern (9); wait for 0.96 us;
+--  io_sda_nl <= pattern (10); wait for 0.96 us;
+--  io_sda_nl <= pattern (11); wait for 0.96 us;
+--  io_sda_nl <= pattern (12); wait for 0.96 us;
+--  io_sda_nl <= pattern (13); wait for 0.96 us;
+--  io_sda_nl <= pattern (14); wait for 0.96 us;
+--  io_sda_nl <= pattern (15); wait for 0.96 us;
+--  io_sda_nl <= 'Z'; wait for 0.96 us; -- ack
+wait;
+
 --  wait for 2443.00 us; -- c1
 --  wait for 2440.12 us; -- c1
 --  wait until o_ready_all = '0';
@@ -210,7 +252,7 @@ begin
 --  io_sda_nl <= pattern (0); wait for 0.96 us;  
 --  io_sda_nl <= 'Z'; wait for 0.96 us; -- ack
   
-  for i in 0 to 832 loop
+  for i in 0 to 830 loop
   pattern := klsfr (pattern);
   s_spattern <= pattern;
   io_sda_nl <= pattern (15); wait for 0.96 us;

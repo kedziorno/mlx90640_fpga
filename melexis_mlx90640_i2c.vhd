@@ -166,7 +166,17 @@ begin
     temp_sck;
 
   io_sda_ii <=
-    io_sda_i when (c_state = mode1_read_data1 or c_state = mode1_read_data2 or c_state = mode2_read_data1 or c_state = mode2_read_data_ack1 or c_state = mode2_read_data2) 
+    io_sda_i when (
+      (c_state = mode1_read_data1 and data_index_ctr > 0) or
+      c_state = mode1_read_data_lastbit1 or
+      c_state = mode1_read_data_ack or
+      c_state = mode1_read_data2 or
+      c_state = mode1_read_data_lastbit2 or
+      c_state = mode1_read_data_nak or
+--      c_state = mode1_read_data_nak_empty or
+      c_state = mode2_read_data1 or
+      c_state = mode2_read_data_ack1 or
+      c_state = mode2_read_data2) 
 --    io_sda_i when (c_state = mode2_read_data1 or c_state = mode2_read_data_ack1 or c_state = mode2_read_data2) 
     else
     'Z';
@@ -538,13 +548,14 @@ begin
             c_state <= mode1_read_data_nak;
           end if;
         when mode1_read_data_nak =>
-          mode2_ready_i <= '1';
+          if (c_cmode = c0) then
+            mode2_ready_i <= '1';
+          end if;
           if (c_cmode = c3) then
             c_state <= mode1_read_data_nak_empty;
             temp_sda <= 'Z';
           end if;
         when mode1_read_data_nak_empty =>
-          mode2_ready_i <= '0';
           if (c_cmode = c3) then
             c_state <= stop;
             temp_sda <= 'Z'; -- 'X';
@@ -768,6 +779,7 @@ begin
           end if;
         when stop =>
           if (c_cmode = c1) then
+            mode2_ready_i <= '0';
             c_state <= idle;
             temp_sda <= '1';
             o_busy <= '0';
