@@ -416,21 +416,22 @@ generic (
   c_bus_clock : integer := c_clock_i2c_frequency
 );
 port (
-i_clock : in std_logic;
-i_reset : in std_logic;
-i_slave_address : in std_logic_vector (c_i2c_address_bits - 1 downto 0);
-i_mode0 : in std_logic; -- W(A)/4b(A)
-i_mode1 : in std_logic; -- W(A)/2b(A),ST,R(A)/2b(NA)
-i_mode2 : in std_logic; -- W(A)/2b(A),ST,R(A)/2*N(NA)
-o_mode2_ready : out std_logic;
-o_mode2_ready_all : out std_logic;
-i_memory_address : in std_logic_vector (0 to 15);
-i_memory_data : in std_logic_vector (0 to 15);
-o_bytes_to_recv : out std_logic_vector (0 to 15);
-i_enable : in std_logic;
-o_busy : out std_logic;
-io_sda : inout std_logic;
-io_scl : inout std_logic
+  i_clock : in std_logic;
+  i_reset : in std_logic;
+  i_slave_address : in std_logic_vector (c_i2c_address_bits - 1 downto 0);
+  i_mode0 : in std_logic; -- W(A)/4b(A)
+  i_mode1 : in std_logic; -- W(A)/2b(A),ST,R(A)/2b(NA)
+  i_mode2 : in std_logic; -- W(A)/2b(A),ST,R(A)/2*N(NA)
+  o_mode2_ready : out std_logic;
+  o_mode2_ready_all : out std_logic;
+  i_memory_address : in std_logic_vector (0 to 15);
+  i_memory_data : in std_logic_vector (0 to 15);
+  o_bytes_to_recv : out std_logic_vector (0 to 15);
+  i_enable : in std_logic;
+  o_busy : out std_logic;
+  io_sda_o : out std_logic;
+  io_sda_i : in std_logic;
+  io_scl : out std_logic
 );
 end component melexis_mlx90640_i2c;
 signal melexis_mlx90640_i2c_clock : std_logic;
@@ -446,7 +447,8 @@ signal melexis_mlx90640_i2c_memory_data : std_logic_vector (0 to 15);
 signal melexis_mlx90640_i2c_bytes_to_recv : std_logic_vector (0 to 15);
 signal melexis_mlx90640_i2c_enable : std_logic;
 signal melexis_mlx90640_i2c_busy : std_logic;
-signal melexis_mlx90640_i2c_sda : std_logic;
+signal melexis_mlx90640_i2c_sda_o : std_logic;
+signal melexis_mlx90640_i2c_sda_i : std_logic;
 signal melexis_mlx90640_i2c_scl : std_logic;
 
 signal asd,asd1,clock_i,reset_i : std_logic;
@@ -454,7 +456,7 @@ signal asd,asd1,clock_i,reset_i : std_logic;
 constant c_wait1 : integer := 46*10;
 signal wait1 : integer range 0 to c_wait1 - 1;
 
-signal sda_i, scl_i : std_logic;
+signal sda_o, sda_i, scl_i : std_logic;
 
 begin
 
@@ -1080,14 +1082,18 @@ i_memory_data => melexis_mlx90640_i2c_memory_data,
 o_bytes_to_recv => melexis_mlx90640_i2c_bytes_to_recv,
 i_enable => melexis_mlx90640_i2c_enable,
 o_busy => melexis_mlx90640_i2c_busy,
-io_sda => sda_i,
+io_sda_o => sda_o,
+io_sda_i => sda_i,
 io_scl => scl_i
 );
 
-io_sda_dd <= '0' when sda_i = '0' else 'Z';
-io_scl_dd <= '0' when scl_i = '0' else 'Z';
-io_sda_nl <= '0' when sda_i = '0' else 'Z';
+io_sda_nl <= '0' when sda_o = '0' else 'Z';
+sda_i <= io_sda_nl;
 io_scl_nl <= '0' when scl_i = '0' else 'Z';
+--io_sda_dd <= '0' when sda_i = '0' else 'Z';
+--io_scl_dd <= '0' when scl_i = '0' else 'Z';
+--io_sda_nl <= '0' when sda_i = '0' else 'Z';
+--io_scl_nl <= '0' when scl_i = '0' else 'Z';
 --io_sda_dd <= '0' when sda_i = '0' else 'Z';
 --io_scl_dd <= '0' when scl_i = '0' else 'Z';
 --io_sda_nl <= '0' when io_sda_dd = '0' else 'Z';
