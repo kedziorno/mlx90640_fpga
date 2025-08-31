@@ -535,11 +535,11 @@ begin
             end if;
           end if;
         when mode1_read_data_lastbit1 =>
-          if (c_cmode = c0) then
+          if (c_cmode = c0) then -- XXX
             c_state <= mode1_read_data_ack;
           end if;
         when mode1_read_data_ack =>
-          if (c_cmode = c0) then
+          if (c_cmode = c0) then -- XXX
             c_state <= mode1_read_data2;
             temp_sda <= '0';
           end if;

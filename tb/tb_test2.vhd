@@ -44,9 +44,10 @@ COMPONENT test2
 generic (
   constant c_board_clock : integer := 100_000_000;
   constant c_bus_clock : integer := 1_000_000;
+--  constant c_bus_clock : integer := 10;
   constant c_sim : string (1 to 1) := "y";
   constant c_cold_start : integer := 1000;
-  constant c_wait2 : integer := 1000
+  constant c_wait2 : integer := 10000
 );
 PORT(
 i_clock : IN  std_logic;
@@ -113,11 +114,12 @@ i_reset <= '0';
 wait for i_clock_period*10;
 -- insert stimulus here
 --wait for 34 ms;
-wait for 1000 ms;
+--wait for 1000 ms;
 --wait for 15.776ms * 10;
 --wait for 1 ms;
 --wait for 610 us;
-report "tb done" severity failure;
+--report "tb done" severity failure;
+wait;
 end process;
 
 mode2_read : process is
@@ -148,14 +150,14 @@ function klsfr(bv: std_logic_vector) return std_logic_vector is
   end function;
   variable pattern : std_logic_vector (15 downto 0) := x"0001";
 begin
+  s_spattern <= pattern;
 --wait;
-  io_sda_nl <= 'Z';
-
 --  wait for 46.775 us + 0.96 us;
-  wait for 46.775 us;
+  wait for 46.765 us;
+  io_sda_nl <= 'Z';
 --  pattern := x"1981";
 --  pattern := x"1234";
-  pattern := x"4321";
+  pattern := x"4321"; s_spattern <= pattern;
 --  pattern := x"0000";
 --  pattern := x"ffff";
 --  pattern := x"2222";
@@ -167,7 +169,7 @@ begin
   io_sda_nl <= pattern (10); wait for 0.96 us;
   io_sda_nl <= pattern (9); wait for 0.96 us;
   io_sda_nl <= pattern (8); wait for 0.96 us;
-  io_sda_nl <= '0'; wait for 0.96 us; -- ack  
+  io_sda_nl <= 'Z'; wait for 0.96 us; -- ack  
   io_sda_nl <= pattern (7); wait for 0.96 us;
   io_sda_nl <= pattern (6); wait for 0.96 us;
   io_sda_nl <= pattern (5); wait for 0.96 us;
@@ -176,10 +178,11 @@ begin
   io_sda_nl <= pattern (2); wait for 0.96 us;
   io_sda_nl <= pattern (1); wait for 0.96 us;
   io_sda_nl <= pattern (0); wait for 0.96 us;
-  io_sda_nl <= '0'; wait for 0.96 us; -- ack
+  io_sda_nl <= 'Z'; wait for 0.96 us; -- ack
 
-  wait for 108.96 us + 3*0.96 us;
-  pattern := x"8198";
+  wait for 102.72 us - 0.96 us;
+  io_sda_nl <= 'Z';
+  pattern := x"1981"; s_spattern <= pattern;
 --  pattern := x"3333";
   io_sda_nl <= pattern (15); wait for 0.96 us;
   io_sda_nl <= pattern (14); wait for 0.96 us;
@@ -200,9 +203,11 @@ begin
   io_sda_nl <= pattern (0); wait for 0.96 us;
   io_sda_nl <= 'Z'; wait for 0.96 us; -- ack
 
-  wait for 108.96 us + 3*0.96 us;
-  pattern := x"1981";
---  pattern := x"4444";
+  wait for 46.57 us + 0.48 us - 0.96 us;
+  io_sda_nl <= 'Z';
+  for i in 0 to 830 loop
+  pattern := klsfr (pattern); s_spattern <= pattern;
+  s_spattern <= pattern;
   io_sda_nl <= pattern (15); wait for 0.96 us;
   io_sda_nl <= pattern (14); wait for 0.96 us;
   io_sda_nl <= pattern (13); wait for 0.96 us;
@@ -211,7 +216,7 @@ begin
   io_sda_nl <= pattern (10); wait for 0.96 us;
   io_sda_nl <= pattern (9); wait for 0.96 us;
   io_sda_nl <= pattern (8); wait for 0.96 us;
-  io_sda_nl <= 'Z'; wait for 0.96 us; -- ack  
+  io_sda_nl <= 'Z'; wait for 0.96 us; -- ack
   io_sda_nl <= pattern (7); wait for 0.96 us;
   io_sda_nl <= pattern (6); wait for 0.96 us;
   io_sda_nl <= pattern (5); wait for 0.96 us;
@@ -219,30 +224,58 @@ begin
   io_sda_nl <= pattern (3); wait for 0.96 us;
   io_sda_nl <= pattern (2); wait for 0.96 us;
   io_sda_nl <= pattern (1); wait for 0.96 us;
-  io_sda_nl <= pattern (0); wait for 0.96 us;
+  io_sda_nl <= pattern (0); wait for 0.96 us;  
   io_sda_nl <= 'Z'; wait for 0.96 us; -- ack
+--  wait for 0.96 us;
+  end loop;
+  io_sda_nl <= 'Z'; -- rest Z
+  
+--  wait for 108.96 us + 3*0.96 us;
+--  io_sda_nl <= 'Z';
+--  pattern := x"1981"; s_spattern <= pattern;
+----  pattern := x"4444";
+--  io_sda_nl <= pattern (15); wait for 0.96 us;
+--  io_sda_nl <= pattern (14); wait for 0.96 us;
+--  io_sda_nl <= pattern (13); wait for 0.96 us;
+--  io_sda_nl <= pattern (12); wait for 0.96 us;
+--  io_sda_nl <= pattern (11); wait for 0.96 us;
+--  io_sda_nl <= pattern (10); wait for 0.96 us;
+--  io_sda_nl <= pattern (9); wait for 0.96 us;
+--  io_sda_nl <= pattern (8); wait for 0.96 us;
+--  io_sda_nl <= 'Z'; wait for 0.96 us; -- ack  
+--  io_sda_nl <= pattern (7); wait for 0.96 us;
+--  io_sda_nl <= pattern (6); wait for 0.96 us;
+--  io_sda_nl <= pattern (5); wait for 0.96 us;
+--  io_sda_nl <= pattern (4); wait for 0.96 us;
+--  io_sda_nl <= pattern (3); wait for 0.96 us;
+--  io_sda_nl <= pattern (2); wait for 0.96 us;
+--  io_sda_nl <= pattern (1); wait for 0.96 us;
+--  io_sda_nl <= pattern (0); wait for 0.96 us;
+--  io_sda_nl <= 'Z'; wait for 0.96 us; -- ack
 
-  wait for 108.96 us + 3*0.96 us;
-  pattern := x"1901";
---  pattern := x"5555";
-  io_sda_nl <= pattern (15); wait for 0.96 us;
-  io_sda_nl <= pattern (14); wait for 0.96 us;
-  io_sda_nl <= pattern (13); wait for 0.96 us;
-  io_sda_nl <= pattern (12); wait for 0.96 us;
-  io_sda_nl <= pattern (11); wait for 0.96 us;
-  io_sda_nl <= pattern (10); wait for 0.96 us;
-  io_sda_nl <= pattern (9); wait for 0.96 us;
-  io_sda_nl <= pattern (8); wait for 0.96 us;
-  io_sda_nl <= 'Z'; wait for 0.96 us; -- ack  
-  io_sda_nl <= pattern (7); wait for 0.96 us;
-  io_sda_nl <= pattern (6); wait for 0.96 us;
-  io_sda_nl <= pattern (5); wait for 0.96 us;
-  io_sda_nl <= pattern (4); wait for 0.96 us;
-  io_sda_nl <= pattern (3); wait for 0.96 us;
-  io_sda_nl <= pattern (2); wait for 0.96 us;
-  io_sda_nl <= pattern (1); wait for 0.96 us;
-  io_sda_nl <= pattern (0); wait for 0.96 us;
-  io_sda_nl <= 'Z'; wait for 0.96 us; -- ack
+--  wait for 108.96 us + 3*0.96 us;
+--  io_sda_nl <= 'Z';
+--  pattern := x"1901"; s_spattern <= pattern;
+----  pattern := x"5555";
+--  io_sda_nl <= pattern (15); wait for 0.96 us;
+--  io_sda_nl <= pattern (14); wait for 0.96 us;
+--  io_sda_nl <= pattern (13); wait for 0.96 us;
+--  io_sda_nl <= pattern (12); wait for 0.96 us;
+--  io_sda_nl <= pattern (11); wait for 0.96 us;
+--  io_sda_nl <= pattern (10); wait for 0.96 us;
+--  io_sda_nl <= pattern (9); wait for 0.96 us;
+--  io_sda_nl <= pattern (8); wait for 0.96 us;
+--  io_sda_nl <= 'Z'; wait for 0.96 us; -- ack  
+--  io_sda_nl <= pattern (7); wait for 0.96 us;
+--  io_sda_nl <= pattern (6); wait for 0.96 us;
+--  io_sda_nl <= pattern (5); wait for 0.96 us;
+--  io_sda_nl <= pattern (4); wait for 0.96 us;
+--  io_sda_nl <= pattern (3); wait for 0.96 us;
+--  io_sda_nl <= pattern (2); wait for 0.96 us;
+--  io_sda_nl <= pattern (1); wait for 0.96 us;
+--  io_sda_nl <= pattern (0); wait for 0.96 us;
+--  io_sda_nl <= 'Z'; wait for 0.96 us; -- ack
+
 --  wait for 35.52 us;
 --wait;
 
@@ -316,29 +349,7 @@ begin
 --  io_sda_nl <= pattern (0); wait for 0.96 us;  
 --  io_sda_nl <= 'Z'; wait for 0.96 us; -- ack
   
---  for i in 0 to 830 loop
---  pattern := klsfr (pattern);
---  s_spattern <= pattern;
---  io_sda_nl <= pattern (15); wait for 0.96 us;
---  io_sda_nl <= pattern (14); wait for 0.96 us;
---  io_sda_nl <= pattern (13); wait for 0.96 us;
---  io_sda_nl <= pattern (12); wait for 0.96 us;
---  io_sda_nl <= pattern (11); wait for 0.96 us;
---  io_sda_nl <= pattern (10); wait for 0.96 us;
---  io_sda_nl <= pattern (9); wait for 0.96 us;
---  io_sda_nl <= pattern (8); wait for 0.96 us;
---  io_sda_nl <= 'Z'; wait for 0.96 us; -- ack
---  io_sda_nl <= pattern (7); wait for 0.96 us;
---  io_sda_nl <= pattern (6); wait for 0.96 us;
---  io_sda_nl <= pattern (5); wait for 0.96 us;
---  io_sda_nl <= pattern (4); wait for 0.96 us;
---  io_sda_nl <= pattern (3); wait for 0.96 us;
---  io_sda_nl <= pattern (2); wait for 0.96 us;
---  io_sda_nl <= pattern (1); wait for 0.96 us;
---  io_sda_nl <= pattern (0); wait for 0.96 us;  
---  io_sda_nl <= 'Z'; wait for 0.96 us; -- ack
---  wait for 0.24 us;
-  
+--  
 --  pattern := x"ffff";
 --  io_sda_nl <= pattern (0); wait for 0.96 us;
 --  io_sda_nl <= pattern (1); wait for 0.96 us;
@@ -377,9 +388,7 @@ begin
 --  io_sda_nl <= pattern (14); wait for 0.96 us;
 --  io_sda_nl <= pattern (15); wait for 0.96 us;
 --  io_sda_nl <= 'Z'; wait for 0.96 us; -- ack
---  end loop;
-  
-  io_sda_nl <= 'Z'; -- rest Z
+
 --  wait for 233721.575 us;
 --  wait for 10000 us;
 wait;
