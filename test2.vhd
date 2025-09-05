@@ -36,10 +36,10 @@ entity test2 is
 generic (
 constant c_board_clock : integer := c_clock_board_frequency;
 --constant c_bus_clock : integer := c_clock_i2c_frequency;
-constant c_bus_clock : integer := 1_000_000;
+constant c_bus_clock : integer := 400_000;
 constant c_sim : string (1 to 1) := "n";
-constant c_cold_start : integer := 10_000_000/100000;
-constant c_wait2 : integer := 10_000_000/100
+constant c_cold_start : integer := 10_000_000;
+constant c_wait2 : integer := 4_000_000
 );
 port (
 i_clock,i_reset : in std_logic;
@@ -118,7 +118,7 @@ signal melexis_mlx90640_i2c_sda_i : std_logic;
 signal melexis_mlx90640_i2c_scl : std_logic;
 
 --constant c_wait1 : integer := 25*1_000_000/10000;
-constant c_wait1 : integer := 25;
+constant c_wait1 : integer := 60;
 signal wait1 : integer range 0 to c_wait1 - 1;
 
 signal sda_i, scl_i : std_logic;
