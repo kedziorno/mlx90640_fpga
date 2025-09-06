@@ -36,10 +36,12 @@ entity test2 is
 generic (
 constant c_board_clock : integer := c_clock_board_frequency;
 --constant c_bus_clock : integer := c_clock_i2c_frequency;
-constant c_bus_clock : integer := 400_000;
+--constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
+constant c_bus_clock : integer := 50;
 constant c_sim : string (1 to 1) := "n";
-constant c_cold_start : integer := 10_000_000;
-constant c_wait2 : integer := 4_000_000
+constant c_cold_start : integer := 1000;
+constant c_wait2 : integer := 1000;
+constant c_wait3 : integer := 10000
 );
 port (
 i_clock,i_reset : in std_logic;
@@ -65,6 +67,15 @@ w1,
 idle1,
 wr2,
 idle2,
+
+idlea,
+wr1a,
+idle0a,
+w1a,
+idle1a,
+wr2a,
+idle2a,
+
 r1,
 idle3,
 stop
@@ -118,7 +129,13 @@ signal melexis_mlx90640_i2c_sda_i : std_logic;
 signal melexis_mlx90640_i2c_scl : std_logic;
 
 --constant c_wait1 : integer := 25*1_000_000/10000;
-constant c_wait1 : integer := 60;
+--constant c_wait1 : integer := 60;
+--constant c_wait1 : integer := 47;
+--constant c_wait1 : integer := 115*4; -- scl 500_000
+--constant c_wait1 : integer := 115*4*1000; -- scl 100
+constant c_wait1 : integer := 230*4*1000; -- scl 50
+--constant c_wait1 : integer := 230*5*4*1000; -- scl 10
+--constant c_wait1 : integer := 230*5*5*4*1000; -- scl 2
 signal wait1 : integer range 0 to c_wait1 - 1;
 
 signal sda_i, scl_i : std_logic;
@@ -206,6 +223,7 @@ p_i2c : process (i_clock,i_reset) is
   --synthesis translate_on
   variable cold_start : integer range 0 to c_cold_start - 1;
   variable wait2 : integer range 0 to c_wait2 - 1;
+  variable wait3 : integer range 0 to c_wait3 - 1;
 begin
 		if (i_reset = '1') then
 			state := idle;
@@ -213,6 +231,7 @@ begin
       wait1 <= 0;
       cold_start := 0;
       wait2 := 0;
+      wait3 := 0;
       some_wait := 0;
       melexis_mlx90640_i2c_mode0 <= '0';
       melexis_mlx90640_i2c_mode1 <= '0';
@@ -222,7 +241,9 @@ begin
       melexis_mlx90640_i2c_memory_data <= x"0000";
 		elsif (rising_edge (i_clock)) then
       t_state <= state;
+
 			case (state) is
+
         when idle =>
           if (cold_start = c_cold_start - 1) then
             state := wr1;
@@ -231,6 +252,7 @@ begin
           else
             cold_start := cold_start + 1;
           end if;
+
         when wr1 =>
           melexis_mlx90640_i2c_mode0 <= '0';
           melexis_mlx90640_i2c_mode1 <= '1'; -- w800d/r1901
@@ -266,7 +288,6 @@ begin
           melexis_mlx90640_i2c_enable <= '1';
           melexis_mlx90640_i2c_memory_address <= x"800d";
           melexis_mlx90640_i2c_memory_data <= x"1981";
-
 --          melexis_mlx90640_i2c_memory_data <= x"1234";
 --          melexis_mlx90640_i2c_memory_data <= x"4321";
 --          melexis_mlx90640_i2c_memory_data <= x"0000";
@@ -282,19 +303,21 @@ begin
             wait1 <= wait1 + 1;
           end if;
         when idle1 =>
-          if (wait2 = c_wait2 - 1) then
+          if (wait3 = c_wait3 - 1) then
             state := wr2;
 --            state := idle;
-            wait2 := 0;
+            wait3 := 0;
           else
-            wait2 := wait2 + 1;
+            wait3 := wait3 + 1;
           end if;
+		  
+		  
         when wr2 =>
           melexis_mlx90640_i2c_mode0 <= '0';
-          melexis_mlx90640_i2c_mode1 <= '1';-- w800d/r1981
-          melexis_mlx90640_i2c_mode2 <= '0';
+          melexis_mlx90640_i2c_mode1 <= '0';-- w800d/r1981
+          melexis_mlx90640_i2c_mode2 <= '1';
           melexis_mlx90640_i2c_enable <= '1';
-          melexis_mlx90640_i2c_memory_address <= x"800d";
+          melexis_mlx90640_i2c_memory_address <= x"2400";
           if (wait1 = c_wait1 - 1) then
             if (melexis_mlx90640_i2c_busy = '0') then
               melexis_mlx90640_i2c_enable <= '0';
@@ -305,20 +328,99 @@ begin
             wait1 <= wait1 + 1;
           end if;
         when idle2 =>
+          if (wait3 = c_wait3 - 1) then
+            --state := wr1a;
+            wait3 := 0;
+          else
+            wait3 := wait3 + 1;
+          end if;
+
+        when wr1a =>
+          melexis_mlx90640_i2c_mode0 <= '0';
+          melexis_mlx90640_i2c_mode1 <= '1'; -- w800d/r1901
+          melexis_mlx90640_i2c_mode2 <= '0';
+          melexis_mlx90640_i2c_enable <= '1';
+          melexis_mlx90640_i2c_memory_address <= x"800d";
+          if (wait1 = c_wait1 - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+--              if (camera_read = x"1981") then
+                state := idle0a;
+                wait2 := 0;
+--              else
+--                state := stop;
+--              end if;
+              wait1 <= 0;
+          end if;
+          else
+            wait1 <= wait1 + 1;
+         end if;
+        when idle0a =>
           if (wait2 = c_wait2 - 1) then
-            state := r1;
+            state := w1a;
+--            state := idle;
             wait2 := 0;
-            
           else
             wait2 := wait2 + 1;
           end if;
+        when w1a =>
+          melexis_mlx90640_i2c_mode0 <= '1'; -- w800d1981
+          melexis_mlx90640_i2c_mode1 <= '0';
+          melexis_mlx90640_i2c_mode2 <= '0';
+          melexis_mlx90640_i2c_enable <= '1';
+          melexis_mlx90640_i2c_memory_address <= x"800d";
+          melexis_mlx90640_i2c_memory_data <= x"1981";
+--          melexis_mlx90640_i2c_memory_data <= x"1234";
+--          melexis_mlx90640_i2c_memory_data <= x"4321";
+--          melexis_mlx90640_i2c_memory_data <= x"0000";
+--          melexis_mlx90640_i2c_memory_data <= x"ffff";
+          if (wait1 = c_wait1 - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              wait1 <= 0;
+              wait2 := 0;
+              state := idle1a;
+          end if;
+          else
+            wait1 <= wait1 + 1;
+          end if;
+        when idle1a =>
+          if (wait3 = c_wait3 - 1) then
+            state := wr2a;
+--            state := idle;
+            wait3 := 0;
+          else
+            wait3 := wait3 + 1;
+          end if;
+        when wr2a =>
+          melexis_mlx90640_i2c_mode0 <= '0';
+          melexis_mlx90640_i2c_mode1 <= '1';-- w800d/r1981
+          melexis_mlx90640_i2c_mode2 <= '0';
+          melexis_mlx90640_i2c_enable <= '1';
+          melexis_mlx90640_i2c_memory_address <= x"800d";
+          if (wait1 = c_wait1 - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state := idle2a;
+              wait1 <= 0;
+            end if;
+          else
+            wait1 <= wait1 + 1;
+          end if;
+        when idle2a =>
+          if (wait3 = c_wait3 - 1) then
+            state := r1;
+            wait3 := 0;
+          else
+            wait3 := wait3+ 1;
+          end if;
+
         when r1 =>
-                  melexis_mlx90640_i2c_mode0 <= '0';
+          melexis_mlx90640_i2c_mode0 <= '0';
           melexis_mlx90640_i2c_mode1 <= '0';
           melexis_mlx90640_i2c_mode2 <= '1';-- w2400/rN
           melexis_mlx90640_i2c_enable <= '1';
           melexis_mlx90640_i2c_memory_address <= x"2400";
-
           if (wait1 = c_wait1 - 1) then
             if (melexis_mlx90640_i2c_busy = '0') then
               melexis_mlx90640_i2c_enable <= '0';

@@ -41,14 +41,15 @@ ARCHITECTURE behavior OF tb_test2 IS
 
 -- Component Declaration for the Unit Under Test (UUT)
 COMPONENT test2
-generic (
-  constant c_board_clock : integer := 100_000_000;
-  constant c_bus_clock : integer := 400_000;
---  constant c_bus_clock : integer := 10;
-  constant c_sim : string (1 to 1) := "y";
-  constant c_cold_start : integer := 1000;
-  constant c_wait2 : integer := 4000
-);
+--generic (
+--  constant c_board_clock : integer := 100_000_000;
+----  constant c_bus_clock : integer := 400_000;
+--  constant c_bus_clock : integer := 1_000_000;
+----  constant c_bus_clock : integer := 10;
+--  constant c_sim : string (1 to 1) := "y";
+--  constant c_cold_start : integer := 1000;
+--  constant c_wait2 : integer := 4000
+--);
 PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
@@ -151,7 +152,7 @@ function klsfr(bv: std_logic_vector) return std_logic_vector is
   variable pattern : std_logic_vector (15 downto 0) := x"0001";
 begin
   s_spattern <= pattern;
---wait;
+wait;
 --  wait for 46.775 us + 0.96 us;
   wait for 46.765 us;
   io_sda_nl <= 'Z';

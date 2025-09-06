@@ -3,12 +3,12 @@ Release 14.7 Trace  (lin64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
 /home/user/.local/Xilinx/14.7/ISE_DS/ISE/bin/lin64/unwrapped/trce -intstyle ise
--v 3 -s 10 -n 3 -fastpaths -xml melexis_mlx90640_i2c.twx
+-v 3 -s 4 -n 3 -fastpaths -xml melexis_mlx90640_i2c.twx
 melexis_mlx90640_i2c.ncd -o melexis_mlx90640_i2c.twr melexis_mlx90640_i2c.pcf
 
 Design file:              melexis_mlx90640_i2c.ncd
 Physical constraint file: melexis_mlx90640_i2c.pcf
-Device,package,speed:     xc4vsx35,ff668,-10 (PRODUCTION 1.71 2013-10-13, STEPPING level 1)
+Device,package,speed:     xc3s1200e,fg320,-4 (PRODUCTION 1.27 2013-10-13)
 Report level:             verbose report
 
 Environment Variable      Effect 
@@ -25,6 +25,14 @@ INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on
    a 50 Ohm transmission line loading model.  For the details of this model, 
    and for more information on accounting for different loading conditions, 
    please see the device datasheet.
+INFO:Timing:3390 - This architecture does not support a default System Jitter 
+   value, please add SYSTEM_JITTER constraint to the UCF to modify the Clock 
+   Uncertainty calculation.
+INFO:Timing:3389 - This architecture does not support 'Discrete Jitter' and 
+   'Phase Error' calculations, these terms will be zero in the Clock 
+   Uncertainty calculation.  Please make appropriate modification to 
+   SYSTEM_JITTER to account for the unsupported Discrete Jitter and Phase 
+   Error.
 
 
 
@@ -37,18 +45,18 @@ Clock to Setup on destination clock i_clock
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-i_clock        |    2.621|         |         |         |
+i_clock        |    5.201|         |         |         |
 ---------------+---------+---------+---------+---------+
 
 
-Analysis completed Sun Aug 17 14:39:54 2025 
+Analysis completed Sat Sep  6 22:21:53 2025 
 --------------------------------------------------------------------------------
 
 Trace Settings:
 -------------------------
 Trace Settings 
 
-Peak Memory Usage: 481 MB
+Peak Memory Usage: 355 MB
 
 
 

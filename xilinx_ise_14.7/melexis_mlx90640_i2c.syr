@@ -5,14 +5,14 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.04 secs
+Total CPU time to Xst completion: 0.03 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.04 secs
+Total CPU time to Xst completion: 0.03 secs
  
 --> 
 Reading design: melexis_mlx90640_i2c.prj
@@ -45,7 +45,7 @@ Ignore Synthesis Constraint File   : NO
 ---- Target Parameters
 Output File Name                   : "melexis_mlx90640_i2c"
 Output Format                      : NGC
-Target Device                      : xc4vsx35-10-ff668
+Target Device                      : xc3s1200e-4-fg320
 
 ---- Source Options
 Top Module Name                    : melexis_mlx90640_i2c
@@ -66,27 +66,25 @@ ROM Style                          : Auto
 Mux Extraction                     : Yes
 Resource Sharing                   : YES
 Asynchronous To Synchronous        : NO
-Use DSP Block                      : Auto
+Multiplier Style                   : Auto
 Automatic Register Balancing       : No
 
 ---- Target Options
 Add IO Buffers                     : YES
-Global Maximum Fanout              : 500
-Add Generic Clock Buffer(BUFG)     : 32
-Number of Regional Clock Buffers   : 24
+Global Maximum Fanout              : 100000
+Add Generic Clock Buffer(BUFG)     : 24
 Register Duplication               : YES
 Slice Packing                      : YES
 Optimize Instantiated Primitives   : NO
-Use Clock Enable                   : Auto
-Use Synchronous Set                : Auto
-Use Synchronous Reset              : Auto
+Use Clock Enable                   : Yes
+Use Synchronous Set                : Yes
+Use Synchronous Reset              : Yes
 Pack IO Registers into IOBs        : Auto
 Equivalent register Removal        : YES
 
 ---- General Options
 Optimization Goal                  : Speed
 Optimization Effort                : 1
-Power Reduction                    : NO
 Keep Hierarchy                     : No
 Netlist Hierarchy                  : As_Optimized
 RTL Output                         : Yes
@@ -99,7 +97,6 @@ Bus Delimiter                      : <>
 Case Specifier                     : Maintain
 Slice Utilization Ratio            : 100
 BRAM Utilization Ratio             : 100
-DSP48 Utilization Ratio            : 100
 Verilog 2001                       : YES
 Auto BRAM Packing                  : NO
 Slice Utilization Ratio Delta      : 5
@@ -113,8 +110,8 @@ Cores Search Directories           : {"../ipcore_dir"  }
 =========================================================================
 *                          HDL Compilation                              *
 =========================================================================
-Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/global_package.vhd" in Library work.
-Architecture global_package of Entity global_package is up to date.
+Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/global_package_syn.vhd" in Library work.
+Architecture global_package_syn of Entity global_package_syn is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ipcore_dir/tb_data_calculateTo.vhd" in Library work.
 Architecture tb_data_calculateto_a of Entity tb_data_calculateto is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/melexis_mlx90640_i2c.vhd" in Library work.
@@ -126,7 +123,7 @@ Entity <melexis_mlx90640_i2c> (Architecture <rtl>) compiled.
 =========================================================================
 Analyzing hierarchy for entity <melexis_mlx90640_i2c> in library <work> (architecture <rtl>) with generics.
 	c_board_clock = 100000000
-	c_bus_clock = 1000000
+	c_bus_clock = 10
 
 
 =========================================================================
@@ -134,7 +131,7 @@ Analyzing hierarchy for entity <melexis_mlx90640_i2c> in library <work> (archite
 =========================================================================
 Analyzing generic Entity <melexis_mlx90640_i2c> in library <work> (Architecture <rtl>).
 	c_board_clock = 100000000
-	c_bus_clock = 1000000
+	c_bus_clock = 10
 Entity <melexis_mlx90640_i2c> analyzed. Unit <melexis_mlx90640_i2c> generated.
 
 
@@ -146,15 +143,15 @@ Performing bidirectional port resolution...
 
 Synthesizing Unit <melexis_mlx90640_i2c>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/melexis_mlx90640_i2c.vhd".
-INFO:Xst:1799 - State mode2_read_data_lastbit1 is never reached in FSM <c_state>.
-INFO:Xst:1799 - State mode2_read_data_lastbit2 is never reached in FSM <c_state>.
 INFO:Xst:1799 - State mode2_read_slave_address_lastbit is never reached in FSM <c_state>.
+INFO:Xst:1799 - State state1 is never reached in FSM <c_state>.
+INFO:Xst:1799 - State mode2_read_data_nak is never reached in FSM <c_state>.
     Found finite state machine <FSM_0> for signal <c_state>.
     -----------------------------------------------------------------------
-    | States             | 67                                             |
-    | Transitions        | 135                                            |
-    | Inputs             | 8                                              |
-    | Outputs            | 130                                            |
+    | States             | 68                                             |
+    | Transitions        | 137                                            |
+    | Inputs             | 10                                             |
+    | Outputs            | 135                                            |
     | Clock              | clock                     (rising_edge)        |
     | Reset              | i_reset                   (positive)           |
     | Reset type         | asynchronous                                   |
@@ -181,21 +178,21 @@ INFO:Xst:1799 - State mode2_read_slave_address_lastbit is never reached in FSM <
     Found 1-bit register for signal <o_busy>.
     Found 17-bit register for signal <bytes_to_recv_sr>.
     Found 1-bit register for signal <clock>.
-    Found 4-bit up counter for signal <count>.
+    Found 21-bit up counter for signal <count>.
     Found 3-bit register for signal <data_index_ctr>.
-    Found 3-bit adder for signal <data_index_ctr$add0000> created at line 704.
-    Found 1-bit 7-to-1 multiplexer for signal <i_memory_address$mux0000> created at line 261.
-    Found 1-bit 7-to-1 multiplexer for signal <i_memory_address$mux0001> created at line 290.
-    Found 1-bit 7-to-1 multiplexer for signal <i_memory_data$mux0000> created at line 319.
-    Found 1-bit 7-to-1 multiplexer for signal <i_memory_data$mux0001> created at line 347.
-    Found 1-bit tristate buffer for signal <io_sda_i>.
+    Found 3-bit adder for signal <data_index_ctr$share0000> created at line 216.
+    Found 1-bit 7-to-1 multiplexer for signal <i_memory_address$mux0000> created at line 284.
+    Found 1-bit 7-to-1 multiplexer for signal <i_memory_address$mux0001> created at line 313.
+    Found 1-bit 7-to-1 multiplexer for signal <i_memory_data$mux0000> created at line 342.
+    Found 1-bit 7-to-1 multiplexer for signal <i_memory_data$mux0001> created at line 370.
+    Found 1-bit tristate buffer for signal <io_sda_ii>.
     Found 10-bit up counter for signal <mode2_read_data_index_ctr>.
     Found 1-bit register for signal <mode2_ready_all_i>.
     Found 1-bit register for signal <mode2_ready_i>.
-    Found 1-bit register for signal <Mtridata_temp_sda> created at line 192.
-    Found 1-bit register for signal <Mtrien_temp_sda> created at line 192.
+    Found 1-bit register for signal <Mtridata_temp_sda> created at line 211.
+    Found 1-bit register for signal <Mtrien_temp_sda> created at line 211.
     Found 3-bit register for signal <slave_index_ctr>.
-    Found 3-bit subtractor for signal <slave_index_ctr$share0000> created at line 197.
+    Found 3-bit subtractor for signal <slave_index_ctr$share0000> created at line 216.
     Found 1-bit register for signal <state<0>>.
     Found 1-bit tristate buffer for signal <temp_sda>.
     Summary:
@@ -218,7 +215,7 @@ Macro Statistics
  3-bit subtractor                                      : 1
 # Counters                                             : 2
  10-bit up counter                                     : 1
- 4-bit up counter                                      : 1
+ 21-bit up counter                                     : 1
 # Registers                                            : 10
  1-bit register                                        : 7
  17-bit register                                       : 1
@@ -245,81 +242,82 @@ Optimizing FSM <c_cmode/FSM> on signal <c_cmode[1:2]> with gray encoding.
  c3    | 10
 -------------------
 Analyzing FSM <FSM_0> for best encoding.
-Optimizing FSM <c_state/FSM> on signal <c_state[1:67]> with one-hot encoding.
-----------------------------------------------------------------------------------------------------------
+Optimizing FSM <c_state/FSM> on signal <c_state[1:68]> with one-hot encoding.
+-----------------------------------------------------------------------------------------------------------
  State                             | Encoding
-----------------------------------------------------------------------------------------------------------
- idle                              | 0000000000000000000000000000000000000000000000000000000000000000001
- start                             | 0000000000000000000000000000000000000000000000000000000000000000010
- sda_start                         | 0000000000000000000000000000000000000000000000000000000000000000100
- mode0_write_slave_address         | 0000000000000000000000000000000000000000000000000000000000000100000
- mode0_write_slave_address_lastbit | 0000000000000000000000000000000000000000000000000000000000001000000
- mode0_write_slave_write           | 0000000000000000000000000000000000000000000000000000000000010000000
- mode0_write_slave_ack             | 0000000000000000000000000000000000000000000000000000000000100000000
- mode0_write_data1                 | 0000000000000000000000000000000000000000000000000000000001000000000
- mode0_write_data_lastbit1         | 0000000000000000000000000000000000000000000000000000000010000000000
- mode0_write_data_ack1             | 0000000000000000000000000000000000000000000000000000000100000000000
- mode0_write_data2                 | 0000000000000000000000000000000000000000000000000000001000000000000
- mode0_write_data_lastbit2         | 0000000000000000000000000000000000000000000000000000010000000000000
- mode0_write_data_ack2             | 0000000000000000000000000000000000000000000000000000100000000000000
- mode0_write_data3                 | 0000000000000000000000000000000000000000000000000001000000000000000
- mode0_write_data_lastbit3         | 0000000000000000000000000000000000000000000000000010000000000000000
- mode0_write_data_ack3             | 0000000000000000000000000000000000000000000000000100000000000000000
- mode0_write_data4                 | 0000000000000000000000000000000000000000000000001000000000000000000
- mode0_write_data_lastbit4         | 0000000000000000000000000000000000000000000000010000000000000000000
- mode0_write_data_ack4             | 0000000000000000000000000000000000000000000000100000000000000000000
- mode1_write_slave_address         | 0000000000000000000000000000000000000000000000000000000000000010000
- mode1_write_slave_address_lastbit | 0000000000000000000000000000000000000000000010000000000000000000000
- mode1_write_slave_write           | 0000000000000000000000000000000000000000000100000000000000000000000
- mode1_write_slave_ack             | 0000000000000000000000000000000000000000001000000000000000000000000
- mode1_write_data1                 | 0000000000000000000000000000000000000000010000000000000000000000000
- mode1_write_data_lastbit1         | 0000000000000000000000000000000000000000100000000000000000000000000
- mode1_write_data_ack1             | 0000000000000000000000000000000000000001000000000000000000000000000
- mode1_write_data2                 | 0000000000000000000000000000000000000010000000000000000000000000000
- mode1_write_data_lastbit2         | 0000000000000000000000000000000000000100000000000000000000000000000
- mode1_write_data_ack2             | 0000000000000000000000000000000000001000000000000000000000000000000
- mode1_write_data_ack2_empty       | 0000000000000000000000000000000000010000000000000000000000000000000
- mode1_read_start                  | 0000000000000000000000000000000000100000000000000000000000000000000
- mode1_read_sda_start              | 0000000000000000000000000000000001000000000000000000000000000000000
- mode1_read_slave_address          | 0000000000000000000000000000000010000000000000000000000000000000000
- mode1_read_slave_address_lastbit  | 0000000000000000000000000000000100000000000000000000000000000000000
- mode1_read_slave_read             | 0000000000000000000000000000001000000000000000000000000000000000000
- mode1_read_slave_ack              | 0000000000000000000000000000010000000000000000000000000000000000000
- mode1_read_data1                  | 0000000000000000000000000000100000000000000000000000000000000000000
- mode1_read_data_lastbit1          | 0000000000000000000000000001000000000000000000000000000000000000000
- mode1_read_data_ack               | 0000000000000000000000000010000000000000000000000000000000000000000
- mode1_read_data2                  | 0000000000000000000000000100000000000000000000000000000000000000000
- mode1_read_data_lastbit2          | 0000000000000000000000001000000000000000000000000000000000000000000
- mode1_read_data_nak               | 0000000000000000000000010000000000000000000000000000000000000000000
- mode1_read_data_nak_empty         | 0000000000000000000000100000000000000000000000000000000000000000000
- state1                            | 0000010000000000000000000000000000000000000000000000000000000000000
- mode2_write_slave_address         | 0000000000000000000000000000000000000000000000000000000000000001000
- mode2_write_slave_address_lastbit | 0000000000000000000010000000000000000000000000000000000000000000000
- mode2_write_slave_write           | 0000000000000000000100000000000000000000000000000000000000000000000
- mode2_write_slave_ack             | 0000000000000000001000000000000000000000000000000000000000000000000
- mode2_write_data1                 | 0000000000000000010000000000000000000000000000000000000000000000000
- mode2_write_data_lastbit1         | 0000000000000000100000000000000000000000000000000000000000000000000
- mode2_write_data_ack1             | 0000000000000001000000000000000000000000000000000000000000000000000
- mode2_write_data2                 | 0000000000000010000000000000000000000000000000000000000000000000000
- mode2_write_data_lastbit2         | 0000000000000100000000000000000000000000000000000000000000000000000
- mode2_write_data_ack2             | 0000000000001000000000000000000000000000000000000000000000000000000
- mode2_write_data_ack2_empty       | 0000000000010000000000000000000000000000000000000000000000000000000
- mode2_read_start                  | 0000000000100000000000000000000000000000000000000000000000000000000
- mode2_read_sda_start              | 0000000001000000000000000000000000000000000000000000000000000000000
- mode2_read_slave_address          | 0000000010000000000000000000000000000000000000000000000000000000000
+-----------------------------------------------------------------------------------------------------------
+ idle                              | 00000000000000000000000000000000000000000000000000000000000000000001
+ start                             | 00000000000000000000000000000000000000000000000000000000000000000010
+ sda_start                         | 00000000000000000000000000000000000000000000000000000000000000000100
+ mode0_write_slave_address         | 00000000000000000000000000000000000000000000000000000000000000100000
+ mode0_write_slave_address_lastbit | 00000000000000000000000000000000000000000000000000000000000001000000
+ mode0_write_slave_write           | 00000000000000000000000000000000000000000000000000000000000010000000
+ mode0_write_slave_ack             | 00000000000000000000000000000000000000000000000000000000000100000000
+ mode0_write_data1                 | 00000000000000000000000000000000000000000000000000000000001000000000
+ mode0_write_data_lastbit1         | 00000000000000000000000000000000000000000000000000000000010000000000
+ mode0_write_data_ack1             | 00000000000000000000000000000000000000000000000000000000100000000000
+ mode0_write_data2                 | 00000000000000000000000000000000000000000000000000000001000000000000
+ mode0_write_data_lastbit2         | 00000000000000000000000000000000000000000000000000000010000000000000
+ mode0_write_data_ack2             | 00000000000000000000000000000000000000000000000000000100000000000000
+ mode0_write_data3                 | 00000000000000000000000000000000000000000000000000001000000000000000
+ mode0_write_data_lastbit3         | 00000000000000000000000000000000000000000000000000010000000000000000
+ mode0_write_data_ack3             | 00000000000000000000000000000000000000000000000000100000000000000000
+ mode0_write_data4                 | 00000000000000000000000000000000000000000000000001000000000000000000
+ mode0_write_data_lastbit4         | 00000000000000000000000000000000000000000000000010000000000000000000
+ mode0_write_data_ack4             | 00000000000000000000000000000000000000000000000100000000000000000000
+ mode0_empty                       | 00000000000000000000000000000000000000000000001000000000000000000000
+ mode1_write_slave_address         | 00000000000000000000000000000000000000000000000000000000000000010000
+ mode1_write_slave_address_lastbit | 00000000000000000000000000000000000000000000100000000000000000000000
+ mode1_write_slave_write           | 00000000000000000000000000000000000000000001000000000000000000000000
+ mode1_write_slave_ack             | 00000000000000000000000000000000000000000010000000000000000000000000
+ mode1_write_data1                 | 00000000000000000000000000000000000000000100000000000000000000000000
+ mode1_write_data_lastbit1         | 00000000000000000000000000000000000000001000000000000000000000000000
+ mode1_write_data_ack1             | 00000000000000000000000000000000000000010000000000000000000000000000
+ mode1_write_data2                 | 00000000000000000000000000000000000000100000000000000000000000000000
+ mode1_write_data_lastbit2         | 00000000000000000000000000000000000001000000000000000000000000000000
+ mode1_write_data_ack2             | 00000000000000000000000000000000000010000000000000000000000000000000
+ mode1_write_data_ack2_empty       | 00000000000000000000000000000000000100000000000000000000000000000000
+ mode1_read_start                  | 00000000000000000000000000000000001000000000000000000000000000000000
+ mode1_read_sda_start              | 00000000000000000000000000000000010000000000000000000000000000000000
+ mode1_read_slave_address          | 00000000000000000000000000000000100000000000000000000000000000000000
+ mode1_read_slave_address_lastbit  | 00000000000000000000000000000001000000000000000000000000000000000000
+ mode1_read_slave_read             | 00000000000000000000000000000010000000000000000000000000000000000000
+ mode1_read_slave_ack              | 00000000000000000000000000000100000000000000000000000000000000000000
+ mode1_read_data1                  | 00000000000000000000000000001000000000000000000000000000000000000000
+ mode1_read_data_lastbit1          | 00000000000000000000000000010000000000000000000000000000000000000000
+ mode1_read_data_ack               | 00000000000000000000000000100000000000000000000000000000000000000000
+ mode1_read_data2                  | 00000000000000000000000001000000000000000000000000000000000000000000
+ mode1_read_data_lastbit2          | 00000000000000000000000010000000000000000000000000000000000000000000
+ mode1_read_data_nak               | 00000000000000000000000100000000000000000000000000000000000000000000
+ mode1_read_data_nak_empty         | 00000000000000000000001000000000000000000000000000000000000000000000
+ state1                            | unreached
+ mode2_write_slave_address         | 00000000000000000000000000000000000000000000000000000000000000001000
+ mode2_write_slave_address_lastbit | 00000000000000000000100000000000000000000000000000000000000000000000
+ mode2_write_slave_write           | 00000000000000000001000000000000000000000000000000000000000000000000
+ mode2_write_slave_ack             | 00000000000000000010000000000000000000000000000000000000000000000000
+ mode2_write_data1                 | 00000000000000000100000000000000000000000000000000000000000000000000
+ mode2_write_data_lastbit1         | 00000000000000001000000000000000000000000000000000000000000000000000
+ mode2_write_data_ack1             | 00000000000000010000000000000000000000000000000000000000000000000000
+ mode2_write_data2                 | 00000000000000100000000000000000000000000000000000000000000000000000
+ mode2_write_data_lastbit2         | 00000000000001000000000000000000000000000000000000000000000000000000
+ mode2_write_data_ack2             | 00000000000010000000000000000000000000000000000000000000000000000000
+ mode2_write_data_ack2_empty       | 00000000000100000000000000000000000000000000000000000000000000000000
+ mode2_read_start                  | 00000000001000000000000000000000000000000000000000000000000000000000
+ mode2_read_sda_start              | 00000000010000000000000000000000000000000000000000000000000000000000
+ mode2_read_slave_address          | 00000000100000000000000000000000000000000000000000000000000000000000
  mode2_read_slave_address_lastbit  | unreached
- mode2_read_slave_read             | 0000000100000000000000000000000000000000000000000000000000000000000
- mode2_read_slave_ack              | 0000001000000000000000000000000000000000000000000000000000000000000
- mode2_read_data1                  | 0000100000000000000000000000000000000000000000000000000000000000000
- mode2_read_data_lastbit1          | unreached
- mode2_read_data_ack1              | 0001000000000000000000000000000000000000000000000000000000000000000
- mode2_read_data2                  | 0010000000000000000000000000000000000000000000000000000000000000000
- mode2_read_data_lastbit2          | unreached
- mode2_read_data_ack2              | 0100000000000000000000000000000000000000000000000000000000000000000
- mode2_read_data_nak               | 1000000000000000000000000000000000000000000000000000000000000000000
- sda_stop                          | 0000000000000000000000000000000000000000000001000000000000000000000
- stop                              | 0000000000000000000001000000000000000000000000000000000000000000000
-----------------------------------------------------------------------------------------------------------
+ mode2_read_slave_read             | 00000001000000000000000000000000000000000000000000000000000000000000
+ mode2_read_slave_ack              | 00000010000000000000000000000000000000000000000000000000000000000000
+ mode2_read_data1                  | 00000100000000000000000000000000000000000000000000000000000000000000
+ mode2_read_data_lastbit1          | 00001000000000000000000000000000000000000000000000000000000000000000
+ mode2_read_data_ack1              | 00010000000000000000000000000000000000000000000000000000000000000000
+ mode2_read_data2                  | 00100000000000000000000000000000000000000000000000000000000000000000
+ mode2_read_data_lastbit2          | 01000000000000000000000000000000000000000000000000000000000000000000
+ mode2_read_data_ack2              | 10000000000000000000000000000000000000000000000000000000000000000000
+ mode2_read_data_nak               | unreached
+ sda_stop                          | 00000000000000000000000000000000000000000000010000000000000000000000
+ stop                              | 00000000000000000000010000000000000000000000000000000000000000000000
+-----------------------------------------------------------------------------------------------------------
 
 =========================================================================
 Advanced HDL Synthesis Report
@@ -331,7 +329,7 @@ Macro Statistics
  3-bit subtractor                                      : 1
 # Counters                                             : 2
  10-bit up counter                                     : 1
- 4-bit up counter                                      : 1
+ 21-bit up counter                                     : 1
 # Registers                                            : 30
  Flip-Flops                                            : 30
 # Multiplexers                                         : 4
@@ -342,13 +340,16 @@ Macro Statistics
 =========================================================================
 *                         Low Level Synthesis                           *
 =========================================================================
-WARNING:Xst:2041 - Unit melexis_mlx90640_i2c: 1 internal tristate is replaced by logic (pull-up yes): io_sda_i.
+WARNING:Xst:2041 - Unit melexis_mlx90640_i2c: 1 internal tristate is replaced by logic (pull-up yes): io_sda_ii.
 
 Optimizing unit <melexis_mlx90640_i2c> ...
 
 Mapping all equations...
 Building and optimizing final netlist ...
-Found area constraint ratio of 100 (+ 5) on block melexis_mlx90640_i2c, actual ratio is 1.
+Found area constraint ratio of 100 (+ 5) on block melexis_mlx90640_i2c, actual ratio is 2.
+FlipFlop c_cmode_FSM_FFd1 has been replicated 2 time(s)
+FlipFlop c_cmode_FSM_FFd2 has been replicated 1 time(s)
+FlipFlop data_index_ctr_0 has been replicated 1 time(s)
 
 Final Macro Processing ...
 
@@ -356,8 +357,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 113
- Flip-Flops                                            : 113
+# Registers                                            : 135
+ Flip-Flops                                            : 135
 
 =========================================================================
 
@@ -383,52 +384,53 @@ Optimization Goal                  : Speed
 Keep Hierarchy                     : No
 
 Design Statistics
-# IOs                              : 66
+# IOs                              : 67
 
 Cell Usage :
-# BELS                             : 457
+# BELS                             : 638
 #      GND                         : 1
-#      INV                         : 4
-#      LUT1                        : 13
-#      LUT2                        : 67
-#      LUT2_D                      : 8
-#      LUT3                        : 58
-#      LUT3_D                      : 10
-#      LUT3_L                      : 1
-#      LUT4                        : 200
-#      LUT4_D                      : 11
+#      INV                         : 6
+#      LUT1                        : 33
+#      LUT2                        : 83
+#      LUT2_D                      : 6
+#      LUT2_L                      : 7
+#      LUT3                        : 56
+#      LUT3_D                      : 9
+#      LUT3_L                      : 3
+#      LUT4                        : 267
+#      LUT4_D                      : 21
 #      LUT4_L                      : 36
-#      MUXCY                       : 9
-#      MUXF5                       : 25
+#      MUXCY                       : 49
+#      MUXF5                       : 26
 #      MUXF6                       : 3
 #      VCC                         : 1
-#      XORCY                       : 10
-# FlipFlops/Latches                : 113
-#      FDC                         : 93
-#      FDCE                        : 14
+#      XORCY                       : 31
+# FlipFlops/Latches                : 135
+#      FDC                         : 110
+#      FDCE                        : 20
 #      FDE                         : 1
-#      FDP                         : 4
+#      FDP                         : 3
 #      FDPE                        : 1
 # Clock Buffers                    : 2
 #      BUFG                        : 1
 #      BUFGP                       : 1
-# IO Buffers                       : 65
-#      IBUF                        : 44
-#      IOBUF                       : 1
+# IO Buffers                       : 66
+#      IBUF                        : 45
 #      OBUF                        : 20
+#      OBUFT                       : 1
 =========================================================================
 
 Device utilization summary:
 ---------------------------
 
-Selected Device : 4vsx35ff668-10 
+Selected Device : 3s1200efg320-4 
 
- Number of Slices:                      216  out of  15360     1%  
- Number of Slice Flip Flops:            113  out of  30720     0%  
- Number of 4 input LUTs:                408  out of  30720     1%  
- Number of IOs:                          66
- Number of bonded IOBs:                  66  out of    448    14%  
- Number of GCLKs:                         2  out of     32     6%  
+ Number of Slices:                      281  out of   8672     3%  
+ Number of Slice Flip Flops:            135  out of  17344     0%  
+ Number of 4 input LUTs:                527  out of  17344     3%  
+ Number of IOs:                          67
+ Number of bonded IOBs:                  67  out of    250    26%  
+ Number of GCLKs:                         2  out of     24     8%  
 
 ---------------------------
 Partition Resource Summary:
@@ -451,8 +453,8 @@ Clock Information:
 -----------------------------------+-------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)   | Load  |
 -----------------------------------+-------------------------+-------+
-i_clock                            | BUFGP                   | 5     |
-clock1                             | BUFG                    | 91    |
+i_clock                            | BUFGP                   | 22    |
+clock1                             | BUFG                    | 96    |
 c_cmode_FSM_FFd2                   | NONE(bytes_to_recv_sr_0)| 17    |
 -----------------------------------+-------------------------+-------+
 INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
@@ -462,16 +464,16 @@ Asynchronous Control Signals Information:
 -----------------------------------+------------------------+-------+
 Control Signal                     | Buffer(FF name)        | Load  |
 -----------------------------------+------------------------+-------+
-i_reset                            | IBUF                   | 112   |
+i_reset                            | IBUF                   | 134   |
 -----------------------------------+------------------------+-------+
 
 Timing Summary:
 ---------------
-Speed Grade: -10
+Speed Grade: -4
 
-   Minimum period: 7.954ns (Maximum Frequency: 125.716MHz)
-   Minimum input arrival time before clock: 6.820ns
-   Maximum output required time after clock: 6.355ns
+   Minimum period: 11.504ns (Maximum Frequency: 86.926MHz)
+   Minimum input arrival time before clock: 10.337ns
+   Maximum output required time after clock: 7.199ns
    Maximum combinational path delay: No path found
 
 Timing Detail:
@@ -480,82 +482,103 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 2.210ns (frequency: 452.550MHz)
-  Total number of paths / destination ports: 16 / 6
+  Clock period: 5.854ns (frequency: 170.823MHz)
+  Total number of paths / destination ports: 694 / 23
 -------------------------------------------------------------------------
-Delay:               2.210ns (Levels of Logic = 1)
+Delay:               5.854ns (Levels of Logic = 22)
   Source:            count_1 (FF)
-  Destination:       clock (FF)
+  Destination:       count_20 (FF)
   Source Clock:      i_clock rising
   Destination Clock: i_clock rising
 
-  Data Path: count_1 to clock
+  Data Path: count_1 to count_20
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDC:C->Q              4   0.360   0.755  count_1 (count_1)
-     LUT4:I0->O            1   0.195   0.360  clock_cmp_eq000011 (clock_cmp_eq0000)
-     FDCE:CE                   0.540          clock
+     FDC:C->Q              2   0.591   0.622  count_1 (count_1)
+     LUT1:I0->O            1   0.704   0.000  Mcount_count_cy<1>_rt (Mcount_count_cy<1>_rt)
+     MUXCY:S->O            1   0.464   0.000  Mcount_count_cy<1> (Mcount_count_cy<1>)
+     MUXCY:CI->O           1   0.059   0.000  Mcount_count_cy<2> (Mcount_count_cy<2>)
+     MUXCY:CI->O           1   0.059   0.000  Mcount_count_cy<3> (Mcount_count_cy<3>)
+     MUXCY:CI->O           1   0.059   0.000  Mcount_count_cy<4> (Mcount_count_cy<4>)
+     MUXCY:CI->O           1   0.059   0.000  Mcount_count_cy<5> (Mcount_count_cy<5>)
+     MUXCY:CI->O           1   0.059   0.000  Mcount_count_cy<6> (Mcount_count_cy<6>)
+     MUXCY:CI->O           1   0.059   0.000  Mcount_count_cy<7> (Mcount_count_cy<7>)
+     MUXCY:CI->O           1   0.059   0.000  Mcount_count_cy<8> (Mcount_count_cy<8>)
+     MUXCY:CI->O           1   0.059   0.000  Mcount_count_cy<9> (Mcount_count_cy<9>)
+     MUXCY:CI->O           1   0.059   0.000  Mcount_count_cy<10> (Mcount_count_cy<10>)
+     MUXCY:CI->O           1   0.059   0.000  Mcount_count_cy<11> (Mcount_count_cy<11>)
+     MUXCY:CI->O           1   0.059   0.000  Mcount_count_cy<12> (Mcount_count_cy<12>)
+     MUXCY:CI->O           1   0.059   0.000  Mcount_count_cy<13> (Mcount_count_cy<13>)
+     MUXCY:CI->O           1   0.059   0.000  Mcount_count_cy<14> (Mcount_count_cy<14>)
+     MUXCY:CI->O           1   0.059   0.000  Mcount_count_cy<15> (Mcount_count_cy<15>)
+     MUXCY:CI->O           1   0.059   0.000  Mcount_count_cy<16> (Mcount_count_cy<16>)
+     MUXCY:CI->O           1   0.059   0.000  Mcount_count_cy<17> (Mcount_count_cy<17>)
+     MUXCY:CI->O           1   0.059   0.000  Mcount_count_cy<18> (Mcount_count_cy<18>)
+     MUXCY:CI->O           0   0.059   0.000  Mcount_count_cy<19> (Mcount_count_cy<19>)
+     XORCY:CI->O           1   0.804   0.595  Mcount_count_xor<20> (Result<20>)
+     LUT2:I0->O            1   0.704   0.000  Mcount_count_eqn_201 (Mcount_count_eqn_20)
+     FDC:D                     0.308          count_20
     ----------------------------------------
-    Total                      2.210ns (1.095ns logic, 1.115ns route)
-                                       (49.6% logic, 50.4% route)
+    Total                      5.854ns (4.637ns logic, 1.217ns route)
+                                       (79.2% logic, 20.8% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'clock1'
-  Clock period: 7.954ns (frequency: 125.716MHz)
-  Total number of paths / destination ports: 3726 / 106
+  Clock period: 11.504ns (frequency: 86.926MHz)
+  Total number of paths / destination ports: 4289 / 117
 -------------------------------------------------------------------------
-Delay:               7.954ns (Levels of Logic = 8)
-  Source:            c_cmode_FSM_FFd2 (FF)
+Delay:               11.504ns (Levels of Logic = 8)
+  Source:            data_index_ctr_1 (FF)
   Destination:       Mtrien_temp_sda (FF)
   Source Clock:      clock1 rising
   Destination Clock: clock1 rising
 
-  Data Path: c_cmode_FSM_FFd2 to Mtrien_temp_sda
+  Data Path: data_index_ctr_1 to Mtrien_temp_sda
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDCE:C->Q            90   0.360   1.318  c_cmode_FSM_FFd2 (c_cmode_FSM_FFd2)
-     LUT4:I3->O            3   0.195   0.703  Mtridata_temp_sda_not00011311_SW1 (N86)
-     LUT3:I0->O            1   0.195   0.000  Mtridata_temp_sda_not0001152_SW0_G (N162)
-     MUXF5:I1->O           1   0.374   0.523  Mtridata_temp_sda_not0001152_SW0 (N281)
-     LUT4_D:I3->O          5   0.195   0.546  Mtridata_temp_sda_not0001193_SW0 (N461)
-     LUT4:I3->O            1   0.195   0.523  Mtridata_temp_sda_not00011232_SW1_SW1 (N139)
-     LUT4:I3->O            1   0.195   0.585  Mtridata_temp_sda_not00011140_SW3 (N108)
-     LUT4:I2->O            1   0.195   0.741  Mtridata_temp_sda_not0001367 (Mtridata_temp_sda_not0001367)
-     LUT4:I0->O            2   0.195   0.377  Mtridata_temp_sda_not000137 (Mtridata_temp_sda_not0001)
-     FDCE:CE                   0.540          Mtrien_temp_sda
+     FDC:C->Q             17   0.591   1.086  data_index_ctr_1 (data_index_ctr_1)
+     LUT3:I2->O            4   0.704   0.591  c_state_cmp_eq00041_1 (c_state_cmp_eq00041)
+     LUT4_D:I3->O          1   0.704   0.424  Mtridata_temp_sda_not0001219_SW1 (N146)
+     LUT4:I3->O            1   0.704   0.424  Mtridata_temp_sda_not00012258_SW1_SW1 (N212)
+     LUT4_D:I3->O          2   0.704   0.451  Mtridata_temp_sda_not00013168_SW1_SW1 (N241)
+     LUT4:I3->O            1   0.704   0.424  Mtridata_temp_sda_not00013168_SW1_SW5 (N290)
+     LUT4:I3->O            1   0.704   0.424  Mtridata_temp_sda_not00013168_SW5 (N259)
+     LUT4:I3->O            1   0.704   0.455  Mtridata_temp_sda_not0001195_SW1 (N284)
+     LUT4:I2->O            2   0.704   0.447  Mtridata_temp_sda_not0001195 (Mtridata_temp_sda_not0001)
+     FDCE:CE                   0.555          Mtrien_temp_sda
     ----------------------------------------
-    Total                      7.954ns (2.639ns logic, 5.315ns route)
-                                       (33.2% logic, 66.8% route)
+    Total                     11.504ns (6.778ns logic, 4.726ns route)
+                                       (58.9% logic, 41.1% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'c_cmode_FSM_FFd2'
-  Clock period: 1.179ns (frequency: 848.033MHz)
+  Clock period: 2.225ns (frequency: 449.438MHz)
   Total number of paths / destination ports: 16 / 16
 -------------------------------------------------------------------------
-Delay:               1.179ns (Levels of Logic = 1)
-  Source:            bytes_to_recv_sr_0 (FF)
-  Destination:       bytes_to_recv_sr_1 (FF)
+Delay:               2.225ns (Levels of Logic = 1)
+  Source:            bytes_to_recv_sr_1 (FF)
+  Destination:       bytes_to_recv_sr_0 (FF)
   Source Clock:      c_cmode_FSM_FFd2 rising
   Destination Clock: c_cmode_FSM_FFd2 rising
 
-  Data Path: bytes_to_recv_sr_0 to bytes_to_recv_sr_1
+  Data Path: bytes_to_recv_sr_1 to bytes_to_recv_sr_0
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDC:C->Q              2   0.360   0.602  bytes_to_recv_sr_0 (bytes_to_recv_sr_0)
-     LUT2:I0->O            1   0.195   0.000  bytes_to_recv_sr_mux0001<15>1 (bytes_to_recv_sr_mux0001<15>)
-     FDC:D                     0.022          bytes_to_recv_sr_1
+     FDC:C->Q              2   0.591   0.622  bytes_to_recv_sr_1 (bytes_to_recv_sr_1)
+     LUT4:I0->O            1   0.704   0.000  bytes_to_recv_sr_mux0001<16>1 (bytes_to_recv_sr_mux0001<16>)
+     FDC:D                     0.308          bytes_to_recv_sr_0
     ----------------------------------------
-    Total                      1.179ns (0.577ns logic, 0.602ns route)
-                                       (48.9% logic, 51.1% route)
+    Total                      2.225ns (1.603ns logic, 0.622ns route)
+                                       (72.0% logic, 28.0% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'clock1'
-  Total number of paths / destination ports: 132 / 8
+  Total number of paths / destination ports: 199 / 23
 -------------------------------------------------------------------------
-Offset:              6.820ns (Levels of Logic = 10)
+Offset:              10.337ns (Levels of Logic = 9)
   Source:            i_slave_address<6> (PAD)
   Destination:       Mtridata_temp_sda (FF)
   Destination Clock: clock1 rising
@@ -564,92 +587,91 @@ Offset:              6.820ns (Levels of Logic = 10)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O             1   0.965   0.741  i_slave_address_6_IBUF (i_slave_address_6_IBUF)
-     LUT4:I0->O            1   0.195   0.523  i_slave_address_mux000054 (i_slave_address_mux000054)
-     LUT4:I3->O            1   0.195   0.000  i_slave_address_mux000085_F (N197)
-     MUXF5:I0->O           5   0.382   0.546  i_slave_address_mux000085 (i_slave_address_mux0000)
-     LUT4:I3->O            2   0.195   0.377  Mtridata_temp_sda_mux0000216 (Mtridata_temp_sda_mux0000216)
-     MUXF5:S->O            1   0.527   0.523  Mtridata_temp_sda_mux0000331_SW0 (N92)
-     LUT4_L:I3->LO         1   0.195   0.163  Mtridata_temp_sda_mux0000386 (Mtridata_temp_sda_mux0000386)
-     LUT4:I3->O            1   0.195   0.523  Mtridata_temp_sda_mux0000566 (Mtridata_temp_sda_mux0000566)
-     LUT4_L:I3->LO         1   0.195   0.163  Mtridata_temp_sda_mux0000876 (Mtridata_temp_sda_mux0000876)
-     LUT4:I3->O            1   0.195   0.000  Mtridata_temp_sda_mux0000885 (Mtridata_temp_sda_mux0000)
-     FDPE:D                    0.022          Mtridata_temp_sda
+     IBUF:I->O             1   1.218   0.595  i_slave_address_6_IBUF (i_slave_address_6_IBUF)
+     LUT4:I0->O            1   0.704   0.424  i_slave_address_mux000054 (i_slave_address_mux000054)
+     LUT4_L:I3->LO         1   0.704   0.104  i_slave_address_mux000060 (i_slave_address_mux000060)
+     LUT4:I3->O            4   0.704   0.591  i_slave_address_mux000085 (i_slave_address_mux0000)
+     LUT4:I3->O            2   0.704   0.482  Mtridata_temp_sda_mux0000535 (Mtridata_temp_sda_mux0000535)
+     LUT4:I2->O            1   0.704   0.420  Mtridata_temp_sda_mux0000759 (Mtridata_temp_sda_mux0000759)
+     MUXF5:S->O            1   0.739   0.424  Mtridata_temp_sda_mux0000803_SW1 (N198)
+     LUT4_L:I3->LO         1   0.704   0.104  Mtridata_temp_sda_mux0000840 (Mtridata_temp_sda_mux0000840)
+     LUT4:I3->O            1   0.704   0.000  Mtridata_temp_sda_mux0000942 (Mtridata_temp_sda_mux0000)
+     FDPE:D                    0.308          Mtridata_temp_sda
     ----------------------------------------
-    Total                      6.820ns (3.261ns logic, 3.559ns route)
-                                       (47.8% logic, 52.2% route)
+    Total                     10.337ns (7.193ns logic, 3.144ns route)
+                                       (69.6% logic, 30.4% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'c_cmode_FSM_FFd2'
-  Total number of paths / destination ports: 2 / 1
+  Total number of paths / destination ports: 1 / 1
 -------------------------------------------------------------------------
-Offset:              2.261ns (Levels of Logic = 3)
-  Source:            io_sda (PAD)
-  Destination:       bytes_to_recv_sr_0 (FF)
+Offset:              2.685ns (Levels of Logic = 2)
+  Source:            io_sda_i (PAD)
+  Destination:       bytes_to_recv_sr_16 (FF)
   Destination Clock: c_cmode_FSM_FFd2 rising
 
-  Data Path: io_sda to bytes_to_recv_sr_0
+  Data Path: io_sda_i to bytes_to_recv_sr_16
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IOBUF:IO->O           2   0.965   0.705  io_sda_IOBUF (N211)
-     LUT4:I1->O            1   0.195   0.000  bytes_to_recv_sr_mux0001<16>1_G (N194)
-     MUXF5:I1->O           1   0.374   0.000  bytes_to_recv_sr_mux0001<16>1 (bytes_to_recv_sr_mux0001<16>)
-     FDC:D                     0.022          bytes_to_recv_sr_0
+     IBUF:I->O             1   1.218   0.455  io_sda_i_IBUF (io_sda_i_IBUF)
+     LUT3:I2->O            1   0.704   0.000  bytes_to_recv_sr_mux0001<0>41 (bytes_to_recv_sr_mux0001<0>)
+     FDC:D                     0.308          bytes_to_recv_sr_16
     ----------------------------------------
-    Total                      2.261ns (1.556ns logic, 0.705ns route)
-                                       (68.8% logic, 31.2% route)
+    Total                      2.685ns (2.230ns logic, 0.455ns route)
+                                       (83.1% logic, 16.9% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'clock1'
-  Total number of paths / destination ports: 25 / 21
+  Total number of paths / destination ports: 27 / 21
 -------------------------------------------------------------------------
-Offset:              6.355ns (Levels of Logic = 2)
-  Source:            c_cmode_FSM_FFd2 (FF)
+Offset:              7.199ns (Levels of Logic = 3)
+  Source:            c_state_FSM_FFd68 (FF)
   Destination:       io_scl (PAD)
   Source Clock:      clock1 rising
 
-  Data Path: c_cmode_FSM_FFd2 to io_scl
+  Data Path: c_state_FSM_FFd68 to io_scl
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDCE:C->Q            90   0.360   1.483  c_cmode_FSM_FFd2 (c_cmode_FSM_FFd2)
-     LUT4:I1->O            1   0.195   0.360  io_scl1 (io_scl_OBUF)
-     OBUF:I->O                 3.957          io_scl_OBUF (io_scl)
+     FDP:C->Q             10   0.591   1.057  c_state_FSM_FFd68 (c_state_FSM_FFd68)
+     LUT3:I0->O            2   0.704   0.451  io_scl_SW0 (N88)
+     LUT4:I3->O            1   0.704   0.420  io_scl (io_scl_OBUF)
+     OBUF:I->O                 3.272          io_scl_OBUF (io_scl)
     ----------------------------------------
-    Total                      6.355ns (4.512ns logic, 1.843ns route)
-                                       (71.0% logic, 29.0% route)
+    Total                      7.199ns (5.271ns logic, 1.928ns route)
+                                       (73.2% logic, 26.8% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'c_cmode_FSM_FFd2'
   Total number of paths / destination ports: 16 / 16
 -------------------------------------------------------------------------
-Offset:              5.412ns (Levels of Logic = 2)
-  Source:            bytes_to_recv_sr_15 (FF)
-  Destination:       o_bytes_to_recv<1> (PAD)
+Offset:              5.513ns (Levels of Logic = 2)
+  Source:            bytes_to_recv_sr_16 (FF)
+  Destination:       o_bytes_to_recv<15> (PAD)
   Source Clock:      c_cmode_FSM_FFd2 rising
 
-  Data Path: bytes_to_recv_sr_15 to o_bytes_to_recv<1>
+  Data Path: bytes_to_recv_sr_16 to o_bytes_to_recv<15>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDC:C->Q              2   0.360   0.540  bytes_to_recv_sr_15 (bytes_to_recv_sr_15)
-     LUT2:I1->O            1   0.195   0.360  o_bytes_to_recv<1>1 (o_bytes_to_recv_1_OBUF)
-     OBUF:I->O                 3.957          o_bytes_to_recv_1_OBUF (o_bytes_to_recv<1>)
+     FDC:C->Q              2   0.591   0.526  bytes_to_recv_sr_16 (bytes_to_recv_sr_16)
+     LUT2:I1->O            1   0.704   0.420  o_bytes_to_recv<15>1 (o_bytes_to_recv_15_OBUF)
+     OBUF:I->O                 3.272          o_bytes_to_recv_15_OBUF (o_bytes_to_recv<15>)
     ----------------------------------------
-    Total                      5.412ns (4.512ns logic, 0.900ns route)
-                                       (83.4% logic, 16.6% route)
+    Total                      5.513ns (4.567ns logic, 0.946ns route)
+                                       (82.8% logic, 17.2% route)
 
 =========================================================================
 
 
-Total REAL time to Xst completion: 9.00 secs
-Total CPU time to Xst completion: 9.41 secs
+Total REAL time to Xst completion: 10.00 secs
+Total CPU time to Xst completion: 9.71 secs
  
 --> 
 
 
-Total memory usage is 577732 kilobytes
+Total memory usage is 560132 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :    1 (   0 filtered)

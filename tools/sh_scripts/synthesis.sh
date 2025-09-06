@@ -1,14 +1,13 @@
-#!/bin/bash
+#!/bin/bash 
+. /home/user/.local/Xilinx/14.7/ISE_DS/settings64.sh
 
 #export XIL_MAP_LOCWARN=1
-
-. /home/user/.local/Xilinx/14.7/ISE_DS/settings64.sh
 
 set -x
 
 if [ $# -lt 4 ]; then
 echo "
-Usage : [1|2] [x|n|m|p|t|b] [comment] [top_module_name] [...vhd files in properly order...]
+Usage : [1|2] [x|n|m|p|t|b] [comment] [top_module_name] [UCF file] [...vhd files in properly order...]
 Device type :
 1 - xc3s1200e-fg320-4
 2 - xc4vsx35-ff668-10
@@ -36,6 +35,8 @@ COMMENT=$1 # step x n m p t b
 shift # omit first arg $@
 PROJECT=$1 # module name
 shift # omit first arg $@
+UCF=$1 # UCF file
+shift # omit first arg $@
 
 CLOCK_LOC="" # Clock pin for trce .twr report
 
@@ -58,7 +59,7 @@ if [ x"${COMMENT}" = x"" ]; then
 COMMENT="empty"
 fi
 
-DATE=`date +%Y%m%d%H%M%S`
+DATE=`date +%Y%m%d_%H_%M_%S`
 PROJECT_DEVICE="${PROJECT}_${DEVICE}_${DATE}_${COMMENT}"
 
 echo "*************************************************"
@@ -67,21 +68,25 @@ echo "*************************************************"
 
 SYNTHESIS_FILES="synthesis/${PROJECT_DEVICE}"
 #rm -rf ${SYNTHESIS_FILES} # cleanup previous
+OLDPWD="`pwd`"
 mkdir -p ${SYNTHESIS_FILES}
 cd ${SYNTHESIS_FILES}
 
+cp ${OLDPWD}/${UCF} ${PROJECT}.ucf
+
 mkdir -p xst/projnav.tmp
 
+echo "Names to add .prj file... ${@}"
 rm -rf ${PROJECT}.prj
 for i in $@; do
   echo "vhdl work ../../${i}" >> ${PROJECT}.prj
 done;
 
-cat << EOF_UCF > ${PROJECT}.ucf
-NET "i_clock" TNM_NET = "i_clock";
-NET "i_clock" PERIOD = 10 ns; # Assume 100 MHz
-NET "i_clock" LOC = "${CLOCK_LOC}";
-EOF_UCF
+#cat << EOF_UCF > ${PROJECT}.ucf
+#NET "i_clock" TNM_NET = "i_clock";
+#NET "i_clock" PERIOD = 10 ns; # Assume 100 MHz
+#NET "i_clock" LOC = "${CLOCK_LOC}";
+#EOF_UCF
 
 cat << EOF_XST > ${PROJECT}.xst
 set -tmpdir "xst/projnav.tmp"
@@ -305,8 +310,15 @@ ls -l ${PROJECT}.bit
 ;;
 esac;
 
+# PR SIM
+netgen -intstyle ise -s 4 -pcf ${PROJECT}.pcf -rpw 100 -tpw 0 -ar Structure -tm ${PROJECT} -insert_pp_buffers true -w -dir netgen/par -ofmt vhdl -sim ${PROJECT}.ncd ${PROJECT}_timesim.vhd
+
 echo "*** DONE ***"
 echo "Files in ${SYNTHESIS_FILES}"
 echo "************"
+
+cd ${OLDPWD}
+cp -p "${SYNTHESIS_FILES}/"${PROJECT}.bit .
+
 exit 0
 
