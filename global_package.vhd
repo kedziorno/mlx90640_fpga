@@ -4,7 +4,7 @@
 -------------------------------------------------------------------------------
 -- Create Date:   09:00:00 03/15/2025
 -- Design Name:   mlx90640_fpga
--- Module Name:   global_package_syn
+-- Module Name:   global_package
 -- Project Name:  mlx90640_fpga
 -- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
 -- Tool versions: Xilinx ISE 14.7, XST and ISIM
@@ -64,7 +64,7 @@ use ieee_proposed.standard_additions.all;
 use ieee_proposed.std_logic_1164_additions.all;
 --synthesis translate_on
 
-package global_package_syn is
+package global_package is
 
   -- main constants
   constant c_memory_i2c_address_bits  : integer := 12;
@@ -360,8 +360,8 @@ package global_package_syn is
   constant c_byte_size : integer := 8;
   type array1 is array(natural range <>) of std_logic_vector (c_byte_size - 1 downto 0);
   
-  constant c_clock_board_frequency : natural := 100_000_000; -- XXX ml402/nexys2
-  --constant c_clock_board_frequency : natural := 50_000_000; -- XXX nexys2
+--  constant c_clock_board_frequency : natural := 100_000_000; -- XXX ml402/nexys2
+  constant c_clock_board_frequency : natural := 50_000_000; -- XXX nexys2
 --  constant c_clock_i2c_frequency : natural := 1_000_000; -- XXX mlx90640 have default 1us clock period
   constant c_clock_i2c_frequency : natural := 10;
   constant c_i2c_stretch : natural := c_clock_i2c_frequency/c_clock_board_frequency;
@@ -400,9 +400,9 @@ package global_package_syn is
   procedure sda_data_8bit(signal sda_data : out std_logic;constant data : in std_logic_vector(c_i2c_data_bits - 1 downto 0);constant data_ack : in boolean;constant clock_period : in time);
 --synthesis translate_on
 
-end package global_package_syn;
+end package global_package;
 
-package body global_package_syn is
+package body global_package is
 
   function extend_8_to_16 (a : slv8) return slv16 is
   begin
@@ -622,5 +622,5 @@ begin
 end function int2hex;
 --synthesis translate_on
 
-end package body global_package_syn;
+end package body global_package;
 

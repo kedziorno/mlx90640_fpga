@@ -42,11 +42,13 @@ CLOCK_LOC="" # Clock pin for trce .twr report
 
 case ${DEVICE} in
 "1")
-DEVICE="xc3s1200e-fg320-4"
+SPEED=4
+DEVICE="xc3s1200e-fg320-${SPEED}"
 CLOCK_LOC="B8" # B8 - internal, U9 - external
 ;;
 "2")
-DEVICE="xc4vsx35-ff668-10"
+SPEED=10
+DEVICE="xc4vsx35-ff668-${SPEED}"
 CLOCK_LOC="AE14" # AE14 - sysclk, AD12 - userclk
 ;;
 *)
@@ -72,14 +74,15 @@ OLDPWD="`pwd`"
 mkdir -p ${SYNTHESIS_FILES}
 cd ${SYNTHESIS_FILES}
 
-cp ${OLDPWD}/${UCF} ${PROJECT}.ucf
+ln -s ${OLDPWD}/../ipcore_dir ipcore_dir
+ln -s ${OLDPWD}/${UCF} ${PROJECT}.ucf
 
 mkdir -p xst/projnav.tmp
 
 echo "Names to add .prj file... ${@}"
 rm -rf ${PROJECT}.prj
 for i in $@; do
-  echo "vhdl work ../../${i}" >> ${PROJECT}.prj
+  echo "vhdl work ${i}" >> ${PROJECT}.prj
 done;
 
 #cat << EOF_UCF > ${PROJECT}.ucf
@@ -152,7 +155,7 @@ xst="xst -intstyle xflow -ifn ./${PROJECT}.xst -ofn ./${PROJECT}.syr"
 ngdbuild="ngdbuild -intstyle xflow -dd _ngo -sd ipcore_dir -nt timestamp -uc ${PROJECT}.ucf -p ${DEVICE} ${PROJECT}.ngc ${PROJECT}.ngd"
 map="map -intstyle xflow -p ${DEVICE} -timing -logic_opt off -ol std -t 1 -register_duplication off -cm area -ir off -pr off -power off -o ${PROJECT}_map.ncd ${PROJECT}.ngd ${PROJECT}.pcf"
 par="par -w -intstyle xflow -ol std -rl std -t 1 ${PROJECT}_map.ncd ${PROJECT}.ncd ${PROJECT}.pcf"
-trce="trce -intstyle xflow -v 3 -s 10 -n 3 -fastpaths -xml ${PROJECT}.twx ${PROJECT}.ncd -o ${PROJECT}.twr ${PROJECT}.pcf -ucf ${PROJECT}.ucf"
+trce="trce -intstyle xflow -v 3 -s ${SPEED} -n 3 -fastpaths -xml ${PROJECT}.twx ${PROJECT}.ncd -o ${PROJECT}.twr ${PROJECT}.pcf -ucf ${PROJECT}.ucf" # -s - speed 4 or 10
 bitgen="bitgen -intstyle xflow -w ${PROJECT}.ncd"
 
 #step x n m p t b
@@ -311,7 +314,7 @@ ls -l ${PROJECT}.bit
 esac;
 
 # PR SIM
-netgen -intstyle ise -s 4 -pcf ${PROJECT}.pcf -rpw 100 -tpw 0 -ar Structure -tm ${PROJECT} -insert_pp_buffers true -w -dir netgen/par -ofmt vhdl -sim ${PROJECT}.ncd ${PROJECT}_timesim.vhd
+netgen -intstyle xflow -s 4 -pcf ${PROJECT}.pcf -rpw 100 -tpw 0 -ar Structure -tm ${PROJECT} -insert_pp_buffers true -w -dir netgen/par -ofmt vhdl -sim ${PROJECT}.ncd ${PROJECT}_timesim.vhd
 
 echo "*** DONE ***"
 echo "Files in ${SYNTHESIS_FILES}"

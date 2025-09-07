@@ -24,7 +24,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use work.global_package_syn.all;
+use work.global_package.all;
 
 entity melexis_mlx90640_i2c is
 generic (

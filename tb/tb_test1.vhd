@@ -33,6 +33,7 @@ USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
 use work.bmp_pkg.all;
+use work.global_package.all;
 
 ENTITY tb_test1 IS
 END tb_test1;
@@ -41,6 +42,21 @@ ARCHITECTURE behavior OF tb_test1 IS
 
 -- Component Declaration for the Unit Under Test (UUT)
 COMPONENT test1
+generic (
+constant c_board_clock : integer := c_clock_board_frequency;
+--constant c_bus_clock : integer := c_clock_i2c_frequency;
+--constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
+--constant c_bus_clock : integer := 50;
+--constant c_bus_clock : integer := 1_000_000;
+constant c_bus_clock : integer := 400_000;
+constant c_sim : string (1 to 1) := "n";
+constant c_cold_start : integer := 1000;
+constant c_wait2 : integer := 1000;
+constant c_wait3 : integer := 10000;
+constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
+constant c_calculate_type1 : string (1 to 13) := "c_raws_images"; -- c_temperature,c_raws_images
+constant c_use_fisqrt1 : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type(c_temperature)
+);
 PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
@@ -73,15 +89,15 @@ signal vga_blankn : std_logic;
 signal vga_psave : std_logic;
 signal io_sda_dd : std_logic;
 signal io_scl_dd : std_logic;
-signal io_sda_nl : std_logic;
+signal io_sda_nl : std_logic := 'Z';
 signal io_scl_nl : std_logic;
 signal vga_r : std_logic_vector(7 downto 0);
 signal vga_g : std_logic_vector(7 downto 0);
 signal vga_b : std_logic_vector(7 downto 0);
 
 -- Clock period definitions
---constant i_clock_period : time := 20 ns; -- nexys2
-constant i_clock_period : time := 10 ns; -- ml402
+constant i_clock_period : time := 20 ns; -- nexys2
+--constant i_clock_period : time := 10 ns; -- ml402
 
 component vga_bmp_sink is
 generic (
@@ -96,6 +112,11 @@ v_sync_i        : in    std_logic
 
 );
 end component vga_bmp_sink;
+
+signal s_spattern : std_logic_vector (31 downto 0);
+
+--constant c_period : time := 2.24 us; -- 10 ns
+constant c_period : time := 1.92 us; -- 20 ns
 
 BEGIN
 
@@ -136,8 +157,9 @@ wait for 100 ns;
 i_reset <= '0';
 wait for i_clock_period*10;
 -- insert stimulus here
+wait;
 --wait for 34 ms;
-wait for 45 ms; -- 51 ms;
+--wait for 45 ms; -- 51 ms;
 --wait for 15.776ms * 10;
 --wait for 1 ms;
 --wait for 610 us;
@@ -156,5 +178,125 @@ active_vid_i    => not vga_blankn,
 h_sync_i        => vga_hsync,
 v_sync_i        => vga_vsync
 );
+
+mode2_read : process is
+-- https://github.com/ghdl/ghdl/blob/69b0c75d726f6c5babe46eddbcb82f7269422821/testsuite/gna/issue1597/std_subs_pkg.vhdl#L23
+function klsfr(bv: std_logic_vector) return std_logic_vector is
+    alias v : std_logic_vector(bv'high downto 0) is bv;
+    variable rtn : std_logic_vector(bv'high downto 0);
+    variable len : integer := bv'length;
+  begin
+    for i in bv'range loop
+      if (bv(i) /= '1' and
+         bv(i) /= '0') then
+        report "klsfr got a none logic value passed ..." severity failure;
+      end if;
+    end loop;
+  
+    case len is
+      when 8 =>
+        rtn := v(6 downto 0) & ((v(7) xor v(4)) xor (v(1) xor v(2)));
+      when 16 =>
+        rtn := v(14 downto 0) & ((v(15) xor v(14)) xor (v(12) xor v(3)));
+      when 32 =>
+        rtn := v(30 downto 0) & ((v(31) xor v(6)) xor (v(5) xor v(1)));
+      when others =>
+        report "ERROR: LSFR size not implemented ..." severity failure;
+    end case;
+    return rtn;
+  end function;
+  variable pattern : std_logic_vector (31 downto 0) := x"00000001";
+begin
+  io_sda_nl <= 'Z';
+
+  wait for 1536.330 us;
+  eeprom : for i in 0 to 832/2 loop
+  pattern := klsfr (pattern); s_spattern <= pattern;
+  s_spattern <= pattern;
+  io_sda_nl <= pattern (31); wait for c_period;
+  io_sda_nl <= pattern (30); wait for c_period;
+  io_sda_nl <= pattern (29); wait for c_period;
+  io_sda_nl <= pattern (28); wait for c_period;
+  io_sda_nl <= pattern (27); wait for c_period;
+  io_sda_nl <= pattern (26); wait for c_period;
+  io_sda_nl <= pattern (25); wait for c_period;
+  io_sda_nl <= pattern (24); wait for c_period;
+  io_sda_nl <= 'Z'; wait for c_period; -- ack
+  io_sda_nl <= pattern (23); wait for c_period;
+  io_sda_nl <= pattern (22); wait for c_period;
+  io_sda_nl <= pattern (21); wait for c_period;
+  io_sda_nl <= pattern (20); wait for c_period;
+  io_sda_nl <= pattern (19); wait for c_period;
+  io_sda_nl <= pattern (18); wait for c_period;
+  io_sda_nl <= pattern (17); wait for c_period;
+  io_sda_nl <= pattern (16); wait for c_period;  
+  io_sda_nl <= 'Z'; wait for c_period; -- ack
+  io_sda_nl <= pattern (15); wait for c_period;
+  io_sda_nl <= pattern (14); wait for c_period;
+  io_sda_nl <= pattern (13); wait for c_period;
+  io_sda_nl <= pattern (12); wait for c_period;
+  io_sda_nl <= pattern (11); wait for c_period;
+  io_sda_nl <= pattern (10); wait for c_period;
+  io_sda_nl <= pattern (9); wait for c_period;
+  io_sda_nl <= pattern (8); wait for c_period;
+  io_sda_nl <= 'Z'; wait for c_period; -- ack  
+  io_sda_nl <= pattern (7); wait for c_period;
+  io_sda_nl <= pattern (6); wait for c_period;
+  io_sda_nl <= pattern (5); wait for c_period;
+  io_sda_nl <= pattern (4); wait for c_period;
+  io_sda_nl <= pattern (3); wait for c_period;
+  io_sda_nl <= pattern (2); wait for c_period;
+  io_sda_nl <= pattern (1); wait for c_period;
+  io_sda_nl <= pattern (0); wait for c_period;
+  io_sda_nl <= 'Z'; wait for c_period; -- ack
+  end loop eeprom;
+
+  io_sda_nl <= 'Z';
+
+  wait for 673.12 us - c_period;
+  frame : for i in 0 to 832/2 loop
+  pattern := klsfr (pattern); s_spattern <= pattern;
+  s_spattern <= pattern;
+  io_sda_nl <= pattern (31); wait for c_period;
+  io_sda_nl <= pattern (30); wait for c_period;
+  io_sda_nl <= pattern (29); wait for c_period;
+  io_sda_nl <= pattern (28); wait for c_period;
+  io_sda_nl <= pattern (27); wait for c_period;
+  io_sda_nl <= pattern (26); wait for c_period;
+  io_sda_nl <= pattern (25); wait for c_period;
+  io_sda_nl <= pattern (24); wait for c_period;
+  io_sda_nl <= 'Z'; wait for c_period; -- ack
+  io_sda_nl <= pattern (23); wait for c_period;
+  io_sda_nl <= pattern (22); wait for c_period;
+  io_sda_nl <= pattern (21); wait for c_period;
+  io_sda_nl <= pattern (20); wait for c_period;
+  io_sda_nl <= pattern (19); wait for c_period;
+  io_sda_nl <= pattern (18); wait for c_period;
+  io_sda_nl <= pattern (17); wait for c_period;
+  io_sda_nl <= pattern (16); wait for c_period;  
+  io_sda_nl <= 'Z'; wait for c_period; -- ack
+  io_sda_nl <= pattern (15); wait for c_period;
+  io_sda_nl <= pattern (14); wait for c_period;
+  io_sda_nl <= pattern (13); wait for c_period;
+  io_sda_nl <= pattern (12); wait for c_period;
+  io_sda_nl <= pattern (11); wait for c_period;
+  io_sda_nl <= pattern (10); wait for c_period;
+  io_sda_nl <= pattern (9); wait for c_period;
+  io_sda_nl <= pattern (8); wait for c_period;
+  io_sda_nl <= 'Z'; wait for c_period; -- ack  
+  io_sda_nl <= pattern (7); wait for c_period;
+  io_sda_nl <= pattern (6); wait for c_period;
+  io_sda_nl <= pattern (5); wait for c_period;
+  io_sda_nl <= pattern (4); wait for c_period;
+  io_sda_nl <= pattern (3); wait for c_period;
+  io_sda_nl <= pattern (2); wait for c_period;
+  io_sda_nl <= pattern (1); wait for c_period;
+  io_sda_nl <= pattern (0); wait for c_period;
+  io_sda_nl <= 'Z'; wait for c_period; -- ack
+  end loop frame;
+
+wait;
+--  report "done" severity failure;
+end process mode2_read;
 
 END;

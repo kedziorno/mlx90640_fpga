@@ -25,14 +25,29 @@ use UNISIM.vcomponents.all;
 
 use work.global_package.all;
 use work.colormap_pkg.all;
-use work.colormap_viridis.all;
-use work.colormap_magma.all;
-use work.colormap_brewer_ygb.all;
-use work.colormap_rainbow.all;
-use work.colormap_heat.all;
+--use work.colormap_viridis.all;
+--use work.colormap_magma.all;
+--use work.colormap_brewer_ygb.all;
+--use work.colormap_rainbow.all;
+--use work.colormap_heat.all;
 use work.p_package1.all;
 
 entity test1 is
+generic (
+constant c_board_clock : integer := c_clock_board_frequency;
+--constant c_bus_clock : integer := c_clock_i2c_frequency;
+--constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
+--constant c_bus_clock : integer := 50;
+constant c_bus_clock : integer := 1_000_000;
+-- constant c_bus_clock : integer := 100_000;
+constant c_sim : string (1 to 1) := "n";
+constant c_cold_start : integer := 1000;
+constant c_wait2 : integer := 10000;
+constant c_wait3 : integer := 10000;
+constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
+constant c_calculate_type1 : string (1 to 13) := "c_raws_images"; -- c_temperature,c_raws_images
+constant c_use_fisqrt1 : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type(c_temperature)
+);
 port (
 i_clock,i_reset : in std_logic;
 vga_hsync : out std_logic;
@@ -59,9 +74,9 @@ constant BITS : integer := 24;
 
 component melexis_mlx9064x is
 generic (
-constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
-constant c_calculate_type : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
-constant c_use_fisqrt : string (1 to 3) := " no" -- yes/no - depend from c_calculate_type(c_temperature)
+constant c_device : string (1 to 8) := c_device; -- mlx90640 (32x24),mlx90641 (16x12)
+constant c_calculate_type : string (1 to 13) := c_calculate_type1; -- c_temperature,c_raws_images
+constant c_use_fisqrt : string (1 to 3) := c_use_fisqrt1 -- yes/no - depend from c_calculate_type(c_temperature)
 );
 port (
 i_clock : in std_logic;
@@ -389,9 +404,36 @@ signal rdata : std_logic_vector(23 downto 0);
 signal cm : std_logic_vector (8 downto 0);
 
 type states is (
-idle,idle1,idle2,idle3,idle4,idle5,idle0,
-r1,r1a,
-r2,r2a,
+idle,
+wr1,
+idle0,
+w1,
+idle1,
+wr2,
+idle2,
+
+idlea,
+wr1a,
+idle0a,
+w1a,
+idle1a,
+wr2a,
+idle2a,
+
+r1,
+idle3,
+
+idlea1,
+wr1a1,
+idle0a1,
+w1a1,
+idle1a1,
+wr2a1,
+idle2a1,
+
+r2,
+idle4,
+
 r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,
 s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14
 );
@@ -412,8 +454,8 @@ signal test_to_douta : STD_LOGIC_VECTOR(31 DOWNTO 0) := (others => '0');
 
 component melexis_mlx90640_i2c is
 generic (
-  c_board_clock : integer := c_clock_board_frequency;
-  c_bus_clock : integer := c_clock_i2c_frequency
+  c_board_clock : integer := c_board_clock;
+  c_bus_clock : integer := c_bus_clock
 );
 port (
   i_clock : in std_logic;
@@ -451,12 +493,47 @@ signal melexis_mlx90640_i2c_sda_o : std_logic;
 signal melexis_mlx90640_i2c_sda_i : std_logic;
 signal melexis_mlx90640_i2c_scl : std_logic;
 
-signal asd,asd1,clock_i,reset_i : std_logic;
-
-constant c_wait1 : integer := 46*10;
-signal wait1 : integer range 0 to c_wait1 - 1;
+signal asd,asd1,clock_i : std_logic;
 
 signal sda_o, sda_i, scl_i : std_logic;
+
+component i2c_mlx
+PORT (
+clka : IN STD_LOGIC;
+ena : in std_logic;
+wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+addra : IN STD_LOGIC_VECTOR(10 DOWNTO 0);
+dina : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+clkb : IN STD_LOGIC;
+enb : in std_logic;
+addrb : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
+doutb : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+);
+END component  i2c_mlx;
+signal i2c_mlx_clka : STD_LOGIC;
+signal i2c_mlx_ena : STD_LOGIC;
+signal i2c_mlx_wea : STD_LOGIC_VECTOR(0 DOWNTO 0);
+signal i2c_mlx_addra : STD_LOGIC_VECTOR(10 DOWNTO 0);
+signal i2c_mlx_dina : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal i2c_mlx_clkb : STD_LOGIC;
+signal i2c_mlx_enb : STD_LOGIC;
+signal i2c_mlx_addrb : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal i2c_mlx_doutb : STD_LOGIC_VECTOR(7 DOWNTO 0);
+
+--constant c_wait1 : integer := 25*1_000_000/10000;
+--constant c_wait1 : integer := 25;
+--constant c_wait1 : integer := 60;
+--constant c_wait1 : integer := 47;
+-- constant c_wait1 : integer := 115*4; -- scl 500_000
+constant c_wait1 : integer := 115*4*1000; -- scl 100
+--constant c_wait1 : integer := 230*4*1000; -- scl 50
+--constant c_wait1 : integer := 230*5*4*1000; -- scl 10
+--constant c_wait1 : integer := 230*5*5*4*1000; -- scl 2
+signal wait1 : integer range 0 to c_wait1 - 1;
+
+signal i2c_mem_ena_1 : std_logic;
+
+signal temp1, temp2 : std_logic;
 
 begin
 
@@ -465,7 +542,48 @@ vga_blankn <= VGA_timing_synch_blank;
 --vga_blankn <= '1';
 vga_psave <= '1';
 
-pTo : process (clock_i,reset_i) is
+--p100 : process (melexis_mlx90640_i2c_mode2_ready, i_reset) is
+p100 : process (clock_i, i_reset) is
+  constant c_max : integer := 832;
+  variable mem_addr : integer range 0 to c_max - 1;
+begin
+  if (i_reset = '1') then
+    mem_addr := 0;
+    i2c_mlx_wea <= "0";
+    i2c_mlx_addra <= (others => '0');
+    i2c_mlx_dina <= (others => '0');
+    i2c_mlx_addra <= (others => '0');
+    i2c_mlx_dina <= (others => '0');
+    temp1 <= '0';
+    temp2 <= '0';
+--  elsif (rising_edge (melexis_mlx90640_i2c_mode2_ready)) then
+  elsif (rising_edge (clock_i)) then
+    temp1 <= melexis_mlx90640_i2c_mode2_ready;
+    --temp2 <= temp1;
+    if (temp1 = '0' and melexis_mlx90640_i2c_mode2_ready = '1' and melexis_mlx90640_i2c_mode2 = '1') then
+      i2c_mlx_wea <= "1";
+      i2c_mlx_ena <= '1';
+      if (mem_addr = c_max - 1) then
+        mem_addr := 0;
+      else
+        mem_addr := mem_addr + 1;
+      end if;
+      if (melexis_mlx90640_i2c_memory_address = x"2400") then
+        i2c_mlx_addra <= std_logic_vector (to_unsigned (mem_addr + 0, 11));
+      end if;
+      if (melexis_mlx90640_i2c_memory_address = x"0400") then
+        i2c_mlx_addra <= std_logic_vector (to_unsigned (mem_addr + 832, 11));
+      end if;
+      i2c_mlx_dina <= melexis_mlx90640_i2c_bytes_to_recv;
+    end if;
+    if (temp1 = '1' and melexis_mlx90640_i2c_mode2_ready = '0' and melexis_mlx90640_i2c_mode2 = '1') then
+      i2c_mlx_wea <= "0";
+      i2c_mlx_ena <= '0';
+    end if;
+  end if;
+end process p100;
+
+pTo : process (clock_i,i_reset) is
 	variable i : integer range 0 to PIXELS-1;
 	variable state : states;
   constant c_some_wait : integer := 2**20;
@@ -476,13 +594,12 @@ pTo : process (clock_i,reset_i) is
   variable tout_t : std_logic_vector (15 downto 0);
   variable tout_r : std_logic_vector (8 downto 0);
   variable camera_read : std_logic_vector (15 downto 0);
---  constant c_cold_start : integer := 1_000_000 * 100; -- 10ms * 100
-  constant c_cold_start : integer := 1; -- sim
   variable cold_start : integer range 0 to c_cold_start - 1;
-  constant c_wait2 : integer := 65535;
+--  constant c_cold_start : integer := 1_000_000 * 100; -- 10ms * 100
   variable wait2 : integer range 0 to c_wait2 - 1;
+  variable wait3 : integer range 0 to c_wait3 - 1;
 begin
-		if (reset_i = '1') then
+		if (i_reset = '1') then
 			state := idle;
       wait1 <= 0;
       cold_start := 0;
@@ -491,11 +608,10 @@ begin
 			float2fixedsclr <= '1';
 			i := 0;
 			dualmem_ena <= '0';
-			dualmem_enb <= '0';
-			if (c_calculate_type = "c_raws_images") then
+			if (c_calculate_type1 = "c_raws_images") then
         tout_r := (others => '0');
       end if;
-      if (c_calculate_type = "c_temperature") then
+      if (c_calculate_type1 = "c_temperature") then
         tout_t := (others => '0');
       end if;
       some_wait := 0;
@@ -508,86 +624,180 @@ begin
 		elsif (rising_edge (clock_i)) then
       t_state <= state;
 			case (state) is
+      
         when idle =>
-          if (cold_start = c_cold_start - 1) then
-            state := idle1;
-            cold_start := 0;
-          else
-            cold_start := cold_start + 1;
-          end if;
-        when idle1 =>
+          state := wr1;
+--          if (cold_start = c_cold_start - 1) then
+--            state := wr1;
+----            state := w1;
+--            cold_start := 0;
+--          else
+--            cold_start := cold_start + 1;
+--          end if;
+
+        when wr1 =>
           melexis_mlx90640_i2c_mode0 <= '0';
           melexis_mlx90640_i2c_mode1 <= '1'; -- w800d/r1901
           melexis_mlx90640_i2c_mode2 <= '0';
           melexis_mlx90640_i2c_enable <= '1';
           melexis_mlx90640_i2c_memory_address <= x"800d";
-          melexis_mlx90640_i2c_memory_data <= x"0000";
           if (wait1 = c_wait1 - 1) then
             if (melexis_mlx90640_i2c_busy = '0') then
-              camera_read := melexis_mlx90640_i2c_bytes_to_recv;
---              if (camera_read = x"1901") then
-                state := idle2;
-                wait1 <= 0;
+              melexis_mlx90640_i2c_enable <= '0';
+--              if (camera_read = x"1981") then
+                state := idle0;
+                wait2 := 0;
+--              else
+--                state := stop;
 --              end if;
-            end if;
+              wait1 <= 0;
+          end if;
           else
             wait1 <= wait1 + 1;
-          end if;
-        when idle2 =>
-          if (wait1 = c_wait1 - 1) then
-            state := r1a;
-            melexis_mlx90640_i2c_enable <= '0';
-            wait1 <= 0;
+         end if;
+        when idle0 =>
+          if (wait2 = c_wait2 - 1) then
+            state := w1;
+--            state := idle;
+            wait2 := 0;
           else
-            wait1 <= wait1 + 1;
+            wait2 := wait2 + 1;
           end if;
-        when r1a =>
+        when w1 =>
           melexis_mlx90640_i2c_mode0 <= '1'; -- w800d1981
           melexis_mlx90640_i2c_mode1 <= '0';
           melexis_mlx90640_i2c_mode2 <= '0';
           melexis_mlx90640_i2c_enable <= '1';
           melexis_mlx90640_i2c_memory_address <= x"800d";
           melexis_mlx90640_i2c_memory_data <= x"1981";
+--          melexis_mlx90640_i2c_memory_data <= x"1234";
+--          melexis_mlx90640_i2c_memory_data <= x"4321";
+--          melexis_mlx90640_i2c_memory_data <= x"0000";
+--          melexis_mlx90640_i2c_memory_data <= x"ffff";
           if (wait1 = c_wait1 - 1) then
             if (melexis_mlx90640_i2c_busy = '0') then
-              state := idle3;
+              melexis_mlx90640_i2c_enable <= '0';
+              wait1 <= 0;
+              wait2 := 0;
+              state := idle1;
+          end if;
+          else
+            wait1 <= wait1 + 1;
+          end if;
+        when idle1 =>
+          if (wait3 = c_wait3 - 1) then
+            state := wr2;
+--            state := idle;
+            wait3 := 0;
+          else
+            wait3 := wait3 + 1;
+          end if;
+		  
+		  
+        when wr2 =>
+          melexis_mlx90640_i2c_mode0 <= '0';
+          melexis_mlx90640_i2c_mode1 <= '1';-- w800d/r1981
+          melexis_mlx90640_i2c_mode2 <= '0';
+          melexis_mlx90640_i2c_enable <= '1';
+          melexis_mlx90640_i2c_memory_address <= x"800d";
+          if (wait1 = c_wait1 - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state := idle2;
               wait1 <= 0;
             end if;
           else
             wait1 <= wait1 + 1;
           end if;
-        when idle3 =>
+        when idle2 =>
+          if (wait3 = c_wait3 - 1) then
+            state := wr1a;
+            wait3 := 0;
+          else
+            wait3 := wait3 + 1;
+          end if;
+
+        when wr1a =>
+          melexis_mlx90640_i2c_mode0 <= '0';
+          melexis_mlx90640_i2c_mode1 <= '1'; -- w800d/r1901
+          melexis_mlx90640_i2c_mode2 <= '0';
+          melexis_mlx90640_i2c_enable <= '1';
+          melexis_mlx90640_i2c_memory_address <= x"800d";
           if (wait1 = c_wait1 - 1) then
-            state := r2;
-            melexis_mlx90640_i2c_enable <= '0';
-            wait1 <= 0;
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+--              if (camera_read = x"1981") then
+                state := idle0a;
+                wait2 := 0;
+--              else
+--                state := stop;
+--              end if;
+              wait1 <= 0;
+          end if;
+          else
+            wait1 <= wait1 + 1;
+         end if;
+        when idle0a =>
+          if (wait2 = c_wait2 - 1) then
+            state := w1a;
+--            state := idle;
+            wait2 := 0;
+          else
+            wait2 := wait2 + 1;
+          end if;
+        when w1a =>
+          melexis_mlx90640_i2c_mode0 <= '1'; -- w800d1981
+          melexis_mlx90640_i2c_mode1 <= '0';
+          melexis_mlx90640_i2c_mode2 <= '0';
+          melexis_mlx90640_i2c_enable <= '1';
+          melexis_mlx90640_i2c_memory_address <= x"800d";
+          melexis_mlx90640_i2c_memory_data <= x"1981";
+--          melexis_mlx90640_i2c_memory_data <= x"1234";
+--          melexis_mlx90640_i2c_memory_data <= x"4321";
+--          melexis_mlx90640_i2c_memory_data <= x"0000";
+--          melexis_mlx90640_i2c_memory_data <= x"ffff";
+          if (wait1 = c_wait1 - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              wait1 <= 0;
+              wait2 := 0;
+              state := idle1a;
+          end if;
           else
             wait1 <= wait1 + 1;
           end if;
-        when r2 =>
-            melexis_mlx90640_i2c_mode0 <= '0';
-            melexis_mlx90640_i2c_mode1 <= '1';-- w800d/r1981
-            melexis_mlx90640_i2c_mode2 <= '0';
-            melexis_mlx90640_i2c_enable <= '1';
-            melexis_mlx90640_i2c_memory_address <= x"800d";
-            if (wait1 = c_wait1 - 1) then
-              if (melexis_mlx90640_i2c_busy = '0') then
-                camera_read := melexis_mlx90640_i2c_bytes_to_recv;
-                state := idle4;
-                wait1 <= 0;
-              end if;
-            else
-              wait1 <= wait1 + 1;
+        when idle1a =>
+          if (wait3 = c_wait3 - 1) then
+            state := wr2a;
+--            state := idle;
+            wait3 := 0;
+          else
+            wait3 := wait3 + 1;
+          end if;
+        when wr2a =>
+          melexis_mlx90640_i2c_mode0 <= '0';
+          melexis_mlx90640_i2c_mode1 <= '1';-- w800d/r1981
+          melexis_mlx90640_i2c_mode2 <= '0';
+          melexis_mlx90640_i2c_enable <= '1';
+          melexis_mlx90640_i2c_memory_address <= x"800d";
+          if (wait1 = c_wait1 - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state := idle2a;
+              wait1 <= 0;
             end if;
-        when idle4 =>
-          if (wait1 = c_wait1 - 1) then
-            state := r2a;
-            melexis_mlx90640_i2c_enable <= '0';
-            wait1 <= 0;
           else
             wait1 <= wait1 + 1;
           end if;
-        when r2a =>
+        when idle2a =>
+          if (wait3 = c_wait3 - 1) then
+            state := r1;
+            wait3 := 0;
+          else
+            wait3 := wait3+ 1;
+          end if;
+
+        when r1 =>
           melexis_mlx90640_i2c_mode0 <= '0';
           melexis_mlx90640_i2c_mode1 <= '0';
           melexis_mlx90640_i2c_mode2 <= '1';-- w2400/rN
@@ -595,38 +805,135 @@ begin
           melexis_mlx90640_i2c_memory_address <= x"2400";
           if (wait1 = c_wait1 - 1) then
             if (melexis_mlx90640_i2c_busy = '0') then
-              camera_read := melexis_mlx90640_i2c_bytes_to_recv;
-              state := r4;
               melexis_mlx90640_i2c_enable <= '0';
+              state := idle3;
               wait1 <= 0;
             end if;
           else
             wait1 <= wait1 + 1;
           end if;
-        when r4 =>
+        when idle3 => ------------------
+          if (wait2 = c_wait2 - 1) then
+            state := wr1a1;
+            wait2 := 0;
+          else
+            wait2 := wait2 + 1;
+          end if;
+---------------------------
+        when wr1a1 =>
+          melexis_mlx90640_i2c_mode0 <= '0';
+          melexis_mlx90640_i2c_mode1 <= '1'; -- w8000/r0008
+          melexis_mlx90640_i2c_mode2 <= '0';
+          melexis_mlx90640_i2c_enable <= '1';
+          melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (wait1 = c_wait1 - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+--              if (camera_read = x"1981") then
+                state := idle0a1;
+                wait2 := 0;
+--              else
+--                state := stop;
+--              end if;
+              wait1 <= 0;
+          end if;
+          else
+            wait1 <= wait1 + 1;
+         end if;
+        when idle0a1 =>
+          if (wait2 = c_wait2 - 1) then
+            state := w1a1;
+--            state := idle;
+            wait2 := 0;
+          else
+            wait2 := wait2 + 1;
+          end if;
+        when w1a1 =>
+          melexis_mlx90640_i2c_mode0 <= '1'; -- w80000030
+          melexis_mlx90640_i2c_mode1 <= '0';
+          melexis_mlx90640_i2c_mode2 <= '0';
+          melexis_mlx90640_i2c_enable <= '1';
+          melexis_mlx90640_i2c_memory_address <= x"8000";
+          melexis_mlx90640_i2c_memory_data <= x"0030";
+--          melexis_mlx90640_i2c_memory_data <= x"1234";
+--          melexis_mlx90640_i2c_memory_data <= x"4321";
+--          melexis_mlx90640_i2c_memory_data <= x"0000";
+--          melexis_mlx90640_i2c_memory_data <= x"ffff";
+          if (wait1 = c_wait1 - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              wait1 <= 0;
+              wait2 := 0;
+              state := idle1a1;
+          end if;
+          else
+            wait1 <= wait1 + 1;
+          end if;
+        when idle1a1 =>
+          if (wait3 = c_wait3 - 1) then
+            state := wr2a1;
+--            state := idle;
+            wait3 := 0;
+          else
+            wait3 := wait3 + 1;
+          end if;
+        when wr2a1 =>
+          melexis_mlx90640_i2c_mode0 <= '0';
+          melexis_mlx90640_i2c_mode1 <= '1';-- w8000r0010
+          melexis_mlx90640_i2c_mode2 <= '0';
+          melexis_mlx90640_i2c_enable <= '1';
+          melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (wait1 = c_wait1 - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state := idle2a1;
+              wait1 <= 0;
+            end if;
+          else
+            wait1 <= wait1 + 1;
+          end if;
+        when idle2a1 =>
+          if (wait3 = c_wait3 - 1) then
+            state := r2;
+            wait3 := 0;
+          else
+            wait3 := wait3+ 1;
+          end if;
+-----------------------------
+        when r2 =>
           melexis_mlx90640_i2c_mode0 <= '0';
           melexis_mlx90640_i2c_mode1 <= '0';
-          melexis_mlx90640_i2c_mode2 <= '0';-- w2400/rN
+          melexis_mlx90640_i2c_mode2 <= '1';-- w0400/rN
+          melexis_mlx90640_i2c_enable <= '1';
+          melexis_mlx90640_i2c_memory_address <= x"0400";
+          if (wait1 = c_wait1 - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state := idle4;
+              wait1 <= 0;
+            end if;
+          else
+            wait1 <= wait1 + 1;
+          end if;
+        when idle4 =>
+          if (wait2 = c_wait2 - 1) then
+            state := r14;
+            wait2 := 0;
+          else
+            wait2 := wait2 + 1;
+          end if;
+
+        when r14 => state := s1;
+		wait2 := 0;
+		wait3 := 0;
+		wait1 <= 0;
+          melexis_mlx90640_i2c_mode0 <= '0';
+          melexis_mlx90640_i2c_mode1 <= '0';
+          melexis_mlx90640_i2c_mode2 <= '0';-- w0400/rN
           melexis_mlx90640_i2c_enable <= '0';
           melexis_mlx90640_i2c_memory_address <= x"0000";
-          melexis_mlx90640_i2c_memory_data <= x"0000";
-          if (melexis_mlx90640_i2c_busy = '0') then
---            state := r14; -- XXX next to display frame
-            camera_read := melexis_mlx90640_i2c_bytes_to_recv;
-            melexis_mlx90640_i2c_mode0 <= '0';
-            melexis_mlx90640_i2c_mode1 <= '0';
-            melexis_mlx90640_i2c_mode2 <= '0';
-          end if;
-        when r5 =>
-        when r6 =>
-        when r7 =>
-        when r8 =>
-        when r9 =>
-        when r10 =>
-        when r11 =>
-        when r12 =>
-        when r13 =>
-        when r14 => state := s1;
+		            melexis_mlx90640_i2c_memory_data <= x"0000";
+
 					test_fixed_melexis_run <= '1';
           float2fixedsclr <= '0';
 				when s1 =>
@@ -639,10 +946,10 @@ begin
 				when s2 => state := s3;
 					float2fixedsclr <= '0';
 					i := 0;
-          if (c_calculate_type = "c_raws_images") then
+          if (c_calculate_type1 = "c_raws_images") then
             tout_r := (others => '0');
           end if;
-          if (c_calculate_type = "c_temperature") then
+          if (c_calculate_type1 = "c_temperature") then
             tout_t := (others => '0');
           end if;
 				when s3 => state := s4;
@@ -661,10 +968,10 @@ begin
 --						tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
 --						tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
 --						tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
-            if (c_calculate_type = "c_raws_images") then
+            if (c_calculate_type1 = "c_raws_images") then
               tout_r := float2fixedr_r;
             end if;
-            if (c_calculate_type = "c_temperature") then
+            if (c_calculate_type1 = "c_temperature") then
               tout_t := float2fixedr_t;
             end if;
 						float2fixedond <= '0';
@@ -675,19 +982,19 @@ begin
 					float2fixedsclr <= '0';
 					dualmem_wea <= "1";
 					dualmem_addra <= std_logic_vector (to_unsigned (i, 10));
-          if (c_calculate_type = "c_raws_images") then
+          if (c_calculate_type1 = "c_raws_images") then
             dualmem_dina_r <= tout_r;
           end if;
-          if (c_calculate_type = "c_temperature") then
+          if (c_calculate_type1 = "c_temperature") then
             dualmem_dina_t <= tout_t;
           end if;
 					dualmem_ena <= '1';
           --synthesis translate_off
           if (first = true) then
-            if (c_calculate_type = "c_raws_images") then
+            if (c_calculate_type1 = "c_raws_images") then
               report_error_sfixed (9, 7, "================ Fixed out "&integer'image(i), tout_r, 0.0);
             end if;
-            if (c_calculate_type = "c_temperature") then
+            if (c_calculate_type1 = "c_temperature") then
               report_error_sfixed (6, 8, "================ Fixed out "&integer'image(i), tout_t, 0.0);
             end if;
             first := false;
@@ -699,30 +1006,26 @@ begin
 					if (i = PIXELS-1) then
 						i := 0;
 						state := s10;
-            dualmem_enb <= '1';
 					else
 						state := s4;
 						i := i + 1;
 					end if;
 				when s10 =>
-          state := s11;
-        when s11 =>
-          state := s12;
-        when s12 =>
-          state := s13;
-        when s13 =>
-          state := s13;
+--          state := idle;
+          state := idle3;
         when others => null;
 			end case;
 		end if;
 end process pTo;
 
-pvgaclk : process (clock_i,reset_i) is
---	constant CMAX : integer := 1; -- 50/25 - nexys2
-	constant CMAX : integer := 2; -- 100/25 - ml402
+dualmem_enb <= not address_generator_activeh;
+
+pvgaclk : process (clock_i,i_reset) is
+	constant CMAX : integer := 1; -- 50/25 - nexys2
+--	constant CMAX : integer := 2; -- 100/25 - ml402
 	variable vmax : integer range 0 to CMAX-1;
 begin
-		if (reset_i = '1') then
+		if (i_reset = '1') then
 			vgaclk25 <= '0';
 			vmax := 0;
 		elsif (rising_edge (clock_i)) then
@@ -736,13 +1039,13 @@ begin
 		end if;
 end process pvgaclk;
 
-pagclk : process (vgaclk25,reset_i) is
+pagclk : process (vgaclk25,i_reset) is
 --	constant CMAX : integer := 40; -- 1.25
 	constant CMAX : integer := 10; -- 1.25
 --	constant CMAX : integer := 63; -- 1260ns
 	variable vmax : integer range 0 to CMAX-1;
 begin
-		if (reset_i = '1') then
+		if (i_reset = '1') then
 			agclk <= '0';
 			vmax := 0;
 		elsif (rising_edge (vgaclk25)) then
@@ -757,21 +1060,21 @@ begin
 end process pagclk;
 
 test_fixed_melexis_clock <= clock_i;
-test_fixed_melexis_reset <= reset_i;
+test_fixed_melexis_reset <= i_reset;
 --test_fixed_melexis_addr <= address_generator_address;
 melexis_mlx9064x_core_inst : melexis_mlx9064x
 generic map (
 c_device => c_device,
-c_calculate_type => c_calculate_type,
-c_use_fisqrt => c_use_fisqrt
+c_calculate_type => c_calculate_type1,
+c_use_fisqrt => c_use_fisqrt1
 )
 port map (
 i_clock => test_fixed_melexis_clock,
 i_reset => test_fixed_melexis_reset,
 i_run => test_fixed_melexis_run,
-i2c_mem_ena => test_fixed_melexis_i2c_mem_ena,
-i2c_mem_addra => test_fixed_melexis_i2c_mem_addra,
-i2c_mem_douta => test_fixed_melexis_i2c_mem_douta,
+i2c_mem_ena => i2c_mem_ena_1,
+i2c_mem_addra => i2c_mlx_addrb,
+i2c_mem_douta => i2c_mlx_doutb,
 o_rdy => test_fixed_melexis_rdy,
 i_addr => test_fixed_melexis_addr,
 o_do => test_fixed_melexis_do,
@@ -823,18 +1126,18 @@ sqrtfp2r => sqrtfp2r,
 sqrtfp2rdy => sqrtfp2rdy
 );
 
-inst_tb_i2c_mem : tb_i2c_mem
-PORT MAP (
-clka => test_fixed_melexis_clock,
-ena => test_fixed_melexis_i2c_mem_ena,
-wea => "0",
-addra => test_fixed_melexis_i2c_mem_addra,
-dina => (others => '0'),
-douta => test_fixed_melexis_i2c_mem_douta
-);
+--inst_tb_i2c_mem : tb_i2c_mem
+--PORT MAP (
+--clka => test_fixed_melexis_clock,
+--ena => test_fixed_melexis_i2c_mem_ena,
+--wea => "0",
+--addra => test_fixed_melexis_i2c_mem_addra,
+--dina => (others => '0'),
+--douta => test_fixed_melexis_i2c_mem_douta
+--);
 
 address_generator_clk <= vgaclk25;
-address_generator_reset <= reset_i;
+address_generator_reset <= i_reset;
 address_generator_vsync <= not VGA_timing_synch_Vsync;
 address_generator_activeh <= VGA_timing_synch_blank;
 vag_inst : vga_address_generator
@@ -850,7 +1153,7 @@ VGA_timing_synch_vgaclk25 <= vgaclk25;
 vga_clock <= VGA_timing_synch_vgaclk25;
 vga_hsync <= VGA_timing_synch_Hsync;
 vga_vsync <= VGA_timing_synch_Vsync;
-VGA_timing_synch_reset <= reset_i;
+VGA_timing_synch_reset <= i_reset;
 vts_inst : vga_timing
 port map (
 i_clock   => VGA_timing_synch_vgaclk25,
@@ -885,13 +1188,13 @@ o_h_blank => open
 -- xxx 9 bit signed heatmap, in simulation show all BGYW colors, on board 'only' YW colors, test image have range -172 to 17
 -- XXX by using colormap we can use less channels in scaler
 
---constant c_calculate_type : string (1 to 13) := "c_raws_images"; -- c_temperature,c_raws_images
---constant c_use_fisqrt : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type(c_temperature)
+--constant c_calculate_type1 : string (1 to 13) := "c_raws_images"; -- c_temperature,c_raws_images
+--constant c_use_fisqrt1 : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type1(c_temperature)
 
-g0_1 : if (c_calculate_type = "c_raws_images") generate
+g0_1 : if (c_calculate_type1 = "c_raws_images") generate
 cm <= dualmem_doutb_r (8 downto 0);
 end generate g0_1;
-g0_2 : if (c_calculate_type = "c_temperature") generate
+g0_2 : if (c_calculate_type1 = "c_temperature") generate
 --cm <= dualmem_doutb_t (12 downto 12) & '0' & dualmem_doutb_t (11 downto 5);
 cm <= dualmem_doutb_t (13 downto 5);
 end generate g0_2;
@@ -903,7 +1206,7 @@ vga_g <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_blank = '0' else (oth
 vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
 
 --synthesis translate_off
-g0_mem_temperature : if (c_calculate_type = "c_temperature") generate
+g0_mem_temperature : if (c_calculate_type1 = "c_temperature") generate
 test_to_clka <= clock_i;
 test_to_ena <= '1';
 uut_test_to_i1 : tb_data_calculateTo
@@ -917,7 +1220,7 @@ end generate g0_mem_temperature;
 --synthesis translate_on
 
 float2fixedclk <= clock_i;
-g0_fl2fi_temperature : if (c_calculate_type = "c_temperature") generate
+g0_fl2fi_temperature : if (c_calculate_type1 = "c_temperature") generate
 inst_float2fixed_t : float2fixed_temperature PORT MAP (
 a => float2fixeda,
 operation_nd => float2fixedond,
@@ -928,7 +1231,7 @@ result => float2fixedr_t,
 rdy => float2fixedrdy
 );
 end generate g0_fl2fi_temperature;
-g1_fl2fi_raw_image : if (c_calculate_type = "c_raws_images") generate
+g1_fl2fi_raw_image : if (c_calculate_type1 = "c_raws_images") generate
 inst_float2fixed_r : float2fixed_rawimg PORT MAP (
 a => float2fixeda,
 operation_nd => float2fixedond,
@@ -943,7 +1246,7 @@ end generate g1_fl2fi_raw_image;
 dualmem_clka <= clock_i;
 dualmem_clkb <= agclk;
 dualmem_addrb <= address_generator_address;
-g0_dualmem_temperature : if (c_calculate_type = "c_temperature") generate
+g0_dualmem_temperature : if (c_calculate_type1 = "c_temperature") generate
 dualmem_inst_t : dualmem_temperature PORT MAP (
 clka => dualmem_clka,
 ena => dualmem_ena,
@@ -956,7 +1259,7 @@ addrb => dualmem_addrb,
 doutb => dualmem_doutb_t
 );
 end generate g0_dualmem_temperature;
-g1_dualmem_rawimg : if (c_calculate_type = "c_raws_images") generate
+g1_dualmem_rawimg : if (c_calculate_type1 = "c_raws_images") generate
 dualmem_inst_r : dualmem_rawimg PORT MAP (
 clka => dualmem_clka,
 ena => dualmem_ena,
@@ -975,7 +1278,7 @@ addfpclk <= clock_i;
 subfpclk <= clock_i;
 mulfpclk <= clock_i;
 divfpclk <= clock_i;
-g0_sqrtfp2_clk : if (c_use_fisqrt /= "yes") generate
+g0_sqrtfp2_clk : if (c_use_fisqrt1 /= "yes") generate
 sqrtfp2clk <= clock_i;
 end generate g0_sqrtfp2_clk;
 
@@ -1046,7 +1349,7 @@ result => subfpr,
 rdy => subfprdy
 );
 
-g_calculate_to : if (c_calculate_type = "c_temperature" and c_use_fisqrt /= "yes") generate
+g_calculate_to : if (c_calculate_type1 = "c_temperature" and c_use_fisqrt1 /= "yes") generate
 
 inst_sqrtfp2 : sqrtfp2
 PORT MAP (
@@ -1062,7 +1365,6 @@ rdy => sqrtfp2rdy
 end generate g_calculate_to;
 
 --melexis_mlx90640_i2c_clock <= clock_i;
---melexis_mlx90640_i2c_clock <= reset_i;
 --io_scl <= melexis_mlx90640_i2c_scl;
 --io_sda <= melexis_mlx90640_i2c_sda;
 --melexis_mlx90640_i2c_sda <= io_sda;
@@ -1070,7 +1372,7 @@ melexis_mlx90640_i2c_slave_address <= "0110011";
 melexis_mlx90640_i2c_i0 : melexis_mlx90640_i2c
 port map (
 i_clock => clock_i,
-i_reset => reset_i,
+i_reset => i_reset,
 i_slave_address => melexis_mlx90640_i2c_slave_address,
 i_mode0 => melexis_mlx90640_i2c_mode0, -- W(A)/4b(A)
 i_mode1 => melexis_mlx90640_i2c_mode1, -- W(A)/2b(A),ST,R(A)/2b(NA)
@@ -1111,14 +1413,30 @@ port map (
 O => clock_i, -- Clock buffer output
 I => i_clock  -- Clock buffer input (connect directly to top-level port)
 );
-reset_BUFG_inst : BUFG
-port map (
-O => reset_i,     -- Clock buffer output
-I => i_reset      -- Clock buffer input
-);
+--reset_BUFG_inst : BUFG
+--port map (
+--O => reset_i,     -- Clock buffer output
+--I => i_reset      -- Clock buffer input
+--);
 
 --io_sda <= clock_i;
 --io_scl <= asd1;
+
+i2c_mlx_clka <= test_fixed_melexis_clock;
+i2c_mlx_clkb <= test_fixed_melexis_clock;
+i2c_mlx_enb <= i2c_mem_ena_1;
+i2c_mlx_i0 : i2c_mlx
+PORT MAP (
+clka => i2c_mlx_clka,
+ena => i2c_mlx_ena,
+wea => i2c_mlx_wea,
+addra => i2c_mlx_addra,
+dina => i2c_mlx_dina,
+clkb => i2c_mlx_clkb,
+enb => i2c_mlx_enb,
+addrb => i2c_mlx_addrb,
+doutb => i2c_mlx_doutb
+);
 
 end Behavioral;
 
