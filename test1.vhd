@@ -38,7 +38,7 @@ constant c_board_clock : integer := c_clock_board_frequency;
 --constant c_bus_clock : integer := c_clock_i2c_frequency;
 --constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
 --constant c_bus_clock : integer := 50;
-constant c_bus_clock : integer := 1_000_000;
+constant c_bus_clock : integer := 1;
 -- constant c_bus_clock : integer := 100_000;
 constant c_sim : string (1 to 1) := "n";
 constant c_cold_start : integer := 1000;
@@ -520,12 +520,13 @@ signal i2c_mlx_enb : STD_LOGIC;
 signal i2c_mlx_addrb : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal i2c_mlx_doutb : STD_LOGIC_VECTOR(7 DOWNTO 0);
 
+constant c_wait1 : integer := 58;
 --constant c_wait1 : integer := 25*1_000_000/10000;
 --constant c_wait1 : integer := 25;
 --constant c_wait1 : integer := 60;
 --constant c_wait1 : integer := 47;
 -- constant c_wait1 : integer := 115*4; -- scl 500_000
-constant c_wait1 : integer := 115*4*1000; -- scl 100
+--constant c_wait1 : integer := 115*4*1000; -- scl 100
 --constant c_wait1 : integer := 230*4*1000; -- scl 50
 --constant c_wait1 : integer := 230*5*4*1000; -- scl 10
 --constant c_wait1 : integer := 230*5*5*4*1000; -- scl 2

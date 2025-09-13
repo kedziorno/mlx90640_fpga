@@ -47,15 +47,15 @@ constant c_board_clock : integer := c_clock_board_frequency;
 --constant c_bus_clock : integer := c_clock_i2c_frequency;
 --constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
 --constant c_bus_clock : integer := 50;
---constant c_bus_clock : integer := 1_000_000;
-constant c_bus_clock : integer := 400_000;
+constant c_bus_clock : integer := 1_000_000;
+--constant c_bus_clock : integer := 1;
 constant c_sim : string (1 to 1) := "n";
 constant c_cold_start : integer := 1000;
 constant c_wait2 : integer := 1000;
 constant c_wait3 : integer := 10000;
 constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
-constant c_calculate_type1 : string (1 to 13) := "c_raws_images"; -- c_temperature,c_raws_images
-constant c_use_fisqrt1 : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type(c_temperature)
+constant c_calculate_type1 : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
+constant c_use_fisqrt1 : string (1 to 3) := " no" -- yes/no - depend from c_calculate_type(c_temperature)
 );
 PORT(
 i_clock : IN  std_logic;
@@ -118,6 +118,31 @@ signal s_spattern : std_logic_vector (31 downto 0);
 --constant c_period : time := 2.24 us; -- 10 ns
 constant c_period : time := 1.92 us; -- 20 ns
 
+COMPONENT i2c_stream
+PORT(
+i_clock : IN  std_logic;
+i_reset : IN  std_logic;
+i_scl : IN  std_logic;
+o_sda : OUT  std_logic;
+i_mode2 : IN  std_logic;
+i_enable : IN  std_logic;
+i_addr : IN  std_logic_vector(15 downto 0)
+);
+END COMPONENT;
+
+--Inputs
+signal i_scl : std_logic := '0';
+signal i_mode2 : std_logic := '0';
+signal i_enable : std_logic := '0';
+signal i_addr : std_logic_vector(15 downto 0) := (others => '0');
+
+--Outputs
+signal o_sda : std_logic;
+
+constant c1 : string (1 to 1) := "N";
+
+signal a : std_logic;
+
 BEGIN
 
 -- Instantiate the Unit Under Test (UUT)
@@ -179,6 +204,7 @@ h_sync_i        => vga_hsync,
 v_sync_i        => vga_vsync
 );
 
+g0 : if (c1 = "Y") generate
 mode2_read : process is
 -- https://github.com/ghdl/ghdl/blob/69b0c75d726f6c5babe46eddbcb82f7269422821/testsuite/gna/issue1597/std_subs_pkg.vhdl#L23
 function klsfr(bv: std_logic_vector) return std_logic_vector is
@@ -208,7 +234,7 @@ function klsfr(bv: std_logic_vector) return std_logic_vector is
   variable pattern : std_logic_vector (31 downto 0) := x"00000001";
 begin
   io_sda_nl <= 'Z';
-
+wait;
   wait for 1536.330 us;
   eeprom : for i in 0 to 832/2 loop
   pattern := klsfr (pattern); s_spattern <= pattern;
@@ -294,9 +320,33 @@ begin
   io_sda_nl <= pattern (0); wait for c_period;
   io_sda_nl <= 'Z'; wait for c_period; -- ack
   end loop frame;
-
-wait;
---  report "done" severity failure;
+  report "done" severity failure;
 end process mode2_read;
+end generate g0;
+
+p0 : process is
+begin
+  i_addr <= x"2400";
+  wait for 1059.99 us;
+  i_enable <= '1';
+  wait for 9585.16 us + 22.24 us;
+  i_enable <= '0';
+  i_addr <= x"0400";
+  wait for 575.84 us - 23.52 us;
+  i_enable <= '1';
+  wait;
+end process p0;
+
+a <= '1' when io_scl_nl = 'Z' else '0';
+
+i2c_stream_i0 : i2c_stream PORT MAP (
+i_clock => i_clock,
+i_reset => i_reset,
+i_scl => a,
+o_sda => io_sda_nl,
+i_mode2 => i_mode2,
+i_enable => i_enable,
+i_addr => i_addr
+);
 
 END;

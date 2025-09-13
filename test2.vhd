@@ -29,7 +29,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 library UNISIM;
 use UNISIM.VComponents.all;
 
-use work.global_package_syn.all;
+use work.global_package.all;
 use work.pack.all;
 
 entity test2 is
@@ -133,7 +133,8 @@ signal melexis_mlx90640_i2c_scl : std_logic;
 --constant c_wait1 : integer := 47;
 --constant c_wait1 : integer := 115*4; -- scl 500_000
 --constant c_wait1 : integer := 115*4*1000; -- scl 100
-constant c_wait1 : integer := 230*4*1000; -- scl 50
+--constant c_wait1 : integer := 230*4*1000; -- scl 50
+constant c_wait1 : integer := 100_000_000/1_000_000;
 --constant c_wait1 : integer := 230*5*4*1000; -- scl 10
 --constant c_wait1 : integer := 230*5*5*4*1000; -- scl 2
 signal wait1 : integer range 0 to c_wait1 - 1;

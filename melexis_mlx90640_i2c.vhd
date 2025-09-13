@@ -216,28 +216,30 @@ begin
       case c_state is
         when idle =>
           if (i_enable = '1') then
-            temp_sda <= '1';
-            o_busy <= '1';
-            c_state <= start;
-            data_index_ctr <= 0;
-            slave_index_ctr <= c_i2c_address_bits - 1;
+            if (c_cmode = c3) then
+              temp_sda <= '1';
+              o_busy <= '1';
+              c_state <= start;
+              data_index_ctr <= 0;
+              slave_index_ctr <= c_i2c_address_bits - 1;
+            end if;
           end if;
         when start =>
-          if (c_cmode = c0) then
+          if (c_cmode = c3) then
             c_state <= sda_start;
-            temp_sda <= '1';
+            temp_sda <= '0';
           end if;
         when sda_start =>
-          if (c_cmode = c1) then
-            if (i_mode0 = '1') then
-              c_state <= mode0_write_slave_address;
-            end if;
-            if (i_mode1 = '1') then
-              c_state <= mode1_write_slave_address;
-            end if;
-            if (i_mode2 = '1') then
-              c_state <= mode2_write_slave_address;
-            end if;
+          if (i_mode0 = '1') then
+            c_state <= mode0_write_slave_address;
+          end if;
+          if (i_mode1 = '1') then
+            c_state <= mode1_write_slave_address;
+          end if;
+          if (i_mode2 = '1') then
+            c_state <= mode2_write_slave_address;
+          end if;
+          if (c_cmode = c3) then
             temp_sda <= '0';
             slave_index_ctr <= c_i2c_address_bits - 1;
           end if;
@@ -395,18 +397,18 @@ begin
           end if;
 -- XXX mode1
         when mode1_write_slave_address =>
-          if (slave_index_ctr = 0) then
-            c_state <= mode1_write_slave_address_lastbit;
-          else
             if (c_cmode = c3) then
-              slave_index_ctr <= slave_index_ctr - 1;
-              if (i_slave_address (slave_index_ctr) = '1') then
-                temp_sda <= '1';
+              if (slave_index_ctr = 0) then
+                c_state <= mode1_write_slave_address_lastbit;
               else
-                temp_sda <= '0';
+                slave_index_ctr <= slave_index_ctr - 1;
+                if (i_slave_address (slave_index_ctr) = '1') then
+                  temp_sda <= '1';
+                else
+                  temp_sda <= '0';
+                end if;
               end if;
             end if;
-          end if;
         when mode1_write_slave_address_lastbit =>
           if (c_cmode = c3) then
             c_state <= mode1_write_slave_write;
@@ -827,17 +829,31 @@ begin
 
   p_i2c_clock_ctr : process (i_clock, i_reset) is
     variable count : integer range 0 to (c_i2c_counter_max * 4) - 1;
+    type states is (a, b);
+    variable state : states;
   begin
     if (i_reset = '1') then
       clock <= '0';
       count := 0;
+      state := a;
     elsif (rising_edge (i_clock)) then
-      if (count = (c_i2c_counter_max * 4) - 1) then
-        clock <= not clock;
-        count := 0;
-      else
-        count := count + 1;
-      end if;
+      case (state) is
+        when a =>
+          if (i_enable = '1') then
+            state := b;
+          end if;
+        when b =>
+          if (i_enable = '0') then
+            state := a;
+          else
+            if (count = (c_i2c_counter_max * 4) - 1) then
+              clock <= not clock;
+              count := 0;
+            else
+              count := count + 1;
+            end if;
+          end if;
+      end case;
     end if;
   end process p_i2c_clock_ctr;
 
@@ -848,27 +864,15 @@ begin
     if (i_reset = '1') then
       c_cmode <= c0;
     elsif (rising_edge (clock)) then
-      case (state) is
-        when a =>
-          if (i_enable = '1') then
-            state := b;
-          end if;
-        when b =>
-          if (i_enable = '0') then
-            state := a;
-            c_cmode <= c0;
-          else
-            case c_cmode is
-              when c0 =>
-                c_cmode <= c1;
-              when c1 =>
-                c_cmode <= c2;
-              when c2 =>
-                c_cmode <= c3;
-              when c3 =>
-                c_cmode <= c0;
-            end case;
-          end if;
+      case c_cmode is
+        when c0 =>
+          c_cmode <= c1;
+        when c1 =>
+          c_cmode <= c2;
+        when c2 =>
+          c_cmode <= c3;
+        when c3 =>
+          c_cmode <= c0;
       end case;
     end if;
   end process p_i2c_clock_generator_fsm;
