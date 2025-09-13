@@ -44,8 +44,8 @@ ENTITY mem_i2c_stream IS
   PORT (
     clka : IN STD_LOGIC;
     ena : IN STD_LOGIC;
-    addra : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-    douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+    addra : IN STD_LOGIC_VECTOR(14 DOWNTO 0);
+    douta : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
   );
 END mem_i2c_stream;
 
@@ -55,16 +55,16 @@ COMPONENT wrapped_mem_i2c_stream
   PORT (
     clka : IN STD_LOGIC;
     ena : IN STD_LOGIC;
-    addra : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-    douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+    addra : IN STD_LOGIC_VECTOR(14 DOWNTO 0);
+    douta : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
   );
 END COMPONENT;
 
 -- Configuration specification
   FOR ALL : wrapped_mem_i2c_stream USE ENTITY XilinxCoreLib.blk_mem_gen_v7_3(behavioral)
     GENERIC MAP (
-      c_addra_width => 16,
-      c_addrb_width => 16,
+      c_addra_width => 15,
+      c_addrb_width => 15,
       c_algorithm => 1,
       c_axi_id_width => 4,
       c_axi_slave_type => 0,
@@ -99,10 +99,10 @@ END COMPONENT;
       c_mem_type => 3,
       c_mux_pipeline_stages => 0,
       c_prim_type => 1,
-      c_read_depth_a => 46594,
-      c_read_depth_b => 46594,
-      c_read_width_a => 8,
-      c_read_width_b => 8,
+      c_read_depth_a => 23297,
+      c_read_depth_b => 23297,
+      c_read_width_a => 16,
+      c_read_width_b => 16,
       c_rst_priority_a => "CE",
       c_rst_priority_b => "CE",
       c_rst_type => "SYNC",
@@ -117,12 +117,12 @@ END COMPONENT;
       c_use_softecc => 0,
       c_wea_width => 1,
       c_web_width => 1,
-      c_write_depth_a => 46594,
-      c_write_depth_b => 46594,
+      c_write_depth_a => 23297,
+      c_write_depth_b => 23297,
       c_write_mode_a => "WRITE_FIRST",
       c_write_mode_b => "WRITE_FIRST",
-      c_write_width_a => 8,
-      c_write_width_b => 8,
+      c_write_width_a => 16,
+      c_write_width_b => 16,
       c_xdevicefamily => "spartan3e"
     );
 -- synthesis translate_on

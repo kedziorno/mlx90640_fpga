@@ -89,9 +89,9 @@ ENTITY mem_i2c_stream_exdes IS
   PORT (
       --Inputs - Port A
     ENA            : IN STD_LOGIC;  --opt port
-    ADDRA          : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+    ADDRA          : IN STD_LOGIC_VECTOR(14 DOWNTO 0);
   
-    DOUTA          : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+    DOUTA          : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
     CLKA       : IN STD_LOGIC
 
 
@@ -113,9 +113,9 @@ ARCHITECTURE xilinx OF mem_i2c_stream_exdes IS
   PORT (
       --Port A
     ENA        : IN STD_LOGIC;  --opt port
-    ADDRA      : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+    ADDRA      : IN STD_LOGIC_VECTOR(14 DOWNTO 0);
   
-    DOUTA      : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+    DOUTA      : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
 
     CLKA       : IN STD_LOGIC
 
