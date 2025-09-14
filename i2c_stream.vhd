@@ -34,10 +34,10 @@ port (
 i_clock : in std_logic;
 i_reset : in std_logic;
 i_scl : in std_logic;
-o_sda : out std_logic;
 i_mode2 : in std_logic;
 i_enable : in std_logic;
-i_addr : in std_logic_vector (15 downto 0)
+i_addr : in std_logic_vector (15 downto 0);
+o_sda : out std_logic
 );
 end i2c_stream;
 
@@ -57,7 +57,7 @@ signal ena : STD_LOGIC;
 signal addra : STD_LOGIC_VECTOR(14 DOWNTO 0);
 signal douta : STD_LOGIC_VECTOR(15 DOWNTO 0);
 
-type states is (idle, idle1, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10);
+type states is (idle, s1, s2, s3, s4);
 signal state : states;
 constant c_records : integer := 832;
 signal v_records : integer range 0 to c_records - 1;
@@ -68,7 +68,7 @@ signal v_addr : std_logic_vector (15 downto 0);
 signal c_omit : integer := 36;
 signal v_omit : integer range 0 to c_omit - 1;
 constant c_data : integer := 8;
-signal v_data : integer range 0 to c_data - 1;
+signal v_data : integer range c_data - 1 downto 0;
 
 signal scl_prev, scl_re : std_logic;
 
@@ -78,7 +78,7 @@ addra <= std_logic_vector (to_unsigned (v_index + v_records, 15));
 
 p1 : process (i_clock) is
 begin
-  if (rising_edge (i_clock)) then
+  if (falling_edge (i_clock)) then
     scl_prev <= i_scl;
   end if;
 end process p1;
@@ -89,11 +89,12 @@ p0 : process (i_clock, i_reset) is
 begin
   if (i_reset = '1') then
     state <= idle;
-    v_data <= 0;
+    v_data <= c_data - 1;
     v_items <= 0;
     v_index <= 0;
     v_omit <= 0;
     v_addr <= (others => '0');
+    o_sda <= 'Z';
   elsif (falling_edge (i_clock)) then
     if (scl_re = '1') then
       case (state) is
@@ -107,7 +108,7 @@ begin
             end if;
           end if;
           v_records <= 0;
-          v_data <= 0;
+          v_data <= c_data - 1;
         when s1 =>
           if (i_enable = '0') then
             state <= idle;
@@ -118,40 +119,40 @@ begin
           if (i_addr = x"0400") then -- frame data
             v_index <= c_records * v_items;
           end if;
-          if (v_data = c_data - 1) then
-            if (v_records = c_records - 1) then
-              v_records <= 0;
-              if (v_items = c_items - 1) then
-                state <= idle;
-                v_items <= 0;
-              else
-                v_items <= v_items + 1; -- 28
-              end if;
+          if (v_data = 0) then
+            v_data <= c_data - 1;
+            state <= s2;
+          else
+            v_data <= v_data - 1; -- 8
+          end if;
+          o_sda <= douta (8 + v_data);
+        when s2 => -- ack
+          state <= s3;
+          o_sda <= '0';
+        when s3 =>
+          if (v_data = 0) then
+            state <= s4;
+            v_data <= c_data - 1;
+          else
+            v_data <= v_data - 1; -- 8
+          end if;
+          o_sda <= douta (v_data);
+        when s4 => -- ack
+          if (v_records = c_records - 1) then
+            v_records <= 0;
+            if (v_items = c_items - 1) then
+              state <= idle;
+              v_items <= 0;
             else
-              v_records <= v_records + 1; -- 832
+              v_items <= v_items + 1; -- 28
+              state <= s1;
             end if;
-            v_data <= 0;
-            state <= s3;
           else
-            o_sda <= douta (v_data);
-            v_data <= v_data + 1; -- 8
+            v_records <= v_records + 1; -- 832
+            state <= s1;
           end if;
-        when s3 => -- ack
-          state <= s4;
+          v_data <= c_data - 1;
           o_sda <= '0';
-        when s4 =>
-          if (v_data = c_data - 1) then
-            state <= s5;
-            v_data <= 0;
-          else
-            o_sda <= douta (8 + v_data);
-            v_data <= v_data + 1; -- 8
-          end if;
-        when s5 => -- ack
-          state <= s1;
-          v_data <= 0;
-          o_sda <= '0';
-        when others => null;
       end case;
     end if;
   end if;

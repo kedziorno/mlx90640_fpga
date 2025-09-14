@@ -326,14 +326,22 @@ end generate g0;
 
 p0 : process is
 begin
-  i_addr <= x"2400";
+  i_addr <= x"2400"; -- eeprom
   wait for 1059.99 us;
   i_enable <= '1';
   wait for 9585.16 us + 22.24 us;
   i_enable <= '0';
-  i_addr <= x"0400";
-  wait for 575.84 us - 23.52 us;
+  i_addr <= x"0400"; -- data loop items
+  wait for 575.84 us - 23.52 us + 0.12 us;
   i_enable <= '1';
+  wait for 9585.16 us + 22.24 us;
+  i_enable <= '0';
+  l0 : for i in 0 to 27 loop -- XXX fix it - from 6 frame, enable sliding to left with step 100 ns
+  wait for 23.26422 ms + 1.96 us + 1.68 us - 0.12 us;
+  i_enable <= '1';
+  wait for 9607.40 us;
+  i_enable <= '0';
+  end loop l0;
   wait;
 end process p0;
 
