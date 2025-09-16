@@ -564,11 +564,6 @@ begin
     if (temp1 = '0' and melexis_mlx90640_i2c_mode2_ready = '1' and melexis_mlx90640_i2c_mode2 = '1') then
       i2c_mlx_wea <= "1";
       i2c_mlx_ena <= '1';
-      if (mem_addr = c_max - 1) then
-        mem_addr := 0;
-      else
-        mem_addr := mem_addr + 1;
-      end if;
       if (melexis_mlx90640_i2c_memory_address = x"2400") then
         i2c_mlx_addra <= std_logic_vector (to_unsigned (mem_addr + 0, 11));
       end if;
@@ -576,6 +571,11 @@ begin
         i2c_mlx_addra <= std_logic_vector (to_unsigned (mem_addr + 832, 11));
       end if;
       i2c_mlx_dina <= melexis_mlx90640_i2c_bytes_to_recv;
+      if (mem_addr = c_max - 1) then
+        mem_addr := 0;
+      else
+        mem_addr := mem_addr + 1;
+      end if;
     end if;
     if (temp1 = '1' and melexis_mlx90640_i2c_mode2_ready = '0' and melexis_mlx90640_i2c_mode2 = '1') then
       i2c_mlx_wea <= "0";

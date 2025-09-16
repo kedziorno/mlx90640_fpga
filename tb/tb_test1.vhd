@@ -143,6 +143,23 @@ constant c1 : string (1 to 1) := "N";
 
 signal a : std_logic;
 
+COMPONENT tb_i2c_mem
+PORT (
+clka : IN STD_LOGIC;
+ena : IN STD_LOGIC;
+wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+addra : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
+dina : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+);
+END COMPONENT;
+signal tb_i2c_mem_clka : STD_LOGIC;
+signal tb_i2c_mem_ena : STD_LOGIC;
+signal tb_i2c_mem_wea : STD_LOGIC_VECTOR(0 DOWNTO 0);
+signal tb_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+signal tb_i2c_mem_dina : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal tb_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+
 BEGIN
 
 -- Instantiate the Unit Under Test (UUT)
@@ -337,7 +354,11 @@ begin
   wait for 9585.16 us + 22.24 us;
   i_enable <= '0';
   l0 : for i in 0 to 27 loop -- XXX fix it - from 6 frame, enable sliding to left with step 100 ns
-  wait for 23.26422 ms + 1.96 us + 1.68 us - 0.12 us;
+  if (i >= 3) then
+    wait for 23.26422 ms + 1.96 us + 1.68 us - 0.12 us + (0.1 us * (i - 3));
+  else
+    wait for 23.26422 ms + 1.96 us + 1.68 us - 0.12 us;
+  end if;
   i_enable <= '1';
   wait for 9607.40 us;
   i_enable <= '0';
@@ -355,6 +376,16 @@ o_sda => io_sda_nl,
 i_mode2 => i_mode2,
 i_enable => i_enable,
 i_addr => i_addr
+);
+
+tb_i2c_mem_i0 : tb_i2c_mem
+PORT map (
+clka => tb_i2c_mem_clka,
+ena => tb_i2c_mem_ena,
+wea => tb_i2c_mem_wea,
+addra => tb_i2c_mem_addra,
+dina => tb_i2c_mem_dina,
+douta => tb_i2c_mem_douta
 );
 
 END;
