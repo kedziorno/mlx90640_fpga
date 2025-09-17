@@ -125,7 +125,7 @@ begin
           else
             v_data <= v_data - 1; -- 8
           end if;
-          o_sda <= douta (v_data);
+          o_sda <= douta (8 + v_data);
         when s2 => -- ack
           state <= s3;
           o_sda <= '0';
@@ -136,7 +136,7 @@ begin
           else
             v_data <= v_data - 1; -- 8
           end if;
-          o_sda <= douta (8 + v_data);
+          o_sda <= douta (v_data);
         when s4 => -- ack
           if (v_records = c_records - 1) then
             v_records <= 0;
