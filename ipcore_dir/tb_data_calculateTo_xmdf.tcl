@@ -231,10 +231,6 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calc
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type coregen_ip
 incr fcount
 
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo_padded.ngc
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type ngc
-incr fcount
-
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo_xmdf.tcl
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type AnyView
 incr fcount

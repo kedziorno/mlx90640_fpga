@@ -37,7 +37,8 @@ i_scl : in std_logic;
 i_mode2 : in std_logic;
 i_enable : in std_logic;
 i_addr : in std_logic_vector (15 downto 0);
-o_sda : out std_logic
+o_sda : out std_logic;
+o_done : out std_logic
 );
 end i2c_stream;
 
@@ -65,7 +66,7 @@ constant c_items : integer := 28 - 1; -- omit eeprom data at begining
 signal v_items : integer range 0 to c_items - 1;
 signal v_index : integer range 0 to c_items * c_records - 1;
 signal v_addr : std_logic_vector (15 downto 0);
-signal c_omit : integer := 36;
+signal c_omit : integer := 37;
 signal v_omit : integer range 0 to c_omit - 1;
 constant c_data : integer := 8;
 signal v_data : integer range c_data - 1 downto 0;
@@ -95,10 +96,15 @@ begin
     v_omit <= 0;
     v_addr <= (others => '0');
     o_sda <= 'Z';
+    o_done <= '0';
   elsif (falling_edge (i_clock)) then
     if (scl_re = '1') then
       case (state) is
         when idle =>
+          o_done <= '0';
+          o_sda <= 'Z';
+          v_records <= 0;
+          v_data <= c_data - 1;
           if (i_enable = '1') then
             if (v_omit = c_omit - 1) then -- omit set address
               state <= s1;
@@ -107,9 +113,8 @@ begin
               v_omit <= v_omit + 1;
             end if;
           end if;
-          v_records <= 0;
-          v_data <= c_data - 1;
         when s1 =>
+          o_sda <= douta (8 + v_data);
           if (i_enable = '0') then
             state <= idle;
           end if;
@@ -125,34 +130,37 @@ begin
           else
             v_data <= v_data - 1; -- 8
           end if;
-          o_sda <= douta (8 + v_data);
         when s2 => -- ack
           state <= s3;
           o_sda <= '0';
         when s3 =>
+          o_sda <= douta (v_data);
           if (v_data = 0) then
             state <= s4;
             v_data <= c_data - 1;
           else
             v_data <= v_data - 1; -- 8
           end if;
-          o_sda <= douta (v_data);
         when s4 => -- ack
+          v_data <= c_data - 1;
+          o_sda <= '0';
           if (v_records = c_records - 1) then
             v_records <= 0;
             if (v_items = c_items - 1) then
               state <= idle;
               v_items <= 0;
+              o_done <= '1';
+              o_sda <= 'Z';
             else
+              state <= idle;
               v_items <= v_items + 1; -- 28
-              state <= s1;
+              o_done <= '1';
+              o_sda <= 'Z';
             end if;
           else
-            v_records <= v_records + 1; -- 832
             state <= s1;
+            v_records <= v_records + 1; -- 832
           end if;
-          v_data <= c_data - 1;
-          o_sda <= '0';
       end case;
     end if;
   end if;
