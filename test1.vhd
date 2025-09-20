@@ -39,7 +39,7 @@ constant c_board_clock : integer := c_clock_board_frequency;
 --constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
 --constant c_bus_clock : integer := 50;
 --constant c_bus_clock : integer := 1_000_000;
-constant c_bus_clock : integer := 500_000;
+constant c_bus_clock : integer := c_clock_i2c_frequency;
 -- constant c_bus_clock : integer := 100_000;
 constant c_sim : string (1 to 1) := "n";
 constant c_cold_start : integer := 1000;
@@ -1023,8 +1023,8 @@ end process pTo;
 dualmem_enb <= not address_generator_activeh;
 
 pvgaclk : process (clock_i,i_reset) is
-	constant CMAX : integer := 1; -- 50/25 - nexys2
---	constant CMAX : integer := 2; -- 100/25 - ml402
+--	constant CMAX : integer := 1; -- 50/25 - nexys2
+	constant CMAX : integer := 2; -- 100/25 - ml402
 	variable vmax : integer range 0 to CMAX-1;
 begin
 		if (i_reset = '1') then
