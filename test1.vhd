@@ -1013,8 +1013,8 @@ begin
 						i := i + 1;
 					end if;
 				when s10 =>
-          state := idle;
---          state := idle3;
+--          state := idle;
+          state := idle3;
         when others => null;
 			end case;
 		end if;

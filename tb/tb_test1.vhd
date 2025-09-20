@@ -87,10 +87,10 @@ signal vga_clock : std_logic;
 signal vga_syncn : std_logic;
 signal vga_blankn : std_logic;
 signal vga_psave : std_logic;
-signal io_sda_dd : std_logic;
-signal io_scl_dd : std_logic;
+signal io_sda_dd : std_logic := 'Z';
+signal io_scl_dd : std_logic := 'Z';
 signal io_sda_nl : std_logic := 'Z';
-signal io_scl_nl : std_logic;
+signal io_scl_nl : std_logic := 'Z';
 signal vga_r : std_logic_vector(7 downto 0);
 signal vga_g : std_logic_vector(7 downto 0);
 signal vga_b : std_logic_vector(7 downto 0);
@@ -126,7 +126,8 @@ i_scl : IN  std_logic;
 o_sda : OUT  std_logic;
 i_mode2 : IN  std_logic;
 i_enable : IN  std_logic;
-i_addr : IN  std_logic_vector(15 downto 0)
+i_addr : IN  std_logic_vector(15 downto 0);
+o_done : out std_logic
 );
 END COMPONENT;
 
@@ -138,10 +139,9 @@ signal i_addr : std_logic_vector(15 downto 0) := (others => '0');
 
 --Outputs
 signal o_sda : std_logic;
+signal o_done : std_logic;
 
-constant c1 : string (1 to 1) := "N";
-
-signal a : std_logic;
+signal a,a_prev,b,b_prev : std_logic;
 
 COMPONENT tb_i2c_mem
 PORT (
@@ -220,6 +220,84 @@ active_vid_i    => not vga_blankn,
 h_sync_i        => vga_hsync,
 v_sync_i        => vga_vsync
 );
+
+a <= '1' when io_scl_nl = 'Z' else '0';
+
+p_scl : process (a) is
+begin
+  if (rising_edge (a)) then
+    a_prev <= a;
+  end if;
+end process p_scl;
+
+b <= '1' when a_prev = '1' and a = '1' else '0';
+
+p0 : process is
+begin
+  wait for 972 us; -- wait on scl idle before mode2
+  i_addr <= x"2400"; -- eeprom
+  i_enable <= '1';
+  wait until o_done = '1';
+  i_addr <= x"0000"; -- eeprom stop
+  i_enable <= '0';
+  
+  wait for 450 us;
+  i_addr <= x"0400"; -- data 1
+  i_enable <= '1';
+  wait until o_done = '1';
+  i_enable <= '0';
+  i_addr <= x"0000"; -- data 1 end
+  wait for 8345 us;
+
+  l0 : for i in 0 to 27 loop
+  i_addr <= x"0400"; -- data X
+  i_enable <= '1';
+  wait until o_done = '1';
+  i_enable <= '0';
+  i_addr <= x"0000"; -- data X end
+  wait for 7515 us;
+  end loop l0;
+  wait;
+end process p0;
+
+
+i2c_stream_i0 : i2c_stream PORT MAP (
+i_clock => i_clock,
+i_reset => i_reset,
+i_scl => b,
+o_sda => io_sda_nl,
+i_mode2 => i_mode2,
+i_enable => i_enable,
+i_addr => i_addr,
+o_done => o_done
+);
+
+tb_i2c_mem_i0 : tb_i2c_mem
+PORT map (
+clka => tb_i2c_mem_clka,
+ena => tb_i2c_mem_ena,
+wea => tb_i2c_mem_wea,
+addra => tb_i2c_mem_addra,
+dina => tb_i2c_mem_dina,
+douta => tb_i2c_mem_douta
+);
+
+END;
+
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
+
+ENTITY tb_test1a IS
+END tb_test1a;
+
+architecture tb1 of tb_test1a is
+--constant c_period : time := 2.24 us; -- 10 ns
+constant c_period : time := 1.92 us; -- 20 ns
+constant c1 : string (1 to 1) := "N";
+signal io_sda_nl, io_scl_nl : std_logic;
+signal s_spattern : std_logic_vector (15 downto 0);
+begin
 
 g0 : if (c1 = "Y") generate
 mode2_read : process is
@@ -341,51 +419,4 @@ wait;
 end process mode2_read;
 end generate g0;
 
-p0 : process is
-begin
-  i_addr <= x"2400"; -- eeprom
-  wait for 1059.99 us;
-  i_enable <= '1';
-  wait for 9585.16 us + 22.24 us;
-  i_enable <= '0';
-  i_addr <= x"0400"; -- data loop items
-  wait for 575.84 us - 23.52 us + 0.12 us;
-  i_enable <= '1';
-  wait for 9585.16 us + 22.24 us;
-  i_enable <= '0';
-  l0 : for i in 0 to 27 loop -- XXX fix it - from 6 frame, enable sliding to left with step 100 ns
-  if (i >= 3) then
-    wait for 23.26422 ms + 1.96 us + 1.68 us - 0.12 us + (0.1 us * (i - 3));
-  else
-    wait for 23.26422 ms + 1.96 us + 1.68 us - 0.12 us;
-  end if;
-  i_enable <= '1';
-  wait for 9607.40 us;
-  i_enable <= '0';
-  end loop l0;
-  wait;
-end process p0;
-
-a <= '1' when io_scl_nl = 'Z' else '0';
-
-i2c_stream_i0 : i2c_stream PORT MAP (
-i_clock => i_clock,
-i_reset => i_reset,
-i_scl => a,
-o_sda => io_sda_nl,
-i_mode2 => i_mode2,
-i_enable => i_enable,
-i_addr => i_addr
-);
-
-tb_i2c_mem_i0 : tb_i2c_mem
-PORT map (
-clka => tb_i2c_mem_clka,
-ena => tb_i2c_mem_ena,
-wea => tb_i2c_mem_wea,
-addra => tb_i2c_mem_addra,
-dina => tb_i2c_mem_dina,
-douta => tb_i2c_mem_douta
-);
-
-END;
+end architecture tb1;
