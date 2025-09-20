@@ -628,14 +628,14 @@ begin
 			case (state) is
       
         when idle =>
-          state := wr1;
---          if (cold_start = c_cold_start - 1) then
---            state := wr1;
-----            state := w1;
---            cold_start := 0;
---          else
---            cold_start := cold_start + 1;
---          end if;
+--          state := wr1;
+          if (cold_start = c_cold_start - 1) then
+            state := wr1;
+--            state := w1;
+            cold_start := 0;
+          else
+            cold_start := cold_start + 1;
+          end if;
 
         when wr1 =>
           melexis_mlx90640_i2c_mode0 <= '0';
