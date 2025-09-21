@@ -526,7 +526,8 @@ signal i2c_mlx_doutb : STD_LOGIC_VECTOR(7 DOWNTO 0);
 --constant c_wait1 : integer := 25;
 --constant c_wait1 : integer := 60;
 --constant c_wait1 : integer := 47;
- constant c_wait1 : integer := 115*4; -- scl 500_000
+-- constant c_wait1 : integer := 115*4; -- scl 500k
+ constant c_wait1 : integer := 1000; -- scl 100k
 --constant c_wait1 : integer := 115*4*1000; -- scl 100
 --constant c_wait1 : integer := 230*4*1000; -- scl 50
 --constant c_wait1 : integer := 230*5*4*1000; -- scl 10
@@ -571,7 +572,8 @@ begin
       if (melexis_mlx90640_i2c_memory_address = x"0400") then
         i2c_mlx_addra <= std_logic_vector (to_unsigned (mem_addr + 832, 11));
       end if;
-      i2c_mlx_dina <= melexis_mlx90640_i2c_bytes_to_recv;
+      i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (8 to 15);
+      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (0 to 7);
       if (mem_addr = c_max - 1) then
         mem_addr := 0;
       else
@@ -604,8 +606,9 @@ begin
 		if (i_reset = '1') then
 			state := idle;
       wait1 <= 0;
-      cold_start := 0;
       wait2 := 0;
+      wait3 := 0;
+      cold_start := 0;
       camera_read := (others => '0');
 			float2fixedsclr <= '1';
 			i := 0;
@@ -628,6 +631,14 @@ begin
 			case (state) is
       
         when idle =>
+--          state := idle2a;
+      wait1 <= 0;
+      wait2 := 0;
+      wait3 := 0;
+          melexis_mlx90640_i2c_mode0 <= '0';
+          melexis_mlx90640_i2c_mode1 <= '0';
+          melexis_mlx90640_i2c_mode2 <= '0';
+          melexis_mlx90640_i2c_enable <= '0';
 --          state := wr1;
           if (cold_start = c_cold_start - 1) then
             state := wr1;
@@ -817,6 +828,7 @@ begin
         when idle3 => ------------------
           if (wait2 = c_wait2 - 1) then
             state := wr1a1;
+--            state := idle;
             wait2 := 0;
           else
             wait2 := wait2 + 1;
@@ -1425,6 +1437,7 @@ I => i_clock  -- Clock buffer input (connect directly to top-level port)
 --io_scl <= asd1;
 
 i2c_mlx_clka <= test_fixed_melexis_clock;
+--i2c_mlx_clka <= scl_i;
 i2c_mlx_clkb <= test_fixed_melexis_clock;
 i2c_mlx_enb <= i2c_mem_ena_1;
 i2c_mlx_i0 : i2c_mlx

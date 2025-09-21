@@ -345,21 +345,24 @@ end generate g0;
 
 p0 : process is
 begin
-  wait for 972 us; -- wait on scl idle before mode2
+--  wait for 972 us; -- wait on scl idle before mode2 500k
+  wait for 3655 us; -- wait on scl idle before mode2 100k
   i_addr <= x"2400"; -- eeprom
   i_enable <= '1';
   wait until o_done = '1';
   i_addr <= x"0000"; -- eeprom stop
   i_enable <= '0';
   
-  wait for 450 us;
+--  wait for 450 us; -- 500k
+  wait for 1742 us; -- 100k
   i_addr <= x"0400"; -- data 1
   i_enable <= '1';
   wait until o_done = '1';
   i_enable <= '0';
   wait until o_done = '0';
   i_addr <= x"0000"; -- data 1 end
-  wait for 430 us;
+--  wait for 430 us; -- 500k
+  wait for 1352 us; -- 100k
 
   l0 : for i in 0 to 27 loop
   i_addr <= x"0400"; -- data X
@@ -368,7 +371,8 @@ begin
   i_enable <= '0';
   wait until o_done = '0';
   i_addr <= x"0000"; -- data X end
-  wait for 430 us;
+--  wait for 430 us; -- 500k
+  wait for 1352 us; -- 100k
   end loop l0;
   wait;
 end process p0;

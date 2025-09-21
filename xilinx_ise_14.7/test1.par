@@ -1,9 +1,11 @@
 Release 14.7 par P.20131013 (lin64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-work::  Sun Sep 21 00:13:17 2025
+work::  Sun Sep 21 14:38:36 2025
 
-par -w -intstyle ise -ol std -t 1 test1_map.ncd test1.ncd test1.pcf 
+par -w -intstyle ise -ol std -t 1 -smartguide
+/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/test1_guide.ncd
+test1_map.ncd test1.ncd test1.pcf 
 
 
 Constraints file: test1.pcf.
@@ -24,6 +26,15 @@ to function, but you no longer qualify for Xilinx software updates or new releas
 
 ----------------------------------------------------------------------
 
+Loading database for application par from file:
+"/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/test1_guide.ncd"
+   "test1" is an NCD, version 3.2, device xc4vsx35, package ff668, speed -10
+This design is using the default stepping level (major silicon revision) for this device (1). Unless your design is
+targeted at devices of this stepping level, it is recommended that you explicitly specify the stepping level of the
+parts you will be using. This will allow the tools to take advantage of any available performance and functional
+enhancements for this device. The latest stepping level for this device is '2'. Additional information on "stepping
+level" is available at support.xilinx.com.
+
 Initializing temperature to 85.000 Celsius. (default - Range: 0.000 to 85.000 Celsius)
 Initializing voltage to 1.140 Volts. (default - Range: 1.140 to 1.260 Volts)
 
@@ -31,135 +42,74 @@ Initializing voltage to 1.140 Volts. (default - Range: 1.140 to 1.260 Volts)
 Device speed data version:  "PRODUCTION 1.71 2013-10-13".
 
 
+
+INFO:Par:402 - SmartGuide was run during Map. Since all guiding (mapping, packing, placement and routing) is completed
+   in MAP, PAR does not require the use of the guide switches. The -smartguide switch only generates a post place and
+   route guide report in the SmartGuide Report File(.GRF). Runtime can be reduced, if this detailed report is not
+   generated. PAR will automatically generate the SmartGuide summary report based on the guide file used during MAP.
+   This summary information is always in the PAR report file and the GRF.
 Device Utilization Summary:
 
-   Number of BUFGs                           3 out of 32      9%
+   Number of BSCANs                          1 out of 4      25%
+   Number of BUFGs                           4 out of 32     12%
    Number of DSP48s                          4 out of 192     2%
    Number of External IOBs                  36 out of 448     8%
       Number of LOCed IOBs                  24 out of 36     66%
 
-   Number of RAMB16s                        22 out of 192    11%
-   Number of Slices                       8693 out of 15360  56%
-      Number of SLICEMs                    144 out of 7680    1%
+   Number of RAMB16s                        47 out of 192    24%
+   Number of Slices                       8891 out of 15360  57%
+      Number of SLICEMs                    228 out of 7680    2%
 
 
 
 Overall effort level (-ol):   Standard 
-Placer effort level (-pl):    High 
-Placer cost table entry (-t): 1
 Router effort level (-rl):    Standard 
 
-Starting initial Timing Analysis.  REAL time: 9 secs 
-Finished initial Timing Analysis.  REAL time: 9 secs 
+Starting initial Timing Analysis.  REAL time: 15 secs 
+Finished initial Timing Analysis.  REAL time: 16 secs 
 
 WARNING:Par:288 - The signal io_sda_dd_IBUF has no load.  PAR will not attempt to route this signal.
 WARNING:Par:288 - The signal io_scl_dd_IBUF has no load.  PAR will not attempt to route this signal.
-
-Starting Placer
-Total REAL time at the beginning of Placer: 9 secs 
-Total CPU  time at the beginning of Placer: 9 secs 
-
-Phase 1.1  Initial Placement Analysis
-Phase 1.1  Initial Placement Analysis (Checksum:304edc6c) REAL time: 10 secs 
-
-Phase 2.7  Design Feasibility Check
-WARNING:Place:837 - Partially locked IO Bus is found. 
-    Following components of the bus are not locked: 
-   	 Comp: vga_b<2>
-   	 Comp: vga_b<1>
-   	 Comp: vga_b<0>
-
-WARNING:Place:837 - Partially locked IO Bus is found. 
-    Following components of the bus are not locked: 
-   	 Comp: vga_g<2>
-   	 Comp: vga_g<1>
-   	 Comp: vga_g<0>
-
-WARNING:Place:837 - Partially locked IO Bus is found. 
-    Following components of the bus are not locked: 
-   	 Comp: vga_r<2>
-   	 Comp: vga_r<1>
-   	 Comp: vga_r<0>
-
-INFO:Place:834 - Only a subset of IOs are locked. Out of 36 IOs, 24 are locked and 12 are not locked. If you would like
-   to print the names of these IOs, please set the environment variable XIL_PAR_DESIGN_CHECK_VERBOSE to 1. 
-Phase 2.7  Design Feasibility Check (Checksum:304edc6c) REAL time: 10 secs 
-
-Phase 3.31  Local Placement Optimization
-Phase 3.31  Local Placement Optimization (Checksum:58b716da) REAL time: 10 secs 
-
-Phase 4.2  Initial Clock and IO Placement
-....
-Phase 4.2  Initial Clock and IO Placement (Checksum:956931e1) REAL time: 11 secs 
-
-Phase 5.36  Local Placement Optimization
-Phase 5.36  Local Placement Optimization (Checksum:956931e1) REAL time: 11 secs 
-
-Phase 6.30  Global Clock Region Assignment
-Phase 6.30  Global Clock Region Assignment (Checksum:956931e1) REAL time: 11 secs 
-
-Phase 7.3  Local Placement Optimization
-....
-Phase 7.3  Local Placement Optimization (Checksum:524486a9) REAL time: 11 secs 
-
-Phase 8.5  Local Placement Optimization
-Phase 8.5  Local Placement Optimization (Checksum:524486a9) REAL time: 11 secs 
-
-Phase 9.8  Global Placement
-................................
-.................................................................................................................................
-...................................................
-....................................................................
-.....................................................................................................................
-....................................................................................................................
-..................................................................................................................................................................
-.............................................
-Phase 9.8  Global Placement (Checksum:1f39350e) REAL time: 1 mins 3 secs 
-
-Phase 10.5  Local Placement Optimization
-Phase 10.5  Local Placement Optimization (Checksum:1f39350e) REAL time: 1 mins 4 secs 
-
-Phase 11.18  Placement Optimization
-Phase 11.18  Placement Optimization (Checksum:a2f48367) REAL time: 1 mins 23 secs 
-
-Phase 12.5  Local Placement Optimization
-Phase 12.5  Local Placement Optimization (Checksum:a2f48367) REAL time: 1 mins 24 secs 
-
-Phase 13.34  Placement Validation
-Phase 13.34  Placement Validation (Checksum:a2f48367) REAL time: 1 mins 24 secs 
-
-Total REAL time to Placer completion: 1 mins 25 secs 
-Total CPU  time to Placer completion: 1 mins 23 secs 
-Writing design to file test1.ncd
-
-
-
 Starting Router
 
 
-Phase  1  : 62083 unrouted;      REAL time: 1 mins 28 secs 
+Phase  1  : 2723 unrouted;      REAL time: 18 secs 
 
-Phase  2  : 55422 unrouted;      REAL time: 1 mins 29 secs 
+Phase  2  : 876 unrouted;      REAL time: 18 secs 
 
-Phase  3  : 23502 unrouted;      REAL time: 1 mins 38 secs 
+Phase  3  : 221 unrouted;      REAL time: 20 secs 
 
-Phase  4  : 23522 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 47 secs 
+Phase  4  : 221 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 22 secs 
 
-Updating file: test1.ncd with current fully routed design.
+Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 25 secs 
 
-Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 2 mins 3 secs 
+Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 25 secs 
 
-Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 2 mins 3 secs 
+Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 25 secs 
 
-Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 2 mins 3 secs 
+Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 25 secs 
 
-Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 2 mins 3 secs 
+Phase  9  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 25 secs 
 
-Phase  9  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 2 mins 3 secs 
+Phase 10  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 30 secs 
+Total REAL time to Router completion: 31 secs 
+Total CPU time to Router completion: 30 secs 
 
-Phase 10  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 2 mins 6 secs 
-Total REAL time to Router completion: 2 mins 6 secs 
-Total CPU time to Router completion: 2 mins 3 secs 
+  SmartGuide Results
+  ------------------
+  This section describes the guide results after invoking the Router. This
+  report accurately reflects the differences between the input design
+  and the guide design.
+
+  Number of Components in the input design    |   8992
+    Number of guided Components               |   8948 out of   8992  99.5%
+    Number of re-implemented Components       |      6 out of   8992   0.1%
+    Number of new/changed Components          |     38 out of   8992   0.4%
+  Number of Nets in the input design          |  17431
+    Number of guided Nets                     |  17281 out of  17431  99.1%
+    Number of partially guided Nets           |     43 out of  17431   0.2%
+    Number of re-routed Nets                  |     55 out of  17431   0.3%
+    Number of new/changed Nets                |     52 out of  17431   0.3%
 
 Partition Implementation Status
 -------------------------------
@@ -177,17 +127,27 @@ Generating Clock Report
 +---------------------+--------------+------+------+------------+-------------+
 |        Clock Net    |   Resource   |Locked|Fanout|Net Skew(ns)|Max Delay(ns)|
 +---------------------+--------------+------+------+------------+-------------+
-|             clock_i | BUFGCTRL_X0Y0| No   | 5270 |  0.607     |  3.155      |
+|             clock_i | BUFGCTRL_X0Y0| No   | 6463 |  0.600     |  3.151      |
 +---------------------+--------------+------+------+------------+-------------+
-|            vgaclk25 | BUFGCTRL_X0Y1| No   |   43 |  0.218     |  2.792      |
+|    icon_control0<0> |BUFGCTRL_X0Y30| No   |  118 |  0.376     |  2.928      |
 +---------------------+--------------+------+------+------------+-------------+
-|melexis_mlx90640_i2c |              |      |      |            |             |
-|           _i0/clock |BUFGCTRL_X0Y31| No   |   64 |  0.312     |  2.974      |
-+---------------------+--------------+------+------+------------+-------------+
-|               agclk |         Local|      |    2 |  0.000     |  0.707      |
+|            vgaclk25 | BUFGCTRL_X0Y1| No   |   45 |  0.086     |  2.887      |
 +---------------------+--------------+------+------+------------+-------------+
 |melexis_mlx90640_i2c |              |      |      |            |             |
-|        _i0/temp_sck |         Local|      |    9 |  1.772     |  2.847      |
+|           _i0/clock |BUFGCTRL_X0Y31| No   |   74 |  0.285     |  2.868      |
++---------------------+--------------+------+------+------------+-------------+
+|io_scl_nl_not0001_in |              |      |      |            |             |
+|                   v |         Local|      |    3 |  0.910     |  2.725      |
++---------------------+--------------+------+------+------------+-------------+
+|               agclk |         Local|      |    2 |  0.000     |  0.760      |
++---------------------+--------------+------+------+------------+-------------+
+|U_icon_pro/U0/iUPDAT |              |      |      |            |             |
+|               E_OUT |         Local|      |    1 |  0.000     |  2.306      |
++---------------------+--------------+------+------+------------+-------------+
+|   icon_control0<13> |         Local|      |    4 |  0.000     |  0.929      |
++---------------------+--------------+------+------+------------+-------------+
+|melexis_mlx90640_i2c |              |      |      |            |             |
+|        _i0/temp_sck |         Local|      |   15 |  1.276     |  2.025      |
 +---------------------+--------------+------+------+------------+-------------+
 
 * Net Skew is the difference between the minimum and maximum routing
@@ -200,6 +160,8 @@ for example SLICE loads not FF loads.
 
 Timing Score: 0 (Setup: 0, Hold: 0, Component Switching Limit: 0)
 
+Number of Timing Constraints that were not applied: 2
+
 Asterisk (*) preceding a constraint indicates it was not met.
    This may be due to a setup or hold violation.
 
@@ -207,12 +169,38 @@ Asterisk (*) preceding a constraint indicates it was not met.
   Constraint                                |    Check    | Worst Case |  Best Case | Timing |   Timing   
                                             |             |    Slack   | Achievable | Errors |    Score   
 ----------------------------------------------------------------------------------------------------------
-  NET "clock_i1" PERIOD = 10 ns HIGH 50%    | SETUP       |     0.162ns|     9.838ns|       0|           0
-                                            | HOLD        |     0.251ns|            |       0|           0
+  NET "clock_i1" PERIOD = 10 ns HIGH 50%    | SETUP       |     0.124ns|     9.876ns|       0|           0
+                                            | HOLD        |     0.252ns|            |       0|           0
+----------------------------------------------------------------------------------------------------------
+  TS_U_TO_J = MAXDELAY FROM TIMEGRP "U_CLK" | SETUP       |    11.852ns|     3.148ns|       0|           0
+   TO TIMEGRP "J_CLK" 15 ns                 |             |            |            |        |            
+----------------------------------------------------------------------------------------------------------
+  TS_U_TO_U = MAXDELAY FROM TIMEGRP "U_CLK" | SETUP       |    14.060ns|     0.940ns|       0|           0
+   TO TIMEGRP "U_CLK" 15 ns                 |             |            |            |        |            
+----------------------------------------------------------------------------------------------------------
+  TS_J_CLK = PERIOD TIMEGRP "J_CLK" 30 ns H | SETUP       |    21.173ns|     8.827ns|       0|           0
+  IGH 50%                                   | HOLD        |     0.499ns|            |       0|           0
+----------------------------------------------------------------------------------------------------------
+  PATH "TS_D2_TO_T2_ila_pro_0_path" TIG     | SETUP       |         N/A|     4.247ns|     N/A|           0
+----------------------------------------------------------------------------------------------------------
+  PATH "TS_J2_TO_D2_ila_pro_0_path" TIG     | N/A         |         N/A|         N/A|     N/A|         N/A
+----------------------------------------------------------------------------------------------------------
+  PATH "TS_J3_TO_D2_ila_pro_0_path" TIG     | N/A         |         N/A|         N/A|     N/A|         N/A
+----------------------------------------------------------------------------------------------------------
+  PATH "TS_J4_TO_D2_ila_pro_0_path" TIG     | MAXDELAY    |         N/A|     3.831ns|     N/A|           0
+----------------------------------------------------------------------------------------------------------
+  PATH "TS_J_TO_D_path" TIG                 | SETUP       |         N/A|     5.061ns|     N/A|           0
+----------------------------------------------------------------------------------------------------------
+  PATH "TS_D_TO_J_path" TIG                 | SETUP       |         N/A|     4.902ns|     N/A|           0
 ----------------------------------------------------------------------------------------------------------
 
 
 All constraints were met.
+INFO:Timing:2761 - N/A entries in the Constraints List may indicate that the 
+   constraint is not analyzed due to the following: No paths covered by this 
+   constraint; Other constraints intersect with this constraint; or This 
+   constraint was disabled by a Path Tracing Control. Please run the Timespec 
+   Interaction Report (TSI) via command line (trce tsi) or Timing Analyzer GUI.
 
 
 Generating Pad Report.
@@ -221,17 +209,17 @@ All signals are completely routed.
 
 WARNING:Par:283 - There are 2 loadless signals in this design. This design will cause Bitgen to issue DRC warnings.
 
-Total REAL time to PAR completion: 2 mins 9 secs 
-Total CPU time to PAR completion: 2 mins 6 secs 
+Total REAL time to PAR completion: 39 secs 
+Total CPU time to PAR completion: 39 secs 
 
-Peak Memory Usage:  914 MB
+Peak Memory Usage:  923 MB
 
-Placement: Completed - No errors found.
+Placer: Placement generated during map.
 Routing: Completed - No errors found.
 Timing: Completed - No errors found.
 
 Number of error messages: 0
-Number of warning messages: 7
+Number of warning messages: 4
 Number of info messages: 2
 
 Writing design to file test1.ncd
