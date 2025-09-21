@@ -43,11 +43,11 @@ constant c_bus_clock : integer := c_clock_i2c_frequency;
 -- constant c_bus_clock : integer := 100_000;
 constant c_sim : string (1 to 1) := "n";
 constant c_cold_start : integer := 1000;
-constant c_wait2 : integer := 10000;
+constant c_wait2 : integer := 1000;
 constant c_wait3 : integer := 10000;
 constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
-constant c_calculate_type1 : string (1 to 13) := "c_raws_images"; -- c_temperature,c_raws_images
-constant c_use_fisqrt1 : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type(c_temperature)
+constant c_calculate_type1 : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
+constant c_use_fisqrt1 : string (1 to 3) := " no" -- yes/no - depend from c_calculate_type(c_temperature)
 );
 port (
 i_clock,i_reset : in std_logic;
@@ -526,8 +526,8 @@ signal i2c_mlx_doutb : STD_LOGIC_VECTOR(7 DOWNTO 0);
 --constant c_wait1 : integer := 25;
 --constant c_wait1 : integer := 60;
 --constant c_wait1 : integer := 47;
--- constant c_wait1 : integer := 115*4; -- scl 500k
- constant c_wait1 : integer := 1000; -- scl 100k
+ constant c_wait1 : integer := 115*4; -- scl 500k
+-- constant c_wait1 : integer := 1000; -- scl 100k
 --constant c_wait1 : integer := 115*4*1000; -- scl 100
 --constant c_wait1 : integer := 230*4*1000; -- scl 50
 --constant c_wait1 : integer := 230*5*4*1000; -- scl 10
