@@ -44,7 +44,7 @@ ARCHITECTURE behavior OF tb_test1 IS
 COMPONENT test1
 generic (
 constant c_board_clock : integer := c_clock_board_frequency;
---constant c_bus_clock : integer := c_clock_i2c_frequency;
+constant c_bus_clock : integer := c_clock_i2c_frequency;
 --constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
 --constant c_bus_clock : integer := 50;
 constant c_bus_clock : integer := c_clock_i2c_frequency;
@@ -124,10 +124,12 @@ i_clock : IN  std_logic;
 i_reset : IN  std_logic;
 i_scl : IN  std_logic;
 o_sda : OUT  std_logic;
+o_done : OUT  std_logic;
 i_mode2 : IN  std_logic;
 i_enable : IN  std_logic;
 i_addr : IN  std_logic_vector(15 downto 0);
-o_done : out std_logic
+o_done : out std_logic;
+compare1 : in integer
 );
 END COMPONENT;
 
@@ -136,6 +138,7 @@ signal i_scl : std_logic := '0';
 signal i_mode2 : std_logic := '0';
 signal i_enable : std_logic := '0';
 signal i_addr : std_logic_vector(15 downto 0) := (others => '0');
+signal compare1 : integer;
 
 --Outputs
 signal o_sda : std_logic;
@@ -221,55 +224,60 @@ h_sync_i        => vga_hsync,
 v_sync_i        => vga_vsync
 );
 
-a <= '1' when io_scl_nl = 'Z' else '0';
-
-p_scl : process (a) is
-begin
-  if (rising_edge (a)) then
-    a_prev <= a;
-  end if;
-end process p_scl;
-
-b <= '1' when a_prev = '1' and a = '1' else '0';
-
 p0 : process is
 begin
-  wait for 972 us; -- wait on scl idle before mode2
+  wait for 653 us; -- wait on scl idle before mode2 1000k
+--  wait for 972 us; -- wait on scl idle before mode2 500k
+--  wait for 3655 us; -- wait on scl idle before mode2 100k
   i_addr <= x"2400"; -- eeprom
   i_enable <= '1';
+  compare1 <= 37;
   wait until o_done = '1';
   i_addr <= x"0000"; -- eeprom stop
+  wait until o_done = '0';
   i_enable <= '0';
   
-  wait for 450 us;
+  wait for 268 us; -- 1000k
+--  wait for 450 us; -- 500k
+--  wait for 1742 us; -- 100k
   i_addr <= x"0400"; -- data 1
   i_enable <= '1';
+  compare1 <= 38;
   wait until o_done = '1';
   i_enable <= '0';
+  wait until o_done = '0';
   i_addr <= x"0000"; -- data 1 end
-  wait for 8345 us;
+  wait for 268 us; -- 1000k - s1
+--  wait for 430 us; -- 500k
+--  wait for 1352 us; -- 100k
 
   l0 : for i in 0 to 27 loop
   i_addr <= x"0400"; -- data X
   i_enable <= '1';
+  compare1 <= 37;
   wait until o_done = '1';
   i_enable <= '0';
+--  wait until o_done = '0';
   i_addr <= x"0000"; -- data X end
-  wait for 7515 us;
+  wait for 12656 us; -- 1000k - s1
+--  wait for 430 us; -- 500k
+--  wait for 1352 us; -- 100k
   end loop l0;
   wait;
 end process p0;
 
+a <= '1' when io_scl_nl = 'Z' else '0';
 
 i2c_stream_i0 : i2c_stream PORT MAP (
 i_clock => i_clock,
 i_reset => i_reset,
-i_scl => b,
+i_scl => a,
 o_sda => io_sda_nl,
 i_mode2 => i_mode2,
 i_enable => i_enable,
 i_addr => i_addr,
-o_done => o_done
+o_done => o_done,
+compare1 => compare1
 );
 
 tb_i2c_mem_i0 : tb_i2c_mem

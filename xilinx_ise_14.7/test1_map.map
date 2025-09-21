@@ -4,13 +4,36 @@ Xilinx Map Application Log File for Design 'test1'
 Design Information
 ------------------
 Command Line   : map -intstyle ise -p xc4vsx35-ff668-10 -global_opt off -cm area
+<<<<<<< HEAD
 -ir off -pr off -c 100 -o test1_map.ncd test1.ngd test1.pcf 
+=======
+-ir off -pr off -c 100 -smartguide
+/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/test1_guide.ncd
+-o test1_map.ncd test1.ngd test1.pcf 
+>>>>>>> test1
 Target Device  : xc4vsx35
 Target Package : ff668
 Target Speed   : -10
 Mapper Version : virtex4 -- $Revision: 1.55 $
+<<<<<<< HEAD
 Mapped Date    : Fri Sep 19 23:12:27 2025
 
+=======
+Mapped Date    : Sun Sep 21 18:59:25 2025
+
+WARNING:Map:120 - The command line option -c can not be used when running in
+   timing mode.  The option will be ignored.
+Loading device for application Rf_Device from file '4vsx35.nph' in environment
+/home/user/.local/Xilinx/14.7/ISE_DS/ISE/.
+   "test1" is an NCD, version 3.2, device xc4vsx35, package ff668, speed -10
+This design is using the default stepping level (major silicon revision) for
+this device (1). Unless your design is targeted at devices of this stepping
+level, it is recommended that you explicitly specify the stepping level of the
+parts you will be using. This will allow the tools to take advantage of any
+available performance and functional enhancements for this device. The latest
+stepping level for this device is '2'. Additional information on "stepping
+level" is available at support.xilinx.com.
+>>>>>>> test1
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 INFO:Security:56 - Part 'xc4vsx35' is not a WebPack part.
 WARNING:Security:42 - Your software subscription period has lapsed. Your current
@@ -19,21 +42,75 @@ Xilinx software updates or new releases.
 ----------------------------------------------------------------------
 Mapping design into LUTs...
 Running directed packing...
+Constraining slice packing based on guide NCD.
 Running delay-based LUT packing...
+<<<<<<< HEAD
 Running related packing...
+=======
+>>>>>>> test1
 Updating timing models...
+Running timing-driven placement...
+Total REAL time at the beginning of Placer: 42 secs 
+Total CPU  time at the beginning of Placer: 41 secs 
+
+Phase 1.7  Design Feasibility Check
+Phase 1.7  Design Feasibility Check (Checksum:f8dfe1ab) REAL time: 43 secs 
+
+Phase 2.31  Local Placement Optimization
+Phase 2.31  Local Placement Optimization (Checksum:69b30e1e) REAL time: 43 secs 
+
+Phase 3.2  Initial Clock and IO Placement
+Phase 3.2  Initial Clock and IO Placement (Checksum:69b30e1e) REAL time: 46 secs 
+
+Phase 4.36  Local Placement Optimization
+Phase 4.36  Local Placement Optimization (Checksum:69b30e1e) REAL time: 46 secs 
+
+Phase 5.30  Global Clock Region Assignment
+Phase 5.30  Global Clock Region Assignment (Checksum:69b30e1e) REAL time: 46 secs 
+
+Phase 6.3  Local Placement Optimization
+Phase 6.3  Local Placement Optimization (Checksum:69b30e1e) REAL time: 46 secs 
+
+Phase 7.5  Local Placement Optimization
+Phase 7.5  Local Placement Optimization (Checksum:69b30e1e) REAL time: 46 secs 
+
+Phase 8.8  Global Placement
+..
+................
+Phase 8.8  Global Placement (Checksum:77bee33) REAL time: 53 secs 
+
+Phase 9.5  Local Placement Optimization
+Phase 9.5  Local Placement Optimization (Checksum:77bee33) REAL time: 54 secs 
+
+Phase 10.18  Placement Optimization
+Phase 10.18  Placement Optimization (Checksum:d53b4933) REAL time: 1 mins 57 secs 
+
+Phase 11.5  Local Placement Optimization
+Phase 11.5  Local Placement Optimization (Checksum:d53b4933) REAL time: 1 mins 57 secs 
+
+Phase 12.34  Placement Validation
+Phase 12.34  Placement Validation (Checksum:d53b4933) REAL time: 1 mins 58 secs 
+
+Total REAL time to Placer completion: 1 mins 58 secs 
+Total CPU  time to Placer completion: 1 mins 56 secs 
+Running post-placement packing...
+Updating route info ...
 WARNING:PhysDesignRules:372 - Gated clock. Clock net
    melexis_mlx90640_i2c_i0/temp_sck is sourced by a combinatorial pin. This is
    not good design practice. Use the CE pin to control the loading of data into
    the flip-flop.
+WARNING:PhysDesignRules:372 - Gated clock. Clock net icon_control0<13> is
+   sourced by a combinatorial pin. This is not good design practice. Use the CE
+   pin to control the loading of data into the flip-flop.
 
 Design Summary
 --------------
 
 Design Summary:
 Number of errors:      0
-Number of warnings:    1
+Number of warnings:    3
 Logic Utilization:
+<<<<<<< HEAD
   Number of Slice Flip Flops:         7,879 out of  30,720   25%
   Number of 4 input LUTs:            13,203 out of  30,720   42%
 Logic Distribution:
@@ -45,10 +122,26 @@ Logic Distribution:
     Number used as logic:            13,011
     Number used as a route-thru:        138
     Number used as Shift registers:     192
+=======
+  Total Number Slice Registers:       9,246 out of  30,720   30%
+    Number used as Flip Flops:        9,245
+    Number used as Latches:               1
+  Number of 4 input LUTs:            15,164 out of  30,720   49%
+Logic Distribution:
+  Number of occupied Slices:          9,508 out of  15,360   61%
+    Number of Slices containing only related logic:   9,508 out of   9,508 100%
+    Number of Slices containing unrelated logic:          0 out of   9,508   0%
+      *See NOTES below for an explanation of the effects of unrelated logic.
+  Total Number of 4 input LUTs:      15,389 out of  30,720   50%
+    Number used as logic:            14,847
+    Number used as a route-thru:        225
+    Number used as Shift registers:     317
+>>>>>>> test1
 
   The Slice Logic Distribution report is not meaningful if the design is
   over-mapped for a non-slice resource or if Placement fails.
   Number of bonded IOBs:                 36 out of     448    8%
+<<<<<<< HEAD
   Number of BUFG/BUFGCTRLs:               3 out of      32    9%
     Number used as BUFGs:                 3
   Number of FIFO16/RAMB16s:              22 out of     192   11%
@@ -78,6 +171,21 @@ NOTES:
    and FFs are occupied.  Depending on your timing budget, increased levels of
    unrelated logic packing may adversely affect the overall timing performance
    of your design.
+=======
+  Number of BUFG/BUFGCTRLs:               4 out of      32   12%
+    Number used as BUFGs:                 4
+  Number of FIFO16/RAMB16s:              31 out of     192   16%
+    Number used as RAMB16s:              31
+  Number of DSP48s:                       4 out of     192    2%
+  Number of BSCAN_VIRTEX4s:               1 out of       4   25%
+
+  Number of RPM macros:           12
+Average Fanout of Non-Clock Nets:                3.46
+
+Peak Memory Usage:  1263 MB
+Total REAL time to MAP completion:  2 mins 6 secs 
+Total CPU time to MAP completion:   2 mins 4 secs 
+>>>>>>> test1
 
 Mapping completed.
 See MAP report file "test1_map.mrp" for details.

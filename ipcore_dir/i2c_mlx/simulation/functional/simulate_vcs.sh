@@ -45,6 +45,7 @@
 # PART OF THIS FILE AT ALL TIMES.
 #--------------------------------------------------------------------------------
 #!/bin/sh
+cp ../../../i2c_mlx.mif .
 rm -rf simv* csrc DVEfiles AN.DB
 
 echo "Compiling Core VHDL UNISIM/Behavioral model"

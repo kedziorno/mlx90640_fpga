@@ -152,7 +152,8 @@ begin
   o_mode2_ready <= mode2_ready_i;
   o_mode2_ready_all <= mode2_ready_all_i;
   o_bytes_to_recv <=
-    bytes_to_recv_sr (7 downto 0) & bytes_to_recv_sr (16 downto 9) when mode2_ready_i = '1'
+    bytes_to_recv_sr (7 downto 0) & bytes_to_recv_sr (16 downto 9) when mode2_ready_i = '1' -- ok in sim
+    --bytes_to_recv_sr (16 downto 9) & bytes_to_recv_sr (7 downto 0) when mode2_ready_i = '1'
     else
     (others => '0');
   io_sda_o <=
@@ -399,7 +400,8 @@ begin
         when mode1_write_slave_address =>
             if (c_cmode = c3) then
               if (slave_index_ctr = 0) then
-                c_state <= mode1_write_slave_address_lastbit;
+--                c_state <= mode1_write_slave_address_lastbit;
+                c_state <= mode1_write_slave_write;
               else
                 slave_index_ctr <= slave_index_ctr - 1;
                 if (i_slave_address (slave_index_ctr) = '1') then
