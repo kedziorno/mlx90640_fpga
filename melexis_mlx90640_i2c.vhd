@@ -152,7 +152,8 @@ begin
   o_mode2_ready <= mode2_ready_i;
   o_mode2_ready_all <= mode2_ready_all_i;
   o_bytes_to_recv <=
-    bytes_to_recv_sr (7 downto 0) & bytes_to_recv_sr (16 downto 9) when mode2_ready_i = '1'
+    bytes_to_recv_sr (7 downto 0) & bytes_to_recv_sr (16 downto 9) when mode2_ready_i = '1' -- ok in sim
+    --bytes_to_recv_sr (16 downto 9) & bytes_to_recv_sr (7 downto 0) when mode2_ready_i = '1'
     else
     (others => '0');
   io_sda_o <=

@@ -640,8 +640,8 @@ begin
           melexis_mlx90640_i2c_enable <= '0';
 --          state := wr1;
           if (cold_start = c_cold_start - 1) then
---            state := wr1;
-            state := wr1a1;
+            state := wr1;
+--            state := wr1a1;
 --            state := w1;
             cold_start := 0;
           else
