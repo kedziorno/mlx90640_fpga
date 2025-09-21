@@ -38,7 +38,8 @@ i_mode2 : in std_logic;
 i_enable : in std_logic;
 i_addr : in std_logic_vector (15 downto 0);
 o_sda : out std_logic;
-o_done : out std_logic
+o_done : out std_logic;
+compare1 : in integer
 );
 end i2c_stream;
 
@@ -67,7 +68,7 @@ signal v_items : integer range 0 to c_items - 1;
 signal v_index : integer range 0 to c_items * c_records - 1;
 signal v_addr : std_logic_vector (15 downto 0);
 signal c_omit : integer := 37;
-signal v_omit : integer range 0 to c_omit - 1;
+signal v_omit : integer;
 constant c_data : integer := 8;
 signal v_data : integer range c_data - 1 downto 0;
 
@@ -106,7 +107,7 @@ begin
           v_records <= 0;
           v_data <= c_data - 1;
           if (i_enable = '1') then
-            if (v_omit = c_omit - 1) then -- omit set address
+            if (v_omit = compare1 - 1) then -- omit set address
               state <= s1;
               v_omit <= 0;
             else

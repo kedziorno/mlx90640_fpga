@@ -553,8 +553,7 @@ begin
   if (i_reset = '1') then
     mem_addr := 0;
     i2c_mlx_wea <= "0";
-    i2c_mlx_addra <= (others => '0');
-    i2c_mlx_dina <= (others => '0');
+    i2c_mlx_ena <= '0';
     i2c_mlx_addra <= (others => '0');
     i2c_mlx_dina <= (others => '0');
     temp1 <= '0';

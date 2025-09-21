@@ -127,7 +127,8 @@ o_sda : OUT  std_logic;
 o_done : OUT  std_logic;
 i_mode2 : IN  std_logic;
 i_enable : IN  std_logic;
-i_addr : IN  std_logic_vector(15 downto 0)
+i_addr : IN  std_logic_vector(15 downto 0);
+compare1 : in integer
 );
 END COMPONENT;
 
@@ -136,6 +137,7 @@ signal i_scl : std_logic := '0';
 signal i_mode2 : std_logic := '0';
 signal i_enable : std_logic := '0';
 signal i_addr : std_logic_vector(15 downto 0) := (others => '0');
+signal compare1 : integer;
 
 --Outputs
 signal o_sda : std_logic;
@@ -223,126 +225,6 @@ h_sync_i        => vga_hsync,
 v_sync_i        => vga_vsync
 );
 
-g0 : if (c1 = "Y") generate
-mode2_read : process is
--- https://github.com/ghdl/ghdl/blob/69b0c75d726f6c5babe46eddbcb82f7269422821/testsuite/gna/issue1597/std_subs_pkg.vhdl#L23
-function klsfr(bv: std_logic_vector) return std_logic_vector is
-    alias v : std_logic_vector(bv'high downto 0) is bv;
-    variable rtn : std_logic_vector(bv'high downto 0);
-    variable len : integer := bv'length;
-  begin
-    for i in bv'range loop
-      if (bv(i) /= '1' and
-         bv(i) /= '0') then
-        report "klsfr got a none logic value passed ..." severity failure;
-      end if;
-    end loop;
-  
-    case len is
-      when 8 =>
-        rtn := v(6 downto 0) & ((v(7) xor v(4)) xor (v(1) xor v(2)));
-      when 16 =>
-        rtn := v(14 downto 0) & ((v(15) xor v(14)) xor (v(12) xor v(3)));
-      when 32 =>
-        rtn := v(30 downto 0) & ((v(31) xor v(6)) xor (v(5) xor v(1)));
-      when others =>
-        report "ERROR: LSFR size not implemented ..." severity failure;
-    end case;
-    return rtn;
-  end function;
-  variable pattern : std_logic_vector (31 downto 0) := x"00000001";
-begin
-  io_sda_nl <= 'Z';
-wait;
-  wait for 1536.330 us;
-  eeprom : for i in 0 to 832/2 loop
-  pattern := klsfr (pattern); s_spattern <= pattern;
-  s_spattern <= pattern;
-  io_sda_nl <= pattern (31); wait for c_period;
-  io_sda_nl <= pattern (30); wait for c_period;
-  io_sda_nl <= pattern (29); wait for c_period;
-  io_sda_nl <= pattern (28); wait for c_period;
-  io_sda_nl <= pattern (27); wait for c_period;
-  io_sda_nl <= pattern (26); wait for c_period;
-  io_sda_nl <= pattern (25); wait for c_period;
-  io_sda_nl <= pattern (24); wait for c_period;
-  io_sda_nl <= 'Z'; wait for c_period; -- ack
-  io_sda_nl <= pattern (23); wait for c_period;
-  io_sda_nl <= pattern (22); wait for c_period;
-  io_sda_nl <= pattern (21); wait for c_period;
-  io_sda_nl <= pattern (20); wait for c_period;
-  io_sda_nl <= pattern (19); wait for c_period;
-  io_sda_nl <= pattern (18); wait for c_period;
-  io_sda_nl <= pattern (17); wait for c_period;
-  io_sda_nl <= pattern (16); wait for c_period;  
-  io_sda_nl <= 'Z'; wait for c_period; -- ack
-  io_sda_nl <= pattern (15); wait for c_period;
-  io_sda_nl <= pattern (14); wait for c_period;
-  io_sda_nl <= pattern (13); wait for c_period;
-  io_sda_nl <= pattern (12); wait for c_period;
-  io_sda_nl <= pattern (11); wait for c_period;
-  io_sda_nl <= pattern (10); wait for c_period;
-  io_sda_nl <= pattern (9); wait for c_period;
-  io_sda_nl <= pattern (8); wait for c_period;
-  io_sda_nl <= 'Z'; wait for c_period; -- ack  
-  io_sda_nl <= pattern (7); wait for c_period;
-  io_sda_nl <= pattern (6); wait for c_period;
-  io_sda_nl <= pattern (5); wait for c_period;
-  io_sda_nl <= pattern (4); wait for c_period;
-  io_sda_nl <= pattern (3); wait for c_period;
-  io_sda_nl <= pattern (2); wait for c_period;
-  io_sda_nl <= pattern (1); wait for c_period;
-  io_sda_nl <= pattern (0); wait for c_period;
-  io_sda_nl <= 'Z'; wait for c_period; -- ack
-  end loop eeprom;
-
-  io_sda_nl <= 'Z';
-
-  wait for 673.12 us - c_period;
-  frame : for i in 0 to 832/2 loop
-  pattern := klsfr (pattern); s_spattern <= pattern;
-  s_spattern <= pattern;
-  io_sda_nl <= pattern (31); wait for c_period;
-  io_sda_nl <= pattern (30); wait for c_period;
-  io_sda_nl <= pattern (29); wait for c_period;
-  io_sda_nl <= pattern (28); wait for c_period;
-  io_sda_nl <= pattern (27); wait for c_period;
-  io_sda_nl <= pattern (26); wait for c_period;
-  io_sda_nl <= pattern (25); wait for c_period;
-  io_sda_nl <= pattern (24); wait for c_period;
-  io_sda_nl <= 'Z'; wait for c_period; -- ack
-  io_sda_nl <= pattern (23); wait for c_period;
-  io_sda_nl <= pattern (22); wait for c_period;
-  io_sda_nl <= pattern (21); wait for c_period;
-  io_sda_nl <= pattern (20); wait for c_period;
-  io_sda_nl <= pattern (19); wait for c_period;
-  io_sda_nl <= pattern (18); wait for c_period;
-  io_sda_nl <= pattern (17); wait for c_period;
-  io_sda_nl <= pattern (16); wait for c_period;  
-  io_sda_nl <= 'Z'; wait for c_period; -- ack
-  io_sda_nl <= pattern (15); wait for c_period;
-  io_sda_nl <= pattern (14); wait for c_period;
-  io_sda_nl <= pattern (13); wait for c_period;
-  io_sda_nl <= pattern (12); wait for c_period;
-  io_sda_nl <= pattern (11); wait for c_period;
-  io_sda_nl <= pattern (10); wait for c_period;
-  io_sda_nl <= pattern (9); wait for c_period;
-  io_sda_nl <= pattern (8); wait for c_period;
-  io_sda_nl <= 'Z'; wait for c_period; -- ack  
-  io_sda_nl <= pattern (7); wait for c_period;
-  io_sda_nl <= pattern (6); wait for c_period;
-  io_sda_nl <= pattern (5); wait for c_period;
-  io_sda_nl <= pattern (4); wait for c_period;
-  io_sda_nl <= pattern (3); wait for c_period;
-  io_sda_nl <= pattern (2); wait for c_period;
-  io_sda_nl <= pattern (1); wait for c_period;
-  io_sda_nl <= pattern (0); wait for c_period;
-  io_sda_nl <= 'Z'; wait for c_period; -- ack
-  end loop frame;
-  report "done" severity failure;
-end process mode2_read;
-end generate g0;
-
 p0 : process is
 begin
   wait for 653 us; -- wait on scl idle before mode2 1000k
@@ -350,6 +232,7 @@ begin
 --  wait for 3655 us; -- wait on scl idle before mode2 100k
   i_addr <= x"2400"; -- eeprom
   i_enable <= '1';
+  compare1 <= 37;
   wait until o_done = '1';
   i_addr <= x"0000"; -- eeprom stop
   wait until o_done = '0';
@@ -360,20 +243,22 @@ begin
 --  wait for 1742 us; -- 100k
   i_addr <= x"0400"; -- data 1
   i_enable <= '1';
+  compare1 <= 38;
   wait until o_done = '1';
   i_enable <= '0';
   wait until o_done = '0';
   i_addr <= x"0000"; -- data 1 end
-  wait for 12656 us; -- 1000k - s1
+  wait for 268 us; -- 1000k - s1
 --  wait for 430 us; -- 500k
 --  wait for 1352 us; -- 100k
 
   l0 : for i in 0 to 27 loop
   i_addr <= x"0400"; -- data X
   i_enable <= '1';
+  compare1 <= 37;
   wait until o_done = '1';
   i_enable <= '0';
-  wait until o_done = '0';
+--  wait until o_done = '0';
   i_addr <= x"0000"; -- data X end
   wait for 12656 us; -- 1000k - s1
 --  wait for 430 us; -- 500k
@@ -392,7 +277,8 @@ o_sda => io_sda_nl,
 i_mode2 => i_mode2,
 i_enable => i_enable,
 i_addr => i_addr,
-o_done => o_done
+o_done => o_done,
+compare1 => compare1
 );
 
 tb_i2c_mem_i0 : tb_i2c_mem
