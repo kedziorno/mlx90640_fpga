@@ -11,26 +11,26 @@ Target Device  : xc4vsx35
 Target Package : ff668
 Target Speed   : -10
 Mapper Version : virtex4 -- $Revision: 1.55 $
-Mapped Date    : Sat Sep 27 16:04:17 2025
+Mapped Date    : Sat Sep 27 16:26:41 2025
 
 Design Summary
 --------------
 Number of errors:      0
 Number of warnings:    3
 Logic Utilization:
-  Total Number Slice Registers:       9,331 out of  30,720   30%
-    Number used as Flip Flops:        9,330
+  Total Number Slice Registers:       8,214 out of  30,720   26%
+    Number used as Flip Flops:        8,213
     Number used as Latches:               1
-  Number of 4 input LUTs:            15,165 out of  30,720   49%
+  Number of 4 input LUTs:            13,388 out of  30,720   43%
 Logic Distribution:
-  Number of occupied Slices:          9,452 out of  15,360   61%
-    Number of Slices containing only related logic:   9,452 out of   9,452 100%
-    Number of Slices containing unrelated logic:          0 out of   9,452   0%
+  Number of occupied Slices:          8,493 out of  15,360   55%
+    Number of Slices containing only related logic:   8,493 out of   8,493 100%
+    Number of Slices containing unrelated logic:          0 out of   8,493   0%
       *See NOTES below for an explanation of the effects of unrelated logic.
-  Total Number of 4 input LUTs:      15,383 out of  30,720   50%
-    Number used as logic:            14,848
-    Number used as a route-thru:        218
-    Number used as Shift registers:     317
+  Total Number of 4 input LUTs:      13,598 out of  30,720   44%
+    Number used as logic:            13,117
+    Number used as a route-thru:        210
+    Number used as Shift registers:     271
 
   The Slice Logic Distribution report is not meaningful if the design is
   over-mapped for a non-slice resource or if Placement fails.
@@ -43,11 +43,11 @@ Logic Distribution:
   Number of BSCAN_VIRTEX4s:               1 out of       4   25%
 
   Number of RPM macros:           12
-Average Fanout of Non-Clock Nets:                3.46
+Average Fanout of Non-Clock Nets:                3.50
 
-Peak Memory Usage:  1273 MB
-Total REAL time to MAP completion:  1 mins 23 secs 
-Total CPU time to MAP completion:   1 mins 22 secs 
+Peak Memory Usage:  1228 MB
+Total REAL time to MAP completion:  4 mins 49 secs 
+Total CPU time to MAP completion:   4 mins 43 secs 
 
 Table of Contents
 -----------------
@@ -75,13 +75,13 @@ WARNING:Map:120 - The command line option -c can not be used when running in
 WARNING:Security:42 - Your software subscription period has lapsed. Your current
 version of Xilinx tools will continue to function, but you no longer qualify for
 Xilinx software updates or new releases.
+WARNING:PhysDesignRules:372 - Gated clock. Clock net icon_control0<13> is
+   sourced by a combinatorial pin. This is not good design practice. Use the CE
+   pin to control the loading of data into the flip-flop.
 WARNING:PhysDesignRules:372 - Gated clock. Clock net
    melexis_mlx90640_i2c_i0/temp_sck is sourced by a combinatorial pin. This is
    not good design practice. Use the CE pin to control the loading of data into
    the flip-flop.
-WARNING:PhysDesignRules:372 - Gated clock. Clock net icon_control0<13> is
-   sourced by a combinatorial pin. This is not good design practice. Use the CE
-   pin to control the loading of data into the flip-flop.
 
 Section 3 - Informational
 -------------------------
@@ -91,7 +91,7 @@ INFO:Map:192 - SmartGuide automatically enables -timing. If SmartGuide is
 INFO:Security:56 - Part 'xc4vsx35' is not a WebPack part.
 INFO:LIT:243 - Logical network melexis_mlx90640_i2c_i0/Mtridata_temp_sda has no
    load.
-INFO:LIT:395 - The above info message is repeated 78 more times for the
+INFO:LIT:395 - The above info message is repeated 71 more times for the
    following (max. 5 shown):
    melexis_mlx90640_i2c_i0/Mtrien_temp_sda,
    icon_control0<10>,
@@ -118,9 +118,9 @@ INFO:Pack:1650 - Map created a placed design.
 
 Section 4 - Removed Logic Summary
 ---------------------------------
- 539 block(s) removed
-  67 block(s) optimized away
- 469 signal(s) removed
+ 456 block(s) removed
+  65 block(s) optimized away
+ 433 signal(s) removed
 
 Section 5 - Removed Logic
 -------------------------
@@ -140,302 +140,63 @@ removed.
  Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda" (FF) removed.
   The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001" is loadless and
 has been removed.
-   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001173" (ROM)
+   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001174" (ROM)
 removed.
-    The signal "N1922" is loadless and has been removed.
-     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011461_SW1" (MUX)
+    The signal "N1798" is loadless and has been removed.
+     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011331_SW1" (ROM)
 removed.
-      The signal "N4080" is loadless and has been removed.
-       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011461_SW1_F"
-(ROM) removed.
-        The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011301" is loadless
+      The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011301" is loadless
 and has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011301" (ROM)
+       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011301" (ROM)
 removed.
-          The signal "N4742" is loadless and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000151/LUT2_D_BUF"
-(BUF) removed.
-            The signal "melexis_mlx90640_i2c_i0/N271" is loadless and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000151" (ROM)
+        The signal "melexis_mlx90640_i2c_i0/N271" is loadless and has been removed.
+         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000151" (ROM)
 removed.
-          The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or0001" is loadless and
+        The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or0001" is loadless and
 has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00011" (ROM)
+         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00011" (ROM)
 removed.
-        The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00015" is loadless and
+      The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00015" is loadless and
 has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00015" (ROM)
+       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00015" (ROM)
 removed.
-        The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000190" is loadless and
+      The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012" is loadless and
 has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000190" (ROM)
+       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012" (ROM)
 removed.
-          The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000187" is loadless and
+    The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000190" is loadless and
 has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000187/LUT3_L_BUF"
-(BUF) removed.
-            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000187/O" is loadless
-and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000187" (ROM)
+     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000190" (ROM)
 removed.
-          The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or0003" is loadless and
+      The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or0003" is loadless and
 has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00031" (ROM)
+       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00031" (ROM)
 removed.
-            The signal "N4942" is loadless and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00011_1/LUT3_D_BUF"
-(BUF) removed.
-              The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00011" is loadless and
+      The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000187" is loadless and
 has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00011_1" (ROM)
+       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000187" (ROM)
 removed.
-        The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001141" is loadless
-and has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001141_f5" (MUX)
+    The signal "N1797" is loadless and has been removed.
+     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011331_SW0" (MUX)
 removed.
-          The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011411" is loadless
-and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011411" (ROM)
-removed.
-      The signal "N4081" is loadless and has been removed.
-       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011461_SW1_G"
+      The signal "N3961" is loadless and has been removed.
+       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011331_SW0_F"
 (ROM) removed.
-    The signal "N1921" is loadless and has been removed.
-     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011461_SW0" (ROM)
+        The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001138" is loadless
+and has been removed.
+         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001138" (ROM)
 removed.
-      The signal "N1907" is loadless and has been removed.
-       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000197_SW0" (MUX)
-removed.
-        The signal "N2202" is loadless and has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000197_SW0_F" (ROM)
-removed.
-        The signal "N2203" is loadless and has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000197_SW0_G" (ROM)
-removed.
-    The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000132" is loadless and
+      The signal "N3962" is loadless and has been removed.
+       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011331_SW0_G"
+(ROM) removed.
+    The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000163" is loadless and
 has been removed.
-     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000132" (ROM)
+     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000163" (ROM)
 removed.
-      The signal "N2009" is loadless and has been removed.
-       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000132_SW0" (ROM)
-removed.
-        The signal "N1931" is loadless and has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131228_SW1"
-(ROM) removed.
-        The signal "N1930" is loadless and has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131228_SW0"
-(ROM) removed.
-          The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001191" is loadless
-and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001191/LUT2_L_BUF"
-(BUF) removed.
-            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001191/O" is loadless
-and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001191" (ROM)
-removed.
-        The signal "N4852" is loadless and has been removed.
-         Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012174_SW4/LUT4_D_BUF" (BUF)
-removed.
-          The signal "N1951" is loadless and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012174_SW4" (ROM)
-removed.
-            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013114" is loadless
-and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013114" (ROM)
-removed.
-            The signal "N1934" is loadless and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013153_SW1" (ROM)
-removed.
-              The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001315" is loadless
-and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001315" (ROM)
-removed.
-                The signal "N2091" is loadless and has been removed.
-                 Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001315_SW0/LUT4_L_BUF" (BUF)
-removed.
-                  The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001315_SW0/O" is
-loadless and has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001315_SW0" (ROM)
-removed.
-              The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013146" is loadless
-and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013146" (ROM)
-removed.
-                The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013143" is loadless
-and has been removed.
-                 Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013143/LUT2_L_BUF" (BUF)
-removed.
-                  The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013143/O" is loadless
-and has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013143" (ROM)
-removed.
-              The signal "N1899" is loadless and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131106_SW1"
-(ROM) removed.
-                The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000147" is loadless
-and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000147" (ROM)
-removed.
-                The signal "N2066" is loadless and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00031_SW3" (ROM)
-removed.
-              The signal "N1898" is loadless and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131106_SW0"
-(ROM) removed.
-                The signal "N4861" is loadless and has been removed.
-                 Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00031_SW0/LUT3_D_BUF" (BUF)
-removed.
-            The signal "N1933" is loadless and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013153_SW0" (MUX)
-removed.
-              The signal "N4394" is loadless and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013153_SW0_F"
-(ROM) removed.
-                The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013122" is loadless
-and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013122" (ROM)
-removed.
-                  The signal "N2093" is loadless and has been removed.
-                   Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013122_SW0/LUT4_L_BUF" (BUF)
-removed.
-                    The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013122_SW0/O" is
-loadless and has been removed.
-                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013122_SW0" (ROM)
-removed.
-              The signal "N4395" is loadless and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013153_SW0_G"
-(ROM) removed.
-            The signal "N1918" is loadless and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012174_SW0" (ROM)
-removed.
-              The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012155" is loadless
-and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012155" (MUX)
-removed.
-                The signal "N4032" is loadless and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012155_F" (ROM)
-removed.
-                  The signal "N2233" is loadless and has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00031_SW1_G" (ROM)
-removed.
-                The signal "N4033" is loadless and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012155_G" (ROM)
-removed.
-              The signal "N4865" is loadless and has been removed.
-               Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012118/LUT4_D_BUF" (BUF)
-removed.
-                The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012118" is loadless
-and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012118" (ROM)
-removed.
-                  The signal "N2038" is loadless and has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012112_SW0" (ROM)
-removed.
-              The signal "N1910" is loadless and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001159_SW0" (ROM)
-removed.
-                The signal "melexis_mlx90640_i2c_i0/N70" is loadless and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000161" (ROM)
-removed.
-                The signal "N4855" is loadless and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000118/LUT4_D_BUF"
-(BUF) removed.
-                  The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000118" is loadless and
+      The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000155" is loadless and
 has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000118" (ROM)
+       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000155" (ROM)
 removed.
-                    The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000112" is loadless and
-has been removed.
-                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000112" (ROM)
-removed.
-              The signal "N1913" is loadless and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001159_SW2" (ROM)
-removed.
-        The signal "N1948" is loadless and has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012174_SW2" (ROM)
-removed.
-          The signal "N1925" is loadless and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131167_SW1"
-(ROM) removed.
-            The signal "N1902" is loadless and has been removed.
-             Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131162_SW1/LUT4_L_BUF" (BUF)
-removed.
-              The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131162_SW1/O" is
-loadless and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131162_SW1"
-(ROM) removed.
-            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131150" is loadless
-and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131150" (ROM)
-removed.
-          The signal "N1924" is loadless and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131167_SW0"
-(ROM) removed.
-            The signal "N4844" is loadless and has been removed.
-             Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131150/LUT2_D_BUF" (BUF)
-removed.
-            The signal "N1901" is loadless and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131162_SW0"
-(ROM) removed.
-              The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131153" is loadless
-and has been removed.
-               Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131153/LUT3_L_BUF" (BUF)
-removed.
-                The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131153/O" is
-loadless and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131153" (ROM)
-removed.
-      The signal "N2010" is loadless and has been removed.
-       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000132_SW1" (ROM)
-removed.
-        The signal "N4922" is loadless and has been removed.
-         Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131228_SW1/LUT4_D_BUF" (BUF)
-removed.
-        The signal "N1949" is loadless and has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012174_SW3" (ROM)
-removed.
-          The signal "N4848" is loadless and has been removed.
-           Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012174_SW1/LUT4_D_BUF" (BUF)
-removed.
-            The signal "N1919" is loadless and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012174_SW1" (ROM)
-removed.
-              The signal "N1914" is loadless and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001159_SW3" (ROM)
-removed.
-                The signal "N4842" is loadless and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000112/LUT3_D_BUF"
-(BUF) removed.
-                The signal "N2068" is loadless and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000118_SW0" (ROM)
-removed.
-              The signal "N1911" is loadless and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001159_SW1" (ROM)
-removed.
-                The signal "N4835" is loadless and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000161/LUT3_D_BUF"
-(BUF) removed.
-        The signal "N1952" is loadless and has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012174_SW5" (ROM)
-removed.
-          The signal "N4849" is loadless and has been removed.
-           Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013153_SW1/LUT4_D_BUF" (BUF)
-removed.
-      The signal "N4850" is loadless and has been removed.
-       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001122/LUT4_D_BUF"
-(BUF) removed.
         The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001122" is loadless
 and has been removed.
          Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001122" (ROM)
@@ -444,29 +205,33 @@ removed.
 and has been removed.
            Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113111" (ROM)
 removed.
-          The signal "N1943" is loadless and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113250_SW3"
-(ROM) removed.
-            The signal "N3040" is loadless and has been removed.
-             Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113250_SW3_SW0/LUT3_L_BUF"
-(BUF) removed.
-              The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113250_SW3_SW0/O" is
+          The signal "N1827" is loadless and has been removed.
+           Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113250_SW3/LUT4_L_BUF" (BUF)
+removed.
+            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113250_SW3/O" is
 loadless and has been removed.
+             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113250_SW3"
+(ROM) removed.
+              The signal "N2957" is loadless and has been removed.
                Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113250_SW3_SW0"
 (ROM) removed.
-                The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113235" is loadless
+                The signal "N4234" is loadless and has been removed.
+                 Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113235/LUT4_D_BUF" (BUF)
+removed.
+                  The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113235" is loadless
 and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113235" (ROM)
+                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113235" (ROM)
 removed.
-                  The signal "melexis_mlx90640_i2c_i0/mode2_ready_all_i_or0000" is loadless and
+                    The signal "melexis_mlx90640_i2c_i0/mode2_ready_all_i_or0000" is loadless and
 has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/mode2_ready_all_i_or00001" (ROM)
+                     Loadless block "melexis_mlx90640_i2c_i0/mode2_ready_all_i_or00001" (ROM)
 removed.
-          The signal "N1942" is loadless and has been removed.
+          The signal "N1826" is loadless and has been removed.
            Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113250_SW2"
 (ROM) removed.
-            The signal "N4845" is loadless and has been removed.
+            The signal "N4233" is loadless and has been removed.
              Loadless block
 "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011351/LUT3_D_BUF" (BUF)
 removed.
@@ -482,45 +247,70 @@ removed.
 and has been removed.
              Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113198" (ROM)
 removed.
-            The signal "N1928" is loadless and has been removed.
+            The signal "N1815" is loadless and has been removed.
              Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113149_SW1"
 (ROM) removed.
               The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011326" is loadless
 and has been removed.
                Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011326" (ROM)
 removed.
-              The signal "N2020" is loadless and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011397_SW1_SW0"
-(ROM) removed.
-                The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011320" is loadless
-and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011320" (ROM)
-removed.
-                  The signal "N4841" is loadless and has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/c_state_cmp_eq00011/LUT3_D_BUF" (BUF)
-removed.
               The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011395" is loadless
 and has been removed.
                Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011395" (ROM)
 removed.
-              The signal "N4864" is loadless and has been removed.
-               Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011397_SW1_SW1/LUT4_D_BUF" (BUF)
+                The signal "N1861" is loadless and has been removed.
+                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00031_SW3" (ROM)
 removed.
-                The signal "N2021" is loadless and has been removed.
+                The signal "N1860" is loadless and has been removed.
+                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00031_SW21" (ROM)
+removed.
+              The signal "N1883" is loadless and has been removed.
+               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011397_SW1_SW0"
+(ROM) removed.
+                The signal "N4238" is loadless and has been removed.
+                 Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011320/LUT3_D_BUF" (BUF)
+removed.
+                  The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011320" is loadless
+and has been removed.
+                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011320" (ROM)
+removed.
+              The signal "N1884" is loadless and has been removed.
+               Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011397_SW1_SW1/LUT4_L_BUF" (BUF)
+removed.
+                The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011397_SW1_SW1/O" is
+loadless and has been removed.
                  Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011397_SW1_SW1"
 (ROM) removed.
-                  The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113133" is loadless
-and has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113133" (ROM)
-removed.
                   The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011317" is loadless
 and has been removed.
                    Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011317" (ROM)
 removed.
-                    The signal "N4838" is loadless and has been removed.
+                    The signal "N4225" is loadless and has been removed.
                      Loadless block "melexis_mlx90640_i2c_i0/mode2_ready_all_i_or00001/LUT3_D_BUF"
 (BUF) removed.
+                  The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113133" is loadless
+and has been removed.
+                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113133" (ROM)
+removed.
+            The signal "N1814" is loadless and has been removed.
+             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113149_SW0"
+(ROM) removed.
+              The signal "N1794" is loadless and has been removed.
+               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011397_SW0" (ROM)
+removed.
+                The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113321" is loadless
+and has been removed.
+                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113321" (ROM)
+removed.
+                  The signal "N4226" is loadless and has been removed.
+                   Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011131/LUT2_D_BUF" (BUF)
+removed.
+                    The signal "melexis_mlx90640_i2c_i0/N421" is loadless and has been removed.
+                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011131" (ROM)
+removed.
             The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011362" is loadless
 and has been removed.
              Loadless block
@@ -534,45 +324,14 @@ removed.
 and has been removed.
                  Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011359" (ROM)
 removed.
-                The signal "N1946" is loadless and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000111142_SW1"
+                The signal "N1829" is loadless and has been removed.
+                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000111142_SW0"
 (ROM) removed.
                   The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011112" is loadless
 and has been removed.
                    Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011112" (ROM)
 removed.
-                  The signal "N1896" is loadless and has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011362_SW1" (ROM)
-removed.
-                    The signal "N4840" is loadless and has been removed.
-                     Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000121111/LUT3_D_BUF" (BUF)
-removed.
-                      The signal "melexis_mlx90640_i2c_i0/N65" is loadless and has been removed.
-                       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000121111" (ROM)
-removed.
-                  The signal "N1937" is loadless and has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000111129_SW1"
-(ROM) removed.
-                    The signal "N1974" is loadless and has been removed.
-                     Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00021_SW0/LUT2_L_BUF" (BUF)
-removed.
-                      The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00021_SW0/O" is loadless
-and has been removed.
-                       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00021_SW0" (ROM)
-removed.
-                  The signal "N4847" is loadless and has been removed.
-                   Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011362_SW0/LUT4_D_BUF" (BUF)
-removed.
-                    The signal "N1895" is loadless and has been removed.
-                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011362_SW0" (ROM)
-removed.
-                The signal "N1945" is loadless and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000111142_SW0"
-(ROM) removed.
-                  The signal "N1936" is loadless and has been removed.
+                  The signal "N1820" is loadless and has been removed.
                    Loadless block
 "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000111129_SW0/LUT4_L_BUF" (BUF)
 removed.
@@ -580,170 +339,285 @@ removed.
 loadless and has been removed.
                      Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000111129_SW0"
 (ROM) removed.
-                The signal "melexis_mlx90640_i2c_i0/N34" is loadless and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011111120" (ROM)
+                  The signal "N1783" is loadless and has been removed.
+                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011362_SW1" (ROM)
 removed.
-                  The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001111149" is loadless
-and has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001111149" (ROM)
+                    The signal "melexis_mlx90640_i2c_i0/N65" is loadless and has been removed.
+                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000121111" (ROM)
 removed.
-                    The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001111133" is loadless
-and has been removed.
-                     Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001111133/LUT2_L_BUF" (BUF)
+                  The signal "N1782" is loadless and has been removed.
+                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011362_SW0" (ROM)
 removed.
-                      The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001111133/O" is
-loadless and has been removed.
-                       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001111133" (ROM)
-removed.
-                    The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011111211" is
-loadless and has been removed.
-                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011111211" (ROM)
-removed.
-                  The signal "N1892" is loadless and has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011111120_SW0"
+                The signal "N1830" is loadless and has been removed.
+                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000111142_SW1"
 (ROM) removed.
-                    The signal "N1916" is loadless and has been removed.
-                     Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011111120_SW0_SW0/LUT4_L_BUF"
-(BUF) removed.
-                      The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011111120_SW0_SW0/O"
-is loadless and has been removed.
-                       Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011111120_SW0_SW0" (ROM)
-removed.
-                  The signal "N1893" is loadless and has been removed.
+                  The signal "N4235" is loadless and has been removed.
                    Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011111120_SW1/LUT4_L_BUF" (BUF)
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011362_SW1/LUT3_D_BUF" (BUF)
 removed.
-                    The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011111120_SW1/O" is
-loadless and has been removed.
-                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011111120_SW1"
+                  The signal "N1821" is loadless and has been removed.
+                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000111129_SW1"
 (ROM) removed.
-            The signal "N1927" is loadless and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113149_SW0"
+                    The signal "N1856" is loadless and has been removed.
+                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00021_SW0" (ROM)
+removed.
+                    The signal "N4228" is loadless and has been removed.
+                     Loadless block "melexis_mlx90640_i2c_i0/c_state_cmp_eq00011/LUT3_D_BUF" (BUF)
+removed.
+                The signal "melexis_mlx90640_i2c_i0/N34" is loadless and has been removed.
+                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000111111211" (ROM)
+removed.
+                  The signal "N1785" is loadless and has been removed.
+                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000111111211_SW0"
 (ROM) removed.
-              The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113321" is loadless
+                    The signal "N1806" is loadless and has been removed.
+                     Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000111111211_SW0_SW0" (ROM)
+removed.
+                  The signal "N1786" is loadless and has been removed.
+                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000111111211_SW1"
+(ROM) removed.
+        The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001132" is loadless
 and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113321" (ROM)
+         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001132" (ROM)
 removed.
-                The signal "N4839" is loadless and has been removed.
-                 Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011131/LUT2_D_BUF" (BUF)
-removed.
-                  The signal "melexis_mlx90640_i2c_i0/N421" is loadless and has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011131" (ROM)
-removed.
-              The signal "N4853" is loadless and has been removed.
-               Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011395/LUT4_D_BUF" (BUF)
-removed.
-              The signal "N2035" is loadless and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011397_SW0_SW0"
-(MUX) removed.
-                The signal "N2216" is loadless and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011397_SW0_SW0_F"
-(ROM) removed.
-      The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001132" is loadless
-and has been removed.
-       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001132" (ROM)
-removed.
-        The signal "N1940" is loadless and has been removed.
-         Loadless block
+          The signal "N1824" is loadless and has been removed.
+           Loadless block
 "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113250_SW11/LUT3_L_BUF" (BUF)
 removed.
-          The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113250_SW11/O" is
+            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113250_SW11/O" is
 loadless and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113250_SW11"
+             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113250_SW11"
 (ROM) removed.
-            The signal "N2206" is loadless and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113250_SW1_F"
+              The signal "N1929" is loadless and has been removed.
+               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113250_SW1_F"
 (ROM) removed.
-              The signal "N4846" is loadless and has been removed.
+          The signal "N1823" is loadless and has been removed.
+           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113250_SW0"
+(ROM) removed.
+        The signal "N18911" is loadless and has been removed.
+         Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131229_SW4/LUT4_L_BUF" (BUF)
+removed.
+          The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131229_SW4/O" is
+loadless and has been removed.
+           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131229_SW4"
+(ROM) removed.
+            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000766" is loadless
+and has been removed.
+             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000766" (ROM)
+removed.
+            The signal "melexis_mlx90640_i2c_i0/N73" is loadless and has been removed.
+             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000171" (ROM)
+removed.
+            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000144" is loadless and
+has been removed.
+             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000144" (ROM)
+removed.
+            The signal "N1863" is loadless and has been removed.
+             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131229_SW0"
+(ROM) removed.
+              The signal "N1832" is loadless and has been removed.
+               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012174_SW2" (ROM)
+removed.
+                The signal "N1812" is loadless and has been removed.
+                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131167_SW1"
+(ROM) removed.
+                  The signal "N1792" is loadless and has been removed.
+                   Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131162_SW1/LUT4_L_BUF" (BUF)
+removed.
+                    The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131162_SW1/O" is
+loadless and has been removed.
+                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131162_SW1"
+(ROM) removed.
+                  The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131150" is loadless
+and has been removed.
+                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131150" (ROM)
+removed.
+                The signal "N1811" is loadless and has been removed.
+                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131167_SW0"
+(ROM) removed.
+                  The signal "N4232" is loadless and has been removed.
+                   Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131150/LUT2_D_BUF" (BUF)
+removed.
+                  The signal "N17911" is loadless and has been removed.
+                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131162_SW0"
+(ROM) removed.
+                    The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131153" is loadless
+and has been removed.
+                     Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131153/LUT3_L_BUF" (BUF)
+removed.
+                      The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131153/O" is
+loadless and has been removed.
+                       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131153" (ROM)
+removed.
+                The signal "N4236" is loadless and has been removed.
+                 Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012174_SW0/LUT4_D_BUF" (BUF)
+removed.
+                  The signal "N1808" is loadless and has been removed.
+                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012174_SW0" (ROM)
+removed.
+                    The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012155" is loadless
+and has been removed.
+                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012155" (MUX)
+removed.
+                      The signal "N3847" is loadless and has been removed.
+                       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012155_F" (ROM)
+removed.
+                        The signal "N1942" is loadless and has been removed.
+                         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00031_SW7_G" (ROM)
+removed.
+                      The signal "N3848" is loadless and has been removed.
+                       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012155_G" (ROM)
+removed.
+                    The signal "N1800" is loadless and has been removed.
+                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001159_SW0" (ROM)
+removed.
+                      The signal "melexis_mlx90640_i2c_i0/N70" is loadless and has been removed.
+                       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000161" (ROM)
+removed.
+                      The signal "N4239" is loadless and has been removed.
+                       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000118/LUT4_D_BUF"
+(BUF) removed.
+                        The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000118" is loadless and
+has been removed.
+                         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000118" (ROM)
+removed.
+                          The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000112" is loadless and
+has been removed.
+                           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000112" (ROM)
+removed.
+                    The signal "N1803" is loadless and has been removed.
+                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001159_SW2" (ROM)
+removed.
+                    The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012118" is loadless
+and has been removed.
+                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012118" (ROM)
+removed.
+                      The signal "N1886" is loadless and has been removed.
+                       Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012112_SW0/LUT3_L_BUF" (BUF)
+removed.
+                        The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012112_SW0/O" is
+loadless and has been removed.
+                         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012112_SW0" (ROM)
+removed.
+              The signal "N1835" is loadless and has been removed.
+               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012174_SW4" (ROM)
+removed.
+                The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013114" is loadless
+and has been removed.
+                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013114" (ROM)
+removed.
+                The signal "N4237" is loadless and has been removed.
+                 Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013153_SW1/LUT4_D_BUF" (BUF)
+removed.
+                  The signal "N1818" is loadless and has been removed.
+                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013153_SW1" (ROM)
+removed.
+                    The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001315" is loadless
+and has been removed.
+                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001315" (ROM)
+removed.
+                      The signal "N1905" is loadless and has been removed.
+                       Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001315_SW0/LUT4_L_BUF" (BUF)
+removed.
+                        The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001315_SW0/O" is
+loadless and has been removed.
+                         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001315_SW0" (ROM)
+removed.
+                    The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013146" is loadless
+and has been removed.
+                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013146" (ROM)
+removed.
+                      The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013143" is loadless
+and has been removed.
+                       Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013143/LUT2_L_BUF" (BUF)
+removed.
+                        The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013143/O" is loadless
+and has been removed.
+                         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013143" (ROM)
+removed.
+                    The signal "N1789" is loadless and has been removed.
+                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131106_SW1"
+(ROM) removed.
+                      The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000147" is loadless
+and has been removed.
+                       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000147" (ROM)
+removed.
+                      The signal "N1900" is loadless and has been removed.
+                       Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00031_SW6/LUT4_L_BUF" (BUF)
+removed.
+                        The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00031_SW6/O" is loadless
+and has been removed.
+                         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00031_SW6" (ROM)
+removed.
+                    The signal "N1788" is loadless and has been removed.
+                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131106_SW0"
+(ROM) removed.
+                      The signal "N4245" is loadless and has been removed.
+                       Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00031_SW1/LUT3_D_BUF" (BUF)
+removed.
+                The signal "N1817" is loadless and has been removed.
+                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013153_SW0" (MUX)
+removed.
+                  The signal "N1927" is loadless and has been removed.
+                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013153_SW0_F"
+(ROM) removed.
+                    The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013122" is loadless
+and has been removed.
+                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013122" (ROM)
+removed.
+                      The signal "N1907" is loadless and has been removed.
+                       Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013122_SW0/LUT4_L_BUF" (BUF)
+removed.
+                        The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013122_SW0/O" is
+loadless and has been removed.
+                         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013122_SW0" (ROM)
+removed.
+                  The signal "N1928" is loadless and has been removed.
+                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013153_SW0_G"
+(ROM) removed.
+        The signal "N1892" is loadless and has been removed.
+         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131229_SW5"
+(ROM) removed.
+          The signal "N1864" is loadless and has been removed.
+           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131229_SW1"
+(ROM) removed.
+            The signal "N1836" is loadless and has been removed.
+             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012174_SW5" (ROM)
+removed.
+              The signal "N4231" is loadless and has been removed.
                Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113235/LUT4_D_BUF" (BUF)
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00013114/LUT3_D_BUF" (BUF)
 removed.
-        The signal "N1939" is loadless and has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000113250_SW0"
-(ROM) removed.
-    The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000155" is loadless and
-has been removed.
-     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000155/LUT4_L_BUF"
-(BUF) removed.
-      The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000155/O" is loadless
-and has been removed.
-       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000155" (ROM)
+              The signal "N1809" is loadless and has been removed.
+               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012174_SW1" (ROM)
 removed.
-        The signal "N2033" is loadless and has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131228_SW5"
-(ROM) removed.
-          The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000766" is loadless
-and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000766" (ROM)
+                The signal "N1801" is loadless and has been removed.
+                 Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001159_SW1/LUT4_L_BUF" (BUF)
 removed.
-          The signal "melexis_mlx90640_i2c_i0/N73" is loadless and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000171" (ROM)
-removed.
-          The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000144" is loadless and
-has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000144" (ROM)
-removed.
-          The signal "N2001" is loadless and has been removed.
-           Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131228_SW3/LUT4_L_BUF" (BUF)
-removed.
-            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131228_SW3/O" is
+                  The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001159_SW1/O" is
 loadless and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131228_SW3"
-(ROM) removed.
-        The signal "N2032" is loadless and has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131228_SW4"
-(ROM) removed.
-          The signal "N4843" is loadless and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000144/LUT2_D_BUF"
-(BUF) removed.
-          The signal "N2000" is loadless and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131228_SW2"
-(ROM) removed.
-            The signal "N4851" is loadless and has been removed.
-             Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012174_SW2/LUT4_D_BUF" (BUF)
+                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001159_SW1" (ROM)
+removed.
+                The signal "N1804" is loadless and has been removed.
+                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001159_SW31" (ROM)
 removed.
   The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000" is loadless and
 has been removed.
    Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000844" (ROM)
-removed.
-    The signal "N2024" is loadless and has been removed.
-     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000805_SW1" (ROM)
-removed.
-      The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux00007" is loadless and
-has been removed.
-       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux00007" (ROM)
-removed.
-        The signal "melexis_mlx90640_i2c_i0/i_slave_address_or0000" is loadless and has
-been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/i_slave_address_or00001" (ROM) removed.
-      The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000802" is loadless
-and has been removed.
-       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000802" (ROM)
-removed.
-    The signal "N2023" is loadless and has been removed.
-     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000805_SW0" (ROM)
-removed.
-      The signal "N2860" is loadless and has been removed.
-       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000805_SW0_SW0"
-(ROM) removed.
-        The signal "melexis_mlx90640_i2c_i0/i_memory_address_mux00001" is loadless and
-has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mmux_i_memory_address_mux0000_2_f5"
-(MUX) removed.
-          The signal "melexis_mlx90640_i2c_i0/Mmux_i_memory_address_mux0000_4" is loadless
-and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mmux_i_memory_address_mux0000_4" (ROM)
-removed.
-          The signal "melexis_mlx90640_i2c_i0/Mmux_i_memory_address_mux0000_3" is loadless
-and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mmux_i_memory_address_mux0000_3" (ROM)
 removed.
     The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000754" is loadless
 and has been removed.
@@ -753,6 +627,110 @@ and has been removed.
 and has been removed.
        Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000754" (ROM)
 removed.
+        The signal "N1877" is loadless and has been removed.
+         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000718_SW0" (ROM)
+removed.
+          The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000710" is loadless
+and has been removed.
+           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000710" (ROM)
+removed.
+            The signal "melexis_mlx90640_i2c_i0/N48" is loadless and has been removed.
+             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000031" (ROM)
+removed.
+              The signal "N1770" is loadless and has been removed.
+               Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000031_SW0/LUT4_L_BUF" (BUF)
+removed.
+                The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000031_SW0/O" is
+loadless and has been removed.
+                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000031_SW0" (ROM)
+removed.
+            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000699" is loadless
+and has been removed.
+             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000699" (ROM)
+removed.
+          The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000665" is loadless
+and has been removed.
+           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000665" (ROM)
+removed.
+            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000663" is loadless
+and has been removed.
+             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000663" (ROM)
+removed.
+              The signal "N4223" is loadless and has been removed.
+               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000161/LUT3_D_BUF"
+(BUF) removed.
+            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000634" is loadless
+and has been removed.
+             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000634" (ROM)
+removed.
+              The signal "melexis_mlx90640_i2c_i0/i_slave_address_or0000" is loadless and has
+been removed.
+               Loadless block "melexis_mlx90640_i2c_i0/i_slave_address_or00001" (ROM) removed.
+              The signal "N2603" is loadless and has been removed.
+               Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000634_SW0/LUT3_L_BUF" (BUF)
+removed.
+                The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000634_SW0/O" is
+loadless and has been removed.
+                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000634_SW0" (ROM)
+removed.
+                  The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000587" is loadless
+and has been removed.
+                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000587" (ROM)
+removed.
+                    The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000539" is loadless
+and has been removed.
+                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000539/LUT4_L_BUF"
+(BUF) removed.
+                      The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000539/O" is loadless
+and has been removed.
+                       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000539" (ROM)
+removed.
+                        The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000527" is loadless
+and has been removed.
+                         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000527" (ROM)
+removed.
+                        The signal "N2871" is loadless and has been removed.
+                         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000539_SW0" (ROM)
+removed.
+                    The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000584" is loadless
+and has been removed.
+                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000584" (ROM)
+removed.
+            The signal "melexis_mlx90640_i2c_i0/N78" is loadless and has been removed.
+             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000181" (ROM)
+removed.
+            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000502" is loadless
+and has been removed.
+             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000502" (ROM)
+removed.
+              The signal "melexis_mlx90640_i2c_i0/N410" is loadless and has been removed.
+               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux00001221" (ROM)
+removed.
+          The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000290" is loadless
+and has been removed.
+           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000290" (ROM)
+removed.
+            The signal "N4224" is loadless and has been removed.
+             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000287/LUT4_D_BUF"
+(BUF) removed.
+              The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000287" is loadless
+and has been removed.
+               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000287" (ROM)
+removed.
+                The signal "melexis_mlx90640_i2c_i0/i_memory_address_mux0001" is loadless and
+has been removed.
+                 Loadless block "melexis_mlx90640_i2c_i0/Mmux_i_memory_address_mux00012" (ROM)
+removed.
+                  The signal "N1772" is loadless and has been removed.
+                   Loadless block
+"melexis_mlx90640_i2c_i0/Mmux_i_memory_address_mux00012_SW0/LUT2_L_BUF" (BUF)
+removed.
+                    The signal "melexis_mlx90640_i2c_i0/Mmux_i_memory_address_mux00012_SW0/O" is
+loadless and has been removed.
+                     Loadless block "melexis_mlx90640_i2c_i0/Mmux_i_memory_address_mux00012_SW0"
+(ROM) removed.
         The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000472" is loadless
 and has been removed.
          Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000472" (ROM)
@@ -761,7 +739,7 @@ removed.
 and has been removed.
            Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000458" (ROM)
 removed.
-            The signal "N4863" is loadless and has been removed.
+            The signal "N4253" is loadless and has been removed.
              Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000014/LUT4_D_BUF"
 (BUF) removed.
               The signal "melexis_mlx90640_i2c_i0/N49" is loadless and has been removed.
@@ -770,32 +748,12 @@ removed.
                 The signal "melexis_mlx90640_i2c_i0/N711" is loadless and has been removed.
                  Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux00001411" (ROM)
 removed.
-                The signal "N2007" is loadless and has been removed.
+                The signal "N1913" is loadless and has been removed.
                  Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000014_SW1" (ROM)
 removed.
           The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000334" is loadless
 and has been removed.
            Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000334" (ROM)
-removed.
-            The signal "melexis_mlx90640_i2c_i0/i_memory_address_mux0001" is loadless and
-has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mmux_i_memory_address_mux00012" (ROM)
-removed.
-              The signal "N1884" is loadless and has been removed.
-               Loadless block
-"melexis_mlx90640_i2c_i0/Mmux_i_memory_address_mux00012_SW0/LUT2_L_BUF" (BUF)
-removed.
-                The signal "melexis_mlx90640_i2c_i0/Mmux_i_memory_address_mux00012_SW0/O" is
-loadless and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mmux_i_memory_address_mux00012_SW0"
-(ROM) removed.
-          The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000313" is loadless
-and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000313" (ROM)
-removed.
-            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000312" is loadless
-and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000312" (ROM)
 removed.
           The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000429" is loadless
 and has been removed.
@@ -813,22 +771,17 @@ removed.
 and has been removed.
                Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000348" (ROM)
 removed.
-                The signal "N3048" is loadless and has been removed.
-                 Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000348_SW0/LUT4_L_BUF" (BUF)
+                The signal "N1872" is loadless and has been removed.
+                 Loadless block "melexis_mlx90640_i2c_i0/data_index_ctr_mux0000<0>122_SW0" (ROM)
 removed.
-                  The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000348_SW0/O" is
-loadless and has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000348_SW0" (ROM)
-removed.
-              The signal "N2029" is loadless and has been removed.
+              The signal "N1880" is loadless and has been removed.
                Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000374_SW0" (MUX)
 removed.
                 The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000335" is loadless
 and has been removed.
                  Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000335" (ROM)
 removed.
-                The signal "N2215" is loadless and has been removed.
+                The signal "N1940" is loadless and has been removed.
                  Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000374_SW0_G"
 (ROM) removed.
                   The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000361" is loadless
@@ -839,95 +792,45 @@ removed.
 and has been removed.
                  Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000389" (ROM)
 removed.
-              The signal "N2030" is loadless and has been removed.
+                  The signal "N4227" is loadless and has been removed.
+                   Loadless block
+"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000121111/LUT3_D_BUF" (BUF)
+removed.
+              The signal "N1881" is loadless and has been removed.
                Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000374_SW1" (ROM)
 removed.
+          The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000313" is loadless
+and has been removed.
+           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000313" (ROM)
+removed.
+            The signal "N1949" is loadless and has been removed.
+             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000313_SW0" (ROM)
+removed.
+        The signal "N1878" is loadless and has been removed.
+         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000718_SW1" (MUX)
+removed.
+          The signal "N1937" is loadless and has been removed.
+           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000718_SW1_F"
+(ROM) removed.
+          The signal "N1938" is loadless and has been removed.
+           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000718_SW1_G"
+(ROM) removed.
         The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000263" is loadless
 and has been removed.
          Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000263" (ROM)
 removed.
           The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000249" is loadless
 and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000249/LUT4_L_BUF"
-(BUF) removed.
-            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000249/O" is loadless
+           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000249" (ROM)
+removed.
+            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000207" is loadless
 and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000249" (ROM)
-removed.
-              The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000017" is loadless and
-has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000017" (ROM)
-removed.
-                The signal "melexis_mlx90640_i2c_i0/N48" is loadless and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000031" (ROM)
-removed.
-                  The signal "N1880" is loadless and has been removed.
-                   Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000031_SW0/LUT4_L_BUF" (BUF)
-removed.
-                    The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000031_SW0/O" is
-loadless and has been removed.
-                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000031_SW0" (ROM)
-removed.
-                The signal "N4832" is loadless and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/i_slave_address_or00001/LUT3_D_BUF"
+             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000207/LUT4_L_BUF"
 (BUF) removed.
-              The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000072" is loadless and
-has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000072" (ROM)
-removed.
-                The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000064" is loadless and
-has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000064/LUT4_L_BUF"
-(BUF) removed.
-                  The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000064/O" is loadless
-and has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000064" (ROM)
-removed.
-                    The signal "N2005" is loadless and has been removed.
-                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000061_SW0" (ROM)
-removed.
-                The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000032" is loadless and
-has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000032" (ROM)
-removed.
-                  The signal "melexis_mlx90640_i2c_i0/N471" is loadless and has been removed.
-                   Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012131/LUT2_L_BUF" (BUF)
-removed.
-                    The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012131/O" is loadless
-and has been removed.
-                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012131" (ROM)
-removed.
-              The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000207" is loadless
+              The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000207/O" is loadless
 and has been removed.
                Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000207" (ROM)
 removed.
-                The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000113" is loadless
-and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000113" (MUX)
-removed.
-                  The signal "N3974" is loadless and has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000113_F" (ROM)
-removed.
-                    The signal "melexis_mlx90640_i2c_memory_data<4>" is loadless and has been
-removed.
-                     Loadless block "melexis_mlx90640_i2c_memory_data_4" (FF) removed.
-                      The signal "melexis_mlx90640_i2c_memory_data_mux0000<4>" is loadless and has
-been removed.
-                       Loadless block "melexis_mlx90640_i2c_memory_data_mux0000<4>1" (ROM) removed.
-                        The signal "melexis_mlx90640_i2c_memory_data_or0000" is loadless and has been
-removed.
-                         Loadless block "melexis_mlx90640_i2c_memory_data_or00001" (ROM) removed.
-                  The signal "N3975" is loadless and has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000113_G" (ROM)
-removed.
-                    The signal "melexis_mlx90640_i2c_memory_data<3>" is loadless and has been
-removed.
-                     Loadless block "melexis_mlx90640_i2c_memory_data_3" (FF) removed.
-                      The signal "melexis_mlx90640_i2c_memory_data_mux0000<3>" is loadless and has
-been removed.
-                       Loadless block "melexis_mlx90640_i2c_memory_data_mux0000<3>1" (ROM) removed.
                 The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000161" is loadless
 and has been removed.
                  Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux00001611" (ROM)
@@ -942,16 +845,9 @@ removed.
                       The signal "melexis_mlx90640_i2c_memory_data_mux0000<15>" is loadless and has
 been removed.
                        Loadless block "melexis_mlx90640_i2c_memory_data_mux0000<15>1" (ROM) removed.
-                  The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000122" is loadless
-and has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000122" (ROM)
+                        The signal "melexis_mlx90640_i2c_memory_data_or0000" is loadless and has been
 removed.
-                    The signal "melexis_mlx90640_i2c_memory_data<7>" is loadless and has been
-removed.
-                     Loadless block "melexis_mlx90640_i2c_memory_data_7" (FF) removed.
-                      The signal "melexis_mlx90640_i2c_memory_data_mux0000<7>" is loadless and has
-been removed.
-                       Loadless block "melexis_mlx90640_i2c_memory_data_mux0000<7>1" (ROM) removed.
+                         Loadless block "melexis_mlx90640_i2c_memory_data_or00001" (ROM) removed.
                   The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000135" is loadless
 and has been removed.
                    Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000135/LUT3_L_BUF"
@@ -978,112 +874,118 @@ been removed.
 and has been removed.
                          Loadless block "melexis_mlx90640_i2c_i0/Mmux_i_memory_data_mux0001_6" (ROM)
 removed.
-                          The signal "melexis_mlx90640_i2c_memory_data<11>" is loadless and has been
-removed.
-                           Loadless block "melexis_mlx90640_i2c_memory_data_11" (FF) removed.
-                            The signal "melexis_mlx90640_i2c_memory_data_mux0000<11>" is loadless and has
-been removed.
-                             Loadless block "melexis_mlx90640_i2c_memory_data_mux0000<11>1" (ROM) removed.
                           The signal "melexis_mlx90640_i2c_memory_data<10>" is loadless and has been
 removed.
                            Loadless block "melexis_mlx90640_i2c_memory_data_10" (FF) removed.
                             The signal "melexis_mlx90640_i2c_memory_data_mux0000<10>" is loadless and has
 been removed.
                              Loadless block "melexis_mlx90640_i2c_memory_data_mux0000<10>1" (ROM) removed.
-        The signal "N2026" is loadless and has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000718_SW0" (ROM)
+                          The signal "melexis_mlx90640_i2c_memory_data<11>" is loadless and has been
 removed.
-          The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000710" is loadless
+                           Loadless block "melexis_mlx90640_i2c_memory_data_11" (FF) removed.
+                            The signal "melexis_mlx90640_i2c_memory_data_mux0000<11>" is loadless and has
+been removed.
+                             Loadless block "melexis_mlx90640_i2c_memory_data_mux0000<11>1" (ROM) removed.
+                  The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000122" is loadless
 and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000710" (ROM)
+                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000122" (ROM)
 removed.
-            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000699" is loadless
+                    The signal "melexis_mlx90640_i2c_memory_data<7>" is loadless and has been
+removed.
+                     Loadless block "melexis_mlx90640_i2c_memory_data_7" (FF) removed.
+                      The signal "melexis_mlx90640_i2c_memory_data_mux0000<7>" is loadless and has
+been removed.
+                       Loadless block "melexis_mlx90640_i2c_memory_data_mux0000<7>1" (ROM) removed.
+                The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000113" is loadless
 and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000699" (ROM)
+                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000113" (MUX)
 removed.
-          The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000290" is loadless
-and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000290" (ROM)
+                  The signal "N3703" is loadless and has been removed.
+                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000113_F" (ROM)
 removed.
-            The signal "N4837" is loadless and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000287/LUT4_D_BUF"
+                    The signal "melexis_mlx90640_i2c_memory_data<3>" is loadless and has been
+removed.
+                     Loadless block "melexis_mlx90640_i2c_memory_data_3" (FF) removed.
+                      The signal "melexis_mlx90640_i2c_memory_data_mux0000<3>" is loadless and has
+been removed.
+                       Loadless block "melexis_mlx90640_i2c_memory_data_mux0000<3>1" (ROM) removed.
+                  The signal "N3704" is loadless and has been removed.
+                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000113_G" (ROM)
+removed.
+                    The signal "melexis_mlx90640_i2c_memory_data<4>" is loadless and has been
+removed.
+                     Loadless block "melexis_mlx90640_i2c_memory_data_4" (FF) removed.
+                      The signal "melexis_mlx90640_i2c_memory_data_mux0000<4>" is loadless and has
+been removed.
+                       Loadless block "melexis_mlx90640_i2c_memory_data_mux0000<4>1" (ROM) removed.
+            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000072" is loadless and
+has been removed.
+             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000072" (ROM)
+removed.
+              The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000064" is loadless and
+has been removed.
+               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000064/LUT4_L_BUF"
 (BUF) removed.
-              The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000287" is loadless
+                The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000064/O" is loadless
 and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000287" (ROM)
+                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000064" (ROM)
 removed.
-          The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000665" is loadless
+                  The signal "melexis_mlx90640_i2c_i0/i_memory_address_mux00001" is loadless and
+has been removed.
+                   Loadless block "melexis_mlx90640_i2c_i0/Mmux_i_memory_address_mux0000_2_f5"
+(MUX) removed.
+                    The signal "melexis_mlx90640_i2c_i0/Mmux_i_memory_address_mux0000_4" is loadless
 and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000665" (ROM)
+                     Loadless block "melexis_mlx90640_i2c_i0/Mmux_i_memory_address_mux0000_4" (ROM)
 removed.
-            The signal "melexis_mlx90640_i2c_i0/N78" is loadless and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000181" (ROM)
-removed.
-            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000502" is loadless
+                    The signal "melexis_mlx90640_i2c_i0/Mmux_i_memory_address_mux0000_3" is loadless
 and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000502" (ROM)
+                     Loadless block "melexis_mlx90640_i2c_i0/Mmux_i_memory_address_mux0000_3" (ROM)
 removed.
-              The signal "melexis_mlx90640_i2c_i0/N410" is loadless and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux00001221" (ROM)
+                  The signal "N1909" is loadless and has been removed.
+                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000061_SW0" (ROM)
 removed.
-            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000663" is loadless
-and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000663" (ROM)
+              The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000032" is loadless and
+has been removed.
+               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000032" (ROM)
 removed.
-            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000634" is loadless
-and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000634" (ROM)
+                The signal "melexis_mlx90640_i2c_i0/N471" is loadless and has been removed.
+                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012131" (ROM)
 removed.
-              The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000508" is loadless
-and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000508" (ROM)
+            The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000017" is loadless and
+has been removed.
+             Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux000017" (ROM)
 removed.
-              The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000602" is loadless
-and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000602" (ROM)
-removed.
-              The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000587" is loadless
-and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000587/LUT4_L_BUF"
+              The signal "N4220" is loadless and has been removed.
+               Loadless block "melexis_mlx90640_i2c_i0/i_slave_address_or00001/LUT3_D_BUF"
 (BUF) removed.
-                The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000587/O" is loadless
-and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000587" (ROM)
+    The signal "N1874" is loadless and has been removed.
+     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000805_SW0" (ROM)
 removed.
-                  The signal "N2146" is loadless and has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000584_SW0" (ROM)
+      The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux00007" is loadless and
+has been removed.
+       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux00007" (ROM)
 removed.
-                  The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000539" is loadless
-and has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000539" (ROM)
-removed.
-                    The signal "N2144" is loadless and has been removed.
-                     Loadless block
-"melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000539_SW0/LUT4_L_BUF" (BUF)
-removed.
-                      The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000539_SW0/O" is
-loadless and has been removed.
-                       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000539_SW0" (ROM)
-removed.
-                    The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000527" is loadless
-and has been removed.
-                     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000527" (ROM)
-removed.
-        The signal "N2027" is loadless and has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000718_SW1" (MUX)
-removed.
-          The signal "N2212" is loadless and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000718_SW1_F"
+      The signal "N2503" is loadless and has been removed.
+       Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000805_SW0_SW0"
 (ROM) removed.
-          The signal "N2213" is loadless and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000718_SW1_G"
-(ROM) removed.
+        The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000802" is loadless
+and has been removed.
+         Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000802" (ROM)
+removed.
+    The signal "N1875" is loadless and has been removed.
+     Loadless block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux0000805_SW1" (ROM)
+removed.
 The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda" is loadless and has been
 removed.
  Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda" (FF) removed.
   The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000" is loadless and has
 been removed.
    Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000413" (ROM)
+removed.
+    The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000367" is loadless and
+has been removed.
+     Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000367" (ROM)
 removed.
     The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000405" is loadless and
 has been removed.
@@ -1093,134 +995,113 @@ removed.
 has been removed.
        Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000402" (ROM)
 removed.
-    The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000322" is loadless and
+    The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000355" is loadless and
 has been removed.
-     Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000322/LUT4_L_BUF"
+     Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000355/LUT4_L_BUF"
 (BUF) removed.
-      The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000322/O" is loadless
+      The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000355/O" is loadless
 and has been removed.
-       Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000322" (ROM)
+       Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000355" (ROM)
 removed.
-        The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000319" is loadless and
+        The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000322" is loadless and
 has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000319" (ROM)
+         Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000322" (ROM)
 removed.
-        The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000234" is loadless and
+          The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000292" is loadless and
 has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000234" (ROM)
+           Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000292" (ROM)
 removed.
-          The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000231" is loadless and
+          The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000319" is loadless and
 has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000231" (ROM)
+           Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000319" (ROM)
 removed.
-          The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000146" is loadless and
+          The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000279" is loadless and
 has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000146/LUT4_L_BUF"
+           Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000279/LUT4_L_BUF"
 (BUF) removed.
-            The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000146/O" is loadless
+            The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000279/O" is loadless
 and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000146" (ROM)
+             Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000279" (ROM)
 removed.
-              The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000047" is loadless and
+              The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000264" is loadless and
 has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000047" (ROM)
+               Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000264" (ROM)
 removed.
-                The signal "N2878" is loadless and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000047_SW0" (ROM)
-removed.
-                  The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000020" is loadless and
+              The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000234" is loadless and
 has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000020/LUT4_L_BUF"
+               Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000234" (ROM)
+removed.
+                The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000231" is loadless and
+has been removed.
+                 Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000231" (ROM)
+removed.
+                The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000203" is loadless and
+has been removed.
+                 Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000203" (ROM)
+removed.
+                The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000190" is loadless and
+has been removed.
+                 Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000190/LUT4_L_BUF"
 (BUF) removed.
-                    The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000020/O" is loadless and
+                  The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000190/O" is loadless
+and has been removed.
+                   Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000190" (ROM)
+removed.
+                    The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux00000" is loadless and
 has been removed.
-                     Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000020" (ROM)
-removed.
-                  The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux00007" is loadless and
+                     Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux00000" (ROM) removed.
+                    The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000175" is loadless and
 has been removed.
-                   Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux00007" (ROM) removed.
-              The signal "N2089" is loadless and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000094_SW1" (ROM)
+                     Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000175" (ROM)
 removed.
-                The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000117" is loadless and
-has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000117" (ROM)
-removed.
-                The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux00001" is loadless and
-has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux00001" (ROM) removed.
-                The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000077" is loadless and
-has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000077" (ROM)
-removed.
-              The signal "N2088" is loadless and has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000094_SW0" (MUX)
-removed.
-                The signal "N2230" is loadless and has been removed.
-                 Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000094_SW0_F" (ROM)
-removed.
-          The signal "N2076" is loadless and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000190_SW0" (MUX)
-removed.
-            The signal "N2222" is loadless and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000190_SW0_F" (ROM)
-removed.
-              The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000203" is loadless and
-has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000203" (ROM)
-removed.
-            The signal "N2223" is loadless and has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000190_SW0_G" (ROM)
-removed.
-              The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux00000" is loadless and
-has been removed.
-               Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux00000" (ROM) removed.
-            The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000175" is loadless and
-has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000175" (ROM)
-removed.
-              The signal "N4833" is loadless and has been removed.
-               Loadless block
+                      The signal "N4221" is loadless and has been removed.
+                       Loadless block
 "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_mux00001411/LUT3_D_BUF" (BUF)
 removed.
-          The signal "N2077" is loadless and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000190_SW1" (ROM)
-removed.
-        The signal "N2073" is loadless and has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000279_SW0" (MUX)
-removed.
-          The signal "N2220" is loadless and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000279_SW0_F" (ROM)
-removed.
-          The signal "N2221" is loadless and has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000279_SW0_G" (ROM)
-removed.
-            The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000292" is loadless and
+                    The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000146" is loadless and
 has been removed.
-             Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000292" (ROM)
+                     Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000146" (ROM)
 removed.
-          The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000264" is loadless and
+                      The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000117" is loadless and
 has been removed.
-           Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000264" (ROM)
+                       Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000117" (ROM)
 removed.
-        The signal "N2074" is loadless and has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000279_SW1" (ROM)
-removed.
-    The signal "N2070" is loadless and has been removed.
-     Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000355_SW0" (MUX)
-removed.
-      The signal "N2218" is loadless and has been removed.
-       Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000355_SW0_F" (ROM)
-removed.
-      The signal "N2219" is loadless and has been removed.
-       Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000355_SW0_G" (ROM)
-removed.
-        The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000367" is loadless and
+                      The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux00001" is loadless and
 has been removed.
-         Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000367" (ROM)
+                       Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux00001" (ROM) removed.
+                      The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000094" is loadless and
+has been removed.
+                       Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000094/LUT4_L_BUF"
+(BUF) removed.
+                        The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000094/O" is loadless and
+has been removed.
+                         Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000094" (ROM)
 removed.
-    The signal "N2071" is loadless and has been removed.
-     Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux0000355_SW1" (ROM)
+                          The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000077" is loadless and
+has been removed.
+                           Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000077" (ROM)
+removed.
+                          The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000047" is loadless and
+has been removed.
+                           Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000047" (ROM)
+removed.
+                            The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux00002" is loadless and
+has been removed.
+                             Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux00002/LUT2_L_BUF"
+(BUF) removed.
+                              The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux00002/O" is loadless and
+has been removed.
+                               Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux00002" (ROM) removed.
+                            The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000044" is loadless and
+has been removed.
+                             Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000044" (ROM)
+removed.
+                            The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux00007" is loadless and
+has been removed.
+                             Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux00007" (ROM) removed.
+                            The signal "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000020" is loadless and
+has been removed.
+                             Loadless block "melexis_mlx90640_i2c_i0/Mtrien_temp_sda_mux000020" (ROM)
 removed.
 Loadless block "U_icon_pro/U0/U_ICON/U_CMD/U_CORE_ID_SEL/I4.FI[10].U_LUT" (ROM)
 removed.
@@ -1280,116 +1161,55 @@ Loadless block "inst_subfp/blk00000273" (MUX) removed.
       Loadless block "inst_subfp/blk00000291" (MUX) removed.
        The signal "inst_subfp/sig00000466" is loadless and has been removed.
         Loadless block "inst_subfp/blk0000038c" (ROM) removed.
-Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk000000b1" (FF)
+Loadless block "g1_fl2fi_raw_image.inst_float2fixed_r/blk00000028" (XOR)
 removed.
- The signal "g0_fl2fi_temperature.inst_float2fixed_t/sig000000b7" is loadless and
+Loadless block "g1_fl2fi_raw_image.inst_float2fixed_r/blk0000003b" (XOR)
+removed.
+ The signal "g1_fl2fi_raw_image.inst_float2fixed_r/sig000000ca" is loadless and
 has been removed.
-  Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk000000ab" (MUX)
+  Loadless block "g1_fl2fi_raw_image.inst_float2fixed_r/blk00000039" (MUX)
 removed.
-   The signal "g0_fl2fi_temperature.inst_float2fixed_t/sig000000b6" is loadless and
+Loadless block "g1_fl2fi_raw_image.inst_float2fixed_r/blk0000008d" (FF) removed.
+ The signal "g1_fl2fi_raw_image.inst_float2fixed_r/sig0000008f" is loadless and
 has been removed.
-    Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk000000ac" (MUX)
+  Loadless block "g1_fl2fi_raw_image.inst_float2fixed_r/blk00000087" (MUX)
 removed.
-     The signal "g0_fl2fi_temperature.inst_float2fixed_t/sig000000b5" is loadless and
+   The signal "g1_fl2fi_raw_image.inst_float2fixed_r/sig0000008e" is loadless and
 has been removed.
-      Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk000000ad" (MUX)
+    Loadless block "g1_fl2fi_raw_image.inst_float2fixed_r/blk00000088" (MUX)
 removed.
-       The signal "g0_fl2fi_temperature.inst_float2fixed_t/sig000000b4" is loadless and
+     The signal "g1_fl2fi_raw_image.inst_float2fixed_r/sig0000008d" is loadless and
 has been removed.
-        Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk000000ae" (MUX)
+      Loadless block "g1_fl2fi_raw_image.inst_float2fixed_r/blk00000089" (MUX)
 removed.
-         The signal "g0_fl2fi_temperature.inst_float2fixed_t/sig000000b3" is loadless and
+       The signal "g1_fl2fi_raw_image.inst_float2fixed_r/sig0000008c" is loadless and
 has been removed.
-          Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk000000af" (MUX)
+        Loadless block "g1_fl2fi_raw_image.inst_float2fixed_r/blk0000008a" (MUX)
 removed.
-           The signal "g0_fl2fi_temperature.inst_float2fixed_t/sig000000b2" is loadless and
+         The signal "g1_fl2fi_raw_image.inst_float2fixed_r/sig0000008b" is loadless and
 has been removed.
-            Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk000000b0" (MUX)
+          Loadless block "g1_fl2fi_raw_image.inst_float2fixed_r/blk0000008b" (MUX)
 removed.
-             The signal "g0_fl2fi_temperature.inst_float2fixed_t/sig000000b8" is loadless and
+           The signal "g1_fl2fi_raw_image.inst_float2fixed_r/sig0000008a" is loadless and
 has been removed.
-              Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk000000ec" (ROM)
+            Loadless block "g1_fl2fi_raw_image.inst_float2fixed_r/blk0000008c" (MUX)
 removed.
-           The signal "g0_fl2fi_temperature.inst_float2fixed_t/sig000000b9" is loadless and
+             The signal "g1_fl2fi_raw_image.inst_float2fixed_r/sig00000090" is loadless and
 has been removed.
-            Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk000000e9" (ROM)
+              Loadless block "g1_fl2fi_raw_image.inst_float2fixed_r/blk000000c1" (ROM)
 removed.
-       The signal "g0_fl2fi_temperature.inst_float2fixed_t/sig000000bb" is loadless and
+         The signal "g1_fl2fi_raw_image.inst_float2fixed_r/sig00000092" is loadless and
 has been removed.
-        Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk000000e8" (ROM)
+          Loadless block "g1_fl2fi_raw_image.inst_float2fixed_r/blk000000bf" (ROM)
 removed.
-   The signal "g0_fl2fi_temperature.inst_float2fixed_t/sig000000bd" is loadless and
+       The signal "g1_fl2fi_raw_image.inst_float2fixed_r/sig00000093" is loadless and
 has been removed.
-    Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk000000e4" (ROM)
+        Loadless block "g1_fl2fi_raw_image.inst_float2fixed_r/blk000000be" (ROM)
 removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005fe" (FF) removed.
- The signal "g_calculate_to.inst_sqrtfp2/sig0000082f" is loadless and has been
-removed.
-  Loadless block "g_calculate_to.inst_sqrtfp2/blk00000621" (XOR) removed.
-Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk00000027" (XOR)
-removed.
-Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk00000048" (XOR)
-removed.
- The signal "g0_fl2fi_temperature.inst_float2fixed_t/sig0000010a" is loadless and
+   The signal "g1_fl2fi_raw_image.inst_float2fixed_r/sig00000095" is loadless and
 has been removed.
-  Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk00000046" (MUX)
+    Loadless block "g1_fl2fi_raw_image.inst_float2fixed_r/blk000000ba" (ROM)
 removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk00000142" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk0000014e" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk0000015f" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk0000016c" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk00000182" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk0000019b" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000001b7" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000001e1" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000001f8" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk0000021d" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk00000245" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk00000270" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk0000029e" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000002cf" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk00000303" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk0000033a" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk00000374" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000003b1" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000003f1" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk00000434" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk0000047a" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000004c3" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk0000050f" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk0000055e" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005b0" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005b2" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005b4" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005b6" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005b8" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005ba" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005bc" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005be" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005c0" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005c2" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005c4" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005c6" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005c8" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005ca" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005cc" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005ce" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005d0" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005d2" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005d4" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005d6" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005d8" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005da" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005dc" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005de" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005e0" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005e2" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005e4" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005e6" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk00000620" (XOR) removed.
- The signal "g_calculate_to.inst_sqrtfp2/sig00000825" is loadless and has been
-removed.
-  Loadless block "g_calculate_to.inst_sqrtfp2/blk0000061e" (MUX) removed.
 Loadless block "inst_addfp/blk00000206" (XOR) removed.
  The signal "inst_addfp/sig0000050d" is loadless and has been removed.
   Loadless block "inst_addfp/blk00000208" (MUX) removed.
@@ -1494,23 +1314,9 @@ The signal "icon_control0<28>" is sourceless and has been removed.
 The signal "icon_control0<34>" is sourceless and has been removed.
 The signal "icon_control0<29>" is sourceless and has been removed.
 The signal "icon_control0<35>" is sourceless and has been removed.
-The signal "g0_fl2fi_temperature.inst_float2fixed_t/sig00000099" is sourceless
-and has been removed.
-The signal "g0_fl2fi_temperature.inst_float2fixed_t/sig0000007d" is sourceless
-and has been removed.
-The signal "g0_dualmem_temperature.dualmem_inst_t/doutb<15>" is sourceless and
+The signal "g1_fl2fi_raw_image.inst_float2fixed_r/sig00000071" is sourceless and
 has been removed.
-The signal "g0_dualmem_temperature.dualmem_inst_t/doutb<14>" is sourceless and
-has been removed.
-The signal "g0_dualmem_temperature.dualmem_inst_t/doutb<4>" is sourceless and
-has been removed.
-The signal "g0_dualmem_temperature.dualmem_inst_t/doutb<3>" is sourceless and
-has been removed.
-The signal "g0_dualmem_temperature.dualmem_inst_t/doutb<2>" is sourceless and
-has been removed.
-The signal "g0_dualmem_temperature.dualmem_inst_t/doutb<1>" is sourceless and
-has been removed.
-The signal "g0_dualmem_temperature.dualmem_inst_t/doutb<0>" is sourceless and
+The signal "g1_fl2fi_raw_image.inst_float2fixed_r/sig00000056" is sourceless and
 has been removed.
 The signal "b0.inst_fixed2float/sig00000113" is sourceless and has been removed.
 The signal "b0.inst_fixed2float/sig00000112" is sourceless and has been removed.
@@ -1695,6 +1501,46 @@ removed.
 (ROM) removed.
  Sourceless block "U_icon_pro/U0/U_ICON/U_CTRL_OUT/F_NCP[0].F_CMD[14].U_LCE"
 (ROM) removed.
+
+The trimmed logic reported below is either:
+   1. part of a cycle
+   2. part of disabled logic
+   3. a side-effect of other trimmed logic
+
+The signal "N1888" is unused and has been removed.
+ Unused block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131229_SW2" (ROM)
+removed.
+The signal "N1889" is unused and has been removed.
+ Unused block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000131229_SW3" (ROM)
+removed.
+The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011111211" is unused
+and has been removed.
+ Unused block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00011111211" (ROM)
+removed.
+The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001111133" is unused
+and has been removed.
+ Unused block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001111133" (ROM)
+removed.
+The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001111149/O" is unused
+and has been removed.
+ Unused block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001111149" (ROM)
+removed.
+The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012174_SW3/O" is
+unused and has been removed.
+ Unused block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not00012174_SW3" (ROM)
+removed.
+The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000126/O" is unused and
+has been removed.
+ Unused block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not000126" (ROM)
+removed.
+The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001159_SW3_F/O" is
+unused and has been removed.
+ Unused block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_not0001159_SW3_F" (ROM)
+removed.
+The signal "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00031_SW2_G/O" is unused
+and has been removed.
+ Unused block "melexis_mlx90640_i2c_i0/Mtridata_temp_sda_or00031_SW2_G" (ROM)
+removed.
 Unused block "U_icon_pro/U0/U_ICON/U_CMD/U_COMMAND_SEL/I4.FI[11].U_LUT" (ROM)
 removed.
 Unused block "U_icon_pro/U0/U_ICON/U_CMD/U_COMMAND_SEL/I4.FI[12].U_LUT" (ROM)
@@ -1751,8 +1597,7 @@ Unused block "inst_mulfp/blk00000142/blk00000145" (FF) removed.
 Unused block "inst_mulfp/blk00000142/blk00000146" (FF) removed.
 Unused block "inst_mulfp/blk00000142/blk00000147" (FF) removed.
 Unused block "inst_subfp/blk0000009b" (MUX) removed.
-Unused block "g0_fl2fi_temperature.inst_float2fixed_t/blk0000000e" (MUX)
-removed.
+Unused block "g1_fl2fi_raw_image.inst_float2fixed_r/blk0000000f" (MUX) removed.
 
 Optimized Block(s):
 TYPE 		BLOCK
@@ -1781,11 +1626,6 @@ GND 		inst_mulfp/blk0000013e/blk0000013f
 GND 		inst_mulfp/blk00000140/blk00000141
 GND 		inst_subfp/blk00000001
 VCC 		inst_subfp/blk00000002
-GND 		g0_dualmem_temperature.dualmem_inst_t/XST_GND
-GND 		g0_fl2fi_temperature.inst_float2fixed_t/blk00000001
-VCC 		g0_fl2fi_temperature.inst_float2fixed_t/blk00000002
-GND 		g_calculate_to.inst_sqrtfp2/blk00000001
-VCC 		g_calculate_to.inst_sqrtfp2/blk00000002
 GND 		i2c_stream_i0/mem_i2c_stream_i0/XST_GND
 FDE 		b0.inst_fixed2float/blk00000045
    optimized to 0
@@ -1803,7 +1643,10 @@ FDE 		b0.inst_fixed2float/blk0000004b
    optimized to 0
 FDE 		b0.inst_fixed2float/blk0000004c
    optimized to 0
-FDE 		g0_fl2fi_temperature.inst_float2fixed_t/blk00000020
+GND 		g1_dualmem_rawimg.dualmem_inst_r/XST_GND
+GND 		g1_fl2fi_raw_image.inst_float2fixed_r/blk00000001
+VCC 		g1_fl2fi_raw_image.inst_float2fixed_r/blk00000002
+FDE 		g1_fl2fi_raw_image.inst_float2fixed_r/blk00000021
    optimized to 0
 MUXCY 		b0.inst_fixed2float/blk000000d0
 MUXCY 		b0.inst_fixed2float/blk000000d1
@@ -1824,7 +1667,7 @@ XORCY 		b0.inst_fixed2float/blk0000005a
 MUXCY 		b0.inst_fixed2float/blk00000059
 XORCY 		b0.inst_fixed2float/blk0000005c
 MUXCY 		b0.inst_fixed2float/blk0000005b
-MUXCY 		g0_fl2fi_temperature.inst_float2fixed_t/blk0000001a
+MUXCY 		g1_fl2fi_raw_image.inst_float2fixed_r/blk0000001b
 
 To enable printing of redundant blocks removed and signals merged, set the
 detailed map report option and rerun map.
@@ -1896,7 +1739,7 @@ SRL16.U_GANDX_SRL16_MSET
 Section 8 - Guide Report
 ------------------------
 
-Sat Sep 27 16:05:32 2025
+Sat Sep 27 16:31:23 2025
 
   Estimated SmartGuide Results
   ----------------------------
@@ -1904,11 +1747,11 @@ Sat Sep 27 16:05:32 2025
   components are components that were guided, but moved in order to satisfy
   timing requirements.
 
-    Estimated Percentage of guided Components                 |  98.8%
-    Estimated Percentage of re-implemented Components         |   0.2%
-    Estimated Percentage of new/changed Components            |   1.0%
-    Estimated Percentage of fully guided Nets                 |  97.7%
-    Estimated Percentage of partially guided or unrouted Nets |   2.3%
+    Estimated Percentage of guided Components                 |  56.9%
+    Estimated Percentage of re-implemented Components         |  13.0%
+    Estimated Percentage of new/changed Components            |  30.1%
+    Estimated Percentage of fully guided Nets                 |  35.2%
+    Estimated Percentage of partially guided or unrouted Nets |  64.8%
 
   A detailed SmartGuide report (.GRF) can be generated during PAR by
   specifying the [-smartguide <guidefile[.ncd]>] switch on the PAR
