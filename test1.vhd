@@ -45,8 +45,8 @@ constant c_cold_start : integer := 1000;
 constant c_wait2 : integer := 1000;
 constant c_wait3 : integer := 10000;
 constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
-constant c_calculate_type1 : string (1 to 13) := "c_raws_images"; -- c_temperature,c_raws_images
-constant c_use_fisqrt1 : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type(c_temperature)
+constant c_calculate_type1 : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
+constant c_use_fisqrt1 : string (1 to 3) := "yes" -- yes/no - depend from c_calculate_type(c_temperature)
 );
 port (
 i_clock,i_reset : in std_logic;
@@ -1057,6 +1057,7 @@ begin
 					dualmem_wea <= "0";
 					dualmem_ena <= '0';
 					if (i = PIXELS-1) then
+--            dualmem_enb <= '1';
 						i := 0;
 						state := s10;
 					else
@@ -1073,24 +1074,25 @@ end process pTo;
 
 dualmem_enb <= not address_generator_activeh;
 
-pvgaclk : process (clock_i,i_reset) is
---	constant CMAX : integer := 1; -- 50/25 - nexys2
-	constant CMAX : integer := 2; -- 100/25 - ml402
-	variable vmax : integer range 0 to CMAX-1;
-begin
-		if (i_reset = '1') then
-			vgaclk25 <= '0';
-			vmax := 0;
-		elsif (rising_edge (clock_i)) then
-			if (vmax = CMAX-1) then
-				vgaclk25 <= not vgaclk25;
-				vmax := 0;
-			else
-				vgaclk25 <= vgaclk25;
-				vmax := vmax + 1;
-			end if;
-		end if;
-end process pvgaclk;
+--pvgaclk : process (clock_i,i_reset) is
+----	constant CMAX : integer := 1; -- 50/25 - nexys2
+--	constant CMAX : integer := 2; -- 100/25 - ml402
+--	variable vmax : integer range 0 to CMAX-1;
+--begin
+--		if (i_reset = '1') then
+--			vgaclk25 <= '0';
+--			vmax := 0;
+--		elsif (rising_edge (clock_i)) then
+--			if (vmax = CMAX-1) then
+--				vgaclk25 <= not vgaclk25;
+--				vmax := 0;
+--			else
+--				vgaclk25 <= vgaclk25;
+--				vmax := vmax + 1;
+--			end if;
+--		end if;
+--end process pvgaclk;
+vgaclk25 <= clock_i; -- 25 mhz
 
 pagclk : process (vgaclk25,i_reset) is
 --	constant CMAX : integer := 40; -- 1.25
