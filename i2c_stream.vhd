@@ -54,8 +54,6 @@ douta : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
 );
 END COMPONENT;
 
-signal clka : STD_LOGIC;
-signal ena : STD_LOGIC;
 signal addra : STD_LOGIC_VECTOR(14 DOWNTO 0);
 signal douta : STD_LOGIC_VECTOR(15 DOWNTO 0);
 
@@ -107,7 +105,8 @@ begin
           v_records <= 0;
           v_data <= c_data - 1;
           if (i_enable = '1') then
-            if (v_omit = compare1 - 1) then -- omit set address
+--            if (v_omit = compare1 - 1) then -- omit set address
+            if (v_omit = c_omit - 1) then -- omit set address
               state <= s1;
               v_omit <= 0;
             else
