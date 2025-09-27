@@ -47,15 +47,14 @@ constant c_board_clock : integer := c_clock_board_frequency;
 constant c_bus_clock : integer := c_clock_i2c_frequency;
 --constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
 --constant c_bus_clock : integer := 50;
-constant c_bus_clock : integer := c_clock_i2c_frequency;
 --constant c_bus_clock : integer := 1;
 constant c_sim : string (1 to 1) := "n";
 constant c_cold_start : integer := 1000;
 constant c_wait2 : integer := 1000;
 constant c_wait3 : integer := 10000;
 constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
-constant c_calculate_type1 : string (1 to 13) := "c_raws_images"; -- c_temperature,c_raws_images
-constant c_use_fisqrt1 : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type(c_temperature)
+constant c_calculate_type1 : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
+constant c_use_fisqrt1 : string (1 to 3) := " no" -- yes/no - depend from c_calculate_type(c_temperature)
 );
 PORT(
 i_clock : IN  std_logic;
@@ -128,7 +127,6 @@ o_done : OUT  std_logic;
 i_mode2 : IN  std_logic;
 i_enable : IN  std_logic;
 i_addr : IN  std_logic_vector(15 downto 0);
-o_done : out std_logic;
 compare1 : in integer
 );
 END COMPONENT;
@@ -226,8 +224,8 @@ v_sync_i        => vga_vsync
 
 p0 : process is
 begin
-  wait for 653 us; -- wait on scl idle before mode2 1000k
---  wait for 972 us; -- wait on scl idle before mode2 500k
+--  wait for 653 us; -- wait on scl idle before mode2 1000k
+  wait for 974 us; -- wait on scl idle before mode2 500k
 --  wait for 3655 us; -- wait on scl idle before mode2 100k
   i_addr <= x"2400"; -- eeprom
   i_enable <= '1';
@@ -237,8 +235,8 @@ begin
   wait until o_done = '0';
   i_enable <= '0';
   
-  wait for 268 us; -- 1000k
---  wait for 450 us; -- 500k
+--  wait for 268 us; -- 1000k
+  wait for 450 us; -- 500k
 --  wait for 1742 us; -- 100k
   i_addr <= x"0400"; -- data 1
   i_enable <= '1';
@@ -247,8 +245,8 @@ begin
   i_enable <= '0';
   wait until o_done = '0';
   i_addr <= x"0000"; -- data 1 end
-  wait for 268 us; -- 1000k - s1
---  wait for 430 us; -- 500k
+--  wait for 268 us; -- 1000k - s1
+  wait for 430 us; -- 500k
 --  wait for 1352 us; -- 100k
 
   l0 : for i in 0 to 27 loop
@@ -257,10 +255,10 @@ begin
   compare1 <= 37;
   wait until o_done = '1';
   i_enable <= '0';
---  wait until o_done = '0';
+  wait until o_done = '0';
   i_addr <= x"0000"; -- data X end
-  wait for 12656 us; -- 1000k - s1
---  wait for 430 us; -- 500k
+--  wait for 12656 us; -- 1000k - s1
+  wait for 430 us; -- 500k
 --  wait for 1352 us; -- 100k
   end loop l0;
   wait;
