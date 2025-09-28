@@ -41,12 +41,12 @@ constant c_bus_clock : integer := c_clock_i2c_frequency;
 --constant c_bus_clock : integer := 1_000_000;
 -- constant c_bus_clock : integer := 100_000;
 constant c_sim : string (1 to 1) := "n";
-constant c_cold_start : integer := 1000;
+constant c_cold_start : integer := 100000;
 constant c_wait2 : integer := 1000;
 constant c_wait3 : integer := 10000;
 constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
-constant c_calculate_type1 : string (1 to 13) := "c_raws_images"; -- c_temperature,c_raws_images
-constant c_use_fisqrt1 : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type(c_temperature)
+constant c_calculate_type1 : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
+constant c_use_fisqrt1 : string (1 to 3) := " no" -- yes/no - depend from c_calculate_type(c_temperature)
 );
 port (
 i_clock,i_reset : in std_logic;
@@ -466,8 +466,8 @@ port (
   i_mode2 : in std_logic; -- W(A)/2b(A),ST,R(A)/2*N(NA)
   o_mode2_ready : out std_logic;
   o_mode2_ready_all : out std_logic;
-  i_memory_address : in std_logic_vector (0 to 15);
-  i_memory_data : in std_logic_vector (0 to 15);
+  i_memory_address : in std_logic_vector (15 downto 0);
+  i_memory_data : in std_logic_vector (15 downto 0);
   o_bytes_to_recv : out std_logic_vector (15 downto 0);
   i_enable : in std_logic;
   o_busy : out std_logic;
@@ -484,9 +484,9 @@ signal melexis_mlx90640_i2c_mode1 : std_logic; -- W(A)/2b(A),ST,R(A)/2b(NA)
 signal melexis_mlx90640_i2c_mode2 : std_logic; -- W(A)/2b(A),ST,R(A)/2*N(NA)
 signal melexis_mlx90640_i2c_mode2_ready : std_logic;
 signal melexis_mlx90640_i2c_mode2_ready_all : std_logic;
-signal melexis_mlx90640_i2c_memory_address : std_logic_vector (0 to 15);
-signal melexis_mlx90640_i2c_memory_data : std_logic_vector (0 to 15);
-signal melexis_mlx90640_i2c_bytes_to_recv : std_logic_vector (0 to 15);
+signal melexis_mlx90640_i2c_memory_address : std_logic_vector (15 downto 0);
+signal melexis_mlx90640_i2c_memory_data : std_logic_vector (15 downto 0);
+signal melexis_mlx90640_i2c_bytes_to_recv : std_logic_vector (15 downto 0);
 signal melexis_mlx90640_i2c_enable : std_logic;
 signal melexis_mlx90640_i2c_busy : std_logic;
 signal melexis_mlx90640_i2c_sda_o : std_logic;
@@ -593,8 +593,9 @@ begin
       if (melexis_mlx90640_i2c_memory_address = x"0400") then
         i2c_mlx_addra <= std_logic_vector (to_unsigned (mem_addr + 832, 11));
       end if;
-      i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (8 to 15);
-      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (0 to 7);
+--      i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
+--      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
+      i2c_mlx_dina <= melexis_mlx90640_i2c_bytes_to_recv;
       if (mem_addr = c_max - 1) then
         mem_addr := 0;
       else
@@ -666,8 +667,9 @@ else
           melexis_mlx90640_i2c_enable <= '0';
 --          state := wr1;
           if (cold_start = c_cold_start - 1) then
-            state := wr1;
-            state := wr1;
+            state := idle2a;
+--            state := wr1;
+--            state := wr1;
 --            state := wr1a1;
 --            state := w1;
             cold_start := 0;
@@ -848,7 +850,7 @@ else
           else
             wait3 := wait3+ 1;
           end if;
-
+-----------------------------------
         when r1 =>
           melexis_mlx90640_i2c_mode0 <= '0';
           melexis_mlx90640_i2c_mode1 <= '0';
@@ -867,12 +869,13 @@ else
             wait1 <= wait1 + 1;
           end if;
         when idle3 => ------------------
-          if (wait2 = c_wait2 - 1) then
-            state := wr1a1;
+          if (wait3 = c_wait3 - 1) then
+--            state := wr1a1;
+            state := r2;
 --            state := idle;
-            wait2 := 0;
+            wait3 := 0;
           else
-            wait2 := wait2 + 1;
+            wait3 := wait3 + 1;
           end if;
 ---------------------------
         when wr1a1 =>
@@ -1069,8 +1072,8 @@ else
 						i := i + 1;
 					end if;
 				when s10 =>
-          state := idle;
---          state := idle2a1;
+--          state := idle;
+          state := idle2a1;
 --          state := idle3;
         when others => null;
 			end case;
@@ -1504,7 +1507,9 @@ doutb => i2c_mlx_doutb
 i2c_stream_clock <= clock_i;
 i2c_stream_reset <= i_reset;
 i2c_stream_scl <= scl_i;
-sda_o <= '0' when i2c_stream_sda = '0' else 'Z';
+--sda_o <= '0' when i2c_stream_sda = '0' else 'Z';
+--sda_i <= i2c_stream_sda;
+--sda_o <= '0' when i2c_stream_sda = '0' else '1';
 sda_i <= i2c_stream_sda;
 i2c_stream_addr <= melexis_mlx90640_i2c_memory_address;
 i2c_stream_i0 : i2c_stream
