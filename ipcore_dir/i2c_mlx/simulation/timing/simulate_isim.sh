@@ -46,7 +46,6 @@
 # PART OF THIS FILE AT ALL TIMES.
 #--------------------------------------------------------------------------------
 
-cp ../../../i2c_mlx.mif .
 
 
 echo "Compiling Core VHDL UNISIM/Behavioral model"

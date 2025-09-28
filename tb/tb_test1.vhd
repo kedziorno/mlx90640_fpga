@@ -96,8 +96,8 @@ signal vga_b : std_logic_vector(7 downto 0);
 
 -- Clock period definitions
 --constant i_clock_period : time := 20 ns; -- nexys2
---constant i_clock_period : time := 10 ns; -- ml402
-constant i_clock_period : time := 40 ns; -- 25
+constant i_clock_period : time := 10 ns; -- ml402
+--constant i_clock_period : time := 40 ns; -- 25
 
 component vga_bmp_sink is
 generic (

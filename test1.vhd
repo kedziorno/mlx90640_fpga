@@ -74,9 +74,9 @@ constant BITS : integer := 24;
 
 component melexis_mlx9064x is
 generic (
-constant c_device : string (1 to 8) := c_device; -- mlx90640 (32x24),mlx90641 (16x12)
-constant c_calculate_type : string (1 to 13) := c_calculate_type1; -- c_temperature,c_raws_images
-constant c_use_fisqrt : string (1 to 3) := c_use_fisqrt1 -- yes/no - depend from c_calculate_type(c_temperature)
+constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
+constant c_calculate_type : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
+constant c_use_fisqrt : string (1 to 3) := "yes" -- yes/no - depend from c_calculate_type(c_temperature)
 );
 port (
 i_clock : in std_logic;
@@ -468,7 +468,7 @@ port (
   o_mode2_ready_all : out std_logic;
   i_memory_address : in std_logic_vector (0 to 15);
   i_memory_data : in std_logic_vector (0 to 15);
-  o_bytes_to_recv : out std_logic_vector (0 to 15);
+  o_bytes_to_recv : out std_logic_vector (15 downto 0);
   i_enable : in std_logic;
   o_busy : out std_logic;
   io_sda_o : out std_logic;
@@ -624,8 +624,11 @@ pTo : process (clock_i,i_reset) is
   variable wait2 : integer range 0 to c_wait2 - 1;
   variable wait3 : integer range 0 to c_wait3 - 1;
 begin
+		if (rising_edge (clock_i)) then
 		if (i_reset = '1') then
 			state := idle;
+--			state := idle2a1;
+--			state := r14;
       i2c_stream_enable <= '0';
       wait1 <= 0;
       wait2 := 0;
@@ -648,7 +651,7 @@ begin
       melexis_mlx90640_i2c_enable <= '0';
       melexis_mlx90640_i2c_memory_address <= x"0000";
       melexis_mlx90640_i2c_memory_data <= x"0000";
-		elsif (rising_edge (clock_i)) then
+else
       t_state <= state;
 			case (state) is
       
@@ -663,6 +666,7 @@ begin
           melexis_mlx90640_i2c_enable <= '0';
 --          state := wr1;
           if (cold_start = c_cold_start - 1) then
+            state := wr1;
             state := wr1;
 --            state := wr1a1;
 --            state := w1;
@@ -1057,42 +1061,44 @@ begin
 					dualmem_wea <= "0";
 					dualmem_ena <= '0';
 					if (i = PIXELS-1) then
---            dualmem_enb <= '1';
 						i := 0;
 						state := s10;
+            dualmem_enb <= '1';
 					else
 						state := s4;
 						i := i + 1;
 					end if;
 				when s10 =>
-          state := idle;
+--          state := idle;
+          state := idle2a1;
 --          state := idle3;
         when others => null;
 			end case;
 		end if;
+  end if;
 end process pTo;
 
-dualmem_enb <= not address_generator_activeh;
+--dualmem_enb <= not address_generator_activeh;
 
---pvgaclk : process (clock_i,i_reset) is
-----	constant CMAX : integer := 1; -- 50/25 - nexys2
---	constant CMAX : integer := 2; -- 100/25 - ml402
---	variable vmax : integer range 0 to CMAX-1;
---begin
---		if (i_reset = '1') then
---			vgaclk25 <= '0';
---			vmax := 0;
---		elsif (rising_edge (clock_i)) then
---			if (vmax = CMAX-1) then
---				vgaclk25 <= not vgaclk25;
---				vmax := 0;
---			else
---				vgaclk25 <= vgaclk25;
---				vmax := vmax + 1;
---			end if;
---		end if;
---end process pvgaclk;
-vgaclk25 <= clock_i; -- 25 mhz
+pvgaclk : process (clock_i,i_reset) is
+--	constant CMAX : integer := 1; -- 50/25 - nexys2
+	constant CMAX : integer := 2; -- 100/25 - ml402
+	variable vmax : integer range 0 to CMAX-1;
+begin
+		if (i_reset = '1') then
+			vgaclk25 <= '0';
+			vmax := 0;
+		elsif (rising_edge (clock_i)) then
+			if (vmax = CMAX-1) then
+				vgaclk25 <= not vgaclk25;
+				vmax := 0;
+			else
+				vgaclk25 <= vgaclk25;
+				vmax := vmax + 1;
+			end if;
+		end if;
+end process pvgaclk;
+--vgaclk25 <= clock_i; -- 25 mhz
 
 pagclk : process (vgaclk25,i_reset) is
 --	constant CMAX : integer := 40; -- 1.25
@@ -1460,14 +1466,15 @@ io_scl => scl_i
 --io_sda_nl <= io_sda_dd;
 --io_scl_nl <= io_scl_dd;
 
-clock_IBUFG_inst : IBUFG
-generic map (
-CAPACITANCE => "DONT_CARE", -- "LOW", "NORMAL", "DONT_CARE" 
-IOSTANDARD => "DEFAULT")
-port map (
-O => clock_i, -- Clock buffer output
-I => i_clock  -- Clock buffer input (connect directly to top-level port)
-);
+clock_i <= i_clock;
+--clock_IBUFG_inst : IBUFG
+--generic map (
+--CAPACITANCE => "DONT_CARE", -- "LOW", "NORMAL", "DONT_CARE" 
+--IOSTANDARD => "DEFAULT")
+--port map (
+--O => clock_i, -- Clock buffer output
+--I => i_clock  -- Clock buffer input (connect directly to top-level port)
+--);
 --reset_BUFG_inst : BUFG
 --port map (
 --O => reset_i,     -- Clock buffer output
