@@ -3,14 +3,27 @@ Xilinx Map Application Log File for Design 'test1'
 
 Design Information
 ------------------
-Command Line   : map -intstyle ise -p xc4vsx35-ff668-10 -global_opt off -cm area
--detail -ir off -pr off -u -c 100 -o test1_map.ncd test1.ngd test1.pcf 
+Command Line   : map -intstyle ise -p xc4vsx35-ff668-10 -timing -logic_opt off
+-ol std -t 1 -register_duplication off -global_opt off -cm area -detail -ir off
+-pr off -u -smartguide
+/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/test1_guide.ncd
+-power off -o test1_map.ncd test1.ngd test1.pcf 
 Target Device  : xc4vsx35
 Target Package : ff668
 Target Speed   : -10
 Mapper Version : virtex4 -- $Revision: 1.55 $
-Mapped Date    : Sat Sep 27 23:31:46 2025
+Mapped Date    : Sun Sep 28 16:36:38 2025
 
+Loading device for application Rf_Device from file '4vsx35.nph' in environment
+/home/user/.local/Xilinx/14.7/ISE_DS/ISE/.
+   "test1" is an NCD, version 3.2, device xc4vsx35, package ff668, speed -10
+This design is using the default stepping level (major silicon revision) for
+this device (1). Unless your design is targeted at devices of this stepping
+level, it is recommended that you explicitly specify the stepping level of the
+parts you will be using. This will allow the tools to take advantage of any
+available performance and functional enhancements for this device. The latest
+stepping level for this device is '2'. Additional information on "stepping
+level" is available at support.xilinx.com.
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 INFO:Security:56 - Part 'xc4vsx35' is not a WebPack part.
 WARNING:Security:42 - Your software subscription period has lapsed. Your current
@@ -18,86 +31,149 @@ version of Xilinx tools will continue to function, but you no longer qualify for
 Xilinx software updates or new releases.
 ----------------------------------------------------------------------
 Mapping design into LUTs...
+WARNING:LIT:176 - Clock buffer is designated to drive clock loads. BUFG symbol
+   "melexis_mlx90640_i2c_i0/io_scl_BUFG" (output signal=scl_i) has a mix of
+   clock and non-clock loads. The non-clock loads are:
+   Pin D of i2c_stream_i0/scl_prev
+   Pin I0 of i2c_stream_i0/scl_re_and00001
+   Pin I1 of i2c_stream_i0/v_records_and00011
 Running directed packing...
+Constraining slice packing based on guide NCD.
 Running delay-based LUT packing...
-Running related packing...
 Updating timing models...
+Running timing-driven placement...
+Total REAL time at the beginning of Placer: 39 secs 
+Total CPU  time at the beginning of Placer: 38 secs 
+
+Phase 1.7  Design Feasibility Check
+Phase 1.7  Design Feasibility Check (Checksum:8ab36431) REAL time: 40 secs 
+
+Phase 2.31  Local Placement Optimization
+Phase 2.31  Local Placement Optimization (Checksum:9630de4e) REAL time: 40 secs 
+
+Phase 3.2  Initial Clock and IO Placement
+Phase 3.2  Initial Clock and IO Placement (Checksum:9630de4e) REAL time: 42 secs 
+
+Phase 4.36  Local Placement Optimization
+Phase 4.36  Local Placement Optimization (Checksum:9630de4e) REAL time: 42 secs 
+
+Phase 5.30  Global Clock Region Assignment
+Phase 5.30  Global Clock Region Assignment (Checksum:9630de4e) REAL time: 42 secs 
+
+Phase 6.3  Local Placement Optimization
+Phase 6.3  Local Placement Optimization (Checksum:9630de4e) REAL time: 42 secs 
+
+Phase 7.5  Local Placement Optimization
+Phase 7.5  Local Placement Optimization (Checksum:9630de4e) REAL time: 43 secs 
+
+Phase 8.8  Global Placement
+...................
+...............
+..
+Phase 8.8  Global Placement (Checksum:956425b9) REAL time: 55 secs 
+
+Phase 9.5  Local Placement Optimization
+Phase 9.5  Local Placement Optimization (Checksum:956425b9) REAL time: 56 secs 
+
+Phase 10.18  Placement Optimization
+Phase 10.18  Placement Optimization (Checksum:956425b9) REAL time: 56 secs 
+
+Phase 11.5  Local Placement Optimization
+Phase 11.5  Local Placement Optimization (Checksum:956425b9) REAL time: 57 secs 
+
+Phase 12.34  Placement Validation
+Phase 12.34  Placement Validation (Checksum:956425b9) REAL time: 57 secs 
+
+Total REAL time to Placer completion: 58 secs 
+Total CPU  time to Placer completion: 57 secs 
+Running post-placement packing...
+Updating route info ...
+WARNING:PhysDesignRules:372 - Gated clock. Clock net icon_control0<13> is
+   sourced by a combinatorial pin. This is not good design practice. Use the CE
+   pin to control the loading of data into the flip-flop.
 WARNING:PhysDesignRules:372 - Gated clock. Clock net
    melexis_mlx90640_i2c_i0/temp_sck is sourced by a combinatorial pin. This is
    not good design practice. Use the CE pin to control the loading of data into
    the flip-flop.
-WARNING:PhysDesignRules:367 - The signal
-   <g0_dualmem_temperature.dualmem_inst_t/doutb<15>> is incomplete. The signal
-   does not drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <g0_dualmem_temperature.dualmem_inst_t/doutb<14>> is incomplete. The signal
-   does not drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <g0_dualmem_temperature.dualmem_inst_t/doutb<4>> is incomplete. The signal
-   does not drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <g0_dualmem_temperature.dualmem_inst_t/doutb<3>> is incomplete. The signal
-   does not drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <g0_dualmem_temperature.dualmem_inst_t/doutb<2>> is incomplete. The signal
-   does not drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <g0_dualmem_temperature.dualmem_inst_t/doutb<1>> is incomplete. The signal
-   does not drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal
-   <g0_dualmem_temperature.dualmem_inst_t/doutb<0>> is incomplete. The signal
-   does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<17>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<7>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<25>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<32>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<33>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<15>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<16>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<10>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<27>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<31>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<28>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<35>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<34>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<22>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<24>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<23>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<18>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<30>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<29>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<26>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<11>> is incomplete. The
+   signal does not drive any load pins in the design.
 
 Design Summary
 --------------
 
 Design Summary:
 Number of errors:      0
-Number of warnings:    8
+Number of warnings:   24
 Logic Utilization:
-  Number of Slice Flip Flops:         8,943 out of  30,720   29%
-  Number of 4 input LUTs:            15,434 out of  30,720   50%
+  Total Number Slice Registers:       8,674 out of  30,720   28%
+    Number used as Flip Flops:        8,673
+    Number used as Latches:               1
+  Number of 4 input LUTs:            14,431 out of  30,720   46%
 Logic Distribution:
-  Number of occupied Slices:          9,964 out of  15,360   64%
-    Number of Slices containing only related logic:   9,964 out of   9,964 100%
-    Number of Slices containing unrelated logic:          0 out of   9,964   0%
+  Number of occupied Slices:          9,764 out of  15,360   63%
+    Number of Slices containing only related logic:   9,764 out of   9,764 100%
+    Number of Slices containing unrelated logic:          0 out of   9,764   0%
       *See NOTES below for an explanation of the effects of unrelated logic.
-  Total Number of 4 input LUTs:      15,600 out of  30,720   50%
-    Number used as logic:            15,232
-    Number used as a route-thru:        166
-    Number used as Shift registers:     202
+  Total Number of 4 input LUTs:      14,705 out of  30,720   47%
+    Number used as logic:            14,147
+    Number used as a route-thru:        274
+    Number used as Shift registers:     284
 
   The Slice Logic Distribution report is not meaningful if the design is
   over-mapped for a non-slice resource or if Placement fails.
   Number of bonded IOBs:                 36 out of     448    8%
-  Number of BUFG/BUFGCTRLs:               4 out of      32   12%
-    Number used as BUFGs:                 4
-  Number of FIFO16/RAMB16s:              45 out of     192   23%
-    Number used as RAMB16s:              45
+  Number of BUFG/BUFGCTRLs:               5 out of      32   15%
+    Number used as BUFGs:                 5
+  Number of FIFO16/RAMB16s:              46 out of     192   23%
+    Number used as RAMB16s:              46
+  Number of BSCAN_VIRTEX4s:               1 out of       4   25%
 
-Average Fanout of Non-Clock Nets:                3.55
+  Number of RPM macros:           13
+Average Fanout of Non-Clock Nets:                3.42
 
-Peak Memory Usage:  808 MB
-Total REAL time to MAP completion:  22 secs 
-Total CPU time to MAP completion:   22 secs 
-
-NOTES:
-
-   Related logic is defined as being logic that shares connectivity - e.g. two
-   LUTs are "related" if they share common inputs.  When assembling slices,
-   Map gives priority to combine logic that is related.  Doing so results in
-   the best timing performance.
-
-   Unrelated logic shares no connectivity.  Map will only begin packing
-   unrelated logic into a slice once 99% of the slices are occupied through
-   related logic packing.
-
-   Note that once logic distribution reaches the 99% level through related
-   logic packing, this does not mean the device is completely utilized.
-   Unrelated logic packing will then begin, continuing until all usable LUTs
-   and FFs are occupied.  Depending on your timing budget, increased levels of
-   unrelated logic packing may adversely affect the overall timing performance
-   of your design.
+Peak Memory Usage:  1252 MB
+Total REAL time to MAP completion:  1 mins 6 secs 
+Total CPU time to MAP completion:   1 mins 5 secs 
 
 Mapping completed.
 See MAP report file "test1_map.mrp" for details.
