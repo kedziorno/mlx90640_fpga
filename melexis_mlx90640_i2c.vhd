@@ -40,8 +40,8 @@ port (
   i_mode2 : in std_logic; -- W(A)/2b(A),ST,R(A)/2*N(NA)
   o_mode2_ready : out std_logic;
   o_mode2_ready_all : out std_logic;
-  i_memory_address : in std_logic_vector (15 downto 0);
-  i_memory_data : in std_logic_vector (15 downto 0);
+  i_memory_address : in std_logic_vector (0 to 15);
+  i_memory_data : in std_logic_vector (0 to 15);
   o_bytes_to_recv : out std_logic_vector (15 downto 0);
   i_enable : in std_logic;
   o_busy : out std_logic;

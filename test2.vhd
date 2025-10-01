@@ -37,10 +37,10 @@ generic (
 constant c_board_clock : integer := c_clock_board_frequency;
 --constant c_bus_clock : integer := c_clock_i2c_frequency;
 --constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
-constant c_bus_clock : integer := 50;
+constant c_bus_clock : integer := c_clock_i2c_frequency;
 constant c_sim : string (1 to 1) := "n";
-constant c_cold_start : integer := 1000;
-constant c_wait2 : integer := 1000;
+constant c_cold_start : integer := 10000;
+constant c_wait2 : integer := 10000;
 constant c_wait3 : integer := 10000
 );
 port (
@@ -132,9 +132,9 @@ signal melexis_mlx90640_i2c_scl : std_logic;
 --constant c_wait1 : integer := 60;
 --constant c_wait1 : integer := 47;
 --constant c_wait1 : integer := 115*4; -- scl 500_000
---constant c_wait1 : integer := 115*4*1000; -- scl 100
+constant c_wait1 : integer := 115*4*10000; -- scl 100
 --constant c_wait1 : integer := 230*4*1000; -- scl 50
-constant c_wait1 : integer := 100_000_000/1_000_000;
+--constant c_wait1 : integer := 100_000_000/1_000_000;
 --constant c_wait1 : integer := 230*5*4*1000; -- scl 10
 --constant c_wait1 : integer := 230*5*5*4*1000; -- scl 2
 signal wait1 : integer range 0 to c_wait1 - 1;

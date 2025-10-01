@@ -44,7 +44,7 @@ COMPONENT test2
 generic (
   constant c_board_clock : integer := 100_000_000;
 --  constant c_bus_clock : integer := 400_000;
-  constant c_bus_clock : integer := 1_000_000;
+  constant c_bus_clock : integer := 100;
 --  constant c_bus_clock : integer := 10;
   constant c_sim : string (1 to 1) := "y";
   constant c_cold_start : integer := 1000;
