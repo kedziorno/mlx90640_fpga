@@ -30,7 +30,7 @@ cp ../example_design/mem_i2c_stream_exdes.ucf results/
 cd results
 
 echo 'Running ngdbuild'
-ngdbuild -p xc4vsx35-ff668-10 mem_i2c_stream_exdes
+ngdbuild -p xc3s1200e-fg320-4 mem_i2c_stream_exdes
 
 echo 'Running map'
 map mem_i2c_stream_exdes -o mapped.ncd -pr i

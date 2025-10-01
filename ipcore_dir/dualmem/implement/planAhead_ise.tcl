@@ -45,7 +45,7 @@
 # PART OF THIS FILE AT ALL TIMES.
 
 
-set device xc4vsx35ff668-10
+set device xc3s1200efg320-4
 set projName dualmem
 set design dualmem
 set projDir [file dirname [info script]]
