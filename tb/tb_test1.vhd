@@ -95,8 +95,8 @@ signal vga_g : std_logic_vector(7 downto 0);
 signal vga_b : std_logic_vector(7 downto 0);
 
 -- Clock period definitions
---constant i_clock_period : time := 20 ns; -- nexys2
-constant i_clock_period : time := 10 ns; -- ml402
+constant i_clock_period : time := 20 ns; -- nexys2
+--constant i_clock_period : time := 10 ns; -- ml402
 --constant i_clock_period : time := 40 ns; -- 25
 
 component vga_bmp_sink is
@@ -118,32 +118,32 @@ signal s_spattern : std_logic_vector (31 downto 0);
 --constant c_period : time := 2.24 us; -- 10 ns
 constant c_period : time := 1.92 us; -- 20 ns
 
---COMPONENT i2c_stream
---PORT(
---i_clock : IN  std_logic;
---i_reset : IN  std_logic;
---i_scl : IN  std_logic;
---o_sda : OUT  std_logic;
---o_done : OUT  std_logic;
---i_mode2 : IN  std_logic;
---i_enable : IN  std_logic;
---i_addr : IN  std_logic_vector(15 downto 0);
---compare1 : in integer
---);
---END COMPONENT;
+COMPONENT i2c_stream
+PORT(
+i_clock : IN  std_logic;
+i_reset : IN  std_logic;
+i_scl : IN  std_logic;
+o_sda : OUT  std_logic;
+o_done : OUT  std_logic;
+i_mode2 : IN  std_logic;
+i_enable : IN  std_logic;
+i_addr : IN  std_logic_vector(15 downto 0);
+compare1 : in integer
+);
+END COMPONENT;
 
-----Inputs
---signal i_scl : std_logic := '0';
---signal i_mode2 : std_logic := '0';
---signal i_enable : std_logic := '0';
---signal i_addr : std_logic_vector(15 downto 0) := (others => '0');
---signal compare1 : integer;
---
-----Outputs
---signal o_sda : std_logic;
---signal o_done : std_logic;
---
---signal a,a_prev,b,b_prev : std_logic;
+--Inputs
+signal i_scl : std_logic := '0';
+signal i_mode2 : std_logic := '0';
+signal i_enable : std_logic := '0';
+signal i_addr : std_logic_vector(15 downto 0) := (others => '0');
+signal compare1 : integer;
+
+--Outputs
+signal o_sda : std_logic;
+signal o_done : std_logic;
+
+signal a,a_prev,b,b_prev : std_logic;
 
 --COMPONENT tb_i2c_mem
 --PORT (
@@ -223,61 +223,65 @@ h_sync_i        => vga_hsync,
 v_sync_i        => vga_vsync
 );
 
---p0 : process is
---begin
-----  wait for 653 us; -- wait on scl idle before mode2 1000k
+p0 : process is
+begin
+--  wait for 653 us; -- wait on scl idle before mode2 1000k
 --  wait for 974 us; -- wait on scl idle before mode2 500k
-----  wait for 3655 us; -- wait on scl idle before mode2 100k
---  i_addr <= x"2400"; -- eeprom
---  i_enable <= '1';
---  compare1 <= 37;
---  wait until o_done = '1';
---  i_addr <= x"0000"; -- eeprom stop
---  wait until o_done = '0';
---  i_enable <= '0';
---  
-----  wait for 268 us; -- 1000k
+  wait for 1281 us; -- wait on scl idle before mode2 500k
+--  wait for 3655 us; -- wait on scl idle before mode2 100k
+  i_addr <= x"2400"; -- eeprom
+  i_enable <= '1';
+  compare1 <= 37;
+  wait until o_done = '1';
+  i_addr <= x"0000"; -- eeprom stop
+  wait until o_done = '0';
+  i_enable <= '0';
+  
+--  wait for 268 us; -- 1000k
 --  wait for 450 us; -- 500k
-----  wait for 1742 us; -- 100k
---  i_addr <= x"0400"; -- data 1
---  i_enable <= '1';
---  compare1 <= 38;
---  wait until o_done = '1';
---  i_enable <= '0';
---  wait until o_done = '0';
---  i_addr <= x"0000"; -- data 1 end
-----  wait for 268 us; -- 1000k - s1
+--  wait for 221 us; -- 500k
+  wait for 530 us; -- 500k
+--  wait for 1742 us; -- 100k
+  i_addr <= x"0400"; -- data 1
+  i_enable <= '1';
+  compare1 <= 38;
+  wait until o_done = '1';
+  i_enable <= '0';
+  wait until o_done = '0';
+  i_addr <= x"0000"; -- data 1 end
+--  wait for 268 us; -- 1000k - s1
 --  wait for 430 us; -- 500k
-----  wait for 1352 us; -- 100k
---
---  l0 : for i in 0 to 27 loop
---  i_addr <= x"0400"; -- data X
---  i_enable <= '1';
---  compare1 <= 37;
---  wait until o_done = '1';
---  i_enable <= '0';
---  wait until o_done = '0';
---  i_addr <= x"0000"; -- data X end
-----  wait for 12656 us; -- 1000k - s1
+--  wait for 1352 us; -- 100k
+
+  l0 : for i in 0 to 27 loop
+  i_addr <= x"0400"; -- data X
+  i_enable <= '1';
+  compare1 <= 36;
+  wait until o_done = '1';
+  i_enable <= '0';
+  --wait until o_done = '0';
+  i_addr <= x"0000"; -- data X end
+--  wait for 12656 us; -- 1000k - s1
 --  wait for 430 us; -- 500k
-----  wait for 1352 us; -- 100k
---  end loop l0;
---  wait;
---end process p0;
+--  wait for 23.93184 ms; -- 500k
+--  wait for 1352 us; -- 100k
+  end loop l0;
+  wait;
+end process p0;
 
---a <= '1' when io_scl_nl = 'Z' else '0';
+a <= '1' when io_scl_nl = 'Z' else '0';
 
---i2c_stream_i0 : i2c_stream PORT MAP (
---i_clock => i_clock,
---i_reset => i_reset,
---i_scl => a,
---o_sda => io_sda_nl,
---i_mode2 => i_mode2,
---i_enable => i_enable,
---i_addr => i_addr,
---o_done => o_done,
---compare1 => compare1
---);
+i2c_stream_i0 : i2c_stream PORT MAP (
+i_clock => i_clock,
+i_reset => i_reset,
+i_scl => a,
+o_sda => io_sda_nl,
+i_mode2 => i_mode2,
+i_enable => i_enable,
+i_addr => i_addr,
+o_done => o_done,
+compare1 => compare1
+);
 
 --tb_i2c_mem_i0 : tb_i2c_mem
 --PORT map (

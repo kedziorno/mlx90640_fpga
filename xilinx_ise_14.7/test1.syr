@@ -5,14 +5,14 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.05 secs
+Total CPU time to Xst completion: 0.04 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.05 secs
+Total CPU time to Xst completion: 0.04 secs
  
 --> 
 Reading design: test1.prj
@@ -45,7 +45,7 @@ Ignore Synthesis Constraint File   : NO
 ---- Target Parameters
 Output File Name                   : "test1"
 Output Format                      : NGC
-Target Device                      : xc4vsx35-10-ff668
+Target Device                      : xc3s1200e-4-fg320
 
 ---- Source Options
 Top Module Name                    : test1
@@ -66,27 +66,25 @@ ROM Style                          : Auto
 Mux Extraction                     : Yes
 Resource Sharing                   : YES
 Asynchronous To Synchronous        : NO
-Use DSP Block                      : Auto
+Multiplier Style                   : Auto
 Automatic Register Balancing       : No
 
 ---- Target Options
 Add IO Buffers                     : YES
 Global Maximum Fanout              : 500
-Add Generic Clock Buffer(BUFG)     : 32
-Number of Regional Clock Buffers   : 24
+Add Generic Clock Buffer(BUFG)     : 24
 Register Duplication               : YES
 Slice Packing                      : YES
 Optimize Instantiated Primitives   : NO
-Use Clock Enable                   : Auto
-Use Synchronous Set                : Auto
-Use Synchronous Reset              : Auto
+Use Clock Enable                   : Yes
+Use Synchronous Set                : Yes
+Use Synchronous Reset              : Yes
 Pack IO Registers into IOBs        : Auto
 Equivalent register Removal        : YES
 
 ---- General Options
 Optimization Goal                  : Speed
 Optimization Effort                : 1
-Power Reduction                    : NO
 Keep Hierarchy                     : Soft
 Netlist Hierarchy                  : As_Optimized
 RTL Output                         : Yes
@@ -99,7 +97,6 @@ Bus Delimiter                      : <>
 Case Specifier                     : Maintain
 Slice Utilization Ratio            : 100
 BRAM Utilization Ratio             : 100
-DSP48 Utilization Ratio            : 100
 Verilog 2001                       : YES
 Auto BRAM Packing                  : NO
 Slice Utilization Ratio Delta      : 5
@@ -129,8 +126,6 @@ Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/extract_kta_
 Architecture rtl of Entity extract_kta_parameters is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/extract_kv_parameters.vhd" in Library work.
 Architecture rtl of Entity extract_kv_parameters is up to date.
-Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ipcore_dir/mem_i2c_stream.vhd" in Library work.
-Architecture mem_i2c_stream_a of Entity mem_i2c_stream is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/p_package1.vhd" in Library work.
 Architecture p_package1 of Entity p_package1 is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/extract_tgc_parameters.vhd" in Library work.
@@ -191,8 +186,6 @@ Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/melexis_mlx9
 Architecture rtl of Entity melexis_mlx90640_i2c is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ipcore_dir/i2c_mlx.vhd" in Library work.
 Architecture i2c_mlx_a of Entity i2c_mlx is up to date.
-Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/i2c_stream.vhd" in Library work.
-Architecture behavioral of Entity i2c_stream is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" in Library work.
 Entity <test1> compiled.
 Entity <test1> (Architecture <behavioral>) compiled.
@@ -203,30 +196,28 @@ Architecture tb_data_calculateto_a of Entity tb_data_calculateto is up to date.
 *                     Design Hierarchy Analysis                         *
 =========================================================================
 Analyzing hierarchy for entity <test1> in library <work> (architecture <behavioral>) with generics.
-	c_board_clock = 100000000
-	c_bus_clock = 500000
-	c_calculate_type1 = "c_temperature"
+	c_board_clock = 50000000
+	c_bus_clock = 100000
+	c_calculate_type1 = "c_raws_images"
 	c_cold_start = 100000
 	c_device = "mlx90640"
 	c_sim = "n"
-	c_use_fisqrt1 = " no"
+	c_use_fisqrt1 = "xxx"
 	c_wait2 = 1000
 	c_wait3 = 10000
 
 Analyzing hierarchy for entity <melexis_mlx9064x> in library <work> (architecture <rtl>) with generics.
-	c_calculate_type = "c_temperature"
+	c_calculate_type = "c_raws_images"
 	c_device = "mlx90640"
-	c_use_fisqrt = " no"
+	c_use_fisqrt = "xxx"
 
 Analyzing hierarchy for entity <vga_address_generator> in library <work> (architecture <rtl>).
 
 Analyzing hierarchy for entity <vga_timing> in library <work> (architecture <industry_standard_640x480_timing>).
 
 Analyzing hierarchy for entity <melexis_mlx90640_i2c> in library <work> (architecture <rtl>) with generics.
-	c_board_clock = 100000000
-	c_bus_clock = 500000
-
-Analyzing hierarchy for entity <i2c_stream> in library <work> (architecture <behavioral>).
+	c_board_clock = 50000000
+	c_bus_clock = 100000
 
 Analyzing hierarchy for entity <extract_tgc_parameters> in library <work> (architecture <rtl>).
 
@@ -248,8 +239,7 @@ Analyzing hierarchy for entity <calculate_vir_compensated> in library <work> (ar
 
 Analyzing hierarchy for entity <calculate_alpha_compensated> in library <work> (architecture <rtl>).
 
-Analyzing hierarchy for entity <calculate_to> in library <work> (architecture <rtl>) with generics.
-	c_use_fisqrt = " no"
+Analyzing hierarchy for entity <calculate_raw_image> in library <work> (architecture <rtl>).
 
 Analyzing hierarchy for entity <rom_constants> in library <work> (architecture <rtl>).
 
@@ -563,33 +553,33 @@ Analyzing hierarchy for entity <mem_ramb16_s36_x2> in library <work> (architectu
 *                            HDL Analysis                               *
 =========================================================================
 Analyzing generic Entity <test1> in library <work> (Architecture <behavioral>).
-	c_board_clock = 100000000
-	c_bus_clock = 500000
-	c_calculate_type1 = "c_temperature"
+	c_board_clock = 50000000
+	c_bus_clock = 100000
+	c_calculate_type1 = "c_raws_images"
 	c_cold_start = 100000
 	c_device = "mlx90640"
 	c_sim = "n"
-	c_use_fisqrt1 = " no"
+	c_use_fisqrt1 = "xxx"
 	c_wait2 = 1000
 	c_wait3 = 10000
-WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1221: Unconnected output port 'o_h_blank' of component 'vga_timing'.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1288: Instantiating black box module <float2fixed_temperature>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1314: Instantiating black box module <dualmem_temperature>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1356: Instantiating black box module <fixed2float>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1368: Instantiating black box module <divfp>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1380: Instantiating black box module <mulfp>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1392: Instantiating black box module <addfp>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1404: Instantiating black box module <subfp>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1418: Instantiating black box module <sqrtfp2>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1494: Instantiating black box module <i2c_mlx>.
+WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1223: Unconnected output port 'o_h_blank' of component 'vga_timing'.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1301: Instantiating black box module <float2fixed_rawimg>.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1329: Instantiating black box module <dualmem_rawimg>.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1358: Instantiating black box module <fixed2float>.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1370: Instantiating black box module <divfp>.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1382: Instantiating black box module <mulfp>.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1394: Instantiating black box module <addfp>.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1406: Instantiating black box module <subfp>.
+WARNING:Xst:1540 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1438: Different binding for component: <melexis_mlx90640_i2c>. Ports <i_memory_address,i_memory_data> do not match.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1496: Instantiating black box module <i2c_mlx>.
 INFO:Xst:2679 - Register <temp2> in unit <test1> has a constant value of 0 during circuit operation. The register is replaced by logic.
 INFO:Xst:2679 - Register <dualmem_enb> in unit <test1> has a constant value of 1 during circuit operation. The register is replaced by logic.
 Entity <test1> analyzed. Unit <test1> generated.
 
 Analyzing generic Entity <melexis_mlx9064x> in library <work> (Architecture <rtl>).
-	c_calculate_type = "c_temperature"
+	c_calculate_type = "c_raws_images"
 	c_device = "mlx90640"
-	c_use_fisqrt = " no"
+	c_use_fisqrt = "xxx"
 WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/melexis_mlx9064x.vhd" line 2349: Unconnected output port 'o_done' of component 'extract_alpha_parameters'.
 Entity <melexis_mlx9064x> analyzed. Unit <melexis_mlx9064x> generated.
 
@@ -955,10 +945,11 @@ INFO:Xst:2679 - Register <i2c_mem_addra> in unit <calculate_alpha_compensated> h
 INFO:Xst:2679 - Register <divfpb_internal> in unit <calculate_alpha_compensated> has a constant value of 01000110000000000000000000000000 during circuit operation. The register is replaced by logic.
 Entity <calculate_alpha_compensated> analyzed. Unit <calculate_alpha_compensated> generated.
 
-Analyzing generic Entity <calculate_to> in library <work> (Architecture <rtl>).
-	c_use_fisqrt = " no"
-WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_to.vhd" line 1594: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
-Entity <calculate_to> analyzed. Unit <calculate_to> generated.
+Analyzing Entity <calculate_raw_image> in library <work> (Architecture <rtl>).
+INFO:Xst:1749 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_raw_image.vhd" line 372: report: CalculateGetImage
+WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_raw_image.vhd" line 472: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
+INFO:Xst:2679 - Register <addfpb_internal> in unit <calculate_raw_image> has a constant value of 00000000000000000000000000000000 during circuit operation. The register is replaced by logic.
+Entity <calculate_raw_image> analyzed. Unit <calculate_raw_image> generated.
 
 Analyzing Entity <rom_constants> in library <work> (Architecture <rtl>).
     Set user-defined property "INIT =  000000000" for instance <rom_constants_i0> in unit <rom_constants>.
@@ -1047,15 +1038,9 @@ Analyzing Entity <vga_timing> in library <work> (Architecture <industry_standard
 Entity <vga_timing> analyzed. Unit <vga_timing> generated.
 
 Analyzing generic Entity <melexis_mlx90640_i2c> in library <work> (Architecture <rtl>).
-	c_board_clock = 100000000
-	c_bus_clock = 500000
+	c_board_clock = 50000000
+	c_bus_clock = 100000
 Entity <melexis_mlx90640_i2c> analyzed. Unit <melexis_mlx90640_i2c> generated.
-
-Analyzing Entity <i2c_stream> in library <work> (Architecture <behavioral>).
-INFO:Xst:1607 - Contents of array <douta> may be accessed with an index that does not cover the full array size.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/i2c_stream.vhd" line 169: Instantiating black box module <mem_i2c_stream>.
-INFO:Xst:2679 - Register <v_addr> in unit <i2c_stream> has a constant value of 0000000000000000 during circuit operation. The register is replaced by logic.
-Entity <i2c_stream> analyzed. Unit <i2c_stream> generated.
 
 
 =========================================================================
@@ -1063,6 +1048,7 @@ Entity <i2c_stream> analyzed. Unit <i2c_stream> generated.
 =========================================================================
 
 Performing bidirectional port resolution...
+INFO:Xst:2679 - Register <vmax> in unit <test1> has a constant value of 0 during circuit operation. The register is replaced by logic.
 
 Synthesizing Unit <vga_address_generator>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/vga_address_generator.vhd".
@@ -1102,16 +1088,15 @@ Unit <vga_timing> synthesized.
 
 Synthesizing Unit <melexis_mlx90640_i2c>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/melexis_mlx90640_i2c.vhd".
-INFO:Xst:1799 - State mode1_write_slave_address_lastbit is never reached in FSM <c_state>.
 INFO:Xst:1799 - State mode2_read_slave_address_lastbit is never reached in FSM <c_state>.
 INFO:Xst:1799 - State state1 is never reached in FSM <c_state>.
 INFO:Xst:1799 - State mode2_read_data_nak is never reached in FSM <c_state>.
     Found finite state machine <FSM_0> for signal <c_state>.
     -----------------------------------------------------------------------
-    | States             | 67                                             |
-    | Transitions        | 136                                            |
-    | Inputs             | 9                                              |
-    | Outputs            | 68                                             |
+    | States             | 68                                             |
+    | Transitions        | 137                                            |
+    | Inputs             | 10                                             |
+    | Outputs            | 135                                            |
     | Clock              | clock                     (rising_edge)        |
     | Reset              | i_reset                   (positive)           |
     | Reset type         | asynchronous                                   |
@@ -1123,10 +1108,11 @@ INFO:Xst:1799 - State mode2_read_data_nak is never reached in FSM <c_state>.
     Found finite state machine <FSM_1> for signal <c_cmode>.
     -----------------------------------------------------------------------
     | States             | 4                                              |
-    | Transitions        | 4                                              |
-    | Inputs             | 0                                              |
+    | Transitions        | 7                                              |
+    | Inputs             | 1                                              |
     | Outputs            | 5                                              |
     | Clock              | clock                     (rising_edge)        |
+    | Clock enable       | c_cmode$not0000           (positive)           |
     | Reset              | i_reset                   (positive)           |
     | Reset type         | asynchronous                                   |
     | Reset State        | c0                                             |
@@ -1137,28 +1123,30 @@ INFO:Xst:1799 - State mode2_read_data_nak is never reached in FSM <c_state>.
     Found 1-bit register for signal <o_busy>.
     Found 17-bit register for signal <bytes_to_recv_sr>.
     Found 1-bit register for signal <clock>.
-    Found 5-bit up counter for signal <count>.
+    Found 6-bit up counter for signal <count>.
     Found 3-bit register for signal <data_index_ctr>.
-    Found 3-bit adder for signal <data_index_ctr$share0000> created at line 217.
-    Found 1-bit 7-to-1 multiplexer for signal <i_memory_address$mux0000> created at line 287.
-    Found 1-bit 7-to-1 multiplexer for signal <i_memory_address$mux0001> created at line 316.
-    Found 1-bit 7-to-1 multiplexer for signal <i_memory_data$mux0000> created at line 345.
-    Found 1-bit 7-to-1 multiplexer for signal <i_memory_data$mux0001> created at line 373.
+    Found 3-bit adder for signal <data_index_ctr$share0000> created at line 216.
+    Found 1-bit 7-to-1 multiplexer for signal <i_memory_address$mux0000> created at line 284.
+    Found 1-bit 7-to-1 multiplexer for signal <i_memory_address$mux0001> created at line 313.
+    Found 1-bit 7-to-1 multiplexer for signal <i_memory_data$mux0000> created at line 342.
+    Found 1-bit 7-to-1 multiplexer for signal <i_memory_data$mux0001> created at line 370.
     Found 1-bit tristate buffer for signal <io_sda_ii>.
     Found 10-bit up counter for signal <mode2_read_data_index_ctr>.
     Found 1-bit register for signal <mode2_ready_all_i>.
     Found 1-bit register for signal <mode2_ready_i>.
+    Found 1-bit register for signal <Mtridata_temp_sda> created at line 211.
+    Found 1-bit register for signal <Mtrien_temp_sda> created at line 211.
     Found 3-bit register for signal <slave_index_ctr>.
-    Found 3-bit subtractor for signal <slave_index_ctr$share0000> created at line 217.
+    Found 3-bit subtractor for signal <slave_index_ctr$share0000> created at line 216.
     Found 1-bit register for signal <state<0>>.
-    Found 1-bit register for signal <temp_sda>.
+    Found 1-bit tristate buffer for signal <temp_sda>.
     Summary:
 	inferred   2 Finite State Machine(s).
 	inferred   2 Counter(s).
-	inferred  26 D-type flip-flop(s).
+	inferred  27 D-type flip-flop(s).
 	inferred   2 Adder/Subtractor(s).
 	inferred   4 Multiplexer(s).
-	inferred   1 Tristate(s).
+	inferred   2 Tristate(s).
 Unit <melexis_mlx90640_i2c> synthesized.
 
 
@@ -1465,56 +1453,6 @@ WARNING:Xst:1780 - Signal <odata_pattern1> is never used or assigned. This uncon
 Unit <mem_switchpattern> synthesized.
 
 
-Synthesizing Unit <i2c_stream>.
-    Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/i2c_stream.vhd".
-WARNING:Xst:647 - Input <compare1> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
-WARNING:Xst:647 - Input <i_mode2> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
-WARNING:Xst:646 - Signal <v_addr> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:653 - Signal <c_omit> is used but never assigned. This sourceless signal will be automatically connected to value 00000000000000000000000000100101.
-    Found finite state machine <FSM_8> for signal <state>.
-    -----------------------------------------------------------------------
-    | States             | 5                                              |
-    | Transitions        | 11                                             |
-    | Inputs             | 4                                              |
-    | Outputs            | 8                                              |
-    | Clock              | i_clock                   (falling_edge)       |
-    | Clock enable       | scl_re                    (positive)           |
-    | Reset              | i_reset                   (positive)           |
-    | Reset type         | asynchronous                                   |
-    | Reset State        | idle                                           |
-    | Power Up State     | idle                                           |
-    | Encoding           | automatic                                      |
-    | Implementation     | LUT                                            |
-    -----------------------------------------------------------------------
-    Found 1-bit tristate buffer for signal <o_sda>.
-    Found 1-bit register for signal <o_done>.
-    Found 1-bit 16-to-1 multiplexer for signal <$varindex0000> created at line 137.
-    Found 15-bit adder for signal <addra>.
-    Found 1-bit register for signal <Mtridata_o_sda> created at line 97.
-    Found 1-bit register for signal <Mtrien_o_sda> created at line 97.
-    Found 1-bit register for signal <scl_prev>.
-    Found 32-bit subtractor for signal <state$addsub0000> created at line 109.
-    Found 32-bit comparator equal for signal <state$cmp_eq0000> created at line 109.
-    Found 3-bit register for signal <v_data>.
-    Found 3-bit subtractor for signal <v_data$addsub0000>.
-    Found 15-bit register for signal <v_index>.
-    Found 5x10-bit multiplier for signal <v_index$mult0000> created at line 125.
-    Found 5-bit up counter for signal <v_items>.
-    Found 32-bit up counter for signal <v_omit>.
-    Found 10-bit register for signal <v_records>.
-    Found 10-bit adder for signal <v_records$addsub0000> created at line 162.
-    Summary:
-	inferred   1 Finite State Machine(s).
-	inferred   2 Counter(s).
-	inferred  32 D-type flip-flop(s).
-	inferred   4 Adder/Subtractor(s).
-	inferred   1 Multiplier(s).
-	inferred   1 Comparator(s).
-	inferred   1 Multiplexer(s).
-	inferred   1 Tristate(s).
-Unit <i2c_stream> synthesized.
-
-
 Synthesizing Unit <rom_constants>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/rom_constants.vhd".
     Found 7-bit adder for signal <address$add0000> created at line 124.
@@ -1551,7 +1489,7 @@ Synthesizing Unit <extract_alpha_parameters>.
     Register <divfpond_internal> equivalent to <divfpce_internal> has been removed
     Register <fixed2floatond_internal> equivalent to <fixed2floatce_internal> has been removed
     Register <mulfpond_internal> equivalent to <mulfpce_internal> has been removed
-    Found finite state machine <FSM_9> for signal <state>.
+    Found finite state machine <FSM_8> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 37                                             |
     | Transitions        | 51                                             |
@@ -1642,7 +1580,7 @@ WARNING:Xst:647 - Input <i2c_mem_douta> is never used. This port will be preserv
     Register <o_pixos_addr> equivalent to <mem_switchpattern_pixel> has been removed
     Register <mulfpond_internal> equivalent to <mulfpce_internal> has been removed
     Register <subfpond_internal> equivalent to <subfpce_internal> has been removed
-    Found finite state machine <FSM_10> for signal <state>.
+    Found finite state machine <FSM_9> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 10                                             |
     | Transitions        | 19                                             |
@@ -1694,7 +1632,7 @@ Synthesizing Unit <calculate_alpha_compensated>.
     Register <o_alpha_addr> equivalent to <mem_switchpattern_pixel> has been removed
     Register <mulfpond_internal> equivalent to <mulfpce_internal> has been removed
     Register <subfpond_internal> equivalent to <subfpce_internal> has been removed
-    Found finite state machine <FSM_11> for signal <state>.
+    Found finite state machine <FSM_10> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 18                                             |
     | Transitions        | 33                                             |
@@ -1741,95 +1679,61 @@ Synthesizing Unit <calculate_alpha_compensated>.
 Unit <calculate_alpha_compensated> synthesized.
 
 
-Synthesizing Unit <calculate_to>.
-    Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_to.vhd".
-WARNING:Xst:1780 - Signal <fast_inverse_sqrt_subfpsclr> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:646 - Signal <fast_inverse_sqrt_subfprdy> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:646 - Signal <fast_inverse_sqrt_subfpr> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:1780 - Signal <fast_inverse_sqrt_subfpond> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:1780 - Signal <fast_inverse_sqrt_subfpce> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:1780 - Signal <fast_inverse_sqrt_subfpb> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:1780 - Signal <fast_inverse_sqrt_subfpa> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:1780 - Signal <fast_inverse_sqrt_sqrt_original> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:1780 - Signal <fast_inverse_sqrt_sqrt_inverse> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:1780 - Signal <fast_inverse_sqrt_run> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:1780 - Signal <fast_inverse_sqrt_reset> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:1780 - Signal <fast_inverse_sqrt_mulfpsclr> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:646 - Signal <fast_inverse_sqrt_mulfprdy> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:646 - Signal <fast_inverse_sqrt_mulfpr> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:1780 - Signal <fast_inverse_sqrt_mulfpond> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:1780 - Signal <fast_inverse_sqrt_mulfpce> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:1780 - Signal <fast_inverse_sqrt_mulfpb> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:1780 - Signal <fast_inverse_sqrt_mulfpa> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:1780 - Signal <fast_inverse_sqrt_done> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:1780 - Signal <fast_inverse_sqrt_clock> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+Synthesizing Unit <calculate_raw_image>.
+    Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_raw_image.vhd".
+WARNING:Xst:646 - Signal <mulfprdy_internal> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <addfprdy_internal> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
     Register <addfpond_internal> equivalent to <addfpce_internal> has been removed
-    Register <divfpond_internal> equivalent to <divfpce_internal> has been removed
-    Register <fixed2floatond_internal> equivalent to <fixed2floatce_internal> has been removed
     Register <mulfpond_internal> equivalent to <mulfpce_internal> has been removed
     Register <o_vircompensated_addr> equivalent to <o_alphacomp_addr> has been removed
-    Register <sqrtfp2ond_internal> equivalent to <sqrtfp2ce_internal> has been removed
-    Register <subfpond_internal> equivalent to <subfpce_internal> has been removed
-    Found finite state machine <FSM_12> for signal <state>.
+    Found finite state machine <FSM_11> for signal <state>.
     -----------------------------------------------------------------------
-    | States             | 45                                             |
-    | Transitions        | 84                                             |
-    | Inputs             | 8                                              |
-    | Outputs            | 49                                             |
+    | States             | 14                                             |
+    | Transitions        | 19                                             |
+    | Inputs             | 4                                              |
+    | Outputs            | 15                                             |
     | Clock              | i_clock                   (rising_edge)        |
     | Reset              | i_reset                   (positive)           |
     | Reset type         | synchronous                                    |
-    | Reset State        | 000000                                         |
-    | Power Up State     | 000000                                         |
+    | Reset State        | 0000                                           |
+    | Power Up State     | 0000                                           |
     | Encoding           | automatic                                      |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
-    Found 1-bit register for signal <o_2powx_p8_ena>.
     Found 10-bit register for signal <o_alphacomp_addr>.
-    Found 4-bit register for signal <o_2powx_p8_adr>.
+    Found 1-bit register for signal <addfp_rdy>.
+    Found 1-bit register for signal <addfp_run>.
+    Found 5-bit up counter for signal <addfp_wait>.
     Found 32-bit register for signal <addfpa_internal>.
-    Found 32-bit register for signal <addfpb_internal>.
     Found 1-bit register for signal <addfpce_internal>.
     Found 1-bit register for signal <addfpsclr_internal>.
     Found 10-bit register for signal <addra>.
     Found 32-bit register for signal <dia>.
-    Found 32-bit register for signal <divfpa_internal>.
-    Found 32-bit register for signal <divfpb_internal>.
-    Found 1-bit register for signal <divfpce_internal>.
-    Found 1-bit register for signal <divfpsclr_internal>.
-    Found 16-bit register for signal <fixed2floata_internal>.
-    Found 1-bit register for signal <fixed2floatce_internal>.
-    Found 1-bit register for signal <fixed2floatsclr_internal>.
+    Found 32-bit register for signal <fttmp1>.
     Found 10-bit register for signal <i>.
-    Found 10-bit adder for signal <i$addsub0000> created at line 1012.
-    Found 12-bit register for signal <i2c_mem_addra_internal>.
-    Found 1-bit register for signal <i2c_mem_ena_internal>.
+    Found 10-bit adder for signal <i$addsub0000> created at line 463.
+    Found 1-bit register for signal <mulfp_rdy>.
+    Found 1-bit register for signal <mulfp_run>.
+    Found 5-bit up counter for signal <mulfp_wait>.
     Found 32-bit register for signal <mulfpa_internal>.
     Found 32-bit register for signal <mulfpb_internal>.
     Found 1-bit register for signal <mulfpce_internal>.
     Found 1-bit register for signal <mulfpsclr_internal>.
     Found 1-bit register for signal <rdy>.
-    Found 32-bit register for signal <sqrtfp2a_internal>.
-    Found 1-bit register for signal <sqrtfp2ce_internal>.
-    Found 1-bit register for signal <sqrtfp2sclr_internal>.
-    Found 32-bit register for signal <subfpa_internal>.
-    Found 32-bit register for signal <subfpb_internal>.
-    Found 1-bit register for signal <subfpce_internal>.
-    Found 1-bit register for signal <subfpsclr_internal>.
-    Found 32-bit register for signal <tar>.
     Found 1-bit register for signal <write_enable>.
     Summary:
 	inferred   1 Finite State Machine(s).
-	inferred 430 D-type flip-flop(s).
+	inferred   2 Counter(s).
+	inferred 200 D-type flip-flop(s).
 	inferred   1 Adder/Subtractor(s).
-Unit <calculate_to> synthesized.
+Unit <calculate_raw_image> synthesized.
 
 
 Synthesizing Unit <calculate_pix_gain>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_pix_gain.vhd".
     Register <fixed2floatond_internal> equivalent to <fixed2floatce_internal> has been removed
     Register <mulfpond_internal> equivalent to <mulfpce_internal> has been removed
-    Found finite state machine <FSM_13> for signal <state>.
+    Found finite state machine <FSM_12> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 7                                              |
     | Transitions        | 11                                             |
@@ -1873,7 +1777,7 @@ Synthesizing Unit <extract_offset_parameters>.
     Register <addfpond_internal> equivalent to <addfpce_internal> has been removed
     Register <fixed2floatond_internal> equivalent to <fixed2floatce_internal> has been removed
     Register <mulfpond_internal> equivalent to <mulfpce_internal> has been removed
-    Found finite state machine <FSM_14> for signal <state>.
+    Found finite state machine <FSM_13> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 32                                             |
     | Transitions        | 45                                             |
@@ -1952,7 +1856,7 @@ Synthesizing Unit <extract_kta_parameters>.
     Register <divfpond_internal> equivalent to <divfpce_internal> has been removed
     Register <fixed2floatond_internal> equivalent to <fixed2floatce_internal> has been removed
     Register <mulfpond_internal> equivalent to <mulfpce_internal> has been removed
-    Found finite state machine <FSM_15> for signal <state>.
+    Found finite state machine <FSM_14> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 19                                             |
     | Transitions        | 26                                             |
@@ -2018,7 +1922,7 @@ Unit <extract_kta_parameters> synthesized.
 Synthesizing Unit <extract_kv_parameters>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/extract_kv_parameters.vhd".
     Register <divfpond_internal> equivalent to <divfpce_internal> has been removed
-    Found finite state machine <FSM_16> for signal <state>.
+    Found finite state machine <FSM_15> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 10                                             |
     | Transitions        | 14                                             |
@@ -2075,7 +1979,7 @@ Synthesizing Unit <calculate_pixos>.
     Register <divfpond_internal> equivalent to <divfpce_internal> has been removed
     Register <mulfpond_internal> equivalent to <mulfpce_internal> has been removed
     Register <subfpond_internal> equivalent to <subfpce_internal> has been removed
-    Found finite state machine <FSM_17> for signal <state>.
+    Found finite state machine <FSM_16> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 19                                             |
     | Transitions        | 36                                             |
@@ -2135,7 +2039,20 @@ Unit <calculate_pixos> synthesized.
 
 Synthesizing Unit <melexis_mlx9064x>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/melexis_mlx9064x.vhd".
+WARNING:Xst:1305 - Output <sqrtfp2ond> is never assigned. Tied to value 0.
+WARNING:Xst:647 - Input <sqrtfp2rdy> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:1305 - Output <sqrtfp2a> is never assigned. Tied to value 00000000000000000000000000000000.
+WARNING:Xst:647 - Input <sqrtfp2r> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:1305 - Output <sqrtfp2sclr> is never assigned. Tied to value 0.
+WARNING:Xst:1305 - Output <sqrtfp2ce> is never assigned. Tied to value 0.
+WARNING:Xst:653 - Signal <CalculateGetImage_subfpsclr> is used but never assigned. This sourceless signal will be automatically connected to value 0.
+WARNING:Xst:646 - Signal <CalculateGetImage_subfprdy> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <CalculateGetImage_subfpr> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:653 - Signal <CalculateGetImage_subfpond> is used but never assigned. This sourceless signal will be automatically connected to value 0.
 WARNING:Xst:1780 - Signal <CalculateGetImage_subfpclk> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:653 - Signal <CalculateGetImage_subfpce> is used but never assigned. This sourceless signal will be automatically connected to value 0.
+WARNING:Xst:653 - Signal <CalculateGetImage_subfpb> is used but never assigned. This sourceless signal will be automatically connected to value 00000000000000000000000000000000.
+WARNING:Xst:653 - Signal <CalculateGetImage_subfpa> is used but never assigned. This sourceless signal will be automatically connected to value 00000000000000000000000000000000.
 WARNING:Xst:1780 - Signal <CalculateGetImage_sqrtfp2sclr> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:1780 - Signal <CalculateGetImage_sqrtfp2rdy> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:1780 - Signal <CalculateGetImage_sqrtfp2r> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
@@ -2143,11 +2060,31 @@ WARNING:Xst:1780 - Signal <CalculateGetImage_sqrtfp2ond> is never used or assign
 WARNING:Xst:1780 - Signal <CalculateGetImage_sqrtfp2clk> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:1780 - Signal <CalculateGetImage_sqrtfp2ce> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:1780 - Signal <CalculateGetImage_sqrtfp2a> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <CalculateGetImage_rom_constants_float> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:1780 - Signal <CalculateGetImage_mulfpclk> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:653 - Signal <CalculateGetImage_i2c_mem_ena> is used but never assigned. This sourceless signal will be automatically connected to value 0.
+WARNING:Xst:646 - Signal <CalculateGetImage_i2c_mem_douta> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:653 - Signal <CalculateGetImage_i2c_mem_addra> is used but never assigned. This sourceless signal will be automatically connected to value 000000000000.
+WARNING:Xst:653 - Signal <CalculateGetImage_fixed2floatsclr> is used but never assigned. This sourceless signal will be automatically connected to value 0.
+WARNING:Xst:646 - Signal <CalculateGetImage_fixed2floatrdy> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <CalculateGetImage_fixed2floatr> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:653 - Signal <CalculateGetImage_fixed2floatond> is used but never assigned. This sourceless signal will be automatically connected to value 0.
 WARNING:Xst:1780 - Signal <CalculateGetImage_fixed2floatclk> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:653 - Signal <CalculateGetImage_fixed2floatce> is used but never assigned. This sourceless signal will be automatically connected to value 0.
+WARNING:Xst:653 - Signal <CalculateGetImage_fixed2floata> is used but never assigned. This sourceless signal will be automatically connected to value 0000000000000000.
+WARNING:Xst:653 - Signal <CalculateGetImage_divfpsclr> is used but never assigned. This sourceless signal will be automatically connected to value 0.
+WARNING:Xst:646 - Signal <CalculateGetImage_divfprdy> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <CalculateGetImage_divfpr> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:653 - Signal <CalculateGetImage_divfpond> is used but never assigned. This sourceless signal will be automatically connected to value 0.
 WARNING:Xst:1780 - Signal <CalculateGetImage_divfpclk> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:653 - Signal <CalculateGetImage_divfpce> is used but never assigned. This sourceless signal will be automatically connected to value 0.
+WARNING:Xst:653 - Signal <CalculateGetImage_divfpb> is used but never assigned. This sourceless signal will be automatically connected to value 00000000000000000000000000000000.
+WARNING:Xst:653 - Signal <CalculateGetImage_divfpa> is used but never assigned. This sourceless signal will be automatically connected to value 00000000000000000000000000000000.
 WARNING:Xst:1780 - Signal <CalculateGetImage_addfpclk> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-    Found finite state machine <FSM_18> for signal <state>.
+WARNING:Xst:646 - Signal <CalculateGetImage_Ta> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:653 - Signal <CalculateGetImage_2powx_p8_ena> is used but never assigned. This sourceless signal will be automatically connected to value 0.
+WARNING:Xst:653 - Signal <CalculateGetImage_2powx_p8_adr> is used but never assigned. This sourceless signal will be automatically connected to value 0000.
+    Found finite state machine <FSM_17> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 24                                             |
     | Transitions        | 36                                             |
@@ -2194,8 +2131,6 @@ Synthesizing Unit <test1>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd".
 WARNING:Xst:2565 - Inout <io_scl_dd> is never assigned.
 WARNING:Xst:2565 - Inout <io_sda_dd> is never assigned.
-WARNING:Xst:2565 - Inout <io_scl_nl> is never assigned.
-WARNING:Xst:2565 - Inout <io_sda_nl> is never assigned.
 WARNING:Xst:1780 - Signal <test_to_ena> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:1780 - Signal <test_to_douta> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:1780 - Signal <test_to_clka> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
@@ -2205,7 +2140,13 @@ WARNING:Xst:1780 - Signal <test_fixed_melexis_i2c_mem_douta> is never used or as
 WARNING:Xst:1780 - Signal <test_fixed_melexis_i2c_mem_addra> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <temp2> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <t_state> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:646 - Signal <sda_o> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <sqrtfp2sclr> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:653 - Signal <sqrtfp2rdy> is used but never assigned. This sourceless signal will be automatically connected to value 0.
+WARNING:Xst:653 - Signal <sqrtfp2r> is used but never assigned. This sourceless signal will be automatically connected to value 00000000000000000000000000000000.
+WARNING:Xst:646 - Signal <sqrtfp2ond> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <sqrtfp2clk> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <sqrtfp2ce> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <sqrtfp2a> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <rdata<23:21>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <rdata<15:13>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <rdata<7:5>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
@@ -2215,14 +2156,18 @@ WARNING:Xst:1780 - Signal <melexis_mlx90640_i2c_scl> is never used or assigned. 
 WARNING:Xst:1780 - Signal <melexis_mlx90640_i2c_reset> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <melexis_mlx90640_i2c_mode2_ready_all> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:1780 - Signal <melexis_mlx90640_i2c_clock> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:653 - Signal <i2c_stream_mode2> is used but never assigned. This sourceless signal will be automatically connected to value 0.
-WARNING:Xst:646 - Signal <i2c_stream_done> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:653 - Signal <i2c_stream_compare1> is used but never assigned. This sourceless signal will be automatically connected to value 00000000000000000000000000000000.
-WARNING:Xst:1780 - Signal <float2fixedr_r> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:646 - Signal <dualmem_doutb_t<15:14>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:646 - Signal <dualmem_doutb_t<4:0>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:1780 - Signal <dualmem_doutb_r> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:1780 - Signal <dualmem_dina_r> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:1780 - Signal <i2c_stream_sda> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:1780 - Signal <i2c_stream_scl> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:1780 - Signal <i2c_stream_reset> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:1780 - Signal <i2c_stream_mode2> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <i2c_stream_enable> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:1780 - Signal <i2c_stream_done> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:1780 - Signal <i2c_stream_compare1> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:1780 - Signal <i2c_stream_clock> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:1780 - Signal <i2c_stream_addr> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:1780 - Signal <float2fixedr_t> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:1780 - Signal <dualmem_doutb_t> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:1780 - Signal <dualmem_dina_t> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:1780 - Signal <asd1> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:1780 - Signal <asd> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:1780 - Signal <VGA_timing_synch_activehaaddrgen> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
@@ -2247,7 +2192,7 @@ INFO:Xst:1799 - State 010001 is never reached in FSM <state>.
 INFO:Xst:1799 - State 010011 is never reached in FSM <state>.
 INFO:Xst:1799 - State 010100 is never reached in FSM <state>.
 INFO:Xst:1799 - State 010101 is never reached in FSM <state>.
-    Found finite state machine <FSM_19> for signal <state>.
+    Found finite state machine <FSM_18> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 18                                             |
     | Transitions        | 30                                             |
@@ -2261,22 +2206,24 @@ INFO:Xst:1799 - State 010101 is never reached in FSM <state>.
     | Encoding           | automatic                                      |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
+    Found 1-bit tristate buffer for signal <io_sda_nl>.
+    Found 1-bit tristate buffer for signal <io_scl_nl>.
     Found 1-bit register for signal <agclk>.
     Found 17-bit up counter for signal <cold_start>.
     Found 10-bit register for signal <dualmem_addra>.
-    Found 16-bit register for signal <dualmem_dina_t>.
+    Found 9-bit register for signal <dualmem_dina_r>.
     Found 1-bit register for signal <dualmem_ena>.
     Found 1-bit register for signal <dualmem_wea<0>>.
     Found 32-bit register for signal <float2fixeda>.
     Found 1-bit register for signal <float2fixedce>.
     Found 1-bit register for signal <float2fixedsclr>.
     Found 10-bit register for signal <i>.
-    Found 10-bit adder for signal <i$addsub0000> created at line 1072.
+    Found 10-bit adder for signal <i$addsub0000> created at line 1074.
     Found 11-bit register for signal <i2c_mlx_addra>.
-    Found 10-bit adder carry out for signal <i2c_mlx_addra$addsub0001> created at line 594.
+    Found 10-bit adder carry out for signal <i2c_mlx_addra$addsub0001> created at line 595.
     Found 16-bit register for signal <i2c_mlx_dina>.
     Found 1-bit register for signal <i2c_mlx_ena>.
-    Found 1-bit register for signal <i2c_stream_enable>.
+    Found 16-bit register for signal <latch_data>.
     Found 1-bit register for signal <melexis_mlx90640_i2c_enable>.
     Found 16-bit register for signal <melexis_mlx90640_i2c_memory_address>.
     Found 16-bit register for signal <melexis_mlx90640_i2c_memory_data>.
@@ -2287,9 +2234,8 @@ INFO:Xst:1799 - State 010101 is never reached in FSM <state>.
     Found 1-bit register for signal <temp1>.
     Found 10-bit register for signal <test_fixed_melexis_addr>.
     Found 1-bit register for signal <test_fixed_melexis_run>.
-    Found 16-bit register for signal <tout_t>.
+    Found 9-bit register for signal <tout_r>.
     Found 1-bit register for signal <vgaclk25>.
-    Found 1-bit register for signal <vmax<0>>.
     Found 4-bit up counter for signal <vmax0>.
     Found 9-bit register for signal <wait1>.
     Found 9-bit adder for signal <wait1$addsub0000>.
@@ -2302,6 +2248,7 @@ INFO:Xst:1799 - State 010101 is never reached in FSM <state>.
 	inferred   3 Counter(s).
 	inferred 201 D-type flip-flop(s).
 	inferred   5 Adder/Subtractor(s).
+	inferred   2 Tristate(s).
 Unit <test1> synthesized.
 
 INFO:Xst:1767 - HDL ADVISOR - Resource sharing has identified that some arithmetic operations in this design can share the same physical resources for reduced device utilization. For improved clock frequency you may try to disable resource sharing.
@@ -2313,18 +2260,14 @@ Macro Statistics
 # ROMs                                                 : 5
  32x1-bit ROM                                          : 4
  4x32-bit ROM                                          : 1
-# Multipliers                                          : 1
- 5x10-bit multiplier                                   : 1
-# Adders/Subtractors                                   : 82
- 10-bit adder                                          : 19
+# Adders/Subtractors                                   : 78
+ 10-bit adder                                          : 18
  10-bit adder carry out                                : 1
  11-bit adder                                          : 4
  11-bit adder carry out                                : 2
  14-bit adder                                          : 1
- 15-bit adder                                          : 1
  3-bit adder                                           : 3
- 3-bit subtractor                                      : 2
- 32-bit subtractor                                     : 1
+ 3-bit subtractor                                      : 1
  5-bit adder                                           : 8
  5-bit adder carry out                                 : 10
  6-bit adder                                           : 10
@@ -2336,38 +2279,35 @@ Macro Statistics
 # Counters                                             : 14
  10-bit up counter                                     : 4
  17-bit up counter                                     : 1
- 32-bit up counter                                     : 1
  4-bit up counter                                      : 1
  5-bit up counter                                      : 7
-# Registers                                            : 459
- 1-bit register                                        : 225
- 10-bit register                                       : 29
+ 6-bit up counter                                      : 1
+# Registers                                            : 437
+ 1-bit register                                        : 214
+ 10-bit register                                       : 28
  11-bit register                                       : 1
- 12-bit register                                       : 12
+ 12-bit register                                       : 11
  14-bit register                                       : 1
- 15-bit register                                       : 1
- 16-bit register                                       : 17
+ 16-bit register                                       : 15
  17-bit register                                       : 1
  2-bit register                                        : 4
- 3-bit register                                        : 6
- 32-bit register                                       : 111
- 4-bit register                                        : 24
+ 3-bit register                                        : 5
+ 32-bit register                                       : 105
+ 4-bit register                                        : 23
  5-bit register                                        : 10
  6-bit register                                        : 5
  8-bit register                                        : 11
- 9-bit register                                        : 1
-# Comparators                                          : 7
+ 9-bit register                                        : 3
+# Comparators                                          : 6
  10-bit comparator greater                             : 2
  10-bit comparator less                                : 4
- 32-bit comparator equal                               : 1
-# Multiplexers                                         : 21
- 1-bit 16-to-1 multiplexer                             : 1
+# Multiplexers                                         : 20
  1-bit 7-to-1 multiplexer                              : 4
  32-bit 4-to-1 multiplexer                             : 14
  4-bit 4-to-1 multiplexer                              : 1
  8-bit 4-to-1 multiplexer                              : 1
-# Tristates                                            : 2
- 1-bit tristate buffer                                 : 2
+# Tristates                                            : 4
+ 1-bit tristate buffer                                 : 4
 
 =========================================================================
 
@@ -2375,7 +2315,7 @@ Macro Statistics
 *                       Advanced HDL Synthesis                          *
 =========================================================================
 
-Analyzing FSM <FSM_19> for best encoding.
+Analyzing FSM <FSM_18> for best encoding.
 Optimizing FSM <state/FSM> on signal <state[1:18]> with one-hot encoding.
 ------------------------------
  State  | Encoding
@@ -2415,7 +2355,7 @@ Optimizing FSM <state/FSM> on signal <state[1:18]> with one-hot encoding.
  101101 | 010000000000000000
  101110 | 100000000000000000
 ------------------------------
-Analyzing FSM <FSM_18> for best encoding.
+Analyzing FSM <FSM_17> for best encoding.
 Optimizing FSM <melexis_mlx9064x_core_inst/state/FSM> on signal <state[1:24]> with one-hot encoding.
 -----------------------------------
  State | Encoding
@@ -2445,7 +2385,7 @@ Optimizing FSM <melexis_mlx9064x_core_inst/state/FSM> on signal <state[1:24]> wi
  10110 | 010000000000000000000000
  10111 | 100000000000000000000000
 -----------------------------------
-Analyzing FSM <FSM_17> for best encoding.
+Analyzing FSM <FSM_16> for best encoding.
 Optimizing FSM <melexis_mlx9064x_core_inst/inst_CalculatePixOS/state/FSM> on signal <state[1:19]> with one-hot encoding.
 ------------------------------
  State | Encoding
@@ -2470,7 +2410,7 @@ Optimizing FSM <melexis_mlx9064x_core_inst/inst_CalculatePixOS/state/FSM> on sig
  10001 | 0100000000000000000
  10010 | 1000000000000000000
 ------------------------------
-Analyzing FSM <FSM_16> for best encoding.
+Analyzing FSM <FSM_15> for best encoding.
 Optimizing FSM <melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/state/FSM> on signal <state[1:10]> with one-hot encoding.
 ---------------------
  State | Encoding
@@ -2486,7 +2426,7 @@ Optimizing FSM <melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parame
  1000  | 0100000000
  1001  | 1000000000
 ---------------------
-Analyzing FSM <FSM_15> for best encoding.
+Analyzing FSM <FSM_14> for best encoding.
 Optimizing FSM <melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_i0/state/FSM> on signal <state[1:19]> with one-hot encoding.
 ------------------------------
  State | Encoding
@@ -2511,7 +2451,7 @@ Optimizing FSM <melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_param
  10001 | 0100000000000000000
  10010 | 1000000000000000000
 ------------------------------
-Analyzing FSM <FSM_14> for best encoding.
+Analyzing FSM <FSM_13> for best encoding.
 Optimizing FSM <melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0/state/FSM> on signal <state[1:32]> with one-hot encoding.
 -------------------------------------------
  State | Encoding
@@ -2549,7 +2489,7 @@ Optimizing FSM <melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_pa
  11110 | 01000000000000000000000000000000
  11111 | 10000000000000000000000000000000
 -------------------------------------------
-Analyzing FSM <FSM_13> for best encoding.
+Analyzing FSM <FSM_12> for best encoding.
 Optimizing FSM <melexis_mlx9064x_core_inst/inst_CalculatePixOS/calculate_pix_gain_i0/state/FSM> on signal <state[1:7]> with one-hot encoding.
 -------------------
  State | Encoding
@@ -2562,58 +2502,27 @@ Optimizing FSM <melexis_mlx9064x_core_inst/inst_CalculatePixOS/calculate_pix_gai
  101   | 0100000
  110   | 1000000
 -------------------
-Analyzing FSM <FSM_12> for best encoding.
-Optimizing FSM <melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/state/FSM> on signal <state[1:45]> with one-hot encoding.
----------------------------------------------------------
- State  | Encoding
----------------------------------------------------------
- 000000 | 000000000000000000000000000000000000000000001
- 000001 | 000000000000000000000000000000000000000000010
- 000010 | 000000000000000000000000000000000000000000100
- 000011 | 000000000000000000000000000000000000000001000
- 000100 | 000000000000000000000000000000000000000010000
- 000101 | 000000000000000000000000000000000000000100000
- 000110 | 000000000000000000000000000000000000001000000
- 000111 | 000000000000000000000000000000000000010000000
- 001000 | 000000000000000000000000000000000000100000000
- 001001 | 000000000000000000000000000000000001000000000
- 001010 | 000000000000000000000000000000000010000000000
- 001011 | 000000000000000000000000000000000100000000000
- 001100 | 000000000000000000000000000000001000000000000
- 001101 | 000000000000000000000000000000010000000000000
- 001110 | 000000000000000000000000000000100000000000000
- 001111 | 000000000000000000000000000001000000000000000
- 010000 | 000000000000000000000000000010000000000000000
- 010001 | 000000000000000000000000000100000000000000000
- 010010 | 000000000000000000000000001000000000000000000
- 010011 | 000000000000000000000000010000000000000000000
- 010100 | 000000000000000000000000100000000000000000000
- 010101 | 000000000000000000000001000000000000000000000
- 010110 | 000000000000000000000010000000000000000000000
- 010111 | 000000000000000000000100000000000000000000000
- 011000 | 000000000000000000001000000000000000000000000
- 011001 | 000000000000000000010000000000000000000000000
- 011010 | 000000000000000000100000000000000000000000000
- 011011 | 000000000000000001000000000000000000000000000
- 011100 | 000000000000000010000000000000000000000000000
- 011101 | 000000000000000100000000000000000000000000000
- 011110 | 000000000000001000000000000000000000000000000
- 011111 | 000000000000010000000000000000000000000000000
- 100000 | 000000000000100000000000000000000000000000000
- 100001 | 000000000001000000000000000000000000000000000
- 100010 | 000000000010000000000000000000000000000000000
- 100011 | 000000000100000000000000000000000000000000000
- 100100 | 000000001000000000000000000000000000000000000
- 100101 | 000000010000000000000000000000000000000000000
- 100110 | 000000100000000000000000000000000000000000000
- 100111 | 000001000000000000000000000000000000000000000
- 101000 | 000010000000000000000000000000000000000000000
- 101001 | 000100000000000000000000000000000000000000000
- 101010 | 001000000000000000000000000000000000000000000
- 101011 | 010000000000000000000000000000000000000000000
- 101100 | 100000000000000000000000000000000000000000000
----------------------------------------------------------
 Analyzing FSM <FSM_11> for best encoding.
+Optimizing FSM <melexis_mlx9064x_core_inst/g_calculate_raw_image.calculate_raw_image_i0/state/FSM> on signal <state[1:14]> with one-hot encoding.
+-------------------------
+ State | Encoding
+-------------------------
+ 0000  | 00000000000001
+ 0001  | 00000000000010
+ 0010  | 00000000000100
+ 0011  | 00000000001000
+ 0100  | 00000000010000
+ 0101  | 00000000100000
+ 0110  | 00000001000000
+ 0111  | 00000010000000
+ 1000  | 00000100000000
+ 1001  | 00001000000000
+ 1010  | 00010000000000
+ 1011  | 00100000000000
+ 1100  | 01000000000000
+ 1101  | 10000000000000
+-------------------------
+Analyzing FSM <FSM_10> for best encoding.
 Optimizing FSM <melexis_mlx9064x_core_inst/inst_CalculateAlphaComp/state/FSM> on signal <state[1:18]> with one-hot encoding.
 -----------------------------
  State | Encoding
@@ -2637,7 +2546,7 @@ Optimizing FSM <melexis_mlx9064x_core_inst/inst_CalculateAlphaComp/state/FSM> on
  10000 | 010000000000000000
  10001 | 100000000000000000
 -----------------------------
-Analyzing FSM <FSM_10> for best encoding.
+Analyzing FSM <FSM_9> for best encoding.
 Optimizing FSM <melexis_mlx9064x_core_inst/inst_CalculateVirCompensated/state/FSM> on signal <state[1:10]> with one-hot encoding.
 ---------------------
  State | Encoding
@@ -2653,7 +2562,7 @@ Optimizing FSM <melexis_mlx9064x_core_inst/inst_CalculateVirCompensated/state/FS
  1000  | 0100000000
  1001  | 1000000000
 ---------------------
-Analyzing FSM <FSM_9> for best encoding.
+Analyzing FSM <FSM_8> for best encoding.
 Optimizing FSM <melexis_mlx9064x_core_inst/inst_ExtractAlphaParameters/state/FSM> on signal <state[1:37]> with one-hot encoding.
 -------------------------------------------------
  State  | Encoding
@@ -2696,17 +2605,6 @@ Optimizing FSM <melexis_mlx9064x_core_inst/inst_ExtractAlphaParameters/state/FSM
  100011 | 0100000000000000000000000000000000000
  100100 | 1000000000000000000000000000000000000
 -------------------------------------------------
-Analyzing FSM <FSM_8> for best encoding.
-Optimizing FSM <i2c_stream_i0/state/FSM> on signal <state[1:3]> with user encoding.
--------------------
- State | Encoding
--------------------
- idle  | 000
- s1    | 001
- s2    | 010
- s3    | 011
- s4    | 100
--------------------
 Analyzing FSM <FSM_7> for best encoding.
 Optimizing FSM <melexis_mlx9064x_core_inst/inst_CalculatePixOsCPSP/state/FSM> on signal <state[1:88]> with one-hot encoding.
 -----------------------------------------------------------------------------------------------------
@@ -2895,112 +2793,108 @@ Optimizing FSM <melexis_mlx9064x_core_inst/inst_extract_tgc_parameters/state/FSM
  11    | 10
 -------------------
 Analyzing FSM <FSM_1> for best encoding.
-Optimizing FSM <melexis_mlx90640_i2c_i0/c_cmode/FSM> on signal <c_cmode[1:4]> with one-hot encoding.
+Optimizing FSM <melexis_mlx90640_i2c_i0/c_cmode/FSM> on signal <c_cmode[1:2]> with gray encoding.
 -------------------
  State | Encoding
 -------------------
- c0    | 0001
- c1    | 0010
- c2    | 0100
- c3    | 1000
+ c0    | 00
+ c1    | 01
+ c2    | 11
+ c3    | 10
 -------------------
 Analyzing FSM <FSM_0> for best encoding.
-Optimizing FSM <melexis_mlx90640_i2c_i0/c_state/FSM> on signal <c_state[1:67]> with one-hot encoding.
-----------------------------------------------------------------------------------------------------------
+Optimizing FSM <melexis_mlx90640_i2c_i0/c_state/FSM> on signal <c_state[1:68]> with one-hot encoding.
+-----------------------------------------------------------------------------------------------------------
  State                             | Encoding
-----------------------------------------------------------------------------------------------------------
- idle                              | 0000000000000000000000000000000000000000000000000000000000000000001
- start                             | 0000000000000000000000000000000000000000000000000000000000000000010
- sda_start                         | 0000000000000000000000000000000000000000000000000000000000000000100
- mode0_write_slave_address         | 0000000000000000000000000000000000000000000000000000000000000100000
- mode0_write_slave_address_lastbit | 0000000000000000000000000000000000000000000000000000000000001000000
- mode0_write_slave_write           | 0000000000000000000000000000000000000000000000000000000000010000000
- mode0_write_slave_ack             | 0000000000000000000000000000000000000000000000000000000000100000000
- mode0_write_data1                 | 0000000000000000000000000000000000000000000000000000000001000000000
- mode0_write_data_lastbit1         | 0000000000000000000000000000000000000000000000000000000010000000000
- mode0_write_data_ack1             | 0000000000000000000000000000000000000000000000000000000100000000000
- mode0_write_data2                 | 0000000000000000000000000000000000000000000000000000001000000000000
- mode0_write_data_lastbit2         | 0000000000000000000000000000000000000000000000000000010000000000000
- mode0_write_data_ack2             | 0000000000000000000000000000000000000000000000000000100000000000000
- mode0_write_data3                 | 0000000000000000000000000000000000000000000000000001000000000000000
- mode0_write_data_lastbit3         | 0000000000000000000000000000000000000000000000000010000000000000000
- mode0_write_data_ack3             | 0000000000000000000000000000000000000000000000000100000000000000000
- mode0_write_data4                 | 0000000000000000000000000000000000000000000000001000000000000000000
- mode0_write_data_lastbit4         | 0000000000000000000000000000000000000000000000010000000000000000000
- mode0_write_data_ack4             | 0000000000000000000000000000000000000000000000100000000000000000000
- mode0_empty                       | 0000000000000000000000000000000000000000000001000000000000000000000
- mode1_write_slave_address         | 0000000000000000000000000000000000000000000000000000000000000010000
- mode1_write_slave_address_lastbit | unreached
- mode1_write_slave_write           | 0000000000000000000000000000000000000000000100000000000000000000000
- mode1_write_slave_ack             | 0000000000000000000000000000000000000000001000000000000000000000000
- mode1_write_data1                 | 0000000000000000000000000000000000000000010000000000000000000000000
- mode1_write_data_lastbit1         | 0000000000000000000000000000000000000000100000000000000000000000000
- mode1_write_data_ack1             | 0000000000000000000000000000000000000001000000000000000000000000000
- mode1_write_data2                 | 0000000000000000000000000000000000000010000000000000000000000000000
- mode1_write_data_lastbit2         | 0000000000000000000000000000000000000100000000000000000000000000000
- mode1_write_data_ack2             | 0000000000000000000000000000000000001000000000000000000000000000000
- mode1_write_data_ack2_empty       | 0000000000000000000000000000000000010000000000000000000000000000000
- mode1_read_start                  | 0000000000000000000000000000000000100000000000000000000000000000000
- mode1_read_sda_start              | 0000000000000000000000000000000001000000000000000000000000000000000
- mode1_read_slave_address          | 0000000000000000000000000000000010000000000000000000000000000000000
- mode1_read_slave_address_lastbit  | 0000000000000000000000000000000100000000000000000000000000000000000
- mode1_read_slave_read             | 0000000000000000000000000000001000000000000000000000000000000000000
- mode1_read_slave_ack              | 0000000000000000000000000000010000000000000000000000000000000000000
- mode1_read_data1                  | 0000000000000000000000000000100000000000000000000000000000000000000
- mode1_read_data_lastbit1          | 0000000000000000000000000001000000000000000000000000000000000000000
- mode1_read_data_ack               | 0000000000000000000000000010000000000000000000000000000000000000000
- mode1_read_data2                  | 0000000000000000000000000100000000000000000000000000000000000000000
- mode1_read_data_lastbit2          | 0000000000000000000000001000000000000000000000000000000000000000000
- mode1_read_data_nak               | 0000000000000000000000010000000000000000000000000000000000000000000
- mode1_read_data_nak_empty         | 0000000000000000000000100000000000000000000000000000000000000000000
+-----------------------------------------------------------------------------------------------------------
+ idle                              | 00000000000000000000000000000000000000000000000000000000000000000001
+ start                             | 00000000000000000000000000000000000000000000000000000000000000000010
+ sda_start                         | 00000000000000000000000000000000000000000000000000000000000000000100
+ mode0_write_slave_address         | 00000000000000000000000000000000000000000000000000000000000000100000
+ mode0_write_slave_address_lastbit | 00000000000000000000000000000000000000000000000000000000000001000000
+ mode0_write_slave_write           | 00000000000000000000000000000000000000000000000000000000000010000000
+ mode0_write_slave_ack             | 00000000000000000000000000000000000000000000000000000000000100000000
+ mode0_write_data1                 | 00000000000000000000000000000000000000000000000000000000001000000000
+ mode0_write_data_lastbit1         | 00000000000000000000000000000000000000000000000000000000010000000000
+ mode0_write_data_ack1             | 00000000000000000000000000000000000000000000000000000000100000000000
+ mode0_write_data2                 | 00000000000000000000000000000000000000000000000000000001000000000000
+ mode0_write_data_lastbit2         | 00000000000000000000000000000000000000000000000000000010000000000000
+ mode0_write_data_ack2             | 00000000000000000000000000000000000000000000000000000100000000000000
+ mode0_write_data3                 | 00000000000000000000000000000000000000000000000000001000000000000000
+ mode0_write_data_lastbit3         | 00000000000000000000000000000000000000000000000000010000000000000000
+ mode0_write_data_ack3             | 00000000000000000000000000000000000000000000000000100000000000000000
+ mode0_write_data4                 | 00000000000000000000000000000000000000000000000001000000000000000000
+ mode0_write_data_lastbit4         | 00000000000000000000000000000000000000000000000010000000000000000000
+ mode0_write_data_ack4             | 00000000000000000000000000000000000000000000000100000000000000000000
+ mode0_empty                       | 00000000000000000000000000000000000000000000001000000000000000000000
+ mode1_write_slave_address         | 00000000000000000000000000000000000000000000000000000000000000010000
+ mode1_write_slave_address_lastbit | 00000000000000000000000000000000000000000000100000000000000000000000
+ mode1_write_slave_write           | 00000000000000000000000000000000000000000001000000000000000000000000
+ mode1_write_slave_ack             | 00000000000000000000000000000000000000000010000000000000000000000000
+ mode1_write_data1                 | 00000000000000000000000000000000000000000100000000000000000000000000
+ mode1_write_data_lastbit1         | 00000000000000000000000000000000000000001000000000000000000000000000
+ mode1_write_data_ack1             | 00000000000000000000000000000000000000010000000000000000000000000000
+ mode1_write_data2                 | 00000000000000000000000000000000000000100000000000000000000000000000
+ mode1_write_data_lastbit2         | 00000000000000000000000000000000000001000000000000000000000000000000
+ mode1_write_data_ack2             | 00000000000000000000000000000000000010000000000000000000000000000000
+ mode1_write_data_ack2_empty       | 00000000000000000000000000000000000100000000000000000000000000000000
+ mode1_read_start                  | 00000000000000000000000000000000001000000000000000000000000000000000
+ mode1_read_sda_start              | 00000000000000000000000000000000010000000000000000000000000000000000
+ mode1_read_slave_address          | 00000000000000000000000000000000100000000000000000000000000000000000
+ mode1_read_slave_address_lastbit  | 00000000000000000000000000000001000000000000000000000000000000000000
+ mode1_read_slave_read             | 00000000000000000000000000000010000000000000000000000000000000000000
+ mode1_read_slave_ack              | 00000000000000000000000000000100000000000000000000000000000000000000
+ mode1_read_data1                  | 00000000000000000000000000001000000000000000000000000000000000000000
+ mode1_read_data_lastbit1          | 00000000000000000000000000010000000000000000000000000000000000000000
+ mode1_read_data_ack               | 00000000000000000000000000100000000000000000000000000000000000000000
+ mode1_read_data2                  | 00000000000000000000000001000000000000000000000000000000000000000000
+ mode1_read_data_lastbit2          | 00000000000000000000000010000000000000000000000000000000000000000000
+ mode1_read_data_nak               | 00000000000000000000000100000000000000000000000000000000000000000000
+ mode1_read_data_nak_empty         | 00000000000000000000001000000000000000000000000000000000000000000000
  state1                            | unreached
- mode2_write_slave_address         | 0000000000000000000000000000000000000000000000000000000000000001000
- mode2_write_slave_address_lastbit | 0000000000000000000010000000000000000000000000000000000000000000000
- mode2_write_slave_write           | 0000000000000000000100000000000000000000000000000000000000000000000
- mode2_write_slave_ack             | 0000000000000000001000000000000000000000000000000000000000000000000
- mode2_write_data1                 | 0000000000000000010000000000000000000000000000000000000000000000000
- mode2_write_data_lastbit1         | 0000000000000000100000000000000000000000000000000000000000000000000
- mode2_write_data_ack1             | 0000000000000001000000000000000000000000000000000000000000000000000
- mode2_write_data2                 | 0000000000000010000000000000000000000000000000000000000000000000000
- mode2_write_data_lastbit2         | 0000000000000100000000000000000000000000000000000000000000000000000
- mode2_write_data_ack2             | 0000000000001000000000000000000000000000000000000000000000000000000
- mode2_write_data_ack2_empty       | 0000000000010000000000000000000000000000000000000000000000000000000
- mode2_read_start                  | 0000000000100000000000000000000000000000000000000000000000000000000
- mode2_read_sda_start              | 0000000001000000000000000000000000000000000000000000000000000000000
- mode2_read_slave_address          | 0000000010000000000000000000000000000000000000000000000000000000000
+ mode2_write_slave_address         | 00000000000000000000000000000000000000000000000000000000000000001000
+ mode2_write_slave_address_lastbit | 00000000000000000000100000000000000000000000000000000000000000000000
+ mode2_write_slave_write           | 00000000000000000001000000000000000000000000000000000000000000000000
+ mode2_write_slave_ack             | 00000000000000000010000000000000000000000000000000000000000000000000
+ mode2_write_data1                 | 00000000000000000100000000000000000000000000000000000000000000000000
+ mode2_write_data_lastbit1         | 00000000000000001000000000000000000000000000000000000000000000000000
+ mode2_write_data_ack1             | 00000000000000010000000000000000000000000000000000000000000000000000
+ mode2_write_data2                 | 00000000000000100000000000000000000000000000000000000000000000000000
+ mode2_write_data_lastbit2         | 00000000000001000000000000000000000000000000000000000000000000000000
+ mode2_write_data_ack2             | 00000000000010000000000000000000000000000000000000000000000000000000
+ mode2_write_data_ack2_empty       | 00000000000100000000000000000000000000000000000000000000000000000000
+ mode2_read_start                  | 00000000001000000000000000000000000000000000000000000000000000000000
+ mode2_read_sda_start              | 00000000010000000000000000000000000000000000000000000000000000000000
+ mode2_read_slave_address          | 00000000100000000000000000000000000000000000000000000000000000000000
  mode2_read_slave_address_lastbit  | unreached
- mode2_read_slave_read             | 0000000100000000000000000000000000000000000000000000000000000000000
- mode2_read_slave_ack              | 0000001000000000000000000000000000000000000000000000000000000000000
- mode2_read_data1                  | 0000010000000000000000000000000000000000000000000000000000000000000
- mode2_read_data_lastbit1          | 0000100000000000000000000000000000000000000000000000000000000000000
- mode2_read_data_ack1              | 0001000000000000000000000000000000000000000000000000000000000000000
- mode2_read_data2                  | 0010000000000000000000000000000000000000000000000000000000000000000
- mode2_read_data_lastbit2          | 0100000000000000000000000000000000000000000000000000000000000000000
- mode2_read_data_ack2              | 1000000000000000000000000000000000000000000000000000000000000000000
+ mode2_read_slave_read             | 00000001000000000000000000000000000000000000000000000000000000000000
+ mode2_read_slave_ack              | 00000010000000000000000000000000000000000000000000000000000000000000
+ mode2_read_data1                  | 00000100000000000000000000000000000000000000000000000000000000000000
+ mode2_read_data_lastbit1          | 00001000000000000000000000000000000000000000000000000000000000000000
+ mode2_read_data_ack1              | 00010000000000000000000000000000000000000000000000000000000000000000
+ mode2_read_data2                  | 00100000000000000000000000000000000000000000000000000000000000000000
+ mode2_read_data_lastbit2          | 01000000000000000000000000000000000000000000000000000000000000000000
+ mode2_read_data_ack2              | 10000000000000000000000000000000000000000000000000000000000000000000
  mode2_read_data_nak               | unreached
- sda_stop                          | 0000000000000000000000000000000000000000000010000000000000000000000
- stop                              | 0000000000000000000001000000000000000000000000000000000000000000000
-----------------------------------------------------------------------------------------------------------
-Reading core <../ipcore_dir/float2fixed_temperature.ngc>.
-Reading core <../ipcore_dir/dualmem_temperature.ngc>.
+ sda_stop                          | 00000000000000000000000000000000000000000000010000000000000000000000
+ stop                              | 00000000000000000000010000000000000000000000000000000000000000000000
+-----------------------------------------------------------------------------------------------------------
+Reading core <../ipcore_dir/float2fixed_rawimg.ngc>.
+Reading core <../ipcore_dir/dualmem_rawimg.ngc>.
 Reading core <../ipcore_dir/fixed2float.ngc>.
 Reading core <../ipcore_dir/divfp.ngc>.
 Reading core <../ipcore_dir/mulfp.ngc>.
 Reading core <../ipcore_dir/addfp.ngc>.
 Reading core <../ipcore_dir/subfp.ngc>.
-Reading core <../ipcore_dir/sqrtfp2.ngc>.
 Reading core <../ipcore_dir/i2c_mlx.ngc>.
-Reading core <../ipcore_dir/mem_i2c_stream.ngc>.
-Loading core <float2fixed_temperature> for timing and area information for instance <g0_fl2fi_temperature.inst_float2fixed_t>.
-Loading core <dualmem_temperature> for timing and area information for instance <g0_dualmem_temperature.dualmem_inst_t>.
+Loading core <float2fixed_rawimg> for timing and area information for instance <g1_fl2fi_raw_image.inst_float2fixed_r>.
+Loading core <dualmem_rawimg> for timing and area information for instance <g1_dualmem_rawimg.dualmem_inst_r>.
 Loading core <fixed2float> for timing and area information for instance <b0.inst_fixed2float>.
 Loading core <divfp> for timing and area information for instance <inst_divfp>.
 Loading core <mulfp> for timing and area information for instance <inst_mulfp>.
 Loading core <addfp> for timing and area information for instance <inst_addfp>.
 Loading core <subfp> for timing and area information for instance <inst_subfp>.
-Loading core <sqrtfp2> for timing and area information for instance <g_calculate_to.inst_sqrtfp2>.
 Loading core <i2c_mlx> for timing and area information for instance <i2c_mlx_i0>.
-Loading core <mem_i2c_stream> for timing and area information for instance <mem_i2c_stream_i0>.
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <inst_extract_tgc_parameters> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_25> in Unit <inst_extract_tgc_parameters> is equivalent to the following FF/Latch, which will be removed : <divfpb_internal_30> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_0> in Unit <inst_extract_tgc_parameters> is equivalent to the following 29 FFs/Latches, which will be removed : <divfpb_internal_1> <divfpb_internal_2> <divfpb_internal_3> <divfpb_internal_4> <divfpb_internal_5> <divfpb_internal_6> <divfpb_internal_7> <divfpb_internal_8> <divfpb_internal_9> <divfpb_internal_10> <divfpb_internal_11> <divfpb_internal_12> <divfpb_internal_13> <divfpb_internal_14> <divfpb_internal_15> <divfpb_internal_16> <divfpb_internal_17> <divfpb_internal_18> <divfpb_internal_19> <divfpb_internal_20> <divfpb_internal_21> <divfpb_internal_22> <divfpb_internal_23> <divfpb_internal_24> <divfpb_internal_26> <divfpb_internal_27> <divfpb_internal_28> <divfpb_internal_29> <divfpb_internal_31> 
@@ -3013,11 +2907,6 @@ INFO:Xst:2261 - The FF/Latch <divfpb_internal_0> in Unit <inst_CalculatePixOS> i
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_23> in Unit <inst_CalculateVirCompensated> is equivalent to the following 6 FFs/Latches, which will be removed : <divfpb_internal_24> <divfpb_internal_25> <divfpb_internal_26> <divfpb_internal_27> <divfpb_internal_28> <divfpb_internal_29> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_0> in Unit <inst_CalculateVirCompensated> is equivalent to the following 24 FFs/Latches, which will be removed : <divfpb_internal_1> <divfpb_internal_2> <divfpb_internal_3> <divfpb_internal_4> <divfpb_internal_5> <divfpb_internal_6> <divfpb_internal_7> <divfpb_internal_8> <divfpb_internal_9> <divfpb_internal_10> <divfpb_internal_11> <divfpb_internal_12> <divfpb_internal_13> <divfpb_internal_14> <divfpb_internal_15> <divfpb_internal_16> <divfpb_internal_17> <divfpb_internal_18> <divfpb_internal_19> <divfpb_internal_20> <divfpb_internal_21> <divfpb_internal_22> <divfpb_internal_30> <divfpb_internal_31> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <inst_CalculateAlphaComp> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
-INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_internal_0> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <i2c_mem_addra_internal_2> 
-INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_internal_7> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following 4 FFs/Latches, which will be removed : <i2c_mem_addra_internal_8> <i2c_mem_addra_internal_9> <i2c_mem_addra_internal_10> <i2c_mem_addra_internal_11> 
-INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_internal_1> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following 4 FFs/Latches, which will be removed : <i2c_mem_addra_internal_3> <i2c_mem_addra_internal_4> <i2c_mem_addra_internal_5> <i2c_mem_addra_internal_6> 
-INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
-WARNING:Xst:1710 - FF/Latch <subfpb_internal_13> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <subfpb_internal_12> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <subfpb_internal_11> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <subfpb_internal_10> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
@@ -3049,8 +2938,9 @@ WARNING:Xst:1710 - FF/Latch <addfpb_internal_12> (without init value) has a cons
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_11> (without init value) has a constant value of 0 in block <inst_CalculatePixOS>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_10> (without init value) has a constant value of 0 in block <inst_CalculatePixOS>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <addfpb_internal_9> (without init value) has a constant value of 0 in block <inst_CalculatePixOS>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <FFd64> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <FFd63> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <FFd62> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <FFd45> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <FFd44> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <FFd43> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <FFd42> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
@@ -3072,8 +2962,6 @@ WARNING:Xst:1293 - FF/Latch <FFd26> has a constant value of 0 in block <FSM>. Th
 WARNING:Xst:1293 - FF/Latch <FFd25> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <FFd24> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <FFd23> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_7> (without init value) has a constant value of 0 in block <g_calculate_to.calculate_to_i0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_1> (without init value) has a constant value of 1 in block <g_calculate_to.calculate_to_i0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <subfpb_internal_21> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <subfpb_internal_20> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <subfpb_internal_18> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
@@ -3081,6 +2969,7 @@ WARNING:Xst:1710 - FF/Latch <subfpb_internal_17> (without init value) has a cons
 WARNING:Xst:1710 - FF/Latch <subfpb_internal_16> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <subfpb_internal_15> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <subfpb_internal_14> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <subfpb_internal_13> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_9> (without init value) has a constant value of 0 in block <inst_CalculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_8> (without init value) has a constant value of 0 in block <inst_CalculateTa>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_4> (without init value) has a constant value of 0 in block <inst_CalculateTa>. This FF/Latch will be trimmed during the optimization process.
@@ -3145,43 +3034,58 @@ WARNING:Xst:1293 - FF/Latch <n_0> has a constant value of 0 in block <extract_of
 WARNING:Xst:1293 - FF/Latch <n_1> has a constant value of 0 in block <extract_offset_parameters_i0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_11> (without init value) has a constant value of 0 in block <extract_offset_parameters_i0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_11> (without init value) has a constant value of 0 in block <extract_kta_parameters_i0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_mode1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_mode0> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_15> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_12> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_11> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_9> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_8> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_7> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_6> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_5> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_4> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_3> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_2> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_0> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_0> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_2> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_3> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_4> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_5> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_6> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_7> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_8> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_9> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_10> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_11> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_12> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_15> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <FFd34> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <FFd61> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <FFd46> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <FFd47> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <FFd48> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <FFd49> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <FFd50> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <FFd51> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <FFd52> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <FFd53> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <FFd54> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <FFd55> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <FFd56> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <FFd57> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <FFd58> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_0> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_2> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_3> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_4> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_5> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_6> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_7> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_8> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_9> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_11> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_12> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_15> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_mode0> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_mode1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <FFd62> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <FFd59> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <FFd60> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <FFd61> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <FFd58> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <FFd56> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <FFd57> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <FFd55> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <FFd54> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <FFd53> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <FFd52> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <FFd50> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <FFd51> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <FFd49> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <FFd47> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <FFd48> has a constant value of 0 in block <FSM>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:2404 -  FFs/Latches <divfpb_internal<31:31>> (without init value) have a constant value of 0 in block <extract_tgc_parameters>.
 WARNING:Xst:2404 -  FFs/Latches <i2c_mem_addra<11:7>> (without init value) have a constant value of 0 in block <extract_tgc_parameters>.
 WARNING:Xst:2404 -  FFs/Latches <divfpb_internal<31:30>> (without init value) have a constant value of 0 in block <calculate_vir_compensated>.
-WARNING:Xst:2404 -  FFs/Latches <i2c_mem_addra_internal<11:7>> (without init value) have a constant value of 0 in block <calculate_to>.
 WARNING:Xst:2404 -  FFs/Latches <divfpb_internal<31:30>> (without init value) have a constant value of 0 in block <calculate_pixos>.
 
 Synthesizing (advanced) Unit <calculate_vdd>.
@@ -3192,22 +3096,18 @@ Unit <calculate_vdd> synthesized (advanced).
 Advanced HDL Synthesis Report
 
 Macro Statistics
-# FSMs                                                 : 20
+# FSMs                                                 : 19
 # ROMs                                                 : 5
  32x1-bit ROM                                          : 4
  4x32-bit ROM                                          : 1
-# Multipliers                                          : 1
- 5x10-bit multiplier                                   : 1
-# Adders/Subtractors                                   : 82
- 10-bit adder                                          : 19
+# Adders/Subtractors                                   : 78
+ 10-bit adder                                          : 18
  10-bit adder carry out                                : 1
  11-bit adder                                          : 4
  11-bit adder carry out                                : 2
  14-bit adder                                          : 1
- 15-bit adder                                          : 1
  3-bit adder                                           : 3
- 3-bit subtractor                                      : 2
- 32-bit subtractor                                     : 1
+ 3-bit subtractor                                      : 1
  5-bit adder                                           : 8
  5-bit adder carry out                                 : 10
  6-bit adder                                           : 10
@@ -3219,17 +3119,15 @@ Macro Statistics
 # Counters                                             : 13
  10-bit up counter                                     : 4
  17-bit up counter                                     : 1
- 32-bit up counter                                     : 1
  4-bit up counter                                      : 1
  5-bit up counter                                      : 6
-# Registers                                            : 4824
- Flip-Flops                                            : 4824
-# Comparators                                          : 7
+ 6-bit up counter                                      : 1
+# Registers                                            : 4568
+ Flip-Flops                                            : 4568
+# Comparators                                          : 6
  10-bit comparator greater                             : 2
  10-bit comparator less                                : 4
- 32-bit comparator equal                               : 1
-# Multiplexers                                         : 83
- 1-bit 16-to-1 multiplexer                             : 1
+# Multiplexers                                         : 82
  1-bit 4-to-1 multiplexer                              : 64
  1-bit 7-to-1 multiplexer                              : 4
  32-bit 4-to-1 multiplexer                             : 12
@@ -3357,11 +3255,6 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <subfpb_internal_3> 
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <subfpb_internal_2> (without init value) has a constant value of 0 in block <calculate_alpha_compensated>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <subfpb_internal_1> (without init value) has a constant value of 0 in block <calculate_alpha_compensated>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <subfpb_internal_0> (without init value) has a constant value of 0 in block <calculate_alpha_compensated>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_internal_1> (without init value) has a constant value of 1 in block <calculate_to>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_internal_3> (without init value) has a constant value of 1 in block <calculate_to>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_internal_4> (without init value) has a constant value of 1 in block <calculate_to>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_internal_5> (without init value) has a constant value of 1 in block <calculate_to>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_internal_6> (without init value) has a constant value of 1 in block <calculate_to>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <n_0> has a constant value of 0 in block <extract_offset_parameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <n_1> has a constant value of 0 in block <extract_offset_parameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <m_0> has a constant value of 0 in block <extract_offset_parameters>. This FF/Latch will be trimmed during the optimization process.
@@ -3460,22 +3353,10 @@ INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_0> in Unit <extract_tgc_parameters> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_9> in Unit <calculate_alpha_cp> is equivalent to the following 6 FFs/Latches, which will be removed : <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_23> in Unit <calculate_vir_compensated> is equivalent to the following 6 FFs/Latches, which will be removed : <divfpb_internal_24> <divfpb_internal_25> <divfpb_internal_26> <divfpb_internal_27> <divfpb_internal_28> <divfpb_internal_29> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <calculate_alpha_compensated> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
-INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_internal_0> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <i2c_mem_addra_internal_2> 
-INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <calculate_to> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <extract_kta_parameters> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_23> in Unit <calculate_pixos> is equivalent to the following 6 FFs/Latches, which will be removed : <divfpb_internal_24> <divfpb_internal_25> <divfpb_internal_26> <divfpb_internal_27> <divfpb_internal_28> <divfpb_internal_29> 
 INFO:Xst:2146 - In block <vga_address_generator>, Counter <y_step_q> <row_index_q> are equivalent, XST will keep only <y_step_q>.
-WARNING:Xst:1293 - FF/Latch <v_index_0> has a constant value of 0 in block <i2c_stream>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <v_index_1> has a constant value of 0 in block <i2c_stream>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <v_index_2> has a constant value of 0 in block <i2c_stream>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <v_index_3> has a constant value of 0 in block <i2c_stream>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <v_index_4> has a constant value of 0 in block <i2c_stream>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <v_index_5> has a constant value of 0 in block <i2c_stream>. This FF/Latch will be trimmed during the optimization process.
-INFO:Xst:1901 - Instance rom_constants_i0 in unit rom_constants of type RAMB16_S36 has been replaced by RAMB16
-INFO:Xst:1901 - Instance RAMB16_S36_i1 in unit mem_ramb16_s36_x2 of type RAMB16_S36 has been replaced by RAMB16
-INFO:Xst:1901 - Instance RAMB16_S36_i2 in unit mem_ramb16_s36_x2 of type RAMB16_S36 has been replaced by RAMB16
-WARNING:Xst:2041 - Unit i2c_stream: 1 internal tristate is replaced by logic (pull-up yes): o_sda.
-WARNING:Xst:2041 - Unit melexis_mlx90640_i2c: 1 internal tristate is replaced by logic (pull-up yes): io_sda_ii.
+WARNING:Xst:2042 - Unit melexis_mlx90640_i2c: 2 internal tristates are replaced by logic (pull-up yes): io_sda_ii, io_sda_o.
 
 Optimizing unit <test1> ...
 
@@ -3503,8 +3384,6 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_inter
 
 Optimizing unit <mem_switchpattern> ...
 
-Optimizing unit <i2c_stream> ...
-
 Optimizing unit <rom_constants> ...
 
 Optimizing unit <mem_ramb16_s36_x2> ...
@@ -3517,7 +3396,7 @@ Optimizing unit <calculate_vir_compensated> ...
 
 Optimizing unit <calculate_alpha_compensated> ...
 
-Optimizing unit <calculate_to> ...
+Optimizing unit <calculate_raw_image> ...
 
 Optimizing unit <calculate_pix_gain> ...
 
@@ -3530,8 +3409,11 @@ Optimizing unit <extract_kv_parameters> ...
 Optimizing unit <calculate_pixos> ...
 
 Optimizing unit <melexis_mlx9064x> ...
+WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd64> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd63> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd62> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd61> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd45> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd44> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd43> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd42> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
@@ -3554,19 +3436,15 @@ WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd25> has a constant value of 0 in blo
 WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd24> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd23> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <c_state_FSM_FFd34> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:2677 - Node <o_done> of sequential type is unconnected in block <i2c_stream_i0>.
 WARNING:Xst:2677 - Node <mode2_ready_all_i> of sequential type is unconnected in block <melexis_mlx90640_i2c_i0>.
-WARNING:Xst:2677 - Node <temp_sda> of sequential type is unconnected in block <melexis_mlx90640_i2c_i0>.
-WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd61> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd46> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd47> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd48> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd49> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd50> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd51> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd54> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd52> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd53> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd54> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd55> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd56> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd57> has a constant value of 0 in block <melexis_mlx90640_i2c_i0>. This FF/Latch will be trimmed during the optimization process.
@@ -3576,24 +3454,14 @@ WARNING:Xst:1293 - FF/Latch <c_state_FSM_FFd60> has a constant value of 0 in blo
 
 Mapping all equations...
 Building and optimizing final netlist ...
-Found area constraint ratio of 100 (+ 5) on block test1, actual ratio is 69.
+Found area constraint ratio of 100 (+ 5) on block test1, actual ratio is 106.
+Optimizing block <test1> to meet ratio 100 (+ 5) of 8672 slices :
+Area constraint is met for block <test1>, final ratio is 101.
 INFO:Xst:2260 - The FF/Latch <blk00000084> in Unit <inst_mulfp> is equivalent to the following FF/Latch : <blk00000553> 
-INFO:Xst:2260 - The FF/Latch <blk00000296> in Unit <inst_addfp> is equivalent to the following FF/Latch : <blk000004d7> 
-INFO:Xst:2260 - The FF/Latch <blk00000296> in Unit <inst_subfp> is equivalent to the following FF/Latch : <blk000004d7> 
 INFO:Xst:2260 - The FF/Latch <blk00000084> in Unit <inst_mulfp> is equivalent to the following FF/Latch : <blk00000553> 
-INFO:Xst:2260 - The FF/Latch <blk00000296> in Unit <inst_addfp> is equivalent to the following FF/Latch : <blk000004d7> 
-INFO:Xst:2260 - The FF/Latch <blk00000296> in Unit <inst_subfp> is equivalent to the following FF/Latch : <blk000004d7> 
-FlipFlop melexis_mlx9064x_core_inst/CalculateAlphaCP_mux has been replicated 2 time(s)
-FlipFlop melexis_mlx9064x_core_inst/CalculateAlphaComp_mux has been replicated 1 time(s)
-FlipFlop melexis_mlx9064x_core_inst/CalculateGetImage_mux has been replicated 1 time(s)
-FlipFlop melexis_mlx9064x_core_inst/CalculatePixOS_mux has been replicated 3 time(s)
-FlipFlop melexis_mlx9064x_core_inst/CalculatePixOsCPSP_mux has been replicated 3 time(s)
+FlipFlop melexis_mlx9064x_core_inst/CalculatePixOS_mux has been replicated 1 time(s)
 FlipFlop melexis_mlx9064x_core_inst/CalculateTa_mux has been replicated 1 time(s)
 FlipFlop melexis_mlx9064x_core_inst/CalculateVdd_mux has been replicated 1 time(s)
-FlipFlop melexis_mlx9064x_core_inst/CalculateVirCompensated_mux has been replicated 3 time(s)
-FlipFlop melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux has been replicated 3 time(s)
-FlipFlop melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_mux has been replicated 1 time(s)
-FlipFlop melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_mux has been replicated 1 time(s)
 
 Final Macro Processing ...
 
@@ -3601,8 +3469,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 5103
- Flip-Flops                                            : 5103
+# Registers                                            : 4790
+ Flip-Flops                                            : 4790
 
 =========================================================================
 
@@ -3631,71 +3499,72 @@ Design Statistics
 # IOs                              : 36
 
 Cell Usage :
-# BELS                             : 20668
-#      BUF                         : 17
-#      GND                         : 41
-#      INV                         : 134
-#      LUT1                        : 145
-#      LUT2                        : 3962
-#      LUT2_D                      : 5
-#      LUT2_L                      : 35
-#      LUT3                        : 3551
-#      LUT3_D                      : 125
-#      LUT3_L                      : 279
-#      LUT4                        : 6878
-#      LUT4_D                      : 53
-#      LUT4_L                      : 666
-#      MULT_AND                    : 226
-#      MUXCY                       : 2152
-#      MUXF5                       : 376
+# BELS                             : 17924
+#      BUF                         : 14
+#      GND                         : 29
+#      INV                         : 100
+#      LUT1                        : 204
+#      LUT2                        : 3768
+#      LUT2_D                      : 14
+#      LUT2_L                      : 30
+#      LUT3                        : 2915
+#      LUT3_D                      : 104
+#      LUT3_L                      : 213
+#      LUT4                        : 6002
+#      LUT4_D                      : 76
+#      LUT4_L                      : 419
+#      MULT_AND                    : 227
+#      MUXCY                       : 1814
+#      MUXF5                       : 311
 #      MUXF6                       : 7
 #      MUXF7                       : 3
-#      VCC                         : 17
-#      XORCY                       : 1996
-# FlipFlops/Latches                : 9470
-#      FD                          : 23
-#      FD_1                        : 1
-#      FDC                         : 67
-#      FDCE                        : 140
-#      FDCE_1                      : 12
-#      FDE                         : 5028
-#      FDE_1                       : 11
-#      FDP                         : 4
-#      FDPE_1                      : 4
-#      FDR                         : 1261
-#      FDRE                        : 1556
-#      FDRS                        : 1099
-#      FDRSE                       : 171
-#      FDS                         : 69
-#      FDSE                        : 24
-# RAMS                             : 45
-#      RAMB16                      : 45
-# Shift Registers                  : 248
-#      SRL16E                      : 215
-#      SRLC16E                     : 33
-# Clock Buffers                    : 4
-#      BUFG                        : 3
+#      VCC                         : 23
+#      XORCY                       : 1651
+# FlipFlops/Latches                : 8299
+#      FDC                         : 82
+#      FDCE                        : 103
+#      FDE                         : 4175
+#      FDP                         : 3
+#      FDPE                        : 1
+#      FDR                         : 893
+#      FDRE                        : 1594
+#      FDRS                        : 1159
+#      FDRSE                       : 204
+#      FDS                         : 65
+#      FDSE                        : 20
+# RAMS                             : 22
+#      RAMB16_S18_S18              : 1
+#      RAMB16_S36                  : 19
+#      RAMB16_S4_S9                : 2
+# Shift Registers                  : 204
+#      SRL16E                      : 183
+#      SRLC16E                     : 21
+# Clock Buffers                    : 3
+#      BUFG                        : 2
 #      BUFGP                       : 1
-# IO Buffers                       : 31
+# IO Buffers                       : 33
 #      IBUF                        : 1
+#      IOBUF                       : 1
 #      OBUF                        : 30
+#      OBUFT                       : 1
 =========================================================================
 
 Device utilization summary:
 ---------------------------
 
-Selected Device : 4vsx35ff668-10 
+Selected Device : 3s1200efg320-4 
 
- Number of Slices:                     9947  out of  15360    64%  
- Number of Slice Flip Flops:           9470  out of  30720    30%  
- Number of 4 input LUTs:              16081  out of  30720    52%  
-    Number used as logic:             15833
-    Number used as Shift registers:     248
+ Number of Slices:                     8742  out of   8672   100% (*) 
+ Number of Slice Flip Flops:           8299  out of  17344    47%  
+ Number of 4 input LUTs:              14049  out of  17344    81%  
+    Number used as logic:             13845
+    Number used as Shift registers:     204
  Number of IOs:                          36
- Number of bonded IOBs:                  32  out of    448     7%  
- Number of FIFO16/RAMB16s:               45  out of    192    23%  
-    Number used as RAMB16s:              45
- Number of GCLKs:                         4  out of     32    12%  
+ Number of bonded IOBs:                  34  out of    250    13%  
+ Number of BRAMs:                        22  out of     28    78%  
+ Number of GCLKs:                         3  out of     24    12%  
+
+WARNING:Xst:1336 -  (*) More than 100% of Device resources are used
 
 ---------------------------
 Partition Resource Summary:
@@ -3715,41 +3584,33 @@ NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
 
 Clock Information:
 ------------------
------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
-Clock Signal                                                                 | Clock buffer(FF name)                                                                                                                                           | Load  |
------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
-i_clock                                                                      | BUFGP                                                                                                                                                           | 9607  |
-agclk                                                                        | NONE(g0_dualmem_temperature.dualmem_inst_t/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP)| 1     |
-vgaclk251                                                                    | BUFG                                                                                                                                                            | 62    |
-melexis_mlx90640_i2c_i0/io_scl1(melexis_mlx90640_i2c_i0/io_scl:O)            | BUFG(*)(i2c_stream_i0/mem_i2c_stream_i0/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/has_mux_a.A/sel_pipe_0)                               | 28    |
-i2c_stream_i0/mem_i2c_stream_i0/N1                                           | NONE(i2c_stream_i0/mem_i2c_stream_i0/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[22].ram.r/v4_init.ram/SP.SINGLE_PRIM.SP)         | 23    |
-melexis_mlx90640_i2c_i0/clock1                                               | BUFG                                                                                                                                                            | 49    |
-melexis_mlx90640_i2c_i0/temp_sck(melexis_mlx90640_i2c_i0/c_cmode_FSM_Out41:O)| NONE(*)(melexis_mlx90640_i2c_i0/bytes_to_recv_sr_0)                                                                                                             | 17    |
------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
-(*) These 2 clock signal(s) are generated by combinatorial logic,
-and XST is not able to identify which are the primary clock signals.
-Please use the CLOCK_SIGNAL constraint to specify the clock signal(s) generated by combinatorial logic.
+----------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
+Clock Signal                            | Clock buffer(FF name)                                                                                                                                    | Load  |
+----------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
+i_clock                                 | BUFGP                                                                                                                                                    | 8396  |
+agclk                                   | NONE(g1_dualmem_rawimg.dualmem_inst_r/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram)| 1     |
+vgaclk251                               | BUFG                                                                                                                                                     | 62    |
+melexis_mlx90640_i2c_i0/clock1          | BUFG                                                                                                                                                     | 50    |
+melexis_mlx90640_i2c_i0/c_cmode_FSM_FFd2| NONE(melexis_mlx90640_i2c_i0/bytes_to_recv_sr_0)                                                                                                         | 17    |
+----------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
 INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
 
 Asynchronous Control Signals Information:
 ----------------------------------------
------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
-Control Signal                                                                           | Buffer(FF name)                                                                                                                                                 | Load  |
------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
-i_reset                                                                                  | IBUF                                                                                                                                                            | 227   |
-i2c_stream_i0/mem_i2c_stream_i0/N1(i2c_stream_i0/mem_i2c_stream_i0/XST_GND:G)            | NONE(i2c_stream_i0/mem_i2c_stream_i0/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_init.ram/SP.SINGLE_PRIM.SP)          | 92    |
-g0_dualmem_temperature.dualmem_inst_t/N1(g0_dualmem_temperature.dualmem_inst_t/XST_GND:G)| NONE(g0_dualmem_temperature.dualmem_inst_t/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP)| 4     |
-i2c_mlx_i0/N1(i2c_mlx_i0/XST_GND:G)                                                      | NONE(i2c_mlx_i0/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP)                           | 4     |
------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
+-----------------------------------+------------------------+-------+
+Control Signal                     | Buffer(FF name)        | Load  |
+-----------------------------------+------------------------+-------+
+i_reset                            | IBUF                   | 189   |
+-----------------------------------+------------------------+-------+
 
 Timing Summary:
 ---------------
-Speed Grade: -10
+Speed Grade: -4
 
-   Minimum period: 10.593ns (Maximum Frequency: 94.401MHz)
-   Minimum input arrival time before clock: 12.924ns
-   Maximum output required time after clock: 13.102ns
-   Maximum combinational path delay: 10.176ns
+   Minimum period: 15.415ns (Maximum Frequency: 64.872MHz)
+   Minimum input arrival time before clock: 11.532ns
+   Maximum output required time after clock: 14.860ns
+   Maximum combinational path delay: 10.716ns
 
 Timing Detail:
 --------------
@@ -3757,116 +3618,148 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 10.593ns (frequency: 94.401MHz)
-  Total number of paths / destination ports: 450906 / 18724
+  Clock period: 12.919ns (frequency: 77.407MHz)
+  Total number of paths / destination ports: 376322 / 16576
 -------------------------------------------------------------------------
-Delay:               10.593ns (Levels of Logic = 4)
-  Source:            melexis_mlx9064x_core_inst/CalculateAlphaComp_mux (FF)
-  Destination:       inst_divfp/blk00000196 (FF)
+Delay:               12.919ns (Levels of Logic = 33)
+  Source:            melexis_mlx9064x_core_inst/CalculateAlphaCP_mux (FF)
+  Destination:       inst_divfp/blk00000996 (FF)
   Source Clock:      i_clock rising
   Destination Clock: i_clock rising
 
-  Data Path: melexis_mlx9064x_core_inst/CalculateAlphaComp_mux to inst_divfp/blk00000196
+  Data Path: melexis_mlx9064x_core_inst/CalculateAlphaCP_mux to inst_divfp/blk00000996
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDE:C->Q            317   0.360   2.205  CalculateAlphaComp_mux (CalculateAlphaComp_mux)
-     LUT3_D:I2->O         79   0.195   1.440  divfpa<0>41 (N495)
-     LUT4:I1->O          472   0.195   2.648  divfpce90 (divfpce)
+     FDE:C->Q            293   0.591   1.520  CalculateAlphaCP_mux (CalculateAlphaCP_mux)
+     LUT2:I0->O            1   0.704   0.424  divfpa<0>11_SW0 (N33)
+     LUT4_D:I3->O         41   0.704   1.269  divfpa<0>11 (N382)
+     LUT4_L:I3->LO         1   0.704   0.104  divfpa<0>17 (divfpa<0>17)
+     LUT4:I3->O            1   0.704   0.424  divfpa<0>78 (divfpa<0>78)
+     LUT4_L:I3->LO         1   0.704   0.104  divfpa<0>120 (divfpa<0>120)
+     LUT4:I3->O            2   0.704   0.622  divfpa<0>131 (divfpa<0>)
      end scope: 'melexis_mlx9064x_core_inst'
      begin scope: 'inst_divfp'
-     BUF:I->O            473   0.358   2.652  ce_2 (ce_2)
-     FDE:CE                    0.540          blk000005eb
+     LUT2:I0->O            1   0.704   0.000  blk00000c3e (sig000000df)
+     MUXCY:S->O            1   0.464   0.000  blk00000965 (sig000000b8)
+     MUXCY:CI->O           1   0.059   0.000  blk00000967 (sig000000be)
+     MUXCY:CI->O           1   0.059   0.000  blk00000969 (sig000000bf)
+     MUXCY:CI->O           1   0.059   0.000  blk0000096b (sig000000c0)
+     MUXCY:CI->O           1   0.059   0.000  blk0000096d (sig000000c1)
+     MUXCY:CI->O           1   0.059   0.000  blk0000096f (sig000000c2)
+     MUXCY:CI->O           1   0.059   0.000  blk00000971 (sig000000c3)
+     MUXCY:CI->O           1   0.059   0.000  blk00000973 (sig000000c4)
+     MUXCY:CI->O           1   0.059   0.000  blk00000975 (sig000000c5)
+     MUXCY:CI->O           1   0.059   0.000  blk00000977 (sig000000ae)
+     MUXCY:CI->O           1   0.059   0.000  blk00000979 (sig000000af)
+     MUXCY:CI->O           1   0.059   0.000  blk0000097b (sig000000b0)
+     MUXCY:CI->O           1   0.059   0.000  blk0000097d (sig000000b1)
+     MUXCY:CI->O           1   0.059   0.000  blk0000097f (sig000000b2)
+     MUXCY:CI->O           1   0.059   0.000  blk00000981 (sig000000b3)
+     MUXCY:CI->O           1   0.059   0.000  blk00000983 (sig000000b4)
+     MUXCY:CI->O           1   0.059   0.000  blk00000985 (sig000000b5)
+     MUXCY:CI->O           1   0.059   0.000  blk00000987 (sig000000b6)
+     MUXCY:CI->O           1   0.059   0.000  blk00000989 (sig000000b7)
+     MUXCY:CI->O           1   0.059   0.000  blk0000098b (sig000000b9)
+     MUXCY:CI->O           1   0.059   0.000  blk0000098d (sig000000ba)
+     MUXCY:CI->O           1   0.059   0.000  blk0000098f (sig000000bb)
+     MUXCY:CI->O           1   0.059   0.000  blk00000991 (sig000000bc)
+     MUXCY:CI->O           0   0.059   0.000  blk00000993 (sig000000bd)
+     XORCY:CI->O           1   0.804   0.000  blk00000995 (sig000000d6)
+     FDE:D                     0.308          blk00000996
     ----------------------------------------
-    Total                     10.593ns (1.648ns logic, 8.945ns route)
-                                       (15.6% logic, 84.4% route)
+    Total                     12.919ns (8.452ns logic, 4.467ns route)
+                                       (65.4% logic, 34.6% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'vgaclk251'
-  Clock period: 6.253ns (frequency: 159.924MHz)
-  Total number of paths / destination ports: 3169 / 98
+  Clock period: 10.108ns (frequency: 98.935MHz)
+  Total number of paths / destination ports: 2494 / 98
 -------------------------------------------------------------------------
-Delay:               6.253ns (Levels of Logic = 8)
+Delay:               10.108ns (Levels of Logic = 8)
   Source:            vts_inst/v_counter_6 (FF)
-  Destination:       vag_inst/vga_address_step_q_0 (FF)
+  Destination:       vag_inst/vga_address_step_q_9 (FF)
   Source Clock:      vgaclk251 rising
   Destination Clock: vgaclk251 rising
 
-  Data Path: vts_inst/v_counter_6 to vag_inst/vga_address_step_q_0
+  Data Path: vts_inst/v_counter_6 to vag_inst/vga_address_step_q_9
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDCE:C->Q             4   0.360   0.599  v_counter_6 (v_counter_6)
-     LUT2_L:I0->LO         1   0.195   0.225  o_v_blank_SW0 (N01)
-     LUT4:I2->O            1   0.195   0.688  o_v_blank (o_v_blank)
-     LUT4:I1->O           27   0.195   1.289  o_blank (o_blank)
+     FDCE:C->Q             4   0.591   0.762  v_counter_6 (v_counter_6)
+     LUT2_L:I0->LO         1   0.704   0.135  o_v_blank_SW0 (N01)
+     LUT4:I2->O            1   0.704   0.420  o_v_blank (o_v_blank)
+     MUXF5:S->O           27   0.739   1.436  o_blank_f5 (o_blank)
      end scope: 'vts_inst'
      begin scope: 'vag_inst'
-     LUT4_D:I0->O         12   0.195   0.683  vga_address_step_next_i<0>2 (N4)
-     LUT4_D:I3->O          9   0.195   0.694  vga_address_step_next_i<0>31 (N5)
-     LUT2_L:I0->LO         1   0.195   0.328  vga_address_step_next_i<3>8_SW0 (N11)
-     LUT4:I1->O            2   0.195   0.000  vga_address_step_next_i<3>14 (vga_address_step_next_i<3>)
-     FDC:D                     0.022          vga_address_step_q_3
+     LUT4_D:I0->O         12   0.704   0.965  vga_address_step_next_i<0>2 (N4)
+     LUT4:I3->O            1   0.704   0.424  vga_address_step_next_i<0>31 (N5)
+     LUT4_L:I3->LO         1   0.704   0.104  vga_address_step_next_i<9>15_SW0 (N91)
+     LUT4:I3->O            2   0.704   0.000  vga_address_step_next_i<9>15 (vga_address_step_next_i<9>)
+     FDC:D                     0.308          vga_address_step_q_9
     ----------------------------------------
-    Total                      6.253ns (1.747ns logic, 4.506ns route)
-                                       (27.9% logic, 72.1% route)
+    Total                     10.108ns (5.862ns logic, 4.246ns route)
+                                       (58.0% logic, 42.0% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'melexis_mlx90640_i2c_i0/clock1'
-  Clock period: 5.223ns (frequency: 191.444MHz)
-  Total number of paths / destination ports: 759 / 71
+  Clock period: 15.415ns (frequency: 64.872MHz)
+  Total number of paths / destination ports: 1268 / 65
 -------------------------------------------------------------------------
-Delay:               5.223ns (Levels of Logic = 9)
-  Source:            melexis_mlx90640_i2c_i0/c_state_FSM_FFd19 (FF)
-  Destination:       melexis_mlx90640_i2c_i0/mode2_ready_i (FF)
+Delay:               15.415ns (Levels of Logic = 12)
+  Source:            melexis_mlx90640_i2c_i0/data_index_ctr_2 (FF)
+  Destination:       melexis_mlx90640_i2c_i0/Mtrien_temp_sda (FF)
   Source Clock:      melexis_mlx90640_i2c_i0/clock1 rising
   Destination Clock: melexis_mlx90640_i2c_i0/clock1 rising
 
-  Data Path: melexis_mlx90640_i2c_i0/c_state_FSM_FFd19 to melexis_mlx90640_i2c_i0/mode2_ready_i
+  Data Path: melexis_mlx90640_i2c_i0/data_index_ctr_2 to melexis_mlx90640_i2c_i0/Mtrien_temp_sda
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDCE:C->Q             3   0.360   0.756  c_state_FSM_FFd19 (c_state_FSM_FFd19)
-     LUT4:I0->O            1   0.195   0.000  mode2_ready_i_mux000011_wg_lut<1> (mode2_ready_i_mux000011_wg_lut<1>)
-     MUXCY:S->O            1   0.366   0.000  mode2_ready_i_mux000011_wg_cy<1> (mode2_ready_i_mux000011_wg_cy<1>)
-     MUXCY:CI->O           1   0.045   0.000  mode2_ready_i_mux000011_wg_cy<2> (mode2_ready_i_mux000011_wg_cy<2>)
-     MUXCY:CI->O           1   0.045   0.000  mode2_ready_i_mux000011_wg_cy<3> (mode2_ready_i_mux000011_wg_cy<3>)
-     MUXCY:CI->O           2   0.369   0.758  mode2_ready_i_mux000011_wg_cy<4> (mode2_ready_i_mux000011_wg_cy<4>)
-     LUT4:I0->O            3   0.195   0.756  mode2_ready_i_mux000012 (N16)
-     LUT4:I0->O            1   0.195   0.000  mode2_ready_i_mux000042_F (N29)
-     MUXF5:I0->O           1   0.382   0.585  mode2_ready_i_mux000042 (mode2_ready_i_mux000042)
-     LUT3:I1->O            1   0.195   0.000  mode2_ready_i_mux000064 (mode2_ready_i_mux0000)
-     FDC:D                     0.022          mode2_ready_i
+     FDC:C->Q              4   0.591   0.762  data_index_ctr_2 (data_index_ctr_2)
+     LUT3:I0->O           13   0.704   1.018  c_state_cmp_eq00041 (c_state_cmp_eq0004)
+     LUT3:I2->O            4   0.704   0.622  Mtridata_temp_sda_or00031 (Mtridata_temp_sda_or0003)
+     LUT3:I2->O            2   0.704   0.622  Mtridata_temp_sda_not0001111180 (Mtridata_temp_sda_not0001111180)
+     LUT4:I0->O            1   0.704   0.000  Mtridata_temp_sda_not000111111211_F (N56)
+     MUXF5:I0->O           2   0.321   0.482  Mtridata_temp_sda_not000111111211 (N33)
+     LUT3:I2->O            1   0.704   0.424  Mtridata_temp_sda_not000111117 (Mtridata_temp_sda_not000111117)
+     LUT4:I3->O            2   0.704   0.451  Mtridata_temp_sda_not000111148 (N20)
+     LUT4:I3->O            1   0.704   0.424  Mtridata_temp_sda_not000115 (Mtridata_temp_sda_not000115)
+     LUT4:I3->O            1   0.704   0.424  Mtridata_temp_sda_not000144 (Mtridata_temp_sda_not000144)
+     LUT4_L:I3->LO         1   0.704   0.104  Mtridata_temp_sda_not000195 (Mtridata_temp_sda_not000195)
+     LUT4:I3->O            1   0.704   0.424  Mtridata_temp_sda_not0001147 (Mtridata_temp_sda_not0001147)
+     LUT4:I3->O            2   0.704   0.447  Mtridata_temp_sda_not0001208 (Mtridata_temp_sda_not0001)
+     FDCE:CE                   0.555          Mtrien_temp_sda
     ----------------------------------------
-    Total                      5.223ns (2.369ns logic, 2.855ns route)
-                                       (45.3% logic, 54.7% route)
+    Total                     15.415ns (9.211ns logic, 6.204ns route)
+                                       (59.8% logic, 40.2% route)
 
 =========================================================================
-Timing constraint: Default period analysis for Clock 'melexis_mlx90640_i2c_i0/temp_sck'
-  Clock period: 0.759ns (frequency: 1317.176MHz)
+Timing constraint: Default period analysis for Clock 'melexis_mlx90640_i2c_i0/c_cmode_FSM_FFd2'
+  Clock period: 1.346ns (frequency: 742.942MHz)
   Total number of paths / destination ports: 16 / 16
 -------------------------------------------------------------------------
-Delay:               0.759ns (Levels of Logic = 0)
-  Source:            melexis_mlx90640_i2c_i0/bytes_to_recv_sr_0 (FF)
-  Destination:       melexis_mlx90640_i2c_i0/bytes_to_recv_sr_1 (FF)
-  Source Clock:      melexis_mlx90640_i2c_i0/temp_sck rising
-  Destination Clock: melexis_mlx90640_i2c_i0/temp_sck rising
+Delay:               1.346ns (Levels of Logic = 0)
+  Source:            melexis_mlx90640_i2c_i0/bytes_to_recv_sr_1 (FF)
+  Destination:       melexis_mlx90640_i2c_i0/bytes_to_recv_sr_0 (FF)
+  Source Clock:      melexis_mlx90640_i2c_i0/c_cmode_FSM_FFd2 rising
+  Destination Clock: melexis_mlx90640_i2c_i0/c_cmode_FSM_FFd2 rising
 
-  Data Path: melexis_mlx90640_i2c_i0/bytes_to_recv_sr_0 to melexis_mlx90640_i2c_i0/bytes_to_recv_sr_1
+  Data Path: melexis_mlx90640_i2c_i0/bytes_to_recv_sr_1 to melexis_mlx90640_i2c_i0/bytes_to_recv_sr_0
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDC:C->Q              2   0.360   0.377  bytes_to_recv_sr_0 (bytes_to_recv_sr_0)
-     FDC:D                     0.022          bytes_to_recv_sr_1
+     FDC:C->Q              2   0.591   0.447  bytes_to_recv_sr_1 (bytes_to_recv_sr_1)
+     FDC:D                     0.308          bytes_to_recv_sr_0
     ----------------------------------------
-    Total                      0.759ns (0.382ns logic, 0.377ns route)
-                                       (50.3% logic, 49.7% route)
+    Total                      1.346ns (0.899ns logic, 0.447ns route)
+                                       (66.8% logic, 33.2% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 4891 / 4891
+  Total number of paths / destination ports: 4617 / 4617
 -------------------------------------------------------------------------
-Offset:              12.924ns (Levels of Logic = 7)
+Offset:              11.532ns (Levels of Logic = 7)
   Source:            i_reset (PAD)
   Destination:       melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0/offset_average_0 (FF)
   Destination Clock: i_clock rising
@@ -3875,51 +3768,116 @@ Offset:              12.924ns (Levels of Logic = 7)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           320   0.965   2.054  i_reset_IBUF (i_reset_IBUF)
-     BUF:I->O            325   0.358   2.073  i_reset_IBUF_1 (i_reset_IBUF_1)
+     IBUF:I->O           274   1.218   1.339  i_reset_IBUF (i_reset_IBUF)
+     BUF:I->O            468   0.704   1.400  i_reset_IBUF_1 (i_reset_IBUF_1)
      begin scope: 'melexis_mlx9064x_core_inst'
-     BUF:I->O            444   0.358   2.539  i_reset_2 (i_reset_2)
+     BUF:I->O            442   0.704   1.392  i_reset_2 (i_reset_2)
      begin scope: 'inst_CalculatePixOS'
-     BUF:I->O            391   0.358   2.557  i_reset_2 (i_reset_2)
+     BUF:I->O            391   0.704   1.551  i_reset_2 (i_reset_2)
      begin scope: 'extract_offset_parameters_i0'
-     LUT2:I0->O           32   0.195   0.928  offset_average_not00011 (offset_average_not0001)
-     FDE:CE                    0.540          offset_average_0
+     LUT2:I0->O           32   0.704   1.262  offset_average_not00011 (offset_average_not0001)
+     FDE:CE                    0.555          offset_average_0
     ----------------------------------------
-    Total                     12.924ns (2.774ns logic, 10.150ns route)
-                                       (21.5% logic, 78.5% route)
+    Total                     11.532ns (4.589ns logic, 6.943ns route)
+                                       (39.8% logic, 60.2% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'vgaclk251'
-  Total number of paths / destination ports: 87 / 47
+  Total number of paths / destination ports: 51 / 47
 -------------------------------------------------------------------------
-Offset:              7.391ns (Levels of Logic = 8)
+Offset:              9.638ns (Levels of Logic = 9)
   Source:            i_reset (PAD)
-  Destination:       vag_inst/vga_address_step_q_0 (FF)
+  Destination:       vag_inst/vga_address_step_q_9 (FF)
   Destination Clock: vgaclk251 rising
 
-  Data Path: i_reset to vag_inst/vga_address_step_q_0
+  Data Path: i_reset to vag_inst/vga_address_step_q_9
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           320   0.965   2.435  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O           274   1.218   1.343  i_reset_IBUF (i_reset_IBUF)
      begin scope: 'vts_inst'
-     LUT4:I0->O           27   0.195   1.289  o_blank (o_blank)
+     LUT4:I3->O            1   0.704   0.000  o_blank1 (o_blank1)
+     MUXF5:I0->O          27   0.321   1.436  o_blank_f5 (o_blank)
      end scope: 'vts_inst'
      begin scope: 'vag_inst'
-     LUT4_D:I0->O         12   0.195   0.683  vga_address_step_next_i<0>2 (N4)
-     LUT4_D:I3->O          9   0.195   0.694  vga_address_step_next_i<0>31 (N5)
-     LUT2_L:I0->LO         1   0.195   0.328  vga_address_step_next_i<3>8_SW0 (N11)
-     LUT4:I1->O            2   0.195   0.000  vga_address_step_next_i<3>14 (vga_address_step_next_i<3>)
-     FDC:D                     0.022          vga_address_step_q_3
+     LUT4_D:I0->O         12   0.704   0.965  vga_address_step_next_i<0>2 (N4)
+     LUT4:I3->O            1   0.704   0.424  vga_address_step_next_i<0>31 (N5)
+     LUT4_L:I3->LO         1   0.704   0.104  vga_address_step_next_i<9>15_SW0 (N91)
+     LUT4:I3->O            2   0.704   0.000  vga_address_step_next_i<9>15 (vga_address_step_next_i<9>)
+     FDC:D                     0.308          vga_address_step_q_9
     ----------------------------------------
-    Total                      7.391ns (1.962ns logic, 5.429ns route)
-                                       (26.5% logic, 73.5% route)
+    Total                      9.638ns (5.367ns logic, 4.271ns route)
+                                       (55.7% logic, 44.3% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'melexis_mlx90640_i2c_i0/clock1'
+  Total number of paths / destination ports: 1 / 1
+-------------------------------------------------------------------------
+Offset:              4.411ns (Levels of Logic = 3)
+  Source:            i_reset (PAD)
+  Destination:       melexis_mlx90640_i2c_i0/state_0 (FF)
+  Destination Clock: melexis_mlx90640_i2c_i0/clock1 rising
+
+  Data Path: i_reset to melexis_mlx90640_i2c_i0/state_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O           274   1.218   1.514  i_reset_IBUF (i_reset_IBUF)
+     begin scope: 'melexis_mlx90640_i2c_i0'
+     LUT3:I0->O            1   0.704   0.420  state_0_and00001 (state_0_and0000)
+     FDE:CE                    0.555          state_0
+    ----------------------------------------
+    Total                      4.411ns (2.477ns logic, 1.934ns route)
+                                       (56.2% logic, 43.8% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'melexis_mlx90640_i2c_i0/c_cmode_FSM_FFd2'
+  Total number of paths / destination ports: 1 / 1
+-------------------------------------------------------------------------
+Offset:              2.825ns (Levels of Logic = 3)
+  Source:            io_sda_nl (PAD)
+  Destination:       melexis_mlx90640_i2c_i0/bytes_to_recv_sr_16 (FF)
+  Destination Clock: melexis_mlx90640_i2c_i0/c_cmode_FSM_FFd2 rising
+
+  Data Path: io_sda_nl to melexis_mlx90640_i2c_i0/bytes_to_recv_sr_16
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IOBUF:IO->O           1   1.218   0.595  io_sda_nl_IOBUF (N61)
+     begin scope: 'melexis_mlx90640_i2c_i0'
+     LUT4:I0->O            1   0.704   0.000  bytes_to_recv_sr_mux0001<0> (bytes_to_recv_sr_mux0001<0>)
+     FDC:D                     0.308          bytes_to_recv_sr_16
+    ----------------------------------------
+    Total                      2.825ns (2.230ns logic, 0.595ns route)
+                                       (78.9% logic, 21.1% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'melexis_mlx90640_i2c_i0/clock1'
+  Total number of paths / destination ports: 8 / 2
+-------------------------------------------------------------------------
+Offset:              7.177ns (Levels of Logic = 4)
+  Source:            melexis_mlx90640_i2c_i0/c_state_FSM_FFd68 (FF)
+  Destination:       io_scl_nl (PAD)
+  Source Clock:      melexis_mlx90640_i2c_i0/clock1 rising
+
+  Data Path: melexis_mlx90640_i2c_i0/c_state_FSM_FFd68 to io_scl_nl
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDP:C->Q             13   0.591   1.062  c_state_FSM_FFd68 (c_state_FSM_FFd68)
+     LUT3:I1->O            1   0.704   0.424  io_scl_SW0 (N2)
+     LUT4:I3->O            1   0.704   0.420  io_scl (io_scl)
+     end scope: 'melexis_mlx90640_i2c_i0'
+     OBUFT:T->O                3.272          io_scl_nl_OBUFT (io_scl_nl)
+    ----------------------------------------
+    Total                      7.177ns (5.271ns logic, 1.906ns route)
+                                       (73.4% logic, 26.6% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
   Total number of paths / destination ports: 1 / 1
 -------------------------------------------------------------------------
-Offset:              4.694ns (Levels of Logic = 1)
+Offset:              4.394ns (Levels of Logic = 1)
   Source:            vgaclk25 (FF)
   Destination:       vga_clock (PAD)
   Source Clock:      i_clock rising
@@ -3928,100 +3886,100 @@ Offset:              4.694ns (Levels of Logic = 1)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDCE:C->Q             2   0.360   0.377  vgaclk25 (vgaclk251)
-     OBUF:I->O                 3.957          vga_clock_OBUF (vga_clock)
+     FDC:C->Q              3   0.591   0.531  vgaclk25 (vgaclk251)
+     OBUF:I->O                 3.272          vga_clock_OBUF (vga_clock)
     ----------------------------------------
-    Total                      4.694ns (4.317ns logic, 0.377ns route)
-                                       (92.0% logic, 8.0% route)
+    Total                      4.394ns (3.863ns logic, 0.531ns route)
+                                       (87.9% logic, 12.1% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'vgaclk251'
   Total number of paths / destination ports: 186 / 18
 -------------------------------------------------------------------------
-Offset:              9.038ns (Levels of Logic = 7)
+Offset:              11.186ns (Levels of Logic = 7)
   Source:            vts_inst/v_counter_6 (FF)
-  Destination:       vga_g<4> (PAD)
+  Destination:       vga_r<3> (PAD)
   Source Clock:      vgaclk251 rising
 
-  Data Path: vts_inst/v_counter_6 to vga_g<4>
+  Data Path: vts_inst/v_counter_6 to vga_r<3>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDCE:C->Q             4   0.360   0.599  v_counter_6 (v_counter_6)
-     LUT2_L:I0->LO         1   0.195   0.225  o_v_blank_SW0 (N01)
-     LUT4:I2->O            1   0.195   0.688  o_v_blank (o_v_blank)
-     LUT4:I1->O           27   0.195   1.133  o_blank (o_blank)
+     FDCE:C->Q             4   0.591   0.762  v_counter_6 (v_counter_6)
+     LUT2_L:I0->LO         1   0.704   0.135  o_v_blank_SW0 (N01)
+     LUT4:I2->O            1   0.704   0.420  o_v_blank (o_v_blank)
+     MUXF5:S->O           27   0.739   1.436  o_blank_f5 (o_blank)
      end scope: 'vts_inst'
-     LUT3:I1->O            1   0.195   0.741  vga_g<4>1816 (vga_g<4>1816)
-     LUT4:I0->O            1   0.195   0.360  vga_g<4>1831 (vga_g_4_OBUF)
-     OBUF:I->O                 3.957          vga_g_4_OBUF (vga_g<4>)
+     LUT4:I0->O            1   0.704   0.595  vga_r<3>1574 (vga_r<3>1574)
+     LUT4:I0->O            1   0.704   0.420  vga_r<3>1588 (vga_r_3_OBUF)
+     OBUF:I->O                 3.272          vga_r_3_OBUF (vga_r<3>)
     ----------------------------------------
-    Total                      9.038ns (5.292ns logic, 3.746ns route)
-                                       (58.6% logic, 41.4% route)
+    Total                     11.186ns (7.418ns logic, 3.768ns route)
+                                       (66.3% logic, 33.7% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'agclk'
-  Total number of paths / destination ports: 1743 / 15
+  Total number of paths / destination ports: 1520 / 15
 -------------------------------------------------------------------------
-Offset:              13.102ns (Levels of Logic = 10)
-  Source:            g0_dualmem_temperature.dualmem_inst_t/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (RAM)
-  Destination:       vga_b<5> (PAD)
+Offset:              14.860ns (Levels of Logic = 9)
+  Source:            g1_dualmem_rawimg.dualmem_inst_r/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram (RAM)
+  Destination:       vga_b<3> (PAD)
   Source Clock:      agclk rising
 
-  Data Path: g0_dualmem_temperature.dualmem_inst_t/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP to vga_b<5>
+  Data Path: g1_dualmem_rawimg.dualmem_inst_r/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram to vga_b<3>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     RAMB16:CLKB->DOB6   149   2.100   1.713  U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (doutb<6>)
-     end scope: 'g0_dualmem_temperature.dualmem_inst_t'
-     LUT3:I0->O            6   0.195   0.725  vga_b<3>341 (vga_b<3>_bdd59)
-     LUT4:I1->O            1   0.195   0.000  vga_b<5>3681_F (N224)
-     MUXF5:I0->O           2   0.382   0.705  vga_b<5>3681 (vga_b<5>3681)
-     LUT4:I1->O            1   0.195   0.000  vga_b<5>38182 (vga_b<5>38182)
-     MUXF5:I0->O           1   0.382   0.741  vga_b<5>3818_f5 (vga_b<5>3818)
-     LUT4:I0->O            1   0.195   0.000  vga_b<5>31065_G (N251)
-     MUXF5:I1->O           1   0.374   0.688  vga_b<5>31065 (vga_b<5>31065)
-     LUT3:I0->O            1   0.195   0.360  vga_b<5>31092 (vga_b_5_OBUF)
-     OBUF:I->O                 3.957          vga_b_5_OBUF (vga_b<5>)
+     RAMB16_S18_S18:CLKB->DOB0  148   2.800   1.474  U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram (doutb<0>)
+     end scope: 'g1_dualmem_rawimg.dualmem_inst_r'
+     LUT3:I0->O            2   0.704   0.451  vga_b<3>51 (vga_b<3>_bdd12)
+     LUT4:I3->O            1   0.704   0.595  vga_b<3>2469 (vga_b<3>2469)
+     LUT3:I0->O            1   0.704   0.000  vga_b<3>2505_G (N160)
+     MUXF5:I1->O           1   0.321   0.455  vga_b<3>2505 (vga_b<3>2505)
+     LUT3:I2->O            1   0.704   0.424  vga_b<3>2534 (vga_b<3>2534)
+     LUT4:I3->O            1   0.704   0.424  vga_b<3>2563 (vga_b<3>2563)
+     LUT4:I3->O            1   0.704   0.420  vga_b<3>21308 (vga_b_3_OBUF)
+     OBUF:I->O                 3.272          vga_b_3_OBUF (vga_b<3>)
     ----------------------------------------
-    Total                     13.102ns (8.170ns logic, 4.932ns route)
-                                       (62.4% logic, 37.6% route)
+    Total                     14.860ns (10.617ns logic, 4.243ns route)
+                                       (71.4% logic, 28.6% route)
 
 =========================================================================
 Timing constraint: Default path analysis
   Total number of paths / destination ports: 23 / 16
 -------------------------------------------------------------------------
-Delay:               10.176ns (Levels of Logic = 6)
+Delay:               10.716ns (Levels of Logic = 7)
   Source:            i_reset (PAD)
-  Destination:       vga_g<4> (PAD)
+  Destination:       vga_r<3> (PAD)
 
-  Data Path: i_reset to vga_g<4>
+  Data Path: i_reset to vga_r<3>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           320   0.965   2.435  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O           274   1.218   1.343  i_reset_IBUF (i_reset_IBUF)
      begin scope: 'vts_inst'
-     LUT4:I0->O           27   0.195   1.133  o_blank (o_blank)
+     LUT4:I3->O            1   0.704   0.000  o_blank1 (o_blank1)
+     MUXF5:I0->O          27   0.321   1.436  o_blank_f5 (o_blank)
      end scope: 'vts_inst'
-     LUT3:I1->O            1   0.195   0.741  vga_g<4>1816 (vga_g<4>1816)
-     LUT4:I0->O            1   0.195   0.360  vga_g<4>1831 (vga_g_4_OBUF)
-     OBUF:I->O                 3.957          vga_g_4_OBUF (vga_g<4>)
+     LUT4:I0->O            1   0.704   0.595  vga_r<3>1574 (vga_r<3>1574)
+     LUT4:I0->O            1   0.704   0.420  vga_r<3>1588 (vga_r_3_OBUF)
+     OBUF:I->O                 3.272          vga_r_3_OBUF (vga_r<3>)
     ----------------------------------------
-    Total                     10.176ns (5.507ns logic, 4.669ns route)
-                                       (54.1% logic, 45.9% route)
+    Total                     10.716ns (6.923ns logic, 3.793ns route)
+                                       (64.6% logic, 35.4% route)
 
 =========================================================================
 
 
-Total REAL time to Xst completion: 303.00 secs
-Total CPU time to Xst completion: 292.42 secs
+Total REAL time to Xst completion: 211.00 secs
+Total CPU time to Xst completion: 205.71 secs
  
 --> 
 
 
-Total memory usage is 1131412 kilobytes
+Total memory usage is 1030044 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :  538 (   0 filtered)
-Number of infos    :   73 (   0 filtered)
+Number of warnings :  558 (   0 filtered)
+Number of infos    :   60 (   0 filtered)
 

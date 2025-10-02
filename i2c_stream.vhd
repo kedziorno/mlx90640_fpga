@@ -105,8 +105,8 @@ begin
           v_records <= 0;
           v_data <= c_data - 1;
           if (i_enable = '1') then
---            if (v_omit = compare1 - 1) then -- omit set address
-            if (v_omit = c_omit - 1) then -- omit set address
+            if (v_omit = compare1 - 1) then -- omit set address
+--            if (v_omit = c_omit - 1) then -- omit set address
               state <= s1;
               v_omit <= 0;
             else
