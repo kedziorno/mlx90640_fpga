@@ -246,8 +246,8 @@ begin
   i_enable <= '1';
   compare1 <= 38;
   wait until o_done = '1';
-  i_enable <= '0';
   wait until o_done = '0';
+  i_enable <= '0';
   i_addr <= x"0000"; -- data 1 end
 --  wait for 268 us; -- 1000k - s1
 --  wait for 430 us; -- 500k
@@ -256,10 +256,10 @@ begin
   l0 : for i in 0 to 27 loop
   i_addr <= x"0400"; -- data X
   i_enable <= '1';
-  compare1 <= 36;
+  compare1 <= 37;
   wait until o_done = '1';
-  i_enable <= '0';
   --wait until o_done = '0';
+  i_enable <= '0';
   i_addr <= x"0000"; -- data X end
 --  wait for 12656 us; -- 1000k - s1
 --  wait for 430 us; -- 500k
