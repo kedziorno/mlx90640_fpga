@@ -73,7 +73,8 @@ io_sda_dd : inout STD_LOGIC;
 io_scl_nl : inout STD_LOGIC;
 io_sda_nl : inout STD_LOGIC;
 o_an : out std_logic_vector (3 downto 0);
-o_seg : out std_logic_vector (6 downto 0)
+o_seg : out std_logic_vector (6 downto 0);
+o_led : out std_logic_vector (7 downto 0)
 );
 END COMPONENT;
 

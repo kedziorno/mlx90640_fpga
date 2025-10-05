@@ -41,7 +41,7 @@ constant c_bus_clock : integer := c_clock_i2c_frequency;
 --constant c_bus_clock : integer := 50;
 --constant c_bus_clock : integer := 1_000_000;
 -- constant c_bus_clock : integer := 100_000;
-constant c_sim : string (1 to 1) := "n";
+constant c_sim : string (1 to 1) := "y";
 constant c_cold_start : integer := 100000;
 constant c_wait2 : integer := 1000;
 constant c_wait3 : integer := 10000;
@@ -65,7 +65,8 @@ io_scl_dd : inout std_logic;
 io_sda_nl : inout std_logic;
 io_scl_nl : inout std_logic;
 o_an : out std_logic_vector (3 downto 0);
-o_seg : out std_logic_vector (6 downto 0)
+o_seg : out std_logic_vector (6 downto 0);
+o_led : out std_logic_vector (7 downto 0)
 );
 end test1;
 
@@ -405,6 +406,7 @@ signal divfpclk : std_logic;
 signal rdata : std_logic_vector(23 downto 0);
 
 signal cm : std_logic_vector (8 downto 0);
+signal cm1 : std_logic_vector (8 downto 0);
 
 type states is (
 idle,
@@ -1166,9 +1168,9 @@ lcdchar (1)(3) <= i2c_mlx_doutb(7);
 						i := i + 1;
 					end if;
 				when s10 =>
---          state <= idle;
+          state <= idle;
 --          state <= idle2a1;
-          state <= idle3;
+--          state <= idle3;
         when others => null;
 			end case;
 		end if;
@@ -1362,9 +1364,21 @@ rdata <= colormap_rom (to_integer (signed (cm))); -- xxx i don't know, problem w
 --vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
 --vga_g <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
 --vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
-vga_r <= "00000" & cm (2 downto 0) when VGA_timing_synch_blank = '0' else (others => '0');
-vga_g <= "00000" & cm (5 downto 3)  when VGA_timing_synch_blank = '0' else (others => '0');
-vga_b <= "000000" & cm (7 downto 6)  when VGA_timing_synch_blank = '0' else (others => '0');
+--vga_r <= "00000" & cm (2 downto 0) when VGA_timing_synch_blank = '0' else (others => '0');
+--vga_g <= "00000" & cm (5 downto 3)  when VGA_timing_synch_blank = '0' else (others => '0');
+--vga_b <= "000000" & cm (7 downto 6)  when VGA_timing_synch_blank = '0' else (others => '0');
+vga_r <= "00000" & cm (2 downto 0);
+vga_g <= "00000" & cm (5 downto 3);
+vga_b <= "000000" & cm (7 downto 6);
+cm1 <= cm;
+o_led(0) <= '1' when state = s1 else '0';
+o_led(1) <= cm1(1);
+o_led(2) <= cm1(2);
+o_led(3) <= cm1(3);
+o_led(4) <= cm1(4);
+o_led(5) <= cm1(5);
+o_led(6) <= cm1(6);
+o_led(7) <= cm1(7);
 
 --synthesis translate_off
 g0_mem_temperature : if (c_calculate_type1 = "c_temperature") generate
