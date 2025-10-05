@@ -41,7 +41,7 @@ constant c_bus_clock : integer := c_clock_i2c_frequency;
 --constant c_bus_clock : integer := 50;
 --constant c_bus_clock : integer := 1_000_000;
 -- constant c_bus_clock : integer := 100_000;
-constant c_sim : string (1 to 1) := "y";
+constant c_sim : string (1 to 1) := "n";
 constant c_cold_start : integer := 100000;
 constant c_wait2 : integer := 1000;
 constant c_wait3 : integer := 10000;
@@ -1055,14 +1055,14 @@ lcdchar (3)(1) <= '0';
 lcdchar (3)(2) <= '0';
 lcdchar (3)(3) <= '0';
         when z3 => state <= z4;
-lcdchar (0)(0) <= i2c_mlx_doutb(7);
-lcdchar (0)(1) <= i2c_mlx_doutb(6);
-lcdchar (0)(2) <= i2c_mlx_doutb(5);
-lcdchar (0)(3) <= i2c_mlx_doutb(4);
-lcdchar (1)(0) <= i2c_mlx_doutb(3);
-lcdchar (1)(1) <= i2c_mlx_doutb(2);
-lcdchar (1)(2) <= i2c_mlx_doutb(1);
-lcdchar (1)(3) <= i2c_mlx_doutb(0);
+lcdchar (0)(0) <= i2c_mlx_doutb(0);
+lcdchar (0)(1) <= i2c_mlx_doutb(1);
+lcdchar (0)(2) <= i2c_mlx_doutb(2);
+lcdchar (0)(3) <= i2c_mlx_doutb(3);
+lcdchar (1)(0) <= i2c_mlx_doutb(4);
+lcdchar (1)(1) <= i2c_mlx_doutb(5);
+lcdchar (1)(2) <= i2c_mlx_doutb(6);
+lcdchar (1)(3) <= i2c_mlx_doutb(7);
         when z4 =>
         i2c_mem_ena_2 <= '0';
         i2c_mlx_addrb_2 <= (others => '0');
@@ -1081,8 +1081,10 @@ lcdchar (1)(3) <= i2c_mlx_doutb(0);
           i := i + 1;
           state <= z1;
         end if;
-        when s0 => state <= s1;
---        when s0 =>
+        when s0 =>
+        if (c_sim /= "n") then
+        state <= s1;
+        end if;
 					test_fixed_melexis_run <= '1';
           float2fixedsclr <= '0';
 				when s1 =>
@@ -1357,9 +1359,12 @@ end generate g0_2;
 rdata <= colormap_rom (to_integer (signed (cm))); -- xxx i don't know, problem with dualmem module ?
 --rdata <= colormap_rom (to_integer (unsigned (dualmem2_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
 
-vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
-vga_g <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
-vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
+--vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
+--vga_g <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
+--vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
+vga_r <= "00000" & cm (2 downto 0) when VGA_timing_synch_blank = '0' else (others => '0');
+vga_g <= "00000" & cm (5 downto 3)  when VGA_timing_synch_blank = '0' else (others => '0');
+vga_b <= "000000" & cm (7 downto 6)  when VGA_timing_synch_blank = '0' else (others => '0');
 
 --synthesis translate_off
 g0_mem_temperature : if (c_calculate_type1 = "c_temperature") generate
@@ -1582,14 +1587,14 @@ clock_i <= i_clock;
 i2c_mlx_clka <= test_fixed_melexis_clock;
 --i2c_mlx_clka <= scl_i;
 i2c_mlx_clkb <= test_fixed_melexis_clock;
---mux_i2c_enb : i2c_mlx_enb <= i2c_mem_ena_2 when (state = z1 or 
---state = z2 or state = z3 or state = z4 or state = z5 or state = z6 or state = z7) else
---i2c_mem_ena_1;
---mux_i2c_addrb : i2c_mlx_addrb <= i2c_mlx_addrb_2 when (state = z1 or 
---state = z2 or state = z3 or state = z4 or state = z5 or state = z6 or state = z7) else
---i2c_mlx_addrb_1;
-mux_i2c_enb : i2c_mlx_enb <= i2c_mem_ena_1;
-mux_i2c_addrb : i2c_mlx_addrb <= i2c_mlx_addrb_1;
+mux_i2c_enb : i2c_mlx_enb <= i2c_mem_ena_2 when (state = z1 or 
+state = z2 or state = z3 or state = z4 or state = z5 or state = z6 or state = z7) else
+i2c_mem_ena_1;
+mux_i2c_addrb : i2c_mlx_addrb <= i2c_mlx_addrb_2 when (state = z1 or 
+state = z2 or state = z3 or state = z4 or state = z5 or state = z6 or state = z7) else
+i2c_mlx_addrb_1;
+--mux_i2c_enb : i2c_mlx_enb <= i2c_mem_ena_1;
+--mux_i2c_addrb : i2c_mlx_addrb <= i2c_mlx_addrb_1;
 
 i2c_mlx_i0 : i2c_mlx
 PORT MAP (
@@ -1631,22 +1636,22 @@ if (i_reset = '1') then
 latch_data <= (others => '0');
 elsif (rising_edge (clock_i)) then
 if (melexis_mlx90640_i2c_mode2_ready = '1') then
-latch_data (0) <= melexis_mlx90640_i2c_bytes_to_recv(8);
-latch_data (1) <= melexis_mlx90640_i2c_bytes_to_recv(9);
-latch_data (2) <= melexis_mlx90640_i2c_bytes_to_recv(10);
-latch_data (3) <= melexis_mlx90640_i2c_bytes_to_recv(11);
-latch_data (4) <= melexis_mlx90640_i2c_bytes_to_recv(12);
-latch_data (5) <= melexis_mlx90640_i2c_bytes_to_recv(13);
-latch_data (6) <= melexis_mlx90640_i2c_bytes_to_recv(14);
-latch_data (7) <= melexis_mlx90640_i2c_bytes_to_recv(15);
-latch_data (8) <= melexis_mlx90640_i2c_bytes_to_recv(0);
-latch_data (9) <= melexis_mlx90640_i2c_bytes_to_recv(1);
-latch_data (10) <= melexis_mlx90640_i2c_bytes_to_recv(2);
-latch_data (11) <= melexis_mlx90640_i2c_bytes_to_recv(3);
-latch_data (12) <= melexis_mlx90640_i2c_bytes_to_recv(4);
-latch_data (13) <= melexis_mlx90640_i2c_bytes_to_recv(5);
-latch_data (14) <= melexis_mlx90640_i2c_bytes_to_recv(6);
-latch_data (15) <= melexis_mlx90640_i2c_bytes_to_recv(7);
+latch_data (0) <= melexis_mlx90640_i2c_bytes_to_recv(15);
+latch_data (1) <= melexis_mlx90640_i2c_bytes_to_recv(14);
+latch_data (2) <= melexis_mlx90640_i2c_bytes_to_recv(13);
+latch_data (3) <= melexis_mlx90640_i2c_bytes_to_recv(12);
+latch_data (4) <= melexis_mlx90640_i2c_bytes_to_recv(11);
+latch_data (5) <= melexis_mlx90640_i2c_bytes_to_recv(10);
+latch_data (6) <= melexis_mlx90640_i2c_bytes_to_recv(9);
+latch_data (7) <= melexis_mlx90640_i2c_bytes_to_recv(8);
+latch_data (8) <= melexis_mlx90640_i2c_bytes_to_recv(7);
+latch_data (9) <= melexis_mlx90640_i2c_bytes_to_recv(6);
+latch_data (10) <= melexis_mlx90640_i2c_bytes_to_recv(5);
+latch_data (11) <= melexis_mlx90640_i2c_bytes_to_recv(4);
+latch_data (12) <= melexis_mlx90640_i2c_bytes_to_recv(3);
+latch_data (13) <= melexis_mlx90640_i2c_bytes_to_recv(2);
+latch_data (14) <= melexis_mlx90640_i2c_bytes_to_recv(1);
+latch_data (15) <= melexis_mlx90640_i2c_bytes_to_recv(0);
 end if;
 end if;
 end process;
