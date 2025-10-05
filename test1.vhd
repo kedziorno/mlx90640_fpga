@@ -41,13 +41,13 @@ constant c_bus_clock : integer := c_clock_i2c_frequency;
 --constant c_bus_clock : integer := 50;
 --constant c_bus_clock : integer := 1_000_000;
 -- constant c_bus_clock : integer := 100_000;
-constant c_sim : string (1 to 1) := "n";
+constant c_sim : string (1 to 1) := "y";
 constant c_cold_start : integer := 100000;
 constant c_wait2 : integer := 1000;
 constant c_wait3 : integer := 10000;
 constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
-constant c_calculate_type1 : string (1 to 13) := "c_raws_images"; -- c_temperature,c_raws_images
-constant c_use_fisqrt1 : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type(c_temperature)
+constant c_calculate_type1 : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
+constant c_use_fisqrt1 : string (1 to 3) := "yes" -- yes/no - depend from c_calculate_type(c_temperature)
 );
 port (
 i_clock,i_reset : in std_logic;
@@ -1081,8 +1081,8 @@ lcdchar (1)(3) <= i2c_mlx_doutb(0);
           i := i + 1;
           state <= z1;
         end if;
---        when s0 => state <= s1;
-        when s0 =>
+        when s0 => state <= s1;
+--        when s0 =>
 					test_fixed_melexis_run <= '1';
           float2fixedsclr <= '0';
 				when s1 =>
@@ -1582,12 +1582,14 @@ clock_i <= i_clock;
 i2c_mlx_clka <= test_fixed_melexis_clock;
 --i2c_mlx_clka <= scl_i;
 i2c_mlx_clkb <= test_fixed_melexis_clock;
-mux_i2c_enb : i2c_mlx_enb <= i2c_mem_ena_2 when (state = z1 or 
-state = z2 or state = z3 or state = z4 or state = z5 or state = z6 or state = z7) else
-i2c_mem_ena_1;
-mux_i2c_addrb : i2c_mlx_addrb <= i2c_mlx_addrb_2 when (state = z1 or 
-state = z2 or state = z3 or state = z4 or state = z5 or state = z6 or state = z7) else
-i2c_mlx_addrb_1;
+--mux_i2c_enb : i2c_mlx_enb <= i2c_mem_ena_2 when (state = z1 or 
+--state = z2 or state = z3 or state = z4 or state = z5 or state = z6 or state = z7) else
+--i2c_mem_ena_1;
+--mux_i2c_addrb : i2c_mlx_addrb <= i2c_mlx_addrb_2 when (state = z1 or 
+--state = z2 or state = z3 or state = z4 or state = z5 or state = z6 or state = z7) else
+--i2c_mlx_addrb_1;
+mux_i2c_enb : i2c_mlx_enb <= i2c_mem_ena_1;
+mux_i2c_addrb : i2c_mlx_addrb <= i2c_mlx_addrb_1;
 
 i2c_mlx_i0 : i2c_mlx
 PORT MAP (
