@@ -882,9 +882,9 @@ else
           end if;
         when idle2a =>
           if (wait3 = c_wait3 - 1) then
---            state <= r1;
+            state <= r1;
+--            state <= idle3;
 --            state <= wr1a1;
-            state <= idle3;
             wait3 := 0;
           else
             wait3 := wait3+ 1;
