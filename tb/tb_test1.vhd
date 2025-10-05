@@ -48,7 +48,7 @@ constant c_bus_clock : integer := c_clock_i2c_frequency;
 --constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
 --constant c_bus_clock : integer := 50;
 --constant c_bus_clock : integer := 1;
-constant c_sim : string (1 to 1) := "n";
+constant c_sim : string (1 to 1) := "y";
 constant c_cold_start : integer := 1000;
 constant c_wait2 : integer := 1000;
 constant c_wait3 : integer := 10000;
@@ -71,7 +71,9 @@ vga_psave : out std_logic;
 io_scl_dd : inout STD_LOGIC;
 io_sda_dd : inout STD_LOGIC;
 io_scl_nl : inout STD_LOGIC;
-io_sda_nl : inout STD_LOGIC
+io_sda_nl : inout STD_LOGIC;
+o_an : out std_logic_vector (3 downto 0);
+o_seg : out std_logic_vector (6 downto 0)
 );
 END COMPONENT;
 
@@ -228,6 +230,7 @@ begin
 --  wait for 653 us; -- wait on scl idle before mode2 1000k
 --  wait for 974 us; -- wait on scl idle before mode2 500k
   wait for 1281 us; -- wait on scl idle before mode2 500k
+--  wait for 2015 us; -- wait on scl idle before mode2 500k
 --  wait for 3655 us; -- wait on scl idle before mode2 100k
   i_addr <= x"2400"; -- eeprom
   i_enable <= '1';
@@ -246,11 +249,12 @@ begin
   i_enable <= '1';
   compare1 <= 38;
   wait until o_done = '1';
-  wait until o_done = '0';
   i_enable <= '0';
+  wait until o_done = '0';
   i_addr <= x"0000"; -- data 1 end
 --  wait for 268 us; -- 1000k - s1
 --  wait for 430 us; -- 500k
+  wait for 529 us; -- 500k
 --  wait for 1352 us; -- 100k
 
   l0 : for i in 0 to 27 loop
@@ -258,11 +262,12 @@ begin
   i_enable <= '1';
   compare1 <= 37;
   wait until o_done = '1';
-  --wait until o_done = '0';
   i_enable <= '0';
+  wait until o_done = '0';
   i_addr <= x"0000"; -- data X end
 --  wait for 12656 us; -- 1000k - s1
 --  wait for 430 us; -- 500k
+  wait for 529 us; -- 500k
 --  wait for 23.93184 ms; -- 500k
 --  wait for 1352 us; -- 100k
   end loop l0;

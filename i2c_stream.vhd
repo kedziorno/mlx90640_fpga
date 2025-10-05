@@ -90,7 +90,7 @@ begin
   if (i_reset = '1') then
     state <= idle;
     v_data <= c_data - 1;
-    v_items <= 0;
+    v_items <= 1;
     v_index <= 0;
     v_omit <= 0;
     v_addr <= (others => '0');
