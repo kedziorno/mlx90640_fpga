@@ -643,10 +643,13 @@ end process p100;
       i2c_mlx_dina (15 downto 8) <= latch_data (7 downto 0);
       i2c_mlx_dina (7 downto 0) <= latch_data (15 downto 8);
 
+--o_led (7 downto 1) <= float2fixedr_r (41 downto 41-6);
+o_led (7 downto 1) <= test_fixed_melexis_do(31 downto 31-6);
+
 pTo : process (clock_i,i_reset) is
-	variable i : integer range 0 to PIXELS-1;
-  constant c_some_wait : integer := 2**20;
-  variable some_wait : integer range 0 to c_some_wait-1;
+	variable i : integer range 0 to PIXELS-2;
+--  constant c_some_wait : integer := 2**20;
+--  variable some_wait : integer range 0 to c_some_wait-1;
   --synthesis translate_off
   variable first : boolean := false;
   --synthesis translate_on
@@ -680,7 +683,7 @@ begin
       if (c_calculate_type1 = "c_temperature") then
         tout_t := (others => '0');
       end if;
-      some_wait := 0;
+--      some_wait := 0;
       melexis_mlx90640_i2c_mode0 <= '0';
       melexis_mlx90640_i2c_mode1 <= '0';
       melexis_mlx90640_i2c_mode2 <= '0';
@@ -704,7 +707,6 @@ else
           if (cold_start = c_cold_start - 1) then
 --            state <= idle2a;
             state <= wr1;
---            state <= wr1;
 --            state <= wr1a1;
 --            state <= w1;
             cold_start := 0;
@@ -880,8 +882,9 @@ else
           end if;
         when idle2a =>
           if (wait3 = c_wait3 - 1) then
-            state <= r1;
+--            state <= r1;
 --            state <= wr1a1;
+            state <= idle3;
             wait3 := 0;
           else
             wait3 := wait3+ 1;
@@ -1076,7 +1079,7 @@ lcdchar (1)(3) <= i2c_mlx_doutb(7);
           state <= z4;
         end if;
         when z5 =>
-        if (i = PIXELS - 1) then
+        if (i = PIXELS - 2) then
           i := 0;
           state <= s0;
         else
@@ -1159,7 +1162,7 @@ lcdchar (1)(3) <= i2c_mlx_doutb(7);
 				when s9 =>
 					dualmem_wea <= "0";
 					dualmem_ena <= '0';
-					if (i = PIXELS-1) then
+					if (i = PIXELS-2) then
 						i := 0;
 						state <= s10;
 --            dualmem_enb <= '1';
@@ -1370,15 +1373,15 @@ rdata <= colormap_rom (to_integer (signed (cm))); -- xxx i don't know, problem w
 vga_r <= "00000" & cm (2 downto 0);
 vga_g <= "00000" & cm (5 downto 3);
 vga_b <= "000000" & cm (7 downto 6);
-cm1 <= cm;
+--cm1 <= cm;
 o_led(0) <= '1' when state = s1 else '0';
-o_led(1) <= cm1(1);
-o_led(2) <= cm1(2);
-o_led(3) <= cm1(3);
-o_led(4) <= cm1(4);
-o_led(5) <= cm1(5);
-o_led(6) <= cm1(6);
-o_led(7) <= cm1(7);
+--o_led(1) <= cm1(1);
+--o_led(2) <= cm1(2);
+--o_led(3) <= cm1(3);
+--o_led(4) <= cm1(4);
+--o_led(5) <= cm1(5);
+--o_led(6) <= cm1(6);
+--o_led(7) <= cm1(7);
 
 --synthesis translate_off
 g0_mem_temperature : if (c_calculate_type1 = "c_temperature") generate
