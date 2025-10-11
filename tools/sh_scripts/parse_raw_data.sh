@@ -121,6 +121,6 @@ do
       fi
     ;;
   esac
-  #echo "${step_i} $k $data" # light debug
+  echo "${step_i} $k $data" # light debug
 done
 

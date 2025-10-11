@@ -70,7 +70,9 @@ use work.global_package.all;
 
 entity mem_switchpattern is
 generic (
-  constant c_mem_type : integer := c_type_lut
+--  constant c_mem_type : integer := c_type_lut
+  constant c_mem_type : integer := c_type_rom1
+--  constant c_mem_type : integer := c_type_rom2
 );
 port (
 	i_clock : in std_logic;

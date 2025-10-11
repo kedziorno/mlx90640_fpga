@@ -46,8 +46,8 @@ constant c_cold_start : integer := 100000;
 constant c_wait2 : integer := 1000;
 constant c_wait3 : integer := 10000;
 constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
-constant c_calculate_type1 : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
-constant c_use_fisqrt1 : string (1 to 3) := "yes" -- yes/no - depend from c_calculate_type(c_temperature)
+constant c_calculate_type1 : string (1 to 13) := "c_raws_images"; -- c_temperature,c_raws_images
+constant c_use_fisqrt1 : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type(c_temperature)
 );
 port (
 i_clock,i_reset : in std_logic;
@@ -580,7 +580,7 @@ signal mem_addr : integer range 0 to c_max - 1;
 
 component lcd_display is
 Generic (
-LCDClockDivider : integer := 200
+LCDClockDivider : integer := 400
 );
 Port (
 i_clock : in std_logic;
