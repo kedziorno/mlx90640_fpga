@@ -41,7 +41,8 @@ constant c_bus_clock : integer := c_clock_i2c_frequency;
 --constant c_bus_clock : integer := 50;
 --constant c_bus_clock : integer := 1_000_000;
 -- constant c_bus_clock : integer := 100_000;
-constant c_sim : string (1 to 1) := "y";
+constant c_sim : string (1 to 1) := "n";
+constant c_lcd : string (1 to 1) := "y";
 constant c_cold_start : integer := 100000;
 constant c_wait2 : integer := 1000;
 constant c_wait3 : integer := 10000;
@@ -640,8 +641,16 @@ begin
     end if;
   end if;
 end process p100;
+
+dina_swap : if (c_sim = "y") generate
+      i2c_mlx_dina (7 downto 0) <= latch_data (7 downto 0);
+      i2c_mlx_dina (15 downto 8) <= latch_data (15 downto 8);
+end generate dina_swap;
+
+dina_no_swap : if (c_sim = "n") generate
       i2c_mlx_dina (15 downto 8) <= latch_data (7 downto 0);
       i2c_mlx_dina (7 downto 0) <= latch_data (15 downto 8);
+end generate dina_no_swap;
 
 --o_led (7 downto 1) <= float2fixedr_r (41 downto 41-6);
 o_led (7 downto 1) <= test_fixed_melexis_do(31 downto 31-6);
@@ -1023,7 +1032,7 @@ else
           end if;
 
         when r14 =>
-        if (c_sim = "n") then
+        if (c_lcd = "y") then
           state <= z1;
         else
           state <= s0;
@@ -1174,7 +1183,7 @@ lcdchar (1)(3) <= i2c_mlx_doutb(7);
           state <= idle;
 --          state <= idle2a1;
 --          state <= idle3;
-        when others => null;
+        when others => state <= idle;
 			end case;
 		end if;
   end if;
@@ -1364,15 +1373,15 @@ end generate g0_2;
 rdata <= colormap_rom (to_integer (signed (cm))); -- xxx i don't know, problem with dualmem module ?
 --rdata <= colormap_rom (to_integer (unsigned (dualmem2_doutb (8 downto 0)))); -- xxx i don't know, problem with dualmem module ?
 
---vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
---vga_g <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
---vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
+vga_r <= rdata (23-3 downto 16)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
+vga_g <= rdata (15-3 downto 8)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
+vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_blank = '0' else (others => '0');
 --vga_r <= "00000" & cm (2 downto 0) when VGA_timing_synch_blank = '0' else (others => '0');
 --vga_g <= "00000" & cm (5 downto 3)  when VGA_timing_synch_blank = '0' else (others => '0');
 --vga_b <= "000000" & cm (7 downto 6)  when VGA_timing_synch_blank = '0' else (others => '0');
-vga_r <= "00000" & cm (2 downto 0);
-vga_g <= "00000" & cm (5 downto 3);
-vga_b <= "000000" & cm (7 downto 6);
+--vga_r <= "00000" & cm (2 downto 0);
+--vga_g <= "00000" & cm (5 downto 3);
+--vga_b <= "000000" & cm (7 downto 6);
 --cm1 <= cm;
 o_led(0) <= '1' when state = s1 else '0';
 --o_led(1) <= cm1(1);

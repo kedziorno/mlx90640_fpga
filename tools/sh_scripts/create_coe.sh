@@ -12,10 +12,10 @@ rm -rf ${coe_path}
 echo "memory_initialization_radix=16;" > ${coe_path}
 echo "memory_initialization_vector=" >> ${coe_path}
 
-echo "; -- eeprom" >> ${coe_path}
+#echo "; -- eeprom" >> ${coe_path}
 awk -F "x" '{printf("%s,\n",$2);}' eeprom >> ${coe_path}
 for i in `ls frame_raw*`; do
-  echo "; -- $i" >> ${coe_path}
+  #echo "; -- $i" >> ${coe_path}
   awk -F "x" '{printf("%s,\n",$2);}' ${i} >> ${coe_path}
   #echo "19,\n01,\n00,\n01,\n" >> ${coe_path}
 done

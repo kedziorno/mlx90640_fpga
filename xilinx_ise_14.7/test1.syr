@@ -260,8 +260,8 @@ Parsing architecture <Behavioral> of entity <test1>.
 =========================================================================
 
 Elaborating entity <test1> (architecture <Behavioral>) with generics from library <work>.
-WARNING:HDLCompiler:1127 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" Line 605: Assignment to temp2 ignored, since the identifier is never used
-WARNING:HDLCompiler:1127 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" Line 649: Assignment to i2c_stream_enable ignored, since the identifier is never used
+WARNING:HDLCompiler:1127 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" Line 606: Assignment to temp2 ignored, since the identifier is never used
+WARNING:HDLCompiler:1127 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" Line 658: Assignment to i2c_stream_enable ignored, since the identifier is never used
 
 Elaborating entity <melexis_mlx9064x> (architecture <rtl>) with generics from library <work>.
 INFO:HDLCompiler:679 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/melexis_mlx9064x.vhd" Line 2181. Case statement is complete. others clause is never selected
@@ -327,7 +327,6 @@ Elaborating entity <vga_address_generator> (architecture <rtl>) from library <wo
 WARNING:HDLCompiler:92 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/vga_address_generator.vhd" Line 165: vga_address_step_next_i should be on the sensitivity list of the process
 
 Elaborating entity <vga_timing> (architecture <industry_standard_640x480_timing>) from library <work>.
-WARNING:HDLCompiler:1127 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" Line 1364: Assignment to rdata ignored, since the identifier is never used
 
 Elaborating entity <float2fixed_rawimg> (architecture <float2fixed_rawimg_a>) from library <work>.
 
@@ -351,8 +350,8 @@ Elaborating entity <lcd_display> (architecture <Behavioral>) with generics from 
 
 Elaborating entity <clock_divider> (architecture <Behavioral>) with generics from library <work>.
 INFO:HDLCompiler:679 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/lcd_display.vhd" Line 87. Case statement is complete. others clause is never selected
-WARNING:HDLCompiler:634 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" Line 397: Net <sqrtfp2r[31]> does not have a driver.
-WARNING:HDLCompiler:634 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" Line 398: Net <sqrtfp2rdy> does not have a driver.
+WARNING:HDLCompiler:634 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" Line 398: Net <sqrtfp2r[31]> does not have a driver.
+WARNING:HDLCompiler:634 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" Line 399: Net <sqrtfp2rdy> does not have a driver.
 
 =========================================================================
 *                           HDL Synthesis                               *
@@ -362,20 +361,21 @@ Synthesizing Unit <test1>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd".
         c_board_clock = 50000000
         c_bus_clock = 500000
-        c_sim = "y"
+        c_sim = "n"
+        c_lcd = "y"
         c_cold_start = 100000
         c_wait2 = 1000
         c_wait3 = 10000
         c_device = "mlx90640"
         c_calculate_type1 = "c_raws_images"
         c_use_fisqrt1 = "xxx"
-INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1228: Output port <sqrtfp2a> of the instance <melexis_mlx9064x_core_inst> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1228: Output port <sqrtfp2ond> of the instance <melexis_mlx9064x_core_inst> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1228: Output port <sqrtfp2sclr> of the instance <melexis_mlx9064x_core_inst> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1228: Output port <sqrtfp2ce> of the instance <melexis_mlx9064x_core_inst> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1320: Output port <o_v_blank> of the instance <vts_inst> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1320: Output port <o_h_blank> of the instance <vts_inst> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1550: Output port <o_mode2_ready_all> of the instance <melexis_mlx90640_i2c_i0> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1237: Output port <sqrtfp2a> of the instance <melexis_mlx9064x_core_inst> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1237: Output port <sqrtfp2ond> of the instance <melexis_mlx9064x_core_inst> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1237: Output port <sqrtfp2sclr> of the instance <melexis_mlx9064x_core_inst> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1237: Output port <sqrtfp2ce> of the instance <melexis_mlx9064x_core_inst> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1329: Output port <o_v_blank> of the instance <vts_inst> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1329: Output port <o_h_blank> of the instance <vts_inst> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1559: Output port <o_mode2_ready_all> of the instance <melexis_mlx90640_i2c_i0> is unconnected or connected to loadless signal.
 WARNING:Xst:653 - Signal <sqrtfp2r> is used but never assigned. This sourceless signal will be automatically connected to value GND.
 WARNING:Xst:653 - Signal <sqrtfp2rdy> is used but never assigned. This sourceless signal will be automatically connected to value GND.
     Found 1-bit register for signal <i2c_mlx_wea>.
@@ -431,13 +431,18 @@ INFO:Xst:1799 - State r10 is never reached in FSM <state>.
 INFO:Xst:1799 - State r11 is never reached in FSM <state>.
 INFO:Xst:1799 - State r12 is never reached in FSM <state>.
 INFO:Xst:1799 - State r13 is never reached in FSM <state>.
-INFO:Xst:1799 - State z1 is never reached in FSM <state>.
-INFO:Xst:1799 - State z2 is never reached in FSM <state>.
-INFO:Xst:1799 - State z3 is never reached in FSM <state>.
-INFO:Xst:1799 - State z4 is never reached in FSM <state>.
-INFO:Xst:1799 - State z5 is never reached in FSM <state>.
 INFO:Xst:1799 - State z6 is never reached in FSM <state>.
 INFO:Xst:1799 - State z7 is never reached in FSM <state>.
+INFO:Xst:1799 - State s1 is never reached in FSM <state>.
+INFO:Xst:1799 - State s2 is never reached in FSM <state>.
+INFO:Xst:1799 - State s3 is never reached in FSM <state>.
+INFO:Xst:1799 - State s4 is never reached in FSM <state>.
+INFO:Xst:1799 - State s5 is never reached in FSM <state>.
+INFO:Xst:1799 - State s6 is never reached in FSM <state>.
+INFO:Xst:1799 - State s7 is never reached in FSM <state>.
+INFO:Xst:1799 - State s8 is never reached in FSM <state>.
+INFO:Xst:1799 - State s9 is never reached in FSM <state>.
+INFO:Xst:1799 - State s10 is never reached in FSM <state>.
 INFO:Xst:1799 - State s11 is never reached in FSM <state>.
 INFO:Xst:1799 - State s12 is never reached in FSM <state>.
 INFO:Xst:1799 - State s13 is never reached in FSM <state>.
@@ -445,9 +450,9 @@ INFO:Xst:1799 - State s14 is never reached in FSM <state>.
     Found finite state machine <FSM_0> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 59                                             |
-    | Transitions        | 72                                             |
+    | Transitions        | 66                                             |
     | Inputs             | 9                                              |
-    | Outputs            | 30                                             |
+    | Outputs            | 34                                             |
     | Clock              | i_clock (rising_edge)                          |
     | Reset              | i_reset (positive)                             |
     | Reset type         | synchronous                                    |
@@ -456,22 +461,24 @@ INFO:Xst:1799 - State s14 is never reached in FSM <state>.
     | Encoding           | auto                                           |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
-    Found 11-bit adder for signal <n0405> created at line 626.
-    Found 10-bit adder for signal <mem_addr[9]_GND_9_o_add_7_OUT> created at line 634.
-    Found 17-bit adder for signal <pTo.cold_start[16]_GND_9_o_add_17_OUT> created at line 714.
-    Found 14-bit adder for signal <pTo.wait3[13]_GND_9_o_add_129_OUT> created at line 998.
-    Found 9-bit adder for signal <wait1[8]_GND_9_o_add_135_OUT> created at line 1015.
-    Found 10-bit adder for signal <pTo.wait2[9]_GND_9_o_add_139_OUT> created at line 1022.
-    Found 26-bit adder for signal <pTo.k[25]_GND_9_o_add_143_OUT> created at line 1078.
-    Found 10-bit adder for signal <pTo.i[9]_GND_9_o_add_154_OUT> created at line 1171.
-    Found 1-bit adder for signal <pvgaclk.vmax[0]_PWR_9_o_add_229_OUT<0>> created at line 1199.
-    Found 4-bit adder for signal <pagclk.vmax[3]_GND_9_o_add_231_OUT> created at line 1220.
-    Found 1-bit tristate buffer for signal <io_sda_nl> created at line 1570
-    Found 1-bit tristate buffer for signal <io_scl_nl> created at line 1572
+    Found 11-bit adder for signal <n0408> created at line 627.
+    Found 10-bit adder for signal <mem_addr[9]_GND_9_o_add_7_OUT> created at line 635.
+    Found 17-bit adder for signal <pTo.cold_start[16]_GND_9_o_add_17_OUT> created at line 723.
+    Found 14-bit adder for signal <pTo.wait3[13]_GND_9_o_add_129_OUT> created at line 1007.
+    Found 9-bit adder for signal <wait1[8]_GND_9_o_add_135_OUT> created at line 1024.
+    Found 10-bit adder for signal <pTo.wait2[9]_GND_9_o_add_139_OUT> created at line 1031.
+    Found 26-bit adder for signal <pTo.k[25]_GND_9_o_add_143_OUT> created at line 1087.
+    Found 10-bit adder for signal <pTo.i[9]_GND_9_o_add_154_OUT> created at line 1180.
+    Found 1-bit adder for signal <pvgaclk.vmax[0]_PWR_9_o_add_229_OUT<0>> created at line 1208.
+    Found 4-bit adder for signal <pagclk.vmax[3]_GND_9_o_add_231_OUT> created at line 1229.
+    Found 512x24-bit Read Only RAM for signal <rdata>
+    Found 1-bit tristate buffer for signal <io_sda_nl> created at line 1579
+    Found 1-bit tristate buffer for signal <io_scl_nl> created at line 1581
     Summary:
+	inferred   1 RAM(s).
 	inferred  10 Adder/Subtractor(s).
-	inferred 275 D-type flip-flop(s).
-	inferred  57 Multiplexer(s).
+	inferred 288 D-type flip-flop(s).
+	inferred  63 Multiplexer(s).
 	inferred   2 Tristate(s).
 	inferred   1 Finite State Machine(s).
 Unit <test1> synthesized.
@@ -1729,11 +1736,12 @@ Unit <clock_divider> synthesized.
 HDL Synthesis Report
 
 Macro Statistics
-# RAMs                                                 : 5
+# RAMs                                                 : 6
  16x7-bit single-port Read Only RAM                    : 1
  4x1-bit single-port Read Only RAM                     : 1
  4x32-bit single-port Read Only RAM                    : 2
  4x4-bit single-port Read Only RAM                     : 1
+ 512x24-bit single-port Read Only RAM                  : 1
 # Adders/Subtractors                                   : 86
  1-bit adder                                           : 1
  10-bit adder                                          : 20
@@ -1754,11 +1762,11 @@ Macro Statistics
  7-bit adder                                           : 10
  8-bit adder                                           : 7
  9-bit adder                                           : 2
-# Registers                                            : 518
- 1-bit register                                        : 266
+# Registers                                            : 520
+ 1-bit register                                        : 267
  10-bit register                                       : 38
  11-bit register                                       : 1
- 12-bit register                                       : 12
+ 12-bit register                                       : 13
  14-bit register                                       : 1
  16-bit register                                       : 16
  17-bit register                                       : 2
@@ -1775,14 +1783,14 @@ Macro Statistics
  9-bit register                                        : 1
 # Comparators                                          : 6
  10-bit comparator greater                             : 6
-# Multiplexers                                         : 992
+# Multiplexers                                         : 998
  1-bit 16-to-1 multiplexer                             : 2
- 1-bit 2-to-1 multiplexer                              : 332
+ 1-bit 2-to-1 multiplexer                              : 333
  1-bit 4-to-1 multiplexer                              : 4
  1-bit 8-to-1 multiplexer                              : 2
  10-bit 2-to-1 multiplexer                             : 87
  11-bit 2-to-1 multiplexer                             : 1
- 12-bit 2-to-1 multiplexer                             : 41
+ 12-bit 2-to-1 multiplexer                             : 43
  14-bit 2-to-1 multiplexer                             : 5
  16-bit 2-to-1 multiplexer                             : 22
  17-bit 2-to-1 multiplexer                             : 2
@@ -1793,7 +1801,7 @@ Macro Statistics
  4-bit 4-to-1 multiplexer                              : 1
  5-bit 2-to-1 multiplexer                              : 24
  6-bit 2-to-1 multiplexer                              : 3
- 8-bit 2-to-1 multiplexer                              : 14
+ 8-bit 2-to-1 multiplexer                              : 17
  8-bit 4-to-1 multiplexer                              : 1
  9-bit 2-to-1 multiplexer                              : 39
 # Tristates                                            : 4
@@ -1952,25 +1960,25 @@ WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constan
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <inst_extract_tgc_parameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <divfpb_internal_0> (without init value) has a constant value of 0 in block <inst_extract_tgc_parameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_15> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_4> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_5> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_6> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_7> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_8> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_9> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_11> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_12> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_10> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_9> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_6> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_3> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_2> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_2> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_3> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_6> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_9> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_10> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_13> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_14> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_15> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_8> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_7> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_6> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_5> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_4> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <LCDChar_3_3> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <LCDChar_3_2> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <LCDChar_3_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -2078,6 +2086,17 @@ The following registers are absorbed into counter <mem_addr>: 1 register on sign
 The following registers are absorbed into counter <pTo.k>: 1 register on signal <pTo.k>.
 The following registers are absorbed into counter <pTo.cold_start>: 1 register on signal <pTo.cold_start>.
 The following registers are absorbed into counter <pagclk.vmax>: 1 register on signal <pagclk.vmax>.
+INFO:Xst:3218 - HDL ADVISOR - The RAM <Mram_rdata> will be implemented on LUTs either because you have described an asynchronous read or because of currently unsupported block RAM features. If you have described an asynchronous read, making it synchronous would allow you to take advantage of available block RAM resources, for optimized device usage and improved timings. Please refer to your documentation for coding guidelines.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 512-word x 24-bit                   |          |
+    |     weA            | connected to signal <GND>           | high     |
+    |     addrA          | connected to signal <dualmem_doutb_r> |          |
+    |     diA            | connected to signal <GND>           |          |
+    |     doA            | connected to signal <rdata>         |          |
+    -----------------------------------------------------------------------
 Unit <test1> synthesized (advanced).
 
 Synthesizing (advanced) Unit <vga_address_generator>.
@@ -2097,11 +2116,12 @@ WARNING:Xst:2677 - Node <resolutionreg_0> of sequential type is unconnected in b
 Advanced HDL Synthesis Report
 
 Macro Statistics
-# RAMs                                                 : 5
+# RAMs                                                 : 6
  16x7-bit single-port distributed Read Only RAM        : 1
  4x1-bit single-port distributed Read Only RAM         : 1
  4x32-bit single-port distributed Read Only RAM        : 2
  4x4-bit single-port distributed Read Only RAM         : 1
+ 512x24-bit single-port distributed Read Only RAM      : 1
 # Adders/Subtractors                                   : 67
  10-bit adder                                          : 14
  11-bit adder                                          : 1
@@ -2126,18 +2146,18 @@ Macro Statistics
  26-bit up counter                                     : 1
  4-bit up counter                                      : 2
  5-bit up counter                                      : 4
-# Registers                                            : 4707
- Flip-Flops                                            : 4707
+# Registers                                            : 4720
+ Flip-Flops                                            : 4720
 # Comparators                                          : 6
  10-bit comparator greater                             : 6
-# Multiplexers                                         : 1020
+# Multiplexers                                         : 1026
  1-bit 16-to-1 multiplexer                             : 2
- 1-bit 2-to-1 multiplexer                              : 376
+ 1-bit 2-to-1 multiplexer                              : 377
  1-bit 4-to-1 multiplexer                              : 4
  1-bit 8-to-1 multiplexer                              : 2
  10-bit 2-to-1 multiplexer                             : 81
  11-bit 2-to-1 multiplexer                             : 1
- 12-bit 2-to-1 multiplexer                             : 41
+ 12-bit 2-to-1 multiplexer                             : 43
  14-bit 2-to-1 multiplexer                             : 5
  16-bit 2-to-1 multiplexer                             : 21
  17-bit 2-to-1 multiplexer                             : 1
@@ -2147,7 +2167,7 @@ Macro Statistics
  4-bit 4-to-1 multiplexer                              : 1
  5-bit 2-to-1 multiplexer                              : 20
  6-bit 2-to-1 multiplexer                              : 3
- 8-bit 2-to-1 multiplexer                              : 14
+ 8-bit 2-to-1 multiplexer                              : 17
  8-bit 4-to-1 multiplexer                              : 1
  9-bit 2-to-1 multiplexer                              : 39
 # FSMs                                                 : 19
@@ -2363,14 +2383,14 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_5> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_4> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <LCDChar_2_3> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <LCDChar_2_2> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <LCDChar_2_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <LCDChar_2_0> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <LCDChar_3_3> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <LCDChar_3_2> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <LCDChar_3_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <LCDChar_3_0> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <LCDChar_2_3> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <LCDChar_2_2> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <LCDChar_2_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <LCDChar_2_0> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 INFO:Xst:2261 - The FF/Latch <o_vircompensated_addr_7> in Unit <calculate_raw_image> is equivalent to the following FF/Latch, which will be removed : <o_alphacomp_addr_7> 
 INFO:Xst:2261 - The FF/Latch <o_vircompensated_addr_1> in Unit <calculate_raw_image> is equivalent to the following FF/Latch, which will be removed : <o_alphacomp_addr_1> 
 INFO:Xst:2261 - The FF/Latch <o_vircompensated_addr_6> in Unit <calculate_raw_image> is equivalent to the following FF/Latch, which will be removed : <o_alphacomp_addr_6> 
@@ -2512,24 +2532,24 @@ Optimizing FSM <FSM_0> on signal <state[1:6]> with user encoding.
  r12     | unreached
  r13     | unreached
  r14     | 100100
- z1      | unreached
- z2      | unreached
- z3      | unreached
- z4      | unreached
- z5      | unreached
+ z1      | 100101
+ z2      | 100110
+ z3      | 100111
+ z4      | 101000
+ z5      | 101001
  z6      | unreached
  z7      | unreached
  s0      | 101100
- s1      | 101101
- s2      | 101110
- s3      | 101111
- s4      | 110000
- s5      | 110001
- s6      | 110010
- s7      | 110011
- s8      | 110100
- s9      | 110101
- s10     | 110110
+ s1      | unreached
+ s2      | unreached
+ s3      | unreached
+ s4      | unreached
+ s5      | unreached
+ s6      | unreached
+ s7      | unreached
+ s8      | unreached
+ s9      | unreached
+ s10     | unreached
  s11     | unreached
  s12     | unreached
  s13     | unreached
@@ -3076,6 +3096,8 @@ WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_3> (without init value) has a constan
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_4> (without init value) has a constant value of 0 in block <calculate_ta>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_8> (without init value) has a constant value of 0 in block <calculate_ta>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_9> (without init value) has a constant value of 0 in block <calculate_ta>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mlx_addrb_2_10> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mlx_addrb_2_11> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <pvgaclk.vmax_0> has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 INFO:Xst:2261 - The FF/Latch <melexis_mlx90640_i2c_memory_data_4> in Unit <test1> is equivalent to the following FF/Latch, which will be removed : <melexis_mlx90640_i2c_memory_data_5> 
 INFO:Xst:2261 - The FF/Latch <float2fixedond> in Unit <test1> is equivalent to the following FF/Latch, which will be removed : <float2fixedce> 
@@ -3145,26 +3167,17 @@ Optimizing unit <vga_address_generator> ...
 
 Optimizing unit <vga_timing> ...
 WARNING:Xst:2677 - Node <mode2_ready_all_i> of sequential type is unconnected in block <melexis_mlx90640_i2c_i0>.
+WARNING:Xst:2677 - Node <o_rdy> of sequential type is unconnected in block <melexis_mlx9064x_core_inst>.
 
 Mapping all equations...
 Building and optimizing final netlist ...
-Found area constraint ratio of 100 (+ 5) on block test1, actual ratio is 103.
+Found area constraint ratio of 100 (+ 5) on block test1, actual ratio is 107.
 Optimizing block <test1> to meet ratio 100 (+ 5) of 8672 slices :
-Area constraint is met for block <test1>, final ratio is 99.
+Area constraint is met for block <test1>, final ratio is 103.
 INFO:Xst:2260 - The FF/Latch <blk00000084> in Unit <inst_mulfp> is equivalent to the following FF/Latch : <blk00000553> 
 INFO:Xst:2260 - The FF/Latch <blk00000084> in Unit <inst_mulfp> is equivalent to the following FF/Latch : <blk00000553> 
-FlipFlop melexis_mlx9064x_core_inst/CalculateAlphaCP_mux has been replicated 1 time(s)
-FlipFlop melexis_mlx9064x_core_inst/CalculateKGain_mux has been replicated 1 time(s)
-FlipFlop melexis_mlx9064x_core_inst/CalculatePixOS_mux has been replicated 3 time(s)
-FlipFlop melexis_mlx9064x_core_inst/CalculatePixOsCPSP_mux has been replicated 3 time(s)
-FlipFlop melexis_mlx9064x_core_inst/CalculateTa_mux has been replicated 4 time(s)
+FlipFlop melexis_mlx9064x_core_inst/CalculatePixOS_mux has been replicated 1 time(s)
 FlipFlop melexis_mlx9064x_core_inst/CalculateVdd_mux has been replicated 1 time(s)
-FlipFlop melexis_mlx9064x_core_inst/CalculateVirCompensated_mux has been replicated 1 time(s)
-FlipFlop melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux has been replicated 1 time(s)
-FlipFlop melexis_mlx9064x_core_inst/ExtractTGCParameters_mux has been replicated 1 time(s)
-FlipFlop melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_mux has been replicated 1 time(s)
-FlipFlop melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_mux has been replicated 1 time(s)
-FlipFlop melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_mux has been replicated 1 time(s)
 
 Final Macro Processing ...
 
@@ -3172,8 +3185,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 4561
- Flip-Flops                                            : 4561
+# Registers                                            : 4580
+ Flip-Flops                                            : 4580
 
 =========================================================================
 
@@ -3196,38 +3209,39 @@ Top Level Output File Name         : test1.ngc
 
 Primitive and Black Box Usage:
 ------------------------------
-# BELS                             : 17381
+# BELS                             : 17953
 #      BUF                         : 14
 #      GND                         : 26
-#      INV                         : 139
-#      LUT1                        : 118
-#      LUT2                        : 3609
-#      LUT2_D                      : 48
-#      LUT2_L                      : 67
-#      LUT3                        : 3605
-#      LUT3_D                      : 124
-#      LUT3_L                      : 286
-#      LUT4                        : 4420
-#      LUT4_D                      : 59
-#      LUT4_L                      : 681
+#      INV                         : 140
+#      LUT1                        : 143
+#      LUT2                        : 3728
+#      LUT2_D                      : 28
+#      LUT2_L                      : 49
+#      LUT3                        : 3817
+#      LUT3_D                      : 103
+#      LUT3_L                      : 200
+#      LUT4                        : 4753
+#      LUT4_D                      : 25
+#      LUT4_L                      : 482
 #      MULT_AND                    : 226
-#      MUXCY                       : 1800
-#      MUXF5                       : 486
-#      MUXF6                       : 14
-#      MUXF7                       : 3
-#      VCC                         : 21
-#      XORCY                       : 1635
-# FlipFlops/Latches                : 8345
+#      MUXCY                       : 1831
+#      MUXF5                       : 659
+#      MUXF6                       : 34
+#      MUXF7                       : 11
+#      MUXF8                       : 3
+#      VCC                         : 20
+#      XORCY                       : 1661
+# FlipFlops/Latches                : 8364
 #      FD                          : 12
 #      FDC                         : 71
 #      FDC_1                       : 18
 #      FDCE                        : 106
 #      FDCE_1                      : 12
-#      FDE                         : 4460
+#      FDE                         : 4457
 #      FDP                         : 2
 #      FDPE                        : 3
 #      FDR                         : 98
-#      FDRE                        : 3341
+#      FDRE                        : 3363
 #      FDRS                        : 6
 #      FDRSE                       : 145
 #      FDS                         : 2
@@ -3254,10 +3268,10 @@ Device utilization summary:
 
 Selected Device : 3s1200efg320-4 
 
- Number of Slices:                     8703  out of   8672   100% (*) 
- Number of Slice Flip Flops:           8345  out of  17344    48%  
- Number of 4 input LUTs:              13360  out of  17344    77%  
-    Number used as logic:             13156
+ Number of Slices:                     8972  out of   8672   103% (*) 
+ Number of Slice Flip Flops:           8364  out of  17344    48%  
+ Number of 4 input LUTs:              13672  out of  17344    78%  
+    Number used as logic:             13468
     Number used as Shift registers:     204
  Number of IOs:                          55
  Number of bonded IOBs:                  53  out of    250    21%  
@@ -3287,7 +3301,7 @@ Clock Information:
 -------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
 Clock Signal                                                                                                 | Clock buffer(FF name)                                                                                                                                    | Load  |
 -------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
-i_clock                                                                                                      | BUFGP                                                                                                                                                    | 8388  |
+i_clock                                                                                                      | BUFGP                                                                                                                                                    | 8407  |
 vgaclk25                                                                                                     | BUFG                                                                                                                                                     | 62    |
 melexis_mlx90640_i2c_i0/clock                                                                                | BUFG                                                                                                                                                     | 91    |
 melexis_mlx90640_i2c_i0/GND_113_o_GND_113_o_AND_57_o(melexis_mlx90640_i2c_i0/GND_113_o_GND_113_o_AND_57_o1:O)| NONE(*)(melexis_mlx90640_i2c_i0/bytes_to_recv_sr_0)                                                                                                      | 17    |
@@ -3311,10 +3325,10 @@ Timing Summary:
 ---------------
 Speed Grade: -4
 
-   Minimum period: 11.773ns (Maximum Frequency: 84.941MHz)
+   Minimum period: 13.806ns (Maximum Frequency: 72.433MHz)
    Minimum input arrival time before clock: 13.147ns
-   Maximum output required time after clock: 9.810ns
-   Maximum combinational path delay: 7.574ns
+   Maximum output required time after clock: 16.294ns
+   Maximum combinational path delay: 11.855ns
 
 Timing Details:
 ---------------
@@ -3322,28 +3336,31 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 11.773ns (frequency: 84.941MHz)
-  Total number of paths / destination ports: 365836 / 17931
+  Clock period: 13.806ns (frequency: 72.433MHz)
+  Total number of paths / destination ports: 368716 / 17995
 -------------------------------------------------------------------------
-Delay:               11.773ns (Levels of Logic = 15)
-  Source:            melexis_mlx9064x_core_inst/CalculatePixOsCPSP_mux_2 (FF)
+Delay:               13.806ns (Levels of Logic = 18)
+  Source:            melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux (FF)
   Destination:       melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0 (RAM)
   Source Clock:      i_clock rising
   Destination Clock: i_clock rising
 
-  Data Path: melexis_mlx9064x_core_inst/CalculatePixOsCPSP_mux_2 to melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
+  Data Path: melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux to melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDE:C->Q              4   0.591   0.762  CalculatePixOsCPSP_mux_2 (CalculatePixOsCPSP_mux_2)
-     LUT2_D:I0->O        142   0.704   1.301  Mmux_subfpa10111 (Mmux_mulfpa112)
-     LUT4:I3->O            1   0.704   0.424  Mmux_rom_constants_2powx_p8_4bit_adr31 (rom_constants_2powx_p8_4bit_adr<2>)
-     begin scope: 'melexis_mlx9064x_core_inst/inst_rom_constants:i_2powx_p8_4bit_adr<2>'
-     LUT4_L:I3->LO         1   0.704   0.104  Mmux_GND_66_o_BUS_0004_mux_26_OUT_A310 (Mmux_GND_66_o_BUS_0004_mux_26_OUT_A310)
-     LUT4:I3->O            1   0.704   0.424  Mmux_GND_66_o_BUS_0004_mux_26_OUT_A121_SW2 (N29)
-     LUT4:I3->O            1   0.704   0.424  Mmux_GND_66_o_BUS_0004_mux_26_OUT_A338 (Mmux_GND_66_o_BUS_0004_mux_26_OUT_A338)
-     LUT4:I3->O            1   0.704   0.000  Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_lut<2> (Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_lut<2>)
-     MUXCY:S->O            1   0.464   0.000  Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<2> (Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<2>)
+     FDE:C->Q            354   0.591   1.539  ExtractAlphaParameters_mux (ExtractAlphaParameters_mux)
+     LUT3:I0->O            6   0.704   0.704  Mmux_rom_constants_2powx_4bit_adr111 (Mmux_rom_constants_2powx_4bit_adr11)
+     LUT4:I2->O            1   0.704   0.455  Mmux_rom_constants_2powx_4bit_en1_SW0 (N29)
+     LUT3:I2->O            7   0.704   0.787  Mmux_rom_constants_2powx_4bit_en1 (rom_constants_2powx_4bit_en)
+     begin scope: 'melexis_mlx9064x_core_inst/inst_rom_constants:i_2powx_4bit_en'
+     LUT2_D:I1->LO         1   0.704   0.104  Mmux_GND_66_o_BUS_0004_mux_26_OUT_A6211 (N49)
+     LUT4:I3->O            5   0.704   0.637  Mmux_GND_66_o_BUS_0004_mux_26_OUT_A121 (Mmux_GND_66_o_BUS_0004_mux_26_OUT_A12)
+     LUT4:I3->O            1   0.704   0.424  Mmux_GND_66_o_BUS_0004_mux_26_OUT_A138 (Mmux_GND_66_o_BUS_0004_mux_26_OUT_A138)
+     LUT4:I3->O            1   0.704   0.000  Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_lut<0> (Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_lut<0>)
+     MUXCY:S->O            1   0.464   0.000  Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<0> (Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<0>)
+     MUXCY:CI->O           1   0.059   0.000  Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<1> (Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<1>)
+     MUXCY:CI->O           1   0.059   0.000  Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<2> (Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<2>)
      MUXCY:CI->O           1   0.059   0.000  Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<3> (Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<3>)
      MUXCY:CI->O           1   0.059   0.000  Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<4> (Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<4>)
      MUXCY:CI->O           1   0.059   0.000  Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<5> (Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<5>)
@@ -3353,8 +3370,8 @@ Delay:               11.773ns (Levels of Logic = 15)
      LUT3:I2->O            1   0.704   0.420  address<8>1 (address<8>)
      RAMB16_S36:ADDR8          0.377          rom_constants_i0
     ----------------------------------------
-    Total                     11.773ns (7.459ns logic, 4.314ns route)
-                                       (63.4% logic, 36.6% route)
+    Total                     13.806ns (8.281ns logic, 5.525ns route)
+                                       (60.0% logic, 40.0% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'vgaclk25'
@@ -3373,7 +3390,7 @@ Delay:               8.614ns (Levels of Logic = 15)
     ----------------------------------------  ------------
      FDCE:C->Q             3   0.591   0.706  x_q_2 (x_q_2)
      LUT2:I0->O            1   0.704   0.424  PWR_41_o_x_q[4]_equal_11_o<4>_SW0 (N6)
-     LUT4_D:I3->LO         1   0.704   0.275  PWR_41_o_x_q[4]_equal_11_o<4> (N9)
+     LUT4_D:I3->LO         1   0.704   0.275  PWR_41_o_x_q[4]_equal_11_o<4> (N8)
      LUT3:I0->O            1   0.704   0.595  Mmux_vga_address_step_q[9]_vga_address_step_temp_q[9]_mux_24_OUT_A11 (Mmux_vga_address_step_q[9]_vga_address_step_temp_q[9]_mux_24_OUT_rs_A<0>)
      LUT2:I0->O            1   0.704   0.000  Mmux_vga_address_step_q[9]_vga_address_step_temp_q[9]_mux_24_OUT_rs_lut<0> (Mmux_vga_address_step_q[9]_vga_address_step_temp_q[9]_mux_24_OUT_rs_lut<0>)
      MUXCY:S->O            1   0.464   0.000  Mmux_vga_address_step_q[9]_vga_address_step_temp_q[9]_mux_24_OUT_rs_cy<0> (Mmux_vga_address_step_q[9]_vga_address_step_temp_q[9]_mux_24_OUT_rs_cy<0>)
@@ -3394,10 +3411,10 @@ Delay:               8.614ns (Levels of Logic = 15)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'melexis_mlx90640_i2c_i0/clock'
-  Clock period: 9.772ns (frequency: 102.333MHz)
-  Total number of paths / destination ports: 2597 / 138
+  Clock period: 10.408ns (frequency: 96.080MHz)
+  Total number of paths / destination ports: 2634 / 138
 -------------------------------------------------------------------------
-Delay:               9.772ns (Levels of Logic = 7)
+Delay:               10.408ns (Levels of Logic = 8)
   Source:            melexis_mlx90640_i2c_i0/c_state_FSM_FFd1 (FF)
   Destination:       melexis_mlx90640_i2c_i0/data_index_ctr_0 (FF)
   Source Clock:      melexis_mlx90640_i2c_i0/clock rising
@@ -3409,23 +3426,24 @@ Delay:               9.772ns (Levels of Logic = 7)
     ----------------------------------------  ------------
      FDCE:C->Q            10   0.591   0.886  c_state_FSM_FFd1 (c_state_FSM_FFd1)
      LUT4:I3->O            1   0.704   0.455  c_state__n0921<1>11112 (c_state__n0921<1>11112)
-     LUT3_D:I2->LO         1   0.704   0.104  c_state__n0921<1>111117 (N95)
+     LUT3_D:I2->LO         1   0.704   0.104  c_state__n0921<1>111117 (N82)
      LUT4:I3->O            2   0.704   0.482  c_state__n0921<1>1112 (c_state__n0921<1>111)
-     LUT3_D:I2->LO         1   0.704   0.104  c_state__n0921<1>1119 (N94)
-     LUT4:I3->O            5   0.704   0.637  c_state_c_state<1> (c_state<1>)
-     LUT4:I3->O            1   0.704   0.499  c_state__n0876_inv49 (c_state__n0876_inv49)
-     LUT4:I1->O            3   0.704   0.531  c_state__n0876_inv156 (c_state__n0876_inv156)
+     LUT3:I2->O            2   0.704   0.451  c_state__n0921<1>1119 (c_state__n0921<1>11)
+     LUT4_D:I3->LO         1   0.704   0.135  c_state_c_state<1> (N81)
+     LUT3:I2->O            2   0.704   0.482  _n0531<1>1 (_n0531)
+     LUT3_L:I2->LO         1   0.704   0.104  c_state__n0876_inv81_SW0_SW0 (N77)
+     LUT4:I3->O            3   0.704   0.531  c_state__n0876_inv156 (c_state__n0876_inv156)
      FDCE:CE                   0.555          data_index_ctr_0
     ----------------------------------------
-    Total                      9.772ns (6.074ns logic, 3.698ns route)
-                                       (62.2% logic, 37.8% route)
+    Total                     10.408ns (6.778ns logic, 3.630ns route)
+                                       (65.1% logic, 34.9% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'melexis_mlx90640_i2c_i0/GND_113_o_GND_113_o_AND_57_o'
-  Clock period: 2.129ns (frequency: 469.704MHz)
+  Clock period: 2.225ns (frequency: 449.438MHz)
   Total number of paths / destination ports: 16 / 16
 -------------------------------------------------------------------------
-Delay:               2.129ns (Levels of Logic = 1)
+Delay:               2.225ns (Levels of Logic = 1)
   Source:            melexis_mlx90640_i2c_i0/bytes_to_recv_sr_1 (FF)
   Destination:       melexis_mlx90640_i2c_i0/bytes_to_recv_sr_0 (FF)
   Source Clock:      melexis_mlx90640_i2c_i0/GND_113_o_GND_113_o_AND_57_o falling
@@ -3435,12 +3453,12 @@ Delay:               2.129ns (Levels of Logic = 1)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDC_1:C->Q            2   0.591   0.526  bytes_to_recv_sr_1 (bytes_to_recv_sr_1)
-     LUT2:I1->O            1   0.704   0.000  Mmux_io_sda_ii_GND_113_o_mux_24_OUT171 (io_sda_ii_GND_113_o_mux_24_OUT<0>)
+     FDC_1:C->Q            2   0.591   0.622  bytes_to_recv_sr_1 (bytes_to_recv_sr_1)
+     LUT4:I0->O            1   0.704   0.000  Mmux_io_sda_ii_GND_113_o_mux_24_OUT171 (io_sda_ii_GND_113_o_mux_24_OUT<0>)
      FDC_1:D                   0.308          bytes_to_recv_sr_0
     ----------------------------------------
-    Total                      2.129ns (1.603ns logic, 0.526ns route)
-                                       (75.3% logic, 24.7% route)
+    Total                      2.225ns (1.603ns logic, 0.622ns route)
+                                       (72.0% logic, 28.0% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'c_lcd_display/c_clock_divider_1/p0.clock_out'
@@ -3468,7 +3486,7 @@ Delay:               4.394ns (Levels of Logic = 3)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 4451 / 4332
+  Total number of paths / destination ports: 4456 / 4351
 -------------------------------------------------------------------------
 Offset:              13.147ns (Levels of Logic = 8)
   Source:            i_reset (PAD)
@@ -3479,10 +3497,10 @@ Offset:              13.147ns (Levels of Logic = 8)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           301   1.218   1.347  i_reset_IBUF (i_reset_IBUF)
-     BUF:I->O            418   0.704   1.384  i_reset_IBUF_1 (i_reset_IBUF_1)
+     IBUF:I->O           306   1.218   1.349  i_reset_IBUF (i_reset_IBUF)
+     BUF:I->O            416   0.704   1.383  i_reset_IBUF_1 (i_reset_IBUF_1)
      begin scope: 'melexis_mlx9064x_core_inst:i_reset'
-     BUF:I->O            418   0.704   1.384  i_reset_1 (i_reset_1)
+     BUF:I->O            415   0.704   1.383  i_reset_1 (i_reset_1)
      begin scope: 'melexis_mlx9064x_core_inst/inst_CalculatePixOS:i_reset'
      BUF:I->O            276   0.704   1.514  i_reset_1 (i_reset_1)
      begin scope: 'melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_i0:i_reset'
@@ -3497,7 +3515,7 @@ Offset:              13.147ns (Levels of Logic = 8)
 Timing constraint: Default OFFSET IN BEFORE for Clock 'melexis_mlx90640_i2c_i0/clock'
   Total number of paths / destination ports: 3 / 3
 -------------------------------------------------------------------------
-Offset:              4.775ns (Levels of Logic = 3)
+Offset:              4.777ns (Levels of Logic = 3)
   Source:            i_reset (PAD)
   Destination:       melexis_mlx90640_i2c_i0/p_i2c_clock_generator_fsm.state (FF)
   Destination Clock: melexis_mlx90640_i2c_i0/clock rising
@@ -3506,12 +3524,12 @@ Offset:              4.775ns (Levels of Logic = 3)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           301   1.218   1.522  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O           306   1.218   1.524  i_reset_IBUF (i_reset_IBUF)
      begin scope: 'melexis_mlx90640_i2c_i0:i_reset'
      LUT3:I0->O            1   0.704   0.420  _n03611 (_n0361)
      FDRSE:R                   0.911          p_i2c_clock_generator_fsm.state
     ----------------------------------------
-    Total                      4.775ns (2.833ns logic, 1.942ns route)
+    Total                      4.777ns (2.833ns logic, 1.944ns route)
                                        (59.3% logic, 40.7% route)
 
 =========================================================================
@@ -3527,7 +3545,7 @@ Offset:              2.729ns (Levels of Logic = 3)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IOBUF:IO->O           1   1.218   0.499  io_sda_nl_IOBUF (N46)
+     IOBUF:IO->O           1   1.218   0.499  io_sda_nl_IOBUF (N107)
      begin scope: 'melexis_mlx90640_i2c_i0:io_sda_i'
      LUT3:I1->O            1   0.704   0.000  Mmux_io_sda_ii_GND_113_o_mux_24_OUT132 (Mmux_io_sda_ii_GND_113_o_mux_24_OUT132)
      FDC_1:D                   0.308          bytes_to_recv_sr_16
@@ -3539,7 +3557,7 @@ Offset:              2.729ns (Levels of Logic = 3)
 Timing constraint: Default OFFSET IN BEFORE for Clock 'vgaclk25'
   Total number of paths / destination ports: 47 / 47
 -------------------------------------------------------------------------
-Offset:              6.996ns (Levels of Logic = 7)
+Offset:              7.613ns (Levels of Logic = 7)
   Source:            i_reset (PAD)
   Destination:       vag_inst/vga_address_step_temp_q_0 (FF)
   Destination Clock: vgaclk25 rising
@@ -3548,24 +3566,24 @@ Offset:              6.996ns (Levels of Logic = 7)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           301   1.218   1.351  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O           306   1.218   1.353  i_reset_IBUF (i_reset_IBUF)
      begin scope: 'vts_inst:i_reset'
      LUT4:I3->O            1   0.704   0.000  Mmux_o_blank11 (Mmux_o_blank1)
-     MUXF5:I0->O           7   0.321   0.787  Mmux_o_blank1_f5 (o_blank)
+     MUXF5:I0->O          29   0.321   1.340  Mmux_o_blank1_f5 (o_blank)
      end scope: 'vts_inst:o_blank'
      begin scope: 'vag_inst:i_vga_blank'
-     LUT2_D:I1->O          9   0.704   0.899  Mmux_vga_address_step_next_i1211 (Mmux_vga_address_step_next_i121)
-     LUT4:I1->O            2   0.704   0.000  Mmux_vga_address_step_next_i91 (vga_address_step_next_i<8>)
-     FDCE:D                    0.308          vga_address_step_temp_q_8
+     LUT2:I1->O           10   0.704   0.961  Mmux_vga_address_step_next_i1211 (Mmux_vga_address_step_next_i121)
+     LUT4:I1->O            2   0.704   0.000  Mmux_vga_address_step_next_i101 (vga_address_step_next_i<9>)
+     FDCE:D                    0.308          vga_address_step_temp_q_9
     ----------------------------------------
-    Total                      6.996ns (3.959ns logic, 3.037ns route)
-                                       (56.6% logic, 43.4% route)
+    Total                      7.613ns (3.959ns logic, 3.654ns route)
+                                       (52.0% logic, 48.0% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'agclk'
   Total number of paths / destination ports: 1 / 1
 -------------------------------------------------------------------------
-Offset:              6.196ns (Levels of Logic = 6)
+Offset:              6.751ns (Levels of Logic = 6)
   Source:            i_reset (PAD)
   Destination:       g1_dualmem_rawimg.dualmem_inst_r/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram (RAM)
   Destination Clock: agclk rising
@@ -3574,37 +3592,70 @@ Offset:              6.196ns (Levels of Logic = 6)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           301   1.218   1.351  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O           306   1.218   1.353  i_reset_IBUF (i_reset_IBUF)
      begin scope: 'vts_inst:i_reset'
      LUT4:I3->O            1   0.704   0.000  Mmux_o_blank11 (Mmux_o_blank1)
-     MUXF5:I0->O           7   0.321   0.708  Mmux_o_blank1_f5 (o_blank)
+     MUXF5:I0->O          29   0.321   1.261  Mmux_o_blank1_f5 (o_blank)
      end scope: 'vts_inst:o_blank'
      INV:I->O              1   0.704   0.420  dualmem_enb1_INV_0 (dualmem_enb)
      begin scope: 'g1_dualmem_rawimg.dualmem_inst_r:enb'
      RAMB16_S18_S18:ENB        0.770          U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram
     ----------------------------------------
-    Total                      6.196ns (3.717ns logic, 2.479ns route)
-                                       (60.0% logic, 40.0% route)
+    Total                      6.751ns (3.717ns logic, 3.034ns route)
+                                       (55.1% logic, 44.9% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'agclk'
-  Total number of paths / destination ports: 8 / 8
+  Total number of paths / destination ports: 1582 / 15
 -------------------------------------------------------------------------
-Offset:              6.492ns (Levels of Logic = 2)
+Offset:              16.294ns (Levels of Logic = 9)
   Source:            g1_dualmem_rawimg.dualmem_inst_r/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram (RAM)
-  Destination:       vga_r<2> (PAD)
+  Destination:       vga_r<6> (PAD)
   Source Clock:      agclk rising
 
-  Data Path: g1_dualmem_rawimg.dualmem_inst_r/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram to vga_r<2>
+  Data Path: g1_dualmem_rawimg.dualmem_inst_r/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram to vga_r<6>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     RAMB16_S18_S18:CLKB->DOB9    1   2.800   0.420  U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram (doutb<9>)
-     end scope: 'g1_dualmem_rawimg.dualmem_inst_r:doutb<9>'
-     OBUF:I->O                 3.272          vga_r_2_OBUF (vga_r<2>)
+     RAMB16_S18_S18:CLKB->DOB7  175   2.800   1.482  U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram (doutb<7>)
+     end scope: 'g1_dualmem_rawimg.dualmem_inst_r:doutb<7>'
+     LUT2:I0->O            9   0.704   0.899  Mmux_vga_r111 (Mmux_vga_r11)
+     LUT4:I1->O            1   0.704   0.595  Mmux_vga_r4136_SW0 (N188)
+     LUT4:I0->O            1   0.704   0.424  Mmux_vga_r4136 (Mmux_vga_r4136)
+     LUT4:I3->O            1   0.704   0.455  Mmux_vga_r4154 (Mmux_vga_r4154)
+     LUT3:I2->O            1   0.704   0.424  Mmux_vga_r4281_SW0 (N122)
+     LUT4:I3->O            1   0.704   0.595  Mmux_vga_r4281 (Mmux_vga_r4281)
+     LUT4:I0->O            1   0.704   0.420  Mmux_vga_r4305 (vga_r_6_OBUF)
+     OBUF:I->O                 3.272          vga_r_6_OBUF (vga_r<6>)
     ----------------------------------------
-    Total                      6.492ns (6.072ns logic, 0.420ns route)
-                                       (93.5% logic, 6.5% route)
+    Total                     16.294ns (11.000ns logic, 5.294ns route)
+                                       (67.5% logic, 32.5% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'vgaclk25'
+  Total number of paths / destination ports: 186 / 18
+-------------------------------------------------------------------------
+Offset:              12.603ns (Levels of Logic = 8)
+  Source:            vts_inst/v_counter_6 (FF)
+  Destination:       vga_r<3> (PAD)
+  Source Clock:      vgaclk25 rising
+
+  Data Path: vts_inst/v_counter_6 to vga_r<3>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDCE:C->Q             4   0.591   0.762  v_counter_6 (v_counter_6)
+     LUT2:I0->O            1   0.704   0.424  o_v_blank_SW0 (N01)
+     LUT4:I3->O            1   0.704   0.420  o_v_blank (o_v_blank)
+     MUXF5:S->O           29   0.739   1.436  Mmux_o_blank1_f5 (o_blank)
+     end scope: 'vts_inst:o_blank'
+     LUT4:I0->O            1   0.704   0.595  Mmux_vga_r1166 (Mmux_vga_r1166)
+     LUT4:I0->O            1   0.704   0.424  Mmux_vga_r1179 (Mmux_vga_r1179)
+     LUT4:I3->O            1   0.704   0.420  Mmux_vga_r1474 (vga_r_3_OBUF)
+     OBUF:I->O                 3.272          vga_r_3_OBUF (vga_r<3>)
+    ----------------------------------------
+    Total                     12.603ns (8.122ns logic, 4.481ns route)
+                                       (64.4% logic, 35.6% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'c_lcd_display/c_clock_divider_1/p0.clock_out'
@@ -3628,7 +3679,7 @@ Offset:              4.283ns (Levels of Logic = 2)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
-  Total number of paths / destination ports: 47 / 9
+  Total number of paths / destination ports: 43 / 8
 -------------------------------------------------------------------------
 Offset:              9.810ns (Levels of Logic = 6)
   Source:            melexis_mlx9064x_core_inst/g_calculate_raw_image.calculate_raw_image_i0/rdy (FF)
@@ -3651,29 +3702,6 @@ Offset:              9.810ns (Levels of Logic = 6)
     ----------------------------------------
     Total                      9.810ns (5.975ns logic, 3.835ns route)
                                        (60.9% logic, 39.1% route)
-
-=========================================================================
-Timing constraint: Default OFFSET OUT AFTER for Clock 'vgaclk25'
-  Total number of paths / destination ports: 10 / 3
--------------------------------------------------------------------------
-Offset:              8.035ns (Levels of Logic = 5)
-  Source:            vts_inst/v_counter_6 (FF)
-  Destination:       vga_blankn (PAD)
-  Source Clock:      vgaclk25 rising
-
-  Data Path: vts_inst/v_counter_6 to vga_blankn
-                                Gate     Net
-    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
-    ----------------------------------------  ------------
-     FDCE:C->Q             4   0.591   0.762  v_counter_6 (v_counter_6)
-     LUT2_L:I0->LO         1   0.704   0.135  o_v_blank_SW0 (N01)
-     LUT4:I2->O            1   0.704   0.420  o_v_blank (o_v_blank)
-     MUXF5:S->O            7   0.739   0.708  Mmux_o_blank1_f5 (o_blank)
-     end scope: 'vts_inst:o_blank'
-     OBUF:I->O                 3.272          vga_blankn_OBUF (vga_blankn)
-    ----------------------------------------
-    Total                      8.035ns (6.010ns logic, 2.025ns route)
-                                       (74.8% logic, 25.2% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'melexis_mlx90640_i2c_i0/clock'
@@ -3699,25 +3727,28 @@ Offset:              6.970ns (Levels of Logic = 4)
 
 =========================================================================
 Timing constraint: Default path analysis
-  Total number of paths / destination ports: 1 / 1
+  Total number of paths / destination ports: 23 / 16
 -------------------------------------------------------------------------
-Delay:               7.574ns (Levels of Logic = 5)
+Delay:               11.855ns (Levels of Logic = 8)
   Source:            i_reset (PAD)
-  Destination:       vga_blankn (PAD)
+  Destination:       vga_r<3> (PAD)
 
-  Data Path: i_reset to vga_blankn
+  Data Path: i_reset to vga_r<3>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           301   1.218   1.351  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O           306   1.218   1.353  i_reset_IBUF (i_reset_IBUF)
      begin scope: 'vts_inst:i_reset'
      LUT4:I3->O            1   0.704   0.000  Mmux_o_blank11 (Mmux_o_blank1)
-     MUXF5:I0->O           7   0.321   0.708  Mmux_o_blank1_f5 (o_blank)
+     MUXF5:I0->O          29   0.321   1.436  Mmux_o_blank1_f5 (o_blank)
      end scope: 'vts_inst:o_blank'
-     OBUF:I->O                 3.272          vga_blankn_OBUF (vga_blankn)
+     LUT4:I0->O            1   0.704   0.595  Mmux_vga_r1166 (Mmux_vga_r1166)
+     LUT4:I0->O            1   0.704   0.424  Mmux_vga_r1179 (Mmux_vga_r1179)
+     LUT4:I3->O            1   0.704   0.420  Mmux_vga_r1474 (vga_r_3_OBUF)
+     OBUF:I->O                 3.272          vga_r_3_OBUF (vga_r<3>)
     ----------------------------------------
-    Total                      7.574ns (5.515ns logic, 2.059ns route)
-                                       (72.8% logic, 27.2% route)
+    Total                     11.855ns (7.627ns logic, 4.228ns route)
+                                       (64.3% logic, 35.7% route)
 
 =========================================================================
 
@@ -3729,7 +3760,7 @@ Clock to Setup on destination clock agclk
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-vgaclk25       |    6.657|         |         |         |
+vgaclk25       |    7.499|         |         |         |
 ---------------+---------+---------+---------+---------+
 
 Clock to Setup on destination clock c_lcd_display/c_clock_divider_1/p0.clock_out
@@ -3746,9 +3777,9 @@ Clock to Setup on destination clock i_clock
                                                     | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock                                        |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ----------------------------------------------------+---------+---------+---------+---------+
-i_clock                                             |   11.773|    2.431|    5.285|         |
+i_clock                                             |   13.806|    2.431|    5.338|         |
 melexis_mlx90640_i2c_i0/GND_113_o_GND_113_o_AND_57_o|         |    2.129|         |         |
-melexis_mlx90640_i2c_i0/clock                       |    7.371|         |    5.862|         |
+melexis_mlx90640_i2c_i0/clock                       |    6.396|         |    5.753|         |
 ----------------------------------------------------+---------+---------+---------+---------+
 
 Clock to Setup on destination clock melexis_mlx90640_i2c_i0/GND_113_o_GND_113_o_AND_57_o
@@ -3756,8 +3787,8 @@ Clock to Setup on destination clock melexis_mlx90640_i2c_i0/GND_113_o_GND_113_o_
                                                     | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock                                        |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ----------------------------------------------------+---------+---------+---------+---------+
-melexis_mlx90640_i2c_i0/GND_113_o_GND_113_o_AND_57_o|         |         |    2.129|         |
-melexis_mlx90640_i2c_i0/clock                       |         |         |    7.180|         |
+melexis_mlx90640_i2c_i0/GND_113_o_GND_113_o_AND_57_o|         |         |    2.225|         |
+melexis_mlx90640_i2c_i0/clock                       |         |         |    7.579|         |
 ----------------------------------------------------+---------+---------+---------+---------+
 
 Clock to Setup on destination clock melexis_mlx90640_i2c_i0/clock
@@ -3766,7 +3797,7 @@ Clock to Setup on destination clock melexis_mlx90640_i2c_i0/clock
 Source Clock                 |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 -----------------------------+---------+---------+---------+---------+
 i_clock                      |    8.601|         |         |         |
-melexis_mlx90640_i2c_i0/clock|    9.772|         |         |         |
+melexis_mlx90640_i2c_i0/clock|   10.408|         |         |         |
 -----------------------------+---------+---------+---------+---------+
 
 Clock to Setup on destination clock vgaclk25
@@ -3780,8 +3811,8 @@ vgaclk25       |    8.614|         |         |         |
 =========================================================================
 
 
-Total REAL time to Xst completion: 53.00 secs
-Total CPU time to Xst completion: 51.77 secs
+Total REAL time to Xst completion: 61.00 secs
+Total CPU time to Xst completion: 59.31 secs
  
 WARNING:Xst:3152 - You have chosen to run a version of XST which is not the default solution
    for the specified device family. You are free to use it in order to take
@@ -3794,9 +3825,9 @@ WARNING:Xst:3152 - You have chosen to run a version of XST which is not the defa
 --> 
 
 
-Total memory usage is 511412 kilobytes
+Total memory usage is 516984 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :  345 (   0 filtered)
-Number of infos    :  282 (   0 filtered)
+Number of warnings :  347 (   0 filtered)
+Number of infos    :  288 (   0 filtered)
 
