@@ -348,20 +348,33 @@ end process p_write_bmps;
 
 video_data <= vga_r & vga_g & vga_b;
 
-g_write_bmps : for number_frame in 1 to number_frames_to_catch - 1 generate
 vga_bmp : component vga_bmp_sink
 generic map (
 filename => "vga" & integer'image (number_frame) & ".bmp"
 )
 port map (
-clk_i        => video_clock_mux (number_frame),
+clk_i        => vga_clock,
 rst_i        => i_reset,
 dat_i        => vga_r & vga_g & vga_b,
-active_vid_i => not video_blank_mux (number_frame),
-h_sync_i     => video_hsync_mux (number_frame),
-v_sync_i     => video_vsync_mux (number_frame)
+active_vid_i => not vga_blankn,
+h_sync_i     => vga_hsync,
+v_sync_i     => vga_vsync
 );
-end generate g_write_bmps;
+
+--g_write_bmps : for number_frame in 1 to number_frames_to_catch - 1 generate
+--vga_bmp : component vga_bmp_sink
+--generic map (
+--filename => "vga" & integer'image (number_frame) & ".bmp"
+--)
+--port map (
+--clk_i        => video_clock_mux (number_frame),
+--rst_i        => i_reset,
+--dat_i        => vga_r & vga_g & vga_b,
+--active_vid_i => not video_blank_mux (number_frame),
+--h_sync_i     => video_hsync_mux (number_frame),
+--v_sync_i     => video_vsync_mux (number_frame)
+--);
+--end generate g_write_bmps;
 
 --video_clock_process : process is
 --begin

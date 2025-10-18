@@ -103,6 +103,81 @@ active_render   : out   std_logic
 );
 end video_timing;
 
+architecture industry_standard_640x480_timing of video_timing is
+
+  -- Clock periods (ns) :                      40.000    , 39.720       , 39.722
+  --                                          -----------------------------------------
+  constant h_visible_area : integer := 640; -- 25.640    , 25.42080     , 25.422080
+  constant h_front_porch  : integer :=  16; --  0.640    ,  0.635520    ,  0.6355520
+  constant h_sync_pulse   : integer :=  96; --  3.840    ,  3.813120    ,  3.8133120
+  constant h_back_porch   : integer :=  48; --  1.880    ,  1.906560    ,  1.9066560
+  constant whole_line     : integer := 800; -- 32.0      , 31.77760     , 31.77760
+  --                                          -----------------------------------------
+  constant v_visible_area : integer := 480; -- 15.385640 , 15.24612480  , 15.246892480
+  constant v_front_porch  : integer :=  10; --  0.29440  ,  0.292378920 ,  0.2923936420
+  constant v_sync_pulse   : integer :=   2; --  0.0640   ,  0.0635520   ,  0.06355520
+  constant v_back_porch   : integer :=  33; --  1.055960 ,  1.080344280 ,  1.0803986780
+  constant whole_frame    : integer := 525; -- 16.80     , 16.68240     , 16.683240
+
+  signal h_counter : integer range 0 to whole_line  - 1;
+  signal v_counter : integer range 0 to whole_frame - 1;
+
+begin
+
+  video_blank <= '1' when reset = '1' else
+    '0' when (
+      h_counter < h_visible_area
+      and
+      v_counter < v_visible_area
+    ) else '1';
+
+--  o_h_blank <=
+--    '0' when h_counter < h_visible_area
+--    else '1';
+
+--  o_v_blank <=
+--    '0' when v_counter < v_visible_area
+--    else '1';
+
+  p_hv_counters : process (video_clock, reset) is
+  begin
+    if (reset = '1') then
+      h_counter <= 0;
+      v_counter <= 0;
+    elsif (rising_edge (video_clock)) then
+      if (h_counter = whole_line - 1) then
+        h_counter <= 0;
+        if (v_counter = whole_frame - 1) then
+          v_counter <= 0;
+        else
+          v_counter <= v_counter + 1;
+        end if;
+      else
+        h_counter <= h_counter + 1;
+      end if;
+      if (
+        h_counter > (h_visible_area + h_front_porch               )
+        and
+        h_counter < (h_visible_area + h_front_porch + h_sync_pulse)
+      ) then
+        video_hsync <= '0';
+      else
+        video_hsync <= '1';
+      end if;
+      if (
+        v_counter > (v_visible_area + v_front_porch               )
+        and
+        v_counter < (v_visible_area + v_front_porch + v_sync_pulse)
+      ) then
+        video_vsync <= '0';
+      else
+        video_vsync <= '1';
+      end if;
+    end if;
+  end process p_hv_counters;
+
+end architecture industry_standard_640x480_timing;
+
 architecture behavioral of video_timing is
 -- Mixed-Code used to divide screen for 4 cameras (160x120) and upscale 160x120 to 640x480
 --signal clk_vga : std_logic;

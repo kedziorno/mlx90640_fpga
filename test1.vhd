@@ -184,7 +184,7 @@ active_haddrgen : out   std_logic;
 active_render   : out   std_logic
 );
 end component video_timing;
-for all : video_timing use entity work.video_timing (behavioral_3);
+for all : video_timing use entity work.video_timing (industry_standard_640x480_timing);
 
 signal VGA_timing_synch_reset : std_logic;
 signal VGA_timing_synch_vgaclk25 : STD_LOGIC;
