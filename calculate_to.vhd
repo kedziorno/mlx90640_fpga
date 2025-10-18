@@ -998,7 +998,7 @@ begin
             addra <= std_logic_vector (to_unsigned (i, 10)); -- To
             dia <= subfpr_internal; -- To = (sqrt2(sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar)))-273.15
             --synthesis translate_off
-            report_error ("To " & integer'image (i), subfpr_internal, 0.0);
+            report_error ("To " & integer'image (i), subfpr_internal, 0.0, false);
             --synthesis translate_on
           else state := s69; end if;
         when s71 =>
@@ -1572,7 +1572,7 @@ begin
             addra <= std_logic_vector (to_unsigned (i, 10)); -- To
             dia <= subfpr_internal; -- To = (sqrt2(sqrt2((vircompensated/(alphacomp*(1-ksto2*273.15)+sx))+Tar)))-273.15
             --synthesis translate_off
-            report_error ("To " & integer'image (i), subfpr_internal, 0.0);
+            report_error ("To " & integer'image (i), subfpr_internal, 0.0, false);
             --synthesis translate_on
           else state := s69; end if;
         when s71 =>

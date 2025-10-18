@@ -54,8 +54,8 @@ constant c_cold_start : integer := 1000;
 constant c_wait2 : integer := 1000;
 constant c_wait3 : integer := 10000;
 constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
-constant c_calculate_type1 : string (1 to 13) := "c_raws_images"; -- c_temperature,c_raws_images
-constant c_use_fisqrt1 : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type(c_temperature)
+constant c_calculate_type1 : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
+constant c_use_fisqrt1 : string (1 to 3) := " no" -- yes/no - depend from c_calculate_type(c_temperature)
 );
 PORT(
 i_clock : IN  std_logic;
@@ -241,7 +241,8 @@ end process;
 p0 : process is
 begin
 --  wait for 653 us; -- wait on scl idle before mode2 1000k
-  wait for 869 us; -- wait on scl idle before mode2 1000k
+--  wait for 869 us; -- wait on scl idle before mode2 1000k
+  wait for 878 us; -- wait on scl idle before mode2 1000k
 --  wait for 974 us; -- wait on scl idle before mode2 500k
 --  wait for 1281 us; -- wait on scl idle before mode2 500k
 --  wait for 2015 us; -- wait on scl idle before mode2 500k
@@ -258,7 +259,7 @@ begin
 --  wait for 450 us; -- 500k
 --  wait for 221 us; -- 500k
 --  wait for 530 us; -- 500k
-  wait for 324 us; -- 500k
+  wait for 327 us; -- 500k
 --  wait for 1742 us; -- 100k
   i_addr <= x"0400"; -- data 1
   i_enable <= '1';
@@ -268,8 +269,9 @@ begin
   wait until o_done = '0';
   i_addr <= x"0000"; -- data 1 end
 --  wait for 268 us; -- 1000k - s1
+  wait for 327 us; -- 1000k - s1
 --  wait for 430 us; -- 500k
-  wait for 529 us; -- 500k
+--  wait for 529 us; -- 500k
 --  wait for 1352 us; -- 100k
 
   l0 : for i in 0 to 27 loop
@@ -283,7 +285,8 @@ begin
 --  wait for 12656 us; -- 1000k - s1
 --  wait for 430 us; -- 500k
 --  wait for 529 us; -- 500k
-  wait for 324 us; -- 500k
+--  wait for 324 us; -- 500k
+  wait for 327 us; -- 500k
 --  wait for 23.93184 ms; -- 500k
 --  wait for 1352 us; -- 100k
   end loop l0;
@@ -353,9 +356,7 @@ filename => "vga" & integer'image (number_frame) & ".bmp"
 port map (
 clk_i        => video_clock_mux (number_frame),
 rst_i        => i_reset,
-dat_i        => video_data (4 downto 0)  &"000"&
-                video_data (10 downto 5) &"00" &
-                video_data (15 downto 11)&"000",
+dat_i        => vga_r & vga_g & vga_b,
 active_vid_i => not video_blank_mux (number_frame),
 h_sync_i     => video_hsync_mux (number_frame),
 v_sync_i     => video_vsync_mux (number_frame)
