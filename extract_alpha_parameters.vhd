@@ -598,7 +598,7 @@ begin
 						fixed2floatond_internal <= '0';
 						fixed2floatsclr_internal <= '1';
             --synthesis translate_off
-            report "address row " & integer'image (row);
+            --report "address row " & integer'image (row);
             --synthesis translate_on
             addra <= std_logic_vector (to_unsigned (row, 10)); -- accRowI
             o_2powx_4bit_ena <= '1';
@@ -679,7 +679,7 @@ begin
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2420_msb, 12));
           if (addfprdy_internal = '1') then state := s16;
             --synthesis translate_off
-            report "address col " & integer'image (col);
+            --report "address col " & integer'image (col);
             --synthesis translate_on
             --report_error ("addfpa 1 : ",   addfpa_internal,0.0);
             --report_error ("addfpb 1 : ",   addfpb_internal,0.0);
@@ -768,7 +768,7 @@ begin
             write_enable <= '1';
             addra <= std_logic_vector (to_unsigned (C_ROWS+C_COLS+i, 10)); -- vAlphaPixel_ft
             --synthesis translate_off
-            report ("write address " & integer'image (C_ROWS+C_COLS+i));
+            --report ("write address " & integer'image (C_ROWS+C_COLS+i));
             --synthesis translate_on
             dia <= divfpr_internal;
             --synthesis translate_off

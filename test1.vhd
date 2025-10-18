@@ -177,17 +177,20 @@ signal address_generator_vsync : STD_LOGIC;
 signal address_generator_activeh : STD_LOGIC;
 signal address_generator_address : STD_LOGIC_VECTOR (c_memory_address_bits-1 downto 0);
 
-component vga_timing is
+component video_timing is
 port (
-i_clock   : in  std_logic;
-i_reset   : in  std_logic;
-o_hsync   : out std_logic;
-o_vsync   : out std_logic;
-o_blank   : out std_logic;
-o_v_blank : out std_logic;
-o_h_blank : out std_logic
+reset           : in    std_logic;
+video_clock     : in    std_logic;
+video_hsync     : out   std_logic;
+video_vsync     : out   std_logic;
+video_blank     : out   std_logic;
+active_area     : out   std_logic;
+active_haddrgen : out   std_logic;
+active_render   : out   std_logic
 );
-end component vga_timing;
+end component video_timing;
+for all : video_timing use entity work.video_timing (industry_standard_640x480_timing);
+
 signal VGA_timing_synch_reset : std_logic;
 signal VGA_timing_synch_vgaclk25 : STD_LOGIC;
 signal VGA_timing_synch_Hsync : STD_LOGIC;
@@ -1160,10 +1163,10 @@ lcdchar (1)(3) <= i2c_mlx_doutb(7);
           --synthesis translate_off
           if (first = true) then
             if (c_calculate_type1 = "c_raws_images") then
-              report_error_sfixed (10, 6, "================ Fixed out "&integer'image(i), tout_r, 0.0);
+              --report_error_sfixed (9, 7, "================ Fixed out "&integer'image(i), tout_r, 0.0);
             end if;
             if (c_calculate_type1 = "c_temperature") then
-              report_error_sfixed (6, 8, "================ Fixed out "&integer'image(i), tout_t, 0.0);
+              --report_error_sfixed (6, 8, "================ Fixed out "&integer'image(i), tout_t, 0.0);
             end if;
             first := false;
           end if;
@@ -1326,15 +1329,16 @@ vga_clock <= VGA_timing_synch_vgaclk25;
 vga_hsync <= VGA_timing_synch_Hsync;
 vga_vsync <= VGA_timing_synch_Vsync;
 VGA_timing_synch_reset <= i_reset;
-vts_inst : vga_timing
+vts_inst : video_timing
 port map (
-i_clock   => VGA_timing_synch_vgaclk25,
-i_reset   => VGA_timing_synch_reset,
-o_hsync   => VGA_timing_synch_Hsync,
-o_vsync   => VGA_timing_synch_Vsync,
-o_blank   => VGA_timing_synch_blank,
-o_v_blank => VGA_timing_synch_V_Blank,
-o_h_blank => open
+reset           => VGA_timing_synch_reset,
+video_clock     => VGA_timing_synch_vgaclk25,
+video_hsync     => VGA_timing_synch_Hsync,
+video_vsync     => VGA_timing_synch_Vsync,
+video_blank     => VGA_timing_synch_blank,
+active_area     => open,
+active_haddrgen => open,
+active_render   => open
 );
 
 --vga_r <= vga_imagegenerator_RGB_out (7 downto 0);

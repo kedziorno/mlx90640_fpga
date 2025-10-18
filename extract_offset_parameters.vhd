@@ -634,7 +634,7 @@ begin
             write_enable <= '1';
             addra <= std_logic_vector (to_unsigned (C_ROWS+C_COLS+i, 10)); -- vOffset_ft
             --synthesis translate_off
-            report ("write address " & integer'image (C_ROWS+C_COLS+i));
+            --report ("write address " & integer'image (C_ROWS+C_COLS+i));
             --synthesis translate_on
             dia <= addfpr_internal;
             --synthesis translate_off

@@ -44,7 +44,8 @@ ARCHITECTURE behavior OF tb_test1 IS
 COMPONENT test1
 generic (
 constant c_board_clock : integer := c_clock_board_frequency;
-constant c_bus_clock : integer := c_clock_i2c_frequency;
+--constant c_bus_clock : integer := c_clock_i2c_frequency;
+constant c_bus_clock : integer := 1_000_000;
 --constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
 --constant c_bus_clock : integer := 50;
 --constant c_bus_clock : integer := 1;
@@ -108,6 +109,7 @@ FILENAME        : string
 );
 port (
 clk_i           : in    std_logic;
+rst_i           : in    std_logic;
 dat_i           : in    std_logic_vector(23 downto 0);
 active_vid_i    : in    std_logic;
 h_sync_i        : in    std_logic;
@@ -165,6 +167,19 @@ signal a,a_prev,b,b_prev : std_logic;
 --signal tb_i2c_mem_dina : STD_LOGIC_VECTOR(7 DOWNTO 0);
 --signal tb_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 
+constant number_frames_to_catch : integer := 28;
+signal number_frame : integer := 0;
+signal video_clock_mux : std_logic_vector(number_frames_to_catch-1 downto 0) := (others => '0');
+signal video_blank_mux : std_logic_vector(number_frames_to_catch-1 downto 0) := (others => '0');
+signal video_hsync_mux : std_logic_vector(number_frames_to_catch-1 downto 0) := (others => '0');
+signal video_vsync_mux : std_logic_vector(number_frames_to_catch-1 downto 0) := (others => '0');
+signal video_clock : std_logic;
+
+constant video_clock_period   : time := 39.80099502487 ns; -- industrial clock 25.175MHz
+-- constant video_clock_period   : time := 40 ns; -- normal clock 25Mhz
+
+signal video_data : std_logic_vector(23 downto 0);
+
 BEGIN
 
 -- Instantiate the Unit Under Test (UUT)
@@ -213,24 +228,26 @@ wait;
 report "tb done" severity failure;
 end process;
 
-vga_bmp : entity work.vga_bmp_sink
-generic map ( FILENAME => "vga.bmp" )
-port map (
-clk_i           => vga_clock,
-dat_i           =>
-vga_r &
-vga_g &
-vga_b ,
-active_vid_i    => not vga_blankn,
-h_sync_i        => vga_hsync,
-v_sync_i        => vga_vsync
-);
+--vga_bmp : entity work.vga_bmp_sink
+--generic map ( FILENAME => "vga.bmp" )
+--port map (
+--clk_i           => vga_clock,
+--dat_i           =>
+--vga_r &
+--vga_g &
+--vga_b ,
+--active_vid_i    => not vga_blankn,
+--h_sync_i        => vga_hsync,
+--v_sync_i        => vga_vsync
+--);
 
 p0 : process is
 begin
 --  wait for 653 us; -- wait on scl idle before mode2 1000k
+--  wait for 869 us; -- wait on scl idle before mode2 1000k
+  wait for 878 us; -- wait on scl idle before mode2 1000k
 --  wait for 974 us; -- wait on scl idle before mode2 500k
-  wait for 1281 us; -- wait on scl idle before mode2 500k
+--  wait for 1281 us; -- wait on scl idle before mode2 500k
 --  wait for 2015 us; -- wait on scl idle before mode2 500k
 --  wait for 3655 us; -- wait on scl idle before mode2 100k
   i_addr <= x"2400"; -- eeprom
@@ -244,7 +261,8 @@ begin
 --  wait for 268 us; -- 1000k
 --  wait for 450 us; -- 500k
 --  wait for 221 us; -- 500k
-  wait for 530 us; -- 500k
+--  wait for 530 us; -- 500k
+  wait for 327 us; -- 500k
 --  wait for 1742 us; -- 100k
   i_addr <= x"0400"; -- data 1
   i_enable <= '1';
@@ -254,21 +272,24 @@ begin
   wait until o_done = '0';
   i_addr <= x"0000"; -- data 1 end
 --  wait for 268 us; -- 1000k - s1
+  wait for 327 us; -- 1000k - s1
 --  wait for 430 us; -- 500k
-  wait for 529 us; -- 500k
+--  wait for 529 us; -- 500k
 --  wait for 1352 us; -- 100k
 
   l0 : for i in 0 to 27 loop
   i_addr <= x"0400"; -- data X
   i_enable <= '1';
-  compare1 <= 37;
+  compare1 <= 37; -- first frame poorly
   wait until o_done = '1';
   i_enable <= '0';
   wait until o_done = '0';
   i_addr <= x"0000"; -- data X end
 --  wait for 12656 us; -- 1000k - s1
 --  wait for 430 us; -- 500k
-  wait for 529 us; -- 500k
+--  wait for 529 us; -- 500k
+--  wait for 324 us; -- 500k
+  wait for 327 us; -- 500k
 --  wait for 23.93184 ms; -- 500k
 --  wait for 1352 us; -- 100k
   end loop l0;
@@ -298,6 +319,40 @@ compare1 => compare1
 --dina => tb_i2c_mem_dina,
 --douta => tb_i2c_mem_douta
 --);
+
+p_vb_mux : process (i_clock) is
+begin
+if (falling_edge (i_clock)) then
+video_blank_mux (number_frame) <= vga_blankn;
+end if;
+end process p_vb_mux;
+
+p_write_bmps : process (vga_vsync) is
+begin
+if (falling_edge (vga_vsync)) then
+if (number_frame = number_frames_to_catch - 1) then
+number_frame <= 0;
+report "tb done" severity failure;
+else
+number_frame <= number_frame + 1;
+end if;
+end if;
+end process p_write_bmps;
+
+g_write_bmps : for number_frame in 0 to number_frames_to_catch - 1 generate
+vga_bmp : component vga_bmp_sink
+generic map (
+filename => "vga" & integer'image (number_frame) & ".bmp"
+)
+port map (
+clk_i        => vga_clock,
+rst_i        => i_reset,
+dat_i        => vga_r & vga_g & vga_b,
+active_vid_i => not video_blank_mux (number_frame),
+h_sync_i     => vga_hsync,
+v_sync_i     => vga_vsync
+);
+end generate g_write_bmps;
 
 END;
 

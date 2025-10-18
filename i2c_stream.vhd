@@ -114,7 +114,7 @@ begin
             end if;
           end if;
         when s1 =>
-          o_sda <= douta (8 + v_data);
+          o_sda <= douta (v_data);
           if (i_enable = '0') then
             state <= idle;
           end if;
@@ -134,7 +134,7 @@ begin
           state <= s3;
           o_sda <= '0';
         when s3 =>
-          o_sda <= douta (v_data);
+          o_sda <= douta (8 + v_data);
           if (v_data = 0) then
             state <= s4;
             v_data <= c_data - 1;
