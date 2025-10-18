@@ -37,7 +37,9 @@ i_scl : in std_logic;
 i_mode2 : in std_logic;
 i_enable : in std_logic;
 i_addr : in std_logic_vector (15 downto 0);
-o_sda : out std_logic
+o_done : out std_logic;
+o_sda : out std_logic;
+compare1 : in integer
 );
 end i2c_stream;
 
@@ -95,12 +97,14 @@ begin
     v_omit <= 0;
     v_addr <= (others => '0');
     o_sda <= 'Z';
+    o_done <= '0';
   elsif (falling_edge (i_clock)) then
     if (scl_re = '1') then
       case (state) is
         when idle =>
           if (i_enable = '1') then
-            if (v_omit = c_omit - 1) then -- omit set address
+--            if (v_omit = c_omit - 1) then -- omit set address
+              if (v_omit = compare1 - 1) then -- omit set address
               state <= s1;
               v_omit <= 0;
             else
@@ -109,6 +113,7 @@ begin
           end if;
           v_records <= 0;
           v_data <= c_data - 1;
+          o_done <= '0';
         when s1 =>
           if (i_enable = '0') then
             state <= idle;
@@ -143,9 +148,13 @@ begin
             if (v_items = c_items - 1) then
               state <= idle;
               v_items <= 0;
+              o_done <= '1';
+              o_sda <= 'Z';
             else
               v_items <= v_items + 1; -- 28
               state <= s1;
+              o_done <= '1';
+              o_sda <= 'Z';
             end if;
           else
             v_records <= v_records + 1; -- 832

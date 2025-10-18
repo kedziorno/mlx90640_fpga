@@ -45,17 +45,17 @@ COMPONENT test1
 generic (
 constant c_board_clock : integer := c_clock_board_frequency;
 --constant c_bus_clock : integer := c_clock_i2c_frequency;
+constant c_bus_clock : integer := 1_000_000;
 --constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
 --constant c_bus_clock : integer := 50;
-constant c_bus_clock : integer := 1_000_000;
 --constant c_bus_clock : integer := 1;
-constant c_sim : string (1 to 1) := "n";
+constant c_sim : string (1 to 1) := "y";
 constant c_cold_start : integer := 1000;
 constant c_wait2 : integer := 1000;
 constant c_wait3 : integer := 10000;
 constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
-constant c_calculate_type1 : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
-constant c_use_fisqrt1 : string (1 to 3) := " no" -- yes/no - depend from c_calculate_type(c_temperature)
+constant c_calculate_type1 : string (1 to 13) := "c_raws_images"; -- c_temperature,c_raws_images
+constant c_use_fisqrt1 : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type(c_temperature)
 );
 PORT(
 i_clock : IN  std_logic;
@@ -87,10 +87,10 @@ signal vga_clock : std_logic;
 signal vga_syncn : std_logic;
 signal vga_blankn : std_logic;
 signal vga_psave : std_logic;
-signal io_sda_dd : std_logic;
-signal io_scl_dd : std_logic;
+signal io_sda_dd : std_logic := 'Z';
+signal io_scl_dd : std_logic := 'Z';
 signal io_sda_nl : std_logic := 'Z';
-signal io_scl_nl : std_logic;
+signal io_scl_nl : std_logic := 'Z';
 signal vga_r : std_logic_vector(7 downto 0);
 signal vga_g : std_logic_vector(7 downto 0);
 signal vga_b : std_logic_vector(7 downto 0);
@@ -98,6 +98,7 @@ signal vga_b : std_logic_vector(7 downto 0);
 -- Clock period definitions
 constant i_clock_period : time := 20 ns; -- nexys2
 --constant i_clock_period : time := 10 ns; -- ml402
+--constant i_clock_period : time := 40 ns; -- 25
 
 component vga_bmp_sink is
 generic (
@@ -105,6 +106,7 @@ FILENAME        : string
 );
 port (
 clk_i           : in    std_logic;
+rst_i           : in    std_logic;
 dat_i           : in    std_logic_vector(23 downto 0);
 active_vid_i    : in    std_logic;
 h_sync_i        : in    std_logic;
@@ -124,9 +126,11 @@ i_clock : IN  std_logic;
 i_reset : IN  std_logic;
 i_scl : IN  std_logic;
 o_sda : OUT  std_logic;
+o_done : OUT  std_logic;
 i_mode2 : IN  std_logic;
 i_enable : IN  std_logic;
-i_addr : IN  std_logic_vector(15 downto 0)
+i_addr : IN  std_logic_vector(15 downto 0);
+compare1 : in integer
 );
 END COMPONENT;
 
@@ -135,30 +139,43 @@ signal i_scl : std_logic := '0';
 signal i_mode2 : std_logic := '0';
 signal i_enable : std_logic := '0';
 signal i_addr : std_logic_vector(15 downto 0) := (others => '0');
+signal compare1 : integer;
 
 --Outputs
 signal o_sda : std_logic;
+signal o_done : std_logic;
 
-constant c1 : string (1 to 1) := "N";
+signal a,a_prev,b,b_prev : std_logic;
 
-signal a : std_logic;
+--COMPONENT tb_i2c_mem
+--PORT (
+--clka : IN STD_LOGIC;
+--ena : IN STD_LOGIC;
+--wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+--addra : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
+--dina : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+--douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+--);
+--END COMPONENT;
+--signal tb_i2c_mem_clka : STD_LOGIC;
+--signal tb_i2c_mem_ena : STD_LOGIC;
+--signal tb_i2c_mem_wea : STD_LOGIC_VECTOR(0 DOWNTO 0);
+--signal tb_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
+--signal tb_i2c_mem_dina : STD_LOGIC_VECTOR(7 DOWNTO 0);
+--signal tb_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-COMPONENT tb_i2c_mem
-PORT (
-clka : IN STD_LOGIC;
-ena : IN STD_LOGIC;
-wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
-addra : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
-dina : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
-douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
-);
-END COMPONENT;
-signal tb_i2c_mem_clka : STD_LOGIC;
-signal tb_i2c_mem_ena : STD_LOGIC;
-signal tb_i2c_mem_wea : STD_LOGIC_VECTOR(0 DOWNTO 0);
-signal tb_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
-signal tb_i2c_mem_dina : STD_LOGIC_VECTOR(7 DOWNTO 0);
-signal tb_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+constant number_frames_to_catch : integer := 20;
+signal number_frame : integer := 0;
+signal video_clock_mux : std_logic_vector(number_frames_to_catch downto 0) := (others => '0');
+signal video_blank_mux : std_logic_vector(number_frames_to_catch downto 0) := (others => '0');
+signal video_hsync_mux : std_logic_vector(number_frames_to_catch downto 0) := (others => '0');
+signal video_vsync_mux : std_logic_vector(number_frames_to_catch downto 0) := (others => '0');
+signal video_clock : std_logic;
+
+constant video_clock_period   : time := 39.80099502487 ns; -- industrial clock 25.175MHz
+-- constant video_clock_period   : time := 40 ns; -- normal clock 25Mhz
+
+signal video_data : std_logic_vector(23 downto 0);
 
 BEGIN
 
@@ -208,18 +225,167 @@ wait;
 report "tb done" severity failure;
 end process;
 
-vga_bmp : entity work.vga_bmp_sink
-generic map ( FILENAME => "vga.bmp" )
-port map (
-clk_i           => vga_clock,
-dat_i           =>
-vga_r &
-vga_g &
-vga_b ,
-active_vid_i    => not vga_blankn,
-h_sync_i        => vga_hsync,
-v_sync_i        => vga_vsync
+--vga_bmp : entity work.vga_bmp_sink
+--generic map ( FILENAME => "vga.bmp" )
+--port map (
+--clk_i           => vga_clock,
+--dat_i           =>
+--vga_r &
+--vga_g &
+--vga_b ,
+--active_vid_i    => not vga_blankn,
+--h_sync_i        => vga_hsync,
+--v_sync_i        => vga_vsync
+--);
+
+p0 : process is
+begin
+--  wait for 653 us; -- wait on scl idle before mode2 1000k
+  wait for 869 us; -- wait on scl idle before mode2 1000k
+--  wait for 974 us; -- wait on scl idle before mode2 500k
+--  wait for 1281 us; -- wait on scl idle before mode2 500k
+--  wait for 2015 us; -- wait on scl idle before mode2 500k
+--  wait for 3655 us; -- wait on scl idle before mode2 100k
+  i_addr <= x"2400"; -- eeprom
+  i_enable <= '1';
+  compare1 <= 37;
+  wait until o_done = '1';
+  i_addr <= x"0000"; -- eeprom stop
+  wait until o_done = '0';
+  i_enable <= '0';
+  
+--  wait for 268 us; -- 1000k
+--  wait for 450 us; -- 500k
+--  wait for 221 us; -- 500k
+--  wait for 530 us; -- 500k
+  wait for 324 us; -- 500k
+--  wait for 1742 us; -- 100k
+  i_addr <= x"0400"; -- data 1
+  i_enable <= '1';
+  compare1 <= 38;
+  wait until o_done = '1';
+  i_enable <= '0';
+  wait until o_done = '0';
+  i_addr <= x"0000"; -- data 1 end
+--  wait for 268 us; -- 1000k - s1
+--  wait for 430 us; -- 500k
+  wait for 529 us; -- 500k
+--  wait for 1352 us; -- 100k
+
+  l0 : for i in 0 to 27 loop
+  i_addr <= x"0400"; -- data X
+  i_enable <= '1';
+  compare1 <= 37; -- first frame poorly
+  wait until o_done = '1';
+  i_enable <= '0';
+  wait until o_done = '0';
+  i_addr <= x"0000"; -- data X end
+--  wait for 12656 us; -- 1000k - s1
+--  wait for 430 us; -- 500k
+--  wait for 529 us; -- 500k
+  wait for 324 us; -- 500k
+--  wait for 23.93184 ms; -- 500k
+--  wait for 1352 us; -- 100k
+  end loop l0;
+  wait;
+end process p0;
+
+a <= '1' when io_scl_nl = 'Z' else '0';
+
+i2c_stream_i0 : i2c_stream PORT MAP (
+i_clock => i_clock,
+i_reset => i_reset,
+i_scl => a,
+o_sda => io_sda_nl,
+i_mode2 => i_mode2,
+i_enable => i_enable,
+i_addr => i_addr,
+o_done => o_done,
+compare1 => compare1
 );
+
+--tb_i2c_mem_i0 : tb_i2c_mem
+--PORT map (
+--clka => tb_i2c_mem_clka,
+--ena => tb_i2c_mem_ena,
+--wea => tb_i2c_mem_wea,
+--addra => tb_i2c_mem_addra,
+--dina => tb_i2c_mem_dina,
+--douta => tb_i2c_mem_douta
+--);
+
+p_vc_mux : process (vga_clock, number_frame) is
+begin
+video_clock_mux (number_frame) <= vga_clock;
+end process p_vc_mux;
+
+p_vb_mux : process (vga_blankn, number_frame) is
+begin
+video_blank_mux (number_frame) <= vga_blankn;
+end process p_vb_mux;
+
+p_vh_mux : process (vga_hsync, number_frame) is
+begin
+video_hsync_mux (number_frame) <= vga_hsync;
+end process p_vh_mux;
+
+p_vv_mux : process (vga_vsync, number_frame) is
+begin
+video_vsync_mux (number_frame) <= vga_vsync;
+end process p_vv_mux;
+
+p_write_bmps : process is
+begin
+--wait until video_vsync_mux (number_frame) = '0';
+--wait until video_vsync_mux (number_frame) = '1';
+wait until vga_vsync = '1';
+wait until vga_vsync = '0';
+number_frame <= number_frame + 1;
+end process p_write_bmps;
+
+video_data <= vga_r & vga_g & vga_b;
+
+g_write_bmps : for number_frame in 1 to number_frames_to_catch - 1 generate
+vga_bmp : component vga_bmp_sink
+generic map (
+filename => "vga" & integer'image (number_frame) & ".bmp"
+)
+port map (
+clk_i        => video_clock_mux (number_frame),
+rst_i        => i_reset,
+dat_i        => video_data (4 downto 0)  &"000"&
+                video_data (10 downto 5) &"00" &
+                video_data (15 downto 11)&"000",
+active_vid_i => not video_blank_mux (number_frame),
+h_sync_i     => video_hsync_mux (number_frame),
+v_sync_i     => video_vsync_mux (number_frame)
+);
+end generate g_write_bmps;
+
+--video_clock_process : process is
+--begin
+--video_clock <= '0';
+--wait for video_clock_period / 2;
+--video_clock <= '1';
+--wait for video_clock_period / 2;
+--end process video_clock_process;
+
+END;
+
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
+
+ENTITY tb_test1a IS
+END tb_test1a;
+
+architecture tb1 of tb_test1a is
+--constant c_period : time := 2.24 us; -- 10 ns
+constant c_period : time := 1.92 us; -- 20 ns
+constant c1 : string (1 to 1) := "N";
+signal io_sda_nl, io_scl_nl : std_logic;
+signal s_spattern : std_logic_vector (15 downto 0);
+begin
 
 g0 : if (c1 = "Y") generate
 mode2_read : process is
@@ -341,51 +507,4 @@ wait;
 end process mode2_read;
 end generate g0;
 
-p0 : process is
-begin
-  i_addr <= x"2400"; -- eeprom
-  wait for 1059.99 us;
-  i_enable <= '1';
-  wait for 9585.16 us + 22.24 us;
-  i_enable <= '0';
-  i_addr <= x"0400"; -- data loop items
-  wait for 575.84 us - 23.52 us + 0.12 us;
-  i_enable <= '1';
-  wait for 9585.16 us + 22.24 us;
-  i_enable <= '0';
-  l0 : for i in 0 to 27 loop -- XXX fix it - from 6 frame, enable sliding to left with step 100 ns
-  if (i >= 3) then
-    wait for 23.26422 ms + 1.96 us + 1.68 us - 0.12 us + (0.1 us * (i - 3));
-  else
-    wait for 23.26422 ms + 1.96 us + 1.68 us - 0.12 us;
-  end if;
-  i_enable <= '1';
-  wait for 9607.40 us;
-  i_enable <= '0';
-  end loop l0;
-  wait;
-end process p0;
-
-a <= '1' when io_scl_nl = 'Z' else '0';
-
-i2c_stream_i0 : i2c_stream PORT MAP (
-i_clock => i_clock,
-i_reset => i_reset,
-i_scl => a,
-o_sda => io_sda_nl,
-i_mode2 => i_mode2,
-i_enable => i_enable,
-i_addr => i_addr
-);
-
-tb_i2c_mem_i0 : tb_i2c_mem
-PORT map (
-clka => tb_i2c_mem_clka,
-ena => tb_i2c_mem_ena,
-wea => tb_i2c_mem_wea,
-addra => tb_i2c_mem_addra,
-dina => tb_i2c_mem_dina,
-douta => tb_i2c_mem_douta
-);
-
-END;
+end architecture tb1;
