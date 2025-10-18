@@ -164,12 +164,12 @@ signal a,a_prev,b,b_prev : std_logic;
 --signal tb_i2c_mem_dina : STD_LOGIC_VECTOR(7 DOWNTO 0);
 --signal tb_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-constant number_frames_to_catch : integer := 20;
+constant number_frames_to_catch : integer := 28;
 signal number_frame : integer := 0;
-signal video_clock_mux : std_logic_vector(number_frames_to_catch downto 0) := (others => '0');
-signal video_blank_mux : std_logic_vector(number_frames_to_catch downto 0) := (others => '0');
-signal video_hsync_mux : std_logic_vector(number_frames_to_catch downto 0) := (others => '0');
-signal video_vsync_mux : std_logic_vector(number_frames_to_catch downto 0) := (others => '0');
+signal video_clock_mux : std_logic_vector(number_frames_to_catch-1 downto 0) := (others => '0');
+signal video_blank_mux : std_logic_vector(number_frames_to_catch-1 downto 0) := (others => '0');
+signal video_hsync_mux : std_logic_vector(number_frames_to_catch-1 downto 0) := (others => '0');
+signal video_vsync_mux : std_logic_vector(number_frames_to_catch-1 downto 0) := (others => '0');
 signal video_clock : std_logic;
 
 constant video_clock_period   : time := 39.80099502487 ns; -- industrial clock 25.175MHz
@@ -317,37 +317,26 @@ compare1 => compare1
 --douta => tb_i2c_mem_douta
 --);
 
-p_vc_mux : process (vga_clock, number_frame) is
+p_vb_mux : process (i_clock) is
 begin
-video_clock_mux (number_frame) <= vga_clock;
-end process p_vc_mux;
-
-p_vb_mux : process (vga_blankn, number_frame) is
-begin
+if (falling_edge (i_clock)) then
 video_blank_mux (number_frame) <= vga_blankn;
+end if;
 end process p_vb_mux;
 
-p_vh_mux : process (vga_hsync, number_frame) is
+p_write_bmps : process (vga_vsync) is
 begin
-video_hsync_mux (number_frame) <= vga_hsync;
-end process p_vh_mux;
-
-p_vv_mux : process (vga_vsync, number_frame) is
-begin
-video_vsync_mux (number_frame) <= vga_vsync;
-end process p_vv_mux;
-
-p_write_bmps : process is
-begin
---wait until video_vsync_mux (number_frame) = '0';
---wait until video_vsync_mux (number_frame) = '1';
-wait until vga_vsync = '1';
-wait until vga_vsync = '0';
+if (falling_edge (vga_vsync)) then
+if (number_frame = number_frames_to_catch - 1) then
+number_frame <= 0;
+report "tb done" severity failure;
+else
 number_frame <= number_frame + 1;
+end if;
+end if;
 end process p_write_bmps;
 
-video_data <= vga_r & vga_g & vga_b;
-
+g_write_bmps : for number_frame in 0 to number_frames_to_catch - 1 generate
 vga_bmp : component vga_bmp_sink
 generic map (
 filename => "vga" & integer'image (number_frame) & ".bmp"
@@ -356,33 +345,11 @@ port map (
 clk_i        => vga_clock,
 rst_i        => i_reset,
 dat_i        => vga_r & vga_g & vga_b,
-active_vid_i => not vga_blankn,
+active_vid_i => not video_blank_mux (number_frame),
 h_sync_i     => vga_hsync,
 v_sync_i     => vga_vsync
 );
-
---g_write_bmps : for number_frame in 1 to number_frames_to_catch - 1 generate
---vga_bmp : component vga_bmp_sink
---generic map (
---filename => "vga" & integer'image (number_frame) & ".bmp"
---)
---port map (
---clk_i        => video_clock_mux (number_frame),
---rst_i        => i_reset,
---dat_i        => vga_r & vga_g & vga_b,
---active_vid_i => not video_blank_mux (number_frame),
---h_sync_i     => video_hsync_mux (number_frame),
---v_sync_i     => video_vsync_mux (number_frame)
---);
---end generate g_write_bmps;
-
---video_clock_process : process is
---begin
---video_clock <= '0';
---wait for video_clock_period / 2;
---video_clock <= '1';
---wait for video_clock_period / 2;
---end process video_clock_process;
+end generate g_write_bmps;
 
 END;
 
