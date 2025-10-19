@@ -50,6 +50,7 @@ constant c_bus_clock : integer := 1_000_000;
 --constant c_bus_clock : integer := 50;
 --constant c_bus_clock : integer := 1;
 constant c_sim : string (1 to 1) := "y";
+constant c_lcd : string (1 to 1) := "n";
 constant c_cold_start : integer := 1000;
 constant c_wait2 : integer := 1000;
 constant c_wait3 : integer := 10000;

@@ -1183,8 +1183,8 @@ lcdchar (1)(3) <= i2c_mlx_doutb(7);
 						i := i + 1;
 					end if;
 				when s10 =>
-          state <= idle;
---          state <= idle2a1;
+--          state <= idle;
+          state <= idle2a1;
 --          state <= idle3;
         when others => state <= idle;
 			end case;
