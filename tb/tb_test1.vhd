@@ -255,28 +255,40 @@ begin
   i_enable <= '1';
   compare1 <= 37;
   wait until o_done = '1';
-  i_addr <= x"0000"; -- eeprom stop
-  wait until o_done = '0';
   i_enable <= '0';
+  wait until o_done = '0';
+  wait for 324 us;
+--  i_enable <= '1';
+--  i_addr <= x"0000"; -- eeprom stop
+--  i_enable <= '0';
   
 --  wait for 268 us; -- 1000k
 --  wait for 450 us; -- 500k
 --  wait for 221 us; -- 500k
 --  wait for 530 us; -- 500k
-  wait for 327 us; -- 500k
+--  wait for 327 us; -- 500k
 --  wait for 1742 us; -- 100k
-  i_addr <= x"0400"; -- data 1
+--  i_addr <= x"0400"; -- data 1
+--  i_enable <= '1';
+--  compare1 <= 38;
+--  wait until o_done = '1';
+--  i_enable <= '0';
+--  wait until o_done = '0';
+--  i_addr <= x"0000"; -- data 1 end
+----  wait for 268 us; -- 1000k - s1
+----  wait for 327 us; -- 1000k - s1
+----  wait for 430 us; -- 500k
+----  wait for 529 us; -- 500k
+----  wait for 1352 us; -- 100k
+
+i_addr <= x"0400"; -- data X
   i_enable <= '1';
-  compare1 <= 38;
+  compare1 <= 37; -- first frame poorly
   wait until o_done = '1';
   i_enable <= '0';
   wait until o_done = '0';
-  i_addr <= x"0000"; -- data 1 end
---  wait for 268 us; -- 1000k - s1
-  wait for 327 us; -- 1000k - s1
---  wait for 430 us; -- 500k
---  wait for 529 us; -- 500k
---  wait for 1352 us; -- 100k
+  i_addr <= x"0000"; -- data X end
+  wait for 36 us;
 
   l0 : for i in 0 to 27 loop
   i_addr <= x"0400"; -- data X
@@ -290,9 +302,10 @@ begin
 --  wait for 430 us; -- 500k
 --  wait for 529 us; -- 500k
 --  wait for 324 us; -- 500k
-  wait for 327 us; -- 500k
+--  wait for 327 us; -- 500k
 --  wait for 23.93184 ms; -- 500k
 --  wait for 1352 us; -- 100k
+  wait for 36 us;
   end loop l0;
   wait;
 end process p0;

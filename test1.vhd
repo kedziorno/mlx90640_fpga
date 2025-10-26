@@ -617,7 +617,7 @@ begin
     temp1 <= '0';
     temp2 <= '0';
 --  elsif (rising_edge (melexis_mlx90640_i2c_mode2_ready)) then
-  elsif (falling_edge (clock_i)) then
+  elsif (rising_edge (clock_i)) then
     temp1 <= melexis_mlx90640_i2c_mode2_ready;
     --temp2 <= temp1;
     if (temp1 = '0' and melexis_mlx90640_i2c_mode2_ready = '1' and melexis_mlx90640_i2c_mode2 = '1') then
@@ -1184,7 +1184,8 @@ lcdchar (1)(3) <= i2c_mlx_doutb(7);
 					end if;
 				when s10 =>
 --          state <= idle;
-          state <= idle2a1;
+--          state <= idle2a1;
+          state <= idle1a1;
 --          state <= idle3;
         when others => state <= idle;
 			end case;
