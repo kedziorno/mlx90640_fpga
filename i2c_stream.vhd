@@ -37,7 +37,7 @@ i_scl : in std_logic;
 i_mode2 : in std_logic;
 i_enable : in std_logic;
 i_addr : in std_logic_vector (15 downto 0);
-o_sda : out std_logic;
+o_sda : out std_logic := 'Z';
 o_done : out std_logic;
 compare1 : in integer
 );

@@ -168,7 +168,7 @@ signal a,a_prev,b,b_prev : std_logic;
 --signal tb_i2c_mem_dina : STD_LOGIC_VECTOR(7 DOWNTO 0);
 --signal tb_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-constant number_frames_to_catch : integer := 28;
+constant number_frames_to_catch : integer := 100;
 signal number_frame : integer := 0;
 signal video_clock_mux : std_logic_vector(number_frames_to_catch-1 downto 0) := (others => '0');
 signal video_blank_mux : std_logic_vector(number_frames_to_catch-1 downto 0) := (others => '0');
@@ -290,7 +290,7 @@ i_addr <= x"0400"; -- data X
   i_addr <= x"0000"; -- data X end
   wait for 36 us;
 
-  l0 : for i in 0 to 27 loop
+  l0 : for i in 0 to number_frames_to_catch-1 loop
   i_addr <= x"0400"; -- data X
   i_enable <= '1';
   compare1 <= 37; -- first frame poorly

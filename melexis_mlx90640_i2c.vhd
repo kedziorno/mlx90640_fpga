@@ -152,7 +152,8 @@ begin
   o_mode2_ready <= mode2_ready_i;
   o_mode2_ready_all <= mode2_ready_all_i;
   o_bytes_to_recv <=
-    bytes_to_recv_sr (16 downto 9) & bytes_to_recv_sr (7 downto 0) when mode2_ready_i = '1'
+--    bytes_to_recv_sr (16 downto 9) & bytes_to_recv_sr (7 downto 0) when mode2_ready_i = '1' -- test1
+    bytes_to_recv_sr (7 downto 0) & bytes_to_recv_sr (16 downto 9) when mode2_ready_i = '1' -- test2
     else
     (others => '0');
   io_sda_o <=
@@ -195,8 +196,8 @@ begin
       if (c_state = mode1_read_data2 and c_cmode = c3 and data_index_ctr = 7) then
         bytes_to_recv_sr <= (others => '0');
       else
-        bytes_to_recv_sr <= io_sda_ii & bytes_to_recv_sr (16 downto 1);
---        bytes_to_recv_sr <= bytes_to_recv_sr (15 downto 0) & io_sda_ii;
+--        bytes_to_recv_sr <= io_sda_ii & bytes_to_recv_sr (16 downto 1); -- test1
+        bytes_to_recv_sr <= bytes_to_recv_sr (15 downto 0) & io_sda_ii; -- test2
       end if;
     end if;
   end process p_i2c_catch_bytes_to_recv;
