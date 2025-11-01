@@ -39,7 +39,8 @@ i_enable : in std_logic;
 i_addr : in std_logic_vector (15 downto 0);
 o_sda : out std_logic := 'Z';
 o_done : out std_logic;
-compare1 : in integer
+compare1 : in integer;
+o_data : out std_logic_vector (15 downto 0)
 );
 end i2c_stream;
 
@@ -84,6 +85,8 @@ begin
 end process p1;
 
 scl_re <= '1' when (scl_prev = '1' and i_scl = '0') else '0';
+
+o_data <= douta;
 
 p0 : process (i_clock, i_reset) is
 begin

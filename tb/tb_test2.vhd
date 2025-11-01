@@ -30,9 +30,10 @@ USE ieee.std_logic_1164.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---USE ieee.numeric_std.ALL;
+USE ieee.numeric_std.ALL;
 
---use work.global_package_sim.all;
+--use work.global_package.all;
+use work.numeric_std_additions.all;
 
 ENTITY tb_test2 IS
 END tb_test2;
@@ -72,7 +73,8 @@ o_done : OUT  std_logic;
 i_mode2 : IN  std_logic;
 i_enable : IN  std_logic;
 i_addr : IN  std_logic_vector(15 downto 0);
-compare1 : in integer
+compare1 : in integer;
+o_data : out std_logic_vector(15 downto 0)
 );
 END COMPONENT;
 
@@ -86,6 +88,7 @@ signal compare1 : integer;
 --Outputs
 signal o_sda : std_logic := 'Z';
 signal o_done : std_logic;
+signal o_data : std_logic_vector(15 downto 0);
 
 signal a,a_prev,b,b_prev : std_logic;
 
@@ -169,7 +172,8 @@ i_mode2 => i_mode2,
 i_enable => i_enable,
 i_addr => i_addr,
 o_done => o_done,
-compare1 => compare1
+compare1 => compare1,
+o_data => o_data
 );
 
 p0 : process is
@@ -241,6 +245,15 @@ i_addr <= x"0400"; -- data X
   end loop l0;
   wait;
 end process p0;
+
+check_eeprom : process (o_ready) is
+begin
+  if (falling_edge (o_ready)) then
+    assert (o_data = o_camera_read) report "[diff] " & to_hex_string (unsigned (o_data)) & " /= " & to_hex_string (unsigned (o_camera_read));
+    assert (o_data /= o_camera_read) report "[[ok]] " & to_hex_string (unsigned (o_data)) & " == " & to_hex_string (unsigned (o_camera_read));
+  end if;
+end process check_eeprom;
+
 
 --mode2_read : process is
 ---- https://github.com/ghdl/ghdl/blob/69b0c75d726f6c5babe46eddbcb82f7269422821/testsuite/gna/issue1597/std_subs_pkg.vhdl#L23
