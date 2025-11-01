@@ -219,7 +219,7 @@ wait for 1 us;
 
 i_addr <= x"0400"; -- data X
   i_enable <= '1';
-  compare1 <= 36; -- first frame poorly
+  compare1 <= 35; -- first frame poorly
   wait until o_done = '1';
   i_enable <= '0';
   wait until o_done = '0';
