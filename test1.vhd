@@ -1672,12 +1672,11 @@ doutb => i2c_mlx_doutb
 --if (i_reset = '1') then
 --latch_data <= (others => '0');
 --elsif (falling_edge (melexis_mlx90640_i2c_mode2_ready)) then
-process (clock_i, i_reset) is
+process (melexis_mlx90640_i2c_mode2_ready, i_reset) is
 begin
 if (i_reset = '1') then
 latch_data <= (others => '0');
-elsif (rising_edge (clock_i)) then
-if (melexis_mlx90640_i2c_mode2_ready = '1') then
+elsif (falling_edge (melexis_mlx90640_i2c_mode2_ready)) then
 latch_data (0) <= melexis_mlx90640_i2c_bytes_to_recv(15);
 latch_data (1) <= melexis_mlx90640_i2c_bytes_to_recv(14);
 latch_data (2) <= melexis_mlx90640_i2c_bytes_to_recv(13);
@@ -1694,7 +1693,6 @@ latch_data (12) <= melexis_mlx90640_i2c_bytes_to_recv(3);
 latch_data (13) <= melexis_mlx90640_i2c_bytes_to_recv(2);
 latch_data (14) <= melexis_mlx90640_i2c_bytes_to_recv(1);
 latch_data (15) <= melexis_mlx90640_i2c_bytes_to_recv(0);
-end if;
 end if;
 end process;
 
