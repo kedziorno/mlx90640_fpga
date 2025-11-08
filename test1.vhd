@@ -666,8 +666,7 @@ dina_no_swap : if (c_sim = "n") generate
 --      i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
 end generate dina_no_swap;
 
---o_led (7 downto 1) <= float2fixedr_r (41 downto 41-6);
-o_led (7 downto 1) <= test_fixed_melexis_do(31 downto 31-6);
+o_led (7 downto 0) <= test_fixed_melexis_do(31-9+9 downto 31-16+9);
 
 pTo : process (clock_i,i_reset) is
 	variable i : integer range 0 to PIXELS-2;
@@ -1399,7 +1398,7 @@ vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_blank = '0' else (othe
 --vga_g <= "00000" & cm (5 downto 3);
 --vga_b <= "000000" & cm (7 downto 6);
 --cm1 <= cm;
-o_led(0) <= '1' when state = s1 else '0';
+--o_led(0) <= '1' when state = s1 else '0';
 --o_led(1) <= cm1(1);
 --o_led(2) <= cm1(2);
 --o_led(3) <= cm1(3);
