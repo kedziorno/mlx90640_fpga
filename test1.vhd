@@ -36,7 +36,7 @@ use work.pack.all;
 entity test1 is
 generic (
 constant c_board_clock : integer := c_clock_board_frequency;
-constant c_bus_clock : integer := 1_000_000;
+constant c_bus_clock : integer := c_clock_i2c_frequency;
 --constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
 --constant c_bus_clock : integer := 50;
 --constant c_bus_clock : integer := 1;
@@ -62,6 +62,8 @@ vga_blankn: out std_logic;
 vga_psave: out std_logic;
 io_sda_dd : inout std_logic;
 io_scl_dd : inout std_logic;
+io_sda_dd1 : inout std_logic;
+io_scl_dd1 : inout std_logic;
 io_sda_nl : inout std_logic;
 io_scl_nl : inout std_logic;
 o_an : out std_logic_vector (3 downto 0);
@@ -508,6 +510,7 @@ signal latch_data : std_logic_vector (15 downto 0);
 signal asd,asd1,clock_i : std_logic;
 
 signal sda_o, sda_i, scl_i : std_logic;
+signal io_sda_i, io_scl_i : std_logic;
 
 component i2c_mlx
 PORT (
@@ -621,7 +624,7 @@ begin
     temp1 <= '0';
     temp2 <= '0';
 --  elsif (rising_edge (melexis_mlx90640_i2c_mode2_ready)) then
-  elsif (rising_edge (clock_i)) then
+  elsif (falling_edge (clock_i)) then
     temp1 <= melexis_mlx90640_i2c_mode2_ready;
     --temp2 <= temp1;
     if (temp1 = '0' and melexis_mlx90640_i2c_mode2_ready = '1' and melexis_mlx90640_i2c_mode2 = '1') then
@@ -1589,9 +1592,17 @@ io_sda_i => sda_i,
 io_scl => scl_i
 );
 
-io_sda_nl <= '0' when sda_o = '0' else 'Z';
-sda_i <= io_sda_nl;
-io_scl_nl <= '0' when scl_i = '0' else 'Z';
+io_sda_dd1 <= '0' when sda_o = '0' else 'Z';
+sda_i <= io_sda_dd1;
+--io_sda_i <= io_sda_dd;
+--io_sda_dd1 <= sda_i;
+io_sda_nl <= sda_i;
+
+io_scl_i <= '0' when scl_i = '0' else 'Z';
+io_scl_nl <= io_scl_i;
+--io_scl_dd <= io_scl_i;
+io_scl_dd1 <= io_scl_i;
+
 --io_sda_dd <= '0' when sda_i = '0' else 'Z';
 --io_scl_dd <= '0' when scl_i = '0' else 'Z';
 --io_sda_nl <= '0' when sda_i = '0' else 'Z';
