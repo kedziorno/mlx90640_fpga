@@ -5,39 +5,41 @@ Design Information
 ------------------
 Command Line   : map -intstyle ise -p xc5vfx70t-ff1136-1 -w -logic_opt off -ol
 std -t 1 -register_duplication off -global_opt off -mt 2 -cm area -detail -ir
-off -pr off -u -lc off -power off -o test1_map.ncd test1.ngd test1.pcf 
+off -pr off -u -lc off -smartguide
+/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/test1_guide.ncd
+-power off -o test1_map.ncd test1.ngd test1.pcf 
 Target Device  : xc5vfx70t
 Target Package : ff1136
 Target Speed   : -1
 Mapper Version : virtex5 -- $Revision: 1.55 $
-Mapped Date    : Sat Nov  8 20:53:11 2025
+Mapped Date    : Sat Nov  8 21:06:46 2025
 
 Design Summary
 --------------
 Number of errors:      0
-Number of warnings:   12
+Number of warnings:   13
 Slice Logic Utilization:
   Number of Slice Registers:                 7,977 out of  44,800   17%
     Number used as Flip Flops:               7,977
-  Number of Slice LUTs:                     10,276 out of  44,800   22%
-    Number used as logic:                   10,139 out of  44,800   22%
-      Number using O6 output only:           9,771
+  Number of Slice LUTs:                     10,278 out of  44,800   22%
+    Number used as logic:                   10,140 out of  44,800   22%
+      Number using O6 output only:           9,772
       Number using O5 output only:              80
       Number using O5 and O6:                  288
     Number used as Memory:                     127 out of  13,120    1%
       Number used as Shift Register:           127
         Number using O6 output only:           127
-    Number used as exclusive route-thru:        10
+    Number used as exclusive route-thru:        11
   Number of route-thrus:                       119
-    Number using O6 output only:                90
-    Number using O5 output only:                29
+    Number using O6 output only:                91
+    Number using O5 output only:                28
 
 Slice Logic Distribution:
-  Number of occupied Slices:                 3,513 out of  11,200   31%
-  Number of LUT Flip Flop pairs used:       11,633
-    Number with an unused Flip Flop:         3,656 out of  11,633   31%
-    Number with an unused LUT:               1,357 out of  11,633   11%
-    Number of fully used LUT-FF pairs:       6,620 out of  11,633   56%
+  Number of occupied Slices:                 3,486 out of  11,200   31%
+  Number of LUT Flip Flop pairs used:       11,621
+    Number with an unused Flip Flop:         3,644 out of  11,621   31%
+    Number with an unused LUT:               1,343 out of  11,621   11%
+    Number of fully used LUT-FF pairs:       6,634 out of  11,621   57%
     Number of unique control sets:             393
     Number of slice register sites lost
       to control set restrictions:             812 out of  44,800    1%
@@ -69,9 +71,9 @@ Specific Feature Utilization:
   Number of RPM macros:            2
 Average Fanout of Non-Clock Nets:                3.84
 
-Peak Memory Usage:  1200 MB
-Total REAL time to MAP completion:  1 mins 32 secs 
-Total CPU time to MAP completion (all processors):   1 mins 41 secs 
+Peak Memory Usage:  1260 MB
+Total REAL time to MAP completion:  42 secs 
+Total CPU time to MAP completion:   42 secs 
 
 Table of Contents
 -----------------
@@ -94,6 +96,9 @@ Section 1 - Errors
 
 Section 2 - Warnings
 --------------------
+WARNING:Map:291 - Multi-threading ("-mt" option) is not supported for the
+   SmartGuide flow. MAP will use only one processor.
+
 WARNING:Security:42 - Your software subscription period has lapsed. Your current
 version of Xilinx tools will continue to function, but you no longer qualify for
 Xilinx software updates or new releases.
@@ -149,9 +154,6 @@ WARNING:PhysDesignRules:367 - The signal
 
 Section 3 - Informational
 -------------------------
-INFO:Map:284 - Map is running with the multi-threading option on. Map currently
-   supports the use of up to 2 processors. Based on the the user options and
-   machine load, Map will use 2 processors during this run.
 INFO:Security:56 - Part 'xc5vfx70t' is not a WebPack part.
 INFO:LIT:243 - Logical network io_sda_dd_IBUF has no load.
 INFO:LIT:243 - Logical network io_scl_dd_IBUF has no load.
@@ -170,20 +172,17 @@ INFO:LIT:243 - Logical network g0_dualmem_temperature.dualmem_inst_t/doutb<1>
 INFO:LIT:243 - Logical network g0_dualmem_temperature.dualmem_inst_t/doutb<0>
    has no load.
 INFO:MapLib:562 - No environment variables are currently set.
+INFO:MapLib:980 - The following NGM file is used during SmartGuide:
+   "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/test1_map.ngm
+   ". The NGM file contains information on how the guide file was originally
+   mapped. It is required for the best SmartGuide results.
 INFO:MapLib:159 - Net Timing constraints on signal i_clock are pushed forward
    through input buffer.
 INFO:LIT:244 - All of the single ended outputs in this design are using slew
    rate limited output drivers. The delay on speed critical single ended outputs
    can be dramatically reduced by designating them as fast outputs.
-INFO:Pack:1716 - Initializing temperature to 85.000 Celsius. (default - Range:
-   0.000 to 85.000 Celsius)
-INFO:Pack:1720 - Initializing voltage to 0.950 Volts. (default - Range: 0.950 to
-   1.050 Volts)
 INFO:Map:215 - The Interim Design Summary has been generated in the MAP Report
    (.mrp).
-INFO:Place:834 - Only a subset of IOs are locked. Out of 74 IOs, 9 are locked
-   and 65 are not locked. If you would like to print the names of these IOs,
-   please set the environment variable XIL_PAR_DESIGN_CHECK_VERBOSE to 1. 
 INFO:Pack:1650 - Map created a placed design.
 
 Section 4 - Removed Logic Summary
@@ -191,7 +190,7 @@ Section 4 - Removed Logic Summary
  107 block(s) removed
   55 block(s) optimized away
   20 signal(s) removed
- 152 Block(s) redundant
+ 150 Block(s) redundant
 
 Section 5 - Removed Logic
 -------------------------
@@ -458,6 +457,130 @@ GND 		vts_inst/XST_GND
 
 Redundant Block(s):
 TYPE 		BLOCK
+INV 		inst_subfp/blk00000290
+INV
+		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/divfprdy_internal_IN
+V_512_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/mulfprdy_internal_IN
+V_508_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/addfprdy_internal_IN
+V_514_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/subfprdy_internal_IN
+V_520_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_extract_tgc_parameters/fixed2floatrdy_internal
+_INV_59_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_extract_tgc_parameters/divfprdy_internal_INV_6
+1_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculateKGain/fixed2floatrdy_internal_INV_69_
+o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculateKGain/divfprdy_internal_INV_71_o1_INV
+_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOS/calculate_pix_gain_i0/fixed2flo
+atrdy_internal_INV_206_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOS/calculate_pix_gain_i0/mulfprdy_
+internal_INV_208_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0/mu
+lfprdy_internal_INV_223_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_i0/mulfp
+rdy_internal_INV_237_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_i0/addfp
+rdy_internal_INV_239_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_i0/divfp
+rdy_internal_INV_241_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_i0/fixed
+2floatrdy_internal_INV_234_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/divfpr
+dy_internal_INV_247_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOS/mulfprdy_internal_INV_197_o1_IN
+V_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOS/subfprdy_internal_INV_199_o1_IN
+V_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOS/divfprdy_internal_INV_181_o1_IN
+V_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOS/addfprdy_internal_INV_193_o1_IN
+V_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOsCPSP/addfprdy_internal_INV_369_o
+1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOsCPSP/subfprdy_internal_INV_379_o
+1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculateVirCompensated/divfprdy_internal_INV_
+387_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculateVirCompensated/mulfprdy_internal_INV_
+397_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculateVirCompensated/addfprdy_internal_INV_
+395_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculateVirCompensated/subfprdy_internal_INV_
+399_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculateAlphaCP/divfprdy_internal_INV_168_o1_
+INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculateAlphaCP/mulfprdy_internal_INV_170_o1_
+INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculateAlphaCP/fixed2floatrdy_internal_INV_1
+66_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_ExtractAlphaParameters/fixed2floatrdy_internal
+_INV_143_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_ExtractAlphaParameters/mulfprdy_internal_INV_1
+53_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_ExtractAlphaParameters/divfprdy_internal_INV_1
+59_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculateAlphaComp/mulfprdy_internal_INV_440_o
+1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculateAlphaComp/divfprdy_internal_INV_417_o
+1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculateAlphaComp/addfprdy_internal_INV_438_o
+1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculateAlphaComp/subfprdy_internal_INV_424_o
+1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculateAlphaComp/fixed2floatrdy_internal_INV
+_415_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculateVdd/fixed2floatrdy_INV_94_o1_INV_0
+INV 		melexis_mlx9064x_core_inst/inst_CalculateVdd/divfprdy_INV_98_o1_INV_0
+INV 		melexis_mlx9064x_core_inst/inst_CalculateVdd/mulfprdy_INV_96_o1_INV_0
+INV 		melexis_mlx9064x_core_inst/inst_CalculateVdd/addfprdy_INV_100_o1_INV_0
+INV 		melexis_mlx9064x_core_inst/inst_CalculateVdd/subfprdy_INV_92_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculateTa/fixed2floatrdy_INV_131_o1_INV_0
+INV 		melexis_mlx9064x_core_inst/inst_CalculateTa/divfprdy_INV_135_o1_INV_0
+INV 		melexis_mlx9064x_core_inst/inst_CalculateTa/mulfprdy_INV_107_o1_INV_0
+INV 		melexis_mlx9064x_core_inst/inst_CalculateTa/addfprdy_INV_137_o1_INV_0
+INV 		melexis_mlx9064x_core_inst/inst_CalculateTa/subfprdy_INV_129_o1_INV_0
 LUT1 		g0_fl2fi_temperature.inst_float2fixed_t/blk00000133
 LUT1 		g0_fl2fi_temperature.inst_float2fixed_t/blk00000134
 LUT1 		g0_fl2fi_temperature.inst_float2fixed_t/blk00000135
@@ -479,7 +602,6 @@ LUT1 		b0.inst_fixed2float/blk00000136
 LUT1 		inst_divfp/blk00000d50
 LUT1 		inst_addfp/blk00000277
 LUT1 		inst_subfp/blk00000277
-INV 		inst_subfp/blk00000290
 LUT1 		g_calculate_to.inst_sqrtfp2/blk00000806
 LUT1 		g_calculate_to.inst_sqrtfp2/blk00000807
 LUT1 		g_calculate_to.inst_sqrtfp2/blk00000808
@@ -539,154 +661,28 @@ INV
 		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/mem_calculate_to_i0/
 Mmux_EN111_INV_0
 INV
-		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/divfprdy_internal_IN
-V_512_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/mulfprdy_internal_IN
-V_508_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/addfprdy_internal_IN
-V_514_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/subfprdy_internal_IN
-V_520_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/fixed2floatrdy_inter
-nal_INV_495_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_extract_tgc_parameters/fixed2floatrdy_internal
-_INV_59_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_extract_tgc_parameters/divfprdy_internal_INV_6
-1_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculateKGain/fixed2floatrdy_internal_INV_69_
-o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculateKGain/divfprdy_internal_INV_71_o1_INV
-_0
-INV
 		melexis_mlx9064x_core_inst/inst_CalculatePixOS/mem_pixos_i0/Mmux_EN111_INV_0
 INV
 		melexis_mlx9064x_core_inst/inst_CalculatePixOS/calculate_pix_gain_i0/mem_pixga
 in_i0/Mmux_EN111_INV_0
 INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOS/calculate_pix_gain_i0/fixed2flo
-atrdy_internal_INV_206_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOS/calculate_pix_gain_i0/mulfprdy_
-internal_INV_208_o1_INV_0
-INV
 		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0/me
 m_offset_parameters_i0/Mmux_EN111_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0/mu
-lfprdy_internal_INV_223_o1_INV_0
 INV
 		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_i0/mem_k
 ta_parameters_i0/Mmux_EN111_INV_0
 INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_i0/mulfp
-rdy_internal_INV_237_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_i0/addfp
-rdy_internal_INV_239_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_i0/divfp
-rdy_internal_INV_241_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_i0/fixed
-2floatrdy_internal_INV_234_o1_INV_0
-INV
 		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/mem_kv
 _parameters_i0/Mmux_EN111_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/divfpr
-dy_internal_INV_247_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOS/mulfprdy_internal_INV_197_o1_IN
-V_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOS/subfprdy_internal_INV_199_o1_IN
-V_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOS/divfprdy_internal_INV_181_o1_IN
-V_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOS/addfprdy_internal_INV_193_o1_IN
-V_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOsCPSP/addfprdy_internal_INV_369_o
-1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOsCPSP/subfprdy_internal_INV_379_o
-1_INV_0
 INV
 		melexis_mlx9064x_core_inst/inst_CalculateVirCompensated/mem_vir_compensated_i0
 /Mmux_EN111_INV_0
 INV
-		melexis_mlx9064x_core_inst/inst_CalculateVirCompensated/divfprdy_internal_INV_
-387_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculateVirCompensated/mulfprdy_internal_INV_
-397_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculateVirCompensated/addfprdy_internal_INV_
-395_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculateVirCompensated/subfprdy_internal_INV_
-399_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculateAlphaCP/divfprdy_internal_INV_168_o1_
-INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculateAlphaCP/mulfprdy_internal_INV_170_o1_
-INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculateAlphaCP/fixed2floatrdy_internal_INV_1
-66_o1_INV_0
-INV
 		melexis_mlx9064x_core_inst/inst_ExtractAlphaParameters/mem_alpha_parameters_i0
 /Mmux_EN111_INV_0
 INV
-		melexis_mlx9064x_core_inst/inst_ExtractAlphaParameters/fixed2floatrdy_internal
-_INV_143_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_ExtractAlphaParameters/mulfprdy_internal_INV_1
-53_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_ExtractAlphaParameters/divfprdy_internal_INV_1
-59_o1_INV_0
-INV
 		melexis_mlx9064x_core_inst/inst_CalculateAlphaComp/mem_alpha_compensated_i0/Mm
 ux_EN111_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculateAlphaComp/mulfprdy_internal_INV_440_o
-1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculateAlphaComp/divfprdy_internal_INV_417_o
-1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculateAlphaComp/addfprdy_internal_INV_438_o
-1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculateAlphaComp/subfprdy_internal_INV_424_o
-1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculateAlphaComp/fixed2floatrdy_internal_INV
-_415_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculateVdd/fixed2floatrdy_INV_94_o1_INV_0
-INV 		melexis_mlx9064x_core_inst/inst_CalculateVdd/divfprdy_INV_98_o1_INV_0
-INV 		melexis_mlx9064x_core_inst/inst_CalculateVdd/mulfprdy_INV_96_o1_INV_0
-INV 		melexis_mlx9064x_core_inst/inst_CalculateVdd/addfprdy_INV_100_o1_INV_0
-INV 		melexis_mlx9064x_core_inst/inst_CalculateVdd/subfprdy_INV_92_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculateTa/fixed2floatrdy_INV_131_o1_INV_0
-INV 		melexis_mlx9064x_core_inst/inst_CalculateTa/divfprdy_INV_135_o1_INV_0
-INV 		melexis_mlx9064x_core_inst/inst_CalculateTa/mulfprdy_INV_107_o1_INV_0
-INV 		melexis_mlx9064x_core_inst/inst_CalculateTa/addfprdy_INV_137_o1_INV_0
-INV 		melexis_mlx9064x_core_inst/inst_CalculateTa/subfprdy_INV_129_o1_INV_0
 LUT1 		Madd_pTo.wait3[13]_GND_9_o_add_130_OUT_cy<1>_rt
 LUT1 		Madd_pTo.wait3[13]_GND_9_o_add_130_OUT_cy<2>_rt
 LUT1 		Madd_pTo.wait3[13]_GND_9_o_add_130_OUT_cy<3>_rt
@@ -703,7 +699,6 @@ LUT1 		Madd_pTo.wait3[13]_GND_9_o_add_130_OUT_xor<13>_rt
 INV 		address_generator_vsync1_INV_0
 INV 		dualmem_enb1_INV_0
 INV 		i_clock_inv1_INV_0
-LUT1 		Mram_rdata351111
 MUXF8 		g0_fl2fi_temperature.inst_float2fixed_t/blk0000000f
 
 Section 6 - IOB Properties
@@ -796,7 +791,27 @@ inst_subfp/hset
 
 Section 8 - Guide Report
 ------------------------
-Guide not run on this design.
+
+Sat Nov 08 21:07:24 2025
+
+  Estimated SmartGuide Results
+  ----------------------------
+  This section describes the guide results after placement. Re-implemented 
+  components are components that were guided, but moved in order to satisfy
+  timing requirements.
+
+    Estimated Percentage of guided Components                 |  94.5%
+    Estimated Percentage of re-implemented Components         |   2.4%
+    Estimated Percentage of new/changed Components            |   3.1%
+    Estimated Percentage of fully guided Nets                 |  88.9%
+    Estimated Percentage of partially guided or unrouted Nets |  11.1%
+
+  A detailed SmartGuide report (.GRF) can be generated during PAR by
+  specifying the [-smartguide <guidefile[.ncd]>] switch on the PAR
+  command line. The GRF file contains all components and nets that were
+  not guided. A final summary report is always generated and is available
+  in the PAR report file and in the GRF regardless of the PAR -smartguide switch.
+
 
 Section 9 - Area Group and Partition Summary
 --------------------------------------------
@@ -846,27 +861,27 @@ Section 12 - Control Set Information
 | i_clock_BUFGP                                         |                                                                   |                                         | _n0724_inv                                                                                        | 1                | 1              |
 | i_clock_BUFGP                                         |                                                                   |                                         | _n0728_inv                                                                                        | 7                | 26             |
 | i_clock_BUFGP                                         |                                                                   |                                         | addfpce                                                                                           | 112              | 313            |
-| i_clock_BUFGP                                         |                                                                   |                                         | divfpce                                                                                           | 369              | 1353           |
+| i_clock_BUFGP                                         |                                                                   |                                         | divfpce                                                                                           | 370              | 1353           |
 | i_clock_BUFGP                                         |                                                                   |                                         | fixed2floatce                                                                                     | 36               | 120            |
 | i_clock_BUFGP                                         |                                                                   |                                         | float2fixedond                                                                                    | 47               | 151            |
-| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n0891_inv                                                             | 2                | 2              |
-| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n0943_inv                                                             | 2                | 2              |
-| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n0995_inv                                                             | 2                | 2              |
-| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n1051_inv                                                             | 2                | 2              |
-| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n1103_inv                                                             | 2                | 2              |
-| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n1147_inv                                                             | 2                | 2              |
-| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n1191_inv                                                             | 2                | 2              |
-| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n1243_inv                                                             | 2                | 2              |
-| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n1295_inv                                                             | 2                | 2              |
-| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n1339_inv                                                             | 2                | 2              |
-| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n1383_inv                                                             | 2                | 2              |
-| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/_n0432_inv                              | 12               | 32             |
+| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n0890_inv                                                             | 2                | 2              |
+| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n0942_inv                                                             | 2                | 2              |
+| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n0994_inv                                                             | 2                | 2              |
+| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n1050_inv                                                             | 2                | 2              |
+| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n1102_inv                                                             | 2                | 2              |
+| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n1146_inv                                                             | 2                | 2              |
+| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n1190_inv                                                             | 2                | 2              |
+| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n1242_inv                                                             | 2                | 2              |
+| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n1294_inv                                                             | 2                | 2              |
+| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n1338_inv                                                             | 2                | 2              |
+| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/_n1382_inv                                                             | 2                | 2              |
+| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/_n0432_inv                              | 13               | 32             |
 | i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/_n0458_inv                              | 1                | 1              |
 | i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/_n0488_inv                              | 1                | 1              |
 | i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/_n0516_inv                              | 1                | 4              |
 | i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/_n0520_inv                              | 1                | 1              |
 | i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/_n0549_inv                              | 2                | 8              |
-| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/_n0596_inv                              | 13               | 42             |
+| i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/_n0596_inv                              | 12               | 42             |
 | i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/inst_CalculateAlphaCP/_n0235_inv                                       | 1                | 2              |
 | i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/inst_CalculateAlphaCP/_n0252_inv                                       | 1                | 2              |
 | i_clock_BUFGP                                         |                                                                   |                                         | melexis_mlx9064x_core_inst/inst_CalculateAlphaCP/_n0256_inv                                       | 1                | 1              |
@@ -997,7 +1012,7 @@ Section 12 - Control Set Information
 | i_clock_BUFGP                                         | i_reset_IBUF                                                      |                                         | melexis_mlx90640_i2c_i0/_n0571_inv                                                                | 1                | 1              |
 | i_clock_BUFGP                                         | i_reset_IBUF                                                      |                                         | melexis_mlx90640_i2c_i0/_n0575_inv                                                                | 1                | 1              |
 | i_clock_BUFGP                                         | i_reset_IBUF                                                      |                                         | melexis_mlx90640_i2c_i0/_n1418_inv                                                                | 2                | 5              |
-| i_clock_BUFGP                                         | i_reset_IBUF                                                      |                                         | melexis_mlx9064x_core_inst/_n1435_inv                                                             | 1                | 1              |
+| i_clock_BUFGP                                         | i_reset_IBUF                                                      |                                         | melexis_mlx9064x_core_inst/_n1431_inv                                                             | 1                | 1              |
 | i_clock_BUFGP                                         | i_reset_IBUF                                                      |                                         | melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/_n0650_inv                              | 3                | 10             |
 | i_clock_BUFGP                                         | i_reset_IBUF                                                      |                                         | melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/_n0672_inv                              | 1                | 1              |
 | i_clock_BUFGP                                         | i_reset_IBUF                                                      |                                         | melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/_n0707_inv                              | 1                | 1              |
@@ -1093,7 +1108,7 @@ Section 12 - Control Set Information
 | i_clock_BUFGP                                         | i_reset_IBUF                                                      |                                         | melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/_n0551_inv                | 1                | 1              |
 | i_clock_BUFGP                                         | i_reset_IBUF                                                      |                                         | melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/_n0551_inv3               | 1                | 1              |
 | i_clock_BUFGP                                         | i_reset_IBUF                                                      |                                         | melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0/_n0430<4>1            | 25               | 65             |
-| i_clock_BUFGP                                         | i_reset_IBUF                                                      |                                         | melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0/_n0478<4>11           | 1                | 1              |
+| i_clock_BUFGP                                         | i_reset_IBUF                                                      |                                         | melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0/_n0493<4>11           | 1                | 1              |
 | i_clock_BUFGP                                         | i_reset_IBUF                                                      |                                         | melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0/_n1099_inv            | 1                | 1              |
 | i_clock_BUFGP                                         | i_reset_IBUF                                                      |                                         | melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0/_n1290_inv            | 5                | 10             |
 | i_clock_BUFGP                                         | i_reset_IBUF                                                      |                                         | melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0/_n1346_inv            | 16               | 32             |
@@ -1241,7 +1256,7 @@ Section 13 - Utilization by Hierarchy
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Module                                   | Partition | Slices*       | Slice Reg     | LUTs          | LUTRAM        | BRAM/FIFO | DSP48E  | BUFG  | BUFIO | BUFR  | DCM_ADV   | PLL_ADV   | Full Hierarchical Name                                                                                                                        |
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| test1/                                   |           | 180/5204      | 202/7977      | 347/10276     | 0/127         | 0/23      | 0/7     | 2/3   | 0/0   | 0/0   | 0/0       | 0/0       | test1                                                                                                                                         |
+| test1/                                   |           | 180/5187      | 202/7977      | 347/10278     | 0/127         | 0/23      | 0/7     | 2/3   | 0/0   | 0/0   | 0/0       | 0/0       | test1                                                                                                                                         |
 | +b0.inst_fixed2float                     |           | 44/44         | 147/147       | 115/115       | 4/4           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/b0.inst_fixed2float                                                                                                                     |
 | +c_lcd_display                           |           | 6/12          | 6/26          | 7/30          | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/c_lcd_display                                                                                                                           |
 | ++c_clock_divider_1                      |           | 6/6           | 20/20         | 23/23         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/c_lcd_display/c_clock_divider_1                                                                                                         |
@@ -1253,7 +1268,7 @@ Section 13 - Utilization by Hierarchy
 | ++++++ramloop[0].ram.r                   |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/g0_dualmem_temperature.dualmem_inst_t/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r                |
 | +++++++v5_noinit.ram                     |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/g0_dualmem_temperature.dualmem_inst_t/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v5_noinit.ram  |
 | +g0_fl2fi_temperature.inst_float2fixed_t |           | 50/50         | 153/153       | 119/119       | 6/6           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/g0_fl2fi_temperature.inst_float2fixed_t                                                                                                 |
-| +g_calculate_to.inst_sqrtfp2             |           | 246/246       | 819/819       | 546/546       | 33/33         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/g_calculate_to.inst_sqrtfp2                                                                                                             |
+| +g_calculate_to.inst_sqrtfp2             |           | 246/246       | 819/819       | 547/547       | 33/33         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/g_calculate_to.inst_sqrtfp2                                                                                                             |
 | +i2c_mlx_i0                              |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/i2c_mlx_i0                                                                                                                              |
 | ++U0                                     |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/i2c_mlx_i0/U0                                                                                                                           |
 | +++xst_blk_mem_generator                 |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/i2c_mlx_i0/U0/xst_blk_mem_generator                                                                                                     |
@@ -1262,19 +1277,19 @@ Section 13 - Utilization by Hierarchy
 | ++++++ramloop[0].ram.r                   |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/i2c_mlx_i0/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r                                           |
 | +++++++v5_init.ram                       |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/i2c_mlx_i0/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v5_init.ram                               |
 | +inst_addfp                              |           | 127/127       | 338/338       | 258/258       | 15/15         | 0/0       | 2/2     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/inst_addfp                                                                                                                              |
-| +inst_divfp                              |           | 375/375       | 1356/1356     | 785/785       | 38/38         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/inst_divfp                                                                                                                              |
+| +inst_divfp                              |           | 376/376       | 1356/1356     | 785/785       | 38/38         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/inst_divfp                                                                                                                              |
 | +inst_mulfp                              |           | 49/49         | 116/116       | 108/108       | 16/16         | 0/0       | 3/3     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/inst_mulfp                                                                                                                              |
 | +inst_subfp                              |           | 126/126       | 338/338       | 259/259       | 15/15         | 0/0       | 2/2     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/inst_subfp                                                                                                                              |
 | +melexis_mlx90640_i2c_i0                 |           | 140/140       | 112/112       | 258/258       | 0/0           | 0/0       | 0/0     | 1/1   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx90640_i2c_i0                                                                                                                 |
-| +melexis_mlx9064x_core_inst              |           | 1114/3808     | 28/4313       | 2707/7374     | 0/0           | 0/21      | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst                                                                                                              |
-| ++g_calculate_to.calculate_to_i0         |           | 309/309       | 416/416       | 758/758       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0                                                                               |
+| +melexis_mlx9064x_core_inst              |           | 1112/3790     | 28/4313       | 2707/7375     | 0/0           | 0/21      | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst                                                                                                              |
+| ++g_calculate_to.calculate_to_i0         |           | 290/290       | 416/416       | 759/759       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0                                                                               |
 | +++mem_calculate_to_i0                   |           | 0/0           | 0/0           | 0/0           | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/mem_calculate_to_i0                                                           |
 | ++inst_CalculateAlphaCP                  |           | 73/73         | 230/230       | 27/27         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/inst_CalculateAlphaCP                                                                                        |
 | ++inst_CalculateAlphaComp                |           | 199/208       | 282/282       | 329/343       | 0/0           | 0/3       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/inst_CalculateAlphaComp                                                                                      |
 | +++mem_alpha_compensated_i0              |           | 0/0           | 0/0           | 0/0           | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/inst_CalculateAlphaComp/mem_alpha_compensated_i0                                                             |
 | +++mem_switchpattern_i0                  |           | 9/9           | 0/0           | 14/14         | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/inst_CalculateAlphaComp/mem_switchpattern_i0                                                                 |
 | ++inst_CalculateKGain                    |           | 40/40         | 133/133       | 49/49         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/inst_CalculateKGain                                                                                          |
-| ++inst_CalculatePixOS                    |           | 552/1166      | 280/1320      | 1023/1774     | 0/0           | 0/10      | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/inst_CalculatePixOS                                                                                          |
+| ++inst_CalculatePixOS                    |           | 553/1167      | 280/1320      | 1023/1774     | 0/0           | 0/10      | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/inst_CalculatePixOS                                                                                          |
 | +++calculate_pix_gain_i0                 |           | 113/113       | 161/161       | 112/112       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/inst_CalculatePixOS/calculate_pix_gain_i0                                                                    |
 | ++++mem_pixgain_i0                       |           | 0/0           | 0/0           | 0/0           | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/inst_CalculatePixOS/calculate_pix_gain_i0/mem_pixgain_i0                                                     |
 | +++extract_kta_parameters_i0             |           | 181/181       | 391/391       | 165/165       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_i0                                                                |
@@ -1287,7 +1302,7 @@ Section 13 - Utilization by Hierarchy
 | ++inst_CalculatePixOsCPSP                |           | 235/235       | 483/483       | 462/462       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/inst_CalculatePixOsCPSP                                                                                      |
 | ++inst_CalculateTa                       |           | 141/141       | 349/349       | 316/316       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/inst_CalculateTa                                                                                             |
 | ++inst_CalculateVdd                      |           | 120/120       | 307/307       | 247/247       | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/inst_CalculateVdd                                                                                            |
-| ++inst_CalculateVirCompensated           |           | 137/149       | 300/300       | 247/261       | 0/0           | 0/3       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/inst_CalculateVirCompensated                                                                                 |
+| ++inst_CalculateVirCompensated           |           | 139/151       | 300/300       | 247/261       | 0/0           | 0/3       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/inst_CalculateVirCompensated                                                                                 |
 | +++mem_switchpattern_i0                  |           | 12/12         | 0/0           | 14/14         | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/inst_CalculateVirCompensated/mem_switchpattern_i0                                                            |
 | +++mem_vir_compensated_i0                |           | 0/0           | 0/0           | 0/0           | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/inst_CalculateVirCompensated/mem_vir_compensated_i0                                                          |
 | ++inst_ExtractAlphaParameters            |           | 184/200       | 383/383       | 344/376       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/inst_ExtractAlphaParameters                                                                                  |

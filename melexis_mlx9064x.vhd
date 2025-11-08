@@ -2027,10 +2027,11 @@ CalculateGetImage_rom_constants_float <= rom_constants_float;
   when idle =>
 			if (i_run = '1') then
 				state := s0;
-        o_rdy <= '0';
+        --o_rdy <= '0';
 			else
 				state := idle;
 			end if;
+      o_rdy <= '0';
 
 	when s0 => state := s0a;
 		CalculateKGain_run <= '1';
