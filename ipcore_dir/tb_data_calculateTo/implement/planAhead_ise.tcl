@@ -45,7 +45,7 @@
 # PART OF THIS FILE AT ALL TIMES.
 
 
-set device xc3s1200efg320-4
+set device xc5vfx70tff1136-1
 set projName tb_data_calculateTo
 set design tb_data_calculateTo
 set projDir [file dirname [info script]]

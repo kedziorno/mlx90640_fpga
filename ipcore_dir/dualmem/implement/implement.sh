@@ -30,7 +30,7 @@ cp ../example_design/dualmem_exdes.ucf results/
 cd results
 
 echo 'Running ngdbuild'
-ngdbuild -p xc3s1200e-fg320-4 dualmem_exdes
+ngdbuild -p xc5vfx70t-ff1136-1 dualmem_exdes
 
 echo 'Running map'
 map dualmem_exdes -o mapped.ncd -pr i

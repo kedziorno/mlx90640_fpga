@@ -30,7 +30,7 @@ copy ..\example_design\tb_data_calculateTo_exdes.ucf results\
 cd results
 
 echo 'Running ngdbuild'
-ngdbuild -p xc3s1200e-fg320-4 tb_data_calculateTo_exdes
+ngdbuild -p xc5vfx70t-ff1136-1 tb_data_calculateTo_exdes
 
 echo 'Running map'
 map tb_data_calculateTo_exdes -o mapped.ncd  -pr i
