@@ -5,14 +5,14 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.04 secs
+Total CPU time to Xst completion: 0.03 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.04 secs
+Total CPU time to Xst completion: 0.03 secs
  
 --> 
 WARNING:Xst:1583 - You are using an internal switch '-use_new_parser'.
@@ -3288,8 +3288,8 @@ Primitive and Black Box Usage:
 #      XORCY                       : 2030
 # FlipFlops/Latches                : 9146
 #      FD                          : 12
-#      FDC                         : 102
-#      FDC_1                       : 17
+#      FDC                         : 70
+#      FDC_1                       : 49
 #      FDCE                        : 102
 #      FDE                         : 5010
 #      FDP                         : 2
@@ -3766,13 +3766,13 @@ Timing constraint: Default OFFSET OUT AFTER for Clock 'melexis_mlx90640_i2c_i0/m
 Offset:              4.283ns (Levels of Logic = 1)
   Source:            latch_data_15_1 (FF)
   Destination:       o_data<15> (PAD)
-  Source Clock:      melexis_mlx90640_i2c_i0/mode2_ready_i rising
+  Source Clock:      melexis_mlx90640_i2c_i0/mode2_ready_i falling
 
   Data Path: latch_data_15_1 to o_data<15>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDC:C->Q              1   0.591   0.420  latch_data_15_1 (latch_data_15_1)
+     FDC_1:C->Q            1   0.591   0.420  latch_data_15_1 (latch_data_15_1)
      OBUF:I->O                 3.272          o_data_15_OBUF (o_data<15>)
     ----------------------------------------
     Total                      4.283ns (3.863ns logic, 0.420ns route)
@@ -3854,7 +3854,7 @@ Source Clock                         |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 -------------------------------------+---------+---------+---------+---------+
 i_clock                              |   11.970|         |         |         |
 melexis_mlx90640_i2c_i0/clock        |    6.682|         |         |         |
-melexis_mlx90640_i2c_i0/mode2_ready_i|    1.238|         |         |         |
+melexis_mlx90640_i2c_i0/mode2_ready_i|         |    1.238|         |         |
 -------------------------------------+---------+---------+---------+---------+
 
 Clock to Setup on destination clock melexis_mlx90640_i2c_i0/GND_115_o_GND_115_o_AND_57_o
@@ -3880,8 +3880,8 @@ Clock to Setup on destination clock melexis_mlx90640_i2c_i0/mode2_ready_i
                                                     | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock                                        |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ----------------------------------------------------+---------+---------+---------+---------+
-melexis_mlx90640_i2c_i0/GND_115_o_GND_115_o_AND_57_o|         |    2.129|         |         |
-melexis_mlx90640_i2c_i0/clock                       |    3.047|         |         |         |
+melexis_mlx90640_i2c_i0/GND_115_o_GND_115_o_AND_57_o|         |         |    2.129|         |
+melexis_mlx90640_i2c_i0/clock                       |         |         |    3.047|         |
 ----------------------------------------------------+---------+---------+---------+---------+
 
 Clock to Setup on destination clock vgaclk25
@@ -3895,8 +3895,8 @@ vgaclk25       |    8.614|         |         |         |
 =========================================================================
 
 
-Total REAL time to Xst completion: 52.00 secs
-Total CPU time to Xst completion: 48.03 secs
+Total REAL time to Xst completion: 58.00 secs
+Total CPU time to Xst completion: 54.53 secs
  
 WARNING:Xst:3152 - You have chosen to run a version of XST which is not the default solution
    for the specified device family. You are free to use it in order to take
@@ -3909,7 +3909,7 @@ WARNING:Xst:3152 - You have chosen to run a version of XST which is not the defa
 --> 
 
 
-Total memory usage is 534028 kilobytes
+Total memory usage is 534568 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :  309 (   0 filtered)
