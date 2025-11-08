@@ -67,7 +67,8 @@ io_scl_nl : inout std_logic;
 o_an : out std_logic_vector (3 downto 0);
 o_seg : out std_logic_vector (6 downto 0);
 o_led : out std_logic_vector (7 downto 0);
-o_data : out std_logic_vector (15 downto 0)
+o_data : out std_logic_vector (15 downto 0);
+o_ready : out std_logic
 );
 end test1;
 
@@ -601,6 +602,7 @@ signal state : states;
 begin
 
 o_data <= latch_data;
+o_ready <= melexis_mlx90640_i2c_mode2_ready;
 
 vga_syncn <= '1';
 vga_blankn <= VGA_timing_synch_blank;
@@ -1676,7 +1678,7 @@ process (melexis_mlx90640_i2c_mode2_ready, i_reset) is
 begin
 if (i_reset = '1') then
 latch_data <= (others => '0');
-elsif (falling_edge (melexis_mlx90640_i2c_mode2_ready)) then
+elsif (rising_edge (melexis_mlx90640_i2c_mode2_ready)) then
 latch_data (0) <= melexis_mlx90640_i2c_bytes_to_recv(15);
 latch_data (1) <= melexis_mlx90640_i2c_bytes_to_recv(14);
 latch_data (2) <= melexis_mlx90640_i2c_bytes_to_recv(13);

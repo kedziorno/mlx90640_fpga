@@ -12,7 +12,7 @@ Target Device  : xc3s1200e
 Target Package : fg320
 Target Speed   : -4
 Mapper Version : spartan3e -- $Revision: 1.55 $
-Mapped Date    : Fri Nov  7 10:32:02 2025
+Mapped Date    : Fri Nov  7 23:17:13 2025
 
 Design Summary
 --------------
@@ -22,31 +22,32 @@ Logic Utilization:
   Total Number Slice Registers:       9,305 out of  17,344   53%
     Number used as Flip Flops:        9,304
     Number used as Latches:               1
-  Number of 4 input LUTs:            14,368 out of  17,344   82%
+  Number of 4 input LUTs:            14,367 out of  17,344   82%
 Logic Distribution:
-  Number of occupied Slices:          8,075 out of   8,672   93%
-    Number of Slices containing only related logic:   8,075 out of   8,075 100%
-    Number of Slices containing unrelated logic:          0 out of   8,075   0%
+  Number of occupied Slices:          8,062 out of   8,672   92%
+    Number of Slices containing only related logic:   8,062 out of   8,062 100%
+    Number of Slices containing unrelated logic:          0 out of   8,062   0%
       *See NOTES below for an explanation of the effects of unrelated logic.
-  Total Number of 4 input LUTs:      14,703 out of  17,344   84%
-    Number used as logic:            14,020
+  Total Number of 4 input LUTs:      14,702 out of  17,344   84%
+    Number used as logic:            14,019
     Number used as a route-thru:        335
     Number used as Shift registers:     348
 
   The Slice Logic Distribution report is not meaningful if the design is
   over-mapped for a non-slice resource or if Placement fails.
 
-  Number of bonded IOBs:                 69 out of     250   27%
+  Number of bonded IOBs:                 70 out of     250   28%
+    IOB Flip Flops:                      16
   Number of RAMB16s:                     27 out of      28   96%
   Number of BUFGMUXs:                     4 out of      24   16%
   Number of BSCANs:                       1 out of       1  100%
 
   Number of RPM macros:           12
-Average Fanout of Non-Clock Nets:                3.46
+Average Fanout of Non-Clock Nets:                3.45
 
-Peak Memory Usage:  1088 MB
-Total REAL time to MAP completion:  43 secs 
-Total CPU time to MAP completion:   42 secs 
+Peak Memory Usage:  1119 MB
+Total REAL time to MAP completion:  56 secs 
+Total CPU time to MAP completion:   52 secs 
 
 Table of Contents
 -----------------
@@ -118,8 +119,6 @@ WARNING:PhysDesignRules:367 - The signal <icon_control0<18>> is incomplete. The
    signal does not drive any load pins in the design.
 WARNING:PhysDesignRules:367 - The signal <icon_control0<25>> is incomplete. The
    signal does not drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal <icon_control0<35>> is incomplete. The
-   signal does not drive any load pins in the design.
 WARNING:PhysDesignRules:367 - The signal
    <g0_dualmem_temperature.dualmem_inst_t/doutb<0>> is incomplete. The signal
    does not drive any load pins in the design.
@@ -141,6 +140,8 @@ WARNING:PhysDesignRules:367 - The signal
 WARNING:PhysDesignRules:367 - The signal
    <g0_dualmem_temperature.dualmem_inst_t/doutb<15>> is incomplete. The signal
    does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<35>> is incomplete. The
+   signal does not drive any load pins in the design.
 
 Section 3 - Informational
 -------------------------
@@ -192,8 +193,8 @@ INFO:MapLib:159 - Net Timing constraints on signal i_clock are pushed forward
 INFO:LIT:244 - All of the single ended outputs in this design are using slew
    rate limited output drivers. The delay on speed critical single ended outputs
    can be dramatically reduced by designating them as fast outputs.
-INFO:Place:834 - Only a subset of IOs are locked. Out of 67 IOs, 51 are locked
-   and 16 are not locked. If you would like to print the names of these IOs,
+INFO:Place:834 - Only a subset of IOs are locked. Out of 68 IOs, 67 are locked
+   and 1 are not locked. If you would like to print the names of these IOs,
    please set the environment variable XIL_PAR_DESIGN_CHECK_VERBOSE to 1. 
 INFO:Pack:1650 - Map created a placed design.
 
@@ -304,14 +305,6 @@ removed.
 Loadless block "U_ila_pro_0/U0/I_YES_D.U_ILA/U_STAT/U_DSR" (ROM) removed.
 Loadless block "U_ila_pro_0/U0/I_YES_D.U_ILA/U_TRIG/U_TC/I_STORAGE_QUAL.U_CAP_B"
 (ROM) removed.
-Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk00000029" (XOR)
-removed.
-Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk0000004a" (XOR)
-removed.
- The signal "g0_fl2fi_temperature.inst_float2fixed_t/sig0000010a" is loadless and
-has been removed.
-  Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk00000048" (MUX)
-removed.
 Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk000000b3" (FF)
 removed.
  The signal "g0_fl2fi_temperature.inst_float2fixed_t/sig000000b7" is loadless and
@@ -353,6 +346,18 @@ removed.
    The signal "g0_fl2fi_temperature.inst_float2fixed_t/sig000000bd" is loadless and
 has been removed.
     Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk000000da" (ROM)
+removed.
+Loadless block "g_calculate_to.inst_sqrtfp2/blk000005fe" (FF) removed.
+ The signal "g_calculate_to.inst_sqrtfp2/sig00000831" is loadless and has been
+removed.
+  Loadless block "g_calculate_to.inst_sqrtfp2/blk00000621" (XOR) removed.
+Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk00000029" (XOR)
+removed.
+Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk0000004a" (XOR)
+removed.
+ The signal "g0_fl2fi_temperature.inst_float2fixed_t/sig0000010a" is loadless and
+has been removed.
+  Loadless block "g0_fl2fi_temperature.inst_float2fixed_t/blk00000048" (MUX)
 removed.
 Loadless block "g_calculate_to.inst_sqrtfp2/blk00000142" (XOR) removed.
 Loadless block "g_calculate_to.inst_sqrtfp2/blk0000014e" (XOR) removed.
@@ -406,10 +411,6 @@ Loadless block "g_calculate_to.inst_sqrtfp2/blk000005e0" (XOR) removed.
 Loadless block "g_calculate_to.inst_sqrtfp2/blk000005e2" (XOR) removed.
 Loadless block "g_calculate_to.inst_sqrtfp2/blk000005e4" (XOR) removed.
 Loadless block "g_calculate_to.inst_sqrtfp2/blk000005e6" (XOR) removed.
-Loadless block "g_calculate_to.inst_sqrtfp2/blk000005fe" (FF) removed.
- The signal "g_calculate_to.inst_sqrtfp2/sig00000831" is loadless and has been
-removed.
-  Loadless block "g_calculate_to.inst_sqrtfp2/blk00000621" (XOR) removed.
 Loadless block "g_calculate_to.inst_sqrtfp2/blk00000620" (XOR) removed.
  The signal "g_calculate_to.inst_sqrtfp2/sig00000827" is loadless and has been
 removed.
@@ -830,6 +831,14 @@ VCC 		melexis_mlx9064x_core_inst/inst_rom_constants/XST_VCC
 GND 		vag_inst/XST_GND
 GND 		vts_inst/XST_GND
 VCC 		vts_inst/XST_VCC
+GND 		g0_dualmem_temperature.dualmem_inst_t/XST_GND
+GND 		g0_fl2fi_temperature.inst_float2fixed_t/blk00000001
+VCC 		g0_fl2fi_temperature.inst_float2fixed_t/blk00000002
+GND 		g_calculate_to.inst_sqrtfp2/blk00000001
+VCC 		g_calculate_to.inst_sqrtfp2/blk00000002
+VCC 		melexis_mlx9064x_core_inst/XST_VCC
+GND 		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/XST_GND
+VCC 		melexis_mlx9064x_core_inst/inst_ExtractAlphaParameters/XST_VCC
 FDE 		b0.inst_fixed2float/blk00000045
    optimized to 0
 FDE 		b0.inst_fixed2float/blk00000046
@@ -862,13 +871,8 @@ FDRSE 		b0.inst_fixed2float/blk00000080
    optimized to 0
 FDRSE 		b0.inst_fixed2float/blk00000081
    optimized to 0
-GND 		g0_dualmem_temperature.dualmem_inst_t/XST_GND
-GND 		g0_fl2fi_temperature.inst_float2fixed_t/blk00000001
-VCC 		g0_fl2fi_temperature.inst_float2fixed_t/blk00000002
 FDE 		g0_fl2fi_temperature.inst_float2fixed_t/blk00000022
    optimized to 0
-GND 		g_calculate_to.inst_sqrtfp2/blk00000001
-VCC 		g_calculate_to.inst_sqrtfp2/blk00000002
 LUT4 		inst_mulfp/blk00000634
    optimized to 0
 FDE 		inst_mulfp/blk00000984
@@ -1049,8 +1053,6 @@ LUT4 		melexis_mlx9064x_core_inst/Mmux_divfpa4821
    optimized to 0
 LUT4 		melexis_mlx9064x_core_inst/Mmux_divfpa9221
    optimized to 0
-VCC 		melexis_mlx9064x_core_inst/XST_VCC
-GND 		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/XST_GND
 FDRE 		melexis_mlx9064x_core_inst/inst_CalculateAlphaCP/divfpa_internal_0
    optimized to 0
 FDRE 		melexis_mlx9064x_core_inst/inst_CalculateAlphaCP/divfpa_internal_1
@@ -1371,7 +1373,6 @@ FDE 		melexis_mlx9064x_core_inst/inst_CalculateVdd/mulfpb_6
    optimized to 0
 FDE 		melexis_mlx9064x_core_inst/inst_CalculateVdd/mulfpb_7
    optimized to 0
-VCC 		melexis_mlx9064x_core_inst/inst_ExtractAlphaParameters/XST_VCC
 FDRE 		melexis_mlx9064x_core_inst/inst_extract_tgc_parameters/divfpa_internal_0
    optimized to 0
 FDRE 		melexis_mlx9064x_core_inst/inst_extract_tgc_parameters/divfpa_internal_1
@@ -2925,7 +2926,6 @@ LOCALBUF 		g_calculate_to.inst_sqrtfp2/blk00000862/LUT2_D_BUF
 LOCALBUF 		g_calculate_to.inst_sqrtfp2/blk00000863/LUT4_D_BUF
 LOCALBUF 		PWR_9_o_pTo.i[9]_equal_155_o311/LUT3_D_BUF
 LOCALBUF 		state_FSM_FFd2-In61/LUT2_D_BUF
-LOCALBUF 		Mmux__n11288211/LUT2_D_BUF
 LOCALBUF 		state_FSM_FFd5-In511/LUT3_D_BUF
 LOCALBUF 		Mmux_state[5]_pTo.wait3[13]_wide_mux_160_OUT1611/LUT3_D_BUF
 LOCALBUF 		PWR_9_o_pTo.i[9]_equal_155_o331/LUT4_D_BUF
@@ -2933,7 +2933,6 @@ LOCALBUF 		state_FSM_FFd3-In29/LUT4_L_BUF
 LOCALBUF 		state_FSM_FFd3-In56/LUT4_L_BUF
 LOCALBUF 		state_FSM_FFd4-In64/LUT4_L_BUF
 LOCALBUF 		PWR_9_o_pTo.wait3[13]_equal_130_o<13>34/LUT4_D_BUF
-LOCALBUF 		_n1022_inv13/LUT4_L_BUF
 LOCALBUF 		PWR_9_o_wait1[8]_equal_134_o<8>3/LUT2_L_BUF
 LOCALBUF 		PWR_9_o_wait1[8]_equal_134_o<8>13/LUT4_D_BUF
 LOCALBUF 		state_FSM_FFd5-In62/LUT4_L_BUF
@@ -2941,10 +2940,24 @@ LOCALBUF 		state_FSM_FFd5-In132/LUT4_L_BUF
 LOCALBUF 		state_FSM_FFd5-In213/LUT4_D_BUF
 LOCALBUF 		state_FSM_FFd4-In168/LUT4_L_BUF
 LOCALBUF 		state_FSM_FFd5-In46_SW0/LUT4_L_BUF
-LOCALBUF 		Mmux__n1128433_SW0/LUT4_L_BUF
 LOCALBUF 		state_FSM_FFd5-In31/LUT3_D_BUF
 LOCALBUF 		PWR_9_o_pTo.wait2[9]_equal_140_o<9>17/LUT4_D_BUF
 LOCALBUF 		Mmux_state[5]_wait1[8]_wide_mux_158_OUT421/LUT3_D_BUF
+INV
+		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/divfprdy_internal_IN
+V_512_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/addfprdy_internal_IN
+V_514_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/subfprdy_internal_IN
+V_520_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/fixed2floatrdy_inter
+nal_INV_495_o1_INV_0
+LOCALBUF 		Mmux__n11268211/LUT2_D_BUF
+LOCALBUF 		_n1020_inv13/LUT4_L_BUF
+LOCALBUF 		Mmux__n1126433_SW0/LUT4_L_BUF
 LUT3 		melexis_mlx90640_i2c_i0/Mmux_PWR_52_o_i_memory_address[15]_Mux_211_o_5
 LUT3 		melexis_mlx90640_i2c_i0/Mmux_PWR_52_o_i_memory_data[15]_Mux_91_o_51
 LUT1 		melexis_mlx90640_i2c_i0/Mcount_mode2_read_data_index_ctr_cy<1>_rt
@@ -2984,23 +2997,11 @@ INV
 		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/mem_calculate_to_i0/
 EN11_INV_0
 INV
-		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/divfprdy_internal_IN
-V_512_o1_INV_0
-INV
 		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/mulfprdy_internal_IN
 V_508_o1_INV_0
 INV
-		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/addfprdy_internal_IN
-V_514_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/subfprdy_internal_IN
-V_520_o1_INV_0
-INV
 		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/sqrtfp2rdy_internal_
 INV_518_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/fixed2floatrdy_inter
-nal_INV_495_o1_INV_0
 INV
 		melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/g_process_fisqrt_no_
 p0.p0.state__n04611_INV_0
@@ -3247,7 +3248,7 @@ LUT1 		Mcount_pTo.cold_start_xor<9>_rt
 INV 		vgaclk25_INV_39_o1_INV_0
 INV 		address_generator_vsync1_INV_0
 INV 		agclk_INV_43_o1_INV_0
-INV 		_n06161_INV_0
+INV 		_n06141_INV_0
 INV 		Mcount_pagclk.vmax_xor<0>11_INV_0
 LUT1 		g0_fl2fi_temperature.inst_float2fixed_t/blk00000140
 INV 		g0_fl2fi_temperature.inst_float2fixed_t/blk0000014f
@@ -3520,22 +3521,22 @@ Section 6 - IOB Properties
 | o_an<1>                            | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
 | o_an<2>                            | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
 | o_an<3>                            | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
-| o_data<0>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
-| o_data<1>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
-| o_data<2>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
-| o_data<3>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
-| o_data<4>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
-| o_data<5>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
-| o_data<6>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
-| o_data<7>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
-| o_data<8>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
-| o_data<9>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
-| o_data<10>                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
-| o_data<11>                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
-| o_data<12>                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
-| o_data<13>                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
-| o_data<14>                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
-| o_data<15>                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| o_data<0>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          | 0 / 0    |
+| o_data<1>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          | 0 / 0    |
+| o_data<2>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          | 0 / 0    |
+| o_data<3>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          | 0 / 0    |
+| o_data<4>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          | 0 / 0    |
+| o_data<5>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          | 0 / 0    |
+| o_data<6>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          | 0 / 0    |
+| o_data<7>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          | 0 / 0    |
+| o_data<8>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          | 0 / 0    |
+| o_data<9>                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          | 0 / 0    |
+| o_data<10>                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          | 0 / 0    |
+| o_data<11>                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          | 0 / 0    |
+| o_data<12>                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          | 0 / 0    |
+| o_data<13>                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          | 0 / 0    |
+| o_data<14>                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          | 0 / 0    |
+| o_data<15>                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW | OFF1         |          | 0 / 0    |
 | o_led<0>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
 | o_led<1>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
 | o_led<2>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
@@ -3544,6 +3545,7 @@ Section 6 - IOB Properties
 | o_led<5>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
 | o_led<6>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
 | o_led<7>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
+| o_ready                            | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
 | o_seg<0>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
 | o_seg<1>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
 | o_seg<2>                           | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          | 0 / 0    |
@@ -3605,7 +3607,7 @@ _SRL16.U_GANDX_SRL16_MSET
 Section 8 - Guide Report
 ------------------------
 
-Fri Nov 07 10:32:40 2025
+Fri Nov 07 23:18:03 2025
 
   Estimated SmartGuide Results
   ----------------------------
@@ -3613,11 +3615,11 @@ Fri Nov 07 10:32:40 2025
   components are components that were guided, but moved in order to satisfy
   timing requirements.
 
-    Estimated Percentage of guided Components                 |  66.3%
-    Estimated Percentage of re-implemented Components         |   0.6%
-    Estimated Percentage of new/changed Components            |  33.1%
-    Estimated Percentage of fully guided Nets                 |  48.3%
-    Estimated Percentage of partially guided or unrouted Nets |  51.7%
+    Estimated Percentage of guided Components                 |  98.4%
+    Estimated Percentage of re-implemented Components         |   0.0%
+    Estimated Percentage of new/changed Components            |   1.6%
+    Estimated Percentage of fully guided Nets                 |  97.5%
+    Estimated Percentage of partially guided or unrouted Nets |   2.5%
 
   A detailed SmartGuide report (.GRF) can be generated during PAR by
   specifying the [-smartguide <guidefile[.ncd]>] switch on the PAR
@@ -5880,10 +5882,10 @@ Section 13 - Utilization by Hierarchy
 +---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Module                                                                  | Partition | Slices        | Slice Reg     | LUTs          | LUTRAM        | BRAM      | MULT18X18 | BUFG  | DCM   | Full Hierarchical Name                                                                                                                        |
 +---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| test1/                                                                  |           | 494/11692     | 211/9305      | 737/14421     | 0/348         | 0/27      | 0/0       | 2/4   | 0/0   | test1                                                                                                                                         |
-| +U_icon_pro                                                             |           | 0/71          | 0/28          | 0/72          | 0/0           | 0/0       | 0/0       | 0/1   | 0/0   | test1/U_icon_pro                                                                                                                              |
-| ++U0                                                                    |           | 0/71          | 0/28          | 0/72          | 0/0           | 0/0       | 0/0       | 0/1   | 0/0   | test1/U_icon_pro/U0                                                                                                                           |
-| +++U_ICON                                                               |           | 3/71          | 3/28          | 0/72          | 0/0           | 0/0       | 0/0       | 0/1   | 0/0   | test1/U_icon_pro/U0/U_ICON                                                                                                                    |
+| test1/                                                                  |           | 492/11689     | 211/9305      | 737/14421     | 0/348         | 0/27      | 0/0       | 2/4   | 0/0   | test1                                                                                                                                         |
+| +U_icon_pro                                                             |           | 0/70          | 0/28          | 0/72          | 0/0           | 0/0       | 0/0       | 0/1   | 0/0   | test1/U_icon_pro                                                                                                                              |
+| ++U0                                                                    |           | 0/70          | 0/28          | 0/72          | 0/0           | 0/0       | 0/0       | 0/1   | 0/0   | test1/U_icon_pro/U0                                                                                                                           |
+| +++U_ICON                                                               |           | 3/70          | 3/28          | 0/72          | 0/0           | 0/0       | 0/0       | 0/1   | 0/0   | test1/U_icon_pro/U0/U_ICON                                                                                                                    |
 | ++++I_YES_BSCAN.U_BS                                                    |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/0       | 0/0       | 0/1   | 0/0   | test1/U_icon_pro/U0/U_ICON/I_YES_BSCAN.U_BS                                                                                                   |
 | +++++I_USE_SOFTBSCAN_EQ0.I_USE_XST_TCK_WORKAROUND_EQ1.U_ICON_BSCAN_BUFG |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/0       | 0/0       | 1/1   | 0/0   | test1/U_icon_pro/U0/U_ICON/I_YES_BSCAN.U_BS/I_USE_SOFTBSCAN_EQ0.I_USE_XST_TCK_WORKAROUND_EQ1.U_ICON_BSCAN_BUFG                                |
 | ++++U_CMD                                                               |           | 7/24          | 10/10         | 1/19          | 0/0           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_icon_pro/U0/U_ICON/U_CMD                                                                                                              |
@@ -5892,13 +5894,13 @@ Section 13 - Utilization by Hierarchy
 | ++++U_CTRL_OUT                                                          |           | 29/29         | 0/0           | 35/35         | 0/0           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_icon_pro/U0/U_ICON/U_CTRL_OUT                                                                                                         |
 | ++++U_STAT                                                              |           | 4/7           | 1/7           | 7/13          | 0/0           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_icon_pro/U0/U_ICON/U_STAT                                                                                                             |
 | +++++U_STAT_CNT                                                         |           | 3/3           | 6/6           | 6/6           | 0/0           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_icon_pro/U0/U_ICON/U_STAT/U_STAT_CNT                                                                                                  |
-| ++++U_SYNC                                                              |           | 7/7           | 8/8           | 3/3           | 0/0           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_icon_pro/U0/U_ICON/U_SYNC                                                                                                             |
+| ++++U_SYNC                                                              |           | 6/6           | 8/8           | 3/3           | 0/0           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_icon_pro/U0/U_ICON/U_SYNC                                                                                                             |
 | ++++U_TDO_MUX                                                           |           | 0/1           | 0/0           | 0/2           | 0/0           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_icon_pro/U0/U_ICON/U_TDO_MUX                                                                                                          |
 | +++++U_CS_MUX                                                           |           | 0/1           | 0/0           | 0/2           | 0/0           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_icon_pro/U0/U_ICON/U_TDO_MUX/U_CS_MUX                                                                                                 |
 | ++++++I4.U_MUX16                                                        |           | 1/1           | 0/0           | 2/2           | 0/0           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_icon_pro/U0/U_ICON/U_TDO_MUX/U_CS_MUX/I4.U_MUX16                                                                                      |
-| +U_ila_pro_0                                                            |           | 0/288         | 0/245         | 0/239         | 0/101         | 0/3       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0                                                                                                                             |
-| ++U0                                                                    |           | 27/288        | 33/245        | 0/239         | 0/101         | 0/3       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0                                                                                                                          |
-| +++I_YES_D.U_ILA                                                        |           | 1/261         | 0/212         | 1/239         | 0/101         | 0/3       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0/I_YES_D.U_ILA                                                                                                            |
+| +U_ila_pro_0                                                            |           | 0/289         | 0/245         | 0/239         | 0/101         | 0/3       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0                                                                                                                             |
+| ++U0                                                                    |           | 27/289        | 33/245        | 0/239         | 0/101         | 0/3       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0                                                                                                                          |
+| +++I_YES_D.U_ILA                                                        |           | 1/262         | 0/212         | 1/239         | 0/101         | 0/3       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0/I_YES_D.U_ILA                                                                                                            |
 | ++++I_DQ.U_DQQ                                                          |           | 23/23         | 32/32         | 32/32         | 32/32         | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/I_DQ.U_DQQ                                                                                                 |
 | ++++U_CAPSTOR                                                           |           | 0/13          | 0/18          | 0/20          | 0/0           | 0/3       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR                                                                                                  |
 | +++++I_CASE1.I_NO_TB.I_RT1.I_RDADDR                                     |           | 2/10          | 0/16          | 2/18          | 0/0           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_NO_TB.I_RT1.I_RDADDR                                                                   |
@@ -5911,7 +5913,7 @@ Section 13 - Utilization by Hierarchy
 | ++++++I_MUX.U_RD_DATA                                                   |           | 0/1           | 0/0           | 0/2           | 0/0           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_NO_TB.I_RT1.U_RAM/I_MUX.U_RD_DATA                                                      |
 | +++++++U_CS_MUX                                                         |           | 0/1           | 0/0           | 0/2           | 0/0           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_NO_TB.I_RT1.U_RAM/I_MUX.U_RD_DATA/U_CS_MUX                                             |
 | ++++++++I2.U_MUX4                                                       |           | 1/1           | 0/0           | 2/2           | 0/0           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_NO_TB.I_RT1.U_RAM/I_MUX.U_RD_DATA/U_CS_MUX/I2.U_MUX4                                   |
-| ++++U_G2_SQ.U_CAPCTRL                                                   |           | 7/85          | 7/66          | 1/95          | 0/49          | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_G2_SQ.U_CAPCTRL                                                                                          |
+| ++++U_G2_SQ.U_CAPCTRL                                                   |           | 7/86          | 7/66          | 1/95          | 0/49          | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_G2_SQ.U_CAPCTRL                                                                                          |
 | +++++I_SRLT_NE_1.U_CDONE                                                |           | 4/4           | 1/1           | 6/6           | 4/4           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_G2_SQ.U_CAPCTRL/I_SRLT_NE_1.U_CDONE                                                                      |
 | +++++I_SRLT_NE_1.U_CMPRESET                                             |           | 3/3           | 0/0           | 5/5           | 4/4           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_G2_SQ.U_CAPCTRL/I_SRLT_NE_1.U_CMPRESET                                                                   |
 | +++++I_SRLT_NE_1.U_NS0                                                  |           | 6/6           | 1/1           | 10/10         | 8/8           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_G2_SQ.U_CAPCTRL/I_SRLT_NE_1.U_NS0                                                                        |
@@ -5922,7 +5924,7 @@ Section 13 - Utilization by Hierarchy
 | +++++I_SRLT_NE_1.U_WCE                                                  |           | 2/2           | 0/0           | 2/2           | 1/1           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_G2_SQ.U_CAPCTRL/I_SRLT_NE_1.U_WCE                                                                        |
 | +++++I_SRLT_NE_1.U_WHCMPCE                                              |           | 2/2           | 0/0           | 3/3           | 2/2           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_G2_SQ.U_CAPCTRL/I_SRLT_NE_1.U_WHCMPCE                                                                    |
 | +++++I_SRLT_NE_1.U_WLCMPCE                                              |           | 2/2           | 0/0           | 3/3           | 2/2           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_G2_SQ.U_CAPCTRL/I_SRLT_NE_1.U_WLCMPCE                                                                    |
-| +++++U_CAP_ADDRGEN                                                      |           | 30/46         | 36/56         | 13/45         | 1/13          | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_G2_SQ.U_CAPCTRL/U_CAP_ADDRGEN                                                                            |
+| +++++U_CAP_ADDRGEN                                                      |           | 31/47         | 36/56         | 13/45         | 1/13          | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_G2_SQ.U_CAPCTRL/U_CAP_ADDRGEN                                                                            |
 | ++++++I_NO_TSEQ.I_SRLT_NE_1.U_SCNT                                      |           | 5/5           | 10/10         | 10/10         | 0/0           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_G2_SQ.U_CAPCTRL/U_CAP_ADDRGEN/I_NO_TSEQ.I_SRLT_NE_1.U_SCNT                                               |
 | ++++++I_SRLT_NE_1.U_WCNT                                                |           | 5/5           | 10/10         | 10/10         | 0/0           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_G2_SQ.U_CAPCTRL/U_CAP_ADDRGEN/I_SRLT_NE_1.U_WCNT                                                         |
 | ++++++U_SCNT_CMP                                                        |           | 0/2           | 0/0           | 0/4           | 0/4           | 0/0       | 0/0       | 0/0   | 0/0   | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_G2_SQ.U_CAPCTRL/U_CAP_ADDRGEN/U_SCNT_CMP                                                                 |
@@ -5987,8 +5989,8 @@ Section 13 - Utilization by Hierarchy
 | +++++valid.cstr                                                         |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/1       | 0/0       | 0/0   | 0/0   | test1/g0_dualmem_temperature.dualmem_inst_t/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr                                 |
 | ++++++ramloop[0].ram.r                                                  |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/1       | 0/0       | 0/0   | 0/0   | test1/g0_dualmem_temperature.dualmem_inst_t/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r                |
 | +++++++s3_noinit.ram                                                    |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0       | 0/0   | 0/0   | test1/g0_dualmem_temperature.dualmem_inst_t/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_noinit.ram  |
-| +g0_fl2fi_temperature.inst_float2fixed_t                                |           | 123/123       | 152/152       | 155/155       | 6/6           | 0/0       | 0/0       | 0/0   | 0/0   | test1/g0_fl2fi_temperature.inst_float2fixed_t                                                                                                 |
-| +g_calculate_to.inst_sqrtfp2                                            |           | 521/521       | 819/819       | 525/525       | 45/45         | 0/0       | 0/0       | 0/0   | 0/0   | test1/g_calculate_to.inst_sqrtfp2                                                                                                             |
+| +g0_fl2fi_temperature.inst_float2fixed_t                                |           | 121/121       | 152/152       | 155/155       | 6/6           | 0/0       | 0/0       | 0/0   | 0/0   | test1/g0_fl2fi_temperature.inst_float2fixed_t                                                                                                 |
+| +g_calculate_to.inst_sqrtfp2                                            |           | 522/522       | 819/819       | 525/525       | 45/45         | 0/0       | 0/0       | 0/0   | 0/0   | test1/g_calculate_to.inst_sqrtfp2                                                                                                             |
 | +i2c_mlx_i0                                                             |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/2       | 0/0       | 0/0   | 0/0   | test1/i2c_mlx_i0                                                                                                                              |
 | ++U0                                                                    |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/2       | 0/0       | 0/0   | 0/0   | test1/i2c_mlx_i0/U0                                                                                                                           |
 | +++xst_blk_mem_generator                                                |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/2       | 0/0       | 0/0   | 0/0   | test1/i2c_mlx_i0/U0/xst_blk_mem_generator                                                                                                     |
@@ -5999,15 +6001,15 @@ Section 13 - Utilization by Hierarchy
 | ++++++ramloop[1].ram.r                                                  |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/1       | 0/0       | 0/0   | 0/0   | test1/i2c_mlx_i0/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r                                           |
 | +++++++s3_init.ram                                                      |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0       | 0/0   | 0/0   | test1/i2c_mlx_i0/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/s3_init.ram                               |
 | +inst_addfp                                                             |           | 398/398       | 588/588       | 569/569       | 45/45         | 0/0       | 0/0       | 0/0   | 0/0   | test1/inst_addfp                                                                                                                              |
-| +inst_divfp                                                             |           | 769/769       | 1356/1356     | 819/819       | 59/59         | 0/0       | 0/0       | 0/0   | 0/0   | test1/inst_divfp                                                                                                                              |
+| +inst_divfp                                                             |           | 770/770       | 1356/1356     | 819/819       | 59/59         | 0/0       | 0/0       | 0/0   | 0/0   | test1/inst_divfp                                                                                                                              |
 | +inst_mulfp                                                             |           | 423/423       | 696/696       | 643/643       | 43/43         | 0/0       | 0/0       | 0/0   | 0/0   | test1/inst_mulfp                                                                                                                              |
 | +inst_subfp                                                             |           | 411/411       | 588/588       | 570/570       | 45/45         | 0/0       | 0/0       | 0/0   | 0/0   | test1/inst_subfp                                                                                                                              |
 | +melexis_mlx90640_i2c_i0                                                |           | 175/175       | 111/111       | 273/273       | 0/0           | 0/0       | 0/0       | 1/1   | 0/0   | test1/melexis_mlx90640_i2c_i0                                                                                                                 |
-| +melexis_mlx9064x_core_inst                                             |           | 2268/7820     | 44/4287       | 3391/9548     | 0/0           | 0/21      | 0/0       | 0/0   | 0/0   | test1/melexis_mlx9064x_core_inst                                                                                                              |
+| +melexis_mlx9064x_core_inst                                             |           | 2268/7819     | 44/4287       | 3391/9548     | 0/0           | 0/21      | 0/0       | 0/0   | 0/0   | test1/melexis_mlx9064x_core_inst                                                                                                              |
 | ++g_calculate_to.calculate_to_i0                                        |           | 653/653       | 418/418       | 1046/1046     | 0/0           | 0/2       | 0/0       | 0/0   | 0/0   | test1/melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0                                                                               |
 | +++mem_calculate_to_i0                                                  |           | 0/0           | 0/0           | 0/0           | 0/0           | 2/2       | 0/0       | 0/0   | 0/0   | test1/melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/mem_calculate_to_i0                                                           |
 | ++inst_CalculateAlphaCP                                                 |           | 182/182       | 222/222       | 32/32         | 0/0           | 0/0       | 0/0       | 0/0   | 0/0   | test1/melexis_mlx9064x_core_inst/inst_CalculateAlphaCP                                                                                        |
-| ++inst_CalculateAlphaComp                                               |           | 391/403       | 275/275       | 421/436       | 0/0           | 0/3       | 0/0       | 0/0   | 0/0   | test1/melexis_mlx9064x_core_inst/inst_CalculateAlphaComp                                                                                      |
+| ++inst_CalculateAlphaComp                                               |           | 390/402       | 275/275       | 421/436       | 0/0           | 0/3       | 0/0       | 0/0   | 0/0   | test1/melexis_mlx9064x_core_inst/inst_CalculateAlphaComp                                                                                      |
 | +++mem_alpha_compensated_i0                                             |           | 0/0           | 0/0           | 0/0           | 0/0           | 2/2       | 0/0       | 0/0   | 0/0   | test1/melexis_mlx9064x_core_inst/inst_CalculateAlphaComp/mem_alpha_compensated_i0                                                             |
 | +++mem_switchpattern_i0                                                 |           | 12/12         | 0/0           | 15/15         | 0/0           | 1/1       | 0/0       | 0/0   | 0/0   | test1/melexis_mlx9064x_core_inst/inst_CalculateAlphaComp/mem_switchpattern_i0                                                                 |
 | ++inst_CalculateKGain                                                   |           | 103/103       | 125/125       | 52/52         | 0/0           | 0/0       | 0/0       | 0/0   | 0/0   | test1/melexis_mlx9064x_core_inst/inst_CalculateKGain                                                                                          |
