@@ -669,7 +669,7 @@ end generate dina_no_swap;
 o_led (7 downto 0) <= test_fixed_melexis_do(31-9+9 downto 31-16+9);
 
 pTo : process (clock_i,i_reset) is
-	variable i : integer range 0 to PIXELS-2;
+	variable i : integer range 0 to 2*PIXELS-1;
 --  constant c_some_wait : integer := 2**20;
 --  variable some_wait : integer range 0 to c_some_wait-1;
   --synthesis translate_off
@@ -1045,32 +1045,18 @@ else
           end if;
 
         when r14 =>
-          state <= s0;
---        if (c_lcd = "y") then
---          state <= z1;
---        else
---          state <= s0;
---        end if;
---		wait2 := 0;
---		wait3 := 0;
---		wait1 <= 0;
---          melexis_mlx90640_i2c_mode0 <= '0';
---          melexis_mlx90640_i2c_mode1 <= '0';
---          melexis_mlx90640_i2c_mode2 <= '0';-- w0400/rN
---          melexis_mlx90640_i2c_enable <= '0';
---          melexis_mlx90640_i2c_memory_address <= x"0000";
---		            melexis_mlx90640_i2c_memory_data <= x"0000";
---                i := 0;
+          state <= z1;
+		wait2 := 0;
+		wait3 := 0;
+		wait1 <= 0;
+          melexis_mlx90640_i2c_mode0 <= '0';
+          melexis_mlx90640_i2c_mode1 <= '0';
+          melexis_mlx90640_i2c_mode2 <= '0';-- w0400/rN
+          melexis_mlx90640_i2c_enable <= '0';
+          melexis_mlx90640_i2c_memory_address <= x"0000";
+		            melexis_mlx90640_i2c_memory_data <= x"0000";
+                i := 0;
         when z1 => state <= z2;
---clka => i2c_mlx_clka,
---ena => i2c_mlx_ena,
---wea => i2c_mlx_wea,
---addra => i2c_mlx_addra,
---dina => i2c_mlx_dina,
---clkb => i2c_mlx_clkb,
---enb => i2c_mlx_enb,
---addrb => i2c_mlx_addrb,
---doutb => i2c_mlx_doutb
 i2c_mlx_addrb_2 <= std_logic_vector (to_unsigned (i, 12));
         i2c_mem_ena_2 <= '1';
         when z2 => state <= z3;
@@ -1094,7 +1080,7 @@ lcdchar (1)(3) <= i2c_mlx_doutb(7);
         when z4 =>
         i2c_mem_ena_2 <= '0';
         i2c_mlx_addrb_2 <= (others => '0');
-        if (k = c_clock_board_frequency - 1) then
+        if (k = 3 - 1) then
           k := 0;
           state <= z5;
         else
@@ -1102,7 +1088,7 @@ lcdchar (1)(3) <= i2c_mlx_doutb(7);
           state <= z4;
         end if;
         when z5 =>
-        if (i = PIXELS - 2) then
+        if (i = 2*PIXELS - 2) then
           i := 0;
           state <= s0;
         else
@@ -1110,9 +1096,7 @@ lcdchar (1)(3) <= i2c_mlx_doutb(7);
           state <= z1;
         end if;
         when s0 =>
-        if (c_sim = "n") then
-        state <= s1;
-        end if;
+          state <= s1;
 					test_fixed_melexis_run <= '1';
           float2fixedsclr <= '0';
 				when s1 =>
