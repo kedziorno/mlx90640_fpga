@@ -113,7 +113,7 @@ END COMPONENT;
       c_result_width => 32,
       c_speed => 2,
       c_status_early => 0,
-      c_xdevicefamily => "spartan3e"
+      c_xdevicefamily => "virtex5"
     );
 -- synthesis translate_on
 BEGIN

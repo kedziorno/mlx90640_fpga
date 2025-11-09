@@ -45,7 +45,7 @@
 # PART OF THIS FILE AT ALL TIMES.
 
 
-set device xc3s1200efg320-4
+set device xc5vfx70tff1136-1
 set projName dualmem_rawimg
 set design dualmem_rawimg
 set projDir [file dirname [info script]]

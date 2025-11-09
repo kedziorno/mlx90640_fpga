@@ -30,7 +30,7 @@ copy ..\example_design\dualmem_temperature_exdes.ucf results\
 cd results
 
 echo 'Running ngdbuild'
-ngdbuild -p xc3s1200e-fg320-4 dualmem_temperature_exdes
+ngdbuild -p xc5vfx70t-ff1136-1 dualmem_temperature_exdes
 
 echo 'Running map'
 map dualmem_temperature_exdes -o mapped.ncd  -pr i

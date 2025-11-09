@@ -39,16 +39,15 @@ constant c_board_clock : integer := c_clock_board_frequency;
 constant c_bus_clock : integer := c_clock_i2c_frequency;
 --constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
 --constant c_bus_clock : integer := 50;
---constant c_bus_clock : integer := 1_000_000;
--- constant c_bus_clock : integer := 100_000;
-constant c_sim : string (1 to 1) := "n";
-constant c_lcd : string (1 to 1) := "y";
-constant c_cold_start : integer := 100000;
+--constant c_bus_clock : integer := 1;
+constant c_sim : string (1 to 1) := "y";
+constant c_lcd : string (1 to 1) := "n";
+constant c_cold_start : integer := 1000;
 constant c_wait2 : integer := 1000;
 constant c_wait3 : integer := 10000;
 constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
-constant c_calculate_type1 : string (1 to 13) := "c_raws_images"; -- c_temperature,c_raws_images
-constant c_use_fisqrt1 : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type(c_temperature)
+constant c_calculate_type1 : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
+constant c_use_fisqrt1 : string (1 to 3) := " no" -- yes/no - depend from c_calculate_type(c_temperature)
 );
 port (
 i_clock,i_reset : in std_logic;
@@ -63,11 +62,15 @@ vga_blankn: out std_logic;
 vga_psave: out std_logic;
 io_sda_dd : inout std_logic;
 io_scl_dd : inout std_logic;
+io_sda_dd1 : inout std_logic;
+io_scl_dd1 : inout std_logic;
 io_sda_nl : inout std_logic;
 io_scl_nl : inout std_logic;
 o_an : out std_logic_vector (3 downto 0);
 o_seg : out std_logic_vector (6 downto 0);
-o_led : out std_logic_vector (7 downto 0)
+o_led : out std_logic_vector (7 downto 0);
+o_data : out std_logic_vector (15 downto 0);
+o_ready : out std_logic
 );
 end test1;
 
@@ -507,6 +510,7 @@ signal latch_data : std_logic_vector (15 downto 0);
 signal asd,asd1,clock_i : std_logic;
 
 signal sda_o, sda_i, scl_i : std_logic;
+signal io_sda_i, io_scl_i : std_logic;
 
 component i2c_mlx
 PORT (
@@ -600,6 +604,9 @@ signal state : states;
 
 begin
 
+o_data <= latch_data;
+o_ready <= melexis_mlx90640_i2c_mode2_ready;
+
 vga_syncn <= '1';
 vga_blankn <= VGA_timing_synch_blank;
 --vga_blankn <= '1';
@@ -617,7 +624,7 @@ begin
     temp1 <= '0';
     temp2 <= '0';
 --  elsif (rising_edge (melexis_mlx90640_i2c_mode2_ready)) then
-  elsif (rising_edge (clock_i)) then
+  elsif (falling_edge (clock_i)) then
     temp1 <= melexis_mlx90640_i2c_mode2_ready;
     --temp2 <= temp1;
     if (temp1 = '0' and melexis_mlx90640_i2c_mode2_ready = '1' and melexis_mlx90640_i2c_mode2 = '1') then
@@ -648,15 +655,18 @@ end process p100;
 dina_swap : if (c_sim = "y") generate
       i2c_mlx_dina (7 downto 0) <= latch_data (7 downto 0);
       i2c_mlx_dina (15 downto 8) <= latch_data (15 downto 8);
+--      i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
+--      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
 end generate dina_swap;
 
 dina_no_swap : if (c_sim = "n") generate
       i2c_mlx_dina (15 downto 8) <= latch_data (7 downto 0);
       i2c_mlx_dina (7 downto 0) <= latch_data (15 downto 8);
+--      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
+--      i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
 end generate dina_no_swap;
 
---o_led (7 downto 1) <= float2fixedr_r (41 downto 41-6);
-o_led (7 downto 1) <= test_fixed_melexis_do(31 downto 31-6);
+o_led (7 downto 0) <= test_fixed_melexis_do(31-9+9 downto 31-16+9);
 
 pTo : process (clock_i,i_reset) is
 	variable i : integer range 0 to PIXELS-2;
@@ -1185,8 +1195,8 @@ lcdchar (1)(3) <= i2c_mlx_doutb(7);
 				when s10 =>
 --          state <= idle;
 --          state <= idle2a1;
-          state <= idle1a1;
---          state <= idle3;
+--          state <= idle1a1;
+          state <= idle3;
         when others => state <= idle;
 			end case;
 		end if;
@@ -1388,7 +1398,7 @@ vga_b <= rdata (7-3 downto 0)&"000" when VGA_timing_synch_blank = '0' else (othe
 --vga_g <= "00000" & cm (5 downto 3);
 --vga_b <= "000000" & cm (7 downto 6);
 --cm1 <= cm;
-o_led(0) <= '1' when state = s1 else '0';
+--o_led(0) <= '1' when state = s1 else '0';
 --o_led(1) <= cm1(1);
 --o_led(2) <= cm1(2);
 --o_led(3) <= cm1(3);
@@ -1581,9 +1591,17 @@ io_sda_i => sda_i,
 io_scl => scl_i
 );
 
-io_sda_nl <= '0' when sda_o = '0' else 'Z';
-sda_i <= io_sda_nl;
-io_scl_nl <= '0' when scl_i = '0' else 'Z';
+io_sda_dd1 <= '0' when sda_o = '0' else 'Z';
+sda_i <= io_sda_dd1;
+--io_sda_i <= io_sda_dd;
+--io_sda_dd1 <= sda_i;
+io_sda_nl <= sda_i;
+
+io_scl_i <= '0' when scl_i = '0' else 'Z';
+io_scl_nl <= io_scl_i;
+--io_scl_dd <= io_scl_i;
+io_scl_dd1 <= io_scl_i;
+
 --io_sda_dd <= '0' when sda_i = '0' else 'Z';
 --io_scl_dd <= '0' when scl_i = '0' else 'Z';
 --io_sda_nl <= '0' when sda_i = '0' else 'Z';
@@ -1661,12 +1679,16 @@ doutb => i2c_mlx_doutb
 --compare1 => i2c_stream_compare1
 --);
 
-process (clock_i, i_reset) is
+--process (melexis_mlx90640_i2c_mode2_ready, i_reset) is
+--begin
+--if (i_reset = '1') then
+--latch_data <= (others => '0');
+--elsif (falling_edge (melexis_mlx90640_i2c_mode2_ready)) then
+process (melexis_mlx90640_i2c_mode2_ready, i_reset) is
 begin
 if (i_reset = '1') then
 latch_data <= (others => '0');
-elsif (rising_edge (clock_i)) then
-if (melexis_mlx90640_i2c_mode2_ready = '1') then
+elsif (falling_edge (melexis_mlx90640_i2c_mode2_ready)) then
 latch_data (0) <= melexis_mlx90640_i2c_bytes_to_recv(15);
 latch_data (1) <= melexis_mlx90640_i2c_bytes_to_recv(14);
 latch_data (2) <= melexis_mlx90640_i2c_bytes_to_recv(13);
@@ -1683,7 +1705,6 @@ latch_data (12) <= melexis_mlx90640_i2c_bytes_to_recv(3);
 latch_data (13) <= melexis_mlx90640_i2c_bytes_to_recv(2);
 latch_data (14) <= melexis_mlx90640_i2c_bytes_to_recv(1);
 latch_data (15) <= melexis_mlx90640_i2c_bytes_to_recv(0);
-end if;
 end if;
 end process;
 

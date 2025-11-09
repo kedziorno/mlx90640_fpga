@@ -33,7 +33,7 @@ USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
 use work.bmp_pkg.all;
-use work.global_package.all;
+--use work.global_package.all;
 
 ENTITY tb_test1 IS
 END tb_test1;
@@ -42,22 +42,22 @@ ARCHITECTURE behavior OF tb_test1 IS
 
 -- Component Declaration for the Unit Under Test (UUT)
 COMPONENT test1
-generic (
-constant c_board_clock : integer := c_clock_board_frequency;
---constant c_bus_clock : integer := c_clock_i2c_frequency;
-constant c_bus_clock : integer := 1_000_000;
---constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
---constant c_bus_clock : integer := 50;
---constant c_bus_clock : integer := 1;
-constant c_sim : string (1 to 1) := "y";
-constant c_lcd : string (1 to 1) := "n";
-constant c_cold_start : integer := 1000;
-constant c_wait2 : integer := 1000;
-constant c_wait3 : integer := 10000;
-constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
-constant c_calculate_type1 : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
-constant c_use_fisqrt1 : string (1 to 3) := " no" -- yes/no - depend from c_calculate_type(c_temperature)
-);
+--generic (
+--constant c_board_clock : integer := c_clock_board_frequency;
+----constant c_bus_clock : integer := c_clock_i2c_frequency;
+--constant c_bus_clock : integer := 1_000_000;
+----constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
+----constant c_bus_clock : integer := 50;
+----constant c_bus_clock : integer := 1;
+--constant c_sim : string (1 to 1) := "y";
+--constant c_lcd : string (1 to 1) := "n";
+--constant c_cold_start : integer := 1000;
+--constant c_wait2 : integer := 1000;
+--constant c_wait3 : integer := 10000;
+--constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
+--constant c_calculate_type1 : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
+--constant c_use_fisqrt1 : string (1 to 3) := " no" -- yes/no - depend from c_calculate_type(c_temperature)
+--);
 PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
@@ -247,6 +247,7 @@ begin
 --  wait for 653 us; -- wait on scl idle before mode2 1000k
 --  wait for 869 us; -- wait on scl idle before mode2 1000k
   wait for 878 us; -- wait on scl idle before mode2 1000k
+--  wait for 1282 us; -- wait on scl idle before mode2 1000k -- pr
 --  wait for 974 us; -- wait on scl idle before mode2 500k
 --  wait for 1281 us; -- wait on scl idle before mode2 500k
 --  wait for 2015 us; -- wait on scl idle before mode2 500k

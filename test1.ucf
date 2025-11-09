@@ -1,50 +1,71 @@
-#nexys2
+#ml507
 NET "i_clock" TNM_NET = "i_clock";
-NET "i_clock" LOC = B8;
-NET "i_clock" PERIOD = 20 ns;
-#NET "i_clock" LOC = U9;
-#NET "i_clock" PERIOD = 10 ns;
-NET "vga_r<2>" LOC = "R9";
-NET "vga_r<1>" LOC = "T8";
-NET "vga_r<0>" LOC = "R8";
-NET "vga_g<2>" LOC = "N8";
-NET "vga_g<1>" LOC = "P8";
-NET "vga_g<0>" LOC = "P6";
-NET "vga_b<1>" LOC = "U5";
-NET "vga_b<0>" LOC = "U4";
-NET "vga_hsync" LOC = "T4";
-NET "vga_vsync" LOC = "U3";
-NET "i_reset" LOC = B18;
+NET "i_clock" LOC = AH15;
+NET "i_clock" PERIOD = 10 ns;
+NET "i_reset" LOC = V8;
 NET "i_reset" TIG;
-NET "io_sda_nl" LOC = J13;
-NET "io_scl_nl" LOC = M18;
-## 7 segment display
-NET "o_seg<0>"      LOC = "L18";     # Bank = 1, Pin name = IO_L10P_1, Type = I/O,                         Sch name = CA
-NET "o_seg<1>"      LOC = "F18";     # Bank = 1, Pin name = IO_L19P_1, Type = I/O,                         Sch name = CB
-NET "o_seg<2>"      LOC = "D17";     # Bank = 1, Pin name = IO_L23P_1/HDC, Type = DUAL,                    Sch name = CC
-NET "o_seg<3>"      LOC = "D16";     # Bank = 1, Pin name = IO_L23N_1/LDC0, Type = DUAL,                   Sch name = CD
-NET "o_seg<4>"      LOC = "G14";     # Bank = 1, Pin name = IO_L20P_1, Type = I/O,                         Sch name = CE
-NET "o_seg<5>"      LOC = "J17";     # Bank = 1, Pin name = IO_L13P_1/A6/RHCLK4/IRDY1, Type = RHCLK/DUAL,  Sch name = CF
-NET "o_seg<6>"      LOC = "H14";     # Bank = 1, Pin name = IO_L17P_1, Type = I/O,                         Sch name = CG
-#NET "o_dp"          LOC = "C17";     # Bank = 1, Pin name = IO_L24N_1/LDC2, Type = DUAL,                   Sch name = DP
-NET "o_an<0>"       LOC = "F17";     # Bank = 1, Pin name = IO_L19N_1, Type = I/O,                         Sch name = AN0
-NET "o_an<1>"       LOC = "H17";     # Bank = 1, Pin name = IO_L16N_1/A0, Type = DUAL,                     Sch name = AN1
-NET "o_an<2>"       LOC = "C18";     # Bank = 1, Pin name = IO_L24P_1/LDC1, Type = DUAL,                   Sch name = AN2
-NET "o_an<3>"       LOC = "F15";     # Bank = 1, Pin name = IO_L21P_1, Type = I/O,                         Sch name = AN3
-#NET "i_reset" CLOCK_DEDICATED_ROUTE = FALSE;
+NET "io_sda_nl" LOC = H33; # 2
+NET "io_scl_nl" LOC = F34; # 4
+NET "io_sda_dd1" LOC = H34; # 6
+NET "io_scl_dd1" LOC = G33; # 8
+NET "o_ready" LOC = G32; # 10
+NET "io_sda_dd" LOC = H32; # 12
+NET "io_scl_dd" LOC = J32; # 14
+NET "o_led<0>"      LOC = "H18";
+NET "o_led<1>"      LOC = "L18";
+NET "o_led<2>"      LOC = "G15";
+NET "o_led<3>"      LOC = "AD26";
+NET "o_led<4>"      LOC = "G16";
+NET "o_led<5>"      LOC = "AD25";
+NET "o_led<6>"      LOC = "AD24";
+NET "o_led<7>"      LOC = "AE24";
 
-NET "o_led<0>"      LOC = "J14";     # Bank = 1, Pin name = IO_L14N_1/A3/RHCLK7, Type = RHCLK/DUAL,        Sch name = JD10/LD0
-NET "o_led<1>"      LOC = "J15";     # Bank = 1, Pin name = IO_L14P_1/A4/RHCLK6, Type = RHCLK/DUAL,        Sch name = JD9/LD1
-NET "o_led<2>"      LOC = "K15";     # Bank = 1, Pin name = IO_L12P_1/A8/RHCLK2, Type = RHCLK/DUAL,        Sch name = JD8/LD2
-NET "o_led<3>"      LOC = "K14";     # Bank = 1, Pin name = IO_L12N_1/A7/RHCLK3/TRDY1, Type = RHCLK/DUAL,  Sch name = JD7/LD3
-#NET "o_led<4>"      LOC = "E17";     # Bank = 1, Pin name = IO, Type = I/O,                                Sch name = LD4? s3e500 only
-#NET "o_led<5>"      LOC = "P15";     # Bank = 1, Pin name = IO, Type = I/O,                                Sch name = LD5? s3e500 only
-#NET "o_led<6>"      LOC = "F4";      # Bank = 3, Pin name = IO, Type = I/O,                                Sch name = LD6? s3e500 only
-#NET "o_led<7>"      LOC = "R4";      # Bank = 3, Pin name = IO/VREF_3, Type = VREF,                        Sch name = LD7? s3e500 only
-NET "o_led<4>"      LOC = "E16";     # Bank = 1, Pin name = N.C., Type = N.C.,                             Sch name = LD4? other than s3e500
-NET "o_led<5>"      LOC = "P16";     # Bank = 1, Pin name = N.C., Type = N.C.,                             Sch name = LD5? other than s3e500
-NET "o_led<6>"      LOC = "E4";      # Bank = 3, Pin name = N.C., Type = N.C.,                             Sch name = LD6? other than s3e500
-NET "o_led<7>"      LOC = "P4";      # Bank = 3, Pin name = N.C., Type = N.C.,                             Sch name = LD7? other than s3e500
+#nexys2
+#NET "i_clock" TNM_NET = "i_clock";
+#NET "i_clock" LOC = B8;
+#NET "i_clock" PERIOD = 20 ns;
+##NET "i_clock" LOC = U9;
+##NET "i_clock" PERIOD = 10 ns;
+#NET "vga_r<2>" LOC = "R9";
+#NET "vga_r<1>" LOC = "T8";
+#NET "vga_r<0>" LOC = "R8";
+#NET "vga_g<2>" LOC = "N8";
+#NET "vga_g<1>" LOC = "P8";
+#NET "vga_g<0>" LOC = "P6";
+#NET "vga_b<1>" LOC = "U5";
+#NET "vga_b<0>" LOC = "U4";
+#NET "vga_hsync" LOC = "T4";
+#NET "vga_vsync" LOC = "U3";
+#NET "i_reset" LOC = B18;
+#NET "i_reset" TIG;
+#NET "io_sda_nl" LOC = J13;
+#NET "io_scl_nl" LOC = M18;
+### 7 segment display
+#NET "o_seg<0>"      LOC = "L18";     # Bank = 1, Pin name = IO_L10P_1, Type = I/O,                         Sch name = CA
+#NET "o_seg<1>"      LOC = "F18";     # Bank = 1, Pin name = IO_L19P_1, Type = I/O,                         Sch name = CB
+#NET "o_seg<2>"      LOC = "D17";     # Bank = 1, Pin name = IO_L23P_1/HDC, Type = DUAL,                    Sch name = CC
+#NET "o_seg<3>"      LOC = "D16";     # Bank = 1, Pin name = IO_L23N_1/LDC0, Type = DUAL,                   Sch name = CD
+#NET "o_seg<4>"      LOC = "G14";     # Bank = 1, Pin name = IO_L20P_1, Type = I/O,                         Sch name = CE
+#NET "o_seg<5>"      LOC = "J17";     # Bank = 1, Pin name = IO_L13P_1/A6/RHCLK4/IRDY1, Type = RHCLK/DUAL,  Sch name = CF
+#NET "o_seg<6>"      LOC = "H14";     # Bank = 1, Pin name = IO_L17P_1, Type = I/O,                         Sch name = CG
+##NET "o_dp"          LOC = "C17";     # Bank = 1, Pin name = IO_L24N_1/LDC2, Type = DUAL,                   Sch name = DP
+#NET "o_an<0>"       LOC = "F17";     # Bank = 1, Pin name = IO_L19N_1, Type = I/O,                         Sch name = AN0
+#NET "o_an<1>"       LOC = "H17";     # Bank = 1, Pin name = IO_L16N_1/A0, Type = DUAL,                     Sch name = AN1
+#NET "o_an<2>"       LOC = "C18";     # Bank = 1, Pin name = IO_L24P_1/LDC1, Type = DUAL,                   Sch name = AN2
+#NET "o_an<3>"       LOC = "F15";     # Bank = 1, Pin name = IO_L21P_1, Type = I/O,                         Sch name = AN3
+##NET "i_reset" CLOCK_DEDICATED_ROUTE = FALSE;
+#NET "o_led<0>"      LOC = "J14";     # Bank = 1, Pin name = IO_L14N_1/A3/RHCLK7, Type = RHCLK/DUAL,        Sch name = JD10/LD0
+#NET "o_led<1>"      LOC = "J15";     # Bank = 1, Pin name = IO_L14P_1/A4/RHCLK6, Type = RHCLK/DUAL,        Sch name = JD9/LD1
+#NET "o_led<2>"      LOC = "K15";     # Bank = 1, Pin name = IO_L12P_1/A8/RHCLK2, Type = RHCLK/DUAL,        Sch name = JD8/LD2
+#NET "o_led<3>"      LOC = "K14";     # Bank = 1, Pin name = IO_L12N_1/A7/RHCLK3/TRDY1, Type = RHCLK/DUAL,  Sch name = JD7/LD3
+##NET "o_led<4>"      LOC = "E17";     # Bank = 1, Pin name = IO, Type = I/O,                                Sch name = LD4? s3e500 only
+##NET "o_led<5>"      LOC = "P15";     # Bank = 1, Pin name = IO, Type = I/O,                                Sch name = LD5? s3e500 only
+##NET "o_led<6>"      LOC = "F4";      # Bank = 3, Pin name = IO, Type = I/O,                                Sch name = LD6? s3e500 only
+##NET "o_led<7>"      LOC = "R4";      # Bank = 3, Pin name = IO/VREF_3, Type = VREF,                        Sch name = LD7? s3e500 only
+#NET "o_led<4>"      LOC = "E16";     # Bank = 1, Pin name = N.C., Type = N.C.,                             Sch name = LD4? other than s3e500
+#NET "o_led<5>"      LOC = "P16";     # Bank = 1, Pin name = N.C., Type = N.C.,                             Sch name = LD5? other than s3e500
+#NET "o_led<6>"      LOC = "E4";      # Bank = 3, Pin name = N.C., Type = N.C.,                             Sch name = LD6? other than s3e500
+#NET "o_led<7>"      LOC = "P4";      # Bank = 3, Pin name = N.C., Type = N.C.,                             Sch name = LD7? other than s3e500
 
 ##ml402
 #NET "io_sda_dd" LOC = B17;

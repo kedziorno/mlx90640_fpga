@@ -548,6 +548,7 @@ begin
 					divfpsclr_internal <= '0';
 					sqrtfp2sclr_internal <= '0';
           fixed2floatsclr_internal <= '0';
+          --rdy <= '0';
         when s9 => state := s10;
           o_vircompensated_addr <= std_logic_vector (to_unsigned (i, 10));
           o_alphacomp_addr <= std_logic_vector (to_unsigned (i, 10));

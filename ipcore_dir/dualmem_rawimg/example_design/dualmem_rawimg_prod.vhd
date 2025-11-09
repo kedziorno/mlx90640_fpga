@@ -74,8 +74,8 @@
 -- Configured Core Parameter Values:
 -- (Refer to the SIM Parameters table in the datasheet for more information on
 -- the these parameters.)
---    C_FAMILY                    :  spartan3e 
---    C_XDEVICEFAMILY             :  spartan3e 
+--    C_FAMILY                    :  virtex5 
+--    C_XDEVICEFAMILY             :  virtex5 
 --    C_INTERFACE_TYPE            :  0 
 --    C_ENABLE_32BIT_ADDRESS      :  0 
 --    C_AXI_TYPE                  :  1 
