@@ -1,7 +1,7 @@
 Release 14.7 par P.20131013 (lin64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-work::  Sun Nov 09 22:44:16 2025
+work::  Sun Nov 09 22:55:24 2025
 
 par -w -intstyle ise -ol std -smartguide
 /home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/test1_guide.ncd
@@ -45,22 +45,22 @@ Device Utilization Summary:
       Number of LOCed IOBs                  17 out of 74     22%
 
    Number of RAMB18X2s                       3 out of 148     2%
-   Number of RAMB36_EXPs                    88 out of 148    59%
-   Number of Slices                       3261 out of 11200  29%
-   Number of Slice Registers              8336 out of 44800  18%
-      Number used as Flip Flops           8335
+   Number of RAMB36_EXPs                    56 out of 148    37%
+   Number of Slices                       3256 out of 11200  29%
+   Number of Slice Registers              8318 out of 44800  18%
+      Number used as Flip Flops           8317
       Number used as Latches                 1
       Number used as LatchThrus              0
 
-   Number of Slice LUTS                  10610 out of 44800  23%
-   Number of Slice LUT-Flip Flop pairs   11823 out of 44800  26%
+   Number of Slice LUTS                  10590 out of 44800  23%
+   Number of Slice LUT-Flip Flop pairs   11798 out of 44800  26%
 
 
 Overall effort level (-ol):   Standard 
 Router effort level (-rl):    Standard 
 
-Starting initial Timing Analysis.  REAL time: 12 secs 
-Finished initial Timing Analysis.  REAL time: 12 secs 
+Starting initial Timing Analysis.  REAL time: 11 secs 
+Finished initial Timing Analysis.  REAL time: 11 secs 
 
 WARNING:Par:288 - The signal g0_dualmem_temperature.dualmem_inst_t/doutb<15> has no load.  PAR will not attempt to route
    this signal.
@@ -101,13 +101,13 @@ WARNING:Par:288 - The signal icon_control0<28> has no load.  PAR will not attemp
 Starting Router
 
 
-Phase  1  : 5537 unrouted;      REAL time: 13 secs 
+Phase  1  : 4653 unrouted;      REAL time: 13 secs 
 
-Phase  2  : 570 unrouted;      REAL time: 15 secs 
+Phase  2  : 627 unrouted;      REAL time: 14 secs 
 
-Phase  3  : 10 unrouted;      REAL time: 17 secs 
+Phase  3  : 89 unrouted;      REAL time: 16 secs 
 
-Phase  4  : 10 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 19 secs 
+Phase  4  : 89 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 18 secs 
 
 Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 21 secs 
 
@@ -129,15 +129,15 @@ Total CPU time to Router completion: 25 secs
   report accurately reflects the differences between the input design
   and the guide design.
 
-  Number of Components in the input design    |   3438
-    Number of guided Components               |   3438 out of   3438 100.0%
-    Number of re-implemented Components       |      0 out of   3438   0.0%
-    Number of new/changed Components          |      0 out of   3438   0.0%
-  Number of Nets in the input design          |  15220
-    Number of guided Nets                     |  15149 out of  15220  99.5%
-    Number of partially guided Nets           |     58 out of  15220   0.4%
-    Number of re-routed Nets                  |     13 out of  15220   0.1%
-    Number of new/changed Nets                |      0 out of  15220   0.0%
+  Number of Components in the input design    |   3401
+    Number of guided Components               |   3393 out of   3401  99.8%
+    Number of re-implemented Components       |      4 out of   3401   0.1%
+    Number of new/changed Components          |      4 out of   3401   0.1%
+  Number of Nets in the input design          |  15158
+    Number of guided Nets                     |  15028 out of  15158  99.1%
+    Number of partially guided Nets           |     72 out of  15158   0.5%
+    Number of re-routed Nets                  |     55 out of  15158   0.4%
+    Number of new/changed Nets                |      3 out of  15158   0.1%
 
 Partition Implementation Status
 -------------------------------
@@ -155,16 +155,22 @@ Generating Clock Report
 +---------------------+--------------+------+------+------------+-------------+
 |        Clock Net    |   Resource   |Locked|Fanout|Net Skew(ns)|Max Delay(ns)|
 +---------------------+--------------+------+------+------------+-------------+
-|    icon_control0<0> |BUFGCTRL_X0Y30| No   |  203 |  0.612     |  2.168      |
-+---------------------+--------------+------+------+------------+-------------+
 |       i_clock_BUFGP | BUFGCTRL_X0Y0| No   | 2647 |  0.492     |  2.039      |
++---------------------+--------------+------+------+------------+-------------+
+|    icon_control0<0> |BUFGCTRL_X0Y30| No   |  137 |  0.612     |  2.168      |
++---------------------+--------------+------+------+------------+-------------+
+|       vgaclk25_BUFG | BUFGCTRL_X0Y1| No   |   22 |  0.237     |  1.818      |
 +---------------------+--------------+------+------+------------+-------------+
 |melexis_mlx90640_i2c |              |      |      |            |             |
 |      _i0/clock_BUFG |BUFGCTRL_X0Y31| No   |   31 |  0.222     |  1.770      |
 +---------------------+--------------+------+------+------------+-------------+
-|       vgaclk25_BUFG | BUFGCTRL_X0Y1| No   |   22 |  0.237     |  1.818      |
+|       i2c_mem_ena_2 |         Local|      |  156 |  7.331     |  8.620      |
 +---------------------+--------------+------+------+------------+-------------+
-|        o_ready_OBUF |         Local|      |  234 |  5.112     |  5.649      |
+|melexis_mlx90640_i2c |              |      |      |            |             |
+|       _i0/io_scl_ii |         Local|      |    6 |  0.904     |  1.857      |
++---------------------+--------------+------+------+------------+-------------+
+|U_icon_pro/U0/iUPDAT |              |      |      |            |             |
+|               E_OUT |         Local|      |    1 |  0.000     |  1.377      |
 +---------------------+--------------+------+------+------------+-------------+
 |   icon_control0<13> |         Local|      |    4 |  0.000     |  1.374      |
 +---------------------+--------------+------+------+------------+-------------+
@@ -172,12 +178,6 @@ Generating Clock Report
 +---------------------+--------------+------+------+------------+-------------+
 |c_lcd_display/clock_ |              |      |      |            |             |
 |           divider_1 |         Local|      |   11 |  1.646     |  2.942      |
-+---------------------+--------------+------+------+------------+-------------+
-|melexis_mlx90640_i2c |              |      |      |            |             |
-|       _i0/io_scl_ii |         Local|      |    6 |  0.904     |  1.857      |
-+---------------------+--------------+------+------+------------+-------------+
-|U_icon_pro/U0/iUPDAT |              |      |      |            |             |
-|               E_OUT |         Local|      |    1 |  0.000     |  1.377      |
 +---------------------+--------------+------+------+------------+-------------+
 
 * Net Skew is the difference between the minimum and maximum routing
@@ -208,7 +208,7 @@ Asterisk (*) preceding a constraint indicates it was not met.
   TS_U_TO_U = MAXDELAY FROM TIMEGRP "U_CLK" | SETUP       |    14.092ns|     0.908ns|       0|           0
    TO TIMEGRP "U_CLK" 15 ns                 | HOLD        |     0.578ns|            |       0|           0
 ----------------------------------------------------------------------------------------------------------
-  TS_J_CLK = PERIOD TIMEGRP "J_CLK" 30 ns H | SETUP       |    17.004ns|    12.996ns|       0|           0
+  TS_J_CLK = PERIOD TIMEGRP "J_CLK" 30 ns H | SETUP       |    16.345ns|    13.655ns|       0|           0
   IGH 50%                                   | HOLD        |     0.470ns|            |       0|           0
 ----------------------------------------------------------------------------------------------------------
   PATH "TS_D2_TO_T2_ila_pro_0_path" TIG     | SETUP       |         N/A|     3.245ns|     N/A|           0
@@ -242,7 +242,7 @@ WARNING:Par:283 - There are 29 loadless signals in this design. This design will
 Total REAL time to PAR completion: 29 secs 
 Total CPU time to PAR completion: 30 secs 
 
-Peak Memory Usage:  1083 MB
+Peak Memory Usage:  1109 MB
 
 Placer: Placement generated during map.
 Routing: Completed - No errors found.
