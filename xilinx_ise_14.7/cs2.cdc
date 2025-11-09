@@ -1,5 +1,5 @@
 #ChipScope Core Inserter Project File Version 3.0
-#Sun Nov 09 22:52:40 CET 2025
+#Sun Nov 09 23:20:37 CET 2025
 Project.device.designInputFile=/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/test1_cs.ngc
 Project.device.designOutputFile=/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/test1_cs.ngc
 Project.device.deviceFamily=14
@@ -35,12 +35,6 @@ Project.unit.dimension=1
 Project.unit<0>.clockChannel=i2c_mem_ena_2
 Project.unit<0>.clockEdge=Rising
 Project.unit<0>.dataChannel<0>=i2c_mlx_doutb<0>
-Project.unit<0>.dataChannel<10>=latch_data<10>
-Project.unit<0>.dataChannel<11>=latch_data<11>
-Project.unit<0>.dataChannel<12>=latch_data<12>
-Project.unit<0>.dataChannel<13>=latch_data<13>
-Project.unit<0>.dataChannel<14>=latch_data<14>
-Project.unit<0>.dataChannel<15>=latch_data<15>
 Project.unit<0>.dataChannel<1>=i2c_mlx_doutb<1>
 Project.unit<0>.dataChannel<2>=i2c_mlx_doutb<2>
 Project.unit<0>.dataChannel<3>=i2c_mlx_doutb<3>
@@ -48,8 +42,6 @@ Project.unit<0>.dataChannel<4>=i2c_mlx_doutb<4>
 Project.unit<0>.dataChannel<5>=i2c_mlx_doutb<5>
 Project.unit<0>.dataChannel<6>=i2c_mlx_doutb<6>
 Project.unit<0>.dataChannel<7>=i2c_mlx_doutb<7>
-Project.unit<0>.dataChannel<8>=latch_data<8>
-Project.unit<0>.dataChannel<9>=latch_data<9>
 Project.unit<0>.dataDepth=131072
 Project.unit<0>.dataEqualsTrigger=false
 Project.unit<0>.dataPortWidth=8
