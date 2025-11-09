@@ -5,7 +5,7 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.03 secs
+Total CPU time to Xst completion: 0.02 secs
  
 --> 
 Parameter xsthdpdir set to xst
@@ -1654,17 +1654,17 @@ INFO:Xst:1799 - State mode2_read_data_nak is never reached in FSM <c_state>.
     | Encoding           | auto                                           |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
-    Found 4-bit adder for signal <PWR_52_o_GND_115_o_add_215_OUT> created at line 691.
-    Found 3-bit adder for signal <data_index_ctr[2]_GND_115_o_add_261_OUT> created at line 800.
-    Found 10-bit adder for signal <mode2_read_data_index_ctr[9]_GND_115_o_add_271_OUT> created at line 828.
-    Found 4-bit adder for signal <p_i2c_clock_ctr.count[3]_GND_115_o_add_300_OUT> created at line 890.
-    Found 3-bit subtractor for signal <GND_115_o_GND_115_o_sub_231_OUT<2:0>> created at line 733.
+    Found 4-bit adder for signal <PWR_52_o_GND_115_o_add_215_OUT> created at line 693.
+    Found 3-bit adder for signal <data_index_ctr[2]_GND_115_o_add_261_OUT> created at line 802.
+    Found 10-bit adder for signal <mode2_read_data_index_ctr[9]_GND_115_o_add_271_OUT> created at line 830.
+    Found 4-bit adder for signal <p_i2c_clock_ctr.count[3]_GND_115_o_add_300_OUT> created at line 892.
+    Found 3-bit subtractor for signal <GND_115_o_GND_115_o_sub_231_OUT<2:0>> created at line 735.
     Found 4x1-bit Read Only RAM for signal <slave_index_ctr[2]_X_40_o_Mux_231_o>
-    Found 1-bit 8-to-1 multiplexer for signal <data_index_ctr[2]_i_memory_data[7]_Mux_83_o> created at line 379.
-    Found 1-bit 16-to-1 multiplexer for signal <PWR_52_o_i_memory_data[15]_Mux_95_o> created at line 407.
-    Found 1-bit 8-to-1 multiplexer for signal <data_index_ctr[2]_i_memory_address[7]_Mux_202_o> created at line 661.
-    Found 1-bit 16-to-1 multiplexer for signal <PWR_52_o_i_memory_address[15]_Mux_216_o> created at line 691.
-    Found 1-bit tristate buffer for signal <io_sda_ii> created at line 198
+    Found 1-bit 8-to-1 multiplexer for signal <data_index_ctr[2]_i_memory_data[7]_Mux_83_o> created at line 381.
+    Found 1-bit 16-to-1 multiplexer for signal <PWR_52_o_i_memory_data[15]_Mux_95_o> created at line 409.
+    Found 1-bit 8-to-1 multiplexer for signal <data_index_ctr[2]_i_memory_address[7]_Mux_202_o> created at line 663.
+    Found 1-bit 16-to-1 multiplexer for signal <PWR_52_o_i_memory_address[15]_Mux_216_o> created at line 693.
+    Found 1-bit tristate buffer for signal <io_sda_ii> created at line 199
     Summary:
 	inferred   1 RAM(s).
 	inferred   5 Adder/Subtractor(s).
@@ -3481,18 +3481,18 @@ Timing constraint: Default period analysis for Clock 'melexis_mlx90640_i2c_i0/io
   Total number of paths / destination ports: 16 / 16
 -------------------------------------------------------------------------
 Delay:               1.543ns (Levels of Logic = 1)
-  Source:            melexis_mlx90640_i2c_i0/bytes_to_recv_sr_1 (FF)
-  Destination:       melexis_mlx90640_i2c_i0/bytes_to_recv_sr_0 (FF)
+  Source:            melexis_mlx90640_i2c_i0/bytes_to_recv_sr_0 (FF)
+  Destination:       melexis_mlx90640_i2c_i0/bytes_to_recv_sr_1 (FF)
   Source Clock:      melexis_mlx90640_i2c_i0/io_scl_ii rising
   Destination Clock: melexis_mlx90640_i2c_i0/io_scl_ii rising
 
-  Data Path: melexis_mlx90640_i2c_i0/bytes_to_recv_sr_1 to melexis_mlx90640_i2c_i0/bytes_to_recv_sr_0
+  Data Path: melexis_mlx90640_i2c_i0/bytes_to_recv_sr_0 to melexis_mlx90640_i2c_i0/bytes_to_recv_sr_1
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDC:C->Q              2   0.471   0.978  bytes_to_recv_sr_1 (bytes_to_recv_sr_1)
-     LUT5:I0->O            1   0.094   0.000  Mmux_io_sda_ii_GND_115_o_mux_25_OUT171 (io_sda_ii_GND_115_o_mux_25_OUT<0>)
-     FDC:D                    -0.018          bytes_to_recv_sr_0
+     FDC:C->Q              2   0.471   0.978  bytes_to_recv_sr_0 (bytes_to_recv_sr_0)
+     LUT5:I0->O            1   0.094   0.000  Mmux_bytes_to_recv_sr[15]_GND_115_o_mux_25_OUT161 (bytes_to_recv_sr[15]_GND_115_o_mux_25_OUT<1>)
+     FDC:D                    -0.018          bytes_to_recv_sr_1
     ----------------------------------------
     Total                      1.543ns (0.565ns logic, 0.978ns route)
                                        (36.6% logic, 63.4% route)
@@ -3735,8 +3735,8 @@ vgaclk25       |    4.562|         |         |         |
 =========================================================================
 
 
-Total REAL time to Xst completion: 31.00 secs
-Total CPU time to Xst completion: 30.02 secs
+Total REAL time to Xst completion: 32.00 secs
+Total CPU time to Xst completion: 30.54 secs
  
 WARNING:Xst:3152 - You have chosen to run a version of XST which is not the default solution
    for the specified device family. You are free to use it in order to take
@@ -3749,7 +3749,7 @@ WARNING:Xst:3152 - You have chosen to run a version of XST which is not the defa
 --> 
 
 
-Total memory usage is 507480 kilobytes
+Total memory usage is 509224 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :  317 (   0 filtered)
