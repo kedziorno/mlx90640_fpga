@@ -105,8 +105,8 @@ signal vga_g : std_logic_vector(7 downto 0);
 signal vga_b : std_logic_vector(7 downto 0);
 
 -- Clock period definitions
-constant i_clock_period : time := 20 ns; -- nexys2
---constant i_clock_period : time := 10 ns; -- ml402
+--constant i_clock_period : time := 20 ns; -- nexys2
+constant i_clock_period : time := 10 ns; -- ml402
 --constant i_clock_period : time := 40 ns; -- 25
 
 component vga_bmp_sink is
@@ -251,12 +251,12 @@ end process;
 
 p0 : process is
 begin
---  wait for 653 us; -- wait on scl idle before mode2 1000k
+  wait for 653 us; -- wait on scl idle before mode2 1000k
 --  wait for 869 us; -- wait on scl idle before mode2 1000k
 --  wait for 878 us; -- wait on scl idle before mode2 1000k
 --  wait for 1282 us; -- wait on scl idle before mode2 1000k -- pr
 --  wait for 1950 us; -- wait on scl idle before mode2 1000k -- pr
-  wait for 1304 us; -- wait on scl idle before mode2 1000k -- pr
+--  wait for 1304 us; -- wait on scl idle before mode2 1000k -- pr
 --  wait for 974 us; -- wait on scl idle before mode2 500k
 --  wait for 1281 us; -- wait on scl idle before mode2 500k
 --  wait for 2015 us; -- wait on scl idle before mode2 500k

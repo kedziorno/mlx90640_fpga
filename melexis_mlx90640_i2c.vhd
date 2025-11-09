@@ -147,6 +147,7 @@ state1,
   signal mode2_ready_i : std_logic;
   signal mode2_ready_all_i : std_logic;
   signal io_scl_ii, io_scl_ii_i, io_sda_ii, io_sda_ii_i : std_logic;
+  signal io_scl_ii_z : std_logic;
 
 begin
 
@@ -221,11 +222,12 @@ begin
     end if;
   end process p_synchro_sda;
 
-  p_i2c_catch_bytes_to_recv : process (io_scl_ii, i_reset) is
+  io_scl_ii_z <= '0' when io_scl_ii = '0' else '1';
+  p_i2c_catch_bytes_to_recv : process (io_scl_ii_z, i_reset) is
   begin
     if (i_reset = '1') then
       bytes_to_recv_sr <= (others => '0');
-    elsif (rising_edge (io_scl_ii)) then
+    elsif (rising_edge (io_scl_ii_z)) then
 --      if (c_state = mode2_read_data2 and c_cmode = c2 and data_index_ctr = 7) then
       if (c_state = mode2_read_data2 and c_cmode = c3 and data_index_ctr = 7) then
         bytes_to_recv_sr <= (others => '0');
