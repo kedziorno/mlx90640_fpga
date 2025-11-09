@@ -486,7 +486,8 @@ port (
   o_busy : out std_logic;
   io_sda_o : out std_logic;
   io_sda_i : in std_logic;
-  io_scl : out std_logic
+  io_scl_o : out std_logic;
+  io_scl_i : in std_logic
 );
 end component melexis_mlx90640_i2c;
 signal melexis_mlx90640_i2c_clock : std_logic;
@@ -509,7 +510,7 @@ signal latch_data : std_logic_vector (15 downto 0);
 
 signal asd,asd1,clock_i : std_logic;
 
-signal sda_o, sda_i, scl_i : std_logic;
+signal sda_o, sda_i, scl_o, scl_i : std_logic;
 signal io_sda_i, io_scl_i : std_logic;
 
 component i2c_mlx
@@ -1573,7 +1574,8 @@ i_enable => melexis_mlx90640_i2c_enable,
 o_busy => melexis_mlx90640_i2c_busy,
 io_sda_o => sda_o,
 io_sda_i => sda_i,
-io_scl => scl_i
+io_scl_o => scl_o,
+io_scl_i => scl_i
 );
 
 io_sda_dd1 <= '0' when sda_o = '0' else 'Z';
@@ -1581,10 +1583,10 @@ sda_i <= io_sda_dd1;
 io_sda_dd <= sda_i;
 io_sda_nl <= sda_i;
 
-io_scl_i <= '0' when scl_i = '0' else 'Z';
-io_scl_nl <= io_scl_i;
-io_scl_dd <= io_scl_i;
-io_scl_dd1 <= io_scl_i;
+io_scl_dd1 <= '0' when scl_o = '0' else 'Z';
+scl_i <= io_scl_dd1;
+io_scl_nl <= scl_i;
+io_scl_dd <= scl_i;
 
 --io_sda_dd <= '0' when sda_i = '0' else 'Z';
 --io_scl_dd <= '0' when scl_i = '0' else 'Z';

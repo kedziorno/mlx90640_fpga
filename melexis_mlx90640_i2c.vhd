@@ -47,7 +47,8 @@ port (
   o_busy : out std_logic;
   io_sda_o : out std_logic;
   io_sda_i : in std_logic;
-  io_scl : out std_logic
+  io_scl_o : out std_logic;
+  io_scl_i : in std_logic
 );
 end entity melexis_mlx90640_i2c;
 
@@ -145,9 +146,17 @@ state1,
   signal mode2_read_data_index_ctr : integer range 0 to c_mode2_read_data_index - 1;
   signal mode2_ready_i : std_logic;
   signal mode2_ready_all_i : std_logic;
-  signal io_sda_ii : std_logic;
+  signal io_scl_ii, io_scl_ii_i, io_sda_ii : std_logic;
 
 begin
+
+  p_i_scl : process (i_clock) is
+  begin
+    if (rising_edge (i_clock)) then
+      io_scl_ii_i <= io_scl_i;
+      io_scl_ii <= io_scl_ii_i;
+    end if;
+  end process p_i_scl;
 
   o_mode2_ready <= mode2_ready_i;
   o_mode2_ready_all <= mode2_ready_all_i;
@@ -172,7 +181,7 @@ begin
     else
     '1';
 
-  io_scl <=
+  io_scl_o <=
     '1' when (c_state = idle or c_state = start or c_state = stop or c_state = sda_start or c_state = sda_stop)
     else
     temp_sck;
@@ -197,11 +206,11 @@ begin
     else
     'Z';
 
-  p_i2c_catch_bytes_to_recv : process (temp_sck, i_reset) is
+  p_i2c_catch_bytes_to_recv : process (io_scl_ii, i_reset) is
   begin
     if (i_reset = '1') then
       bytes_to_recv_sr <= (others => '0');
-    elsif (rising_edge (temp_sck)) then
+    elsif (rising_edge (io_scl_ii)) then
 --      if (c_state = mode2_read_data2 and c_cmode = c2 and data_index_ctr = 7) then
       if (c_state = mode1_read_data2 and c_cmode = c3 and data_index_ctr = 7) then
 --        bytes_to_recv_sr <= (others => '0');
