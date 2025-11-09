@@ -1,7 +1,7 @@
 Release 14.7 par P.20131013 (lin64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-work::  Sun Nov 09 16:14:16 2025
+work::  Sun Nov 09 16:24:18 2025
 
 par -w -intstyle ise -ol std -smartguide
 /home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/test1_guide.ncd
@@ -60,7 +60,7 @@ Device Utilization Summary:
 Overall effort level (-ol):   Standard 
 Router effort level (-rl):    Standard 
 
-Starting initial Timing Analysis.  REAL time: 12 secs 
+Starting initial Timing Analysis.  REAL time: 11 secs 
 Finished initial Timing Analysis.  REAL time: 12 secs 
 
 WARNING:Par:288 - The signal g0_dualmem_temperature.dualmem_inst_t/doutb<15> has no load.  PAR will not attempt to route
@@ -102,27 +102,27 @@ WARNING:Par:288 - The signal icon_control0<28> has no load.  PAR will not attemp
 Starting Router
 
 
-Phase  1  : 12108 unrouted;      REAL time: 14 secs 
+Phase  1  : 5721 unrouted;      REAL time: 13 secs 
 
-Phase  2  : 6719 unrouted;      REAL time: 15 secs 
+Phase  2  : 762 unrouted;      REAL time: 14 secs 
 
-Phase  3  : 354 unrouted;      REAL time: 20 secs 
+Phase  3  : 83 unrouted;      REAL time: 17 secs 
 
-Phase  4  : 354 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 23 secs 
+Phase  4  : 83 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 19 secs 
 
-Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 26 secs 
+Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 56 secs 
 
-Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 26 secs 
+Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 56 secs 
 
-Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 26 secs 
+Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 56 secs 
 
-Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 26 secs 
+Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 56 secs 
 
-Phase  9  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 26 secs 
+Phase  9  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 56 secs 
 
-Phase 10  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 28 secs 
-Total REAL time to Router completion: 28 secs 
-Total CPU time to Router completion: 31 secs 
+Phase 10  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 58 secs 
+Total REAL time to Router completion: 1 mins 58 secs 
+Total CPU time to Router completion: 1 mins 57 secs 
 
   SmartGuide Results
   ------------------
@@ -131,14 +131,14 @@ Total CPU time to Router completion: 31 secs
   and the guide design.
 
   Number of Components in the input design    |   3502
-    Number of guided Components               |   3259 out of   3502  93.1%
-    Number of re-implemented Components       |      6 out of   3502   0.2%
-    Number of new/changed Components          |    237 out of   3502   6.8%
+    Number of guided Components               |   3502 out of   3502 100.0%
+    Number of re-implemented Components       |      0 out of   3502   0.0%
+    Number of new/changed Components          |      0 out of   3502   0.0%
   Number of Nets in the input design          |  15222
-    Number of guided Nets                     |  14573 out of  15222  95.7%
-    Number of partially guided Nets           |    102 out of  15222   0.7%
-    Number of re-routed Nets                  |     52 out of  15222   0.3%
-    Number of new/changed Nets                |    495 out of  15222   3.3%
+    Number of guided Nets                     |  15210 out of  15222  99.9%
+    Number of partially guided Nets           |     10 out of  15222   0.1%
+    Number of re-routed Nets                  |      2 out of  15222   0.1%
+    Number of new/changed Nets                |      0 out of  15222   0.0%
 
 Partition Implementation Status
 -------------------------------
@@ -158,12 +158,14 @@ Generating Clock Report
 +---------------------+--------------+------+------+------------+-------------+
 |    icon_control0<0> |BUFGCTRL_X0Y30| No   |  204 |  0.527     |  2.123      |
 +---------------------+--------------+------+------+------------+-------------+
-|       i_clock_BUFGP | BUFGCTRL_X0Y0| No   | 2882 |  0.575     |  2.123      |
+|       i_clock_BUFGP | BUFGCTRL_X0Y0| No   | 2654 |  0.492     |  2.039      |
 +---------------------+--------------+------+------+------------+-------------+
 |melexis_mlx90640_i2c |              |      |      |            |             |
 |      _i0/clock_BUFG |BUFGCTRL_X0Y31| No   |   34 |  0.222     |  1.770      |
 +---------------------+--------------+------+------+------------+-------------+
 |       vgaclk25_BUFG | BUFGCTRL_X0Y1| No   |   22 |  0.242     |  1.818      |
++---------------------+--------------+------+------+------------+-------------+
+|        o_ready_OBUF |         Local|      |  271 |  3.893     |  4.603      |
 +---------------------+--------------+------+------+------------+-------------+
 |               agclk |         Local|      |    3 |  0.150     |  1.097      |
 +---------------------+--------------+------+------+------------+-------------+
@@ -239,10 +241,10 @@ All signals are completely routed.
 
 WARNING:Par:283 - There are 29 loadless signals in this design. This design will cause Bitgen to issue DRC warnings.
 
-Total REAL time to PAR completion: 34 secs 
-Total CPU time to PAR completion: 37 secs 
+Total REAL time to PAR completion: 2 mins 4 secs 
+Total CPU time to PAR completion: 2 mins 4 secs 
 
-Peak Memory Usage:  1120 MB
+Peak Memory Usage:  1116 MB
 
 Placer: Placement generated during map.
 Routing: Completed - No errors found.
