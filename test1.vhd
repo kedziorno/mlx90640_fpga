@@ -1080,15 +1080,15 @@ lcdchar (1)(3) <= i2c_mlx_doutb(7);
         when z4 =>
         i2c_mem_ena_2 <= '0';
         i2c_mlx_addrb_2 <= (others => '0');
-        if (k = 3 - 1) then
-          k := 0;
+--        if (k = 3 - 1) then
+--          k := 0;
           state <= z5;
-        else
-          k := k + 1;
-          state <= z4;
-        end if;
+--        else
+--          k := k + 1;
+--          state <= z4;
+--        end if;
         when z5 =>
-        if (i = 2*PIXELS - 2) then
+        if (i = 2*PIXELS - 1) then
           i := 0;
           state <= s0;
         else
