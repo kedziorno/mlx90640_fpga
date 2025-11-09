@@ -1,9 +1,11 @@
 Release 14.7 par P.20131013 (lin64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-work::  Sun Nov 09 12:42:37 2025
+work::  Sun Nov 09 13:06:04 2025
 
-par -w -intstyle ise -ol std -mt 2 test1_map.ncd test1.ncd test1.pcf 
+par -w -intstyle ise -ol std -smartguide
+/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/test1_guide.ncd
+-mt 2 test1_map.ncd test1.ncd test1.pcf 
 
 
 Constraints file: test1.pcf.
@@ -17,6 +19,10 @@ to function, but you no longer qualify for Xilinx software updates or new releas
 
 ----------------------------------------------------------------------
 
+Loading database for application par from file:
+"/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/test1_guide.ncd"
+   "test1" is an NCD, version 3.2, device xc5vfx70t, package ff1136, speed -1
+
 Initializing temperature to 85.000 Celsius. (default - Range: 0.000 to 85.000 Celsius)
 Initializing voltage to 0.950 Volts. (default - Range: 0.950 to 1.050 Volts)
 
@@ -25,6 +31,11 @@ Device speed data version:  "PRODUCTION 1.73 2013-10-13".
 
 
 
+INFO:Par:402 - SmartGuide was run during Map. Since all guiding (mapping, packing, placement and routing) is completed
+   in MAP, PAR does not require the use of the guide switches. The -smartguide switch only generates a post place and
+   route guide report in the SmartGuide Report File(.GRF). Runtime can be reduced, if this detailed report is not
+   generated. PAR will automatically generate the SmartGuide summary report based on the guide file used during MAP.
+   This summary information is always in the PAR report file and the GRF.
 Device Utilization Summary:
 
    Number of BUFGs                           3 out of 32      9%
@@ -35,20 +46,22 @@ Device Utilization Summary:
    Number of OLOGICs                        16 out of 800     2%
    Number of RAMB18X2s                       3 out of 148     2%
    Number of RAMB36_EXPs                    20 out of 148    13%
-   Number of Slices                       3169 out of 11200  28%
-   Number of Slice Registers              7977 out of 44800  17%
-      Number used as Flip Flops           7977
+   Number of Slices                       3161 out of 11200  28%
+   Number of Slice Registers              7978 out of 44800  17%
+      Number used as Flip Flops           7978
       Number used as Latches                 0
       Number used as LatchThrus              0
 
-   Number of Slice LUTS                  10257 out of 44800  22%
-   Number of Slice LUT-Flip Flop pairs   11442 out of 44800  25%
+   Number of Slice LUTS                  10268 out of 44800  22%
+   Number of Slice LUT-Flip Flop pairs   11450 out of 44800  25%
 
 
 Overall effort level (-ol):   Standard 
 Router effort level (-rl):    Standard 
 
-PAR will use up to 2 processors
+Starting initial Timing Analysis.  REAL time: 9 secs 
+Finished initial Timing Analysis.  REAL time: 10 secs 
+
 WARNING:Par:288 - The signal g0_dualmem_temperature.dualmem_inst_t/doutb<15> has no load.  PAR will not attempt to route
    this signal.
 WARNING:Par:288 - The signal g0_dualmem_temperature.dualmem_inst_t/doutb<14> has no load.  PAR will not attempt to route
@@ -63,30 +76,53 @@ WARNING:Par:288 - The signal g0_dualmem_temperature.dualmem_inst_t/doutb<1> has 
    this signal.
 WARNING:Par:288 - The signal g0_dualmem_temperature.dualmem_inst_t/doutb<0> has no load.  PAR will not attempt to route
    this signal.
-Starting Multi-threaded Router
+Starting Router
 
 
-Phase  1  : 53420 unrouted;      REAL time: 9 secs 
+Phase  1  : 8590 unrouted;      REAL time: 11 secs 
 
-Phase  2  : 48016 unrouted;      REAL time: 9 secs 
+Phase  2  : 5827 unrouted;      REAL time: 12 secs 
 
-Phase  3  : 18808 unrouted;      REAL time: 15 secs 
+Phase  3  : 3371 unrouted;      REAL time: 15 secs 
 
-Phase  4  : 18850 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 18 secs 
+Phase  4  : 3486 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 19 secs 
 
-Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 24 secs 
+Phase  5  : 0 unrouted; (Setup:7623, Hold:0, Component Switching Limit:0)     REAL time: 24 secs 
 
-Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 24 secs 
+Phase  6  : 0 unrouted; (Setup:7623, Hold:0, Component Switching Limit:0)     REAL time: 24 secs 
 
-Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 24 secs 
+Phase  7  : 0 unrouted; (Setup:7623, Hold:0, Component Switching Limit:0)     REAL time: 24 secs 
 
-Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 24 secs 
+Phase  8  : 0 unrouted; (Setup:7623, Hold:0, Component Switching Limit:0)     REAL time: 24 secs 
 
-Phase  9  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 24 secs 
+Phase  9  : 0 unrouted; (Setup:7623, Hold:0, Component Switching Limit:0)     REAL time: 24 secs 
 
-Phase 10  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 25 secs 
-Total REAL time to Router completion: 25 secs 
-Total CPU time to Router completion (all processors): 33 secs 
+Phase 10  : 0 unrouted; (Setup:6751, Hold:0, Component Switching Limit:0)     REAL time: 26 secs 
+Total REAL time to Router completion: 26 secs 
+Total CPU time to Router completion: 28 secs 
+
+  SmartGuide Results
+  ------------------
+  This section describes the guide results after invoking the Router. This
+  report accurately reflects the differences between the input design
+  and the guide design.
+
+  Number of Components in the input design    |   3284
+    Number of guided Components               |   3212 out of   3284  97.8%
+    Number of re-implemented Components       |     49 out of   3284   1.5%
+    Number of new/changed Components          |     23 out of   3284   0.7%
+  Number of Nets in the input design          |  14588
+    Number of guided Nets                     |  12748 out of  14588  87.4%
+    Number of partially guided Nets           |    371 out of  14588   2.5%
+    Number of re-routed Nets                  |   1415 out of  14588   9.7%
+    Number of new/changed Nets                |     54 out of  14588   0.4%
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
 
 Generating "PAR" statistics.
 
@@ -97,18 +133,18 @@ Generating Clock Report
 +---------------------+--------------+------+------+------------+-------------+
 |        Clock Net    |   Resource   |Locked|Fanout|Net Skew(ns)|Max Delay(ns)|
 +---------------------+--------------+------+------+------------+-------------+
-|       i_clock_BUFGP | BUFGCTRL_X0Y0| No   | 2648 |  0.493     |  2.039      |
+|       i_clock_BUFGP | BUFGCTRL_X0Y0| No   | 2649 |  0.493     |  2.039      |
++---------------------+--------------+------+------+------------+-------------+
+|       vgaclk25_BUFG | BUFGCTRL_X0Y1| No   |   22 |  0.242     |  1.818      |
 +---------------------+--------------+------+------+------------+-------------+
 |melexis_mlx90640_i2c |              |      |      |            |             |
 |      _i0/clock_BUFG |BUFGCTRL_X0Y31| No   |   34 |  0.222     |  1.770      |
 +---------------------+--------------+------+------+------------+-------------+
-|       vgaclk25_BUFG | BUFGCTRL_X0Y1| No   |   22 |  0.242     |  1.818      |
-+---------------------+--------------+------+------+------------+-------------+
-|               agclk |         Local|      |    3 |  0.037     |  1.274      |
-+---------------------+--------------+------+------+------------+-------------+
 |melexis_mlx90640_i2c |              |      |      |            |             |
 |_i0/GND_115_o_GND_11 |              |      |      |            |             |
 |        5_o_AND_40_o |         Local|      |    5 |  0.689     |  1.348      |
++---------------------+--------------+------+------+------------+-------------+
+|               agclk |         Local|      |    3 |  0.037     |  1.274      |
 +---------------------+--------------+------+------+------------+-------------+
 |c_lcd_display/clock_ |              |      |      |            |             |
 |           divider_1 |         Local|      |    4 |  0.468     |  1.830      |
@@ -122,7 +158,26 @@ the minimum and maximum path delays which includes logic delays.
 * The fanout is the number of component pins not the individual BEL loads,
 for example SLICE loads not FF loads.
 
-Timing Score: 0 (Setup: 0, Hold: 0, Component Switching Limit: 0)
+Timing Score: 6751 (Setup: 6751, Hold: 0, Component Switching Limit: 0)
+
+WARNING:Par:468 - Your design did not meet timing.  The following are some suggestions to assist you to meet timing in
+   your design.
+
+   Review the timing report using Timing Analyzer (In ISE select "Post-Place &
+   Route Static Timing Report"). Go to the failing constraint(s) and evaluate the failing paths for each constraint.
+
+   Try the Design Goal and Strategies for Timing Performance(In ISE select Project -> Design Goals & Strategies) to
+   ensure the best options are set in the tools for timing closure.
+
+   Increase the PAR Effort Level setting to "high"
+
+   Use the Xilinx "SmartXplorer" script to try special combinations of
+   options known to produce very good results.
+
+   Visit the Xilinx technical support web at http://support.xilinx.com and go to
+   either "Troubleshoot->Tech Tips->Timing & Constraints" or "
+   TechXclusives->Timing Closure" for tips and suggestions for meeting timing
+   in your design.
 
 Asterisk (*) preceding a constraint indicates it was not met.
    This may be due to a setup or hold violation.
@@ -131,12 +186,12 @@ Asterisk (*) preceding a constraint indicates it was not met.
   Constraint                                |    Check    | Worst Case |  Best Case | Timing |   Timing   
                                             |             |    Slack   | Achievable | Errors |    Score   
 ----------------------------------------------------------------------------------------------------------
-  NET "i_clock_BUFGP/IBUFG" PERIOD = 10 ns  | SETUP       |     0.025ns|     9.975ns|       0|           0
-  HIGH 50%                                  | HOLD        |     0.242ns|            |       0|           0
+* NET "i_clock_BUFGP/IBUFG" PERIOD = 10 ns  | SETUP       |    -1.251ns|    11.251ns|      12|        6751
+  HIGH 50%                                  | HOLD        |     0.243ns|            |       0|           0
 ----------------------------------------------------------------------------------------------------------
 
 
-All constraints were met.
+1 constraint not met.
 
 
 Generating Pad Report.
@@ -145,18 +200,18 @@ All signals are completely routed.
 
 WARNING:Par:283 - There are 7 loadless signals in this design. This design will cause Bitgen to issue DRC warnings.
 
-Total REAL time to PAR completion: 29 secs 
-Total CPU time to PAR completion (all processors): 37 secs 
+Total REAL time to PAR completion: 31 secs 
+Total CPU time to PAR completion: 34 secs 
 
-Peak Memory Usage:  1126 MB
+Peak Memory Usage:  1080 MB
 
 Placer: Placement generated during map.
 Routing: Completed - No errors found.
-Timing: Completed - No errors found.
+Timing: Completed - 12 errors found.
 
 Number of error messages: 0
-Number of warning messages: 9
-Number of info messages: 0
+Number of warning messages: 11
+Number of info messages: 1
 
 Writing design to file test1.ncd
 

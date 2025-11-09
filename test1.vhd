@@ -1045,21 +1045,22 @@ else
           end if;
 
         when r14 =>
-        if (c_lcd = "y") then
-          state <= z1;
-        else
           state <= s0;
-        end if;
-		wait2 := 0;
-		wait3 := 0;
-		wait1 <= 0;
-          melexis_mlx90640_i2c_mode0 <= '0';
-          melexis_mlx90640_i2c_mode1 <= '0';
-          melexis_mlx90640_i2c_mode2 <= '0';-- w0400/rN
-          melexis_mlx90640_i2c_enable <= '0';
-          melexis_mlx90640_i2c_memory_address <= x"0000";
-		            melexis_mlx90640_i2c_memory_data <= x"0000";
-                i := 0;
+--        if (c_lcd = "y") then
+--          state <= z1;
+--        else
+--          state <= s0;
+--        end if;
+--		wait2 := 0;
+--		wait3 := 0;
+--		wait1 <= 0;
+--          melexis_mlx90640_i2c_mode0 <= '0';
+--          melexis_mlx90640_i2c_mode1 <= '0';
+--          melexis_mlx90640_i2c_mode2 <= '0';-- w0400/rN
+--          melexis_mlx90640_i2c_enable <= '0';
+--          melexis_mlx90640_i2c_memory_address <= x"0000";
+--		            melexis_mlx90640_i2c_memory_data <= x"0000";
+--                i := 0;
         when z1 => state <= z2;
 --clka => i2c_mlx_clka,
 --ena => i2c_mlx_ena,
@@ -1193,10 +1194,10 @@ lcdchar (1)(3) <= i2c_mlx_doutb(7);
 						i := i + 1;
 					end if;
 				when s10 =>
---          state <= idle;
+          state <= idle;
 --          state <= idle2a1;
 --          state <= idle1a1;
-          state <= idle3;
+--          state <= idle3;
         when others => state <= idle;
 			end case;
 		end if;

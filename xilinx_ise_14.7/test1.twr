@@ -28,19 +28,19 @@ INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on
 Timing constraint: NET "i_clock_BUFGP/IBUFG" PERIOD = 10 ns HIGH 50%;
 For more information, see Period Analysis in the Timing Closure User Guide (UG612).
 
- 296215 paths analyzed, 37904 endpoints analyzed, 0 failing endpoints
- 0 timing errors detected. (0 setup errors, 0 hold errors, 0 component switching limit errors)
- Minimum period is   9.975ns.
+ 294512 paths analyzed, 37923 endpoints analyzed, 12 failing endpoints
+ 12 timing errors detected. (12 setup errors, 0 hold errors, 0 component switching limit errors)
+ Minimum period is  11.251ns.
 --------------------------------------------------------------------------------
 
-Paths for end point inst_addfp/blk0000000c (SLICE_X50Y88.B6), 27 paths
+Paths for end point inst_addfp/blk00000128 (SLICE_X40Y95.B2), 52 paths
 --------------------------------------------------------------------------------
-Slack (setup path):     0.025ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               melexis_mlx9064x_core_inst/CalculateTa_mux (FF)
-  Destination:          inst_addfp/blk0000000c (FF)
+Slack (setup path):     -1.251ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux (FF)
+  Destination:          inst_addfp/blk00000128 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.768ns (Levels of Logic = 3)
-  Clock Path Skew:      -0.172ns (1.163 - 1.335)
+  Data Path Delay:      11.182ns (Levels of Logic = 3)
+  Clock Path Skew:      -0.034ns (0.460 - 0.494)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.035ns
@@ -51,33 +51,34 @@ Slack (setup path):     0.025ns (requirement - (data path - clock path skew + un
     Discrete Jitter (DJ):       0.000ns
     Phase Error (PE):           0.000ns
 
-  Maximum Data Path: melexis_mlx9064x_core_inst/CalculateTa_mux to inst_addfp/blk0000000c
+  Maximum Data Path: melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux to inst_addfp/blk00000128
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X43Y102.AQ     Tcko                  0.450   melexis_mlx9064x_core_inst/CalculateTa_mux
-                                                       melexis_mlx9064x_core_inst/CalculateTa_mux
-    SLICE_X10Y83.A3      net (fanout=491)      5.787   melexis_mlx9064x_core_inst/CalculateTa_mux
-    SLICE_X10Y83.A       Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_addfpce
-                                                       melexis_mlx9064x_core_inst/Mmux_addfpond31
-    SLICE_X50Y88.A2      net (fanout=1)        3.186   melexis_mlx9064x_core_inst/Mmux_addfpond3
-    SLICE_X50Y88.A       Tilo                  0.094   inst_addfp/sig000002de
-                                                       melexis_mlx9064x_core_inst/Mmux_addfpond34
-    SLICE_X50Y88.B6      net (fanout=1)        0.154   addfpond
-    SLICE_X50Y88.CLK     Tas                   0.003   inst_addfp/sig000002de
-                                                       inst_addfp/blk000001cd
-                                                       inst_addfp/blk0000000c
+    SLICE_X45Y93.AQ      Tcko                  0.450   melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux
+                                                       melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux
+    SLICE_X33Y122.B2     net (fanout=440)      6.066   melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux
+    SLICE_X33Y122.B      Tilo                  0.094   melexis_mlx9064x_core_inst/Mmux_addfpb601
+                                                       melexis_mlx9064x_core_inst/Mmux_addfpb602
+    SLICE_X32Y104.B1     net (fanout=1)        2.012   melexis_mlx9064x_core_inst/Mmux_addfpb601
+    SLICE_X32Y104.B      Tilo                  0.094   inst_addfp/sig000001a6
+                                                       melexis_mlx9064x_core_inst/Mmux_addfpb603
+    SLICE_X40Y95.B2      net (fanout=5)        1.990   addfpb<27>
+    SLICE_X40Y95.CLK     Tas                   0.476   inst_addfp/sig000002b4
+                                                       inst_addfp/blk000001c5
+                                                       inst_addfp/blk00000118
+                                                       inst_addfp/blk00000128
     -------------------------------------------------  ---------------------------
-    Total                                      9.768ns (0.641ns logic, 9.127ns route)
-                                                       (6.6% logic, 93.4% route)
+    Total                                     11.182ns (1.114ns logic, 10.068ns route)
+                                                       (10.0% logic, 90.0% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     0.231ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               melexis_mlx9064x_core_inst/CalculatePixOsCPSP_mux (FF)
-  Destination:          inst_addfp/blk0000000c (FF)
+Slack (setup path):     -1.167ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux (FF)
+  Destination:          inst_addfp/blk00000128 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.566ns (Levels of Logic = 3)
-  Clock Path Skew:      -0.168ns (1.163 - 1.331)
+  Data Path Delay:      11.098ns (Levels of Logic = 3)
+  Clock Path Skew:      -0.034ns (0.460 - 0.494)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.035ns
@@ -88,33 +89,34 @@ Slack (setup path):     0.231ns (requirement - (data path - clock path skew + un
     Discrete Jitter (DJ):       0.000ns
     Phase Error (PE):           0.000ns
 
-  Maximum Data Path: melexis_mlx9064x_core_inst/CalculatePixOsCPSP_mux to inst_addfp/blk0000000c
+  Maximum Data Path: melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux to inst_addfp/blk00000128
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X45Y104.CQ     Tcko                  0.450   melexis_mlx9064x_core_inst/CalculatePixOsCPSP_mux
-                                                       melexis_mlx9064x_core_inst/CalculatePixOsCPSP_mux
-    SLICE_X10Y83.A6      net (fanout=558)      5.585   melexis_mlx9064x_core_inst/CalculatePixOsCPSP_mux
-    SLICE_X10Y83.A       Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_addfpce
-                                                       melexis_mlx9064x_core_inst/Mmux_addfpond31
-    SLICE_X50Y88.A2      net (fanout=1)        3.186   melexis_mlx9064x_core_inst/Mmux_addfpond3
-    SLICE_X50Y88.A       Tilo                  0.094   inst_addfp/sig000002de
-                                                       melexis_mlx9064x_core_inst/Mmux_addfpond34
-    SLICE_X50Y88.B6      net (fanout=1)        0.154   addfpond
-    SLICE_X50Y88.CLK     Tas                   0.003   inst_addfp/sig000002de
-                                                       inst_addfp/blk000001cd
-                                                       inst_addfp/blk0000000c
+    SLICE_X45Y93.AQ      Tcko                  0.450   melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux
+                                                       melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux
+    SLICE_X33Y122.B2     net (fanout=440)      6.066   melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux
+    SLICE_X33Y122.B      Tilo                  0.094   melexis_mlx9064x_core_inst/Mmux_addfpb601
+                                                       melexis_mlx9064x_core_inst/Mmux_addfpb602
+    SLICE_X32Y104.B1     net (fanout=1)        2.012   melexis_mlx9064x_core_inst/Mmux_addfpb601
+    SLICE_X32Y104.B      Tilo                  0.094   inst_addfp/sig000001a6
+                                                       melexis_mlx9064x_core_inst/Mmux_addfpb603
+    SLICE_X40Y95.B2      net (fanout=5)        1.990   addfpb<27>
+    SLICE_X40Y95.CLK     Tas                   0.392   inst_addfp/sig000002b4
+                                                       inst_addfp/blk000001c4
+                                                       inst_addfp/blk00000118
+                                                       inst_addfp/blk00000128
     -------------------------------------------------  ---------------------------
-    Total                                      9.566ns (0.641ns logic, 8.925ns route)
-                                                       (6.7% logic, 93.3% route)
+    Total                                     11.098ns (1.030ns logic, 10.068ns route)
+                                                       (9.3% logic, 90.7% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     0.871ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_mux (FF)
-  Destination:          inst_addfp/blk0000000c (FF)
+Slack (setup path):     0.366ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               melexis_mlx9064x_core_inst/CalculateVirCompensated_mux (FF)
+  Destination:          inst_addfp/blk00000128 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      8.913ns (Levels of Logic = 4)
-  Clock Path Skew:      -0.181ns (1.163 - 1.344)
+  Data Path Delay:      9.544ns (Levels of Logic = 3)
+  Clock Path Skew:      -0.055ns (0.460 - 0.515)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.035ns
@@ -125,39 +127,113 @@ Slack (setup path):     0.871ns (requirement - (data path - clock path skew + un
     Discrete Jitter (DJ):       0.000ns
     Phase Error (PE):           0.000ns
 
-  Maximum Data Path: melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_mux to inst_addfp/blk0000000c
+  Maximum Data Path: melexis_mlx9064x_core_inst/CalculateVirCompensated_mux to inst_addfp/blk00000128
     Location             Delay type         Delay(ns)  Physical Resource
                                                        Logical Resource(s)
     -------------------------------------------------  -------------------
-    SLICE_X44Y100.CQ     Tcko                  0.471   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_mux
-                                                       melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_mux
-    SLICE_X10Y83.B5      net (fanout=378)      4.117   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_mux
-    SLICE_X10Y83.B       Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_addfpce
-                                                       melexis_mlx9064x_core_inst/inst_CalculatePixOS/Mmux_addfpond11
-    SLICE_X10Y83.A4      net (fanout=1)        0.700   melexis_mlx9064x_core_inst/CalculatePixOS_addfpond
-    SLICE_X10Y83.A       Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_addfpce
-                                                       melexis_mlx9064x_core_inst/Mmux_addfpond31
-    SLICE_X50Y88.A2      net (fanout=1)        3.186   melexis_mlx9064x_core_inst/Mmux_addfpond3
-    SLICE_X50Y88.A       Tilo                  0.094   inst_addfp/sig000002de
-                                                       melexis_mlx9064x_core_inst/Mmux_addfpond34
-    SLICE_X50Y88.B6      net (fanout=1)        0.154   addfpond
-    SLICE_X50Y88.CLK     Tas                   0.003   inst_addfp/sig000002de
-                                                       inst_addfp/blk000001cd
-                                                       inst_addfp/blk0000000c
+    SLICE_X47Y98.AQ      Tcko                  0.450   melexis_mlx9064x_core_inst/CalculateVirCompensated_mux
+                                                       melexis_mlx9064x_core_inst/CalculateVirCompensated_mux
+    SLICE_X33Y122.B3     net (fanout=400)      4.428   melexis_mlx9064x_core_inst/CalculateVirCompensated_mux
+    SLICE_X33Y122.B      Tilo                  0.094   melexis_mlx9064x_core_inst/Mmux_addfpb601
+                                                       melexis_mlx9064x_core_inst/Mmux_addfpb602
+    SLICE_X32Y104.B1     net (fanout=1)        2.012   melexis_mlx9064x_core_inst/Mmux_addfpb601
+    SLICE_X32Y104.B      Tilo                  0.094   inst_addfp/sig000001a6
+                                                       melexis_mlx9064x_core_inst/Mmux_addfpb603
+    SLICE_X40Y95.B2      net (fanout=5)        1.990   addfpb<27>
+    SLICE_X40Y95.CLK     Tas                   0.476   inst_addfp/sig000002b4
+                                                       inst_addfp/blk000001c5
+                                                       inst_addfp/blk00000118
+                                                       inst_addfp/blk00000128
     -------------------------------------------------  ---------------------------
-    Total                                      8.913ns (0.756ns logic, 8.157ns route)
+    Total                                      9.544ns (1.114ns logic, 8.430ns route)
+                                                       (11.7% logic, 88.3% route)
+
+--------------------------------------------------------------------------------
+
+Paths for end point inst_addfp/blk00000128 (SLICE_X40Y95.C1), 52 paths
+--------------------------------------------------------------------------------
+Slack (setup path):     -1.212ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux (FF)
+  Destination:          inst_addfp/blk00000128 (FF)
+  Requirement:          10.000ns
+  Data Path Delay:      11.143ns (Levels of Logic = 3)
+  Clock Path Skew:      -0.034ns (0.460 - 0.494)
+  Source Clock:         i_clock_BUFGP rising at 0.000ns
+  Destination Clock:    i_clock_BUFGP rising at 10.000ns
+  Clock Uncertainty:    0.035ns
+
+  Clock Uncertainty:          0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter (TSJ):  0.070ns
+    Total Input Jitter (TIJ):   0.000ns
+    Discrete Jitter (DJ):       0.000ns
+    Phase Error (PE):           0.000ns
+
+  Maximum Data Path: melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux to inst_addfp/blk00000128
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X45Y93.AQ      Tcko                  0.450   melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux
+                                                       melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux
+    SLICE_X36Y122.A1     net (fanout=440)      6.212   melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux
+    SLICE_X36Y122.A      Tilo                  0.094   melexis_mlx9064x_core_inst/Mmux_addfpb661
+                                                       melexis_mlx9064x_core_inst/Mmux_addfpb662
+    SLICE_X33Y104.B1     net (fanout=1)        1.936   melexis_mlx9064x_core_inst/Mmux_addfpb661
+    SLICE_X33Y104.B      Tilo                  0.094   inst_addfp/sig000001a8
+                                                       melexis_mlx9064x_core_inst/Mmux_addfpb663
+    SLICE_X40Y95.C1      net (fanout=5)        1.955   addfpb<29>
+    SLICE_X40Y95.CLK     Tas                   0.402   inst_addfp/sig000002b4
+                                                       inst_addfp/blk000001c1
+                                                       inst_addfp/blk00000118
+                                                       inst_addfp/blk00000128
+    -------------------------------------------------  ---------------------------
+    Total                                     11.143ns (1.040ns logic, 10.103ns route)
+                                                       (9.3% logic, 90.7% route)
+
+--------------------------------------------------------------------------------
+Slack (setup path):     -1.113ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux (FF)
+  Destination:          inst_addfp/blk00000128 (FF)
+  Requirement:          10.000ns
+  Data Path Delay:      11.044ns (Levels of Logic = 3)
+  Clock Path Skew:      -0.034ns (0.460 - 0.494)
+  Source Clock:         i_clock_BUFGP rising at 0.000ns
+  Destination Clock:    i_clock_BUFGP rising at 10.000ns
+  Clock Uncertainty:    0.035ns
+
+  Clock Uncertainty:          0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter (TSJ):  0.070ns
+    Total Input Jitter (TIJ):   0.000ns
+    Discrete Jitter (DJ):       0.000ns
+    Phase Error (PE):           0.000ns
+
+  Maximum Data Path: melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux to inst_addfp/blk00000128
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X45Y93.AQ      Tcko                  0.450   melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux
+                                                       melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux
+    SLICE_X36Y122.A1     net (fanout=440)      6.212   melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux
+    SLICE_X36Y122.A      Tilo                  0.094   melexis_mlx9064x_core_inst/Mmux_addfpb661
+                                                       melexis_mlx9064x_core_inst/Mmux_addfpb662
+    SLICE_X33Y104.B1     net (fanout=1)        1.936   melexis_mlx9064x_core_inst/Mmux_addfpb661
+    SLICE_X33Y104.B      Tilo                  0.094   inst_addfp/sig000001a8
+                                                       melexis_mlx9064x_core_inst/Mmux_addfpb663
+    SLICE_X40Y95.C1      net (fanout=5)        1.955   addfpb<29>
+    SLICE_X40Y95.CLK     Tas                   0.303   inst_addfp/sig000002b4
+                                                       inst_addfp/blk000001c0
+                                                       inst_addfp/blk00000118
+                                                       inst_addfp/blk00000128
+    -------------------------------------------------  ---------------------------
+    Total                                     11.044ns (0.941ns logic, 10.103ns route)
                                                        (8.5% logic, 91.5% route)
 
 --------------------------------------------------------------------------------
-
-Paths for end point melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0 (RAMB36_X3Y20.ADDRAU7), 507 paths
---------------------------------------------------------------------------------
-Slack (setup path):     0.047ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/o_2powx_4bit_ena (FF)
-  Destination:          melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0 (RAM)
+Slack (setup path):     0.472ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               melexis_mlx9064x_core_inst/CalculateVirCompensated_mux (FF)
+  Destination:          inst_addfp/blk00000128 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.991ns (Levels of Logic = 5)
-  Clock Path Skew:      0.073ns (1.349 - 1.276)
+  Data Path Delay:      9.438ns (Levels of Logic = 3)
+  Clock Path Skew:      -0.055ns (0.460 - 0.515)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.035ns
@@ -168,42 +244,37 @@ Slack (setup path):     0.047ns (requirement - (data path - clock path skew + un
     Discrete Jitter (DJ):       0.000ns
     Phase Error (PE):           0.000ns
 
-  Maximum Data Path: melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/o_2powx_4bit_ena to melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
-    Location                Delay type         Delay(ns)  Physical Resource
-                                                          Logical Resource(s)
-    ----------------------------------------------------  -------------------
-    SLICE_X46Y83.AQ         Tcko                  0.450   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_2powx_4bit_ena
-                                                          melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/o_2powx_4bit_ena
-    SLICE_X44Y100.D1        net (fanout=1)        2.277   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_2powx_4bit_ena
-    SLICE_X44Y100.D         Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_mux
-                                                          melexis_mlx9064x_core_inst/inst_CalculatePixOS/Mmux_o_2powx_4bit_ena11
-    SLICE_X44Y100.A3        net (fanout=1)        0.743   melexis_mlx9064x_core_inst/CalculatePixOS_2powx_4bit_ena
-    SLICE_X44Y100.A         Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_mux
-                                                          melexis_mlx9064x_core_inst/Mmux_rom_constants_2powx_4bit_en11
-    SLICE_X45Y89.C1         net (fanout=15)       1.521   melexis_mlx9064x_core_inst/rom_constants_2powx_4bit_en
-    SLICE_X45Y89.C          Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_mux_1
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_A1
-    SLICE_X41Y94.A4         net (fanout=2)        1.638   melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_A<0>
-    SLICE_X41Y94.CMUX       Topac                 0.684   melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<3>
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_lut<0>
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<3>
-    SLICE_X46Y101.C2        net (fanout=1)        1.309   melexis_mlx9064x_core_inst/inst_rom_constants/GND_66_o_BUS_0004_mux_26_OUT<2>
-    SLICE_X46Y101.C         Tilo                  0.094   melexis_mlx9064x_core_inst/CalculateTa_alphaptat_ena
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_address31
-    RAMB36_X3Y20.ADDRAU7    net (fanout=2)        0.646   melexis_mlx9064x_core_inst/inst_rom_constants/address<2>
-    RAMB36_X3Y20.CLKARDCLKU Trcck_ADDRA           0.347   melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
-    ----------------------------------------------------  ---------------------------
-    Total                                         9.991ns (1.857ns logic, 8.134ns route)
-                                                          (18.6% logic, 81.4% route)
+  Maximum Data Path: melexis_mlx9064x_core_inst/CalculateVirCompensated_mux to inst_addfp/blk00000128
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X47Y98.AQ      Tcko                  0.450   melexis_mlx9064x_core_inst/CalculateVirCompensated_mux
+                                                       melexis_mlx9064x_core_inst/CalculateVirCompensated_mux
+    SLICE_X36Y122.A3     net (fanout=400)      4.507   melexis_mlx9064x_core_inst/CalculateVirCompensated_mux
+    SLICE_X36Y122.A      Tilo                  0.094   melexis_mlx9064x_core_inst/Mmux_addfpb661
+                                                       melexis_mlx9064x_core_inst/Mmux_addfpb662
+    SLICE_X33Y104.B1     net (fanout=1)        1.936   melexis_mlx9064x_core_inst/Mmux_addfpb661
+    SLICE_X33Y104.B      Tilo                  0.094   inst_addfp/sig000001a8
+                                                       melexis_mlx9064x_core_inst/Mmux_addfpb663
+    SLICE_X40Y95.C1      net (fanout=5)        1.955   addfpb<29>
+    SLICE_X40Y95.CLK     Tas                   0.402   inst_addfp/sig000002b4
+                                                       inst_addfp/blk000001c1
+                                                       inst_addfp/blk00000118
+                                                       inst_addfp/blk00000128
+    -------------------------------------------------  ---------------------------
+    Total                                      9.438ns (1.040ns logic, 8.398ns route)
+                                                       (11.0% logic, 89.0% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     0.177ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/o_2powx_4bit_ena (FF)
-  Destination:          melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0 (RAM)
+
+Paths for end point inst_addfp/blk00000128 (SLICE_X40Y95.A1), 54 paths
+--------------------------------------------------------------------------------
+Slack (setup path):     -0.717ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux (FF)
+  Destination:          inst_addfp/blk00000128 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.861ns (Levels of Logic = 5)
-  Clock Path Skew:      0.073ns (1.349 - 1.276)
+  Data Path Delay:      10.648ns (Levels of Logic = 3)
+  Clock Path Skew:      -0.034ns (0.460 - 0.494)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.035ns
@@ -214,42 +285,34 @@ Slack (setup path):     0.177ns (requirement - (data path - clock path skew + un
     Discrete Jitter (DJ):       0.000ns
     Phase Error (PE):           0.000ns
 
-  Maximum Data Path: melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/o_2powx_4bit_ena to melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
-    Location                Delay type         Delay(ns)  Physical Resource
-                                                          Logical Resource(s)
-    ----------------------------------------------------  -------------------
-    SLICE_X46Y83.AQ         Tcko                  0.450   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_2powx_4bit_ena
-                                                          melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/o_2powx_4bit_ena
-    SLICE_X44Y100.D1        net (fanout=1)        2.277   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_2powx_4bit_ena
-    SLICE_X44Y100.D         Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_mux
-                                                          melexis_mlx9064x_core_inst/inst_CalculatePixOS/Mmux_o_2powx_4bit_ena11
-    SLICE_X44Y100.A3        net (fanout=1)        0.743   melexis_mlx9064x_core_inst/CalculatePixOS_2powx_4bit_ena
-    SLICE_X44Y100.A         Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_mux
-                                                          melexis_mlx9064x_core_inst/Mmux_rom_constants_2powx_4bit_en11
-    SLICE_X40Y84.A6         net (fanout=15)       1.026   melexis_mlx9064x_core_inst/rom_constants_2powx_4bit_en
-    SLICE_X40Y84.A          Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_2powx_4bit_adr<3>
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_B4_SW0
-    SLICE_X41Y94.B3         net (fanout=1)        2.014   melexis_mlx9064x_core_inst/inst_rom_constants/N4
-    SLICE_X41Y94.CMUX       Topbc                 0.673   melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<3>
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_lut<1>
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<3>
-    SLICE_X46Y101.C2        net (fanout=1)        1.309   melexis_mlx9064x_core_inst/inst_rom_constants/GND_66_o_BUS_0004_mux_26_OUT<2>
-    SLICE_X46Y101.C         Tilo                  0.094   melexis_mlx9064x_core_inst/CalculateTa_alphaptat_ena
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_address31
-    RAMB36_X3Y20.ADDRAU7    net (fanout=2)        0.646   melexis_mlx9064x_core_inst/inst_rom_constants/address<2>
-    RAMB36_X3Y20.CLKARDCLKU Trcck_ADDRA           0.347   melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
-    ----------------------------------------------------  ---------------------------
-    Total                                         9.861ns (1.846ns logic, 8.015ns route)
-                                                          (18.7% logic, 81.3% route)
+  Maximum Data Path: melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux to inst_addfp/blk00000128
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X45Y93.AQ      Tcko                  0.450   melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux
+                                                       melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux
+    SLICE_X36Y121.A3     net (fanout=440)      6.080   melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux
+    SLICE_X36Y121.A      Tilo                  0.094   melexis_mlx9064x_core_inst/Mmux_addfpb631
+                                                       melexis_mlx9064x_core_inst/Mmux_addfpa542
+    SLICE_X33Y105.D3     net (fanout=1)        1.465   melexis_mlx9064x_core_inst/Mmux_addfpa541
+    SLICE_X33Y105.D      Tilo                  0.094   inst_addfp/sig00000191
+                                                       melexis_mlx9064x_core_inst/Mmux_addfpa544
+    SLICE_X40Y95.A1      net (fanout=4)        1.973   addfpa<25>
+    SLICE_X40Y95.CLK     Tas                   0.492   inst_addfp/sig000002b4
+                                                       inst_addfp/blk000001c9
+                                                       inst_addfp/blk00000118
+                                                       inst_addfp/blk00000128
+    -------------------------------------------------  ---------------------------
+    Total                                     10.648ns (1.130ns logic, 9.518ns route)
+                                                       (10.6% logic, 89.4% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     0.301ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/o_2powx_4bit_ena (FF)
-  Destination:          melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0 (RAM)
+Slack (setup path):     -0.699ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux (FF)
+  Destination:          inst_addfp/blk00000128 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.737ns (Levels of Logic = 5)
-  Clock Path Skew:      0.073ns (1.349 - 1.276)
+  Data Path Delay:      10.630ns (Levels of Logic = 3)
+  Clock Path Skew:      -0.034ns (0.460 - 0.494)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.035ns
@@ -260,44 +323,34 @@ Slack (setup path):     0.301ns (requirement - (data path - clock path skew + un
     Discrete Jitter (DJ):       0.000ns
     Phase Error (PE):           0.000ns
 
-  Maximum Data Path: melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/o_2powx_4bit_ena to melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
-    Location                Delay type         Delay(ns)  Physical Resource
-                                                          Logical Resource(s)
-    ----------------------------------------------------  -------------------
-    SLICE_X46Y83.AQ         Tcko                  0.450   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_2powx_4bit_ena
-                                                          melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/o_2powx_4bit_ena
-    SLICE_X44Y100.D1        net (fanout=1)        2.277   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_2powx_4bit_ena
-    SLICE_X44Y100.D         Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_mux
-                                                          melexis_mlx9064x_core_inst/inst_CalculatePixOS/Mmux_o_2powx_4bit_ena11
-    SLICE_X44Y100.A3        net (fanout=1)        0.743   melexis_mlx9064x_core_inst/CalculatePixOS_2powx_4bit_ena
-    SLICE_X44Y100.A         Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_mux
-                                                          melexis_mlx9064x_core_inst/Mmux_rom_constants_2powx_4bit_en11
-    SLICE_X45Y89.C1         net (fanout=15)       1.521   melexis_mlx9064x_core_inst/rom_constants_2powx_4bit_en
-    SLICE_X45Y89.C          Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_mux_1
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_A1
-    SLICE_X41Y94.AX         net (fanout=2)        1.446   melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_A<0>
-    SLICE_X41Y94.CMUX       Taxd                  0.622   melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<3>
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<3>
-    SLICE_X46Y101.C2        net (fanout=1)        1.309   melexis_mlx9064x_core_inst/inst_rom_constants/GND_66_o_BUS_0004_mux_26_OUT<2>
-    SLICE_X46Y101.C         Tilo                  0.094   melexis_mlx9064x_core_inst/CalculateTa_alphaptat_ena
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_address31
-    RAMB36_X3Y20.ADDRAU7    net (fanout=2)        0.646   melexis_mlx9064x_core_inst/inst_rom_constants/address<2>
-    RAMB36_X3Y20.CLKARDCLKU Trcck_ADDRA           0.347   melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
-    ----------------------------------------------------  ---------------------------
-    Total                                         9.737ns (1.795ns logic, 7.942ns route)
-                                                          (18.4% logic, 81.6% route)
+  Maximum Data Path: melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux to inst_addfp/blk00000128
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X45Y93.AQ      Tcko                  0.450   melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux
+                                                       melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux
+    SLICE_X36Y121.A3     net (fanout=440)      6.080   melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux
+    SLICE_X36Y121.A      Tilo                  0.094   melexis_mlx9064x_core_inst/Mmux_addfpb631
+                                                       melexis_mlx9064x_core_inst/Mmux_addfpa542
+    SLICE_X33Y105.D3     net (fanout=1)        1.465   melexis_mlx9064x_core_inst/Mmux_addfpa541
+    SLICE_X33Y105.D      Tilo                  0.094   inst_addfp/sig00000191
+                                                       melexis_mlx9064x_core_inst/Mmux_addfpa544
+    SLICE_X40Y95.A1      net (fanout=4)        1.973   addfpa<25>
+    SLICE_X40Y95.CLK     Tas                   0.474   inst_addfp/sig000002b4
+                                                       inst_addfp/blk000001c8
+                                                       inst_addfp/blk00000118
+                                                       inst_addfp/blk00000128
+    -------------------------------------------------  ---------------------------
+    Total                                     10.630ns (1.112ns logic, 9.518ns route)
+                                                       (10.5% logic, 89.5% route)
 
 --------------------------------------------------------------------------------
-
-Paths for end point melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0 (RAMB36_X3Y20.ADDRAL7), 507 paths
---------------------------------------------------------------------------------
-Slack (setup path):     0.051ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/o_2powx_4bit_ena (FF)
-  Destination:          melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0 (RAM)
+Slack (setup path):     0.552ns (requirement - (data path - clock path skew + uncertainty))
+  Source:               melexis_mlx9064x_core_inst/CalculateGetImage_mux (FF)
+  Destination:          inst_addfp/blk00000128 (FF)
   Requirement:          10.000ns
-  Data Path Delay:      9.991ns (Levels of Logic = 5)
-  Clock Path Skew:      0.077ns (1.353 - 1.276)
+  Data Path Delay:      9.374ns (Levels of Logic = 4)
+  Clock Path Skew:      -0.039ns (0.460 - 0.499)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.035ns
@@ -308,125 +361,29 @@ Slack (setup path):     0.051ns (requirement - (data path - clock path skew + un
     Discrete Jitter (DJ):       0.000ns
     Phase Error (PE):           0.000ns
 
-  Maximum Data Path: melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/o_2powx_4bit_ena to melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
-    Location                Delay type         Delay(ns)  Physical Resource
-                                                          Logical Resource(s)
-    ----------------------------------------------------  -------------------
-    SLICE_X46Y83.AQ         Tcko                  0.450   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_2powx_4bit_ena
-                                                          melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/o_2powx_4bit_ena
-    SLICE_X44Y100.D1        net (fanout=1)        2.277   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_2powx_4bit_ena
-    SLICE_X44Y100.D         Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_mux
-                                                          melexis_mlx9064x_core_inst/inst_CalculatePixOS/Mmux_o_2powx_4bit_ena11
-    SLICE_X44Y100.A3        net (fanout=1)        0.743   melexis_mlx9064x_core_inst/CalculatePixOS_2powx_4bit_ena
-    SLICE_X44Y100.A         Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_mux
-                                                          melexis_mlx9064x_core_inst/Mmux_rom_constants_2powx_4bit_en11
-    SLICE_X45Y89.C1         net (fanout=15)       1.521   melexis_mlx9064x_core_inst/rom_constants_2powx_4bit_en
-    SLICE_X45Y89.C          Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_mux_1
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_A1
-    SLICE_X41Y94.A4         net (fanout=2)        1.638   melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_A<0>
-    SLICE_X41Y94.CMUX       Topac                 0.684   melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<3>
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_lut<0>
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<3>
-    SLICE_X46Y101.C2        net (fanout=1)        1.309   melexis_mlx9064x_core_inst/inst_rom_constants/GND_66_o_BUS_0004_mux_26_OUT<2>
-    SLICE_X46Y101.C         Tilo                  0.094   melexis_mlx9064x_core_inst/CalculateTa_alphaptat_ena
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_address31
-    RAMB36_X3Y20.ADDRAL7    net (fanout=2)        0.646   melexis_mlx9064x_core_inst/inst_rom_constants/address<2>
-    RAMB36_X3Y20.CLKARDCLKL Trcck_ADDRA           0.347   melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
-    ----------------------------------------------------  ---------------------------
-    Total                                         9.991ns (1.857ns logic, 8.134ns route)
-                                                          (18.6% logic, 81.4% route)
-
---------------------------------------------------------------------------------
-Slack (setup path):     0.181ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/o_2powx_4bit_ena (FF)
-  Destination:          melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0 (RAM)
-  Requirement:          10.000ns
-  Data Path Delay:      9.861ns (Levels of Logic = 5)
-  Clock Path Skew:      0.077ns (1.353 - 1.276)
-  Source Clock:         i_clock_BUFGP rising at 0.000ns
-  Destination Clock:    i_clock_BUFGP rising at 10.000ns
-  Clock Uncertainty:    0.035ns
-
-  Clock Uncertainty:          0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
-    Total System Jitter (TSJ):  0.070ns
-    Total Input Jitter (TIJ):   0.000ns
-    Discrete Jitter (DJ):       0.000ns
-    Phase Error (PE):           0.000ns
-
-  Maximum Data Path: melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/o_2powx_4bit_ena to melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
-    Location                Delay type         Delay(ns)  Physical Resource
-                                                          Logical Resource(s)
-    ----------------------------------------------------  -------------------
-    SLICE_X46Y83.AQ         Tcko                  0.450   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_2powx_4bit_ena
-                                                          melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/o_2powx_4bit_ena
-    SLICE_X44Y100.D1        net (fanout=1)        2.277   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_2powx_4bit_ena
-    SLICE_X44Y100.D         Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_mux
-                                                          melexis_mlx9064x_core_inst/inst_CalculatePixOS/Mmux_o_2powx_4bit_ena11
-    SLICE_X44Y100.A3        net (fanout=1)        0.743   melexis_mlx9064x_core_inst/CalculatePixOS_2powx_4bit_ena
-    SLICE_X44Y100.A         Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_mux
-                                                          melexis_mlx9064x_core_inst/Mmux_rom_constants_2powx_4bit_en11
-    SLICE_X40Y84.A6         net (fanout=15)       1.026   melexis_mlx9064x_core_inst/rom_constants_2powx_4bit_en
-    SLICE_X40Y84.A          Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_2powx_4bit_adr<3>
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_B4_SW0
-    SLICE_X41Y94.B3         net (fanout=1)        2.014   melexis_mlx9064x_core_inst/inst_rom_constants/N4
-    SLICE_X41Y94.CMUX       Topbc                 0.673   melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<3>
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_lut<1>
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<3>
-    SLICE_X46Y101.C2        net (fanout=1)        1.309   melexis_mlx9064x_core_inst/inst_rom_constants/GND_66_o_BUS_0004_mux_26_OUT<2>
-    SLICE_X46Y101.C         Tilo                  0.094   melexis_mlx9064x_core_inst/CalculateTa_alphaptat_ena
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_address31
-    RAMB36_X3Y20.ADDRAL7    net (fanout=2)        0.646   melexis_mlx9064x_core_inst/inst_rom_constants/address<2>
-    RAMB36_X3Y20.CLKARDCLKL Trcck_ADDRA           0.347   melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
-    ----------------------------------------------------  ---------------------------
-    Total                                         9.861ns (1.846ns logic, 8.015ns route)
-                                                          (18.7% logic, 81.3% route)
-
---------------------------------------------------------------------------------
-Slack (setup path):     0.305ns (requirement - (data path - clock path skew + uncertainty))
-  Source:               melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/o_2powx_4bit_ena (FF)
-  Destination:          melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0 (RAM)
-  Requirement:          10.000ns
-  Data Path Delay:      9.737ns (Levels of Logic = 5)
-  Clock Path Skew:      0.077ns (1.353 - 1.276)
-  Source Clock:         i_clock_BUFGP rising at 0.000ns
-  Destination Clock:    i_clock_BUFGP rising at 10.000ns
-  Clock Uncertainty:    0.035ns
-
-  Clock Uncertainty:          0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
-    Total System Jitter (TSJ):  0.070ns
-    Total Input Jitter (TIJ):   0.000ns
-    Discrete Jitter (DJ):       0.000ns
-    Phase Error (PE):           0.000ns
-
-  Maximum Data Path: melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/o_2powx_4bit_ena to melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
-    Location                Delay type         Delay(ns)  Physical Resource
-                                                          Logical Resource(s)
-    ----------------------------------------------------  -------------------
-    SLICE_X46Y83.AQ         Tcko                  0.450   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_2powx_4bit_ena
-                                                          melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/o_2powx_4bit_ena
-    SLICE_X44Y100.D1        net (fanout=1)        2.277   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_2powx_4bit_ena
-    SLICE_X44Y100.D         Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_mux
-                                                          melexis_mlx9064x_core_inst/inst_CalculatePixOS/Mmux_o_2powx_4bit_ena11
-    SLICE_X44Y100.A3        net (fanout=1)        0.743   melexis_mlx9064x_core_inst/CalculatePixOS_2powx_4bit_ena
-    SLICE_X44Y100.A         Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_mux
-                                                          melexis_mlx9064x_core_inst/Mmux_rom_constants_2powx_4bit_en11
-    SLICE_X45Y89.C1         net (fanout=15)       1.521   melexis_mlx9064x_core_inst/rom_constants_2powx_4bit_en
-    SLICE_X45Y89.C          Tilo                  0.094   melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_mux_1
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_A1
-    SLICE_X41Y94.AX         net (fanout=2)        1.446   melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_A<0>
-    SLICE_X41Y94.CMUX       Taxd                  0.622   melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<3>
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<3>
-    SLICE_X46Y101.C2        net (fanout=1)        1.309   melexis_mlx9064x_core_inst/inst_rom_constants/GND_66_o_BUS_0004_mux_26_OUT<2>
-    SLICE_X46Y101.C         Tilo                  0.094   melexis_mlx9064x_core_inst/CalculateTa_alphaptat_ena
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/Mmux_address31
-    RAMB36_X3Y20.ADDRAL7    net (fanout=2)        0.646   melexis_mlx9064x_core_inst/inst_rom_constants/address<2>
-    RAMB36_X3Y20.CLKARDCLKL Trcck_ADDRA           0.347   melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
-                                                          melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
-    ----------------------------------------------------  ---------------------------
-    Total                                         9.737ns (1.795ns logic, 7.942ns route)
-                                                          (18.4% logic, 81.6% route)
+  Maximum Data Path: melexis_mlx9064x_core_inst/CalculateGetImage_mux to inst_addfp/blk00000128
+    Location             Delay type         Delay(ns)  Physical Resource
+                                                       Logical Resource(s)
+    -------------------------------------------------  -------------------
+    SLICE_X47Y94.AQ      Tcko                  0.450   melexis_mlx9064x_core_inst/CalculateGetImage_mux
+                                                       melexis_mlx9064x_core_inst/CalculateGetImage_mux
+    SLICE_X46Y105.B5     net (fanout=184)      1.726   melexis_mlx9064x_core_inst/CalculateGetImage_mux
+    SLICE_X46Y105.B      Tilo                  0.094   melexis_mlx9064x_core_inst/Mmux_mulfpce31
+                                                       melexis_mlx9064x_core_inst/Mmux_addfpa1101
+    SLICE_X36Y121.A2     net (fanout=201)      2.986   melexis_mlx9064x_core_inst/Mmux_addfpa110
+    SLICE_X36Y121.A      Tilo                  0.094   melexis_mlx9064x_core_inst/Mmux_addfpb631
+                                                       melexis_mlx9064x_core_inst/Mmux_addfpa542
+    SLICE_X33Y105.D3     net (fanout=1)        1.465   melexis_mlx9064x_core_inst/Mmux_addfpa541
+    SLICE_X33Y105.D      Tilo                  0.094   inst_addfp/sig00000191
+                                                       melexis_mlx9064x_core_inst/Mmux_addfpa544
+    SLICE_X40Y95.A1      net (fanout=4)        1.973   addfpa<25>
+    SLICE_X40Y95.CLK     Tas                   0.492   inst_addfp/sig000002b4
+                                                       inst_addfp/blk000001c9
+                                                       inst_addfp/blk00000118
+                                                       inst_addfp/blk00000128
+    -------------------------------------------------  ---------------------------
+    Total                                      9.374ns (1.224ns logic, 8.150ns route)
+                                                       (13.1% logic, 86.9% route)
 
 --------------------------------------------------------------------------------
 
@@ -435,12 +392,12 @@ Hold Paths: NET "i_clock_BUFGP/IBUFG" PERIOD = 10 ns HIGH 50%;
 
 Paths for end point i2c_mlx_i0/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v5_init.ram/SDP.SINGLE_PRIM36.TDP (RAMB36_X5Y19.DIADIL2), 1 path
 --------------------------------------------------------------------------------
-Slack (hold path):      0.242ns (requirement - (clock path skew + uncertainty - data path))
+Slack (hold path):      0.243ns (requirement - (clock path skew + uncertainty - data path))
   Source:               latch_data_12 (FF)
   Destination:          i2c_mlx_i0/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v5_init.ram/SDP.SINGLE_PRIM36.TDP (RAM)
   Requirement:          0.000ns
   Data Path Delay:      0.430ns (Levels of Logic = 0)
-  Clock Path Skew:      0.188ns (0.794 - 0.606)
+  Clock Path Skew:      0.187ns (0.794 - 0.607)
   Source Clock:         i_clock_BUFGP rising at 10.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
   Clock Uncertainty:    0.000ns
@@ -542,7 +499,7 @@ Slack: 7.561ns (period - min period limit)
 --------------------------------------------------------------------------------
 
 
-All constraints were met.
+1 constraint not met.
 
 
 Data Sheet report:
@@ -554,32 +511,32 @@ Clock to Setup on destination clock i_clock
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-i_clock        |    9.975|    2.643|    3.615|    3.390|
+i_clock        |   11.251|    2.643|    3.298|    3.683|
 ---------------+---------+---------+---------+---------+
 
 
 Timing summary:
 ---------------
 
-Timing errors: 0  Score: 0  (Setup/Max: 0, Hold: 0)
+Timing errors: 12  Score: 6751  (Setup/Max: 6751, Hold: 0)
 
-Constraints cover 296215 paths, 0 nets, and 46958 connections
+Constraints cover 294512 paths, 0 nets, and 47012 connections
 
 Design statistics:
-   Minimum period:   9.975ns{1}   (Maximum frequency: 100.251MHz)
+   Minimum period:  11.251ns{1}   (Maximum frequency:  88.881MHz)
 
 
 ------------------------------------Footnotes-----------------------------------
 1)  The minimum period statistic assumes all single cycle delays.
 
-Analysis completed Sun Nov  9 12:43:19 2025 
+Analysis completed Sun Nov  9 13:06:49 2025 
 --------------------------------------------------------------------------------
 
 Trace Settings:
 -------------------------
 Trace Settings 
 
-Peak Memory Usage: 757 MB
+Peak Memory Usage: 761 MB
 
 
 
