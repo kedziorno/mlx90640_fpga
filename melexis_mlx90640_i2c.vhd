@@ -150,13 +150,13 @@ state1,
 
 begin
 
-  p_i_scl : process (i_clock) is
+  p_i_scl_synchro : process (i_clock) is
   begin
     if (rising_edge (i_clock)) then
       io_scl_ii_i <= io_scl_i;
       io_scl_ii <= io_scl_ii_i;
     end if;
-  end process p_i_scl;
+  end process p_i_scl_synchro;
 
   o_mode2_ready <= mode2_ready_i;
   o_mode2_ready_all <= mode2_ready_all_i;
@@ -183,6 +183,14 @@ begin
 
   io_scl_o <=
     '1' when (c_state = idle or c_state = start or c_state = stop or c_state = sda_start or c_state = sda_stop)
+--    else
+--    '1' when (c_state = mode2_read_data1 or
+--      c_state = mode2_read_data_lastbit1 or
+--      c_state = mode2_read_data_ack1 or
+--      c_state = mode2_read_data2 or
+--      c_state = mode2_read_data_lastbit2 or
+--      c_state = mode2_read_data_ack2 or
+--      c_state = mode2_read_data_nak)
     else
     temp_sck;
 
