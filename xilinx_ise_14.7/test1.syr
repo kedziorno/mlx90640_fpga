@@ -5,14 +5,14 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.02 secs
+Total CPU time to Xst completion: 0.03 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.02 secs
+Total CPU time to Xst completion: 0.03 secs
  
 --> 
 WARNING:Xst:1583 - You are using an internal switch '-use_new_parser'.
@@ -1618,6 +1618,9 @@ Synthesizing Unit <melexis_mlx90640_i2c>.
     Found 2-bit register for signal <c_cmode>.
     Found 3-bit register for signal <slave_index_ctr>.
     Found 1-bit register for signal <io_scl_ii>.
+    Found 1-bit register for signal <io_sda_ii_i>.
+    Found 1-bit register for signal <Z_40_o_i_clock_DFF_417_q>.
+    Found 1-bit register for signal <GND_115_o_i_clock_DFF_418>.
     Found 1-bit register for signal <io_scl_ii_i>.
     Found finite state machine <FSM_18> for signal <c_cmode>.
     -----------------------------------------------------------------------
@@ -1651,21 +1654,21 @@ INFO:Xst:1799 - State mode2_read_data_nak is never reached in FSM <c_state>.
     | Encoding           | auto                                           |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
-    Found 4-bit adder for signal <PWR_52_o_GND_115_o_add_215_OUT> created at line 684.
-    Found 3-bit adder for signal <data_index_ctr[2]_GND_115_o_add_261_OUT> created at line 793.
-    Found 10-bit adder for signal <mode2_read_data_index_ctr[9]_GND_115_o_add_271_OUT> created at line 821.
-    Found 4-bit adder for signal <p_i2c_clock_ctr.count[3]_GND_115_o_add_300_OUT> created at line 883.
-    Found 3-bit subtractor for signal <GND_115_o_GND_115_o_sub_231_OUT<2:0>> created at line 726.
+    Found 4-bit adder for signal <PWR_52_o_GND_115_o_add_215_OUT> created at line 691.
+    Found 3-bit adder for signal <data_index_ctr[2]_GND_115_o_add_261_OUT> created at line 800.
+    Found 10-bit adder for signal <mode2_read_data_index_ctr[9]_GND_115_o_add_271_OUT> created at line 828.
+    Found 4-bit adder for signal <p_i2c_clock_ctr.count[3]_GND_115_o_add_300_OUT> created at line 890.
+    Found 3-bit subtractor for signal <GND_115_o_GND_115_o_sub_231_OUT<2:0>> created at line 733.
     Found 4x1-bit Read Only RAM for signal <slave_index_ctr[2]_X_40_o_Mux_231_o>
-    Found 1-bit 8-to-1 multiplexer for signal <data_index_ctr[2]_i_memory_data[7]_Mux_83_o> created at line 372.
-    Found 1-bit 16-to-1 multiplexer for signal <PWR_52_o_i_memory_data[15]_Mux_95_o> created at line 400.
-    Found 1-bit 8-to-1 multiplexer for signal <data_index_ctr[2]_i_memory_address[7]_Mux_202_o> created at line 654.
-    Found 1-bit 16-to-1 multiplexer for signal <PWR_52_o_i_memory_address[15]_Mux_216_o> created at line 684.
-    Found 1-bit tristate buffer for signal <io_sda_ii> created at line 197
+    Found 1-bit 8-to-1 multiplexer for signal <data_index_ctr[2]_i_memory_data[7]_Mux_83_o> created at line 379.
+    Found 1-bit 16-to-1 multiplexer for signal <PWR_52_o_i_memory_data[15]_Mux_95_o> created at line 407.
+    Found 1-bit 8-to-1 multiplexer for signal <data_index_ctr[2]_i_memory_address[7]_Mux_202_o> created at line 661.
+    Found 1-bit 16-to-1 multiplexer for signal <PWR_52_o_i_memory_address[15]_Mux_216_o> created at line 691.
+    Found 1-bit tristate buffer for signal <io_sda_ii> created at line 198
     Summary:
 	inferred   1 RAM(s).
 	inferred   5 Adder/Subtractor(s).
-	inferred  61 D-type flip-flop(s).
+	inferred  64 D-type flip-flop(s).
 	inferred 106 Multiplexer(s).
 	inferred   1 Tristate(s).
 	inferred   2 Finite State Machine(s).
@@ -1680,7 +1683,7 @@ Synthesizing Unit <lcd_display>.
     Found 4-bit register for signal <o_anode>.
     Found 2-bit adder for signal <p0.count[1]_GND_121_o_add_2_OUT> created at line 93.
     Found 2-bit subtractor for signal <GND_121_o_GND_121_o_sub_10_OUT<1:0>> created at line 124.
-    Found 4x4-bit Read Only RAM for signal <p0.count[1]_PWR_55_o_wide_mux_0_OUT>
+    Found 4x4-bit Read Only RAM for signal <p0.count[1]_PWR_56_o_wide_mux_0_OUT>
     Found 16x7-bit Read Only RAM for signal <p1.count[1]_GND_121_o_wide_mux_7_OUT>
     Found 1-bit 4-to-1 multiplexer for signal <p1.count[1]_i_LCDChar[3][3]_wide_mux_6_OUT<3>> created at line 102.
     Found 1-bit 4-to-1 multiplexer for signal <p1.count[1]_i_LCDChar[3][3]_wide_mux_6_OUT<2>> created at line 102.
@@ -1733,8 +1736,8 @@ Macro Statistics
  7-bit adder                                           : 10
  8-bit adder                                           : 7
  9-bit adder                                           : 2
-# Registers                                            : 544
- 1-bit register                                        : 282
+# Registers                                            : 547
+ 1-bit register                                        : 285
  10-bit register                                       : 38
  11-bit register                                       : 2
  12-bit register                                       : 14
@@ -2017,7 +2020,7 @@ INFO:Xst:3231 - The small RAM <Mram_p1.count[1]_GND_121_o_wide_mux_7_OUT> will b
     |     diA            | connected to signal <GND>           |          |
     |     doA            | connected to internal node          |          |
     -----------------------------------------------------------------------
-INFO:Xst:3231 - The small RAM <Mram_p0.count[1]_PWR_55_o_wide_mux_0_OUT> will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+INFO:Xst:3231 - The small RAM <Mram_p0.count[1]_PWR_56_o_wide_mux_0_OUT> will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
     -----------------------------------------------------------------------
     | ram_type           | Distributed                         |          |
     -----------------------------------------------------------------------
@@ -2109,8 +2112,8 @@ Macro Statistics
  2-bit up counter                                      : 1
  4-bit up counter                                      : 2
  5-bit up counter                                      : 4
-# Registers                                            : 4971
- Flip-Flops                                            : 4971
+# Registers                                            : 4974
+ Flip-Flops                                            : 4974
 # Comparators                                          : 6
  10-bit comparator greater                             : 6
 # Multiplexers                                         : 1186
@@ -3206,6 +3209,7 @@ INFO:Xst:2261 - The FF/Latch <col_4> in Unit <extract_kv_parameters_i0> is equiv
 Mapping all equations...
 Building and optimizing final netlist ...
 Found area constraint ratio of 100 (+ 5) on block test1, actual ratio is 10.
+FlipFlop melexis_mlx9064x_core_inst/CalculateGetImage_mux has been replicated 1 time(s)
 FlipFlop melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_mux has been replicated 1 time(s)
 FlipFlop melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_mux has been replicated 1 time(s)
 
@@ -3219,8 +3223,8 @@ Unit <melexis_mlx90640_i2c_i0> processed.
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 4754
- Flip-Flops                                            : 4754
+# Registers                                            : 4758
+ Flip-Flops                                            : 4758
 # Shift Registers                                      : 1
  2-bit shift register                                  : 1
 
@@ -3245,27 +3249,27 @@ Top Level Output File Name         : test1.ngc
 
 Primitive and Black Box Usage:
 ------------------------------
-# BELS                             : 8906
+# BELS                             : 8900
 #      GND                         : 26
 #      INV                         : 109
 #      LUT1                        : 32
-#      LUT2                        : 2922
-#      LUT3                        : 1135
-#      LUT4                        : 783
-#      LUT5                        : 1243
-#      LUT6                        : 2337
+#      LUT2                        : 2924
+#      LUT3                        : 1136
+#      LUT4                        : 788
+#      LUT5                        : 1241
+#      LUT6                        : 2325
 #      MUXCY                       : 111
 #      MUXF7                       : 82
 #      MUXF8                       : 8
 #      VCC                         : 12
 #      XORCY                       : 106
-# FlipFlops/Latches                : 4755
-#      FD                          : 12
+# FlipFlops/Latches                : 4759
+#      FD                          : 14
 #      FDC                         : 84
 #      FDC_1                       : 1
 #      FDCE                        : 110
 #      FDCE_1                      : 28
-#      FDE                         : 1117
+#      FDE                         : 1119
 #      FDP                         : 1
 #      FDPE                        : 3
 #      FDR                         : 100
@@ -3300,18 +3304,18 @@ Selected Device : 5vfx70tff1136-1
 
 
 Slice Logic Utilization: 
- Number of Slice Registers:            4755  out of  44800    10%  
- Number of Slice LUTs:                 8562  out of  44800    19%  
-    Number used as Logic:              8561  out of  44800    19%  
+ Number of Slice Registers:            4759  out of  44800    10%  
+ Number of Slice LUTs:                 8556  out of  44800    19%  
+    Number used as Logic:              8555  out of  44800    19%  
     Number used as Memory:                1  out of  13120     0%  
        Number used as SRL:                1
 
 Slice Logic Distribution: 
- Number of LUT Flip Flop pairs used:  10993
-   Number with an unused Flip Flop:    6238  out of  10993    56%  
-   Number with an unused LUT:          2431  out of  10993    22%  
-   Number of fully used LUT-FF pairs:  2324  out of  10993    21%  
-   Number of unique control sets:       372
+ Number of LUT Flip Flop pairs used:  10989
+   Number with an unused Flip Flop:    6230  out of  10989    56%  
+   Number with an unused LUT:          2433  out of  10989    22%  
+   Number of fully used LUT-FF pairs:  2326  out of  10989    21%  
+   Number of unique control sets:       374
 
 IO Utilization: 
  Number of IOs:                          74
@@ -3343,10 +3347,10 @@ Clock Information:
 --------------------------------------------+-------------------------------------------------+-------+
 Clock Signal                                | Clock buffer(FF name)                           | Load  |
 --------------------------------------------+-------------------------------------------------+-------+
-i_clock                                     | BUFGP                                           | 4597  |
+i_clock                                     | BUFGP                                           | 4601  |
 vgaclk25                                    | BUFG                                            | 62    |
-melexis_mlx90640_i2c_i0/io_scl_ii           | NONE(melexis_mlx90640_i2c_i0/bytes_to_recv_sr_0)| 17    |
 melexis_mlx90640_i2c_i0/clock               | BUFG                                            | 88    |
+melexis_mlx90640_i2c_i0/io_scl_ii           | NONE(melexis_mlx90640_i2c_i0/bytes_to_recv_sr_0)| 17    |
 c_lcd_display/c_clock_divider_1/p0.clock_out| NONE(c_lcd_display/o_anode_0)                   | 13    |
 --------------------------------------------+-------------------------------------------------+-------+
 INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
@@ -3364,7 +3368,7 @@ Timing Summary:
 Speed Grade: -1
 
    Minimum period: 5.921ns (Maximum Frequency: 168.890MHz)
-   Minimum input arrival time before clock: 4.070ns
+   Minimum input arrival time before clock: 4.045ns
    Maximum output required time after clock: 5.643ns
    Maximum combinational path delay: 6.565ns
 
@@ -3375,25 +3379,25 @@ All values displayed in nanoseconds (ns)
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
   Clock period: 5.921ns (frequency: 168.890MHz)
-  Total number of paths / destination ports: 70836 / 9806
+  Total number of paths / destination ports: 70843 / 9809
 -------------------------------------------------------------------------
 Delay:               5.921ns (Levels of Logic = 16)
-  Source:            melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0/o_2powx_4bit_ena (FF)
+  Source:            melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0/o_signed4bit_ena (FF)
   Destination:       melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0 (RAM)
   Source Clock:      i_clock rising
   Destination Clock: i_clock rising
 
-  Data Path: melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0/o_2powx_4bit_ena to melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
+  Data Path: melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0/o_signed4bit_ena to melexis_mlx9064x_core_inst/inst_rom_constants/rom_constants_i0
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDE:C->Q              1   0.471   1.069  o_2powx_4bit_ena (o_2powx_4bit_ena)
-     end scope: 'melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0:o_2powx_4bit_ena'
-     LUT6:I0->O            1   0.094   0.480  Mmux_o_2powx_4bit_ena11 (o_2powx_4bit_ena)
-     end scope: 'melexis_mlx9064x_core_inst/inst_CalculatePixOS:o_2powx_4bit_ena'
-     LUT6:I5->O           17   0.094   0.877  Mmux_rom_constants_2powx_4bit_en11 (rom_constants_2powx_4bit_en)
-     begin scope: 'melexis_mlx9064x_core_inst/inst_rom_constants:i_2powx_4bit_en'
-     LUT6:I2->O            1   0.094   0.480  Mmux_GND_66_o_BUS_0004_mux_26_OUT_A1 (Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_A<0>)
+     FDE:C->Q              1   0.471   0.789  o_signed4bit_ena (o_signed4bit_ena)
+     end scope: 'melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0:o_signed4bit_ena'
+     LUT4:I0->O            1   0.094   0.480  Mmux_o_signed4bit_ena11 (o_signed4bit_ena)
+     end scope: 'melexis_mlx9064x_core_inst/inst_CalculatePixOS:o_signed4bit_ena'
+     LUT4:I3->O           17   0.094   1.157  Mmux_rom_constants_signed4bit_en11 (rom_constants_signed4bit_en)
+     begin scope: 'melexis_mlx9064x_core_inst/inst_rom_constants:i_signed4bit_en'
+     LUT6:I0->O            1   0.094   0.480  Mmux_GND_66_o_BUS_0004_mux_26_OUT_A1 (Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_A<0>)
      LUT6:I5->O            1   0.094   0.000  Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_lut<0> (Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_lut<0>)
      MUXCY:S->O            1   0.372   0.000  Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<0> (Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<0>)
      MUXCY:CI->O           1   0.026   0.000  Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<1> (Mmux_GND_66_o_BUS_0004_mux_26_OUT_rs_cy<1>)
@@ -3445,6 +3449,33 @@ Delay:               4.562ns (Levels of Logic = 13)
                                        (37.0% logic, 63.0% route)
 
 =========================================================================
+Timing constraint: Default period analysis for Clock 'melexis_mlx90640_i2c_i0/clock'
+  Clock period: 5.786ns (frequency: 172.831MHz)
+  Total number of paths / destination ports: 5392 / 132
+-------------------------------------------------------------------------
+Delay:               5.786ns (Levels of Logic = 6)
+  Source:            melexis_mlx90640_i2c_i0/c_state_FSM_FFd6 (FF)
+  Destination:       melexis_mlx90640_i2c_i0/temp_sda (FF)
+  Source Clock:      melexis_mlx90640_i2c_i0/clock rising
+  Destination Clock: melexis_mlx90640_i2c_i0/clock rising
+
+  Data Path: melexis_mlx90640_i2c_i0/c_state_FSM_FFd6 to melexis_mlx90640_i2c_i0/temp_sda
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDCE:C->Q             5   0.471   0.995  c_state_FSM_FFd6 (c_state_FSM_FFd6)
+     LUT5:I0->O            1   0.094   0.973  c_state_c_state<0>5 (c_state_c_state<0>4)
+     LUT6:I1->O           24   0.094   0.602  c_state_c_state<0>7 (c_state<0>)
+     LUT6:I5->O            1   0.094   0.576  c_state__n1071_inv3 (c_state__n1071_inv2)
+     LUT6:I4->O            1   0.094   0.480  c_state__n1396_inv41_SW0 (N14)
+     LUT6:I5->O            1   0.094   0.576  c_state__n1071_inv5 (c_state__n1071_inv4)
+     LUT6:I4->O            1   0.094   0.336  c_state__n1071_inv23 (_n1071_inv)
+     FDPE:CE                   0.213          temp_sda
+    ----------------------------------------
+    Total                      5.786ns (1.248ns logic, 4.538ns route)
+                                       (21.6% logic, 78.4% route)
+
+=========================================================================
 Timing constraint: Default period analysis for Clock 'melexis_mlx90640_i2c_i0/io_scl_ii'
   Clock period: 1.543ns (frequency: 648.088MHz)
   Total number of paths / destination ports: 16 / 16
@@ -3465,33 +3496,6 @@ Delay:               1.543ns (Levels of Logic = 1)
     ----------------------------------------
     Total                      1.543ns (0.565ns logic, 0.978ns route)
                                        (36.6% logic, 63.4% route)
-
-=========================================================================
-Timing constraint: Default period analysis for Clock 'melexis_mlx90640_i2c_i0/clock'
-  Clock period: 5.386ns (frequency: 185.667MHz)
-  Total number of paths / destination ports: 5363 / 132
--------------------------------------------------------------------------
-Delay:               5.386ns (Levels of Logic = 6)
-  Source:            melexis_mlx90640_i2c_i0/c_state_FSM_FFd6 (FF)
-  Destination:       melexis_mlx90640_i2c_i0/temp_sda (FF)
-  Source Clock:      melexis_mlx90640_i2c_i0/clock rising
-  Destination Clock: melexis_mlx90640_i2c_i0/clock rising
-
-  Data Path: melexis_mlx90640_i2c_i0/c_state_FSM_FFd6 to melexis_mlx90640_i2c_i0/temp_sda
-                                Gate     Net
-    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
-    ----------------------------------------  ------------
-     FDCE:C->Q             4   0.471   0.726  c_state_FSM_FFd6 (c_state_FSM_FFd6)
-     LUT3:I0->O            1   0.094   0.710  c_state_c_state<0>111 (c_state_c_state<0>11)
-     LUT5:I2->O           10   0.094   0.529  c_state_c_state<0>2 (c_state_c_state<0>1)
-     LUT5:I4->O           14   0.094   0.551  c_state_c_state<0>5 (c_state<0>)
-     LUT6:I5->O            1   0.094   0.576  c_state__n1067_inv10 (c_state__n1067_inv9)
-     LUT6:I4->O            1   0.094   0.710  c_state__n1067_inv13 (c_state__n1067_inv12)
-     LUT6:I3->O            1   0.094   0.336  c_state__n1067_inv23 (_n1067_inv)
-     FDPE:CE                   0.213          temp_sda
-    ----------------------------------------
-    Total                      5.386ns (1.248ns logic, 4.138ns route)
-                                       (23.2% logic, 76.8% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'c_lcd_display/c_clock_divider_1/p0.clock_out'
@@ -3518,50 +3522,29 @@ Delay:               2.319ns (Levels of Logic = 2)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 10174 / 8196
+  Total number of paths / destination ports: 10176 / 8198
 -------------------------------------------------------------------------
-Offset:              4.070ns (Levels of Logic = 6)
-  Source:            inst_subfp:rdy (PAD)
-  Destination:       melexis_mlx9064x_core_inst/inst_CalculatePixOsCPSP/p0.state_FSM_FFd7 (FF)
+Offset:              4.045ns (Levels of Logic = 6)
+  Source:            inst_mulfp:rdy (PAD)
+  Destination:       melexis_mlx9064x_core_inst/inst_CalculatePixOsCPSP/p0.state_FSM_FFd5 (FF)
   Destination Clock: i_clock rising
 
-  Data Path: inst_subfp:rdy to melexis_mlx9064x_core_inst/inst_CalculatePixOsCPSP/p0.state_FSM_FFd7
+  Data Path: inst_mulfp:rdy to melexis_mlx9064x_core_inst/inst_CalculatePixOsCPSP/p0.state_FSM_FFd5
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-    subfp:rdy              7   0.000   0.000  inst_subfp (subfprdy)
-     begin scope: 'melexis_mlx9064x_core_inst:subfprdy'
-     LUT2:I0->O           15   0.094   1.146  Mmux_CalculatePixOsCPSP_subfprdy11 (CalculatePixOsCPSP_subfprdy)
-     begin scope: 'melexis_mlx9064x_core_inst/inst_CalculatePixOsCPSP:subfprdy'
-     LUT6:I0->O            1   0.094   0.789  p0.state_FSM_FFd7-In21 (p0.state_FSM_FFd7-In23)
-     LUT5:I1->O            1   0.094   0.480  p0.state_FSM_FFd7-In22 (p0.state_FSM_FFd7-In25)
-     LUT6:I5->O            1   0.094   0.576  p0.state_FSM_FFd7-In26 (p0.state_FSM_FFd7-In29)
-     LUT6:I4->O            1   0.094   0.000  p0.state_FSM_FFd7-In27 (p0.state_FSM_FFd7-In)
-     FDR:D                    -0.018          p0.state_FSM_FFd7
+    mulfp:rdy              9   0.000   0.000  inst_mulfp (mulfprdy)
+     begin scope: 'melexis_mlx9064x_core_inst:mulfprdy'
+     LUT2:I0->O           30   0.094   1.196  Mmux_CalculatePixOsCPSP_mulfprdy11 (CalculatePixOsCPSP_mulfprdy)
+     begin scope: 'melexis_mlx9064x_core_inst/inst_CalculatePixOsCPSP:mulfprdy'
+     LUT6:I0->O            2   0.094   0.485  p0.state_FSM_FFd6-In11 (p0.state_FSM_FFd6-In1)
+     LUT5:I4->O            2   0.094   0.794  p0.state_FSM_FFd6-In421 (p0.state_FSM_FFd6-In42)
+     LUT4:I0->O            1   0.094   0.480  p0.state_FSM_FFd5-In3 (p0.state_FSM_FFd5-In3)
+     LUT6:I5->O            1   0.094   0.000  p0.state_FSM_FFd5-In4 (p0.state_FSM_FFd5-In)
+     FDR:D                    -0.018          p0.state_FSM_FFd5
     ----------------------------------------
-    Total                      4.070ns (1.079ns logic, 2.991ns route)
-                                       (26.5% logic, 73.5% route)
-
-=========================================================================
-Timing constraint: Default OFFSET IN BEFORE for Clock 'melexis_mlx90640_i2c_i0/io_scl_ii'
-  Total number of paths / destination ports: 1 / 1
--------------------------------------------------------------------------
-Offset:              1.992ns (Levels of Logic = 3)
-  Source:            io_sda_dd (PAD)
-  Destination:       melexis_mlx90640_i2c_i0/bytes_to_recv_sr_0 (FF)
-  Destination Clock: melexis_mlx90640_i2c_i0/io_scl_ii rising
-
-  Data Path: io_sda_dd to melexis_mlx90640_i2c_i0/bytes_to_recv_sr_0
-                                Gate     Net
-    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
-    ----------------------------------------  ------------
-     IOBUF:IO->O           3   0.818   1.080  io_sda_dd_IOBUF (io_sda_dd1_OBUF)
-     begin scope: 'melexis_mlx90640_i2c_i0:io_sda_i'
-     LUT6:I0->O            1   0.094   0.000  Mmux_bytes_to_recv_sr[15]_GND_115_o_mux_25_OUT174 (bytes_to_recv_sr[15]_GND_115_o_mux_25_OUT<0>)
-     FDC:D                    -0.018          bytes_to_recv_sr_0
-    ----------------------------------------
-    Total                      1.992ns (0.912ns logic, 1.080ns route)
-                                       (45.8% logic, 54.2% route)
+    Total                      4.045ns (1.090ns logic, 2.955ns route)
+                                       (26.9% logic, 73.1% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'vgaclk25'
@@ -3666,7 +3649,7 @@ Offset:              4.736ns (Levels of Logic = 4)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDC:C->Q             59   0.471   0.708  c_cmode_FSM_FFd2 (c_cmode_FSM_FFd2)
+     FDC:C->Q             60   0.471   0.708  c_cmode_FSM_FFd2 (c_cmode_FSM_FFd2)
      LUT2:I0->O            2   0.094   0.581  c_cmode_FSM_FFd1-In1 (c_cmode_FSM_FFd1-In)
      LUT6:I4->O            1   0.094   0.336  Mmux_io_scl_o11 (io_scl_o)
      end scope: 'melexis_mlx90640_i2c_i0:io_scl_o'
@@ -3718,7 +3701,7 @@ Clock to Setup on destination clock i_clock
 Source Clock                     |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------------------------+---------+---------+---------+---------+
 i_clock                          |    5.921|         |    4.507|         |
-melexis_mlx90640_i2c_i0/clock    |    2.748|         |    2.259|         |
+melexis_mlx90640_i2c_i0/clock    |    3.036|         |    2.259|         |
 melexis_mlx90640_i2c_i0/io_scl_ii|    0.812|         |         |         |
 ---------------------------------+---------+---------+---------+---------+
 
@@ -3727,8 +3710,8 @@ Clock to Setup on destination clock melexis_mlx90640_i2c_i0/clock
                              | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock                 |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 -----------------------------+---------+---------+---------+---------+
-i_clock                      |    4.516|         |         |         |
-melexis_mlx90640_i2c_i0/clock|    5.386|         |         |         |
+i_clock                      |    3.975|         |         |         |
+melexis_mlx90640_i2c_i0/clock|    5.786|         |         |         |
 -----------------------------+---------+---------+---------+---------+
 
 Clock to Setup on destination clock melexis_mlx90640_i2c_i0/io_scl_ii
@@ -3736,7 +3719,8 @@ Clock to Setup on destination clock melexis_mlx90640_i2c_i0/io_scl_ii
                                  | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock                     |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------------------------+---------+---------+---------+---------+
-melexis_mlx90640_i2c_i0/clock    |    3.485|         |         |         |
+i_clock                          |    1.141|         |         |         |
+melexis_mlx90640_i2c_i0/clock    |    2.333|         |         |         |
 melexis_mlx90640_i2c_i0/io_scl_ii|    1.543|         |         |         |
 ---------------------------------+---------+---------+---------+---------+
 
@@ -3752,7 +3736,7 @@ vgaclk25       |    4.562|         |         |         |
 
 
 Total REAL time to Xst completion: 31.00 secs
-Total CPU time to Xst completion: 30.29 secs
+Total CPU time to Xst completion: 30.19 secs
  
 WARNING:Xst:3152 - You have chosen to run a version of XST which is not the default solution
    for the specified device family. You are free to use it in order to take
@@ -3765,7 +3749,7 @@ WARNING:Xst:3152 - You have chosen to run a version of XST which is not the defa
 --> 
 
 
-Total memory usage is 509208 kilobytes
+Total memory usage is 507480 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :  317 (   0 filtered)

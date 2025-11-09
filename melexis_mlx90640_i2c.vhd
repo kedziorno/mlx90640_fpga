@@ -146,10 +146,11 @@ state1,
   signal mode2_read_data_index_ctr : integer range 0 to c_mode2_read_data_index - 1;
   signal mode2_ready_i : std_logic;
   signal mode2_ready_all_i : std_logic;
-  signal io_scl_ii, io_scl_ii_i, io_sda_ii : std_logic;
+  signal io_scl_ii, io_scl_ii_i, io_sda_ii, io_sda_ii_i : std_logic;
 
 begin
 
+--  io_scl_ii <= io_scl_i;
   p_i_scl_synchro : process (i_clock) is
   begin
     if (rising_edge (i_clock)) then
@@ -194,9 +195,10 @@ begin
     else
     temp_sck;
 
-  io_sda_ii <=
-    io_sda_i when
-      (c_state = mode1_read_data1 or
+  p_synchro_sda : process (i_clock) is
+  begin
+    if (rising_edge (i_clock)) then
+      if (      (c_state = mode1_read_data1 or
       c_state = mode1_read_data_lastbit1 or
       c_state = mode1_read_data_ack or
       c_state = mode1_read_data2 or
@@ -210,9 +212,14 @@ begin
       c_state = mode2_read_data2 or
       c_state = mode2_read_data_lastbit2 or
       c_state = mode2_read_data_ack2 or
-      c_state = mode2_read_data_nak)
-    else
-    'Z';
+      c_state = mode2_read_data_nak)) then
+        io_sda_ii_i <= io_sda_i;
+        io_sda_ii <= io_sda_ii_i;
+      else
+      io_sda_ii <= 'Z';
+      end if;
+    end if;
+  end process p_synchro_sda;
 
   p_i2c_catch_bytes_to_recv : process (io_scl_ii, i_reset) is
   begin
