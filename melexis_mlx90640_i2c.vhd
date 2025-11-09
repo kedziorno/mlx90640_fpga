@@ -170,8 +170,8 @@ begin
     elsif (rising_edge (i_clock)) then
       if (mode2_ready_i = '1') then
         o_bytes_to_recv <=
-        --bytes_to_recv_sr (16 downto 9) & bytes_to_recv_sr (7 downto 0); -- test1
-        bytes_to_recv_sr (7 downto 0) & bytes_to_recv_sr (16 downto 9); -- test2
+        bytes_to_recv_sr (16 downto 9) & bytes_to_recv_sr (7 downto 0); -- test1
+        --bytes_to_recv_sr (7 downto 0) & bytes_to_recv_sr (16 downto 9); -- test2
       end if;
     end if;
   end process p_ob;
