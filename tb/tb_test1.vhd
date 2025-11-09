@@ -59,24 +59,27 @@ COMPONENT test1
 --constant c_use_fisqrt1 : string (1 to 3) := " no" -- yes/no - depend from c_calculate_type(c_temperature)
 --);
 PORT(
-i_clock : IN  std_logic;
-i_reset : IN  std_logic;
-vga_hsync : OUT  std_logic;
-vga_vsync : OUT  std_logic;
-vga_clock : OUT  std_logic;
-vga_r : OUT  std_logic_vector(7 downto 0);
-vga_g : OUT  std_logic_vector(7 downto 0);
-vga_b : OUT  std_logic_vector(7 downto 0);
+i_clock,i_reset : in std_logic;
+vga_hsync : out std_logic;
+vga_vsync : out std_logic;
+vga_clock : out std_logic;
+vga_r : out std_logic_vector (7 downto 0);
+vga_g : out std_logic_vector (7 downto 0);
+vga_b : out std_logic_vector (7 downto 0);
 vga_syncn : out std_logic;
-vga_blankn : out std_logic;
-vga_psave : out std_logic;
-io_scl_dd : inout STD_LOGIC;
-io_sda_dd : inout STD_LOGIC;
-io_scl_nl : inout STD_LOGIC;
-io_sda_nl : inout STD_LOGIC;
+vga_blankn: out std_logic;
+vga_psave: out std_logic;
+io_sda_dd : inout std_logic;
+io_scl_dd : inout std_logic;
+io_sda_dd1 : inout std_logic;
+io_scl_dd1 : inout std_logic;
+io_sda_nl : inout std_logic;
+io_scl_nl : inout std_logic;
 o_an : out std_logic_vector (3 downto 0);
 o_seg : out std_logic_vector (6 downto 0);
-o_led : out std_logic_vector (7 downto 0)
+o_led : out std_logic_vector (7 downto 0);
+o_data : out std_logic_vector (15 downto 0);
+o_ready : out std_logic
 );
 END COMPONENT;
 
@@ -93,6 +96,8 @@ signal vga_blankn : std_logic;
 signal vga_psave : std_logic;
 signal io_sda_dd : std_logic := 'Z';
 signal io_scl_dd : std_logic := 'Z';
+signal io_sda_dd1 : std_logic := 'Z';
+signal io_scl_dd1 : std_logic := 'Z';
 signal io_sda_nl : std_logic := 'Z';
 signal io_scl_nl : std_logic := 'Z';
 signal vga_r : std_logic_vector(7 downto 0);
@@ -196,10 +201,12 @@ vga_b => vga_b,
 vga_syncn => vga_syncn,
 vga_blankn => vga_blankn,
 vga_psave => vga_psave,
-io_scl_dd => io_scl_dd,
 io_sda_dd => io_sda_dd,
-io_scl_nl => io_scl_nl,
-io_sda_nl => io_sda_nl
+io_scl_dd => io_scl_dd,
+io_sda_dd1 => io_sda_dd1,
+io_scl_dd1 => io_scl_dd1,
+io_sda_nl => io_sda_nl,
+io_scl_nl => io_scl_nl
 );
 
 -- Clock process definitions
@@ -246,8 +253,9 @@ p0 : process is
 begin
 --  wait for 653 us; -- wait on scl idle before mode2 1000k
 --  wait for 869 us; -- wait on scl idle before mode2 1000k
-  wait for 878 us; -- wait on scl idle before mode2 1000k
+--  wait for 878 us; -- wait on scl idle before mode2 1000k
 --  wait for 1282 us; -- wait on scl idle before mode2 1000k -- pr
+  wait for 1950 us; -- wait on scl idle before mode2 1000k -- pr
 --  wait for 974 us; -- wait on scl idle before mode2 500k
 --  wait for 1281 us; -- wait on scl idle before mode2 500k
 --  wait for 2015 us; -- wait on scl idle before mode2 500k
@@ -311,13 +319,13 @@ i_addr <= x"0400"; -- data X
   wait;
 end process p0;
 
-a <= '1' when io_scl_nl = 'Z' else '0';
+a <= '1' when io_scl_dd1 = 'Z' else '0';
 
 i2c_stream_i0 : i2c_stream PORT MAP (
 i_clock => i_clock,
 i_reset => i_reset,
 i_scl => a,
-o_sda => io_sda_nl,
+o_sda => io_sda_dd1,
 i_mode2 => i_mode2,
 i_enable => i_enable,
 i_addr => i_addr,
