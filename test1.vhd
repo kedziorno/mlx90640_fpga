@@ -40,7 +40,7 @@ constant c_bus_clock : integer := c_clock_i2c_frequency;
 --constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
 --constant c_bus_clock : integer := 50;
 --constant c_bus_clock : integer := 1;
-constant c_sim : string (1 to 1) := "y";
+constant c_sim : string (1 to 1) := "n";
 constant c_lcd : string (1 to 1) := "n";
 constant c_cold_start : integer := 1000;
 constant c_wait2 : integer := 1000;
@@ -652,14 +652,14 @@ begin
   end if;
 end process p100;
 
-dina_swap : if (c_sim = "y") generate
+dina_swap : if (c_sim = "n") generate
       i2c_mlx_dina (15 downto 8) <= latch_data (7 downto 0);
       i2c_mlx_dina (7 downto 0) <= latch_data (15 downto 8);
 --      i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
 --      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
 end generate dina_swap;
 
-dina_no_swap : if (c_sim = "n") generate
+dina_no_swap : if (c_sim = "y") generate
       i2c_mlx_dina (7 downto 0) <= latch_data (7 downto 0);
       i2c_mlx_dina (15 downto 8) <= latch_data (15 downto 8);
 --      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
@@ -1109,7 +1109,7 @@ lcdchar (1)(3) <= i2c_mlx_doutb(7);
           state <= z1;
         end if;
         when s0 =>
-        if (c_sim /= "n") then
+        if (c_sim = "n") then
         state <= s1;
         end if;
 					test_fixed_melexis_run <= '1';
