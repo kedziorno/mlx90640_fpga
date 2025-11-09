@@ -179,14 +179,14 @@ begin
 
   io_sda_ii <=
     io_sda_i when
-      (c_state = mode1_read_data1 or
-      c_state = mode1_read_data_lastbit1 or
-      c_state = mode1_read_data_ack or
-      c_state = mode1_read_data2 or
-      c_state = mode1_read_data_lastbit2 or
-      c_state = mode1_read_data_nak or
-      c_state = mode1_read_data_nak_empty)
-      or
+--      (c_state = mode1_read_data1 or
+--      c_state = mode1_read_data_lastbit1 or
+--      c_state = mode1_read_data_ack or
+--      c_state = mode1_read_data2 or
+--      c_state = mode1_read_data_lastbit2 or
+--      c_state = mode1_read_data_nak or
+--      c_state = mode1_read_data_nak_empty)
+--      or
       (c_state = mode2_read_data1 or
       c_state = mode2_read_data_lastbit1 or
       c_state = mode2_read_data_ack1 or
@@ -204,7 +204,7 @@ begin
     elsif (rising_edge (temp_sck)) then
 --      if (c_state = mode2_read_data2 and c_cmode = c2 and data_index_ctr = 7) then
       if (c_state = mode1_read_data2 and c_cmode = c3 and data_index_ctr = 7) then
-        bytes_to_recv_sr <= (others => '0');
+--        bytes_to_recv_sr <= (others => '0');
       else
 --        bytes_to_recv_sr <= io_sda_ii & bytes_to_recv_sr (16 downto 1); -- test1
         bytes_to_recv_sr <= bytes_to_recv_sr (15 downto 0) & io_sda_ii; -- test2
