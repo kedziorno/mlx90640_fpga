@@ -12,7 +12,7 @@ Target Device  : xc5vfx70t
 Target Package : ff1136
 Target Speed   : -1
 Mapper Version : virtex5 -- $Revision: 1.55 $
-Mapped Date    : Sun Nov  9 13:23:37 2025
+Mapped Date    : Sun Nov  9 13:34:19 2025
 
 Design Summary
 --------------
@@ -76,8 +76,8 @@ Specific Feature Utilization:
 Average Fanout of Non-Clock Nets:                3.80
 
 Peak Memory Usage:  1283 MB
-Total REAL time to MAP completion:  50 secs 
-Total CPU time to MAP completion:   49 secs 
+Total REAL time to MAP completion:  38 secs 
+Total CPU time to MAP completion:   37 secs 
 
 Table of Contents
 -----------------
@@ -130,18 +130,28 @@ WARNING:Pack:2874 - Trimming timing constraints from pin
    of frag REGCLKBL connected to power/ground net
    i2c_mlx_i0/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/
    ramloop[0].ram.r/v5_init.ram/SDP.SINGLE_PRIM36.TDP_REGCLKBL_tiesig
+WARNING:PhysDesignRules:372 - Gated clock. Clock net icon_control0<13> is
+   sourced by a combinatorial pin. This is not good design practice. Use the CE
+   pin to control the loading of data into the flip-flop.
 WARNING:PhysDesignRules:372 - Gated clock. Clock net
    melexis_mlx90640_i2c_i0/GND_115_o_GND_115_o_AND_40_o is sourced by a
    combinatorial pin. This is not good design practice. Use the CE pin to
    control the loading of data into the flip-flop.
-WARNING:PhysDesignRules:372 - Gated clock. Clock net icon_control0<13> is
-   sourced by a combinatorial pin. This is not good design practice. Use the CE
-   pin to control the loading of data into the flip-flop.
 WARNING:PhysDesignRules:367 - The signal
    <U_ila_pro_0/U0/I_NO_D.U_ILA/U_TRIG/U_TM/G_NMU[0].U_M/U_MU/I_MUT_GANDX.U_matc
    h/I_CS_GANDX.U_CS_GANDX_SRL/I_V5.U_CS_GANDX_SRL_V5/U_CS_GAND_SRL_V5/I_USE_RPM
    _NE0.U_GAND_SRL_SET/SRL_Q_O> is incomplete. The signal does not drive any
    load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<18>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<25>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<23>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<28>> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <icon_control0<24>> is incomplete. The
+   signal does not drive any load pins in the design.
 WARNING:PhysDesignRules:367 - The signal
    <g0_dualmem_temperature.dualmem_inst_t/doutb<15>> is incomplete. The signal
    does not drive any load pins in the design.
@@ -193,19 +203,9 @@ WARNING:PhysDesignRules:367 - The signal <icon_control0<32>> is incomplete. The
    signal does not drive any load pins in the design.
 WARNING:PhysDesignRules:367 - The signal <icon_control0<22>> is incomplete. The
    signal does not drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal <icon_control0<18>> is incomplete. The
-   signal does not drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal <icon_control0<25>> is incomplete. The
-   signal does not drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal <icon_control0<23>> is incomplete. The
-   signal does not drive any load pins in the design.
 WARNING:PhysDesignRules:367 - The signal <icon_control0<29>> is incomplete. The
    signal does not drive any load pins in the design.
 WARNING:PhysDesignRules:367 - The signal <icon_control0<35>> is incomplete. The
-   signal does not drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal <icon_control0<28>> is incomplete. The
-   signal does not drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal <icon_control0<24>> is incomplete. The
    signal does not drive any load pins in the design.
 
 Section 3 - Informational
@@ -270,7 +270,7 @@ Section 4 - Removed Logic Summary
  123 block(s) removed
   89 block(s) optimized away
   20 signal(s) removed
- 283 Block(s) redundant
+ 284 Block(s) redundant
 
 Section 5 - Removed Logic
 -------------------------
@@ -975,6 +975,8 @@ LOCALBUF
 		U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/U_STAT_CNT/G[7].GnH.U_MUXCY/MUXCY_L_BUF
 LOCALBUF
 		U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/U_STAT_CNT/G[8].GnH.U_MUXCY/MUXCY_L_BUF
+INV 		U_icon_pro/U0/U_ICON/U_STAT/U_STATCMD_n
+INV 		U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/U_STATCMD_n
 LUT1 		g0_fl2fi_temperature.inst_float2fixed_t/blk00000133
 LUT1 		g0_fl2fi_temperature.inst_float2fixed_t/blk00000134
 LUT1 		g0_fl2fi_temperature.inst_float2fixed_t/blk00000135
@@ -1100,7 +1102,6 @@ LUT1 		U_icon_pro/U0/U_ICON/U_STAT/U_STAT_CNT/G[3].U_LUT
 LUT1 		U_icon_pro/U0/U_ICON/U_STAT/U_STAT_CNT/G[2].U_LUT
 LUT1 		U_icon_pro/U0/U_ICON/U_STAT/U_STAT_CNT/G[1].U_LUT
 LUT1 		U_icon_pro/U0/U_ICON/U_STAT/U_STAT_CNT/G[0].U_LUT
-INV 		U_icon_pro/U0/U_ICON/U_STAT/U_STATCMD_n
 LUT1
 		U_ila_pro_0/U0/I_NO_D.U_ILA/U_G2_SQ.U_CAPCTRL/U_CAP_ADDRGEN/I_NO_TSEQ.I_SRLT_N
 E_1.U_SCNT/G[9].U_LUT
@@ -1221,7 +1222,6 @@ OW.U_RD_COL_ADDR_B/u_cnt/G[2].U_LUT
 LUT1
 		U_ila_pro_0/U0/I_NO_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/I_MULT_R
 OW.U_RD_COL_ADDR_B/u_cnt/G[3].U_LUT
-INV 		U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/U_STATCMD_n
 LUT1 		U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/U_STAT_CNT/G[0].U_LUT
 LUT1 		U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/U_STAT_CNT/G[1].U_LUT
 LUT1 		U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/U_STAT_CNT/G[2].U_LUT
@@ -1232,6 +1232,7 @@ LUT1 		U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/U_STAT_CNT/G[6].U_LUT
 LUT1 		U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/U_STAT_CNT/G[7].U_LUT
 LUT1 		U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/U_STAT_CNT/G[8].U_LUT
 LUT1 		U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/U_STAT_CNT/G[9].U_LUT
+INV 		U_ila_pro_0/U0/I_CLKINV.U_CLKINV
 MUXF8 		g0_fl2fi_temperature.inst_float2fixed_t/blk0000000f
 
 Section 6 - IOB Properties
@@ -1342,7 +1343,7 @@ inst_subfp/hset
 Section 8 - Guide Report
 ------------------------
 
-Sun Nov 09 13:24:22 2025
+Sun Nov 09 13:34:52 2025
 
   Estimated SmartGuide Results
   ----------------------------
@@ -1350,11 +1351,11 @@ Sun Nov 09 13:24:22 2025
   components are components that were guided, but moved in order to satisfy
   timing requirements.
 
-    Estimated Percentage of guided Components                 |  97.6%
+    Estimated Percentage of guided Components                 | 100.0%
     Estimated Percentage of re-implemented Components         |   0.0%
-    Estimated Percentage of new/changed Components            |   2.4%
-    Estimated Percentage of fully guided Nets                 |  97.0%
-    Estimated Percentage of partially guided or unrouted Nets |   3.0%
+    Estimated Percentage of new/changed Components            |   0.0%
+    Estimated Percentage of fully guided Nets                 | 100.0%
+    Estimated Percentage of partially guided or unrouted Nets |   0.0%
 
   A detailed SmartGuide report (.GRF) can be generated during PAR by
   specifying the [-smartguide <guidefile[.ncd]>] switch on the PAR
@@ -1813,42 +1814,6 @@ Section 12 - Control Set Information
 | melexis_mlx90640_i2c_i0/clock_BUFG                    | i_reset_IBUF                                                                                         |                                         | melexis_mlx90640_i2c_i0/_n1415_inv                                                                | 3                | 10             |
 | melexis_mlx90640_i2c_i0/clock_BUFG                    | i_reset_IBUF                                                                                         |                                         | melexis_mlx90640_i2c_i0/_n1566_inv                                                                | 1                | 3              |
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| o_ready_OBUF                                          |                                                                                                      |                                         |                                                                                                   | 13               | 44             |
-| o_ready_OBUF                                          |                                                                                                      |                                         | GLOBAL_LOGIC1                                                                                     | 4                | 16             |
-| o_ready_OBUF                                          | GLOBAL_LOGIC1                                                                                        | U_ila_pro_0/U0/I_NO_D.U_ILA/iARM        |                                                                                                   | 1                | 1              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/U_G2_SQ.U_CAPCTRL/CMP_RESET                                              |                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_G2_SQ.U_CAPCTRL/SCNT_CMP_CE                                         | 1                | 1              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/U_G2_SQ.U_CAPCTRL/CMP_RESET                                              |                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_G2_SQ.U_CAPCTRL/WCNT_HCMP_CE                                        | 1                | 1              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/U_G2_SQ.U_CAPCTRL/CMP_RESET                                              |                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_G2_SQ.U_CAPCTRL/WCNT_LCMP_CE                                        | 1                | 1              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/U_G2_SQ.U_CAPCTRL/SCNT_RESET                                             |                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_G2_SQ.U_CAPCTRL/SCNT_CE                                             | 3                | 10             |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/U_RST/PRE_RESET0                                                         |                                         |                                                                                                   | 2                | 8              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/U_RST/U_ARM_XFER/iCLR                                                    |                                         |                                                                                                   | 1                | 2              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/U_RST/U_ARM_XFER/iCLR                                                    |                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_RST/U_ARM_XFER/iDOUT                                                | 1                | 1              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/U_RST/U_ARM_XFER/iDIN<1>                                                 |                                         |                                                                                                   | 1                | 1              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/U_RST/U_HALT_XFER/iCLR                                                   |                                         |                                                                                                   | 1                | 2              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/U_RST/U_HALT_XFER/iCLR                                                   |                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_RST/U_HALT_XFER/iDOUT                                               | 1                | 1              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/U_RST/U_HALT_XFER/iDIN<1>                                                |                                         |                                                                                                   | 1                | 1              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/ACTRESET_pulse                                                    |                                         |                                                                                                   | 1                | 1              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/U_DSL1/iCLR                                                       |                                         |                                                                                                   | 1                | 2              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/U_DSL1/iCLR                                                       |                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/DSTAT_en_dly1                                                  | 1                | 1              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/U_DSL1/iDIN<1>                                                    |                                         |                                                                                                   | 1                | 1              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/U_TRIG/U_TC/I_TSEQ_EQ1.I_TSEQ_SIMPLE/iRESET<0>                           |                                         |                                                                                                   | 4                | 16             |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/U_TRIG/U_TC/I_TSEQ_EQ1.I_TSEQ_SIMPLE/iRESET<1>                           |                                         |                                                                                                   | 1                | 1              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/iARM                                                                     |                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/DSTAT_load                                                     | 1                | 2              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/iARM                                                                     |                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/NS_load                                                        | 3                | 10             |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/iARM                                                                     | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<0>   |                                                                                                   | 1                | 1              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/iCAP_DONE                                                                | U_ila_pro_0/U0/I_NO_D.U_ILA/iARM        |                                                                                                   | 1                | 1              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/iCAP_TRIGGER_OUT                                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<0>   |                                                                                                   | 1                | 1              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<0>                                                                |                                         |                                                                                                   | 1                | 1              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<1>                                                                |                                         |                                                                                                   | 1                | 1              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<2>                                                                |                                         |                                                                                                   | 1                | 1              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<3>                                                                |                                         |                                                                                                   | 2                | 3              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<4>                                                                |                                         |                                                                                                   | 1                | 2              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<5>                                                                |                                         |                                                                                                   | 1                | 1              |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<6>                                                                |                                         |                                                                                                   | 10               | 24             |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<6>                                                                |                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_G2_SQ.U_CAPCTRL/WCNT_CE                                             | 3                | 10             |
-| o_ready_OBUF                                          | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<7>                                                                |                                         |                                                                                                   | 1                | 2              |
-| o_ready_OBUF                                          | icon_control0<20>                                                                                    |                                         |                                                                                                   | 8                | 32             |
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | vgaclk25_BUFG                                         |                                                                                                      |                                         | vts_inst/reset_inv                                                                                | 2                | 2              |
 | vgaclk25_BUFG                                         | i_reset_IBUF                                                                                         |                                         |                                                                                                   | 7                | 24             |
 | vgaclk25_BUFG                                         | i_reset_IBUF                                                                                         |                                         | PWR_9_o_pagclk.vmax[3]_equal_232_o                                                                | 1                | 1              |
@@ -1866,6 +1831,42 @@ Section 12 - Control Set Information
 | ~icon_control0<13>                                    | U_ila_pro_0/U0/I_NO_D.U_ILA/iARM                                                                     |                                         |                                                                                                   | 1                | 1              |
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | ~melexis_mlx90640_i2c_i0/GND_115_o_GND_115_o_AND_40_o | i_reset_IBUF                                                                                         |                                         |                                                                                                   | 5                | 17             |
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| ~o_ready_OBUF                                         |                                                                                                      |                                         |                                                                                                   | 13               | 44             |
+| ~o_ready_OBUF                                         |                                                                                                      |                                         | GLOBAL_LOGIC1                                                                                     | 4                | 16             |
+| ~o_ready_OBUF                                         | GLOBAL_LOGIC1                                                                                        | U_ila_pro_0/U0/I_NO_D.U_ILA/iARM        |                                                                                                   | 1                | 1              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_G2_SQ.U_CAPCTRL/CMP_RESET                                              |                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_G2_SQ.U_CAPCTRL/SCNT_CMP_CE                                         | 1                | 1              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_G2_SQ.U_CAPCTRL/CMP_RESET                                              |                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_G2_SQ.U_CAPCTRL/WCNT_HCMP_CE                                        | 1                | 1              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_G2_SQ.U_CAPCTRL/CMP_RESET                                              |                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_G2_SQ.U_CAPCTRL/WCNT_LCMP_CE                                        | 1                | 1              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_G2_SQ.U_CAPCTRL/SCNT_RESET                                             |                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_G2_SQ.U_CAPCTRL/SCNT_CE                                             | 3                | 10             |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_RST/PRE_RESET0                                                         |                                         |                                                                                                   | 2                | 8              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_RST/U_ARM_XFER/iCLR                                                    |                                         |                                                                                                   | 1                | 2              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_RST/U_ARM_XFER/iCLR                                                    |                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_RST/U_ARM_XFER/iDOUT                                                | 1                | 1              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_RST/U_ARM_XFER/iDIN<1>                                                 |                                         |                                                                                                   | 1                | 1              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_RST/U_HALT_XFER/iCLR                                                   |                                         |                                                                                                   | 1                | 2              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_RST/U_HALT_XFER/iCLR                                                   |                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_RST/U_HALT_XFER/iDOUT                                               | 1                | 1              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_RST/U_HALT_XFER/iDIN<1>                                                |                                         |                                                                                                   | 1                | 1              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/ACTRESET_pulse                                                    |                                         |                                                                                                   | 1                | 1              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/U_DSL1/iCLR                                                       |                                         |                                                                                                   | 1                | 2              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/U_DSL1/iCLR                                                       |                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/DSTAT_en_dly1                                                  | 1                | 1              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/U_DSL1/iDIN<1>                                                    |                                         |                                                                                                   | 1                | 1              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_TRIG/U_TC/I_TSEQ_EQ1.I_TSEQ_SIMPLE/iRESET<0>                           |                                         |                                                                                                   | 4                | 16             |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_TRIG/U_TC/I_TSEQ_EQ1.I_TSEQ_SIMPLE/iRESET<1>                           |                                         |                                                                                                   | 1                | 1              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/iARM                                                                     |                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/DSTAT_load                                                     | 1                | 2              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/iARM                                                                     |                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/NS_load                                                        | 3                | 10             |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/iARM                                                                     | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<0>   |                                                                                                   | 1                | 1              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/iCAP_DONE                                                                | U_ila_pro_0/U0/I_NO_D.U_ILA/iARM        |                                                                                                   | 1                | 1              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/iCAP_TRIGGER_OUT                                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<0>   |                                                                                                   | 1                | 1              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<0>                                                                |                                         |                                                                                                   | 1                | 1              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<1>                                                                |                                         |                                                                                                   | 1                | 1              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<2>                                                                |                                         |                                                                                                   | 1                | 1              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<3>                                                                |                                         |                                                                                                   | 2                | 3              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<4>                                                                |                                         |                                                                                                   | 1                | 2              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<5>                                                                |                                         |                                                                                                   | 1                | 1              |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<6>                                                                |                                         |                                                                                                   | 10               | 24             |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<6>                                                                |                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/U_G2_SQ.U_CAPCTRL/WCNT_CE                                             | 3                | 10             |
+| ~o_ready_OBUF                                         | U_ila_pro_0/U0/I_NO_D.U_ILA/iRESET<7>                                                                |                                         |                                                                                                   | 1                | 2              |
+| ~o_ready_OBUF                                         | icon_control0<20>                                                                                    |                                         |                                                                                                   | 8                | 32             |
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 Section 13 - Utilization by Hierarchy
