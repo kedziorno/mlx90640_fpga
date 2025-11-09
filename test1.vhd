@@ -1672,8 +1672,8 @@ process (clock_i, i_reset) is
 begin
 if (i_reset = '1') then
 latch_data <= (others => '0');
-elsif (rising_edge (clock_i)) then
-if (melexis_mlx90640_i2c_mode2_ready = '1') then
+elsif (falling_edge (clock_i)) then
+if (temp1 = '1' and melexis_mlx90640_i2c_mode2_ready = '0') then
 latch_data (15) <= melexis_mlx90640_i2c_bytes_to_recv(15);
 latch_data (14) <= melexis_mlx90640_i2c_bytes_to_recv(14);
 latch_data (13) <= melexis_mlx90640_i2c_bytes_to_recv(13);

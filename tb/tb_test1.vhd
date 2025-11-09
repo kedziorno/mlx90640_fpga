@@ -255,7 +255,8 @@ begin
 --  wait for 869 us; -- wait on scl idle before mode2 1000k
 --  wait for 878 us; -- wait on scl idle before mode2 1000k
 --  wait for 1282 us; -- wait on scl idle before mode2 1000k -- pr
-  wait for 1950 us; -- wait on scl idle before mode2 1000k -- pr
+--  wait for 1950 us; -- wait on scl idle before mode2 1000k -- pr
+  wait for 1304 us; -- wait on scl idle before mode2 1000k -- pr
 --  wait for 974 us; -- wait on scl idle before mode2 500k
 --  wait for 1281 us; -- wait on scl idle before mode2 500k
 --  wait for 2015 us; -- wait on scl idle before mode2 500k
