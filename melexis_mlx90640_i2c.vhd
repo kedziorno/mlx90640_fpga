@@ -151,17 +151,27 @@ begin
 
   o_mode2_ready <= mode2_ready_i;
   o_mode2_ready_all <= mode2_ready_all_i;
-  o_bytes_to_recv <=
---    bytes_to_recv_sr (16 downto 9) & bytes_to_recv_sr (7 downto 0) when mode2_ready_i = '1' -- test1
-    bytes_to_recv_sr (7 downto 0) & bytes_to_recv_sr (16 downto 9) when mode2_ready_i = '1' -- test2
-    else
-    (others => '0');
+
+  p_ob : process (i_clock, i_reset) is
+  begin
+    if (i_reset = '1') then
+      o_bytes_to_recv <= (others => '0');
+    elsif (rising_edge (i_clock)) then
+      if (mode2_ready_i = '1') then
+        o_bytes_to_recv <=
+        --bytes_to_recv_sr (16 downto 9) & bytes_to_recv_sr (7 downto 0); -- test1
+        bytes_to_recv_sr (7 downto 0) & bytes_to_recv_sr (16 downto 9); -- test2
+      end if;
+    end if;
+  end process p_ob;
+
   io_sda_o <=
     '0' when temp_sda = '0'
     else
     '1' when c_state = idle
     else
     '1';
+
   io_scl <=
     '1' when (c_state = idle or c_state = start or c_state = stop or c_state = sda_start or c_state = sda_stop)
     else
