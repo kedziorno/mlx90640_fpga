@@ -28,7 +28,7 @@ INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on
 Timing constraint: NET "i_clock_BUFGP/IBUFG" PERIOD = 10 ns HIGH 50%;
 For more information, see Period Analysis in the Timing Closure User Guide (UG612).
 
- 298748 paths analyzed, 38005 endpoints analyzed, 0 failing endpoints
+ 298700 paths analyzed, 37973 endpoints analyzed, 0 failing endpoints
  0 timing errors detected. (0 setup errors, 0 hold errors, 0 component switching limit errors)
  Minimum period is   9.954ns.
 --------------------------------------------------------------------------------
@@ -359,11 +359,11 @@ Slack (setup path):     0.083ns (requirement - (data path - clock path skew + un
                                                        (14.0% logic, 86.0% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     1.271ns (requirement - (data path - clock path skew + uncertainty))
+Slack (setup path):     1.273ns (requirement - (data path - clock path skew + uncertainty))
   Source:               melexis_mlx9064x_core_inst/CalculateGetImage_mux (FF)
   Destination:          inst_mulfp/blk0000003a (FF)
   Requirement:          10.000ns
-  Data Path Delay:      8.675ns (Levels of Logic = 5)
+  Data Path Delay:      8.673ns (Levels of Logic = 5)
   Clock Path Skew:      -0.019ns (0.483 - 0.502)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
@@ -384,7 +384,7 @@ Slack (setup path):     1.271ns (requirement - (data path - clock path skew + un
     SLICE_X46Y105.B5     net (fanout=179)      1.710   melexis_mlx9064x_core_inst/CalculateGetImage_mux
     SLICE_X46Y105.B      Tilo                  0.094   melexis_mlx9064x_core_inst/Mmux_mulfpce31
                                                        melexis_mlx9064x_core_inst/Mmux_addfpa1101
-    SLICE_X59Y87.A5      net (fanout=201)      2.186   melexis_mlx9064x_core_inst/Mmux_addfpa110
+    SLICE_X59Y87.A5      net (fanout=201)      2.184   melexis_mlx9064x_core_inst/Mmux_addfpa110
     SLICE_X59Y87.A       Tilo                  0.094   b0.inst_fixed2float/sig00000131
                                                        melexis_mlx9064x_core_inst/Mmux_mulfpb782
     SLICE_X44Y85.C1      net (fanout=1)        1.563   melexis_mlx9064x_core_inst/Mmux_mulfpb781
@@ -399,15 +399,15 @@ Slack (setup path):     1.271ns (requirement - (data path - clock path skew + un
                                                        inst_mulfp/blk00000039
                                                        inst_mulfp/blk0000003a
     -------------------------------------------------  ---------------------------
-    Total                                      8.675ns (1.339ns logic, 7.336ns route)
+    Total                                      8.673ns (1.339ns logic, 7.334ns route)
                                                        (15.4% logic, 84.6% route)
 
 --------------------------------------------------------------------------------
-Slack (setup path):     1.536ns (requirement - (data path - clock path skew + uncertainty))
+Slack (setup path):     1.538ns (requirement - (data path - clock path skew + uncertainty))
   Source:               melexis_mlx9064x_core_inst/CalculateVirCompensated_mux (FF)
   Destination:          inst_mulfp/blk0000003a (FF)
   Requirement:          10.000ns
-  Data Path Delay:      8.394ns (Levels of Logic = 5)
+  Data Path Delay:      8.392ns (Levels of Logic = 5)
   Clock Path Skew:      -0.035ns (0.483 - 0.518)
   Source Clock:         i_clock_BUFGP rising at 0.000ns
   Destination Clock:    i_clock_BUFGP rising at 10.000ns
@@ -428,7 +428,7 @@ Slack (setup path):     1.536ns (requirement - (data path - clock path skew + un
     SLICE_X46Y105.B4     net (fanout=400)      1.429   melexis_mlx9064x_core_inst/CalculateVirCompensated_mux
     SLICE_X46Y105.B      Tilo                  0.094   melexis_mlx9064x_core_inst/Mmux_mulfpce31
                                                        melexis_mlx9064x_core_inst/Mmux_addfpa1101
-    SLICE_X59Y87.A5      net (fanout=201)      2.186   melexis_mlx9064x_core_inst/Mmux_addfpa110
+    SLICE_X59Y87.A5      net (fanout=201)      2.184   melexis_mlx9064x_core_inst/Mmux_addfpa110
     SLICE_X59Y87.A       Tilo                  0.094   b0.inst_fixed2float/sig00000131
                                                        melexis_mlx9064x_core_inst/Mmux_mulfpb782
     SLICE_X44Y85.C1      net (fanout=1)        1.563   melexis_mlx9064x_core_inst/Mmux_mulfpb781
@@ -443,7 +443,7 @@ Slack (setup path):     1.536ns (requirement - (data path - clock path skew + un
                                                        inst_mulfp/blk00000039
                                                        inst_mulfp/blk0000003a
     -------------------------------------------------  ---------------------------
-    Total                                      8.394ns (1.339ns logic, 7.055ns route)
+    Total                                      8.392ns (1.339ns logic, 7.053ns route)
                                                        (16.0% logic, 84.0% route)
 
 --------------------------------------------------------------------------------
@@ -2392,7 +2392,7 @@ Clock to Setup on destination clock i_clock
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-i_clock        |    9.954|    1.976|    3.434|         |
+i_clock        |    9.954|         |         |         |
 ---------------+---------+---------+---------+---------+
 
 
@@ -2401,7 +2401,7 @@ Timing summary:
 
 Timing errors: 0  Score: 0  (Setup/Max: 0, Hold: 0)
 
-Constraints cover 303633 paths, 0 nets, and 49172 connections
+Constraints cover 303585 paths, 0 nets, and 49144 connections
 
 Design statistics:
    Minimum period:  13.655ns{1}   (Maximum frequency:  73.233MHz)
@@ -2411,14 +2411,14 @@ Design statistics:
 ------------------------------------Footnotes-----------------------------------
 1)  The minimum period statistic assumes all single cycle delays.
 
-Analysis completed Sun Nov  9 23:24:49 2025 
+Analysis completed Mon Nov 10 10:13:41 2025 
 --------------------------------------------------------------------------------
 
 Trace Settings:
 -------------------------
 Trace Settings 
 
-Peak Memory Usage: 780 MB
+Peak Memory Usage: 779 MB
 
 
 
