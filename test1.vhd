@@ -47,7 +47,8 @@ constant c_wait2 : integer := 1000;
 constant c_wait3 : integer := 10000;
 constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
 constant c_calculate_type1 : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
-constant c_use_fisqrt1 : string (1 to 3) := " no" -- yes/no - depend from c_calculate_type(c_temperature)
+constant c_use_fisqrt1 : string (1 to 3) := " no"; -- yes/no - depend from c_calculate_type(c_temperature)
+constant zero : integer := 0
 );
 port (
 i_clock,i_reset : in std_logic;
@@ -628,7 +629,7 @@ begin
   elsif (rising_edge (clock_i)) then
     temp1 <= melexis_mlx90640_i2c_mode2_ready;
     --temp2 <= temp1;
-    if (temp1 = '0' and melexis_mlx90640_i2c_mode2_ready = '1' and melexis_mlx90640_i2c_mode2 = '1') then
+    if (temp1 = '1' and melexis_mlx90640_i2c_mode2_ready = '0' and melexis_mlx90640_i2c_mode2 = '1') then
       i2c_mlx_wea <= "1";
       i2c_mlx_ena <= '1';
       if (melexis_mlx90640_i2c_memory_address = x"2400") then
@@ -637,8 +638,8 @@ begin
       if (melexis_mlx90640_i2c_memory_address = x"0400") then
         i2c_mlx_addra <= std_logic_vector (to_unsigned (mem_addr + 832, 11));
       end if;
-      i2c_mlx_dina (7 downto 0) <= latch_data (7 downto 0);
-      i2c_mlx_dina (15 downto 8) <= latch_data (15 downto 8);
+--      i2c_mlx_dina (7 downto 0) <= latch_data (7 downto 0);
+--      i2c_mlx_dina (15 downto 8) <= latch_data (15 downto 8);
 --      i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
 --      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
 --      i2c_mlx_dina <= melexis_mlx90640_i2c_bytes_to_recv;
@@ -648,26 +649,26 @@ begin
         mem_addr <= mem_addr + 1;
       end if;
     end if;
-    if (temp1 = '1' and melexis_mlx90640_i2c_mode2_ready = '0' and melexis_mlx90640_i2c_mode2 = '1') then
+    if (temp1 = '0' and melexis_mlx90640_i2c_mode2_ready = '1' and melexis_mlx90640_i2c_mode2 = '1') then
       i2c_mlx_wea <= "0";
       i2c_mlx_ena <= '0';
     end if;
   end if;
 end process p100;
 
---dina_swap : if (c_sim = "n") generate
---      i2c_mlx_dina (15 downto 8) <= latch_data (7 downto 0);
---      i2c_mlx_dina (7 downto 0) <= latch_data (15 downto 8);
-----      i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
-----      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
---end generate dina_swap;
---
---dina_no_swap : if (c_sim = "y") generate
---      i2c_mlx_dina (7 downto 0) <= latch_data (7 downto 0);
---      i2c_mlx_dina (15 downto 8) <= latch_data (15 downto 8);
-----      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
-----      i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
---end generate dina_no_swap;
+dina_swap : if (c_sim = "y") generate
+      i2c_mlx_dina (15 downto 8) <= latch_data (7 downto 0);
+      i2c_mlx_dina (7 downto 0) <= latch_data (15 downto 8);
+--      i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
+--      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
+end generate dina_swap;
+
+dina_no_swap : if (c_sim = "n") generate
+      i2c_mlx_dina (7 downto 0) <= latch_data (7 downto 0);
+      i2c_mlx_dina (15 downto 8) <= latch_data (15 downto 8);
+--      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
+--      i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
+end generate dina_no_swap;
 
 o_led (7 downto 0) <= test_fixed_melexis_do(31-9+9 downto 31-16+9);
 

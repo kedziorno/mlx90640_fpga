@@ -42,14 +42,14 @@ ARCHITECTURE behavior OF tb_test1 IS
 
 -- Component Declaration for the Unit Under Test (UUT)
 COMPONENT test1
---generic (
+generic (
 --constant c_board_clock : integer := c_clock_board_frequency;
 ----constant c_bus_clock : integer := c_clock_i2c_frequency;
 --constant c_bus_clock : integer := 1_000_000;
 ----constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
 ----constant c_bus_clock : integer := 50;
 ----constant c_bus_clock : integer := 1;
---constant c_sim : string (1 to 1) := "y";
+constant c_sim : string (1 to 1) := "y";
 --constant c_lcd : string (1 to 1) := "n";
 --constant c_cold_start : integer := 1000;
 --constant c_wait2 : integer := 1000;
@@ -57,7 +57,8 @@ COMPONENT test1
 --constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
 --constant c_calculate_type1 : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
 --constant c_use_fisqrt1 : string (1 to 3) := " no" -- yes/no - depend from c_calculate_type(c_temperature)
---);
+constant zero : integer := 0
+);
 PORT(
 i_clock,i_reset : in std_logic;
 vga_hsync : out std_logic;
