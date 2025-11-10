@@ -544,8 +544,8 @@ signal i2c_mlx_doutb : STD_LOGIC_VECTOR(7 DOWNTO 0);
 --constant c_wait1 : integer := 25;
 --constant c_wait1 : integer := 60;
 --constant c_wait1 : integer := 47;
- constant c_wait1 : integer := 115*4; -- scl 500k
--- constant c_wait1 : integer := 1000; -- scl 100k
+-- constant c_wait1 : integer := 115*4; -- scl 500k
+ constant c_wait1 : integer := 1000; -- scl 100k
 --constant c_wait1 : integer := 115*4*1000; -- scl 100
 --constant c_wait1 : integer := 230*4*1000; -- scl 50
 --constant c_wait1 : integer := 230*5*4*1000; -- scl 10
@@ -629,27 +629,30 @@ begin
   elsif (rising_edge (clock_i)) then
     temp1 <= melexis_mlx90640_i2c_mode2_ready;
     --temp2 <= temp1;
-    if (temp1 = '0' and melexis_mlx90640_i2c_mode2_ready = '1' and melexis_mlx90640_i2c_mode2 = '1') then
-      i2c_mlx_wea <= "1";
-      i2c_mlx_ena <= '1';
-      if (melexis_mlx90640_i2c_memory_address = x"2400") then
-        i2c_mlx_addra <= std_logic_vector (to_unsigned (mem_addr + 0, 11));
-      elsif (melexis_mlx90640_i2c_memory_address = x"0400") then
-        i2c_mlx_addra <= std_logic_vector (to_unsigned (mem_addr + 832, 11));
---      i2c_mlx_dina (7 downto 0) <= latch_data (7 downto 0);
---      i2c_mlx_dina (15 downto 8) <= latch_data (15 downto 8);
---      i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
---      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
---      i2c_mlx_dina <= melexis_mlx90640_i2c_bytes_to_recv;
-      end if;
-    elsif (temp1 = '1' and melexis_mlx90640_i2c_mode2_ready = '1' and melexis_mlx90640_i2c_mode2 = '1') then
-      i2c_mlx_wea <= "0";
-      i2c_mlx_ena <= '0';
-    elsif (temp1 = '1' and melexis_mlx90640_i2c_mode2_ready = '0' and melexis_mlx90640_i2c_mode2 = '1') then
-      if (mem_addr = c_max - 1) then
-        mem_addr <= 0;
-      else
-        mem_addr <= mem_addr + 1;
+    if (melexis_mlx90640_i2c_enable = '1') then
+      if (temp1 = '0' and melexis_mlx90640_i2c_mode2_ready = '1' and melexis_mlx90640_i2c_mode2 = '1') then
+        i2c_mlx_wea <= "1";
+        i2c_mlx_ena <= '1';
+        if (melexis_mlx90640_i2c_memory_address = x"2400") then
+          i2c_mlx_addra <= std_logic_vector (to_unsigned (mem_addr + 0, 11));
+        end if;
+        if (melexis_mlx90640_i2c_memory_address = x"0400") then
+          i2c_mlx_addra <= std_logic_vector (to_unsigned (mem_addr + 832, 11));
+  --      i2c_mlx_dina (7 downto 0) <= latch_data (7 downto 0);
+  --      i2c_mlx_dina (15 downto 8) <= latch_data (15 downto 8);
+  --      i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
+  --      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
+  --      i2c_mlx_dina <= melexis_mlx90640_i2c_bytes_to_recv;
+        end if;
+      elsif (temp1 = '1' and melexis_mlx90640_i2c_mode2_ready = '1' and melexis_mlx90640_i2c_mode2 = '1') then
+        i2c_mlx_wea <= "0";
+        i2c_mlx_ena <= '0';
+      elsif (temp1 = '1' and melexis_mlx90640_i2c_mode2_ready = '0' and melexis_mlx90640_i2c_mode2 = '1') then
+        if (mem_addr = c_max - 1) then
+          mem_addr <= 0;
+        else
+          mem_addr <= mem_addr + 1;
+        end if;
       end if;
     end if;
   end if;
@@ -1195,8 +1198,8 @@ end process pTo;
 dualmem_enb <= not address_generator_activeh;
 
 pvgaclk : process (clock_i,i_reset) is
-	constant CMAX : integer := 1; -- 50/25 - nexys2
---	constant CMAX : integer := 2; -- 100/25 - ml402
+--	constant CMAX : integer := 1; -- 50/25 - nexys2
+	constant CMAX : integer := 2; -- 100/25 - ml507/ml402
 	variable vmax : integer range 0 to CMAX-1;
 begin
 		if (i_reset = '1') then
