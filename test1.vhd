@@ -629,9 +629,9 @@ begin
   elsif (rising_edge (clock_i)) then
     temp1 <= melexis_mlx90640_i2c_mode2_ready;
     --temp2 <= temp1;
-    if (temp1 = '1' and melexis_mlx90640_i2c_mode2_ready = '0' and melexis_mlx90640_i2c_mode2 = '1') then
-      i2c_mlx_wea <= "0";
-      i2c_mlx_ena <= '0';
+    if (temp1 = '0' and melexis_mlx90640_i2c_mode2_ready = '1' and melexis_mlx90640_i2c_mode2 = '1') then
+      i2c_mlx_wea <= "1";
+      i2c_mlx_ena <= '1';
       if (melexis_mlx90640_i2c_memory_address = x"2400") then
         i2c_mlx_addra <= std_logic_vector (to_unsigned (mem_addr + 0, 11));
       end if;
@@ -649,9 +649,9 @@ begin
         mem_addr <= mem_addr + 1;
       end if;
     end if;
-    if (temp1 = '0' and melexis_mlx90640_i2c_mode2_ready = '1' and melexis_mlx90640_i2c_mode2 = '1') then
-      i2c_mlx_wea <= "1";
-      i2c_mlx_ena <= '1';
+    if (temp1 = '1' and melexis_mlx90640_i2c_mode2_ready = '1' and melexis_mlx90640_i2c_mode2 = '1') then
+      i2c_mlx_wea <= "0";
+      i2c_mlx_ena <= '0';
     end if;
   end if;
 end process p100;
