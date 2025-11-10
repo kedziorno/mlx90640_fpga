@@ -268,7 +268,7 @@ begin
   wait until o_done = '1';
   i_enable <= '0';
   wait until o_done = '0';
-  wait for 324 us;
+  wait for 373 us;
 --  i_enable <= '1';
 --  i_addr <= x"0000"; -- eeprom stop
 --  i_enable <= '0';
@@ -299,7 +299,7 @@ i_addr <= x"0400"; -- data X
   i_enable <= '0';
   wait until o_done = '0';
   i_addr <= x"0000"; -- data X end
-  wait for 36 us;
+  wait for 11224 us;
 
   l0 : for i in 0 to number_frames_to_catch-1 loop
   i_addr <= x"0400"; -- data X
@@ -316,7 +316,7 @@ i_addr <= x"0400"; -- data X
 --  wait for 327 us; -- 500k
 --  wait for 23.93184 ms; -- 500k
 --  wait for 1352 us; -- 100k
-  wait for 36 us;
+  wait for 11224 us;
   end loop l0;
   wait;
 end process p0;
