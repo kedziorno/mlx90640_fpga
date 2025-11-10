@@ -656,14 +656,14 @@ begin
   end if;
 end process p100;
 
-dina_swap : if (c_sim = "y") generate
+dina_swap : if (c_sim = "n") generate
       i2c_mlx_dina (15 downto 8) <= latch_data (7 downto 0);
       i2c_mlx_dina (7 downto 0) <= latch_data (15 downto 8);
 --      i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
 --      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
 end generate dina_swap;
 
-dina_no_swap : if (c_sim = "n") generate
+dina_no_swap : if (c_sim = "y") generate
       i2c_mlx_dina (7 downto 0) <= latch_data (7 downto 0);
       i2c_mlx_dina (15 downto 8) <= latch_data (15 downto 8);
 --      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
