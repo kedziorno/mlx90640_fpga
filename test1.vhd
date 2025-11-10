@@ -642,12 +642,10 @@ begin
 --      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
 --      i2c_mlx_dina <= melexis_mlx90640_i2c_bytes_to_recv;
       end if;
-    end if;
-    if (temp1 = '1' and melexis_mlx90640_i2c_mode2_ready = '1' and melexis_mlx90640_i2c_mode2 = '1') then
+    elsif (temp1 = '1' and melexis_mlx90640_i2c_mode2_ready = '1' and melexis_mlx90640_i2c_mode2 = '1') then
       i2c_mlx_wea <= "0";
       i2c_mlx_ena <= '0';
-    end if;
-    if (temp1 = '1' and melexis_mlx90640_i2c_mode2_ready = '0' and melexis_mlx90640_i2c_mode2 = '1') then
+    elsif (temp1 = '1' and melexis_mlx90640_i2c_mode2_ready = '0' and melexis_mlx90640_i2c_mode2 = '1') then
       if (mem_addr = c_max - 1) then
         mem_addr <= 0;
       else
