@@ -821,7 +821,7 @@ begin
 --          end if;
           if (c_cmode = c3) then
             if (mode2_read_data_index_ctr = c_mode2_read_data_index - 1) then
-              c_state <= sda_stop;
+              c_state <= mode2_read_data_nak; --sda_stop;
               mode2_read_data_index_ctr <= 0;
               mode2_ready_all_i <= '0';
               temp_sda <= '1';

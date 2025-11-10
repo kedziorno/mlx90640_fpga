@@ -635,7 +635,7 @@ begin
       if (melexis_mlx90640_i2c_memory_address = x"2400") then
         i2c_mlx_addra <= std_logic_vector (to_unsigned (mem_addr + 0, 11));
       elsif (melexis_mlx90640_i2c_memory_address = x"0400") then
-        i2c_mlx_addra <= std_logic_vector (to_unsigned (mem_addr + 831, 11));
+        i2c_mlx_addra <= std_logic_vector (to_unsigned (mem_addr + 832, 11));
 --      i2c_mlx_dina (7 downto 0) <= latch_data (7 downto 0);
 --      i2c_mlx_dina (15 downto 8) <= latch_data (15 downto 8);
 --      i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
