@@ -351,10 +351,11 @@ Synthesizing Unit <test1>.
         c_calculate_type1 = "c_temperature"
         c_use_fisqrt1 = " no"
         zero = 0
-INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1331: Output port <active_area> of the instance <vts_inst> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1331: Output port <active_haddrgen> of the instance <vts_inst> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1331: Output port <active_render> of the instance <vts_inst> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1562: Output port <o_mode2_ready_all> of the instance <melexis_mlx90640_i2c_i0> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1251: Output port <o_rdy> of the instance <melexis_mlx9064x_core_inst> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1343: Output port <active_area> of the instance <vts_inst> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1343: Output port <active_haddrgen> of the instance <vts_inst> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1343: Output port <active_render> of the instance <vts_inst> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1574: Output port <o_mode2_ready_all> of the instance <melexis_mlx90640_i2c_i0> is unconnected or connected to loadless signal.
 WARNING:Xst:653 - Signal <latch_data> is used but never assigned. This sourceless signal will be automatically connected to value GND.
     Found 1-bit register for signal <i2c_mlx_wea>.
     Found 1-bit register for signal <i2c_mlx_ena>.
@@ -366,6 +367,7 @@ WARNING:Xst:653 - Signal <latch_data> is used but never assigned. This sourceles
     Found 4-bit register for signal <pagclk.vmax>.
     Found 10-bit register for signal <mem_addr>.
     Found 6-bit register for signal <state>.
+    Found 24-bit register for signal <pTo.w11ms>.
     Found 9-bit register for signal <wait1>.
     Found 10-bit register for signal <pTo.wait2>.
     Found 14-bit register for signal <pTo.wait3>.
@@ -423,23 +425,24 @@ INFO:Xst:1799 - State s14 is never reached in FSM <state>.
     | Encoding           | auto                                           |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
-    Found 11-bit adder for signal <n0386> created at line 637.
+    Found 11-bit adder for signal <n0397> created at line 637.
     Found 10-bit adder for signal <mem_addr[9]_GND_9_o_add_8_OUT> created at line 646.
-    Found 10-bit adder for signal <pTo.cold_start[9]_GND_9_o_add_22_OUT> created at line 734.
-    Found 14-bit adder for signal <pTo.wait3[13]_GND_9_o_add_134_OUT> created at line 1018.
-    Found 9-bit adder for signal <wait1[8]_GND_9_o_add_140_OUT> created at line 1035.
-    Found 10-bit adder for signal <pTo.wait2[9]_GND_9_o_add_144_OUT> created at line 1042.
-    Found 11-bit adder for signal <pTo.i[10]_GND_9_o_add_155_OUT> created at line 1180.
-    Found 1-bit adder for signal <pvgaclk.vmax[0]_PWR_9_o_add_215_OUT<0>> created at line 1210.
-    Found 4-bit adder for signal <pagclk.vmax[3]_GND_9_o_add_217_OUT> created at line 1231.
+    Found 10-bit adder for signal <pTo.cold_start[9]_GND_9_o_add_22_OUT> created at line 737.
+    Found 14-bit adder for signal <pTo.wait3[13]_GND_9_o_add_134_OUT> created at line 1021.
+    Found 9-bit adder for signal <wait1[8]_GND_9_o_add_140_OUT> created at line 1038.
+    Found 10-bit adder for signal <pTo.wait2[9]_GND_9_o_add_144_OUT> created at line 1045.
+    Found 24-bit adder for signal <pTo.w11ms[23]_GND_9_o_add_152_OUT> created at line 1115.
+    Found 11-bit adder for signal <pTo.i[10]_GND_9_o_add_158_OUT> created at line 1192.
+    Found 1-bit adder for signal <pvgaclk.vmax[0]_PWR_9_o_add_221_OUT<0>> created at line 1222.
+    Found 4-bit adder for signal <pagclk.vmax[3]_GND_9_o_add_223_OUT> created at line 1243.
     Found 512x24-bit Read Only RAM for signal <rdata>
-    Found 1-bit tristate buffer for signal <io_sda_dd> created at line 1583
-    Found 1-bit tristate buffer for signal <io_scl_dd> created at line 1588
+    Found 1-bit tristate buffer for signal <io_sda_dd> created at line 1595
+    Found 1-bit tristate buffer for signal <io_scl_dd> created at line 1600
     Summary:
 	inferred   1 RAM(s).
-	inferred   9 Adder/Subtractor(s).
-	inferred 224 D-type flip-flop(s).
-	inferred  63 Multiplexer(s).
+	inferred  10 Adder/Subtractor(s).
+	inferred 248 D-type flip-flop(s).
+	inferred  65 Multiplexer(s).
 	inferred   2 Tristate(s).
 	inferred   1 Finite State Machine(s).
 Unit <test1> synthesized.
@@ -1611,8 +1614,8 @@ Synthesizing Unit <melexis_mlx90640_i2c>.
     Found 3-bit register for signal <slave_index_ctr>.
     Found 1-bit register for signal <io_scl_ii>.
     Found 1-bit register for signal <io_sda_ii_i>.
-    Found 1-bit register for signal <Z_40_o_i_clock_DFF_417_q>.
-    Found 1-bit register for signal <GND_115_o_i_clock_DFF_418>.
+    Found 1-bit register for signal <Z_40_o_i_clock_DFF_441_q>.
+    Found 1-bit register for signal <GND_115_o_i_clock_DFF_442>.
     Found 1-bit register for signal <io_scl_ii_i>.
 INFO:Xst:1799 - State mode1_write_slave_address_lastbit is never reached in FSM <c_state>.
 INFO:Xst:1799 - State state1 is never reached in FSM <c_state>.
@@ -1673,13 +1676,14 @@ Macro Statistics
  4x1-bit single-port Read Only RAM                     : 1
  4x32-bit single-port Read Only RAM                    : 2
  512x24-bit single-port Read Only RAM                  : 1
-# Adders/Subtractors                                   : 82
+# Adders/Subtractors                                   : 83
  1-bit adder                                           : 1
  10-bit adder                                          : 20
  11-bit adder                                          : 5
  11-bit subtractor                                     : 2
  12-bit adder                                          : 5
  14-bit adder                                          : 1
+ 24-bit adder                                          : 1
  3-bit adder                                           : 3
  3-bit subtractor                                      : 1
  4-bit adder                                           : 3
@@ -1688,7 +1692,7 @@ Macro Statistics
  7-bit adder                                           : 10
  8-bit adder                                           : 7
  9-bit adder                                           : 2
-# Registers                                            : 536
+# Registers                                            : 537
  1-bit register                                        : 284
  10-bit register                                       : 38
  11-bit register                                       : 2
@@ -1697,6 +1701,7 @@ Macro Statistics
  16-bit register                                       : 17
  17-bit register                                       : 1
  2-bit register                                        : 5
+ 24-bit register                                       : 1
  3-bit register                                        : 5
  32-bit register                                       : 112
  4-bit register                                        : 26
@@ -1706,7 +1711,7 @@ Macro Statistics
  9-bit register                                        : 1
 # Comparators                                          : 6
  10-bit comparator greater                             : 6
-# Multiplexers                                         : 1090
+# Multiplexers                                         : 1092
  1-bit 16-to-1 multiplexer                             : 2
  1-bit 2-to-1 multiplexer                              : 373
  1-bit 8-to-1 multiplexer                              : 2
@@ -1716,6 +1721,7 @@ Macro Statistics
  14-bit 2-to-1 multiplexer                             : 5
  16-bit 2-to-1 multiplexer                             : 22
  17-bit 2-to-1 multiplexer                             : 1
+ 24-bit 2-to-1 multiplexer                             : 2
  3-bit 2-to-1 multiplexer                              : 49
  32-bit 2-to-1 multiplexer                             : 358
  4-bit 2-to-1 multiplexer                              : 58
@@ -1737,22 +1743,22 @@ INFO:Xst:1767 - HDL ADVISOR - Resource sharing has identified that some arithmet
 =========================================================================
 
 INFO:Xst:2261 - The FF/Latch <o_alphacomp_addr_0> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <o_vircompensated_addr_0> 
-INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_internal_0> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <i2c_mem_addra_internal_2> 
 INFO:Xst:2261 - The FF/Latch <o_alphacomp_addr_5> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <o_vircompensated_addr_5> 
-INFO:Xst:2261 - The FF/Latch <subfpond_internal> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <subfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
+INFO:Xst:2261 - The FF/Latch <subfpond_internal> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <subfpce_internal> 
+INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_internal_0> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <i2c_mem_addra_internal_2> 
 INFO:Xst:2261 - The FF/Latch <o_alphacomp_addr_4> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <o_vircompensated_addr_4> 
-INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_alphacomp_addr_9> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <o_vircompensated_addr_9> 
-INFO:Xst:2261 - The FF/Latch <fixed2floatond_internal> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <fixed2floatce_internal> 
+INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_alphacomp_addr_3> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <o_vircompensated_addr_3> 
+INFO:Xst:2261 - The FF/Latch <fixed2floatond_internal> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <fixed2floatce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_alphacomp_addr_8> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <o_vircompensated_addr_8> 
-INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_alphacomp_addr_2> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <o_vircompensated_addr_2> 
-INFO:Xst:2261 - The FF/Latch <sqrtfp2ond_internal> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <sqrtfp2ce_internal> 
+INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_alphacomp_addr_7> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <o_vircompensated_addr_7> 
-INFO:Xst:2261 - The FF/Latch <divfpond_internal> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <divfpce_internal> 
+INFO:Xst:2261 - The FF/Latch <sqrtfp2ond_internal> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <sqrtfp2ce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_alphacomp_addr_1> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <o_vircompensated_addr_1> 
+INFO:Xst:2261 - The FF/Latch <divfpond_internal> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <divfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_internal_1> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following 4 FFs/Latches, which will be removed : <i2c_mem_addra_internal_3> <i2c_mem_addra_internal_4> <i2c_mem_addra_internal_5> <i2c_mem_addra_internal_6> 
 INFO:Xst:2261 - The FF/Latch <o_alphacomp_addr_6> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following FF/Latch, which will be removed : <o_vircompensated_addr_6> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_internal_7> in Unit <g_calculate_to.calculate_to_i0> is equivalent to the following 4 FFs/Latches, which will be removed : <i2c_mem_addra_internal_8> <i2c_mem_addra_internal_9> <i2c_mem_addra_internal_10> <i2c_mem_addra_internal_11> 
@@ -1761,25 +1767,26 @@ INFO:Xst:2261 - The FF/Latch <divfpb_internal_25> in Unit <inst_extract_tgc_para
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_1> in Unit <inst_extract_tgc_parameters> is equivalent to the following 6 FFs/Latches, which will be removed : <i2c_mem_addra_2> <i2c_mem_addra_7> <i2c_mem_addra_8> <i2c_mem_addra_9> <i2c_mem_addra_10> <i2c_mem_addra_11> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_0> in Unit <inst_extract_tgc_parameters> is equivalent to the following 4 FFs/Latches, which will be removed : <i2c_mem_addra_3> <i2c_mem_addra_4> <i2c_mem_addra_5> <i2c_mem_addra_6> 
 INFO:Xst:2261 - The FF/Latch <divfpce_internal> in Unit <inst_extract_tgc_parameters> is equivalent to the following FF/Latch, which will be removed : <divfpond_internal> 
-INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <inst_extract_tgc_parameters> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
 INFO:Xst:2261 - The FF/Latch <fixed2floatce_internal> in Unit <inst_extract_tgc_parameters> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond_internal> 
+INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <inst_extract_tgc_parameters> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
+INFO:Xst:2261 - The FF/Latch <fixed2floatce_internal> in Unit <inst_CalculateKGain> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond_internal> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_1> in Unit <inst_CalculateKGain> is equivalent to the following 3 FFs/Latches, which will be removed : <i2c_mem_addra_3> <i2c_mem_addra_8> <i2c_mem_addra_9> 
 INFO:Xst:2261 - The FF/Latch <divfpce_internal> in Unit <inst_CalculateKGain> is equivalent to the following FF/Latch, which will be removed : <divfpond_internal> 
-INFO:Xst:2261 - The FF/Latch <fixed2floatce_internal> in Unit <inst_CalculateKGain> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond_internal> 
 INFO:Xst:2261 - The FF/Latch <mulfpce_internal> in Unit <calculate_pix_gain_i0> is equivalent to the following FF/Latch, which will be removed : <mulfpond_internal> 
 INFO:Xst:2261 - The FF/Latch <fixed2floatce_internal> in Unit <calculate_pix_gain_i0> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond_internal> 
 INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <extract_offset_parameters_i0> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <extract_offset_parameters_i0> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <fixed2floatce_internal> in Unit <extract_offset_parameters_i0> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond_internal> 
-INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <extract_kta_parameters_i0> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <extract_kta_parameters_i0> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <divfpond_internal> in Unit <extract_kta_parameters_i0> is equivalent to the following FF/Latch, which will be removed : <divfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <extract_kta_parameters_i0> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
 INFO:Xst:2261 - The FF/Latch <fixed2floatce_internal> in Unit <extract_kta_parameters_i0> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond_internal> 
+INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <extract_kta_parameters_i0> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_1> in Unit <extract_kv_parameters_i0> is equivalent to the following 6 FFs/Latches, which will be removed : <i2c_mem_addra_2> <i2c_mem_addra_7> <i2c_mem_addra_8> <i2c_mem_addra_9> <i2c_mem_addra_10> <i2c_mem_addra_11> 
 INFO:Xst:2261 - The FF/Latch <divfpond_internal> in Unit <extract_kv_parameters_i0> is equivalent to the following FF/Latch, which will be removed : <divfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <CalculatePixGain_addr_1> in Unit <inst_CalculatePixOS> is equivalent to the following 3 FFs/Latches, which will be removed : <extract_offset_parameters_addr_1> <extract_kta_parameters_addr_1> <extract_kv_parameters_addr_1> 
 INFO:Xst:2261 - The FF/Latch <CalculatePixGain_addr_6> in Unit <inst_CalculatePixOS> is equivalent to the following 3 FFs/Latches, which will be removed : <extract_offset_parameters_addr_6> <extract_kta_parameters_addr_6> <extract_kv_parameters_addr_6> 
+INFO:Xst:2261 - The FF/Latch <subfpond_internal> in Unit <inst_CalculatePixOS> is equivalent to the following FF/Latch, which will be removed : <subfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <CalculatePixGain_addr_0> in Unit <inst_CalculatePixOS> is equivalent to the following 3 FFs/Latches, which will be removed : <extract_offset_parameters_addr_0> <extract_kta_parameters_addr_0> <extract_kv_parameters_addr_0> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_0> in Unit <inst_CalculatePixOS> is equivalent to the following 24 FFs/Latches, which will be removed : <divfpb_internal_1> <divfpb_internal_2> <divfpb_internal_3> <divfpb_internal_4> <divfpb_internal_5> <divfpb_internal_6> <divfpb_internal_7> <divfpb_internal_8> <divfpb_internal_9> <divfpb_internal_10> <divfpb_internal_11> <divfpb_internal_12> <divfpb_internal_13> <divfpb_internal_14> <divfpb_internal_15> <divfpb_internal_16> <divfpb_internal_17> <divfpb_internal_18> <divfpb_internal_19> <divfpb_internal_20> <divfpb_internal_21> <divfpb_internal_22> <divfpb_internal_30> <divfpb_internal_31> 
 INFO:Xst:2261 - The FF/Latch <CalculatePixGain_addr_5> in Unit <inst_CalculatePixOS> is equivalent to the following 3 FFs/Latches, which will be removed : <extract_offset_parameters_addr_5> <extract_kta_parameters_addr_5> <extract_kv_parameters_addr_5> 
@@ -1788,46 +1795,46 @@ INFO:Xst:2261 - The FF/Latch <CalculatePixGain_addr_4> in Unit <inst_CalculatePi
 INFO:Xst:2261 - The FF/Latch <addfpb_internal_0> in Unit <inst_CalculatePixOS> is equivalent to the following 24 FFs/Latches, which will be removed : <addfpb_internal_1> <addfpb_internal_2> <addfpb_internal_3> <addfpb_internal_4> <addfpb_internal_5> <addfpb_internal_6> <addfpb_internal_7> <addfpb_internal_8> <addfpb_internal_9> <addfpb_internal_10> <addfpb_internal_11> <addfpb_internal_12> <addfpb_internal_13> <addfpb_internal_14> <addfpb_internal_15> <addfpb_internal_16> <addfpb_internal_17> <addfpb_internal_18> <addfpb_internal_19> <addfpb_internal_20> <addfpb_internal_21> <addfpb_internal_22> <addfpb_internal_30> <addfpb_internal_31> 
 INFO:Xst:2261 - The FF/Latch <addfpb_internal_23> in Unit <inst_CalculatePixOS> is equivalent to the following 6 FFs/Latches, which will be removed : <addfpb_internal_24> <addfpb_internal_25> <addfpb_internal_26> <addfpb_internal_27> <addfpb_internal_28> <addfpb_internal_29> 
 INFO:Xst:2261 - The FF/Latch <CalculatePixGain_addr_9> in Unit <inst_CalculatePixOS> is equivalent to the following 3 FFs/Latches, which will be removed : <extract_offset_parameters_addr_9> <extract_kta_parameters_addr_9> <extract_kv_parameters_addr_9> 
-INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <inst_CalculatePixOS> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <CalculatePixGain_addr_3> in Unit <inst_CalculatePixOS> is equivalent to the following 3 FFs/Latches, which will be removed : <extract_offset_parameters_addr_3> <extract_kta_parameters_addr_3> <extract_kv_parameters_addr_3> 
+INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <inst_CalculatePixOS> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <CalculatePixGain_addr_8> in Unit <inst_CalculatePixOS> is equivalent to the following 3 FFs/Latches, which will be removed : <extract_offset_parameters_addr_8> <extract_kta_parameters_addr_8> <extract_kv_parameters_addr_8> 
-INFO:Xst:2261 - The FF/Latch <divfpond_internal> in Unit <inst_CalculatePixOS> is equivalent to the following FF/Latch, which will be removed : <divfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <CalculatePixGain_addr_2> in Unit <inst_CalculatePixOS> is equivalent to the following 3 FFs/Latches, which will be removed : <extract_offset_parameters_addr_2> <extract_kta_parameters_addr_2> <extract_kv_parameters_addr_2> 
-INFO:Xst:2261 - The FF/Latch <subfpond_internal> in Unit <inst_CalculatePixOS> is equivalent to the following FF/Latch, which will be removed : <subfpce_internal> 
-INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <inst_CalculatePixOS> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
+INFO:Xst:2261 - The FF/Latch <divfpond_internal> in Unit <inst_CalculatePixOS> is equivalent to the following FF/Latch, which will be removed : <divfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <CalculatePixGain_addr_7> in Unit <inst_CalculatePixOS> is equivalent to the following 3 FFs/Latches, which will be removed : <extract_offset_parameters_addr_7> <extract_kta_parameters_addr_7> <extract_kv_parameters_addr_7> 
+INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <inst_CalculatePixOS> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <divfpond_internal> in Unit <inst_CalculatePixOsCPSP> is equivalent to the following FF/Latch, which will be removed : <divfpce_internal> 
-INFO:Xst:2261 - The FF/Latch <fixed2floatond_internal> in Unit <inst_CalculatePixOsCPSP> is equivalent to the following FF/Latch, which will be removed : <fixed2floatce_internal> 
-INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <inst_CalculatePixOsCPSP> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <subfpond_internal> in Unit <inst_CalculatePixOsCPSP> is equivalent to the following FF/Latch, which will be removed : <subfpce_internal> 
+INFO:Xst:2261 - The FF/Latch <fixed2floatond_internal> in Unit <inst_CalculatePixOsCPSP> is equivalent to the following FF/Latch, which will be removed : <fixed2floatce_internal> 
 INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <inst_CalculatePixOsCPSP> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
+INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <inst_CalculatePixOsCPSP> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_5> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_5> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_4> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_4> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_0> in Unit <inst_CalculateVirCompensated> is equivalent to the following 24 FFs/Latches, which will be removed : <divfpb_internal_1> <divfpb_internal_2> <divfpb_internal_3> <divfpb_internal_4> <divfpb_internal_5> <divfpb_internal_6> <divfpb_internal_7> <divfpb_internal_8> <divfpb_internal_9> <divfpb_internal_10> <divfpb_internal_11> <divfpb_internal_12> <divfpb_internal_13> <divfpb_internal_14> <divfpb_internal_15> <divfpb_internal_16> <divfpb_internal_17> <divfpb_internal_18> <divfpb_internal_19> <divfpb_internal_20> <divfpb_internal_21> <divfpb_internal_22> <divfpb_internal_30> <divfpb_internal_31> 
-INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_9> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_9> 
+INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_3> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_3> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_23> in Unit <inst_CalculateVirCompensated> is equivalent to the following 6 FFs/Latches, which will be removed : <divfpb_internal_24> <divfpb_internal_25> <divfpb_internal_26> <divfpb_internal_27> <divfpb_internal_28> <divfpb_internal_29> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_8> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_8> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_2> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_2> 
-INFO:Xst:2261 - The FF/Latch <subfpond_internal> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <subfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_7> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_7> 
-INFO:Xst:2261 - The FF/Latch <divfpond_internal> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <divfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_1> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_1> 
-INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
+INFO:Xst:2261 - The FF/Latch <divfpond_internal> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <divfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_6> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_6> 
+INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_0> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_0> 
+INFO:Xst:2261 - The FF/Latch <subfpond_internal> in Unit <inst_CalculateVirCompensated> is equivalent to the following FF/Latch, which will be removed : <subfpce_internal> 
+INFO:Xst:2261 - The FF/Latch <fixed2floatond_internal> in Unit <inst_CalculateAlphaCP> is equivalent to the following FF/Latch, which will be removed : <fixed2floatce_internal> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_2> in Unit <inst_CalculateAlphaCP> is equivalent to the following 6 FFs/Latches, which will be removed : <i2c_mem_addra_3> <i2c_mem_addra_7> <i2c_mem_addra_8> <i2c_mem_addra_9> <i2c_mem_addra_10> <i2c_mem_addra_11> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_9> in Unit <inst_CalculateAlphaCP> is equivalent to the following 6 FFs/Latches, which will be removed : <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
 INFO:Xst:2261 - The FF/Latch <mulfpce_internal> in Unit <inst_CalculateAlphaCP> is equivalent to the following FF/Latch, which will be removed : <mulfpond_internal> 
 INFO:Xst:2261 - The FF/Latch <divfpce_internal> in Unit <inst_CalculateAlphaCP> is equivalent to the following FF/Latch, which will be removed : <divfpond_internal> 
-INFO:Xst:2261 - The FF/Latch <fixed2floatond_internal> in Unit <inst_CalculateAlphaCP> is equivalent to the following FF/Latch, which will be removed : <fixed2floatce_internal> 
 INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <inst_ExtractAlphaParameters> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <inst_ExtractAlphaParameters> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <fixed2floatond_internal> in Unit <inst_ExtractAlphaParameters> is equivalent to the following FF/Latch, which will be removed : <fixed2floatce_internal> 
 INFO:Xst:2261 - The FF/Latch <divfpond_internal> in Unit <inst_ExtractAlphaParameters> is equivalent to the following FF/Latch, which will be removed : <divfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_0> in Unit <inst_CalculateAlphaComp> is equivalent to the following 28 FFs/Latches, which will be removed : <divfpb_internal_1> <divfpb_internal_2> <divfpb_internal_3> <divfpb_internal_4> <divfpb_internal_5> <divfpb_internal_6> <divfpb_internal_7> <divfpb_internal_8> <divfpb_internal_9> <divfpb_internal_10> <divfpb_internal_11> <divfpb_internal_12> <divfpb_internal_13> <divfpb_internal_14> <divfpb_internal_15> <divfpb_internal_16> <divfpb_internal_17> <divfpb_internal_18> <divfpb_internal_19> <divfpb_internal_20> <divfpb_internal_21> <divfpb_internal_22> <divfpb_internal_23> <divfpb_internal_24> <divfpb_internal_27> <divfpb_internal_28> <divfpb_internal_29> <divfpb_internal_31> 
 INFO:Xst:2261 - The FF/Latch <subfpb_internal_0> in Unit <inst_CalculateAlphaComp> is equivalent to the following 20 FFs/Latches, which will be removed : <subfpb_internal_1> <subfpb_internal_2> <subfpb_internal_3> <subfpb_internal_4> <subfpb_internal_5> <subfpb_internal_6> <subfpb_internal_7> <subfpb_internal_8> <subfpb_internal_9> <subfpb_internal_10> <subfpb_internal_11> <subfpb_internal_12> <subfpb_internal_13> <subfpb_internal_14> <subfpb_internal_15> <subfpb_internal_16> <subfpb_internal_17> <subfpb_internal_18> <subfpb_internal_20> <subfpb_internal_21> 
+INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <divfpce_internal> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <divfpond_internal> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_3> in Unit <inst_CalculateAlphaComp> is equivalent to the following 3 FFs/Latches, which will be removed : <i2c_mem_addra_4> <i2c_mem_addra_5> <i2c_mem_addra_6> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_0> in Unit <inst_CalculateAlphaComp> is equivalent to the following 7 FFs/Latches, which will be removed : <i2c_mem_addra_1> <i2c_mem_addra_2> <i2c_mem_addra_7> <i2c_mem_addra_8> <i2c_mem_addra_9> <i2c_mem_addra_10> <i2c_mem_addra_11> 
@@ -1835,28 +1842,27 @@ INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <inst_CalculateAlphaCom
 INFO:Xst:2261 - The FF/Latch <mem_switchpattern_pixel_0> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <o_alpha_addr_0> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <inst_CalculateAlphaComp> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
 INFO:Xst:2261 - The FF/Latch <mem_switchpattern_pixel_1> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <o_alpha_addr_1> 
-INFO:Xst:2261 - The FF/Latch <subfpond_internal> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <subfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <mem_switchpattern_pixel_2> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <o_alpha_addr_2> 
 INFO:Xst:2261 - The FF/Latch <mem_switchpattern_pixel_3> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <o_alpha_addr_3> 
 INFO:Xst:2261 - The FF/Latch <mem_switchpattern_pixel_4> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <o_alpha_addr_4> 
-INFO:Xst:2261 - The FF/Latch <fixed2floatce_internal> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond_internal> 
+INFO:Xst:2261 - The FF/Latch <subfpond_internal> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <subfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <mem_switchpattern_pixel_5> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <o_alpha_addr_5> 
 INFO:Xst:2261 - The FF/Latch <mem_switchpattern_pixel_6> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <o_alpha_addr_6> 
 INFO:Xst:2261 - The FF/Latch <mem_switchpattern_pixel_7> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <o_alpha_addr_7> 
 INFO:Xst:2261 - The FF/Latch <mem_switchpattern_pixel_8> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <o_alpha_addr_8> 
 INFO:Xst:2261 - The FF/Latch <mem_switchpattern_pixel_9> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <o_alpha_addr_9> 
-INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
+INFO:Xst:2261 - The FF/Latch <fixed2floatce_internal> in Unit <inst_CalculateAlphaComp> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond_internal> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_25> in Unit <inst_CalculateAlphaComp> is equivalent to the following 2 FFs/Latches, which will be removed : <divfpb_internal_26> <divfpb_internal_30> 
 INFO:Xst:2261 - The FF/Latch <divfpce> in Unit <inst_CalculateVdd> is equivalent to the following FF/Latch, which will be removed : <divfpond> 
-INFO:Xst:2261 - The FF/Latch <mulfpce> in Unit <inst_CalculateVdd> is equivalent to the following FF/Latch, which will be removed : <mulfpond> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_i_3> in Unit <inst_CalculateVdd> is equivalent to the following 2 FFs/Latches, which will be removed : <i2c_mem_addra_i_8> <i2c_mem_addra_i_9> 
+INFO:Xst:2261 - The FF/Latch <mulfpce> in Unit <inst_CalculateVdd> is equivalent to the following FF/Latch, which will be removed : <mulfpond> 
 INFO:Xst:2261 - The FF/Latch <addfpce> in Unit <inst_CalculateVdd> is equivalent to the following FF/Latch, which will be removed : <addfpond> 
 INFO:Xst:2261 - The FF/Latch <subfpce> in Unit <inst_CalculateVdd> is equivalent to the following FF/Latch, which will be removed : <subfpond> 
 INFO:Xst:2261 - The FF/Latch <fixed2floatce> in Unit <inst_CalculateVdd> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond> 
 INFO:Xst:2261 - The FF/Latch <addfpb_2> in Unit <inst_CalculateVdd> is equivalent to the following 18 FFs/Latches, which will be removed : <addfpb_3> <addfpb_6> <addfpb_7> <addfpb_10> <addfpb_11> <addfpb_14> <addfpb_15> <addfpb_18> <addfpb_19> <addfpb_21> <addfpb_23> <addfpb_24> <addfpb_25> <addfpb_26> <addfpb_27> <addfpb_28> <addfpb_29> <addfpb_31> 
-INFO:Xst:2261 - The FF/Latch <subfpce> in Unit <inst_CalculateTa> is equivalent to the following FF/Latch, which will be removed : <subfpond> 
 INFO:Xst:2261 - The FF/Latch <mulfpce> in Unit <inst_CalculateTa> is equivalent to the following FF/Latch, which will be removed : <mulfpond> 
 INFO:Xst:2261 - The FF/Latch <divfpce> in Unit <inst_CalculateTa> is equivalent to the following FF/Latch, which will be removed : <divfpond> 
+INFO:Xst:2261 - The FF/Latch <subfpce> in Unit <inst_CalculateTa> is equivalent to the following FF/Latch, which will be removed : <subfpond> 
 INFO:Xst:2261 - The FF/Latch <addfpond> in Unit <inst_CalculateTa> is equivalent to the following FF/Latch, which will be removed : <addfpce> 
 INFO:Xst:2261 - The FF/Latch <fixed2floatce> in Unit <inst_CalculateTa> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond> 
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_i_3> (without init value) has a constant value of 0 in block <inst_CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
@@ -1998,12 +2004,13 @@ Macro Statistics
  4x1-bit single-port distributed Read Only RAM         : 1
  4x32-bit single-port distributed Read Only RAM        : 2
  512x24-bit single-port distributed Read Only RAM      : 1
-# Adders/Subtractors                                   : 67
+# Adders/Subtractors                                   : 68
  10-bit adder                                          : 13
  11-bit adder                                          : 2
  11-bit subtractor                                     : 2
  12-bit adder                                          : 5
  14-bit adder                                          : 1
+ 24-bit adder                                          : 1
  3-bit adder                                           : 3
  3-bit subtractor                                      : 1
  4-bit adder                                           : 1
@@ -2017,11 +2024,11 @@ Macro Statistics
  10-bit up counter                                     : 7
  4-bit up counter                                      : 2
  5-bit up counter                                      : 4
-# Registers                                            : 4930
- Flip-Flops                                            : 4930
+# Registers                                            : 4954
+ Flip-Flops                                            : 4954
 # Comparators                                          : 6
  10-bit comparator greater                             : 6
-# Multiplexers                                         : 1182
+# Multiplexers                                         : 1184
  1-bit 16-to-1 multiplexer                             : 2
  1-bit 2-to-1 multiplexer                              : 482
  1-bit 8-to-1 multiplexer                              : 2
@@ -2031,6 +2038,7 @@ Macro Statistics
  14-bit 2-to-1 multiplexer                             : 5
  16-bit 2-to-1 multiplexer                             : 21
  17-bit 2-to-1 multiplexer                             : 1
+ 24-bit 2-to-1 multiplexer                             : 2
  3-bit 2-to-1 multiplexer                              : 49
  32-bit 2-to-1 multiplexer                             : 355
  4-bit 2-to-1 multiplexer                              : 56
@@ -2259,109 +2267,109 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_9> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_10> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 INFO:Xst:2261 - The FF/Latch <o_vircompensated_addr_0> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <o_alphacomp_addr_0> 
-INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_internal_0> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <i2c_mem_addra_internal_2> 
 INFO:Xst:2261 - The FF/Latch <o_vircompensated_addr_5> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <o_alphacomp_addr_5> 
-INFO:Xst:2261 - The FF/Latch <subfpond_internal> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <subfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <calculate_to> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
+INFO:Xst:2261 - The FF/Latch <subfpond_internal> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <subfpce_internal> 
+INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_internal_0> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <i2c_mem_addra_internal_2> 
 INFO:Xst:2261 - The FF/Latch <o_vircompensated_addr_4> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <o_alphacomp_addr_4> 
-INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_vircompensated_addr_9> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <o_alphacomp_addr_9> 
-INFO:Xst:2261 - The FF/Latch <fixed2floatond_internal> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <fixed2floatce_internal> 
+INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_vircompensated_addr_3> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <o_alphacomp_addr_3> 
+INFO:Xst:2261 - The FF/Latch <fixed2floatond_internal> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <fixed2floatce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_vircompensated_addr_8> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <o_alphacomp_addr_8> 
-INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_vircompensated_addr_2> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <o_alphacomp_addr_2> 
-INFO:Xst:2261 - The FF/Latch <sqrtfp2ond_internal> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <sqrtfp2ce_internal> 
+INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_vircompensated_addr_7> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <o_alphacomp_addr_7> 
-INFO:Xst:2261 - The FF/Latch <divfpond_internal> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <divfpce_internal> 
+INFO:Xst:2261 - The FF/Latch <sqrtfp2ond_internal> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <sqrtfp2ce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_vircompensated_addr_1> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <o_alphacomp_addr_1> 
+INFO:Xst:2261 - The FF/Latch <divfpond_internal> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <divfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_vircompensated_addr_6> in Unit <calculate_to> is equivalent to the following FF/Latch, which will be removed : <o_alphacomp_addr_6> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_25> in Unit <extract_tgc_parameters> is equivalent to the following FF/Latch, which will be removed : <divfpb_internal_30> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_0> in Unit <extract_tgc_parameters> is equivalent to the following 4 FFs/Latches, which will be removed : <i2c_mem_addra_3> <i2c_mem_addra_4> <i2c_mem_addra_5> <i2c_mem_addra_6> 
 INFO:Xst:2261 - The FF/Latch <divfpce_internal> in Unit <extract_tgc_parameters> is equivalent to the following FF/Latch, which will be removed : <divfpond_internal> 
-INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <extract_tgc_parameters> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
 INFO:Xst:2261 - The FF/Latch <fixed2floatce_internal> in Unit <extract_tgc_parameters> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond_internal> 
-INFO:Xst:2261 - The FF/Latch <divfpce_internal> in Unit <calculate_kgain> is equivalent to the following FF/Latch, which will be removed : <divfpond_internal> 
+INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <extract_tgc_parameters> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
 INFO:Xst:2261 - The FF/Latch <fixed2floatce_internal> in Unit <calculate_kgain> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond_internal> 
+INFO:Xst:2261 - The FF/Latch <divfpce_internal> in Unit <calculate_kgain> is equivalent to the following FF/Latch, which will be removed : <divfpond_internal> 
 INFO:Xst:2261 - The FF/Latch <extract_offset_parameters_addr_1> in Unit <calculate_pixos> is equivalent to the following 3 FFs/Latches, which will be removed : <CalculatePixGain_addr_1> <extract_kta_parameters_addr_1> <extract_kv_parameters_addr_1> 
 INFO:Xst:2261 - The FF/Latch <extract_offset_parameters_addr_6> in Unit <calculate_pixos> is equivalent to the following 3 FFs/Latches, which will be removed : <CalculatePixGain_addr_6> <extract_kta_parameters_addr_6> <extract_kv_parameters_addr_6> 
+INFO:Xst:2261 - The FF/Latch <subfpond_internal> in Unit <calculate_pixos> is equivalent to the following FF/Latch, which will be removed : <subfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <extract_offset_parameters_addr_0> in Unit <calculate_pixos> is equivalent to the following 3 FFs/Latches, which will be removed : <CalculatePixGain_addr_0> <extract_kta_parameters_addr_0> <extract_kv_parameters_addr_0> 
 INFO:Xst:2261 - The FF/Latch <extract_offset_parameters_addr_5> in Unit <calculate_pixos> is equivalent to the following 3 FFs/Latches, which will be removed : <CalculatePixGain_addr_5> <extract_kta_parameters_addr_5> <extract_kv_parameters_addr_5> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_23> in Unit <calculate_pixos> is equivalent to the following 6 FFs/Latches, which will be removed : <divfpb_internal_24> <divfpb_internal_25> <divfpb_internal_26> <divfpb_internal_27> <divfpb_internal_28> <divfpb_internal_29> 
 INFO:Xst:2261 - The FF/Latch <extract_offset_parameters_addr_4> in Unit <calculate_pixos> is equivalent to the following 3 FFs/Latches, which will be removed : <CalculatePixGain_addr_4> <extract_kta_parameters_addr_4> <extract_kv_parameters_addr_4> 
 INFO:Xst:2261 - The FF/Latch <addfpb_internal_23> in Unit <calculate_pixos> is equivalent to the following 6 FFs/Latches, which will be removed : <addfpb_internal_24> <addfpb_internal_25> <addfpb_internal_26> <addfpb_internal_27> <addfpb_internal_28> <addfpb_internal_29> 
 INFO:Xst:2261 - The FF/Latch <extract_offset_parameters_addr_9> in Unit <calculate_pixos> is equivalent to the following 3 FFs/Latches, which will be removed : <CalculatePixGain_addr_9> <extract_kta_parameters_addr_9> <extract_kv_parameters_addr_9> 
-INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <calculate_pixos> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <extract_offset_parameters_addr_3> in Unit <calculate_pixos> is equivalent to the following 3 FFs/Latches, which will be removed : <CalculatePixGain_addr_3> <extract_kta_parameters_addr_3> <extract_kv_parameters_addr_3> 
+INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <calculate_pixos> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <extract_offset_parameters_addr_8> in Unit <calculate_pixos> is equivalent to the following 3 FFs/Latches, which will be removed : <CalculatePixGain_addr_8> <extract_kta_parameters_addr_8> <extract_kv_parameters_addr_8> 
-INFO:Xst:2261 - The FF/Latch <divfpond_internal> in Unit <calculate_pixos> is equivalent to the following FF/Latch, which will be removed : <divfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <extract_offset_parameters_addr_2> in Unit <calculate_pixos> is equivalent to the following 3 FFs/Latches, which will be removed : <CalculatePixGain_addr_2> <extract_kta_parameters_addr_2> <extract_kv_parameters_addr_2> 
-INFO:Xst:2261 - The FF/Latch <subfpond_internal> in Unit <calculate_pixos> is equivalent to the following FF/Latch, which will be removed : <subfpce_internal> 
-INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <calculate_pixos> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
+INFO:Xst:2261 - The FF/Latch <divfpond_internal> in Unit <calculate_pixos> is equivalent to the following FF/Latch, which will be removed : <divfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <extract_offset_parameters_addr_7> in Unit <calculate_pixos> is equivalent to the following 3 FFs/Latches, which will be removed : <CalculatePixGain_addr_7> <extract_kta_parameters_addr_7> <extract_kv_parameters_addr_7> 
+INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <calculate_pixos> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <mulfpce_internal> in Unit <calculate_pix_gain> is equivalent to the following FF/Latch, which will be removed : <mulfpond_internal> 
 INFO:Xst:2261 - The FF/Latch <fixed2floatce_internal> in Unit <calculate_pix_gain> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond_internal> 
 INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <extract_offset_parameters> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <extract_offset_parameters> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <fixed2floatce_internal> in Unit <extract_offset_parameters> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond_internal> 
-INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <extract_kta_parameters> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <extract_kta_parameters> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <divfpond_internal> in Unit <extract_kta_parameters> is equivalent to the following FF/Latch, which will be removed : <divfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <extract_kta_parameters> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
 INFO:Xst:2261 - The FF/Latch <fixed2floatce_internal> in Unit <extract_kta_parameters> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond_internal> 
+INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <extract_kta_parameters> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <divfpond_internal> in Unit <extract_kv_parameters> is equivalent to the following FF/Latch, which will be removed : <divfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <divfpond_internal> in Unit <calculate_pixos_cp_sp> is equivalent to the following FF/Latch, which will be removed : <divfpce_internal> 
-INFO:Xst:2261 - The FF/Latch <fixed2floatond_internal> in Unit <calculate_pixos_cp_sp> is equivalent to the following FF/Latch, which will be removed : <fixed2floatce_internal> 
-INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <calculate_pixos_cp_sp> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <subfpond_internal> in Unit <calculate_pixos_cp_sp> is equivalent to the following FF/Latch, which will be removed : <subfpce_internal> 
+INFO:Xst:2261 - The FF/Latch <fixed2floatond_internal> in Unit <calculate_pixos_cp_sp> is equivalent to the following FF/Latch, which will be removed : <fixed2floatce_internal> 
 INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <calculate_pixos_cp_sp> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
+INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <calculate_pixos_cp_sp> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_5> in Unit <calculate_vir_compensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_5> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_4> in Unit <calculate_vir_compensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_4> 
-INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <calculate_vir_compensated> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_9> in Unit <calculate_vir_compensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_9> 
+INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <calculate_vir_compensated> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_3> in Unit <calculate_vir_compensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_3> 
 INFO:Xst:2261 - The FF/Latch <divfpb_internal_23> in Unit <calculate_vir_compensated> is equivalent to the following 6 FFs/Latches, which will be removed : <divfpb_internal_24> <divfpb_internal_25> <divfpb_internal_26> <divfpb_internal_27> <divfpb_internal_28> <divfpb_internal_29> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_8> in Unit <calculate_vir_compensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_8> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_2> in Unit <calculate_vir_compensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_2> 
-INFO:Xst:2261 - The FF/Latch <subfpond_internal> in Unit <calculate_vir_compensated> is equivalent to the following FF/Latch, which will be removed : <subfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_7> in Unit <calculate_vir_compensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_7> 
-INFO:Xst:2261 - The FF/Latch <divfpond_internal> in Unit <calculate_vir_compensated> is equivalent to the following FF/Latch, which will be removed : <divfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_1> in Unit <calculate_vir_compensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_1> 
-INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <calculate_vir_compensated> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
+INFO:Xst:2261 - The FF/Latch <divfpond_internal> in Unit <calculate_vir_compensated> is equivalent to the following FF/Latch, which will be removed : <divfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_6> in Unit <calculate_vir_compensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_6> 
+INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <calculate_vir_compensated> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_pixos_addr_0> in Unit <calculate_vir_compensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_0> 
+INFO:Xst:2261 - The FF/Latch <subfpond_internal> in Unit <calculate_vir_compensated> is equivalent to the following FF/Latch, which will be removed : <subfpce_internal> 
+INFO:Xst:2261 - The FF/Latch <fixed2floatce_internal> in Unit <calculate_alpha_cp> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond_internal> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_9> in Unit <calculate_alpha_cp> is equivalent to the following 6 FFs/Latches, which will be removed : <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
 INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <calculate_alpha_cp> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <divfpce_internal> in Unit <calculate_alpha_cp> is equivalent to the following FF/Latch, which will be removed : <divfpond_internal> 
-INFO:Xst:2261 - The FF/Latch <fixed2floatce_internal> in Unit <calculate_alpha_cp> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond_internal> 
 INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <extract_alpha_parameters> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <extract_alpha_parameters> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <fixed2floatond_internal> in Unit <extract_alpha_parameters> is equivalent to the following FF/Latch, which will be removed : <fixed2floatce_internal> 
 INFO:Xst:2261 - The FF/Latch <divfpond_internal> in Unit <extract_alpha_parameters> is equivalent to the following FF/Latch, which will be removed : <divfpce_internal> 
+INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <calculate_alpha_compensated> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <divfpce_internal> in Unit <calculate_alpha_compensated> is equivalent to the following FF/Latch, which will be removed : <divfpond_internal> 
 INFO:Xst:2261 - The FF/Latch <mulfpond_internal> in Unit <calculate_alpha_compensated> is equivalent to the following FF/Latch, which will be removed : <mulfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_alpha_addr_0> in Unit <calculate_alpha_compensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_0> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <calculate_alpha_compensated> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
 INFO:Xst:2261 - The FF/Latch <o_alpha_addr_1> in Unit <calculate_alpha_compensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_1> 
-INFO:Xst:2261 - The FF/Latch <subfpond_internal> in Unit <calculate_alpha_compensated> is equivalent to the following FF/Latch, which will be removed : <subfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_alpha_addr_2> in Unit <calculate_alpha_compensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_2> 
 INFO:Xst:2261 - The FF/Latch <o_alpha_addr_3> in Unit <calculate_alpha_compensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_3> 
 INFO:Xst:2261 - The FF/Latch <o_alpha_addr_4> in Unit <calculate_alpha_compensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_4> 
-INFO:Xst:2261 - The FF/Latch <fixed2floatce_internal> in Unit <calculate_alpha_compensated> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond_internal> 
+INFO:Xst:2261 - The FF/Latch <subfpond_internal> in Unit <calculate_alpha_compensated> is equivalent to the following FF/Latch, which will be removed : <subfpce_internal> 
 INFO:Xst:2261 - The FF/Latch <o_alpha_addr_5> in Unit <calculate_alpha_compensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_5> 
 INFO:Xst:2261 - The FF/Latch <o_alpha_addr_6> in Unit <calculate_alpha_compensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_6> 
 INFO:Xst:2261 - The FF/Latch <o_alpha_addr_7> in Unit <calculate_alpha_compensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_7> 
 INFO:Xst:2261 - The FF/Latch <o_alpha_addr_8> in Unit <calculate_alpha_compensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_8> 
 INFO:Xst:2261 - The FF/Latch <o_alpha_addr_9> in Unit <calculate_alpha_compensated> is equivalent to the following FF/Latch, which will be removed : <mem_switchpattern_pixel_9> 
-INFO:Xst:2261 - The FF/Latch <addfpond_internal> in Unit <calculate_alpha_compensated> is equivalent to the following FF/Latch, which will be removed : <addfpce_internal> 
+INFO:Xst:2261 - The FF/Latch <fixed2floatce_internal> in Unit <calculate_alpha_compensated> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond_internal> 
 INFO:Xst:2261 - The FF/Latch <divfpce> in Unit <calculate_vdd> is equivalent to the following FF/Latch, which will be removed : <divfpond> 
 INFO:Xst:2261 - The FF/Latch <mulfpce> in Unit <calculate_vdd> is equivalent to the following FF/Latch, which will be removed : <mulfpond> 
 INFO:Xst:2261 - The FF/Latch <addfpce> in Unit <calculate_vdd> is equivalent to the following FF/Latch, which will be removed : <addfpond> 
 INFO:Xst:2261 - The FF/Latch <subfpce> in Unit <calculate_vdd> is equivalent to the following FF/Latch, which will be removed : <subfpond> 
 INFO:Xst:2261 - The FF/Latch <fixed2floatce> in Unit <calculate_vdd> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond> 
-INFO:Xst:2261 - The FF/Latch <subfpce> in Unit <calculate_ta> is equivalent to the following FF/Latch, which will be removed : <subfpond> 
 INFO:Xst:2261 - The FF/Latch <mulfpce> in Unit <calculate_ta> is equivalent to the following FF/Latch, which will be removed : <mulfpond> 
 INFO:Xst:2261 - The FF/Latch <divfpce> in Unit <calculate_ta> is equivalent to the following FF/Latch, which will be removed : <divfpond> 
+INFO:Xst:2261 - The FF/Latch <subfpce> in Unit <calculate_ta> is equivalent to the following FF/Latch, which will be removed : <subfpond> 
 INFO:Xst:2261 - The FF/Latch <addfpond> in Unit <calculate_ta> is equivalent to the following FF/Latch, which will be removed : <addfpce> 
 INFO:Xst:2261 - The FF/Latch <fixed2floatce> in Unit <calculate_ta> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond> 
 INFO:Xst:2261 - The FF/Latch <i2c_mlx_wea_0> in Unit <test1> is equivalent to the following FF/Latch, which will be removed : <i2c_mlx_ena> 
@@ -3007,10 +3015,10 @@ INFO:Xst:1901 - Instance RAMB16_S36_i1 in unit mem_ramb16_s36_x2 of type RAMB16_
 INFO:Xst:1901 - Instance RAMB16_S36_i2 in unit mem_ramb16_s36_x2 of type RAMB16_S36 has been replaced by RAMB16
 INFO:Xst:1901 - Instance g_mem_switchpattern_mem1.mem_switchpattern_mem1_i0 in unit mem_switchpattern of type RAMB16_S1 has been replaced by RAMB16
 INFO:Xst:1901 - Instance rom_constants_i0 in unit rom_constants of type RAMB16_S36 has been replaced by RAMB16
-INFO:Xst:2261 - The FF/Latch <float2fixedce> in Unit <test1> is equivalent to the following FF/Latch, which will be removed : <float2fixedond> 
-INFO:Xst:2261 - The FF/Latch <melexis_mlx90640_i2c_memory_address_0> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <melexis_mlx90640_i2c_memory_address_2> <melexis_mlx90640_i2c_memory_address_3> 
 INFO:Xst:2261 - The FF/Latch <melexis_mlx90640_i2c_memory_data_0> in Unit <test1> is equivalent to the following 4 FFs/Latches, which will be removed : <melexis_mlx90640_i2c_memory_data_7> <melexis_mlx90640_i2c_memory_data_8> <melexis_mlx90640_i2c_memory_data_11> <melexis_mlx90640_i2c_memory_data_12> 
+INFO:Xst:2261 - The FF/Latch <melexis_mlx90640_i2c_memory_address_0> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <melexis_mlx90640_i2c_memory_address_2> <melexis_mlx90640_i2c_memory_address_3> 
 INFO:Xst:2261 - The FF/Latch <melexis_mlx90640_i2c_memory_data_4> in Unit <test1> is equivalent to the following FF/Latch, which will be removed : <melexis_mlx90640_i2c_memory_data_5> 
+INFO:Xst:2261 - The FF/Latch <float2fixedond> in Unit <test1> is equivalent to the following FF/Latch, which will be removed : <float2fixedce> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_5> in Unit <calculate_kgain> is equivalent to the following FF/Latch, which will be removed : <i2c_mem_addra_6> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_2> in Unit <calculate_kgain> is equivalent to the following 4 FFs/Latches, which will be removed : <i2c_mem_addra_4> <i2c_mem_addra_7> <i2c_mem_addra_10> <i2c_mem_addra_11> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_internal_7> in Unit <calculate_pixos_cp_sp> is equivalent to the following 2 FFs/Latches, which will be removed : <i2c_mem_addra_internal_10> <i2c_mem_addra_internal_11> 
@@ -3069,6 +3077,7 @@ Optimizing unit <vga_address_generator> ...
 
 Optimizing unit <video_timing> ...
 WARNING:Xst:2677 - Node <mode2_ready_all_i> of sequential type is unconnected in block <melexis_mlx90640_i2c_i0>.
+WARNING:Xst:2677 - Node <o_rdy> of sequential type is unconnected in block <melexis_mlx9064x_core_inst>.
 WARNING:Xst:2677 - Node <write_enable> of sequential type is unconnected in block <g_calculate_to.calculate_to_i0>.
 WARNING:Xst:2677 - Node <write_enable> of sequential type is unconnected in block <inst_CalculatePixOS>.
 WARNING:Xst:2677 - Node <write_enable> of sequential type is unconnected in block <calculate_pix_gain_i0>.
@@ -3112,8 +3121,8 @@ Unit <melexis_mlx90640_i2c_i0> processed.
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 4701
- Flip-Flops                                            : 4701
+# Registers                                            : 4724
+ Flip-Flops                                            : 4724
 # Shift Registers                                      : 1
  2-bit shift register                                  : 1
 
@@ -3138,21 +3147,21 @@ Top Level Output File Name         : test1.ngc
 
 Primitive and Black Box Usage:
 ------------------------------
-# BELS                             : 8824
+# BELS                             : 8926
 #      GND                         : 25
-#      INV                         : 107
-#      LUT1                        : 14
-#      LUT2                        : 2919
+#      INV                         : 108
+#      LUT1                        : 37
+#      LUT2                        : 2920
 #      LUT3                        : 1150
-#      LUT4                        : 759
+#      LUT4                        : 758
 #      LUT5                        : 1227
-#      LUT6                        : 2339
-#      MUXCY                       : 93
-#      MUXF7                       : 85
+#      LUT6                        : 2369
+#      MUXCY                       : 116
+#      MUXF7                       : 86
 #      MUXF8                       : 8
 #      VCC                         : 11
-#      XORCY                       : 87
-# FlipFlops/Latches                : 4702
+#      XORCY                       : 111
+# FlipFlops/Latches                : 4725
 #      FD                          : 2
 #      FDC                         : 87
 #      FDCE                        : 122
@@ -3160,7 +3169,7 @@ Primitive and Black Box Usage:
 #      FDP                         : 1
 #      FDPE                        : 3
 #      FDR                         : 79
-#      FDRE                        : 3244
+#      FDRE                        : 3267
 #      FDSE                        : 54
 # RAMS                             : 21
 #      RAMB16                      : 21
@@ -3191,17 +3200,17 @@ Selected Device : 5vfx70tff1136-1
 
 
 Slice Logic Utilization: 
- Number of Slice Registers:            4702  out of  44800    10%  
- Number of Slice LUTs:                 8516  out of  44800    19%  
-    Number used as Logic:              8515  out of  44800    19%  
+ Number of Slice Registers:            4725  out of  44800    10%  
+ Number of Slice LUTs:                 8570  out of  44800    19%  
+    Number used as Logic:              8569  out of  44800    19%  
     Number used as Memory:                1  out of  13120     0%  
        Number used as SRL:                1
 
 Slice Logic Distribution: 
- Number of LUT Flip Flop pairs used:  10934
-   Number with an unused Flip Flop:    6232  out of  10934    56%  
-   Number with an unused LUT:          2418  out of  10934    22%  
-   Number of fully used LUT-FF pairs:  2284  out of  10934    20%  
+ Number of LUT Flip Flop pairs used:  10987
+   Number with an unused Flip Flop:    6262  out of  10987    56%  
+   Number with an unused LUT:          2417  out of  10987    21%  
+   Number of fully used LUT-FF pairs:  2308  out of  10987    21%  
    Number of unique control sets:       368
 
 IO Utilization: 
@@ -3234,7 +3243,7 @@ Clock Information:
 -----------------------------------+-------------------------------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)                           | Load  |
 -----------------------------------+-------------------------------------------------+-------+
-i_clock                            | BUFGP                                           | 4556  |
+i_clock                            | BUFGP                                           | 4579  |
 vgaclk25                           | BUFG                                            | 62    |
 melexis_mlx90640_i2c_i0/clock      | BUFG                                            | 89    |
 melexis_mlx90640_i2c_i0/io_scl_ii  | NONE(melexis_mlx90640_i2c_i0/bytes_to_recv_sr_0)| 17    |
@@ -3265,7 +3274,7 @@ All values displayed in nanoseconds (ns)
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
   Clock period: 5.921ns (frequency: 168.890MHz)
-  Total number of paths / destination ports: 68790 / 9728
+  Total number of paths / destination ports: 69959 / 9774
 -------------------------------------------------------------------------
 Delay:               5.921ns (Levels of Logic = 16)
   Source:            melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0/o_2powx_4bit_ena (FF)
@@ -3384,7 +3393,7 @@ Delay:               1.543ns (Levels of Logic = 1)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 10158 / 8180
+  Total number of paths / destination ports: 10181 / 8203
 -------------------------------------------------------------------------
 Offset:              4.070ns (Levels of Logic = 6)
   Source:            inst_subfp:rdy (PAD)
@@ -3421,7 +3430,7 @@ Offset:              3.537ns (Levels of Logic = 5)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O          3723   0.818   1.043  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O          3746   0.818   1.044  i_reset_IBUF (i_reset_IBUF)
      begin scope: 'vts_inst:reset'
      LUT6:I3->O           31   0.094   0.916  Mmux_video_blank1 (video_blank)
      end scope: 'vts_inst:video_blank'
@@ -3515,7 +3524,7 @@ Delay:               6.565ns (Levels of Logic = 6)
     dualmem_temperature:doutb<6>   85   0.000   1.206  g0_dualmem_temperature.dualmem_inst_t (dualmem_doutb_t<6>)
      LUT6:I0->O            3   0.094   0.984  Mram_rdata291 (Mram_rdata29)
      LUT6:I1->O            1   0.094   0.480  Mram_rdata35117 (Mram_rdata35116)
-     LUT6:I5->O            1   0.094   0.000  Mram_rdata351115_F (N16)
+     LUT6:I5->O            1   0.094   0.000  Mram_rdata351115_F (N161)
      MUXF7:I0->O           1   0.251   0.480  Mram_rdata351115 (rdata<10>)
      LUT2:I1->O            1   0.094   0.336  Mmux_vga_g31 (vga_g_5_OBUF)
      OBUF:I->O                 2.452          vga_g_5_OBUF (vga_g<5>)
@@ -3568,8 +3577,8 @@ vgaclk25       |    4.562|         |         |         |
 =========================================================================
 
 
-Total REAL time to Xst completion: 32.00 secs
-Total CPU time to Xst completion: 30.92 secs
+Total REAL time to Xst completion: 33.00 secs
+Total CPU time to Xst completion: 31.11 secs
  
 WARNING:Xst:3152 - You have chosen to run a version of XST which is not the default solution
    for the specified device family. You are free to use it in order to take
@@ -3582,9 +3591,9 @@ WARNING:Xst:3152 - You have chosen to run a version of XST which is not the defa
 --> 
 
 
-Total memory usage is 507192 kilobytes
+Total memory usage is 508172 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :  301 (   0 filtered)
-Number of infos    :  308 (   0 filtered)
+Number of warnings :  302 (   0 filtered)
+Number of infos    :  309 (   0 filtered)
 

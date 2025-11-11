@@ -129,8 +129,8 @@ END COMPONENT;
       c_web_width => 1,
       c_write_depth_a => 1664,
       c_write_depth_b => 3328,
-      c_write_mode_a => "WRITE_FIRST",
-      c_write_mode_b => "READ_FIRST",
+      c_write_mode_a => "NO_CHANGE",
+      c_write_mode_b => "NO_CHANGE",
       c_write_width_a => 16,
       c_write_width_b => 8,
       c_xdevicefamily => "virtex5"
