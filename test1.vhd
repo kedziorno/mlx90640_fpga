@@ -683,7 +683,8 @@ pTo : process (clock_i,i_reset) is
   variable wait2 : integer range 0 to c_wait2 - 1;
   variable wait3 : integer range 0 to c_wait3 - 1;
   variable k : integer range 0 to c_clock_board_frequency - 1;
-  constant c_w11ms : integer := (c_clock_board_frequency / 91);
+--  constant c_w11ms : integer := (c_clock_board_frequency / 91);
+  constant c_w11ms : integer := (c_clock_board_frequency);
   variable w11ms : integer range 0 to c_w11ms - 1;
 begin
 		if (rising_edge (clock_i)) then
