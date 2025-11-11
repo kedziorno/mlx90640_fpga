@@ -2453,7 +2453,7 @@ fixed2floatrdy => CalculateAlphaCP_fixed2floatrdy
 
 CalculatePixOS_clock <= i_clock;
 CalculatePixOS_reset <= i_reset;
-CalculatePixOS_Ta <= CalculateTa_Ta; -- xxx
+CalculatePixOS_Ta <= x"41f80000"; -- CalculateTa_Ta; -- xxx
 CalculatePixOS_Vdd <= CalculateVdd_Vdd; -- xxx
 CalculatePixOS_KGain <= CalculateKGain_KGain;
 rom_constants_signed3bit_en <= CalculatePixOS_signed3bit_ena;
@@ -2521,7 +2521,7 @@ divfprdy => CalculatePixOS_divfprdy
 
 CalculatePixOsCPSP_clock <= i_clock;
 CalculatePixOsCPSP_reset <= i_reset;
-CalculatePixOsCPSP_Ta <= CalculateTa_Ta; -- xxx
+CalculatePixOsCPSP_Ta <= x"41f80000"; -- CalculateTa_Ta; -- xxx
 CalculatePixOsCPSP_Vdd <= CalculateVdd_Vdd; -- xxx
 CalculatePixOsCPSP_KGain <= CalculateKGain_KGain;
 inst_CalculatePixOsCPSP : calculate_pixos_cp_sp port map (
@@ -2644,7 +2644,7 @@ subfprdy => CalculateVirCompensated_subfprdy
 
 CalculateAlphaComp_clock <= i_clock;
 CalculateAlphaComp_reset <= i_reset;
-CalculateAlphaComp_Ta <= CalculateTa_Ta;
+CalculateAlphaComp_Ta <= x"41f80000"; -- CalculateTa_Ta;
 CalculateAlphaComp_acpsubpage0 <= CalculateAlphaCP_acpsubpage0;
 CalculateAlphaComp_acpsubpage1 <= CalculateAlphaCP_acpsubpage1;
 CalculateAlphaComp_tgc <= ExtractTGCParameters_tgc;
@@ -2713,7 +2713,7 @@ CalculateGetImage_vircompensated_do <= CalculateVirCompensated_do;
 CalculateVirCompensated_addr <= CalculateGetImage_vircompensated_addr;
 CalculateGetImage_alphacomp_do <= CalculateAlphaComp_do;
 CalculateAlphaComp_addr <= CalculateGetImage_alphacomp_addr;
-CalculateGetImage_Ta <= CalculateTa_Ta;
+CalculateGetImage_Ta <= x"41f80000"; -- CalculateTa_Ta;
 CalculateGetImage_addr <= i_addr;
 o_do <= CalculateGetImage_do;
 
