@@ -1,5 +1,5 @@
 #ChipScope Core Inserter Project File Version 3.0
-#Tue Nov 11 12:26:53 CET 2025
+#Tue Nov 11 13:04:38 CET 2025
 Project.device.designInputFile=/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/test1_cs.ngc
 Project.device.designOutputFile=/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/test1_cs.ngc
 Project.device.deviceFamily=14
@@ -33,7 +33,7 @@ Project.icon.triggerInPinName=
 Project.icon.triggerOutPinName=
 Project.unit.dimension=1
 Project.unit<0>.clockChannel=i2c_mlx_enb
-Project.unit<0>.clockEdge=Falling
+Project.unit<0>.clockEdge=Rising
 Project.unit<0>.dataChannel<0>=i2c_mlx_doutb<0>
 Project.unit<0>.dataChannel<1>=i2c_mlx_doutb<1>
 Project.unit<0>.dataChannel<2>=i2c_mlx_doutb<2>
