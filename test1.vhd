@@ -1638,16 +1638,27 @@ clock_i <= i_clock;
 --io_scl <= asd1;
 
 i2c_mlx_clka <= test_fixed_melexis_clock;
---i2c_mlx_clka <= scl_i;
 i2c_mlx_clkb <= test_fixed_melexis_clock;
-mux_i2c_enb : i2c_mlx_enb <= i2c_mem_ena_2 when (state = z1 or 
-state = z2 or state = z3 or state = z4 or state = z5 or state = z6 or state = z7) else
+
+mux_i2c_enb : i2c_mlx_enb <=
+i2c_mem_ena_2 when (
+state = z1 or
+state = z2 or
+state = z3 or
+state = z4 or
+state = z5)
+else
 i2c_mem_ena_1;
-mux_i2c_addrb : i2c_mlx_addrb <= i2c_mlx_addrb_2 when (state = z1 or 
-state = z2 or state = z3 or state = z4 or state = z5 or state = z6 or state = z7) else
+
+mux_i2c_addrb : i2c_mlx_addrb <=
+i2c_mlx_addrb_2 when (
+state = z1 or
+state = z2 or
+state = z3 or
+state = z4 or
+state = z5)
+else
 i2c_mlx_addrb_1;
---mux_i2c_enb : i2c_mlx_enb <= i2c_mem_ena_1;
---mux_i2c_addrb : i2c_mlx_addrb <= i2c_mlx_addrb_1;
 
 i2c_mlx_i0 : i2c_mlx
 PORT MAP (
