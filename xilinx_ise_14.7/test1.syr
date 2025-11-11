@@ -265,7 +265,7 @@ Parsing architecture <Behavioral> of entity <test1>.
 =========================================================================
 
 Elaborating entity <test1> (architecture <Behavioral>) with generics from library <work>.
-WARNING:HDLCompiler:1127 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" Line 669: Assignment to i2c_stream_enable ignored, since the identifier is never used
+WARNING:HDLCompiler:1127 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" Line 672: Assignment to i2c_stream_enable ignored, since the identifier is never used
 
 Elaborating entity <melexis_mlx9064x> (architecture <rtl>) with generics from library <work>.
 INFO:HDLCompiler:679 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/melexis_mlx9064x.vhd" Line 2182. Case statement is complete. others clause is never selected
@@ -351,11 +351,11 @@ Synthesizing Unit <test1>.
         c_calculate_type1 = "c_temperature"
         c_use_fisqrt1 = " no"
         zero = 0
-INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1255: Output port <o_rdy> of the instance <melexis_mlx9064x_core_inst> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1347: Output port <active_area> of the instance <vts_inst> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1347: Output port <active_haddrgen> of the instance <vts_inst> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1347: Output port <active_render> of the instance <vts_inst> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1578: Output port <o_mode2_ready_all> of the instance <melexis_mlx90640_i2c_i0> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1253: Output port <o_rdy> of the instance <melexis_mlx9064x_core_inst> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1345: Output port <active_area> of the instance <vts_inst> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1345: Output port <active_haddrgen> of the instance <vts_inst> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1345: Output port <active_render> of the instance <vts_inst> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1576: Output port <o_mode2_ready_all> of the instance <melexis_mlx90640_i2c_i0> is unconnected or connected to loadless signal.
 WARNING:Xst:653 - Signal <latch_data> is used but never assigned. This sourceless signal will be automatically connected to value GND.
     Found 1-bit register for signal <i2c_mlx_wea>.
     Found 1-bit register for signal <i2c_mlx_ena>.
@@ -374,7 +374,7 @@ WARNING:Xst:653 - Signal <latch_data> is used but never assigned. This sourceles
     Found 10-bit register for signal <pTo.cold_start>.
     Found 1-bit register for signal <float2fixedsclr>.
     Found 10-bit register for signal <pTo.i>.
-    Found 12-bit register for signal <pTo.j>.
+    Found 12-bit register for signal <j>.
     Found 1-bit register for signal <dualmem_ena>.
     Found 16-bit register for signal <pTo.tout_t>.
     Found 1-bit register for signal <melexis_mlx90640_i2c_mode0>.
@@ -406,6 +406,7 @@ INFO:Xst:1799 - State r10 is never reached in FSM <state>.
 INFO:Xst:1799 - State r11 is never reached in FSM <state>.
 INFO:Xst:1799 - State r12 is never reached in FSM <state>.
 INFO:Xst:1799 - State r13 is never reached in FSM <state>.
+INFO:Xst:1799 - State z2 is never reached in FSM <state>.
 INFO:Xst:1799 - State z6 is never reached in FSM <state>.
 INFO:Xst:1799 - State z7 is never reached in FSM <state>.
 INFO:Xst:1799 - State s11 is never reached in FSM <state>.
@@ -415,9 +416,9 @@ INFO:Xst:1799 - State s14 is never reached in FSM <state>.
     Found finite state machine <FSM_0> for signal <state>.
     -----------------------------------------------------------------------
     | States             | 59                                             |
-    | Transitions        | 78                                             |
+    | Transitions        | 77                                             |
     | Inputs             | 9                                              |
-    | Outputs            | 34                                             |
+    | Outputs            | 33                                             |
     | Clock              | i_clock (rising_edge)                          |
     | Reset              | i_reset (positive)                             |
     | Reset type         | synchronous                                    |
@@ -426,20 +427,20 @@ INFO:Xst:1799 - State s14 is never reached in FSM <state>.
     | Encoding           | auto                                           |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
-    Found 11-bit adder for signal <n0405> created at line 637.
-    Found 10-bit adder for signal <mem_addr[9]_GND_9_o_add_8_OUT> created at line 646.
-    Found 10-bit adder for signal <pTo.cold_start[9]_GND_9_o_add_22_OUT> created at line 741.
-    Found 14-bit adder for signal <pTo.wait3[13]_GND_9_o_add_134_OUT> created at line 1025.
-    Found 9-bit adder for signal <wait1[8]_GND_9_o_add_140_OUT> created at line 1042.
-    Found 10-bit adder for signal <pTo.wait2[9]_GND_9_o_add_144_OUT> created at line 1049.
-    Found 12-bit adder for signal <pTo.j[11]_GND_9_o_add_148_OUT> created at line 1104.
-    Found 25-bit adder for signal <pTo.w11ms[24]_GND_9_o_add_152_OUT> created at line 1119.
-    Found 10-bit adder for signal <pTo.i[9]_GND_9_o_add_158_OUT> created at line 1196.
-    Found 1-bit adder for signal <pvgaclk.vmax[0]_PWR_9_o_add_224_OUT<0>> created at line 1226.
-    Found 4-bit adder for signal <pagclk.vmax[3]_GND_9_o_add_226_OUT> created at line 1247.
+    Found 11-bit adder for signal <n0401> created at line 640.
+    Found 10-bit adder for signal <mem_addr[9]_GND_9_o_add_8_OUT> created at line 649.
+    Found 10-bit adder for signal <pTo.cold_start[9]_GND_9_o_add_22_OUT> created at line 742.
+    Found 14-bit adder for signal <pTo.wait3[13]_GND_9_o_add_134_OUT> created at line 1026.
+    Found 9-bit adder for signal <wait1[8]_GND_9_o_add_140_OUT> created at line 1043.
+    Found 10-bit adder for signal <pTo.wait2[9]_GND_9_o_add_144_OUT> created at line 1050.
+    Found 12-bit adder for signal <j[11]_GND_9_o_add_148_OUT> created at line 1102.
+    Found 25-bit adder for signal <pTo.w11ms[24]_GND_9_o_add_152_OUT> created at line 1117.
+    Found 10-bit adder for signal <pTo.i[9]_GND_9_o_add_158_OUT> created at line 1194.
+    Found 1-bit adder for signal <pvgaclk.vmax[0]_PWR_9_o_add_224_OUT<0>> created at line 1224.
+    Found 4-bit adder for signal <pagclk.vmax[3]_GND_9_o_add_226_OUT> created at line 1245.
     Found 512x24-bit Read Only RAM for signal <rdata>
-    Found 1-bit tristate buffer for signal <io_sda_dd> created at line 1599
-    Found 1-bit tristate buffer for signal <io_scl_dd> created at line 1604
+    Found 1-bit tristate buffer for signal <io_sda_dd> created at line 1597
+    Found 1-bit tristate buffer for signal <io_scl_dd> created at line 1602
     Summary:
 	inferred   1 RAM(s).
 	inferred  11 Adder/Subtractor(s).
@@ -2380,35 +2381,35 @@ INFO:Xst:2261 - The FF/Latch <addfpond> in Unit <calculate_ta> is equivalent to 
 INFO:Xst:2261 - The FF/Latch <fixed2floatce> in Unit <calculate_ta> is equivalent to the following FF/Latch, which will be removed : <fixed2floatond> 
 INFO:Xst:2261 - The FF/Latch <i2c_mlx_wea_0> in Unit <test1> is equivalent to the following FF/Latch, which will be removed : <i2c_mlx_ena> 
 Analyzing FSM <MFsm> for best encoding.
-Optimizing FSM <FSM_0> on signal <state[1:6]> with sequential encoding.
+Optimizing FSM <FSM_0> on signal <state[1:6]> with gray encoding.
 ---------------------
  State   | Encoding
 ---------------------
  idle    | 000000
  wr1     | 000001
- idle0   | 000010
- w1      | 000011
- idle1   | 000100
- wr2     | 000101
- idle2   | 000110
+ idle0   | 000011
+ w1      | 000010
+ idle1   | 000110
+ wr2     | 000111
+ idle2   | 000101
  idlea   | unreached
- wr1a    | 000111
- idle0a  | 001000
- w1a     | 001001
- idle1a  | 001010
- wr2a    | 001011
- idle2a  | 001100
- r1      | 001101
- idle3   | 001110
+ wr1a    | 000100
+ idle0a  | 001100
+ w1a     | 001101
+ idle1a  | 001111
+ wr2a    | 001110
+ idle2a  | 001010
+ r1      | 001011
+ idle3   | 001001
  idlea1  | unreached
- wr1a1   | 001111
- idle0a1 | 010000
- w1a1    | 010001
- idle1a1 | 010010
- wr2a1   | 010011
- idle2a1 | 010100
- r2      | 010101
- idle4   | 010110
+ wr1a1   | 001000
+ idle0a1 | 011000
+ w1a1    | 011001
+ idle1a1 | 011011
+ wr2a1   | 011010
+ idle2a1 | 011110
+ r2      | 011111
+ idle4   | 011101
  r3      | unreached
  r4      | unreached
  r5      | unreached
@@ -2420,25 +2421,25 @@ Optimizing FSM <FSM_0> on signal <state[1:6]> with sequential encoding.
  r11     | unreached
  r12     | unreached
  r13     | unreached
- r14     | 010111
- z1      | 011000
- z2      | 011001
- z3      | 011010
- z4      | 011011
- z5      | 011100
+ r14     | 011100
+ z1      | 010100
+ z2      | unreached
+ z3      | 010101
+ z4      | 010111
+ z5      | 010110
  z6      | unreached
  z7      | unreached
- s0      | 011101
- s1      | 011110
- s2      | 011111
- s3      | 100000
- s4      | 100001
- s5      | 100010
- s6      | 100011
- s7      | 100100
- s8      | 100101
- s9      | 100110
- s10     | 100111
+ s0      | 010010
+ s1      | 010011
+ s2      | 010001
+ s3      | 010000
+ s4      | 110000
+ s5      | 110001
+ s6      | 110011
+ s7      | 110010
+ s8      | 110110
+ s9      | 110111
+ s10     | 110101
  s11     | unreached
  s12     | unreached
  s13     | unreached
@@ -3020,10 +3021,10 @@ INFO:Xst:1901 - Instance RAMB16_S36_i1 in unit mem_ramb16_s36_x2 of type RAMB16_
 INFO:Xst:1901 - Instance RAMB16_S36_i2 in unit mem_ramb16_s36_x2 of type RAMB16_S36 has been replaced by RAMB16
 INFO:Xst:1901 - Instance g_mem_switchpattern_mem1.mem_switchpattern_mem1_i0 in unit mem_switchpattern of type RAMB16_S1 has been replaced by RAMB16
 INFO:Xst:1901 - Instance rom_constants_i0 in unit rom_constants of type RAMB16_S36 has been replaced by RAMB16
-INFO:Xst:2261 - The FF/Latch <melexis_mlx90640_i2c_memory_address_0> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <melexis_mlx90640_i2c_memory_address_2> <melexis_mlx90640_i2c_memory_address_3> 
 INFO:Xst:2261 - The FF/Latch <melexis_mlx90640_i2c_memory_data_0> in Unit <test1> is equivalent to the following 4 FFs/Latches, which will be removed : <melexis_mlx90640_i2c_memory_data_7> <melexis_mlx90640_i2c_memory_data_8> <melexis_mlx90640_i2c_memory_data_11> <melexis_mlx90640_i2c_memory_data_12> 
-INFO:Xst:2261 - The FF/Latch <float2fixedond> in Unit <test1> is equivalent to the following FF/Latch, which will be removed : <float2fixedce> 
 INFO:Xst:2261 - The FF/Latch <melexis_mlx90640_i2c_memory_data_4> in Unit <test1> is equivalent to the following FF/Latch, which will be removed : <melexis_mlx90640_i2c_memory_data_5> 
+INFO:Xst:2261 - The FF/Latch <melexis_mlx90640_i2c_memory_address_0> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <melexis_mlx90640_i2c_memory_address_2> <melexis_mlx90640_i2c_memory_address_3> 
+INFO:Xst:2261 - The FF/Latch <float2fixedond> in Unit <test1> is equivalent to the following FF/Latch, which will be removed : <float2fixedce> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_5> in Unit <calculate_kgain> is equivalent to the following FF/Latch, which will be removed : <i2c_mem_addra_6> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_2> in Unit <calculate_kgain> is equivalent to the following 4 FFs/Latches, which will be removed : <i2c_mem_addra_4> <i2c_mem_addra_7> <i2c_mem_addra_10> <i2c_mem_addra_11> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_internal_7> in Unit <calculate_pixos_cp_sp> is equivalent to the following 2 FFs/Latches, which will be removed : <i2c_mem_addra_internal_10> <i2c_mem_addra_internal_11> 
@@ -3184,17 +3185,17 @@ Top Level Output File Name         : test1.ngc
 
 Primitive and Black Box Usage:
 ------------------------------
-# BELS                             : 8926
+# BELS                             : 8930
 #      GND                         : 25
 #      INV                         : 110
 #      LUT1                        : 49
-#      LUT2                        : 2946
-#      LUT3                        : 1119
-#      LUT4                        : 777
-#      LUT5                        : 1223
-#      LUT6                        : 2324
+#      LUT2                        : 2945
+#      LUT3                        : 1096
+#      LUT4                        : 805
+#      LUT5                        : 1226
+#      LUT6                        : 2322
 #      MUXCY                       : 128
-#      MUXF7                       : 82
+#      MUXF7                       : 81
 #      MUXF8                       : 8
 #      VCC                         : 11
 #      XORCY                       : 124
@@ -3238,16 +3239,16 @@ Selected Device : 5vfx70tff1136-1
 
 Slice Logic Utilization: 
  Number of Slice Registers:            4704  out of  44800    10%  
- Number of Slice LUTs:                 8549  out of  44800    19%  
-    Number used as Logic:              8548  out of  44800    19%  
+ Number of Slice LUTs:                 8554  out of  44800    19%  
+    Number used as Logic:              8553  out of  44800    19%  
     Number used as Memory:                1  out of  13120     0%  
        Number used as SRL:                1
 
 Slice Logic Distribution: 
- Number of LUT Flip Flop pairs used:  10933
-   Number with an unused Flip Flop:    6229  out of  10933    56%  
-   Number with an unused LUT:          2384  out of  10933    21%  
-   Number of fully used LUT-FF pairs:  2320  out of  10933    21%  
+ Number of LUT Flip Flop pairs used:  10938
+   Number with an unused Flip Flop:    6234  out of  10938    56%  
+   Number with an unused LUT:          2384  out of  10938    21%  
+   Number of fully used LUT-FF pairs:  2320  out of  10938    21%  
    Number of unique control sets:       368
 
 IO Utilization: 
@@ -3311,7 +3312,7 @@ All values displayed in nanoseconds (ns)
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
   Clock period: 5.921ns (frequency: 168.890MHz)
-  Total number of paths / destination ports: 69652 / 9732
+  Total number of paths / destination ports: 70199 / 9732
 -------------------------------------------------------------------------
 Delay:               5.921ns (Levels of Logic = 16)
   Source:            melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0/o_2powx_4bit_ena (FF)
@@ -3453,7 +3454,7 @@ Offset:              4.045ns (Levels of Logic = 6)
 Timing constraint: Default OFFSET IN BEFORE for Clock 'vgaclk25'
   Total number of paths / destination ports: 47 / 47
 -------------------------------------------------------------------------
-Offset:              3.350ns (Levels of Logic = 5)
+Offset:              3.351ns (Levels of Logic = 5)
   Source:            i_reset (PAD)
   Destination:       vag_inst/vga_address_step_temp_q_0 (FF)
   Destination Clock: vgaclk25 rising
@@ -3462,7 +3463,7 @@ Offset:              3.350ns (Levels of Logic = 5)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O          3721   0.818   1.043  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O          3723   0.818   1.043  i_reset_IBUF (i_reset_IBUF)
      begin scope: 'vts_inst:reset'
      LUT6:I3->O           31   0.094   0.703  Mmux_video_blank1 (video_blank)
      end scope: 'vts_inst:video_blank'
@@ -3470,7 +3471,7 @@ Offset:              3.350ns (Levels of Logic = 5)
      LUT6:I4->O           10   0.094   0.385  _n0110_inv1 (_n0110_inv)
      FDCE:CE                   0.213          vga_address_step_temp_q_0
     ----------------------------------------
-    Total                      3.350ns (1.219ns logic, 2.131ns route)
+    Total                      3.351ns (1.219ns logic, 2.132ns route)
                                        (36.4% logic, 63.6% route)
 
 =========================================================================
@@ -3498,7 +3499,7 @@ Offset:              5.535ns (Levels of Logic = 5)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
-  Total number of paths / destination ports: 8715 / 436
+  Total number of paths / destination ports: 8810 / 436
 -------------------------------------------------------------------------
 Offset:              5.643ns (Levels of Logic = 4)
   Source:            melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/mem_calculate_to_i0/RAMB16_S36_i1 (RAM)
@@ -3584,7 +3585,7 @@ Clock to Setup on destination clock melexis_mlx90640_i2c_i0/clock
                              | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock                 |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 -----------------------------+---------+---------+---------+---------+
-i_clock                      |    4.156|         |         |         |
+i_clock                      |    4.145|         |         |         |
 melexis_mlx90640_i2c_i0/clock|    5.462|         |         |         |
 -----------------------------+---------+---------+---------+---------+
 
@@ -3609,8 +3610,8 @@ vgaclk25       |    4.153|         |         |         |
 =========================================================================
 
 
-Total REAL time to Xst completion: 32.00 secs
-Total CPU time to Xst completion: 31.80 secs
+Total REAL time to Xst completion: 33.00 secs
+Total CPU time to Xst completion: 31.95 secs
  
 WARNING:Xst:3152 - You have chosen to run a version of XST which is not the default solution
    for the specified device family. You are free to use it in order to take
@@ -3623,9 +3624,9 @@ WARNING:Xst:3152 - You have chosen to run a version of XST which is not the defa
 --> 
 
 
-Total memory usage is 508556 kilobytes
+Total memory usage is 508544 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :  333 (   0 filtered)
-Number of infos    :  310 (   0 filtered)
+Number of infos    :  311 (   0 filtered)
 

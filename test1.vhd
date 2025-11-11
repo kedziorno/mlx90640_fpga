@@ -604,6 +604,9 @@ signal LCDChar : LCDHex;
 
 signal state : states;
 
+constant c_j : integer := 3328;
+signal j : integer range 0 to c_j-1;
+
 begin
 
 o_data <= latch_data;
@@ -668,8 +671,6 @@ o_led (7 downto 0) <= test_fixed_melexis_do(31-9-9 downto 31-16-9);
 
 pTo : process (clock_i,i_reset) is
 	variable i : integer range 0 to PIXELS-1;
-  constant c_j : integer := 3328;
-	variable j : integer range 0 to c_j-1;
 --  constant c_some_wait : integer := 2**20;
 --  variable some_wait : integer range 0 to c_some_wait-1;
   --synthesis translate_off
@@ -702,7 +703,7 @@ begin
       camera_read := (others => '0');
 			float2fixedsclr <= '1';
 			i := 0;
-			j := 0;
+			j <= 0;
 			dualmem_ena <= '0';
 			if (c_calculate_type1 = "c_raws_images") then
         tout_r := (others => '0');
@@ -1060,11 +1061,11 @@ else
           melexis_mlx90640_i2c_enable <= '0';
           melexis_mlx90640_i2c_memory_address <= x"0000";
 		            melexis_mlx90640_i2c_memory_data <= x"0000";
-                j := 0;
-        when z1 => state <= z2;
+                j <= 0;
+        when z1 => state <= z3;
 i2c_mlx_addrb_2 <= std_logic_vector (to_unsigned (j, 12));
         i2c_mem_ena_2 <= '1';
-        when z2 => state <= z3;
+        when z3 => state <= z4;
 if (c_lcd = "y") then
 lcdchar (2)(0) <= '0';
 lcdchar (2)(1) <= '0';
@@ -1074,9 +1075,6 @@ lcdchar (3)(0) <= '0';
 lcdchar (3)(1) <= '0';
 lcdchar (3)(2) <= '0';
 lcdchar (3)(3) <= '0';
-end if;
-        when z3 => state <= z4;
-if (c_lcd = "y") then
 lcdchar (0)(0) <= i2c_mlx_doutb(0);
 lcdchar (0)(1) <= i2c_mlx_doutb(1);
 lcdchar (0)(2) <= i2c_mlx_doutb(2);
@@ -1098,10 +1096,10 @@ end if;
 --        end if;
         when z5 =>
         if (j = c_j - 1) then
-          j := 0;
+          j <= 0;
           state <= s0;
         else
-          j := j + 1;
+          j <= j + 1;
           state <= z1;
         end if;
         when s0 =>
