@@ -544,8 +544,8 @@ signal i2c_mlx_doutb : STD_LOGIC_VECTOR(7 DOWNTO 0);
 --constant c_wait1 : integer := 25;
 --constant c_wait1 : integer := 60;
 --constant c_wait1 : integer := 47;
--- constant c_wait1 : integer := 115*4; -- scl 500k
- constant c_wait1 : integer := 1000; -- scl 100k
+ constant c_wait1 : integer := 115*4; -- scl 500k
+-- constant c_wait1 : integer := 1000; -- scl 100k
 --constant c_wait1 : integer := 115*4*1000; -- scl 100
 --constant c_wait1 : integer := 230*4*1000; -- scl 50
 --constant c_wait1 : integer := 230*5*4*1000; -- scl 10
@@ -622,7 +622,7 @@ begin
     i2c_mlx_wea <= "0";
     i2c_mlx_ena <= '0';
     i2c_mlx_addra <= (others => '0');
---    i2c_mlx_dina <= (others => '0');
+    i2c_mlx_dina <= (others => '0');
     temp1 <= '0';
     temp2 <= '0';
 --  elsif (rising_edge (melexis_mlx90640_i2c_mode2_ready)) then
@@ -638,13 +638,13 @@ begin
         end if;
         if (melexis_mlx90640_i2c_memory_address = x"0400") then
           i2c_mlx_addra <= std_logic_vector (to_unsigned (mem_addr + 832, 11));
-  --      i2c_mlx_dina (7 downto 0) <= latch_data (7 downto 0);
-  --      i2c_mlx_dina (15 downto 8) <= latch_data (15 downto 8);
-  --      i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
-  --      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
-  --      i2c_mlx_dina <= melexis_mlx90640_i2c_bytes_to_recv;
+          --i2c_mlx_dina (7 downto 0) <= latch_data (7 downto 0);
+          --i2c_mlx_dina (15 downto 8) <= latch_data (15 downto 8);
+          --i2c_mlx_dina <= melexis_mlx90640_i2c_bytes_to_recv;
         end if;
       elsif (temp1 = '1' and melexis_mlx90640_i2c_mode2_ready = '1' and melexis_mlx90640_i2c_mode2 = '1') then
+        i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
+        i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
         i2c_mlx_wea <= "0";
         i2c_mlx_ena <= '0';
       elsif (temp1 = '1' and melexis_mlx90640_i2c_mode2_ready = '0' and melexis_mlx90640_i2c_mode2 = '1') then
@@ -658,19 +658,19 @@ begin
   end if;
 end process p100;
 
-dina_swap : if (c_sim = "n") generate
---      i2c_mlx_dina (15 downto 8) <= latch_data (7 downto 0);
---      i2c_mlx_dina (7 downto 0) <= latch_data (15 downto 8);
-      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
-      i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
-end generate dina_swap;
-
-dina_no_swap : if (c_sim = "y") generate
---      i2c_mlx_dina (7 downto 0) <= latch_data (7 downto 0);
---      i2c_mlx_dina (15 downto 8) <= latch_data (15 downto 8);
-      i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
-      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
-end generate dina_no_swap;
+--dina_swap : if (c_sim = "n") generate
+----      i2c_mlx_dina (15 downto 8) <= latch_data (7 downto 0);
+----      i2c_mlx_dina (7 downto 0) <= latch_data (15 downto 8);
+--      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
+--      i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
+--end generate dina_swap;
+--
+--dina_no_swap : if (c_sim = "y") generate
+----      i2c_mlx_dina (7 downto 0) <= latch_data (7 downto 0);
+----      i2c_mlx_dina (15 downto 8) <= latch_data (15 downto 8);
+--      i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
+--      i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
+--end generate dina_no_swap;
 
 o_led (7 downto 0) <= test_fixed_melexis_do(31-9+9 downto 31-16+9);
 
@@ -1066,6 +1066,7 @@ else
 i2c_mlx_addrb_2 <= std_logic_vector (to_unsigned (i, 12));
         i2c_mem_ena_2 <= '1';
         when z2 => state <= z3;
+if (c_lcd = "y") then
 lcdchar (2)(0) <= '0';
 lcdchar (2)(1) <= '0';
 lcdchar (2)(2) <= '0';
@@ -1074,7 +1075,9 @@ lcdchar (3)(0) <= '0';
 lcdchar (3)(1) <= '0';
 lcdchar (3)(2) <= '0';
 lcdchar (3)(3) <= '0';
+end if;
         when z3 => state <= z4;
+if (c_lcd = "y") then
 lcdchar (0)(0) <= i2c_mlx_doutb(0);
 lcdchar (0)(1) <= i2c_mlx_doutb(1);
 lcdchar (0)(2) <= i2c_mlx_doutb(2);
@@ -1083,6 +1086,7 @@ lcdchar (1)(0) <= i2c_mlx_doutb(4);
 lcdchar (1)(1) <= i2c_mlx_doutb(5);
 lcdchar (1)(2) <= i2c_mlx_doutb(6);
 lcdchar (1)(3) <= i2c_mlx_doutb(7);
+end if;
         when z4 =>
         i2c_mem_ena_2 <= '0';
         i2c_mlx_addrb_2 <= (others => '0');
@@ -1702,6 +1706,7 @@ doutb => i2c_mlx_doutb
 --end if;
 --end process;
 
+g_lcd : if (c_lcd = "y") generate
 c_lcd_display : lcd_display
 Port Map (
 i_clock => clock_i,
@@ -1709,6 +1714,7 @@ i_LCDChar => LCDChar,
 o_anode => o_an,
 o_segment => o_seg
 );
+end generate g_lcd;
 
 end Behavioral;
 
