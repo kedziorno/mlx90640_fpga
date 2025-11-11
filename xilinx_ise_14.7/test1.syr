@@ -351,11 +351,11 @@ Synthesizing Unit <test1>.
         c_calculate_type1 = "c_temperature"
         c_use_fisqrt1 = " no"
         zero = 0
-INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1251: Output port <o_rdy> of the instance <melexis_mlx9064x_core_inst> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1343: Output port <active_area> of the instance <vts_inst> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1343: Output port <active_haddrgen> of the instance <vts_inst> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1343: Output port <active_render> of the instance <vts_inst> is unconnected or connected to loadless signal.
-INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1574: Output port <o_mode2_ready_all> of the instance <melexis_mlx90640_i2c_i0> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1254: Output port <o_rdy> of the instance <melexis_mlx9064x_core_inst> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1346: Output port <active_area> of the instance <vts_inst> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1346: Output port <active_haddrgen> of the instance <vts_inst> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1346: Output port <active_render> of the instance <vts_inst> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1577: Output port <o_mode2_ready_all> of the instance <melexis_mlx90640_i2c_i0> is unconnected or connected to loadless signal.
 WARNING:Xst:653 - Signal <latch_data> is used but never assigned. This sourceless signal will be automatically connected to value GND.
     Found 1-bit register for signal <i2c_mlx_wea>.
     Found 1-bit register for signal <i2c_mlx_ena>.
@@ -373,7 +373,8 @@ WARNING:Xst:653 - Signal <latch_data> is used but never assigned. This sourceles
     Found 14-bit register for signal <pTo.wait3>.
     Found 10-bit register for signal <pTo.cold_start>.
     Found 1-bit register for signal <float2fixedsclr>.
-    Found 11-bit register for signal <pTo.i>.
+    Found 10-bit register for signal <pTo.i>.
+    Found 12-bit register for signal <pTo.j>.
     Found 1-bit register for signal <dualmem_ena>.
     Found 16-bit register for signal <pTo.tout_t>.
     Found 1-bit register for signal <melexis_mlx90640_i2c_mode0>.
@@ -425,24 +426,25 @@ INFO:Xst:1799 - State s14 is never reached in FSM <state>.
     | Encoding           | auto                                           |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
-    Found 11-bit adder for signal <n0397> created at line 637.
+    Found 11-bit adder for signal <n0405> created at line 637.
     Found 10-bit adder for signal <mem_addr[9]_GND_9_o_add_8_OUT> created at line 646.
-    Found 10-bit adder for signal <pTo.cold_start[9]_GND_9_o_add_22_OUT> created at line 737.
-    Found 14-bit adder for signal <pTo.wait3[13]_GND_9_o_add_134_OUT> created at line 1021.
-    Found 9-bit adder for signal <wait1[8]_GND_9_o_add_140_OUT> created at line 1038.
-    Found 10-bit adder for signal <pTo.wait2[9]_GND_9_o_add_144_OUT> created at line 1045.
-    Found 21-bit adder for signal <pTo.w11ms[20]_GND_9_o_add_152_OUT> created at line 1115.
-    Found 11-bit adder for signal <pTo.i[10]_GND_9_o_add_158_OUT> created at line 1192.
-    Found 1-bit adder for signal <pvgaclk.vmax[0]_PWR_9_o_add_221_OUT<0>> created at line 1222.
-    Found 4-bit adder for signal <pagclk.vmax[3]_GND_9_o_add_223_OUT> created at line 1243.
+    Found 10-bit adder for signal <pTo.cold_start[9]_GND_9_o_add_22_OUT> created at line 740.
+    Found 14-bit adder for signal <pTo.wait3[13]_GND_9_o_add_134_OUT> created at line 1024.
+    Found 9-bit adder for signal <wait1[8]_GND_9_o_add_140_OUT> created at line 1041.
+    Found 10-bit adder for signal <pTo.wait2[9]_GND_9_o_add_144_OUT> created at line 1048.
+    Found 12-bit adder for signal <pTo.j[11]_GND_9_o_add_148_OUT> created at line 1103.
+    Found 21-bit adder for signal <pTo.w11ms[20]_GND_9_o_add_152_OUT> created at line 1118.
+    Found 10-bit adder for signal <pTo.i[9]_GND_9_o_add_158_OUT> created at line 1195.
+    Found 1-bit adder for signal <pvgaclk.vmax[0]_PWR_9_o_add_224_OUT<0>> created at line 1225.
+    Found 4-bit adder for signal <pagclk.vmax[3]_GND_9_o_add_226_OUT> created at line 1246.
     Found 512x24-bit Read Only RAM for signal <rdata>
-    Found 1-bit tristate buffer for signal <io_sda_dd> created at line 1595
-    Found 1-bit tristate buffer for signal <io_scl_dd> created at line 1600
+    Found 1-bit tristate buffer for signal <io_sda_dd> created at line 1598
+    Found 1-bit tristate buffer for signal <io_scl_dd> created at line 1603
     Summary:
 	inferred   1 RAM(s).
-	inferred  10 Adder/Subtractor(s).
-	inferred 245 D-type flip-flop(s).
-	inferred  65 Multiplexer(s).
+	inferred  11 Adder/Subtractor(s).
+	inferred 256 D-type flip-flop(s).
+	inferred  64 Multiplexer(s).
 	inferred   2 Tristate(s).
 	inferred   1 Finite State Machine(s).
 Unit <test1> synthesized.
@@ -1676,12 +1678,12 @@ Macro Statistics
  4x1-bit single-port Read Only RAM                     : 1
  4x32-bit single-port Read Only RAM                    : 2
  512x24-bit single-port Read Only RAM                  : 1
-# Adders/Subtractors                                   : 83
+# Adders/Subtractors                                   : 84
  1-bit adder                                           : 1
- 10-bit adder                                          : 20
- 11-bit adder                                          : 5
+ 10-bit adder                                          : 21
+ 11-bit adder                                          : 4
  11-bit subtractor                                     : 2
- 12-bit adder                                          : 5
+ 12-bit adder                                          : 6
  14-bit adder                                          : 1
  21-bit adder                                          : 1
  3-bit adder                                           : 3
@@ -1692,11 +1694,11 @@ Macro Statistics
  7-bit adder                                           : 10
  8-bit adder                                           : 7
  9-bit adder                                           : 2
-# Registers                                            : 537
+# Registers                                            : 538
  1-bit register                                        : 284
- 10-bit register                                       : 38
- 11-bit register                                       : 2
- 12-bit register                                       : 14
+ 10-bit register                                       : 39
+ 11-bit register                                       : 1
+ 12-bit register                                       : 15
  14-bit register                                       : 1
  16-bit register                                       : 17
  17-bit register                                       : 1
@@ -1711,13 +1713,13 @@ Macro Statistics
  9-bit register                                        : 1
 # Comparators                                          : 6
  10-bit comparator greater                             : 6
-# Multiplexers                                         : 1092
+# Multiplexers                                         : 1091
  1-bit 16-to-1 multiplexer                             : 2
  1-bit 2-to-1 multiplexer                              : 373
  1-bit 8-to-1 multiplexer                              : 2
- 10-bit 2-to-1 multiplexer                             : 84
- 11-bit 2-to-1 multiplexer                             : 6
- 12-bit 2-to-1 multiplexer                             : 44
+ 10-bit 2-to-1 multiplexer                             : 86
+ 11-bit 2-to-1 multiplexer                             : 1
+ 12-bit 2-to-1 multiplexer                             : 46
  14-bit 2-to-1 multiplexer                             : 5
  16-bit 2-to-1 multiplexer                             : 22
  17-bit 2-to-1 multiplexer                             : 1
@@ -2004,11 +2006,11 @@ Macro Statistics
  4x1-bit single-port distributed Read Only RAM         : 1
  4x32-bit single-port distributed Read Only RAM        : 2
  512x24-bit single-port distributed Read Only RAM      : 1
-# Adders/Subtractors                                   : 68
- 10-bit adder                                          : 13
- 11-bit adder                                          : 2
+# Adders/Subtractors                                   : 69
+ 10-bit adder                                          : 14
+ 11-bit adder                                          : 1
  11-bit subtractor                                     : 2
- 12-bit adder                                          : 5
+ 12-bit adder                                          : 6
  14-bit adder                                          : 1
  21-bit adder                                          : 1
  3-bit adder                                           : 3
@@ -2024,17 +2026,17 @@ Macro Statistics
  10-bit up counter                                     : 7
  4-bit up counter                                      : 2
  5-bit up counter                                      : 4
-# Registers                                            : 4951
- Flip-Flops                                            : 4951
+# Registers                                            : 4962
+ Flip-Flops                                            : 4962
 # Comparators                                          : 6
  10-bit comparator greater                             : 6
-# Multiplexers                                         : 1184
+# Multiplexers                                         : 1183
  1-bit 16-to-1 multiplexer                             : 2
  1-bit 2-to-1 multiplexer                              : 482
  1-bit 8-to-1 multiplexer                              : 2
- 10-bit 2-to-1 multiplexer                             : 77
- 11-bit 2-to-1 multiplexer                             : 6
- 12-bit 2-to-1 multiplexer                             : 44
+ 10-bit 2-to-1 multiplexer                             : 79
+ 11-bit 2-to-1 multiplexer                             : 1
+ 12-bit 2-to-1 multiplexer                             : 46
  14-bit 2-to-1 multiplexer                             : 5
  16-bit 2-to-1 multiplexer                             : 21
  17-bit 2-to-1 multiplexer                             : 1
@@ -3010,15 +3012,14 @@ WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_3> (without init value) has a constan
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_4> (without init value) has a constant value of 0 in block <calculate_ta>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_8> (without init value) has a constant value of 0 in block <calculate_ta>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_9> (without init value) has a constant value of 0 in block <calculate_ta>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mlx_addrb_2_11> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 INFO:Xst:1901 - Instance RAMB16_S36_i1 in unit mem_ramb16_s36_x2 of type RAMB16_S36 has been replaced by RAMB16
 INFO:Xst:1901 - Instance RAMB16_S36_i2 in unit mem_ramb16_s36_x2 of type RAMB16_S36 has been replaced by RAMB16
 INFO:Xst:1901 - Instance g_mem_switchpattern_mem1.mem_switchpattern_mem1_i0 in unit mem_switchpattern of type RAMB16_S1 has been replaced by RAMB16
 INFO:Xst:1901 - Instance rom_constants_i0 in unit rom_constants of type RAMB16_S36 has been replaced by RAMB16
-INFO:Xst:2261 - The FF/Latch <melexis_mlx90640_i2c_memory_data_0> in Unit <test1> is equivalent to the following 4 FFs/Latches, which will be removed : <melexis_mlx90640_i2c_memory_data_7> <melexis_mlx90640_i2c_memory_data_8> <melexis_mlx90640_i2c_memory_data_11> <melexis_mlx90640_i2c_memory_data_12> 
 INFO:Xst:2261 - The FF/Latch <melexis_mlx90640_i2c_memory_address_0> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <melexis_mlx90640_i2c_memory_address_2> <melexis_mlx90640_i2c_memory_address_3> 
-INFO:Xst:2261 - The FF/Latch <melexis_mlx90640_i2c_memory_data_4> in Unit <test1> is equivalent to the following FF/Latch, which will be removed : <melexis_mlx90640_i2c_memory_data_5> 
+INFO:Xst:2261 - The FF/Latch <melexis_mlx90640_i2c_memory_data_0> in Unit <test1> is equivalent to the following 4 FFs/Latches, which will be removed : <melexis_mlx90640_i2c_memory_data_7> <melexis_mlx90640_i2c_memory_data_8> <melexis_mlx90640_i2c_memory_data_11> <melexis_mlx90640_i2c_memory_data_12> 
 INFO:Xst:2261 - The FF/Latch <float2fixedond> in Unit <test1> is equivalent to the following FF/Latch, which will be removed : <float2fixedce> 
+INFO:Xst:2261 - The FF/Latch <melexis_mlx90640_i2c_memory_data_4> in Unit <test1> is equivalent to the following FF/Latch, which will be removed : <melexis_mlx90640_i2c_memory_data_5> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_5> in Unit <calculate_kgain> is equivalent to the following FF/Latch, which will be removed : <i2c_mem_addra_6> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_2> in Unit <calculate_kgain> is equivalent to the following 4 FFs/Latches, which will be removed : <i2c_mem_addra_4> <i2c_mem_addra_7> <i2c_mem_addra_10> <i2c_mem_addra_11> 
 INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_internal_7> in Unit <calculate_pixos_cp_sp> is equivalent to the following 2 FFs/Latches, which will be removed : <i2c_mem_addra_internal_10> <i2c_mem_addra_internal_11> 
@@ -3121,8 +3122,8 @@ Unit <melexis_mlx90640_i2c_i0> processed.
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 4721
- Flip-Flops                                            : 4721
+# Registers                                            : 4733
+ Flip-Flops                                            : 4733
 # Shift Registers                                      : 1
  2-bit shift register                                  : 1
 
@@ -3147,29 +3148,29 @@ Top Level Output File Name         : test1.ngc
 
 Primitive and Black Box Usage:
 ------------------------------
-# BELS                             : 8913
+# BELS                             : 8963
 #      GND                         : 25
-#      INV                         : 108
-#      LUT1                        : 34
-#      LUT2                        : 2920
-#      LUT3                        : 1171
-#      LUT4                        : 757
-#      LUT5                        : 1227
-#      LUT6                        : 2345
-#      MUXCY                       : 113
+#      INV                         : 109
+#      LUT1                        : 45
+#      LUT2                        : 2922
+#      LUT3                        : 1175
+#      LUT4                        : 764
+#      LUT5                        : 1230
+#      LUT6                        : 2344
+#      MUXCY                       : 124
 #      MUXF7                       : 86
 #      MUXF8                       : 8
 #      VCC                         : 11
-#      XORCY                       : 108
-# FlipFlops/Latches                : 4722
+#      XORCY                       : 120
+# FlipFlops/Latches                : 4734
 #      FD                          : 2
 #      FDC                         : 87
 #      FDCE                        : 122
-#      FDE                         : 1110
+#      FDE                         : 1111
 #      FDP                         : 1
 #      FDPE                        : 3
 #      FDR                         : 79
-#      FDRE                        : 3264
+#      FDRE                        : 3275
 #      FDSE                        : 54
 # RAMS                             : 21
 #      RAMB16                      : 21
@@ -3200,18 +3201,18 @@ Selected Device : 5vfx70tff1136-1
 
 
 Slice Logic Utilization: 
- Number of Slice Registers:            4722  out of  44800    10%  
- Number of Slice LUTs:                 8563  out of  44800    19%  
-    Number used as Logic:              8562  out of  44800    19%  
+ Number of Slice Registers:            4734  out of  44800    10%  
+ Number of Slice LUTs:                 8590  out of  44800    19%  
+    Number used as Logic:              8589  out of  44800    19%  
     Number used as Memory:                1  out of  13120     0%  
        Number used as SRL:                1
 
 Slice Logic Distribution: 
- Number of LUT Flip Flop pairs used:  10980
-   Number with an unused Flip Flop:    6258  out of  10980    56%  
-   Number with an unused LUT:          2417  out of  10980    22%  
-   Number of fully used LUT-FF pairs:  2305  out of  10980    20%  
-   Number of unique control sets:       368
+ Number of LUT Flip Flop pairs used:  11006
+   Number with an unused Flip Flop:    6272  out of  11006    56%  
+   Number with an unused LUT:          2416  out of  11006    21%  
+   Number of fully used LUT-FF pairs:  2318  out of  11006    21%  
+   Number of unique control sets:       369
 
 IO Utilization: 
  Number of IOs:                          74
@@ -3243,7 +3244,7 @@ Clock Information:
 -----------------------------------+-------------------------------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)                           | Load  |
 -----------------------------------+-------------------------------------------------+-------+
-i_clock                            | BUFGP                                           | 4576  |
+i_clock                            | BUFGP                                           | 4588  |
 vgaclk25                           | BUFG                                            | 62    |
 melexis_mlx90640_i2c_i0/clock      | BUFG                                            | 89    |
 melexis_mlx90640_i2c_i0/io_scl_ii  | NONE(melexis_mlx90640_i2c_i0/bytes_to_recv_sr_0)| 17    |
@@ -3274,7 +3275,7 @@ All values displayed in nanoseconds (ns)
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
   Clock period: 5.921ns (frequency: 168.890MHz)
-  Total number of paths / destination ports: 69716 / 9768
+  Total number of paths / destination ports: 69911 / 9792
 -------------------------------------------------------------------------
 Delay:               5.921ns (Levels of Logic = 16)
   Source:            melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0/o_2powx_4bit_ena (FF)
@@ -3393,7 +3394,7 @@ Delay:               1.543ns (Levels of Logic = 1)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 10178 / 8200
+  Total number of paths / destination ports: 10190 / 8212
 -------------------------------------------------------------------------
 Offset:              4.070ns (Levels of Logic = 6)
   Source:            inst_subfp:rdy (PAD)
@@ -3421,7 +3422,7 @@ Offset:              4.070ns (Levels of Logic = 6)
 Timing constraint: Default OFFSET IN BEFORE for Clock 'vgaclk25'
   Total number of paths / destination ports: 47 / 47
 -------------------------------------------------------------------------
-Offset:              3.537ns (Levels of Logic = 5)
+Offset:              3.538ns (Levels of Logic = 5)
   Source:            i_reset (PAD)
   Destination:       vag_inst/x_q_0 (FF)
   Destination Clock: vgaclk25 rising
@@ -3430,7 +3431,7 @@ Offset:              3.537ns (Levels of Logic = 5)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O          3743   0.818   1.044  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O          3754   0.818   1.045  i_reset_IBUF (i_reset_IBUF)
      begin scope: 'vts_inst:reset'
      LUT6:I3->O           31   0.094   0.916  Mmux_video_blank1 (video_blank)
      end scope: 'vts_inst:video_blank'
@@ -3438,7 +3439,7 @@ Offset:              3.537ns (Levels of Logic = 5)
      LUT6:I2->O            5   0.094   0.358  _n0099_inv1 (_n0099_inv)
      FDCE:CE                   0.213          x_q_0
     ----------------------------------------
-    Total                      3.537ns (1.219ns logic, 2.318ns route)
+    Total                      3.538ns (1.219ns logic, 2.319ns route)
                                        (34.5% logic, 65.5% route)
 
 =========================================================================
@@ -3466,7 +3467,7 @@ Offset:              5.631ns (Levels of Logic = 5)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
-  Total number of paths / destination ports: 8714 / 436
+  Total number of paths / destination ports: 8715 / 436
 -------------------------------------------------------------------------
 Offset:              5.643ns (Levels of Logic = 4)
   Source:            melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/mem_calculate_to_i0/RAMB16_S36_i1 (RAM)
@@ -3552,7 +3553,7 @@ Clock to Setup on destination clock melexis_mlx90640_i2c_i0/clock
                              | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock                 |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 -----------------------------+---------+---------+---------+---------+
-i_clock                      |    4.145|         |         |         |
+i_clock                      |    4.156|         |         |         |
 melexis_mlx90640_i2c_i0/clock|    5.462|         |         |         |
 -----------------------------+---------+---------+---------+---------+
 
@@ -3578,7 +3579,7 @@ vgaclk25       |    4.562|         |         |         |
 
 
 Total REAL time to Xst completion: 32.00 secs
-Total CPU time to Xst completion: 31.27 secs
+Total CPU time to Xst completion: 31.65 secs
  
 WARNING:Xst:3152 - You have chosen to run a version of XST which is not the default solution
    for the specified device family. You are free to use it in order to take
@@ -3591,9 +3592,9 @@ WARNING:Xst:3152 - You have chosen to run a version of XST which is not the defa
 --> 
 
 
-Total memory usage is 508448 kilobytes
+Total memory usage is 508108 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :  302 (   0 filtered)
+Number of warnings :  301 (   0 filtered)
 Number of infos    :  309 (   0 filtered)
 

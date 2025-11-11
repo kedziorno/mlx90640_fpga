@@ -667,7 +667,9 @@ end generate dina_no_swap;
 o_led (7 downto 0) <= test_fixed_melexis_do(31-9+9 downto 31-16+9);
 
 pTo : process (clock_i,i_reset) is
-	variable i : integer range 0 to 2*PIXELS-1;
+	variable i : integer range 0 to PIXELS-1;
+  constant c_j : integer := 3328;
+	variable j : integer range 0 to c_j-1;
 --  constant c_some_wait : integer := 2**20;
 --  variable some_wait : integer range 0 to c_some_wait-1;
   --synthesis translate_off
@@ -699,6 +701,7 @@ begin
       camera_read := (others => '0');
 			float2fixedsclr <= '1';
 			i := 0;
+			j := 0;
 			dualmem_ena <= '0';
 			if (c_calculate_type1 = "c_raws_images") then
         tout_r := (others => '0');
@@ -1056,9 +1059,9 @@ else
           melexis_mlx90640_i2c_enable <= '0';
           melexis_mlx90640_i2c_memory_address <= x"0000";
 		            melexis_mlx90640_i2c_memory_data <= x"0000";
-                i := 0;
+                j := 0;
         when z1 => state <= z2;
-i2c_mlx_addrb_2 <= std_logic_vector (to_unsigned (i, 12));
+i2c_mlx_addrb_2 <= std_logic_vector (to_unsigned (j, 12));
         i2c_mem_ena_2 <= '1';
         when z2 => state <= z3;
 if (c_lcd = "y") then
@@ -1093,11 +1096,11 @@ end if;
 --          state <= z4;
 --        end if;
         when z5 =>
-        if (i = 2*PIXELS - 1) then
-          i := 0;
+        if (j = c_j - 1) then
+          j := 0;
           state <= s0;
         else
-          i := i + 1;
+          j := j + 1;
           state <= z1;
         end if;
         when s0 =>
