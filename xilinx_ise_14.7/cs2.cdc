@@ -1,5 +1,5 @@
 #ChipScope Core Inserter Project File Version 3.0
-#Tue Nov 11 14:15:42 CET 2025
+#Tue Nov 11 14:46:27 CET 2025
 Project.device.designInputFile=/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/test1_cs.ngc
 Project.device.designOutputFile=/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/test1_cs.ngc
 Project.device.deviceFamily=14
@@ -7,7 +7,7 @@ Project.device.enableRPMs=true
 Project.device.outputDirectory=/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/_ngo
 Project.device.useSRL16=true
 Project.filter.dimension=19
-Project.filter<0>=*i2c_mlx*
+Project.filter<0>=*clock*
 Project.filter<10>=*float2fixedce*
 Project.filter<11>=*recv*
 Project.filter<12>=*ready*
@@ -18,8 +18,8 @@ Project.filter<16>=*sr*
 Project.filter<17>=**
 Project.filter<18>=*scl*
 Project.filter<1>=
-Project.filter<2>=*ena*
-Project.filter<3>=*clock*
+Project.filter<2>=*i2c_mlx*
+Project.filter<3>=*ena*
 Project.filter<4>=*i2c_mlx_doutb*
 Project.filter<5>=*i2c_mlx_enb*
 Project.filter<6>=*reset*
@@ -32,7 +32,7 @@ Project.icon.enableExtTriggerOut=false
 Project.icon.triggerInPinName=
 Project.icon.triggerOutPinName=
 Project.unit.dimension=1
-Project.unit<0>.clockChannel=i2c_mlx_enb
+Project.unit<0>.clockChannel=i_clock_BUFGP
 Project.unit<0>.clockEdge=Rising
 Project.unit<0>.dataChannel<0>=i2c_mlx_doutb<0>
 Project.unit<0>.dataChannel<1>=i2c_mlx_doutb<1>
