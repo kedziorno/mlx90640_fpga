@@ -689,11 +689,14 @@ pTo : process (clock_i,i_reset) is
   variable wait2 : integer range 0 to c_wait2 - 1;
   variable wait3 : integer range 0 to c_wait3 - 1;
   variable k : integer range 0 to c_clock_board_frequency - 1;
+  constant c_w11ms : integer := (c_clock_board_frequency / 91);
+  variable w11ms : integer range 0 to c_w11ms - 1;
 begin
 		if (rising_edge (clock_i)) then
 		if (i_reset = '1') then
 			state <= idle;
       k := 0;
+      w11ms := 0;
 --			state <= idle2a1;
 --			state <= r14;
       i2c_stream_enable <= '0';
@@ -1105,13 +1108,22 @@ lcdchar (1)(3) <= i2c_mlx_doutb(7);
           state <= s1;
 					test_fixed_melexis_run <= '1';
           float2fixedsclr <= '0';
+          w11ms := 0;
 				when s1 =>
-					test_fixed_melexis_run <= '0';
-					if (test_fixed_melexis_rdy = '1') then
-						state <= s2;
-					else
-						state <= s1;
-					end if;
+          test_fixed_melexis_run <= '0';
+          if (w11ms = c_w11ms - 1) then
+            state <= s2;
+            w11ms := 0;
+          else
+ 						state <= s1;
+            w11ms := w11ms + 1;
+          end if;
+--					test_fixed_melexis_run <= '0';
+--					if (test_fixed_melexis_rdy = '1') then
+--						state <= s2;
+--					else
+--						state <= s1;
+--					end if;
 				when s2 => state <= s3;
 					float2fixedsclr <= '0';
 					i := 0;
