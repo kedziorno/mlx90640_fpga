@@ -664,7 +664,7 @@ dina_no_swap : if (c_sim = "y") generate
   i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
 end generate dina_no_swap;
 
-o_led (7 downto 0) <= test_fixed_melexis_do(31-9 downto 31-16);
+o_led (7 downto 0) <= test_fixed_melexis_do(31-9-9 downto 31-16-9);
 
 pTo : process (clock_i,i_reset) is
 	variable i : integer range 0 to PIXELS-1;
