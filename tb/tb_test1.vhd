@@ -49,7 +49,7 @@ generic (
 ----constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
 ----constant c_bus_clock : integer := 50;
 ----constant c_bus_clock : integer := 1;
-constant c_sim : string (1 to 1) := "n";
+constant c_sim : string (1 to 1) := "y";
 --constant c_lcd : string (1 to 1) := "n";
 --constant c_cold_start : integer := 1000;
 --constant c_wait2 : integer := 1000;
@@ -107,7 +107,8 @@ signal vga_b : std_logic_vector(7 downto 0);
 
 -- Clock period definitions
 --constant i_clock_period : time := 20 ns; -- nexys2
-constant i_clock_period : time := 10 ns; -- ml402
+--constant i_clock_period : time := 10 ns; -- ml402
+constant i_clock_period : time := 30.3030303 ns; -- 33 mhz
 --constant i_clock_period : time := 40 ns; -- 25
 
 component vga_bmp_sink is
@@ -252,10 +253,11 @@ end process;
 
 p0 : process is
 begin
-  wait for 653 us; -- wait on scl idle before mode2 1000k
+--  wait for 653 us; -- wait on scl idle before mode2 1000k
 --  wait for 869 us; -- wait on scl idle before mode2 1000k
 --  wait for 878 us; -- wait on scl idle before mode2 1000k
 --  wait for 1282 us; -- wait on scl idle before mode2 1000k -- pr
+  wait for 1326 us; -- wait on scl idle before mode2 1000k -- 33 mhz
 --  wait for 1950 us; -- wait on scl idle before mode2 1000k -- pr
 --  wait for 1304 us; -- wait on scl idle before mode2 1000k -- pr
 --  wait for 974 us; -- wait on scl idle before mode2 500k
@@ -268,7 +270,7 @@ begin
   wait until o_done = '1';
   i_enable <= '0';
   wait until o_done = '0';
-  wait for 373 us;
+  wait for 802 us;
 --  i_enable <= '1';
 --  i_addr <= x"0000"; -- eeprom stop
 --  i_enable <= '0';
@@ -299,10 +301,10 @@ i_addr <= x"0400"; -- data X
   i_enable <= '0';
   wait until o_done = '0';
   i_addr <= x"0000"; -- data X end
-  wait for 11639 us;
+  wait for 34377 us;
 
   l0 : for i in 0 to number_frames_to_catch-1 loop
-  i_addr <= x"0400"; -- data X
+  i_addr <= x"2400"; -- data X
   i_enable <= '1';
   compare1 <= 37; -- first frame poorly
   wait until o_done = '1';
@@ -316,7 +318,15 @@ i_addr <= x"0400"; -- data X
 --  wait for 327 us; -- 500k
 --  wait for 23.93184 ms; -- 500k
 --  wait for 1352 us; -- 100k
-  wait for 11791 us;
+wait for 802 us;
+i_addr <= x"0400"; -- data X
+  i_enable <= '1';
+  compare1 <= 37; -- first frame poorly
+  wait until o_done = '1';
+  i_enable <= '0';
+  wait until o_done = '0';
+  i_addr <= x"0000"; -- data X end
+  wait for 34377 us;
   end loop l0;
   wait;
 end process p0;

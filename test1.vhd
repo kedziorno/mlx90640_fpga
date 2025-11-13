@@ -1110,6 +1110,7 @@ end if;
           w11ms := 0;
 				when s1 =>
           test_fixed_melexis_run <= '0';
+          if (c_sim = "n") then
           if (w11ms = c_w11ms - 1) then
             state <= s2;
             w11ms := 0;
@@ -1117,12 +1118,15 @@ end if;
  						state <= s1;
             w11ms := w11ms + 1;
           end if;
---					test_fixed_melexis_run <= '0';
---					if (test_fixed_melexis_rdy = '1') then
---						state <= s2;
---					else
---						state <= s1;
---					end if;
+          end if;
+          if (c_sim = "y") then
+					test_fixed_melexis_run <= '0';
+					if (test_fixed_melexis_rdy = '1') then
+						state <= s2;
+					else
+						state <= s1;
+					end if;
+          end if;
 				when s2 => state <= s3;
 					float2fixedsclr <= '0';
 					i := 0;
