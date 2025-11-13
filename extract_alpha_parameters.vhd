@@ -431,7 +431,6 @@ begin
 						i2c_mem_ena <= '1';
             i := 2;
             j := 0;
-            rdy <= '0';
 					else
 						state := idle;
 						i2c_mem_ena <= '0';
@@ -447,6 +446,7 @@ begin
           j := 0;
           col := 0;
           row := 0;
+          rdy <= '0';
         when acc15 => state := acc16; -- XXX start loop - acc row 6x DCBA
           m := 2*i;
           n := j*4;
