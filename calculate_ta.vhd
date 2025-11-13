@@ -229,15 +229,15 @@ begin
           else state := s8; end if;
         when s9 => state := s12;
           fixed2floatsclr <= '0';
---          o_alphaptat_ena <= '1';
---          o_alphaptat_adr <= i2c_mem_douta (7 downto 4);
-          nibble_in2 <= i2c_mem_douta (7 downto 4);
+          o_alphaptat_ena <= '1';
+          o_alphaptat_adr <= i2c_mem_douta (7 downto 4);
+--          nibble_in2 <= i2c_mem_douta (7 downto 4);
         when s12 =>
           -- vptat*alphaptat
           mulfpce <= '1';
           mulfpa <= fixed2floatr; -- vptat
---          mulfpb <= i_rom_constants_float; -- alphaptat
-          mulfpb <= nibble_out2; -- alphaptat
+          mulfpb <= i_rom_constants_float; -- alphaptat
+--          mulfpb <= nibble_out2; -- alphaptat
           mulfpond <= '1';
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_ram_x0700_msb, 12));
           if (mulfprdy = '1') then state := s13;
@@ -309,9 +309,9 @@ begin
           divfpa <= fixed2floatr; -- vptat
           divfpb <= addfpr; -- vptat*alphaptat+vbe
           divfpond <= '1';
---          o_kvptat_ena <= '1';
---          o_kvptat_adr <= kvptat_ee_a;
-          nibble_in1 <= kvptat_ee_a;
+          o_kvptat_ena <= '1';
+          o_kvptat_adr <= kvptat_ee_a;
+--          nibble_in1 <= kvptat_ee_a;
           if (divfprdy = '1') then state := s18;
             divfpce <= '0';
             divfpond <= '0';
@@ -322,8 +322,8 @@ begin
           -- xxx move to s23
           -- kvptat*deltaV
           mulfpce <= '1';
---          mulfpa <= i_rom_constants_float; -- kvptat
-          mulfpa <= nibble_out1; -- kvptat
+          mulfpa <= i_rom_constants_float; -- kvptat
+--          mulfpa <= nibble_out1; -- kvptat
           mulfpb <= subfpr; -- XXX s1c deltaV = Vdd - 3.3
           --synthesis translate_off
           report_error("(kvptat eeprom 0.0021972656250000)", i_rom_constants_float, 0.0021972656250000);
