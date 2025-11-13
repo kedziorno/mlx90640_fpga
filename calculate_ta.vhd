@@ -223,9 +223,9 @@ begin
           else state := s8; end if;
         when s9 => state := s12;
           fixed2floatsclr <= '0';
-        when s12 =>
           o_alphaptat_ena <= '1';
           o_alphaptat_adr <= i2c_mem_douta (7 downto 4);
+        when s12 =>
           -- vptat*alphaptat
           mulfpce <= '1';
           mulfpa <= fixed2floatr; -- vptat
