@@ -158,7 +158,7 @@ fixed2floatrdy_internal <= fixed2floatrdy;
 
 p0 : process (i_clock,i_reset) is
 	type states is (idle,
-	s2,s3,s4,s5,s5a,s6,s9,s11);
+	s2,s3,s4,s5,s5a,s6,s9,s10,s11);
 	variable state : states;
   variable acpsp0 : slv2; -- Acpsubpage0 10bit
 begin
@@ -216,16 +216,16 @@ begin
           else state := s5; end if;
         when s5a => state := s6;
           fixed2floatsclr_internal <= '0';
-        when s6 => state := s9;
           o_alphascale_2_ena <= '1';
 					o_alphascale_2_adr <= alpha_scale;
+        when s6 => state := s9;
         when s9 =>
 					divfpce_internal <= '1';
 					divfpa_internal <= fixed2floatr_internal; -- Acpsubpage0
 					divfpb_internal <= i_rom_constants_float; -- 2^(Ascalecp+27)
 					divfpond_internal <= '1';
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2439_msb, 12));
-          if (divfprdy_internal = '1') then state := s11;
+          if (divfprdy_internal = '1') then state := s10;
             o_alphascale_2_ena <= '0';
             o_cpratio_ena <= '1';
             o_cpratio_adr <= cp_p1_p0_ratio;
@@ -238,6 +238,7 @@ begin
 						warning_neq_fp(fixed2floatr_internal, 99.0, "calculateAlphaCP acpsubpage0 fi2fl");
             --synthesis translate_on
 					else state := s9; end if;
+				when s10 => state := s11;
 				when s11 =>
 					divfpsclr_internal <= '0'; -- xxx to s9
 					mulfpce_internal <= '1';
