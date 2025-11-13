@@ -116,6 +116,31 @@ begin
 --i_2powx_p8_4bit_en,i_2powx_p8_4bit_adr,
 --i_signed3bit_en,i_signed3bit_adr
 --) is
+--begin
+--  address <= (others => '0');
+--  if (i_kvptat_en = '1') then
+--    address <= std_logic_vector (to_unsigned (to_integer (unsigned (i_kvptat_adr))          + 0,    9));
+--  elsif (i_alphaptat_en = '1') then
+--    address <= std_logic_vector (to_unsigned (to_integer (unsigned (i_alphaptat_adr))       + 64,   9));
+--  elsif (i_signed4bit_en = '1') then
+--    address <= std_logic_vector (to_unsigned (to_integer (unsigned (i_signed4bit_adr))      + 64 + 16,   9));
+--  elsif (i_signed6bit_en = '1') then
+--    address <= std_logic_vector (to_unsigned (to_integer (unsigned (i_signed6bit_adr))      + 64 + 16 + 16,   9));
+--  elsif (i_alphascale_1_en = '1') then
+--    address <= std_logic_vector (to_unsigned (to_integer (unsigned (i_alphascale_1_adr))    + 128 + 32,  9));
+--  elsif (i_2powx_4bit_en = '1') then
+--    address <= std_logic_vector (to_unsigned (to_integer (unsigned (i_2powx_4bit_adr))      + 128 + 48,  9));
+--  elsif (i_cpratio_en = '1') then
+--    address <= std_logic_vector (to_unsigned (to_integer (unsigned (i_cpratio_adr))         + 128 + 64,  9));
+--  elsif (i_alphascale_2_en = '1') then
+--    address <= std_logic_vector (to_unsigned (to_integer (unsigned (i_alphascale_2_adr))    + 256,  9));
+--  elsif (i_2powx_p8_4bit_en = '1') then
+--    address <= std_logic_vector (to_unsigned (to_integer (unsigned (i_2powx_p8_4bit_adr))   + 256 + 16,  9));
+--  elsif (i_signed3bit_en = '1') then
+--    address <= std_logic_vector (to_unsigned (to_integer (unsigned (i_signed3bit_adr))      + 256 + 16 + 16,  9));
+--  end if;
+--end process p0;
+
 p0 : process (i_clock, i_reset) is
 begin
   if (i_reset = '1') then

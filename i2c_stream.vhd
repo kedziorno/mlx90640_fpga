@@ -72,8 +72,11 @@ constant c_data : integer := 8;
 signal v_data : integer range c_data - 1 downto 0;
 
 signal scl_prev, scl_re : std_logic;
+signal sda : std_logic;
 
 begin
+
+o_sda <= sda when i_enable = '1' else '0';
 
 addra <= std_logic_vector (to_unsigned (v_index + v_records, 15));
 
@@ -97,14 +100,14 @@ begin
     v_index <= 0;
     v_omit <= 0;
     v_addr <= (others => '0');
-    o_sda <= 'Z';
+    sda <= '0';
     o_done <= '0';
   elsif (falling_edge (i_clock)) then
     if (scl_re = '1') then
       case (state) is
         when idle =>
           o_done <= '0';
-          o_sda <= 'Z';
+          sda <= '0';
           v_records <= 0;
           v_data <= c_data - 1;
           if (i_enable = '1') then
@@ -117,7 +120,7 @@ begin
             end if;
           end if;
         when s1 =>
-          o_sda <= douta (8 + v_data);
+          sda <= douta (8 + v_data);
           if (i_enable = '0') then
             state <= idle;
           end if;
@@ -135,9 +138,9 @@ begin
           end if;
         when s2 => -- ack
           state <= s3;
-          o_sda <= '0';
+          sda <= '0';
         when s3 =>
-          o_sda <= douta (v_data);
+          sda <= douta (v_data);
           if (v_data = 0) then
             state <= s4;
             v_data <= c_data - 1;
@@ -146,23 +149,24 @@ begin
           end if;
         when s4 => -- ack
           v_data <= c_data - 1;
-          o_sda <= '0';
+          sda <= '0';
           if (v_records = c_records - 1) then
             v_records <= 0;
             if (v_items = c_items - 1) then
               state <= idle;
               v_items <= 0;
               o_done <= '1';
-              o_sda <= 'Z';
+              sda <= '0';
             else
               state <= idle;
               v_items <= v_items + 1; -- 28
               o_done <= '1';
-              o_sda <= 'Z';
+              sda <= '0';
             end if;
           else
             state <= s1;
             v_records <= v_records + 1; -- 832
+            sda <= '0';
           end if;
       end case;
     end if;
