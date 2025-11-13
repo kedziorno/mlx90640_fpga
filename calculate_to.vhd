@@ -474,8 +474,8 @@ fixed2floatr_internal <= fixed2floatr;
 fixed2floatrdy_internal <= fixed2floatrdy;
 
 o_rdy <= rdy;
---o_do <= doa when rdy = '1' else (others => '0');
-o_do <= doa when rdy = '1' else doa;
+o_do <= doa when rdy = '1' else (others => '0');
+--o_do <= doa when rdy = '1' else doa;
 mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0');
 mux_dia <= dia when rdy = '0' else (others => '0');
 

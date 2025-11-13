@@ -144,13 +144,13 @@ begin
             i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x243c_lsb, c_memory_i2c_address_bits));
             report "11.1.16. Restoring the TGC coefficient";
             report "Set to 0, 1 in example p. 34";
-            o_rdy <= '0';
 					else
 						state := idle;
 						i2c_mem_ena <= '0';
 					end if;
           fixed2floatsclr_internal <= '0';
           divfpsclr_internal <= '0';
+          o_rdy <= '0';
         when s1 => state := s2;
           i2c_mem_ena <= '0';
 				when s2 =>

@@ -181,7 +181,6 @@ begin
           if (i_run = '1') then
             state := s1c;
             i2c_mem_ena <= '1';
-            o_rdy <= '0';
           else
             state := idle;
             i2c_mem_ena <= '0';
@@ -191,6 +190,7 @@ begin
           subfpsclr <= '0';
           mulfpsclr <= '0';
           divfpsclr <= '0';
+          o_rdy <= '0';
         when s1c =>
           subfpce <= '1';
           subfpa <= i_Vdd;

@@ -186,7 +186,6 @@ begin
 					if (i_run = '1') then
 						state := s2;
 						i2c_mem_ena <= '1';
-            o_rdy <= '0';
 					else
 						state := idle;
 						i2c_mem_ena <= '0';
@@ -194,6 +193,7 @@ begin
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
           fixed2floatsclr_internal <= '0';
+          o_rdy <= '0';
 				when s2 => state := s3;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2439_msb, 12));
 				when s3 => state := s4;
