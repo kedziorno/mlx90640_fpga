@@ -142,7 +142,6 @@ begin
             state := s4;
             i2c_mem_ena <= '1';
             i2c_mem_addra <= std_logic_vector (to_unsigned (c_ram_x070a_msb, c_memory_i2c_address_bits));
-            o_rdy <= '0';
             report "11.2.2.4. Gain parameter calculation (common for all pixels)";
           else
             state := idle;
@@ -150,6 +149,7 @@ begin
           end if;
           fixed2floatsclr_internal <= '0';
           divfpsclr_internal <= '0';
+          o_rdy <= '0';
         when s4 => state := s5;
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_ram_x070a_lsb, c_memory_i2c_address_bits));
         when s5 => state := s9;
