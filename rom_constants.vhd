@@ -104,20 +104,23 @@ signal address : std_logic_vector (8 downto 0) := (others => '0');
 
 begin
 
-p0 : process (
-i_kvptat_en,i_kvptat_adr,
-i_alphaptat_en,i_alphaptat_adr,
-i_signed4bit_en,i_signed4bit_adr,
-i_signed6bit_en,i_signed6bit_adr,
-i_alphascale_1_en,i_alphascale_1_adr,
-i_2powx_4bit_en,i_2powx_4bit_adr,
-i_cpratio_en,i_cpratio_adr,
-i_alphascale_2_en,i_alphascale_2_adr,
-i_2powx_p8_4bit_en,i_2powx_p8_4bit_adr,
-i_signed3bit_en,i_signed3bit_adr
-) is
+--p0 : process (
+--i_kvptat_en,i_kvptat_adr,
+--i_alphaptat_en,i_alphaptat_adr,
+--i_signed4bit_en,i_signed4bit_adr,
+--i_signed6bit_en,i_signed6bit_adr,
+--i_alphascale_1_en,i_alphascale_1_adr,
+--i_2powx_4bit_en,i_2powx_4bit_adr,
+--i_cpratio_en,i_cpratio_adr,
+--i_alphascale_2_en,i_alphascale_2_adr,
+--i_2powx_p8_4bit_en,i_2powx_p8_4bit_adr,
+--i_signed3bit_en,i_signed3bit_adr
+--) is
+p0 : process (i_clock, i_reset) is
 begin
+  if (i_reset = '1') then
   address <= (others => '0');
+  elsif (rising_edge (i_clock)) then
   if (i_kvptat_en = '1') then
     address <= std_logic_vector (to_unsigned (to_integer (unsigned (i_kvptat_adr))          + 0,    9));
   elsif (i_alphaptat_en = '1') then
@@ -138,6 +141,7 @@ begin
     address <= std_logic_vector (to_unsigned (to_integer (unsigned (i_2powx_p8_4bit_adr))   + 256 + 16,  9));
   elsif (i_signed3bit_en = '1') then
     address <= std_logic_vector (to_unsigned (to_integer (unsigned (i_signed3bit_adr))      + 256 + 16 + 16,  9));
+  end if;
   end if;
 end process p0;
 
