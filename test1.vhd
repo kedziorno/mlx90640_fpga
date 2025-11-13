@@ -1659,12 +1659,13 @@ state = z5)
 else
 i2c_mlx_addrb_1;
 
-p0_i2c_mlx_addrb_conv : process (clock_i) is
-begin
-  if (falling_edge (clock_i)) then
-    i2c_mlx_addrb_conv1 <= std_logic_vector (to_unsigned (to_integer (unsigned (i2c_mlx_addrb)) + 2, 12));
-  end if;
-end process p0_i2c_mlx_addrb_conv;
+i2c_mlx_addrb_conv1 <= i2c_mlx_addrb;
+--p0_i2c_mlx_addrb_conv : process (clock_i) is
+--begin
+--  if (falling_edge (clock_i)) then
+--    i2c_mlx_addrb_conv1 <= std_logic_vector (to_unsigned (to_integer (unsigned (i2c_mlx_addrb)) + 2, 12));
+--  end if;
+--end process p0_i2c_mlx_addrb_conv;
 
 i2c_mlx_i0 : i2c_mlx
 PORT MAP (

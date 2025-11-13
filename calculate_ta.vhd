@@ -119,6 +119,10 @@ alias alpha_ptat_ee_a  : slv4 is i2c_mem_douta_i (7 downto 4);
 alias kvptat_ee_a      : slv6 is i2c_mem_douta_i (7 downto 2);
 alias ktptat_msb_ee_a  : slv2 is i2c_mem_douta_i (1 downto 0);
 
+signal nibble_in1 : std_logic_vector (5 downto 0);
+signal nibble_in2 : std_logic_vector (3 downto 0);
+signal nibble_out1, nibble_out2 : std_logic_vector (31 downto 0);
+
 begin
 
 i2c_mem_douta_i <= i2c_mem_douta;
@@ -165,10 +169,12 @@ begin
       o_Ta <= (others => '0');
       o_rdy <= '0';
       i2c_mem_ena <= '0';
-      o_kvptat_ena <= '0';
-      o_kvptat_adr <= (others => '0');
-      o_alphaptat_ena <= '0';
-      o_alphaptat_adr <= (others => '0');
+--      o_kvptat_ena <= '0';
+--      o_kvptat_adr <= (others => '0');
+--      o_alphaptat_ena <= '0';
+--      o_alphaptat_adr <= (others => '0');
+      nibble_in1 <= (others => '0');
+      nibble_in2 <= (others => '0');
     else
       case (state) is
         when idle =>
@@ -223,13 +229,15 @@ begin
           else state := s8; end if;
         when s9 => state := s12;
           fixed2floatsclr <= '0';
-          o_alphaptat_ena <= '1';
-          o_alphaptat_adr <= i2c_mem_douta (7 downto 4);
+--          o_alphaptat_ena <= '1';
+--          o_alphaptat_adr <= i2c_mem_douta (7 downto 4);
+          nibble_in2 <= i2c_mem_douta (7 downto 4);
         when s12 =>
           -- vptat*alphaptat
           mulfpce <= '1';
           mulfpa <= fixed2floatr; -- vptat
-          mulfpb <= i_rom_constants_float; -- alphaptat
+--          mulfpb <= i_rom_constants_float; -- alphaptat
+          mulfpb <= nibble_out2; -- alphaptat
           mulfpond <= '1';
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_ram_x0700_msb, 12));
           if (mulfprdy = '1') then state := s13;
@@ -301,8 +309,9 @@ begin
           divfpa <= fixed2floatr; -- vptat
           divfpb <= addfpr; -- vptat*alphaptat+vbe
           divfpond <= '1';
-          o_kvptat_ena <= '1';
-          o_kvptat_adr <= kvptat_ee_a;
+--          o_kvptat_ena <= '1';
+--          o_kvptat_adr <= kvptat_ee_a;
+          nibble_in1 <= kvptat_ee_a;
           if (divfprdy = '1') then state := s18;
             divfpce <= '0';
             divfpond <= '0';
@@ -313,7 +322,8 @@ begin
           -- xxx move to s23
           -- kvptat*deltaV
           mulfpce <= '1';
-          mulfpa <= i_rom_constants_float; -- kvptat
+--          mulfpa <= i_rom_constants_float; -- kvptat
+          mulfpa <= nibble_out1; -- kvptat
           mulfpb <= subfpr; -- XXX s1c deltaV = Vdd - 3.3
           --synthesis translate_off
           report_error("(kvptat eeprom 0.0021972656250000)", i_rom_constants_float, 0.0021972656250000);
@@ -497,6 +507,109 @@ begin
     end if;
   end if;
 end process p0;
+
+--INIT_00 => X"3ae000003ac000003aa000003a8000003a4000003a0000003980000000000000", -- kvptat signed 6bit >31,-64 kvptat/2^12
+--INIT_01 => X"3b7000003b6000003b5000003b4000003b3000003b2000003b1000003b000000",
+--INIT_02 => X"3bb800003bb000003ba800003ba000003b9800003b9000003b8800003b800000",
+--INIT_03 => X"3bf800003bf000003be800003be000003bd800003bd000003bc800003bc00000",
+--INIT_04 => X"bbc80000bbd00000bbd80000bbe00000bbe80000bbf00000bbf80000bc000000",
+--INIT_05 => X"bb880000bb900000bb980000bba00000bba80000bbb00000bbb80000bbc00000",
+--INIT_06 => X"bb100000bb200000bb300000bb400000bb500000bb600000bb700000bb800000",
+--INIT_07 => X"b9800000ba000000ba400000ba800000baa00000bac00000bae00000bb000000", -- 64
+
+with nibble_in1 select nibble_out1 <=
+x"3ae00000" when std_logic_vector (to_unsigned (7, 6)),
+x"3ac00000" when std_logic_vector (to_unsigned (6, 6)),
+x"3aa00000" when std_logic_vector (to_unsigned (5, 6)),
+x"3a800000" when std_logic_vector (to_unsigned (4, 6)),
+x"3a400000" when std_logic_vector (to_unsigned (3, 6)),
+x"3a000000" when std_logic_vector (to_unsigned (2, 6)),
+x"39800000" when std_logic_vector (to_unsigned (1, 6)),
+x"00000000" when std_logic_vector (to_unsigned (0, 6)),
+
+x"3b700000" when std_logic_vector (to_unsigned (15, 6)),
+x"3b600000" when std_logic_vector (to_unsigned (14, 6)),
+x"3b500000" when std_logic_vector (to_unsigned (13, 6)),
+x"3b400000" when std_logic_vector (to_unsigned (12, 6)),
+x"3b300000" when std_logic_vector (to_unsigned (11, 6)),
+x"3b200000" when std_logic_vector (to_unsigned (10, 6)),
+x"3b100000" when std_logic_vector (to_unsigned (9, 6)),
+x"3b000000" when std_logic_vector (to_unsigned (8, 6)),
+
+x"3bb80000" when std_logic_vector (to_unsigned (23, 6)),
+x"3bb00000" when std_logic_vector (to_unsigned (22, 6)),
+x"3ba80000" when std_logic_vector (to_unsigned (21, 6)),
+x"3ba00000" when std_logic_vector (to_unsigned (20, 6)),
+x"3b980000" when std_logic_vector (to_unsigned (19, 6)),
+x"3b900000" when std_logic_vector (to_unsigned (18, 6)),
+x"3b880000" when std_logic_vector (to_unsigned (17, 6)),
+x"3b800000" when std_logic_vector (to_unsigned (16, 6)),
+
+x"3bf80000" when std_logic_vector (to_unsigned (31, 6)),
+x"3bf00000" when std_logic_vector (to_unsigned (30, 6)),
+x"3be80000" when std_logic_vector (to_unsigned (29, 6)),
+x"3be00000" when std_logic_vector (to_unsigned (28, 6)),
+x"3bd80000" when std_logic_vector (to_unsigned (27, 6)),
+x"3bd00000" when std_logic_vector (to_unsigned (26, 6)),
+x"3bc80000" when std_logic_vector (to_unsigned (25, 6)),
+x"3bc00000" when std_logic_vector (to_unsigned (24, 6)),
+
+x"bbc80000" when std_logic_vector (to_unsigned (39, 6)),
+x"bbd00000" when std_logic_vector (to_unsigned (38, 6)),
+x"bbd80000" when std_logic_vector (to_unsigned (37, 6)),
+x"bbe00000" when std_logic_vector (to_unsigned (36, 6)),
+x"bbe80000" when std_logic_vector (to_unsigned (35, 6)),
+x"bbf00000" when std_logic_vector (to_unsigned (34, 6)),
+x"bbf80000" when std_logic_vector (to_unsigned (33, 6)),
+x"bc000000" when std_logic_vector (to_unsigned (32, 6)),
+
+x"bb880000" when std_logic_vector (to_unsigned (47, 6)),
+x"bb900000" when std_logic_vector (to_unsigned (46, 6)),
+x"bb980000" when std_logic_vector (to_unsigned (45, 6)),
+x"bba00000" when std_logic_vector (to_unsigned (44, 6)),
+x"bba80000" when std_logic_vector (to_unsigned (43, 6)),
+x"bbb00000" when std_logic_vector (to_unsigned (42, 6)),
+x"bbb80000" when std_logic_vector (to_unsigned (41, 6)),
+x"bbc00000" when std_logic_vector (to_unsigned (40, 6)),
+
+x"bb100000" when std_logic_vector (to_unsigned (55, 6)),
+x"bb200000" when std_logic_vector (to_unsigned (54, 6)),
+x"bb300000" when std_logic_vector (to_unsigned (53, 6)),
+x"bb400000" when std_logic_vector (to_unsigned (52, 6)),
+x"bb500000" when std_logic_vector (to_unsigned (51, 6)),
+x"bb600000" when std_logic_vector (to_unsigned (50, 6)),
+x"bb700000" when std_logic_vector (to_unsigned (49, 6)),
+x"bb800000" when std_logic_vector (to_unsigned (48, 6)),
+
+x"ba000000" when std_logic_vector (to_unsigned (62, 6)),
+x"ba400000" when std_logic_vector (to_unsigned (61, 6)),
+x"ba800000" when std_logic_vector (to_unsigned (60, 6)),
+x"baa00000" when std_logic_vector (to_unsigned (59, 6)),
+x"bac00000" when std_logic_vector (to_unsigned (58, 6)),
+x"bae00000" when std_logic_vector (to_unsigned (57, 6)),
+x"bb000000" when std_logic_vector (to_unsigned (56, 6)),
+x"b9800000" when others;
+
+--INIT_08 => X"411c0000411800004114000041100000410c0000410800004104000041000000", -- alphaptat unsigned 4bit 0-15 (alphaptat/2^2)+8
+--INIT_09 => X"413c0000413800004134000041300000412c0000412800004124000041200000", -- 80
+with nibble_in2 select nibble_out2 <=
+x"411c0000" when x"7",
+x"41180000" when x"6",
+x"41140000" when x"5",
+x"41100000" when x"4",
+x"410c0000" when x"3",
+x"41080000" when x"2",
+x"41040000" when x"1",
+x"41000000" when x"0",
+
+x"41380000" when x"e",
+x"41340000" when x"d",
+x"41300000" when x"c",
+x"412c0000" when x"b",
+x"41280000" when x"a",
+x"41240000" when x"9",
+x"41200000" when x"8",
+x"413c0000" when others;
 
 end architecture rtl;
 
