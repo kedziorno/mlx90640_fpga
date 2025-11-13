@@ -270,6 +270,7 @@ begin
 					if (i_run = '1') then
 						state := s0;
 						i2c_mem_ena_internal <= '1';
+            i2c_mem_addra_internal <= std_logic_vector (to_unsigned (c_eeprom_x2438_lsb, 12));
 					else
 						state := idle;
 						i2c_mem_ena_internal <= '0';
@@ -281,20 +282,19 @@ begin
 					fixed2floatsclr_internal <= '0';
           rdy <= '0';
 				when s0 => state := s1a;
-          i2c_mem_addra_internal <= std_logic_vector (to_unsigned (c_eeprom_x2438_lsb, 12));
-        when s1a => state := s1b;
           i2c_mem_addra_internal <= std_logic_vector (to_unsigned (c_eeprom_x2438_msb, 12));
-        when s1b => state := s1c;
+        when s1a => state := s1b;
           o_2powx_p8_4bit_ena <= '1';
           o_2powx_p8_4bit_adr <= i2c_mem_douta_internal (7 downto 4); -- ee2438 00f0 - ktascale1
-        when s1c => state := s1d;
+        when s1b => state := s1c;
           i2c_mem_addra_internal <= std_logic_vector (to_unsigned (eeprom_0x243b_msb, 12));
+        when s1c => state := s1d;
         when s1d => state := s1e;
           out_nibble2 <= i_rom_constants_float; -- ktascale
           o_2powx_p8_4bit_ena <= '0';
+        when s1e =>
           o_2powx_4bit_ena <= '1';
           o_2powx_4bit_adr <= i2c_mem_douta_internal (3 downto 0); -- ee2438 0f00 - kvscale
-        when s1e =>
         
           fixed2floatce_internal <= '1';
           fixed2floatond_internal <= '1';

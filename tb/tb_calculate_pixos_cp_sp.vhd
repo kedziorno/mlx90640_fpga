@@ -387,7 +387,8 @@ calculate_pixos_cp_sp_reset <= '0';
 wait for clockperiod*10;
 -- Add user defined stimulus here
 calculate_pixos_cp_sp_Ta <= x"4207F54F"; -- 33.989559
-calculate_pixos_cp_sp_Vdd <= x"40D2F5C3"; -- 6.5925
+--calculate_pixos_cp_sp_Vdd <= x"40D2F5C3"; -- 6.5925
+calculate_pixos_cp_sp_Vdd <= x"40533333"; -- 3.3
 calculate_pixos_cp_sp_run <= '1'; wait for clockperiod; calculate_pixos_cp_sp_run <= '0';
 wait until calculate_pixos_cp_sp_rdy = '1';
 --report "rdy at 4.165us";
