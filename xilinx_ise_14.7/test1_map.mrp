@@ -12,24 +12,24 @@ Target Device  : xc5vfx70t
 Target Package : ff1136
 Target Speed   : -1
 Mapper Version : virtex5 -- $Revision: 1.55 $
-Mapped Date    : Thu Nov 13 23:15:48 2025
+Mapped Date    : Fri Nov 14 18:50:26 2025
 
 Design Summary
 --------------
 Number of errors:      0
-Number of warnings:  493
+Number of warnings:  460
 Slice Logic Utilization:
-  Number of Slice Registers:                 8,387 out of  44,800   18%
-    Number used as Flip Flops:               8,386
+  Number of Slice Registers:                 8,379 out of  44,800   18%
+    Number used as Flip Flops:               8,378
     Number used as Latches:                      1
-  Number of Slice LUTs:                     11,172 out of  44,800   24%
-    Number used as logic:                   10,911 out of  44,800   24%
-      Number using O6 output only:          10,460
+  Number of Slice LUTs:                     11,160 out of  44,800   24%
+    Number used as logic:                   10,903 out of  44,800   24%
+      Number using O6 output only:          10,452
       Number using O5 output only:             150
       Number using O5 and O6:                  301
-    Number used as Memory:                     241 out of  13,120    1%
-      Number used as Shift Register:           241
-        Number using O6 output only:           239
+    Number used as Memory:                     237 out of  13,120    1%
+      Number used as Shift Register:           237
+        Number using O6 output only:           235
         Number using O5 output only:             1
         Number using O5 and O6:                  1
     Number used as exclusive route-thru:        20
@@ -38,11 +38,11 @@ Slice Logic Utilization:
     Number using O5 output only:                22
 
 Slice Logic Distribution:
-  Number of occupied Slices:                 5,573 out of  11,200   49%
-  Number of LUT Flip Flop pairs used:       14,741
-    Number with an unused Flip Flop:         6,354 out of  14,741   43%
-    Number with an unused LUT:               3,569 out of  14,741   24%
-    Number of fully used LUT-FF pairs:       4,818 out of  14,741   32%
+  Number of occupied Slices:                 5,564 out of  11,200   49%
+  Number of LUT Flip Flop pairs used:       14,726
+    Number with an unused Flip Flop:         6,347 out of  14,726   43%
+    Number with an unused LUT:               3,566 out of  14,726   24%
+    Number of fully used LUT-FF pairs:       4,813 out of  14,726   32%
     Number of unique control sets:             457
     Number of slice register sites lost
       to control set restrictions:             939 out of  44,800    2%
@@ -60,23 +60,23 @@ IO Utilization:
     Number of LOCed IOBs:                       17 out of      63   26%
 
 Specific Feature Utilization:
-  Number of BlockRAM/FIFO:                     137 out of     148   92%
-    Number using BlockRAM only:                137
+  Number of BlockRAM/FIFO:                     129 out of     148   87%
+    Number using BlockRAM only:                129
     Total primitives used:
-      Number of 36k BlockRAM used:             134
+      Number of 36k BlockRAM used:             126
       Number of 18k BlockRAM used:               3
-    Total Memory used (KB):                  4,878 out of   5,328   91%
+    Total Memory used (KB):                  4,590 out of   5,328   86%
   Number of BUFG/BUFGCTRLs:                      4 out of      32   12%
     Number used as BUFGs:                        4
   Number of BSCANs:                              1 out of       4   25%
   Number of DSP48Es:                             7 out of     128    5%
 
   Number of RPM macros:           12
-Average Fanout of Non-Clock Nets:                4.16
+Average Fanout of Non-Clock Nets:                4.13
 
-Peak Memory Usage:  1336 MB
-Total REAL time to MAP completion:  1 mins 8 secs 
-Total CPU time to MAP completion:   1 mins 5 secs 
+Peak Memory Usage:  1362 MB
+Total REAL time to MAP completion:  48 secs 
+Total CPU time to MAP completion:   46 secs 
 
 Table of Contents
 -----------------
@@ -102,23 +102,6 @@ Section 2 - Warnings
 WARNING:Map:291 - Multi-threading ("-mt" option) is not supported for the
    SmartGuide flow. MAP will use only one processor.
 
-WARNING:Map:266 - It is best to run SmartGuide with the same options that were
-   used when creating the guide file. This run and the guide file do not use the
-   same options. If you do not get the desired results when using SmartGuide,
-   then re-run SmartGuide with the same options or re-create the guide file with
-   the current options.
-
-   The command line used to create the guide file is:
-   -intstyle ise -p xc5vfx70t-ff1136-1 -w -logic_opt off -ol std -t 1
-   -register_duplication off -global_opt off -mt 2 -cm area -ir off -pr off -lc
-   off -power off -o test1_map.ncd test1.ngd test1.pcf 
-
-   The command line used for this run is:
-   -intstyle ise -p xc5vfx70t-ff1136-1 -w -logic_opt off -ol std -t 1
-   -register_duplication off -global_opt off -mt 2 -cm area -detail -ir off -pr
-   off -u -lc off -smartguide
-   /home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/xilinx_ise_14.7/test1_guide.nc
-   d -power off -o test1_map.ncd test1.ngd test1.pcf 
 WARNING:Security:42 - Your software subscription period has lapsed. Your current
 version of Xilinx tools will continue to function, but you no longer qualify for
 Xilinx software updates or new releases.
@@ -1661,134 +1644,6 @@ WARNING:Pack:2874 - Trimming timing constraints from pin
 WARNING:Pack:2874 - Trimming timing constraints from pin
    U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
    I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   53].u_ramb36/U_RAMB36
-   of frag REGCLKAU connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   53].u_ramb36/U_RAMB36_REGCLKAU_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   53].u_ramb36/U_RAMB36
-   of frag REGCLKAL connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   53].u_ramb36/U_RAMB36_REGCLKAL_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   53].u_ramb36/U_RAMB36
-   of frag REGCLKBU connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   53].u_ramb36/U_RAMB36_REGCLKBU_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   53].u_ramb36/U_RAMB36
-   of frag REGCLKBL connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   53].u_ramb36/U_RAMB36_REGCLKBL_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   54].u_ramb36/U_RAMB36
-   of frag REGCLKAU connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   54].u_ramb36/U_RAMB36_REGCLKAU_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   54].u_ramb36/U_RAMB36
-   of frag REGCLKAL connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   54].u_ramb36/U_RAMB36_REGCLKAL_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   54].u_ramb36/U_RAMB36
-   of frag REGCLKBU connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   54].u_ramb36/U_RAMB36_REGCLKBU_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   54].u_ramb36/U_RAMB36
-   of frag REGCLKBL connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   54].u_ramb36/U_RAMB36_REGCLKBL_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   55].u_ramb36/U_RAMB36
-   of frag REGCLKAU connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   55].u_ramb36/U_RAMB36_REGCLKAU_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   55].u_ramb36/U_RAMB36
-   of frag REGCLKAL connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   55].u_ramb36/U_RAMB36_REGCLKAL_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   55].u_ramb36/U_RAMB36
-   of frag REGCLKBU connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   55].u_ramb36/U_RAMB36_REGCLKBU_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   55].u_ramb36/U_RAMB36
-   of frag REGCLKBL connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   55].u_ramb36/U_RAMB36_REGCLKBL_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   56].u_ramb36/U_RAMB36
-   of frag REGCLKAU connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   56].u_ramb36/U_RAMB36_REGCLKAU_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   56].u_ramb36/U_RAMB36
-   of frag REGCLKAL connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   56].u_ramb36/U_RAMB36_REGCLKAL_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   56].u_ramb36/U_RAMB36
-   of frag REGCLKBU connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   56].u_ramb36/U_RAMB36_REGCLKBU_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   56].u_ramb36/U_RAMB36
-   of frag REGCLKBL connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
-   56].u_ramb36/U_RAMB36_REGCLKBL_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[
    5].u_ramb36/U_RAMB36
    of frag REGCLKAU connected to power/ground net
    U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
@@ -3485,134 +3340,6 @@ WARNING:Pack:2874 - Trimming timing constraints from pin
 WARNING:Pack:2874 - Trimming timing constraints from pin
    U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
    I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   53].u_ramb36/U_RAMB36
-   of frag REGCLKAU connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   53].u_ramb36/U_RAMB36_REGCLKAU_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   53].u_ramb36/U_RAMB36
-   of frag REGCLKAL connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   53].u_ramb36/U_RAMB36_REGCLKAL_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   53].u_ramb36/U_RAMB36
-   of frag REGCLKBU connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   53].u_ramb36/U_RAMB36_REGCLKBU_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   53].u_ramb36/U_RAMB36
-   of frag REGCLKBL connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   53].u_ramb36/U_RAMB36_REGCLKBL_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   54].u_ramb36/U_RAMB36
-   of frag REGCLKAU connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   54].u_ramb36/U_RAMB36_REGCLKAU_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   54].u_ramb36/U_RAMB36
-   of frag REGCLKAL connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   54].u_ramb36/U_RAMB36_REGCLKAL_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   54].u_ramb36/U_RAMB36
-   of frag REGCLKBU connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   54].u_ramb36/U_RAMB36_REGCLKBU_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   54].u_ramb36/U_RAMB36
-   of frag REGCLKBL connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   54].u_ramb36/U_RAMB36_REGCLKBL_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   55].u_ramb36/U_RAMB36
-   of frag REGCLKAU connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   55].u_ramb36/U_RAMB36_REGCLKAU_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   55].u_ramb36/U_RAMB36
-   of frag REGCLKAL connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   55].u_ramb36/U_RAMB36_REGCLKAL_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   55].u_ramb36/U_RAMB36
-   of frag REGCLKBU connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   55].u_ramb36/U_RAMB36_REGCLKBU_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   55].u_ramb36/U_RAMB36
-   of frag REGCLKBL connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   55].u_ramb36/U_RAMB36_REGCLKBL_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   56].u_ramb36/U_RAMB36
-   of frag REGCLKAU connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   56].u_ramb36/U_RAMB36_REGCLKAU_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   56].u_ramb36/U_RAMB36
-   of frag REGCLKAL connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   56].u_ramb36/U_RAMB36_REGCLKAL_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   56].u_ramb36/U_RAMB36
-   of frag REGCLKBU connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   56].u_ramb36/U_RAMB36_REGCLKBU_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   56].u_ramb36/U_RAMB36
-   of frag REGCLKBL connected to power/ground net
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
-   56].u_ramb36/U_RAMB36_REGCLKBL_tiesig
-WARNING:Pack:2874 - Trimming timing constraints from pin
-   U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
-   I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[
    5].u_ramb36/U_RAMB36
    of frag REGCLKAU connected to power/ground net
    U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/
@@ -3945,7 +3672,7 @@ INFO:Pack:1650 - Map created a placed design.
 Section 4 - Removed Logic Summary
 ---------------------------------
  123 block(s) removed
- 129 block(s) optimized away
+ 125 block(s) optimized away
   20 signal(s) removed
  276 Block(s) redundant
 
@@ -4585,6 +4312,30 @@ LOCALBUF
 		U_ila_pro_0/U0/I_YES_D.U_ILA/U_TRIG/U_TM/G_NMU[0].U_M/U_MU/I_MUT_GAND.U_match/
 I_CS_GAND.U_CS_GAND_SRL/I_V5.U_CS_GAND_SRL_V5/I_USE_RPM_NE0.U_GAND_SRL_SET/I_PAR
 TIAL_SLICE.U_GAND_SRL_SLICE/I_IS_TERMINATION_SLICE_NE0.U_MUXF/MUXCY_L_BUF
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOS/calculate_pix_gain_i0/fixed2flo
+atrdy_internal_INV_206_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOS/calculate_pix_gain_i0/mulfprdy_
+internal_INV_208_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0/mu
+lfprdy_internal_INV_223_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_i0/mulfp
+rdy_internal_INV_237_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_i0/addfp
+rdy_internal_INV_239_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_i0/divfp
+rdy_internal_INV_241_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_i0/fixed
+2floatrdy_internal_INV_234_o1_INV_0
+INV
+		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/divfpr
+dy_internal_INV_247_o1_INV_0
 LUT1 		g0_fl2fi_temperature.inst_float2fixed_t/blk00000133
 LUT1 		g0_fl2fi_temperature.inst_float2fixed_t/blk00000134
 LUT1 		g0_fl2fi_temperature.inst_float2fixed_t/blk00000135
@@ -4650,38 +4401,14 @@ INV
 		melexis_mlx9064x_core_inst/inst_CalculatePixOS/calculate_pix_gain_i0/mem_pixga
 in_i0/Mmux_EN111_INV_0
 INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOS/calculate_pix_gain_i0/fixed2flo
-atrdy_internal_INV_206_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOS/calculate_pix_gain_i0/mulfprdy_
-internal_INV_208_o1_INV_0
-INV
 		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0/me
 m_offset_parameters_i0/Mmux_EN111_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_offset_parameters_i0/mu
-lfprdy_internal_INV_223_o1_INV_0
 INV
 		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_i0/mem_k
 ta_parameters_i0/Mmux_EN111_INV_0
 INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_i0/mulfp
-rdy_internal_INV_237_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_i0/addfp
-rdy_internal_INV_239_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_i0/divfp
-rdy_internal_INV_241_o1_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kta_parameters_i0/fixed
-2floatrdy_internal_INV_234_o1_INV_0
-INV
 		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/mem_kv
 _parameters_i0/Mmux_EN111_INV_0
-INV
-		melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/divfpr
-dy_internal_INV_247_o1_INV_0
 INV
 		melexis_mlx9064x_core_inst/inst_CalculateVirCompensated/mem_vir_compensated_i0
 /Mmux_EN111_INV_0
@@ -5013,7 +4740,7 @@ inst_subfp/hset
 Section 8 - Guide Report
 ------------------------
 
-Thu Nov 13 23:16:52 2025
+Fri Nov 14 18:51:07 2025
 
   Estimated SmartGuide Results
   ----------------------------
@@ -5021,11 +4748,11 @@ Thu Nov 13 23:16:52 2025
   components are components that were guided, but moved in order to satisfy
   timing requirements.
 
-    Estimated Percentage of guided Components                 |  31.7%
+    Estimated Percentage of guided Components                 |  99.9%
     Estimated Percentage of re-implemented Components         |   0.0%
-    Estimated Percentage of new/changed Components            |  68.3%
-    Estimated Percentage of fully guided Nets                 |  29.8%
-    Estimated Percentage of partially guided or unrouted Nets |  70.2%
+    Estimated Percentage of new/changed Components            |   0.1%
+    Estimated Percentage of fully guided Nets                 |  99.3%
+    Estimated Percentage of partially guided or unrouted Nets |   0.7%
 
   A detailed SmartGuide report (.GRF) can be generated during PAR by
   specifying the [-smartguide <guidefile[.ncd]>] switch on the PAR
@@ -5073,8 +4800,8 @@ Section 12 - Control Set Information
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | U_icon_pro/U0/iUPDATE_OUT          | U_icon_pro/U0/U_ICON/iSEL_n                                                                           |                                         |                                                                                                   | 1                | 1              |
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| i_clock_BUFGP                      |                                                                                                       |                                         |                                                                                                   | 39               | 129            |
-| i_clock_BUFGP                      |                                                                                                       |                                         | GLOBAL_LOGIC1                                                                                     | 15               | 57             |
+| i_clock_BUFGP                      |                                                                                                       |                                         |                                                                                                   | 37               | 121            |
+| i_clock_BUFGP                      |                                                                                                       |                                         | GLOBAL_LOGIC1                                                                                     | 14               | 53             |
 | i_clock_BUFGP                      |                                                                                                       |                                         | _n0554_inv                                                                                        | 4                | 13             |
 | i_clock_BUFGP                      |                                                                                                       |                                         | _n0613_inv                                                                                        | 1                | 1              |
 | i_clock_BUFGP                      |                                                                                                       |                                         | _n0617_inv                                                                                        | 3                | 10             |
@@ -5541,7 +5268,7 @@ Section 13 - Utilization by Hierarchy
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Module                                                                  | Partition | Slices*       | Slice Reg     | LUTs          | LUTRAM        | BRAM/FIFO | DSP48E  | BUFG  | BUFIO | BUFR  | DCM_ADV   | PLL_ADV   | Full Hierarchical Name                                                                                                                                                                                                             |
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| test1/                                                                  |           | 201/5684      | 238/8387      | 461/11172     | 0/241         | 0/137     | 0/7     | 2/4   | 0/0   | 0/0   | 0/0       | 0/0       | test1                                                                                                                                                                                                                              |
+| test1/                                                                  |           | 201/5672      | 238/8379      | 461/11160     | 0/237         | 0/129     | 0/7     | 2/4   | 0/0   | 0/0   | 0/0       | 0/0       | test1                                                                                                                                                                                                                              |
 | +U_icon_pro                                                             |           | 0/57          | 0/28          | 0/70          | 0/0           | 0/0       | 0/0     | 0/1   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_icon_pro                                                                                                                                                                                                                   |
 | ++U0                                                                    |           | 0/57          | 0/28          | 0/70          | 0/0           | 0/0       | 0/0     | 0/1   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_icon_pro/U0                                                                                                                                                                                                                |
 | +++U_ICON                                                               |           | 4/57          | 3/28          | 2/70          | 0/0           | 0/0       | 0/0     | 0/1   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_icon_pro/U0/U_ICON                                                                                                                                                                                                         |
@@ -5557,35 +5284,19 @@ Section 13 - Utilization by Hierarchy
 | ++++U_TDO_MUX                                                           |           | 0/1           | 0/0           | 0/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_icon_pro/U0/U_ICON/U_TDO_MUX                                                                                                                                                                                               |
 | +++++U_CS_MUX                                                           |           | 0/1           | 0/0           | 0/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_icon_pro/U0/U_ICON/U_TDO_MUX/U_CS_MUX                                                                                                                                                                                      |
 | ++++++I4.U_MUX16                                                        |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_icon_pro/U0/U_ICON/U_TDO_MUX/U_CS_MUX/I4.U_MUX16                                                                                                                                                                           |
-| +U_ila_pro_0                                                            |           | 0/228         | 0/355         | 0/288         | 0/113         | 0/114     | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0                                                                                                                                                                                                                  |
-| ++U0                                                                    |           | 15/228        | 58/355        | 0/288         | 0/113         | 0/114     | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0                                                                                                                                                                                                               |
-| +++I_YES_D.U_ILA                                                        |           | 1/213         | 0/297         | 1/288         | 0/113         | 0/114     | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA                                                                                                                                                                                                 |
-| ++++I_DQ.U_DQQ                                                          |           | 14/14         | 56/56         | 56/56         | 56/56         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/I_DQ.U_DQQ                                                                                                                                                                                      |
-| ++++U_CAPSTOR                                                           |           | 0/36          | 0/29          | 0/65          | 0/0           | 0/114     | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR                                                                                                                                                                                       |
-| +++++I_CASE1.I_YES_TB.U_TRACE_BUFFER                                    |           | 1/36          | 0/29          | 1/65          | 0/0           | 0/114     | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER                                                                                                                                                       |
+| +U_ila_pro_0                                                            |           | 0/217         | 0/347         | 0/276         | 0/109         | 0/106     | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0                                                                                                                                                                                                                  |
+| ++U0                                                                    |           | 14/217        | 54/347        | 0/276         | 0/109         | 0/106     | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0                                                                                                                                                                                                               |
+| +++I_YES_D.U_ILA                                                        |           | 1/203         | 0/293         | 1/276         | 0/109         | 0/106     | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA                                                                                                                                                                                                 |
+| ++++I_DQ.U_DQQ                                                          |           | 13/13         | 52/52         | 52/52         | 52/52         | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/I_DQ.U_DQQ                                                                                                                                                                                      |
+| ++++U_CAPSTOR                                                           |           | 0/27          | 0/29          | 0/57          | 0/0           | 0/106     | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR                                                                                                                                                                                       |
+| +++++I_CASE1.I_YES_TB.U_TRACE_BUFFER                                    |           | 0/27          | 0/29          | 0/57          | 0/0           | 0/106     | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER                                                                                                                                                       |
 | ++++++I_SINGLE_ROW.U_RD_COL_ADDR                                        |           | 1/4           | 0/6           | 1/8           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/I_SINGLE_ROW.U_RD_COL_ADDR                                                                                                                            |
 | +++++++I_WIDTH_6.u_tc                                                   |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/I_SINGLE_ROW.U_RD_COL_ADDR/I_WIDTH_6.u_tc                                                                                                             |
 | +++++++u_cnt                                                            |           | 2/2           | 6/6           | 6/6           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/I_SINGLE_ROW.U_RD_COL_ADDR/u_cnt                                                                                                                      |
 | ++++++I_SINGLE_ROW.U_RD_COL_ADDR_DLY                                    |           | 2/2           | 6/6           | 0/0           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/I_SINGLE_ROW.U_RD_COL_ADDR_DLY                                                                                                                        |
-| ++++++U_RAM                                                             |           | 0/10          | 0/1           | 0/10          | 0/0           | 0/114     | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM                                                                                                                                                 |
-| +++++++I_V5.U_CS_BRAM_CASCADE_V5                                        |           | 1/10          | 0/1           | 2/10          | 0/0           | 0/114     | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5                                                                                                                       |
-| ++++++++I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[48].U_MUX                   |           | 0/1           | 0/0           | 0/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[48].U_MUX                                                                         |
-| +++++++++I1.U_MUX2                                                      |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[48].U_MUX/I1.U_MUX2                                                               |
-| ++++++++I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[49].U_MUX                   |           | 0/1           | 0/0           | 0/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[49].U_MUX                                                                         |
-| +++++++++I1.U_MUX2                                                      |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[49].U_MUX/I1.U_MUX2                                                               |
-| ++++++++I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[50].U_MUX                   |           | 0/1           | 0/0           | 0/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[50].U_MUX                                                                         |
-| +++++++++I1.U_MUX2                                                      |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[50].U_MUX/I1.U_MUX2                                                               |
-| ++++++++I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[51].U_MUX                   |           | 0/1           | 0/0           | 0/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[51].U_MUX                                                                         |
-| +++++++++I1.U_MUX2                                                      |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[51].U_MUX/I1.U_MUX2                                                               |
-| ++++++++I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[52].U_MUX                   |           | 0/1           | 0/0           | 0/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[52].U_MUX                                                                         |
-| +++++++++I1.U_MUX2                                                      |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[52].U_MUX/I1.U_MUX2                                                               |
-| ++++++++I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[53].U_MUX                   |           | 0/1           | 0/0           | 0/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[53].U_MUX                                                                         |
-| +++++++++I1.U_MUX2                                                      |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[53].U_MUX/I1.U_MUX2                                                               |
-| ++++++++I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[54].U_MUX                   |           | 0/1           | 0/0           | 0/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[54].U_MUX                                                                         |
-| +++++++++I1.U_MUX2                                                      |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[54].U_MUX/I1.U_MUX2                                                               |
-| ++++++++I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[55].U_MUX                   |           | 0/1           | 0/0           | 0/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[55].U_MUX                                                                         |
-| +++++++++I1.U_MUX2                                                      |           | 1/1           | 0/0           | 1/1           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.G_RD_DATA_MUX[55].U_MUX/I1.U_MUX2                                                               |
-| ++++++++I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0                                 |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/57      | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0                                                                                       |
+| ++++++U_RAM                                                             |           | 0/2           | 0/1           | 0/2           | 0/0           | 0/106     | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM                                                                                                                                                 |
+| +++++++I_V5.U_CS_BRAM_CASCADE_V5                                        |           | 1/2           | 0/1           | 2/2           | 0/0           | 0/106     | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5                                                                                                                       |
+| ++++++++I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0                                 |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/53      | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0                                                                                       |
 | +++++++++I_B36KGT0.G_RAMB36[0].u_ramb36                                 |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[0].u_ramb36                                                        |
 | +++++++++I_B36KGT0.G_RAMB36[10].u_ramb36                                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[10].u_ramb36                                                       |
 | +++++++++I_B36KGT0.G_RAMB36[11].u_ramb36                                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[11].u_ramb36                                                       |
@@ -5634,16 +5345,12 @@ Section 13 - Utilization by Hierarchy
 | +++++++++I_B36KGT0.G_RAMB36[50].u_ramb36                                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[50].u_ramb36                                                       |
 | +++++++++I_B36KGT0.G_RAMB36[51].u_ramb36                                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[51].u_ramb36                                                       |
 | +++++++++I_B36KGT0.G_RAMB36[52].u_ramb36                                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[52].u_ramb36                                                       |
-| +++++++++I_B36KGT0.G_RAMB36[53].u_ramb36                                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[53].u_ramb36                                                       |
-| +++++++++I_B36KGT0.G_RAMB36[54].u_ramb36                                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[54].u_ramb36                                                       |
-| +++++++++I_B36KGT0.G_RAMB36[55].u_ramb36                                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[55].u_ramb36                                                       |
-| +++++++++I_B36KGT0.G_RAMB36[56].u_ramb36                                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[56].u_ramb36                                                       |
 | +++++++++I_B36KGT0.G_RAMB36[5].u_ramb36                                 |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[5].u_ramb36                                                        |
 | +++++++++I_B36KGT0.G_RAMB36[6].u_ramb36                                 |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[6].u_ramb36                                                        |
 | +++++++++I_B36KGT0.G_RAMB36[7].u_ramb36                                 |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[7].u_ramb36                                                        |
 | +++++++++I_B36KGT0.G_RAMB36[8].u_ramb36                                 |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[8].u_ramb36                                                        |
 | +++++++++I_B36KGT0.G_RAMB36[9].u_ramb36                                 |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_0/I_B36KGT0.G_RAMB36[9].u_ramb36                                                        |
-| ++++++++I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1                                 |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/57      | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1                                                                                       |
+| ++++++++I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1                                 |           | 0/0           | 0/0           | 0/0           | 0/0           | 0/53      | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1                                                                                       |
 | +++++++++I_B36KGT0.G_RAMB36[0].u_ramb36                                 |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[0].u_ramb36                                                        |
 | +++++++++I_B36KGT0.G_RAMB36[10].u_ramb36                                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[10].u_ramb36                                                       |
 | +++++++++I_B36KGT0.G_RAMB36[11].u_ramb36                                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[11].u_ramb36                                                       |
@@ -5692,18 +5399,14 @@ Section 13 - Utilization by Hierarchy
 | +++++++++I_B36KGT0.G_RAMB36[50].u_ramb36                                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[50].u_ramb36                                                       |
 | +++++++++I_B36KGT0.G_RAMB36[51].u_ramb36                                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[51].u_ramb36                                                       |
 | +++++++++I_B36KGT0.G_RAMB36[52].u_ramb36                                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[52].u_ramb36                                                       |
-| +++++++++I_B36KGT0.G_RAMB36[53].u_ramb36                                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[53].u_ramb36                                                       |
-| +++++++++I_B36KGT0.G_RAMB36[54].u_ramb36                                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[54].u_ramb36                                                       |
-| +++++++++I_B36KGT0.G_RAMB36[55].u_ramb36                                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[55].u_ramb36                                                       |
-| +++++++++I_B36KGT0.G_RAMB36[56].u_ramb36                                |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[56].u_ramb36                                                       |
 | +++++++++I_B36KGT0.G_RAMB36[5].u_ramb36                                 |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[5].u_ramb36                                                        |
 | +++++++++I_B36KGT0.G_RAMB36[6].u_ramb36                                 |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[6].u_ramb36                                                        |
 | +++++++++I_B36KGT0.G_RAMB36[7].u_ramb36                                 |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[7].u_ramb36                                                        |
 | +++++++++I_B36KGT0.G_RAMB36[8].u_ramb36                                 |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[8].u_ramb36                                                        |
 | +++++++++I_B36KGT0.G_RAMB36[9].u_ramb36                                 |           | 0/0           | 0/0           | 0/0           | 0/0           | 1/1       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.U_SBRAM_1/I_B36KGT0.G_RAMB36[9].u_ramb36                                                        |
 | ++++++++I_DEPTH_EQ_48K_OR_64K.u_msb_rd_addr                             |           | 1/1           | 1/1           | 0/0           | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_V5.U_CS_BRAM_CASCADE_V5/I_DEPTH_EQ_48K_OR_64K.u_msb_rd_addr                                                                                   |
-| ++++++U_RD_COL_MUX                                                      |           | 0/15          | 0/0           | 0/30          | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RD_COL_MUX                                                                                                                                          |
-| +++++++I6.U_MUX64                                                       |           | 15/15         | 0/0           | 30/30         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RD_COL_MUX/I6.U_MUX64                                                                                                                               |
+| ++++++U_RD_COL_MUX                                                      |           | 0/15          | 0/0           | 0/31          | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RD_COL_MUX                                                                                                                                          |
+| +++++++I6.U_MUX64                                                       |           | 15/15         | 0/0           | 31/31         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RD_COL_MUX/I6.U_MUX64                                                                                                                               |
 | ++++++U_RD_ROW_ADDR                                                     |           | 4/4           | 16/16         | 16/16         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RD_ROW_ADDR                                                                                                                                         |
 | ++++U_G2_SQ.U_CAPCTRL                                                   |           | 7/48          | 7/90          | 4/86          | 0/32          | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_G2_SQ.U_CAPCTRL                                                                                                                                                                               |
 | +++++I_SRLT_NE_1.U_CDONE                                                |           | 2/2           | 1/1           | 2/2           | 2/2           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/U_ila_pro_0/U0/I_YES_D.U_ILA/U_G2_SQ.U_CAPCTRL/I_SRLT_NE_1.U_CDONE                                                                                                                                                           |
@@ -5861,7 +5564,7 @@ Section 13 - Utilization by Hierarchy
 | +inst_mulfp                                                             |           | 56/56         | 116/116       | 108/108       | 16/16         | 0/0       | 3/3     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/inst_mulfp                                                                                                                                                                                                                   |
 | +inst_subfp                                                             |           | 117/117       | 338/338       | 261/261       | 15/15         | 0/0       | 2/2     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/inst_subfp                                                                                                                                                                                                                   |
 | +melexis_mlx90640_i2c_i0                                                |           | 121/121       | 130/130       | 225/225       | 1/1           | 0/0       | 0/0     | 1/1   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx90640_i2c_i0                                                                                                                                                                                                      |
-| +melexis_mlx9064x_core_inst                                             |           | 1348/3989     | 27/4312       | 2838/7844     | 0/0           | 0/21      | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst                                                                                                                                                                                                   |
+| +melexis_mlx9064x_core_inst                                             |           | 1347/3988     | 27/4312       | 2838/7844     | 0/0           | 0/21      | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst                                                                                                                                                                                                   |
 | ++g_calculate_to.calculate_to_i0                                        |           | 315/331       | 416/416       | 763/795       | 0/0           | 0/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0                                                                                                                                                                    |
 | +++mem_calculate_to_i0                                                  |           | 16/16         | 0/0           | 32/32         | 0/0           | 2/2       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/g_calculate_to.calculate_to_i0/mem_calculate_to_i0                                                                                                                                                |
 | ++inst_CalculateAlphaCP                                                 |           | 78/78         | 230/230       | 30/30         | 0/0           | 0/0       | 0/0     | 0/0   | 0/0   | 0/0   | 0/0       | 0/0       | test1/melexis_mlx9064x_core_inst/inst_CalculateAlphaCP                                                                                                                                                                             |
