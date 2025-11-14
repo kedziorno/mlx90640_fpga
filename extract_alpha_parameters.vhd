@@ -585,8 +585,8 @@ begin
           fixed2floatond_internal <= '1';
           fixed2floata_internal <= valphaRef & i2c_mem_douta_i; -- alpha_reference lsb
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2420_msb, 12)); -- acc_scale_row
-          o_signed6bit_ena <= '0';
           if (fixed2floatrdy_internal = '1') then state := s8;
+            o_signed6bit_ena <= '0';
             tascale := i2c_mem_douta_i (7 downto 4);
             tarow := i2c_mem_douta_i (3 downto 0);
             --synthesis translate_off
@@ -635,6 +635,7 @@ begin
           addfpa_internal <= mulfpr_internal; -- s8
           addfpb_internal <= x"00000000";
           addfpond_internal <= '1';
+          o_2powx_4bit_adr <= tarem;
           if (addfprdy_internal = '1') then state := s13;
             tacol := i2c_mem_douta_i (7 downto 4);
             tarem := i2c_mem_douta_i (3 downto 0);
@@ -645,7 +646,6 @@ begin
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            o_2powx_4bit_adr <= tarem;
           else state := s11; end if;
         when s13 =>
           addfpsclr_internal <= '0';
@@ -677,6 +677,7 @@ begin
           --report_error("accColumnJ", vaccColumnJ, 0.0);
           addra <= std_logic_vector (to_unsigned (col+C_ROWS, 10)); -- accrowI
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2420_msb, 12));
+          o_2powx_4bit_adr <= tacol;
           if (addfprdy_internal = '1') then state := s16;
             --synthesis translate_off
             --report "address col " & integer'image (col);
@@ -687,7 +688,6 @@ begin
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            o_2powx_4bit_adr <= tacol;
           else state := s14; end if;
         when s16 =>
           addfpsclr_internal <= '0';
@@ -739,12 +739,12 @@ begin
           addfpond_internal <= '1';
           --report_error("AlphaPixel", vAlphaPixel_ft, 0.0);
           --report_error("alphaReference", fixed2floatr_internal, 0.0);
+          o_alphascale_1_ena <= '1';
+          o_alphascale_1_adr <= tascale;
           if (addfprdy_internal = '1') then state := s22;
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            o_alphascale_1_ena <= '1';
-            o_alphascale_1_adr <= tascale;
           else state := s20; end if;
         when s22 =>
           addfpsclr_internal <= '0';
