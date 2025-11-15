@@ -1202,31 +1202,31 @@ test_fixed_melexis_run <= '0';
 --            some_wait := some_wait + 1;
 --            state <= s10;
 --          end if;
-when others => null;
+when others => state <= idle;
 			end case;
 		end if;
 	end if;
 end process pTo;
 
-
-pvgaclk : process (i_clock,i_reset) is
-	constant CMAX : integer := 1; -- 50/25
---	constant CMAX : integer := 2; -- 100/25
-	variable vmax : integer range 0 to CMAX-1;
-begin
-		if (i_reset = '1') then
-			vgaclk25 <= '0';
-			vmax := 0;
-		elsif (rising_edge (i_clock)) then
-			if (vmax = CMAX-1) then
-				vgaclk25 <= not vgaclk25;
-				vmax := 0;
-			else
-				vgaclk25 <= vgaclk25;
-				vmax := vmax + 1;
-			end if;
-		end if;
-end process pvgaclk;
+vgaclk25 <= i_clock; -- 25 mhz
+--pvgaclk : process (i_clock,i_reset) is
+--	constant CMAX : integer := 1; -- 50/25
+----	constant CMAX : integer := 2; -- 100/25
+--	variable vmax : integer range 0 to CMAX-1;
+--begin
+--		if (i_reset = '1') then
+--			vgaclk25 <= '0';
+--			vmax := 0;
+--		elsif (rising_edge (i_clock)) then
+--			if (vmax = CMAX-1) then
+--				vgaclk25 <= not vgaclk25;
+--				vmax := 0;
+--			else
+--				vgaclk25 <= vgaclk25;
+--				vmax := vmax + 1;
+--			end if;
+--		end if;
+--end process pvgaclk;
 
 pagclk : process (vgaclk25,i_reset) is
 --	constant CMAX : integer := 40; -- 1.25
