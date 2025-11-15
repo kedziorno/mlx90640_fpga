@@ -269,9 +269,11 @@ divfpr_internal <= divfpr;
 divfprdy_internal <= divfprdy;
 
 o_rdy <= rdy;
-o_do <= doa when rdy = '1' else (others => '0');
+--o_do <= doa when rdy = '1' else (others => '0');
+o_do <= doa;
 mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0');
-mux_dia <= dia when rdy = '0' else (others => '0');
+--mux_dia <= dia when rdy = '0' else (others => '0');
+mux_dia <= dia;
 
 cole <= '1' when (col mod 2) = 0 else '0' when (col mod 2) = 1 else '0'; -- column even
 rowe <= '1' when (row mod 2) = 0 else '0' when (row mod 2) = 1 else '0'; -- row even

@@ -280,9 +280,11 @@ i2c_mem_addra <= i2c_mem_addra_internal;
 i2c_mem_douta_internal <= i2c_mem_douta;
 
 o_rdy <= rdy;
-o_do <= doa when rdy = '1' else (others => '0');
+--o_do <= doa when rdy = '1' else (others => '0');
+o_do <= doa;
 mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0');
-mux_dia <= dia when rdy = '0' else (others => '0');
+--mux_dia <= dia when rdy = '0' else (others => '0');
+mux_dia <= dia;
 
 p0 : process (i_clock) is
 	constant PIXGAIN_ST : integer := 1665; -- pixgain start - eeprom max + 1

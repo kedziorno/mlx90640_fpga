@@ -3,32 +3,33 @@ Xilinx Mapping Report File for Design 'test1'
 
 Design Information
 ------------------
-Command Line   : map -intstyle ise -p xc3s1200e-fg320-4 -timing -logic_opt off
--ol std -t 1 -register_duplication off -cm area -ir off -pr off -power off -o
-test1_map.ncd test1.ngd test1.pcf 
+Command Line   : map -intstyle ise -p xc3s1200e-fg320-4 -cm area -ir off -pr off
+-c 100 -smartguide
+/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1_guide.ncd -o test1_map.ncd
+test1.ngd test1.pcf 
 Target Device  : xc3s1200e
 Target Package : fg320
 Target Speed   : -4
 Mapper Version : spartan3e -- $Revision: 1.55 $
-Mapped Date    : Sat Nov 15 20:19:10 2025
+Mapped Date    : Sat Nov 15 22:41:32 2025
 
 Design Summary
 --------------
 Number of errors:      0
-Number of warnings:    5
+Number of warnings:    3
 Logic Utilization:
-  Total Number Slice Registers:       8,652 out of  17,344   49%
-    Number used as Flip Flops:        8,651
+  Total Number Slice Registers:       8,673 out of  17,344   50%
+    Number used as Flip Flops:        8,672
     Number used as Latches:               1
-  Number of 4 input LUTs:            13,488 out of  17,344   77%
+  Number of 4 input LUTs:            13,092 out of  17,344   75%
 Logic Distribution:
-  Number of occupied Slices:          7,904 out of   8,672   91%
-    Number of Slices containing only related logic:   7,904 out of   7,904 100%
-    Number of Slices containing unrelated logic:          0 out of   7,904   0%
+  Number of occupied Slices:          7,465 out of   8,672   86%
+    Number of Slices containing only related logic:   7,465 out of   7,465 100%
+    Number of Slices containing unrelated logic:          0 out of   7,465   0%
       *See NOTES below for an explanation of the effects of unrelated logic.
-  Total Number of 4 input LUTs:      13,864 out of  17,344   79%
-    Number used as logic:            13,169
-    Number used as a route-thru:        376
+  Total Number of 4 input LUTs:      13,484 out of  17,344   77%
+    Number used as logic:            12,773
+    Number used as a route-thru:        392
     Number used as Shift registers:     319
 
   The Slice Logic Distribution report is not meaningful if the design is
@@ -40,11 +41,11 @@ Logic Distribution:
   Number of BSCANs:                       1 out of       1  100%
 
   Number of RPM macros:           12
-Average Fanout of Non-Clock Nets:                3.41
+Average Fanout of Non-Clock Nets:                3.42
 
-Peak Memory Usage:  927 MB
-Total REAL time to MAP completion:  55 secs 
-Total CPU time to MAP completion:   54 secs 
+Peak Memory Usage:  1062 MB
+Total REAL time to MAP completion:  33 secs 
+Total CPU time to MAP completion:   33 secs 
 
 Table of Contents
 -----------------
@@ -67,41 +68,21 @@ Section 1 - Errors
 
 Section 2 - Warnings
 --------------------
+WARNING:Map:120 - The command line option -c can not be used when running in
+   timing mode.  The option will be ignored.
 WARNING:Pack:1185 - One or more I/O components have an illegal combination of
    property values.  For each occurrence, the system will choose sensible
    defaults.  To view each occurrence, create a detailed map report (run map
    using the -detail option).
-WARNING:Place:837 - Partially locked IO Bus is found. 
-    Following components of the bus are not locked: 
-   	 Comp: vga_b<7>
-   	 Comp: vga_b<6>
-   	 Comp: vga_b<5>
-   	 Comp: vga_b<4>
-   	 Comp: vga_b<3>
-   	 Comp: vga_b<2>
-
-WARNING:Place:837 - Partially locked IO Bus is found. 
-    Following components of the bus are not locked: 
-   	 Comp: vga_g<7>
-   	 Comp: vga_g<6>
-   	 Comp: vga_g<5>
-   	 Comp: vga_g<1>
-   	 Comp: vga_g<0>
-
-WARNING:Place:837 - Partially locked IO Bus is found. 
-    Following components of the bus are not locked: 
-   	 Comp: vga_r<4>
-   	 Comp: vga_r<3>
-   	 Comp: vga_r<2>
-   	 Comp: vga_r<1>
-   	 Comp: vga_r<0>
-
 WARNING:PhysDesignRules:372 - Gated clock. Clock net icon_control0<13> is
    sourced by a combinatorial pin. This is not good design practice. Use the CE
    pin to control the loading of data into the flip-flop.
 
 Section 3 - Informational
 -------------------------
+INFO:Map:192 - SmartGuide automatically enables -timing. If SmartGuide is
+   disabled, -timing should be enabled if the resulting design will be used as a
+   guide file during a later run.
 INFO:LIT:243 - Logical network icon_control0<10> has no load.
 INFO:LIT:395 - The above info message is repeated 29 more times for the
    following (max. 5 shown):
@@ -112,25 +93,22 @@ INFO:LIT:395 - The above info message is repeated 29 more times for the
    icon_control0<22>
    To see the details of these info messages, please use the -detail switch.
 INFO:MapLib:562 - No environment variables are currently set.
+INFO:MapLib:980 - The following NGM file is used during SmartGuide:
+   "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1_map.ngm". The NGM file
+   contains information on how the guide file was originally mapped. It is
+   required for the best SmartGuide results.
 INFO:MapLib:159 - Net Timing constraints on signal i_clock are pushed forward
    through input buffer.
 INFO:LIT:244 - All of the single ended outputs in this design are using slew
    rate limited output drivers. The delay on speed critical single ended outputs
    can be dramatically reduced by designating them as fast outputs.
-INFO:Pack:1716 - Initializing temperature to 85.000 Celsius. (default - Range:
-   -40.000 to 100.000 Celsius)
-INFO:Pack:1720 - Initializing voltage to 1.140 Volts. (default - Range: 1.140 to
-   1.320 Volts)
-INFO:Place:834 - Only a subset of IOs are locked. Out of 53 IOs, 12 are locked
-   and 41 are not locked. If you would like to print the names of these IOs,
-   please set the environment variable XIL_PAR_DESIGN_CHECK_VERBOSE to 1. 
 INFO:Pack:1650 - Map created a placed design.
 
 Section 4 - Removed Logic Summary
 ---------------------------------
  164 block(s) removed
- 238 block(s) optimized away
- 167 signal(s) removed
+ 226 block(s) optimized away
+ 160 signal(s) removed
 
 Section 5 - Removed Logic
 -------------------------
@@ -181,6 +159,78 @@ Loadless block "b0.inst_fixed2float/blk0000001d" (MUX) removed.
   Loadless block "b0.inst_fixed2float/blk000000fc" (ROM) removed.
  The signal "b0.inst_fixed2float/sig0000005c" is loadless and has been removed.
   Loadless block "b0.inst_fixed2float/blk000000fb" (ROM) removed.
+Loadless block "inst_addfp/blk00000284" (MUX) removed.
+ The signal "inst_addfp/sig00000463" is loadless and has been removed.
+  Loadless block "inst_addfp/blk0000035e" (ROM) removed.
+ The signal "inst_addfp/sig00000464" is loadless and has been removed.
+  Loadless block "inst_addfp/blk0000035d" (ROM) removed.
+   The signal "inst_addfp/sig00000451" is loadless and has been removed.
+    Loadless block "inst_addfp/blk000002a9" (FF) removed.
+     The signal "inst_addfp/sig0000045c" is loadless and has been removed.
+      Loadless block "inst_addfp/blk000002a2" (MUX) removed.
+       The signal "inst_addfp/sig00000455" is loadless and has been removed.
+        Loadless block "inst_addfp/blk000003b8" (ROM) removed.
+Loadless block "inst_float2fixed/blk00000089" (FF) removed.
+ The signal "inst_float2fixed/sig0000008e" is loadless and has been removed.
+  Loadless block "inst_float2fixed/blk00000083" (MUX) removed.
+   The signal "inst_float2fixed/sig0000008d" is loadless and has been removed.
+    Loadless block "inst_float2fixed/blk00000084" (MUX) removed.
+     The signal "inst_float2fixed/sig0000008c" is loadless and has been removed.
+      Loadless block "inst_float2fixed/blk00000085" (MUX) removed.
+       The signal "inst_float2fixed/sig0000008b" is loadless and has been removed.
+        Loadless block "inst_float2fixed/blk00000086" (MUX) removed.
+         The signal "inst_float2fixed/sig0000008a" is loadless and has been removed.
+          Loadless block "inst_float2fixed/blk00000087" (MUX) removed.
+           The signal "inst_float2fixed/sig00000089" is loadless and has been removed.
+            Loadless block "inst_float2fixed/blk00000088" (MUX) removed.
+             The signal "inst_float2fixed/sig0000008f" is loadless and has been removed.
+              Loadless block "inst_float2fixed/blk000000bc" (ROM) removed.
+         The signal "inst_float2fixed/sig00000091" is loadless and has been removed.
+          Loadless block "inst_float2fixed/blk000000bb" (ROM) removed.
+       The signal "inst_float2fixed/sig00000092" is loadless and has been removed.
+        Loadless block "inst_float2fixed/blk000000ae" (ROM) removed.
+   The signal "inst_float2fixed/sig00000094" is loadless and has been removed.
+    Loadless block "inst_float2fixed/blk000000aa" (ROM) removed.
+Loadless block "inst_mulfp/blk0000012b" (FF) removed.
+ The signal "inst_mulfp/sig00000150" is loadless and has been removed.
+  Loadless block "inst_mulfp/blk0000012a" (XOR) removed.
+   The signal "inst_mulfp/sig0000011a" is loadless and has been removed.
+    Loadless block "inst_mulfp/blk00000127" (MUX) removed.
+   The signal "inst_mulfp/sig00000135" is loadless and has been removed.
+    Loadless block "inst_mulfp/blk00000129" (ROM) removed.
+     The signal "inst_mulfp/sig0000090e" is loadless and has been removed.
+      Loadless block "inst_mulfp/blk000001ee" (FF) removed.
+       The signal "inst_mulfp/sig000002b8" is loadless and has been removed.
+Loadless block "inst_mulfp/blk00000416" (SFF) removed.
+ The signal "inst_mulfp/sig0000075c" is loadless and has been removed.
+  Loadless block "inst_mulfp/blk00000415" (XOR) removed.
+   The signal "inst_mulfp/sig00000711" is loadless and has been removed.
+    Loadless block "inst_mulfp/blk00000411" (MUX) removed.
+     The signal "inst_mulfp/sig00000710" is loadless and has been removed.
+      Loadless block "inst_mulfp/blk0000040d" (MUX) removed.
+       The signal "inst_mulfp/sig00000729" is loadless and has been removed.
+        Loadless block "inst_mulfp/blk0000040c" (AND) removed.
+     The signal "inst_mulfp/sig0000072a" is loadless and has been removed.
+      Loadless block "inst_mulfp/blk00000410" (AND) removed.
+     The signal "inst_mulfp/sig00000743" is loadless and has been removed.
+      Loadless block "inst_mulfp/blk0000040f" (ROM) removed.
+   The signal "inst_mulfp/sig00000744" is loadless and has been removed.
+    Loadless block "inst_mulfp/blk00000413" (ROM) removed.
+ The signal "inst_mulfp/sig0000071a" is loadless and has been removed.
+Loadless block "inst_mulfp/blk00000417" (SFF) removed.
+ The signal "inst_mulfp/sig0000075b" is loadless and has been removed.
+  Loadless block "inst_mulfp/blk00000412" (XOR) removed.
+Loadless block "inst_subfp/blk00000284" (MUX) removed.
+ The signal "inst_subfp/sig00000464" is loadless and has been removed.
+  Loadless block "inst_subfp/blk0000035e" (ROM) removed.
+ The signal "inst_subfp/sig00000465" is loadless and has been removed.
+  Loadless block "inst_subfp/blk0000035d" (ROM) removed.
+   The signal "inst_subfp/sig00000452" is loadless and has been removed.
+    Loadless block "inst_subfp/blk000002a9" (FF) removed.
+     The signal "inst_subfp/sig0000045d" is loadless and has been removed.
+      Loadless block "inst_subfp/blk000002a2" (MUX) removed.
+       The signal "inst_subfp/sig00000456" is loadless and has been removed.
+        Loadless block "inst_subfp/blk000003b8" (ROM) removed.
 Loadless block "inst_addfp/blk00000217" (XOR) removed.
  The signal "inst_addfp/sig000004fd" is loadless and has been removed.
   Loadless block "inst_addfp/blk00000219" (MUX) removed.
@@ -209,17 +259,6 @@ Loadless block "inst_addfp/blk0000021e" (XOR) removed.
 Loadless block "inst_addfp/blk00000220" (XOR) removed.
 Loadless block "inst_addfp/blk00000222" (XOR) removed.
 Loadless block "inst_addfp/blk00000224" (XOR) removed.
-Loadless block "inst_addfp/blk00000284" (MUX) removed.
- The signal "inst_addfp/sig00000463" is loadless and has been removed.
-  Loadless block "inst_addfp/blk0000035e" (ROM) removed.
- The signal "inst_addfp/sig00000464" is loadless and has been removed.
-  Loadless block "inst_addfp/blk0000035d" (ROM) removed.
-   The signal "inst_addfp/sig00000451" is loadless and has been removed.
-    Loadless block "inst_addfp/blk000002a9" (FF) removed.
-     The signal "inst_addfp/sig0000045c" is loadless and has been removed.
-      Loadless block "inst_addfp/blk000002a2" (MUX) removed.
-       The signal "inst_addfp/sig00000455" is loadless and has been removed.
-        Loadless block "inst_addfp/blk000003b8" (ROM) removed.
 Loadless block "inst_divfp/blk00000244" (XOR) removed.
 Loadless block "inst_divfp/blk00000246" (XOR) removed.
 Loadless block "inst_divfp/blk00000248" (XOR) removed.
@@ -249,58 +288,8 @@ Loadless block "inst_float2fixed/blk00000028" (XOR) removed.
 Loadless block "inst_float2fixed/blk0000003b" (XOR) removed.
  The signal "inst_float2fixed/sig000000c9" is loadless and has been removed.
   Loadless block "inst_float2fixed/blk00000039" (MUX) removed.
-Loadless block "inst_float2fixed/blk00000089" (FF) removed.
- The signal "inst_float2fixed/sig0000008e" is loadless and has been removed.
-  Loadless block "inst_float2fixed/blk00000083" (MUX) removed.
-   The signal "inst_float2fixed/sig0000008d" is loadless and has been removed.
-    Loadless block "inst_float2fixed/blk00000084" (MUX) removed.
-     The signal "inst_float2fixed/sig0000008c" is loadless and has been removed.
-      Loadless block "inst_float2fixed/blk00000085" (MUX) removed.
-       The signal "inst_float2fixed/sig0000008b" is loadless and has been removed.
-        Loadless block "inst_float2fixed/blk00000086" (MUX) removed.
-         The signal "inst_float2fixed/sig0000008a" is loadless and has been removed.
-          Loadless block "inst_float2fixed/blk00000087" (MUX) removed.
-           The signal "inst_float2fixed/sig00000089" is loadless and has been removed.
-            Loadless block "inst_float2fixed/blk00000088" (MUX) removed.
-             The signal "inst_float2fixed/sig0000008f" is loadless and has been removed.
-              Loadless block "inst_float2fixed/blk000000bc" (ROM) removed.
-         The signal "inst_float2fixed/sig00000091" is loadless and has been removed.
-          Loadless block "inst_float2fixed/blk000000bb" (ROM) removed.
-       The signal "inst_float2fixed/sig00000092" is loadless and has been removed.
-        Loadless block "inst_float2fixed/blk000000ae" (ROM) removed.
-   The signal "inst_float2fixed/sig00000094" is loadless and has been removed.
-    Loadless block "inst_float2fixed/blk000000aa" (ROM) removed.
 Loadless block "inst_mulfp/blk0000004f" (XOR) removed.
-Loadless block "inst_mulfp/blk0000012b" (FF) removed.
- The signal "inst_mulfp/sig00000150" is loadless and has been removed.
-  Loadless block "inst_mulfp/blk0000012a" (XOR) removed.
-   The signal "inst_mulfp/sig0000011a" is loadless and has been removed.
-    Loadless block "inst_mulfp/blk00000127" (MUX) removed.
-   The signal "inst_mulfp/sig00000135" is loadless and has been removed.
-    Loadless block "inst_mulfp/blk00000129" (ROM) removed.
-     The signal "inst_mulfp/sig0000090e" is loadless and has been removed.
-      Loadless block "inst_mulfp/blk000001ee" (FF) removed.
-       The signal "inst_mulfp/sig000002b8" is loadless and has been removed.
 Loadless block "inst_mulfp/blk00000414" (AND) removed.
-Loadless block "inst_mulfp/blk00000416" (SFF) removed.
- The signal "inst_mulfp/sig0000075c" is loadless and has been removed.
-  Loadless block "inst_mulfp/blk00000415" (XOR) removed.
-   The signal "inst_mulfp/sig00000711" is loadless and has been removed.
-    Loadless block "inst_mulfp/blk00000411" (MUX) removed.
-     The signal "inst_mulfp/sig00000710" is loadless and has been removed.
-      Loadless block "inst_mulfp/blk0000040d" (MUX) removed.
-       The signal "inst_mulfp/sig00000729" is loadless and has been removed.
-        Loadless block "inst_mulfp/blk0000040c" (AND) removed.
-     The signal "inst_mulfp/sig0000072a" is loadless and has been removed.
-      Loadless block "inst_mulfp/blk00000410" (AND) removed.
-     The signal "inst_mulfp/sig00000743" is loadless and has been removed.
-      Loadless block "inst_mulfp/blk0000040f" (ROM) removed.
-   The signal "inst_mulfp/sig00000744" is loadless and has been removed.
-    Loadless block "inst_mulfp/blk00000413" (ROM) removed.
- The signal "inst_mulfp/sig0000071a" is loadless and has been removed.
-Loadless block "inst_mulfp/blk00000417" (SFF) removed.
- The signal "inst_mulfp/sig0000075b" is loadless and has been removed.
-  Loadless block "inst_mulfp/blk00000412" (XOR) removed.
 Loadless block "inst_mulfp/blk0000069e" (AND) removed.
 Loadless block "inst_mulfp/blk00000701" (AND) removed.
 Loadless block "inst_mulfp/blk00000764" (AND) removed.
@@ -337,17 +326,6 @@ Loadless block "inst_subfp/blk0000021e" (XOR) removed.
 Loadless block "inst_subfp/blk00000220" (XOR) removed.
 Loadless block "inst_subfp/blk00000222" (XOR) removed.
 Loadless block "inst_subfp/blk00000224" (XOR) removed.
-Loadless block "inst_subfp/blk00000284" (MUX) removed.
- The signal "inst_subfp/sig00000464" is loadless and has been removed.
-  Loadless block "inst_subfp/blk0000035e" (ROM) removed.
- The signal "inst_subfp/sig00000465" is loadless and has been removed.
-  Loadless block "inst_subfp/blk0000035d" (ROM) removed.
-   The signal "inst_subfp/sig00000452" is loadless and has been removed.
-    Loadless block "inst_subfp/blk000002a9" (FF) removed.
-     The signal "inst_subfp/sig0000045d" is loadless and has been removed.
-      Loadless block "inst_subfp/blk000002a2" (MUX) removed.
-       The signal "inst_subfp/sig00000456" is loadless and has been removed.
-        Loadless block "inst_subfp/blk000003b8" (ROM) removed.
 The signal "icon_control0<10>" is sourceless and has been removed.
 The signal "icon_control0<11>" is sourceless and has been removed.
 The signal "icon_control0<15>" is sourceless and has been removed.
@@ -401,6 +379,7 @@ The signal "b0.inst_fixed2float/sig0000011e" is sourceless and has been removed.
 The signal "inst_mulfp/sig00000106" is sourceless and has been removed.
 The signal "inst_mulfp/sig00000107" is sourceless and has been removed.
 The signal "inst_mulfp/sig00000108" is sourceless and has been removed.
+The signal "inst_mulfp/sig000000ed" is sourceless and has been removed.
 The signal "inst_addfp/sig00000154" is sourceless and has been removed.
 The signal "inst_subfp/sig00000154" is sourceless and has been removed.
 The signal "U_icon_pro/U0/U_ICON/iCOMMAND_SEL<3>" is sourceless and has been
@@ -499,22 +478,6 @@ The signal "tfm_inst/ExtractTGCParameters_fixed2floatr<6>" is unused and has
 been removed.
 The signal "tfm_inst/ExtractTGCParameters_fixed2floatr<7>" is unused and has
 been removed.
-The signal "tfm_inst/inst_CalculateAlphaCP/divfpa_internal<0>" is unused and has
-been removed.
-The signal "tfm_inst/inst_CalculateAlphaCP/divfpa_internal<1>" is unused and has
-been removed.
-The signal "tfm_inst/inst_CalculateAlphaCP/divfpa_internal<2>" is unused and has
-been removed.
-The signal "tfm_inst/inst_CalculateAlphaCP/divfpa_internal<3>" is unused and has
-been removed.
-The signal "tfm_inst/inst_CalculateAlphaCP/divfpa_internal<4>" is unused and has
-been removed.
-The signal "tfm_inst/inst_CalculateAlphaCP/divfpa_internal<5>" is unused and has
-been removed.
-The signal "tfm_inst/inst_CalculateAlphaCP/divfpa_internal<6>" is unused and has
-been removed.
-The signal "tfm_inst/inst_CalculateAlphaCP/divfpa_internal<7>" is unused and has
-been removed.
 The signal "tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<0>" is
 unused and has been removed.
 The signal "tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<1>" is
@@ -594,38 +557,6 @@ GND 		XST_GND
 VCC 		XST_VCC
 GND 		b0.inst_fixed2float/blk00000001
 VCC 		b0.inst_fixed2float/blk00000002
-FDE 		b0.inst_fixed2float/blk00000045
-   optimized to 0
-FDE 		b0.inst_fixed2float/blk00000046
-   optimized to 0
-FDE 		b0.inst_fixed2float/blk00000047
-   optimized to 0
-FDE 		b0.inst_fixed2float/blk00000048
-   optimized to 0
-FDE 		b0.inst_fixed2float/blk00000049
-   optimized to 0
-FDE 		b0.inst_fixed2float/blk0000004a
-   optimized to 0
-FDE 		b0.inst_fixed2float/blk0000004b
-   optimized to 0
-FDE 		b0.inst_fixed2float/blk0000004c
-   optimized to 0
-FDRSE 		b0.inst_fixed2float/blk0000007a
-   optimized to 0
-FDRSE 		b0.inst_fixed2float/blk0000007b
-   optimized to 0
-FDRSE 		b0.inst_fixed2float/blk0000007c
-   optimized to 0
-FDRSE 		b0.inst_fixed2float/blk0000007d
-   optimized to 0
-FDRSE 		b0.inst_fixed2float/blk0000007e
-   optimized to 0
-FDRSE 		b0.inst_fixed2float/blk0000007f
-   optimized to 0
-FDRSE 		b0.inst_fixed2float/blk00000080
-   optimized to 0
-FDRSE 		b0.inst_fixed2float/blk00000081
-   optimized to 0
 GND 		dualmem_inst/XST_GND
 GND 		i2c_mlx_i0/XST_GND
 GND 		inst_addfp/blk00000001
@@ -634,8 +565,6 @@ GND 		inst_divfp/blk00000001
 VCC 		inst_divfp/blk00000002
 GND 		inst_float2fixed/blk00000001
 VCC 		inst_float2fixed/blk00000002
-FDE 		inst_float2fixed/blk00000021
-   optimized to 0
 GND 		inst_mulfp/blk00000001
 VCC 		inst_mulfp/blk00000002
 LUT4 		inst_mulfp/blk00000633
@@ -670,6 +599,40 @@ LUT2 		inst_mulfp/blk000009bd
    optimized to 0
 GND 		inst_subfp/blk00000001
 VCC 		inst_subfp/blk00000002
+FDE 		b0.inst_fixed2float/blk00000045
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk00000046
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk00000047
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk00000048
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk00000049
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk0000004a
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk0000004b
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk0000004c
+   optimized to 0
+FDRSE 		b0.inst_fixed2float/blk0000007a
+   optimized to 0
+FDRSE 		b0.inst_fixed2float/blk0000007b
+   optimized to 0
+FDRSE 		b0.inst_fixed2float/blk0000007c
+   optimized to 0
+FDRSE 		b0.inst_fixed2float/blk0000007d
+   optimized to 0
+FDRSE 		b0.inst_fixed2float/blk0000007e
+   optimized to 0
+FDRSE 		b0.inst_fixed2float/blk0000007f
+   optimized to 0
+FDRSE 		b0.inst_fixed2float/blk00000080
+   optimized to 0
+FDRSE 		b0.inst_fixed2float/blk00000081
+   optimized to 0
+FDE 		inst_float2fixed/blk00000021
+   optimized to 0
 LUT2 		tfm_inst/CalculateAlphaCP_fixed2floatr<0>1
    optimized to 0
 LUT2 		tfm_inst/CalculateAlphaCP_fixed2floatr<1>1
@@ -701,6 +664,14 @@ LUT2 		tfm_inst/CalculateAlphaComp_fixed2floatr<5>1
 LUT2 		tfm_inst/CalculateAlphaComp_fixed2floatr<6>1
    optimized to 0
 LUT2 		tfm_inst/CalculateAlphaComp_fixed2floatr<7>1
+   optimized to 0
+LUT2 		tfm_inst/CalculatePixOS_fixed2floatr<0>1
+   optimized to 0
+LUT2 		tfm_inst/CalculatePixOS_fixed2floatr<1>1
+   optimized to 0
+LUT2 		tfm_inst/CalculatePixOS_fixed2floatr<2>1
+   optimized to 0
+LUT2 		tfm_inst/CalculatePixOS_fixed2floatr<3>1
    optimized to 0
 LUT2 		tfm_inst/CalculatePixOS_fixed2floatr<4>1
    optimized to 0
@@ -774,22 +745,6 @@ LUT2 		tfm_inst/ExtractTGCParameters_fixed2floatr<6>1
    optimized to 0
 LUT2 		tfm_inst/ExtractTGCParameters_fixed2floatr<7>1
    optimized to 0
-LUT2_L 		tfm_inst/divfpa<0>67_SW0
-   optimized to 1
-LUT2_L 		tfm_inst/divfpa<1>67_SW0
-   optimized to 1
-LUT2_L 		tfm_inst/divfpa<2>67_SW0
-   optimized to 1
-LUT2_L 		tfm_inst/divfpa<3>67_SW0
-   optimized to 1
-LUT2_L 		tfm_inst/divfpa<4>67_SW0
-   optimized to 1
-LUT2_L 		tfm_inst/divfpa<5>67_SW0
-   optimized to 1
-LUT2_L 		tfm_inst/divfpa<6>67_SW0
-   optimized to 1
-LUT2_L 		tfm_inst/divfpa<7>67_SW0
-   optimized to 1
 FDRE 		tfm_inst/inst_CalculateAlphaCP/divfpa_internal_0
    optimized to 0
 FDRE 		tfm_inst/inst_CalculateAlphaCP/divfpa_internal_1
@@ -901,22 +856,6 @@ FDRE 		tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/addfpb_internal_5
 FDRE 		tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/addfpb_internal_6
    optimized to 0
 FDRE 		tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/addfpb_internal_7
-   optimized to 0
-LUT3 		tfm_inst/inst_CalculateTa/addfpb_mux0000<0>1
-   optimized to 0
-LUT3 		tfm_inst/inst_CalculateTa/addfpb_mux0000<1>1
-   optimized to 0
-LUT3 		tfm_inst/inst_CalculateTa/addfpb_mux0000<2>1
-   optimized to 0
-LUT3 		tfm_inst/inst_CalculateTa/addfpb_mux0000<3>1
-   optimized to 0
-LUT3 		tfm_inst/inst_CalculateTa/addfpb_mux0000<4>1
-   optimized to 0
-LUT3 		tfm_inst/inst_CalculateTa/addfpb_mux0000<5>1
-   optimized to 0
-LUT3 		tfm_inst/inst_CalculateTa/addfpb_mux0000<6>1
-   optimized to 0
-LUT3 		tfm_inst/inst_CalculateTa/addfpb_mux0000<7>1
    optimized to 0
 FDRE 		tfm_inst/inst_ExtractTGCParameters/divfpa_internal_0
    optimized to 0
@@ -1043,7 +982,27 @@ SRL16.U_GANDX_SRL16_MSET
 
 Section 8 - Guide Report
 ------------------------
-Guide not run on this design.
+
+Sat Nov 15 22:42:01 2025
+
+  Estimated SmartGuide Results
+  ----------------------------
+  This section describes the guide results after placement. Re-implemented 
+  components are components that were guided, but moved in order to satisfy
+  timing requirements.
+
+    Estimated Percentage of guided Components                 |  86.1%
+    Estimated Percentage of re-implemented Components         |   0.0%
+    Estimated Percentage of new/changed Components            |  13.9%
+    Estimated Percentage of fully guided Nets                 |  69.2%
+    Estimated Percentage of partially guided or unrouted Nets |  30.8%
+
+  A detailed SmartGuide report (.GRF) can be generated during PAR by
+  specifying the [-smartguide <guidefile[.ncd]>] switch on the PAR
+  command line. The GRF file contains all components and nets that were
+  not guided. A final summary report is always generated and is available
+  in the PAR report file and in the GRF regardless of the PAR -smartguide switch.
+
 
 Section 9 - Area Group and Partition Summary
 --------------------------------------------

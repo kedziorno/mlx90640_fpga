@@ -3,102 +3,67 @@ Xilinx Map Application Log File for Design 'test1'
 
 Design Information
 ------------------
-Command Line   : map -intstyle ise -p xc3s1200e-fg320-4 -timing -logic_opt off
--ol std -t 1 -register_duplication off -cm area -ir off -pr off -power off -o
-test1_map.ncd test1.ngd test1.pcf 
+Command Line   : map -intstyle ise -p xc3s1200e-fg320-4 -cm area -ir off -pr off
+-c 100 -smartguide
+/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1_guide.ncd -o test1_map.ncd
+test1.ngd test1.pcf 
 Target Device  : xc3s1200e
 Target Package : fg320
 Target Speed   : -4
 Mapper Version : spartan3e -- $Revision: 1.55 $
-Mapped Date    : Sat Nov 15 20:19:10 2025
+Mapped Date    : Sat Nov 15 22:41:32 2025
 
+WARNING:Map:120 - The command line option -c can not be used when running in
+   timing mode.  The option will be ignored.
+Loading device for application Rf_Device from file '3s1200e.nph' in environment
+/home/user/.local/Xilinx/14.7/ISE_DS/ISE/.
+   "test1" is an NCD, version 3.2, device xc3s1200e, package fg320, speed -4
 Mapping design into LUTs...
 Running directed packing...
 WARNING:Pack:1185 - One or more I/O components have an illegal combination of
    property values.  For each occurrence, the system will choose sensible
    defaults.  To view each occurrence, create a detailed map report (run map
    using the -detail option).
+Constraining slice packing based on guide NCD.
 Running delay-based LUT packing...
 Updating timing models...
 Running timing-driven placement...
-Total REAL time at the beginning of Placer: 12 secs 
-Total CPU  time at the beginning of Placer: 12 secs 
+Total REAL time at the beginning of Placer: 20 secs 
+Total CPU  time at the beginning of Placer: 19 secs 
 
-Phase 1.1  Initial Placement Analysis
-Phase 1.1  Initial Placement Analysis (Checksum:ba621309) REAL time: 13 secs 
+Phase 1.7  Design Feasibility Check
+Phase 1.7  Design Feasibility Check (Checksum:21bd173c) REAL time: 20 secs 
 
-Phase 2.7  Design Feasibility Check
-WARNING:Place:837 - Partially locked IO Bus is found. 
-    Following components of the bus are not locked: 
-   	 Comp: vga_b<7>
-   	 Comp: vga_b<6>
-   	 Comp: vga_b<5>
-   	 Comp: vga_b<4>
-   	 Comp: vga_b<3>
-   	 Comp: vga_b<2>
+Phase 2.31  Local Placement Optimization
+Phase 2.31  Local Placement Optimization (Checksum:d31721b2) REAL time: 20 secs 
 
-WARNING:Place:837 - Partially locked IO Bus is found. 
-    Following components of the bus are not locked: 
-   	 Comp: vga_g<7>
-   	 Comp: vga_g<6>
-   	 Comp: vga_g<5>
-   	 Comp: vga_g<1>
-   	 Comp: vga_g<0>
+Phase 3.2  Initial Clock and IO Placement
+Phase 3.2  Initial Clock and IO Placement (Checksum:d31721b2) REAL time: 21 secs 
 
-WARNING:Place:837 - Partially locked IO Bus is found. 
-    Following components of the bus are not locked: 
-   	 Comp: vga_r<4>
-   	 Comp: vga_r<3>
-   	 Comp: vga_r<2>
-   	 Comp: vga_r<1>
-   	 Comp: vga_r<0>
+Phase 4.30  Global Clock Region Assignment
+Phase 4.30  Global Clock Region Assignment (Checksum:d31721b2) REAL time: 21 secs 
 
-INFO:Place:834 - Only a subset of IOs are locked. Out of 53 IOs, 12 are locked
-   and 41 are not locked. If you would like to print the names of these IOs,
-   please set the environment variable XIL_PAR_DESIGN_CHECK_VERBOSE to 1. 
-Phase 2.7  Design Feasibility Check (Checksum:ba621309) REAL time: 13 secs 
+Phase 5.36  Local Placement Optimization
+Phase 5.36  Local Placement Optimization (Checksum:d31721b2) REAL time: 21 secs 
 
-Phase 3.31  Local Placement Optimization
-Phase 3.31  Local Placement Optimization (Checksum:aa6ec1f) REAL time: 13 secs 
-
-Phase 4.2  Initial Clock and IO Placement
-....
-Phase 4.2  Initial Clock and IO Placement (Checksum:4523a285) REAL time: 15 secs 
-
-Phase 5.30  Global Clock Region Assignment
-Phase 5.30  Global Clock Region Assignment (Checksum:4523a285) REAL time: 15 secs 
-
-Phase 6.36  Local Placement Optimization
-Phase 6.36  Local Placement Optimization (Checksum:4523a285) REAL time: 15 secs 
-
-Phase 7.3  Local Placement Optimization
-....
-Phase 7.3  Local Placement Optimization (Checksum:dc1e2e43) REAL time: 15 secs 
-
-Phase 8.5  Local Placement Optimization
-Phase 8.5  Local Placement Optimization (Checksum:dc1e2e43) REAL time: 15 secs 
-
-Phase 9.8  Global Placement
-...............................
-..............................................................................................................................
-..............
-................
+Phase 6.8  Global Placement
 ..
-..................
-Phase 9.8  Global Placement (Checksum:17a1fbf9) REAL time: 34 secs 
+................
+Phase 6.8  Global Placement (Checksum:f205b310) REAL time: 28 secs 
 
-Phase 10.5  Local Placement Optimization
-Phase 10.5  Local Placement Optimization (Checksum:17a1fbf9) REAL time: 35 secs 
+Phase 7.5  Local Placement Optimization
+Phase 7.5  Local Placement Optimization (Checksum:f205b310) REAL time: 28 secs 
 
-Phase 11.18  Placement Optimization
-Phase 11.18  Placement Optimization (Checksum:5a377d0a) REAL time: 49 secs 
+Phase 8.18  Placement Optimization
+Phase 8.18  Placement Optimization (Checksum:f205b310) REAL time: 28 secs 
 
-Phase 12.5  Local Placement Optimization
-Phase 12.5  Local Placement Optimization (Checksum:5a377d0a) REAL time: 49 secs 
+Phase 9.5  Local Placement Optimization
+Phase 9.5  Local Placement Optimization (Checksum:f205b310) REAL time: 29 secs 
 
-Total REAL time to Placer completion: 50 secs 
-Total CPU  time to Placer completion: 49 secs 
+Total REAL time to Placer completion: 29 secs 
+Total CPU  time to Placer completion: 29 secs 
 Running post-placement packing...
+Updating route info ...
 WARNING:PhysDesignRules:372 - Gated clock. Clock net icon_control0<13> is
    sourced by a combinatorial pin. This is not good design practice. Use the CE
    pin to control the loading of data into the flip-flop.
@@ -108,20 +73,20 @@ Design Summary
 
 Design Summary:
 Number of errors:      0
-Number of warnings:    5
+Number of warnings:    3
 Logic Utilization:
-  Total Number Slice Registers:       8,652 out of  17,344   49%
-    Number used as Flip Flops:        8,651
+  Total Number Slice Registers:       8,673 out of  17,344   50%
+    Number used as Flip Flops:        8,672
     Number used as Latches:               1
-  Number of 4 input LUTs:            13,488 out of  17,344   77%
+  Number of 4 input LUTs:            13,092 out of  17,344   75%
 Logic Distribution:
-  Number of occupied Slices:          7,904 out of   8,672   91%
-    Number of Slices containing only related logic:   7,904 out of   7,904 100%
-    Number of Slices containing unrelated logic:          0 out of   7,904   0%
+  Number of occupied Slices:          7,465 out of   8,672   86%
+    Number of Slices containing only related logic:   7,465 out of   7,465 100%
+    Number of Slices containing unrelated logic:          0 out of   7,465   0%
       *See NOTES below for an explanation of the effects of unrelated logic.
-  Total Number of 4 input LUTs:      13,864 out of  17,344   79%
-    Number used as logic:            13,169
-    Number used as a route-thru:        376
+  Total Number of 4 input LUTs:      13,484 out of  17,344   77%
+    Number used as logic:            12,773
+    Number used as a route-thru:        392
     Number used as Shift registers:     319
 
   The Slice Logic Distribution report is not meaningful if the design is
@@ -133,11 +98,11 @@ Logic Distribution:
   Number of BSCANs:                       1 out of       1  100%
 
   Number of RPM macros:           12
-Average Fanout of Non-Clock Nets:                3.41
+Average Fanout of Non-Clock Nets:                3.42
 
-Peak Memory Usage:  927 MB
-Total REAL time to MAP completion:  55 secs 
-Total CPU time to MAP completion:   54 secs 
+Peak Memory Usage:  1062 MB
+Total REAL time to MAP completion:  33 secs 
+Total CPU time to MAP completion:   33 secs 
 
 Mapping completed.
 See MAP report file "test1_map.mrp" for details.
