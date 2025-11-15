@@ -30,7 +30,7 @@ generic (
 constant c_clock_board_frequency : integer := c_clock_board_frequency;
 constant c_bus_clock : integer := c_clock_i2c_frequency;
 c_sim : string (1 downto 1) := "n";
-constant c_cold_start : integer := 2**20;
+constant c_cold_start : integer := 2**26;
 constant c_wait2 : integer := 1000;
 constant c_wait3 : integer := 10000;
 constant c_some_wait : integer := 2**20;
