@@ -1111,8 +1111,8 @@ i2c_mlx_addrb_2 <= std_logic_vector (to_unsigned (j, 12));
 				when s10 =>
 --          if (some_wait = c_some_wait-1) then
 --            some_wait := 0;
---            state := idle;
-            state :=  s2;
+            state := idle;
+--            state :=  s2;
 --            float2fixedsclr <= '1';
 --          else
 --            some_wait := some_wait + 1;
