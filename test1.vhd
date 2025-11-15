@@ -485,6 +485,7 @@ signal i2c_mlx_doutb : STD_LOGIC_VECTOR(7 DOWNTO 0);
 --constant c_wait1 : integer := 230*5*5*4*1000; -- scl 2
 signal wait1 : integer range 0 to c_wait1 - 1;
 
+signal i2c_mem_ena : std_logic;
 signal i2c_mem_ena_1 : std_logic;
 signal i2c_mem_ena_2 : std_logic;
 
@@ -503,6 +504,42 @@ signal mem_addr : integer range 0 to c_max - 1;
 constant c_j : integer := 3328;
 signal j : integer range 0 to c_j-1;
 
+type states is (
+idle,
+wr1,
+idle0,
+w1,
+idle1,
+wr2,
+idle2,
+
+idlea,
+wr1a,
+idle0a,
+w1a,
+idle1a,
+wr2a,
+idle2a,
+
+r1,
+idle3,
+
+idlea1,
+wr1a1,
+idle0a1,
+w1a1,
+idle1a1,
+wr2a1,
+idle2a1,
+
+r2,
+idle4,
+
+r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,
+z1,z2,z3,z4,z5,z6,z7,
+s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14
+);
+signal state : states;
 
 begin
 
@@ -571,42 +608,6 @@ vga_psave <= '1';
 pTo : process (i_clock) is
 	variable i : integer range 0 to PIXELS-1;
 	variable tout : std_logic_vector (8 downto 0);
-type states is (
-idle,
-wr1,
-idle0,
-w1,
-idle1,
-wr2,
-idle2,
-
-idlea,
-wr1a,
-idle0a,
-w1a,
-idle1a,
-wr2a,
-idle2a,
-
-r1,
-idle3,
-
-idlea1,
-wr1a1,
-idle0a1,
-w1a1,
-idle1a1,
-wr2a1,
-idle2a1,
-
-r2,
-idle4,
-
-r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,
-z1,z2,z3,z4,z5,z6,z7,
-s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14
-);
-variable state : states;
   constant c_some_wait : integer := 2**20;
   variable some_wait : integer range 0 to c_some_wait-1;
   variable cold_start : integer range 0 to c_cold_start - 1;
@@ -619,7 +620,7 @@ variable state : states;
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
-			state := idle;
+			state <= idle;
 			float2fixedsclr <= '1';
 			i := 0;
 			dualmem_ena <= '0';
@@ -630,8 +631,8 @@ begin
       
       k := 0;
       w11ms := 0;
---			state := idle2a1;
---			state := r14;
+--			state <= idle2a1;
+--			state <= r14;
 --      i2c_stream_enable <= '0';
       wait1 <= 0;
       wait2 := 0;
@@ -650,11 +651,11 @@ begin
 
 		else
 			case (state) is
-				when idle => state := wr1;
+				when idle => state <= wr1;
           float2fixedsclr <= '0';
           
           
---          state := idle2a;
+--          state <= idle2a;
       wait1 <= 0;
       wait2 := 0;
       wait3 := 0;
@@ -662,12 +663,12 @@ begin
           melexis_mlx90640_i2c_mode1 <= '0';
           melexis_mlx90640_i2c_mode2 <= '0';
           melexis_mlx90640_i2c_enable <= '0';
---          state := wr1;
+--          state <= wr1;
           if (cold_start = c_cold_start - 1) then
---            state := idle2a;
-            state := wr1;
---            state := wr1a1;
---            state := w1;
+--            state <= idle2a;
+            state <= wr1;
+--            state <= wr1a1;
+--            state <= w1;
             cold_start := 0;
           else
             cold_start := cold_start + 1;
@@ -685,10 +686,10 @@ begin
               melexis_mlx90640_i2c_enable <= '0';
 --          i2c_stream_enable <= '0';
 --              if (camera_read = x"1981") then
-                state := idle0;
+                state <= idle0;
                 wait2 := 0;
 --              else
---                state := stop;
+--                state <= stop;
 --              end if;
               wait1 <= 0;
           end if;
@@ -697,8 +698,8 @@ begin
          end if;
         when idle0 =>
           if (wait2 = c_wait2 - 1) then
-            state := w1;
---            state := idle;
+            state <= w1;
+--            state <= idle;
             wait2 := 0;
           else
             wait2 := wait2 + 1;
@@ -721,15 +722,15 @@ begin
 --          i2c_stream_enable <= '0';
               wait1 <= 0;
               wait2 := 0;
-              state := idle1;
+              state <= idle1;
           end if;
           else
             wait1 <= wait1 + 1;
           end if;
         when idle1 =>
           if (wait3 = c_wait3 - 1) then
-            state := wr2;
---            state := idle;
+            state <= wr2;
+--            state <= idle;
             wait3 := 0;
           else
             wait3 := wait3 + 1;
@@ -747,7 +748,7 @@ begin
             if (melexis_mlx90640_i2c_busy = '0') then
               melexis_mlx90640_i2c_enable <= '0';
 --          i2c_stream_enable <= '0';
-              state := idle2;
+              state <= idle2;
               wait1 <= 0;
             end if;
           else
@@ -755,7 +756,7 @@ begin
           end if;
         when idle2 =>
           if (wait3 = c_wait3 - 1) then
-            state := wr1a;
+            state <= wr1a;
             wait3 := 0;
           else
             wait3 := wait3 + 1;
@@ -773,10 +774,10 @@ begin
               melexis_mlx90640_i2c_enable <= '0';
 --          i2c_stream_enable <= '0';
 --              if (camera_read = x"1981") then
-                state := idle0a;
+                state <= idle0a;
                 wait2 := 0;
 --              else
---                state := stop;
+--                state <= stop;
 --              end if;
               wait1 <= 0;
           end if;
@@ -785,8 +786,8 @@ begin
          end if;
         when idle0a =>
           if (wait2 = c_wait2 - 1) then
-            state := w1a;
---            state := idle;
+            state <= w1a;
+--            state <= idle;
             wait2 := 0;
           else
             wait2 := wait2 + 1;
@@ -809,15 +810,15 @@ begin
 --          i2c_stream_enable <= '0';
               wait1 <= 0;
               wait2 := 0;
-              state := idle1a;
+              state <= idle1a;
           end if;
           else
             wait1 <= wait1 + 1;
           end if;
         when idle1a =>
           if (wait3 = c_wait3 - 1) then
-            state := wr2a;
---            state := idle;
+            state <= wr2a;
+--            state <= idle;
             wait3 := 0;
           else
             wait3 := wait3 + 1;
@@ -833,7 +834,7 @@ begin
             if (melexis_mlx90640_i2c_busy = '0') then
               melexis_mlx90640_i2c_enable <= '0';
 --          i2c_stream_enable <= '0';
-              state := idle2a;
+              state <= idle2a;
               wait1 <= 0;
             end if;
           else
@@ -841,9 +842,9 @@ begin
           end if;
         when idle2a =>
           if (wait3 = c_wait3 - 1) then
-            state := r1;
---            state := idle3;
---            state := wr1a1;
+            state <= r1;
+--            state <= idle3;
+--            state <= wr1a1;
             wait3 := 0;
           else
             wait3 := wait3+ 1;
@@ -860,7 +861,7 @@ begin
             if (melexis_mlx90640_i2c_busy = '0') then
               melexis_mlx90640_i2c_enable <= '0';
 --          i2c_stream_enable <= '0';
-              state := idle3;
+              state <= idle3;
               wait1 <= 0;
             end if;
           else
@@ -868,9 +869,9 @@ begin
           end if;
         when idle3 => ------------------
           if (wait3 = c_wait3 - 1) then
-            state := wr1a1;
---            state := r2;
---            state := idle;
+            state <= wr1a1;
+--            state <= r2;
+--            state <= idle;
             wait3 := 0;
           else
             wait3 := wait3 + 1;
@@ -886,10 +887,10 @@ begin
             if (melexis_mlx90640_i2c_busy = '0') then
               melexis_mlx90640_i2c_enable <= '0';
 --              if (camera_read = x"1981") then
-                state := idle0a1;
+                state <= idle0a1;
                 wait2 := 0;
 --              else
---                state := stop;
+--                state <= stop;
 --              end if;
               wait1 <= 0;
           end if;
@@ -898,8 +899,8 @@ begin
          end if;
         when idle0a1 =>
           if (wait2 = c_wait2 - 1) then
-            state := w1a1;
---            state := idle;
+            state <= w1a1;
+--            state <= idle;
             wait2 := 0;
           else
             wait2 := wait2 + 1;
@@ -920,15 +921,15 @@ begin
               melexis_mlx90640_i2c_enable <= '0';
               wait1 <= 0;
               wait2 := 0;
-              state := idle1a1;
+              state <= idle1a1;
           end if;
           else
             wait1 <= wait1 + 1;
           end if;
         when idle1a1 =>
           if (wait3 = c_wait3 - 1) then
-            state := wr2a1;
---            state := idle;
+            state <= wr2a1;
+--            state <= idle;
             wait3 := 0;
           else
             wait3 := wait3 + 1;
@@ -942,7 +943,7 @@ begin
           if (wait1 = c_wait1 - 1) then
             if (melexis_mlx90640_i2c_busy = '0') then
               melexis_mlx90640_i2c_enable <= '0';
-              state := idle2a1;
+              state <= idle2a1;
               wait1 <= 0;
             end if;
           else
@@ -950,7 +951,7 @@ begin
           end if;
         when idle2a1 =>
           if (wait3 = c_wait3 - 1) then
-            state := r2;
+            state <= r2;
 --          i2c_stream_enable <= '1';
             wait3 := 0;
           else
@@ -967,7 +968,7 @@ begin
             if (melexis_mlx90640_i2c_busy = '0') then
               melexis_mlx90640_i2c_enable <= '0';
 --          i2c_stream_enable <= '0';
-              state := idle4;
+              state <= idle4;
               wait1 <= 0;
             end if;
           else
@@ -975,14 +976,14 @@ begin
           end if;
         when idle4 =>
           if (wait2 = c_wait2 - 1) then
-            state := r14;
+            state <= r14;
             wait2 := 0;
           else
             wait2 := wait2 + 1;
           end if;
 
         when r14 =>
-          state := z1;
+          state <= z1;
 		wait2 := 0;
 		wait3 := 0;
 		wait1 <= 0;
@@ -993,10 +994,10 @@ begin
           melexis_mlx90640_i2c_memory_address <= x"0000";
 		            melexis_mlx90640_i2c_memory_data <= x"0000";
                 j <= 0;
-        when z1 => state := z3;
+        when z1 => state <= z3;
 i2c_mlx_addrb_2 <= std_logic_vector (to_unsigned (j, 12));
         i2c_mem_ena_2 <= '1';
-        when z3 => state := z4;
+        when z3 => state <= z4;
 --if (c_lcd = "y") then
 --lcdchar (2)(0) <= '0';
 --lcdchar (2)(1) <= '0';
@@ -1020,21 +1021,21 @@ i2c_mlx_addrb_2 <= std_logic_vector (to_unsigned (j, 12));
         i2c_mlx_addrb_2 <= (others => '0');
 --        if (k = 3 - 1) then
 --          k := 0;
-          state := z5;
+          state <= z5;
 --        else
 --          k := k + 1;
---          state := z4;
+--          state <= z4;
 --        end if;
         when z5 =>
         if (j = c_j - 1) then
           j <= 0;
-          state := s0;
+          state <= s0;
         else
           j <= j + 1;
-          state := z1;
+          state <= z1;
         end if;
         when s0 =>
-          state := s1;
+          state <= s1;
 					test_fixed_melexis_run <= '1';
           float2fixedsclr <= '0';
           w11ms := 0;
@@ -1042,19 +1043,19 @@ i2c_mlx_addrb_2 <= std_logic_vector (to_unsigned (j, 12));
           test_fixed_melexis_run <= '0';
           if (c_sim = "n") then
           if (w11ms = c_w11ms - 1) then
-            state := s2;
+            state <= s2;
             w11ms := 0;
           else
- 						state := s1;
+ 						state <= s1;
             w11ms := w11ms + 1;
           end if;
           end if;
           if (c_sim = "y") then
 					test_fixed_melexis_run <= '0';
 					if (test_fixed_melexis_rdy = '1') then
-						state := s2;
+						state <= s2;
 					else
-						state := s1;
+						state <= s1;
 					end if;
           end if;
 
@@ -1062,24 +1063,24 @@ i2c_mlx_addrb_2 <= std_logic_vector (to_unsigned (j, 12));
 --				when s1 =>
 --					test_fixed_melexis_run <= '0';
 --					if (test_fixed_melexis_rdy = '1') then
---						state := s2;
+--						state <= s2;
 --					else
---						state := s1;
+--						state <= s1;
 --					end if;
-				when s2 => state := s3;
+				when s2 => state <= s3;
 					float2fixedsclr <= '0';
 					i := 0;
 					tout := (others => '0');
-				when s3 => state := s4;
-				when s4 => state := s5;
+				when s3 => state <= s4;
+				when s4 => state <= s5;
 					test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
-				when s5 => state := s6;
-				when s6 => state := s7;
+				when s5 => state <= s6;
+				when s6 => state <= s7;
 					float2fixedond <= '1';
 					float2fixedce <= '1';
 					float2fixeda <= test_fixed_melexis_do;
 				when s7 =>
-					if (float2fixedrdy = '1') then state := s8;
+					if (float2fixedrdy = '1') then state <= s8;
 --						tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
 --						tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
 --						tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
@@ -1087,8 +1088,8 @@ i2c_mlx_addrb_2 <= std_logic_vector (to_unsigned (j, 12));
 						float2fixedond <= '0';
 						float2fixedce <= '0';
 						float2fixedsclr <= '1';
-					else state := s7; end if;
-				when s8 => state := s9;
+					else state <= s7; end if;
+				when s8 => state <= s9;
 					float2fixedsclr <= '0';
 					dualmem_wea <= "1";
 					dualmem_addra <= std_logic_vector (to_unsigned (i, 10));
@@ -1102,21 +1103,21 @@ i2c_mlx_addrb_2 <= std_logic_vector (to_unsigned (j, 12));
 					dualmem_ena <= '0';
 					if (i = PIXELS-1) then
 						i := 0;
-						state := s10;
+						state <= s10;
             dualmem_enb <= '1';
 					else
-						state := s4;
+						state <= s4;
 						i := i + 1;
 					end if;
 				when s10 =>
 --          if (some_wait = c_some_wait-1) then
 --            some_wait := 0;
-            state := idle;
---            state :=  s2;
+            state <= idle;
+--            state <=  s2;
 --            float2fixedsclr <= '1';
 --          else
 --            some_wait := some_wait + 1;
---            state := s10;
+--            state <= s10;
 --          end if;
 when others => null;
 			end case;
@@ -1171,20 +1172,20 @@ end process pagclk;
 --begin
 --	if (rising_edge (i_clock)) then
 --		if (i_reset = '1') then
---			state := idle;
+--			state <= idle;
 --			test_fixed_melexis_run <= '0';
 --		else
 --			case (state) is
---				when idle => state := s1;
+--				when idle => state <= s1;
 --					test_fixed_melexis_run <= '1';
 --				when s1 =>
 --					test_fixed_melexis_run <= '0';
 --					if (test_fixed_melexis_rdy = '1') then
---						state := ending;
+--						state <= ending;
 --					else
---						state := s1;
+--						state <= s1;
 --					end if;
---				when ending => state := ending;
+--				when ending => state <= ending;
 --				when others => null;
 --			end case;
 --		end if;
@@ -1195,7 +1196,7 @@ i2c_mlx_addrb_conv1 <= i2c_mlx_addrb;
 i2c_mlx_i0 : i2c_mlx
 PORT MAP (
 clka => i2c_mlx_clka,
-ena => i2c_mem_ena_1,
+ena => i2c_mlx_ena,
 wea => i2c_mlx_wea,
 addra => i2c_mlx_addra,
 dina => i2c_mlx_dina,
