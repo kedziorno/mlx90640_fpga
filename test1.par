@@ -1,7 +1,7 @@
 Release 14.7 par P.20131013 (lin64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-work::  Sat Nov 15 19:59:04 2025
+work::  Sat Nov 15 20:20:07 2025
 
 par -w -intstyle ise -pl std -rl std -t 1 test1_map.ncd test1.ncd test1.pcf 
 
@@ -21,7 +21,7 @@ Device speed data version:  "PRODUCTION 1.27 2013-10-13".
 
 Design Summary Report:
 
- Number of External IOBs                          63 out of 250    25%
+ Number of External IOBs                          55 out of 250    22%
 
    Number of External Input IOBs                  2
 
@@ -29,10 +29,10 @@ Design Summary Report:
         Number of LOCed External Input IBUFs      2 out of 2     100%
 
 
-   Number of External Output IOBs                59
+   Number of External Output IOBs                51
 
-      Number of External Output IOBs             59
-        Number of LOCed External Output IOBs     18 out of 59     30%
+      Number of External Output IOBs             51
+        Number of LOCed External Output IOBs     10 out of 51     19%
 
 
    Number of External Bidir IOBs                  2
@@ -41,44 +41,49 @@ Design Summary Report:
         Number of LOCed External Bidir IOBs       2 out of 2     100%
 
 
-   Number of BUFGMUXs                        3 out of 24     12%
-   Number of RAMB16s                        22 out of 28     78%
-   Number of Slices                       7787 out of 8672   89%
-      Number of SLICEMs                    158 out of 4336    3%
+   Number of BSCANs                          1 out of 1     100%
+   Number of BUFGMUXs                        4 out of 24     16%
+   Number of RAMB16s                        27 out of 28     96%
+   Number of Slices                       7904 out of 8672   91%
+      Number of SLICEMs                    220 out of 4336    5%
 
 
 
 Overall effort level (-ol):   Not applicable because -pl and -rl switches are used
 Router effort level (-rl):    Standard 
 
-Starting initial Timing Analysis.  REAL time: 5 secs 
-Finished initial Timing Analysis.  REAL time: 5 secs 
+Starting initial Timing Analysis.  REAL time: 6 secs 
+Finished initial Timing Analysis.  REAL time: 6 secs 
 
 Starting Router
 
 
-Phase  1  : 64363 unrouted;      REAL time: 8 secs 
+Phase  1  : 66209 unrouted;      REAL time: 10 secs 
 
-Phase  2  : 57030 unrouted;      REAL time: 9 secs 
+Phase  2  : 58499 unrouted;      REAL time: 11 secs 
 
-Phase  3  : 23707 unrouted;      REAL time: 14 secs 
+Phase  3  : 24603 unrouted;      REAL time: 16 secs 
 
-Phase  4  : 23739 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 16 secs 
+Phase  4  : 24603 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 17 secs 
 
-Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 35 secs 
+Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 38 secs 
 
 Updating file: test1.ncd with current fully routed design.
 
-Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 39 secs 
+Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 43 secs 
 
-Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 39 secs 
+Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 43 secs 
 
-Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 41 secs 
+Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 45 secs 
+WARNING:Route:455 - CLK Net:icon_control0<13> may have excessive skew because 
+      1 CLK pins and 3 NON_CLK pins failed to route using a CLK template.
+WARNING:Route:455 - CLK Net:melexis_mlx90640_i2c_i0/io_scl_ii may have excessive skew because 
+      1 CLK pins and 0 NON_CLK pins failed to route using a CLK template.
 WARNING:Route:455 - CLK Net:agclk may have excessive skew because 
       1 CLK pins and 1 NON_CLK pins failed to route using a CLK template.
 
-Total REAL time to Router completion: 41 secs 
-Total CPU time to Router completion: 41 secs 
+Total REAL time to Router completion: 45 secs 
+Total CPU time to Router completion: 45 secs 
 
 Partition Implementation Status
 -------------------------------
@@ -96,17 +101,24 @@ Generating Clock Report
 +---------------------+--------------+------+------+------------+-------------+
 |        Clock Net    |   Resource   |Locked|Fanout|Net Skew(ns)|Max Delay(ns)|
 +---------------------+--------------+------+------+------------+-------------+
-|       i_clock_BUFGP | BUFGMUX_X2Y11| No   | 6200 |  0.212     |  0.382      |
+|    icon_control0<0> |  BUFGMUX_X2Y1| No   |  100 |  0.196     |  0.375      |
 +---------------------+--------------+------+------+------------+-------------+
-|            vgaclk25 |  BUFGMUX_X1Y0| No   |   64 |  0.086     |  0.344      |
-+---------------------+--------------+------+------+------------+-------------+
-|melexis_mlx90640_i2c |              |      |      |            |             |
-|           _i0/clock | BUFGMUX_X1Y10| No   |   66 |  0.205     |  0.377      |
+|       i_clock_BUFGP | BUFGMUX_X2Y11| No   | 6298 |  0.212     |  0.382      |
 +---------------------+--------------+------+------+------------+-------------+
 |melexis_mlx90640_i2c |              |      |      |            |             |
-|       _i0/io_scl_ii |         Local|      |   10 |  0.054     |  1.949      |
+|           _i0/clock | BUFGMUX_X1Y10| No   |   59 |  0.055     |  0.297      |
 +---------------------+--------------+------+------+------------+-------------+
-|               agclk |         Local|      |    7 |  1.014     |  2.880      |
+|            vgaclk25 |  BUFGMUX_X1Y0| No   |   62 |  0.088     |  0.338      |
++---------------------+--------------+------+------+------------+-------------+
+|   icon_control0<13> |         Local|      |    4 |  0.000     |  0.637      |
++---------------------+--------------+------+------+------------+-------------+
+|melexis_mlx90640_i2c |              |      |      |            |             |
+|       _i0/io_scl_ii |         Local|      |   13 |  0.508     |  2.049      |
++---------------------+--------------+------+------+------------+-------------+
+|               agclk |         Local|      |    7 |  0.817     |  2.616      |
++---------------------+--------------+------+------+------------+-------------+
+|U_icon_pro/U0/iUPDAT |              |      |      |            |             |
+|               E_OUT |         Local|      |    1 |  0.000     |  1.856      |
 +---------------------+--------------+------+------+------------+-------------+
 
 * Net Skew is the difference between the minimum and maximum routing
@@ -119,6 +131,8 @@ for example SLICE loads not FF loads.
 
 Timing Score: 0 (Setup: 0, Hold: 0, Component Switching Limit: 0)
 
+Number of Timing Constraints that were not applied: 2
+
 Asterisk (*) preceding a constraint indicates it was not met.
    This may be due to a setup or hold violation.
 
@@ -126,29 +140,45 @@ Asterisk (*) preceding a constraint indicates it was not met.
   Constraint                                |    Check    | Worst Case |  Best Case | Timing |   Timing   
                                             |             |    Slack   | Achievable | Errors |    Score   
 ----------------------------------------------------------------------------------------------------------
-  NET "i_clock_BUFGP/IBUFG" PERIOD = 20 ns  | SETUP       |     1.483ns|    18.517ns|       0|           0
-  HIGH 50%                                  | HOLD        |     0.683ns|            |       0|           0
+  NET "i_clock_BUFGP/IBUFG" PERIOD = 20 ns  | SETUP       |     1.878ns|    18.122ns|       0|           0
+  HIGH 50%                                  | HOLD        |     0.688ns|            |       0|           0
+----------------------------------------------------------------------------------------------------------
+  TS_U_TO_U = MAXDELAY FROM TIMEGRP "U_CLK" | SETUP       |    13.170ns|     1.830ns|       0|           0
+   TO TIMEGRP "U_CLK" 15 ns                 |             |            |            |        |            
+----------------------------------------------------------------------------------------------------------
+  PATH "TS_D2_TO_T2_ila_pro_0_path" TIG     | SETUP       |         N/A|     6.683ns|     N/A|           0
+----------------------------------------------------------------------------------------------------------
+  PATH "TS_J2_TO_D2_ila_pro_0_path" TIG     | N/A         |         N/A|         N/A|     N/A|         N/A
+----------------------------------------------------------------------------------------------------------
+  PATH "TS_J3_TO_D2_ila_pro_0_path" TIG     | N/A         |         N/A|         N/A|     N/A|         N/A
+----------------------------------------------------------------------------------------------------------
+  PATH "TS_J4_TO_D2_ila_pro_0_path" TIG     | MAXDELAY    |         N/A|     4.379ns|     N/A|           0
 ----------------------------------------------------------------------------------------------------------
 
 
 All constraints were met.
+INFO:Timing:2761 - N/A entries in the Constraints List may indicate that the 
+   constraint is not analyzed due to the following: No paths covered by this 
+   constraint; Other constraints intersect with this constraint; or This 
+   constraint was disabled by a Path Tracing Control. Please run the Timespec 
+   Interaction Report (TSI) via command line (trce tsi) or Timing Analyzer GUI.
 
 
 Generating Pad Report.
 
 All signals are completely routed.
 
-Total REAL time to PAR completion: 43 secs 
-Total CPU time to PAR completion: 43 secs 
+Total REAL time to PAR completion: 48 secs 
+Total CPU time to PAR completion: 47 secs 
 
-Peak Memory Usage:  714 MB
+Peak Memory Usage:  731 MB
 
 Placer: Placement generated during map.
 Routing: Completed - No errors found.
 Timing: Completed - No errors found.
 
 Number of error messages: 0
-Number of warning messages: 1
+Number of warning messages: 3
 Number of info messages: 0
 
 Writing design to file test1.ncd

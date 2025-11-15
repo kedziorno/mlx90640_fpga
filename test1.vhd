@@ -23,11 +23,12 @@ use ieee.numeric_std.all;
 
 use work.p_fphdl_package3.all;
 use work.colormap_pkg.all;
+use work.global_package.all;
 
 entity test1 is
 generic (
-constant c_clock_board_frequency : integer := 50_000_000;
-constant c_bus_clock : integer := 1_000_000;
+constant c_clock_board_frequency : integer := c_clock_board_frequency;
+constant c_bus_clock : integer := c_clock_i2c_frequency;
 c_sim : string (1 downto 1) := "n";
 constant c_cold_start : integer := 1000;
 constant c_wait2 : integer := 1000;
@@ -598,7 +599,7 @@ dina_no_swap : if (c_sim = "y") generate
   i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
 end generate dina_no_swap;
 
-o_led (7 downto 0) <= test_fixed_melexis_do(31-9-9 downto 31-16-9);
+--o_led (7 downto 0) <= test_fixed_melexis_do(31-9-9 downto 31-16-9);
 
 vga_syncn <= '1';
 vga_blankn <= VGA_timing_synch_blank;
