@@ -30,9 +30,10 @@ generic (
 constant c_clock_board_frequency : integer := c_clock_board_frequency;
 constant c_bus_clock : integer := c_clock_i2c_frequency;
 c_sim : string (1 downto 1) := "n";
-constant c_cold_start : integer := 10000;
+constant c_cold_start : integer := 2**20;
 constant c_wait2 : integer := 1000;
 constant c_wait3 : integer := 10000;
+constant c_some_wait : integer := 2**20;
 zero : integer := 0
 );
 port (
@@ -609,7 +610,6 @@ vga_psave <= '1';
 pTo : process (i_clock) is
 	variable i : integer range 0 to PIXELS-1;
 	variable tout : std_logic_vector (8 downto 0);
-  constant c_some_wait : integer := 2**20;
   variable some_wait : integer range 0 to c_some_wait-1;
   variable cold_start : integer range 0 to c_cold_start - 1;
   variable wait2 : integer range 0 to c_wait2 - 1;
@@ -656,6 +656,7 @@ begin
           float2fixedsclr <= '0';
           
                       dualmem_enb <= '1';
+test_fixed_melexis_run <= '0';
 
 --          state <= idle2a;
       wait1 <= 0;
@@ -1062,7 +1063,8 @@ begin
           end if;
 
         when r14 =>
-          state <= z1;
+--          state <= z1;
+          state <= s0;
 		wait2 := 0;
 		wait3 := 0;
 		wait1 <= 0;
@@ -1073,46 +1075,46 @@ begin
           melexis_mlx90640_i2c_memory_address <= x"0000";
 		            melexis_mlx90640_i2c_memory_data <= x"0000";
                 j <= 0;
-        when z1 => state <= z3;
-i2c_mlx_addrb_2 <= std_logic_vector (to_unsigned (j, 12));
-        i2c_mem_ena_2 <= '1';
-        when z3 => state <= z4;
---if (c_lcd = "y") then
---lcdchar (2)(0) <= '0';
---lcdchar (2)(1) <= '0';
---lcdchar (2)(2) <= '0';
---lcdchar (2)(3) <= '0';
---lcdchar (3)(0) <= '0';
---lcdchar (3)(1) <= '0';
---lcdchar (3)(2) <= '0';
---lcdchar (3)(3) <= '0';
---lcdchar (0)(0) <= i2c_mlx_doutb(0);
---lcdchar (0)(1) <= i2c_mlx_doutb(1);
---lcdchar (0)(2) <= i2c_mlx_doutb(2);
---lcdchar (0)(3) <= i2c_mlx_doutb(3);
---lcdchar (1)(0) <= i2c_mlx_doutb(4);
---lcdchar (1)(1) <= i2c_mlx_doutb(5);
---lcdchar (1)(2) <= i2c_mlx_doutb(6);
---lcdchar (1)(3) <= i2c_mlx_doutb(7);
---end if;
-        when z4 =>
-        i2c_mem_ena_2 <= '0';
-        i2c_mlx_addrb_2 <= (others => '0');
---        if (k = 3 - 1) then
---          k := 0;
-          state <= z5;
+--        when z1 => state <= z3;
+--i2c_mlx_addrb_2 <= std_logic_vector (to_unsigned (j, 12));
+--        i2c_mem_ena_2 <= '1';
+--        when z3 => state <= z4;
+----if (c_lcd = "y") then
+----lcdchar (2)(0) <= '0';
+----lcdchar (2)(1) <= '0';
+----lcdchar (2)(2) <= '0';
+----lcdchar (2)(3) <= '0';
+----lcdchar (3)(0) <= '0';
+----lcdchar (3)(1) <= '0';
+----lcdchar (3)(2) <= '0';
+----lcdchar (3)(3) <= '0';
+----lcdchar (0)(0) <= i2c_mlx_doutb(0);
+----lcdchar (0)(1) <= i2c_mlx_doutb(1);
+----lcdchar (0)(2) <= i2c_mlx_doutb(2);
+----lcdchar (0)(3) <= i2c_mlx_doutb(3);
+----lcdchar (1)(0) <= i2c_mlx_doutb(4);
+----lcdchar (1)(1) <= i2c_mlx_doutb(5);
+----lcdchar (1)(2) <= i2c_mlx_doutb(6);
+----lcdchar (1)(3) <= i2c_mlx_doutb(7);
+----end if;
+--        when z4 =>
+--        i2c_mem_ena_2 <= '0';
+--        i2c_mlx_addrb_2 <= (others => '0');
+----        if (k = 3 - 1) then
+----          k := 0;
+--          state <= z5;
+----        else
+----          k := k + 1;
+----          state <= z4;
+----        end if;
+--        when z5 =>
+--        if (j = c_j - 1) then
+--          j <= 0;
+--          state <= s0;
 --        else
---          k := k + 1;
---          state <= z4;
+--          j <= j + 1;
+--          state <= z1;
 --        end if;
-        when z5 =>
-        if (j = c_j - 1) then
-          j <= 0;
-          state <= s0;
-        else
-          j <= j + 1;
-          state <= z1;
-        end if;
         when s0 =>
           state <= s1;
 					test_fixed_melexis_run <= '1';
@@ -1189,17 +1191,17 @@ i2c_mlx_addrb_2 <= std_logic_vector (to_unsigned (j, 12));
 						i := i + 1;
 					end if;
 				when s10 =>
-          if (some_wait = c_some_wait-1) then
-            some_wait := 0;
+--          if (some_wait = c_some_wait-1) then
+--            some_wait := 0;
             state <= idle;
 --            state <= wr1;
 --            state <= idle3;
 --            state <=  s2;
             float2fixedsclr <= '1';
-          else
-            some_wait := some_wait + 1;
-            state <= s10;
-          end if;
+--          else
+--            some_wait := some_wait + 1;
+--            state <= s10;
+--          end if;
 when others => null;
 			end case;
 		end if;

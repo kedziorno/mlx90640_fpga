@@ -1,9 +1,9 @@
 Release 14.7 par P.20131013 (lin64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-work::  Sat Nov 15 22:42:08 2025
+work::  Sat Nov 15 23:31:21 2025
 
-par -w -intstyle ise -ol high -t 1 -smartguide
+par -w -intstyle ise -ol std -t 1 -smartguide
 /home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1_guide.ncd test1_map.ncd
 test1.ncd test1.pcf 
 
@@ -12,6 +12,8 @@ Constraints file: test1.pcf.
 Loading device for application Rf_Device from file '3s1200e.nph' in environment
 /home/user/.local/Xilinx/14.7/ISE_DS/ISE/.
    "test1" is an NCD, version 3.2, device xc3s1200e, package fg320, speed -4
+INFO:Par:469 - Although the Overall Effort Level (-ol) for this implementation has been set to Standard, Placer will run
+   at effort level High. To override this, please set the Placer Effort Level (-pl) to Standard.
 
 Loading database for application par from file: "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1_guide.ncd"
    "test1" is an NCD, version 3.2, device xc3s1200e, package fg320, speed -4
@@ -54,44 +56,44 @@ Design Summary Report:
    Number of BSCANs                          1 out of 1     100%
    Number of BUFGMUXs                        4 out of 24     16%
    Number of RAMB16s                        27 out of 28     96%
-   Number of Slices                       7465 out of 8672   86%
+   Number of Slices                       7444 out of 8672   85%
       Number of SLICEMs                    255 out of 4336    5%
 
 
 
-Overall effort level (-ol):   High 
-Router effort level (-rl):    High 
+Overall effort level (-ol):   Standard 
+Router effort level (-rl):    Standard 
 
-Starting initial Timing Analysis.  REAL time: 7 secs 
-Finished initial Timing Analysis.  REAL time: 7 secs 
+Starting initial Timing Analysis.  REAL time: 8 secs 
+Finished initial Timing Analysis.  REAL time: 8 secs 
 
 Starting Router
 
 
-Phase  1  : 16907 unrouted;      REAL time: 11 secs 
+Phase  1  : 2814 unrouted;      REAL time: 11 secs 
 
-Phase  2  : 15190 unrouted;      REAL time: 11 secs 
+Phase  2  : 1811 unrouted;      REAL time: 12 secs 
 
-Phase  3  : 10447 unrouted;      REAL time: 13 secs 
+Phase  3  : 1018 unrouted;      REAL time: 13 secs 
 
-Phase  4  : 10447 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 14 secs 
+Phase  4  : 1018 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 13 secs 
 
-Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 32 secs 
+Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 24 secs 
 
 Updating file: test1.ncd with current fully routed design.
 
-Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 36 secs 
+Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 28 secs 
 
-Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 37 secs 
+Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 28 secs 
 
-Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 39 secs 
-WARNING:Route:455 - CLK Net:icon_control0<13> may have excessive skew because 
-      1 CLK pins and 3 NON_CLK pins failed to route using a CLK template.
+Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 30 secs 
 WARNING:Route:455 - CLK Net:agclk may have excessive skew because 
       1 CLK pins and 1 NON_CLK pins failed to route using a CLK template.
+WARNING:Route:455 - CLK Net:icon_control0<13> may have excessive skew because 
+      1 CLK pins and 3 NON_CLK pins failed to route using a CLK template.
 
-Total REAL time to Router completion: 39 secs 
-Total CPU time to Router completion: 39 secs 
+Total REAL time to Router completion: 31 secs 
+Total CPU time to Router completion: 30 secs 
 
   SmartGuide Results
   ------------------
@@ -99,15 +101,15 @@ Total CPU time to Router completion: 39 secs
   report accurately reflects the differences between the input design
   and the guide design.
 
-  Number of Components in the input design    |   7552
-    Number of guided Components               |   6635 out of   7552  87.9%
-    Number of re-implemented Components       |    577 out of   7552   7.6%
-    Number of new/changed Components          |    340 out of   7552   4.5%
-  Number of Nets in the input design          |  17577
-    Number of guided Nets                     |   6580 out of  17577  37.4%
-    Number of partially guided Nets           |   3032 out of  17577  17.2%
-    Number of re-routed Nets                  |   6839 out of  17577  38.9%
-    Number of new/changed Nets                |   1126 out of  17577   6.4%
+  Number of Components in the input design    |   7531
+    Number of guided Components               |   7450 out of   7531  98.9%
+    Number of re-implemented Components       |     28 out of   7531   0.4%
+    Number of new/changed Components          |     53 out of   7531   0.7%
+  Number of Nets in the input design          |  17519
+    Number of guided Nets                     |  11267 out of  17519  64.3%
+    Number of partially guided Nets           |   2597 out of  17519  14.8%
+    Number of re-routed Nets                  |   3389 out of  17519  19.3%
+    Number of new/changed Nets                |    266 out of  17519   1.5%
 
 Partition Implementation Status
 -------------------------------
@@ -125,24 +127,24 @@ Generating Clock Report
 +---------------------+--------------+------+------+------------+-------------+
 |        Clock Net    |   Resource   |Locked|Fanout|Net Skew(ns)|Max Delay(ns)|
 +---------------------+--------------+------+------+------------+-------------+
-|       i_clock_BUFGP | BUFGMUX_X2Y11| No   | 6062 |  0.210     |  0.380      |
-+---------------------+--------------+------+------+------------+-------------+
-|            vgaclk25 |  BUFGMUX_X1Y0| No   |   62 |  0.144     |  0.338      |
-+---------------------+--------------+------+------+------------+-------------+
-|    icon_control0<0> |  BUFGMUX_X2Y1| No   |  107 |  0.208     |  0.377      |
+|       i_clock_BUFGP | BUFGMUX_X2Y11| No   | 6039 |  0.210     |  0.380      |
 +---------------------+--------------+------+------+------------+-------------+
 |melexis_mlx90640_i2c |              |      |      |            |             |
 |           _i0/clock | BUFGMUX_X1Y10| No   |   66 |  0.048     |  0.290      |
 +---------------------+--------------+------+------+------------+-------------+
-|   icon_control0<13> |         Local|      |    4 |  0.000     |  1.287      |
+|    icon_control0<0> |  BUFGMUX_X2Y1| No   |  107 |  0.208     |  0.377      |
++---------------------+--------------+------+------+------------+-------------+
+|            vgaclk25 |  BUFGMUX_X1Y0| No   |   62 |  0.144     |  0.338      |
 +---------------------+--------------+------+------+------------+-------------+
 |               agclk |         Local|      |    7 |  1.076     |  3.348      |
++---------------------+--------------+------+------+------------+-------------+
+|melexis_mlx90640_i2c |              |      |      |            |             |
+|       _i0/io_scl_ii |         Local|      |   10 |  0.020     |  1.501      |
 +---------------------+--------------+------+------+------------+-------------+
 |U_icon_pro/U0/iUPDAT |              |      |      |            |             |
 |               E_OUT |         Local|      |    1 |  0.000     |  1.864      |
 +---------------------+--------------+------+------+------------+-------------+
-|melexis_mlx90640_i2c |              |      |      |            |             |
-|       _i0/io_scl_ii |         Local|      |   10 |  0.020     |  1.501      |
+|   icon_control0<13> |         Local|      |    4 |  0.000     |  1.287      |
 +---------------------+--------------+------+------+------------+-------------+
 
 * Net Skew is the difference between the minimum and maximum routing
@@ -164,13 +166,13 @@ Asterisk (*) preceding a constraint indicates it was not met.
   Constraint                                |    Check    | Worst Case |  Best Case | Timing |   Timing   
                                             |             |    Slack   | Achievable | Errors |    Score   
 ----------------------------------------------------------------------------------------------------------
-  NET "i_clock_BUFGP/IBUFG" PERIOD = 20 ns  | SETUP       |     1.962ns|    18.038ns|       0|           0
-  HIGH 50%                                  | HOLD        |     0.680ns|            |       0|           0
+  NET "i_clock_BUFGP/IBUFG" PERIOD = 20 ns  | SETUP       |     1.108ns|    18.892ns|       0|           0
+  HIGH 50%                                  | HOLD        |     0.671ns|            |       0|           0
 ----------------------------------------------------------------------------------------------------------
   TS_U_TO_U = MAXDELAY FROM TIMEGRP "U_CLK" | SETUP       |    13.384ns|     1.616ns|       0|           0
    TO TIMEGRP "U_CLK" 15 ns                 |             |            |            |        |            
 ----------------------------------------------------------------------------------------------------------
-  PATH "TS_D2_TO_T2_ila_pro_0_path" TIG     | SETUP       |         N/A|     7.080ns|     N/A|           0
+  PATH "TS_D2_TO_T2_ila_pro_0_path" TIG     | SETUP       |         N/A|     6.657ns|     N/A|           0
 ----------------------------------------------------------------------------------------------------------
   PATH "TS_J2_TO_D2_ila_pro_0_path" TIG     | N/A         |         N/A|         N/A|     N/A|         N/A
 ----------------------------------------------------------------------------------------------------------
@@ -192,10 +194,10 @@ Generating Pad Report.
 
 All signals are completely routed.
 
-Total REAL time to PAR completion: 44 secs 
-Total CPU time to PAR completion: 43 secs 
+Total REAL time to PAR completion: 35 secs 
+Total CPU time to PAR completion: 35 secs 
 
-Peak Memory Usage:  800 MB
+Peak Memory Usage:  789 MB
 
 Placer: Placement generated during map.
 Routing: Completed - No errors found.
@@ -203,7 +205,7 @@ Timing: Completed - No errors found.
 
 Number of error messages: 0
 Number of warning messages: 2
-Number of info messages: 1
+Number of info messages: 2
 
 Writing design to file test1.ncd
 

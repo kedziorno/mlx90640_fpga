@@ -378,7 +378,6 @@ begin
           i := 0;
           mulfpsclr_internal <= '0';
           addfpsclr_internal <= '0';
-          --rdy <= '0';
         when s1 => state := s2;
           o_vircompensated_addr <= std_logic_vector (to_unsigned (i, 10));
           o_alphacomp_addr <= std_logic_vector (to_unsigned (i, 10));
