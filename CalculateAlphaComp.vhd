@@ -428,7 +428,9 @@ begin
 			addfpa_internal <= (others => '0');
 			addfpb_internal <= (others => '0');
 			subfpa_internal <= (others => '0');
-			subfpb_internal <= (others => '0');
+			--subfpb_internal <= "11111111110010000000000000000000";
+			subfpb_internal <= "00000000001101111111111111111111";
+      --subfpb_internal <=  (others => '1');
 			mulfpond_internal <= '0';
 			addfpond_internal <= '0';
 			subfpond_internal <= '0';
@@ -454,6 +456,9 @@ begin
           mulfpsclr_internal <= '0';
           divfpsclr_internal <= '0';
           fixed2floatsclr_internal <= '0';
+          --subfpb_internal <= "11111111110010000000000000000000";
+          subfpb_internal <= "00000000001101111111111111111111";
+          --subfpb_internal <=  (others => '1');
 				when s0 => state := s1;
           i2c_mem_ena <= '1';
           i2c_mem_addra <= std_logic_vector (to_unsigned (60*2+0, 12)); -- 243c MSB kstaee 8bit
