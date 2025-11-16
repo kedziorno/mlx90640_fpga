@@ -122,7 +122,7 @@ begin
       o_KGain <= (others => '0');
       o_rdy <= '0';
       i2c_mem_ena <= '0';
-      i2c_mem_addra <= (others => '0');
+      i2c_mem_addra <= (others => '1');
     else
       case (state) is
         when idle =>
