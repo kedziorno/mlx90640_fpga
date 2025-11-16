@@ -115,7 +115,7 @@ begin
       fixed2floatce_internal <= '0';
       fixed2floatond_internal <= '0';
       divfpa_internal <= (others => '0');
-      divfpb_internal <= (others => '0');
+      divfpb_internal <= const2pow5;
       divfpce_internal <= '0';
       divfpond_internal <= '0';
       o_rdy <= '0';
@@ -137,6 +137,7 @@ begin
 					end if;
           fixed2floatsclr_internal <= '0';
           divfpsclr_internal <= '0';
+          divfpb_internal <= const2pow5;
         when s1 => state := s2;
           i2c_mem_ena <= '0';
 				when s2 =>
