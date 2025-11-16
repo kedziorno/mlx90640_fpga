@@ -121,8 +121,8 @@ begin
       o_rdy <= '0';
       o_tgc <= (others => '0');
       i2c_mem_ena <= '0';
-      i2c_mem_addra <= (others => '0');
-		else
+      i2c_mem_addra <= std_logic_vector (to_unsigned (60*2+1, 12)); -- ee243c LSB - tgcee
+    else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then

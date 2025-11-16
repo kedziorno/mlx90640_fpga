@@ -5,14 +5,14 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.04 secs
+Total CPU time to Xst completion: 0.02 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.04 secs
+Total CPU time to Xst completion: 0.03 secs
  
 --> 
 Reading design: test1.prj
@@ -129,12 +129,12 @@ Architecture behavioral of Entity extractkvparameters is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/global_package.vhd" in Library work.
 Architecture global_package of Entity global_package is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractTGCParameters.vhd" in Library work.
-Architecture behavioral of Entity extracttgcparameters is up to date.
+Entity <extracttgcparameters> compiled.
+Entity <extracttgcparameters> (Architecture <behavioral>) compiled.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateKGain.vhd" in Library work.
 Architecture behavioral of Entity calculatekgain is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateVdd.vhd" in Library work.
-Entity <calculatevdd> compiled.
-Entity <calculatevdd> (Architecture <behavioral>) compiled.
+Architecture behavioral of Entity calculatevdd is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateTa.vhd" in Library work.
 Architecture behavioral of Entity calculateta is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractAlphaParameters.vhd" in Library work.
@@ -565,6 +565,7 @@ Entity <test_fixed_melexis> analyzed. Unit <test_fixed_melexis> generated.
 Analyzing Entity <ExtractTGCParameters> in library <work> (Architecture <behavioral>).
 INFO:Xst:1749 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractTGCParameters.vhd" line 132: report: ExtractTGCParameters set to 0 - 11.1.16 Datasheet, 1 in example p. 34
 INFO:Xst:2679 - Register <divfpb_internal> in unit <ExtractTGCParameters> has a constant value of 01000010000000000000000000000000 during circuit operation. The register is replaced by logic.
+INFO:Xst:2679 - Register <i2c_mem_addra> in unit <ExtractTGCParameters> has a constant value of 000001111001 during circuit operation. The register is replaced by logic.
 Entity <ExtractTGCParameters> analyzed. Unit <ExtractTGCParameters> generated.
 
 Analyzing Entity <CalculateKGain> in library <work> (Architecture <behavioral>).
@@ -1164,7 +1165,7 @@ Synthesizing Unit <ExtractTGCParameters>.
     | States             | 4                                              |
     | Transitions        | 7                                              |
     | Inputs             | 3                                              |
-    | Outputs            | 6                                              |
+    | Outputs            | 5                                              |
     | Clock              | i_clock                   (rising_edge)        |
     | Reset              | i_reset                   (positive)           |
     | Reset type         | synchronous                                    |
@@ -1173,7 +1174,6 @@ Synthesizing Unit <ExtractTGCParameters>.
     | Encoding           | automatic                                      |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
-    Found 12-bit register for signal <i2c_mem_addra>.
     Found 1-bit register for signal <o_rdy>.
     Found 32-bit register for signal <o_tgc>.
     Found 1-bit register for signal <i2c_mem_ena>.
@@ -1185,7 +1185,7 @@ Synthesizing Unit <ExtractTGCParameters>.
     Found 1-bit register for signal <fixed2floatsclr_internal>.
     Summary:
 	inferred   1 Finite State Machine(s).
-	inferred  98 D-type flip-flop(s).
+	inferred  86 D-type flip-flop(s).
 Unit <ExtractTGCParameters> synthesized.
 
 
@@ -2224,11 +2224,11 @@ Macro Statistics
  26-bit up counter                                     : 1
  4-bit up counter                                      : 1
  8-bit up counter                                      : 1
-# Registers                                            : 436
+# Registers                                            : 435
  1-bit register                                        : 216
  10-bit register                                       : 29
  11-bit register                                       : 1
- 12-bit register                                       : 11
+ 12-bit register                                       : 10
  14-bit register                                       : 1
  16-bit register                                       : 14
  17-bit register                                       : 1
@@ -2855,30 +2855,26 @@ Loading core <divfp> for timing and area information for instance <inst_divfp>.
 Loading core <mulfp> for timing and area information for instance <inst_mulfp>.
 Loading core <addfp> for timing and area information for instance <inst_addfp>.
 Loading core <subfp> for timing and area information for instance <inst_subfp>.
-INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_1> in Unit <inst_ExtractTGCParameters> is equivalent to the following 6 FFs/Latches, which will be removed : <i2c_mem_addra_2> <i2c_mem_addra_7> <i2c_mem_addra_8> <i2c_mem_addra_9> <i2c_mem_addra_10> <i2c_mem_addra_11> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <inst_ExtractTGCParameters> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
-INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_0> in Unit <inst_ExtractTGCParameters> is equivalent to the following 4 FFs/Latches, which will be removed : <i2c_mem_addra_3> <i2c_mem_addra_4> <i2c_mem_addra_5> <i2c_mem_addra_6> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_9> in Unit <inst_CalculateAlphaCP> is equivalent to the following 6 FFs/Latches, which will be removed : <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <inst_ExtractKtaParameters> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <inst_CalculateAlphaComp> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_7> (without init value) has a constant value of 0 in block <inst_CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_8> (without init value) has a constant value of 0 in block <inst_CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_9> (without init value) has a constant value of 0 in block <inst_CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_10> (without init value) has a constant value of 0 in block <inst_CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_11> (without init value) has a constant value of 0 in block <inst_CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <m_0> has a constant value of 0 in block <inst_ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <n_0> has a constant value of 0 in block <inst_ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1293 - FF/Latch <n_1> has a constant value of 0 in block <inst_ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_11> (without init value) has a constant value of 0 in block <inst_ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_11> (without init value) has a constant value of 0 in block <inst_ExtractKtaParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_2> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_7> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_8> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_9> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_10> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_11> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <inst_ExtractTGCParameters>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_10> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_9> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_8> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_7> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_2> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <inst_ExtractKvParameters>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_11> (without init value) has a constant value of 0 in block <inst_ExtractKtaParameters>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_11> (without init value) has a constant value of 0 in block <inst_ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <n_1> has a constant value of 0 in block <inst_ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <n_0> has a constant value of 0 in block <inst_ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <m_0> has a constant value of 0 in block <inst_ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_11> (without init value) has a constant value of 0 in block <inst_CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_10> (without init value) has a constant value of 0 in block <inst_CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_9> (without init value) has a constant value of 0 in block <inst_CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_8> (without init value) has a constant value of 0 in block <inst_CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_3> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_8> (without init value) has a constant value of 0 in block <inst_CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
@@ -2895,6 +2891,7 @@ WARNING:Xst:1293 - FF/Latch <n_1> has a constant value of 0 in block <inst_Extra
 WARNING:Xst:1293 - FF/Latch <m_0> has a constant value of 0 in block <inst_ExtractAlphaParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_2> (without init value) has a constant value of 0 in block <inst_CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_3> (without init value) has a constant value of 0 in block <inst_CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_7> (without init value) has a constant value of 0 in block <inst_CalculateAlphaCP>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_2> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_3> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -2914,7 +2911,6 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_5> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_4> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:2404 -  FFs/Latches <i2c_mem_addra<11:7>> (without init value) have a constant value of 0 in block <ExtractTGCParameters>.
 
 Synthesizing (advanced) Unit <CalculateVdd>.
 INFO:Xst:3034 - In order to maximize performance and save block RAM resources, the small ROM <Mrom_out_resolutionee> will be implemented on LUT. If you want to force its implementation on block, use option/constraint rom_style.
@@ -2952,8 +2948,8 @@ Macro Statistics
  2-bit up counter                                      : 1
  4-bit up counter                                      : 1
  8-bit up counter                                      : 1
-# Registers                                            : 4477
- Flip-Flops                                            : 4477
+# Registers                                            : 4470
+ Flip-Flops                                            : 4470
 # Comparators                                          : 10
  10-bit comparator greatequal                          : 4
  10-bit comparator greater                             : 2
@@ -2970,8 +2966,6 @@ Macro Statistics
 =========================================================================
 *                         Low Level Synthesis                           *
 =========================================================================
-WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <ExtractTGCParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_2> (without init value) has a constant value of 0 in block <ExtractTGCParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <i2c_mem_addra_1> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_3> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <i2c_mem_addra_8> (without init value) has a constant value of 0 in block <CalculateKGain>. This FF/Latch will be trimmed during the optimization process.
@@ -3025,7 +3019,6 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_4> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <ExtractTGCParameters> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
-INFO:Xst:2261 - The FF/Latch <i2c_mem_addra_0> in Unit <ExtractTGCParameters> is equivalent to the following 4 FFs/Latches, which will be removed : <i2c_mem_addra_3> <i2c_mem_addra_4> <i2c_mem_addra_5> <i2c_mem_addra_6> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_9> in Unit <CalculateAlphaCP> is equivalent to the following 6 FFs/Latches, which will be removed : <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <CalculateAlphaComp> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <ExtractKtaParameters> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
@@ -3109,8 +3102,8 @@ Unit <test1> processed.
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 4882
- Flip-Flops                                            : 4882
+# Registers                                            : 4881
+ Flip-Flops                                            : 4881
 # Shift Registers                                      : 1
  2-bit shift register                                  : 1
 
@@ -3141,35 +3134,35 @@ Design Statistics
 # IOs                              : 63
 
 Cell Usage :
-# BELS                             : 17085
+# BELS                             : 17077
 #      BUF                         : 12
 #      GND                         : 9
 #      INV                         : 53
 #      LUT1                        : 236
-#      LUT2                        : 2261
+#      LUT2                        : 2262
 #      LUT2_D                      : 33
-#      LUT2_L                      : 57
-#      LUT3                        : 2941
+#      LUT2_L                      : 55
+#      LUT3                        : 2937
 #      LUT3_D                      : 108
 #      LUT3_L                      : 204
-#      LUT4                        : 6341
+#      LUT4                        : 6337
 #      LUT4_D                      : 106
 #      LUT4_L                      : 569
 #      MULT_AND                    : 226
 #      MUXCY                       : 1865
-#      MUXF5                       : 362
+#      MUXF5                       : 363
 #      MUXF6                       : 6
 #      MUXF7                       : 3
 #      VCC                         : 7
 #      XORCY                       : 1686
-# FlipFlops/Latches                : 8392
+# FlipFlops/Latches                : 8391
 #      FD                          : 3
 #      FDC                         : 69
 #      FDCE                        : 82
 #      FDE                         : 4166
 #      FDP                         : 5
 #      FDR                         : 907
-#      FDRE                        : 1609
+#      FDRE                        : 1608
 #      FDRS                        : 1198
 #      FDRSE                       : 204
 #      FDS                         : 130
@@ -3195,10 +3188,10 @@ Device utilization summary:
 
 Selected Device : 3s1200efg320-4 
 
- Number of Slices:                     7688  out of   8672    88%  
- Number of Slice Flip Flops:           8392  out of  17344    48%  
- Number of 4 input LUTs:              13114  out of  17344    75%  
-    Number used as logic:             12909
+ Number of Slices:                     7683  out of   8672    88%  
+ Number of Slice Flip Flops:           8391  out of  17344    48%  
+ Number of 4 input LUTs:              13105  out of  17344    75%  
+    Number used as logic:             12900
     Number used as Shift registers:     205
  Number of IOs:                          63
  Number of bonded IOBs:                  55  out of    250    22%  
@@ -3226,7 +3219,7 @@ Clock Information:
 -----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)                                                                                                                | Load  |
 -----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------+-------+
-i_clock                            | IBUF+BUFG                                                                                                                            | 8501  |
+i_clock                            | IBUF+BUFG                                                                                                                            | 8500  |
 agclk                              | NONE(dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram)| 11    |
 melexis_mlx90640_i2c_i0/clock1     | BUFG                                                                                                                                 | 91    |
 melexis_mlx90640_i2c_i0/io_scl_ii  | NONE(melexis_mlx90640_i2c_i0/bytes_to_recv_sr_16)                                                                                    | 17    |
@@ -3258,7 +3251,7 @@ All values displayed in nanoseconds (ns)
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
   Clock period: 12.148ns (frequency: 82.319MHz)
-  Total number of paths / destination ports: 385183 / 16735
+  Total number of paths / destination ports: 385146 / 16734
 -------------------------------------------------------------------------
 Delay:               12.148ns (Levels of Logic = 7)
   Source:            tfm_inst/CalculateAlphaCP_mux (FF)
@@ -3274,7 +3267,7 @@ Delay:               12.148ns (Levels of Logic = 7)
      LUT4_D:I0->O         34   0.704   1.298  tfm_inst/divfpa<0>121 (tfm_inst/N391)
      LUT4:I2->O            1   0.704   0.424  tfm_inst/divfpond17 (tfm_inst/divfpce17)
      LUT4_L:I3->LO         1   0.704   0.104  tfm_inst/divfpond116 (tfm_inst/divfpce116)
-     LUT4:I3->O            1   0.704   0.424  tfm_inst/divfpond171_SW0 (N3610)
+     LUT4:I3->O            1   0.704   0.424  tfm_inst/divfpond171_SW0 (N3612)
      LUT4:I3->O          473   0.704   1.480  tfm_inst/divfpond171 (divfpce)
      begin scope: 'inst_divfp'
      LUT2:I1->O           22   0.704   1.164  blk00000ac2 (sig00000ced)
@@ -3300,7 +3293,7 @@ Delay:               6.212ns (Levels of Logic = 3)
     ----------------------------------------  ------------
      FDRE:C->Q             4   0.591   0.762  ag_inst/addr_5 (ag_inst/addr_5)
      LUT4:I0->O            1   0.704   0.499  ag_inst/addr_or000010 (ag_inst/addr_or000010)
-     LUT4:I1->O            1   0.704   0.455  ag_inst/addr_or000038_SW0 (N3168)
+     LUT4:I1->O            1   0.704   0.455  ag_inst/addr_or000038_SW0 (N3166)
      LUT4:I2->O           10   0.704   0.882  ag_inst/addr_or000038 (ag_inst/addr_or0000)
      FDRE:R                    0.911          ag_inst/addr_0
     ----------------------------------------
@@ -3360,7 +3353,7 @@ Delay:               2.225ns (Levels of Logic = 1)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 4754 / 4753
+  Total number of paths / destination ports: 4753 / 4752
 -------------------------------------------------------------------------
 Offset:              10.699ns (Levels of Logic = 7)
   Source:            i_reset (PAD)
@@ -3371,7 +3364,7 @@ Offset:              10.699ns (Levels of Logic = 7)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           475   1.218   1.402  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O           474   1.218   1.402  i_reset_IBUF (i_reset_IBUF)
      BUF:I->O            475   0.704   1.406  i_reset_IBUF_1 (i_reset_IBUF_1)
      LUT4:I3->O            2   0.704   0.451  vts_inst/videoOn_or00004 (vts_inst/videoOn_or00004)
      LUT4:I3->O            1   0.704   0.000  vts_inst/videoOn_or000021_F (N3766)
@@ -3396,7 +3389,7 @@ Offset:              5.121ns (Levels of Logic = 2)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           475   1.218   1.406  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O           474   1.218   1.406  i_reset_IBUF (i_reset_IBUF)
      LUT4:I3->O           10   0.704   0.882  ag_inst/addr_or000038 (ag_inst/addr_or0000)
      FDRE:R                    0.911          ag_inst/addr_0
     ----------------------------------------
@@ -3498,15 +3491,15 @@ Delay:               5.021ns (Levels of Logic = 2)
 =========================================================================
 
 
-Total REAL time to Xst completion: 97.00 secs
-Total CPU time to Xst completion: 95.58 secs
+Total REAL time to Xst completion: 98.00 secs
+Total CPU time to Xst completion: 96.44 secs
  
 --> 
 
 
-Total memory usage is 1003892 kilobytes
+Total memory usage is 1002368 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :  186 (   0 filtered)
-Number of infos    :   58 (   0 filtered)
+Number of warnings :  182 (   0 filtered)
+Number of infos    :   56 (   0 filtered)
 
