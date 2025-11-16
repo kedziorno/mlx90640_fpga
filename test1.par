@@ -1,7 +1,7 @@
 Release 14.7 par P.20131013 (lin64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-work::  Sun Nov 16 13:36:19 2025
+work::  Sun Nov 16 16:06:44 2025
 
 par -w -intstyle ise -ol std -t 1 -smartguide
 /home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1_guide.ncd test1_map.ncd
@@ -55,7 +55,7 @@ Design Summary Report:
 
    Number of BUFGMUXs                        2 out of 24      8%
    Number of RAMB16s                        22 out of 28     78%
-   Number of Slices                       7186 out of 8672   82%
+   Number of Slices                       7195 out of 8672   82%
       Number of SLICEMs                    174 out of 4336    4%
 
 
@@ -63,36 +63,36 @@ Design Summary Report:
 Overall effort level (-ol):   Standard 
 Router effort level (-rl):    Standard 
 
-Starting initial Timing Analysis.  REAL time: 6 secs 
-Finished initial Timing Analysis.  REAL time: 6 secs 
+Starting initial Timing Analysis.  REAL time: 8 secs 
+Finished initial Timing Analysis.  REAL time: 8 secs 
 
 Starting Router
 
 
-Phase  1  : 13125 unrouted;      REAL time: 9 secs 
+Phase  1  : 13618 unrouted;      REAL time: 12 secs 
 
-Phase  2  : 11803 unrouted;      REAL time: 9 secs 
+Phase  2  : 12298 unrouted;      REAL time: 13 secs 
 
-Phase  3  : 10296 unrouted;      REAL time: 11 secs 
+Phase  3  : 10915 unrouted;      REAL time: 15 secs 
 
-Phase  4  : 10296 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 12 secs 
+Phase  4  : 10915 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 16 secs 
 
-Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 28 secs 
+Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 41 secs 
 
 Updating file: test1.ncd with current fully routed design.
 
-Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 31 secs 
+Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 46 secs 
 
-Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 31 secs 
+Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 47 secs 
 
-Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 34 secs 
+Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 50 secs 
 WARNING:Route:455 - CLK Net:melexis_mlx90640_i2c_i0/io_scl_ii may have excessive skew because 
       1 CLK pins and 0 NON_CLK pins failed to route using a CLK template.
 WARNING:Route:455 - CLK Net:agclk may have excessive skew because 
       1 CLK pins and 1 NON_CLK pins failed to route using a CLK template.
 
-Total REAL time to Router completion: 34 secs 
-Total CPU time to Router completion: 33 secs 
+Total REAL time to Router completion: 50 secs 
+Total CPU time to Router completion: 49 secs 
 
   SmartGuide Results
   ------------------
@@ -100,15 +100,15 @@ Total CPU time to Router completion: 33 secs
   report accurately reflects the differences between the input design
   and the guide design.
 
-  Number of Components in the input design    |   7265
-    Number of guided Components               |   6450 out of   7265  88.8%
-    Number of re-implemented Components       |    508 out of   7265   7.0%
-    Number of new/changed Components          |    307 out of   7265   4.2%
-  Number of Nets in the input design          |  16951
-    Number of guided Nets                     |   7475 out of  16951  44.1%
-    Number of partially guided Nets           |   2178 out of  16951  12.8%
-    Number of re-routed Nets                  |   5893 out of  16951  34.8%
-    Number of new/changed Nets                |   1405 out of  16951   8.3%
+  Number of Components in the input design    |   7274
+    Number of guided Components               |   6407 out of   7274  88.1%
+    Number of re-implemented Components       |    507 out of   7274   7.0%
+    Number of new/changed Components          |    360 out of   7274   4.9%
+  Number of Nets in the input design          |  16979
+    Number of guided Nets                     |   7234 out of  16979  42.6%
+    Number of partially guided Nets           |   2190 out of  16979  12.9%
+    Number of re-routed Nets                  |   6414 out of  16979  37.8%
+    Number of new/changed Nets                |   1141 out of  16979   6.7%
 
 Partition Implementation Status
 -------------------------------
@@ -126,12 +126,12 @@ Generating Clock Report
 +---------------------+--------------+------+------+------------+-------------+
 |        Clock Net    |   Resource   |Locked|Fanout|Net Skew(ns)|Max Delay(ns)|
 +---------------------+--------------+------+------+------------+-------------+
-|      vga_clock_OBUF |  BUFGMUX_X1Y1| No   | 5888 |  0.209     |  0.379      |
+|      vga_clock_OBUF |  BUFGMUX_X1Y1| No   | 5886 |  0.209     |  0.379      |
 +---------------------+--------------+------+------+------------+-------------+
 |melexis_mlx90640_i2c |              |      |      |            |             |
 |           _i0/clock | BUFGMUX_X1Y10| No   |   66 |  0.048     |  0.290      |
 +---------------------+--------------+------+------+------------+-------------+
-|               agclk |         Local|      |    7 |  0.913     |  3.135      |
+|               agclk |         Local|      |    7 |  0.914     |  3.186      |
 +---------------------+--------------+------+------+------------+-------------+
 |melexis_mlx90640_i2c |              |      |      |            |             |
 |       _i0/io_scl_ii |         Local|      |   10 |  0.912     |  2.417      |
@@ -154,8 +154,8 @@ Asterisk (*) preceding a constraint indicates it was not met.
   Constraint                                |    Check    | Worst Case |  Best Case | Timing |   Timing   
                                             |             |    Slack   | Achievable | Errors |    Score   
 ----------------------------------------------------------------------------------------------------------
-  NET "vga_clock_OBUF1" PERIOD = 40 ns HIGH | SETUP       |    21.721ns|    18.279ns|       0|           0
-   50%                                      | HOLD        |     0.663ns|            |       0|           0
+  NET "vga_clock_OBUF1" PERIOD = 40 ns HIGH | SETUP       |    20.115ns|    19.885ns|       0|           0
+   50%                                      | HOLD        |     0.683ns|            |       0|           0
 ----------------------------------------------------------------------------------------------------------
 
 
@@ -166,10 +166,10 @@ Generating Pad Report.
 
 All signals are completely routed.
 
-Total REAL time to PAR completion: 38 secs 
-Total CPU time to PAR completion: 37 secs 
+Total REAL time to PAR completion: 56 secs 
+Total CPU time to PAR completion: 55 secs 
 
-Peak Memory Usage:  769 MB
+Peak Memory Usage:  774 MB
 
 Placer: Placement generated during map.
 Routing: Completed - No errors found.

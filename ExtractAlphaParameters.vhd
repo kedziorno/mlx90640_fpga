@@ -398,7 +398,6 @@ begin
 				when idle =>
 					if (i_run = '1') then
 						state := acc15;
-						i2c_mem_ena <= '1';
             i := 2;
             j := 0;
             rdy <= '0';
@@ -417,13 +416,13 @@ begin
           j := 0;
           col := 0;
           row := 0;
-          i2c_mem_addra <= (others => '1');
         when acc15 => state := acc16;
           m := 2*i;
           n := j*4;
           --i2c_mem_ena <= '1';
           o_signed4bit_ena <= '1';
           write_enable <= '1';
+          i2c_mem_ena <= '1';
           i2c_mem_addra <= std_logic_vector (to_unsigned (32*2+m+1, 12)); -- 2422 MSB -- accrow B,A
         when acc16 => state := acc17;
           i2c_mem_addra <= std_logic_vector (to_unsigned (32*2+m+0, 12)); -- 2422 LSB -- accrow D,C

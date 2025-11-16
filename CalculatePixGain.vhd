@@ -319,7 +319,6 @@ begin
 				when idle =>
 					if (i_run = '1') then
 						state := s1;
-						i2c_mem_ena_internal <= '1';
             rdy <= '0';
 					else
 						state := idle;
@@ -329,6 +328,7 @@ begin
 					mulfpsclr_internal <= '0';
           pixgain_index := 0;
 				when s1 => state := s2; -- XXX in loop, i2c_mem_addra_internal must be here
+          i2c_mem_ena_internal <= '1';
 					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (PIXGAIN_ST+(pixgain_index*2)+1, 12)); -- LSB
 				when s2 => state := s3;
 					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (PIXGAIN_ST+(pixgain_index*2)+0, 12)); -- MSB

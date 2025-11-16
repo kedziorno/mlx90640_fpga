@@ -128,12 +128,14 @@ begin
 		i2c_mem_ena_internal <= '0';
 		i2c_mem_addra_internal <= (others => '1');
     addfpb <= (others => '1');
+    fixed2floata <= (others => '0');
+    fixed2floatce <= '0';
+    fixed2floatond <= '0';
 	else
 	case (state) is
 	when idle =>
 		if (i_run = '1') then
 			state := s2;
-			i2c_mem_ena_internal <= '1';
 		else
 			state := idle;
 			i2c_mem_ena_internal <= '0';
@@ -146,8 +148,8 @@ begin
     fixed2floatsclr <= '0';
     o_rdy <= '0';
     addfpb <= const3dot3_ft;
-		i2c_mem_addra_internal <= (others => '1');
 	when s2 => state := s4;
+    i2c_mem_ena_internal <= '1';
     i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+0, 12)); -- 2438 MSB resolutionee 2bit & 3000
 	when s4 => state := s5;
     resolutionreg <= resreg (11 downto 10);

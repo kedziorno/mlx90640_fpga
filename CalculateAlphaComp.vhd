@@ -439,6 +439,7 @@ begin
 			subfpce_internal <= '0';
 			write_enable <= '0';
       i := 0;
+      i2c_mem_addra <= std_logic_vector (to_unsigned (60*2+0, 12)); -- 243c MSB kstaee 8bit
 		else
 			case (state) is
 				when idle =>

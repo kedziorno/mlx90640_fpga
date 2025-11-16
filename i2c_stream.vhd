@@ -159,7 +159,9 @@ begin
               sda <= '0';
             else
               state <= idle;
-              v_items <= v_items + 1; -- 28
+              if (i_addr = x"0400") then
+                v_items <= v_items + 1; -- 28
+              end if;
               o_done <= '1';
               sda <= '0';
             end if;

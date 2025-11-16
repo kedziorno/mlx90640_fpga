@@ -158,7 +158,6 @@ begin
         when idle =>
           if (i_run = '1') then
             state := s1c;
-            i2c_mem_ena <= '1';
             o_rdy <= '0';
           else
             state := idle;
@@ -169,12 +168,12 @@ begin
           subfpsclr <= '0';
           mulfpsclr <= '0';
           divfpsclr <= '0';
-          i2c_mem_addra <= (others => '1');
         when s1c =>
           subfpce <= '1';
           subfpa <= i_Vdd;
           subfpb <= const3dot3_ft;
           subfpond <= '1';
+          i2c_mem_ena <= '1';
           i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(800*2)+0, 12)); -- ram0720 MSB vptat
           if (subfprdy = '1') then state := s8;
             -- XXX duplicate calculation
