@@ -137,6 +137,7 @@ begin
           end if;
           fixed2floatsclr_internal <= '0';
           divfpsclr_internal <= '0';
+          i2c_mem_addra <= (others => '1');
         when s4 => state := s5;
           i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(778*2)+1, 12)); -- ram070a LSB ram gain
         when s5 => state := s9;
