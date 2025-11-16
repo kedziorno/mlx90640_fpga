@@ -400,6 +400,7 @@ begin
 			i := 0;
 			col <= 0;
 			row <= 0;
+      i2c_mem_addra <= (others => '1');
 		else
 			case (state) is
 				when idle =>
@@ -419,6 +420,7 @@ begin
           col <= 0;
           row <= 0;
           i := 0;
+          i2c_mem_addra <= (others => '1');
 				when kta1 => state := kta2;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (109, 12)); -- 2436 MSB - ktarcee_eo 54*2+1
 				when kta2 => state := kta3;

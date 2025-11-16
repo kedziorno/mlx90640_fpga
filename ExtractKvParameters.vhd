@@ -315,6 +315,7 @@ begin
 			i := 0;
 			col <= 0;
 			row <= 0;
+      i2c_mem_addra <= (others => '1');
 		else
 			case (state) is
 				when idle =>
@@ -331,6 +332,7 @@ begin
           i := 0;
           col <= 0;
           row <= 0;
+          i2c_mem_addra <= (others => '1');
         when kv1 => state := kv2;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (104, 12)); -- 2434 LSB - kvijee 52*2+0
         when kv2 => state := kv3;
