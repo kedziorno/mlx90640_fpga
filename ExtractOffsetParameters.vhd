@@ -349,6 +349,7 @@ begin
 			dia <= (others => '0');
 			i2c_mem_ena <= '0';
       i := 0;
+      i2c_mem_addra <= (others => '1');
 		else
 			case (state) is
 				when idle =>
@@ -368,6 +369,7 @@ begin
           n := 0;
           row := 0;
           col := 0;
+          i2c_mem_addra <= (others => '1');
         when occ24 => state := occ25;
           m := 2*i;
           n := i*4;

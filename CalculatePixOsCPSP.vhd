@@ -247,7 +247,7 @@ begin
 			divfpce_internal <= '0';
 			fixed2floatce_internal <= '0';
 			i2c_mem_ena_internal <= '0';
-			i2c_mem_addra_internal <= (others => '0');
+			i2c_mem_addra_internal <= (others => '1');
 			o_pixoscpsp0 <= (others => '0');
 			o_pixoscpsp1 <= (others => '0');
 			rdy <= '0';
@@ -268,6 +268,7 @@ begin
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
 					fixed2floatsclr_internal <= '0';
+          i2c_mem_addra_internal <= (others => '1');
 				when s0 => state := s1a;
           i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+1, 12)); -- ee2438 LSB - ktascale1
         when s1a => state := s1b;
