@@ -152,6 +152,7 @@ begin
 			mulfpce_internal <= '0';
 			mulfpond_internal <= '0';
 			i2c_mem_ena <= '0';
+      i2c_mem_addra <= (others => '1');
 		else
 			case (state) is
 				when idle =>
@@ -166,6 +167,7 @@ begin
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
           fixed2floatsclr_internal <= '0';
+          i2c_mem_addra <= (others => '1');
 				when s2 => state := s3;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (57*2+0, 12)); -- 2439 MSB Acpsubpage0 10bit/CP_P12P0_ratio 6bit
 				when s3 => state := s4;

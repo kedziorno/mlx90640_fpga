@@ -152,6 +152,7 @@ begin
       o_kvptat_adr <= (others => '0');
       o_alphaptat_ena <= '0';
       o_alphaptat_adr <= (others => '0');
+      i2c_mem_addra <= (others => '1');
     else
       case (state) is
         when idle =>
@@ -168,6 +169,7 @@ begin
           subfpsclr <= '0';
           mulfpsclr <= '0';
           divfpsclr <= '0';
+          i2c_mem_addra <= (others => '1');
         when s1c =>
           subfpce <= '1';
           subfpa <= i_Vdd;
