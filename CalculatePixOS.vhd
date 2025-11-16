@@ -830,7 +830,7 @@ begin
 			mulfpa_internal <= (others => '0');
 			mulfpb_internal <= (others => '0');
 			addfpa_internal <= (others => '0');
-			addfpb_internal <= (others => '0');
+			addfpb_internal <= const1;
 			subfpa_internal <= (others => '0');
 			subfpb_internal <= (others => '0');
 			mulfpond_internal <= '0';
@@ -840,7 +840,7 @@ begin
 			addfpce_internal <= '0';
 			subfpce_internal <= '0';
 			divfpa_internal <= (others => '0');
-			divfpb_internal <= (others => '0');
+			divfpb_internal <= const1;
 			divfpond_internal <= '0';
 			divfpce_internal <= '0';
 			dia <= (others => '0');
@@ -861,6 +861,8 @@ begin
 					subfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
+          addfpb_internal <= const1;
+          divfpb_internal <= const1;
         when s3 =>
           CalculatePixGain_run <= '0';
           if (CalculatePixGain_rdy = '1') then
