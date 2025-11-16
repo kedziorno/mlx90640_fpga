@@ -385,7 +385,7 @@ begin
 			subfpa_internal <= (others => '0');
 			subfpb_internal <= (others => '0');
 			divfpa_internal <= (others => '0');
-			divfpb_internal <= (others => '0');
+			divfpb_internal <= const_Emissivity;
 			mulfpond_internal <= '0';
 			addfpond_internal <= '0';
 			subfpond_internal <= '0';
@@ -413,6 +413,7 @@ begin
 					subfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
+          divfpb_internal <= const_Emissivity;
           i := 0;
 				when s3 => state := s4;
 					o_pixos_addr <= std_logic_vector (to_unsigned (i, 10));

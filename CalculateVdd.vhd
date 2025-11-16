@@ -127,6 +127,7 @@ begin
 		o_rdy <= '0';
 		i2c_mem_ena_internal <= '0';
 		i2c_mem_addra_internal <= (others => '0');
+    addfpb <= (others => '1');
 	else
 	case (state) is
 	when idle =>
@@ -144,6 +145,7 @@ begin
 		divfpsclr <= '0';
     fixed2floatsclr <= '0';
     o_rdy <= '0';
+    addfpb <= const3dot3_ft;
 	when s2 => state := s4;
     i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+0, 12)); -- 2438 MSB resolutionee 2bit & 3000
 	when s4 => state := s5;
