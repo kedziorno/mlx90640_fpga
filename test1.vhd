@@ -32,9 +32,15 @@ constant c_bus_clock : integer := c_clock_i2c_frequency;
 c_sim : string (1 downto 1) := "n";
 --constant c_cold_start : integer := 2**26;
 constant c_cold_start : integer := 1024;
-constant c_wait11 : integer := 65536; -- scl 100k
-constant c_wait2 : integer := 65536;
-constant c_wait3 : integer := 65536;
+constant c_melexis_mlx90640_i2c_enable_wait : integer := 1024;
+constant c_melexis_mlx90640_i2c_wait : integer := 65536;
+constant c_w_64us : integer := 65536; -- 64 us
+constant c_w_180us : integer := 65536; -- 180 us
+constant c_w_160us : integer := 65536; -- 160 us
+constant c_w_160ms : integer := 65536; -- 160 ms
+constant c_w_180ms : integer := 65536; -- 180 ms
+constant c_w_200ms : integer := 65536; -- 200 ms
+constant c_w_21ms : integer := 65536; -- 21 ms
 constant c_some_wait : integer := 2**20;
 zero : integer := 0
 );
@@ -476,19 +482,6 @@ signal i2c_mlx_addrb_1 : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal i2c_mlx_addrb_2 : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal i2c_mlx_doutb : STD_LOGIC_VECTOR(7 DOWNTO 0);
 
---constant c_wait1 : integer := 58;
---constant c_wait1 : integer := 25*1_000_000/10000;
---constant c_wait1 : integer := 25;
---constant c_wait1 : integer := 60;
---constant c_wait1 : integer := 47;
--- constant c_wait1 : integer := 115*4; -- scl 500k
- constant c_wait1 : integer := c_wait11; -- scl 100k
---constant c_wait1 : integer := 115*4*1000; -- scl 100
---constant c_wait1 : integer := 230*4*1000; -- scl 50
---constant c_wait1 : integer := 230*5*4*1000; -- scl 10
---constant c_wait1 : integer := 230*5*5*4*1000; -- scl 2
-signal wait1 : integer range 0 to c_wait1 - 1;
-
 signal i2c_mem_ena : std_logic;
 signal i2c_mem_ena_1 : std_logic;
 signal i2c_mem_ena_2 : std_logic;
@@ -510,29 +503,143 @@ signal j : integer range 0 to c_j-1;
 
 type states is (
 idle,
-w800d_r1981_idle,
-w800d_r1981_idle_1,
-w800d1981_1,
-w800d1981_1_idle,
-w800d1981_2,
-w800d1981_2_idle,
-read_eeprom,
-read_eeprom_idle,
-w8000_r0008_1,
-w8000_r0008_1_idle,
-w08000030_1,
-w8000_r0010_1,
-w8000_r0010_1_idle,
-read_data,
-w8000_r0010_2,
-w8000_r0010_2_idle,
-w800d_r1981_1,
-w800d_r1981_1_idle,
-w8000_r0010_3,
-w8000_r0010_3_idle,
-w08000030_2,
 
+wr_800d_1901,
+wr_800d_1901_idle,
+w_800d1981_1,
+wait_64us_1,
+wr_800d_1981_1,
+wr_800d_1981_1_idle,
+wait_64us_2,
+wr_800d_1981_2,
+wr_800d_1981_2_idle,
+w_800d1981_2,
+wait_64us_3,
+wr_800d_1981_3,
+wr_800d_1981_3_idle,
+wait_64us_4,
+r_2400,
 
+wait_200ms_1,
+
+wr_8000_0008_1,
+wr_8000_0008_1_idle,
+w_80000030_1,
+wait_64us_5,
+wr_8000_0010_1,
+wr_8000_0010_1_idle,
+wait_64us_6,
+r_0400_1,
+wait_180us_1,
+wr_8000_0010_2,
+wr_8000_0010_2_idle,
+wait_64us_7,
+wr_800d_1981_4,
+wr_800d_1981_4_idle,
+
+wait_160ms_1,
+
+wr_8000_0010_3, -- ... 64 us
+wr_8000_0010_3_idle,
+wait_64us_8_1,
+wait_64us_8_2,
+wr_8000_0009_1,
+wr_8000_0009_1_idle,
+w_80000030_2,
+wait_64us_9,
+wr_8000_0011_1,
+wr_8000_0011_1_idle,
+wait_64us_10,
+r_0400_2,
+wait_180us_2,
+wr_8000_0011_2,
+wr_8000_0011_2_idle,
+wait_64us_11,
+wr_800d_1981_5,
+wr_800d_1981_5_idle,
+
+wait_160ms_2,
+
+wr_8000_0011_3, -- ... 64 us
+wr_8000_0011_3_idle,
+wait_64us_12_1,
+wait_64us_12_2,
+wr_8000_0008_2,
+wr_8000_0008_2_idle,
+w_80000030_3,
+wait_64us_13,
+wr_8000_0010_4,
+wr_8000_0010_4_idle,
+wait_64us_14,
+r_0400_3,
+wait_180us_3,
+wr_8000_0010_5,
+wr_8000_0010_5_idle,
+wait_64us_15,
+wr_800d_1981_6,
+wr_800d_1981_6_idle,
+
+wait_180ms_1,
+
+------------ frame 0
+wr_8000_0010_6,
+wr_8000_0010_6_idle,
+wait_21ms_1,
+wr_8000_0010_7,
+wr_8000_0010_7_idle,
+wait_21ms_2,
+wr_8000_0010_8,
+wr_8000_0010_8_idle,
+wait_21ms_3,
+wr_8000_0009_2,
+wr_8000_0009_2_idle,
+wait_64us_16,
+wr_8000_0009_3,
+wr_8000_0009_3_idle,
+w_80000030_4,
+wait_64us_17,
+wr_8000_0011_4,
+wr_8000_0011_4_idle,
+wait_64us_18,
+r_0400_4,
+wait_180us_4,
+wr_8000_0011_5,
+wr_8000_0011_5_idle,
+wait_64us_19,
+wr_800d_1981_7,
+wr_800d_1981_7_idle,
+
+wait_180ms_2,
+
+------------ frame1
+wr_8000_0011_6,
+wr_8000_0011_6_idle,
+wait_21ms_4,
+wr_8000_0011_7,
+wr_8000_0011_7_idle,
+wait_21ms_5,
+wr_8000_0011_8,
+wr_8000_0011_8_idle,
+wait_21ms_6,
+wr_8000_0008_3,
+wr_8000_0008_3_idle,
+wait_64us_20,
+wr_8000_0008_4,
+wr_8000_0008_4_idle,
+w_80000030_5,
+wait_64us_21,
+wr_8000_0010_9,
+wr_8000_0010_9_idle,
+wait_64us_22,
+r_0400_5,
+wait_180us_5,
+wr_8000_0010_10,
+wr_8000_0010_10_idle,
+wait_64us_23,
+wr_800d_1981_8,
+wr_800d_1981_8_idle,
+
+wait_180ms_3,
 
 wr1,
 idle0,
@@ -568,6 +675,30 @@ z1,z2,z3,z4,z5,z6,z7,
 s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14
 );
 signal state : states;
+
+signal cold_start : integer range 0 to c_cold_start - 1;
+--constant c_melexis_mlx90640_i2c_enable_wait : integer := 58;
+--constant c_melexis_mlx90640_i2c_enable_wait : integer := 25*1_000_000/10000;
+--constant c_melexis_mlx90640_i2c_enable_wait : integer := 25;
+--constant c_melexis_mlx90640_i2c_enable_wait : integer := 60;
+--constant c_melexis_mlx90640_i2c_enable_wait : integer := 47;
+--constant c_melexis_mlx90640_i2c_enable_wait : integer := 115*4; -- scl 500k
+--constant c_melexis_mlx90640_i2c_enable_wait : integer := c_melexis_mlx90640_i2c_enable_wait1; -- scl 100k
+--constant c_melexis_mlx90640_i2c_enable_wait : integer := 115*4*1000; -- scl 100
+--constant c_melexis_mlx90640_i2c_enable_wait : integer := 230*4*1000; -- scl 50
+--constant c_melexis_mlx90640_i2c_enable_wait : integer := 230*5*4*1000; -- scl 10
+--constant c_melexis_mlx90640_i2c_enable_wait : integer := 230*5*5*4*1000; -- scl 2
+signal melexis_mlx90640_i2c_enable_wait : integer range 0 to c_melexis_mlx90640_i2c_enable_wait - 1;
+signal melexis_mlx90640_i2c_wait : integer range 0 to c_melexis_mlx90640_i2c_wait - 1;
+signal w_64us : integer range 0 to c_w_64us - 1;
+signal w_180us : integer range 0 to c_w_180us - 1;
+signal w_200ms : integer range 0 to c_w_200ms - 1;
+signal w_160us : integer range 0 to c_w_160us - 1;
+signal w_160ms : integer range 0 to c_w_160ms - 1;
+signal w_180ms : integer range 0 to c_w_180ms - 1;
+signal w_21ms : integer range 0 to c_w_21ms - 1;
+constant c_w11ms : integer := (c_clock_board_frequency / 90);
+signal w11ms : integer range 0 to c_w11ms - 1;
 
 begin
 
@@ -636,13 +767,6 @@ vga_psave <= '1';
 pTo : process (i_clock) is
 	variable i : integer range 0 to PIXELS-1;
 	variable tout : std_logic_vector (8 downto 0);
-  variable some_wait : integer range 0 to c_some_wait-1;
-  variable cold_start : integer range 0 to c_cold_start - 1;
-  variable wait2 : integer range 0 to c_wait2 - 1;
-  variable wait3 : integer range 0 to c_wait3 - 1;
-  variable k : integer range 0 to c_clock_board_frequency - 1;
-  constant c_w11ms : integer := (c_clock_board_frequency / 90);
-  variable w11ms : integer range 0 to c_w11ms - 1;
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -652,15 +776,12 @@ begin
 			dualmem_ena <= '0';
 			dualmem_enb <= '0';
 			tout := (others => '0');
-      some_wait := 0;
-      k := 0;
-      w11ms := 0;
-      wait1 <= 0;
-      wait2 := 0;
-      wait3 := 0;
-      cold_start := 0;
-			j <= 0;
-      some_wait := 0;
+      w11ms <= 0;
+      melexis_mlx90640_i2c_enable_wait <= 0;
+      melexis_mlx90640_i2c_wait <= 0;
+      w_64us <= 0;
+      cold_start <= 0;
+			--j <= 0;
       melexis_mlx90640_i2c_mode0 <= '0';
       melexis_mlx90640_i2c_mode1 <= '0';
       melexis_mlx90640_i2c_mode2 <= '0';
@@ -669,314 +790,1329 @@ begin
       melexis_mlx90640_i2c_memory_data <= x"0000";
 		else
 			case (state) is
-      
 				when idle =>
           float2fixedsclr <= '0';
           test_fixed_melexis_run <= '0';
-          wait1 <= 0;
-          wait2 := 0;
-          wait3 := 0;
+          melexis_mlx90640_i2c_enable_wait <= 0;
+          melexis_mlx90640_i2c_wait <= 0;
+          w_64us <= 0;
           melexis_mlx90640_i2c_mode0 <= '0';
           melexis_mlx90640_i2c_mode1 <= '0';
           melexis_mlx90640_i2c_mode2 <= '0';
           melexis_mlx90640_i2c_enable <= '0';
           if (cold_start = c_cold_start - 1) then
---            state <= w800d_r1981_idle;
-            state <= w800d1981_1;
-            cold_start := 0;
+            --state <= wr_800d_1901;
+            state <= w_800d1981_1;
+            cold_start <= 0;
           else
-            cold_start := cold_start + 1;
+            cold_start <= cold_start + 1;
           end if;
-          
-        when w800d_r1981_idle => -- no condition
+        when wr_800d_1901 => -- no condition
           melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
           melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"800d";
-          if (wait1 = c_wait1 - 1) then
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
             if (melexis_mlx90640_i2c_busy = '0') then
               melexis_mlx90640_i2c_enable <= '0';
-              state <= w800d_r1981_idle_1;
-              wait1 <= 0;
+              state <= wr_800d_1901_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
             end if;
           else
-            wait1 <= wait1 + 1;
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
           end if;
-          
-        when w800d_r1981_idle_1 => -- condition
+        when wr_800d_1901_idle => -- condition
           melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
           melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
           if (melexis_mlx90640_i2c_bytes_to_recv = x"1981" or melexis_mlx90640_i2c_bytes_to_recv = x"1901") then
-            if (wait2 = c_wait2 - 1) then
-              state <= w800d1981_1;
-              wait2 := 0;
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= w_800d1981_1;
+              melexis_mlx90640_i2c_wait <= 0;
             else
-              wait2 := wait2 + 1;
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
             end if;
           else
-            state <= w800d_r1981_idle;
+            state <= wr_800d_1901;
           end if;
-          
-        when w800d1981_1 => -- no condition
+        when w_800d1981_1 => -- no condition
           melexis_mlx90640_i2c_mode0 <= '1'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0';
           melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"800d"; melexis_mlx90640_i2c_memory_data <= x"1981";
-          if (wait1 = c_wait1 - 1) then
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
             if (melexis_mlx90640_i2c_busy = '0') then
               melexis_mlx90640_i2c_enable <= '0';
-              wait1 <= 0;
-              state <= w800d1981_1_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+              state <= wait_64us_1;
             end if;
           else
-            wait1 <= wait1 + 1;
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
           end if;
-          
-        when w800d1981_1_idle => -- condition
-          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0';
-          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
---          if (melexis_mlx90640_i2c_bytes_to_recv = x"1981") then
-            if (wait2 = c_wait2 - 1) then
-              state <= w800d1981_2;
-              wait2 := 0;
-            else
-              wait2 := wait2 + 1;
-            end if;
---          else
---            state <= w800d1981_1;
---          end if;
-          
-        when w800d1981_2 => -- no condition
-          melexis_mlx90640_i2c_mode0 <= '1'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0';
-          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"800d"; melexis_mlx90640_i2c_memory_data <= x"1981";
-          if (wait1 = c_wait1 - 1) then
-            if (melexis_mlx90640_i2c_busy = '0') then
-              melexis_mlx90640_i2c_enable <= '0';
-              wait1 <= 0;
-              state <= w800d1981_2_idle;
-            end if;
+        when wait_64us_1 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= wr_800d_1981_1;
           else
-            wait1 <= wait1 + 1;
+            w_64us <= w_64us + 1;
           end if;
-          
-        when w800d1981_2_idle => -- condition
-          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0';
-          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
---          if (melexis_mlx90640_i2c_bytes_to_recv = x"1981") then
-            if (wait2 = c_wait2 - 1) then
-              state <= read_eeprom;
-              wait2 := 0;
-            else
-              wait2 := wait2 + 1;
-            end if;
---          else
---            state <= w800d1981_2;
---          end if;
-
-        when read_eeprom => -- no condition
-          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '1';
-          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"2400";
-          if (wait1 = c_wait1 - 1) then
-            if (melexis_mlx90640_i2c_busy = '0') then
-              melexis_mlx90640_i2c_enable <= '0';
-              state <= read_eeprom_idle;
-              wait1 <= 0;
-            end if;
-          else
-            wait1 <= wait1 + 1;
-          end if;
-
-        when read_eeprom_idle => -- no condition
-          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0';
-          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
-          if (wait2 = c_wait2 - 1) then
-            state <= w8000_r0008_1;
-            wait2 := 0;
-          else
-            wait2 := wait2 + 1;
-          end if;
-          
-        when w8000_r0008_1 => -- <--
-          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0';
-          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
-          if (wait1 = c_wait1 - 1) then
-            if (melexis_mlx90640_i2c_busy = '0') then
-              melexis_mlx90640_i2c_enable <= '0';
-              state <= w8000_r0008_1_idle;
-              wait1 <= 0;
-            end if;
-          else
-            wait1 <= wait1 + 1;
-          end if;
-          
-        when w8000_r0008_1_idle =>
-          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0';
-          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
-          if (melexis_mlx90640_i2c_bytes_to_recv = x"0010" or melexis_mlx90640_i2c_bytes_to_recv = x"0011" or melexis_mlx90640_i2c_bytes_to_recv = x"0008" or melexis_mlx90640_i2c_bytes_to_recv = x"0009") then
-            if (wait2 = c_wait2 - 1) then
-              state <= w08000030_1;
-              wait2 := 0;
-            else
-              wait2 := wait2 + 1;
-            end if;
-          else
-            state <= w8000_r0008_1;
-          end if;
-          
-        when w08000030_1 => -- no condition
-          melexis_mlx90640_i2c_mode0 <= '1'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0';
-          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000"; melexis_mlx90640_i2c_memory_data <= x"0030";
-          if (wait1 = c_wait1 - 1) then
-            if (melexis_mlx90640_i2c_busy = '0') then
-              melexis_mlx90640_i2c_enable <= '0';
-              wait1 <= 0;
-              state <= w8000_r0010_1;
-            end if;
-          else
-            wait1 <= wait1 + 1;
-          end if;
-          
-        when w8000_r0010_1 => -- no condition
-          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0';
-          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
-          if (wait1 = c_wait1 - 1) then
-            if (melexis_mlx90640_i2c_busy = '0') then
-              melexis_mlx90640_i2c_enable <= '0';
-              state <= w8000_r0010_1_idle;
-              wait1 <= 0;
-            end if;
-          else
-            wait1 <= wait1 + 1;
-          end if;
-
-        when w8000_r0010_1_idle => -- condition
-          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0';
-          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
-          if (melexis_mlx90640_i2c_bytes_to_recv = x"0010" or melexis_mlx90640_i2c_bytes_to_recv = x"0011") then
-            if (wait2 = c_wait2 - 1) then
-              state <= read_data;
-              wait2 := 0;
-            else
-              wait2 := wait2 + 1;
-            end if;
-          else
-            state <= w8000_r0010_1;
-          end if;
-
-        when read_data =>
-          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '1';
-          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"0400";
-          if (wait1 = c_wait1 - 1) then
-            if (melexis_mlx90640_i2c_busy = '0') then
-              melexis_mlx90640_i2c_enable <= '0';
-              state <= w8000_r0010_2;
-              wait1 <= 0;
-            end if;
-          else
-            wait1 <= wait1 + 1;
-          end if;
-
-        when w8000_r0010_2 => -- no condition
-          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0';
-          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
-          if (wait1 = c_wait1 - 1) then
-            if (melexis_mlx90640_i2c_busy = '0') then
-              melexis_mlx90640_i2c_enable <= '0';
-              state <= w8000_r0010_2_idle;
-              wait1 <= 0;
-            end if;
-          else
-            wait1 <= wait1 + 1;
-          end if;
-
-        when w8000_r0010_2_idle => -- condition
-          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0';
-          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
-          if (melexis_mlx90640_i2c_bytes_to_recv = x"0010" or melexis_mlx90640_i2c_bytes_to_recv = x"0011" or melexis_mlx90640_i2c_bytes_to_recv = x"0008" or melexis_mlx90640_i2c_bytes_to_recv = x"0009") then
-            if (wait2 = c_wait2 - 1) then
-              state <= w800d_r1981_1;
-              wait2 := 0;
-            else
-              wait2 := wait2 + 1;
-            end if;
-          else
-            state <= w8000_r0010_2;
-          end if;
-
-        when w800d_r1981_1 => -- no condition
+        when wr_800d_1981_1 =>
           melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
           melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"800d";
-          if (wait1 = c_wait1 - 1) then
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
             if (melexis_mlx90640_i2c_busy = '0') then
               melexis_mlx90640_i2c_enable <= '0';
-              state <= w800d_r1981_1_idle;
-              wait1 <= 0;
+              state <= wr_800d_1981_1_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
             end if;
           else
-            wait1 <= wait1 + 1;
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
           end if;
-          
-        when w800d_r1981_1_idle => -- condition end r14
+        when wr_800d_1981_1_idle => -- condition
           melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
           melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
           if (melexis_mlx90640_i2c_bytes_to_recv = x"1981") then
-            if (wait2 = c_wait2 - 1) then
-              state <= r14;
-              wait2 := 0;
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_64us_2;
+              melexis_mlx90640_i2c_wait <= 0;
             else
-              wait2 := wait2 + 1;
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
             end if;
           else
-            state <= w800d_r1981_idle;
+            state <= wr_800d_1981_1;
           end if;
-
-        when w8000_r0010_3 => -- no condition
-          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0';
-          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
-          if (wait1 = c_wait1 - 1) then
+        when wait_64us_2 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= wr_800d_1981_2;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+        when wr_800d_1981_2 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"800d";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
             if (melexis_mlx90640_i2c_busy = '0') then
               melexis_mlx90640_i2c_enable <= '0';
-              state <= w8000_r0010_3_idle;
-              wait1 <= 0;
+              state <= wr_800d_1981_2_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
             end if;
           else
-            wait1 <= wait1 + 1;
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
           end if;
-
-        when w8000_r0010_3_idle => -- condition seq 0010/0011 then 00008/0009
-          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0';
+        when wr_800d_1981_2_idle => -- condition
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
           melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
-          if (melexis_mlx90640_i2c_bytes_to_recv = x"0008" or melexis_mlx90640_i2c_bytes_to_recv = x"0009" or melexis_mlx90640_i2c_bytes_to_recv = x"0010" or melexis_mlx90640_i2c_bytes_to_recv = x"0011") then
-            if (wait2 = c_wait2 - 1) then
-              state <= w08000030_2;
-              wait2 := 0;
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"1981") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= w_800d1981_2;
+              melexis_mlx90640_i2c_wait <= 0;
             else
-              wait2 := wait2 + 1;
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
             end if;
           else
-            state <= w8000_r0010_3;
+            state <= wr_800d_1981_2;
           end if;
-
-        when w08000030_2 => -- no condition
+        when w_800d1981_2 => -- no condition
+          melexis_mlx90640_i2c_mode0 <= '1'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0';
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"800d"; melexis_mlx90640_i2c_memory_data <= x"1981";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              melexis_mlx90640_i2c_enable_wait <= 0;
+              state <= wait_64us_3;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+        when wait_64us_3 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= wr_800d_1981_3;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+        when wr_800d_1981_3 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"800d";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_800d_1981_3_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+        when wr_800d_1981_3_idle => -- condition
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"1981") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_64us_4;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_800d_1981_2;
+          end if;
+        when wait_64us_4 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= r_2400;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+        when r_2400 => -- no condition
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '1';
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"2400";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wait_200ms_1;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wait_200ms_1 =>
+					if (w_200ms = c_w_200ms - 1) then
+						w_200ms <= 0;
+						state <= wr_8000_0008_1;
+					else
+						w_200ms <= w_200ms + 1;
+					end if;
+				when wr_8000_0008_1 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0008_1_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0008_1_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0008") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= w_80000030_1;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0008_1;
+          end if;
+				when w_80000030_1 =>
           melexis_mlx90640_i2c_mode0 <= '1'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0';
           melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000"; melexis_mlx90640_i2c_memory_data <= x"0030";
-          if (wait1 = c_wait1 - 1) then
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
             if (melexis_mlx90640_i2c_busy = '0') then
               melexis_mlx90640_i2c_enable <= '0';
-              wait1 <= 0;
-              state <= w8000_r0010_1;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+              state <= wait_64us_5;
             end if;
           else
-            wait1 <= wait1 + 1;
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wait_64us_5 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= wr_8000_0010_1;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+				when wr_8000_0010_1 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0010_1_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0010_1_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0010") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_64us_6;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0010_1;
+          end if;
+				when wait_64us_6 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= r_0400_1;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+        when r_0400_1 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '1';
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"0400";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wait_180us_1;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wait_180us_1 =>
+          if (w_200ms = c_w_200ms - 1) then
+            w_200ms <= 0;
+            state <= wr_8000_0010_2;
+          else
+            w_200ms <= w_200ms + 1;
+          end if;
+				when wr_8000_0010_2 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0010_2_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0010_2_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0010") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_64us_7;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0010_2;
+          end if;
+				when wait_64us_7 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= wr_800d_1981_4;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+				when wr_800d_1981_4 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_800d_1981_4_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_800d_1981_4_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0010") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_160ms_1;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_800d_1981_4;
+          end if;
+				when wait_160ms_1 =>
+          if (w_160ms = c_w_160ms - 1) then
+            w_160ms <= 0;
+            state <= wr_8000_0010_3;
+          else
+            w_160ms <= w_160ms + 1;
+          end if;
+				when wr_8000_0010_3 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0010_3_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0010_3_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0010") then
+            state <= wait_64us_8_1;
+          else
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_64us_8_2;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          end if;
+				when wait_64us_8_1 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= wr_8000_0010_3;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+				when wait_64us_8_2 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= wr_8000_0009_1;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+				when wr_8000_0009_1 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0009_1_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0009_1_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0009") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= w_80000030_2;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0009_1;
+          end if;
+				when w_80000030_2 =>
+          melexis_mlx90640_i2c_mode0 <= '1'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0';
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000"; melexis_mlx90640_i2c_memory_data <= x"0030";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              melexis_mlx90640_i2c_enable_wait <= 0;
+              state <= wait_64us_9;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wait_64us_9 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= wr_8000_0011_1;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+				when wr_8000_0011_1 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0011_1_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0011_1_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0011") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_64us_10;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0011_1;
+          end if;
+				when wait_64us_10 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= r_0400_2;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+        when r_0400_2 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '1';
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"0400";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wait_180us_2;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wait_180us_2 =>
+          if (w_180us = c_w_180us - 1) then
+            w_180us <= 0;
+            state <= wr_8000_0011_2;
+          else
+            w_180us <= w_180us + 1;
+          end if;
+				when wr_8000_0011_2 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0011_2_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0011_2_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0011") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_64us_11;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0011_2;
+          end if;
+				when wait_64us_11 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= wr_800d_1981_5;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+				when wr_800d_1981_5 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"800d";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_800d_1981_5_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_800d_1981_5_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"1981") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_160ms_2;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_800d_1981_5;
+          end if;
+				when wait_160ms_2 =>
+          if (w_160ms = c_w_160ms - 1) then
+            w_160ms <= 0;
+            state <= wr_8000_0011_3;
+          else
+            w_160ms <= w_160ms + 1;
+          end if;
+				when wr_8000_0011_3 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0011_3_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0011_3_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0011") then
+            state <= wait_64us_12_1;
+          else
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_64us_12_2;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          end if;
+				when wait_64us_12_1 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= wr_8000_0011_3;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+				when wait_64us_12_2 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= wr_8000_0008_2;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+				when wr_8000_0008_2 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0008_2_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0008_2_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0008") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= w_80000030_3;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0008_2;
+          end if;
+				when w_80000030_3 =>
+          melexis_mlx90640_i2c_mode0 <= '1'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0';
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000"; melexis_mlx90640_i2c_memory_data <= x"0030";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              melexis_mlx90640_i2c_enable_wait <= 0;
+              state <= wait_64us_13;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wait_64us_13 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= wr_8000_0010_4;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+				when wr_8000_0010_4 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0010_4_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0010_4_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0010") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_64us_14;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0010_4;
+          end if;
+				when wait_64us_14 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= r_0400_3;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+        when r_0400_3 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '1';
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"0400";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wait_180us_3;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wait_180us_3 =>
+          if (w_180us = c_w_180us - 1) then
+            w_180us <= 0;
+            state <= wr_8000_0010_5;
+          else
+            w_180us <= w_180us + 1;
+          end if;
+				when wr_8000_0010_5 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0010_5_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0010_5_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0011") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_64us_15;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0011_2;
+          end if;
+				when wait_64us_15 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= wr_800d_1981_6;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+				when wr_800d_1981_6 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"800d";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_800d_1981_6_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_800d_1981_6_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"1981") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_180ms_1;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_800d_1981_6;
+          end if;
+				when wait_180ms_1 =>
+          if (w_180ms = c_w_180ms - 1) then
+            w_180ms <= 0;
+            state <= wr_8000_0010_6;
+          else
+            w_180ms <= w_180ms + 1;
+          end if;
+				when wr_8000_0010_6 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0010_6_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0010_6_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0010") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_21ms_1;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0010_6;
+          end if;
+				when wait_21ms_1 =>
+          if (w_21ms = c_w_21ms - 1) then
+            w_21ms <= 0;
+            state <= wr_8000_0010_7;
+          else
+            w_21ms <= w_21ms + 1;
+          end if;
+				when wr_8000_0010_7 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0010_7_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0010_7_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0010") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_21ms_2;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0010_7;
+          end if;
+				when wait_21ms_2 =>
+          if (w_21ms = c_w_21ms - 1) then
+            w_21ms <= 0;
+            state <= wr_8000_0010_8;
+          else
+            w_21ms <= w_21ms + 1;
+          end if;
+				when wr_8000_0010_8 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0010_8_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0010_8_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0010") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_21ms_3;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0010_8;
+          end if;
+				when wait_21ms_3 =>
+          if (w_21ms = c_w_21ms - 1) then
+            w_21ms <= 0;
+            state <= wr_8000_0009_2;
+          else
+            w_21ms <= w_21ms + 1;
+          end if;
+				when wr_8000_0009_2 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0009_2_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0009_2_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0009") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_64us_16;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0009_2;
+          end if;
+				when wait_64us_16 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= wr_8000_0009_3;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+				when wr_8000_0009_3 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0009_3_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0009_3_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0009") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= w_80000030_4;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0009_3;
+          end if;
+				when w_80000030_4 =>
+          melexis_mlx90640_i2c_mode0 <= '1'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0';
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000"; melexis_mlx90640_i2c_memory_data <= x"0030";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              melexis_mlx90640_i2c_enable_wait <= 0;
+              state <= wait_64us_17;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wait_64us_17 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= wr_8000_0011_4;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+				when wr_8000_0011_4 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0011_4_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0011_4_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0011") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_64us_18;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0011_4;
+          end if;
+				when wait_64us_18 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= r_0400_4;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+				when r_0400_4 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '1';
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"0400";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wait_180us_4;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wait_180us_4 =>
+          if (w_180us = c_w_180us - 1) then
+            w_180us <= 0;
+            state <= wr_8000_0011_5;
+          else
+            w_180us <= w_180us + 1;
+          end if;
+				when wr_8000_0011_5 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0011_5_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0011_5_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0011") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_64us_19;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0011_5;
+          end if;
+				when wait_64us_19 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= wr_800d_1981_7;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+				when wr_800d_1981_7 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"800d";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_800d_1981_7_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_800d_1981_7_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"1981") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_180ms_2;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_800d_1981_7;
+          end if;
+				when wait_180ms_2 =>
+          if (w_180ms = c_w_180ms - 1) then
+            w_180ms <= 0;
+            state <= wr_8000_0011_6;
+          else
+            w_180ms <= w_180ms + 1;
           end if;
 
-
-
-
-
-
-
+				when wr_8000_0011_6 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0011_6_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0011_6_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0011") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_21ms_4;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0011_6;
+          end if;
+				when wait_21ms_4 =>
+          if (w_21ms = c_w_21ms - 1) then
+            w_21ms <= 0;
+            state <= wr_8000_0011_7;
+          else
+            w_21ms <= w_21ms + 1;
+          end if;
+				when wr_8000_0011_7 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0011_7_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0011_7_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0011") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_21ms_5;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0011_7;
+          end if;
+				when wait_21ms_5 =>
+          if (w_21ms = c_w_21ms - 1) then
+            w_21ms <= 0;
+            state <= wr_8000_0011_8;
+          else
+            w_21ms <= w_21ms + 1;
+          end if;
+				when wr_8000_0011_8 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0011_8_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0011_8_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0011") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_21ms_6;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0011_8;
+          end if;
+				when wait_21ms_6 =>
+          if (w_21ms = c_w_21ms - 1) then
+            w_21ms <= 0;
+            state <= wr_8000_0008_3;
+          else
+            w_21ms <= w_21ms + 1;
+          end if;
+				when wr_8000_0008_3 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0008_3_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0008_3_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0008") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_64us_20;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0008_3;
+          end if;
+				when wait_64us_20 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= wr_8000_0008_4;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+				when wr_8000_0008_4 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0008_4_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0008_4_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0008") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= w_80000030_5;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0008_4;
+          end if;
+				when w_80000030_5 =>
+          melexis_mlx90640_i2c_mode0 <= '1'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0';
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000"; melexis_mlx90640_i2c_memory_data <= x"0030";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              melexis_mlx90640_i2c_enable_wait <= 0;
+              state <= wait_64us_21;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wait_64us_21 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= wr_8000_0010_9;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+				when wr_8000_0010_9 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0010_9_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0010_9_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0010") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_64us_22;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0010_9;
+          end if;
+				when wait_64us_22 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= r_0400_5;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+				when r_0400_5 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '1';
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"0400";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wait_180us_5;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wait_180us_5 =>
+          if (w_180us = c_w_180us - 1) then
+            w_180us <= 0;
+            state <= wr_8000_0010_10;
+          else
+            w_180us <= w_180us + 1;
+          end if;
+				when wr_8000_0010_10 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_8000_0010_10_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_8000_0010_10_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0010") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_64us_23;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_8000_0010_10;
+          end if;
+				when wait_64us_23 =>
+          if (w_64us = c_w_64us - 1) then
+            w_64us <= 0;
+            state <= wr_800d_1981_8;
+          else
+            w_64us <= w_64us + 1;
+          end if;
+				when wr_800d_1981_8 =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"800d";
+          if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
+            if (melexis_mlx90640_i2c_busy = '0') then
+              melexis_mlx90640_i2c_enable <= '0';
+              state <= wr_800d_1981_8_idle;
+              melexis_mlx90640_i2c_enable_wait <= 0;
+            end if;
+          else
+            melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
+          end if;
+				when wr_800d_1981_8_idle =>
+          melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+          melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"1981") then
+            if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+              state <= wait_180ms_3;
+              melexis_mlx90640_i2c_wait <= 0;
+            else
+              melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+            end if;
+          else
+            state <= wr_800d_1981_8;
+          end if;
+				when wait_180ms_3 =>
+          if (w_180ms = c_w_180ms - 1) then
+            w_180ms <= 0;
+            state <= r14;
+          else
+            w_180ms <= w_180ms + 1;
+          end if;
         when r14 =>
           state <= s0;
-          wait2 := 0;
-          wait3 := 0;
-          wait1 <= 0;
+          melexis_mlx90640_i2c_wait <= 0;
+          w_64us <= 0;
+          melexis_mlx90640_i2c_enable_wait <= 0;
           melexis_mlx90640_i2c_mode0 <= '0';
           melexis_mlx90640_i2c_mode1 <= '0';
           melexis_mlx90640_i2c_mode2 <= '0';
@@ -1028,17 +2164,17 @@ begin
           state <= s1;
 					test_fixed_melexis_run <= '1';
           float2fixedsclr <= '0';
-          w11ms := 0;
+          w11ms <= 0;
           dualmem_enb <= '1';
 				when s1 =>
           test_fixed_melexis_run <= '0';
           if (c_sim = "n") then
           if (w11ms = c_w11ms - 1) then
             state <= s2;
-            w11ms := 0;
+            w11ms <= 0;
           else
  						state <= s1;
-            w11ms := w11ms + 1;
+            w11ms <= w11ms + 1;
           end if;
           end if;
           if (c_sim = "y") then
@@ -1104,7 +2240,7 @@ begin
 --          if (some_wait = c_some_wait-1) then
 --            some_wait := 0;
 --            state <= idle;
-            state <= w8000_r0008_1;
+            state <= idle;
 --            state <= idle3;
 --            state <=  s2;
             float2fixedsclr <= '1';
