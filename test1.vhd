@@ -2245,10 +2245,8 @@ begin
           dualmem_enb <= '1';
           if (some_wait = c_some_wait-1) then
             some_wait <= 0;
---            state <= idle;
-            state <= wr_8000_0010_6;
---            state <= idle3;
---            state <=  s2;
+            state <= idle;
+--            state <= wr_8000_0010_6;
             float2fixedsclr <= '1';
           else
             some_wait <= some_wait + 1;
