@@ -1,7 +1,7 @@
 Release 14.7 par P.20131013 (lin64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-work::  Wed Nov 19 16:37:48 2025
+work::  Wed Nov 19 16:50:18 2025
 
 par -w -intstyle ise -ol std -t 1 -smartguide
 /home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1_guide.ncd test1_map.ncd
@@ -55,7 +55,7 @@ Design Summary Report:
 
    Number of BUFGMUXs                        3 out of 24     12%
    Number of RAMB16s                        22 out of 28     78%
-   Number of Slices                       7809 out of 8672   90%
+   Number of Slices                       7757 out of 8672   89%
       Number of SLICEMs                    156 out of 4336    3%
 
 
@@ -69,28 +69,28 @@ Finished initial Timing Analysis.  REAL time: 7 secs
 Starting Router
 
 
-Phase  1  : 24629 unrouted;      REAL time: 10 secs 
+Phase  1  : 14467 unrouted;      REAL time: 10 secs 
 
-Phase  2  : 22659 unrouted;      REAL time: 11 secs 
+Phase  2  : 13083 unrouted;      REAL time: 10 secs 
 
-Phase  3  : 14407 unrouted;      REAL time: 15 secs 
+Phase  3  : 9155 unrouted;      REAL time: 13 secs 
 
-Phase  4  : 14407 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 15 secs 
+Phase  4  : 9155 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 13 secs 
 
-Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 32 secs 
+Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 27 secs 
 
 Updating file: test1.ncd with current fully routed design.
 
-Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 36 secs 
+Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 31 secs 
 
-Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 36 secs 
+Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 32 secs 
 
-Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 39 secs 
+Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 34 secs 
 WARNING:Route:455 - CLK Net:agclk may have excessive skew because 
       1 CLK pins and 1 NON_CLK pins failed to route using a CLK template.
 
-Total REAL time to Router completion: 39 secs 
-Total CPU time to Router completion: 38 secs 
+Total REAL time to Router completion: 34 secs 
+Total CPU time to Router completion: 34 secs 
 
   SmartGuide Results
   ------------------
@@ -98,15 +98,15 @@ Total CPU time to Router completion: 38 secs
   report accurately reflects the differences between the input design
   and the guide design.
 
-  Number of Components in the input design    |   7889
-    Number of guided Components               |   6182 out of   7889  78.4%
-    Number of re-implemented Components       |    931 out of   7889  11.8%
-    Number of new/changed Components          |    776 out of   7889   9.8%
-  Number of Nets in the input design          |  17605
-    Number of guided Nets                     |   4897 out of  17605  27.8%
-    Number of partially guided Nets           |   3034 out of  17605  17.2%
-    Number of re-routed Nets                  |   7683 out of  17605  43.6%
-    Number of new/changed Nets                |   1991 out of  17605  11.3%
+  Number of Components in the input design    |   7837
+    Number of guided Components               |   7054 out of   7837  90.0%
+    Number of re-implemented Components       |    436 out of   7837   5.6%
+    Number of new/changed Components          |    347 out of   7837   4.4%
+  Number of Nets in the input design          |  17585
+    Number of guided Nets                     |   6781 out of  17585  38.6%
+    Number of partially guided Nets           |   3309 out of  17585  18.8%
+    Number of re-routed Nets                  |   6331 out of  17585  36.0%
+    Number of new/changed Nets                |   1164 out of  17585   6.6%
 
 Partition Implementation Status
 -------------------------------
@@ -124,17 +124,17 @@ Generating Clock Report
 +---------------------+--------------+------+------+------------+-------------+
 |        Clock Net    |   Resource   |Locked|Fanout|Net Skew(ns)|Max Delay(ns)|
 +---------------------+--------------+------+------+------------+-------------+
-|       i_clock_BUFGP | BUFGMUX_X2Y11| No   | 6216 |  0.212     |  0.382      |
+|       i_clock_BUFGP | BUFGMUX_X2Y11| No   | 6188 |  0.212     |  0.382      |
 +---------------------+--------------+------+------+------------+-------------+
 |melexis_mlx90640_i2c |              |      |      |            |             |
-|           _i0/clock | BUFGMUX_X1Y10| No   |   68 |  0.047     |  0.289      |
+|           _i0/clock | BUFGMUX_X1Y10| No   |   67 |  0.047     |  0.289      |
 +---------------------+--------------+------+------+------------+-------------+
 |            vgaclk25 |  BUFGMUX_X1Y0| No   |   63 |  0.134     |  0.330      |
 +---------------------+--------------+------+------+------------+-------------+
-|               agclk |         Local|      |    7 |  1.167     |  3.433      |
-+---------------------+--------------+------+------+------------+-------------+
 |melexis_mlx90640_i2c |              |      |      |            |             |
 |       _i0/io_scl_ii |         Local|      |   10 |  0.019     |  1.508      |
++---------------------+--------------+------+------+------------+-------------+
+|               agclk |         Local|      |    7 |  1.168     |  3.431      |
 +---------------------+--------------+------+------+------------+-------------+
 
 * Net Skew is the difference between the minimum and maximum routing
@@ -154,7 +154,7 @@ Asterisk (*) preceding a constraint indicates it was not met.
   Constraint                                |    Check    | Worst Case |  Best Case | Timing |   Timing   
                                             |             |    Slack   | Achievable | Errors |    Score   
 ----------------------------------------------------------------------------------------------------------
-  NET "i_clock_BUFGP/IBUFG" PERIOD = 20 ns  | SETUP       |     1.693ns|    18.307ns|       0|           0
+  NET "i_clock_BUFGP/IBUFG" PERIOD = 20 ns  | SETUP       |     0.562ns|    19.438ns|       0|           0
   HIGH 50%                                  | HOLD        |     0.616ns|            |       0|           0
 ----------------------------------------------------------------------------------------------------------
 
@@ -166,10 +166,10 @@ Generating Pad Report.
 
 All signals are completely routed.
 
-Total REAL time to PAR completion: 43 secs 
-Total CPU time to PAR completion: 43 secs 
+Total REAL time to PAR completion: 38 secs 
+Total CPU time to PAR completion: 38 secs 
 
-Peak Memory Usage:  787 MB
+Peak Memory Usage:  788 MB
 
 Placer: Placement generated during map.
 Routing: Completed - No errors found.
