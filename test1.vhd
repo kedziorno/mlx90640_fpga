@@ -80,6 +80,7 @@ i_run : in std_logic;
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+o_busy : out std_logic;
 o_rdy : out std_logic;
 i_addr : in std_logic_vector(9 downto 0);
 o_do : out std_logic_vector(31 downto 0);
@@ -138,6 +139,7 @@ signal test_fixed_melexis_run : std_logic;
 signal test_fixed_melexis_i2c_mem_ena : STD_LOGIC;
 signal test_fixed_melexis_i2c_mem_addra : STD_LOGIC_VECTOR(11 DOWNTO 0);
 signal test_fixed_melexis_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal test_fixed_melexis_busy : std_logic;
 signal test_fixed_melexis_rdy : std_logic;
 signal test_fixed_melexis_addr : std_logic_vector(9 downto 0);
 signal test_fixed_melexis_do : std_logic_vector(31 downto 0);
@@ -529,6 +531,7 @@ wr_8000_0010_1,
 wr_8000_0010_1_idle,
 wait_64us_6,
 r_0400_1,
+s0_1,s1_1,s2_1,s3_1,s4_1,s5_1,s6_1,s7_1,s8_1,s9_1,s10_1,
 wait_180us_1,
 wr_8000_0010_2,
 wr_8000_0010_2_idle,
@@ -550,6 +553,7 @@ wr_8000_0011_1,
 wr_8000_0011_1_idle,
 wait_64us_10,
 r_0400_2,
+s0_2,s1_2,s2_2,s3_2,s4_2,s5_2,s6_2,s7_2,s8_2,s9_2,s10_2,
 wait_180us_2,
 wr_8000_0011_2,
 wr_8000_0011_2_idle,
@@ -571,6 +575,7 @@ wr_8000_0010_4,
 wr_8000_0010_4_idle,
 wait_64us_14,
 r_0400_3,
+s0_3,s1_3,s2_3,s3_3,s4_3,s5_3,s6_3,s7_3,s8_3,s9_3,s10_3,
 wait_180us_3,
 wr_8000_0010_5,
 wr_8000_0010_5_idle,
@@ -601,6 +606,7 @@ wr_8000_0011_4,
 wr_8000_0011_4_idle,
 wait_64us_18,
 r_0400_4,
+s0_4,s1_4,s2_4,s3_4,s4_4,s5_4,s6_4,s7_4,s8_4,s9_4,s10_4,
 wait_180us_4,
 wr_8000_0011_5,
 wr_8000_0011_5_idle,
@@ -631,6 +637,7 @@ wr_8000_0010_9,
 wr_8000_0010_9_idle,
 wait_64us_22,
 r_0400_5,
+s0_5,s1_5,s2_5,s3_5,s4_5,s5_5,s6_5,s7_5,s8_5,s9_5,s10_5,
 wait_180us_5,
 wr_8000_0010_10,
 wr_8000_0010_10_idle,
@@ -638,40 +645,7 @@ wait_64us_23,
 wr_800d_1981_8,
 wr_800d_1981_8_idle,
 
-wait_180ms_3,
-
-wr1,
-idle0,
-w1,
-idle1,
-wr2,
-idle2,
-
-idlea,
-wr1a,
-idle0a,
-w1a,
-idle1a,
-wr2a,
-idle2a,
-
-r1,
-idle3,
-
-idlea1,
-wr1a1,
-idle0a1,
-w1a1,
-idle1a1,
-wr2a1,
-idle2a1,
-
-r2,
-idle4,
-
-r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,
-z1,z2,z3,z4,z5,z6,z7,
-s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14
+wait_180ms_3
 );
 signal state : states;
 
@@ -1066,19 +1040,97 @@ begin
           if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
             if (melexis_mlx90640_i2c_busy = '0') then
               melexis_mlx90640_i2c_enable <= '0';
-              state <= wait_180us_1;
+              state <= s0_1;
               melexis_mlx90640_i2c_enable_wait <= 0;
             end if;
           else
             melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
           end if;
-				when wait_180us_1 =>
-          if (w_200ms = c_w_200ms - 1) then
-            w_200ms <= 0;
-            state <= wr_8000_0010_2;
-          else
-            w_200ms <= w_200ms + 1;
+
+
+        when s0_1 =>
+          state <= s1_1;
+					test_fixed_melexis_run <= '1';
+          float2fixedsclr <= '0';
+          dualmem_enb <= '0';
+          w11ms <= 0;
+				when s1_1 =>
+          test_fixed_melexis_run <= '0';
+          if (c_sim = "n") then
+            if (w11ms = c_w11ms - 1) then
+              state <= s4_1;
+              w11ms <= 0;
+            else
+              state <= s1_1;
+              w11ms <= w11ms + 1;
+            end if;
           end if;
+          if (c_sim = "y") then
+            if (test_fixed_melexis_busy = '0') then
+              state <= s4_1;
+              float2fixedsclr <= '0';
+              i := 0;
+              tout := (others => '0');
+            else
+              state <= s1_1;
+            end if;
+          end if;
+				when s4_1 => state <= s5_1;
+					test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
+				when s5_1 => state <= s6_1;
+				when s6_1 => state <= s7_1;
+					float2fixedond <= '1';
+					float2fixedce <= '1';
+					float2fixeda <= test_fixed_melexis_do;
+				when s7_1 =>
+					if (float2fixedrdy = '1') then state <= s8_1;
+--						tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
+--						tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
+--						tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
+						tout := float2fixedr;
+						float2fixedond <= '0';
+						float2fixedce <= '0';
+						float2fixedsclr <= '1';
+					else state <= s7_1; end if;
+				when s8_1 => state <= s9_1;
+					float2fixedsclr <= '0';
+					dualmem_wea <= "1";
+					dualmem_addra <= std_logic_vector (to_unsigned (i, 10));
+					dualmem_dina <= tout;
+					dualmem_ena <= '1';
+          --synthesis translate_off
+          --report_error ("tout", tout, 0.0);
+          --synthesis translate_on
+				when s9_1 =>
+					dualmem_wea <= "0";
+					dualmem_ena <= '0';
+					if (i = PIXELS-1) then
+						i := 0;
+						state <= s10_1;
+					else
+						state <= s4_1;
+						i := i + 1;
+					end if;
+				when s10_1 =>
+          dualmem_enb <= '1';
+--          if (some_wait = c_some_wait-1) then
+--            some_wait <= 0;
+            state <= wr_8000_0010_2;
+----            state <= wr_8000_0010_6;
+--            float2fixedsclr <= '1';
+--          else
+--            some_wait <= some_wait + 1;
+--            state <= s10;
+--          end if;
+
+          
+--				when wait_180us_1 =>
+--          if (w_200ms = c_w_200ms - 1) then
+--            w_200ms <= 0;
+--            state <= wr_8000_0010_2;
+--          else
+--            w_200ms <= w_200ms + 1;
+--          end if;
 				when wr_8000_0010_2 =>
           melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
           melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
@@ -1264,19 +1316,96 @@ begin
           if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
             if (melexis_mlx90640_i2c_busy = '0') then
               melexis_mlx90640_i2c_enable <= '0';
-              state <= wait_180us_2;
+              state <= s0_2;
               melexis_mlx90640_i2c_enable_wait <= 0;
             end if;
           else
             melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
           end if;
-				when wait_180us_2 =>
-          if (w_180us = c_w_180us - 1) then
-            w_180us <= 0;
-            state <= wr_8000_0011_2;
-          else
-            w_180us <= w_180us + 1;
+          
+        when s0_2 =>
+          state <= s1_2;
+					test_fixed_melexis_run <= '1';
+          float2fixedsclr <= '0';
+          dualmem_enb <= '0';
+          w11ms <= 0;
+				when s1_2 =>
+          test_fixed_melexis_run <= '0';
+          if (c_sim = "n") then
+            if (w11ms = c_w11ms - 1) then
+              state <= s4_2;
+              w11ms <= 0;
+            else
+              state <= s1_2;
+              w11ms <= w11ms + 1;
+            end if;
           end if;
+          if (c_sim = "y") then
+            if (test_fixed_melexis_busy = '0') then
+              state <= s4_2;
+              float2fixedsclr <= '0';
+              i := 0;
+              tout := (others => '0');
+            else
+              state <= s1_2;
+            end if;
+          end if;
+				when s4_2 => state <= s5_2;
+					test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
+				when s5_2 => state <= s6_2;
+				when s6_2 => state <= s7_2;
+					float2fixedond <= '1';
+					float2fixedce <= '1';
+					float2fixeda <= test_fixed_melexis_do;
+				when s7_2 =>
+					if (float2fixedrdy = '1') then state <= s8_2;
+--						tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
+--						tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
+--						tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
+						tout := float2fixedr;
+						float2fixedond <= '0';
+						float2fixedce <= '0';
+						float2fixedsclr <= '1';
+					else state <= s7_2; end if;
+				when s8_2 => state <= s9_2;
+					float2fixedsclr <= '0';
+					dualmem_wea <= "1";
+					dualmem_addra <= std_logic_vector (to_unsigned (i, 10));
+					dualmem_dina <= tout;
+					dualmem_ena <= '1';
+          --synthesis translate_off
+          --report_error ("tout", tout, 0.0);
+          --synthesis translate_on
+				when s9_2 =>
+					dualmem_wea <= "0";
+					dualmem_ena <= '0';
+					if (i = PIXELS-1) then
+						i := 0;
+						state <= s10_2;
+					else
+						state <= s4_2;
+						i := i + 1;
+					end if;
+				when s10_2 =>
+          dualmem_enb <= '1';
+--          if (some_wait = c_some_wait-1) then
+--            some_wait <= 0;
+            state <= wr_8000_0011_2;
+----            state <= wr_8000_0010_6;
+--            float2fixedsclr <= '1';
+--          else
+--            some_wait <= some_wait + 1;
+--            state <= s10;
+--          end if;
+
+
+--				when wait_180us_2 =>
+--          if (w_180us = c_w_180us - 1) then
+--            w_180us <= 0;
+--            state <= wr_8000_0011_2;
+--          else
+--            w_180us <= w_180us + 1;
+--          end if;
 				when wr_8000_0011_2 =>
           melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
           melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
@@ -1462,19 +1591,95 @@ begin
           if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
             if (melexis_mlx90640_i2c_busy = '0') then
               melexis_mlx90640_i2c_enable <= '0';
-              state <= wait_180us_3;
+              state <= s0_3;
               melexis_mlx90640_i2c_enable_wait <= 0;
             end if;
           else
             melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
           end if;
-				when wait_180us_3 =>
-          if (w_180us = c_w_180us - 1) then
-            w_180us <= 0;
-            state <= wr_8000_0010_5;
-          else
-            w_180us <= w_180us + 1;
+
+        when s0_3 =>
+          state <= s1_3;
+					test_fixed_melexis_run <= '1';
+          float2fixedsclr <= '0';
+          dualmem_enb <= '0';
+          w11ms <= 0;
+				when s1_3 =>
+          test_fixed_melexis_run <= '0';
+          if (c_sim = "n") then
+            if (w11ms = c_w11ms - 1) then
+              state <= s4_3;
+              w11ms <= 0;
+            else
+              state <= s1_3;
+              w11ms <= w11ms + 1;
+            end if;
           end if;
+          if (c_sim = "y") then
+            if (test_fixed_melexis_busy = '0') then
+              state <= s4_3;
+              float2fixedsclr <= '0';
+              i := 0;
+              tout := (others => '0');
+            else
+              state <= s1_3;
+            end if;
+          end if;
+				when s4_3 => state <= s5_3;
+					test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
+				when s5_3 => state <= s6_3;
+				when s6_3 => state <= s7_3;
+					float2fixedond <= '1';
+					float2fixedce <= '1';
+					float2fixeda <= test_fixed_melexis_do;
+				when s7_3 =>
+					if (float2fixedrdy = '1') then state <= s8_3;
+--						tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
+--						tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
+--						tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
+						tout := float2fixedr;
+						float2fixedond <= '0';
+						float2fixedce <= '0';
+						float2fixedsclr <= '1';
+					else state <= s7_3; end if;
+				when s8_3 => state <= s9_3;
+					float2fixedsclr <= '0';
+					dualmem_wea <= "1";
+					dualmem_addra <= std_logic_vector (to_unsigned (i, 10));
+					dualmem_dina <= tout;
+					dualmem_ena <= '1';
+          --synthesis translate_off
+          --report_error ("tout", tout, 0.0);
+          --synthesis translate_on
+				when s9_3 =>
+					dualmem_wea <= "0";
+					dualmem_ena <= '0';
+					if (i = PIXELS-1) then
+						i := 0;
+						state <= s10_3;
+					else
+						state <= s4_3;
+						i := i + 1;
+					end if;
+				when s10_3 =>
+          dualmem_enb <= '1';
+--          if (some_wait = c_some_wait-1) then
+--            some_wait <= 0;
+            state <= wr_8000_0010_5;
+----            state <= wr_8000_0010_6;
+--            float2fixedsclr <= '1';
+--          else
+--            some_wait <= some_wait + 1;
+--            state <= s10;
+--          end if;
+
+--				when wait_180us_3 =>
+--          if (w_180us = c_w_180us - 1) then
+--            w_180us <= 0;
+--            state <= wr_8000_0010_5;
+--          else
+--            w_180us <= w_180us + 1;
+--          end if;
 				when wr_8000_0010_5 =>
           melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
           melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
@@ -1749,19 +1954,97 @@ begin
           if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
             if (melexis_mlx90640_i2c_busy = '0') then
               melexis_mlx90640_i2c_enable <= '0';
-              state <= wait_180us_4;
+              state <= s0_4;
               melexis_mlx90640_i2c_enable_wait <= 0;
             end if;
           else
             melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
           end if;
-				when wait_180us_4 =>
-          if (w_180us = c_w_180us - 1) then
-            w_180us <= 0;
-            state <= wr_8000_0011_5;
-          else
-            w_180us <= w_180us + 1;
+
+
+        when s0_4 =>
+          state <= s1_4;
+					test_fixed_melexis_run <= '1';
+          float2fixedsclr <= '0';
+          dualmem_enb <= '0';
+          w11ms <= 0;
+				when s1_4 =>
+          test_fixed_melexis_run <= '0';
+          if (c_sim = "n") then
+            if (w11ms = c_w11ms - 1) then
+              state <= s4_4;
+              w11ms <= 0;
+            else
+              state <= s1_4;
+              w11ms <= w11ms + 1;
+            end if;
           end if;
+          if (c_sim = "y") then
+            if (test_fixed_melexis_busy = '0') then
+              state <= s4_4;
+              float2fixedsclr <= '0';
+              i := 0;
+              tout := (others => '0');
+            else
+              state <= s1_4;
+            end if;
+          end if;
+				when s4_4 => state <= s5_4;
+					test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
+				when s5_4 => state <= s6_4;
+				when s6_4 => state <= s7_4;
+					float2fixedond <= '1';
+					float2fixedce <= '1';
+					float2fixeda <= test_fixed_melexis_do;
+				when s7_4 =>
+					if (float2fixedrdy = '1') then state <= s8_4;
+--						tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
+--						tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
+--						tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
+						tout := float2fixedr;
+						float2fixedond <= '0';
+						float2fixedce <= '0';
+						float2fixedsclr <= '1';
+					else state <= s7_4; end if;
+				when s8_4 => state <= s9_4;
+					float2fixedsclr <= '0';
+					dualmem_wea <= "1";
+					dualmem_addra <= std_logic_vector (to_unsigned (i, 10));
+					dualmem_dina <= tout;
+					dualmem_ena <= '1';
+          --synthesis translate_off
+          --report_error ("tout", tout, 0.0);
+          --synthesis translate_on
+				when s9_4 =>
+					dualmem_wea <= "0";
+					dualmem_ena <= '0';
+					if (i = PIXELS-1) then
+						i := 0;
+						state <= s10_4;
+					else
+						state <= s4_4;
+						i := i + 1;
+					end if;
+				when s10_4 =>
+          dualmem_enb <= '1';
+--          if (some_wait = c_some_wait-1) then
+--            some_wait <= 0;
+            state <= wr_8000_0011_5;
+----            state <= wr_8000_0010_6;
+--            float2fixedsclr <= '1';
+--          else
+--            some_wait <= some_wait + 1;
+--            state <= s10;
+--          end if;
+
+
+--				when wait_180us_4 =>
+--          if (w_180us = c_w_180us - 1) then
+--            w_180us <= 0;
+--            state <= wr_8000_0011_5;
+--          else
+--            w_180us <= w_180us + 1;
+--          end if;
 				when wr_8000_0011_5 =>
           melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
           melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
@@ -2037,19 +2320,96 @@ begin
           if (melexis_mlx90640_i2c_enable_wait = c_melexis_mlx90640_i2c_enable_wait - 1) then
             if (melexis_mlx90640_i2c_busy = '0') then
               melexis_mlx90640_i2c_enable <= '0';
-              state <= wait_180us_5;
+              state <= s0_5;
               melexis_mlx90640_i2c_enable_wait <= 0;
             end if;
           else
             melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
           end if;
-				when wait_180us_5 =>
-          if (w_180us = c_w_180us - 1) then
-            w_180us <= 0;
-            state <= wr_8000_0010_10;
-          else
-            w_180us <= w_180us + 1;
+
+
+        when s0_5 =>
+          state <= s1_5;
+					test_fixed_melexis_run <= '1';
+          float2fixedsclr <= '0';
+          dualmem_enb <= '0';
+          w11ms <= 0;
+				when s1_5 =>
+          test_fixed_melexis_run <= '0';
+          if (c_sim = "n") then
+            if (w11ms = c_w11ms - 1) then
+              state <= s4_5;
+              w11ms <= 0;
+            else
+              state <= s1_5;
+              w11ms <= w11ms + 1;
+            end if;
           end if;
+          if (c_sim = "y") then
+            if (test_fixed_melexis_busy = '0') then
+              state <= s4_5;
+              float2fixedsclr <= '0';
+              i := 0;
+              tout := (others => '0');
+            else
+              state <= s1_5;
+            end if;
+          end if;
+				when s4_5 => state <= s5_5;
+					test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
+				when s5_5 => state <= s6_5;
+				when s6_5 => state <= s7_5;
+					float2fixedond <= '1';
+					float2fixedce <= '1';
+					float2fixeda <= test_fixed_melexis_do;
+				when s7_5 =>
+					if (float2fixedrdy = '1') then state <= s8_5;
+--						tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
+--						tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
+--						tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
+						tout := float2fixedr;
+						float2fixedond <= '0';
+						float2fixedce <= '0';
+						float2fixedsclr <= '1';
+					else state <= s7_5; end if;
+				when s8_5 => state <= s9_5;
+					float2fixedsclr <= '0';
+					dualmem_wea <= "1";
+					dualmem_addra <= std_logic_vector (to_unsigned (i, 10));
+					dualmem_dina <= tout;
+					dualmem_ena <= '1';
+          --synthesis translate_off
+          --report_error ("tout", tout, 0.0);
+          --synthesis translate_on
+				when s9_5 =>
+					dualmem_wea <= "0";
+					dualmem_ena <= '0';
+					if (i = PIXELS-1) then
+						i := 0;
+						state <= s10_5;
+					else
+						state <= s4_5;
+						i := i + 1;
+					end if;
+				when s10_5 =>
+          dualmem_enb <= '1';
+--          if (some_wait = c_some_wait-1) then
+--            some_wait <= 0;
+            state <= wr_8000_0010_10;
+----            state <= wr_8000_0010_6;
+--            float2fixedsclr <= '1';
+--          else
+--            some_wait <= some_wait + 1;
+--            state <= s10;
+--          end if;
+
+--				when wait_180us_5 =>
+--          if (w_180us = c_w_180us - 1) then
+--            w_180us <= 0;
+--            state <= wr_8000_0010_10;
+--          else
+--            w_180us <= w_180us + 1;
+--          end if;
 				when wr_8000_0010_10 =>
           melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
           melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= x"8000";
@@ -2108,16 +2468,7 @@ begin
             state <= wr_800d_1981_8;
           end if;
 				when wait_180ms_3 =>
-          if (w_180ms = c_w_180ms - 1) then
-            w_180ms <= 0;
-            state <= r14;
-          else
-            w_180ms <= w_180ms + 1;
-          end if;
-        when r14 =>
-          state <= s0;
           melexis_mlx90640_i2c_wait <= 0;
-          w_64us <= 0;
           melexis_mlx90640_i2c_enable_wait <= 0;
           melexis_mlx90640_i2c_mode0 <= '0';
           melexis_mlx90640_i2c_mode1 <= '0';
@@ -2125,134 +2476,92 @@ begin
           melexis_mlx90640_i2c_enable <= '0';
           melexis_mlx90640_i2c_memory_address <= x"0000";
           melexis_mlx90640_i2c_memory_data <= x"0000";
-          j <= 0;
---        when z1 => state <= z3;
---i2c_mlx_addrb_2 <= std_logic_vector (to_unsigned (j, 12));
---        i2c_mem_ena_2 <= '1';
---        when z3 => state <= z4;
-----if (c_lcd = "y") then
-----lcdchar (2)(0) <= '0';
-----lcdchar (2)(1) <= '0';
-----lcdchar (2)(2) <= '0';
-----lcdchar (2)(3) <= '0';
-----lcdchar (3)(0) <= '0';
-----lcdchar (3)(1) <= '0';
-----lcdchar (3)(2) <= '0';
-----lcdchar (3)(3) <= '0';
-----lcdchar (0)(0) <= i2c_mlx_doutb(0);
-----lcdchar (0)(1) <= i2c_mlx_doutb(1);
-----lcdchar (0)(2) <= i2c_mlx_doutb(2);
-----lcdchar (0)(3) <= i2c_mlx_doutb(3);
-----lcdchar (1)(0) <= i2c_mlx_doutb(4);
-----lcdchar (1)(1) <= i2c_mlx_doutb(5);
-----lcdchar (1)(2) <= i2c_mlx_doutb(6);
-----lcdchar (1)(3) <= i2c_mlx_doutb(7);
-----end if;
---        when z4 =>
---        i2c_mem_ena_2 <= '0';
---        i2c_mlx_addrb_2 <= (others => '0');
-----        if (k = 3 - 1) then
-----          k := 0;
---          state <= z5;
-----        else
-----          k := k + 1;
-----          state <= z4;
-----        end if;
---        when z5 =>
---        if (j = c_j - 1) then
---          j <= 0;
---          state <= s0;
---        else
---          j <= j + 1;
---          state <= z1;
---        end if;
-        when s0 =>
-          state <= s1;
-					test_fixed_melexis_run <= '1';
-          float2fixedsclr <= '0';
-          w11ms <= 0;
-          dualmem_enb <= '0';
-				when s1 =>
-          if (c_sim = "n") then
-          test_fixed_melexis_run <= '0';
-          if (w11ms = c_w11ms - 1) then
-            state <= s2;
-            w11ms <= 0;
-          else
- 						state <= s1;
-            w11ms <= w11ms + 1;
-          end if;
-          end if;
-          if (c_sim = "y") then
-					test_fixed_melexis_run <= '0';
-					if (test_fixed_melexis_rdy = '1') then
-						state <= s2;
-					else
-						state <= s1;
-					end if;
-          end if;
-
-
---				when s1 =>
---					test_fixed_melexis_run <= '0';
---					if (test_fixed_melexis_rdy = '1') then
---						state <= s2;
---					else
---						state <= s1;
---					end if;
-				when s2 => state <= s3;
-					float2fixedsclr <= '0';
-					i := 0;
-					tout := (others => '0');
-				when s3 => state <= s4;
-				when s4 => state <= s5;
-					test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
-				when s5 => state <= s6;
-				when s6 => state <= s7;
-					float2fixedond <= '1';
-					float2fixedce <= '1';
-					float2fixeda <= test_fixed_melexis_do;
-				when s7 =>
-					if (float2fixedrdy = '1') then state <= s8;
---						tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
---						tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
---						tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
-						tout := float2fixedr;
-						float2fixedond <= '0';
-						float2fixedce <= '0';
-						float2fixedsclr <= '1';
-					else state <= s7; end if;
-				when s8 => state <= s9;
-					float2fixedsclr <= '0';
-					dualmem_wea <= "1";
-					dualmem_addra <= std_logic_vector (to_unsigned (i, 10));
-					dualmem_dina <= tout;
-					dualmem_ena <= '1';
-          --synthesis translate_off
-          --report_error ("tout", tout, 0.0);
-          --synthesis translate_on
-				when s9 =>
-					dualmem_wea <= "0";
-					dualmem_ena <= '0';
-					if (i = PIXELS-1) then
-						i := 0;
-						state <= s10;
-					else
-						state <= s4;
-						i := i + 1;
-					end if;
-				when s10 =>
-          dualmem_enb <= '1';
-          if (some_wait = c_some_wait-1) then
-            some_wait <= 0;
+          if (w_180ms = c_w_180ms - 1) then
+            w_180ms <= 0;
             state <= idle;
---            state <= wr_8000_0010_6;
-            float2fixedsclr <= '1';
           else
-            some_wait <= some_wait + 1;
-            state <= s10;
+            w_180ms <= w_180ms + 1;
           end if;
-when others => state <= idle;
+          
+          
+          
+--        when s0_1 =>
+--          state <= s1_1;
+--					test_fixed_melexis_run <= '1';
+--          float2fixedsclr <= '0';
+--          dualmem_enb <= '0';
+--          w11ms <= 0;
+--				when s1_1 =>
+--          test_fixed_melexis_run <= '0';
+--          if (c_sim = "n") then
+--            if (w11ms = c_w11ms - 1) then
+--              state <= s4_1;
+--              w11ms <= 0;
+--            else
+--              state <= s1_1;
+--              w11ms <= w11ms + 1;
+--            end if;
+--          end if;
+--          if (c_sim = "y") then
+--            if (test_fixed_melexis_busy = '0') then
+--              state <= s4_1;
+--              float2fixedsclr <= '0';
+--              i := 0;
+--              tout := (others => '0');
+--            else
+--              state <= s1_1;
+--            end if;
+--          end if;
+--				when s4_1 => state <= s5_1;
+--					test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
+--				when s5_1 => state <= s6_1;
+--				when s6_1 => state <= s7_1;
+--					float2fixedond <= '1';
+--					float2fixedce <= '1';
+--					float2fixeda <= test_fixed_melexis_do;
+--				when s7_1 =>
+--					if (float2fixedrdy = '1') then state <= s8_1;
+----						tout := "00000000000000000000000"&float2fixedr (36 downto 28) ; -- 35 29
+----						tout := "00000000000000000000000"&float2fixedr (34 downto 26) ; -- 35 29
+----						tout := "0000000000"&float2fixedr (35 downto 14); -- 35 29
+--						tout := float2fixedr;
+--						float2fixedond <= '0';
+--						float2fixedce <= '0';
+--						float2fixedsclr <= '1';
+--					else state <= s7_1; end if;
+--				when s8_1 => state <= s9_1;
+--					float2fixedsclr <= '0';
+--					dualmem_wea <= "1";
+--					dualmem_addra <= std_logic_vector (to_unsigned (i, 10));
+--					dualmem_dina <= tout;
+--					dualmem_ena <= '1';
+--          --synthesis translate_off
+--          --report_error ("tout", tout, 0.0);
+--          --synthesis translate_on
+--				when s9_1 =>
+--					dualmem_wea <= "0";
+--					dualmem_ena <= '0';
+--					if (i = PIXELS-1) then
+--						i := 0;
+--						state <= s10_1;
+--					else
+--						state <= s4_1;
+--						i := i + 1;
+--					end if;
+--				when s10_1 =>
+--          dualmem_enb <= '1';
+----          if (some_wait = c_some_wait-1) then
+----            some_wait <= 0;
+--            state <= idle;
+------            state <= wr_8000_0010_6;
+----            float2fixedsclr <= '1';
+----          else
+----            some_wait <= some_wait + 1;
+----            state <= s10;
+----          end if;
+
+
+        when others => state <= idle;
 			end case;
 		end if;
 	end if;
@@ -2359,6 +2668,7 @@ i_run => test_fixed_melexis_run,
 i2c_mem_ena => test_fixed_melexis_i2c_mem_ena,
 i2c_mem_addra => test_fixed_melexis_i2c_mem_addra,
 i2c_mem_douta => test_fixed_melexis_i2c_mem_douta,
+o_busy => test_fixed_melexis_busy,
 o_rdy => test_fixed_melexis_rdy,
 i_addr => test_fixed_melexis_addr,
 o_do => test_fixed_melexis_do,

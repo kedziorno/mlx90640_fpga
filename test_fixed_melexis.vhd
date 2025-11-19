@@ -44,6 +44,7 @@ i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
 i2c_mem_douta : in STD_LOGIC_VECTOR(7 DOWNTO 0);
 
+o_busy : out std_logic;
 o_rdy : out std_logic;
 
 i_addr : in std_logic_vector(9 downto 0);
@@ -1783,6 +1784,7 @@ ExtractAlphaParameters_rom_constants_float <= rom_constants_float;
 				state := idle;
 				-- reset
 				o_rdy <= '0';
+        o_busy <= '0';
 			else
   case (state) is
 	
@@ -1790,6 +1792,7 @@ ExtractAlphaParameters_rom_constants_float <= rom_constants_float;
 			if (i_run = '1') then
 				state := s0;
         o_rdy <= '0';
+        o_busy <= '1';
 			else
 				state := idle;
 			end if;
@@ -1939,6 +1942,7 @@ ExtractAlphaParameters_rom_constants_float <= rom_constants_float;
 
 	when ending => state := idle;
 		o_rdy <= '1';
+    o_busy <= '0';
 
 	when others => null;
 end case;
