@@ -30,7 +30,6 @@ generic (
 constant c_clock_board_frequency : integer := c_clock_board_frequency;
 constant c_bus_clock : integer := c_clock_i2c_frequency;
 c_sim : string (1 downto 1) := "n";
---constant c_cold_start : integer := 2**26;
 constant c_cold_start : integer := 1024;
 constant c_melexis_mlx90640_i2c_enable_wait : integer := 1024;
 constant c_melexis_mlx90640_i2c_wait : integer := 65536;
@@ -676,7 +675,6 @@ s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14
 );
 signal state : states;
 
-signal cold_start : integer range 0 to c_cold_start - 1;
 --constant c_melexis_mlx90640_i2c_enable_wait : integer := 58;
 --constant c_melexis_mlx90640_i2c_enable_wait : integer := 25*1_000_000/10000;
 --constant c_melexis_mlx90640_i2c_enable_wait : integer := 25;
@@ -699,6 +697,8 @@ signal w_180ms : integer range 0 to c_w_180ms - 1;
 signal w_21ms : integer range 0 to c_w_21ms - 1;
 constant c_w11ms : integer := (c_clock_board_frequency / 2);
 signal w11ms : integer range 0 to c_w11ms - 1;
+signal some_wait : integer range 0 to c_some_wait - 1;
+signal cold_start : integer range 0 to c_cold_start - 1;
 
 begin
 
@@ -776,18 +776,24 @@ begin
 			dualmem_ena <= '0';
 			dualmem_enb <= '0';
 			tout := (others => '0');
-      w11ms <= 0;
-      melexis_mlx90640_i2c_enable_wait <= 0;
-      melexis_mlx90640_i2c_wait <= 0;
-      w_64us <= 0;
-      cold_start <= 0;
-			--j <= 0;
       melexis_mlx90640_i2c_mode0 <= '0';
       melexis_mlx90640_i2c_mode1 <= '0';
       melexis_mlx90640_i2c_mode2 <= '0';
       melexis_mlx90640_i2c_enable <= '0';
       melexis_mlx90640_i2c_memory_address <= x"0000";
       melexis_mlx90640_i2c_memory_data <= x"0000";
+      melexis_mlx90640_i2c_enable_wait <= 0;
+      melexis_mlx90640_i2c_wait <= 0;
+      w_64us <= 0;
+      w_180us <= 0;
+      w_200ms <= 0;
+      w_160us <= 0;
+      w_160ms <= 0;
+      w_180ms <= 0;
+      w_21ms <= 0;
+      w11ms <= 0;
+      some_wait <= 0;
+      cold_start <= 0;
 		else
 			case (state) is
 				when idle =>
@@ -2165,10 +2171,10 @@ begin
 					test_fixed_melexis_run <= '1';
           float2fixedsclr <= '0';
           w11ms <= 0;
-          dualmem_enb <= '1';
+          dualmem_enb <= '0';
 				when s1 =>
-          test_fixed_melexis_run <= '0';
           if (c_sim = "n") then
+          test_fixed_melexis_run <= '0';
           if (w11ms = c_w11ms - 1) then
             state <= s2;
             w11ms <= 0;
@@ -2237,18 +2243,17 @@ begin
 						i := i + 1;
 					end if;
 				when s10 =>
---          if (some_wait = c_some_wait-1) then
---            some_wait := 0;
---            state <= idle;
+          if (some_wait = c_some_wait-1) then
+            some_wait <= 0;
             state <= idle;
 --            state <= wr_8000_0010_6;
 --            state <= idle3;
 --            state <=  s2;
             float2fixedsclr <= '1';
---          else
---            some_wait := some_wait + 1;
---            state <= s10;
---          end if;
+          else
+            some_wait <= some_wait + 1;
+            state <= s10;
+          end if;
 when others => state <= idle;
 			end case;
 		end if;
