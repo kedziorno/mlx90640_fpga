@@ -697,7 +697,7 @@ signal w_160us : integer range 0 to c_w_160us - 1;
 signal w_160ms : integer range 0 to c_w_160ms - 1;
 signal w_180ms : integer range 0 to c_w_180ms - 1;
 signal w_21ms : integer range 0 to c_w_21ms - 1;
-constant c_w11ms : integer := (c_clock_board_frequency / 90);
+constant c_w11ms : integer := (c_clock_board_frequency / 2);
 signal w11ms : integer range 0 to c_w11ms - 1;
 
 begin
@@ -2241,6 +2241,7 @@ begin
 --            some_wait := 0;
 --            state <= idle;
             state <= idle;
+--            state <= wr_8000_0010_6;
 --            state <= idle3;
 --            state <=  s2;
             float2fixedsclr <= '1';
