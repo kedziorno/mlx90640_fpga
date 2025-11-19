@@ -1484,7 +1484,7 @@ begin
 				when wr_8000_0010_5_idle =>
           melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
           melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
-          if (melexis_mlx90640_i2c_bytes_to_recv = x"0011") then
+          if (melexis_mlx90640_i2c_bytes_to_recv = x"0010") then
             if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
               state <= wait_64us_15;
               melexis_mlx90640_i2c_wait <= 0;
@@ -1492,7 +1492,7 @@ begin
               melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
             end if;
           else
-            state <= wr_8000_0011_2;
+            state <= wr_8000_0010_5;
           end if;
 				when wait_64us_15 =>
           if (w_64us = c_w_64us - 1) then
