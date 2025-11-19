@@ -560,15 +560,15 @@ Analyzing generic Entity <test1> in library <work> (Architecture <behavioral>).
 	c_w_21ms = 65536
 	c_w_64us = 65536
 	zero = 0
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2332: Instantiating black box module <i2c_mlx>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2503: Instantiating black box module <float2fixed>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2516: Instantiating black box module <dualmem>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2542: Instantiating black box module <fixed2float>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2554: Instantiating black box module <divfp>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2566: Instantiating black box module <mulfp>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2578: Instantiating black box module <addfp>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2590: Instantiating black box module <subfp>.
-WARNING:Xst:1540 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2614: Different binding for component: <melexis_mlx90640_i2c>. Ports <i_memory_address,i_memory_data> do not match.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2341: Instantiating black box module <i2c_mlx>.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2512: Instantiating black box module <float2fixed>.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2525: Instantiating black box module <dualmem>.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2551: Instantiating black box module <fixed2float>.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2563: Instantiating black box module <divfp>.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2575: Instantiating black box module <mulfp>.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2587: Instantiating black box module <addfp>.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2599: Instantiating black box module <subfp>.
+WARNING:Xst:1540 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2623: Different binding for component: <melexis_mlx90640_i2c>. Ports <i_memory_address,i_memory_data> do not match.
 INFO:Xst:2679 - Register <w_160us> in unit <test1> has a constant value of 0 during circuit operation. The register is replaced by logic.
 INFO:Xst:2679 - Register <j> in unit <test1> has a constant value of 0 during circuit operation. The register is replaced by logic.
 Entity <test1> analyzed. Unit <test1> generated.
@@ -2185,6 +2185,7 @@ INFO:Xst:1799 - State wr_800d_1901 is never reached in FSM <state>.
     | Encoding           | automatic                                      |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
+WARNING:Xst:2110 - Clock of register <vgaclk25_1> seems to be also used in the data or control logic of that element.
     Found 1-bit tristate buffer for signal <io_sda_dd1>.
     Found 1-bit tristate buffer for signal <io_scl_dd1>.
     Found 1-bit register for signal <agclk>.
@@ -2198,7 +2199,7 @@ INFO:Xst:1799 - State wr_800d_1901 is never reached in FSM <state>.
     Found 1-bit register for signal <float2fixedce>.
     Found 1-bit register for signal <float2fixedsclr>.
     Found 10-bit register for signal <i>.
-    Found 10-bit adder for signal <i$addsub0000> created at line 2243.
+    Found 10-bit adder for signal <i$addsub0000> created at line 2242.
     Found 11-bit register for signal <i2c_mlx_addra>.
     Found 10-bit adder carry out for signal <i2c_mlx_addra$addsub0001> created at line 728.
     Found 1-bit register for signal <i2c_mlx_ena>.
@@ -2218,6 +2219,9 @@ INFO:Xst:1799 - State wr_800d_1901 is never reached in FSM <state>.
     Found 10-bit register for signal <test_fixed_melexis_addr>.
     Found 1-bit register for signal <test_fixed_melexis_run>.
     Found 9-bit register for signal <tout>.
+    Found 1-bit register for signal <vgaclk25>.
+    Found 1-bit register for signal <vgaclk25_1>.
+    Found 1-bit register for signal <vgaclk25_2>.
     Found 4-bit up counter for signal <vmax>.
     Found 24-bit register for signal <w11ms>.
     Found 24-bit adder for signal <w11ms$addsub0000> created at line 2183.
@@ -2236,7 +2240,7 @@ INFO:Xst:1799 - State wr_800d_1901 is never reached in FSM <state>.
     Summary:
 	inferred   1 Finite State Machine(s).
 	inferred   4 Counter(s).
-	inferred 282 D-type flip-flop(s).
+	inferred 285 D-type flip-flop(s).
 	inferred  11 Adder/Subtractor(s).
 	inferred   2 Tristate(s).
 Unit <test1> synthesized.
@@ -2275,8 +2279,8 @@ Macro Statistics
  20-bit up counter                                     : 1
  4-bit up counter                                      : 1
  8-bit up counter                                      : 1
-# Registers                                            : 440
- 1-bit register                                        : 216
+# Registers                                            : 443
+ 1-bit register                                        : 219
  10-bit register                                       : 29
  11-bit register                                       : 1
  12-bit register                                       : 10
@@ -3095,8 +3099,8 @@ Macro Statistics
  20-bit up counter                                     : 1
  4-bit up counter                                      : 1
  8-bit up counter                                      : 1
-# Registers                                            : 4559
- Flip-Flops                                            : 4559
+# Registers                                            : 4562
+ Flip-Flops                                            : 4562
 # Comparators                                          : 10
  10-bit comparator greatequal                          : 4
  10-bit comparator greater                             : 2
@@ -3209,6 +3213,7 @@ FlipFlop tfm_inst/ExtractAlphaParameters_mux has been replicated 1 time(s)
 Final Macro Processing ...
 
 Processing Unit <test1> :
+	Found 3-bit shift register for signal <vgaclk251>.
 	Found 2-bit shift register for signal <melexis_mlx90640_i2c_i0/io_scl_ii>.
 Unit <test1> processed.
 
@@ -3218,8 +3223,9 @@ Final Register Report
 Macro Statistics
 # Registers                                            : 5130
  Flip-Flops                                            : 5130
-# Shift Registers                                      : 1
+# Shift Registers                                      : 2
  2-bit shift register                                  : 1
+ 3-bit shift register                                  : 1
 
 =========================================================================
 
@@ -3248,49 +3254,49 @@ Design Statistics
 # IOs                              : 63
 
 Cell Usage :
-# BELS                             : 17841
+# BELS                             : 17839
 #      BUF                         : 13
 #      GND                         : 9
 #      INV                         : 62
 #      LUT1                        : 348
-#      LUT2                        : 2412
-#      LUT2_D                      : 35
-#      LUT2_L                      : 75
-#      LUT3                        : 2915
-#      LUT3_D                      : 123
-#      LUT3_L                      : 154
-#      LUT4                        : 6516
+#      LUT2                        : 2413
+#      LUT2_D                      : 37
+#      LUT2_L                      : 72
+#      LUT3                        : 2898
+#      LUT3_D                      : 122
+#      LUT3_L                      : 156
+#      LUT4                        : 6533
 #      LUT4_D                      : 130
-#      LUT4_L                      : 626
+#      LUT4_L                      : 624
 #      MULT_AND                    : 226
 #      MUXCY                       : 2003
-#      MUXF5                       : 373
+#      MUXF5                       : 372
 #      MUXF6                       : 6
 #      MUXF7                       : 3
 #      VCC                         : 7
 #      XORCY                       : 1805
-# FlipFlops/Latches                : 8640
-#      FD                          : 3
+# FlipFlops/Latches                : 8641
+#      FD                          : 4
 #      FDC                         : 69
 #      FDCE                        : 82
 #      FDE                         : 4112
 #      FDP                         : 5
-#      FDR                         : 1072
+#      FDR                         : 1071
 #      FDRE                        : 1631
 #      FDRS                        : 1201
-#      FDRSE                       : 208
-#      FDS                         : 238
-#      FDSE                        : 19
+#      FDRSE                       : 209
+#      FDS                         : 237
+#      FDSE                        : 20
 # RAMS                             : 22
 #      RAMB16_S18_S18              : 1
 #      RAMB16_S36                  : 19
 #      RAMB16_S4_S9                : 2
-# Shift Registers                  : 205
-#      SRL16                       : 1
+# Shift Registers                  : 206
+#      SRL16                       : 2
 #      SRL16E                      : 183
 #      SRLC16E                     : 21
-# Clock Buffers                    : 2
-#      BUFG                        : 2
+# Clock Buffers                    : 3
+#      BUFG                        : 3
 # IO Buffers                       : 55
 #      IBUF                        : 2
 #      IOBUF                       : 2
@@ -3302,15 +3308,15 @@ Device utilization summary:
 
 Selected Device : 3s1200efg320-4 
 
- Number of Slices:                     7965  out of   8672    91%  
- Number of Slice Flip Flops:           8640  out of  17344    49%  
+ Number of Slices:                     7966  out of   8672    91%  
+ Number of Slice Flip Flops:           8641  out of  17344    49%  
  Number of 4 input LUTs:              13601  out of  17344    78%  
-    Number used as logic:             13396
-    Number used as Shift registers:     205
+    Number used as logic:             13395
+    Number used as Shift registers:     206
  Number of IOs:                          63
  Number of bonded IOBs:                  55  out of    250    22%  
  Number of BRAMs:                        22  out of     28    78%  
- Number of GCLKs:                         2  out of     24     8%  
+ Number of GCLKs:                         3  out of     24    12%  
 
 ---------------------------
 Partition Resource Summary:
@@ -3333,8 +3339,9 @@ Clock Information:
 -----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)                                                                                                                | Load  |
 -----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------+-------+
-i_clock                            | IBUF+BUFG                                                                                                                            | 8749  |
+i_clock                            | IBUF+BUFG                                                                                                                            | 8663  |
 agclk                              | NONE(dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram)| 11    |
+vgaclk251                          | BUFG                                                                                                                                 | 88    |
 melexis_mlx90640_i2c_i0/clock1     | BUFG                                                                                                                                 | 91    |
 melexis_mlx90640_i2c_i0/io_scl_ii  | NONE(melexis_mlx90640_i2c_i0/bytes_to_recv_sr_16)                                                                                    | 17    |
 -----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------+-------+
@@ -3353,9 +3360,9 @@ Timing Summary:
 ---------------
 Speed Grade: -4
 
-   Minimum period: 11.422ns (Maximum Frequency: 87.552MHz)
+   Minimum period: 11.426ns (Maximum Frequency: 87.518MHz)
    Minimum input arrival time before clock: 10.685ns
-   Maximum output required time after clock: 14.696ns
+   Maximum output required time after clock: 14.695ns
    Maximum combinational path delay: 5.021ns
 
 Timing Detail:
@@ -3364,10 +3371,10 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 11.422ns (frequency: 87.552MHz)
-  Total number of paths / destination ports: 404435 / 17043
+  Clock period: 11.426ns (frequency: 87.518MHz)
+  Total number of paths / destination ports: 402453 / 16895
 -------------------------------------------------------------------------
-Delay:               11.422ns (Levels of Logic = 9)
+Delay:               11.426ns (Levels of Logic = 9)
   Source:            tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_mux (FF)
   Destination:       inst_divfp/blk00000a56 (FF)
   Source Clock:      i_clock rising
@@ -3377,9 +3384,9 @@ Delay:               11.422ns (Levels of Logic = 9)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDRS:C->Q           403   0.591   1.383  tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_mux (tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_mux)
+     FDRS:C->Q           417   0.591   1.388  tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_mux (tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_mux)
      LUT4:I3->O            1   0.704   0.455  tfm_inst/divfpond33 (tfm_inst/divfpce33)
-     LUT3:I2->O            1   0.704   0.000  tfm_inst/divfpond75_G (N3951)
+     LUT3:I2->O            1   0.704   0.000  tfm_inst/divfpond75_G (N3943)
      MUXF5:I1->O           1   0.321   0.499  tfm_inst/divfpond75 (tfm_inst/divfpce75)
      LUT4:I1->O            1   0.704   0.000  tfm_inst/divfpond14411 (tfm_inst/divfpond1441)
      MUXF5:I0->O           1   0.321   0.455  tfm_inst/divfpond1441_f5 (tfm_inst/divfpce144)
@@ -3389,15 +3396,41 @@ Delay:               11.422ns (Levels of Logic = 9)
      LUT2:I1->O           22   0.704   1.164  blk00000ac2 (sig00000ced)
      FDRSE:R                   0.911          blk00000a56
     ----------------------------------------
-    Total                     11.422ns (5.985ns logic, 5.437ns route)
+    Total                     11.426ns (5.985ns logic, 5.441ns route)
                                        (52.4% logic, 47.6% route)
 
 =========================================================================
+Timing constraint: Default period analysis for Clock 'vgaclk251'
+  Clock period: 7.954ns (frequency: 125.723MHz)
+  Total number of paths / destination ports: 1515 / 150
+-------------------------------------------------------------------------
+Delay:               7.954ns (Levels of Logic = 5)
+  Source:            vts_inst/vPos_4 (FF)
+  Destination:       vts_inst/videoOn (FF)
+  Source Clock:      vgaclk251 rising
+  Destination Clock: vgaclk251 rising
+
+  Data Path: vts_inst/vPos_4 to vts_inst/videoOn
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDRE:C->Q            15   0.591   1.192  vts_inst/vPos_4 (vts_inst/vPos_4)
+     LUT2_L:I0->LO         1   0.704   0.275  vts_inst/videoOn_or000011 (vts_inst/N1)
+     LUT4:I0->O            1   0.704   0.420  vts_inst/videoOn_or0000277 (vts_inst/videoOn_or0000277)
+     MUXF5:S->O            1   0.739   0.455  vts_inst/videoOn_or0000279 (vts_inst/videoOn_or0000279)
+     LUT4_L:I2->LO         1   0.704   0.135  vts_inst/videoOn_or0000315 (vts_inst/videoOn_or0000315)
+     LUT4:I2->O            1   0.704   0.420  vts_inst/videoOn_or0000465 (vts_inst/videoOn_or0000)
+     FDR:R                     0.911          vts_inst/videoOn
+    ----------------------------------------
+    Total                      7.954ns (5.057ns logic, 2.897ns route)
+                                       (63.6% logic, 36.4% route)
+
+=========================================================================
 Timing constraint: Default period analysis for Clock 'agclk'
-  Clock period: 6.212ns (frequency: 160.979MHz)
+  Clock period: 6.352ns (frequency: 157.431MHz)
   Total number of paths / destination ports: 155 / 20
 -------------------------------------------------------------------------
-Delay:               6.212ns (Levels of Logic = 3)
+Delay:               6.352ns (Levels of Logic = 3)
   Source:            ag_inst/addr_5 (FF)
   Destination:       ag_inst/addr_9 (FF)
   Source Clock:      agclk rising
@@ -3409,17 +3442,17 @@ Delay:               6.212ns (Levels of Logic = 3)
     ----------------------------------------  ------------
      FDRE:C->Q             4   0.591   0.762  ag_inst/addr_5 (ag_inst/addr_5)
      LUT4:I0->O            1   0.704   0.499  ag_inst/addr_or000010 (ag_inst/addr_or000010)
-     LUT4:I1->O            1   0.704   0.455  ag_inst/addr_or000038_SW0 (N3450)
-     LUT4:I2->O           10   0.704   0.882  ag_inst/addr_or000038 (ag_inst/addr_or0000)
+     LUT4:I1->O            1   0.704   0.595  ag_inst/addr_or000038_SW0 (N3446)
+     LUT4:I0->O           10   0.704   0.882  ag_inst/addr_or000038 (ag_inst/addr_or0000)
      FDRE:R                    0.911          ag_inst/addr_0
     ----------------------------------------
-    Total                      6.212ns (3.614ns logic, 2.598ns route)
-                                       (58.2% logic, 41.8% route)
+    Total                      6.352ns (3.614ns logic, 2.738ns route)
+                                       (56.9% logic, 43.1% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'melexis_mlx90640_i2c_i0/clock1'
   Clock period: 9.645ns (frequency: 103.681MHz)
-  Total number of paths / destination ports: 1456 / 130
+  Total number of paths / destination ports: 1457 / 130
 -------------------------------------------------------------------------
 Delay:               9.645ns (Levels of Logic = 8)
   Source:            melexis_mlx90640_i2c_i0/c_state_FSM_FFd42 (FF)
@@ -3469,12 +3502,33 @@ Delay:               2.225ns (Levels of Logic = 1)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 5002 / 5001
+  Total number of paths / destination ports: 4911 / 4911
+-------------------------------------------------------------------------
+Offset:              7.630ns (Levels of Logic = 3)
+  Source:            i_reset (PAD)
+  Destination:       tfm_inst/inst_CalculateAlphaComp/subfpb_internal_0 (FF)
+  Destination Clock: i_clock rising
+
+  Data Path: i_reset to tfm_inst/inst_CalculateAlphaComp/subfpb_internal_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O           452   1.218   1.395  i_reset_IBUF (i_reset_IBUF)
+     BUF:I->O            453   0.704   1.570  i_reset_IBUF_8 (i_reset_IBUF_8)
+     LUT2:I0->O           21   0.704   1.128  tfm_inst/inst_CalculateAlphaComp/subfpb_internal_mux0000<10>111 (tfm_inst/inst_CalculateAlphaComp/N14)
+     FDS:S                     0.911          tfm_inst/inst_CalculateAlphaComp/subfpb_internal_0
+    ----------------------------------------
+    Total                      7.630ns (3.537ns logic, 4.093ns route)
+                                       (46.4% logic, 53.6% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'vgaclk251'
+  Total number of paths / destination ports: 92 / 91
 -------------------------------------------------------------------------
 Offset:              10.685ns (Levels of Logic = 7)
   Source:            i_reset (PAD)
   Destination:       vts_inst/videoOn (FF)
-  Destination Clock: i_clock rising
+  Destination Clock: vgaclk251 rising
 
   Data Path: i_reset to vts_inst/videoOn
                                 Gate     Net
@@ -3483,7 +3537,7 @@ Offset:              10.685ns (Levels of Logic = 7)
      IBUF:I->O           452   1.218   1.395  i_reset_IBUF (i_reset_IBUF)
      BUF:I->O            452   0.704   1.399  i_reset_IBUF_1 (i_reset_IBUF_1)
      LUT4:I3->O            2   0.704   0.451  vts_inst/videoOn_or00004 (vts_inst/videoOn_or00004)
-     LUT4:I3->O            1   0.704   0.000  vts_inst/videoOn_or000021_F (N4046)
+     LUT4:I3->O            1   0.704   0.000  vts_inst/videoOn_or000021_F (N4034)
      MUXF5:I0->O           1   0.321   0.455  vts_inst/videoOn_or000021 (vts_inst/videoOn_or000021)
      LUT3:I2->O            1   0.704   0.595  vts_inst/videoOn_or000067 (vts_inst/videoOn_or000067)
      LUT4:I0->O            1   0.704   0.420  vts_inst/videoOn_or0000465 (vts_inst/videoOn_or0000)
@@ -3535,12 +3589,31 @@ Offset:              7.076ns (Levels of Logic = 3)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
+  Total number of paths / destination ports: 1 / 1
+-------------------------------------------------------------------------
+Offset:              4.310ns (Levels of Logic = 1)
+  Source:            vgaclk251 (FF)
+  Destination:       vga_clock (PAD)
+  Source Clock:      i_clock rising
+
+  Data Path: vgaclk251 to vga_clock
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FD:C->Q               2   0.591   0.447  vgaclk251 (vgaclk251)
+     OBUF:I->O                 3.272          vga_clock_OBUF (vga_clock)
+    ----------------------------------------
+    Total                      4.310ns (3.863ns logic, 0.447ns route)
+                                       (89.6% logic, 10.4% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'vgaclk251'
   Total number of paths / destination ports: 450 / 18
 -------------------------------------------------------------------------
-Offset:              12.639ns (Levels of Logic = 7)
+Offset:              12.543ns (Levels of Logic = 7)
   Source:            vts_inst/hPos_2 (FF)
   Destination:       vga_b<6> (PAD)
-  Source Clock:      i_clock rising
+  Source Clock:      vgaclk251 rising
 
   Data Path: vts_inst/hPos_2 to vga_b<6>
                                 Gate     Net
@@ -3551,18 +3624,18 @@ Offset:              12.639ns (Levels of Logic = 7)
      LUT4:I2->O            1   0.704   0.499  vts_inst/activeArea1_and000013 (vts_inst/activeArea1_and000013)
      LUT4:I1->O            1   0.704   0.455  vts_inst/activeArea1_and0000106_SW0 (N3118)
      LUT4:I2->O           22   0.704   1.339  vts_inst/activeArea1_and0000106 (VGA_timing_synch_activeArea1)
-     LUT4:I0->O            1   0.704   0.595  vga_b<6>1164 (vga_b<6>1164)
-     LUT4:I0->O            1   0.704   0.420  vga_b<6>1178 (vga_b_6_OBUF)
+     LUT4:I0->O            1   0.704   0.499  vga_b<6>1164 (vga_b<6>1164)
+     LUT4:I1->O            1   0.704   0.420  vga_b<6>1178 (vga_b_6_OBUF)
      OBUF:I->O                 3.272          vga_b_6_OBUF (vga_b<6>)
     ----------------------------------------
-    Total                     12.639ns (8.087ns logic, 4.552ns route)
-                                       (64.0% logic, 36.0% route)
+    Total                     12.543ns (8.087ns logic, 4.456ns route)
+                                       (64.5% logic, 35.5% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'agclk'
-  Total number of paths / destination ports: 725 / 15
+  Total number of paths / destination ports: 720 / 15
 -------------------------------------------------------------------------
-Offset:              14.696ns (Levels of Logic = 8)
+Offset:              14.695ns (Levels of Logic = 8)
   Source:            dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram (RAM)
   Destination:       vga_b<3> (PAD)
   Source Clock:      agclk rising
@@ -3571,7 +3644,7 @@ Offset:              14.696ns (Levels of Logic = 8)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     RAMB16_S18_S18:CLKB->DOB2   57   2.800   1.445  U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram (doutb<2>)
+     RAMB16_S18_S18:CLKB->DOB2   55   2.800   1.444  U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram (doutb<2>)
      end scope: 'dualmem_inst'
      LUT2:I0->O            5   0.704   0.637  vga_b<3>161 (vga_b<3>_bdd25)
      LUT4:I3->O            1   0.704   0.424  vga_b<3>4267 (vga_b<3>4267)
@@ -3581,12 +3654,12 @@ Offset:              14.696ns (Levels of Logic = 8)
      LUT4:I2->O            1   0.704   0.420  vga_b<3>4734 (vga_b_3_OBUF)
      OBUF:I->O                 3.272          vga_b_3_OBUF (vga_b<3>)
     ----------------------------------------
-    Total                     14.696ns (10.296ns logic, 4.400ns route)
+    Total                     14.695ns (10.296ns logic, 4.399ns route)
                                        (70.1% logic, 29.9% route)
 
 =========================================================================
 Timing constraint: Default path analysis
-  Total number of paths / destination ports: 5 / 5
+  Total number of paths / destination ports: 4 / 4
 -------------------------------------------------------------------------
 Delay:               5.021ns (Levels of Logic = 2)
   Source:            io_scl_dd1 (PAD)
@@ -3605,15 +3678,15 @@ Delay:               5.021ns (Levels of Logic = 2)
 =========================================================================
 
 
-Total REAL time to Xst completion: 102.00 secs
-Total CPU time to Xst completion: 100.71 secs
+Total REAL time to Xst completion: 104.00 secs
+Total CPU time to Xst completion: 101.90 secs
  
 --> 
 
 
-Total memory usage is 1023516 kilobytes
+Total memory usage is 1025032 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :  122 (   0 filtered)
+Number of warnings :  123 (   0 filtered)
 Number of infos    :   81 (   0 filtered)
 

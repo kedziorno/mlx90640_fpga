@@ -226,7 +226,7 @@ signal VGA_timing_synch_blank : STD_LOGIC;
 --signal vga_imagegenerator_active_area1 : STD_LOGIC;
 --signal vga_imagegenerator_RGB_out : STD_LOGIC_VECTOR (BITS-1 downto 0);
 
-signal vgaclk25,agclk : std_logic;
+signal vgaclk25,vgaclk25_1,vgaclk25_2,agclk : std_logic;
 
 COMPONENT float2fixed
 PORT (
@@ -2237,16 +2237,16 @@ begin
 					if (i = PIXELS-1) then
 						i := 0;
 						state <= s10;
-            dualmem_enb <= '1';
 					else
 						state <= s4;
 						i := i + 1;
 					end if;
 				when s10 =>
+          dualmem_enb <= '1';
           if (some_wait = c_some_wait-1) then
             some_wait <= 0;
-            state <= idle;
---            state <= wr_8000_0010_6;
+--            state <= idle;
+            state <= wr_8000_0010_6;
 --            state <= idle3;
 --            state <=  s2;
             float2fixedsclr <= '1';
@@ -2260,7 +2260,16 @@ when others => state <= idle;
 	end if;
 end process pTo;
 
-vgaclk25 <= i_clock; -- 25 mhz
+--vgaclk25 <= i_clock; -- 25 mhz
+--p_synchro_vga : process (i_clock) is
+--begin
+--  if (rising_edge (i_clock)) then
+--    vgaclk25_1 <= i_clock;
+--    vgaclk25_2 <= vgaclk25_1;
+--    vgaclk25 <= vgaclk25_2;
+--  end if;
+--end process p_synchro_vga;
+
 --pvgaclk : process (i_clock,i_reset) is
 --	constant CMAX : integer := 1; -- 50/25
 ----	constant CMAX : integer := 2; -- 100/25
