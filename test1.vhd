@@ -2261,14 +2261,14 @@ when others => state <= idle;
 end process pTo;
 
 --vgaclk25 <= i_clock; -- 25 mhz
---p_synchro_vga : process (i_clock) is
---begin
---  if (rising_edge (i_clock)) then
---    vgaclk25_1 <= i_clock;
---    vgaclk25_2 <= vgaclk25_1;
---    vgaclk25 <= vgaclk25_2;
---  end if;
---end process p_synchro_vga;
+p_synchro_vga : process (i_clock, i_reset) is
+begin
+  if (i_reset = '1') then
+    vgaclk25 <= '0';
+  elsif (rising_edge (i_clock)) then
+    vgaclk25 <= not vgaclk25;
+  end if;
+end process p_synchro_vga;
 
 --pvgaclk : process (i_clock,i_reset) is
 --	constant CMAX : integer := 1; -- 50/25
