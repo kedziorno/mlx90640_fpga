@@ -5,7 +5,7 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.02 secs
+Total CPU time to Xst completion: 0.03 secs
  
 --> 
 Parameter xsthdpdir set to xst
@@ -157,7 +157,8 @@ Architecture colormap_pkg of Entity colormap_pkg is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ipcore_dir/i2c_mlx.vhd" in Library work.
 Architecture i2c_mlx_a of Entity i2c_mlx is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test_fixed_melexis.vhd" in Library work.
-Architecture testbench of Entity test_fixed_melexis is up to date.
+Entity <test_fixed_melexis> compiled.
+Entity <test_fixed_melexis> (Architecture <testbench>) compiled.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/address_generator.vhd" in Library work.
 Architecture behavioral of Entity address_generator is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/vga_timing.vhd" in Library work.
@@ -179,8 +180,7 @@ Architecture subfp_a of Entity subfp is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/melexis_mlx90640_i2c.vhd" in Library work.
 Architecture rtl of Entity melexis_mlx90640_i2c is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" in Library work.
-Entity <test1> compiled.
-Entity <test1> (Architecture <behavioral>) compiled.
+Architecture behavioral of Entity test1 is up to date.
 
 =========================================================================
 *                     Design Hierarchy Analysis                         *
@@ -560,15 +560,15 @@ Analyzing generic Entity <test1> in library <work> (Architecture <behavioral>).
 	c_w_21ms = 65536
 	c_w_64us = 65536
 	zero = 0
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2649: Instantiating black box module <i2c_mlx>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2821: Instantiating black box module <float2fixed>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2834: Instantiating black box module <dualmem>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2860: Instantiating black box module <fixed2float>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2872: Instantiating black box module <divfp>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2884: Instantiating black box module <mulfp>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2896: Instantiating black box module <addfp>.
-WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2908: Instantiating black box module <subfp>.
-WARNING:Xst:1540 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 2932: Different binding for component: <melexis_mlx90640_i2c>. Ports <i_memory_address,i_memory_data> do not match.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1561: Instantiating black box module <i2c_mlx>.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1733: Instantiating black box module <float2fixed>.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1746: Instantiating black box module <dualmem>.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1772: Instantiating black box module <fixed2float>.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1784: Instantiating black box module <divfp>.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1796: Instantiating black box module <mulfp>.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1808: Instantiating black box module <addfp>.
+WARNING:Xst:2211 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1820: Instantiating black box module <subfp>.
+WARNING:Xst:1540 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" line 1844: Different binding for component: <melexis_mlx90640_i2c>. Ports <i_memory_address,i_memory_data> do not match.
 INFO:Xst:2679 - Register <w_180us> in unit <test1> has a constant value of 0 during circuit operation. The register is replaced by logic.
 INFO:Xst:2679 - Register <w_160us> in unit <test1> has a constant value of 0 during circuit operation. The register is replaced by logic.
 INFO:Xst:2679 - Register <some_wait> in unit <test1> has a constant value of 0 during circuit operation. The register is replaced by logic.
@@ -2088,7 +2088,6 @@ Unit <test_fixed_melexis> synthesized.
 
 Synthesizing Unit <test1>.
     Related source file is "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd".
-WARNING:Xst:1306 - Output <o_led> is never assigned.
 WARNING:Xst:646 - Signal <w_180us<0>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <w_160us<0>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:1780 - Signal <vgaclk25_2> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
@@ -2130,21 +2129,6 @@ WARNING:Xst:1780 - Signal <asd1> is never used or assigned. This unconnected sig
 WARNING:Xst:1780 - Signal <asd> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
     Register <float2fixedond> equivalent to <float2fixedce> has been removed
     Register <i2c_mlx_wea<0>> equivalent to <i2c_mlx_ena> has been removed
-INFO:Xst:1799 - State s2_1 is never reached in FSM <state>.
-INFO:Xst:1799 - State s3_1 is never reached in FSM <state>.
-INFO:Xst:1799 - State wait_180us_1 is never reached in FSM <state>.
-INFO:Xst:1799 - State s2_2 is never reached in FSM <state>.
-INFO:Xst:1799 - State s3_2 is never reached in FSM <state>.
-INFO:Xst:1799 - State wait_180us_2 is never reached in FSM <state>.
-INFO:Xst:1799 - State s2_3 is never reached in FSM <state>.
-INFO:Xst:1799 - State s3_3 is never reached in FSM <state>.
-INFO:Xst:1799 - State wait_180us_3 is never reached in FSM <state>.
-INFO:Xst:1799 - State s2_4 is never reached in FSM <state>.
-INFO:Xst:1799 - State s3_4 is never reached in FSM <state>.
-INFO:Xst:1799 - State wait_180us_4 is never reached in FSM <state>.
-INFO:Xst:1799 - State s2_5 is never reached in FSM <state>.
-INFO:Xst:1799 - State s3_5 is never reached in FSM <state>.
-INFO:Xst:1799 - State wait_180us_5 is never reached in FSM <state>.
 INFO:Xst:1799 - State wr_800d_1901_idle is never reached in FSM <state>.
 INFO:Xst:1799 - State wr_800d_1901 is never reached in FSM <state>.
     Found finite state machine <FSM_19> for signal <state>.
@@ -2176,7 +2160,7 @@ INFO:Xst:1799 - State wr_800d_1901 is never reached in FSM <state>.
     Found 10-bit register for signal <i>.
     Found 10-bit adder for signal <i$addsub0000>.
     Found 11-bit register for signal <i2c_mlx_addra>.
-    Found 10-bit adder carry out for signal <i2c_mlx_addra$addsub0001> created at line 702.
+    Found 10-bit adder carry out for signal <i2c_mlx_addra$addsub0001> created at line 699.
     Found 1-bit register for signal <i2c_mlx_ena>.
     Found 1-bit register for signal <melexis_mlx90640_i2c_enable>.
     Found 10-bit register for signal <melexis_mlx90640_i2c_enable_wait>.
@@ -2187,7 +2171,7 @@ INFO:Xst:1799 - State wr_800d_1901 is never reached in FSM <state>.
     Found 1-bit register for signal <melexis_mlx90640_i2c_mode1>.
     Found 1-bit register for signal <melexis_mlx90640_i2c_mode2>.
     Found 16-bit register for signal <melexis_mlx90640_i2c_wait>.
-    Found 16-bit adder for signal <melexis_mlx90640_i2c_wait$addsub0000> created at line 810.
+    Found 16-bit adder for signal <melexis_mlx90640_i2c_wait$addsub0000> created at line 783.
     Found 10-bit up counter for signal <mem_addr>.
     Found 1-bit register for signal <temp1>.
     Found 10-bit register for signal <test_fixed_melexis_addr>.
@@ -2313,8 +2297,6 @@ Optimizing FSM <state/FSM> on signal <state[1:162]> with one-hot encoding.
  r_0400_1             | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000
  s0_1                 | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000
  s1_1                 | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000
- s2_1                 | unreached
- s3_1                 | unreached
  s4_1                 | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000
  s5_1                 | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000
  s6_1                 | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000
@@ -2322,7 +2304,6 @@ Optimizing FSM <state/FSM> on signal <state[1:162]> with one-hot encoding.
  s8_1                 | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000
  s9_1                 | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000
  s10_1                | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000
- wait_180us_1         | unreached
  wr_8000_0010_2       | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000
  wr_8000_0010_2_idle  | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000
  wait_64us_7          | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000
@@ -2343,8 +2324,6 @@ Optimizing FSM <state/FSM> on signal <state[1:162]> with one-hot encoding.
  r_0400_2             | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000
  s0_2                 | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000
  s1_2                 | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000
- s2_2                 | unreached
- s3_2                 | unreached
  s4_2                 | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000
  s5_2                 | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000
  s6_2                 | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000
@@ -2352,7 +2331,6 @@ Optimizing FSM <state/FSM> on signal <state[1:162]> with one-hot encoding.
  s8_2                 | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000
  s9_2                 | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000
  s10_2                | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000
- wait_180us_2         | unreached
  wr_8000_0011_2       | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000
  wr_8000_0011_2_idle  | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000
  wait_64us_11         | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000
@@ -2373,8 +2351,6 @@ Optimizing FSM <state/FSM> on signal <state[1:162]> with one-hot encoding.
  r_0400_3             | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000
  s0_3                 | 000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000
  s1_3                 | 000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000
- s2_3                 | unreached
- s3_3                 | unreached
  s4_3                 | 000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000
  s5_3                 | 000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000
  s6_3                 | 000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000
@@ -2382,7 +2358,6 @@ Optimizing FSM <state/FSM> on signal <state[1:162]> with one-hot encoding.
  s8_3                 | 000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000
  s9_3                 | 000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000
  s10_3                | 000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000
- wait_180us_3         | unreached
  wr_8000_0010_5       | 000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000
  wr_8000_0010_5_idle  | 000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
  wait_64us_15         | 000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
@@ -2411,8 +2386,6 @@ Optimizing FSM <state/FSM> on signal <state[1:162]> with one-hot encoding.
  r_0400_4             | 000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
  s0_4                 | 000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
  s1_4                 | 000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
- s2_4                 | unreached
- s3_4                 | unreached
  s4_4                 | 000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
  s5_4                 | 000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
  s6_4                 | 000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
@@ -2420,7 +2393,6 @@ Optimizing FSM <state/FSM> on signal <state[1:162]> with one-hot encoding.
  s8_4                 | 000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
  s9_4                 | 000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
  s10_4                | 000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
- wait_180us_4         | unreached
  wr_8000_0011_5       | 000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
  wr_8000_0011_5_idle  | 000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
  wait_64us_19         | 000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
@@ -2449,8 +2421,6 @@ Optimizing FSM <state/FSM> on signal <state[1:162]> with one-hot encoding.
  r_0400_5             | 000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
  s0_5                 | 000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
  s1_5                 | 000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
- s2_5                 | unreached
- s3_5                 | unreached
  s4_5                 | 000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
  s5_5                 | 000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
  s6_5                 | 000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
@@ -2458,7 +2428,6 @@ Optimizing FSM <state/FSM> on signal <state[1:162]> with one-hot encoding.
  s8_5                 | 000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
  s9_5                 | 000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
  s10_5                | 000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
- wait_180us_5         | unreached
  wr_8000_0010_10      | 000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
  wr_8000_0010_10_idle | 000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
  wait_64us_23         | 000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
@@ -3211,26 +3180,26 @@ Optimization Goal                  : Speed
 Keep Hierarchy                     : No
 
 Design Statistics
-# IOs                              : 63
+# IOs                              : 74
 
 Cell Usage :
-# BELS                             : 18014
+# BELS                             : 18007
 #      BUF                         : 13
 #      GND                         : 9
 #      INV                         : 61
 #      LUT1                        : 316
-#      LUT2                        : 2453
-#      LUT2_D                      : 37
-#      LUT2_L                      : 120
-#      LUT3                        : 3061
-#      LUT3_D                      : 108
-#      LUT3_L                      : 122
-#      LUT4                        : 6654
-#      LUT4_D                      : 130
-#      LUT4_L                      : 611
+#      LUT2                        : 2455
+#      LUT2_D                      : 38
+#      LUT2_L                      : 118
+#      LUT3                        : 3053
+#      LUT3_D                      : 112
+#      LUT3_L                      : 125
+#      LUT4                        : 6656
+#      LUT4_D                      : 127
+#      LUT4_L                      : 612
 #      MULT_AND                    : 226
 #      MUXCY                       : 1966
-#      MUXF5                       : 341
+#      MUXF5                       : 334
 #      MUXF6                       : 6
 #      MUXF7                       : 3
 #      VCC                         : 7
@@ -3258,10 +3227,10 @@ Cell Usage :
 # Clock Buffers                    : 3
 #      BUFG                        : 2
 #      BUFGP                       : 1
-# IO Buffers                       : 54
+# IO Buffers                       : 73
 #      IBUF                        : 1
 #      IOBUF                       : 2
-#      OBUF                        : 51
+#      OBUF                        : 70
 =========================================================================
 
 Device utilization summary:
@@ -3274,8 +3243,8 @@ Selected Device : 3s1200efg320-4
  Number of 4 input LUTs:              13878  out of  17344    80%  
     Number used as logic:             13673
     Number used as Shift registers:     205
- Number of IOs:                          63
- Number of bonded IOBs:                  55  out of    250    22%  
+ Number of IOs:                          74
+ Number of bonded IOBs:                  74  out of    250    29%  
  Number of BRAMs:                        22  out of     28    78%  
  Number of GCLKs:                         3  out of     24    12%  
 
@@ -3333,7 +3302,7 @@ All values displayed in nanoseconds (ns)
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
   Clock period: 12.046ns (frequency: 83.013MHz)
-  Total number of paths / destination ports: 402188 / 16841
+  Total number of paths / destination ports: 401390 / 16841
 -------------------------------------------------------------------------
 Delay:               12.046ns (Levels of Logic = 8)
   Source:            tfm_inst/CalculateAlphaCP_mux (FF)
@@ -3376,7 +3345,7 @@ Delay:               7.508ns (Levels of Logic = 5)
     ----------------------------------------  ------------
      FDRE:C->Q             5   0.591   0.808  vts_inst/vPos_0 (vts_inst/vPos_0)
      LUT4:I0->O            2   0.704   0.451  vts_inst/videoOn_or00004 (vts_inst/videoOn_or00004)
-     LUT4:I3->O            1   0.704   0.000  vts_inst/videoOn_or000021_F (N4392)
+     LUT4:I3->O            1   0.704   0.000  vts_inst/videoOn_or000021_F (N4352)
      MUXF5:I0->O           1   0.321   0.595  vts_inst/videoOn_or000021 (vts_inst/videoOn_or000021)
      LUT3:I0->O            1   0.704   0.595  vts_inst/videoOn_or000067 (vts_inst/videoOn_or000067)
      LUT4:I0->O            1   0.704   0.420  vts_inst/videoOn_or0000465 (vts_inst/videoOn_or0000)
@@ -3402,7 +3371,7 @@ Delay:               6.212ns (Levels of Logic = 3)
     ----------------------------------------  ------------
      FDRE:C->Q             4   0.591   0.762  ag_inst/addr_8 (ag_inst/addr_8)
      LUT4:I0->O            1   0.704   0.499  ag_inst/addr_or000010 (ag_inst/addr_or000010)
-     LUT4:I1->O            1   0.704   0.455  ag_inst/addr_or000038_SW0 (N3706)
+     LUT4:I1->O            1   0.704   0.455  ag_inst/addr_or000038_SW0 (N3660)
      LUT4:I2->O           10   0.704   0.882  ag_inst/addr_or000038 (ag_inst/addr_or0000)
      FDRE:R                    0.911          ag_inst/addr_0
     ----------------------------------------
@@ -3497,7 +3466,7 @@ Offset:              10.825ns (Levels of Logic = 7)
      IBUF:I->O           452   1.218   1.395  i_reset_IBUF (i_reset_IBUF)
      BUF:I->O            452   0.704   1.399  i_reset_IBUF_1 (i_reset_IBUF_1)
      LUT4:I3->O            2   0.704   0.451  vts_inst/videoOn_or00004 (vts_inst/videoOn_or00004)
-     LUT4:I3->O            1   0.704   0.000  vts_inst/videoOn_or000021_F (N4392)
+     LUT4:I3->O            1   0.704   0.000  vts_inst/videoOn_or000021_F (N4352)
      MUXF5:I0->O           1   0.321   0.595  vts_inst/videoOn_or000021 (vts_inst/videoOn_or000021)
      LUT3:I0->O            1   0.704   0.595  vts_inst/videoOn_or000067 (vts_inst/videoOn_or000067)
      LUT4:I0->O            1   0.704   0.420  vts_inst/videoOn_or0000465 (vts_inst/videoOn_or0000)
@@ -3549,22 +3518,24 @@ Offset:              7.076ns (Levels of Logic = 3)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'i_clock'
-  Total number of paths / destination ports: 1 / 1
+  Total number of paths / destination ports: 41 / 9
 -------------------------------------------------------------------------
-Offset:              4.394ns (Levels of Logic = 1)
-  Source:            vgaclk25 (FF)
-  Destination:       vga_clock (PAD)
+Offset:              8.348ns (Levels of Logic = 3)
+  Source:            tfm_inst/inst_CalculateGetImage/rdy (FF)
+  Destination:       o_led<7> (PAD)
   Source Clock:      i_clock rising
 
-  Data Path: vgaclk25 to vga_clock
+  Data Path: tfm_inst/inst_CalculateGetImage/rdy to o_led<7>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDC:C->Q              3   0.591   0.531  vgaclk25 (vgaclk251)
-     OBUF:I->O                 3.272          vga_clock_OBUF (vga_clock)
+     FDRS:C->Q            15   0.591   1.192  tfm_inst/inst_CalculateGetImage/rdy (tfm_inst/inst_CalculateGetImage/rdy)
+     LUT3:I0->O           33   0.704   1.438  tfm_inst/inst_CalculateGetImage/mux_addr<9>1 (tfm_inst/inst_CalculateGetImage/inst_mem_GetImage/EN2)
+     LUT3:I0->O            2   0.704   0.447  tfm_inst/inst_CalculateGetImage/inst_mem_GetImage/Mmux_DO91 (o_led_3_OBUF)
+     OBUF:I->O                 3.272          o_led_3_OBUF (o_led<3>)
     ----------------------------------------
-    Total                      4.394ns (3.863ns logic, 0.531ns route)
-                                       (87.9% logic, 12.1% route)
+    Total                      8.348ns (5.271ns logic, 3.077ns route)
+                                       (63.1% logic, 36.9% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'vgaclk251'
@@ -3582,7 +3553,7 @@ Offset:              12.368ns (Levels of Logic = 7)
      FDR:C->Q              4   0.591   0.762  vts_inst/hPos_2 (vts_inst/hPos_2)
      LUT4:I0->O            2   0.704   0.482  vts_inst/activeArea1_and00002111 (vts_inst/N29)
      LUT4:I2->O            1   0.704   0.499  vts_inst/activeArea1_and000013 (vts_inst/activeArea1_and000013)
-     LUT4:I1->O            1   0.704   0.455  vts_inst/activeArea1_and0000106_SW0 (N3316)
+     LUT4:I1->O            1   0.704   0.455  vts_inst/activeArea1_and0000106_SW0 (N3260)
      LUT4:I2->O           19   0.704   1.164  vts_inst/activeArea1_and0000106 (VGA_timing_synch_activeArea1)
      LUT4:I1->O            1   0.704   0.499  vga_b<6>1164 (vga_b<6>1164)
      LUT4:I1->O            1   0.704   0.420  vga_b<6>1178 (vga_b_6_OBUF)
@@ -3608,7 +3579,7 @@ Offset:              14.933ns (Levels of Logic = 10)
      end scope: 'dualmem_inst'
      LUT2:I0->O           12   0.704   0.996  vga_b<3>81 (vga_b<3>_bdd15)
      LUT4:I2->O            2   0.704   0.526  vga_b<4>31 (vga_b<4>_bdd5)
-     LUT4:I1->O            1   0.704   0.000  vga_b<4>1158_F (N4290)
+     LUT4:I1->O            1   0.704   0.000  vga_b<4>1158_F (N4250)
      MUXF5:I0->O           1   0.321   0.499  vga_b<4>1158 (vga_b<4>1158)
      LUT2:I1->O            1   0.704   0.000  vga_b<4>12041 (vga_b<4>12041)
      MUXF5:I1->O           1   0.321   0.499  vga_b<4>1204_f5 (vga_b<4>1204)
@@ -3640,15 +3611,15 @@ Delay:               5.021ns (Levels of Logic = 2)
 =========================================================================
 
 
-Total REAL time to Xst completion: 106.00 secs
-Total CPU time to Xst completion: 104.37 secs
+Total REAL time to Xst completion: 142.00 secs
+Total CPU time to Xst completion: 136.24 secs
  
 --> 
 
 
-Total memory usage is 1024936 kilobytes
+Total memory usage is 1027104 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :  128 (   0 filtered)
-Number of infos    :   51 (   0 filtered)
+Number of warnings :  127 (   0 filtered)
+Number of infos    :   36 (   0 filtered)
 
