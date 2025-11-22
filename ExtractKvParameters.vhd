@@ -278,17 +278,20 @@ mux_dia <= dia;
 cole <= '1' when (col mod 2) = 0 else '0' when (col mod 2) = 1 else '0'; -- column even
 rowe <= '1' when (row mod 2) = 0 else '0' when (row mod 2) = 1 else '0'; -- row even
 
-p1 : process (cole,rowe,kvijee_oo,kvijee_eo,kvijee_oe,kvijee_ee) is
+p1 : process (cole,rowe,kvijee_oo,kvijee_eo,kvijee_oe,kvijee_ee,i_reset) is
 	variable a : std_logic_vector (1 downto 0);
 begin
+if (i_reset = '1') then
+kvijee <= (others => '0');
+else
 	a := rowe&cole;
 case (a) is
 	when "00" => kvijee <= kvijee_oo;
 	when "10" => kvijee <= kvijee_eo;
 	when "01" => kvijee <= kvijee_oe;
-	when "11" => kvijee <= kvijee_ee;
-	when others => kvijee <= (others => '0');
+	when others => kvijee <= kvijee_ee; -- "11"
 end case;
+end if;
 end process p1;
 
 p0 : process (i_clock) is
@@ -316,6 +319,11 @@ begin
 			col <= 0;
 			row <= 0;
       i2c_mem_addra <= (others => '1');
+      out_nibble1 <= (others => '0');
+      kvijee_oo <= (others => '0');
+      kvijee_eo <= (others => '0');
+      kvijee_oe <= (others => '0');
+      kvijee_ee <= (others => '0');
 		else
 			case (state) is
 				when idle =>
@@ -328,11 +336,24 @@ begin
 						state := idle;
             i2c_mem_ena <= '0';
 					end if;
-					divfpsclr_internal <= '0';
           i := 0;
           col <= 0;
           row <= 0;
+          write_enable <= '0';
+          divfpsclr_internal <= '1';
+          divfpa_internal <= (others => '0');
+          divfpb_internal <= (others => '0');
+          divfpond_internal <= '0';
+          divfpce_internal <= '0';
+          addra <= (others => '0');
+          dia <= (others => '0');
+          out_nibble1 <= (others => '0');
+          kvijee_oo <= (others => '0');
+          kvijee_eo <= (others => '0');
+          kvijee_oe <= (others => '0');
+          kvijee_ee <= (others => '0');
         when kv1 => state := kv2;
+          divfpsclr_internal <= '0';
 					i2c_mem_addra <= std_logic_vector (to_unsigned (104, 12)); -- 2434 LSB - kvijee 52*2+0
         when kv2 => state := kv3;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (105, 12)); -- 2434 MSB - kvijee 52*2+1

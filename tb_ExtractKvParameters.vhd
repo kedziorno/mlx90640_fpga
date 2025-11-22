@@ -211,8 +211,6 @@ ExtractKvParameters_clock <= '1';
 wait for i_clock_period/2;
 end process;
 
-ExtractKvParameters_reset <= '1', '0' after 100 ns ;	
-
 -- Stimulus process
 stim_proc: process
 type itemr is record
@@ -259,8 +257,13 @@ last => (
 );
 begin
 -- hold reset state for 100 ns.
-wait for 105 ns;
+ExtractKvParameters_addr <= (others => '0');
+ExtractKvParameters_reset <= '1';	
+ExtractKvParameters_run <= '0';	
+wait for 100 ns;
+ExtractKvParameters_reset <= '0';	
 -- insert stimulus here
+l0 : for r in 0 to 10 loop
 ExtractKvParameters_run <= '1'; wait for i_clock_period; ExtractKvParameters_run <= '0';
 wait until ExtractKvParameters_rdy = '1';
 --report "rdy at 315.235us";
@@ -291,6 +294,7 @@ wait for 1 ps; -- must be for write
 --report "end at 336.385us";
 --report "end at 282.665us";
 report "end at 261.945us";
+end loop l0;
 report "done" severity failure;
 end process;
 
