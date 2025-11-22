@@ -339,13 +339,15 @@ subfprdy => CalculatePixOSCPSP_subfprdy
 --  Test Bench Statements
 tb : PROCESS
 BEGIN
+CalculatePixOSCPSP_Ta <= x"4207F54F"; -- 33.989559
+CalculatePixOSCPSP_Vdd <= x"40D2F5C3"; -- 6.5925
 CalculatePixOsCPSP_reset <= '1';
+CalculatePixOsCPSP_run <= '0';
 wait for 100 ns; -- wait until global set/reset completes
 CalculatePixOsCPSP_reset <= '0';
 wait for clockperiod*10;
 -- Add user defined stimulus here
-CalculatePixOSCPSP_Ta <= x"4207F54F"; -- 33.989559
-CalculatePixOSCPSP_Vdd <= x"40D2F5C3"; -- 6.5925
+l0 : for r in 0 to 10 loop
 CalculatePixOsCPSP_run <= '1'; wait for clockperiod; CalculatePixOsCPSP_run <= '0';
 wait until CalculatePixOsCPSP_rdy = '1';
 --report "rdy at 4.165us";
@@ -355,7 +357,8 @@ wait until CalculatePixOsCPSP_rdy = '1';
 report "rdy at 17.355us - rewrite calculation without regs, cleanup";
 warning_neq_fp (CalculatePixOsCPSP_pixoscpsp0, x"42b06005", "pixoscpsp0");
 warning_neq_fp (CalculatePixOsCPSP_pixoscpsp1, x"42a9f7c2", "pixoscpsp1");
-wait for 1 ps;
+wait for 1 us;
+end loop l0;
 report "done" severity failure;
 END PROCESS tb;
 --  End Test Bench 

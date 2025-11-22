@@ -253,6 +253,14 @@ begin
 			rdy <= '0';
       calc := (others => '0');
       i2c_mem_addra_internal <= (others => '1');
+      out_nibble2 <= (others => '0');
+      out_nibble3 <= (others => '0');
+      o_signed6bit_ena <= '0';
+      o_signed6bit_adr <= (others => '0');
+      o_2powx_4bit_ena <= '0';
+      o_2powx_4bit_adr <= (others => '0');
+      o_2powx_p8_4bit_ena <= '0';
+      o_2powx_p8_4bit_adr <= (others => '0');
 		else
 			case (state) is
 				when idle =>
@@ -263,12 +271,47 @@ begin
 						state := idle;
 						i2c_mem_ena_internal <= '0';
 					end if;
+          addfpsclr_internal <= '1';
+          subfpsclr_internal <= '1';
+          mulfpsclr_internal <= '1';
+          divfpsclr_internal <= '1';
+          fixed2floatsclr_internal <= '1';
+          mulfpa_internal <= (others => '0');
+          mulfpb_internal <= (others => '0');
+          addfpa_internal <= (others => '0');
+          addfpb_internal <= (others => '0');
+          subfpa_internal <= (others => '0');
+          subfpb_internal <= (others => '0');
+          divfpa_internal <= (others => '0');
+          divfpb_internal <= (others => '0');
+          fixed2floata_internal <= (others => '0');
+          mulfpond_internal <= '0';
+          addfpond_internal <= '0';
+          subfpond_internal <= '0';
+          divfpond_internal <= '0';
+          fixed2floatond_internal <= '0';
+          mulfpce_internal <= '0';
+          addfpce_internal <= '0';
+          subfpce_internal <= '0';
+          divfpce_internal <= '0';
+          fixed2floatce_internal <= '0';
+          calc := (others => '0');
+          out_nibble2 <= (others => '0');
+          out_nibble3 <= (others => '0');
+          o_signed6bit_ena <= '0';
+          o_signed6bit_adr <= (others => '0');
+          o_2powx_4bit_ena <= '0';
+          o_2powx_4bit_adr <= (others => '0');
+          o_2powx_p8_4bit_ena <= '0';
+          o_2powx_p8_4bit_adr <= (others => '0');
+				when s0 => state := s1a;
+          o_pixoscpsp0 <= (others => '0');
+          o_pixoscpsp1 <= (others => '0');
 					addfpsclr_internal <= '0';
 					subfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
 					fixed2floatsclr_internal <= '0';
-				when s0 => state := s1a;
           i2c_mem_ena_internal <= '1';
           i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+1, 12)); -- ee2438 LSB - ktascale1
         when s1a => state := s1b;
