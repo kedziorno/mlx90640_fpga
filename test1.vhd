@@ -35,6 +35,7 @@ constant c_melexis_mlx90640_i2c_enable_wait : integer := 1024;
 constant c_melexis_mlx90640_i2c_wait : integer := 65536;
 constant c_w_64us : integer := 65536; -- 64 us
 constant c_w_180us : integer := 65536; -- 180 us
+constant c_w_80ms : integer := 2**18; -- 80 ms
 constant c_w_160us : integer := 65536; -- 160 us
 constant c_w_160ms : integer := 65536; -- 160 ms
 constant c_w_180ms : integer := 65536; -- 180 ms
@@ -507,142 +508,31 @@ signal j : integer range 0 to c_j-1;
 type states is (
 idle,
 
-wr_800d_1901,
-wr_800d_1901_idle,
-w_800d1981_1,
-wait_64us_1,
-wr_800d_1981_1,
-wr_800d_1981_1_idle,
-wait_64us_2,
-wr_800d_1981_2,
-wr_800d_1981_2_idle,
-w_800d1981_2,
-wait_64us_3,
-wr_800d_1981_3,
-wr_800d_1981_3_idle,
-wait_64us_4,
+w8_80ms,
+w8_rr,
 r_2400,
 
-wait_200ms_1,
+start_process,
 
-wr_8000_0008_1,
-wr_8000_0008_1_idle,
-w_80000030_1,
-wait_64us_5,
-wr_8000_0010_1,
-wr_8000_0010_1_idle,
-wait_64us_6,
+-- subframe 0
 r_0400_1,
+clear_nda_1,
 s0_1,s1_1,s4_1,s5_1,s6_1,s7_1,s8_1,s9_1,s10_1,
-wr_8000_0010_2,
-wr_8000_0010_2_idle,
-wait_64us_7,
-wr_800d_1981_4,
-wr_800d_1981_4_idle,
+set_som_1,
+w8_rr_20_1,
+check_nda_1,
+check_nda_1_idle,
 
-wait_160ms_1,
-
-wr_8000_0010_3, -- ... 64 us
-wr_8000_0010_3_idle,
-wait_64us_8_1,
-wait_64us_8_2,
-wr_8000_0009_1,
-wr_8000_0009_1_idle,
-w_80000030_2,
-wait_64us_9,
-wr_8000_0011_1,
-wr_8000_0011_1_idle,
-wait_64us_10,
+-- subframe 1
 r_0400_2,
+clear_nda_2,
 s0_2,s1_2,s4_2,s5_2,s6_2,s7_2,s8_2,s9_2,s10_2,
-wr_8000_0011_2,
-wr_8000_0011_2_idle,
-wait_64us_11,
-wr_800d_1981_5,
-wr_800d_1981_5_idle,
+set_som_2,
+w8_rr_20_2,
+check_nda_2,
+check_nda_2_idle,
 
-wait_160ms_2,
-
-wr_8000_0011_3, -- ... 64 us
-wr_8000_0011_3_idle,
-wait_64us_12_1,
-wait_64us_12_2,
-wr_8000_0008_2,
-wr_8000_0008_2_idle,
-w_80000030_3,
-wait_64us_13,
-wr_8000_0010_4,
-wr_8000_0010_4_idle,
-wait_64us_14,
-r_0400_3,
-s0_3,s1_3,s4_3,s5_3,s6_3,s7_3,s8_3,s9_3,s10_3,
-wr_8000_0010_5,
-wr_8000_0010_5_idle,
-wait_64us_15,
-wr_800d_1981_6,
-wr_800d_1981_6_idle,
-
-wait_180ms_1,
-
------------- frame 0
-wr_8000_0010_6,
-wr_8000_0010_6_idle,
-wait_21ms_1,
-wr_8000_0010_7,
-wr_8000_0010_7_idle,
-wait_21ms_2,
-wr_8000_0010_8,
-wr_8000_0010_8_idle,
-wait_21ms_3,
-wr_8000_0009_2,
-wr_8000_0009_2_idle,
-wait_64us_16,
-wr_8000_0009_3,
-wr_8000_0009_3_idle,
-w_80000030_4,
-wait_64us_17,
-wr_8000_0011_4,
-wr_8000_0011_4_idle,
-wait_64us_18,
-r_0400_4,
-s0_4,s1_4,s4_4,s5_4,s6_4,s7_4,s8_4,s9_4,s10_4,
-wr_8000_0011_5,
-wr_8000_0011_5_idle,
-wait_64us_19,
-wr_800d_1981_7,
-wr_800d_1981_7_idle,
-
-wait_180ms_2,
-
------------- frame1
-wr_8000_0011_6,
-wr_8000_0011_6_idle,
-wait_21ms_4,
-wr_8000_0011_7,
-wr_8000_0011_7_idle,
-wait_21ms_5,
-wr_8000_0011_8,
-wr_8000_0011_8_idle,
-wait_21ms_6,
-wr_8000_0008_3,
-wr_8000_0008_3_idle,
-wait_64us_20,
-wr_8000_0008_4,
-wr_8000_0008_4_idle,
-w_80000030_5,
-wait_64us_21,
-wr_8000_0010_9,
-wr_8000_0010_9_idle,
-wait_64us_22,
-r_0400_5,
-s0_5,s1_5,s4_5,s5_5,s6_5,s7_5,s8_5,s9_5,s10_5,
-wr_8000_0010_10,
-wr_8000_0010_10_idle,
-wait_64us_23,
-wr_800d_1981_8,
-wr_800d_1981_8_idle,
-
-wait_180ms_3
+end_process
 );
 signal state : states;
 
@@ -660,6 +550,7 @@ signal state : states;
 signal melexis_mlx90640_i2c_enable_wait : integer range 0 to c_melexis_mlx90640_i2c_enable_wait - 1;
 signal melexis_mlx90640_i2c_wait : integer range 0 to c_melexis_mlx90640_i2c_wait - 1;
 signal w_64us : integer range 0 to c_w_64us - 1;
+signal w_80ms : integer range 0 to c_w_80ms - 1;
 signal w_180us : integer range 0 to c_w_180us - 1;
 signal w_200ms : integer range 0 to c_w_200ms - 1;
 signal w_160us : integer range 0 to c_w_160us - 1;
@@ -740,7 +631,6 @@ vga_psave <= '1';
 pTo : process (i_clock) is
 	variable i : integer range 0 to PIXELS-1;
 	variable tout : std_logic_vector (8 downto 0);
-
   procedure wr_1 (address : in std_logic_vector (15 downto 0); next_state : in states) is
   begin
     melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '1';
@@ -755,7 +645,6 @@ pTo : process (i_clock) is
       melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
     end if;
   end procedure;
-  
   procedure wr (address : in std_logic_vector (15 downto 0); next_state : in states) is
   begin
     melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '1'; melexis_mlx90640_i2c_mode2 <= '0'; 
@@ -770,7 +659,6 @@ pTo : process (i_clock) is
       melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
     end if;
   end procedure;
-
   procedure wr_idle_1 (address1 : in std_logic_vector (15 downto 0); address2 : in std_logic_vector (15 downto 0); next_state : in states; prev_state : in states) is
   begin
     melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
@@ -786,12 +674,10 @@ pTo : process (i_clock) is
       state <= prev_state;
     end if;
   end procedure;
-
   procedure wr_idle (address1 : in std_logic_vector (15 downto 0); next_state : in states; prev_state : in states) is
   begin
     wr_idle_1 (address1, address1, next_state, prev_state);
   end procedure;
-
   procedure wr_idle_2 (address1 : in std_logic_vector (15 downto 0); next_state1 : in states; next_state2 : in states) is
   begin
     melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
@@ -807,7 +693,6 @@ pTo : process (i_clock) is
       end if;
     end if;
   end procedure;
-
   procedure w (address : in std_logic_vector (15 downto 0); data : in std_logic_vector (15 downto 0); next_state : in states) is
   begin
     melexis_mlx90640_i2c_mode0 <= '1'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0';
@@ -822,7 +707,6 @@ pTo : process (i_clock) is
       melexis_mlx90640_i2c_enable_wait <= melexis_mlx90640_i2c_enable_wait + 1;
     end if;
   end procedure;
-  
   procedure w8_64us (next_state : in states) is
   begin
     if (w_64us = c_w_64us - 1) then
@@ -832,7 +716,6 @@ pTo : process (i_clock) is
       w_64us <= w_64us + 1;
     end if;
   end procedure;
-
   procedure w8_200ms (next_state : in states) is
   begin
     if (w_200ms = c_w_200ms - 1) then
@@ -842,7 +725,6 @@ pTo : process (i_clock) is
       w_200ms <= w_200ms + 1;
     end if;
   end procedure;
-
   procedure w8_160ms (next_state : in states) is
   begin
     if (w_160ms = c_w_160ms - 1) then
@@ -852,7 +734,6 @@ pTo : process (i_clock) is
       w_160ms <= w_160ms + 1;
     end if;
   end procedure;
-
   procedure w8_180ms (next_state : in states) is
   begin
     if (w_180ms = c_w_180ms - 1) then
@@ -862,7 +743,6 @@ pTo : process (i_clock) is
       w_180ms <= w_180ms + 1;
     end if;
   end procedure;
-
   procedure w8_21ms (next_state : in states) is
   begin
     if (w_21ms = c_w_21ms - 1) then
@@ -872,7 +752,15 @@ pTo : process (i_clock) is
       w_21ms <= w_21ms + 1;
     end if;
   end procedure;
-  
+  procedure w8_80ms (next_state : in states) is
+  begin
+    if (w_80ms = c_w_80ms - 1) then
+      w_80ms <= 0;
+      state <= next_state;
+    else
+      w_80ms <= w_80ms + 1;
+    end if;
+  end procedure;
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
@@ -913,568 +801,174 @@ begin
           melexis_mlx90640_i2c_mode2 <= '0';
           melexis_mlx90640_i2c_enable <= '0';
           if (cold_start = c_cold_start - 1) then
-            --state <= wr_800d_1901;
-            state <= w_800d1981_1;
+            state <= w8_80ms;
             cold_start <= 0;
           else
             cold_start <= cold_start + 1;
           end if;
-        when wr_800d_1901 => -- no condition
-          wr (x"800d", wr_800d_1901_idle);
-        when wr_800d_1901_idle => -- condition
-          wr_idle_1 (x"1981", x"1901", w_800d1981_1, wr_800d_1901);
-        when w_800d1981_1 => -- no condition
-          w (x"800d", x"1981", wait_64us_1);
-        when wait_64us_1 =>
-          w8_64us (wr_800d_1981_1);
-        when wr_800d_1981_1 =>
-          wr (x"800d", wr_800d_1981_1_idle);
-        when wr_800d_1981_1_idle => -- condition
-          wr_idle (x"1981", wait_64us_2, wr_800d_1981_1);
-        when wait_64us_2 =>
-          w8_64us (wr_800d_1981_2);
-        when wr_800d_1981_2 =>
-          wr (x"800d", wr_800d_1981_2_idle);
-        when wr_800d_1981_2_idle => -- condition
-          wr_idle (x"1981", w_800d1981_2, wr_800d_1981_2);
-        when w_800d1981_2 => -- no condition
-          w (x"800d", x"1981", wait_64us_3);
-        when wait_64us_3 =>
-          w8_64us (wr_800d_1981_3);
-        when wr_800d_1981_3 =>
-          wr (x"800d", wr_800d_1981_3_idle);
-        when wr_800d_1981_3_idle => -- condition
-          wr_idle (x"1981", wait_64us_4, wr_800d_1981_2);
-        when wait_64us_4 =>
-          w8_64us (r_2400);
-        when r_2400 => -- no condition
-          wr_1 (x"2400", wait_200ms_1);
-				when wait_200ms_1 =>
-          w8_200ms (wr_8000_0008_1);
-				when wr_8000_0008_1 =>
-          wr (x"8000", wr_8000_0008_1_idle);
-				when wr_8000_0008_1_idle =>
-          wr_idle (x"0008", w_80000030_1, wr_8000_0008_1);
-				when w_80000030_1 =>
-          w (x"8000", x"0030", wait_64us_5);
-				when wait_64us_5 =>
-          w8_64us (wr_8000_0010_1);
-				when wr_8000_0010_1 =>
-          wr (x"8000", wr_8000_0010_1_idle);
-				when wr_8000_0010_1_idle =>
-          wr_idle (x"0010", wait_64us_6, wr_8000_0010_1);
-				when wait_64us_6 =>
-          w8_64us (r_0400_1);
-        when r_0400_1 =>
-          wr_1 (x"0400", s0_1);
-        when s0_1 =>
-          state <= s1_1;
-					test_fixed_melexis_run <= '1';
-          float2fixedsclr <= '0';
-          dualmem_enb <= '0';
-          w11ms <= 0;
-				when s1_1 =>
-          test_fixed_melexis_run <= '0';
-          if (c_sim = "n") then
-            if (w11ms = c_w11ms - 1) then
-              state <= s4_1;
-              w11ms <= 0;
-            else
-              state <= s1_1;
-              w11ms <= w11ms + 1;
-            end if;
-          end if;
-          if (c_sim = "y") then
-            if (test_fixed_melexis_busy = '0') then
-              state <= s4_1;
-              float2fixedsclr <= '0';
-              i := 0;
-              tout := (others => '0');
-            else
-              state <= s1_1;
-            end if;
-          end if;
-				when s4_1 => state <= s5_1;
-					test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
-				when s5_1 => state <= s6_1;
-				when s6_1 => state <= s7_1;
-					float2fixedond <= '1';
-					float2fixedce <= '1';
-					float2fixeda <= test_fixed_melexis_do;
-				when s7_1 =>
-					if (float2fixedrdy = '1') then state <= s8_1;
-						tout := float2fixedr;
-						float2fixedond <= '0';
-						float2fixedce <= '0';
-						float2fixedsclr <= '1';
-					else state <= s7_1; end if;
-				when s8_1 => state <= s9_1;
-					float2fixedsclr <= '0';
-					dualmem_wea <= "1";
-					dualmem_addra <= std_logic_vector (to_unsigned (i, 10));
-					dualmem_dina <= tout;
-					dualmem_ena <= '1';
-				when s9_1 =>
-					dualmem_wea <= "0";
-					dualmem_ena <= '0';
-					if (i = PIXELS-1) then
-						i := 0;
-						state <= s10_1;
-					else
-						state <= s4_1;
-						i := i + 1;
-					end if;
-				when s10_1 =>
-          dualmem_enb <= '1';
-            state <= wr_8000_0010_2;
-				when wr_8000_0010_2 =>
-          wr (x"8000", wr_8000_0010_2_idle);
-				when wr_8000_0010_2_idle =>
-          wr_idle (x"0010", wait_64us_7, wr_8000_0010_2);
-				when wait_64us_7 =>
-          w8_64us (wr_800d_1981_4);
-				when wr_800d_1981_4 =>
-          wr (x"800d", wr_800d_1981_4_idle);
-				when wr_800d_1981_4_idle =>
-          wr_idle (x"1981", wait_160ms_1, wr_800d_1981_4);
-				when wait_160ms_1 =>
-          w8_160ms (wr_8000_0010_3);
-				when wr_8000_0010_3 =>
-          wr (x"8000", wr_8000_0010_3_idle);
-				when wr_8000_0010_3_idle =>
-          wr_idle_2 (x"0010", wait_64us_8_1, wait_64us_8_2);
-				when wait_64us_8_1 =>
-          w8_64us (wr_8000_0010_3);
-				when wait_64us_8_2 =>
-          w8_64us (wr_8000_0009_1);
-				when wr_8000_0009_1 =>
-          wr (x"8000", wr_8000_0009_1_idle);
-				when wr_8000_0009_1_idle =>
-          wr_idle (x"0009", w_80000030_2, wr_8000_0009_1);
-				when w_80000030_2 =>
-          w (x"8000", x"0030", wait_64us_9);
-				when wait_64us_9 =>
-          w8_64us (wr_8000_0011_1);
-				when wr_8000_0011_1 =>
-          wr (x"8000", wr_8000_0011_1_idle);
-				when wr_8000_0011_1_idle =>
-          wr_idle (x"0011", wait_64us_10, wr_8000_0011_1);
-				when wait_64us_10 =>
-          w8_64us (r_0400_2);
-          if (w_64us = c_w_64us - 1) then
-            w_64us <= 0;
-            state <= r_0400_2;
-          else
-            w_64us <= w_64us + 1;
-          end if;
-        when r_0400_2 =>
-          wr_1 (x"0400", s0_2);
-        when s0_2 =>
-          state <= s1_2;
-					test_fixed_melexis_run <= '1';
-          float2fixedsclr <= '0';
-          dualmem_enb <= '0';
-          w11ms <= 0;
-				when s1_2 =>
-          test_fixed_melexis_run <= '0';
-          if (c_sim = "n") then
-            if (w11ms = c_w11ms - 1) then
-              state <= s4_2;
-              w11ms <= 0;
-            else
-              state <= s1_2;
-              w11ms <= w11ms + 1;
-            end if;
-          end if;
-          if (c_sim = "y") then
-            if (test_fixed_melexis_busy = '0') then
-              state <= s4_2;
-              float2fixedsclr <= '0';
-              i := 0;
-              tout := (others => '0');
-            else
-              state <= s1_2;
-            end if;
-          end if;
-				when s4_2 => state <= s5_2;
-					test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
-				when s5_2 => state <= s6_2;
-				when s6_2 => state <= s7_2;
-					float2fixedond <= '1';
-					float2fixedce <= '1';
-					float2fixeda <= test_fixed_melexis_do;
-				when s7_2 =>
-					if (float2fixedrdy = '1') then state <= s8_2;
-						tout := float2fixedr;
-						float2fixedond <= '0';
-						float2fixedce <= '0';
-						float2fixedsclr <= '1';
-					else state <= s7_2; end if;
-				when s8_2 => state <= s9_2;
-					float2fixedsclr <= '0';
-					dualmem_wea <= "1";
-					dualmem_addra <= std_logic_vector (to_unsigned (i, 10));
-					dualmem_dina <= tout;
-					dualmem_ena <= '1';
-				when s9_2 =>
-					dualmem_wea <= "0";
-					dualmem_ena <= '0';
-					if (i = PIXELS-1) then
-						i := 0;
-						state <= s10_2;
-					else
-						state <= s4_2;
-						i := i + 1;
-					end if;
-				when s10_2 =>
-          dualmem_enb <= '1';
-          state <= wr_8000_0011_2;
-				when wr_8000_0011_2 =>
-          wr (x"8000", wr_8000_0011_2_idle);
-				when wr_8000_0011_2_idle =>
-          wr_idle (x"0011", wait_64us_11, wr_8000_0011_2);
-				when wait_64us_11 =>
-          w8_64us (wr_800d_1981_5);
-				when wr_800d_1981_5 =>
-          wr (x"800d", wr_800d_1981_5_idle);
-				when wr_800d_1981_5_idle =>
-          wr_idle (x"1981", wait_160ms_2, wr_800d_1981_5);
-				when wait_160ms_2 =>
-          w8_160ms (wr_8000_0011_3);
-				when wr_8000_0011_3 =>
-          wr (x"8000", wr_8000_0011_3_idle);
-				when wr_8000_0011_3_idle =>
-          wr_idle_2 (x"0011", wait_64us_12_1, wait_64us_12_2);
-				when wait_64us_12_1 =>
-          w8_64us (wr_8000_0011_3);
-				when wait_64us_12_2 =>
-          w8_64us (wr_8000_0008_2);
-				when wr_8000_0008_2 =>
-          wr (x"8000", wr_8000_0008_2_idle);
-				when wr_8000_0008_2_idle =>
-          wr_idle (x"0008", w_80000030_3, wr_8000_0008_2);
-				when w_80000030_3 =>
-          w (x"8000", x"0030", wait_64us_13);
-				when wait_64us_13 =>
-          w8_64us (wr_8000_0010_4);
-				when wr_8000_0010_4 =>
-          wr (x"8000", wr_8000_0010_4_idle);
-				when wr_8000_0010_4_idle =>
-          wr_idle (x"0010", wait_64us_14, wr_8000_0010_4);
-				when wait_64us_14 =>
-          w8_64us (r_0400_3);
-        when r_0400_3 =>
-          wr_1 (x"0400", s0_3);
-        when s0_3 =>
-          state <= s1_3;
-					test_fixed_melexis_run <= '1';
-          float2fixedsclr <= '0';
-          dualmem_enb <= '0';
-          w11ms <= 0;
-				when s1_3 =>
-          test_fixed_melexis_run <= '0';
-          if (c_sim = "n") then
-            if (w11ms = c_w11ms - 1) then
-              state <= s4_3;
-              w11ms <= 0;
-            else
-              state <= s1_3;
-              w11ms <= w11ms + 1;
-            end if;
-          end if;
-          if (c_sim = "y") then
-            if (test_fixed_melexis_busy = '0') then
-              state <= s4_3;
-              float2fixedsclr <= '0';
-              i := 0;
-              tout := (others => '0');
-            else
-              state <= s1_3;
-            end if;
-          end if;
-				when s4_3 => state <= s5_3;
-					test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
-				when s5_3 => state <= s6_3;
-				when s6_3 => state <= s7_3;
-					float2fixedond <= '1';
-					float2fixedce <= '1';
-					float2fixeda <= test_fixed_melexis_do;
-				when s7_3 =>
-					if (float2fixedrdy = '1') then state <= s8_3;
-						tout := float2fixedr;
-						float2fixedond <= '0';
-						float2fixedce <= '0';
-						float2fixedsclr <= '1';
-					else state <= s7_3; end if;
-				when s8_3 => state <= s9_3;
-					float2fixedsclr <= '0';
-					dualmem_wea <= "1";
-					dualmem_addra <= std_logic_vector (to_unsigned (i, 10));
-					dualmem_dina <= tout;
-					dualmem_ena <= '1';
-				when s9_3 =>
-					dualmem_wea <= "0";
-					dualmem_ena <= '0';
-					if (i = PIXELS-1) then
-						i := 0;
-						state <= s10_3;
-					else
-						state <= s4_3;
-						i := i + 1;
-					end if;
-				when s10_3 =>
-          dualmem_enb <= '1';
-          state <= wr_8000_0010_5;
-				when wr_8000_0010_5 =>
-          wr (x"8000", wr_8000_0010_5_idle);
-				when wr_8000_0010_5_idle =>
-          wr_idle (x"0010", wait_64us_15, wr_8000_0010_5);
-				when wait_64us_15 =>
-          w8_64us (wr_800d_1981_6);
-				when wr_800d_1981_6 =>
-          wr (x"800d", wr_800d_1981_6_idle);
-				when wr_800d_1981_6_idle =>
-          wr_idle (x"1981", wait_180ms_1, wr_800d_1981_6);
-				when wait_180ms_1 =>
-          w8_180ms (wr_8000_0010_6);
-				when wr_8000_0010_6 =>
-          wr (x"8000", wr_8000_0010_6_idle);
-				when wr_8000_0010_6_idle =>
-          wr_idle (x"0010", wait_21ms_1, wr_8000_0010_6);
-				when wait_21ms_1 =>
-          w8_21ms (wr_8000_0010_7);
-				when wr_8000_0010_7 =>
-          wr (x"8000", wr_8000_0010_7_idle);
-				when wr_8000_0010_7_idle =>
-          wr_idle (x"0010", wait_21ms_2, wr_8000_0010_7);
-				when wait_21ms_2 =>
-          w8_21ms (wr_8000_0010_8);
-				when wr_8000_0010_8 =>
-          wr (x"8000", wr_8000_0010_8_idle);
-				when wr_8000_0010_8_idle =>
-          wr_idle (x"0010", wait_21ms_3, wr_8000_0010_8);
-				when wait_21ms_3 =>
-          w8_21ms (wr_8000_0009_2);
-				when wr_8000_0009_2 =>
-          wr (x"8000", wr_8000_0009_2_idle);
-				when wr_8000_0009_2_idle =>
-          wr_idle (x"0009", wait_64us_16, wr_8000_0009_2);
-				when wait_64us_16 =>
-          w8_64us (wr_8000_0009_3);
-				when wr_8000_0009_3 =>
-          wr (x"8000", wr_8000_0009_3_idle);
-				when wr_8000_0009_3_idle =>
-          wr_idle (x"0009", w_80000030_4, wr_8000_0009_3);
-				when w_80000030_4 =>
-          w (x"8000", x"0030", wait_64us_17);
-				when wait_64us_17 =>
-          w8_64us (wr_8000_0011_4);
-				when wr_8000_0011_4 =>
-          wr (x"8000", wr_8000_0011_4_idle);
-				when wr_8000_0011_4_idle =>
-          wr_idle (x"0011", wait_64us_18, wr_8000_0011_4);
-				when wait_64us_18 =>
-          w8_64us (r_0400_4);
-				when r_0400_4 =>
-          wr_1 (x"0400", s0_4);
-        when s0_4 =>
-          state <= s1_4;
-					test_fixed_melexis_run <= '1';
-          float2fixedsclr <= '0';
-          dualmem_enb <= '0';
-          w11ms <= 0;
-				when s1_4 =>
-          test_fixed_melexis_run <= '0';
-          if (c_sim = "n") then
-            if (w11ms = c_w11ms - 1) then
-              state <= s4_4;
-              w11ms <= 0;
-            else
-              state <= s1_4;
-              w11ms <= w11ms + 1;
-            end if;
-          end if;
-          if (c_sim = "y") then
-            if (test_fixed_melexis_busy = '0') then
-              state <= s4_4;
-              float2fixedsclr <= '0';
-              i := 0;
-              tout := (others => '0');
-            else
-              state <= s1_4;
-            end if;
-          end if;
-				when s4_4 => state <= s5_4;
-					test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
-				when s5_4 => state <= s6_4;
-				when s6_4 => state <= s7_4;
-					float2fixedond <= '1';
-					float2fixedce <= '1';
-					float2fixeda <= test_fixed_melexis_do;
-				when s7_4 =>
-					if (float2fixedrdy = '1') then state <= s8_4;
-						tout := float2fixedr;
-						float2fixedond <= '0';
-						float2fixedce <= '0';
-						float2fixedsclr <= '1';
-					else state <= s7_4; end if;
-				when s8_4 => state <= s9_4;
-					float2fixedsclr <= '0';
-					dualmem_wea <= "1";
-					dualmem_addra <= std_logic_vector (to_unsigned (i, 10));
-					dualmem_dina <= tout;
-					dualmem_ena <= '1';
-				when s9_4 =>
-					dualmem_wea <= "0";
-					dualmem_ena <= '0';
-					if (i = PIXELS-1) then
-						i := 0;
-						state <= s10_4;
-					else
-						state <= s4_4;
-						i := i + 1;
-					end if;
-				when s10_4 =>
-          dualmem_enb <= '1';
-          state <= wr_8000_0011_5;
-				when wr_8000_0011_5 =>
-          wr (x"8000", wr_8000_0011_5_idle);
-				when wr_8000_0011_5_idle =>
-          wr_idle (x"0011", wait_64us_19, wr_8000_0011_5);
-				when wait_64us_19 =>
-          w8_64us (wr_800d_1981_7);
-				when wr_800d_1981_7 =>
-          wr (x"800d", wr_800d_1981_7_idle);
-				when wr_800d_1981_7_idle =>
-          wr_idle (x"1981", wait_180ms_2, wr_800d_1981_7);
-				when wait_180ms_2 =>
-          w8_180ms (wr_8000_0011_6);
-				when wr_8000_0011_6 =>
-          wr (x"8000", wr_8000_0011_6_idle);
-				when wr_8000_0011_6_idle =>
-          wr_idle (x"0011", wait_21ms_4, wr_8000_0011_6);
-				when wait_21ms_4 =>
-          w8_21ms (wr_8000_0011_7);
-				when wr_8000_0011_7 =>
-          wr (x"8000", wr_8000_0011_7_idle);
-				when wr_8000_0011_7_idle =>
-          wr_idle (x"0011", wait_21ms_5, wr_8000_0011_7);
-				when wait_21ms_5 =>
-          w8_21ms (wr_8000_0011_8);
-				when wr_8000_0011_8 =>
-          wr (x"8000", wr_8000_0011_8_idle);
-				when wr_8000_0011_8_idle =>
-          wr_idle (x"0011", wait_21ms_6, wr_8000_0011_8);
-				when wait_21ms_6 =>
-          w8_21ms (wr_8000_0008_3);
-				when wr_8000_0008_3 =>
-          wr (x"8000", wr_8000_0008_3_idle);
-				when wr_8000_0008_3_idle =>
-          wr_idle (x"0008", wait_64us_20, wr_8000_0008_3);
-				when wait_64us_20 =>
-          w8_64us (wr_8000_0008_4);
-				when wr_8000_0008_4 =>
-          wr (x"8000", wr_8000_0008_4_idle);
-				when wr_8000_0008_4_idle =>
-          wr_idle (x"0008", w_80000030_5, wr_8000_0008_4);
-				when w_80000030_5 =>
-          w (x"8000", x"0030", wait_64us_21);
-				when wait_64us_21 =>
-          w8_64us (wr_8000_0010_9);
-				when wr_8000_0010_9 =>
-          wr (x"8000", wr_8000_0010_9_idle);
-				when wr_8000_0010_9_idle =>
-          wr_idle (x"0010", wait_64us_22, wr_8000_0010_9);
-				when wait_64us_22 =>
-          w8_64us (r_0400_5);
-				when r_0400_5 =>
-          wr_1 (x"0400", s0_5);
-        when s0_5 =>
-          state <= s1_5;
-					test_fixed_melexis_run <= '1';
-          float2fixedsclr <= '0';
-          dualmem_enb <= '0';
-          w11ms <= 0;
-				when s1_5 =>
-          test_fixed_melexis_run <= '0';
-          if (c_sim = "n") then
-            if (w11ms = c_w11ms - 1) then
-              state <= s4_5;
-              w11ms <= 0;
-            else
-              state <= s1_5;
-              w11ms <= w11ms + 1;
-            end if;
-          end if;
-          if (c_sim = "y") then
-            if (test_fixed_melexis_busy = '0') then
-              state <= s4_5;
-              float2fixedsclr <= '0';
-              i := 0;
-              tout := (others => '0');
-            else
-              state <= s1_5;
-            end if;
-          end if;
-				when s4_5 => state <= s5_5;
-					test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
-				when s5_5 => state <= s6_5;
-				when s6_5 => state <= s7_5;
-					float2fixedond <= '1';
-					float2fixedce <= '1';
-					float2fixeda <= test_fixed_melexis_do;
-				when s7_5 =>
-					if (float2fixedrdy = '1') then state <= s8_5;
-						tout := float2fixedr;
-						float2fixedond <= '0';
-						float2fixedce <= '0';
-						float2fixedsclr <= '1';
-					else state <= s7_5; end if;
-				when s8_5 => state <= s9_5;
-					float2fixedsclr <= '0';
-					dualmem_wea <= "1";
-					dualmem_addra <= std_logic_vector (to_unsigned (i, 10));
-					dualmem_dina <= tout;
-					dualmem_ena <= '1';
-				when s9_5 =>
-					dualmem_wea <= "0";
-					dualmem_ena <= '0';
-					if (i = PIXELS-1) then
-						i := 0;
-						state <= s10_5;
-					else
-						state <= s4_5;
-						i := i + 1;
-					end if;
-				when s10_5 =>
-          dualmem_enb <= '1';
-          state <= wr_8000_0010_10;
-				when wr_8000_0010_10 =>
-          wr (x"8000", wr_8000_0010_10_idle);
-				when wr_8000_0010_10_idle =>
-          wr_idle (x"0010", wait_64us_23, wr_8000_0010_10);
-				when wait_64us_23 =>
-          w8_64us (wr_800d_1981_8);
-				when wr_800d_1981_8 =>
-          wr (x"800d", wr_800d_1981_8_idle);
-				when wr_800d_1981_8_idle =>
-          wr_idle (x"1981", wait_180ms_3, wr_800d_1981_8);
-				when wait_180ms_3 =>
-          melexis_mlx90640_i2c_wait <= 0;
-          melexis_mlx90640_i2c_enable_wait <= 0;
-          melexis_mlx90640_i2c_mode0 <= '0';
-          melexis_mlx90640_i2c_mode1 <= '0';
-          melexis_mlx90640_i2c_mode2 <= '0';
-          melexis_mlx90640_i2c_enable <= '0';
-          melexis_mlx90640_i2c_memory_address <= x"0000";
-          melexis_mlx90640_i2c_memory_data <= x"0000";
-          if (w_180ms = c_w_180ms - 1) then
-            w_180ms <= 0;
-            state <= idle;
-          else
-            w_180ms <= w_180ms + 1;
-          end if;
-        when others => state <= idle;
+
+when w8_80ms =>
+  w8_80ms (w8_rr);
+when w8_rr =>
+  w8_64us (r_2400);
+when r_2400 =>
+  wr_1 (x"2400", start_process);
+when start_process =>
+  w8_64us (r_0400_1);
+
+-- subframe 0
+when r_0400_1 =>
+  wr_1 (x"0400", clear_nda_1);
+when clear_nda_1 =>
+  w (x"8000", x"0000", s0_1);
+when s0_1 =>
+  state <= s1_1;
+  test_fixed_melexis_run <= '1';
+  float2fixedsclr <= '0';
+  dualmem_enb <= '0';
+  w11ms <= 0;
+when s1_1 =>
+  test_fixed_melexis_run <= '0';
+  if (c_sim = "n") then
+    if (w11ms = c_w11ms - 1) then
+      state <= s4_1;
+      w11ms <= 0;
+    else
+      state <= s1_1;
+      w11ms <= w11ms + 1;
+    end if;
+  end if;
+  if (c_sim = "y") then
+    if (test_fixed_melexis_busy = '0') then
+      state <= s4_1;
+      float2fixedsclr <= '0';
+      i := 0;
+      tout := (others => '0');
+    else
+      state <= s1_1;
+    end if;
+  end if;
+when s4_1 => state <= s5_1;
+  test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
+when s5_1 => state <= s6_1;
+when s6_1 => state <= s7_1;
+  float2fixedond <= '1';
+  float2fixedce <= '1';
+  float2fixeda <= test_fixed_melexis_do;
+when s7_1 =>
+  if (float2fixedrdy = '1') then state <= s8_1;
+    tout := float2fixedr;
+    float2fixedond <= '0';
+    float2fixedce <= '0';
+    float2fixedsclr <= '1';
+  else state <= s7_1; end if;
+when s8_1 => state <= s9_1;
+  float2fixedsclr <= '0';
+  dualmem_wea <= "1";
+  dualmem_addra <= std_logic_vector (to_unsigned (i, 10));
+  dualmem_dina <= tout;
+  dualmem_ena <= '1';
+when s9_1 =>
+  dualmem_wea <= "0";
+  dualmem_ena <= '0';
+  if (i = PIXELS-1) then
+    i := 0;
+    state <= s10_1;
+  else
+    state <= s4_1;
+    i := i + 1;
+  end if;
+when s10_1 =>
+  dualmem_enb <= '1';
+  state <= set_som_1;
+when set_som_1 =>
+  w (x"8000", x"0020", w8_rr_20_1);
+when w8_rr_20_1 =>
+  w8_64us (check_nda_1);
+when check_nda_1 =>
+  wr (x"8000", check_nda_1_idle);
+when check_nda_1_idle =>
+--  wr_idle (x"0008", r_0400_2, check_nda_1);
+  wr_idle (x"0000", r_0400_2, check_nda_1);
+
+-- subframe 1
+when r_0400_2 =>
+  wr_1 (x"0400", clear_nda_2);
+when clear_nda_2 =>
+  w (x"8000", x"0000", s0_2);
+when s0_2 =>
+  state <= s1_2;
+  test_fixed_melexis_run <= '1';
+  float2fixedsclr <= '0';
+  dualmem_enb <= '0';
+  w11ms <= 0;
+when s1_2 =>
+  test_fixed_melexis_run <= '0';
+  if (c_sim = "n") then
+    if (w11ms = c_w11ms - 1) then
+      state <= s4_2;
+      w11ms <= 0;
+    else
+      state <= s1_2;
+      w11ms <= w11ms + 1;
+    end if;
+  end if;
+  if (c_sim = "y") then
+    if (test_fixed_melexis_busy = '0') then
+      state <= s4_2;
+      float2fixedsclr <= '0';
+      i := 0;
+      tout := (others => '0');
+    else
+      state <= s1_2;
+    end if;
+  end if;
+when s4_2 => state <= s5_2;
+  test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
+when s5_2 => state <= s6_2;
+when s6_2 => state <= s7_2;
+  float2fixedond <= '1';
+  float2fixedce <= '1';
+  float2fixeda <= test_fixed_melexis_do;
+when s7_2 =>
+  if (float2fixedrdy = '1') then state <= s8_2;
+    tout := float2fixedr;
+    float2fixedond <= '0';
+    float2fixedce <= '0';
+    float2fixedsclr <= '1';
+  else state <= s7_2; end if;
+when s8_2 => state <= s9_2;
+  float2fixedsclr <= '0';
+  dualmem_wea <= "1";
+  dualmem_addra <= std_logic_vector (to_unsigned (i, 10));
+  dualmem_dina <= tout;
+  dualmem_ena <= '1';
+when s9_2 =>
+  dualmem_wea <= "0";
+  dualmem_ena <= '0';
+  if (i = PIXELS-1) then
+    i := 0;
+    state <= s10_2;
+  else
+    state <= s4_2;
+    i := i + 1;
+  end if;
+when s10_2 =>
+  dualmem_enb <= '1';
+  state <= set_som_2;
+when set_som_2 =>
+  w (x"8000", x"0020", w8_rr_20_2);
+when w8_rr_20_2 =>
+  w8_64us (check_nda_2);
+when check_nda_2 =>
+  wr (x"8000", check_nda_2_idle);
+when check_nda_2_idle =>
+--  wr_idle (x"0008", end_process, check_nda_2);
+  wr_idle (x"0000", end_process, check_nda_2);
+
+when end_process =>
+  state <= start_process;
+when others => state <= idle;
 			end case;
 		end if;
 	end if;
