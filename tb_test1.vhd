@@ -33,7 +33,7 @@ USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
 use work.bmp_pkg.all;
---use work.global_package.all;
+use work.global_package.all;
 
 ENTITY tb_test1 IS
 END tb_test1;
@@ -43,22 +43,22 @@ ARCHITECTURE behavior OF tb_test1 IS
 -- Component Declaration for the Unit Under Test (UUT)
 COMPONENT test1
 generic (
---constant c_board_clock : integer := c_clock_board_frequency;
-----constant c_bus_clock : integer := c_clock_i2c_frequency;
---constant c_bus_clock : integer := 1_000_000;
-----constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
-----constant c_bus_clock : integer := 50;
-----constant c_bus_clock : integer := 1;
-constant c_sim : string (1 to 1) := "y";
+constant c_clock_board_frequency : integer := c_clock_board_frequency;
+constant c_bus_clock : integer := c_clock_i2c_frequency;
+c_sim : string (1 downto 1) := "y";
+constant c_cold_start : integer := 1;
+constant c_melexis_mlx90640_i2c_enable_wait : integer := 1024;
+constant c_melexis_mlx90640_i2c_wait : integer := 1;
+constant c_w_64us : integer := 1; -- 64 us
+constant c_w_180us : integer := 1; -- 180 us
+constant c_w_80ms : integer := 1; -- 80 ms
+constant c_w_160us : integer := 1; -- 160 us
+constant c_w_160ms : integer := 1; -- 160 ms
+constant c_w_180ms : integer := 1; -- 180 ms
+constant c_w_200ms : integer := 1; -- 200 ms
+constant c_w_21ms : integer := 1; -- 21 ms
 constant c_some_wait : integer := 1;
---constant c_lcd : string (1 to 1) := "n";
---constant c_cold_start : integer := 1000;
---constant c_wait2 : integer := 1000;
---constant c_wait3 : integer := 10000;
---constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
---constant c_calculate_type1 : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
---constant c_use_fisqrt1 : string (1 to 3) := " no" -- yes/no - depend from c_calculate_type(c_temperature)
-constant zero : integer := 0
+zero : integer := 0
 );
 PORT(
 i_clock,i_reset : in std_logic;

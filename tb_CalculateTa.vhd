@@ -345,17 +345,21 @@ CalculateTa_rom_constants_float <= o_float;
 tbprocess : PROCESS
 BEGIN
 calculateTa_reset <= '1';
+calculateTa_run <= '0';
+calculateTa_Vdd <= x"4052B852"; -- 3.292500
 wait for 254.3 ns; -- wait until global set/reset completes
 calculateTa_reset <= '0';
 wait for clock_period*10;
 -- Add user defined stimulus here
-calculateTa_Vdd <= x"4052B852"; -- 3.292500
+l0 : for i in 0 to 10 loop
 calculateTa_run <= '1'; wait for clock_period; calculateTa_run <= '0';
 wait until calculateTa_rdy = '1';
 warning_neq_fp (calculateTa_Ta, x"4207f54d", "Ta");
 --report "rdy at 2.965us";
 --report "rdy at 2.845us";
 report "rdy at 2.915us - less regs";
+wait for 1 us;
+end loop l0;
 report "done" severity failure;
 END PROCESS tbprocess;
 --  End Test Bench 

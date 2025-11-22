@@ -103,7 +103,7 @@ begin
 
 p0 : process (i_clock) is
 	type states is (idle,
-	s1c,
+	s1b,s1c,
 	s8,s9,
 	s12,s13,s14,s15,
 	s16,s18,
@@ -157,12 +157,42 @@ begin
       case (state) is
         when idle =>
           if (i_run = '1') then
-            state := s1c;
+            state := s1b;
             o_rdy <= '0';
           else
             state := idle;
             i2c_mem_ena <= '0';
           end if;
+          fixed2floatsclr <= '1';
+          addfpsclr <= '1';
+          subfpsclr <= '1';
+          mulfpsclr <= '1';
+          divfpsclr <= '1';
+          fixed2floata <= (others => '0');
+          fixed2floatce <= '0';
+          fixed2floatond <= '0';
+          mulfpa <= (others => '0');
+          mulfpb <= (others => '0');
+          mulfpce <= '0';
+          mulfpond <= '0';
+          addfpa <= (others => '0');
+          addfpb <= (others => '0');
+          addfpce <= '0';
+          addfpond <= '0';
+          subfpce <= '0';
+          subfpond <= '0';
+          subfpa <= (others => '0');
+          subfpb <= (others => '0');
+          divfpce <= '0';
+          divfpond <= '0';
+          divfpa <= (others => '0');
+          divfpb <= (others => '0');
+          o_kvptat_ena <= '0';
+          o_kvptat_adr <= (others => '0');
+          o_alphaptat_ena <= '0';
+          o_alphaptat_adr <= (others => '0');
+        when s1b => state := s1c;
+          o_Ta <= (others => '0');
           fixed2floatsclr <= '0';
           addfpsclr <= '0';
           subfpsclr <= '0';
