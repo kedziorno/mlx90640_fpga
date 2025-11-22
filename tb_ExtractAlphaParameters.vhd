@@ -354,8 +354,6 @@ ExtractAlphaParameters_clock <= '1';
 wait for i_clock_period/2;
 end process;
 
-ExtractAlphaParameters_reset <= '1', '0' after 100 ns ;	
-
 -- Stimulus process
 stim_proc: process
 type itemr is record
@@ -432,8 +430,12 @@ last => (
 );
 begin
 -- hold reset state for 100 ns.
-wait for 105 ns;
+ExtractAlphaParameters_reset <= '1';
+ExtractAlphaParameters_run <= '0';
+wait for 100 ns;
+ExtractAlphaParameters_reset <= '0';
 -- insert stimulus here
+l0 : for r in 0 to 10 loop
 ExtractAlphaParameters_run <= '1'; wait for i_clock_period; ExtractAlphaParameters_run <= '0';
 wait until ExtractAlphaParameters_rdy = '1';
 --report "rdy at 954.235us";
@@ -482,7 +484,8 @@ warning_neq_fp (ExtractAlphaParameters_do, datao.last(9).a, "last " & integer'im
 --report "end at 1107.695us - rm valphareference reg, rm vaccrowi, rm vacccolumnj";
 --report "end at 1115.375us - rm valphareference reg, rm vaccrowi, rm vacccolumnj, rm fixed reg";
 report "end at 1115.275us - rm valphareference reg, rm vaccrowi, rm vacccolumnj, rm fixed reg, rm remnant,row,col reg, to differ by ~2.47e-10";
-wait for 1 ps; -- must be for write
+wait for 1 us; -- must be for write
+end loop l0;
 report "done" severity failure;
 --wait on o_done;
 end process;

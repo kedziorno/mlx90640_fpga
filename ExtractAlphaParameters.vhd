@@ -345,7 +345,7 @@ mux_dia <= dia;
 
 p0 : process (i_clock) is
 	type states is (idle,
-	acc15,acc16,acc17,acc18,acc19,
+	acc14,acc15,acc16,acc17,acc18,acc19,
 	acc20,acc21,acc22,acc23,
   pow3,
 	s0,s1,s2,s3,s4,s7,s8,s11,s13,s14,s16,s17,s19,s20,s22,s25);
@@ -393,11 +393,21 @@ begin
 			o_done <= '0';
 			i2c_mem_ena <= '0';
       i2c_mem_addra <= (others => '1');
+      addra <= (others => '0');
+      out_nibble3 <= (others => '0');
+      o_signed6bit_ena <= '0';
+      o_signed6bit_adr <= (others => '0');
+      o_alphascale_1_ena <= '0';
+      o_alphascale_1_adr <= (others => '0');
+      o_2powx_4bit_ena <= '0';
+      o_2powx_4bit_adr <= (others => '0');
+      o_signed4bit_ena <= '0';
+      o_signed4bit_adr <= (others => '0');
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := acc15;
+						state := acc14;
             i := 2;
             j := 0;
             rdy <= '0';
@@ -405,10 +415,6 @@ begin
 						state := idle;
 						i2c_mem_ena <= '0';
 					end if;
-					addfpsclr_internal <= '0';
-					mulfpsclr_internal <= '0';
-					divfpsclr_internal <= '0';
-					fixed2floatsclr_internal <= '0';
           write_enable <= '0';
           i := 0;
           m := 0;
@@ -416,6 +422,44 @@ begin
           j := 0;
           col := 0;
           row := 0;
+          addfpsclr_internal <= '1';
+          mulfpsclr_internal <= '1';
+          divfpsclr_internal <= '1';
+          fixed2floatsclr_internal <= '1';
+          mulfpa_internal <= (others => '0');
+          mulfpb_internal <= (others => '0');
+          addfpa_internal <= (others => '0');
+          addfpb_internal <= (others => '0');
+          divfpa_internal <= (others => '0');
+          divfpb_internal <= (others => '0');
+          fixed2floata_internal <= (others => '0');
+          addfpond_internal <= '0';
+          mulfpond_internal <= '0';
+          divfpond_internal <= '0';
+          fixed2floatond_internal <= '0';
+          addfpce_internal <= '0';
+          mulfpce_internal <= '0';
+          divfpce_internal <= '0';
+          fixed2floatce_internal <= '0';
+          addra <= (others => '0');
+          dia <= (others => '0');
+          o_done <= '0';
+          i2c_mem_ena <= '0';
+          i2c_mem_addra <= (others => '1');
+          out_nibble3 <= (others => '0');
+          o_signed6bit_ena <= '0';
+          o_signed6bit_adr <= (others => '0');
+          o_alphascale_1_ena <= '0';
+          o_alphascale_1_adr <= (others => '0');
+          o_2powx_4bit_ena <= '0';
+          o_2powx_4bit_adr <= (others => '0');
+          o_signed4bit_ena <= '0';
+          o_signed4bit_adr <= (others => '0');
+        when acc14 => state := acc15;
+          addfpsclr_internal <= '0';
+					mulfpsclr_internal <= '0';
+					divfpsclr_internal <= '0';
+					fixed2floatsclr_internal <= '0';
         when acc15 => state := acc16;
           m := 2*i;
           n := j*4;
