@@ -368,8 +368,6 @@ ExtractKtaParameters_clock <= '1';
 wait for i_clock_period/2;
 end process;
 
-ExtractKtaParameters_reset <= '1', '0' after 100 ns ;	
-
 -- Stimulus process
 stim_proc: process
 type itemr is record
@@ -415,9 +413,14 @@ last => (
 )
 );
 begin
+ExtractKtaParameters_addr <= (others => '0');
+ExtractKtaParameters_reset <= '1';
+ExtractKtaParameters_run <= '0';
 -- hold reset state for 100 ns.
-wait for 105 ns;
+wait for 100 ns;
+ExtractKtaParameters_reset <= '0';
 -- insert stimulus here
+l0 : for r in 0 to 10 loop
 ExtractKtaParameters_run <= '1'; wait for i_clock_period; ExtractKtaParameters_run <= '0';
 wait until ExtractKtaParameters_rdy = '1';
 --report "rdy at 538.055ns";
@@ -445,7 +448,8 @@ wait until rising_edge (ExtractKtaParameters_clock);
 end loop;
 --report "end at 538.715ns";
 report "end at 469.305ns";
-wait for 1 ps; -- must be for write
+wait for 1 us; -- must be for write
+end loop l0;
 report "done" severity failure;
 --wait on o_done;
 end process;

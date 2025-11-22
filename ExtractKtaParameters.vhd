@@ -349,17 +349,20 @@ mux_dia <= dia;
 cole <= '1' when (col mod 2) = 0 else '0' when (col mod 2) = 1 else '0'; -- column even
 rowe <= '1' when (row mod 2) = 0 else '0' when (row mod 2) = 1 else '0'; -- row even
 
-p1 : process (cole,rowe,ktarcee_oo,ktarcee_eo,ktarcee_oe,ktarcee_ee) is
+p1 : process (cole,rowe,ktarcee_oo,ktarcee_eo,ktarcee_oe,ktarcee_ee,i_reset) is
 	variable a : std_logic_vector (1 downto 0);
 begin
+if (i_reset = '1') then
+  ktarcee <= (others => '0');
+else
 	a := rowe&cole;
 case (a) is
 	when "00" => ktarcee <= ktarcee_oo;
 	when "10" => ktarcee <= ktarcee_eo;
 	when "01" => ktarcee <= ktarcee_oe;
-	when "11" => ktarcee <= ktarcee_ee;
-	when others => ktarcee <= (others => '0');
+	when others => ktarcee <= ktarcee_ee; -- "11"
 end case;
+end if;
 end process p1;
 
 p0 : process (i_clock) is
@@ -401,6 +404,12 @@ begin
 			col <= 0;
 			row <= 0;
       i2c_mem_addra <= (others => '1');
+      out_nibble1 <= (others => '0');
+      out_nibble2 <= (others => '0');
+      ktarcee_oo <= (others => '0');
+      ktarcee_eo <= (others => '0');
+      ktarcee_oe <= (others => '0');
+      ktarcee_ee <= (others => '0');
 		else
 			case (state) is
 				when idle =>
@@ -413,14 +422,39 @@ begin
 						state := idle;
             i2c_mem_ena <= '0';
 					end if;
+          col <= 0;
+          row <= 0;
+          i := 0;
+          write_enable <= '0';
+          addfpsclr_internal <= '1';
+          mulfpsclr_internal <= '1';
+          divfpsclr_internal <= '1';
+          fixed2floatsclr_internal <= '1';
+          mulfpa_internal <= (others => '0');
+          mulfpb_internal <= (others => '0');
+          addfpa_internal <= (others => '0');
+          addfpb_internal <= (others => '0');
+          divfpa_internal <= (others => '0');
+          divfpb_internal <= (others => '0');
+          addfpond_internal <= '0';
+          mulfpond_internal <= '0';
+          divfpond_internal <= '0';
+          addfpce_internal <= '0';
+          mulfpce_internal <= '0';
+          divfpce_internal <= '0';
+          addra <= (others => '0');
+          dia <= (others => '0');
+          out_nibble1 <= (others => '0');
+          out_nibble2 <= (others => '0');
+          ktarcee_oo <= (others => '0');
+          ktarcee_eo <= (others => '0');
+          ktarcee_oe <= (others => '0');
+          ktarcee_ee <= (others => '0');
+				when kta1 => state := kta2;
           addfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
           fixed2floatsclr_internal <= '0';
-          col <= 0;
-          row <= 0;
-          i := 0;
-				when kta1 => state := kta2;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (109, 12)); -- 2436 MSB - ktarcee_eo 54*2+1
 				when kta2 => state := kta3;
           ktarcee_oo <= i2c_mem_douta;
@@ -509,7 +543,6 @@ begin
           else state := kta23; end if;
         when kta27 =>
           o_signed3bit_ena <= '0';
-          divfpsclr_internal <= '0';
           i := i + 1;
           write_enable <= '0';
           if (col = C_COL-1) then
@@ -521,10 +554,12 @@ begin
             else
               row <= row + 1;
               state := kta9;
+              divfpsclr_internal <= '0';
             end if;
           else
             col <= col + 1;
             state := kta9;
+            divfpsclr_internal <= '0';
           end if;
 			end case;
 		end if;
