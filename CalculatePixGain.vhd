@@ -324,10 +324,23 @@ begin
 						state := idle;
 						i2c_mem_ena_internal <= '0';
 					end if;
+          pixgain_index := 0;
+          fixed2floatsclr_internal <= '1';
+          mulfpsclr_internal <= '1';
+          fixed2floata_internal <= (others => '0');
+          fixed2floatce_internal <= '0';
+          fixed2floatond_internal <= '0';
+          mulfpa_internal <= (others => '0');
+          mulfpb_internal <= (others => '0');
+          mulfpce_internal <= '0';
+          mulfpond_internal <= '0';
+          addra <= (others => '0');
+          dia <= (others => '0');
+          write_enable <= '0';
+          i2c_mem_addra_internal <= (others => '0');
+				when s1 => state := s2; -- XXX in loop, i2c_mem_addra_internal must be here
 					fixed2floatsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
-          pixgain_index := 0;
-				when s1 => state := s2; -- XXX in loop, i2c_mem_addra_internal must be here
           i2c_mem_ena_internal <= '1';
 					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (PIXGAIN_ST+(pixgain_index*2)+1, 12)); -- LSB
 				when s2 => state := s3;

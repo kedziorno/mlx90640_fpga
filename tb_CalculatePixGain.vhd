@@ -139,7 +139,6 @@ CalculatePixGain_clock <= '1';
 wait for clockperiod/2;
 end process cp;
 
-CalculatePixGain_KGain <= x"3F81AC57";
 -- Component Instantiation
 uut: CalculatePixGain port map (
 i_clock => CalculatePixGain_clock,
@@ -172,11 +171,15 @@ mulfprdy => CalculatePixGain_mulfprdy
 --  Test Bench Statements
 tb : PROCESS
 BEGIN
+CalculatePixGain_addr <= (others => '0');
+CalculatePixGain_KGain <= x"3F81AC57";
 CalculatePixGain_reset <= '1';
+CalculatePixGain_run <= '0';
 wait for 100 ns; -- wait until global set/reset completes
 CalculatePixGain_reset <= '0';
 -- Add user defined stimulus here
 wait for clockperiod*10;
+l0 : for r in 0 to 10 loop
 CalculatePixGain_run <= '1'; wait for clockperiod; CalculatePixGain_run <= '0';
 wait until CalculatePixGain_rdy = '1';
 --report "rdy at 200.515us";
@@ -216,11 +219,12 @@ if (i = 765) then wait until rising_edge (CalculatePixGain_clock); wait until ri
 if (i = 767) then wait until rising_edge (CalculatePixGain_clock); wait until rising_edge (CalculatePixGain_clock); warning_neq_fp (CalculatePixGain_do, x"c2d0b15c", "pixgain do 767 - last pix"); end if;
 wait until rising_edge (CalculatePixGain_clock); wait until rising_edge (CalculatePixGain_clock); -- XXX can be disabled, then _addr depend on i condition and dont have slide
 end loop;
-wait for 1 ps; -- must be for write
+wait for 1 us; -- must be for write
 --report "end at 210.765us";
 --report "end at 767 is 208.385us";
 --report "end at 767 is 216.045us";
 report "end at 213.835us - rm states,rm reg";
+end loop l0;
 report "done" severity failure;
 END PROCESS tb;
 --  End Test Bench 
