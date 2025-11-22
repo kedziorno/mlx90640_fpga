@@ -434,14 +434,16 @@ last => (
 );
 begin
 -- hold reset state for 100 ns.
+CalculateAlphaComp_Ta <= x"4207F54D";
+CalculateAlphaComp_acpsubpage0 <= x"31460000";
+CalculateAlphaComp_acpsubpage1 <= x"31478C00";
 CalculateAlphaComp_reset <= '1';
+CalculateAlphaComp_run <= '0';
 wait for 100 ns;
 CalculateAlphaComp_reset <= '0';
 wait for i_clock_period*10;
 -- insert stimulus here
-CalculateAlphaComp_Ta <= x"4207F54D";
-CalculateAlphaComp_acpsubpage0 <= x"31460000";
-CalculateAlphaComp_acpsubpage1 <= x"31478C00";
+l0 : for r in 0 to 10 loop
 wait for i_clock_period;
 CalculateAlphaComp_run <= '1'; wait for i_clock_period; CalculateAlphaComp_run <= '0';
 report "before loop";
@@ -495,13 +497,14 @@ report "rdy 767 at 1144.615us - rm all regs";
   wait until rising_edge (CalculateAlphaComp_clock);
   wait until rising_edge (CalculateAlphaComp_clock);
   warning_neq_fp (CalculateAlphaComp_do, datao.last(9).a, "last " & integer'image (datao.last(9).b) & " not available - fix it");
-wait for 1 ps;
+wait for 1 us;
 -- XXX outputs differ around e-9 and e-10 (output have e-8)
 --report "end at 666.445us";
 --report "end at 620.295us";
 --report "end at 600.465us";
 --report "end at 600.405us";
 report "end at 1403.745us - rm all regs";
+end loop l0;
 report "done" severity failure;
 end process;
 
