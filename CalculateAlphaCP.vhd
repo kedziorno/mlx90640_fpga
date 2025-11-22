@@ -153,6 +153,10 @@ begin
 			mulfpond_internal <= '0';
 			i2c_mem_ena <= '0';
       i2c_mem_addra <= (others => '1');
+      o_cpratio_ena <= '0';
+      o_cpratio_adr <= (others => '0');
+      o_alphascale_2_ena <= '0';
+      o_alphascale_2_adr <= (others => '0');
 		else
 			case (state) is
 				when idle =>
@@ -163,10 +167,30 @@ begin
 						state := idle;
 						i2c_mem_ena <= '0';
 					end if;
+          mulfpsclr_internal <= '1';
+          divfpsclr_internal <= '1';
+          fixed2floatsclr_internal <= '1';
+          divfpa_internal <= (others => '0');
+          divfpb_internal <= (others => '0');
+          divfpce_internal <= '0';
+          divfpond_internal <= '0';
+          mulfpa_internal <= (others => '0');
+          mulfpb_internal <= (others => '0');
+          mulfpce_internal <= '0';
+          mulfpond_internal <= '0';
+          fixed2floata_internal <= (others => '0');
+          fixed2floatce_internal <= '0';
+          fixed2floatond_internal <= '0';
+          o_cpratio_ena <= '0';
+          o_cpratio_adr <= (others => '0');
+          o_alphascale_2_ena <= '0';
+          o_alphascale_2_adr <= (others => '0');
+				when s2 => state := s3;
+          o_acpsubpage0 <= (others => '0');
+          o_acpsubpage1 <= (others => '0');
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
           fixed2floatsclr_internal <= '0';
-				when s2 => state := s3;
           i2c_mem_ena <= '1';
 					i2c_mem_addra <= std_logic_vector (to_unsigned (57*2+0, 12)); -- 2439 MSB Acpsubpage0 10bit/CP_P12P0_ratio 6bit
 				when s3 => state := s4;

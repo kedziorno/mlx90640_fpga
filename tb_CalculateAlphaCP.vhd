@@ -265,15 +265,18 @@ end process cp;
 tbprocess : PROCESS
 BEGIN
 CalculateAlphaCP_reset <= '1';
+CalculateAlphaCP_run <= '0';
 wait for 100 ns; -- wait until global set/reset completes
 CalculateAlphaCP_reset <= '0';
 -- Add user defined stimulus here
 wait for clockperiod*10;
+l0 : for i in 0 to 10 loop
 CalculateAlphaCP_run <= '1'; wait for clockperiod; CalculateAlphaCP_run <= '0';
 wait until CalculateAlphaCP_rdy = '1';
 warning_neq_fp (CalculateAlphaCP_acpsubpage0, x"31460000", "acpsubpage0 585ns");
 warning_neq_fp (CalculateAlphaCP_acpsubpage1, x"31478c00", "acpsubpage1 695ns");
-wait for 1 ps;
+wait for 1 us;
+end loop l0;
 report "done" severity failure;
 END PROCESS tbprocess;
 --  End Test Bench 
