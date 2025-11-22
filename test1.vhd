@@ -509,6 +509,7 @@ type states is (
 idle,
 
 w8_80ms,
+w_800d1981,
 w8_rr,
 r_2400,
 
@@ -564,7 +565,7 @@ signal cold_start : integer range 0 to c_cold_start - 1;
 
 begin
 
-o_data <= latch_data;
+o_data <= (others => '0');
 o_ready <= melexis_mlx90640_i2c_mode2_ready;
 
 --p100 : process (melexis_mlx90640_i2c_mode2_ready, i_reset) is
@@ -808,7 +809,9 @@ begin
           end if;
 
 when w8_80ms =>
-  w8_80ms (w8_rr);
+  w8_80ms (w_800d1981);
+when w_800d1981 =>
+  w (x"800d", x"1981", w8_rr);
 when w8_rr =>
   w8_64us (r_2400);
 when r_2400 =>
