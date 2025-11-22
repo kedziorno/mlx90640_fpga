@@ -189,6 +189,7 @@ wait for 254.3 ns; -- wait until global set/reset completes
 calculateKGain_reset <= '0';
 wait for clock_period*10;
 -- Add user defined stimulus here
+l0 : for i in 0 to 10 loop
 calculateKGain_run <= '1'; wait for clock_period; calculateKGain_run <= '0';
 wait until calculateKGain_rdy = '1';
 warning_neq_fp (calculateKGain_KGain, x"3f81ac57", "kgain");
@@ -196,7 +197,8 @@ warning_neq_fp (calculateKGain_KGain, x"3f81ac57", "kgain");
 --report "rdy at 925ns";
 --report "rdy at 1.225us - rm fttmp1,fttmp2 reg";
 report "rdy at 1.205us - rm fttmp1 fttmp2 reg,rm redundant regs,rm states";
-wait for 1 ps;
+wait for 1 us;
+end loop l0;
 report "done" severity failure;
 END PROCESS tbprocess;
 --  End Test Bench 

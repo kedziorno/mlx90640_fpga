@@ -85,19 +85,19 @@ signal divfprdy_internal : STD_LOGIC;
 
 begin
 
-fixed2floata <= fixed2floata_internal;
-fixed2floatond <= fixed2floatond_internal;
-fixed2floatsclr <= fixed2floatsclr_internal;
-fixed2floatce <= fixed2floatce_internal;
-fixed2floatr_internal <= fixed2floatr;
+fixed2floata            <=    fixed2floata_internal;
+fixed2floatond          <=  fixed2floatond_internal;
+fixed2floatsclr         <= fixed2floatsclr_internal;
+fixed2floatce           <=   fixed2floatce_internal;
+  fixed2floatr_internal <= fixed2floatr;
 fixed2floatrdy_internal <= fixed2floatrdy;
 
-divfpa <= divfpa_internal;
-divfpb <= divfpb_internal;
-divfpond <= divfpond_internal;
-divfpsclr <= divfpsclr_internal;
-divfpce <= divfpce_internal;
-divfpr_internal <= divfpr;
+divfpa            <=    divfpa_internal;
+divfpb            <=    divfpb_internal;
+divfpond          <=  divfpond_internal;
+divfpsclr         <= divfpsclr_internal;
+divfpce           <=   divfpce_internal;
+  divfpr_internal <= divfpr;
 divfprdy_internal <= divfprdy;
 
 p0 : process (i_clock) is
@@ -111,14 +111,14 @@ begin
     if (i_reset = '1') then
       state := idle;
       fixed2floatsclr_internal <= '1';
-      divfpsclr_internal <= '1';
       fixed2floata_internal <= (others => '0');
       fixed2floatce_internal <= '0';
       fixed2floatond_internal <= '0';
-      divfpce_internal <= '0';
-      divfpond_internal <= '0';
+      divfpsclr_internal <= '1';
       divfpa_internal <= (others => '0');
       divfpb_internal <= (others => '0');
+      divfpce_internal <= '0';
+      divfpond_internal <= '0';
       o_KGain <= (others => '0');
       o_rdy <= '0';
       i2c_mem_ena <= '0';
@@ -135,9 +135,19 @@ begin
             state := idle;
             i2c_mem_ena <= '0';
           end if;
+          fixed2floatsclr_internal <= '1';
+          fixed2floata_internal <= (others => '0');
+          fixed2floatce_internal <= '0';
+          fixed2floatond_internal <= '0';
+          divfpsclr_internal <= '1';
+          divfpa_internal <= (others => '0');
+          divfpb_internal <= (others => '0');
+          divfpce_internal <= '0';
+          divfpond_internal <= '0';
+        when s4 => state := s5;
+          o_KGain <= (others => '0');
           fixed2floatsclr_internal <= '0';
           divfpsclr_internal <= '0';
-        when s4 => state := s5;
           i2c_mem_addra <= std_logic_vector (to_unsigned (1664+(778*2)+1, 12)); -- ram070a LSB ram gain
         when s5 => state := s9;
           ram (7 downto 0) := i2c_mem_douta; -- ram gain
@@ -168,7 +178,7 @@ begin
             i2c_mem_addra <= std_logic_vector (to_unsigned (48*2+0, 12)); -- 2430 MSB ee gain
           else state := s10; end if;
         when s10a => state := s10b;
-            i2c_mem_addra <= std_logic_vector (to_unsigned (48*2+1, 12)); -- 2430 LSB ee gain
+          i2c_mem_addra <= std_logic_vector (to_unsigned (48*2+1, 12)); -- 2430 LSB ee gain
         when s10b => state := s11;
           ram (7 downto 0) := i2c_mem_douta; -- ee2430 gain
         when s11 =>

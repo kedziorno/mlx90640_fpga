@@ -136,19 +136,29 @@ begin
 	when idle =>
 		if (i_run = '1') then
 			state := s2;
+      fixed2floatsclr <= '0';
+      fixed2floatsclr <= '0';
+      addfpsclr <= '0';
+      subfpsclr <= '0';
+      mulfpsclr <= '0';
+      divfpsclr <= '0';
+      o_rdy <= '0';
+      addfpb <= (others => '0');
 		else
 			state := idle;
 			i2c_mem_ena_internal <= '0';
 		end if;
-		fixed2floatsclr <= '0';
-		addfpsclr <= '0';
-		subfpsclr <= '0';
-		mulfpsclr <= '0';
-		divfpsclr <= '0';
-    fixed2floatsclr <= '0';
-    o_rdy <= '0';
-    addfpb <= const3dot3_ft;
+
+		fixed2floatsclr <= '1';
+		addfpsclr <= '1';
+		subfpsclr <= '1';
+		mulfpsclr <= '1';
+		divfpsclr <= '1';
+    fixed2floata <= (others => '0');
+    fixed2floatce <= '0';
+    fixed2floatond <= '0';
 	when s2 => state := s4;
+    addfpb <= const3dot3_ft;
     i2c_mem_ena_internal <= '1';
     i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+0, 12)); -- 2438 MSB resolutionee 2bit & 3000
 	when s4 => state := s5;
