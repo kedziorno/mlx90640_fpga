@@ -59,6 +59,26 @@ signal mulfpsclr : STD_LOGIC;
 signal mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfprdy : STD_LOGIC;
 
+COMPONENT addfp
+PORT (
+a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+operation_nd : IN STD_LOGIC;
+clk : IN STD_LOGIC;
+sclr : IN STD_LOGIC;
+ce : IN STD_LOGIC;
+result : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+rdy : OUT STD_LOGIC
+);
+END COMPONENT;
+signal addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : STD_LOGIC;
+signal addfpce : STD_LOGIC;
+signal addfpsclr : STD_LOGIC;
+signal addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : STD_LOGIC;
+
 -- Component Declaration for the Unit Under Test (UUT)
 COMPONENT CalculateGetImage
 PORT(
@@ -79,7 +99,15 @@ signal mulfpond : out STD_LOGIC;
 signal mulfpsclr : out STD_LOGIC;
 signal mulfpce : out STD_LOGIC;
 signal mulfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
-signal mulfprdy : in STD_LOGIC
+signal mulfprdy : in STD_LOGIC;
+
+signal addfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfpond : out STD_LOGIC;
+signal addfpsclr : out STD_LOGIC;
+signal addfpce : out STD_LOGIC;
+signal addfpr : in STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal addfprdy : in STD_LOGIC
 
 );
 END COMPONENT;
@@ -102,7 +130,16 @@ signal CalculateGetImage_mulfpce : STD_LOGIC;
 signal CalculateGetImage_mulfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateGetImage_mulfprdy : STD_LOGIC;
 
+signal CalculateGetImage_addfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateGetImage_addfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateGetImage_addfpond : STD_LOGIC;
+signal CalculateGetImage_addfpsclr : STD_LOGIC;
+signal CalculateGetImage_addfpce : STD_LOGIC;
+signal CalculateGetImage_addfpr : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal CalculateGetImage_addfprdy : STD_LOGIC;
+
 signal CalculateGetImage_mulfpclk : std_logic;
+signal CalculateGetImage_addfpclk : std_logic;
 
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
@@ -132,7 +169,15 @@ mulfpond => CalculateGetImage_mulfpond,
 mulfpsclr => CalculateGetImage_mulfpsclr,
 mulfpce => CalculateGetImage_mulfpce,
 mulfpr => CalculateGetImage_mulfpr,
-mulfprdy => CalculateGetImage_mulfprdy
+mulfprdy => CalculateGetImage_mulfprdy,
+
+addfpa => CalculateGetImage_addfpa,
+addfpb => CalculateGetImage_addfpb,
+addfpond => CalculateGetImage_addfpond,
+addfpsclr => CalculateGetImage_addfpsclr,
+addfpce => CalculateGetImage_addfpce,
+addfpr => CalculateGetImage_addfpr,
+addfprdy => CalculateGetImage_addfprdy
 
 );
 
@@ -150,21 +195,25 @@ stim_proc: process
 begin
 -- hold reset state for 100 ns.
 CalculateGetImage_reset <= '1';
+CalculateGetImage_run <= '0';
 wait for 100 ns;
 CalculateGetImage_reset <= '0';
 wait for i_clock_period*10;
 -- insert stimulus here
+l0 : for r in 0 to 10 loop
 CalculateGetImage_run <= '1'; wait for i_clock_period; CalculateGetImage_run <= '0';
 wait until CalculateGetImage_rdy = '1';
 for i in 0 to 1024 loop
 	CalculateGetImage_addr <= std_logic_vector (to_unsigned (i, 10));
 	wait for i_clock_period*2;
 end loop;
-wait for 1 ps;
+wait for 1 us;
+end loop l0;
 report "done" severity failure;
 end process;
 
 CalculateGetImage_mulfpclk <= CalculateGetImage_clock;
+CalculateGetImage_addfpclk <= CalculateGetImage_clock;
 
 inst_mulfp : mulfp
 PORT MAP (
@@ -176,6 +225,18 @@ sclr => CalculateGetImage_mulfpsclr,
 ce => CalculateGetImage_mulfpce,
 result => CalculateGetImage_mulfpr,
 rdy => CalculateGetImage_mulfprdy
+);
+
+inst_addfp : addfp
+PORT MAP (
+a => CalculateGetImage_addfpa,
+b => CalculateGetImage_addfpb,
+operation_nd => CalculateGetImage_addfpond,
+clk => CalculateGetImage_addfpclk,
+sclr => CalculateGetImage_addfpsclr,
+ce => CalculateGetImage_addfpce,
+result => CalculateGetImage_addfpr,
+rdy => CalculateGetImage_addfprdy
 );
 
 END;

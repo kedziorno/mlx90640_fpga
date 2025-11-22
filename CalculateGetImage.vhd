@@ -349,6 +349,7 @@ begin
       state := idle;
       i := 0;
       rdy <= '0';
+      write_enable <= '0';
       mulfpsclr_internal <= '1';
       addfpsclr_internal <= '1';
       mulfpa_internal <= (others => '0');
@@ -361,10 +362,8 @@ begin
       addfpce_internal <= '0';
       o_vircompensated_addr <= (others => '0');
       o_alphacomp_addr <= (others => '0');
---      mulfp_run <= '0';
---      mulfp_rdy <= '0';
---      addfp_run <= '0';
---      addfp_rdy <= '0';
+      addra <= (others => '0');
+      dia <= (others => '0');
     else
       case (state) is
         when idle =>
@@ -376,9 +375,24 @@ begin
             state := idle;
           end if;
           i := 0;
+          write_enable <= '0';
+          mulfpsclr_internal <= '1';
+          addfpsclr_internal <= '1';
+          mulfpa_internal <= (others => '0');
+          mulfpb_internal <= (others => '0');
+          mulfpond_internal <= '0';
+          mulfpce_internal <= '0';
+          addfpa_internal <= (others => '0');
+          addfpb_internal <= (others => '0');
+          addfpond_internal <= '0';
+          addfpce_internal <= '0';
+          o_vircompensated_addr <= (others => '0');
+          o_alphacomp_addr <= (others => '0');
+          addra <= (others => '0');
+          dia <= (others => '0');
+        when s1 => state := s2;
           mulfpsclr_internal <= '0';
           addfpsclr_internal <= '0';
-        when s1 => state := s2;
           o_vircompensated_addr <= std_logic_vector (to_unsigned (i, 10));
           o_alphacomp_addr <= std_logic_vector (to_unsigned (i, 10));
         when s2 => state := s3;
