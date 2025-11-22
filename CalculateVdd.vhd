@@ -127,28 +127,38 @@ begin
 		o_rdy <= '0';
 		i2c_mem_ena_internal <= '0';
 		i2c_mem_addra_internal <= (others => '1');
+    divfpa <= (others => '0');
+    divfpb <= (others => '0');
+    divfpond <= '0';
+    divfpce <= '0';
+    mulfpa <= (others => '0');
+    mulfpb <= (others => '0');
+    mulfpond <= '0';
+    mulfpce <= '0';
+    addfpa <= (others => '0');
     addfpb <= (others => '1');
+    addfpond <= '0';
+    addfpce <= '0';
+    subfpa <= (others => '0');
+    subfpb <= (others => '0');
+    subfpond <= '0';
+    subfpce <= '0';
     fixed2floata <= (others => '0');
     fixed2floatce <= '0';
     fixed2floatond <= '0';
+    resolutionee <= (others => '0');
+    resolutionreg <= (others => '0');
 	else
 	case (state) is
 	when idle =>
 		if (i_run = '1') then
 			state := s2;
-      fixed2floatsclr <= '0';
-      fixed2floatsclr <= '0';
-      addfpsclr <= '0';
-      subfpsclr <= '0';
-      mulfpsclr <= '0';
-      divfpsclr <= '0';
       o_rdy <= '0';
       addfpb <= (others => '0');
 		else
 			state := idle;
 			i2c_mem_ena_internal <= '0';
 		end if;
-
 		fixed2floatsclr <= '1';
 		addfpsclr <= '1';
 		subfpsclr <= '1';
@@ -157,7 +167,34 @@ begin
     fixed2floata <= (others => '0');
     fixed2floatce <= '0';
     fixed2floatond <= '0';
+    divfpa <= (others => '0');
+    divfpb <= (others => '0');
+    divfpond <= '0';
+    divfpce <= '0';
+    mulfpa <= (others => '0');
+    mulfpb <= (others => '0');
+    mulfpond <= '0';
+    mulfpce <= '0';
+    addfpa <= (others => '0');
+    addfpb <= (others => '1');
+    addfpond <= '0';
+    addfpce <= '0';
+    subfpa <= (others => '0');
+    subfpb <= (others => '0');
+    subfpond <= '0';
+    subfpce <= '0';
+    fixed2floata <= (others => '0');
+    fixed2floatce <= '0';
+    fixed2floatond <= '0';
+    resolutionee <= (others => '0');
+    resolutionreg <= (others => '0');
 	when s2 => state := s4;
+    o_vdd <= (others => '0');
+    fixed2floatsclr <= '0';
+    addfpsclr <= '0';
+    subfpsclr <= '0';
+    mulfpsclr <= '0';
+    divfpsclr <= '0';
     addfpb <= const3dot3_ft;
     i2c_mem_ena_internal <= '1';
     i2c_mem_addra_internal <= std_logic_vector (to_unsigned (56*2+0, 12)); -- 2438 MSB resolutionee 2bit & 3000

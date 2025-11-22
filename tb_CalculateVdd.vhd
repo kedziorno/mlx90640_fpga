@@ -282,10 +282,12 @@ subfprdy  => CalculateVdd_subfprdy
 tbprocess : PROCESS
 BEGIN
 calculateVdd_reset <= '1';
+CalculateVdd_run <= '0';
 wait for 254.3 ns; -- wait until global set/reset completes
 calculateVdd_reset <= '0';
 wait for clock_period*10;
 -- Add user defined stimulus here
+l0 : for i in 0 to 10 loop
 calculateVdd_run <= '1'; wait for clock_period; calculateVdd_run <= '0';
 wait until calculateVdd_rdy = '1';
 warning_neq_fp (CalculateVdd_Vdd, x"4052b852", "Vdd");
@@ -293,6 +295,7 @@ warning_neq_fp (CalculateVdd_Vdd, x"4052b852", "Vdd");
 --report "rdy at 1.645us";
 report "rdy at 1.605us";
 wait for 100 ns;
+end loop l0;
 report "done" severity failure;
 END PROCESS tbprocess;
 --  End Test Bench 
