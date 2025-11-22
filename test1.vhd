@@ -811,7 +811,7 @@ begin
 when w8_80ms =>
   w8_80ms (w_800d1981);
 when w_800d1981 =>
-  w (x"800d", x"1981", w8_rr);
+  w (x"800d", x"0000", w8_rr);
 when w8_rr =>
   w8_64us (r_2400);
 when r_2400 =>
@@ -886,6 +886,7 @@ when s10_1 =>
   state <= set_som_1;
 when set_som_1 =>
   w (x"8000", x"0020", w8_rr_20_1);
+--  w (x"8000", x"0030", w8_rr_20_1);
 when w8_rr_20_1 =>
   w8_64us (check_nda_1);
 when check_nda_1 =>
@@ -961,6 +962,7 @@ when s10_2 =>
   state <= set_som_2;
 when set_som_2 =>
   w (x"8000", x"0020", w8_rr_20_2);
+--  w (x"8000", x"0030", w8_rr_20_2);
 when w8_rr_20_2 =>
   w8_64us (check_nda_2);
 when check_nda_2 =>
