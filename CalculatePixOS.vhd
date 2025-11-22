@@ -798,7 +798,7 @@ p0 : process (i_clock) is
 	constant C_COL : integer := 32;
 	variable i : integer range 0 to C_ROW*C_COL-1;
 	type states is (idle,
-  s3,s5,s7,s9,s9a,s9b,s9c,
+  s2,s3,s5,s7,s9,s9a,s9b,s9c,
   s10,s14,s16,s17,s20,
 	s22,s24,s25,s26,s28,s30);
 	variable state : states;
@@ -845,24 +845,57 @@ begin
 			divfpce_internal <= '0';
 			dia <= (others => '0');
 			write_enable <= '0';
+      addra <= (others => '0');
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := s3;
-            CalculatePixGain_run <= '1';
-            CalculatePixGain_mux <= '1';
+						state := s2;
             rdy <= '0';
 					else
 						state := idle;
 					end if;
 					i := 0;
+          addfpb_internal <= const1;
+          divfpb_internal <= const1;
+          addfpsclr_internal <= '1';
+          subfpsclr_internal <= '1';
+          mulfpsclr_internal <= '1';
+          divfpsclr_internal <= '1';
+          ExtractOffsetParameters_run <= '0';
+          ExtractKtaParameters_run <= '0';
+          ExtractKvParameters_run <= '0';
+          ExtractOffsetParameters_mux <= '0';
+          ExtractKtaParameters_mux <= '0';
+          ExtractKvParameters_mux <= '0';
+          CalculatePixGain_addr <= (others => '0');
+          ExtractOffsetParameters_addr <= (others => '0');
+          ExtractKtaParameters_addr <= (others => '0');
+          ExtractKvParameters_addr <= (others => '0');
+          mulfpa_internal <= (others => '0');
+          mulfpb_internal <= (others => '0');
+          addfpa_internal <= (others => '0');
+          subfpa_internal <= (others => '0');
+          subfpb_internal <= (others => '0');
+          mulfpond_internal <= '0';
+          addfpond_internal <= '0';
+          subfpond_internal <= '0';
+          mulfpce_internal <= '0';
+          addfpce_internal <= '0';
+          subfpce_internal <= '0';
+          divfpa_internal <= (others => '0');
+          divfpond_internal <= '0';
+          divfpce_internal <= '0';
+          dia <= (others => '0');
+          write_enable <= '0';
+          addra <= (others => '0');
+        when s2 => state := s3;
+          CalculatePixGain_run <= '1';
+          CalculatePixGain_mux <= '1';
 					addfpsclr_internal <= '0';
 					subfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
-          addfpb_internal <= const1;
-          divfpb_internal <= const1;
         when s3 =>
           CalculatePixGain_run <= '0';
           if (CalculatePixGain_rdy = '1') then

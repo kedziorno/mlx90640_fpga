@@ -410,6 +410,12 @@ begin
       ktarcee_eo <= (others => '0');
       ktarcee_oe <= (others => '0');
       ktarcee_ee <= (others => '0');
+      o_2powx_p8_4bit_ena <= '0';
+      o_2powx_p8_4bit_adr <= (others => '0');
+      o_2powx_4bit_ena <= '0';
+      o_2powx_4bit_adr <= (others => '0');
+      o_signed3bit_ena <= '0';
+      o_signed3bit_adr <= (others => '0');
 		else
 			case (state) is
 				when idle =>
@@ -450,6 +456,12 @@ begin
           ktarcee_eo <= (others => '0');
           ktarcee_oe <= (others => '0');
           ktarcee_ee <= (others => '0');
+          o_2powx_p8_4bit_ena <= '0';
+          o_2powx_p8_4bit_adr <= (others => '0');
+          o_2powx_4bit_ena <= '0';
+          o_2powx_4bit_adr <= (others => '0');
+          o_signed3bit_ena <= '0';
+          o_signed3bit_adr <= (others => '0');
 				when kta1 => state := kta2;
           addfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
