@@ -391,10 +391,12 @@ last => (
 begin
 -- hold reset state for 100 ns.
 CalculateVirCompensated_reset <= '1';
+CalculateVirCompensated_run <= '0';
 wait for 100 ns;
 CalculateVirCompensated_reset <= '0';
 wait for i_clock_period*10;
 -- insert stimulus here
+l0 : for r in 0 to 10 loop
 CalculateVirCompensated_run <= '1'; wait for i_clock_period; CalculateVirCompensated_run <= '0';
 report "before loop";
   for i in 0 to 767 loop
@@ -453,7 +455,8 @@ report "rdy at 875.765us - rm tmp regs";
 --report "done at 684.445us";
 --report "done at 912.215us - rm tmp regs";
 report "done at 876.385us - rm tmp regs";
-wait for 1 ps;
+wait for 1 us;
+end loop l0;
 report "done" severity failure;
 end process stim_proc;
 
