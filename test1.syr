@@ -133,7 +133,8 @@ Architecture behavioral of Entity extracttgcparameters is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateKGain.vhd" in Library work.
 Architecture behavioral of Entity calculatekgain is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateVdd.vhd" in Library work.
-Architecture behavioral of Entity calculatevdd is up to date.
+Entity <calculatevdd> compiled.
+Entity <calculatevdd> (Architecture <behavioral>) compiled.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateTa.vhd" in Library work.
 Architecture behavioral of Entity calculateta is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ExtractAlphaParameters.vhd" in Library work.
@@ -141,14 +142,14 @@ Architecture behavioral of Entity extractalphaparameters is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateAlphaCP.vhd" in Library work.
 Architecture behavioral of Entity calculatealphacp is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculatePixOS.vhd" in Library work.
-Entity <calculatepixos> compiled.
-Entity <calculatepixos> (Architecture <behavioral>) compiled.
+Architecture behavioral of Entity calculatepixos is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculatePixOsCPSP.vhd" in Library work.
 Architecture behavioral of Entity calculatepixoscpsp is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateVirCompensated.vhd" in Library work.
 Architecture behavioral of Entity calculatevircompensated is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateAlphaComp.vhd" in Library work.
-Architecture behavioral of Entity calculatealphacomp is up to date.
+Entity <calculatealphacomp> compiled.
+Entity <calculatealphacomp> (Architecture <behavioral>) compiled.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateGetImage.vhd" in Library work.
 Architecture behavioral of Entity calculategetimage is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/rom_constants.vhd" in Library work.
@@ -594,6 +595,7 @@ Analyzing Entity <CalculateKGain> in library <work> (Architecture <behavioral>).
 Entity <CalculateKGain> analyzed. Unit <CalculateKGain> generated.
 
 Analyzing Entity <CalculateVdd> in library <work> (Architecture <behavioral>).
+INFO:Xst:2679 - Register <resolutionreg> in unit <CalculateVdd> has a constant value of 10 during circuit operation. The register is replaced by logic.
 Entity <CalculateVdd> analyzed. Unit <CalculateVdd> generated.
 
 Analyzing Entity <CalculateTa> in library <work> (Architecture <behavioral>).
@@ -939,6 +941,7 @@ Entity <mem_switchpattern> analyzed. Unit <mem_switchpattern> generated.
 
 Analyzing Entity <CalculateAlphaComp> in library <work> (Architecture <behavioral>).
 WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/CalculateAlphaComp.vhd" line 731: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
+INFO:Xst:2679 - Register <divfpb_internal> in unit <CalculateAlphaComp> has a constant value of 01000110000000000000000000000000 during circuit operation. The register is replaced by logic.
 INFO:Xst:2679 - Register <i2c_mem_addra> in unit <CalculateAlphaComp> has a constant value of 000001111000 during circuit operation. The register is replaced by logic.
 Entity <CalculateAlphaComp> analyzed. Unit <CalculateAlphaComp> generated.
 
@@ -1264,7 +1267,6 @@ Synthesizing Unit <CalculateVdd>.
     | Encoding           | automatic                                      |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
-    Using one-hot encoding for signal <resolutionreg>.
     Found 4x32-bit ROM for signal <out_resolutionee>.
     Found 1-bit register for signal <mulfpce>.
     Found 1-bit register for signal <addfpsclr>.
@@ -1291,11 +1293,10 @@ Synthesizing Unit <CalculateVdd>.
     Found 1-bit register for signal <i2c_mem_ena_internal>.
     Found 8-bit register for signal <ram>.
     Found 2-bit register for signal <resolutionee>.
-    Found 4-bit register for signal <resolutionreg>.
     Summary:
 	inferred   1 Finite State Machine(s).
 	inferred   1 ROM(s).
-	inferred 342 D-type flip-flop(s).
+	inferred 338 D-type flip-flop(s).
 Unit <CalculateVdd> synthesized.
 
 
@@ -1665,7 +1666,6 @@ Synthesizing Unit <CalculateAlphaComp>.
     Found 10-bit register for signal <addra>.
     Found 32-bit register for signal <dia>.
     Found 32-bit register for signal <divfpa_internal>.
-    Found 32-bit register for signal <divfpb_internal>.
     Found 1-bit register for signal <divfpce_internal>.
     Found 1-bit register for signal <divfpsclr_internal>.
     Found 16-bit register for signal <fixed2floata_internal>.
@@ -1686,7 +1686,7 @@ Synthesizing Unit <CalculateAlphaComp>.
     Found 1-bit register for signal <write_enable>.
     Summary:
 	inferred   1 Finite State Machine(s).
-	inferred 347 D-type flip-flop(s).
+	inferred 315 D-type flip-flop(s).
 	inferred   1 Adder/Subtractor(s).
 Unit <CalculateAlphaComp> synthesized.
 
@@ -2228,7 +2228,7 @@ Macro Statistics
  18-bit up counter                                     : 1
  4-bit up counter                                      : 2
  8-bit up counter                                      : 1
-# Registers                                            : 439
+# Registers                                            : 437
  1-bit register                                        : 218
  10-bit register                                       : 29
  11-bit register                                       : 1
@@ -2238,8 +2238,8 @@ Macro Statistics
  2-bit register                                        : 4
  25-bit register                                       : 1
  3-bit register                                        : 3
- 32-bit register                                       : 102
- 4-bit register                                        : 21
+ 32-bit register                                       : 101
+ 4-bit register                                        : 20
  5-bit register                                        : 12
  6-bit register                                        : 7
  8-bit register                                        : 12
@@ -2839,41 +2839,12 @@ Loading core <mulfp> for timing and area information for instance <inst_mulfp>.
 Loading core <addfp> for timing and area information for instance <inst_addfp>.
 Loading core <subfp> for timing and area information for instance <inst_subfp>.
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <inst_ExtractKtaParameters> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_12> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_13> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_14> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_15> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_16> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_17> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_18> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_19> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_20> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_21> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_22> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_23> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_24> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_27> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_28> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_29> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_31> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <n_0> has a constant value of 0 in block <inst_ExtractAlphaParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <n_1> has a constant value of 0 in block <inst_ExtractAlphaParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <m_0> has a constant value of 0 in block <inst_ExtractAlphaParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <m_0> has a constant value of 0 in block <inst_ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <n_0> has a constant value of 0 in block <inst_ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <n_1> has a constant value of 0 in block <inst_ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_0> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_1> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_2> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_3> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_4> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_5> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_6> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_7> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_8> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_9> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_10> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_11> (without init value) has a constant value of 0 in block <inst_CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_3> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_4> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_data_6> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
@@ -2936,8 +2907,8 @@ Macro Statistics
  18-bit up counter                                     : 1
  4-bit up counter                                      : 2
  8-bit up counter                                      : 1
-# Registers                                            : 4518
- Flip-Flops                                            : 4518
+# Registers                                            : 4482
+ Flip-Flops                                            : 4482
 # Comparators                                          : 10
  10-bit comparator greatequal                          : 4
  10-bit comparator greater                             : 2
@@ -2955,35 +2926,6 @@ Macro Statistics
 WARNING:Xst:1293 - FF/Latch <m_0> has a constant value of 0 in block <ExtractAlphaParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <n_0> has a constant value of 0 in block <ExtractAlphaParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <n_1> has a constant value of 0 in block <ExtractAlphaParameters>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <divfpb_internal_31> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_29> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_28> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_27> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_24> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_23> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_22> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_21> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_20> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_19> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_18> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_17> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_16> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_15> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_14> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_13> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_12> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_11> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_10> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_9> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_8> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_7> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_6> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_5> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_4> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_3> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_2> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_1> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <divfpb_internal_0> (without init value) has a constant value of 0 in block <CalculateAlphaComp>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1293 - FF/Latch <m_0> has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <n_0> has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <n_1> has a constant value of 0 in block <ExtractOffsetParameters>. This FF/Latch will be trimmed during the optimization process.
@@ -3013,8 +2955,6 @@ WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_4> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <melexis_mlx90640_i2c_memory_address_1> (without init value) has a constant value of 0 in block <test1>. This FF/Latch will be trimmed during the optimization process.
 INFO:Xst:2261 - The FF/Latch <fixed2floata_internal_7> in Unit <ExtractKtaParameters> is equivalent to the following 8 FFs/Latches, which will be removed : <fixed2floata_internal_8> <fixed2floata_internal_9> <fixed2floata_internal_10> <fixed2floata_internal_11> <fixed2floata_internal_12> <fixed2floata_internal_13> <fixed2floata_internal_14> <fixed2floata_internal_15> 
-WARNING:Xst:1710 - FF/Latch <resolutionreg_1> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <resolutionreg_3> (without init value) has a constant value of 0 in block <CalculateVdd>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:2041 - Unit melexis_mlx90640_i2c: 1 internal tristate is replaced by logic (pull-up yes): io_sda_ii.
 
 Optimizing unit <test1> ...
@@ -3087,8 +3027,8 @@ Unit <test1> processed.
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 4974
- Flip-Flops                                            : 4974
+# Registers                                            : 4969
+ Flip-Flops                                            : 4969
 # Shift Registers                                      : 1
  2-bit shift register                                  : 1
 
@@ -3119,38 +3059,38 @@ Design Statistics
 # IOs                              : 74
 
 Cell Usage :
-# BELS                             : 19028
+# BELS                             : 19012
 #      BUF                         : 14
 #      GND                         : 9
 #      INV                         : 57
 #      LUT1                        : 273
-#      LUT2                        : 2271
-#      LUT2_D                      : 27
-#      LUT2_L                      : 65
-#      LUT3                        : 2825
+#      LUT2                        : 2252
+#      LUT2_D                      : 30
+#      LUT2_L                      : 62
+#      LUT3                        : 2850
 #      LUT3_D                      : 126
-#      LUT3_L                      : 217
-#      LUT4                        : 8154
+#      LUT3_L                      : 212
+#      LUT4                        : 8144
 #      LUT4_D                      : 124
-#      LUT4_L                      : 520
+#      LUT4_L                      : 530
 #      MULT_AND                    : 226
 #      MUXCY                       : 1888
-#      MUXF5                       : 492
+#      MUXF5                       : 475
 #      MUXF6                       : 6
 #      MUXF7                       : 3
 #      VCC                         : 7
 #      XORCY                       : 1724
-# FlipFlops/Latches                : 8484
+# FlipFlops/Latches                : 8479
 #      FD                          : 3
 #      FDC                         : 71
 #      FDCE                        : 83
 #      FDE                         : 3391
 #      FDP                         : 5
-#      FDR                         : 2454
+#      FDR                         : 2450
 #      FDRE                        : 389
-#      FDRS                        : 1618
-#      FDRSE                       : 210
-#      FDS                         : 240
+#      FDRS                        : 1619
+#      FDRSE                       : 209
+#      FDS                         : 239
 #      FDSE                        : 20
 # RAMS                             : 22
 #      RAMB16_S18_S18              : 1
@@ -3174,10 +3114,10 @@ Device utilization summary:
 
 Selected Device : 3s1200efg320-4 
 
- Number of Slices:                     8621  out of   8672    99%  
- Number of Slice Flip Flops:           8484  out of  17344    48%  
- Number of 4 input LUTs:              14864  out of  17344    85%  
-    Number used as logic:             14659
+ Number of Slices:                     8618  out of   8672    99%  
+ Number of Slice Flip Flops:           8479  out of  17344    48%  
+ Number of 4 input LUTs:              14865  out of  17344    85%  
+    Number used as logic:             14660
     Number used as Shift registers:     205
  Number of IOs:                          74
  Number of bonded IOBs:                  74  out of    250    29%  
@@ -3205,7 +3145,7 @@ Clock Information:
 -----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)                                                                                                                | Load  |
 -----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------+-------+
-i_clock                            | BUFGP                                                                                                                                | 8505  |
+i_clock                            | BUFGP                                                                                                                                | 8500  |
 agclk                              | NONE(dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram)| 11    |
 vgaclk251                          | BUFG                                                                                                                                 | 88    |
 melexis_mlx90640_i2c_i0/clock1     | BUFG                                                                                                                                 | 91    |
@@ -3238,7 +3178,7 @@ All values displayed in nanoseconds (ns)
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
   Clock period: 12.043ns (frequency: 83.039MHz)
-  Total number of paths / destination ports: 422205 / 15387
+  Total number of paths / destination ports: 422680 / 15381
 -------------------------------------------------------------------------
 Delay:               12.043ns (Levels of Logic = 8)
   Source:            tfm_inst/CalculateAlphaCP_mux (FF)
@@ -3250,8 +3190,8 @@ Delay:               12.043ns (Levels of Logic = 8)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDE:C->Q            322   0.591   1.529  tfm_inst/CalculateAlphaCP_mux (tfm_inst/CalculateAlphaCP_mux)
-     LUT4_D:I0->O         26   0.704   1.295  tfm_inst/divfpa<0>121 (tfm_inst/N391)
+     FDE:C->Q            323   0.591   1.529  tfm_inst/CalculateAlphaCP_mux (tfm_inst/CalculateAlphaCP_mux)
+     LUT4_D:I0->O         25   0.704   1.295  tfm_inst/divfpa<0>121 (tfm_inst/N391)
      LUT4:I2->O            1   0.704   0.455  tfm_inst/divfpond17 (tfm_inst/divfpce17)
      LUT4:I2->O            1   0.704   0.000  tfm_inst/divfpond14411 (tfm_inst/divfpond1441)
      MUXF5:I0->O           1   0.321   0.455  tfm_inst/divfpond1441_f5 (tfm_inst/divfpce144)
@@ -3281,7 +3221,7 @@ Delay:               7.508ns (Levels of Logic = 5)
     ----------------------------------------  ------------
      FDRE:C->Q             5   0.591   0.808  vts_inst/vPos_0 (vts_inst/vPos_0)
      LUT4:I0->O            2   0.704   0.451  vts_inst/videoOn_or00004 (vts_inst/videoOn_or00004)
-     LUT4:I3->O            1   0.704   0.000  vts_inst/videoOn_or000020_F (N4158)
+     LUT4:I3->O            1   0.704   0.000  vts_inst/videoOn_or000020_F (N4106)
      MUXF5:I0->O           1   0.321   0.595  vts_inst/videoOn_or000020 (vts_inst/videoOn_or000020)
      LUT3:I0->O            1   0.704   0.595  vts_inst/videoOn_or000067 (vts_inst/videoOn_or000067)
      LUT4:I0->O            1   0.704   0.420  vts_inst/videoOn_or0000465 (vts_inst/videoOn_or0000)
@@ -3307,7 +3247,7 @@ Delay:               6.212ns (Levels of Logic = 3)
     ----------------------------------------  ------------
      FDRE:C->Q             4   0.591   0.762  ag_inst/addr_8 (ag_inst/addr_8)
      LUT4:I0->O            1   0.704   0.499  ag_inst/addr_or000010 (ag_inst/addr_or000010)
-     LUT4:I1->O            1   0.704   0.455  ag_inst/addr_or000038_SW0 (N3442)
+     LUT4:I1->O            1   0.704   0.455  ag_inst/addr_or000038_SW0 (N3396)
      LUT4:I2->O           10   0.704   0.882  ag_inst/addr_or000038 (ag_inst/addr_or0000)
      FDRE:R                    0.911          ag_inst/addr_0
     ----------------------------------------
@@ -3365,7 +3305,7 @@ Delay:               2.225ns (Levels of Logic = 1)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 4795 / 4781
+  Total number of paths / destination ports: 4790 / 4776
 -------------------------------------------------------------------------
 Offset:              7.637ns (Levels of Logic = 3)
   Source:            i_reset (PAD)
@@ -3400,7 +3340,7 @@ Offset:              10.832ns (Levels of Logic = 7)
      IBUF:I->O           463   1.218   1.398  i_reset_IBUF (i_reset_IBUF)
      BUF:I->O            463   0.704   1.402  i_reset_IBUF_1 (i_reset_IBUF_1)
      LUT4:I3->O            2   0.704   0.451  vts_inst/videoOn_or00004 (vts_inst/videoOn_or00004)
-     LUT4:I3->O            1   0.704   0.000  vts_inst/videoOn_or000020_F (N4158)
+     LUT4:I3->O            1   0.704   0.000  vts_inst/videoOn_or000020_F (N4106)
      MUXF5:I0->O           1   0.321   0.595  vts_inst/videoOn_or000020 (vts_inst/videoOn_or000020)
      LUT3:I0->O            1   0.704   0.595  vts_inst/videoOn_or000067 (vts_inst/videoOn_or000067)
      LUT4:I0->O            1   0.704   0.420  vts_inst/videoOn_or0000465 (vts_inst/videoOn_or0000)
@@ -3487,7 +3427,7 @@ Offset:              12.533ns (Levels of Logic = 7)
      FDR:C->Q              4   0.591   0.762  vts_inst/hPos_2 (vts_inst/hPos_2)
      LUT4:I0->O            2   0.704   0.482  vts_inst/activeArea1_and00002111 (vts_inst/N29)
      LUT4:I2->O            1   0.704   0.455  vts_inst/activeArea1_and000013 (vts_inst/activeArea1_and000013)
-     LUT4:I2->O            1   0.704   0.455  vts_inst/activeArea1_and0000106_SW0 (N2928)
+     LUT4:I2->O            1   0.704   0.455  vts_inst/activeArea1_and0000106_SW0 (N2892)
      LUT4:I2->O           20   0.704   1.277  vts_inst/activeArea1_and0000106 (VGA_timing_synch_activeArea1)
      LUT4:I0->O            1   0.704   0.595  vga_b<6>1164 (vga_b<6>1164)
      LUT4:I0->O            1   0.704   0.420  vga_b<6>1178 (vga_b_6_OBUF)
@@ -3513,7 +3453,7 @@ Offset:              14.813ns (Levels of Logic = 10)
      end scope: 'dualmem_inst'
      LUT2:I0->O            9   0.704   0.855  vga_b<3>91 (vga_b<3>_bdd15)
      LUT4:I2->O            2   0.704   0.451  vga_b<4>31 (vga_b<4>_bdd5)
-     LUT4:I3->O            1   0.704   0.000  vga_b<4>1158_F (N3698)
+     LUT4:I3->O            1   0.704   0.000  vga_b<4>1158_F (N3654)
      MUXF5:I0->O           1   0.321   0.499  vga_b<4>1158 (vga_b<4>1158)
      LUT2:I1->O            1   0.704   0.000  vga_b<4>12041 (vga_b<4>12041)
      MUXF5:I1->O           1   0.321   0.595  vga_b<4>1204_f5 (vga_b<4>1204)
@@ -3545,15 +3485,15 @@ Delay:               5.021ns (Levels of Logic = 2)
 =========================================================================
 
 
-Total REAL time to Xst completion: 160.00 secs
-Total CPU time to Xst completion: 156.84 secs
+Total REAL time to Xst completion: 156.00 secs
+Total CPU time to Xst completion: 152.94 secs
  
 --> 
 
 
-Total memory usage is 1136272 kilobytes
+Total memory usage is 1135540 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :  203 (   0 filtered)
-Number of infos    :   28 (   0 filtered)
+Number of warnings :  143 (   0 filtered)
+Number of infos    :   30 (   0 filtered)
 

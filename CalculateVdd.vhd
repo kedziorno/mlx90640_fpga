@@ -147,7 +147,7 @@ begin
     fixed2floatce <= '0';
     fixed2floatond <= '0';
     resolutionee <= (others => '0');
-    resolutionreg <= (others => '0');
+    resolutionreg <= resreg (11 downto 10);
 	else
 	case (state) is
 	when idle =>
@@ -187,7 +187,7 @@ begin
     fixed2floatce <= '0';
     fixed2floatond <= '0';
     resolutionee <= (others => '0');
-    resolutionreg <= (others => '0');
+    resolutionreg <= resreg (11 downto 10);
 	when s2 => state := s4;
     o_vdd <= (others => '0');
     fixed2floatsclr <= '0';

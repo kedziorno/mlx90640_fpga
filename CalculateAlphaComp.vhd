@@ -429,7 +429,7 @@ begin
 			mulfpa_internal <= (others => '0');
 			mulfpb_internal <= (others => '0');
 			divfpa_internal <= (others => '0');
-			divfpb_internal <= (others => '0');
+			divfpb_internal <= const_2pow13;
 			addfpa_internal <= (others => '0');
 			addfpb_internal <= (others => '0');
 			subfpa_internal <= (others => '0');
@@ -478,7 +478,7 @@ begin
           mulfpa_internal <= (others => '0');
           mulfpb_internal <= (others => '0');
           divfpa_internal <= (others => '0');
-          divfpb_internal <= (others => '0');
+          divfpb_internal <= const_2pow13;
           addfpa_internal <= (others => '0');
           addfpb_internal <= (others => '0');
           subfpa_internal <= (others => '0');
