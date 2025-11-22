@@ -102,7 +102,7 @@ i2c_mem_ena <= i2c_mem_ena_internal;
 i2c_mem_addra <= i2c_mem_addra_internal;
 i2c_mem_douta_internal <= i2c_mem_douta;
 
-p0 : process (i_clock) is
+p0 : process (i_clock,i_reset) is
 	type states is (idle,
   s2,s4,s5,s9,s10,
   s11,s12,s13,s14,s14a,s15,s16,s16a,s17,s18,s19,
@@ -115,7 +115,6 @@ p0 : process (i_clock) is
 	variable ram : std_logic_vector (7 downto 0); -- XXX ram072a
 	constant resreg : std_logic_vector (15 downto 0) := x"1901" and x"0c00";
 begin
-	if (rising_edge (i_clock)) then
 	if (i_reset = '1') then
 		state := idle;
 		fixed2floatsclr <= '1';
@@ -148,7 +147,7 @@ begin
     fixed2floatond <= '0';
     resolutionee <= (others => '0');
     resolutionreg <= resreg (11 downto 10);
-	else
+	elsif (rising_edge (i_clock)) then
 	case (state) is
 	when idle =>
 		if (i_run = '1') then
@@ -368,7 +367,6 @@ begin
       --synthesis translate_on
 		else state := s23; end if;
 	end case;
-end if;
 end if;
 end process p0;
 

@@ -359,7 +359,7 @@ mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0')
 --mux_dia <= dia when rdy = '0' else (others => '0');
 mux_dia <= dia;
 
-p0 : process (i_clock) is
+p0 : process (i_clock,i_reset) is
 	constant C_ROW : integer := 24;
 	constant C_COL : integer := 32;
 	variable i : integer range 0 to C_ROW*C_COL-1;
@@ -370,7 +370,6 @@ p0 : process (i_clock) is
 	variable state : states;
   constant const_Emissivity : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
 begin
-	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
 			state := idle;
 			addfpsclr_internal <= '1';
@@ -400,7 +399,7 @@ begin
       mem_switchpattern_pixel <= (others => '0');
       o_pixos_addr <= (others => '0');
       i := 0;
-		else
+		elsif (rising_edge (i_clock)) then
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
@@ -538,7 +537,6 @@ begin
 					end if;
 			end case;
 		end if;
-	end if;
 end process p0;
 
 mem_switchpattern_clock <= i_clock;

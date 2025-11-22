@@ -134,7 +134,6 @@ p0 : process (i_clock,i_reset) is
 	variable state : states;
   variable acpsp0 : std_logic_vector (1 downto 0); -- Acpsubpage0 10bit
 begin
-	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
 			state := idle;
 			mulfpsclr_internal <= '1';
@@ -157,7 +156,7 @@ begin
       o_cpratio_adr <= (others => '0');
       o_alphascale_2_ena <= '0';
       o_alphascale_2_adr <= (others => '0');
-		else
+		elsif (rising_edge (i_clock)) then
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
@@ -254,7 +253,6 @@ begin
 					else state := s11; end if;
 			end case;
 		end if;
-	end if;
 end process p0;
 
 end architecture Behavioral;

@@ -1773,19 +1773,18 @@ CalculatePixOSCPSP_rom_constants_float <= rom_constants_float;
 ExtractAlphaParameters_rom_constants_float <= rom_constants_float;
 
 	-- purpose: main test loop
-	tester : process (i_clock) is
+	tester : process (i_clock,i_reset) is
 		type states is (idle,s0,s0a,s0b,s0c,
 		s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,
 		ending);
 		variable state : states;
 	begin
-		if (rising_edge(i_clock)) then
 			if (i_reset = '1') then
 				state := idle;
 				-- reset
 				o_rdy <= '0';
         o_busy <= '0';
-			else
+			elsif (rising_edge(i_clock)) then
   case (state) is
 	
   when idle =>
@@ -1946,7 +1945,6 @@ ExtractAlphaParameters_rom_constants_float <= rom_constants_float;
 
 	when others => null;
 end case;
-end if;
 end if;
 end process tester;
 

@@ -365,7 +365,7 @@ end case;
 end if;
 end process p1;
 
-p0 : process (i_clock) is
+p0 : process (i_clock,i_reset) is
 	type states is (idle,
 	kta1,kta2,kta3,kta4,
 	kta5,kta6,kta7,kta7a,kta7b,kta8,
@@ -376,7 +376,6 @@ p0 : process (i_clock) is
 	variable state : states;
 	variable i : integer range 0 to (C_ROW*C_COL)-1;
 begin
-	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
 			state := idle;
 			write_enable <= '0';
@@ -416,7 +415,7 @@ begin
       o_2powx_4bit_adr <= (others => '0');
       o_signed3bit_ena <= '0';
       o_signed3bit_adr <= (others => '0');
-		else
+		elsif (rising_edge (i_clock)) then
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
@@ -575,7 +574,6 @@ begin
           end if;
 			end case;
 		end if;
-	end if;
 end process p0;
 
 inst_mem_kta : mem_ramb16_s36_x2

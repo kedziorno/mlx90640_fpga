@@ -100,13 +100,12 @@ fixed2floatrdy_internal <= fixed2floatrdy;
 divfprdy_internal <= divfprdy;
 
 -- XXX 11.1.16. Restoring the TGC coefficient - NOTE1,NOTE2 - set to "0"
-p0 : process (i_clock) is
+p0 : process (i_clock, i_reset) is
 	type states is (idle,
 	s1,s2,s3);
 	variable state : states;
   constant const2pow5 : std_logic_vector (31 downto 0) := x"42000000";
 begin
-	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
 			state := idle;
       fixed2floatsclr_internal <= '1';
@@ -122,7 +121,7 @@ begin
       o_tgc <= (others => '0');
       i2c_mem_ena <= '0';
       i2c_mem_addra <= std_logic_vector (to_unsigned (60*2+1, 12)); -- ee243c LSB - tgcee
-    else
+    elsif (rising_edge (i_clock)) then
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
@@ -184,7 +183,6 @@ begin
           else state := s3; end if;
 			end case;
 		end if;
-	end if;
 end process p0;
 
 end architecture Behavioral;

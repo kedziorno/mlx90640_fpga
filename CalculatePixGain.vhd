@@ -286,7 +286,7 @@ mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0')
 --mux_dia <= dia when rdy = '0' else (others => '0');
 mux_dia <= dia;
 
-p0 : process (i_clock) is
+p0 : process (i_clock,i_reset) is
 	constant PIXGAIN_ST : integer := 1665; -- pixgain start - eeprom max + 1
 	constant PIXGAIN_SZ : integer := 24*32; -- pixgain size
 	variable pixgain_index : integer range 0 to PIXGAIN_SZ - 1;
@@ -295,7 +295,6 @@ p0 : process (i_clock) is
 	variable state : states;
 	variable eeprom16slv : std_logic_vector (7 downto 0);
 begin
-	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
 			state := idle;
 			pixgain_index := 0;
@@ -314,7 +313,7 @@ begin
 			write_enable <= '0';
 			i2c_mem_ena_internal <= '0';
 			i2c_mem_addra_internal <= (others => '0');
-		else
+		elsif (rising_edge (i_clock)) then
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
@@ -387,7 +386,6 @@ begin
 					end if;
 			end case;
 		end if;
-	end if;
 end process p0;
 
 inst_mem_KGain : mem_ramb16_s36_x2

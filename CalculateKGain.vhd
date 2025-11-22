@@ -100,14 +100,13 @@ divfpce           <=   divfpce_internal;
   divfpr_internal <= divfpr;
 divfprdy_internal <= divfprdy;
 
-p0 : process (i_clock) is
+p0 : process (i_clock,i_reset) is
 	type states is (idle,
 	s4,s5,s9,s10,s10a,s10b,s11,s14);
 	variable state : states;
   variable ram : std_logic_vector (7 downto 0);
   constant const1 : std_logic_vector (31 downto 0) := x"3f800000";
 begin
-	if (rising_edge (i_clock)) then
     if (i_reset = '1') then
       state := idle;
       fixed2floatsclr_internal <= '1';
@@ -123,7 +122,7 @@ begin
       o_rdy <= '0';
       i2c_mem_ena <= '0';
       i2c_mem_addra <= (others => '1');
-    else
+    elsif (rising_edge (i_clock)) then
       case (state) is
         when idle =>
           if (i_run = '1') then
@@ -213,7 +212,6 @@ begin
           else state := s14; end if;
       end case;
     end if;
-  end if;
 end process p0;
 
 end architecture Behavioral;

@@ -199,7 +199,7 @@ i2c_mem_douta_internal <= i2c_mem_douta;
 
 o_rdy <= rdy;
 
-p0 : process (i_clock) is
+p0 : process (i_clock,i_reset) is
 	type states is (idle,s0,s1a,s1b,s1c,s1d,
 	s1e,s1f,s2,s4,s6,s6a,s7,s8,s9,s10,
 	s12,s12a,s13,s14,s16,s16a,s17,s18,s18a,s19,s20,
@@ -219,7 +219,6 @@ p0 : process (i_clock) is
   constant const_Ta0 : std_logic_vector (31 downto 0) := x"41C80000"; -- 25
   constant const_VddV0 : std_logic_vector (31 downto 0) := x"40533333"; -- 3.3
 begin
-	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
 			state := idle;
 			addfpsclr_internal <= '1';
@@ -261,7 +260,7 @@ begin
       o_2powx_4bit_adr <= (others => '0');
       o_2powx_p8_4bit_ena <= '0';
       o_2powx_p8_4bit_adr <= (others => '0');
-		else
+		elsif (rising_edge (i_clock)) then
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
@@ -1230,7 +1229,6 @@ begin
           else state := d71; end if;
 			end case;
 		end if;
-	end if;
 end process p0;
 
 end architecture Behavioral;

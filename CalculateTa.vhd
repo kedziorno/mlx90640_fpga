@@ -101,7 +101,7 @@ architecture Behavioral of CalculateTa is
 
 begin
 
-p0 : process (i_clock) is
+p0 : process (i_clock,i_reset) is
 	type states is (idle,
 	s1b,s1c,
 	s8,s9,
@@ -118,7 +118,6 @@ p0 : process (i_clock) is
   variable ram : std_logic_vector (7 downto 0);
   variable tmp : std_logic_vector (1 downto 0);
 begin
-	if (rising_edge (i_clock)) then
     if (i_reset = '1') then
       state := idle;
       fixed2floatsclr <= '1';
@@ -153,7 +152,7 @@ begin
       o_alphaptat_ena <= '0';
       o_alphaptat_adr <= (others => '0');
       i2c_mem_addra <= (others => '1');
-    else
+    elsif (rising_edge (i_clock)) then
       case (state) is
         when idle =>
           if (i_run = '1') then
@@ -475,7 +474,6 @@ begin
           else state := s30; end if;
       end case;
     end if;
-  end if;
 end process p0;
 
 end architecture Behavioral;

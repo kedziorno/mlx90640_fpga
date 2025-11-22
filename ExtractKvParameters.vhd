@@ -294,7 +294,7 @@ end case;
 end if;
 end process p1;
 
-p0 : process (i_clock) is
+p0 : process (i_clock,i_reset) is
 	type states is (idle,
 	kv1,kv2,kv3,kv4,
 	kv5,kv6,kv9,
@@ -302,7 +302,6 @@ p0 : process (i_clock) is
 	variable state : states;
 	variable i : integer range 0 to (C_ROW*C_COL)-1;
 begin
-	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
 			state := idle;
 			write_enable <= '0';
@@ -324,7 +323,7 @@ begin
       kvijee_eo <= (others => '0');
       kvijee_oe <= (others => '0');
       kvijee_ee <= (others => '0');
-		else
+		elsif (rising_edge (i_clock)) then
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
@@ -409,7 +408,6 @@ begin
           end if;
 			end case;
 		end if;
-	end if;
 end process p0;
 
 inst_mem_kv : mem_ramb16_s36_x2

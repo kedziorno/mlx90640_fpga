@@ -343,7 +343,7 @@ mux_addr <= addra when rdy = '0' else std_logic_vector (to_unsigned (to_integer(
 --mux_dia <= dia when rdy = '0' else (others => '0');
 mux_dia <= dia;
 
-p0 : process (i_clock) is
+p0 : process (i_clock,i_reset) is
 	type states is (idle,
 	acc14,acc15,acc16,acc17,acc18,acc19,
 	acc20,acc21,acc22,acc23,
@@ -363,7 +363,6 @@ p0 : process (i_clock) is
   
   variable tmp1 : std_logic_vector (3 downto 0);
 begin
-	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
 			state := idle;
 			write_enable <= '0';
@@ -403,7 +402,7 @@ begin
       o_2powx_4bit_adr <= (others => '0');
       o_signed4bit_ena <= '0';
       o_signed4bit_adr <= (others => '0');
-		else
+		elsif (rising_edge (i_clock)) then
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
@@ -704,7 +703,6 @@ begin
           end if;
       end case;
     end if;
-  end if;
 end process p0;
 
 inst_mem_acc : mem_ramb16_s36_x2
