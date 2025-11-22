@@ -76,7 +76,7 @@ signal sda : std_logic;
 
 begin
 
-o_sda <= sda when i_enable = '1' else '0';
+o_sda <= sda when i_enable = '1' else 'Z';
 
 addra <= std_logic_vector (to_unsigned (v_index + v_records, 15));
 
@@ -100,23 +100,25 @@ begin
     v_index <= 0;
     v_omit <= 0;
     v_addr <= (others => '0');
-    sda <= '0';
+    sda <= 'Z';
     o_done <= '0';
   elsif (falling_edge (i_clock)) then
     if (scl_re = '1') then
       case (state) is
         when idle =>
           o_done <= '0';
-          sda <= '0';
+          sda <= 'Z';
           v_records <= 0;
           v_data <= c_data - 1;
           if (i_enable = '1') then
-            if (v_omit = compare1 - 1) then -- omit set address
---            if (v_omit = c_omit - 1) then -- omit set address
-              state <= s1;
-              v_omit <= 0;
-            else
-              v_omit <= v_omit + 1;
+            if (i_addr = x"2400" or i_addr = x"0400") then
+              if (v_omit = compare1 - 1) then -- omit set address
+  --            if (v_omit = c_omit - 1) then -- omit set address
+                state <= s1;
+                v_omit <= 0;
+              else
+                v_omit <= v_omit + 1;
+              end if;
             end if;
           end if;
         when s1 =>
@@ -138,7 +140,7 @@ begin
           end if;
         when s2 => -- ack
           state <= s3;
-          sda <= '0';
+          sda <= 'Z';
         when s3 =>
           sda <= douta (v_data);
           if (v_data = 0) then
@@ -149,26 +151,26 @@ begin
           end if;
         when s4 => -- ack
           v_data <= c_data - 1;
-          sda <= '0';
+          sda <= 'Z';
           if (v_records = c_records - 1) then
             v_records <= 0;
             if (v_items = c_items - 1) then
               state <= idle;
               v_items <= 0;
               o_done <= '1';
-              sda <= '0';
+              sda <= 'Z';
             else
               state <= idle;
               if (i_addr = x"0400") then
                 v_items <= v_items + 1; -- 28
               end if;
               o_done <= '1';
-              sda <= '0';
+              sda <= 'Z';
             end if;
           else
             state <= s1;
             v_records <= v_records + 1; -- 832
-            sda <= '0';
+            sda <= 'Z';
           end if;
       end case;
     end if;

@@ -789,9 +789,12 @@ ExtractOffsetParameters_2powx_4bit_adr when ExtractOffsetParameters_mux = '1' el
 ExtractKtaParameters_2powx_4bit_adr when ExtractKtaParameters_mux = '1' else
 ExtractKvParameters_2powx_4bit_adr when ExtractKvParameters_mux = '1' else
 (others => '0');
-ExtractOffsetParameters_rom_constants_float <= i_rom_constants_float when ExtractOffsetParameters_mux = '1' else (others => '0');
-ExtractKtaParameters_rom_constants_float <= i_rom_constants_float when ExtractKtaParameters_mux = '1' else (others => '0');
-ExtractKvParameters_rom_constants_float <= i_rom_constants_float when ExtractKvParameters_mux = '1' else (others => '0');
+--ExtractOffsetParameters_rom_constants_float <= i_rom_constants_float when ExtractOffsetParameters_mux = '1' else (others => '0');
+--ExtractKtaParameters_rom_constants_float <= i_rom_constants_float when ExtractKtaParameters_mux = '1' else (others => '0');
+--ExtractKvParameters_rom_constants_float <= i_rom_constants_float when ExtractKvParameters_mux = '1' else (others => '0');
+ExtractOffsetParameters_rom_constants_float <= i_rom_constants_float;
+ExtractKtaParameters_rom_constants_float <= i_rom_constants_float;
+ExtractKvParameters_rom_constants_float <= i_rom_constants_float;
 
 p0 : process (i_clock) is
 	constant C_ROW : integer := 24;
