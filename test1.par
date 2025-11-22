@@ -1,7 +1,7 @@
 Release 14.7 par P.20131013 (lin64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-work::  Sat Nov 22 12:17:10 2025
+work::  Sat Nov 22 12:22:53 2025
 
 par -w -intstyle ise -ol std -t 1 -smartguide
 /home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1_guide.ncd test1_map.ncd
@@ -69,30 +69,30 @@ Finished initial Timing Analysis.  REAL time: 7 secs
 Starting Router
 
 
-Phase  1  : 1326 unrouted;      REAL time: 10 secs 
+Phase  1  : 1674 unrouted;      REAL time: 10 secs 
 
-Phase  2  : 513 unrouted;      REAL time: 11 secs 
+Phase  2  : 862 unrouted;      REAL time: 10 secs 
 
-Phase  3  : 255 unrouted;      REAL time: 12 secs 
+Phase  3  : 390 unrouted;      REAL time: 11 secs 
 
-Phase  4  : 255 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 12 secs 
+Phase  4  : 390 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 12 secs 
 
-Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 17 secs 
+Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 16 secs 
 
 Updating file: test1.ncd with current fully routed design.
 
-Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 21 secs 
+Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 20 secs 
 
-Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 21 secs 
+Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 20 secs 
 
-Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 23 secs 
-WARNING:Route:455 - CLK Net:agclk may have excessive skew because 
-      1 CLK pins and 1 NON_CLK pins failed to route using a CLK template.
+Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 22 secs 
 WARNING:Route:455 - CLK Net:melexis_mlx90640_i2c_i0/io_scl_ii may have excessive skew because 
       1 CLK pins and 0 NON_CLK pins failed to route using a CLK template.
+WARNING:Route:455 - CLK Net:agclk may have excessive skew because 
+      1 CLK pins and 1 NON_CLK pins failed to route using a CLK template.
 
-Total REAL time to Router completion: 23 secs 
-Total CPU time to Router completion: 23 secs 
+Total REAL time to Router completion: 22 secs 
+Total CPU time to Router completion: 22 secs 
 
   SmartGuide Results
   ------------------
@@ -101,13 +101,13 @@ Total CPU time to Router completion: 23 secs
   and the guide design.
 
   Number of Components in the input design    |   7465
-    Number of guided Components               |   7421 out of   7465  99.4%
-    Number of re-implemented Components       |     43 out of   7465   0.6%
-    Number of new/changed Components          |      1 out of   7465   0.1%
+    Number of guided Components               |   7464 out of   7465  99.9%
+    Number of re-implemented Components       |      1 out of   7465   0.1%
+    Number of new/changed Components          |      0 out of   7465   0.0%
   Number of Nets in the input design          |  17086
-    Number of guided Nets                     |  15241 out of  17086  89.2%
-    Number of partially guided Nets           |   1151 out of  17086   6.7%
-    Number of re-routed Nets                  |    694 out of  17086   4.1%
+    Number of guided Nets                     |  15407 out of  17086  90.2%
+    Number of partially guided Nets           |   1039 out of  17086   6.1%
+    Number of re-routed Nets                  |    640 out of  17086   3.7%
     Number of new/changed Nets                |      0 out of  17086   0.0%
 
 Partition Implementation Status
@@ -128,15 +128,15 @@ Generating Clock Report
 +---------------------+--------------+------+------+------------+-------------+
 |       i_clock_BUFGP | BUFGMUX_X2Y11| No   | 6004 |  0.212     |  0.382      |
 +---------------------+--------------+------+------+------------+-------------+
-|            vgaclk25 |  BUFGMUX_X1Y0| No   |   62 |  0.159     |  0.330      |
-+---------------------+--------------+------+------+------------+-------------+
 |melexis_mlx90640_i2c |              |      |      |            |             |
 |           _i0/clock | BUFGMUX_X1Y10| No   |   64 |  0.047     |  0.289      |
 +---------------------+--------------+------+------+------------+-------------+
-|               agclk |         Local|      |    7 |  1.342     |  3.614      |
+|            vgaclk25 |  BUFGMUX_X1Y0| No   |   62 |  0.159     |  0.330      |
 +---------------------+--------------+------+------+------------+-------------+
 |melexis_mlx90640_i2c |              |      |      |            |             |
 |       _i0/io_scl_ii |         Local|      |   10 |  0.264     |  1.560      |
++---------------------+--------------+------+------+------------+-------------+
+|               agclk |         Local|      |    7 |  1.342     |  3.614      |
 +---------------------+--------------+------+------+------------+-------------+
 
 * Net Skew is the difference between the minimum and maximum routing
@@ -156,7 +156,7 @@ Asterisk (*) preceding a constraint indicates it was not met.
   Constraint                                |    Check    | Worst Case |  Best Case | Timing |   Timing   
                                             |             |    Slack   | Achievable | Errors |    Score   
 ----------------------------------------------------------------------------------------------------------
-  NET "i_clock_BUFGP/IBUFG" PERIOD = 20 ns  | SETUP       |     2.762ns|    17.238ns|       0|           0
+  NET "i_clock_BUFGP/IBUFG" PERIOD = 20 ns  | SETUP       |     3.024ns|    16.976ns|       0|           0
   HIGH 50%                                  | HOLD        |     0.613ns|            |       0|           0
 ----------------------------------------------------------------------------------------------------------
 
@@ -168,7 +168,7 @@ Generating Pad Report.
 
 All signals are completely routed.
 
-Total REAL time to PAR completion: 28 secs 
+Total REAL time to PAR completion: 27 secs 
 Total CPU time to PAR completion: 27 secs 
 
 Peak Memory Usage:  768 MB
