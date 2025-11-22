@@ -84,19 +84,19 @@ signal divfprdy_internal : STD_LOGIC;
 
 begin
 
-fixed2floata <= fixed2floata_internal;
-fixed2floatond <= fixed2floatond_internal;
-fixed2floatsclr <= fixed2floatsclr_internal;
-fixed2floatce <= fixed2floatce_internal;
-fixed2floatr_internal <= fixed2floatr;
+           fixed2floata <=    fixed2floata_internal;
+         fixed2floatond <=  fixed2floatond_internal;
+        fixed2floatsclr <= fixed2floatsclr_internal;
+          fixed2floatce <=   fixed2floatce_internal;
+  fixed2floatr_internal <= fixed2floatr;
 fixed2floatrdy_internal <= fixed2floatrdy;
 
-divfpa <= divfpa_internal;
-divfpb <= divfpb_internal;
-divfpond <= divfpond_internal;
-divfpsclr <= divfpsclr_internal;
-divfpce <= divfpce_internal;
-divfpr_internal <= divfpr;
+           divfpa <=    divfpa_internal;
+           divfpb <=    divfpb_internal;
+         divfpond <=  divfpond_internal;
+        divfpsclr <= divfpsclr_internal;
+          divfpce <=   divfpce_internal;
+  divfpr_internal <= divfpr;
 divfprdy_internal <= divfprdy;
 
 -- XXX 11.1.16. Restoring the TGC coefficient - NOTE1,NOTE2 - set to "0"
@@ -110,10 +110,10 @@ begin
 		if (i_reset = '1') then
 			state := idle;
       fixed2floatsclr_internal <= '1';
-      divfpsclr_internal <= '1';
       fixed2floata_internal <= (others => '0');
       fixed2floatce_internal <= '0';
       fixed2floatond_internal <= '0';
+      divfpsclr_internal <= '1';
       divfpa_internal <= (others => '0');
       divfpb_internal <= const2pow5;
       divfpce_internal <= '0';
@@ -135,11 +135,19 @@ begin
 						state := idle;
 						i2c_mem_ena <= '0';
 					end if;
+          fixed2floatsclr_internal <= '1';
+          fixed2floata_internal <= (others => '0');
+          fixed2floatce_internal <= '0';
+          fixed2floatond_internal <= '0';
+          divfpsclr_internal <= '1';
+          divfpa_internal <= (others => '0');
+          divfpce_internal <= '0';
+          divfpond_internal <= '0';
+        when s1 => state := s2;
+          i2c_mem_ena <= '0';
           fixed2floatsclr_internal <= '0';
           divfpsclr_internal <= '0';
           divfpb_internal <= const2pow5;
-        when s1 => state := s2;
-          i2c_mem_ena <= '0';
 				when s2 =>
           fixed2floatce_internal <= '1';
           fixed2floatond_internal <= '1';

@@ -182,14 +182,18 @@ end process;
 stim_proc: process
 begin		
 -- hold reset state for 100 ns.
+ExtractTGCParameters_run <= '0';
 ExtractTGCParameters_reset <= '1';
 wait for 100 ns;	
 ExtractTGCParameters_reset <= '0';
 wait for i_clock_period*10;
 -- insert stimulus here
+l0 : for i in 0 to 10 loop
 ExtractTGCParameters_run <= '1'; wait for i_clock_period; ExtractTGCParameters_run <= '0';
 wait until ExtractTGCParameters_rdy = '1';
 warning_neq_fp (ExtractTGCParameters_tgc, x"00000000", "tgc");
+wait for 100 ns;
+end loop l0;
 report "done" severity failure;
 end process;
 
