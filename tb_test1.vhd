@@ -44,11 +44,10 @@ ARCHITECTURE behavior OF tb_test1 IS
 COMPONENT test1
 generic (
 constant c_clock_board_frequency : integer := c_clock_board_frequency;
---constant c_bus_clock : integer := c_clock_i2c_frequency;
 constant c_bus_clock : integer := 1_000_000;
 c_sim : string (1 downto 1) := "y";
 constant c_cold_start : integer := 1;
-constant c_melexis_mlx90640_i2c_enable_wait : integer := 128;
+constant c_melexis_mlx90640_i2c_enable_wait : integer := 1024;
 constant c_melexis_mlx90640_i2c_wait : integer := 1;
 constant c_w_64us : integer := 1; -- 64 us
 constant c_w_180us : integer := 1; -- 180 us
@@ -253,7 +252,6 @@ end process;
 
 p0 : process is
 begin
---  i_enable <= '1';
   wait for 31 us; -- wait on scl idle before mode2 1000k
 --  wait for 653 us; -- wait on scl idle before mode2 1000k
 --  wait for 855 us; -- wait on scl idle before mode2 1000k 50mhz
@@ -271,9 +269,10 @@ begin
   i_enable <= '1';
   compare1 <= 37;
   wait until o_done = '1';
-  i_enable <= '1';
+  i_enable <= '0';
   wait until o_done = '0';
 --  wait for 529 us;
+  wait for 1 us;
 --  i_enable <= '1';
 --  i_addr <= x"0000"; -- eeprom stop
 --  i_enable <= '0';
@@ -299,31 +298,30 @@ begin
 
 i_addr <= x"0400"; -- data X
   i_enable <= '1';
-  compare1 <= 35; -- first frame poorly
---  compare1 <= 36; -- first frame poorly
---  compare1 <= 37; -- first frame poorly
-  wait until o_done = '1';
-  i_enable <= '1';
-  wait until o_done = '0';
-  i_addr <= x"0000"; -- data X end
-  wait for 15017 us;
-
-  l0 : for i in 0 to number_frames_to_catch-1 loop
-  i_addr <= x"2400"; -- data X
-  i_enable <= '1';
   compare1 <= 37; -- first frame poorly
   wait until o_done = '1';
-  i_enable <= '1';
+  i_enable <= '0';
   wait until o_done = '0';
   i_addr <= x"0000"; -- data X end
---  wait for 12656 us; -- 1000k - s1
---  wait for 430 us; -- 500k
---  wait for 529 us; -- 500k
---  wait for 324 us; -- 500k
---  wait for 327 us; -- 500k
---  wait for 23.93184 ms; -- 500k
---  wait for 1352 us; -- 100k
-wait for 529 us;
+--  wait for 15017 us;
+  wait for 14244 us;
+
+  l0 : for i in 0 to number_frames_to_catch-1 loop
+--  i_addr <= x"2400"; -- data X
+--  i_enable <= '1';
+--  compare1 <= 37; -- first frame poorly
+--  wait until o_done = '1';
+--  i_enable <= '0';
+--  wait until o_done = '0';
+--  i_addr <= x"0000"; -- data X end
+----  wait for 12656 us; -- 1000k - s1
+----  wait for 430 us; -- 500k
+----  wait for 529 us; -- 500k
+----  wait for 324 us; -- 500k
+----  wait for 327 us; -- 500k
+----  wait for 23.93184 ms; -- 500k
+----  wait for 1352 us; -- 100k
+--wait for 529 us;
 
 i_addr <= x"0400"; -- data X
   i_enable <= '1';
@@ -332,7 +330,8 @@ i_addr <= x"0400"; -- data X
   i_enable <= '0';
   wait until o_done = '0';
   i_addr <= x"0000"; -- data X end
-  wait for 15017 us;
+--  wait for 15017 us;
+  wait for 14244 us;
   end loop l0;
   wait;
 end process p0;

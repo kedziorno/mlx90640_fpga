@@ -111,14 +111,12 @@ begin
           v_records <= 0;
           v_data <= c_data - 1;
           if (i_enable = '1') then
-            if (i_addr = x"2400" or i_addr = x"0400") then
-              if (v_omit = compare1 - 1) then -- omit set address
-  --            if (v_omit = c_omit - 1) then -- omit set address
-                state <= s1;
-                v_omit <= 0;
-              else
-                v_omit <= v_omit + 1;
-              end if;
+            if (v_omit = compare1 - 1) then -- omit set address
+--            if (v_omit = c_omit - 1) then -- omit set address
+              state <= s1;
+              v_omit <= 0;
+            else
+              v_omit <= v_omit + 1;
             end if;
           end if;
         when s1 =>

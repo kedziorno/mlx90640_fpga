@@ -893,7 +893,12 @@ when check_nda_1 =>
   wr (x"8000", check_nda_1_idle);
 when check_nda_1_idle =>
 --  wr_idle (x"0008", r_0400_2, check_nda_1);
+if (c_sim = "n") then
   wr_idle (x"0000", r_0400_2, check_nda_1);
+end if;
+if (c_sim = "y") then
+  state <= r_0400_2;
+end if;
 
 -- subframe 1
 when r_0400_2 =>
@@ -969,8 +974,12 @@ when check_nda_2 =>
   wr (x"8000", check_nda_2_idle);
 when check_nda_2_idle =>
 --  wr_idle (x"0008", end_process, check_nda_2);
+if (c_sim = "n") then
   wr_idle (x"0000", end_process, check_nda_2);
-
+end if;
+if (c_sim = "y") then
+  state <= end_process;
+end if;
 when end_process =>
   state <= start_process;
 when others => state <= idle;
