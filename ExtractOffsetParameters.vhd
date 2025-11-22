@@ -314,7 +314,7 @@ mux_addr <= addra when rdy = '0' else std_logic_vector (to_unsigned (to_integer(
 mux_dia <= dia;
 
 p0 : process (i_clock) is
-	type states is (idle,
+	type states is (idle,idle1,
   occ24,
   occ25,occ26,occ26a,occ27,occ28,occ29,
   occ30,occ31,
@@ -337,12 +337,15 @@ begin
 			addfpsclr_internal <= '1';
 			mulfpsclr_internal <= '1';
 			fixed2floatsclr_internal <= '1';
+			fixed2floata_internal <= (others => '0');
 			mulfpa_internal <= (others => '0');
 			mulfpb_internal <= (others => '0');
 			addfpa_internal <= (others => '0');
 			addfpb_internal <= (others => '0');
+			fixed2floatond_internal <= '0';
 			addfpond_internal <= '0';
 			mulfpond_internal <= '0';
+			fixed2floatce_internal <= '0';
 			addfpce_internal <= '0';
 			mulfpce_internal <= '0';
 			addra <= (others => '0');
@@ -350,24 +353,50 @@ begin
 			i2c_mem_ena <= '0';
       i := 0;
       i2c_mem_addra <= (others => '1');
+      o_signed4bit_ena <= '0';
+      o_signed4bit_adr <= (others => '0');
+      o_signed6bit_ena <= '0';
+      o_signed6bit_adr <= (others => '0');
+      o_2powx_4bit_ena <= '0';
+      o_2powx_4bit_adr <= (others => '0');
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := occ24;
+						state := idle1;
             rdy <= '0';
 					else
 						state := idle;
 						i2c_mem_ena <= '0';
 					end if;
-					addfpsclr_internal <= '0';
-					mulfpsclr_internal <= '0';
-					fixed2floatsclr_internal <= '0';
           i := 0;
           m := 0;
           n := 0;
           row := 0;
           col := 0;
+          addfpsclr_internal <= '1';
+          mulfpsclr_internal <= '1';
+          fixed2floatsclr_internal <= '1';
+          mulfpa_internal <= (others => '0');
+          mulfpb_internal <= (others => '0');
+          addfpa_internal <= (others => '0');
+          addfpb_internal <= (others => '0');
+          addfpond_internal <= '0';
+          mulfpond_internal <= '0';
+          addfpce_internal <= '0';
+          mulfpce_internal <= '0';
+          addra <= (others => '0');
+          dia <= (others => '0');
+          o_signed4bit_ena <= '0';
+          o_signed4bit_adr <= (others => '0');
+          o_signed6bit_ena <= '0';
+          o_signed6bit_adr <= (others => '0');
+          o_2powx_4bit_ena <= '0';
+          o_2powx_4bit_adr <= (others => '0');
+        when idle1 => state := occ24;
+					addfpsclr_internal <= '0';
+					mulfpsclr_internal <= '0';
+					fixed2floatsclr_internal <= '0';
         when occ24 => state := occ25;
           m := 2*i;
           n := i*4;

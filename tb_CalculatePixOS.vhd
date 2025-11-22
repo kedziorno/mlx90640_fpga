@@ -462,15 +462,18 @@ last => (
 )
 );
 BEGIN
-CalculatePixOS_reset <= '1';
-wait for 100 ns; -- wait until global set/reset completes
-CalculatePixOS_reset <= '0';
-wait for i_clock_period*10;
+CalculatePixOS_addr <= (others => '0');
 CalculatePixOS_const1 <= x"3F800000"; -- 1
 CalculatePixOS_Ta <= x"4207F54D"; -- 3.398955e+01
 --CalculatePixOS_Ta0 <= x"41C80000"; -- 25
 CalculatePixOS_Vdd <= x"4052B852"; -- 3.292500e+00
 --CalculatePixOS_VddV0 <= x"40533333"; -- 3.3
+CalculatePixOS_reset <= '1';
+CalculatePixOS_run <= '0';
+wait for 100 ns; -- wait until global set/reset completes
+CalculatePixOS_reset <= '0';
+wait for i_clock_period*10;
+for r in 0 to 10 loop
 CalculatePixOS_run <= '1'; wait for i_clock_period; CalculatePixOS_run <= '0';
 wait until CalculatePixOS_rdy = '1';
 --report "rdy at 2597.975us";
@@ -514,7 +517,8 @@ wait until rising_edge (CalculatePixOS_clock);
 --report "end at 2629.995us - rewrite submodules, rm fptmp1";
 --report "end at 2883.105us - rewrite submodules, rm fptmp1, rm vddDiff reg";
 report "end at 3113.505us - rewrite submodules, rm fptmp1, rm vddDiff reg, rm taDiff reg";
-wait for 1 ps; -- must be for write
+wait for 1 us; -- must be for write
+end loop r;
 report "done" severity failure;
 END PROCESS tb;
 

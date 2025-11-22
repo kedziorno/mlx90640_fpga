@@ -174,10 +174,6 @@ signal ExtractOffsetParameters_2powx_4bit_ena : std_logic;
 signal ExtractOffsetParameters_2powx_4bit_adr : std_logic_vector (3 downto 0);
 signal ExtractOffsetParameters_rom_constants_float : std_logic_vector (31 downto 0);
 
-signal ExtractOffsetParameters_fixed2floatclk : std_logic;
-signal ExtractOffsetParameters_addfpclk : std_logic;
-signal ExtractOffsetParameters_mulfpclk : std_logic;
-
 COMPONENT rom_constants
 PORT(
 i_clock : IN  std_logic;
@@ -225,7 +221,6 @@ signal i_2powx_p8_4bit_en : std_logic := '0';
 signal i_2powx_p8_4bit_adr : std_logic_vector(3 downto 0) := (others => '0');
 signal i_signed3bit_en : std_logic := '0';
 signal i_signed3bit_adr : std_logic_vector(2 downto 0) := (others => '0');
-signal o_float : std_logic_vector(31 downto 0);
 
 -- Clock period definitions
 constant i_clock_period : time := 10 ns;
@@ -348,11 +343,14 @@ last => (
 );
 begin
 -- hold reset state for 100 ns.
+ExtractOffsetParameters_addr <= (others => '0');
 ExtractOffsetParameters_reset <= '1';
+ExtractOffsetParameters_run <= '0';
 wait for 105 ns;
 ExtractOffsetParameters_reset <= '0';
 wait for 105 ns;
 -- insert stimulus here
+for r in 0 to 10 loop
 ExtractOffsetParameters_run <= '1'; wait for i_clock_period; ExtractOffsetParameters_run <= '0';
 wait until ExtractOffsetParameters_rdy = '1';
 --report "rdy at 716.155ns";
@@ -384,7 +382,7 @@ wait until rising_edge (ExtractOffsetParameters_clock);
 warning_neq_fp (ExtractOffsetParameters_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
 wait until rising_edge (ExtractOffsetParameters_clock);
 end loop;
-wait for 1 ps; -- must be for write
+wait for 1 us; -- must be for write
 --report "end at 716.815ns";
 --report "end at 716.565ns";
 --report "end at 693.375ns";
@@ -393,6 +391,7 @@ wait for 1 ps; -- must be for write
 --report "end at 800.775us - rm occrow,occcol regs";
 --report "end at 869.805us - rm occrow,occcol regs,rm pix_os_average reg";
 report "end at 854.645us - rm occrow,occcol regs,rm pix_os_average reg,rm rest reg";
+end loop r;
 report "done" severity failure;
 --wait on o_done;
 end process;
