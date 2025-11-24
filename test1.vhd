@@ -30,6 +30,7 @@ generic (
 constant c_clock_board_frequency : integer := c_clock_board_frequency;
 constant c_bus_clock : integer := c_clock_i2c_frequency;
 c_sim : string (1 downto 1) := "n";
+c_debug_spi : string (1 downto 1) := "y";
 constant c_cold_start : integer := 1024;
 constant c_melexis_mlx90640_i2c_enable_wait : integer := 1024;
 constant c_melexis_mlx90640_i2c_wait : integer := 65536;
@@ -65,7 +66,8 @@ o_led : out std_logic_vector (7 downto 0);
 o_data : out std_logic_vector (15 downto 0);
 o_ready : out std_logic;
 o_an : out std_logic_vector (3 downto 0);
-o_seg : out std_logic_vector (6 downto 0)
+o_seg : out std_logic_vector (6 downto 0);
+o_cs,o_do,o_clk : out std_logic
 );
 end test1;
 
@@ -563,7 +565,77 @@ signal w11ms : integer range 0 to c_w11ms - 1;
 signal some_wait : integer range 0 to c_some_wait - 1;
 signal cold_start : integer range 0 to c_cold_start - 1;
 
+signal d1, d1_s2 : std_logic;
+signal selector : integer range 0 to 15;
+signal mode2_ready_fe : std_logic;
+signal mode2_ready_reg : std_logic;
+signal spi_i : integer range 0 to 31;
+type debug_spi_st is (a,b);
+signal debug_spi_s : debug_spi_st;
+
 begin
+
+g_debug_spi : if (c_debug_spi = "y") generate
+
+-- debug
+debug_spi_cs : o_cs <= d1_s2;
+debug_spi_do : o_do <= melexis_mlx90640_i2c_bytes_to_recv (selector) when d1_s2 = '0' else '0';
+debug_spi_clk : o_clk <= d1;
+
+p_debug_spi_ready_re : process (vgaclk25,i_reset) is
+begin
+  if (i_reset = '1') then
+    mode2_ready_reg <= '0';
+  elsif (rising_edge (vgaclk25)) then
+    mode2_ready_reg <= melexis_mlx90640_i2c_mode2_ready;
+  end if;
+end process p_debug_spi_ready_re;
+
+debug_spi_ready_re : mode2_ready_fe <= '1' when mode2_ready_reg = '1' and melexis_mlx90640_i2c_mode2_ready = '0' else '0';
+
+p_debug_spi_clk_cs : process (vgaclk25,i_reset) is
+begin
+  if (i_reset = '1') then
+    d1 <= '1';
+    debug_spi_s <= a;
+    spi_i <= 0;
+    d1_s2 <= '1';
+  elsif (rising_edge (vgaclk25)) then
+    case debug_spi_s is
+      when a =>
+        d1 <= '1';
+        if (mode2_ready_fe = '1') then
+          debug_spi_s <= b;
+          d1 <= '1';
+          d1_s2 <= '0';
+          spi_i <= 0;
+        end if;
+      when b =>
+        d1 <= not d1;
+        if (spi_i = 31) then
+          debug_spi_s <= a;
+          d1_s2 <= '1';
+        else
+          spi_i <= spi_i + 1;
+        end if;
+    end case;
+  end if;
+end process p_debug_spi_clk_cs;
+
+p_debug_spi_do : process (i_reset,d1) is
+begin
+  if (i_reset = '1') then
+    selector <= 0;
+  elsif (rising_edge (d1)) then
+    if (selector = 15) then
+      selector <= 0;
+    else
+      selector <= selector + 1;
+    end if;
+  end if;
+end process p_debug_spi_do;
+
+end generate g_debug_spi;
 
 o_data <= (others => '0');
 o_ready <= melexis_mlx90640_i2c_mode2_ready;
