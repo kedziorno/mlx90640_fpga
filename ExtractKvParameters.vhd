@@ -367,9 +367,9 @@ begin
 					kvijee_ee <= i2c_mem_douta (3 downto 0);
 				when kv5 => state := kv6;
           o_2powx_4bit_ena <= '0';
-				when kv6 => state := kv9;
           o_signed4bit_ena <= '1';
           o_signed4bit_adr <= kvijee;
+				when kv6 => state := kv9;
         when kv9 =>
           divfpce_internal <= '1';
           divfpa_internal <= i_rom_constants_float; -- kvij 
