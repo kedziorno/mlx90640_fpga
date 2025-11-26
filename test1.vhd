@@ -30,7 +30,7 @@ generic (
 constant c_clock_board_frequency : integer := c_clock_board_frequency;
 constant c_bus_clock : integer := c_clock_i2c_frequency;
 c_sim : string (1 downto 1) := "n";
-c_debug_spi : string (1 downto 1) := "y";
+c_debug_spi : string (1 downto 1) := "n";
 constant c_cold_start : integer := 1024;
 constant c_melexis_mlx90640_i2c_enable_wait : integer := 1024;
 constant c_melexis_mlx90640_i2c_wait : integer := 65536;
@@ -575,7 +575,15 @@ signal debug_spi_s : debug_spi_st;
 
 begin
 
-g_debug_spi : if (c_debug_spi = "y") generate
+g_debug_spi_n : if (c_debug_spi = "n") generate
+
+debug_spi_cs : o_cs <= '1';
+debug_spi_do : o_do <= '0';
+debug_spi_clk : o_clk <= '0';
+
+end generate g_debug_spi_n;
+
+g_debug_spi_y : if (c_debug_spi = "y") generate
 
 -- debug
 debug_spi_cs : o_cs <= d1_s2;
@@ -635,7 +643,7 @@ begin
   end if;
 end process p_debug_spi_do;
 
-end generate g_debug_spi;
+end generate g_debug_spi_y;
 
 o_data <= (others => '0');
 o_ready <= melexis_mlx90640_i2c_mode2_ready;
