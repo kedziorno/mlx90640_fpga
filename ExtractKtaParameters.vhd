@@ -520,6 +520,7 @@ begin
           mulfpb_internal <= out_nibble2; -- 2^ktascale2
           mulfpond_internal <= '1';
           if (mulfprdy_internal = '1') then state := kta21;
+            o_signed3bit_ena <= '0';
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
@@ -553,7 +554,6 @@ begin
             --synthesis translate_on
           else state := kta23; end if;
         when kta27 =>
-          o_signed3bit_ena <= '0';
           i := i + 1;
           write_enable <= '0';
           if (col = C_COL-1) then
