@@ -11,26 +11,26 @@ Target Device  : xc3s1200e
 Target Package : fg320
 Target Speed   : -4
 Mapper Version : spartan3e -- $Revision: 1.55 $
-Mapped Date    : Wed Nov 26 23:15:57 2025
+Mapped Date    : Wed Nov 26 23:46:51 2025
 
 Design Summary
 --------------
 Number of errors:      0
-Number of warnings:    3
+Number of warnings:   15
 Logic Utilization:
-  Total Number Slice Registers:       8,731 out of  17,344   50%
-    Number used as Flip Flops:        8,730
+  Total Number Slice Registers:       8,744 out of  17,344   50%
+    Number used as Flip Flops:        8,743
     Number used as Latches:               1
-  Number of 4 input LUTs:            15,745 out of  17,344   90%
+  Number of 4 input LUTs:            15,877 out of  17,344   91%
 Logic Distribution:
-  Number of occupied Slices:          8,413 out of   8,672   97%
-    Number of Slices containing only related logic:   8,413 out of   8,413 100%
-    Number of Slices containing unrelated logic:          0 out of   8,413   0%
+  Number of occupied Slices:          8,410 out of   8,672   96%
+    Number of Slices containing only related logic:   8,410 out of   8,410 100%
+    Number of Slices containing unrelated logic:          0 out of   8,410   0%
       *See NOTES below for an explanation of the effects of unrelated logic.
-  Total Number of 4 input LUTs:      16,160 out of  17,344   93%
-    Number used as logic:            15,440
-    Number used as a route-thru:        415
-    Number used as Shift registers:     305
+  Total Number of 4 input LUTs:      16,269 out of  17,344   93%
+    Number used as logic:            15,571
+    Number used as a route-thru:        392
+    Number used as Shift registers:     306
 
   The Slice Logic Distribution report is not meaningful if the design is
   over-mapped for a non-slice resource or if Placement fails.
@@ -41,11 +41,11 @@ Logic Distribution:
   Number of BSCANs:                       1 out of       1  100%
 
   Number of RPM macros:           12
-Average Fanout of Non-Clock Nets:                3.53
+Average Fanout of Non-Clock Nets:                3.54
 
-Peak Memory Usage:  1103 MB
+Peak Memory Usage:  1110 MB
 Total REAL time to MAP completion:  36 secs 
-Total CPU time to MAP completion:   36 secs 
+Total CPU time to MAP completion:   35 secs 
 
 Table of Contents
 -----------------
@@ -70,12 +70,52 @@ Section 2 - Warnings
 --------------------
 WARNING:Map:120 - The command line option -c can not be used when running in
    timing mode.  The option will be ignored.
-WARNING:PhysDesignRules:372 - Gated clock. Clock net ila0_clk is sourced by a
-   combinatorial pin. This is not good design practice. Use the CE pin to
-   control the loading of data into the flip-flop.
+WARNING:LIT:176 - Clock buffer is designated to drive clock loads. BUFGMUX
+   symbol "physical_group_i_clock_BUFGP/i_clock_BUFGP/BUFG" (output
+   signal=i_clock_BUFGP) has a mix of clock and non-clock loads. The non-clock
+   loads are:
+   Pin D of U_ila_pro_0/U0/I_TQ0.G_TW[0].U_TQ
 WARNING:PhysDesignRules:372 - Gated clock. Clock net icon_control0<13> is
    sourced by a combinatorial pin. This is not good design practice. Use the CE
    pin to control the loading of data into the flip-flop.
+WARNING:PhysDesignRules:367 - The signal <inst_mulfp/sig0000090e> is incomplete.
+   The signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <inst_addfp/sig00000567> is incomplete.
+   The signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <inst_subfp/sig00000568> is incomplete.
+   The signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <inst_addfp/sig00000451> is incomplete.
+   The signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <inst_subfp/sig00000452> is incomplete.
+   The signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:812 - Dangling pin <DOB5> on
+   block:<dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/va
+   lid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram.B>:<RAMB16_RAMB16B>
+   .
+WARNING:PhysDesignRules:812 - Dangling pin <DOB6> on
+   block:<dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/va
+   lid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram.B>:<RAMB16_RAMB16B>
+   .
+WARNING:PhysDesignRules:812 - Dangling pin <DOB7> on
+   block:<dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/va
+   lid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram.B>:<RAMB16_RAMB16B>
+   .
+WARNING:PhysDesignRules:812 - Dangling pin <DOB12> on
+   block:<dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/va
+   lid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram.B>:<RAMB16_RAMB16B>
+   .
+WARNING:PhysDesignRules:812 - Dangling pin <DOB13> on
+   block:<dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/va
+   lid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram.B>:<RAMB16_RAMB16B>
+   .
+WARNING:PhysDesignRules:812 - Dangling pin <DOB14> on
+   block:<dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/va
+   lid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram.B>:<RAMB16_RAMB16B>
+   .
+WARNING:PhysDesignRules:812 - Dangling pin <DOB15> on
+   block:<dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/va
+   lid.cstr/ramloop[0].ram.r/s3_noinit.ram/dpram.dp18x18.ram.B>:<RAMB16_RAMB16B>
+   .
 
 Section 3 - Informational
 -------------------------
@@ -105,9 +145,9 @@ INFO:Pack:1650 - Map created a placed design.
 
 Section 4 - Removed Logic Summary
 ---------------------------------
- 164 block(s) removed
- 235 block(s) optimized away
- 136 signal(s) removed
+ 150 block(s) removed
+ 126 block(s) optimized away
+  96 signal(s) removed
 
 Section 5 - Removed Logic
 -------------------------
@@ -132,12 +172,6 @@ Loadless block "inst_addfp/blk00000284" (MUX) removed.
   Loadless block "inst_addfp/blk0000035e" (ROM) removed.
  The signal "inst_addfp/sig00000464" is loadless and has been removed.
   Loadless block "inst_addfp/blk0000035d" (ROM) removed.
-   The signal "inst_addfp/sig00000451" is loadless and has been removed.
-    Loadless block "inst_addfp/blk000002a9" (FF) removed.
-     The signal "inst_addfp/sig0000045c" is loadless and has been removed.
-      Loadless block "inst_addfp/blk000002a2" (MUX) removed.
-       The signal "inst_addfp/sig00000455" is loadless and has been removed.
-        Loadless block "inst_addfp/blk000003b8" (ROM) removed.
 Loadless block "inst_float2fixed/blk00000089" (FF) removed.
  The signal "inst_float2fixed/sig0000008e" is loadless and has been removed.
   Loadless block "inst_float2fixed/blk00000083" (MUX) removed.
@@ -166,9 +200,6 @@ Loadless block "inst_mulfp/blk0000012b" (FF) removed.
     Loadless block "inst_mulfp/blk00000127" (MUX) removed.
    The signal "inst_mulfp/sig00000135" is loadless and has been removed.
     Loadless block "inst_mulfp/blk00000129" (ROM) removed.
-     The signal "inst_mulfp/sig0000090e" is loadless and has been removed.
-      Loadless block "inst_mulfp/blk000001ee" (FF) removed.
-       The signal "inst_mulfp/sig000002b8" is loadless and has been removed.
 Loadless block "inst_mulfp/blk00000416" (SFF) removed.
  The signal "inst_mulfp/sig0000075c" is loadless and has been removed.
   Loadless block "inst_mulfp/blk00000415" (XOR) removed.
@@ -184,7 +215,6 @@ Loadless block "inst_mulfp/blk00000416" (SFF) removed.
       Loadless block "inst_mulfp/blk0000040f" (ROM) removed.
    The signal "inst_mulfp/sig00000744" is loadless and has been removed.
     Loadless block "inst_mulfp/blk00000413" (ROM) removed.
- The signal "inst_mulfp/sig0000071a" is loadless and has been removed.
 Loadless block "inst_mulfp/blk00000417" (SFF) removed.
  The signal "inst_mulfp/sig0000075b" is loadless and has been removed.
   Loadless block "inst_mulfp/blk00000412" (XOR) removed.
@@ -193,12 +223,6 @@ Loadless block "inst_subfp/blk00000284" (MUX) removed.
   Loadless block "inst_subfp/blk0000035e" (ROM) removed.
  The signal "inst_subfp/sig00000465" is loadless and has been removed.
   Loadless block "inst_subfp/blk0000035d" (ROM) removed.
-   The signal "inst_subfp/sig00000452" is loadless and has been removed.
-    Loadless block "inst_subfp/blk000002a9" (FF) removed.
-     The signal "inst_subfp/sig0000045d" is loadless and has been removed.
-      Loadless block "inst_subfp/blk000002a2" (MUX) removed.
-       The signal "inst_subfp/sig00000456" is loadless and has been removed.
-        Loadless block "inst_subfp/blk000003b8" (ROM) removed.
 Loadless block "U_icon_pro/U0/U_ICON/U_CMD/U_CORE_ID_SEL/I4.FI[10].U_LUT" (ROM)
 removed.
 Loadless block "U_icon_pro/U0/U_ICON/U_CMD/U_CORE_ID_SEL/I4.FI[11].U_LUT" (ROM)
@@ -245,12 +269,6 @@ Loadless block "inst_addfp/blk00000217" (XOR) removed.
             Loadless block "inst_addfp/blk00000223" (MUX) removed.
              The signal "inst_addfp/sig000004f7" is loadless and has been removed.
               Loadless block "inst_addfp/blk00000225" (MUX) removed.
-               The signal "inst_addfp/sig00000567" is loadless and has been removed.
-                Loadless block "inst_addfp/blk0000027d" (FF) removed.
-                 The signal "inst_addfp/sig00000547" is loadless and has been removed.
-                  Loadless block "inst_addfp/blk00000264" (XOR) removed.
-                   The signal "inst_addfp/sig0000053d" is loadless and has been removed.
-                    Loadless block "inst_addfp/blk00000266" (MUX) removed.
 Loadless block "inst_addfp/blk00000218" (XOR) removed.
 Loadless block "inst_addfp/blk0000021a" (XOR) removed.
 Loadless block "inst_addfp/blk0000021c" (XOR) removed.
@@ -312,12 +330,6 @@ Loadless block "inst_subfp/blk00000217" (XOR) removed.
             Loadless block "inst_subfp/blk00000223" (MUX) removed.
              The signal "inst_subfp/sig000004f8" is loadless and has been removed.
               Loadless block "inst_subfp/blk00000225" (MUX) removed.
-               The signal "inst_subfp/sig00000568" is loadless and has been removed.
-                Loadless block "inst_subfp/blk0000027d" (FF) removed.
-                 The signal "inst_subfp/sig00000548" is loadless and has been removed.
-                  Loadless block "inst_subfp/blk00000264" (XOR) removed.
-                   The signal "inst_subfp/sig0000053e" is loadless and has been removed.
-                    Loadless block "inst_subfp/blk00000266" (MUX) removed.
 Loadless block "inst_subfp/blk00000218" (XOR) removed.
 Loadless block "inst_subfp/blk0000021a" (XOR) removed.
 Loadless block "inst_subfp/blk0000021c" (XOR) removed.
@@ -347,40 +359,16 @@ The signal "icon_control0<28>" is sourceless and has been removed.
 The signal "icon_control0<34>" is sourceless and has been removed.
 The signal "icon_control0<29>" is sourceless and has been removed.
 The signal "icon_control0<35>" is sourceless and has been removed.
-The signal "tfm_inst/CalculatePixOS_fixed2floatr<0>" is sourceless and has been
-removed.
-The signal "tfm_inst/CalculatePixOS_fixed2floatr<1>" is sourceless and has been
-removed.
-The signal "tfm_inst/CalculatePixOS_fixed2floatr<2>" is sourceless and has been
-removed.
-The signal "tfm_inst/CalculatePixOS_fixed2floatr<3>" is sourceless and has been
-removed.
-The signal "tfm_inst/CalculatePixOS_fixed2floatr<4>" is sourceless and has been
-removed.
-The signal "tfm_inst/CalculatePixOS_fixed2floatr<5>" is sourceless and has been
-removed.
-The signal "tfm_inst/CalculatePixOS_fixed2floatr<6>" is sourceless and has been
-removed.
-The signal "tfm_inst/CalculatePixOS_fixed2floatr<7>" is sourceless and has been
-removed.
 The signal "inst_float2fixed/sig00000070" is sourceless and has been removed.
 The signal "inst_float2fixed/sig00000055" is sourceless and has been removed.
 The signal "b0.inst_fixed2float/sig000000ec" is sourceless and has been removed.
-The signal "b0.inst_fixed2float/sig000000d5" is sourceless and has been removed.
 The signal "b0.inst_fixed2float/sig000000eb" is sourceless and has been removed.
-The signal "b0.inst_fixed2float/sig000000d4" is sourceless and has been removed.
 The signal "b0.inst_fixed2float/sig000000ea" is sourceless and has been removed.
-The signal "b0.inst_fixed2float/sig000000d3" is sourceless and has been removed.
 The signal "b0.inst_fixed2float/sig000000e9" is sourceless and has been removed.
-The signal "b0.inst_fixed2float/sig000000d2" is sourceless and has been removed.
 The signal "b0.inst_fixed2float/sig000000e8" is sourceless and has been removed.
-The signal "b0.inst_fixed2float/sig000000d1" is sourceless and has been removed.
 The signal "b0.inst_fixed2float/sig000000e7" is sourceless and has been removed.
-The signal "b0.inst_fixed2float/sig000000d0" is sourceless and has been removed.
 The signal "b0.inst_fixed2float/sig000000e6" is sourceless and has been removed.
-The signal "b0.inst_fixed2float/sig000000cd" is sourceless and has been removed.
 The signal "b0.inst_fixed2float/sig000000e3" is sourceless and has been removed.
-The signal "b0.inst_fixed2float/sig000000cc" is sourceless and has been removed.
 The signal "b0.inst_fixed2float/sig00000120" is sourceless and has been removed.
 The signal "b0.inst_fixed2float/sig000000da" is sourceless and has been removed.
 The signal "b0.inst_fixed2float/sig000000db" is sourceless and has been removed.
@@ -394,7 +382,6 @@ The signal "b0.inst_fixed2float/sig0000011e" is sourceless and has been removed.
 The signal "inst_mulfp/sig00000106" is sourceless and has been removed.
 The signal "inst_mulfp/sig00000107" is sourceless and has been removed.
 The signal "inst_mulfp/sig00000108" is sourceless and has been removed.
-The signal "inst_mulfp/sig000000ed" is sourceless and has been removed.
 The signal "inst_addfp/sig00000154" is sourceless and has been removed.
 The signal "inst_subfp/sig00000154" is sourceless and has been removed.
 The signal "U_icon_pro/U0/U_ICON/iCOMMAND_SEL<3>" is sourceless and has been
@@ -439,23 +426,8 @@ removed.
 (ROM) removed.
  Sourceless block "U_icon_pro/U0/U_ICON/U_CTRL_OUT/F_NCP[0].F_CMD[14].U_LCE"
 (ROM) removed.
-
-The trimmed logic reported below is either:
-   1. part of a cycle
-   2. part of disabled logic
-   3. a side-effect of other trimmed logic
-
-The signal "fixed2floatr<0>" is unused and has been removed.
-The signal "fixed2floatr<1>" is unused and has been removed.
-The signal "fixed2floatr<2>" is unused and has been removed.
-The signal "fixed2floatr<3>" is unused and has been removed.
-The signal "fixed2floatr<4>" is unused and has been removed.
-The signal "fixed2floatr<5>" is unused and has been removed.
-The signal "fixed2floatr<6>" is unused and has been removed.
-The signal "fixed2floatr<7>" is unused and has been removed.
 Unused block "inst_addfp/blk000000aa" (MUX) removed.
 Unused block "inst_float2fixed/blk0000000f" (MUX) removed.
-Unused block "inst_mulfp/blk000001ed" (SRLC16E) removed.
 Unused block "inst_subfp/blk000000aa" (MUX) removed.
 Unused block "U_icon_pro/U0/U_ICON/U_CMD/U_COMMAND_SEL/I4.FI[11].U_LUT" (ROM)
 removed.
@@ -534,8 +506,6 @@ FDE 		inst_mulfp/blk00000984
    optimized to 0
 FDE 		inst_mulfp/blk00000985
    optimized to 0
-LUT2 		inst_mulfp/blk000009bd
-   optimized to 0
 GND 		inst_subfp/blk00000001
 VCC 		inst_subfp/blk00000002
 GND 		melexis_mlx90640_i2c_i0/XST_GND
@@ -588,223 +558,7 @@ FDE 		b0.inst_fixed2float/blk0000004b
    optimized to 0
 FDE 		b0.inst_fixed2float/blk0000004c
    optimized to 0
-FDRSE 		b0.inst_fixed2float/blk0000007a
-   optimized to 0
-FDRSE 		b0.inst_fixed2float/blk0000007b
-   optimized to 0
-FDRSE 		b0.inst_fixed2float/blk0000007c
-   optimized to 0
-FDRSE 		b0.inst_fixed2float/blk0000007d
-   optimized to 0
-FDRSE 		b0.inst_fixed2float/blk0000007e
-   optimized to 0
-FDRSE 		b0.inst_fixed2float/blk0000007f
-   optimized to 0
-FDRSE 		b0.inst_fixed2float/blk00000080
-   optimized to 0
-FDRSE 		b0.inst_fixed2float/blk00000081
-   optimized to 0
 FDE 		inst_float2fixed/blk00000021
-   optimized to 0
-LUT2 		tfm_inst/CalculateAlphaCP_fixed2floatr<0>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateAlphaCP_fixed2floatr<1>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateAlphaCP_fixed2floatr<2>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateAlphaCP_fixed2floatr<3>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateAlphaCP_fixed2floatr<4>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateAlphaCP_fixed2floatr<5>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateAlphaCP_fixed2floatr<6>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateAlphaCP_fixed2floatr<7>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateAlphaComp_fixed2floatr<0>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateAlphaComp_fixed2floatr<1>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateAlphaComp_fixed2floatr<2>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateAlphaComp_fixed2floatr<3>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateAlphaComp_fixed2floatr<4>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateAlphaComp_fixed2floatr<5>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateAlphaComp_fixed2floatr<6>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateAlphaComp_fixed2floatr<7>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateKGain_fixed2floatr<0>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateKGain_fixed2floatr<1>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateKGain_fixed2floatr<2>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateKGain_fixed2floatr<3>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateKGain_fixed2floatr<4>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateKGain_fixed2floatr<5>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateKGain_fixed2floatr<6>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateKGain_fixed2floatr<7>1
-   optimized to 0
-LUT2 		tfm_inst/CalculatePixOS_fixed2floatr<0>1
-   optimized to 0
-LUT2 		tfm_inst/CalculatePixOS_fixed2floatr<1>1
-   optimized to 0
-LUT2 		tfm_inst/CalculatePixOS_fixed2floatr<2>1
-   optimized to 0
-LUT2 		tfm_inst/CalculatePixOS_fixed2floatr<3>1
-   optimized to 0
-LUT2 		tfm_inst/CalculatePixOS_fixed2floatr<4>1
-   optimized to 0
-LUT2 		tfm_inst/CalculatePixOS_fixed2floatr<5>1
-   optimized to 0
-LUT2 		tfm_inst/CalculatePixOS_fixed2floatr<6>1
-   optimized to 0
-LUT2 		tfm_inst/CalculatePixOS_fixed2floatr<7>1
-   optimized to 0
-LUT2 		tfm_inst/CalculatePixOsCPSP_fixed2floatr<0>1
-   optimized to 0
-LUT2 		tfm_inst/CalculatePixOsCPSP_fixed2floatr<1>1
-   optimized to 0
-LUT2 		tfm_inst/CalculatePixOsCPSP_fixed2floatr<2>1
-   optimized to 0
-LUT2 		tfm_inst/CalculatePixOsCPSP_fixed2floatr<3>1
-   optimized to 0
-LUT2 		tfm_inst/CalculatePixOsCPSP_fixed2floatr<4>1
-   optimized to 0
-LUT2 		tfm_inst/CalculatePixOsCPSP_fixed2floatr<5>1
-   optimized to 0
-LUT2 		tfm_inst/CalculatePixOsCPSP_fixed2floatr<6>1
-   optimized to 0
-LUT2 		tfm_inst/CalculatePixOsCPSP_fixed2floatr<7>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateTa_fixed2floatr<0>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateTa_fixed2floatr<1>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateTa_fixed2floatr<2>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateTa_fixed2floatr<3>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateTa_fixed2floatr<4>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateTa_fixed2floatr<5>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateTa_fixed2floatr<6>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateTa_fixed2floatr<7>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateVdd_fixed2floatr<0>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateVdd_fixed2floatr<1>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateVdd_fixed2floatr<2>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateVdd_fixed2floatr<3>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateVdd_fixed2floatr<4>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateVdd_fixed2floatr<5>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateVdd_fixed2floatr<6>1
-   optimized to 0
-LUT2 		tfm_inst/CalculateVdd_fixed2floatr<7>1
-   optimized to 0
-LUT2 		tfm_inst/ExtractAlphaParameters_fixed2floatr<0>1
-   optimized to 0
-LUT2 		tfm_inst/ExtractAlphaParameters_fixed2floatr<1>1
-   optimized to 0
-LUT2 		tfm_inst/ExtractAlphaParameters_fixed2floatr<2>1
-   optimized to 0
-LUT2 		tfm_inst/ExtractAlphaParameters_fixed2floatr<3>1
-   optimized to 0
-LUT2 		tfm_inst/ExtractAlphaParameters_fixed2floatr<4>1
-   optimized to 0
-LUT2 		tfm_inst/ExtractAlphaParameters_fixed2floatr<5>1
-   optimized to 0
-LUT2 		tfm_inst/ExtractAlphaParameters_fixed2floatr<6>1
-   optimized to 0
-LUT2 		tfm_inst/ExtractAlphaParameters_fixed2floatr<7>1
-   optimized to 0
-LUT2 		tfm_inst/ExtractTGCParameters_fixed2floatr<0>1
-   optimized to 0
-LUT2 		tfm_inst/ExtractTGCParameters_fixed2floatr<1>1
-   optimized to 0
-LUT2 		tfm_inst/ExtractTGCParameters_fixed2floatr<2>1
-   optimized to 0
-LUT2 		tfm_inst/ExtractTGCParameters_fixed2floatr<3>1
-   optimized to 0
-LUT2 		tfm_inst/ExtractTGCParameters_fixed2floatr<4>1
-   optimized to 0
-LUT2 		tfm_inst/ExtractTGCParameters_fixed2floatr<5>1
-   optimized to 0
-LUT2 		tfm_inst/ExtractTGCParameters_fixed2floatr<6>1
-   optimized to 0
-LUT2 		tfm_inst/ExtractTGCParameters_fixed2floatr<7>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<0>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<1>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<2>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<3>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<4>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<5>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<6>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/CalculatePixGain_fixed2floatr<7>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<0>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<1>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<2>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<3>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<4>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<5>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<6>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_fixed2floatr<7>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/ExtractOffsetParameters_fixed2floatr<0>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/ExtractOffsetParameters_fixed2floatr<1>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/ExtractOffsetParameters_fixed2floatr<2>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/ExtractOffsetParameters_fixed2floatr<3>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/ExtractOffsetParameters_fixed2floatr<4>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/ExtractOffsetParameters_fixed2floatr<5>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/ExtractOffsetParameters_fixed2floatr<6>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculatePixOS/ExtractOffsetParameters_fixed2floatr<7>1
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculateTa/subfpb_mux0000<26>_SW0
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculateTa/subfpb_mux0000<27>_SW0
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculateTa/subfpb_mux0000<30>_SW0
-   optimized to 0
-LUT2 		tfm_inst/inst_CalculateTa/subfpb_mux0000<31>_SW0
    optimized to 0
 MUXCY 		b0.inst_fixed2float/blk000000f8
 MUXCY 		b0.inst_fixed2float/blk000000f9
@@ -938,7 +692,7 @@ _SRL16.U_GANDX_SRL16_MSET
 Section 8 - Guide Report
 ------------------------
 
-Wed Nov 26 23:16:28 2025
+Wed Nov 26 23:47:22 2025
 
   Estimated SmartGuide Results
   ----------------------------
@@ -946,11 +700,11 @@ Wed Nov 26 23:16:28 2025
   components are components that were guided, but moved in order to satisfy
   timing requirements.
 
-    Estimated Percentage of guided Components                 |  98.9%
+    Estimated Percentage of guided Components                 |  99.4%
     Estimated Percentage of re-implemented Components         |   0.0%
-    Estimated Percentage of new/changed Components            |   1.1%
-    Estimated Percentage of fully guided Nets                 |  97.6%
-    Estimated Percentage of partially guided or unrouted Nets |   2.4%
+    Estimated Percentage of new/changed Components            |   0.6%
+    Estimated Percentage of fully guided Nets                 |  98.8%
+    Estimated Percentage of partially guided or unrouted Nets |   1.2%
 
   A detailed SmartGuide report (.GRF) can be generated during PAR by
   specifying the [-smartguide <guidefile[.ncd]>] switch on the PAR
