@@ -884,6 +884,8 @@ begin
         when b =>
           if (i_enable = '0') then
             state := a;
+            clock <= '0';
+            count := 0;
           else
             if (count = (c_i2c_counter_max * 4) - 1) then
               clock <= not clock;
@@ -903,16 +905,20 @@ begin
     if (i_reset = '1') then
       c_cmode <= c0;
     elsif (rising_edge (clock)) then
-      case c_cmode is
-        when c0 =>
-          c_cmode <= c1;
-        when c1 =>
-          c_cmode <= c2;
-        when c2 =>
-          c_cmode <= c3;
-        when c3 =>
-          c_cmode <= c0;
-      end case;
+      if (i_enable = '1') then
+        case c_cmode is
+          when c0 =>
+            c_cmode <= c1;
+          when c1 =>
+            c_cmode <= c2;
+          when c2 =>
+            c_cmode <= c3;
+          when c3 =>
+            c_cmode <= c0;
+        end case;
+      else
+        c_cmode <= c0;
+      end if;
     end if;
   end process p_i2c_clock_generator_fsm;
 

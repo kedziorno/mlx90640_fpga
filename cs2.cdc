@@ -1,8 +1,8 @@
 #ChipScope Core Inserter Project File Version 3.0
-#Wed Nov 26 23:46:29 CET 2025
+#Fri Nov 28 15:25:50 CET 2025
 Project.device.designInputFile=/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1_cs.ngc
 Project.device.designOutputFile=/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1_cs.ngc
-Project.device.deviceFamily=13
+Project.device.deviceFamily=12
 Project.device.enableRPMs=true
 Project.device.outputDirectory=/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/_ngo
 Project.device.useSRL16=true
@@ -66,7 +66,7 @@ Project.unit<0>.dataChannel<6>=tfm_inst inst_CalculatePixOS inst_ExtractKvParame
 Project.unit<0>.dataChannel<7>=tfm_inst inst_CalculatePixOS inst_ExtractKvParameters o_do<7>
 Project.unit<0>.dataChannel<8>=tfm_inst inst_CalculatePixOS inst_ExtractKvParameters o_do<8>
 Project.unit<0>.dataChannel<9>=tfm_inst inst_CalculatePixOS inst_ExtractKvParameters o_do<9>
-Project.unit<0>.dataDepth=2048
+Project.unit<0>.dataDepth=16384
 Project.unit<0>.dataEqualsTrigger=false
 Project.unit<0>.dataPortWidth=32
 Project.unit<0>.enableGaps=false

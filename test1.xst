@@ -6,10 +6,11 @@ run
 -ifmt mixed
 -ofn test1
 -ofmt NGC
--p xc3s1200e-4-fg320
+-p xc4vsx35-10-ff668
 -top test1
 -opt_mode Speed
 -opt_level 1
+-power NO
 -iuc NO
 -keep_hierarchy Soft
 -netlist_hierarchy As_Optimized
@@ -24,6 +25,7 @@ run
 -case Maintain
 -slice_utilization_ratio 100
 -bram_utilization_ratio 100
+-dsp_utilization_ratio 100
 -verilog2001 YES
 -fsm_extract YES -fsm_encoding Auto
 -safe_implementation No
@@ -42,10 +44,11 @@ run
 -mux_extract Yes
 -resource_sharing YES
 -async_to_sync NO
--mult_style Auto
+-use_dsp48 Auto
 -iobuf YES
 -max_fanout 500
--bufg 24
+-bufg 32
+-bufr 24
 -register_duplication YES
 -register_balancing No
 -slice_packing YES

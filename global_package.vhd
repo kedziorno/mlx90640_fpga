@@ -360,10 +360,10 @@ package global_package is
   constant c_byte_size : integer := 8;
   type array1 is array(natural range <>) of std_logic_vector (c_byte_size - 1 downto 0);
   
---  constant c_clock_board_frequency : natural := 100_000_000; -- XXX ml507/ml402/nexys2
+  constant c_clock_board_frequency : natural := 100_000_000; -- XXX ml507/ml402/nexys2
 --  constant c_clock_board_frequency : natural := 27_000_000; -- XXX ml507/ml402/nexys2
 --  constant c_clock_board_frequency : natural := 33_000_000; -- XXX ml507/ml402/nexys2
-  constant c_clock_board_frequency : natural := 50_000_000; -- XXX nexys2
+--  constant c_clock_board_frequency : natural := 50_000_000; -- XXX nexys2
 --  constant c_clock_board_frequency : natural := 25_000_000; -- XXX nexys2
 --  constant c_clock_i2c_frequency : natural := 1_000_000; -- XXX mlx90640 have default 1us clock period
 --  constant c_clock_i2c_frequency : natural := 800_000; -- XXX mlx90640 have default 1us clock period

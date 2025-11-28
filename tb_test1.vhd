@@ -46,6 +46,7 @@ generic (
 constant c_clock_board_frequency : integer := c_clock_board_frequency;
 constant c_bus_clock : integer := 1_000_000;
 c_sim : string (1 downto 1) := "y";
+c_normal : string (1 downto 1) := "y";
 constant c_cold_start : integer := 1;
 constant c_melexis_mlx90640_i2c_enable_wait : integer := 1024;
 constant c_melexis_mlx90640_i2c_wait : integer := 1;
@@ -105,7 +106,7 @@ signal vga_g : std_logic_vector(7 downto 0);
 signal vga_b : std_logic_vector(7 downto 0);
 
 -- Clock period definitions
-constant i_clock_period : time := 20 ns; -- nexys2
+constant i_clock_period : time := 10 ns; -- nexys2
 --constant i_clock_period : time := 10 ns; -- ml402
 --constant i_clock_period : time := 30.3030303 ns; -- 33 mhz
 --constant i_clock_period : time := 40 ns; -- 25
@@ -252,7 +253,7 @@ end process;
 
 p0 : process is
 begin
-  wait for 31 us; -- wait on scl idle before mode2 1000k
+  wait for 47 us; -- wait on scl idle before mode2 1000k
 --  wait for 653 us; -- wait on scl idle before mode2 1000k
 --  wait for 855 us; -- wait on scl idle before mode2 1000k 50mhz
 --  wait for 869 us; -- wait on scl idle before mode2 1000k

@@ -31,8 +31,9 @@ constant c_clock_board_frequency : integer := c_clock_board_frequency;
 constant c_bus_clock : integer := c_clock_i2c_frequency;
 c_sim : string (1 downto 1) := "n";
 c_debug_spi : string (1 downto 1) := "n";
+c_normal : string (1 downto 1) := "n";
 constant c_cold_start : integer := 1024;
-constant c_melexis_mlx90640_i2c_enable_wait : integer := 1024;
+constant c_melexis_mlx90640_i2c_enable_wait : integer := 65536;
 constant c_melexis_mlx90640_i2c_wait : integer := 65536;
 constant c_w_64us : integer := 65536; -- 64 us
 constant c_w_180us : integer := 65536; -- 180 us
@@ -705,8 +706,8 @@ o_an <= (others => '1');
 o_seg <= (others => '0');
 
 vga_syncn <= '1';
-vga_blankn <= VGA_timing_synch_blank;
---vga_blankn <= '1';
+--vga_blankn <= not VGA_timing_synch_blank;
+vga_blankn <= '1';
 vga_psave <= '1';
 
 pTo : process (i_clock) is
@@ -912,7 +913,7 @@ when s0_1 =>
   w11ms <= 0;
 when s1_1 =>
   test_fixed_melexis_run <= '0';
-  if (c_sim = "n") then
+  if (c_normal = "n") then
     if (w11ms = c_w11ms - 1) then
       state <= s4_1;
       w11ms <= 0;
@@ -921,8 +922,8 @@ when s1_1 =>
       w11ms <= w11ms + 1;
     end if;
   end if;
-  if (c_sim = "y") then
-    if (test_fixed_melexis_busy = '0') then
+  if (c_normal = "y") then
+    if (test_fixed_melexis_rdy = '1') then
       state <= s4_1;
       float2fixedsclr <= '0';
       i := 0;
@@ -993,7 +994,7 @@ when s0_2 =>
   w11ms <= 0;
 when s1_2 =>
   test_fixed_melexis_run <= '0';
-  if (c_sim = "n") then
+  if (c_normal = "n") then
     if (w11ms = c_w11ms - 1) then
       state <= s4_2;
       w11ms <= 0;
@@ -1002,8 +1003,8 @@ when s1_2 =>
       w11ms <= w11ms + 1;
     end if;
   end if;
-  if (c_sim = "y") then
-    if (test_fixed_melexis_busy = '0') then
+  if (c_normal = "y") then
+    if (test_fixed_melexis_rdy = '1') then
       state <= s4_2;
       float2fixedsclr <= '0';
       i := 0;
@@ -1069,33 +1070,33 @@ when others => state <= idle;
 end process pTo;
 
 --vgaclk25 <= i_clock; -- 25 mhz
-p_synchro_vga : process (i_clock, i_reset) is
-begin
-  if (i_reset = '1') then
-    vgaclk25 <= '0';
-  elsif (rising_edge (i_clock)) then
-    vgaclk25 <= not vgaclk25;
-  end if;
-end process p_synchro_vga;
-
---pvgaclk : process (i_clock,i_reset) is
---	constant CMAX : integer := 1; -- 50/25
-----	constant CMAX : integer := 2; -- 100/25
---	variable vmax : integer range 0 to CMAX-1;
+--p_synchro_vga : process (i_clock, i_reset) is
 --begin
---		if (i_reset = '1') then
---			vgaclk25 <= '0';
---			vmax := 0;
---		elsif (rising_edge (i_clock)) then
---			if (vmax = CMAX-1) then
---				vgaclk25 <= not vgaclk25;
---				vmax := 0;
---			else
---				vgaclk25 <= vgaclk25;
---				vmax := vmax + 1;
---			end if;
---		end if;
---end process pvgaclk;
+--  if (i_reset = '1') then
+--    vgaclk25 <= '0';
+--  elsif (rising_edge (i_clock)) then
+--    vgaclk25 <= not vgaclk25;
+--  end if;
+--end process p_synchro_vga;
+
+pvgaclk : process (i_clock,i_reset) is
+--	constant CMAX : integer := 1; -- 50/25
+	constant CMAX : integer := 2; -- 100/25
+	variable vmax : integer range 0 to CMAX-1;
+begin
+		if (i_reset = '1') then
+			vgaclk25 <= '0';
+			vmax := 0;
+		elsif (rising_edge (i_clock)) then
+			if (vmax = CMAX-1) then
+				vgaclk25 <= not vgaclk25;
+				vmax := 0;
+			else
+				vgaclk25 <= vgaclk25;
+				vmax := vmax + 1;
+			end if;
+		end if;
+end process pvgaclk;
 
 pagclk : process (vgaclk25,i_reset) is
 --	constant CMAX : integer := 40; -- 1.25
