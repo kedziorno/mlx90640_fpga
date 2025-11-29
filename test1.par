@@ -1,7 +1,7 @@
 Release 14.7 par P.20131013 (lin64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-work::  Sat Nov 29 14:47:29 2025
+work::  Sat Nov 29 14:52:42 2025
 
 par -w -intstyle ise -ol std -t 1 -smartguide
 /home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1_guide.ncd test1_map.ncd
@@ -55,7 +55,7 @@ Device Utilization Summary:
       Number of LOCed IOBs                  37 out of 77     48%
 
    Number of RAMB16s                        55 out of 192    28%
-   Number of Slices                       9192 out of 15360  59%
+   Number of Slices                       9195 out of 15360  59%
       Number of SLICEMs                    206 out of 7680    2%
 
 
@@ -74,13 +74,13 @@ WARNING:Par:288 - The signal inst_subfp/sig00000578 has no load.  PAR will not a
 Starting Router
 
 
-Phase  1  : 2808 unrouted;      REAL time: 11 secs 
+Phase  1  : 2859 unrouted;      REAL time: 11 secs 
 
-Phase  2  : 1037 unrouted;      REAL time: 11 secs 
+Phase  2  : 1086 unrouted;      REAL time: 11 secs 
 
-Phase  3  : 442 unrouted;      REAL time: 12 secs 
+Phase  3  : 468 unrouted;      REAL time: 12 secs 
 
-Phase  4  : 442 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 14 secs 
+Phase  4  : 468 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 14 secs 
 
 Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 16 secs 
 
@@ -102,14 +102,14 @@ Total CPU time to Router completion: 18 secs
   report accurately reflects the differences between the input design
   and the guide design.
 
-  Number of Components in the input design    |   9338
-    Number of guided Components               |   9270 out of   9338  99.3%
-    Number of re-implemented Components       |     39 out of   9338   0.4%
-    Number of new/changed Components          |     29 out of   9338   0.3%
+  Number of Components in the input design    |   9341
+    Number of guided Components               |   9290 out of   9341  99.5%
+    Number of re-implemented Components       |     13 out of   9341   0.1%
+    Number of new/changed Components          |     38 out of   9341   0.4%
   Number of Nets in the input design          |  17475
-    Number of guided Nets                     |  17195 out of  17475  98.4%
-    Number of partially guided Nets           |     93 out of  17475   0.5%
-    Number of re-routed Nets                  |    130 out of  17475   0.7%
+    Number of guided Nets                     |  17252 out of  17475  98.7%
+    Number of partially guided Nets           |     68 out of  17475   0.4%
+    Number of re-routed Nets                  |     98 out of  17475   0.6%
     Number of new/changed Nets                |     57 out of  17475   0.3%
 
 Partition Implementation Status
@@ -128,14 +128,17 @@ Generating Clock Report
 +---------------------+--------------+------+------+------------+-------------+
 |        Clock Net    |   Resource   |Locked|Fanout|Net Skew(ns)|Max Delay(ns)|
 +---------------------+--------------+------+------+------------+-------------+
-|       i_clock_BUFGP | BUFGCTRL_X0Y0| No   | 6329 |  0.595     |  3.149      |
-+---------------------+--------------+------+------+------------+-------------+
-|    icon_control0<0> |BUFGCTRL_X0Y30| No   |  129 |  0.444     |  2.995      |
+|       i_clock_BUFGP | BUFGCTRL_X0Y0| No   | 6327 |  0.595     |  3.149      |
 +---------------------+--------------+------+------+------------+-------------+
 |       vgaclk25_BUFG | BUFGCTRL_X0Y1| No   |   63 |  0.146     |  2.883      |
 +---------------------+--------------+------+------+------------+-------------+
+|    icon_control0<0> |BUFGCTRL_X0Y30| No   |  129 |  0.444     |  2.995      |
++---------------------+--------------+------+------+------------+-------------+
 |melexis_mlx90640_i2c |              |      |      |            |             |
 |      _i0/clock_BUFG |BUFGCTRL_X0Y31| No   |   65 |  0.420     |  3.006      |
++---------------------+--------------+------+------+------------+-------------+
+|melexis_mlx90640_i2c |              |      |      |            |             |
+|       _i0/io_scl_ii |         Local|      |   15 |  1.769     |  3.315      |
 +---------------------+--------------+------+------+------------+-------------+
 |               agclk |         Local|      |   12 |  1.033     |  1.588      |
 +---------------------+--------------+------+------+------------+-------------+
@@ -143,9 +146,6 @@ Generating Clock Report
 |               E_OUT |         Local|      |    1 |  0.000     |  1.076      |
 +---------------------+--------------+------+------+------------+-------------+
 |   icon_control0<13> |         Local|      |    4 |  0.000     |  0.770      |
-+---------------------+--------------+------+------+------------+-------------+
-|melexis_mlx90640_i2c |              |      |      |            |             |
-|       _i0/io_scl_ii |         Local|      |   15 |  1.769     |  3.315      |
 +---------------------+--------------+------+------+------------+-------------+
 
 * Net Skew is the difference between the minimum and maximum routing
@@ -187,7 +187,7 @@ Asterisk (*) preceding a constraint indicates it was not met.
 ----------------------------------------------------------------------------------------------------------
   PATH "TS_J4_TO_D2_ila_pro_0_path" TIG     | MAXDELAY    |         N/A|     3.402ns|     N/A|           0
 ----------------------------------------------------------------------------------------------------------
-  PATH "TS_J_TO_D_path" TIG                 | SETUP       |         N/A|     5.571ns|     N/A|           0
+  PATH "TS_J_TO_D_path" TIG                 | SETUP       |         N/A|     5.374ns|     N/A|           0
 ----------------------------------------------------------------------------------------------------------
   PATH "TS_D_TO_J_path" TIG                 | SETUP       |         N/A|     5.026ns|     N/A|           0
 ----------------------------------------------------------------------------------------------------------
@@ -207,8 +207,8 @@ All signals are completely routed.
 
 WARNING:Par:283 - There are 5 loadless signals in this design. This design will cause Bitgen to issue DRC warnings.
 
-Total REAL time to PAR completion: 23 secs 
-Total CPU time to PAR completion: 23 secs 
+Total REAL time to PAR completion: 24 secs 
+Total CPU time to PAR completion: 24 secs 
 
 Peak Memory Usage:  933 MB
 

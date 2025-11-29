@@ -11,21 +11,21 @@ Target Device  : xc4vsx35
 Target Package : ff668
 Target Speed   : -10
 Mapper Version : virtex4 -- $Revision: 1.55 $
-Mapped Date    : Sat Nov 29 14:46:51 2025
+Mapped Date    : Sat Nov 29 14:52:05 2025
 
 Design Summary
 --------------
 Number of errors:      0
-Number of warnings:   10
+Number of warnings:    8
 Logic Utilization:
   Total Number Slice Registers:       8,354 out of  30,720   27%
     Number used as Flip Flops:        8,353
     Number used as Latches:               1
   Number of 4 input LUTs:            14,039 out of  30,720   45%
 Logic Distribution:
-  Number of occupied Slices:          9,192 out of  15,360   59%
-    Number of Slices containing only related logic:   9,192 out of   9,192 100%
-    Number of Slices containing unrelated logic:          0 out of   9,192   0%
+  Number of occupied Slices:          9,195 out of  15,360   59%
+    Number of Slices containing only related logic:   9,195 out of   9,195 100%
+    Number of Slices containing unrelated logic:          0 out of   9,195   0%
       *See NOTES below for an explanation of the effects of unrelated logic.
   Total Number of 4 input LUTs:      14,382 out of  30,720   46%
     Number used as logic:            13,735
@@ -91,10 +91,6 @@ WARNING:PhysDesignRules:367 - The signal <inst_addfp/sig00000577> is incomplete.
    The signal does not drive any load pins in the design.
 WARNING:PhysDesignRules:367 - The signal <inst_subfp/sig00000578> is incomplete.
    The signal does not drive any load pins in the design.
-WARNING:PhysDesignRules:781 - PULLUP on an active net. PULLUP of comp io_sda_dd1
-   is set but the tri state is not configured. 
-WARNING:PhysDesignRules:781 - PULLUP on an active net. PULLUP of comp io_scl_dd1
-   is set but the tri state is not configured. 
 
 Section 3 - Informational
 -------------------------
@@ -583,11 +579,11 @@ Section 6 - IOB Properties
 +---------------------------------------------------------------------------------------------------------------------------------------------------------+
 | i_clock                            | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
 | i_reset                            | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
-| io_scl_dd                          | IOB              | BIDIR     | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| io_scl_dd1                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              | PULLUP   |          |
+| io_scl_dd                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| io_scl_dd1                         | IOB              | BIDIR     | LVCMOS25             |       | 12       | SLOW |              | PULLUP   |          |
 | io_scl_nl                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| io_sda_dd                          | IOB              | BIDIR     | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| io_sda_dd1                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              | PULLUP   |          |
+| io_sda_dd                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| io_sda_dd1                         | IOB              | BIDIR     | LVCMOS25             |       | 12       | SLOW |              | PULLUP   |          |
 | io_sda_nl                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
 | o_an<0>                            | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
 | o_an<1>                            | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
@@ -682,7 +678,7 @@ _SRL16.U_GANDX_SRL16_MSET
 Section 8 - Guide Report
 ------------------------
 
-Sat Nov 29 14:47:22 2025
+Sat Nov 29 14:52:35 2025
 
   Estimated SmartGuide Results
   ----------------------------
@@ -690,11 +686,11 @@ Sat Nov 29 14:47:22 2025
   components are components that were guided, but moved in order to satisfy
   timing requirements.
 
-    Estimated Percentage of guided Components                 |  98.8%
+    Estimated Percentage of guided Components                 |  98.7%
     Estimated Percentage of re-implemented Components         |   0.0%
-    Estimated Percentage of new/changed Components            |   1.2%
-    Estimated Percentage of fully guided Nets                 |  98.0%
-    Estimated Percentage of partially guided or unrouted Nets |   2.0%
+    Estimated Percentage of new/changed Components            |   1.3%
+    Estimated Percentage of fully guided Nets                 |  97.8%
+    Estimated Percentage of partially guided or unrouted Nets |   2.2%
 
   A detailed SmartGuide report (.GRF) can be generated during PAR by
   specifying the [-smartguide <guidefile[.ncd]>] switch on the PAR

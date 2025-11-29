@@ -5,14 +5,14 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.04 secs
+Total CPU time to Xst completion: 0.03 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.04 secs
+Total CPU time to Xst completion: 0.03 secs
  
 --> 
 WARNING:Xst:1583 - You are using an internal switch '-use_new_parser'.
@@ -391,7 +391,7 @@ WARNING:Xst:653 - Signal <sqrtfp2rdy> is used but never assigned. This sourceles
     | Encoding           | auto                                           |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
-    Found 11-bit adder for signal <n0370> created at line 675.
+    Found 11-bit adder for signal <n0364> created at line 675.
     Found 10-bit adder for signal <mem_addr[9]_GND_8_o_add_8_OUT> created at line 684.
     Found 10-bit adder for signal <cold_start[9]_GND_8_o_add_24_OUT> created at line 892.
     Found 18-bit adder for signal <w_80ms[17]_GND_8_o_add_28_OUT> created at line 846.
@@ -402,14 +402,11 @@ WARNING:Xst:653 - Signal <sqrtfp2rdy> is used but never assigned. This sourceles
     Found 1-bit adder for signal <pvgaclk.vmax[0]_PWR_8_o_add_212_OUT<0>> created at line 1099.
     Found 4-bit adder for signal <pagclk.vmax[3]_GND_8_o_add_214_OUT> created at line 1119.
     Found 512x24-bit Read Only RAM for signal <rdata>
-    Found 1-bit tristate buffer for signal <io_sda_dd> created at line 1457
-    Found 1-bit tristate buffer for signal <io_scl_dd> created at line 1462
     Summary:
 	inferred   1 RAM(s).
 	inferred  10 Adder/Subtractor(s).
 	inferred 222 D-type flip-flop(s).
 	inferred  52 Multiplexer(s).
-	inferred   2 Tristate(s).
 	inferred   1 Finite State Machine(s).
 Unit <test1> synthesized.
 
@@ -1732,8 +1729,8 @@ Macro Statistics
  8-bit 2-to-1 multiplexer                              : 42
  8-bit 4-to-1 multiplexer                              : 1
  9-bit 2-to-1 multiplexer                              : 19
-# Tristates                                            : 3
- 1-bit tristate buffer                                 : 3
+# Tristates                                            : 1
+ 1-bit tristate buffer                                 : 1
 # FSMs                                                 : 20
 
 =========================================================================
@@ -3131,20 +3128,20 @@ Asynchronous Control Signals Information:
 --------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
 Control Signal                                                                  | Buffer(FF name)                                                                                                                        | Load  |
 --------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
-tfm_inst/i_reset_1(tfm_inst/i_reset_1:O)                                        | NONE(tfm_inst/inst_CalculatePixOsCPSP/fixed2floatond_internal)                                                                         | 475   |
-tfm_inst/i_reset_2(tfm_inst/i_reset_2:O)                                        | NONE(tfm_inst/inst_CalculatePixOS/subfpa_internal_27)                                                                                  | 438   |
-tfm_inst/inst_CalculatePixOS/i_reset_2(tfm_inst/inst_CalculatePixOS/i_reset_2:O)| NONE(tfm_inst/inst_CalculatePixOS/inst_ExtractKvParameters/divfpa_internal_17)                                                         | 424   |
-tfm_inst/inst_CalculatePixOS/i_reset_1(tfm_inst/inst_CalculatePixOS/i_reset_1:O)| NONE(tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/mulfpb_internal_17)                                                        | 390   |
-i_reset_IBUF_1(i_reset_IBUF_1:O)                                                | NONE(tfm_inst/inst_CalculateGetImage/mulfpb_internal_6)                                                                                | 379   |
-tfm_inst/i_reset_4(tfm_inst/i_reset_4:O)                                        | NONE(tfm_inst/inst_CalculateTa/mulfpb_27)                                                                                              | 340   |
-tfm_inst/i_reset_3(tfm_inst/i_reset_3:O)                                        | NONE(tfm_inst/inst_ExtractAlphaParameters/addfpa_internal_18)                                                                          | 331   |
-tfm_inst/i_reset_6(tfm_inst/i_reset_6:O)                                        | NONE(tfm_inst/inst_CalculateVdd/divfpa_10)                                                                                             | 300   |
-tfm_inst/i_reset_5(tfm_inst/i_reset_5:O)                                        | NONE(tfm_inst/inst_CalculateVirCompensated/addfpa_internal_20)                                                                         | 299   |
-tfm_inst/i_reset_7(tfm_inst/i_reset_7:O)                                        | NONE(tfm_inst/inst_CalculateAlphaComp/mulfpa_internal_14)                                                                              | 283   |
-tfm_inst/i_reset_8(tfm_inst/i_reset_8:O)                                        | NONE(tfm_inst/inst_CalculateAlphaCP/mulfpa_internal_11)                                                                                | 218   |
+tfm_inst/i_reset_1(tfm_inst/i_reset_1:O)                                        | NONE(tfm_inst/inst_CalculatePixOsCPSP/mulfpa_internal_5)                                                                               | 475   |
+tfm_inst/i_reset_2(tfm_inst/i_reset_2:O)                                        | NONE(tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain/mulfpa_internal_30)                                                            | 438   |
+tfm_inst/inst_CalculatePixOS/i_reset_2(tfm_inst/inst_CalculatePixOS/i_reset_2:O)| NONE(tfm_inst/inst_CalculatePixOS/inst_ExtractOffsetParameters/addfpa_internal_2)                                                      | 424   |
+tfm_inst/inst_CalculatePixOS/i_reset_1(tfm_inst/inst_CalculatePixOS/i_reset_1:O)| NONE(tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/col_1)                                                                     | 390   |
+i_reset_IBUF_1(i_reset_IBUF_1:O)                                                | NONE(tfm_inst/inst_CalculateGetImage/addfpa_internal_16)                                                                               | 379   |
+tfm_inst/i_reset_4(tfm_inst/i_reset_4:O)                                        | NONE(tfm_inst/inst_CalculateTa/subfpb_22)                                                                                              | 340   |
+tfm_inst/i_reset_3(tfm_inst/i_reset_3:O)                                        | NONE(tfm_inst/inst_ExtractAlphaParameters/divfpb_internal_4)                                                                           | 331   |
+tfm_inst/i_reset_6(tfm_inst/i_reset_6:O)                                        | NONE(tfm_inst/inst_CalculateVdd/mulfpb_1)                                                                                              | 300   |
+tfm_inst/i_reset_5(tfm_inst/i_reset_5:O)                                        | NONE(tfm_inst/inst_CalculateVirCompensated/dia_19)                                                                                     | 299   |
+tfm_inst/i_reset_7(tfm_inst/i_reset_7:O)                                        | NONE(tfm_inst/inst_CalculateAlphaComp/divfpa_internal_4)                                                                               | 283   |
+tfm_inst/i_reset_8(tfm_inst/i_reset_8:O)                                        | NONE(tfm_inst/inst_CalculateAlphaCP/divfpb_internal_0)                                                                                 | 218   |
 i_reset                                                                         | IBUF                                                                                                                                   | 159   |
 dualmem_inst/N1(dualmem_inst/XST_GND:G)                                         | NONE(dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP)| 4     |
-i2c_mlx_i0/N1(i2c_mlx_i0/XST_GND:G)                                             | NONE(i2c_mlx_i0/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP)  | 4     |
+i2c_mlx_i0/N1(i2c_mlx_i0/XST_GND:G)                                             | NONE(i2c_mlx_i0/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP)  | 4     |
 --------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
 
 Timing Summary:
@@ -3445,10 +3442,10 @@ Timing constraint: Default OFFSET OUT AFTER for Clock 'melexis_mlx90640_i2c_i0/c
 -------------------------------------------------------------------------
 Offset:              6.387ns (Levels of Logic = 4)
   Source:            melexis_mlx90640_i2c_i0/c_state_FSM_FFd66 (FF)
-  Destination:       io_scl_dd (PAD)
+  Destination:       io_scl_dd1 (PAD)
   Source Clock:      melexis_mlx90640_i2c_i0/clock rising
 
-  Data Path: melexis_mlx90640_i2c_i0/c_state_FSM_FFd66 to io_scl_dd
+  Data Path: melexis_mlx90640_i2c_i0/c_state_FSM_FFd66 to io_scl_dd1
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
@@ -3456,7 +3453,7 @@ Offset:              6.387ns (Levels of Logic = 4)
      LUT4:I1->O            1   0.195   0.523  Mmux_io_scl_o1_SW1 (N61)
      LUT4:I3->O            1   0.195   0.360  Mmux_io_scl_o1 (io_scl_o)
      end scope: 'melexis_mlx90640_i2c_i0:io_scl_o'
-     IOBUF:T->IO               3.957          io_scl_dd_IOBUF (io_scl_dd)
+     IOBUF:T->IO               3.957          IOBUF_inst_scl (io_scl_dd1)
     ----------------------------------------
     Total                      6.387ns (4.707ns logic, 1.680ns route)
                                        (73.7% logic, 26.3% route)
@@ -3466,15 +3463,15 @@ Timing constraint: Default path analysis
   Total number of paths / destination ports: 4 / 4
 -------------------------------------------------------------------------
 Delay:               5.297ns (Levels of Logic = 2)
-  Source:            io_sda_dd (PAD)
-  Destination:       io_sda_dd1 (PAD)
+  Source:            io_sda_dd1 (PAD)
+  Destination:       io_sda_dd (PAD)
 
-  Data Path: io_sda_dd to io_sda_dd1
+  Data Path: io_sda_dd1 to io_sda_dd
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IOBUF:IO->O           3   0.965   0.375  io_sda_dd_IOBUF (io_sda_dd1_OBUF)
-     OBUF:I->O                 3.957          io_sda_dd1_OBUF (io_sda_dd1)
+     IOBUF:IO->O           3   0.965   0.375  IOBUF_inst_sda (io_sda_nl_OBUF)
+     OBUF:I->O                 3.957          io_sda_dd_OBUF (io_sda_dd)
     ----------------------------------------
     Total                      5.297ns (4.922ns logic, 0.375ns route)
                                        (92.9% logic, 7.1% route)
@@ -3536,7 +3533,7 @@ vgaclk25       |    6.296|         |         |         |
 
 
 Total REAL time to Xst completion: 34.00 secs
-Total CPU time to Xst completion: 32.73 secs
+Total CPU time to Xst completion: 32.75 secs
  
 WARNING:Xst:3152 - You have chosen to run a version of XST which is not the default solution
    for the specified device family. You are free to use it in order to take
@@ -3549,7 +3546,7 @@ WARNING:Xst:3152 - You have chosen to run a version of XST which is not the defa
 --> 
 
 
-Total memory usage is 530564 kilobytes
+Total memory usage is 530844 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :  303 (   0 filtered)
