@@ -734,6 +734,7 @@ vga_psave <= '1';
 
 pTo : process (i_clock) is
 	variable i : integer range 0 to PIXELS-1;
+	variable j : integer range 0 to PIXELS-1;
   constant c_en_cnt : integer := 96;
   variable en_cnt : integer range 0 to c_en_cnt - 1;
 	variable tout : std_logic_vector (8 downto 0);
@@ -967,7 +968,13 @@ when r_2400_b =>
 when r_2400_c =>
   wr_1_2 (start_process);
 when start_process =>
-  w8_64us (r_0400_1_a);
+  dualmem_enb <= '0';
+  if (en_cnt = c_en_cnt - 1) then
+    state <= r_0400_1_a;
+    en_cnt := 0;
+  else
+    en_cnt := en_cnt + 1;
+  end if;
 
 -- subframe 0
 when r_0400_1_a =>
@@ -999,7 +1006,7 @@ when s0_1 =>
     state <= s1_1;
     test_fixed_melexis_run <= '1';
     float2fixedsclr <= '0';
-    dualmem_enb <= '1';
+    dualmem_enb <= '0';
     w11ms <= 0;
   end if;
 when s1_1 =>
@@ -1072,7 +1079,7 @@ when set_som_1_c =>
 when w8_rr_20_1 =>
   w8_64us (check_nda_1);
 when check_nda_1 =>
-  wr (x"8000", check_nda_1_idle);
+--  wr (x"8000", check_nda_1_idle);
 when check_nda_1_idle =>
 --  wr_idle (x"0008", r_0400_2, check_nda_1);
 if (c_sim = "n") then
@@ -1080,6 +1087,7 @@ if (c_sim = "n") then
 end if;
 if (c_sim = "y") then
   state <= r_0400_2_a;
+  dualmem_enb <= '0';
 end if;
 
 -- subframe 1
@@ -1112,7 +1120,7 @@ when s0_2 =>
     state <= s1_2;
     test_fixed_melexis_run <= '1';
     float2fixedsclr <= '0';
-    dualmem_enb <= '1';
+    dualmem_enb <= '0';
     w11ms <= 0;
   end if;
 when s1_2 =>
@@ -1130,14 +1138,14 @@ when s1_2 =>
     if (test_fixed_melexis_rdy = '1') then
       state <= s4_2;
       float2fixedsclr <= '0';
-      i := 0;
+      j := 0;
       tout := (others => '0');
     else
       state <= s1_2;
     end if;
   end if;
 when s4_2 => state <= s5_2;
-  test_fixed_melexis_addr <= std_logic_vector (to_unsigned (i, 10));
+  test_fixed_melexis_addr <= std_logic_vector (to_unsigned (j, 10));
 when s5_2 => state <= s6_2;
 when s6_2 => state <= s7_2;
   float2fixedond <= '1';
@@ -1153,18 +1161,18 @@ when s7_2 =>
 when s8_2 => state <= s9_2;
   float2fixedsclr <= '0';
   dualmem_wea <= "1";
-  dualmem_addra <= std_logic_vector (to_unsigned (i, 10));
+  dualmem_addra <= std_logic_vector (to_unsigned (j, 10));
   dualmem_dina <= tout;
   dualmem_ena <= '1';
 when s9_2 =>
   dualmem_wea <= "0";
   dualmem_ena <= '0';
-  if (i = PIXELS-1) then
-    i := 0;
+  if (j = PIXELS-1) then
+    j := 0;
     state <= s10_2;
   else
     state <= s4_2;
-    i := i + 1;
+    j := j + 1;
   end if;
 when s10_2 =>
   dualmem_enb <= '1';
@@ -1196,7 +1204,7 @@ if (c_sim = "y") then
 end if;
 when end_process =>
   state <= start_process;
-when others => state <= idle;
+when others => null;
 			end case;
 		end if;
 	end if;
