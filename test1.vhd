@@ -1079,7 +1079,7 @@ when set_som_1_c =>
 when w8_rr_20_1 =>
   w8_64us (check_nda_1);
 when check_nda_1 =>
---  wr (x"8000", check_nda_1_idle);
+--  wr (x"8000", check_nda_1_idle); -- to here is ok
 when check_nda_1_idle =>
 --  wr_idle (x"0008", r_0400_2, check_nda_1);
 if (c_sim = "n") then
