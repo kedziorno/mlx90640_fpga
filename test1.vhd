@@ -911,7 +911,9 @@ when start_process =>
 when r_0400_1 =>
   wr_1 (x"0400", clear_nda_1);
 when clear_nda_1 =>
-  w (x"8000", x"0000", s0_1);
+  if (melexis_mlx90640_i2c_mode2_ready_all = '1') then
+    w (x"8000", x"0000", s0_1);
+  end if;
 when s0_1 =>
   state <= s1_1;
   test_fixed_melexis_run <= '1';
@@ -992,7 +994,9 @@ end if;
 when r_0400_2 =>
   wr_1 (x"0400", clear_nda_2);
 when clear_nda_2 =>
-  w (x"8000", x"0000", s0_2);
+  if (melexis_mlx90640_i2c_mode2_ready_all = '1') then
+    w (x"8000", x"0000", s0_2);
+  end if;
 when s0_2 =>
   state <= s1_2;
   test_fixed_melexis_run <= '1';
