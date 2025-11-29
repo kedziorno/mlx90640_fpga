@@ -622,6 +622,9 @@ begin
           end if;
 -- XXX mode2 i2c slave address write
         when mode2_write_slave_address =>
+          if (c_cmode = c3) then
+            mode2_ready_all_i <= '0';
+          end if;
           if (slave_index_ctr = 0) then
             c_state <= mode2_write_slave_address_lastbit;
           else
@@ -839,11 +842,11 @@ begin
             mode2_ready_i <= '1';
           end if;
           if (c_cmode = c1) then
-            mode2_ready_all_i <= '1';
+            --mode2_ready_all_i <= '1';
             mode2_ready_i <= '0';
           end if;
           if (c_cmode = c2) then
-            mode2_ready_all_i <= '0';
+            --mode2_ready_all_i <= '0';
           end if;
           if (c_cmode = c3) then
             c_state <= stop;
@@ -861,6 +864,7 @@ begin
             c_state <= idle;
             temp_sda <= '1';
             o_busy <= '0';
+            mode2_ready_all_i <= '1';
           end if;
       end case;
     end if;
