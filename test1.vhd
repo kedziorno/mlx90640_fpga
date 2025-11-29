@@ -709,8 +709,12 @@ o_an <= (others => '1');
 o_seg <= (others => '0');
 
 vga_syncn <= '1';
---vga_blankn <= not VGA_timing_synch_blank;
+g_blank_sim : if (c_sim = "y") generate
+vga_blankn <= VGA_timing_synch_blank;
+end generate g_blank_sim;
+g_blank_syn : if (c_sim = "n") generate
 vga_blankn <= '1';
+end generate g_blank_syn;
 vga_psave <= '1';
 
 pTo : process (i_clock) is
