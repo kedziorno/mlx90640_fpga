@@ -38,7 +38,7 @@ c_normal : string (1 downto 1) := "y";
 constant c_cold_start : integer := 1024;
 constant c_melexis_mlx90640_i2c_enable_wait : integer := 256;
 constant c_melexis_mlx90640_i2c_wait : integer := 65536;
-constant c_w_64us : integer := 65536; -- 64 us
+constant c_w_64us : integer := 2**23; -- 64 us
 constant c_w_180us : integer := 65536; -- 180 us
 constant c_w_80ms : integer := 65536; -- 80 ms
 constant c_w_160us : integer := 65536; -- 160 us
@@ -742,7 +742,12 @@ pTo : process (i_clock) is
   begin
     melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '1';
     melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= address;
-    state <= next_state;
+    if (en_cnt = c_en_cnt - 1) then
+      state <= next_state;
+      en_cnt := 0;
+    else
+      en_cnt := en_cnt + 1;
+    end if;
   end procedure;
   procedure wr_1_2 (next_state : in states) is
   begin
@@ -812,7 +817,12 @@ pTo : process (i_clock) is
   begin
     melexis_mlx90640_i2c_mode0 <= '1'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0';
     melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= address; melexis_mlx90640_i2c_memory_data <= data;
-    state <= next_state;
+    if (en_cnt = c_en_cnt - 1) then
+      state <= next_state;
+      en_cnt := 0;
+    else
+      en_cnt := en_cnt + 1;
+    end if;
   end procedure;
   procedure w_2 (next_state : in states) is
   begin
@@ -932,6 +942,8 @@ when w8_80ms =>
   w8_80ms (w_800d1981_a);
 when w_800d1981_a =>
   w_1 (x"800d", x"1981", w_800d1981_b);
+--  w_1 (x"800d", x"0000", w_800d1981_b);
+--  w_1 (x"800d", x"1b88", w_800d1981_b);
 when w_800d1981_b =>
   if (en_cnt = c_en_cnt - 1) then
     melexis_mlx90640_i2c_enable <= '0';
@@ -1060,11 +1072,11 @@ when set_som_1_c =>
 when w8_rr_20_1 =>
   w8_64us (check_nda_1);
 when check_nda_1 =>
---  wr (x"8000", check_nda_1_idle);
+  wr (x"8000", check_nda_1_idle);
 when check_nda_1_idle =>
 --  wr_idle (x"0008", r_0400_2, check_nda_1);
 if (c_sim = "n") then
-  wr_idle (x"0000", r_0400_2_a, check_nda_1);
+  wr_idle_1 (x"0008", x"0000", r_0400_2_a, check_nda_1);
 end if;
 if (c_sim = "y") then
   state <= r_0400_2_a;
@@ -1177,13 +1189,13 @@ when check_nda_2 =>
 when check_nda_2_idle =>
 --  wr_idle (x"0008", end_process, check_nda_2);
 if (c_sim = "n") then
-  wr_idle (x"0000", end_process, check_nda_2);
+  wr_idle_1 (x"0008", x"0000", end_process, check_nda_2);
 end if;
 if (c_sim = "y") then
   state <= end_process;
 end if;
 when end_process =>
---  state <= start_process;
+  state <= start_process;
 when others => state <= idle;
 			end case;
 		end if;
