@@ -11,25 +11,25 @@ Target Device  : xc4vsx35
 Target Package : ff668
 Target Speed   : -10
 Mapper Version : virtex4 -- $Revision: 1.55 $
-Mapped Date    : Sat Nov 29 14:03:26 2025
+Mapped Date    : Sat Nov 29 14:46:51 2025
 
 Design Summary
 --------------
 Number of errors:      0
-Number of warnings:    8
+Number of warnings:   10
 Logic Utilization:
-  Total Number Slice Registers:       8,748 out of  30,720   28%
-    Number used as Flip Flops:        8,747
+  Total Number Slice Registers:       8,354 out of  30,720   27%
+    Number used as Flip Flops:        8,353
     Number used as Latches:               1
-  Number of 4 input LUTs:            15,933 out of  30,720   51%
+  Number of 4 input LUTs:            14,039 out of  30,720   45%
 Logic Distribution:
-  Number of occupied Slices:          9,365 out of  15,360   60%
-    Number of Slices containing only related logic:   9,365 out of   9,365 100%
-    Number of Slices containing unrelated logic:          0 out of   9,365   0%
+  Number of occupied Slices:          9,192 out of  15,360   59%
+    Number of Slices containing only related logic:   9,192 out of   9,192 100%
+    Number of Slices containing unrelated logic:          0 out of   9,192   0%
       *See NOTES below for an explanation of the effects of unrelated logic.
-  Total Number of 4 input LUTs:      16,244 out of  30,720   52%
-    Number used as logic:            15,629
-    Number used as a route-thru:        311
+  Total Number of 4 input LUTs:      14,382 out of  30,720   46%
+    Number used as logic:            13,735
+    Number used as a route-thru:        343
     Number used as Shift registers:     304
 
   The Slice Logic Distribution report is not meaningful if the design is
@@ -42,11 +42,11 @@ Logic Distribution:
   Number of BSCAN_VIRTEX4s:               1 out of       4   25%
 
   Number of RPM macros:           12
-Average Fanout of Non-Clock Nets:                3.62
+Average Fanout of Non-Clock Nets:                3.59
 
-Peak Memory Usage:  1253 MB
-Total REAL time to MAP completion:  51 secs 
-Total CPU time to MAP completion:   51 secs 
+Peak Memory Usage:  1233 MB
+Total REAL time to MAP completion:  35 secs 
+Total CPU time to MAP completion:   35 secs 
 
 Table of Contents
 -----------------
@@ -81,16 +81,20 @@ WARNING:LIT:176 - Clock buffer is designated to drive clock loads. BUFG symbol
 WARNING:PhysDesignRules:372 - Gated clock. Clock net icon_control0<13> is
    sourced by a combinatorial pin. This is not good design practice. Use the CE
    pin to control the loading of data into the flip-flop.
+WARNING:PhysDesignRules:367 - The signal <inst_addfp/sig00000461> is incomplete.
+   The signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <inst_subfp/sig00000462> is incomplete.
+   The signal does not drive any load pins in the design.
 WARNING:PhysDesignRules:367 - The signal <inst_mulfp/sig0000090f> is incomplete.
    The signal does not drive any load pins in the design.
 WARNING:PhysDesignRules:367 - The signal <inst_addfp/sig00000577> is incomplete.
    The signal does not drive any load pins in the design.
 WARNING:PhysDesignRules:367 - The signal <inst_subfp/sig00000578> is incomplete.
    The signal does not drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal <inst_addfp/sig00000461> is incomplete.
-   The signal does not drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal <inst_subfp/sig00000462> is incomplete.
-   The signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:781 - PULLUP on an active net. PULLUP of comp io_sda_dd1
+   is set but the tri state is not configured. 
+WARNING:PhysDesignRules:781 - PULLUP on an active net. PULLUP of comp io_scl_dd1
+   is set but the tri state is not configured. 
 
 Section 3 - Informational
 -------------------------
@@ -127,7 +131,7 @@ INFO:Pack:1650 - Map created a placed design.
 Section 4 - Removed Logic Summary
 ---------------------------------
  150 block(s) removed
- 128 block(s) optimized away
+ 129 block(s) optimized away
   96 signal(s) removed
 
 Section 5 - Removed Logic
@@ -502,10 +506,8 @@ VCC 		melexis_mlx90640_i2c_i0/XST_VCC
 GND 		tfm_inst/inst_CalculateAlphaComp/XST_GND
 GND 		tfm_inst/inst_CalculateAlphaComp/inst_mem_alphacomp/XST_GND
 GND 		tfm_inst/inst_CalculateGetImage/XST_GND
-VCC 		tfm_inst/inst_CalculateGetImage/XST_VCC
 GND 		tfm_inst/inst_CalculateGetImage/inst_mem_GetImage/XST_GND
 GND 		tfm_inst/inst_CalculatePixOS/XST_GND
-VCC 		tfm_inst/inst_CalculatePixOS/XST_VCC
 GND 		tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain/XST_GND
 GND 		tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain/inst_mem_KGain/XST_GND
 GND 		tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/XST_GND
@@ -514,11 +516,9 @@ GND
 GND 		tfm_inst/inst_CalculatePixOS/inst_ExtractKvParameters/XST_GND
 GND 		tfm_inst/inst_CalculatePixOS/inst_ExtractKvParameters/inst_mem_kv/XST_GND
 GND 		tfm_inst/inst_CalculatePixOS/inst_ExtractOffsetParameters/XST_GND
-VCC 		tfm_inst/inst_CalculatePixOS/inst_ExtractOffsetParameters/XST_VCC
 GND
 		tfm_inst/inst_CalculatePixOS/inst_ExtractOffsetParameters/inst_mem_occ/XST_GND
 GND 		tfm_inst/inst_CalculatePixOS/inst_mem_pixos/XST_GND
-VCC 		tfm_inst/inst_CalculateTa/XST_VCC
 GND 		tfm_inst/inst_CalculateVirCompensated/XST_GND
 GND 		tfm_inst/inst_CalculateVirCompensated/inst_mem_vir_compensated/XST_GND
 GND 		tfm_inst/inst_ExtractAlphaParameters/XST_GND
@@ -527,6 +527,11 @@ GND 		tfm_inst/inst_rom_constants/XST_GND
 VCC 		tfm_inst/inst_rom_constants/XST_VCC
 GND 		vts_inst/XST_GND
 VCC 		vts_inst/XST_VCC
+GND 		tfm_inst/inst_CalculateAlphaCP/XST_GND
+GND 		tfm_inst/inst_CalculateKGain/XST_GND
+GND 		tfm_inst/inst_CalculatePixOsCPSP/XST_GND
+GND 		tfm_inst/inst_CalculateTa/XST_GND
+GND 		tfm_inst/inst_CalculateVdd/XST_GND
 FDE 		b0.inst_fixed2float/blk00000045
    optimized to 0
 FDE 		b0.inst_fixed2float/blk00000046
@@ -578,11 +583,11 @@ Section 6 - IOB Properties
 +---------------------------------------------------------------------------------------------------------------------------------------------------------+
 | i_clock                            | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
 | i_reset                            | IOB              | INPUT     | LVCMOS25             |       |          |      |              |          |          |
-| io_scl_dd                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| io_scl_dd1                         | IOB              | BIDIR     | LVCMOS25             |       | 12       | SLOW |              | PULLUP   |          |
+| io_scl_dd                          | IOB              | BIDIR     | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| io_scl_dd1                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              | PULLUP   |          |
 | io_scl_nl                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| io_sda_dd                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
-| io_sda_dd1                         | IOB              | BIDIR     | LVCMOS25             |       | 12       | SLOW |              | PULLUP   |          |
+| io_sda_dd                          | IOB              | BIDIR     | LVCMOS25             |       | 12       | SLOW |              |          |          |
+| io_sda_dd1                         | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              | PULLUP   |          |
 | io_sda_nl                          | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
 | o_an<0>                            | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
 | o_an<1>                            | IOB              | OUTPUT    | LVCMOS25             |       | 12       | SLOW |              |          |          |
@@ -677,7 +682,7 @@ _SRL16.U_GANDX_SRL16_MSET
 Section 8 - Guide Report
 ------------------------
 
-Sat Nov 29 14:04:12 2025
+Sat Nov 29 14:47:22 2025
 
   Estimated SmartGuide Results
   ----------------------------
@@ -685,11 +690,11 @@ Sat Nov 29 14:04:12 2025
   components are components that were guided, but moved in order to satisfy
   timing requirements.
 
-    Estimated Percentage of guided Components                 |  98.9%
-    Estimated Percentage of re-implemented Components         |   0.3%
-    Estimated Percentage of new/changed Components            |   0.8%
-    Estimated Percentage of fully guided Nets                 |  97.9%
-    Estimated Percentage of partially guided or unrouted Nets |   2.1%
+    Estimated Percentage of guided Components                 |  98.8%
+    Estimated Percentage of re-implemented Components         |   0.0%
+    Estimated Percentage of new/changed Components            |   1.2%
+    Estimated Percentage of fully guided Nets                 |  98.0%
+    Estimated Percentage of partially guided or unrouted Nets |   2.0%
 
   A detailed SmartGuide report (.GRF) can be generated during PAR by
   specifying the [-smartguide <guidefile[.ncd]>] switch on the PAR

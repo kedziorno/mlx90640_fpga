@@ -21,6 +21,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+library UNISIM;
+use UNISIM.vcomponents.all;
+
 use work.p_fphdl_package3.all;
 use work.colormap_pkg.all;
 use work.global_package.all;
@@ -1460,6 +1463,34 @@ io_scl_dd1 <= '0' when scl_o = '0' else 'Z';
 scl_i <= io_scl_dd1;
 io_scl_nl <= scl_i;
 io_scl_dd <= scl_i;
+
+--IOBUF_inst_sda : IOBUF
+--generic map (
+--DRIVE => 12,
+--IOSTANDARD => "DEFAULT",
+--SLEW => "SLOW")
+--port map (
+--O => sda_i, -- Buffer output
+--IO => io_sda_dd1, -- Buffer inout port (connect directly to top-level port)
+--I => '0', -- Buffer input
+--T => sda_o -- 3-state enable input, high=input, low=output
+--);
+--io_sda_dd <= sda_i;
+--io_sda_nl <= sda_i;
+--
+--IOBUF_inst_scl : IOBUF
+--generic map (
+--DRIVE => 12,
+--IOSTANDARD => "DEFAULT",
+--SLEW => "SLOW")
+--port map (
+--O => scl_i, -- Buffer output
+--IO => io_scl_dd1, -- Buffer inout port (connect directly to top-level port)
+--I => '0', -- Buffer input
+--T => scl_o -- 3-state enable input, high=input, low=output
+--);
+--io_scl_dd <= scl_i;
+--io_scl_nl <= scl_i;
 
 clock_i <= i_clock;
 
