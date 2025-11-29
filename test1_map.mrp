@@ -4,30 +4,32 @@ Xilinx Mapping Report File for Design 'test1'
 Design Information
 ------------------
 Command Line   : map -intstyle ise -p xc4vsx35-ff668-10 -global_opt off -cm area
--ir off -pr off -c 100 -o test1_map.ncd test1.ngd test1.pcf 
+-ir off -pr off -c 100 -smartguide
+/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1_guide.ncd -o test1_map.ncd
+test1.ngd test1.pcf 
 Target Device  : xc4vsx35
 Target Package : ff668
 Target Speed   : -10
 Mapper Version : virtex4 -- $Revision: 1.55 $
-Mapped Date    : Fri Nov 28 18:32:42 2025
+Mapped Date    : Sat Nov 29 14:03:26 2025
 
 Design Summary
 --------------
 Number of errors:      0
-Number of warnings:    7
+Number of warnings:    8
 Logic Utilization:
-  Total Number Slice Registers:       8,779 out of  30,720   28%
-    Number used as Flip Flops:        8,778
+  Total Number Slice Registers:       8,748 out of  30,720   28%
+    Number used as Flip Flops:        8,747
     Number used as Latches:               1
-  Number of 4 input LUTs:            16,040 out of  30,720   52%
+  Number of 4 input LUTs:            15,933 out of  30,720   51%
 Logic Distribution:
-  Number of occupied Slices:          9,623 out of  15,360   62%
-    Number of Slices containing only related logic:   9,623 out of   9,623 100%
-    Number of Slices containing unrelated logic:          0 out of   9,623   0%
+  Number of occupied Slices:          9,365 out of  15,360   60%
+    Number of Slices containing only related logic:   9,365 out of   9,365 100%
+    Number of Slices containing unrelated logic:          0 out of   9,365   0%
       *See NOTES below for an explanation of the effects of unrelated logic.
-  Total Number of 4 input LUTs:      16,389 out of  30,720   53%
-    Number used as logic:            15,736
-    Number used as a route-thru:        349
+  Total Number of 4 input LUTs:      16,244 out of  30,720   52%
+    Number used as logic:            15,629
+    Number used as a route-thru:        311
     Number used as Shift registers:     304
 
   The Slice Logic Distribution report is not meaningful if the design is
@@ -42,27 +44,9 @@ Logic Distribution:
   Number of RPM macros:           12
 Average Fanout of Non-Clock Nets:                3.62
 
-Peak Memory Usage:  820 MB
-Total REAL time to MAP completion:  10 secs 
-Total CPU time to MAP completion:   10 secs 
-
-NOTES:
-
-   Related logic is defined as being logic that shares connectivity - e.g. two
-   LUTs are "related" if they share common inputs.  When assembling slices,
-   Map gives priority to combine logic that is related.  Doing so results in
-   the best timing performance.
-
-   Unrelated logic shares no connectivity.  Map will only begin packing
-   unrelated logic into a slice once 99% of the slices are occupied through
-   related logic packing.
-
-   Note that once logic distribution reaches the 99% level through related
-   logic packing, this does not mean the device is completely utilized.
-   Unrelated logic packing will then begin, continuing until all usable LUTs
-   and FFs are occupied.  Depending on your timing budget, increased levels of
-   unrelated logic packing may adversely affect the overall timing performance
-   of your design.
+Peak Memory Usage:  1253 MB
+Total REAL time to MAP completion:  51 secs 
+Total CPU time to MAP completion:   51 secs 
 
 Table of Contents
 -----------------
@@ -85,6 +69,8 @@ Section 1 - Errors
 
 Section 2 - Warnings
 --------------------
+WARNING:Map:120 - The command line option -c can not be used when running in
+   timing mode.  The option will be ignored.
 WARNING:Security:42 - Your software subscription period has lapsed. Your current
 version of Xilinx tools will continue to function, but you no longer qualify for
 Xilinx software updates or new releases.
@@ -95,19 +81,22 @@ WARNING:LIT:176 - Clock buffer is designated to drive clock loads. BUFG symbol
 WARNING:PhysDesignRules:372 - Gated clock. Clock net icon_control0<13> is
    sourced by a combinatorial pin. This is not good design practice. Use the CE
    pin to control the loading of data into the flip-flop.
-WARNING:PhysDesignRules:367 - The signal <inst_subfp/sig00000462> is incomplete.
+WARNING:PhysDesignRules:367 - The signal <inst_mulfp/sig0000090f> is incomplete.
    The signal does not drive any load pins in the design.
 WARNING:PhysDesignRules:367 - The signal <inst_addfp/sig00000577> is incomplete.
-   The signal does not drive any load pins in the design.
-WARNING:PhysDesignRules:367 - The signal <inst_mulfp/sig0000090f> is incomplete.
    The signal does not drive any load pins in the design.
 WARNING:PhysDesignRules:367 - The signal <inst_subfp/sig00000578> is incomplete.
    The signal does not drive any load pins in the design.
 WARNING:PhysDesignRules:367 - The signal <inst_addfp/sig00000461> is incomplete.
    The signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <inst_subfp/sig00000462> is incomplete.
+   The signal does not drive any load pins in the design.
 
 Section 3 - Informational
 -------------------------
+INFO:Map:192 - SmartGuide automatically enables -timing. If SmartGuide is
+   disabled, -timing should be enabled if the resulting design will be used as a
+   guide file during a later run.
 INFO:Security:56 - Part 'xc4vsx35' is not a WebPack part.
 INFO:LIT:243 - Logical network icon_control0<10> has no load.
 INFO:LIT:395 - The above info message is repeated 21 more times for the
@@ -119,6 +108,10 @@ INFO:LIT:395 - The above info message is repeated 21 more times for the
    icon_control0<22>
    To see the details of these info messages, please use the -detail switch.
 INFO:MapLib:562 - No environment variables are currently set.
+INFO:MapLib:980 - The following NGM file is used during SmartGuide:
+   "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1_map.ngm". The NGM file
+   contains information on how the guide file was originally mapped. It is
+   required for the best SmartGuide results.
 INFO:MapLib:159 - Net Timing constraints on signal i_clock are pushed forward
    through input buffer.
 INFO:MapLib:797 - Your design is targeting LX/SX Production Step 0/1/ES devices.
@@ -129,6 +122,7 @@ INFO:MapLib:797 - Your design is targeting LX/SX Production Step 0/1/ES devices.
 INFO:LIT:244 - All of the single ended outputs in this design are using slew
    rate limited output drivers. The delay on speed critical single ended outputs
    can be dramatically reduced by designating them as fast outputs.
+INFO:Pack:1650 - Map created a placed design.
 
 Section 4 - Removed Logic Summary
 ---------------------------------
@@ -185,6 +179,62 @@ Loadless block "b0.inst_fixed2float/blk0000001d" (MUX) removed.
   Loadless block "b0.inst_fixed2float/blk000000d4" (ROM) removed.
  The signal "b0.inst_fixed2float/sig00000056" is loadless and has been removed.
   Loadless block "b0.inst_fixed2float/blk000000d3" (ROM) removed.
+Loadless block "inst_addfp/blk00000273" (MUX) removed.
+ The signal "inst_addfp/sig00000473" is loadless and has been removed.
+  Loadless block "inst_addfp/blk00000328" (ROM) removed.
+ The signal "inst_addfp/sig00000474" is loadless and has been removed.
+  Loadless block "inst_addfp/blk00000327" (ROM) removed.
+Loadless block "inst_float2fixed/blk0000008d" (FF) removed.
+ The signal "inst_float2fixed/sig0000008f" is loadless and has been removed.
+  Loadless block "inst_float2fixed/blk00000087" (MUX) removed.
+   The signal "inst_float2fixed/sig0000008e" is loadless and has been removed.
+    Loadless block "inst_float2fixed/blk00000088" (MUX) removed.
+     The signal "inst_float2fixed/sig0000008d" is loadless and has been removed.
+      Loadless block "inst_float2fixed/blk00000089" (MUX) removed.
+       The signal "inst_float2fixed/sig0000008c" is loadless and has been removed.
+        Loadless block "inst_float2fixed/blk0000008a" (MUX) removed.
+         The signal "inst_float2fixed/sig0000008b" is loadless and has been removed.
+          Loadless block "inst_float2fixed/blk0000008b" (MUX) removed.
+           The signal "inst_float2fixed/sig0000008a" is loadless and has been removed.
+            Loadless block "inst_float2fixed/blk0000008c" (MUX) removed.
+             The signal "inst_float2fixed/sig00000090" is loadless and has been removed.
+              Loadless block "inst_float2fixed/blk000000c1" (ROM) removed.
+         The signal "inst_float2fixed/sig00000092" is loadless and has been removed.
+          Loadless block "inst_float2fixed/blk000000bf" (ROM) removed.
+       The signal "inst_float2fixed/sig00000093" is loadless and has been removed.
+        Loadless block "inst_float2fixed/blk000000be" (ROM) removed.
+   The signal "inst_float2fixed/sig00000095" is loadless and has been removed.
+    Loadless block "inst_float2fixed/blk000000ba" (ROM) removed.
+Loadless block "inst_mulfp/blk0000012b" (FF) removed.
+ The signal "inst_mulfp/sig00000151" is loadless and has been removed.
+  Loadless block "inst_mulfp/blk0000012a" (XOR) removed.
+   The signal "inst_mulfp/sig0000011b" is loadless and has been removed.
+    Loadless block "inst_mulfp/blk00000127" (MUX) removed.
+   The signal "inst_mulfp/sig00000136" is loadless and has been removed.
+    Loadless block "inst_mulfp/blk00000129" (ROM) removed.
+Loadless block "inst_mulfp/blk00000416" (SFF) removed.
+ The signal "inst_mulfp/sig0000075d" is loadless and has been removed.
+  Loadless block "inst_mulfp/blk00000415" (XOR) removed.
+   The signal "inst_mulfp/sig00000712" is loadless and has been removed.
+    Loadless block "inst_mulfp/blk00000411" (MUX) removed.
+     The signal "inst_mulfp/sig00000711" is loadless and has been removed.
+      Loadless block "inst_mulfp/blk0000040d" (MUX) removed.
+       The signal "inst_mulfp/sig0000072a" is loadless and has been removed.
+        Loadless block "inst_mulfp/blk0000040c" (AND) removed.
+     The signal "inst_mulfp/sig0000072b" is loadless and has been removed.
+      Loadless block "inst_mulfp/blk00000410" (AND) removed.
+     The signal "inst_mulfp/sig00000744" is loadless and has been removed.
+      Loadless block "inst_mulfp/blk0000040f" (ROM) removed.
+   The signal "inst_mulfp/sig00000745" is loadless and has been removed.
+    Loadless block "inst_mulfp/blk00000413" (ROM) removed.
+Loadless block "inst_mulfp/blk00000417" (SFF) removed.
+ The signal "inst_mulfp/sig0000075c" is loadless and has been removed.
+  Loadless block "inst_mulfp/blk00000412" (XOR) removed.
+Loadless block "inst_subfp/blk00000273" (MUX) removed.
+ The signal "inst_subfp/sig00000474" is loadless and has been removed.
+  Loadless block "inst_subfp/blk00000328" (ROM) removed.
+ The signal "inst_subfp/sig00000475" is loadless and has been removed.
+  Loadless block "inst_subfp/blk00000327" (ROM) removed.
 Loadless block "inst_addfp/blk00000206" (XOR) removed.
  The signal "inst_addfp/sig0000050d" is loadless and has been removed.
   Loadless block "inst_addfp/blk00000208" (MUX) removed.
@@ -207,11 +257,6 @@ Loadless block "inst_addfp/blk0000020d" (XOR) removed.
 Loadless block "inst_addfp/blk0000020f" (XOR) removed.
 Loadless block "inst_addfp/blk00000211" (XOR) removed.
 Loadless block "inst_addfp/blk00000213" (XOR) removed.
-Loadless block "inst_addfp/blk00000273" (MUX) removed.
- The signal "inst_addfp/sig00000473" is loadless and has been removed.
-  Loadless block "inst_addfp/blk00000328" (ROM) removed.
- The signal "inst_addfp/sig00000474" is loadless and has been removed.
-  Loadless block "inst_addfp/blk00000327" (ROM) removed.
 Loadless block "inst_divfp/blk00000244" (XOR) removed.
 Loadless block "inst_divfp/blk00000246" (XOR) removed.
 Loadless block "inst_divfp/blk00000248" (XOR) removed.
@@ -241,54 +286,8 @@ Loadless block "inst_float2fixed/blk00000028" (XOR) removed.
 Loadless block "inst_float2fixed/blk0000003b" (XOR) removed.
  The signal "inst_float2fixed/sig000000ca" is loadless and has been removed.
   Loadless block "inst_float2fixed/blk00000039" (MUX) removed.
-Loadless block "inst_float2fixed/blk0000008d" (FF) removed.
- The signal "inst_float2fixed/sig0000008f" is loadless and has been removed.
-  Loadless block "inst_float2fixed/blk00000087" (MUX) removed.
-   The signal "inst_float2fixed/sig0000008e" is loadless and has been removed.
-    Loadless block "inst_float2fixed/blk00000088" (MUX) removed.
-     The signal "inst_float2fixed/sig0000008d" is loadless and has been removed.
-      Loadless block "inst_float2fixed/blk00000089" (MUX) removed.
-       The signal "inst_float2fixed/sig0000008c" is loadless and has been removed.
-        Loadless block "inst_float2fixed/blk0000008a" (MUX) removed.
-         The signal "inst_float2fixed/sig0000008b" is loadless and has been removed.
-          Loadless block "inst_float2fixed/blk0000008b" (MUX) removed.
-           The signal "inst_float2fixed/sig0000008a" is loadless and has been removed.
-            Loadless block "inst_float2fixed/blk0000008c" (MUX) removed.
-             The signal "inst_float2fixed/sig00000090" is loadless and has been removed.
-              Loadless block "inst_float2fixed/blk000000c1" (ROM) removed.
-         The signal "inst_float2fixed/sig00000092" is loadless and has been removed.
-          Loadless block "inst_float2fixed/blk000000bf" (ROM) removed.
-       The signal "inst_float2fixed/sig00000093" is loadless and has been removed.
-        Loadless block "inst_float2fixed/blk000000be" (ROM) removed.
-   The signal "inst_float2fixed/sig00000095" is loadless and has been removed.
-    Loadless block "inst_float2fixed/blk000000ba" (ROM) removed.
 Loadless block "inst_mulfp/blk0000004f" (XOR) removed.
-Loadless block "inst_mulfp/blk0000012b" (FF) removed.
- The signal "inst_mulfp/sig00000151" is loadless and has been removed.
-  Loadless block "inst_mulfp/blk0000012a" (XOR) removed.
-   The signal "inst_mulfp/sig0000011b" is loadless and has been removed.
-    Loadless block "inst_mulfp/blk00000127" (MUX) removed.
-   The signal "inst_mulfp/sig00000136" is loadless and has been removed.
-    Loadless block "inst_mulfp/blk00000129" (ROM) removed.
 Loadless block "inst_mulfp/blk00000414" (AND) removed.
-Loadless block "inst_mulfp/blk00000416" (SFF) removed.
- The signal "inst_mulfp/sig0000075d" is loadless and has been removed.
-  Loadless block "inst_mulfp/blk00000415" (XOR) removed.
-   The signal "inst_mulfp/sig00000712" is loadless and has been removed.
-    Loadless block "inst_mulfp/blk00000411" (MUX) removed.
-     The signal "inst_mulfp/sig00000711" is loadless and has been removed.
-      Loadless block "inst_mulfp/blk0000040d" (MUX) removed.
-       The signal "inst_mulfp/sig0000072a" is loadless and has been removed.
-        Loadless block "inst_mulfp/blk0000040c" (AND) removed.
-     The signal "inst_mulfp/sig0000072b" is loadless and has been removed.
-      Loadless block "inst_mulfp/blk00000410" (AND) removed.
-     The signal "inst_mulfp/sig00000744" is loadless and has been removed.
-      Loadless block "inst_mulfp/blk0000040f" (ROM) removed.
-   The signal "inst_mulfp/sig00000745" is loadless and has been removed.
-    Loadless block "inst_mulfp/blk00000413" (ROM) removed.
-Loadless block "inst_mulfp/blk00000417" (SFF) removed.
- The signal "inst_mulfp/sig0000075c" is loadless and has been removed.
-  Loadless block "inst_mulfp/blk00000412" (XOR) removed.
 Loadless block "inst_mulfp/blk0000069e" (AND) removed.
 Loadless block "inst_mulfp/blk00000701" (AND) removed.
 Loadless block "inst_mulfp/blk00000764" (AND) removed.
@@ -319,11 +318,6 @@ Loadless block "inst_subfp/blk0000020d" (XOR) removed.
 Loadless block "inst_subfp/blk0000020f" (XOR) removed.
 Loadless block "inst_subfp/blk00000211" (XOR) removed.
 Loadless block "inst_subfp/blk00000213" (XOR) removed.
-Loadless block "inst_subfp/blk00000273" (MUX) removed.
- The signal "inst_subfp/sig00000474" is loadless and has been removed.
-  Loadless block "inst_subfp/blk00000328" (ROM) removed.
- The signal "inst_subfp/sig00000475" is loadless and has been removed.
-  Loadless block "inst_subfp/blk00000327" (ROM) removed.
 The signal "icon_control0<10>" is sourceless and has been removed.
 The signal "icon_control0<11>" is sourceless and has been removed.
 The signal "icon_control0<15>" is sourceless and has been removed.
@@ -463,22 +457,6 @@ GND 		ag_inst/XST_GND
 VCC 		ag_inst/XST_VCC
 GND 		b0.inst_fixed2float/blk00000001
 VCC 		b0.inst_fixed2float/blk00000002
-FDE 		b0.inst_fixed2float/blk00000045
-   optimized to 0
-FDE 		b0.inst_fixed2float/blk00000046
-   optimized to 0
-FDE 		b0.inst_fixed2float/blk00000047
-   optimized to 0
-FDE 		b0.inst_fixed2float/blk00000048
-   optimized to 0
-FDE 		b0.inst_fixed2float/blk00000049
-   optimized to 0
-FDE 		b0.inst_fixed2float/blk0000004a
-   optimized to 0
-FDE 		b0.inst_fixed2float/blk0000004b
-   optimized to 0
-FDE 		b0.inst_fixed2float/blk0000004c
-   optimized to 0
 GND 		dualmem_inst/XST_GND
 GND 		i2c_mlx_i0/XST_GND
 GND 		inst_addfp/blk00000001
@@ -487,8 +465,6 @@ GND 		inst_divfp/blk00000001
 VCC 		inst_divfp/blk00000002
 GND 		inst_float2fixed/blk00000001
 VCC 		inst_float2fixed/blk00000002
-FDE 		inst_float2fixed/blk00000021
-   optimized to 0
 GND 		inst_mulfp/blk00000001
 VCC 		inst_mulfp/blk00000002
 LUT4 		inst_mulfp/blk00000633
@@ -551,6 +527,24 @@ GND 		tfm_inst/inst_rom_constants/XST_GND
 VCC 		tfm_inst/inst_rom_constants/XST_VCC
 GND 		vts_inst/XST_GND
 VCC 		vts_inst/XST_VCC
+FDE 		b0.inst_fixed2float/blk00000045
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk00000046
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk00000047
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk00000048
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk00000049
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk0000004a
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk0000004b
+   optimized to 0
+FDE 		b0.inst_fixed2float/blk0000004c
+   optimized to 0
+FDE 		inst_float2fixed/blk00000021
+   optimized to 0
 MUXCY 		b0.inst_fixed2float/blk000000d0
 MUXCY 		b0.inst_fixed2float/blk000000d1
 MUXCY 		b0.inst_fixed2float/blk000000d2
@@ -682,7 +676,27 @@ _SRL16.U_GANDX_SRL16_MSET
 
 Section 8 - Guide Report
 ------------------------
-Guide not run on this design.
+
+Sat Nov 29 14:04:12 2025
+
+  Estimated SmartGuide Results
+  ----------------------------
+  This section describes the guide results after placement. Re-implemented 
+  components are components that were guided, but moved in order to satisfy
+  timing requirements.
+
+    Estimated Percentage of guided Components                 |  98.9%
+    Estimated Percentage of re-implemented Components         |   0.3%
+    Estimated Percentage of new/changed Components            |   0.8%
+    Estimated Percentage of fully guided Nets                 |  97.9%
+    Estimated Percentage of partially guided or unrouted Nets |   2.1%
+
+  A detailed SmartGuide report (.GRF) can be generated during PAR by
+  specifying the [-smartguide <guidefile[.ncd]>] switch on the PAR
+  command line. The GRF file contains all components and nets that were
+  not guided. A final summary report is always generated and is available
+  in the PAR report file and in the GRF regardless of the PAR -smartguide switch.
+
 
 Section 9 - Area Group and Partition Summary
 --------------------------------------------
@@ -703,7 +717,15 @@ Area Group Information
 
 Section 10 - Timing Report
 --------------------------
-This design was not run using timing mode.
+A logic-level (pre-route) timing report can be generated by using Xilinx static
+timing analysis tools, Timing Analyzer (GUI) or TRCE (command line), with the
+mapped NCD and PCF files. Please note that this timing report will be generated
+using estimated delay information. For accurate numbers, please generate a
+timing report with the post Place and Route NCD file.
+
+For more information about the Timing Analyzer, consult the Xilinx Timing
+Analyzer Reference Manual; for more information about TRCE, consult the Xilinx
+Command Line Tools User Guide "TRACE" chapter.
 
 Section 11 - Configuration String Details
 -----------------------------------------
