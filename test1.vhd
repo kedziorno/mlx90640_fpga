@@ -1458,16 +1458,19 @@ io_scl_o => scl_o,
 io_scl_i => scl_i
 );
 
---io_sda_dd1 <= '0' when sda_o = '0' else 'Z';
---sda_i <= io_sda_dd1;
---io_sda_dd <= sda_i;
---io_sda_nl <= sda_i;
+g_sda_scl_sim : if (c_sim = "y") generate
+io_sda_dd1 <= '0' when sda_o = '0' else 'Z';
+sda_i <= io_sda_dd1;
+io_sda_dd <= sda_i;
+io_sda_nl <= sda_i;
 
---io_scl_dd1 <= '0' when scl_o = '0' else 'Z';
---scl_i <= io_scl_dd1;
---io_scl_nl <= scl_i;
---io_scl_dd <= scl_i;
+io_scl_dd1 <= '0' when scl_o = '0' else 'Z';
+scl_i <= io_scl_dd1;
+io_scl_nl <= scl_i;
+io_scl_dd <= scl_i;
+end generate g_sda_scl_sim;
 
+g_sda_scl_syn : if (c_sim = "n") generate
 IOBUF_inst_sda : IOBUF
 generic map (
 DRIVE => 12,
@@ -1495,6 +1498,7 @@ T => scl_o -- 3-state enable input, high=input, low=output
 );
 io_scl_dd <= scl_i;
 io_scl_nl <= scl_i;
+end generate g_sda_scl_syn;
 
 clock_i <= i_clock;
 

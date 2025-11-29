@@ -305,7 +305,8 @@ i_addr <= x"0400"; -- data X
   wait until o_done = '0';
   i_addr <= x"0000"; -- data X end
 --  wait for 15017 us;
-  wait for 14244 us;
+--  wait for 14244 us;
+  wait for 7224 us;
 
   l0 : for i in 0 to number_frames_to_catch-1 loop
 --  i_addr <= x"2400"; -- data X
@@ -332,7 +333,8 @@ i_addr <= x"0400"; -- data X
   wait until o_done = '0';
   i_addr <= x"0000"; -- data X end
 --  wait for 15017 us;
-  wait for 14244 us;
+--  wait for 14244 us;
+  wait for 7224 us;
   end loop l0;
   wait;
 end process p0;
