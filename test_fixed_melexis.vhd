@@ -1774,6 +1774,8 @@ ExtractAlphaParameters_rom_constants_float <= rom_constants_float;
 
 	-- purpose: main test loop
 	tester : process (i_clock,i_reset) is
+    constant c_some_wait : integer := 2**21;
+    variable some_wait : integer range 0 to c_some_wait - 1;
 		type states is (idle,s0,s0a,s0b,s0c,
 		s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,
 		ending);
@@ -1784,17 +1786,19 @@ ExtractAlphaParameters_rom_constants_float <= rom_constants_float;
 				-- reset
 				o_rdy <= '0';
         o_busy <= '0';
+        some_wait := 0;
 			elsif (rising_edge(i_clock)) then
   case (state) is
 	
   when idle =>
+    some_wait := 0;
 			if (i_run = '1') then
 				state := s0;
-        o_rdy <= '0';
-        o_busy <= '1';
 			else
 				state := idle;
 			end if;
+      o_rdy <= '0';
+      o_busy <= '1';
 
 	when s0 => state := s0a;
 		CalculateKGain_run <= '1';
@@ -1939,9 +1943,15 @@ ExtractAlphaParameters_rom_constants_float <= rom_constants_float;
 			CalculateGetImage_mux <= '1';
 		end if;
 
-	when ending => state := idle;
+	when ending =>
 		o_rdy <= '1';
     o_busy <= '0';
+    if (some_wait = c_some_wait - 1) then
+      some_wait := 0;
+      state := idle;
+    else
+      some_wait := some_wait + 1;
+    end if;
 
 	when others => null;
 end case;
