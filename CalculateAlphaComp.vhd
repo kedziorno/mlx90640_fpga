@@ -409,8 +409,11 @@ p0 : process (i_clock,i_reset) is
 	type states is (idle,s0,s1,s2,s3,
 	s7,s8,s10,
 	s15,s16,s17,s19,
-	s22,s25,s25a,s26,s28,s31);
+	s22,s25,s25a,s26,s28,s31,ending);
 	variable state : states;
+        constant c_some_wait : integer := 2**21;
+    variable some_wait : integer range 0 to c_some_wait - 1;
+
   constant const_plus1 : std_logic_vector (31 downto 0) := x"3F800000";
   constant const_minus1 : std_logic_vector (31 downto 0) := x"BF800000";
   constant const_2pow13 : std_logic_vector (31 downto 0) := x"46000000";
@@ -424,6 +427,8 @@ begin
 			divfpsclr_internal <= '1';
 			fixed2floatsclr_internal <= '1';
 			rdy <= '0';
+            some_wait := 0;
+
 			fixed2floata_internal <= (others => '0');
 			mulfpa_internal <= (others => '0');
 			mulfpb_internal <= (others => '0');
@@ -686,12 +691,20 @@ begin
 					write_enable <= '0';
 					if (i = (C_ROW*C_COL)-1) then
 						i := 0;
-            state := idle;
+            state := ending;
             rdy <= '1';
 					else
 						state := s0;
 						i := i + 1;
 					end if;
+        when ending =>
+                        if (some_wait = c_some_wait - 1) then
+      some_wait := 0;
+      state := idle;
+    else
+      some_wait := some_wait + 1;
+    end if;
+
 			end case;
 		end if;
 end process p0;

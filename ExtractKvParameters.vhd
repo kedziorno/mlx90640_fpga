@@ -298,14 +298,19 @@ p0 : process (i_clock,i_reset) is
 	type states is (idle,
 	kv1,kv2,kv3,kv4,
 	kv5,kv6,kv9,
-	kv11,kv13);
+	kv11,kv13,ending);
 	variable state : states;
 	variable i : integer range 0 to (C_ROW*C_COL)-1;
+      constant c_some_wait : integer := 2**21;
+    variable some_wait : integer range 0 to c_some_wait - 1;
+
 begin
 		if (i_reset = '1') then
 			state := idle;
 			write_enable <= '0';
 			rdy <= '0';
+          some_wait := 0;
+
 			divfpsclr_internal <= '1';
 			divfpa_internal <= (others => '0');
 			divfpb_internal <= (others => '0');
@@ -326,6 +331,8 @@ begin
 		elsif (rising_edge (i_clock)) then
 			case (state) is
 				when idle =>
+            some_wait := 0;
+
 					if (i_run = '1') then
 						state := kv1;
 						i2c_mem_ena <= '1';
@@ -396,7 +403,7 @@ begin
             col <= 0;
             if (row = C_ROW-1) then
               row <= 0;
-              state := idle;
+              state := ending;
               rdy <= '1';
             else
               row <= row + 1;
@@ -406,6 +413,14 @@ begin
             col <= col + 1;
             state := kv6;
           end if;
+          	when ending =>
+    if (some_wait = c_some_wait - 1) then
+      some_wait := 0;
+      state := idle;
+    else
+      some_wait := some_wait + 1;
+    end if;
+
 			end case;
 		end if;
 end process p0;

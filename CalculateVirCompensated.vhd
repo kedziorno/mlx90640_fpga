@@ -366,8 +366,11 @@ p0 : process (i_clock,i_reset) is
   type states is (idle,
 	s3,s4,s9,s10,
 	s12,s15,s18,
-	s21,s23);
+	s21,s23,ending);
 	variable state : states;
+      constant c_some_wait : integer := 2**21;
+    variable some_wait : integer range 0 to c_some_wait - 1;
+
   constant const_Emissivity : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
 begin
 		if (i_reset = '1') then
@@ -377,6 +380,8 @@ begin
 			mulfpsclr_internal <= '1';
 			divfpsclr_internal <= '1';
 			rdy <= '0';
+          some_wait := 0;
+
 			mulfpa_internal <= (others => '0');
 			mulfpb_internal <= (others => '0');
 			addfpa_internal <= (others => '0');
@@ -408,6 +413,8 @@ begin
 					else
 						state := idle;
 					end if;
+              some_wait := 0;
+
           divfpb_internal <= const_Emissivity;
           i := 0;
           addfpsclr_internal <= '1';
@@ -528,13 +535,21 @@ begin
 					subfpsclr_internal <= '0';
 					write_enable <= '0';
 					if (i = (C_ROW*C_COL)-1) then
-						state := idle;
+						state := ending;
             rdy <= '1';
 						i := 0;
 					else
 						state := s3;
 						i := i + 1;
 					end if;
+        when ending =>
+            if (some_wait = c_some_wait - 1) then
+      some_wait := 0;
+      state := idle;
+    else
+      some_wait := some_wait + 1;
+    end if;
+
 			end case;
 		end if;
 end process p0;

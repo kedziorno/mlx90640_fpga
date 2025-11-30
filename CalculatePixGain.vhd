@@ -291,8 +291,11 @@ p0 : process (i_clock,i_reset) is
 	constant PIXGAIN_SZ : integer := 24*32; -- pixgain size
 	variable pixgain_index : integer range 0 to PIXGAIN_SZ - 1;
 	type states is (idle,
-  s1,s2,s3,s3a,s6,s9);
+  s1,s2,s3,s3a,s6,s9,ending);
 	variable state : states;
+      constant c_some_wait : integer := 2**21;
+    variable some_wait : integer range 0 to c_some_wait - 1;
+
 	variable eeprom16slv : std_logic_vector (7 downto 0);
 begin
 		if (i_reset = '1') then
@@ -311,6 +314,8 @@ begin
 			addra <= (others => '0');
 			dia <= (others => '0');
 			write_enable <= '0';
+              some_wait := 0;
+
 			i2c_mem_ena_internal <= '0';
 			i2c_mem_addra_internal <= (others => '0');
 		elsif (rising_edge (i_clock)) then
@@ -324,6 +329,8 @@ begin
 						i2c_mem_ena_internal <= '0';
 					end if;
           pixgain_index := 0;
+                  some_wait := 0;
+
           fixed2floatsclr_internal <= '1';
           mulfpsclr_internal <= '1';
           fixed2floata_internal <= (others => '0');
@@ -377,13 +384,21 @@ begin
 					mulfpsclr_internal <= '0';
 					write_enable <= '0';
 					if (pixgain_index = PIXGAIN_SZ - 1) then
-						state := idle;
+						state := ending;
             rdy <= '1';
 						pixgain_index := 0;
 					else
 						state := s1;
 						pixgain_index := pixgain_index + 1;
 					end if;
+                when ending =>
+            if (some_wait = c_some_wait - 1) then
+      some_wait := 0;
+      state := idle;
+    else
+      some_wait := some_wait + 1;
+    end if;
+
 			end case;
 		end if;
 end process p0;

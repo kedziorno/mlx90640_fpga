@@ -1,7 +1,7 @@
 Release 14.7 par P.20131013 (lin64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-work::  Sun Nov 30 01:12:48 2025
+work::  Sun Nov 30 01:42:21 2025
 
 par -w -intstyle ise -ol std -t 1 -smartguide
 /home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1_guide.ncd test1_map.ncd
@@ -55,8 +55,8 @@ Device Utilization Summary:
       Number of LOCed IOBs                  37 out of 77     48%
 
    Number of RAMB16s                        39 out of 192    20%
-   Number of Slices                       9901 out of 15360  64%
-      Number of SLICEMs                    210 out of 7680    2%
+   Number of Slices                      10204 out of 15360  66%
+      Number of SLICEMs                    209 out of 7680    2%
 
 
 
@@ -69,27 +69,27 @@ Finished initial Timing Analysis.  REAL time: 11 secs
 Starting Router
 
 
-Phase  1  : 3069 unrouted;      REAL time: 12 secs 
+Phase  1  : 21485 unrouted;      REAL time: 12 secs 
 
-Phase  2  : 1638 unrouted;      REAL time: 12 secs 
+Phase  2  : 19220 unrouted;      REAL time: 13 secs 
 
-Phase  3  : 481 unrouted;      REAL time: 14 secs 
+Phase  3  : 13745 unrouted;      REAL time: 15 secs 
 
-Phase  4  : 3270 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 18 secs 
+Phase  4  : 13918 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 20 secs 
 
-Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 23 secs 
+Phase  5  : 0 unrouted; (Setup:344, Hold:0, Component Switching Limit:0)     REAL time: 27 secs 
 
-Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 23 secs 
+Phase  6  : 0 unrouted; (Setup:344, Hold:0, Component Switching Limit:0)     REAL time: 27 secs 
 
-Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 23 secs 
+Phase  7  : 0 unrouted; (Setup:344, Hold:0, Component Switching Limit:0)     REAL time: 27 secs 
 
-Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 23 secs 
+Phase  8  : 0 unrouted; (Setup:344, Hold:0, Component Switching Limit:0)     REAL time: 27 secs 
 
-Phase  9  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 23 secs 
+Phase  9  : 0 unrouted; (Setup:344, Hold:0, Component Switching Limit:0)     REAL time: 27 secs 
 
-Phase 10  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 25 secs 
-Total REAL time to Router completion: 25 secs 
-Total CPU time to Router completion: 25 secs 
+Phase 10  : 0 unrouted; (Setup:272, Hold:0, Component Switching Limit:0)     REAL time: 30 secs 
+Total REAL time to Router completion: 30 secs 
+Total CPU time to Router completion: 30 secs 
 
   SmartGuide Results
   ------------------
@@ -97,15 +97,15 @@ Total CPU time to Router completion: 25 secs
   report accurately reflects the differences between the input design
   and the guide design.
 
-  Number of Components in the input design    |  10031
-    Number of guided Components               |  10009 out of  10031  99.8%
-    Number of re-implemented Components       |     12 out of  10031   0.1%
-    Number of new/changed Components          |     10 out of  10031   0.1%
-  Number of Nets in the input design          |  19132
-    Number of guided Nets                     |  18859 out of  19132  98.6%
-    Number of partially guided Nets           |    159 out of  19132   0.8%
-    Number of re-routed Nets                  |     98 out of  19132   0.5%
-    Number of new/changed Nets                |     16 out of  19132   0.1%
+  Number of Components in the input design    |  10334
+    Number of guided Components               |   8958 out of  10334  86.7%
+    Number of re-implemented Components       |    783 out of  10334   7.6%
+    Number of new/changed Components          |    593 out of  10334   5.7%
+  Number of Nets in the input design          |  19567
+    Number of guided Nets                     |  12760 out of  19567  65.2%
+    Number of partially guided Nets           |   2531 out of  19567  12.9%
+    Number of re-routed Nets                  |   3201 out of  19567  16.4%
+    Number of new/changed Nets                |   1075 out of  19567   5.5%
 
 Partition Implementation Status
 -------------------------------
@@ -123,24 +123,24 @@ Generating Clock Report
 +---------------------+--------------+------+------+------------+-------------+
 |        Clock Net    |   Resource   |Locked|Fanout|Net Skew(ns)|Max Delay(ns)|
 +---------------------+--------------+------+------+------------+-------------+
-|       i_clock_BUFGP | BUFGCTRL_X0Y0| No   | 6579 |  0.620     |  3.146      |
+|       i_clock_BUFGP | BUFGCTRL_X0Y0| No   | 6750 |  0.614     |  3.146      |
++---------------------+--------------+------+------+------------+-------------+
+|            vgaclk25 | BUFGCTRL_X0Y1| No   |   65 |  0.153     |  2.899      |
 +---------------------+--------------+------+------+------------+-------------+
 |melexis_mlx90640_i2c |              |      |      |            |             |
-|           _i0/clock |BUFGCTRL_X0Y31| No   |   82 |  0.435     |  3.003      |
+|           _i0/clock |BUFGCTRL_X0Y31| No   |   82 |  0.438     |  3.003      |
 +---------------------+--------------+------+------+------------+-------------+
 |    icon_control0<0> |BUFGCTRL_X0Y30| No   |  120 |  0.450     |  3.007      |
-+---------------------+--------------+------+------+------------+-------------+
-|            vgaclk25 | BUFGCTRL_X0Y1| No   |   65 |  0.156     |  2.902      |
 +---------------------+--------------+------+------+------------+-------------+
 |melexis_mlx90640_i2c |              |      |      |            |             |
 |       _i0/io_scl_ii |         Local|      |   14 |  1.328     |  2.693      |
 +---------------------+--------------+------+------+------------+-------------+
-|U_icon_pro/U0/iUPDAT |              |      |      |            |             |
-|               E_OUT |         Local|      |    1 |  0.000     |  1.335      |
-+---------------------+--------------+------+------+------------+-------------+
-|   icon_control0<13> |         Local|      |    4 |  0.000     |  0.741      |
+|   icon_control0<13> |         Local|      |    4 |  0.000     |  0.909      |
 +---------------------+--------------+------+------+------------+-------------+
 |               agclk |         Local|      |    7 |  0.998     |  1.583      |
++---------------------+--------------+------+------+------------+-------------+
+|U_icon_pro/U0/iUPDAT |              |      |      |            |             |
+|               E_OUT |         Local|      |    1 |  0.000     |  1.335      |
 +---------------------+--------------+------+------+------------+-------------+
 
 * Net Skew is the difference between the minimum and maximum routing
@@ -151,7 +151,26 @@ the minimum and maximum path delays which includes logic delays.
 * The fanout is the number of component pins not the individual BEL loads,
 for example SLICE loads not FF loads.
 
-Timing Score: 0 (Setup: 0, Hold: 0, Component Switching Limit: 0)
+Timing Score: 272 (Setup: 272, Hold: 0, Component Switching Limit: 0)
+
+WARNING:Par:468 - Your design did not meet timing.  The following are some suggestions to assist you to meet timing in
+   your design.
+
+   Review the timing report using Timing Analyzer (In ISE select "Post-Place &
+   Route Static Timing Report"). Go to the failing constraint(s) and evaluate the failing paths for each constraint.
+
+   Try the Design Goal and Strategies for Timing Performance(In ISE select Project -> Design Goals & Strategies) to
+   ensure the best options are set in the tools for timing closure.
+
+   Increase the PAR Effort Level setting to "high"
+
+   Use the Xilinx "SmartXplorer" script to try special combinations of
+   options known to produce very good results.
+
+   Visit the Xilinx technical support web at http://support.xilinx.com and go to
+   either "Troubleshoot->Tech Tips->Timing & Constraints" or "
+   TechXclusives->Timing Closure" for tips and suggestions for meeting timing
+   in your design.
 
 Number of Timing Constraints that were not applied: 2
 
@@ -162,10 +181,10 @@ Asterisk (*) preceding a constraint indicates it was not met.
   Constraint                                |    Check    | Worst Case |  Best Case | Timing |   Timing   
                                             |             |    Slack   | Achievable | Errors |    Score   
 ----------------------------------------------------------------------------------------------------------
-  NET "i_clock_BUFGP/IBUFG" PERIOD = 10 ns  | SETUP       |     0.114ns|     9.886ns|       0|           0
-  HIGH 50%                                  | HOLD        |     0.409ns|            |       0|           0
+* NET "i_clock_BUFGP/IBUFG" PERIOD = 10 ns  | SETUP       |    -0.272ns|    10.272ns|       1|         272
+  HIGH 50%                                  | HOLD        |     0.415ns|            |       0|           0
 ----------------------------------------------------------------------------------------------------------
-  TS_U_TO_J = MAXDELAY FROM TIMEGRP "U_CLK" | SETUP       |    11.408ns|     3.592ns|       0|           0
+  TS_U_TO_J = MAXDELAY FROM TIMEGRP "U_CLK" | SETUP       |    11.431ns|     3.569ns|       0|           0
    TO TIMEGRP "J_CLK" 15 ns                 |             |            |            |        |            
 ----------------------------------------------------------------------------------------------------------
   TS_U_TO_U = MAXDELAY FROM TIMEGRP "U_CLK" | SETUP       |    14.044ns|     0.956ns|       0|           0
@@ -180,15 +199,15 @@ Asterisk (*) preceding a constraint indicates it was not met.
 ----------------------------------------------------------------------------------------------------------
   PATH "TS_J3_TO_D2_ila_pro_0_path" TIG     | N/A         |         N/A|         N/A|     N/A|         N/A
 ----------------------------------------------------------------------------------------------------------
-  PATH "TS_J4_TO_D2_ila_pro_0_path" TIG     | MAXDELAY    |         N/A|     3.999ns|     N/A|           0
+  PATH "TS_J4_TO_D2_ila_pro_0_path" TIG     | MAXDELAY    |         N/A|     4.014ns|     N/A|           0
 ----------------------------------------------------------------------------------------------------------
-  PATH "TS_J_TO_D_path" TIG                 | SETUP       |         N/A|     7.304ns|     N/A|           0
+  PATH "TS_J_TO_D_path" TIG                 | SETUP       |         N/A|     7.448ns|     N/A|           0
 ----------------------------------------------------------------------------------------------------------
   PATH "TS_D_TO_J_path" TIG                 | SETUP       |         N/A|     5.194ns|     N/A|           0
 ----------------------------------------------------------------------------------------------------------
 
 
-All constraints were met.
+1 constraint not met.
 INFO:Timing:2761 - N/A entries in the Constraints List may indicate that the 
    constraint is not analyzed due to the following: No paths covered by this 
    constraint; Other constraints intersect with this constraint; or This 
@@ -200,17 +219,17 @@ Generating Pad Report.
 
 All signals are completely routed.
 
-Total REAL time to PAR completion: 32 secs 
-Total CPU time to PAR completion: 32 secs 
+Total REAL time to PAR completion: 37 secs 
+Total CPU time to PAR completion: 36 secs 
 
-Peak Memory Usage:  967 MB
+Peak Memory Usage:  973 MB
 
 Placer: Placement generated during map.
 Routing: Completed - No errors found.
-Timing: Completed - No errors found.
+Timing: Completed - 1 errors found.
 
 Number of error messages: 0
-Number of warning messages: 0
+Number of warning messages: 1
 Number of info messages: 2
 
 Writing design to file test1.ncd

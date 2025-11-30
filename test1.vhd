@@ -968,7 +968,7 @@ when r_2400_b =>
 when r_2400_c =>
   wr_1_2 (start_process);
 when start_process =>
-  dualmem_enb <= '0';
+  dualmem_enb <= '1';
   if (en_cnt = c_en_cnt - 1) then
     state <= r_0400_1_a;
     en_cnt := 0;
@@ -1006,7 +1006,7 @@ when s0_1 =>
     state <= s1_1;
     test_fixed_melexis_run <= '1';
     float2fixedsclr <= '0';
-    dualmem_enb <= '0';
+    dualmem_enb <= '1';
     w11ms <= 0;
   end if;
 when s1_1 =>
@@ -1087,7 +1087,7 @@ if (c_sim = "n") then
 end if;
 if (c_sim = "y") then
   state <= r_0400_2_a;
-  dualmem_enb <= '0';
+  dualmem_enb <= '1';
 end if;
 
 -- subframe 1
@@ -1120,7 +1120,7 @@ when s0_2 =>
     state <= s1_2;
     test_fixed_melexis_run <= '1';
     float2fixedsclr <= '0';
-    dualmem_enb <= '0';
+    dualmem_enb <= '1';
     w11ms <= 0;
   end if;
 when s1_2 =>

@@ -318,8 +318,11 @@ p0 : process (i_clock,i_reset) is
   occ24,
   occ25,occ26,occ26a,occ27,occ28,occ29,
   occ30,occ31,
-  s0,s5,s6,s8,s12,s13,s14,s15,s17,s18,s20,s23);
+  s0,s5,s6,s8,s12,s13,s14,s15,s17,s18,s20,s23,ending);
 	variable state : states;
+      constant c_some_wait : integer := 2**21;
+    variable some_wait : integer range 0 to c_some_wait - 1;
+
 	variable voffsetRef : std_logic_vector (7 downto 0);
 	variable col : integer range 0 to C_COL-1;
 	variable row : integer range 0 to C_ROW-1;
@@ -331,6 +334,8 @@ p0 : process (i_clock,i_reset) is
 begin
 		if (i_reset = '1') then
 			state := idle;
+              some_wait := 0;
+
 			write_enable <= '0';
 			rdy <= '0';
 			addfpsclr_internal <= '1';
@@ -368,6 +373,8 @@ begin
 						state := idle;
 						i2c_mem_ena <= '0';
 					end if;
+                  some_wait := 0;
+
           i := 0;
           m := 0;
           n := 0;
@@ -564,7 +571,7 @@ begin
             col := 0;
             if (row = C_ROW-1) then
               row := 0;
-              state := idle;
+              state := ending;
               rdy <= '1';
             else
               row := row + 1;
@@ -574,6 +581,14 @@ begin
             col := col + 1;
             state := s0;
           end if;
+          	when ending =>
+    if (some_wait = c_some_wait - 1) then
+      some_wait := 0;
+      state := idle;
+    else
+      some_wait := some_wait + 1;
+    end if;
+
 			end case;
 		end if;
 end process p0;

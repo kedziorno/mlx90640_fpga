@@ -803,7 +803,10 @@ p0 : process (i_clock,i_reset) is
 	type states is (idle,
   s2,s3,s5,s7,s9,s9a,s9b,s9c,
   s10,s14,s16,s17,s20,
-	s22,s24,s25,s26,s28,s30);
+	s22,s24,s25,s26,s28,s30,ending);
+        constant c_some_wait : integer := 2**21;
+    variable some_wait : integer range 0 to c_some_wait - 1;
+
 	variable state : states;
   constant const1 : std_logic_vector (31 downto 0) := x"3f800000";
   constant const_Ta0 : std_logic_vector (31 downto 0) := x"41C80000"; -- 25
@@ -817,6 +820,8 @@ begin
 			mulfpsclr_internal <= '1';
 			divfpsclr_internal <= '1';
 			rdy <= '0';
+                some_wait := 0;
+
 			CalculatePixGain_run <= '0';
 			ExtractOffsetParameters_run <= '0';
 			ExtractKtaParameters_run <= '0';
@@ -858,6 +863,7 @@ begin
 						state := idle;
 					end if;
 					i := 0;
+          some_wait := 0;
           addfpb_internal <= const1;
           divfpb_internal <= const1;
           addfpsclr_internal <= '1';
@@ -1079,13 +1085,21 @@ begin
         when s30 =>
           write_enable <= '0';
           if (i = (C_ROW*C_COL)-1) then
-            state := idle;
+            state := ending;
             i := 0;
             rdy <= '1';
           else
             state := s9a;
             i := i + 1;
           end if;
+        when ending =>
+              if (some_wait = c_some_wait - 1) then
+      some_wait := 0;
+      state := idle;
+    else
+      some_wait := some_wait + 1;
+    end if;
+
       end case;
     end if;
 end process p0;

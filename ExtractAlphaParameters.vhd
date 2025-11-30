@@ -348,7 +348,7 @@ p0 : process (i_clock,i_reset) is
 	acc14,acc15,acc16,acc17,acc18,acc19,
 	acc20,acc21,acc22,acc23,
   pow3,
-	s0,s1,s2,s3,s4,s7,s8,s11,s13,s14,s16,s17,s19,s20,s22,s25);
+	s0,s1,s2,s3,s4,s7,s8,s11,s13,s14,s16,s17,s19,s20,s22,s25,ending);
 	variable state : states;
 
 	variable valphaRef : std_logic_vector (7 downto 0);
@@ -360,13 +360,17 @@ p0 : process (i_clock,i_reset) is
   variable m : integer range 0 to 31 := 0;
   variable n : integer range 0 to 55 := 0;
   variable j : integer range 0 to 13 := 0;
-  
+        constant c_some_wait : integer := 2**21;
+    variable some_wait : integer range 0 to c_some_wait - 1;
+
   variable tmp1 : std_logic_vector (3 downto 0);
 begin
 		if (i_reset = '1') then
 			state := idle;
 			write_enable <= '0';
 			rdy <= '0';
+                some_wait := 0;
+
 			addfpsclr_internal <= '1';
 			mulfpsclr_internal <= '1';
 			divfpsclr_internal <= '1';
@@ -418,6 +422,8 @@ begin
           i := 0;
           m := 0;
           n := 0;
+                    some_wait := 0;
+
           j := 0;
           col := 0;
           row := 0;
@@ -691,7 +697,7 @@ begin
             col := 0;
             if (row = C_ROW-1) then
               row := 0;
-              state := idle;
+              state := ending;
               rdy <= '1';
             else
               row := row + 1;
@@ -701,6 +707,14 @@ begin
             col := col + 1;
             state := s0;
           end if;
+                when ending =>
+            if (some_wait = c_some_wait - 1) then
+      some_wait := 0;
+      state := idle;
+    else
+      some_wait := some_wait + 1;
+    end if;
+
       end case;
     end if;
 end process p0;

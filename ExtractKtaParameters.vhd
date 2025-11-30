@@ -372,8 +372,11 @@ p0 : process (i_clock,i_reset) is
 	kta9,kta10,kta11,
   kta18,kta19,
 	kta21,kta23,
-	kta27);
+	kta27,ending);
 	variable state : states;
+      constant c_some_wait : integer := 2**21;
+    variable some_wait : integer range 0 to c_some_wait - 1;
+
 	variable i : integer range 0 to (C_ROW*C_COL)-1;
 begin
 		if (i_reset = '1') then
@@ -415,6 +418,8 @@ begin
       o_2powx_4bit_adr <= (others => '0');
       o_signed3bit_ena <= '0';
       o_signed3bit_adr <= (others => '0');
+              some_wait := 0;
+
 		elsif (rising_edge (i_clock)) then
 			case (state) is
 				when idle =>
@@ -430,6 +435,8 @@ begin
           col <= 0;
           row <= 0;
           i := 0;
+                  some_wait := 0;
+
           write_enable <= '0';
           addfpsclr_internal <= '1';
           mulfpsclr_internal <= '1';
@@ -560,7 +567,7 @@ begin
             col <= 0;
             if (row = C_ROW-1) then
               row <= 0;
-              state := idle;
+              state := ending;
               rdy <= '1';
             else
               row <= row + 1;
@@ -572,6 +579,14 @@ begin
             state := kta9;
             divfpsclr_internal <= '0';
           end if;
+          	when ending =>
+    if (some_wait = c_some_wait - 1) then
+      some_wait := 0;
+      state := idle;
+    else
+      some_wait := some_wait + 1;
+    end if;
+
 			end case;
 		end if;
 end process p0;
