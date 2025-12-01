@@ -1083,7 +1083,23 @@ when check_nda_1 =>
 when check_nda_1_idle =>
 --  wr_idle (x"0008", r_0400_2, check_nda_1);
 if (c_sim = "n") then
-  wr_idle_1 (x"0008", x"0000", r_0400_2_a, check_nda_1);
+  melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+  melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+  if (
+  melexis_mlx90640_i2c_bytes_to_recv = x"0008" or
+  melexis_mlx90640_i2c_bytes_to_recv = x"0009" or
+  melexis_mlx90640_i2c_bytes_to_recv = x"0000" or
+  melexis_mlx90640_i2c_bytes_to_recv = x"0001"
+  ) then
+    if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+      state <= r_0400_2_a;
+      melexis_mlx90640_i2c_wait <= 0;
+    else
+      melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+    end if;
+  else
+    state <= check_nda_1;
+  end if;
 end if;
 if (c_sim = "y") then
   state <= r_0400_2_a;
@@ -1197,7 +1213,24 @@ when check_nda_2 =>
 when check_nda_2_idle =>
 --  wr_idle (x"0008", end_process, check_nda_2);
 if (c_sim = "n") then
-  wr_idle_1 (x"0008", x"0000", end_process, check_nda_2);
+--  wr_idle_1 (x"0008", x"0009", end_process, check_nda_2);
+melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0'; 
+  melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
+  if (
+  melexis_mlx90640_i2c_bytes_to_recv = x"0008" or
+  melexis_mlx90640_i2c_bytes_to_recv = x"0009" or
+  melexis_mlx90640_i2c_bytes_to_recv = x"0000" or
+  melexis_mlx90640_i2c_bytes_to_recv = x"0001"
+  ) then
+    if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
+      state <= end_process;
+      melexis_mlx90640_i2c_wait <= 0;
+    else
+      melexis_mlx90640_i2c_wait <= melexis_mlx90640_i2c_wait + 1;
+    end if;
+  else
+    state <= check_nda_2;
+  end if;
 end if;
 if (c_sim = "y") then
   state <= end_process;

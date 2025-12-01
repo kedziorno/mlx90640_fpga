@@ -146,6 +146,7 @@ state1,
   signal mode2_read_data_index_ctr : integer range 0 to c_mode2_read_data_index - 1;
   signal mode0_ready_i : std_logic;
   signal mode1_ready_i : std_logic;
+  signal mode1_ready_small_i : std_logic;
   signal mode2_ready_i : std_logic;
   signal mode2_ready_all_i : std_logic;
   signal io_scl_ii, io_scl_ii_i, io_sda_ii, io_sda_ii_i : std_logic;
@@ -175,7 +176,7 @@ begin
     if (i_reset = '1') then
       o_bytes_to_recv <= (others => '0');
     elsif (rising_edge (i_clock)) then
-      if (mode2_ready_i = '1') then
+      if (mode1_ready_i = '1' or mode2_ready_i = '1') then
         o_bytes_to_recv <=
         bytes_to_recv_sr (16 downto 9) & bytes_to_recv_sr (7 downto 0); -- test1
         --bytes_to_recv_sr (7 downto 0) & bytes_to_recv_sr (16 downto 9); -- test2
@@ -254,7 +255,7 @@ begin
       mode2_read_data_index_ctr <= 0;
       temp_sda <= '1';
 --      mode0_ready_i <= '0';
---      mode1_ready_i <= '0';
+      mode1_ready_i <= '0';
       mode2_ready_i <= '0';
 --      mode2_ready_all_i <= '0';
       o_busy <= '0';
@@ -613,9 +614,9 @@ begin
             c_state <= mode1_read_data_nak;
           end if;
         when mode1_read_data_nak =>
-          if (c_cmode = c1) then
+--          if (c_cmode = c1) then
 --            mode1_ready_i <= '1';
-          end if;
+--          end if;
           if (c_cmode = c0) then
 --            mode1_ready_i <= '0';
             c_state <= mode1_read_data_nak_empty;
@@ -623,10 +624,11 @@ begin
           end if;
         when mode1_read_data_nak_empty =>
           if (c_cmode = c1) then
---            mode1_ready_i <= '0';
+            mode1_ready_i <= '1';
           end if;
           if (c_cmode = c0) then
             c_state <= stop;
+            mode1_ready_i <= '0';
             temp_sda <= '0'; -- 'X';
           end if;
 -- XXX mode2 i2c slave address write
@@ -913,16 +915,16 @@ begin
   begin
     if (i_reset = '1') then
       state := a;
-      mode1_ready_i <= '0';
+      mode1_ready_small_i <= '0';
     elsif (rising_edge (i_clock)) then
       case (state) is
         when a =>
       if (c_state = mode1_read_data_nak) then
-    mode1_ready_i <= '1';
+    mode1_ready_small_i <= '1';
       state := b;
     end if;
     when b =>
-    mode1_ready_i <= '0';
+    mode1_ready_small_i <= '0';
     state := c;
     when c =>
       if (c_state = sda_stop) then
@@ -996,7 +998,7 @@ begin
           i2c_clock_ctr_ena <= '1';
         when c =>
 --          clock <= not clock;
-          if (mode0_ready_i = '1' or mode1_ready_i = '1' or mode2_ready_all_i = '1') then
+          if (mode0_ready_i = '1' or mode1_ready_small_i = '1' or mode2_ready_all_i = '1') then
             i2c_clock_state <= a;
             i2c_clock_ctr_ena <= '0';
 --            i2c_clock_count <= 0;
@@ -1021,7 +1023,7 @@ begin
             state := b;
           end if;
         when b =>
-          if (mode0_ready_i = '1' or mode1_ready_i = '1' or mode2_ready_all_i = '1') then
+          if (mode0_ready_i = '1' or mode1_ready_small_i = '1' or mode2_ready_all_i = '1') then
             state := a;
             c_cmode <= c0;
           else
