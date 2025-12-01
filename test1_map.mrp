@@ -11,25 +11,25 @@ Target Device  : xc4vsx35
 Target Package : ff668
 Target Speed   : -10
 Mapper Version : virtex4 -- $Revision: 1.55 $
-Mapped Date    : Mon Dec  1 12:40:22 2025
+Mapped Date    : Mon Dec  1 15:37:59 2025
 
 Design Summary
 --------------
 Number of errors:      0
 Number of warnings:    2
 Logic Utilization:
-  Total Number Slice Registers:       8,979 out of  30,720   29%
-    Number used as Flip Flops:        8,978
+  Total Number Slice Registers:       8,988 out of  30,720   29%
+    Number used as Flip Flops:        8,987
     Number used as Latches:               1
-  Number of 4 input LUTs:            16,579 out of  30,720   53%
+  Number of 4 input LUTs:            16,580 out of  30,720   53%
 Logic Distribution:
-  Number of occupied Slices:         10,116 out of  15,360   65%
-    Number of Slices containing only related logic:  10,116 out of  10,116 100%
-    Number of Slices containing unrelated logic:          0 out of  10,116   0%
+  Number of occupied Slices:         10,331 out of  15,360   67%
+    Number of Slices containing only related logic:  10,331 out of  10,331 100%
+    Number of Slices containing unrelated logic:          0 out of  10,331   0%
       *See NOTES below for an explanation of the effects of unrelated logic.
   Total Number of 4 input LUTs:      17,108 out of  30,720   55%
-    Number used as logic:            16,275
-    Number used as a route-thru:        529
+    Number used as logic:            16,276
+    Number used as a route-thru:        528
     Number used as Shift registers:     304
 
   The Slice Logic Distribution report is not meaningful if the design is
@@ -42,11 +42,11 @@ Logic Distribution:
   Number of BSCAN_VIRTEX4s:               1 out of       4   25%
 
   Number of RPM macros:           13
-Average Fanout of Non-Clock Nets:                3.55
+Average Fanout of Non-Clock Nets:                3.57
 
-Peak Memory Usage:  1275 MB
-Total REAL time to MAP completion:  1 mins 11 secs 
-Total CPU time to MAP completion:   1 mins 10 secs 
+Peak Memory Usage:  1274 MB
+Total REAL time to MAP completion:  1 mins 14 secs 
+Total CPU time to MAP completion:   1 mins 11 secs 
 
 Table of Contents
 -----------------
@@ -473,16 +473,23 @@ GND 		XST_GND
 VCC 		XST_VCC
 GND 		ag_inst/XST_GND
 VCC 		ag_inst/XST_VCC
+GND 		dualmem_inst/XST_GND
+GND 		inst_float2fixed/blk00000001
+VCC 		inst_float2fixed/blk00000002
+GND 		melexis_mlx90640_i2c_i0/XST_GND
+VCC 		melexis_mlx90640_i2c_i0/XST_VCC
+GND 		tfm_inst/inst_CalculateGetImage/XST_GND
+GND 		vts_inst/XST_GND
+VCC 		vts_inst/XST_VCC
+LUT4 		U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/F_SSTAT[6].I_STAT.U_STAT
+   optimized to 0
 GND 		b0.inst_fixed2float/blk00000001
 VCC 		b0.inst_fixed2float/blk00000002
-GND 		dualmem_inst/XST_GND
 GND 		i2c_mlx_i0/XST_GND
 GND 		inst_addfp/blk00000001
 VCC 		inst_addfp/blk00000002
 GND 		inst_divfp/blk00000001
 VCC 		inst_divfp/blk00000002
-GND 		inst_float2fixed/blk00000001
-VCC 		inst_float2fixed/blk00000002
 GND 		inst_mulfp/blk00000001
 VCC 		inst_mulfp/blk00000002
 LUT4 		inst_mulfp/blk00000633
@@ -513,50 +520,43 @@ FDE 		inst_mulfp/blk00000984
    optimized to 0
 FDE 		inst_mulfp/blk00000985
    optimized to 0
+LUT2 		inst_mulfp/blk000009d2
+   optimized to 0
 GND 		inst_subfp/blk00000001
 VCC 		inst_subfp/blk00000002
-GND 		melexis_mlx90640_i2c_i0/XST_GND
-VCC 		melexis_mlx90640_i2c_i0/XST_VCC
+GND 		tfm_inst/XST_GND
+VCC 		tfm_inst/XST_VCC
 GND 		tfm_inst/inst_CalculateAlphaComp/XST_GND
+VCC 		tfm_inst/inst_CalculateAlphaComp/XST_VCC
 GND 		tfm_inst/inst_CalculateAlphaComp/inst_mem_alphacomp/XST_GND
-GND 		tfm_inst/inst_CalculateGetImage/XST_GND
+VCC 		tfm_inst/inst_CalculateGetImage/XST_VCC
 GND 		tfm_inst/inst_CalculateGetImage/inst_mem_GetImage/XST_GND
 GND 		tfm_inst/inst_CalculatePixOS/XST_GND
+VCC 		tfm_inst/inst_CalculatePixOS/XST_VCC
 GND 		tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain/XST_GND
+VCC 		tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain/XST_VCC
 GND 		tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain/inst_mem_KGain/XST_GND
 GND 		tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/XST_GND
+VCC 		tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/XST_VCC
 GND
 		tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/inst_mem_kta/XST_GND
 GND 		tfm_inst/inst_CalculatePixOS/inst_ExtractKvParameters/XST_GND
+VCC 		tfm_inst/inst_CalculatePixOS/inst_ExtractKvParameters/XST_VCC
 GND 		tfm_inst/inst_CalculatePixOS/inst_ExtractKvParameters/inst_mem_kv/XST_GND
 GND 		tfm_inst/inst_CalculatePixOS/inst_ExtractOffsetParameters/XST_GND
+VCC 		tfm_inst/inst_CalculatePixOS/inst_ExtractOffsetParameters/XST_VCC
 GND
 		tfm_inst/inst_CalculatePixOS/inst_ExtractOffsetParameters/inst_mem_occ/XST_GND
 GND 		tfm_inst/inst_CalculatePixOS/inst_mem_pixos/XST_GND
+VCC 		tfm_inst/inst_CalculateTa/XST_VCC
 GND 		tfm_inst/inst_CalculateVirCompensated/XST_GND
+VCC 		tfm_inst/inst_CalculateVirCompensated/XST_VCC
 GND 		tfm_inst/inst_CalculateVirCompensated/inst_mem_vir_compensated/XST_GND
 GND 		tfm_inst/inst_ExtractAlphaParameters/XST_GND
+VCC 		tfm_inst/inst_ExtractAlphaParameters/XST_VCC
 GND 		tfm_inst/inst_ExtractAlphaParameters/inst_mem_acc/XST_GND
 GND 		tfm_inst/inst_rom_constants/XST_GND
 VCC 		tfm_inst/inst_rom_constants/XST_VCC
-GND 		vts_inst/XST_GND
-VCC 		vts_inst/XST_VCC
-LUT2 		inst_mulfp/blk000009d2
-   optimized to 0
-LUT4 		U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/F_SSTAT[6].I_STAT.U_STAT
-   optimized to 0
-VCC 		tfm_inst/inst_CalculateGetImage/XST_VCC
-VCC 		tfm_inst/inst_CalculatePixOS/XST_VCC
-VCC 		tfm_inst/inst_CalculateTa/XST_VCC
-GND 		tfm_inst/XST_GND
-VCC 		tfm_inst/XST_VCC
-VCC 		tfm_inst/inst_CalculateAlphaComp/XST_VCC
-VCC 		tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain/XST_VCC
-VCC 		tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/XST_VCC
-VCC 		tfm_inst/inst_CalculatePixOS/inst_ExtractKvParameters/XST_VCC
-VCC 		tfm_inst/inst_CalculatePixOS/inst_ExtractOffsetParameters/XST_VCC
-VCC 		tfm_inst/inst_CalculateVirCompensated/XST_VCC
-VCC 		tfm_inst/inst_ExtractAlphaParameters/XST_VCC
 FDE 		b0.inst_fixed2float/blk00000045
    optimized to 0
 FDE 		b0.inst_fixed2float/blk00000046
@@ -709,7 +709,7 @@ SRL16.U_GANDX_SRL16_MSET
 Section 8 - Guide Report
 ------------------------
 
-Mon Dec 01 12:41:26 2025
+Mon Dec 01 15:39:06 2025
 
   Estimated SmartGuide Results
   ----------------------------
@@ -717,11 +717,11 @@ Mon Dec 01 12:41:26 2025
   components are components that were guided, but moved in order to satisfy
   timing requirements.
 
-    Estimated Percentage of guided Components                 |  98.5%
-    Estimated Percentage of re-implemented Components         |   0.1%
-    Estimated Percentage of new/changed Components            |   1.4%
-    Estimated Percentage of fully guided Nets                 |  94.9%
-    Estimated Percentage of partially guided or unrouted Nets |   5.1%
+    Estimated Percentage of guided Components                 |  99.2%
+    Estimated Percentage of re-implemented Components         |   0.2%
+    Estimated Percentage of new/changed Components            |   0.7%
+    Estimated Percentage of fully guided Nets                 |  98.0%
+    Estimated Percentage of partially guided or unrouted Nets |   2.0%
 
   A detailed SmartGuide report (.GRF) can be generated during PAR by
   specifying the [-smartguide <guidefile[.ncd]>] switch on the PAR

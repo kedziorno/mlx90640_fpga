@@ -169,7 +169,7 @@ begin
 
   o_mode2_ready <= mode2_ready_i;
   o_mode2_ready_all <= mode2_ready_all_i;
-
+  
   p_ob : process (i_clock, i_reset) is
   begin
     if (i_reset = '1') then
@@ -254,9 +254,9 @@ begin
       mode2_read_data_index_ctr <= 0;
       temp_sda <= '1';
 --      mode0_ready_i <= '0';
-      mode1_ready_i <= '0';
+--      mode1_ready_i <= '0';
       mode2_ready_i <= '0';
-      mode2_ready_all_i <= '0';
+--      mode2_ready_all_i <= '0';
       o_busy <= '0';
     elsif (rising_edge (clock)) then
       case c_state is
@@ -614,16 +614,16 @@ begin
           end if;
         when mode1_read_data_nak =>
           if (c_cmode = c1) then
-            mode1_ready_i <= '1';
+--            mode1_ready_i <= '1';
           end if;
           if (c_cmode = c0) then
-            mode1_ready_i <= '0';
+--            mode1_ready_i <= '0';
             c_state <= mode1_read_data_nak_empty;
             temp_sda <= '1';
           end if;
         when mode1_read_data_nak_empty =>
           if (c_cmode = c1) then
-            mode1_ready_i <= '0';
+--            mode1_ready_i <= '0';
           end if;
           if (c_cmode = c0) then
             c_state <= stop;
@@ -632,7 +632,7 @@ begin
 -- XXX mode2 i2c slave address write
         when mode2_write_slave_address =>
           if (c_cmode = c3) then
-            mode2_ready_all_i <= '0';
+--            mode2_ready_all_i <= '0';
           end if;
           if (slave_index_ctr = 0) then
             c_state <= mode2_write_slave_address_lastbit;
@@ -779,9 +779,9 @@ begin
           end if;
 -- XXX mode2 i2c slave data read 1 - N
         when mode2_read_data1 =>
-          if (c_cmode = c0) then
-            mode2_ready_i <= '0';
-          end if;
+--          if (c_cmode = c0) then
+--            mode2_ready_i <= '0';
+--          end if;
           if (data_index_ctr = c_i2c_data_bits - 1) then
             c_state <= mode2_read_data_lastbit1;
             data_index_ctr <= 0;
@@ -803,9 +803,9 @@ begin
           end if;
 -- XXX mode2 i2c slave data read 2 - N
         when mode2_read_data2 =>
-          if (c_cmode = c1 and data_index_ctr = 7) then
-            mode2_ready_i <= '1';
-          end if;
+--          if (c_cmode = c1 and data_index_ctr = 7) then
+--            mode2_ready_i <= '1';
+--          end if;
             if (data_index_ctr = c_i2c_data_bits - 1) then
               c_state <= mode2_read_data_lastbit2;
               data_index_ctr <= 0;
@@ -813,7 +813,7 @@ begin
               if (c_cmode = c3) then
                 data_index_ctr <= data_index_ctr + 1;
                 temp_sda <= '1';
-                mode2_ready_i <= '0';
+--                mode2_ready_i <= '0';
               end if;
             end if;
         when mode2_read_data_lastbit2 =>
@@ -822,7 +822,7 @@ begin
           end if;
         when mode2_read_data_ack2 =>
           if (c_cmode = c0) then
-            --mode2_ready_i <= '1';
+            mode2_ready_i <= '1';
           end if;
           if (c_cmode = c1) then
             --mode2_ready_all_i <= '1';
@@ -835,30 +835,32 @@ begin
             if (mode2_read_data_index_ctr = c_mode2_read_data_index - 1) then
               c_state <= mode2_read_data_nak; --sda_stop;
               mode2_read_data_index_ctr <= 0;
-              mode2_ready_all_i <= '0';
+--              mode2_ready_all_i <= '0';
               temp_sda <= '1';
             else
               c_state <= mode2_read_data1;
               mode2_read_data_index_ctr <= mode2_read_data_index_ctr + 1;
               data_index_ctr <= 0;
               temp_sda <= '0';
-              mode2_ready_i <= '1';
+--              mode2_ready_i <= '1';
             end if;
           end if;
 -- XXX mode2 i2c slave data read - end
         when mode2_read_data_nak =>
           if (c_cmode = c0) then
-            mode2_ready_i <= '1';
+--            mode2_ready_i <= '1';
+            --            mode2_ready_all_i <= '1';
+
           end if;
           if (c_cmode = c1) then
             --mode2_ready_all_i <= '1';
-            mode2_ready_i <= '0';
+--            mode2_ready_i <= '0';
           end if;
           if (c_cmode = c2) then
             --mode2_ready_all_i <= '0';
           end if;
           if (c_cmode = c3) then
-            c_state <= stop;
+            c_state <= sda_stop;
             temp_sda <= '1';
           end if;
 
@@ -869,17 +871,17 @@ begin
           end if;
         when stop =>
           if (c_cmode = c1) then
-            mode2_ready_i <= '0';
+--            mode2_ready_i <= '0';
             c_state <= idle;
             temp_sda <= '1';
             o_busy <= '0';
-            mode2_ready_all_i <= '1';
+--            mode2_ready_all_i <= '1';
           end if;
       end case;
     end if;
   end process p_i2c_send_sequence_fsm;
 
-  process (i_clock, i_reset) is
+  p_mode0 : process (i_clock, i_reset) is
     type states is (a,b,c);
     variable state : states;
   begin
@@ -903,7 +905,59 @@ begin
       
       end case;
     end if;
-  end process;
+  end process p_mode0;
+
+  p_mode1 : process (i_clock, i_reset) is
+    type states is (a,b,c);
+    variable state : states;
+  begin
+    if (i_reset = '1') then
+      state := a;
+      mode1_ready_i <= '0';
+    elsif (rising_edge (i_clock)) then
+      case (state) is
+        when a =>
+      if (c_state = mode1_read_data_nak) then
+    mode1_ready_i <= '1';
+      state := b;
+    end if;
+    when b =>
+    mode1_ready_i <= '0';
+    state := c;
+    when c =>
+      if (c_state = sda_stop) then
+        state := a;
+    end if;
+      
+      end case;
+    end if;
+  end process p_mode1;
+  
+  p_mode2 : process (i_clock, i_reset) is
+    type states is (a,b,c);
+    variable state : states;
+  begin
+    if (i_reset = '1') then
+      state := a;
+      mode2_ready_all_i <= '0';
+    elsif (rising_edge (i_clock)) then
+      case (state) is
+        when a =>
+      if (c_state = mode2_read_data_nak) then
+    mode2_ready_all_i <= '1';
+      state := b;
+    end if;
+    when b =>
+    mode2_ready_all_i <= '0';
+    state := c;
+    when c =>
+      if (c_state = sda_stop) then
+        state := a;
+    end if;
+      
+      end case;
+    end if;
+  end process p_mode2;
 
   p_i2c_clock_ctr_ena : process (i_clock, i_reset) is
   begin
@@ -918,6 +972,9 @@ begin
         else
           i2c_clock_count <= i2c_clock_count + 1;
         end if;
+      else
+        i2c_clock_count <= 0;
+        clock <= '0';
       end if;
     end if;
   end process p_i2c_clock_ctr_ena;
@@ -956,21 +1013,30 @@ begin
   begin
     if (i_reset = '1') then
       c_cmode <= c0;
+      state := a;
     elsif (rising_edge (clock)) then
---      if (i_enable = '1') then
-        case c_cmode is
-          when c0 =>
-            c_cmode <= c1;
-          when c1 =>
-            c_cmode <= c2;
-          when c2 =>
-            c_cmode <= c3;
-          when c3 =>
+      case (state) is
+        when a =>
+          if (i_enable = '1') then
+            state := b;
+          end if;
+        when b =>
+          if (mode0_ready_i = '1' or mode1_ready_i = '1' or mode2_ready_all_i = '1') then
+            state := a;
             c_cmode <= c0;
-        end case;
---      else
---        c_cmode <= c0;
---      end if;
+          else
+            case c_cmode is
+              when c0 =>
+                c_cmode <= c1;
+              when c1 =>
+                c_cmode <= c2;
+              when c2 =>
+                c_cmode <= c3;
+              when c3 =>
+                c_cmode <= c0;
+            end case;
+          end if;
+      end case;
     end if;
   end process p_i2c_clock_generator_fsm;
 
