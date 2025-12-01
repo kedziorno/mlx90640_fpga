@@ -592,6 +592,8 @@ signal spi_i : integer range 0 to 31;
 type debug_spi_st is (a,b);
 signal debug_spi_s : debug_spi_st;
 
+signal sda_o_n, scl_o_n : std_logic;
+
 begin
 
 g_debug_spi_n : if (c_debug_spi = "n") generate
@@ -1087,9 +1089,11 @@ if (c_sim = "n") then
   melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
   if (
   melexis_mlx90640_i2c_bytes_to_recv = x"0008" or
+  melexis_mlx90640_i2c_bytes_to_recv = x"0007" or
   melexis_mlx90640_i2c_bytes_to_recv = x"0009" or
   melexis_mlx90640_i2c_bytes_to_recv = x"0000" or
-  melexis_mlx90640_i2c_bytes_to_recv = x"0001"
+  melexis_mlx90640_i2c_bytes_to_recv = x"0001" or
+  melexis_mlx90640_i2c_bytes_to_recv = x"000f"
   ) then
     if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
       state <= r_0400_2_a;
@@ -1207,7 +1211,7 @@ when set_som_2_b =>
 when set_som_2_c =>
   w_2 (w8_rr_20_2);
 when w8_rr_20_2 =>
---  w8_64us (check_nda_2);
+  w8_64us (check_nda_2);
 when check_nda_2 =>
   wr (x"8000", check_nda_2_idle);
 when check_nda_2_idle =>
@@ -1218,9 +1222,11 @@ melexis_mlx90640_i2c_mode0 <= '0'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_ml
   melexis_mlx90640_i2c_enable <= '0'; melexis_mlx90640_i2c_memory_address <= x"0000"; melexis_mlx90640_i2c_memory_data <= x"0000";
   if (
   melexis_mlx90640_i2c_bytes_to_recv = x"0008" or
+  melexis_mlx90640_i2c_bytes_to_recv = x"0007" or
   melexis_mlx90640_i2c_bytes_to_recv = x"0009" or
   melexis_mlx90640_i2c_bytes_to_recv = x"0000" or
-  melexis_mlx90640_i2c_bytes_to_recv = x"0001"
+  melexis_mlx90640_i2c_bytes_to_recv = x"0001" or
+  melexis_mlx90640_i2c_bytes_to_recv = x"000f"
   ) then
     if (melexis_mlx90640_i2c_wait = c_melexis_mlx90640_i2c_wait - 1) then
       state <= end_process;
@@ -1627,16 +1633,37 @@ io_scl_i => scl_i
 );
 
 --g_sda_scl_sim : if (c_sim = "y") generate
-io_sda_dd1 <= '0' when sda_o = '0' else 'Z';
+sda_o_n <= not sda_o;
+scl_o_n <= not scl_o;
+--io_sda_dd1 <= '1' when sda_o_n = '1' else 'Z';
+process(io_sda_dd1, sda_o_n)
+begin
+ if (sda_o_n = '1') then
+   io_sda_dd1 <= '0';
+ else
+   io_sda_dd1 <= 'Z';
+ end if;
+end process;
+
 sda_i <= io_sda_dd1;
 io_sda_dd <= sda_i;
 io_sda_nl <= sda_i;
 
-io_scl_dd1 <= '0' when scl_o = '0' else 'Z';
+--io_scl_dd1 <= '1' when scl_o_n = '1' else 'Z';
+process(io_scl_dd1, scl_o_n)
+begin
+ if (scl_o_n = '1') then
+   io_scl_dd1 <= '0';
+ else
+   io_scl_dd1 <= 'Z';
+ end if;
+end process;
+
 scl_i <= io_scl_dd1;
 io_scl_nl <= scl_i;
 io_scl_dd <= scl_i;
 --end generate g_sda_scl_sim;
+
 
 --g_sda_scl_syn : if (c_sim = "n") generate
 --IOBUF_inst_sda : IOBUF

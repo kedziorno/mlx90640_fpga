@@ -614,21 +614,21 @@ begin
             c_state <= mode1_read_data_nak;
           end if;
         when mode1_read_data_nak =>
---          if (c_cmode = c1) then
---            mode1_ready_i <= '1';
---          end if;
-          if (c_cmode = c0) then
---            mode1_ready_i <= '0';
-            c_state <= mode1_read_data_nak_empty;
-            temp_sda <= '1';
-          end if;
-        when mode1_read_data_nak_empty =>
           if (c_cmode = c1) then
             mode1_ready_i <= '1';
           end if;
           if (c_cmode = c0) then
-            c_state <= stop;
             mode1_ready_i <= '0';
+            c_state <= mode1_read_data_nak_empty;
+            temp_sda <= '1';
+          end if;
+        when mode1_read_data_nak_empty =>
+--          if (c_cmode = c1) then
+--            mode1_ready_i <= '1';
+--          end if;
+          if (c_cmode = c0) then
+            c_state <= stop;
+--            mode1_ready_i <= '0';
             temp_sda <= '0'; -- 'X';
           end if;
 -- XXX mode2 i2c slave address write
