@@ -31,7 +31,7 @@ use work.global_package.all;
 entity test1 is
 generic (
 constant c_clock_board_frequency : integer := c_clock_board_frequency;
-constant c_bus_clock : integer := c_clock_i2c_frequency;
+constant c_bus_clock : integer := 1_000_000;
 c_sim : string (1 downto 1) := "n";
 c_debug_spi : string (1 downto 1) := "n";
 c_normal : string (1 downto 1) := "y";
@@ -978,7 +978,7 @@ when r_2400_b =>
 when r_2400_c =>
   wr_1_2 (start_process);
 when start_process =>
---  dualmem_enb <= '1';
+--  --dualmem_enb <= '1';
   if (en_cnt = c_en_cnt - 1) then
     state <= r_0400_1_a;
     en_cnt := 0;
@@ -1016,7 +1016,7 @@ when s0_1 =>
     state <= s1_1;
     test_fixed_melexis_run <= '1';
     float2fixedsclr <= '0';
---    dualmem_enb <= '1';
+--    --dualmem_enb <= '1';
     w11ms <= 0;
 --  end if;
 when s1_1 =>
@@ -1079,8 +1079,8 @@ when s10_1 =>
     vga_wait1 := vga_wait1 + 1;
   end if;
 when set_som_1_a =>
-  dualmem_enb <= '0';
-  w_1 (x"8000", x"0020", set_som_1_b);
+  --dualmem_enb <= '0'; -- with this all screen have one pixel color, dev response
+  w_1 (x"8000", x"0030", set_som_1_b);
 --  w (x"8000", x"0030", w8_rr_20_1);
 when set_som_1_b =>
   if (en_cnt = c_en_cnt - 1) then
@@ -1093,7 +1093,7 @@ when set_som_1_b =>
 when set_som_1_c =>
   w_2 (w8_rr_20_1);
 when w8_rr_20_1 =>
-  w8_64us (check_nda_1);
+--  w8_64us (check_nda_1); -- to here is ok
 when check_nda_1 =>
   wr (x"8000", check_nda_1_idle); -- to here is ok
 when check_nda_1_idle =>
@@ -1121,7 +1121,7 @@ if (c_sim = "n") then
 end if;
 if (c_sim = "y") then
   state <= r_0400_2_a;
-  dualmem_enb <= '1';
+  --dualmem_enb <= '1';
 end if;
 
 -- subframe 1
@@ -1209,7 +1209,7 @@ when s9_2 =>
     j := j + 1;
   end if;
 when s10_2 =>
-  dualmem_enb <= '1';
+  --dualmem_enb <= '1';
   if (vga_wait2 = c_vga_wait - 1) then
     vga_wait2 := 0;
     state <= set_som_2_a;
@@ -1217,8 +1217,8 @@ when s10_2 =>
     vga_wait2 := vga_wait2 + 1;
   end if;
 when set_som_2_a =>
-  dualmem_enb <= '0';
-  w_1 (x"8000", x"0020", set_som_2_b);
+  --dualmem_enb <= '0';
+  w_1 (x"8000", x"0030", set_som_2_b);
 --  w (x"8000", x"0030", w8_rr_20_2);
 when set_som_2_b =>
   if (en_cnt = c_en_cnt - 1) then
@@ -1269,6 +1269,8 @@ when others => null;
 		end if;
 	end if;
 end process pTo;
+
+--dualmem_enb <= '1';
 
 --vgaclk25 <= i_clock; -- 25 mhz
 --p_synchro_vga : process (i_clock, i_reset) is
