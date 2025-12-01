@@ -863,12 +863,12 @@ begin
           end if;
 
         when sda_stop =>
-          if (c_cmode = c3) then
+          if (c_cmode = c0) then
             c_state <= stop;
             temp_sda <= '0';
           end if;
         when stop =>
-          if (c_cmode = c3) then
+          if (c_cmode = c1) then
             mode2_ready_i <= '0';
             c_state <= idle;
             temp_sda <= '1';
