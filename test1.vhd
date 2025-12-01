@@ -1207,7 +1207,7 @@ when set_som_2_b =>
 when set_som_2_c =>
   w_2 (w8_rr_20_2);
 when w8_rr_20_2 =>
-  w8_64us (check_nda_2);
+--  w8_64us (check_nda_2);
 when check_nda_2 =>
   wr (x"8000", check_nda_2_idle);
 when check_nda_2_idle =>

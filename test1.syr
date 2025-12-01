@@ -5,14 +5,14 @@ Parameter TMPDIR set to xst/projnav.tmp
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.03 secs
+Total CPU time to Xst completion: 0.04 secs
  
 --> 
 Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.03 secs
+Total CPU time to Xst completion: 0.04 secs
  
 --> 
 WARNING:Xst:1583 - You are using an internal switch '-use_new_parser'.
@@ -182,12 +182,12 @@ Architecture addfp_a of Entity addfp is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ipcore_dir/subfp.vhd" in Library work.
 Architecture subfp_a of Entity subfp is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/melexis_mlx90640_i2c.vhd" in Library work.
-Entity <melexis_mlx90640_i2c> compiled.
-Entity <melexis_mlx90640_i2c> (Architecture <rtl>) compiled.
+Architecture rtl of Entity melexis_mlx90640_i2c is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/ipcore_dir/inst_mem_kvdd_vdd25.vhd" in Library work.
 Architecture inst_mem_kvdd_vdd25_a of Entity inst_mem_kvdd_vdd25 is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/test1.vhd" in Library work.
-Architecture behavioral of Entity test1 is up to date.
+Entity <test1> compiled.
+Entity <test1> (Architecture <behavioral>) compiled.
 
 =========================================================================
 *                     Design Hierarchy Analysis                         *
@@ -2252,12 +2252,15 @@ WARNING:Xst:1780 - Signal <asd> is never used or assigned. This unconnected sign
 WARNING:Xst:646 - Signal <VGA_timing_synch_blank> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
     Register <float2fixedond> equivalent to <float2fixedce> has been removed
     Register <i2c_mlx_wea<0>> equivalent to <i2c_mlx_ena> has been removed
+INFO:Xst:1799 - State check_nda_2_idle is never reached in FSM <state>.
+INFO:Xst:1799 - State check_nda_2 is never reached in FSM <state>.
+INFO:Xst:1799 - State end_process is never reached in FSM <state>.
     Found finite state machine <FSM_23> for signal <state>.
     -----------------------------------------------------------------------
-    | States             | 52                                             |
-    | Transitions        | 114                                            |
+    | States             | 49                                             |
+    | Transitions        | 100                                            |
     | Inputs             | 15                                             |
-    | Outputs            | 50                                             |
+    | Outputs            | 47                                             |
     | Clock              | i_clock                   (rising_edge)        |
     | Reset              | i_reset                   (positive)           |
     | Reset type         | synchronous                                    |
@@ -2389,63 +2392,63 @@ Macro Statistics
 =========================================================================
 
 Analyzing FSM <FSM_23> for best encoding.
-Optimizing FSM <state/FSM> on signal <state[1:52]> with one-hot encoding.
---------------------------------------------------------------------------
+Optimizing FSM <state/FSM> on signal <state[1:49]> with one-hot encoding.
+-----------------------------------------------------------------------
  State            | Encoding
---------------------------------------------------------------------------
- idle             | 0000000000000000000000000000000000000000000000000001
- w8_80ms          | 0000000000000000000000000000000000000000000000000010
- w_800d1981_a     | 0000000000000000000000000000000000000000000000000100
- w_800d1981_b     | 0000000000000000000000000000000000000000000000001000
- w8_rr            | 0000000000000000000000000000000000000000000000010000
- r_2400_a         | 0000000000000000000000000000000000000000000000100000
- r_2400_b         | 0000000000000000000000000000000000000000000001000000
- r_2400_c         | 0000000000000000000000000000000000000000000010000000
- start_process    | 0000000000000000000000000000000000000000000100000000
- r_0400_1_a       | 0000000000000000000000000000000000000000001000000000
- r_0400_1_b       | 0000000000000000000000000000000000000000010000000000
- r_0400_1_c       | 0000000000000000000000000000000000000000100000000000
- clear_nda_1_a    | 0000000000000000000000000000000000000001000000000000
- clear_nda_1_b    | 0000000000000000000000000000000000000010000000000000
- clear_nda_1_c    | 0000000000000000000000000000000000000100000000000000
- s0_1             | 0000000000000000000000000000000000001000000000000000
- s1_1             | 0000000000000000000000000000000000010000000000000000
- s4_1             | 0000000000000000000000000000000000100000000000000000
- s5_1             | 0000000000000000000000000000000001000000000000000000
- s6_1             | 0000000000000000000000000000000010000000000000000000
- s7_1             | 0000000000000000000000000000000100000000000000000000
- s8_1             | 0000000000000000000000000000001000000000000000000000
- s9_1             | 0000000000000000000000000000010000000000000000000000
- s10_1            | 0000000000000000000000000000100000000000000000000000
- set_som_1_a      | 0000000000000000000000000001000000000000000000000000
- set_som_1_b      | 0000000000000000000000000010000000000000000000000000
- set_som_1_c      | 0000000000000000000000000100000000000000000000000000
- w8_rr_20_1       | 0000000000000000000000001000000000000000000000000000
- check_nda_1      | 0000000000000000000000010000000000000000000000000000
- check_nda_1_idle | 0000000000000000000000100000000000000000000000000000
- r_0400_2_a       | 0000000000000000000001000000000000000000000000000000
- r_0400_2_b       | 0000000000000000000010000000000000000000000000000000
- r_0400_2_c       | 0000000000000000000100000000000000000000000000000000
- clear_nda_2_a    | 0000000000000000001000000000000000000000000000000000
- clear_nda_2_b    | 0000000000000000010000000000000000000000000000000000
- clear_nda_2_c    | 0000000000000000100000000000000000000000000000000000
- s0_2             | 0000000000000001000000000000000000000000000000000000
- s1_2             | 0000000000000010000000000000000000000000000000000000
- s4_2             | 0000000000000100000000000000000000000000000000000000
- s5_2             | 0000000000001000000000000000000000000000000000000000
- s6_2             | 0000000000010000000000000000000000000000000000000000
- s7_2             | 0000000000100000000000000000000000000000000000000000
- s8_2             | 0000000001000000000000000000000000000000000000000000
- s9_2             | 0000000010000000000000000000000000000000000000000000
- s10_2            | 0000000100000000000000000000000000000000000000000000
- set_som_2_a      | 0000001000000000000000000000000000000000000000000000
- set_som_2_b      | 0000010000000000000000000000000000000000000000000000
- set_som_2_c      | 0000100000000000000000000000000000000000000000000000
- w8_rr_20_2       | 0001000000000000000000000000000000000000000000000000
- check_nda_2      | 0010000000000000000000000000000000000000000000000000
- check_nda_2_idle | 0100000000000000000000000000000000000000000000000000
- end_process      | 1000000000000000000000000000000000000000000000000000
---------------------------------------------------------------------------
+-----------------------------------------------------------------------
+ idle             | 0000000000000000000000000000000000000000000000001
+ w8_80ms          | 0000000000000000000000000000000000000000000000010
+ w_800d1981_a     | 0000000000000000000000000000000000000000000000100
+ w_800d1981_b     | 0000000000000000000000000000000000000000000001000
+ w8_rr            | 0000000000000000000000000000000000000000000010000
+ r_2400_a         | 0000000000000000000000000000000000000000000100000
+ r_2400_b         | 0000000000000000000000000000000000000000001000000
+ r_2400_c         | 0000000000000000000000000000000000000000010000000
+ start_process    | 0000000000000000000000000000000000000000100000000
+ r_0400_1_a       | 0000000000000000000000000000000000000001000000000
+ r_0400_1_b       | 0000000000000000000000000000000000000010000000000
+ r_0400_1_c       | 0000000000000000000000000000000000000100000000000
+ clear_nda_1_a    | 0000000000000000000000000000000000001000000000000
+ clear_nda_1_b    | 0000000000000000000000000000000000010000000000000
+ clear_nda_1_c    | 0000000000000000000000000000000000100000000000000
+ s0_1             | 0000000000000000000000000000000001000000000000000
+ s1_1             | 0000000000000000000000000000000010000000000000000
+ s4_1             | 0000000000000000000000000000000100000000000000000
+ s5_1             | 0000000000000000000000000000001000000000000000000
+ s6_1             | 0000000000000000000000000000010000000000000000000
+ s7_1             | 0000000000000000000000000000100000000000000000000
+ s8_1             | 0000000000000000000000000001000000000000000000000
+ s9_1             | 0000000000000000000000000010000000000000000000000
+ s10_1            | 0000000000000000000000000100000000000000000000000
+ set_som_1_a      | 0000000000000000000000001000000000000000000000000
+ set_som_1_b      | 0000000000000000000000010000000000000000000000000
+ set_som_1_c      | 0000000000000000000000100000000000000000000000000
+ w8_rr_20_1       | 0000000000000000000001000000000000000000000000000
+ check_nda_1      | 0000000000000000000010000000000000000000000000000
+ check_nda_1_idle | 0000000000000000000100000000000000000000000000000
+ r_0400_2_a       | 0000000000000000001000000000000000000000000000000
+ r_0400_2_b       | 0000000000000000010000000000000000000000000000000
+ r_0400_2_c       | 0000000000000000100000000000000000000000000000000
+ clear_nda_2_a    | 0000000000000001000000000000000000000000000000000
+ clear_nda_2_b    | 0000000000000010000000000000000000000000000000000
+ clear_nda_2_c    | 0000000000000100000000000000000000000000000000000
+ s0_2             | 0000000000001000000000000000000000000000000000000
+ s1_2             | 0000000000010000000000000000000000000000000000000
+ s4_2             | 0000000000100000000000000000000000000000000000000
+ s5_2             | 0000000001000000000000000000000000000000000000000
+ s6_2             | 0000000010000000000000000000000000000000000000000
+ s7_2             | 0000000100000000000000000000000000000000000000000
+ s8_2             | 0000001000000000000000000000000000000000000000000
+ s9_2             | 0000010000000000000000000000000000000000000000000
+ s10_2            | 0000100000000000000000000000000000000000000000000
+ set_som_2_a      | 0001000000000000000000000000000000000000000000000
+ set_som_2_b      | 0010000000000000000000000000000000000000000000000
+ set_som_2_c      | 0100000000000000000000000000000000000000000000000
+ w8_rr_20_2       | 1000000000000000000000000000000000000000000000000
+ check_nda_2      | unreached
+ check_nda_2_idle | unreached
+ end_process      | unreached
+-----------------------------------------------------------------------
 Analyzing FSM <FSM_22> for best encoding.
 Optimizing FSM <tfm_inst/state/FSM> on signal <state[1:24]> with one-hot encoding.
 -----------------------------------
@@ -3185,7 +3188,6 @@ WARNING:Xst:2677 - Node <o_busy> of sequential type is unconnected in block <tfm
 Mapping all equations...
 Building and optimizing final netlist ...
 INFO:Xst:2261 - The FF/Latch <melexis_mlx90640_i2c_memory_address_0> in Unit <test1> is equivalent to the following 2 FFs/Latches, which will be removed : <melexis_mlx90640_i2c_memory_address_2> <melexis_mlx90640_i2c_memory_address_3> 
-INFO:Xst:2261 - The FF/Latch <melexis_mlx90640_i2c_memory_data_3> in Unit <test1> is equivalent to the following 5 FFs/Latches, which will be removed : <melexis_mlx90640_i2c_memory_data_7> <melexis_mlx90640_i2c_memory_data_8> <melexis_mlx90640_i2c_memory_data_9> <melexis_mlx90640_i2c_memory_data_11> <melexis_mlx90640_i2c_memory_data_12> 
 Found area constraint ratio of 100 (+ 5) on block test1, actual ratio is 67.
 INFO:Xst:2260 - The FF/Latch <blk00000084> in Unit <inst_mulfp> is equivalent to the following FF/Latch : <blk00000553> 
 INFO:Xst:2260 - The FF/Latch <blk00000296> in Unit <inst_addfp> is equivalent to the following FF/Latch : <blk000004d7> 
@@ -3210,8 +3212,8 @@ Unit <melexis_mlx90640_i2c_i0> processed.
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 5169
- Flip-Flops                                            : 5169
+# Registers                                            : 5170
+ Flip-Flops                                            : 5170
 # Shift Registers                                      : 1
  2-bit shift register                                  : 1
 
@@ -3242,36 +3244,36 @@ Design Statistics
 # IOs                              : 77
 
 Cell Usage :
-# BELS                             : 21069
+# BELS                             : 21060
 #      BUF                         : 18
 #      GND                         : 32
-#      INV                         : 71
+#      INV                         : 72
 #      LUT1                        : 302
-#      LUT2                        : 3565
+#      LUT2                        : 3564
 #      LUT2_D                      : 6
 #      LUT2_L                      : 30
-#      LUT3                        : 3457
+#      LUT3                        : 3463
 #      LUT3_D                      : 105
 #      LUT3_L                      : 153
-#      LUT4                        : 8640
+#      LUT4                        : 8627
 #      LUT4_D                      : 26
-#      LUT4_L                      : 404
+#      LUT4_L                      : 405
 #      MULT_AND                    : 225
 #      MUXCY                       : 1907
-#      MUXF5                       : 385
-#      MUXF6                       : 10
+#      MUXF5                       : 381
+#      MUXF6                       : 11
 #      MUXF7                       : 3
 #      VCC                         : 22
 #      XORCY                       : 1708
-# FlipFlops/Latches                : 8682
+# FlipFlops/Latches                : 8683
 #      FD                          : 26
 #      FDC                         : 4196
 #      FDCE                        : 165
 #      FDE                         : 3409
 #      FDP                         : 231
-#      FDR                         : 177
+#      FDR                         : 175
 #      FDRE                        : 344
-#      FDRS                        : 27
+#      FDRS                        : 30
 #      FDRSE                       : 86
 #      FDS                         : 1
 #      FDSE                        : 20
@@ -3295,10 +3297,10 @@ Device utilization summary:
 
 Selected Device : 4vsx35ff668-10 
 
- Number of Slices:                     9762  out of  15360    63%  
- Number of Slice Flip Flops:           8682  out of  30720    28%  
- Number of 4 input LUTs:              16962  out of  30720    55%  
-    Number used as logic:             16759
+ Number of Slices:                     9760  out of  15360    63%  
+ Number of Slice Flip Flops:           8683  out of  30720    28%  
+ Number of 4 input LUTs:              16956  out of  30720    55%  
+    Number used as logic:             16753
     Number used as Shift registers:     203
  Number of IOs:                          77
  Number of bonded IOBs:                  77  out of    448    17%  
@@ -3327,7 +3329,7 @@ Clock Information:
 -----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)                                                                                                                  | Load  |
 -----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+-------+
-i_clock                            | BUFGP                                                                                                                                  | 8701  |
+i_clock                            | BUFGP                                                                                                                                  | 8702  |
 agclk                              | NONE(dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP)| 11    |
 vgaclk251                          | BUFG                                                                                                                                   | 88    |
 melexis_mlx90640_i2c_i0/clock1     | BUFG                                                                                                                                   | 91    |
@@ -3363,8 +3365,8 @@ Timing Summary:
 Speed Grade: -10
 
    Minimum period: 11.640ns (Maximum Frequency: 85.912MHz)
-   Minimum input arrival time before clock: 13.588ns
-   Maximum output required time after clock: 11.824ns
+   Minimum input arrival time before clock: 13.592ns
+   Maximum output required time after clock: 11.899ns
    Maximum combinational path delay: 5.297ns
 
 Timing Detail:
@@ -3374,7 +3376,7 @@ All values displayed in nanoseconds (ns)
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
   Clock period: 11.640ns (frequency: 85.912MHz)
-  Total number of paths / destination ports: 439065 / 13903
+  Total number of paths / destination ports: 438795 / 13907
 -------------------------------------------------------------------------
 Delay:               11.640ns (Levels of Logic = 7)
   Source:            tfm_inst/inst_CalculatePixOS/ExtractKtaParameters_mux (FF)
@@ -3452,7 +3454,7 @@ Delay:               4.522ns (Levels of Logic = 3)
 =========================================================================
 Timing constraint: Default period analysis for Clock 'melexis_mlx90640_i2c_i0/clock1'
   Clock period: 5.767ns (frequency: 173.401MHz)
-  Total number of paths / destination ports: 1368 / 134
+  Total number of paths / destination ports: 1367 / 134
 -------------------------------------------------------------------------
 Delay:               5.767ns (Levels of Logic = 5)
   Source:            melexis_mlx90640_i2c_i0/c_cmode_FSM_FFd2 (FF)
@@ -3464,8 +3466,8 @@ Delay:               5.767ns (Levels of Logic = 5)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDCE:C->Q            28   0.360   1.137  c_cmode_FSM_FFd2 (c_cmode_FSM_FFd2)
-     LUT2:I0->O           75   0.195   1.424  c_cmode_FSM_Out01 (c_state_cmp_eq0000)
+     FDCE:C->Q            27   0.360   1.133  c_cmode_FSM_FFd2 (c_cmode_FSM_FFd2)
+     LUT2:I0->O           76   0.195   1.428  c_cmode_FSM_Out01 (c_state_cmp_eq0000)
      LUT4:I1->O            1   0.195   0.523  temp_sda_mux0011711_SW0 (N22)
      LUT4:I3->O            1   0.195   0.585  temp_sda_mux0011711 (temp_sda_mux001171)
      LUT4:I2->O            1   0.195   0.741  temp_sda_mux001188 (temp_sda_mux001188)
@@ -3499,9 +3501,9 @@ Delay:               1.335ns (Levels of Logic = 1)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'i_clock'
-  Total number of paths / destination ports: 542 / 530
+  Total number of paths / destination ports: 543 / 531
 -------------------------------------------------------------------------
-Offset:              13.588ns (Levels of Logic = 7)
+Offset:              13.592ns (Levels of Logic = 7)
   Source:            i_reset (PAD)
   Destination:       tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/fixed2floatce_internal (FF)
   Destination Clock: i_clock rising
@@ -3510,7 +3512,7 @@ Offset:              13.588ns (Levels of Logic = 7)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           356   0.965   2.195  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O           357   0.965   2.199  i_reset_IBUF (i_reset_IBUF)
      BUF:I->O            472   0.358   2.648  i_reset_IBUF_1 (i_reset_IBUF_1)
      begin scope: 'tfm_inst'
      BUF:I->O            496   0.358   2.742  i_reset_1 (i_reset_1)
@@ -3520,14 +3522,14 @@ Offset:              13.588ns (Levels of Logic = 7)
      LUT2:I0->O            9   0.195   0.469  fixed2floatce_internal_and00001 (fixed2floatce_internal_and0000)
      FDE:CE                    0.540          fixed2floatce_internal
     ----------------------------------------
-    Total                     13.588ns (2.774ns logic, 10.814ns route)
+    Total                     13.592ns (2.774ns logic, 10.818ns route)
                                        (20.4% logic, 79.6% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'vgaclk251'
   Total number of paths / destination ports: 91 / 91
 -------------------------------------------------------------------------
-Offset:              7.591ns (Levels of Logic = 6)
+Offset:              7.595ns (Levels of Logic = 6)
   Source:            i_reset (PAD)
   Destination:       vts_inst/videoOn (FF)
   Destination Clock: vgaclk251 rising
@@ -3536,7 +3538,7 @@ Offset:              7.591ns (Levels of Logic = 6)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           356   0.965   2.358  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O           357   0.965   2.362  i_reset_IBUF (i_reset_IBUF)
      begin scope: 'vts_inst'
      LUT2:I1->O            1   0.195   0.585  videoOn_or00001 (videoOn_or00001)
      LUT4:I2->O            1   0.195   0.741  videoOn_or000013 (videoOn_or000013)
@@ -3544,14 +3546,14 @@ Offset:              7.591ns (Levels of Logic = 6)
      LUT4:I0->O            1   0.195   0.360  videoOn_or0000465 (videoOn_or0000)
      FDR:R                     1.062          videoOn
     ----------------------------------------
-    Total                      7.591ns (2.807ns logic, 4.784ns route)
+    Total                      7.595ns (2.807ns logic, 4.788ns route)
                                        (37.0% logic, 63.0% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'agclk'
   Total number of paths / destination ports: 10 / 10
 -------------------------------------------------------------------------
-Offset:              5.067ns (Levels of Logic = 3)
+Offset:              5.071ns (Levels of Logic = 3)
   Source:            i_reset (PAD)
   Destination:       ag_inst/addr_0 (FF)
   Destination Clock: agclk rising
@@ -3560,13 +3562,13 @@ Offset:              5.067ns (Levels of Logic = 3)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O           356   0.965   2.358  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O           357   0.965   2.362  i_reset_IBUF (i_reset_IBUF)
      begin scope: 'ag_inst'
      LUT4:I3->O           10   0.195   0.488  addr_or000038 (addr_or0000)
      FDRE:R                    1.062          addr_0
     ----------------------------------------
-    Total                      5.067ns (2.222ns logic, 2.845ns route)
-                                       (43.9% logic, 56.1% route)
+    Total                      5.071ns (2.222ns logic, 2.849ns route)
+                                       (43.8% logic, 56.2% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'melexis_mlx90640_i2c_i0/clock1'
@@ -3618,9 +3620,9 @@ Offset:              8.501ns (Levels of Logic = 6)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'vgaclk251'
-  Total number of paths / destination ports: 402 / 17
+  Total number of paths / destination ports: 382 / 17
 -------------------------------------------------------------------------
-Offset:              10.192ns (Levels of Logic = 8)
+Offset:              10.085ns (Levels of Logic = 8)
   Source:            vts_inst/hPos_2 (FF)
   Destination:       vga_b<6> (PAD)
   Source Clock:      vgaclk251 rising
@@ -3631,22 +3633,22 @@ Offset:              10.192ns (Levels of Logic = 8)
     ----------------------------------------  ------------
      FDR:C->Q              4   0.360   0.755  hPos_2 (hPos_2)
      LUT4:I0->O            2   0.195   0.705  activeArea1_and00002111 (N29)
-     LUT4:I1->O            1   0.195   0.585  activeArea1_and000013 (activeArea1_and000013)
-     LUT4:I2->O            1   0.195   0.585  activeArea1_and0000106_SW0 (N6)
-     LUT4:I2->O           20   0.195   1.027  activeArea1_and0000106 (activeArea1)
+     LUT4:I1->O            1   0.195   0.523  activeArea1_and000013 (activeArea1_and000013)
+     LUT4:I3->O            1   0.195   0.585  activeArea1_and0000106_SW0 (N6)
+     LUT4:I2->O           19   0.195   0.982  activeArea1_and0000106 (activeArea1)
      end scope: 'vts_inst'
      LUT4:I0->O            1   0.195   0.688  vga_b<6>1164 (vga_b<6>1164)
      LUT4:I1->O            1   0.195   0.360  vga_b<6>1178 (vga_b_6_OBUF)
      OBUF:I->O                 3.957          vga_b_6_OBUF (vga_b<6>)
     ----------------------------------------
-    Total                     10.192ns (5.487ns logic, 4.705ns route)
-                                       (53.8% logic, 46.2% route)
+    Total                     10.085ns (5.487ns logic, 4.598ns route)
+                                       (54.4% logic, 45.6% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'agclk'
-  Total number of paths / destination ports: 697 / 15
+  Total number of paths / destination ports: 683 / 15
 -------------------------------------------------------------------------
-Offset:              11.824ns (Levels of Logic = 9)
+Offset:              11.899ns (Levels of Logic = 9)
   Source:            dualmem_inst/U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (RAM)
   Destination:       vga_b<5> (PAD)
   Source Clock:      agclk rising
@@ -3655,19 +3657,19 @@ Offset:              11.824ns (Levels of Logic = 9)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     RAMB16:CLKB->DOB1    40   2.100   1.184  U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (doutb<1>)
+     RAMB16:CLKB->DOB1    37   2.100   1.172  U0/xst_blk_mem_generator/gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/v4_noinit.ram/SDP.SINGLE_PRIM.SDP (doutb<1>)
      end scope: 'dualmem_inst'
-     LUT2:I0->O            8   0.195   0.670  vga_b<3>91 (vga_b<3>_bdd15)
-     LUT4:I2->O            2   0.195   0.540  vga_b<4>31 (vga_b<4>_bdd5)
-     LUT2:I1->O            1   0.195   0.000  vga_b<5>11851 (vga_b<5>11851)
+     LUT2:I0->O            9   0.195   0.694  vga_b<3>81 (vga_b<3>_bdd15)
+     LUT4:I2->O            2   0.195   0.602  vga_b<4>31 (vga_b<4>_bdd5)
+     LUT2:I0->O            1   0.195   0.000  vga_b<5>11851 (vga_b<5>11851)
      MUXF5:I1->O           2   0.374   0.602  vga_b<5>1185_f5 (vga_b<5>1185)
      LUT4:I2->O            1   0.195   0.000  vga_b<5>12091 (vga_b<5>12091)
      MUXF5:I1->O           1   0.374   0.688  vga_b<5>1209_f5 (vga_b<5>1209)
      LUT4:I1->O            1   0.195   0.360  vga_b<5>1239 (vga_b_5_OBUF)
      OBUF:I->O                 3.957          vga_b_5_OBUF (vga_b<5>)
     ----------------------------------------
-    Total                     11.824ns (7.780ns logic, 4.044ns route)
-                                       (65.8% logic, 34.2% route)
+    Total                     11.899ns (7.780ns logic, 4.119ns route)
+                                       (65.4% logic, 34.6% route)
 
 =========================================================================
 Timing constraint: Default path analysis
@@ -3690,15 +3692,15 @@ Delay:               5.297ns (Levels of Logic = 2)
 =========================================================================
 
 
-Total REAL time to Xst completion: 125.00 secs
-Total CPU time to Xst completion: 123.81 secs
+Total REAL time to Xst completion: 129.00 secs
+Total CPU time to Xst completion: 126.90 secs
  
 --> 
 
 
-Total memory usage is 1185204 kilobytes
+Total memory usage is 1187392 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :  154 (   0 filtered)
-Number of infos    :   38 (   0 filtered)
+Number of infos    :   40 (   0 filtered)
 
