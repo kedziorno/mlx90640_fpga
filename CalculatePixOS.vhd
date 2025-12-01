@@ -804,7 +804,7 @@ p0 : process (i_clock,i_reset) is
   s2,s3,s5,s7,s9,s9a,s9b,s9c,
   s10,s14,s16,s17,s20,
 	s22,s24,s25,s26,s28,s30,ending);
-        constant c_some_wait : integer := 2**14;
+        constant c_some_wait : integer := 104951;
     variable some_wait : integer range 0 to c_some_wait - 1;
 
 	variable state : states;

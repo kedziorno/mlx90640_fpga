@@ -342,7 +342,7 @@ p0 : process (i_clock,i_reset) is
   s6a,s6b,s6c,s6d,s6e,s6f,
   s6,ending);
   variable state : states;
-      constant c_some_wait : integer := 2**14;
+      constant c_some_wait : integer := 9975;
     variable some_wait : integer range 0 to c_some_wait - 1;
 
   variable fttmp1,fttmp2,ksto2,tak4,trk4,tar,sx,acomp_pow3,acomp_pow4,tr : std_logic_vector (31 downto 0);

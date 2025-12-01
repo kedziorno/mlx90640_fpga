@@ -301,7 +301,7 @@ p0 : process (i_clock,i_reset) is
 	kv11,kv13,ending);
 	variable state : states;
 	variable i : integer range 0 to (C_ROW*C_COL)-1;
-      constant c_some_wait : integer := 2**14;
+      constant c_some_wait : integer := 150018;
     variable some_wait : integer range 0 to c_some_wait - 1;
 
 begin

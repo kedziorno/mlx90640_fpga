@@ -320,7 +320,7 @@ p0 : process (i_clock,i_reset) is
   occ30,occ31,
   s0,s5,s6,s8,s12,s13,s14,s15,s17,s18,s20,s23,ending);
 	variable state : states;
-      constant c_some_wait : integer := 2**14;
+      constant c_some_wait : integer := 230677;
     variable some_wait : integer range 0 to c_some_wait - 1;
 
 	variable voffsetRef : std_logic_vector (7 downto 0);

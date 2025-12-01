@@ -360,7 +360,7 @@ p0 : process (i_clock,i_reset) is
   variable m : integer range 0 to 31 := 0;
   variable n : integer range 0 to 55 := 0;
   variable j : integer range 0 to 13 := 0;
-        constant c_some_wait : integer := 2**14;
+        constant c_some_wait : integer := 162113;
     variable some_wait : integer range 0 to c_some_wait - 1;
 
   variable tmp1 : std_logic_vector (3 downto 0);

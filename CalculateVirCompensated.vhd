@@ -368,7 +368,7 @@ p0 : process (i_clock,i_reset) is
 	s12,s15,s18,
 	s21,s23,ending);
 	variable state : states;
-      constant c_some_wait : integer := 2**14;
+      constant c_some_wait : integer := 306883;
     variable some_wait : integer range 0 to c_some_wait - 1;
 
   constant const_Emissivity : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
