@@ -736,6 +736,9 @@ vga_psave <= '1';
 pTo : process (i_clock) is
 	variable i : integer range 0 to PIXELS-1;
 	variable j : integer range 0 to PIXELS-1;
+  constant c_vga_wait : integer := 1680000;
+  variable vga_wait1 : integer range 0 to c_vga_wait - 1;
+  variable vga_wait2 : integer range 0 to c_vga_wait - 1;
   constant c_en_cnt : integer := 96;
   variable en_cnt : integer range 0 to c_en_cnt - 1;
 	variable tout : std_logic_vector (8 downto 0);
@@ -900,6 +903,8 @@ begin
 			i := 0;
 			dualmem_ena <= '0';
 			dualmem_enb <= '0';
+      vga_wait1 := 0;
+      vga_wait2 := 0;
 			tout := (others => '0');
       melexis_mlx90640_i2c_mode0 <= '0';
       melexis_mlx90640_i2c_mode1 <= '0';
@@ -970,7 +975,7 @@ when r_2400_b =>
 when r_2400_c =>
   wr_1_2 (start_process);
 when start_process =>
-  dualmem_enb <= '1';
+--  dualmem_enb <= '1';
   if (en_cnt = c_en_cnt - 1) then
     state <= r_0400_1_a;
     en_cnt := 0;
@@ -1008,7 +1013,7 @@ when s0_1 =>
     state <= s1_1;
     test_fixed_melexis_run <= '1';
     float2fixedsclr <= '0';
-    dualmem_enb <= '1';
+--    dualmem_enb <= '1';
     w11ms <= 0;
 --  end if;
 when s1_1 =>
@@ -1064,8 +1069,14 @@ when s9_1 =>
   end if;
 when s10_1 =>
   dualmem_enb <= '1';
-  state <= set_som_1_a;
+  if (vga_wait1 = c_vga_wait - 1) then
+    vga_wait1 := 0;
+    state <= set_som_1_a;
+  else
+    vga_wait1 := vga_wait1 + 1;
+  end if;
 when set_som_1_a =>
+  dualmem_enb <= '0';
   w_1 (x"8000", x"0020", set_som_1_b);
 --  w (x"8000", x"0030", w8_rr_20_1);
 when set_som_1_b =>
@@ -1140,7 +1151,7 @@ when s0_2 =>
     state <= s1_2;
     test_fixed_melexis_run <= '1';
     float2fixedsclr <= '0';
-    dualmem_enb <= '1';
+    dualmem_enb <= '0';
     w11ms <= 0;
 --  end if;
 when s1_2 =>
@@ -1196,8 +1207,14 @@ when s9_2 =>
   end if;
 when s10_2 =>
   dualmem_enb <= '1';
-  state <= set_som_2_a;
+  if (vga_wait2 = c_vga_wait - 1) then
+    vga_wait2 := 0;
+    state <= set_som_2_a;
+  else
+    vga_wait2 := vga_wait2 + 1;
+  end if;
 when set_som_2_a =>
+  dualmem_enb <= '0';
   w_1 (x"8000", x"0020", set_som_2_b);
 --  w (x"8000", x"0030", w8_rr_20_2);
 when set_som_2_b =>
