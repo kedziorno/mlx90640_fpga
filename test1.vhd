@@ -942,9 +942,10 @@ begin
 when w8_80ms =>
   w8_80ms (w_800d1981_a);
 when w_800d1981_a =>
-  w_1 (x"800d", x"1981", w_800d1981_b);
+--  w_1 (x"800d", x"1981", w_800d1981_b);
+--  w_1 (x"800d", x"1984", w_800d1981_b);
 --  w_1 (x"800d", x"0000", w_800d1981_b);
---  w_1 (x"800d", x"1b88", w_800d1981_b);
+  w_1 (x"800d", x"1b88", w_800d1981_b);
 when w_800d1981_b =>
   if (en_cnt = c_en_cnt - 1) then
     melexis_mlx90640_i2c_enable <= '0';
@@ -1079,7 +1080,7 @@ when set_som_1_c =>
 when w8_rr_20_1 =>
   w8_64us (check_nda_1);
 when check_nda_1 =>
---  wr (x"8000", check_nda_1_idle); -- to here is ok
+  wr (x"8000", check_nda_1_idle); -- to here is ok
 when check_nda_1_idle =>
 --  wr_idle (x"0008", r_0400_2, check_nda_1);
 if (c_sim = "n") then

@@ -136,7 +136,7 @@ PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
 i_scl : IN  std_logic;
-o_sda : OUT  std_logic;
+o_sda : INOUT  std_logic;
 o_done : OUT  std_logic;
 i_mode2 : IN  std_logic;
 i_enable : IN  std_logic;
@@ -345,7 +345,8 @@ i2c_stream_i0 : i2c_stream PORT MAP (
 i_clock => i_clock,
 i_reset => i_reset,
 i_scl => a,
-o_sda => io_sda_dd1,
+--o_sda => io_sda_dd1,
+o_sda => open,
 i_mode2 => i_mode2,
 i_enable => i_enable,
 i_addr => i_addr,

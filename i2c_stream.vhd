@@ -37,7 +37,7 @@ i_scl : in std_logic;
 i_mode2 : in std_logic;
 i_enable : in std_logic;
 i_addr : in std_logic_vector (15 downto 0);
-o_sda : out std_logic := 'Z';
+o_sda : inout std_logic := 'Z';
 o_done : out std_logic;
 compare1 : in integer;
 o_data : out std_logic_vector (15 downto 0)
@@ -74,9 +74,22 @@ signal v_data : integer range c_data - 1 downto 0;
 signal scl_prev, scl_re : std_logic;
 signal sda : std_logic;
 
+signal input_address_sr : std_logic_vector (15 downto 0);
+
+signal ia_sda : std_logic;
+
 begin
 
 o_sda <= sda when i_enable = '1' else 'Z';
+--o_sda <= sda when i_enable = '1' else '1';
+ia_sda <= o_sda;
+
+p2 : process (scl_re) is
+begin
+  if (rising_edge (scl_re)) then
+    input_address_sr <= input_address_sr (14 downto 0) & ia_sda;
+  end if;
+end process p2;
 
 addra <= std_logic_vector (to_unsigned (v_index + v_records, 15));
 
@@ -124,12 +137,12 @@ begin
           if (i_enable = '0') then
             state <= idle;
           end if;
---          if (i_addr = x"2400") then -- eeprom data
---            v_index <= 0;
---          end if;
---          if (i_addr = x"0400") then -- frame data
+          if (i_addr = x"2400") then -- eeprom data
+            v_index <= 0;
+          end if;
+          if (i_addr = x"0400") then -- frame data
             v_index <= c_records * v_items;
---          end if;
+          end if;
           if (v_data = 0) then
             v_data <= c_data - 1;
             state <= s2;
@@ -159,9 +172,9 @@ begin
               sda <= 'Z';
             else
               state <= idle;
---              if (i_addr = x"0400") then
+              if (i_addr = x"0400") then
                 v_items <= v_items + 1; -- 28
---              end if;
+              end if;
               o_done <= '1';
               sda <= 'Z';
             end if;
