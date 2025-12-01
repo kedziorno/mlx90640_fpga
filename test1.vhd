@@ -942,7 +942,7 @@ begin
 when w8_80ms =>
   w8_80ms (w_800d1981_a);
 when w_800d1981_a =>
-  w_1 (x"800d", x"1984", w_800d1981_b);
+  w_1 (x"800d", x"1981", w_800d1981_b);
 --  w_1 (x"800d", x"0000", w_800d1981_b);
 --  w_1 (x"800d", x"1b88", w_800d1981_b);
 when w_800d1981_b =>
@@ -1203,8 +1203,8 @@ if (c_sim = "y") then
   state <= end_process;
 end if;
 when end_process =>
---  state <= start_process;
-  state <= idle;
+  state <= start_process;
+--  state <= idle;
 when others => null;
 			end case;
 		end if;
