@@ -374,7 +374,7 @@ p0 : process (i_clock,i_reset) is
 	kta21,kta23,
 	kta27,ending);
 	variable state : states;
-      constant c_some_wait : integer := 2**21;
+      constant c_some_wait : integer := 2**14;
     variable some_wait : integer range 0 to c_some_wait - 1;
 
 	variable i : integer range 0 to (C_ROW*C_COL)-1;
@@ -427,11 +427,11 @@ begin
 						state := kta1;
 						i2c_mem_ena <= '1';
             i2c_mem_addra <= std_logic_vector (to_unsigned (108, 12)); -- 2436 LSB - ktarcee_oo 54*2+0
-            rdy <= '0';
 					else
 						state := idle;
             i2c_mem_ena <= '0';
 					end if;
+            rdy <= '0';
           col <= 0;
           row <= 0;
           i := 0;
@@ -568,7 +568,6 @@ begin
             if (row = C_ROW-1) then
               row <= 0;
               state := ending;
-              rdy <= '1';
             else
               row <= row + 1;
               state := kta9;
@@ -580,6 +579,7 @@ begin
             divfpsclr_internal <= '0';
           end if;
           	when ending =>
+              rdy <= '1';
     if (some_wait = c_some_wait - 1) then
       some_wait := 0;
       state := idle;

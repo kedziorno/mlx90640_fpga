@@ -360,7 +360,7 @@ p0 : process (i_clock,i_reset) is
   variable m : integer range 0 to 31 := 0;
   variable n : integer range 0 to 55 := 0;
   variable j : integer range 0 to 13 := 0;
-        constant c_some_wait : integer := 2**21;
+        constant c_some_wait : integer := 2**14;
     variable some_wait : integer range 0 to c_some_wait - 1;
 
   variable tmp1 : std_logic_vector (3 downto 0);
@@ -413,11 +413,11 @@ begin
 						state := acc14;
             i := 2;
             j := 0;
-            rdy <= '0';
 					else
 						state := idle;
 						i2c_mem_ena <= '0';
 					end if;
+            rdy <= '0';
           write_enable <= '0';
           i := 0;
           m := 0;
@@ -698,7 +698,6 @@ begin
             if (row = C_ROW-1) then
               row := 0;
               state := ending;
-              rdy <= '1';
             else
               row := row + 1;
               state := s0;
@@ -708,6 +707,7 @@ begin
             state := s0;
           end if;
                 when ending =>
+              rdy <= '1';
             if (some_wait = c_some_wait - 1) then
       some_wait := 0;
       state := idle;

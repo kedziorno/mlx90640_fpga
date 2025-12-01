@@ -124,12 +124,12 @@ begin
           if (i_enable = '0') then
             state <= idle;
           end if;
-          if (i_addr = x"2400") then -- eeprom data
-            v_index <= 0;
-          end if;
-          if (i_addr = x"0400") then -- frame data
+--          if (i_addr = x"2400") then -- eeprom data
+--            v_index <= 0;
+--          end if;
+--          if (i_addr = x"0400") then -- frame data
             v_index <= c_records * v_items;
-          end if;
+--          end if;
           if (v_data = 0) then
             v_data <= c_data - 1;
             state <= s2;
@@ -159,9 +159,9 @@ begin
               sda <= 'Z';
             else
               state <= idle;
-              if (i_addr = x"0400") then
+--              if (i_addr = x"0400") then
                 v_items <= v_items + 1; -- 28
-              end if;
+--              end if;
               o_done <= '1';
               sda <= 'Z';
             end if;

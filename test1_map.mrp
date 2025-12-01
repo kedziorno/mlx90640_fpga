@@ -11,25 +11,25 @@ Target Device  : xc4vsx35
 Target Package : ff668
 Target Speed   : -10
 Mapper Version : virtex4 -- $Revision: 1.55 $
-Mapped Date    : Sun Nov 30 01:41:17 2025
+Mapped Date    : Mon Dec  1 09:51:51 2025
 
 Design Summary
 --------------
 Number of errors:      0
 Number of warnings:    2
 Logic Utilization:
-  Total Number Slice Registers:       9,023 out of  30,720   29%
-    Number used as Flip Flops:        9,022
+  Total Number Slice Registers:       8,953 out of  30,720   29%
+    Number used as Flip Flops:        8,952
     Number used as Latches:               1
-  Number of 4 input LUTs:            16,270 out of  30,720   52%
+  Number of 4 input LUTs:            16,243 out of  30,720   52%
 Logic Distribution:
-  Number of occupied Slices:         10,204 out of  15,360   66%
-    Number of Slices containing only related logic:  10,204 out of  10,204 100%
-    Number of Slices containing unrelated logic:          0 out of  10,204   0%
+  Number of occupied Slices:         10,061 out of  15,360   65%
+    Number of Slices containing only related logic:  10,061 out of  10,061 100%
+    Number of Slices containing unrelated logic:          0 out of  10,061   0%
       *See NOTES below for an explanation of the effects of unrelated logic.
-  Total Number of 4 input LUTs:      16,852 out of  30,720   54%
-    Number used as logic:            15,966
-    Number used as a route-thru:        582
+  Total Number of 4 input LUTs:      16,745 out of  30,720   54%
+    Number used as logic:            15,939
+    Number used as a route-thru:        502
     Number used as Shift registers:     304
 
   The Slice Logic Distribution report is not meaningful if the design is
@@ -42,11 +42,11 @@ Logic Distribution:
   Number of BSCAN_VIRTEX4s:               1 out of       4   25%
 
   Number of RPM macros:           13
-Average Fanout of Non-Clock Nets:                3.57
+Average Fanout of Non-Clock Nets:                3.55
 
-Peak Memory Usage:  1262 MB
-Total REAL time to MAP completion:  1 mins 1 secs 
-Total CPU time to MAP completion:   1 mins 1 secs 
+Peak Memory Usage:  1264 MB
+Total REAL time to MAP completion:  2 mins 18 secs 
+Total CPU time to MAP completion:   1 mins 59 secs 
 
 Table of Contents
 -----------------
@@ -548,9 +548,15 @@ LUT4 		U_ila_pro_0/U0/I_NO_D.U_ILA/U_STAT/F_SSTAT[6].I_STAT.U_STAT
 VCC 		tfm_inst/inst_CalculateGetImage/XST_VCC
 VCC 		tfm_inst/inst_CalculatePixOS/XST_VCC
 VCC 		tfm_inst/inst_CalculateTa/XST_VCC
-VCC 		tfm_inst/inst_CalculatePixOS/inst_ExtractOffsetParameters/XST_VCC
 GND 		tfm_inst/XST_GND
 VCC 		tfm_inst/XST_VCC
+VCC 		tfm_inst/inst_CalculateAlphaComp/XST_VCC
+VCC 		tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain/XST_VCC
+VCC 		tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/XST_VCC
+VCC 		tfm_inst/inst_CalculatePixOS/inst_ExtractKvParameters/XST_VCC
+VCC 		tfm_inst/inst_CalculatePixOS/inst_ExtractOffsetParameters/XST_VCC
+VCC 		tfm_inst/inst_CalculateVirCompensated/XST_VCC
+VCC 		tfm_inst/inst_ExtractAlphaParameters/XST_VCC
 FDE 		b0.inst_fixed2float/blk00000045
    optimized to 0
 FDE 		b0.inst_fixed2float/blk00000046
@@ -569,12 +575,6 @@ FDE 		b0.inst_fixed2float/blk0000004c
    optimized to 0
 FDE 		inst_float2fixed/blk00000021
    optimized to 0
-VCC 		tfm_inst/inst_CalculateAlphaComp/XST_VCC
-VCC 		tfm_inst/inst_CalculatePixOS/inst_CalculatePixGain/XST_VCC
-VCC 		tfm_inst/inst_CalculatePixOS/inst_ExtractKtaParameters/XST_VCC
-VCC 		tfm_inst/inst_CalculatePixOS/inst_ExtractKvParameters/XST_VCC
-VCC 		tfm_inst/inst_CalculateVirCompensated/XST_VCC
-VCC 		tfm_inst/inst_ExtractAlphaParameters/XST_VCC
 MUXCY 		b0.inst_fixed2float/blk000000d0
 MUXCY 		b0.inst_fixed2float/blk000000d1
 MUXCY 		b0.inst_fixed2float/blk000000d2
@@ -709,7 +709,7 @@ SRL16.U_GANDX_SRL16_MSET
 Section 8 - Guide Report
 ------------------------
 
-Sun Nov 30 01:42:14 2025
+Mon Dec 01 09:53:59 2025
 
   Estimated SmartGuide Results
   ----------------------------
@@ -717,11 +717,11 @@ Sun Nov 30 01:42:14 2025
   components are components that were guided, but moved in order to satisfy
   timing requirements.
 
-    Estimated Percentage of guided Components                 |  86.8%
-    Estimated Percentage of re-implemented Components         |   3.9%
-    Estimated Percentage of new/changed Components            |   9.4%
-    Estimated Percentage of fully guided Nets                 |  76.4%
-    Estimated Percentage of partially guided or unrouted Nets |  23.6%
+    Estimated Percentage of guided Components                 |  91.8%
+    Estimated Percentage of re-implemented Components         |   2.0%
+    Estimated Percentage of new/changed Components            |   6.2%
+    Estimated Percentage of fully guided Nets                 |  82.5%
+    Estimated Percentage of partially guided or unrouted Nets |  17.5%
 
   A detailed SmartGuide report (.GRF) can be generated during PAR by
   specifying the [-smartguide <guidefile[.ncd]>] switch on the PAR

@@ -293,7 +293,7 @@ p0 : process (i_clock,i_reset) is
 	type states is (idle,
   s1,s2,s3,s3a,s6,s9,ending);
 	variable state : states;
-      constant c_some_wait : integer := 2**21;
+      constant c_some_wait : integer := 2**14;
     variable some_wait : integer range 0 to c_some_wait - 1;
 
 	variable eeprom16slv : std_logic_vector (7 downto 0);
@@ -323,11 +323,11 @@ begin
 				when idle =>
 					if (i_run = '1') then
 						state := s1;
-            rdy <= '0';
 					else
 						state := idle;
 						i2c_mem_ena_internal <= '0';
 					end if;
+            rdy <= '0';
           pixgain_index := 0;
                   some_wait := 0;
 
@@ -385,13 +385,13 @@ begin
 					write_enable <= '0';
 					if (pixgain_index = PIXGAIN_SZ - 1) then
 						state := ending;
-            rdy <= '1';
 						pixgain_index := 0;
 					else
 						state := s1;
 						pixgain_index := pixgain_index + 1;
 					end if;
                 when ending =>
+            rdy <= '1';
             if (some_wait = c_some_wait - 1) then
       some_wait := 0;
       state := idle;

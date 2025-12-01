@@ -368,7 +368,7 @@ p0 : process (i_clock,i_reset) is
 	s12,s15,s18,
 	s21,s23,ending);
 	variable state : states;
-      constant c_some_wait : integer := 2**21;
+      constant c_some_wait : integer := 2**14;
     variable some_wait : integer range 0 to c_some_wait - 1;
 
   constant const_Emissivity : std_logic_vector (31 downto 0) := x"3f800000"; -- 1
@@ -409,11 +409,11 @@ begin
 				when idle =>
 					if (i_run = '1') then
 						state := s3;
-            rdy <= '0';
 					else
 						state := idle;
 					end if;
               some_wait := 0;
+            rdy <= '0';
 
           divfpb_internal <= const_Emissivity;
           i := 0;
@@ -536,13 +536,13 @@ begin
 					write_enable <= '0';
 					if (i = (C_ROW*C_COL)-1) then
 						state := ending;
-            rdy <= '1';
 						i := 0;
 					else
 						state := s3;
 						i := i + 1;
 					end if;
         when ending =>
+            rdy <= '1';
             if (some_wait = c_some_wait - 1) then
       some_wait := 0;
       state := idle;

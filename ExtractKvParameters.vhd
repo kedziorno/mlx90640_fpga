@@ -301,7 +301,7 @@ p0 : process (i_clock,i_reset) is
 	kv11,kv13,ending);
 	variable state : states;
 	variable i : integer range 0 to (C_ROW*C_COL)-1;
-      constant c_some_wait : integer := 2**21;
+      constant c_some_wait : integer := 2**14;
     variable some_wait : integer range 0 to c_some_wait - 1;
 
 begin
@@ -337,11 +337,11 @@ begin
 						state := kv1;
 						i2c_mem_ena <= '1';
             i2c_mem_addra <= std_logic_vector (to_unsigned (112, 12)); -- 2438 MSB - kvscale 56*2+0
-            rdy <= '0';
           else
 						state := idle;
             i2c_mem_ena <= '0';
 					end if;
+            rdy <= '0';
           i := 0;
           col <= 0;
           row <= 0;
@@ -404,7 +404,6 @@ begin
             if (row = C_ROW-1) then
               row <= 0;
               state := ending;
-              rdy <= '1';
             else
               row <= row + 1;
               state := kv6;
@@ -414,6 +413,7 @@ begin
             state := kv6;
           end if;
           	when ending =>
+              rdy <= '1';
     if (some_wait = c_some_wait - 1) then
       some_wait := 0;
       state := idle;

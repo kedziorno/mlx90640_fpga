@@ -320,7 +320,7 @@ p0 : process (i_clock,i_reset) is
   occ30,occ31,
   s0,s5,s6,s8,s12,s13,s14,s15,s17,s18,s20,s23,ending);
 	variable state : states;
-      constant c_some_wait : integer := 2**21;
+      constant c_some_wait : integer := 2**14;
     variable some_wait : integer range 0 to c_some_wait - 1;
 
 	variable voffsetRef : std_logic_vector (7 downto 0);
@@ -368,12 +368,12 @@ begin
 				when idle =>
 					if (i_run = '1') then
 						state := idle1;
-            rdy <= '0';
 					else
 						state := idle;
 						i2c_mem_ena <= '0';
 					end if;
                   some_wait := 0;
+            rdy <= '0';
 
           i := 0;
           m := 0;
@@ -572,7 +572,6 @@ begin
             if (row = C_ROW-1) then
               row := 0;
               state := ending;
-              rdy <= '1';
             else
               row := row + 1;
               state := s0;
@@ -582,6 +581,7 @@ begin
             state := s0;
           end if;
           	when ending =>
+              rdy <= '1';
     if (some_wait = c_some_wait - 1) then
       some_wait := 0;
       state := idle;
