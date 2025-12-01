@@ -821,10 +821,10 @@ begin
             c_state <= mode2_read_data_ack2;
           end if;
         when mode2_read_data_ack2 =>
-          if (c_cmode = c0) then
+          if (c_cmode = c2) then
             mode2_ready_i <= '1';
           end if;
-          if (c_cmode = c1) then
+          if (c_cmode = c3) then
             --mode2_ready_all_i <= '1';
             mode2_ready_i <= '0';
           end if;

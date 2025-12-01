@@ -1002,13 +1002,13 @@ when clear_nda_1_b =>
 when clear_nda_1_c =>
   w_2 (s0_1);
 when s0_1 =>
-  if (melexis_mlx90640_i2c_mode2_ready_all = '1') then
+--  if (melexis_mlx90640_i2c_mode2_ready_all = '1') then
     state <= s1_1;
     test_fixed_melexis_run <= '1';
     float2fixedsclr <= '0';
     dualmem_enb <= '1';
     w11ms <= 0;
-  end if;
+--  end if;
 when s1_1 =>
   test_fixed_melexis_run <= '0';
   if (c_normal = "n") then
@@ -1116,13 +1116,13 @@ when clear_nda_2_b =>
 when clear_nda_2_c =>
   w_2 (s0_2);
 when s0_2 =>
-  if (melexis_mlx90640_i2c_mode2_ready_all = '1') then
+--  if (melexis_mlx90640_i2c_mode2_ready_all = '1') then
     state <= s1_2;
     test_fixed_melexis_run <= '1';
     float2fixedsclr <= '0';
     dualmem_enb <= '1';
     w11ms <= 0;
-  end if;
+--  end if;
 when s1_2 =>
   test_fixed_melexis_run <= '0';
   if (c_normal = "n") then
