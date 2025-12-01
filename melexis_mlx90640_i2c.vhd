@@ -144,10 +144,17 @@ state1,
   signal temp_sda : std_logic;
   constant c_mode2_read_data_index : integer := 832;
   signal mode2_read_data_index_ctr : integer range 0 to c_mode2_read_data_index - 1;
+  signal mode0_ready_i : std_logic;
+  signal mode1_ready_i : std_logic;
   signal mode2_ready_i : std_logic;
   signal mode2_ready_all_i : std_logic;
   signal io_scl_ii, io_scl_ii_i, io_sda_ii, io_sda_ii_i : std_logic;
   signal io_scl_ii_z : std_logic;
+
+  signal i2c_clock_count : integer range 0 to (c_i2c_counter_max * 4) - 1;
+  type i2c_clock_states is (a, b, c);
+  signal i2c_clock_state : i2c_clock_states;
+  signal i2c_clock_ctr_ena : std_logic;
 
 begin
 
@@ -246,6 +253,8 @@ begin
       slave_index_ctr <= c_i2c_address_bits - 1;
       mode2_read_data_index_ctr <= 0;
       temp_sda <= '1';
+--      mode0_ready_i <= '0';
+      mode1_ready_i <= '0';
       mode2_ready_i <= '0';
       mode2_ready_all_i <= '0';
       o_busy <= '0';
@@ -605,16 +614,16 @@ begin
           end if;
         when mode1_read_data_nak =>
           if (c_cmode = c1) then
-            mode2_ready_i <= '1';
+            mode1_ready_i <= '1';
           end if;
           if (c_cmode = c0) then
-            mode2_ready_i <= '0';
+            mode1_ready_i <= '0';
             c_state <= mode1_read_data_nak_empty;
             temp_sda <= '1';
           end if;
         when mode1_read_data_nak_empty =>
           if (c_cmode = c1) then
-            mode2_ready_i <= '0';
+            mode1_ready_i <= '0';
           end if;
           if (c_cmode = c0) then
             c_state <= stop;
@@ -870,34 +879,73 @@ begin
     end if;
   end process p_i2c_send_sequence_fsm;
 
-  p_i2c_clock_ctr : process (i_clock, i_reset) is
-    variable count : integer range 0 to (c_i2c_counter_max * 4) - 1;
-    type states is (a, b);
+  process (i_clock, i_reset) is
+    type states is (a,b,c);
     variable state : states;
   begin
     if (i_reset = '1') then
-      clock <= '0';
-      count := 0;
-      state := b;
+      state := a;
+      mode0_ready_i <= '0';
     elsif (rising_edge (i_clock)) then
       case (state) is
         when a =>
---          if (i_enable = '1') then
-            state := b;
---          end if;
+      if (c_state = mode0_empty) then
+    mode0_ready_i <= '1';
+      state := b;
+    end if;
+    when b =>
+    mode0_ready_i <= '0';
+    state := c;
+    when c =>
+      if (c_state = sda_stop) then
+        state := a;
+    end if;
+      
+      end case;
+    end if;
+  end process;
+
+  p_i2c_clock_ctr_ena : process (i_clock, i_reset) is
+  begin
+    if (i_reset = '1') then
+      clock <= '0';
+      i2c_clock_count <= 0;
+    elsif (rising_edge (i_clock)) then
+      if (i2c_clock_ctr_ena = '1') then
+        if (i2c_clock_count = (c_i2c_counter_max * 4) - 1) then
+          clock <= not clock;
+          i2c_clock_count <= 0;
+        else
+          i2c_clock_count <= i2c_clock_count + 1;
+        end if;
+      end if;
+    end if;
+  end process p_i2c_clock_ctr_ena;
+
+  p_i2c_clock_ctr : process (i_clock, i_reset) is
+  begin
+    if (i_reset = '1') then
+--      clock <= '0';
+--      i2c_clock_count <= 0;
+      i2c_clock_state <= a;
+    elsif (rising_edge (i_clock)) then
+      case (i2c_clock_state) is
+        when a =>
+          if (i_enable = '1') then
+            i2c_clock_state <= b;
+          end if;
         when b =>
---          if (i_enable = '0') then
---            state := a;
---            clock <= '0';
---            count := 0;
---          else
-            if (count = (c_i2c_counter_max * 4) - 1) then
-              clock <= not clock;
-              count := 0;
-            else
-              count := count + 1;
-            end if;
---          end if;
+          i2c_clock_state <= c;
+          i2c_clock_ctr_ena <= '1';
+        when c =>
+--          clock <= not clock;
+          if (mode0_ready_i = '1' or mode1_ready_i = '1' or mode2_ready_all_i = '1') then
+            i2c_clock_state <= a;
+            i2c_clock_ctr_ena <= '0';
+--            i2c_clock_count <= 0;
+          else
+            i2c_clock_state <= b;
+          end if;
       end case;
     end if;
   end process p_i2c_clock_ctr;
