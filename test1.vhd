@@ -40,7 +40,7 @@ constant c_melexis_mlx90640_i2c_enable_wait : integer := 256;
 constant c_melexis_mlx90640_i2c_wait : integer := 65536;
 constant c_w_64us : integer := 65536; -- 64 us
 constant c_w_180us : integer := 65536; -- 180 us
-constant c_w_80ms : integer := 65536; -- 80 ms
+constant c_w_80ms : integer := 2*65536; -- 80 ms
 constant c_w_160us : integer := 65536; -- 160 us
 constant c_w_160ms : integer := 65536; -- 160 ms
 constant c_w_180ms : integer := 65536; -- 180 ms
@@ -739,7 +739,7 @@ pTo : process (i_clock) is
   constant c_vga_wait : integer := 1680000;
   variable vga_wait1 : integer range 0 to c_vga_wait - 1;
   variable vga_wait2 : integer range 0 to c_vga_wait - 1;
-  constant c_en_cnt : integer := 96;
+  constant c_en_cnt : integer := 2*96;
   variable en_cnt : integer range 0 to c_en_cnt - 1;
 	variable tout : std_logic_vector (8 downto 0);
 
@@ -822,12 +822,12 @@ pTo : process (i_clock) is
   begin
     melexis_mlx90640_i2c_mode0 <= '1'; melexis_mlx90640_i2c_mode1 <= '0'; melexis_mlx90640_i2c_mode2 <= '0';
     melexis_mlx90640_i2c_enable <= '1'; melexis_mlx90640_i2c_memory_address <= address; melexis_mlx90640_i2c_memory_data <= data;
-    if (en_cnt = c_en_cnt - 1) then
+--    if (en_cnt = c_en_cnt - 1) then
       state <= next_state;
-      en_cnt := 0;
-    else
-      en_cnt := en_cnt + 1;
-    end if;
+--      en_cnt := 0;
+--    else
+--      en_cnt := en_cnt + 1;
+--    end if;
   end procedure;
   procedure w_2 (next_state : in states) is
   begin
@@ -934,10 +934,12 @@ begin
           melexis_mlx90640_i2c_enable_wait <= 0;
           melexis_mlx90640_i2c_wait <= 0;
           w_64us <= 0;
-          melexis_mlx90640_i2c_mode0 <= '0';
+          melexis_mlx90640_i2c_mode0 <= '1';
           melexis_mlx90640_i2c_mode1 <= '0';
           melexis_mlx90640_i2c_mode2 <= '0';
-          melexis_mlx90640_i2c_enable <= '0';
+          melexis_mlx90640_i2c_memory_address <= x"0000";
+          melexis_mlx90640_i2c_memory_data <= x"0000";
+          melexis_mlx90640_i2c_enable <= '1';
           if (cold_start = c_cold_start - 1) then
             state <= w8_80ms;
             cold_start <= 0;
@@ -946,12 +948,13 @@ begin
           end if;
 
 when w8_80ms =>
+melexis_mlx90640_i2c_enable <= '0';
   w8_80ms (w_800d1981_a);
 when w_800d1981_a =>
---  w_1 (x"800d", x"1981", w_800d1981_b);
+  w_1 (x"800d", x"1981", w_800d1981_b);
 --  w_1 (x"800d", x"1984", w_800d1981_b);
 --  w_1 (x"800d", x"0000", w_800d1981_b);
-  w_1 (x"800d", x"1b88", w_800d1981_b);
+--  w_1 (x"800d", x"1b88", w_800d1981_b);
 when w_800d1981_b =>
   if (en_cnt = c_en_cnt - 1) then
     melexis_mlx90640_i2c_enable <= '0';
@@ -1151,7 +1154,7 @@ when s0_2 =>
     state <= s1_2;
     test_fixed_melexis_run <= '1';
     float2fixedsclr <= '0';
-    dualmem_enb <= '0';
+--    dualmem_enb <= '0';
     w11ms <= 0;
 --  end if;
 when s1_2 =>
