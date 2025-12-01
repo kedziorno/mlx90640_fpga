@@ -307,11 +307,11 @@ addfpr_internal <= addfpr;
 addfprdy_internal <= addfprdy;
 
 o_rdy <= rdy;
---o_do <= doa when rdy = '1' else (others => '0');
-o_do <= doa;
+o_do <= doa when rdy = '1' else (others => '0');
+--o_do <= doa;
 mux_addr <= addra when rdy = '0' else std_logic_vector (to_unsigned (to_integer(unsigned (i_addr))+C_COL+C_ROW,10)) when rdy = '1' else (others => '0');
---mux_dia <= dia when rdy = '0' else (others => '0');
-mux_dia <= dia;
+mux_dia <= dia when rdy = '0' else (others => '0');
+--mux_dia <= dia;
 
 p0 : process (i_clock,i_reset) is
 	type states is (idle,idle1,

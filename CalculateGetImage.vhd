@@ -316,11 +316,11 @@ addfpr_internal <= addfpr;
 addfprdy_internal <= addfprdy;
 
 o_rdy <= rdy;
---o_do <= doa when rdy = '1' else (others => '0');
-o_do <= doa;
+o_do <= doa when rdy = '1' else (others => '0');
+--o_do <= doa;
 mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0');
---mux_dia <= dia when rdy = '0' else (others => '0');
-mux_dia <= dia;
+mux_dia <= dia when rdy = '0' else (others => '0');
+--mux_dia <= dia;
 
 p0 : process (i_clock,i_reset) is
   constant C_ROW : integer := 24;

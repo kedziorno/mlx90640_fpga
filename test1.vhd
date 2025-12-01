@@ -38,7 +38,7 @@ c_normal : string (1 downto 1) := "y";
 constant c_cold_start : integer := 1024;
 constant c_melexis_mlx90640_i2c_enable_wait : integer := 256;
 constant c_melexis_mlx90640_i2c_wait : integer := 65536;
-constant c_w_64us : integer := 2**21; -- 64 us
+constant c_w_64us : integer := 65536; -- 64 us
 constant c_w_180us : integer := 65536; -- 180 us
 constant c_w_80ms : integer := 65536; -- 80 ms
 constant c_w_160us : integer := 65536; -- 160 us
@@ -1079,7 +1079,7 @@ when set_som_1_c =>
 when w8_rr_20_1 =>
   w8_64us (check_nda_1);
 when check_nda_1 =>
-  wr (x"8000", check_nda_1_idle); -- to here is ok
+--  wr (x"8000", check_nda_1_idle); -- to here is ok
 when check_nda_1_idle =>
 --  wr_idle (x"0008", r_0400_2, check_nda_1);
 if (c_sim = "n") then
