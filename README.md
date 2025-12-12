@@ -1,16 +1,28 @@
 # vhdlp5
 ## Melexis MLX90640 in VHDL on FPGA
 ### This project calculate example data from datasheet https://github.com/adafruit/Adafruit_MLX90640/blob/master/MLX90640%20example%20data.xlsx and display this on VGA display 640x480.
-![Calculated temperatures](333506035_680609170477392_5402465778520738655_n.jpg)
-![Display on VGA](333014955_740028757714962_8963736502072594292_n.jpg)
-### I am not responsible for incorrect operation or misuse of the project
 #
-## Update : Fit project in Digilent Nexys 2 (xc3s1200e-fg320-4) - only RGB332 color palette
-![Example 1](IMG_20241018_123948081_HDR.jpg)
-![Example 2](IMG_20241018_130700803_HDR.jpg)
+## Update : Run on Xilinx ML402 board (xc4vsx35) with Melexis 90640 device - for now, only one frame after reset project
+![teapot](teapot.jpg)
+![hand_person](hand_person.jpg)
+![person](person.jpg)
+![testboard](testboard.jpg)
+### *** I am not responsible for incorrect operation or misuse of the project ***
+#
+## Very old, first version with data stored in BlockRAM
+![Calculated Example Temperatures](333506035_680609170477392_5402465778520738655_n.jpg)
+![Display on VGA](333014955_740028757714962_8963736502072594292_n.jpg)
+#
 ## Update : Fix VGA output (stable image).
-![Example 1](xilinx_ise_14.7/vga_933f4e90d465e5a78492ab181647a4f10f6f1551.bmp)
+![Example 1 - simulation example data with fixed VGA output](xilinx_ise_14.7/vga_933f4e90d465e5a78492ab181647a4f10f6f1551.bmp)
+#
 ## Update : Use Fast Inverse Squareroot algorithm
-![Example 2](xilinx_ise_14.7/vga_665c92452941fbca5695d506cc1872887532d19b.bmp)
+![Example 2 - simulation example data with using FISQRT](xilinx_ise_14.7/vga_665c92452941fbca5695d506cc1872887532d19b.bmp)
+#
 ## Update : To see example with Fix VGA Output and use upscaler
 https://github.com/kedziorno/mlx90640_fpga/tree/Calculate_MLX90640_GetImage_upscale?tab=readme-ov-file#fix-vga-output
+#
+## Update : Fit project in Digilent Nexys 2 (xc3s1200e-fg320-4) - only RGB332 color palette
+![Example 1 on Nexys 2](IMG_20241018_123948081_HDR.jpg)
+![Example 2 on Nexys 2](IMG_20241018_130700803_HDR.jpg)
+
