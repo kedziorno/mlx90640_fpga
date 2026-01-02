@@ -1,25 +1,134 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    12:10:35 08/09/2025
--- Design Name: 
--- Module Name:    melexis_mlx90640_i2c - rtl
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
+-------------------------------------------------------------------------------
+-- Company:       HomeDL
+-- Engineer:      ko
+-------------------------------------------------------------------------------
+-- Create Date:   12:10:35 08/09/2025
+-- Design Name:   mlx90640_fpga
+-- Module Name:   melexis_mlx90640_i2c
+-- Project Name:  mlx90640_fpga
+-- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
+-- Tool versions: Xilinx ISE 14.7, XST and ISIM
+-- Description:   Communication module with Melexis MLX90640 over I2C standard.
+--                Tested on Digilent Nexys-2 (xc3s1200e) using 7seg LCD.
+--                For now version for device MLX90640 works and be tested,
+--                whereas rest configuration must be set in global_package.vhd.
+--                How it works:
+--                  Lets assume address device is 0x33 (p. 9, Table 5).
+--                  When enable only one mode available in entity (i_mode0,
+--                  i_mode1, i_mode2) and set dependent address/data, module
+--                  use I2C line (SCL,SDA) for communicate with Melexis device
+--                  and catch data from SDA line in each rising edge SCL.
+--                  This three steps must be done to communicate with device
+--                  and retrieve data. In points 2 and 3, rising/falling edge
+--                  of o_mode2_ready and i_mode2 signals can be used to
+--                  manipulate write to RAM.
+--                    1) Set internal registers for device
+--                      - Set Control Register 1 (p. 17, Figure 12)
+--                        - i_mode0          - 1 (Write 4 bytes)
+--                        - i_memory_address - 0x800d (Control Register 1)
+--                        - i_memory_data    - 0x1981
+--                          (Chess pattern, ADC 18bit, IR refresh 4Hz,
+--                           Subpage 0 first, Subpage mode)
+--                        - i_enable         - 1 (Enable module)
+--                      - Wait some cycles
+--                        (to be sure > 100 and depend from SCL clock speed)
+--                        and when o_busy is set, disable module (i_enable = 0)
+--                    2) Read EEPROM data
+--                      - Read from address map (p. 16, Figure 10)
+--                        - i_mode2          - 1
+--                          (Read N two-bytes data, 0x2400 - 0x273F)
+--                        - i_memory_address - 0x2400 (EEPROM)
+--                        - i_enable         - 1 (Enable module)
+--                      - In loop, read each packet available in
+--                        o_bytes_to_recv when o_mode2_ready is set
+--                      - When finish and end, signal o_mode2_ready_all is set
+--                        (so all data is collected and stored in some memory)
+--                      - Wait some cycles
+--                        (to be sure > 100 and depend from SCL clock speed)
+--                        and when o_busy is set, disable module (i_enable = 0)
+--                    2) Read RAM data
+--                      - Read from address map (p. 16, Figure 10)
+--                        - i_mode2          - 1
+--                          (Read N-more two-bytes data, 0x0400 - 0x07FF)
+--                        - i_memory_address - 0x0400 (RAM)
+--                        - i_enable         - 1 (Enable module)
+--                      - In loop, read each packet available in
+--                        o_bytes_to_recv when o_mode2_ready is set
+--                      - When finish and end, signal o_mode2_ready_all is set
+--                        (so all data is collected and stored in some memory)
+--                      - Wait some cycles
+--                        (to be sure > 100 and depend from SCL clock speed)
+--                        and when o_busy is set, disable module (i_enable = 0)
+--                  Extra steps:
+--                    1) Check if internal registers is setted properly
+--                      - Read Control Register 1 (p. 19, Table 8)
+--                        - i_mode1          - 1
+--                          (Read 2 bytes from 2 byte register)
+--                        - i_memory_address - 0x800d (Control Register 1)
+--                        - i_enable         - 1 (Enable module)
+--                      - Wait some cycles
+--                        (to be sure > 100 and depend from SCL clock speed)
+--                        and when o_busy is set, disable module (i_enable = 0)
+--                      - Read from o_bytes_to_recv (this can be checked)
+--                (Rest is in commented code)
 --
--- Dependencies: 
+-- Dependencies:
+--  - Files:
+--    global_package.vhd
+--  - Modules: -
 --
--- Revision: 
--- Revision 0.01 - File Created, fork from my_i2c module (10:40:17 08/03/2025)
--- Revision 0.02 - Reimplement to melexis_mlx90640_i2c module, R&W ok with long period idle
--- Revision 0.03 - melexis_mlx90640_i2c module, with 3 modes and ready flags
+--  Revision:
+--   - Revision 0.01 - File Created, fork from my_i2c module (vhdl_projects/) (10:40:17 08/03/2025).
+--    - Files: -
+--    - Modules: -
+--    - Processes (Architecture: -): -
+--   - Revision 0.02 - Reimplement to melexis_mlx90640_i2c module, RW timing ok.
+--    - Files: -
+--    - Modules: -
+--    - Processes (Architecture: -): -
+--   - Revision 0.03 - Module with 3 modes and flags.
+--    - Files: -
+--    - Modules: -
+--    - Processes (Architecture: rtl): p_i_scl_synchro, p_output_bytes,
+--      p_synchro_sda, p_i2c_catch_bytes_to_recv, p_i2c_send_sequence_fsm,
+--      p_i2c_clock_ctr, p_i2c_clock_generator_fsm, p_i2c_scl_generator_com
 --
--- Additional Comments: 
+-- Important objects:
+--  - Entity signals:
+--    - i_mode0, i_mode1, i_mode2 - use mode described as is:
+--      Data formats in each modes:
+--      (ST/SP/W/R/A/NA - Start/Stop/Write/Read/Ack/NotAck)
+--       - mode 0 - write 4 bytes
+--         ST,Write(A),Byte1(A),Byte2(A),Byte3(A),Byte4(A),SP
+--       - mode 1 - read 2 bytes from 16 bit register
+--         ST,Write(A),Byte1(A),Byte2(A),ST,Read(A),Byte1(A),Byte2(NA),SP
+--       - mode 2 - read 832 packets (2 bytes each), equal 1664 bytes all from 16bit register
+--         ST,Write(A),Byte1(A),Byte2(A),ST,Read(A),Byte_1_HI(A),Byte_1_LO(A),...,Byte_832_HI(A),Byte_832_LO(NA),SP
+--    - i_slave_address - of course, with what are we talking to (7 bit)
+--    - i_memory_address, i_memory_data - 16bit signals
+--    - o_mode2_ready, o_mode2_ready_all - ready packet/ready all data
+--    - i_enable, o_busy - titled as is
 --
-----------------------------------------------------------------------------------
+-- Information from the software vendor:
+--  - Messeges: -
+--  - Bugs: -
+--  - Notices: -
+--  - Infos: -
+--  - Notes: -
+--  - Criticals/Failures: -
+--
+-- Concepts/Milestones:
+--  - Core works for device model MLX90640, and tested on 7 segment LCD
+--    on Digilent Nexys 2 (xc3s1200e). All data, firstly, was stored in
+--    Block RAM and next was displayed on LCD. Just to be sure, readed data
+--    was overlapped/covered with data readed by logic analyzer.
+--
+-- Additional Comments:
+--  - To read more about:
+--    - denotes - see documentation/header_denotes.vhd
+--    - practices - see documentation/header_practices.vhd
+--
+-------------------------------------------------------------------------------
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -163,7 +272,7 @@ begin
   o_mode2_ready <= mode2_ready_i;
   o_mode2_ready_all <= mode2_ready_all_i;
 
-  p_ob : process (i_clock, i_reset) is
+  p_output_bytes : process (i_clock, i_reset) is
   begin
     if (i_reset = '1') then
       o_bytes_to_recv <= (others => '0');
@@ -174,7 +283,7 @@ begin
         --bytes_to_recv_sr (7 downto 0) & bytes_to_recv_sr (16 downto 9); -- test2
       end if;
     end if;
-  end process p_ob;
+  end process p_output_bytes;
 
   io_sda_o <=
     '0' when temp_sda = '0'
