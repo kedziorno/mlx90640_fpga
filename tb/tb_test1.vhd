@@ -55,7 +55,8 @@ constant c_sim : string (1 to 1) := "y";
 --constant c_wait2 : integer := 1000;
 --constant c_wait3 : integer := 10000;
 --constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
---constant c_calculate_type1 : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
+--constant c_calculate_type1 : string (1 to 13) := "c_temperature"; -- image yellow and overexposed
+--constant c_calculate_type1 : string (1 to 13) := "c_raws_images"; -- 
 --constant c_use_fisqrt1 : string (1 to 3) := " no" -- yes/no - depend from c_calculate_type(c_temperature)
 constant zero : integer := 0
 );
