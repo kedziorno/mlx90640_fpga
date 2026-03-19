@@ -3,6 +3,7 @@
 -- Engineer:      ko
 -------------------------------------------------------------------------------
 -- Denotes used in all code (only first/last prefix/suffix):
+--  - a_    - alias
 --  - c_    - constant
 --  - g_    - generate
 --  - i_    - entity input signal
