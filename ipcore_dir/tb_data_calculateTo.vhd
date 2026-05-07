@@ -22,7 +22,7 @@
 --    devices, or systems.  Use in such applications are expressly            --
 --    prohibited.                                                             --
 --                                                                            --
---    (c) Copyright 1995-2025 Xilinx, Inc.                                    --
+--    (c) Copyright 1995-2026 Xilinx, Inc.                                    --
 --    All rights reserved.                                                    --
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
@@ -75,7 +75,7 @@ END COMPONENT;
       c_disable_warn_bhv_coll => 0,
       c_disable_warn_bhv_range => 0,
       c_enable_32bit_address => 0,
-      c_family => "virtex5",
+      c_family => "spartan3",
       c_has_axi_id => 0,
       c_has_ena => 1,
       c_has_enb => 0,
@@ -123,7 +123,7 @@ END COMPONENT;
       c_write_mode_b => "WRITE_FIRST",
       c_write_width_a => 32,
       c_write_width_b => 32,
-      c_xdevicefamily => "virtex5"
+      c_xdevicefamily => "spartan3e"
     );
 -- synthesis translate_on
 BEGIN

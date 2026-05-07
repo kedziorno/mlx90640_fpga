@@ -47,162 +47,6 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvd
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
 incr fcount
 
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/example_design/inst_mem_kvdd_vdd25_exdes.ucf
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/example_design/inst_mem_kvdd_vdd25_exdes.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/example_design/inst_mem_kvdd_vdd25_exdes.xdc
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/example_design/inst_mem_kvdd_vdd25_prod.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/implement/implement.bat
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/implement/implement.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/implement/planAhead_ise.bat
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/implement/planAhead_ise.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/implement/planAhead_ise.tcl
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/implement/xst.prj
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/implement/xst.scr
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/addr_gen.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/bmg_stim_gen.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/bmg_tb_pkg.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/functional/simcmds.tcl
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/functional/simulate_isim.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/functional/simulate_mti.bat
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/functional/simulate_mti.do
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/functional/simulate_mti.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/functional/simulate_ncsim.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/functional/simulate_vcs.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/functional/ucli_commands.key
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/functional/vcs_session.tcl
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/functional/wave_mti.do
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/functional/wave_ncsim.sv
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/inst_mem_kvdd_vdd25_synth.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/inst_mem_kvdd_vdd25_tb.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/random.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/timing/simcmds.tcl
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/timing/simulate_isim.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/timing/simulate_mti.bat
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/timing/simulate_mti.do
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/timing/simulate_mti.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/timing/simulate_ncsim.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/timing/simulate_vcs.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/timing/ucli_commands.key
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/timing/vcs_session.tcl
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/timing/wave_mti.do
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25/simulation/timing/wave_ncsim.sv
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25.asy
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type asy
 incr fcount
@@ -225,6 +69,10 @@ incr fcount
 
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25.xco
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type coregen_ip
+incr fcount
+
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25_padded.ngc
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type ngc
 incr fcount
 
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path inst_mem_kvdd_vdd25_xmdf.tcl

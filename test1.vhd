@@ -46,8 +46,8 @@ constant c_cold_start : integer := 1000;
 constant c_wait2 : integer := 1000;
 constant c_wait3 : integer := 10000;
 constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
-constant c_calculate_type1 : string (1 to 13) := "c_raws_images"; -- c_temperature,c_raws_images
-constant c_use_fisqrt1 : string (1 to 3) := "xxx"; -- yes/no - depend from c_calculate_type(c_temperature)
+constant c_calculate_type1 : string (1 to 13) := "c_temperature"; -- c_temperature,c_raws_images
+constant c_use_fisqrt1 : string (1 to 3) := " no"; -- yes/no - depend from c_calculate_type(c_temperature)
 constant zero : integer := 0
 );
 port (
@@ -1176,6 +1176,7 @@ end if;
           end if;
           if (c_calculate_type1 = "c_temperature") then
             dualmem_dina_t <= tout_t;
+--            dualmem_dina_t <= x"ffff";
           end if;
 					dualmem_ena <= '1';
           --synthesis translate_off
@@ -1201,8 +1202,8 @@ end if;
 						i := i + 1;
 					end if;
 				when s10 =>
-          state <= idle;
---          state <= idle2a1;
+--          state <= idle;
+          state <= idle2a1;
 --          state <= idle1a1;
 --          state <= idle3;
 --        when others => state <= idle;
@@ -1212,11 +1213,12 @@ end if;
   end if;
 end process pTo;
 
-dualmem_enb <= not address_generator_activeh;
+--dualmem_enb <= not address_generator_activeh;
+dualmem_enb <= '1';
 
 pvgaclk : process (clock_i,i_reset) is
---	constant CMAX : integer := 1; -- 50/25 - nexys2
-	constant CMAX : integer := 2; -- 100/25 - ml507/ml402
+	constant CMAX : integer := 1; -- 50/25 - nexys2
+--	constant CMAX : integer := 2; -- 100/25 - ml507/ml402
 	variable vmax : integer range 0 to CMAX-1;
 begin
 		if (i_reset = '1') then
@@ -1388,7 +1390,7 @@ active_render   => open
 --constant c_use_fisqrt1 : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type1(c_temperature)
 
 g0_1 : if (c_calculate_type1 = "c_raws_images") generate
-cm <= dualmem_doutb_r (15 downto 7);
+cm <= dualmem_doutb_r (8 downto 0);
 end generate g0_1;
 g0_2 : if (c_calculate_type1 = "c_temperature") generate
 --cm <= dualmem_doutb_t (12 downto 12) & '0' & dualmem_doutb_t (11 downto 5);
@@ -1605,11 +1607,37 @@ io_sda_dd1 <= '0' when sda_o = '0' else 'Z';
 sda_i <= io_sda_dd1;
 io_sda_dd <= sda_i;
 io_sda_nl <= sda_i;
+--IOBUF_inst_sda : IOBUF
+--generic map (
+--DRIVE => 12,
+--IBUF_DELAY_VALUE => "0",
+--IFD_DELAY_VALUE => "AUTO",
+--IOSTANDARD => "DEFAULT",
+--SLEW => "SLOW")
+--port map (
+--O => sda_i,
+--IO => io_sda_dd1,
+--I => '1',
+--T => not sda_o
+--);
 
 io_scl_dd1 <= '0' when scl_o = '0' else 'Z';
 scl_i <= io_scl_dd1;
 io_scl_nl <= scl_i;
 io_scl_dd <= scl_i;
+--IOBUF_inst_scl : IOBUF
+--generic map (
+--DRIVE => 12,
+--IBUF_DELAY_VALUE => "0",
+--IFD_DELAY_VALUE => "AUTO",
+--IOSTANDARD => "DEFAULT",
+--SLEW => "SLOW")
+--port map (
+--O => scl_i,
+--IO => io_scl_dd1,
+--I => '1',
+--T => not scl_o
+--);
 
 --io_sda_dd <= '0' when sda_i = '0' else 'Z';
 --io_scl_dd <= '0' when scl_i = '0' else 'Z';
@@ -1747,6 +1775,10 @@ o_anode => o_an,
 o_segment => o_seg
 );
 end generate g_lcd;
+g_lcd1 : if (c_lcd = "n") generate
+o_an <= (others => '1');
+o_seg <= (others => '0');
+end generate g_lcd1;
 
 end Behavioral;
 

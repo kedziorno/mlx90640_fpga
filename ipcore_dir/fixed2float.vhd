@@ -22,7 +22,7 @@
 --    devices, or systems.  Use in such applications are expressly            --
 --    prohibited.                                                             --
 --                                                                            --
---    (c) Copyright 1995-2025 Xilinx, Inc.                                    --
+--    (c) Copyright 1995-2026 Xilinx, Inc.                                    --
 --    All rights reserved.                                                    --
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
@@ -111,7 +111,7 @@ END COMPONENT;
       c_result_width => 32,
       c_speed => 2,
       c_status_early => 0,
-      c_xdevicefamily => "virtex5"
+      c_xdevicefamily => "spartan3e"
     );
 -- synthesis translate_on
 BEGIN

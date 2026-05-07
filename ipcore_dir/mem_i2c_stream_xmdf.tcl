@@ -47,162 +47,6 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stre
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
 incr fcount
 
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/example_design/mem_i2c_stream_exdes.ucf
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/example_design/mem_i2c_stream_exdes.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/example_design/mem_i2c_stream_exdes.xdc
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/example_design/mem_i2c_stream_prod.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/implement/implement.bat
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/implement/implement.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/implement/planAhead_ise.bat
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/implement/planAhead_ise.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/implement/planAhead_ise.tcl
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/implement/xst.prj
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/implement/xst.scr
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/addr_gen.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/bmg_stim_gen.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/bmg_tb_pkg.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/functional/simcmds.tcl
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/functional/simulate_isim.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/functional/simulate_mti.bat
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/functional/simulate_mti.do
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/functional/simulate_mti.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/functional/simulate_ncsim.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/functional/simulate_vcs.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/functional/ucli_commands.key
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/functional/vcs_session.tcl
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/functional/wave_mti.do
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/functional/wave_ncsim.sv
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/mem_i2c_stream_synth.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/mem_i2c_stream_tb.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/random.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/timing/simcmds.tcl
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/timing/simulate_isim.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/timing/simulate_mti.bat
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/timing/simulate_mti.do
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/timing/simulate_mti.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/timing/simulate_ncsim.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/timing/simulate_vcs.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/timing/ucli_commands.key
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/timing/vcs_session.tcl
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/timing/wave_mti.do
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream/simulation/timing/wave_ncsim.sv
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream.asy
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type asy
 incr fcount
@@ -215,10 +59,6 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stre
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type ngc
 incr fcount
 
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream.sym
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type symbol
-incr fcount
-
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream.vhd
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type vhdl
 incr fcount
@@ -229,6 +69,10 @@ incr fcount
 
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream.xco
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type coregen_ip
+incr fcount
+
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream_padded.ngc
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type ngc
 incr fcount
 
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path mem_i2c_stream_xmdf.tcl

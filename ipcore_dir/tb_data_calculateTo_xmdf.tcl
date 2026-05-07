@@ -51,162 +51,6 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calc
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
 incr fcount
 
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/example_design/tb_data_calculateTo_exdes.ucf
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/example_design/tb_data_calculateTo_exdes.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/example_design/tb_data_calculateTo_exdes.xdc
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/example_design/tb_data_calculateTo_prod.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/implement/implement.bat
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/implement/implement.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/implement/planAhead_ise.bat
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/implement/planAhead_ise.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/implement/planAhead_ise.tcl
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/implement/xst.prj
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/implement/xst.scr
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/addr_gen.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/bmg_stim_gen.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/bmg_tb_pkg.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/functional/simcmds.tcl
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/functional/simulate_isim.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/functional/simulate_mti.bat
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/functional/simulate_mti.do
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/functional/simulate_mti.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/functional/simulate_ncsim.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/functional/simulate_vcs.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/functional/ucli_commands.key
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/functional/vcs_session.tcl
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/functional/wave_mti.do
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/functional/wave_ncsim.sv
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/random.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/tb_data_calculateTo_synth.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/tb_data_calculateTo_tb.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/timing/simcmds.tcl
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/timing/simulate_isim.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/timing/simulate_mti.bat
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/timing/simulate_mti.do
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/timing/simulate_mti.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/timing/simulate_ncsim.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/timing/simulate_vcs.sh
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/timing/ucli_commands.key
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/timing/vcs_session.tcl
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/timing/wave_mti.do
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo/simulation/timing/wave_ncsim.sv
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo.asy
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type asy
 incr fcount
@@ -229,6 +73,10 @@ incr fcount
 
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo.xco
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type coregen_ip
+incr fcount
+
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo_padded.ngc
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type ngc
 incr fcount
 
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_data_calculateTo_xmdf.tcl
