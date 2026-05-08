@@ -257,6 +257,8 @@ state1,
   signal mode2_ready_all_i : std_logic;
   signal io_scl_ii, io_scl_ii_i, io_sda_ii, io_sda_ii_i : std_logic;
   signal io_scl_ii_z : std_logic;
+  constant c_scl_stretch : integer := c_i2c_counter_max * 4;
+  signal tcount : integer range 0 to c_scl_stretch - 1;
 
 begin
 
@@ -976,7 +978,7 @@ begin
   end process p_i2c_send_sequence_fsm;
 
   p_i2c_clock_ctr : process (i_clock, i_reset) is
-    variable count : integer range 0 to (c_i2c_counter_max * 4) - 1;
+    variable count : integer range 0 to c_scl_stretch - 1;
     type states is (a, b);
     variable state : states;
   begin
@@ -994,7 +996,7 @@ begin
           if (i_enable = '0') then
             state := a;
           else
-            if (count = (c_i2c_counter_max * 4) - 1) then
+            if (count = c_scl_stretch - 1) then
               clock <= not clock;
               count := 0;
             else
@@ -1002,6 +1004,9 @@ begin
             end if;
           end if;
       end case;
+      --synthesis translate_off
+      tcount <= count;
+      --synthesis translate_on
     end if;
   end process p_i2c_clock_ctr;
 

@@ -33,7 +33,8 @@ USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
 --use work.global_package.all;
-use work.numeric_std_additions.all;
+library ieee_proposed;
+use ieee_proposed.numeric_std_additions.all;
 
 ENTITY tb_test2 IS
 END tb_test2;
@@ -68,7 +69,7 @@ PORT(
 i_clock : IN  std_logic;
 i_reset : IN  std_logic;
 i_scl : IN  std_logic;
-o_sda : OUT  std_logic := 'Z';
+o_sda : INOUT  std_logic := 'Z';
 o_done : OUT  std_logic;
 i_mode2 : IN  std_logic;
 i_enable : IN  std_logic;
@@ -176,75 +177,75 @@ compare1 => compare1,
 o_data => o_data
 );
 
-p0 : process is
-begin
---  wait for 653 us; -- wait on scl idle before mode2 1000k
---  wait for 869 us; -- wait on scl idle before mode2 1000k
---  wait for 878 us; -- wait on scl idle before mode2 1000k
---  wait for 974 us; -- wait on scl idle before mode2 500k
---  wait for 1281 us; -- wait on scl idle before mode2 500k
---  wait for 2015 us; -- wait on scl idle before mode2 500k
---  wait for 3655 us; -- wait on scl idle before mode2 100k
-wait for 1 us;
-  i_addr <= x"2400"; -- eeprom
-  i_enable <= '1';
-  compare1 <= 37;
-  wait until o_done = '1';
-  i_enable <= '0';
-  wait until o_done = '0';
-  wait for 1 us;
---  wait for 324 us;
+--p0 : process is
+--begin
+----  wait for 653 us; -- wait on scl idle before mode2 1000k
+----  wait for 869 us; -- wait on scl idle before mode2 1000k
+----  wait for 878 us; -- wait on scl idle before mode2 1000k
+----  wait for 974 us; -- wait on scl idle before mode2 500k
+----  wait for 1281 us; -- wait on scl idle before mode2 500k
+----  wait for 2015 us; -- wait on scl idle before mode2 500k
+----  wait for 3655 us; -- wait on scl idle before mode2 100k
+--wait for 1 us;
+--  i_addr <= x"2400"; -- eeprom
 --  i_enable <= '1';
---  i_addr <= x"0000"; -- eeprom stop
---  i_enable <= '0';
-  
---  wait for 268 us; -- 1000k
---  wait for 450 us; -- 500k
---  wait for 221 us; -- 500k
---  wait for 530 us; -- 500k
---  wait for 327 us; -- 500k
---  wait for 1742 us; -- 100k
---  i_addr <= x"0400"; -- data 1
---  i_enable <= '1';
---  compare1 <= 38;
+--  compare1 <= 37;
 --  wait until o_done = '1';
 --  i_enable <= '0';
 --  wait until o_done = '0';
---  i_addr <= x"0000"; -- data 1 end
-----  wait for 268 us; -- 1000k - s1
-----  wait for 327 us; -- 1000k - s1
+--  wait for 1 us;
+----  wait for 324 us;
+----  i_enable <= '1';
+----  i_addr <= x"0000"; -- eeprom stop
+----  i_enable <= '0';
+--  
+----  wait for 268 us; -- 1000k
+----  wait for 450 us; -- 500k
+----  wait for 221 us; -- 500k
+----  wait for 530 us; -- 500k
+----  wait for 327 us; -- 500k
+----  wait for 1742 us; -- 100k
+----  i_addr <= x"0400"; -- data 1
+----  i_enable <= '1';
+----  compare1 <= 38;
+----  wait until o_done = '1';
+----  i_enable <= '0';
+----  wait until o_done = '0';
+----  i_addr <= x"0000"; -- data 1 end
+------  wait for 268 us; -- 1000k - s1
+------  wait for 327 us; -- 1000k - s1
+------  wait for 430 us; -- 500k
+------  wait for 529 us; -- 500k
+------  wait for 1352 us; -- 100k
+--
+--i_addr <= x"0400"; -- data X
+--  i_enable <= '1';
+--  compare1 <= 35; -- first frame poorly
+--  wait until o_done = '1';
+--  i_enable <= '0';
+--  wait until o_done = '0';
+--  i_addr <= x"0000"; -- data X end
+----  wait for 36 us;
+--
+--  l0 : for i in 0 to number_frames_to_catch-1 loop
+--  i_addr <= x"0400"; -- data X
+--  i_enable <= '1';
+--  compare1 <= 36; -- first frame poorly
+--  wait until o_done = '1';
+--  i_enable <= '0';
+--  wait until o_done = '0';
+--  i_addr <= x"0000"; -- data X end
+----  wait for 12656 us; -- 1000k - s1
 ----  wait for 430 us; -- 500k
 ----  wait for 529 us; -- 500k
+----  wait for 324 us; -- 500k
+----  wait for 327 us; -- 500k
+----  wait for 23.93184 ms; -- 500k
 ----  wait for 1352 us; -- 100k
-
-i_addr <= x"0400"; -- data X
-  i_enable <= '1';
-  compare1 <= 35; -- first frame poorly
-  wait until o_done = '1';
-  i_enable <= '0';
-  wait until o_done = '0';
-  i_addr <= x"0000"; -- data X end
---  wait for 36 us;
-
-  l0 : for i in 0 to number_frames_to_catch-1 loop
-  i_addr <= x"0400"; -- data X
-  i_enable <= '1';
-  compare1 <= 36; -- first frame poorly
-  wait until o_done = '1';
-  i_enable <= '0';
-  wait until o_done = '0';
-  i_addr <= x"0000"; -- data X end
---  wait for 12656 us; -- 1000k - s1
---  wait for 430 us; -- 500k
---  wait for 529 us; -- 500k
---  wait for 324 us; -- 500k
---  wait for 327 us; -- 500k
---  wait for 23.93184 ms; -- 500k
---  wait for 1352 us; -- 100k
---  wait for 36 us;
-  end loop l0;
-  wait;
-end process p0;
+----  wait for 36 us;
+--  end loop l0;
+--  wait;
+--end process p0;
 
 check_eeprom : process (o_ready) is
 begin

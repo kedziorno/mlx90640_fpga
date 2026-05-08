@@ -33,7 +33,7 @@ USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
 use work.bmp_pkg.all;
---use work.global_package.all;
+use work.global_package.all;
 
 ENTITY tb_test1 IS
 END tb_test1;
@@ -133,30 +133,28 @@ signal s_spattern : std_logic_vector (31 downto 0);
 --constant c_period : time := 2.24 us; -- 10 ns
 constant c_period : time := 1.92 us; -- 20 ns
 
-COMPONENT i2c_stream
-PORT(
-i_clock : IN  std_logic;
-i_reset : IN  std_logic;
-i_scl : IN  std_logic;
-o_sda : OUT  std_logic;
-o_done : OUT  std_logic;
-i_mode2 : IN  std_logic;
-i_enable : IN  std_logic;
-i_addr : IN  std_logic_vector(15 downto 0);
-compare1 : in integer
+component mlx90640_i2c_stream is
+generic (
+  constant c_board_clock : integer := 1;
+  constant c_bus_clock : integer := 1
 );
-END COMPONENT;
+port (
+  i_clock : in std_logic;
+  i_reset : in std_logic;
+  -- i2c interface
+  i_scl : in std_logic;
+  io_sda : inout std_logic := 'Z';
+  -- debug
+  o_data_debug : out std_logic_vector (15 downto 0) -- XXX
+);
+end component mlx90640_i2c_stream;
 
 --Inputs
 signal i_scl : std_logic := '0';
-signal i_mode2 : std_logic := '0';
-signal i_enable : std_logic := '0';
-signal i_addr : std_logic_vector(15 downto 0) := (others => '0');
-signal compare1 : integer;
 
 --Outputs
-signal o_sda : std_logic;
-signal o_done : std_logic;
+signal io_sda : std_logic;
+signal o_data_debug : std_logic_vector (15 downto 0);
 
 signal a,a_prev,b,b_prev : std_logic;
 
@@ -177,7 +175,7 @@ signal a,a_prev,b,b_prev : std_logic;
 --signal tb_i2c_mem_dina : STD_LOGIC_VECTOR(7 DOWNTO 0);
 --signal tb_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-constant number_frames_to_catch : integer := 100;
+constant number_frames_to_catch : integer := 52;
 signal number_frame : integer := 0;
 signal video_clock_mux : std_logic_vector(number_frames_to_catch-1 downto 0) := (others => '0');
 signal video_blank_mux : std_logic_vector(number_frames_to_catch-1 downto 0) := (others => '0');
@@ -253,102 +251,103 @@ end process;
 --v_sync_i        => vga_vsync
 --);
 
-p0 : process is
-begin
---  wait for 653 us; -- wait on scl idle before mode2 1000k
---  wait for 869 us; -- wait on scl idle before mode2 1000k
-  wait for 878 us; -- wait on scl idle before mode2 1000k
---  wait for 1282 us; -- wait on scl idle before mode2 1000k -- pr
---  wait for 1326 us; -- wait on scl idle before mode2 1000k -- 33 mhz
---  wait for 1950 us; -- wait on scl idle before mode2 1000k -- pr
---  wait for 1304 us; -- wait on scl idle before mode2 1000k -- pr
---  wait for 974 us; -- wait on scl idle before mode2 500k
---  wait for 1281 us; -- wait on scl idle before mode2 500k
---  wait for 2015 us; -- wait on scl idle before mode2 500k
---  wait for 3655 us; -- wait on scl idle before mode2 100k
-  i_addr <= x"2400"; -- eeprom
-  i_enable <= '1';
-  compare1 <= 37;
-  wait until o_done = '1';
-  i_enable <= '0';
-  wait until o_done = '0';
-  wait for 324 us;
---  wait for 802 us;
+--p0 : process is
+--begin
+----  wait for 653 us; -- wait on scl idle before mode2 1000k
+----  wait for 869 us; -- wait on scl idle before mode2 1000k
+--  wait for 878 us; -- wait on scl idle before mode2 1000k
+----  wait for 1282 us; -- wait on scl idle before mode2 1000k -- pr
+----  wait for 1326 us; -- wait on scl idle before mode2 1000k -- 33 mhz
+----  wait for 1950 us; -- wait on scl idle before mode2 1000k -- pr
+----  wait for 1304 us; -- wait on scl idle before mode2 1000k -- pr
+----  wait for 974 us; -- wait on scl idle before mode2 500k
+----  wait for 1281 us; -- wait on scl idle before mode2 500k
+----  wait for 2015 us; -- wait on scl idle before mode2 500k
+----  wait for 3655 us; -- wait on scl idle before mode2 100k
+--  i_addr <= x"2400"; -- eeprom
 --  i_enable <= '1';
---  i_addr <= x"0000"; -- eeprom stop
---  i_enable <= '0';
-  
---  wait for 268 us; -- 1000k
---  wait for 450 us; -- 500k
---  wait for 221 us; -- 500k
---  wait for 530 us; -- 500k
---  wait for 327 us; -- 500k
---  wait for 1742 us; -- 100k
---  i_addr <= x"0400"; -- data 1
---  i_enable <= '1';
---  compare1 <= 38;
+--  compare1 <= 37;
 --  wait until o_done = '1';
 --  i_enable <= '0';
 --  wait until o_done = '0';
---  i_addr <= x"0000"; -- data 1 end
-----  wait for 268 us; -- 1000k - s1
-----  wait for 327 us; -- 1000k - s1
+--  wait for 324 us;
+----  wait for 802 us;
+----  i_enable <= '1';
+----  i_addr <= x"0000"; -- eeprom stop
+----  i_enable <= '0';
+--  
+----  wait for 268 us; -- 1000k
+----  wait for 450 us; -- 500k
+----  wait for 221 us; -- 500k
+----  wait for 530 us; -- 500k
+----  wait for 327 us; -- 500k
+----  wait for 1742 us; -- 100k
+----  i_addr <= x"0400"; -- data 1
+----  i_enable <= '1';
+----  compare1 <= 38;
+----  wait until o_done = '1';
+----  i_enable <= '0';
+----  wait until o_done = '0';
+----  i_addr <= x"0000"; -- data 1 end
+------  wait for 268 us; -- 1000k - s1
+------  wait for 327 us; -- 1000k - s1
+------  wait for 430 us; -- 500k
+------  wait for 529 us; -- 500k
+------  wait for 1352 us; -- 100k
+--
+--i_addr <= x"0400"; -- data X
+--  i_enable <= '1';
+--  compare1 <= 37; -- first frame poorly
+--  wait until o_done = '1';
+--  i_enable <= '0';
+--  wait until o_done = '0';
+--  i_addr <= x"0000"; -- data X end
+----  wait for 34377 us;
+----  wait for 35821 us;
+--  wait for 13958 us;
+--
+--  l0 : for i in 0 to number_frames_to_catch-1 loop
+--  i_addr <= x"0400"; -- data X
+--  i_enable <= '1';
+--  compare1 <= 37; -- first frame poorly
+--  wait until o_done = '1';
+--  i_enable <= '0';
+--  wait until o_done = '0';
+--  i_addr <= x"0000"; -- data X end
+----  wait for 12656 us; -- 1000k - s1
 ----  wait for 430 us; -- 500k
 ----  wait for 529 us; -- 500k
+----  wait for 324 us; -- 500k
+----  wait for 327 us; -- 500k
+----  wait for 23.93184 ms; -- 500k
 ----  wait for 1352 us; -- 100k
-
-i_addr <= x"0400"; -- data X
-  i_enable <= '1';
-  compare1 <= 37; -- first frame poorly
-  wait until o_done = '1';
-  i_enable <= '0';
-  wait until o_done = '0';
-  i_addr <= x"0000"; -- data X end
---  wait for 34377 us;
---  wait for 35821 us;
-  wait for 13958 us;
-
-  l0 : for i in 0 to number_frames_to_catch-1 loop
-  i_addr <= x"0400"; -- data X
-  i_enable <= '1';
-  compare1 <= 37; -- first frame poorly
-  wait until o_done = '1';
-  i_enable <= '0';
-  wait until o_done = '0';
-  i_addr <= x"0000"; -- data X end
---  wait for 12656 us; -- 1000k - s1
---  wait for 430 us; -- 500k
---  wait for 529 us; -- 500k
---  wait for 324 us; -- 500k
---  wait for 327 us; -- 500k
---  wait for 23.93184 ms; -- 500k
---  wait for 1352 us; -- 100k
---wait for 802 us;
-i_addr <= x"0400"; -- data X
-  i_enable <= '1';
-  compare1 <= 37; -- first frame poorly
-  wait until o_done = '1';
-  i_enable <= '0';
-  wait until o_done = '0';
-  i_addr <= x"0000"; -- data X end
---  wait for 34377 us;
---  wait for 759 us;
-  end loop l0;
-  wait;
-end process p0;
+----wait for 802 us;
+--i_addr <= x"0400"; -- data X
+--  i_enable <= '1';
+--  compare1 <= 37; -- first frame poorly
+--  wait until o_done = '1';
+--  i_enable <= '0';
+--  wait until o_done = '0';
+--  i_addr <= x"0000"; -- data X end
+----  wait for 34377 us;
+----  wait for 759 us;
+--  end loop l0;
+--  wait;
+--end process p0;
 
 a <= '1' when io_scl_dd1 = 'Z' else '0';
 
-i2c_stream_i0 : i2c_stream PORT MAP (
+i2c_stream_i0 : mlx90640_i2c_stream
+generic map (
+c_board_clock => c_clock_board_frequency,
+c_bus_clock => c_clock_i2c_frequency
+)
+port map (
 i_clock => i_clock,
 i_reset => i_reset,
 i_scl => a,
-o_sda => io_sda_dd1,
-i_mode2 => i_mode2,
-i_enable => i_enable,
-i_addr => i_addr,
-o_done => o_done,
-compare1 => compare1
+io_sda => io_sda_dd1,
+o_data_debug => o_data_debug
 );
 
 --tb_i2c_mem_i0 : tb_i2c_mem

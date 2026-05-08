@@ -48,7 +48,7 @@ i_clock,i_reset : in std_logic;
 io_sda_dd : inout std_logic := 'Z';
 io_scl_dd : inout std_logic := 'Z';
 io_sda_nl : inout std_logic := 'Z';
-io_scl_nl : out std_logic := 'Z';
+io_scl_nl : inout std_logic := 'Z';
 o_camera_read : out std_logic_vector (15 downto 0);
 o_ready, o_ready_all : out std_logic;
 o_an : out std_logic_vector (3 downto 0);
@@ -108,7 +108,8 @@ i_enable : in std_logic;
 o_busy : out std_logic;
 io_sda_o : out std_logic;
 io_sda_i : in std_logic;
-io_scl : out std_logic
+io_scl_o : out std_logic;
+io_scl_i : in std_logic
 );
 end component melexis_mlx90640_i2c;
 signal melexis_mlx90640_i2c_clock : std_logic;
@@ -126,7 +127,8 @@ signal melexis_mlx90640_i2c_enable : std_logic;
 signal melexis_mlx90640_i2c_busy : std_logic;
 signal melexis_mlx90640_i2c_sda_o : std_logic;
 signal melexis_mlx90640_i2c_sda_i : std_logic;
-signal melexis_mlx90640_i2c_scl : std_logic;
+signal melexis_mlx90640_i2c_scl_o : std_logic;
+signal melexis_mlx90640_i2c_scl_i : std_logic;
 
 --constant c_wait1 : integer := 25*1_000_000/10000;
 --constant c_wait1 : integer := 60;
@@ -157,17 +159,11 @@ end component lcd_display;
 
 signal LCDChar : LCDHex;
 
-signal lcd_sck, sda_nl_o, sda_nl_i, scl_nl : std_logic;
+signal lcd_sck, sda_nl_o, sda_nl_i, scl_nl_o, scl_nl_i : std_logic;
 
 begin
 
 o_camera_read <= melexis_mlx90640_i2c_bytes_to_recv;
-
-reset_BUFG_inst : BUFG
-port map (
-O => lcd_sck,     -- Clock buffer output
-I => scl_nl      -- Clock buffer input
-);
 
 process (i_clock,i_reset) is
 begin
@@ -580,14 +576,16 @@ o_busy => melexis_mlx90640_i2c_busy,
 --io_scl => scl_i
 io_sda_o => sda_nl_o,
 io_sda_i => sda_nl_i,
-io_scl => scl_nl
+io_scl_o => scl_nl_o,
+io_scl_i => scl_nl_i
 );
 
 --io_sda_dd <= '0' when sda_i = '0' else 'Z';
 --io_scl_dd <= '0' when scl_i = '0' else 'Z';
 io_sda_nl <= '0' when sda_nl_o = '0' else 'Z';
 sda_nl_i <= io_sda_nl;
-io_scl_nl <= '0' when scl_nl = '0' else 'Z';
+io_scl_nl <= '0' when scl_nl_o = '0' else 'Z';
+scl_nl_i <= io_scl_nl;
 --io_sda_dd <= '0' when sda_i = '0' else 'Z';
 --io_scl_dd <= '0' when scl_i = '0' else 'Z';
 --io_sda_nl <= '0' when io_sda_dd = '0' else 'Z';
