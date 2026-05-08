@@ -24,6 +24,10 @@
 --    - Modules: -
 --    - Processes (Architecture: rtl):
 --      - p_vga_address_generator_[registers|combinatorial]
+--  - Revision 0.01b - Fix read 768 address
+--    - Files: -
+--    - Modules: -
+--    - Processes (Architecture: rtl): -
 --
 -- Important objects:
 --  - Entity signals:
@@ -166,7 +170,13 @@ begin
                                         c_memory_address_bits));
       end if;
     end if;
-    if (i_vga_v_blank = '1') then
+    if (i_vga_v_blank = '1' or
+        (x_step_q    = c_x_step - 1 and
+         y_step_q    = c_y_step - 1 and
+         x_q         = c_x - 1      and
+         y_q         = c_y - 1      and
+         row_index_q = c_y_step - 1)
+    ) then
       vga_address_step_next_i <= (others => '0');
     end if;
   end process p_vga_address_generator_combinatorial;
