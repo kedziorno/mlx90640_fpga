@@ -104,7 +104,7 @@ signal address : std_logic_vector (8 downto 0) := (others => '0');
 
 begin
 
-p0 : process (
+p0 : process (i_reset,
 i_kvptat_en,i_kvptat_adr,
 i_alphaptat_en,i_alphaptat_adr,
 i_signed4bit_en,i_signed4bit_adr,
@@ -117,6 +117,9 @@ i_2powx_p8_4bit_en,i_2powx_p8_4bit_adr,
 i_signed3bit_en,i_signed3bit_adr
 ) is
 begin
+  if (i_reset = '1') then
+    address <= (others => '0');
+  else
   address <= (others => '0');
   if (i_kvptat_en = '1') then
     address <= std_logic_vector (to_unsigned (to_integer (unsigned (i_kvptat_adr))          + 0,    9));
@@ -138,6 +141,7 @@ begin
     address <= std_logic_vector (to_unsigned (to_integer (unsigned (i_2powx_p8_4bit_adr))   + 256 + 16,  9));
   elsif (i_signed3bit_en = '1') then
     address <= std_logic_vector (to_unsigned (to_integer (unsigned (i_signed3bit_adr))      + 256 + 16 + 16,  9));
+  end if;
   end if;
 end process p0;
 

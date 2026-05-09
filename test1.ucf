@@ -27,6 +27,29 @@
 #NET "o_led<7>"      LOC = "AE24";
 
 #nexys2
+INST "vgaclk25" TNM_NET="CLK25";
+INST "melexis_mlx90640_i2c_i0/clock" TNM_NET="I2C_CLK1";
+INST "melexis_mlx90640_i2c_i0/io_scl_ii" TNM_NET="I2C_CLK2";
+INST "agclk" TNM_NET="CLK1";
+
+TIMESPEC TS_CLK25 = PERIOD "CLK25" 40 ns HIGH 50%;
+TIMESPEC TS_I2C_CLK1 = PERIOD "I2C_CLK1" 2000 ns HIGH 50%;
+TIMESPEC TS_I2C_CLK2 = PERIOD "I2C_CLK2" 2000 ns HIGH 50%;
+TIMESPEC TS_CLK1 = PERIOD "CLK1" 800 ns HIGH 50%;
+                                                                                                                                                                                                              
+TIMESPEC TS_1 = FROM "CLK25" TO "I2C_CLK1" TIG;
+TIMESPEC TS_2 = FROM "I2C_CLK1" TO "CLK25" TIG;
+TIMESPEC TS_3 = FROM "CLK25" TO "I2C_CLK2" TIG;
+TIMESPEC TS_4 = FROM "I2C_CLK2" TO "CLK25" TIG;
+TIMESPEC TS_5 = FROM "i_clock" TO "I2C_CLK1" TIG;
+TIMESPEC TS_6 = FROM "I2C_CLK1" TO "i_clock" TIG;
+TIMESPEC TS_7 = FROM "i_clock" TO "I2C_CLK2" TIG;
+TIMESPEC TS_8 = FROM "I2C_CLK2" TO "i_clock" TIG;
+TIMESPEC TS_9 = FROM "CLK1" TO "I2C_CLK1" TIG;
+TIMESPEC TS_a = FROM "I2C_CLK1" TO "CLK1" TIG;
+TIMESPEC TS_b = FROM "CLK1" TO "I2C_CLK2" TIG;
+TIMESPEC TS_c = FROM "I2C_CLK2" TO "CLK1" TIG;
+
 NET "i_clock" TNM_NET = "i_clock";
 NET "i_clock" LOC = B8;
 NET "i_clock" PERIOD = 20 ns;
@@ -44,8 +67,8 @@ NET "vga_hsync" LOC = "T4";
 NET "vga_vsync" LOC = "U3";
 NET "i_reset" LOC = B18;
 NET "i_reset" TIG;
-NET "io_scl_dd1" LOC = G13 | PULLUP;
-NET "io_sda_dd1" LOC = H16 | PULLUP;
+NET "io_scl_dd1" LOC = G13 | PULLUP | TIG;
+NET "io_sda_dd1" LOC = H16 | PULLUP | TIG;
 ## 7 segment display
 NET "o_seg<0>"      LOC = "L18";     # Bank = 1, Pin name = IO_L10P_1, Type = I/O,                         Sch name = CA
 NET "o_seg<1>"      LOC = "F18";     # Bank = 1, Pin name = IO_L19P_1, Type = I/O,                         Sch name = CB

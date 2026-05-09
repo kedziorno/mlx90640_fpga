@@ -43,8 +43,8 @@ ARCHITECTURE behavior OF tb_test1 IS
 -- Component Declaration for the Unit Under Test (UUT)
 COMPONENT test1
 generic (
---constant c_board_clock : integer := c_clock_board_frequency;
-----constant c_bus_clock : integer := c_clock_i2c_frequency;
+constant c_board_clock : integer := 50_000_000;
+constant c_bus_clock : integer := 1_000_000;
 --constant c_bus_clock : integer := 1_000_000;
 ----constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
 ----constant c_bus_clock : integer := 50;
@@ -55,10 +55,10 @@ constant c_sim : string (1 to 1) := "y";
 --constant c_wait2 : integer := 1000;
 --constant c_wait3 : integer := 10000;
 --constant c_device : string (1 to 8) := "mlx90640"; -- mlx90640 (32x24),mlx90641 (16x12)
-constant c_calculate_type1 : string (1 to 13) := "c_temperature"; -- image yellow and overexposed
---constant c_calculate_type1 : string (1 to 13) := "c_raws_images"; -- 
-constant c_use_fisqrt1 : string (1 to 3) := " no"; -- yes/no - depend from c_calculate_type(c_temperature)
---constant c_use_fisqrt1 : string (1 to 3) := "xxx"; -- yes/no - depend from c_calculate_type(c_temperature)
+--constant c_calculate_type1 : string (1 to 13) := "c_temperature"; -- image yellow and overexposed
+constant c_calculate_type1 : string (1 to 13) := "c_raws_images"; -- 
+--constant c_use_fisqrt1 : string (1 to 3) := " no"; -- yes/no - depend from c_calculate_type(c_temperature)
+constant c_use_fisqrt1 : string (1 to 3) := "xxx"; -- yes/no - depend from c_calculate_type(c_temperature)
 constant zero : integer := 0
 );
 PORT(
@@ -338,10 +338,6 @@ end process;
 a <= '1' when io_scl_dd1 = 'Z' else '0';
 
 i2c_stream_i0 : mlx90640_i2c_stream
-generic map (
-c_board_clock => c_clock_board_frequency,
-c_bus_clock => c_clock_i2c_frequency
-)
 port map (
 i_clock => i_clock,
 i_reset => i_reset,
@@ -387,7 +383,7 @@ filename => "vga" & integer'image (number_frame) & ".bmp"
 port map (
 clk_i        => vga_clock,
 rst_i        => i_reset,
-dat_i        => vga_r & vga_g & vga_b,
+dat_i        => vga_r (7 downto 5) & "00000" & vga_g (7 downto 5) & "00000" & vga_b (7 downto 6) & "000000",
 active_vid_i => not video_blank_mux (number_frame),
 h_sync_i     => vga_hsync,
 v_sync_i     => vga_vsync

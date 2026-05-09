@@ -92,12 +92,14 @@ end component mem_i2c_stream;
 signal addra : std_logic_vector (14 downto 0);
 signal douta : std_logic_vector (15 downto 0);
 
+constant c_reset_index_len : integer := 64; -- XXX can be larger when scl slower (31 - 1MHz, 63 - 500KHz)
 constant c_i2c_address     : integer := 7;
 constant c_data            : integer := 8;
 constant c_records         : integer := 832;
 constant c_items           : integer := 26 - 1; -- 832 * number frames (blocks) in memory, without eeprom data at begining
 constant c_i2c_divider     : integer := (c_board_clock / c_bus_clock) / 1;
 constant c_sda_recv_length : integer := c_i2c_address + 1 + 1 + (c_data + 1) * 2 + 1; -- XXX 2 or 4 bytes data, address and ack's
+constant c_reset_index_1   : std_logic_vector (c_reset_index_len - 1 downto 0) := (others => '1');
 constant c_i2c_device      : std_logic_vector (c_i2c_address - 1 downto 0) := "0110011"; -- XXX 33h
 constant c_eeprom_address  : std_logic_vector (15 downto 0) := x"2400";
 constant c_frame_address   : std_logic_vector (15 downto 0) := x"0400";
@@ -116,7 +118,7 @@ signal sda_prev, sda_read_cond  : std_logic;
 signal sda_data             : std_logic_vector (c_sda_recv_length - 1 downto 0);
 signal i2c_address          : std_logic_vector (6 downto 0);
 signal i2c_data0, i2c_data1 : std_logic_vector (7 downto 0);
-signal reset_index_sr       : std_logic_vector (31 downto 0); -- XXX can be larger when scl slower
+signal reset_index_sr       : std_logic_vector (c_reset_index_len - 1 downto 0);
 
 type states is (idle, idle1, idle2, idle3, s1, s2, s3, s4);
 signal state : states;
@@ -142,7 +144,7 @@ begin
     end if;
   end if;
 end process p4_reset_index_sr;
-reset_index <= '1' when reset_index_sr = x"ffffffff" else '0';
+reset_index <= '1' when reset_index_sr = c_reset_index_1 else '0';
 
 p3_extract_i2c_bytes : process (i_scl) is
 begin
