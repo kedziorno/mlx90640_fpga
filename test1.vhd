@@ -614,6 +614,8 @@ signal j : integer range 0 to c_j-1;
 type p100_states is (a,b,c,d,e);
 signal p100_state : p100_states := a;
 
+signal toggle1 : std_logic;
+
 begin
 
 o_data <= latch_data;
@@ -706,24 +708,24 @@ vga_psave <= '1';
 --  end if;
 --end process p100;
 
-dina_swap : if (c_sim = "n") generate
-  --i2c_mlx_dina (15 downto 8) <= latch_data (7 downto 0);
-  --i2c_mlx_dina (7 downto 0) <= latch_data (15 downto 8);
-  i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
-  i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
-end generate dina_swap;
-
-dina_no_swap : if (c_sim = "y") generate
-  --i2c_mlx_dina (7 downto 0) <= latch_data (7 downto 0);
-  --i2c_mlx_dina (15 downto 8) <= latch_data (15 downto 8);
---  i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
---  i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
-  i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
-  i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
-end generate dina_no_swap;
+--dina_swap : if (c_sim = "n") generate
+--  --i2c_mlx_dina (15 downto 8) <= latch_data (7 downto 0);
+--  --i2c_mlx_dina (7 downto 0) <= latch_data (15 downto 8);
+--  i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
+--  i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
+--end generate dina_swap;
+--
+--dina_no_swap : if (c_sim = "y") generate
+--  --i2c_mlx_dina (7 downto 0) <= latch_data (7 downto 0);
+--  --i2c_mlx_dina (15 downto 8) <= latch_data (15 downto 8);
+----  i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
+----  i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
+--  i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
+--  i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
+--end generate dina_no_swap;
 
 --o_led (7 downto 0) <= test_fixed_melexis_do(31-9-9 downto 31-16-9);
-o_led (7 downto 0) <= (others => '0');
+--o_led (7 downto 0) <= (others => '0');
 
 pTo : process (clock_i,i_reset) is
 	variable i : integer range 0 to PIXELS-1;
@@ -746,6 +748,8 @@ pTo : process (clock_i,i_reset) is
 begin
 		if (rising_edge (clock_i)) then
 		if (i_reset = '1') then
+    toggle1 <= '0';
+    o_led <= (others => '0');
 			state <= idle;
       k := 0;
       w11ms := 0;
@@ -990,6 +994,9 @@ else
           melexis_mlx90640_i2c_memory_address <= x"2400";
           if (melexis_mlx90640_i2c_busy = '1') then
               state <= a1;
+            i2c_mlx_addra <= (others => '0');
+                    i2c_mlx_wea <= "0";
+        i2c_mlx_ena <= '0';
           end if;
 
 --          if (wait1 = c_wait1 - 1) then
@@ -1020,8 +1027,14 @@ else
         end if;
       when b1 =>
         state <= c1;
-        i2c_mlx_wea <= "1";
-        i2c_mlx_ena <= '1';
+dina_swap1 : if (c_sim = "n") then
+  i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
+  i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
+end if dina_swap1;
+dina_no_swap1 : if (c_sim = "y") then
+  i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
+  i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
+end if dina_no_swap1;
         if (melexis_mlx90640_i2c_memory_address = x"2400") then
           i2c_mlx_addra <= std_logic_vector (to_unsigned (mem_addr + 0, 11));
         end if;
@@ -1032,9 +1045,11 @@ else
         if (temp1 = '1' and melexis_mlx90640_i2c_mode2_ready = '1' and melexis_mlx90640_i2c_mode2 = '1' and melexis_mlx90640_i2c_enable = '1') then
           state <= d1;
         end if;
+        i2c_mlx_wea <= "1";
+        i2c_mlx_ena <= '1';
+      when d1 =>
         i2c_mlx_wea <= "0";
         i2c_mlx_ena <= '0';
-      when d1 =>
         if (temp1 = '1' and melexis_mlx90640_i2c_mode2_ready = '0' and melexis_mlx90640_i2c_mode2 = '1' and melexis_mlx90640_i2c_enable = '1') then
           state <= e1;
         end if;
@@ -1137,6 +1152,9 @@ else
           melexis_mlx90640_i2c_memory_address <= x"0400";
             if (melexis_mlx90640_i2c_busy = '1') then
               state <= a2;
+            i2c_mlx_addra <= (others => '0');
+                    i2c_mlx_wea <= "0";
+        i2c_mlx_ena <= '0';
           end if;
 --          if (wait1 = c_wait1 - 1) then
 --            if (melexis_mlx90640_i2c_busy = '0') then
@@ -1156,8 +1174,14 @@ else
         end if;
       when b2 =>
         state <= c2;
-        i2c_mlx_wea <= "1";
-        i2c_mlx_ena <= '1';
+dina_swap2 : if (c_sim = "n") then
+  i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
+  i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
+end if dina_swap2;
+dina_no_swap2 : if (c_sim = "y") then
+  i2c_mlx_dina (15 downto 8) <= melexis_mlx90640_i2c_bytes_to_recv (7 downto 0);
+  i2c_mlx_dina (7 downto 0) <= melexis_mlx90640_i2c_bytes_to_recv (15 downto 8);
+end if dina_no_swap2;
         if (melexis_mlx90640_i2c_memory_address = x"2400") then
           i2c_mlx_addra <= std_logic_vector (to_unsigned (mem_addr + 0, 11));
         end if;
@@ -1168,12 +1192,14 @@ else
         if (temp1 = '1' and melexis_mlx90640_i2c_mode2_ready = '1' and melexis_mlx90640_i2c_mode2 = '1' and melexis_mlx90640_i2c_enable = '1') then
           state <= d2;
         end if;
-        i2c_mlx_wea <= "0";
-        i2c_mlx_ena <= '0';
+        i2c_mlx_wea <= "1";
+        i2c_mlx_ena <= '1';
       when d2 =>
         if (temp1 = '1' and melexis_mlx90640_i2c_mode2_ready = '0' and melexis_mlx90640_i2c_mode2 = '1' and melexis_mlx90640_i2c_enable = '1') then
           state <= e2;
         end if;
+        i2c_mlx_wea <= "0";
+        i2c_mlx_ena <= '0';
       when e2 =>
         if (mem_addr = c_max - 1) then
           state <= r14;
@@ -1260,12 +1286,18 @@ end if;
           end if;
           end if;
           if (c_sim = "y") then
+          if (w11ms = c_w11ms - 1) then
 					test_fixed_melexis_run <= '0';
 					if (test_fixed_melexis_rdy = '1') then
 						state <= s2;
 					else
 						state <= s1;
 					end if;
+            w11ms := 0;
+          else
+ 						state <= s1;
+            w11ms := w11ms + 1;
+          end if;
           end if;
 				when s2 => state <= s3;
 					float2fixedsclr <= '0';
@@ -1340,6 +1372,8 @@ end if;
 						i := i + 1;
 					end if;
 				when s10 =>
+          toggle1 <= not toggle1;
+          o_led (0) <= toggle1;
           if (c_sim = "y") then
 --          state <= idle;
           state <= idle2a1;
@@ -1347,6 +1381,7 @@ end if;
 --          state <= idle3;
           end if;
           if (c_sim = "n") then
+--          state <= idle;
           state <= idle2a1;          
           end if;
         when others => state <= idle;

@@ -44,8 +44,8 @@ ARCHITECTURE behavior OF tb_test1 IS
 COMPONENT test1
 generic (
 constant c_board_clock : integer := 50_000_000;
-constant c_bus_clock : integer := 1_000_000;
 --constant c_bus_clock : integer := 1_000_000;
+constant c_bus_clock : integer := 500_000;
 ----constant c_bus_clock : integer := 446_000; -- 447_000 - X signals in TB Post-Route SIM
 ----constant c_bus_clock : integer := 50;
 ----constant c_bus_clock : integer := 1;
@@ -175,7 +175,7 @@ signal a,a_prev,b,b_prev : std_logic;
 --signal tb_i2c_mem_dina : STD_LOGIC_VECTOR(7 DOWNTO 0);
 --signal tb_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 
-constant number_frames_to_catch : integer := 52;
+constant number_frames_to_catch : integer := 512;
 signal number_frame : integer := 0;
 signal video_clock_mux : std_logic_vector(number_frames_to_catch-1 downto 0) := (others => '0');
 signal video_blank_mux : std_logic_vector(number_frames_to_catch-1 downto 0) := (others => '0');
@@ -235,7 +235,7 @@ wait;
 --wait for 15.776ms * 10;
 --wait for 1 ms;
 --wait for 610 us;
-report "tb done" severity failure;
+--report "tb done" severity failure;
 end process;
 
 --vga_bmp : entity work.vga_bmp_sink
@@ -356,39 +356,52 @@ o_data_debug => o_data_debug
 --douta => tb_i2c_mem_douta
 --);
 
-p_vb_mux : process (i_clock) is
-begin
-if (falling_edge (i_clock)) then
-video_blank_mux (number_frame) <= vga_blankn;
-end if;
-end process p_vb_mux;
+--p_vb_mux : process (i_clock) is
+--begin
+--if (falling_edge (i_clock)) then
+--video_blank_mux (number_frame) <= vga_blankn;
+--end if;
+--end process p_vb_mux;
 
 p_write_bmps : process (vga_vsync) is
 begin
 if (falling_edge (vga_vsync)) then
 if (number_frame = number_frames_to_catch - 1) then
 number_frame <= 0;
-report "tb done" severity failure;
+--report "tb done" severity failure;
 else
 number_frame <= number_frame + 1;
 end if;
 end if;
 end process p_write_bmps;
 
-g_write_bmps : for number_frame in 0 to number_frames_to_catch - 1 generate
+--g_write_bmps : for number_frame in 0 to number_frames_to_catch - 1 generate
+--vga_bmp : component vga_bmp_sink
+--generic map (
+--filename => "vga" & integer'image (number_frame) & ".bmp"
+--)
+--port map (
+--clk_i        => vga_clock,
+--rst_i        => i_reset,
+--dat_i        => vga_r (7 downto 5) & "00000" & vga_g (7 downto 5) & "00000" & vga_b (7 downto 6) & "000000",
+--active_vid_i => not video_blank_mux (number_frame),
+--h_sync_i     => vga_hsync,
+--v_sync_i     => vga_vsync
+--);
+--end generate g_write_bmps;
+
 vga_bmp : component vga_bmp_sink
 generic map (
-filename => "vga" & integer'image (number_frame) & ".bmp"
+filename => "vga.bmp"
 )
 port map (
 clk_i        => vga_clock,
 rst_i        => i_reset,
 dat_i        => vga_r (7 downto 5) & "00000" & vga_g (7 downto 5) & "00000" & vga_b (7 downto 6) & "000000",
-active_vid_i => not video_blank_mux (number_frame),
+active_vid_i => not vga_blankn,
 h_sync_i     => vga_hsync,
 v_sync_i     => vga_vsync
 );
-end generate g_write_bmps;
 
 END;
 

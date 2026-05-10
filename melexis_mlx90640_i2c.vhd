@@ -952,6 +952,7 @@ begin
           if (c_cmode = c1) then
             mode2_ready_all_i <= '1';
             mode2_ready_i <= '0';
+            o_busy <= '0';
           end if;
           if (c_cmode = c2) then
             mode2_ready_all_i <= '0';
