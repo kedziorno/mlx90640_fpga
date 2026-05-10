@@ -806,7 +806,7 @@ else
             if (melexis_mlx90640_i2c_busy = '0') then
               melexis_mlx90640_i2c_enable <= '0';
 --          i2c_stream_enable <= '0';
---              if (camera_read = x"1981") then
+--              if (camera_read = x"1a01") then
                 state <= idle0;
                 wait2 := 0;
 --              else
@@ -832,7 +832,7 @@ else
           melexis_mlx90640_i2c_enable <= '1';
 --          i2c_stream_enable <= '1';
           melexis_mlx90640_i2c_memory_address <= x"800d";
-          melexis_mlx90640_i2c_memory_data <= x"1f89";
+          melexis_mlx90640_i2c_memory_data <= x"1a01";
 --          melexis_mlx90640_i2c_memory_data <= x"1234";
 --          melexis_mlx90640_i2c_memory_data <= x"4321";
 --          melexis_mlx90640_i2c_memory_data <= x"0000";
@@ -894,7 +894,7 @@ else
             if (melexis_mlx90640_i2c_busy = '0') then
               melexis_mlx90640_i2c_enable <= '0';
 --          i2c_stream_enable <= '0';
---              if (camera_read = x"1981") then
+--              if (camera_read = x"1a01") then
                 state <= idle0a;
                 wait2 := 0;
 --              else
@@ -920,7 +920,7 @@ else
           melexis_mlx90640_i2c_enable <= '1';
 --          i2c_stream_enable <= '1';
           melexis_mlx90640_i2c_memory_address <= x"800d";
-          melexis_mlx90640_i2c_memory_data <= x"1f89";
+          melexis_mlx90640_i2c_memory_data <= x"1a01";
 --          melexis_mlx90640_i2c_memory_data <= x"1234";
 --          melexis_mlx90640_i2c_memory_data <= x"4321";
 --          melexis_mlx90640_i2c_memory_data <= x"0000";
@@ -1007,7 +1007,7 @@ else
           if (wait1 = c_wait1 - 1) then
             if (melexis_mlx90640_i2c_busy = '0') then
               melexis_mlx90640_i2c_enable <= '0';
---              if (camera_read = x"1981") then
+--              if (camera_read = x"1a01") then
                 state <= idle0a1;
                 wait2 := 0;
 --              else
@@ -1252,12 +1252,12 @@ end if;
 						i := i + 1;
 					end if;
 				when s10 =>
---          if (c_sim = "y") then
---            state <= idle;
---          end if;
---          state <= idle2a1;
+          if (c_sim = "y") then
+--          state <= idle;
+          state <= idle2a1;
 --          state <= idle1a1;
 --          state <= idle3;
+          end if;
         when others => state <= idle;
 --        when others => null;
 			end case;
@@ -1444,8 +1444,8 @@ active_render   => open
 --constant c_use_fisqrt1 : string (1 to 3) := "xxx" -- yes/no - depend from c_calculate_type1(c_temperature)
 
 g0_1 : if (c_calculate_type1 = "c_raws_images") generate
---cm <= dualmem_doutb_r (8 downto 0);
-cm <= dualmem_doutb_r (11 downto 3);
+--cm <= dualmem_doutb_r (11 downto 3); -- ok
+cm <= dualmem_doutb_r (12 downto 12) & '0' & dualmem_doutb_r (11 downto 5); -- better
 end generate g0_1;
 g0_2 : if (c_calculate_type1 = "c_temperature") generate
 --cm <= dualmem_doutb_t (12 downto 12) & '0' & dualmem_doutb_t (11 downto 5);
