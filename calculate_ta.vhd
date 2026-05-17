@@ -192,6 +192,7 @@ begin
           divfpsclr <= '0';
           o_rdy <= '0';
         when s1c =>
+          o_Ta <= (others => '0');
           subfpce <= '1';
           subfpa <= i_Vdd;
           subfpb <= C_3DOT3;

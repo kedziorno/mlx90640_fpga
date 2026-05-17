@@ -153,6 +153,7 @@ begin
           o_rdy <= '0';
         when s1 => state := s2;
           i2c_mem_ena <= '0';
+          o_tgc <= (others => '0');
 				when s2 =>
           fixed2floatce_internal <= '1';
           fixed2floatond_internal <= '1';

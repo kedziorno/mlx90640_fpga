@@ -323,6 +323,13 @@ signal rdy,write_enable : std_logic;
 
 signal pattern_ft,pattern_neg_ft : std_logic_vector (31 downto 0);
 
+signal i : integer range 0 to C_MATRIX_PIXELS-1;
+type states is (idle,s0a,s0b,
+s3,s4,s9,s10,
+s12,s15,s18,
+s21,s23);
+signal state : states;
+
 begin
 
 divfpa <= divfpa_internal;
@@ -376,16 +383,10 @@ mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0')
 mux_dia <= dia when rdy = '0' else (others => '0');
 
 p0 : process (i_clock) is
-  variable i : integer range 0 to C_MATRIX_PIXELS-1;
-  type states is (idle,
-  s3,s4,s9,s10,
-  s12,s15,s18,
-  s21,s23);
-  variable state : states;
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
-			state := idle;
+			state <= idle;
 			addfpsclr_internal <= '1';
 			subfpsclr_internal <= '1';
 			mulfpsclr_internal <= '1';
@@ -412,22 +413,36 @@ begin
       dia <= (others => '0');
       mem_switchpattern_pixel <= (others => '0');
       o_pixos_addr <= (others => '0');
-      i := 0;
+      i <= 0;
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := s3;
+						state <= s0a;
             rdy <= '0';
 					else
-						state := idle;
+						state <= idle;
 					end if;
 					addfpsclr_internal <= '0';
 					subfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
-          i := 0;
-				when s3 => state := s4;
+          i <= 0;
+        when s0a =>
+          state <= s0b;
+          addra <= std_logic_vector (to_unsigned (i, 10));
+          dia <= (others => '0');
+          write_enable <= '1';
+        when s0b =>
+          write_enable <= '0';
+          if (i = C_MATRIX_PIXELS-1) then
+            state <= s3;
+            i <= 0;
+          else
+            state <= s0a;
+            i <= i + 1;
+          end if;
+				when s3 => state <= s4;
 					o_pixos_addr <= std_logic_vector (to_unsigned (i, 10));
 					mem_switchpattern_pixel <= std_logic_vector (to_unsigned (i, 10));
           divfpsclr_internal <= '0';
@@ -439,33 +454,33 @@ begin
 					divfpa_internal <= i_pixos_do;
 					divfpb_internal <= C_EMISSIVITY;
 					divfpond_internal <= '1';
-					if (divfprdy_internal = '1') then state := s9;
+					if (divfprdy_internal = '1') then state <= s9;
 						divfpce_internal <= '0';
 						divfpond_internal <= '0';
 						divfpsclr_internal <= '1';
-					else state := s4; end if;
+					else state <= s4; end if;
 				when s9 =>
 					divfpsclr_internal <= '0';
 					mulfpce_internal <= '1';
 					mulfpa_internal <= i_pixoscpsp1;
 					mulfpb_internal <= pattern_ft;
 					mulfpond_internal <= '1';
-          if (mulfprdy_internal = '1') then state := s10;
+          if (mulfprdy_internal = '1') then state <= s10;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
-					else state := s9; end if;
+					else state <= s9; end if;
         when s10 => -- XXX empty state for rm tmp reg
           mulfpsclr_internal <= '0';
           subfpce_internal <= '1';
 					subfpa_internal <= mulfpr_internal;
 					subfpb_internal <= x"00000000";
 					subfpond_internal <= '1';
-          if (subfprdy_internal = '1') then state := s12;
+          if (subfprdy_internal = '1') then state <= s12;
 						subfpce_internal <= '0';
 						subfpond_internal <= '0';
 						subfpsclr_internal <= '1';
-					else state := s10; end if;
+					else state <= s10; end if;
 				when s12 =>
           subfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
@@ -473,40 +488,40 @@ begin
 					mulfpa_internal <= i_pixoscpsp0;
 					mulfpb_internal <= pattern_neg_ft;
 					mulfpond_internal <= '1';
-					if (mulfprdy_internal = '1') then state := s15;
+					if (mulfprdy_internal = '1') then state <= s15;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
-					else state := s12; end if;
+					else state <= s12; end if;
 				when s15 =>
 					mulfpsclr_internal <= '0';
 					addfpce_internal <= '1';
 					addfpa_internal <= addfpr_internal; -- XX s10
 					addfpb_internal <= mulfpr_internal; -- XXX s12
 					addfpond_internal <= '1';
-					if (addfprdy_internal = '1') then state := s18;
+					if (addfprdy_internal = '1') then state <= s18;
 						addfpce_internal <= '0';
 						addfpond_internal <= '0';
 						addfpsclr_internal <= '1';
-					else state := s15; end if;
+					else state <= s15; end if;
 				when s18 =>
 					addfpsclr_internal <= '0';
 					mulfpce_internal <= '1';
 					mulfpa_internal <= addfpr_internal;
 					mulfpb_internal <= i_tgc;
 					mulfpond_internal <= '1';
-					if (mulfprdy_internal = '1') then state := s21;
+					if (mulfprdy_internal = '1') then state <= s21;
 						mulfpce_internal <= '0';
 						mulfpond_internal <= '0';
 						mulfpsclr_internal <= '1';
-					else state := s18; end if;
+					else state <= s18; end if;
 				when s21 =>
 					mulfpsclr_internal <= '0';
 					subfpce_internal <= '1';
 					subfpa_internal <= divfpr_internal;
 					subfpb_internal <= mulfpr_internal;
 					subfpond_internal <= '1';
-					if (subfprdy_internal = '1') then state := s23;
+					if (subfprdy_internal = '1') then state <= s23;
 						subfpce_internal <= '0';
 						subfpond_internal <= '0';
 						subfpsclr_internal <= '1';
@@ -516,17 +531,17 @@ begin
             --synthesis translate_off
             report_error("================ vircompensated " & integer'image (i), subfpr_internal, 0.0);
             --synthesis translate_on
-					else state := s21; end if;
+					else state <= s21; end if;
         when s23 =>
 					subfpsclr_internal <= '0';
 					write_enable <= '0';
 					if (i = C_MATRIX_PIXELS-1) then
-						state := idle;
+						state <= idle;
             rdy <= '1';
-						i := 0;
+						i <= 0;
 					else
-						state := s3;
-						i := i + 1;
+						state <= s3;
+						i <= i + 1;
 					end if;
 			end case;
 		end if;

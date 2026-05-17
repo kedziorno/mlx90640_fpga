@@ -178,6 +178,7 @@ begin
     o_rdy <= '0';
 	when s2 => state := s4;
     i2c_mem_addra_i <= std_logic_vector (to_unsigned (c_eeprom_x2438_msb, c_memory_i2c_address_bits));
+		o_Vdd <= (others => '0');
 	when s4 => state := s5;
     resolutionreg <= resolution_reg_a; -- ram
 	when s5 => state := s9;
