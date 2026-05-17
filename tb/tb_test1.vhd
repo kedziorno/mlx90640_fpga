@@ -59,6 +59,16 @@ constant c_sim : string (1 to 1) := "y";
 constant c_calculate_type1 : string (1 to 13) := "c_raws_images"; -- 
 --constant c_use_fisqrt1 : string (1 to 3) := " no"; -- yes/no - depend from c_calculate_type(c_temperature)
 constant c_use_fisqrt1 : string (1 to 3) := "xxx"; -- yes/no - depend from c_calculate_type(c_temperature)
+constant c_melexis_mlx90640_i2c_enable_wait : integer := 256;
+constant c_melexis_mlx90640_i2c_wait : integer := 65536;
+constant c_w_64us : integer := 2; -- 64 us
+constant c_w_180us : integer := 2; -- 180 us
+constant c_w_80ms : integer := 2; -- 80 ms
+constant c_w_160us : integer := 2; -- 160 us
+constant c_w_160ms : integer := 2; -- 160 ms
+constant c_w_180ms : integer := 2; -- 180 ms
+constant c_w_200ms : integer := 2; -- 200 ms
+constant c_w_21ms : integer := 2; -- 21 ms
 constant zero : integer := 0
 );
 PORT(
