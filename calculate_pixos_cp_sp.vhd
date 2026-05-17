@@ -264,7 +264,9 @@ begin
 			o_pixoscpsp1 <= (others => '0');
 			rdy <= '0';
       calc := (others => '0');
-		else
+      o_pixoscpsp0 <= (others => '0');
+      o_pixoscpsp1 <= (others => '0');
+    else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
@@ -281,6 +283,8 @@ begin
 					divfpsclr_internal <= '0';
 					fixed2floatsclr_internal <= '0';
           rdy <= '0';
+          o_pixoscpsp0 <= (others => '0');
+          o_pixoscpsp1 <= (others => '0');
 				when s0 => state := s1a;
           i2c_mem_addra_internal <= std_logic_vector (to_unsigned (c_eeprom_x2438_msb, 12));
         when s1a => state := s1b;

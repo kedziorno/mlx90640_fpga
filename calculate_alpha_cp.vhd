@@ -180,6 +180,8 @@ begin
 			mulfpce_internal <= '0';
 			mulfpond_internal <= '0';
 			i2c_mem_ena <= '0';
+      o_acpsubpage0 <= (others => '0');
+      o_acpsubpage1 <= (others => '0');
 		else
 			case (state) is
 				when idle =>
@@ -194,6 +196,8 @@ begin
 					divfpsclr_internal <= '0';
           fixed2floatsclr_internal <= '0';
           o_rdy <= '0';
+          o_acpsubpage0 <= (others => '0');
+          o_acpsubpage1 <= (others => '0');
 				when s2 => state := s3;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2439_msb, 12));
 				when s3 => state := s4;
