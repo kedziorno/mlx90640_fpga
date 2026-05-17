@@ -270,6 +270,13 @@ signal divfpce_internal : STD_LOGIC;
 signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy_internal : STD_LOGIC;
 
+type states is (idle,s0a,s0b,
+kv1,kv2,kv3,kv4,
+kv5,kv6,kv9,
+kv11,kv13);
+signal state : states;
+signal i : integer range 0 to C_MATRIX_PIXELS-1;
+
 begin
 
 divfpa <= divfpa_internal;
@@ -302,16 +309,10 @@ end case;
 end process p1;
 
 p0 : process (i_clock) is
-	type states is (idle,
-	kv1,kv2,kv3,kv4,
-	kv5,kv6,kv9,
-	kv11,kv13);
-	variable state : states;
-	variable i : integer range 0 to C_MATRIX_PIXELS-1;
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
-			state := idle;
+			state <= idle;
 			write_enable <= '0';
 			rdy <= '0';
 			divfpsclr_internal <= '1';
@@ -322,41 +323,55 @@ begin
 			addra <= (others => '0');
 			dia <= (others => '0');
 			i2c_mem_ena <= '0';
-			i := 0;
+			i <= 0;
 			col <= 0;
 			row <= 0;
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := kv1;
+						state <= s0a;
 						i2c_mem_ena <= '1';
             i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2438_msb, 12));
             rdy <= '0';
           else
-						state := idle;
+						state <= idle;
 						i2c_mem_ena <= '0';
 					end if;
 					divfpsclr_internal <= '0';
-          i := 0;
+          i <= 0;
           col <= 0;
           row <= 0;
-        when kv1 => state := kv2;
+        when s0a =>
+          state <= s0b;
+          addra <= std_logic_vector (to_unsigned (i, 10));
+          dia <= (others => '0');
+          write_enable <= '1';
+        when s0b =>
+          write_enable <= '0';
+          if (i = C_MATRIX_PIXELS-1) then
+            state <= kv1;
+            i <= 0;
+          else
+            state <= s0a;
+            i <= i + 1;
+          end if;
+        when kv1 => state <= kv2;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2434_lsb, 12));
-        when kv2 => state := kv3;
+        when kv2 => state <= kv3;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2434_msb, 12));
           o_2powx_4bit_ena <= '1';
           o_2powx_4bit_adr <= i2c_mem_douta (3 downto 0);
-				when kv3 => state := kv4;
+				when kv3 => state <= kv4;
           kvijee_oo <= i2c_mem_douta (7 downto 4);
 					kvijee_eo <= i2c_mem_douta (3 downto 0);
-				when kv4 => state := kv5;
+				when kv4 => state <= kv5;
           out_nibble1 <= i_rom_constants_float;
 					kvijee_oe <= i2c_mem_douta (7 downto 4);
 					kvijee_ee <= i2c_mem_douta (3 downto 0);
-				when kv5 => state := kv6;
+				when kv5 => state <= kv6;
           o_2powx_4bit_ena <= '0';
-				when kv6 => state := kv9;
+				when kv6 => state <= kv9;
           o_signed4bit_ena <= '1';
           o_signed4bit_adr <= kvijee;
         when kv9 =>
@@ -364,13 +379,13 @@ begin
           divfpa_internal <= i_rom_constants_float; -- kvij 
           divfpb_internal <= out_nibble1; -- 2^kvscale
           divfpond_internal <= '1';
-          if (divfprdy_internal = '1') then state := kv11;
+          if (divfprdy_internal = '1') then state <= kv11;
             o_signed4bit_ena <= '0';
             divfpce_internal <= '0';
             divfpond_internal <= '0';
             divfpsclr_internal <= '1';
-          else state := kv9; end if;
-        when kv11 => state := kv13; 	--7
+          else state <= kv9; end if;
+        when kv11 => state <= kv13; 	--7
           divfpsclr_internal <= '0';
           write_enable <= '1';
           addra <= std_logic_vector (to_unsigned (i, 10)); -- kv
@@ -379,21 +394,21 @@ begin
           report_error("================kv_ft " & integer'image(i), divfpr_internal, 0.0);
           --synthesis translate_on
         when kv13 =>
-          i := i + 1;
+          i <= i + 1;
           write_enable <= '0';
           if (col = C_COLS-1) then
             col <= 0;
             if (row = C_ROWS-1) then
               row <= 0;
-              state := idle;
+              state <= idle;
               rdy <= '1';
             else
               row <= row + 1;
-              state := kv6;
+              state <= kv6;
             end if;
           else
             col <= col + 1;
-            state := kv6;
+            state <= kv6;
           end if;
 			end case;
 		end if;

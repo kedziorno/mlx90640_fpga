@@ -318,6 +318,16 @@ signal ktarcee_oo,ktarcee_eo,ktarcee_oe,ktarcee_ee,ktarcee : std_logic_vector (7
 
 signal out_nibble1,out_nibble2 : std_logic_vector (31 downto 0);
 
+type states is (idle,s0a,s0b,
+kta1,kta2,kta3,kta4,
+kta5,kta6,kta7,kta7a,kta7b,kta8,
+kta9,kta10,kta11,
+kta18,kta19,
+kta21,kta23,
+kta27);
+signal state : states;
+signal i : integer range 0 to C_MATRIX_PIXELS-1;
+
 begin
 
 mulfpa <= mulfpa_internal;
@@ -373,19 +383,10 @@ end case;
 end process p1;
 
 p0 : process (i_clock) is
-	type states is (idle,
-	kta1,kta2,kta3,kta4,
-	kta5,kta6,kta7,kta7a,kta7b,kta8,
-	kta9,kta10,kta11,
-  kta18,kta19,
-	kta21,kta23,
-	kta27);
-	variable state : states;
-	variable i : integer range 0 to C_MATRIX_PIXELS-1;
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
-			state := idle;
+			state <= idle;
 			write_enable <= '0';
 			rdy <= '0';
 			addfpsclr_internal <= '1';
@@ -407,19 +408,19 @@ begin
 			addra <= (others => '0');
 			dia <= (others => '0');
 			i2c_mem_ena <= '0';
-			i := 0;
+			i <= 0;
 			col <= 0;
 			row <= 0;
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := kta1;
+						state <= s0a;
 						i2c_mem_ena <= '1';
             i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2436_lsb, 12));
             rdy <= '0';
 					else
-						state := idle;
+						state <= idle;
 						i2c_mem_ena <= '0';
 					end if;
           addfpsclr_internal <= '0';
@@ -428,34 +429,48 @@ begin
           fixed2floatsclr_internal <= '0';
           col <= 0;
           row <= 0;
-          i := 0;
-				when kta1 => state := kta2;
+          i <= 0;
+        when s0a =>
+          state <= s0b;
+          addra <= std_logic_vector (to_unsigned (i, 10));
+          dia <= (others => '0');
+          write_enable <= '1';
+        when s0b =>
+          write_enable <= '0';
+          if (i = C_MATRIX_PIXELS-1) then
+            state <= kta1;
+            i <= 0;
+          else
+            state <= s0a;
+            i <= i + 1;
+          end if;
+				when kta1 => state <= kta2;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2436_msb, 12));
-				when kta2 => state := kta3;
+				when kta2 => state <= kta3;
           ktarcee_oo <= i2c_mem_douta;
           i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2437_lsb, 12));
-        when kta3 => state := kta4;
+        when kta3 => state <= kta4;
 					ktarcee_eo <= i2c_mem_douta;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2437_msb, 12));
-				when kta4 => state := kta5;
+				when kta4 => state <= kta5;
 					ktarcee_oe <= i2c_mem_douta;
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2438_lsb, 12));
-				when kta5 => state := kta6;
+				when kta5 => state <= kta6;
 					ktarcee_ee <= i2c_mem_douta;
-				when kta6 => state := kta7;
+				when kta6 => state <= kta7;
           o_2powx_p8_4bit_ena <= '1';
           o_2powx_p8_4bit_adr <= i2c_mem_douta (7 downto 4); -- ktascale1
-				when kta7 => state := kta7a;
-        when kta7a => state := kta7b;
+				when kta7 => state <= kta7a;
+        when kta7a => state <= kta7b;
           out_nibble1 <= i_rom_constants_float;
           o_2powx_p8_4bit_ena <= '0';
           o_2powx_4bit_ena <= '1';
 					o_2powx_4bit_adr <= i2c_mem_douta (3 downto 0); -- ktascale2
-				when kta7b => state := kta8;
-				when kta8 => state := kta9;
+				when kta7b => state <= kta8;
+				when kta8 => state <= kta9;
           out_nibble2 <= i_rom_constants_float;
           o_2powx_4bit_ena <= '0';
-				when kta9 => state := kta10;
+				when kta9 => state <= kta10;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (129+(2*i), 12)); -- XXX fixit kta LSB 1
         when kta10 =>
 
@@ -467,45 +482,45 @@ begin
           ktarcee (7) & ktarcee (7) & 
           ktarcee (7) & ktarcee (7) & 
           ktarcee (7 downto 0);
-          if (fixed2floatrdy_internal = '1') then state := kta11;
+          if (fixed2floatrdy_internal = '1') then state <= kta11;
             fixed2floatce_internal <= '0';
             fixed2floatond_internal <= '0';
             fixed2floatsclr_internal <= '1';
-          else state := kta10; end if;
+          else state <= kta10; end if;
 
-        when kta11 => state := kta18;
+        when kta11 => state <= kta18;
           fixed2floatsclr_internal <= '0';
           o_signed3bit_ena <= '1';
           o_signed3bit_adr <= i2c_mem_douta (3 downto 1); -- kta_ee 3bit
-        when kta18 => state := kta19;
+        when kta18 => state <= kta19;
 				when kta19 =>
           mulfpce_internal <= '1';
           mulfpa_internal <= i_rom_constants_float; -- kta_ee
           mulfpb_internal <= out_nibble2; -- 2^ktascale2
           mulfpond_internal <= '1';
-          if (mulfprdy_internal = '1') then state := kta21;
+          if (mulfprdy_internal = '1') then state <= kta21;
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
-          else state := kta19; end if;
+          else state <= kta19; end if;
         when kta21 => --7
           mulfpsclr_internal <= '0';
           addfpce_internal <= '1';
           addfpa_internal <= mulfpr_internal; -- kta_ee*2^ktascale2
           addfpb_internal <= fixed2floatr_internal; -- ktarcee
           addfpond_internal <= '1';
-          if (addfprdy_internal = '1') then state := kta23;
+          if (addfprdy_internal = '1') then state <= kta23;
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-          else state := kta21; end if;
+          else state <= kta21; end if;
         when kta23 => 	--7
           addfpsclr_internal <= '0';
           divfpce_internal <= '1';
           divfpa_internal <= addfpr_internal; -- ktarcee+kta_ee*2^ktascale2
           divfpb_internal <= out_nibble1; -- 2^ktascale1
           divfpond_internal <= '1';
-          if (divfprdy_internal = '1') then state := kta27;
+          if (divfprdy_internal = '1') then state <= kta27;
             divfpce_internal <= '0';
             divfpond_internal <= '0';
             divfpsclr_internal <= '1';
@@ -515,25 +530,25 @@ begin
             --synthesis translate_off
             report_error("================kta_ft " & integer'image (i), divfpr_internal, 0.0);
             --synthesis translate_on
-          else state := kta23; end if;
+          else state <= kta23; end if;
         when kta27 =>
           o_signed3bit_ena <= '0';
           divfpsclr_internal <= '0';
-          i := i + 1;
+          i <= i + 1;
           write_enable <= '0';
           if (col = C_COLS-1) then
             col <= 0;
             if (row = C_ROWS-1) then
               row <= 0;
-              state := idle;
+              state <= idle;
               rdy <= '1';
             else
               row <= row + 1;
-              state := kta9;
+              state <= kta9;
             end if;
           else
             col <= col + 1;
-            state := kta9;
+            state <= kta9;
           end if;
 			end case;
 		end if;
