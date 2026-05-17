@@ -274,6 +274,12 @@ signal mulfpsclr_internal : STD_LOGIC;
 signal mulfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfprdy_internal : STD_LOGIC;
 
+signal pixgain_index : integer range 0 to c_pixgain_sz - 1;
+type states is (idle,s0a,s0b,
+s1,s2,s3,s3a,s6,s9);
+signal state : states;
+signal eeprom16slv : std_logic_vector (7 downto 0);
+
 begin
 
 fixed2floata <= fixed2floata_internal;
@@ -301,16 +307,11 @@ mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0')
 mux_dia <= dia when rdy = '0' else (others => '0');
 
 p0 : process (i_clock) is
-	variable pixgain_index : integer range 0 to c_pixgain_sz - 1;
-	type states is (idle,
-  s1,s2,s3,s3a,s6,s9);
-	variable state : states;
-	variable eeprom16slv : std_logic_vector (7 downto 0);
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
-			state := idle;
-			pixgain_index := 0;
+			state <= idle;
+			pixgain_index <= 0;
 			rdy <= '0';
 			fixed2floatsclr_internal <= '1';
 			mulfpsclr_internal <= '1';
@@ -326,43 +327,58 @@ begin
 			write_enable <= '0';
 			i2c_mem_ena_internal <= '0';
 			i2c_mem_addra_internal <= (others => '0');
+      eeprom16slv <= (others => '0');
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := s1;
+						state <= s0a;
 						i2c_mem_ena_internal <= '1';
             rdy <= '0';
 					else
-						state := idle;
+						state <= idle;
 						i2c_mem_ena_internal <= '0';
 					end if;
 					fixed2floatsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
-          pixgain_index := 0;
-				when s1 => state := s2; -- XXX in loop, i2c_mem_addra_internal must be here
+          pixgain_index <= 0;
+        when s0a =>
+          state <= s0b;
+          addra <= std_logic_vector (to_unsigned (pixgain_index, 10));
+          dia <= (others => '0');
+          write_enable <= '1';
+        when s0b =>
+          write_enable <= '0';
+          if (pixgain_index = C_MATRIX_PIXELS-1) then
+            state <= s1;
+            pixgain_index <= 0;
+          else
+            state <= s0a;
+            pixgain_index <= pixgain_index + 1;
+          end if;
+				when s1 => state <= s2; -- XXX in loop, i2c_mem_addra_internal must be here
 					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (c_pixgain_st+(pixgain_index*2)+0, 12)); -- LSB
-				when s2 => state := s3;
+				when s2 => state <= s3;
 					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (c_pixgain_st+(pixgain_index*2)+1, 12)); -- MSB
-        when s3 => state := s3a;
-					eeprom16slv (7 downto 0) := i2c_mem_douta_internal; -- pixgain LSB
+        when s3 => state <= s3a;
+					eeprom16slv (7 downto 0) <= i2c_mem_douta_internal; -- pixgain LSB
         when s3a =>
           fixed2floatce_internal <= '1';
           fixed2floatond_internal <= '1';
           fixed2floata_internal <=
           eeprom16slv & i2c_mem_douta_internal;
-					if (fixed2floatrdy_internal = '1') then state := s6;
+					if (fixed2floatrdy_internal = '1') then state <= s6;
 						fixed2floatce_internal <= '0';
 						fixed2floatond_internal <= '0';
 						fixed2floatsclr_internal <= '1';
-					else state := s3a; end if;
+					else state <= s3a; end if;
 				when s6 =>
 					fixed2floatsclr_internal <= '0';
 					mulfpce_internal <= '1';
 					mulfpa_internal <= fixed2floatr_internal;
 					mulfpb_internal <= i_KGain;
 					mulfpond_internal <= '1';
-					if (mulfprdy_internal = '1') then state := s9;
+					if (mulfprdy_internal = '1') then state <= s9;
 						addra <= std_logic_vector (to_unsigned (pixgain_index, 10));
 						dia <= mulfpr_internal;
 						write_enable <= '1';
@@ -372,17 +388,17 @@ begin
             --synthesis translate_off
             report_error("================ CalculatePixGain PixGain " & integer'image (pixgain_index), mulfpr_internal, 0.0);
             --synthesis translate_on
-					else state := s6; end if;
+					else state <= s6; end if;
         when s9 =>
 					mulfpsclr_internal <= '0';
 					write_enable <= '0';
 					if (pixgain_index = c_pixgain_sz - 1) then
-						state := idle;
+						state <= idle;
             rdy <= '1';
-						pixgain_index := 0;
+						pixgain_index <= 0;
 					else
-						state := s1;
-						pixgain_index := pixgain_index + 1;
+						state <= s1;
+						pixgain_index <= pixgain_index + 1;
 					end if;
 			end case;
 		end if;

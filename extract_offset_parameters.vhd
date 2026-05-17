@@ -298,6 +298,25 @@ alias occrow_b_a : slv4 is i2c_mem_douta_i (7 downto 4);
 alias occrow_c_a : slv4 is i2c_mem_douta_i (3 downto 0);
 alias occrow_d_a : slv4 is i2c_mem_douta_i (7 downto 4);
 
+type states is (idle,s0a,s0b,
+occ24,
+occ25,occ26,occ26a,occ27,occ28,occ29,
+occ30,occ31,
+occcol24,occcol24a,
+occcol25,occcol26,occcol26a,occcol27,occcol28,occcol29,
+occcol30,occcol31,
+s0,s5,s6,s8,s12,s13,s14,s15,s17,s18,s20,s23,s24);
+signal state : states;
+signal voffsetRef : std_logic_vector (7 downto 0);
+signal col : integer range 0 to C_COLS-1;
+signal row : integer range 0 to C_ROWS-1;
+signal i : integer range 0 to C_ROWS+C_COLS+C_MATRIX_PIXELS-1;
+signal j : integer range 0 to 7 := 0; -- XXX check this
+signal m : integer range 0 to 15 := 0; -- XXX check this
+signal n : integer range 0 to 31 := 0; -- XXX check this
+signal tmp1 : std_logic_vector (3 downto 0);
+signal offset_average : std_logic_vector (31 downto 0);
+
 begin
 
 i2c_mem_douta_i <= i2c_mem_douta;
@@ -331,28 +350,10 @@ mux_addr <= addra when rdy = '0' else std_logic_vector (to_unsigned (to_integer(
 mux_dia <= dia when rdy = '0' else (others => '0');
 
 p0 : process (i_clock) is
-  type states is (idle,
-  occ24,
-  occ25,occ26,occ26a,occ27,occ28,occ29,
-  occ30,occ31,
-  occcol24,
-  occcol25,occcol26,occcol26a,occcol27,occcol28,occcol29,
-  occcol30,occcol31,
-  s0,s5,s6,s8,s12,s13,s14,s15,s17,s18,s20,s23,s24);
-  variable state : states;
-  variable voffsetRef : std_logic_vector (7 downto 0);
-  variable col : integer range 0 to C_COLS-1;
-  variable row : integer range 0 to C_ROWS-1;
-  variable i : integer range 0 to C_MATRIX_PIXELS-1;
-  variable j : integer range 0 to 7 := 0; -- XXX check this
-  variable m : integer range 0 to 15 := 0; -- XXX check this
-  variable n : integer range 0 to 31 := 0; -- XXX check this
-  variable tmp1 : std_logic_vector (3 downto 0);
-  variable offset_average : std_logic_vector (31 downto 0);
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
-			state := idle;
+			state <= idle;
 			write_enable <= '0';
 			rdy <= '0';
 			addfpsclr_internal <= '1';
@@ -369,63 +370,85 @@ begin
 			addra <= (others => '0');
 			dia <= (others => '0');
 			i2c_mem_ena <= '0';
-      i := 0;
-      j := 0;
+      i <= 0;
+      j <= 0;
+      m <= 0;
+      n <= 0;
+      row <= 0;
+      col <= 0;
+      voffsetRef <= (others => '0');
+      offset_average <= (others => '0');
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := occ24;
+						state <= s0a;
 						i2c_mem_ena <= '1';
             rdy <= '0';
 					else
-						state := idle;
+						state <= idle;
 						i2c_mem_ena <= '0';
 					end if;
 					addfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					fixed2floatsclr_internal <= '0';
-          i := 0;
-          j := 0;
-          m := 0;
-          n := 0;
-          row := 0;
-          col := 0;
-        when occ24 => state := occ25; -- XXX start loop - occrow 6x  DCBA
-          m := 2*i;
-          n := j*4;
+          i <= 0;
+          j <= 0;
+          m <= 0;
+          n <= 0;
+          row <= 0;
+          col <= 0;
+          voffsetRef <= (others => '0');
+          offset_average <= (others => '0');
+        when s0a =>
+          state <= s0b;
+          addra <= std_logic_vector (to_unsigned (i, 10));
+          dia <= (others => '0');
+          write_enable <= '1';
+        when s0b =>
+          write_enable <= '0';
+          if (i = C_ROWS+C_COLS+C_MATRIX_PIXELS-1) then
+            state <= occ24;
+            i <= 0;
+            m <= 2*i;
+            n <= j*4;
+          else
+            state <= s0a;
+            i <= i + 1;
+          end if;
+        when occ24 => state <= occ25; -- XXX start loop - occrow 6x  DCBA
           o_signed4bit_ena <= '1';
           write_enable <= '1';
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2412_lsb + m, 12)); -- 2/1 6/5 10/9 14/13 18/17 22/21
-        when occ25 => state := occ26;
+        when occ25 => state <= occ26;
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2412_msb + m, 12)); -- 4/3 8/7 12/11 16/15 20/19 24/23
-        when occ26 => state := occ26a;
+        when occ26 => state <= occ26a;
           o_signed4bit_adr <= occrow_a_a;
-          tmp1 := occrow_b_a;
-        when occ26a => state := occ27;
+          tmp1 <= occrow_b_a;
+        when occ26a => state <= occ27;
           o_signed4bit_adr <= tmp1;
-          tmp1 := occrow_c_a;
-        when occ27 => state := occ28;
+          tmp1 <= occrow_c_a;
+        when occ27 => state <= occ28;
           o_signed4bit_adr <= tmp1;
           dia <= i_rom_constants_float;
           addra <= std_logic_vector (to_unsigned (n+0, 10));
           --synthesis translate_off
           report_error("occrow write address " & integer'image (n+0), i_rom_constants_float, 0.0);
           --synthesis translate_on
-        when occ28 => state := occ29;
+        when occ28 => state <= occ29;
           o_signed4bit_adr <= occrow_d_a;
           dia <= i_rom_constants_float;
           addra <= std_logic_vector (to_unsigned (n+1, 10));
           --synthesis translate_off
           report_error("occrow write address " & integer'image (n+1), i_rom_constants_float, 0.0);
           --synthesis translate_on
-        when occ29 => state := occ30;
+        when occ29 => state <= occ30;
           dia <= i_rom_constants_float;
           addra <= std_logic_vector (to_unsigned (n+2, 10));
           --synthesis translate_off
           report_error("occrow write address " & integer'image (n+2), i_rom_constants_float, 0.0);
           --synthesis translate_on
-        when occ30 => state := occ31;
+        when occ30 => state <= occ31;
           dia <= i_rom_constants_float;
           addra <= std_logic_vector (to_unsigned (n+3, 10));
           --synthesis translate_off
@@ -435,49 +458,50 @@ begin
           write_enable <= '0';
           o_signed4bit_ena <= '0';
           if i = 5 then
-            i := 0;
-            j := 0;
-            state := occcol24;
+            i <= 0;
+            j <= 0;
+            state <= occcol24;
           else
-            i := i + 1;
-            j := j + 1;
-            state := occ24;
+            i <= i + 1;
+            j <= j + 1;
+            state <= occ24;
           end if;
-        when occcol24 => state := occcol25; -- XXX start loop - occcolumn 8x  DCBA
-          m := 2*i;
-          n := j*4;
+        when occcol24 => state <= occcol24a;
+          m <= 2*i;
+          n <= j*4;
+        when occcol24a => state <= occcol25; -- XXX start loop - occcolumn 8x  DCBA
           o_signed4bit_ena <= '1';
           write_enable <= '1';
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2418_lsb + m, 12)); -- 2/1 6/5 10/9 14/13 18/17 22/21 26/25 30/29
-        when occcol25 => state := occcol26;
+        when occcol25 => state <= occcol26;
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2418_msb + m, 12)); -- 4/3 8/7 12/11 16/15 20/19 24/23 28/27 32/31
-        when occcol26 => state := occcol26a;
+        when occcol26 => state <= occcol26a;
           o_signed4bit_adr <= occrow_a_a;
-          tmp1 := occrow_b_a;
-        when occcol26a => state := occcol27;
+          tmp1 <= occrow_b_a;
+        when occcol26a => state <= occcol27;
           o_signed4bit_adr <= tmp1;
-          tmp1 := occrow_c_a;
-        when occcol27 => state := occcol28;
+          tmp1 <= occrow_c_a;
+        when occcol27 => state <= occcol28;
           o_signed4bit_adr <= tmp1;
           dia <= i_rom_constants_float;
           addra <= std_logic_vector (to_unsigned (C_ROWS+n+0, 10));
           --synthesis translate_off
           report_error("occcol write address " & integer'image (C_ROWS+n+0), i_rom_constants_float, 0.0);
           --synthesis translate_on
-        when occcol28 => state := occcol29;
+        when occcol28 => state <= occcol29;
           o_signed4bit_adr <= occrow_d_a;
           dia <= i_rom_constants_float;
           addra <= std_logic_vector (to_unsigned (C_ROWS+n+1, 10));
           --synthesis translate_off
           report_error("occcol write address " & integer'image (C_ROWS+n+1), i_rom_constants_float, 0.0);
           --synthesis translate_on
-        when occcol29 => state := occcol30;
+        when occcol29 => state <= occcol30;
           dia <= i_rom_constants_float;
           addra <= std_logic_vector (to_unsigned (C_ROWS+n+2, 10));
           --synthesis translate_off
           report_error("occcol write address " & integer'image (C_ROWS+n+2), i_rom_constants_float, 0.0);
           --synthesis translate_on
-        when occcol30 => state := occcol31;
+        when occcol30 => state <= occcol31;
           dia <= i_rom_constants_float;
           addra <= std_logic_vector (to_unsigned (C_ROWS+n+3, 10));
           --synthesis translate_off
@@ -487,21 +511,21 @@ begin
           write_enable <= '0';
           o_signed4bit_ena <= '0';
           if i = 7 then
-            i := 0;
-            j := 0;
-            state := s0;
+            i <= 0;
+            j <= 0;
+            state <= s0;
           else
-            i := i + 1;
-            j := j + 1;
-            state := occcol24;
+            i <= i + 1;
+            j <= j + 1;
+            state <= occcol24;
           end if;
-        when s0 => state := s5;
+        when s0 => state <= s5;
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2410_msb, 12));
-        when s5 => state := s6;
+        when s5 => state <= s6;
           fixed2floatsclr_internal <= '0';
           addfpsclr_internal <= '0';
           mulfpsclr_internal <= '0';
-        when s6 => state := s8;
+        when s6 => state <= s8;
           addra <= std_logic_vector (to_unsigned (row, 10)); -- occrowI
           o_2powx_4bit_ena <= '1';
           o_2powx_4bit_adr <= i2c_mem_douta (3 downto 0); -- scale occ row
@@ -511,7 +535,7 @@ begin
           mulfpb_internal <= i_rom_constants_float; -- 2 ^ scale occ row
           mulfpond_internal <= '1';
           i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2440_msb+(2*i), 12)); -- offsetRC,alpha_pixelRC,ktaRC,(outlier)
-          if (mulfprdy_internal = '1') then state := s12;
+          if (mulfprdy_internal = '1') then state <= s12;
             --synthesis translate_off
             report_error("(2^occ_scale_row 4.0)", i_rom_constants_float, 4.0);
             warning_neq_fp (i_rom_constants_float, x"40800000", "(2^occ_scale_row 4.0)");
@@ -525,23 +549,23 @@ begin
             --synthesis translate_off
             report_error("doa occ row" & integer'image (row), doa, 0.0);
             --synthesis translate_on
-          else state := s8; end if;
+          else state <= s8; end if;
         when s12 => -- empty state/calculation for rm vOCCColumnJ reg
-          offset_average := i_rom_constants_float; -- signed offsetRC
+          offset_average <= i_rom_constants_float; -- signed offsetRC
           mulfpsclr_internal <= '0';
           addfpce_internal <= '1';
           addfpa_internal <= mulfpr_internal;
           addfpb_internal <= x"00000000";
           addfpond_internal <= '1';
 					i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2410_lsb, 12));
-          if (addfprdy_internal = '1') then state := s13;
+          if (addfprdy_internal = '1') then state <= s13;
             o_signed6bit_ena <= '0';
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
             o_2powx_4bit_ena <= '1';
             o_2powx_4bit_adr <= i2c_mem_douta (3 downto 0); -- scale occ remnand
-          else state := s12; end if;
+          else state <= s12; end if;
        when s13 =>
 					i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2410_lsb, 12));
           addfpsclr_internal <= '0';
@@ -549,7 +573,7 @@ begin
           mulfpa_internal <= offset_average; -- signed offsetRC
           mulfpb_internal <= i_rom_constants_float; -- 2 ^ scale occ remnand
           mulfpond_internal <= '1';
-          if (mulfprdy_internal = '1') then state := s14;
+          if (mulfprdy_internal = '1') then state <= s14;
             --synthesis translate_off
             report_error("(2^occ_scale_remnand 1.0)", i_rom_constants_float, 1.0);
             warning_neq_fp (i_rom_constants_float, x"3f800000", "(2^occ_scale_remnand 1.0)");
@@ -558,7 +582,7 @@ begin
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
             o_2powx_4bit_ena <= '0';
-          else state := s13; end if;
+          else state <= s13; end if;
         when s14 =>
           mulfpsclr_internal <= '0';
           addfpce_internal <= '1';
@@ -566,7 +590,7 @@ begin
           addfpb_internal <= addfpr_internal;
           addfpond_internal <= '1';
           addra <= std_logic_vector (to_unsigned (col+C_ROWS, 10)); -- OCCcolJ
-          if (addfprdy_internal = '1') then state := s15;
+          if (addfprdy_internal = '1') then state <= s15;
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
@@ -575,7 +599,7 @@ begin
             --synthesis translate_off
             report_error("doa occ col" & integer'image (col), doa, 0.0);
             --synthesis translate_on
-          else state := s14; end if;
+          else state <= s14; end if;
         when s15 =>
           addfpsclr_internal <= '0';
           mulfpsclr_internal <= '0';
@@ -583,7 +607,7 @@ begin
           mulfpa_internal <= doa; -- OCCcolJ;
           mulfpb_internal <= i_rom_constants_float; -- 2 ^ scale occ col
           mulfpond_internal <= '1';
-          if (mulfprdy_internal = '1') then state := s17;
+          if (mulfprdy_internal = '1') then state <= s17;
             --synthesis translate_off
             report_error("(2^occ_scale_column 2.0)", i_rom_constants_float, 2.0);
             warning_neq_fp (i_rom_constants_float, x"40000000", "(2^occ_scale_column 2.0)");
@@ -593,26 +617,26 @@ begin
             mulfpsclr_internal <= '1';
             o_2powx_4bit_ena <= '0';
             i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2411_msb, 12));
-          else state := s15; end if;
+          else state <= s15; end if;
         when s17 =>
           mulfpsclr_internal <= '0';
           addfpce_internal <= '1';
           addfpa_internal <= addfpr_internal;
           addfpb_internal <= mulfpr_internal;
           addfpond_internal <= '1';
-          voffsetRef (7 downto 0) := i2c_mem_douta;
-          if (addfprdy_internal = '1') then state := s18;
+          voffsetRef (7 downto 0) <= i2c_mem_douta;
+          if (addfprdy_internal = '1') then state <= s18;
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
             i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2411_lsb, 12));
-          else state := s17; end if;
+          else state <= s17; end if;
         when s18 =>
           addfpsclr_internal <= '0';
           fixed2floatce_internal <= '1';
           fixed2floatond_internal <= '1';
           fixed2floata_internal <= voffsetRef & i2c_mem_douta; -- pix_os_average msb & lsb
-					if (fixed2floatrdy_internal = '1') then state := s20;
+					if (fixed2floatrdy_internal = '1') then state <= s20;
 						fixed2floatce_internal <= '0';
 						fixed2floatond_internal <= '0';
 						fixed2floatsclr_internal <= '1';
@@ -620,14 +644,14 @@ begin
             report_error("(pix_os_average offset_average eeprom -62.0)", fixed2floatr_internal, -62.0);
             warning_neq_fp (fixed2floatr_internal, x"c2780000", "(pix_os_average offset_average eeprom -62.0)");
             --synthesis translate_on
-					else state := s18; end if;
+					else state <= s18; end if;
         when s20 =>
           fixed2floatsclr_internal <= '0';
           addfpce_internal <= '1';
           addfpa_internal <= addfpr_internal;
           addfpb_internal <= fixed2floatr_internal; -- pix_os_average
           addfpond_internal <= '1';
-          if (addfprdy_internal = '1') then state := s23;
+          if (addfprdy_internal = '1') then state <= s23;
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
@@ -640,25 +664,25 @@ begin
             --synthesis translate_off
             report_error("================vOffset " & integer'image(i), addfpr_internal, 0.0);
             --synthesis translate_on
-            i := i + 1;
-          else state := s20; end if;
+            i <= i + 1;
+          else state <= s20; end if;
         when s23 =>
           write_enable <= '0';
           if (col = C_COLS-1) then
-            col := 0;
-            state := s24;
+            col <= 0;
+            state <= s24;
           else
-            col := col + 1;
-            state := s0;
+            col <= col + 1;
+            state <= s0;
           end if;
         when s24 =>
           if (row = C_ROWS-1) then
-            row := 0;
-            state := idle;
+            row <= 0;
+            state <= idle;
             rdy <= '1';
           else
-            row := row + 1;
-            state := s0;
+            row <= row + 1;
+            state <= s0;
           end if;
 			end case;
 		end if;
