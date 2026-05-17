@@ -977,10 +977,20 @@ begin
           wr_mode1 (x"800d", r5);
 
         when r5 => -- after power on
-          wait_rd (x"ffff", idle0, r7);
+          if (c_sim = "n") then
+            wait_rd (x"ffff", idle0, r7);
+          end if;
+          if (c_sim = "y") then
+            state <= idle0;
+          end if;
 
         when r7 =>
-          wait_rd (v_conf1, idle0, r6);
+          if (c_sim = "n") then
+            wait_rd (v_conf1, idle0, r6);
+          end if;
+          if (c_sim = "y") then
+            state <= idle0;
+          end if;
 
         when idle0 =>
           w8_64us (w1);
@@ -1076,20 +1086,14 @@ begin
 
         when wr2a1 =>
           wr_mode1 (x"8000", r8);
---              if (camera_read(3) = '1') then
---                state <= idle2a1;
---              else
---                state <= idle0a1;
---              end if;
 
         when r8 =>
-          wait_rd (x"0008", r4, idle1a1);
-
---        when idle2a1 =>
---          w8_64us (r3);
---
---        when r3 =>
---          wr_mode0 (x"8000", x"0030", r4);
+          if (c_sim = "n") then
+            wait_rd (x"0008", r4, idle1a1);
+          end if;
+          if (c_sim = "y") then
+            state <= r4;
+          end if;
 
         when r4 =>
           w8_64us (r2);

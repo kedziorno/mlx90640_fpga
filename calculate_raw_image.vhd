@@ -285,6 +285,14 @@ signal mulfp_run,mulfp_rdy : std_logic;
 signal addfp_wait : integer range 0 to C_ADDFP_WAIT-1;
 signal addfp_run,addfp_rdy : std_logic;
 
+signal i : integer range 0 to C_MATRIX_PIXELS-1;
+type states is (idle,s0,s0a,
+s1,s2,s3,s4,s5,
+s6a,s6b,s6c,s6d,s6e,s6f,
+s6,ending);
+signal state : states;
+signal fttmp1 : std_logic_vector (31 downto 0);
+
 begin
 
 --p1_counter_mulfp : process (i_clock) is
@@ -335,18 +343,11 @@ mux_addr <= addra when rdy = '0' else i_addr when rdy = '1' else (others => '0')
 mux_dia <= dia when rdy = '0' else (others => '0');
 
 p0 : process (i_clock) is
-  variable i : integer range 0 to C_MATRIX_PIXELS-1;
-  type states is (idle,
-  s1,s2,s3,s4,s5,
-  s6a,s6b,s6c,s6d,s6e,s6f,
-  s6,ending);
-  variable state : states;
-  variable fttmp1 : std_logic_vector (31 downto 0);
 begin
   if (rising_edge (i_clock)) then
     if (i_reset = '1') then
-      state := idle;
-      i := 0;
+      state <= idle;
+      i <= 0;
       rdy <= '0';
       mulfpsclr_internal <= '1';
       addfpsclr_internal <= '1';
@@ -369,21 +370,35 @@ begin
         when idle =>
           if (i_run = '1') then
             rdy <= '0';
-            state := s1;
+            state <= s0;
             report "CalculateGetImage";
           else
-            state := idle;
+            state <= idle;
           end if;
-          i := 0;
+          i <= 0;
           mulfpsclr_internal <= '0';
           addfpsclr_internal <= '0';
-        when s1 => state := s2;
+        when s0 =>
+          state <= s0a;
+          addra <= std_logic_vector (to_unsigned (i, 10));
+          dia <= (others => '0');
+          write_enable <= '1';
+        when s0a =>
+          write_enable <= '0';
+          if (i = C_MATRIX_PIXELS-1) then
+            state <= s1;
+            i <= 0;
+          else
+            state <= s0;
+            i <= i + 1;
+          end if;
+        when s1 => state <= s2;
           o_vircompensated_addr <= std_logic_vector (to_unsigned (i, 10));
           o_alphacomp_addr <= std_logic_vector (to_unsigned (i, 10));
-        when s2 => state := s3;
+        when s2 => state <= s3;
           mulfpsclr_internal <= '0';
           addfpsclr_internal <= '0';
-        when s3 => state := s4;
+        when s3 => state <= s4;
           mulfpa_internal <= i_vircompensated_do;
           mulfpb_internal <= i_alphacomp_do;
           mulfpce_internal <= '1';
@@ -391,21 +406,21 @@ begin
         when s4 =>
 --          if (mulfp_wait = C_MULFP_WAIT-1) then
           if (mulfprdy_internal = '1') then
-            fttmp1 := mulfpr_internal; -- RAW GetImage
+            fttmp1 <= mulfpr_internal; -- RAW GetImage
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
-            state := s5;
+            state <= s5;
 --            mulfp_run <= '0';
 --            mulfp_rdy <= '1';
           else
-            state := s4;
+            state <= s4;
 --            mulfp_run <= '1';
           end if;
-        when s5 => state := s6a;
+        when s5 => state <= s6a;
           mulfpsclr_internal <= '0';
           mulfp_rdy <= '0';
-        when s6a => state := s6b;
+        when s6a => state <= s6b;
           mulfpa_internal <= fttmp1;
           --mulfpb_internal <= C_10E7;
           mulfpb_internal <= C_10E8;
@@ -414,21 +429,21 @@ begin
         when s6b =>
 --          if (mulfp_wait = C_MULFP_WAIT-1) then
           if (mulfprdy_internal = '1') then
-            fttmp1 := mulfpr_internal; -- normalization mulfp
+            fttmp1 <= mulfpr_internal; -- normalization mulfp
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
-            state := s6c;
+            state <= s6c;
 --            mulfp_run <= '0';
 --            mulfp_rdy <= '1';
           else
-            state := s6b;
+            state <= s6b;
 --            mulfp_run <= '1';
           end if;
-        when s6c => state := s6d;
+        when s6c => state <= s6d;
           mulfpsclr_internal <= '0';
           mulfp_rdy <= '0';
-        when s6d => state := s6e;
+        when s6d => state <= s6e;
           addfpa_internal <= fttmp1;
           addfpb_internal <= C_UPPER;
           addfpce_internal <= '1';
@@ -436,18 +451,18 @@ begin
         when s6e =>
 --          if (addfp_wait = C_ADDFP_WAIT-1) then
           if (addfprdy_internal = '1') then
-            fttmp1 := addfpr_internal; -- XXX add constupper - MLX90640_GetImage:77 - "irData = irData - params->tgc * irDataCP[subPage]"
+            fttmp1 <= addfpr_internal; -- XXX add constupper - MLX90640_GetImage:77 - "irData = irData - params->tgc * irDataCP[subPage]"
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-            state := s6f;
+            state <= s6f;
 --            addfp_run <= '0';
 --            addfp_rdy <= '1';
           else
-            state := s6e;
+            state <= s6e;
 --            addfp_run <= '1';
           end if;
-        when s6f => state := s6;
+        when s6f => state <= s6;
           addfpsclr_internal <= '0';
           addfp_rdy <= '0';
           write_enable <= '1';
@@ -459,20 +474,20 @@ begin
         when s6 =>
           write_enable <= '0';
           if (i = C_MATRIX_PIXELS-1) then
-            state := ending;
-            i := 0;
+            state <= ending;
+            i <= 0;
           else
-            state := s1;
-            i := i + 1;
+            state <= s1;
+            i <= i + 1;
           end if;
-        when ending => state := idle;
+        when ending => state <= idle;
           rdy <= '1';
 --          if (i = C_MATRIX_PIXELS-1) then
---            state := idle;
---            i := 0;
+--            state <= idle;
+--            i <= 0;
 --          else
---            state := ending;
---            i := i + 1;
+--            state <= ending;
+--            i <= i + 1;
 --          end if;
       end case;
     end if;
