@@ -136,15 +136,12 @@ Architecture behavioral of Entity clock_divider is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/p_package1.vhd" in Library work.
 Architecture p_package1 of Entity p_package1 is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/extract_tgc_parameters.vhd" in Library work.
-Entity <extract_tgc_parameters> compiled.
-Entity <extract_tgc_parameters> (Architecture <rtl>) compiled.
+Architecture rtl of Entity extract_tgc_parameters is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_kgain.vhd" in Library work.
 Architecture rtl of Entity calculate_kgain is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_vdd.vhd" in Library work.
-Entity <calculate_vdd> compiled.
-Entity <calculate_vdd> (Architecture <rtl>) compiled.
+Architecture rtl of Entity calculate_vdd is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_ta.vhd" in Library work.
-Entity <calculate_ta> compiled.
 WARNING:HDLParsers:817 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_ta.vhd" Line 522. Choice 'conversion to std_logic_vector' is not a locally static expression.
 WARNING:HDLParsers:817 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_ta.vhd" Line 523. Choice 'conversion to std_logic_vector' is not a locally static expression.
 WARNING:HDLParsers:817 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_ta.vhd" Line 524. Choice 'conversion to std_logic_vector' is not a locally static expression.
@@ -208,18 +205,18 @@ WARNING:HDLParsers:817 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calcula
 WARNING:HDLParsers:817 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_ta.vhd" Line 589. Choice 'conversion to std_logic_vector' is not a locally static expression.
 WARNING:HDLParsers:817 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_ta.vhd" Line 590. Choice 'conversion to std_logic_vector' is not a locally static expression.
 WARNING:HDLParsers:817 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_ta.vhd" Line 591. Choice 'conversion to std_logic_vector' is not a locally static expression.
-Entity <calculate_ta> (Architecture <rtl>) compiled.
+Architecture rtl of Entity calculate_ta is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/extract_alpha_parameters.vhd" in Library work.
 Architecture rtl of Entity extract_alpha_parameters is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_alpha_cp.vhd" in Library work.
 Architecture rtl of Entity calculate_alpha_cp is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_pixos.vhd" in Library work.
-Architecture rtl of Entity calculate_pixos is up to date.
+Entity <calculate_pixos> compiled.
+Entity <calculate_pixos> (Architecture <rtl>) compiled.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_pixos_cp_sp.vhd" in Library work.
 Architecture rtl of Entity calculate_pixos_cp_sp is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_vir_compensated.vhd" in Library work.
-Entity <calculate_vir_compensated> compiled.
-Entity <calculate_vir_compensated> (Architecture <rtl>) compiled.
+Architecture rtl of Entity calculate_vir_compensated is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_alpha_compensated.vhd" in Library work.
 Architecture rtl of Entity calculate_alpha_compensated is up to date.
 Compiling vhdl file "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_raw_image.vhd" in Library work.
@@ -1025,7 +1022,7 @@ Analyzing Entity <calculate_alpha_cp> in library <work> (Architecture <rtl>).
 Entity <calculate_alpha_cp> analyzed. Unit <calculate_alpha_cp> generated.
 
 Analyzing Entity <calculate_pixos> in library <work> (Architecture <rtl>).
-WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_pixos.vhd" line 1281: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
+WARNING:Xst:753 - "/home/user/_WORKSPACE_/kedziorno/mlx90640_fpga/calculate_pixos.vhd" line 1296: Unconnected output port 'DOP' of component 'mem_ramb16_s36_x2'.
 Entity <calculate_pixos> analyzed. Unit <calculate_pixos> generated.
 
 Analyzing Entity <calculate_pix_gain> in library <work> (Architecture <rtl>).
@@ -2189,16 +2186,16 @@ Synthesizing Unit <calculate_pixos>.
     Register <subfpond_internal> equivalent to <subfpce_internal> has been removed
     Found finite state machine <FSM_16> for signal <state>.
     -----------------------------------------------------------------------
-    | States             | 19                                             |
-    | Transitions        | 36                                             |
+    | States             | 21                                             |
+    | Transitions        | 39                                             |
     | Inputs             | 10                                             |
-    | Outputs            | 20                                             |
+    | Outputs            | 21                                             |
     | Clock              | i_clock                   (rising_edge)        |
     | Reset              | i_reset                   (positive)           |
     | Reset type         | synchronous                                    |
-    | Reset State        | 00000                                          |
-    | Power Up State     | 00000                                          |
-    | Recovery State     | 00000                                          |
+    | Reset State        | idle                                           |
+    | Power Up State     | idle                                           |
+    | Recovery State     | idle                                           |
     | Encoding           | gray                                           |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
@@ -2227,7 +2224,7 @@ Synthesizing Unit <calculate_pixos>.
     Found 1-bit register for signal <extract_offset_parameters_mux>.
     Found 1-bit register for signal <extract_offset_parameters_run>.
     Found 10-bit register for signal <i>.
-    Found 10-bit adder for signal <i$addsub0000> created at line 1063.
+    Found 10-bit adder for signal <i$addsub0000>.
     Found 32-bit register for signal <mulfpa_internal>.
     Found 32-bit register for signal <mulfpb_internal>.
     Found 1-bit register for signal <mulfpce_internal>.
@@ -2663,25 +2660,27 @@ Optimizing FSM <melexis_mlx9064x_core_inst/inst_CalculatePixOS/state/FSM> on sig
 -------------------
  State | Encoding
 -------------------
- 00000 | 00000
- 00001 | 00001
- 00010 | 00011
- 00011 | 00010
- 00100 | 00110
- 00101 | 00111
- 00110 | 00101
- 00111 | 00100
- 01000 | 01100
- 01001 | 01101
- 01010 | 01111
- 01011 | 01110
- 01100 | 01010
- 01101 | 01011
- 01110 | 01001
- 01111 | 01000
- 10000 | 11000
- 10001 | 11001
- 10010 | 11011
+ idle  | 00000
+ s0a   | 00001
+ s0b   | 00011
+ s3    | 00010
+ s5    | 00110
+ s7    | 00111
+ s9    | 00101
+ s9a   | 00100
+ s9b   | 01100
+ s9c   | 01101
+ s10   | 01111
+ s14   | 01110
+ s16   | 01010
+ s17   | 01011
+ s20   | 01001
+ s22   | 01000
+ s24   | 11000
+ s25   | 11001
+ s26   | 11011
+ s28   | 11010
+ s30   | 11110
 -------------------
 Optimizing FSM <melexis_mlx9064x_core_inst/inst_CalculatePixOS/extract_kv_parameters_i0/state/FSM> on signal <state[1:4]> with gray encoding.
 -------------------
@@ -3610,7 +3609,7 @@ Mapping all equations...
 Building and optimizing final netlist ...
 INFO:Xst:2261 - The FF/Latch <melexis_mlx90640_i2c_memory_data_0> in Unit <test1> is equivalent to the following 4 FFs/Latches, which will be removed : <melexis_mlx90640_i2c_memory_data_7> <melexis_mlx90640_i2c_memory_data_9> <melexis_mlx90640_i2c_memory_data_11> <melexis_mlx90640_i2c_memory_data_12> 
 INFO:Xst:2261 - The FF/Latch <melexis_mlx90640_i2c_memory_data_4> in Unit <test1> is equivalent to the following FF/Latch, which will be removed : <melexis_mlx90640_i2c_memory_data_5> 
-Found area constraint ratio of 100 (+ 5) on block test1, actual ratio is 109.
+Found area constraint ratio of 100 (+ 5) on block test1, actual ratio is 108.
 Optimizing block <test1> to meet ratio 100 (+ 5) of 8672 slices :
 Area constraint is met for block <test1>, final ratio is 100.
 
@@ -3656,22 +3655,22 @@ Design Statistics
 # IOs                              : 74
 
 Cell Usage :
-# BELS                             : 18546
+# BELS                             : 18570
 #      GND                         : 9
 #      INV                         : 73
 #      LUT1                        : 250
-#      LUT2                        : 2558
-#      LUT2_D                      : 75
-#      LUT2_L                      : 54
-#      LUT3                        : 3098
-#      LUT3_D                      : 126
-#      LUT3_L                      : 158
-#      LUT4                        : 7418
-#      LUT4_D                      : 122
-#      LUT4_L                      : 867
+#      LUT2                        : 2589
+#      LUT2_D                      : 74
+#      LUT2_L                      : 55
+#      LUT3                        : 3133
+#      LUT3_D                      : 125
+#      LUT3_L                      : 157
+#      LUT4                        : 7468
+#      LUT4_D                      : 121
+#      LUT4_L                      : 838
 #      MULT_AND                    : 2
 #      MUXCY                       : 1561
-#      MUXF5                       : 757
+#      MUXF5                       : 697
 #      MUXF6                       : 7
 #      MUXF7                       : 3
 #      VCC                         : 7
@@ -3682,9 +3681,9 @@ Cell Usage :
 #      FDCE                        : 77
 #      FDE                         : 4373
 #      FDP                         : 3
-#      FDR                         : 798
-#      FDRE                        : 1211
-#      FDRS                        : 1220
+#      FDR                         : 835
+#      FDRE                        : 1179
+#      FDRS                        : 1215
 #      FDRSE                       : 152
 #      FDS                         : 50
 #      FDSE                        : 19
@@ -3713,10 +3712,10 @@ Device utilization summary:
 
 Selected Device : 3s1200efg320-4 
 
- Number of Slices:                     8691  out of   8672   100% (*) 
+ Number of Slices:                     8707  out of   8672   100% (*) 
  Number of Slice Flip Flops:           7959  out of  17344    45%  
- Number of 4 input LUTs:              14969  out of  17344    86%  
-    Number used as logic:             14799
+ Number of 4 input LUTs:              15053  out of  17344    86%  
+    Number used as logic:             14883
     Number used as Shift registers:     170
  Number of IOs:                          74
  Number of bonded IOBs:                  74  out of    250    29%  
@@ -3767,7 +3766,7 @@ Timing Summary:
 ---------------
 Speed Grade: -4
 
-   Minimum period: 12.166ns (Maximum Frequency: 82.199MHz)
+   Minimum period: 12.165ns (Maximum Frequency: 82.201MHz)
    Minimum input arrival time before clock: 9.571ns
    Maximum output required time after clock: 14.827ns
    Maximum combinational path delay: 11.117ns
@@ -3778,10 +3777,10 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'i_clock'
-  Clock period: 12.166ns (frequency: 82.199MHz)
-  Total number of paths / destination ports: 362499 / 15720
+  Clock period: 12.165ns (frequency: 82.201MHz)
+  Total number of paths / destination ports: 363628 / 15673
 -------------------------------------------------------------------------
-Delay:               12.166ns (Levels of Logic = 7)
+Delay:               12.165ns (Levels of Logic = 7)
   Source:            melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux (FF)
   Destination:       inst_mulfp/blk00000247 (FF)
   Source Clock:      i_clock rising
@@ -3791,17 +3790,17 @@ Delay:               12.166ns (Levels of Logic = 7)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDE:C->Q            353   0.591   1.539  melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux (melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux)
+     FDE:C->Q            352   0.591   1.538  melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux (melexis_mlx9064x_core_inst/ExtractAlphaParameters_mux)
      LUT2_D:I0->O         70   0.704   1.278  melexis_mlx9064x_core_inst/mulfpa<0>141 (melexis_mlx9064x_core_inst/N420)
      LUT4:I3->O            1   0.704   0.499  melexis_mlx9064x_core_inst/mulfpond23 (melexis_mlx9064x_core_inst/mulfpce23)
      LUT4:I1->O            1   0.704   0.424  melexis_mlx9064x_core_inst/mulfpond39 (melexis_mlx9064x_core_inst/mulfpce39)
-     LUT4_L:I3->LO         1   0.704   0.104  melexis_mlx9064x_core_inst/mulfpond58_SW0 (N2075)
+     LUT4_L:I3->LO         1   0.704   0.104  melexis_mlx9064x_core_inst/mulfpond58_SW0 (N2073)
      LUT4:I3->O          319   0.704   1.432  melexis_mlx9064x_core_inst/mulfpond58 (mulfpce)
      begin scope: 'inst_mulfp'
      LUT2:I1->O           22   0.704   1.164  blk0000029b (sig00000266)
      FDRSE:R                   0.911          blk00000247
     ----------------------------------------
-    Total                     12.166ns (5.726ns logic, 6.440ns route)
+    Total                     12.165ns (5.726ns logic, 6.439ns route)
                                        (47.1% logic, 52.9% route)
 
 =========================================================================
@@ -3820,7 +3819,7 @@ Delay:               9.338ns (Levels of Logic = 6)
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
      FDCE:C->Q             6   0.591   0.844  vag_inst/x_q_0 (vag_inst/x_q_0)
-     LUT2_D:I0->LO         1   0.704   0.275  vag_inst/Mcount_x_q_xor<2>111 (N4622)
+     LUT2_D:I0->LO         1   0.704   0.275  vag_inst/Mcount_x_q_xor<2>111 (N4576)
      LUT4:I0->O           15   0.704   1.192  vag_inst/x_q_cmp_eq00001 (vag_inst/x_q_cmp_eq0000)
      LUT4:I0->O           10   0.704   0.961  vag_inst/vga_address_step_next_i<0>311 (vag_inst/row_index_q_not0001)
      LUT3_D:I1->O          5   0.704   0.808  vag_inst/vga_address_step_next_i<0>31 (vag_inst/N6)
@@ -3849,7 +3848,7 @@ Delay:               10.336ns (Levels of Logic = 7)
      FDC:C->Q             69   0.591   1.449  melexis_mlx90640_i2c_i0/c_state_FSM_FFd6 (melexis_mlx90640_i2c_i0/c_state_FSM_FFd6)
      LUT2_D:I0->O          9   0.704   0.824  melexis_mlx90640_i2c_i0/c_state_FSM_FFd2-In32 (melexis_mlx90640_i2c_i0/N55)
      LUT4:I3->O            2   0.704   0.451  melexis_mlx90640_i2c_i0/c_state_FSM_Out2011 (melexis_mlx90640_i2c_i0/N87)
-     LUT4:I3->O            1   0.704   0.455  melexis_mlx90640_i2c_i0/data_index_ctr_mux0000<0>1251_SW0 (N4509)
+     LUT4:I3->O            1   0.704   0.455  melexis_mlx90640_i2c_i0/data_index_ctr_mux0000<0>1251_SW0 (N4465)
      LUT4:I2->O            1   0.704   0.455  melexis_mlx90640_i2c_i0/data_index_ctr_mux0000<0>1251 (melexis_mlx90640_i2c_i0/data_index_ctr_mux0000<0>1251)
      LUT4:I2->O            1   0.704   0.424  melexis_mlx90640_i2c_i0/data_index_ctr_mux0000<0>1277 (melexis_mlx90640_i2c_i0/data_index_ctr_mux0000<0>1277)
      LUT4_D:I3->O          2   0.704   0.451  melexis_mlx90640_i2c_i0/data_index_ctr_mux0000<0>1302 (melexis_mlx90640_i2c_i0/N01)
@@ -3894,7 +3893,7 @@ Offset:              7.046ns (Levels of Logic = 4)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O          3451   1.218   1.414  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O          3450   1.218   1.414  i_reset_IBUF (i_reset_IBUF)
      LUT4:I3->O           21   0.704   1.303  vts_inst/video_blank6 (vts_inst/video_blank6)
      LUT2:I0->O           11   0.704   0.933  dualmem_enb1 (dualmem_enb)
      begin scope: 'g1_dualmem_rawimg.dualmem_inst_r'
@@ -3916,9 +3915,9 @@ Offset:              6.633ns (Levels of Logic = 4)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O          3451   1.218   1.414  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O          3450   1.218   1.414  i_reset_IBUF (i_reset_IBUF)
      LUT4:I3->O            1   0.704   0.455  melexis_mlx9064x_core_inst/inst_CalculatePixOsCPSP/out_nibble2_not0001_SW1 (N787)
-     LUT4:I2->O            1   0.704   0.000  melexis_mlx9064x_core_inst/inst_CalculatePixOsCPSP/out_nibble2_not0001_F (N3823)
+     LUT4:I2->O            1   0.704   0.000  melexis_mlx9064x_core_inst/inst_CalculatePixOsCPSP/out_nibble2_not0001_F (N3769)
      MUXF5:I0->O          32   0.321   1.262  melexis_mlx9064x_core_inst/inst_CalculatePixOsCPSP/out_nibble2_not0001 (melexis_mlx9064x_core_inst/inst_CalculatePixOsCPSP/out_nibble2_not0001)
      FDE:CE                    0.555          melexis_mlx9064x_core_inst/inst_CalculatePixOsCPSP/out_nibble2_0
     ----------------------------------------
@@ -3938,7 +3937,7 @@ Offset:              9.571ns (Levels of Logic = 6)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O          3451   1.218   1.414  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O          3450   1.218   1.414  i_reset_IBUF (i_reset_IBUF)
      LUT4:I3->O           21   0.704   1.207  vts_inst/video_blank6 (vts_inst/video_blank6)
      LUT4:I1->O           10   0.704   0.961  vag_inst/vga_address_step_next_i<0>311 (vag_inst/row_index_q_not0001)
      LUT3_D:I1->O          5   0.704   0.808  vag_inst/vga_address_step_next_i<0>31 (vag_inst/N6)
@@ -4034,7 +4033,7 @@ Offset:              14.827ns (Levels of Logic = 8)
      LUT4:I1->O            1   0.704   0.455  vga_b<5>1344 (vga_b<5>1344)
      LUT4:I2->O            1   0.704   0.455  vga_b<5>1359 (vga_b<5>1359)
      LUT4:I2->O            1   0.704   0.499  vga_b<5>1383 (vga_b<5>1383)
-     LUT3:I1->O            1   0.704   0.499  vga_b<5>1411_SW0 (N2313)
+     LUT3:I1->O            1   0.704   0.499  vga_b<5>1411_SW0 (N2307)
      LUT4:I1->O            1   0.704   0.420  vga_b<5>1411 (vga_b_5_OBUF)
      OBUF:I->O                 3.272          vga_b_5_OBUF (vga_b<5>)
     ----------------------------------------
@@ -4053,7 +4052,7 @@ Delay:               11.117ns (Levels of Logic = 6)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O          3451   1.218   1.414  i_reset_IBUF (i_reset_IBUF)
+     IBUF:I->O          3450   1.218   1.414  i_reset_IBUF (i_reset_IBUF)
      LUT4:I3->O           21   0.704   1.303  vts_inst/video_blank6 (vts_inst/video_blank6)
      LUT2:I0->O           10   0.704   1.057  vts_inst/video_blank13 (vga_blankn_OBUF)
      LUT4:I0->O            1   0.704   0.000  vga_r<5>12121 (vga_r<5>1212)
@@ -4066,13 +4065,13 @@ Delay:               11.117ns (Levels of Logic = 6)
 =========================================================================
 
 
-Total REAL time to Xst completion: 175.00 secs
-Total CPU time to Xst completion: 172.70 secs
+Total REAL time to Xst completion: 150.00 secs
+Total CPU time to Xst completion: 148.85 secs
  
 --> 
 
 
-Total memory usage is 1031776 kilobytes
+Total memory usage is 1039064 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :  544 (   0 filtered)

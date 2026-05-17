@@ -9,7 +9,7 @@
 -- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
 -- Tool versions: Xilinx ISE 14.7, XST and ISIM
 -- Description:   11.1.3.1. Restoring the offset in case of Interleaved reading pattern (p. 23)
---                11.2.2.5.3. IR data compensation – offset, VDD and Ta (p. 39)
+--                11.2.2.5.3. IR data compensation  offset, VDD and Ta (p. 39)
 --                (Rest is in commented code)
 --
 -- Dependencies:
@@ -613,6 +613,13 @@ signal divfpce_internal : STD_LOGIC;
 signal divfpr_internal : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfprdy_internal : STD_LOGIC;
 
+signal i : integer range 0 to C_MATRIX_PIXELS-1;
+type states is (idle,s0a,s0b,
+s3,s5,s7,s9,s9a,s9b,s9c,
+s10,s14,s16,s17,s20,
+s22,s24,s25,s26,s28,s30);
+signal state : states;
+
 begin
 
 fixed2floata <=
@@ -812,17 +819,11 @@ extract_kta_parameters_rom_constants_float <= i_rom_constants_float;
 extract_kv_parameters_rom_constants_float <= i_rom_constants_float;
 
 p0 : process (i_clock) is
-	variable i : integer range 0 to C_MATRIX_PIXELS-1;
-	type states is (idle,
-  s3,s5,s7,s9,s9a,s9b,s9c,
-  s10,s14,s16,s17,s20,
-	s22,s24,s25,s26,s28,s30);
-	variable state : states;
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
-			state := idle;
-			i := 0;
+			state <= idle;
+			i <= 0;
 			addfpsclr_internal <= '1';
 			subfpsclr_internal <= '1';
 			mulfpsclr_internal <= '1';
@@ -862,61 +863,75 @@ begin
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := s3;
+						state <= s0a;
             CalculatePixGain_run <= '1';
             CalculatePixGain_mux <= '1';
             rdy <= '0';
 					else
-						state := idle;
+						state <= idle;
 					end if;
-					i := 0;
+					i <= 0;
 					addfpsclr_internal <= '0';
 					subfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
+        when s0a =>
+          state <= s0b;
+          addra <= std_logic_vector (to_unsigned (i, 10));
+          dia <= (others => '0');
+          write_enable <= '1';
+        when s0b =>
+          write_enable <= '0';
+          if (i = C_MATRIX_PIXELS-1) then
+            state <= s3;
+            i <= 0;
+          else
+            state <= s0a;
+            i <= i + 1;
+          end if;
         when s3 =>
           CalculatePixGain_run <= '0';
           if (CalculatePixGain_rdy = '1') then
-            state := s5;
+            state <= s5;
             CalculatePixGain_mux <= '0';
             extract_offset_parameters_run <= '1';
             extract_offset_parameters_mux <= '1';
           else
-            state := s3;
+            state <= s3;
             CalculatePixGain_mux <= '1';
           end if;
         when s5 => 
           extract_offset_parameters_run <= '0';
           if (extract_offset_parameters_rdy = '1') then
-            state := s7;
+            state <= s7;
             extract_offset_parameters_mux <= '0';
             extract_kta_parameters_run <= '1';
             extract_kta_parameters_mux <= '1';
           else
-            state := s5;
+            state <= s5;
             extract_offset_parameters_mux <= '1';
           end if;
         when s7 => 
           extract_kta_parameters_run <= '0';
           if (extract_kta_parameters_rdy = '1') then
-            state := s9;
+            state <= s9;
             extract_kta_parameters_mux <= '0';
             extract_kv_parameters_run <= '1';
             extract_kv_parameters_mux <= '1';
           else
-            state := s7;
+            state <= s7;
             extract_kta_parameters_mux <= '1';
           end if;
         when s9 => 
           extract_kv_parameters_run <= '0';
           if (extract_kv_parameters_rdy = '1') then
-            state := s9a;
+            state <= s9a;
             extract_kv_parameters_mux <= '0';
           else
-            state := s9;
+            state <= s9;
             extract_kv_parameters_mux <= '1';
           end if;
-        when s9a => state := s9b;
+        when s9a => state <= s9b;
           CalculatePixGain_addr <= std_logic_vector (to_unsigned (i, 10));
           extract_offset_parameters_addr <= std_logic_vector (to_unsigned (i, 10));
           extract_kta_parameters_addr <= std_logic_vector (to_unsigned (i, 10));
@@ -930,118 +945,118 @@ begin
           subfpa_internal <= i_Ta;
           subfpb_internal <= C_TA0;
           subfpond_internal <= '1';
-          if (subfprdy_internal = '1') then state := s9c;
+          if (subfprdy_internal = '1') then state <= s9c;
             subfpce_internal <= '0';
             subfpond_internal <= '0';
             subfpsclr_internal <= '1';
-          else state := s9b; end if;
+          else state <= s9b; end if;
         when s9c =>
           subfpsclr_internal <= '0';
           divfpce_internal <= '1';
           divfpa_internal <= subfpr_internal;
           divfpb_internal <= C_P1;
           divfpond_internal <= '1';
-          if (divfprdy_internal = '1') then state := s10;
+          if (divfprdy_internal = '1') then state <= s10;
             divfpce_internal <= '0';
             divfpond_internal <= '0';
             divfpsclr_internal <= '1';
-          else state := s9c; end if;
+          else state <= s9c; end if;
         when s10 =>
           divfpsclr_internal <= '0';
           subfpce_internal <= '1';
           subfpa_internal <= i_Vdd;
           subfpb_internal <= C_VDDV0;
           subfpond_internal <= '1';
-          if (subfprdy_internal = '1') then state := s14;
+          if (subfprdy_internal = '1') then state <= s14;
             subfpce_internal <= '0';
             subfpond_internal <= '0';
             subfpsclr_internal <= '1';
-          else state := s10; end if;
+          else state <= s10; end if;
         when s14 =>
           subfpsclr_internal <= '0';
           mulfpce_internal <= '1';
           mulfpa_internal <= subfpr_internal; -- XXX vddDiff
           mulfpb_internal <= extract_kv_parameters_do;
           mulfpond_internal <= '1';
-          if (mulfprdy_internal = '1') then state := s16;
+          if (mulfprdy_internal = '1') then state <= s16;
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
-          else state := s14; end if;
+          else state <= s14; end if;
         when s16 =>
           mulfpsclr_internal <= '0';
           addfpce_internal <= '1';
           addfpa_internal <= mulfpr_internal;
           addfpb_internal <= C_P1;
           addfpond_internal <= '1';
-          if (addfprdy_internal = '1') then state := s17;
+          if (addfprdy_internal = '1') then state <= s17;
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-          else state := s16; end if;
+          else state <= s16; end if;
         when s17 => -- XXX empty state/calculate for rm fptmp1 reg
           addfpsclr_internal <= '0';
           subfpce_internal <= '1';
           subfpa_internal <= addfpr_internal;
           subfpb_internal <= x"00000000";
           subfpond_internal <= '1';
-          if (subfprdy_internal = '1') then state := s20;
+          if (subfprdy_internal = '1') then state <= s20;
             subfpce_internal <= '0';
             subfpond_internal <= '0';
             subfpsclr_internal <= '1';
-          else state := s17; end if;
+          else state <= s17; end if;
         when s20 =>
           subfpsclr_internal <= '0';
           mulfpce_internal <= '1';
           mulfpa_internal <= divfpr_internal;
           mulfpb_internal <= extract_kta_parameters_do;
           mulfpond_internal <= '1';
-          if (mulfprdy_internal = '1') then state := s22;
+          if (mulfprdy_internal = '1') then state <= s22;
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
-          else state := s20; end if;
+          else state <= s20; end if;
         when s22 =>
           mulfpsclr_internal <= '0';
           addfpce_internal <= '1';
           addfpa_internal <= mulfpr_internal;
           addfpb_internal <= C_P1;
           addfpond_internal <= '1';
-          if (addfprdy_internal = '1') then state := s24;
+          if (addfprdy_internal = '1') then state <= s24;
             addfpce_internal <= '0';
             addfpond_internal <= '0';
             addfpsclr_internal <= '1';
-          else state := s22; end if;
+          else state <= s22; end if;
         when s24 =>
           addfpsclr_internal <= '0';
           mulfpce_internal <= '1';
           mulfpa_internal <= subfpr_internal; -- XXX s17
           mulfpb_internal <= addfpr_internal;
           mulfpond_internal <= '1';
-          if (mulfprdy_internal = '1') then state := s25;
+          if (mulfprdy_internal = '1') then state <= s25;
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
-          else state := s24; end if;
-        when s25 => state := s26;
+          else state <= s24; end if;
+        when s25 => state <= s26;
           mulfpsclr_internal <= '0';
         when s26 =>
           mulfpce_internal <= '1';
           mulfpa_internal <= mulfpr_internal;
           mulfpb_internal <= extract_offset_parameters_do;
           mulfpond_internal <= '1';
-          if (mulfprdy_internal = '1') then state := s28;
+          if (mulfprdy_internal = '1') then state <= s28;
             mulfpce_internal <= '0';
             mulfpond_internal <= '0';
             mulfpsclr_internal <= '1';
-          else state := s26; end if;
+          else state <= s26; end if;
         when s28 =>
           mulfpsclr_internal <= '0';
           subfpce_internal <= '1';
           subfpa_internal <= CalculatePixGain_do;
           subfpb_internal <= mulfpr_internal;
           subfpond_internal <= '1';
-          if (subfprdy_internal = '1') then state := s30;
+          if (subfprdy_internal = '1') then state <= s30;
             subfpce_internal <= '0';
             subfpond_internal <= '0';
             subfpsclr_internal <= '1';
@@ -1051,16 +1066,16 @@ begin
             --synthesis translate_off
             report_error("================pixos " & integer'image(i), subfpr_internal, 0.0);
             --synthesis translate_on
-          else state := s28; end if;
+          else state <= s28; end if;
         when s30 =>
           write_enable <= '0';
           if (i = C_MATRIX_PIXELS-1) then
-            state := idle;
-            i := 0;
+            state <= idle;
+            i <= 0;
             rdy <= '1';
           else
-            state := s9a;
-            i := i + 1;
+            state <= s9a;
+            i <= i + 1;
           end if;
       end case;
     end if;
