@@ -67,6 +67,7 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
+o_done : out std_logic;
 
 signal i2c_mem_ena : out STD_LOGIC; -- unused
 signal i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0); -- unused
@@ -377,7 +378,7 @@ mux_dia <= dia when rdy = '0' else (others => '0');
 
 p0 : process (i_clock) is
   variable i : integer range 0 to C_MATRIX_PIXELS-1;
-  type states is (idle,
+  type states is (idle,s0a,s0b,
   s3,s4,s9,s10,
   s12,s15,s18,
   s21,s23);
@@ -413,20 +414,36 @@ begin
       mem_switchpattern_pixel <= (others => '0');
       o_pixos_addr <= (others => '0');
       i := 0;
+      o_done <= '0';
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := s3;
+						state := s0a;
             rdy <= '0';
 					else
 						state := idle;
 					end if;
+          o_done <= '0';
 					addfpsclr_internal <= '0';
 					subfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
           i := 0;
+        when s0a =>
+          state := s0b;
+          addra <= std_logic_vector (to_unsigned (i, 10));
+          dia <= (others => '0');
+          write_enable <= '1';
+        when s0b =>
+          write_enable <= '0';
+          if (i = C_MATRIX_PIXELS-1) then
+            state := s3;
+            i := 0;
+          else
+            state := s0a;
+            i := i + 1;
+          end if;
 				when s3 => state := s4;
 					o_pixos_addr <= std_logic_vector (to_unsigned (i, 10));
 					mem_switchpattern_pixel <= std_logic_vector (to_unsigned (i, 10));
@@ -523,6 +540,7 @@ begin
 					if (i = C_MATRIX_PIXELS-1) then
 						state := idle;
             rdy <= '1';
+            o_done <= '1';
 						i := 0;
 					else
 						state := s3;

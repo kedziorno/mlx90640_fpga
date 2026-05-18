@@ -62,6 +62,7 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
+o_done : out std_logic;
 
 i2c_mem_ena : out STD_LOGIC;
 i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
@@ -302,7 +303,7 @@ mux_dia <= dia when rdy = '0' else (others => '0');
 
 p0 : process (i_clock) is
 	variable pixgain_index : integer range 0 to c_pixgain_sz - 1;
-	type states is (idle,
+	type states is (idle,s0a,s0b,
   s1,s2,s3,s3a,s6,s9);
 	variable state : states;
 	variable eeprom16slv : std_logic_vector (7 downto 0);
@@ -326,20 +327,36 @@ begin
 			write_enable <= '0';
 			i2c_mem_ena_internal <= '0';
 			i2c_mem_addra_internal <= (others => '0');
+      o_done <= '0';
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := s1;
+						state := s0a;
 						i2c_mem_ena_internal <= '1';
             rdy <= '0';
 					else
 						state := idle;
 						i2c_mem_ena_internal <= '0';
 					end if;
+          o_done <= '0';
 					fixed2floatsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
           pixgain_index := 0;
+        when s0a =>
+          state := s0b;
+          addra <= std_logic_vector (to_unsigned (pixgain_index, 10));
+          dia <= (others => '0');
+          write_enable <= '1';
+        when s0b =>
+          write_enable <= '0';
+          if (pixgain_index = C_MATRIX_PIXELS-1) then
+            state := s1;
+            pixgain_index := 0;
+          else
+            state := s0a;
+            pixgain_index := pixgain_index + 1;
+          end if;
 				when s1 => state := s2; -- XXX in loop, i2c_mem_addra_internal must be here
 					i2c_mem_addra_internal <= std_logic_vector (to_unsigned (c_pixgain_st+(pixgain_index*2)+0, 12)); -- LSB
 				when s2 => state := s3;
@@ -379,6 +396,7 @@ begin
 					if (pixgain_index = c_pixgain_sz - 1) then
 						state := idle;
             rdy <= '1';
+            o_done <= '1';
 						pixgain_index := 0;
 					else
 						state := s1;

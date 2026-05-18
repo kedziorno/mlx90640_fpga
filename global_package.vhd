@@ -50,19 +50,16 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
---synthesis translate_off
 USE ieee.math_real.all;
---synthesis translate_on
 
---synthesis translate_off
 library ieee_proposed;
 use ieee_proposed.fixed_float_types.all;
 use ieee_proposed.fixed_pkg.all;
 use ieee_proposed.float_pkg.all;
-use ieee_proposed.numeric_std_additions.all;
-use ieee_proposed.standard_additions.all;
-use ieee_proposed.std_logic_1164_additions.all;
---synthesis translate_on
+--use ieee_proposed.numeric_std_additions.all;
+--use ieee_proposed.standard_additions.all;
+--use ieee_proposed.std_logic_1164_additions.all;
+--use ieee_proposed.standard_textio_additions.all;
 
 package global_package is
 
@@ -151,7 +148,7 @@ package global_package is
   constant c_ram_x070a    : integer := 16#070a#; -- gain[16]
   constant c_ram_x0720    : integer := 16#0720#; -- ta_ptat[16] (vptat,ptat)
   constant c_ram_x072a    : integer := 16#072a#; -- vddpix[16]
-  constant c_ram_x800d    : slv16   := x"1a81"; -- manufacturer default value
+  constant c_ram_x800d    : slv16   := x"1b91"; -- manufacturer default value 0001 1011 1001 0001
 
   -- 11.1.1. restoring the vdd sensor parameters, p. 22
   constant c_eeprom_x2433_off : integer := c_eeprom_x2433 - c_eeprom_st;
@@ -342,7 +339,7 @@ package global_package is
   constant c_2pow5_ft : std_logic_vector (31 downto 0) := x"42000000";
   constant c_2pow13_ft : std_logic_vector (31 downto 0) := x"46000000";
   constant c_256_ft : std_logic_vector (31 downto 0) := x"43800000";
-  constant resreg : std_logic_vector (15 downto 0) := x"1a81" and x"0c00";
+  constant resreg : std_logic_vector (15 downto 0) := c_ram_x800d and x"0c00";
 
   -- calcualteacc
 	constant const2 : std_logic_vector (31 downto 0) := x"40000000";
@@ -384,12 +381,15 @@ package global_package is
   function to_std_logic (l : boolean)   return std_ulogic;
   function to_std_logic (l : character) return boolean;
   function int2hex      (l : character) return natural;
+--synthesis translate_on
 
 	-- https://opencores.org/websvn/filedetails?repname=raytrac&path=%2fraytrac%2fbranches%2ffp%2farithpack.vhd&rev=163
 	function ap_slv2fp (sl:std_logic_vector) return real;
 	-- https://opencores.org/websvn/filedetails?repname=raytrac&path=%2fraytrac%2fbranches%2ffp%2farithpack.vhd&rev=163
 	function ap_slv2int (sl:std_logic_vector) return integer;
+--synthesis translate_off
 	function to_string_1 ( s : std_logic_vector ) return string;
+--synthesis translate_on
 	procedure report_error (constant str : string; sl : std_logic_vector; constant ec : real; constant is_minimal : boolean := true);
 	procedure report_error_sfixed (constant s1, s2 : integer; constant str : string; sl : std_logic_vector; constant ec : real);
   procedure warning_neq_fp (a, b : in float32; info : in string := ""; use_epsilon : boolean := false; epsilon : real := 0.5; constant is_minimal : boolean := true);
@@ -397,10 +397,11 @@ package global_package is
   procedure warning_neq_fp (a, b : in std_logic_vector (31 downto 0); info : in string := ""; use_epsilon : boolean := false; epsilon : real := 0.5; constant is_minimal : boolean := true);
   procedure assertepsilon (x, y : in real; epsilon : in real := 1.0e-5; message : in string := "");
 
+--synthesis translate_off
   procedure wait_idle(signal idle : out std_logic;constant n : natural;constant clock_period : in time);
   procedure sda_start(signal sda_data : out std_logic;constant clock_period : in time);
   procedure sda_stop(signal sda_data : out std_logic;constant clock_period : in time);
-  procedure sda_address_7bit(signal sda_data : out std_logic;constant address : in std_logic_vector(c_i2c_address_bits - 1 downto 0);constant address_rw : in boolean;conclock_period : in time);
+  procedure sda_address_7bit(signal sda_data : out std_logic;constant address : in std_logic_vector(c_i2c_address_bits - 1 downto 0);constant address_rw : in boolean;constant clock_period : in time);
   procedure sda_data_8bit(signal sda_data : out std_logic;constant data : in std_logic_vector(c_i2c_data_bits - 1 downto 0);constant data_ack : in boolean;constant clock_period : in time);
 --synthesis translate_on
 
@@ -413,7 +414,6 @@ package body global_package is
     return a (7) & a (7) & a (7) & a (7) & a(7) & a(7) & a(7) & a(7) & a;
   end function extend_8_to_16;
 
---synthesis translate_off
 	procedure report_error (constant str : string; sl : std_logic_vector; constant ec : real; constant is_minimal : boolean := true) is
 		variable a : float32;
 		variable b : float32 := to_float (ec, a);
@@ -432,8 +432,10 @@ package body global_package is
 			expecteds := real'image (expected);
 		end if;
     if (is_minimal = false) then
+--synthesis translate_off
       --assert actual = expected report "actual = expected : " & cr & actuals & cr & expecteds & cr & to_hex_string (sl) & cr & to_hex_string (b) & cr & to_string_1 (sl) & cr & to_string_1 (to_slv (b)) severity note;
-      report str & " : " & actuals & " = " & expecteds & " " & to_hex_string (sl) & " " & to_hex_string (b) & " " & to_string_1 (sl) & " " & to_string_1 (to_slv (b)) severity note;
+      --report str & " : " & actuals & " = " & expecteds & " " & to_hex_string (sl) & " " & to_hex_string (b) & " " & to_string_1 (sl) & " " & to_string_1 (to_slv (b)) severity note;
+--synthesis translate_on
 		end if;
     return;
 	end procedure report_error;
@@ -442,7 +444,9 @@ package body global_package is
 		variable a : sfixed (s1 downto -s2+1);
     variable b : sfixed (s1 downto -s2+1) := to_sfixed (sl, a);
 	begin
-		report str & " : " & to_string (to_real (b)) & " " & to_hex_string (b) & " " & to_hex_string (sl) & " " & to_string_1 (sl) & " " & to_string_1 (to_slv (b)) severity note;
+--synthesis translate_off
+		--report str & " : " & to_string (to_real (b)) & " " & to_hex_string (b) & " " & to_hex_string (sl) & " " & to_string_1 (sl) & " " & to_string_1 (to_slv (b)) severity note;
+--synthesis translate_on
 		return;
 	end procedure report_error_sfixed;
 
@@ -480,6 +484,7 @@ package body global_package is
     end if;
   end function;
 
+--synthesis translate_off
 	function to_string_1 ( s : std_logic_vector )
 		return string
 	is
@@ -490,6 +495,7 @@ package body global_package is
 		end loop ;
 		return r ;
 	end function ;
+--synthesis translate_on
 
   procedure assertepsilon (x, y : in real; epsilon : in real := 1.0e-5; message : in string := "") is
     variable vabs : real := 0.0;
@@ -508,12 +514,16 @@ package body global_package is
       if (use_epsilon = true) then
         dif := abs (dst - src);
         if (dif >= epsilon) then
+--synthesis translate_off
           --assert not (src = dst) report info & ht & " current == expected " & ht & real'image (to_real(src)) & " == " & real'image (to_real(dst)) & ht & to_hex_string(src) & " == " & (to_hex_string(dst)) severity note;
           assert     (src = dst) report info & ht & " current /= expected " & ht & real'image (to_real(src)) & " /= " & real'image (to_real(dst)) & ht & to_hex_string(src) & " /= " & (to_hex_string(dst)) & ht & "differ >= epsilon (" & real'image (epsilon) & ") : " & real'image (to_real(dif)) & " > " & real'image (epsilon) severity warning;
+--synthesis translate_on
         end if;
       else
+--synthesis translate_off
         assert not (src = dst) report info & ht & " current == expected " & ht & real'image (to_real(src)) & " == " & real'image (to_real(dst)) & ht & to_hex_string(src) & " == " & (to_hex_string(dst)) severity note;
         assert     (src = dst) report info & ht & " current /= expected " & ht & real'image (to_real(src)) & " /= " & real'image (to_real(dst)) & ht & to_hex_string(src) & " /= " & (to_hex_string(dst)) & ht & "differ : " & real'image (to_real(dif)) severity warning;
+--synthesis translate_on
       end if;
       --assert not (ieee.math_real.round(to_real(src)) = ieee.math_real.round(to_real(dst))) report info & ht & " current == expected " & ht & real'image (to_real(src)) & " == " & real'image (to_real(dst)) & ht & to_hex_string(src) & " == " & (to_hex_string(dst)) severity note;
       --assert     (ieee.math_real.round(to_real(src)) = ieee.math_real.round(to_real(dst))) report info & ht & " current /= expected " & ht & real'image (to_real(src)) & " /= " & real'image (to_real(dst)) & ht & to_hex_string(src) & " /= " & (to_hex_string(dst)) severity warning;
@@ -530,7 +540,6 @@ package body global_package is
   begin
     warning_neq_fp (to_float (a), to_float (b), info, use_epsilon, epsilon, is_minimal);
   end procedure;
---synthesis translate_on
 
 --synthesis translate_off
 procedure wait_idle(

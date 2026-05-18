@@ -59,6 +59,7 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
+o_done : out std_logic;
 
 signal i2c_mem_ena : out STD_LOGIC;
 signal i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
@@ -302,7 +303,7 @@ end case;
 end process p1;
 
 p0 : process (i_clock) is
-	type states is (idle,
+	type states is (idle,s0a,s0b,
 	kv1,kv2,kv3,kv4,
 	kv5,kv6,kv9,
 	kv11,kv13);
@@ -325,11 +326,13 @@ begin
 			i := 0;
 			col <= 0;
 			row <= 0;
+      o_signed4bit_adr <= (others => '0');
+      o_done <= '0';
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := kv1;
+						state := s0a;
 						i2c_mem_ena <= '1';
             i2c_mem_addra <= std_logic_vector (to_unsigned (c_eeprom_x2438_msb, 12));
             rdy <= '0';
@@ -341,6 +344,21 @@ begin
           i := 0;
           col <= 0;
           row <= 0;
+          o_done <= '0';
+        when s0a =>
+          state := s0b;
+          addra <= std_logic_vector (to_unsigned (i, 10));
+          dia <= (others => '0');
+          write_enable <= '1';
+        when s0b =>
+          write_enable <= '0';
+          if (i = C_MATRIX_PIXELS-1) then
+            state := kv1;
+            i := 0;
+          else
+            state := s0a;
+            i := i + 1;
+          end if;
         when kv1 => state := kv2;
 					i2c_mem_addra <= std_logic_vector (to_unsigned (eeprom_0x2434_lsb, 12));
         when kv2 => state := kv3;
@@ -387,6 +405,7 @@ begin
               row <= 0;
               state := idle;
               rdy <= '1';
+              o_done <= '1';
             else
               row <= row + 1;
               state := kv6;

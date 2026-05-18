@@ -9,7 +9,7 @@
 -- Target Device: xc3s1200e-fg320-4, xc4vsx35-ff668-10
 -- Tool versions: Xilinx ISE 14.7, XST and ISIM
 -- Description:   11.1.3.1. Restoring the offset in case of Interleaved reading pattern (p. 23)
---                11.2.2.5.3. IR data compensation – offset, VDD and Ta (p. 39)
+--                11.2.2.5.3. IR data compensation  offset, VDD and Ta (p. 39)
 --                (Rest is in commented code)
 --
 -- Dependencies:
@@ -64,6 +64,7 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
+o_done : out std_logic;
 
 o_signed4bit_ena : out std_logic;
 o_signed4bit_adr : out std_logic_vector (3 downto 0);
@@ -139,6 +140,7 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
+o_done : out std_logic;
 
 signal o_signed4bit_ena : out std_logic;
 signal o_signed4bit_adr : out std_logic_vector (3 downto 0);
@@ -181,6 +183,7 @@ signal extract_offset_parameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal extract_offset_parameters_do : std_logic_vector (31 downto 0);
 signal extract_offset_parameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal extract_offset_parameters_rdy : std_logic;
+signal extract_offset_parameters_done : std_logic;
 signal extract_offset_parameters_signed4bit_ena : std_logic;
 signal extract_offset_parameters_signed4bit_adr : std_logic_vector (3 downto 0);
 signal extract_offset_parameters_signed6bit_ena : std_logic;
@@ -219,6 +222,7 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
+o_done : out std_logic;
 
 signal i2c_mem_ena : out STD_LOGIC;
 signal i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
@@ -273,6 +277,7 @@ signal extract_kta_parameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal extract_kta_parameters_do : std_logic_vector (31 downto 0);
 signal extract_kta_parameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal extract_kta_parameters_rdy : std_logic;
+signal extract_kta_parameters_done : std_logic;
 signal extract_kta_parameters_2powx_p8_4bit_ena : std_logic;
 signal extract_kta_parameters_2powx_p8_4bit_adr : std_logic_vector (3 downto 0);
 signal extract_kta_parameters_2powx_4bit_ena : std_logic;
@@ -318,6 +323,7 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
+o_done : out std_logic;
 
 signal i2c_mem_ena : out STD_LOGIC;
 signal i2c_mem_addra : out STD_LOGIC_VECTOR(11 DOWNTO 0);
@@ -347,6 +353,7 @@ signal extract_kv_parameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal extract_kv_parameters_do : std_logic_vector (31 downto 0);
 signal extract_kv_parameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal extract_kv_parameters_rdy : std_logic;
+signal extract_kv_parameters_done : std_logic;
 signal extract_kv_parameters_2powx_4bit_ena : std_logic;
 signal extract_kv_parameters_2powx_4bit_adr : std_logic_vector (3 downto 0);
 signal extract_kv_parameters_signed4bit_ena : std_logic;
@@ -372,6 +379,7 @@ i_KGain : in std_logic_vector (31 downto 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 o_rdy : out std_logic;
+o_done : out std_logic;
 fixed2floata : out STD_LOGIC_VECTOR(15 DOWNTO 0);
 fixed2floatond : out STD_LOGIC;
 fixed2floatce : out STD_LOGIC;
@@ -397,6 +405,7 @@ signal CalculatePixGain_KGain : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculatePixGain_do : std_logic_vector (31 downto 0);
 signal CalculatePixGain_addr : std_logic_vector (9 downto 0);
 signal CalculatePixGain_rdy : std_logic;
+signal CalculatePixGain_done : std_logic;
 signal CalculatePixGain_fixed2floata : STD_LOGIC_VECTOR(15 DOWNTO 0);
 signal CalculatePixGain_fixed2floatond : STD_LOGIC;
 signal CalculatePixGain_fixed2floatce : STD_LOGIC;
@@ -813,7 +822,7 @@ extract_kv_parameters_rom_constants_float <= i_rom_constants_float;
 
 p0 : process (i_clock) is
 	variable i : integer range 0 to C_MATRIX_PIXELS-1;
-	type states is (idle,
+	type states is (idle,s0a,s0b,
   s3,s5,s7,s9,s9a,s9b,s9c,
   s10,s14,s16,s17,s20,
 	s22,s24,s25,s26,s28,s30);
@@ -821,6 +830,9 @@ p0 : process (i_clock) is
 begin
 	if (rising_edge (i_clock)) then
 		if (i_reset = '1') then
+--      i_Ta <= x"4207F54D";
+--      i_Vdd <= x"4052B852";
+--      i_KGain <= x"3F81AC57";
 			state := idle;
 			i := 0;
 			addfpsclr_internal <= '1';
@@ -857,26 +869,43 @@ begin
 			divfpond_internal <= '0';
 			divfpce_internal <= '0';
 			dia <= (others => '0');
+			addra <= (others => '0');
 			write_enable <= '0';
+      o_done <= '0';
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := s3;
+						state := s0a;
             CalculatePixGain_run <= '1';
             CalculatePixGain_mux <= '1';
             rdy <= '0';
 					else
 						state := idle;
 					end if;
+          o_done <= '0';
 					i := 0;
 					addfpsclr_internal <= '0';
 					subfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
+        when s0a =>
+          state := s0b;
+          addra <= std_logic_vector (to_unsigned (i, 10));
+          dia <= (others => '0');
+          write_enable <= '1';
+        when s0b =>
+          write_enable <= '0';
+          if (i = C_MATRIX_PIXELS-1) then
+            state := s3;
+            i := 0;
+          else
+            state := s0a;
+            i := i + 1;
+          end if;
         when s3 =>
           CalculatePixGain_run <= '0';
-          if (CalculatePixGain_rdy = '1') then
+          if (CalculatePixGain_done = '1') then
             state := s5;
             CalculatePixGain_mux <= '0';
             extract_offset_parameters_run <= '1';
@@ -887,7 +916,7 @@ begin
           end if;
         when s5 => 
           extract_offset_parameters_run <= '0';
-          if (extract_offset_parameters_rdy = '1') then
+          if (extract_offset_parameters_done = '1') then
             state := s7;
             extract_offset_parameters_mux <= '0';
             extract_kta_parameters_run <= '1';
@@ -898,7 +927,7 @@ begin
           end if;
         when s7 => 
           extract_kta_parameters_run <= '0';
-          if (extract_kta_parameters_rdy = '1') then
+          if (extract_kta_parameters_done = '1') then
             state := s9;
             extract_kta_parameters_mux <= '0';
             extract_kv_parameters_run <= '1';
@@ -909,7 +938,7 @@ begin
           end if;
         when s9 => 
           extract_kv_parameters_run <= '0';
-          if (extract_kv_parameters_rdy = '1') then
+          if (extract_kv_parameters_done = '1') then
             state := s9a;
             extract_kv_parameters_mux <= '0';
           else
@@ -1058,6 +1087,7 @@ begin
             state := idle;
             i := 0;
             rdy <= '1';
+            o_done <= '1';
           else
             state := s9a;
             i := i + 1;
@@ -1111,6 +1141,7 @@ i_KGain => CalculatePixGain_KGain,
 o_do => CalculatePixGain_do,
 i_addr => CalculatePixGain_addr,
 o_rdy => CalculatePixGain_rdy,
+o_done => CalculatePixGain_done,
 
 fixed2floata => CalculatePixGain_fixed2floata,
 fixed2floatond => CalculatePixGain_fixed2floatond,
@@ -1154,6 +1185,7 @@ o_do => extract_offset_parameters_do,
 i_addr => extract_offset_parameters_addr, -- 10bit-1024
 
 o_rdy => extract_offset_parameters_rdy,
+o_done => extract_offset_parameters_done,
 
 o_signed4bit_ena => extract_offset_parameters_signed4bit_ena,
 o_signed4bit_adr => extract_offset_parameters_signed4bit_adr,
@@ -1203,6 +1235,7 @@ o_do => extract_kta_parameters_do,
 i_addr => extract_kta_parameters_addr, -- 10bit-1024
 
 o_rdy => extract_kta_parameters_rdy,
+o_done => extract_kta_parameters_done,
 
 i2c_mem_ena => extract_kta_parameters_i2c_mem_ena,
 i2c_mem_addra => extract_kta_parameters_i2c_mem_addra,
@@ -1262,6 +1295,7 @@ i2c_mem_douta => extract_kv_parameters_i2c_mem_douta,
 o_do => extract_kv_parameters_do,
 i_addr => extract_kv_parameters_addr,
 o_rdy => extract_kv_parameters_rdy,
+o_done => extract_kv_parameters_done,
 
 o_2powx_4bit_ena => extract_kv_parameters_2powx_4bit_ena,
 o_2powx_4bit_adr => extract_kv_parameters_2powx_4bit_adr,

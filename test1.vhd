@@ -757,7 +757,7 @@ pTo : process (clock_i,i_reset) is
   variable wait2 : integer range 0 to c_wait2 - 1;
   variable wait3 : integer range 0 to c_wait3 - 1;
   variable k : integer range 0 to c_clock_board_frequency - 1;
-  constant c_w11ms_syn : integer := (c_clock_board_frequency / 2);
+  constant c_w11ms_syn : integer := (c_clock_board_frequency / 64);
   constant c_w11ms_sim : integer := 2;
   variable w11ms_syn : integer range 0 to c_w11ms_syn - 1;
   variable w11ms_sim : integer range 0 to c_w11ms_sim - 1;
@@ -908,7 +908,7 @@ pTo : process (clock_i,i_reset) is
     end if;
   end procedure w8_80ms;
 
-  constant v_conf1 : std_logic_vector (15 downto 0) := x"1a81";
+  constant v_conf1 : std_logic_vector (15 downto 0) := c_ram_x800d;
 
 begin
     if (rising_edge (clock_i)) then
@@ -977,10 +977,20 @@ begin
           wr_mode1 (x"800d", r5);
 
         when r5 => -- after power on
+          if (c_sim = "n") then
           wait_rd (x"ffff", idle0, r7);
+          end if;
+          if (c_sim = "y") then
+          state <= idle0;
+          end if;
 
         when r7 =>
-          wait_rd (v_conf1, idle0, r6);
+          if (c_sim = "n") then
+            wait_rd (v_conf1, idle0, r6);
+          end if;
+          if (c_sim = "y") then
+            state <= idle0;
+          end if;
 
         when idle0 =>
           w8_64us (w1);
@@ -1076,20 +1086,22 @@ begin
 
         when wr2a1 =>
           wr_mode1 (x"8000", r8);
---              if (camera_read(3) = '1') then
---                state <= idle2a1;
---              else
---                state <= idle0a1;
---              end if;
 
         when r8 =>
-          wait_rd (x"0008", r4, idle1a1);
+          if (c_sim = "n") then
+            wait_rd (x"0008", r4, r9);
+          end if;
+          if (c_sim = "y") then
+            state <= r4;
+          end if;
 
---        when idle2a1 =>
---          w8_64us (r3);
---
---        when r3 =>
---          wr_mode0 (x"8000", x"0030", r4);
+        when r9 =>
+          if (c_sim = "n") then
+            wait_rd (x"0009", r4, idle1a1);
+          end if;
+          if (c_sim = "y") then
+            state <= r4;
+          end if;
 
         when r4 =>
           w8_64us (r2);
@@ -1317,7 +1329,7 @@ begin
           o_led (0) <= toggle1;
           if (c_sim = "y") then
 --          state <= idle1;
-            state <= idle2a1;
+            state <= r4;
 --          state <= idle1a1;
 --          state <= idle3;
           end if;

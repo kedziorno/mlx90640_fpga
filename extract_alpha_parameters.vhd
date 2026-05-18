@@ -436,6 +436,7 @@ begin
 						state := idle;
 						i2c_mem_ena <= '0';
 					end if;
+          o_done <= '0';
 					addfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					divfpsclr_internal <= '0';
@@ -792,6 +793,7 @@ begin
             row := 0;
             state := idle;
             rdy <= '1';
+            o_done <= '1';
           else
             row := row + 1;
             state := s0;

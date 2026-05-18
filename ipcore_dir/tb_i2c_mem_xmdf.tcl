@@ -63,6 +63,10 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_i2c_mem.n
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type ngc
 incr fcount
 
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_i2c_mem.sym
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type symbol
+incr fcount
+
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path tb_i2c_mem.vhd
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type vhdl
 incr fcount

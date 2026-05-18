@@ -145,6 +145,7 @@ constant c_period : time := 1.92 us; -- 20 ns
 
 component mlx90640_i2c_stream is
 generic (
+  constant c_use_original_data : boolean := true;
   constant c_board_clock : integer := 1;
   constant c_bus_clock : integer := 1
 );

@@ -177,9 +177,9 @@ i_clock : in std_logic;
 i_reset : in std_logic;
 i_run : in std_logic;
 
-i_Ta : in std_logic_vector (31 downto 0);
-i_Vdd : in std_logic_vector (31 downto 0);
-i_KGain : in std_logic_vector (31 downto 0);
+--i_Ta : in std_logic_vector (31 downto 0);
+--i_Vdd : in std_logic_vector (31 downto 0);
+--i_KGain : in std_logic_vector (31 downto 0);
 
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
@@ -360,7 +360,7 @@ signal i_signed3bit_en : std_logic;
 signal i_signed3bit_adr : std_logic_vector(2 downto 0);
 signal o_float : std_logic_vector(31 downto 0);
 
-constant i_clock_period : time := 10 ns;
+constant i_clock_period : time := 20 ns;
 signal i_clock : std_logic;
 
 signal out1r : real;
@@ -387,9 +387,9 @@ i_run => calculate_pixos_run,
 i2c_mem_ena => calculate_pixos_i2c_mem_ena,
 i2c_mem_addra => calculate_pixos_i2c_mem_addra,
 i2c_mem_douta => calculate_pixos_i2c_mem_douta,
-i_Ta => calculate_pixos_Ta,
-i_Vdd => calculate_pixos_Vdd,
-i_KGain => calculate_pixos_KGain,
+--i_Ta => calculate_pixos_Ta,
+--i_Vdd => calculate_pixos_Vdd,
+--i_KGain => calculate_pixos_KGain,
 o_do => calculate_pixos_do,
 i_addr => calculate_pixos_addr,
 o_rdy => calculate_pixos_rdy,
@@ -451,6 +451,7 @@ douta => calculate_pixos_i2c_mem_douta
 );
 
 calculate_pixos_clock <= i_clock;
+calculate_pixos_reset <= '1', '0' after 300 ns; -- wait until global set/reset completes
 
 p_clock_process :process
 begin
@@ -504,10 +505,8 @@ last => (
 )
 );
 BEGIN
-calculate_pixos_reset <= '1';
-wait for 100 ns; -- wait until global set/reset completes
-calculate_pixos_reset <= '0';
-wait for i_clock_period*10;
+calculate_pixos_run <= '0';
+wait for i_clock_period*32;
 calculate_pixos_const1 <= x"3F800000"; -- 1
 calculate_pixos_Ta <= x"4207F54D"; -- 3.398955e+01
 --calculate_pixos_Ta0 <= x"41C80000"; -- 25
@@ -525,28 +524,28 @@ for i in 0 to 9 loop
 calculate_pixos_addr <= std_logic_vector (to_unsigned (datao.first(i).b, 10));
 wait until rising_edge (calculate_pixos_clock);
 wait until rising_edge (calculate_pixos_clock);
-warning_neq_fp (calculate_pixos_do, datao.first(i).a, "first " & integer'image (datao.first(i).b));
+warning_neq_fp (calculate_pixos_do, datao.first(i).a, "first " & integer'image (datao.first(i).b), false, 0.000000001, false);
 --wait until rising_edge (calculate_pixos_clock);
 end loop;
 for i in 0 to 1 loop
 calculate_pixos_addr <= std_logic_vector (to_unsigned (datao.middle(i).b, 10));
 wait until rising_edge (calculate_pixos_clock);
 wait until rising_edge (calculate_pixos_clock);
-warning_neq_fp (calculate_pixos_do, datao.middle(i).a, "middle " & integer'image (datao.middle(i).b));
+warning_neq_fp (calculate_pixos_do, datao.middle(i).a, "middle " & integer'image (datao.middle(i).b), false, 0.000000001, false);
 --wait until rising_edge (calculate_pixos_clock);
 end loop;
 for i in 0 to 8 loop -- XXX last_9 is OK here (tb_CalculateAlphaComp)
 calculate_pixos_addr <= std_logic_vector (to_unsigned (datao.last(i).b, 10));
 wait until rising_edge (calculate_pixos_clock);
 wait until rising_edge (calculate_pixos_clock);
-warning_neq_fp (calculate_pixos_do, datao.last(i).a, "last " & integer'image (datao.last(i).b));
+warning_neq_fp (calculate_pixos_do, datao.last(i).a, "last " & integer'image (datao.last(i).b), false, 0.000000001, false);
 --wait until rising_edge (calculate_pixos_clock);
 end loop;
 calculate_pixos_addr <= std_logic_vector (to_unsigned (datao.last(9).b, 10));
 wait until rising_edge (calculate_pixos_clock);
 wait until rising_edge (calculate_pixos_clock);
 wait until rising_edge (calculate_pixos_clock);
-warning_neq_fp (calculate_pixos_do, datao.last(9).a, "last " & integer'image (datao.last(9).b));
+warning_neq_fp (calculate_pixos_do, datao.last(9).a, "last " & integer'image (datao.last(9).b), false, 0.000000001, false);
 wait until rising_edge (calculate_pixos_clock);
 wait until rising_edge (calculate_pixos_clock);
 wait until rising_edge (calculate_pixos_clock);
@@ -556,8 +555,8 @@ wait until rising_edge (calculate_pixos_clock);
 --report "end at 2629.995us - rewrite submodules, rm fptmp1";
 --report "end at 2883.105us - rewrite submodules, rm fptmp1, rm vddDiff reg";
 report "end at 3113.505us - rewrite submodules, rm fptmp1, rm vddDiff reg, rm taDiff reg";
-wait for 1 ps; -- must be for write
-report "done" severity failure;
+wait for 1 ms; -- must be for write
+--report "done" severity failure;
 END PROCESS p_tb;
 
 calculate_pixos_fixed2floatclk <= i_clock;

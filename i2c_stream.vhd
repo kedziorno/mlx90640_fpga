@@ -28,11 +28,22 @@
 --      - p3_extract_i2c_bytes - extract address and two byte data
 --      - p2_sda_data_sr - catch bits from data line
 --      - p1_re_fe_i2c - rising/falling detection on scl
---      - p0_main
+--      - p0_main_stream - return stream from memory
+--  - Revision 0.01b - Update with original example frame
+--    - Files: -
+--    - Modules: -
+--    - Processes (Architecture: rtl):
+--      - p1_main_original_frame - return one frame from memory
 --
 -- Important objects:
 --  - Entity signals:
 --    - o_data_debug - return current 16-bit value
+--    - mem_i2c_original_frame_i0 - memory with original frame
+--    - mem_i2c_stream_i0 - memory with stream of exampled frames
+--  - Constants:
+--    - c_use_original_data = true - have only one frame from example
+--      data discovered in Internet (.xlsx sheet file), so this can be
+--      used to calculate exact data for each sub-modules.
 --
 -- Information from the software vendor:
 --  - Messeges: -
@@ -65,8 +76,10 @@ use ieee.numeric_std.all;
 
 entity mlx90640_i2c_stream is
 generic (
+  constant c_use_original_data : boolean := false;
   constant c_board_clock : integer := 1;
-  constant c_bus_clock : integer := 1
+  constant c_bus_clock : integer := 1;
+  constant c_zero : integer := 0
 );
 port (
   i_clock : in std_logic;
@@ -81,6 +94,16 @@ end entity mlx90640_i2c_stream;
 
 architecture rtl of mlx90640_i2c_stream is
 
+component tb_data_mlx90640_original_frame
+port (
+  clka  : in  std_logic;
+  addra : in  std_logic_vector (10 downto 0);
+  douta : out std_logic_vector (15 downto 0)
+);
+end component tb_data_mlx90640_original_frame;
+signal addra_of : std_logic_vector (10 downto 0);
+signal douta_of : std_logic_vector (15 downto 0);
+
 component mem_i2c_stream
 port (
   clka  : in  std_logic;
@@ -92,11 +115,12 @@ end component mem_i2c_stream;
 signal addra : std_logic_vector (14 downto 0);
 signal douta : std_logic_vector (15 downto 0);
 
-constant c_reset_index_len : integer := 64; -- XXX can be larger when scl slower (31 - 1MHz, 63 - 500KHz)
-constant c_i2c_address     : integer := 7;
-constant c_data            : integer := 8;
+constant c_reset_index_len : integer :=  64; -- XXX can be larger when scl slower (31 - 1MHz, 63 - 500KHz)
+constant c_i2c_address     : integer :=   7;
+constant c_data            : integer :=   8;
 constant c_records         : integer := 832;
-constant c_items           : integer := 26 - 1; -- 832 * number frames (blocks) in memory, without eeprom data at begining
+constant c_items           : integer :=  27; -- 832 * number frames (blocks) in memory WITH EEPROM data at begining
+constant c_items_one_frame : integer :=   2; -- EEPROM data + one frame
 constant c_i2c_divider     : integer := (c_board_clock / c_bus_clock) / 1;
 constant c_sda_recv_length : integer := c_i2c_address + 1 + 1 + (c_data + 1) * 2 + 1; -- XXX 2 or 4 bytes data, address and ack's
 constant c_reset_index_1   : std_logic_vector (c_reset_index_len - 1 downto 0) := (others => '1');
@@ -104,11 +128,13 @@ constant c_i2c_device      : std_logic_vector (c_i2c_address - 1 downto 0) := "0
 constant c_eeprom_address  : std_logic_vector (15 downto 0) := x"2400";
 constant c_frame_address   : std_logic_vector (15 downto 0) := x"0400";
 
-signal index     : integer range 0 to c_sda_recv_length - 1;
-signal v_records : integer range 0 to c_records - 1;
-signal v_items   : integer range 0 to c_items - 1;
-signal v_index   : integer range 0 to c_items * c_records - 1;
-signal v_data    : integer range c_data - 1 downto 0;
+signal index             : integer range 0 to c_sda_recv_length - 1;
+signal v_records         : integer range 0 to c_records - 1;
+signal v_items           : integer range 0 to c_items - 1;
+signal v_index           : integer range 0 to c_items * c_records - 1;
+signal v_items_one_frame : integer range 0 to c_items_one_frame - 1;
+signal v_index_one_frame : integer range 0 to c_items_one_frame * c_records - 1;
+signal v_data            : integer range c_data - 1 downto 0;
 
 signal scl_prev, scl_re, scl_fe : std_logic;
 signal sda_o, sda_i             : std_logic;
@@ -127,10 +153,6 @@ begin
 
 io_sda <= sda_o;
 sda_i <= '1' when (io_sda = '1' or io_sda = 'Z') else '0';
-
-addra <= std_logic_vector (to_unsigned (v_index + v_records, 15));
-
-o_data_debug <= douta;
 
 p4_reset_index_sr : process (i_clock, i_reset) is
 begin
@@ -192,106 +214,208 @@ scl_fe <= '1' when (scl_prev = '1' and i_scl = '0') else '0';
 scl_re <= '1' when (scl_prev = '0' and i_scl = '1') else '0';
 sda_read_cond <= '1' when ((sda_prev = '1' and sda_i = '0') and i_scl = '1') else '0';
 
-p0_main : process (i_clock, i_reset) is
-begin
-  if (i_reset = '1') then
-    state <= idle;
-    v_data <= c_data - 1;
-    v_items <= 1;
-    v_index <= 0;
-    sda_o <= 'Z';
-  elsif (rising_edge (i_clock)) then
-      case (state) is
-        when idle =>
-          if (scl_fe = '1') then
-            state <= idle1;
-          end if;
-        when idle1 =>
-          if (i2c_address = c_i2c_device and (
-            (i2c_data0 & i2c_data1 = c_eeprom_address) or 
-            (i2c_data0 & i2c_data1 = c_frame_address)
-          )) then
-            state <= idle2;
-          end if;
-          sda_o <= 'Z';
-          v_records <= 0;
-          v_data <= c_data - 1;
-        when idle2 =>
-          if (sda_read_cond = '1') then
-            state <= idle3;
-          end if;
-          if ((i2c_address & i2c_data0 & i2c_data1) = c_i2c_device & c_eeprom_address) then -- eeprom data
-            v_index <= 0;
-          end if;
-          if ((i2c_address & i2c_data0 & i2c_data1) = c_i2c_device & c_frame_address) then -- frame data
-            v_index <= c_records * v_items;
-          end if;
-        when idle3 =>
-          if (index = 9) then
-            state <= s1;
-          end if;
-        when s1 =>
-          if (scl_fe = '1') then
-            if (v_data = 0) then
-              state <= s2;
-              v_data <= c_data - 1;
-            else
-              v_data <= v_data - 1;
+g0_memory_stream : if (c_use_original_data = false) generate
+  p0_main_stream : process (i_clock, i_reset) is
+  begin
+    if (i_reset = '1') then
+      state <= idle;
+      v_data <= c_data - 1;
+      v_items <= 1;
+      v_index <= 0;
+      sda_o <= 'Z';
+    elsif (rising_edge (i_clock)) then
+        case (state) is
+          when idle =>
+            if (scl_fe = '1') then
+              state <= idle1;
             end if;
-            sda_o <= douta (8 + v_data);
-          end if;
-        when s2 => -- ack
-          if (scl_fe = '1') then
-            state <= s3;
-            sda_o <= '0';
-          end if;
-        when s3 =>
-          if (scl_fe = '1') then
-            if (v_data = 0) then
-              state <= s4;
-              v_data <= c_data - 1;
-            else
-              v_data <= v_data - 1;
+          when idle1 =>
+            if (i2c_address = c_i2c_device and (
+              (i2c_data0 & i2c_data1 = c_eeprom_address) or
+              (i2c_data0 & i2c_data1 = c_frame_address)
+            )) then
+              state <= idle2;
             end if;
-            sda_o <= douta (v_data);
-          end if;
-        when s4 => -- ack
-          if (scl_fe = '1') then
-            if (v_records = c_records - 1) then
-              v_records <= 0;
-              if (v_items = c_items - 1) then
-                state <= idle;
-                v_items <= 0;
-                sda_o <= '1';
-              else
-                state <= idle;
-                v_items <= v_items + 1;
-                sda_o <= '1';
-              end if;
-            else
+            sda_o <= 'Z';
+            v_records <= 0;
+            v_data <= c_data - 1;
+          when idle2 =>
+            if (sda_read_cond = '1') then
+              state <= idle3;
+            end if;
+            if ((i2c_address & i2c_data0 & i2c_data1) = c_i2c_device & c_eeprom_address) then -- eeprom data
+              v_index <= 0;
+            end if;
+            if ((i2c_address & i2c_data0 & i2c_data1) = c_i2c_device & c_frame_address) then -- frame data
+              v_index <= c_records * v_items;
+            end if;
+          when idle3 =>
+            if (index = 9) then
               state <= s1;
-              v_records <= v_records + 1;
+            end if;
+          when s1 =>
+            if (scl_fe = '1') then
+              if (v_data = 0) then
+                state <= s2;
+                v_data <= c_data - 1;
+              else
+                v_data <= v_data - 1;
+              end if;
+              sda_o <= douta (8 + v_data);
+            end if;
+          when s2 => -- ack
+            if (scl_fe = '1') then
+              state <= s3;
               sda_o <= '0';
             end if;
-            v_data <= c_data - 1;
-            sda_o <= '0';
-          end if;
-      end case;
-    end if;
-end process p0_main;
+          when s3 =>
+            if (scl_fe = '1') then
+              if (v_data = 0) then
+                state <= s4;
+                v_data <= c_data - 1;
+              else
+                v_data <= v_data - 1;
+              end if;
+              sda_o <= douta (v_data);
+            end if;
+          when s4 => -- ack
+            if (scl_fe = '1') then
+              if (v_records = c_records - 1) then
+                v_records <= 0;
+                if (v_items = c_items - 1) then
+                  state <= idle;
+                  v_items <= 0;
+                  sda_o <= '1';
+                else
+                  state <= idle;
+                  v_items <= v_items + 1;
+                  sda_o <= '1';
+                end if;
+              else
+                state <= s1;
+                v_records <= v_records + 1;
+                sda_o <= '0';
+              end if;
+              v_data <= c_data - 1;
+              sda_o <= '0';
+            end if;
+        end case;
+      end if;
+  end process p0_main_stream;
 
--- memory with i2c stream - can be more than one frame
--- each item have two byte
--- blocks accomodate based on pattern : from (X-1) * 832 to X * 832
--- eeprom - X = 1
--- data - X > 1
-mem_i2c_stream_i0 : mem_i2c_stream
-port map (
-  clka => i_scl,
-  ena => '1',
-  addra => addra,
-  douta => douta
-);
+  -- memory with i2c stream - can be more than one frame
+  -- each item have two byte
+  -- blocks accomodate based on pattern : from (X-1) * 832 to X * 832
+  -- eeprom - X = 1
+  -- data - X > 1
+  mem_i2c_stream_i0 : mem_i2c_stream
+  port map (
+    clka  => i_scl,
+    ena   => '1',
+    addra => addra,
+    douta => douta
+  );
+  addra <= std_logic_vector (to_unsigned (v_index + v_records, 15));
+  o_data_debug <= douta;
+end generate g0_memory_stream;
+
+g1_memory_original_frame : if (c_use_original_data = true) generate
+  p1_main_original_frame : process (i_clock, i_reset) is
+  begin
+    if (i_reset = '1') then
+      state <= idle;
+      v_data <= c_data - 1;
+      v_items_one_frame <= 0;
+      v_index_one_frame <= 0;
+      sda_o <= 'Z';
+    elsif (rising_edge (i_clock)) then
+        case (state) is
+          when idle =>
+            if (scl_fe = '1') then
+              state <= idle1;
+            end if;
+          when idle1 =>
+            if (i2c_address = c_i2c_device and (
+              (i2c_data0 & i2c_data1 = c_eeprom_address) or
+              (i2c_data0 & i2c_data1 = c_frame_address)
+            )) then
+              state <= idle2;
+            end if;
+            sda_o <= 'Z';
+            v_records <= 0;
+            v_data <= c_data - 1;
+          when idle2 =>
+            if (sda_read_cond = '1') then
+              state <= idle3;
+            end if;
+            if ((i2c_address & i2c_data0 & i2c_data1) = c_i2c_device & c_eeprom_address) then -- eeprom data
+              v_index_one_frame <= 0;
+            end if;
+            if ((i2c_address & i2c_data0 & i2c_data1) = c_i2c_device & c_frame_address) then -- frame data
+              v_index_one_frame <= c_records * v_items_one_frame;
+            end if;
+          when idle3 =>
+            if (index = 9) then
+              state <= s1;
+            end if;
+          when s1 =>
+            if (scl_fe = '1') then
+              if (v_data = 0) then
+                state <= s2;
+                v_data <= c_data - 1;
+              else
+                v_data <= v_data - 1;
+              end if;
+              sda_o <= douta_of (8 + v_data);
+            end if;
+          when s2 => -- ack
+            if (scl_fe = '1') then
+              state <= s3;
+              sda_o <= '0';
+            end if;
+          when s3 =>
+            if (scl_fe = '1') then
+              if (v_data = 0) then
+                state <= s4;
+                v_data <= c_data - 1;
+              else
+                v_data <= v_data - 1;
+              end if;
+              sda_o <= douta_of (v_data);
+            end if;
+          when s4 => -- ack
+            if (scl_fe = '1') then
+              if (v_records = c_records - 1) then
+                v_records <= 0;
+                if (v_items_one_frame = c_items_one_frame - 1) then
+                  state <= idle;
+                  v_items_one_frame <= 0;
+                  sda_o <= '1';
+                else
+                  state <= idle;
+                  v_items_one_frame <= v_items_one_frame + 1;
+                  sda_o <= '1';
+                end if;
+              else
+                state <= s1;
+                v_records <= v_records + 1;
+                sda_o <= '0';
+              end if;
+              v_data <= c_data - 1;
+              sda_o <= '0';
+            end if;
+        end case;
+      end if;
+  end process p1_main_original_frame;
+
+  mem_i2c_original_frame_i0 : tb_data_mlx90640_original_frame
+  port map (
+    clka  => i_scl,
+    addra => addra_of,
+    douta => douta_of
+  );
+  addra_of <= std_logic_vector (to_unsigned (v_index_one_frame + v_records, 11));
+  o_data_debug <= douta_of;
+end generate g1_memory_original_frame;
 
 end architecture rtl;
-

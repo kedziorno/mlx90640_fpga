@@ -458,6 +458,7 @@ signal ExtractAlphaParameters_i2c_mem_douta : STD_LOGIC_VECTOR(7 DOWNTO 0);
 signal ExtractAlphaParameters_do : std_logic_vector (31 downto 0);
 signal ExtractAlphaParameters_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal ExtractAlphaParameters_rdy : std_logic;
+signal ExtractAlphaParameters_done : std_logic;
 signal ExtractAlphaParameters_signed4bit_ena : std_logic;
 signal ExtractAlphaParameters_signed4bit_adr : std_logic_vector (3 downto 0);
 signal ExtractAlphaParameters_signed6bit_ena : std_logic;
@@ -634,6 +635,7 @@ i_KGain : in std_logic_vector (31 downto 0);
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 o_rdy : out std_logic;
+o_done : out std_logic;
 o_signed4bit_ena : out std_logic;
 o_signed4bit_adr : out std_logic_vector (3 downto 0);
 o_signed6bit_ena : out std_logic;
@@ -693,6 +695,7 @@ signal CalculatePixOS_KGain : std_logic_vector (31 downto 0);
 signal CalculatePixOS_do : std_logic_vector (31 downto 0);
 signal CalculatePixOS_addr : std_logic_vector (9 downto 0); -- 10bit-1024
 signal CalculatePixOS_rdy : std_logic;
+signal CalculatePixOS_done : std_logic;
 signal CalculatePixOS_signed4bit_ena : std_logic;
 signal CalculatePixOS_signed4bit_adr : std_logic_vector (3 downto 0);
 signal CalculatePixOS_signed6bit_ena : std_logic;
@@ -866,6 +869,7 @@ o_pixos_addr : out std_logic_vector (9 downto 0); -- 10bit-1024
 o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 o_rdy : out std_logic;
+o_done : out std_logic;
 signal divfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal divfpond : out STD_LOGIC;
@@ -910,6 +914,7 @@ signal CalculateVirCompensated_i2c_mem_addra : std_logic_vector(11 downto 0);
 signal CalculateVirCompensated_pixos_addr : std_logic_vector(9 downto 0);
 signal CalculateVirCompensated_do : std_logic_vector(31 downto 0);
 signal CalculateVirCompensated_rdy : std_logic;
+signal CalculateVirCompensated_done : std_logic;
 signal CalculateVirCompensated_divfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateVirCompensated_divfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateVirCompensated_divfpond : STD_LOGIC;
@@ -1008,6 +1013,7 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
+o_done : out std_logic;
 
 signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -1064,6 +1070,7 @@ signal CalculateAlphaComp_i2c_mem_addra : std_logic_vector(11 downto 0);
 signal CalculateAlphaComp_alpha_addr : std_logic_vector(9 downto 0);
 signal CalculateAlphaComp_do : std_logic_vector(31 downto 0);
 signal CalculateAlphaComp_rdy : std_logic;
+signal CalculateAlphaComp_done : std_logic;
 signal CalculateAlphaComp_mulfpa : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaComp_mulfpb : STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal CalculateAlphaComp_mulfpond : STD_LOGIC;
@@ -1111,6 +1118,7 @@ o_alphacomp_addr : OUT  std_logic_vector(9 downto 0);
 o_do : OUT  std_logic_vector(31 downto 0);
 i_addr : IN  std_logic_vector(9 downto 0);
 o_rdy : OUT  std_logic;
+o_done : OUT  std_logic;
 
 signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -1248,6 +1256,7 @@ signal CalculateGetImage_vircompensated_addr : std_logic_vector(9 downto 0);
 signal CalculateGetImage_alphacomp_addr : std_logic_vector(9 downto 0);
 signal CalculateGetImage_do : std_logic_vector(31 downto 0);
 signal CalculateGetImage_rdy : std_logic;
+signal CalculateGetImage_done : std_logic;
 
 signal CalculateGetImage_2powx_p8_ena : std_logic;
 signal CalculateGetImage_2powx_p8_adr : std_logic_vector (3 downto 0);
@@ -2090,7 +2099,7 @@ CalculateGetImage_rom_constants_float <= rom_constants_float;
 		CalculatePixOS_mux <= '1';
 	when s6 => 
 		CalculatePixOS_run <= '0';
-		if (CalculatePixOS_rdy = '1') then
+		if (CalculatePixOS_done = '1') then
 			state := s7;
 			CalculatePixOS_mux <= '0';
 		else
@@ -2116,7 +2125,7 @@ CalculateGetImage_rom_constants_float <= rom_constants_float;
 		CalculateVirCompensated_mux <= '1';
 	when s10 => 
 		CalculateVirCompensated_run <= '0';
-		if (CalculateVirCompensated_rdy = '1') then
+		if (CalculateVirCompensated_done = '1') then
 			state := s11;
 			CalculateVirCompensated_mux <= '0';
 		else
@@ -2142,7 +2151,7 @@ CalculateGetImage_rom_constants_float <= rom_constants_float;
 		ExtractAlphaParameters_mux <= '1';
 	when s14 => 
 		ExtractAlphaParameters_run <= '0';
-		if (ExtractAlphaParameters_rdy = '1') then
+		if (ExtractAlphaParameters_done = '1') then
 			state := s15;
 			ExtractAlphaParameters_mux <= '0';
 		else
@@ -2155,7 +2164,7 @@ CalculateGetImage_rom_constants_float <= rom_constants_float;
 		CalculateAlphaComp_mux <= '1';
 	when s16 => 
 		CalculateAlphaComp_run <= '0';
-		if (CalculateAlphaComp_rdy = '1') then
+		if (CalculateAlphaComp_done = '1') then
 			state := s17;
 			CalculateAlphaComp_mux <= '0';
 		else
@@ -2168,7 +2177,7 @@ CalculateGetImage_rom_constants_float <= rom_constants_float;
 		CalculateGetImage_mux <= '1';
 	when s18 => 
 		CalculateGetImage_run <= '0';
-		if (CalculateGetImage_rdy = '1') then
+		if (CalculateGetImage_done = '1') then
 			state := ending;
 			CalculateGetImage_mux <= '0';
 		else
@@ -2359,6 +2368,7 @@ i2c_mem_douta => ExtractAlphaParameters_i2c_mem_douta,
 o_do => ExtractAlphaParameters_do,
 i_addr => ExtractAlphaParameters_addr,
 o_rdy => ExtractAlphaParameters_rdy,
+o_done => ExtractAlphaParameters_done,
 
 o_signed4bit_ena => ExtractAlphaParameters_signed4bit_ena,
 o_signed4bit_adr => ExtractAlphaParameters_signed4bit_adr,
@@ -2472,6 +2482,7 @@ i_KGain => CalculatePixOS_KGain,
 o_do => CalculatePixOS_do,
 i_addr => CalculatePixOS_addr,
 o_rdy => CalculatePixOS_rdy,
+o_done => CalculatePixOS_done,
 o_signed4bit_ena => CalculatePixOS_signed4bit_ena,
 o_signed4bit_adr => CalculatePixOS_signed4bit_adr,
 o_signed6bit_ena => CalculatePixOS_signed6bit_ena,
@@ -2608,6 +2619,7 @@ o_pixos_addr => CalculateVirCompensated_pixos_addr,
 o_do => CalculateVirCompensated_do,
 i_addr => CalculateVirCompensated_addr,
 o_rdy => CalculateVirCompensated_rdy,
+o_done => CalculateVirCompensated_done,
 
 divfpa => CalculateVirCompensated_divfpa,
 divfpb => CalculateVirCompensated_divfpb,
@@ -2666,6 +2678,7 @@ o_alpha_addr => CalculateAlphaComp_alpha_addr,
 o_do => CalculateAlphaComp_do,
 i_addr => CalculateAlphaComp_addr,
 o_rdy => CalculateAlphaComp_rdy,
+o_done => CalculateAlphaComp_done,
 
 mulfpa => CalculateAlphaComp_mulfpa,
 mulfpb => CalculateAlphaComp_mulfpb,
@@ -2730,6 +2743,7 @@ o_alphacomp_addr => CalculateGetImage_alphacomp_addr,
 o_do => CalculateGetImage_do,
 i_addr => CalculateGetImage_addr,
 o_rdy => CalculateGetImage_rdy,
+o_done => CalculateGetImage_done,
 
 mulfpa => CalculateGetImage_mulfpa,
 mulfpb => CalculateGetImage_mulfpb,

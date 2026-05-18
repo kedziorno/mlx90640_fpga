@@ -74,6 +74,7 @@ o_do : OUT  std_logic_vector(31 downto 0);
 i_addr : IN  std_logic_vector(9 downto 0);
 
 o_rdy : out std_logic;
+o_done : out std_logic;
 
 signal mulfpa : out STD_LOGIC_VECTOR(31 DOWNTO 0);
 signal mulfpb : out STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -336,7 +337,7 @@ mux_dia <= dia when rdy = '0' else (others => '0');
 
 p0 : process (i_clock) is
   variable i : integer range 0 to C_MATRIX_PIXELS-1;
-  type states is (idle,
+  type states is (idle,s0a,s0b,
   s1,s2,s3,s4,s5,
   s6a,s6b,s6c,s6d,s6e,s6f,
   s6,ending);
@@ -364,19 +365,35 @@ begin
       mulfp_rdy <= '0';
       addfp_run <= '0';
       addfp_rdy <= '0';
+      o_done <= '0';
     else
       case (state) is
         when idle =>
           if (i_run = '1') then
             rdy <= '0';
-            state := s1;
+            state := s0a;
             report "CalculateGetImage";
           else
             state := idle;
           end if;
+          o_done <= '0';
           i := 0;
           mulfpsclr_internal <= '0';
           addfpsclr_internal <= '0';
+        when s0a =>
+          state := s0b;
+          addra <= std_logic_vector (to_unsigned (i, 10));
+          dia <= (others => '0');
+          write_enable <= '1';
+        when s0b =>
+          write_enable <= '0';
+          if (i = C_MATRIX_PIXELS-1) then
+            state := s1;
+            i := 0;
+          else
+            state := s0a;
+            i := i + 1;
+          end if;
         when s1 => state := s2;
           o_vircompensated_addr <= std_logic_vector (to_unsigned (i, 10));
           o_alphacomp_addr <= std_logic_vector (to_unsigned (i, 10));
@@ -467,6 +484,7 @@ begin
           end if;
         when ending => state := idle;
           rdy <= '1';
+          o_done <= '1';
 --          if (i = C_MATRIX_PIXELS-1) then
 --            state := idle;
 --            i := 0;

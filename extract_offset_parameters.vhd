@@ -63,6 +63,7 @@ o_do : out std_logic_vector (31 downto 0);
 i_addr : in std_logic_vector (9 downto 0); -- 10bit-1024
 
 o_rdy : out std_logic;
+o_done : out std_logic;
 
 signal o_signed4bit_ena : out std_logic;
 signal o_signed4bit_adr : out std_logic_vector (3 downto 0);
@@ -331,7 +332,7 @@ mux_addr <= addra when rdy = '0' else std_logic_vector (to_unsigned (to_integer(
 mux_dia <= dia when rdy = '0' else (others => '0');
 
 p0 : process (i_clock) is
-  type states is (idle,
+  type states is (idle,s0a,s0b,
   occ24,
   occ25,occ26,occ26a,occ27,occ28,occ29,
   occ30,occ31,
@@ -368,20 +369,25 @@ begin
 			mulfpce_internal <= '0';
 			addra <= (others => '0');
 			dia <= (others => '0');
+      i2c_mem_addra <= (others => '0');
 			i2c_mem_ena <= '0';
       i := 0;
       j := 0;
+      o_signed4bit_ena <= '0';
+      o_signed4bit_adr <= (others => '0');
+      o_done <= '0';
 		else
 			case (state) is
 				when idle =>
 					if (i_run = '1') then
-						state := occ24;
+						state := s0a;
 						i2c_mem_ena <= '1';
             rdy <= '0';
 					else
 						state := idle;
 						i2c_mem_ena <= '0';
 					end if;
+          o_done <= '0';
 					addfpsclr_internal <= '0';
 					mulfpsclr_internal <= '0';
 					fixed2floatsclr_internal <= '0';
@@ -391,6 +397,20 @@ begin
           n := 0;
           row := 0;
           col := 0;
+        when s0a =>
+          state := s0b;
+          addra <= std_logic_vector (to_unsigned (i, 10));
+          dia <= (others => '0');
+          write_enable <= '1';
+        when s0b =>
+          write_enable <= '0';
+          if (i = C_MATRIX_PIXELS-1) then
+            state := occ24;
+            i := 0;
+          else
+            state := s0a;
+            i := i + 1;
+          end if;
         when occ24 => state := occ25; -- XXX start loop - occrow 6x  DCBA
           m := 2*i;
           n := j*4;
@@ -656,6 +676,7 @@ begin
             row := 0;
             state := idle;
             rdy <= '1';
+            o_done <= '1';
           else
             row := row + 1;
             state := s0;
