@@ -1,7 +1,7 @@
 Release 14.7 par P.20131013 (lin64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-work::  Mon May 18 23:43:09 2026
+work::  Tue May 19 00:23:32 2026
 
 par -w -intstyle ise -pl std -rl std -t 1 test1_map.ncd test1.ncd test1.pcf 
 
@@ -44,8 +44,8 @@ Design Summary Report:
    Number of BUFGMUXs                        3 out of 24     12%
    Number of MULT18X18SIOs                   4 out of 28     14%
    Number of RAMB16s                        24 out of 28     85%
-   Number of Slices                       8383 out of 8672   96%
-      Number of SLICEMs                    129 out of 4336    2%
+   Number of Slices                       8235 out of 8672   94%
+      Number of SLICEMs                    121 out of 4336    2%
 
 
 
@@ -63,32 +63,32 @@ WARNING:Timing:3223 - Timing constraint PATH "TS_b_path" TIG; ignored during tim
 WARNING:Timing:3223 - Timing constraint PATH "TS_c_path" TIG; ignored during timing analysis.
 INFO:Timing:3386 - Intersecting Constraints found and resolved.  For more information, see the TSI report.  Please
    consult the Xilinx Command Line Tools User Guide for information on generating a TSI report.
-Starting initial Timing Analysis.  REAL time: 6 secs 
-Finished initial Timing Analysis.  REAL time: 7 secs 
+Starting initial Timing Analysis.  REAL time: 8 secs 
+Finished initial Timing Analysis.  REAL time: 8 secs 
 
 Starting Router
 
 
-Phase  1  : 71165 unrouted;      REAL time: 10 secs 
+Phase  1  : 70910 unrouted;      REAL time: 12 secs 
 
-Phase  2  : 64185 unrouted;      REAL time: 12 secs 
+Phase  2  : 64159 unrouted;      REAL time: 14 secs 
 
-Phase  3  : 25506 unrouted;      REAL time: 18 secs 
+Phase  3  : 24880 unrouted;      REAL time: 20 secs 
 
-Phase  4  : 25506 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 19 secs 
+Phase  4  : 24904 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 22 secs 
 
-Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 39 secs 
+Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 40 secs 
 
 Updating file: test1.ncd with current fully routed design.
 
-Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 43 secs 
+Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 44 secs 
 
-Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 43 secs 
+Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 45 secs 
 
-Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 46 secs 
+Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 47 secs 
 
-Total REAL time to Router completion: 46 secs 
-Total CPU time to Router completion: 46 secs 
+Total REAL time to Router completion: 47 secs 
+Total CPU time to Router completion: 47 secs 
 
 Partition Implementation Status
 -------------------------------
@@ -106,17 +106,17 @@ Generating Clock Report
 +---------------------+--------------+------+------+------------+-------------+
 |        Clock Net    |   Resource   |Locked|Fanout|Net Skew(ns)|Max Delay(ns)|
 +---------------------+--------------+------+------+------------+-------------+
-|       i_clock_BUFGP | BUFGMUX_X2Y11| No   | 6137 |  0.212     |  0.382      |
+|       i_clock_BUFGP | BUFGMUX_X2Y11| No   | 6019 |  0.212     |  0.382      |
 +---------------------+--------------+------+------+------------+-------------+
 |melexis_mlx90640_i2c |              |      |      |            |             |
-|           _i0/clock | BUFGMUX_X1Y10| No   |   24 |  0.154     |  0.369      |
+|           _i0/clock | BUFGMUX_X1Y10| No   |   25 |  0.115     |  0.366      |
 +---------------------+--------------+------+------+------------+-------------+
-|            vgaclk25 |  BUFGMUX_X1Y0| No   |   49 |  0.104     |  0.351      |
+|            vgaclk25 |  BUFGMUX_X1Y0| No   |   51 |  0.103     |  0.351      |
 +---------------------+--------------+------+------+------------+-------------+
 |melexis_mlx90640_i2c |              |      |      |            |             |
-|       _i0/io_scl_ii |         Local|      |   13 |  1.269     |  3.104      |
+|       _i0/io_scl_ii |         Local|      |   12 |  0.023     |  1.492      |
 +---------------------+--------------+------+------+------------+-------------+
-|               agclk |         Local|      |    1 |  0.000     |  1.092      |
+|               agclk |         Local|      |    1 |  0.000     |  1.280      |
 +---------------------+--------------+------+------+------------+-------------+
 
 * Net Skew is the difference between the minimum and maximum routing
@@ -138,8 +138,8 @@ Asterisk (*) preceding a constraint indicates it was not met.
   Constraint                                |    Check    | Worst Case |  Best Case | Timing |   Timing   
                                             |             |    Slack   | Achievable | Errors |    Score   
 ----------------------------------------------------------------------------------------------------------
-  NET "i_clock_BUFGP/IBUFG" PERIOD = 20 ns  | SETUP       |     0.900ns|    19.100ns|       0|           0
-  HIGH 50%                                  | HOLD        |     0.688ns|            |       0|           0
+  NET "i_clock_BUFGP/IBUFG" PERIOD = 20 ns  | SETUP       |     0.156ns|    19.844ns|       0|           0
+  HIGH 50%                                  | HOLD        |     0.580ns|            |       0|           0
 ----------------------------------------------------------------------------------------------------------
   TS_CLK25 = PERIOD TIMEGRP "CLK25" 40 ns H | MINLOWPULSE |    36.808ns|     3.192ns|       0|           0
   IGH 50%                                   |             |            |            |        |            
@@ -163,11 +163,11 @@ Asterisk (*) preceding a constraint indicates it was not met.
 ----------------------------------------------------------------------------------------------------------
   PATH "TS_8_path" TIG                      | N/A         |         N/A|         N/A|     N/A|         N/A
 ----------------------------------------------------------------------------------------------------------
-  PATH "TS_7_path" TIG                      | MAXDELAY    |         N/A|     0.183ns|     N/A|           0
+  PATH "TS_7_path" TIG                      | MAXDELAY    |         N/A|     0.271ns|     N/A|           0
 ----------------------------------------------------------------------------------------------------------
-  PATH "TS_6_path" TIG                      | SETUP       |         N/A|     1.511ns|     N/A|           0
+  PATH "TS_6_path" TIG                      | SETUP       |         N/A|     1.738ns|     N/A|           0
 ----------------------------------------------------------------------------------------------------------
-  PATH "TS_5_path" TIG                      | SETUP       |         N/A|     7.414ns|     N/A|           0
+  PATH "TS_5_path" TIG                      | SETUP       |         N/A|     5.218ns|     N/A|           0
 ----------------------------------------------------------------------------------------------------------
   PATH "TS_4_path" TIG                      | N/A         |         N/A|         N/A|     N/A|         N/A
 ----------------------------------------------------------------------------------------------------------
@@ -191,10 +191,10 @@ Generating Pad Report.
 
 All signals are completely routed.
 
-Total REAL time to PAR completion: 48 secs 
+Total REAL time to PAR completion: 49 secs 
 Total CPU time to PAR completion: 48 secs 
 
-Peak Memory Usage:  738 MB
+Peak Memory Usage:  742 MB
 
 Placer: Placement generated during map.
 Routing: Completed - No errors found.

@@ -148,7 +148,9 @@ package global_package is
   constant c_ram_x070a    : integer := 16#070a#; -- gain[16]
   constant c_ram_x0720    : integer := 16#0720#; -- ta_ptat[16] (vptat,ptat)
   constant c_ram_x072a    : integer := 16#072a#; -- vddpix[16]
-  constant c_ram_x800d    : slv16   := x"1b91"; -- manufacturer default value 0001 1011 1001 0001
+  --constant c_ram_x800d    : slv16   := x"1901"; -- manufacturer default value
+  constant c_ram_x800d    : slv16   := x"1a81"; -- 16hz, more noise
+  --constant c_ram_x800d    : slv16   := x"1a01"; -- 8hz, less noise
 
   -- 11.1.1. restoring the vdd sensor parameters, p. 22
   constant c_eeprom_x2433_off : integer := c_eeprom_x2433 - c_eeprom_st;
