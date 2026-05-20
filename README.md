@@ -1,6 +1,7 @@
 # vhdlp5
 ## Melexis MLX90640 in VHDL on FPGA
 ### This project calculate example data from datasheet https://github.com/adafruit/Adafruit_MLX90640/blob/master/MLX90640%20example%20data.xlsx and display this on VGA display 640x480.
+## Update : Project complete (and archived). For now run on smallest resources device xc3s1200-fg32-4 (PAR 94% +2% usage) with 16Hz speed refresh. Demo : https://www.youtube.com/watch?v=eSiSSgukBXU
 #
 ## Update : Run on Xilinx ML402 board (xc4vsx35) with Melexis 90640 device - for now, only one frame after reset project
 ![teapot](teapot.jpg)
